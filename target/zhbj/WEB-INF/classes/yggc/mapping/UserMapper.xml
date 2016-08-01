@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="yggc.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="yggc.model.User">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="LOGIN_NAME" jdbcType="VARCHAR" property="loginName" />
+    <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+    <result column="IS_DELETE" jdbcType="DECIMAL" property="isDelete" />
+    <result column="CREATE_DATE" jdbcType="DATE" property="createDate" />
+    <result column="REL_NAME" jdbcType="VARCHAR" property="relName" />
+    <result column="UPDAT_DATE" jdbcType="DATE" property="updatDate" />
+    <result column="CREATER" jdbcType="VARCHAR" property="creater" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, LOGIN_NAME, PASSWORD, IS_DELETE, CREATE_DATE, REL_NAME, UPDAT_DATE, CREATER
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from "USER"
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByLogin" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from "USER"
+    where LOGIN_NAME = #{loginName,jdbcType=VARCHAR} 
+    and PASSWORD = #{password,jdbcType=VARCHAR} 
+    and IS_DELETE = 0
+  </select>
+  <select id="getAll" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from "USER"
+    where IS_DELETE = 0
+    order by ID ASC
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from "USER"
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="yggc.model.User">
+  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+
+        select sys_guid() from dual
+
+    </selectKey>
+    insert into "USER" (ID, LOGIN_NAME, PASSWORD, 
+      IS_DELETE, CREATE_DATE, REL_NAME, 
+      UPDAT_DATE, CREATER)
+    values (#{id,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{isDelete,jdbcType=DECIMAL}, #{createDate,jdbcType=DATE}, #{relName,jdbcType=VARCHAR}, 
+      #{updatDate,jdbcType=DATE}, #{creater,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="yggc.model.User">
+    insert into USER
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="loginName != null">
+        LOGIN_NAME,
+      </if>
+      <if test="password != null">
+        PASSWORD,
+      </if>
+      <if test="isDelete != null">
+        IS_DELETE,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="relName != null">
+        REL_NAME,
+      </if>
+      <if test="updatDate != null">
+        UPDAT_DATE,
+      </if>
+      <if test="creater != null">
+        CREATER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="loginName != null">
+        #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=DECIMAL},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=DATE},
+      </if>
+      <if test="relName != null">
+        #{relName,jdbcType=VARCHAR},
+      </if>
+      <if test="updatDate != null">
+        #{updatDate,jdbcType=DATE},
+      </if>
+      <if test="creater != null">
+        #{creater,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="yggc.model.User">
+    update USER
+    <set>
+      <if test="loginName != null">
+        LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        PASSWORD = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        IS_DELETE = #{isDelete,jdbcType=DECIMAL},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=DATE},
+      </if>
+      <if test="relName != null">
+        REL_NAME = #{relName,jdbcType=VARCHAR},
+      </if>
+      <if test="updatDate != null">
+        UPDAT_DATE = #{updatDate,jdbcType=DATE},
+      </if>
+      <if test="creater != null">
+        CREATER = #{creater,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="yggc.model.User">
+    update "USER"
+    set LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
+      PASSWORD = #{password,jdbcType=VARCHAR},
+      IS_DELETE = #{isDelete,jdbcType=DECIMAL},
+      CREATE_DATE = #{createDate,jdbcType=DATE},
+      REL_NAME = #{relName,jdbcType=VARCHAR},
+      UPDAT_DATE = #{updatDate,jdbcType=DATE},
+      CREATER = #{creater,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

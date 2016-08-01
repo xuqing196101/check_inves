@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="yggc.dao.UserMapper">
+  <resultMap id="UserResultMap" type="yggc.model.User">
+    <result column="ID"  property="id" />
+    <result column="LOGIN_NAME"  property="loginName" />
+    <result column="PASSWORD"  property="password" />
+    <result column="CREATED_AT"  property="createdAt" jdbcType="TIMESTAMP"/>
+    <result column="IS_DELETED"  property="isDeleted" />
+    <result column="REL_NAME"  property="relName" />
+    <result column="UPDATED_AT"  property="updatedAt" jdbcType="TIMESTAMP"/>
+    <!-- 查询创建人 -->  
+    <association column="CREATER"  property="creater" select="queryById" />  
+  </resultMap>
+  <sql id="Tabel_Name">
+    USERS
+  </sql>
+  
+  <!-- 表中所有列 -->
+  <sql id="Base_Column_List" >
+   ID,LOGIN_NAME,PASSWORD,CREATED_AT,IS_DELETED,REL_NAME,UPDATED_AT,CREATER
+  </sql>
+
+  <!-- 查询条件 -->
+  <sql id="Example_Where_Clause">
+    where IS_DELETED=0
+    <trim suffixOverrides=",">
+      <if test="id!= null">
+        and ID = #{id}
+      </if>
+      <if test="loginName != null and loginName != ''">
+        and LOGIN_NAME like concat(concat('%', '${loginName}'), '%')
+      </if>
+      <if test="password != null and password != ''">
+        and PASSWORD like concat(concat('%', '${password}'), '%')
+      </if>
+      <if test="createdAt != null">
+        and CREATED_AT = #{createdAt}
+      </if>
+      <if test="relName != null and relName != ''">
+        and REL_NAME like concat(concat('%', '${relName}'), '%')
+      </if>
+      <if test="updatedAt != null">
+        and UPDATED_AT = #{updatedAt}
+      </if>
+      <if test="creater != null">
+        and CREATER = #{creater}
+      </if>
+    </trim>
+  </sql>
+  
+  <!-- 1.新增记录 -->
+  <insert id="add" parameterType="Object" >
+     <selectKey resultType="int" order="BEFORE" keyProperty="id">
+      select SEQ_T_USERS_ID.nextval as ID from dual
+    </selectKey>
+    insert into USERS(ID,LOGIN_NAME,PASSWORD,CREATED_AT,IS_DELETED,REL_NAME,UPDATED_AT,CREATER) values(#{id},#{loginName},#{password},#{createdAt},#{isDeleted},#{relName},#{updatedAt},#{creater})
+  </insert> 
+  <!-- 1.1新增记录(可插入null) -->
+  <insert id="insertSelective" parameterType="yggc.model.User">
+    <selectKey resultType="int" order="BEFORE" keyProperty="id">
+      select SEQ_T_USERS_ID.nextval as ID from dual
+    </selectKey>
+    insert into USERS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="loginName != null and loginName != ''">
+        LOGIN_NAME,
+      </if>
+      <if test="password != null and password !=''">
+        PASSWORD,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="relName != null and relName !=''">
+        REL_NAME,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="creater != null">
+        CREATER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="loginName != null and loginName !=''">
+        #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null and password !='' ">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+      <if test="relName != null and relName != '' ">
+        #{relName,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt},
+      </if>
+      <if test="creater != null">
+        #{creater},
+      </if>
+    </trim>
+  </insert>
+  <!-- 2.根据id修改记录-->  
+  <update id="update" parameterType="Object" >
+    update USERS set LOGIN_NAME=#{loginName},PASSWORD=#{password},CREATED_AT=#{createdAt},IS_DELETED=#{isDeleted},REL_NAME=#{relName},UPDATED_AT=#{updatedAt},CREATER=#{creater}  where id=#{id}
+  </update>
+
+  <!-- 3.只修改不为空的字段 -->
+  <update id="updateBySelective" parameterType="Object" >
+    update USERS set 
+    <trim  suffixOverrides="," >
+      <if test="loginName != null and loginName !=''">
+        LOGIN_NAME=#{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null and password !='' ">
+        PASSWORD=#{password,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED=#{isDeleted},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT=#{createdAt},
+      </if>
+      <if test="relName != null and relName != '' ">
+        REL_NAME=#{relName,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT=#{updatedAt},
+      </if>
+      <if test="creater != null">
+        CREATER=#{creater},
+      </if>
+    </trim> where ID=#{id}
+  </update>
+
+  <!-- 4.根据id进行删除 -->
+  <delete id="delete" parameterType="Object">
+    delete from USERS where ID = #{id}
+  </delete>
+  
+  <!-- 5.根据id查询 -->
+  <select id="queryById" resultMap="UserResultMap" parameterType="Object">
+    select
+    <include refid="Base_Column_List" />
+    from USERS where ID = #{id}
+  </select>
+  <!-- <select id="getCreaterById" parameterType="Object" resultMap="UserResultMap">  
+     select
+     <include refid="Base_Column_List" />
+     from USERS where ID = #{id}  
+  </select> -->  
+  <!-- 6.查询列表，只查询不为空的字段 -->
+  <select id="queryBySelective" resultMap="UserResultMap" parameterType="Object">
+    select
+    <include refid="Base_Column_List" />
+    from USERS
+    <include refid="Example_Where_Clause" />
+  </select>
+  
+  <!-- 7.列表总数 -->
+  <select id="queryByCount" resultType="java.lang.Integer" parameterType="Object">
+    select count(1) from USERS
+    <include refid="Example_Where_Clause" />
+  </select>
+  
+  <!-- 8.查询列表 -->
+  <select id="queryByList" resultMap="UserResultMap" parameterType="Object">
+    select
+    <include refid="Base_Column_List" />
+    from USERS 
+    <include refid="Example_Where_Clause"/>
+  </select>
+  
+</mapper>
