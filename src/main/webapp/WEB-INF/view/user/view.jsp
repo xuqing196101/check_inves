@@ -30,7 +30,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <br/>
        创建时间：<fmt:formatDate value="${user.createdAt}" pattern="yyyy年MM月dd日   HH:mm:ss"/>
     <br/>
-       创建人：${user.creater}
+       创建人：${user.creater.loginName}
     <br/>
       修改时间：<fmt:formatDate value="${user.updatedAt}" pattern="yyyy年MM月dd日   HH:mm:ss"/>
      <br/>

@@ -44,7 +44,7 @@
         and UPDATED_AT = #{updatedAt}
       </if>
       <if test="creater != null">
-        and CREATER = #{creater}
+        and CREATER = #{creater.id}
       </if>
     </trim>
   </sql>
@@ -54,7 +54,7 @@
      <selectKey resultType="int" order="BEFORE" keyProperty="id">
       select SEQ_T_USERS_ID.nextval as ID from dual
     </selectKey>
-    insert into USERS(ID,LOGIN_NAME,PASSWORD,CREATED_AT,IS_DELETED,REL_NAME,UPDATED_AT,CREATER) values(#{id},#{loginName},#{password},#{createdAt},#{isDeleted},#{relName},#{updatedAt},#{creater})
+    insert into USERS(ID,LOGIN_NAME,PASSWORD,CREATED_AT,IS_DELETED,REL_NAME,UPDATED_AT,CREATER) values(#{id},#{loginName},#{password},#{createdAt},#{isDeleted},#{relName},#{updatedAt},#{creater.id})
   </insert> 
   <!-- 1.1新增记录(可插入null) -->
   <insert id="insertSelective" parameterType="yggc.model.User">
@@ -111,13 +111,13 @@
         #{updatedAt},
       </if>
       <if test="creater != null">
-        #{creater},
+        #{creater.id},
       </if>
     </trim>
   </insert>
   <!-- 2.根据id修改记录-->  
   <update id="update" parameterType="Object" >
-    update USERS set LOGIN_NAME=#{loginName},PASSWORD=#{password},CREATED_AT=#{createdAt},IS_DELETED=#{isDeleted},REL_NAME=#{relName},UPDATED_AT=#{updatedAt},CREATER=#{creater}  where id=#{id}
+    update USERS set LOGIN_NAME=#{loginName},PASSWORD=#{password},CREATED_AT=#{createdAt},IS_DELETED=#{isDeleted},REL_NAME=#{relName},UPDATED_AT=#{updatedAt},CREATER=#{creater.id}  where id=#{id}
   </update>
 
   <!-- 3.只修改不为空的字段 -->
@@ -143,7 +143,7 @@
         UPDATED_AT=#{updatedAt},
       </if>
       <if test="creater != null">
-        CREATER=#{creater},
+        CREATER=#{creater.id},
       </if>
     </trim> where ID=#{id}
   </update>
