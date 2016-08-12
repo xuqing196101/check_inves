@@ -1,4 +1,4 @@
-package yggc.service.impl;
+package yggc.service;
 
 
 import java.util.List;
@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import yggc.dao.UserMapper;
 import yggc.model.User;
-import yggc.service.UserServiceI;
 
 /**
 * <p>Title:UserServiceImpl </p>

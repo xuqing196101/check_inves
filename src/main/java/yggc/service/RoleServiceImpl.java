@@ -1,4 +1,5 @@
-package yggc.service.impl;
+package yggc.service;
+
 
 
 import java.util.List;
@@ -8,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import yggc.dao.RoleMapper;
 import yggc.model.Role;
-import yggc.service.RoleServiceI;
 
 @Service("roleService")
 public class RoleServiceImpl implements RoleServiceI {
