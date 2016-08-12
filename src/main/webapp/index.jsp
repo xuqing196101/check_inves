@@ -44,7 +44,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <div class="row container margin-bottom-10">
             <div class="col-md-8">
               <a href="">
-                 <img alt="Logo" src="images/logo.png" id="logo-header">
+                 <img alt="Logo" src="<%=basePath%>public/ZHQ/images/logo.png" id="logo-header">
               </a>
             </div>
 			<!--搜索开始-->
@@ -401,7 +401,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <label class="control-label" for="inputPassword">验证码：</label>
         <div class="controls">
           <input type="password" placeholder="" class="input-mini fl">
-		  <span class=" margin-left-20"><img src="images/yzm.jpg"/></span>
+		  <span class=" margin-left-20"><img src="<%=basePath%>public/ZHQ/images/yzm.jpg"/></span>
         </div>
        </div>
        <div class="control-group margin-top-22 clear">
@@ -421,7 +421,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <!--/*中间图片*/-->
   <div class="container content">
    <div class="margin-bottom-10">
-	  <img src="images/center_pic.jpg" class="img-responsive full-width"/>
+	  <img src="<%=basePath%>public/ZHQ/images/center_pic.jpg" class="img-responsive full-width"/>
     </div>
 </div>
   <div class="container content height-350">
@@ -864,27 +864,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
     <li>
         <a href="http://www.ctba.org.cn/" target="_blank">
-		  <img src="images/friend_01.jpg"/>
+		  <img src="<%=basePath%>public/ZHQ/images/friend_01.jpg"/>
         </a>
     </li>
     <li>
         <a href="http://ecp.sgcc.com.cn/" target="_blank">
-		  <img src="images/friend_02.jpg"/>
+		  <img src="<%=basePath%>public/ZHQ/images/friend_02.jpg"/>
         </a>
     </li>
     <li>
         <a href="http://www.bidding.csg.cn/" target="_blank">
-		  <img src="images/friend_03.jpg"/>
+		  <img src="<%=basePath%>public/ZHQ/images/friend_03.jpg"/>
         </a>
     </li>
     <li>
         <a href="http://eportal.energyahead.com/" target="_blank">
-		  <img src="images/friend_04.jpg"/>
+		  <img src="<%=basePath%>public/ZHQ/images/friend_04.jpg"/>
         </a>
     </li>
     <li>
         <a href="http://www.sinograin.com.cn/" target="_blank">
-          <img src="images/friend_05.jpg"/>
+          <img src="<%=basePath%>public/ZHQ/images/friend_05.jpg"/>
         </a>
     </li>
   </ul>
