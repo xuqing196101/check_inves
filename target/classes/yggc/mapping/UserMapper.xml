@@ -11,6 +11,14 @@
     <result column="UPDATED_AT"  property="updatedAt" jdbcType="TIMESTAMP"/>
     <!-- 查询创建人 -->  
     <association column="CREATER"  property="creater" select="queryById" />  
+    <!-- property: 指的是集合属性的值, ofType：指的是集合中元素的类型-->
+	<collection property="roles" ofType="yggc.model.Role">
+		<id column="ID"  property="id" />
+	    <result column="NAME" jdbcType="VARCHAR" property="name" />
+	    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+	    <result column="DESCRIBE" jdbcType="VARCHAR" property="describe" />
+	    <result column="IS_DELETED" property="isDeleted" />
+	</collection> 
   </resultMap>
   <sql id="Tabel_Name">
     USERS

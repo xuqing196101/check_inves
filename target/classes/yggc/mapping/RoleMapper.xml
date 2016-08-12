@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="yggc.dao.RoleMapper">
+  <resultMap id="RoleResultMap" type="yggc.model.Role">
+    <id column="ID"  property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="DESCRIBE" jdbcType="VARCHAR" property="describe" />
+    <result column="IS_DELETED" property="isDeleted" />
+  </resultMap>
+  <!-- 所有列表 -->
+  <sql id="Base_Column_List">
+    ID, NAME, CREATED_AT, DESCRIBE, IS_DELETED
+  </sql>
+  <!-- 查询条件 -->
+  <sql id="Example_Where_Clause">
+    where IS_DELETED=0
+    <trim suffixOverrides=",">
+      <if test="id!= null">
+        and ID = #{id}
+      </if>
+      <if test="name != null and name !=''">
+        and Name like concat(concat('%', '${name}'), '%')
+      </if>
+      <if test="createdAt != null">
+        and CREATED_AT = #{createdAt}
+      </if>
+      <if test="describe != null and describe !=''">
+        and DESCRIBE like concat(concat('%', '${describe}'), '%')
+      </if>
+    </trim>
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="RoleResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ROLES
+    where ID = #{id}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from ROLES
+    where ID = #{id}
+  </delete>
+  <insert id="insert" parameterType="yggc.model.Role">
+    <selectKey resultType="java.lang.Integer" order="BEFORE" keyProperty="id">
+      select SEQ_T_ROLES_ID.nextval as ID from dual
+    </selectKey>
+    insert into ROLES (ID, NAME, CREATED_AT, 
+      DESCRIBE, IS_DELETED)
+    values (#{id}, #{name}, #{createdAt,jdbcType=TIMESTAMP},#{describe}, #{isDeleted})
+  </insert>
+  <insert id="insertSelective" parameterType="yggc.model.Role">
+    <selectKey resultType="java.lang.Integer" order="BEFORE" keyProperty="id">
+      select SEQ_T_ROLES_ID.nextval as ID from dual
+    </selectKey>
+    insert into ROLES
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null and name !=''">
+        NAME,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="describe != null and describe !=''">
+        DESCRIBE,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="name != null and name !=''">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="describe != null and describe !=''">
+        #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="yggc.model.Role">
+    update ROLES
+    <set>
+      <if test="name != null and name !=''">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="describe != null and describe !=''">
+        DESCRIBE = #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted},
+      </if>
+    </set>
+    where ID = #{id}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="yggc.model.Role">
+    update ROLES
+    set NAME = #{name},
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      DESCRIBE = #{describe,jdbcType=VARCHAR},
+      IS_DELETED = #{isDeleted,jdbcType=DECIMAL}
+    where ID = #{id}
+  </update>
+  <select id="queryByList" resultMap="RoleResultMap" parameterType="Object">
+    select
+    <include refid="Base_Column_List" />
+    from ROLES 
+    <include refid="Example_Where_Clause"/>
+  </select>
+</mapper>

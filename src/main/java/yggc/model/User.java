@@ -1,6 +1,7 @@
 package yggc.model;
 
 import java.util.Date;
+import java.util.List;
 
 /**
 * <p>Title:User </p>
@@ -50,6 +51,8 @@ public class User {
      * @Fields creater : 创建人
      */
     private User creater;
+    
+    private List<Role> roles;
 
     public Integer getId() {
         return id;
@@ -114,4 +117,12 @@ public class User {
     public void setCreater(User creater) {
         this.creater = creater;
     }
+
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
 }
