@@ -27,7 +27,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="<%=basePath%>public/ZHQ/css/img-hover.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHQ/css/page_job.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHQ/css/shop.style.css" media="screen" rel="stylesheet">
-<script src="<%=basePath%>public/ZHQ/js/hm.js"></script><script src="<%=basePath%>public/ZHQ/js/jquery.min.js"></script>
+<script src="<%=basePath%>public/ZHQ/js/hm.js"></script>
+<script src="<%=basePath%>public/ZHQ/js/jquery.min.js"></script>
 <!--导航js-->
 <script src="<%=basePath%>public/ZHQ/js/jquery_ujs.js"></script>
 <script src="<%=basePath%>public/ZHQ/js/bootstrap.min.js"></script>
