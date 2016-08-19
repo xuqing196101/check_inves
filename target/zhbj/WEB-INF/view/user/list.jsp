@@ -11,7 +11,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>My JSP 'list.jsp' starting page</title>
+    <title>用户管理</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -23,7 +23,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	-->
 
   </head>
+  <script type="text/javascript">
+  	function view(id){
+  		window.location.href="<%=basePath%>user/view.do?id="+id;
+  	}
   
+  </script>
   <body>
   	<div >
 		<a href="<%=basePath%>user/add.do">新增</a>
@@ -41,9 +46,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<c:forEach items="${list}" var="user" varStatus="vs">
 			<tr>
 				<td >${user.id }</td>
-				<td >${user.loginName}</td>
-				<td >${user.creater}</td>
-				<td >${user.createDate}</td>
+				<td onclick="view(${user.id});">${user.loginName}</td>
+				<td >${user.creater.loginName}</td>
+				<td >
+					<fmt:formatDate value="${user.createdAt}" pattern="yyyy年MM月dd日   HH:mm:ss"/>
+				</td>
 				<td>
 					<a href="<%=basePath%>user/edit.do?id=${user.id}">修改</a>
 					<a href="<%=basePath%>user/delete.do?id=${user.id}">删除</a>

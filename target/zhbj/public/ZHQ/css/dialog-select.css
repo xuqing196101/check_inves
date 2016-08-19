@@ -1,0 +1,20 @@
+	.overflow_y_auto {
+		height:360px;
+		overflow-y:auto;
+	}
+	.invisible{
+		display: none;
+	}
+	.ztree_tips{
+		margin-bottom: 4px;
+	}
+	.dialog_filter{
+		margin-bottom: 8px;
+	}
+	.clear_both{
+		clear:both;
+	}
+	.box_select_item{
+		margin: 0 28px 0 28px;
+		clear:both;
+	}
