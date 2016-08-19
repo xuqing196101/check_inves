@@ -6,6 +6,7 @@
 .mymetadata
 .project
 .mybatis.log
+.target
 
 .metadata/
 .settings/org.eclipse.jdt.core.prefs
