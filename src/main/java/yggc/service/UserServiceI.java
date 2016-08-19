@@ -3,6 +3,7 @@ package yggc.service;
 import java.util.List;
 
 import yggc.model.User;
+import yggc.model.Userrole;
 
 /**
 * <p>Title:UserServiceI </p>
@@ -81,5 +82,9 @@ public interface UserServiceI {
 	* @return void     
 	*/
 	public void update(User u);
+
+	public void saveRelativity(Userrole userrole);
+
+	public User selectUserRole(Integer id);
 
 }

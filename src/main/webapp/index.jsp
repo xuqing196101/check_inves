@@ -384,17 +384,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
     <div class="tag-box-v6 margin-bottom-10 tag-box-v1 padding-bottom-30">
       <div class=""><h2 class=""> 用户登录</h2></div>
-      <form class="form-horizontal p15_0">
+      <form class="form-horizontal p15_0" action="<%=basePath %>login/login.do" method="post">
         <div class="control-group margin-top-15">
           <label class="control-label" for="inputEmail">用户名：</label>
 			  <div class="controls padding-right-10">
-            <input type="text" id="inputEmail" class="form-control" placeholder="请输入用户名"/>
+            <input type="text" id="inputEmail" name="loginName" class="form-control" placeholder="请输入用户名"/>
           </div>
         </div>
         <div class="control-group  margin-top-20 padding-right-10">
           <label class="control-label" for="inputPassword">密码：</label>
           <div class="controls">
-          <input type="password" id="inputPassword" class="form-control" placeholder="请输入密码">
+          <input type="password" id="inputPassword" name="password" class="form-control" placeholder="请输入密码">
           </div>
         </div>
         <div class="control-group  margin-top-20 ">

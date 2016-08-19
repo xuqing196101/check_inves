@@ -3,6 +3,7 @@ package yggc.dao;
 import java.util.List;
 
 import yggc.model.User;
+import yggc.model.Userrole;
 
 /**
 * <p>Title:UserMapper </p>
@@ -68,5 +69,9 @@ public interface UserMapper {
 	* @return void     
 	*/
 	void updateBySelective(User u);
+
+	void saveRelativity(Userrole userrole);
+
+	User selectUserRole(Integer id);
 
 }

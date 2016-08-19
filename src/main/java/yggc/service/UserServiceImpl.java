@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import yggc.dao.UserMapper;
 import yggc.model.User;
+import yggc.model.Userrole;
 
 /**
 * <p>Title:UserServiceImpl </p>
@@ -60,6 +61,16 @@ public class UserServiceImpl implements UserServiceI {
 	@Override
 	public void update(User u) {
 		userMapper.updateBySelective(u);
+	}
+
+	@Override
+	public void saveRelativity(Userrole userrole) {
+		userMapper.saveRelativity(userrole);
+	}
+
+	@Override
+	public User selectUserRole(Integer id) {
+		return userMapper.selectUserRole(id);
 	}
 
 }

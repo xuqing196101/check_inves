@@ -1,4 +1,4 @@
-package yggc.service;
+package yggc.service.impl;
 
 
 
@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import yggc.dao.RoleMapper;
 import yggc.model.Role;
+import yggc.model.Userrole;
+import yggc.service.RoleServiceI;
 
 @Service("roleService")
 public class RoleServiceImpl implements RoleServiceI {
@@ -39,6 +41,11 @@ public class RoleServiceImpl implements RoleServiceI {
 	@Override
 	public void delete(Integer id) {
 		roleMapper.deleteByPrimaryKey(id);
+	}
+
+	@Override
+	public void deleteRoelUser(Userrole userrole) {
+		roleMapper.deleteRoelUser(userrole);
 	}
 
 }
