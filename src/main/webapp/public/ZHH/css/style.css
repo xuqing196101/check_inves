@@ -8,13 +8,13 @@
 
 /*Import Global Compulsory CSS Files*/
 
-@import url(ie8.css);
+
 @import url(blocks.css);
-@import url(plugins.css);
+
 @import url(app.css);
 
 /*Import CSS Plugins*/
-@import url(plugins/style-switcher.css);
+
 
 body { 
    color: #333; 
@@ -68,7 +68,6 @@ a:hover {
   box-shadow: 0 0 5px #ccc;
   margin-left: auto !important;
   margin-right: auto !important;
-  background: url(/plugins/images/patterns/15.png) repeat;
 }
 
 /*Main Styles
@@ -77,7 +76,6 @@ a:hover {
 .purchase {
 	padding: 25px 0 30px;
 	border-bottom: solid 1px #eee;
-	background: url(/plugins/images/patterns/breadcrumbs.png) repeat;
 }
 .purchase p {
 	margin-bottom: 0;
@@ -587,7 +585,6 @@ a.thumbnail {
 	padding: 40px 0; 	
 	border-top: 1px solid #eee;
 	border-bottom: 1px solid #eee;
-	background: url(/plugins/images/breadcrumbs.html) repeat;
 }
 
 /*Gallery Page
@@ -794,7 +791,6 @@ ul.blog-tags a:hover i {
 
 .slider-promo-info-bg {
 	padding: 25px 20px 20px;
-	background: url(/plugins/images/bg-black.html) repeat;
 }
 
 .slider-promo-info span.big-size { 
@@ -1558,7 +1554,6 @@ img.img-mouse {
 .service-info {
 	position: relative;
 	padding: 40px 0 50px;
-	background: url(/plugins/images/patterns/17.png) repeat;
 }
 
 .service-info .info-description {
@@ -1609,7 +1604,6 @@ img.img-mouse {
 ------------------------------------*/
 .testimonials-bs {
   padding: 50px 0;
-  background: url(/plugins/images/bg/16.jpg) 50% 0 repeat fixed;  
 }
 
 .testimonials-bs .headline-center-v2 span.author {
@@ -1680,17 +1674,3 @@ img.img-mouse {
 .cfmd{
   background:url(../images/yw_08.png) no-repeat;
  }
-.suolue{
-  width:98px;
-  height:60px;
-}
-/*.list-flow li{
-  float:left;
-  padding-right:20px;
-}*/
-.total span{
-  float: left;
-  text-align: right;
-  height: 30px;
-  line-height: 30px;
-}

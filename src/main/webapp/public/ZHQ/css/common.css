@@ -659,8 +659,7 @@ border:1px solid #eeeeee;
 .footer {
   width: 100%;
   text-align: center;
-  background: #f9f9f9 url(/assets/dota/fotter_bg_03.jpg) repeat-x; }
-
+}
 table.common {
   border-collapse: collapse;
   border-spacing: 0;
@@ -692,7 +691,6 @@ th.bg_tc {
   table-layout: fixed;
   word-break: break-all;
   overflow: hidden; }
-<!--圆角-->
 .bround4{
   border-radius:4px!important;}
 .bround8{

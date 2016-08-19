@@ -9,11 +9,8 @@
 /*Import Global Compulsory CSS Files*/
 
 @import url(app.css);
-@import url(shop.plugins.css);
-@import url(shop.blocks.css);
 
 /*Import CSS Plugins*/
-@import url(plugins/style-switcher.css);
 
 * {
     font-family: 'Open Sans', sans-serif;
@@ -61,7 +58,6 @@ li:first-child {
   box-shadow: 0 0 5px #ccc;
   margin-left: auto !important;
   margin-right: auto !important;
-  background: url(../img/patterns/15.html) repeat;
 }
 
 /*Heading
@@ -151,7 +147,6 @@ li:first-child {
 .illustration-v1.illustration-img1 {
 	width: 100%;
 	overflow: hidden;
-	background-image: url(../img/blog/07.jpg);
 	transition: all 0.3s ease-in-out;
 	-o-transition: all 0.3s ease-in-out;
 	-moz-transition: all 0.3s ease-in-out;
@@ -203,7 +198,6 @@ li:first-child {
 .illustration-v1.illustration-img2 {
 	width: 100%;
 	overflow: hidden;
-	background-image: url(../img/blog/08.jpg);
 	transition: all 0.3s ease-in-out;
 	-o-transition: all 0.3s ease-in-out;
 	-moz-transition: all 0.3s ease-in-out;
@@ -548,17 +542,7 @@ li:first-child {
 	-webkit-transition: all 0.3s ease-in-out;
 }
 
-.illustration-v3.illustration-img1 {
-	background-image: url(../img/blog/13.jpg);
-}
 
-.illustration-v3.illustration-img2 {
-	background-image: url(../img/blog/14.jpg);
-}
-
-.illustration-v3.illustration-img3 {
-	background-image: url(../img/blog/15.jpg);
-}
 
 .illustration-v3.illustration-img1:hover,
 .illustration-v3.illustration-img2:hover,
@@ -599,7 +583,6 @@ li:first-child {
 ------------------------------------*/
 .twitter-block {
 	padding: 25px 0 75px;
-	background: url(../img/twitter-bg.jpg) repeat;
 }
 
 /*Heading*/
@@ -717,7 +700,6 @@ li:first-child {
 	background-size: cover;
 	background-repeat: no-repeat;
     background-position: center center;
-	background-image: url(../img/collection-bg.jpg);
 }
 
 .collection-banner:before {

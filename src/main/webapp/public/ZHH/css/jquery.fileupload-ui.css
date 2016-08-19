@@ -36,7 +36,6 @@
   width: 200px; }
 
 .progress-animated .bar {
-  background: url(/plugins/icons/progressbar.gif) !important;
   filter: none; }
 
 .fileupload-loading {
@@ -44,7 +43,6 @@
   left: 50%;
   width: 128px;
   height: 128px;
-  background: url(/plugins/icons/loading.gif) center no-repeat;
   display: none; }
 
 .fileupload-processing .fileupload-loading {

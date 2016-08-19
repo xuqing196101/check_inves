@@ -354,7 +354,9 @@
 .header-v5 .navbar {
     margin: 0;
 }
-
+.header-v5 .navbar-header {
+    margin: 10px 0 0 0;
+}
 @media (max-width: 991px) {
     .header-v5 .navbar {
         margin-top: 10px;
@@ -363,7 +365,7 @@
 
 .header-v5 .navbar-default {
     border: none;
-    background: none;
+    background: url(../images/top_bg.jpg) no-repeat top center #2c9fa6;
 }
 
 /*Navbar Header*/
