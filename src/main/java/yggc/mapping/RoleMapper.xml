@@ -8,6 +8,20 @@
     <result column="DESCRIBE" jdbcType="VARCHAR" property="describe" />
     <result column="IS_DELETED" property="isDeleted" />
   </resultMap>
+  <resultMap type="yggc.model.Role" id="roleUserMap" extends="RoleResultMap">  
+    <collection property="users" ofType="yggc.model.User">  
+        <result column="userId"  property="id" />
+	    <result column="loginName"  property="loginName" />
+	    <result column="password"  property="password" />
+	    <result column="userCreatedAt"  property="createdAt" jdbcType="TIMESTAMP"/>
+	    <result column="userIsDeleted"  property="isDeleted" />
+	    <result column="relName"  property="relName" />
+	    <result column="userUpdatedAt"  property="updatedAt" jdbcType="TIMESTAMP"/>
+	    <result column="phone"  property="phone" />
+	    <!-- 查询创建人 -->  
+	    <association column="creater"  property="creater" select="queryById" /> 
+    </collection>  
+  </resultMap> 
   <!-- 所有列表 -->
   <sql id="Base_Column_List">
     ID, NAME, CREATED_AT, DESCRIBE, IS_DELETED
@@ -33,18 +47,18 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="RoleResultMap">
     select 
     <include refid="Base_Column_List" />
-    from ROLES
+    from T_SES_BMS_ROLEMAN
     where ID = #{id}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from ROLES
+    delete from T_SES_BMS_ROLEMAN
     where ID = #{id}
   </delete>
   <insert id="insert" parameterType="yggc.model.Role">
     <selectKey resultType="java.lang.Integer" order="BEFORE" keyProperty="id">
       select SEQ_T_ROLES_ID.nextval as ID from dual
     </selectKey>
-    insert into ROLES (ID, NAME, CREATED_AT, 
+    insert into T_SES_BMS_ROLEMAN (ID, NAME, CREATED_AT, 
       DESCRIBE, IS_DELETED)
     values (#{id}, #{name}, #{createdAt,jdbcType=TIMESTAMP},#{describe}, #{isDeleted})
   </insert>
@@ -52,7 +66,7 @@
     <selectKey resultType="java.lang.Integer" order="BEFORE" keyProperty="id">
       select SEQ_T_ROLES_ID.nextval as ID from dual
     </selectKey>
-    insert into ROLES
+    insert into T_SES_BMS_ROLEMAN
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         ID,
@@ -89,7 +103,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="yggc.model.Role">
-    update ROLES
+    update T_SES_BMS_ROLEMAN
     <set>
       <if test="name != null and name !=''">
         NAME = #{name,jdbcType=VARCHAR},
@@ -107,7 +121,7 @@
     where ID = #{id}
   </update>
   <update id="updateByPrimaryKey" parameterType="yggc.model.Role">
-    update ROLES
+    update T_SES_BMS_ROLEMAN
     set NAME = #{name},
       CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       DESCRIBE = #{describe,jdbcType=VARCHAR},
@@ -117,7 +131,34 @@
   <select id="queryByList" resultMap="RoleResultMap" parameterType="Object">
     select
     <include refid="Base_Column_List" />
-    from ROLES 
+    from T_SES_BMS_ROLEMAN 
     <include refid="Example_Where_Clause"/>
   </select>
+  
+  <!-- 根据T_SES_BMS_ROLEMAN表中的id或name查询角色信息和角色内用户信息 -->  
+   <select id="selectRoleUser" parameterType="Object"  
+       resultMap="roleUserMap">  
+       select u.*, r.id as loginName,r.loginName as,r.password as password,r.createdAt as userCreatedAt,r.isDeleted a userIsDeleted
+       r.relName as relName,r.updatedAt as userUpdatedAt,r.phone as phone,r.creater as creater 
+       from T_SES_BMS_ROLEMAN r left  
+       join T_SES_BMS_USERROLE ur on r.ID=ur."role_id" left join T_SES_BMS_USERINFO u on  
+       ur."user_id"=u.ID  
+       <where>  
+           <!--当id为初始值0，不再使用id作为查询条件 -->  
+           <if test="id != 0  ">r.ID=#{id}</if>  
+           <!-- 当name为空或为空串时，不再使用name作为查询条件 -->  
+           <if test="name != null and name != ''">  
+               or r.NAME = #{name}  
+           </if>  
+       </where>  
+   </select>
+   <!-- 删除角色与角色内成员之间的对应关系 -->  
+    <delete id="deleteRoelUser" parameterType="Object">  
+        delete from T_SES_BMS_USERROLE  
+        <where>  
+            <if test="userId.id != 0">"user_id" = #{userId.id}</if>  
+            <if test="userId.id != 0">and "role_id" = #{roleId.id}</if>  
+        </where>  
+    </delete>  
+  
 </mapper>

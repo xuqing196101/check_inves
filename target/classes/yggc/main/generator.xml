@@ -32,6 +32,6 @@
 		</javaClientGenerator>
 		<!-- 要生成那些表(更改tableName和domainObjectName就可以) -->
 		
-		<table tableName="ROLES" domainObjectName="Role" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />
+		<table tableName="T_SES_BMS_USERROLE" domainObjectName="Userrole" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />
 	</context>
 </generatorConfiguration>

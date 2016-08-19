@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -34,6 +35,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <br/>
       修改时间：<fmt:formatDate value="${user.updatedAt}" pattern="yyyy年MM月dd日   HH:mm:ss"/>
      <br/>
+     角色：<c:forEach items="${user.roles}" var="role" varStatus="vs">
+     		<c:if test="${user.roles.size()>vs.index+1}">
+     			${role.name},
+     		</c:if>
+     		<c:if test="${user.roles.size()<=vs.index+1}">
+     			${role.name}
+     		</c:if>
+     	</c:forEach>
      <a  onclick="location.href='javascript:history.go(-1);'">返回</a>
   </body>
 </html>

@@ -3,6 +3,7 @@ package yggc.dao;
 import java.util.List;
 
 import yggc.model.Role;
+import yggc.model.Userrole;
 
 public interface RoleMapper {
     int deleteByPrimaryKey(Integer id);
@@ -18,4 +19,6 @@ public interface RoleMapper {
     int updateByPrimaryKey(Role record);
     
     List<Role> queryByList(Role role);
+
+	void deleteRoelUser(Userrole userrole);
 }

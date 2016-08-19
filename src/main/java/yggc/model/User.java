@@ -48,6 +48,11 @@ public class User {
     private Date updatedAt;
 
     /**
+     * @Fields phone : 联系电话
+     */
+    private String phone;
+    
+    /**
      * @Fields creater : 创建人
      */
     private User creater;
@@ -125,4 +130,13 @@ public class User {
 	public void setRoles(List<Role> roles) {
 		this.roles = roles;
 	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	
 }

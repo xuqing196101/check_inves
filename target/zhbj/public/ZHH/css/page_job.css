@@ -1,0 +1,211 @@
+/*Job
+------------------------------------*/
+
+.job-img {
+	overflow: hidden;
+	position: relative;
+	min-height: 300px;
+	background: url(/plugins/images/bg/11.jpg) 70% 40% no-repeat;
+}
+
+.job-img .job-banner {
+	padding: 20px;
+	max-width: 450px;
+	margin: 60px auto 100px;	
+	background: rgba(255,255,255,0.8);
+}
+
+.job-img .job-banner h2 {
+	font-size: 20px;
+	line-height: 27px;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+@media (max-width: 768px) {
+	.job-img .job-banner {
+		padding: 10px;
+		margin: 30px auto 100px;	
+	}
+}
+
+.job-img .job-img-inputs {
+	left: 0;
+	right: 0;
+	bottom: -7px;
+	padding: 20px 0;
+	position: absolute;
+	background: rgba(0,0,0,0.9);
+}
+
+/*Job-Content
+------------------------------------*/
+.job-content .categories li {
+	padding: 6px 0;
+	border-bottom: 0px dotted #eee;
+	font-size:14px;
+}
+
+.job-content ul.hex li {
+	padding: 6px 0;
+	border-bottom: 0px dotted #eee;
+	font-size:14px;
+	line-height:20px;
+}
+
+/*High-Rated
+------------------------------------*/
+.high-rated .carousel-indicators {
+	top: 10px;
+	left: 65%;
+	text-align: right;
+}
+
+.high-rated .carousel-indicators .active {
+	background: #555;
+}
+
+.high-rated .carousel-indicators li {
+	border-color: #555;
+}
+
+.high-rated .carousel-inner > .item {
+	margin: 0;
+}
+
+.high-rated .star-vote {
+	float: right;
+	margin-top: 8px;
+}
+
+.high-rated .star-vote ul {
+	margin-bottom: 0;
+}
+
+.high-rated .star-vote li {
+	padding: 0;
+}
+
+
+/论坛树形对话框/
+.tml_container {
+    background-image:url(../images/list_line.png);
+}
+.tml_spine {
+    position: absolute;
+    left: -15px;
+    bottom: 0;
+    top: 0;
+    height: 100%;
+    width: 15px;
+    outline: 0 none;
+}
+.tml_spine_bg {
+    display: block;
+    margin-left: 6px;
+    width: 3px;
+    height: 100%;
+}
+.tml_spine .spine_plus {
+    top: 0;
+    left: 0;
+    position: absolute;
+    width: 15px;
+    height: 25px;
+    background-image:url(../images/list_main.png);
+    background-position: -134px -66px;
+}
+.start_point {
+    position: absolute;
+    top: 20px;
+    height: 26px;
+    width: 26px;
+    overflow: hidden;
+    background-image:url(../images/list_main.png);
+	left:-3px;
+}
+.tml_poster {
+    position: relative;
+    width:90%;
+    z-index: 20;
+    margin-left: 27px;
+    padding: 14px;
+    background-color: #fafafa;
+    border-radius: 4px;
+    *zoom: 1;
+}
+.timeline_dark .tml_header, .timeline_dark .scrubber_list a, .timeline_dark .period_header {
+    color: #a5a5a5;
+    text-shadow: 0 1px 1px rgba(0,0,0,.3);
+}
+.timeline_tint .tml_header, .timeline_tint .period_header {
+    color: #d0cfcd;
+}
+.period_header {
+    position: absolute;
+    width: 80px;
+    top: 20px;
+    left: -130px;
+    font-size: 18px;
+}
+.period_header span {
+    text-align: right;
+    font-size: 14px;
+    line-height: 16px;
+    display: block;
+}
+.poster_options .ui_left_arrow {
+    left: -9px;
+    top: 12px;
+}
+.ui_left_arrow, .ui_right_arrow, .ui_up_arrow, .ui_down_arrow {
+    position: absolute;
+    left: -10px;
+    top: 20px;
+}
+ .ui_arrow, .poster_options .ui_arrow_bg {
+    border-color: #fafafa;
+}
+
+.ui_arrow {
+    border-color: #fafafa;
+    border-width: 10px;
+}
+.ui_left_arrow .ui_arrow, .ui_left_arrow .ui_arrow_bg {
+    left: 0;
+    border-left-width: 0 !important;
+    border-style: dashed;
+    border-right-style: solid;
+    border-top-color: transparent !important;
+    border-bottom-color: transparent !important;
+}
+.arrow_i, .arrow_bg, .ui_arrow, .ui_arrow_bg, .feed_add_bar .add_time_arr {
+    position: absolute;
+    font-size: 0;
+    line-height: 0;
+}
+
+.ui_left_arrow .ui_arrow{
+    left: 0;
+    border-left-width: 0 !important;
+    border-style: dashed;
+    border-right-style: solid;
+    border-top-color: transparent !important;
+    border-bottom-color: transparent !important;
+}
+.arrow_i, .arrow_bg, .ui_arrow {
+    position: absolute;
+    font-size: 0;
+    line-height: 0;
+}
+.tml_poster ul li{
+   margin-left:15px;}
+.tml_poster ul li:first-child{
+   margin-left:0px;
+ }
+.tml_container .dingwei{
+   position:relative;
+}
+.poster span{
+  word-wrap: break-word;
+}

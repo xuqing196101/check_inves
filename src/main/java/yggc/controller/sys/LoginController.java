@@ -46,7 +46,7 @@ public class LoginController {
 			logger.error("验证失败");
 			return "error";
 		}
-		return "main";
+		return "backend";
 	}
 	
 }

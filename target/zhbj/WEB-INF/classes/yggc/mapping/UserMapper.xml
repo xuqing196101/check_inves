@@ -1,148 +1,226 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="yggc.dao.UserMapper">
-  <resultMap id="BaseResultMap" type="yggc.model.User">
-    <id column="ID" jdbcType="VARCHAR" property="id" />
-    <result column="LOGIN_NAME" jdbcType="VARCHAR" property="loginName" />
-    <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
-    <result column="IS_DELETE" jdbcType="DECIMAL" property="isDelete" />
-    <result column="CREATE_DATE" jdbcType="DATE" property="createDate" />
-    <result column="REL_NAME" jdbcType="VARCHAR" property="relName" />
-    <result column="UPDAT_DATE" jdbcType="DATE" property="updatDate" />
-    <result column="CREATER" jdbcType="VARCHAR" property="creater" />
+  <resultMap id="UserResultMap" type="yggc.model.User">
+    <result column="ID"  property="id" />
+    <result column="LOGIN_NAME"  property="loginName" />
+    <result column="PASSWORD"  property="password" />
+    <result column="CREATED_AT"  property="createdAt" jdbcType="TIMESTAMP"/>
+    <result column="IS_DELETED"  property="isDeleted" />
+    <result column="REL_NAME"  property="relName" />
+    <result column="UPDATED_AT"  property="updatedAt" jdbcType="TIMESTAMP"/>
+    <result column="PHONE"  property="phone" />
+    <!-- 查询创建人 -->  
+    <association column="CREATER"  property="creater" select="queryById" />  
   </resultMap>
-  <sql id="Base_Column_List">
-    ID, LOGIN_NAME, PASSWORD, IS_DELETE, CREATE_DATE, REL_NAME, UPDAT_DATE, CREATER
+  <resultMap type="yggc.model.User" id="userroleMap" extends="UserResultMap">  
+    <!-- property: 指的是集合属性的值, ofType：指的是集合中元素的类型-->
+	<collection property="roles" ofType="yggc.model.Role">
+		<id column="ID"  property="id" />
+	    <result column="NAME" jdbcType="VARCHAR" property="name" />
+	    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+	    <result column="DESCRIBE" jdbcType="VARCHAR" property="describe" />
+	    <result column="IS_DELETED" property="isDeleted" />
+	</collection>   
+  </resultMap>  
+  <sql id="Tabel_Name">
+    T_SES_BMS_USERINFO
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from "USER"
-    where ID = #{id,jdbcType=VARCHAR}
-  </select>
-  <select id="selectByLogin" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from "USER"
-    where LOGIN_NAME = #{loginName,jdbcType=VARCHAR} 
-    and PASSWORD = #{password,jdbcType=VARCHAR} 
-    and IS_DELETE = 0
-  </select>
-  <select id="getAll" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from "USER"
-    where IS_DELETE = 0
-    order by ID ASC
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from "USER"
-    where ID = #{id,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="yggc.model.User">
-  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+  
+  <!-- 表中所有列 -->
+  <sql id="Base_Column_List" >
+   ID,LOGIN_NAME,PASSWORD,CREATED_AT,IS_DELETED,REL_NAME,UPDATED_AT,CREATER,PHONE
+  </sql>
 
-        select sys_guid() from dual
-
+  <!-- 查询条件 -->
+  <sql id="Example_Where_Clause">
+    where IS_DELETED=0
+    <trim suffixOverrides=",">
+      <if test="id!= null">
+        and ID = #{id}
+      </if>
+      <if test="loginName != null and loginName != ''">
+        and LOGIN_NAME like concat(concat('%', '${loginName}'), '%')
+      </if>
+      <if test="password != null and password != ''">
+        and PASSWORD like concat(concat('%', '${password}'), '%')
+      </if>
+      <if test="createdAt != null">
+        and CREATED_AT = #{createdAt}
+      </if>
+      <if test="relName != null and relName != ''">
+        and REL_NAME like concat(concat('%', '${relName}'), '%')
+      </if>
+      <if test="updatedAt != null">
+        and UPDATED_AT = #{updatedAt}
+      </if>
+      <if test="creater != null">
+        and CREATER = #{creater.id}
+      </if>
+      <if test="phone != null and phone != ''">
+        and phone = #{phone}
+      </if>
+    </trim>
+  </sql>
+  
+  <!-- 1.新增记录 -->
+  <insert id="add" parameterType="Object" >
+     <selectKey resultType="int" order="BEFORE" keyProperty="id">
+      select SEQ_T_USERS_ID.nextval as ID from dual
     </selectKey>
-    insert into "USER" (ID, LOGIN_NAME, PASSWORD, 
-      IS_DELETE, CREATE_DATE, REL_NAME, 
-      UPDAT_DATE, CREATER)
-    values (#{id,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{isDelete,jdbcType=DECIMAL}, #{createDate,jdbcType=DATE}, #{relName,jdbcType=VARCHAR}, 
-      #{updatDate,jdbcType=DATE}, #{creater,jdbcType=VARCHAR})
-  </insert>
+    insert into T_SES_BMS_USERINFO(ID,LOGIN_NAME,PASSWORD,CREATED_AT,IS_DELETED,REL_NAME,UPDATED_AT,CREATER,PHONE) values(#{id},#{loginName},#{password},#{createdAt},#{isDeleted},#{relName},#{updatedAt},#{creater.id},#{phone})
+  </insert> 
+  <!-- 1.1新增记录(可插入null) -->
   <insert id="insertSelective" parameterType="yggc.model.User">
-    insert into USER
+    <selectKey resultType="int" order="BEFORE" keyProperty="id">
+      select SEQ_T_USERS_ID.nextval as ID from dual
+    </selectKey>
+    insert into T_SES_BMS_USERINFO
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         ID,
       </if>
-      <if test="loginName != null">
+      <if test="loginName != null and loginName != ''">
         LOGIN_NAME,
       </if>
-      <if test="password != null">
+      <if test="password != null and password !=''">
         PASSWORD,
       </if>
-      <if test="isDelete != null">
-        IS_DELETE,
+      <if test="isDeleted != null">
+        IS_DELETED,
       </if>
-      <if test="createDate != null">
-        CREATE_DATE,
+      <if test="createdAt != null">
+        CREATED_AT,
       </if>
-      <if test="relName != null">
+      <if test="relName != null and relName !=''">
         REL_NAME,
       </if>
-      <if test="updatDate != null">
-        UPDAT_DATE,
+      <if test="updatedAt != null">
+        UPDATED_AT,
       </if>
       <if test="creater != null">
         CREATER,
       </if>
+      <if test="phone != null and phone !=''">
+        PHONE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=VARCHAR},
+        #{id},
       </if>
-      <if test="loginName != null">
+      <if test="loginName != null and loginName !=''">
         #{loginName,jdbcType=VARCHAR},
       </if>
-      <if test="password != null">
+      <if test="password != null and password !='' ">
         #{password,jdbcType=VARCHAR},
       </if>
-      <if test="isDelete != null">
-        #{isDelete,jdbcType=DECIMAL},
+      <if test="isDeleted != null">
+        #{isDeleted},
       </if>
-      <if test="createDate != null">
-        #{createDate,jdbcType=DATE},
+      <if test="createdAt != null">
+        #{createdAt},
       </if>
-      <if test="relName != null">
+      <if test="relName != null and relName != '' ">
         #{relName,jdbcType=VARCHAR},
       </if>
-      <if test="updatDate != null">
-        #{updatDate,jdbcType=DATE},
+      <if test="updatedAt != null">
+        #{updatedAt},
       </if>
       <if test="creater != null">
-        #{creater,jdbcType=VARCHAR},
+        #{creater.id},
+      </if>
+      <if test="phone != null and phone !=''">
+        #{phone},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="yggc.model.User">
-    update USER
-    <set>
-      <if test="loginName != null">
-        LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
+  <!-- 2.根据id修改记录-->  
+  <update id="update" parameterType="Object" >
+    update T_SES_BMS_USERINFO set LOGIN_NAME=#{loginName},PASSWORD=#{password},CREATED_AT=#{createdAt},IS_DELETED=#{isDeleted},REL_NAME=#{relName},UPDATED_AT=#{updatedAt},CREATER=#{creater.id},PHONE=#{phone}  where id=#{id}
+  </update>
+
+  <!-- 3.只修改不为空的字段 -->
+  <update id="updateBySelective" parameterType="Object" >
+    update T_SES_BMS_USERINFO set 
+    <trim  suffixOverrides="," >
+      <if test="loginName != null and loginName !=''">
+        LOGIN_NAME=#{loginName,jdbcType=VARCHAR},
       </if>
-      <if test="password != null">
-        PASSWORD = #{password,jdbcType=VARCHAR},
+      <if test="password != null and password !='' ">
+        PASSWORD=#{password,jdbcType=VARCHAR},
       </if>
-      <if test="isDelete != null">
-        IS_DELETE = #{isDelete,jdbcType=DECIMAL},
+      <if test="isDeleted != null">
+        IS_DELETED=#{isDeleted},
       </if>
-      <if test="createDate != null">
-        CREATE_DATE = #{createDate,jdbcType=DATE},
+      <if test="createdAt != null">
+        CREATED_AT=#{createdAt},
       </if>
-      <if test="relName != null">
-        REL_NAME = #{relName,jdbcType=VARCHAR},
+      <if test="relName != null and relName != '' ">
+        REL_NAME=#{relName,jdbcType=VARCHAR},
       </if>
-      <if test="updatDate != null">
-        UPDAT_DATE = #{updatDate,jdbcType=DATE},
+      <if test="updatedAt != null">
+        UPDATED_AT=#{updatedAt},
       </if>
       <if test="creater != null">
-        CREATER = #{creater,jdbcType=VARCHAR},
+        CREATER=#{creater.id},
       </if>
-    </set>
-    where ID = #{id,jdbcType=VARCHAR}
+      <if test="phone != null and phone != '' ">
+        PHONE=#{phone,jdbcType=VARCHAR},
+      </if>
+    </trim> where ID=#{id}
   </update>
-  <update id="updateByPrimaryKey" parameterType="yggc.model.User">
-    update "USER"
-    set LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
-      PASSWORD = #{password,jdbcType=VARCHAR},
-      IS_DELETE = #{isDelete,jdbcType=DECIMAL},
-      CREATE_DATE = #{createDate,jdbcType=DATE},
-      REL_NAME = #{relName,jdbcType=VARCHAR},
-      UPDAT_DATE = #{updatDate,jdbcType=DATE},
-      CREATER = #{creater,jdbcType=VARCHAR}
-    where ID = #{id,jdbcType=VARCHAR}
-  </update>
+
+  <!-- 4.根据id进行删除 -->
+  <delete id="delete" parameterType="Object">
+    delete from T_SES_BMS_USERINFO where ID = #{id}
+  </delete>
+  
+  <!-- 5.根据id查询 -->
+  <select id="queryById" resultMap="UserResultMap" parameterType="Object">
+    select
+    <include refid="Base_Column_List" />
+    from T_SES_BMS_USERINFO where ID = #{id}
+  </select>
+  <!-- <select id="getCreaterById" parameterType="Object" resultMap="UserResultMap">  
+     select
+     <include refid="Base_Column_List" />
+     from T_SES_BMS_USERINFO where ID = #{id}  
+  </select> -->  
+  <!-- 6.查询列表，只查询不为空的字段 -->
+  <select id="queryBySelective" resultMap="UserResultMap" parameterType="Object">
+    select
+    <include refid="Base_Column_List" />
+    from T_SES_BMS_USERINFO
+    <include refid="Example_Where_Clause" />
+  </select>
+  
+  <!-- 7.列表总数 -->
+  <select id="queryByCount" resultType="java.lang.Integer" parameterType="Object">
+    select count(1) from T_SES_BMS_USERINFO
+    <include refid="Example_Where_Clause" />
+  </select>
+  
+  <!-- 8.查询列表 -->
+  <select id="queryByList" resultMap="UserResultMap" parameterType="Object">
+    select
+    <include refid="Base_Column_List" />
+    from T_SES_BMS_USERINFO 
+    <include refid="Example_Where_Clause"/>
+    ORDER BY CREATED_AT DESC
+  </select>
+  
+  <!-- 根据user表中的id查询用户和角色信息 -->  
+  <select id="selectUserRole" parameterType="Object"  
+      resultMap="userroleMap">  
+      select u.*,r.* from T_SES_BMS_USERINFO u left join T_SES_BMS_USERROLE ur on u.ID=ur."user_id"  
+      left join T_SES_BMS_ROLEMAN r on ur."role_id"=r.ID where u.ID = #{id}  
+  </select>  
+  
+  <!-- 保存用户和角色之间的关系信息 -->  
+  <insert id="saveRelativity" parameterType="Object">  
+      insert into T_SES_BMS_USERROLE("user_id","role_id")  
+      values(#{userId.id},#{roleId.id})  
+  </insert>
+  
 </mapper>
