@@ -76,6 +76,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/WdatePicker.js"></script><link href="<%=basePath%>public/ZHH/css/WdatePicker(1).css" rel="stylesheet" type="text/css">
 <script src="<%=basePath%>public/ZHH/js/jquery.form.min.js"></script>
 
+
 <script src="<%=basePath%>public/ZHH/js/jquery.validate.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.maskedinput.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery-ui.min.js"></script>
@@ -107,8 +108,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/jquery.easing.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/james.js"></script>
 </head>
+  
 <body>
-  <div class="wrapper">
+<div class="wrapper">
 	<div class="header-v4 header-v5">
     <!-- Navbar -->
     <div class="navbar navbar-default mega-menu" role="navigation">
@@ -121,11 +123,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                  <img alt="Logo" src="<%=basePath%>public/ZHH/images/logo_2.png" id="logo-header">
               </a>
             </div>
-			<!--菜单开始-->
-            <div class="col-md-8 topbar-v1 col-md-12 ">
+			<!--搜索开始-->
+            <div class="col-md-8 topbar-v1 col-md-12 padding-0">
               <ul class="top-v1-data padding-0">
 			    <li>
-				<a href="#">
+				 <a href"#">
 				  <div><img src="<%=basePath%>public/ZHH/images/top_01.png"/></div>
 				  <span>决策支持</span>
 				 </a>
@@ -184,267 +186,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
    </div>
 </div>
-
-<!--面包屑导航开始-->
-   <div class="margin-top-10 breadcrumbs ">
-      <div class="container">
-		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">业务管理</a></li><li><a href="#">协议采购</a></li><li class="active"><a href="#">我的订单</a></li>
-		   </ul>
-		<div class="clear"></div>
-	  </div>
-   </div>
-<!-- 我的订单页面开始-->
-   <div class="container">
-   <div class="headline-v2">
-   <h2>我的协议供货订单</h2>
-   </div>
-   </div>
-<!-- 表格开始-->
-   <div class="container">
-   <div class="col-md-8">
-    <button class="btn btn-windows add" type="submit">新增</button>
-	<button class="btn btn-windows edit" type="submit">修改</button>
-	<button class="btn btn-windows git" type="submit">提交</button>
-	<button class="btn btn-windows delete" type="submit">删除</button>
-	</div>
-            <div class="col-md-4 ">
-              <div class="search-block-v2">
-                <div class="">
-                  <form accept-charset="UTF-8" action="" method="get"><div style="display:none"><input name="utf8" value="✓" type="hidden"></div>
-                    <input id="t" name="t" value="search_products" type="hidden">
-                    <div class="col-md-12 pull-right">
-                      <div class="input-group">
-                        <input class="form-control bgnone h37 p0_10" id="k" name="k" placeholder="" type="text">
-                        <span class="input-group-btn">
-                          <input class="btn-u" name="commit" value="搜索" type="submit">
-                        </span>
-                      </div>
-                    </div>
-                  </form>               
-			   </div>
-              </div>
-            </div>	
-    </div>
-   
-   <div class="container margin-top-5">
-     <div class="content padding-left-25 padding-right-25 padding-top-5">
-        <table class="table table-bordered table-condensed">
-		<thead>
-		<tr>
-		  <th class="info w30"><input type="checkbox" alt=""></th>
-		  <th class="info w50">序号</th>
-		  <th class="info">凭证编号</th>
-		  <th class="info">名称</th>
-		  <th class="info">总金额（元）</th>
-		  <th class="info">
-			<div class="">
-              <select class="form-control input-lg">
-                 <option value="">全部状态</option>
-              </select>
-            </div>
-		  </th>
-		</tr>
-		</thead>
-		<tr>
-		  <td class="tc w30"><input type="checkbox" alt=""></td>
-		  <td class="tc w50">1</td>
-		  <td>BG-XY-IT20131120106054</td>
-		  <td><a href="#">2013-11-20  台式机采购项目</a></td>
-		  <td class="tc">¥40,000.00</td>
-		  <td>
-		  <div class="col-md-12 padding-0">
-		  <span class="fl padding-5">暂存</span>
-		  <div class="progress w55p fl margin-left-0">
-             <div class="progress-bar progress-bar-danger" role="progressbar" 
-                aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" 	
-                 style="width:10%;"> 
-             </div> 
-          </div>
-		  <span class="fl padding-5">10%</span>
-		  </div>
 		 
-		  </td>
-		</tr>
-		<tr>
-		  <td class="tc w30"><input type="checkbox" alt=""></td>
-		  <td class="tc w50">1</td>
-		  <td>BG-XY-IT20131120106054</td>
-		  <td><a href="#">2013-11-20  台式机采购项目</a></td>
-		  <td class="tc">¥40,000.00</td>
-		  <td>
-		  <div class="col-md-12 padding-0">
-		  <span class="fl padding-5">暂存</span>
-		  <div class="progress w55p fl margin-left-0">
-             <div class="progress-bar progress-bar-danger" role="progressbar" 
-                aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" 	
-                 style="width:10%;"> 
-             </div> 
-          </div>
-		  <span class="fl padding-5">10%</span>
-		  </div>
-		  </td>
-		</tr>
-		<tr>
-		  <td class="tc w30"><input type="checkbox" alt=""></td>
-		  <td class="tc w50">1</td>
-		  <td>BG-XY-IT20131120106054</td>
-		  <td><a href="#">2013-11-20  台式机采购项目</a></td>
-		  <td class="tc">¥40,000.00</td>
-		  <td>
-		  <div class="col-md-12 padding-0">
-		  <span class="fl padding-5">暂存</span>
-		  <div class="progress w55p fl margin-left-0">
-             <div class="progress-bar progress-bar-danger" role="progressbar" 
-                aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" 	
-                 style="width:10%;"> 
-             </div> 
-          </div>
-		  <span class="fl padding-5">10%</span>
-		  </div>
-		 
-		  </td>
-		</tr>
-		<tr>
-		  <td class="tc w30"><input type="checkbox" alt=""></td>
-		  <td class="tc w50">1</td>
-		  <td>BG-XY-IT20131120106054</td>
-		  <td><a href="#">2013-11-20  台式机采购项目</a></td>
-		  <td class="tc">¥40,000.00</td>
-		  <td>
-		  <div class="col-md-12 padding-0">
-		  <span class="fl padding-5">暂存</span>
-		  <div class="progress w55p fl margin-left-0">
-             <div class="progress-bar progress-bar-danger" role="progressbar" 
-                aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" 	
-                 style="width:10%;"> 
-             </div> 
-          </div>
-		  <span class="fl padding-5">10%</span>
-		  </div>
-		 
-		  </td>
-		</tr>
-		<tr>
-		  <td class="tc w30"><input type="checkbox" alt=""></td>
-		  <td class="tc w50">1</td>
-		  <td>BG-XY-IT20131120106054</td>
-		  <td><a href="#">2013-11-20  台式机采购项目</a></td>
-		  <td class="tc">¥40,000.00</td>
-		  <td>
-		  <div class="col-md-12 padding-0">
-		  <span class="fl padding-5">暂存</span>
-		  <div class="progress w55p fl margin-left-0">
-             <div class="progress-bar progress-bar-danger" role="progressbar" 
-                aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" 	
-                 style="width:10%;"> 
-             </div> 
-          </div>
-		  <span class="fl padding-5">10%</span>
-		  </div>
-		  </td>
-		</tr>
-		<tr>
-		  <td class="tc w30"><input type="checkbox" alt=""></td>
-		  <td class="tc w50">1</td>
-		  <td>BG-XY-IT20131120106054</td>
-		  <td><a href="#">2013-11-20  台式机采购项目</a></td>
-		  <td class="tc">¥40,000.00</td>
-		  <td>
-		  <div class="col-md-12 padding-0">
-		  <span class="fl padding-5">暂存</span>
-		  <div class="progress w55p fl margin-left-0">
-             <div class="progress-bar progress-bar-danger" role="progressbar" 
-                aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" 	
-                 style="width:10%;"> 
-             </div> 
-          </div>
-		  <span class="fl padding-5">10%</span>
-		  </div>
-		 
-		  </td>
-		</tr>
-		<tr>
-		  <td class="tc"><input type="checkbox" alt=""></td>
-		  <td class="tc">1</td>
-		  <td>BG-XY-IT20131120106054</td>
-		  <td><a href="#">2013-11-20  台式机采购项目</a></td>
-		  <td class="tc">¥40,000.00</td>
-		  <td>
-		  <div class="col-md-12 padding-0">
-		  <span class="fl padding-5">暂存</span>
-		  <div class="progress w55p fl margin-left-0">
-             <div class="progress-bar progress-bar-danger" role="progressbar" 
-                aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" 	
-                 style="width:10%;"> 
-             </div> 
-          </div>
-		  <span class="fl padding-5">10%</span>
-		  </div>
-		 
-		  </td>
-		</tr>
-		<tr>
-		  <td class="tc"><input type="checkbox" alt=""></td>
-		  <td class="tc">1</td>
-		  <td>BG-XY-IT20131120106054</td>
-		  <td><a href="#">2013-11-20  台式机采购项目</a></td>
-		  <td class="tc">¥40,000.00</td>
-		  <td>
-		  <div class="col-md-12 padding-0">
-		  <span class="fl padding-5">暂存</span>
-		  <div class="progress w55p fl margin-left-0">
-             <div class="progress-bar progress-bar-danger" role="progressbar" 
-                aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" 	
-                 style="width:10%;"> 
-             </div> 
-          </div>
-		  <span class="fl padding-5">10%</span>
-		  </div>
-		 
-		  </td>
-		</tr>
-		<tr>
-		  <td class="tc"><input type="checkbox" alt=""></td>
-		  <td class="tc">1</td>
-		  <td>BG-XY-IT20131120106054</td>
-		  <td><a href="#">2013-11-20  台式机采购项目</a></td>
-		  <td class="tc">¥40,000.00</td>
-		  <td>
-		  <div class="col-md-12 padding-0">
-		  <span class="fl padding-5">暂存</span>
-		  <div class="progress w55p fl margin-left-0">
-             <div class="progress-bar progress-bar-danger" role="progressbar" 
-                aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" 	
-                 style="width:10%;"> 
-             </div> 
-          </div>
-		  <span class="fl padding-5">10%</span>
-		  </div>
-		 
-		  </td>
-		</tr>
-        </table>
-     </div>
-   
-   </div>
- </div>
-<!--底部代码开始-->
-<div class="footer-v2" id="footer-v2">
-
-      <div class="footer">
-
-            <!-- Address -->
-              <address class="">
-			  Copyright © 2016 版权所有：中央军委后勤保障部 京ICP备09055519号
-              </address>
-              <div class="">
-		       浏览本网主页，建议将电脑显示屏的分辨率调为1024*768
-              </div> 
-            <!-- End Address -->
-
-<!--/footer--> 
-      </div>
-</div>
 </body>
 </html>
