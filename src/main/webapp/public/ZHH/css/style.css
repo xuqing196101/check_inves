@@ -1674,3 +1674,13 @@ img.img-mouse {
 .cfmd{
   background:url(../images/yw_08.png) no-repeat;
  }
+ .list-flow .select_opt{
+  height:30px;
+  line-height:30px;
+  margin-bottom:0px;
+  padding:0px 5px;
+ }
+ .select_input{
+  margin-top:0!important;
+  margin-right:5px!important;
+ }

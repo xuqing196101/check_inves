@@ -262,8 +262,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		          </button>
 		          <ul class="dropdown-menu list-unstyled">
 		          	<c:forEach items="${roles}" var="role" varStatus="vs">
-		          		<li>
-		          			<input type="checkbox" name="chkItem" value="${role.id };${role.name }" onclick="cheClick();">${role.name }
+		          		<li class="select_opt">
+		          			<input type="checkbox" name="chkItem" value="${role.id };${role.name }" onclick="cheClick();" class="select_input">${role.name }
 		          		</li>
 		          	</c:forEach>
 		          </ul>

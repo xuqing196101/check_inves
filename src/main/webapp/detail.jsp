@@ -73,7 +73,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/owl-carousel.js"></script>
 <script src="<%=basePath%>public/ZHH/js/owl-recent-works.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.mCustomScrollbar.concat.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/WdatePicker.js"></script><link href="<%=basePath%>public/ZHH/css/WdatePicker(1).css" rel="stylesheet" type="text/css">
+<script src="<%=basePath%>/public/My97DatePicker/WdatePicker.js"></script><link href="<%=basePath%>public/My97DatePicke/skin/WdatePicker.css" rel="stylesheet" type="text/css">
 <script src="<%=basePath%>public/ZHH/js/jquery.form.min.js"></script>
 
 
@@ -285,8 +285,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      <li class="col-md-6  p0 ">
 	   <span class="">交付日期：</span>
 	   <div class="input-append">
-        <input class="span2" id="appendedInput" type="text">
-        <span class="add-on"><img src="<%=basePath%>public/ZHH/images/time_icon.png" class="mb10"/></span>
+        <input class="span2 Wdate" id="appendedInput" type="text" onclick='WdatePicker()'>
+        <span class="add-on"  onclick='WdatePicker()'>
+        <img src="<%=basePath%>public/ZHH/images/time_icon.png" class="mb10" onclick='WdatePicker()'/>
+        </span>
        </div>
 	 </li> 
      <li class="col-md-6  p0 ">
@@ -476,10 +478,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
             <!-- Address -->
               <address class="">
-			  Copyright © 2016 版权所有：中央军委后勤保障部 京ICP备09055519号
+			  	Copyright © 2016 版权所有：中央军委后勤保障部 京ICP备09055519号
               </address>
               <div class="">
-		       浏览本网主页，建议将电脑显示屏的分辨率调为1024*768
+		       	浏览本网主页，建议将电脑显示屏的分辨率调为1024*768
               </div> 
             <!-- End Address -->
 
