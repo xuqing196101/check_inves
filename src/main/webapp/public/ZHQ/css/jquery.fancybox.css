@@ -90,6 +90,7 @@
 }
 
 
+
 .fancybox-close {
 	position: absolute;
 	top: -18px;
@@ -100,16 +101,7 @@
 	z-index: 8040;
 }
 
-.fancybox-nav {
-	position: absolute;
-	top: 0;
-	width: 40%;
-	height: 100%;
-	cursor: pointer;
-	text-decoration: none;
-	-webkit-tap-highlight-color: rgba(0,0,0,0);
-	z-index: 8040;
-}
+
 
 .fancybox-prev {
 	left: 0;
@@ -169,14 +161,7 @@
     overflow-y: hidden !important;
 }
 
-.fancybox-overlay {
-	position: absolute;
-	top: 0;
-	left: 0;
-	overflow: hidden;
-	display: none;
-	z-index: 8010;
-}
+
 
 .fancybox-overlay-fixed {
 	position: fixed;

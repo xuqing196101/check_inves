@@ -8,12 +8,8 @@
 
 /*Import Global Compulsory CSS Files*/
 
-
 @import url(blocks.css);
-
 @import url(app.css);
-
-/*Import CSS Plugins*/
 
 
 body { 

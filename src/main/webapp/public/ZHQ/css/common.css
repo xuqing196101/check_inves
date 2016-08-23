@@ -659,7 +659,8 @@ border:1px solid #eeeeee;
 .footer {
   width: 100%;
   text-align: center;
-}
+  background: #f9f9f9; }
+
 table.common {
   border-collapse: collapse;
   border-spacing: 0;
@@ -691,6 +692,7 @@ th.bg_tc {
   table-layout: fixed;
   word-break: break-all;
   overflow: hidden; }
+
 .bround4{
   border-radius:4px!important;}
 .bround8{

@@ -334,13 +334,9 @@
     color: white; }
 
 .btn-windows {
-  background-color: #2c9fa6;
-  border-color: #2c9fa6;
-  color: #ffffff; 
-  padding:8px 13px 8px 30px;
-  font-size:18px;
-  margin:5px 15px;
-  }
+  background-color: transparent;
+  border-color: #48bbef;
+  color: #48bbef; }
   .btn-windows:hover {
     background-color: #48bbef;
     color: white; }
@@ -696,34 +692,3 @@
   .btn-wot:hover {
     background-color: #ff4005;
     color: white; }
-	
-.add{
-   background-image:url(../images/add.png);
-   background-repeat:no-repeat;
-   background-position:10px 11px;
-}
-.delete{
-   background-image:url(../images/delete.png);
-   background-repeat:no-repeat;
-   background-position:10px 10px;
-}
-.edit{
-   background-image:url(../images/edit.png);
-   background-repeat:no-repeat;
-   background-position:10px 10px;
-}
-.git{
-   background-image:url(../images/git.png);
-   background-repeat:no-repeat;
-   background-position:10px 11px;
-}
-.reset{
-   background-image:url(../images/reset.png);
-   background-repeat:no-repeat;
-   background-position:10px 11px;
-}
-.save{
-   background-image:url(../images/save.png);
-   background-repeat:no-repeat;
-   background-position:10px 11px;
-}

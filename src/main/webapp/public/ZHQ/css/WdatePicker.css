@@ -1,6 +1,7 @@
 .Wdate{
 	border:#999 1px solid;
 	height:20px;
+	background:#fff url(datePicker.gif) no-repeat right;
 }
 
 .WdateFmtErr{

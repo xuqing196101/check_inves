@@ -233,10 +233,12 @@ html[dir="rtl"] .select2-container .select2-choice .select2-arrow b {
 }
 
 .select2-search input {
-    /*width: 100%;*/  /*#IE下搜索框溢出*/  
+    /*width: 100%;*/
+    /*#IE下搜索框溢出*/
     height: auto !important;
     min-height: 26px;
-    /*padding: 4px 20px 4px 5px;*/ /*#IE下搜索框溢出*/  
+    /*padding: 4px 20px 4px 5px;*/
+    /*#IE下搜索框溢出*/
     padding: 0px 0px 0px 0px;
     margin: 0;
 
@@ -248,17 +250,18 @@ html[dir="rtl"] .select2-container .select2-choice .select2-arrow b {
     border-radius: 0;
 
     -webkit-box-shadow: none;
-            box-shadow: none;
-
+    box-shadow: none;
 }
 
 html[dir="rtl"] .select2-search input {
     padding: 4px 5px 4px 20px;
+
 }
 
 .select2-drop.select2-drop-above .select2-search input {
     margin-top: 4px;
 }
+
 
 
 .select2-container-active .select2-choice,
