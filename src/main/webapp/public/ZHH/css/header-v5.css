@@ -104,7 +104,6 @@
 .topbar-v3 ul.language li a:hover, 
 .topbar-v3 ul.currency li.active a,
 .topbar-v3 ul.language li.active a {
-	background: #333;
 }
 
 .topbar-v3 ul.currency li a:hover,
@@ -550,7 +549,7 @@
     .header-v5 .navbar-default .navbar-nav > .active > a:hover,
     .header-v5 .navbar-default .navbar-nav > .active > a:focus {
         color: #fff !important; 
-        background: #18ba9b !important;
+        background: #18ba9b;
     }
 
     .header-v5 .dropdown .dropdown-submenu > a { 
@@ -608,10 +607,10 @@
     .header-v5 .dropdown-menu { 
         padding: 0;
         border: none;
-        min-width: 200px;
+        min-width: 150px;
         border-radius: 0;
         z-index: 9999 !important;
-        border-top: solid 2px #18ba9b;
+        border-top: solid 0px #18ba9b;
         -webkit-box-shadow: 0 2px 2px 0px rgba(90,90,90,0.075);
         -moz-box-shadow: 0 2px 2px 0px rgba(90,90,90,0.075);
         box-shadow: 0 5px 5px 0px rgba(90,90,90,0.075);
@@ -621,8 +620,9 @@
         color: #687074; 
         font-size: 14px; 
         font-weight: 400; 
-        padding: 8px 15px; 
-        border-bottom: solid 1px #dedede;
+        padding: 2px 0px; 
+        border-bottom: solid 0px #dedede;
+        text-align: left;
     }
 
     .header-v5 .dropdown-menu > li > a {
@@ -633,16 +633,16 @@
         transition: all 0.2s ease;
     }
 
-    .header-v5 .dropdown-menu .active > a,
-    .header-v5 .dropdown-menu li > a:hover {
+    .header-v5 .dropdown-menu .active,
+    .header-v5 .dropdown-menu li:hover {
         color: #fff;
-        background: #18ba9b;
+        background: #47b2b8!important;
         filter: none !important;
     }
 
-    .header-v5 .dropdown-menu li > a:focus {
+    .header-v5 .dropdown-menu li:focus {
         color: inherit;
-        background: none;
+        background: #16888f;
         filter: none !important;
     }
 
@@ -654,9 +654,9 @@
         display: none;
     }
 
-    .header-v5 .dropdown-menu li.dropdown-submenu:hover > a {
+    .header-v5 .dropdown-menu li.dropdown-submenu:hover {
         color: #fff;
-        background: #18ba9b;
+        background: #47b2b8;
     }
 }
 
@@ -853,7 +853,7 @@
 .header-v5 .mega-menu .dropup,
 .header-v5 .mega-menu .dropdown,
 .header-v5 .mega-menu .collapse {
-    position: static;
+    position: relative;
 }
 
 .header-v5 .mega-menu .navbar-inner,
@@ -862,7 +862,7 @@
 }
 
 .header-v5 .mega-menu .dropdown-menu {
-    left: auto;
+    left: 0px;
 }
 
 .header-v5 .mega-menu .dropdown-menu > li {
@@ -989,7 +989,7 @@
 }
 
 .header-v5 .style-list li a:hover {
-    color: #18ba9b;
+    color: #47b2b8;
     background: none;
     text-decoration: none;
 }

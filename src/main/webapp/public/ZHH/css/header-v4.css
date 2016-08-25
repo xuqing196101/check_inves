@@ -35,7 +35,9 @@
 	display: inline-block;
 	border-right: solid 1px #eee;
 }
-
+.header-v4 .topbar-v1 .top-v1-data li:hover{
+	background:#16888f;
+}
 .header-v4 .topbar-v1 .top-v1-data li:first-child {
 	margin-left: 0;
 	border-left: solid 0px #eee;
@@ -322,7 +324,7 @@
 		background-image: none;
 	}
 
-	.header-v4 .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+	.header-v4 .navbar-default .navbar-nav .open .dropdown-menu > li{
 		color: #777;
 	}
 
@@ -375,15 +377,14 @@
 	}
 
 	.header-v4 .navbar-default .navbar-nav > .active > a,
-	.header-v4 .navbar-default .navbar-nav > .active > a:hover,
+	.header-v4 .navbar-default .navbar-nav > .active > a:hover
 	.header-v4 .navbar-default .navbar-nav > .active > a:focus {
 		background-color: #2c9fa6;
 		color: #fff !important;
 	}
-
 	.header-v4 .dropdown .dropdown-submenu > a {
 		font-size: 13px;
-		color: #333 !important;
+		color: #ffffff;
 		text-transform: uppercase;
 	}
 }
@@ -430,11 +431,11 @@
 	.header-v4 .navbar-default .navbar-nav > .active > a {
 	}
 
-	.header-v4 .navbar-default .navbar-nav > li > a:hover,
-	.header-v4 .navbar-default .navbar-nav > li > a:focus,
-	.header-v4 .navbar-default .navbar-nav > .active > a,
-	.header-v4 .navbar-default .navbar-nav > .active > a:focus {
-	  background-color:#ffffff;
+	.header-v4 .navbar-default .navbar-nav > li >:hover,
+	.header-v4 .navbar-default .navbar-nav > li >:focus,
+	.header-v4 .navbar-default .navbar-nav > .active,
+	.header-v4 .navbar-default .navbar-nav > .active:focus {
+	  background-color:#16888f;
 		
 	}
 	.header-v4 .navbar-default .navbar-nav > .active > a,
@@ -465,7 +466,7 @@
 	}
 
 	.header-v4 .dropdown-menu li a {
-		color: #687074;
+		color: #fffffff;
 		font-size: 13px;
 		font-weight: 400;
 		padding: 6px 15px;
@@ -474,7 +475,7 @@
 
 	.header-v4 .dropdown-menu .active > a,
 	.header-v4 .dropdown-menu li > a:hover {
-		color: #fff;
+		color: #fff!important;
 		filter: none !important;
 		background: #687074 !important;
 		-webkit-transition: all 0.1s ease-in-out;
@@ -500,7 +501,7 @@
 	}
 
 	.dropdown-menu > li a.son-menu{
-		color:black !important;
+		color:#ffffff !important;
 	}
 	
 	/*Search*/
@@ -692,8 +693,9 @@
 }
 
 .header-v4 .mega-menu .dropdown-menu > li {
-  	display: block;
   	margin-left:0px;
+  	background:#16888f;
+  	
 }
 
 .header-v4 .mega-menu .dropdown-submenu .dropdown-menu {
@@ -733,7 +735,7 @@
 
 @media (min-width: 992px) {
 	.header-v4 .mega-menu .dropdown.mega-menu-fullwidth .dropdown-menu {
-  		margin: 0 15px;
+  		margin: 0 8px;
 	}
 }
 
