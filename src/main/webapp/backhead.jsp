@@ -50,7 +50,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/footer-v4.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/style(1).css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/masterslider.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/james.css" media="screen" rel="stylesheet">
     <script src="<%=basePath%>public/ZHH/js/hm.js"></script><script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>

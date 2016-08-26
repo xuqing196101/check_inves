@@ -607,7 +607,7 @@
     .header-v5 .dropdown-menu { 
         padding: 0;
         border: none;
-        min-width: 150px;
+        min-width: 100px;
         border-radius: 0;
         z-index: 9999 !important;
         border-top: solid 0px #18ba9b;

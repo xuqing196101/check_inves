@@ -345,6 +345,14 @@ function art_alert(msg){
     quickClose: true
   });
   d.show();
-}
+};
 
-;
+//三级菜单
+$(function(){$(".dropdown .dropdown-menu li").hover(
+        function(){
+        	$(this).find(".dropdown-menuson.dropdown-menu").css("display","block");
+         },
+   		function(){
+   			$(this).find(".dropdown-menuson.dropdown-menu").css("display","none");
+        });
+});

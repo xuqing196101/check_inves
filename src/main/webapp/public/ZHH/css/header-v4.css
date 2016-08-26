@@ -477,7 +477,7 @@
 	.header-v4 .dropdown-menu li > a:hover {
 		color: #fff!important;
 		filter: none !important;
-		background: #687074 !important;
+		background:none !important;
 		-webkit-transition: all 0.1s ease-in-out;
 		-moz-transition: all 0.1s ease-in-out;
 		-o-transition: all 0.1s ease-in-out;
@@ -695,6 +695,7 @@
 .header-v4 .mega-menu .dropdown-menu > li {
   	margin-left:0px;
   	background:#16888f;
+  	width:100px;
   	
 }
 
@@ -1022,3 +1023,25 @@
     background:url(../images/nav_icon.png) no-repeat 20px -221px;
     background-clip:border-box;
 }
+
+li.dropdown ul.dropdown-menu > li :hover > .dropdown-menuson
+li.dropdown ul.dropdown-menu > li :focus > .dropdown-menuson{
+	display: block !important;
+}
+
+li.dropdown ul.dropdown-menu > li > .dropdown-menuson{
+	position: absolute;
+    top: 0px;
+    left:100px;
+    font-size: 14px;
+    text-align: left;
+    list-style: none;
+    background-color: #16888F;
+    padding: 0;
+    border: none;
+    width: 100px;
+    z-index: 9999 !important;
+}
+
+
+.dropdown-menu > .line-block 
