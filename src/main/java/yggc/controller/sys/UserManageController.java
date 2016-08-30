@@ -28,7 +28,6 @@ import yggc.util.Encrypt;
 * @author yyyml
 * @date 2016-7-18上午9:36:56
 */
-@SuppressWarnings("deprecation")
 @Controller
 @Scope("prototype")
 @RequestMapping("/user")

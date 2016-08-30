@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import yggc.model.User;
 import yggc.service.UserServiceI;
-import yggc.util.Encrypt;
 
 /**
 * <p>Title:LoginController </p>
@@ -56,18 +55,40 @@ public class LoginController {
 		}
 	}
 	
+	/**   
+	* @Title: index
+	* @author yyyml
+	* @date 2016-8-30 下午3:01:15  
+	* @Description: 跳转后台首页
+	* @return String     
+	*/
 	@RequestMapping("/index")
 	public String index(){
 		
 		return "index";
 	}
 	
+	/**   
+	* @Title: home
+	* @author yyyml
+	* @date 2016-8-30 下午3:04:14  
+	* @Description: 后台默认内容
+	* @return String     
+	*/
 	@RequestMapping("/home")
 	public String home(){
 		
 		return "backend";
 	}
 	
+	/**   
+	* @Title: loginOut
+	* @author yyyml
+	* @date 2016-8-30 下午3:04:33  
+	* @Description: 退出登录 
+	* @param @param req
+	* @return String     
+	*/
 	@RequestMapping("/loginOut")
 	public String loginOut(HttpServletRequest req){
 		req.getSession().removeAttribute("loginUser");
