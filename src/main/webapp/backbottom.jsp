@@ -111,6 +111,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
 <body>
 <!--底部代码开始-->
+
+<script type="text/javascript" language="javascript">   
+function iFrameHeight() {   
+var ifm= document.getElementById("iframepage");   
+var subWeb = document.frames ? document.frames["iframepage"].document : ifm.contentDocument;   
+if(ifm != null && subWeb != null) {
+   ifm.height = subWeb.body.scrollHeight;
+   ifm.width = subWeb.body.scrollWidth;
+}   
+}   
+</script>
+<div>
+	<iframe frameborder="0" name="home" id="iframepage" scrolling="no" marginheight="0"  width="100%" onLoad="iFrameHeight()" src="<%=basePath%>login/home.do"></iframe>
+</div>
 <div class="footer-v2" id="footer-v2">
 
       <div class="footer">
