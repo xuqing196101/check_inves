@@ -156,10 +156,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				 	</a>
 					<ul class="dropdown-menu">
                    		<li class="line-block">
-                   			<a href="#" target="_blank" class="son-menu"><span class="mr5">◇</span>后台管理</a>
+                   			<a href="#" target="home" class="son-menu"><span class="mr5">◇</span>后台管理</a>
                    			<ul class="dropdown-menuson dropdown-menu">
                    				<li><a href="<%=basePath%>user/getAll.do" target="home" class="son-menu"><span class="mr5">◇</span>用户管理</a></li>
-                   				<li><a href="#" target="_blank" class="son-menu"><span class="mr5">◇</span>角色管理</a></li>
+                   				<li><a href="<%=basePath%>role/getAll.do" target="home" class="son-menu"><span class="mr5">◇</span>角色管理</a></li>
                    			</ul>
                    		</li>
                		</ul>
@@ -171,13 +171,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				 </a>
 				</li>
 			    <li>
-				<a href="#">
+				<a href="<%=basePath%>login/home.do" target="home">
 				  <div><img src="<%=basePath%>public/ZHH/images/top_07.png"/></div>
 				  <span>后台首页</span>
 				 </a>
 				</li>
 			    <li>
-				<a href="#">
+				<a href="<%=basePath%>login/loginOut.do">
 				  <div><img src="<%=basePath%>public/ZHH/images/top_08.png"/></div>
 				  <span>安全退出</span>
 				 </a>
