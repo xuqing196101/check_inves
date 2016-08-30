@@ -6,7 +6,8 @@ import yggc.model.Role;
 import yggc.model.Userrole;
 
 public interface RoleMapper {
-    int deleteByPrimaryKey(Integer id);
+    
+	int deleteByPrimaryKey(Integer id);
 
     int insert(Role record);
 
@@ -21,4 +22,6 @@ public interface RoleMapper {
     List<Role> queryByList(Role role);
 
 	void deleteRoelUser(Userrole userrole);
+
+	List<Role> selectRoleUser(Role r);
 }

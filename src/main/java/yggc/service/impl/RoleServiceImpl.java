@@ -48,5 +48,10 @@ public class RoleServiceImpl implements RoleServiceI {
 		roleMapper.deleteRoelUser(userrole);
 	}
 
+	@Override
+	public List<Role> selectRoleUser(Role r) {
+		return roleMapper.selectRoleUser(r);
+	}
+
 }
 

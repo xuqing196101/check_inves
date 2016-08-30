@@ -19,6 +19,7 @@ import yggc.model.User;
 import yggc.model.Userrole;
 import yggc.service.RoleServiceI;
 import yggc.service.UserServiceI;
+import yggc.util.Encrypt;
 
 /**
 * <p>Title:UserManageController </p>
@@ -27,6 +28,7 @@ import yggc.service.UserServiceI;
 * @author yyyml
 * @date 2016-7-18上午9:36:56
 */
+@SuppressWarnings("deprecation")
 @Controller
 @Scope("prototype")
 @RequestMapping("/user")
@@ -51,30 +53,10 @@ public class UserManageController{
 	*/
 	@RequestMapping("/getAll")
 	public String getAll(Model model){
-		List<User> users=userService.getAll();
+		List<User> users=userService.selectUserRole(null);
 		model.addAttribute("list", users);
 		logger.info(JSON.toJSONStringWithDateFormat(users, "yyyy-MM-dd HH:mm:ss"));
 		return "user/list";
-//		User user=new User();
-//		Role role=new Role();
-//		Userrole userrole=new Userrole();
-//		user.setLoginName("xiaosan");
-//		user.setCreatedAt(new Date());
-//		user.setPassword("123456");
-//		user.setIsDeleted(0);
-//		userService.save(user);
-//		
-//		
-//		role.setCreatedAt(new Date());
-//		role.setIsDeleted(0);
-//		role.setName("测试管理");
-//		roleService.save(role);
-//		
-//		userrole.setRoleId(role);
-//		userrole.setUserId(user);
-//		userService.saveRelativity(userrole);
-		
-		
 	}
 	
 	/**   
@@ -111,6 +93,8 @@ public class UserManageController{
 		}else{
 			
 		}
+		String psw=Encrypt.md5AndSha(user.getLoginName()+user.getPassword());
+		user.setPassword(psw);
 		userService.save(user);
 		
 		String[] roleIds=roleId.split(",");
@@ -136,7 +120,8 @@ public class UserManageController{
 	*/
 	@RequestMapping("/edit")
 	public String edit(User u,Model model){
-		User user=userService.selectUserRole(u.getId());
+		List<User> users=userService.selectUserRole(u);
+		User user=users.get(0);
 		logger.info(JSON.toJSONStringWithDateFormat(user, "yyyy-MM-dd HH:mm:ss"));
 		logger.info(JSON.toJSONStringWithDateFormat(user.getCreater(), "yyyy-MM-dd HH:mm:ss"));
 		List<Role> roles=roleService.getAll(null);
@@ -170,7 +155,8 @@ public class UserManageController{
 	*/
 	@RequestMapping("/update")
 	public String update(HttpServletRequest request,User user,String roleId){
-		User u=userService.selectUserRole(user.getId());
+		List<User> users=userService.selectUserRole(user);
+		User u=users.get(0);
 		//先删除之前的与角色的关联关系
 		List<Role> oldRole=u.getRoles();
 		for (Role role : oldRole) {
@@ -226,8 +212,8 @@ public class UserManageController{
 	*/
 	@RequestMapping("/view")
 	public String view(Model model,User user){
-		User u=userService.selectUserRole(user.getId());
-		model.addAttribute("user", u);
+		List<User> ulist=userService.selectUserRole(user);
+		model.addAttribute("user", ulist.get(0));
 		return "user/view";
 	}
 	

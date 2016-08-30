@@ -405,6 +405,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  <span class=" margin-left-20"><img src="<%=basePath%>public/ZHQ/images/yzm.jpg"/></span>
         </div>
        </div>
+       <font color="red">${msg }</font>
        <div class="control-group margin-top-22 clear">
         <div class="controls">
           <button class="btn" type="submit">登陆</button>

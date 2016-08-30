@@ -21,6 +21,7 @@
 	
 	
   </head>
+  <script src="<%=basePath%>public/layer/layer.js"></script>
   <script type="text/javascript">
   	/** 全选全不选 */
 	function selectAll(){
@@ -153,7 +154,16 @@
 				  <td class="tc">${vs.index+1}</td>
 				  <td class="tc" onclick="view(${user.id});">${user.loginName}</td>
 				  <td class="tc">${user.relName}</td>
-				  <td class="tc"><a href="#">管理员</a></td>
+				  <td class="tc">
+					<c:forEach items="${user.roles}" var="role" varStatus="vs">
+			     		<c:if test="${user.roles.size()>vs.index+1}">
+			     			${role.name},
+			     		</c:if>
+			     		<c:if test="${user.roles.size()<=vs.index+1}">
+			     			${role.name}
+			     		</c:if>
+			     	</c:forEach>
+				  </td>
 				  <td class="tc">总后勤部</td>
 				  <td class="tc">${user.phone}</td>
 			</tr>

@@ -11,7 +11,7 @@
     <result column="UPDATED_AT"  property="updatedAt" jdbcType="TIMESTAMP"/>
     <result column="PHONE"  property="phone" />
     <!-- 查询创建人 -->  
-    <association column="CREATER"  property="creater" select="queryById" />  
+    <association column="CREATER_ID"  property="creater" select="queryById" />  
   </resultMap>
   <resultMap type="yggc.model.User" id="userroleMap" extends="UserResultMap">  
     <!-- property: 指的是集合属性的值, ofType：指的是集合中元素的类型-->
@@ -29,7 +29,7 @@
   
   <!-- 表中所有列 -->
   <sql id="Base_Column_List" >
-   ID,LOGIN_NAME,PASSWORD,CREATED_AT,IS_DELETED,REL_NAME,UPDATED_AT,CREATER,PHONE
+   ID,LOGIN_NAME,PASSWORD,CREATED_AT,IS_DELETED,REL_NAME,UPDATED_AT,CREATER_ID,PHONE
   </sql>
 
   <!-- 查询条件 -->
@@ -40,22 +40,22 @@
         and ID = #{id}
       </if>
       <if test="loginName != null and loginName != ''">
-        and LOGIN_NAME like concat(concat('%', '${loginName}'), '%')
+        and LOGIN_NAME = #{loginName}
       </if>
       <if test="password != null and password != ''">
-        and PASSWORD like concat(concat('%', '${password}'), '%')
+        and PASSWORD = #{password}
       </if>
       <if test="createdAt != null">
         and CREATED_AT = #{createdAt}
       </if>
       <if test="relName != null and relName != ''">
-        and REL_NAME like concat(concat('%', '${relName}'), '%')
+        and REL_NAME = #{relName}
       </if>
       <if test="updatedAt != null">
         and UPDATED_AT = #{updatedAt}
       </if>
       <if test="creater != null">
-        and CREATER = #{creater.id}
+        and CREATER_ID = #{creater.id}
       </if>
       <if test="phone != null and phone != ''">
         and phone = #{phone}
@@ -68,7 +68,7 @@
      <selectKey resultType="int" order="BEFORE" keyProperty="id">
       select SEQ_T_USERS_ID.nextval as ID from dual
     </selectKey>
-    insert into T_SES_BMS_USERINFO(ID,LOGIN_NAME,PASSWORD,CREATED_AT,IS_DELETED,REL_NAME,UPDATED_AT,CREATER,PHONE) values(#{id},#{loginName},#{password},#{createdAt},#{isDeleted},#{relName},#{updatedAt},#{creater.id},#{phone})
+    insert into T_SES_BMS_USERINFO(ID,LOGIN_NAME,PASSWORD,CREATED_AT,IS_DELETED,REL_NAME,UPDATED_AT,CREATER_ID,PHONE) values(#{id},#{loginName},#{password},#{createdAt},#{isDeleted},#{relName},#{updatedAt},#{creater.id},#{phone})
   </insert> 
   <!-- 1.1新增记录(可插入null) -->
   <insert id="insertSelective" parameterType="yggc.model.User">
@@ -99,7 +99,7 @@
         UPDATED_AT,
       </if>
       <if test="creater != null">
-        CREATER,
+        CREATER_ID,
       </if>
       <if test="phone != null and phone !=''">
         PHONE,
@@ -137,7 +137,7 @@
   </insert>
   <!-- 2.根据id修改记录-->  
   <update id="update" parameterType="Object" >
-    update T_SES_BMS_USERINFO set LOGIN_NAME=#{loginName},PASSWORD=#{password},CREATED_AT=#{createdAt},IS_DELETED=#{isDeleted},REL_NAME=#{relName},UPDATED_AT=#{updatedAt},CREATER=#{creater.id},PHONE=#{phone}  where id=#{id}
+    update T_SES_BMS_USERINFO set LOGIN_NAME=#{loginName},PASSWORD=#{password},CREATED_AT=#{createdAt},IS_DELETED=#{isDeleted},REL_NAME=#{relName},UPDATED_AT=#{updatedAt},CREATER_ID=#{creater.id},PHONE=#{phone}  where id=#{id}
   </update>
 
   <!-- 3.只修改不为空的字段 -->
@@ -163,7 +163,7 @@
         UPDATED_AT=#{updatedAt},
       </if>
       <if test="creater != null">
-        CREATER=#{creater.id},
+        CREATER_ID=#{creater.id},
       </if>
       <if test="phone != null and phone != '' ">
         PHONE=#{phone,jdbcType=VARCHAR},
@@ -209,16 +209,37 @@
     <include refid="Example_Where_Clause"/>
     ORDER BY CREATED_AT DESC
   </select>
+  <!-- 9.登陆查询 -->
+  <select id="loginQuery" resultMap="UserResultMap" parameterType="Object">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_BMS_USERINFO u 
+    where u.IS_DELETED=0 
+    and u.LOGIN_NAME = #{loginName} 
+    and u.PASSWORD=#{password}
+  </select>
   
-  <!-- 根据user表中的id查询用户和角色信息 -->  
+  <!-- 10.根据user表中的id查询用户和角色信息 -->  
   <select id="selectUserRole" parameterType="Object"  
       resultMap="userroleMap">  
-      select u.*,r.ID as roleId,r.NAME as roleName,r.CREATED_AT as roleCreatedAt,r.DESCRIBE as describe,r.IS_DELETED as roleIsDeleted  from T_SES_BMS_USERINFO u left join T_SES_BMS_USERROLE ur on u.ID=ur."user_id"  
-      left join T_SES_BMS_ROLEMAN r on ur."role_id"=r.ID where u.ID = #{id}  
+      select 
+      u.*,
+      r.ID as roleId,r.NAME as roleName,r.CREATED_AT as roleCreatedAt,r.DESCRIBE as describe,r.IS_DELETED as roleIsDeleted 
+      from 
+      T_SES_BMS_USERINFO u left join T_SES_BMS_USERROLE ur 
+      on u.ID=ur."USER_ID"  
+      left join T_SES_BMS_ROLEMAN r 
+      on ur."ROLE_ID"=r.ID
+      where 
+      u.IS_DELETED=0 
+      <if test="id!= null">
+        and u.ID = #{id}  
+      </if> 
+      ORDER BY u.CREATED_AT DESC
   </select>  
   <!-- 保存用户和角色之间的关系信息 -->  
   <insert id="saveRelativity" parameterType="Object">  
-      insert into T_SES_BMS_USERROLE("user_id","role_id")  
+      insert into T_SES_BMS_USERROLE("USER_ID","ROLE_ID")  
       values(#{userId.id},#{roleId.id})  
   </insert>
   

@@ -15,6 +15,8 @@ public class Role {
     private Integer isDeleted;
     
     private List<User> users;
+    
+    private List<PreMenu> preMenus;
 
     public List<User> getUsers() {
 		return users;
@@ -63,4 +65,13 @@ public class Role {
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
     }
+
+	public List<PreMenu> getPreMenus() {
+		return preMenus;
+	}
+
+	public void setPreMenus(List<PreMenu> preMenus) {
+		this.preMenus = preMenus;
+	}
+    
 }

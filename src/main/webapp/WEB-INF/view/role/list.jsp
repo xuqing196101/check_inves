@@ -1,17 +1,14 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
+<%@ include file="../common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
     <base href="<%=basePath%>">
     
-    <title>角色管理</title>
+    <title>用户管理</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -21,39 +18,146 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-
+	
+	
   </head>
+  <script src="<%=basePath%>public/layer/layer.js"></script>
   <script type="text/javascript">
+  	/** 全选全不选 */
+	function selectAll(){
+		 var checklist = document.getElementsByName ("chkItem");
+		 var checkAll = document.getElementById("checkAll");
+		   if(checkAll.checked){
+			   for(var i=0;i<checklist.length;i++)
+			   {
+			      checklist[i].checked = true;
+			   } 
+			 }else{
+			  for(var j=0;j<checklist.length;j++)
+			  {
+			     checklist[j].checked = false;
+			  }
+		 	}
+		}
+	
+	/** 单选 */
+	function check(){
+		 var count=0;
+		 var checklist = document.getElementsByName ("chkItem");
+		 var checkAll = document.getElementById("checkAll");
+		 for(var i=0;i<checklist.length;i++){
+			   if(checklist[i].checked == false){
+				   checkAll.checked = false;
+				   break;
+			   }
+			   for(var j=0;j<checklist.length;j++){
+					 if(checklist[j].checked == true){
+						   checkAll.checked = true;
+						   count++;
+					   }
+				 }
+		   }
+	}
   	function view(id){
   		window.location.href="<%=basePath%>role/view.do?id="+id;
   	}
-  
+    function edit(){
+    	var id=[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			id.push($(this).val());
+		}); 
+		if(id.length==1){
+			
+			window.location.href="<%=basePath%>role/edit.do?id="+id;
+		}else if(id.length>1){
+			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+		}else{
+			layer.alert("请选择需要修改的用户",{offset: ['222px', '390px'], shade:0.01});
+		}
+    }
+    function del(){
+    	var ids =[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			ids.push($(this).val()); 
+		}); 
+		if(ids.length>0){
+			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+				layer.close(index);
+				window.location.href="<%=basePath%>role/delete.do?ids="+ids;
+			});
+		}else{
+			layer.alert("请选择要删除的用户",{offset: ['222px', '390px'], shade:0.01});
+		}
+    }
+    function add(){
+    	window.location.href="<%=basePath%>role/toAdd.do";
+    }
   </script>
   <body>
-  	<div >
-		<a href="<%=basePath%>role/toAdd.do">新增</a>
+	<!--面包屑导航开始-->
+   <div class="margin-top-10 breadcrumbs ">
+      <div class="container">
+		   <ul class="breadcrumb margin-left-0">
+		   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">后台管理</a></li><li class="active"><a href="#">角色管理</a></li>
+		   </ul>
+		<div class="clear"></div>
+	  </div>
+   </div>
+   <div class="container">
+	   <div class="headline-v2">
+	   		<h2>角色管理</h2>
+	   </div>
+   </div>
+<!-- 表格开始-->
+   <div class="container">
+   <div class="col-md-8">
+    <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
+	<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
+	<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
 	</div>
-    <table >
+            <div class="col-md-4 ">
+              <div class="search-block-v2">
+                <div class="">
+                  <form accept-charset="UTF-8" action="" method="get"><div style="display:none"><input name="utf8" value="✓" type="hidden"></div>
+                    <input id="t" name="t" value="search_products" type="hidden">
+                    <div class="col-md-12 pull-right">
+                      <div class="input-group">
+                        <input class="form-control bgnone h37 p0_10" id="k" name="k" placeholder="" type="text">
+                        <span class="input-group-btn">
+                          <input class="btn-u" name="commit" value="搜索" type="submit">
+                        </span>
+                      </div>
+                    </div>
+                  </form>               
+			   </div>
+              </div>
+            </div>	
+    </div>
+   
+   <div class="container margin-top-5">
+     <div class="content padding-left-25 padding-right-25 padding-top-5">
+        <table class="table table-bordered table-condensed">
 		<thead>
-			<tr>
-			    <th >id</th>
-				<th >角色名</th>
-				<th >创建时间</th>
-			</tr>
+		<tr>
+		  <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
+		  <th class="info w50">序号</th>
+		  <th class="info">名称</th>
+		  <th class="info">用户数</th>
+		  <th class="info">描述</th>
+		</tr>
 		</thead>
 		<c:forEach items="${list}" var="role" varStatus="vs">
 			<tr>
-				<td >${role.id }</td>
-				<td onclick="view(${role.id});">${role.name}</td>
-				<td >
-					<fmt:formatDate value="${role.createdAt}" pattern="yyyy年MM月dd日   HH:mm:ss"/>
-				</td>
-				<td>
-					<a href="<%=basePath%>role/edit.do?id=${role.id}">修改</a>
-					<a href="<%=basePath%>role/delete.do?id=${role.id}">删除</a>
-				</td>
+				  <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${role.id}" /></td>
+				  <td class="tc">${vs.index+1}</td>
+				  <td class="tc" onclick="view(${role.id});">${role.name}</td>
+				  <td class="tc">${role.users.size()}</td>
+				  <td class="tc">${role.describe}</td>
 			</tr>
 		</c:forEach>
-	</table>
+        </table>
+     </div>
+   
+   </div>
   </body>
 </html>

@@ -18,4 +18,6 @@ public interface RoleServiceI {
 	void delete(Integer id);
 
 	void deleteRoelUser(Userrole userrole);
+
+	List<Role> selectRoleUser(Role r);
 }

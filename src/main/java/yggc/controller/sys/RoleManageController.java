@@ -34,7 +34,7 @@ public class RoleManageController {
 	
 	@RequestMapping("/getAll")
 	public String getAll(Model model){
-		List<Role> roles=roleService.getAll(null);
+		List<Role> roles=roleService.selectRoleUser(null);
 		model.addAttribute("list", roles);
 		logger.info(JSON.toJSONStringWithDateFormat(roles, "yyyy-MM-dd HH:mm:ss"));
 		return "role/list";

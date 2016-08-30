@@ -7,47 +7,83 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>zhbj</name>
   <url>http://maven.apache.org</url>
+  <properties>  
+        <springsecurity.version>4.1.2.RELEASE</springsecurity.version>  
+        <spring.version>3.2.0.RELEASE</spring.version>  
+    </properties>
   <dependencies>
     	<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
-			<version>3.2.0.RELEASE</version>
+			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<version>3.2.0.RELEASE</version>
+			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
-			<version>3.2.0.RELEASE</version>
+			<version>${spring.version}</version>
 		</dependency>
-		<!-- <dependency>
+		<dependency>  
+          <groupId>org.springframework</groupId>  
+          <artifactId>spring-aop</artifactId>  
+          <version>${spring.version}</version>  
+       </dependency>  
+		<dependency>
 		    <groupId>org.springframework.security</groupId>
 		    <artifactId>spring-security-acl</artifactId>
-		    <version>4.1.2.RELEASE</version>
+		    <version>${springsecurity.version}</version>
+		    <exclusions>  
+                <exclusion>  
+                    <groupId>org.springframework</groupId>  
+                    <artifactId>spring-core</artifactId>  
+                </exclusion>  
+                <exclusion>  
+                    <groupId>org.springframework</groupId>  
+                    <artifactId>spring-aop</artifactId>  
+                </exclusion>  
+                <exclusion>  
+                    <groupId>org.springframework</groupId>  
+                    <artifactId>spring-asm</artifactId>  
+                </exclusion>  
+                <exclusion>  
+                    <groupId>org.springframework</groupId>  
+                    <artifactId>spring-context</artifactId>  
+                </exclusion>  
+                <exclusion>  
+                    <groupId>org.springframework</groupId>  
+                    <artifactId>spring-jdbc</artifactId>  
+                </exclusion>  
+                <exclusion>  
+                    <groupId>org.springframework</groupId>  
+                    <artifactId>spring-tx</artifactId>  
+                </exclusion>
+            </exclusions>
 		</dependency>
 		<dependency>
 		    <groupId>org.springframework.security</groupId>
 		    <artifactId>spring-security-config</artifactId>
-		    <version>4.1.2.RELEASE</version>
+		    <version>${springsecurity.version}</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.springframework.security</groupId>
 		    <artifactId>spring-security-core</artifactId>
-		    <version>4.1.2.RELEASE</version>
+		    <version>${springsecurity.version}</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.springframework.security</groupId>
 		    <artifactId>spring-security-taglibs</artifactId>
-		    <version>4.1.2.RELEASE</version>
+		    <version>${springsecurity.version}</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.springframework.security</groupId>
 		    <artifactId>spring-security-web</artifactId>
-		    <version>4.1.2.RELEASE</version>
-		</dependency> -->
+		    <version>${springsecurity.version}</version>
+		     
+		</dependency>
 		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis</artifactId>

@@ -85,6 +85,6 @@ public interface UserServiceI {
 
 	public void saveRelativity(Userrole userrole);
 
-	public User selectUserRole(Integer id);
+	public List<User> selectUserRole(User user);
 
 }

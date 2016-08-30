@@ -72,6 +72,8 @@ public interface UserMapper {
 
 	void saveRelativity(Userrole userrole);
 
-	User selectUserRole(Integer id);
+	List<User> selectUserRole(User u);
+
+	List<User> loginQuery(User user);
 
 }

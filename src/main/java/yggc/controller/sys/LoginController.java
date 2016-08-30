@@ -6,10 +6,12 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import yggc.model.User;
 import yggc.service.UserServiceI;
+import yggc.util.Encrypt;
 
 /**
 * <p>Title:LoginController </p>
@@ -37,16 +39,39 @@ public class LoginController {
 	* @return String     
 	*/
 	@RequestMapping("/login")
-	public String login(User user,HttpServletRequest req) {
-		User u = userService.getUserByLogin(user);
-		if(u!=null){
-			req.getSession().setAttribute("loginUser", u);
-			logger.info("登录成功");
+	public String login(User user,HttpServletRequest req,Model model) {
+		if(!"".equals(user.getPassword()) && user.getLoginName()!=null && !"".equals(user.getPassword()) && user.getPassword()!=null){
+			User u = userService.getUserByLogin(user);
+			if(u!=null){
+				req.getSession().setAttribute("loginUser", u);
+				logger.info("登录成功");
+				return "redirect:index.do";
+			}else{
+				logger.error("验证失败");
+				return "redirect:/";
+			}
 		}else{
-			logger.error("验证失败");
-			return "error";
+			logger.error("请输入用户名或密码");
+			return "redirect:/";
 		}
+	}
+	
+	@RequestMapping("/index")
+	public String index(){
+		
+		return "index";
+	}
+	
+	@RequestMapping("/home")
+	public String home(){
+		
 		return "backend";
+	}
+	
+	@RequestMapping("/loginOut")
+	public String loginOut(HttpServletRequest req){
+		req.getSession().removeAttribute("loginUser");
+		return "redirect:/";
 	}
 	
 }

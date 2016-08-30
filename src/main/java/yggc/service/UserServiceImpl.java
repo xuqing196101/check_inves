@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import yggc.dao.UserMapper;
 import yggc.model.User;
 import yggc.model.Userrole;
+import yggc.util.Encrypt;
 
 /**
 * <p>Title:UserServiceImpl </p>
@@ -42,8 +43,15 @@ public class UserServiceImpl implements UserServiceI {
 
 	@Override
 	public User getUserByLogin(User user) {
-		User u=userMapper.queryByList(user).get(0);
-		return u;
+		String psw=Encrypt.md5AndSha(user.getLoginName()+user.getPassword());
+		user.setPassword(psw);
+		List<User> ulist=userMapper.loginQuery(user);
+		if(ulist.size()>0){
+			User u=ulist.get(0);
+			return u;
+		}else{
+			return null;
+		}
 	}
 
 	@Override
@@ -69,8 +77,8 @@ public class UserServiceImpl implements UserServiceI {
 	}
 
 	@Override
-	public User selectUserRole(Integer id) {
-		return userMapper.selectUserRole(id);
+	public List<User> selectUserRole(User user) {
+		return userMapper.selectUserRole(user);
 	}
 
 }

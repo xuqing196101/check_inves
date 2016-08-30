@@ -8,6 +8,18 @@
     <result column="DESCRIBE" jdbcType="VARCHAR" property="describe" />
     <result column="IS_DELETED" property="isDeleted" />
   </resultMap>
+    <resultMap id="UserResultMap" type="yggc.model.User">
+    <result column="ID"  property="id" />
+    <result column="LOGIN_NAME"  property="loginName" />
+    <result column="PASSWORD"  property="password" />
+    <result column="CREATED_AT"  property="createdAt" jdbcType="TIMESTAMP"/>
+    <result column="IS_DELETED"  property="isDeleted" />
+    <result column="REL_NAME"  property="relName" />
+    <result column="UPDATED_AT"  property="updatedAt" jdbcType="TIMESTAMP"/>
+    <result column="PHONE"  property="phone" />
+    <!-- 查询创建人 -->  
+    <association column="CREATER_ID"  property="creater" select="queryById" />  
+  </resultMap>
   <resultMap type="yggc.model.Role" id="roleUserMap" extends="RoleResultMap">  
     <collection property="users" ofType="yggc.model.User">  
         <result column="userId"  property="id" />
@@ -18,8 +30,8 @@
 	    <result column="relName"  property="relName" />
 	    <result column="userUpdatedAt"  property="updatedAt" jdbcType="TIMESTAMP"/>
 	    <result column="phone"  property="phone" />
-	    <!-- 查询创建人 -->  
-	    <association column="creater"  property="creater" select="queryById" /> 
+	    <!-- 查询创建人 -->
+	    <association column="creater"  property="creater" select="queryById" />   
     </collection>  
   </resultMap> 
   <!-- 所有列表 -->
@@ -134,30 +146,36 @@
     from T_SES_BMS_ROLEMAN 
     <include refid="Example_Where_Clause"/>
   </select>
-  
+  <select id="queryById" resultMap="UserResultMap" parameterType="Object">
+    select 
+    * 
+    from T_SES_BMS_USERINFO where ID = #{id}
+  </select>
   <!-- 根据T_SES_BMS_ROLEMAN表中的id或name查询角色信息和角色内用户信息 -->  
-   <select id="selectRoleUser" parameterType="Object"  
-       resultMap="roleUserMap">  
-       select u.*, r.id as loginName,r.loginName as,r.password as password,r.createdAt as userCreatedAt,r.isDeleted a userIsDeleted
-       r.relName as relName,r.updatedAt as userUpdatedAt,r.phone as phone,r.creater as creater 
-       from T_SES_BMS_ROLEMAN r left  
-       join T_SES_BMS_USERROLE ur on r.ID=ur."role_id" left join T_SES_BMS_USERINFO u on  
-       ur."user_id"=u.ID  
-       <where>  
-           <!--当id为初始值0，不再使用id作为查询条件 -->  
-           <if test="id != 0  ">r.ID=#{id}</if>  
-           <!-- 当name为空或为空串时，不再使用name作为查询条件 -->  
-           <if test="name != null and name != ''">  
-               or r.NAME = #{name}  
-           </if>  
-       </where>  
+   <select id="selectRoleUser" parameterType="Object"
+       resultMap="roleUserMap"> 
+       select 
+       r.*, 
+       u.ID as userId,u.LOGIN_NAME as loginName,u.PASSWORD as password,u.CREATED_AT as userCreatedAt,u.IS_DELETED as userIsDeleted,
+       u.REL_NAME as relName,u.UPDATED_AT as userUpdatedAt,u.PHONE as phone,u.CREATER_ID as creater
+       from 
+       T_SES_BMS_ROLEMAN r left join 
+       T_SES_BMS_USERROLE ur 
+       on r.ID=ur."ROLE_ID" left join T_SES_BMS_USERINFO u 
+       on ur."USER_ID"=u.ID  
+       where 
+       r.IS_DELETED=0 
+       <if test="id!= null"> 
+       and r.ID=#{id}  
+       </if>  
+       ORDER BY r.CREATED_AT DESC
    </select>
    <!-- 删除角色与角色内成员之间的对应关系 -->  
     <delete id="deleteRoelUser" parameterType="Object">  
         delete from T_SES_BMS_USERROLE  
         <where>  
-            <if test="userId.id != 0">"user_id" = #{userId.id}</if>  
-            <if test="userId.id != 0">and "role_id" = #{roleId.id}</if>  
+            <if test="userId.id != 0">"USER_ID" = #{userId.id}</if>  
+            <if test="userId.id != 0">and "ROLE_ID" = #{roleId.id}</if>  
         </where>  
     </delete>  
   
