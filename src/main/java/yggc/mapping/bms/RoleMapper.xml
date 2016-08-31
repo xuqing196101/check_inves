@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="yggc.dao.bms.RoleMapper">
+  <resultMap id="RoleResultMap" type="yggc.model.bms.Role">
+    <id column="ID"  property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="DESCRIBE" jdbcType="VARCHAR" property="describe" />
+    <result column="IS_DELETED" property="isDeleted" />
+  </resultMap>
+    <resultMap id="UserResultMap" type="yggc.model.bms.User">
+    <result column="ID"  property="id" />
+    <result column="LOGIN_NAME"  property="loginName" />
+    <result column="PASSWORD"  property="password" />
+    <result column="CREATED_AT"  property="createdAt" jdbcType="TIMESTAMP"/>
+    <result column="IS_DELETED"  property="isDeleted" />
+    <result column="REL_NAME"  property="relName" />
+    <result column="UPDATED_AT"  property="updatedAt" jdbcType="TIMESTAMP"/>
+    <result column="PHONE"  property="phone" />
+    <!-- 查询创建人 -->  
+    <association column="CREATER_ID"  property="creater" select="queryById" />  
+  </resultMap>
+  <resultMap type="yggc.model.bms.Role" id="roleUserMap" extends="RoleResultMap">  
+    <collection property="users" ofType="yggc.model.bms.User">  
+        <result column="userId"  property="id" />
+	    <result column="loginName"  property="loginName" />
+	    <result column="password"  property="password" />
+	    <result column="userCreatedAt"  property="createdAt" jdbcType="TIMESTAMP"/>
+	    <result column="userIsDeleted"  property="isDeleted" />
+	    <result column="relName"  property="relName" />
+	    <result column="userUpdatedAt"  property="updatedAt" jdbcType="TIMESTAMP"/>
+	    <result column="phone"  property="phone" />
+	    <!-- 查询创建人 -->
+	    <association column="creater"  property="creater" select="queryById" />   
+    </collection>  
+  </resultMap> 
+  <!-- 所有列表 -->
+  <sql id="Base_Column_List">
+    ID, NAME, CREATED_AT, DESCRIBE, IS_DELETED
+  </sql>
+  <!-- 查询条件 -->
+  <sql id="Example_Where_Clause">
+    where IS_DELETED=0
+    <trim suffixOverrides=",">
+      <if test="id!= null">
+        and ID = #{id}
+      </if>
+      <if test="name != null and name !=''">
+        and Name like concat(concat('%', '${name}'), '%')
+      </if>
+      <if test="createdAt != null">
+        and CREATED_AT = #{createdAt}
+      </if>
+      <if test="describe != null and describe !=''">
+        and DESCRIBE like concat(concat('%', '${describe}'), '%')
+      </if>
+    </trim>
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="RoleResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_BMS_ROLEMAN
+    where ID = #{id}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from T_SES_BMS_ROLEMAN
+    where ID = #{id}
+  </delete>
+  <insert id="insert" parameterType="yggc.model.bms.Role">
+    <selectKey resultType="java.lang.Integer" order="BEFORE" keyProperty="id">
+      select SEQ_T_ROLES_ID.nextval as ID from dual
+    </selectKey>
+    insert into T_SES_BMS_ROLEMAN (ID, NAME, CREATED_AT, 
+      DESCRIBE, IS_DELETED)
+    values (#{id}, #{name}, #{createdAt,jdbcType=TIMESTAMP},#{describe}, #{isDeleted})
+  </insert>
+  <insert id="insertSelective" parameterType="yggc.model.bms.Role">
+    <selectKey resultType="java.lang.Integer" order="BEFORE" keyProperty="id">
+      select SEQ_T_ROLES_ID.nextval as ID from dual
+    </selectKey>
+    insert into T_SES_BMS_ROLEMAN
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null and name !=''">
+        NAME,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="describe != null and describe !=''">
+        DESCRIBE,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="name != null and name !=''">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="describe != null and describe !=''">
+        #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="yggc.model.bms.Role">
+    update T_SES_BMS_ROLEMAN
+    <set>
+      <if test="name != null and name !=''">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="describe != null and describe !=''">
+        DESCRIBE = #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted},
+      </if>
+    </set>
+    where ID = #{id}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="yggc.model.bms.Role">
+    update T_SES_BMS_ROLEMAN
+    set NAME = #{name},
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      DESCRIBE = #{describe,jdbcType=VARCHAR},
+      IS_DELETED = #{isDeleted,jdbcType=DECIMAL}
+    where ID = #{id}
+  </update>
+  <select id="queryByList" resultMap="RoleResultMap" parameterType="Object">
+    select
+    <include refid="Base_Column_List" />
+    from T_SES_BMS_ROLEMAN 
+    <include refid="Example_Where_Clause"/>
+  </select>
+  <select id="queryById" resultMap="UserResultMap" parameterType="Object">
+    select 
+    * 
+    from T_SES_BMS_USERINFO where ID = #{id}
+  </select>
+  <!-- 根据T_SES_BMS_ROLEMAN表中的id或name查询角色信息和角色内用户信息 -->  
+   <select id="selectRoleUser" parameterType="Object"
+       resultMap="roleUserMap"> 
+       select 
+       r.*, 
+       u.ID as userId,u.LOGIN_NAME as loginName,u.PASSWORD as password,u.CREATED_AT as userCreatedAt,u.IS_DELETED as userIsDeleted,
+       u.REL_NAME as relName,u.UPDATED_AT as userUpdatedAt,u.PHONE as phone,u.CREATER_ID as creater
+       from 
+       T_SES_BMS_ROLEMAN r left join 
+       T_SES_BMS_USERROLE ur 
+       on r.ID=ur."ROLE_ID" left join T_SES_BMS_USERINFO u 
+       on ur."USER_ID"=u.ID  
+       where 
+       r.IS_DELETED=0 
+       <if test="id!= null"> 
+       and r.ID=#{id}  
+       </if>  
+       ORDER BY r.CREATED_AT DESC
+   </select>
+   <!-- 删除角色与角色内成员之间的对应关系 -->  
+    <delete id="deleteRoelUser" parameterType="Object">  
+        delete from T_SES_BMS_USERROLE  
+        <where>  
+            <if test="userId.id != 0">"USER_ID" = #{userId.id}</if>  
+            <if test="userId.id != 0">and "ROLE_ID" = #{roleId.id}</if>  
+        </where>  
+    </delete>  
+  
+</mapper>

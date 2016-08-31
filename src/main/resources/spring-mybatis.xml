@@ -57,11 +57,11 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<!-- 自动扫描entity目录, 省掉Configuration.xml里的手工配置 -->
-		<property name="mapperLocations" value="classpath:yggc/mapping/*.xml" />
+		<property name="mapperLocations" value="classpath:yggc/mapping/*/*.xml" />
 	</bean>
 
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="yggc.dao" />
+		<property name="basePackage" value="yggc.dao.*" />
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
 	</bean>
 
