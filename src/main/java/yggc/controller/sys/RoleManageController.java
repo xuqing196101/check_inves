@@ -120,4 +120,10 @@ public class RoleManageController {
 		roleService.delete(r.getId());
 		return "redirect:getAll.do";
 	}
+	
+	@RequestMapping("/openPreMenu")
+	public String openPreMenu(Model model,Integer id){
+		
+		return "role/addPreMenu";
+	}
 }

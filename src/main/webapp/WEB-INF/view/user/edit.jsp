@@ -285,6 +285,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div  class="col-md-12">
    	<div class="fl padding-10">
     	<button class="btn btn-windows reset" type="submit">更新</button>
+    	<button class="btn btn-windows git" onclick="history.go(-1)" type="button">返回</button>
 	</div>
   </div>
   </form>
