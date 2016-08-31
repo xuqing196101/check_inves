@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="yggc.dao.SupplierCertEngMapper">
+  <resultMap id="BaseResultMap" type="yggc.model.SupplierCertEng">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="MAT_ENG_ID" jdbcType="DECIMAL" property="matEngId" />
+    <result column="CERT_TYPE" jdbcType="VARCHAR" property="certType" />
+    <result column="CERT_CODE" jdbcType="VARCHAR" property="certCode" />
+    <result column="CERT_MAX_LEVEL" jdbcType="VARCHAR" property="certMaxLevel" />
+    <result column="TECH_NAME" jdbcType="VARCHAR" property="techName" />
+    <result column="TECH_PT" jdbcType="VARCHAR" property="techPt" />
+    <result column="TECH_JOP" jdbcType="VARCHAR" property="techJop" />
+    <result column="DEP_NAME" jdbcType="VARCHAR" property="depName" />
+    <result column="DEP_PT" jdbcType="VARCHAR" property="depPt" />
+    <result column="DEP_JOP" jdbcType="VARCHAR" property="depJop" />
+    <result column="LICENCE_AUTHORITH" jdbcType="VARCHAR" property="licenceAuthorith" />
+    <result column="EXP_START_DATE" jdbcType="DATE" property="expStartDate" />
+    <result column="EXP_END_DATE" jdbcType="DATE" property="expEndDate" />
+    <result column="CERT_STATUS" jdbcType="DECIMAL" property="certStatus" />
+    <result column="ATTACH_CERT" jdbcType="VARCHAR" property="attachCert" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, MAT_ENG_ID, CERT_TYPE, CERT_CODE, CERT_MAX_LEVEL, TECH_NAME, TECH_PT, TECH_JOP, 
+    DEP_NAME, DEP_PT, DEP_JOP, LICENCE_AUTHORITH, EXP_START_DATE, EXP_END_DATE, CERT_STATUS, 
+    ATTACH_CERT
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_SUPPLIER_CERT_ENG
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from T_SES_SMS_SUPPLIER_CERT_ENG
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="yggc.model.SupplierCertEng">
+    insert into T_SES_SMS_SUPPLIER_CERT_ENG (ID, MAT_ENG_ID, CERT_TYPE, 
+      CERT_CODE, CERT_MAX_LEVEL, TECH_NAME, 
+      TECH_PT, TECH_JOP, DEP_NAME, 
+      DEP_PT, DEP_JOP, LICENCE_AUTHORITH, 
+      EXP_START_DATE, EXP_END_DATE, CERT_STATUS, 
+      ATTACH_CERT)
+    values (#{id,jdbcType=DECIMAL}, #{matEngId,jdbcType=DECIMAL}, #{certType,jdbcType=VARCHAR}, 
+      #{certCode,jdbcType=VARCHAR}, #{certMaxLevel,jdbcType=VARCHAR}, #{techName,jdbcType=VARCHAR}, 
+      #{techPt,jdbcType=VARCHAR}, #{techJop,jdbcType=VARCHAR}, #{depName,jdbcType=VARCHAR}, 
+      #{depPt,jdbcType=VARCHAR}, #{depJop,jdbcType=VARCHAR}, #{licenceAuthorith,jdbcType=VARCHAR}, 
+      #{expStartDate,jdbcType=DATE}, #{expEndDate,jdbcType=DATE}, #{certStatus,jdbcType=DECIMAL}, 
+      #{attachCert,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="yggc.model.SupplierCertEng">
+    insert into T_SES_SMS_SUPPLIER_CERT_ENG
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="matEngId != null">
+        MAT_ENG_ID,
+      </if>
+      <if test="certType != null">
+        CERT_TYPE,
+      </if>
+      <if test="certCode != null">
+        CERT_CODE,
+      </if>
+      <if test="certMaxLevel != null">
+        CERT_MAX_LEVEL,
+      </if>
+      <if test="techName != null">
+        TECH_NAME,
+      </if>
+      <if test="techPt != null">
+        TECH_PT,
+      </if>
+      <if test="techJop != null">
+        TECH_JOP,
+      </if>
+      <if test="depName != null">
+        DEP_NAME,
+      </if>
+      <if test="depPt != null">
+        DEP_PT,
+      </if>
+      <if test="depJop != null">
+        DEP_JOP,
+      </if>
+      <if test="licenceAuthorith != null">
+        LICENCE_AUTHORITH,
+      </if>
+      <if test="expStartDate != null">
+        EXP_START_DATE,
+      </if>
+      <if test="expEndDate != null">
+        EXP_END_DATE,
+      </if>
+      <if test="certStatus != null">
+        CERT_STATUS,
+      </if>
+      <if test="attachCert != null">
+        ATTACH_CERT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="matEngId != null">
+        #{matEngId,jdbcType=DECIMAL},
+      </if>
+      <if test="certType != null">
+        #{certType,jdbcType=VARCHAR},
+      </if>
+      <if test="certCode != null">
+        #{certCode,jdbcType=VARCHAR},
+      </if>
+      <if test="certMaxLevel != null">
+        #{certMaxLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="techName != null">
+        #{techName,jdbcType=VARCHAR},
+      </if>
+      <if test="techPt != null">
+        #{techPt,jdbcType=VARCHAR},
+      </if>
+      <if test="techJop != null">
+        #{techJop,jdbcType=VARCHAR},
+      </if>
+      <if test="depName != null">
+        #{depName,jdbcType=VARCHAR},
+      </if>
+      <if test="depPt != null">
+        #{depPt,jdbcType=VARCHAR},
+      </if>
+      <if test="depJop != null">
+        #{depJop,jdbcType=VARCHAR},
+      </if>
+      <if test="licenceAuthorith != null">
+        #{licenceAuthorith,jdbcType=VARCHAR},
+      </if>
+      <if test="expStartDate != null">
+        #{expStartDate,jdbcType=DATE},
+      </if>
+      <if test="expEndDate != null">
+        #{expEndDate,jdbcType=DATE},
+      </if>
+      <if test="certStatus != null">
+        #{certStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="attachCert != null">
+        #{attachCert,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="yggc.model.SupplierCertEng">
+    update T_SES_SMS_SUPPLIER_CERT_ENG
+    <set>
+      <if test="matEngId != null">
+        MAT_ENG_ID = #{matEngId,jdbcType=DECIMAL},
+      </if>
+      <if test="certType != null">
+        CERT_TYPE = #{certType,jdbcType=VARCHAR},
+      </if>
+      <if test="certCode != null">
+        CERT_CODE = #{certCode,jdbcType=VARCHAR},
+      </if>
+      <if test="certMaxLevel != null">
+        CERT_MAX_LEVEL = #{certMaxLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="techName != null">
+        TECH_NAME = #{techName,jdbcType=VARCHAR},
+      </if>
+      <if test="techPt != null">
+        TECH_PT = #{techPt,jdbcType=VARCHAR},
+      </if>
+      <if test="techJop != null">
+        TECH_JOP = #{techJop,jdbcType=VARCHAR},
+      </if>
+      <if test="depName != null">
+        DEP_NAME = #{depName,jdbcType=VARCHAR},
+      </if>
+      <if test="depPt != null">
+        DEP_PT = #{depPt,jdbcType=VARCHAR},
+      </if>
+      <if test="depJop != null">
+        DEP_JOP = #{depJop,jdbcType=VARCHAR},
+      </if>
+      <if test="licenceAuthorith != null">
+        LICENCE_AUTHORITH = #{licenceAuthorith,jdbcType=VARCHAR},
+      </if>
+      <if test="expStartDate != null">
+        EXP_START_DATE = #{expStartDate,jdbcType=DATE},
+      </if>
+      <if test="expEndDate != null">
+        EXP_END_DATE = #{expEndDate,jdbcType=DATE},
+      </if>
+      <if test="certStatus != null">
+        CERT_STATUS = #{certStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="attachCert != null">
+        ATTACH_CERT = #{attachCert,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="yggc.model.SupplierCertEng">
+    update T_SES_SMS_SUPPLIER_CERT_ENG
+    set MAT_ENG_ID = #{matEngId,jdbcType=DECIMAL},
+      CERT_TYPE = #{certType,jdbcType=VARCHAR},
+      CERT_CODE = #{certCode,jdbcType=VARCHAR},
+      CERT_MAX_LEVEL = #{certMaxLevel,jdbcType=VARCHAR},
+      TECH_NAME = #{techName,jdbcType=VARCHAR},
+      TECH_PT = #{techPt,jdbcType=VARCHAR},
+      TECH_JOP = #{techJop,jdbcType=VARCHAR},
+      DEP_NAME = #{depName,jdbcType=VARCHAR},
+      DEP_PT = #{depPt,jdbcType=VARCHAR},
+      DEP_JOP = #{depJop,jdbcType=VARCHAR},
+      LICENCE_AUTHORITH = #{licenceAuthorith,jdbcType=VARCHAR},
+      EXP_START_DATE = #{expStartDate,jdbcType=DATE},
+      EXP_END_DATE = #{expEndDate,jdbcType=DATE},
+      CERT_STATUS = #{certStatus,jdbcType=DECIMAL},
+      ATTACH_CERT = #{attachCert,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

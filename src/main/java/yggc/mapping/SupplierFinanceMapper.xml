@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="yggc.dao.SupplierFinanceMapper">
+  <resultMap id="BaseResultMap" type="yggc.model.SupplierFinance">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="YEAR" jdbcType="DECIMAL" property="year" />
+    <result column="MOBILE" jdbcType="DECIMAL" property="mobile" />
+    <result column="AUDITORS" jdbcType="VARCHAR" property="auditors" />
+    <result column="INDEX" jdbcType="VARCHAR" property="index" />
+    <result column="TOTAL_ASSETS" jdbcType="DECIMAL" property="totalAssets" />
+    <result column="TOTAL_LIABILITIES" jdbcType="DECIMAL" property="totalLiabilities" />
+    <result column="TOTAL_NET_ASSETS" jdbcType="DECIMAL" property="totalNetAssets" />
+    <result column="TAKING" jdbcType="DECIMAL" property="taking" />
+    <result column="AUDIT_OPINION" jdbcType="VARCHAR" property="auditOpinion" />
+    <result column="LIABILITIES_LIST" jdbcType="VARCHAR" property="liabilitiesList" />
+    <result column="PROFIT_LIST" jdbcType="VARCHAR" property="profitList" />
+    <result column="CASH_FLOW_STATEMENT" jdbcType="VARCHAR" property="cashFlowStatement" />
+    <result column="CHANGE_LIST" jdbcType="VARCHAR" property="changeList" />
+    <result column="SUPPLIER_ID" jdbcType="DECIMAL" property="supplierId" />
+    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, NAME, YEAR, MOBILE, AUDITORS, INDEX, TOTAL_ASSETS, TOTAL_LIABILITIES, TOTAL_NET_ASSETS, 
+    TAKING, AUDIT_OPINION, LIABILITIES_LIST, PROFIT_LIST, CASH_FLOW_STATEMENT, CHANGE_LIST, 
+    SUPPLIER_ID, CREATED_AT, UPDATED_AT
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_SUPPLIER_FINANCE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from T_SES_SMS_SUPPLIER_FINANCE
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="yggc.model.SupplierFinance">
+    insert into T_SES_SMS_SUPPLIER_FINANCE (ID, NAME, YEAR, 
+      MOBILE, AUDITORS, INDEX, 
+      TOTAL_ASSETS, TOTAL_LIABILITIES, TOTAL_NET_ASSETS, 
+      TAKING, AUDIT_OPINION, LIABILITIES_LIST, 
+      PROFIT_LIST, CASH_FLOW_STATEMENT, CHANGE_LIST, 
+      SUPPLIER_ID, CREATED_AT, UPDATED_AT
+      )
+    values (#{id,jdbcType=DECIMAL}, #{name,jdbcType=VARCHAR}, #{year,jdbcType=DECIMAL}, 
+      #{mobile,jdbcType=DECIMAL}, #{auditors,jdbcType=VARCHAR}, #{index,jdbcType=VARCHAR}, 
+      #{totalAssets,jdbcType=DECIMAL}, #{totalLiabilities,jdbcType=DECIMAL}, #{totalNetAssets,jdbcType=DECIMAL}, 
+      #{taking,jdbcType=DECIMAL}, #{auditOpinion,jdbcType=VARCHAR}, #{liabilitiesList,jdbcType=VARCHAR}, 
+      #{profitList,jdbcType=VARCHAR}, #{cashFlowStatement,jdbcType=VARCHAR}, #{changeList,jdbcType=VARCHAR}, 
+      #{supplierId,jdbcType=DECIMAL}, #{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="yggc.model.SupplierFinance">
+    insert into T_SES_SMS_SUPPLIER_FINANCE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="year != null">
+        YEAR,
+      </if>
+      <if test="mobile != null">
+        MOBILE,
+      </if>
+      <if test="auditors != null">
+        AUDITORS,
+      </if>
+      <if test="index != null">
+        INDEX,
+      </if>
+      <if test="totalAssets != null">
+        TOTAL_ASSETS,
+      </if>
+      <if test="totalLiabilities != null">
+        TOTAL_LIABILITIES,
+      </if>
+      <if test="totalNetAssets != null">
+        TOTAL_NET_ASSETS,
+      </if>
+      <if test="taking != null">
+        TAKING,
+      </if>
+      <if test="auditOpinion != null">
+        AUDIT_OPINION,
+      </if>
+      <if test="liabilitiesList != null">
+        LIABILITIES_LIST,
+      </if>
+      <if test="profitList != null">
+        PROFIT_LIST,
+      </if>
+      <if test="cashFlowStatement != null">
+        CASH_FLOW_STATEMENT,
+      </if>
+      <if test="changeList != null">
+        CHANGE_LIST,
+      </if>
+      <if test="supplierId != null">
+        SUPPLIER_ID,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="year != null">
+        #{year,jdbcType=DECIMAL},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=DECIMAL},
+      </if>
+      <if test="auditors != null">
+        #{auditors,jdbcType=VARCHAR},
+      </if>
+      <if test="index != null">
+        #{index,jdbcType=VARCHAR},
+      </if>
+      <if test="totalAssets != null">
+        #{totalAssets,jdbcType=DECIMAL},
+      </if>
+      <if test="totalLiabilities != null">
+        #{totalLiabilities,jdbcType=DECIMAL},
+      </if>
+      <if test="totalNetAssets != null">
+        #{totalNetAssets,jdbcType=DECIMAL},
+      </if>
+      <if test="taking != null">
+        #{taking,jdbcType=DECIMAL},
+      </if>
+      <if test="auditOpinion != null">
+        #{auditOpinion,jdbcType=VARCHAR},
+      </if>
+      <if test="liabilitiesList != null">
+        #{liabilitiesList,jdbcType=VARCHAR},
+      </if>
+      <if test="profitList != null">
+        #{profitList,jdbcType=VARCHAR},
+      </if>
+      <if test="cashFlowStatement != null">
+        #{cashFlowStatement,jdbcType=VARCHAR},
+      </if>
+      <if test="changeList != null">
+        #{changeList,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierId != null">
+        #{supplierId,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="yggc.model.SupplierFinance">
+    update T_SES_SMS_SUPPLIER_FINANCE
+    <set>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="year != null">
+        YEAR = #{year,jdbcType=DECIMAL},
+      </if>
+      <if test="mobile != null">
+        MOBILE = #{mobile,jdbcType=DECIMAL},
+      </if>
+      <if test="auditors != null">
+        AUDITORS = #{auditors,jdbcType=VARCHAR},
+      </if>
+      <if test="index != null">
+        INDEX = #{index,jdbcType=VARCHAR},
+      </if>
+      <if test="totalAssets != null">
+        TOTAL_ASSETS = #{totalAssets,jdbcType=DECIMAL},
+      </if>
+      <if test="totalLiabilities != null">
+        TOTAL_LIABILITIES = #{totalLiabilities,jdbcType=DECIMAL},
+      </if>
+      <if test="totalNetAssets != null">
+        TOTAL_NET_ASSETS = #{totalNetAssets,jdbcType=DECIMAL},
+      </if>
+      <if test="taking != null">
+        TAKING = #{taking,jdbcType=DECIMAL},
+      </if>
+      <if test="auditOpinion != null">
+        AUDIT_OPINION = #{auditOpinion,jdbcType=VARCHAR},
+      </if>
+      <if test="liabilitiesList != null">
+        LIABILITIES_LIST = #{liabilitiesList,jdbcType=VARCHAR},
+      </if>
+      <if test="profitList != null">
+        PROFIT_LIST = #{profitList,jdbcType=VARCHAR},
+      </if>
+      <if test="cashFlowStatement != null">
+        CASH_FLOW_STATEMENT = #{cashFlowStatement,jdbcType=VARCHAR},
+      </if>
+      <if test="changeList != null">
+        CHANGE_LIST = #{changeList,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierId != null">
+        SUPPLIER_ID = #{supplierId,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="yggc.model.SupplierFinance">
+    update T_SES_SMS_SUPPLIER_FINANCE
+    set NAME = #{name,jdbcType=VARCHAR},
+      YEAR = #{year,jdbcType=DECIMAL},
+      MOBILE = #{mobile,jdbcType=DECIMAL},
+      AUDITORS = #{auditors,jdbcType=VARCHAR},
+      INDEX = #{index,jdbcType=VARCHAR},
+      TOTAL_ASSETS = #{totalAssets,jdbcType=DECIMAL},
+      TOTAL_LIABILITIES = #{totalLiabilities,jdbcType=DECIMAL},
+      TOTAL_NET_ASSETS = #{totalNetAssets,jdbcType=DECIMAL},
+      TAKING = #{taking,jdbcType=DECIMAL},
+      AUDIT_OPINION = #{auditOpinion,jdbcType=VARCHAR},
+      LIABILITIES_LIST = #{liabilitiesList,jdbcType=VARCHAR},
+      PROFIT_LIST = #{profitList,jdbcType=VARCHAR},
+      CASH_FLOW_STATEMENT = #{cashFlowStatement,jdbcType=VARCHAR},
+      CHANGE_LIST = #{changeList,jdbcType=VARCHAR},
+      SUPPLIER_ID = #{supplierId,jdbcType=DECIMAL},
+      CREATED_AT = #{createdAt,jdbcType=DATE},
+      UPDATED_AT = #{updatedAt,jdbcType=DATE}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

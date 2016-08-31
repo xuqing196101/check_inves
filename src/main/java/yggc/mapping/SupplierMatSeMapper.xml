@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="yggc.dao.SupplierMatSeMapper">
+  <resultMap id="BaseResultMap" type="yggc.model.SupplierMatSe">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="SUPPLIER_ID" jdbcType="DECIMAL" property="supplierId" />
+    <result column="ORG_NAME" jdbcType="VARCHAR" property="orgName" />
+    <result column="TOTAL_PERSON" jdbcType="DECIMAL" property="totalPerson" />
+    <result column="TOTAL_MANGE" jdbcType="DECIMAL" property="totalMange" />
+    <result column="TOTAL_TECH" jdbcType="DECIMAL" property="totalTech" />
+    <result column="TOTAL_WORKER" jdbcType="DECIMAL" property="totalWorker" />
+    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, SUPPLIER_ID, ORG_NAME, TOTAL_PERSON, TOTAL_MANGE, TOTAL_TECH, TOTAL_WORKER, CREATED_AT, 
+    UPDATED_AT
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_SUPPLIER_MAT_SE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from T_SES_SMS_SUPPLIER_MAT_SE
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="yggc.model.SupplierMatSe">
+    insert into T_SES_SMS_SUPPLIER_MAT_SE (ID, SUPPLIER_ID, ORG_NAME, 
+      TOTAL_PERSON, TOTAL_MANGE, TOTAL_TECH, 
+      TOTAL_WORKER, CREATED_AT, UPDATED_AT
+      )
+    values (#{id,jdbcType=DECIMAL}, #{supplierId,jdbcType=DECIMAL}, #{orgName,jdbcType=VARCHAR}, 
+      #{totalPerson,jdbcType=DECIMAL}, #{totalMange,jdbcType=DECIMAL}, #{totalTech,jdbcType=DECIMAL}, 
+      #{totalWorker,jdbcType=DECIMAL}, #{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="yggc.model.SupplierMatSe">
+    insert into T_SES_SMS_SUPPLIER_MAT_SE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="supplierId != null">
+        SUPPLIER_ID,
+      </if>
+      <if test="orgName != null">
+        ORG_NAME,
+      </if>
+      <if test="totalPerson != null">
+        TOTAL_PERSON,
+      </if>
+      <if test="totalMange != null">
+        TOTAL_MANGE,
+      </if>
+      <if test="totalTech != null">
+        TOTAL_TECH,
+      </if>
+      <if test="totalWorker != null">
+        TOTAL_WORKER,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="supplierId != null">
+        #{supplierId,jdbcType=DECIMAL},
+      </if>
+      <if test="orgName != null">
+        #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="totalPerson != null">
+        #{totalPerson,jdbcType=DECIMAL},
+      </if>
+      <if test="totalMange != null">
+        #{totalMange,jdbcType=DECIMAL},
+      </if>
+      <if test="totalTech != null">
+        #{totalTech,jdbcType=DECIMAL},
+      </if>
+      <if test="totalWorker != null">
+        #{totalWorker,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="yggc.model.SupplierMatSe">
+    update T_SES_SMS_SUPPLIER_MAT_SE
+    <set>
+      <if test="supplierId != null">
+        SUPPLIER_ID = #{supplierId,jdbcType=DECIMAL},
+      </if>
+      <if test="orgName != null">
+        ORG_NAME = #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="totalPerson != null">
+        TOTAL_PERSON = #{totalPerson,jdbcType=DECIMAL},
+      </if>
+      <if test="totalMange != null">
+        TOTAL_MANGE = #{totalMange,jdbcType=DECIMAL},
+      </if>
+      <if test="totalTech != null">
+        TOTAL_TECH = #{totalTech,jdbcType=DECIMAL},
+      </if>
+      <if test="totalWorker != null">
+        TOTAL_WORKER = #{totalWorker,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="yggc.model.SupplierMatSe">
+    update T_SES_SMS_SUPPLIER_MAT_SE
+    set SUPPLIER_ID = #{supplierId,jdbcType=DECIMAL},
+      ORG_NAME = #{orgName,jdbcType=VARCHAR},
+      TOTAL_PERSON = #{totalPerson,jdbcType=DECIMAL},
+      TOTAL_MANGE = #{totalMange,jdbcType=DECIMAL},
+      TOTAL_TECH = #{totalTech,jdbcType=DECIMAL},
+      TOTAL_WORKER = #{totalWorker,jdbcType=DECIMAL},
+      CREATED_AT = #{createdAt,jdbcType=DATE},
+      UPDATED_AT = #{updatedAt,jdbcType=DATE}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="yggc.dao.SupplierExtractsMapper">
+  <resultMap id="BaseResultMap" type="yggc.model.SupplierExtracts">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="PROJECT_NAME" jdbcType="VARCHAR" property="projectName" />
+    <result column="PROCUREMENT_DEP_ID" jdbcType="DECIMAL" property="procurementDepId" />
+    <result column="EXTRACTION_TIME" jdbcType="DATE" property="extractionTime" />
+    <result column="EXTRACTION_SITES" jdbcType="VARCHAR" property="extractionSites" />
+    <result column="EXTRACT_THE_WAY" jdbcType="DECIMAL" property="extractTheWay" />
+    <result column="EXTRACTING_CONDITIONS" jdbcType="VARCHAR" property="extractingConditions" />
+    <result column="SUPPLIERS_ID" jdbcType="DECIMAL" property="suppliersId" />
+    <result column="EXTRACTS_PEOPLE" jdbcType="DECIMAL" property="extractsPeople" />
+    <result column="SUPERINTENDENT" jdbcType="DECIMAL" property="superintendent" />
+    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, PROJECT_NAME, PROCUREMENT_DEP_ID, EXTRACTION_TIME, EXTRACTION_SITES, EXTRACT_THE_WAY, 
+    EXTRACTING_CONDITIONS, SUPPLIERS_ID, EXTRACTS_PEOPLE, SUPERINTENDENT, CREATED_AT, 
+    UPDATED_AT
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_SUPPLIER_EXTRACTS
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from T_SES_SMS_SUPPLIER_EXTRACTS
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="yggc.model.SupplierExtracts">
+    insert into T_SES_SMS_SUPPLIER_EXTRACTS (ID, PROJECT_NAME, PROCUREMENT_DEP_ID, 
+      EXTRACTION_TIME, EXTRACTION_SITES, EXTRACT_THE_WAY, 
+      EXTRACTING_CONDITIONS, SUPPLIERS_ID, EXTRACTS_PEOPLE, 
+      SUPERINTENDENT, CREATED_AT, UPDATED_AT
+      )
+    values (#{id,jdbcType=DECIMAL}, #{projectName,jdbcType=VARCHAR}, #{procurementDepId,jdbcType=DECIMAL}, 
+      #{extractionTime,jdbcType=DATE}, #{extractionSites,jdbcType=VARCHAR}, #{extractTheWay,jdbcType=DECIMAL}, 
+      #{extractingConditions,jdbcType=VARCHAR}, #{suppliersId,jdbcType=DECIMAL}, #{extractsPeople,jdbcType=DECIMAL}, 
+      #{superintendent,jdbcType=DECIMAL}, #{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="yggc.model.SupplierExtracts">
+    insert into T_SES_SMS_SUPPLIER_EXTRACTS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="projectName != null">
+        PROJECT_NAME,
+      </if>
+      <if test="procurementDepId != null">
+        PROCUREMENT_DEP_ID,
+      </if>
+      <if test="extractionTime != null">
+        EXTRACTION_TIME,
+      </if>
+      <if test="extractionSites != null">
+        EXTRACTION_SITES,
+      </if>
+      <if test="extractTheWay != null">
+        EXTRACT_THE_WAY,
+      </if>
+      <if test="extractingConditions != null">
+        EXTRACTING_CONDITIONS,
+      </if>
+      <if test="suppliersId != null">
+        SUPPLIERS_ID,
+      </if>
+      <if test="extractsPeople != null">
+        EXTRACTS_PEOPLE,
+      </if>
+      <if test="superintendent != null">
+        SUPERINTENDENT,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="projectName != null">
+        #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="procurementDepId != null">
+        #{procurementDepId,jdbcType=DECIMAL},
+      </if>
+      <if test="extractionTime != null">
+        #{extractionTime,jdbcType=DATE},
+      </if>
+      <if test="extractionSites != null">
+        #{extractionSites,jdbcType=VARCHAR},
+      </if>
+      <if test="extractTheWay != null">
+        #{extractTheWay,jdbcType=DECIMAL},
+      </if>
+      <if test="extractingConditions != null">
+        #{extractingConditions,jdbcType=VARCHAR},
+      </if>
+      <if test="suppliersId != null">
+        #{suppliersId,jdbcType=DECIMAL},
+      </if>
+      <if test="extractsPeople != null">
+        #{extractsPeople,jdbcType=DECIMAL},
+      </if>
+      <if test="superintendent != null">
+        #{superintendent,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="yggc.model.SupplierExtracts">
+    update T_SES_SMS_SUPPLIER_EXTRACTS
+    <set>
+      <if test="projectName != null">
+        PROJECT_NAME = #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="procurementDepId != null">
+        PROCUREMENT_DEP_ID = #{procurementDepId,jdbcType=DECIMAL},
+      </if>
+      <if test="extractionTime != null">
+        EXTRACTION_TIME = #{extractionTime,jdbcType=DATE},
+      </if>
+      <if test="extractionSites != null">
+        EXTRACTION_SITES = #{extractionSites,jdbcType=VARCHAR},
+      </if>
+      <if test="extractTheWay != null">
+        EXTRACT_THE_WAY = #{extractTheWay,jdbcType=DECIMAL},
+      </if>
+      <if test="extractingConditions != null">
+        EXTRACTING_CONDITIONS = #{extractingConditions,jdbcType=VARCHAR},
+      </if>
+      <if test="suppliersId != null">
+        SUPPLIERS_ID = #{suppliersId,jdbcType=DECIMAL},
+      </if>
+      <if test="extractsPeople != null">
+        EXTRACTS_PEOPLE = #{extractsPeople,jdbcType=DECIMAL},
+      </if>
+      <if test="superintendent != null">
+        SUPERINTENDENT = #{superintendent,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="yggc.model.SupplierExtracts">
+    update T_SES_SMS_SUPPLIER_EXTRACTS
+    set PROJECT_NAME = #{projectName,jdbcType=VARCHAR},
+      PROCUREMENT_DEP_ID = #{procurementDepId,jdbcType=DECIMAL},
+      EXTRACTION_TIME = #{extractionTime,jdbcType=DATE},
+      EXTRACTION_SITES = #{extractionSites,jdbcType=VARCHAR},
+      EXTRACT_THE_WAY = #{extractTheWay,jdbcType=DECIMAL},
+      EXTRACTING_CONDITIONS = #{extractingConditions,jdbcType=VARCHAR},
+      SUPPLIERS_ID = #{suppliersId,jdbcType=DECIMAL},
+      EXTRACTS_PEOPLE = #{extractsPeople,jdbcType=DECIMAL},
+      SUPERINTENDENT = #{superintendent,jdbcType=DECIMAL},
+      CREATED_AT = #{createdAt,jdbcType=DATE},
+      UPDATED_AT = #{updatedAt,jdbcType=DATE}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

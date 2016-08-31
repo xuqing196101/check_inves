@@ -1,0 +1,652 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="yggc.dao.SupplierInfoMapper">
+  <resultMap id="BaseResultMap" type="yggc.model.SupplierInfo">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="LOGIN_NAME" jdbcType="VARCHAR" property="loginName" />
+    <result column="MOBILE" jdbcType="VARCHAR" property="mobile" />
+    <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+    <result column="SUPPLIER_NAME" jdbcType="VARCHAR" property="supplierName" />
+    <result column="NET_URL" jdbcType="VARCHAR" property="netUrl" />
+    <result column="FOUND_DATE" jdbcType="DATE" property="foundDate" />
+    <result column="BUSINESS_TYPE" jdbcType="VARCHAR" property="businessType" />
+    <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+    <result column="BANGK_NAME" jdbcType="VARCHAR" property="bangkName" />
+    <result column="BANK_ ACCOUNT" jdbcType="VARCHAR" property="bankAccount" />
+    <result column="SUPPLIER_ZIP_CODE" jdbcType="VARCHAR" property="supplierZipCode" />
+    <result column="TAX_CERT" jdbcType="VARCHAR" property="taxCert" />
+    <result column="BILL_CERT" jdbcType="VARCHAR" property="billCert" />
+    <result column="SECURITY_CERT" jdbcType="VARCHAR" property="securityCert" />
+    <result column="BREACH_CERT" jdbcType="VARCHAR" property="breachCert" />
+    <result column="LEGAL_NAME" jdbcType="VARCHAR" property="legalName" />
+    <result column="LEGA_IDCARD" jdbcType="VARCHAR" property="legaIdcard" />
+    <result column="LEGAL_MOBILE" jdbcType="DECIMAL" property="legalMobile" />
+    <result column="LEGAL_PHONE" jdbcType="DECIMAL" property="legalPhone" />
+    <result column="CONTACT_NAME" jdbcType="VARCHAR" property="contactName" />
+    <result column="CONTACT_MOBILE" jdbcType="VARCHAR" property="contactMobile" />
+    <result column="CONTACT_FAX" jdbcType="VARCHAR" property="contactFax" />
+    <result column="CONTACT_PHONE" jdbcType="DECIMAL" property="contactPhone" />
+    <result column="CONTACT_EMAIL" jdbcType="VARCHAR" property="contactEmail" />
+    <result column="CONTACT_ADDRESS" jdbcType="VARCHAR" property="contactAddress" />
+    <result column="CREDIT_CODE" jdbcType="VARCHAR" property="creditCode" />
+    <result column="REGIST_AUTHORITY" jdbcType="VARCHAR" property="registAuthority" />
+    <result column="REGIST_FUND" jdbcType="DECIMAL" property="registFund" />
+    <result column="BUSINESS_START_DATE" jdbcType="DATE" property="businessStartDate" />
+    <result column="BUSINESS_END_DATE" jdbcType="DATE" property="businessEndDate" />
+    <result column="BUSINESS_SCOPE" jdbcType="VARCHAR" property="businessScope" />
+    <result column="BUSINESS_ADDRESS" jdbcType="VARCHAR" property="businessAddress" />
+    <result column="BUSINESS_ZIP_CODE" jdbcType="DECIMAL" property="businessZipCode" />
+    <result column="OVERSEAS_BRANCH" jdbcType="DECIMAL" property="overseasBranch" />
+    <result column="BRANCH_COUNTRY" jdbcType="VARCHAR" property="branchCountry" />
+    <result column="BRANCH_ADDRESS" jdbcType="VARCHAR" property="branchAddress" />
+    <result column="BRANCH_NAME" jdbcType="VARCHAR" property="branchName" />
+    <result column="BRANCH_BUSINESS_SCOPE" jdbcType="VARCHAR" property="branchBusinessScope" />
+    <result column="SUPPLIER_TYPE_ID" jdbcType="DECIMAL" property="supplierTypeId" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="ORGMAN_ID" jdbcType="DECIMAL" property="orgmanId" />
+    <result column="SUPPLIER_LEVEL" jdbcType="VARCHAR" property="supplierLevel" />
+    <result column="SUPPLIER_PLEDGE" jdbcType="VARCHAR" property="supplierPledge" />
+    <result column="SUPPLIER_REG_LIST" jdbcType="VARCHAR" property="supplierRegList" />
+    <result column="SUPPLIER_EXTRACTS_LIST" jdbcType="VARCHAR" property="supplierExtractsList" />
+    <result column="SUPPLIER_INSPECT_LIST" jdbcType="VARCHAR" property="supplierInspectList" />
+    <result column="SUPPLIER_REVIEW_LIST" jdbcType="VARCHAR" property="supplierReviewList" />
+    <result column="SUPPLIER_CHANGE_LIST" jdbcType="VARCHAR" property="supplierChangeList" />
+    <result column="SUPPLIER_EXIT_LIST" jdbcType="VARCHAR" property="supplierExitList" />
+    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, LOGIN_NAME, MOBILE, PASSWORD, SUPPLIER_NAME, NET_URL, FOUND_DATE, BUSINESS_TYPE, 
+    ADDRESS, BANGK_NAME, "BANK_ ACCOUNT", SUPPLIER_ZIP_CODE, TAX_CERT, BILL_CERT, SECURITY_CERT, 
+    BREACH_CERT, LEGAL_NAME, LEGA_IDCARD, LEGAL_MOBILE, LEGAL_PHONE, CONTACT_NAME, CONTACT_MOBILE, 
+    CONTACT_FAX, CONTACT_PHONE, CONTACT_EMAIL, CONTACT_ADDRESS, CREDIT_CODE, REGIST_AUTHORITY, 
+    REGIST_FUND, BUSINESS_START_DATE, BUSINESS_END_DATE, BUSINESS_SCOPE, BUSINESS_ADDRESS, 
+    BUSINESS_ZIP_CODE, OVERSEAS_BRANCH, BRANCH_COUNTRY, BRANCH_ADDRESS, BRANCH_NAME, 
+    BRANCH_BUSINESS_SCOPE, SUPPLIER_TYPE_ID, STATUS, ORGMAN_ID, SUPPLIER_LEVEL, SUPPLIER_PLEDGE, 
+    SUPPLIER_REG_LIST, SUPPLIER_EXTRACTS_LIST, SUPPLIER_INSPECT_LIST, SUPPLIER_REVIEW_LIST, 
+    SUPPLIER_CHANGE_LIST, SUPPLIER_EXIT_LIST, CREATED_AT, UPDATED_AT
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_SUPPLIER_INFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from T_SES_SMS_SUPPLIER_INFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="yggc.model.SupplierInfo">
+    insert into T_SES_SMS_SUPPLIER_INFO (ID, LOGIN_NAME, MOBILE, 
+      PASSWORD, SUPPLIER_NAME, NET_URL, 
+      FOUND_DATE, BUSINESS_TYPE, ADDRESS, 
+      BANGK_NAME, "BANK_ ACCOUNT", SUPPLIER_ZIP_CODE, 
+      TAX_CERT, BILL_CERT, SECURITY_CERT, 
+      BREACH_CERT, LEGAL_NAME, LEGA_IDCARD, 
+      LEGAL_MOBILE, LEGAL_PHONE, CONTACT_NAME, 
+      CONTACT_MOBILE, CONTACT_FAX, CONTACT_PHONE, 
+      CONTACT_EMAIL, CONTACT_ADDRESS, CREDIT_CODE, 
+      REGIST_AUTHORITY, REGIST_FUND, BUSINESS_START_DATE, 
+      BUSINESS_END_DATE, BUSINESS_SCOPE, BUSINESS_ADDRESS, 
+      BUSINESS_ZIP_CODE, OVERSEAS_BRANCH, BRANCH_COUNTRY, 
+      BRANCH_ADDRESS, BRANCH_NAME, BRANCH_BUSINESS_SCOPE, 
+      SUPPLIER_TYPE_ID, STATUS, ORGMAN_ID, 
+      SUPPLIER_LEVEL, SUPPLIER_PLEDGE, SUPPLIER_REG_LIST, 
+      SUPPLIER_EXTRACTS_LIST, SUPPLIER_INSPECT_LIST, 
+      SUPPLIER_REVIEW_LIST, SUPPLIER_CHANGE_LIST, 
+      SUPPLIER_EXIT_LIST, CREATED_AT, UPDATED_AT
+      )
+    values (#{id,jdbcType=DECIMAL}, #{loginName,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{supplierName,jdbcType=VARCHAR}, #{netUrl,jdbcType=VARCHAR}, 
+      #{foundDate,jdbcType=DATE}, #{businessType,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{bangkName,jdbcType=VARCHAR}, #{bankAccount,jdbcType=VARCHAR}, #{supplierZipCode,jdbcType=VARCHAR}, 
+      #{taxCert,jdbcType=VARCHAR}, #{billCert,jdbcType=VARCHAR}, #{securityCert,jdbcType=VARCHAR}, 
+      #{breachCert,jdbcType=VARCHAR}, #{legalName,jdbcType=VARCHAR}, #{legaIdcard,jdbcType=VARCHAR}, 
+      #{legalMobile,jdbcType=DECIMAL}, #{legalPhone,jdbcType=DECIMAL}, #{contactName,jdbcType=VARCHAR}, 
+      #{contactMobile,jdbcType=VARCHAR}, #{contactFax,jdbcType=VARCHAR}, #{contactPhone,jdbcType=DECIMAL}, 
+      #{contactEmail,jdbcType=VARCHAR}, #{contactAddress,jdbcType=VARCHAR}, #{creditCode,jdbcType=VARCHAR}, 
+      #{registAuthority,jdbcType=VARCHAR}, #{registFund,jdbcType=DECIMAL}, #{businessStartDate,jdbcType=DATE}, 
+      #{businessEndDate,jdbcType=DATE}, #{businessScope,jdbcType=VARCHAR}, #{businessAddress,jdbcType=VARCHAR}, 
+      #{businessZipCode,jdbcType=DECIMAL}, #{overseasBranch,jdbcType=DECIMAL}, #{branchCountry,jdbcType=VARCHAR}, 
+      #{branchAddress,jdbcType=VARCHAR}, #{branchName,jdbcType=VARCHAR}, #{branchBusinessScope,jdbcType=VARCHAR}, 
+      #{supplierTypeId,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}, #{orgmanId,jdbcType=DECIMAL}, 
+      #{supplierLevel,jdbcType=VARCHAR}, #{supplierPledge,jdbcType=VARCHAR}, #{supplierRegList,jdbcType=VARCHAR}, 
+      #{supplierExtractsList,jdbcType=VARCHAR}, #{supplierInspectList,jdbcType=VARCHAR}, 
+      #{supplierReviewList,jdbcType=VARCHAR}, #{supplierChangeList,jdbcType=VARCHAR}, 
+      #{supplierExitList,jdbcType=VARCHAR}, #{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="yggc.model.SupplierInfo">
+    insert into T_SES_SMS_SUPPLIER_INFO
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="loginName != null">
+        LOGIN_NAME,
+      </if>
+      <if test="mobile != null">
+        MOBILE,
+      </if>
+      <if test="password != null">
+        PASSWORD,
+      </if>
+      <if test="supplierName != null">
+        SUPPLIER_NAME,
+      </if>
+      <if test="netUrl != null">
+        NET_URL,
+      </if>
+      <if test="foundDate != null">
+        FOUND_DATE,
+      </if>
+      <if test="businessType != null">
+        BUSINESS_TYPE,
+      </if>
+      <if test="address != null">
+        ADDRESS,
+      </if>
+      <if test="bangkName != null">
+        BANGK_NAME,
+      </if>
+      <if test="bankAccount != null">
+        "BANK_ ACCOUNT",
+      </if>
+      <if test="supplierZipCode != null">
+        SUPPLIER_ZIP_CODE,
+      </if>
+      <if test="taxCert != null">
+        TAX_CERT,
+      </if>
+      <if test="billCert != null">
+        BILL_CERT,
+      </if>
+      <if test="securityCert != null">
+        SECURITY_CERT,
+      </if>
+      <if test="breachCert != null">
+        BREACH_CERT,
+      </if>
+      <if test="legalName != null">
+        LEGAL_NAME,
+      </if>
+      <if test="legaIdcard != null">
+        LEGA_IDCARD,
+      </if>
+      <if test="legalMobile != null">
+        LEGAL_MOBILE,
+      </if>
+      <if test="legalPhone != null">
+        LEGAL_PHONE,
+      </if>
+      <if test="contactName != null">
+        CONTACT_NAME,
+      </if>
+      <if test="contactMobile != null">
+        CONTACT_MOBILE,
+      </if>
+      <if test="contactFax != null">
+        CONTACT_FAX,
+      </if>
+      <if test="contactPhone != null">
+        CONTACT_PHONE,
+      </if>
+      <if test="contactEmail != null">
+        CONTACT_EMAIL,
+      </if>
+      <if test="contactAddress != null">
+        CONTACT_ADDRESS,
+      </if>
+      <if test="creditCode != null">
+        CREDIT_CODE,
+      </if>
+      <if test="registAuthority != null">
+        REGIST_AUTHORITY,
+      </if>
+      <if test="registFund != null">
+        REGIST_FUND,
+      </if>
+      <if test="businessStartDate != null">
+        BUSINESS_START_DATE,
+      </if>
+      <if test="businessEndDate != null">
+        BUSINESS_END_DATE,
+      </if>
+      <if test="businessScope != null">
+        BUSINESS_SCOPE,
+      </if>
+      <if test="businessAddress != null">
+        BUSINESS_ADDRESS,
+      </if>
+      <if test="businessZipCode != null">
+        BUSINESS_ZIP_CODE,
+      </if>
+      <if test="overseasBranch != null">
+        OVERSEAS_BRANCH,
+      </if>
+      <if test="branchCountry != null">
+        BRANCH_COUNTRY,
+      </if>
+      <if test="branchAddress != null">
+        BRANCH_ADDRESS,
+      </if>
+      <if test="branchName != null">
+        BRANCH_NAME,
+      </if>
+      <if test="branchBusinessScope != null">
+        BRANCH_BUSINESS_SCOPE,
+      </if>
+      <if test="supplierTypeId != null">
+        SUPPLIER_TYPE_ID,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="orgmanId != null">
+        ORGMAN_ID,
+      </if>
+      <if test="supplierLevel != null">
+        SUPPLIER_LEVEL,
+      </if>
+      <if test="supplierPledge != null">
+        SUPPLIER_PLEDGE,
+      </if>
+      <if test="supplierRegList != null">
+        SUPPLIER_REG_LIST,
+      </if>
+      <if test="supplierExtractsList != null">
+        SUPPLIER_EXTRACTS_LIST,
+      </if>
+      <if test="supplierInspectList != null">
+        SUPPLIER_INSPECT_LIST,
+      </if>
+      <if test="supplierReviewList != null">
+        SUPPLIER_REVIEW_LIST,
+      </if>
+      <if test="supplierChangeList != null">
+        SUPPLIER_CHANGE_LIST,
+      </if>
+      <if test="supplierExitList != null">
+        SUPPLIER_EXIT_LIST,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="loginName != null">
+        #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null">
+        #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="netUrl != null">
+        #{netUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="foundDate != null">
+        #{foundDate,jdbcType=DATE},
+      </if>
+      <if test="businessType != null">
+        #{businessType,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="bangkName != null">
+        #{bangkName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccount != null">
+        #{bankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierZipCode != null">
+        #{supplierZipCode,jdbcType=VARCHAR},
+      </if>
+      <if test="taxCert != null">
+        #{taxCert,jdbcType=VARCHAR},
+      </if>
+      <if test="billCert != null">
+        #{billCert,jdbcType=VARCHAR},
+      </if>
+      <if test="securityCert != null">
+        #{securityCert,jdbcType=VARCHAR},
+      </if>
+      <if test="breachCert != null">
+        #{breachCert,jdbcType=VARCHAR},
+      </if>
+      <if test="legalName != null">
+        #{legalName,jdbcType=VARCHAR},
+      </if>
+      <if test="legaIdcard != null">
+        #{legaIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="legalMobile != null">
+        #{legalMobile,jdbcType=DECIMAL},
+      </if>
+      <if test="legalPhone != null">
+        #{legalPhone,jdbcType=DECIMAL},
+      </if>
+      <if test="contactName != null">
+        #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactMobile != null">
+        #{contactMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="contactFax != null">
+        #{contactFax,jdbcType=VARCHAR},
+      </if>
+      <if test="contactPhone != null">
+        #{contactPhone,jdbcType=DECIMAL},
+      </if>
+      <if test="contactEmail != null">
+        #{contactEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="contactAddress != null">
+        #{contactAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="creditCode != null">
+        #{creditCode,jdbcType=VARCHAR},
+      </if>
+      <if test="registAuthority != null">
+        #{registAuthority,jdbcType=VARCHAR},
+      </if>
+      <if test="registFund != null">
+        #{registFund,jdbcType=DECIMAL},
+      </if>
+      <if test="businessStartDate != null">
+        #{businessStartDate,jdbcType=DATE},
+      </if>
+      <if test="businessEndDate != null">
+        #{businessEndDate,jdbcType=DATE},
+      </if>
+      <if test="businessScope != null">
+        #{businessScope,jdbcType=VARCHAR},
+      </if>
+      <if test="businessAddress != null">
+        #{businessAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="businessZipCode != null">
+        #{businessZipCode,jdbcType=DECIMAL},
+      </if>
+      <if test="overseasBranch != null">
+        #{overseasBranch,jdbcType=DECIMAL},
+      </if>
+      <if test="branchCountry != null">
+        #{branchCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="branchAddress != null">
+        #{branchAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="branchName != null">
+        #{branchName,jdbcType=VARCHAR},
+      </if>
+      <if test="branchBusinessScope != null">
+        #{branchBusinessScope,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierTypeId != null">
+        #{supplierTypeId,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="orgmanId != null">
+        #{orgmanId,jdbcType=DECIMAL},
+      </if>
+      <if test="supplierLevel != null">
+        #{supplierLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierPledge != null">
+        #{supplierPledge,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierRegList != null">
+        #{supplierRegList,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierExtractsList != null">
+        #{supplierExtractsList,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierInspectList != null">
+        #{supplierInspectList,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierReviewList != null">
+        #{supplierReviewList,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierChangeList != null">
+        #{supplierChangeList,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierExitList != null">
+        #{supplierExitList,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="yggc.model.SupplierInfo">
+    update T_SES_SMS_SUPPLIER_INFO
+    <set>
+      <if test="loginName != null">
+        LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        MOBILE = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        PASSWORD = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null">
+        SUPPLIER_NAME = #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="netUrl != null">
+        NET_URL = #{netUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="foundDate != null">
+        FOUND_DATE = #{foundDate,jdbcType=DATE},
+      </if>
+      <if test="businessType != null">
+        BUSINESS_TYPE = #{businessType,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="bangkName != null">
+        BANGK_NAME = #{bangkName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccount != null">
+        "BANK_ ACCOUNT" = #{bankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierZipCode != null">
+        SUPPLIER_ZIP_CODE = #{supplierZipCode,jdbcType=VARCHAR},
+      </if>
+      <if test="taxCert != null">
+        TAX_CERT = #{taxCert,jdbcType=VARCHAR},
+      </if>
+      <if test="billCert != null">
+        BILL_CERT = #{billCert,jdbcType=VARCHAR},
+      </if>
+      <if test="securityCert != null">
+        SECURITY_CERT = #{securityCert,jdbcType=VARCHAR},
+      </if>
+      <if test="breachCert != null">
+        BREACH_CERT = #{breachCert,jdbcType=VARCHAR},
+      </if>
+      <if test="legalName != null">
+        LEGAL_NAME = #{legalName,jdbcType=VARCHAR},
+      </if>
+      <if test="legaIdcard != null">
+        LEGA_IDCARD = #{legaIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="legalMobile != null">
+        LEGAL_MOBILE = #{legalMobile,jdbcType=DECIMAL},
+      </if>
+      <if test="legalPhone != null">
+        LEGAL_PHONE = #{legalPhone,jdbcType=DECIMAL},
+      </if>
+      <if test="contactName != null">
+        CONTACT_NAME = #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactMobile != null">
+        CONTACT_MOBILE = #{contactMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="contactFax != null">
+        CONTACT_FAX = #{contactFax,jdbcType=VARCHAR},
+      </if>
+      <if test="contactPhone != null">
+        CONTACT_PHONE = #{contactPhone,jdbcType=DECIMAL},
+      </if>
+      <if test="contactEmail != null">
+        CONTACT_EMAIL = #{contactEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="contactAddress != null">
+        CONTACT_ADDRESS = #{contactAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="creditCode != null">
+        CREDIT_CODE = #{creditCode,jdbcType=VARCHAR},
+      </if>
+      <if test="registAuthority != null">
+        REGIST_AUTHORITY = #{registAuthority,jdbcType=VARCHAR},
+      </if>
+      <if test="registFund != null">
+        REGIST_FUND = #{registFund,jdbcType=DECIMAL},
+      </if>
+      <if test="businessStartDate != null">
+        BUSINESS_START_DATE = #{businessStartDate,jdbcType=DATE},
+      </if>
+      <if test="businessEndDate != null">
+        BUSINESS_END_DATE = #{businessEndDate,jdbcType=DATE},
+      </if>
+      <if test="businessScope != null">
+        BUSINESS_SCOPE = #{businessScope,jdbcType=VARCHAR},
+      </if>
+      <if test="businessAddress != null">
+        BUSINESS_ADDRESS = #{businessAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="businessZipCode != null">
+        BUSINESS_ZIP_CODE = #{businessZipCode,jdbcType=DECIMAL},
+      </if>
+      <if test="overseasBranch != null">
+        OVERSEAS_BRANCH = #{overseasBranch,jdbcType=DECIMAL},
+      </if>
+      <if test="branchCountry != null">
+        BRANCH_COUNTRY = #{branchCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="branchAddress != null">
+        BRANCH_ADDRESS = #{branchAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="branchName != null">
+        BRANCH_NAME = #{branchName,jdbcType=VARCHAR},
+      </if>
+      <if test="branchBusinessScope != null">
+        BRANCH_BUSINESS_SCOPE = #{branchBusinessScope,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierTypeId != null">
+        SUPPLIER_TYPE_ID = #{supplierTypeId,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="orgmanId != null">
+        ORGMAN_ID = #{orgmanId,jdbcType=DECIMAL},
+      </if>
+      <if test="supplierLevel != null">
+        SUPPLIER_LEVEL = #{supplierLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierPledge != null">
+        SUPPLIER_PLEDGE = #{supplierPledge,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierRegList != null">
+        SUPPLIER_REG_LIST = #{supplierRegList,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierExtractsList != null">
+        SUPPLIER_EXTRACTS_LIST = #{supplierExtractsList,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierInspectList != null">
+        SUPPLIER_INSPECT_LIST = #{supplierInspectList,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierReviewList != null">
+        SUPPLIER_REVIEW_LIST = #{supplierReviewList,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierChangeList != null">
+        SUPPLIER_CHANGE_LIST = #{supplierChangeList,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierExitList != null">
+        SUPPLIER_EXIT_LIST = #{supplierExitList,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="yggc.model.SupplierInfo">
+    update T_SES_SMS_SUPPLIER_INFO
+    set LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
+      MOBILE = #{mobile,jdbcType=VARCHAR},
+      PASSWORD = #{password,jdbcType=VARCHAR},
+      SUPPLIER_NAME = #{supplierName,jdbcType=VARCHAR},
+      NET_URL = #{netUrl,jdbcType=VARCHAR},
+      FOUND_DATE = #{foundDate,jdbcType=DATE},
+      BUSINESS_TYPE = #{businessType,jdbcType=VARCHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      BANGK_NAME = #{bangkName,jdbcType=VARCHAR},
+      "BANK_ ACCOUNT" = #{bankAccount,jdbcType=VARCHAR},
+      SUPPLIER_ZIP_CODE = #{supplierZipCode,jdbcType=VARCHAR},
+      TAX_CERT = #{taxCert,jdbcType=VARCHAR},
+      BILL_CERT = #{billCert,jdbcType=VARCHAR},
+      SECURITY_CERT = #{securityCert,jdbcType=VARCHAR},
+      BREACH_CERT = #{breachCert,jdbcType=VARCHAR},
+      LEGAL_NAME = #{legalName,jdbcType=VARCHAR},
+      LEGA_IDCARD = #{legaIdcard,jdbcType=VARCHAR},
+      LEGAL_MOBILE = #{legalMobile,jdbcType=DECIMAL},
+      LEGAL_PHONE = #{legalPhone,jdbcType=DECIMAL},
+      CONTACT_NAME = #{contactName,jdbcType=VARCHAR},
+      CONTACT_MOBILE = #{contactMobile,jdbcType=VARCHAR},
+      CONTACT_FAX = #{contactFax,jdbcType=VARCHAR},
+      CONTACT_PHONE = #{contactPhone,jdbcType=DECIMAL},
+      CONTACT_EMAIL = #{contactEmail,jdbcType=VARCHAR},
+      CONTACT_ADDRESS = #{contactAddress,jdbcType=VARCHAR},
+      CREDIT_CODE = #{creditCode,jdbcType=VARCHAR},
+      REGIST_AUTHORITY = #{registAuthority,jdbcType=VARCHAR},
+      REGIST_FUND = #{registFund,jdbcType=DECIMAL},
+      BUSINESS_START_DATE = #{businessStartDate,jdbcType=DATE},
+      BUSINESS_END_DATE = #{businessEndDate,jdbcType=DATE},
+      BUSINESS_SCOPE = #{businessScope,jdbcType=VARCHAR},
+      BUSINESS_ADDRESS = #{businessAddress,jdbcType=VARCHAR},
+      BUSINESS_ZIP_CODE = #{businessZipCode,jdbcType=DECIMAL},
+      OVERSEAS_BRANCH = #{overseasBranch,jdbcType=DECIMAL},
+      BRANCH_COUNTRY = #{branchCountry,jdbcType=VARCHAR},
+      BRANCH_ADDRESS = #{branchAddress,jdbcType=VARCHAR},
+      BRANCH_NAME = #{branchName,jdbcType=VARCHAR},
+      BRANCH_BUSINESS_SCOPE = #{branchBusinessScope,jdbcType=VARCHAR},
+      SUPPLIER_TYPE_ID = #{supplierTypeId,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=DECIMAL},
+      ORGMAN_ID = #{orgmanId,jdbcType=DECIMAL},
+      SUPPLIER_LEVEL = #{supplierLevel,jdbcType=VARCHAR},
+      SUPPLIER_PLEDGE = #{supplierPledge,jdbcType=VARCHAR},
+      SUPPLIER_REG_LIST = #{supplierRegList,jdbcType=VARCHAR},
+      SUPPLIER_EXTRACTS_LIST = #{supplierExtractsList,jdbcType=VARCHAR},
+      SUPPLIER_INSPECT_LIST = #{supplierInspectList,jdbcType=VARCHAR},
+      SUPPLIER_REVIEW_LIST = #{supplierReviewList,jdbcType=VARCHAR},
+      SUPPLIER_CHANGE_LIST = #{supplierChangeList,jdbcType=VARCHAR},
+      SUPPLIER_EXIT_LIST = #{supplierExitList,jdbcType=VARCHAR},
+      CREATED_AT = #{createdAt,jdbcType=DATE},
+      UPDATED_AT = #{updatedAt,jdbcType=DATE}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

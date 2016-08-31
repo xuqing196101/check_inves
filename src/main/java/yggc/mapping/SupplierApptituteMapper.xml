@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="yggc.dao.SupplierApptituteMapper">
+  <resultMap id="BaseResultMap" type="yggc.model.SupplierApptitute">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="MAT_ENG_ID" jdbcType="DECIMAL" property="matEngId" />
+    <result column="CERT_TYPE" jdbcType="VARCHAR" property="certType" />
+    <result column="CERT_CODE" jdbcType="VARCHAR" property="certCode" />
+    <result column="APTITUTE_SEQUENCE" jdbcType="VARCHAR" property="aptituteSequence" />
+    <result column="PROFESS_TYPE" jdbcType="VARCHAR" property="professType" />
+    <result column="APTITUTE_ LEVEL" jdbcType="VARCHAR" property="aptituteLevel" />
+    <result column="IS_MAJOR_FUND" jdbcType="DECIMAL" property="isMajorFund" />
+    <result column="APTITUTE_CONTENT" jdbcType="VARCHAR" property="aptituteContent" />
+    <result column="APTITUTE_CODE" jdbcType="VARCHAR" property="aptituteCode" />
+    <result column="APTITUTE_DATE" jdbcType="DATE" property="aptituteDate" />
+    <result column="APTITUTE_WAY" jdbcType="VARCHAR" property="aptituteWay" />
+    <result column="APTITUTE_STATUS" jdbcType="DECIMAL" property="aptituteStatus" />
+    <result column="APTITUTE_CHANGE_AT" jdbcType="DATE" property="aptituteChangeAt" />
+    <result column="APTITUTE_CHANGE_REASON" jdbcType="VARCHAR" property="aptituteChangeReason" />
+    <result column="ATTACH_CERT" jdbcType="VARCHAR" property="attachCert" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, MAT_ENG_ID, CERT_TYPE, CERT_CODE, APTITUTE_SEQUENCE, PROFESS_TYPE, "APTITUTE_ LEVEL", 
+    IS_MAJOR_FUND, APTITUTE_CONTENT, APTITUTE_CODE, APTITUTE_DATE, APTITUTE_WAY, APTITUTE_STATUS, 
+    APTITUTE_CHANGE_AT, APTITUTE_CHANGE_REASON, ATTACH_CERT
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_SUPPLIER_APTITUTE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from T_SES_SMS_SUPPLIER_APTITUTE
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="yggc.model.SupplierApptitute">
+    insert into T_SES_SMS_SUPPLIER_APTITUTE (ID, MAT_ENG_ID, CERT_TYPE, 
+      CERT_CODE, APTITUTE_SEQUENCE, PROFESS_TYPE, 
+      "APTITUTE_ LEVEL", IS_MAJOR_FUND, APTITUTE_CONTENT, 
+      APTITUTE_CODE, APTITUTE_DATE, APTITUTE_WAY, 
+      APTITUTE_STATUS, APTITUTE_CHANGE_AT, APTITUTE_CHANGE_REASON, 
+      ATTACH_CERT)
+    values (#{id,jdbcType=DECIMAL}, #{matEngId,jdbcType=DECIMAL}, #{certType,jdbcType=VARCHAR}, 
+      #{certCode,jdbcType=VARCHAR}, #{aptituteSequence,jdbcType=VARCHAR}, #{professType,jdbcType=VARCHAR}, 
+      #{aptituteLevel,jdbcType=VARCHAR}, #{isMajorFund,jdbcType=DECIMAL}, #{aptituteContent,jdbcType=VARCHAR}, 
+      #{aptituteCode,jdbcType=VARCHAR}, #{aptituteDate,jdbcType=DATE}, #{aptituteWay,jdbcType=VARCHAR}, 
+      #{aptituteStatus,jdbcType=DECIMAL}, #{aptituteChangeAt,jdbcType=DATE}, #{aptituteChangeReason,jdbcType=VARCHAR}, 
+      #{attachCert,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="yggc.model.SupplierApptitute">
+    insert into T_SES_SMS_SUPPLIER_APTITUTE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="matEngId != null">
+        MAT_ENG_ID,
+      </if>
+      <if test="certType != null">
+        CERT_TYPE,
+      </if>
+      <if test="certCode != null">
+        CERT_CODE,
+      </if>
+      <if test="aptituteSequence != null">
+        APTITUTE_SEQUENCE,
+      </if>
+      <if test="professType != null">
+        PROFESS_TYPE,
+      </if>
+      <if test="aptituteLevel != null">
+        "APTITUTE_ LEVEL",
+      </if>
+      <if test="isMajorFund != null">
+        IS_MAJOR_FUND,
+      </if>
+      <if test="aptituteContent != null">
+        APTITUTE_CONTENT,
+      </if>
+      <if test="aptituteCode != null">
+        APTITUTE_CODE,
+      </if>
+      <if test="aptituteDate != null">
+        APTITUTE_DATE,
+      </if>
+      <if test="aptituteWay != null">
+        APTITUTE_WAY,
+      </if>
+      <if test="aptituteStatus != null">
+        APTITUTE_STATUS,
+      </if>
+      <if test="aptituteChangeAt != null">
+        APTITUTE_CHANGE_AT,
+      </if>
+      <if test="aptituteChangeReason != null">
+        APTITUTE_CHANGE_REASON,
+      </if>
+      <if test="attachCert != null">
+        ATTACH_CERT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="matEngId != null">
+        #{matEngId,jdbcType=DECIMAL},
+      </if>
+      <if test="certType != null">
+        #{certType,jdbcType=VARCHAR},
+      </if>
+      <if test="certCode != null">
+        #{certCode,jdbcType=VARCHAR},
+      </if>
+      <if test="aptituteSequence != null">
+        #{aptituteSequence,jdbcType=VARCHAR},
+      </if>
+      <if test="professType != null">
+        #{professType,jdbcType=VARCHAR},
+      </if>
+      <if test="aptituteLevel != null">
+        #{aptituteLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="isMajorFund != null">
+        #{isMajorFund,jdbcType=DECIMAL},
+      </if>
+      <if test="aptituteContent != null">
+        #{aptituteContent,jdbcType=VARCHAR},
+      </if>
+      <if test="aptituteCode != null">
+        #{aptituteCode,jdbcType=VARCHAR},
+      </if>
+      <if test="aptituteDate != null">
+        #{aptituteDate,jdbcType=DATE},
+      </if>
+      <if test="aptituteWay != null">
+        #{aptituteWay,jdbcType=VARCHAR},
+      </if>
+      <if test="aptituteStatus != null">
+        #{aptituteStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="aptituteChangeAt != null">
+        #{aptituteChangeAt,jdbcType=DATE},
+      </if>
+      <if test="aptituteChangeReason != null">
+        #{aptituteChangeReason,jdbcType=VARCHAR},
+      </if>
+      <if test="attachCert != null">
+        #{attachCert,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="yggc.model.SupplierApptitute">
+    update T_SES_SMS_SUPPLIER_APTITUTE
+    <set>
+      <if test="matEngId != null">
+        MAT_ENG_ID = #{matEngId,jdbcType=DECIMAL},
+      </if>
+      <if test="certType != null">
+        CERT_TYPE = #{certType,jdbcType=VARCHAR},
+      </if>
+      <if test="certCode != null">
+        CERT_CODE = #{certCode,jdbcType=VARCHAR},
+      </if>
+      <if test="aptituteSequence != null">
+        APTITUTE_SEQUENCE = #{aptituteSequence,jdbcType=VARCHAR},
+      </if>
+      <if test="professType != null">
+        PROFESS_TYPE = #{professType,jdbcType=VARCHAR},
+      </if>
+      <if test="aptituteLevel != null">
+        "APTITUTE_ LEVEL" = #{aptituteLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="isMajorFund != null">
+        IS_MAJOR_FUND = #{isMajorFund,jdbcType=DECIMAL},
+      </if>
+      <if test="aptituteContent != null">
+        APTITUTE_CONTENT = #{aptituteContent,jdbcType=VARCHAR},
+      </if>
+      <if test="aptituteCode != null">
+        APTITUTE_CODE = #{aptituteCode,jdbcType=VARCHAR},
+      </if>
+      <if test="aptituteDate != null">
+        APTITUTE_DATE = #{aptituteDate,jdbcType=DATE},
+      </if>
+      <if test="aptituteWay != null">
+        APTITUTE_WAY = #{aptituteWay,jdbcType=VARCHAR},
+      </if>
+      <if test="aptituteStatus != null">
+        APTITUTE_STATUS = #{aptituteStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="aptituteChangeAt != null">
+        APTITUTE_CHANGE_AT = #{aptituteChangeAt,jdbcType=DATE},
+      </if>
+      <if test="aptituteChangeReason != null">
+        APTITUTE_CHANGE_REASON = #{aptituteChangeReason,jdbcType=VARCHAR},
+      </if>
+      <if test="attachCert != null">
+        ATTACH_CERT = #{attachCert,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="yggc.model.SupplierApptitute">
+    update T_SES_SMS_SUPPLIER_APTITUTE
+    set MAT_ENG_ID = #{matEngId,jdbcType=DECIMAL},
+      CERT_TYPE = #{certType,jdbcType=VARCHAR},
+      CERT_CODE = #{certCode,jdbcType=VARCHAR},
+      APTITUTE_SEQUENCE = #{aptituteSequence,jdbcType=VARCHAR},
+      PROFESS_TYPE = #{professType,jdbcType=VARCHAR},
+      "APTITUTE_ LEVEL" = #{aptituteLevel,jdbcType=VARCHAR},
+      IS_MAJOR_FUND = #{isMajorFund,jdbcType=DECIMAL},
+      APTITUTE_CONTENT = #{aptituteContent,jdbcType=VARCHAR},
+      APTITUTE_CODE = #{aptituteCode,jdbcType=VARCHAR},
+      APTITUTE_DATE = #{aptituteDate,jdbcType=DATE},
+      APTITUTE_WAY = #{aptituteWay,jdbcType=VARCHAR},
+      APTITUTE_STATUS = #{aptituteStatus,jdbcType=DECIMAL},
+      APTITUTE_CHANGE_AT = #{aptituteChangeAt,jdbcType=DATE},
+      APTITUTE_CHANGE_REASON = #{aptituteChangeReason,jdbcType=VARCHAR},
+      ATTACH_CERT = #{attachCert,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

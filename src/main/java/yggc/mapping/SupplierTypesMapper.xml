@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="yggc.dao.SupplierTypesMapper">
+  <resultMap id="BaseResultMap" type="yggc.model.SupplierTypes">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="ANCESTRY" jdbcType="VARCHAR" property="ancestry" />
+    <result column="ANCESTRY_DEPTH" jdbcType="DECIMAL" property="ancestryDepth" />
+    <result column="ORDER_NUM" jdbcType="DECIMAL" property="orderNum" />
+    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, NAME, ANCESTRY, ANCESTRY_DEPTH, ORDER_NUM, CREATED_AT, UPDATED_AT
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_SUPPLIER_TYPES
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from T_SES_SMS_SUPPLIER_TYPES
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="yggc.model.SupplierTypes">
+    insert into T_SES_SMS_SUPPLIER_TYPES (ID, NAME, ANCESTRY, 
+      ANCESTRY_DEPTH, ORDER_NUM, CREATED_AT, 
+      UPDATED_AT)
+    values (#{id,jdbcType=DECIMAL}, #{name,jdbcType=VARCHAR}, #{ancestry,jdbcType=VARCHAR}, 
+      #{ancestryDepth,jdbcType=DECIMAL}, #{orderNum,jdbcType=DECIMAL}, #{createdAt,jdbcType=DATE}, 
+      #{updatedAt,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="yggc.model.SupplierTypes">
+    insert into T_SES_SMS_SUPPLIER_TYPES
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="ancestry != null">
+        ANCESTRY,
+      </if>
+      <if test="ancestryDepth != null">
+        ANCESTRY_DEPTH,
+      </if>
+      <if test="orderNum != null">
+        ORDER_NUM,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="ancestry != null">
+        #{ancestry,jdbcType=VARCHAR},
+      </if>
+      <if test="ancestryDepth != null">
+        #{ancestryDepth,jdbcType=DECIMAL},
+      </if>
+      <if test="orderNum != null">
+        #{orderNum,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="yggc.model.SupplierTypes">
+    update T_SES_SMS_SUPPLIER_TYPES
+    <set>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="ancestry != null">
+        ANCESTRY = #{ancestry,jdbcType=VARCHAR},
+      </if>
+      <if test="ancestryDepth != null">
+        ANCESTRY_DEPTH = #{ancestryDepth,jdbcType=DECIMAL},
+      </if>
+      <if test="orderNum != null">
+        ORDER_NUM = #{orderNum,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="yggc.model.SupplierTypes">
+    update T_SES_SMS_SUPPLIER_TYPES
+    set NAME = #{name,jdbcType=VARCHAR},
+      ANCESTRY = #{ancestry,jdbcType=VARCHAR},
+      ANCESTRY_DEPTH = #{ancestryDepth,jdbcType=DECIMAL},
+      ORDER_NUM = #{orderNum,jdbcType=DECIMAL},
+      CREATED_AT = #{createdAt,jdbcType=DATE},
+      UPDATED_AT = #{updatedAt,jdbcType=DATE}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

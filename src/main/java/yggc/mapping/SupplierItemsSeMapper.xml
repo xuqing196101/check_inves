@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="yggc.dao.SupplierItemsSeMapper">
+  <resultMap id="BaseResultMap" type="yggc.model.SupplierItemsSe">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="MAT_SERVE_ID" jdbcType="DECIMAL" property="matServeId" />
+    <result column="ITEMS_ID" jdbcType="DECIMAL" property="itemsId" />
+    <result column="BIG_KIND_NAME" jdbcType="VARCHAR" property="bigKindName" />
+    <result column="NORMAL_KIND_NAME" jdbcType="VARCHAR" property="normalKindName" />
+    <result column="SMALL_KING_NAME" jdbcType="VARCHAR" property="smallKingName" />
+    <result column="KIND_NAME" jdbcType="VARCHAR" property="kindName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, MAT_SERVE_ID, ITEMS_ID, BIG_KIND_NAME, NORMAL_KIND_NAME, SMALL_KING_NAME, KIND_NAME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_SUPPLIER_ITEMS_SE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from T_SES_SMS_SUPPLIER_ITEMS_SE
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="yggc.model.SupplierItemsSe">
+    insert into T_SES_SMS_SUPPLIER_ITEMS_SE (ID, MAT_SERVE_ID, ITEMS_ID, 
+      BIG_KIND_NAME, NORMAL_KIND_NAME, SMALL_KING_NAME, 
+      KIND_NAME)
+    values (#{id,jdbcType=DECIMAL}, #{matServeId,jdbcType=DECIMAL}, #{itemsId,jdbcType=DECIMAL}, 
+      #{bigKindName,jdbcType=VARCHAR}, #{normalKindName,jdbcType=VARCHAR}, #{smallKingName,jdbcType=VARCHAR}, 
+      #{kindName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="yggc.model.SupplierItemsSe">
+    insert into T_SES_SMS_SUPPLIER_ITEMS_SE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="matServeId != null">
+        MAT_SERVE_ID,
+      </if>
+      <if test="itemsId != null">
+        ITEMS_ID,
+      </if>
+      <if test="bigKindName != null">
+        BIG_KIND_NAME,
+      </if>
+      <if test="normalKindName != null">
+        NORMAL_KIND_NAME,
+      </if>
+      <if test="smallKingName != null">
+        SMALL_KING_NAME,
+      </if>
+      <if test="kindName != null">
+        KIND_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="matServeId != null">
+        #{matServeId,jdbcType=DECIMAL},
+      </if>
+      <if test="itemsId != null">
+        #{itemsId,jdbcType=DECIMAL},
+      </if>
+      <if test="bigKindName != null">
+        #{bigKindName,jdbcType=VARCHAR},
+      </if>
+      <if test="normalKindName != null">
+        #{normalKindName,jdbcType=VARCHAR},
+      </if>
+      <if test="smallKingName != null">
+        #{smallKingName,jdbcType=VARCHAR},
+      </if>
+      <if test="kindName != null">
+        #{kindName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="yggc.model.SupplierItemsSe">
+    update T_SES_SMS_SUPPLIER_ITEMS_SE
+    <set>
+      <if test="matServeId != null">
+        MAT_SERVE_ID = #{matServeId,jdbcType=DECIMAL},
+      </if>
+      <if test="itemsId != null">
+        ITEMS_ID = #{itemsId,jdbcType=DECIMAL},
+      </if>
+      <if test="bigKindName != null">
+        BIG_KIND_NAME = #{bigKindName,jdbcType=VARCHAR},
+      </if>
+      <if test="normalKindName != null">
+        NORMAL_KIND_NAME = #{normalKindName,jdbcType=VARCHAR},
+      </if>
+      <if test="smallKingName != null">
+        SMALL_KING_NAME = #{smallKingName,jdbcType=VARCHAR},
+      </if>
+      <if test="kindName != null">
+        KIND_NAME = #{kindName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="yggc.model.SupplierItemsSe">
+    update T_SES_SMS_SUPPLIER_ITEMS_SE
+    set MAT_SERVE_ID = #{matServeId,jdbcType=DECIMAL},
+      ITEMS_ID = #{itemsId,jdbcType=DECIMAL},
+      BIG_KIND_NAME = #{bigKindName,jdbcType=VARCHAR},
+      NORMAL_KIND_NAME = #{normalKindName,jdbcType=VARCHAR},
+      SMALL_KING_NAME = #{smallKingName,jdbcType=VARCHAR},
+      KIND_NAME = #{kindName,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>
