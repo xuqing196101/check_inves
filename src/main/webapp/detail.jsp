@@ -36,7 +36,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
 <link href="<%=basePath%>public/ZHH/css/blocks.css" media="screen" rel="stylesheet" type="text/css">
 <link href="<%=basePath%>public/ZHH/css/datepicker.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/WdatePicker.css" media="screen" rel="stylesheet" type="text/css">
 <link href="<%=basePath%>public/ZHH/css/select2.css" media="screen" rel="stylesheet" type="text/css">
 <link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
 <link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet" type="text/css">
@@ -291,7 +290,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      <li class="col-md-6  p0 ">
 	   <span class="">交付日期：</span>
 	   <div class="input-append">
-        <input class="span2 Wdatee" id="appendedInput" type="text" onclick='WdatePicker()'>
+        <input class="span2 Wdate w250" id="appendedInput" type="text" onclick='WdatePicker()'>
        <%--  <span class="add-on"  onclick='WdatePicker()'>
         <img src="<%=basePath%>public/ZHH/images/time_icon.png" class="mb10" onclick='WdatePicker()'/>
         </span> --%>

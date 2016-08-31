@@ -1,7 +1,7 @@
-.Wdatee{
-	border:1px solid #e5e5e5;
-	height:25px;
-	background: url(datePicker.gif) no-repeat right;
+.Wdate{
+	border:#999 1px solid;
+	height:20px;
+	background:#fff url(datePicker.gif) no-repeat right;
 }
 .Wdate::-ms-clear{display:none;}
 

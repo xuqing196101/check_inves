@@ -67,7 +67,10 @@
 
 .w350 {
   width: 350px; }
-
+  
+.w250 {
+  width: 250px !important; }
+  
 .w260 {
   width: 260px; }
 
