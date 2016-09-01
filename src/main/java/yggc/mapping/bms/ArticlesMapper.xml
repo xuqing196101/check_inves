@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="yggc.dao.bms.ArticlesMapper">
+  <resultMap id="ArticleMapper" type="yggc.model.bms.Article">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="PUBLISHED_AT" jdbcType="DATE" property="publishedAt" />
+    <result column="IS_PIC_SHOW" jdbcType="DECIMAL" property="isPicShow" />
+    <result column="POSITION" jdbcType="DECIMAL" property="position" />
+    <result column="SHOW_COUNT" jdbcType="DECIMAL" property="showCount" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="PIC" jdbcType="VARCHAR" property="pic" />
+    <result column="PUBLISHED_NAME" jdbcType="VARCHAR" property="publishedName" />
+    <result column="IS_INDEX" jdbcType="DECIMAL" property="isIndex" />
+    <result column="TYPE" jdbcType="CHAR" property="type" />
+    <result column="PROJECT_ID" jdbcType="DECIMAL" property="projectId" />
+    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+    <result column="RANGE" jdbcType="DECIMAL" property="range" />
+    <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
+    <association property="user" column="USER_ID" select="yggc.dao.bms.UserMapper.queryById"/>
+    <association property="articleType" column="ARTICLE_TYPE_ID" select="yggc.dao.iss.ArticleTypeMapper.selectByPrimaryKey"/>
+  </resultMap> 
+  <resultMap extends="ArticleMapper" id="ArticleBlob" type="yggc.model.bms.Article">
+    <result column="CONTENT" jdbcType="CLOB" property="content" />
+  </resultMap>
+  <resultMap extends="ArticleBlob" type="yggc.model.bms.Article" id="ArticleWithAttach">
+  	<collection property="articleAttachments" ofType="yggc.model.bms.ArticleAttachments">
+  		<id column="ID" property="id"/>
+  		<id column="FILE_NAME" property="fileName"/>
+  	</collection>
+  </resultMap>
+  <sql id="Article_Column_List">
+    ID, NAME, ARTICLE_TYPE_ID, PUBLISHED_AT, IS_PIC_SHOW, POSITION, USER_ID, SHOW_COUNT, 
+    STATUS, PIC, PUBLISHED_NAME, IS_INDEX, TYPE, PROJECT_ID, CREATED_AT, UPDATED_AT,RANGE,IS_DELETED
+  </sql>
+  <sql id="Article_BlOB_Column_List">
+    CONTENT
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ArticleBlob">
+    select 
+    <include refid="Article_Column_List" />
+    ,
+    <include refid="Article_BlOB_Column_List" />
+    from T_SES_BMS_ARTICLE
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <select id="selectAllArticle" resultMap="ArticleBlob">
+  	select
+  	<include refid="Article_Column_List"/>
+  	,
+    <include refid="Article_BlOB_Column_List" />
+    from T_SES_BMS_ARTICLE
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from T_SES_BMS_ARTICLE
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="yggc.model.bms.Article">
+    insert into T_SES_BMS_ARTICLE (ID, NAME, ARTICLE_TYPE_ID, 
+      PUBLISHED_AT, IS_PIC_SHOW, POSITION, 
+      USER_ID, SHOW_COUNT, STATUS, 
+      PIC, PUBLISHED_NAME, IS_INDEX, 
+      TYPE, PROJECT_ID, CREATED_AT, 
+      UPDATED_AT, CONTENT,RANGE,IS_DELETED)
+    values (SEQ_T_ARTICLES_ID.nextval, #{name,jdbcType=VARCHAR}, #{articleTypeId,jdbcType=DECIMAL}, 
+      #{publishedAt,jdbcType=DATE}, #{isPicShow,jdbcType=DECIMAL}, #{position,jdbcType=DECIMAL}, 
+      #{userId,jdbcType=DECIMAL}, #{showCount,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}, 
+      #{pic,jdbcType=VARCHAR}, #{publishedName,jdbcType=VARCHAR}, #{isIndex,jdbcType=DECIMAL}, 
+      #{type,jdbcType=CHAR}, #{projectId,jdbcType=DECIMAL}, #{createdAt,jdbcType=DATE}, 
+      #{updatedAt,jdbcType=DATE}, #{content,jdbcType=CLOB},#{range,jdbcType=DECIMAL},#{isDeleted,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="yggc.model.bms.Article">
+    insert into T_SES_BMS_ARTICLE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="articleTypeId != null">
+        ARTICLE_TYPE_ID,
+      </if>
+      <if test="publishedAt != null">
+        PUBLISHED_AT,
+      </if>
+      <if test="isPicShow != null">
+        IS_PIC_SHOW,
+      </if>
+      <if test="position != null">
+        POSITION,
+      </if>
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="showCount != null">
+        SHOW_COUNT,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="pic != null">
+        PIC,
+      </if>
+      <if test="publishedName != null">
+        PUBLISHED_NAME,
+      </if>
+      <if test="isIndex != null">
+        IS_INDEX,
+      </if>
+      <if test="type != null">
+        TYPE,
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="content != null">
+        CONTENT,
+      </if>
+      <if test="range != null">
+        range,
+      </if>
+      <if test="isDeleted != null">
+        isDeleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="articleTypeId != null">
+        #{articleTypeId,jdbcType=DECIMAL},
+      </if>
+      <if test="publishedAt != null">
+        #{publishedAt,jdbcType=DATE},
+      </if>
+      <if test="isPicShow != null">
+        #{isPicShow,jdbcType=DECIMAL},
+      </if>
+      <if test="position != null">
+        #{position,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=DECIMAL},
+      </if>
+      <if test="showCount != null">
+        #{showCount,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="pic != null">
+        #{pic,jdbcType=VARCHAR},
+      </if>
+      <if test="publishedName != null">
+        #{publishedName,jdbcType=VARCHAR},
+      </if>
+      <if test="isIndex != null">
+        #{isIndex,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=CHAR},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=DATE},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=CLOB},
+      </if>
+      <if test="range != null">
+        #{range,jdbcType=DECIMAL},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="yggc.model.bms.Article">
+    update T_SES_BMS_ARTICLE
+    <set>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="articleTypeId != null">
+        ARTICLE_TYPE_ID = #{articleTypeId,jdbcType=DECIMAL},
+      </if>
+      <if test="publishedAt != null">
+        PUBLISHED_AT = #{publishedAt,jdbcType=DATE},
+      </if>
+      <if test="isPicShow != null">
+        IS_PIC_SHOW = #{isPicShow,jdbcType=DECIMAL},
+      </if>
+      <if test="position != null">
+        POSITION = #{position,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null">
+        USER_ID = #{userId,jdbcType=DECIMAL},
+      </if>
+      <if test="showCount != null">
+        SHOW_COUNT = #{showCount,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="pic != null">
+        PIC = #{pic,jdbcType=VARCHAR},
+      </if>
+      <if test="publishedName != null">
+        PUBLISHED_NAME = #{publishedName,jdbcType=VARCHAR},
+      </if>
+      <if test="isIndex != null">
+        IS_INDEX = #{isIndex,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null">
+        TYPE = #{type,jdbcType=CHAR},
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID = #{projectId,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      </if>
+      <if test="content != null">
+        CONTENT = #{content,jdbcType=CLOB},
+      </if>
+      <if test="range != null">
+        RANGE = #{range,jdbcType=DECIMAL},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="yggc.model.bms.Article">
+    update T_SES_BMS_ARTICLE
+    set NAME = #{name,jdbcType=VARCHAR},
+      ARTICLE_TYPE_ID = #{articleTypeId,jdbcType=DECIMAL},
+      PUBLISHED_AT = #{publishedAt,jdbcType=DATE},
+      IS_PIC_SHOW = #{isPicShow,jdbcType=DECIMAL},
+      POSITION = #{position,jdbcType=DECIMAL},
+      USER_ID = #{userId,jdbcType=DECIMAL},
+      SHOW_COUNT = #{showCount,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=DECIMAL},
+      PIC = #{pic,jdbcType=VARCHAR},
+      PUBLISHED_NAME = #{publishedName,jdbcType=VARCHAR},
+      IS_INDEX = #{isIndex,jdbcType=DECIMAL},
+      TYPE = #{type,jdbcType=CHAR},
+      PROJECT_ID = #{projectId,jdbcType=DECIMAL},
+      CREATED_AT = #{createdAt,jdbcType=DATE},
+      UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      CONTENT = #{content,jdbcType=CLOB},
+      RANGE = #{range,jdbcType=DECIMAL},
+      IS_DELETED = #{isDeleted,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="yggc.model.bms.Article">
+    update T_SES_BMS_ARTICLE
+    set NAME = #{name,jdbcType=VARCHAR},
+      ARTICLE_TYPE_ID = #{articleTypeId,jdbcType=DECIMAL},
+      PUBLISHED_AT = #{publishedAt,jdbcType=DATE},
+      IS_PIC_SHOW = #{isPicShow,jdbcType=DECIMAL},
+      POSITION = #{position,jdbcType=DECIMAL},
+      USER_ID = #{userId,jdbcType=DECIMAL},
+      SHOW_COUNT = #{showCount,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=DECIMAL},
+      PIC = #{pic,jdbcType=VARCHAR},
+      PUBLISHED_NAME = #{publishedName,jdbcType=VARCHAR},
+      IS_INDEX = #{isIndex,jdbcType=DECIMAL},
+      TYPE = #{type,jdbcType=CHAR},
+      PROJECT_ID = #{projectId,jdbcType=DECIMAL},
+      CREATED_AT = #{createdAt,jdbcType=DATE},
+      UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      RANGE = #{range,jdbcType=DECIMAL},
+      IS_DELETED = #{isDeleted,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>
