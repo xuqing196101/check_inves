@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="yggc.dao.iss.fs.ParkMapper">
+		  <resultMap id="ParkResultMap" type="yggc.model.iss.fs.Park">
+		    <id column="ID" property="id" />
+		    <result column="NAME"  property="name" />
+		    <result column="CONTENT"  property="content" />
+		    <result column="CREATED_AT"  property="createdAt" />
+		    <result column="UPDATED_AT"  property="updatedAt" />
+			
+			<!-- 查询版主 -->
+		    <association column="USER_ID"  property="user" select="yggc.dao.bms.UserMapper.queryById"/>
+		    <!-- 查询创建人 -->
+		    <association column="CREATER_ID"  property="creater" select="yggc.dao.bms.UserMapper.queryById"/>		    
+		  </resultMap>
+		  
+		  <resultMap type="yggc.model.iss.fs.Park" id="ParkTopicMap" extends="ParkResultMap">
+		  	<collection property="topics" ofType="yggc.model.iss.fs.Topic">
+			    <id column="ID" property="id" />
+			    <result column="NAME"  property="name" />
+			    <result column="CREATED_AT"  property="createdAt" />
+			    <result column="UPDATED_AT"  property="updatedAt" />		     
+			    <association  column="PARK_ID"  property="park"  select="yggc.dao.iss.fs.ParkMapper.selectByPrimaryKey"/>  
+			    <association  column="USER_ID"  property="user" select="yggc.dao.bms.UserMapper.queryById"/>
+			</collection>  
+		  </resultMap>
+		  
+		  <resultMap type="yggc.model.iss.fs.Park" id="ParkPostMap" extends="ParkResultMap">
+		  	<collection property="posts" ofType="yggc.model.iss.fs.Post">
+		  			<id column="ID"  property="id" />
+				    <result column="NAME" property="name" />
+				    <result column="IS_TOP"  property="isTop" />
+				    <result column="IS_LOCKING"  property="isLocking" />
+				    <result column="IS_ESSENCE"  property="isEssence" />
+				    <result column="IS_CAN_REPLY"  property="isCanReply" />
+				    <result column="PUBLISHED_TIME"  property="publishedTime" />
+				    <result column="LAST_REPLYED_TIME"  property="lastReplyedTime" />			
+				    	    
+				    <association column="USER_ID"  property="user" select="yggc.dao.bms.UserMapper.queryById"/>
+				    <association column="TOPIC_ID"  property="topic" select="yggc.dao.iss.fs.TopicMapper.selectByPrimaryKey"/>	
+				    <association column="PARK_ID"  property="park" select="yggc.dao.iss.fs.ParkMapper.selectByPrimaryKey"/>		
+
+			</collection>  
+		  </resultMap>
+		  		  		  		  
+		   <sql id="Tabel_Name">
+		    T_ISS_FS_PARK
+		  </sql>
+  
+		   <!-- 表中所有列 --> 
+		  <sql id="Base_Column_List">
+		    ID, NAME, CONTENT,USER_ID,CREATER_ID,CREATED_AT, UPDATED_AT	    
+		  </sql>
+		  
+		   <!-- 查询条件 -->
+		  <sql id="Example_Where_Clause">
+		  </sql>
+		  
+		  <!-- 1.查询数量 -->
+		  <select id="queryByCount" resultType="Object" parameterType="Object">
+		    select count(1) from T_ISS_FS_PARK
+		    <include refid="Example_Where_Clause" />
+		  </select>
+		  
+		   <!-- 2.根据ID查询版块-->
+		  <select id="selectByPrimaryKey" parameterType="Object" resultMap="ParkResultMap">
+		    select 
+		    <include refid="Base_Column_List" />
+		    from T_ISS_FS_PARK
+		    where ID = #{id}
+		  </select>
+		  
+		
+		  <!-- 3.查询版块列表 -->
+		    <select id="queryByList" parameterType="Object" resultMap="ParkResultMap">
+		    select 
+		    <include refid="Base_Column_List" />
+		    from T_ISS_FS_PARK
+		   <!--  <include refid="Example_Where_Clause" /> -->
+		   ORDER BY CREATED_AT ASC
+		  </select>		  
+		  <!-- 4.根据ID删除 -->
+		  <delete id="deleteByPrimaryKey" parameterType="Object">
+		    delete from T_ISS_FS_PARK
+		    where ID = #{id}
+		  </delete>
+		  
+		 <!-- 5.插入一条记录 -->
+		  <insert id="insertSelective" parameterType="yggc.model.iss.fs.Park">
+		  	<selectKey resultType="int" order="BEFORE" keyProperty="id">
+		     	 select SEQ_T_PARKS_ID.nextval as ID from dual
+		    </selectKey>
+		    insert into T_ISS_FS_PARK
+		    <trim prefix="(" suffix=")" suffixOverrides=",">
+		      <if test="id != null">
+		        ID,
+		      </if>
+		      <if test="name != null">
+		        NAME,
+		      </if>
+		      <if test="createdAt != null">
+		        CREATED_AT,
+		      </if>
+		      <if test="content != null">
+		        CONTENT,
+		      </if>
+		      <if test="user != null">
+		        USER_ID,
+		      </if>
+		      <if test="creater != null">
+		        CREATER_ID,
+		      </if>
+		    </trim>
+		    <trim prefix="values (" suffix=")" suffixOverrides=",">
+		      <if test="id != null">
+		        #{id},
+		      </if>
+		      <if test="name != null">
+		        #{name,jdbcType=VARCHAR},
+		      </if>
+		      <if test="createdAt != null">
+		        #{createdAt},
+		      </if>
+		      <if test="content != null">
+		        #{content},
+		      </if>
+		      <if test="user != null">
+		        #{user.id},
+		      </if>
+		      <if test="creater != null">
+		        #{creater.id},
+		      </if>
+		    </trim>
+		  </insert>
+		  
+		  <!-- 6.更新 -->
+		  <update id="updateByPrimaryKeySelective" parameterType="yggc.model.iss.fs.Park">
+		    update T_ISS_FS_PARK
+		    <set>
+		      <if test="name != null">
+		        NAME = #{name,jdbcType=VARCHAR},
+		      </if>
+		      <if test="updatedAt != null">
+		        UPDATED_AT = #{updatedAt},
+		      </if>
+		      <if test="content != null">
+		        CONTENT = #{content},
+		      </if>
+		      <if test="user != null">
+		        USER_ID = #{user.id},
+		      </if>
+		    </set>
+		    where ID = #{id}
+		  </update>		  
+</mapper>
