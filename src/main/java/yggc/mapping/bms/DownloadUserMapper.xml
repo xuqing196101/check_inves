@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="yggc.dao.bms.DownloadUserMapper">
+  <resultMap id="DownloadUserMap" type="yggc.model.bms.DownloadUser">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="ARTICLE_ID" jdbcType="DECIMAL" property="articleId" />
+    <result column="USER_ID" jdbcType="DECIMAL" property="userId" />
+    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+    <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
+  </resultMap>
+  <sql id="DownloadUser_Column_List">
+    ID, ARTICLE_ID, USER_ID, CREATED_AT, UPDATED_AT,IS_DELETED
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="DownloadUserMap">
+    select 
+    <include refid="DownloadUser_Column_List" />
+    from T_SES_BMS_DOWNLOAD_INFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from T_SES_BMS_DOWNLOAD_INFO
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="yggc.model.bms.DownloadUser">
+    insert into T_SES_BMS_DOWNLOAD_INFO (ID, ARTICLE_ID, USER_ID, 
+      CREATED_AT, UPDATED_AT,IS_DELETED)
+    values (#{id,jdbcType=DECIMAL}, #{articleId,jdbcType=DECIMAL}, #{userId,jdbcType=DECIMAL}, 
+      #{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE},#{isDeleted,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="yggc.model.bms.DownloadUser">
+    insert into T_SES_BMS_DOWNLOAD_INFO
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="articleId != null">
+        ARTICLE_ID,
+      </if>
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="articleId != null">
+        #{articleId,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=DATE},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="yggc.model.bms.DownloadUser">
+    update T_SES_BMS_DOWNLOAD_INFO
+    <set>
+      <if test="articleId != null">
+        ARTICLE_ID = #{articleId,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null">
+        USER_ID = #{userId,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED  = #{isDeleted,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="yggc.model.bms.DownloadUser">
+    update T_SES_BMS_DOWNLOAD_INFO
+    set ARTICLE_ID = #{articleId,jdbcType=DECIMAL},
+      USER_ID = #{userId,jdbcType=DECIMAL},
+      CREATED_AT = #{createdAt,jdbcType=DATE},
+      UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      IS_DELETED = #{isDeleted,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

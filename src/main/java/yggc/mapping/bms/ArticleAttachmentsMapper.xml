@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="yggc.dao.bms.ArticleAttachmentsMapper">
+  <resultMap id="ArticleAttachMap" type="yggc.model.bms.ArticleAttachments">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="FILE_NAME" jdbcType="VARCHAR" property="fileName" />
+    <result column="CONTENT_TYPE" jdbcType="VARCHAR" property="contentType" />
+    <result column="FILE_SIZE" jdbcType="DECIMAL" property="fileSize" />
+    <result column="ARTICLE_ID" jdbcType="DECIMAL" property="articleId" />
+    <result column="ATTACHMENT_PATH" jdbcType="VARCHAR" property="attachmentPath" />
+    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+    <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted"/>
+    <association property="article" javaType="yggc.model.bms.Article">
+    	<id column="ID" property="id"/>
+    	<result column="NAME" property="name"/>
+    </association>
+  </resultMap>
+  <sql id="ArticleAttach_Column_List">
+    ID, FILE_NAME, CONTENT_TYPE, FILE_SIZE, ARTICLE_ID, ATTACHMENT_PATH, CREATED_AT, 
+    UPDATED_AT,IS_DELETED
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ArticleAttachMap">
+    select 
+    <include refid="ArticleAttach_Column_List" />
+    from T_SES_BMS_ARTICLE_ATTACHMENTS
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from T_SES_BMS_ARTICLE_ATTACHMENTS
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="yggc.model.bms.ArticleAttachments">
+    insert into T_SES_BMS_ARTICLE_ATTACHMENTS (ID, FILE_NAME, CONTENT_TYPE, 
+      FILE_SIZE, ARTICLE_ID, ATTACHMENT_PATH, 
+      CREATED_AT, UPDATED_AT,IS_DELETED)
+    values (#{id,jdbcType=DECIMAL}, #{fileName,jdbcType=VARCHAR}, #{contentType,jdbcType=VARCHAR}, 
+      #{fileSize,jdbcType=DECIMAL}, #{articleId,jdbcType=DECIMAL}, #{attachmentPath,jdbcType=VARCHAR}, 
+      #{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE},#{isDeleted,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="yggc.model.bms.ArticleAttachments">
+    insert into T_SES_BMS_ARTICLE_ATTACHMENTS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="fileName != null">
+        FILE_NAME,
+      </if>
+      <if test="contentType != null">
+        CONTENT_TYPE,
+      </if>
+      <if test="fileSize != null">
+        FILE_SIZE,
+      </if>
+      <if test="articleId != null">
+        ARTICLE_ID,
+      </if>
+      <if test="attachmentPath != null">
+        ATTACHMENT_PATH,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="fileName != null">
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="contentType != null">
+        #{contentType,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSize != null">
+        #{fileSize,jdbcType=DECIMAL},
+      </if>
+      <if test="articleId != null">
+        #{articleId,jdbcType=DECIMAL},
+      </if>
+      <if test="attachmentPath != null">
+        #{attachmentPath,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=DATE},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="yggc.model.bms.ArticleAttachments">
+    update T_SES_BMS_ARTICLE_ATTACHMENTS
+    <set>
+      <if test="fileName != null">
+        FILE_NAME = #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="contentType != null">
+        CONTENT_TYPE = #{contentType,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSize != null">
+        FILE_SIZE = #{fileSize,jdbcType=DECIMAL},
+      </if>
+      <if test="articleId != null">
+        ARTICLE_ID = #{articleId,jdbcType=DECIMAL},
+      </if>
+      <if test="attachmentPath != null">
+        ATTACHMENT_PATH = #{attachmentPath,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="yggc.model.bms.ArticleAttachments">
+    update T_SES_BMS_ARTICLE_ATTACHMENTS
+    set FILE_NAME = #{fileName,jdbcType=VARCHAR},
+      CONTENT_TYPE = #{contentType,jdbcType=VARCHAR},
+      FILE_SIZE = #{fileSize,jdbcType=DECIMAL},
+      ARTICLE_ID = #{articleId,jdbcType=DECIMAL},
+      ATTACHMENT_PATH = #{attachmentPath,jdbcType=VARCHAR},
+      CREATED_AT = #{createdAt,jdbcType=DATE},
+      UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      IS_DELETED = #{isDeleted,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>
