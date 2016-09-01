@@ -47,7 +47,7 @@ public interface ArticleService {
 	* @param @param id      
 	* @return void
 	 */
-	void delArticleById(Long id);
+	void delArticleById(Integer id);
 	
 	/**
 	 * 
@@ -59,5 +59,5 @@ public interface ArticleService {
 	* @param @return      
 	* @return Article
 	 */
-	Article selectArticleById(Long id);
+	Article selectArticleById(Integer id);
 }

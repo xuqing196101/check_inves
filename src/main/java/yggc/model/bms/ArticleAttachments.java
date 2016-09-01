@@ -5,7 +5,7 @@ import java.util.Date;
 
 
 public class ArticleAttachments {
-    private Long id;
+    private Integer id;
 
     private String fileName;
 
@@ -13,7 +13,7 @@ public class ArticleAttachments {
 
     private BigDecimal fileSize;
 
-    private Long articleId;
+    private Integer articleId;
 
     private String attachmentPath;
 
@@ -23,13 +23,29 @@ public class ArticleAttachments {
     
     private Article article;
     
-    private Short isDeleted;
+    private Integer isDeleted;
     
-    public Short getIsDeleted() {
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Integer getArticleId() {
+		return articleId;
+	}
+
+	public void setArticleId(Integer articleId) {
+		this.articleId = articleId;
+	}
+
+	public Integer getIsDeleted() {
 		return isDeleted;
 	}
 
-	public void setIsDeleted(Short isDeleted) {
+	public void setIsDeleted(Integer isDeleted) {
 		this.isDeleted = isDeleted;
 	}
 
@@ -40,14 +56,6 @@ public class ArticleAttachments {
 	public void setArticle(Article article) {
 		this.article = article;
 	}
-
-	public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getFileName() {
         return fileName;
@@ -71,14 +79,6 @@ public class ArticleAttachments {
 
     public void setFileSize(BigDecimal fileSize) {
         this.fileSize = fileSize;
-    }
-
-    public Long getArticleId() {
-        return articleId;
-    }
-
-    public void setArticleId(Long articleId) {
-        this.articleId = articleId;
     }
 
     public String getAttachmentPath() {

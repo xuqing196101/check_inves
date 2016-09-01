@@ -37,7 +37,7 @@
   <sql id="IndexNewsBlob_Column_List">
     CONTENT
   </sql>
-  <select id="selectNewsByArticleTypeId" parameterType="java.lang.Long" resultMap="IndexNewsMapper">
+  <select id="selectNewsByArticleTypeId" parameterType="Object" resultMap="IndexNewsMapper">
   	select 
   	<include refid="IndexNews_Column_List"/>
   	from T_SES_BMS_ARTICLE where ARTICLE_TYPE_ID = #{articleTypeId,jdbcType=DECIMAL} and rownum &lt;=8

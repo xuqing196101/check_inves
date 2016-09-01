@@ -22,7 +22,7 @@
     <include refid="ArticleType_Column_List" />
     from T_ISS_ARTICLE_TYPE
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+  <delete id="deleteByPrimaryKey" parameterType="Object">
     delete from T_ISS_ARTICLE_TYPE
     where ID = #{id,jdbcType=DECIMAL}
   </delete>

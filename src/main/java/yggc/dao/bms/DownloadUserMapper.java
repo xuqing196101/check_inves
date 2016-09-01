@@ -21,7 +21,7 @@ public interface DownloadUserMapper {
 	* @param @return      
 	* @return int
 	 */
-    int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(Integer id);
     
     /**
      * 
@@ -57,7 +57,7 @@ public interface DownloadUserMapper {
     * @param @return      
     * @return DownloadUser
      */
-    DownloadUser selectByPrimaryKey(Long id);
+    DownloadUser selectByPrimaryKey(Integer id);
     
     /**
      * 

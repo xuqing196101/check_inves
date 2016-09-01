@@ -6,7 +6,7 @@ import java.util.List;
 import yggc.model.iss.ArticleType;
 
 public class Article {
-    private Long id;
+    private Integer id;
 
     private String name;
 
@@ -14,25 +14,25 @@ public class Article {
 
     private Date publishedAt;
 
-    private Short isPicShow;
+    private Integer isPicShow;
 
-    private Long position;
+    private Integer position;
 
     private User user;
 
-    private Long showCount;
+    private Integer showCount;
 
-    private Short status;
+    private Integer status;
 
     private String pic;
 
     private String publishedName;
 
-    private Short isIndex;
+    private Integer isIndex;
 
     private String type;
 
-    private Long projectId;
+    private Integer projectId;
 
     private Date createdAt;
 
@@ -40,24 +40,80 @@ public class Article {
 
     private String content;
     
-    private Short range;
+    private Integer range;
     
-    private Short isDeleted;
+    private Integer isDeleted;
     
-    public Short getIsDeleted() {
-		return isDeleted;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setIsDeleted(Short isDeleted) {
-		this.isDeleted = isDeleted;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
-	public Short getRange() {
+	public Integer getIsPicShow() {
+		return isPicShow;
+	}
+
+	public void setIsPicShow(Integer isPicShow) {
+		this.isPicShow = isPicShow;
+	}
+
+	public Integer getPosition() {
+		return position;
+	}
+
+	public void setPosition(Integer position) {
+		this.position = position;
+	}
+
+	public Integer getShowCount() {
+		return showCount;
+	}
+
+	public void setShowCount(Integer showCount) {
+		this.showCount = showCount;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public Integer getIsIndex() {
+		return isIndex;
+	}
+
+	public void setIsIndex(Integer isIndex) {
+		this.isIndex = isIndex;
+	}
+
+	public Integer getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(Integer projectId) {
+		this.projectId = projectId;
+	}
+
+	public Integer getRange() {
 		return range;
 	}
 
-	public void setRange(Short range) {
+	public void setRange(Integer range) {
 		this.range = range;
+	}
+
+	public Integer getIsDeleted() {
+		return isDeleted;
+	}
+
+	public void setIsDeleted(Integer isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 
 	private List<ArticleAttachments> articleAttachments;
@@ -69,14 +125,6 @@ public class Article {
 	public void setArticleAttachments(List<ArticleAttachments> articleAttachments) {
 		this.articleAttachments = articleAttachments;
 	}
-
-	public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -102,22 +150,6 @@ public class Article {
         this.publishedAt = publishedAt;
     }
 
-    public Short getIsPicShow() {
-        return isPicShow;
-    }
-
-    public void setIsPicShow(Short isPicShow) {
-        this.isPicShow = isPicShow;
-    }
-
-    public Long getPosition() {
-        return position;
-    }
-
-    public void setPosition(Long position) {
-        this.position = position;
-    }
-
     public User getUser() {
 		return user;
 	}
@@ -125,22 +157,6 @@ public class Article {
 	public void setUser(User user) {
 		this.user = user;
 	}
-
-	public Long getShowCount() {
-        return showCount;
-    }
-
-    public void setShowCount(Long showCount) {
-        this.showCount = showCount;
-    }
-
-    public Short getStatus() {
-        return status;
-    }
-
-    public void setStatus(Short status) {
-        this.status = status;
-    }
 
     public String getPic() {
         return pic;
@@ -158,28 +174,12 @@ public class Article {
         this.publishedName = publishedName == null ? null : publishedName.trim();
     }
 
-    public Short getIsIndex() {
-        return isIndex;
-    }
-
-    public void setIsIndex(Short isIndex) {
-        this.isIndex = isIndex;
-    }
-
     public String getType() {
         return type;
     }
 
     public void setType(String type) {
         this.type = type == null ? null : type.trim();
-    }
-
-    public Long getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(Long projectId) {
-        this.projectId = projectId;
     }
 
     public Date getCreatedAt() {
