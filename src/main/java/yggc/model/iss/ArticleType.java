@@ -3,7 +3,7 @@ package yggc.model.iss;
 import java.util.Date;
 
 public class ArticleType {
-    private Long id;
+    private Integer id;
 
     private String name;
 
@@ -11,25 +11,25 @@ public class ArticleType {
 
     private Date updatedAt;
     
-    private Short isDeleted;
+    private Integer isDeleted;
     
-    public Short getIsDeleted() {
+    public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Integer getIsDeleted() {
 		return isDeleted;
 	}
 
-	public void setIsDeleted(Short isDeleted) {
+	public void setIsDeleted(Integer isDeleted) {
 		this.isDeleted = isDeleted;
 	}
 
-	public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
+	public String getName() {
         return name;
     }
 

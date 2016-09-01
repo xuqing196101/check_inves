@@ -27,7 +27,7 @@ public class IndexNewsServiceImpl implements IndexNewsService {
 	 * 首页查询所有信息方法
 	 */
 	@Override
-	public List<Article> selectNewsByArticleTypeId(Long id) {
+	public List<Article> selectNewsByArticleTypeId(Integer id) {
 		List<Article> indexNewsList = indeNewsMapper.selectNewsByArticleTypeId(id);
 		if(indexNewsList.isEmpty()){
 			return null;

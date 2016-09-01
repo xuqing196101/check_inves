@@ -12,7 +12,7 @@ import yggc.model.bms.Article;
  * @author Mrlovablee
  *@date 2016-8-25下午3:38:04
  */
-public interface ArticlesMapper {
+public interface ArticleMapper {
 	/**
 	 * 
 	* @Title: deleteByPrimaryKey
@@ -23,7 +23,7 @@ public interface ArticlesMapper {
 	* @param @return      
 	* @return int
 	 */
-    int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(Integer id);
     
     /**
      * 
@@ -59,7 +59,7 @@ public interface ArticlesMapper {
     * @param @return      
     * @return Article
      */
-    Article selectByPrimaryKey(Long id);
+    Article selectByPrimaryKey(Integer id);
     
     /**
      * 

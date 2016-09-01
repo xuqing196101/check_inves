@@ -18,7 +18,7 @@
     from T_SES_BMS_DOWNLOAD_INFO
     where ID = #{id,jdbcType=DECIMAL}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+  <delete id="deleteByPrimaryKey" parameterType="Object">
     delete from T_SES_BMS_DOWNLOAD_INFO
     where ID = #{id,jdbcType=DECIMAL}
   </delete>

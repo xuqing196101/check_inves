@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import yggc.dao.bms.ArticlesMapper;
+import yggc.dao.bms.ArticleMapper;
 import yggc.model.bms.Article;
 import yggc.service.bms.ArticleService;
 
@@ -13,7 +13,7 @@ import yggc.service.bms.ArticleService;
 public class ArticleServiceImpl implements ArticleService {
 	
 	@Autowired
-	private ArticlesMapper articleMapper;
+	private ArticleMapper articleMapper;
 	
 	/**
 	 * 新增信息
@@ -40,7 +40,7 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
-	public void delArticleById(Long id) {
+	public void delArticleById(Integer id) {
 		articleMapper.deleteByPrimaryKey(id);
 	}
 	
@@ -48,7 +48,7 @@ public class ArticleServiceImpl implements ArticleService {
 	 * 根据id查询信息
 	 */
 	@Override
-	public Article selectArticleById(Long id) {
+	public Article selectArticleById(Integer id) {
 		return articleMapper.selectByPrimaryKey(id);
 	}
 }

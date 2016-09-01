@@ -3,51 +3,51 @@ package yggc.model.bms;
 import java.util.Date;
 
 public class DownloadUser {
-    private Long id;
+    private Integer id;
 
-    private Long articleId;
+    private Integer articleId;
 
-    private Long userId;
+    private Integer userId;
 
     private Date createdAt;
 
     private Date updatedAt;
     
-    private Short isDeleted;
+    private Integer isDeleted;
     
-    public Short getIsDeleted() {
+    public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Integer getArticleId() {
+		return articleId;
+	}
+
+	public void setArticleId(Integer articleId) {
+		this.articleId = articleId;
+	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
+	public Integer getIsDeleted() {
 		return isDeleted;
 	}
 
-	public void setIsDeleted(Short isDeleted) {
+	public void setIsDeleted(Integer isDeleted) {
 		this.isDeleted = isDeleted;
 	}
 
-	public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getArticleId() {
-        return articleId;
-    }
-
-    public void setArticleId(Long articleId) {
-        this.articleId = articleId;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public Date getCreatedAt() {
+	public Date getCreatedAt() {
         return createdAt;
     }
 

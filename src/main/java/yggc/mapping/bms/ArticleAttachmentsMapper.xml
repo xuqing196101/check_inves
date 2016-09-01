@@ -20,13 +20,13 @@
     ID, FILE_NAME, CONTENT_TYPE, FILE_SIZE, ARTICLE_ID, ATTACHMENT_PATH, CREATED_AT, 
     UPDATED_AT,IS_DELETED
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ArticleAttachMap">
+  <select id="selectByPrimaryKey" parameterType="Object" resultMap="ArticleAttachMap">
     select 
     <include refid="ArticleAttach_Column_List" />
     from T_SES_BMS_ARTICLE_ATTACHMENTS
     where ID = #{id,jdbcType=DECIMAL}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+  <delete id="deleteByPrimaryKey" parameterType="Object">
     delete from T_SES_BMS_ARTICLE_ATTACHMENTS
     where ID = #{id,jdbcType=DECIMAL}
   </delete>
