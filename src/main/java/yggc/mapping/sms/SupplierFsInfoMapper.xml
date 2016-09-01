@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="yggc.dao.sms.FsInfoMapper">
-  <resultMap id="BaseResultMap" type="yggc.model.sms.FsInfo">
+<mapper namespace="yggc.dao.sms.SupplierFsInfoMapper">
+  <resultMap id="BaseResultMap" type="yggc.model.sms.SupplierFsInfo">
     <!--
     @mbggenerated
     -->
@@ -31,7 +31,7 @@
     <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
     <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
   </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="yggc.model.sms.FsInfoWithBLOBs">
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="yggc.model.sms.SupplierFsInfoWithBLOBs">
     <!--
     @mbggenerated
     -->
@@ -61,21 +61,21 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from T_SES_SMS_FS_INFO
+    from T_SES_SMS_SUPPLIER_FS_INFO
     where ID = #{id,jdbcType=DECIMAL}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     <!--
     @mbggenerated
     -->
-    delete from T_SES_SMS_FS_INFO
+    delete from T_SES_SMS_SUPPLIER_FS_INFO
     where ID = #{id,jdbcType=DECIMAL}
   </delete>
-  <insert id="insert" parameterType="yggc.model.sms.FsInfoWithBLOBs">
+  <insert id="insert" parameterType="yggc.model.sms.SupplierFsInfoWithBLOBs">
     <!--
     @mbggenerated
     -->
-    insert into T_SES_SMS_FS_INFO (ID, LOGIN_NAME, MOBILE, 
+    insert into T_SES_SMS_SUPPLIER_FS_INFO (ID, LOGIN_NAME, MOBILE, 
       PASSWORD, SUPPLIER_NAME, SUPPLIER_TEPE, 
       SUPPLIER_CHINESR_NAME, LEGAL_NAME, ADDRESS, 
       SUPPLIER_ZIP_CODE, PRODUCT_TYPE, MAJOR_PRODUCT, 
@@ -96,11 +96,11 @@
       #{updatedAt,jdbcType=DATE}, #{supplyLevel,jdbcType=CLOB}, #{supplierRemark,jdbcType=CLOB}
       )
   </insert>
-  <insert id="insertSelective" parameterType="yggc.model.sms.FsInfoWithBLOBs">
+  <insert id="insertSelective" parameterType="yggc.model.sms.SupplierFsInfoWithBLOBs">
     <!--
     @mbggenerated
     -->
-    insert into T_SES_SMS_FS_INFO
+    insert into T_SES_SMS_SUPPLIER_FS_INFO
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         ID,
@@ -268,11 +268,11 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="yggc.model.sms.FsInfoWithBLOBs">
+  <update id="updateByPrimaryKeySelective" parameterType="yggc.model.sms.SupplierFsInfoWithBLOBs">
     <!--
     @mbggenerated
     -->
-    update T_SES_SMS_FS_INFO
+    update T_SES_SMS_SUPPLIER_FS_INFO
     <set>
       <if test="loginName != null">
         LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
@@ -355,11 +355,11 @@
     </set>
     where ID = #{id,jdbcType=DECIMAL}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="yggc.model.sms.FsInfoWithBLOBs">
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="yggc.model.sms.SupplierFsInfoWithBLOBs">
     <!--
     @mbggenerated
     -->
-    update T_SES_SMS_FS_INFO
+    update T_SES_SMS_SUPPLIER_FS_INFO
     set LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
       MOBILE = #{mobile,jdbcType=VARCHAR},
       PASSWORD = #{password,jdbcType=VARCHAR},
@@ -388,11 +388,11 @@
       SUPPLIER_REMARK = #{supplierRemark,jdbcType=CLOB}
     where ID = #{id,jdbcType=DECIMAL}
   </update>
-  <update id="updateByPrimaryKey" parameterType="yggc.model.sms.FsInfo">
+  <update id="updateByPrimaryKey" parameterType="yggc.model.sms.SupplierFsInfo">
     <!--
     @mbggenerated
     -->
-    update T_SES_SMS_FS_INFO
+    update T_SES_SMS_SUPPLIER_FS_INFO
     set LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
       MOBILE = #{mobile,jdbcType=VARCHAR},
       PASSWORD = #{password,jdbcType=VARCHAR},

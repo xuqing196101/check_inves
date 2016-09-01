@@ -1,9 +1,8 @@
 package yggc.dao.sms;
 
-import yggc.model.sms.FsInfo;
-import yggc.model.sms.FsInfoWithBLOBs;
+import yggc.model.sms.SupplierShare;
 
-public interface FsInfoMapper {
+public interface SupplierShareMapper {
     /**
      * 根据主键删除数据库的记录
      *
@@ -16,37 +15,31 @@ public interface FsInfoMapper {
      *
      * @param record
      */
-    int insert(FsInfoWithBLOBs record);
+    int insert(SupplierShare record);
 
     /**
      *
      * @param record
      */
-    int insertSelective(FsInfoWithBLOBs record);
+    int insertSelective(SupplierShare record);
 
     /**
      * 根据主键获取一条数据库记录
      *
      * @param id
      */
-    FsInfoWithBLOBs selectByPrimaryKey(Long id);
+    SupplierShare selectByPrimaryKey(Long id);
 
     /**
      *
      * @param record
      */
-    int updateByPrimaryKeySelective(FsInfoWithBLOBs record);
-
-    /**
-     *
-     * @param record
-     */
-    int updateByPrimaryKeyWithBLOBs(FsInfoWithBLOBs record);
+    int updateByPrimaryKeySelective(SupplierShare record);
 
     /**
      * 根据主键来更新数据库记录
      *
      * @param record
      */
-    int updateByPrimaryKey(FsInfo record);
+    int updateByPrimaryKey(SupplierShare record);
 }
