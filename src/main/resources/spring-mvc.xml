@@ -42,4 +42,19 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 		</property>
 	</bean>
 
+
+		<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+				<property name="webBindingInitializer">
+					<bean class="yggc.util.DateConvert" />
+				</property>
+			</bean>
+	
+	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">    
+        <property name="converters">    
+            <list>    
+                <bean class="yggc.util.DateUtil" />    
+            </list>    
+        </property>    
+    </bean>		
+	<mvc:annotation-driven conversion-service="conversionService" />   
 </beans>
