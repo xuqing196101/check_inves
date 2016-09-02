@@ -1,5 +1,6 @@
 package yggc.controller.sys.iss.fs;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import yggc.service.iss.fs.ParkService;
 import yggc.service.iss.fs.PostService;
 import yggc.service.iss.fs.ReplyService;
 import yggc.service.iss.fs.TopicService;
+import yggc.util.DateUtil;
 
 /**
  * <p>Title:PostManageController </p>
@@ -205,7 +207,7 @@ public class PostManageController {
 	*/
 	@RequestMapping("/indexsave")
 	public String indexsave(HttpServletRequest request,Post post){
-		post.setPublishedTime(new Date());
+		post.setPublishedTime((Timestamp)new Date());
 		System.out.println(request.getParameter("parkId"));
 		System.out.println(request.getParameter("topicId"));
 		Park park= parkService.selectByPrimaryKey(Integer.parseInt(request.getParameter("parkId")));

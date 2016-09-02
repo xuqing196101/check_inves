@@ -1,5 +1,5 @@
 package yggc.model.iss.fs;
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 import yggc.model.bms.User;
@@ -8,7 +8,7 @@ import yggc.model.bms.User;
 * <p>Description:用户实体类 </p>
 * <p>Company: yggc </p> 
 * @author junjunjun1993
-* @date 2016-8-3下午4:53:36
+* @Timestamp 2016-8-3下午4:53:36
 */
 public class Post {
     /**
@@ -43,11 +43,11 @@ public class Post {
     /**
      * @Fields publishedTime : 发布时间
      */
-    private Date publishedTime;
+    private Timestamp publishedTime;
     /**
      * @Fields lastReplyedTime : 最后回复时间
      */
-    private Date lastReplyedTime;
+    private Timestamp lastReplyedTime;
     
     /**
      * @Fields user : 发表人
@@ -114,19 +114,19 @@ public class Post {
     public void setIsCanReply(Integer isCanReply) {
         this.isCanReply = isCanReply;
     }
-    public Date getPublishedTime() {
+    public Timestamp getPublishedTime() {
         return publishedTime;
     }
 
-    public void setPublishedTime(Date publishedTime) {
+    public void setPublishedTime(Timestamp publishedTime) {
         this.publishedTime = publishedTime;
     }
 
-    public Date getLastReplyedTime() {
+    public Timestamp getLastReplyedTime() {
         return lastReplyedTime;
     }
 
-    public void setLastReplyedTime(Date lastReplyedTime) {
+    public void setLastReplyedTime(Timestamp lastReplyedTime) {
         this.lastReplyedTime = lastReplyedTime;
     }
 
