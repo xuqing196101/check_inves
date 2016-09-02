@@ -3,6 +3,7 @@
  */
 package yggc.service.iss.fs.Impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +26,15 @@ public class ReplyServiceImpl implements ReplyService{
 	@Autowired
 	private ReplyMapper replyMapper;
 	@Override
-	public Integer queryByCount() {
+	public BigDecimal queryByCount(Reply reply) {
 		// TODO Auto-generated method stub
-		return replyMapper.queryByCount();
+		return replyMapper.queryByCount(reply);
 	}
-
+	@Override
+	public BigDecimal queryCountByParkId(String parkId) {
+		// TODO Auto-generated method stub
+		return replyMapper.queryCountByParkId(parkId);
+	}
 
 	@Override
 	public List<Reply> queryByList(Reply reply) {
@@ -39,14 +44,14 @@ public class ReplyServiceImpl implements ReplyService{
 
 
 	@Override
-	public Reply selectByPrimaryKey(Integer id) {
+	public Reply selectByPrimaryKey(String id) {
 		// TODO Auto-generated method stub
 		return replyMapper.selectByPrimaryKey(id);
 	}
 
 
 	@Override
-	public void deleteByPrimaryKey(Integer id) {
+	public void deleteByPrimaryKey(String id) {
 		// TODO Auto-generated method stub
 		replyMapper.deleteByPrimaryKey(id);
 	}
@@ -68,7 +73,7 @@ public class ReplyServiceImpl implements ReplyService{
 
 
 	@Override
-	public List<Reply> selectByPostID(Integer postID) {
+	public List<Reply> selectByPostID(String postID) {
 		// TODO Auto-generated method stub
 		return replyMapper.selectByPostID(postID);
 	}

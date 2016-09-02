@@ -14,7 +14,7 @@ public class Topic {
     /**
      * @Fields id : 主键
      */
-    private Integer id;
+    private String id;
     /**
      * @Fields name : 主题名称
      */
@@ -47,11 +47,11 @@ public class Topic {
     private List<Post> posts;
     
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

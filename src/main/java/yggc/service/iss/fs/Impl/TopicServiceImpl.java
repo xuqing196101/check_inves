@@ -3,6 +3,7 @@
  */
 package yggc.service.iss.fs.Impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,9 @@ public class TopicServiceImpl implements TopicService{
 	private TopicMapper topicMapper;
 	
 	@Override
-	public Integer queryByCount() {
+	public BigDecimal queryByCount(Topic topic) {
 		// TODO Auto-generated method stub
-		return topicMapper.queryByCount();
+		return topicMapper.queryByCount(topic);
 	}
 
 	@Override
@@ -39,14 +40,14 @@ public class TopicServiceImpl implements TopicService{
 
 
 	@Override
-	public Topic selectByPrimaryKey(Integer id) {
+	public Topic selectByPrimaryKey(String id) {
 		// TODO Auto-generated method stub
 		return topicMapper.selectByPrimaryKey(id);
 	}
 
 
 	@Override
-	public void deleteByPrimaryKey(Integer id) {
+	public void deleteByPrimaryKey(String id) {
 		// TODO Auto-generated method stub
 		topicMapper.deleteByPrimaryKey(id);
 	}
@@ -67,7 +68,7 @@ public class TopicServiceImpl implements TopicService{
 
 
 	@Override
-	public List<Topic> selectByParkID(Integer parkID) {
+	public List<Topic> selectByParkID(String parkID) {
 		// TODO Auto-generated method stub
 		return topicMapper.selectByParkID(parkID);
 	}

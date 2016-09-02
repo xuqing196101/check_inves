@@ -39,7 +39,7 @@ public interface ParkMapper {
 	* @param id
 	* @return Park
 	*/
-    Park selectByPrimaryKey(Integer id);
+    Park selectByPrimaryKey(String id);
     
 	/**   
 	* @Title: deleteByPrimaryKey
@@ -48,7 +48,7 @@ public interface ParkMapper {
 	* @Description: 根据Id删除
 	* @param  id
 	*/
-    void deleteByPrimaryKey(Integer id);
+    void deleteByPrimaryKey(String id);
 
 	/**   
 	* @Title: insertSelective

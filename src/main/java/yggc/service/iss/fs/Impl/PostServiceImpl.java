@@ -3,6 +3,7 @@
  */
 package yggc.service.iss.fs.Impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,9 @@ public class PostServiceImpl implements PostService{
 	private PostMapper postMapper;
 	
 	@Override
-	public Integer queryByCount() {
+	public BigDecimal queryByCount(Post post) {
 		// TODO Auto-generated method stub
-		return postMapper.queryByCount();
+		return postMapper.queryByCount(post);
 	}
 
 	@Override
@@ -39,14 +40,14 @@ public class PostServiceImpl implements PostService{
 
 
 	@Override
-	public Post selectByPrimaryKey(Integer id) {
+	public Post selectByPrimaryKey(String id) {
 		// TODO Auto-generated method stub
 		return postMapper.selectByPrimaryKey(id);
 	}
 
 
 	@Override
-	public void deleteByPrimaryKey(Integer id) {
+	public void deleteByPrimaryKey(String id) {
 		// TODO Auto-generated method stub
 		postMapper.deleteByPrimaryKey(id);
 	}
@@ -67,20 +68,20 @@ public class PostServiceImpl implements PostService{
 
 
 	@Override
-	public List<Post> selectByTopicID(Integer topicID) {
+	public List<Post> selectByTopicID(String topicID) {
 		// TODO Auto-generated method stub
 		return postMapper.selectByTopicID(topicID);
 	}
 
 
 	@Override
-	public List<Post> selectByParkID(Integer parkID) {
+	public List<Post> selectByParkID(String parkID) {
 		// TODO Auto-generated method stub
 		return postMapper.selectByParkID(parkID);
 	}
 	
 	@Override
-	public List<Post> selectListByParkID(Integer parkID) {
+	public List<Post> selectListByParkID(String parkID) {
 		// TODO Auto-generated method stub
 		return postMapper.selectListByParkID(parkID);
 	}
