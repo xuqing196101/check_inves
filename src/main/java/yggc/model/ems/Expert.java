@@ -2,8 +2,6 @@ package yggc.model.ems;
 
 import java.util.Date;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 public class Expert {
     private String id;
 
@@ -54,7 +52,7 @@ public class Expert {
     private String professTechTitles;
 
     private Date timeToWork;
-    @DateTimeFormat(pattern="yyyy-MM-dd")
+
     private Date timeStartWork;
 
     private String unitAddress;
@@ -69,7 +67,7 @@ public class Expert {
 
     private Long purchaseDepId;
 
-    private String status;
+    private String status="0";
 
     private String isBlack;
 

@@ -20,7 +20,7 @@
     <result column="HIGHT_EDUCATION" jdbcType="VARCHAR" property="hightEducation" />
     <result column="MAJOR" jdbcType="VARCHAR" property="major" />
     <result column="WORK_UNIT" jdbcType="VARCHAR" property="workUnit" />
-    <result column="FIX_PHONE " jdbcType="VARCHAR" property="fixPhone" />
+    <result column="FIX_PHONE" jdbcType="VARCHAR" property="fixPhone" />
     <result column="FAX" jdbcType="VARCHAR" property="fax" />
     <result column="MAKE_TECH_DATE" jdbcType="DATE" property="makeTechDate" />
     <result column="HEALTH_STATE" jdbcType="VARCHAR" property="healthState" />
@@ -42,13 +42,19 @@
   <sql id="Base_Column_List">
     ID, LOGIN_NAME, PASSWORD, IS_DELETE, CREATED_AT, SEX, UPDATED_AT, MOBILE, BIRTHDAY, 
     ID_NUMBER, ID_TYPE, EXPERTS_FROM, POLITICS_STATUS, NAYION, GRADUATE_SCHOOL, HIGHT_EDUCATION, 
-    MAJOR, WORK_UNIT, "FIX_PHONE ", FAX, MAKE_TECH_DATE, HEALTH_STATE, ADDRESS, PROFESS_TECH_TITLES, 
+    MAJOR, WORK_UNIT, FIX_PHONE, FAX, MAKE_TECH_DATE, HEALTH_STATE, ADDRESS, PROFESS_TECH_TITLES, 
     TIME_TO_WORK, TIME_START_WORK, UNIT_ADDRESS, ZIP_CODE, DEGREE, AT_DUTY, EXPERTS_TYPE_ID, 
     PURCHASE_DEP_ID, STATUS, IS_BLACK, HONESTY_SCORE, REL_NAME
   </sql>
-  <!-- 查询所有用户名 -->
-  <select id="selectLoginNameList" parameterType="java.lang.String" resultMap="BaseResultMap" >
+  <!-- 查询用户名是否存在 -->
+    <select id="selectLoginNameList" parameterType="java.lang.String" resultMap="BaseResultMap" >
   	select LOGIN_NAME from T_SES_EMS_EXPERT where LOGIN_NAME = #{loginName}
+  	</select>
+  	<!-- 查询所有专家 -->
+  	<select id="selectAllExpert"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_EMS_EXPERT
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -67,7 +73,7 @@
       ID_NUMBER, ID_TYPE, EXPERTS_FROM, 
       POLITICS_STATUS, NAYION, GRADUATE_SCHOOL, 
       HIGHT_EDUCATION, MAJOR, WORK_UNIT, 
-      "FIX_PHONE ", FAX, MAKE_TECH_DATE, 
+      FIX_PHONE, FAX, MAKE_TECH_DATE, 
       HEALTH_STATE, ADDRESS, PROFESS_TECH_TITLES, 
       TIME_TO_WORK, TIME_START_WORK, UNIT_ADDRESS, 
       ZIP_CODE, DEGREE, AT_DUTY, 
@@ -146,7 +152,7 @@
         WORK_UNIT,
       </if>
       <if test="fixPhone != null">
-        "FIX_PHONE ",
+        FIX_PHONE,
       </if>
       <if test="fax != null">
         FAX,
@@ -366,7 +372,7 @@
         WORK_UNIT = #{workUnit,jdbcType=VARCHAR},
       </if>
       <if test="fixPhone != null">
-        "FIX_PHONE " = #{fixPhone,jdbcType=VARCHAR},
+        FIX_PHONE = #{fixPhone,jdbcType=VARCHAR},
       </if>
       <if test="fax != null">
         FAX = #{fax,jdbcType=VARCHAR},
@@ -441,7 +447,7 @@
       HIGHT_EDUCATION = #{hightEducation,jdbcType=VARCHAR},
       MAJOR = #{major,jdbcType=VARCHAR},
       WORK_UNIT = #{workUnit,jdbcType=VARCHAR},
-      "FIX_PHONE " = #{fixPhone,jdbcType=VARCHAR},
+      FIX_PHONE = #{fixPhone,jdbcType=VARCHAR},
       FAX = #{fax,jdbcType=VARCHAR},
       MAKE_TECH_DATE = #{makeTechDate,jdbcType=DATE},
       HEALTH_STATE = #{healthState,jdbcType=VARCHAR},

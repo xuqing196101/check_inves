@@ -240,7 +240,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				   flag=1;
 				   return false;
 			   }else{
-				   $("#spp").html("用户名可以使用").css('color','lime');
+				   $("#spp").html("OK!").css('color','lime');
 				   flag=2;
 				   return true;
 			   }
@@ -251,12 +251,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	   var password1 = $("#password1").val();
 	   var patrn=/[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im;  
 	   if(patrn.test(password1)){  
-			$("#pwd1").html("不能有非法字符").css('color','red');
+			$("#pwd1").html("密码不能有非法字符").css('color','red');
 			flag2=1;
 			return false;
 		}else
 		if(password1.indexOf(" ")!=-1){
-			$("#pwd1").html("不能有空格").css('color','red');
+			$("#pwd1").html("密码中不能有空格").css('color','red');
 			flag2=1;
 			return false;
 		}else
@@ -266,11 +266,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		   return false;
 	   }else
 	   if(password1.replace(/\s/g,"").length<6){
-		   $("#pwd1").html("必须六位以上").css('color','red');
+		   $("#pwd1").html("密码必须六位以上").css('color','red');
 		   flag2=1;
 		   return false;
 	   }else{
-	   $("#pwd1").html("密码可以使用").css('color','lime');
+	   $("#pwd1").html("OK!").css('color','lime');
 	   flag2=2;		   
 	   }
    }
@@ -278,7 +278,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	   var password1 = $("#password1").val();
 	   var password2 = $("#password2").val();
 	   if(password2.replace(/\s/g,"")==null || password2.replace(/\s/g,"")==""){
-		   $("#pwd2").html("密码不能为空").css('color','red');
+		   $("#pwd2").html("重复密码不能为空").css('color','red');
 		   flag3=1;
 		   return false;
 	   }else
@@ -287,7 +287,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		   flag3=1;
 		   return false;
 	   }else{
-		   $("#pwd2").html("");
+		   $("#pwd2").html("OK!").css('color','lime');
 		   flag3=2;
 		   return true;
 	   }
@@ -299,7 +299,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		   flag4=1;
 		   return false;
 	   }else if(!(/^1[3|4|5|7|8]\d{9}$/.test(phone))){ 
-		   $("#phone2").html("号码格式错误").css('color','red');
+		   $("#phone2").html("手机号码格式错误").css('color','red');
 		   flag4=1;
 		   return false;
 		}else{
@@ -331,48 +331,50 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <div class="headline-v2">
    <h2>评审专家注册</h2>
    </div>
-   <ul class="list-unstyled list-flow p0_20">
-     		<li class="col-md-6 p0">
+   <ul class="list-unstyled list-flow" style="margin-left: 250px;">
+     		<li class="p0">
 			   <span class="">用户名：</span>
 			   <div class="input-append">
-		        <input class="span2" name="loginName" type="text" onblur="validataLoginName();" value="">
+		        <input class="span2" name="loginName" placeholder="用户名为3~8位" maxlength="8" type="text" onblur="validataLoginName();" value="">
 		        <span class="add-on">i</span>
 		       </div><font  id="spp"></font>
 			 </li>
-			 <li class="col-md-6  p0 ">
-			   <span class="">手机号码：</span>
-			   <div class="input-append">
-		        <input class="span2" name="mobile" id="phone" onblur="validataPhone();"  value="" type="text">
-		        <span class="add-on">i</span>
-		       </div><font  id="phone2"></font>
-		        <input class="btn" type="button" value="发送验证码">
-			 </li>
+			 
 		    
-		      <li class="col-md-6  p0 ">
+		      <li class="p0 ">
 			   <span class="">密码：</span>
 			   <div class="input-append">
-		        <input class="span2" name="password" id="password1" onblur="validataPassword();"  type="password" >
+		        <input class="span2" name="password" placeholder="密码为6~20位" maxlength="20" id="password1" onblur="validataPassword();"  type="password" >
 		        <span class="add-on">i</span>
 		       </div><font  id="pwd1"></font>
 			 </li> 
-	 		<li class="col-md-6 p0">
-			   <span class="">验证码：</span>
-			   <div class="input-append">
-		        <input class="span2" name="phone" type="text" value="">
-		        <span class="add-on">i</span>
-		       </div><font  id="yzm"></font>
-			 </li>
-			  <li class="col-md-6  p0 ">
+	 		
+			  <li class="p0 ">
 			   <span class="">确认密码：</span>
 			   <div class="input-append">
-		        <input class="span2" id="password2" onblur="validataPwd2();" type="password" value="">
+		        <input class="span2" id="password2"  maxlength="20" onblur="validataPwd2();" type="password" value="">
 		        <span class="add-on">i</span>
 		       </div><font  id="pwd2"></font>
 			 </li> 
+			 <li class="p0 ">
+			   <span class="">手机号码：</span>
+			   <div class="input-append">
+		        <input class="span2" name="mobile" placeholder="请输入正确的手机号码" maxlength="14" id="phone" onblur="validataPhone();"  value="" type="text">
+		        <span class="add-on">i</span>
+		       </div>
+		        <input class="btn" type="button" value="发送验证码"><font  id="phone2"></font>
+			 </li>
+			 <li class="p0">
+			   <span class="">验证码：</span>
+			   <div class="input-append">
+		        <input class="span2" name="phone" maxlength="6" type="text" value="">
+		        <span class="add-on">i</span>
+		       </div><font  id="yzm"></font>
+			 </li>
    </ul>
   </div> 
   <div  class="col-md-12">
-   <div class="fl padding-10">
+   <div class="padding-10" align="center">
    <input class="btn btn-windows add" type="button" onclick="submitForm();" value="开始注册">
    <!--  <button class="btn btn-windows add" type="submit">开始注册</button> -->
 	</div>

@@ -65,4 +65,14 @@ public interface ExpertService {
 	      * @return List<String>
 	     */
 	    List<Expert> selectLoginNameList(String loginName);
+	    /**
+	     * 
+	      * @Title: selectAllExpert
+	      * @author lkzx 
+	      * @date 2016年9月2日 下午5:42:05  
+	      * @Description: TODO 查询所有专家
+	      * @param @return      
+	      * @return List<Expert>
+	     */
+	    List<Expert> selectAllExpert();
 }

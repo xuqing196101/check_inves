@@ -104,6 +104,22 @@ public class ExpertController {
 		return "index";
 		}
 	}
+	/**
+	 * 
+	  * @Title: findAllExpert
+	  * @author lkzx 
+	  * @date 2016年9月2日 下午5:44:37  
+	  * @Description: TODO 查询所有专家
+	  * @param @return      
+	  * @return String
+	 */
+	@RequestMapping("/findAllExpert")
+	public String findAllExpert(HttpServletRequest request,HttpServletResponse response){
+		List<Expert> allExpert = service.selectAllExpert();
+		request.setAttribute("expert", allExpert);
+		return "ems/expert/expertList";
+	}
+	
   /**
    * 
     * @Title: findAllLoginName
@@ -118,7 +134,6 @@ public class ExpertController {
 	@ResponseBody
 	public List<Expert> findAllLoginName(@RequestParam("loginName")String loginName, Model model){
 		List<Expert> selectLoginNameList = service.selectLoginNameList(loginName);
-		System.out.println(selectLoginNameList);
 		return selectLoginNameList;
 	}
 }

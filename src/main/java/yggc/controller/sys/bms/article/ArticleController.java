@@ -1,23 +1,8 @@
 package yggc.controller.sys.bms.article;
 
-import java.util.Date;
-import java.util.List;
-
-import org.apache.log4j.Logger;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.alibaba.fastjson.JSON;
-
-import yggc.model.bms.Article;
-import yggc.model.bms.User;
-import yggc.model.iss.ArticleType;
-import yggc.service.bms.ArticleService;
-import yggc.service.bms.UserServiceI;
 
 
 /**

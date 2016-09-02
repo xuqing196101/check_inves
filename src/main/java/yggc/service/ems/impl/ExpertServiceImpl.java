@@ -45,4 +45,10 @@ public class ExpertServiceImpl implements ExpertService {
 		return expertList;
 	}
 
+	@Override
+	public List<Expert> selectAllExpert() {
+		
+		return mapper.selectAllExpert();
+	}
+
 }

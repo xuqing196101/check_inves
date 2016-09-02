@@ -16,14 +16,16 @@ public interface ExpertMapper {
     int updateByPrimaryKeySelective(Expert record);
 
     int updateByPrimaryKey(Expert record);
+    
+    List<Expert> selectLoginNameList(String loginName);
     /**
      * 
-      * @Title: selectLoginNameList
+      * @Title: selectAllExpert
       * @author lkzx 
-      * @date 2016年9月1日 下午4:50:17  
-      * @Description: TODO 根据登录名查询用户
+      * @date 2016年9月2日 下午5:42:05  
+      * @Description: TODO 查询所有专家
       * @param @return      
-      * @return List<String>
+      * @return List<Expert>
      */
-    List<Expert> selectLoginNameList(String loginName);
+    List<Expert> selectAllExpert();
 }
