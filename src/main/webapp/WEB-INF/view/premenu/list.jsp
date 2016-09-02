@@ -8,7 +8,7 @@
   <head>
     <base href="<%=basePath%>">
     
-    <title>角色管理</title>
+    <title>菜单管理</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -18,7 +18,109 @@
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
+	<link rel="stylesheet" href="<%=basePath%>public/ztree/css/demo.css" type="text/css">
+	<link rel="stylesheet" href="<%=basePath%>public/ztree/css/zTreeStyle.css" type="text/css">
+	<script type="text/javascript" src="<%=basePath%>public/ztree/jquery.ztree.core.js"></script>
+	<script type="text/javascript" src="<%=basePath%>public/ztree/jquery.ztree.excheck.js"></script>
 	<script src="<%=basePath%>public/layer/layer.js"></script>
+	<script type="text/javascript">
+		<!-- ztree -->  
+		var tree = "";  
+		var setting = {
+			check: {
+				chkboxType:{"Y" : "ps", "N" : "ps"},//勾选checkbox对于父子节点的关联关系  
+        		chkStyle:"checkbox",  
+				enable: true
+			},
+			data: {
+				simpleData: {
+					enable: true
+				}
+			}
+		};
+		var zNodes =[
+			{ id:1, pId:0, name:"菜单 1", open:true},
+			{ id:11, pId:1, name:"菜单 1-1", open:true},
+			{ id:111, pId:11, name:"菜单 1-1-1"},
+			{ id:112, pId:11, name:"菜单 1-1-2"},
+			{ id:12, pId:1, name:"菜单 1-2", open:true},
+			{ id:121, pId:12, name:"菜单 1-2-1"},
+			{ id:122, pId:12, name:"菜单 1-2-2"},
+			{ id:2, pId:0, name:"菜单 2", checked:true, open:true},
+			{ id:21, pId:2, name:"菜单 2-1"},
+			{ id:22, pId:2, name:"菜单 2-2", open:true},
+			{ id:221, pId:22, name:"菜单 2-2-1", checked:true},
+			{ id:222, pId:22, name:"菜单 2-2-2"},
+			{ id:23, pId:2, name:"菜单 2-3"},
+			{ id:3, pId:0, name:"菜单 1", open:true},
+			{ id:31, pId:3, name:"菜单 1-1", open:true},
+			{ id:311, pId:31, name:"菜单 1-1-1"},
+			{ id:312, pId:31, name:"菜单 1-1-2"},
+			{ id:12, pId:1, name:"菜单 1-2", open:true},
+			{ id:121, pId:12, name:"菜单 1-2-1"},
+			{ id:122, pId:12, name:"菜单 1-2-2"},
+			{ id:2, pId:0, name:"菜单 2", checked:true, open:true},
+			{ id:21, pId:2, name:"菜单 2-1"},
+			{ id:22, pId:2, name:"菜单 2-2", open:true},
+			{ id:221, pId:22, name:"菜单 2-2-1", checked:true},
+			{ id:222, pId:22, name:"菜单 2-2-2"},
+			{ id:23, pId:2, name:"菜单 2-3"},
+			{ id:111, pId:11, name:"菜单 1-1-1"},
+			{ id:112, pId:11, name:"菜单 1-1-2"},
+			{ id:12, pId:1, name:"菜单 1-2", open:true},
+			{ id:121, pId:12, name:"菜单 1-2-1"},
+			{ id:122, pId:12, name:"菜单 1-2-2"},
+			{ id:2, pId:0, name:"菜单 2", checked:true, open:true},
+			{ id:21, pId:2, name:"菜单 2-1"},
+			{ id:22, pId:2, name:"菜单 2-2", open:true},
+			{ id:221, pId:22, name:"菜单 2-2-1", checked:true},
+			{ id:222, pId:22, name:"菜单 2-2-2"},
+			{ id:23, pId:2, name:"菜单 2-3"},
+			{ id:3, pId:0, name:"菜单 1", open:true},
+			{ id:31, pId:3, name:"菜单 1-1", open:true},
+			{ id:311, pId:31, name:"菜单 1-1-1"},
+			{ id:312, pId:31, name:"菜单 1-1-2"},
+			{ id:12, pId:1, name:"菜单 1-2", open:true},
+			{ id:121, pId:12, name:"菜单 1-2-1"},
+			{ id:122, pId:12, name:"菜单 1-2-2"},
+			{ id:2, pId:0, name:"菜单 2", checked:true, open:true},
+			{ id:21, pId:2, name:"菜单 2-1"},
+			{ id:22, pId:2, name:"菜单 2-2", open:true},
+			{ id:221, pId:22, name:"菜单 2-2-1", checked:true},
+			{ id:222, pId:22, name:"菜单 2-2-2"},
+			{ id:23, pId:2, name:"菜单 2-3"}
+		];
+		
+		//查询菜单信息  
+		function queryMenus(roleId){  
+		  //  $.post('<%=basePath%>/preMuen/treemenu.do', {'roleId':roleId}, function(zNodes) {  
+		  //      for (var i = 0; i < zNodes.length; i++) {  
+		   //         if (zNodes[i].isParent) {  
+		  
+		  //          } else {  
+		                //zNodes[i].icon = "${ctxStatic}/images/532.ico";//设置图标  
+		  //          }  
+		 //       }  
+		        tree = $.fn.zTree.init($("#menuTree"), setting, zNodes);  
+		        tree.expandAll(true);//全部展开  
+		        //var nodes = treeObj.getNodes();  
+		 //   }, 'json');  
+		}  
+		
+		//获取选中节点  
+		function onCheck(){  
+		
+		     var treeObj=$.fn.zTree.getZTreeObj("menuTree");  
+		     var nodes=treeObj.getCheckedNodes(true);  
+		     var ids = new Array();  
+		     for(var i=0;i<nodes.length;i++){  
+		        //获取选中节点的值  
+		         ids.push(nodes[i].id); 
+		     } 
+		     alert(ids);
+		   // ajaxSubmit(rid,ids);       
+		}  
+	</script>
   </head>
   
   <script type="text/javascript">
@@ -64,9 +166,10 @@
 			ids.push($(this).val()); 
 		}); 
 		if(ids.length==1){
-			var iframeWin;
+			queryMenus(ids);
+			var menucon=$("#menu").html();
 			layer.open({
-			  type: 2, //page层
+			  type: 1, //page层
 			  area: ['300px', '500px'],
 			  title: '配置权限',
 			  closeBtn: 1,
@@ -75,14 +178,10 @@
 			  shift: 1, //0-6的动画形式，-1不开启
 			  offset: ['180px', '550px'],
 			  shadeClose: false,
-			  //content: menucon,
-			  content: '<%=basePath%>role/openPreMenu.do?id='+ids,
-			  success: function(layero, index){
-			    iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
-			  },
+			  content: menucon,
 			  btn: ['保存', '关闭'] 
 			  ,yes: function(){
-			    iframeWin.onCheck(ids);
+			  	onCheck();
 			  }
 			  ,btn2: function(){
 			    layer.closeAll();
@@ -147,7 +246,7 @@
 	   </div>
    </div>
    <!-- 菜单树-->
-   <div id="menu">
+   <div id="menu" style="display: none">
 	   <div id="menuTree" class="ztree"></div>
    </div>
 	<!-- 表格开始-->

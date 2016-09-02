@@ -16,7 +16,7 @@ public class User {
     /**
      * @Fields id : 主键
      */
-    private Integer id;
+    private String id;
 
     /**
      * @Fields loginName : 用户名
@@ -60,11 +60,11 @@ public class User {
     
     private List<Role> roles;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

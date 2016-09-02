@@ -49,7 +49,7 @@ public interface UserMapper {
 	* @param @param id      
 	* @return void     
 	*/
-	void delete(Integer id);
+	void delete(String id);
 
 	/**   
 	* @Title: queryById
@@ -59,7 +59,7 @@ public interface UserMapper {
 	* @param @param id
 	* @return User     
 	*/
-	User queryById(Integer id);
+	User queryById(String id);
 
 	/**   
 	* @Title: updateBySelective

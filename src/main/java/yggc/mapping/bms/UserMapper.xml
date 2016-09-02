@@ -36,7 +36,7 @@
   <sql id="Example_Where_Clause">
     where IS_DELETED=0
     <trim suffixOverrides=",">
-      <if test="id!= null">
+      <if test="id!= null and id !=''">
         and ID = #{id}
       </if>
       <if test="loginName != null and loginName != ''">
@@ -65,19 +65,19 @@
   
   <!-- 1.新增记录 -->
   <insert id="add" parameterType="Object" >
-     <selectKey resultType="int" order="BEFORE" keyProperty="id">
-      select SEQ_T_USERS_ID.nextval as ID from dual
+    <selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
     </selectKey>
     insert into T_SES_BMS_USERINFO(ID,LOGIN_NAME,PASSWORD,CREATED_AT,IS_DELETED,REL_NAME,UPDATED_AT,CREATER_ID,PHONE) values(#{id},#{loginName},#{password},#{createdAt},#{isDeleted},#{relName},#{updatedAt},#{creater.id},#{phone})
   </insert> 
   <!-- 1.1新增记录(可插入null) -->
   <insert id="insertSelective" parameterType="yggc.model.bms.User">
-    <selectKey resultType="int" order="BEFORE" keyProperty="id">
-      select SEQ_T_USERS_ID.nextval as ID from dual
+    <selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
     </selectKey>
     insert into T_SES_BMS_USERINFO
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
+      <if test="id != null and id !=''">
         ID,
       </if>
       <if test="loginName != null and loginName != ''">
@@ -106,7 +106,7 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
+      <if test="id != null and id !=''">
         #{id},
       </if>
       <if test="loginName != null and loginName !=''">
