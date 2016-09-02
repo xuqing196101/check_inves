@@ -8,7 +8,7 @@
     <result column="DESCRIBE" jdbcType="VARCHAR" property="describe" />
     <result column="IS_DELETED" property="isDeleted" />
   </resultMap>
-    <resultMap id="UserResultMap" type="yggc.model.bms.User">
+  <resultMap id="UserResultMap" type="yggc.model.bms.User">
     <result column="ID"  property="id" />
     <result column="LOGIN_NAME"  property="loginName" />
     <result column="PASSWORD"  property="password" />
@@ -18,9 +18,22 @@
     <result column="UPDATED_AT"  property="updatedAt" jdbcType="TIMESTAMP"/>
     <result column="PHONE"  property="phone" />
     <!-- 查询创建人 -->  
-    <association column="CREATER_ID"  property="creater" select="queryById" />  
+    <association column="CREATER_ID"  property="creater" select="queryUserById" />  
   </resultMap>
-  <resultMap type="yggc.model.bms.Role" id="roleUserMap" extends="RoleResultMap">  
+  <resultMap id="MenuResultMap" type="yggc.model.bms.PreMenu">
+    <result column="ID" property="id" />
+    <result column="NAME" property="name" />
+    <result column="MTYPE" property="type" />
+    <result column="IS_DELETED" property="isDeleted" />
+    <result column="STATE" property="state" />
+    <result column="URL" property="url" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="ORDERBY" property="orderby" />
+    <result column="MENULEVEL" property="menulevel" />
+     <!-- 查询上级菜单 -->  
+    <association column="PARENT_ID"  property="parentId" select="queryByMenuId" /> 
+  </resultMap>
+  <resultMap type="yggc.model.bms.Role" id="relativityMap" extends="RoleResultMap">  
     <collection property="users" ofType="yggc.model.bms.User">  
         <result column="userId"  property="id" />
 	    <result column="loginName"  property="loginName" />
@@ -31,9 +44,24 @@
 	    <result column="userUpdatedAt"  property="updatedAt" jdbcType="TIMESTAMP"/>
 	    <result column="phone"  property="phone" />
 	    <!-- 查询创建人 -->
-	    <association column="creater"  property="creater" select="queryById" />   
-    </collection>  
+	    <association column="creater"  property="creater" select="queryUserById" />   
+    </collection> 
+    <collection property="preMenus" ofType="yggc.model.bms.PreMenu">  
+        <result column="mid" property="id" />
+	    <result column="mname" property="name" />
+	    <result column="mtype" property="type" />
+	    <result column="misDleted" property="isDeleted" />
+	    <result column="mstate" property="state" />
+	    <result column="murl" property="url" />
+	    <result column="mcreatedAt" jdbcType="TIMESTAMP" property="createdAt" />
+	    <result column="morderby" property="orderby" />
+	    <result column="menulevel" property="menulevel" />
+		<!--查询上级菜单   -->
+	    <association column="parentId"  property="parentId" select="queryByMenuId" />  
+    </collection>
   </resultMap> 
+  
+  
   <!-- 所有列表 -->
   <sql id="Base_Column_List">
     ID, NAME, CREATED_AT, DESCRIBE, IS_DELETED
@@ -42,7 +70,7 @@
   <sql id="Example_Where_Clause">
     where IS_DELETED=0
     <trim suffixOverrides=",">
-      <if test="id!= null">
+      <if test="id!= null and id !=''">
         and ID = #{id}
       </if>
       <if test="name != null and name !=''">
@@ -67,20 +95,20 @@
     where ID = #{id}
   </delete>
   <insert id="insert" parameterType="yggc.model.bms.Role">
-    <selectKey resultType="java.lang.Integer" order="BEFORE" keyProperty="id">
-      select SEQ_T_ROLES_ID.nextval as ID from dual
+    <selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
     </selectKey>
     insert into T_SES_BMS_ROLEMAN (ID, NAME, CREATED_AT, 
       DESCRIBE, IS_DELETED)
     values (#{id}, #{name}, #{createdAt,jdbcType=TIMESTAMP},#{describe}, #{isDeleted})
   </insert>
   <insert id="insertSelective" parameterType="yggc.model.bms.Role">
-    <selectKey resultType="java.lang.Integer" order="BEFORE" keyProperty="id">
-      select SEQ_T_ROLES_ID.nextval as ID from dual
+    <selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
     </selectKey>
     insert into T_SES_BMS_ROLEMAN
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
+      <if test="id != null and id !=''">
         ID,
       </if>
       <if test="name != null and name !=''">
@@ -97,7 +125,7 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
+      <if test="id != null and id !=''">
         #{id},
       </if>
       <if test="name != null and name !=''">
@@ -146,26 +174,40 @@
     from T_SES_BMS_ROLEMAN 
     <include refid="Example_Where_Clause"/>
   </select>
-  <select id="queryById" resultMap="UserResultMap" parameterType="Object">
+  <select id="queryUserById" resultMap="UserResultMap" parameterType="Object">
     select 
     * 
     from T_SES_BMS_USERINFO where ID = #{id}
   </select>
+  <select id="queryByMenuId" resultMap="MenuResultMap" parameterType="Object">
+    select 
+    * 
+    from T_SES_BMS_PERMENU where ID = #{id}
+  </select>
   <!-- 根据T_SES_BMS_ROLEMAN表中的id或name查询角色信息和角色内用户信息 -->  
    <select id="selectRoleUser" parameterType="Object"
-       resultMap="roleUserMap"> 
+       resultMap="relativityMap"> 
        select 
-       r.*, 
-       u.ID as userId,u.LOGIN_NAME as loginName,u.PASSWORD as password,u.CREATED_AT as userCreatedAt,u.IS_DELETED as userIsDeleted,
-       u.REL_NAME as relName,u.UPDATED_AT as userUpdatedAt,u.PHONE as phone,u.CREATER_ID as creater
+       r.ID as ID,r.NAME as NAME,r.CREATED_AT as CREATED_AT,r.DESCRIBE as DESCRIBE,r.IS_DELETED as IS_DELETED, 
+       u.ID as userId,u.LOGIN_NAME as loginName,u.PASSWORD as password,u.CREATED_AT as userCreatedAt,
+       u.IS_DELETED as userIsDeleted,u.REL_NAME as relName,u.UPDATED_AT as userUpdatedAt,u.PHONE as phone,
+       u.CREATER_ID as creater,
+       pm.ID as mid,pm.NAME as mname,pm.MTYPE as mtype,pm.IS_DELETED as misDleted,pm.STATE as mstate,
+       pm.URL as murl,pm.CREATED_AT as mcreatedAt,pm.ORDERBY as morderby,pm.MENULEVEL as menulevel,
+       pm.PARENT_ID as parentId   
        from 
-       T_SES_BMS_ROLEMAN r left join 
-       T_SES_BMS_USERROLE ur 
-       on r.ID=ur."ROLE_ID" left join T_SES_BMS_USERINFO u 
-       on ur."USER_ID"=u.ID  
+       T_SES_BMS_ROLEMAN r  
+		LEFT JOIN T_SES_BMS_ROLEPERMISSION rp 
+		ON rp.ROLE_ID = r. ID 
+		LEFT JOIN T_SES_BMS_PERMENU pm  
+		ON pm. ID = rp.PERMENU_ID 
+		LEFT JOIN T_SES_BMS_USERROLE ur  
+		ON r. ID = ur.ROLE_ID 
+		LEFT JOIN T_SES_BMS_USERINFO u 
+		ON ur.USER_ID = u. ID 
        where 
        r.IS_DELETED=0 
-       <if test="id!= null"> 
+       <if test="id!= null and id !=''"> 
        and r.ID=#{id}  
        </if>  
        ORDER BY r.CREATED_AT DESC
@@ -174,9 +216,23 @@
     <delete id="deleteRoelUser" parameterType="Object">  
         delete from T_SES_BMS_USERROLE  
         <where>  
-            <if test="userId.id != 0">"USER_ID" = #{userId.id}</if>  
-            <if test="userId.id != 0">and "ROLE_ID" = #{roleId.id}</if>  
+            <if test="userId != null">"USER_ID" = #{userId.id}</if>  
+            <if test="roleId != null">and "ROLE_ID" = #{roleId.id}</if>  
         </where>  
     </delete>  
   
+  	<!-- 保存权限和角色之间的关系信息 -->  
+    <insert id="saveRelativity" parameterType="Object">  
+       insert into T_SES_BMS_ROLEPERMISSION("PERMENU_ID","ROLE_ID")  
+       values(#{preMenu.id},#{role.id})  
+    </insert>
+    <!-- 删除角色与权限之间的对应关系 -->  
+    <delete id="deleteRoelMenu" parameterType="Object">  
+        delete from T_SES_BMS_ROLEPERMISSION  
+        <where>  
+            <if test="preMenu != null">"PERMENU_ID" = #{preMenu.id}</if>  
+            <if test="role != null">and "ROLE_ID" = #{role.id}</if>  
+        </where>  
+    </delete>
+    
 </mapper>

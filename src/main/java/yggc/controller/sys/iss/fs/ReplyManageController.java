@@ -56,7 +56,7 @@ public class ReplyManageController {
 	* @return String     
 	*/
 	@RequestMapping("/view")
-	public String view(Model model,Integer id){
+	public String view(Model model,String id){
 		Reply p = replyService.selectByPrimaryKey(id);
 		model.addAttribute("reply", p);
 		return "forum/reply/view";
@@ -101,7 +101,7 @@ public class ReplyManageController {
 	* @return String     
 	*/
 	@RequestMapping("/edit")
-	public String edit(Integer id,Model model){
+	public String edit(String id,Model model){
 		Reply p = replyService.selectByPrimaryKey(id);
 		model.addAttribute("reply", p);
 		return "forum/reply/edit";
@@ -131,7 +131,7 @@ public class ReplyManageController {
 	* @return String     
 	*/
 	@RequestMapping("/delete")
-	public String delete(Integer id){
+	public String delete(String id){
 		replyService.deleteByPrimaryKey(id);
 		return "redirect:getlist.do";
 	}

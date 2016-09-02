@@ -66,7 +66,7 @@ public class PostManageController {
 	* @return String     
 	*/
 	@RequestMapping("/view")
-	public String view(Model model,Integer id){
+	public String view(Model model,String id){
 		Post p = postService.selectByPrimaryKey(id);
 		model.addAttribute("post", p);
 		return "forum/post/view";
@@ -112,7 +112,7 @@ public class PostManageController {
 	* @return String     
 	*/
 	@RequestMapping("/edit")
-	public String edit(Integer id,Model model){
+	public String edit(String id,Model model){
 		Post p = postService.selectByPrimaryKey(id);
 		model.addAttribute("post", p);
 		return "forum/post/edit";
@@ -142,7 +142,7 @@ public class PostManageController {
 	* @return String     
 	*/
 	@RequestMapping("/delete")
-	public String delete(Integer id){
+	public String delete(String id){
 		postService.deleteByPrimaryKey(id);
 		return "redirect:getlist.do";
 	}
@@ -158,7 +158,7 @@ public class PostManageController {
 	@RequestMapping("/getIndexlist")
 	public String getIndexList(Model model,HttpServletRequest request){	
 		System.out.println(request.getParameter("parkId"));
-		List<Post> list = postService.selectListByParkID(Integer.parseInt((String) request.getParameter("parkId")));
+		List<Post> list = postService.selectListByParkID( request.getParameter("parkId"));
 		model.addAttribute("list", list);
 		return "forum/list";
 	}
@@ -174,7 +174,7 @@ public class PostManageController {
 	@RequestMapping("/getIndexDetail")
 	public String getIndexDetail(Model model,HttpServletRequest request){		
 		System.out.println((String) request.getParameter("postId"));
-		Post post = postService.selectByPrimaryKey(Integer.parseInt((String) request.getParameter("postId")));
+		Post post = postService.selectByPrimaryKey( request.getParameter("postId"));
 		
 		List<Reply> replies = replyService.selectByPostID(post.getId());
 		post.setReplies(replies);
@@ -210,8 +210,8 @@ public class PostManageController {
 		post.setPublishedTime((Timestamp)new Date());
 		System.out.println(request.getParameter("parkId"));
 		System.out.println(request.getParameter("topicId"));
-		Park park= parkService.selectByPrimaryKey(Integer.parseInt(request.getParameter("parkId")));
-		Topic topic =topicService.selectByPrimaryKey(Integer.parseInt(request.getParameter("topicId")));
+		Park park= parkService.selectByPrimaryKey(request.getParameter("parkId"));
+		Topic topic =topicService.selectByPrimaryKey(request.getParameter("topicId"));
 		post.setPark(park);
 		post.setTopic(topic);
 		postService.insertSelective(post);

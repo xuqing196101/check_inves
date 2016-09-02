@@ -1,7 +1,11 @@
 package yggc.controller.sys.bms;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +13,12 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import yggc.model.bms.PreMenu;
 import yggc.model.bms.Role;
+import yggc.model.bms.RolePreMenu;
+import yggc.service.bms.PreMenuServiceI;
 import yggc.service.bms.RoleServiceI;
 
 import com.alibaba.fastjson.JSON;
@@ -29,6 +37,9 @@ public class RoleManageController {
 
 	@Autowired
 	private RoleServiceI roleService;
+	
+	@Autowired
+	private PreMenuServiceI preMenuService;
 	
 	private static Logger logger = Logger.getLogger(RoleManageController.class);
 	
@@ -122,8 +133,34 @@ public class RoleManageController {
 	}
 	
 	@RequestMapping("/openPreMenu")
-	public String openPreMenu(Model model,Integer id){
-		
+	public String openPreMenu(Model model,String id){
+		model.addAttribute("rid", id);
 		return "role/addPreMenu";
 	}
+	
+	@RequestMapping("/saveRoleMenu")
+	public void saveRoleMenu(HttpServletRequest request,HttpServletResponse response, String roleId , String ids) throws IOException{
+	
+	   try {
+		   Role role=roleService.get(roleId);
+		   RolePreMenu rm=new RolePreMenu();
+		   rm.setRole(role);
+		   roleService.deleteRoelMenu(rm);
+		   
+		   String[] pIds=ids.split(",");
+		   for (String str : pIds) {
+			   RolePreMenu rolePreMenu=new RolePreMenu();
+			   PreMenu preMenu=preMenuService.get(str);
+			   rolePreMenu.setPreMenu(preMenu);
+			   rolePreMenu.setRole(role);
+			   roleService.saveRolePreMenu(rolePreMenu);
+		   }
+		   response.setContentType("text/html;charset=utf-8");
+		   response.getWriter().print("权限配置完成");
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	  
+	}
+	
 }

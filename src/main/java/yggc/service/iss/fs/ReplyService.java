@@ -3,6 +3,7 @@
  */
 package yggc.service.iss.fs;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import yggc.model.iss.fs.Reply;
@@ -20,9 +21,18 @@ public interface ReplyService {
 	* @author junjunjun1993
 	* @date 2016-8-4下午4:57:10  
 	* @Description: 查询记录数
-	* @return Integer     
+	* @return BigDecimal     
 	*/
-	Integer queryByCount();
+	BigDecimal queryByCount(Reply reply);
+	
+	/**   
+	* @Title: queryByCount
+	* @author junjunjun1993
+	* @date 2016-9-1下午4:57:10  
+	* @Description: 查询记录数
+	* @return BigDecimal     
+	*/
+	BigDecimal queryCountByParkId(String parkId);
 	
 	/**   
 	* @Title: queryByList
@@ -42,7 +52,7 @@ public interface ReplyService {
 	* @param id
 	* @return Reply
 	*/
-    Reply selectByPrimaryKey(Integer id);
+    Reply selectByPrimaryKey(String id);
     
     /**   
 	* @Title: deleteByPrimaryKey
@@ -51,7 +61,7 @@ public interface ReplyService {
 	* @Description: 根据Id删除
 	* @param  id
 	*/
-    void deleteByPrimaryKey(Integer id);
+    void deleteByPrimaryKey(String id);
 
     /**   
 	* @Title: insertSelective
@@ -78,6 +88,6 @@ public interface ReplyService {
 	* @param reply
 	* @return List<reply>     
 	*/
-	List<Reply> selectByPostID(Integer postID);
+	List<Reply> selectByPostID(String postID);
 
 }

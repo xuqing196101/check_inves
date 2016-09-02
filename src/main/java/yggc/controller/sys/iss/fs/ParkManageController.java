@@ -3,6 +3,7 @@
  */
 package yggc.controller.sys.iss.fs;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,8 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import yggc.model.iss.fs.Park;
 import yggc.model.iss.fs.Post;
+import yggc.model.iss.fs.Topic;
 import yggc.service.iss.fs.ParkService;
 import yggc.service.iss.fs.PostService;
+import yggc.service.iss.fs.ReplyService;
+import yggc.service.iss.fs.TopicService;
 
 /**
  * Title:ParkManageController 
@@ -35,6 +39,10 @@ public class ParkManageController {
 	
 	@Autowired
 	private PostService postService;
+	@Autowired
+	private TopicService topicService;
+	@Autowired
+	private ReplyService replyService;
 
 	/**
 	 * @Title: getParkList
@@ -48,6 +56,18 @@ public class ParkManageController {
 	@RequestMapping("/getlist")
 	public String getParkList(Model model, Park park) {
 		List<Park> parklist = parkService.queryByList(park);
+		for (Park park2 : parklist) {
+			Topic topic = new Topic();
+			topic.setPark(park2);
+			BigDecimal topiccount = topicService.queryByCount(topic);
+			Post post = new Post();
+			post.setPark(park2);
+			BigDecimal postcount = postService.queryByCount(post);
+			BigDecimal replycount = replyService.queryCountByParkId(park2.getId());
+			park2.setTopiccount(topiccount);
+			park2.setPostcount(postcount);
+			park2.setReplycount(replycount);
+		}
 		model.addAttribute("list", parklist);
 		return "forum/park/parklist";
 	}
@@ -65,7 +85,7 @@ public class ParkManageController {
 	 * @return String
 	 */
 	@RequestMapping("/view")
-	public String view(Model model, Integer id) {
+	public String view(Model model, String id) {
 		Park p = parkService.selectByPrimaryKey(id);
 		model.addAttribute("park", p);
 		return "forum/park/view";
@@ -109,7 +129,7 @@ public class ParkManageController {
 	 * @return String
 	 */
 	@RequestMapping("/edit")
-	public String edit(Integer id, Model model) {
+	public String edit(String id, Model model) {
 		Park p = parkService.selectByPrimaryKey(id);
 		model.addAttribute("park", p);
 		return "forum/park/edit";
@@ -139,7 +159,7 @@ public class ParkManageController {
 	 * @return String
 	 */
 	@RequestMapping("/delete")
-	public String delete(Integer id) {
+	public String delete(String id) {
 		parkService.deleteByPrimaryKey(id);
 		return "redirect:getlist.do";
 	}

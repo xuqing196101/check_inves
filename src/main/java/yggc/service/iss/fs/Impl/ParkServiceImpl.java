@@ -39,14 +39,14 @@ public class ParkServiceImpl implements ParkService{
 
 
 	@Override
-	public Park selectByPrimaryKey(Integer id) {
+	public Park selectByPrimaryKey(String id) {
 		// TODO Auto-generated method stub
 		return parkMapper.selectByPrimaryKey(id);
 	}
 
 
 	@Override
-	public void deleteByPrimaryKey(Integer id) {
+	public void deleteByPrimaryKey(String id) {
 		// TODO Auto-generated method stub
 		parkMapper.deleteByPrimaryKey(id);
 	}
@@ -65,10 +65,4 @@ public class ParkServiceImpl implements ParkService{
 		parkMapper.updateByPrimaryKeySelective(park);
 	}
 	
-	public static void main(String[] args) {
-		ParkServiceImpl pas = new ParkServiceImpl();
-		Park park = new Park();
-		
-		System.out.println(pas.queryByList(park).size());
-	}
 }

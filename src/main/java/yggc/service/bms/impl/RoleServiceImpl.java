@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import yggc.dao.bms.RoleMapper;
+import yggc.model.bms.PreMenu;
 import yggc.model.bms.Role;
+import yggc.model.bms.RolePreMenu;
 import yggc.model.bms.Userrole;
 import yggc.service.bms.RoleServiceI;
 
@@ -34,12 +36,12 @@ public class RoleServiceImpl implements RoleServiceI {
 	}
 
 	@Override
-	public Role get(Integer id) {
+	public Role get(String id) {
 		return roleMapper.selectByPrimaryKey(id);
 	}
 
 	@Override
-	public void delete(Integer id) {
+	public void delete(String id) {
 		roleMapper.deleteByPrimaryKey(id);
 	}
 
@@ -51,6 +53,21 @@ public class RoleServiceImpl implements RoleServiceI {
 	@Override
 	public List<Role> selectRoleUser(Role r) {
 		return roleMapper.selectRoleUser(r);
+	}
+
+	@Override
+	public List<Role> getRoleMenus(Role r) {
+		return roleMapper.selectRolePreMenu(r);
+	}
+
+	@Override
+	public void saveRolePreMenu(RolePreMenu rolePreMenu) {
+		roleMapper.saveRelativity(rolePreMenu);
+	}
+
+	@Override
+	public void deleteRoelMenu(RolePreMenu rm) {
+		roleMapper.deleteRoelMenu(rm);
 	}
 
 }

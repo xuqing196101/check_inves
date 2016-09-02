@@ -2,6 +2,7 @@ package yggc.controller.sys.bms;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -99,8 +100,7 @@ public class UserManageController{
 		String[] roleIds=roleId.split(",");
 		for (int i = 0; i < roleIds.length; i++) {
 			Userrole userrole=new Userrole();
-			Integer rId=Integer.parseInt(roleIds[i]);
-			Role role=roleService.get(rId);
+			Role role=roleService.get(roleIds[i]);
 			userrole.setRoleId(role);
 			userrole.setUserId(user);
 			userService.saveRelativity(userrole);
@@ -173,8 +173,7 @@ public class UserManageController{
 		String[] roleIds=roleId.split(",");
 		for (int i = 0; i < roleIds.length; i++) {
 			Userrole userrole=new Userrole();
-			Integer rId=Integer.parseInt(roleIds[i]);
-			Role role=roleService.get(rId);
+			Role role=roleService.get(roleIds[i]);
 			userrole.setRoleId(role);
 			userrole.setUserId(user);
 			userService.saveRelativity(userrole);
@@ -195,7 +194,7 @@ public class UserManageController{
 	public String delete(String ids){
 		String[] id=ids.split(",");
 		for (String str : id) {
-			userService.deleteByLogic(Integer.parseInt(str));
+			userService.deleteByLogic(str);
 		}
 		return "redirect:getAll.do";
 	}
@@ -215,5 +214,11 @@ public class UserManageController{
 		model.addAttribute("user", ulist.get(0));
 		return "user/view";
 	}
-	
+		
+	public static void main(String[] args) {
+		 for (int i = 0; i < 15; i++) {
+			 UUID uuid = UUID.randomUUID();
+			 System.out.println(uuid);
+		} 
+	}
 }

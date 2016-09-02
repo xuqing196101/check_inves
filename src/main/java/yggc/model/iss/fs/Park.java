@@ -1,7 +1,7 @@
 package yggc.model.iss.fs;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 import yggc.model.bms.User;
@@ -16,7 +16,7 @@ public class Park {
     /**
      * @Fields id : 主键
      */
-    private Integer id;
+    private String id;
     
     /**
      * @Fields name : 版块名称
@@ -37,28 +37,29 @@ public class Park {
     private Timestamp updatedAt;    
     
     /**
-     * @Fields user : 版主
+     * @Fields user_id : 版主
      */
     private User user;
     /**
-     * @Fields creater : 创建人
+     * @Fields creater_id : 创建人
      */
     private User creater;
-    /**
-     * @Fields topics : 主题
-     */
+
     private List<Topic> topics;
-    /**
-     * @Fields posts : 帖子
-     */
+
     private List<Post> posts;
-      
     
-	public Integer getId() {
+    private BigDecimal topiccount;
+    
+    private BigDecimal postcount;
+    
+    private BigDecimal replycount;
+         
+	public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -125,6 +126,30 @@ public class Park {
 
 	public void setPosts(List<Post> posts) {
 		this.posts = posts;
+	}
+
+	public BigDecimal getTopiccount() {
+		return topiccount;
+	}
+
+	public void setTopiccount(BigDecimal topiccount) {
+		this.topiccount = topiccount;
+	}
+
+	public BigDecimal getPostcount() {
+		return postcount;
+	}
+
+	public void setPostcount(BigDecimal postcount) {
+		this.postcount = postcount;
+	}
+
+	public BigDecimal getReplycount() {
+		return replycount;
+	}
+
+	public void setReplycount(BigDecimal replycount) {
+		this.replycount = replycount;
 	}
 	
 	

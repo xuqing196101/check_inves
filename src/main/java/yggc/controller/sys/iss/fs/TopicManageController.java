@@ -58,7 +58,7 @@ public class TopicManageController {
 	* @return String     
 	*/
 	@RequestMapping("/view")
-	public String view(Model model,Integer id){
+	public String view(Model model,String id){
 		Topic p = topicService.selectByPrimaryKey(id);
 		model.addAttribute("topic", p);
 		return "forum/topic/view";
@@ -103,7 +103,7 @@ public class TopicManageController {
 	* @return String     
 	*/
 	@RequestMapping("/edit")
-	public String edit(Integer id,Model model){
+	public String edit(String id,Model model){
 		Topic p = topicService.selectByPrimaryKey(id);
 		model.addAttribute("topic", p);
 		return "forum/topic/edit";
@@ -133,7 +133,7 @@ public class TopicManageController {
 	* @return String     
 	*/
 	@RequestMapping("/delete")
-	public String delete(Integer id){
+	public String delete(String id){
 		topicService.deleteByPrimaryKey(id);
 		return "redirect:getlist.do";
 	}
@@ -142,13 +142,13 @@ public class TopicManageController {
 	* @Title: getListForSelect
 	* @author junjunjun1993
 	* @date 2016-8-31 下午20:03:41 
-	* @Description: 删除主题信息
+	* @Description: 获得主题表
 	* @param @param parkId
 	* @return Map<String, Object>     
 	*/
 	@RequestMapping("/getListForSelect")
 	@ResponseBody 
-	public Map<String, Object> getListForSelect(@RequestParam(value= "parkId",required = true)Integer parkId) {
+	public Map<String, Object> getListForSelect(@RequestParam(value= "parkId",required = true)String parkId) {
 		Map<String,Object> modelMap = new HashMap<String, Object>();
 		List<Topic> topics = topicService.selectByParkID(parkId);
 		modelMap.put("topics", topics);

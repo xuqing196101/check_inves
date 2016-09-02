@@ -97,7 +97,7 @@
     
 	//鼠标移动显示全部内容
 	function out(content){
-	if(content.length>45){
+	if(content.length>10){
 	layer.msg(content, {
 			icon:6,
 			shade:false,
@@ -116,7 +116,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">后台管理</a></li><li class="active"><a href="#">版块管理</a></li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">论坛管理</a></li><li class="active"><a href="#">版块管理</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -166,6 +166,9 @@
 				<th class="info">创建时间</th>
 				<th class="info">更新时间</th>
 				<th class="info">创建人</th>
+				<th class="info">主题数</th>
+				<th class="info">帖子数</th>
+				<th class="info">回复数</th>
 			</tr>
 		</thead>
 		
@@ -177,16 +180,19 @@
 				
 				<c:set value="${park.content}" var="content"></c:set>
 				<c:set value="${fn:length(content)}" var="length"></c:set>
-				<c:if test="${length>15}">
-					<td onclick="view(${park.id})" onmouseover="out('${park.content}')" class="tc pointer ">${fn:substring(content,0,35)}...</td>
+				<c:if test="${length>10}">
+					<td onclick="view(${park.id})" onmouseover="out('${park.content}')" class="tc pointer ">${fn:substring(content,0,10)}...</td>
 				</c:if>
-				<c:if test="${length<15}">
+				<c:if test="${length<10}">
 					<td onclick="view(${park.id})" onmouseover="out('${park.content}')" class="tc pointer ">${content } </td>
 				</c:if>	
 				<td class="tc pointer" onclick="view(${park.id})">${park.user.relName}</td>
-				<td class="tc pointer" onclick="view(${park.id})"><fmt:formatDate value='${park.createdAt}' pattern="yyyy年MM月dd日  " /></td>
-				<td class="tc pointer" onclick="view(${park.id})"><fmt:formatDate value='${park.updatedAt}' pattern="yyyy年MM月dd日  " /></td>
+				<td class="tc pointer" onclick="view(${park.id})"><fmt:formatDate value='${park.createdAt}' pattern="yyyy年MM月dd日  HH:mm:ss" /></td>
+				<td class="tc pointer" onclick="view(${park.id})"><fmt:formatDate value='${park.updatedAt}' pattern="yyyy年MM月dd日  HH:mm:ss" /></td>
 				<td class="tc pointer" onclick="view(${park.id})">${park.creater.relName}</td>
+				<td class="tc pointer" onclick="view(${park.id})">${park.topiccount }</td>
+				<td class="tc pointer" onclick="view(${park.id})">${park.postcount }</td>
+				<td class="tc pointer" onclick="view(${park.id})">${park.replycount }</td>
 			</tr>
 		</c:forEach>
 	</table>

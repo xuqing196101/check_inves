@@ -56,12 +56,12 @@ public class UserServiceImpl implements UserServiceI {
 	}
 
 	@Override
-	public void delete(Integer id) {
+	public void delete(String id) {
 		userMapper.delete(id);
 	}
 
 	@Override
-	public void deleteByLogic(Integer id) {
+	public void deleteByLogic(String id) {
 		User u=userMapper.queryById(id);
 		u.setIsDeleted(1);
 		userMapper.updateBySelective(u);

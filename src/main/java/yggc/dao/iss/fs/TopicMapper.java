@@ -1,5 +1,6 @@
 package yggc.dao.iss.fs;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import yggc.model.iss.fs.Topic;
@@ -17,10 +18,12 @@ public interface TopicMapper {
 	* @author junjunjun1993
 	* @date 2016-8-4下午4:57:10  
 	* @Description: 查询记录数
+	* @param topic
 	* @return Integer     
 	*/
-	Integer queryByCount();
-	
+	BigDecimal queryByCount(Topic topic);
+
+
 	/**   
 	* @Title: queryByList
 	* @author junjunjun1993
@@ -41,7 +44,7 @@ public interface TopicMapper {
 	* @param id
 	* @return Topic
 	*/
-    Topic selectByPrimaryKey(Integer id);
+    Topic selectByPrimaryKey(String id);
 	
 
 	
@@ -52,7 +55,7 @@ public interface TopicMapper {
 	* @Description: 根据Id删除
 	* @param id
 	*/
-    void deleteByPrimaryKey(Integer id);
+    void deleteByPrimaryKey(String id);
 	
     /**   
 	* @Title: insertSelective
@@ -80,7 +83,7 @@ public interface TopicMapper {
 	* @param id
 	* @return List<Topic> 
 	*/
-    List<Topic> selectByParkID(Integer parkID);
+    List<Topic> selectByParkID(String parkID);
     
     
 

@@ -61,7 +61,7 @@ public interface UserServiceI {
 	* @param @param id      
 	* @return void     
 	*/
-	public void delete(Integer id);
+	public void delete(String id);
 
 	/**   
 	* @Title: deleteByLogic
@@ -71,7 +71,7 @@ public interface UserServiceI {
 	* @param @param id      
 	* @return void     
 	*/
-	public void deleteByLogic(Integer id);
+	public void deleteByLogic(String id);
 
 	/**   
 	* @Title: update

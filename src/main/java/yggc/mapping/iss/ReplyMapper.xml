@@ -38,9 +38,17 @@
 			  </select>
 			  
 	  		  <!-- 2.查询列表总数 -->
-			  <select id="queryByCount" resultType="java.lang.Integer" parameterType="Object">
+			  <select id="queryByCount" resultType="Object" parameterType="Object">
 			    select count(1) from T_ISS_FS_REPLY
 			    <include refid="Example_Where_Clause" />
+			  </select>
+			  
+			  <select id="queryCountByParkId" resultType="Object" parameterType="Object">
+					SELECT COUNT(1) FROM T_ISS_FS_REPLY
+					WHERE POST_ID IN( 
+					SELECT * FROM T_ISS_FS_POST
+					WHERE PARK_ID = #{parkId}
+					)
 			  </select>
 			  
 			  <!-- 3.根据条件查询列表 -->

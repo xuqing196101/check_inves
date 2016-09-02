@@ -3,6 +3,7 @@
  */
 package yggc.service.iss.fs;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import yggc.model.iss.fs.Post;
@@ -20,9 +21,10 @@ public interface PostService {
 	* @author junjunjun1993
 	* @date 2016-8-4下午4:57:10  
 	* @Description: 查询记录数
-	* @return Integer     
+	* @param parkID
+	* @return BigDecimal     
 	*/
-	Integer queryByCount();
+	BigDecimal queryByCount(Post post);
 	
 	/**   
 	* @Title: queryByList
@@ -42,7 +44,7 @@ public interface PostService {
 	* @param id
 	* @return Post
 	*/
-    Post selectByPrimaryKey(Integer id);
+    Post selectByPrimaryKey(String id);
     
     /**   
 	* @Title: deleteByPrimaryKey
@@ -51,7 +53,7 @@ public interface PostService {
 	* @Description: 根据Id删除
 	* @param  id
 	*/
-    void deleteByPrimaryKey(Integer id);
+    void deleteByPrimaryKey(String id);
     /**   
 	* @Title: insertSelective
 	* @author junjunjun1993
@@ -77,7 +79,7 @@ public interface PostService {
 	* @param id
 	* @return List<Post> 
 	*/
-    List<Post> selectByTopicID(Integer topicID);
+    List<Post> selectByTopicID(String topicID);
     /**   
 	* @Title: selectByPrimaryKey
 	* @author junjunjun1993
@@ -86,7 +88,7 @@ public interface PostService {
 	* @param id
 	* @return List<Post> 
 	*/
-    List<Post> selectByParkID(Integer parkID);
+    List<Post> selectByParkID(String parkID);
     /**   
 	* @Title: selectByPrimaryKey
 	* @author junjunjun1993
@@ -95,6 +97,6 @@ public interface PostService {
 	* @param id
 	* @return List<Post> 
 	*/
-    List<Post> selectListByParkID(Integer parkID);
+    List<Post> selectListByParkID(String parkID);
     
 }

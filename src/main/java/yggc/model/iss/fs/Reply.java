@@ -14,7 +14,7 @@ public class Reply {
     /**
      * @Fields id : 主键
      */
-    private Integer id;
+    private String id;
     /**
      * @Fields name : 回复名称
      */
@@ -42,11 +42,11 @@ public class Reply {
     private User user;
 
     
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
