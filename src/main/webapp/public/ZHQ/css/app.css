@@ -717,11 +717,10 @@ h3.heading-xs {
 }
 
 .tab-v2 .nav-tabs li.active a {
-  background: #fff;
+  background: #2c9fa6;
   padding: 7px 15px 9px;
   border: solid 1px #eee;
-  border-top: solid 2px #2c9fa6;
-  color:#2c9fa6;
+  color:#ffffff;
   border-bottom: none !important;
 }
 
