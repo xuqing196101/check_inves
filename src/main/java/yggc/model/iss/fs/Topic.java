@@ -1,5 +1,5 @@
 package yggc.model.iss.fs;
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 import yggc.model.bms.User;
@@ -8,7 +8,7 @@ import yggc.model.bms.User;
 * <p>Description:用户实体类 </p>
 * <p>Company: yggc </p> 
 * @author junjunjun1993
-* @date 2016-8-3下午4:53:36
+* @Timestamp 2016-8-3下午4:53:36
 */
 public class Topic {
     /**
@@ -27,11 +27,11 @@ public class Topic {
     /**
      * @Fields createdAt : 创建时间
      */
-    private Date createdAt;
+    private Timestamp createdAt;
     /**
-     * @Fields updatedAt : 更新时间
+     * @Fields upTimestampdAt : 更新时间
      */
-    private Date updatedAt;
+    private Timestamp upTimestampdAt;
 
     /**
      * @Fields park : 所属版块
@@ -40,7 +40,7 @@ public class Topic {
     /**
      * @Fields user : 创建人
      */
-    private User creater; 
+    private User user; 
     /**
      * @Fields posts : 帖子
      */
@@ -63,20 +63,20 @@ public class Topic {
         this.name = name == null ? null : name.trim();
     }
 
-    public Date getCreatedAt() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Date getUpdatedAt() {
-        return updatedAt;
+    public Timestamp getUpTimestampdAt() {
+        return upTimestampdAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setUpTimestampdAt(Timestamp upTimestampdAt) {
+        this.upTimestampdAt = upTimestampdAt;
     }
 
     public String getContent() {
@@ -95,14 +95,11 @@ public class Topic {
 		this.park = park;
 	}
 
-	public User getCreater() {
-		return creater;
+	public User getUser() {
+		return user;
 	}
 
-	public void setCreater(User creater) {
-		this.creater = creater;
-	}
-
-
-    
+	public void setUser(User user) {
+		this.user = user;
+	}    
 }

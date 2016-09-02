@@ -117,7 +117,7 @@ function addToFavorite() {
     window.external.addFavorite('http://www.sinopr.org', '公共资源交易网')
   } else if (window.sidebar) {
     window.sidebar.addPanel('公共资源交易网', 'http://www.sinopr.org', "")
-  } else {　　　　//添加收藏的快捷键
+  } else {//添加收藏的快捷键
     alert('添加失败\n您可以尝试通过快捷键' + ctrl + ' + D 加入到收藏夹~')
   }
 }

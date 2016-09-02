@@ -1,5 +1,6 @@
 package yggc.model.iss.fs;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -29,11 +30,11 @@ public class Park {
     /**
      * @Fields createdAt : 创建时间
      */
-    private Date createdAt;
+    private Timestamp createdAt;
     /**
      * @Fields updated_At：更新时间
      */
-    private Date updatedAt;    
+    private Timestamp updatedAt;    
     
     /**
      * @Fields user : 版主
@@ -78,19 +79,19 @@ public class Park {
 	}
 
 
-    public Date getCreatedAt() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Date getUpdatedAt() {
+    public Timestamp getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
 

@@ -34,6 +34,53 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!--导航js-->
 <script src="<%=basePath%>public/ZHQ/js/jquery_ujs.js"></script>
 <script src="<%=basePath%>public/ZHQ/js/bootstrap.min.js"></script>
+<script src="<%=basePath%>public/layer/layer.js"></script>
+<script type="text/javascript">
+function login(){
+	if($("#inputEmail").val()==""){
+		layer.tips("请输入用户名","#inputEmail",{
+			tips : 1
+		});		
+	}else if($("#inputPassword").val()==""){
+		layer.tips("请输入密码","#inputPassword",{
+			tips : 1
+		});		
+	}else if($("#inputCode").val()==""){
+		layer.tips("请输入验证码","#inputCode",{
+			tips : 1
+		});		
+	}else{
+		var index=layer.load();
+		$.ajax({
+			url:"login/login.do",
+			type:"post",
+			data:{loginName:$("#inputEmail").val(),password:$("#inputPassword").val(),rqcode:$("#inputCode").val()},
+			success:function(data){
+				if(data=="errorcode"){
+					layer.tips("验证码不正确","#inputCode",{
+						tips : 1
+					});	
+					layer.close(index);
+				}else if(data=="errorlogin"){				
+					layer.msg("用户名或密码错误！");
+					layer.close(index);
+				}else if(data=="nullcontext"){				
+					layer.msg("请输入用户名密码或者验证码!");
+				}else if(data=="scuesslogin"){				
+					layer.close(index);
+					window.location.href="login/index.do";
+				}
+				kaptcha();
+			}
+		});
+	}
+
+}
+function kaptcha(){
+	$("#kaptchaImage").hide().attr('src','Kaptcha.jpg?' + Math.floor(Math.random() * 100)).fadeIn();
+}
+
+</script>
 </head>
 
 <body>
@@ -257,19 +304,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <div class="control-group  margin-top-20 ">
         <label class="control-label" for="inputPassword">验证码：</label>
         <div class="controls">
-          <input type="password" placeholder="" class="input-mini fl">
-		  <span class=" margin-left-20"><img src="<%=basePath%>public/ZHQ/images/yzm.jpg"/></span>
+         <input type="text" placeholder="" id="inputCode" class="input-mini fl margin-right-20">
+          	<img src="Kaptcha.jpg" onclick="kaptcha();" id="kaptchaImage" /> 
         </div>
        </div>
        <div class="control-group margin-top-22 clear">
         <div class="controls">
-          <button class="btn" type="submit">登陆</button>
-		  <button class="btn btn-u-light-grey margin-left-20" type="reset">重置</button>
+    <button class="btn" type="button" onclick="login();">登陆</button>
+		  <button onclick="kaptcha();"  class="btn btn-u-light-grey margin-left-20" type="reset">重置</button>
         </div>
       </div>
     </form>
-
-	  
     </div>
     </div>
   </div>
@@ -334,7 +379,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  <div class="padding-top-13 padding-bottom-10">
 	  <ul class="list-inline blog-photostream ">
       <li class="fl margin-5"><a href="#" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow"><i class="icon-custom icon-sm qyzc"></i>企业注册</span></a></li>
-	  <li class="fl margin-5"><a href="#" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow"><i class="icon-custom icon-sm zjzc"></i>专家注册</span></a></li>
+	  <li class="fl margin-5"><a href="<%=basePath %>expert/toExpert.do" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow"><i class="icon-custom icon-sm zjzc"></i>专家注册</span></a></li>
 	  <li class="fl margin-5"><a href="#" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow"><i class="icon-custom icon-sm qyml"></i>企业名录</span></a></li>
 	  <li class="fl margin-5"><a href="#" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow"><i class="icon-custom icon-sm zjmd"></i>专家名单</span></a></li>
 	  <li class="fl margin-5"><a href="#" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow"><i class="icon-custom icon-sm xzzq"></i>下载专区</span></a></li>

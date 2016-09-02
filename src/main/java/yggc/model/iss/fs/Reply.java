@@ -1,6 +1,6 @@
 package yggc.model.iss.fs;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 import yggc.model.bms.User;
 /**
@@ -8,7 +8,7 @@ import yggc.model.bms.User;
 * <p>Description:用户实体类 </p>
 * <p>Company: yggc </p> 
 * @author junjunjun1993
-* @date 2016-8-3下午4:53:36
+* @Timestamp 2016-8-3下午4:53:36
 */
 public class Reply {
     /**
@@ -27,7 +27,7 @@ public class Reply {
     /**
      * @Fields publishedTime : 发表时间
      */
-    private Date publishedTime;
+    private Timestamp publishedTime;
     /**
      * @Fields post : 所属帖子
      */
@@ -59,11 +59,11 @@ public class Reply {
     }
 
 
-    public Date getPublishedTime() {
+    public Timestamp getPublishedTime() {
         return publishedTime;
     }
 
-    public void setPublishedTime(Date publishedTime) {
+    public void setPublishedTime(Timestamp publishedTime) {
         this.publishedTime = publishedTime;
     }
 
