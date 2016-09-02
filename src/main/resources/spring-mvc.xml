@@ -17,6 +17,10 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 			</list>
 		</property>
 	</bean>
+	<!-- springMVC拦截器 -->
+	<mvc:interceptors>
+		<bean class="yggc.interceptor.MyInterceptor"></bean>
+	</mvc:interceptors>
 	<!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<property name="messageConverters">

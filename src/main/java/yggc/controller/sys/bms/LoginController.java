@@ -1,6 +1,10 @@
 package yggc.controller.sys.bms;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,22 +40,29 @@ public class LoginController {
 	* @param @param user
 	* @param @param req
 	* @return String     
+	 * @throws IOException 
 	*/
 	@RequestMapping("/login")
-	public String login(User user,HttpServletRequest req,Model model) {
-		if(!"".equals(user.getPassword()) && user.getLoginName()!=null && !"".equals(user.getPassword()) && user.getPassword()!=null){
+	public void login(User user,HttpServletRequest req,	HttpServletResponse response,Model model,String rqcode) throws IOException {
+		PrintWriter out =response.getWriter();
+		if(!"".equals(user.getPassword().trim()) && user.getLoginName()!=null && !"".equals(user.getPassword().trim()) && user.getPassword()!=null&&!"".equals(rqcode.trim())&&rqcode!=null){
 			User u = userService.getUserByLogin(user);
-			if(u!=null){
+			//获取验证码
+			String code = (String) req.getSession().getAttribute(com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY);
+			if(!rqcode.toUpperCase().equals(code)){
+				logger.info("验证码输入有误");
+				out.print("errorcode");
+			}else if(u!=null){
 				req.getSession().setAttribute("loginUser", u);
 				logger.info("登录成功");
-				return "redirect:index.do";
+				out.print("scuesslogin");
 			}else{
 				logger.error("验证失败");
-				return "redirect:/";
+				out.print("errorlogin");
 			}
 		}else{
-			logger.error("请输入用户名或密码");
-			return "redirect:/";
+			logger.error("请输入用户名密码或者验证码");
+			out.print("nullcontext");
 		}
 	}
 	
