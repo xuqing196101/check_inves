@@ -13,7 +13,6 @@
     </properties>
   <dependencies>
     	<dependency>
-    	
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<version>${spring.version}</version>
@@ -181,6 +180,7 @@
 		</dependency>
 	 
   </dependencies>
+
   <build>
   	<plugins>  
 	    <plugin>  
@@ -193,6 +193,8 @@
 	        </configuration>  
 	    </plugin>  
 	</plugins> 
+	
     <finalName>zhbj</finalName>
   </build>
+		 
 </project>
