@@ -68,7 +68,7 @@ function login(){
 					layer.msg("请输入用户名密码或者验证码!");
 				}else if(data=="scuesslogin"){				
 					layer.close(index);
-					window.location.href="login/index.do";
+					window.location.href="<%=basePath%>login/index.do";
 				}
 				kaptcha();
 			}
