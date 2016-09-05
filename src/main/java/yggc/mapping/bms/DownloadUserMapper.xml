@@ -2,33 +2,41 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="yggc.dao.bms.DownloadUserMapper">
   <resultMap id="DownloadUserMap" type="yggc.model.bms.DownloadUser">
-    <id column="ID" jdbcType="DECIMAL" property="id" />
-    <result column="ARTICLE_ID" jdbcType="DECIMAL" property="articleId" />
-    <result column="USER_ID" jdbcType="DECIMAL" property="userId" />
-    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
-    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
-    <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
+    <id column="ID" property="id" />
+    <result column="ARTICLE_ID" property="articleId" />
+    <result column="USER_ID" property="userId" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="IS_DELETED" property="isDeleted" />
   </resultMap>
+  
   <sql id="DownloadUser_Column_List">
     ID, ARTICLE_ID, USER_ID, CREATED_AT, UPDATED_AT,IS_DELETED
   </sql>
+  
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="DownloadUserMap">
     select 
     <include refid="DownloadUser_Column_List" />
     from T_SES_BMS_DOWNLOAD_INFO
-    where ID = #{id,jdbcType=DECIMAL}
+    where ID = #{id}
   </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="Object">
     delete from T_SES_BMS_DOWNLOAD_INFO
-    where ID = #{id,jdbcType=DECIMAL}
+    where ID = #{id}
   </delete>
+  
   <insert id="insert" parameterType="yggc.model.bms.DownloadUser">
     insert into T_SES_BMS_DOWNLOAD_INFO (ID, ARTICLE_ID, USER_ID, 
       CREATED_AT, UPDATED_AT,IS_DELETED)
-    values (#{id,jdbcType=DECIMAL}, #{articleId,jdbcType=DECIMAL}, #{userId,jdbcType=DECIMAL}, 
-      #{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE},#{isDeleted,jdbcType=DECIMAL})
+    values (#{id}, #{articleId}, #{userId}, 
+      #{createdAt}, #{updatedAt},#{isDeleted})
   </insert>
+  
   <insert id="insertSelective" parameterType="yggc.model.bms.DownloadUser">
+  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
     insert into T_SES_BMS_DOWNLOAD_INFO
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -52,22 +60,22 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=DECIMAL},
+        #{id},
       </if>
       <if test="articleId != null">
-        #{articleId,jdbcType=DECIMAL},
+        #{articleId},
       </if>
       <if test="userId != null">
-        #{userId,jdbcType=DECIMAL},
+        #{userId},
       </if>
       <if test="createdAt != null">
-        #{createdAt,jdbcType=DATE},
+        #{createdAt},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt,jdbcType=DATE},
+        #{updatedAt},
       </if>
       <if test="isDeleted != null">
-        #{isDeleted,jdbcType=DECIMAL},
+        #{isDeleted},
       </if>
     </trim>
   </insert>
@@ -75,33 +83,33 @@
     update T_SES_BMS_DOWNLOAD_INFO
     <set>
       <if test="articleId != null">
-        ARTICLE_ID = #{articleId,jdbcType=DECIMAL},
+        ARTICLE_ID = #{articleId},
       </if>
       <if test="userId != null">
-        USER_ID = #{userId,jdbcType=DECIMAL},
+        USER_ID = #{userId},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt,jdbcType=DATE},
+        CREATED_AT = #{createdAt},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+        UPDATED_AT = #{updatedAt},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+        UPDATED_AT = #{updatedAt},
       </if>
       <if test="isDeleted != null">
-        IS_DELETED  = #{isDeleted,jdbcType=DECIMAL},
+        IS_DELETED  = #{isDeleted},
       </if>
     </set>
-    where ID = #{id,jdbcType=DECIMAL}
+    where ID = #{id}
   </update>
   <update id="updateByPrimaryKey" parameterType="yggc.model.bms.DownloadUser">
     update T_SES_BMS_DOWNLOAD_INFO
-    set ARTICLE_ID = #{articleId,jdbcType=DECIMAL},
-      USER_ID = #{userId,jdbcType=DECIMAL},
-      CREATED_AT = #{createdAt,jdbcType=DATE},
-      UPDATED_AT = #{updatedAt,jdbcType=DATE},
-      IS_DELETED = #{isDeleted,jdbcType=DECIMAL}
-    where ID = #{id,jdbcType=DECIMAL}
+    set ARTICLE_ID = #{articleId},
+      USER_ID = #{userId},
+      CREATED_AT = #{createdAt},
+      UPDATED_AT = #{updatedAt},
+      IS_DELETED = #{isDeleted}
+    where ID = #{id}
   </update>
 </mapper>

@@ -20,7 +20,7 @@ public class ArticleServiceImpl implements ArticleService {
 	 */
 	@Override
 	public void addArticle(Article article) {
-		articleMapper.insert(article);
+		articleMapper.insertSelective(article);
 	}
 	
 	/**
@@ -35,8 +35,8 @@ public class ArticleServiceImpl implements ArticleService {
 	 * 修改信息
 	 */
 	@Override
-	public void editArticle(Article article) {
-		articleMapper.updateByPrimaryKeyWithBLOBs(article);
+	public void update(Article article) {
+		articleMapper.update(article);
 	}
 
 	@Override
@@ -47,8 +47,13 @@ public class ArticleServiceImpl implements ArticleService {
 	/**
 	 * 根据id查询信息
 	 */
-	@Override
 	public Article selectArticleById(String id) {
-		return articleMapper.selectByPrimaryKey(id);
+		return articleMapper.selectById(id);
 	}
+
+	@Override
+	public void delete(String id) {
+		articleMapper.Isdelete(id);
+	}
+
 }

@@ -59,7 +59,7 @@ public interface ArticleMapper {
     * @param @return      
     * @return Article
      */
-    Article selectByPrimaryKey(String id);
+    Article selectById(String id);
     
     /**
      * 
@@ -73,38 +73,25 @@ public interface ArticleMapper {
     List<Article> selectAllArticle();
     
     /**
-     * 
-    * @Title: updateByPrimaryKeySelective
-    * @author Mrlovablee 
-    * @date 2016-8-23 下午3:10:52  
-    * @Description: 通过主键修改信息（不包含大文本类型） 
+    * @Title: update
+    * @author szf
+    * @date 2016-9-2 上午9:48:53  
+    * @Description: TODO 修改信息
     * @param @param record
     * @param @return      
     * @return int
      */
-    int updateByPrimaryKeySelective(Article record);
+    int update(Article record);
     
     /**
-     * 
-    * @Title: updateByPrimaryKeyWithBLOBs
-    * @author Mrlovablee 
-    * @date 2016-8-23 下午3:11:25  
-    * @Description: 通过主键修改信息（包含大文本类型）
-    * @param @param record
+    * @Title: Isdelete
+    * @author szf
+    * @date 2016-9-2 上午10:50:39  
+    * @Description: TODO 假删除信息
+    * @param @param id
     * @param @return      
     * @return int
      */
-    int updateByPrimaryKeyWithBLOBs(Article record);
+    int Isdelete(String id);
     
-    /**
-     * 
-    * @Title: updateByPrimaryKey
-    * @author Mrlovablee 
-    * @date 2016-8-23 下午3:11:40  
-    * @Description: 根据主键修改信息 
-    * @param @param record
-    * @param @return      
-    * @return int
-     */
-    int updateByPrimaryKey(Article record);
 }

@@ -29,17 +29,6 @@ public interface ArticleService {
 	
 	/**
 	 * 
-	* @Title: editArticle
-	* @author Mrlovablee 
-	* @date 2016-8-23 下午3:07:10  
-	* @Description: 修改信息 
-	* @param @param article      
-	* @return void
-	 */
-	void editArticle(Article article);
-	
-	/**
-	 * 
 	* @Title: delArticleById
 	* @author Mrlovablee 
 	* @date 2016-8-23 下午3:07:23  
@@ -60,4 +49,25 @@ public interface ArticleService {
 	* @return Article
 	 */
 	Article selectArticleById(String id);
+	
+	/**
+	* @Title: update
+	* @author szf
+	* @date 2016-9-2 上午9:05:22  
+	* @Description: TODO 修改信息
+	* @param @param article      
+	* @return void
+	 */
+	void update(Article article);
+	
+	/**
+	* @Title: delete
+	* @author szf
+	* @date 2016-9-2 上午10:51:10  
+	* @Description: TODO 假删除
+	* @param @param id      
+	* @return void
+	 */
+	void delete(String id);
+	
 }

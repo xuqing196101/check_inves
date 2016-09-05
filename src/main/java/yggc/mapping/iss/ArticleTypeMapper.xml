@@ -2,37 +2,46 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="yggc.dao.iss.ArticleTypeMapper">
   <resultMap id="ArticleTypeMapper" type="yggc.model.iss.ArticleType">
-    <id column="ID" jdbcType="DECIMAL" property="id" />
-    <result column="NAME" jdbcType="VARCHAR" property="name" />
-    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
-    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
-    <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
+    <id column="ID" property="id" />
+    <result column="NAME" property="name" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="IS_DELETED" property="isDeleted" />
   </resultMap>
+  
   <sql id="ArticleType_Column_List">
     ID, NAME, CREATED_AT, UPDATED_AT,IS_DELETED
   </sql>
+  
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ArticleTypeMapper">
     select 
     <include refid="ArticleType_Column_List" />
     from T_ISS_ARTICLE_TYPE
-    where ID = #{id,jdbcType=DECIMAL}
+    where ID = #{id}
   </select>
+  
   <select id="selectAllArticleType" resultMap="ArticleTypeMapper">
   	select
     <include refid="ArticleType_Column_List" />
     from T_ISS_ARTICLE_TYPE
   </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="Object">
     delete from T_ISS_ARTICLE_TYPE
-    where ID = #{id,jdbcType=DECIMAL}
+    where ID = #{id}
   </delete>
+  
   <insert id="insert" parameterType="yggc.model.iss.ArticleType">
     insert into T_ISS_ARTICLE_TYPE (ID, NAME, CREATED_AT, 
       UPDATED_AT)
-    values (#{id,jdbcType=DECIMAL}, #{name,jdbcType=VARCHAR}, #{createdAt,jdbcType=DATE}, 
-      #{updatedAt,jdbcType=DATE})
+    values (#{id}, #{name}, #{createdAt}, 
+      #{updatedAt})
   </insert>
+  
   <insert id="insertSelective" parameterType="yggc.model.iss.ArticleType">
+  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
     insert into T_ISS_ARTICLE_TYPE
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -50,39 +59,42 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=DECIMAL},
+        #{id},
       </if>
       <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+        #{name},
       </if>
       <if test="createdAt != null">
-        #{createdAt,jdbcType=DATE},
+        #{createdAt},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt,jdbcType=DATE},
+        #{updatedAt},
       </if>
     </trim>
   </insert>
+  
   <update id="updateByPrimaryKeySelective" parameterType="yggc.model.iss.ArticleType">
     update T_ISS_ARTICLE_TYPE
     <set>
       <if test="name != null">
-        NAME = #{name,jdbcType=VARCHAR},
+        NAME = #{name},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt,jdbcType=DATE},
+        CREATED_AT = #{createdAt},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+        UPDATED_AT = #{updatedAt},
       </if>
     </set>
-    where ID = #{id,jdbcType=DECIMAL}
+    where ID = #{id}
   </update>
+  
   <update id="updateByPrimaryKey" parameterType="yggc.model.iss.ArticleType">
     update T_ISS_ARTICLE_TYPE
-    set NAME = #{name,jdbcType=VARCHAR},
-      CREATED_AT = #{createdAt,jdbcType=DATE},
-      UPDATED_AT = #{updatedAt,jdbcType=DATE}
-    where ID = #{id,jdbcType=DECIMAL}
+    set NAME = #{name},
+      CREATED_AT = #{createdAt},
+      UPDATED_AT = #{updatedAt}
+    where ID = #{id}
   </update>
+  
 </mapper>
