@@ -3,6 +3,7 @@ package yggc.interceptor;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,7 +35,18 @@ import org.springframework.web.servlet.ModelAndView;
  *     改善，认为不管是覆盖父类的方法还是实现接口的方法，都属于方法的重写。
  */
 public class MyInterceptor implements HandlerInterceptor {
+	/**
+	 * 过滤拦截
+	 */
+	private String matches;
 
+	public String getMatches() {
+		return matches;
+	}
+
+	public void setMatches(String matches) {
+		this.matches = matches;
+	}
 
 	private static Logger log = Logger.getLogger(MyInterceptor.class);
 
@@ -74,7 +86,7 @@ public class MyInterceptor implements HandlerInterceptor {
 		String presentPath = request.getServletPath();
 
 		if (presentPath	
-				.matches("(.*/((selectIndexNews.do)|(login.do)|(logout)|(loginIn)|(ALiPay)|(images)|(css)|(js)|(plugins)|(left)|(upload)).*)|(.*html)|(.*xml)|(.*apk)")) {
+				.matches(matches)) {
 			log.warn("匹配的路径：" + presentPath);
 			return true;
 		} else {
@@ -103,7 +115,6 @@ public class MyInterceptor implements HandlerInterceptor {
 				out.close(); 
 				return false;
 			} else {
-				
 				return true;
 			}
 		}

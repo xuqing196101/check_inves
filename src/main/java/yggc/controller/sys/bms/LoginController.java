@@ -45,7 +45,7 @@ public class LoginController {
 	@RequestMapping("/login")
 	public void login(User user,HttpServletRequest req,	HttpServletResponse response,Model model,String rqcode) throws IOException {
 		PrintWriter out =response.getWriter();
-		if(!"".equals(user.getPassword().trim()) && user.getLoginName()!=null && !"".equals(user.getPassword().trim()) && user.getPassword()!=null&&!"".equals(rqcode.trim())&&rqcode!=null){
+		if(user.getLoginName()!=null && !"".equals(user.getPassword().trim()) && user.getPassword()!=null && !"".equals(user.getPassword().trim()) && rqcode!=null && !"".equals(rqcode.trim())){
 			User u = userService.getUserByLogin(user);
 			//获取验证码
 			String code = (String) req.getSession().getAttribute(com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY);

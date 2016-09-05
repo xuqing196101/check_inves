@@ -52,7 +52,6 @@
 		<!-- 生成图片的Servlet -->
 		<servlet-name>Kaptcha</servlet-name>
 		<servlet-class>com.google.code.kaptcha.servlet.KaptchaServlet</servlet-class>
-
 		<!-- 是否有边框 -->
 		<init-param>
 			<param-name>kaptcha.border</param-name>
@@ -81,7 +80,7 @@
 		<!-- 字体大小 -->
 		<init-param>
 			<param-name>kaptcha.textproducer.font.size</param-name>
-			<param-value>23</param-value>
+			<param-value>20</param-value>
 		</init-param>
 		<!-- 干扰线的颜色 -->
 		<init-param>
@@ -107,7 +106,7 @@
 	<!-- 映射的url -->
 	<servlet-mapping>
 		<servlet-name>Kaptcha</servlet-name>
-		<url-pattern>/Kaptcha.jpg</url-pattern>
+		<url-pattern>/index/Kaptcha.jpg</url-pattern>
 	</servlet-mapping>
   
 </web-app>
