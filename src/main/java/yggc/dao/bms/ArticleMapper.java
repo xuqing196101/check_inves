@@ -94,4 +94,15 @@ public interface ArticleMapper {
      */
     int Isdelete(String id);
     
+    /**
+     * 
+    * @Title: selectByIsIndex
+    * @author Mrlovablee 
+    * @date 2016-9-5 下午1:28:25  
+    * @Description: 查找未索引的数据 
+    * @param @return      
+    * @return List<Article>
+     */
+    List<Article> selectByIsIndex();
+    
 }

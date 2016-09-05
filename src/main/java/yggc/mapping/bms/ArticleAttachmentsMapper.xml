@@ -33,7 +33,14 @@
     delete from T_SES_BMS_ARTICLE_ATTACHMENTS
     where ID = #{id}
   </delete>
-  
+  <insert id="insert" parameterType="yggc.model.bms.ArticleAttachments">
+    insert into T_SES_BMS_ARTICLE_ATTACHMENTS (ID, FILE_NAME, CONTENT_TYPE, 
+      FILE_SIZE, ARTICLE_ID, ATTACHMENT_PATH, 
+      CREATED_AT, UPDATED_AT,IS_DELETED)
+    values (#{id,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, #{contentType,jdbcType=VARCHAR}, 
+      #{fileSize,jdbcType=DECIMAL}, #{article.id,jdbcType=VARCHAR}, #{attachmentPath,jdbcType=VARCHAR}, 
+      #{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE},#{isDeleted,jdbcType=DECIMAL})
+  </insert>
   <insert id="insertSelective" parameterType="yggc.model.bms.ArticleAttachments">
   	<selectKey keyProperty="id" resultType="String" order="BEFORE">
         select sys_guid() from dual
