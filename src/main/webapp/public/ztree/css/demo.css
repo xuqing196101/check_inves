@@ -79,7 +79,7 @@ code {
 }
 
 li {
-	list-style: circle;
+	/* list-style: circle; */
 	font-size: 12px;
 }
 

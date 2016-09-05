@@ -91,8 +91,8 @@
 			   	 <input class="span2" id="roleId" name="roleId" type="hidden">
 		         <input class="span2" id="roleName" name="roleName" type="text">
 				 <div class="btn-group ">
-		          <button class="btn dropdown-toggle add-on" >
-				  <img src="<%=basePath%>public/ZHH/images/down.png" class="margin-bottom-5"/>
+		          <button class="btn dropdown-toggle add-on" data-toggle="dropdown">
+				  <img src="<%=basePath%>public/ZHH/images/down.png" />
 		          </button>
 		          <ul class="dropdown-menu list-unstyled">
 		          	<c:forEach items="${roles}" var="role" varStatus="vs">
