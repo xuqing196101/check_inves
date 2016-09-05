@@ -4,6 +4,13 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+/**
+ * @Title: SupplierInfo
+ * @Description: 供应商基本信息表
+ * @Company: yggc
+ * @author: Poppet_Brook
+ * @date: 2016-9-1下午3:33:52
+ */
 public class SupplierInfo implements Serializable {
 	private static final long serialVersionUID = 1198428984275872724L;
 
@@ -13,7 +20,7 @@ public class SupplierInfo implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.ID
 	 * </pre>
 	 */
-	private Integer id;
+	private String id;
 
 	/**
 	 * <pre>
@@ -423,11 +430,11 @@ public class SupplierInfo implements Serializable {
 	 */
 	private Date updatedAt;
 
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

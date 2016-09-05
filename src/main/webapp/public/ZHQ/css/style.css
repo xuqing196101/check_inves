@@ -1648,13 +1648,13 @@ img.img-mouse {
  }
 /*供应商须知开始*/ 
  .download{
-  padding:5px 12px;
+  padding:10px 30px;
   background:url(../images/download.png) no-repeat 0px;
   margin-left:5px;
   }
-  input[type="radio"].radio_orange{
+  input[type="checkbox"].radio_orange{
    border:1px solid #ffab00;
-   margin:0px;
+   margin-top:-3px;
   }
   
 /*填写信息开始*/

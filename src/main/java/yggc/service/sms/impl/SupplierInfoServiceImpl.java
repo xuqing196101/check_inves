@@ -14,7 +14,7 @@ public class SupplierInfoServiceImpl implements SupplierInfoService {
 	private SupplierInfoMapper supplierInfoMapper;
 	
 	@Override
-	public Integer register(SupplierInfo supplierInfo) {
+	public String register(SupplierInfo supplierInfo) {
 		supplierInfoMapper.insertSelective(supplierInfo);
 		return supplierInfo.getId();
 	}

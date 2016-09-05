@@ -66,13 +66,13 @@
 		SUPPLIER_REG_LIST, SUPPLIER_EXTRACTS_LIST, SUPPLIER_INSPECT_LIST, SUPPLIER_REVIEW_LIST,
 		SUPPLIER_CHANGE_LIST, SUPPLIER_EXIT_LIST, CREATED_AT, UPDATED_AT
 	</sql>
-	<select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
 		from T_SES_SMS_SUPPLIER_INFO
 		where ID = #{id}
 	</select>
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
 		delete from T_SES_SMS_SUPPLIER_INFO
 		where ID = #{id}
 	</delete>
