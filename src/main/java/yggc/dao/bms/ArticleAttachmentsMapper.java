@@ -21,7 +21,7 @@ public interface ArticleAttachmentsMapper {
 	* @param @return      
 	* @return int
 	 */
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(String id);
     
     /**
      * 
@@ -57,7 +57,7 @@ public interface ArticleAttachmentsMapper {
     * @param @return      
     * @return ArticleAttachments
      */
-    ArticleAttachments selectByPrimaryKey(Integer id);
+    ArticleAttachments selectByPrimaryKey(String id);
     
     /**
      * 

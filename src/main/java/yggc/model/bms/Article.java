@@ -1,12 +1,13 @@
 package yggc.model.bms;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 import yggc.model.iss.ArticleType;
 
-public class Article {
-    private Integer id;
+public class Article implements Serializable{
+	private String id ;
 
     private String name;
 
@@ -32,7 +33,7 @@ public class Article {
 
     private String type;
 
-    private Integer projectId;
+    private String projectId;
 
     private Date createdAt;
 
@@ -44,11 +45,11 @@ public class Article {
     
     private Integer isDeleted;
     
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -92,11 +93,11 @@ public class Article {
 		this.isIndex = isIndex;
 	}
 
-	public Integer getProjectId() {
+	public String getProjectId() {
 		return projectId;
 	}
 
-	public void setProjectId(Integer projectId) {
+	public void setProjectId(String projectId) {
 		this.projectId = projectId;
 	}
 

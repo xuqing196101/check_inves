@@ -35,5 +35,5 @@ public interface IndexNewsMapper {
 	* @param @return      
 	* @return List<Article>
 	 */
-	List<Article> selectNewsByArticleTypeId(Integer id);
+	List<Article> selectNewsByArticleTypeId(String id);
 }

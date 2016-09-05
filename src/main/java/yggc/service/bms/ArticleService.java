@@ -47,7 +47,7 @@ public interface ArticleService {
 	* @param @param id      
 	* @return void
 	 */
-	void delArticleById(Integer id);
+	void delArticleById(String id);
 	
 	/**
 	 * 
@@ -59,5 +59,5 @@ public interface ArticleService {
 	* @param @return      
 	* @return Article
 	 */
-	Article selectArticleById(Integer id);
+	Article selectArticleById(String id);
 }

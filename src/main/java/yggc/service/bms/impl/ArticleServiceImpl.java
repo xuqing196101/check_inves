@@ -40,7 +40,7 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
-	public void delArticleById(Integer id) {
+	public void delArticleById(String id) {
 		articleMapper.deleteByPrimaryKey(id);
 	}
 	
@@ -48,7 +48,7 @@ public class ArticleServiceImpl implements ArticleService {
 	 * 根据id查询信息
 	 */
 	@Override
-	public Article selectArticleById(Integer id) {
+	public Article selectArticleById(String id) {
 		return articleMapper.selectByPrimaryKey(id);
 	}
 }

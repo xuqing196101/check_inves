@@ -23,7 +23,7 @@ public interface ArticleTypeMapper {
 	* @param @return      
 	* @return int
 	 */
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(String id);
     
     /**
      * 
@@ -59,7 +59,7 @@ public interface ArticleTypeMapper {
     * @param @return      
     * @return ArticleType
      */
-    ArticleType selectByPrimaryKey(Integer id);
+    ArticleType selectByPrimaryKey(String id);
     
     /**
      * 

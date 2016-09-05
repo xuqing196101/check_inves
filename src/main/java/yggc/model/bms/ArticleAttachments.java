@@ -1,11 +1,11 @@
 package yggc.model.bms;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-
-public class ArticleAttachments {
-    private Integer id;
+public class ArticleAttachments implements Serializable{
+    private String id;
 
     private String fileName;
 
@@ -25,11 +25,11 @@ public class ArticleAttachments {
     
     private Integer isDeleted;
     
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

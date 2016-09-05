@@ -1,9 +1,10 @@
 package yggc.model.iss;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class ArticleType {
-    private Integer id;
+public class ArticleType implements Serializable{
+    private String id;
 
     private String name;
 
@@ -13,11 +14,11 @@ public class ArticleType {
     
     private Integer isDeleted;
     
-    public Integer getId() {
+    public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

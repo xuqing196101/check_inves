@@ -1,9 +1,10 @@
 package yggc.model.bms;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class DownloadUser {
-    private Integer id;
+public class DownloadUser implements Serializable{
+    private String id;
 
     private Integer articleId;
 
@@ -15,11 +16,11 @@ public class DownloadUser {
     
     private Integer isDeleted;
     
-    public Integer getId() {
+    public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
