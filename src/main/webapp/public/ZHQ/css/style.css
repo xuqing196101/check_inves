@@ -1946,3 +1946,40 @@ img.img-mouse {
  background:#ff9000;
 }
 
+.ml170{
+	margin-left:170px;
+}
+.yinc{
+	display: none;
+}
+.ml170{
+	margin-left:170px;
+}
+.h730{
+	height:730px;
+}
+.h1030{
+	height:1030px;
+}
+/*注册成功跳转页面开始*/
+.login_cr p{
+    line-height:20px;
+}
+a{
+ cursor:pointer;
+}
+a:link{
+ cursor:pointer;
+}
+
+.add_regist .regist_name{
+ float:left;
+ font-weight:600;
+}
+.regist_desc{
+ text-decoration:underline;
+}
+/*供应商入库信息申报*/
+span.wzcs{
+ min-width:240px;
+}

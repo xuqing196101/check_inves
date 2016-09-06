@@ -1,5 +1,7 @@
 package yggc.dao.sms;
 
+import java.util.List;
+
 import yggc.model.sms.SupplierFsInfo;
 import yggc.model.sms.SupplierFsInfoWithBLOBs;
 
@@ -29,7 +31,7 @@ public interface SupplierFsInfoMapper {
      *
      * @param id
      */
-    SupplierFsInfoWithBLOBs selectByPrimaryKey(Long id);
+    SupplierFsInfoWithBLOBs selectByPrimaryKey(String id);
 
     /**
      *
@@ -49,4 +51,26 @@ public interface SupplierFsInfoMapper {
      * @param record
      */
     int updateByPrimaryKey(SupplierFsInfo record);
+    
+    /**
+     * 
+    * @Title: selectTotalCount
+    * @author sbw
+    * @date 2016-9-1 下午4:26:28  
+    * @Description: 查询总条数 
+    * @param @return      
+    * @return int
+     */
+    int getCount(SupplierFsInfoWithBLOBs record);
+    
+    /**
+    * @Title: selectByFsInfo
+    * @author sbw
+    * @date 2016-9-2 下午1:42:20  
+    * @Description: 条件查询返回List 
+    * @param @param record
+    * @param @return      
+    * @return List<SupplierFsInfoWithBLOBs>
+     */
+    List<SupplierFsInfoWithBLOBs> selectByFsInfo(SupplierFsInfoWithBLOBs record);
 }
