@@ -18,6 +18,7 @@
     <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="RANGE" property="range" />
     <result column="IS_DELETED" property="isDeleted" />
+    <result column="REASON" property="reason" />
     <association property="user" column="USER_ID" select="yggc.dao.bms.UserMapper.queryById"/>
     <association property="articleType" column="ARTICLE_TYPE_ID" select="yggc.dao.iss.ArticleTypeMapper.selectByPrimaryKey"/>
   </resultMap> 
@@ -35,7 +36,7 @@
   
   <sql id="Article_Column_List">
     ID, NAME, ARTICLE_TYPE_ID, PUBLISHED_AT, IS_PIC_SHOW, POSITION, USER_ID, SHOW_COUNT, 
-    STATUS, PIC, PUBLISHED_NAME, IS_INDEX, TYPE, PROJECT_ID, CREATED_AT, UPDATED_AT,RANGE,IS_DELETED
+    STATUS, PIC, PUBLISHED_NAME, IS_INDEX, TYPE, PROJECT_ID, CREATED_AT, UPDATED_AT,RANGE,IS_DELETED,REASON
   </sql>
   
   <sql id="Article_BlOB_Column_List">
@@ -63,6 +64,16 @@
     order by UPDATED_AT DESC
   </select>
   
+  <select id="selectByIsIndex" resultMap="ArticleBlob">
+  	select
+  	<include refid="Article_Column_List"/>
+  	,
+    <include refid="Article_BlOB_Column_List" />
+    from T_SES_BMS_ARTICLE
+    where IS_DELETED = 0
+    and IS_INDEX = 0
+  </select>
+  
   <!-- 根据ID删除 -->
   <delete id="deleteByPrimaryKey" parameterType="Object">
     delete from T_SES_BMS_ARTICLE
@@ -75,7 +86,20 @@
   	where ID = #{id}
   </update>
   
-  <!-- 新增 -->  
+  <insert id="insert" parameterType="yggc.model.bms.Article">
+    insert into T_SES_BMS_ARTICLE (ID, NAME, ARTICLE_TYPE_ID, 
+      PUBLISHED_AT, IS_PIC_SHOW, POSITION, 
+      USER_ID, SHOW_COUNT, STATUS, 
+      PIC, PUBLISHED_NAME, IS_INDEX, 
+      TYPE, PROJECT_ID, CREATED_AT, 
+      UPDATED_AT, CONTENT,RANGE,IS_DELETED)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{articleType.id,jdbcType=VARCHAR}, 
+      #{publishedAt,jdbcType=DATE}, #{isPicShow,jdbcType=DECIMAL}, #{position,jdbcType=DECIMAL}, 
+      #{user.id,jdbcType=VARCHAR}, #{showCount,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}, 
+      #{pic,jdbcType=VARCHAR}, #{publishedName,jdbcType=VARCHAR}, #{isIndex,jdbcType=DECIMAL}, 
+      #{type,jdbcType=CHAR}, #{projectId,jdbcType=DECIMAL}, #{createdAt,jdbcType=DATE}, 
+      #{updatedAt,jdbcType=DATE}, #{content,jdbcType=CLOB},#{range,jdbcType=DECIMAL},#{isDeleted,jdbcType=DECIMAL})
+  </insert>
   <insert id="insertSelective" parameterType="yggc.model.bms.Article">
  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
         select sys_guid() from dual
@@ -139,6 +163,9 @@
       <if test="isDeleted != null">
         IS_DELETED,
       </if>
+      <if test="reason != null">
+        REASON,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -197,6 +224,9 @@
       </if>
       <if test="isDeleted != null">
         #{isDeleted},
+      </if>
+      <if test="reason != null">
+        #{reason},
       </if>
     </trim>
   </insert>
@@ -259,8 +289,54 @@
       <if test="isDeleted != null">
         IS_DELETED = #{isDeleted},
       </if>
+      <if test="reason != null">
+     	 REASON = #{reason},
+      </if>
     </set>
     where ID = #{id}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="yggc.model.bms.Article">
+    update T_SES_BMS_ARTICLE
+    set NAME = #{name,jdbcType=VARCHAR},
+      ARTICLE_TYPE_ID = #{articleType.id,jdbcType=VARCHAR},
+      PUBLISHED_AT = #{publishedAt,jdbcType=DATE},
+      IS_PIC_SHOW = #{isPicShow,jdbcType=DECIMAL},
+      POSITION = #{position,jdbcType=DECIMAL},
+      USER_ID = #{user.id,jdbcType=VARCHAR},
+      SHOW_COUNT = #{showCount,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=DECIMAL},
+      PIC = #{pic,jdbcType=VARCHAR},
+      PUBLISHED_NAME = #{publishedName,jdbcType=VARCHAR},
+      IS_INDEX = #{isIndex,jdbcType=DECIMAL},
+      TYPE = #{type,jdbcType=CHAR},
+      PROJECT_ID = #{projectId,jdbcType=DECIMAL},
+      CREATED_AT = #{createdAt,jdbcType=DATE},
+      UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      CONTENT = #{content,jdbcType=CLOB},
+      RANGE = #{range,jdbcType=DECIMAL},
+      IS_DELETED = #{isDeleted,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="yggc.model.bms.Article">
+    update T_SES_BMS_ARTICLE
+    set NAME = #{name,jdbcType=VARCHAR},
+      ARTICLE_TYPE_ID = #{articleType.id,jdbcType=VARCHAR},
+      PUBLISHED_AT = #{publishedAt,jdbcType=DATE},
+      IS_PIC_SHOW = #{isPicShow,jdbcType=DECIMAL},
+      POSITION = #{position,jdbcType=DECIMAL},
+      USER_ID = #{user.id,jdbcType=VARCHAR},
+      SHOW_COUNT = #{showCount,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=DECIMAL},
+      PIC = #{pic,jdbcType=VARCHAR},
+      PUBLISHED_NAME = #{publishedName,jdbcType=VARCHAR},
+      IS_INDEX = #{isIndex,jdbcType=DECIMAL},
+      TYPE = #{type,jdbcType=CHAR},
+      PROJECT_ID = #{projectId,jdbcType=DECIMAL},
+      CREATED_AT = #{createdAt,jdbcType=DATE},
+      UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      RANGE = #{range,jdbcType=DECIMAL},
+      IS_DELETED = #{isDeleted,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
   </update>
   
 </mapper>

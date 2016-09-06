@@ -18,13 +18,13 @@ public class Demo extends BaseTest {
 	@Test
 	public void test1(){
 
-		User user = userMapper.queryById(154);
+		User user = userMapper.queryById("154");
 		System.out.println(user.getLoginName()+"-----");
 	}
 	@Test
 	public void test2(){
 		User user =new User ();
-		user.setId(154);
+		user.setId("154");
 		User user2 = userServiceI.getUserById(user);
 		
 		System.out.println(user2.getLoginName()+"*****************************");

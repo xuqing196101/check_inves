@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="yggc.dao.oms.DeparentMapper">
+  <resultMap id="BaseResultMap" type="yggc.model.oms.Deparent">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="TYPE" jdbcType="DECIMAL" property="type" />
+    <result column="ADDR" jdbcType="VARCHAR" property="addr" />
+    <result column="PHONE" jdbcType="DECIMAL" property="phone" />
+    <result column="POST_CODE" jdbcType="DECIMAL" property="postCode" />
+    <result column="ORG_CODE" jdbcType="VARCHAR" property="orgCode" />
+    <result column="TEL" jdbcType="VARCHAR" property="tel" />
+    <result column="AREA" jdbcType="VARCHAR" property="area" />
+    <result column="DETAIL_ADDR" jdbcType="VARCHAR" property="detailAddr" />
+    <result column="FAX" jdbcType="VARCHAR" property="fax" />
+    <result column="SITE" jdbcType="VARCHAR" property="site" />
+    <result column="PRINCINPAL" jdbcType="VARCHAR" property="princinpal" />
+    <result column="PRINCINPAL_IDCARD" jdbcType="VARCHAR" property="princinpalIdcard" />
+    <result column="NATURE" jdbcType="VARCHAR" property="nature" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="yggc.model.oms.Deparent">
+    <result column="DESCRIBTION" jdbcType="CLOB" property="describtion" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, NAME, TYPE, ADDR, PHONE, POST_CODE, ORG_CODE, TEL, AREA, DETAIL_ADDR, FAX, SITE, 
+    PRINCINPAL, PRINCINPAL_IDCARD, NATURE
+  </sql>
+  <sql id="Blob_Column_List">
+    DESCRIBTION
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from T_SES_OMS_DEP
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_SES_OMS_DEP
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="yggc.model.oms.Deparent">
+    insert into T_SES_OMS_DEP (ID, NAME, TYPE, 
+      ADDR, PHONE, POST_CODE, 
+      ORG_CODE, TEL, AREA, 
+      DETAIL_ADDR, FAX, SITE, 
+      PRINCINPAL, PRINCINPAL_IDCARD, NATURE, 
+      DESCRIBTION)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=DECIMAL}, 
+      #{addr,jdbcType=VARCHAR}, #{phone,jdbcType=DECIMAL}, #{postCode,jdbcType=DECIMAL}, 
+      #{orgCode,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, 
+      #{detailAddr,jdbcType=VARCHAR}, #{fax,jdbcType=VARCHAR}, #{site,jdbcType=VARCHAR}, 
+      #{princinpal,jdbcType=VARCHAR}, #{princinpalIdcard,jdbcType=VARCHAR}, #{nature,jdbcType=VARCHAR}, 
+      #{describtion,jdbcType=CLOB})
+  </insert>
+  <insert id="insertSelective" parameterType="yggc.model.oms.Deparent">
+    insert into T_SES_OMS_DEP
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="type != null">
+        TYPE,
+      </if>
+      <if test="addr != null">
+        ADDR,
+      </if>
+      <if test="phone != null">
+        PHONE,
+      </if>
+      <if test="postCode != null">
+        POST_CODE,
+      </if>
+      <if test="orgCode != null">
+        ORG_CODE,
+      </if>
+      <if test="tel != null">
+        TEL,
+      </if>
+      <if test="area != null">
+        AREA,
+      </if>
+      <if test="detailAddr != null">
+        DETAIL_ADDR,
+      </if>
+      <if test="fax != null">
+        FAX,
+      </if>
+      <if test="site != null">
+        SITE,
+      </if>
+      <if test="princinpal != null">
+        PRINCINPAL,
+      </if>
+      <if test="princinpalIdcard != null">
+        PRINCINPAL_IDCARD,
+      </if>
+      <if test="nature != null">
+        NATURE,
+      </if>
+      <if test="describtion != null">
+        DESCRIBTION,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="addr != null">
+        #{addr,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=DECIMAL},
+      </if>
+      <if test="postCode != null">
+        #{postCode,jdbcType=DECIMAL},
+      </if>
+      <if test="orgCode != null">
+        #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null">
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="detailAddr != null">
+        #{detailAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="fax != null">
+        #{fax,jdbcType=VARCHAR},
+      </if>
+      <if test="site != null">
+        #{site,jdbcType=VARCHAR},
+      </if>
+      <if test="princinpal != null">
+        #{princinpal,jdbcType=VARCHAR},
+      </if>
+      <if test="princinpalIdcard != null">
+        #{princinpalIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="nature != null">
+        #{nature,jdbcType=VARCHAR},
+      </if>
+      <if test="describtion != null">
+        #{describtion,jdbcType=CLOB},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="yggc.model.oms.Deparent">
+    update T_SES_OMS_DEP
+    <set>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        TYPE = #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="addr != null">
+        ADDR = #{addr,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        PHONE = #{phone,jdbcType=DECIMAL},
+      </if>
+      <if test="postCode != null">
+        POST_CODE = #{postCode,jdbcType=DECIMAL},
+      </if>
+      <if test="orgCode != null">
+        ORG_CODE = #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        TEL = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null">
+        AREA = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="detailAddr != null">
+        DETAIL_ADDR = #{detailAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="fax != null">
+        FAX = #{fax,jdbcType=VARCHAR},
+      </if>
+      <if test="site != null">
+        SITE = #{site,jdbcType=VARCHAR},
+      </if>
+      <if test="princinpal != null">
+        PRINCINPAL = #{princinpal,jdbcType=VARCHAR},
+      </if>
+      <if test="princinpalIdcard != null">
+        PRINCINPAL_IDCARD = #{princinpalIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="nature != null">
+        NATURE = #{nature,jdbcType=VARCHAR},
+      </if>
+      <if test="describtion != null">
+        DESCRIBTION = #{describtion,jdbcType=CLOB},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="yggc.model.oms.Deparent">
+    update T_SES_OMS_DEP
+    set NAME = #{name,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=DECIMAL},
+      ADDR = #{addr,jdbcType=VARCHAR},
+      PHONE = #{phone,jdbcType=DECIMAL},
+      POST_CODE = #{postCode,jdbcType=DECIMAL},
+      ORG_CODE = #{orgCode,jdbcType=VARCHAR},
+      TEL = #{tel,jdbcType=VARCHAR},
+      AREA = #{area,jdbcType=VARCHAR},
+      DETAIL_ADDR = #{detailAddr,jdbcType=VARCHAR},
+      FAX = #{fax,jdbcType=VARCHAR},
+      SITE = #{site,jdbcType=VARCHAR},
+      PRINCINPAL = #{princinpal,jdbcType=VARCHAR},
+      PRINCINPAL_IDCARD = #{princinpalIdcard,jdbcType=VARCHAR},
+      NATURE = #{nature,jdbcType=VARCHAR},
+      DESCRIBTION = #{describtion,jdbcType=CLOB}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="yggc.model.oms.Deparent">
+    update T_SES_OMS_DEP
+    set NAME = #{name,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=DECIMAL},
+      ADDR = #{addr,jdbcType=VARCHAR},
+      PHONE = #{phone,jdbcType=DECIMAL},
+      POST_CODE = #{postCode,jdbcType=DECIMAL},
+      ORG_CODE = #{orgCode,jdbcType=VARCHAR},
+      TEL = #{tel,jdbcType=VARCHAR},
+      AREA = #{area,jdbcType=VARCHAR},
+      DETAIL_ADDR = #{detailAddr,jdbcType=VARCHAR},
+      FAX = #{fax,jdbcType=VARCHAR},
+      SITE = #{site,jdbcType=VARCHAR},
+      PRINCINPAL = #{princinpal,jdbcType=VARCHAR},
+      PRINCINPAL_IDCARD = #{princinpalIdcard,jdbcType=VARCHAR},
+      NATURE = #{nature,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

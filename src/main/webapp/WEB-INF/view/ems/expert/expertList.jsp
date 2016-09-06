@@ -5,7 +5,7 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-<!DOCTYPE html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!-->
@@ -55,6 +55,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="<%=basePath%>public/ZHH/css/style(1).css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/masterslider.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/james.css" media="screen" rel="stylesheet">
+<link href="<%=basePath%>public/layer/skin/layer.css" media="screen" rel="stylesheet" type="text/css">
+<link href="<%=basePath%>public/layer/skin/layer.ext.css" media="screen" rel="stylesheet" type="text/css">
+
     <script src="<%=basePath%>public/ZHH/js/hm.js"></script><script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery-migrate-1.2.1.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
@@ -108,6 +111,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/masterslider.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.easing.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/james.js"></script>
+<script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
+<script type="text/javascript" src="<%=basePath%>public/layer/extend/layer.ext.js"></script>
 </head>
 <body>
   <div class="wrapper">
@@ -206,13 +211,63 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <h2>评标专家列表</h2>
    </div>
    </div>
+   <script type="text/javascript">
+   /** 全选全不选 */
+	function selectAll(){
+		 var checklist = document.getElementsByName ("check");
+		 var checkAll = document.getElementById("allId");
+		   if(checkAll.checked){
+			   for(var i=0;i<checklist.length;i++)
+			   {
+			      checklist[i].checked = true;
+			   } 
+			 }else{
+			  for(var j=0;j<checklist.length;j++)
+			  {
+			     checklist[j].checked = false;
+			  }
+		 	}
+		}
+  /*  	function shenhe(){
+   	 var spCodesTemp = "";
+     $('input:checkbox[name=check]:checked').each(function(i){
+      if(0==i){
+       spCodesTemp = $(this).val();
+      }else{
+       spCodesTemp += (","+$(this).val());
+      }
+     });
+     //$("#txt_spCodes").val(spCodesTemp);
+   		alert(spCodesTemp);
+   	} */
+   	//审核
+   	function shenhe(){
+  	  var count = 0;
+  	  var ids = document.getElementsByName("check");
+   
+       for(i=0;i<ids.length;i++) {
+     		 if(document.getElementsByName("check")[i].checked){
+     		 var id = document.getElementsByName("check")[i].value;
+     		 count++;
+      }
+    }   
+    		if(count>1){
+    			layer.alert("只能选择一条记录",{offset: ['222px', '390px'],shade:0.01});
+    		}else if(count<1){
+    			layer.alert("请选择一条记录",{offset: ['222px', '390px'],shade:0.01});
+    		}else if(count==1){
+    			window.location.href="<%=basePath%>expert/toShenHe.do?id="+id;
+      
+       	}
+    }
+   </script>
 <!-- 表格开始-->
    <div class="container">
    <div class="col-md-8">
     <!-- <button class="btn btn-windows add" type="submit">新增</button>
 	<button class="btn btn-windows edit" type="submit">修改</button>
-	<button class="btn btn-windows git" type="submit">提交</button>
 	<button class="btn btn-windows delete" type="submit">删除</button> -->
+	<button class="btn btn-windows git" type="button" onclick="shenhe();">审核</button>
 	</div>
             <div class="col-md-4 ">
               <div class="search-block-v2">
@@ -238,7 +293,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <table class="table table-bordered table-condensed">
 		<thead>
 		<tr>
-		  <th class="info w30"><input type="checkbox" alt=""></th>
+		  <th class="info w30"><input type="checkbox" onclick="selectAll();"  id="allId" alt=""></th>
 		  <th class="info w50">序号</th>
 		  <th class="info">专家姓名</th>
 		  <th class="info">性别</th>
@@ -250,7 +305,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</thead>
 		<c:forEach items="${expert }" var="e" varStatus="s">
 		<tr>
-		  <td class="tc w30"><input type="checkbox" alt=""></td>
+		  <td class="tc w30"><input type="checkbox" name="check" id="checked" alt="" value="${e.id }"></td>
 		  <td class="tc w50">${s.count }</td>
 		  <td class="tc">${e.relName}</td>
 		  <td class="tc">${e.sex }</td>
@@ -261,12 +316,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 	<td class="tc">未审核</td>
 		 </c:if>
 		 <c:if test="${e.status eq '1' }">
-		 	<td class="tc">审核中</td>
-		 </c:if>
-		 <c:if test="${e.status eq '2' }">
 		 	<td class="tc">审核通过</td>
 		 </c:if>
-		 <c:if test="${e.status eq '3' }">
+		 <c:if test="${e.status eq '2' }">
 		 	<td class="tc">审核未通过</td>
 		 </c:if>
 		</tr>

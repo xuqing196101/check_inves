@@ -3,7 +3,8 @@
 <generatorConfiguration>
 	<!-- 数据库驱动包位置 -->
 	<!--  <classPathEntry location="D:\AAS-V9.0.SP4\lib\mysql-connector-java-5.1.38-bin.jar" /> -->
-	<classPathEntry location="G:\repository\com\oracle\ojdbc14\10.2.0.4.0\ojdbc14-10.2.0.4.0.jar" />
+	<!-- <classPathEntry location="G:\repository\com\oracle\ojdbc14\10.2.0.4.0\ojdbc14-10.2.0.4.0.jar" /> -->
+	<classPathEntry location="E:\repository\com\oracle\ojdbc14\10.2.0.4.0\ojdbc14-10.2.0.4.0.jar" />
 	<context id="DB2Tables" targetRuntime="MyBatis3">
 	<!-- <context id="MySqlTables" targetRuntime="Ibatis2Java5">
 	<context id="OracleTables" targetRuntime="MyBatis3"> -->
@@ -18,16 +19,22 @@
 			<property name="forceBigDecimals" value="false" />
 		</javaTypeResolver>
 		<!-- 生成模型的包名和位置 -->
-		<javaModelGenerator targetPackage="yggc.model.ems" targetProject="D:\WORKproject\jdcg\jdcg\src\main\java">
+		<!-- <javaModelGenerator targetPackage="yggc.model.ems" targetProject="D:\WORKproject\jdcg\jdcg\src\main\java"> -->
+		<javaModelGenerator targetPackage="yggc.model.oms" targetProject="E:\github_zh\jdcg\src\main\java">
 			<property name="enableSubPackages" value="true" />
 			<property name="trimStrings" value="true" />
 		</javaModelGenerator>
 		<!-- 生成的映射文件包名和位置 -->
-		<sqlMapGenerator targetPackage="yggc.mapping.ems" targetProject="D:\WORKproject\jdcg\jdcg\src\main\java">
+		<!-- <sqlMapGenerator targetPackage="yggc.mapping.ems" targetProject="D:\WORKproject\jdcg\jdcg\src\main\java">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+		生成DAO的包名和位置
+		<javaClientGenerator type="XMLMAPPER" targetPackage="yggc.dao.ems" targetProject="D:\WORKproject\jdcg\jdcg\src\main\java"> -->
+		<sqlMapGenerator targetPackage="yggc.mapping.oms" targetProject="E:\github_zh\jdcg\src\main\java">
 			<property name="enableSubPackages" value="true" />
 		</sqlMapGenerator>
 		<!-- 生成DAO的包名和位置 -->
-		<javaClientGenerator type="XMLMAPPER" targetPackage="yggc.dao.ems" targetProject="D:\WORKproject\jdcg\jdcg\src\main\java">
+		<javaClientGenerator type="XMLMAPPER" targetPackage="yggc.dao.oms" targetProject="E:\github_zh\jdcg\src\main\java">
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 		<!-- 要生成那些表(更改tableName和domainObjectName就可以) -->
@@ -41,6 +48,13 @@
 		<table tableName="T_SES_EMS_EXPERT_EXTRACT" domainObjectName="ExpertExtract" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />
 		<!-- 专家诚信登记表 -->
 		<table tableName="T_SES_EMS_EXPERT_HONESTY" domainObjectName="ExpertHonesty" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />
+		
+		<!-- 部门表   type=0 需求部门 ，1管理部门，2采购机构新增部门 -->
+		<table tableName="T_SES_OMS_DEP" domainObjectName="Deparent" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />
+		<!-- 组织机构表 -->
+		<table tableName="T_SES_OMS_ORG" domainObjectName="Orgniztion" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />
+		<!-- 采购机构表 -->
+		<table tableName="T_SES_OMS_PURCHASE_DEP" domainObjectName="PurchaseDep" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />
 		
 		
 		

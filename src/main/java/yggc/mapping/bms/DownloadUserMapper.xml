@@ -94,9 +94,6 @@
       <if test="updatedAt != null">
         UPDATED_AT = #{updatedAt},
       </if>
-      <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt},
-      </if>
       <if test="isDeleted != null">
         IS_DELETED  = #{isDeleted},
       </if>

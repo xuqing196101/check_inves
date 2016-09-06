@@ -1,7 +1,10 @@
 package yggc.controller.sys.ems;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,6 +13,10 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -52,11 +59,28 @@ public class ExpertController {
 	  * @return String
 	 */
 	@RequestMapping("/register")
-	public String register(Expert expert,HttpSession session, Model model,HttpServletRequest request,@RequestParam String token2){
+	public String register( Expert expert,HttpSession session, Model model,HttpServletRequest request,@RequestParam String token2){
 		Object tokenValue = session.getAttribute("tokenSession");
 		if (tokenValue != null && tokenValue.equals(token2)) {
 			// 正常提交
 			session.removeAttribute("tokenSession");
+			//判断用户名密码是否合法
+			String loginName = expert.getLoginName();
+			String password = expert.getPassword();
+			String regex="[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]"; 
+			Pattern p = Pattern.compile(regex);
+			Pattern p2 = Pattern.compile("[\u4e00-\u9fa5]");
+			Matcher m = p.matcher(loginName);
+			Matcher m2 = p2.matcher(loginName);
+			Matcher matcher = p.matcher(password);
+			Matcher matcher2 = p2.matcher(password);
+			if(loginName.trim().length()<3 || m.find() || m2.find()){
+				model.addAttribute("message", "用户名不符合规则");
+				return "ems/expert/expertRegister";
+			}else if(password.trim().length()<6 || matcher.find() || matcher2.find()){
+				model.addAttribute("message", "密码不符合规则");
+				return "ems/expert/expertRegister";
+			}
 		expert.setId(UUID.randomUUID().toString());
 		//密码加密
 		String md5AndSha = Encrypt.md5AndSha(expert.getPassword());
@@ -80,8 +104,40 @@ public class ExpertController {
 	 */
 	@RequestMapping("/toBasicInfo")
 	public String toBasicInfo(HttpServletRequest request,HttpServletResponse response,  Model model){
-		
+		/*Expert expert = service.selectByPrimaryKey(id);
+		request.setAttribute("expert", expert);*/
 		return "ems/expert/basicInfo";
+	}
+	/**
+	 * 
+	  * @Title: toBasicInfo
+	  * @author lkzx 
+	  * @date 2016年9月1日 上午11:12:55  
+	  * @Description: TODO 跳转到审核页面
+	  * @param @param model
+	  * @param @return      
+	  * @return String
+	 */
+	@RequestMapping("/toShenHe")
+	public String toShenHe(@RequestParam("id") String id,HttpServletRequest request,HttpServletResponse response,  Model model){
+		Expert expert = service.selectByPrimaryKey(id);
+		request.setAttribute("expert", expert);
+		return "ems/expert/shenHe";
+	}
+	/**
+	 * 
+	  * @Title: shenhe
+	  * @author lkzx 
+	  * @date 2016年9月5日 下午2:12:19  
+	  * @Description: TODO 审核专家信息
+	  * @param @return      
+	  * @return String
+	 */
+	@RequestMapping("/shenhe")
+	public String shenhe(@RequestParam("isPass")String isPass, Expert expert,@RequestParam("remark")String remark){
+		expert.setStatus(isPass);
+		service.updateByPrimaryKeySelective(expert);
+		return "redirect:findAllExpert.do";
 	}
 	/**
 	 * 
@@ -98,6 +154,8 @@ public class ExpertController {
 		if (tokenValue != null && tokenValue.equals(token2)) {
 			// 正常提交
 			session.removeAttribute("tokenSession");
+			//修改时间
+			expert.setUpdatedAt(new Date());
 		service.updateByPrimaryKeySelective(expert);
 		return "index";
 		}else{

@@ -1,6 +1,7 @@
 
 package yggc.controller.sys.bms.article;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import java.util.Date;
@@ -90,11 +91,12 @@ public class ArticleController {
 	@RequestMapping("/save")
 	public String save(HttpServletRequest request, Article article){
 		User user = new User();
-		//user.setId(15);
+		user.setId("be9bf4e9-6fa3-4fe6-ad4a-cc67272816a2");
 		article.setUser(user);
 		article.setCreatedAt(new Date());
 		article.setUpdatedAt(new Date());
 		article.setIsDeleted(0);
+		article.setStatus(0);
 		articleService.addArticle(article);
 		return "redirect:getAll.do";
 	}
@@ -144,6 +146,140 @@ public class ArticleController {
 		for (String str : id) {
 			articleService.delete(str);
 		}
+		return "redirect:getAll.do";
+	}
+	
+	/**
+	* @Title: view
+	* @author szf
+	* @date 2016-9-5 下午1:18:50  
+	* @Description: TODO 查看信息
+	* @param @param model
+	* @param @param id
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/view")
+	public String view(Model model,String id){
+		Article article = articleService.selectArticleById(id);
+		model.addAttribute("article",article);
+		return "article/look";
+	}
+	
+	/**
+	* @Title: sublist
+	* @author szf
+	* @date 2016-9-5 下午3:37:20  
+	* @Description: TODO 提交页面列表
+	* @param @param model
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/sublist")
+	public String sublist(Model model){
+		List<Article> list = articleService.selectAllArticle();
+		model.addAttribute("list", list);
+		logger.info(JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss"));
+		return "article/sub/list";
+	}
+	
+	/**
+	* @Title: sublist
+	* @author szf
+	* @date 2016-9-5 下午3:37:46  
+	* @Description: TODO 
+	* @param @param model
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/auditlist")
+	public String auditlist(Model model){
+		List<Article> list = articleService.selectAllArticle();
+		model.addAttribute("list", list);
+		logger.info(JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss"));
+		return "article/audit/list";
+	}
+	
+	/**
+	* @Title: sumbit
+	* @author szf
+	* @date 2016-9-5 下午1:55:35  
+	* @Description: TODO 提交、审核、退回
+	* @param @param request
+	* @param @param article
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/sumbit")
+	public String sumbit(HttpServletRequest request, String ids){
+		Article article = new Article();
+		article.setUpdatedAt(new Date());
+//		if(status==1){
+			//提交
+			String[] id=ids.split(",");
+			for (String str : id) {
+				article.setId(str);
+				article.setStatus(1);
+				articleService.update(article);
+			}
+//		}else if(status==2){
+//			//审核
+//			article.setStatus(status);
+//			articleService.update(article);
+//		}else if(status==3){
+//			//退回
+//			article.setStatus(status);
+//			articleService.update(article);
+//		}
+		
+		return "redirect:getAll.do";
+	}
+	
+	/**
+	* @Title: auditInfo
+	* @author szf
+	* @date 2016-9-5 下午4:26:14  
+	* @Description: TODO 查看审核信息
+	* @param @param model
+	* @param @param id
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/auditInfo")
+	public  String auditInfo(Model model,String id){
+		Article article = articleService.selectArticleById(id);
+		model.addAttribute("article",article);
+		return "article/audit/audit";
+	}
+	
+	/**
+	* @Title: audit
+	* @author szf
+	* @date 2016-9-5 下午4:59:59  
+	* @Description: TODO 信息审核
+	* @param @param model
+	* @param @param id
+	* @param @param id
+	* @param @return      
+	* @return String
+	 * @throws Exception 
+	 */
+	@RequestMapping("/audit")
+	public  String audit(HttpServletRequest request,String id,Article article) throws Exception{
+		
+		request.setCharacterEncoding("UTF-8");
+		
+		System.out.println("id:"+id);
+		String a = request.getParameter("reason");
+		System.out.println("dfdfdf dfd f fd :"+a);
+		System.out.println("iudhfjd:"+article.getId()+"考了几分好的尽快恢复的："+article.getReason());
+		
+//		if(article.getStatus()==2){
+//			articleService.update(article);
+//		}else if(article.getStatus()==3){
+//			articleService.update(article);
+//		}
+		
 		return "redirect:getAll.do";
 	}
 	

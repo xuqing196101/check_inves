@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import yggc.model.bms.Article;
 import yggc.model.iss.ArticleType;
+import yggc.model.iss.IndexEntity;
 import yggc.service.bms.ArticleService;
 import yggc.service.iss.ArticleTypeService;
 import yggc.service.iss.IndexNewsService;
+import yggc.service.iss.SolrNewsService;
+import yggc.util.SolrContext;
 
 /**
  * 
