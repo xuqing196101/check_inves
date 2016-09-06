@@ -21,7 +21,7 @@ import yggc.service.iss.fs.TopicService;
  * <p>Title:TopicManageController </p>
  * <p>Description:主题管理控制类  </p>
  * <p>Company: yggc </p> 
- * @author junjunjun1993
+ * @author Peng Zhongjun
  * @date 2016-8-10下午5:03:01
  */
 @Controller
@@ -34,7 +34,7 @@ public class TopicManageController {
 	
 	/**   
 	* @Title: getList
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-10 下午19:47:32  
 	* @Description: 获取主题列表 
 	* @param @param model
@@ -45,12 +45,12 @@ public class TopicManageController {
 	public String getList(Model model,Topic topic){
 		List<Topic> list = topicService.queryByList(topic);
 		model.addAttribute("list", list);
-		return "forum/topic/list";
+		return "iss/forum/topic/list";
 	}
 	
 	/**   
 	* @Title: view
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-10 下午19:55:32  
 	* @Description: 显示主题详细信息页面
 	* @param @param model
@@ -61,12 +61,12 @@ public class TopicManageController {
 	public String view(Model model,String id){
 		Topic p = topicService.selectByPrimaryKey(id);
 		model.addAttribute("topic", p);
-		return "forum/topic/view";
+		return "iss/forum/topic/view";
 	}
 	
 	/**   
 	* @Title: add
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-10 下午19:58:43   
 	* @Description: 跳转新增编辑页面
 	* @param @param request
@@ -74,12 +74,12 @@ public class TopicManageController {
 	*/
 	@RequestMapping("/add")
 	public String add(HttpServletRequest request){
-		return "forum/topic/add";
+		return "iss/forum/topic/add";
 	}
 	
 	/**   
 	* @Title: save
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-10 下午20:03:41   
 	* @Description: 保存新增信息 
 	* @param @param request
@@ -95,7 +95,7 @@ public class TopicManageController {
 	
 	/**   
 	* @Title: edit
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-10 下午20:03:41  
 	* @Description: 跳转修改编辑页面
 	* @param @param id
@@ -106,12 +106,12 @@ public class TopicManageController {
 	public String edit(String id,Model model){
 		Topic p = topicService.selectByPrimaryKey(id);
 		model.addAttribute("topic", p);
-		return "forum/topic/edit";
+		return "iss/forum/topic/edit";
 	}
 	
 	/**   
 	* @Title: update
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-10 下午20:03:41  
 	* @Description: 更新修改信息
 	* @param @param request
@@ -126,7 +126,7 @@ public class TopicManageController {
 	
 	/**   
 	* @Title: delete
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-10 下午20:03:41 
 	* @Description: 删除主题信息
 	* @param @param id
@@ -140,7 +140,7 @@ public class TopicManageController {
 	
 	/**   
 	* @Title: getListForSelect
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-31 下午20:03:41 
 	* @Description: 获得主题表
 	* @param @param parkId

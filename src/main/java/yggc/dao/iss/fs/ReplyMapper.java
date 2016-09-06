@@ -5,15 +5,15 @@ import java.util.List;
 import yggc.model.iss.fs.Reply;
 /**
 * <p>Title:ReplyMapper </p>
-* <p>Description: 用户持久化接口</p>
+* <p>Description: 回复持久化接口</p>
 * <p>Company: yggc </p> 
-* @author junjunjun1993
+* @author Peng Zhongjun
 * @date 2016-8-4下午4:51:54
 */
 public interface ReplyMapper {
 	/**   
 	* @Title: queryByCount
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-4下午4:57:10  
 	* @Description: 查询记录数
 	* @return BigDecimal     
@@ -22,7 +22,7 @@ public interface ReplyMapper {
 	
 	/**   
 	* @Title: queryCountByParkId
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-9-1下午4:57:10  
 	* @Description: 根据版块ID查询记录数
 	* @return BigDecimal     
@@ -31,7 +31,7 @@ public interface ReplyMapper {
 	
 	/**   
 	* @Title: queryByList
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-4 下午4:55:58  
 	* @Description: 条件查询
 	* @param reply
@@ -41,7 +41,7 @@ public interface ReplyMapper {
 	
 	/**   
 	* @Title: selectByPrimaryKey
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-4下午4:51:54  
 	* @Description: 根据Id查询
 	* @param id
@@ -51,7 +51,7 @@ public interface ReplyMapper {
     
     /**   
 	* @Title: deleteByPrimaryKey
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-4下午4:51:54  
 	* @Description: 根据Id删除
 	* @param  id
@@ -60,7 +60,7 @@ public interface ReplyMapper {
 
     /**   
 	* @Title: insertSelective
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-4下午4:51:54  
 	* @Description: 新增回复
 	* @param reply
@@ -69,7 +69,7 @@ public interface ReplyMapper {
 
     /**   
 	* @Title: updateByPrimaryKeySelective
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-4下午4:51:54  
 	* @Description: 更新
 	* @param  reply
@@ -78,7 +78,7 @@ public interface ReplyMapper {
     
 	/**   
 	* @Title: queryByList
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-4 下午4:55:58  
 	* @Description: 根据帖子Id查询
 	* @param reply

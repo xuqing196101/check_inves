@@ -6,15 +6,15 @@ import java.util.List;
 import yggc.model.iss.fs.Post;
 /**
 * <p>Title:PostMapper </p>
-* <p>Description: 用户持久化接口</p>
+* <p>Description: 帖子持久化接口</p>
 * <p>Company: yggc </p> 
-* @author junjunjun1993
+* @author Peng Zhongjun
 * @date 2016-8-4下午4:51:54
 */
 public interface PostMapper {	
 	/**   
 	* @Title: queryByCount
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-4下午4:57:10  
 	* @Description: 根据版块ID查询记录数
 	* @param:parkId
@@ -24,7 +24,7 @@ public interface PostMapper {
 	
 	/**   
 	* @Title: queryByList
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-4 下午4:55:58  
 	* @Description: 条件查询
 	* @param post
@@ -34,7 +34,7 @@ public interface PostMapper {
 	
 	/**   
 	* @Title: selectByPrimaryKey
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-4下午4:51:54  
 	* @Description: 根据Id查询
 	* @param id
@@ -46,7 +46,7 @@ public interface PostMapper {
     
     /**   
 	* @Title: deleteByPrimaryKey
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-4下午4:51:54  
 	* @Description: 根据Id删除
 	* @param  id
@@ -54,7 +54,7 @@ public interface PostMapper {
     void deleteByPrimaryKey(String id);
     /**   
 	* @Title: insertSelective
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-4下午4:51:54  
 	* @Description: 新增帖子
 	* @param post
@@ -63,7 +63,7 @@ public interface PostMapper {
     
     /**   
 	* @Title: updateByPrimaryKeySelective
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-4下午4:51:54  
 	* @Description: 更新
 	* @param  post
@@ -72,7 +72,7 @@ public interface PostMapper {
     
     /**   
 	* @Title: selectByPrimaryKey
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-22下午20:03:12
 	* @Description: 根据主题Id查询
 	* @param id
@@ -81,7 +81,7 @@ public interface PostMapper {
     List<Post> selectByTopicID(String topicID);
     /**   
 	* @Title: selectByPrimaryKey
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-22下午20:03:12
 	* @Description: 根据版块Id查询
 	* @param id
@@ -90,7 +90,7 @@ public interface PostMapper {
     List<Post> selectByParkID(String parkID);
     /**   
 	* @Title: selectByPrimaryKey
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-22下午20:03:12
 	* @Description: 根据版块Id查询
 	* @param id

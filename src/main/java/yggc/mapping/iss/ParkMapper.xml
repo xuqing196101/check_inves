@@ -87,8 +87,8 @@
 		  
 		 <!-- 5.插入一条记录 -->
 		  <insert id="insertSelective" parameterType="yggc.model.iss.fs.Park">
-		  	<selectKey resultType="int" order="BEFORE" keyProperty="id">
-		     	 select SEQ_T_PARKS_ID.nextval as ID from dual
+		    <selectKey keyProperty="id" resultType="String" order="BEFORE">
+		        select sys_guid() from dual
 		    </selectKey>
 		    insert into T_ISS_FS_PARK
 		    <trim prefix="(" suffix=")" suffixOverrides=",">

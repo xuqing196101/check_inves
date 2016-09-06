@@ -20,7 +20,7 @@ import yggc.service.iss.fs.ReplyService;
  * <p>Title:ReplyManageController </p>
  * <p>Description：回复管理控制类  </p>
  * <p>Company: yggc </p> 
- * @author junjunjun1993
+ * @author Peng Zhongjun
  * @date 2016-8-10下午5:03:01
  */
 @Controller
@@ -32,7 +32,7 @@ public class ReplyManageController {
 	
 	/**   
 	* @Title: getList
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-10 下午19:47:32  
 	* @Description: 获取回复列表 
 	* @param @param model
@@ -43,12 +43,12 @@ public class ReplyManageController {
 	public String getList(Model model,Reply reply){
 		List<Reply> list = replyService.queryByList(reply);
 		model.addAttribute("list", list);
-		return "forum/reply/list";
+		return "iss/forum/reply/list";
 	}
 	
 	/**   
 	* @Title: view
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-10 下午19:55:32  
 	* @Description: 显示评论详细信息页面
 	* @param @param model
@@ -59,12 +59,12 @@ public class ReplyManageController {
 	public String view(Model model,String id){
 		Reply p = replyService.selectByPrimaryKey(id);
 		model.addAttribute("reply", p);
-		return "forum/reply/view";
+		return "iss/forum/reply/view";
 	}
 	
 	/**   
 	* @Title: add
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-10 下午19:58:43   
 	* @Description: 跳转新增编辑页面
 	* @param @param request
@@ -72,12 +72,12 @@ public class ReplyManageController {
 	*/
 	@RequestMapping("/add")
 	public String add(HttpServletRequest request){
-		return "forum/reply/add";
+		return "iss/forum/reply/add";
 	}
 	
 	/**   
 	* @Title: save
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-10 下午20:03:41   
 	* @Description: 保存新增信息 
 	* @param @param request
@@ -93,7 +93,7 @@ public class ReplyManageController {
 	
 	/**   
 	* @Title: edit
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-10 下午20:03:41  
 	* @Description: 跳转修改编辑页面
 	* @param @param id
@@ -104,12 +104,12 @@ public class ReplyManageController {
 	public String edit(String id,Model model){
 		Reply p = replyService.selectByPrimaryKey(id);
 		model.addAttribute("reply", p);
-		return "forum/reply/edit";
+		return "iss/forum/reply/edit";
 	}
 	
 	/**   
 	* @Title: update
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-10 下午20:03:41  
 	* @Description: 更新修改信息
 	* @param @param request
@@ -124,7 +124,7 @@ public class ReplyManageController {
 	
 	/**   
 	* @Title: delete
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-10 下午20:03:41 
 	* @Description: 删除版块信息
 	* @param @param id

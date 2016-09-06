@@ -7,9 +7,9 @@ import java.util.List;
 import yggc.model.bms.User;
 /**
 * <p>Title:Park </p>
-* <p>Description:用户实体类 </p>
+* <p>Description:版块实体类 </p>
 * <p>Company: yggc </p> 
-* @author junjunjun1993
+* @author Peng Zhongjun
 * @date 2016-8-3下午4:53:36
 */
 public class Park {
@@ -44,15 +44,25 @@ public class Park {
      * @Fields creater_id : 创建人
      */
     private User creater;
-
+    /**
+     * @Fields topics : 主题列表
+     */
     private List<Topic> topics;
-
+    /**
+     * @Fields posts : 帖子列表
+     */
     private List<Post> posts;
-    
+    /**
+     * @Fields topiccount : 主题数
+     */
     private BigDecimal topiccount;
-    
+    /**
+     * @Fields postcount : 帖子数
+     */
     private BigDecimal postcount;
-    
+    /**
+     * @Fields replycount : 回复数
+     */
     private BigDecimal replycount;
          
 	public String getId() {

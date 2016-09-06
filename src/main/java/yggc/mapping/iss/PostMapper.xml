@@ -88,8 +88,8 @@
 
 		   <!-- 5.新增一条记录 -->
 		  <insert id="insertSelective" parameterType="yggc.model.iss.fs.Post">
-		  	<selectKey resultType="int" order="BEFORE" keyProperty="id">
-		     	 select SEQ_T_POSTS_ID.nextval as ID from dual
+		    <selectKey keyProperty="id" resultType="String" order="BEFORE">
+		        select sys_guid() from dual
 		    </selectKey>
 		    insert into T_ISS_FS_POST
 		    <trim prefix="(" suffix=")" suffixOverrides=",">
