@@ -200,7 +200,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="clear"></div>
 	  </div>
    </div>
+  
+   
    <script type="text/javascript">
+   $(function(){
+	   var message = $("#message").val();
+	   $("#massage").html(message).css('color','red');
+   });
    //用户信息验证
    var flag = 1;
    var flag2 = 1;
@@ -209,27 +215,35 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    function validataLoginName(){
 	   var loginName = $("input[name='loginName']").val();
 	   var patrn=/[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im;  
-		if(patrn.test(loginName)){  
-			$("#spp").html("不能有非法字符").css('color','red');
-			flag=1;
-			return false;
-		}
-		if(loginName.indexOf(" ")!=-1){
-			$("#spp").html("不能有空格").css('color','red');
-			flag=1;
-			return false;
-		}
+	   var patrn2=/^(?=.*[a-z])[a-z0-9]+/ig;
 	   if(loginName.replace(/\s/g,"")==null || loginName.replace(/\s/g,"")==""){
 		   $("#spp").html("用户名不能为空").css('color','red');
 		   flag=1;
 		   return false;
 	   }
+		
+		if(loginName.indexOf(" ")!=-1){
+			$("#spp").html("不能有空格").css('color','red');
+			flag=1;
+			return false;
+		}
+		if(patrn.test(loginName)){  
+			$("#spp").html("不能有非法字符").css('color','red');
+			flag=1;
+			return false;
+		}
+	   if(!patrn2.test(loginName)){  
+			$("#spp").html("不能是中文").css('color','red');
+			flag=1;
+			return false;
+		}
 	   if(loginName.replace(/\s/g,"").length<3){
 		   $("#spp").html("必须三位以上").css('color','red');
 		   flag=1;
 		   return false;
 		   
 	   }
+	  
 	   $.ajax({
 		   url:"<%=basePath%>expert/findAllLoginName.do",
 		   type:"post",
@@ -327,10 +341,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			session.setAttribute("tokenSession", tokenValue);
 		 %>
 		 <input type="hidden"  name="token2" value="<%=tokenValue%>">
+		 <input type="hidden" id="message" value="${message }"/>
    <div>
    <div class="headline-v2">
    <h2>评审专家注册</h2>
+   <div align="center">
+   <font id="massage"></font>
    </div>
+   </div>
+  
    <ul class="list-unstyled list-flow" style="margin-left: 250px;">
      		<li class="p0">
 			   <span class="">用户名：</span>

@@ -2,16 +2,24 @@ package yggc.model.ems;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Pattern.Flag;
+import javax.validation.constraints.Size;
+
+
+
+
 public class Expert {
     private String id;
-
+    
     private String loginName;
-
+  
     private String password;
 
     private Short isDelete;
 
-    private Date createdAt;
+    private Date createdAt = new Date();
 
     private String sex;
 
@@ -69,9 +77,9 @@ public class Expert {
 
     private String status="0";
 
-    private String isBlack;
+    private String isBlack = "0";
 
-    private Integer honestyScore;
+    private Integer honestyScore = 100;
 
     private String relName;
 
