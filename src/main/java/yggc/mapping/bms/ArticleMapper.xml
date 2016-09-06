@@ -18,6 +18,7 @@
     <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="RANGE" property="range" />
     <result column="IS_DELETED" property="isDeleted" />
+    <result column="REASON" property="reason" />
     <association property="user" column="USER_ID" select="yggc.dao.bms.UserMapper.queryById"/>
     <association property="articleType" column="ARTICLE_TYPE_ID" select="yggc.dao.iss.ArticleTypeMapper.selectByPrimaryKey"/>
   </resultMap> 
@@ -35,7 +36,7 @@
   
   <sql id="Article_Column_List">
     ID, NAME, ARTICLE_TYPE_ID, PUBLISHED_AT, IS_PIC_SHOW, POSITION, USER_ID, SHOW_COUNT, 
-    STATUS, PIC, PUBLISHED_NAME, IS_INDEX, TYPE, PROJECT_ID, CREATED_AT, UPDATED_AT,RANGE,IS_DELETED
+    STATUS, PIC, PUBLISHED_NAME, IS_INDEX, TYPE, PROJECT_ID, CREATED_AT, UPDATED_AT,RANGE,IS_DELETED,REASON
   </sql>
   
   <sql id="Article_BlOB_Column_List">
@@ -162,6 +163,9 @@
       <if test="isDeleted != null">
         IS_DELETED,
       </if>
+      <if test="reason != null">
+        REASON,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -220,6 +224,9 @@
       </if>
       <if test="isDeleted != null">
         #{isDeleted},
+      </if>
+      <if test="reason != null">
+        #{reason},
       </if>
     </trim>
   </insert>
@@ -281,6 +288,9 @@
       </if>
       <if test="isDeleted != null">
         IS_DELETED = #{isDeleted},
+      </if>
+      <if test="reason != null">
+     	 REASON = #{reason},
       </if>
     </set>
     where ID = #{id}

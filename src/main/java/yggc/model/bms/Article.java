@@ -45,6 +45,8 @@ public class Article implements Serializable{
     
     private Integer isDeleted;
     
+    private String reason;
+    
 	public String getId() {
 		return id;
 	}
@@ -206,4 +208,13 @@ public class Article implements Serializable{
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
     }
+
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+    
 }
