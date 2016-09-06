@@ -1659,14 +1659,14 @@ img.img-mouse {
   
 /*填写信息开始*/
 .list-flow span {
-    width: 135px;
+    width: 140px;
     float: left;
     text-align: right;
     height: 30px;
     line-height: 30px;
 }
 .list-flow span.zzzx{
-    width:183px;
+    width:220px;
 }
 .jbxx i{
     width:24px;

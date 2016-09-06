@@ -1,0 +1,32 @@
+@charset "UTF-8";
+.mt10 {
+	margin-top: 10px;
+}
+.m0 {
+	margin: 0px !important;
+}
+
+.w100 {
+	width: 100px;
+}
+.h30 {
+	height: 30px !important;
+}
+.h32 {
+	height: 32px !important;
+}
+.maxw100 {
+	max-width: 100px;
+}
+.tc {
+	text-align: center;
+}
+.hand {
+	cursor: pointer;
+}
+.fr {
+	float: right;
+}
+.fz11 {
+	font-size: 11px !important;
+}

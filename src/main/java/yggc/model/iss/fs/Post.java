@@ -7,7 +7,7 @@ import yggc.model.bms.User;
 * <p>Title:Post </p>
 * <p>Description:用户实体类 </p>
 * <p>Company: yggc </p> 
-* @author junjunjun1993
+* @author Peng Zhongjun
 * @Timestamp 2016-8-3下午4:53:36
 */
 public class Post {
@@ -62,7 +62,7 @@ public class Post {
      */
     private Topic topic;
     /**
-     * @Fields topic : 回复
+     * @Fields topic : 回复表
      */
     private List<Reply> replies;
 
