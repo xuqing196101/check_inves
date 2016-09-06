@@ -15,8 +15,7 @@ import yggc.util.Encrypt;
 /**
 * <p>Title:UserServiceImpl </p>
 * <p>Description: 用户服务接口实现类</p>
-* <p>Company: yggc </p> 
-* @author yyyml
+* @author Ye MaoLin
 * @date 2016-7-27下午4:34:05
 */
 @Service("userService")

@@ -8,15 +8,14 @@ import yggc.model.bms.Userrole;
 /**
 * <p>Title:UserServiceI </p>
 * <p>Description: 用户服务接口</p>
-* <p>Company: yggc </p> 
-* @author yyyml
+* @author Ye MaoLin
 * @date 2016-7-27下午4:35:44
 */
 public interface UserServiceI {
 
 	/**   
 	* @Title: getUserById
-	* @author yyyml
+	* @author Ye MaoLin
 	* @date 2016-7-18 上午9:38:20  
 	* @Description:根据id获取用户 
 	* @param @param id
@@ -26,9 +25,9 @@ public interface UserServiceI {
 
 	/**   
 	* @Title: getUserByLogin
-	* @author yyyml
+	* @author Ye MaoLin
 	* @date 2016-7-18 上午9:38:43  
-	* @Description: 根据用户名和密码进行登陆验证
+	* @Description: 根据用户名和密码进行登录验证
 	* @param @param user
 	* @return User     
 	*/
@@ -36,7 +35,7 @@ public interface UserServiceI {
 
 	/**   
 	* @Title: getAll
-	* @author yyyml
+	* @author Ye MaoLin
 	* @date 2016-7-18 上午9:39:02  
 	* @Description: 获取所有的用户 
 	* @return void     
@@ -45,7 +44,7 @@ public interface UserServiceI {
 
 	/**   
 	* @Title: save
-	* @author yyyml
+	* @author Ye MaoLin
 	* @date 2016-7-27 下午4:34:40  
 	* @Description: 新增用户 
 	* @param @param user      
@@ -55,7 +54,7 @@ public interface UserServiceI {
 
 	/**   
 	* @Title: delete
-	* @author yyyml
+	* @author Ye MaoLin
 	* @date 2016-7-27 下午4:34:53  
 	* @Description: 删除用户 ，物理删除
 	* @param @param id      
@@ -65,7 +64,7 @@ public interface UserServiceI {
 
 	/**   
 	* @Title: deleteByLogic
-	* @author yyyml
+	* @author Ye MaoLin
 	* @date 2016-7-27 下午4:35:13  
 	* @Description: 删除用户，逻辑删除
 	* @param @param id      
@@ -75,7 +74,7 @@ public interface UserServiceI {
 
 	/**   
 	* @Title: update
-	* @author yyyml
+	* @author Ye MaoLin
 	* @date 2016-7-27 下午4:35:31  
 	* @Description: 更新用户信息 
 	* @param @param u      

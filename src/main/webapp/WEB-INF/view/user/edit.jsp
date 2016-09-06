@@ -57,7 +57,7 @@
    
 <!-- 修改订列表开始-->
    <div class="container">
-   <form action="<%=basePath %>user/update.do" method="post">
+   <form action="<%=basePath %>user/update.html" method="post">
    <div>
    <div class="headline-v2">
    <h2>修改用户</h2>

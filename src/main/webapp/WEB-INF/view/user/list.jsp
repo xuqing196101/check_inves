@@ -59,7 +59,7 @@
 		   }
 	}
   	function view(id){
-  		window.location.href="<%=basePath%>user/view.do?id="+id;
+  		window.location.href="<%=basePath%>user/view.html?id="+id;
   	}
     function edit(){
     	var id=[]; 
@@ -68,7 +68,7 @@
 		}); 
 		if(id.length==1){
 			
-			window.location.href="<%=basePath%>user/edit.do?id="+id;
+			window.location.href="<%=basePath%>user/edit.html?id="+id;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -83,14 +83,14 @@
 		if(ids.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>user/delete.do?ids="+ids;
+				window.location.href="<%=basePath%>user/delete.html?ids="+ids;
 			});
 		}else{
 			layer.alert("请选择要删除的用户",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
     function add(){
-    	window.location.href="<%=basePath%>user/add.do";
+    	window.location.href="<%=basePath%>user/add.html";
     }
   </script>
   <body>

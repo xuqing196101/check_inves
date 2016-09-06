@@ -44,7 +44,7 @@
    
 <!-- 修改订列表开始-->
    <div class="container">
-   <form action="<%=basePath %>user/save.do" method="post">
+   <form action="<%=basePath %>user/save.html" method="post">
    <div>
    <div class="headline-v2">
    <h2>新增用户</h2>
@@ -110,7 +110,7 @@
    
   <div  class="col-md-12">
    <div class="fl padding-10">
-    <button class="btn btn-windows save" type="submit">新增</button>
+    <button class="btn btn-windows save" type="submit">保存</button>
     <button class="btn btn-windows git" onclick="history.go(-1)" type="button">返回</button>
 	</div>
   </div>

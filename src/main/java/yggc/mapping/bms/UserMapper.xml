@@ -209,7 +209,7 @@
     <include refid="Example_Where_Clause"/>
     ORDER BY CREATED_AT DESC
   </select>
-  <!-- 9.登陆查询 -->
+  <!-- 9.登录查询 -->
   <select id="loginQuery" resultMap="UserResultMap" parameterType="Object">
     select 
     <include refid="Base_Column_List" />
