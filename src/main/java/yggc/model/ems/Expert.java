@@ -2,87 +2,89 @@ package yggc.model.ems;
 
 import java.util.Date;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Pattern.Flag;
-import javax.validation.constraints.Size;
 
 
-
-
+/**
+ * 
+  * <p>Title:Expert </p>
+  * <p>Description: </p>评审专家实体
+  * <p>Company: yggc </p> 
+  * @author ShaoYangYang
+  * @date 2016年9月6日下午3:25:51
+ */
 public class Expert {
+	/**主键*/
     private String id;
-    
+    /**登录名*/
     private String loginName;
-  
+    /**密码*/
     private String password;
-
+    /**是否删除；0未删除，1已删除*/
     private Short isDelete;
-
+    /**创建时间*/
     private Date createdAt = new Date();
-
+    /**性别*/
     private String sex;
-
+    /**修改时间*/
     private Date updatedAt;
-
+    /**联系电话*/
     private String mobile;
-
+    /**出生日期*/
     private Date birthday;
-
+    /**证件号码*/
     private String idNumber;
-
+    /**证件类型*/
     private String idType;
-
+    /**专家来源*/
     private String expertsFrom;
-
+    /**政治面貌*/
     private String politicsStatus;
-
+    /**民族*/
     private String nayion;
-
+    /**毕业院校*/
     private String graduateSchool;
-
+    /**最高学历*/
     private String hightEducation;
-
+    /**专业*/
     private String major;
-
+    /**工作单位名称*/
     private String workUnit;
-
+    /**固话*/
     private String fixPhone;
-
+    /**传真*/
     private String fax;
-
+    /**取得技术时间*/
     private Date makeTechDate;
-
+    /**健康状态*/
     private String healthState;
-
+    /**所在地区*/
     private String address;
-
+    /**专家技术职称*/
     private String professTechTitles;
-
+    /**参加工作时间*/
     private Date timeToWork;
-
+    /**从事专业起始时间*/
     private Date timeStartWork;
-
+    /**单位地址*/
     private String unitAddress;
-
+    /**邮编*/
     private String zipCode;
-
+    /**学位*/
     private String degree;
-
+    /**现任职务*/
     private String atDuty;
-
+    /**专家类型*/
     private String expertsTypeId;
-
-    private Long purchaseDepId;
-
+    /**采购机构id*/
+    private String purchaseDepId;
+    /**审核状态；0未审核，1通过，2未通过*/
     private String status="0";
-
+    /**是否拉黑；0未拉黑，1已拉黑*/
     private String isBlack = "0";
-
+    /**诚信积分；默认100，根据不诚信指标扣分*/
     private Integer honestyScore = 100;
-
+    /**真是姓名*/
     private String relName;
-
     public String getId() {
         return id;
     }
@@ -331,11 +333,11 @@ public class Expert {
         this.expertsTypeId = expertsTypeId == null ? null : expertsTypeId.trim();
     }
 
-    public Long getPurchaseDepId() {
+    public String getPurchaseDepId() {
         return purchaseDepId;
     }
 
-    public void setPurchaseDepId(Long purchaseDepId) {
+    public void setPurchaseDepId(String purchaseDepId) {
         this.purchaseDepId = purchaseDepId;
     }
 

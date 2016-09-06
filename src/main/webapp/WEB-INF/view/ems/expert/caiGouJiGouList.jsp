@@ -1,12 +1,11 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-	//表单标示
-	String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+""; 
 %>
-<!DOCTYPE html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!-->
@@ -56,6 +55,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="<%=basePath%>public/ZHH/css/style(1).css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/masterslider.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/james.css" media="screen" rel="stylesheet">
+<link href="<%=basePath%>public/layer/skin/layer.css" media="screen" rel="stylesheet" type="text/css">
+<link href="<%=basePath%>public/layer/skin/layer.ext.css" media="screen" rel="stylesheet" type="text/css">
+
     <script src="<%=basePath%>public/ZHH/js/hm.js"></script><script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery-migrate-1.2.1.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
@@ -78,6 +80,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/WdatePicker.js"></script><link href="<%=basePath%>public/ZHH/css/WdatePicker(1).css" rel="stylesheet" type="text/css">
 <script src="<%=basePath%>public/ZHH/js/jquery.form.min.js"></script>
+
 <script src="<%=basePath%>public/ZHH/js/jquery.validate.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.maskedinput.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery-ui.min.js"></script>
@@ -108,6 +111,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/masterslider.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.easing.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/james.js"></script>
+<script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
+<script type="text/javascript" src="<%=basePath%>public/layer/extend/layer.ext.js"></script>
 </head>
 <body>
   <div class="wrapper">
@@ -123,9 +128,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                  <img alt="Logo" src="<%=basePath%>public/ZHH/images/logo_2.png" id="logo-header">
               </a>
             </div>
-			<!--搜索开始-->
-            <div class="col-md-8 topbar-v1 col-md-12 padding-0 ">
-              <ul class="top-v1-data padiing-0">
+			<!--菜单开始-->
+            <div class="col-md-8 topbar-v1 col-md-12 ">
+              <ul class="top-v1-data padding-0">
 			    <li>
 				<a href="#">
 				  <div><img src="<%=basePath%>public/ZHH/images/top_01.png"/></div>
@@ -150,7 +155,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				  <span>信息服务</span>
 				 </a>
 				</li>
-			    <li class="dropdown">
+			   <li class="dropdown">
 			     	<a aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle p0_30 " href="">
 				  		<div><img src="<%=basePath%>public/ZHH/images/top_05.png"/></div>
 				  		<span>支撑环境</span>
@@ -195,212 +200,66 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">业务管理</a></li><li><a href="#">评审专家</a></li><li class="active"><a href="#">专家注册</a></li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">业务管理</a></li><li><a href="#">协议采购</a></li><li class="active"><a href="#">我的订单</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
    </div>
-  
-   
+<!-- 我的订单页面开始-->
+   <div class="container">
+   <div class="headline-v2">
+   <h2>请选择采购机构</h2>
+   </div>
+   </div>
    <script type="text/javascript">
-   $(function(){
-	   var message = $("#message").val();
-	   $("#massage").html(message).css('color','red');
-   });
-   //用户信息验证
-   var flag = 1;
-   var flag2 = 1;
-   var flag3 = 1;
-   var flag4 = 1;
-   function validataLoginName(){
-	   var loginName = $("input[name='loginName']").val();
-	   var patrn=/[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im;  
-	   //var patrn2=/^(?=.*[a-z])[a-z0-9]+/ig;
-	   if(loginName.replace(/\s/g,"")==null || loginName.replace(/\s/g,"")==""){
-		   $("#spp").html("用户名不能为空").css('color','red');
-		   flag=1;
-		   return false;
-	   }
-		
-		if(loginName.indexOf(" ")!=-1){
-			$("#spp").html("不能有空格").css('color','red');
-			flag=1;
-			return false;
-		}
-		if(patrn.test(loginName)){  
-			$("#spp").html("不能有非法字符").css('color','red');
-			flag=1;
-			return false;
-		}
-	   if(/[\u4e00-\u9fa5]/.test(loginName)){  
-			$("#spp").html("不能有中文").css('color','red');
-			flag=1;
-			return false;
-		}
-	   if(loginName.replace(/\s/g,"").length<3){
-		   $("#spp").html("必须三位以上").css('color','red');
-		   flag=1;
-		   return false;
-		   
-	   }
-	  
-	   $.ajax({
-		   url:"<%=basePath%>expert/findAllLoginName.do",
-		   type:"post",
-		   data:{"loginName":loginName},
-		   success:function(obj){
-			   if(obj.length>0){
-				   $("#spp").html("用户名已存在").css('color','red');
-				   flag=1;
-				   return false;
-			   }else{
-				   $("#spp").html("OK!").css('color','lime');
-				   flag=2;
-				   return true;
-			   }
-		   }
-	   });
-   }
-   function validataPassword(){
-	   var password1 = $("#password1").val();
-	   var patrn=/[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im;  
-	   if(patrn.test(password1)){  
-			$("#pwd1").html("密码不能有非法字符").css('color','red');
-			flag2=1;
-			return false;
-		}else
-		if(password1.indexOf(" ")!=-1){
-			$("#pwd1").html("密码中不能有空格").css('color','red');
-			flag2=1;
-			return false;
-		}else
-	   if(password1.replace(/\s/g,"")==null || password1.replace(/\s/g,"")==""){
-		   $("#pwd1").html("密码不能为空").css('color','red');
-		   flag2=1;
-		   return false;
-	   }else
-	   if(password1.replace(/\s/g,"").length<6){
-		   $("#pwd1").html("密码必须六位以上").css('color','red');
-		   flag2=1;
-		   return false;
+   
+   function submitForm(flag){
+	   if(flag==1 || flag=="1"){
+		   $("#flag").val(1);
+		   $("#form1").submit();
 	   }else{
-	   $("#pwd1").html("OK!").css('color','lime');
-	   flag2=2;		   
+		   $("#flag").val(2);
+		   $("#form1").submit();
 	   }
    }
-   function validataPwd2(){
-	   var password1 = $("#password1").val();
-	   var password2 = $("#password2").val();
-	   if(password2.replace(/\s/g,"")==null || password2.replace(/\s/g,"")==""){
-		   $("#pwd2").html("重复密码不能为空").css('color','red');
-		   flag3=1;
-		   return false;
-	   }else
-	   if(password1!=password2){
-		   $("#pwd2").html("两次密码不一致").css('color','red');
-		   flag3=1;
-		   return false;
-	   }else{
-		   $("#pwd2").html("OK!").css('color','lime');
-		   flag3=2;
-		   return true;
-	   }
-   }
-   function validataPhone(){
-	   var phone = $("#phone").val();
-	   if(phone.replace(/\s/g,"")==null || phone.replace(/\s/g,"")==""){
-		   $("#phone2").html("手机号不能为空").css('color','red');
-		   flag4=1;
-		   return false;
-	   }else if(!(/^1[3|4|5|7|8]\d{9}$/.test(phone))){ 
-		   $("#phone2").html("手机号码格式错误").css('color','red');
-		   flag4=1;
-		   return false;
-		}else{
-			 $("#phone2").html("");
-			   flag4=2;
-			   return true;
-		}
-   }
-    function submitForm(){
-    	validataLoginName();
-    	validataPassword();
-    	validataPwd2();
-    	validataPhone();
-	 if(flag==2 && flag2==2 && flag3==2&&flag4==2){
-		 $("#form1").submit();
-	 }
-	   
-   }  
    
    </script>
-<!-- 修改订列表开始-->
-   <div class="container">
-   <form action="<%=basePath %>expert/register.do" method="post"  id="form1">
-   		<%
-			session.setAttribute("tokenSession", tokenValue);
-		 %>
-		 <input type="hidden"  name="token2" value="<%=tokenValue%>">
-		 <input type="hidden" id="message" value="${message }"/>
-   <div>
-   <div class="headline-v2">
-   <h2>评审专家注册</h2>
-   <div align="center">
-   <font id="massage"></font>
+<!-- 表格开始-->
+   
+   <div class="container margin-top-5">
+     <div class="content padding-left-25 padding-right-25 padding-top-5">
+     <form action="<%=basePath %>expert/addJiGou.do" method="post"  id="form1">
+     <input type="hidden" id="flag" name="flag">
+     <input type="hidden" name="uuid" value="${uuid }">
+        <table class="table table-bordered table-condensed">
+		<thead>
+		<tr>
+		  <th class="info w30"><input type="radio"   id="allId" alt=""></th>
+		  <th class="info w50">序号</th>
+		  <th class="info">采购机构</th>
+		  <th class="info">联系人</th>
+		  <th class="info">联系地址</th>
+		  <th class="info">联系电话</th>
+		</tr>
+		</thead>
+		<%-- <c:forEach items="${expert }" var="e" varStatus="s"> --%>
+		<tr>
+		  <td class="tc w30"><input type="radio" name="check" id="checked" alt="" value="2"></td>
+		  <td class="tc w50">1</td>
+		  <td class="tc">哈哈</td>
+		  <td class="tc">飒飒</td>
+		  <td class="tc">北京</td>
+		 <td class="tc">13333333333</td>
+		 </tr>
+		<%-- </c:forEach> --%>
+        </table>
+        </form>
+     </div>
+      <input class="btn btn-windows save" type="button" onclick="submitForm('1');" value="暂存">
+         <input class="btn btn-windows add" type="submit" onclick="submitForm('2');" value="下一步">
    </div>
-   </div>
-  
-   <ul class="list-unstyled list-flow" style="margin-left: 250px;">
-     		<li class="p0">
-			   <span class="">用户名：</span>
-			   <div class="input-append">
-		        <input class="span2" name="loginName" placeholder="用户名为3~8位" maxlength="8" type="text" onblur="validataLoginName();" value="">
-		        <span class="add-on">i</span>
-		       </div><font  id="spp"></font>
-			 </li>
-			 
-		    
-		      <li class="p0 ">
-			   <span class="">密码：</span>
-			   <div class="input-append">
-		        <input class="span2" name="password" placeholder="密码为6~20位" maxlength="20" id="password1" onblur="validataPassword();"  type="password" >
-		        <span class="add-on">i</span>
-		       </div><font  id="pwd1"></font>
-			 </li> 
-	 		
-			  <li class="p0 ">
-			   <span class="">确认密码：</span>
-			   <div class="input-append">
-		        <input class="span2" id="password2"  maxlength="20" onblur="validataPwd2();" type="password" value="">
-		        <span class="add-on">i</span>
-		       </div><font  id="pwd2"></font>
-			 </li> 
-			 <li class="p0 ">
-			   <span class="">手机号码：</span>
-			   <div class="input-append">
-		        <input class="span2" name="mobile" placeholder="请输入正确的手机号码" maxlength="14" id="phone" onblur="validataPhone();"  value="" type="text">
-		        <span class="add-on">i</span>
-		       </div>
-		        <input class="btn" type="button" value="发送验证码"><font  id="phone2"></font>
-			 </li>
-			 <li class="p0">
-			   <span class="">验证码：</span>
-			   <div class="input-append">
-		        <input class="span2" name="phone" maxlength="6" type="text" value="">
-		        <span class="add-on">i</span>
-		       </div><font  id="yzm"></font>
-			 </li>
-   </ul>
-  </div> 
-  <div  class="col-md-12">
-   <div class="padding-10" align="center">
-   <input class="btn btn-windows add" type="button" onclick="submitForm();" value="开始注册">
-   <!--  <button class="btn btn-windows add" type="submit">开始注册</button> -->
-	</div>
-  </div>
-  </form>
  </div>
- <!--底部代码开始-->
+<!--底部代码开始-->
 <div class="footer-v2" id="footer-v2">
 
       <div class="footer">
@@ -416,7 +275,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <!--/footer--> 
       </div>
-</div>
 </div>
 </body>
 </html>

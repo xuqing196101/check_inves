@@ -300,6 +300,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  <th class="info">类型</th>
 		  <th class="info">毕业院校</th>
 		  <th class="info">工作单位</th>
+		  <th class="info">创建时间</th>
 		   <th class="info">审核状态</th>
 		</tr>
 		</thead>
@@ -309,9 +310,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  <td class="tc w50">${s.count }</td>
 		  <td class="tc">${e.relName}</td>
 		  <td class="tc">${e.sex }</td>
-		  <td class="tc">${e.expertsTypeId }</td>
+		  <c:if test="${e.expertsTypeId =='1' || e.expertsTypeId ==1}">
+		   <td class="tc">技术</td>
+		  </c:if>
+		  <c:if test="${e.expertsTypeId =='2' || e.expertsTypeId ==2}">
+		   <td class="tc">法律</td>
+		  </c:if>
+		   <c:if test="${e.expertsTypeId =='3' || e.expertsTypeId ==3}">
+		   <td class="tc">商务</td>
+		  </c:if>
 		 <td class="tc">${e.graduateSchool }</td>
 		 <td class="tc">${e.workUnit }</td>
+		 <td class="tc"><fmt:formatDate type='date' value='${e.createdAt }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
 		 <c:if test="${e.status eq '0' }">
 		 	<td class="tc">未审核</td>
 		 </c:if>

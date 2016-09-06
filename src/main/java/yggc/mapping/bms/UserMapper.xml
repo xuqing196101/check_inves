@@ -239,7 +239,7 @@
   </select>  
   <!-- 保存用户和角色之间的关系信息 -->  
   <insert id="saveRelativity" parameterType="Object">  
-      insert into T_SES_BMS_USERROLE("USER_ID","ROLE_ID")  
+      insert into T_SES_BMS_USERROLE("USER_ID","ROLE_ID")  	
       values(#{userId.id},#{roleId.id})  
   </insert>
   

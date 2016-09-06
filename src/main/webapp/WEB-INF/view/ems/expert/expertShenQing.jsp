@@ -1,4 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -55,6 +57,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="<%=basePath%>public/ZHH/css/james.css" media="screen" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="<%=basePath%>public/ZHQ/css/validForm/style.css" type="text/css" media="all" />
 <link href="<%=basePath%>public/ZHQ/css/validForm/demo.css" type="text/css" rel="stylesheet" />
+<link href="<%=basePath%>public/layer/skin/layer.css" media="screen" rel="stylesheet" type="text/css">
+<link href="<%=basePath%>public/layer/skin/layer.ext.css" media="screen" rel="stylesheet" type="text/css">
+
 
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/messages_cn.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/hm.js"></script><script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
@@ -112,7 +117,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/masterslider.min.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.easing.min.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/james.js"></script>
-
+<script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
+<script type="text/javascript" src="<%=basePath%>public/layer/extend/layer.ext.js"></script>
 <script type="text/javascript">
 	
 	 function validataForm(inputText,fontId){
@@ -150,11 +156,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				  return true;
 			  }
 	 }
-	 function validateFlag(){
-		 $("#hehe").val(1);
-	 }
-	 function validateFlag2(){
-		 $("#hehe").val(2);
+	 //是否通过标示
+	 function pass(flag){
+		 $("#isPass").val(flag);
+		 if(flag==1 || flag=="1"){
+			 $("#form1").submit();
+		 }else {
+			var remark = $("#remark").val(); 
+			 if(remark.replace(/(^\s*)|(\s*$)/g, "")=="" || remark==null){
+				 layer.alert("请填写意见！",{offset: ['222px', '390px'],shade:0.01});
+			 }else{
+				 $("#form1").submit();
+			 }
+		 }
 	 }
 </script>
 </head>
@@ -253,228 +267,207 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    
 <!-- 修改订列表开始-->
    <div class="container">
-   <form action="<%=basePath %>expert/edit.do" onsubmit="return submitForm()" method="post" id="form1" enctype="multipart/form-data" class="registerform"> 
+   <form action="<%=basePath %>expert/toUploadExpertTable.do"  method="post" id="form1" enctype="multipart/form-data" class="registerform"> 
    		<%
 			session.setAttribute("tokenSession", tokenValue);
 		%>
 		 <input type="hidden"  name="token2" value="<%=tokenValue%>">
-   <input type="hidden" name="id" value="${uuid }">
-   <input type="hidden" id="hehe" name="zancun">
+   <input type="hidden" name="id" value="${expert.id }">
+   <input type="hidden" name="isPass" id="isPass"/>
    <div>
    <div class="headline-v2">
-   <h2>评标专家信息</h2>
+   <h2>打印申请表</h2>
    </div>
    <ul class="list-unstyled list-flow p0_20">
      <li class="col-md-6 p0">
 	   <span class="">姓名：</span>
-        <input class="span2"  id="relName" maxlength="10"  name="relName" type="text" onblur="validataForm(this,'nameFont');">
+        <input class="span2"  id="relName" maxlength="10" value="${expert.relName }" disabled="disabled"  name="relName" type="text" onblur="validataForm(this,'nameFont');">
           
        <font id="nameFont"></font>
 	 </li>
      <li class="col-md-6  p0 ">
 	   <span class="">性别：</span>
-	   <select class="span2" name="sex" >
-	   	<option value="男">男</option>
-	   	<option value="女">女</option>
+	   <select class="span2" name="sex" disabled="disabled">
+	   	<option <c:if test="${expert.sex eq '男' }">selected="selected"</c:if> value="男">男</option>
+	   	<option <c:if test="${expert.sex eq '女' }">selected="selected"</c:if> value="女">女</option>
 	   	<option value="其他">其他</option>
 	   </select>
-	    
+	   
 	 </li>
      <li class="col-md-6  p0 ">
 	   <span class="">出生日期：</span>
-        <input class="span2 Wdate w220" onfocus="validataForm(this,'nameFont2');" onblur="validataForm(this,'nameFont2');" readonly="readonly" name="birthday" id="appendedInput" type="text" onclick='WdatePicker()'>
+        <input class="span2 Wdate w220" value="<fmt:formatDate type='date' value='${expert.birthday }' dateStyle="default" pattern="yyyy-MM-dd"/>" disabled="disabled" onfocus="validataForm(this,'nameFont2');" onblur="validataForm(this,'nameFont2');" readonly="readonly" name="birthday" id="appendedInput" type="text" >
       <font id="nameFont2"></font>
 	 </li> 
      <li class="col-md-6  p0 ">
 	   <span class="">政治面貌：</span>
-	   <select class="span2" name="politicsStatus" >
-	   	<option value="党员">党员</option>
-	   	<option value="团员">团员</option>
-	   	<option value="群众">群众</option>
-	   	<option value="其他">其他</option>
+	   <select class="span2" name="politicsStatus" disabled="disabled">
+	   	<option <c:if test="${expert.politicsStatus eq '党员' }">selected="selected"</c:if> value="党员">党员</option>
+	   	<option <c:if test="${expert.politicsStatus eq '团员' }">selected="selected"</c:if> value="团员">团员</option>
+	   	<option <c:if test="${expert.politicsStatus eq '群众' }">selected="selected"</c:if> value="群众">群众</option>
+	   	<option <c:if test="${expert.politicsStatus eq '其他' }">selected="selected"</c:if> value="其他">其他</option>
 	   </select>
 	 </li> 
-     <li class="col-md-6  p0 ">
-	   <span class="">证件类型：</span>
-	   <select class="span2" name="idType" >
-	   	<option value="身份证">身份证</option>
-	   	<option value="士兵证">士兵证</option>
-	   	<option value="驾驶证">驾驶证</option>
-	   	<option value="工作证">工作证</option>
-	   	<option value="护照">护照</option>
-	   	<option value="其他">其他</option>
-	   </select>
-	 </li> 
-     <li class="col-md-6  p0 ">
-	   <span class="">证件号码：</span>
-        <input class="span2" maxlength="30" onblur="validataForm(this,'nameFont3');" name="idNumber" id="appendedInput" type="text">
-          
-    <font id="nameFont3"></font>
-	 </li> 
-     <li class="col-md-6  p0 ">
-	   <span class="">专家来源：</span>
-	   <select class="span2" name="expertsFrom" >
-	   	<option value="军队">军队</option>
-	   	<option value="地方">地方</option>
-	   	<option value="其他">其他</option>
-	   </select>
-	 </li>  
-     <li class="col-md-6  p0 ">
-	   <span class="">民族：</span>
-        <input class="span2" maxlength="10" onblur="validataForm(this,'nameFont4');" name="nayion" id="appendedInput" type="text">
-          
-       <font id="nameFont4"></font>
-	 </li> 
+     
      <li class="col-md-6  p0 ">
 	   <span class="">所在地区：</span>
-        <input class="span2" maxlength="40" onblur="validataForm(this,'nameFont5');" name="address" id="appendedInput" type="text">
-          
-       <font id="nameFont5"></font>
+        <input class="span2" disabled="disabled" maxlength="40" onblur="validataForm(this,'nameFont5');"  value="${expert.address }"  name="address" id="appendedInput" type="text">
 	 </li>  
-     <li class="col-md-6  p0 ">
-	   <span class="">毕业院校：</span>
-        <input class="span2" maxlength="40" onblur="validataForm(this,'nameFont6');" name="graduateSchool" id="appendedInput" type="text">
-          
-       <font id="nameFont6"></font>
-	 </li> 
-     <li class="col-md-6  p0 ">
-	   <span class="">专业技术职称：</span>
-        <input class="span2" maxlength="20" onblur="validataForm(this,'nameFont7');" name="professTechTitles" id="appendedInput" type="text">
-          
-       <font id="nameFont7"></font>
-	 </li> 
-     <li class="col-md-6  p0 ">
-	   <span class="">参加工作时间：</span>
-        <input class="span2 Wdate w220" onfocus="validataForm(this,'nameFont8');" onblur="validataForm(this,'nameFont8');" readonly="readonly" name="timeToWork" id="appendedInput" type="text" onclick='WdatePicker()'>
-       <font id="nameFont8"></font>
-	 </li> 
-     <li class="col-md-6  p0 ">
-	   <span class="">最高学历：</span>
-	   <select class="span2" name="hightEducation" >
-	   	<option value="博士">博士</option>
-	   	<option value="硕士">硕士</option>
-	   	<option value="研究生">研究生</option>
-	   	<option value="本科">本科</option>
-	   	<option value="专科">专科</option>
-	   	<option value="高中">高中</option>
-	   	<option value="其他">其他</option>
-	   </select>
-	 </li> 
-     <li class="col-md-6  p0 ">
-	   <span class="">专业：</span>
-        <input class="span2" maxlength="20" onblur="validataForm(this,'nameFont9');" name="major" id="appendedInput" type="text">
-          
-       <font id="nameFont9"></font>
+	 <li class="col-md-6  p0 ">
+	   <span class="">职称：</span>
+        <input class="span2" disabled="disabled" maxlength="20" onblur="validataForm(this,'nameFont7');" value="${expert.professTechTitles }" name="professTechTitles" id="appendedInput" type="text">
 	 </li> 
 	 <li class="col-md-6  p0 ">
-	   <span class="">从事专业起始年度：</span>
-        <input class="span2 Wdate w220" onfocus="validataForm(this,'nameFont10');" onblur="validataForm(this,'nameFont10');" readonly="readonly" name="timeStartWork" id="appendedInput" type="text" onclick='WdatePicker()'>
-      <font id="nameFont10"></font>
+	   <span class="">证件号码：</span>
+        <input class="span2" disabled="disabled" maxlength="30" onblur="validataForm(this,'nameFont3');" value="${expert.idNumber }" name="idNumber" id="appendedInput" type="text">
 	 </li> 
 	  <li class="col-md-6  p0 ">
-	   <span class="">工作单位：</span>
-        <input class="span2" maxlength="40" onblur="validataForm(this,'nameFont11');" name="workUnit" id="appendedInput" type="text">
-          
-       <font id="nameFont11"></font>
+	   <span class="">专业类别：</span>
+	   <c:if test="${expert.expertsTypeId =='1' ||expert.expertsTypeId ==1  }">
+	   <input  value="技术"/>
+	   </c:if>
+        <c:if test="${expert.expertsTypeId =='2' ||expert.expertsTypeId ==2  }">
+	   <input  value="法律"/>
+	   </c:if>
+	   <c:if test="${expert.expertsTypeId =='3' ||expert.expertsTypeId ==3  }">
+	   <input  value="商务"/>
+	   </c:if>
+	 </li> 
+	  <li class="col-md-6  p0 ">
+	   <span class="">参加工作时间：</span>
+        <input class="span2 Wdate w220" value="<fmt:formatDate type='date' value='${expert.timeToWork }' dateStyle="default" pattern="yyyy-MM-dd"/>" disabled="disabled" onfocus="validataForm(this,'nameFont8');" onblur="validataForm(this,'nameFont8');" readonly="readonly" name="timeToWork" id="appendedInput" type="text" >
+	 </li> 
+	  <li class="col-md-6  p0 ">
+	   <span class="">最高学历：</span>
+	   <select class="span2" name="hightEducation" disabled="disabled">
+	   	<option <c:if test="${expert.hightEducation eq '博士' }">selected="selected"</c:if> value="博士">博士</option>
+	   	<option <c:if test="${expert.hightEducation eq '硕士' }">selected="selected"</c:if> value="硕士">硕士</option>
+	   	<option <c:if test="${expert.hightEducation eq '研究生' }">selected="selected"</c:if> value="研究生">研究生</option>
+	   	<option <c:if test="${expert.hightEducation eq '本科' }">selected="selected"</c:if> value="本科">本科</option>
+	   	<option <c:if test="${expert.hightEducation eq '专科' }">selected="selected"</c:if> value="专科">专科</option>
+	   	<option <c:if test="${expert.hightEducation eq '高中' }">selected="selected"</c:if> value="高中">高中</option>
+	   	<option <c:if test="${expert.hightEducation eq '其他' }">selected="selected"</c:if> value="其他">其他</option>
+	   </select>
+	 </li> 
+	  <li class="col-md-6  p0 ">
+	   <span class="">学位：</span>
+        <input class="span2" disabled="disabled" value="${expert.degree }"  maxlength="10" onblur="validataForm(this,'nameFont17');" name="degree" id="appendedInput" type="text">
+	 </li>
+	  <li class="col-md-6  p0 ">
+	   <span class="">执业资格1：</span>
+        <input class="span2" disabled="disabled"   maxlength="40" onblur="validataForm(this,'nameFont17');" name="degree" id="appendedInput" type="text">
+	 </li>
+	  <li class="col-md-6  p0 ">
+	   <span class="">注册证书编号1：</span>
+        <input class="span2" disabled="disabled"   maxlength="40" onblur="validataForm(this,'nameFont17');" name="degree" id="appendedInput" type="text">
+	 </li>
+	  <li class="col-md-6  p0 ">
+	   <span class="">执业资格2：</span>
+        <input class="span2" disabled="disabled"   maxlength="40" onblur="validataForm(this,'nameFont17');" name="degree" id="appendedInput" type="text">
+	 </li>
+	  <li class="col-md-6  p0 ">
+	   <span class="">注册证书编号2：</span>
+        <input class="span2" disabled="disabled"   maxlength="40" onblur="validataForm(this,'nameFont17');" name="degree" id="appendedInput" type="text">
+	 </li>
+	  <li class="col-md-6  p0 ">
+	   <span class="">执业资格3：</span>
+        <input class="span2" disabled="disabled"   maxlength="40" onblur="validataForm(this,'nameFont17');" name="degree" id="appendedInput" type="text">
+	 </li>
+	  <li class="col-md-6  p0 ">
+	   <span class="">注册证书编号3：</span>
+        <input class="span2" disabled="disabled"   maxlength="40" onblur="validataForm(this,'nameFont17');" name="degree" id="appendedInput" type="text">
+	 </li>
+	 
+	 <li class="col-md-6  p0 ">
+	   <span class="">近两年是否接受过评标业务培训：</span>
+        <input class="span2" disabled="disabled"   maxlength="40" onblur="validataForm(this,'nameFont17');" name="degree" id="appendedInput" type="text">
+	 </li>
+	 <li class="col-md-6  p0 ">
+	   <span class="">是否愿意成为应急专家：</span>
+        <input class="span2" disabled="disabled"   maxlength="40" onblur="validataForm(this,'nameFont17');" name="degree" id="appendedInput" type="text">
+	 </li>
+	 <li class="col-md-6  p0 ">
+	   <span class="">所属行业：</span>
+        <input class="span2" disabled="disabled"   maxlength="40" onblur="validataForm(this,'nameFont17');" name="degree" id="appendedInput" type="text">
+	 </li>
+	 <li class="col-md-6  p0 ">
+	   <span class="">报送部门：</span>
+        <input class="span2" disabled="disabled"   maxlength="40" onblur="validataForm(this,'nameFont17');" name="degree" id="appendedInput" type="text">
+	 </li>
+	 
+	  <li class="p0 ">
+			   <span class="">手机号码：</span>
+			   <div class="input-append">
+		        <input class="span2" name="mobile" maxlength="14" id="phone"   value="${expert.mobile }" type="text">
+		       </div>
+			 </li>
+		<li class="col-md-6  p0 ">
+	   <span class="">单位电话：</span>
+        <input class="span2" maxlength="15" disabled="disabled" onblur="validataForm(this,'nameFont13');" value="${expert.fixPhone }" name="fixPhone" id="appendedInput" type="text">
+	 </li> 
+	 
+	 <li class="col-md-6  p0 ">
+	   <span class="">毕业院校：</span>
+        <input class="span2" disabled="disabled" maxlength="40" onblur="validataForm(this,'nameFont6');" value="${expert.graduateSchool }" name="graduateSchool" id="appendedInput" type="text">
+	 </li> 
+	 <li class="col-md-6  p0 ">
+	   <span class="">单位名称：</span>
+        <input class="span2" disabled="disabled" maxlength="40" onblur="validataForm(this,'nameFont11');" value="${expert.workUnit }" name="workUnit" id="appendedInput" type="text">
 	 </li> 
 	  <li class="col-md-6  p0 ">
 	   <span class="">单位地址：</span>
-        <input class="span2" maxlength="40" onblur="validataForm(this,'nameFont12');" name="unitAddress" id="appendedInput" type="text">
-          
-       <font id="nameFont12"></font>
+        <input class="span2" maxlength="40" disabled="disabled" onblur="validataForm(this,'nameFont12');" value="${expert.unitAddress }" name="unitAddress" id="appendedInput" type="text">
 	 </li> 
-	  <li class="col-md-6  p0 ">
-	   <span class="">联系电话（固话）：</span>
-        <input class="span2" maxlength="15" onblur="validataForm(this,'nameFont13');" name="fixPhone" id="appendedInput" type="text">
-          
-       <font id="nameFont13"></font>
-	 </li> 
-	  <li class="col-md-6  p0 ">
-	   <span class="">传真：</span>
-        <input class="span2" maxlength="10" onblur="validataForm(this,'nameFont14');" name="fax" id="appendedInput" type="text">
-          
-       <font id="nameFont14"></font>
-	 </li> 
-	  <li class="col-md-6  p0 ">
+      <li class="col-md-6  p0 ">
 	   <span class="">邮政编码：</span>
-        <input class="span2" maxlength="6" onblur="validataForm(this,'nameFont15');" name="zipCode" id="appendedInput" type="text">
-          
-       <font id="nameFont15"></font>
+        <input class="span2" maxlength="6" disabled="disabled" onblur="validataForm(this,'nameFont15');"  value="${expert.zipCode }" name="zipCode" id="appendedInput" type="text">
+	 </li>
+      <li class="col-md-6  p0 ">
+	   <span class="">家庭地址：</span>
+        <input class="span2" maxlength="40" disabled="disabled" onblur="validataForm(this,'nameFont12');" value="" name="unitAddress" id="appendedInput" type="text">
 	 </li> 
-	<li class="col-md-6  p0 ">
-	   <span class="">取得技术职称时间：</span>
-        <input class="span2 Wdate w220" onfocus="validataForm(this,'nameFont16');" onblur="validataForm(this,'nameFont16');" readonly="readonly" name="makeTechDate" id="appendedInput" type="text" onclick='WdatePicker()'>
-       <font id="nameFont16"></font>
-	 </li>  
-	  <li class="col-md-6  p0 ">
-	   <span class="">学位：</span>
-        <input class="span2" maxlength="10" onblur="validataForm(this,'nameFont17');" name="degree" id="appendedInput" type="text">
-          
-       <font id="nameFont17"></font>
+      <li class="col-md-6  p0 ">
+	   <span class="">家庭编码：</span>
+        <input class="span2" maxlength="6" disabled="disabled" onblur="validataForm(this,'nameFont15');"  value="" name="zipCode" id="appendedInput" type="text">
 	 </li>
-	  <li class="col-md-6  p0 ">
-	   <span class="">健康状态：</span>
-        <input class="span2" maxlength="10" onblur="validataForm(this,'nameFont18');" name="healthState" id="appendedInput" type="text">
-          
-       <font id="nameFont18"></font>
-	 </li>  
+     <li class="col-md-6  p0 ">
+	   <span class="">评标专家专业一：</span>
+        <input class="span2" maxlength="6" disabled="disabled" onblur="validataForm(this,'nameFont15');"  value="${expert.major }" name="zipCode" id="appendedInput" type="text">
+	 </li>
+    <li class="col-md-6  p0 ">
+	   <span class="">评标专家专业二：</span>
+        <input class="span2" maxlength="6" disabled="disabled" onblur="validataForm(this,'nameFont15');"  value="${expert.zipCode }" name="zipCode" id="appendedInput" type="text">
+	 </li>
 	 <li class="col-md-6  p0 ">
-	   <span class="">现任职务：</span>
-        <input class="span2" maxlength="10" onblur="validataForm(this,'nameFont19');" name="atDuty" id="appendedInput" type="text">
-        
-       <font id="nameFont19"></font>
+	   <span class="">评标专家专业三：</span>
+        <input class="span2" maxlength="6" disabled="disabled" onblur="validataForm(this,'nameFont15');"  value="${expert.zipCode }" name="zipCode" id="appendedInput" type="text">
 	 </li>
+	 <li class="col-md-6  p0 ">
+	   <span class="">评标专家专业四：</span>
+        <input class="span2" maxlength="6" disabled="disabled" onblur="validataForm(this,'nameFont15');"  value="${expert.zipCode }" name="zipCode" id="appendedInput" type="text">
+	 </li>
+	 <li class="col-md-6  p0 ">
+	   <span class="">评标专家专业五：</span>
+        <input class="span2" maxlength="6" disabled="disabled" onblur="validataForm(this,'nameFont15');"  value="${expert.zipCode }" name="zipCode" id="appendedInput" type="text">
+	 </li>
+	 <li><h4 align="center">工作经历</h4></li>
    </ul>
   </div> 
    
   <!-- 附件信息-->
   <div class="padding-top-10 clear">
    <div class="headline-v2 clear">
-   <h2>上传附件</h2>
+   <h2>附件信息</h2>
    </div>
   </div>
-  <div class="padding-left-40 padding-right-20 clear">
-   <ul class="list-unstyled list-flow p0_20">
-   <li class="col-md-6  p0 ">
-	   <span class="">身份证：</span>
-	   <div >
-        <input class="span2" name="files" id="appendedInput" type="file" >
-       </div>
-	 </li>
-	 <li class="col-md-6  p0 ">
-	   <span class="">学历证书：</span>
-	   <div >
-        <input class="span2" name="files" id="appendedInput" type="file">
-       </div>
-	 </li>
-	 <li class="col-md-6  p0 ">
-	   <span class="">职称证书：</span>
-	   <div >
-        <input class="span2" name="files" id="appendedInput" type="file">
-       </div>
-	 </li>
-	  <li class="col-md-6  p0 ">
-	   <span class="">学位证书：</span>
-	   <div >
-        <input class="span2" name="files" id="appendedInput" type="file">
-       </div>
-	  </li>
-	  <li class="col-md-6  p0 ">
-	   <span class="">本人照片：</span>
-	   <div >
-        <input class="span2" name="files" id="appendedInput" type="file">
-       </div>
-	 </li>
-   </ul>
-  </div>
-  
   <div  class="col-md-12">
    <div class="fl padding-10">
-	<!-- <button class="btn btn-windows delete" type="submit">删除</button> -->
+   <input class="btn btn-windows add" type="button" onclick="" value="打印">
     <!-- <button class="btn btn-windows add" type="submit">下一步</button> -->
-	<button class="btn btn-windows save" type="submit" onclick="validateFlag();">暂存</button>
-   <input class="btn btn-windows save" onclick="validateFlag2();" type="submit" value="下一步">
-	<button class="btn btn-windows reset" type="reset">重置</button>
+	<!-- <button class="btn btn-windows delete" type="submit">删除</button> -->
+	<input class="btn btn-windows delete" type="button" onclick="" value="下载">
+		<input class="btn btn-windows delete" type="submit"  value="下一步">
+	<!-- <button class="btn btn-windows delete" onclick="pass('1');" type="submit">不通过</button> -->
 	<a class="btn btn-windows reset"  onclick="location.href='javascript:history.go(-1);'">返回</a>
 	</div>
   </div>
