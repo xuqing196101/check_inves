@@ -1949,6 +1949,12 @@ img.img-mouse {
 .ml170{
 	margin-left:170px;
 }
+.ml50{
+	margin-left:50px;
+}
+.mt40{
+	margin-top:40px;
+}
 .yinc{
 	display: none;
 }
@@ -1957,6 +1963,9 @@ img.img-mouse {
 }
 .h730{
 	height:730px;
+}
+.h900{
+	height:900px;
 }
 .h1030{
 	height:1030px;

@@ -107,6 +107,7 @@
 				<!--/end container-->
 			</div>
 		</div>
+		<form action="${pageContext.request.contextPath}/supplierFsInfo/registerStep4.html?id=${id }" method="post">
 		<div class="container clear margin-top-30">
 			<h2 class="padding-20 mt40">
 				<span class="new_step current fl ml170"><i class="">1</i>
@@ -129,33 +130,35 @@
 									<ul class="list-unstyled list-flow">
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 企业名称：</span>
 											<div class="input-append">
-												<input class="span3" id="supplierName" name="supplierName" type="text">
+												<input class="span3" id="supplierName" name="supplierName" value="${sfi.supplierName }" type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 企业类别：</span>
 											<div class="input-append">
-												<input class="span3" id="supplierTepe" name="supplierTepe" type="text">
+												<input class="span3" id="supplierTepe" name="supplierTepe" value="${sfi.supplierTepe }"  type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 中文译名：</span>
 											<div class="input-append">
-												<input class="span3" id="supplierChinesrName" name="supplierChinesrName" type="text">
+												<input class="span3" id="supplierChinesrName" name="supplierChinesrName" value="${sfi.supplierChinesrName }" type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 法定代表人：</span>
 											<div class="input-append">
-												<input class="span3" id="legalName" name="legalName" type="text">
+												<input class="span3" id="legalName" name="legalName" value="${sfi.legalName }" type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0"><span class=""><i class="red">＊</i>企业注册地址：</span>
 											<div class="fl">
 												<div class="input-append mr18">
-													<input class="span4" id="address" name="address" type="text">
+												    <input id="address" name="address" value="${sfi.address }" type="hidden">
+													<input class="span4" id="address" name="address" value="${sfi.address }" type="text">
 													<div class="btn-group ">
 														<button class="btn dropdown-toggle add-on" data-toggle="dropdown">
 															<img src="${pageContext.request.contextPath}/public/ZHQ/images/down.png" class="margin-bottom-5" />
 														</button>
 														<ul class="dropdown-menu list-unstyled">
+															<li>fasdfasdfa</li>
 														</ul>
 													</div>
 												</div>
@@ -166,6 +169,7 @@
 															<img src="${pageContext.request.contextPath}/public/ZHQ/images/down.png" class="margin-bottom-5" />
 														</button>
 														<ul class="dropdown-menu list-unstyled">
+														<li>fasdfasdfa</li>
 														</ul>
 													</div>
 												</div>
@@ -173,58 +177,58 @@
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>邮政编码：</span>
 											<div class="input-append">
-												<input class="span3" id="supplierZipCode" name="supplierZipCode" type="text">
+												<input class="span3" id="supplierZipCode" name="supplierZipCode" value="${sfi.supplierZipCode }"  type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>经营产品大类：</span>
 											<div class="input-append">
-												<input class="span3" id="productType" name="productType" type="text">
+												<input class="span3" id="productType" name="productType" value="${sfi.productType }" type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>主营产品：</span>
 											<div class="input-append">
-												<input class="span3" id="majorProduct" name="majorProduct" type="text">
+												<input class="span3" id="majorProduct" name="majorProduct" value="${sfi.majorProduct }" type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>兼营产品：</span>
 											<div class="input-append">
-												<input class="span3" id="sideProduct" name="sideProduct" type="text">
+												<input class="span3" id="sideProduct" name="sideProduct" value="${sfi.sideProduct }" type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>生产商名称：</span>
 											<div class="input-append">
-												<input class="span3" id="producerName" name="producerName" type="text">
+												<input class="span3" id="producerName" name="producerName" value="${sfi.producerName }"  type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 联系人：</span>
 											<div class="input-append">
-												<input class="span3" id="contactPerson" name="contactPerson" type="text">
+												<input class="span3" id="contactPerson" name="contactPerson" value="${sfi.contactPerson }" type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 电话：</span>
 											<div class="input-append">
-												<input class="span3" id="supplierTele" name="supplierTele" type="text">
+												<input class="span3" id="supplierTele" name="supplierTele" value="${sfi.supplierTele }" type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 传真：</span>
 											<div class="input-append">
-												<input class="span3" id="supplierFax" name="supplierFax" type="text">
+												<input class="span3" id="supplierFax" name="supplierFax" value="${sfi.supplierFax }" type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 电子邮件：</span>
 											<div class="input-append">
-												<input class="span3" id="supplierEmail" name="supplierEmail" type="text">
+												<input class="span3" id="supplierEmail" name="supplierEmail" value="${sfi.supplierEmail }" type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 企业网址：</span>
 											<div class="input-append">
-												<input class="span3" id="netUrl" name="netUrl" type="text">
+												<input class="span3" id="netUrl" name="netUrl" value="${sfi.netUrl }" type="text">
 											</div>
 										</li>
 										<li class="col-md-12 p0 mt10"><span class="fl"><i class="red">＊</i>国内供货业绩：</span>
 											<div class="col-md-9 mt5">
 												<div class="row">
-													<textarea class="text_area col-md-12" id="supplyLevel" name="supplyLevel" title="不超过800个字" placeholder=""></textarea>
+													<textarea class="text_area col-md-12" id="supplyLevel" name="supplyLevel"  title="不超过800个字" placeholder=""> ${sfi.supplyLevel }</textarea>
 												</div>
 											</div>
 											<div class="clear"></div>
@@ -232,7 +236,7 @@
 										<li class="col-md-12 p0 mt10"><span class="fl"><i class="red">＊</i>企业简介：</span>
 											<div class="col-md-9 mt5">
 												<div class="row">
-													<textarea class="text_area col-md-12" id="supplierRemark" name="supplierRemark" title="不超过800个字" placeholder=""></textarea>
+													<textarea class="text_area col-md-12" id="supplierRemark" name="supplierRemark" title="不超过800个字" placeholder="">${sfi.supplierRemark }</textarea>
 												</div>
 											</div>
 											<div class="clear"></div>
@@ -240,8 +244,8 @@
 									</ul>
 									</div>
 									<div class="tc mt20 clear col-md-11">
-										<button class="btn btn-windows git"   type="button" >上一步</button>
-										<button class="btn btn-windows git"   type="button" onclick="location='${pageContext.request.contextPath}/supplierFsInfo/registerStep4.html'">下一步</button>
+										<button class="btn btn-windows git"   type="button" onclick="location='${pageContext.request.contextPath}/supplierFsInfo/registerStep2.html?id=${id}'">上一步</button>
+										<input class="btn btn-widows git" type="submit" value="下一步" />
 									</div>
 								</div>
 							</div>
@@ -250,6 +254,7 @@
 				</div>
 			</div>
 		</div>
+		</form>
 		<!--底部代码开始-->
 		<div class="footer-v2 clear " id="footer-v2">
 			<div class="footer">

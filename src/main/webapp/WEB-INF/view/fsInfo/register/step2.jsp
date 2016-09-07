@@ -104,6 +104,7 @@
 			</div>
 		</div>
 		<!-- 项目戳开始 -->
+		<form action="${pageContext.request.contextPath}/supplierFsInfo/registerStep3.html" method="post">
 		<div class="container clear margin-top-30">
 			<h2 class="padding-20 mt40">
 				<span class="new_step current fl ml170"><i class="">1</i>
@@ -117,45 +118,46 @@
 			<div  class="col-md-12 margin-top-40">
 				<div class="row">
 					<div class="login_main mt20">
-						<div class="login_item">
-							<label class="col-md-3 p0"><i class="red mr5">*</i>用 户 名：</label> <input type="text" id="loginName" name="loginName" class="fl"> <span class="fl warning">（用户名由字母、数字、－等字符组成）</span>
-							<div class="clear"></div>
-						</div>
-						<div class="login_item margin-top-10">
-							<label class="col-md-3 p0"><i class="red mr5">*</i>登录密码：</label> <input type="password" id="password" name="password" class="fl"> <span class="fl warning">（密码由6-20位，由字母、数字组成）</span>
-							<div class="clear"></div>
-						</div>
-						<div class="login_item margin-top-10">
-							<label class="col-md-3 p0"><i class="red mr5">*</i>确认密码：</label> <input type="password" id="checkPassword" class="fl">
-							<div class="clear"></div>
-						</div>
-						<div class="login_item margin-top-10">
-							<label class="col-md-3 p0"><i class="red mr5">*</i>手机号码：</label> <input type="text" id="mobile" name="mobile" class="fl">
-							<button class="btn padding-left-10 padding-right-10 btn_back ml10">发送验证码</button>
-							<div class="clear"></div>
-						</div>
-						<div class="login_item margin-top-10">
-							<label class="col-md-3 p0"><i class="red mr5">*</i>手机验证码：</label> <input type="text" id="checkMobile" class="fl">
-							<div class="clear"></div>
-						</div>
-						<div class="login_item margin-top-10">
-							<label class="col-md-3 p0"><i class="red mr5">*</i>验证码：</label> <input type="text" id="code" class="fl input-yzm">
-							<div class="fl">
-								<div class="yzm fl">
-									<img src="${pageContext.request.contextPath}/Kaptcha.jpg" onclick="kaptcha();" id="kaptchaImage" /> 
-								</div>
-								<button class="btn padding-left-10 padding-right-10 btn_back ml10 fl" onclick="kaptcha();">换一张</button>
+							<div class="login_item">
+								<label class="col-md-3 p0"><i class="red mr5">*</i>用 户 名：</label> <input type="text" id="loginName" name="loginName" value="${loginName }" class="fl"> <span class="fl warning">（用户名由字母、数字、－等字符组成）</span>
+								<div class="clear"></div>
 							</div>
-							<div class="clear"></div>
-						</div>
+							<div class="login_item margin-top-10">
+								<label class="col-md-3 p0"><i class="red mr5">*</i>登录密码：</label> <input type="password" id="password" name="password" class="fl"> <span class="fl warning">（密码由6-20位，由字母、数字组成）</span>
+								<div class="clear"></div>
+							</div>
+							<div class="login_item margin-top-10">
+								<label class="col-md-3 p0"><i class="red mr5">*</i>确认密码：</label> <input type="password" id="checkPassword" class="fl">
+								<div class="clear"></div>
+							</div>
+							<div class="login_item margin-top-10">
+								<label class="col-md-3 p0"><i class="red mr5">*</i>手机号码：</label> <input type="text" id="mobile" name="mobile" class="fl">
+								<button class="btn padding-left-10 padding-right-10 btn_back ml10">发送验证码</button>
+								<div class="clear"></div>
+							</div>
+							<div class="login_item margin-top-10">
+								<label class="col-md-3 p0"><i class="red mr5">*</i>手机验证码：</label> <input type="text" id="checkMobile" class="fl">
+								<div class="clear"></div>
+							</div>
+							<div class="login_item margin-top-10">
+								<label class="col-md-3 p0"><i class="red mr5">*</i>验证码：</label> <input type="text" id="code" class="fl input-yzm">
+								<div class="fl">
+									<div class="yzm fl">
+										<img src="${pageContext.request.contextPath}/Kaptcha.jpg" onclick="kaptcha();" id="kaptchaImage" /> 
+									</div>
+									<button class="btn padding-left-10 padding-right-10 btn_back ml10 fl" onclick="kaptcha();">换一张</button>
+								</div>
+								<div class="clear"></div>
+							</div>
 						<div class="tc mt20 clear col-md-11">
-							<button class="btn btn-windows git"   type="button" onclick="supplierRegist('reg_box_id', 3, 'pre')">上一步</button>
-							<button class="btn btn-windows git"   type="button" onclick="location='${pageContext.request.contextPath}/supplierFsInfo/registerStep3.html'">下一步</button>
+							<button class="btn btn-windows git"   type="button" onclick="location='${pageContext.request.contextPath}/supplierFsInfo/registerStep1.html'">上一步</button>
+							<input class="btn btn-widows git" type="submit" value="下一步" />
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+		</form>
 		<!--底部代码开始-->
 		<div class="footer-v2 clear " id="footer-v2">
 			<div class="footer">

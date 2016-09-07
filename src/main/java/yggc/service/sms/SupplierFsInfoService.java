@@ -4,6 +4,12 @@ import java.util.List;
 
 import yggc.model.sms.SupplierFsInfoWithBLOBs;
 
+/**
+ * @Title: SupplierFsInfoService
+ * @Description: 进口供应商注册审核服务层
+ * @author: Song Biaowei
+ * @date: 2016-9-7下午6:02:26
+ */
 public interface SupplierFsInfoService {
 	
 	/**
@@ -68,4 +74,15 @@ public interface SupplierFsInfoService {
 	* @return SupplierFsInfoWithBLOBs
 	 */
 	SupplierFsInfoWithBLOBs selectByPrimaryKey(SupplierFsInfoWithBLOBs sfi);
+	
+	/**
+	 * @Title: selectIdByLoginName
+	 * @author Song Biaowei
+	 * @date 2016-9-7 上午10:10:44
+	 * @Description: TODO
+	 * @param @param sfi
+	 * @param @return
+	 * @return String
+	 */
+	String selectIdByLoginName(SupplierFsInfoWithBLOBs sfi);
 }

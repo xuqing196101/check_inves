@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -192,7 +193,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
    </div>
 </div>
-		<div class="container clear margin-top-30 yinc">
+		<div class="container clear margin-top-30">
 		  <h2 class="f16 jbxx">供应商列表</h2>
 		     <form action="" method="post">
 			   <span class="">进口供应商名称：</span>
@@ -205,25 +206,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        <input class="span2" name="loginName" type="text">
 		       <!--  <span class="add-on">i</span> -->
 		       </div>
-		       <input class="" name="submit" type="submit" value="查询">
+		       <input class="btn padding-left-20 padding-right-20 btn_back" name="submit" type="submit" value="查询">
 		     </form>
-		  <table id="tb1"  class="table table-bordered table-condensed">
+		  <table id="tb1"  class="table table-bordered table-condensed tc">
 				<tr>
 					<td>进口供应商名称</td>
 					<td>企业类别</td>
-					<td>企业性质</td>
-					<td>企业状态</td>
+					<td>法定代表人</td>
+					<td>电话</td>
 					<td>审核状态</td>
 				</tr>
-				<%-- <c:forEach items="" var="" varStatus="vs">
+				 <c:forEach items="${sfiList }" var="list" varStatus="vs">
 					<tr>
-						<td><input type="checkbox" name="cbox" onclick="box(this)" /></td>
-						<td>${(l-1)*10+vs.index+1}</td>
-						<td></td>
-						<td></td>
-						<td></td>
+						<td>${list.supplierName }</td>
+						<td>${list.supplierTepe }</td>
+						<td>${list.legalName }</td>
+						<td>${list.mobile }</td>
+						<td>
+							<c:if test="${list.status==0 }"><input type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/supplierFsInfo/audit.html?id=${list.id }'" value="初审" /></c:if>
+							<c:if test="${list.status==1 }"><input type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/supplierFsInfo/audit.html?id=${list.id }'" value="复审" /></c:if>
+							<c:if test="${list.status==2 }"><input type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/supplierFsInfo/audit.html?id=${list.id }'" value="已审核" /></c:if>
+						</td>
 					</tr>
-				</c:forEach> --%>
+				</c:forEach> 
 			</table>
 		 </div>		 
 </body>

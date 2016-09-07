@@ -13,13 +13,12 @@ import yggc.model.sms.SupplierFsInfoWithBLOBs;
 import yggc.service.sms.SupplierFsInfoService;
 
 /**
-* <p>Title:SupplierFsInfoController </p>
-* <p>Description:进口供应商注册审核控制层 </p>
-* <p>Company: yggc </p> 
-* @author Song Biaowei
-* @date 2016-9-6下午1:31:21
+ * 
+ * @Title: SupplierFsInfoController
+ * @Description: 进口供应商注册审核控制层
+ * @author: Song Biaowei
+ * @date: 2016-9-7下午6:09:03
  */
-
 @Controller
 @Scope("prototype")
 @RequestMapping("/supplierFsInfo")
@@ -35,70 +34,138 @@ public class SupplierFsInfoController {
 	* @param @return      
 	* @return String
 	 */
-	@RequestMapping("beforeRegister.html")
+	@RequestMapping("registerStep1.html")
 	public String registerStep1(){
 		return "fsInfo/register/step1";
 	}
 	
+	/**
+	* @Title: registerStep2
+	* @author Song Biaowei
+	* @date 2016-9-7 下午5:49:53  
+	* @Description: 第二个页面
+	* @param @param sfi
+	* @param @param model
+	* @param @return      
+	* @return String
+	 */
 	@RequestMapping("registerStep2.html")
-	public String registerStep2(){
+	public String registerStep2(SupplierFsInfoWithBLOBs sfi, Model model){
+		if(sfi.getId()!=null){
+			SupplierFsInfoWithBLOBs sfiStep2=supplierFsInfoService.findById(sfi.getId());
+			model.addAttribute("loginName", sfiStep2.getLoginName());
+		}
 		return "fsInfo/register/step2";
 	}
 	
+	/**
+	* @Title: registerStep3
+	* @author Song Biaowei
+	* @date 2016-9-7 下午5:50:07  
+	* @Description: 第三个页面
+	* @param @param sfi
+	* @param @param model
+	* @param @return      
+	* @return String
+	 */
 	@RequestMapping("registerStep3.html")
-	public String registerStep3(){
+	public String registerStep3(SupplierFsInfoWithBLOBs sfi, Model model){
+		supplierFsInfoService.register(sfi);
+		String id=supplierFsInfoService.selectIdByLoginName(sfi);
+		System.out.println(id);
+		model.addAttribute("id", id);
 		return "fsInfo/register/step3";
 	}
 	
+	/**
+	* @Title: registerStep4
+	* @author Song Biaowei
+	* @date 2016-9-7 下午5:50:17  
+	* @Description: 第四个页面 
+	* @param @param sfi
+	* @param @param model
+	* @param @return      
+	* @return String
+	 */
 	@RequestMapping("registerStep4.html")
-	public String registerStep4(){
+	public String registerStep4(SupplierFsInfoWithBLOBs sfi, Model model){
+		SupplierFsInfoWithBLOBs sfiStep2=supplierFsInfoService.findById(sfi.getId());
+		System.out.println(sfi.getId());
+		sfi.setLoginName(sfiStep2.getLoginName());
+		sfi.setPassword(sfiStep2.getPassword());
+		sfi.setMobile(sfiStep2.getMobile());
+		supplierFsInfoService.updateRegisterInfo(sfi);
+		model.addAttribute("id", sfiStep2.getId());
 		return "fsInfo/register/step4";
 	}
 	
+	/**
+	* @Title: registerStep5
+	* @author Song Biaowei
+	* @date 2016-9-7 下午5:50:26  
+	* @Description:第五个也页面 
+	* @param @param sfi
+	* @param @param model
+	* @param @return      
+	* @return String
+	 */
 	@RequestMapping("registerStep5.html")
-	public String registerStep5(){
+	public String registerStep5(SupplierFsInfoWithBLOBs sfi, Model model){
+		SupplierFsInfoWithBLOBs sfiStep2=supplierFsInfoService.findById(sfi.getId());
+		sfiStep2.setOrgmanId(sfi.getOrgmanId());
+		supplierFsInfoService.updateRegisterInfo(sfiStep2);
+		model.addAttribute("id", sfiStep2.getId());
 		return "fsInfo/register/step5";
 	}
+	
+	/**
+	* @Title: registerStep6
+	* @author Song Biaowei
+	* @date 2016-9-7 下午5:50:48  
+	* @Description: 第六个页面 
+	* @param @param sfi
+	* @param @param model
+	* @param @return      
+	* @return String
+	 */
 	@RequestMapping("registerStep6.html")
-	public String registerStep6(){
+	public String registerStep6(SupplierFsInfoWithBLOBs sfi, Model model){
+		model.addAttribute("id", sfi.getId());
 		return "fsInfo/register/step6";
 	}
+	
+	/**
+	* @Title: registerStep7
+	* @author Song Biaowei
+	* @date 2016-9-7 下午5:50:58  
+	* @Description:第七个页面 
+	* @param @param sfi
+	* @param @param model
+	* @param @return      
+	* @return String
+	 */
 	@RequestMapping("registerStep7.html")
-	public String registerStep7(){
+	public String registerStep7(SupplierFsInfoWithBLOBs sfi, Model model){
+		SupplierFsInfoWithBLOBs sfiStep2=supplierFsInfoService.findById(sfi.getId());
+		sfiStep2.setOrgmanId(sfi.getSupplierRegList());
+		sfiStep2.setCreatedAt(new Date());
+		sfiStep2.setStatus((short)0);
+		supplierFsInfoService.updateRegisterInfo(sfiStep2);
 		return "fsInfo/register/step7";
 	}
 
 	
 	/**
-	* @Title: register
-	* @author Song Biaowei
-	* @date 2016-9-6 上午11:32:49  
-	* @Description: 注册第四步选择机构后点击保存 
-	* @param @param sfi
-	* @param @param model
-	* @param @return      
-	* @return String
-	 */
-	@RequestMapping("register.do")
-	public String register(SupplierFsInfoWithBLOBs sfi, Model model) {
-		sfi.setCreatedAt(new Date());
-		sfi.setStatus((short)0);
-		sfi.setOrgmanId("fasdfdas");
-		supplierFsInfoService.register(sfi);
-		List<SupplierFsInfoWithBLOBs> sfiList=supplierFsInfoService.selectByFsInfo(sfi);
-		return "fsInfo/finished";
-	}
-	
-	/**
 	* @Title: daiban
 	* @author Song Biaowei
 	* @date 2016-9-6 上午11:34:12  
-	* @Description: 点击我的待办
+	* @Description: 供应商审核点击我的待办
 	* @param @param sfi
 	* @param @param model
 	* @param @return      
 	* @return String
 	 */
+	@RequestMapping("daiban.html")
 	public String daiban(SupplierFsInfoWithBLOBs sfi,Model model){
 		//未审核 就等于初审
 		sfi.setStatus((short)0);
@@ -111,7 +178,7 @@ public class SupplierFsInfoController {
 		int yishenhe=supplierFsInfoService.getCount(sfi);
 		model.addAttribute("weishenhe", weishenhe);
 		model.addAttribute("shenhezhong",fushen);
-		model.addAttribute("weishenhe", yishenhe);
+		model.addAttribute("yishenhe", yishenhe);
 		return "fsInfo/daiban";
 	}
 	
@@ -125,10 +192,11 @@ public class SupplierFsInfoController {
 	* @param @return      
 	* @return String
 	 */
+	@RequestMapping("auditList.html")
 	public String daibanList(SupplierFsInfoWithBLOBs sfi,Model model){
 		List<SupplierFsInfoWithBLOBs> sfiList=supplierFsInfoService.selectByFsInfo(sfi);
-		model.addAttribute("sfiList0", sfiList);
-		return "fsInfo/daiban";
+		model.addAttribute("sfiList", sfiList);
+		return "fsInfo/auditList";
 	}
 	
 	/**
@@ -141,10 +209,11 @@ public class SupplierFsInfoController {
 	* @param @return      
 	* @return String
 	 */
+	@RequestMapping("audit.html")
 	public String auditShow(SupplierFsInfoWithBLOBs sfi,Model model){
 		SupplierFsInfoWithBLOBs supplierFsInfoWithBLOBs = supplierFsInfoService.selectByPrimaryKey(sfi);
-		model.addAttribute("supplierFsInfoWithBLOBs", supplierFsInfoWithBLOBs);
-		return "fsInfo/daiban";
+		model.addAttribute("sfi", supplierFsInfoWithBLOBs);
+		return "fsInfo/firstAudit";
 	}
 	
 }

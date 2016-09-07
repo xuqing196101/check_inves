@@ -22,6 +22,9 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/shop.style.css" type="text/css"/>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
 <script type="text/javascript">
 </script>
 </head>
@@ -103,9 +106,10 @@
 				<!--/end container-->
 			</div>
 		</div>
-			<div id="reg_box_id_7" class="container clear margin-top-30">
-		  	<h2 class="padding-20 mt40">
-				<span class="new_step current fl ml170"><i class="">1</i>
+		<form action="${pageContext.request.contextPath}/supplierFsInfo/registerStep7.html?id=${id }" method="post">
+			<div class="container clear margin-top-30">
+		  	<h2 class="padding-20 mt40" style="margin-left:280px;">
+				<span class="new_step current fl"><i class="">1</i>
 					<div class="line"></div> <span class="step_desc_01">用户名密码</span> </span> <span class="new_step current fl"><i class="">2</i>
 					<div class="line"></div> <span class="step_desc_02">基本信息</span> </span> <span class="new_step current fl"><i class="">3</i>
 					<div class="line"></div> <span class="step_desc_01">初审采购机构</span> </span> <span class="new_step current fl"><i class="">4</i>
@@ -114,24 +118,30 @@
 			</h2>
 			<!-- 供应商申请书上传：<input type="file" name=""/>
 			供应商承诺书上传：<input type="file" name=""/> -->
-				   <span class="zyxx col-md-2">供应商申请书上传：</span>
-	               <div class="input-append col-md-5 col-md-12  margin-bottom-0">
-                    <input class="col-md-12" id="appendedInput" type="text">
-                   </div>
-				   <div class="input-append mt5">
-                        <a href="#"><i></i>上传附件</a>
-                   </div>
-			<div class="col-md-12 add_regist">
+				   	<div class="input-append mt40" style="margin-left:280px;">
+						<div class="uploader orange m0">
+							<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..."/>
+							<input type="button" name="file" class="button" value="选择文件..."/>
+							<input id="regIdentity" type="file" name="regIdentity" size="30" accept="image/*"/>
+						</div>
+						<div class="uploader orange m0">
+							<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..."/>
+							<input type="button" name="file" class="button" value="选择文件..."/>
+							<input id="regIdentity" type="file" name="regIdentity" size="30" accept="image/*"/>
+						</div>
+					</div>
+			<div class="col-md-12 add_regist" style="margin-left:170px;">
 				 <div class="fl mr20"><label class="regist_name">采购机构名称：</label><span class="regist_desc">广州军区物资采购站</span></div>
 				 <div class="fl mr20"><label class="regist_name">采购机构联系人：</label><span class="regist_desc">张三</span></div>
 				 <div class="fl mr20"><label class="regist_name">采购机构地址：</label><span class="regist_desc">广州军区物资采购站</span></div>
 				 <div class="fl mr20"><label class="regist_name">联系电话：</label><span class="regist_desc">1882928798</span></div>
 			 </div>
 		    <div class="tc mt20 clear col-md-11">
-				<button class="btn btn-windows git"   type="button" onclick="location='${pageContext.request.contextPath}/supplierFsInfo/registerStep7.html'">下一步</button>
+		   		<button class="btn btn-windows git"   type="button" onclick="location='${pageContext.request.contextPath}/supplierFsInfo/registerStep6.html?id=${id }'">上一步</button>
+				<button class="btn btn-windows git"   type="button" onclick="location='${pageContext.request.contextPath}/supplierFsInfo/registerStep7.html?id=${id }'">下一步</button>
 			</div>
 		</div>
-
+		</form>
 		<div class="footer-v2 clear " id="footer-v2">
 			<div class="footer">
 				<!-- Address -->
