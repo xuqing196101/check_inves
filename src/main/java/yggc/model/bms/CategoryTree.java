@@ -1,22 +1,22 @@
 package yggc.model.bms;
 
 public class CategoryTree {
-	/**
+	/*
 	 * 节点的id
 	 */
 	private String id;
 	
-	/**
+	/*
 	 * 节点的名称
 	 */
 	private String name;
 	
-	/**
+	/*
 	 * 节点的父节点id
 	 */
 	private String pId;
 	
-	/**
+	/*
 	 * 是否是父类
 	 */
 	private String isParent;

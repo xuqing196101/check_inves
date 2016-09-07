@@ -1,7 +1,5 @@
 package yggc.util;
 
-
-import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.http.HttpServlet;
@@ -10,10 +8,15 @@ import javax.servlet.http.HttpSessionListener;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import yggc.service.iss.SolrNewsService;
 
+/*
+ *@Title:InitIndexServlet
+ *@Description:启动时servlet
+ *@author QuJie
+ *@date 2016-9-7下午6:31:29
+ */
 @SuppressWarnings("serial")
 public class InitIndexServlet extends HttpServlet implements HttpSessionListener,ServletContextListener{
 	@Autowired
@@ -24,7 +27,7 @@ public class InitIndexServlet extends HttpServlet implements HttpSessionListener
 	/**
 	 * 
 	* @Title: sessionCreated
-	* @author MRlovablee
+	* @author QuJie
 	* @date 2016-5-31 上午9:43:17  
 	* @Description: session启动时初始化 
 	* @param @param se

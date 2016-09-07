@@ -143,6 +143,12 @@
 			<scope>provided</scope>  
 		</dependency>
 		<dependency>
+		    <groupId>javax.servlet.jsp</groupId>
+		    <artifactId>jsp-api</artifactId>
+		    <version>2.2.1-b03</version>
+		    <scope>provided</scope>
+		</dependency>
+		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
@@ -189,8 +195,13 @@
 			<artifactId>kaptcha</artifactId>
 			<version>2.3.2</version>
 		</dependency>
+<<<<<<< HEAD
+		<!-- Servlet dependencies 
+		<dependency>
+=======
 		<!-- Servlet dependencies -->
 		 <dependency>
+>>>>>>> 5fd16fb319f5fc6af43b9895ddda389599262ee0
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.1.0</version>
@@ -206,7 +217,7 @@
 		    <groupId>javax.servlet</groupId>
 		    <artifactId>jstl</artifactId>
 		    <version>1.2</version>
-		</dependency>
+		</dependency>-->
 		<!-- jsr303 validation dependencies-->
 		<dependency>
 		    <groupId>javax.validation</groupId>

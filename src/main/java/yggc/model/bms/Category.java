@@ -4,30 +4,69 @@ package yggc.model.bms;
 import java.util.Date;
 
 public class Category {
+	/*
+	 * 目录id
+	 * 
+	 * */
     private String id;
-
+    /*
+     * 目录名称
+     * 
+     * */
     private String name;
-
+    /*
+     * 状态（激活、休眠）
+     * 
+     * */
     private Integer status;
-
+    /*
+     * 层级（pid）
+     * 
+     * 
+     * */
     private String ancestry;
-
+    /*
+     * 创建时间
+     * 
+     * */
     private Date createdAt;
-
+    /*
+     * 更新时间
+     * 
+     * */
     private Date updatedAt;
-
+    /*
+     * 图片（附件上传）
+     * 
+     * 
+     * */
     private String attchment;
-
+    /*
+     * 描述
+     * 
+     * */
     private String description;
-
+    /*
+     * 是否为末级
+     * 
+     * */
     private String isEnd;
-
+    /*
+     * 前台展示优先级
+     * 
+     * */
     private Integer code;
-
+    /*
+     * 排序号
+     * 
+     * */
     private Integer orderNum;
-
+    /*
+     * 是否删除
+     * 
+     * */
     private Integer isDeleted;
-    
+
 	public Integer getIsDeleted() {
 		return isDeleted;
 	}

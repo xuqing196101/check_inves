@@ -20,7 +20,13 @@ import yggc.model.bms.ArticleFile;
 import yggc.model.bms.Category;
 import yggc.model.bms.CategoryTree;
 import yggc.service.bms.CategoryService;
-
+/**
+ * 
+* @Title:CategoryController
+* @Description: 采购目录管理控制类
+* @author zhangxuefeng
+* @date 
+ */
 @Controller
 @Scope("prototype")
 @RequestMapping("/category")
@@ -38,7 +44,7 @@ public class CategoryController {
 	/**
 	 * 
 	* @Title: selectAll
-	* @author zb
+	* @author zhangxuefeng
 	* @date 2016-7-18 下午4:27:01  
 	* @Description:根据父 id生成列表 
 	* @param @return
@@ -55,18 +61,15 @@ public class CategoryController {
 		List<Category> cateList=categoryService.listByParent(category.getId());
 		listCategory.put("cateList", cateList);
 		listCategory.put("id", category.getId());
-		
 		return gson.toJson(listCategory);
-		
 	}
 	/**
 	 * 
 	* @Title: getCategoryAll
-	* @author zb
+	* @author zhangxuefeng
 	* @date 2016-7-18 下午4:27:01  
 	* @Description:查询采购目的所有信息转换成json
-	* @param @return
-	* @param @throws Exception      
+	* @param @return  
 	* @return String
 	 */
 	@ResponseBody
@@ -97,7 +100,7 @@ public class CategoryController {
 	}
 	/**
 	 * 
-	 *从index.jsp跳转到Category.jsp
+	 *
 	 * 
 	 * */
 	@RequestMapping(value="/get")
@@ -108,11 +111,9 @@ public class CategoryController {
 	/**
 	 * 
 	* @Title: add
-	* @author 
-	* @date 
+	* @author zhangxuefeng
 	* @Description:创建新增页面
-	* @param @return
-	* @param @throws Exception      
+	* @param @return    
 	* @return String
      */  
     @RequestMapping(value = "/add")
@@ -125,7 +126,7 @@ public class CategoryController {
     /**
   	 * 
   	* @Title: 保存新增目录信息 
-  	* @author 
+  	* @author zhangxuefeng
   	* @date 
   	* @Description:
   	* @param @return
@@ -158,11 +159,9 @@ public class CategoryController {
     /**
 	 * 
 	* @Title: update
-	* @author 
-	* @date 
+	* @author zhangxuefeng
 	* @Description:创建修改页面
-	* @param @return
-	* @param @throws Exception      
+	* @param @return 
 	* @return String
      */  
    @RequestMapping(value="/update")
@@ -175,11 +174,9 @@ public class CategoryController {
    /**
   	 * 
   	* @Title: edit
-  	* @author 
-  	* @date 
+  	* @author zhangxuefeng
   	* @Description:修改目录休息
-  	* @param @return
-  	* @param @throws Exception      
+  	* @param @return 
   	* @return String
        */  
    @RequestMapping(value="/edit")
@@ -215,52 +212,49 @@ public class CategoryController {
    private File picattch;
    private String picattchFileName;
    private String picattchContentType;
-public List<File> getAttach() {
+   public List<File> getAttach() {
 	return attach;
 }
-public void setAttach(List<File> attach) {
+   public void setAttach(List<File> attach) {
 	this.attach = attach;
 }
-public List<String> getAttchFileName() {
+   public List<String> getAttchFileName() {
 	return attchFileName;
 }
-public void setAttchFileName(List<String> attchFileName) {
+   public void setAttchFileName(List<String> attchFileName) {
 	this.attchFileName = attchFileName;
-}
-public List<String> getAttchContentType() {
+   		}
+   public List<String> getAttchContentType() {
 	return attchContentType;
-}
-public void setAttchContentType(List<String> attchContentType) {
+   		}
+   public void setAttchContentType(List<String> attchContentType) {
 	this.attchContentType = attchContentType;
-}
-public File getPicattch() {
+   		}
+   public File getPicattch() {
 	return picattch;
-}
-public void setPicattch(File picattch) {
+   		}
+   public void setPicattch(File picattch) {
 	this.picattch = picattch;
-}
-public String getPicattchFileName() {
+   		}
+   public String getPicattchFileName() {
 	return picattchFileName;
-}
-public void setPicattchFileName(String picattchFileName) {
+   		}
+   public void setPicattchFileName(String picattchFileName) {
 	this.picattchFileName = picattchFileName;
-}
-public String getPicattchContentType() {
+   		}
+   public String getPicattchContentType() {
 	return picattchContentType;
-}
-public void setPicattchContentType(String picattchContentType) {
+   		}
+   public void setPicattchContentType(String picattchContentType) {
 	this.picattchContentType = picattchContentType;
-}
+   		}
 /**
  * 附件上传
 * @Title: upload
-* @author MRlovablee
-* @date 2016-5-30 上午10:12:28  
-* @Description: TODO 
+* @author zhangxuefeng
 * @param @param newsService
 * @param @return      
 * @return List<Attachment>
- * @throws Exception 
  */
    
    public List<ArticleFile> upload(HttpServletRequest request){
