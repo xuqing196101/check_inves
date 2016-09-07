@@ -9,7 +9,7 @@ public class SupplierFsInfo {
      * 表字段 : T_SES_SMS_SUPPLIER_FS_INFO.ID
      * </pre>
      */
-    private Long id;
+    private String id;
 
     /**
      * <pre>
@@ -169,7 +169,7 @@ public class SupplierFsInfo {
      * 表字段 : T_SES_SMS_SUPPLIER_FS_INFO.ORGMAN_ID
      * </pre>
      */
-    private Long orgmanId;
+    private String orgmanId;
 
     /**
      * <pre>
@@ -211,7 +211,7 @@ public class SupplierFsInfo {
      *
      * @return T_SES_SMS_SUPPLIER_FS_INFO.ID：主键
      */
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
@@ -224,7 +224,7 @@ public class SupplierFsInfo {
      * @param id
      *            T_SES_SMS_SUPPLIER_FS_INFO.ID：主键
      */
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -711,7 +711,7 @@ public class SupplierFsInfo {
      *
      * @return T_SES_SMS_SUPPLIER_FS_INFO.ORGMAN_ID：机构ID   T_SES_OMS_PROCUREMENT_DEP
      */
-    public Long getOrgmanId() {
+    public String getOrgmanId() {
         return orgmanId;
     }
 
@@ -724,7 +724,7 @@ public class SupplierFsInfo {
      * @param orgmanId
      *            T_SES_SMS_SUPPLIER_FS_INFO.ORGMAN_ID：机构ID   T_SES_OMS_PROCUREMENT_DEP
      */
-    public void setOrgmanId(Long orgmanId) {
+    public void setOrgmanId(String orgmanId) {
         this.orgmanId = orgmanId;
     }
 

@@ -649,4 +649,9 @@
 		UPDATED_AT = #{updatedAt}
 		where ID = #{id}
 	</update>
+	
+	<!--  -->
+	<select id="selectLastInsertId" resultType="java.lang.String">
+		select ID from T_SES_SMS_SUPPLIER_INFO t1 where t1.rowid = (select max(rowid) from T_SES_SMS_SUPPLIER_INFO t2)
+	</select>
 </mapper>

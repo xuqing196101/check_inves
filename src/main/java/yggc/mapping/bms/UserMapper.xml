@@ -209,7 +209,7 @@
     <include refid="Example_Where_Clause"/>
     ORDER BY CREATED_AT DESC
   </select>
-  <!-- 9.登陆查询 -->
+  <!-- 9.登录查询 -->
   <select id="loginQuery" resultMap="UserResultMap" parameterType="Object">
     select 
     <include refid="Base_Column_List" />
@@ -239,7 +239,7 @@
   </select>  
   <!-- 保存用户和角色之间的关系信息 -->  
   <insert id="saveRelativity" parameterType="Object">  
-      insert into T_SES_BMS_USERROLE("USER_ID","ROLE_ID")  
+      insert into T_SES_BMS_USERROLE("USER_ID","ROLE_ID")  	
       values(#{userId.id},#{roleId.id})  
   </insert>
   

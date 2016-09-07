@@ -16,7 +16,7 @@ import yggc.service.iss.fs.ParkService;
  * <p>Title:ParkServiceImpl </p>
  * <p>Description: 版块管理服务接口实现类</p>
  * <p>Company: yggc </p> 
- * @author：junjunjun1993
+ * @author：Peng Zhongjun
  * @date 2016-8-10下午6:32:05
  */
 @Service("parkService")

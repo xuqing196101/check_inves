@@ -25,8 +25,7 @@ import com.alibaba.fastjson.JSON;
 /**
 * <p>Title:UserManageController </p>
 * <p>Description:用户管理控制类 </p>
-* <p>Company: yggc </p> 
-* @author yyyml
+* @author Ye MaoLin
 * @date 2016-7-18上午9:36:56
 */
 @Controller
@@ -44,7 +43,7 @@ public class UserManageController{
 	
 	/**   
 	* @Title: getAll
-	* @author yyyml
+	* @author Ye MaoLin
 	* @date 2016-7-27 下午4:47:32  
 	* @Description: 获取用户列表 
 	* @param @param model
@@ -61,7 +60,7 @@ public class UserManageController{
 	
 	/**   
 	* @Title: add
-	* @author yyyml
+	* @author Ye MaoLin
 	* @date 2016-7-27 下午4:48:23  
 	* @Description: 跳转新增编辑页面
 	* @param @param request
@@ -76,7 +75,7 @@ public class UserManageController{
 	
 	/**   
 	* @Title: save
-	* @author yyyml
+	* @author Ye MaoLin
 	* @date 2016-7-27 下午4:48:41  
 	* @Description: 保存新增信息 
 	* @param @param request
@@ -105,12 +104,12 @@ public class UserManageController{
 			userrole.setUserId(user);
 			userService.saveRelativity(userrole);
 		}
-		return "redirect:getAll.do";
+		return "redirect:getAll.html";
 	}
 	
 	/**   
 	* @Title: edit
-	* @author yyyml
+	* @author Ye MaoLin
 	* @date 2016-7-27 下午4:49:49  
 	* @Description: 跳转修改编辑页面
 	* @param @param u
@@ -145,7 +144,7 @@ public class UserManageController{
 	
 	/**   
 	* @Title: update
-	* @author yyyml
+	* @author Ye MaoLin
 	* @date 2016-7-27 下午4:50:08  
 	* @Description: 更新修改信息
 	* @param @param request
@@ -179,12 +178,12 @@ public class UserManageController{
 			userService.saveRelativity(userrole);
 		}
 		
-		return "redirect:getAll.do";
+		return "redirect:getAll.html";
 	}
 	
 	/**   
 	* @Title: delete
-	* @author yyyml
+	* @author Ye MaoLin
 	* @date 2016-7-27 下午4:50:32  
 	* @Description: 批量删除用户信息，逻辑删除
 	* @param @param id
@@ -196,12 +195,12 @@ public class UserManageController{
 		for (String str : id) {
 			userService.deleteByLogic(str);
 		}
-		return "redirect:getAll.do";
+		return "redirect:getAll.html";
 	}
 	
 	/**   
 	* @Title: view
-	* @author yyyml
+	* @author Ye MaoLin
 	* @date 2016-7-27 下午4:50:50  
 	* @Description: 显示用户详细信息页面
 	* @param @param model

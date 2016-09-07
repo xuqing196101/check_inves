@@ -1,11 +1,9 @@
-
+﻿
 package yggc.controller.sys.bms.article;
 
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,22 +15,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.alibaba.fastjson.JSON;
 
-import com.alibaba.fastjson.JSON;
 
 import yggc.controller.sys.bms.LoginController;
 import yggc.model.bms.Article;
 import yggc.model.bms.User;
 import yggc.model.iss.ArticleType;
 import yggc.service.bms.ArticleService;
-import yggc.service.bms.UserServiceI;
 import yggc.service.iss.ArticleTypeService;
 
 
 /**
  * <p>Title:ArticleController </p>
  * <p>Description: 信息管理</p>
- * <p>Company: yggc </p> 
- * @author szf
+ * @author Shen Zhenfei
  * @date 2016-9-1上午9:48:48
  */
 @Controller
@@ -50,9 +45,9 @@ public class ArticleController {
 	
 	/**
 	* @Title: getAll
-	* @author szf
+	* @author Shen Zhenfei
 	* @date 2016-9-1 下午1:55:31  
-	* @Description: TODO 查询全部信息
+	* @Description: 查询全部信息
 	* @param @param model
 	* @param @return      
 	* @return String
@@ -67,9 +62,9 @@ public class ArticleController {
 
 	/**
 	* @Title: add
-	* @author szf
+	* @author Shen Zhenfei
 	* @date 2016-9-1 下午1:57:04  
-	* @Description: TODO 跳转新增页面
+	* @Description: 跳转新增页面
 	* @param @return      
 	* @return String
 	 */
@@ -82,9 +77,9 @@ public class ArticleController {
 	
 	/**
 	* @Title: save
-	* @author szf
+	* @author Shen Zhenfei
 	* @date 2016-9-1 下午2:00:40  
-	* @Description: TODO 保存
+	* @Description: 保存
 	* @param @return      
 	* @return String
 	 */
@@ -103,9 +98,9 @@ public class ArticleController {
 	
 	/**
 	* @Title: exit
-	* @author szf
+	* @author Shen Zhenfei
 	* @date 2016-9-1 下午2:01:32  
-	* @Description: TODO 跳转修改页面
+	* @Description: 跳转修改页面
 	* @param @return      
 	* @return String
 	 */
@@ -118,9 +113,9 @@ public class ArticleController {
 
 	/**
 	* @Title: update
-	* @author szf
+	* @author Shen Zhenfei
 	* @date 2016-9-1 下午2:05:08  
-	* @Description: TODO 修改
+	* @Description: 修改
 	* @param @return      
 	* @return String
 	 */
@@ -133,9 +128,9 @@ public class ArticleController {
 	
 	/**
 	* @Title: delete
-	* @author szf
+	* @author Shen Zhenfei
 	* @date 2016-9-2 上午10:52:42  
-	* @Description: TODO 假删除
+	* @Description: 假删除
 	* @param @param request
 	* @param @param id      
 	* @return void
@@ -151,9 +146,9 @@ public class ArticleController {
 	
 	/**
 	* @Title: view
-	* @author szf
+	* @author Shen Zhenfei
 	* @date 2016-9-5 下午1:18:50  
-	* @Description: TODO 查看信息
+	* @Description: 查看信息
 	* @param @param model
 	* @param @param id
 	* @param @return      
@@ -168,9 +163,9 @@ public class ArticleController {
 	
 	/**
 	* @Title: sublist
-	* @author szf
+	* @author Shen Zhenfei
 	* @date 2016-9-5 下午3:37:20  
-	* @Description: TODO 提交页面列表
+	* @Description: 提交页面列表
 	* @param @param model
 	* @param @return      
 	* @return String
@@ -185,9 +180,9 @@ public class ArticleController {
 	
 	/**
 	* @Title: sublist
-	* @author szf
+	* @author Shen Zhenfei
 	* @date 2016-9-5 下午3:37:46  
-	* @Description: TODO 
+	* @Description: 审核列表 
 	* @param @param model
 	* @param @return      
 	* @return String
@@ -202,9 +197,9 @@ public class ArticleController {
 	
 	/**
 	* @Title: sumbit
-	* @author szf
+	* @author Shen Zhenfei
 	* @date 2016-9-5 下午1:55:35  
-	* @Description: TODO 提交、审核、退回
+	* @Description: 提交、审核、退回
 	* @param @param request
 	* @param @param article
 	* @param @return      
@@ -214,32 +209,22 @@ public class ArticleController {
 	public String sumbit(HttpServletRequest request, String ids){
 		Article article = new Article();
 		article.setUpdatedAt(new Date());
-//		if(status==1){
-			//提交
+
 			String[] id=ids.split(",");
 			for (String str : id) {
 				article.setId(str);
 				article.setStatus(1);
 				articleService.update(article);
-			}
-//		}else if(status==2){
-//			//审核
-//			article.setStatus(status);
-//			articleService.update(article);
-//		}else if(status==3){
-//			//退回
-//			article.setStatus(status);
-//			articleService.update(article);
-//		}
+			}	
 		
 		return "redirect:getAll.do";
 	}
 	
 	/**
 	* @Title: auditInfo
-	* @author szf
+	* @author Shen Zhenfei
 	* @date 2016-9-5 下午4:26:14  
-	* @Description: TODO 查看审核信息
+	* @Description: 查看审核信息
 	* @param @param model
 	* @param @param id
 	* @param @return      
@@ -254,9 +239,9 @@ public class ArticleController {
 	
 	/**
 	* @Title: audit
-	* @author szf
+	* @author Shen Zhenfei
 	* @date 2016-9-5 下午4:59:59  
-	* @Description: TODO 信息审核
+	* @Description: 信息审核
 	* @param @param model
 	* @param @param id
 	* @param @param id
@@ -265,20 +250,16 @@ public class ArticleController {
 	 * @throws Exception 
 	 */
 	@RequestMapping("/audit")
-	public  String audit(HttpServletRequest request,String id,Article article) throws Exception{
+	public  String audit(String id,Article article) throws Exception{
 		
-		request.setCharacterEncoding("UTF-8");
-		
-		System.out.println("id:"+id);
-		String a = request.getParameter("reason");
-		System.out.println("dfdfdf dfd f fd :"+a);
-		System.out.println("iudhfjd:"+article.getId()+"考了几分好的尽快恢复的："+article.getReason());
-		
-//		if(article.getStatus()==2){
-//			articleService.update(article);
-//		}else if(article.getStatus()==3){
-//			articleService.update(article);
-//		}
+		if(article.getStatus()==2){
+			article.setReason("");
+			articleService.update(article);
+		}else if(article.getStatus()==3){
+			String reason = new String((article.getReason()).getBytes("ISO-8859-1") , "UTF-8");
+			article.setReason(reason);
+			articleService.update(article);
+		}
 		
 		return "redirect:getAll.do";
 	}

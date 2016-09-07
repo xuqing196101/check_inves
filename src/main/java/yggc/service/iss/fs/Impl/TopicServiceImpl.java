@@ -17,7 +17,7 @@ import yggc.service.iss.fs.TopicService;
  * <p>Title:TopicServiceImpl </p>
  * <p>Description:主题管理服务接口实现类 </p>
  * <p>Company: yggc </p> 
- * @author junjunjun1993
+ * @author Peng Zhongjun
  * @date 2016-8-10下午6:55:33
  */
 @Service("topicService")

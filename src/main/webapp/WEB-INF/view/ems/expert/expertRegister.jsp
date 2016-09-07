@@ -215,7 +215,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    function validataLoginName(){
 	   var loginName = $("input[name='loginName']").val();
 	   var patrn=/[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im;  
-	   var patrn2=/^(?=.*[a-z])[a-z0-9]+/ig;
+	   //var patrn2=/^(?=.*[a-z])[a-z0-9]+/ig;
 	   if(loginName.replace(/\s/g,"")==null || loginName.replace(/\s/g,"")==""){
 		   $("#spp").html("用户名不能为空").css('color','red');
 		   flag=1;
@@ -232,8 +232,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			flag=1;
 			return false;
 		}
-	   if(!patrn2.test(loginName)){  
-			$("#spp").html("不能是中文").css('color','red');
+	   if(/[\u4e00-\u9fa5]/.test(loginName)){  
+			$("#spp").html("不能有中文").css('color','red');
 			flag=1;
 			return false;
 		}

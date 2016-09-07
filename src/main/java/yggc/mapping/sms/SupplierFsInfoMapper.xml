@@ -53,7 +53,7 @@
     -->
     SUPPLY_LEVEL, SUPPLIER_REMARK
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
     <!--
     @mbggenerated
     -->
@@ -64,7 +64,46 @@
     from T_SES_SMS_SUPPLIER_FS_INFO
     where ID = #{id,jdbcType=DECIMAL}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <select id="selectByFsInfo" parameterType="yggc.model.sms.SupplierFsInfoWithBLOBs" resultMap="ResultMapWithBLOBs">
+    <!--
+    @mbggenerated
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from T_SES_SMS_SUPPLIER_FS_INFO
+    where 1=1
+    <if test="supplierName!=null">
+    	and SUPPLIER_NAME= #{supplierName,jdbcType=VARCHAR}
+    </if>
+    <if test="supplierTepe!=null">
+    	and SUPPLIER_TEPE= #{supplierTepe,jdbcType=VARCHAR}
+    </if>
+    <if test="status!=null">
+    	and status= #{status,jdbcType=DECIMAL}
+    </if>
+  </select>
+    <select id="getCount" parameterType="yggc.model.sms.SupplierFsInfoWithBLOBs" resultType="java.lang.Integer">
+    <!--
+    @mbggenerated
+    -->
+    select 
+	count(*)
+    from T_SES_SMS_SUPPLIER_FS_INFO
+    where 1=1
+    <if test="supplierName!=null">
+    	and SUPPLIER_NAME= #{supplierName,jdbcType=VARCHAR}
+    </if>
+    <if test="supplierTepe!=null">
+    	and SUPPLIER_TEPE= #{supplierTepe,jdbcType=VARCHAR}
+    </if>
+    <if test="status!=null">
+    	and status= #{stauts,jdbcType=DECIMAL}
+    </if>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     <!--
     @mbggenerated
     -->

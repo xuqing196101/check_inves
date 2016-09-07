@@ -17,7 +17,7 @@ import yggc.service.iss.fs.ReplyService;
  * <p>Title:ReplyServiceImpl </p>
  * <p>Description: 回复管理服务接口实现类</p>
  * <p>Company: yggc </p> 
- * @author junjunjun1993
+ * @author Peng Zhongjun
  * @date 2016-8-10下午6:48:51
  */
 @Service("replyService")

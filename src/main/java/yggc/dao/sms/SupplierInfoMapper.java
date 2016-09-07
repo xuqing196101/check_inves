@@ -76,4 +76,14 @@ public interface SupplierInfoMapper {
      * @return: int
      */
     int updateByPrimaryKey(SupplierInfo record);
+    
+    /**
+     * @Title: selectLastInsertId
+     * @author: Poppet_Brook
+     * @date: 2016-9-5 下午4:12:45
+     * @Description: 查询最后一条插入的数据的 ID
+     * @param: @return
+     * @return: int
+     */
+    String selectLastInsertId();
 }

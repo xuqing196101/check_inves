@@ -17,7 +17,7 @@ import yggc.service.iss.fs.PostService;
  * <p>Title:PostServiceImpl </p>
  * <p>Description: 帖子管理服务接口实现类</p>
  * <p>Company: yggc </p> 
- * @author junjunjun1993
+ * @author Peng Zhongjun
  * @date 2016-8-10下午6:45:22
  */
 @Service("postService")

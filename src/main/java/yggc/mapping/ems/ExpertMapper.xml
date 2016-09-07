@@ -33,7 +33,7 @@
     <result column="DEGREE" jdbcType="VARCHAR" property="degree" />
     <result column="AT_DUTY" jdbcType="VARCHAR" property="atDuty" />
     <result column="EXPERTS_TYPE_ID" jdbcType="VARCHAR" property="expertsTypeId" />
-    <result column="PURCHASE_DEP_ID" jdbcType="DECIMAL" property="purchaseDepId" />
+    <result column="PURCHASE_DEP_ID" jdbcType="VARCHAR" property="purchaseDepId" />
     <result column="STATUS" jdbcType="CHAR" property="status" />
     <result column="IS_BLACK" jdbcType="CHAR" property="isBlack" />
     <result column="HONESTY_SCORE" jdbcType="DECIMAL" property="honestyScore" />
@@ -54,7 +54,7 @@
   	<select id="selectAllExpert"  resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from T_SES_EMS_EXPERT
+    from T_SES_EMS_EXPERT ORDER BY CREATED_AT DESC
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 

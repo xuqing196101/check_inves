@@ -26,7 +26,7 @@ import yggc.util.DateUtil;
  * <p>Title:PostManageController </p>
  * <p>Description:帖子管理控制类  </p>
  * <p>Company: yggc </p> 
- * @author junjunjun1993
+ * @author Peng Zhongjun
  * @date 2016-8-10下午5:03:01
  */
 @Controller
@@ -43,7 +43,7 @@ public class PostManageController {
 	private TopicService topicService;	
 	/**   
 	* @Title: getList
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-10 下午19:47:32  
 	* @Description: 获取帖子列表跳转到后台界面
 	* @param @param model
@@ -54,11 +54,11 @@ public class PostManageController {
 	public String getList(Model model,Post post){
 		List<Post> list = postService.queryByList(post);
 		model.addAttribute("list", list);
-		return "forum/post/list";
+		return "iss/forum/post/list";
 	}	
 	/**   
 	* @Title: view
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-10 下午19:55:32  
 	* @Description: 显示评论详细信息页面
 	* @param @param model
@@ -69,12 +69,12 @@ public class PostManageController {
 	public String view(Model model,String id){
 		Post p = postService.selectByPrimaryKey(id);
 		model.addAttribute("post", p);
-		return "forum/post/view";
+		return "iss/forum/post/view";
 	}
 	
 	/**   
 	* @Title: add
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-10 下午19:58:43   
 	* @Description: 跳转新增编辑页面
 	* @param @param request
@@ -84,12 +84,12 @@ public class PostManageController {
 	public String add(Model model,HttpServletRequest request){
 		List<Park> parks = parkService.queryByList(null);
 		model.addAttribute("parks", parks);
-		return "forum/post/add";
+		return "iss/forum/post/add";
 	}
 
 	/**   
 	* @Title: save
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-10 下午20:03:41   
 	* @Description: 保存新增信息 
 	* @param @param request
@@ -104,7 +104,7 @@ public class PostManageController {
 	
 	/**   
 	* @Title: edit
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-10 下午20:03:41  
 	* @Description: 跳转修改编辑页面
 	* @param @param id
@@ -115,12 +115,12 @@ public class PostManageController {
 	public String edit(String id,Model model){
 		Post p = postService.selectByPrimaryKey(id);
 		model.addAttribute("post", p);
-		return "forum/post/edit";
+		return "iss/forum/post/edit";
 	}
 	
 	/**   
 	* @Title: update
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-10 下午20:03:41  
 	* @Description: 更新修改信息
 	* @param @param request
@@ -135,7 +135,7 @@ public class PostManageController {
 	
 	/**   
 	* @Title: delete
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-10 下午20:03:41 
 	* @Description: 删除版块信息
 	* @param @param id
@@ -148,7 +148,7 @@ public class PostManageController {
 	}
 	/**   
 	* @Title: getIndexList
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-10 下午19:47:32  
 	* @Description: 获取帖子列表跳转到前台界面
 	* @param @param model
@@ -160,11 +160,11 @@ public class PostManageController {
 		System.out.println(request.getParameter("parkId"));
 		List<Post> list = postService.selectListByParkID( request.getParameter("parkId"));
 		model.addAttribute("list", list);
-		return "forum/list";
+		return "iss/forum/list";
 	}
 	/**   
 	* @Title: getIndexDetail
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-30 下午19:47:32  
 	* @Description: 获取帖子列表跳转到前台界面
 	* @param @param model
@@ -179,11 +179,11 @@ public class PostManageController {
 		List<Reply> replies = replyService.selectByPostID(post.getId());
 		post.setReplies(replies);
 		model.addAttribute("post", post);
-		return "forum/detail";
+		return "iss/forum/detail";
 	}
 	/**   
 	* @Title: publish
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-31下午19:58:43   
 	* @Description: 跳转发布编辑页面
 	* @param @param request
@@ -195,11 +195,11 @@ public class PostManageController {
 
 		model.addAttribute("parks", parks);
 
-		return "forum/publishpost";
+		return "iss/forum/publishpost";
 	}
 	/**   
 	* @Title: indexsave
-	* @author junjunjun1993
+	* @author Peng Zhongjun
 	* @date 2016-8-31下午19:58:43   
 	* @Description: 获取帖子列表跳转到前台界面
 	* @param @param request
@@ -207,9 +207,10 @@ public class PostManageController {
 	*/
 	@RequestMapping("/indexsave")
 	public String indexsave(HttpServletRequest request,Post post){
-		post.setPublishedTime((Timestamp)new Date());
-		System.out.println(request.getParameter("parkId"));
-		System.out.println(request.getParameter("topicId"));
+		Timestamp ts = new Timestamp(new Date().getTime());
+		post.setPublishedTime(ts);
+/*		System.out.println(request.getParameter("parkId"));
+		System.out.println(request.getParameter("topicId"));*/
 		Park park= parkService.selectByPrimaryKey(request.getParameter("parkId"));
 		Topic topic =topicService.selectByPrimaryKey(request.getParameter("topicId"));
 		post.setPark(park);

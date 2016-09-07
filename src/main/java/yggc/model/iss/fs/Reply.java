@@ -7,7 +7,7 @@ import yggc.model.bms.User;
 * <p>Title:Reply </p>
 * <p>Description:用户实体类 </p>
 * <p>Company: yggc </p> 
-* @author junjunjun1993
+* @author Peng Zhongjun
 * @Timestamp 2016-8-3下午4:53:36
 */
 public class Reply {

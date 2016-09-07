@@ -1,12 +1,11 @@
 package yggc.model.bms;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 import yggc.model.iss.ArticleType;
 
-public class Article implements Serializable{
+public class Article{
 	private String id ;
 
     private String name;

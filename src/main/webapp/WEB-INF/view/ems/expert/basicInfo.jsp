@@ -150,6 +150,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				  return true;
 			  }
 	 }
+	 function validateFlag(){
+		 $("#hehe").val(1);
+	 }
+	 function validateFlag2(){
+		 $("#hehe").val(2);
+	 }
 </script>
 </head>
 <body>
@@ -253,6 +259,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		%>
 		 <input type="hidden"  name="token2" value="<%=tokenValue%>">
    <input type="hidden" name="id" value="${uuid }">
+   <input type="hidden" id="hehe" name="zancun">
    <div>
    <div class="headline-v2">
    <h2>评标专家信息</h2>
@@ -431,31 +438,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <li class="col-md-6  p0 ">
 	   <span class="">身份证：</span>
 	   <div >
-        <input class="span2" name="file" id="appendedInput" type="file" >
+        <input class="span2" name="files" id="appendedInput" type="file" >
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">学历证书：</span>
 	   <div >
-        <input class="span2" name="file" id="appendedInput" type="file">
+        <input class="span2" name="files" id="appendedInput" type="file">
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">职称证书：</span>
 	   <div >
-        <input class="span2" name="file" id="appendedInput" type="file">
+        <input class="span2" name="files" id="appendedInput" type="file">
        </div>
 	 </li>
 	  <li class="col-md-6  p0 ">
 	   <span class="">学位证书：</span>
 	   <div >
-        <input class="span2" name="file" id="appendedInput" type="file">
+        <input class="span2" name="files" id="appendedInput" type="file">
        </div>
 	  </li>
 	  <li class="col-md-6  p0 ">
 	   <span class="">本人照片：</span>
 	   <div >
-        <input class="span2" name="file" id="appendedInput" type="file">
+        <input class="span2" name="files" id="appendedInput" type="file">
        </div>
 	 </li>
    </ul>
@@ -463,11 +470,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <div  class="col-md-12">
    <div class="fl padding-10">
-   <input class="btn btn-windows save" type="submit" value="保存">
-    <!-- <button class="btn btn-windows add" type="submit">下一步</button> -->
 	<!-- <button class="btn btn-windows delete" type="submit">删除</button> -->
-	<button class="btn btn-windows save" type="button">暂存</button>
+    <!-- <button class="btn btn-windows add" type="submit">下一步</button> -->
+	<button class="btn btn-windows save" type="submit" onclick="validateFlag();">暂存</button>
+   <input class="btn btn-windows save" onclick="validateFlag2();" type="submit" value="下一步">
 	<button class="btn btn-windows reset" type="reset">重置</button>
+	<a class="btn btn-windows reset"  onclick="location.href='javascript:history.go(-1);'">返回</a>
 	</div>
   </div>
   </form>

@@ -84,9 +84,9 @@
 		  
 		  <!-- 5插入一条数据 -->
 		  <insert id="insertSelective" parameterType="yggc.model.iss.fs.Topic">
-		  		<selectKey resultType="int" order="BEFORE" keyProperty="id">
-		     		 select SEQ_T_TOPICS_ID.nextval as ID from dual
-		    	</selectKey>
+		    <selectKey keyProperty="id" resultType="String" order="BEFORE">
+		        select sys_guid() from dual
+		    </selectKey>
 		    insert into T_ISS_FS_TOPIC
 		    <trim prefix="(" suffix=")" suffixOverrides=",">
 		      <if test="id != null">

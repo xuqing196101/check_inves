@@ -1,5 +1,7 @@
 package yggc.controller.sys.ems;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -10,20 +12,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import yggc.model.ems.Expert;
 import yggc.service.ems.ExpertService;
 import yggc.util.Encrypt;
+import yggc.util.WfUtil;
 
 @Controller
 @RequestMapping("/expert")
@@ -147,19 +148,47 @@ public class ExpertController {
 	  * @Description: TODO 修改、填写个人信息
 	  * @param @return      
 	  * @return String
+	 * @throws IOException 
 	 */
 	@RequestMapping("/edit")
-	public String edit(Expert expert ,Model model,HttpSession session,@RequestParam String token2 ){
+	public String edit(@RequestParam("files")MultipartFile[] files,@RequestParam("zancun")String zancun,Expert expert ,Model model,HttpSession session,@RequestParam String token2 ,HttpServletRequest request,HttpServletResponse response) throws IOException{
 		Object tokenValue = session.getAttribute("tokenSession");
+		String id = expert.getId();
 		if (tokenValue != null && tokenValue.equals(token2)) {
 			// 正常提交
 			session.removeAttribute("tokenSession");
+			//判断file数组不能为空并且长度大于0 
+		if(files!=null && files.length>0){
+			 for(MultipartFile myfile : files){  
+		            if(myfile.isEmpty()){  
+		                System.out.println("文件未上传");  
+		            }else{  
+		                String filename = myfile.getOriginalFilename();
+		                String uuid = WfUtil.createUUID();
+		                //文件名处理
+		                filename=uuid+filename;
+		                //如果用的是Tomcat服务器，则文件会上传到\\%TOMCAT_HOME%\\webapps\\YourWebProject\\WEB-INF\\upload\\文件夹中  
+		                String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload");  
+		                //这里不必处理IO流关闭的问题，因为FileUtils.copyInputStreamToFile()方法内部会自动把用到的IO流关掉，我是看它的源码才知道的  
+		                FileUtils.copyInputStreamToFile(myfile.getInputStream(), new File(realPath, filename));  
+		            }  
+		        }  
+			}
 			//修改时间
 			expert.setUpdatedAt(new Date());
-		service.updateByPrimaryKeySelective(expert);
-		return "index";
+			service.updateByPrimaryKeySelective(expert);
+			model.addAttribute("uuid", id); 
+			//判断是暂存还是下一步
+		if(zancun!=null && zancun.equals("1")){
+			return "index";
+		}
+		return "ems/expert/expertType";
 		}else{
-		return "index";
+		model.addAttribute("uuid", id);
+		if(zancun!=null && zancun.equals("1")){
+			return "index";
+		}
+		return "ems/expert/expertType";
 		}
 	}
 	/**
@@ -194,4 +223,128 @@ public class ExpertController {
 		List<Expert> selectLoginNameList = service.selectLoginNameList(loginName);
 		return selectLoginNameList;
 	}
+	/**
+	 * 
+	  * @Title: expertType
+	  * @author ShaoYangYang
+	  * @date 2016年9月6日 上午11:35:26  
+	  * @Description: TODO 专家类型修改
+	  * @param @param uuid
+	  * @param @param expertsTypeId
+	  * @param @param model
+	  * @param @return      
+	  * @return String
+	 */
+	@RequestMapping("/expertType")
+	public String expertType(@RequestParam("uuid") String uuid,@RequestParam("expertsTypeId")String expertsTypeId,Model model){
+		Expert expert = service.selectByPrimaryKey(uuid);
+		if(expertsTypeId!=null && expertsTypeId.length()>0){
+		expert.setExpertsTypeId(expertsTypeId);
+		}
+		service.updateByPrimaryKeySelective(expert);
+		model.addAttribute("uuid", uuid);
+		//查询采购机构信息
+		return "ems/expert/caiGouJiGouList";
+	}
+	/**
+	 * 
+	  * @Title: expertType
+	  * @author ShaoYangYang
+	  * @date 2016年9月6日 上午11:35:26  
+	  * @Description: TODO 专家类型修改
+	  * @param @param uuid
+	  * @param @param expertsTypeId
+	  * @param @param model
+	  * @param @return      
+	  * @return String
+	 */
+	@RequestMapping("/expertJiGou")
+	public String expertJiGou(@RequestParam("uuid") String uuid,@RequestParam("purchaseDepId")String purchaseDepId,Model model){
+		Expert expert = service.selectByPrimaryKey(uuid);
+		if(purchaseDepId!=null && purchaseDepId.length()>0){
+		expert.setPurchaseDepId(purchaseDepId);
+		}
+		service.updateByPrimaryKeySelective(expert);
+		model.addAttribute("uuid", uuid);
+		//查询采购机构信息
+		return "ems/expert/caiGouJiGouList";
+	}
+	/**
+	 * 
+	  * @Title: addJiGou
+	  * @author ShaoYangYang
+	  * @date 2016年9月6日 下午4:28:48  
+	  * @Description: TODO 添加采购机构
+	  * @param @return      
+	  * @return String
+	 */
+	@RequestMapping("/addJiGou")
+	public String addJiGou(@RequestParam("uuid") String uuid,@RequestParam("flag") Integer flag,@RequestParam("check")String check,Model model){
+		Expert expert = service.selectByPrimaryKey(uuid);
+		//暂存
+		if(flag==1){
+			expert.setPurchaseDepId(check);
+			service.updateByPrimaryKeySelective(expert);
+			return "index";
+		}else{
+			//下一步
+			expert.setPurchaseDepId(check);
+			service.updateByPrimaryKeySelective(expert);
+			model.addAttribute("expert", expert);
+			return "ems/expert/expertShenQing";
+		}
+	}
+	/**
+	 * 
+	  * @Title: uploadExpertTable
+	  * @author ShaoYangYang
+	  * @date 2016年9月6日 下午5:07:12  
+	  * @Description: TODO 跳转到上传申请表页面
+	  * @param @param uuid
+	  * @param @param model
+	  * @param @return      
+	  * @return String
+	 */
+	 @RequestMapping("/toUploadExpertTable")
+	 public String uploadExpertTable(@RequestParam("id") String uuid,Model model){
+		 //采购机构信息？？
+		 
+		 model.addAttribute("uuid", uuid);
+		 
+		 return "ems/expert/uploadTable";
+	 }
+	 /**
+	  * 
+	   * @Title: upLoadExpertTable
+	   * @author ShaoYangYang
+	   * @date 2016年9月6日 下午5:17:45  
+	   * @Description: TODO 上传专家申请表和承诺书
+	   * @param @param id
+	   * @param @param files
+	   * @param @param request
+	   * @param @return
+	   * @param @throws IOException      
+	   * @return String
+	  */
+	 @RequestMapping("/upLoadExpertTable")
+	 public String upLoadExpertTable(@RequestParam("id") String id,@RequestParam("files") MultipartFile[] files,HttpServletRequest request) throws IOException{
+		 
+		 if(files!=null && files.length>0){
+			 for(MultipartFile myfile : files){  
+		            if(myfile.isEmpty()){  
+		                //System.out.println("文件未上传");  
+		            }else{  
+		                String filename = myfile.getOriginalFilename();
+		                String uuid = WfUtil.createUUID();
+		                //文件名处理
+		                filename=uuid+filename;
+		                //如果用的是Tomcat服务器，则文件会上传到\\%TOMCAT_HOME%\\webapps\\YourWebProject\\WEB-INF\\upload\\文件夹中  
+		                String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload");  
+		                //这里不必处理IO流关闭的问题，因为FileUtils.copyInputStreamToFile()方法内部会自动把用到的IO流关掉，我是看它的源码才知道的  
+		                FileUtils.copyInputStreamToFile(myfile.getInputStream(), new File(realPath, filename));  
+		            }  
+		        }  
+			}
+		 return "index";
+	 }
 }
