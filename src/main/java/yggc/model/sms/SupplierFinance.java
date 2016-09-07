@@ -7,7 +7,6 @@ import java.util.Date;
 /**
  * @Title: SupplierFinance
  * @Description: 供应商财务表
- * @Company: yggc
  * @author: Poppet_Brook
  * @date: 2016-9-1下午3:31:31
  */
@@ -36,7 +35,7 @@ public class SupplierFinance implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER_FINANCE.YEAR
 	 * </pre>
 	 */
-	private Short year;
+	private Date year;
 
 	/**
 	 * <pre>
@@ -80,6 +79,7 @@ public class SupplierFinance implements Serializable {
 
 	/**
 	 * <pre>
+	 * 净资产总额
 	 * 表字段 : T_SES_SMS_SUPPLIER_FINANCE.TOTAL_NET_ASSETS
 	 * </pre>
 	 */
@@ -156,6 +156,13 @@ public class SupplierFinance implements Serializable {
 	 * </pre>
 	 */
 	private Date updatedAt;
+	
+	/**
+	 * <pre>
+	 * 供应商信息
+	 * </pre>
+	 */
+	private SupplierInfo supplierInfo;
 
 	public String getId() {
 		return id;
@@ -173,11 +180,11 @@ public class SupplierFinance implements Serializable {
 		this.name = name;
 	}
 
-	public Short getYear() {
+	public Date getYear() {
 		return year;
 	}
 
-	public void setYear(Short year) {
+	public void setYear(Date year) {
 		this.year = year;
 	}
 
@@ -301,4 +308,11 @@ public class SupplierFinance implements Serializable {
 		this.updatedAt = updatedAt;
 	}
 
+	public SupplierInfo getSupplierInfo() {
+		return supplierInfo;
+	}
+
+	public void setSupplierInfo(SupplierInfo supplierInfo) {
+		this.supplierInfo = supplierInfo;
+	}
 }

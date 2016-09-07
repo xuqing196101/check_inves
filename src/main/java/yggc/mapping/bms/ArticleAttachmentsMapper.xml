@@ -18,6 +18,7 @@
     UPDATED_AT,IS_DELETED
   </sql>
   
+  <!-- 根据id查询 -->
   <select id="selectByPrimaryKey" parameterType="Object" resultMap="ArticleAttachMap">
     select 
     <include refid="ArticleAttach_Column_List" />
@@ -25,10 +26,13 @@
     where ID = #{id}
   </select>
   
+  <!-- 根据id删除 -->
   <delete id="deleteByPrimaryKey" parameterType="Object">
     delete from T_SES_BMS_ARTICLE_ATTACHMENT
     where ID = #{id}
   </delete>
+  
+  <!-- 新增信息附件 -->
   <insert id="insert" parameterType="yggc.model.bms.ArticleAttachments">
     insert into T_SES_BMS_ARTICLE_ATTACHMENT (ID, FILE_NAME, CONTENT_TYPE, 
       FILE_SIZE, ARTICLE_ID, ATTACHMENT_PATH, 
@@ -37,6 +41,8 @@
       #{fileSize,jdbcType=FLOAT}, #{article.id,jdbcType=VARCHAR}, #{attachmentPath,jdbcType=VARCHAR}, 
       #{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE},#{isDeleted,jdbcType=DECIMAL})
   </insert>
+  
+  <!-- 根据条件新增信息附件 -->
   <insert id="insertSelective" parameterType="yggc.model.bms.ArticleAttachments">
   	<selectKey keyProperty="id" resultType="String" order="BEFORE">
         select sys_guid() from dual
@@ -101,6 +107,8 @@
       </if>
     </trim>
   </insert>
+  
+  <!-- 根据条件修改信息附件 -->
   <update id="updateByPrimaryKeySelective" parameterType="yggc.model.bms.ArticleAttachments">
     update T_SES_BMS_ARTICLE_ATTACHMENT
     <set>
@@ -131,6 +139,8 @@
     </set>
     where ID = #{id}
   </update>
+  
+  <!-- 根据id修改 -->
   <update id="updateByPrimaryKey" parameterType="yggc.model.bms.ArticleAttachments">
     update T_SES_BMS_ARTICLE_ATTACHMENT
     set FILE_NAME = #{fileName},

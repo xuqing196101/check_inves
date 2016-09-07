@@ -434,6 +434,9 @@
 				#{updatedAt},
 			</if>
 		</trim>
+		<selectKey  keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			select sys_guid() from dual
+		</selectKey>
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="yggc.model.sms.SupplierInfo">
 		update T_SES_SMS_SUPPLIER_INFO

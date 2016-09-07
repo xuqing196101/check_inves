@@ -37,6 +37,8 @@
   <sql id="IndexNewsBlob_Column_List">
     CONTENT
   </sql>
+  
+  <!-- 查询首页所有信息 -->
   <select id="selectNewsByArticleTypeId" resultMap="IndexNewsMapper" parameterType="Object">
   	select 
   	<include refid="IndexNews_Column_List"/>

@@ -1,11 +1,14 @@
 package yggc.util;
 
-import java.io.IOException;
-import java.util.Properties;
-
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 
+/*
+ *@Title:SolrContext
+ *@Description:solr工具类
+ *@author QuJie
+ *@date 2016-9-7下午6:32:28
+ */
 public class SolrContext {
 	private static SolrClient server=null;
 	static{

@@ -3,15 +3,37 @@ package yggc.model.iss;
 import java.io.Serializable;
 import java.util.Date;
 
+/*
+ *@Title:ArticleType
+ *@Description:文章类型实体类
+ *@author QuJie
+ *@date 2016-9-7下午6:24:23
+ */
 public class ArticleType implements Serializable{
+	
+	/**
+     * @Fields id : 主键
+     */
     private String id;
-
+    
+    /**
+     * @Fields name : 栏目名称
+     */
     private String name;
-
+    
+    /**
+     * @Fields createdAt : 创建时间
+     */
     private Date createdAt;
-
+    
+    /**
+     * @Fields updatedAt : 修改时间
+     */
     private Date updatedAt;
     
+    /**
+     * @Fields isDeleted : 是否删除
+     */
     private Integer isDeleted;
     
     public String getId() {
