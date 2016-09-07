@@ -71,12 +71,12 @@ import yggc.model.bms.Category;
 	* @param @param id
 	* @return void
 	 */
-	public void updateByPrimaryKey(String id);
+	public void updateNameById(String id);
 	/**
 	 * 
 	* @Title: deleteByPrimaryKey
 	* @author zhangxuefeng 
-	* @Description: 根据节点id修改目录名称
+	* @Description: 根据节点id删除
 	* @param @param id
 	* @return int
 	 */
