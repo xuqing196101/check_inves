@@ -404,6 +404,9 @@
 
 .ml180 {
   margin-left: 180px; }
+  
+.ml160 {
+  margin-left: 160px; }
 
 .ml185 {
   margin-left: 185px; }
@@ -693,4 +696,8 @@ th.bg_tc {
 }
 .bround14{
   border-radius:14px!important;
+}
+
+.toinline{
+  display:inline-block !important;
 }

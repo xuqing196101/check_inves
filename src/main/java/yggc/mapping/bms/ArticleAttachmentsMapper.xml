@@ -6,15 +6,11 @@
     <result column="FILE_NAME" property="fileName" />
     <result column="CONTENT_TYPE" property="contentType" />
     <result column="FILE_SIZE" property="fileSize" />
-    <result column="ARTICLE_ID" property="articleId" />
     <result column="ATTACHMENT_PATH" property="attachmentPath" />
     <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="IS_DELETED" property="isDeleted"/>
-    <association property="article" javaType="yggc.model.bms.Article">
-    	<id column="ID" property="id"/>
-    	<result column="NAME" property="name"/>
-    </association>
+    <association property="article" column="ARTICLE_ID" select="yggc.dao.bms.ArticleMapper.selectById"/>
   </resultMap>
   
   <sql id="ArticleAttach_Column_List">
@@ -25,27 +21,27 @@
   <select id="selectByPrimaryKey" parameterType="Object" resultMap="ArticleAttachMap">
     select 
     <include refid="ArticleAttach_Column_List" />
-    from T_SES_BMS_ARTICLE_ATTACHMENTS
+    from T_SES_BMS_ARTICLE_ATTACHMENT
     where ID = #{id}
   </select>
   
   <delete id="deleteByPrimaryKey" parameterType="Object">
-    delete from T_SES_BMS_ARTICLE_ATTACHMENTS
+    delete from T_SES_BMS_ARTICLE_ATTACHMENT
     where ID = #{id}
   </delete>
   <insert id="insert" parameterType="yggc.model.bms.ArticleAttachments">
-    insert into T_SES_BMS_ARTICLE_ATTACHMENTS (ID, FILE_NAME, CONTENT_TYPE, 
+    insert into T_SES_BMS_ARTICLE_ATTACHMENT (ID, FILE_NAME, CONTENT_TYPE, 
       FILE_SIZE, ARTICLE_ID, ATTACHMENT_PATH, 
       CREATED_AT, UPDATED_AT,IS_DELETED)
     values (#{id,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, #{contentType,jdbcType=VARCHAR}, 
-      #{fileSize,jdbcType=DECIMAL}, #{article.id,jdbcType=VARCHAR}, #{attachmentPath,jdbcType=VARCHAR}, 
+      #{fileSize,jdbcType=FLOAT}, #{article.id,jdbcType=VARCHAR}, #{attachmentPath,jdbcType=VARCHAR}, 
       #{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE},#{isDeleted,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="yggc.model.bms.ArticleAttachments">
   	<selectKey keyProperty="id" resultType="String" order="BEFORE">
         select sys_guid() from dual
     </selectKey>
-    insert into T_SES_BMS_ARTICLE_ATTACHMENTS
+    insert into T_SES_BMS_ARTICLE_ATTACHMENT
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         ID,
@@ -59,7 +55,7 @@
       <if test="fileSize != null">
         FILE_SIZE,
       </if>
-      <if test="articleId != null">
+      <if test="article != null">
         ARTICLE_ID,
       </if>
       <if test="attachmentPath != null">
@@ -88,8 +84,8 @@
       <if test="fileSize != null">
         #{fileSize},
       </if>
-      <if test="articleId != null">
-        #{articleId},
+      <if test="article != null">
+        #{article.id},
       </if>
       <if test="attachmentPath != null">
         #{attachmentPath},
@@ -106,7 +102,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="yggc.model.bms.ArticleAttachments">
-    update T_SES_BMS_ARTICLE_ATTACHMENTS
+    update T_SES_BMS_ARTICLE_ATTACHMENT
     <set>
       <if test="fileName != null">
         FILE_NAME = #{fileName},
@@ -117,8 +113,8 @@
       <if test="fileSize != null">
         FILE_SIZE = #{fileSize},
       </if>
-      <if test="articleId != null">
-        ARTICLE_ID = #{articleId},
+      <if test="article != null">
+        ARTICLE_ID = #{article.id},
       </if>
       <if test="attachmentPath != null">
         ATTACHMENT_PATH = #{attachmentPath},
@@ -136,11 +132,11 @@
     where ID = #{id}
   </update>
   <update id="updateByPrimaryKey" parameterType="yggc.model.bms.ArticleAttachments">
-    update T_SES_BMS_ARTICLE_ATTACHMENTS
+    update T_SES_BMS_ARTICLE_ATTACHMENT
     set FILE_NAME = #{fileName},
       CONTENT_TYPE = #{contentType},
       FILE_SIZE = #{fileSize},
-      ARTICLE_ID = #{articleId},
+      ARTICLE_ID = #{article.id},
       ATTACHMENT_PATH = #{attachmentPath},
       CREATED_AT = #{createdAt},
       UPDATED_AT = #{updatedAt},

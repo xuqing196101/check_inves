@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -41,6 +43,9 @@ public class IndexNewsController {
 	
 	@Autowired
 	private ArticleService articleService;
+	
+	@Autowired
+	private SolrNewsService solrNewsService;
 	
 	/**
 	 * 
@@ -108,5 +113,26 @@ public class IndexNewsController {
 		Article articleDetail = articleService.selectArticleById(article.getId());
 		model.addAttribute("articleDetail", articleDetail);
 		return "index/index_details";
+	}
+	
+	/**
+	 * 
+	* @Title: solrSearch
+	* @author Mrlovablee 
+	* @date 2016-9-6 上午9:56:32  
+	* @Description: 全文索引查询 
+	* @param @param model
+	* @param @param request
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
+	@RequestMapping("/solrSearch")
+	public String solrSearch(Model model,HttpServletRequest request) throws Exception{
+		String condition = request.getParameter("condition");
+		Map<String, Object> map = solrNewsService.findByIndex(condition);
+		model.addAttribute("solrMap",map);
+		model.addAttribute("oldCondition", condition);
+		return "index/index_solr";
 	}
 }

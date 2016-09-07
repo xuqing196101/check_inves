@@ -12,6 +12,14 @@ import java.util.Date;
   * @author ShaoYangYang
   * @date 2016年9月6日下午3:25:51
  */
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Pattern.Flag;
+import javax.validation.constraints.Size;
+
+
+
+
 public class Expert {
 	/**主键*/
     private String id;

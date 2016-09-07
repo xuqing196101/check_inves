@@ -140,7 +140,6 @@
 							<li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="s_news f18">详细信息</a></li>
 							<li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="fujian f18">财务信息</a></li>
 						</ul>
-						<form action="">
 							<div class="tab-content padding-top-20 h1030">
 								<div class="tab-pane fade active in height-450" id="tab-1">
 									<div class=" margin-bottom-0">
@@ -295,7 +294,9 @@
 									</ul>
 									</div>
 											<div class="mt40 tc mb50">
-											<button class="btn padding-left-20 padding-right-20 btn_back margin-5"   type="button" onclick="location='${pageContext.request.contextPath}/supplierFsInfo/registerStep6.html'">下一步</button>
+											<button class="btn padding-left-20 padding-right-20 btn_back margin-5"   type="button" onclick="location='${pageContext.request.contextPath}/supplierFsInfo/registerStep5.html'">上一步</button>
+											<button class="btn padding-left-20 padding-right-20 btn_back margin-5"   type="button" onclick="window.print()">打印</button>
+											<button class="btn padding-left-20 padding-right-20 btn_back margin-5"   type="button" onclick="location='${pageContext.request.contextPath}/supplierFsInfo/registerStep6.html?id=${id }'">下一步</button>
 											</div>
 								</div>
 								<div class="tab-pane fade height-450" id="tab-2">
@@ -303,11 +304,9 @@
 									</div>
 								</div>
 							</div>
-						</form>
 					</div>
 				</div>
 			</div>
-		</div>
 	</div>
 	<!--底部代码开始-->
 	<div class="footer-v2" id="footer-v2">
@@ -318,7 +317,6 @@
 			<address class="">Copyright &#38;#169 2016 版权所有：中央军委后勤保障部 京ICP备09055519号</address>
 			<div class="">浏览本网主页，建议将电脑显示屏的分辨率调为1024*768</div>
 			<!-- End Address -->
-
 			<!--/footer-->
 		</div>
 	</div>

@@ -8,6 +8,7 @@
     <result column="IS_PIC_SHOW" property="isPicShow" />
     <result column="POSITION" property="position" />
     <result column="SHOW_COUNT" property="showCount" />
+    <result column="DOWNLOAD_COUNT" property="downloadCount"/>
     <result column="STATUS" property="status" />
     <result column="PIC" property="pic" />
     <result column="PUBLISHED_NAME" property="publishedName" />
@@ -24,18 +25,15 @@
   </resultMap> 
   
   <resultMap extends="ArticleMapper" id="ArticleBlob" type="yggc.model.bms.Article">
-    <result column="CONTENT" jdbcType="CLOB" property="content" />
+    <result column="CONTENT" jdbcType="CLOB" property="content"/>
   </resultMap>
   
   <resultMap extends="ArticleBlob" type="yggc.model.bms.Article" id="ArticleWithAttach">
-  	<collection property="articleAttachments" ofType="yggc.model.bms.ArticleAttachments">
-  		<id column="ID" property="id"/>
-  		<id column="FILE_NAME" property="fileName"/>
-  	</collection>
+  	<collection property="articleAttachments" ofType="yggc.model.bms.ArticleAttachments" resultMap="yggc.dao.bms.ArticleAttachmentsMapper.ArticleAttachMap"/>
   </resultMap>
   
   <sql id="Article_Column_List">
-    ID, NAME, ARTICLE_TYPE_ID, PUBLISHED_AT, IS_PIC_SHOW, POSITION, USER_ID, SHOW_COUNT, 
+    ID, NAME, ARTICLE_TYPE_ID, PUBLISHED_AT, IS_PIC_SHOW, POSITION, USER_ID, SHOW_COUNT, DOWNLOAD_COUNT,
     STATUS, PIC, PUBLISHED_NAME, IS_INDEX, TYPE, PROJECT_ID, CREATED_AT, UPDATED_AT,RANGE,IS_DELETED,REASON
   </sql>
   
@@ -44,7 +42,7 @@
   </sql>
   
   <!-- 根据ID查询 -->
-  <select id="selectById" parameterType="Object" resultMap="ArticleBlob">
+  <select id="selectById" parameterType="Object" resultMap="ArticleWithAttach">
     select 
     <include refid="Article_Column_List" />
     ,
@@ -54,7 +52,7 @@
   </select>
   
   <!-- 查询全部 -->
-  <select id="selectAllArticle" resultMap="ArticleBlob">
+  <select id="selectAllArticle" resultMap="ArticleWithAttach">
   	select
   	<include refid="Article_Column_List"/>
   	,
@@ -64,6 +62,31 @@
     order by UPDATED_AT DESC
   </select>
   
+  <!-- 查询附件 -->
+  <select id="selectByFile" resultMap="ArticleWithAttach">
+  	select 
+    <include refid="Article_Column_List" />
+    ,
+    <include refid="Article_BlOB_Column_List" />
+    from T_SES_BMS_ARTICLE
+    where ID = #{id}
+  </select>
+  
+  <!-- 根据条件查询列表 -->
+  <select id="selectArticleByStatus" resultMap="ArticleBlob">
+  	select
+  	<include refid="Article_Column_List"/>
+  	,
+    <include refid="Article_BlOB_Column_List" />
+    from T_SES_BMS_ARTICLE
+    where IS_DELETED = 0
+	  	<if test="status != null">
+	  	  AND STATUS = #{status}
+	  	</if>
+    order by UPDATED_AT DESC
+  </select>
+  
+  <!-- 查询所有位索引的信息 -->
   <select id="selectByIsIndex" resultMap="ArticleBlob">
   	select
   	<include refid="Article_Column_List"/>
@@ -74,32 +97,30 @@
     and IS_INDEX = 0
   </select>
   
+  <!-- 校验信息标题-->
+  <select id="checkName" parameterType="Object" resultMap="ArticleMapper">
+  	select NAME
+  	where NAME = #{name}
+	  	<if test="id != null">
+	  	  AND ID = #{id}
+	  	</if>
+  </select>
+  
+  
   <!-- 根据ID删除 -->
   <delete id="deleteByPrimaryKey" parameterType="Object">
     delete from T_SES_BMS_ARTICLE
     where ID = #{id}
   </delete>
   
+  <!-- 假删除 -->
   <update id="Isdelete"  parameterType="Object">
   	update T_SES_BMS_ARTICLE
   	set IS_DELETED = 1
   	where ID = #{id}
   </update>
   
-  <insert id="insert" parameterType="yggc.model.bms.Article">
-    insert into T_SES_BMS_ARTICLE (ID, NAME, ARTICLE_TYPE_ID, 
-      PUBLISHED_AT, IS_PIC_SHOW, POSITION, 
-      USER_ID, SHOW_COUNT, STATUS, 
-      PIC, PUBLISHED_NAME, IS_INDEX, 
-      TYPE, PROJECT_ID, CREATED_AT, 
-      UPDATED_AT, CONTENT,RANGE,IS_DELETED)
-    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{articleType.id,jdbcType=VARCHAR}, 
-      #{publishedAt,jdbcType=DATE}, #{isPicShow,jdbcType=DECIMAL}, #{position,jdbcType=DECIMAL}, 
-      #{user.id,jdbcType=VARCHAR}, #{showCount,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}, 
-      #{pic,jdbcType=VARCHAR}, #{publishedName,jdbcType=VARCHAR}, #{isIndex,jdbcType=DECIMAL}, 
-      #{type,jdbcType=CHAR}, #{projectId,jdbcType=DECIMAL}, #{createdAt,jdbcType=DATE}, 
-      #{updatedAt,jdbcType=DATE}, #{content,jdbcType=CLOB},#{range,jdbcType=DECIMAL},#{isDeleted,jdbcType=DECIMAL})
-  </insert>
+  <!-- 新增信息 -->
   <insert id="insertSelective" parameterType="yggc.model.bms.Article">
  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
         select sys_guid() from dual
@@ -129,6 +150,9 @@
       </if>
       <if test="showCount != null">
         SHOW_COUNT,
+      </if>
+      <if test="downloadCount != null">
+        DOWNLOAD_COUNT,
       </if>
       <if test="status != null">
         STATUS,
@@ -191,6 +215,9 @@
       </if>
       <if test="showCount != null">
         #{showCount},
+      </if>
+      <if test="downloadCount != null">
+        #{downloadCount},
       </if>
       <if test="status != null">
         #{status},
@@ -256,6 +283,9 @@
       <if test="showCount != null">
         SHOW_COUNT = #{showCount},
       </if>
+      <if test="downloadCount != null">
+        DOWNLOAD_COUNT = #{downloadCount},
+      </if>
       <if test="status != null">
         STATUS = #{status},
       </if>
@@ -294,49 +324,6 @@
       </if>
     </set>
     where ID = #{id}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="yggc.model.bms.Article">
-    update T_SES_BMS_ARTICLE
-    set NAME = #{name,jdbcType=VARCHAR},
-      ARTICLE_TYPE_ID = #{articleType.id,jdbcType=VARCHAR},
-      PUBLISHED_AT = #{publishedAt,jdbcType=DATE},
-      IS_PIC_SHOW = #{isPicShow,jdbcType=DECIMAL},
-      POSITION = #{position,jdbcType=DECIMAL},
-      USER_ID = #{user.id,jdbcType=VARCHAR},
-      SHOW_COUNT = #{showCount,jdbcType=DECIMAL},
-      STATUS = #{status,jdbcType=DECIMAL},
-      PIC = #{pic,jdbcType=VARCHAR},
-      PUBLISHED_NAME = #{publishedName,jdbcType=VARCHAR},
-      IS_INDEX = #{isIndex,jdbcType=DECIMAL},
-      TYPE = #{type,jdbcType=CHAR},
-      PROJECT_ID = #{projectId,jdbcType=DECIMAL},
-      CREATED_AT = #{createdAt,jdbcType=DATE},
-      UPDATED_AT = #{updatedAt,jdbcType=DATE},
-      CONTENT = #{content,jdbcType=CLOB},
-      RANGE = #{range,jdbcType=DECIMAL},
-      IS_DELETED = #{isDeleted,jdbcType=DECIMAL}
-    where ID = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="yggc.model.bms.Article">
-    update T_SES_BMS_ARTICLE
-    set NAME = #{name,jdbcType=VARCHAR},
-      ARTICLE_TYPE_ID = #{articleType.id,jdbcType=VARCHAR},
-      PUBLISHED_AT = #{publishedAt,jdbcType=DATE},
-      IS_PIC_SHOW = #{isPicShow,jdbcType=DECIMAL},
-      POSITION = #{position,jdbcType=DECIMAL},
-      USER_ID = #{user.id,jdbcType=VARCHAR},
-      SHOW_COUNT = #{showCount,jdbcType=DECIMAL},
-      STATUS = #{status,jdbcType=DECIMAL},
-      PIC = #{pic,jdbcType=VARCHAR},
-      PUBLISHED_NAME = #{publishedName,jdbcType=VARCHAR},
-      IS_INDEX = #{isIndex,jdbcType=DECIMAL},
-      TYPE = #{type,jdbcType=CHAR},
-      PROJECT_ID = #{projectId,jdbcType=DECIMAL},
-      CREATED_AT = #{createdAt,jdbcType=DATE},
-      UPDATED_AT = #{updatedAt,jdbcType=DATE},
-      RANGE = #{range,jdbcType=DECIMAL},
-      IS_DELETED = #{isDeleted,jdbcType=DECIMAL}
-    where ID = #{id,jdbcType=VARCHAR}
   </update>
   
 </mapper>

@@ -13,6 +13,7 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import yggc.model.bms.Article;
 import yggc.model.iss.IndexEntity;
@@ -20,6 +21,7 @@ import yggc.service.bms.ArticleService;
 import yggc.service.iss.SolrNewsService;
 import yggc.util.SolrContext;
 
+@Service(value="solrNewsService")
 public class SolrNewsServiceImpl implements SolrNewsService {
 	
 	@Autowired
@@ -137,7 +139,7 @@ public class SolrNewsServiceImpl implements SolrNewsService {
 				e.printStackTrace();
 			}
 			map.put("indexList", indexList);
-//			map.put("tdsTotal", (int)(sdl.getNumFound()));
+			map.put("tdsTotal", (int)(sdl.getNumFound()));
 		}  catch (SolrServerException e) {
 			e.printStackTrace();
 		} 

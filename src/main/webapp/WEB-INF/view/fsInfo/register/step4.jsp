@@ -113,6 +113,7 @@
 				<!--/end container-->
 			</div>
 		</div>	
+		<form action="${pageContext.request.contextPath}/supplierFsInfo/registerStep5.html?id=${id }" method="post">
 		<div class="container clear margin-top-30">
 		  	<h2 class="padding-20 mt40">
 				<span class="new_step current fl ml170"><i class="">1</i>
@@ -125,7 +126,7 @@
 		    <h2 class="f16 jbxx">
 				可选择的采购机构
 			</h2>
-			 <input type="hidden" id="orgmanId" name="orgmanId" />
+			 <input type="hidden" id="orgmanId" name="orgmanId" value="${orgmanId }" />
 			<table id="tb1"  class="table table-bordered table-condensed">
 				<tr>
 					<td>选择</td>
@@ -173,11 +174,11 @@
 		               友情提示：请供应商记录好初审采购机构的相关信息，以便进行及时沟通
 		    </h6>
 		    <div class="tc mt20 clear col-md-11">
-				<button class="btn btn-windows git"   type="button" onclick="supplierRegist('reg_box_id', 5, 'pre')">上一步</button>
-				<button class="btn btn-windows git"   type="button" onclick="location='${pageContext.request.contextPath}/supplierFsInfo/registerStep5.html'">下一步</button>
+				<button class="btn btn-windows git"   type="button" onclick="location='${pageContext.request.contextPath}/supplierFsInfo/registerStep4.html'">下一步</button>
+				<input class="btn btn-widows git" type="submit" value="下一步" />
 			</div>
 		</div>
-
+		</form>
 		<!--底部代码开始-->
 		<div class="footer-v2 clear " id="footer-v2">
 			<div class="footer">

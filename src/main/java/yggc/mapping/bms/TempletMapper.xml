@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="yggc.dao.bms.TempletMapper">
+  <resultMap id="TempletResultMap" type="yggc.model.bms.Templet">
+    <id column="ID" property="id" />
+    <result column="TEM_TYPE" property="temType" />
+    <result column="NAME" property="name" />
+    <result column="CREATED_AT" property="createdAt" />
+    <result column="UPDATED_AT"  property="updatedAt" />
+    <result column="IS_DELETED" property="isDeleted" />
+  </resultMap>
+  <resultMap extends="TempletResultMap" id="ResultMapWithBLOBs" type="yggc.model.bms.Templet">
+    <result column="CONTENT" jdbcType="CLOB" property="content" />
+  </resultMap>
+  <!-- 表中所有列 -->
+  <sql id="Base_Column_List">
+    ID, TEM_TYPE, NAME, CREATED_AT, UPDATED_AT, IS_DELETED
+  </sql>
+  <sql id="Blob_Column_List">
+    CONTENT
+  </sql>
+  
+  
+ <!-- 1.新增记录 -->
+  <insert id="insertSelective" parameterType="yggc.model.bms.Templet">
+  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_SES_BMS_TEMPLET
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="temType != null">
+        TEM_TYPE,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+      <if test="content != null">
+        CONTENT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="temType != null">
+        #{temType},
+      </if>
+      <if test="name != null">
+        #{name},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted},
+      </if>
+      <if test="content != null">
+        #{content},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 2.只修改不为空的字段 -->
+  <update id="updateByPrimaryKeySelective" parameterType="yggc.model.bms.Templet">
+    update T_SES_BMS_TEMPLET
+    <set>
+      <if test="temType != null">
+        TEM_TYPE = #{temType,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="content != null">
+        CONTENT = #{content,jdbcType=CLOB},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="yggc.model.bms.Templet">
+    update T_SES_BMS_TEMPLET
+    set TEM_TYPE = #{temType,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      CREATED_AT = #{createdAt,jdbcType=DATE},
+      UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      CONTENT = #{content,jdbcType=CLOB}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="yggc.model.bms.Templet">
+    update T_SES_BMS_TEMPLET
+    set TEM_TYPE = #{temType,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      CREATED_AT = #{createdAt,jdbcType=DATE},
+      UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      IS_DELETED = #{isDeleted,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+   <!-- 4.根据id进行删除 -->
+  <delete id="deleteByPrimaryKey" parameterType="Object">
+    delete from T_SES_BMS_TEMPLET
+    where ID = #{id}
+  </delete>
+  
+  
+  <!-- 5.根据id查询 -->
+  <select id="selectByPrimaryKey" parameterType="Object" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from T_SES_BMS_TEMPLET
+    where ID = #{id}
+  </select>
+  
+ 
+  
+  <!-- 7.列表总数 -->
+  <select id="queryByCount" resultType="Object" parameterType="Object">
+    select count(1) from T_SES_BMS_TEMPLET
+    <include refid="Base_Column_List" />
+  </select>
+  
+  <!-- 8.查询列表 -->
+  <select id="queryByList" resultMap="TempletResultMap" parameterType="Object">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from T_SES_BMS_Templet 
+    ORDER BY CREATED_AT DESC
+  </select>
+  
+</mapper>

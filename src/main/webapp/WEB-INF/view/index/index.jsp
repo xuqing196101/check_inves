@@ -52,7 +52,7 @@ function login(){
 	}else{
 		var index=layer.load();
 		$.ajax({
-			url:"<%=basePath%>login/login.do",
+			url:"<%=basePath%>login/login.html",
 			type:"post",
 			data:{loginName:$("#inputEmail").val(),password:$("#inputPassword").val(),rqcode:$("#inputCode").val()},
 			success:function(data){
@@ -68,7 +68,7 @@ function login(){
 					layer.msg("请输入用户名密码或者验证码!");
 				}else if(data=="scuesslogin"){				
 					layer.close(index);
-					window.location.href="<%=basePath%>login/index.do";
+					window.location.href="<%=basePath%>login/index.html";
 				}
 				kaptcha();
 			}
@@ -79,6 +79,7 @@ function login(){
 function kaptcha(){
 	$("#kaptchaImage").hide().attr('src','Kaptcha.jpg?' + Math.floor(Math.random() * 100)).fadeIn();
 }
+
 </script>
 
 
@@ -86,104 +87,7 @@ function kaptcha(){
 
 <body>
   <div class="wrapper">
-	<div class="header-v4">
-    <!-- Navbar -->
-    <div class="navbar navbar-default mega-menu" role="navigation">
-      <div class="container">
-        <!-- logo和搜索 -->
-        <div class="navbar-header">
-          <div class="row container margin-bottom-10">
-            <div class="col-md-8">
-              <a href="">
-                 <img alt="Logo" src="<%=basePath%>public/ZHQ/images/logo.png" id="logo-header">
-              </a>
-            </div>
-			<!--搜索开始-->
-            <div class="col-md-4 mt50">
-              <div class="search-block-v2">
-                <div class="">
-                  <form accept-charset="UTF-8" action="" method="get">
-				    <div style="display:none">
-				     <input name="utf8" value="✓" type="hidden">
-					</div>
-                    <input id="t" name="t" value="search_products" type="hidden">
-                    <div class="col-md-12 pull-right">
-                      <div class="input-group bround4">
-                        <input class="form-control h38" id="k" name="k" placeholder="" type="text">
-                        <span class="input-group-btn">
-                          <input class="btn-u h38" name="commit" value="搜索" type="submit">
-                        </span>
-                      </div>
-                    </div>
-                  </form>               
-               </div>
-              </div>
-            </div>
-          <!--搜索结束-->
-          </div>
-		 </div>
-
-          <button data-target=".navbar-responsive-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
-            <span class="full-width-menu">全部商品分类</span>
-            <span class="icon-toggle">
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </span>
-          </button>
-      </div>
-
-    <div class="clearfix"></div>
-
-    <div style="height: 0px;" aria-expanded="false" class="navbar-collapse navbar-responsive-collapse collapse">
-    <div class="container">
-      <ul class="nav navbar-nav">
-      <!-- 通知 -->
-        <li class="active dropdown tongzhi_li">
-          <a class=" dropdown-toggle p0_30" href=""><i class="tongzhi nav_icon"></i>通知</a>
-        </li>
-      <!-- End 通知 -->
-
-      <!-- 公告 -->
-        <li class="dropdown gonggao_li">
-          <a class=" dropdown-toggle p0_30" href=""><i class="gonggao nav_icon"></i>公告</a>
-        </li>
-      <!-- End 公告 -->
-
-      <!-- 公示 -->
-        <li class="dropdown gongshi_li">
-          <a data-toggle="dropdown" class="dropdown-toggle p0_30 " href=""><i class="gongshi nav_icon"></i>公示</a>
-        </li>
-      <!-- End 公示 -->
-
-      <!-- 专家 -->
-        <li class="dropdown zhuanjia_li">
-          <a  href="#" class="dropdown-toggle p0_30 " data-toggle="dropdown"><i class="zhuanjia nav_icon"></i>专家</a>
-        </li>
-      <!-- End 专家 -->
-
-      <!-- 投诉 -->
-        <li class="dropdown tousu_li">
-          <a data-toggle="dropdown" class="dropdown-toggle p0_30" href="" ><i class="tousu nav_icon"></i>投诉</a>
-        </li>
-      <!-- End 投诉 -->
-
-      <!-- 法规 -->
-        <li class="dropdown  fagui_li">
-          <a href="" class="dropdown-toggle p0_30" data-toggle="dropdown" ><i class="fagui nav_icon"></i>法规</a>
-        </li>
-      <!-- End 法规 -->
-
-        <li class="dropdown luntan_li">
-          <a aria-expanded="false" href="" class="dropdown-toggle p0_30" data-toggle="dropdown"><i class="luntan nav_icon"></i>论坛</a>
-        </li>
-
-      </ul>
-    </div>
-	</div>
-  <!--/end container-->
-   </div>
-  </div>
+  <jsp:include page="/indexhead.jsp"></jsp:include>
   <!-- End Navbar -->
   <div class="container content height-350 job-content ">
      <div class="row magazine-page">
@@ -193,7 +97,7 @@ function kaptcha(){
            <c:forEach items="${indexMapper['select1List']}" begin="0" end="0" var="i">
            	${i.articleType.name }
            </c:forEach>
-           	<span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.do?id=1" target="_self">更多>></a></span>
+           	<span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.html?id=1" target="_self">更多>></a></span>
 		  </h2>
         </div>
           <div class="tab-content">
@@ -202,8 +106,8 @@ function kaptcha(){
                 <ul class="list-unstyled categories">
                  <c:forEach items="${indexMapper['select1List']}" var="i">
                  <li>
-           			<a href="#" title="${i.name }" target="_blank">${i.name }</a>
-                    <span class="hex pull-right"><fmt:formatDate value='${i.createdAt}' pattern="yyyy年MM月dd日 " /></span>
+           			<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${i.name }</a>
+                    <span class="hex pull-right"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
                  </li>
            		 </c:forEach>
                 </ul>
@@ -219,7 +123,7 @@ function kaptcha(){
             <c:forEach items="${indexMapper['select2List']}" begin="0" end="0" var="i">
            		${i.articleType.name }
             </c:forEach>
-            <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.do?id=2" target="_self">更多>></a></span>
+            <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.html?id=2" target="_self">更多>></a></span>
 		  </h2>
 		  </div>
           <div class="tab-content">
@@ -228,8 +132,8 @@ function kaptcha(){
                 <ul class="list-unstyled categories">
                  <c:forEach items="${indexMapper['select2List']}" var="i">
                  <li>
-           			<a href="#" title="${i.name }" target="_blank">${i.name }</a>
-                    <span class="hex pull-right"><fmt:formatDate value='${i.createdAt}' pattern="yyyy年MM月dd日 " /></span>
+           			<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${i.name }</a>
+                    <span class="hex pull-right"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
                  </li>
            		 </c:forEach>
                 </ul>
@@ -251,13 +155,13 @@ function kaptcha(){
           <c:forEach items="${indexMapper['select3List']}" begin="0" end="0" var="i">
            	${i.articleType.name }
            </c:forEach>
-           <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.do?id=3" target="_self">更多>></a></span>
+           <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.html?id=3" target="_self">更多>></a></span>
           </h2>
           <ul class="list-unstyled categories tab-content margin-0">
 	             <c:forEach items="${indexMapper['select3List']}" var="i">
 	             <li>
-	       			<a href="#" title="${i.name }" target="_blank">${i.name }</a>
-	                <span class="hex pull-right"><fmt:formatDate value='${i.createdAt}' pattern="yyyy年MM月dd日 " /></span>
+	       			<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${i.name }</a>
+	                <span class="hex pull-right"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
 	             </li>
 	       		 </c:forEach>
           </ul>
@@ -270,13 +174,13 @@ function kaptcha(){
            <c:forEach items="${indexMapper['select4List']}" begin="0" end="0" var="i">
            	${i.articleType.name }
            </c:forEach>
-          <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.do?id=4" target="_self">更多>></a></span>
+          <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.html?id=4" target="_self">更多>></a></span>
           </h2>
           <ul class="list-unstyled categories tab-content">
 	             <c:forEach items="${indexMapper['select4List']}" var="i">
 	             <li>
-	       			<a href="#" title="${i.name }" target="_blank">${i.name }</a>
-	                <span class="hex pull-right"><fmt:formatDate value='${i.createdAt}' pattern="yyyy年MM月dd日 " /></span>
+	       			<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${i.name }</a>
+	                <span class="hex pull-right"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
 	             </li>
 	       		 </c:forEach>
           </ul>
@@ -340,13 +244,13 @@ function kaptcha(){
            <c:forEach items="${indexMapper['select5List']}" begin="0" end="0" var="i">
            	${i.articleType.name }
            </c:forEach>
-          <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.do?id=5" target="_self">更多>></a></span>
+          <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.html?id=5" target="_self">更多>></a></span>
          </h2>
           <ul class="list-unstyled categories tab-content">
              <c:forEach items="${indexMapper['select5List']}" var="i">
 	             <li>
-	       			<a href="#" title="${i.name }" target="_blank">${i.name }</a>
-	                <span class="hex pull-right"><fmt:formatDate value='${i.createdAt}' pattern="yyyy年MM月dd日 " /></span>
+	       			<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${i.name }</a>
+	                <span class="hex pull-right"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
 	             </li>
        		 </c:forEach>
           </ul>
@@ -359,13 +263,13 @@ function kaptcha(){
            <c:forEach items="${indexMapper['select6List']}" begin="0" end="0" var="i">
            	${i.articleType.name }
            </c:forEach>
-      <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.do?id=6" target="_self">更多>></a></span>
+      <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.html?id=6" target="_self">更多>></a></span>
     </h2>
           <ul class="list-unstyled categories tab-content">
             <c:forEach items="${indexMapper['select6List']}" var="i">
                  <li>
-           			<a href="#" title="${i.name }" target="_blank">${i.name }</a>
-                    <span class="hex pull-right"><fmt:formatDate value='${i.createdAt}' pattern="yyyy年MM月dd日 " /></span>
+           			<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${i.name }</a>
+                    <span class="hex pull-right"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
                  </li>
            	</c:forEach>
           </ul>
@@ -381,9 +285,9 @@ function kaptcha(){
 	  <div class="padding-top-13 padding-bottom-10">
 	  <ul class="list-inline blog-photostream ">
       <li class="fl margin-5"><a href="#" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow"><i class="icon-custom icon-sm qyzc"></i>企业注册</span></a></li>
-	  <li class="fl margin-5"><a href="<%=basePath %>expert/toExpert.do" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow"><i class="icon-custom icon-sm zjzc"></i>专家注册</span></a></li>
+	  <li class="fl margin-5"><a href="<%=basePath %>expert/toExpert.html" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow"><i class="icon-custom icon-sm zjzc"></i>专家注册</span></a></li>
 	  <li class="fl margin-5"><a href="#" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow"><i class="icon-custom icon-sm qyml"></i>企业名录</span></a></li>
-	  <li class="fl margin-5"><a href="<%=basePath %>expert/findAllExpert.do" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow"><i class="icon-custom icon-sm zjmd"></i>专家名单</span></a></li>
+	  <li class="fl margin-5"><a href="<%=basePath %>expert/findAllExpert.html" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow"><i class="icon-custom icon-sm zjmd"></i>专家名单</span></a></li>
 	  <li class="fl margin-5"><a href="#" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow"><i class="icon-custom icon-sm xzzq"></i>下载专区</span></a></li>
 	  <li class="fl margin-5"><a href="#" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow"><i class="icon-custom icon-sm gjfg"></i>国家法规</span></a></li>
 	  <li class="fl margin-5"><a href="#" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow"><i class="icon-custom icon-sm jgzs"></i>价格指数</span></a></li>
@@ -427,11 +331,11 @@ function kaptcha(){
                 <ul class="list-unstyled categories">              
 	                 <c:forEach items="${indexMapper['select7List']}" var="i">
 	                 	<li>
-	           			<a href="#" title="${i.name }" target="_blank">${i.name }</a>
-	                    <span class="hex pull-right"><fmt:formatDate value='${i.createdAt}' pattern="yyyy年MM月dd日 " /></span>
+	           			<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${i.name }</a>
+	                    <span class="hex pull-right"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
 	                    </li>
 	           		 </c:forEach>
-                 <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.do?id=7" target="_self">更多>></a></span>
+                 <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.html?id=7" target="_self">更多>></a></span>
                 </ul>
               </div>
             </div>
@@ -440,11 +344,11 @@ function kaptcha(){
                 <ul class="list-unstyled categories">
 	                 <c:forEach items="${indexMapper['select8List']}" var="i">
 	                 <li>
-	           			<a href="#" title="${i.name }" target="_blank">${i.name }</a>
-	                    <span class="hex pull-right"><fmt:formatDate value='${i.createdAt}' pattern="yyyy年MM月dd日 " /></span>
+	           			<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${i.name }</a>
+	                    <span class="hex pull-right"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
 	                 </li>   
 	           		 </c:forEach>
-	           		 <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.do?id=8" target="_self">更多>></a></span>
+	           		 <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.html?id=8" target="_self">更多>></a></span>
 			   </ul>
               </div>
             </div>
@@ -454,11 +358,11 @@ function kaptcha(){
                 <ul class="list-unstyled categories">              
 	                 <c:forEach items="${indexMapper['select9List']}" var="i">
 	                 <li>
-	           			<a href="#" title="${i.name }" target="_blank">${i.name }</a>
-	                    <span class="hex pull-right"><fmt:formatDate value='${i.createdAt}' pattern="yyyy年MM月dd日 " /></span>
+	           			<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${i.name }</a>
+	                    <span class="hex pull-right"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
 	                 </li>
 	           		 </c:forEach>
-	           		 <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.do?id=9" target="_self">更多>></a></span>
+	           		 <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.html?id=9" target="_self">更多>></a></span>
                 </ul>
               </div>
             </div>
@@ -490,11 +394,11 @@ function kaptcha(){
                 <ul class="list-unstyled categories">
 	                 <c:forEach items="${indexMapper['select10List']}" var="i">
 	                 <li>
-	           			<a href="#" title="${i.name }" target="_blank">${i.name }</a>
-	                    <span class="hex pull-right"><fmt:formatDate value='${i.createdAt}' pattern="yyyy年MM月dd日 " /></span>
+	           			<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${i.name }</a>
+	                    <span class="hex pull-right"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
 	                 </li>
 	           		 </c:forEach>
-	           		 <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.do?id=10" target="_self">更多>></a></span>
+	           		 <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.html?id=10" target="_self">更多>></a></span>
                 </ul>
               </div>
             </div>
@@ -503,11 +407,11 @@ function kaptcha(){
                 <ul class="list-unstyled categories">
 	                 <c:forEach items="${indexMapper['select11List']}" var="i">
 	                 <li>
-	           			<a href="#" title="${i.name }" target="_blank">${i.name }</a>
-	                    <span class="hex pull-right"><fmt:formatDate value='${i.createdAt}' pattern="yyyy年MM月dd日 " /></span>
+	           			<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${i.name }</a>
+	                    <span class="hex pull-right"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
 	                 </li>
 	           		 </c:forEach>
-	           		 <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.do?id=11" target="_self">更多>></a></span>
+	           		 <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.html?id=11" target="_self">更多>></a></span>
                 </ul>
               </div>
             </div>
@@ -516,11 +420,11 @@ function kaptcha(){
                 <ul class="list-unstyled categories">
 	                 <c:forEach items="${indexMapper['select12List']}" var="i">
 	                 <li>
-	           			<a href="#" title="${i.name }" target="_blank">${i.name }</a>
-	                    <span class="hex pull-right"><fmt:formatDate value='${i.createdAt}' pattern="yyyy年MM月dd日 " /></span>
+	           			<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${i.name }</a>
+	                    <span class="hex pull-right"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
 	                 </li>
 	           		 </c:forEach>
-	           		 <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.do?id=12" target="_self">更多>></a></span>
+	           		 <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.html?id=12" target="_self">更多>></a></span>
                 </ul>
               </div>
             </div>
@@ -570,23 +474,7 @@ function kaptcha(){
    </div>
   </div> 
 
-<!--底部代码开始-->
-<div class="footer-v2" id="footer-v2">
-
-      <div class="footer">
-
-            <!-- Address -->
-              <address class="">
-			  Copyright © 2016 版权所有：中央军委后勤保障部 京ICP备09055519号
-              </address>
-              <div class="">
-		       浏览本网主页，建议将电脑显示屏的分辨率调为1024*768
-              </div> 
-            <!-- End Address -->
-
-<!--/footer--> 
-    </div>
-</div>
+<jsp:include page="/indexbottom.jsp"></jsp:include>
 <!--[if lt IE 9]>
     <script src="/assets/plugins/respond.js?body=1"></script>
 <script src="/assets/plugins/html5shiv.js?body=1"></script>

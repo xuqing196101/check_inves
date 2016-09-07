@@ -18,17 +18,20 @@
     
 <script type="text/javascript">
 
-window.onload=function(){
-    var range="${article.range}";
-    $("input[name='range'][value="+range+"]").attr("checked",true); 
-}
+$(function(){
+	var range="${article.range}";
+	if(range==2){
+		$("input[name='range']").attr("checked",true); 
+	}else{
+		$("input[name='range'][value="+range+"]").attr("checked",true); 
+	}
+});
 
 function sub(){
 	var id = $("#id").val();
-	alert(id);
 	layer.confirm('您确定需要审核通过吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 		layer.close(index);
-		window.location.href="<%=basePath%>article/audit.do?id="+id+"&status=2";
+		window.location.href="<%=basePath%>article/audit.html?id="+id+"&status=2";
 	});
 }
 
@@ -41,10 +44,10 @@ function back(){
 			type:"post",
 			//contentType: "application/json;charset=UTF-8",
 			dataType:"json",
-			url:"<%=basePath%>article/audit.do?id="+id+"&reason="+reason+"&status=3",
+			url:"<%=basePath%>article/audit.html?id="+id+"&reason="+reason+"&status=3",
 			
 			success:function(){
-				window.location.href="<%=basePath%>article/getAll.do";
+				window.location.href="<%=basePath%>article/getAll.html";
 			}
 		});
 	});
@@ -82,8 +85,8 @@ function back(){
      <li class="col-md-6  p0 ">
 	   <span class="">发布范围：</span>
 	   <div class="input-append">
-        <label><input type="radio" name="range" id="0" value="0" disabled>内网</label>
-        <label><input type="radio" name="range" id="1" value="1" disabled>外网</label>
+        <label><input type="checkbox" name="range" value="0" disabled>内网</label>
+        <label><input type="checkbox" name="range" value="1" disabled>外网</label>
        </div>
 	 </li> 
      <li class="col-md-6  p0 ">
@@ -137,7 +140,7 @@ function back(){
 	  
 	         
 	 <div  class="col-md-12">
-	   <div class="fl padding-10">
+	   <div class="mt40 tc mb50">
 	    <button class="btn btn-windows add" type="button" onclick="sub()">审核</button>
 	    <button class="btn btn-windows reset" type="button" onclick="back()">驳回</button>
 	    <input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">

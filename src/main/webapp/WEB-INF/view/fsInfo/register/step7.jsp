@@ -151,8 +151,8 @@
 	 <div class="fl mr20"><label class="regist_name">联系电话：</label><span class="regist_desc">1882928798</span></div>
 	 </div>
 	 <div class="mt20 col-md-12">
-	   <button class="btn padding-left-20 padding-right-20 btn_back mr10">完成注册申请</button>
-	   <button class="btn padding-left-20 padding-right-20 btn_back mr10">返回</button>		 
+	  <button class="btn btn-windows git"   type="button" onclick="location='${pageContext.request.contextPath}/index.jsp'">完成注册申请</button>
+	  <button class="btn btn-windows git"   type="button" onclick="location='${pageContext.request.contextPath}/supplierFsInfo/registerStep6.html'">返回</button> 
 	 </div>
 	</div>
    </div>

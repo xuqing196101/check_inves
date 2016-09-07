@@ -1,5 +1,8 @@
 package yggc.util;
 
+import java.io.IOException;
+import java.util.Properties;
+
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 

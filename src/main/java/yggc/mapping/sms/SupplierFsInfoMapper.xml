@@ -5,7 +5,7 @@
     <!--
     @mbggenerated
     -->
-    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <id column="ID" jdbcType="VARCHAR" property="id" />
     <result column="LOGIN_NAME" jdbcType="VARCHAR" property="loginName" />
     <result column="MOBILE" jdbcType="VARCHAR" property="mobile" />
     <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
@@ -62,7 +62,7 @@
     ,
     <include refid="Blob_Column_List" />
     from T_SES_SMS_SUPPLIER_FS_INFO
-    where ID = #{id,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
   </select>
     <select id="selectByFsInfo" parameterType="yggc.model.sms.SupplierFsInfoWithBLOBs" resultMap="ResultMapWithBLOBs">
     <!--
@@ -83,7 +83,8 @@
     <if test="status!=null">
     	and status= #{status,jdbcType=DECIMAL}
     </if>
-  </select>
+    </select>
+  
     <select id="getCount" parameterType="yggc.model.sms.SupplierFsInfoWithBLOBs" resultType="java.lang.Integer">
     <!--
     @mbggenerated
@@ -99,16 +100,20 @@
     	and SUPPLIER_TEPE= #{supplierTepe,jdbcType=VARCHAR}
     </if>
     <if test="status!=null">
-    	and status= #{stauts,jdbcType=DECIMAL}
+    	and status= #{status,jdbcType=DECIMAL}
     </if>
   </select>
+  
+    <select id="selectIdByLoginName" parameterType="yggc.model.sms.SupplierFsInfoWithBLOBs" resultType="java.lang.String" >
+		select ID from T_SES_SMS_SUPPLIER_FS_INFO t1 where t1.LOGIN_NAME=#{loginName,jdbcType=VARCHAR}
+	</select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     <!--
     @mbggenerated
     -->
     delete from T_SES_SMS_SUPPLIER_FS_INFO
-    where ID = #{id,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="yggc.model.sms.SupplierFsInfoWithBLOBs">
     <!--
@@ -124,7 +129,7 @@
       SUPPLIER_PLEDGE, SUPPLIER_REG_LIST, CREATED_AT, 
       UPDATED_AT, SUPPLY_LEVEL, SUPPLIER_REMARK
       )
-    values (#{id,jdbcType=DECIMAL}, #{loginName,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
       #{password,jdbcType=VARCHAR}, #{supplierName,jdbcType=VARCHAR}, #{supplierTepe,jdbcType=VARCHAR}, 
       #{supplierChinesrName,jdbcType=VARCHAR}, #{legalName,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
       #{supplierZipCode,jdbcType=DECIMAL}, #{productType,jdbcType=VARCHAR}, #{majorProduct,jdbcType=VARCHAR}, 
@@ -225,7 +230,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=DECIMAL},
+        #{id,jdbcType=VARCHAR},
       </if>
       <if test="loginName != null">
         #{loginName,jdbcType=VARCHAR},
@@ -371,7 +376,7 @@
         STATUS = #{status,jdbcType=DECIMAL},
       </if>
       <if test="orgmanId != null">
-        ORGMAN_ID = #{orgmanId,jdbcType=DECIMAL},
+        ORGMAN_ID = #{orgmanId,jdbcType=VARCHAR},
       </if>
       <if test="supplierPledge != null">
         SUPPLIER_PLEDGE = #{supplierPledge,jdbcType=VARCHAR},
@@ -392,7 +397,7 @@
         SUPPLIER_REMARK = #{supplierRemark,jdbcType=CLOB},
       </if>
     </set>
-    where ID = #{id,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="yggc.model.sms.SupplierFsInfoWithBLOBs">
     <!--
@@ -425,7 +430,7 @@
       UPDATED_AT = #{updatedAt,jdbcType=DATE},
       SUPPLY_LEVEL = #{supplyLevel,jdbcType=CLOB},
       SUPPLIER_REMARK = #{supplierRemark,jdbcType=CLOB}
-    where ID = #{id,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="yggc.model.sms.SupplierFsInfo">
     <!--
@@ -456,6 +461,6 @@
       SUPPLIER_REG_LIST = #{supplierRegList,jdbcType=VARCHAR},
       CREATED_AT = #{createdAt,jdbcType=DATE},
       UPDATED_AT = #{updatedAt,jdbcType=DATE}
-    where ID = #{id,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

@@ -5,12 +5,10 @@ import java.util.List;
 import yggc.model.bms.Article;
 
 /**
- * 
- *<p>Title:ArticlesMapper</p>
- *<p>Description:信息Mapper接口</p>
- *<p>Company:yggc</p>
- * @author Mrlovablee
- *@date 2016-8-25下午3:38:04
+* @Title:ArticleMapper
+* @Description: 信息发布接口
+* @author Shen Zhenfei
+* @date 2016-9-7下午6:00:09
  */
 public interface ArticleMapper {
 	/**
@@ -74,9 +72,9 @@ public interface ArticleMapper {
     
     /**
     * @Title: update
-    * @author szf
+    * @author Shen Zhenfei
     * @date 2016-9-2 上午9:48:53  
-    * @Description: TODO 修改信息
+    * @Description: 修改信息
     * @param @param record
     * @param @return      
     * @return int
@@ -85,9 +83,9 @@ public interface ArticleMapper {
     
     /**
     * @Title: Isdelete
-    * @author szf
-    * @date 2016-9-2 上午10:50:39  
-    * @Description: TODO 假删除信息
+    * @author Shen Zhenfei
+    * @date 2016-9-7 下午6:01:16  
+    * @Description: 假删除
     * @param @param id
     * @param @return      
     * @return int
@@ -104,5 +102,26 @@ public interface ArticleMapper {
     * @return List<Article>
      */
     List<Article> selectByIsIndex();
+    
+    /**
+    * @Title: checkName
+    * @author Shen Zhenfei
+    * @date 2016-9-7 上午9:31:01  
+    * @Description: 查询标题
+    * @param @param article
+    * @param @return      
+    * @return List<Article>
+     */
+    List<Article> checkName(Article article);
+    
+    /**
+    * @Title: selectArticleByStatus
+    * @author Shen Zhenfei
+    * @date 2016-9-7 下午3:52:39  
+    * @Description: 根据状态查询信息
+    * @param @return      
+    * @return List<Article>
+     */
+    List<Article> selectArticleByStatus(Article article); 
     
 }

@@ -5,6 +5,12 @@ import java.util.List;
 import yggc.model.sms.SupplierFsInfo;
 import yggc.model.sms.SupplierFsInfoWithBLOBs;
 
+/**
+ * @Title: SupplierFsInfoMapper
+ * @Description: 进口供应商注册审核dao层
+ * @author: Song Biaowei
+ * @date: 2016-9-7下午6:09:28
+ */
 public interface SupplierFsInfoMapper {
     /**
      * 根据主键删除数据库的记录
@@ -73,4 +79,15 @@ public interface SupplierFsInfoMapper {
     * @return List<SupplierFsInfoWithBLOBs>
      */
     List<SupplierFsInfoWithBLOBs> selectByFsInfo(SupplierFsInfoWithBLOBs record);
+    
+    /**
+    * @Title: selectIdByLoginName
+    * @author Song Biaowei
+    * @date 2016-9-7 上午10:07:53  
+    * @Description: 通过用户名找id
+    * @param @param record
+    * @param @return      
+    * @return String
+     */
+    String selectIdByLoginName(SupplierFsInfoWithBLOBs record);
 }

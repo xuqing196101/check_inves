@@ -50,11 +50,11 @@
 	}
     
 	function getInfo(){
-		window.location.href="<%=basePath%>article/getAll.do";
+		window.location.href="<%=basePath%>article/getAll.html";
 	}
 	
-	function view(){
-		window.location.href="<%=basePath%>article/auditInfo.do";
+	function view(id){
+		window.location.href="<%=basePath%>article/auditInfo.html?id="+id;
 	}
 	
 	function audit(){
@@ -63,7 +63,7 @@
 			id.push($(this).val());
 		}); 
 		if(id.length==1){
-			window.location.href="<%=basePath%>article/auditInfo.do?id="+id;
+			window.location.href="<%=basePath%>article/auditInfo.html?id="+id;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -178,8 +178,8 @@
 	  			</tr>
 	  		</thead>
 	  		<c:forEach items="${list}" var="list" varStatus="vs">
-	  			<c:if test="${list.status=='1' }">
-		  		<tr>
+	  			<%--<c:if test="${list.status=='1' }">
+		  		--%><tr>
 		  			<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${list.id }" /></td>
 		  			<td class="tc" onclick="view('${list.id }')">${vs.index + 1 }</td>
 		  			<td class="tc" onclick="view('${list.id }')">${list.name }</td>
@@ -199,8 +199,8 @@
 		  			</td>
 		  			<td class="tc" onclick="view('${list.id }')">${list.articleType.name }</td>
 		  		</tr>
-		  		</c:if>
-	  		</c:forEach>
+		  		<%--</c:if>
+	  		--%></c:forEach>
 		  </table>
 	  	</div>  
   </div>

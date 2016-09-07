@@ -50,11 +50,11 @@
 	}
     
 	function view(id){
-		window.location.href="<%=basePath%>article/view.do?id="+id;
+		window.location.href="<%=basePath%>article/view.html?id="+id;
 	}
 	
 	function add(){
-		window.location.href="<%=basePath%>article/add.do";
+		window.location.href="<%=basePath%>article/add.html";
 	}
 	
 	function find(){
@@ -64,7 +64,7 @@
 		}); 
 		if(id.length==1){
 			
-			window.location.href="<%=basePath%>article/view.do?id="+id;
+			window.location.href="<%=basePath%>article/view.html?id="+id;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -74,15 +74,11 @@
 	
 	function edit(){
     	var id=[]; 
-    	var status=[];
-    	
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
 		}); 
-		
-		alert(status);
 		if(id.length==1){
-			window.location.href="<%=basePath%>article/edit.do?id="+id;
+			window.location.href="<%=basePath%>article/edit.html?id="+id;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -98,7 +94,7 @@
 		if(ids.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>article/delete.do?ids="+ids;
+				window.location.href="<%=basePath%>article/delete.html?ids="+ids;
 			});
 		}else{
 			layer.alert("请选择要删除的信息",{offset: ['222px', '390px'], shade:0.01});
@@ -106,11 +102,11 @@
     }
     
     function sub(){
-    	window.location.href="<%=basePath%>article/sublist.do";
+    	window.location.href="<%=basePath%>article/sublist.html?status=0";
     }
     
     function audit(){
-    	window.location.href="<%=basePath%>article/auditlist.do";
+    	window.location.href="<%=basePath%>article/auditlist.html?status=1";
     }
     
 </script>
@@ -224,6 +220,7 @@
 	  				<th class="info">录入时间</th>
 	  				<th class="info">信息类型</th>
 	  				<th class="info">是否发布</th>
+	  				<th class="info">下载量</th>
 	  			</tr>
 	  		</thead>
 	  		<c:forEach items="${list}" var="list" varStatus="vs">
@@ -238,7 +235,7 @@
 		  				<c:if test="${list.range=='1' }">
 		  					外网
 		  				</c:if>
-		  				<c:if test="${list.range=='3' }">
+		  				<c:if test="${list.range=='2' }">
 		  					内网/外网
 		  				</c:if>
 		  			</td>
@@ -260,6 +257,7 @@
 		  					<input type="hidden" name="status" value="${list.status }">审核未通过
 		  				</c:if>
 		  			</td>
+		  			<td class="tc"><a href="">${list.status }下载量</a></td>
 		  		</tr>
 	  		</c:forEach>
 		  </table>
