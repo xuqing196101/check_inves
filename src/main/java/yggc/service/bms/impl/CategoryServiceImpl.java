@@ -15,6 +15,7 @@ import yggc.service.bms.CategoryService;
     * @author javazxf
     * @date 
     */
+
 @Service("categoryService")
 public class CategoryServiceImpl implements CategoryService {
 	
@@ -65,8 +66,8 @@ public class CategoryServiceImpl implements CategoryService {
 
 
 
-	public void updateByPrimaryKey(String id) {
-		categoryMapper.updateByPrimaryKey(id);		
+	public void updateNameById(String id) {
+		categoryMapper.updateNameById(id);
 	}
 
 

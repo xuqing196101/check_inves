@@ -205,7 +205,7 @@
   </update>
   
   <!-- 根据id修改 名称 -->
- 	<update id="updateByPrimaryKey" parameterType="Object">
+ 	<update id="updateNameById" parameterType="Object">
  	update T_SES_BMS_CATEGORY
     set NAME = #{name},
  	where ID=#{id}

@@ -85,7 +85,7 @@ public interface CategoryMapper {
 	* @param @param id
 	* @return void
 	 */
-	public void updateByPrimaryKey(String id);
+	public void updateNameById(String id);
 	/**
 	 * 
 	* @Title: deleteByPrimaryKey
