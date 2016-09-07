@@ -19,28 +19,38 @@
     ID, NAME, STATUS, ANCESTRY, CREATED_AT, UPDATED_AT, ATTCHMENT, DESCRIPTION, IS_END, 
     CODE, ORDER_NUM,IS_DELETED
   </sql>
+  
+  <!-- 根据id查询 -->
   <select id="selectByPrimaryKey" parameterType="Object" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from T_SES_BMS_CATEGORY
     where ID = #{id}
   </select>
+  
+  <!-- 根据pid生成列表 -->
    <select id="listByParent" parameterType="Object" resultMap="BaseResultMap">
   	select
   	<include refid="Base_Column_List" />
   	from T_SES_BMS_CATEGORY
     where  ANCESTRY=#{pid}
   </select>
+  
+  <!-- 根据pid查询生成树 -->
   <select id="findTreeByPid" parameterType="Object" resultMap="BaseResultMap">
   select
   <include refid="Base_Column_List" />
   from T_SES_BMS_CATEGORY
   where ANCESTRY=#{id}
   </select>
+  
+  <!-- 根据id删除 -->
   <delete id="deleteByPrimaryKey" parameterType="Object">
     delete from T_SES_BMS_CATEGORY
     where ID = #{id}
   </delete>
+  
+  <!-- 新增 -->
   <insert id="insert" parameterType="yggc.model.bms.Category">
     insert into T_SES_BMS_CATEGORY (ID, NAME, STATUS, 
       ANCESTRY, CREATED_AT, UPDATED_AT, 
@@ -51,6 +61,7 @@
       #{attchment}, #{description}, #{isEnd}, 
       #{code}, #{orderNum},#{is_deleted})
   </insert>
+  
   <insert id="insertSelective" parameterType="yggc.model.bms.Category">
   <selectKey keyProperty="id" resultType="String" order="BEFORE">
         select sys_guid() from dual
@@ -133,6 +144,8 @@
         </if>
     </trim>
   </insert>
+  
+  <!-- 根据id修改 -->
   <update id="updateByPrimaryKeySelective" parameterType="yggc.model.bms.Category">
     update T_SES_BMS_CATEGORY
     <set>
@@ -173,6 +186,8 @@
     </set>
     where ID = #{id}
   </update>
+  
+  <!-- 根据id修改 -->
   <update id="updateByPrimaryKey" parameterType="yggc.model.bms.Category">
     update T_SES_BMS_CATEGORY
     set NAME = #{name},
@@ -188,5 +203,11 @@
       ORDER_NUM = #{orderNum}
     where ID = #{id}
   </update>
- 
+  
+  <!-- 根据id修改 名称 -->
+ 	<update id="updateByPrimaryKey" parameterType="Object">
+ 	update T_SES_BMS_CATEGORY
+    set NAME = #{name},
+ 	where ID=#{id}
+ 	</update>
 </mapper>
