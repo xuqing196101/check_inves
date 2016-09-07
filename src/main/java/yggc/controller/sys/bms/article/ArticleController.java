@@ -30,8 +30,8 @@ import yggc.service.iss.ArticleTypeService;
 
 
 /**
- * <p>Title:ArticleController </p>
- * <p>Description: 信息管理</p>
+ * @Title:ArticleController
+ * @Description: 信息管理
  * @author Shen Zhenfei
  * @date 2016-9-1上午9:48:48
  */
@@ -48,8 +48,6 @@ public class ArticleController {
 	
 	@Autowired
 	private ArticleAttachmentsService articleAttachmentsService;
-	
-	
 	
 	private Logger logger = Logger.getLogger(LoginController.class); 
 	

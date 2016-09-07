@@ -9,6 +9,12 @@ import yggc.dao.bms.ArticleMapper;
 import yggc.model.bms.Article;
 import yggc.service.bms.ArticleService;
 
+/**
+* @Title:ArticleServiceImpl
+* @Description: 信息发布接口实现类
+* @author Shen Zhenfei
+* @date 2016-9-7下午6:03:56
+ */
 @Service("articleService")
 public class ArticleServiceImpl implements ArticleService {
 	
@@ -66,6 +72,9 @@ public class ArticleServiceImpl implements ArticleService {
 		return list;
 	}
 
+	/**
+	 * 根据类型查询
+	 */
 	@Override
 	public List<Article> selectArticleByStatus(Article article) {
 		List<Article> list = articleMapper.selectArticleByStatus(article);

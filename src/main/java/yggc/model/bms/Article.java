@@ -5,49 +5,121 @@ import java.util.List;
 
 import yggc.model.iss.ArticleType;
 
+/**
+* @Title:Article 
+* @Description: 信息实体类
+* @author Shen Zhenfei
+* @date 2016-9-7下午5:59:51
+ */
 public class Article{
+	
+	/**
+	 * @Fields id : 主键
+	 */
 	private String id ;
 
+	/**
+	 * @Fields name : 标题
+	 */
     private String name;
 
+    /**
+     * @Fields articleType : 栏目
+     */
     private ArticleType articleType;
 
+    /**
+     * @Fields publishedAt : 发布时间
+     */
     private Date publishedAt;
 
+    /**
+     * @Fields isPicShow : 是否展示
+     */
     private Integer isPicShow;
 
+    /**
+     * @Fields position : 排序值
+     */
     private Integer position;
 
+    /**
+     * @Fields user : 创建人
+     */
     private User user;
 
+    /**
+     * @Fields showCount : 浏览量
+     */
     private Integer showCount;
     
+    /**
+     * @Fields downloadCount : 下载量
+     */
     private Integer downloadCount;
 
+    /**
+     * @Fields status : 状态 0：暂存 1：已提交2：已审核 3：退回 
+     */
     private Integer status;
 
+    /**
+     * @Fields pic : 图片路径
+     */
     private String pic;
 
+    /**
+     * @Fields publishedName : 发布人
+     */
     private String publishedName;
 
+    /**
+     * @Fields isIndex : 是否索引
+     */
     private Integer isIndex;
 
+    /**
+     * @Fields type : 项目类型
+     */
     private String type;
 
+    /**
+     * @Fields projectId : 项目ID
+     */
     private String projectId;
 
+    /**
+     * @Fields createdAt : 创建时间
+     */
     private Date createdAt;
 
+    /**
+     * @Fields updatedAt : 修改时间
+     */
     private Date updatedAt;
 
+    /**
+     * @Fields content : 内容
+     */
     private String content;
     
+    /**
+     * @Fields range : 发布范围 0：内网 1：外网 
+     */
     private Integer range;
     
+    /**
+     * @Fields isDeleted :  删除 0：未删除，1：已删除
+     */
     private Integer isDeleted;
     
+    /**
+     * @Fields reason : 退回内容
+     */
     private String reason;
     
+    private List<ArticleAttachments> articleAttachments;
+        
 	public Integer getDownloadCount() {
 		return downloadCount;
 	}
@@ -128,8 +200,6 @@ public class Article{
 		this.isDeleted = isDeleted;
 	}
 
-	private List<ArticleAttachments> articleAttachments;
-    
 	public List<ArticleAttachments> getArticleAttachments() {
 		return articleAttachments;
 	}
