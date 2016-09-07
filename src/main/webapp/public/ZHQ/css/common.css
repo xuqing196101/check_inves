@@ -306,6 +306,27 @@
 
 .ml8 {
   margin-left: 8px; }
+  
+.ml10 {
+  margin-left: 10px; }
+  
+.ml50 {
+  margin-left: 50px; }
+
+.ml100 {
+  margin-left: 100px; }
+  
+.ml120 {
+  margin-left: 120px; }
+  
+.ml150 {
+  margin-left: 150px; }
+  
+.ml200 {
+  margin-left: 200px; }
+  
+.ml20 {
+  margin-left: 20px; }
 
 .mr8 {
   margin-right: 8px; }
@@ -713,7 +734,6 @@ th.bg_tc {
 	background: none!important;
 }
 
-
 .my_post{
 	position: fixed;
 	width:30px;
@@ -727,4 +747,8 @@ th.bg_tc {
 
 a{
  cursor:pointer;
+}
+
+.searchFont{
+  color:red;
 }
