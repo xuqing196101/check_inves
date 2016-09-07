@@ -6,11 +6,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+
 import yggc.dao.bms.UserMapper;
 import yggc.model.bms.User;
 import yggc.model.bms.Userrole;
 import yggc.service.bms.UserServiceI;
 import yggc.util.Encrypt;
+import yggc.util.PropertiesUtil;
 
 /**
 * <p>Title:UserServiceImpl </p>
@@ -77,9 +80,10 @@ public class UserServiceImpl implements UserServiceI {
 	}
 
 	@Override
-	public List<User> selectUserRole(User user) {
+	public List<User> selectUserRole(User user,Integer pageNum) {
+			PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
 		return userMapper.selectUserRole(user);
 	}
-
 }
 

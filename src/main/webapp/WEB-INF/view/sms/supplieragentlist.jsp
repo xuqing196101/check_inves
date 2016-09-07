@@ -8,7 +8,7 @@
   <head>
     <base href="<%=basePath%>">
     
-    <title>用户管理</title>
+    <title>代办管理</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -40,7 +40,6 @@
 		    }
 		});
   });
-   
   
   	/** 全选全不选 */
 	function selectAll(){
@@ -102,7 +101,7 @@
 		if(ids.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>user/delete.html?ids="+ids;
+				window.location.href="<%=basePath%>supplierAgents/deleteSoftSupplierAgents.do?ids="+ids;
 			});
 		}else{
 			layer.alert("请选择要删除的用户",{offset: ['222px', '390px'], shade:0.01});
@@ -117,14 +116,14 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">后台管理</a></li><li class="active"><a href="#">用户管理</a></li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">后台管理</a></li><li class="active"><a href="#">代办管理</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
    </div>
    <div class="container">
 	   <div class="headline-v2">
-	   		<h2>用户管理</h2>
+	   		<h2>代办管理</h2>
 	   </div>
    </div>
 <!-- 表格开始-->
@@ -160,30 +159,22 @@
 		<tr>
 		  <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 		  <th class="info w50">序号</th>
-		  <th class="info">用户名</th>
-		  <th class="info">姓名</th>
-		  <th class="info">角色</th>
-		  <th class="info">单位</th>
-		  <th class="info">联系电话</th>
+		   <th class="info">标题</th>
+		  <th class="info">操作人</th>
+		  <th class="info">代办人</th>
+		  <th class="info">代办类型</th>
+		  <th class="info">结果</th>
 		</tr>
 		</thead>
-		<c:forEach items="${list.list}" var="user" varStatus="vs">
+		<c:forEach items="${getListSupplier}" var="agents" varStatus="vs">
 			<tr>
-				  <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${user.id}" /></td>
-				  <td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-				  <td class="tc" onclick="view(${user.id});">${user.loginName}</td>
+				  <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${agents.id}" /></td>
+<!-- 				  +(list.pageNum-1)*(list.pageSize) -->
+				  <td class="tc">${(vs.index+1)}</td>
+				  <td class="tc w100">${agents.title}</td>
 				  <td class="tc">${user.relName}</td>
-				  <td class="tc">
-					<c:forEach items="${user.roles}" var="role" varStatus="vs">
-			     		<c:if test="${user.roles.size()>vs.index+1}">
-			     			${role.name},
-			     		</c:if>
-			     		<c:if test="${user.roles.size()<=vs.index+1}">
-			     			${role.name}
-			     		</c:if>
-			     	</c:forEach>
-				  </td>
-				  <td class="tc">总后勤部</td>
+				  <td class="tc"></td>
+				  <td class="tc"></td>
 				  <td class="tc">${user.phone}</td>
 			</tr>
 		</c:forEach>

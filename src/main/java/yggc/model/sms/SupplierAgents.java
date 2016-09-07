@@ -93,11 +93,34 @@ public class SupplierAgents {
 
     /**
      * <pre>
+     * 是否为催办, 0不是 1是
+     * 表字段 : T_SES_SMS_SUPPLIER_AGENTS.IS_REMINDERS
+     * </pre>
+     */
+    private Short isReminders;
+    
+    /**
+     * <pre>
      * 表字段 : T_SES_SMS_SUPPLIER_AGENTS.CONTENT
      * </pre>
      */
     private String content;
 
+    /**
+     * @Fields usersName : 代办人姓名
+     */
+    private String usersName;
+    
+    /**
+     * @Fields operatorName : 操作人姓名
+     */
+    private String operatorName;
+    
+    /**
+     * @Fields supplierName : 供应商名称
+     */
+    private String supplierName;
+    
     /**
      * <pre>
      * 获取：主键
@@ -373,7 +396,17 @@ public class SupplierAgents {
         this.updatedAt = updatedAt;
     }
 
-    /**
+    
+    
+    public Short getIsReminders() {
+		return isReminders;
+	}
+
+	public void setIsReminders(Short isReminders) {
+		this.isReminders = isReminders;
+	}
+
+	/**
      * <pre>
      * 获取：null
      * 表字段：T_SES_SMS_SUPPLIER_AGENTS.CONTENT
@@ -397,4 +430,39 @@ public class SupplierAgents {
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
     }
+
+	public String getUsersName() {
+		return usersName;
+	}
+
+	public void setUsersName(String usersName) {
+		this.usersName = usersName;
+	}
+
+	public String getOperatorName() {
+		return operatorName;
+	}
+
+	public void setOperatorName(String operatorName) {
+		this.operatorName = operatorName;
+	}
+
+	public String getSupplierName() {
+		return supplierName;
+	}
+
+	public void setSupplierName(String supplierName) {
+		this.supplierName = supplierName;
+	}
+
+
+   
+	public SupplierAgents(Short isReminders) {
+		super();
+		this.isReminders = isReminders;
+	}
+
+	public SupplierAgents() {
+	}
+    
 }

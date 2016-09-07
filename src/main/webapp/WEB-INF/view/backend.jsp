@@ -1,4 +1,7 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -146,44 +149,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        <div class="headline-v2 margin-0 padding-left-0">
 	   <h2>代办事项
 	   	   <span class="pull-right f14">
-	        <a href="#" target="_blank">更多>></a>
+	        <a href="<%=basePath%>supplierAgents/listSupplierAgents.do?type=0" >更多>></a>
 	       </span>
 	   </h2>
 	  </div>
 	  </div>
-       <ul class="list-unstyled categories tab-content border1 p15_10">       
+       <ul class="list-unstyled categories tab-content border1 p15_10">   
+       <c:forEach items="${SupplierAgent}" var="listSupplier">
         <li>
-          <a href="#" title="" target="_blank">成都军区重庆某医院家具采购技术成都军区…</a>
-          <span class="hex pull-right">2015-10-30</span>
-        </li>              
-        <li>
-          <a href="#" title="" target="_blank">成都军区重庆某医院家具采购技术成都军区…</a>
-          <span class="hex pull-right">2015-10-13</span>
+          <a href="#" title="${listSupplier.title}"  target="_blank">
+          <c:choose>  
+			    <c:when test="${fn:length(listSupplier.title) > 10}">  
+			      ${fn:substring(listSupplier.title, 0, 20)}......
+			    </c:when>  
+			   <c:otherwise>  
+			      ${listSupplier.title}
+			    </c:otherwise>  
+          </c:choose>
+			</a>
+          <span class="hex pull-right"><fmt:formatDate value="${listSupplier.updatedAt}"
+							pattern="yyyy年MM月dd日" /></span>
         </li>    
-        <li>
-          <a href="#" title="" target="_blank">成都军区重庆某医院家具采购技术成都军区…</a>
-          <span class="hex pull-right">2015-10-01</span>
-        </li>  
-        <li>
-          <a href="#" title="" target="_blank">成都军区重庆某医院家具采购技术成都军区…</a>
-          <span class="hex pull-right">2015-09-18</span>
-        </li> 
-        <li>
-          <a href="#" title="" target="_blank">成都军区重庆某医院家具采购技术成都军区…</a>
-          <span class="hex pull-right">2015-09-15</span>
-        </li>   
-        <li>
-          <a href="#" title="中国储备粮管理总公司地上通风道（地上笼）供应商入围项目招标公告" target="_blank">中国储备粮管理总公司地上通风道（地上笼）...</a>
-          <span class="hex pull-right">2015-07-31</span>
-        </li>    
-        <li>
-          <a href="#" title="关于进一步严格磷化铝药剂配送管理的通知" target="_blank">关于进一步严格磷化铝药剂配送管理的通知</a>
-          <span class="hex pull-right">2015-07-16</span>
-        </li>
-        <li>
-          <a href="#" title="中国储备粮管理总公司磷化氢环流熏蒸系统供应商入围项目国内公开招标公告" target="_blank">中国储备粮管理总公司磷化氢环流熏蒸系统供...</a>
-          <span class="hex pull-right">2015-06-17</span>
-        </li> 
+       </c:forEach>    
       </ul>
      </div>
     <div class="col-md-6 tab-v5 col-md-12 p0_10">
@@ -191,44 +178,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        <div class="headline-v2 margin-0 padding-left-0">
 	   <h2>催办事项
 	   	   <span class="pull-right f14">
-	        <a href="#" target="_blank">更多>></a>
+	        <a href="<%=basePath%>supplierAgents/listSupplierAgents.do?type=1" >更多>></a>
 	       </span>
 	   </h2>
 	  </div>
 	  </div>
        <ul class="list-unstyled categories tab-content border1 p15_10">       
         <li>
-          <a href="#" title="" target="_blank">成都军区重庆某医院家具采购技术成都军区…</a>
-          <span class="hex pull-right">2015-10-30</span>
+         <c:forEach items="${SupplierReminders}" var="listSupplier">
+        <li>
+          <a href="#" title="${listSupplier.title}"  target="_blank">
+          <c:choose>  
+			    <c:when test="${fn:length(listSupplier.title) > 10}">  
+			      ${fn:substring(listSupplier.title, 0, 20)}......
+			    </c:when>  
+			   <c:otherwise>  
+			      ${listSupplier.title}
+			    </c:otherwise>  
+          </c:choose>
+			</a>
+          <span class="hex pull-right"><fmt:formatDate value="${listSupplier.updatedAt}"
+							pattern="yyyy年MM月dd日" /></span>
+        </li>    
+       </c:forEach> 
         </li>              
-        <li>
-          <a href="#" title="" target="_blank">成都军区重庆某医院家具采购技术成都军区…</a>
-          <span class="hex pull-right">2015-10-13</span>
-        </li>    
-        <li>
-          <a href="#" title="" target="_blank">成都军区重庆某医院家具采购技术成都军区…</a>
-          <span class="hex pull-right">2015-10-01</span>
-        </li>  
-        <li>
-          <a href="#" title="" target="_blank">成都军区重庆某医院家具采购技术成都军区…</a>
-          <span class="hex pull-right">2015-09-18</span>
-        </li> 
-        <li>
-          <a href="#" title="" target="_blank">成都军区重庆某医院家具采购技术成都军区…</a>
-          <span class="hex pull-right">2015-09-15</span>
-        </li>   
-        <li>
-          <a href="#" title="中国储备粮管理总公司地上通风道（地上笼）供应商入围项目招标公告" target="_blank">中国储备粮管理总公司地上通风道（地上笼）...</a>
-          <span class="hex pull-right">2015-07-31</span>
-        </li>    
-        <li>
-          <a href="#" title="关于进一步严格磷化铝药剂配送管理的通知" target="_blank">关于进一步严格磷化铝药剂配送管理的通知</a>
-          <span class="hex pull-right">2015-07-16</span>
-        </li>
-        <li>
-          <a href="#" title="中国储备粮管理总公司磷化氢环流熏蒸系统供应商入围项目国内公开招标公告" target="_blank">中国储备粮管理总公司磷化氢环流熏蒸系统供...</a>
-          <span class="hex pull-right">2015-06-17</span>
-        </li> 
       </ul>
      </div>
     </div>   

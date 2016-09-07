@@ -16,7 +16,27 @@
     <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
     <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
     <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+     <result column="IS_REMINDERS" jdbcType="DATE" property="isReminders" />
   </resultMap>
+  
+    <resultMap id="SupplierAgentsMap" type="yggc.model.sms.SupplierAgents">
+    <!--
+    @mbggenerated
+    -->
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="OPERATOR_ID" jdbcType="VARCHAR" property="operatorId" />
+    <result column="USERS_ID" jdbcType="VARCHAR" property="usersId" />
+    <result column="SUPPLIER_ID" jdbcType="VARCHAR" property="supplierId" />
+    <result column="UNDO_TYPE" jdbcType="DECIMAL" property="undoType" />
+    <result column="RESULT" jdbcType="DECIMAL" property="result" />
+    <result column="TITLE" jdbcType="VARCHAR" property="title" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
+    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+   <result column="IS_REMINDERS" jdbcType="DATE" property="isReminders" />
+  </resultMap>
+  
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="yggc.model.sms.SupplierAgents">
     <!--
     @mbggenerated
@@ -28,7 +48,7 @@
     @mbggenerated
     -->
     ID, OPERATOR_ID, USERS_ID, SUPPLIER_ID, UNDO_TYPE, RESULT, TITLE, REMARK, IS_DELETED, 
-    CREATED_AT, UPDATED_AT
+    CREATED_AT, UPDATED_AT, IS_REMINDERS
   </sql>
   <sql id="Blob_Column_List">
     <!--
@@ -58,12 +78,12 @@
     <!--
     @mbggenerated
     -->
-    insert into T_SES_SMS_SUPPLIER_AGENTS (ID, OPERATOR_ID, USERS_ID, 
+    insert into T_SES_SMS_SUPPLIER_AGENTS ( OPERATOR_ID, USERS_ID, 
       SUPPLIER_ID, UNDO_TYPE, RESULT, 
       TITLE, REMARK, IS_DELETED, 
-      CREATED_AT, UPDATED_AT, CONTENT
+      CREATED_AT, UPDATED_AT,IS_REMINDERS, CONTENT
       )
-    values (#{id,jdbcType=VARCHAR}, #{operatorId,jdbcType=VARCHAR}, #{usersId,jdbcType=VARCHAR}, 
+    values ( #{operatorId,jdbcType=VARCHAR}, #{usersId,jdbcType=VARCHAR}, 
       #{supplierId,jdbcType=VARCHAR}, #{undoType,jdbcType=DECIMAL}, #{result,jdbcType=DECIMAL}, 
       #{title,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{isDeleted,jdbcType=DECIMAL}, 
       #{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE}, #{content,jdbcType=CLOB}
@@ -107,6 +127,9 @@
       </if>
       <if test="updatedAt != null">
         UPDATED_AT,
+      </if>
+        <if test="isReminders != null">
+        IS_REMINDERS,
       </if>
       <if test="content != null">
         CONTENT,
@@ -187,6 +210,9 @@
       <if test="updatedAt != null">
         UPDATED_AT = #{updatedAt,jdbcType=DATE},
       </if>
+      <if test="isReminders != null">
+        IS_REMINDERS= #{isReminders,jdbcType=DECIMAL},
+      </if>
       <if test="content != null">
         CONTENT = #{content,jdbcType=CLOB},
       </if>
@@ -208,6 +234,7 @@
       IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
       CREATED_AT = #{createdAt,jdbcType=DATE},
       UPDATED_AT = #{updatedAt,jdbcType=DATE},
+        IS_REMINDERS= #{isReminders,jdbcType=DECIMAL},
       CONTENT = #{content,jdbcType=CLOB}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -225,7 +252,22 @@
       REMARK = #{remark,jdbcType=VARCHAR},
       IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
       CREATED_AT = #{createdAt,jdbcType=DATE},
-      UPDATED_AT = #{updatedAt,jdbcType=DATE}
+      UPDATED_AT = #{updatedAt,jdbcType=DATE},
+        IS_REMINDERS= #{isReminders,jdbcType=DECIMAL}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <select id="selectAgents"  resultMap="BaseResultMap" parameterType="yggc.model.sms.SupplierAgents" >
+   select 
+    <include refid="Base_Column_List" />
+    
+    from T_SES_SMS_SUPPLIER_AGENTS
+    
+    where IS_REMINDERS = #{isReminders,jdbcType=DECIMAL}
+<!--  		 SELECT sa.*,bu.REL_NAME,BU1.REL_NAME FROM T_SES_SMS_SUPPLIER_AGENTS  sa   -->
+<!-- 		INNER JOIN T_SES_BMS_USERINFO bu1 ON sa.USERS_ID=BU1."ID" -->
+<!-- 		INNER JOIN T_SES_BMS_USERINFO bu ON sa.OPERATOR_ID = bu."ID"  -->
+  </select>  
+  
+  
 </mapper>

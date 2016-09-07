@@ -2,6 +2,8 @@ package yggc.service.bms;
 
 import java.util.List;
 
+import com.github.pagehelper.PageInfo;
+
 import yggc.model.bms.User;
 import yggc.model.bms.Userrole;
 
@@ -84,6 +86,7 @@ public interface UserServiceI {
 
 	public void saveRelativity(Userrole userrole);
 
-	public List<User> selectUserRole(User user);
+	public List<User> selectUserRole(User user,Integer pageNum );
+
 
 }

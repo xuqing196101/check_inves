@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop" xsi:schemaLocation="
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
 http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
 http://www.springframework.org/schema/tx 
@@ -9,14 +12,16 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 ">
 
 	<!-- JNDI方式配置数据源 -->
-	<!-- <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean"> <property name="jndiName" value="${jndiName}"></property> </bean> -->
+	<!-- <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean"> 
+		<property name="jndiName" value="${jndiName}"></property> </bean> -->
 
 	<!-- 配置数据源 -->
-	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
 		<property name="url" value="${jdbc_url}" />
 		<property name="username" value="${jdbc_username}" />
 		<property name="password" value="${jdbc_password}" />
-		<property name="connectionProperties" value="${driverClassName}"></property> 
+		<property name="connectionProperties" value="${driverClassName}"></property>
 
 		<!-- 初始化连接大小 -->
 		<property name="initialSize" value="0" />
@@ -29,7 +34,8 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 		<!-- 获取连接最大等待时间 -->
 		<property name="maxWait" value="60000" />
 
-		<!-- <property name="poolPreparedStatements" value="true" /> <property name="maxPoolPreparedStatementPerConnectionSize" value="33" /> -->
+		<!-- <property name="poolPreparedStatements" value="true" /> <property 
+			name="maxPoolPreparedStatementPerConnectionSize" value="33" /> -->
 
 		<property name="validationQuery" value="${validationQuery}" />
 		<property name="testOnBorrow" value="false" />
@@ -58,6 +64,42 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 		<property name="dataSource" ref="dataSource" />
 		<!-- 自动扫描entity目录, 省掉Configuration.xml里的手工配置 -->
 		<property name="mapperLocations" value="classpath:yggc/mapping/*/*.xml" />
+		<property name="typeAliasesPackage" value="com.isea533.ssm.model" />
+		<property name="plugins">
+			<array>
+				<bean class="com.github.pagehelper.PageHelper">
+					<property name="properties">
+						<value>
+							<!-- 4.0.0以后版本可以不设置该参数 -->
+							dialect=oracle
+							<!-- 该参数默认为false -->
+							<!-- 设置为true时，会将RowBounds第一个参数offset当成pageNum页码使用 -->
+							<!-- 和startPage中的pageNum效果一样 -->
+<!-- 							offsetAsPageNum=false -->
+							<!-- 该参数默认为false -->
+							<!-- 设置为true时，使用RowBounds分页会进行count查询 -->
+<!-- 							rowBoundsWithCount=false -->
+							<!-- 设置为true时，如果pageSize=0或者RowBounds.limit = 0就会查询出全部的结果 -->
+							<!-- （相当于没有执行分页查询，但是返回结果仍然是Page类型）--> 
+<!-- 							pageSizeZero=true  -->
+							<!-- 3.3.0版本可用 - 分页参数合理化，默认false禁用 -->
+							<!-- 启用合理化时，如果pageNum<1会查询第一页，如果pageNum>pages会查询最后一页 -->
+							<!-- 禁用合理化时，如果pageNum<1或pageNum>pages会返回空数据 -->
+<!-- 							reasonable=true -->
+							<!-- 3.5.0版本可用 - 为了支持startPage(Object params)方法 -->
+							<!-- 增加了一个`params`参数来配置参数映射，用于从Map或ServletRequest中取值 -->
+							<!-- 可以配置pageNum,pageSize,count,pageSizeZero,reasonable,orderBy,不配置映射的用默认值 -->
+							<!-- 不理解该含义的前提下，不要随便复制该配置 -->
+							<!-- params=pageNum=pageHelperStart;pageSize=pageHelperRows; -->
+							<!-- 支持通过Mapper接口参数来传递分页参数 -->
+<!-- 							supportMethodsArguments=false -->
+							<!-- always总是返回PageInfo类型,check检查返回类型是否为PageInfo,none返回Page -->
+<!-- 							returnPageInfo=none -->
+						</value>
+					</property>
+				</bean>
+			</array>
+		</property>
 	</bean>
 
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
@@ -66,7 +108,8 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 	</bean>
 
 	<!-- 配置事务管理器 -->
-	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
@@ -99,14 +142,17 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 	</tx:advice>
 	<aop:config>
 		<aop:pointcut id="transactionPointcut" expression="execution(* yggc.service..*.*(..))" />
-		<aop:advisor pointcut-ref="transactionPointcut" advice-ref="transactionAdvice" />
+		<aop:advisor pointcut-ref="transactionPointcut"
+			advice-ref="transactionAdvice" />
 	</aop:config>
 
 
 	<!-- 配置druid监控spring jdbc -->
-	<bean id="druid-stat-interceptor" class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">
+	<bean id="druid-stat-interceptor"
+		class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">
 	</bean>
-	<bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut" scope="prototype">
+	<bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut"
+		scope="prototype">
 		<property name="patterns">
 			<list>
 				<value>yggc.service.*</value>
@@ -114,7 +160,8 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 		</property>
 	</bean>
 	<aop:config>
-		<aop:advisor advice-ref="druid-stat-interceptor" pointcut-ref="druid-stat-pointcut" />
+		<aop:advisor advice-ref="druid-stat-interceptor"
+			pointcut-ref="druid-stat-pointcut" />
 	</aop:config>
 
 </beans>

@@ -2,6 +2,7 @@ package yggc.controller.sys.bms;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,7 +15,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import yggc.model.bms.User;
+import yggc.model.sms.SupplierAgents;
 import yggc.service.bms.UserServiceI;
+import yggc.service.sms.SupplierAgentsService;
 
 /**
 * <p>Title:LoginController </p>
@@ -27,7 +30,9 @@ import yggc.service.bms.UserServiceI;
 @Scope("prototype")
 @RequestMapping("/login")
 public class LoginController {
-
+	
+	@Autowired
+	private SupplierAgentsService agentsService;
 	@Autowired
 	private UserServiceI userService;
 	
@@ -87,8 +92,13 @@ public class LoginController {
 	* @return String     
 	*/
 	@RequestMapping("/home")
-	public String home(){
-		
+	public String home(HttpServletRequest req){
+		//代办事项
+		List<SupplierAgents> getListSupplier=agentsService.getAllSupplierAgent(new SupplierAgents(new Short("0")));
+		req.setAttribute("SupplierAgent", getListSupplier);
+		//催办事项
+		List<SupplierAgents> getListSupplierReminders=agentsService.getAllSupplierAgent(new SupplierAgents(new Short("1")));
+		req.setAttribute("SupplierReminders", getListSupplierReminders);
 		return "backend";
 	}
 	

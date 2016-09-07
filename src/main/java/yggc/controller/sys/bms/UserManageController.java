@@ -21,6 +21,8 @@ import yggc.service.bms.UserServiceI;
 import yggc.util.Encrypt;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 
 /**
 * <p>Title:UserManageController </p>
@@ -51,13 +53,12 @@ public class UserManageController{
 	* @return String     
 	*/
 	@RequestMapping("/getAll")
-	public String getAll(Model model){
-		List<User> users=userService.selectUserRole(null);
-		model.addAttribute("list", users);
+	public String getAll(Model model,Integer page){
+		List<User> users=userService.selectUserRole(null, page==null?1:page);
+		model.addAttribute("list", new PageInfo<User>(users));
 		logger.info(JSON.toJSONStringWithDateFormat(users, "yyyy-MM-dd HH:mm:ss"));
 		return "user/list";
 	}
-	
 	/**   
 	* @Title: add
 	* @author Ye MaoLin
@@ -118,7 +119,7 @@ public class UserManageController{
 	*/
 	@RequestMapping("/edit")
 	public String edit(User u,Model model){
-		List<User> users=userService.selectUserRole(u);
+		List<User> users=userService.selectUserRole(u, null);
 		User user=users.get(0);
 		logger.info(JSON.toJSONStringWithDateFormat(user, "yyyy-MM-dd HH:mm:ss"));
 		logger.info(JSON.toJSONStringWithDateFormat(user.getCreater(), "yyyy-MM-dd HH:mm:ss"));
@@ -153,7 +154,7 @@ public class UserManageController{
 	*/
 	@RequestMapping("/update")
 	public String update(HttpServletRequest request,User user,String roleId){
-		List<User> users=userService.selectUserRole(user);
+		List<User> users=userService.selectUserRole(user, null);
 		User u=users.get(0);
 		//先删除之前的与角色的关联关系
 		List<Role> oldRole=u.getRoles();
@@ -209,7 +210,7 @@ public class UserManageController{
 	*/
 	@RequestMapping("/view")
 	public String view(Model model,User user){
-		List<User> ulist=userService.selectUserRole(user);
+		List<User> ulist=userService.selectUserRole(user, null);
 		model.addAttribute("user", ulist.get(0));
 		return "user/view";
 	}
