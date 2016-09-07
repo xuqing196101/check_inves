@@ -9,6 +9,11 @@
     <base href="<%=basePath%>">
     
     <title>新增模板</title>
+    <script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/ueditor.config.js"></script>
+	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/ueditor.all.min.js"> </script>
+	<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+	<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/lang/zh-cn/zh-cn.js"></script>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -21,20 +26,6 @@
 	
 	
   </head>
-<script type="text/javascript">
-	function cheClick(){
-		var roleIds="";
-		var roleNames="";
-		$('input[name="chkItem"]:checked').each(function(){
-			var idName=$(this).val();
-			var arr=idName.split(";");
-			roleIds+=arr[0]+",";
-			roleNames+=arr[1]+",";
-		});
-		$("#roleId").val(roleIds.substr(0,roleIds.length-1));
-		$("#roleName").val(roleNames.substr(0,roleNames.length-1));
-	}
-</script>
 <body>
 <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
@@ -48,31 +39,33 @@
    
 <!-- 新增模板开始-->
    <div class="container">
-   <form action="<%=basePath %>templet/save.do" method="post">
-   <div>
-   <div class="headline-v2">
-   <h2>新增模板</h2>
-   </div>
-   <ul class="list-unstyled list-flow p0_20">
+   		<form action="<%=basePath %>templet/save.do" method="post">
+   		<div class="headline-v2">
+   			<h2>新增模板</h2>
+   		</div>
+   		<ul class="list-unstyled list-flow p0_20">
 		     <li class="col-md-6  p0 ">
 			   <span class="">模板名称：</span>
 			   <div class="input-append">
-		        <input class="span2" name="relName" type="text">
-		        <span class="add-on">i</span>
+		        <input class="span2" name="name" type="text">
 		       </div>
 			 </li>
     		 <li class="col-md-6 p0">
 			   <span class="">模板类型：</span>
-			   <div class="input-append">
-		        <input class="span2" name="loginName" type="text">
-		        <span class="add-on">i</span>
-		       </div>
+		        <div class="btn-group ">
+          			<select id="temType" name =temType class="w230" >
+						<option></option>
+			  	  		<option value="1">1</option>
+			  	  	 	<option value="2">2</option>
+	  				</select>
+       			</div>
 			 </li>
 		     
 			 <li class="col-md-12 p0">
 	   			<span class="fl">模板内容：</span>
 	  			<div class="col-md-12 pl200 fn mt5 pwr9">
-        			<textarea class="text_area col-md-12 " title="不超过800个字" placeholder="不超过800个字"></textarea>
+	  				 <script id="editor" name="content" type="text/plain" class="ml125 mt20 w900"></script>
+        			<!-- <textarea class="text_area col-md-12 " title="不超过800个字" placeholder="不超过800个字"></textarea> -->
        			</div>
 			 </li> 
 		     
@@ -96,33 +89,21 @@
 		      </div>
 			 </li> --%>
 			 
-   </ul>
-  </div> 
+   		</ul>
    
-  <div  class="col-md-12">
-   <div class="fl padding-10">
-    <button class="btn btn-windows save" type="submit">新增</button>
-    <button class="btn btn-windows git" onclick="history.go(-1)" type="button">返回</button>
-	</div>
-  </div>
-  </form>
+  		<div  class="col-md-12">
+   			<div class="fl padding-100">
+    			<button class="btn btn-windows save" type="submit">新增</button>
+    			<button class="btn btn-windows git" onclick="history.go(-1)" type="button">返回</button>
+			</div>
+  		</div>
+  	</form>
  </div>
- <!--底部代码开始-->
-<div class="footer-v2" id="footer-v2">
-
-      <div class="footer">
-
-            <!-- Address -->
-              <address class="">
-			  Copyright © 2016 版权所有：中央军委后勤保障部 京ICP备09055519号
-              </address>
-              <div class="">
-		       浏览本网主页，建议将电脑显示屏的分辨率调为1024*768
-              </div> 
-            <!-- End Address -->
-
-<!--/footer--> 
-      </div>
-</div>
+ 
+<script type="text/javascript">
+    //实例化编辑器
+    //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+    var ue = UE.getEditor('editor');
+</script>
 </body>
 </html>

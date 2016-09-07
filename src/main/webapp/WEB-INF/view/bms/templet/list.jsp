@@ -143,7 +143,6 @@
 		  <th class="info w50">序号</th>
 		  <th class="info">模板类型</th>
 		  <th class="info">模板名称</th>
-		  <th class="info">模版内容</th>
 		  <th class="info">创建日期</th>
 		  <th class="info">修改日期</th>
 		</tr>
@@ -158,8 +157,6 @@
 				<td class="tc" onclick="view(${templet.id})">${templet.temType}</td>
 				<!-- 模板名称 -->
 				<td class="tc">${templet.name}</td>
-				<!-- 模板内容 -->
-				<td class="tc">${templet.content}</td>
 				<!-- 创建时间 -->
 				<td class="tc"><fmt:formatDate value='${templet.createdAt}' pattern="yyyy年MM月dd日   HH:mm:ss " /></td>
 				<!-- 修改时间 -->
