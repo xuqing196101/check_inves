@@ -4,12 +4,11 @@ import java.util.List;
 
 import yggc.model.iss.fs.Park;
 /**
-* <p>Title:ParkMapper </p>
-* <p>Description: 版块持久化接口</p>
-* <p>Company: yggc </p> 
+* @Title:ParkMapper 
+* @Description: 版块持久化接口
 * @author Peng Zhongjun
-* @date 2016-8-4下午4:51:54
-*/
+* @date 2016-9-7下午6:23:11
+ */
 public interface ParkMapper {
 	
 	/**   

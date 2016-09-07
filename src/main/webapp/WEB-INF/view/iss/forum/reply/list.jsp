@@ -26,14 +26,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   <script type="text/javascript">
   	function view(id){
-  		window.location.href="<%=basePath%>reply/view.do?id="+id;
+  		window.location.href="<%=basePath%>reply/view.html?id="+id;
   	}
   
   </script>
   <body>
   <jsp:include page="/backhead.jsp"></jsp:include>
   	<div >
-		<a href="<%=basePath%>reply/add.do">新增</a>
+		<a href="<%=basePath%>reply/add.html">新增</a>
 	</div>
     <table >
 		<thead>
@@ -49,8 +49,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<td onclick="view(${reply.id});">${reply.name}</td>
 
 				<td>
-					<a href="<%=basePath%>reply/edit.do?id=${reply.id}">修改</a>
-					<a href="<%=basePath%>reply/delete.do?id=${reply.id}">删除</a>
+					<a href="<%=basePath%>reply/edit.html?id=${reply.id}">修改</a>
+					<a href="<%=basePath%>reply/delete.html?id=${reply.id}">删除</a>
 				</td>
 			</tr>
 		</c:forEach>

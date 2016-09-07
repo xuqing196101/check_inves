@@ -58,7 +58,7 @@
 	}
 	
   	function view(id){
-  		window.location.href="<%=basePath%>park/view.do?id="+id;
+  		window.location.href="<%=basePath%>park/view.html?id="+id;
   	}
   	
     function edit(){
@@ -68,7 +68,7 @@
 		}); 
 		if(id.length==1){
 			
-			window.location.href="<%=basePath%>post/edit.do?id="+id;
+			window.location.href="<%=basePath%>post/edit.html?id="+id;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -84,7 +84,7 @@
 		if(id.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>post/delete.do?id="+id;
+				window.location.href="<%=basePath%>post/delete.html?id="+id;
 			});
 		}else{
 			layer.alert("请选择要删除的帖子",{offset: ['222px', '390px'], shade:0.01});
@@ -92,7 +92,7 @@
     }
     
     function add(){
-    	window.location.href="<%=basePath%>post/add.do";
+    	window.location.href="<%=basePath%>post/add.html";
     }
     
 	//鼠标移动显示全部内容

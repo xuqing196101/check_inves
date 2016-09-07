@@ -9,11 +9,10 @@ import java.util.List;
 import yggc.model.iss.fs.Reply;
 
 /**
- * <p>Title:ReplyService </p>
- * <p>Description: 评论管理服务接口</p>
- * <p>Company: yggc </p> 
- * @author Peng Zhongjun
- * @date 2016-8-10下午5:11:53
+* @Title:ReplyService 
+* @Description: 回复管理接口
+* @author Peng Zhongjun
+* @date 2016-9-7下午6:31:39
  */
 public interface ReplyService {
 	/**   
@@ -26,13 +25,21 @@ public interface ReplyService {
 	BigDecimal queryByCount(Reply reply);
 	
 	/**   
-	* @Title: queryByCount
+	* @Title: queryCountByParkId
 	* @author Peng Zhongjun
 	* @date 2016-9-1下午4:57:10  
 	* @Description: 查询记录数
 	* @return BigDecimal     
 	*/
 	BigDecimal queryCountByParkId(String parkId);
+	/**   
+	* @Title: queryCountByTopicId
+	* @author Peng Zhongjun
+	* @date 2016-9-1下午4:57:10  
+	* @Description: 查询记录数
+	* @return BigDecimal     
+	*/
+	BigDecimal queryCountByTopicId(String topicId);
 	
 	/**   
 	* @Title: queryByList

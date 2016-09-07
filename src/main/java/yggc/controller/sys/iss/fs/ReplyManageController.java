@@ -17,11 +17,10 @@ import yggc.model.iss.fs.Reply;
 import yggc.service.iss.fs.ReplyService;
 
 /**
- * <p>Title:ReplyManageController </p>
- * <p>Description：回复管理控制类  </p>
- * <p>Company: yggc </p> 
- * @author Peng Zhongjun
- * @date 2016-8-10下午5:03:01
+* @Title:ReplyManageController 
+* @Description: 
+* @author Peng Zhongjun
+* @date 2016-9-7下午6:20:38
  */
 @Controller
 @Scope("prototype")
@@ -87,7 +86,7 @@ public class ReplyManageController {
 	@RequestMapping("/save")
 	public String save(HttpServletRequest request,Reply reply){
 		replyService.insertSelective(reply);
-		return "redirect:getlist.do";
+		return "redirect:getlist.html";
 	}
 	
 	
@@ -119,7 +118,7 @@ public class ReplyManageController {
 	@RequestMapping("/update")
 	public String update(HttpServletRequest request,Reply reply){
 		replyService.updateByPrimaryKeySelective(reply);
-		return "redirect:getlist.do";
+		return "redirect:getlist.html";
 	}
 	
 	/**   
@@ -133,6 +132,6 @@ public class ReplyManageController {
 	@RequestMapping("/delete")
 	public String delete(String id){
 		replyService.deleteByPrimaryKey(id);
-		return "redirect:getlist.do";
+		return "redirect:getlist.html";
 	}
 }

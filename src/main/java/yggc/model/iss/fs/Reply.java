@@ -4,12 +4,11 @@ import java.sql.Timestamp;
 
 import yggc.model.bms.User;
 /**
-* <p>Title:Reply </p>
-* <p>Description:用户实体类 </p>
-* <p>Company: yggc </p> 
+* @Title:Reply 
+* @Description: 回复实体类
 * @author Peng Zhongjun
-* @Timestamp 2016-8-3下午4:53:36
-*/
+* @date 2016-9-7下午6:27:03
+ */
 public class Reply {
     /**
      * @Fields id : 主键

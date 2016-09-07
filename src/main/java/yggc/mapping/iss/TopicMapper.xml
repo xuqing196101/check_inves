@@ -4,35 +4,17 @@
 		  <resultMap id="TopicResultMap" type="yggc.model.iss.fs.Topic">
 		    <id column="ID" property="id" />
 		    <result column="NAME"  property="name" />
-
 		    <result column="CREATED_AT"  property="createdAt" />
 		    <result column="UPDATED_AT"  property="updatedAt" />
-		     <result column="CONTENT" jdbcType="CLOB" property="content" />
-		     
+		     <result column="CONTENT" jdbcType="CLOB" property="content" />		     
 		    <association  column="PARK_ID"  property="park"  select="yggc.dao.iss.fs.ParkMapper.selectByPrimaryKey"/>  
 		    <association  column="USER_ID"  property="user" select="yggc.dao.bms.UserMapper.queryById"/>
 		  </resultMap>
 		  
 		  	<resultMap type="yggc.model.iss.fs.Topic" id="TopicPostMap" extends="TopicResultMap">
-		  	<collection property="posts" ofType="yggc.model.iss.fs.Post">
-		  			<id column="ID"  property="id" />
-				    <result column="NAME" property="name" />
-				    <result column="IS_TOP"  property="isTop" />
-				    <result column="IS_LOCKING"  property="isLocking" />
-				    <result column="IS_ESSENCE"  property="isEssence" />
-				    <result column="IS_CAN_REPLY"  property="isCanReply" />
-				    <result column="PUBLISHED_TIME"  property="publishedTime" />
-				    <result column="LAST_REPLYED_TIME"  property="lastReplyedTime" />			
-				    	    
-				    <association column="USER_ID"  property="user" select="yggc.dao.bms.UserMapper.queryById"/>
-				    <association column="TOPIC_ID"  property="topic" select="yggc.dao.iss.fs.TopicMapper.selectByPrimaryKey"/>	
-				    <association column="PARK_ID"  property="park" select="yggc.dao.iss.fs.ParkMapper.selectByPrimaryKey"/>		
-
-			</collection>  
-		  </resultMap>
-		  
-		  
-	  
+		  		<collection property="posts" ofType="yggc.model.iss.fs.Post" resultMap="yggc.dao.iss.fs.PostMapper.PostResultMap"/> 
+		 	</resultMap>
+		    
 		   <sql id="Tabel_Name">
 		    T_ISS_FS_TOPIC
 		  </sql>
@@ -51,10 +33,9 @@
 			      </if>			
 				</trim>
 		  </sql>
-	  
-	  
+	    
 		  <!-- 1.根据Id查询 -->
-		  <select id="selectByPrimaryKey" parameterType="Object" resultMap="TopicResultMap">
+		  <select id="selectByPrimaryKey" parameterType="Object" resultMap="TopicPostMap">
 			    select 
 			    <include refid="Base_Column_List" />
 			    from T_ISS_FS_TOPIC
@@ -62,7 +43,7 @@
 		  </select>
 	    
 		    <!-- 2.查询列表 -->
-		   <select id="queryByList" parameterType="Object" resultMap="TopicResultMap">
+		   <select id="queryByList" parameterType="Object" resultMap="TopicPostMap">
 			    select 
 			    <include refid="Base_Column_List" />
 			    from T_ISS_FS_TOPIC
@@ -146,8 +127,7 @@
 		      </if>
 		      <if test="park != null">
 		        PARK_ID = #{park.id},
-		      </if>
-		      
+		      </if>		      
 		    </set>
 		    where ID = #{id}
 		  </update>

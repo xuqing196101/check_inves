@@ -14,11 +14,10 @@ import yggc.model.iss.fs.Post;
 import yggc.service.iss.fs.PostService;
 
 /**
- * <p>Title:PostServiceImpl </p>
- * <p>Description: 帖子管理服务接口实现类</p>
- * <p>Company: yggc </p> 
- * @author Peng Zhongjun
- * @date 2016-8-10下午6:45:22
+* @Title:PostServiceImpl 
+* @Description: 帖子管理实现类
+* @author Peng Zhongjun
+* @date 2016-9-7下午6:29:01
  */
 @Service("postService")
 public class PostServiceImpl implements PostService{

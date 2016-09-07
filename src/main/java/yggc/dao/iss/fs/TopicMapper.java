@@ -5,14 +5,12 @@ import java.util.List;
 
 import yggc.model.iss.fs.Topic;
 /**
-* <p>Title:TopicMapper </p>
-* <p>Description: 主题持久化接口</p>
-* <p>Company: yggc </p> 
+* @Title:TopicMapper 
+* @Description: 主题持久化接口
 * @author Peng Zhongjun
-* @date 2016-8-4下午4:51:54
-*/
-public interface TopicMapper {
-	
+* @date 2016-9-7下午6:24:51
+ */
+public interface TopicMapper {	
 	/**   
 	* @Title: queryByCount
 	* @author Peng Zhongjun
@@ -22,7 +20,6 @@ public interface TopicMapper {
 	* @return Integer     
 	*/
 	BigDecimal queryByCount(Topic topic);
-
 
 	/**   
 	* @Title: queryByList
@@ -34,8 +31,6 @@ public interface TopicMapper {
 	*/
 	List<Topic> queryByList(Topic topic);
 	
-	
-	
 	/**   
 	* @Title: selectByPrimaryKey
 	* @author Peng Zhongjun
@@ -45,9 +40,7 @@ public interface TopicMapper {
 	* @return Topic
 	*/
     Topic selectByPrimaryKey(String id);
-	
 
-	
     /**   
 	* @Title: deleteByPrimaryKey
 	* @author Peng Zhongjun

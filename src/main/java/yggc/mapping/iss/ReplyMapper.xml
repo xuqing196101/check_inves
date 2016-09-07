@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="yggc.dao.iss.fs.ReplyMapper">
-
 			  <resultMap id="ReplyResultMap" type="yggc.model.iss.fs.Reply">
 			    <id column="ID"  property="id" />
 			    <result column="NAME"  property="name" />
 			     <result column="CONTENT"  property="content" />
 			    <result column="PUBLISHED_TIME"  property="publishedTime" />
-
 			     <association column="POST_ID"  property="post" select="yggc.dao.iss.fs.PostMapper.selectByPrimaryKey"/>
 			    <association column="REPLY_ID"  property="reply" select="selectByPrimaryKey"/>
-			    <association column="USER_ID"  property="user" select="yggc.dao.bms.UserMapper.queryById"/>			    
-			    
+			    <association column="USER_ID"  property="user" select="yggc.dao.bms.UserMapper.queryById"/>			    			    
 			  </resultMap>
-			  
-			  			  
+			  			  			  
 	  			<!-- 表名 -->
 			  	<sql id="Tabel_Name">
 					T_iss.fs_REPLY
@@ -27,6 +23,9 @@
 			  
 	  			  <!-- 查询条件 -->
 			  <sql id="Example_Where_Clause">
+			  	where 1 = 1
+				 <trim suffixOverrides=",">			
+				</trim>
 				</sql>
 			
 				<!-- 根据ID查询 -->
@@ -43,6 +42,7 @@
 			    <include refid="Example_Where_Clause" />
 			  </select>
 			  
+			  <!-- 2.2根据版块查询列表总数 -->
 			  <select id="queryCountByParkId" resultType="Object" parameterType="Object">
 					SELECT COUNT(1) FROM T_ISS_FS_REPLY
 					WHERE POST_ID IN( 
@@ -50,7 +50,15 @@
 					WHERE PARK_ID = #{parkId}
 					)
 			  </select>
-			  
+			  <!-- 2.3根据主题查询列表总数 -->
+			  <select id="queryCountByTopicId" resultType="Object" parameterType="Object">
+					SELECT COUNT(1) FROM T_ISS_FS_REPLY
+					WHERE POST_ID IN( 
+					SELECT ID FROM T_ISS_FS_POST
+					WHERE TOPIC_ID = #{topicId}
+					)
+			  </select>
+			  		  
 			  <!-- 3.根据条件查询列表 -->
 			  <select id="queryByList" parameterType="Object" resultMap="ReplyResultMap">
 			    select 

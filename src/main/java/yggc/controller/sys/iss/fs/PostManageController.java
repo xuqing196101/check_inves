@@ -23,11 +23,10 @@ import yggc.service.iss.fs.TopicService;
 import yggc.util.DateUtil;
 
 /**
- * <p>Title:PostManageController </p>
- * <p>Description:帖子管理控制类  </p>
- * <p>Company: yggc </p> 
- * @author Peng Zhongjun
- * @date 2016-8-10下午5:03:01
+* @Title:PostManageController 
+* @Description: 帖子管理控制类
+* @author Peng Zhongjun
+* @date 2016-9-7下午6:19:24
  */
 @Controller
 @Scope("prototype")
@@ -41,6 +40,7 @@ public class PostManageController {
 	private ParkService parkService;	
 	@Autowired
 	private TopicService topicService;	
+	
 	/**   
 	* @Title: getList
 	* @author Peng Zhongjun
@@ -56,6 +56,7 @@ public class PostManageController {
 		model.addAttribute("list", list);
 		return "iss/forum/post/list";
 	}	
+	
 	/**   
 	* @Title: view
 	* @author Peng Zhongjun
@@ -99,7 +100,7 @@ public class PostManageController {
 	@RequestMapping("/save")
 	public String save(HttpServletRequest request,Post post){
 		postService.insertSelective(post);
-		return "redirect:getlist.do";
+		return "redirect:getlist.html";
 	}
 	
 	/**   
@@ -130,7 +131,7 @@ public class PostManageController {
 	@RequestMapping("/update")
 	public String update(HttpServletRequest request,Post post){
 		postService.updateByPrimaryKeySelective(post);
-		return "redirect:getlist.do";
+		return "redirect:getlist.html";
 	}
 	
 	/**   
@@ -144,7 +145,7 @@ public class PostManageController {
 	@RequestMapping("/delete")
 	public String delete(String id){
 		postService.deleteByPrimaryKey(id);
-		return "redirect:getlist.do";
+		return "redirect:getlist.html";
 	}
 	/**   
 	* @Title: getIndexList
@@ -209,15 +210,12 @@ public class PostManageController {
 	public String indexsave(HttpServletRequest request,Post post){
 		Timestamp ts = new Timestamp(new Date().getTime());
 		post.setPublishedTime(ts);
-/*		System.out.println(request.getParameter("parkId"));
-		System.out.println(request.getParameter("topicId"));*/
 		Park park= parkService.selectByPrimaryKey(request.getParameter("parkId"));
 		Topic topic =topicService.selectByPrimaryKey(request.getParameter("topicId"));
 		post.setPark(park);
 		post.setTopic(topic);
-		postService.insertSelective(post);
-		
-		return "redirect:/park/getIndex.do";
+		postService.insertSelective(post);	
+		return "redirect:/park/getIndex.html";
 	}
 	
 	

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package yggc.controller.sys.iss.fs;
 
 import java.math.BigDecimal;
@@ -27,11 +24,10 @@ import yggc.service.iss.fs.ReplyService;
 import yggc.service.iss.fs.TopicService;
 
 /**
- * Title:ParkManageController 
- * Description:版块管理控制类  
- * Company: yggc 
- *  @author Peng Zhongjun 
- *  @date 2016-8-10下午5:03:01
+* @Title:ParkManageController 
+* @Description: 版块管理控制类
+* @author Peng Zhongjun
+* @date 2016-9-7下午6:21:30
  */
 @Controller
 @Scope("prototype")
@@ -40,7 +36,6 @@ public class ParkManageController {
 
 	@Autowired
 	private ParkService parkService;
-	
 	@Autowired
 	private PostService postService;
 	@Autowired
@@ -77,7 +72,7 @@ public class ParkManageController {
 		model.addAttribute("list", parklist);
 		return "iss/forum/park/parklist";
 	}
-	
+
 	/**
 	 * @Title: view
 	 * @author Peng Zhongjun
@@ -90,7 +85,6 @@ public class ParkManageController {
 	@RequestMapping("/view")
 	public String view(Model model, String id) {
 		Park p = parkService.selectByPrimaryKey(id);
-		
 		Topic topic = new Topic();
 		topic.setPark(p);
 		BigDecimal topiccount = topicService.queryByCount(topic);
@@ -101,7 +95,6 @@ public class ParkManageController {
 		p.setTopiccount(topiccount);
 		p.setPostcount(postcount);
 		p.setReplycount(replycount);
-		
 		model.addAttribute("park", p);
 		return "iss/forum/park/view";
 	}
@@ -115,7 +108,7 @@ public class ParkManageController {
 	 * @return String
 	 */
 	@RequestMapping("/add")
-	public String add(Model model,HttpServletRequest request) {
+	public String add(Model model, HttpServletRequest request) {
 		List<User> users = userService.getAll();
 		model.addAttribute("users", users);
 		return "iss/forum/park/add";
@@ -132,17 +125,17 @@ public class ParkManageController {
 	 */
 	@RequestMapping("/save")
 	public String save(HttpServletRequest request, Park park) {
-		System.out.println((String)request.getParameter("userId"));
+		System.out.println((String) request.getParameter("userId"));
 		User user = new User();
-		user.setId((String)request.getParameter("userId"));
+		user.setId((String) request.getParameter("userId"));
 		user = userService.getUserById(user);
 		park.setUser(user);
-		User creater = (User)request.getSession().getAttribute("loginUser");
+		User creater = (User) request.getSession().getAttribute("loginUser");
 		park.setCreater(creater);
 		Timestamp ts = new Timestamp(new Date().getTime());
 		park.setCreatedAt(ts);
 		parkService.insertSelective(park);
-		return "redirect:getlist.do";
+		return "redirect:getlist.html";
 	}
 
 	/**
@@ -174,9 +167,9 @@ public class ParkManageController {
 	 */
 	@RequestMapping("/update")
 	public String update(HttpServletRequest request, Park park) {
-		
+
 		User user = new User();
-		user.setId((String)request.getParameter("userId"));
+		user.setId((String) request.getParameter("userId"));
 		user = userService.getUserById(user);
 		park.setUser(user);
 		Timestamp ts = new Timestamp(new Date().getTime());
@@ -184,7 +177,7 @@ public class ParkManageController {
 		String parkId = request.getParameter("parkId");
 		park.setId(parkId);
 		parkService.updateByPrimaryKeySelective(park);
-		return "redirect:getlist.do";
+		return "redirect:getlist.html";
 	}
 
 	/**
@@ -198,8 +191,9 @@ public class ParkManageController {
 	@RequestMapping("/delete")
 	public String delete(String id) {
 		parkService.deleteByPrimaryKey(id);
-		return "redirect:getlist.do";
+		return "redirect:getlist.html";
 	}
+
 	/**
 	 * @Title: getPark
 	 * @author Peng Zhongjun
@@ -212,13 +206,11 @@ public class ParkManageController {
 	@RequestMapping("/getIndex")
 	public String getPostIndex(Model model, Park park) {
 		List<Park> parklist = parkService.queryByList(park);
-
 		for (Park park2 : parklist) {
 			List<Post> postlist = postService.selectByParkID(park2.getId());
 			park2.setPosts(postlist);
 		}
 		model.addAttribute("list", parklist);
-		
 		return "iss/forum/forumIndex";
 	}
 }

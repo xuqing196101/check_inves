@@ -6,12 +6,11 @@ import java.util.List;
 
 import yggc.model.bms.User;
 /**
-* <p>Title:Park </p>
-* <p>Description:版块实体类 </p>
-* <p>Company: yggc </p> 
+* @Title:Park 
+* @Description: 版块实体类
 * @author Peng Zhongjun
-* @date 2016-8-3下午4:53:36
-*/
+* @date 2016-9-7下午6:26:03
+ */
 public class Park {
     /**
      * @Fields id : 主键

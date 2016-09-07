@@ -1,15 +1,15 @@
 package yggc.model.iss.fs;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 
 import yggc.model.bms.User;
 /**
-* <p>Title:Topic </p>
-* <p>Description:用户实体类 </p>
-* <p>Company: yggc </p> 
+* @Title:Topic 
+* @Description: 主题实体类
 * @author Peng Zhongjun
-* @Timestamp 2016-8-3下午4:53:36
-*/
+* @date 2016-9-7下午6:27:25
+ */
 public class Topic {
     /**
      * @Fields id : 主键
@@ -31,8 +31,7 @@ public class Topic {
     /**
      * @Fields upTimestampdAt : 更新时间
      */
-    private Timestamp upTimestampdAt;
-
+    private Timestamp updatedAt;
     /**
      * @Fields park : 所属版块
      */
@@ -45,6 +44,17 @@ public class Topic {
      * @Fields posts : 帖子
      */
     private List<Post> posts;
+    /**
+     * @Fields posts : 帖子数
+     */
+    private BigDecimal postcount;
+    /**
+     * @Fields posts : 回复
+     */
+    private BigDecimal replycount;
+    
+    
+    
     
 
     public String getId() {
@@ -71,15 +81,25 @@ public class Topic {
         this.createdAt = createdAt;
     }
 
-    public Timestamp getUpTimestampdAt() {
-        return upTimestampdAt;
-    }
 
-    public void setUpTimestampdAt(Timestamp upTimestampdAt) {
-        this.upTimestampdAt = upTimestampdAt;
-    }
 
-    public String getContent() {
+    public Timestamp getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Timestamp updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public List<Post> getPosts() {
+		return posts;
+	}
+
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
+	}
+
+	public String getContent() {
         return content;
     }
 
@@ -101,5 +121,22 @@ public class Topic {
 
 	public void setUser(User user) {
 		this.user = user;
-	}    
+	}
+
+	public BigDecimal getPostcount() {
+		return postcount;
+	}
+
+	public void setPostcount(BigDecimal postcount) {
+		this.postcount = postcount;
+	}
+
+	public BigDecimal getReplycount() {
+		return replycount;
+	}
+
+	public void setReplycount(BigDecimal replycount) {
+		this.replycount = replycount;
+	}  
+	
 }

@@ -1,5 +1,8 @@
 package yggc.controller.sys.iss.fs;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,15 +17,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import yggc.model.bms.User;
+import yggc.model.iss.fs.Park;
+import yggc.model.iss.fs.Post;
 import yggc.model.iss.fs.Topic;
+import yggc.service.bms.UserServiceI;
+import yggc.service.iss.fs.ParkService;
+import yggc.service.iss.fs.PostService;
+import yggc.service.iss.fs.ReplyService;
 import yggc.service.iss.fs.TopicService;
 
 /**
- * <p>Title:TopicManageController </p>
- * <p>Description:主题管理控制类  </p>
- * <p>Company: yggc </p> 
- * @author Peng Zhongjun
- * @date 2016-8-10下午5:03:01
+* @Title:TopicManageController 
+* @Description: 主题管理控制类
+* @author Peng Zhongjun
+* @date 2016-9-7下午6:22:10
  */
 @Controller
 @Scope("prototype")
@@ -30,7 +39,15 @@ import yggc.service.iss.fs.TopicService;
 public class TopicManageController {
 	
 	@Autowired
+	private ParkService parkService;	
+	@Autowired
+	private PostService postService;
+	@Autowired
 	private TopicService topicService;
+	@Autowired
+	private ReplyService replyService;
+	@Autowired
+	private UserServiceI userService;
 	
 	/**   
 	* @Title: getList
@@ -44,6 +61,14 @@ public class TopicManageController {
 	@RequestMapping("/getlist")
 	public String getList(Model model,Topic topic){
 		List<Topic> list = topicService.queryByList(topic);
+		for (Topic topic2 : list) {
+			Post post = new Post();
+			post.setTopic(topic2);
+			BigDecimal postcount = postService.queryByCount(post);
+			topic2.setPostcount(postcount);
+			BigDecimal replycount = replyService.queryCountByParkId(topic2.getId());
+			topic2.setReplycount(replycount);
+		}
 		model.addAttribute("list", list);
 		return "iss/forum/topic/list";
 	}
@@ -59,8 +84,14 @@ public class TopicManageController {
 	*/
 	@RequestMapping("/view")
 	public String view(Model model,String id){
-		Topic p = topicService.selectByPrimaryKey(id);
-		model.addAttribute("topic", p);
+		Topic topic = topicService.selectByPrimaryKey(id);
+		Post post = new Post();
+		post.setTopic(topic);
+		BigDecimal postcount = postService.queryByCount(post);
+		topic.setPostcount(postcount);
+		BigDecimal replycount = replyService.queryCountByParkId(id);
+		topic.setReplycount(replycount);
+		model.addAttribute("topic", topic);
 		return "iss/forum/topic/view";
 	}
 	
@@ -73,7 +104,9 @@ public class TopicManageController {
 	* @return String     
 	*/
 	@RequestMapping("/add")
-	public String add(HttpServletRequest request){
+	public String add(HttpServletRequest request,Model model){
+		List<Park> parks = parkService.queryByList(null);
+		model.addAttribute("parks", parks);
 		return "iss/forum/topic/add";
 	}
 	
@@ -88,8 +121,14 @@ public class TopicManageController {
 	*/
 	@RequestMapping("/save")
 	public String save(HttpServletRequest request,Topic topic){
+		Park park = parkService.selectByPrimaryKey(request.getParameter("parkId"));
+		topic.setPark(park);
+		User user = (User)request.getSession().getAttribute("loginUser");
+		topic.setUser(user);
+		Timestamp ts = new Timestamp(new Date().getTime());
+		topic.setCreatedAt(ts);
 		topicService.insertSelective(topic);
-		return "redirect:getlist.do";
+		return "redirect:getlist.html";
 	}
 	
 	
@@ -106,6 +145,8 @@ public class TopicManageController {
 	public String edit(String id,Model model){
 		Topic p = topicService.selectByPrimaryKey(id);
 		model.addAttribute("topic", p);
+		List<Park> parks = parkService.queryByList(null);
+		model.addAttribute("parks", parks);
 		return "iss/forum/topic/edit";
 	}
 	
@@ -120,8 +161,14 @@ public class TopicManageController {
 	*/
 	@RequestMapping("/update")
 	public String update(HttpServletRequest request,Topic topic){
+		Park park = parkService.selectByPrimaryKey(request.getParameter("parkId"));
+		topic.setPark(park);
+		Timestamp ts = new Timestamp(new Date().getTime());
+		topic.setUpdatedAt(ts);
+		String topicId = request.getParameter("topicId");
+		topic.setId(topicId);
 		topicService.updateByPrimaryKeySelective(topic);
-		return "redirect:getlist.do";
+		return "redirect:getlist.html";
 	}
 	
 	/**   
@@ -135,7 +182,7 @@ public class TopicManageController {
 	@RequestMapping("/delete")
 	public String delete(String id){
 		topicService.deleteByPrimaryKey(id);
-		return "redirect:getlist.do";
+		return "redirect:getlist.html";
 	}
 	
 	/**   
