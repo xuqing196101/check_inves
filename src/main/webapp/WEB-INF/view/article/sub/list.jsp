@@ -50,7 +50,11 @@
 	}
 	
 	function getInfo(){
-		window.location.href="<%=basePath%>article/getAll.do";
+		window.location.href="<%=basePath%>article/getAll.html";
+	}
+	
+	function view(id){
+		window.location.href="<%=basePath%>article/view.html?id="+id;
 	}
 	
     function sub(){
@@ -61,7 +65,7 @@
 		if(ids.length>0){
 			layer.confirm('您确定要提交吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>article/sumbit.do?ids="+ids;
+				window.location.href="<%=basePath%>article/sumbit.html?ids="+ids;
 			});
 		}else{
 			layer.alert("请选择要提交的信息",{offset: ['222px', '390px'], shade:0.01});
@@ -175,8 +179,8 @@
 	  			</tr>
 	  		</thead>
 	  		<c:forEach items="${list}" var="list" varStatus="vs">
-	  			<c:if test="${list.status=='0' }">
-		  		<tr>
+	  			<%--<c:if test="${list.status=='0' }">
+		  		--%><tr>
 		  			<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${list.id }" /></td>
 		  			<td class="tc" onclick="view('${list.id }')">${vs.index + 1 }</td>
 		  			<td class="tc" onclick="view('${list.id }')">${list.name }</td>
@@ -196,8 +200,8 @@
 		  			</td>
 		  			<td class="tc" onclick="view('${list.id }')">${list.articleType.name }</td>
 		  		</tr>
-		  		</c:if>
-	  		</c:forEach>
+		  		<%--</c:if>
+	  		--%></c:forEach>
 		  </table>
 	  	</div>  
   </div>

@@ -21,11 +21,14 @@ function cheClick(id,name){
 	$("#articleTypeName").val(name);
 }
 
-window.onload=function(){
-    var range="${article.range}";
-   // alert(range);
-    $("input[name='range'][value="+range+"]").attr("checked",true); 
-}
+$(function(){
+	var range="${article.range}";
+	if(range==2){
+		$("input[name='range']").attr("checked",true); 
+	}else{
+		$("input[name='range'][value="+range+"]").attr("checked",true); 
+	}
+});
 
 </script>    
   </head>
@@ -43,7 +46,7 @@ window.onload=function(){
    </div>
    
    <div class="container">
-    <form action="<%=basePath %>article/update.do" method="post">
+    <form action="<%=basePath %>article/update.html" method="post">
      <div class="headline-v2">
 	   <h2>修改信息</h2>
 	 </div>
@@ -57,18 +60,11 @@ window.onload=function(){
         <span class="add-on">i</span>
        </div>
 	 </li>
-     <%--<li class="col-md-6  p0 ">
-	   <span class="">录入时间：</span>
-	   <div class="input-append">
-        <input class="span2 Wdate w250" name="" id="" type="text" onclick='WdatePicker()'>
-       </div>
-	 </li> 
-     --%>
      <li class="col-md-6  p0 ">
 	   <span class="">发布范围：</span>
 	   <div class="input-append">
-        <label><input type="radio" name="range" id="0" value="0">内网</label>
-        <label><input type="radio" name="range" id="1" value="1">外网</label>
+        <label><input type="checkbox" name="range" value="0">内网</label>
+        <label><input type="checkbox" name="range" value="1">外网</label>
        </div>
 	 </li> 
      <li class="col-md-6  p0 ">
@@ -110,7 +106,7 @@ window.onload=function(){
 	  </div>
 	         
 	 <div  class="col-md-12">
-	   <div class="fl padding-10">
+	   <div class="mt40 tc mb50">
 	    <button class="btn btn-windows save" type="submit">修改</button>
 	    <input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 	</div>

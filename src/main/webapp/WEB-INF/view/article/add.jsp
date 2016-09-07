@@ -21,6 +21,26 @@ function cheClick(id,name){
 	$("#articleTypeName").val(name);
 }
 
+function ranges(){
+	var obj = document.getElementsByName("range");
+	var range = document.getElementsByName("range");
+	var s ="";
+	for(var i=0; i<obj.length; i++){ 
+		if(obj[i].checked) {
+				s+=obj[i].value; 
+				if(s=="0"){
+					range[0].value="0";
+				}else if(s=="1"){
+					range[1].value="1";
+				}else if(s=="01"){
+					range="2";
+				}else{
+					range="";
+				}
+			}
+		} 
+}
+
 </script>    
   </head>
   
@@ -37,34 +57,27 @@ function cheClick(id,name){
    </div>
    
    <div class="container">
-    <form action="<%=basePath %>article/save.do" method="post">
+    <form action="<%=basePath %>article/save.html" method="post">
      <div class="headline-v2">
 	   <h2>新增信息</h2>
 	 </div>
 	   <ul class="list-unstyled list-flow p0_20">
      <li class="col-md-6 p0">
-	   <span class="">信息标题：</span>
+	   <span class=""><i class="red">＊</i> 信息标题：</span>
 	   <div class="input-append">
         <input class="span2" id="name" name="name" type="text">
-        <span class="add-on">i</span>
        </div>
 	 </li>
-     <%--<li class="col-md-6  p0 ">
-	   <span class="">录入时间：</span>
+     <li class="col-md-6  p0 ">
+	   <span class=""><i class="red">＊</i> 发布范围：</span>
 	   <div class="input-append">
-        <input class="span2 Wdate w250" name="" id="" type="text" onclick='WdatePicker()'>
+        <label><input type="checkbox" name="range" id="nei" value="0" >内网</label>
+        <label><input type="checkbox" name="range" id="wai" value="1" >外网</label>
        </div>
 	 </li> 
-     --%>
+	 
      <li class="col-md-6  p0 ">
-	   <span class="">发布范围：</span>
-	   <div class="input-append">
-        <label><input type="checkbox" name="range" id="range" value="0">内网</label>
-        <label><input type="checkbox" name="range" id="range" value="1">外网</label>
-       </div>
-	 </li> 
-     <li class="col-md-6  p0 ">
-	   <span class="">信息类型：</span>
+	   <span class=""><i class="red">＊</i> 信息类型：</span>
 	   <div class="input-append">
          <input class="span2" id="articleTypeId" name="articleType.id" type="hidden">
 		 <input class="span2" id="articleTypeName" name="articleTypeName" type="text">
@@ -82,8 +95,9 @@ function cheClick(id,name){
        </div>
       </div>
 	 </li> 
+	 
      <li class="col-md-12 p0">
-	   <span class="fl">信息正文：</span>
+	   <span class="fl"><i class="red">＊</i> 信息正文：</span>
 	   <div class="col-md-12 pl200 fn mt5 pwr9">
 	   <script id="editor" name="content" type="text/plain" class="ml125 mt20 w900"></script>
        </div>
@@ -103,7 +117,8 @@ function cheClick(id,name){
 	  </div>
 	         
 	 <div  class="col-md-12">
-	   <div class="fl padding-10">
+	   <div class="mt40 tc mb50">
+	    <input class="btn btn-windows save" type="button" onclick="range()">保存</button>
 	    <button class="btn btn-windows save" type="submit">保存</button>
 	    <input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 	</div>

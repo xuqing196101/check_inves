@@ -13,6 +13,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.alibaba.fastjson.JSON;
 
 
@@ -85,6 +87,14 @@ public class ArticleController {
 	 */
 	@RequestMapping("/save")
 	public String save(HttpServletRequest request, Article article){
+		String[] ranges = request.getParameterValues("range");
+		if(ranges.length>1){
+			article.setRange(2);
+		}else{
+			for(int i=0;i<ranges.length;i++){
+				article.setRange(Integer.valueOf(ranges[i]));
+			}
+		}
 		User user = new User();
 		user.setId("be9bf4e9-6fa3-4fe6-ad4a-cc67272816a2");
 		article.setUser(user);
@@ -121,6 +131,14 @@ public class ArticleController {
 	 */
 	@RequestMapping("/update")
 	public String update(HttpServletRequest request, Article article){
+		String[] ranges = request.getParameterValues("range");
+		if(ranges.length>1){
+			article.setRange(2);
+		}else{
+			for(int i=0;i<ranges.length;i++){
+				article.setRange(Integer.valueOf(ranges[i]));
+			}
+		}
 		article.setUpdatedAt(new Date());
 		articleService.update(article);
 		return "redirect:getAll.do";
@@ -171,8 +189,8 @@ public class ArticleController {
 	* @return String
 	 */
 	@RequestMapping("/sublist")
-	public String sublist(Model model){
-		List<Article> list = articleService.selectAllArticle();
+	public String sublist(Model model,Article article){
+		List<Article> list = articleService.selectArticleByStatus(article);
 		model.addAttribute("list", list);
 		logger.info(JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss"));
 		return "article/sub/list";
@@ -188,8 +206,8 @@ public class ArticleController {
 	* @return String
 	 */
 	@RequestMapping("/auditlist")
-	public String auditlist(Model model){
-		List<Article> list = articleService.selectAllArticle();
+	public String auditlist(Model model,Article article){
+		List<Article> list = articleService.selectArticleByStatus(article);
 		model.addAttribute("list", list);
 		logger.info(JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss"));
 		return "article/audit/list";
@@ -262,6 +280,21 @@ public class ArticleController {
 		}
 		
 		return "redirect:getAll.do";
+	}
+	
+	/**
+	* @Title: checkName
+	* @author Shen Zhenfei
+	* @date 2016-9-7 上午9:15:45  
+	* @Description: 验证信息标题是否重复
+	* @param @return      
+	* @return boolean
+	 */
+	@ResponseBody
+	@RequestMapping("/check")
+	public boolean checkName(String name){
+		boolean check = false;
+		return check;
 	}
 	
 	

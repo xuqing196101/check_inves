@@ -47,6 +47,7 @@ public class ArticleServiceImpl implements ArticleService {
 	/**
 	 * 根据id查询信息
 	 */
+	@Override
 	public Article selectArticleById(String id) {
 		return articleMapper.selectById(id);
 	}
@@ -54,6 +55,21 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public void delete(String id) {
 		articleMapper.Isdelete(id);
+	}
+
+	/**
+	 * 查询标题信息
+	 */
+	@Override
+	public List<Article> checkName(Article article) {
+		List<Article> list = articleMapper.checkName(article);
+		return list;
+	}
+
+	@Override
+	public List<Article> selectArticleByStatus(Article article) {
+		List<Article> list = articleMapper.selectArticleByStatus(article);
+		return list;
 	}
 
 }

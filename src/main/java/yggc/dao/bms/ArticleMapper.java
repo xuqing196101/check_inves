@@ -105,4 +105,25 @@ public interface ArticleMapper {
      */
     List<Article> selectByIsIndex();
     
+    /**
+    * @Title: checkName
+    * @author Shen Zhenfei
+    * @date 2016-9-7 上午9:31:01  
+    * @Description: 查询标题
+    * @param @param article
+    * @param @return      
+    * @return List<Article>
+     */
+    List<Article> checkName(Article article);
+    
+    /**
+    * @Title: selectArticleByStatus
+    * @author Shen Zhenfei
+    * @date 2016-9-7 下午3:52:39  
+    * @Description: 根据状态查询信息
+    * @param @return      
+    * @return List<Article>
+     */
+    List<Article> selectArticleByStatus(Article article); 
+    
 }

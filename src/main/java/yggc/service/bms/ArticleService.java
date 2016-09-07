@@ -54,7 +54,7 @@ public interface ArticleService {
 	* @Title: update
 	* @author szf
 	* @date 2016-9-2 上午9:05:22  
-	* @Description: TODO 修改信息
+	* @Description: 修改信息
 	* @param @param article      
 	* @return void
 	 */
@@ -64,10 +64,33 @@ public interface ArticleService {
 	* @Title: delete
 	* @author szf
 	* @date 2016-9-2 上午10:51:10  
-	* @Description: TODO 假删除
+	* @Description: 假删除
 	* @param @param id      
 	* @return void
 	 */
 	void delete(String id);
+	
+	
+	/**
+	* @Title: checkName
+	* @author Shen Zhenfei
+	* @date 2016-9-7 上午9:35:13  
+	* @Description: 验证标题
+	* @param @return      
+	* @return List<Article>
+	 */
+	List<Article> checkName(Article article);
+	
+	
+	/**
+	* @Title: selectArticleByStatus
+	* @author Shen Zhenfei
+	* @date 2016-9-7 下午3:55:44  
+	* @Description: 根据需求查询信息列表
+	* @param @param article
+	* @param @return      
+	* @return List<Article>
+	 */
+	List<Article> selectArticleByStatus(Article article); 
 	
 }

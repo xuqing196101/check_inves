@@ -23,17 +23,21 @@ function cheClick(id,name){
 	$("#articleTypeName").val(name);
 }
 
-window.onload=function(){
-    var range="${article.range}";
-    $("input[name='range'][value="+range+"]").attr("checked",true); 
-}
+$(function(){
+	var range="${article.range}";
+	if(range==2){
+		$("input[name='range']").attr("checked",true); 
+	}else{
+		$("input[name='range'][value="+range+"]").attr("checked",true); 
+	}
+});
 
 function sub(){
 	var id = $("#id").val();
 	alert(id);
 	layer.confirm('您确定需要提交吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 		layer.close(index);
-		window.location.href="<%=basePath%>article/sumbit.do?id="+id+"&status=1";
+		window.location.href="<%=basePath%>article/sumbit.html?id="+id+"&status=1";
 	});
 }
 
@@ -66,18 +70,11 @@ function sub(){
         <span class="add-on">i</span>
        </div>
 	 </li>
-     <%--<li class="col-md-6  p0 ">
-	   <span class="">录入时间：</span>
-	   <div class="input-append">
-        <input class="span2 Wdate w250" name="" id="" type="text" onclick='WdatePicker()'>
-       </div>
-	 </li> 
-     --%>
      <li class="col-md-6  p0 ">
 	   <span class="">发布范围：</span>
 	   <div class="input-append">
-        <label><input type="radio" name="range" id="0" value="0" disabled>内网</label>
-        <label><input type="radio" name="range" id="1" value="1" disabled>外网</label>
+        <label><input type="checkbox" name="range" value="0" disabled>内网</label>
+        <label><input type="checkbox" name="range" value="1" disabled>外网</label>
        </div>
 	 </li> 
      <li class="col-md-6  p0 ">
@@ -148,9 +145,8 @@ function sub(){
 	  </c:if>
 	  
 	  
-	         
 	 <div  class="col-md-12">
-	   <div class="fl padding-10">
+	   <div class="mt40 tc mb50">
 	    <%--<button class="btn btn-windows add" type="button" onclick="sub()">提交</button>
 	    --%><input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 	</div>
