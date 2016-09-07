@@ -7,8 +7,8 @@ import yggc.formbean.UserTaskFormBean;
 import yggc.model.bms.UserTask;
 /**
  * 
- * <p>Title: UserTaksService</p>
- * <p>Description:用户任务管理service接口 </p> 
+ * @Title: UserTaksService
+ * @Description:用户任务管理service接口 
  * @author Li Xiaoxiao
  * @date  2016年9月7日,下午5:40:51
  *

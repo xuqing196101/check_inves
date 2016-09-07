@@ -6,8 +6,8 @@ import java.util.Map;
 import yggc.model.bms.UserTask;
 /**
  * 
- * <p>Title: UserTaskMapper</p>
- * <p>Description:用户任务管理dao接口 </p> 
+ * @Title: UserTaskMapper
+ * @Description:用户任务管理dao接口  
  * @author Li Xiaoxiao
  * @date  2016年9月7日,下午5:32:27
  *

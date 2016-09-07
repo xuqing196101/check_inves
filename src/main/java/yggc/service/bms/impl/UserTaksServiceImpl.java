@@ -16,8 +16,8 @@ import yggc.service.bms.UserTaksService;
 
 /**
  * 
- * <p>Title: UserTaksServiceImpl</p>
- * <p>Description: 用户任务管理service实现接口</p> 
+ * @Title: UserTaksServiceImpl
+ * @Description: 用户任务管理service实现接口 
  * @author Li Xiaoxiao
  * @date  2016年9月7日,下午5:42:21
  *

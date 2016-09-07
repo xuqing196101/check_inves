@@ -2,8 +2,8 @@ package yggc.formbean;
 
 /**
  * 
- * <p>Title: UserTaskFormBean</p>
- * <p>Description:用户任务管理formBean </p> 
+ * @Title: UserTaskFormBean 
+ * @Description:用户任务管理formBean 
  * @author Li Xiaoxiao
  * @date  2016年9月7日,下午5:31:18
  *

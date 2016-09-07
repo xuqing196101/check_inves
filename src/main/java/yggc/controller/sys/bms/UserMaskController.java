@@ -18,8 +18,8 @@ import yggc.service.bms.UserTaksService;
 import com.alibaba.fastjson.JSON;
 /**
  * 
- * <p>Title: UserMaskController</p>
- * <p>Description: 用户任务管理</p> 
+ * @Title: UserMaskController 
+ * @Description: 用户任务管理 
  * @author Li Xiaoxiao
  * @date  2016年9月7日,下午5:17:25
  *
