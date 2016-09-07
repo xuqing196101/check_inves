@@ -12,6 +12,14 @@ import java.util.Date;
   * @author ShaoYangYang
   * @date 2016年9月6日下午3:25:51
  */
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Pattern.Flag;
+import javax.validation.constraints.Size;
+
+
+
+
 public class Expert {
 	/**主键*/
     private String id;
@@ -79,11 +87,19 @@ public class Expert {
     private String purchaseDepId;
     /**审核状态；0未审核，1通过，2未通过*/
     private String status="0";
+<<<<<<< Updated upstream
     /**是否拉黑；0未拉黑，1已拉黑*/
     private String isBlack = "0";
     /**诚信积分；默认100，根据不诚信指标扣分*/
     private Integer honestyScore = 100;
     /**真是姓名*/
+=======
+
+    private String isBlack = "0";
+
+    private Integer honestyScore = 100;
+
+>>>>>>> Stashed changes
     private String relName;
     public String getId() {
         return id;
