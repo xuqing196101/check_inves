@@ -21,6 +21,8 @@ public class Article{
     private User user;
 
     private Integer showCount;
+    
+    private Integer downloadCount;
 
     private Integer status;
 
@@ -46,6 +48,14 @@ public class Article{
     
     private String reason;
     
+	public Integer getDownloadCount() {
+		return downloadCount;
+	}
+
+	public void setDownloadCount(Integer downloadCount) {
+		this.downloadCount = downloadCount;
+	}
+
 	public String getId() {
 		return id;
 	}

@@ -8,6 +8,7 @@
     <result column="IS_PIC_SHOW" property="isPicShow" />
     <result column="POSITION" property="position" />
     <result column="SHOW_COUNT" property="showCount" />
+    <result column="DOWNLOAD_COUNT" property="downloadCount"/>
     <result column="STATUS" property="status" />
     <result column="PIC" property="pic" />
     <result column="PUBLISHED_NAME" property="publishedName" />
@@ -32,7 +33,7 @@
   </resultMap>
   
   <sql id="Article_Column_List">
-    ID, NAME, ARTICLE_TYPE_ID, PUBLISHED_AT, IS_PIC_SHOW, POSITION, USER_ID, SHOW_COUNT, 
+    ID, NAME, ARTICLE_TYPE_ID, PUBLISHED_AT, IS_PIC_SHOW, POSITION, USER_ID, SHOW_COUNT, DOWNLOAD_COUNT,
     STATUS, PIC, PUBLISHED_NAME, IS_INDEX, TYPE, PROJECT_ID, CREATED_AT, UPDATED_AT,RANGE,IS_DELETED,REASON
   </sql>
   
@@ -140,6 +141,9 @@
       <if test="showCount != null">
         SHOW_COUNT,
       </if>
+      <if test="downloadCount != null">
+        DOWNLOAD_COUNT,
+      </if>
       <if test="status != null">
         STATUS,
       </if>
@@ -201,6 +205,9 @@
       </if>
       <if test="showCount != null">
         #{showCount},
+      </if>
+      <if test="downloadCount != null">
+        #{downloadCount},
       </if>
       <if test="status != null">
         #{status},
@@ -265,6 +272,9 @@
       </if>
       <if test="showCount != null">
         SHOW_COUNT = #{showCount},
+      </if>
+      <if test="downloadCount != null">
+        DOWNLOAD_COUNT = #{downloadCount},
       </if>
       <if test="status != null">
         STATUS = #{status},
