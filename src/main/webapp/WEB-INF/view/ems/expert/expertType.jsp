@@ -115,104 +115,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </head>
 <body>
   <div class="wrapper">
-	<div class="header-v4 header-v5">
-    <!-- Navbar -->
-    <div class="navbar navbar-default mega-menu" role="navigation">
-      <div class="container">
-        <!-- logo和搜索 -->
-        <div class="navbar-header">
-          <div class="row container">
-            <div class="col-md-4 padding-bottom-30">
-              <a href="">
-                 <img alt="Logo" src="<%=basePath%>public/ZHH/images/logo_2.png" id="logo-header">
-              </a>
-            </div>
-			<!--搜索开始-->
-            <div class="col-md-8 topbar-v1 col-md-12 padding-0 ">
-              <ul class="top-v1-data padiing-0">
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_01.png"/></div>
-				  <span>决策支持</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_02.png"/></div>
-				  <span>业务监管</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_03.png"/></div>
-				  <span>障碍作业</span>
-				 </a>
-				</li>	
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_04.png"/></div>
-				  <span>信息服务</span>
-				 </a>
-				</li>
-			    <li class="dropdown">
-			     	<a aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle p0_30 " href="">
-				  		<div><img src="<%=basePath%>public/ZHH/images/top_05.png"/></div>
-				  		<span>支撑环境</span>
-				 	</a>
-					<ul class="dropdown-menu">
-                   		<li class="line-block">
-                   			<a href="#" target="_blank" class="son-menu"><span class="mr5">◇</span>后台管理</a>
-                   			<ul class="dropdown-menuson dropdown-menu">
-                   				<li><a href="#" target="_blank" class="son-menu"><span class="mr5">◇</span>用户管理</a></li>
-                   			</ul>
-                   		</li>
-               		</ul>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_06.png"/></div>
-				  <span>配置配置</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_07.png"/></div>
-				  <span>后台首页</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_08.png"/></div>
-				  <span>安全退出</span>
-				 </a>
-				</li>
-				
-			  </ul>
-			</div>
-    </div>
-	</div>
-	</div>
-   </div>
-</div>
 
-<!--面包屑导航开始-->
-   <div class="margin-top-10 breadcrumbs ">
-      <div class="container">
-		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">业务管理</a></li><li><a href="#">评审专家</a></li><li class="active"><a href="#">专家注册</a></li>
-		   </ul>
-		<div class="clear"></div>
-	  </div>
-   </div>
   
    
    <script type="text/javascript">
-  		function submitForm(){
+  		function submitForm(isFlag){
   			var type = $("#expertsTypeId").val();
   			if(type=="0" || type==0){
   				layer.alert("请选择一个类型",{offset: ['222px', '390px'],shade:0.01});
   				return ;
   			}else{
+  				$("#zancun").val(isFlag);
   				$("#form1").submit();
   			}
   		}
@@ -225,7 +138,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 %>
 		 <input type="hidden"  name="token2" value="<%=tokenValue%>">
 		 <input type="hidden" name="uuid" value="${uuid }"/>
+		 <input type="text" name="zancun" id="zancun">
    <div>
+    <jsp:include page="../../../../indexhead.jsp"></jsp:include>
+   <div class="container clear margin-top-30" >
+   			<h2 class="padding-20 mt40">
+					<span class="new_step current fl"><i class="">1</i><div class="line"></div> <span class="step_desc_01">用户名密码</span> </span>
+					<span class="new_step current fl"><i class="">2</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
+					<span class="new_step current fl"><i class="">3</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span> 
+					<span class="new_step fl"><i class="">4</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
+					<span class="new_step fl"><i class="">5</i><div class="line"></div> <span class="step_desc_01">打印申请表</span> </span> 
+					<span class="new_step fl"><i class="">6</i> <span class="step_desc_02">上传申请表</span> </span> 
+				<div class="clear"></div>
+			</h2>
+	</div>
+	<br/><br/>
    <div class="headline-v2">
    <h2>选择专家类型</h2>
    <div align="center">
@@ -243,36 +170,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			   		<option value="3">商务</option>
 			   </select>
 			 </li>
-			 
-		    
-		     
    </ul>
   </div> 
   <div  class="col-md-12">
    <div class="padding-10" align="center">
-   <input class="btn btn-windows add" type="button" onclick="submitForm();"  value="下一步">
+   <input class="btn btn-windows save" type="button" onclick="submitForm('1');"  value="暂存">
+   <input class="btn btn-windows add" type="button" onclick="submitForm('2');"  value="下一步">
+   <a class="btn btn-windows reset"  onclick="location.href='javascript:history.go(-1);'">返回</a>
    <!--  <button class="btn btn-windows add" type="submit">开始注册</button> -->
 	</div>
   </div>
   </form>
  </div>
  <!--底部代码开始-->
-<div class="footer-v2" id="footer-v2">
+<!-- <div class="footer-v2" id="footer-v2">
 
       <div class="footer">
-
-            <!-- Address -->
               <address class="">
 			  Copyright © 2016 版权所有：中央军委后勤保障部 京ICP备09055519号
               </address>
               <div class="">
 		       浏览本网主页，建议将电脑显示屏的分辨率调为1024*768
               </div> 
-            <!-- End Address -->
-
-<!--/footer--> 
       </div>
-</div>
+</div> -->
 </div>
 </body>
 </html>

@@ -2,8 +2,11 @@ package yggc.controller.sys.ems;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,6 +17,10 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,6 +36,7 @@ import yggc.model.ems.Expert;
 import yggc.service.ems.ExpertService;
 import yggc.util.Encrypt;
 import yggc.util.WfUtil;
+import yggc.util.WordUtil;
 
 @Controller
 @RequestMapping("/expert")
@@ -165,7 +173,7 @@ public class ExpertController {
 		if(files!=null && files.length>0){
 			 for(MultipartFile myfile : files){  
 		            if(myfile.isEmpty()){  
-		                System.out.println("文件未上传");  
+		            	
 		            }else{  
 		                String filename = myfile.getOriginalFilename();
 		                String uuid = WfUtil.createUUID();
@@ -240,7 +248,7 @@ public class ExpertController {
 	  * @return String
 	 */
 	@RequestMapping("/expertType")
-	public String expertType(@RequestParam("uuid") String uuid,@RequestParam("expertsTypeId")String expertsTypeId,Model model){
+	public String expertType(@RequestParam("zancun") String zancun,@RequestParam("uuid") String uuid,@RequestParam("expertsTypeId")String expertsTypeId,Model model){
 		Expert expert = service.selectByPrimaryKey(uuid);
 		if(expertsTypeId!=null && expertsTypeId.length()>0){
 		expert.setExpertsTypeId(expertsTypeId);
@@ -248,7 +256,13 @@ public class ExpertController {
 		service.updateByPrimaryKeySelective(expert);
 		model.addAttribute("uuid", uuid);
 		//查询采购机构信息
+		
+		//暂存 还是下一步
+		if(zancun!=null && zancun.equals("1")){
+			return "index";
+		}else{
 		return "ems/expert/caiGouJiGouList";
+		}
 	}
 	/**
 	 * 
@@ -351,4 +365,83 @@ public class ExpertController {
 			}
 		 return "index";
 	 }
+	 /**
+	  * 
+	   * @Title: download
+	   * @author ShaoYangYang
+	   * @date 2016年9月7日 下午6:53:12  
+	   * @Description: TODO 下载申请表
+	   * @param @param id
+	   * @param @param request
+	   * @param @return
+	   * @param @throws Exception      
+	   * @return ResponseEntity<byte[]>
+	  */
+	 @RequestMapping("download")
+	 public ResponseEntity<byte[]> download(@RequestParam(value="id",required=false)String id,HttpServletRequest request) throws Exception{
+		 Expert expert = service.selectByPrimaryKey(id);
+		 String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload/");
+		 String fileName = createWordMethod(expert, request);
+		 File file=new File(filePath+"/"+fileName);  
+	        HttpHeaders headers = new HttpHeaders(); 
+	        String downFileName=new String("军队评标专家申请表.doc".getBytes("UTF-8"),"iso-8859-1");//为了解决中文名称乱码问题  
+	        headers.setContentDispositionFormData("attachment", downFileName);   
+	        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);   
+	        ResponseEntity<byte[]> entity = new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),headers, HttpStatus.CREATED); 
+	        file.delete();
+	        return entity;
+	 }
+	 
+	 
+	 /**
+		 * 
+		 * 
+		 * @Title: createWordMethod
+		 * @author: lkzx
+		 * @date: 2016-9-7 下午3:25:38
+		 * @Description: TODO  生成word下载
+		 * @param: @param expert
+		 * @return: String
+		 * @throws Exception
+		 */
+		private String createWordMethod(Expert expert,HttpServletRequest request) throws Exception {
+			/** 用于组装word页面需要的数据 */
+			Map<String, Object> dataMap = new HashMap<String, Object>();
+			dataMap.put("name", expert.getRelName()== null ? "" : expert.getRelName());
+			dataMap.put("sex",expert.getSex()== null ? "" : expert.getSex());
+			dataMap.put("birthday",expert.getBirthday()== null ? "" :new SimpleDateFormat(
+					"yyyy-MM-dd").format(expert.getBirthday()));
+			dataMap.put("face",expert.getPoliticsStatus()== null ? "" : expert.getPoliticsStatus());
+			dataMap.put("address",expert.getAddress()== null ? "" : expert.getAddress());
+			
+			dataMap.put("zhi",expert.getProfessTechTitles()== null ? "" : expert.getProfessTechTitles());
+			
+			dataMap.put("number",expert.getIdNumber()== null ? "" : expert.getIdNumber());
+			String expertType="";
+			String expertsTypeId = expert.getExpertsTypeId();
+			if(expertsTypeId!=null && expertsTypeId.equals("1")){
+				expertType="技术";
+			}else if(expertsTypeId!=null && expertsTypeId.equals("2")){
+				expertType="法律";
+			}else if(expertsTypeId!=null && expertsTypeId.equals("2")){
+				expertType="商务";
+			}
+			dataMap.put("type",expertType);
+			dataMap.put("date",expert.getTimeStartWork()== null ? "" :new SimpleDateFormat(
+					"yyyy-MM-dd").format(expert.getTimeStartWork()));
+			dataMap.put("xueli",expert.getHightEducation() == null ? "" : expert.getHightEducation());
+			dataMap.put("xuewei",expert.getDegree() == null ? "" : expert.getDegree());
+			dataMap.put("phone", expert.getMobile() == null ? "" : expert.getMobile());
+			dataMap.put("teliphone", expert.getFixPhone() == null ? "" : expert.getFixPhone());
+			dataMap.put("school", expert.getGraduateSchool() == null ? "" : expert.getGraduateSchool());
+			dataMap.put("unitName", expert.getWorkUnit() == null ? "" : expert.getWorkUnit());
+			dataMap.put("unitAddress", expert.getUnitAddress() == null ? "" : expert.getUnitAddress());
+			dataMap.put("zipCode", expert.getZipCode() == null ? "" : expert.getZipCode());
+			
+			// 文件名称
+			String fileName = new String(("军队评标专家申请表.doc").getBytes("UTF-8"), "UTF-8");
+			/** 生成word 返回文件名 */
+			String newFileName = WordUtil.createWord(dataMap, "expert.ftl",fileName,request);
+			return newFileName;
+		}
 }

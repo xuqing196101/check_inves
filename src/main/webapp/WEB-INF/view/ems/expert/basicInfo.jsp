@@ -41,7 +41,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="<%=basePath%>public/ZHH/css/select2.css" media="screen" rel="stylesheet" type="text/css">
 <link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
 <link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
 <link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet" type="text/css">
 <link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
 <link href="<%=basePath%>public/ZHH/css/brand-buttons-inversed.css" media="screen" rel="stylesheet" type="text/css">
@@ -49,8 +48,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
 <link href="<%=basePath%>public/ZHH/css/page_log_reg_v1.css" media="screen" rel="stylesheet" type="text/css">
 <link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/footer-v4.css" media="screen" rel="stylesheet" type="text/css">
 <link href="<%=basePath%>public/ZHH/css/masterslider.css" media="screen" rel="stylesheet" type="text/css">
 <link href="<%=basePath%>public/ZHH/css/james.css" media="screen" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="<%=basePath%>public/ZHQ/css/validForm/style.css" type="text/css" media="all" />
@@ -60,8 +57,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/hm.js"></script><script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery-migrate-1.2.1.min.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/back-to-top.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.query.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/dialog-plus-min.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.fancybox.pack.js"></script>
@@ -100,18 +95,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.fileupload-ui.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery-fileupload.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/form.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/select2.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/select2_locale_zh-CN.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/application.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.counterup.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/modernizr.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/touch.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/product-quantity.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/master-slider.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/shop.app.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/masterslider.min.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.easing.min.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/james.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/common.css" type="text/css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" type="text/css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/line-icons.css" type="text/css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/app.css" type="text/css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/application.css" type="text/css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/header-v4.css" type="text/css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/footer-v2.css" type="text/css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/img-hover.css" type="text/css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/page_job.css" type="text/css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/shop.style.css" type="text/css" />
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
 	
@@ -159,98 +161,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </script>
 </head>
 <body>
-  <div class="wrapper">
-	<div class="header-v4 header-v5">
-    <!-- Navbar -->
-    <div class="navbar navbar-default mega-menu" role="navigation">
-      <div class="container">
-        <!-- logo和搜索 -->
-        <div class="navbar-header">
-          <div class="row container">
-            <div class="col-md-4 padding-bottom-30">
-              <a href="">
-                 <img alt="Logo" src="<%=basePath%>public/ZHH/images/logo_2.png" id="logo-header">
-              </a>
-            </div>
-			<!--搜索开始-->
-            <div class="col-md-8 topbar-v1 col-md-12 padding-0 " id="s1">
-              <ul class="top-v1-data padiing-0">
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_01.png"/></div>
-				  <span>决策支持</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_02.png"/></div>
-				  <span>业务监管</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_03.png"/></div>
-				  <span>障碍作业</span>
-				 </a>
-				</li>	
-			    <li>
-				 <a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_04.png"/></div>
-				  <span>信息服务</span>
-				 </a>
-				</li>
-			    <li class="dropdown">
-			     	<a aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle p0_30 " href="">
-				  		<div><img src="<%=basePath%>public/ZHH/images/top_05.png"/></div>
-				  		<span>支撑环境</span>
-				 	</a>
-					<ul class="dropdown-menu">
-                   		<li class="line-block">
-                   			<a href="#" target="_blank" class="son-menu"><span class="mr5">◇</span>后台管理</a>
-                   			<ul class="dropdown-menuson dropdown-menu">
-                   				<li><a href="#" target="_blank" class="son-menu"><span class="mr5">◇</span>用户管理</a></li>
-                   			</ul>
-                   		</li>
-               		</ul>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_06.png"/></div>
-				  <span>配置配置</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_07.png"/></div>
-				  <span>后台首页</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_08.png"/></div>
-				  <span>安全退出</span>
-				 </a>
-				</li>
-				
-			  </ul>
-			</div>
-			
-    </div>
-	</div>
-	</div>
-   </div>
-</div>
-
-<!--面包屑导航开始-->
-   <div class="margin-top-10 breadcrumbs ">
-      <div class="container">
-		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">业务管理</a></li><li><a href="#">评标专家注册</a></li><li class="active"><a href="#">评标专家信息</a></li>
-		   </ul>
-		<div class="clear"></div>
-	  </div>
-   </div>
-   
+<div class="wrapper">
 <!-- 修改订列表开始-->
    <div class="container">
    <form action="<%=basePath %>expert/edit.do" onsubmit="return submitForm()" method="post" id="form1" enctype="multipart/form-data" class="registerform"> 
@@ -261,6 +172,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <input type="hidden" name="id" value="${uuid }">
    <input type="hidden" id="hehe" name="zancun">
    <div>
+    <jsp:include page="../../../../indexhead.jsp"></jsp:include>
+   <div class="container clear margin-top-30" >
+   			<h2 class="padding-20 mt40">
+					<span class="new_step current fl"><i class="">1</i><div class="line"></div> <span class="step_desc_01">用户名密码</span> </span>
+					<span class="new_step current fl"><i class="">2</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
+					<span class="new_step fl"><i class="">3</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span> 
+					<span class="new_step fl"><i class="">4</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
+					<span class="new_step fl"><i class="">5</i><div class="line"></div> <span class="step_desc_01">打印申请表</span> </span> 
+					<span class="new_step fl"><i class="">6</i> <span class="step_desc_02">上传申请表</span> </span> 
+				<div class="clear"></div>
+			</h2>
+	</div>
+	<br/><br/>
    <div class="headline-v2">
    <h2>评标专家信息</h2>
    </div>
@@ -470,8 +394,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <div  class="col-md-12">
    <div class="fl padding-10">
-	<!-- <button class="btn btn-windows delete" type="submit">删除</button> -->
-    <!-- <button class="btn btn-windows add" type="submit">下一步</button> -->
 	<button class="btn btn-windows save" type="submit" onclick="validateFlag();">暂存</button>
    <input class="btn btn-windows save" onclick="validateFlag2();" type="submit" value="下一步">
 	<button class="btn btn-windows reset" type="reset">重置</button>
@@ -480,24 +402,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </div>
   </form>
  </div>
+ </div>
  <!--底部代码开始-->
-<div class="footer-v2" id="footer-v2">
-
+<!-- <div class="footer-v2" id="footer-v2">
       <div class="footer">
-
-            <!-- Address -->
+            Address
               <address class="">
-			  	Copyright © 2016 版权所有：中央军委后勤保障部 京ICP备09055519号
+			  Copyright © 2016 版权所有：中央军委后勤保障部 京ICP备09055519号
               </address>
               <div class="">
-		       	浏览本网主页，建议将电脑显示屏的分辨率调为1024*768
+		       浏览本网主页，建议将电脑显示屏的分辨率调为1024*768
               </div> 
-            <!-- End Address -->
-
-<!--/footer--> 
       </div>
-      </div>
-      
-</div>
+</div> -->
 </body>
 </html>
