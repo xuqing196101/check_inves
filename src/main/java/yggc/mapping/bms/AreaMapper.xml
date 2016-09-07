@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="yggc.dao.bms.AreaMapper">
+  <resultMap id="BaseResultMap" type="yggc.model.bms.Area">
+    <id column="ID"  property="id" />
+    <result column="CREATED_AT"  property="createdAt" />
+    <result column="UPDATED_AT"  property="updatedAt" />
+    <result column="IS_DELETED"  property="isDeleted" />
+    <result column="ORDER"  property="order" />
+    <result column="AREA_TYPE"  property="areaType" />
+    <result column="PARENT_ID"  property="parentId" />
+    <result column="NAME"  property="name" />
+  </resultMap>
+  <!-- 表中所有字段 -->
+  <sql id="Base_Column_List">
+    ID, CREATED_AT, UPDATED_AT, IS_DELETED, ORDER, AREA_TYPE, PARENT_ID, NAME
+  </sql>
+  <!-- 查询条件 -->
+  <sql id="Example_Where_Clause">
+      where IS_DELETED=0
+    <trim suffixOverrides=",">
+     <if test="id != null">
+         and ID = #{id}
+      </if>
+      <if test="name != null and name != ''">
+        and NAME = #{name}
+      </if>
+     <if test="createdAt != null">
+        and CREATED_AT = #{createdAt}
+      </if>
+      <if test="updatedAt != null">
+        and UPDATED_AT = #{updatedAt}
+      </if>
+      <if test="order != null">
+       and ORDER = #{order}
+      </if>
+      <if test="areaType != null">
+       and AREA_TYPE = #{areaType}
+      </if>
+      <if test="parentId != null">
+       and PARENT_ID = #{parentId}
+      </if>
+    </trim>
+    </sql>
+  
+  <!-- 根据id查询 -->
+  <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    *
+    from T_SES_BMS_AREA
+    where ID =#{id}
+  </select>
+  <!-- 查询全部 -->
+  <select id="listByArea" parameterType="yggc.model.bms.Area" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+  	from T_SES_BMS_AREA
+  	<include refid="Example_Where_Clause"/>
+  	ORDER BY CREATED_AT DESC
+  	</select>
+  	<!-- 根据父节点找出子节点-->
+  <select id="findTreeByPid" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select 
+  	*
+  	from T_SES_BMS_AREA
+  	where AREA_TYPE = #{pid}
+  	ORDER BY CREATED_AT DESC
+  </select>
+  <!-- 根据id删除 -->
+  <delete id="deleteById" parameterType="java.lang.String">
+    delete from T_SES_BMS_AREA
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <!-- 新增 -->
+  <insert id="save" parameterType="yggc.model.bms.Area">
+    insert into T_SES_BMS_AREA
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+      <if test="order != null">
+        ORDER,
+      </if>
+      <if test="areaType != null">
+        AREA_TYPE,
+      </if>
+      <if test="parentId != null">
+        PARENT_ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=DATE},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="order != null">
+        #{order,jdbcType=DECIMAL},
+      </if>
+      <if test="areaType != null">
+        #{areaType,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <!-- 修改 -->
+  <update id="update" parameterType="yggc.model.bms.Area">
+    update T_SES_BMS_AREA
+    <set>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="order != null">
+        ORDER = #{order,jdbcType=DECIMAL},
+      </if>
+      <if test="areaType != null">
+        AREA_TYPE = #{areaType,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        PARENT_ID = #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
