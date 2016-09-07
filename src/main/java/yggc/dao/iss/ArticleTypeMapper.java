@@ -4,19 +4,17 @@ import java.util.List;
 
 import yggc.model.iss.ArticleType;
 
-/**
- * 
- *<p>Title:ArticleTypeMapper</p>
- *<p>Description:信息类型Mapper接口</p>
- *<p>Company:yggc</p>
- * @author Mrlovablee
+/*
+ *@Title:ArticleTypeMapper
+ *@Description:信息类型Mapper接口
+ *@author QuJie
  *@date 2016-8-25下午3:38:37
  */
 public interface ArticleTypeMapper {
 	/**
 	 * 
 	* @Title: deleteByPrimaryKey
-	* @author Mrlovablee 
+	* @author QuJie 
 	* @date 2016-8-25 下午3:39:00  
 	* @Description: 根据id删除信息 
 	* @param @param id
@@ -28,7 +26,7 @@ public interface ArticleTypeMapper {
     /**
      * 
     * @Title: insert
-    * @author Mrlovablee 
+    * @author QuJie 
     * @date 2016-8-25 下午3:39:21  
     * @Description: 新增信息 
     * @param @param record
@@ -40,7 +38,7 @@ public interface ArticleTypeMapper {
     /**
      * 
     * @Title: insertSelective
-    * @author Mrlovablee 
+    * @author QuJie 
     * @date 2016-8-25 下午3:39:37  
     * @Description: 根据条件新增信息 
     * @param @param record
@@ -52,7 +50,7 @@ public interface ArticleTypeMapper {
     /**
      * 
     * @Title: selectByPrimaryKey
-    * @author Mrlovablee 
+    * @author QuJie 
     * @date 2016-8-25 下午3:39:56  
     * @Description: 根据id删除信息 
     * @param @param id
@@ -64,7 +62,7 @@ public interface ArticleTypeMapper {
     /**
      * 
     * @Title: updateByPrimaryKeySelective
-    * @author Mrlovablee 
+    * @author QuJie 
     * @date 2016-8-25 下午3:40:15  
     * @Description: 根据条件修改信息 
     * @param @param record
@@ -76,7 +74,7 @@ public interface ArticleTypeMapper {
     /**
      * 
     * @Title: updateByPrimaryKey
-    * @author Mrlovablee 
+    * @author QuJie 
     * @date 2016-8-25 下午3:40:32  
     * @Description: 修改信息 
     * @param @param record
@@ -88,7 +86,7 @@ public interface ArticleTypeMapper {
     /**
      * 
     * @Title: selectAllArticleType
-    * @author Mrlovablee 
+    * @author QuJie 
     * @date 2016-8-26 下午4:49:08  
     * @Description: 查询所有栏目类别 
     * @param @return      

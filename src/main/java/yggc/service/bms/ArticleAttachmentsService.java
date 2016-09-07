@@ -2,12 +2,10 @@ package yggc.service.bms;
 
 import yggc.model.bms.ArticleAttachments;
 
-/**
- * 
- *<p>Title:ArticleAttachmentsService</p>
- *<p>Description:文章信息附件接口service</p>
- *<p>Company:yggc</p>
- * @author QuJie
+/*
+ *@Title:ArticleAttachmentsService
+ *@Description:文章信息附件接口service
+ *@author QuJie
  *@date 2016-9-7上午10:08:06
  */
 public interface ArticleAttachmentsService {

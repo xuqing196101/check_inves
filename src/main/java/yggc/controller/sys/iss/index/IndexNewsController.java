@@ -22,12 +22,10 @@ import yggc.service.iss.IndexNewsService;
 import yggc.service.iss.SolrNewsService;
 import yggc.util.SolrContext;
 
-/**
- * 
- *<p>Title:IndexNewsController</p>
- *<p>Description:首页信息控制类</p>
- *<p>Company:yggc</p>
- * @author Mrlovablee
+/*
+ *@Title:IndexNewsController
+ *@Description:首页信息控制类
+ *@author QuJie
  *@date 2016-8-29上午8:50:21
  */
 @Controller
@@ -50,7 +48,7 @@ public class IndexNewsController {
 	/**
 	 * 
 	* @Title: selectIndexNews
-	* @author Mrlovablee 
+	* @author QuJie 
 	* @date 2016-8-29 上午8:50:02  
 	* @Description: 查询全部首页信息 
 	* @param @return      
@@ -79,7 +77,7 @@ public class IndexNewsController {
 	/**
 	 * 
 	* @Title: selectIndexNewsByTypeId
-	* @author Mrlovablee 
+	* @author QuJie 
 	* @date 2016-8-31 下午1:22:28  
 	* @Description: 根据指定的typeid来获取数据 
 	* @param @param id
@@ -99,7 +97,7 @@ public class IndexNewsController {
 	/**
 	 * 
 	* @Title: selectArticleNewsById
-	* @author Mrlovablee 
+	* @author QuJie 
 	* @date 2016-8-31 下午5:11:48  
 	* @Description: 详情页信息 
 	* @param @param article
@@ -118,7 +116,7 @@ public class IndexNewsController {
 	/**
 	 * 
 	* @Title: solrSearch
-	* @author Mrlovablee 
+	* @author QuJie 
 	* @date 2016-9-6 上午9:56:32  
 	* @Description: 全文索引查询 
 	* @param @param model
