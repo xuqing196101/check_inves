@@ -27,7 +27,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
   <jsp:include page="/backhead.jsp"></jsp:include>
-    <form action="<%=basePath %>reply/update.do" method="post">
+    <form action="<%=basePath %>reply/update.html" method="post">
     	<input type="hidden" name="id" value="${reply.id }">
 	          回复名称：<input autofocus="autofocus"  name="name"  value="${reply.name }" size="30" type="text">
 	        <input value="更新" type="submit">

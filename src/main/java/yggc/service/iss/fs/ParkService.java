@@ -8,11 +8,10 @@ import java.util.List;
 import yggc.model.iss.fs.Park;
 
 /**
- * <p>Title:ParkService </p>
- * <p>Description: 版块服务接口</p>
- * <p>Company: yggc </p> 
- * @author Peng Zhongjun
- * @date 2016-8-10下午5:11:53
+* @Title:ParkService 
+* @Description: 版块管理接口
+* @author Peng Zhongjun
+* @date 2016-9-7下午6:30:46
  */
 public interface ParkService {
 	

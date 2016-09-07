@@ -4,12 +4,11 @@ import java.util.List;
 
 import yggc.model.iss.fs.Reply;
 /**
-* <p>Title:ReplyMapper </p>
-* <p>Description: 回复持久化接口</p>
-* <p>Company: yggc </p> 
+* @Title:ReplyMapper 
+* @Description: 回复持久化接口
 * @author Peng Zhongjun
-* @date 2016-8-4下午4:51:54
-*/
+* @date 2016-9-7下午6:24:04
+ */
 public interface ReplyMapper {
 	/**   
 	* @Title: queryByCount
@@ -28,6 +27,15 @@ public interface ReplyMapper {
 	* @return BigDecimal     
 	*/
 	BigDecimal queryCountByParkId(String parkId);
+	
+	/**   
+	* @Title: queryCountByTopicId
+	* @author Peng Zhongjun
+	* @date 2016-9-1下午4:57:10  
+	* @Description: 根据主题ID查询记录数
+	* @return BigDecimal     
+	*/
+	BigDecimal queryCountByTopicId(String topicId);
 	
 	/**   
 	* @Title: queryByList

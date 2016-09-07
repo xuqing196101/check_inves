@@ -80,7 +80,7 @@
 	  //2级联动
 	  function change(id){
 			$.ajax({
-			    url:"<%=basePath %>topic/getListForSelect.do?parkId="+id,   
+			    url:"<%=basePath %>topic/getListForSelect.html?parkId="+id,   
 			    contentType: "application/json;charset=UTF-8", 
 			    dataType:"json",   //返回格式为json
 			    type:"POST",   //请求方式		    
@@ -102,7 +102,7 @@
   <jsp:include page="/indexhead.jsp"></jsp:include>
    <div class="container margin-top-10">
      <div class="content padding-left-25 padding-right-25 padding-top-20">	
-        <form  id="form" action="<%=basePath %>post/indexsave.do" method="post" >
+        <form  id="form" action="<%=basePath %>post/indexsave.html" method="post" >
         	<div>
         		帖子名称：<input id="name" name="name" class="w200" type="text">	 <br/>         	
 	          	所属版块：

@@ -13,11 +13,10 @@ import yggc.model.iss.fs.Park;
 import yggc.service.iss.fs.ParkService;
 
 /**
- * <p>Title:ParkServiceImpl </p>
- * <p>Description: 版块管理服务接口实现类</p>
- * <p>Company: yggc </p> 
- * @author：Peng Zhongjun
- * @date 2016-8-10下午6:32:05
+* @Title:ParkServiceImpl 
+* @Description: 版块管理实现类
+* @author Peng Zhongjun
+* @date 2016-9-7下午6:28:24
  */
 @Service("parkService")
 public class ParkServiceImpl implements ParkService{

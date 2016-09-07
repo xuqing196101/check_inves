@@ -48,7 +48,7 @@
      <c:forEach items="${list}" var="park" varStatus="vs">
        <div class="headline margin-top-15">
        		<h2 class="padding-left-15">${park.name}</h2>
-       		 <span class="badge badge-light pull-right nobgcolor" ><a href="<%=basePath %>post/getIndexlist.do?parkId=${park.id }" >更多>></a></span>
+       		 <span class="badge badge-light pull-right nobgcolor" ><a href="<%=basePath %>post/getIndexlist.html?parkId=${park.id }" >更多>></a></span>
        </div>
 				<c:forEach items="${park.posts}"  var="post" varStatus="vs">
 			          <ul class="list-unstyled categories tab-content margin-0"  id="postlist">
@@ -57,10 +57,10 @@
 						<c:set value="${post.name}" var="content"></c:set>
 						<c:set value="${fn:length(content)}" var="length"></c:set>
 						<c:if test="${length>15}">
-							<a  href='<%=basePath %>post/getIndexDetail.do?postId=${post.id}' value='${fn:substring(content,0,15)}...'>${fn:substring(content,0,15)}...</a>
+							<a  href='<%=basePath %>post/getIndexDetail.html?postId=${post.id}' value='${fn:substring(content,0,15)}...'>${fn:substring(content,0,15)}...</a>
 						</c:if>
 						<c:if test="${length<15}">
-							<a href='<%=basePath %>post/getIndexDetail.do?postId=${post.id}' value='${post.name}'>${post.name}</a>
+							<a href='<%=basePath %>post/getIndexDetail.html?postId=${post.id}' value='${post.name}'>${post.name}</a>
 						</c:if>
 				
 				          <span class='hex pull-right'><fmt:formatDate value='${post.publishedTime}' pattern="yyyy年MM月dd日  " /></span>
@@ -73,7 +73,7 @@
    </div>
   </div> 
   <div class="my_post">
-  <a href='<%=basePath %>post/publish.do'>我要发帖</a>
+  <a href='<%=basePath %>post/publish.html'>我要发帖</a>
   </div>
  
    

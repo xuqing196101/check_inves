@@ -10,27 +10,16 @@
 				    <result column="IS_ESSENCE"  property="isEssence" />
 				    <result column="IS_CAN_REPLY"  property="isCanReply" />
 				    <result column="PUBLISHED_TIME"  property="publishedTime" />
-				    <result column="LAST_REPLYED_TIME"  property="lastReplyedTime" />			
-				    	    
+				    <result column="LAST_REPLYED_TIME"  property="lastReplyedTime" />							    	    
 				    <association column="USER_ID"  property="user" select="yggc.dao.bms.UserMapper.queryById"/>
 				    <association column="TOPIC_ID"  property="topic" select="yggc.dao.iss.fs.TopicMapper.selectByPrimaryKey"/>	
 				    <association column="PARK_ID"  property="park" select="yggc.dao.iss.fs.ParkMapper.selectByPrimaryKey"/>		    
 			  </resultMap>
 			  
 			  <resultMap id="PostReplyMap" type="yggc.model.iss.fs.Post" extends="PostResultMap">
-			  <collection property="replies" ofType="yggc.model.iss.fs.Reply">
-			    <id column="ID"  property="id" />
-			    <result column="NAME"  property="name" />
-			     <result column="CONTENT"  property="content" />
-			    <result column="PUBLISHED_TIME"  property="publishedTime" />
-			    
-			     <association column="POST_ID"  property="post" select="yggc.dao.iss.fs.PostMapper.selectByPrimaryKey"/>
-			    <association column="REPLY_ID"  property="reply" select="selectByPrimaryKey"/>
-			    <association column="USER_ID"  property="user" select="yggc.dao.bms.UserMapper.queryById"/>	
-			    </collection>
+			  <collection property="replies" ofType="yggc.model.iss.fs.Reply" resultMap="yggc.dao.iss.fs.ReplyMapper.ReplyResultMap"/>
 			  </resultMap>
-	  
-	  
+	  	  
 			  <!-- 表名 -->
 			  	<sql id="Tabel_Name">
 					T_ISS_FS_POST
@@ -49,11 +38,13 @@
 				 <trim suffixOverrides=",">
 			      <if test="park!= null">
 			        and PARK_ID = #{park.id}
+			      </if>	
+			      	<if test="topic!= null">
+			        and TOPIC_ID = #{topic.id}
 			      </if>			
 				</trim>
 			 </sql>
-  
-  
+    
 		  <!-- 1.查询列表总数 -->
 		  <select id="queryByCount" resultType="Object" parameterType="Object">
 		    select count(1) from T_ISS_FS_POST
@@ -61,7 +52,7 @@
 		  </select>
 		  
 		  <!-- 2.根据条件查询列表 -->
-		  <select id="queryByList" parameterType="Object" resultMap="PostResultMap">
+		  <select id="queryByList" parameterType="Object" resultMap="PostReplyMap">
 		    select 
 		    <include refid="Base_Column_List" />
 		    from T_ISS_FS_POST
@@ -70,22 +61,19 @@
 		  </select>
 		  
 		  <!-- 3.根据ID查询 -->
-		  <select id="selectByPrimaryKey" parameterType="Object" resultMap="PostResultMap">
+		  <select id="selectByPrimaryKey" parameterType="Object" resultMap="PostReplyMap">
 		    select 
 		    <include refid="Base_Column_List" />
 		    from T_ISS_FS_POST
 		    where ID = #{id}
 		  </select>
-		  
-		  
-	  
+		  	  
 		  <!-- 4.删除一条记录 -->
 		  <delete id="deleteByPrimaryKey" parameterType="Object">
 		    delete from T_ISS_FS_POST
 		    where ID = #{id}
 		  </delete>
 	  
-
 		   <!-- 5.新增一条记录 -->
 		  <insert id="insertSelective" parameterType="yggc.model.iss.fs.Post">
 		    <selectKey keyProperty="id" resultType="String" order="BEFORE">

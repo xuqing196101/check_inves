@@ -48,10 +48,10 @@
 						<c:set value="${post.name}" var="content"></c:set>
 						<c:set value="${fn:length(content)}" var="length"></c:set>
 						<c:if test="${length>15}">
-							<a  href='<%=basePath %>post/getIndexDetail.do?postId=${post.id}' >${fn:substring(content,0,15)}...</a>
+							<a  href='<%=basePath %>post/getIndexDetail.html?postId=${post.id}' >${fn:substring(content,0,15)}...</a>
 						</c:if>
 						<c:if test="${length<15}">
-							<a href='<%=basePath %>post/getIndexDetail.do?postId=${post.id}' ></a>${post.name}
+							<a href='<%=basePath %>post/getIndexDetail.html?postId=${post.id}' ></a>${post.name}
 						</c:if>
 				
 				          <span class='hex pull-right'><fmt:formatDate value='${post.publishedTime}' pattern="yyyy年MM月dd日  " /></span>

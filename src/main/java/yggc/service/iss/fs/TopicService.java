@@ -9,11 +9,10 @@ import java.util.List;
 import yggc.model.iss.fs.Topic;
 
 /**
- * <p>Title:TopicService </p>
- * <p>Description: 主题管理服务接口</p>
- * <p>Company: yggc </p> 
- * @author Peng Zhongjun
- * @date 2016-8-10下午5:11:53
+* @Title:TopicService 
+* @Description: 主题管理接口
+* @author Peng Zhongjun
+* @date 2016-9-7下午6:31:56
  */
 public interface TopicService {
 	/**   

@@ -15,17 +15,14 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/layer.js"></script>
-	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
-		<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
-	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
+	<script src="<%=basePath%>public/ZHH/js/jquery.min.js" type="text/javascript"></script>
+	  <script src="<%=basePath%>public/layer/layer.js"></script>
   <script type="text/javascript">
-  
-  	/** 全选全不选 */
+	/** 全选全不选 */
 	function selectAll(){
 		 var checklist = document.getElementsByName ("chkItem");
 		 var checkAll = document.getElementById("checkAll");
-		   if(checkAll.checked){
+		 if(checkAll.checked){
 			   for(var i=0;i<checklist.length;i++)
 			   {
 			      checklist[i].checked = true;
@@ -58,7 +55,7 @@
 	}
 	
   	function view(id){
-  		window.location.href="<%=basePath%>park/view.do?id="+id;
+  		window.location.href="<%=basePath%>park/view.html?id="+id;
   	}
   	
     function edit(){
@@ -68,7 +65,7 @@
 		}); 
 		if(id.length==1){
 			
-			window.location.href="<%=basePath%>park/edit.do?id="+id;
+			window.location.href="<%=basePath%>park/edit.html?id="+id;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -84,7 +81,7 @@
 		if(id.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>park/delete.do?id="+id;
+				window.location.href="<%=basePath%>park/delete.html?id="+id;
 			});
 		}else{
 			layer.alert("请选择要删除的版块",{offset: ['222px', '390px'], shade:0.01});
@@ -92,7 +89,7 @@
     }
     
     function add(){
-    	window.location.href="<%=basePath%>park/add.do";
+    	window.location.href="<%=basePath%>park/add.html";
     }
     
 	//鼠标移动显示全部内容
@@ -102,7 +99,7 @@
 			icon:6,
 			shade:false,
 			area: ['600px'],
-			time : 2000    //默认消息框不关闭
+			time : 1000    //默认消息框不关闭
 		});//去掉msg图标
 	}else{
 		layer.closeAll();//关闭消息框
@@ -112,7 +109,87 @@
   </head>
   
   <body>
-     <jsp:include page="/backhead.jsp"></jsp:include>
+     <div class="header-v4 header-v5">
+    <!-- Navbar -->
+    <div class="navbar navbar-default mega-menu" role="navigation">
+      <div class="container">
+        <!-- logo和搜索 -->
+        <div class="navbar-header">
+          <div class="row container">
+            <div class="col-md-4 padding-bottom-30">
+              <a href="">
+                 <img alt="Logo" src="<%=basePath%>public/ZHH/images/logo_2.png" id="logo-header">
+              </a>
+            </div>
+			<!--搜索开始-->
+            <div class="col-md-8 topbar-v1 col-md-12 padding-0">
+              <ul class="top-v1-data padding-0">
+			    <li>
+				<a href="#">
+				  <div><img src="<%=basePath%>public/ZHH/images/top_01.png"/></div>
+				  <span>决策支持</span>
+				 </a>
+				</li>
+			    <li>
+				<a href="#">
+				  <div><img src="<%=basePath%>public/ZHH/images/top_02.png"/></div>
+				  <span>业务监管</span>
+				 </a>
+				</li>
+			    <li>
+				<a href="#">
+				  <div><img src="<%=basePath%>public/ZHH/images/top_03.png"/></div>
+				  <span>障碍作业</span>
+				 </a>
+				</li>	
+			    <li>
+				<a href="#">
+				  <div><img src="<%=basePath%>public/ZHH/images/top_04.png"/></div>
+				  <span>信息服务</span>
+				 </a>
+				</li>
+			   <li class="dropdown">
+			     	<a aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle p0_30 " href="">
+				  		<div><img src="<%=basePath%>public/ZHH/images/top_05.png"/></div>
+				  		<span>支撑环境</span>
+				 	</a>
+					<ul class="dropdown-menu">
+                   		<li class="line-block">
+                   			<a href="#" target="home" class="son-menu"><span class="mr5">◇</span>后台管理</a>
+                   			<ul class="dropdown-menuson dropdown-menu">
+                   				<li><a href="<%=basePath%>user/getAll.html" target="home" class="son-menu"><span class="mr5">◇</span>用户管理</a></li>
+                   				<li><a href="<%=basePath%>role/getAll.html" target="home" class="son-menu"><span class="mr5">◇</span>角色管理</a></li>
+                   				<li><a href="<%=basePath%>templet/getAll.html" target="home" class="son-menu"><span class="mr5">◇</span>模板管理</a></li>
+                   				
+                   			</ul>
+                   		</li>
+               		</ul>
+				</li>
+				<li>
+				<a href="#">
+				  <div><img src="<%=basePath%>public/ZHH/images/top_06.png"/></div>
+				  <span>配置配置</span>
+				 </a>
+				</li>
+			    <li>
+				<a href="<%=basePath%>login/home.html" target="home">
+				  <div><img src="<%=basePath%>public/ZHH/images/top_07.png"/></div>
+				  <span>后台首页</span>
+				 </a>
+				</li>
+			    <li>
+				<a href="<%=basePath%>login/loginOut.html">
+				  <div><img src="<%=basePath%>public/ZHH/images/top_08.png"/></div>
+				  <span>安全退出</span>
+				 </a>
+				</li>
+			  </ul>
+			</div>
+    </div>
+	</div>
+	</div>
+   </div>
+</div>
 	<!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
@@ -143,8 +220,8 @@
 		<thead>
 			<tr>
 				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
-			    <th class="info" width="50">序号</th>
-				<th class="info" width="100">版块名</th>
+			    <th class="info" >序号</th>
+				<th class="info" >版块名</th>
 				<th class="info">版块介绍</th>
 			    <th class="info">版主</th>
 				<th class="info">创建时间</th>
@@ -183,7 +260,22 @@
      </div>
    
    </div>
-   
- <jsp:include page="/backfixbottom.jsp"></jsp:include>
-  </body>
+  <!-- 底部代码 --> 
+<div class="footer-v2" id="footer-v2">
+
+      <div class="footer">
+
+            <!-- Address -->
+              <address class="">
+			  Copyright © 2016 版权所有：中央军委后勤保障部 京ICP备09055519号
+              </address>
+              <div class="">
+		       浏览本网主页，建议将电脑显示屏的分辨率调为1024*768
+              </div> 
+            <!-- End Address -->
+
+<!--/footer--> 
+    </div>
+</div>
+	 </body>
 </html>

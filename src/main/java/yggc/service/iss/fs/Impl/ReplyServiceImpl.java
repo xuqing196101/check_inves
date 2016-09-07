@@ -14,11 +14,10 @@ import yggc.model.iss.fs.Reply;
 import yggc.service.iss.fs.ReplyService;
 
 /**
- * <p>Title:ReplyServiceImpl </p>
- * <p>Description: 回复管理服务接口实现类</p>
- * <p>Company: yggc </p> 
- * @author Peng Zhongjun
- * @date 2016-8-10下午6:48:51
+* @Title:ReplyServiceImpl 
+* @Description: 回复管理实现类
+* @author Peng Zhongjun
+* @date 2016-9-7下午6:29:38
  */
 @Service("replyService")
 public class ReplyServiceImpl implements ReplyService{
@@ -34,6 +33,11 @@ public class ReplyServiceImpl implements ReplyService{
 	public BigDecimal queryCountByParkId(String parkId) {
 		// TODO Auto-generated method stub
 		return replyMapper.queryCountByParkId(parkId);
+	}
+	@Override
+	public BigDecimal queryCountByTopicId(String topicId) {
+		// TODO Auto-generated method stub
+		return replyMapper.queryCountByTopicId(topicId);
 	}
 
 	@Override
@@ -77,5 +81,7 @@ public class ReplyServiceImpl implements ReplyService{
 		// TODO Auto-generated method stub
 		return replyMapper.selectByPostID(postID);
 	}
+	
+	
 
 }

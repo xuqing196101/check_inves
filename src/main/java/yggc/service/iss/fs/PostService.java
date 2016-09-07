@@ -9,11 +9,10 @@ import java.util.List;
 import yggc.model.iss.fs.Post;
 
 /**
- * <p>Title:PostService </p>
- * <p>Description: 帖子管理服务接口</p>
- * <p>Company: yggc </p> 
- * @author Peng Zhongjun
- * @date 2016-8-10下午5:11:53
+* @Title:PostService 
+* @Description: 帖子管理接口
+* @author Peng Zhongjun
+* @date 2016-9-7下午6:31:23
  */
 public interface PostService {
 	/**   
