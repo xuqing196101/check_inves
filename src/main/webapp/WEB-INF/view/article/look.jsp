@@ -100,15 +100,28 @@ function sub(){
 	 </li>  
   	 </ul> 
   	 <div class="headline-v2 clear">
-	   <h2>上传附件</h2>
+	   <h2>附件信息</h2>
 	  </div>
 	  
        <div class="padding-left-40 padding-right-20 clear">
-		   <ul class="list-unstyled  bg8 padding-20">
-		    <li>1 . 仅支持jpg、jpeg、png、pdf等格式的文件;</li>
-			<li>2 . 单个文件大小不能超过1M;</li>
-			<li>3 . 上传文件的数量不超过10个;</li>
-		   </ul>
+       	<table class="table table-bordered table-condensed">
+		  	<thead>
+	  			<tr>
+	  				<th class="info">编号</th>
+	  				<th class="info">名称</th>
+	  				<th class="info">大小</th>
+	  				<th class="info">类型</th>
+	  			</tr>
+	  		</thead>
+       		<c:forEach items="${article.articleAttachments}" var="listFile" varStatus="vs">
+       			<tr>
+       				<td>${listFile.fileId }</td>
+       				<td>${listFile.fileName }</td>
+       				<td>${listFile.fileSize }</td>
+       				<td>${listFile.contentType }</td>
+       			</tr>
+       		</c:forEach>
+       	</table>
 	  </div>
 	  
 	  

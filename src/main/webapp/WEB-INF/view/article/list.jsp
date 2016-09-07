@@ -220,6 +220,7 @@
 	  				<th class="info">录入时间</th>
 	  				<th class="info">信息类型</th>
 	  				<th class="info">是否发布</th>
+	  				<th class="info">下载量</th>
 	  			</tr>
 	  		</thead>
 	  		<c:forEach items="${list}" var="list" varStatus="vs">
@@ -256,6 +257,7 @@
 		  					<input type="hidden" name="status" value="${list.status }">审核未通过
 		  				</c:if>
 		  			</td>
+		  			<td class="tc"><a href="">${list.status }下载量</a></td>
 		  		</tr>
 	  		</c:forEach>
 		  </table>

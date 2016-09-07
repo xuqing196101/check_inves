@@ -5,6 +5,12 @@ import java.util.List;
 import yggc.model.bms.Article;
 import yggc.model.bms.ArticleAttachments;
 
+/**
+* @Title:ArticleService
+* @Description: 信息发布接口
+* @author Shen Zhenfei
+* @date 2016-9-7下午6:02:30
+ */
 public interface ArticleService {
 	/**
 	 * 

@@ -32,26 +32,6 @@
 		$(obj).remove();
 	}
 
-function ranges(){
-	var obj = document.getElementsByName("range");
-	var range = document.getElementsByName("range");
-	var s ="";
-	for(var i=0; i<obj.length; i++){ 
-		if(obj[i].checked) {
-				s+=obj[i].value; 
-				if(s=="0"){
-					range[0].value="0";
-				}else if(s=="1"){
-					range[1].value="1";
-				}else if(s=="01"){
-					range="2";
-				}else{
-					range="";
-				}
-			}
-		} 
-}
-
 </script>    
   </head>
   
@@ -114,12 +94,15 @@ function ranges(){
        </div>
 	 </li> 
   	 </ul> 
+  	 
   	 <div id="uploadAttach" class="clear ml160">
 	   <div class="f14">上传附件</div>
 	   <input id="pic" type="file" class="toinline" name="attaattach"/>
 	   <input class="toinline" type="button" value="添加" onclick="addAttach()"/><br/>
 	 </div>
-	 <div class="col-md-12 tc">
+	         
+	 <div  class="col-md-12">
+	   <div class="mt40 tc mb50">
 	    <button class="btn btn-windows save" type="submit">保存</button>
 	    <input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 	</div>
