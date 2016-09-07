@@ -2,14 +2,14 @@ package yggc.model.oms;
 
 import java.util.Date;
 
-public class Orgniztion {
+public class Orgnization {
     private String id;
 
     private Date createdAt;
 
     private Date updatedAt;
 
-    private Short orglevel;
+    private Integer orglevel;
 
     private Integer orderby;
 
@@ -49,15 +49,17 @@ public class Orgniztion {
         this.updatedAt = updatedAt;
     }
 
-    public Short getOrglevel() {
-        return orglevel;
-    }
+    
 
-    public void setOrglevel(Short orglevel) {
-        this.orglevel = orglevel;
-    }
+    public Integer getOrglevel() {
+		return orglevel;
+	}
 
-    public Integer getOrderby() {
+	public void setOrglevel(Integer orglevel) {
+		this.orglevel = orglevel;
+	}
+
+	public Integer getOrderby() {
         return orderby;
     }
 

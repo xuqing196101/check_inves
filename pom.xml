@@ -195,16 +195,23 @@
 			<artifactId>kaptcha</artifactId>
 			<version>2.3.2</version>
 		</dependency>
+<<<<<<< HEAD
 		<!-- Servlet dependencies 
 		<dependency>
+=======
+		<!-- Servlet dependencies -->
+		 <dependency>
+>>>>>>> 5fd16fb319f5fc6af43b9895ddda389599262ee0
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.1.0</version>
-		</dependency>
+			<scope>provided</scope>  
+		</dependency> 
 		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>javax.servlet.jsp-api</artifactId>
 			<version>2.3.1</version>
+			<scope>provided</scope>  
 		</dependency>
 		<dependency>
 		    <groupId>javax.servlet</groupId>
@@ -229,6 +236,12 @@
 		    <artifactId>jboss-logging</artifactId>
 		    <version>3.2.0.Beta1</version>
 		</dependency>
+		<dependency>      
+		    <groupId>net.sf.json-lib</groupId>     
+		    <artifactId>json-lib</artifactId>      
+		    <version>2.4</version>    
+		    <classifier>jdk15</classifier>  
+		</dependency>  
 		
 	<dependency>
             <groupId>com.google.code.gson</groupId>
@@ -236,7 +249,6 @@
             <version>2.3.1</version>
         </dependency>
   </dependencies>
-
   <build>
   	<plugins>  
 	    <plugin>  

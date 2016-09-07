@@ -1,164 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="yggc.dao.oms.OrgniztionMapper">
-  <resultMap id="BaseResultMap" type="yggc.model.oms.Orgniztion">
-    <id column="ID" jdbcType="VARCHAR" property="id" />
-    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
-    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
-    <result column="ORGLEVEL" jdbcType="DECIMAL" property="orglevel" />
-    <result column="ORDERBY" jdbcType="DECIMAL" property="orderby" />
-    <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
-    <result column="PARENT_ID" jdbcType="VARCHAR" property="parentId" />
-    <result column="NAME" jdbcType="VARCHAR" property="name" />
-    <result column="DEP_ID" jdbcType="VARCHAR" property="depId" />
-    <result column="TYPE" jdbcType="DECIMAL" property="type" />
-    <result column="IS_ROOT" jdbcType="DECIMAL" property="isRoot" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    ID, CREATED_AT, UPDATED_AT, ORGLEVEL, ORDERBY, IS_DELETED, PARENT_ID, NAME, DEP_ID, 
-    TYPE, IS_ROOT
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from T_SES_OMS_ORG
-    where ID = #{id,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from T_SES_OMS_ORG
-    where ID = #{id,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="yggc.model.oms.Orgniztion">
-    insert into T_SES_OMS_ORG (ID, CREATED_AT, UPDATED_AT, 
-      ORGLEVEL, ORDERBY, IS_DELETED, 
-      PARENT_ID, NAME, DEP_ID, 
-      TYPE, IS_ROOT)
-    values (#{id,jdbcType=VARCHAR}, #{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE}, 
-      #{orglevel,jdbcType=DECIMAL}, #{orderby,jdbcType=DECIMAL}, #{isDeleted,jdbcType=DECIMAL}, 
-      #{parentId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{depId,jdbcType=VARCHAR}, 
-      #{type,jdbcType=DECIMAL}, #{isRoot,jdbcType=DECIMAL})
-  </insert>
-  <insert id="insertSelective" parameterType="yggc.model.oms.Orgniztion">
-    insert into T_SES_OMS_ORG
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        ID,
-      </if>
-      <if test="createdAt != null">
-        CREATED_AT,
-      </if>
-      <if test="updatedAt != null">
-        UPDATED_AT,
-      </if>
-      <if test="orglevel != null">
-        ORGLEVEL,
-      </if>
-      <if test="orderby != null">
-        ORDERBY,
-      </if>
-      <if test="isDeleted != null">
-        IS_DELETED,
-      </if>
-      <if test="parentId != null">
-        PARENT_ID,
-      </if>
-      <if test="name != null">
-        NAME,
-      </if>
-      <if test="depId != null">
-        DEP_ID,
-      </if>
-      <if test="type != null">
-        TYPE,
-      </if>
-      <if test="isRoot != null">
-        IS_ROOT,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="createdAt != null">
-        #{createdAt,jdbcType=DATE},
-      </if>
-      <if test="updatedAt != null">
-        #{updatedAt,jdbcType=DATE},
-      </if>
-      <if test="orglevel != null">
-        #{orglevel,jdbcType=DECIMAL},
-      </if>
-      <if test="orderby != null">
-        #{orderby,jdbcType=DECIMAL},
-      </if>
-      <if test="isDeleted != null">
-        #{isDeleted,jdbcType=DECIMAL},
-      </if>
-      <if test="parentId != null">
-        #{parentId,jdbcType=VARCHAR},
-      </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="depId != null">
-        #{depId,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null">
-        #{type,jdbcType=DECIMAL},
-      </if>
-      <if test="isRoot != null">
-        #{isRoot,jdbcType=DECIMAL},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="yggc.model.oms.Orgniztion">
-    update T_SES_OMS_ORG
-    <set>
-      <if test="createdAt != null">
-        CREATED_AT = #{createdAt,jdbcType=DATE},
-      </if>
-      <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt,jdbcType=DATE},
-      </if>
-      <if test="orglevel != null">
-        ORGLEVEL = #{orglevel,jdbcType=DECIMAL},
-      </if>
-      <if test="orderby != null">
-        ORDERBY = #{orderby,jdbcType=DECIMAL},
-      </if>
-      <if test="isDeleted != null">
-        IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
-      </if>
-      <if test="parentId != null">
-        PARENT_ID = #{parentId,jdbcType=VARCHAR},
-      </if>
-      <if test="name != null">
-        NAME = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="depId != null">
-        DEP_ID = #{depId,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null">
-        TYPE = #{type,jdbcType=DECIMAL},
-      </if>
-      <if test="isRoot != null">
-        IS_ROOT = #{isRoot,jdbcType=DECIMAL},
-      </if>
-    </set>
-    where ID = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="yggc.model.oms.Orgniztion">
-    update T_SES_OMS_ORG
-    set CREATED_AT = #{createdAt,jdbcType=DATE},
-      UPDATED_AT = #{updatedAt,jdbcType=DATE},
-      ORGLEVEL = #{orglevel,jdbcType=DECIMAL},
-      ORDERBY = #{orderby,jdbcType=DECIMAL},
-      IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
-      PARENT_ID = #{parentId,jdbcType=VARCHAR},
-      NAME = #{name,jdbcType=VARCHAR},
-      DEP_ID = #{depId,jdbcType=VARCHAR},
-      TYPE = #{type,jdbcType=DECIMAL},
-      IS_ROOT = #{isRoot,jdbcType=DECIMAL}
-    where ID = #{id,jdbcType=VARCHAR}
-  </update>
+  <!-- 根据id查部门 -->
+	<select id="findOrgnizationList" parameterType="java.util.Map" resultType="yggc.model.oms.Orgniztion">
+			   select d.id  as id,
+		       d.ORGLEVEL       as orglevel,
+		       d.IS_DELETED       as isDeleted,
+		       d.PARENT_ID     as parentId,
+		       d.NAME         as name,
+		       d.DEP_ID       as depId,
+		       d.TYPE       as type,
+		       d.IS_ROOT         as isRoot
+		  from T_SES_OMS_ORG     d
+		 where nvl(d.is_deleted)=0
+		 <if test="id != null and id != ''">
+			and d.id= #{id}
+		</if>
+		<if test="type != null and type != ''">
+			and d.type= #{type}
+		</if> 
+	</select>
 </mapper>

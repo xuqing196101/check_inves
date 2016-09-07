@@ -114,6 +114,10 @@ public class PurchaseDep {
     private Integer isHaveMonitoringSystem;
 
     private String accessWay;
+    private Integer isDeleted;
+    private Date createdAt;
+
+    private Date updatedAt;
 
     public String getId() {
         return id;
@@ -532,4 +536,29 @@ public class PurchaseDep {
     public void setAccessWay(String accessWay) {
         this.accessWay = accessWay == null ? null : accessWay.trim();
     }
+
+	public Integer getIsDeleted() {
+		return isDeleted;
+	}
+
+	public void setIsDeleted(Integer isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+    
 }
