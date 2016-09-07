@@ -21,12 +21,21 @@ import yggc.service.bms.ArticleService;
 import yggc.service.iss.SolrNewsService;
 import yggc.util.SolrContext;
 
+/* 
+ *@Title:SolrNewsServiceImpl
+ *@Description:solr查询service实现类
+ *@author QuJie
+ *@date 2016-9-7下午6:29:23
+ */
 @Service(value="solrNewsService")
 public class SolrNewsServiceImpl implements SolrNewsService {
 	
 	@Autowired
 	private ArticleService articleService;
 	
+	/**
+	 * 新增索引
+	 */
 	@Override
 	public void addIndex(Article article) {
 		try {
@@ -49,7 +58,10 @@ public class SolrNewsServiceImpl implements SolrNewsService {
 			e.printStackTrace();
 		} 
 	}
-
+	
+	/**
+	 * 删除索引
+	 */
 	@Override
 	public void deleteIndex(String id) {
 		try {
@@ -61,7 +73,10 @@ public class SolrNewsServiceImpl implements SolrNewsService {
 			e.printStackTrace();
 		}
 	}
-
+	
+	/**
+	 * 修改索引
+	 */
 	@Override
 	public void updateIndex(Article article) {
 		try {
@@ -84,7 +99,10 @@ public class SolrNewsServiceImpl implements SolrNewsService {
 			e.printStackTrace();
 		}
 	}
-
+	
+	/**
+	 * 根据条件查找
+	 */
 	@Override
 	public Map<String, Object> findByIndex(String condition) {
 		Map<String,Object> map=new HashMap<String, Object>();
@@ -145,7 +163,10 @@ public class SolrNewsServiceImpl implements SolrNewsService {
 		} 
 		return map ;
 	}
-
+	
+	/**
+	 * 初始化索引
+	 */
 	@Override
 	public void initIndex() {
 		List<Article> nList = articleService.selectAllArticle();
@@ -155,7 +176,10 @@ public class SolrNewsServiceImpl implements SolrNewsService {
 			}
 		}
 	}
-
+	
+	/**
+	 * 删除所有索引
+	 */
 	@Override
 	public void deleteAll() {}
 }

@@ -2,12 +2,13 @@ package yggc.model.sms;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Title: SupplierInfo
  * @Description: 供应商基本信息表
- * @Company: yggc
  * @author: Poppet_Brook
  * @date: 2016-9-1下午3:33:52
  */
@@ -429,6 +430,20 @@ public class SupplierInfo implements Serializable {
 	 * </pre>
 	 */
 	private Date updatedAt;
+	
+	/**
+	 * <pre>
+	 * 财务信息
+	 * </pre>
+	 */
+	private List<SupplierFinance> listSupplierFinances = new ArrayList<SupplierFinance>();
+	
+	/**
+	 * <pre>
+	 * 股东信息
+	 * </pre>
+	 */
+	private List<SupplierShare> listSupplierShares = new ArrayList<SupplierShare>();
 
 	public String getId() {
 		return id;
@@ -846,4 +861,19 @@ public class SupplierInfo implements Serializable {
 		this.updatedAt = updatedAt;
 	}
 
+	public List<SupplierFinance> getListSupplierFinances() {
+		return listSupplierFinances;
+	}
+
+	public void setListSupplierFinances(List<SupplierFinance> listSupplierFinances) {
+		this.listSupplierFinances = listSupplierFinances;
+	}
+
+	public List<SupplierShare> getListSupplierShares() {
+		return listSupplierShares;
+	}
+
+	public void setListSupplierShares(List<SupplierShare> listSupplierShares) {
+		this.listSupplierShares = listSupplierShares;
+	}
 }

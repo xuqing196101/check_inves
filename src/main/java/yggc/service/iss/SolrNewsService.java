@@ -4,11 +4,17 @@ import java.util.Map;
 
 import yggc.model.bms.Article;
 
+/*
+ *@Title:SolrNewsService
+ *@Description:solr查询service层
+ *@author QuJie
+ *@date 2016-9-7下午6:28:37
+ */
 public interface SolrNewsService {
 	/**
 	 * 
 	* @Title: addIndex
-	* @author MRlovablee
+	* @author QuJie
 	* @date 2016-5-24 下午2:31:54  
 	* @Description: 添加索引 
 	* @param @param article      
@@ -19,7 +25,7 @@ public interface SolrNewsService {
 	/**
 	 * 
 	* @Title: deleteIndex
-	* @author MRlovablee
+	* @author QuJie
 	* @date 2016-5-24 下午3:02:01  
 	* @Description: 删除索引
 	* @param @param id      
@@ -30,7 +36,7 @@ public interface SolrNewsService {
 	/**
 	 * 
 	* @Title: updateIndex
-	* @author MRlovablee
+	* @author QuJie
 	* @date 2016-5-24 下午3:05:02  
 	* @Description: 修改索引 
 	* @param @param newsEntity      
@@ -41,7 +47,7 @@ public interface SolrNewsService {
 	/**
 	 * 
 	* @Title: findByIndex
-	* @author MRlovablee
+	* @author QuJie
 	* @date 2016-5-24 下午3:32:22  
 	* @Description: 根据输入查找 
 	* @param @param condition
@@ -53,7 +59,7 @@ public interface SolrNewsService {
 	/**
 	 * 
 	* @Title: initIndex
-	* @author MRlovablee
+	* @author QuJie
 	* @date 2016-5-25 上午10:50:54  
 	* @Description: 初始化索引 
 	* @param      
@@ -64,7 +70,7 @@ public interface SolrNewsService {
 	/**
 	 * 
 	* @Title: deleteAll
-	* @author MRlovablee
+	* @author QuJie
 	* @date 2016-5-26 上午10:14:48  
 	* @Description: 删除所有索引 
 	* @param       

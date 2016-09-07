@@ -13,6 +13,7 @@
     ID, NAME, CREATED_AT, UPDATED_AT,IS_DELETED
   </sql>
   
+  <!-- 根据id查询栏目类型 -->
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ArticleTypeMapper">
     select 
     <include refid="ArticleType_Column_List" />
@@ -20,17 +21,20 @@
     where ID = #{id}
   </select>
   
+  <!-- 查询所有栏目信息 -->
   <select id="selectAllArticleType" resultMap="ArticleTypeMapper">
   	select
     <include refid="ArticleType_Column_List" />
     from T_ISS_ARTICLE_TYPE
   </select>
   
+  <!-- 根据id删除栏目类型 -->
   <delete id="deleteByPrimaryKey" parameterType="Object">
     delete from T_ISS_ARTICLE_TYPE
     where ID = #{id}
   </delete>
   
+  <!-- 新增栏目信息 -->
   <insert id="insert" parameterType="yggc.model.iss.ArticleType">
     insert into T_ISS_ARTICLE_TYPE (ID, NAME, CREATED_AT, 
       UPDATED_AT)
@@ -38,6 +42,7 @@
       #{updatedAt})
   </insert>
   
+  <!-- 根据条件新增 -->
   <insert id="insertSelective" parameterType="yggc.model.iss.ArticleType">
   	<selectKey keyProperty="id" resultType="String" order="BEFORE">
         select sys_guid() from dual
@@ -73,6 +78,7 @@
     </trim>
   </insert>
   
+  <!-- 根据条件修改栏目信息 -->
   <update id="updateByPrimaryKeySelective" parameterType="yggc.model.iss.ArticleType">
     update T_ISS_ARTICLE_TYPE
     <set>
@@ -89,6 +95,7 @@
     where ID = #{id}
   </update>
   
+  <!-- 根据id修改栏目信息 -->
   <update id="updateByPrimaryKey" parameterType="yggc.model.iss.ArticleType">
     update T_ISS_ARTICLE_TYPE
     set NAME = #{name},

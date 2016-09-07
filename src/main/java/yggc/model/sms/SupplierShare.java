@@ -6,7 +6,6 @@ import java.util.Date;
 /**
  * @Title: SupplierShare
  * @Description: 供应商股东实体类
- * @Company: yggc
  * @author: Poppet_Brook
  * @date: 2016-9-1下午3:28:39
  */
@@ -84,6 +83,13 @@ public class SupplierShare implements Serializable {
 	 * </pre>
 	 */
 	private Date updatedAt;
+	
+	/**
+	 * <pre>
+	 * 供应商信息
+	 * </pre>
+	 */
+	private SupplierInfo supplierInfo;
 
 	public String getId() {
 		return id;
@@ -157,4 +163,11 @@ public class SupplierShare implements Serializable {
 		this.updatedAt = updatedAt;
 	}
 
+	public SupplierInfo getSupplierInfo() {
+		return supplierInfo;
+	}
+
+	public void setSupplierInfo(SupplierInfo supplierInfo) {
+		this.supplierInfo = supplierInfo;
+	}
 }

@@ -93,12 +93,21 @@
 	</div>
    </div>
 </div>
-  
-     <div>当前位置：首页>采购目录管理</div>
+  <!--面包屑导航开始-->
+   <div class="margin-top-10 breadcrumbs ">
+      
+      <div class="container">
+		   <ul class="breadcrumb margin-left-0">
+		   <li><a href="#"> 首页</a><><li><a href="#">采购目录管理</a><><li>
+		   </ul>
+		<div class="clear"></div>
+	  </div>
+   </div>
+   <div class="container">
 	<form action="<%=basePath%>category/edit.do" method="post">
 		<input type="hidden" value="${id}" name="ancestry"/>
 	       <div >目录名称：<input type="text" name="name" value="${category.name }"/></div>
-	       <div>父节点<input type="text" name="ancestry" value="${category.ancestry }"/></div>
+	       <div>父节点<input type="text" name="ancestry" value="${category. }"/></div>
 	  	   <div>状态：<input type="text" name="status" value="${category.status }"/></div>
 	       <div>排序：<input type="text" name="orderNum" value="${category.orderNum }"/></div>
 	       <div>前台展示优先级:<input type="text" name="params" value="${category.code }"/></div>
@@ -116,11 +125,9 @@
 		</div>
 		</form>
 		<!--底部代码开始-->
-<div class="footer-v2 clear" id="footer-v2">
-
-      <div class="footer">
-
-            <!-- Address -->
+			<div class="footer-v2 clear" id="footer-v2">
+      			<div class="footer">
+           		 <!-- Address -->
               <address class="">
 			  Copyright © 2016 版权所有：中央军委后勤保障部 京ICP备09055519号
               </address>

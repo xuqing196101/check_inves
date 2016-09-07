@@ -3,17 +3,42 @@ package yggc.model.bms;
 import java.io.Serializable;
 import java.util.Date;
 
+/*
+ *@Title:DownloadUser
+ *@Description:下载人实体类
+ *@author QuJie
+ *@date 2016-9-7下午6:22:27
+ */
 public class DownloadUser implements Serializable{
+	
+	/**
+     * @Fields id : 主键
+     */
     private String id;
-
+    
+    /**
+     * @Fields articleId : 文章id
+     */
     private Integer articleId;
-
+    
+    /**
+     * @Fields userId : 用户id
+     */
     private Integer userId;
-
+    
+    /**
+     * @Fields createdAt : 创建时间
+     */
     private Date createdAt;
-
+    
+    /**
+     * @Fields updatedAt : 修改时间
+     */
     private Date updatedAt;
     
+    /**
+     * @Fields isDeleted : 是否删除
+     */
     private Integer isDeleted;
     
     public String getId() {

@@ -99,10 +99,16 @@
 	</div>
    </div>
 </div>
-
-
-  
-    <div class="curr_add">当前位置：首页>采购目录管理</div>
+	<!--面包屑导航开始-->
+   <div class="margin-top-10 breadcrumbs ">
+      <div class="container">
+		   <ul class="breadcrumb margin-left-0">
+		   <li><a href="#"> 首页</a><><li><a href="#">采购目录管理</a><><li>
+		   </ul>
+		<div class="clear"></div>
+	  </div>
+   </div>
+  <div class="container">
 	<form action="<%=basePath%>category/save.do" method="post">
 	<input type="hidden" value="${id }" name="ancestry"/>
 	       <div class=""><span>目录名称:</span><input type="text" name="name" /></div>
@@ -125,6 +131,7 @@
 	    <div>
 			<input class="btn btn-window " value="提交" type="submit"> 
 			<input class="btn btn-window " onclick="location.href='javascript:history.go(-1);'" value="返回" type="button"/>
+		</div>
 		</div>
 	</form>
   </body>

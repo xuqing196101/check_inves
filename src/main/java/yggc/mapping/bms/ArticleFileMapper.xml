@@ -12,16 +12,22 @@
   <sql id="Base_Column_List">
     ID, NAME, PATH, CREATED_AT, UPDATED_AT, IS_DELETED
   </sql>
+  
+  <!-- 根据id查询 -->
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from T_SES_BMS_ARTICLE_FILE
     where ID = #{id,jdbcType=VARCHAR}
   </select>
+  
+  <!-- 根据id删除 -->
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from T_SES_BMS_ARTICLE_FILE
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
+  
+  <!-- 新增信息附件 -->
   <insert id="insert" parameterType="yggc.model.bms.ArticleFile">
     insert into T_SES_BMS_ARTICLE_FILE (ID, NAME, PATH, 
       CREATED_AT, UPDATED_AT, IS_DELETED
@@ -30,6 +36,8 @@
       #{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE}, #{isDeleted,jdbcType=DECIMAL}
       )
   </insert>
+  
+  <!-- 根据条件新增信息附件 -->
   <insert id="insertSelective" parameterType="yggc.model.bms.ArticleFile">
     insert into T_SES_BMS_ARTICLE_FILE
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -73,6 +81,8 @@
       </if>
     </trim>
   </insert>
+  
+  <!-- 根据条件修改信息附件 -->
   <update id="updateByPrimaryKeySelective" parameterType="yggc.model.bms.ArticleFile">
     update T_SES_BMS_ARTICLE_FILE
     <set>
@@ -94,6 +104,8 @@
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <!-- 根据id修改信息附件 -->
   <update id="updateByPrimaryKey" parameterType="yggc.model.bms.ArticleFile">
     update T_SES_BMS_ARTICLE_FILE
     set NAME = #{name,jdbcType=VARCHAR},
