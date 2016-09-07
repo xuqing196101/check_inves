@@ -1992,3 +1992,55 @@ a:link{
 span.wzcs{
  min-width:240px;
 }
+/*填写专业信息页面样式开始*/
+
+span.zyxx{
+ text-align:right;
+}
+.list_intnew li .input-append input{
+ min-width:200px;
+}
+
+/*填写品目信息样式开始*/
+.subNavBoxs ul{
+ list-style:none;
+}
+.subNavBoxs {
+    width: 250px;
+    border: solid 1px #e5e3da;
+    margin:0px auto 20px auto;
+}
+.subnav_title{
+  height:32px;
+  line-height:32px;
+  width:250px;
+  margin:40px auto 0px auto;
+  font-size:16px;
+}
+.subNavBoxs .navContent {
+    display: none;
+    border-bottom: solid 1px #e5e3da;
+	padding-left:0px;
+	margin:0px;
+}
+.subNavBoxs input[type="checkbox"]{
+  margin-top:9px;
+  border:1px solid #2c9fa6;
+  border-radius:4px!important;
+}
+.subNavBoxs .navContent li {
+    display: block;
+    width: 249px;
+    height: 32px;  
+    font-size: 16px;
+    line-height: 32px;
+	border-bottom:1px solid #e5e3da;
+	padding-left:40px;
+}
+.subNavBoxs .subNav_new{
+    border-bottom: solid 1px #e5e3da;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 32px;
+    padding-left: 10px;
+}

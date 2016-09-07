@@ -172,7 +172,7 @@
 				$("#add").append(addhtml)
 				$("#parent_id").remove;
 				$("#query_form").append(idhtml);
-				$("Result").append(html);
+				$("#Result").append(html);
 				
 			}
 		})

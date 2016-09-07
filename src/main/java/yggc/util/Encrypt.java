@@ -4,16 +4,16 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 /**
- * <p>Title: Encrypt </p>
- * <p>Description: 加密工具类</p>
- * <p>Company: yggc </p> 
- * @date: 2016-4-13下午1:59:16
+ * @Title: Encrypt
+ * @Description: MD5 加密类
+ * @author: Wang Zhaohua
+ * @date: 2016-9-7下午6:12:37
  */
 public class Encrypt {
 
     /**
      * @Title: main
-     * @author: Poppet_Brook 
+     * @author: Wang Zhaohua 
      * @date: 2016-4-13 下午1:52:15  
      * @Description: 测试加密 
      * @param: @param args      
@@ -33,7 +33,7 @@ public class Encrypt {
 
     /**
      * @Title: e
-     * @author: Poppet_Brook 
+     * @author: Wang Zhaohua 
      * @date: 2016-4-13 下午1:53:34  
      * @Description: 加密方法 
      * @param: @param inputText 需要加密的参数
@@ -46,7 +46,7 @@ public class Encrypt {
 
     /**
      * @Title: md5AndSha
-     * @author: Poppet_Brook 
+     * @author: Wang Zhaohua 
      * @date: 2016-4-13 下午1:54:23  
      * @Description: 二次加密 
      * @param: @param inputText 需要加密的参数
@@ -59,7 +59,7 @@ public class Encrypt {
 
     /**
      * @Title: md5
-     * @author: Poppet_Brook 
+     * @author: Wang Zhaohua 
      * @date: 2016-4-13 下午1:55:19  
      * @Description: md5 加密 
      * @param: @param inputText
@@ -72,7 +72,7 @@ public class Encrypt {
 
     /**
      * @Title: sha
-     * @author: Poppet_Brook 
+     * @author: Wang Zhaohua 
      * @date: 2016-4-13 下午1:55:42  
      * @Description: sha 加密
      * @param: @param inputText
@@ -85,7 +85,7 @@ public class Encrypt {
 
     /**
      * @Title: encrypt
-     * @author: Poppet_Brook 
+     * @author: Wang Zhaohua 
      * @date: 2016-4-13 下午1:57:29  
      * @Description: 加密具体实现
      * @param: @param inputText
@@ -117,7 +117,7 @@ public class Encrypt {
 
     /**
      * @Title: hex
-     * @author: Poppet_Brook 
+     * @author: Wang Zhaohua 
      * @date: 2016-4-13 下午1:58:02  
      * @Description: 返回 16 进制数据 
      * @param: @param arr
