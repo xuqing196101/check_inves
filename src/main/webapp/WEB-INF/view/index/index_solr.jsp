@@ -43,26 +43,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">${typeName}</a></li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">全文搜索信息</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
    </div>
-   
+   <div class="f18">共查到关于<span class="searchFont">${oldCondition}</span>的信息${solrMap['tdsTotal']}条</div>
     <div class="col-md-12 p20 border1 margin-top-20">
-        <div class="tab-v1">
+        <%--<div class="tab-v1">
           <h2 class="nav nav-tabs border0 padding-left-15">
             ${typeName}
 		  </h2>
         </div>
-          <div class="tab-content margin-bottom-20 margin-top-10">
+          --%><div class="tab-content margin-bottom-20 margin-top-10">
             <div class="tab-pane fade active in">
               <div class="tag-box margin-bottom-0 padding-0">
                 <ul class="categories li_square padding-left-15 margin-bottom-0">
-                <c:forEach items="${indexList}" var="i">
+                <c:forEach items="${solrMap['indexList']}" var="i">
                   <li>
-                   <a href="<%=basePath %>index/selectArticleNewsById.do?id=${i.id}" title="${i.name }" target="_self"><span class="f18 mr5">·</span>${i.name }</a>
-                   <span class="hex pull-right"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
+                   <a href="<%=basePath %>index/selectArticleNewsById.html?id=${i.id}" title="" target="_self"><span class="f18 mr5">·</span>${i.title }</a>
+                   <span class="hex pull-right"><fmt:formatDate value='${i.publishtime}' pattern="yyyy年MM月dd日 " /></span>
                   </li> 
                 </c:forEach>             
                 </ul>

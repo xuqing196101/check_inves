@@ -215,5 +215,13 @@ public class Article{
 	public void setReason(String reason) {
 		this.reason = reason;
 	}
-    
+
+	public Article(String id) {
+		super();
+		this.id = id;
+	}
+
+	public Article() {
+		super();
+	}
 }

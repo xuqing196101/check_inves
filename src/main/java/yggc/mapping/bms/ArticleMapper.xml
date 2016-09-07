@@ -24,14 +24,11 @@
   </resultMap> 
   
   <resultMap extends="ArticleMapper" id="ArticleBlob" type="yggc.model.bms.Article">
-    <result column="CONTENT" jdbcType="CLOB" property="content" />
+    <result column="CONTENT" jdbcType="CLOB" property="content"/>
   </resultMap>
   
   <resultMap extends="ArticleBlob" type="yggc.model.bms.Article" id="ArticleWithAttach">
-  	<collection property="articleAttachments" ofType="yggc.model.bms.ArticleAttachments">
-  		<id column="ID" property="id"/>
-  		<id column="FILE_NAME" property="fileName"/>
-  	</collection>
+  	<collection property="articleAttachments" ofType="yggc.model.bms.ArticleAttachments" resultMap="yggc.dao.bms.ArticleAttachmentsMapper.ArticleAttachMap"/>
   </resultMap>
   
   <sql id="Article_Column_List">
@@ -44,7 +41,7 @@
   </sql>
   
   <!-- 根据ID查询 -->
-  <select id="selectById" parameterType="Object" resultMap="ArticleBlob">
+  <select id="selectById" parameterType="Object" resultMap="ArticleWithAttach">
     select 
     <include refid="Article_Column_List" />
     ,

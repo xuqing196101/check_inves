@@ -1,14 +1,16 @@
 package yggc.util;
 
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import yggc.service.iss.SolrNewsService;
 
@@ -16,6 +18,8 @@ import yggc.service.iss.SolrNewsService;
 public class InitIndexServlet extends HttpServlet implements HttpSessionListener,ServletContextListener{
 	@Autowired
 	private SolrNewsService solrNewsService;
+	
+	private ApplicationContext applicationContext;
 	
 	/**
 	 * 
@@ -26,7 +30,14 @@ public class InitIndexServlet extends HttpServlet implements HttpSessionListener
 	* @param @param se
 	 */
 	public void sessionCreated(HttpSessionEvent se) {
-		solrNewsService.initIndex();
+//		ServletContext servletContext = se.getSession().getServletContext();
+//		if (applicationContext == null) {
+//			applicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
+//		}
+//		if (solrNewsService == null) {
+//			solrNewsService = (SolrNewsService)applicationContext.getBean("solrNewsService");
+//		}
+//		solrNewsService.initIndex();
 	}
 	
 	/**

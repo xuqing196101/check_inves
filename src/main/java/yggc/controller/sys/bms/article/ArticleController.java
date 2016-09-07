@@ -1,12 +1,14 @@
 ﻿
 package yggc.controller.sys.bms.article;
 
+
 import java.util.List;
-
 import java.util.Date;
-
+import java.io.File;
+import java.io.IOException;
+import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
-
+import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -14,14 +16,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import com.alibaba.fastjson.JSON;
-
-
 import yggc.controller.sys.bms.LoginController;
 import yggc.model.bms.Article;
+import yggc.model.bms.ArticleAttachments;
 import yggc.model.bms.User;
 import yggc.model.iss.ArticleType;
+import yggc.service.bms.ArticleAttachmentsService;
 import yggc.service.bms.ArticleService;
 import yggc.service.iss.ArticleTypeService;
 
@@ -42,6 +45,11 @@ public class ArticleController {
 	
 	@Autowired
 	private ArticleTypeService articleTypeService;
+	
+	@Autowired
+	private ArticleAttachmentsService articleAttachmentsService;
+	
+	
 	
 	private Logger logger = Logger.getLogger(LoginController.class); 
 	
@@ -76,17 +84,18 @@ public class ArticleController {
 		model.addAttribute("list", list);
 		return "article/add";
 	}
-	
+
 	/**
 	* @Title: save
 	* @author Shen Zhenfei
-	* @date 2016-9-1 下午2:00:40  
+	* @date 2016-9-1 下午2:00:40 
 	* @Description: 保存
 	* @param @return      
 	* @return String
 	 */
 	@RequestMapping("/save")
-	public String save(HttpServletRequest request, Article article){
+	public String save(@RequestParam("attaattach") MultipartFile[] attaattach,
+            HttpServletRequest request, HttpServletResponse response,Article article){
 		String[] ranges = request.getParameterValues("range");
 		if(ranges.length>1){
 			article.setRange(2);
@@ -103,13 +112,42 @@ public class ArticleController {
 		article.setIsDeleted(0);
 		article.setStatus(0);
 		articleService.addArticle(article);
-		return "redirect:getAll.do";
+		if(attaattach!=null){
+			for(int i=0;i<attaattach.length;i++){
+		        String rootpath = (request.getSession().getServletContext().getRealPath("/")+"upload/").replace("\\", "/");
+		        /** 创建文件夹 */
+				File rootfile = new File(rootpath);
+				if (!rootfile.exists()) {
+					rootfile.mkdirs();
+				}
+		        String fileName = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase() + "_" + attaattach[i].getOriginalFilename();
+		        String filePath = rootpath+fileName;
+		        File file = new File(filePath);
+		        try {
+					attaattach[i].transferTo(file);
+				} catch (IllegalStateException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				ArticleAttachments attachment=new ArticleAttachments();
+				attachment.setArticle(new Article(article.getId()));
+				attachment.setFileName(fileName);
+				attachment.setCreatedAt(new Date());
+				attachment.setUpdatedAt(new Date());
+				attachment.setContentType(attaattach[i].getContentType());
+				attachment.setFileSize((float)attaattach[i].getSize());
+				attachment.setAttachmentPath(filePath);
+				articleAttachmentsService.insert(attachment);
+			}
+		}
+		return "redirect:getAll.html";
 	}
 	
 	/**
 	* @Title: exit
 	* @author Shen Zhenfei
-	* @date 2016-9-1 下午2:01:32  
+	* @date 2016-9-1 下午2:01:32
 	* @Description: 跳转修改页面
 	* @param @return      
 	* @return String
@@ -124,7 +162,7 @@ public class ArticleController {
 	/**
 	* @Title: update
 	* @author Shen Zhenfei
-	* @date 2016-9-1 下午2:05:08  
+	* @date 2016-9-1 下午2:05:08 
 	* @Description: 修改
 	* @param @return      
 	* @return String
@@ -141,13 +179,13 @@ public class ArticleController {
 		}
 		article.setUpdatedAt(new Date());
 		articleService.update(article);
-		return "redirect:getAll.do";
+		return "redirect:getAll.html";
 	}
 	
 	/**
 	* @Title: delete
 	* @author Shen Zhenfei
-	* @date 2016-9-2 上午10:52:42  
+	* @date 2016-9-2 上午10:52:42 
 	* @Description: 假删除
 	* @param @param request
 	* @param @param id      
@@ -159,7 +197,7 @@ public class ArticleController {
 		for (String str : id) {
 			articleService.delete(str);
 		}
-		return "redirect:getAll.do";
+		return "redirect:getAll.html";
 	}
 	
 	/**
@@ -182,7 +220,7 @@ public class ArticleController {
 	/**
 	* @Title: sublist
 	* @author Shen Zhenfei
-	* @date 2016-9-5 下午3:37:20  
+	* @date 2016-9-5 下午3:37:20 
 	* @Description: 提交页面列表
 	* @param @param model
 	* @param @return      
@@ -199,7 +237,7 @@ public class ArticleController {
 	/**
 	* @Title: sublist
 	* @author Shen Zhenfei
-	* @date 2016-9-5 下午3:37:46  
+	* @date 2016-9-5 下午3:37:46
 	* @Description: 审核列表 
 	* @param @param model
 	* @param @return      
@@ -216,7 +254,7 @@ public class ArticleController {
 	/**
 	* @Title: sumbit
 	* @author Shen Zhenfei
-	* @date 2016-9-5 下午1:55:35  
+	* @date 2016-9-5 下午1:55:35 
 	* @Description: 提交、审核、退回
 	* @param @param request
 	* @param @param article
@@ -235,13 +273,13 @@ public class ArticleController {
 				articleService.update(article);
 			}	
 		
-		return "redirect:getAll.do";
+		return "redirect:getAll.html";
 	}
 	
 	/**
 	* @Title: auditInfo
 	* @author Shen Zhenfei
-	* @date 2016-9-5 下午4:26:14  
+	* @date 2016-9-5 下午4:26:14 
 	* @Description: 查看审核信息
 	* @param @param model
 	* @param @param id
@@ -258,7 +296,7 @@ public class ArticleController {
 	/**
 	* @Title: audit
 	* @author Shen Zhenfei
-	* @date 2016-9-5 下午4:59:59  
+	* @date 2016-9-5 下午4:59:59 
 	* @Description: 信息审核
 	* @param @param model
 	* @param @param id
@@ -279,7 +317,7 @@ public class ArticleController {
 			articleService.update(article);
 		}
 		
-		return "redirect:getAll.do";
+		return "redirect:getAll.html";
 	}
 	
 	/**

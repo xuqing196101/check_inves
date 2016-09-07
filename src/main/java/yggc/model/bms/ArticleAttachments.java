@@ -1,7 +1,6 @@
 package yggc.model.bms;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 public class ArticleAttachments implements Serializable{
@@ -11,9 +10,7 @@ public class ArticleAttachments implements Serializable{
 
     private String contentType;
 
-    private BigDecimal fileSize;
-
-    private Integer articleId;
+    private Float fileSize;
 
     private String attachmentPath;
 
@@ -31,14 +28,6 @@ public class ArticleAttachments implements Serializable{
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public Integer getArticleId() {
-		return articleId;
-	}
-
-	public void setArticleId(Integer articleId) {
-		this.articleId = articleId;
 	}
 
 	public Integer getIsDeleted() {
@@ -73,11 +62,11 @@ public class ArticleAttachments implements Serializable{
         this.contentType = contentType == null ? null : contentType.trim();
     }
 
-    public BigDecimal getFileSize() {
+    public Float getFileSize() {
         return fileSize;
     }
 
-    public void setFileSize(BigDecimal fileSize) {
+    public void setFileSize(Float fileSize) {
         this.fileSize = fileSize;
     }
 

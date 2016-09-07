@@ -3,6 +3,7 @@ package yggc.service.bms;
 import java.util.List;
 
 import yggc.model.bms.Article;
+import yggc.model.bms.ArticleAttachments;
 
 public interface ArticleService {
 	/**
@@ -92,5 +93,4 @@ public interface ArticleService {
 	* @return List<Article>
 	 */
 	List<Article> selectArticleByStatus(Article article); 
-	
 }

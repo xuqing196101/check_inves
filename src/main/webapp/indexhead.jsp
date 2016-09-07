@@ -32,6 +32,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!--导航js-->
 <script src="<%=basePath%>public/ZHQ/js/jquery_ujs.js"></script>
 <script src="<%=basePath%>public/ZHQ/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+function solrSearch(){
+	var condition = $("#k").val();
+	window.location.href = "<%=basePath%>index/solrSearch.html?condition="+condition;
+}
+</script>
   </head>
   
   <body>
@@ -59,9 +65,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     <input id="t" name="t" value="search_products" type="hidden">
                     <div class="col-md-12 pull-right">
                       <div class="input-group bround4">
-                        <input class="form-control h38" id="k" name="k" placeholder="" type="text">
+                        <input class="form-control h38" id="k" name="k" placeholder="请输入关键字" type="text">
                         <span class="input-group-btn">
-                          <input class="btn-u h38" name="commit" value="搜索" type="submit">
+                          <input class="btn-u h38" name="commit" value="搜索" type="button" onclick="solrSearch()">
                         </span>
                       </div>
                     </div>

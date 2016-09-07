@@ -41,6 +41,6 @@
   	select 
   	<include refid="IndexNews_Column_List"/>
   	from T_SES_BMS_ARTICLE
-  	where ARTICLE_TYPE_ID = #{articleType.id}
+  	where ARTICLE_TYPE_ID = #{articleType.id} and STATUS = 2
   </select>
 </mapper>

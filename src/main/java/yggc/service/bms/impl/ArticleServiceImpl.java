@@ -71,5 +71,4 @@ public class ArticleServiceImpl implements ArticleService {
 		List<Article> list = articleMapper.selectArticleByStatus(article);
 		return list;
 	}
-
 }
