@@ -89,13 +89,9 @@ function sub(){
           <button class="btn dropdown-toggle add-on" data-toggle="dropdown">
 		  <img src="<%=basePath%>public/ZHH/images/down.png" class="margin-bottom-5"/>
           </button>
-          <ul class="dropdown-menu list-unstyled">
           	<c:forEach items="${list}" var="list" varStatus="vs">
-		          		<li class="select_opt" disabled>
 		          			<input type="radio" name="chkItem" value="${list.name }"  disabled>${list.name }
-		          		</li>
 		    </c:forEach>
-          </ul>
        </div>
       </div>
 	 </li> 
@@ -117,11 +113,46 @@ function sub(){
 			<li>3 . 上传文件的数量不超过10个;</li>
 		   </ul>
 	  </div>
+	  
+	  
+	  
+	  <c:if test="${article.status==2 }">
+		 <div class="headline-v2 clear">
+		   <h2>审核</h2>
+		  </div>
+		  
+	       <div class="padding-top-10 clear">
+			   <ul class="list-unstyled list-flow p0_20 ">
+			     <li class="col-md-12 p0">
+				   <span class="fl">审核通过 </span>
+				 </li> 
+			   </ul>
+		  </div>
+	  </c:if>
+	  
+	  <c:if test="${article.status==3 }">
+		 <div class="headline-v2 clear">
+		   <h2>审核</h2>
+		  </div>
+		  
+	       <div class="padding-top-10 clear">
+			   <ul class="list-unstyled list-flow p0_20 ">
+			     <li class="col-md-12 p0">
+				   <span class="fl">退回理由：</span>
+				   <div class="col-md-12 pl200 fn mt5 pwr9">
+			        <textarea class="text_area col-md-12 " id="reason" name="reason"  disabled>${article.reason }</textarea>
+			       </div>
+				 </li> 
+			   </ul>
+		  </div>
+	  </c:if>
+	  
+	  
 	         
 	 <div  class="col-md-12">
 	   <div class="fl padding-10">
-	    <button class="btn btn-windows add" type="button" onclick="sub()">提交</button>
-	    <input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+	    <%--<button class="btn btn-windows add" type="button" onclick="sub()">提交</button>
+	    --%><input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 	</div>
   </div>
      

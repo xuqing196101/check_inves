@@ -57,13 +57,31 @@
 		window.location.href="<%=basePath%>article/add.do";
 	}
 	
-	function edit(){
+	function find(){
     	var id=[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
 		}); 
 		if(id.length==1){
 			
+			window.location.href="<%=basePath%>article/view.do?id="+id;
+		}else if(id.length>1){
+			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+		}else{
+			layer.alert("请选择需要查看的信息",{offset: ['222px', '390px'], shade:0.01});
+		}
+    }
+	
+	function edit(){
+    	var id=[]; 
+    	var status=[];
+    	
+		$('input[name="chkItem"]:checked').each(function(){ 
+			id.push($(this).val());
+		}); 
+		
+		alert(status);
+		if(id.length==1){
 			window.location.href="<%=basePath%>article/edit.do?id="+id;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
@@ -71,6 +89,7 @@
 			layer.alert("请选择需要修改的信息",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
+	
     function del(){
     	var ids =[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
@@ -86,12 +105,10 @@
 		}
     }
     
-    //提交列表
     function sub(){
     	window.location.href="<%=basePath%>article/sublist.do";
     }
     
-  //提交列表
     function audit(){
     	window.location.href="<%=basePath%>article/auditlist.do";
     }
@@ -190,12 +207,13 @@
 	   <input type="hidden" id="depid" name="depid">
 	  	<div class="content padding-left-25 padding-right-25 padding-top-5">
 	  		<h4>信息列表</h4>
+	  		<button class="btn btn-windows git" type="button" onclick="sub()">提交信息列表 </button>
+			<button class="btn btn-windows git" type="button" onclick="audit()">审核信息列表</button>
+			</br>
 	  		<button class="btn btn-windows add" type="button" onclick="add()">新增信息</button>
 			<button class="btn btn-windows edit" type="button" onclick="edit()">修改信息</button>
 			<button class="btn btn-windows delete" type="button" onclick="del()">删除信息</button>
-			<button class="btn btn-windows delete" type="button" onclick="find">查看信息</button>
-			<button class="btn btn-windows delete" type="button" onclick="sub()">提交信息列表 </button>
-			<button class="btn btn-windows delete" type="button" onclick="audit()">审核信息列表</button>
+			<button class="btn btn-windows delete" type="button" onclick="find()">查看信息</button>
 		  <table class="table table-bordered table-condensed">
 		  	<thead>
 	  			<tr>
@@ -230,16 +248,16 @@
 		  			<td class="tc" onclick="view('${list.id }')">${list.articleType.name }</td>
 		  			<td class="tc">
 		  				<c:if test="${list.status=='0' }">
-		  					暂存
+		  					<input type="hidden" name="status" value="${list.status }">暂存
 		  				</c:if>
 		  				<c:if test="${list.status=='1' }">
-		  					已提交
+		  					<input type="hidden" name="status" value="${list.status }">已提交
 		  				</c:if>
 		  				<c:if test="${list.status=='2' }">
-		  					发布
+		  					<input type="hidden" name="status" value="${list.status }">发布
 		  				</c:if>
 		  				<c:if test="${list.status=='3' }">
-		  					审核未通过
+		  					<input type="hidden" name="status" value="${list.status }">审核未通过
 		  				</c:if>
 		  			</td>
 		  		</tr>

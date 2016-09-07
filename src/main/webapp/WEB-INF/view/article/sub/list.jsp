@@ -162,7 +162,7 @@
 	  	<div class="content padding-left-25 padding-right-25 padding-top-5">
 	  		<h4>信息列表</h4>
 			<button class="btn btn-windows add" type="button" onclick="sub()">提交信息</button>
-			<button class="btn btn-windows reset" type="button" onclick="getInfo()">返回信息页面</button>
+			<button class="btn btn-windows git" type="button" onclick="getInfo()">返回信息页面</button>
 		  <table class="table table-bordered table-condensed">
 		  	<thead>
 	  			<tr>
