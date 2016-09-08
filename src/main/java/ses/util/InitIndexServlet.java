@@ -1,5 +1,7 @@
 package ses.util;
 
+import iss.service.SolrNewsService;
+
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.http.HttpServlet;
@@ -8,9 +10,6 @@ import javax.servlet.http.HttpSessionListener;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-
-import ses.service.iss.SolrNewsService;
-
 
 /*
  *@Title:InitIndexServlet
@@ -47,7 +46,7 @@ public class InitIndexServlet extends HttpServlet implements HttpSessionListener
 	/**
 	 * 
 	* @Title: contextDestroyed
-	* @author MRlovablee
+	* @author QuJie
 	* @date 2016-5-31 上午9:43:44  
 	* @Description: 服务器关闭时自动将isIndex设定为未索引状态 
 	* @param @param sce
