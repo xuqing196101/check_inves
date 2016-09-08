@@ -1,0 +1,649 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.oms.PurchaseDepMapper">
+  <resultMap id="BaseResultMap" type="ses.model.oms.PurchaseDep">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="LEVEL" jdbcType="VARCHAR" property="level" />
+    <result column="UNIT_ID" jdbcType="VARCHAR" property="unitId" />
+    <result column="UNIT_NAME" jdbcType="VARCHAR" property="unitName" />
+    <result column="PROP_BUSY_UNIT" jdbcType="VARCHAR" property="propBusyUnit" />
+    <result column="PROP_BUSY_ID" jdbcType="VARCHAR" property="propBusyId" />
+    <result column="PROP_BUSY_SCOPE" jdbcType="VARCHAR" property="propBusyScope" />
+    <result column="ADDR" jdbcType="VARCHAR" property="addr" />
+    <result column="POST_CODE" jdbcType="DECIMAL" property="postCode" />
+    <result column="FAX" jdbcType="VARCHAR" property="fax" />
+    <result column="QUA_CODE" jdbcType="VARCHAR" property="quaCode" />
+    <result column="QUA_LEVEL" jdbcType="VARCHAR" property="quaLevel" />
+    <result column="QUA_EDNDATE" jdbcType="DATE" property="quaEdndate" />
+    <result column="QUA_RANGE" jdbcType="DECIMAL" property="quaRange" />
+    <result column="QUA_CERT" jdbcType="VARCHAR" property="quaCert" />
+    <result column="LEADER_TEL" jdbcType="VARCHAR" property="leaderTel" />
+    <result column="OFFICER_NUM" jdbcType="DECIMAL" property="officerNum" />
+    <result column="OFFICER_NOWS" jdbcType="DECIMAL" property="officerNows" />
+    <result column="SOLDIER_NUM" jdbcType="DECIMAL" property="soldierNum" />
+    <result column="SOLDIER_NOWS" jdbcType="DECIMAL" property="soldierNows" />
+    <result column="STAFF_NUM" jdbcType="DECIMAL" property="staffNum" />
+    <result column="STAFF_NOWS" jdbcType="DECIMAL" property="staffNows" />
+    <result column="PURCHASERS" jdbcType="DECIMAL" property="purchasers" />
+    <result column="JUNIOR_PUR" jdbcType="DECIMAL" property="juniorPur" />
+    <result column="SENIOR_PUR" jdbcType="DECIMAL" property="seniorPur" />
+    <result column="UNIT" jdbcType="VARCHAR" property="unit" />
+    <result column="LEGAL_PERSON" jdbcType="VARCHAR" property="legalPerson" />
+    <result column="ENTRUST_PERSON" jdbcType="VARCHAR" property="entrustPerson" />
+    <result column="CONTRACT_PERSON" jdbcType="VARCHAR" property="contractPerson" />
+    <result column="CONTRACT_TEL" jdbcType="VARCHAR" property="contractTel" />
+    <result column="COMUNICATION_ADDR" jdbcType="VARCHAR" property="comunicationAddr" />
+    <result column="UNIT_POST_CODE" jdbcType="DECIMAL" property="unitPostCode" />
+    <result column="PAY_UNIT" jdbcType="VARCHAR" property="payUnit" />
+    <result column="OPENING_BANK" jdbcType="VARCHAR" property="openingBank" />
+    <result column="BANK_ACCOUNT" jdbcType="DECIMAL" property="bankAccount" />
+    <result column="OFFICE_AREA" jdbcType="DECIMAL" property="officeArea" />
+    <result column="OFFICE_NUM" jdbcType="DECIMAL" property="officeNum" />
+    <result column="MEET_NUM" jdbcType="DECIMAL" property="meetNum" />
+    <result column="BID_OFFICE" jdbcType="DECIMAL" property="bidOffice" />
+    <result column="BID_ROOM" jdbcType="DECIMAL" property="bidRoom" />
+    <result column="BID_ROOM_CODE" jdbcType="VARCHAR" property="bidRoomCode" />
+    <result column="BID_ROOM_POSITION" jdbcType="VARCHAR" property="bidRoomPosition" />
+    <result column="BID_ROOM_AREA" jdbcType="DECIMAL" property="bidRoomArea" />
+    <result column="BID_ROOM_CAPACITY" jdbcType="DECIMAL" property="bidRoomCapacity" />
+    <result column="BID_OFFICE_CODE" jdbcType="VARCHAR" property="bidOfficeCode" />
+    <result column="BID_OFFICE_POSITION" jdbcType="VARCHAR" property="bidOfficePosition" />
+    <result column="BID_OFFICE_AREA" jdbcType="DECIMAL" property="bidOfficeArea" />
+    <result column="BID_OFFICE_CAPACITY" jdbcType="DECIMAL" property="bidOfficeCapacity" />
+    <result column="IS_IN_INTERNET" jdbcType="DECIMAL" property="isInInternet" />
+    <result column="IS_HAVE_MONITORING_SYSTEM" jdbcType="DECIMAL" property="isHaveMonitoringSystem" />
+    <result column="ACCESS_WAY" jdbcType="VARCHAR" property="accessWay" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, NAME, LEVEL, UNIT_ID, UNIT_NAME, PROP_BUSY_UNIT, PROP_BUSY_ID, PROP_BUSY_SCOPE, 
+    ADDR, POST_CODE, FAX, QUA_CODE, QUA_LEVEL, QUA_EDNDATE, QUA_RANGE, QUA_CERT, LEADER_TEL, 
+    OFFICER_NUM, OFFICER_NOWS, SOLDIER_NUM, SOLDIER_NOWS, STAFF_NUM, STAFF_NOWS, PURCHASERS, 
+    JUNIOR_PUR, SENIOR_PUR, UNIT, LEGAL_PERSON, ENTRUST_PERSON, CONTRACT_PERSON, CONTRACT_TEL, 
+    COMUNICATION_ADDR, UNIT_POST_CODE, PAY_UNIT, OPENING_BANK, BANK_ACCOUNT, OFFICE_AREA, 
+    OFFICE_NUM, MEET_NUM, BID_OFFICE, BID_ROOM, BID_ROOM_CODE, BID_ROOM_POSITION, BID_ROOM_AREA, 
+    BID_ROOM_CAPACITY, BID_OFFICE_CODE, BID_OFFICE_POSITION, BID_OFFICE_AREA, BID_OFFICE_CAPACITY, 
+    IS_IN_INTERNET, IS_HAVE_MONITORING_SYSTEM, ACCESS_WAY
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_OMS_PURCHASE_DEP
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_SES_OMS_PURCHASE_DEP
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="ses.model.oms.PurchaseDep">
+    insert into T_SES_OMS_PURCHASE_DEP (ID, NAME, LEVEL, 
+      UNIT_ID, UNIT_NAME, PROP_BUSY_UNIT, 
+      PROP_BUSY_ID, PROP_BUSY_SCOPE, ADDR, 
+      POST_CODE, FAX, QUA_CODE, 
+      QUA_LEVEL, QUA_EDNDATE, QUA_RANGE, 
+      QUA_CERT, LEADER_TEL, OFFICER_NUM, 
+      OFFICER_NOWS, SOLDIER_NUM, SOLDIER_NOWS, 
+      STAFF_NUM, STAFF_NOWS, PURCHASERS, 
+      JUNIOR_PUR, SENIOR_PUR, UNIT, 
+      LEGAL_PERSON, ENTRUST_PERSON, CONTRACT_PERSON, 
+      CONTRACT_TEL, COMUNICATION_ADDR, UNIT_POST_CODE, 
+      PAY_UNIT, OPENING_BANK, BANK_ACCOUNT, 
+      OFFICE_AREA, OFFICE_NUM, MEET_NUM, 
+      BID_OFFICE, BID_ROOM, BID_ROOM_CODE, 
+      BID_ROOM_POSITION, BID_ROOM_AREA, BID_ROOM_CAPACITY, 
+      BID_OFFICE_CODE, BID_OFFICE_POSITION, BID_OFFICE_AREA, 
+      BID_OFFICE_CAPACITY, IS_IN_INTERNET, IS_HAVE_MONITORING_SYSTEM, 
+      ACCESS_WAY)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{level,jdbcType=VARCHAR}, 
+      #{unitId,jdbcType=VARCHAR}, #{unitName,jdbcType=VARCHAR}, #{propBusyUnit,jdbcType=VARCHAR}, 
+      #{propBusyId,jdbcType=VARCHAR}, #{propBusyScope,jdbcType=VARCHAR}, #{addr,jdbcType=VARCHAR}, 
+      #{postCode,jdbcType=DECIMAL}, #{fax,jdbcType=VARCHAR}, #{quaCode,jdbcType=VARCHAR}, 
+      #{quaLevel,jdbcType=VARCHAR}, #{quaEdndate,jdbcType=DATE}, #{quaRange,jdbcType=DECIMAL}, 
+      #{quaCert,jdbcType=VARCHAR}, #{leaderTel,jdbcType=VARCHAR}, #{officerNum,jdbcType=DECIMAL}, 
+      #{officerNows,jdbcType=DECIMAL}, #{soldierNum,jdbcType=DECIMAL}, #{soldierNows,jdbcType=DECIMAL}, 
+      #{staffNum,jdbcType=DECIMAL}, #{staffNows,jdbcType=DECIMAL}, #{purchasers,jdbcType=DECIMAL}, 
+      #{juniorPur,jdbcType=DECIMAL}, #{seniorPur,jdbcType=DECIMAL}, #{unit,jdbcType=VARCHAR}, 
+      #{legalPerson,jdbcType=VARCHAR}, #{entrustPerson,jdbcType=VARCHAR}, #{contractPerson,jdbcType=VARCHAR}, 
+      #{contractTel,jdbcType=VARCHAR}, #{comunicationAddr,jdbcType=VARCHAR}, #{unitPostCode,jdbcType=DECIMAL}, 
+      #{payUnit,jdbcType=VARCHAR}, #{openingBank,jdbcType=VARCHAR}, #{bankAccount,jdbcType=DECIMAL}, 
+      #{officeArea,jdbcType=DECIMAL}, #{officeNum,jdbcType=DECIMAL}, #{meetNum,jdbcType=DECIMAL}, 
+      #{bidOffice,jdbcType=DECIMAL}, #{bidRoom,jdbcType=DECIMAL}, #{bidRoomCode,jdbcType=VARCHAR}, 
+      #{bidRoomPosition,jdbcType=VARCHAR}, #{bidRoomArea,jdbcType=DECIMAL}, #{bidRoomCapacity,jdbcType=DECIMAL}, 
+      #{bidOfficeCode,jdbcType=VARCHAR}, #{bidOfficePosition,jdbcType=VARCHAR}, #{bidOfficeArea,jdbcType=DECIMAL}, 
+      #{bidOfficeCapacity,jdbcType=DECIMAL}, #{isInInternet,jdbcType=DECIMAL}, #{isHaveMonitoringSystem,jdbcType=DECIMAL}, 
+      #{accessWay,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="ses.model.oms.PurchaseDep">
+    insert into T_SES_OMS_PURCHASE_DEP
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="level != null">
+        LEVEL,
+      </if>
+      <if test="unitId != null">
+        UNIT_ID,
+      </if>
+      <if test="unitName != null">
+        UNIT_NAME,
+      </if>
+      <if test="propBusyUnit != null">
+        PROP_BUSY_UNIT,
+      </if>
+      <if test="propBusyId != null">
+        PROP_BUSY_ID,
+      </if>
+      <if test="propBusyScope != null">
+        PROP_BUSY_SCOPE,
+      </if>
+      <if test="addr != null">
+        ADDR,
+      </if>
+      <if test="postCode != null">
+        POST_CODE,
+      </if>
+      <if test="fax != null">
+        FAX,
+      </if>
+      <if test="quaCode != null">
+        QUA_CODE,
+      </if>
+      <if test="quaLevel != null">
+        QUA_LEVEL,
+      </if>
+      <if test="quaEdndate != null">
+        QUA_EDNDATE,
+      </if>
+      <if test="quaRange != null">
+        QUA_RANGE,
+      </if>
+      <if test="quaCert != null">
+        QUA_CERT,
+      </if>
+      <if test="leaderTel != null">
+        LEADER_TEL,
+      </if>
+      <if test="officerNum != null">
+        OFFICER_NUM,
+      </if>
+      <if test="officerNows != null">
+        OFFICER_NOWS,
+      </if>
+      <if test="soldierNum != null">
+        SOLDIER_NUM,
+      </if>
+      <if test="soldierNows != null">
+        SOLDIER_NOWS,
+      </if>
+      <if test="staffNum != null">
+        STAFF_NUM,
+      </if>
+      <if test="staffNows != null">
+        STAFF_NOWS,
+      </if>
+      <if test="purchasers != null">
+        PURCHASERS,
+      </if>
+      <if test="juniorPur != null">
+        JUNIOR_PUR,
+      </if>
+      <if test="seniorPur != null">
+        SENIOR_PUR,
+      </if>
+      <if test="unit != null">
+        UNIT,
+      </if>
+      <if test="legalPerson != null">
+        LEGAL_PERSON,
+      </if>
+      <if test="entrustPerson != null">
+        ENTRUST_PERSON,
+      </if>
+      <if test="contractPerson != null">
+        CONTRACT_PERSON,
+      </if>
+      <if test="contractTel != null">
+        CONTRACT_TEL,
+      </if>
+      <if test="comunicationAddr != null">
+        COMUNICATION_ADDR,
+      </if>
+      <if test="unitPostCode != null">
+        UNIT_POST_CODE,
+      </if>
+      <if test="payUnit != null">
+        PAY_UNIT,
+      </if>
+      <if test="openingBank != null">
+        OPENING_BANK,
+      </if>
+      <if test="bankAccount != null">
+        BANK_ACCOUNT,
+      </if>
+      <if test="officeArea != null">
+        OFFICE_AREA,
+      </if>
+      <if test="officeNum != null">
+        OFFICE_NUM,
+      </if>
+      <if test="meetNum != null">
+        MEET_NUM,
+      </if>
+      <if test="bidOffice != null">
+        BID_OFFICE,
+      </if>
+      <if test="bidRoom != null">
+        BID_ROOM,
+      </if>
+      <if test="bidRoomCode != null">
+        BID_ROOM_CODE,
+      </if>
+      <if test="bidRoomPosition != null">
+        BID_ROOM_POSITION,
+      </if>
+      <if test="bidRoomArea != null">
+        BID_ROOM_AREA,
+      </if>
+      <if test="bidRoomCapacity != null">
+        BID_ROOM_CAPACITY,
+      </if>
+      <if test="bidOfficeCode != null">
+        BID_OFFICE_CODE,
+      </if>
+      <if test="bidOfficePosition != null">
+        BID_OFFICE_POSITION,
+      </if>
+      <if test="bidOfficeArea != null">
+        BID_OFFICE_AREA,
+      </if>
+      <if test="bidOfficeCapacity != null">
+        BID_OFFICE_CAPACITY,
+      </if>
+      <if test="isInInternet != null">
+        IS_IN_INTERNET,
+      </if>
+      <if test="isHaveMonitoringSystem != null">
+        IS_HAVE_MONITORING_SYSTEM,
+      </if>
+      <if test="accessWay != null">
+        ACCESS_WAY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="unitId != null">
+        #{unitId,jdbcType=VARCHAR},
+      </if>
+      <if test="unitName != null">
+        #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="propBusyUnit != null">
+        #{propBusyUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="propBusyId != null">
+        #{propBusyId,jdbcType=VARCHAR},
+      </if>
+      <if test="propBusyScope != null">
+        #{propBusyScope,jdbcType=VARCHAR},
+      </if>
+      <if test="addr != null">
+        #{addr,jdbcType=VARCHAR},
+      </if>
+      <if test="postCode != null">
+        #{postCode,jdbcType=DECIMAL},
+      </if>
+      <if test="fax != null">
+        #{fax,jdbcType=VARCHAR},
+      </if>
+      <if test="quaCode != null">
+        #{quaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="quaLevel != null">
+        #{quaLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="quaEdndate != null">
+        #{quaEdndate,jdbcType=DATE},
+      </if>
+      <if test="quaRange != null">
+        #{quaRange,jdbcType=DECIMAL},
+      </if>
+      <if test="quaCert != null">
+        #{quaCert,jdbcType=VARCHAR},
+      </if>
+      <if test="leaderTel != null">
+        #{leaderTel,jdbcType=VARCHAR},
+      </if>
+      <if test="officerNum != null">
+        #{officerNum,jdbcType=DECIMAL},
+      </if>
+      <if test="officerNows != null">
+        #{officerNows,jdbcType=DECIMAL},
+      </if>
+      <if test="soldierNum != null">
+        #{soldierNum,jdbcType=DECIMAL},
+      </if>
+      <if test="soldierNows != null">
+        #{soldierNows,jdbcType=DECIMAL},
+      </if>
+      <if test="staffNum != null">
+        #{staffNum,jdbcType=DECIMAL},
+      </if>
+      <if test="staffNows != null">
+        #{staffNows,jdbcType=DECIMAL},
+      </if>
+      <if test="purchasers != null">
+        #{purchasers,jdbcType=DECIMAL},
+      </if>
+      <if test="juniorPur != null">
+        #{juniorPur,jdbcType=DECIMAL},
+      </if>
+      <if test="seniorPur != null">
+        #{seniorPur,jdbcType=DECIMAL},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPerson != null">
+        #{legalPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="entrustPerson != null">
+        #{entrustPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="contractPerson != null">
+        #{contractPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="contractTel != null">
+        #{contractTel,jdbcType=VARCHAR},
+      </if>
+      <if test="comunicationAddr != null">
+        #{comunicationAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPostCode != null">
+        #{unitPostCode,jdbcType=DECIMAL},
+      </if>
+      <if test="payUnit != null">
+        #{payUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="openingBank != null">
+        #{openingBank,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccount != null">
+        #{bankAccount,jdbcType=DECIMAL},
+      </if>
+      <if test="officeArea != null">
+        #{officeArea,jdbcType=DECIMAL},
+      </if>
+      <if test="officeNum != null">
+        #{officeNum,jdbcType=DECIMAL},
+      </if>
+      <if test="meetNum != null">
+        #{meetNum,jdbcType=DECIMAL},
+      </if>
+      <if test="bidOffice != null">
+        #{bidOffice,jdbcType=DECIMAL},
+      </if>
+      <if test="bidRoom != null">
+        #{bidRoom,jdbcType=DECIMAL},
+      </if>
+      <if test="bidRoomCode != null">
+        #{bidRoomCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bidRoomPosition != null">
+        #{bidRoomPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="bidRoomArea != null">
+        #{bidRoomArea,jdbcType=DECIMAL},
+      </if>
+      <if test="bidRoomCapacity != null">
+        #{bidRoomCapacity,jdbcType=DECIMAL},
+      </if>
+      <if test="bidOfficeCode != null">
+        #{bidOfficeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bidOfficePosition != null">
+        #{bidOfficePosition,jdbcType=VARCHAR},
+      </if>
+      <if test="bidOfficeArea != null">
+        #{bidOfficeArea,jdbcType=DECIMAL},
+      </if>
+      <if test="bidOfficeCapacity != null">
+        #{bidOfficeCapacity,jdbcType=DECIMAL},
+      </if>
+      <if test="isInInternet != null">
+        #{isInInternet,jdbcType=DECIMAL},
+      </if>
+      <if test="isHaveMonitoringSystem != null">
+        #{isHaveMonitoringSystem,jdbcType=DECIMAL},
+      </if>
+      <if test="accessWay != null">
+        #{accessWay,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="ses.model.oms.PurchaseDep">
+    update T_SES_OMS_PURCHASE_DEP
+    <set>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        LEVEL = #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="unitId != null">
+        UNIT_ID = #{unitId,jdbcType=VARCHAR},
+      </if>
+      <if test="unitName != null">
+        UNIT_NAME = #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="propBusyUnit != null">
+        PROP_BUSY_UNIT = #{propBusyUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="propBusyId != null">
+        PROP_BUSY_ID = #{propBusyId,jdbcType=VARCHAR},
+      </if>
+      <if test="propBusyScope != null">
+        PROP_BUSY_SCOPE = #{propBusyScope,jdbcType=VARCHAR},
+      </if>
+      <if test="addr != null">
+        ADDR = #{addr,jdbcType=VARCHAR},
+      </if>
+      <if test="postCode != null">
+        POST_CODE = #{postCode,jdbcType=DECIMAL},
+      </if>
+      <if test="fax != null">
+        FAX = #{fax,jdbcType=VARCHAR},
+      </if>
+      <if test="quaCode != null">
+        QUA_CODE = #{quaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="quaLevel != null">
+        QUA_LEVEL = #{quaLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="quaEdndate != null">
+        QUA_EDNDATE = #{quaEdndate,jdbcType=DATE},
+      </if>
+      <if test="quaRange != null">
+        QUA_RANGE = #{quaRange,jdbcType=DECIMAL},
+      </if>
+      <if test="quaCert != null">
+        QUA_CERT = #{quaCert,jdbcType=VARCHAR},
+      </if>
+      <if test="leaderTel != null">
+        LEADER_TEL = #{leaderTel,jdbcType=VARCHAR},
+      </if>
+      <if test="officerNum != null">
+        OFFICER_NUM = #{officerNum,jdbcType=DECIMAL},
+      </if>
+      <if test="officerNows != null">
+        OFFICER_NOWS = #{officerNows,jdbcType=DECIMAL},
+      </if>
+      <if test="soldierNum != null">
+        SOLDIER_NUM = #{soldierNum,jdbcType=DECIMAL},
+      </if>
+      <if test="soldierNows != null">
+        SOLDIER_NOWS = #{soldierNows,jdbcType=DECIMAL},
+      </if>
+      <if test="staffNum != null">
+        STAFF_NUM = #{staffNum,jdbcType=DECIMAL},
+      </if>
+      <if test="staffNows != null">
+        STAFF_NOWS = #{staffNows,jdbcType=DECIMAL},
+      </if>
+      <if test="purchasers != null">
+        PURCHASERS = #{purchasers,jdbcType=DECIMAL},
+      </if>
+      <if test="juniorPur != null">
+        JUNIOR_PUR = #{juniorPur,jdbcType=DECIMAL},
+      </if>
+      <if test="seniorPur != null">
+        SENIOR_PUR = #{seniorPur,jdbcType=DECIMAL},
+      </if>
+      <if test="unit != null">
+        UNIT = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPerson != null">
+        LEGAL_PERSON = #{legalPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="entrustPerson != null">
+        ENTRUST_PERSON = #{entrustPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="contractPerson != null">
+        CONTRACT_PERSON = #{contractPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="contractTel != null">
+        CONTRACT_TEL = #{contractTel,jdbcType=VARCHAR},
+      </if>
+      <if test="comunicationAddr != null">
+        COMUNICATION_ADDR = #{comunicationAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPostCode != null">
+        UNIT_POST_CODE = #{unitPostCode,jdbcType=DECIMAL},
+      </if>
+      <if test="payUnit != null">
+        PAY_UNIT = #{payUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="openingBank != null">
+        OPENING_BANK = #{openingBank,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccount != null">
+        BANK_ACCOUNT = #{bankAccount,jdbcType=DECIMAL},
+      </if>
+      <if test="officeArea != null">
+        OFFICE_AREA = #{officeArea,jdbcType=DECIMAL},
+      </if>
+      <if test="officeNum != null">
+        OFFICE_NUM = #{officeNum,jdbcType=DECIMAL},
+      </if>
+      <if test="meetNum != null">
+        MEET_NUM = #{meetNum,jdbcType=DECIMAL},
+      </if>
+      <if test="bidOffice != null">
+        BID_OFFICE = #{bidOffice,jdbcType=DECIMAL},
+      </if>
+      <if test="bidRoom != null">
+        BID_ROOM = #{bidRoom,jdbcType=DECIMAL},
+      </if>
+      <if test="bidRoomCode != null">
+        BID_ROOM_CODE = #{bidRoomCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bidRoomPosition != null">
+        BID_ROOM_POSITION = #{bidRoomPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="bidRoomArea != null">
+        BID_ROOM_AREA = #{bidRoomArea,jdbcType=DECIMAL},
+      </if>
+      <if test="bidRoomCapacity != null">
+        BID_ROOM_CAPACITY = #{bidRoomCapacity,jdbcType=DECIMAL},
+      </if>
+      <if test="bidOfficeCode != null">
+        BID_OFFICE_CODE = #{bidOfficeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bidOfficePosition != null">
+        BID_OFFICE_POSITION = #{bidOfficePosition,jdbcType=VARCHAR},
+      </if>
+      <if test="bidOfficeArea != null">
+        BID_OFFICE_AREA = #{bidOfficeArea,jdbcType=DECIMAL},
+      </if>
+      <if test="bidOfficeCapacity != null">
+        BID_OFFICE_CAPACITY = #{bidOfficeCapacity,jdbcType=DECIMAL},
+      </if>
+      <if test="isInInternet != null">
+        IS_IN_INTERNET = #{isInInternet,jdbcType=DECIMAL},
+      </if>
+      <if test="isHaveMonitoringSystem != null">
+        IS_HAVE_MONITORING_SYSTEM = #{isHaveMonitoringSystem,jdbcType=DECIMAL},
+      </if>
+      <if test="accessWay != null">
+        ACCESS_WAY = #{accessWay,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="ses.model.oms.PurchaseDep">
+    update T_SES_OMS_PURCHASE_DEP
+    set NAME = #{name,jdbcType=VARCHAR},
+      LEVEL = #{level,jdbcType=VARCHAR},
+      UNIT_ID = #{unitId,jdbcType=VARCHAR},
+      UNIT_NAME = #{unitName,jdbcType=VARCHAR},
+      PROP_BUSY_UNIT = #{propBusyUnit,jdbcType=VARCHAR},
+      PROP_BUSY_ID = #{propBusyId,jdbcType=VARCHAR},
+      PROP_BUSY_SCOPE = #{propBusyScope,jdbcType=VARCHAR},
+      ADDR = #{addr,jdbcType=VARCHAR},
+      POST_CODE = #{postCode,jdbcType=DECIMAL},
+      FAX = #{fax,jdbcType=VARCHAR},
+      QUA_CODE = #{quaCode,jdbcType=VARCHAR},
+      QUA_LEVEL = #{quaLevel,jdbcType=VARCHAR},
+      QUA_EDNDATE = #{quaEdndate,jdbcType=DATE},
+      QUA_RANGE = #{quaRange,jdbcType=DECIMAL},
+      QUA_CERT = #{quaCert,jdbcType=VARCHAR},
+      LEADER_TEL = #{leaderTel,jdbcType=VARCHAR},
+      OFFICER_NUM = #{officerNum,jdbcType=DECIMAL},
+      OFFICER_NOWS = #{officerNows,jdbcType=DECIMAL},
+      SOLDIER_NUM = #{soldierNum,jdbcType=DECIMAL},
+      SOLDIER_NOWS = #{soldierNows,jdbcType=DECIMAL},
+      STAFF_NUM = #{staffNum,jdbcType=DECIMAL},
+      STAFF_NOWS = #{staffNows,jdbcType=DECIMAL},
+      PURCHASERS = #{purchasers,jdbcType=DECIMAL},
+      JUNIOR_PUR = #{juniorPur,jdbcType=DECIMAL},
+      SENIOR_PUR = #{seniorPur,jdbcType=DECIMAL},
+      UNIT = #{unit,jdbcType=VARCHAR},
+      LEGAL_PERSON = #{legalPerson,jdbcType=VARCHAR},
+      ENTRUST_PERSON = #{entrustPerson,jdbcType=VARCHAR},
+      CONTRACT_PERSON = #{contractPerson,jdbcType=VARCHAR},
+      CONTRACT_TEL = #{contractTel,jdbcType=VARCHAR},
+      COMUNICATION_ADDR = #{comunicationAddr,jdbcType=VARCHAR},
+      UNIT_POST_CODE = #{unitPostCode,jdbcType=DECIMAL},
+      PAY_UNIT = #{payUnit,jdbcType=VARCHAR},
+      OPENING_BANK = #{openingBank,jdbcType=VARCHAR},
+      BANK_ACCOUNT = #{bankAccount,jdbcType=DECIMAL},
+      OFFICE_AREA = #{officeArea,jdbcType=DECIMAL},
+      OFFICE_NUM = #{officeNum,jdbcType=DECIMAL},
+      MEET_NUM = #{meetNum,jdbcType=DECIMAL},
+      BID_OFFICE = #{bidOffice,jdbcType=DECIMAL},
+      BID_ROOM = #{bidRoom,jdbcType=DECIMAL},
+      BID_ROOM_CODE = #{bidRoomCode,jdbcType=VARCHAR},
+      BID_ROOM_POSITION = #{bidRoomPosition,jdbcType=VARCHAR},
+      BID_ROOM_AREA = #{bidRoomArea,jdbcType=DECIMAL},
+      BID_ROOM_CAPACITY = #{bidRoomCapacity,jdbcType=DECIMAL},
+      BID_OFFICE_CODE = #{bidOfficeCode,jdbcType=VARCHAR},
+      BID_OFFICE_POSITION = #{bidOfficePosition,jdbcType=VARCHAR},
+      BID_OFFICE_AREA = #{bidOfficeArea,jdbcType=DECIMAL},
+      BID_OFFICE_CAPACITY = #{bidOfficeCapacity,jdbcType=DECIMAL},
+      IS_IN_INTERNET = #{isInInternet,jdbcType=DECIMAL},
+      IS_HAVE_MONITORING_SYSTEM = #{isHaveMonitoringSystem,jdbcType=DECIMAL},
+      ACCESS_WAY = #{accessWay,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

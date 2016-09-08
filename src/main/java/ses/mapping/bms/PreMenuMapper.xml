@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.bms.PreMenuMapper">
+  <resultMap id="MenuResultMap" type="ses.model.bms.PreMenu">
+    <result column="ID" property="id" />
+    <result column="NAME" property="name" />
+    <result column="MTYPE" property="type" />
+    <result column="IS_DELETED" property="isDeleted" />
+    <result column="STATE" property="state" />
+    <result column="URL" property="url" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="ORDERBY" property="orderby" />
+    <result column="MENULEVEL" property="menulevel" />
+     <!-- 查询上级菜单 -->  
+    <association column="PARENT_ID"  property="parentId" select="queryByMenuId" />
+  </resultMap>
+  
+  <resultMap type="ses.model.bms.PreMenu" id="menuroleMap" extends="MenuResultMap">  
+    <!-- property: 指的是集合属性的值, ofType：指的是集合中元素的类型 -->
+	<collection property="roles" ofType="ses.model.bms.Role">
+		<id column="roleId"  property="id" />
+	    <result column="roleName" jdbcType="VARCHAR" property="name" />
+	    <result column="roleCreatedAt" jdbcType="TIMESTAMP" property="createdAt" />
+	    <result column="describe" jdbcType="VARCHAR" property="describe" />
+	    <result column="roleIsDeleted" property="isDeleted" />
+	</collection>   
+  </resultMap>
+  
+  <sql id="Tabel_Name">
+    T_SES_BMS_PERMENU
+  </sql>
+  <!-- 表中所有列 -->
+  <sql id="Base_Column_List" >
+   ID,NAME,MTYPE,IS_DELETED,STATE,URL,CREATED_AT,ORDERBY,MENULEVEL,PARENT_ID
+  </sql>
+  <!-- 查询条件 -->
+  <sql id="Example_Where_Clause">
+    where IS_DELETED=0
+    <trim suffixOverrides=",">
+      <if test="id!= null and id !=''">
+        and ID = #{id}
+      </if>
+      <if test="name != null and name !=''">
+        and NAME = #{},
+      </if>
+      <if test="type != null and name !=''">
+        and MTYPE = #{type},
+      </if>
+      <if test="isDeleted != null">
+        and IS_DELETED = #{isDeleted},
+      </if>
+      <if test="state != null">
+        and STATE = #{state},
+      </if>
+      <if test="url != null and name !=''">
+        and URL = #{url},
+      </if>
+      <if test="createdAt != null">
+        and CREATED_AT = #{createdAt},
+      </if>
+      <if test="orderby != null">
+        and ORDERBY = #{orderby},
+      </if>
+      <if test="menulevel != null">
+        and MENULEVEL = #{menulevel},
+      </if>
+      <if test="parentId != null">
+        and PARENT_ID = #{parentId}
+      </if>
+    </trim>
+  </sql>
+  
+  <select id="queryByMenuId" resultMap="MenuResultMap" parameterType="Object">
+    select
+    <include refid="Base_Column_List" />
+    from T_SES_BMS_PERMENU where ID = #{id}
+  </select>
+  
+  <select id="queryByList" resultMap="MenuResultMap" parameterType="Object">
+    select
+    <include refid="Base_Column_List" />
+    from T_SES_BMS_PERMENU
+    <include refid="Example_Where_Clause"/>
+    ORDER BY MENULEVEL,ORDERBY ASC
+  </select>
+  
+  <insert id="insert" parameterType="ses.model.bms.PreMenu">
+    <selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_SES_BMS_PERMENU (ID, NAME, MTYPE, 
+      IS_DELETED, STATE, URL, 
+      CREATED_AT, ORDERBY, MENULEVEL, 
+      PARENT_ID)
+    values (#{id}, #{name}, #{type}, 
+      #{isDeleted}, #{state}, #{url}, 
+      #{createdAt}, #{orderby}, #{menulevel}, 
+      #{parentId})
+  </insert>
+  <insert id="insertSelective" parameterType="ses.model.bms.PreMenu">
+    <selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_SES_BMS_PERMENU
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null and name !=''">
+        NAME,
+      </if>
+      <if test="type != null and type !=''">
+        MTYPE,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+      <if test="state != null">
+        STATE,
+      </if>
+      <if test="url != null and url !=''">
+        URL,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="orderby != null">
+        ORDERBY,
+      </if>
+      <if test="menulevel != null">
+        MENULEVEL,
+      </if>
+      <if test="parentId != null">
+        PARENT_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="name != null and name !=''">
+        #{name},
+      </if>
+      <if test="type != null and type !=''">
+        #{type},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted},
+      </if>
+      <if test="state != null">
+        #{state},
+      </if>
+      <if test="url != null and url !=''">
+        #{url},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+      <if test="orderby != null">
+        #{orderby},
+      </if>
+      <if test="menulevel != null">
+        #{menulevel},
+      </if>
+      <if test="parentId != null">
+        #{parentId.id},
+      </if>
+    </trim>
+  </insert>
+ 
+  
+</mapper>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.oms.DeparentMapper">
+  <!-- 根据id查部门 -->
+	<select id="findDeparentByMap" parameterType="java.util.Map" resultType="ses.model.oms.Deparent">
+			   select d.id  as id,
+		       d.name       as name,
+		       d.type       as type,
+		       d.describtion     as describtion,
+		       d.ADDR         as addr,
+		       d.PHONE       as phone,
+		       d.POST_CODE       as postCode,
+		       d.ORG_CODE         as orgCode,
+		       d.TEL       as tel,
+		       d.AREA    as area,
+		       d.DETAIL_ADDR      as detailAddr,
+		       d.FAX    as fax,
+		       d.SITE      as site,
+		       d.PRINCINPAL     as princinpal,
+		       d.PRINCINPAL_IDCARD          as princinpalIdcard,
+		       d.NATURE     as nature
+		  from t_ses_oms_dep     d
+		 where nvl(d.is_deleted)=0
+		   and d.id = #{id,jdbcType=VARCHAR}
+	</select>
+	
+	<!-- 保存部门 -->
+	<insert id="saveDepartment" parameterType="java.util.Map">
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			select rawtohex(sys_guid()) as VALUE from dual
+		</selectKey>
+		insert into t_ses_oms_dep
+		 (ID,NAME,TYPE,
+		  DESCRIBTION,ADDR,PHONE,
+          POST_CODE,ORG_CODE,TEL,
+          AREA,DETAIL_ADDR,FAX,SITE,
+          PRINCINPAL,PRINCINPAL_IDCARD,NATURE,CREATED_AT
+          )
+		values(
+	      #{id,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{type,jdbcType=CHAR},
+		  #{describtion,jdbcType=VARCHAR},#{addr,jdbcType=VARCHAR},#{phone,jdbcType=VARCHAR},
+		  #{postCode,jdbcType=VARCHAR},#{orgCode,jdbcType=VARCHAR},#{tel,jdbcType=VARCHAR},
+		  #{area,jdbcType=VARCHAR},#{detailAddr,jdbcType=VARCHAR},
+		  #{fax,jdbcType=VARCHAR},#{site,jdbcType=VARCHAR},#{princinpal,jdbcType=VARCHAR},
+		  #{princinpalIdcard,jdbcType=VARCHAR},#{NATURE,jdbcType=VARCHAR},sysdate
+		 )
+	</insert>
+</mapper>

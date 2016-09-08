@@ -7,7 +7,7 @@ http://www.springframework.org/schema/mvc
 http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
 	<!-- 自动扫描controller包下的所有类，使其认为spring mvc的控制器 -->
-	<context:component-scan base-package="yggc.controller" />
+	<context:component-scan base-package="ses.controller" />
 
 	<!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
 	<bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
@@ -19,7 +19,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 	</bean>
 	<!-- springMVC拦截器 -->
 	<mvc:interceptors>
-		<bean class="yggc.interceptor.MyInterceptor">
+		<bean class="ses.interceptor.MyInterceptor">
 			<property name="matches">
 				<value>(.*/((selectIndexNews.do)|(login.do)|(logout)|(loginIn)|(ALiPay)|(images)|(css)|(js)|(plugins)|(left)|(upload)).*)|(.*html)|(.*xml)|(.*apk)</value>
 			</property>
@@ -53,14 +53,14 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 <!-- 日期全局转换器 -->
 		<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 				<property name="webBindingInitializer">
-					<bean class="yggc.util.DateConvert" />
+					<bean class="ses.util.DateConvert" />
 				</property>
 			</bean>
 	
 	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">    
         <property name="converters">    
             <list>    
-                <bean class="yggc.util.DateUtil" />    
+                <bean class="ses.util.DateUtil" />    
             </list>    
         </property>    
     </bean>		

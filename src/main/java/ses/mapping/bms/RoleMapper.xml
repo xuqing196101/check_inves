@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.bms.RoleMapper">
+  <resultMap id="RoleResultMap" type="ses.model.bms.Role">
+    <id column="ID"  property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="DESCRIBE" jdbcType="VARCHAR" property="describe" />
+    <result column="IS_DELETED" property="isDeleted" />
+  </resultMap>
+  <resultMap id="UserResultMap" type="ses.model.bms.User">
+    <result column="ID"  property="id" />
+    <result column="LOGIN_NAME"  property="loginName" />
+    <result column="PASSWORD"  property="password" />
+    <result column="CREATED_AT"  property="createdAt" jdbcType="TIMESTAMP"/>
+    <result column="IS_DELETED"  property="isDeleted" />
+    <result column="REL_NAME"  property="relName" />
+    <result column="UPDATED_AT"  property="updatedAt" jdbcType="TIMESTAMP"/>
+    <result column="PHONE"  property="phone" />
+    <!-- 查询创建人 -->  
+    <association column="CREATER_ID"  property="creater" select="queryUserById" />  
+  </resultMap>
+  <resultMap id="MenuResultMap" type="ses.model.bms.PreMenu">
+    <result column="ID" property="id" />
+    <result column="NAME" property="name" />
+    <result column="MTYPE" property="type" />
+    <result column="IS_DELETED" property="isDeleted" />
+    <result column="STATE" property="state" />
+    <result column="URL" property="url" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="ORDERBY" property="orderby" />
+    <result column="MENULEVEL" property="menulevel" />
+     <!-- 查询上级菜单 -->  
+    <association column="PARENT_ID"  property="parentId" select="queryByMenuId" /> 
+  </resultMap>
+  <resultMap type="ses.model.bms.Role" id="relativityMap" extends="RoleResultMap">  
+    <collection property="users" ofType="ses.model.bms.User">  
+        <result column="userId"  property="id" />
+	    <result column="loginName"  property="loginName" />
+	    <result column="password"  property="password" />
+	    <result column="userCreatedAt"  property="createdAt" jdbcType="TIMESTAMP"/>
+	    <result column="userIsDeleted"  property="isDeleted" />
+	    <result column="relName"  property="relName" />
+	    <result column="userUpdatedAt"  property="updatedAt" jdbcType="TIMESTAMP"/>
+	    <result column="phone"  property="phone" />
+	    <!-- 查询创建人 -->
+	    <association column="creater"  property="creater" select="queryUserById" />   
+    </collection> 
+    <collection property="preMenus" ofType="ses.model.bms.PreMenu">  
+        <result column="mid" property="id" />
+	    <result column="mname" property="name" />
+	    <result column="mtype" property="type" />
+	    <result column="misDleted" property="isDeleted" />
+	    <result column="mstate" property="state" />
+	    <result column="murl" property="url" />
+	    <result column="mcreatedAt" jdbcType="TIMESTAMP" property="createdAt" />
+	    <result column="morderby" property="orderby" />
+	    <result column="menulevel" property="menulevel" />
+		<!--查询上级菜单   -->
+	    <association column="parentId"  property="parentId" select="queryByMenuId" />  
+    </collection>
+  </resultMap> 
+  
+  
+  <!-- 所有列表 -->
+  <sql id="Base_Column_List">
+    ID, NAME, CREATED_AT, DESCRIBE, IS_DELETED
+  </sql>
+  <!-- 查询条件 -->
+  <sql id="Example_Where_Clause">
+    where IS_DELETED=0
+    <trim suffixOverrides=",">
+      <if test="id!= null and id !=''">
+        and ID = #{id}
+      </if>
+      <if test="name != null and name !=''">
+        and Name like concat(concat('%', '${name}'), '%')
+      </if>
+      <if test="createdAt != null">
+        and CREATED_AT = #{createdAt}
+      </if>
+      <if test="describe != null and describe !=''">
+        and DESCRIBE like concat(concat('%', '${describe}'), '%')
+      </if>
+    </trim>
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="RoleResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_BMS_ROLEMAN
+    where ID = #{id}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from T_SES_BMS_ROLEMAN
+    where ID = #{id}
+  </delete>
+  <insert id="insert" parameterType="ses.model.bms.Role">
+    <selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_SES_BMS_ROLEMAN (ID, NAME, CREATED_AT, 
+      DESCRIBE, IS_DELETED)
+    values (#{id}, #{name}, #{createdAt,jdbcType=TIMESTAMP},#{describe}, #{isDeleted})
+  </insert>
+  <insert id="insertSelective" parameterType="ses.model.bms.Role">
+    <selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_SES_BMS_ROLEMAN
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null and id !=''">
+        ID,
+      </if>
+      <if test="name != null and name !=''">
+        NAME,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="describe != null and describe !=''">
+        DESCRIBE,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null and id !=''">
+        #{id},
+      </if>
+      <if test="name != null and name !=''">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="describe != null and describe !=''">
+        #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="ses.model.bms.Role">
+    update T_SES_BMS_ROLEMAN
+    <set>
+      <if test="name != null and name !=''">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="describe != null and describe !=''">
+        DESCRIBE = #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted},
+      </if>
+    </set>
+    where ID = #{id}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="ses.model.bms.Role">
+    update T_SES_BMS_ROLEMAN
+    set NAME = #{name},
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      DESCRIBE = #{describe,jdbcType=VARCHAR},
+      IS_DELETED = #{isDeleted,jdbcType=DECIMAL}
+    where ID = #{id}
+  </update>
+  <select id="queryByList" resultMap="RoleResultMap" parameterType="Object">
+    select
+    <include refid="Base_Column_List" />
+    from T_SES_BMS_ROLEMAN 
+    <include refid="Example_Where_Clause"/>
+  </select>
+  <select id="queryUserById" resultMap="UserResultMap" parameterType="Object">
+    select 
+    * 
+    from T_SES_BMS_USERINFO where ID = #{id}
+  </select>
+  <select id="queryByMenuId" resultMap="MenuResultMap" parameterType="Object">
+    select 
+    * 
+    from T_SES_BMS_PERMENU where ID = #{id}
+  </select>
+  <!-- 根据T_SES_BMS_ROLEMAN表中的id或name查询角色信息和角色内用户信息 -->  
+   <select id="selectRoleUser" parameterType="Object"
+       resultMap="relativityMap"> 
+       select 
+       r.ID as ID,r.NAME as NAME,r.CREATED_AT as CREATED_AT,r.DESCRIBE as DESCRIBE,r.IS_DELETED as IS_DELETED, 
+       u.ID as userId,u.LOGIN_NAME as loginName,u.PASSWORD as password,u.CREATED_AT as userCreatedAt,
+       u.IS_DELETED as userIsDeleted,u.REL_NAME as relName,u.UPDATED_AT as userUpdatedAt,u.PHONE as phone,
+       u.CREATER_ID as creater,
+       pm.ID as mid,pm.NAME as mname,pm.MTYPE as mtype,pm.IS_DELETED as misDleted,pm.STATE as mstate,
+       pm.URL as murl,pm.CREATED_AT as mcreatedAt,pm.ORDERBY as morderby,pm.MENULEVEL as menulevel,
+       pm.PARENT_ID as parentId   
+       from 
+       T_SES_BMS_ROLEMAN r  
+		LEFT JOIN T_SES_BMS_ROLEPERMISSION rp 
+		ON rp.ROLE_ID = r. ID 
+		LEFT JOIN T_SES_BMS_PERMENU pm  
+		ON pm. ID = rp.PERMENU_ID 
+		LEFT JOIN T_SES_BMS_USERROLE ur  
+		ON r. ID = ur.ROLE_ID 
+		LEFT JOIN T_SES_BMS_USERINFO u 
+		ON ur.USER_ID = u. ID 
+       where 
+       r.IS_DELETED=0 
+       <if test="id!= null and id !=''"> 
+       and r.ID=#{id}  
+       </if>  
+       ORDER BY r.CREATED_AT DESC
+   </select>
+   <!-- 删除角色与角色内成员之间的对应关系 -->  
+    <delete id="deleteRoelUser" parameterType="Object">  
+        delete from T_SES_BMS_USERROLE  
+        <where>  
+            <if test="userId != null">"USER_ID" = #{userId.id}</if>  
+            <if test="roleId != null">and "ROLE_ID" = #{roleId.id}</if>  
+        </where>  
+    </delete>  
+  
+  	<!-- 保存权限和角色之间的关系信息 -->  
+    <insert id="saveRelativity" parameterType="Object">  
+       insert into T_SES_BMS_ROLEPERMISSION("PERMENU_ID","ROLE_ID")  
+       values(#{preMenu.id},#{role.id})  
+    </insert>
+    <!-- 删除角色与权限之间的对应关系 -->  
+    <delete id="deleteRoelMenu" parameterType="Object">  
+        delete from T_SES_BMS_ROLEPERMISSION  
+        <where>  
+            <if test="preMenu != null">"PERMENU_ID" = #{preMenu.id}</if>  
+            <if test="role != null">and "ROLE_ID" = #{role.id}</if>  
+        </where>  
+    </delete>
+    
+</mapper>

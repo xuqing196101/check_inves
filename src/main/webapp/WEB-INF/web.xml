@@ -27,7 +27,7 @@
     <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
   </listener>
   <listener>
-		<listener-class>yggc.util.InitIndexServlet</listener-class>
+		<listener-class>ses.util.InitIndexServlet</listener-class>
   </listener>
   <servlet>
     <description>spring mvc servlet</description>
@@ -109,7 +109,7 @@
 	</servlet>
   <servlet>
     <servlet-name>InitIndexServlet</servlet-name>
-    <servlet-class>yggc.util.InitIndexServlet</servlet-class>
+    <servlet-class>ses.util.InitIndexServlet</servlet-class>
   </servlet>
 
 	<!-- 映射的url -->
