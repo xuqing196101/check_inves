@@ -50,7 +50,7 @@ a {
 }
 
 a:hover {
-	background-color: #3C6E31;
+	/* background-color: #3C6E31; */
 	color: white;
 }
 

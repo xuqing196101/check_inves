@@ -13,11 +13,11 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import ses.model.bms.PreMenu;
 import ses.model.bms.Role;
 import ses.model.bms.RolePreMenu;
+import ses.model.bms.Userrole;
 import ses.service.bms.PreMenuServiceI;
 import ses.service.bms.RoleServiceI;
 
@@ -27,8 +27,7 @@ import com.alibaba.fastjson.JSON;
 /**
 * <p>Title:RoleManageController </p>
 * <p>Description: 角色管理控制类</p>
-* <p>Company: ses </p> 
-* @author yyyml
+* @author Ye MaoLin
 * @date 2016-8-2上午11:41:50
 */
 @Controller
@@ -46,15 +45,15 @@ public class RoleManageController {
 	
 	/**   
 	* @Title: getAll
-	* @author yyyml
+	* @author Ye MaoLin
 	* @date 2016-8-30 下午3:12:37  
-	* @Description: TODO 
+	* @Description: 获取
 	* @param @param model
 	* @param @return      
 	* @return String     
 	*/
 	@RequestMapping("/getAll")
-	public String getAll(Model model){
+	public String list(Model model){
 		List<Role> roles=roleService.selectRoleUser(null);
 		model.addAttribute("list", roles);
 		logger.info(JSON.toJSONStringWithDateFormat(roles, "yyyy-MM-dd HH:mm:ss"));
@@ -63,35 +62,51 @@ public class RoleManageController {
 	
 	/**   
 	* @Title: toAdd
-	* @author yyyml
+	* @author Ye MaoLin
 	* @date 2016-8-30 下午3:13:49  
 	* @Description: 跳转添加页面 
 	* @return String     
 	*/
-	@RequestMapping("/toAdd")
+	@RequestMapping("/add")
 	public String toAdd(){
 		return "role/add";
 	}
 	
 	/**   
 	* @Title: save
-	* @author yyyml
+	* @author Ye MaoLin
 	* @date 2016-8-30 下午3:14:04  
 	* @Description: 保存角色
 	* @param @param r
 	* @return String     
+	 * @throws IOException 
 	*/
 	@RequestMapping("/save")
-	public String save(Role r){
+	public void save(HttpServletResponse response, Role r){
 		r.setCreatedAt(new Date());
 		r.setIsDeleted(0);
 		roleService.save(r);
-		return "redirect:getAll.do";
+//		try{
+//			if("".equals(r.getName()) || r.getName()==null){
+//				String msg="请填写角色名称";
+//				response.setContentType("text/html;charset=utf-8");
+//				response.getWriter().print("{\"success\": "+false+", \"msg\": \""+msg+"\"}");
+//			}else{
+//				r.setCreatedAt(new Date());
+//				r.setIsDeleted(0);
+//				roleService.save(r);
+//				String msg="添加成功";
+//				response.setContentType("text/html;charset=utf-8");
+//				response.getWriter().print("{\"success\": "+true+", \"msg\": \""+msg+"\"}");
+//			}
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 	}
 	
 	/**   
 	* @Title: edit
-	* @author yyyml
+	* @author Ye MaoLin
 	* @date 2016-8-30 下午3:14:18  
 	* @Description: 跳转编辑页面 
 	* @param @param r
@@ -107,30 +122,59 @@ public class RoleManageController {
 	
 	/**   
 	* @Title: update
-	* @author yyyml
+	* @author Ye MaoLin
 	* @date 2016-8-30 下午3:14:34  
 	* @Description: 更新角色信息
 	* @param @param r
 	* @return String     
 	*/
 	@RequestMapping("/update")
-	public String update(Role r){
-		roleService.update(r);
-		return "redirect:getAll.do";
+	public void update(HttpServletResponse response, Role r){
+		try {
+			if("".equals(r.getName()) || r.getName()==null){
+				String msg="请填写角色名称";
+				response.setContentType("text/html;charset=utf-8");
+				response.getWriter().print("{\"success\": "+false+", \"msg\": \""+msg+"\"}");
+			}else{
+				Role role=roleService.get(r.getId());
+				role.setDescribe(r.getDescribe());
+				role.setName(r.getName());
+				roleService.update(role);
+				String msg="更新成功";
+				response.setContentType("text/html;charset=utf-8");
+				response.getWriter().print("{\"success\": "+true+", \"msg\": \""+msg+"\"}");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**   
-	* @Title: delete
-	* @author yyyml
+	* @Title: delete_soft
+	* @author Ye MaoLin
 	* @date 2016-8-30 下午3:14:44  
 	* @Description:删除角色
 	* @param @param r
 	* @return String     
 	*/
 	@RequestMapping("/delete")
-	public String delete(Role r){
-		roleService.delete(r.getId());
-		return "redirect:getAll.do";
+	public String delete_soft(String ids){
+		String[] idstr=ids.split(",");
+		for (String id : idstr) {
+			Role r=roleService.get(id);
+			//删除角色与用户的关联
+			Userrole userrole=new Userrole();
+			userrole.setRoleId(r);
+			roleService.deleteRoelUser(userrole);
+			//删除角色与权限的关联
+			RolePreMenu rm=new RolePreMenu();
+			rm.setRole(r);
+			roleService.deleteRoelMenu(rm);
+			//删除角色
+			r.setIsDeleted(1);
+			roleService.update(r);
+		}
+		return "redirect:getAll.html";
 	}
 	
 	@RequestMapping("/openPreMenu")
@@ -159,7 +203,7 @@ public class RoleManageController {
 		   response.setContentType("text/html;charset=utf-8");
 		   response.getWriter().print("权限配置完成");
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 	  
 	}

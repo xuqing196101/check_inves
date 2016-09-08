@@ -310,7 +310,7 @@ function kaptcha(){
        </div>
        <div class="control-group margin-top-22 clear">
         <div class="controls">
-    <button class="btn" type="button" onclick="login();">登陆</button>
+    <button class="btn" type="button" onclick="login();">登录</button>
 		  <button onclick="kaptcha();"  class="btn btn-u-light-grey margin-left-20" type="reset">重置</button>
         </div>
       </div>

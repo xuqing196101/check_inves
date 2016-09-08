@@ -11,15 +11,15 @@ package ses.model.oms.util;
  */
 public class SessionStringPool {
 	
-	public static final String LOGIN_USER = "LOGIN_USER";//登陆用户
+	public static final String LOGIN_USER = "LOGIN_USER";//登录用户
 	
-	public static final String LOGIN_VERIFY_CODE = "LOGIN_VERIFY_CODE";//登陆验证码
+	public static final String LOGIN_VERIFY_CODE = "LOGIN_VERIFY_CODE";//登录验证码
 	
-	public static final String CHECK_LOGIN_SMSCODE = "IS_CHECK_LOGIN_SMSCODE";	//登陆短信验证码是否被验证 :"OK"通过验证
+	public static final String CHECK_LOGIN_SMSCODE = "IS_CHECK_LOGIN_SMSCODE";	//登录短信验证码是否被验证 :"OK"通过验证
 	
 	public static final String CHECK_AWARD_SMSCODE = "IS_CHECK_AWARD_SMSCODE";//是否经过短信验证
 	
-	public static final String CHECK_LOGIN_ORCODE = "IS_CHECK_LOGIN_ORCODE"; //登陆短信二维码
+	public static final String CHECK_LOGIN_ORCODE = "IS_CHECK_LOGIN_ORCODE"; //登录短信二维码
 	
 	public static final String CHECK_SMS_OK = "OK";//是否经过短信,二维码验证
 	

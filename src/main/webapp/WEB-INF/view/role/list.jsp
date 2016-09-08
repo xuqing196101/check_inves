@@ -76,7 +76,7 @@
 			  offset: ['180px', '550px'],
 			  shadeClose: false,
 			  //content: menucon,
-			  content: '<%=basePath%>role/openPreMenu.do?id='+ids,
+			  content: '<%=basePath%>role/openPreMenu.html?id='+ids,
 			  success: function(layero, index){
 			    iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
 			  },
@@ -97,22 +97,34 @@
 	}
 	
   	function view(id){
-  		window.location.href="<%=basePath%>role/view.do?id="+id;
+  		wi.htmlw.location.href="<%=basePath%>role/view.html?id="+id;
   	}
+  	
     function edit(){
     	var id=[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
 		}); 
 		if(id.length==1){
-			
-			window.location.href="<%=basePath%>role/edit.do?id="+id;
+			layer.open({
+			  type: 2, //page层
+			  area: ['450px', '350px'],
+			  title: '修改角色',
+			  closeBtn: 1,
+			  shade:0.01, //遮罩透明度
+			  moveType: 1, //拖拽风格，0是默认，1是传统拖动
+			  shift: 1, //0-6的动画形式，-1不开启
+			  offset: ['80px', '400px'],
+			  shadeClose: false,
+			  content: '<%=basePath%>role/edit.html?id='+id
+			});
 		}else if(id.length>1){
 			layer.alert("只能选择一个角色",{offset: ['222px', '390px'], shade:0.01});
 		}else{
 			layer.alert("请选择需要修改的角色",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
+    
     function del(){
     	var ids =[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
@@ -121,14 +133,26 @@
 		if(ids.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>role/delete.do?ids="+ids;
+				window.location.href="<%=basePath%>role/delete.html?ids="+ids;
 			});
 		}else{
 			layer.alert("请选择要删除的角色",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
+    
     function add(){
-    	window.location.href="<%=basePath%>role/toAdd.do";
+    	layer.open({
+			  type: 2, //page层
+			  area: ['450px', '350px'],
+			  title: '新增角色',
+			  closeBtn: 1,
+			  shade:0.01, //遮罩透明度
+			  moveType: 1, //拖拽风格，0是默认，1是传统拖动
+			  shift: 1, //0-6的动画形式，-1不开启
+			  offset: ['80px', '400px'],
+			  shadeClose: false,
+			  content: '<%=basePath%>role/add.html'
+			});
     }
   </script>
   <body>

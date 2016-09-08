@@ -160,6 +160,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                    			<ul class="dropdown-menuson dropdown-menu">
                    				<li><a href="<%=basePath%>user/getAll.do" target="home" class="son-menu"><span class="mr5">◇</span>用户管理</a></li>
                    				<li><a href="<%=basePath%>role/getAll.do" target="home" class="son-menu"><span class="mr5">◇</span>角色管理</a></li>
+                   				<li><a href="<%=basePath%>preMenu/list.do" target="home" class="son-menu"><span class="mr5">◇</span>菜单管理</a></li>
                    				<li><a href="<%=basePath%>templet/getAll.do" target="home" class="son-menu"><span class="mr5">◇</span>模板管理</a></li>
                    				
                    			</ul>
