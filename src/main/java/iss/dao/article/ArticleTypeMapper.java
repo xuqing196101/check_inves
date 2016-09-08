@@ -1,6 +1,6 @@
-package iss.dao;
+package iss.dao.article;
 
-import iss.model.ArticleType;
+import iss.model.article.ArticleType;
 
 import java.util.List;
 

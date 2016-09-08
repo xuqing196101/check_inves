@@ -4,14 +4,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-/**
- * @Title: SupplierFinance
- * @Description: 供应商财务表
- * @author: Poppet_Brook
- * @date: 2016-9-1下午3:31:31
- */
 public class SupplierFinance implements Serializable {
-	private static final long serialVersionUID = -2328574743916374985L;
+	private static final long serialVersionUID = -8432362368196241325L;
 
 	/**
 	 * <pre>
@@ -43,7 +37,7 @@ public class SupplierFinance implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER_FINANCE.MOBILE
 	 * </pre>
 	 */
-	private String mobile;
+	private Long mobile;
 
 	/**
 	 * <pre>
@@ -56,10 +50,10 @@ public class SupplierFinance implements Serializable {
 	/**
 	 * <pre>
 	 * 指标
-	 * 表字段 : T_SES_SMS_SUPPLIER_FINANCE.INDEX
+	 * 表字段 : T_SES_SMS_SUPPLIER_FINANCE.QUOTA
 	 * </pre>
 	 */
-	private String index;
+	private String quota;
 
 	/**
 	 * <pre>
@@ -79,7 +73,6 @@ public class SupplierFinance implements Serializable {
 
 	/**
 	 * <pre>
-	 * 净资产总额
 	 * 表字段 : T_SES_SMS_SUPPLIER_FINANCE.TOTAL_NET_ASSETS
 	 * </pre>
 	 */
@@ -139,7 +132,7 @@ public class SupplierFinance implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER_FINANCE.SUPPLIER_ID
 	 * </pre>
 	 */
-	private Integer supplierId;
+	private String supplierId;
 
 	/**
 	 * <pre>
@@ -156,13 +149,6 @@ public class SupplierFinance implements Serializable {
 	 * </pre>
 	 */
 	private Date updatedAt;
-	
-	/**
-	 * <pre>
-	 * 供应商信息
-	 * </pre>
-	 */
-	private SupplierInfo supplierInfo;
 
 	public String getId() {
 		return id;
@@ -188,11 +174,11 @@ public class SupplierFinance implements Serializable {
 		this.year = year;
 	}
 
-	public String getMobile() {
+	public Long getMobile() {
 		return mobile;
 	}
 
-	public void setMobile(String mobile) {
+	public void setMobile(Long mobile) {
 		this.mobile = mobile;
 	}
 
@@ -204,12 +190,12 @@ public class SupplierFinance implements Serializable {
 		this.auditors = auditors;
 	}
 
-	public String getIndex() {
-		return index;
+	public String getQuota() {
+		return quota;
 	}
 
-	public void setIndex(String index) {
-		this.index = index;
+	public void setQuota(String quota) {
+		this.quota = quota;
 	}
 
 	public BigDecimal getTotalAssets() {
@@ -284,11 +270,11 @@ public class SupplierFinance implements Serializable {
 		this.changeList = changeList;
 	}
 
-	public Integer getSupplierId() {
+	public String getSupplierId() {
 		return supplierId;
 	}
 
-	public void setSupplierId(Integer supplierId) {
+	public void setSupplierId(String supplierId) {
 		this.supplierId = supplierId;
 	}
 
@@ -306,13 +292,5 @@ public class SupplierFinance implements Serializable {
 
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
-	}
-
-	public SupplierInfo getSupplierInfo() {
-		return supplierInfo;
-	}
-
-	public void setSupplierInfo(SupplierInfo supplierInfo) {
-		this.supplierInfo = supplierInfo;
 	}
 }

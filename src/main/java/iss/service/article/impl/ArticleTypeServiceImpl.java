@@ -1,8 +1,8 @@
-package iss.service.impl;
+package iss.service.article.impl;
 
-import iss.dao.ArticleTypeMapper;
-import iss.model.ArticleType;
-import iss.service.ArticleTypeService;
+import iss.dao.article.ArticleTypeMapper;
+import iss.model.article.ArticleType;
+import iss.service.article.ArticleTypeService;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 
 	
-@Service("ArticleService")
+@Service("articleTypeService")
 public class ArticleTypeServiceImpl implements ArticleTypeService {
 	
 	@Autowired

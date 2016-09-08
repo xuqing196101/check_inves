@@ -17,7 +17,7 @@
 			  </resultMap>
 			  
 			  <resultMap id="PostReplyMap" type="iss.model.fs.Post" extends="PostResultMap">
-			  <collection property="replies" ofType="ses.model.iss.fs.Reply" resultMap="iss.dao.fs.ReplyMapper.ReplyResultMap"/>
+			  <collection property="replies" ofType="iss.model.fs.Reply" resultMap="iss.dao.fs.ReplyMapper.ReplyResultMap"/>
 			  </resultMap>
 	  	  
 			  <!-- 表名 -->

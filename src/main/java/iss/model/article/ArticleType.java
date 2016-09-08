@@ -1,4 +1,4 @@
-package iss.model;
+package iss.model.article;
 
 import java.io.Serializable;
 import java.util.Date;

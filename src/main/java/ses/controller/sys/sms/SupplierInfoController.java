@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.model.sms.SupplierInfo;
+import ses.service.sms.SupplierFinanceService;
 import ses.service.sms.SupplierInfoService;
+import ses.service.sms.SupplierShareService;
 
 
 /**
@@ -30,6 +32,12 @@ public class SupplierInfoController {
 
 	@Autowired
 	private SupplierInfoService supplierInfoService;
+	
+	@Autowired
+	private SupplierFinanceService supplierFinanceService;
+	
+	@Autowired
+	private SupplierShareService supplierShareService;
 
 	/**
 	 * @Title: instruct
@@ -95,8 +103,15 @@ public class SupplierInfoController {
 	 */
 	@RequestMapping(value = "perfect_basic")
 	public String perfectBasic(HttpServletRequest request, SupplierInfo supplierInfo) {
-		String id = (String) request.getSession().getAttribute("supplierId");
-		supplierInfo.setId(id);
+		String id = supplierInfo.getId();
+		if (id == null || "".equals(id)) {
+			id = (String) request.getSession().getAttribute("supplierId");
+			supplierInfo.setId(id);
+		}
+		supplierInfoService.perfectBasic(supplierInfo);// 保存供应商详细信息
+		supplierFinanceService.saveFinance(supplierInfo);// 保存供应商财务信息
+		supplierShareService.saveShare(supplierInfo);// 保存供应商股东信息
+		request.getSession().setAttribute("supplierId", id);
 		return "redirect:pageJump.html";
 	}
 	

@@ -1,4 +1,4 @@
-package iss.dao;
+package iss.dao.article;
 
 import java.util.List;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package iss.service;
+package iss.service.article;
 
 import java.util.Map;
 

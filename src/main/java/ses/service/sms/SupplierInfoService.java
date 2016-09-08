@@ -25,10 +25,9 @@ public interface SupplierInfoService {
 	 * @date: 2016-9-7 下午5:51:16
 	 * @Description: 供应商完善基本信息
 	 * @param: @param supplierInfo
-	 * @param: @return
-	 * @return: String
+	 * @return: void
 	 */
-	public String perfectBasic(SupplierInfo supplierInfo);
+	public void perfectBasic(SupplierInfo supplierInfo);
 	
 	/**
 	 * @Title: selectLastInsertId

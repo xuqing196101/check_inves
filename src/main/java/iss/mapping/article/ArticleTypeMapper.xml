@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="iss.dao.ArticleTypeMapper">
-  <resultMap id="ArticleTypeMapper" type="iss.model.ArticleType">
+<mapper namespace="iss.dao.article.ArticleTypeMapper">
+  <resultMap id="ArticleTypeMapper" type="iss.model.article.ArticleType">
     <id column="ID" property="id" />
     <result column="NAME" property="name" />
     <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
@@ -35,7 +35,7 @@
   </delete>
   
   <!-- 新增栏目信息 -->
-  <insert id="insert" parameterType="iss.model.ArticleType">
+  <insert id="insert" parameterType="iss.model.article.ArticleType">
     insert into T_ISS_ARTICLE_TYPE (ID, NAME, CREATED_AT, 
       UPDATED_AT)
     values (#{id}, #{name}, #{createdAt}, 
@@ -43,7 +43,7 @@
   </insert>
   
   <!-- 根据条件新增 -->
-  <insert id="insertSelective" parameterType="iss.model.ArticleType">
+  <insert id="insertSelective" parameterType="iss.model.article.ArticleType">
   	<selectKey keyProperty="id" resultType="String" order="BEFORE">
         select sys_guid() from dual
     </selectKey>
@@ -79,7 +79,7 @@
   </insert>
   
   <!-- 根据条件修改栏目信息 -->
-  <update id="updateByPrimaryKeySelective" parameterType="iss.model.ArticleType">
+  <update id="updateByPrimaryKeySelective" parameterType="iss.model.article.ArticleType">
     update T_ISS_ARTICLE_TYPE
     <set>
       <if test="name != null">
@@ -96,7 +96,7 @@
   </update>
   
   <!-- 根据id修改栏目信息 -->
-  <update id="updateByPrimaryKey" parameterType="iss.model.ArticleType">
+  <update id="updateByPrimaryKey" parameterType="iss.model.article.ArticleType">
     update T_ISS_ARTICLE_TYPE
     set NAME = #{name},
       CREATED_AT = #{createdAt},

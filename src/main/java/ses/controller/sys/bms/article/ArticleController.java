@@ -2,8 +2,8 @@
 package ses.controller.sys.bms.article;
 
 
-import iss.model.ArticleType;
-import iss.service.ArticleTypeService;
+import iss.model.article.ArticleType;
+import iss.service.article.ArticleTypeService;
 
 import java.util.List;
 import java.util.Date;

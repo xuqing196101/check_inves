@@ -1,7 +1,7 @@
-package iss.service.impl;
+package iss.service.article.impl;
 
-import iss.model.IndexEntity;
-import iss.service.SolrNewsService;
+import iss.model.article.IndexEntity;
+import iss.service.article.SolrNewsService;
 
 import java.io.IOException;
 import java.util.ArrayList;

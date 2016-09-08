@@ -1,6 +1,6 @@
 package ses.model.bms;
 
-import iss.model.ArticleType;
+import iss.model.article.ArticleType;
 
 import java.util.Date;
 import java.util.List;

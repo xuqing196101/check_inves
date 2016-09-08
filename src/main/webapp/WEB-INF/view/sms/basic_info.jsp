@@ -69,20 +69,20 @@
 		var options = getOptios();
 		var tr = "";
 		tr += "<tr id='tr_id_"+ count1 + "'>";
-		tr += "<td class='tc'><input type='checkbox' id='checkbox_input_id_" + count1 +"'></td>";
+		tr += "<td class='tc'><input type='checkbox' id='checkbox_input_id_" + count1 +"'><input type='hidden' name='listSupplierFinances[" + count1 + "].supplierId' value='${supplierId}' /></td>";
 		tr += "<td class='tc'>";
-		tr += "<select id='curr_select_id_" + count1 + "' onchange='changeYear(this)'>";
+		tr += "<select id='curr_select_id_" + count1 + "' onchange='changeYear(this)' name='listSupplierFinances[" + count1 + "].year'>";
 		tr += options;
 		tr += "</select>";
 		tr += "</td>";
-		tr += "<td class='tc'><input class='maxw100 mt10' type='text'></td>";
-		tr += "<td class='tc'><input class='maxw100 mt10' type='text'></td>";
-		tr += "<td class='tc'><input class='maxw100 mt10' type='text'></td>";
-		tr += "<td class='tc'><input class='maxw100 mt10' type='text'></td>";
-		tr += "<td class='tc'><input class='maxw100 mt10' type='text'></td>";
-		tr += "<td class='tc'><input class='maxw100 mt10' type='text'></td>";
-		tr += "<td class='tc'><input class='maxw100 mt10' type='text'></td>";
-		tr += "<td class='tc'><input class='maxw100 mt10' type='text'></td>";
+		tr += "<td class='tc'><input name='listSupplierFinances[" + count1 + "].name' class='maxw100 mt10' type='text'></td>";
+		tr += "<td class='tc'><input name='listSupplierFinances[" + count1 + "].mobile' class='maxw100 mt10' type='text'></td>";
+		tr += "<td class='tc'><input name='listSupplierFinances[" + count1 + "].auditors' class='maxw100 mt10' type='text'></td>";
+		tr += "<td class='tc'><input name='listSupplierFinances[" + count1 + "].index' class='maxw100 mt10' type='text'></td>";
+		tr += "<td class='tc'><input name='listSupplierFinances[" + count1 + "].totalAssets' class='maxw100 mt10' type='text'></td>";
+		tr += "<td class='tc'><input name='listSupplierFinances[" + count1 + "].totalLiabilities' class='maxw100 mt10' type='text'></td>";
+		tr += "<td class='tc'><input name='listSupplierFinances[" + count1 + "].totalNetAssets' class='maxw100 mt10' type='text'></td>";
+		tr += "<td class='tc'><input name='listSupplierFinances[" + count1 + "].taking' class='maxw100 mt10' type='text'></td>";
 		tr += "</tr>";
 		$("#tbody_id_1").append(tr);
 
@@ -148,12 +148,12 @@
 	function createShare() {
 		var tr = "";
 		tr += "<tr id='share_tr_id_" + count2 + "'>";
-		tr += "<td class='tc'><input type='checkbox' id='checkbox_input_id_" + count2 + "'></td>";
-		tr += "<td class='tc'><input class='maxw150 mt10' type='text'></td>";
-		tr += "<td class='tc'><input class='maxw150 mt10' type='text'></td>";
-		tr += "<td class='tc'><input class='maxw150 mt10' type='text'></td>";
-		tr += "<td class='tc'><input class='maxw150 mt10' type='text'></td>";
-		tr += "<td class='tc'><input class='maxw150 mt10' type='text'></td>";
+		tr += "<td class='tc'><input type='checkbox' id='checkbox_input_id_" + count2 + "'><input type='hidden' name='listSupplierShares[" + count2 + "].supplierId' value='${supplierId}' /></td>";
+		tr += "<td class='tc'><input name='listSupplierShares[" + count2 + "].name' class='maxw150 mt10' type='text'></td>";
+		tr += "<td class='tc'><input name='listSupplierShares[" + count2 + "].nature' class='maxw150 mt10' type='text'></td>";
+		tr += "<td class='tc'><input name='listSupplierShares[" + count2 + "].identity' class='maxw150 mt10' type='text'></td>";
+		tr += "<td class='tc'><input name='listSupplierShares[" + count2 + "].share' class='maxw150 mt10' type='text'></td>";
+		tr += "<td class='tc'><input name='listSupplierShares[" + count2 + "].proportion' class='maxw150 mt10' type='text'></td>";
 		tr += "</tr>";
 		$("#tbody_id_2").append(tr);
 		count2 ++;
@@ -207,6 +207,7 @@
 							<li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="fujian f18">股东信息</a></li>
 						</ul>
 						<form action="${pageContext.request.contextPath}/supplierInfo/perfect_basic.html" method="post">
+							<input name="id" value="${supplierId}" type="hidden" />
 							<div class="tab-content padding-top-20">
 								<!-- 详细信息 -->
 								<div class="tab-pane fade active in height-450" id="tab-1">
@@ -515,7 +516,10 @@
 											</thead>
 											<tbody id="tbody_id_1">
 												<tr id="tr_id_0">
-													<td class="tc"><input type="checkbox" id="checkbox_input_id_0"></td>
+													<td class="tc">
+														<input type="checkbox" id="checkbox_input_id_0" />
+														<input type="hidden" name="listSupplierFinances[0].supplierId" value="${supplierId}" />
+													</td>
 													<td class="tc">
 														<select id="curr_select_id_0" onchange="changeYear(this)"></select>
 													</td>
@@ -526,7 +530,7 @@
 													<td class="tc"><input name="listSupplierFinances[0].totalAssets" class="maxw100 mt10" type="text"></td>
 													<td class="tc"><input name="listSupplierFinances[0].totalLiabilities" class="maxw100 mt10" type="text"></td>
 													<td class="tc"><input name="listSupplierFinances[0].totalNetAssets" class="maxw100 mt10" type="text"></td>
-													<td class="tc"><input name="listSupplierFinances[1].taking" class="maxw100 mt10" type="text"></td>
+													<td class="tc"><input name="listSupplierFinances[0].taking" class="maxw100 mt10" type="text"></td>
 												</tr>
 
 											</tbody>
@@ -598,12 +602,15 @@
 											</thead>
 											<tbody id="tbody_id_2">
 												<tr id="share_tr_id_0">
-													<td class="tc"><input type="checkbox" id="share_input_id_0"></td>
-													<td class="tc"><input class="maxw150 mt10" type="text"></td>
-													<td class="tc"><input class="maxw150 mt10" type="text"></td>
-													<td class="tc"><input class="maxw150 mt10" type="text"></td>
-													<td class="tc"><input class="maxw150 mt10" type="text"></td>
-													<td class="tc"><input class="maxw150 mt10" type="text"></td>
+													<td class="tc">
+														<input type="checkbox" id="share_input_id_0">
+														<input type="hidden" name="listSupplierShares[0].supplierId" value="${supplierId}">
+													</td>
+													<td class="tc"><input name="listSupplierShares[0].name" class="maxw150 mt10" type="text"></td>
+													<td class="tc"><input name="listSupplierShares[0].nature" class="maxw150 mt10" type="text"></td>
+													<td class="tc"><input name="listSupplierShares[0].identity" class="maxw150 mt10" type="text"></td>
+													<td class="tc"><input name="listSupplierShares[0].share" class="maxw150 mt10" type="text"></td>
+													<td class="tc"><input name="listSupplierShares[0].proportion" class="maxw150 mt10" type="text"></td>
 												</tr>
 											</tbody>
 										</table>

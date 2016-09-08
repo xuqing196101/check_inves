@@ -1,10 +1,10 @@
-package iss.controller;
+package iss.controller.article;
 
-import iss.model.ArticleType;
-import iss.model.IndexEntity;
-import iss.service.ArticleTypeService;
-import iss.service.IndexNewsService;
-import iss.service.SolrNewsService;
+import iss.model.article.ArticleType;
+import iss.model.article.IndexEntity;
+import iss.service.article.ArticleTypeService;
+import iss.service.article.IndexNewsService;
+import iss.service.article.SolrNewsService;
 
 import java.io.File;
 import java.io.OutputStream;

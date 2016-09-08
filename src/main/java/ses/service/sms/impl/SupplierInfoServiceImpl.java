@@ -1,5 +1,7 @@
 package ses.service.sms.impl;
 
+import java.util.Date;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,7 +36,9 @@ public class SupplierInfoServiceImpl implements SupplierInfoService {
 	@Override
 	public String register(SupplierInfo supplierInfo) {
 		supplierInfo.setPassword(Encrypt.e(supplierInfo.getPassword()));// 密码 md5 加密
+		supplierInfo.setUpdatedAt(new Date());
 		supplierInfoMapper.insertSelective(supplierInfo);
+		System.out.println(1/0);
 		return supplierInfo.getId();
 	}
 	
@@ -44,14 +48,13 @@ public class SupplierInfoServiceImpl implements SupplierInfoService {
 	 * @date: 2016-9-7 下午5:51:16
 	 * @Description: 供应商完善基本信息
 	 * @param: @param supplierInfo
-	 * @param: @return
-	 * @return: String
+	 * @return: void
 	 */
 	@Override
-	public String perfectBasic(SupplierInfo supplierInfo) {
+	public void perfectBasic(SupplierInfo supplierInfo) {
 		SupplierInfo oldSupplierInfo = supplierInfoMapper.selectByPrimaryKey(supplierInfo.getId());
-		BeanUtils.copyProperties(supplierInfo, oldSupplierInfo, new String[] {});
-		return null;
+		BeanUtils.copyProperties(supplierInfo, oldSupplierInfo, new String[] {"serialVersionUID", "id", "loginName", "mobile", "password"});
+		supplierInfoMapper.updateByPrimaryKeySelective(supplierInfo);
 	}
 	
 	/**

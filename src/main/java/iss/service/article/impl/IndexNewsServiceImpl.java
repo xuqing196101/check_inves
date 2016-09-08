@@ -1,7 +1,7 @@
-package iss.service.impl;
+package iss.service.article.impl;
 
-import iss.dao.IndexNewsMapper;
-import iss.service.IndexNewsService;
+import iss.dao.article.IndexNewsMapper;
+import iss.service.article.IndexNewsService;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ import ses.model.bms.ArticleAttachments;
  * @author Mrlovablee
  *@date 2016-8-29上午9:15:16
  */
-@Service("IndexNewsService")
+@Service("indexNewsService")
 public class IndexNewsServiceImpl implements IndexNewsService {
 	
 	@Autowired

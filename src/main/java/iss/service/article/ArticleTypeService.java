@@ -1,6 +1,6 @@
-package iss.service;
+package iss.service.article;
 
-import iss.model.ArticleType;
+import iss.model.article.ArticleType;
 
 import java.util.List;
 

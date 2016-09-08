@@ -7,7 +7,7 @@
 		<result column="YEAR" property="year" />
 		<result column="MOBILE" property="mobile" />
 		<result column="AUDITORS" property="auditors" />
-		<result column="INDEX" property="index" />
+		<result column="QUOTA" property="quota" />
 		<result column="TOTAL_ASSETS" property="totalAssets" />
 		<result column="TOTAL_LIABILITIES" property="totalLiabilities" />
 		<result column="TOTAL_NET_ASSETS" property="totalNetAssets" />
@@ -22,7 +22,7 @@
 		<result column="UPDATED_AT" property="updatedAt" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		ID, NAME, YEAR, MOBILE, AUDITORS, INDEX, TOTAL_ASSETS, TOTAL_LIABILITIES, TOTAL_NET_ASSETS,
+		ID, NAME, YEAR, MOBILE, AUDITORS, QUOTA, TOTAL_ASSETS, TOTAL_LIABILITIES, TOTAL_NET_ASSETS,
 		TAKING, AUDIT_OPINION, LIABILITIES_LIST, PROFIT_LIST, CASH_FLOW_STATEMENT, CHANGE_LIST,
 		SUPPLIER_ID, CREATED_AT, UPDATED_AT
 	</sql>
@@ -38,14 +38,14 @@
 	</delete>
 	<insert id="insert" parameterType="ses.model.sms.SupplierFinance">
 		insert into T_SES_SMS_SUPPLIER_FINANCE (ID, NAME, YEAR,
-		MOBILE, AUDITORS, INDEX,
+		MOBILE, AUDITORS, QUOTA,
 		TOTAL_ASSETS, TOTAL_LIABILITIES, TOTAL_NET_ASSETS,
 		TAKING, AUDIT_OPINION, LIABILITIES_LIST,
 		PROFIT_LIST, CASH_FLOW_STATEMENT, CHANGE_LIST,
 		SUPPLIER_ID, CREATED_AT, UPDATED_AT
 		)
 		values (#{id}, #{name}, #{year},
-		#{mobile}, #{auditors}, #{index},
+		#{mobile}, #{auditors}, #{quota},
 		#{totalAssets}, #{totalLiabilities}, #{totalNetAssets},
 		#{taking}, #{auditOpinion}, #{liabilitiesList},
 		#{profitList}, #{cashFlowStatement}, #{changeList},
@@ -70,8 +70,8 @@
 			<if test="auditors != null">
 				AUDITORS,
 			</if>
-			<if test="index != null">
-				INDEX,
+			<if test="quota != null">
+				QUOTA,
 			</if>
 			<if test="totalAssets != null">
 				TOTAL_ASSETS,
@@ -126,8 +126,8 @@
 			<if test="auditors != null">
 				#{auditors},
 			</if>
-			<if test="index != null">
-				#{index},
+			<if test="quota != null">
+				#{quota},
 			</if>
 			<if test="totalAssets != null">
 				#{totalAssets},
@@ -166,6 +166,9 @@
 				#{updatedAt},
 			</if>
 		</trim>
+		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			select sys_guid() from dual
+		</selectKey>
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierFinance">
 		update T_SES_SMS_SUPPLIER_FINANCE
@@ -182,8 +185,8 @@
 			<if test="auditors != null">
 				AUDITORS = #{auditors},
 			</if>
-			<if test="index != null">
-				INDEX = #{index},
+			<if test="quota != null">
+				QUOTA = #{quota},
 			</if>
 			<if test="totalAssets != null">
 				TOTAL_ASSETS = #{totalAssets},
@@ -230,7 +233,7 @@
 		YEAR = #{year},
 		MOBILE = #{mobile},
 		AUDITORS = #{auditors},
-		INDEX = #{index},
+		QUOTA = #{quota},
 		TOTAL_ASSETS = #{totalAssets},
 		TOTAL_LIABILITIES = #{totalLiabilities},
 		TOTAL_NET_ASSETS = #{totalNetAssets},

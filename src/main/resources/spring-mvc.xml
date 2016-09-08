@@ -7,7 +7,8 @@ http://www.springframework.org/schema/mvc
 http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
 	<!-- 自动扫描controller包下的所有类，使其认为spring mvc的控制器 -->
-	<context:component-scan base-package="ses.controller" />
+	<context:component-scan base-package="ses.controller, iss.controller" />
+	
 
 	<!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
 	<bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
@@ -17,14 +18,14 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 			</list>
 		</property>
 	</bean>
-	<!-- springMVC拦截器 -->
+	<!-- springMVC拦截器
 	<mvc:interceptors>
 		<bean class="ses.interceptor.MyInterceptor">
 			<property name="matches">
 				<value>(.*/((selectIndexNews.do)|(login.do)|(logout)|(loginIn)|(ALiPay)|(images)|(css)|(js)|(plugins)|(left)|(upload)).*)|(.*html)|(.*xml)|(.*apk)</value>
 			</property>
 		</bean>
-	</mvc:interceptors>
+	</mvc:interceptors> -->
 	<!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" >
 		<property name="messageConverters">

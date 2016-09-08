@@ -12,7 +12,7 @@
 		  </resultMap>
 		  
 		  	<resultMap type="iss.model.fs.Topic" id="TopicPostMap" extends="TopicResultMap">
-		  		<collection property="posts" ofType="ses.model.iss.fs.Post" resultMap="iss.dao.fs.PostMapper.PostResultMap"/> 
+		  		<collection property="posts" ofType="iss.model.fs.Post" resultMap="iss.dao.fs.PostMapper.PostResultMap"/> 
 		 	</resultMap>
 		    
 		   <sql id="Tabel_Name">
