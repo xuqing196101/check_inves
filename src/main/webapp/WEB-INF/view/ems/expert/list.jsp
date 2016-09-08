@@ -240,8 +240,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      //$("#txt_spCodes").val(spCodesTemp);
    		alert(spCodesTemp);
    	} */
-   	//审核
-   	function shenhe(){
+   	//修改
+   	function edit(){
   	  var count = 0;
   	  var ids = document.getElementsByName("check");
    
@@ -256,10 +256,48 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		}else if(count<1){
     			layer.alert("请选择一条记录",{offset: ['222px', '390px'],shade:0.01});
     		}else if(count==1){
-    			window.location.href="<%=basePath%>expert/toShenHe.do?id="+id;
-      
+    			window.location.href="<%=basePath%>expert/toBasicInfo.html?id="+id;
        	}
     }
+   	//删除
+   	function dell(){
+   	 var count = 0;
+ 	  var ids = document.getElementsByName("check");
+ 	 var id2="";
+      for(i=0;i<ids.length;i++) {
+    		 if(document.getElementsByName("check")[i].checked){
+	    		  id2 += document.getElementsByName("check")[i].value+",";
+    		  }
+    		 //id.push(document.getElementsByName("check")[i].value);
+       		 count++;
+     }
+   	var id = id2.substring(0,id2.length-1);
+   		if(count<1){
+   			layer.alert("请选择一条记录",{offset: ['222px', '390px'],shade:0.01});
+   		}else{
+   		 layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+ 			layer.close(index);
+ 			$.ajax({
+ 				url:"<%=basePath%>expert/deleteAll.html",
+ 				data:{"ids":id},
+ 				type:"post",
+ 	       		success:function(){
+ 	       			layer.msg('删除成功',{offset: ['222px', '390px']});
+ 		       		window.setTimeout(function(){
+ 		       			window.location.reload();
+ 		       				for(var i = 0;i<info.length;i++){
+ 						info[i].checked = false;
+ 						}
+ 		       		}, 1000);
+ 	       		},
+ 	       		error: function(){
+ 					layer.msg("删除失败",{offset: ['222px', '390px']});
+ 				}
+ 	       	});
+ 		});
+      	}
+   		
+   	}
    </script>
 <!-- 表格开始-->
    <div class="container">
@@ -267,7 +305,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <!-- <button class="btn btn-windows add" type="submit">新增</button>
 	<button class="btn btn-windows edit" type="submit">修改</button>
 	<button class="btn btn-windows delete" type="submit">删除</button> -->
-	<button class="btn btn-windows git" type="button" onclick="shenhe();">审核</button>
+	<button class="btn btn-windows edit" type="button" onclick="edit();">修改</button>
+	<button class="btn btn-windows delete" type="button" onclick="dell();">删除</button>
 	</div>
             <div class="col-md-4 ">
               <div class="search-block-v2">
