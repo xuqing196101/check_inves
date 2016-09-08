@@ -20,7 +20,7 @@
 		       d.PRINCINPAL_IDCARD          as princinpalIdcard,
 		       d.NATURE     as nature
 		  from t_ses_oms_dep     d
-		 where nvl(d.is_deleted)=0
+		 where nvl(d.is_deleted,0)=0
 		   and d.id = #{id,jdbcType=VARCHAR}
 	</select>
 	
