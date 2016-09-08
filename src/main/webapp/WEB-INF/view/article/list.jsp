@@ -257,7 +257,7 @@
 		  					<input type="hidden" name="status" value="${list.status }">审核未通过
 		  				</c:if>
 		  			</td>
-		  			<td class="tc"><a href="">${list.status }下载量</a></td>
+		  			<td class="tc"><a href="">${list.downloadCount }</a></td>
 		  		</tr>
 	  		</c:forEach>
 		  </table>
