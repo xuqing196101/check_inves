@@ -1,25 +1,14 @@
 package ses.model.ems;
 
 import java.util.Date;
-
-
-
 /**
  * 
   * <p>Title:Expert </p>
   * <p>Description: </p>评审专家实体
-  * <p>Company: ses </p> 
+  * <p>Company: yggc </p> 
   * @author ShaoYangYang
-  * @date 2016年9月6日下午3:25:51
+  * @date 2016年9月8日上午9:26:23
  */
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Pattern.Flag;
-import javax.validation.constraints.Size;
-
-
-
-
 public class Expert {
 	/**主键*/
     private String id;
