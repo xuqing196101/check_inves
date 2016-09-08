@@ -1,4 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -114,9 +116,59 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/shop.style.css" type="text/css" />
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
-
+<script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
+<script type="text/javascript" src="<%=basePath%>public/layer/extend/layer.ext.js"></script>
+<link href="<%=basePath%>public/layer/skin/layer.css" media="screen" rel="stylesheet" type="text/css">
+<link href="<%=basePath%>public/layer/skin/layer.ext.css" media="screen" rel="stylesheet" type="text/css">
 <script type="text/javascript">
-	
+	$(function(){
+		//回显选中性别
+		 var processName = document.getElementById("sexs").value;
+		var processNames =document.getElementById("sex").children;
+		for(var i = 0; i<processNames.length;i++){
+			if(processNames[i].text==processName){
+			processNames[i].selected=true;
+			break;
+			}
+		} 
+		//回显选中政治面貌
+		 var processName = document.getElementById("politicsStatuss").value;
+		var processNames =document.getElementById("politicsStatus").children;
+		for(var i = 0; i<processNames.length;i++){
+			if(processNames[i].text==processName){
+			processNames[i].selected=true;
+			break;
+			}
+		} 
+		//回显选中证件类别
+		 var processName = document.getElementById("idTypes").value;
+		var processNames =document.getElementById("idType").children;
+		for(var i = 0; i<processNames.length;i++){
+			if(processNames[i].text==processName){
+			processNames[i].selected=true;
+			break;
+			}
+		} 
+		//回显选中专家来源
+		 var processName = document.getElementById("expertsFroms").value;
+		var processNames =document.getElementById("expertsFrom").children;
+		for(var i = 0; i<processNames.length;i++){
+			if(processNames[i].text==processName){
+			processNames[i].selected=true;
+			break;
+			}
+		} 
+		//回显选中学历
+		 var processName = document.getElementById("hightEducations").value;
+		var processNames =document.getElementById("hightEducation").children;
+		for(var i = 0; i<processNames.length;i++){
+			if(processNames[i].text==processName){
+			processNames[i].selected=true;
+			break;
+			}
+		} 
+		
+	});
 	 function validataForm(inputText,fontId){
 		var text = $(inputText).val();
 		if(text.replace(/\s/g,"")==null || text.replace(/\s/g,"")==""){
@@ -147,6 +199,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			var x19=document.forms["form1"]["atDuty"].value;
 			if (x1==null || x1.replace(/(^\s*)|(\s*$)/g, "")=="" || x2==null || x2.replace(/(^\s*)|(\s*$)/g, "")=="" || x3==null || x3.replace(/(^\s*)|(\s*$)/g, "")==""|| x4==null || x4.replace(/(^\s*)|(\s*$)/g, "")==""|| x5==null || x5.replace(/(^\s*)|(\s*$)/g, "")==""|| x6==null || x6.replace(/(^\s*)|(\s*$)/g, "")==""|| x7==null || x7.replace(/(^\s*)|(\s*$)/g, "")==""|| x8==null || x8.replace(/(^\s*)|(\s*$)/g, "")==""||  x9==null || x9.replace(/(^\s*)|(\s*$)/g, "")==""|| x10==null || x10.replace(/(^\s*)|(\s*$)/g, "")==""|| x11==null || x11.replace(/(^\s*)|(\s*$)/g, "")==""|| x12==null || x12.replace(/(^\s*)|(\s*$)/g, "")==""|| x13==null || x13.replace(/(^\s*)|(\s*$)/g, "")==""|| x14==null || x14.replace(/(^\s*)|(\s*$)/g, "")==""|| x15==null || x15.replace(/(^\s*)|(\s*$)/g, "")==""|| x16==null || x16.replace(/(^\s*)|(\s*$)/g, "")=="" || x17==null || x17.replace(/(^\s*)|(\s*$)/g, "")=="" || x18==null || x18.replace(/(^\s*)|(\s*$)/g, "")=="" || x19==null || x19.replace(/(^\s*)|(\s*$)/g, "")=="")
 			  {
+				layer.alert("信息不完善，请检查表单！",{offset: ['222px', '390px'],shade:0.01});
 				return false;
 			  }else{
 				  return true;
@@ -169,7 +222,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			session.setAttribute("tokenSession", tokenValue);
 		%>
 		 <input type="hidden"  name="token2" value="<%=tokenValue%>">
-   <input type="hidden" name="id" value="${uuid }">
+   <input type="hidden" name="id" value="${expert.id }">
    <input type="hidden" id="hehe" name="zancun">
    <div>
     <jsp:include page="../../../../indexhead.jsp"></jsp:include>
@@ -191,13 +244,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <ul class="list-unstyled list-flow p0_20">
      <li class="col-md-6 p0">
 	   <span class="">姓名：</span>
-        <input class="span2"  id="relName" maxlength="10"  name="relName" type="text" onblur="validataForm(this,'nameFont');">
+        <input class="span2"  id="relName" maxlength="10" value="${expert.relName }" name="relName" type="text" onblur="validataForm(this,'nameFont');">
           
        <font id="nameFont"></font>
 	 </li>
      <li class="col-md-6  p0 ">
+     <input type="hidden" id="sexs" value="${expert.sex }">
 	   <span class="">性别：</span>
-	   <select class="span2" name="sex" >
+	   <select class="span2" name="sex" id="sex">
 	   	<option value="男">男</option>
 	   	<option value="女">女</option>
 	   	<option value="其他">其他</option>
@@ -206,12 +260,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 </li>
      <li class="col-md-6  p0 ">
 	   <span class="">出生日期：</span>
-        <input class="span2 Wdate w220" onfocus="validataForm(this,'nameFont2');" onblur="validataForm(this,'nameFont2');" readonly="readonly" name="birthday" id="appendedInput" type="text" onclick='WdatePicker()'>
+        <input class="span2 Wdate w220" onfocus="validataForm(this,'nameFont2');" onblur="validataForm(this,'nameFont2');" readonly="readonly" value="<fmt:formatDate type='date' value='${expert.birthday }' dateStyle="default" pattern="yyyy-MM-dd"/>" name="birthday" id="appendedInput" type="text" onclick='WdatePicker()'>
       <font id="nameFont2"></font>
 	 </li> 
      <li class="col-md-6  p0 ">
+     <input type="hidden" id="politicsStatuss" value="${expert.politicsStatus }">
 	   <span class="">政治面貌：</span>
-	   <select class="span2" name="politicsStatus" >
+	   <select class="span2" name="politicsStatus" id="politicsStatus">
 	   	<option value="党员">党员</option>
 	   	<option value="团员">团员</option>
 	   	<option value="群众">群众</option>
@@ -219,8 +274,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	   </select>
 	 </li> 
      <li class="col-md-6  p0 ">
+     <input type="hidden" id="idTypes" value="${expert.idType }">
 	   <span class="">证件类型：</span>
-	   <select class="span2" name="idType" >
+	   <select class="span2" name="idType" id="idType">
 	   	<option value="身份证">身份证</option>
 	   	<option value="士兵证">士兵证</option>
 	   	<option value="驾驶证">驾驶证</option>
@@ -231,13 +287,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 </li> 
      <li class="col-md-6  p0 ">
 	   <span class="">证件号码：</span>
-        <input class="span2" maxlength="30" onblur="validataForm(this,'nameFont3');" name="idNumber" id="appendedInput" type="text">
+        <input class="span2" maxlength="30" value=" ${expert.idNumber }" onblur="validataForm(this,'nameFont3');" name="idNumber" id="appendedInput" type="text">
           
     <font id="nameFont3"></font>
 	 </li> 
      <li class="col-md-6  p0 ">
+     <input type="hidden" id="expertsFroms" value="${expert.expertsFrom }">
 	   <span class="">专家来源：</span>
-	   <select class="span2" name="expertsFrom" >
+	   <select class="span2" name="expertsFrom" id="expertsFrom">
 	   	<option value="军队">军队</option>
 	   	<option value="地方">地方</option>
 	   	<option value="其他">其他</option>
@@ -245,36 +302,37 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 </li>  
      <li class="col-md-6  p0 ">
 	   <span class="">民族：</span>
-        <input class="span2" maxlength="10" onblur="validataForm(this,'nameFont4');" name="nayion" id="appendedInput" type="text">
+        <input class="span2" maxlength="10" value=" ${expert.nayion }" onblur="validataForm(this,'nameFont4');" name="nayion" id="appendedInput" type="text">
           
        <font id="nameFont4"></font>
 	 </li> 
      <li class="col-md-6  p0 ">
 	   <span class="">所在地区：</span>
-        <input class="span2" maxlength="40" onblur="validataForm(this,'nameFont5');" name="address" id="appendedInput" type="text">
+        <input class="span2" maxlength="40" value=" ${expert.address }" onblur="validataForm(this,'nameFont5');" name="address" id="appendedInput" type="text">
           
        <font id="nameFont5"></font>
 	 </li>  
      <li class="col-md-6  p0 ">
 	   <span class="">毕业院校：</span>
-        <input class="span2" maxlength="40" onblur="validataForm(this,'nameFont6');" name="graduateSchool" id="appendedInput" type="text">
+        <input class="span2" maxlength="40" value=" ${expert.graduateSchool }" onblur="validataForm(this,'nameFont6');" name="graduateSchool" id="appendedInput" type="text">
           
        <font id="nameFont6"></font>
 	 </li> 
      <li class="col-md-6  p0 ">
 	   <span class="">专业技术职称：</span>
-        <input class="span2" maxlength="20" onblur="validataForm(this,'nameFont7');" name="professTechTitles" id="appendedInput" type="text">
+        <input class="span2" maxlength="20" value=" ${expert.professTechTitles }" onblur="validataForm(this,'nameFont7');" name="professTechTitles" id="appendedInput" type="text">
           
        <font id="nameFont7"></font>
 	 </li> 
      <li class="col-md-6  p0 ">
 	   <span class="">参加工作时间：</span>
-        <input class="span2 Wdate w220" onfocus="validataForm(this,'nameFont8');" onblur="validataForm(this,'nameFont8');" readonly="readonly" name="timeToWork" id="appendedInput" type="text" onclick='WdatePicker()'>
+        <input class="span2 Wdate w220" onfocus="validataForm(this,'nameFont8');" onblur="validataForm(this,'nameFont8');" readonly="readonly" value="<fmt:formatDate type='date' value='${expert.timeToWork }' dateStyle="default" pattern="yyyy-MM-dd"/>" name="timeToWork" id="appendedInput" type="text" onclick='WdatePicker()'>
        <font id="nameFont8"></font>
 	 </li> 
      <li class="col-md-6  p0 ">
+      <input type="hidden" id="hightEducations" value="${expert.hightEducation }">
 	   <span class="">最高学历：</span>
-	   <select class="span2" name="hightEducation" >
+	   <select class="span2" name="hightEducation" id="hightEducation" >
 	   	<option value="博士">博士</option>
 	   	<option value="硕士">硕士</option>
 	   	<option value="研究生">研究生</option>
@@ -286,65 +344,65 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 </li> 
      <li class="col-md-6  p0 ">
 	   <span class="">专业：</span>
-        <input class="span2" maxlength="20" onblur="validataForm(this,'nameFont9');" name="major" id="appendedInput" type="text">
+        <input class="span2" maxlength="20" value=" ${expert.major }" onblur="validataForm(this,'nameFont9');" name="major" id="appendedInput" type="text">
           
        <font id="nameFont9"></font>
 	 </li> 
 	 <li class="col-md-6  p0 ">
 	   <span class="">从事专业起始年度：</span>
-        <input class="span2 Wdate w220" onfocus="validataForm(this,'nameFont10');" onblur="validataForm(this,'nameFont10');" readonly="readonly" name="timeStartWork" id="appendedInput" type="text" onclick='WdatePicker()'>
+        <input class="span2 Wdate w220" value="<fmt:formatDate type='date' value='${expert.timeStartWork }' dateStyle="default" pattern="yyyy-MM-dd"/>" onfocus="validataForm(this,'nameFont10');" onblur="validataForm(this,'nameFont10');" readonly="readonly" name="timeStartWork" id="appendedInput" type="text" onclick='WdatePicker()'>
       <font id="nameFont10"></font>
 	 </li> 
 	  <li class="col-md-6  p0 ">
 	   <span class="">工作单位：</span>
-        <input class="span2" maxlength="40" onblur="validataForm(this,'nameFont11');" name="workUnit" id="appendedInput" type="text">
+        <input class="span2" maxlength="40" value=" ${expert.workUnit }" onblur="validataForm(this,'nameFont11');" name="workUnit" id="appendedInput" type="text">
           
        <font id="nameFont11"></font>
 	 </li> 
 	  <li class="col-md-6  p0 ">
 	   <span class="">单位地址：</span>
-        <input class="span2" maxlength="40" onblur="validataForm(this,'nameFont12');" name="unitAddress" id="appendedInput" type="text">
+        <input class="span2" maxlength="40" value=" ${expert.unitAddress }" onblur="validataForm(this,'nameFont12');" name="unitAddress" id="appendedInput" type="text">
           
        <font id="nameFont12"></font>
 	 </li> 
 	  <li class="col-md-6  p0 ">
 	   <span class="">联系电话（固话）：</span>
-        <input class="span2" maxlength="15" onblur="validataForm(this,'nameFont13');" name="fixPhone" id="appendedInput" type="text">
+        <input class="span2" maxlength="15" value=" ${expert.fixPhone }" onblur="validataForm(this,'nameFont13');" name="fixPhone" id="appendedInput" type="text">
           
        <font id="nameFont13"></font>
 	 </li> 
 	  <li class="col-md-6  p0 ">
 	   <span class="">传真：</span>
-        <input class="span2" maxlength="10" onblur="validataForm(this,'nameFont14');" name="fax" id="appendedInput" type="text">
+        <input class="span2" maxlength="10" value=" ${expert.fax }" onblur="validataForm(this,'nameFont14');" name="fax" id="appendedInput" type="text">
           
        <font id="nameFont14"></font>
 	 </li> 
 	  <li class="col-md-6  p0 ">
 	   <span class="">邮政编码：</span>
-        <input class="span2" maxlength="6" onblur="validataForm(this,'nameFont15');" name="zipCode" id="appendedInput" type="text">
+        <input class="span2" maxlength="6" value=" ${expert.zipCode }" onblur="validataForm(this,'nameFont15');" name="zipCode" id="appendedInput" type="text">
           
        <font id="nameFont15"></font>
 	 </li> 
 	<li class="col-md-6  p0 ">
 	   <span class="">取得技术职称时间：</span>
-        <input class="span2 Wdate w220" onfocus="validataForm(this,'nameFont16');" onblur="validataForm(this,'nameFont16');" readonly="readonly" name="makeTechDate" id="appendedInput" type="text" onclick='WdatePicker()'>
+        <input class="span2 Wdate w220" value="<fmt:formatDate type='date' value='${expert.makeTechDate }' dateStyle="default" pattern="yyyy-MM-dd"/>" onfocus="validataForm(this,'nameFont16');" onblur="validataForm(this,'nameFont16');" readonly="readonly" name="makeTechDate" id="appendedInput" type="text" onclick='WdatePicker()'>
        <font id="nameFont16"></font>
 	 </li>  
 	  <li class="col-md-6  p0 ">
 	   <span class="">学位：</span>
-        <input class="span2" maxlength="10" onblur="validataForm(this,'nameFont17');" name="degree" id="appendedInput" type="text">
+        <input class="span2" maxlength="10" value=" ${expert.degree }" onblur="validataForm(this,'nameFont17');" name="degree" id="appendedInput" type="text">
           
        <font id="nameFont17"></font>
 	 </li>
 	  <li class="col-md-6  p0 ">
 	   <span class="">健康状态：</span>
-        <input class="span2" maxlength="10" onblur="validataForm(this,'nameFont18');" name="healthState" id="appendedInput" type="text">
+        <input class="span2" maxlength="10" value=" ${expert.healthState }" onblur="validataForm(this,'nameFont18');" name="healthState" id="appendedInput" type="text">
           
        <font id="nameFont18"></font>
 	 </li>  
 	 <li class="col-md-6  p0 ">
 	   <span class="">现任职务：</span>
-        <input class="span2" maxlength="10" onblur="validataForm(this,'nameFont19');" name="atDuty" id="appendedInput" type="text">
+        <input class="span2" maxlength="10" value=" ${expert.atDuty }" onblur="validataForm(this,'nameFont19');" name="atDuty" id="appendedInput" type="text">
         
        <font id="nameFont19"></font>
 	 </li>

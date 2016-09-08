@@ -84,7 +84,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				   flag=1;
 				   return false;
 			   }else{
-				   $("#spp").html("OK!").css('color','lime');
+				   $("#spp").html("通过!").css('color','lime');
 				   flag=2;
 				   return true;
 			   }
@@ -114,7 +114,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		   flag2=1;
 		   return false;
 	   }else{
-	   $("#pwd1").html("OK!").css('color','lime');
+	   $("#pwd1").html("通过!").css('color','lime');
 	   flag2=2;		   
 	   }
    }
@@ -131,7 +131,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		   flag3=1;
 		   return false;
 	   }else{
-		   $("#pwd2").html("OK!").css('color','lime');
+		   $("#pwd2").html("通过!").css('color','lime');
 		   flag3=2;
 		   return true;
 	   }
@@ -236,7 +236,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </div> 
   <div  class="col-md-12">
    <div class="padding-10" align="center">
-   <input class="btn btn-windows add" type="button" onclick="submitForm();" value="开始注册">
+   <a class="btn btn-windows reset"  onclick="location.href='javascript:history.go(-1);'">返回</a>
+   <input class="btn btn-windows add" type="button" onclick="submitForm();" value="注册">
 	</div>
   </div>
   </form>

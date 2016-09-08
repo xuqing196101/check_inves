@@ -124,14 +124,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
    </div>
    <script type="text/javascript">
-   
+   $(function(){
+	   var sup = $("#checked").val();
+		if(sup==1){
+		$("#bli1").attr("checked","true");
+		} 
+   });
    function submitForm(flag){
 	   if(flag==1 || flag=="1"){
+		   
+		   var val=$("input:radio[name='check']:checked").val();
+           if(val==null){
+        	   layer.alert("请选择一个采购机构",{offset: ['222px', '390px'],shade:0.01});
+               return ;
+           }else{
 		   $("#flag").val(1);
 		   $("#form1").submit();
+           }
 	   }else{
+		   var val=$("input:radio[name='check']:checked").val();
+           if(val==null){
+        	   layer.alert("请选择一个采购机构",{offset: ['222px', '390px'],shade:0.01});
+               return ;
+           }else{
 		   $("#flag").val(2);
 		   $("#form1").submit();
+           }
 	   }
    }
    
@@ -154,7 +172,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      <div class="content padding-left-25 padding-right-25 padding-top-5">
      <form action="<%=basePath %>expert/addJiGou.do" method="post"  id="form1">
      <input type="hidden" id="flag" name="flag">
-     <input type="hidden" name="uuid" value="${uuid }">
+     <input type="hidden" name="id" value="${expert.id }">
+     <input type="hidden"  value="${expert.purchaseDepId }">
         <table class="table table-bordered table-condensed">
 		<thead>
 		<tr>
@@ -180,7 +199,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </form>
      </div>
       <input class="btn btn-windows save" type="button" onclick="submitForm('1');" value="暂存">
-         <input class="btn btn-windows add" type="submit" onclick="submitForm('2');" value="下一步">
+         <input class="btn btn-windows add" type="button" onclick="submitForm('2');" value="下一步">
          <a class="btn btn-windows reset"  onclick="location.href='javascript:history.go(-1);'">返回</a>
    </div>
  </div>

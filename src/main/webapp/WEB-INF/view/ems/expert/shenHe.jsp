@@ -504,8 +504,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </form>
  </div>
  <!--底部代码开始-->
-<div class="footer-v2" id="footer-v2">
-
+<div >
       <div class="footer">
 
             <!-- Address -->
