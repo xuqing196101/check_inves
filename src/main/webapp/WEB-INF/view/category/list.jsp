@@ -30,8 +30,8 @@
 				},
 				callback:{
 			    	onClick:zTreeOnClick,//点击节点触发的事件
-			    	/* beforeRemove: zTreeBeforeRemove,
-			    	beforeRename: zTreeBeforeRename, */
+			    	 beforeRemove: zTreeBeforeRemove,
+			    	beforeRename: zTreeBeforeRename, 
 					onRemove: zTreeOnRemove,
        			    onRename: zTreeOnRename,
 			    }, 
@@ -51,6 +51,8 @@
 					 editNameSelectAll:true,
 					showRemoveBtn: true,
 					showRenameBtn: true,
+					removeTitle: "删除",
+					renameTitle:"重命名",
 				},
 			   check:{
 					enable: true
@@ -68,13 +70,10 @@
 				
 			    }
     
-            function  zTreeOnClick(event,treeId,treeNode){
-           		treeid=treeNode.id
-            	getList(treeid);
-            }
-            
-          /*添加*/
-		function add(){
+          
+})
+   /*添加*/
+		function news(){
 			if (treeid==null) {
 			alert("请选择一个节点",{offset: ['222px', '390px']});
 					return;		
@@ -82,7 +81,11 @@
 			window.location.href="<%=basePath%>category/add.do?id="+treeid;
 			}
 		}
- 		/*修改*/
+		  function  zTreeOnClick(event,treeId,treeNode){
+           		treeid=treeNode.id
+            	getList(treeid);
+            }
+     
  		function update(){
 	 		if (treeid==null) {
 				alert("请选择一个节点");
@@ -92,22 +95,26 @@
  		}
  		/*休眠-激活*/
 	 	function ros(){
- 			widow.location.hre="<%=basePath%>";
+ 			widow.location.href="<%=basePath%>";
  		}
  		
  		
- 		function zTreeOnRemove(event, treeId, treeNode) {
-			//	alert(treeNode.tId);
+ 		function zTreeOnRemove(event, treeId, treeNode,isCancel) {
+				
+				
 		}
  		function zTreeOnRename(event, treeId, treeNode, isCancel) {
-				/* alert(treeNode.tId + ", " + treeNode.name); */
+				 alert(treeNode.tId + ", " + treeNode.name); 
+				
 		}
-	/* 	function zTreeBeforeRemove(treeId, treeNode){
-			return true;
-		}
-		function zTreeBeforeRename(treeId, treeNode){
-			return true;
-		} */
+
+ 	function zTreeBeforeRemove(treeId, treeNode){
+ 	  	"<%=basePath%>category/del.do?id="+treeNode.id
+	}
+		function zTreeBeforeRename(treeId, newName,treeNode,isCancel){
+			
+    	return true;
+		} 
  		
 	/*获取后台json列表展示*/
 	function getList(treeid){
@@ -130,6 +137,7 @@
             	  html = html + "<th>"+list[i].name+"</th>";
             	　 /* html = html + "<td class='tc acur' onclick='checklist("+list[i].tr+")'>"+list[i].ancestry+"</td>";  */
             	  html = html + "<td >"+list[i].status+"</td>";
+            	   html = html + "<td >"+list[i].ancestry+"</td>";  
             	  html = html + "<td  >"+list[i].orderNum+"</td>";
             	  html = html + "<td  >"+list[i].code+"</td>";
             	  html = html + "<td  >"+list[i].attchment+"</td>";
@@ -149,7 +157,6 @@
 			}
 		})
 	}
-})
 </script>
 </head>
 
@@ -242,12 +249,10 @@
 
 	<div id="ztree" class="ztree"></div>
 		<div >
-			<span id="add" class="result"><a href="javascript:void(0);" onclick="add(${id})" class="btn btn-window ">新增 </a></span> 
+			<span id="add"><a href="javascript:void(0);" onclick="news()" class="btn btn-window ">新增 </a></span> 
 			<span><a href="javascript:void(0);" onclick="update()"  class="btn btn-window ">修改</a></span> 
-			<span><a href="javascript:void(0);" onclick="update()"  class="btn btn-window ">删除</a></span> 
 			<span><a href="javascript:void(0);" onclick="ros()"  class="btn btn-window ">激活/休眠</a></span>
-			<span><a href="javascript:void(0);" onclick="zTreeOnRemove()"></a></span>
-			<span><a href="javascript:void(0);" onclick="zTreeOnRename()"></a></span>
+		
 			<span ><a href="javascript:void(0);" onclick="()"  class="btn btn-window ">导入</a></span>
 			<span ><a href="javascript:void(0);" onclick="()"  class="btn btn-window ">导出</a></span>
 			

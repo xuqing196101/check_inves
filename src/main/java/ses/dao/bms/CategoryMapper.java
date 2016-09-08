@@ -91,7 +91,7 @@ public interface CategoryMapper {
 	 * 
 	* @Title: deleteByPrimaryKey
 	* @author zhangxuefeng 
-	* @Description: 根据节点id修改目录名称
+	* @Description: 根据节点id删除目录信息
 	* @param @param id
 	* @return int
 	 */

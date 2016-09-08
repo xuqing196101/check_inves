@@ -53,7 +53,7 @@ public class CategoryController {
 	* @return String
 	 */
 	@ResponseBody
-	@RequestMapping(value="findListByParent")
+	@RequestMapping(value="/findListByParent")
 	public String selectAll(HttpServletRequest request,Category category){
 		if (category.getId()==null) {
 			category.setId("a");
@@ -175,7 +175,7 @@ public class CategoryController {
    /**
   	 * 
   	* @Title: edit
-  	* @author zhangxuefeng
+  	* @author Zhang XueFeng
   	* @Description:修改目录休息
   	* @param @return 
   	* @return String
@@ -203,6 +203,37 @@ public class CategoryController {
 		}
 	  categoryService.updateByPrimaryKey(category);
 	return "category/list";
+   }
+   /**
+ 	 * 
+ 	* @Title: rename
+ 	* @author Zhang XueFeng
+ 	* @Description:修改目录休息
+ 	* @param @return 
+ 	* @return String
+      */  
+   @RequestMapping(value="rename")
+   public String updateName(HttpServletRequest request,Category category){
+	   String treeid=request.getParameter("id");
+	   category.setName(request.getParameter("name"));
+	 //  categoryService.updateNameById();
+	return "category/list";
+   }
+   
+   
+   /**
+	 * 
+	* @Title: delete
+	* @author Zhang XueFeng
+	* @Description:修改目录休息
+	* @param @return 
+	* @return String
+     */ 
+   @RequestMapping("/del")
+   public void delete(Category  category){
+	
+	   categoryService.deleteByPrimaryKey(category.getId());
+	
    }
    //图片信息
    private List<File> attach;
