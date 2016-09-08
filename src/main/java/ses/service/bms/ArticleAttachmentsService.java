@@ -1,5 +1,7 @@
 package ses.service.bms;
 
+import java.util.List;
+
 import ses.model.bms.ArticleAttachments;
 
 /*
@@ -21,4 +23,27 @@ public interface ArticleAttachmentsService {
 	* @return int
 	 */
 	int insert(ArticleAttachments record);
+	
+	/**
+	 * 
+	* @Title: selectAllArticleAttachments
+	* @author QuJie 
+	* @date 2016-9-8 上午8:43:21  
+	* @Description:根据articleId查询所有信息附件 
+	* @param @return      
+	* @return List<ArticleAttachments>
+	 */
+	List<ArticleAttachments> selectAllArticleAttachments(String id);
+	
+	/**
+	 * 
+	* @Title: selectArticleAttaById
+	* @author QuJie 
+	* @date 2016-9-8 上午9:16:24  
+	* @Description: 根据id查询信息附件 
+	* @param @param id
+	* @param @return      
+	* @return ArticleAttachments
+	 */
+	ArticleAttachments selectArticleAttaById(String id);
 }

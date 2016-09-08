@@ -1,5 +1,7 @@
 package ses.dao.bms;
 
+import java.util.List;
+
 import ses.model.bms.ArticleAttachments;
 
 /*
@@ -80,4 +82,16 @@ public interface ArticleAttachmentsMapper {
     * @return int
      */
     int updateByPrimaryKey(ArticleAttachments record);
+    
+    /**
+     * 
+    * @Title: selectAllArticleAttachments
+    * @author QuJie 
+    * @date 2016-9-8 上午8:45:03  
+    * @Description: 根据articleId查询信息附件 
+    * @param @param id
+    * @param @return      
+    * @return List<ArticleAttachments>
+     */
+    List<ArticleAttachments> selectAllArticleAttachments(String id);
 }

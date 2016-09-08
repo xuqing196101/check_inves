@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="iss.dao.fs.PostMapper">
+			  <resultMap id="PostResultMap" type="iss.model.fs.Post">
+				    <id column="ID"  property="id" />
+				    <result column="NAME" property="name" />
+				    <result column="CONTENT" jdbcType="CLOB" property="content" />
+				    <result column="IS_TOP"  property="isTop" />
+				    <result column="IS_LOCKING"  property="isLocking" />
+				    <result column="IS_ESSENCE"  property="isEssence" />
+				    <result column="IS_CAN_REPLY"  property="isCanReply" />
+				    <result column="PUBLISHED_TIME"  property="publishedTime" />
+				    <result column="LAST_REPLYED_TIME"  property="lastReplyedTime" />							    	    
+				    <association column="USER_ID"  property="user" select="ses.dao.bms.UserMapper.queryById"/>
+				    <association column="TOPIC_ID"  property="topic" select="iss.dao.fs.TopicMapper.selectByPrimaryKey"/>	
+				    <association column="PARK_ID"  property="park" select="iss.dao.fs.ParkMapper.selectByPrimaryKey"/>		    
+			  </resultMap>
+			  
+			  <resultMap id="PostReplyMap" type="iss.model.fs.Post" extends="PostResultMap">
+			  <collection property="replies" ofType="ses.model.iss.fs.Reply" resultMap="iss.dao.fs.ReplyMapper.ReplyResultMap"/>
+			  </resultMap>
+	  	  
+			  <!-- 表名 -->
+			  	<sql id="Tabel_Name">
+					T_ISS_FS_POST
+				</sql>
+				  
+			  <!-- 所有列 -->
+			  <sql id="Base_Column_List">
+			    ID, NAME,CONTENT, IS_TOP, IS_LOCKING, IS_ESSENCE, IS_CAN_REPLY, USER_ID, TOPIC_ID,PARK_ID,
+			    PUBLISHED_TIME, LAST_REPLYED_TIME
+			    
+			  </sql>
+	  	
+			  <!-- 查询条件 -->
+			  <sql id="Example_Where_Clause">
+				 where 1 = 1
+				 <trim suffixOverrides=",">
+			      <if test="park!= null">
+			        and PARK_ID = #{park.id}
+			      </if>	
+			      	<if test="topic!= null">
+			        and TOPIC_ID = #{topic.id}
+			      </if>			
+				</trim>
+			 </sql>
+    
+		  <!-- 1.查询列表总数 -->
+		  <select id="queryByCount" resultType="Object" parameterType="Object">
+		    select count(1) from T_ISS_FS_POST
+		    <include refid="Example_Where_Clause" />
+		  </select>
+		  
+		  <!-- 2.根据条件查询列表 -->
+		  <select id="queryByList" parameterType="Object" resultMap="PostReplyMap">
+		    select 
+		    <include refid="Base_Column_List" />
+		    from T_ISS_FS_POST
+		    <include refid="Example_Where_Clause" />
+		    ORDER BY PUBLISHED_TIME DESC
+		  </select>
+		  
+		  <!-- 3.根据ID查询 -->
+		  <select id="selectByPrimaryKey" parameterType="Object" resultMap="PostReplyMap">
+		    select 
+		    <include refid="Base_Column_List" />
+		    from T_ISS_FS_POST
+		    where ID = #{id}
+		  </select>
+		  	  
+		  <!-- 4.删除一条记录 -->
+		  <delete id="deleteByPrimaryKey" parameterType="Object">
+		    delete from T_ISS_FS_POST
+		    where ID = #{id}
+		  </delete>
+	  
+		   <!-- 5.新增一条记录 -->
+		  <insert id="insertSelective" parameterType="iss.model.fs.Post">
+		    <selectKey keyProperty="id" resultType="String" order="BEFORE">
+		        select sys_guid() from dual
+		    </selectKey>
+		    insert into T_ISS_FS_POST
+		    <trim prefix="(" suffix=")" suffixOverrides=",">
+		      <if test="id != null">
+		        ID,
+		      </if>
+		      <if test="name != null">
+		        NAME,
+		      </if>
+		      <if test="isTop != null">
+		        IS_TOP,
+		      </if>
+		      <if test="isLocking != null">
+		        IS_LOCKING,
+		      </if>
+		      <if test="isEssence != null">
+		        IS_ESSENCE,
+		      </if>
+		      <if test="isCanReply != null">
+		        IS_CAN_REPLY,
+		      </if>
+		      <if test="publishedTime != null">
+		        PUBLISHED_TIME,
+		      </if>
+		      <if test="content != null">
+		        CONTENT,
+		      </if>
+		      <if test="user != null">
+		        USER_ID,
+		      </if>
+		      <if test="park != null">
+		        PARK_ID,
+		      </if>
+		      <if test="topic != null">
+		        TOPIC_ID,
+		      </if>
+		    </trim>
+		    <trim prefix="values (" suffix=")" suffixOverrides=",">
+		      <if test="id != null">
+		        #{id},
+		      </if>
+		      <if test="name != null">
+		        #{name},
+		      </if>
+		      <if test="isTop != null">
+		        #{isTop},
+		      </if>
+		      <if test="isLocking != null">
+		        #{isLocking},
+		      </if>
+		      <if test="isEssence != null">
+		        #{isEssence},
+		      </if>
+		      <if test="isCanReply != null">
+		        #{isCanReply},
+		      </if>
+		      <if test="publishedTime != null">
+		        #{publishedTime},
+		      </if>
+
+		      <if test="content != null">
+		        #{content},
+		      </if>
+		      <if test="user != null">
+		        #{user.id},
+		      </if>
+		      <if test="park != null">
+		        #{park.id},
+		      </if>
+		      <if test="topic != null">
+		        #{topic.id},
+		      </if>
+		    </trim>
+		  </insert>
+	  
+		  <!-- 6.更新数据 -->
+		  <update id="updateByPrimaryKeySelective" parameterType="iss.model.fs.Post">
+		    update T_ISS_FS_POST
+		    <set>
+		      <if test="name != null">
+		        NAME = #{name},
+		      </if>
+		      <if test="isTop != null">
+		        IS_TOP = #{isTop},
+		      </if>
+		      <if test="isLocking != null">
+		        IS_LOCKING = #{isLocking},
+		      </if>
+		      <if test="isEssence != null">
+		        IS_ESSENCE = #{isEssence},
+		      </if>
+		      <if test="isCanReply != null">
+		        IS_CAN_REPLY = #{isCanReply},
+		      </if>
+		      <if test="lastReplyedTime != null">
+		        LAST_REPLYED_TIME = #{lastReplyedTime},
+		      </if>
+		      <if test="content != null">
+		        CONTENT = #{content},
+		      </if>
+		      <if test="park != null">
+		        PARK_ID = #{park.id},
+		      </if>
+		      <if test="topic != null">
+		        TOPIC_ID = #{topic.id},
+		      </if>
+		    </set>
+		    where ID = #{id}
+		  </update>
+		  
+  		  <!-- 7.根据topicId查询 -->
+		  <select id="selectByTopicID" parameterType="Object" resultMap="PostResultMap">
+			    select 
+			    <include refid="Base_Column_List" />
+			    from T_ISS_FS_POST
+			    where TOPIC_ID = #{topicID}
+			    ORDER BY PUBLISHED_TIME DESC
+		  </select>
+		  
+		  <!-- 8.首页根据parkId查询4条 -->
+		  <select id="selectByParkID" parameterType="Object" resultMap="PostResultMap">
+			    select 
+			    <include refid="Base_Column_List" />
+			    from T_ISS_FS_POST
+			    where PARK_ID = #{parkID} AND ROWNUM &lt;= 4
+			    ORDER BY PUBLISHED_TIME DESC
+		  </select>
+		  
+		  <!-- 9.首页根据parkId查询列表 -->
+		  <select id="selectListByParkID" parameterType="Object" resultMap="PostResultMap">
+			    select 
+			    <include refid="Base_Column_List" />
+			    from T_ISS_FS_POST
+			    where PARK_ID = #{parkID}
+			    ORDER BY PUBLISHED_TIME DESC
+		  </select>
+
+</mapper>

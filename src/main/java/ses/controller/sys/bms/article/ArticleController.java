@@ -2,6 +2,9 @@
 package ses.controller.sys.bms.article;
 
 
+import iss.model.ArticleType;
+import iss.service.ArticleTypeService;
+
 import java.util.List;
 import java.util.Date;
 import java.io.File;
@@ -23,10 +26,8 @@ import ses.controller.sys.bms.LoginController;
 import ses.model.bms.Article;
 import ses.model.bms.ArticleAttachments;
 import ses.model.bms.User;
-import ses.model.iss.ArticleType;
 import ses.service.bms.ArticleAttachmentsService;
 import ses.service.bms.ArticleService;
-import ses.service.iss.ArticleTypeService;
 
 import com.alibaba.fastjson.JSON;
 

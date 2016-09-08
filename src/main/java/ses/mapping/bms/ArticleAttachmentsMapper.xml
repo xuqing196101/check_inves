@@ -26,6 +26,13 @@
     where ID = #{id}
   </select>
   
+  <select id="selectAllArticleAttachments" parameterType="Object" resultMap="ArticleAttachMap">
+  	select
+  	<include refid="ArticleAttach_Column_List" />
+  	from T_SES_BMS_ARTICLE_ATTACHMENT
+  	where ARTICLE_ID = #{article.id}
+  </select>
+  
   <!-- 根据id删除 -->
   <delete id="deleteByPrimaryKey" parameterType="Object">
     delete from T_SES_BMS_ARTICLE_ATTACHMENT

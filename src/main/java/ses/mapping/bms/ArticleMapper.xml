@@ -21,7 +21,7 @@
     <result column="IS_DELETED" property="isDeleted" />
     <result column="REASON" property="reason" />
     <association property="user" column="USER_ID" select="ses.dao.bms.UserMapper.queryById"/>
-    <association property="articleType" column="ARTICLE_TYPE_ID" select="ses.dao.iss.ArticleTypeMapper.selectByPrimaryKey"/>
+    <association property="articleType" column="ARTICLE_TYPE_ID" select="iss.dao.ArticleTypeMapper.selectByPrimaryKey"/>
   </resultMap> 
   
   <resultMap extends="ArticleMapper" id="ArticleBlob" type="ses.model.bms.Article">
@@ -29,7 +29,7 @@
   </resultMap>
   
   <resultMap extends="ArticleBlob" type="ses.model.bms.Article" id="ArticleWithAttach">
-  	<collection property="articleAttachments" ofType="ses.model.bms.ArticleAttachments" resultMap="ses.dao.bms.ArticleAttachmentsMapper.ArticleAttachMap"/>
+  	<collection property="articleAttachments" ofType="ses.model.bms.ArticleAttachments"/>
   </resultMap>
   
   <sql id="Article_Column_List">

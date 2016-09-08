@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="iss.dao.ArticleTypeMapper">
+  <resultMap id="ArticleTypeMapper" type="iss.model.ArticleType">
+    <id column="ID" property="id" />
+    <result column="NAME" property="name" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="IS_DELETED" property="isDeleted" />
+  </resultMap>
+  
+  <sql id="ArticleType_Column_List">
+    ID, NAME, CREATED_AT, UPDATED_AT,IS_DELETED
+  </sql>
+  
+  <!-- 根据id查询栏目类型 -->
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ArticleTypeMapper">
+    select 
+    <include refid="ArticleType_Column_List" />
+    from T_ISS_ARTICLE_TYPE
+    where ID = #{id}
+  </select>
+  
+  <!-- 查询所有栏目信息 -->
+  <select id="selectAllArticleType" resultMap="ArticleTypeMapper">
+  	select
+    <include refid="ArticleType_Column_List" />
+    from T_ISS_ARTICLE_TYPE
+  </select>
+  
+  <!-- 根据id删除栏目类型 -->
+  <delete id="deleteByPrimaryKey" parameterType="Object">
+    delete from T_ISS_ARTICLE_TYPE
+    where ID = #{id}
+  </delete>
+  
+  <!-- 新增栏目信息 -->
+  <insert id="insert" parameterType="iss.model.ArticleType">
+    insert into T_ISS_ARTICLE_TYPE (ID, NAME, CREATED_AT, 
+      UPDATED_AT)
+    values (#{id}, #{name}, #{createdAt}, 
+      #{updatedAt})
+  </insert>
+  
+  <!-- 根据条件新增 -->
+  <insert id="insertSelective" parameterType="iss.model.ArticleType">
+  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_ISS_ARTICLE_TYPE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="name != null">
+        #{name},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 根据条件修改栏目信息 -->
+  <update id="updateByPrimaryKeySelective" parameterType="iss.model.ArticleType">
+    update T_ISS_ARTICLE_TYPE
+    <set>
+      <if test="name != null">
+        NAME = #{name},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt},
+      </if>
+    </set>
+    where ID = #{id}
+  </update>
+  
+  <!-- 根据id修改栏目信息 -->
+  <update id="updateByPrimaryKey" parameterType="iss.model.ArticleType">
+    update T_ISS_ARTICLE_TYPE
+    set NAME = #{name},
+      CREATED_AT = #{createdAt},
+      UPDATED_AT = #{updatedAt}
+    where ID = #{id}
+  </update>
+  
+</mapper>

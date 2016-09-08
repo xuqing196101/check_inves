@@ -1,9 +1,10 @@
 package ses.model.bms;
 
+import iss.model.ArticleType;
+
 import java.util.Date;
 import java.util.List;
 
-import ses.model.iss.ArticleType;
 
 
 /**

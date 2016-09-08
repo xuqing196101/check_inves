@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="iss.dao.fs.ReplyMapper">
+			  <resultMap id="ReplyResultMap" type="iss.model.fs.Reply">
+			    <id column="ID"  property="id" />
+			    <result column="NAME"  property="name" />
+			     <result column="CONTENT"  property="content" />
+			    <result column="PUBLISHED_TIME"  property="publishedTime" />
+			     <association column="POST_ID"  property="post" select="iss.dao.fs.PostMapper.selectByPrimaryKey"/>
+			    <association column="REPLY_ID"  property="reply" select="selectByPrimaryKey"/>
+			    <association column="USER_ID"  property="user" select="ses.dao.bms.UserMapper.queryById"/>			    			    
+			  </resultMap>
+			  			  			  
+	  			<!-- 表名 -->
+			  	<sql id="Tabel_Name">
+					T_iss.fs_REPLY
+				</sql>
+				
+		  	  <!-- 所有列 -->
+			  <sql id="Base_Column_List">
+			    ID, NAME, CONTENT,POST_ID, REPLY_ID, USER_ID, PUBLISHED_TIME  
+			  </sql>
+			  
+	  			  <!-- 查询条件 -->
+			  <sql id="Example_Where_Clause">
+			  	where 1 = 1
+				 <trim suffixOverrides=",">			
+				</trim>
+				</sql>
+			
+				<!-- 根据ID查询 -->
+			  <select id="selectByPrimaryKey" parameterType="Object" resultMap="ReplyResultMap">
+			    select 
+			    <include refid="Base_Column_List" />
+			    from T_ISS_FS_REPLY
+			    where ID = #{id}
+			  </select>
+			  
+	  		  <!-- 2.查询列表总数 -->
+			  <select id="queryByCount" resultType="Object" parameterType="Object">
+			    select count(1) from T_ISS_FS_REPLY
+			    <include refid="Example_Where_Clause" />
+			  </select>
+			  
+			  <!-- 2.2根据版块查询列表总数 -->
+			  <select id="queryCountByParkId" resultType="Object" parameterType="Object">
+					SELECT COUNT(1) FROM T_ISS_FS_REPLY
+					WHERE POST_ID IN( 
+					SELECT ID FROM T_ISS_FS_POST
+					WHERE PARK_ID = #{parkId}
+					)
+			  </select>
+			  <!-- 2.3根据主题查询列表总数 -->
+			  <select id="queryCountByTopicId" resultType="Object" parameterType="Object">
+					SELECT COUNT(1) FROM T_ISS_FS_REPLY
+					WHERE POST_ID IN( 
+					SELECT ID FROM T_ISS_FS_POST
+					WHERE TOPIC_ID = #{topicId}
+					)
+			  </select>
+			  		  
+			  <!-- 3.根据条件查询列表 -->
+			  <select id="queryByList" parameterType="Object" resultMap="ReplyResultMap">
+			    select 
+			    <include refid="Base_Column_List" />
+			    from T_ISS_FS_REPLY
+			    <include refid="Example_Where_Clause" />
+			    ORDER BY PUBLISHED_TIME DESC
+			    
+			  </select>
+  
+              <!-- 4.删除一条记录 -->
+			  <delete id="deleteByPrimaryKey" parameterType="Object">
+			    delete from T_ISS_FS_REPLY
+			    where ID = #{id}
+			  </delete>
+  
+
+			  <!--5.插入一条记录  -->
+			  <insert id="insertSelective" parameterType="iss.model.fs.Reply">
+			    <selectKey keyProperty="id" resultType="String" order="BEFORE">
+			        select sys_guid() from dual
+			    </selectKey>
+			    insert into T_ISS_FS_REPLY
+			    <trim prefix="(" suffix=")" suffixOverrides=",">
+			      <if test="id != null">
+			        ID,
+			      </if>
+			      <if test="name != null">
+			        NAME,
+			      </if>
+			      <if test="publishedTime != null">
+			        PUBLISHED_TIME,
+			      </if>
+			      <if test="content != null">
+			        CONTENT,
+			      </if>
+			      <if test="user != null">
+			        USER_ID,
+			      </if>
+			      <if test="post != null">
+			        POST_ID,
+			      </if>
+			      <if test="reply != null">
+			        REPLY_ID,
+			      </if>
+			    </trim>
+			    <trim prefix="values (" suffix=")" suffixOverrides=",">
+			      <if test="id != null">
+			        #{id},
+			      </if>
+			      <if test="name != null">
+			        #{name},
+			      </if>
+			      <if test="publishedTime != null">
+			        #{publishedTime},
+			      </if>
+			      <if test="content != null">
+			        #{content},
+			      </if>
+			      <if test="user != null">
+			        #{user.id},
+			      </if>
+			      <if test="post != null">
+			        #{post.id},
+			      </if>
+			      <if test="reply != null">
+			        #{reply.id},
+			      </if>
+			    </trim>
+			  </insert>
+			  <!-- 更新一条记录 -->
+			  <update id="updateByPrimaryKeySelective" parameterType="iss.model.fs.Reply">
+			    update T_ISS_FS_REPLY
+			    <set>
+			      <if test="name != null">
+			        NAME = #{name},
+			      </if>
+			      <if test="publishedTime != null">
+			        PUBLISHED_TIME = #{publishedTime},
+			      </if>
+			      <if test="content != null">
+			        CONTENT = #{content},
+			      </if>
+			      <if test="user != null">
+			        USER_ID = #{user.id},
+			      </if>
+			      <if test="post != null">
+			        POST_ID = #{post.id},
+			      </if>
+			      <if test="reply != null">
+			       REPLY_ID =  #{reply.id},
+			      </if>
+			    </set>
+			    where ID = #{id}
+			  </update>
+			  
+			<!-- 7.根据postId查询 -->
+		  <select id="selectByPostID" parameterType="Object" resultMap="ReplyResultMap">
+			    select 
+			    <include refid="Base_Column_List" />
+			    from T_ISS_FS_REPLY
+			    where POST_ID = #{postID}
+			    ORDER BY PUBLISHED_TIME DESC
+		  </select>		  
+ 
+</mapper>

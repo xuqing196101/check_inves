@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -59,7 +60,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 </div>
 	 <div>
 	 	<span class="f18">附件：</span>
-	 	<a href="<%=basePath%>article/"></a>
+	 	<c:forEach items="${articleDetail.articleAttachments}" var="a">
+	 		<a href="<%=basePath%>index/downloadArticleAtta.html?id=${a.id}">${a.fileName}</a>
+	 	</c:forEach>
 	 </div>
 	 </div>
    </div>
