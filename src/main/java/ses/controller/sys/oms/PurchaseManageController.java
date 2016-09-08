@@ -33,7 +33,7 @@ import ses.service.oms.OrgnizationServiceI;
 * <p>Description: </p>
 * <p>Company: ses </p> 
 * @author tkf
-* @date 2016-8-31下午4:04:28
+* @date 2016-8-31娑撳宕�:04:28
  */
 @Controller
 @Scope("prototype")
@@ -58,7 +58,7 @@ public class PurchaseManageController {
 	 * 
 	* @Title: save
 	* @author tkf
-	* @date 2016-9-6 下午6:15:35  
+	* @date 2016-9-6 娑撳宕�:15:35  
 	* @Description: TODO 
 	* @param @param request
 	* @param @param user
@@ -80,6 +80,7 @@ public class PurchaseManageController {
 	@ResponseBody    
 	public String gettree(){
 		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("s", 1);
 		List<Orgnization> oList = orgnizationServiceI.findOrgnizationList(map);
 		List<Ztree> treeList = new ArrayList<Ztree>();  
 		for(Orgnization o:oList){
@@ -98,8 +99,8 @@ public class PurchaseManageController {
 	 * 
 	* @Title: saveRequireDep
 	* @author tkf
-	* @date 2016-9-6 下午6:06:42  
-	* @Description: ajax 保存
+	* @date 2016-9-6 娑撳宕�:06:42  
+	* @Description: ajax 娣囨繂鐡�
 	* @param @param model
 	* @param @param request
 	* @param @param deparent
@@ -121,7 +122,7 @@ public class PurchaseManageController {
 		
 		AjaxJsonData json = new AjaxJsonData();
 		json.setSuccess(true);
-		json.setMessage("保存成功!");
+		json.setMessage("娣囨繂鐡ㄩ幋鎰!");
 		return json;
 	}
 	

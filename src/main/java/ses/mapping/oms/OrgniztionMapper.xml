@@ -2,7 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ses.dao.oms.OrgniztionMapper">
   <!-- 根据id查部门 -->
+<<<<<<< Updated upstream:src/main/java/ses/mapping/oms/OrgniztionMapper.xml
 	<select id="findOrgnizationList" parameterType="java.util.Map" resultType="ses.model.oms.Orgniztion">
+=======
+	<select id="findOrgnizationList" parameterType="java.util.Map" resultType="yggc.model.oms.Orgnization">
+>>>>>>> Stashed changes:src/main/java/yggc/mapping/oms/OrgniztionMapper.xml
 			   select d.id  as id,
 		       d.ORGLEVEL       as orglevel,
 		       d.IS_DELETED       as isDeleted,
@@ -12,7 +16,7 @@
 		       d.TYPE       as type,
 		       d.IS_ROOT         as isRoot
 		  from T_SES_OMS_ORG     d
-		 where nvl(d.is_deleted)=0
+		 where nvl(d.is_deleted,0)=0
 		 <if test="id != null and id != ''">
 			and d.id= #{id}
 		</if>
