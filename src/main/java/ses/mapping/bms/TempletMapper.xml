@@ -80,25 +80,25 @@
     update T_SES_BMS_TEMPLET
     <set>
       <if test="temType != null">
-        TEM_TYPE = #{temType,jdbcType=VARCHAR},
+        TEM_TYPE = #{temType},
       </if>
       <if test="name != null">
-        NAME = #{name,jdbcType=VARCHAR},
+        NAME = #{name},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt,jdbcType=DATE},
+        CREATED_AT = #{createdAt},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+        UPDATED_AT = #{updatedAt},
       </if>
       <if test="isDeleted != null">
-        IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+        IS_DELETED = #{isDeleted},
       </if>
       <if test="content != null">
-        CONTENT = #{content,jdbcType=CLOB},
+        CONTENT = #{content},
       </if>
     </set>
-    where ID = #{id,jdbcType=VARCHAR}
+    where ID = #{id}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="ses.model.bms.Templet">
     update T_SES_BMS_TEMPLET

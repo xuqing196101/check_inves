@@ -1,20 +1,30 @@
 package ses.controller.sys.sms;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import ses.model.bms.User;
 import ses.model.sms.SupplierFsInfoWithBLOBs;
+import ses.service.bms.UserServiceI;
 import ses.service.sms.SupplierFsInfoService;
-
+import ses.util.Encrypt;
+import ses.util.WfUtil;
 
 /**
- * 
  * @Title: SupplierFsInfoController
  * @Description: 进口供应商注册审核控制层
  * @author: Song Biaowei
@@ -26,6 +36,8 @@ import ses.service.sms.SupplierFsInfoService;
 public class SupplierFsInfoController {
 	@Autowired
 	private SupplierFsInfoService supplierFsInfoService;
+	@Autowired
+	private UserServiceI userService;
 	
 	/**
 	* @Title: beforeRegister
@@ -35,126 +47,85 @@ public class SupplierFsInfoController {
 	* @param @return      
 	* @return String
 	 */
-	@RequestMapping("registerStep1.html")
-	public String registerStep1(){
-		return "fsInfo/register/step1";
+	@RequestMapping("registerStart")
+	public String registerStart(){
+		return "fsInfo/register";
 	}
 	
 	/**
-	* @Title: registerStep2
-	* @author Song Biaowei
-	* @date 2016-9-7 下午5:49:53  
-	* @Description: 第二个页面
-	* @param @param sfi
-	* @param @param model
-	* @param @return      
-	* @return String
+	 * @Title: registerEnd
+	 * @author Song Biaowei
+	 * @date 2016-9-8 上午10:25:06  
+	 * @Description: 注册完成
+	 * @param @param sfi
+	 * @param @return      
+	 * @return String
+	 * @throws IOException 
 	 */
-	@RequestMapping("registerStep2.html")
-	public String registerStep2(SupplierFsInfoWithBLOBs sfi, Model model){
-		if(sfi.getId()!=null){
-			SupplierFsInfoWithBLOBs sfiStep2=supplierFsInfoService.findById(sfi.getId());
-			model.addAttribute("loginName", sfiStep2.getLoginName());
-		}
-		return "fsInfo/register/step2";
-	}
-	
-	/**
-	* @Title: registerStep3
-	* @author Song Biaowei
-	* @date 2016-9-7 下午5:50:07  
-	* @Description: 第三个页面
-	* @param @param sfi
-	* @param @param model
-	* @param @return      
-	* @return String
-	 */
-	@RequestMapping("registerStep3.html")
-	public String registerStep3(SupplierFsInfoWithBLOBs sfi, Model model){
+	@RequestMapping("registerEnd")
+	public String registerEnd(SupplierFsInfoWithBLOBs sfi,@RequestParam("files") MultipartFile[] files,HttpServletRequest request) throws IOException{
+		if(files!=null && files.length>0){
+			 for(MultipartFile myfile : files){  
+		            if(myfile.isEmpty()){  
+		            	
+		            }else{  
+		                String filename = myfile.getOriginalFilename();
+		                String uuid = WfUtil.createUUID();
+		                filename=uuid+filename;
+		                String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload");  
+		                FileUtils.copyInputStreamToFile(myfile.getInputStream(), new File(realPath, filename));  
+		            }  
+		        }  
+			}
 		supplierFsInfoService.register(sfi);
-		String id=supplierFsInfoService.selectIdByLoginName(sfi);
-		System.out.println(id);
-		model.addAttribute("id", id);
-		return "fsInfo/register/step3";
-	}
-	
-	/**
-	* @Title: registerStep4
-	* @author Song Biaowei
-	* @date 2016-9-7 下午5:50:17  
-	* @Description: 第四个页面 
-	* @param @param sfi
-	* @param @param model
-	* @param @return      
-	* @return String
-	 */
-	@RequestMapping("registerStep4.html")
-	public String registerStep4(SupplierFsInfoWithBLOBs sfi, Model model){
-		SupplierFsInfoWithBLOBs sfiStep2=supplierFsInfoService.findById(sfi.getId());
-		System.out.println(sfi.getId());
-		sfi.setLoginName(sfiStep2.getLoginName());
-		sfi.setPassword(sfiStep2.getPassword());
-		sfi.setMobile(sfiStep2.getMobile());
-		supplierFsInfoService.updateRegisterInfo(sfi);
-		model.addAttribute("id", sfiStep2.getId());
-		return "fsInfo/register/step4";
-	}
-	
-	/**
-	* @Title: registerStep5
-	* @author Song Biaowei
-	* @date 2016-9-7 下午5:50:26  
-	* @Description:第五个也页面 
-	* @param @param sfi
-	* @param @param model
-	* @param @return      
-	* @return String
-	 */
-	@RequestMapping("registerStep5.html")
-	public String registerStep5(SupplierFsInfoWithBLOBs sfi, Model model){
-		SupplierFsInfoWithBLOBs sfiStep2=supplierFsInfoService.findById(sfi.getId());
-		sfiStep2.setOrgmanId(sfi.getOrgmanId());
-		supplierFsInfoService.updateRegisterInfo(sfiStep2);
-		model.addAttribute("id", sfiStep2.getId());
-		return "fsInfo/register/step5";
-	}
-	
-	/**
-	* @Title: registerStep6
-	* @author Song Biaowei
-	* @date 2016-9-7 下午5:50:48  
-	* @Description: 第六个页面 
-	* @param @param sfi
-	* @param @param model
-	* @param @return      
-	* @return String
-	 */
-	@RequestMapping("registerStep6.html")
-	public String registerStep6(SupplierFsInfoWithBLOBs sfi, Model model){
-		model.addAttribute("id", sfi.getId());
-		return "fsInfo/register/step6";
-	}
-	
-	/**
-	* @Title: registerStep7
-	* @author Song Biaowei
-	* @date 2016-9-7 下午5:50:58  
-	* @Description:第七个页面 
-	* @param @param sfi
-	* @param @param model
-	* @param @return      
-	* @return String
-	 */
-	@RequestMapping("registerStep7.html")
-	public String registerStep7(SupplierFsInfoWithBLOBs sfi, Model model){
-		SupplierFsInfoWithBLOBs sfiStep2=supplierFsInfoService.findById(sfi.getId());
-		sfiStep2.setOrgmanId(sfi.getSupplierRegList());
-		sfiStep2.setCreatedAt(new Date());
-		sfiStep2.setStatus((short)0);
-		supplierFsInfoService.updateRegisterInfo(sfiStep2);
-		return "fsInfo/register/step7";
+		User user=new User();
+		String psw=Encrypt.md5AndSha(sfi.getLoginName()+sfi.getPassword());
+		user.setPassword(psw);
+		userService.save(user);
+		return "redirect:daiban.html";
 	}
 
+	/**
+	 * @Title: checkLoginName
+	 * @author Song Biaowei
+	 * @date 2016-9-9 上午9:04:40  
+	 * @Description: 验证用户名
+	 * @param @param sfi
+	 * @param @return
+	 * @param @throws Exception      
+	 * @return boolean
+	 */
+	@RequestMapping("checkLoginName")
+	@ResponseBody
+	public boolean checkLoginName(SupplierFsInfoWithBLOBs sfi) throws Exception {
+		List<SupplierFsInfoWithBLOBs> sfiList=supplierFsInfoService.selectByFsInfo(sfi);
+		boolean flag=false;
+		if(sfiList!=null&&sfiList.size()==0){
+			flag =true;
+		}
+		return flag;
+	}
+	
+	/**
+	 * @Title: checkMobile
+	 * @author Song Biaowei
+	 * @date 2016-9-9 上午9:04:53  
+	 * @Description: 验证电话号码 
+	 * @param @param sfi
+	 * @param @return
+	 * @param @throws Exception      
+	 * @return boolean
+	 */
+	@RequestMapping("checkMobile")
+	@ResponseBody
+	public boolean checkMobile(SupplierFsInfoWithBLOBs sfi) throws Exception {
+		List<SupplierFsInfoWithBLOBs> sfiList=supplierFsInfoService.selectByFsInfo(sfi);
+		boolean flag=false;
+		if(sfiList!=null&&sfiList.size()==0){
+			flag =true;
+		}
+		return flag;
+	}
 	
 	/**
 	* @Title: daiban

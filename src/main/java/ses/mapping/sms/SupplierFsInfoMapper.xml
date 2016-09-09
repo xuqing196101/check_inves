@@ -77,6 +77,12 @@
     <if test="supplierName!=null">
     	and SUPPLIER_NAME= #{supplierName,jdbcType=VARCHAR}
     </if>
+     <if test="loginName!=null">
+    	and LOGIN_NAME= #{loginName,jdbcType=VARCHAR}
+    </if>
+    <if test="mobile!=null">
+    	and MOBILE= #{mobile,jdbcType=VARCHAR}
+    </if>
     <if test="supplierTepe!=null">
     	and SUPPLIER_TEPE= #{supplierTepe,jdbcType=VARCHAR}
     </if>

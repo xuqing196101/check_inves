@@ -101,7 +101,8 @@ public class TempletController {
 	 * @return: String
 	 */
 	@RequestMapping("/update")
-	public String update(HttpServletRequest request,String id){
+	public String update(HttpServletRequest request,Templet templet){
+		templetService.update(templet);
 		return "redirect:getAll.do";
 	}
 	
@@ -117,6 +118,9 @@ public class TempletController {
 	@RequestMapping("/delete")
 	public String delete(String ids){
 		String[] id=ids.split(",");
+		for (String str : id) {
+			templetService.delete(str);
+		}
 		return "redirect:getAll.do";
 	}
 	
@@ -130,7 +134,8 @@ public class TempletController {
 	 * @return:
 	 */
 	@RequestMapping("/view")
-	public String view(Model model){
+	public String view(Model model,String id){
+		model.addAttribute("templet",templetService.get(id));
 		return "bms/templet/view";
 	}
 }
