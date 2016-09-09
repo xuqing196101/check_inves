@@ -1,7 +1,6 @@
 package iss.controller.article;
 
 import iss.model.article.ArticleType;
-import iss.model.article.IndexEntity;
 import iss.service.article.ArticleTypeService;
 import iss.service.article.IndexNewsService;
 import iss.service.article.SolrNewsService;
@@ -29,7 +28,6 @@ import ses.model.bms.ArticleAttachments;
 import ses.model.bms.DownloadUser;
 import ses.service.bms.ArticleAttachmentsService;
 import ses.service.bms.ArticleService;
-import ses.util.SolrContext;
 
 
 /*
@@ -70,7 +68,7 @@ public class IndexNewsController {
 	@RequestMapping("/selectIndexNews")
 	public String selectIndexNews(Model model) throws Exception{
 		Map<String, Object> indexMapper = new HashMap<String, Object>();
-		List<ArticleType> articleTypeList = articleTypeService.selectAllArticleType();
+		List<ArticleType> articleTypeList = articleTypeService.selectAllArticleType(null);
 		for(int i=0;i<articleTypeList.size();i++){
 			List<Article> indexNewsList = indexNewsService.selectNewsByArticleTypeId(articleTypeList.get(i).getId());
 			if(indexNewsList!=null){

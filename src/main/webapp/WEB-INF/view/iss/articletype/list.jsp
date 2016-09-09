@@ -17,7 +17,26 @@
 	<meta http-equiv="description" content="This is my page">
 	<script src="<%=basePath%>public/ZHH/js/jquery.min.js" type="text/javascript"></script>
 	  <script src="<%=basePath%>public/layer/layer.js"></script>
+	  <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
   <script type="text/javascript">
+  $(function(){
+	  laypage({
+		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+		    pages: "${list.pages}", //总页数
+		    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+		    skip: true, //是否开启跳页
+		    groups: "${list.pages}">=3?3:"${list.pages}", //连续显示分页数
+		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+		        var page = location.search.match(/page=(\d+)/);
+		        return page ? page[1] : 1;
+		    }(), 
+		    jump: function(e, first){ //触发分页后的回调
+		        if(!first){ //一定要加此判断，否则初始时会无限刷新
+		            location.href = '<%=basePath%>articletype/getAll.do?page='+e.curr;
+		        }
+		    }
+		});
+  });
 	/** 全选全不选 */
 	function selectAll(){
 		 var checklist = document.getElementsByName ("chkItem");
@@ -128,10 +147,10 @@
 			</tr>
 		</thead>
 		
-		<c:forEach items="${list}" var="articletype" varStatus="vs">
+		<c:forEach items="${list.list}" var="articletype" varStatus="vs">
 			<tr>
 				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${articletype.id}" /></td>
-				<td class="tc pointer" onclick="view('${articletype.id}')">${vs.index+1}</td>
+				<td class="tc pointer" onclick="view('${articletype.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 				<td class="tc pointer" onclick="view('${articletype.id}')">${articletype.name}</td>
 				
 				<c:set value="${articletype.describe}" var="describe"></c:set>
@@ -149,24 +168,7 @@
 		</c:forEach>
 	</table>
      </div>
-   
+   <div id="pagediv" align="right"></div>
    </div>
-  <!-- 底部代码 --> 
-<div class="footer-v2" id="footer-v2">
-
-      <div class="footer">
-
-            <!-- Address -->
-              <address class="">
-			  Copyright © 2016 版权所有：中央军委后勤保障部 京ICP备09055519号
-              </address>
-              <div class="">
-		       浏览本网主页，建议将电脑显示屏的分辨率调为1024*768
-              </div> 
-            <!-- End Address -->
-
-<!--/footer--> 
-    </div>
-</div>
 	 </body>
 </html>

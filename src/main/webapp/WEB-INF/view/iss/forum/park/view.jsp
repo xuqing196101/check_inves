@@ -82,15 +82,15 @@
 			 </li>
 			 <li class="col-md-6  p0 ">
 			   <span class="fl">创建时间：</span>				 	
-	  			<div class="">
-		        <fmt:formatDate value='${park.createdAt}' pattern="yyyy年MM月dd日  HH:mm:ss" />
+	  			<div  class="input-append">
+		        <input class="span2"  type="text" value = "<fmt:formatDate value='${park.createdAt}' pattern="yyyy年MM月dd日  HH:mm:ss" />" readonly="readonly">
 		        <%--<span class="add-on">i</span>--%>
 		       </div>
 			 </li>
 			 <li class="col-md-6  p0 ">
 			   <span class="fl">更新时间：</span>				 	
-	  			<div class="">
-		        <fmt:formatDate value='${park.updatedAt}' pattern="yyyy年MM月dd日  HH:mm:ss" />
+	  			<div class="input-append">
+		         <input class="span2"  type="text" value = "<fmt:formatDate value='${park.updatedAt}' pattern="yyyy年MM月dd日  HH:mm:ss" />" readonly="readonly">
 		        <%--<span class="add-on">i</span>--%>
 		       </div>
 			 </li>
@@ -114,22 +114,6 @@
      
      </div>
      </div>
-  <!-- 底部代码 --> 
-<div class="footer-v2" id="footer-v2">
 
-      <div class="footer">
-
-            <!-- Address -->
-              <address class="">
-			  Copyright © 2016 版权所有：中央军委后勤保障部 京ICP备09055519号
-              </address>
-              <div class="">
-		       浏览本网主页，建议将电脑显示屏的分辨率调为1024*768
-              </div> 
-            <!-- End Address -->
-
-<!--/footer--> 
-    </div>
-</div>
   </body>
 </html>

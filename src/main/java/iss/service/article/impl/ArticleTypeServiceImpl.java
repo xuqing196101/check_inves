@@ -9,6 +9,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.util.PropertiesUtil;
+
+import com.github.pagehelper.PageHelper;
+
 
 	
 @Service("articleTypeService")
@@ -26,9 +30,11 @@ public class ArticleTypeServiceImpl implements ArticleTypeService {
 
 
 	@Override
-	public List<ArticleType> selectAllArticleType() {
+	public List<ArticleType> selectAllArticleType(Integer page) {
 		// TODO Auto-generated method stub
-		return articleTypeMapper.selectAllArticleType();
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		return articleTypeMapper.selectAllArticleType(page);
 	}
 
 

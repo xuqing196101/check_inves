@@ -16,6 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.github.pagehelper.PageInfo;
+
 import ses.service.bms.ArticleService;
 
 
@@ -43,9 +45,9 @@ public class ArticleTypeController {
 	 * @return String
 	 */
 	@RequestMapping("/getAll")
-	public String getArticleTypeList(Model model) {
-		List<ArticleType> articletypes = articleTypeService.selectAllArticleType();
-		model.addAttribute("list", articletypes);
+	public String getArticleTypeList(Model model,Integer page) {
+		List<ArticleType> articletypes = articleTypeService.selectAllArticleType(page==null?1:page);
+		model.addAttribute("list", new PageInfo<ArticleType>(articletypes));
 		return "iss/articletype/list";
 	}
 	

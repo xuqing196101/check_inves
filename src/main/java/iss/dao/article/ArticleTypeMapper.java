@@ -33,7 +33,7 @@ public interface ArticleTypeMapper {
     * @param @return      
     * @return List<ArticleType>
      */
-    List<ArticleType> selectAllArticleType();
+    List<ArticleType> selectAllArticleType(Integer page);
       
     /**
      * 
