@@ -5,9 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+
 import ses.dao.bms.ArticleMapper;
 import ses.model.bms.Article;
 import ses.service.bms.ArticleService;
+import ses.util.PropertiesUtil;
 
 
 /**
@@ -34,8 +37,10 @@ public class ArticleServiceImpl implements ArticleService {
 	 * 查询所有信息列表
 	 */
 	@Override
-	public List<Article> selectAllArticle() {
-		return articleMapper.selectAllArticle();
+	public List<Article> selectAllArticle(Article article,Integer pageNum) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
+		return articleMapper.selectAllArticle(article);
 	}
 	
 	/**
@@ -77,7 +82,9 @@ public class ArticleServiceImpl implements ArticleService {
 	 * 根据类型查询
 	 */
 	@Override
-	public List<Article> selectArticleByStatus(Article article) {
+	public List<Article> selectArticleByStatus(Article article,Integer pageNum) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
 		List<Article> list = articleMapper.selectArticleByStatus(article);
 		return list;
 	}

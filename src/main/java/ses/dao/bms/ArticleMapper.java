@@ -77,7 +77,7 @@ public interface ArticleMapper {
     * @param @return      
     * @return List<Article>
      */
-    List<Article> selectAllArticle();
+    List<Article> selectAllArticle(Article record);
     
     /**
     * @Title: update

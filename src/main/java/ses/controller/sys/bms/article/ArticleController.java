@@ -30,6 +30,7 @@ import ses.service.bms.ArticleAttachmentsService;
 import ses.service.bms.ArticleService;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
 
 
 /**
@@ -64,9 +65,9 @@ public class ArticleController {
 	* @return String
 	 */
 	@RequestMapping("/getAll")
-	public String getAll(Model model){
-		List<Article> list = articleService.selectAllArticle();
-		model.addAttribute("list", list);
+	public String getAll(Model model,Integer page){
+		List<Article> list = articleService.selectAllArticle(null, page==null?1:page);
+		model.addAttribute("list", new PageInfo<Article>(list));
 		logger.info(JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss"));
 		return "article/list";
 	}
@@ -228,9 +229,9 @@ public class ArticleController {
 	* @return String
 	 */
 	@RequestMapping("/sublist")
-	public String sublist(Model model,Article article){
-		List<Article> list = articleService.selectArticleByStatus(article);
-		model.addAttribute("list", list);
+	public String sublist(Model model,Article article,Integer page){
+		List<Article> list = articleService.selectArticleByStatus(article,page==null?1:page);
+		model.addAttribute("list", new PageInfo<Article>(list));
 		logger.info(JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss"));
 		return "article/sub/list";
 	}
@@ -245,9 +246,9 @@ public class ArticleController {
 	* @return String
 	 */
 	@RequestMapping("/auditlist")
-	public String auditlist(Model model,Article article){
-		List<Article> list = articleService.selectArticleByStatus(article);
-		model.addAttribute("list", list);
+	public String auditlist(Model model,Article article,Integer page){
+		List<Article> list = articleService.selectArticleByStatus(article,page==null?1:page);
+		model.addAttribute("list", new PageInfo<Article>(list));
 		logger.info(JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss"));
 		return "article/audit/list";
 	}

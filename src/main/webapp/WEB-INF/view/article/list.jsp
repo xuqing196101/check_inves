@@ -11,8 +11,28 @@
     <title>信息发布</title>
     
     <script type="text/javascript" src="<%=request.getContextPath()%>/public/layer/layer.js"></script>
+    <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
     
 <script type="text/javascript">
+	$(function(){
+		  laypage({
+			    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+			    pages: "${list.pages}", //总页数
+			    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+			    skip: true, //是否开启跳页
+			    groups: "${list.pages}">=3?3:"${list.pages}", //连续显示分页数
+			    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+			        var page = location.search.match(/page=(\d+)/);
+			        return page ? page[1] : 1;
+			    }(), 
+			    jump: function(e, first){ //触发分页后的回调
+			        if(!first){ //一定要加此判断，否则初始时会无限刷新
+			            location.href = '<%=basePath%>article/getAll.html?page='+e.curr;
+			        }
+			    }
+			});
+	});
+
     /** 全选全不选 */
 	function selectAll(){
 		 var checklist = document.getElementsByName ("chkItem");
@@ -106,7 +126,7 @@
     }
     
     function audit(){
-    	window.location.href="<%=basePath%>article/auditlist.html?status=1";
+    	window.location.href="<%=basePath%>article/auditlist.html?status=0";
     }
     
 </script>
@@ -115,80 +135,8 @@
   
   
   <body>
-  
- <div class="wrapper">
-  
-  <div class="header-v4 header-v5">
-    <!-- Navbar -->
-    <div class="navbar navbar-default mega-menu" role="navigation">
-      <div class="container">
-        <!-- logo和搜索 -->
-        <div class="navbar-header">
-          <div class="row container">
-            <div class="col-md-4 padding-bottom-30">
-              <a href="">
-                 <img alt="Logo" src="<%=basePath%>public/ZHH/images/logo_2.png" id="logo-header">
-              </a>
-            </div>
-			<!--搜索开始-->
-            <div class="col-md-8 topbar-v1 col-md-12 padding-0">
-              <ul class="top-v1-data padding-0">
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_01.png"/></div>
-				  <span>决策支持</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_02.png"/></div>
-				  <span>业务监管</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_03.png"/></div>
-				  <span>障碍作业</span>
-				 </a>
-				</li>	
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_04.png"/></div>
-				  <span>信息服务</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_05.png"/></div>
-				  <span>支撑环境</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_06.png"/></div>
-				  <span>配置配置</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_07.png"/></div>
-				  <span>后台首页</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_08.png"/></div>
-				  <span>安全退出</span>
-				 </a>
-				</li>
-				
-			  </ul>
-			</div>
-    </div>
-	</div>
-	</div>
-   </div>
-</div>
+
+
 
 	<!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
@@ -199,7 +147,8 @@
 	  </div>
    </div>
   
-	<div class="container margin-top-5 fr">
+	<div class="container margin-top-5">
+	<div class="content padding-left-25 padding-right-25 padding-top-5">
 	   <input type="hidden" id="depid" name="depid">
 	  	<div class="content padding-left-25 padding-right-25 padding-top-5">
 	  		<h4>信息列表</h4>
@@ -220,61 +169,54 @@
 	  				<th class="info">录入时间</th>
 	  				<th class="info">信息类型</th>
 	  				<th class="info">是否发布</th>
+	  				<th class="info">上传量</th>
 	  				<th class="info">下载量</th>
 	  			</tr>
 	  		</thead>
-	  		<c:forEach items="${list}" var="list" varStatus="vs">
+	  		<c:forEach items="${list.list}" var="article" varStatus="vs">
 		  		<tr>
-		  			<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${list.id }" /></td>
-		  			<td class="tc" onclick="view('${list.id }')">${vs.index + 1 }</td>
-		  			<td class="tc" onclick="view('${list.id }')">${list.name }</td>
-		  			<td class="tc" onclick="view('${list.id }')">
-		  				<c:if test="${list.range=='0' }">
+		  			<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${article.id }" /></td>
+		  			<td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+		  			<td class="tc" onclick="view('${article.id }')">${article.name }</td>
+		  			<td class="tc" onclick="view('${article.id }')">
+		  				<c:if test="${article.range=='0' }">
 		  					内网
 		  				</c:if>
-		  				<c:if test="${list.range=='1' }">
+		  				<c:if test="${article.range=='1' }">
 		  					外网
 		  				</c:if>
-		  				<c:if test="${list.range=='2' }">
+		  				<c:if test="${article.range=='2' }">
 		  					内网/外网
 		  				</c:if>
 		  			</td>
-		  			<td class="tc" onclick="view('${list.id }')">
-		  				<fmt:formatDate value='${list.createdAt }' pattern="yyyy年MM月dd日   HH:mm:ss" />
+		  			<td class="tc" onclick="view('${article.id }')">
+		  				<fmt:formatDate value='${article.createdAt }' pattern="yyyy年MM月dd日   HH:mm:ss" />
 		  			</td>
-		  			<td class="tc" onclick="view('${list.id }')">${list.articleType.name }</td>
+		  			<td class="tc" onclick="view('${article.id }')">${article.articleType.name }</td>
 		  			<td class="tc">
-		  				<c:if test="${list.status=='0' }">
-		  					<input type="hidden" name="status" value="${list.status }">暂存
+		  				<c:if test="${article.status=='0' }">
+		  					<input type="hidden" name="status" value="${article.status }">暂存
 		  				</c:if>
-		  				<c:if test="${list.status=='1' }">
-		  					<input type="hidden" name="status" value="${list.status }">已提交
+		  				<c:if test="${article.status=='1' }">
+		  					<input type="hidden" name="status" value="${article.status }">已提交
 		  				</c:if>
-		  				<c:if test="${list.status=='2' }">
-		  					<input type="hidden" name="status" value="${list.status }">发布
+		  				<c:if test="${article.status=='2' }">
+		  					<input type="hidden" name="status" value="${article.status }">发布
 		  				</c:if>
-		  				<c:if test="${list.status=='3' }">
-		  					<input type="hidden" name="status" value="${list.status }">审核未通过
+		  				<c:if test="${article.status=='3' }">
+		  					<input type="hidden" name="status" value="${article.status }">审核未通过
 		  				</c:if>
 		  			</td>
-		  			<td class="tc"><a href="">${list.downloadCount }</a></td>
+		  			<td class="tc"><a href="">${article.showCount }</a></td>
+		  			<td class="tc"><a href="">${article.downloadCount }</a></td>
 		  		</tr>
 	  		</c:forEach>
 		  </table>
 	  	</div>  
+	  	<div id="pagediv" align="right"></div>
+  </div>
   </div>
   
- 	 <!--底部代码开始-->
-	<div class="footer-v2 clear" id="footer-v2">
-      <div class="footer">
-            <!-- Address -->
-              <address class="">
-			  Copyright © 2016 版权所有：中央军委后勤保障部 京ICP备09055519号
-              </address>
-              <div class="">
-		       浏览本网主页，建议将电脑显示屏的分辨率调为1024*768
-              </div> 
-    </div>
   
   </body>
 </html>

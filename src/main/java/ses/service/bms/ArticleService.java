@@ -33,7 +33,7 @@ public interface ArticleService {
 	* @param @return      
 	* @return List<Article>
 	 */
-	List<Article> selectAllArticle();
+	List<Article> selectAllArticle(Article article,Integer pageNum);
 	
 	/**
 	 * 
@@ -99,5 +99,5 @@ public interface ArticleService {
 	* @param @return      
 	* @return List<Article>
 	 */
-	List<Article> selectArticleByStatus(Article article); 
+	List<Article> selectArticleByStatus(Article article,Integer pageNum); 
 }
