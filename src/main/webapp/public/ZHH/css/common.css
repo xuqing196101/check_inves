@@ -701,3 +701,6 @@ th.bg_tc {
 .toinline{
   display:inline-block !important;
 }
+.hand{
+ 	cursor: pointer;
+ }

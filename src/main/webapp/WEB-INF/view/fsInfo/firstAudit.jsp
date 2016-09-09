@@ -76,8 +76,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/WdatePicker.js"></script><link href="<%=basePath%>public/ZHH/css/WdatePicker(1).css" rel="stylesheet" type="text/css">
 <script src="<%=basePath%>public/ZHH/js/jquery.form.min.js"></script>
-
-
+<link href="<%=basePath%>public/layer/skin/layer.css" media="screen" rel="stylesheet" type="text/css">
+<link href="<%=basePath%>public/layer/skin/layer.ext.css" media="screen" rel="stylesheet" type="text/css">
+<script src="<%=basePath%>public/layer/layer.js"></script>
+<script src="<%=basePath%>public/layer/extend/layer.ext.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.validate.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.maskedinput.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery-ui.min.js"></script>
@@ -108,9 +110,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/masterslider.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.easing.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/james.js"></script>
-<style type="text/css">
-
-</style>
+<script type="text/javascript">
+	function reason(){
+	}
+</script>
 </head>
   
 <body>
@@ -194,6 +197,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
    </div>
 </div>
+</div>
 
 
 		<!-- 项目戳开始 -->
@@ -218,6 +222,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 企业名称：</span>
 											<div class="input-append">
 												<input class="span3" id="supplierName" name="supplierName" value="${sfi.supplierName }" type="text">
+												<div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 企业类别：</span>
