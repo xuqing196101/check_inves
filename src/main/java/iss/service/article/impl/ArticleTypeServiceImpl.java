@@ -31,7 +31,6 @@ public class ArticleTypeServiceImpl implements ArticleTypeService {
 
 	@Override
 	public List<ArticleType> selectAllArticleType(Integer page) {
-		// TODO Auto-generated method stub
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 		return articleTypeMapper.selectAllArticleType(page);

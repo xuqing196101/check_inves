@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ include file="../../common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -109,19 +110,16 @@ function back(){
 	   <div class="col-md-12 pl200 fn mt5 pwr9">
          <script id="editor"  type="text/plain" class="ml125 mt20 w900"></script>
        </div>
-	 </li>  
+	 </li> 
+	 <li class="col-md-12 p0">
+	 <span class="f14 fl">已上传的附件：</span>
+	 <div class="fl mt5">
+  	   <c:forEach items="${article.articleAttachments}" var="a">
+  	   	<a href="#">${fn:split(a.fileName, '_')[1]}</a>,
+  	   </c:forEach>
+	 </div>
+	 </li> 
   	 </ul> 
-  	 <div class="headline-v2 clear">
-	   <h2>上传附件</h2>
-	  </div>
-	  
-       <div class="padding-left-40 padding-right-20 clear">
-		   <ul class="list-unstyled  bg8 padding-20">
-		    <li>1 . 仅支持jpg、jpeg、png、pdf等格式的文件;</li>
-			<li>2 . 单个文件大小不能超过1M;</li>
-			<li>3 . 上传文件的数量不超过10个;</li>
-		   </ul>
-	  </div>
 	  
 	  <div class="headline-v2 clear">
 	   <h2>审核</h2>

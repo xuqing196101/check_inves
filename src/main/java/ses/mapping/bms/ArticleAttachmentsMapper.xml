@@ -30,7 +30,7 @@
   	select
   	<include refid="ArticleAttach_Column_List" />
   	from T_SES_BMS_ARTICLE_ATTACHMENT
-  	where ARTICLE_ID = #{article.id}
+  	where ARTICLE_ID = #{article.id} and IS_DELETED = 0
   </select>
   
   <!-- 根据id删除 -->
@@ -38,6 +38,12 @@
     delete from T_SES_BMS_ARTICLE_ATTACHMENT
     where ID = #{id}
   </delete>
+  
+  <!-- 假删除 -->
+  <update id="softDeleteAtta" parameterType="Object">
+  	update T_SES_BMS_ARTICLE_ATTACHMENT
+  	set IS_DELETED = 1 where ID = #{id}
+  </update>
   
   <!-- 新增信息附件 -->
   <insert id="insert" parameterType="ses.model.bms.ArticleAttachments">

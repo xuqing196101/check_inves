@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ include file="../common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -15,7 +16,6 @@
 	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/lang/zh-cn/zh-cn.js"></script>
     
 <script type="text/javascript">
-
 function cheClick(id,name){
 	$("#articleTypeId").val(id);
 	$("#articleTypeName").val(name);
@@ -29,6 +29,26 @@ $(function(){
 		$("input[name='range'][value="+range+"]").attr("checked",true); 
 	}
 });
+
+function addAttach(){
+	html="<input id='pic' type='file' class='toinline' name='attaattach'/><a href='#' onclick='deleteattach(this)' class='toinline red redhover'>x</a><br/>";
+	$("#uploadAttach").append(html);
+}
+
+function deleteattach(obj){
+	$(obj).prev().remove();
+	$(obj).next().remove();
+	$(obj).remove();
+}
+
+var ids="";
+function deleteAtta(id,obj){
+	ids+=id+",";
+	$("#ids").val(ids);
+	alert(ids);
+	$(obj).prev().remove();
+	$(obj).remove();
+}
 
 </script>    
   </head>
@@ -46,7 +66,8 @@ $(function(){
    </div>
    
    <div class="container">
-    <form action="<%=basePath %>article/update.html" method="post">
+    <form id="newsForm" action="<%=basePath %>article/update.html" enctype="multipart/form-data" method="post">
+    <input type="hidden" id="ids" name="ids"/>
      <div class="headline-v2">
 	   <h2>修改信息</h2>
 	 </div>
@@ -78,9 +99,9 @@ $(function(){
           </button>
           <ul class="dropdown-menu list-unstyled">
           	<c:forEach items="${list}" var="list" varStatus="vs">
-		          		<li class="select_opt">
-		          			<input type="radio" name="chkItem" value="${list.id }" onclick="cheClick(${list.id },'${list.name }');" class="select_input">${list.name }
-		          		</li>
+          		<li class="select_opt">
+          			<input type="radio" name="chkItem" value="${list.id }" onclick="cheClick(${list.id },'${list.name }');" class="select_input">${list.name }
+          		</li>
 		    </c:forEach>
           </ul>
        </div>
@@ -92,18 +113,22 @@ $(function(){
          <script id="editor" name="content" type="text/plain" class="ml125 mt20 w900"></script>
        </div>
 	 </li>  
+	 <li class="col-md-12 p0">
+	 <span class="f14 fl">已上传的附件：</span>
+	 <div class="fl mt5">
+  	   <c:forEach items="${article.articleAttachments}" var="a">
+  	   	<a href="#">${fn:split(a.fileName, '_')[1]}</a><a href="#" onclick="deleteAtta('${a.id}',this)" class="red redhover ml10">x</a>
+  	   </c:forEach>
+	 </div>
+	 </li>
+	 <li class="col-md-12 p0">
+	    <span class="f14 fl">上传附件：</span>
+	    <div class="fl" id="uploadAttach" >
+	      <input id="pic" type="file" class="toinline" name="attaattach"/>
+	      <input class="toinline" type="button" value="添加" onclick="addAttach()"/><br/>
+	    </div>
+	 </li>
   	 </ul> 
-  	 <div class="headline-v2 clear">
-	   <h2>上传附件</h2>
-	  </div>
-	  
-       <div class="padding-left-40 padding-right-20 clear">
-		   <ul class="list-unstyled  bg8 padding-20">
-		    <li>1 . 仅支持jpg、jpeg、png、pdf等格式的文件;</li>
-			<li>2 . 单个文件大小不能超过1M;</li>
-			<li>3 . 上传文件的数量不超过10个;</li>
-		   </ul>
-	  </div>
 	         
 	 <div  class="col-md-12">
 	   <div class="mt40 tc mb50">

@@ -28,6 +28,7 @@ import ses.model.bms.ArticleAttachments;
 import ses.model.bms.DownloadUser;
 import ses.service.bms.ArticleAttachmentsService;
 import ses.service.bms.ArticleService;
+import ses.service.bms.DownloadUserService;
 
 
 /*
@@ -55,6 +56,9 @@ public class IndexNewsController {
 	
 	@Autowired
 	private ArticleAttachmentsService articleAttachmentsService;
+	
+	@Autowired
+	private DownloadUserService downloadUserService;
 	
 	/**
 	 * 
@@ -120,6 +124,9 @@ public class IndexNewsController {
 	@RequestMapping("/selectArticleNewsById")
 	public String selectArticleNewsById(Article article,Model model) throws Exception{
 		Article articleDetail = articleService.selectArticleById(article.getId());
+		Integer showCount = articleDetail.getShowCount();
+		articleDetail.setShowCount(showCount+1);
+		articleService.update(articleDetail);
 		List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(articleDetail.getId());
 		articleDetail.setArticleAttachments(articleAttaList);
 		model.addAttribute("articleDetail", articleDetail);
@@ -173,10 +180,14 @@ public class IndexNewsController {
 		out.flush();
 		DownloadUser downloadUser = new DownloadUser();
 		downloadUser.setCreatedAt(new Date());
-		downloadUser.setArticleId(articleAttachments.getArticle().getId());
+		downloadUser.setArticleId(articleAtta.getArticle().getId());
 		downloadUser.setIsDeleted(0);
 		downloadUser.setUpdatedAt(new Date());
 		downloadUser.setUserId("1231231");
+		downloadUserService.addDownloadUser(downloadUser);
+		Article article = articleService.selectArticleById(articleAtta.getArticle().getId());
+		article.setDownloadCount(article.getDownloadCount()+1);
+		articleService.update(article);
 		if(out !=  null){
 			out.close();
 		}

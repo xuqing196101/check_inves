@@ -113,37 +113,55 @@ public class ArticleController {
 		article.setUpdatedAt(new Date());
 		article.setIsDeleted(0);
 		article.setStatus(0);
+		article.setProjectId("123131231");//死数据
 		articleService.addArticle(article);
+		uploadFile(article,request,attaattach);
+		return "redirect:getAll.html";
+	}
+	
+	/**
+	 * 
+	* @Title: uploadFile
+	* @author QuJie 
+	* @date 2016-9-9 下午1:36:34  
+	* @Description: 上传的公共方法 
+	* @param @param article
+	* @param @param request
+	* @param @param attaattach      
+	* @return void
+	 */
+	public void uploadFile(Article article,HttpServletRequest request,MultipartFile[] attaattach){
 		if(attaattach!=null){
 			for(int i=0;i<attaattach.length;i++){
-		        String rootpath = (request.getSession().getServletContext().getRealPath("/")+"upload/").replace("\\", "/");
-		        /** 创建文件夹 */
-				File rootfile = new File(rootpath);
-				if (!rootfile.exists()) {
-					rootfile.mkdirs();
+				if(attaattach[i].getOriginalFilename()!=null && attaattach[i].getOriginalFilename()!=""){
+			        String rootpath = (request.getSession().getServletContext().getRealPath("/")+"upload/").replace("\\", "/");
+			        /** 创建文件夹 */
+					File rootfile = new File(rootpath);
+					if (!rootfile.exists()) {
+						rootfile.mkdirs();
+					}
+			        String fileName = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase() + "_" + attaattach[i].getOriginalFilename();
+			        String filePath = rootpath+fileName;
+			        File file = new File(filePath);
+			        try {
+						attaattach[i].transferTo(file);
+					} catch (IllegalStateException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					ArticleAttachments attachment=new ArticleAttachments();
+					attachment.setArticle(new Article(article.getId()));
+					attachment.setFileName(fileName);
+					attachment.setCreatedAt(new Date());
+					attachment.setUpdatedAt(new Date());
+					attachment.setContentType(attaattach[i].getContentType());
+					attachment.setFileSize((float)attaattach[i].getSize());
+					attachment.setAttachmentPath(filePath);
+					articleAttachmentsService.insert(attachment);
 				}
-		        String fileName = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase() + "_" + attaattach[i].getOriginalFilename();
-		        String filePath = rootpath+fileName;
-		        File file = new File(filePath);
-		        try {
-					attaattach[i].transferTo(file);
-				} catch (IllegalStateException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				ArticleAttachments attachment=new ArticleAttachments();
-				attachment.setArticle(new Article(article.getId()));
-				attachment.setFileName(fileName);
-				attachment.setCreatedAt(new Date());
-				attachment.setUpdatedAt(new Date());
-				attachment.setContentType(attaattach[i].getContentType());
-				attachment.setFileSize((float)attaattach[i].getSize());
-				attachment.setAttachmentPath(filePath);
-				articleAttachmentsService.insert(attachment);
 			}
 		}
-		return "redirect:getAll.html";
 	}
 	
 	/**
@@ -157,6 +175,8 @@ public class ArticleController {
 	@RequestMapping("/edit")
 	public String edit(Model model,String id){
 		Article article = articleService.selectArticleById(id);
+		List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(article.getId());
+		article.setArticleAttachments(articleAttaList);
 		model.addAttribute("article",article);
 		return "article/edit";
 	}
@@ -170,7 +190,16 @@ public class ArticleController {
 	* @return String
 	 */
 	@RequestMapping("/update")
-	public String update(HttpServletRequest request, Article article){
+	public String update(@RequestParam("attaattach") MultipartFile[] attaattach,
+            HttpServletRequest request, HttpServletResponse response,Article article){
+		String ids = request.getParameter("ids");
+		if(ids!=null && ids!=""){
+			String[] attaids = ids.split(",");
+			for(String id : attaids){
+				articleAttachmentsService.softDeleteAtta(id);
+			}
+		}
+		uploadFile(article, request, attaattach);
 		String[] ranges = request.getParameterValues("range");
 		if(ranges.length>1){
 			article.setRange(2);
@@ -179,6 +208,7 @@ public class ArticleController {
 				article.setRange(Integer.valueOf(ranges[i]));
 			}
 		}
+		article.setProjectId("123131231");//死数据
 		article.setUpdatedAt(new Date());
 		articleService.update(article);
 		return "redirect:getAll.html";
@@ -215,6 +245,8 @@ public class ArticleController {
 	@RequestMapping("/view")
 	public String view(Model model,String id){
 		Article article = articleService.selectArticleById(id);
+		List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(article.getId());
+		article.setArticleAttachments(articleAttaList);
 		model.addAttribute("article",article);
 		return "article/look";
 	}
@@ -291,6 +323,8 @@ public class ArticleController {
 	@RequestMapping("/auditInfo")
 	public  String auditInfo(Model model,String id){
 		Article article = articleService.selectArticleById(id);
+		List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(article.getId());
+		article.setArticleAttachments(articleAttaList);
 		model.addAttribute("article",article);
 		return "article/audit/audit";
 	}

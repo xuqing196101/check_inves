@@ -94,4 +94,15 @@ public interface ArticleAttachmentsMapper {
     * @return List<ArticleAttachments>
      */
     List<ArticleAttachments> selectAllArticleAttachments(String id);
+    
+    /**
+     * 
+    * @Title: softDeleteAtta
+    * @author QuJie 
+    * @date 2016-9-9 下午1:22:11  
+    * @Description: 假删除附件 
+    * @param @param id      
+    * @return void
+     */
+    void softDeleteAtta(String id);
 }

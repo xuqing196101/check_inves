@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ include file="../common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -98,33 +99,15 @@ function sub(){
          <script id="editor"  type="text/plain" class="ml125 mt20 w900"></script>
        </div>
 	 </li>  
-  	 </ul> 
-  	 <div class="headline-v2 clear">
-	   <h2>附件信息</h2>
-	  </div>
-	  
-       <div class="padding-left-40 padding-right-20 clear">
-       	<table class="table table-bordered table-condensed">
-		  	<thead>
-	  			<tr>
-	  				<th class="info">编号</th>
-	  				<th class="info">名称</th>
-	  				<th class="info">大小</th>
-	  				<th class="info">类型</th>
-	  			</tr>
-	  		</thead>
-       		<c:forEach items="${article.articleAttachments}" var="listFile" varStatus="vs">
-       			<tr>
-       				<td>${listFile.fileId }</td>
-       				<td>${listFile.fileName }</td>
-       				<td>${listFile.fileSize }</td>
-       				<td>${listFile.contentType }</td>
-       			</tr>
-       		</c:forEach>
-       	</table>
-	  </div>
-	  
-	  
+	 <li class="col-md-12 p0">
+	 <span class="f14 fl">已上传的附件：</span>
+	 <div class="fl mt5">
+  	   <c:forEach items="${article.articleAttachments}" var="a">
+  	   	<a href="#">${fn:split(a.fileName, '_')[1]}</a>,
+  	   </c:forEach>
+	 </div>
+	 </li>
+  	 </ul>
 	  
 	  <c:if test="${article.status==2 }">
 		 <div class="headline-v2 clear">

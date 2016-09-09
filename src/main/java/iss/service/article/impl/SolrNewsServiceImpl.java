@@ -171,7 +171,7 @@ public class SolrNewsServiceImpl implements SolrNewsService {
 	 */
 	@Override
 	public void initIndex() {
-		List<Article> nList = articleService.selectAllArticle();
+		List<Article> nList = articleService.selectAllArticleToSolr();
 		if(nList.size()>0){
 			for(Article n:nList){
 				addIndex(n);

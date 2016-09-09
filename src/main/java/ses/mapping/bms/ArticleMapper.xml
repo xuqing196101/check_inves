@@ -51,6 +51,14 @@
     where ID = #{id}
   </select>
   
+  <select id="selectAllArticleToSolr" resultMap="ArticleBlob">
+  	select 
+    <include refid="Article_Column_List" />
+    ,
+    <include refid="Article_BlOB_Column_List" />
+    from T_SES_BMS_ARTICLE
+  </select>
+  
   <!-- 查询全部 -->
   <select id="selectAllArticle" resultMap="ArticleWithAttach">
   	select

@@ -22,7 +22,7 @@
 	}
 	
 	function addAttach(){
-		html="<input id='pic' type='file' class='toinline' name='attaattach'/><a href='#' onclick='deleteattach(this)' class='toinline'>x</a><br/>";
+		html="<input id='pic' type='file' class='toinline' name='attaattach'/><a href='#' onclick='deleteattach(this)' class='toinline red redhover'>x</a><br/>";
 		$("#uploadAttach").append(html);
 	}
 	
@@ -93,13 +93,14 @@
 	   <script id="editor" name="content" type="text/plain" class="ml125 mt20 w900"></script>
        </div>
 	 </li> 
+	 <li class="col-md-12 p0">
+	    <span class="f14 fl">上传附件：</span>
+	    <div class="fl" id="uploadAttach" >
+	      <input id="pic" type="file" class="toinline" name="attaattach"/>
+	      <input class="toinline" type="button" value="添加" onclick="addAttach()"/><br/>
+	    </div>
+	 </li>
   	 </ul> 
-  	 
-  	 <div id="uploadAttach" class="clear ml160">
-	   <div class="f14">上传附件</div>
-	   <input id="pic" type="file" class="toinline" name="attaattach"/>
-	   <input class="toinline" type="button" value="添加" onclick="addAttach()"/><br/>
-	 </div>
 	         
 	 <div  class="col-md-12">
 	   <div class="mt40 tc mb50">
@@ -107,10 +108,8 @@
 	    <input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 	</div>
   </div>
-	         
-     </form>
-     
-    </div>
+</form>
+  </div>
     
 <script type="text/javascript">
     //实例化编辑器

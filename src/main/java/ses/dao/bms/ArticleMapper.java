@@ -5,19 +5,11 @@ import java.util.List;
 import ses.model.bms.Article;
 
 
-/**
-<<<<<<< Updated upstream
+/*
 * @Title:ArticleMapper
 * @Description: 信息发布接口
 * @author Shen Zhenfei
 * @date 2016-9-7下午6:00:09
-=======
- * 
- *<p>Title:ArticlesMapper</p>
- *<p>Description:信息Mapper接口</p>
- *@author Mrlovablee
- *@date 2016-8-25下午3:38:04
->>>>>>> Stashed changes
  */
 public interface ArticleMapper {
 	/**
@@ -132,5 +124,16 @@ public interface ArticleMapper {
     * @return List<Article>
      */
     List<Article> selectArticleByStatus(Article article); 
+    
+    /**
+	 * 
+	* @Title: selectAllArticleToSolr
+	* @author QuJie 
+	* @date 2016-9-9 下午3:58:23  
+	* @Description: 为solr查询所有信息 
+	* @param @return      
+	* @return List<Article>
+	 */
+	List<Article> selectAllArticleToSolr();
     
 }

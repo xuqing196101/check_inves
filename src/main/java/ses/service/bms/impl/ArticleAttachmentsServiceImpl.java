@@ -14,10 +14,6 @@ import ses.service.bms.ArticleAttachmentsService;
 /*
  *@Title:ArticleAttachmentsServiceImpl
  *@Description:信息附件service层实现类
-<<<<<<< Updated upstream:src/main/java/ses/service/bms/impl/ArticleAttachmentsServiceImpl.java
- *<p>Company:ses</p>
-=======
->>>>>>> Stashed changes:src/main/java/yggc/service/bms/impl/ArticleAttachmentsServiceImpl.java
  *@author QuJie
  *@date 2016-9-7上午10:10:58
  */
@@ -50,4 +46,14 @@ public class ArticleAttachmentsServiceImpl implements ArticleAttachmentsService 
 	public ArticleAttachments selectArticleAttaById(String id) {
 		return articleAttachmentsMapper.selectByPrimaryKey(id);
 	}
+	
+	/**
+	 * 假删除
+	 */
+	@Override
+	public void softDeleteAtta(String id) {
+		articleAttachmentsMapper.softDeleteAtta(id);
+	}
+	
+	
 }

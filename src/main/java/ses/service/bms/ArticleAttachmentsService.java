@@ -46,4 +46,15 @@ public interface ArticleAttachmentsService {
 	* @return ArticleAttachments
 	 */
 	ArticleAttachments selectArticleAttaById(String id);
+	
+	/**
+	 * 
+	* @Title: softDeleteAtta
+	* @author QuJie 
+	* @date 2016-9-9 下午1:25:34  
+	* @Description: 假删除 
+	* @param @param id      
+	* @return void
+	 */
+	void softDeleteAtta(String id);
 }

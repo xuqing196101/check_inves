@@ -88,4 +88,12 @@ public class ArticleServiceImpl implements ArticleService {
 		List<Article> list = articleMapper.selectArticleByStatus(article);
 		return list;
 	}
+	
+	/**
+	 * 为solr查询所有信息
+	 */
+	@Override
+	public List<Article> selectAllArticleToSolr() {
+		return articleMapper.selectAllArticleToSolr();
+	}
 }

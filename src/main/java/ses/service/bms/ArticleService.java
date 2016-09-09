@@ -100,4 +100,15 @@ public interface ArticleService {
 	* @return List<Article>
 	 */
 	List<Article> selectArticleByStatus(Article article,Integer pageNum); 
+	
+	/**
+	 * 
+	* @Title: selectAllArticleToSolr
+	* @author QuJie 
+	* @date 2016-9-9 下午3:58:23  
+	* @Description: 为solr查询所有信息 
+	* @param @return      
+	* @return List<Article>
+	 */
+	List<Article> selectAllArticleToSolr();
 }
