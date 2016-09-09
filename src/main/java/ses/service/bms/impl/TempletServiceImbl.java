@@ -53,6 +53,7 @@ public class TempletServiceImbl implements TempletService{
 	 */
 	@Override
 	public void update(Templet t) {
+		t.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
 		templetMapper.updateByPrimaryKeySelective(t);
 	}
 
@@ -69,7 +70,13 @@ public class TempletServiceImbl implements TempletService{
 	 */
 	@Override
 	public void delete(String id) {
-		templetMapper.deleteByPrimaryKey(id);
+		Templet t = new Templet();
+		t.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
+		t.setId(id);
+		t.setIsDeleted(1);
+		templetMapper.updateByPrimaryKeySelective(t);
+		
+		/*templetMapper.deleteByPrimaryKey(id);*/
 	}
 
 	/**

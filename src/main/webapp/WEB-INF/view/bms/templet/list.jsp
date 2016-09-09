@@ -149,18 +149,18 @@
 		</thead>
 		<c:forEach items="${list}" var="templet" varStatus="vs">
 			<tr>
-				<!-- 选择框 -->
+				
 				<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${templet.id}" /></td>
-				<!-- 序号 -->
-				<td class="tc">${vs.index+1}</td>
-				<!-- 模板类型 -->
-				<td class="tc" onclick="view(${templet.id})">${templet.temType}</td>
-				<!-- 模板名称 -->
-				<td class="tc">${templet.name}</td>
-				<!-- 创建时间 -->
-				<td class="tc"><fmt:formatDate value='${templet.createdAt}' pattern="yyyy年MM月dd日   HH:mm:ss " /></td>
-				<!-- 修改时间 -->
-				<td class="tc"><fmt:formatDate value='${templet.updatedAt}' pattern="yyyy年MM月dd日   HH:mm:ss " /></td>
+				
+				<td class="tc" onclick="view('${templet.id}')">${vs.index+1}</td>
+				
+				<td class="tc" onclick="view('${templet.id}')">${templet.temType}</td>
+				
+				<td class="tc" onclick="view('${templet.id}')">${templet.name}</td>
+			
+				<td class="tc" onclick="view('${templet.id}')"><fmt:formatDate value='${templet.createdAt}' pattern="yyyy年MM月dd日   HH:mm:ss " /></td>
+			
+				<td class="tc" onclick="view('${templet.id}')"><fmt:formatDate value='${templet.updatedAt}' pattern="yyyy年MM月dd日   HH:mm:ss " /></td>
 			</tr>
 		</c:forEach>
         </table>
