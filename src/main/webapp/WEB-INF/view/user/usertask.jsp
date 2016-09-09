@@ -9,68 +9,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+	<meta http-equiv="description" content="This is my page">
+	
 	<title>Coloring events</title>
 	<script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
 	<script src="<%=basePath%>public/codebase/dhtmlxscheduler.js" type="text/javascript" charset="utf-8"></script>
-	<script src="<%=basePath%>public/prototype1.7.2/moment.min.js"></script>
 	<link rel="stylesheet" href="<%=basePath%>public/codebase/dhtmlxscheduler.css" type="text/css" media="screen" title="no title" charset="utf-8">
-	
+	<link href="<%=basePath%>public/usertask/css/usertask.css" media="screen" rel="stylesheet">
+	<link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet">
+<link href="<%=basePath%>public/ZHH/css/blocks.css" media="screen" rel="stylesheet">
+<link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
+<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
+<link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet">
+
 	<style type="text/css" media="screen">
-		html, body{
-			margin:0;
-			padding:0;
-			height:100%;
-			overflow:hidden;
-		}
-
-		.dhx_cal_event div.dhx_footer,
-		.dhx_cal_event.past_event div.dhx_footer,
-		.dhx_cal_event.event_2 div.dhx_footer,
-		.dhx_cal_event.event_1 div.dhx_footer,
-		.dhx_cal_event.event_3 div.dhx_footer{
-			background-color: transparent !important;
-		}
-		.dhx_cal_event .dhx_body{
-			-webkit-transition: opacity 0.1s;
-			transition: opacity 0.1s;
-			opacity: 0.7;
-		}
-		.dhx_cal_event .dhx_title{
-			line-height: 12px;
-		}
-		.dhx_cal_event_line:hover,
-		.dhx_cal_event:hover .dhx_body,
-		.dhx_cal_event.selected .dhx_body,
-		.dhx_cal_event.dhx_cal_select_menu .dhx_body{
-			opacity: 1;
-		}
-
-		.dhx_cal_event.event_1 div, .dhx_cal_event_line.event_1{
-			background-color: red !important;
-			border-color: #a36800 !important;
-		}
-		.dhx_cal_event_clear.event_1{
-			color:red !important;
-		}
-
-		.dhx_cal_event.event_3 div, .dhx_cal_event_line.event_3{
-			background-color: #36BD14 !important;
-			border-color: #698490 !important;
-		}
-		.dhx_cal_event_clear.event_3{
-			color:#36BD14 !important;
-		}
-
-		.dhx_cal_event.event_2 div, .dhx_cal_event_line.event_2{
-			background-color: orange !important;
-			border-color: #839595 !important;
-		}
-		.dhx_cal_event_clear.event_2{
-			color:orange !important;
-		}
-		option{
-		min-height:2.2em;
-		}
+	
 	</style>
 
 	<script type="text/javascript" charset="utf-8">
@@ -184,16 +141,15 @@ scheduler.attachEvent("onEventChanged", function(event_id, event_object){
     var start_date = event_object.start_date;
     var end_date = event_object.end_date;
     var sub = event_object.subject;
- 	var s= dataTstring(start_date);
-	var e= dataTstring(end_date);
+ 
     $("#uid").val(id);
     $("#ucontent").val(text);
-    $("#ustartDate").val(s);
-    $("#uendDate").val(e);
+    $("#ustartDate").val(start_date);
+    $("#uendDate").val(end_date);
     $("#ulevel").val(sub);
     
     $.ajax({
-    	url:"<%=basePath%>usertask/update.do",
+    	url:"<%=basePath%>usertask/update.html",
     	type:"post",
     	data:$("#usertask_form").serialize(),
     	success:function(data){
@@ -216,15 +172,14 @@ scheduler.attachEvent("onEventAdded", function(event_id, event_object){
     var start_date = event_object.start_date;
     var end_date = event_object.end_date;
     var sub = event_object.subject;
-   	var s= dataTstring(start_date);
-	var e= dataTstring(end_date);
+ 
     $("#uid").val(id);
     $("#ucontent").val(text);
-    $("#ustartDate").val(s);
-    $("#uendDate").val(e);
+    $("#ustartDate").val(start_date);
+    $("#uendDate").val(end_date);
     $("#ulevel").val(sub);
     $.ajax({
-    	url:"<%=basePath%>usertask/add.do",
+    	url:"<%=basePath%>usertask/add.html",
     	type:"post",
     	data:$("#usertask_form").serialize(),
     	success:function(data){
@@ -247,7 +202,7 @@ scheduler.attachEvent("onBeforeEventDelete", function(event_id, event_object){
     var end_date = event_object.end_date;
     var details = event_object.subject;
     $.ajax({
-    	url:"<%=basePath%>usertask/delet.do",
+    	url:"<%=basePath%>usertask/delet.html",
     	type:"post",
     	data:{
     		"id":id
@@ -276,8 +231,18 @@ function dataTstring(date){
 
 	</script>
 </head>
-<body onload="init();">
-	<div id="scheduler_here" class="dhx_cal_container" style='width:800px; height:500px;'>
+<body >
+<div class="margin-top-10 breadcrumbs ">
+      <div class="container">
+		   <ul class="breadcrumb margin-left-0">
+		   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">后台管理</a></li><li class="active"><a href="#">用户任务管理</a></li>
+		   </ul>
+		<div class="clear"></div>
+	  </div>
+   </div>
+   
+   
+	<div id="scheduler_here" class="dhx_cal_container date"  >
 		<div class="dhx_cal_navline">
 		<!-- 	<div class="dhx_cal_prev_button">&nbsp;</div>
 			<div class="dhx_cal_next_button">&nbsp;</div> -->
@@ -289,10 +254,13 @@ function dataTstring(date){
 		<div class="dhx_cal_data">
 		</div>		
 	</div>
-	<span style="margin-left: 100px;margin-top: 10px;"></span>
-	紧急: <input type="text" style="width:100px;height:18px;background-color:red;border:1px solid #ccc;margin-top: 10px;"/> 
-	重要: <input type="text" style="width:100px;height:18px;background-color:orange;border:1px solid #ccc;margin-top: 10px;"/> 
-	普通: <input type="text" style="width:100px;height:18px;background-color:#36BD43;border:1px solid #ccc;margin-top: 10px;"/> 
+	<div class="jzp">
+	紧急: <input type="text"  id="jinji" /><br/> 
+	重要: <input type="text"  id="zhongyao" /> <br/>
+	普通: <input type="text"  id="putong" /> <br/>
+	</div>
+
+
 	
 	<form id="usertask_form" action="<%=basePath%>usertask/add.do" method="post">
 	<input type="hidden" name="id" id="uid">

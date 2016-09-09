@@ -4,11 +4,11 @@
   <resultMap id="UserTask_Map" type="ses.model.bms.UserTask">
     <id column="ID" jdbcType="VARCHAR" property="id" />
     <result column="CONTENT" jdbcType="VARCHAR" property="content" />
-    <result column="START_DATE" jdbcType="DATE" property="startDate" />
-    <result column="END_DATE" jdbcType="DATE" property="endDate" />
+    <result column="START_DATE" jdbcType="TIMESTAMP" property="startDate" />
+    <result column="END_DATE" jdbcType="TIMESTAMP" property="endDate" />
     <result column="STATUS" jdbcType="VARCHAR" property="status" />
-    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
-    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="MEMO" jdbcType="VARCHAR" property="memo" />
     <result column="LEV" jdbcType="VARCHAR" property="level" />
     <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
@@ -31,9 +31,9 @@
       END_DATE, STATUS, CREATED_AT, 
       UPDATED_AT, MEMO, LEV, USER_ID
       )
-    values (#{id,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, 
-      #{endDate,jdbcType=DATE}, #{status,jdbcType=VARCHAR}, #{createdAt,jdbcType=DATE}, 
-      #{updatedAt,jdbcType=DATE}, #{memo,jdbcType=VARCHAR}, #{level,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR},
+    values (#{id}, #{content}, #{startDate}, 
+      #{endDate}, #{status}, #{createdAt}, 
+      #{updatedAt}, #{memo}, #{level}, #{userId}
       )
   </insert>
   <insert id="insertSelective" parameterType="ses.model.bms.UserTask">
@@ -79,19 +79,19 @@
         #{content,jdbcType=VARCHAR},
       </if>
       <if test="startDate != null">
-        #{startDate,jdbcType=DATE},
+        #{startDate,jdbcType=TIMESTAMP},
       </if>
       <if test="endDate != null">
-        #{endDate,jdbcType=DATE},
+        #{endDate,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         #{status,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
-        #{createdAt,jdbcType=DATE},
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt,jdbcType=DATE},
+        #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="memo != null">
         #{memo,jdbcType=VARCHAR},
@@ -112,19 +112,19 @@
         CONTENT = #{content,jdbcType=VARCHAR},
       </if>
       <if test="startDate != null">
-        START_DATE = #{startDate,jdbcType=DATE},
+        START_DATE = #{startDate,jdbcType=TIMESTAMP},
       </if>
       <if test="endDate != null">
-        END_DATE = #{endDate,jdbcType=DATE},
+        END_DATE = #{endDate,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         STATUS = #{status,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt,jdbcType=DATE},
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="memo != null">
         MEMO = #{memo,jdbcType=VARCHAR},
@@ -142,11 +142,11 @@
   <update id="updateByPrimaryKey" parameterType="ses.model.bms.UserTask">
     update T_SES_BMS_USERTASK
     set CONTENT = #{content,jdbcType=VARCHAR},
-      START_DATE = #{startDate,jdbcType=DATE},
-      END_DATE = #{endDate,jdbcType=DATE},
+      START_DATE = #{startDate,jdbcType=TIMESTAMP},
+      END_DATE = #{endDate,jdbcType=TIMESTAMP},
       STATUS = #{status,jdbcType=VARCHAR},
-      CREATED_AT = #{createdAt,jdbcType=DATE},
-      UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       MEMO = #{memo,jdbcType=VARCHAR},
       LEV = #{level,jdbcType=VARCHAR},
       USER_ID = #{userId,jdbcType=VARCHAR},
