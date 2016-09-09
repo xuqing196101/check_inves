@@ -13,11 +13,20 @@
     <result column="REASON" jdbcType="VARCHAR" property="reason" />
     <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
     <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+    <result column="ATTACHMENT_CERT" jdbcType="VARCHAR" property="attachmentCert" />
   </resultMap>
   <sql id="Base_Column_List">
     ID, LOGIN_NAME, REL_NAME, IS_SYS_BUILD, STORAGE_TIME, DATE_OF_PUNISHMENT, PUNISH_TYPE, 
-    PUNISH_DATE, REASON, CREATED_AT, UPDATED_AT
+    PUNISH_DATE, REASON, CREATED_AT, UPDATED_AT, ATTACHMENT_CERT
   </sql>
+  
+  <!-- 查询所有专家黑名单 -->
+  	<select id="findList"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_EMS_EXPERT_BLACKLIST
+  </select>
+  
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -32,12 +41,16 @@
     insert into T_SES_EMS_EXPERT_BLACKLIST (ID, LOGIN_NAME, REL_NAME, 
       IS_SYS_BUILD, STORAGE_TIME, DATE_OF_PUNISHMENT, 
       PUNISH_TYPE, PUNISH_DATE, REASON, 
-      CREATED_AT, UPDATED_AT)
+      CREATED_AT, UPDATED_AT, ATTACHMENT_CERT
+      )
     values (#{id,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, #{relName,jdbcType=VARCHAR}, 
       #{isSysBuild,jdbcType=DECIMAL}, #{storageTime,jdbcType=DATE}, #{dateOfPunishment,jdbcType=DATE}, 
       #{punishType,jdbcType=DECIMAL}, #{punishDate,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, 
-      #{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE})
+      #{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE}, #{attachmentCert,jdbcType=VARCHAR}
+      )
   </insert>
+  
+  <!-- 增加专家黑名单信息 -->
   <insert id="insertSelective" parameterType="ses.model.ems.ExpertBlackList">
     insert into T_SES_EMS_EXPERT_BLACKLIST
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -74,6 +87,9 @@
       <if test="updatedAt != null">
         UPDATED_AT,
       </if>
+      <if test="attachmentCert != null">
+        ATTACHMENT_CERT,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -109,8 +125,13 @@
       <if test="updatedAt != null">
         #{updatedAt,jdbcType=DATE},
       </if>
+      <if test="attachmentCert != null">
+        #{attachmentCert,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
+  
+  <!-- 修改信息 -->
   <update id="updateByPrimaryKeySelective" parameterType="ses.model.ems.ExpertBlackList">
     update T_SES_EMS_EXPERT_BLACKLIST
     <set>
@@ -144,6 +165,9 @@
       <if test="updatedAt != null">
         UPDATED_AT = #{updatedAt,jdbcType=DATE},
       </if>
+      <if test="attachmentCert != null">
+        ATTACHMENT_CERT = #{attachmentCert,jdbcType=VARCHAR},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -158,7 +182,8 @@
       PUNISH_DATE = #{punishDate,jdbcType=VARCHAR},
       REASON = #{reason,jdbcType=VARCHAR},
       CREATED_AT = #{createdAt,jdbcType=DATE},
-      UPDATED_AT = #{updatedAt,jdbcType=DATE}
+      UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      ATTACHMENT_CERT = #{attachmentCert,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

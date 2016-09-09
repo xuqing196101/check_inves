@@ -3,27 +3,29 @@ package ses.model.ems;
 import java.util.Date;
 
 public class ExpertBlackList {
-    private String id;
+    private String id; //主键
 
-    private String loginName;
+    private String loginName; //专家登录名
 
-    private String relName;
+    private String relName; //专家名称
 
-    private Short isSysBuild;
+    private Integer isSysBuild; //是否系统内注册专家
 
-    private Date storageTime;
+    private Date storageTime; //入库时间
 
-    private Date dateOfPunishment;
+    private Date dateOfPunishment; //处罚日期
 
-    private Short punishType;
+    private Integer punishType; //处罚类型
 
-    private String punishDate;
+    private String punishDate; //处罚时限
 
-    private String reason;
+    private String reason; //理由
 
-    private Date createdAt;
+    private Date createdAt; //创建时间
 
-    private Date updatedAt;
+    private Date updatedAt; //更新时间
+
+    private String attachmentCert; //附件
 
     public String getId() {
         return id;
@@ -49,11 +51,11 @@ public class ExpertBlackList {
         this.relName = relName == null ? null : relName.trim();
     }
 
-    public Short getIsSysBuild() {
+    public Integer getIsSysBuild() {
         return isSysBuild;
     }
 
-    public void setIsSysBuild(Short isSysBuild) {
+    public void setIsSysBuild(Integer isSysBuild) {
         this.isSysBuild = isSysBuild;
     }
 
@@ -73,11 +75,11 @@ public class ExpertBlackList {
         this.dateOfPunishment = dateOfPunishment;
     }
 
-    public Short getPunishType() {
+    public Integer getPunishType() {
         return punishType;
     }
 
-    public void setPunishType(Short punishType) {
+    public void setPunishType(Integer punishType) {
         this.punishType = punishType;
     }
 
@@ -111,5 +113,13 @@ public class ExpertBlackList {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getAttachmentCert() {
+        return attachmentCert;
+    }
+
+    public void setAttachmentCert(String attachmentCert) {
+        this.attachmentCert = attachmentCert == null ? null : attachmentCert.trim();
     }
 }
