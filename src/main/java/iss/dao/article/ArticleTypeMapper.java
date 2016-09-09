@@ -5,50 +5,14 @@ import iss.model.article.ArticleType;
 import java.util.List;
 
 
-
-/*
- *@Title:ArticleTypeMapper
- *@Description:信息类型Mapper接口
- *@author QuJie
- *@date 2016-8-25下午3:38:37
+/**
+* @Title:ArticleTypeMapper 
+* @Description: 栏目管理持久化接口
+* @author QuJie
+* @date 2016-9-8下午4:53:06
  */
 public interface ArticleTypeMapper {
-	/**
-	 * 
-	* @Title: deleteByPrimaryKey
-	* @author QuJie 
-	* @date 2016-8-25 下午3:39:00  
-	* @Description: 根据id删除信息 
-	* @param @param id
-	* @param @return      
-	* @return int
-	 */
-    int deleteByPrimaryKey(String id);
-    
-    /**
-     * 
-    * @Title: insert
-    * @author QuJie 
-    * @date 2016-8-25 下午3:39:21  
-    * @Description: 新增信息 
-    * @param @param record
-    * @param @return      
-    * @return int
-     */
-    int insert(ArticleType record);
-    
-    /**
-     * 
-    * @Title: insertSelective
-    * @author QuJie 
-    * @date 2016-8-25 下午3:39:37  
-    * @Description: 根据条件新增信息 
-    * @param @param record
-    * @param @return      
-    * @return int
-     */
-    int insertSelective(ArticleType record);
-    
+	
     /**
      * 
     * @Title: selectByPrimaryKey
@@ -60,31 +24,6 @@ public interface ArticleTypeMapper {
     * @return ArticleType
      */
     ArticleType selectByPrimaryKey(String id);
-    
-    /**
-     * 
-    * @Title: updateByPrimaryKeySelective
-    * @author QuJie 
-    * @date 2016-8-25 下午3:40:15  
-    * @Description: 根据条件修改信息 
-    * @param @param record
-    * @param @return      
-    * @return int
-     */
-    int updateByPrimaryKeySelective(ArticleType record);
-    
-    /**
-     * 
-    * @Title: updateByPrimaryKey
-    * @author QuJie 
-    * @date 2016-8-25 下午3:40:32  
-    * @Description: 修改信息 
-    * @param @param record
-    * @param @return      
-    * @return int
-     */
-    int updateByPrimaryKey(ArticleType record);
-    
     /**
      * 
     * @Title: selectAllArticleType
@@ -95,4 +34,17 @@ public interface ArticleTypeMapper {
     * @return List<ArticleType>
      */
     List<ArticleType> selectAllArticleType();
+      
+    /**
+     * 
+    * @Title: updateByPrimaryKey
+    * @author QuJie 
+    * @date 2016-8-25 下午3:40:32  
+    * @Description: 修改信息 
+    * @param @param record
+    * @param @return      
+    * @return int
+     */
+    void updateByPrimaryKey(ArticleType record);
+    
 }

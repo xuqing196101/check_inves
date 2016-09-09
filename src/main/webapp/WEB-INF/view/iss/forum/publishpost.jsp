@@ -80,7 +80,7 @@
 	  //2级联动
 	  function change(id){
 			$.ajax({
-			    url:"<%=basePath %>topic/getListForSelect.html?parkId="+id,   
+			    url:"<%=basePath %>topic/getListForSelect.do?parkId="+id,   
 			    contentType: "application/json;charset=UTF-8", 
 			    dataType:"json",   //返回格式为json
 			    type:"POST",   //请求方式		    

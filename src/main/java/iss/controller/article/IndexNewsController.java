@@ -70,7 +70,7 @@ public class IndexNewsController {
 	@RequestMapping("/selectIndexNews")
 	public String selectIndexNews(Model model) throws Exception{
 		Map<String, Object> indexMapper = new HashMap<String, Object>();
-		List<ArticleType> articleTypeList = articleTypeService.selectArticleType();
+		List<ArticleType> articleTypeList = articleTypeService.selectAllArticleType();
 		for(int i=0;i<articleTypeList.size();i++){
 			List<Article> indexNewsList = indexNewsService.selectNewsByArticleTypeId(articleTypeList.get(i).getId());
 			if(indexNewsList!=null){

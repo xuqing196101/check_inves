@@ -17,12 +17,25 @@ public class ArticleTypeServiceImpl implements ArticleTypeService {
 	@Autowired
 	private ArticleTypeMapper articleTypeMapper;
 	
-	/**
-	 * 查询所有栏目类别
-	 */
+
 	@Override
-	public List<ArticleType> selectArticleType() {
+	public ArticleType selectByPrimaryKey(String id) {
+		// TODO Auto-generated method stub
+		return articleTypeMapper.selectByPrimaryKey(id);
+	}
+
+
+	@Override
+	public List<ArticleType> selectAllArticleType() {
+		// TODO Auto-generated method stub
 		return articleTypeMapper.selectAllArticleType();
+	}
+
+
+	@Override
+	public void updateByPrimaryKey(ArticleType record) {
+		// TODO Auto-generated method stub
+		articleTypeMapper.updateByPrimaryKey(record);
 	}
 	
 	

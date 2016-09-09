@@ -4,13 +4,15 @@
   <resultMap id="ArticleTypeMapper" type="iss.model.article.ArticleType">
     <id column="ID" property="id" />
     <result column="NAME" property="name" />
-    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
-    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
-    <result column="IS_DELETED" property="isDeleted" />
+    <result column="DESCRIBE" property="describe" />
+    <result column="CREATED_AT"  property="createdAt" />
+    <result column="UPDATED_AT"  property="updatedAt" />
+   
+    <association column="CREATER_ID" property="creater" select="ses.dao.bms.UserMapper.queryById"></association>
   </resultMap>
   
   <sql id="ArticleType_Column_List">
-    ID, NAME, CREATED_AT, UPDATED_AT,IS_DELETED
+    ID, NAME, CREATED_AT,CREATER_ID, UPDATED_AT,DESCRIBE
   </sql>
   
   <!-- 根据id查询栏目类型 -->
@@ -26,67 +28,19 @@
   	select
     <include refid="ArticleType_Column_List" />
     from T_ISS_ARTICLE_TYPE
+    ORDER BY CREATED_AT ASC
   </select>
-  
-  <!-- 根据id删除栏目类型 -->
-  <delete id="deleteByPrimaryKey" parameterType="Object">
-    delete from T_ISS_ARTICLE_TYPE
-    where ID = #{id}
-  </delete>
-  
-  <!-- 新增栏目信息 -->
-  <insert id="insert" parameterType="iss.model.article.ArticleType">
-    insert into T_ISS_ARTICLE_TYPE (ID, NAME, CREATED_AT, 
-      UPDATED_AT)
-    values (#{id}, #{name}, #{createdAt}, 
-      #{updatedAt})
-  </insert>
-  
-  <!-- 根据条件新增 -->
-  <insert id="insertSelective" parameterType="iss.model.article.ArticleType">
-  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
-        select sys_guid() from dual
-    </selectKey>
-    insert into T_ISS_ARTICLE_TYPE
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        ID,
-      </if>
-      <if test="name != null">
-        NAME,
-      </if>
-      <if test="createdAt != null">
-        CREATED_AT,
-      </if>
-      <if test="updatedAt != null">
-        UPDATED_AT,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id},
-      </if>
-      <if test="name != null">
-        #{name},
-      </if>
-      <if test="createdAt != null">
-        #{createdAt},
-      </if>
-      <if test="updatedAt != null">
-        #{updatedAt},
-      </if>
-    </trim>
-  </insert>
+   
   
   <!-- 根据条件修改栏目信息 -->
-  <update id="updateByPrimaryKeySelective" parameterType="iss.model.article.ArticleType">
+  <update id="updateByPrimaryKey" parameterType="iss.model.article.ArticleType">
     update T_ISS_ARTICLE_TYPE
     <set>
       <if test="name != null">
         NAME = #{name},
       </if>
-      <if test="createdAt != null">
-        CREATED_AT = #{createdAt},
+       <if test="describe != null">
+        DESCRIBE = #{describe},
       </if>
       <if test="updatedAt != null">
         UPDATED_AT = #{updatedAt},
@@ -94,14 +48,5 @@
     </set>
     where ID = #{id}
   </update>
-  
-  <!-- 根据id修改栏目信息 -->
-  <update id="updateByPrimaryKey" parameterType="iss.model.article.ArticleType">
-    update T_ISS_ARTICLE_TYPE
-    set NAME = #{name},
-      CREATED_AT = #{createdAt},
-      UPDATED_AT = #{updatedAt}
-    where ID = #{id}
-  </update>
-  
+   
 </mapper>

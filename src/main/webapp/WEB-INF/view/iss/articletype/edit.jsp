@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ include file="../../../common.jsp"%>
+<%@ include file="../../common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
@@ -18,18 +18,17 @@
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->	
 	<script type="text/javascript">    
-	$(function(){ 
-		$("#park").val("${topic.park.id}");
-		});  
+ 
 	</script>
   </head>
   <body>
+  
   
   <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#">首页</a></li><li><a href="#">论坛管理</a></li><li class="active"><a href="#">主题管理</a></li><li class="active"><a href="#">主题修改</a></li>
+		   <li><a href="#">首页</a></li><li><a href="#">栏目管理</a></li><li class="active"><a href="#">栏目修改</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -37,36 +36,26 @@
    <!-- 新增页面开始 -->
      <div class="container margin-top-5">
      <div class="content padding-left-25 padding-right-25 padding-top-5">
-    <form action="<%=basePath %>topic/update.html" method="post">  
+    <form action="<%=basePath %>articletype/update.html" method="post">  
     <div>
 	    <div class="headline-v2">
-	   		<h2>修改主题</h2>
+	   		<h2>修改栏目</h2>
 	   </div>
-	    <input  name ="topicId" type="hidden" value = '${topic.id}'>
+	    <input class="span2" name ="articletypeId" type="hidden" value = '${articletype.id}'>
 	   <ul class="list-unstyled list-flow p0_20">
 	   		  
 	   		   <li class="col-md-6  p0 ">
-			   <span class="fl">主题名称：</span>
+			   <span class="fl">栏目名称：</span>
 			   <div class="input-append">
-		        <input class="span2"  type="text" name="name" value = '${topic.name}'>
+		        <input class="span2"  type="text" name="name" value = '${articletype.name}'>
 		        <%--<span class="add-on">i</span>--%>
 		       </div>
 			 </li>
 			 
-			 <li class="col-md-6  p0 ">
-			   <span class="fl">所属版块：</span>				 
-		        <select id="park" name ="parkId" class="w230" >
-					<option></option>
-			  	  	<c:forEach items="${parks}" var="park">
-			  	  		<option value="${park.id}">${park.name}</option>
-			  	  	</c:forEach> 
-	  			</select>	
-	  			 
-			 </li>
 			<li class="col-md-12  p0 ">	  	 			
-				<span class="fl"> 主题介绍：</span>
+				<span class="fl">栏目介绍：</span>
 				<div class="col-md-12 mt5 fn pl200 pwr9">
-				<textarea  class="text_area col-md-12" name="content">${topic.content}</textarea>		
+				<textarea  class="text_area col-md-12" name="describe">${articletype.describe}</textarea>		
 				</div>			
 	  	 	</li>
 	  	 </ul>
@@ -100,4 +89,3 @@
 </div>
   </body>
 </html>
-

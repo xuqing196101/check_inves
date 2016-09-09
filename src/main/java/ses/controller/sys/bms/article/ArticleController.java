@@ -81,7 +81,7 @@ public class ArticleController {
 	 */
 	@RequestMapping("/add")
 	public String add(Model model){
-		List<ArticleType> list = articleTypeService.selectArticleType();
+		List<ArticleType> list = articleTypeService.selectAllArticleType();
 		model.addAttribute("list", list);
 		return "article/add";
 	}

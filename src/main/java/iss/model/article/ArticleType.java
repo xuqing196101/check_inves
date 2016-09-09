@@ -1,7 +1,11 @@
 package iss.model.article;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Date;
+
+import ses.model.bms.User;
 
 /*
  *@Title:ArticleType
@@ -20,22 +24,24 @@ public class ArticleType implements Serializable{
      * @Fields name : 栏目名称
      */
     private String name;
-    
     /**
-     * @Fields createdAt : 创建时间
+     * @Fields describe : 栏目描述
      */
-    private Date createdAt;
-    
+    private String describe;
+    /**
+     * @Fields creater: 创建人
+     */
+    private User creater;   
+    /**
+     * @Fields createddAt :创建时间
+     */
+    private Timestamp createdAt;
     /**
      * @Fields updatedAt : 修改时间
      */
-    private Date updatedAt;
-    
-    /**
-     * @Fields isDeleted : 是否删除
-     */
-    private Integer isDeleted;
-    
+    private Timestamp updatedAt;
+
+      
     public String getId() {
 		return id;
 	}
@@ -44,13 +50,7 @@ public class ArticleType implements Serializable{
 		this.id = id;
 	}
 
-	public Integer getIsDeleted() {
-		return isDeleted;
-	}
 
-	public void setIsDeleted(Integer isDeleted) {
-		this.isDeleted = isDeleted;
-	}
 
 	public String getName() {
         return name;
@@ -60,19 +60,37 @@ public class ArticleType implements Serializable{
         this.name = name == null ? null : name.trim();
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
+    public Timestamp getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+
+	public String getDescribe() {
+		return describe;
+	}
+
+	public void setDescribe(String describe) {
+		this.describe = describe;
+	}
+
+	public User getCreater() {
+		return creater;
+	}
+
+	public void setCreater(User creater) {
+		this.creater = creater;
+	}
+
+	public Timestamp getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Timestamp createdAt) {
+		this.createdAt = createdAt;
+	}
+    
 }
