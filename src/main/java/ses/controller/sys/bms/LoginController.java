@@ -2,7 +2,6 @@ package ses.controller.sys.bms;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,8 +13,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ses.model.bms.StationMessage;
 import ses.model.bms.User;
 import ses.model.sms.SupplierAgents;
+import ses.service.bms.StationMessageService;
 import ses.service.bms.UserServiceI;
 import ses.service.sms.SupplierAgentsService;
 
@@ -36,6 +37,8 @@ public class LoginController {
 	private SupplierAgentsService agentsService;
 	@Autowired
 	private UserServiceI userService;
+	@Autowired
+	private StationMessageService stationMessageService;
 	
 	private static Logger logger = Logger.getLogger(LoginController.class); 
 	/**   
@@ -80,8 +83,13 @@ public class LoginController {
 	* @return String     
 	*/
 	@RequestMapping("/index")
-	public String index(){
-		
+	public String index(HttpServletRequest req){
+		//代办事项
+		req.setAttribute("SupplierAgent", agentsService.getAllSupplierAgent(new SupplierAgents(new Short("0")), 0, 8));
+		//催办事项
+		req.setAttribute("SupplierReminders", agentsService.getAllSupplierAgent(new SupplierAgents(new Short("1")), 0, 8));
+		//站内消息
+		req.setAttribute("stationMessage",stationMessageService.listStationMessage(new StationMessage(0,9)));
 		return "index";
 	}
 	
@@ -93,16 +101,15 @@ public class LoginController {
 	* @return String     
 	*/
 	@RequestMapping("/home")
-	public String home(HttpServletRequest req){
+	public String home(Model model){
 		//代办事项
-		List<SupplierAgents> getListSupplier=agentsService.getAllSupplierAgent(new SupplierAgents(new Short("0")));
-		req.setAttribute("SupplierAgent", getListSupplier);
+		model.addAttribute("SupplierAgent",agentsService.getAllSupplierAgent(new SupplierAgents(new Short("0")), 0, 8));
 		//催办事项
-		List<SupplierAgents> getListSupplierReminders=agentsService.getAllSupplierAgent(new SupplierAgents(new Short("1")));
-		req.setAttribute("SupplierReminders", getListSupplierReminders);
+		model.addAttribute("SupplierReminders", agentsService.getAllSupplierAgent(new SupplierAgents(new Short("1")), 0, 8));
+		//站内消息
+		model.addAttribute("stationMessage",stationMessageService.listStationMessage(new StationMessage(0,9)));
 		return "backend";
 	}
-	
 	/**   
 	* @Title: loginOut
 	* @author yyyml
@@ -116,5 +123,4 @@ public class LoginController {
 		req.getSession().removeAttribute("loginUser");
 		return "redirect:/";
 	}
-	
 }

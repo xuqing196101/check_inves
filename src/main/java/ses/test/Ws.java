@@ -8,7 +8,9 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ses.dao.sms.SupplierAgentsMapper;
+import ses.model.bms.StationMessage;
 import ses.model.sms.SupplierAgents;
+import ses.service.bms.StationMessageService;
 import ses.service.sms.SupplierAgentsService;
 
 import com.alibaba.fastjson.JSON;
@@ -22,11 +24,16 @@ public class Ws extends BaseTest {
 	
 	@Autowired
 	private SupplierAgentsService supplierAgentsSercice;
+	
+	@Autowired
+	private StationMessageService stationMessageService;
 	@Test
 	public void test1(){
+		
+		List<StationMessage> list=	stationMessageService.listStationMessage(new StationMessage());
+//		list.size();
 //		PageHelper.startPage(0, 0);
-//		List<Map> Sa =supplierAgentsMapper.selectAgents();
-		List<SupplierAgents> ll=new ArrayList<SupplierAgents>();
+//		List<SupplierAgents> Sa =supplierAgentsMapper.selectAgents(new SupplierAgents(new Short("1")));
 		
 		PageInfo<SupplierAgents> pageinfo=new PageInfo<SupplierAgents>();
 //		String a=Sa.toString();

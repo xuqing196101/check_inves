@@ -17,6 +17,25 @@
     <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
     <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
      <result column="IS_REMINDERS" jdbcType="DATE" property="isReminders" />
+   <result column="UNDO_STATUS" jdbcType="DATE" property="undoStatus" />
+  </resultMap>
+  
+   <resultMap id="BaseResultMaps" type="ses.model.sms.SupplierAgents">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="OPERATOR_ID" jdbcType="VARCHAR" property="operatorId" />
+    <result column="USERS_ID" jdbcType="VARCHAR" property="usersId" />
+    <result column="SUPPLIER_ID" jdbcType="VARCHAR" property="supplierId" />
+    <result column="UNDO_TYPE" jdbcType="DECIMAL" property="undoType" />
+    <result column="RESULT" jdbcType="DECIMAL" property="result" />
+    <result column="TITLE" jdbcType="VARCHAR" property="title" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
+    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+     <result column="IS_REMINDERS" jdbcType="DATE" property="isReminders" />
+      <result column="UNDO_STATUS" jdbcType="DATE" property="undoStatus" />
+     <result column="USER_NAME"  property="usersName"/>
+     <result column="OPERATOR_NAME" property="operatorName"/> 
   </resultMap>
   
     <resultMap id="SupplierAgentsMap" type="ses.model.sms.SupplierAgents">
@@ -35,6 +54,7 @@
     <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
     <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
    <result column="IS_REMINDERS" jdbcType="DATE" property="isReminders" />
+      <result column="UNDO_STATUS" jdbcType="DATE" property="undoStatus" />
   </resultMap>
   
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="ses.model.sms.SupplierAgents">
@@ -131,6 +151,9 @@
         <if test="isReminders != null">
         IS_REMINDERS,
       </if>
+        <if test="undoStatus != null">
+        UNDO_STATUS,
+      </if>
       <if test="content != null">
         CONTENT,
       </if>
@@ -213,6 +236,9 @@
       <if test="isReminders != null">
         IS_REMINDERS= #{isReminders,jdbcType=DECIMAL},
       </if>
+        <if test="undoStatus != null">
+        UNDO_STATUS= #{undoStatus,jdbcType=DECIMAL},
+      </if>
       <if test="content != null">
         CONTENT = #{content,jdbcType=CLOB},
       </if>
@@ -235,6 +261,7 @@
       CREATED_AT = #{createdAt,jdbcType=DATE},
       UPDATED_AT = #{updatedAt,jdbcType=DATE},
         IS_REMINDERS= #{isReminders,jdbcType=DECIMAL},
+        UNDO_STATUS= #{undoStatus,jdbcType=DECIMAL},
       CONTENT = #{content,jdbcType=CLOB}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -253,21 +280,16 @@
       IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
       CREATED_AT = #{createdAt,jdbcType=DATE},
       UPDATED_AT = #{updatedAt,jdbcType=DATE},
-        IS_REMINDERS= #{isReminders,jdbcType=DECIMAL}
+        IS_REMINDERS= #{isReminders,jdbcType=DECIMAL},
+        UNDO_STATUS= #{undoStatus,jdbcType=DECIMAL},
     where ID = #{id,jdbcType=VARCHAR}
   </update>
-  
-  <select id="selectAgents"  resultMap="BaseResultMap" parameterType="ses.model.sms.SupplierAgents" >
-   select 
-    <include refid="Base_Column_List" />
-    
-    from T_SES_SMS_SUPPLIER_AGENTS
-    
-    where IS_REMINDERS = #{isReminders,jdbcType=DECIMAL}
-<!--  		 SELECT sa.*,bu.REL_NAME,BU1.REL_NAME FROM T_SES_SMS_SUPPLIER_AGENTS  sa   -->
-<!-- 		INNER JOIN T_SES_BMS_USERINFO bu1 ON sa.USERS_ID=BU1."ID" -->
-<!-- 		INNER JOIN T_SES_BMS_USERINFO bu ON sa.OPERATOR_ID = bu."ID"  -->
+	<!--   联表查询所有待办事项 -->
+  <select id="selectAgents"  resultMap="BaseResultMaps" parameterType="ses.model.sms.SupplierAgents" >
+ 		 SELECT sa.*,bu.REL_NAME as USER_NAME,BU1.REL_NAME AS OPERATOR_NAME FROM T_SES_SMS_SUPPLIER_AGENTS  sa  
+         INNER JOIN T_SES_BMS_USERINFO bu1 ON sa.USERS_ID=BU1."ID"
+         INNER JOIN T_SES_BMS_USERINFO bu ON sa.OPERATOR_ID = bu."ID"   
+           WHERE SA.IS_DELETED =0 AND SA.IS_REMINDERS =#{isReminders,jdbcType=DECIMAL}
   </select>  
-  
   
 </mapper>

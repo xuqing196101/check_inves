@@ -23,15 +23,18 @@ public interface SupplierAgentsService {
 	 */
 	void insert(SupplierAgents supplierAgents);
 	/**
-	 * 获取所有数据
-	 * @Title: getAllSupplierAgent
+	 * 
+	 * @Description: 获取所有数据
+	 *
 	 * @author Wang Wenshuai
-	 * @date 2016年9月5日 下午3:48:16  
-	 * @Description: TODO 
-	 * @param       
-	 * @return void
+	 * @date 2016年9月8日 上午10:52:48  
+	 * @param @param supplierAgents
+	 * @param @param pageNum 页码
+	 * @param @param pageSize 每页显示的数量
+	 * @param @return      
+	 * @return List<SupplierAgents>
 	 */
-	List<SupplierAgents> getAllSupplierAgent(SupplierAgents supplierAgents);
+	List<SupplierAgents> getAllSupplierAgent(SupplierAgents supplierAgents,Integer pageNum,Integer pageSize);
 	
 	/**
 	 * 逻辑删除代办事项
@@ -42,5 +45,17 @@ public interface SupplierAgentsService {
 	 * @param       
 	 * @return void
 	 */
-	void deleteSoftSupplierAgents(String id);
+	void deleteSoftSupplierAgents(SupplierAgents supplierAgents);
+	
+	/**
+	 * 
+	 * @Description: 修改代办为催办
+	 *
+	 * @author Wang Wenshuai
+	 * @date 2016年9月8日 上午10:51:07  
+	 * @param @param supplierAgents
+	 * @param @return      
+	 * @return 
+	 */
+	public void updateIsReminders(SupplierAgents supplierAgents);
 }

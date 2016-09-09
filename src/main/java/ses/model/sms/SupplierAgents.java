@@ -37,7 +37,7 @@ public class SupplierAgents {
 
     /**
      * <pre>
-     * 代办类型 0 未审核 1 已审核 2 审核中
+     * 代办类型 
      * 表字段 : T_SES_SMS_SUPPLIER_AGENTS.UNDO_TYPE
      * </pre>
      */
@@ -98,6 +98,14 @@ public class SupplierAgents {
      * </pre>
      */
     private Short isReminders;
+    
+    /**
+     * <pre>
+     * 待办状态 0 未审核 1 已审核 2 审核中
+     * 表字段 : T_SES_SMS_SUPPLIER_AGENTS.UNDO_STATUS
+     * </pre>
+     */
+    private Short undoStatus;
     
     /**
      * <pre>
@@ -395,8 +403,6 @@ public class SupplierAgents {
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
-
-    
     
     public Short getIsReminders() {
 		return isReminders;
@@ -404,6 +410,14 @@ public class SupplierAgents {
 
 	public void setIsReminders(Short isReminders) {
 		this.isReminders = isReminders;
+	}
+ 
+	
+	public Short getUndoStatus() {
+		return undoStatus;
+	}
+	public void setUndoStatus(Short undoStatus) {
+		this.undoStatus = undoStatus;
 	}
 
 	/**
@@ -456,13 +470,44 @@ public class SupplierAgents {
 	}
 
 
-   
+	
+	
+   /**
+    * 软删除
+    * @param id
+    * @param isDeleted 1删除
+    */
+	public SupplierAgents(String id, Short isDeleted) {
+		super();
+		this.id = id;
+		this.isDeleted = isDeleted;
+	}
+	/**
+	 * 代办|催办 区分
+	 * @param isReminders
+	 */
 	public SupplierAgents(Short isReminders) {
 		super();
 		this.isReminders = isReminders;
 	}
+	
 
-	public SupplierAgents() {
+	/**
+	 * 修改代办为催办
+	 * @param id 
+	 * @param updatedAt 修改时间
+	 * @param isReminders 是否为催办 0不是 1是
+	 */
+	public SupplierAgents(String id, Date updatedAt, Short isReminders) {
+		super();
+		this.id = id;
+		this.updatedAt = updatedAt;
+		this.isReminders = isReminders;
 	}
+	public SupplierAgents() {
+		
+	}
+
+	
     
 }

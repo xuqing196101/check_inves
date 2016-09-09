@@ -56,6 +56,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="<%=basePath%>public/ZHH/css/style(1).css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/masterslider.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/james.css" media="screen" rel="stylesheet">
+<link href="<%=basePath%>public/supplier/css/supplieragents.css" media="screen" rel="stylesheet">
     <script src="<%=basePath%>public/ZHH/js/hm.js"></script><script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery-migrate-1.2.1.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
@@ -129,16 +130,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="col-md-3 col-md-12 padding-0">
     <div class="col-md-12 p0_10 margin-bottom-20">
      <div class="tag-box tag-box-v3 margin-0 p0_10">
-      <div class="margin-0"><h2 class="margin-0 news"> 站内消息</h2></div>
+      <div class="margin-0"><h2 class="margin-0 news" onclick="window.location.href='<%=basePath%>StationMessage/listStationMessage.do'">站内消息</h2></div>
        <ul class="padding-left-20  categories hex padding-bottom-5">
-	    <li><a href="#">关于印发2016年集中采购目录的通</a></li>
-		<li><a href="#">关于印发2016年集中采购管录通知</a></li>
-		<li><a href="#">关于印发2016年集中采购目录通知</a></li>
-		<li><a href="#">关于印发2016年集中采购目录的通</a></li>
-		<li><a href="#">关于印发2016年集中采购目录的通</a></li>
-		<li><a href="#">关于印发2016年集中采购管理目录的目录的通</a></li>
-		<li><a href="#">关于印发2016年集中采理目录的通</a></li>
-		<li><a href="#">关于印发2016年集中管理目录的通</a></li>
+       <c:forEach items="${stationMessage }" var="station">
+        <li><a href="#" title=" ${station.title }">
+         <c:choose>  
+			    <c:when test="${fn:length(station.title) > 10}">  
+			      ${fn:substring(station.title, 0, 14)}......
+			    </c:when>  
+			   <c:otherwise>  
+			      ${station.title }
+			    </c:otherwise>  
+          </c:choose>
+        </a></li>
+       </c:forEach>
 	   </ul>
 	  </div>
      </div>
@@ -156,8 +161,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  </div>
        <ul class="list-unstyled categories tab-content border1 p15_10">   
        <c:forEach items="${SupplierAgent}" var="listSupplier">
-        <li>
-          <a href="#" title="${listSupplier.title}"  target="_blank">
+        <li class="cursor" onclick="window.location.href='<%=basePath%>supplierAgents/listSupplierAgents.do?type=0&&id=${listSupplier.id}'">
+          <span  title="${listSupplier.title}" >
           <c:choose>  
 			    <c:when test="${fn:length(listSupplier.title) > 10}">  
 			      ${fn:substring(listSupplier.title, 0, 20)}......
@@ -166,7 +171,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			      ${listSupplier.title}
 			    </c:otherwise>  
           </c:choose>
-			</a>
+			</span>
           <span class="hex pull-right"><fmt:formatDate value="${listSupplier.updatedAt}"
 							pattern="yyyy年MM月dd日" /></span>
         </li>    
@@ -184,10 +189,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  </div>
 	  </div>
        <ul class="list-unstyled categories tab-content border1 p15_10">       
-        <li>
          <c:forEach items="${SupplierReminders}" var="listSupplier">
-        <li>
-          <a href="#" title="${listSupplier.title}"  target="_blank">
+        <li class="cursor" onclick="window.location.href='<%=basePath%>supplierAgents/listSupplierAgents.do?type=1&&id=${listSupplier.id}'">
+          <span title="${listSupplier.title}"  >
           <c:choose>  
 			    <c:when test="${fn:length(listSupplier.title) > 10}">  
 			      ${fn:substring(listSupplier.title, 0, 20)}......
@@ -196,12 +200,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			      ${listSupplier.title}
 			    </c:otherwise>  
           </c:choose>
-			</a>
+			</span>
           <span class="hex pull-right"><fmt:formatDate value="${listSupplier.updatedAt}"
 							pattern="yyyy年MM月dd日" /></span>
         </li>    
        </c:forEach> 
-        </li>              
       </ul>
      </div>
     </div>   

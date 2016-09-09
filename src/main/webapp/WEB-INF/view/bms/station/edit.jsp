@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -77,6 +78,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/jquery.form.min.js"></script>
 
 
+
 <script src="<%=basePath%>public/ZHH/js/jquery.validate.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.maskedinput.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery-ui.min.js"></script>
@@ -108,139 +110,74 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/jquery.easing.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/james.js"></script>
 </head>
-<body>
-  <div class="wrapper">
-	<div class="header-v4 header-v5">
-    <!-- Navbar -->
-    <div class="navbar navbar-default mega-menu" role="navigation">
-      <div class="container">
-        <!-- logo和搜索 -->
-        <div class="navbar-header">
-          <div class="row container">
-            <div class="col-md-4 padding-bottom-30">
-              <a href="">
-                 <img alt="Logo" src="<%=basePath%>public/ZHH/images/logo_2.png" id="logo-header">
-              </a>
-            </div>
-			<!--搜索开始-->
-            <div class="col-md-8 topbar-v1 col-md-12 padding-0">
-              <ul class="top-v1-data padding-0">
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_01.png"/></div>
-				  <span>决策支持</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_02.png"/></div>
-				  <span>业务监管</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_03.png"/></div>
-				  <span>障碍作业</span>
-				 </a>
-				</li>	
-				
-			    <li class="dropdown">
-			     	<a aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle p0_30 " href="">
-				  		<div><img src="<%=basePath%>public/ZHH/images/top_04.png"/></div>
-				  		<span>信息服务</span>
-				 	</a>				 					 	
-					<ul class="dropdown-menu">
-                   		<li class="line-block">
-                   			<a href="" target="home" class="son-menu"><span class="mr5">◇</span>论坛管理</a>
-                   			<ul class="dropdown-menuson dropdown-menu">
-                   				<li><a href="<%=basePath%>park/getlist.do" target="home" class="son-menu"><span class="mr5">◇</span>版块管理</a></li>
-                   				<li><a href="<%=basePath%>topic/getlist.do" target="home" class="son-menu"><span class="mr5">◇</span>主题管理</a></li>
-                   				<li><a href="<%=basePath%>post/getlist.do" target="home" class="son-menu"><span class="mr5">◇</span>帖子管理</a></li>
-                   				<li><a href="<%=basePath%>reply/getlist.do" target="home" class="son-menu"><span class="mr5">◇</span>回复管理</a></li>
-                   			</ul>
-                   		</li>
-                   		<li class="line-block">
-                   			<a href="<%=basePath%>articletype/getAll.do" target="home" class="son-menu"><span class="mr5">◇</span>栏目管理</a>
-                   		</li>
-               		</ul>
-				</li>
-				
-			   <li class="dropdown">
-			     	<a aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle p0_30 " href="">
-				  		<div><img src="<%=basePath%>public/ZHH/images/top_05.png"/></div>
-				  		<span>支撑环境</span>
-				 	</a>
-				 	
-					<ul class="dropdown-menu">
-                   		<li class="line-block">
-                   			<a href="#" target="home" class="son-menu"><span class="mr5">◇</span>后台管理</a>
-                   			<ul class="dropdown-menuson dropdown-menu">
-                   				<li><a href="<%=basePath%>user/getAll.do" target="home" class="son-menu"><span class="mr5">◇</span>用户管理</a></li>
-                   				<li><a href="<%=basePath%>role/getAll.do" target="home" class="son-menu"><span class="mr5">◇</span>角色管理</a></li>
-                   				<li><a href="<%=basePath%>preMenu/list.do" target="home" class="son-menu"><span class="mr5">◇</span>菜单管理</a></li>
-                   				<li><a href="<%=basePath%>templet/getAll.do" target="home" class="son-menu"><span class="mr5">◇</span>模板管理</a></li>
-                   				<li><a href="<%=basePath%>usertask/getmonth.html" target="home" class="son-menu"><span class="mr5">◇</span>用户任务管理</a></li>
-                   					
-                   			</ul>
-                   		</li>
-               		</ul>
-				</li>
-				<li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_06.png"/></div>
-				  <span>配置配置</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="<%=basePath%>login/home.do" target="home">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_07.png"/></div>
-				  <span>后台首页</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="<%=basePath%>login/loginOut.do">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_08.png"/></div>
-				  <span>安全退出</span>
-				 </a>
-				</li>
-			  </ul>
-			</div>
-    </div>
-	</div>
-	</div>
-   </div>
-</div>
-<script type="text/javascript" language="javascript">   
-function iFrameHeight() {   
-var ifm= document.getElementById("iframepage");   
-var subWeb = document.frames ? document.frames["iframepage"].document : ifm.contentDocument;   
-if(ifm != null && subWeb != null) {
-   ifm.height = subWeb.body.scrollHeight;
-   ifm.width = subWeb.body.scrollWidth;
-}   
-}   
+<script type="text/javascript">
+	function cheClick(){
+		var roleIds="";
+		var roleNames="";
+		$('input[name="chkItem"]:checked').each(function(){
+			var idName=$(this).val();
+			var arr=idName.split(";");
+			roleIds+=arr[0]+",";
+			roleNames+=arr[1]+",";
+		});
+		$("#roleId").val(roleIds.substr(0,roleIds.length-1));
+		$("#roleName").val(roleNames.substr(0,roleNames.length-1));
+	}
+	//初始化选择角色
+	$(function(){
+		var initRid=$("#roleId").val().split(",");
+		$('input[name="chkItem"]').each(function(){
+			var idName=$(this).val();
+			var arr=idName.split(";");
+			for ( var int = 0; int < initRid.length; int++) {
+				if(initRid[int]==arr[0]){
+					$(this).attr("checked",'true');
+				}
+			}
+		});
+	});
 </script>
-<!-- 后台管理内容开始-->
-<div >
-	<iframe  frameborder="0" name="home" id="iframepage" scrolling="no" marginheight="0"  width="100%" onLoad="iFrameHeight()" src="<%=basePath%>login/home.do"></iframe>
-</div>
+<body>
 
-<!--底部代码开始-->
-<div class="footer-v2" id="footer-v2">
-
-      <div class="footer">
-
-            <!-- Address -->
-              <address class="">
-			  Copyright © 2016 版权所有：中央军委后勤保障部 京ICP备09055519号
-              </address>
-              <div class="">
-		       浏览本网主页，建议将电脑显示屏的分辨率调为1024*768
-              </div> 
-            <!-- End Address -->
-
-<!--/footer--> 
-    </div>
-</div>
+<!--面包屑导航开始-->
+   <div class="margin-top-10 breadcrumbs ">
+      <div class="container">
+		   <ul class="breadcrumb margin-left-0">
+		   <li><a href="#"> 首页</a></li><li><a href="#">业务管理</a></li><li><a href="#">订单中心</a></li><li class="active"><a href="#">修改订单</a></li>
+		   </ul>
+		<div class="clear"></div>
+	  </div>
+   </div>
+   
+<!-- 修改订列表开始-->
+   <div class="container">
+   <form action="<%=basePath %>StationMessage/updateStationMessage.do" method="post">
+   <div>
+   <div class="headline-v2">
+   <h2>修改站内消息</h2>
+   </div>
+   <ul class="list-unstyled list-flow p0_20">
+   			<input class="span2" name="id" type="hidden" value="${StationMessage.id}">
+    		 <li class="col-md-6 p0 " >
+			   <span class="">标题：</span>
+			   <div class="input-append">
+		        <input class="span2" name="title" type="text" value="${StationMessage.title}">
+		        <span class="add-on">i</span>
+		       </div>
+			 </li>
+		     <li class="col-md-12  p0 " >
+			   <span class="">内容：</span>
+		        <textarea  cols="3" rows="100" name="context" >${StationMessage.context}</textarea>
+			 </li> 
+   </ul>
+  </div> 
+  <div  class="col-md-12">
+   	<div class="fl padding-10">
+    	<button class="btn btn-windows reset" type="submit">${operation}</button>
+    	<button class="btn btn-windows git" onclick="history.go(-1)" type="button">返回</button>
+	</div>
+  </div>
+  </form>
+ </div>
 </body>
 </html>
