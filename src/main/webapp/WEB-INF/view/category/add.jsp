@@ -112,12 +112,6 @@
 	<form action="<%=basePath%>category/save.do" method="post">
 	<input type="hidden" value="${id }" name="ancestry"/>
 	       <div class=""><span>目录名称:</span><input type="text" name="name" /></div>
-	  	   <div class=""><span>是否末级</span>
-	       		 <select name="status">
-	  	  		<option value="0">激活</option>
-	  	  		<option value="1">休眠</option> 
-	  		</select>
-	       </div>
 	       <div class=""><span>排序:</span><input type="text"name="orderNum" /></div>
 	       <div class=""><span>前台展示优先级</span><input type="text" name="code" /></div>
 	       <div class=""><span>图片:</span><input id="pic" type="file" name="attchment"/></div>

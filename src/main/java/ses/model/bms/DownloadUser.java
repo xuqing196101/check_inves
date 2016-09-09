@@ -19,12 +19,12 @@ public class DownloadUser implements Serializable{
     /**
      * @Fields articleId : 文章id
      */
-    private Integer articleId;
+    private String articleId;
     
     /**
      * @Fields userId : 用户id
      */
-    private Integer userId;
+    private String userId;
     
     /**
      * @Fields createdAt : 创建时间
@@ -48,20 +48,20 @@ public class DownloadUser implements Serializable{
 	public void setId(String id) {
 		this.id = id;
 	}
-
-	public Integer getArticleId() {
+	
+	public String getArticleId() {
 		return articleId;
 	}
 
-	public void setArticleId(Integer articleId) {
+	public void setArticleId(String articleId) {
 		this.articleId = articleId;
 	}
-
-	public Integer getUserId() {
+	
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Integer userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 

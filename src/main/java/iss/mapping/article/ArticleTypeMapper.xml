@@ -14,7 +14,7 @@
   </sql>
   
   <!-- 根据id查询栏目类型 -->
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ArticleTypeMapper">
+  <select id="selectByPrimaryKey" parameterType="Object" resultMap="ArticleTypeMapper">
     select 
     <include refid="ArticleType_Column_List" />
     from T_ISS_ARTICLE_TYPE

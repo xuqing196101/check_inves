@@ -95,7 +95,18 @@
  		}
  		/*休眠-激活*/
 	 	function ros(){
- 			widow.location.href="<%=basePath%>";
+ 			var str="";
+	 		var treeObj = $.fn.zTree.getZTreeObj("ztree");
+			var nodes = treeObj.getCheckedNodes(true);
+			for ( var i = 0; i < nodes.length; i++) {
+				str+=nodes[i].id+",";
+				alert(str);
+			}
+			alert(str);
+			$.ajax({
+				type:"POST",
+				url:"<%=basePath%>category/ros.do?ids="+str,
+			})
  		}
  		
  		
@@ -108,12 +119,18 @@
 				
 		}
 
- 	function zTreeBeforeRemove(treeId, treeNode){
- 	  	"<%=basePath%>category/del.do?id="+treeNode.id
-	}
-		function zTreeBeforeRename(treeId, newName,treeNode,isCancel){
+	 	function zTreeBeforeRemove(treeId, treeNode){
+	 		$.ajax({
+	 			type:"post",
+	 			url:"<%=basePath%>category/del.do?id="+treeNode.id,
+	 		});
+		}
+		function zTreeBeforeRename(treeId,treeNode,newName,isCancel){
 			
-    	return true;
+			$.ajax({
+	 			type:"post",
+	 			url:"<%=basePath%>category/rename.do?id="+treeNode.id+"&name="+newName,
+	 		});
 		} 
  		
 	/*获取后台json列表展示*/

@@ -81,6 +81,15 @@ public class CategoryServiceImpl implements CategoryService {
 
 
 
+
+	@Override
+	public void updateByPrimaryKeySelective(Category category) {
+		categoryMapper.updateByPrimaryKeySelective(category);
+		
+	}
+
+
+
 	
 	
 

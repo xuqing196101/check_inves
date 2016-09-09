@@ -82,4 +82,13 @@ import ses.model.bms.Category;
 	* @return int
 	 */
 	public int deleteByPrimaryKey(String id);
+	/**
+	 * 
+	* @Title: updateByPrimaryKeySelective
+	* @author zhangxuefeng 
+	* @Description: 根据节点id修改目录名称
+	* @param @param category
+	* @return void
+	 */
+	public void updateByPrimaryKeySelective(Category category);
 }

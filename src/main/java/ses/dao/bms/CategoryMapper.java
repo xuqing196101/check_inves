@@ -89,6 +89,16 @@ public interface CategoryMapper {
 	public void updateNameById(String id);
 	/**
 	 * 
+	* @Title: updateByPrimaryKeySelective
+	* @author zhangxuefeng 
+	* @Description: 根据节点id修改目录名称
+	* @param @param category
+	* @return void
+	 */
+	public void updateByPrimaryKeySelective(Category category);
+		
+	/**
+	 * 
 	* @Title: deleteByPrimaryKey
 	* @author zhangxuefeng 
 	* @Description: 根据节点id删除目录信息

@@ -19,7 +19,7 @@
     <result column="RACGE" jdbcType="DECIMAL" property="range" />
     <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
     <association property="user" column="USER_ID" select="ses.dao.bms.UserMapper.queryById"/>
-    <association property="articleType" column="ARTICLE_TYPE_ID" select="iss.dao.ArticleTypeMapper.selectByPrimaryKey"/>
+    <association property="articleType" column="ARTICLE_TYPE_ID" select="iss.dao.article.ArticleTypeMapper.selectByPrimaryKey"/>
   </resultMap>
   <resultMap extends="IndexNewsMapper" id="IndexNewsWithBlobMapper" type="ses.model.bms.Article">
     <result column="CONTENT" jdbcType="CLOB" property="content" />

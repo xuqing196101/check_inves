@@ -18,6 +18,7 @@ import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.service.bms.CategoryService;
 
+import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.google.gson.Gson;
 
 
@@ -130,20 +131,14 @@ public class CategoryController {
   	* @author zhangxuefeng
   	* @date 
   	* @Description:
-  	* @param @return
-  	* @param @throws Exception      
+  	* @param @return    
   	* @return String
     @   */ 
    @RequestMapping(value="save")
    public String save(HttpServletRequest request,Category category,Model model){
 	  category.setName(request.getParameter("name"));
 	  category.setOrderNum(Integer.parseInt(request.getParameter("orderNum")));
-	 category.setStatus(Integer.parseInt(request.getParameter("status")));
-	 if (category.getStatus().equals("0")) {
-		category.setStatus(0);
-	}else if (category.getStatus().equals("1")) {
-		category.setStatus(1);
-	}
+	  category.setStatus(1);
 	  category.setCode(Integer.parseInt(request.getParameter("code")));
 	  category.setAttchment(request.getParameter("attchment"));
 	  category.setDescription(request.getParameter("description"));
@@ -176,7 +171,7 @@ public class CategoryController {
   	 * 
   	* @Title: edit
   	* @author Zhang XueFeng
-  	* @Description:修改目录休息
+  	* @Description:修改目录信息
   	* @param @return 
   	* @return String
        */  
@@ -191,7 +186,6 @@ public class CategoryController {
 			category.setAncestry("1");
 		}
 		  category.setOrderNum(Integer.parseInt(request.getParameter("orderNum")));
-		  category.setStatus(Integer.parseInt(request.getParameter("status")));
 		  category.setCode(Integer.parseInt(request.getParameter("code")));
 		  category.setAttchment(request.getParameter("attchment"));
 		  category.setDescription(request.getParameter("description"));
@@ -208,15 +202,13 @@ public class CategoryController {
  	 * 
  	* @Title: rename
  	* @author Zhang XueFeng
- 	* @Description:修改目录休息
+ 	* @Description:修改目录名称
  	* @param @return 
  	* @return String
       */  
    @RequestMapping(value="rename")
    public String updateName(HttpServletRequest request,Category category){
-	   String treeid=request.getParameter("id");
-	   category.setName(request.getParameter("name"));
-	 //  categoryService.updateNameById();
+	   categoryService.updateByPrimaryKeySelective(category);
 	return "category/list";
    }
    
@@ -225,7 +217,7 @@ public class CategoryController {
 	 * 
 	* @Title: delete
 	* @author Zhang XueFeng
-	* @Description:修改目录休息
+	* @Description:删除目录节点
 	* @param @return 
 	* @return String
      */ 
@@ -235,6 +227,33 @@ public class CategoryController {
 	   categoryService.deleteByPrimaryKey(category.getId());
 	
    }
+   
+   /**
+  	 * 
+  	* @Title: ros
+  	* @author Zhang XueFeng
+  	* @Description:修改状态（激活休眠）
+  	* @param @return 
+  	* @return String
+       */ 
+   @RequestMapping("/ros")
+   public String change(HttpServletRequest request,Category category){
+	   String ids=request.getParameter("ids");
+	   String[] cids=ids.split(",");
+	   for (int i = 0; i < cids.length; i++) {
+		Category cate=categoryService.selectByPrimaryKey(cids[i]);
+		if (cate.getStatus()==0) {
+			cate.setStatus(1);
+		}else{
+			cate.setStatus(0);
+		}
+		categoryService.updateByPrimaryKeySelective(cate);
+	}
+		
+	return "category/list";
+	   
+   }
+   
    //图片信息
    private List<File> attach;
    private List<String> attchFileName;

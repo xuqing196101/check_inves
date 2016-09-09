@@ -60,9 +60,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 </div>
 	 <div>
 	 	<span class="f18">附件：</span>
-	 	<c:forEach items="${articleDetail.articleAttachments}" var="a">
-	 		<a href="<%=basePath%>index/downloadArticleAtta.html?id=${a.id}">${a.fileName}</a>
-	 	</c:forEach>
+	 	<div>
+		 	<c:forEach items="${articleDetail.articleAttachments}" var="a">
+		 		<a href="<%=basePath%>index/downloadArticleAtta.html?id=${a.id}">${a.fileName}</a><br/>
+		 	</c:forEach>
+	 	</div>
 	 </div>
 	 </div>
    </div>

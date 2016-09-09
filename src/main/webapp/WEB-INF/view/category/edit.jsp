@@ -108,7 +108,6 @@
 		<input type="hidden" value="${id}" name="ancestry"/>
 	       <div >目录名称：<input type="text" name="name" value="${category.name }"/></div>
 	       <div>父节点<input type="text" name="ancestry" value="${category.ancestry }"/></div>
-	  	   <div>状态：<input type="text" name="status" value="${category.status }"/></div>
 	       <div>排序：<input type="text" name="orderNum" value="${category.orderNum }"/></div>
 	       <div>前台展示优先级:<input type="text" name="params" value="${category.code }"/></div>
 	       <div>附件：<input type="text" name="attchment" value="${category.attchment }"/></div>

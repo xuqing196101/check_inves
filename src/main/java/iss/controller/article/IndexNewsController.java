@@ -9,6 +9,7 @@ import iss.service.article.SolrNewsService;
 import java.io.File;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.model.bms.Article;
 import ses.model.bms.ArticleAttachments;
+import ses.model.bms.DownloadUser;
 import ses.service.bms.ArticleAttachmentsService;
 import ses.service.bms.ArticleService;
 import ses.util.SolrContext;
@@ -164,12 +166,19 @@ public class IndexNewsController {
 		if(file == null || !file.exists()){
 			return;
 		}
+		String fileName = (articleAtta.getFileName().split("_"))[1];
 		response.reset();
 		response.setContentType(articleAtta.getContentType()+"; charset=utf-8");
-		response.setHeader("Content-Disposition", "attachment; filename=" + articleAtta.getFileName());
+		response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
 		OutputStream out = response.getOutputStream();
 		out.write(FileUtils.readFileToByteArray(file));
 		out.flush();
+		DownloadUser downloadUser = new DownloadUser();
+		downloadUser.setCreatedAt(new Date());
+		downloadUser.setArticleId(articleAttachments.getArticle().getId());
+		downloadUser.setIsDeleted(0);
+		downloadUser.setUpdatedAt(new Date());
+		downloadUser.setUserId("1231231");
 		if(out !=  null){
 			out.close();
 		}
