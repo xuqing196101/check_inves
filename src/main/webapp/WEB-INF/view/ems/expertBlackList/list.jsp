@@ -289,33 +289,54 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="clear"></div>
 	  </div>
    </div>
-<!-- 我的订单页面开始-->
-   <div class="container">
-   <div class="headline-v2"></div>
-   </div>
-
-<!-- 表格开始-->
-   <div class="container">
-   <div class="col-md-8">
-		<form id="query_form" action="<%=basePath%>template/query.action" method="post">
+<!-- 搜索 -->
+		<form action="<%=basePath %>expert/queryBlacklist.html"  method="post" id="form1" enctype="multipart/form-data" class="registerform"> 
 		<input id="page_id" type="hidden" name="page" value="1">
-			<div class="mb15">
-				<span >姓名：</span> 
-				<input type="text">
-<!-- 				<span>处罚时限：</span> 
-				<input type="text"> -->
-				<span>处罚方式：</span> 
-				<input type="text">
-		 	<input type="submit" value="查 询">
-		 </div>
+		<div align="center">
+        	<table>
+            	<tr>
+                	<td>
+                    	<span>姓名：</span><input type="text" name="relName"">
+                    </td>
+					<td>
+                      	<span>处罚方式:</span>
+							<select name="punishDate">
+								<option value="">请选择</option>
+	  							<option value="三个月">三个月</option>
+	  							<option value="半年">半年</option>
+	  							<option value="一年">一年</option>
+	  							<option value="两年">两年</option>
+	  							<option value="三年">三年</option>
+							 </select>
+                     </td>
+                     <td> 	
+                         <span >处罚时限：</span>
+							<select name="punishType">
+							  	<option value=''>-请选择-</option>
+							   	<option value="1">警告</option>
+							   	<option value="2">严重警告</option>
+							   	<option value="3">取消资格</option>
+							</select>
+					</td>
+					<td>
+                        <span class="input-group-btn">
+                          <input class="btn-u" name="commit" value="搜索" type="submit">
+                        </span>
+                    </td>
+                  </tr>
+               </table>
+            </div>
 		</form>
+   <!-- 表格开始-->
+   <div class="container">
+     <div class="col-md-8">
+     	<button class="btn btn-windows add" type="button" onclick="add();">新增</button>
+     	<button class="btn btn-windows edit" type="button" onclick="update();">修改</button>
+		<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
 	</div>
-   
+   </div>
    <div class="container margin-top-5">
      <div class="content padding-left-25 padding-right-25 padding-top-5">
-     	<input value="新增" type="button" onclick="add();"/>
-     	<input value="修改" type="button" onclick="update();"/>
-     	<input value="删除" type="button" onclick="del();"/>
         <table class="table table-bordered table-condensed">
 		<thead>
 		<tr>

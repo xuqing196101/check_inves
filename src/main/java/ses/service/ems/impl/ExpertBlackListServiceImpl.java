@@ -1,6 +1,8 @@
 package ses.service.ems.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -85,6 +87,29 @@ public class ExpertBlackListServiceImpl implements ExpertBlackListService{
 	public void delete(String id) {
 		mapper.deleteByPrimaryKey(id);
 		
+	}
+	/**
+	 * @Title: query
+	 * @author Xu Qing
+	 * @date 2016-9-12 下午3:22:31  
+	 * @Description: 条件查询 
+	 * @param @param expertBlackList
+	 * @param @return      
+	 * @return List<ExpertBlackList>
+	 */
+	@Override
+	public List<ExpertBlackList> query(ExpertBlackList expertBlackList) {
+		Map map = new HashMap();
+		if(expertBlackList!=null){
+			map.put("relName", expertBlackList.getRelName());
+			map.put("punishType", expertBlackList.getPunishType());
+			map.put("punishDate", expertBlackList.getPunishDate());
+		}else{
+			map.put("relName", null);
+			map.put("punishType", null);
+			map.put("punishDate", null);
+		}
+		return mapper.query(map);
 	}
 
 }

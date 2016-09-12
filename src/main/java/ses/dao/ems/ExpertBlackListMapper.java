@@ -1,6 +1,7 @@
 package ses.dao.ems;
 
 import java.util.List;
+import java.util.Map;
 
 import ses.model.ems.ExpertBlackList;
 /**
@@ -56,4 +57,14 @@ public interface ExpertBlackListMapper {
 	 * @return void
 	 */
 	void deleteByPrimaryKey(String id);
+	/**
+	 * @Title: query
+	 * @author Xu Qing
+	 * @date 2016-9-12 下午3:19:10  
+	 * @Description: 条件查询 
+	 * @param @param paramMap
+	 * @param @return      
+	 * @return List<ExpertBlackList>
+	 */
+	List<ExpertBlackList> query (Map paramMap);
 }

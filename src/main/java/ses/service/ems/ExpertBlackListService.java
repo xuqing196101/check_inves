@@ -43,7 +43,7 @@ public interface ExpertBlackListService {
 	 * @Title: findById
 	 * @author Xu Qing
 	 * @date 2016-9-9 下午2:09:05  
-	 * @Description: 
+	 * @Description:根据id查询
 	 * @param @param id
 	 * @param @return      
 	 * @return ExpertBlackList
@@ -58,4 +58,14 @@ public interface ExpertBlackListService {
 	 * @return void
 	 */
 	void delete(String id);
+	/**
+	 * @Title: query
+	 * @author Xu Qing
+	 * @date 2016-9-12 下午3:22:31  
+	 * @Description: 条件查询 
+	 * @param @param expertBlackList
+	 * @param @return      
+	 * @return List<ExpertBlackList>
+	 */
+	List<ExpertBlackList> query (ExpertBlackList expertBlackList);
 }
