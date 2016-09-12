@@ -59,58 +59,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="<%=basePath%>public/layer/skin/layer.ext.css" media="screen" rel="stylesheet" type="text/css">
 
     <script src="<%=basePath%>public/ZHH/js/hm.js"></script><script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery-migrate-1.2.1.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
-<script src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/back-to-top.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.query.js"></script>
-<script src="<%=basePath%>public/ZHH/js/dialog-plus-min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.fancybox.pack.js"></script>
-<script src="<%=basePath%>public/ZHH/js/smoothScroll.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.parallax.js"></script>
-<script src="<%=basePath%>public/ZHH/js/app.js"></script>
-<script src="<%=basePath%>public/ZHH/js/common.js"></script>
-<script src="<%=basePath%>public/ZHH/js/dota.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.dragsort-0.5.2.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/fancy-box.js"></script>
-<script src="<%=basePath%>public/ZHH/js/style-switcher.js"></script>
-<script src="<%=basePath%>public/ZHH/js/owl.carousel.js"></script>
-<script src="<%=basePath%>public/ZHH/js/owl-carousel.js"></script>
-<script src="<%=basePath%>public/ZHH/js/owl-recent-works.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/WdatePicker.js"></script><link href="<%=basePath%>public/ZHH/css/WdatePicker(1).css" rel="stylesheet" type="text/css">
-<script src="<%=basePath%>public/ZHH/js/jquery.form.min.js"></script>
 
-<script src="<%=basePath%>public/ZHH/js/jquery.validate.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.maskedinput.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery-ui.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/masking.js"></script>
-<script src="<%=basePath%>public/ZHH/js/datepicker.js"></script>
-<script src="<%=basePath%>public/ZHH/js/timepicker.js"></script>
-<script src="<%=basePath%>public/ZHH/js/dialog-select.js"></script>
-<script src="<%=basePath%>public/ZHH/js/locale.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.ui.widget.js"></script>
-<script src="<%=basePath%>public/ZHH/js/load-image.js"></script>
-<script src="<%=basePath%>public/ZHH/js/canvas-to-blob.js"></script>
-<script src="<%=basePath%>public/ZHH/js/tmpl.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.iframe-transport.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.fileupload.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.fileupload-fp.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.fileupload-ui.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery-fileupload.js"></script>
-<script src="<%=basePath%>public/ZHH/js/form.js"></script>
-<script src="<%=basePath%>public/ZHH/js/select2.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/select2_locale_zh-CN.js"></script>
-<script src="<%=basePath%>public/ZHH/js/application.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.counterup.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/modernizr.js"></script>
-<script src="<%=basePath%>public/ZHH/js/touch.js"></script>
-<script src="<%=basePath%>public/ZHH/js/product-quantity.js"></script>
-<script src="<%=basePath%>public/ZHH/js/master-slider.js"></script>
-<script src="<%=basePath%>public/ZHH/js/shop.app.js"></script>
-<script src="<%=basePath%>public/ZHH/js/masterslider.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.easing.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/james.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/layer/extend/layer.ext.js"></script>
 </head>
@@ -126,9 +76,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <script type="text/javascript">
    $(function(){
 	   var sup = $("#checked").val();
-		if(sup==1){
-		$("#bli1").attr("checked","true");
-		} 
+	   var radio=document.getElementsByName("check");
+	   for(var i=0;i<radio.length;i++){
+	 		if(sup==radio[i].value){
+	 			radio[i].checked=true;
+	 	 		break;
+	 		}
+	   }
    });
    function submitForm(flag){
 	   if(flag==1 || flag=="1"){

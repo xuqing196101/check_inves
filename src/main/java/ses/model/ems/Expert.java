@@ -75,7 +75,7 @@ public class Expert {
     /**采购机构id*/
     private String purchaseDepId;
     /**审核状态；0未审核，1通过，2未通过*/
-    private String status="0";
+    private String status;
     /**是否拉黑；0未拉黑，1已拉黑*/
     private String isBlack = "0";
     /**诚信积分；默认100，根据不诚信指标扣分*/

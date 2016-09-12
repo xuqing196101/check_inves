@@ -296,6 +296,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  <th class="info w30"><input type="checkbox" onclick="selectAll();"  id="allId" alt=""></th>
 		  <th class="info w50">序号</th>
 		  <th class="info">专家姓名</th>
+		  <th class="info">登录名</th>
 		  <th class="info">性别</th>
 		  <th class="info">类型</th>
 		  <th class="info">毕业院校</th>
@@ -309,6 +310,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  <td class="tc w30"><input type="checkbox" name="check" id="checked" alt="" value="${e.id }"></td>
 		  <td class="tc w50">${s.count }</td>
 		  <td class="tc">${e.relName}</td>
+		  <td class="tc">${e.loginName}</td>
 		  <td class="tc">${e.sex }</td>
 		  <c:if test="${e.expertsTypeId ==null}">
 		   <td class="tc"></td>
@@ -325,7 +327,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 <td class="tc">${e.graduateSchool }</td>
 		 <td class="tc">${e.workUnit }</td>
 		 <td class="tc"><fmt:formatDate type='date' value='${e.createdAt }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
-		 <c:if test="${e.status eq '0' }">
+		 <c:if test="${e.status eq '0' ||e.status==null }">
 		 	<td class="tc">未审核</td>
 		 </c:if>
 		 <c:if test="${e.status eq '1' }">

@@ -1,6 +1,7 @@
 package ses.dao.ems;
 
 import java.util.List;
+import java.util.Map;
 
 import ses.model.ems.Expert;
 
@@ -28,5 +29,5 @@ public interface ExpertMapper {
       * @param @return      
       * @return List<Expert>
      */
-    List<Expert> selectAllExpert();
+    List<Expert> selectAllExpert(Map paramMap);
 }

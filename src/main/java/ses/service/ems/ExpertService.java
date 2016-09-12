@@ -75,5 +75,5 @@ public interface ExpertService {
 	      * @param @return      
 	      * @return List<Expert>
 	     */
-	    List<Expert> selectAllExpert();
+	    List<Expert> selectAllExpert(Integer pageNum,Expert expert);
 }

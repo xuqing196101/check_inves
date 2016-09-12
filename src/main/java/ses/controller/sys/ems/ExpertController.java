@@ -27,11 +27,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.github.pagehelper.PageInfo;
 
 import ses.model.ems.Expert;
 import ses.service.ems.ExpertService;
@@ -252,9 +255,11 @@ public class ExpertController {
 	  * @return String
 	 */
 	@RequestMapping("/findAllExpert")
-	public String findAllExpert(HttpServletRequest request,HttpServletResponse response){
-		List<Expert> allExpert = service.selectAllExpert();
-		request.setAttribute("expert", allExpert);
+	public String findAllExpert( Expert expert,Integer page,HttpServletRequest request,HttpServletResponse response){
+		List<Expert> allExpert = service.selectAllExpert(page==null?1:page,expert);
+		
+		request.setAttribute("result", new PageInfo<>(allExpert));
+		request.setAttribute("expert", expert);
 		return "ems/expert/list";
 	}
 	

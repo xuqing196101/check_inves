@@ -51,10 +51,27 @@
   	select LOGIN_NAME from T_SES_EMS_EXPERT where LOGIN_NAME = #{loginName}
   	</select>
   	<!-- 查询所有专家 -->
-  	<select id="selectAllExpert"  resultMap="BaseResultMap">
+  	<select id="selectAllExpert"   resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from T_SES_EMS_EXPERT ORDER BY CREATED_AT DESC
+    from T_SES_EMS_EXPERT 
+    where
+    	 1=1
+       <if test="relName != null and relName !=''">  
+              AND  REL_NAME like '%${relName}%'   
+       </if>  
+       <if test="expertsFrom != null and expertsFrom !=''">  
+              AND EXPERTS_FROM = '${expertsFrom}' 
+       </if> 
+       <if test="status != null and status !=''">  
+              AND STATUS = ${status}
+       </if> 
+        <if test="expertsTypeId != null and expertsTypeId !=''">  
+              AND EXPERTS_TYPE_ID = ${expertsTypeId}
+       </if>
+       ORDER BY CREATED_AT DESC 
+    
+    
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 

@@ -67,7 +67,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  <script type="text/javascript">
 	$(function(){
 		//回显选中类别
-		//回显选中学历
 		 var processName = document.getElementById("expertsTypeIds").value;
 		var processNames =document.getElementById("expertsTypeId").children;
 		for(var i = 0; i<processNames.length;i++){
