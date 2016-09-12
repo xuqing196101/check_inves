@@ -50,14 +50,19 @@
 		<table tableName="T_SES_EMS_EXPERT_HONESTY" domainObjectName="ExpertHonesty" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />
 		
 		<!-- 部门表   type=0 需求部门 ，1管理部门，2采购机构新增部门 -->
-		<table tableName="T_SES_OMS_DEP" domainObjectName="Deparent" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />
-		<!-- 组织机构表 -->
+		<!-- <table tableName="T_SES_OMS_DEP" domainObjectName="Deparent" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" /> -->
+		<!-- 组织机构表     type=0 需求部门 ，1管理部门，2采购机构新增部门 -->
 		<table tableName="T_SES_OMS_ORG" domainObjectName="Orgniztion" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />
 		<!-- 采购机构表 -->
 		<table tableName="T_SES_OMS_PURCHASE_DEP" domainObjectName="PurchaseDep" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />
-		
-		
-		
+		<!-- 采购单位表 -->
+		<table tableName="T_SES_OMS_PURCHASE_UNIT" domainObjectName="PurchaseUnit" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />
+		<!-- 部门机构表 多对多 -->
+		<table tableName="T_SES_OMS_PURDEP_ORG" domainObjectName="PurchaseOrg" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />
+		<!-- 采购机构人员表 -->
+		<table tableName="T_SES_OMS_PROCUREMENT_USER" domainObjectName="PurchaseInfo" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />
+		<!-- 办公室表 -->
+		<table tableName="T_SES_OMS_ROOM" domainObjectName="PurchaseRoom" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />
 		
 		
 	</context>

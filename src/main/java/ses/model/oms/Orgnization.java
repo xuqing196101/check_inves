@@ -5,25 +5,53 @@ import java.util.Date;
 public class Orgnization {
     private String id;
 
+    private String name;
+
+    private Integer typeName;
+
+    private String address;
+
+    private Integer phone;
+
+    private Integer postCode;
+
+    private String orgCode;
+
+    private String telephone;
+
+    private String areaId;
+
+    private String detailAddr;
+
+    private String fax;
+
+    private String website;
+
+    private String princinpal;
+
+    private String princinpalIdCard;
+
+    private String nature;
+
+    private Integer isDeleted;
+
     private Date createdAt;
 
     private Date updatedAt;
 
-    private Integer orglevel;
+    private Integer orgLevel;
 
-    private Integer orderby;
-
-    private Integer isDeleted;
+    private Integer position;
 
     private String parentId;
 
-    private String name;
-
     private String depId;
 
-    private Integer type;
-
     private Integer isRoot;
+
+    private String shortName;
+
+    private String describtion;
 
     public String getId() {
         return id;
@@ -31,6 +59,126 @@ public class Orgnization {
 
     public void setId(String id) {
         this.id = id == null ? null : id.trim();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
+    }
+
+    public Integer getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(Integer typeName) {
+        this.typeName = typeName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address == null ? null : address.trim();
+    }
+
+    public Integer getPhone() {
+        return phone;
+    }
+
+    public void setPhone(Integer phone) {
+        this.phone = phone;
+    }
+
+    public Integer getPostCode() {
+        return postCode;
+    }
+
+    public void setPostCode(Integer postCode) {
+        this.postCode = postCode;
+    }
+
+    public String getOrgCode() {
+        return orgCode;
+    }
+
+    public void setOrgCode(String orgCode) {
+        this.orgCode = orgCode == null ? null : orgCode.trim();
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone == null ? null : telephone.trim();
+    }
+
+    public String getAreaId() {
+        return areaId;
+    }
+
+    public void setAreaId(String areaId) {
+        this.areaId = areaId == null ? null : areaId.trim();
+    }
+
+    public String getDetailAddr() {
+        return detailAddr;
+    }
+
+    public void setDetailAddr(String detailAddr) {
+        this.detailAddr = detailAddr == null ? null : detailAddr.trim();
+    }
+
+    public String getFax() {
+        return fax;
+    }
+
+    public void setFax(String fax) {
+        this.fax = fax == null ? null : fax.trim();
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website == null ? null : website.trim();
+    }
+
+    public String getPrincinpal() {
+        return princinpal;
+    }
+
+    public void setPrincinpal(String princinpal) {
+        this.princinpal = princinpal == null ? null : princinpal.trim();
+    }
+
+    public String getPrincinpalIdCard() {
+        return princinpalIdCard;
+    }
+
+    public void setPrincinpalIdCard(String princinpalIdCard) {
+        this.princinpalIdCard = princinpalIdCard == null ? null : princinpalIdCard.trim();
+    }
+
+    public String getNature() {
+        return nature;
+    }
+
+    public void setNature(String nature) {
+        this.nature = nature == null ? null : nature.trim();
+    }
+
+    public Integer getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Integer isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     public Date getCreatedAt() {
@@ -49,24 +197,21 @@ public class Orgnization {
         this.updatedAt = updatedAt;
     }
 
-    
-
-    public Integer getOrglevel() {
-		return orglevel;
-	}
-
-	public void setOrglevel(Integer orglevel) {
-		this.orglevel = orglevel;
-	}
-
-	public Integer getOrderby() {
-        return orderby;
+    public Integer getOrgLevel() {
+        return orgLevel;
     }
 
-    public void setOrderby(Integer orderby) {
-        this.orderby = orderby;
+    public void setOrgLevel(Integer orgLevel) {
+        this.orgLevel = orgLevel;
     }
 
+    public Integer getPosition() {
+        return position;
+    }
+
+    public void setPosition(Integer position) {
+        this.position = position;
+    }
 
     public String getParentId() {
         return parentId;
@@ -74,14 +219,6 @@ public class Orgnization {
 
     public void setParentId(String parentId) {
         this.parentId = parentId == null ? null : parentId.trim();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
     }
 
     public String getDepId() {
@@ -92,29 +229,27 @@ public class Orgnization {
         this.depId = depId == null ? null : depId.trim();
     }
 
-	public Integer getIsDeleted() {
-		return isDeleted;
-	}
+    public Integer getIsRoot() {
+        return isRoot;
+    }
 
-	public void setIsDeleted(Integer isDeleted) {
-		this.isDeleted = isDeleted;
-	}
+    public void setIsRoot(Integer isRoot) {
+        this.isRoot = isRoot;
+    }
 
-	public Integer getType() {
-		return type;
-	}
+    public String getShortName() {
+        return shortName;
+    }
 
-	public void setType(Integer type) {
-		this.type = type;
-	}
+    public void setShortName(String shortName) {
+        this.shortName = shortName == null ? null : shortName.trim();
+    }
 
-	public Integer getIsRoot() {
-		return isRoot;
-	}
+    public String getDescribtion() {
+        return describtion;
+    }
 
-	public void setIsRoot(Integer isRoot) {
-		this.isRoot = isRoot;
-	}
-
-
+    public void setDescribtion(String describtion) {
+        this.describtion = describtion == null ? null : describtion.trim();
+    }
 }

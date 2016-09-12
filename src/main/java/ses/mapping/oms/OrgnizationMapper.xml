@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.oms.OrgnizationMapper">
+   <!-- 根据id查部门 -->
+	<select id="findOrgnizationList" parameterType="java.util.Map" resultType="ses.model.oms.Orgnization">
+			   select d.id  as id,
+		       d.ORG_LEVEL       as orgLevel,
+		       d.IS_DELETED       as isDeleted,
+		       d.PARENT_ID     as parentId,
+		       d.NAME         as name,
+		       d.DEP_ID       as depId,
+		       d.TYPE_NAME       as typeName,
+		       d.IS_ROOT         as isRoot
+		  from T_SES_OMS_ORG     d
+		 where nvl(d.is_deleted,0)=0
+		 <if test="id != null and id != ''">
+			and d.id= #{id}
+		</if>
+		 <if test="pid != null and pid != ''">
+			and d.PARENT_ID= #{pid}
+		</if>
+		<if test="isroot != null and isroot != ''">
+			and nvl(d.IS_ROOT,'0')= 1
+		</if>
+		<if test="type != null and type != ''">
+			and d.type= #{type}
+		</if> 
+	</select>
+	
+	<!-- 保存部门 -->
+	<insert id="saveOrgnization" parameterType="java.util.Map">
+		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			select rawtohex(sys_guid()) as VALUE from dual
+		</selectKey>
+		insert into T_SES_OMS_ORG
+		 (ID,NAME,TYPE_NAME,
+		  DEP_ID,PARENT_ID,CREATED_AT,
+		  DESCRIBTION,ADDRESS,PHONE,
+		  POST_CODE,ORG_CODE,TELEPHONE,
+		  AREA_ID,DETAIL_ADDR,FAX,
+		  WEBSITE,PRINCINPAL,PRINCINPAL_ID_CARD,
+		  NATURE,ORG_LEVEL,POSITION
+          )
+		values(
+	      #{id},#{name,typeHandler=ses.controller.sys.oms.NullValueHandler},#{type_name,typeHandler=ses.controller.sys.oms.NullValueHandler},
+		  #{DEP_ID,typeHandler=ses.controller.sys.oms.NullValueHandler},#{PARENT_ID,typeHandler=ses.controller.sys.oms.NullValueHandler},sysdate,
+		  #{DESCRIBTION,typeHandler=ses.controller.sys.oms.NullValueHandler},#{ADDRESS,typeHandler=ses.controller.sys.oms.NullValueHandler},#{PHONE,typeHandler=ses.controller.sys.oms.NullValueHandler},
+		  #{POST_CODE,typeHandler=ses.controller.sys.oms.NullValueHandler},#{ORG_CODE,typeHandler=ses.controller.sys.oms.NullValueHandler},#{TELEPHONE,typeHandler=ses.controller.sys.oms.NullValueHandler},
+		  #{AREA_ID,typeHandler=ses.controller.sys.oms.NullValueHandler},#{DETAIL_ADDR,typeHandler=ses.controller.sys.oms.NullValueHandler},#{FAX,typeHandler=ses.controller.sys.oms.NullValueHandler},
+		  #{WEBSITE,typeHandler=ses.controller.sys.oms.NullValueHandler},#{PRINCINPAL,typeHandler=ses.controller.sys.oms.NullValueHandler},#{PRINCINPAL_ID_CARD,typeHandler=ses.controller.sys.oms.NullValueHandler},
+		  #{NATURE,typeHandler=ses.controller.sys.oms.NullValueHandler},#{ORG_LEVEL,typeHandler=ses.controller.sys.oms.NullValueHandler},#{POSITION,typeHandler=ses.controller.sys.oms.NullValueHandler}
+		 )
+	</insert>
+</mapper>

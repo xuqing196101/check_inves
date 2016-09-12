@@ -2,36 +2,21 @@ package ses.model.oms;
 
 import java.math.BigDecimal;
 import java.util.Date;
-/**
- * 
-* <p>Title:PurchaseDep </p>
-* <p>Description: </p>
-* <p>Company: ses </p> 
-* @author tkf
-* @date 2016-9-6上午9:49:54
- */
+
 public class PurchaseDep {
     private String id;
 
-    private String name;
-
     private String level;
 
-    private String unitId;
+    private String subordinateOrgId;
 
-    private String unitName;
+    private String subordinateOrgName;
 
-    private String propBusyUnit;
+    private String businessDep;
 
-    private String propBusyId;
+    private String businessDepId;
 
-    private String propBusyScope;
-
-    private String addr;
-
-    private Integer postCode;
-
-    private String fax;
+    private String businessRange;
 
     private String quaCode;
 
@@ -43,81 +28,61 @@ public class PurchaseDep {
 
     private String quaCert;
 
-    private String leaderTel;
+    private String leaderTelephone;
 
-    private Integer officerNum;
+    private Integer officerCountnum;
 
-    private Integer officerNows;
+    private Integer officerNowCounts;
 
     private Integer soldierNum;
 
-    private Integer soldierNows;
+    private Integer soldierNowCounts;
 
     private Integer staffNum;
 
-    private Integer staffNows;
+    private Integer staffNowCounts;
 
-    private Integer purchasers;
+    private Integer purchasersCount;
 
-    private Integer juniorPur;
+    private Integer juniorPurCount;
 
-    private Integer seniorPur;
+    private Integer seniorPurCount;
 
-    private String unit;
+    private String depName;
 
-    private String legalPerson;
+    private String legal;
 
-    private String entrustPerson;
+    private String agent;
 
-    private String contractPerson;
+    private String contact;
 
-    private String contractTel;
+    private String contactTelephone;
 
-    private String comunicationAddr;
+    private String contactAddress;
 
     private Integer unitPostCode;
 
-    private String payUnit;
+    private String payDep;
 
-    private String openingBank;
+    private String bank;
 
     private BigDecimal bankAccount;
 
     private Integer officeArea;
 
-    private Integer officeNum;
+    private Integer officeCount;
 
-    private Integer meetNum;
+    private Integer mettingRoomCount;
 
-    private Integer bidOffice;
+    private Integer inviteRoomCount;
 
-    private Integer bidRoom;
+    private Integer bidRoomCount;
 
-    private String bidRoomCode;
-
-    private String bidRoomPosition;
-
-    private Integer bidRoomArea;
-
-    private Integer bidRoomCapacity;
-
-    private String bidOfficeCode;
-
-    private String bidOfficePosition;
-
-    private Integer bidOfficeArea;
-
-    private Integer bidOfficeCapacity;
-
-    private Integer isInInternet;
-
-    private Integer isHaveMonitoringSystem;
-
-    private String accessWay;
     private Integer isDeleted;
-    private Date createdAt;
 
     private Date updatedAt;
+
+    private Date createdAt;
 
     public String getId() {
         return id;
@@ -125,14 +90,6 @@ public class PurchaseDep {
 
     public void setId(String id) {
         this.id = id == null ? null : id.trim();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
     }
 
     public String getLevel() {
@@ -143,68 +100,44 @@ public class PurchaseDep {
         this.level = level == null ? null : level.trim();
     }
 
-    public String getUnitId() {
-        return unitId;
+    public String getSubordinateOrgId() {
+        return subordinateOrgId;
     }
 
-    public void setUnitId(String unitId) {
-        this.unitId = unitId == null ? null : unitId.trim();
+    public void setSubordinateOrgId(String subordinateOrgId) {
+        this.subordinateOrgId = subordinateOrgId == null ? null : subordinateOrgId.trim();
     }
 
-    public String getUnitName() {
-        return unitName;
+    public String getSubordinateOrgName() {
+        return subordinateOrgName;
     }
 
-    public void setUnitName(String unitName) {
-        this.unitName = unitName == null ? null : unitName.trim();
+    public void setSubordinateOrgName(String subordinateOrgName) {
+        this.subordinateOrgName = subordinateOrgName == null ? null : subordinateOrgName.trim();
     }
 
-    public String getPropBusyUnit() {
-        return propBusyUnit;
+    public String getBusinessDep() {
+        return businessDep;
     }
 
-    public void setPropBusyUnit(String propBusyUnit) {
-        this.propBusyUnit = propBusyUnit == null ? null : propBusyUnit.trim();
+    public void setBusinessDep(String businessDep) {
+        this.businessDep = businessDep == null ? null : businessDep.trim();
     }
 
-    public String getPropBusyId() {
-        return propBusyId;
+    public String getBusinessDepId() {
+        return businessDepId;
     }
 
-    public void setPropBusyId(String propBusyId) {
-        this.propBusyId = propBusyId == null ? null : propBusyId.trim();
+    public void setBusinessDepId(String businessDepId) {
+        this.businessDepId = businessDepId == null ? null : businessDepId.trim();
     }
 
-    public String getPropBusyScope() {
-        return propBusyScope;
+    public String getBusinessRange() {
+        return businessRange;
     }
 
-    public void setPropBusyScope(String propBusyScope) {
-        this.propBusyScope = propBusyScope == null ? null : propBusyScope.trim();
-    }
-
-    public String getAddr() {
-        return addr;
-    }
-
-    public void setAddr(String addr) {
-        this.addr = addr == null ? null : addr.trim();
-    }
-
-    public Integer getPostCode() {
-        return postCode;
-    }
-
-    public void setPostCode(Integer postCode) {
-        this.postCode = postCode;
-    }
-
-    public String getFax() {
-        return fax;
-    }
-
-    public void setFax(String fax) {
-        this.fax = fax == null ? null : fax.trim();
+    public void setBusinessRange(String businessRange) {
+        this.businessRange = businessRange == null ? null : businessRange.trim();
     }
 
     public String getQuaCode() {
@@ -231,16 +164,15 @@ public class PurchaseDep {
         this.quaEdndate = quaEdndate;
     }
 
-
     public Integer getQuaRange() {
-		return quaRange;
-	}
+        return quaRange;
+    }
 
-	public void setQuaRange(Integer quaRange) {
-		this.quaRange = quaRange;
-	}
+    public void setQuaRange(Integer quaRange) {
+        this.quaRange = quaRange;
+    }
 
-	public String getQuaCert() {
+    public String getQuaCert() {
         return quaCert;
     }
 
@@ -248,28 +180,28 @@ public class PurchaseDep {
         this.quaCert = quaCert == null ? null : quaCert.trim();
     }
 
-    public String getLeaderTel() {
-        return leaderTel;
+    public String getLeaderTelephone() {
+        return leaderTelephone;
     }
 
-    public void setLeaderTel(String leaderTel) {
-        this.leaderTel = leaderTel == null ? null : leaderTel.trim();
+    public void setLeaderTelephone(String leaderTelephone) {
+        this.leaderTelephone = leaderTelephone == null ? null : leaderTelephone.trim();
     }
 
-    public Integer getOfficerNum() {
-        return officerNum;
+    public Integer getOfficerCountnum() {
+        return officerCountnum;
     }
 
-    public void setOfficerNum(Integer officerNum) {
-        this.officerNum = officerNum;
+    public void setOfficerCountnum(Integer officerCountnum) {
+        this.officerCountnum = officerCountnum;
     }
 
-    public Integer getOfficerNows() {
-        return officerNows;
+    public Integer getOfficerNowCounts() {
+        return officerNowCounts;
     }
 
-    public void setOfficerNows(Integer officerNows) {
-        this.officerNows = officerNows;
+    public void setOfficerNowCounts(Integer officerNowCounts) {
+        this.officerNowCounts = officerNowCounts;
     }
 
     public Integer getSoldierNum() {
@@ -280,12 +212,12 @@ public class PurchaseDep {
         this.soldierNum = soldierNum;
     }
 
-    public Integer getSoldierNows() {
-        return soldierNows;
+    public Integer getSoldierNowCounts() {
+        return soldierNowCounts;
     }
 
-    public void setSoldierNows(Integer soldierNows) {
-        this.soldierNows = soldierNows;
+    public void setSoldierNowCounts(Integer soldierNowCounts) {
+        this.soldierNowCounts = soldierNowCounts;
     }
 
     public Integer getStaffNum() {
@@ -296,84 +228,84 @@ public class PurchaseDep {
         this.staffNum = staffNum;
     }
 
-    public Integer getStaffNows() {
-        return staffNows;
+    public Integer getStaffNowCounts() {
+        return staffNowCounts;
     }
 
-    public void setStaffNows(Integer staffNows) {
-        this.staffNows = staffNows;
+    public void setStaffNowCounts(Integer staffNowCounts) {
+        this.staffNowCounts = staffNowCounts;
     }
 
-    public Integer getPurchasers() {
-        return purchasers;
+    public Integer getPurchasersCount() {
+        return purchasersCount;
     }
 
-    public void setPurchasers(Integer purchasers) {
-        this.purchasers = purchasers;
+    public void setPurchasersCount(Integer purchasersCount) {
+        this.purchasersCount = purchasersCount;
     }
 
-    public Integer getJuniorPur() {
-        return juniorPur;
+    public Integer getJuniorPurCount() {
+        return juniorPurCount;
     }
 
-    public void setJuniorPur(Integer juniorPur) {
-        this.juniorPur = juniorPur;
+    public void setJuniorPurCount(Integer juniorPurCount) {
+        this.juniorPurCount = juniorPurCount;
     }
 
-    public Integer getSeniorPur() {
-        return seniorPur;
+    public Integer getSeniorPurCount() {
+        return seniorPurCount;
     }
 
-    public void setSeniorPur(Integer seniorPur) {
-        this.seniorPur = seniorPur;
+    public void setSeniorPurCount(Integer seniorPurCount) {
+        this.seniorPurCount = seniorPurCount;
     }
 
-    public String getUnit() {
-        return unit;
+    public String getDepName() {
+        return depName;
     }
 
-    public void setUnit(String unit) {
-        this.unit = unit == null ? null : unit.trim();
+    public void setDepName(String depName) {
+        this.depName = depName == null ? null : depName.trim();
     }
 
-    public String getLegalPerson() {
-        return legalPerson;
+    public String getLegal() {
+        return legal;
     }
 
-    public void setLegalPerson(String legalPerson) {
-        this.legalPerson = legalPerson == null ? null : legalPerson.trim();
+    public void setLegal(String legal) {
+        this.legal = legal == null ? null : legal.trim();
     }
 
-    public String getEntrustPerson() {
-        return entrustPerson;
+    public String getAgent() {
+        return agent;
     }
 
-    public void setEntrustPerson(String entrustPerson) {
-        this.entrustPerson = entrustPerson == null ? null : entrustPerson.trim();
+    public void setAgent(String agent) {
+        this.agent = agent == null ? null : agent.trim();
     }
 
-    public String getContractPerson() {
-        return contractPerson;
+    public String getContact() {
+        return contact;
     }
 
-    public void setContractPerson(String contractPerson) {
-        this.contractPerson = contractPerson == null ? null : contractPerson.trim();
+    public void setContact(String contact) {
+        this.contact = contact == null ? null : contact.trim();
     }
 
-    public String getContractTel() {
-        return contractTel;
+    public String getContactTelephone() {
+        return contactTelephone;
     }
 
-    public void setContractTel(String contractTel) {
-        this.contractTel = contractTel == null ? null : contractTel.trim();
+    public void setContactTelephone(String contactTelephone) {
+        this.contactTelephone = contactTelephone == null ? null : contactTelephone.trim();
     }
 
-    public String getComunicationAddr() {
-        return comunicationAddr;
+    public String getContactAddress() {
+        return contactAddress;
     }
 
-    public void setComunicationAddr(String comunicationAddr) {
-        this.comunicationAddr = comunicationAddr == null ? null : comunicationAddr.trim();
+    public void setContactAddress(String contactAddress) {
+        this.contactAddress = contactAddress == null ? null : contactAddress.trim();
     }
 
     public Integer getUnitPostCode() {
@@ -384,20 +316,20 @@ public class PurchaseDep {
         this.unitPostCode = unitPostCode;
     }
 
-    public String getPayUnit() {
-        return payUnit;
+    public String getPayDep() {
+        return payDep;
     }
 
-    public void setPayUnit(String payUnit) {
-        this.payUnit = payUnit == null ? null : payUnit.trim();
+    public void setPayDep(String payDep) {
+        this.payDep = payDep == null ? null : payDep.trim();
     }
 
-    public String getOpeningBank() {
-        return openingBank;
+    public String getBank() {
+        return bank;
     }
 
-    public void setOpeningBank(String openingBank) {
-        this.openingBank = openingBank == null ? null : openingBank.trim();
+    public void setBank(String bank) {
+        this.bank = bank == null ? null : bank.trim();
     }
 
     public BigDecimal getBankAccount() {
@@ -416,149 +348,59 @@ public class PurchaseDep {
         this.officeArea = officeArea;
     }
 
-    public Integer getOfficeNum() {
-        return officeNum;
+    public Integer getOfficeCount() {
+        return officeCount;
     }
 
-    public void setOfficeNum(Integer officeNum) {
-        this.officeNum = officeNum;
+    public void setOfficeCount(Integer officeCount) {
+        this.officeCount = officeCount;
     }
 
-    public Integer getMeetNum() {
-        return meetNum;
+    public Integer getMettingRoomCount() {
+        return mettingRoomCount;
     }
 
-    public void setMeetNum(Integer meetNum) {
-        this.meetNum = meetNum;
+    public void setMettingRoomCount(Integer mettingRoomCount) {
+        this.mettingRoomCount = mettingRoomCount;
     }
 
-    public Integer getBidOffice() {
-        return bidOffice;
+    public Integer getInviteRoomCount() {
+        return inviteRoomCount;
     }
 
-    public void setBidOffice(Integer bidOffice) {
-        this.bidOffice = bidOffice;
+    public void setInviteRoomCount(Integer inviteRoomCount) {
+        this.inviteRoomCount = inviteRoomCount;
     }
 
-    public Integer getBidRoom() {
-        return bidRoom;
+    public Integer getBidRoomCount() {
+        return bidRoomCount;
     }
 
-    public void setBidRoom(Integer bidRoom) {
-        this.bidRoom = bidRoom;
+    public void setBidRoomCount(Integer bidRoomCount) {
+        this.bidRoomCount = bidRoomCount;
     }
 
-    public String getBidRoomCode() {
-        return bidRoomCode;
+    public Integer getIsDeleted() {
+        return isDeleted;
     }
 
-    public void setBidRoomCode(String bidRoomCode) {
-        this.bidRoomCode = bidRoomCode == null ? null : bidRoomCode.trim();
+    public void setIsDeleted(Integer isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
-    public String getBidRoomPosition() {
-        return bidRoomPosition;
+    public Date getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setBidRoomPosition(String bidRoomPosition) {
-        this.bidRoomPosition = bidRoomPosition == null ? null : bidRoomPosition.trim();
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
-    public Integer getBidRoomArea() {
-        return bidRoomArea;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setBidRoomArea(Integer bidRoomArea) {
-        this.bidRoomArea = bidRoomArea;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
-
-    public Integer getBidRoomCapacity() {
-        return bidRoomCapacity;
-    }
-
-    public void setBidRoomCapacity(Integer bidRoomCapacity) {
-        this.bidRoomCapacity = bidRoomCapacity;
-    }
-
-    public String getBidOfficeCode() {
-        return bidOfficeCode;
-    }
-
-    public void setBidOfficeCode(String bidOfficeCode) {
-        this.bidOfficeCode = bidOfficeCode == null ? null : bidOfficeCode.trim();
-    }
-
-    public String getBidOfficePosition() {
-        return bidOfficePosition;
-    }
-
-    public void setBidOfficePosition(String bidOfficePosition) {
-        this.bidOfficePosition = bidOfficePosition == null ? null : bidOfficePosition.trim();
-    }
-
-    public Integer getBidOfficeArea() {
-        return bidOfficeArea;
-    }
-
-    public void setBidOfficeArea(Integer bidOfficeArea) {
-        this.bidOfficeArea = bidOfficeArea;
-    }
-
-    public Integer getBidOfficeCapacity() {
-        return bidOfficeCapacity;
-    }
-
-    public void setBidOfficeCapacity(Integer bidOfficeCapacity) {
-        this.bidOfficeCapacity = bidOfficeCapacity;
-    }
-
-
-    public Integer getIsInInternet() {
-		return isInInternet;
-	}
-
-	public void setIsInInternet(Integer isInInternet) {
-		this.isInInternet = isInInternet;
-	}
-
-	public Integer getIsHaveMonitoringSystem() {
-		return isHaveMonitoringSystem;
-	}
-
-	public void setIsHaveMonitoringSystem(Integer isHaveMonitoringSystem) {
-		this.isHaveMonitoringSystem = isHaveMonitoringSystem;
-	}
-
-	public String getAccessWay() {
-        return accessWay;
-    }
-
-    public void setAccessWay(String accessWay) {
-        this.accessWay = accessWay == null ? null : accessWay.trim();
-    }
-
-	public Integer getIsDeleted() {
-		return isDeleted;
-	}
-
-	public void setIsDeleted(Integer isDeleted) {
-		this.isDeleted = isDeleted;
-	}
-
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public Date getUpdatedAt() {
-		return updatedAt;
-	}
-
-	public void setUpdatedAt(Date updatedAt) {
-		this.updatedAt = updatedAt;
-	}
-    
 }
