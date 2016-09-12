@@ -49,4 +49,13 @@ public interface ExpertBlackListService {
 	 * @return ExpertBlackList
 	 */
 	ExpertBlackList findById(String id);
+	/**
+	 * @Title: delete
+	 * @author Xu Qing
+	 * @date 2016-9-9 下午4:51:25  
+	 * @Description: 根据id删除信息 
+	 * @param @param id      
+	 * @return void
+	 */
+	void delete(String id);
 }

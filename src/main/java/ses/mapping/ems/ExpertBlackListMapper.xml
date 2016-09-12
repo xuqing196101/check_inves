@@ -24,7 +24,7 @@
   	<select id="findList"  resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from T_SES_EMS_EXPERT_BLACKLIST
+    from T_SES_EMS_EXPERT_BLACKLIST order by CREATED_AT desc
   </select>
   
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">

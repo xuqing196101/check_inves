@@ -169,6 +169,34 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			layer.alert("请选择需要修改的信息",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
+    
+    //删除
+  function del(){
+		var ids =[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			ids.push($(this).val()); 
+		}); 
+		if(ids.length>0){
+			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+				layer.close(index);
+				$.ajax({
+		       		url:"<%=basePath%>expert/deleteBlacklist.html",
+		       		data:"ids="+ids,
+		       		success:function(){
+		       			layer.msg("删除成功",{offset: ['222px', '390px']});
+			       		window.setTimeout(function(){
+			       			location.href = "<%=basePath%>expert/blacklist.html";
+			       		}, 1000);
+		       		},
+		       		error: function(message){
+						layer.msg("删除失败",{offset: ['222px', '390px']});
+					}
+		       	});
+			});
+		}else{
+			layer.alert("请选择要删除的信息",{offset: ['222px', '390px'], shade:0.01});
+		}
+    }
 </script>
 </head>
 <body>
@@ -287,6 +315,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      <div class="content padding-left-25 padding-right-25 padding-top-5">
      	<input value="新增" type="button" onclick="add();"/>
      	<input value="修改" type="button" onclick="update();"/>
+     	<input value="删除" type="button" onclick="del();"/>
         <table class="table table-bordered table-condensed">
 		<thead>
 		<tr>

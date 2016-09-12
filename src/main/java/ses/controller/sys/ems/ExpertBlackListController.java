@@ -52,6 +52,7 @@ public class ExpertBlackListController {
 	 */
 	@RequestMapping("/saveBlacklist")
 	public String save(ExpertBlackList expertBlackList){
+		expertBlackList.setCreatedAt(new Date());
 		service.insert(expertBlackList);
 		return "redirect:blacklist.html";
 	}
@@ -95,9 +96,29 @@ public class ExpertBlackListController {
 	 */
 	@RequestMapping("/updateBlacklist")
 	public String update(ExpertBlackList expertBlackList){
+		expertBlackList.setCreatedAt(new Date());
 		service.update(expertBlackList);
 		return "redirect:blacklist.html";
 	}
+	/**
+	 * @Title: delete
+	 * @author Xu Qing
+	 * @date 2016-9-9 下午4:54:50  
+	 * @Description: 根据id批量删除信息 
+	 * @param @param id
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping("/deleteBlacklist")
+	public String delete(HttpServletRequest request){
+		String[] ids = request.getParameter("ids").split(",");
+		for(int i = 0;i<ids.length;i++){
+			service.delete(ids[i]);
+		}
+		return "redirect:blacklist.html";
+	}
+	
+	
 	@InitBinder
 	public void initBinder(ServletRequestDataBinder binder) {
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true));

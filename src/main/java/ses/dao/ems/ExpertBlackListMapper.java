@@ -3,7 +3,12 @@ package ses.dao.ems;
 import java.util.List;
 
 import ses.model.ems.ExpertBlackList;
-
+/**
+ * <p>Title:ExpertBlackListMapper </p>
+ * <p>Description: 专家黑名单接口</p>
+ * @author Xu Qing
+ * @date 2016-9-9下午4:46:53
+ */
 public interface ExpertBlackListMapper {
 	/**
 	 * @Title: update
@@ -42,4 +47,13 @@ public interface ExpertBlackListMapper {
 	 * @return ExpertBlackList
 	 */
 	ExpertBlackList selectByPrimaryKey(String id);
+	/**
+	 * @Title: deleteByPrimaryKey
+	 * @author Xu Qing
+	 * @date 2016-9-9 下午4:49:59  
+	 * @Description: 根据id删除信息 
+	 * @param @param id      
+	 * @return void
+	 */
+	void deleteByPrimaryKey(String id);
 }
