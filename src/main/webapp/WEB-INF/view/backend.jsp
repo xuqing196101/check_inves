@@ -53,7 +53,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/footer-v4.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/style(1).css" media="screen" rel="stylesheet">
+
 <link href="<%=basePath%>public/ZHH/css/masterslider.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/james.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/supplier/css/supplieragents.css" media="screen" rel="stylesheet">
@@ -77,7 +77,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/owl-carousel.js"></script>
 <script src="<%=basePath%>public/ZHH/js/owl-recent-works.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.mCustomScrollbar.concat.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/WdatePicker.js"></script><link href="<%=basePath%>public/ZHH/css/WdatePicker(1).css" rel="stylesheet" type="text/css">
+<script src="<%=basePath%>public/ZHH/js/WdatePicker.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.form.min.js"></script>
 
 
@@ -118,7 +118,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">后台管理</a></li></ul>
+		   <li><a href="#"> 首页</a></li><li><a href="#" class="active">后台管理</a></li>
+		   </ul>
 		<div class="clear"></div>
 	  </div>
    </div>
@@ -131,7 +132,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <div class="col-md-12 p0_10 margin-bottom-20">
      <div class="tag-box tag-box-v3 margin-0 p0_10">
       <div class="margin-0"><h2 class="margin-0 news" onclick="window.location.href='<%=basePath%>StationMessage/listStationMessage.do'">站内消息</h2></div>
-       <ul class="padding-left-20  categories hex padding-bottom-5">
+       <ul class="padding-left-20  categories hex padding-bottom-5 padding-top-5">
        <c:forEach items="${stationMessage }" var="station">
         <li><a href="#" title=" ${station.title }">
          <c:choose>  

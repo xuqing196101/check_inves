@@ -70,7 +70,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: 5px;
   text-shadow: none;
   font-weight: normal;
-  font-family: "Open Sans", Arial, sans-serif;
+  font-family:Arial;
 }
 
 h1 i, h2 i, h3 i, h4 i, h5 i, h6 i {
@@ -206,7 +206,7 @@ h1 i, h2 i, h3 i, h4 i, h5 i, h6 i {
   margin-bottom: 15px;
   padding-bottom: 20px;
   text-transform: uppercase;
-  font-family: "Open Sans", Arial, sans-serif;
+  font-family:Arial;
 }
 
 .title-v1 h1:after,
@@ -529,8 +529,10 @@ h3.heading-xs {
 .table thead > tr > th {
   border-bottom: none;
   font-size:16px;
-  color:#555555;
-  font-weight:500;
+  color:#333;
+  font-weight:bold;
+  font-size:13px;
+  border:1px solid #eee;
 }
 
 @media (max-width: 768px) {
@@ -2626,7 +2628,7 @@ blockquote.hero.hero-default small {
   font-size:16px;
   padding-left:35px;
   line-height:49px;
-  color:#000000;
+  color:#687074;
  }
 /*Tag Boxes v4*/
 .tag-box-v4 {

@@ -48,8 +48,9 @@
 .job-content ul.hex li {
 	padding: 6px 0;
 	border-bottom: 0px dotted #eee;
-	font-size:14px;
-	line-height:20px;
+	font-size:13px;
+	line-height:1.6;
+	color:#555;
 }
 
 /*High-Rated

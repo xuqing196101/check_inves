@@ -15,6 +15,7 @@
   padding: 0px 0 0px;
   border-bottom: solid 2px #eee;
   border-top: solid 2px #eee;
+  background: #fafafa;
 }
 
 .breadcrumbs h1 {
@@ -33,7 +34,7 @@
   color: #777;
   font-size:16px;
 }
-.breadcrumb li.active,
+.breadcrumb li a.active,
 .breadcrumb li a:hover {
   color: #2c9fa6;
   text-decoration: none;
