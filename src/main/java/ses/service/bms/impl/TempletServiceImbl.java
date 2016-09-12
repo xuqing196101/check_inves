@@ -8,9 +8,12 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+
 import ses.dao.bms.TempletMapper;
 import ses.model.bms.Templet;
 import ses.service.bms.TempletService;
+import ses.util.PropertiesUtil;
 
 
 /**
@@ -34,7 +37,9 @@ public class TempletServiceImbl implements TempletService{
 	 * 1.获取所有模板对象
 	 */
 	@Override
-	public List<Templet> getAll() {
+	public List<Templet> getAll(Integer pageNum) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
 		return templetMapper.queryByList();
 	}
 

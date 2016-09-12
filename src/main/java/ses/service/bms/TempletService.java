@@ -18,7 +18,7 @@ public interface TempletService {
 	/**
 	 * 1.获取所有模板对象
 	 */
-	List<Templet> getAll();
+	List<Templet> getAll(Integer pageNum);
 	
 	/**
 	 * 2.添加模板

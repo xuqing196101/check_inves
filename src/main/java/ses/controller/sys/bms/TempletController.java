@@ -10,7 +10,10 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.github.pagehelper.PageInfo;
+
 import ses.model.bms.Templet;
+import ses.model.bms.User;
 import ses.service.bms.TempletService;
 import ses.service.bms.impl.TempletServiceImbl;
 
@@ -40,9 +43,9 @@ public class TempletController {
 	 * @return: String
 	 */
 	@RequestMapping("/getAll")
-	public String getAll(Model model){
-		List<Templet> templets = templetService.getAll();
-		model.addAttribute("list",templets);
+	public String getAll(Model model,Integer page){
+		List<Templet> templets = templetService.getAll(page==null?1:page);
+		model.addAttribute("list",new PageInfo<Templet>(templets));
 		return "bms/templet/list";
 	}
 	

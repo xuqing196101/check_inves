@@ -24,8 +24,28 @@
   	<select id="findList"  resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from T_SES_EMS_EXPERT_BLACKLIST order by CREATED_AT desc
+    from T_SES_EMS_EXPERT_BLACKLIST ORDER BY CREATED_AT DESC
   </select>
+  
+  <!-- 条件查询 -->
+  <select id="query"   resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_EMS_EXPERT_BLACKLIST 
+    where
+    	 1=1
+       <if test="relName != null and relName !=''">  
+              AND  REL_NAME like '%${relName}%'   
+       </if>  
+       <if test="punishType != null and punishType !=''">  
+              AND PUNISH_TYPE = '${punishType}' 
+       </if> 
+       <if test="punishDate != null and punishDate !=''">  
+              AND PUNISH_DATE = '${punishDate}
+       </if> 
+       ORDER BY CREATED_AT DESC 
+  </select>
+  
   
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 

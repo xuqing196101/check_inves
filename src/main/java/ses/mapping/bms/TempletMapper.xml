@@ -151,7 +151,7 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from T_SES_BMS_Templet 
+    from T_SES_BMS_Templet where IS_DELETED !=1 
     ORDER BY CREATED_AT DESC
   </select>
   

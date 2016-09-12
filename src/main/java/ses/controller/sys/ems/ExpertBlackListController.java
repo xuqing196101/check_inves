@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -116,6 +117,21 @@ public class ExpertBlackListController {
 			service.delete(ids[i]);
 		}
 		return "redirect:blacklist.html";
+	}
+	/**
+	 * @Title: delete
+	 * @author Xu Qing
+	 * @date 2016-9-12 下午3:30:37  
+	 * @Description: 条件查询 
+	 * @param @param request
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping("/queryBlacklist")
+	public String query(HttpServletRequest request,ExpertBlackList expert,HttpServletResponse response){
+		List<ExpertBlackList> expertList = service.query(expert);
+		request.setAttribute("expertList", expertList);
+		return "ems/expertBlackList/list";
 	}
 	
 	
