@@ -91,8 +91,8 @@
 			 
    		</ul>
    
-  		<div  class="col-md-12">
-   			<div class="fl padding-100">
+  		<div  class="col-md-12 ml185">
+   			<div class="fl padding-10">
     			<button class="btn btn-windows save" type="submit">新增</button>
     			<button class="btn btn-windows git" onclick="history.go(-1)" type="button">返回</button>
 			</div>

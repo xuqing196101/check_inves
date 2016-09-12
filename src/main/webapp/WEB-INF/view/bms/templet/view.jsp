@@ -79,14 +79,14 @@
        			</div>
 			 </li> 
 	  	 </ul>
-	  	 
-	</div>  	
 	<!-- 底部按钮 -->			          
   <div  class="col-md-12 ml185">
    <div class="fl padding-10">
     <button class="btn btn-windows reset" onclick="history.go(-1)" type="button">返回</button>
 	</div>
   </div>
+	  	 
+	</div>  	
      
      </div>
      </div>
