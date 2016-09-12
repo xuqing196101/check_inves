@@ -1870,7 +1870,14 @@ img.img-mouse {
             top: -35px;
 			line-height:19px;
         }
-
+	.header-v4 .navbar-default .navbar-nav > li > a {
+	  padding:0px 18px!important;
+      }
+	  .nav_icon {
+	  margin: 7px 10px 7px 10px!important;
+	  }
+	 .our-clients li {
+	  margin:3px 0px!important;}
 		
 		
     }
