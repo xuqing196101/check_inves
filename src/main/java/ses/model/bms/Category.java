@@ -2,6 +2,7 @@ package ses.model.bms;
 
 
 import java.util.Date;
+import java.util.List;
 
 public class Category {
 	/*
@@ -35,12 +36,8 @@ public class Category {
      * 
      * */
     private Date updatedAt;
-    /*
-     * 图片（附件上传）
-     * 
-     * 
-     * */
-    private String attchment;
+
+
     /*
      * 描述
      * 
@@ -66,6 +63,16 @@ public class Category {
      * 
      * */
     private Integer isDeleted;
+
+	private List<CategoryAttchment> categoryAttchments;
+    
+    public List<CategoryAttchment> getCategoryAttchments() {
+		return categoryAttchments;
+	}
+
+	public void setCategoryAttchments(List<CategoryAttchment> categoryAttchments) {
+		this.categoryAttchments = categoryAttchments;
+	}
 
 	public Integer getIsDeleted() {
 		return isDeleted;
@@ -123,13 +130,7 @@ public class Category {
         this.updatedAt = updatedAt;
     }
 
-    public String getAttchment() {
-        return attchment;
-    }
-
-    public void setAttchment(String attchment) {
-        this.attchment = attchment == null ? null : attchment.trim();
-    }
+  
 
     public String getDescription() {
         return description;
@@ -162,4 +163,15 @@ public class Category {
     public void setOrderNum(Integer orderNum) {
         this.orderNum = orderNum;
     }
+
+	public Category(String id) {
+	
+		this.id = id;
+	}
+
+	public Category() {
+		super();
+	}
+    
+    
 }

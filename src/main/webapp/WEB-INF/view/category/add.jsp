@@ -19,7 +19,21 @@
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
 <script type="text/javascript">
+	function cheClick(id,name){
+		$("#articleTypeId").val(id);
+		$("#articleTypeName").val(name);
+	}
 	
+	function addAttach(){
+		html="<input id='pic' type='file' class='toinline' name='attaattach'/><a href='#' onclick='deleteattach(this)' class='toinline'>x</a><br/>";
+		$("#uploadAttach").append(html);
+	}
+	
+	function deleteattach(obj){
+		$(obj).prev().remove();
+		$(obj).next().remove();
+		$(obj).remove();
+	}
 
 
 </script>
@@ -109,12 +123,17 @@
 	  </div>
    </div>
   <div class="container">
-	<form action="<%=basePath%>category/save.do" method="post">
+	<form action="<%=basePath%>category/save.do" method="post" enctype="multipart/form-data">
 	<input type="hidden" value="${id }" name="ancestry"/>
 	       <div class=""><span>目录名称:</span><input type="text" name="name" /></div>
 	       <div class=""><span>排序:</span><input type="text"name="orderNum" /></div>
 	       <div class=""><span>前台展示优先级</span><input type="text" name="code" /></div>
-	       <div class=""><span>图片:</span><input id="pic" type="file" name="attchment"/></div>
+	        
+	        <div id="uploadAttach" class="clear ml160">
+	 		 <div class="f14">上传附件</div>
+	  		 <input id="pic" type="file" class="toinline" name="attaattach"/>
+	   		 <input class="toinline" type="button" value="添加" onclick="addAttach()"/><br/>
+	 		</div>
 	       <div class=""><span>描述:</span><input type="text"  name="description"/></div>
 	       <div class=""><span>是否末级</span>
 	       		 <select name="isEnd">
