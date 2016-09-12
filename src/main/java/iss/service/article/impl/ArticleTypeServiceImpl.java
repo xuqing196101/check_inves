@@ -13,35 +13,49 @@ import ses.util.PropertiesUtil;
 
 import com.github.pagehelper.PageHelper;
 
-
-	
+/*
+ *@Title:ArticleTypeServiceImpl
+ *@Description:文章类型service实现类
+ *@author QuJie
+ *@date 2016-9-12上午8:52:34
+ */
 @Service("articleTypeService")
 public class ArticleTypeServiceImpl implements ArticleTypeService {
 	
 	@Autowired
 	private ArticleTypeMapper articleTypeMapper;
 	
-
+	/**
+	 * 根据id查找文章类型
+	 */
 	@Override
 	public ArticleType selectByPrimaryKey(String id) {
-		// TODO Auto-generated method stub
 		return articleTypeMapper.selectByPrimaryKey(id);
 	}
 
-
+	/**
+	 * 查找所有文章类型(分页)
+	 */
 	@Override
 	public List<ArticleType> selectAllArticleType(Integer page) {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-		return articleTypeMapper.selectAllArticleType(page);
+		return articleTypeMapper.selectAllArticleType();
 	}
 
-
+	/**
+	 * 根据主键修改文章类型
+	 */
 	@Override
 	public void updateByPrimaryKey(ArticleType record) {
-		// TODO Auto-generated method stub
 		articleTypeMapper.updateByPrimaryKey(record);
 	}
 	
-	
+	/**
+	 * 为首页查询所有文章类型
+	 */
+	@Override
+	public List<ArticleType> selectAllArticleTypeForSolr() {
+		return articleTypeMapper.selectAllArticleTypeForSolr();
+	}
 }

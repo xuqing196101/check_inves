@@ -1,6 +1,5 @@
 package iss.controller.article;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;

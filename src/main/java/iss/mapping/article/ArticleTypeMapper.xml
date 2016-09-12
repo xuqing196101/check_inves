@@ -23,14 +23,20 @@
     where ID = #{id}
   </select>
   
-  <!-- 查询所有栏目信息 -->
+  <!-- 查询所有栏目信息(按时间排序) -->
   <select id="selectAllArticleType" resultMap="ArticleTypeMapper">
   	select
     <include refid="ArticleType_Column_List" />
     from T_ISS_ARTICLE_TYPE
     ORDER BY CREATED_AT ASC
   </select>
-   
+  
+  <!-- 为首页查询所有文章栏目 -->
+  <select id="selectAllArticleTypeForSolr" resultMap="ArticleTypeMapper">
+  	select
+    <include refid="ArticleType_Column_List" />
+    from T_ISS_ARTICLE_TYPE
+  </select>
   
   <!-- 根据条件修改栏目信息 -->
   <update id="updateByPrimaryKey" parameterType="iss.model.article.ArticleType">

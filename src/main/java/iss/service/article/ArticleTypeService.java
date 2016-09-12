@@ -44,4 +44,15 @@ public interface ArticleTypeService {
     * @return int
      */
     void updateByPrimaryKey(ArticleType record);
+    
+    /**
+     * 
+    * @Title: selectAllArticleTypeForSolr
+    * @author QuJie 
+    * @date 2016-9-12 上午9:02:56  
+    * @Description: 为首页查询所有文章类型 
+    * @param @return      
+    * @return List<ArticleType>
+     */
+    List<ArticleType> selectAllArticleTypeForSolr();
 }

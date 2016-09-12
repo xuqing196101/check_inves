@@ -33,7 +33,18 @@ public interface ArticleTypeMapper {
     * @param @return      
     * @return List<ArticleType>
      */
-    List<ArticleType> selectAllArticleType(Integer page);
+    List<ArticleType> selectAllArticleType();
+    
+    /**
+     * 
+    * @Title: selectAllArticleTypeForSolr
+    * @author QuJie 
+    * @date 2016-9-12 上午8:55:45  
+    * @Description: 为solr查询所有文章类型 
+    * @param @return      
+    * @return List<ArticleType>
+     */
+    List<ArticleType> selectAllArticleTypeForSolr();
       
     /**
      * 

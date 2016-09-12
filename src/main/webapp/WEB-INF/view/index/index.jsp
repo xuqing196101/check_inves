@@ -155,7 +155,8 @@ function kaptcha(){
           <c:forEach items="${indexMapper['select3List']}" begin="0" end="0" var="i">
            	${i.articleType.name }
            </c:forEach>
-           <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.html?id=3" target="_self">更多>></a></span>
+           <span class="pull-right f14 mr10"><a href="<%=basePath%>index/selectIndexNewsByTypeId.html?id=3" target="_self">更多>></a></span>
+             <div class="clear">
           </h2>
           <ul class="list-unstyled categories tab-content margin-0">
 	             <c:forEach items="${indexMapper['select3List']}" var="i">
@@ -174,7 +175,8 @@ function kaptcha(){
            <c:forEach items="${indexMapper['select4List']}" begin="0" end="0" var="i">
            	${i.articleType.name }
            </c:forEach>
-          <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.html?id=4" target="_self">更多>></a></span>
+          <span class="pull-right f14 mr10"><a href="<%=basePath%>index/selectIndexNewsByTypeId.html?id=4" target="_self">更多>></a></span>
+          <div class="clear">
           </h2>
           <ul class="list-unstyled categories tab-content">
 	             <c:forEach items="${indexMapper['select4List']}" var="i">
@@ -244,7 +246,8 @@ function kaptcha(){
            <c:forEach items="${indexMapper['select5List']}" begin="0" end="0" var="i">
            	${i.articleType.name }
            </c:forEach>
-          <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.html?id=5" target="_self">更多>></a></span>
+          <span class="pull-right f14 mr10"><a href="<%=basePath%>index/selectIndexNewsByTypeId.html?id=5" target="_self">更多>></a></span>
+          <div class="clear"></div>
          </h2>
           <ul class="list-unstyled categories tab-content">
              <c:forEach items="${indexMapper['select5List']}" var="i">
@@ -263,8 +266,9 @@ function kaptcha(){
            <c:forEach items="${indexMapper['select6List']}" begin="0" end="0" var="i">
            	${i.articleType.name }
            </c:forEach>
-      <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.html?id=6" target="_self">更多>></a></span>
-    </h2>
+            <span class="pull-right f14 mr10"><a href="<%=basePath%>index/selectIndexNewsByTypeId.html?id=6" target="_self">更多>></a></span>
+             <div class="clear"></div>
+       </h2>
           <ul class="list-unstyled categories tab-content">
             <c:forEach items="${indexMapper['select6List']}" var="i">
                  <li>
@@ -338,6 +342,7 @@ function kaptcha(){
 	                    </li>
 	           		 </c:forEach>
                  <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.html?id=7" target="_self">更多>></a></span>
+                 <div class="clear"></div>
                 </ul>
               </div>
             </div>
@@ -351,6 +356,7 @@ function kaptcha(){
 	                 </li>   
 	           		 </c:forEach>
 	           		 <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.html?id=8" target="_self">更多>></a></span>
+			      <div class="clear"></div>
 			   </ul>
               </div>
             </div>
@@ -365,6 +371,7 @@ function kaptcha(){
 	                 </li>
 	           		 </c:forEach>
 	           		 <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.html?id=9" target="_self">更多>></a></span>
+	           		 <div class="clear"></div>
                 </ul>
               </div>
             </div>
@@ -401,6 +408,7 @@ function kaptcha(){
 	                 </li>
 	           		 </c:forEach>
 	           		 <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.html?id=10" target="_self">更多>></a></span>
+	           		 <div class="clear"></div>
                 </ul>
               </div>
             </div>
@@ -414,6 +422,7 @@ function kaptcha(){
 	                 </li>
 	           		 </c:forEach>
 	           		 <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.html?id=11" target="_self">更多>></a></span>
+	           		 <div class="clear"></div>
                 </ul>
               </div>
             </div>
@@ -427,6 +436,7 @@ function kaptcha(){
 	                 </li>
 	           		 </c:forEach>
 	           		 <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.html?id=12" target="_self">更多>></a></span>
+	           		 <div class="clear"></div>
                 </ul>
               </div>
             </div>

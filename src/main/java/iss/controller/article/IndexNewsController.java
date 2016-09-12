@@ -19,6 +19,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -72,7 +76,7 @@ public class IndexNewsController {
 	@RequestMapping("/selectIndexNews")
 	public String selectIndexNews(Model model) throws Exception{
 		Map<String, Object> indexMapper = new HashMap<String, Object>();
-		List<ArticleType> articleTypeList = articleTypeService.selectAllArticleType(null);
+		List<ArticleType> articleTypeList = articleTypeService.selectAllArticleTypeForSolr();
 		for(int i=0;i<articleTypeList.size();i++){
 			List<Article> indexNewsList = indexNewsService.selectNewsByArticleTypeId(articleTypeList.get(i).getId());
 			if(indexNewsList!=null){
@@ -164,20 +168,22 @@ public class IndexNewsController {
 	* @return void
 	 */
 	@RequestMapping("/downloadArticleAtta")
-	public void downloadArticleAtta(ArticleAttachments articleAttachments,HttpServletResponse response) throws Exception{
+	public ResponseEntity<byte[]> downloadArticleAtta(ArticleAttachments articleAttachments,HttpServletResponse response) throws Exception{
 		ArticleAttachments articleAtta = articleAttachmentsService.selectArticleAttaById(articleAttachments.getId());
 		String filePath = articleAtta.getAttachmentPath();
 		File file = new File(filePath);
 		if(file == null || !file.exists()){
-			return;
+			return null;
 		}
 		String fileName = (articleAtta.getFileName().split("_"))[1];
-		response.reset();
-		response.setContentType(articleAtta.getContentType()+"; charset=utf-8");
-		response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
-		OutputStream out = response.getOutputStream();
-		out.write(FileUtils.readFileToByteArray(file));
-		out.flush();
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+		headers.setContentDispositionFormData("attachment", new String(fileName.getBytes("UTF-8"), "iso-8859-1")); 
+//		headers.setContentType(articleAtta.getContentType()+"; charset=utf-8");
+//		response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+//		OutputStream out = response.getOutputStream();
+//		out.write(FileUtils.readFileToByteArray(file));
+//		out.flush();
 		DownloadUser downloadUser = new DownloadUser();
 		downloadUser.setCreatedAt(new Date());
 		downloadUser.setArticleId(articleAtta.getArticle().getId());
@@ -188,8 +194,10 @@ public class IndexNewsController {
 		Article article = articleService.selectArticleById(articleAtta.getArticle().getId());
 		article.setDownloadCount(article.getDownloadCount()+1);
 		articleService.update(article);
-		if(out !=  null){
-			out.close();
-		}
+		return (new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(new File(filePath)), headers, HttpStatus.CREATED));  
+		
+//		if(out !=  null){
+//			out.close();
+//		}
 	}
 }

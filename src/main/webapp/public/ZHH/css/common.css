@@ -701,12 +701,9 @@ th.bg_tc {
 .toinline{
   display:inline-block !important;
 }
-<<<<<<< Updated upstream
 .hand{
  	cursor: pointer;
  }
-=======
 a.redhover:hover{
 	color:red;
 }
->>>>>>> Stashed changes
