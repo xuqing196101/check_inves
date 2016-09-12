@@ -126,7 +126,7 @@
     }
     
     function audit(){
-    	window.location.href="<%=basePath%>article/auditlist.html?status=0";
+    	window.location.href="<%=basePath%>article/auditlist.html?status=1";
     }
     
 </script>

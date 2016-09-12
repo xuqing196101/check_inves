@@ -110,7 +110,13 @@
 	       <div>父节点<input type="text" name="ancestry" value="${category.ancestry }"/></div>
 	       <div>排序：<input type="text" name="orderNum" value="${category.orderNum }"/></div>
 	       <div>前台展示优先级:<input type="text" name="params" value="${category.code }"/></div>
-	       <div>附件：<input type="text" name="attchment" value="${category.attchment }"/></div>
+	       <div id="uploadAttach" class="clear ml160">
+	 		 <div class="f14">上传附件</div>
+	  		 <input id="pic" type="file" class="toinline" name="attaattach"/>
+	   		 <input class="toinline" type="button" value="添加" onclick="addAttach()"/><br/>
+	 		</div>
+	       
+	       
 	       <div >描述：<input type="text" name="description" value="${category.description }"/></div>
 	       <div class=""><span>是否末级</span>
 	       		 <select name="isEnd">

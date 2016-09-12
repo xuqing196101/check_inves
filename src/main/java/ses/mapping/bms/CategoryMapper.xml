@@ -8,15 +8,15 @@
     <result column="ANCESTRY" property="ancestry" />
     <result column="CREATED_AT"  property="createdAt" />
     <result column="UPDATED_AT"  property="updatedAt" />
-    <result column="ATTCHMENT"  property="attchment" />
     <result column="DESCRIPTION"  property="description" />
     <result column="IS_END" property="isEnd" />
     <result column="CODE"  property="code" />
     <result column="ORDER_NUM"  property="orderNum" />
  	 <result column="IS_DELETED"  property="isDeleted" />
+ 	 
   </resultMap>
   <sql id="Base_Column_List">
-    ID, NAME, STATUS, ANCESTRY, CREATED_AT, UPDATED_AT, ATTCHMENT, DESCRIPTION, IS_END, 
+    ID, NAME, STATUS, ANCESTRY, CREATED_AT, UPDATED_AT, DESCRIPTION, IS_END, 
     CODE, ORDER_NUM,IS_DELETED
   </sql>
   
@@ -58,7 +58,7 @@
       CODE, ORDER_NUM,IS_DELETED)
     values (#{id}, #{name}, #{status}, 
       #{ancestry}, #{createdAt}, #{updatedAt}, 
-      #{attchment}, #{description}, #{isEnd}, 
+     #{description}, #{isEnd}, 
       #{code}, #{orderNum},#{is_deleted})
   </insert>
   
@@ -86,9 +86,7 @@
       <if test="updatedAt != null">
         UPDATED_AT,
       </if>
-      <if test="attchment != null">
-        ATTCHMENT,
-      </if>
+      
       <if test="description != null">
         DESCRIPTION,
       </if>
@@ -124,9 +122,7 @@
       <if test="updatedAt != null">
         #{updatedAt},
       </if>
-      <if test="attchment != null">
-        #{attchment},
-      </if>
+     
       <if test="description != null">
         #{description},
       </if>
@@ -164,9 +160,7 @@
       <if test="updatedAt != null">
         UPDATED_AT = #{updatedAt},
       </if>
-      <if test="attchment != null">
-        ATTCHMENT = #{attchment},
-      </if>
+      
       <if test="description != null">
         DESCRIPTION = #{description},
       </if>
@@ -195,7 +189,6 @@
       ANCESTRY = #{ancestry},
       CREATED_AT = #{createdAt},
       UPDATED_AT = #{updatedAt},
-      ATTCHMENT = #{attchment},
       DESCRIPTION = #{description},
       IS_END = #{isEnd},
       CODE = #{code},
