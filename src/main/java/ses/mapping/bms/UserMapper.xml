@@ -5,15 +5,15 @@
     <id column="ID" jdbcType="VARCHAR" property="id" />
     <result column="LOGIN_NAME" jdbcType="VARCHAR" property="loginName" />
     <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
-    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="IS_DELETED"  property="isDeleted" />
     <result column="REL_NAME" jdbcType="VARCHAR" property="relName" />
-    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="MOBILE" jdbcType="VARCHAR" property="mobile" />
     <result column="GENDER" jdbcType="VARCHAR" property="gender" />
     <result column="TELEPHONE" jdbcType="VARCHAR" property="telephone" />
     <result column="EMAIL" jdbcType="VARCHAR" property="email" />
-    <result column="DUITES" jdbcType="VARCHAR" property="duites" />
+    <result column="DUTIES" jdbcType="VARCHAR" property="duties" />
     <result column="TYPE_NAME"  property="typeName" />
     <result column="TYPE_ID" jdbcType="VARCHAR" property="typeId" />
     <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
@@ -43,7 +43,7 @@
   <!-- 表中所有列 -->
   <sql id="Base_Column_List">
     ID, LOGIN_NAME, PASSWORD, CREATED_AT, IS_DELETED, REL_NAME, UPDATED_AT, USER_ID, 
-    MOBILE, GENDER, TELEPHONE, EMAIL, ORG_ID, DUITES, TYPE_NAME, TYPE_ID, ADDRESS 
+    MOBILE, GENDER, TELEPHONE, EMAIL, ORG_ID, DUTIES, TYPE_NAME, TYPE_ID, ADDRESS 
   </sql>
   
   <!-- 查询条件 -->
@@ -86,8 +86,8 @@
       <if test="org.id != null  and org.id != ''">
         and u.ORG_ID = #{org.id} 
       </if>
-      <if test="duites != null and duites != ''">
-        and u.DUITES = #{duites} 
+      <if test="duties != null and duties != ''">
+        and u.DUTIES = #{duties} 
       </if>
       <if test="typeName != null">
         and u.TYPE_NAME = #{typeName} 
@@ -122,13 +122,13 @@
       CREATED_AT, IS_DELETED, REL_NAME, 
       UPDATED_AT, USER_ID, MOBILE, 
       GENDER, TELEPHONE, EMAIL, 
-      ORG_ID, DUITES, TYPE_NAME, 
+      ORG_ID, DUTIES, TYPE_NAME, 
       TYPE_ID, ADDRESS)
     values (#{id,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{createdAt,jdbcType=DATE}, #{isDeleted}, #{relName,jdbcType=VARCHAR}, 
-      #{updatedAt,jdbcType=DATE}, #{user.id,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{createdAt,jdbcType=TIMESTAMP}, #{isDeleted}, #{relName,jdbcType=VARCHAR}, 
+      #{updatedAt,jdbcType=TIMESTAMP}, #{user.id,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
       #{gender}, #{telephone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{org.id,jdbcType=VARCHAR}, #{duites,jdbcType=VARCHAR}, #{typeName}, 
+      #{org.id,jdbcType=VARCHAR}, #{duties,jdbcType=VARCHAR}, #{typeName}, 
       #{typeId,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR})
   </insert>
   
@@ -175,8 +175,8 @@
       <if test="org.id != null and org.id != ''">
         ORG_ID,
       </if>
-      <if test="duites != null  and duites != ''">
-        DUITES,
+      <if test="duties != null  and duties != ''">
+        DUTIES,
       </if>
       <if test="typeName != null">
         TYPE_NAME,
@@ -199,7 +199,7 @@
         #{password,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
-        #{createdAt,jdbcType=DATE},
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="isDeleted != null">
         #{isDeleted},
@@ -208,7 +208,7 @@
         #{relName,jdbcType=VARCHAR},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt,jdbcType=DATE},
+        #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="user.id != null and user.id != ''">
         #{user.id,jdbcType=VARCHAR},
@@ -228,8 +228,8 @@
       <if test="org.id != null and org.id != ''">
         #{org.id,jdbcType=VARCHAR},
       </if>
-      <if test="duites != null and id != ''">
-        #{duites,jdbcType=VARCHAR},
+      <if test="duties != null and id != ''">
+        #{duties,jdbcType=VARCHAR},
       </if>
       <if test="typeName != null">
         #{typeName,jdbcType=DECIMAL},
@@ -254,7 +254,7 @@
         PASSWORD = #{password,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt,jdbcType=DATE},
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       </if>
       <if test="isDeleted != null">
         IS_DELETED = #{isDeleted},
@@ -263,7 +263,7 @@
         REL_NAME = #{relName,jdbcType=VARCHAR},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="user.id != null and user.id != ''">
         USER_ID = #{user.id,jdbcType=VARCHAR},
@@ -283,8 +283,8 @@
       <if test="org.id != null and org.id != ''">
         ORG_ID = #{org.id,jdbcType=VARCHAR},
       </if>
-      <if test="duites != null and duites != ''">
-        DUITES = #{duites,jdbcType=VARCHAR},
+      <if test="duties != null and duties != ''">
+        DUTIES = #{duties,jdbcType=VARCHAR},
       </if>
       <if test="typeName != null">
         TYPE_NAME = #{typeName},
@@ -304,17 +304,17 @@
     update T_SES_BMS_USER
     set LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
       PASSWORD = #{password,jdbcType=VARCHAR},
-      CREATED_AT = #{createdAt,jdbcType=DATE},
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       IS_DELETED = #{isDeleted},
       REL_NAME = #{relName,jdbcType=VARCHAR},
-      UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       USER_ID = #{user.id,jdbcType=VARCHAR},
       MOBILE = #{mobile,jdbcType=VARCHAR},
       GENDER = #{gender},
       TELEPHONE = #{telephone,jdbcType=VARCHAR},
       EMAIL = #{email,jdbcType=VARCHAR},
       ORG_ID = #{org.id,jdbcType=VARCHAR},
-      DUITES = #{duites,jdbcType=VARCHAR},
+      DUTIES = #{duties,jdbcType=VARCHAR},
       TYPE_NAME = #{typeName},
       TYPE_ID = #{typeId,jdbcType=VARCHAR},
       ADDRESS = #{address,jdbcType=VARCHAR} 

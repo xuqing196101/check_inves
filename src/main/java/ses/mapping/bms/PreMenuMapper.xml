@@ -1,38 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ses.dao.bms.PreMenuMapper">
-  <resultMap id="MenuResultMap" type="ses.model.bms.PreMenu">
+  <resultMap id="MenuBaseMap" type="ses.model.bms.PreMenu">
     <result column="ID" property="id" />
     <result column="NAME" property="name" />
     <result column="MTYPE" property="type" />
     <result column="IS_DELETED" property="isDeleted" />
-    <result column="STATE" property="state" />
+    <result column="STATUS" property="status" />
     <result column="URL" property="url" />
     <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
-    <result column="ORDERBY" property="orderby" />
-    <result column="MENULEVEL" property="menulevel" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="POSITION" property="position" />
+    <result column="MENU_LEVEL" property="menulevel" />
      <!-- 查询上级菜单 -->  
     <association column="PARENT_ID"  property="parentId" select="queryByMenuId" />
   </resultMap>
   
-  <resultMap type="ses.model.bms.PreMenu" id="menuroleMap" extends="MenuResultMap">  
-    <!-- property: 指的是集合属性的值, ofType：指的是集合中元素的类型 -->
-	<collection property="roles" ofType="ses.model.bms.Role">
-		<id column="roleId"  property="id" />
-	    <result column="roleName" jdbcType="VARCHAR" property="name" />
-	    <result column="roleCreatedAt" jdbcType="TIMESTAMP" property="createdAt" />
-	    <result column="describe" jdbcType="VARCHAR" property="describe" />
-	    <result column="roleIsDeleted" property="isDeleted" />
-	</collection>   
-  </resultMap>
-  
+  <!-- 表名 -->
   <sql id="Tabel_Name">
-    T_SES_BMS_PERMENU
+    T_SES_BMS_PERMISSION
   </sql>
+  
   <!-- 表中所有列 -->
   <sql id="Base_Column_List" >
-   ID,NAME,MTYPE,IS_DELETED,STATE,URL,CREATED_AT,ORDERBY,MENULEVEL,PARENT_ID
+   ID, NAME, MENU_TYPE, IS_DELETED, STATUS, URL, CREATED_AT, POSITION, MENU_LEVEL, PARENT_ID, UPDATED_AT
   </sql>
+  
   <!-- 查询条件 -->
   <sql id="Example_Where_Clause">
     where IS_DELETED=0
@@ -41,47 +34,50 @@
         and ID = #{id}
       </if>
       <if test="name != null and name !=''">
-        and NAME = #{},
+        and NAME = #{name},
       </if>
-      <if test="type != null and name !=''">
-        and MTYPE = #{type},
+      <if test="type != null and type !=''">
+        and MENU_TYPE = #{type},
       </if>
       <if test="isDeleted != null">
         and IS_DELETED = #{isDeleted},
       </if>
-      <if test="state != null">
-        and STATE = #{state},
+      <if test="status != null">
+        and STATUS = #{status},
       </if>
-      <if test="url != null and name !=''">
+      <if test="url != null and url !=''">
         and URL = #{url},
       </if>
       <if test="createdAt != null">
         and CREATED_AT = #{createdAt},
       </if>
-      <if test="orderby != null">
-        and ORDERBY = #{orderby},
+      <if test="position != null and position != ''">
+        and POSITION = #{position},
       </if>
       <if test="menulevel != null">
-        and MENULEVEL = #{menulevel},
+        and MENU_LEVEL = #{menulevel},
       </if>
       <if test="parentId != null">
         and PARENT_ID = #{parentId.id}
       </if>
+      <if test="updatedAt != null">
+        and UPDATED_AT = #{updatedAt},
+      </if>
     </trim>
   </sql>
   
-  <select id="queryByMenuId" resultMap="MenuResultMap" parameterType="Object">
+  <select id="queryByMenuId" resultMap="MenuBaseMap" parameterType="Object">
     select
     <include refid="Base_Column_List" />
     from T_SES_BMS_PERMENU where ID = #{id}
   </select>
   
-  <select id="queryByList" resultMap="MenuResultMap" parameterType="Object">
+  <select id="queryByList" resultMap="MenuBaseMap" parameterType="Object">
     select
     <include refid="Base_Column_List" />
     from T_SES_BMS_PERMENU
     <include refid="Example_Where_Clause"/>
-    ORDER BY MENULEVEL,ORDERBY ASC
+    ORDER BY MENU_LEVEL,ORDERBY ASC
   </select>
   
   <insert id="insert" parameterType="ses.model.bms.PreMenu">
@@ -90,7 +86,7 @@
     </selectKey>
     insert into T_SES_BMS_PERMENU (ID, NAME, MTYPE, 
       IS_DELETED, STATE, URL, 
-      CREATED_AT, ORDERBY, MENULEVEL, 
+      CREATED_AT, ORDERBY, MENU_LEVEL, 
       PARENT_ID)
     values (#{id}, #{name}, #{type}, 
       #{isDeleted}, #{state}, #{url}, 
@@ -128,7 +124,7 @@
         ORDERBY,
       </if>
       <if test="menulevel != null">
-        MENULEVEL,
+        MENU_LEVEL,
       </if>
       <if test="parentId != null">
         PARENT_ID,

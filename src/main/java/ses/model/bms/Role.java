@@ -3,19 +3,41 @@ package ses.model.bms;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Description: 角色实体
+ *
+ * @author Ye MaoLin
+ * @version 2016-9-13
+ * @since JDK1.7
+ */
 public class Role {
+	
+    /** 主键 */
     private String id;
 
+    /** 名称 */
     private String name;
 
+    /** 创建时间 */
     private Date createdAt;
+    
+    /** 修改时间 */
+    private Date updatedAt;
 
-    private String describe;
+    /** 描述 */
+    private String description;
 
+    /** 
+     * 删除标识
+     * 0：未删除
+     * 1：删除
+     */
     private Integer isDeleted;
     
+    /** 包含用户 */
     private List<User> users;
     
+    /** 包含菜单 */
     private List<PreMenu> preMenus;
 
     public List<User> getUsers() {
@@ -50,12 +72,12 @@ public class Role {
         this.createdAt = createdAt;
     }
 
-    public String getDescribe() {
-        return describe;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescribe(String describe) {
-        this.describe = describe == null ? null : describe.trim();
+    public void setDescription(String description) {
+        this.description = description == null ? null : description.trim();
     }
 
     public Integer getIsDeleted() {
@@ -72,6 +94,14 @@ public class Role {
 
 	public void setPreMenus(List<PreMenu> preMenus) {
 		this.preMenus = preMenus;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
 	}
     
 }

@@ -5,43 +5,83 @@ import java.util.List;
 
 import ses.model.oms.Orgnization;
 
+/**
+ * Description: 用户实体
+ *
+ * @author Ye MaoLin
+ * @version 2016-9-13
+ * @since JDK1.7
+ */
 public class User {
 	
     /** 主键 */
     private String id;
 
+    /** 用户名 */
     private String loginName;
 
+    /** 密码 */
     private String password;
 
+    /** 创建时间 */
     private Date createdAt;
 
+    /** 
+     * 删除标识
+     * 0：未删除
+     * 1：删除
+     */
     private Integer isDeleted;
 
+    /** 真实姓名 */
     private String relName;
 
+    /** 修改时间 */
     private Date updatedAt;
 
+    /** 创建人 */
     private User user;
 
+    /** 手机 */
     private String mobile;
 
+    /** 
+     * 性别
+     * F：女
+     * M：男
+     */
     private String gender;
 
+    /** 座机电话 */
     private String telephone;
 
+    /** 邮箱 */
     private String email;
 
+    /** 所属机构 */
     private Orgnization org;
 
-    private String duites;
+    /** 职务 */
+    private String duties;
 
+    /** 
+     * 用户类型
+     * 0:采购管理部门
+     * 1:采购机构
+     * 2:需求部门
+     * 3:其他人员
+     * 4：供应商
+     * 5：专家
+     */
     private Integer typeName;
 
+    /** 关联用户ID */
     private String typeId;
     
+    /** 详细地址 */
     private String address;
     
+    /** 所属角色 */
     private List<Role> roles;
 
     public String getId() {
@@ -149,11 +189,11 @@ public class User {
 	}
 
 	public String getDuites() {
-        return duites;
+        return duties;
     }
 
-    public void setDuites(String duites) {
-        this.duites = duites == null ? null : duites.trim();
+    public void setDuites(String duties) {
+        this.duties = duties == null ? null : duties.trim();
     }
 
     public Integer getTypeName() {

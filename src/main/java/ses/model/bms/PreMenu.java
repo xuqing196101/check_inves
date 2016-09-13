@@ -3,12 +3,19 @@ package ses.model.bms;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Description: 权限菜单实体
+ *
+ * @author Ye MaoLin
+ * @version 2016-9-13
+ * @since JDK1.7
+ */
 public class PreMenu {
 	
     /** 主键 */
     private String id;
 
-    /** name :名称 */
+    /** 名称 */
     private String name;
 
     /**
@@ -21,16 +28,18 @@ public class PreMenu {
     private String type;
 
     /**
-     *  删除标志  
-     * 0：未删除，1：删除
+     * 删除标志  
+     * 0：未删除
+     * 1：删除
      */
     private Integer isDeleted;
 
     /**
      * 状态 
-     * 0：可用，1：暂停
+     * 0：可用
+     * 1：暂停
      */
-    private Integer state;
+    private Integer status;
 
     /** 路径 */
     private String url;
@@ -41,8 +50,8 @@ public class PreMenu {
     /** 修改时间 */
     private Date updatedAt;
 
-    /** orderby :排序 */
-    private Integer orderby;
+    /** 排序 */
+    private Integer position;
 
     /** 菜单级别 */
     private Integer menulevel;
@@ -85,12 +94,12 @@ public class PreMenu {
 		this.isDeleted = isDeleted;
 	}
 
-	public Integer getState() {
-		return state;
+	public Integer getStatus() {
+		return status;
 	}
 
-	public void setState(Integer state) {
-		this.state = state;
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 
 	public String getUrl() {
@@ -109,12 +118,12 @@ public class PreMenu {
 		this.createdAt = createdAt;
 	}
 
-	public Integer getOrderby() {
-		return orderby;
+	public Integer getPosition() {
+		return position;
 	}
 
-	public void setOrderby(Integer orderby) {
-		this.orderby = orderby;
+	public void setPosition(Integer position) {
+		this.position = position;
 	}
 
 	public Integer getMenulevel() {
