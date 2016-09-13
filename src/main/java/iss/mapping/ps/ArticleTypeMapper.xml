@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="iss.dao.ps.ArticleTypeMapper">
+  <resultMap id="ArticleTypeMapper" type="iss.model.ps.ArticleType">
+    <id column="ID" property="id" />
+    <result column="NAME" property="name" />
+    <result column="DESCRIBE" property="describe" />
+    <result column="CREATED_AT"  property="createdAt" />
+    <result column="UPDATED_AT"  property="updatedAt" />
+   
+    <association column="CREATER_ID" property="creater" select="ses.dao.bms.UserMapper.queryById"></association>
+  </resultMap>
+  
+  <sql id="ArticleType_Column_List">
+    ID, NAME, CREATED_AT,CREATER_ID, UPDATED_AT,DESCRIBE
+  </sql>
+  
+  <!-- 根据id查询栏目类型 -->
+  <select id="selectByPrimaryKey" parameterType="Object" resultMap="ArticleTypeMapper">
+    select 
+    <include refid="ArticleType_Column_List" />
+    from T_ISS_PS_ARTICLE_TYPE
+    where ID = #{id}
+  </select>
+  
+  <!-- 查询所有栏目信息(按时间排序) -->
+  <select id="selectAllArticleType" resultMap="ArticleTypeMapper">
+  	select
+    <include refid="ArticleType_Column_List" />
+    from T_ISS_PS_ARTICLE_TYPE
+    ORDER BY CREATED_AT ASC
+  </select>
+  
+  <!-- 为首页查询所有文章栏目 -->
+  <select id="selectAllArticleTypeForSolr" resultMap="ArticleTypeMapper">
+  	select
+    <include refid="ArticleType_Column_List" />
+    from T_ISS_PS_ARTICLE_TYPE
+  </select>
+  
+  <!-- 根据条件修改栏目信息 -->
+  <update id="updateByPrimaryKey" parameterType="iss.model.ps.ArticleType">
+    update T_ISS_PS_ARTICLE_TYPE
+    <set>
+      <if test="name != null">
+        NAME = #{name},
+      </if>
+       <if test="describe != null">
+        DESCRIBE = #{describe},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt},
+      </if>
+    </set>
+    where ID = #{id}
+  </update>
+   
+</mapper>

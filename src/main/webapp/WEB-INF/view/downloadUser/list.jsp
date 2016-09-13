@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ include file="../../common.jsp"%>
+<%@ include file="../common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -32,7 +32,7 @@
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		            location.href = '<%=basePath%>articletype/getAll.do?page='+e.curr;
+		            location.href = '<%=basePath%>articletype/getAll.html?page='+e.curr;
 		        }
 		    }
 		});
@@ -51,8 +51,8 @@
 			  {
 			     checklist[j].checked = false;
 			  }
-		 	}
-		}
+		 }
+	}
 	
 	/** 单选 */
 	function check(){
@@ -76,35 +76,23 @@
   	function view(id){
   		window.location.href="<%=basePath%>articletype/view.html?id="+id;
   	}
-  	
-    function edit(){
-    	var id=[]; 
-		$('input[name="chkItem"]:checked').each(function(){ 
-			id.push($(this).val());
-		}); 
-		if(id.length==1){
-			
-			window.location.href="<%=basePath%>articletype/edit.html?id="+id;
-		}else if(id.length>1){
-			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
-		}else{
-			layer.alert("请选择需要修改的栏目",{offset: ['222px', '390px'], shade:0.01});
-		}
-    }
     
-	//鼠标移动显示全部内容
-	function out(describe){
-	if(describe.length>10){
-	layer.msg(describe, {
-			icon:6,
-			shade:false,
-			area: ['600px'],
-			time : 1000    //默认消息框不关闭
-		});//去掉msg图标
-	}else{
-		layer.closeAll();//关闭消息框
-	}
-}
+  	function del(){
+  		alert(1);
+  		var ids =[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			ids.push($(this).val()); 
+		}); 
+		alert(ids.length);
+		if(ids.length>0){
+			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+				layer.close(index);
+				window.location.href="<%=basePath%>downloadUser/deleteDownloadUser.html?ids="+ids;
+			});
+		}else{
+			layer.alert("请选择要删除的信息",{offset: ['222px', '390px'], shade:0.01});
+		}
+  	}
   </script>
   </head>
   
@@ -114,61 +102,48 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">信息服务</a></li><li><a href="#">栏目管理</a></li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">信息服务</a></li><li><a href="#">下载人管理</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
    </div>
    <div class="container">
 	   <div class="headline-v2">
-	   		<h2>栏目管理</h2>
+	   		<h2>下载人管理</h2>
 	   </div>
    </div>
 <!-- 表格开始-->
    <div class="container">
-   <div class="col-md-8">
-	<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
+   	<div class="col-md-8">
+		<input class="btn btn-windows edit" type="button" onclick="del()" value="删除"/>
 	</div>
-    </div>
-   
+   </div>
    <div class="container margin-top-5">
      <div class="content padding-left-25 padding-right-25 padding-top-5">
    	<table class="table table-bordered table-condensed">
-    
 		<thead>
 			<tr>
 				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 			    <th class="info" >序号</th>
-				<th class="info" >栏目名</th>
-				<th class="info">栏目介绍</th>
+				<th class="info" >文章名</th>
 				<th class="info">创建时间</th>
 				<th class="info">更新时间</th>
-				<th class="info">创建人</th>
+				<th class="info">下载人</th>
 			</tr>
 		</thead>
-		
-		<c:forEach items="${list.list}" var="articletype" varStatus="vs">
+		<c:forEach items="${list.list}" var="downloadUser" varStatus="vs">
 			<tr>
-				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${articletype.id}" /></td>
-				<td class="tc pointer" onclick="view('${articletype.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-				<td class="tc pointer" onclick="view('${articletype.id}')">${articletype.name}</td>
-				
-				<c:set value="${articletype.describe}" var="describe"></c:set>
-				<c:set value="${fn:length(describe)}" var="length"></c:set>
-				<c:if test="${length>10}">
-					<td onclick="view('${articletype.id}')" onmouseover="out('${articletype.describe}')" class="tc pointer ">${fn:substring(describe,0,10)}...</td>
-				</c:if>
-				<c:if test="${length<10}">
-					<td onclick="view('${articletype.id}')" onmouseover="out('${articletype.describe}')" class="tc pointer ">${articletype.describe } </td>
-				</c:if>	
-				<td class="tc pointer" onclick="view('${articletype.id}')"><fmt:formatDate value='${articletype.createdAt}' pattern="yyyy年MM月dd日  HH:mm:ss" /></td>
-				<td class="tc pointer" onclick="view('${articletype.id}')"><fmt:formatDate value='${articletype.updatedAt}' pattern="yyyy年MM月dd日  HH:mm:ss" /></td>
-				<td class="tc pointer" onclick="view('${articletype.id}')">${articletype.creater.relName}</td>
+				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${downloadUser.id}" /></td>
+				<td class="tc pointer" onclick="view('${downloadUser.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+				<td class="tc pointer" onclick="view('${downloadUser.id}')">${downloadUser.article.name}</td>
+				<td class="tc pointer" onclick="view('${downloadUser.id}')"><fmt:formatDate value='${downloadUser.createdAt}' pattern="yyyy年MM月dd日  HH:mm:ss" /></td>
+				<td class="tc pointer" onclick="view('${downloadUser.id}')"><fmt:formatDate value='${downloadUser.updatedAt}' pattern="yyyy年MM月dd日  HH:mm:ss" /></td>
+				<td class="tc pointer" onclick="view('${downloadUser.id}')">${downloadUser.user.relName}</td>
 			</tr>
 		</c:forEach>
 	</table>
      </div>
    <div id="pagediv" align="right"></div>
    </div>
-	 </body>
+</body>
 </html>

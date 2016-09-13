@@ -103,7 +103,7 @@ function sub(){
 	 <span class="f14 fl">已上传的附件：</span>
 	 <div class="fl mt5">
   	   <c:forEach items="${article.articleAttachments}" var="a">
-  	   	<a href="#">${fn:split(a.fileName, '_')[1]}</a>,
+  	   	${fn:split(a.fileName, '_')[1]},
   	   </c:forEach>
 	 </div>
 	 </li>
