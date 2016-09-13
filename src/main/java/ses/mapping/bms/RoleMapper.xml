@@ -190,7 +190,7 @@
   </select>
   
    <!-- 8.根据角色条件查询角色信息（带出关联信息） -->  
-   <select id="selectRoleUser" parameterType="Object" resultMap="relativityMap"> 
+   <!-- <select id="selectRoleUser" parameterType="Object" resultMap="relativityMap"> 
        select 
        r.ID as ID, r.NAME as NAME, r.CREATED_AT as CREATED_AT, r.DESCRIPTION as DESCRIPTION, 
        r.IS_DELETED as IS_DELETED, r.UPDATED_AT as UPDATED_AT,
@@ -217,7 +217,7 @@
        and r.ID=#{id}  
        </if>  
        ORDER BY r.CREATED_AT DESC
-   </select>
+   </select> -->
    
    <!-- 9.删除角色与角色内成员之间的对应关系 -->  
     <delete id="deleteRoelUser" parameterType="Object">  
