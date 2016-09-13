@@ -2,6 +2,9 @@ package ses.service.ems;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import ses.model.bms.User;
 import ses.model.ems.Expert;
 
 
@@ -87,4 +90,16 @@ public interface ExpertService {
 	      * @return Integer
 	     */
 	    Integer getCount(Expert expert);
+	    /**
+	     * 
+	      * @Title: getUserById
+	      * @author ShaoYangYang
+	      * @date 2016年9月13日 下午6:13:59  
+	      * @Description: TODO 根据用户id查询用户
+	      * @param @param userId
+	      * @param @return      
+	      * @return User
+	     */
+	    User getUserById(String userId);
+	    
 }

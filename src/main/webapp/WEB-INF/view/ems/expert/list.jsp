@@ -302,7 +302,17 @@
 		  <td class="tc w30"><input type="checkbox" name="check" id="checked" alt="" value="${e.id }"></td>
 		  <td class="tc w50">${s.count }</td>
 		  <td class="tc">${e.relName}</td>
-		  <td class="tc">${e.sex }</td>
+		  <c:choose>
+		  	<c:when test="${e.gender =='M'}">
+		  		<td class="tc">男</td>
+		  	</c:when>
+		  	<c:when test="${e.gender =='F'}">
+		  		<td class="tc">女</td>
+		  	</c:when>
+		  	<c:otherwise>
+		  	<td class="tc"></td>
+		  	</c:otherwise>
+		  </c:choose>
 		  <c:if test="${e.expertsTypeId ==null}">
 		   <td class="tc"></td>
 		  </c:if>

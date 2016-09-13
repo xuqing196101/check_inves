@@ -55,7 +55,7 @@
     select 
     <include refid="Base_Column_List" />
     from T_SES_EMS_EXPERT 
-    where 1=1 and IS_SUBMIT = '1'
+    where 1=1 and IS_SUBMIT = '1' and IS_DELETE != 1
        <if test="relName != null and relName !=''">  
               AND  REL_NAME like '%${relName}%'   
        </if>  
@@ -78,7 +78,7 @@
     select 
 	count(*)
     from T_SES_EMS_EXPERT
-    where 1=1 and IS_SUBMIT = '1'
+    where 1=1 and IS_SUBMIT = '1' and IS_DELETE != 1
     <if test="relName!=null">
     	and REL_NAME= #{relName,jdbcType=VARCHAR}
     </if>

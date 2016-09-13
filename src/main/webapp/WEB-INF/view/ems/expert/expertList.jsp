@@ -284,9 +284,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        	}
     }
    </script>
-   <form action="<%=basePath %>expert/findAllExpert.html"  method="post" id="form1" enctype="multipart/form-data" class="registerform"> 
+   <form action="<%=basePath %>expert/findAllExpertShenHe.html"  method="post" id="form1" enctype="multipart/form-data" class="registerform"> 
 	<input type="hidden" name="page" id="page">
-	<input type="hidden" name="flag" value="shenhe">
 	<input type="hidden" name="status" value="${expert.status }">
    <div align="center">
                     <table>

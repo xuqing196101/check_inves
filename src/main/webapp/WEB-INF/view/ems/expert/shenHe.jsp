@@ -411,7 +411,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 </li> 
 	  <li class="col-md-6  p0 ">
 	   <span class="">联系电话（固话）：</span>
-        <input class="span2" maxlength="15" disabled="disabled" onblur="validataForm(this,'nameFont13');" value="${expert.fixPhone }" name="fixPhone" id="appendedInput" type="text">
+        <input class="span2" maxlength="15" disabled="disabled" onblur="validataForm(this,'nameFont13');" value="${expert.telephone }" name="telephone" id="appendedInput" type="text">
           
        <font id="nameFont13"></font>
 	 </li> 

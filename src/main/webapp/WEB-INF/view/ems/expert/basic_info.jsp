@@ -49,6 +49,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				$("#register_input_id").removeAttr("disabled", "disabled");
 			}
 		});
+		
+		
+		var sup = $("#purchaseDepId").val();
+		   var radio=document.getElementsByName("purchaseDepId");
+		   for(var i=0;i<radio.length;i++){
+		 		if(sup==radio[i].value){
+		 			radio[i].checked=true;
+		 	 		break;
+		 		}
+		   }
 	});
 		/** 供应商完善注册信息页面 */
 	function supplierRegist(name, i, position) {
@@ -159,6 +169,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<form id="form1" action="${pageContext.request.contextPath}/expert/edit.html" method="post"  enctype="multipart/form-data">
 		<input type="hidden" name="userId" value="${user.id }">
+		<input type="hidden" id="purchaseDepId" value="${expert.purchaseDepId }">
 		<%
 			session.setAttribute("tokenSession", tokenValue);
 		%>
@@ -424,10 +435,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			   <span class="">专家类型：</span>
 			   <input type="hidden" id="expertsTypeIds" value="${expert.expertsTypeId }">
 			   <select name="expertsTypeId" id="expertsTypeId">
-			   		<option value="0">-请选择-</option>
-			   		<option value="1">技术</option>
-			   		<option value="2">法律</option>
-			   		<option value="3">商务</option>
+			   		<option value="">-请选择-</option>
+			   		<option <c:if test="${expert.expertsTypeId eq '1' }">selected="selected"</c:if> value="1">技术</option>
+			   		<option <c:if test="${expert.expertsTypeId eq '2' }">selected="selected"</c:if> value="2">法律</option>
+			   		<option <c:if test="${expert.expertsTypeId eq '3' }">selected="selected"</c:if> value="3">商务</option>
 			   </select>
 			 </li>
    			 </ul>
@@ -451,11 +462,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    <h2 class="f16 jbxx">
 			<i>03</i>选择采购机构
 			</h2>
-			 <input type="hidden" id="orgmanId"  value="${expert.orgmanId }" />
 			<table id="tb1"  class="table table-bordered table-condensed">
 				<thead>
 					<tr>
-					  <th class="info w30"><input type="radio" name="orgmanId" disabled="disabled"  id="allId" alt=""></th>
+					  <th class="info w30"><input type="radio"  disabled="disabled"  id="allId" alt=""></th>
 					  <th class="info w50">序号</th>
 					  <th class="info">采购机构</th>
 					  <th class="info">联系人</th>
@@ -474,7 +484,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</tr>
 				</c:forEach> --%>
 				<tr>
-				  <td class="tc w30"><input type="radio" name="check" id="checked" alt="" value="2"></td>
+				  <td class="tc w30"><input type="radio" name="purchaseDepId" id="checked" alt="" value="2"></td>
 				  <td class="tc w50">1</td>
 				  <td class="tc">哈哈</td>
 				  <td class="tc">飒飒</td>
@@ -507,7 +517,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</tr>
 				</c:forEach> --%>
 				<tr>
-				  <td class="tc w30"><input type="radio" name="check" id="checked" alt="" value="2"></td>
+				  <td class="tc w30"><input type="radio" name="purchaseDepId" id="checked" alt="" value="3"></td>
 				  <td class="tc w50">1</td>
 				  <td class="tc">哈哈</td>
 				  <td class="tc">飒飒</td>
@@ -544,7 +554,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    		<td align="center" width="100px">姓名</td>
    		<td align="center" width="150px">${expert.relName }</td>
    		<td align="center">性别</td>
-   		<td align="center" width="150px">${expert.sex}</td>
+   		<c:choose>
+		  	<c:when test="${e.gender =='M'}">
+		  		<td align="center" width="150px">男</td>
+		  	</c:when>
+		  	<c:when test="${e.gender =='F'}">
+		  		<td align="center" width="150px">女</td>
+		  	</c:when>
+		  	<c:otherwise>
+		  	<td class="tc"></td>
+		  	</c:otherwise>
+		  </c:choose>
+   		
    		<td align="center" rowspan="4">照片</td>
    	</tr>
    <tr>
@@ -630,7 +651,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    		<td align="center">单位地址 </td>
    		<td align="center" width="150px">${expert.unitAddress }</td>
    		<td align="center">单位邮编</td>
-   		<td align="center" colspan="2">${expert.zipCode }</td>
+   		<td align="center" colspan="2">${expert.postCode }</td>
    </tr>
    <tr>
    		<td align="center">家庭地址 </td>

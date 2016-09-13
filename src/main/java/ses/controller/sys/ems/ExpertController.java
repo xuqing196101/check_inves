@@ -75,7 +75,7 @@ public class ExpertController {
 	@RequestMapping(value="/toRegisterNotice")
 	public String toRegisterNotice(){
 		
-		return "ems/expert/registerNotice";
+		return "ems/expert/basic_info";
 	}
 	
 	/**
@@ -178,7 +178,7 @@ public class ExpertController {
 	  * @Title: edit
 	  * @author lkzx 
 	  * @date 2016年9月1日 上午11:14:38  
-	  * @Description: TODO 修改、填写个人信息
+	  * @Description: TODO 新增、修改个人信息
 	  * @param @return      
 	  * @return String
 	 * @throws IOException 
@@ -210,11 +210,23 @@ public class ExpertController {
 		//个人信息关联用户
 		if(userId!=null && userId.length()>0){
 			//直接注册完之后填写个人信息
-			
+			User user = service.getUserById(userId);
+			user.setTypeName(5);
+			if(expert.getId()==null || expert.getId()=="" || expert.getId().length()==0){
+				user.setTypeId(expertId);
+			}else{
+				user.setTypeId(expert.getId());
+			}
+			userService.update(user);
 		}else{
 			//注册完账号  过段时间又填写个人信息
-			//User user = (User)session.getAttribute("loginUser");
-			
+			/*User user = (User)session.getAttribute("loginUser");
+			if(expert.getId()==null || expert.getId()=="" || expert.getId().length()==0){
+				user.setTypeId(expertId);
+			}else{
+				user.setTypeId(expert.getId());
+			}
+			userService.update(user);*/
 		}
 		if(expert.getId()==null || expert.getId()=="" || expert.getId().length()==0){
 			//id为空 说明为新增数据
@@ -232,7 +244,7 @@ public class ExpertController {
 			expert.setUpdatedAt(new Date());
 			service.updateByPrimaryKeySelective(expert);
 		}
-		//关联信息
+		//关联机构信息
 		
 			//查询出所有信息放进model中
 			Expert expert2 = service.selectByPrimaryKey(expert.getId());
@@ -242,32 +254,13 @@ public class ExpertController {
 			return "redirect:/";
 		}*/
 		return "redirect:/";
-		}else{
+		}else{//重复提交
 			//查询出所有信息放进model中
-		Expert expert2 = service.selectByPrimaryKey(expert.getId());
-		model.addAttribute("expert", expert2);
 		/*if(zancun!=null && zancun.equals("1")){
 			return "redirect:/";
 		}*/
-		//String id = expert.getId();
-		//attr.addAttribute("id", id);
 		return "redirect:/";
 		}
-	}
-	/**
-	 * 
-	  * @Title: deleteAll
-	  * @author ShaoYangYang
-	  * @date 2016年9月8日 下午3:53:36  
-	  * @Description: TODO 跳转到类型
-	  * @param       
-	  * @return void
-	 */
-	@RequestMapping("/toExpertType")
-	public String toExpertType(@RequestParam("id") String id,Model model,RedirectAttributes attr){
-		Expert expert = service.selectByPrimaryKey(id);
-		model.addAttribute("expert", expert);
-		return "ems/expert/expertType";
 	}
 	/**
 	 * 
@@ -297,14 +290,11 @@ public class ExpertController {
 	  * @return String
 	 */
 	@RequestMapping("/findAllExpert")
-	public String findAllExpert(@RequestParam("flag")String shenhe,  Expert expert,Integer page,HttpServletRequest request,HttpServletResponse response){
+	public String findAllExpert(  Expert expert,Integer page,HttpServletRequest request,HttpServletResponse response){
 		List<Expert> allExpert = service.selectAllExpert(page==null?1:page,expert);
 		
 		request.setAttribute("result", new PageInfo<>(allExpert));
 		request.setAttribute("expert", expert);
-		if(shenhe!=null && !StringUtils.isEmpty(shenhe) && shenhe.equals("shenhe")){
-			return "ems/expert/expertList";
-		}
 		return "ems/expert/list";
 	}
 	/**
@@ -312,130 +302,72 @@ public class ExpertController {
 	  * @Title: findAllExpert
 	  * @author lkzx 
 	  * @date 2016年9月2日 下午5:44:37  
-	  * @Description: TODO 跳转到审核专家
+	  * @Description: TODO 查询所有审核专家  可以条件查询
 	  * @param @return      
 	  * @return String
 	 */
-	@RequestMapping("/toShenHeExpert")
-	public String toShenHeExpert( Expert expert,Integer page,HttpServletRequest request,HttpServletResponse response){
+	@RequestMapping("/findAllExpertShenHe")
+	public String findAllExpertShenHe(  Expert expert,Integer page,HttpServletRequest request,HttpServletResponse response){
 		List<Expert> allExpert = service.selectAllExpert(page==null?1:page,expert);
 		
 		request.setAttribute("result", new PageInfo<>(allExpert));
 		request.setAttribute("expert", expert);
 		return "ems/expert/expertList";
 	}
-  /**
-   * 
-    * @Title: findAllLoginName
-    * @author lkzx 
-    * @date 2016年9月1日 下午5:35:45  
-    * @Description: TODO 用户名ajax校验
-    * @param @param model
-    * @param @return      
-    * @return List<String>
-   */
-/*	@RequestMapping("/findAllLoginName")
-	@ResponseBody
-	public List<Expert> findAllLoginName(@RequestParam("loginName")String loginName, Model model){
-		List<Expert> selectLoginNameList = service.selectLoginNameList(loginName);
-		return selectLoginNameList;
-	}*/
 	/**
 	 * 
-	  * @Title: expertType
-	  * @author ShaoYangYang
-	  * @date 2016年9月6日 上午11:35:26  
-	  * @Description: TODO 专家类型修改
-	  * @param @param id
-	  * @param @param expertsTypeId
-	  * @param @param model
+	  * @Title: findAllExpert
+	  * @author lkzx 
+	  * @date 2016年9月2日 下午5:44:37  
+	  * @Description: TODO 跳转到未审核专家
 	  * @param @return      
 	  * @return String
 	 */
-	@RequestMapping("/expertType")
-	public String expertType(@RequestParam("zancun") String zancun,@RequestParam("id") String id,@RequestParam("expertsTypeId")String expertsTypeId,Model model){
-		Expert expert = service.selectByPrimaryKey(id);
-		if(expertsTypeId!=null && expertsTypeId.length()>0){
-		expert.setExpertsTypeId(expertsTypeId);
-		}
-		service.updateByPrimaryKeySelective(expert);
-		model.addAttribute("expert", expert);
-		//查询采购机构信息
+	@RequestMapping("/toShenHeExpert")
+	public String toShenHeExpert( Expert expert,Integer page,HttpServletRequest request,HttpServletResponse response){
+		expert.setStatus("0");
+		List<Expert> allExpert = service.selectAllExpert(page==null?1:page,expert);
 		
-		//暂存 还是下一步
-		if(zancun!=null && zancun.equals("1")){
-			return "redirect:/";
-		}else{
-		return "ems/expert/caiGouJiGouList";
-		}
+		request.setAttribute("result", new PageInfo<>(allExpert));
+		request.setAttribute("expert", expert);
+		return "ems/expert/expertList";
 	}
 	/**
 	 * 
-	  * @Title: expertType
-	  * @author ShaoYangYang
-	  * @date 2016年9月6日 上午11:35:26  
-	  * @Description: TODO 专家采购机构修改
-	  * @param @param id
-	  * @param @param expertsTypeId
-	  * @param @param model
+	  * @Title: findAllExpert
+	  * @author lkzx 
+	  * @date 2016年9月2日 下午5:44:37  
+	  * @Description: TODO 跳转到审核通过专家
 	  * @param @return      
 	  * @return String
 	 */
-	@RequestMapping("/expertJiGou")
-	public String expertJiGou(@RequestParam("id") String id,@RequestParam("purchaseDepId")String purchaseDepId,Model model){
-		Expert expert = service.selectByPrimaryKey(id);
-		if(purchaseDepId!=null && purchaseDepId.length()>0){
-		expert.setPurchaseDepId(purchaseDepId);
-		}
-		service.updateByPrimaryKeySelective(expert);
-		model.addAttribute("expert", expert);
-		//查询采购机构信息
-		return "ems/expert/caiGouJiGouList";
+	@RequestMapping("/toShenHeExpert2")
+	public String toShenHeExpert2( Expert expert,Integer page,HttpServletRequest request,HttpServletResponse response){
+		expert.setStatus("1");
+		List<Expert> allExpert = service.selectAllExpert(page==null?1:page,expert);
+		
+		request.setAttribute("result", new PageInfo<>(allExpert));
+		request.setAttribute("expert", expert);
+		return "ems/expert/expertList";
 	}
 	/**
 	 * 
-	  * @Title: addJiGou
-	  * @author ShaoYangYang
-	  * @date 2016年9月6日 下午4:28:48  
-	  * @Description: TODO 添加采购机构
+	  * @Title: findAllExpert
+	  * @author lkzx 
+	  * @date 2016年9月2日 下午5:44:37  
+	  * @Description: TODO 跳转到审核未通过专家
 	  * @param @return      
 	  * @return String
 	 */
-	@RequestMapping("/addJiGou")
-	public String addJiGou(@RequestParam("id") String id,@RequestParam("flag") Integer flag,@RequestParam("check")String check,Model model){
-		Expert expert = service.selectByPrimaryKey(id);
-		//暂存
-		if(flag==1){
-			expert.setPurchaseDepId(check);
-			service.updateByPrimaryKeySelective(expert);
-			return "redirect:/";
-		}else{
-			//下一步
-			expert.setPurchaseDepId(check);
-			service.updateByPrimaryKeySelective(expert);
-			model.addAttribute("expert", expert);
-			return "ems/expert/expertShenQing";
-		}
+	@RequestMapping("/toShenHeExpert3")
+	public String toShenHeExpert3( Expert expert,Integer page,HttpServletRequest request,HttpServletResponse response){
+		expert.setStatus("2");
+		List<Expert> allExpert = service.selectAllExpert(page==null?1:page,expert);
+		
+		request.setAttribute("result", new PageInfo<>(allExpert));
+		request.setAttribute("expert", expert);
+		return "ems/expert/expertList";
 	}
-	/**
-	 * 
-	  * @Title: uploadExpertTable
-	  * @author ShaoYangYang
-	  * @date 2016年9月6日 下午5:07:12  
-	  * @Description: TODO 跳转到上传申请表页面
-	  * @param @param id
-	  * @param @param model
-	  * @param @return      
-	  * @return String
-	 */
-	 @RequestMapping("/toUploadExpertTable")
-	 public String uploadExpertTable(@RequestParam("id") String id,Model model){
-		 //采购机构信息？？
-		 
-		 model.addAttribute("id", id);
-		 
-		 return "ems/expert/uploadTable";
-	 }
 	 /**
 	  * 
 	   * @Title: toDaiBan

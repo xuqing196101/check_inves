@@ -6,10 +6,13 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.PageHelper;
 
+import ses.dao.bms.UserMapper;
 import ses.dao.ems.ExpertMapper;
+import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.service.ems.ExpertService;
 import ses.util.PropertiesUtil;
@@ -20,6 +23,8 @@ public class ExpertServiceImpl implements ExpertService {
 
 	@Autowired
 	private ExpertMapper mapper;
+	@Autowired
+	private UserMapper userMapper;
 	
 	@Override
 	public void deleteByPrimaryKey(String id) {
@@ -84,5 +89,24 @@ public class ExpertServiceImpl implements ExpertService {
 		
 		return mapper.getCount(expert);
 	}
-
+	 /**
+     * 
+      * @Title: getUserById
+      * @author ShaoYangYang
+      * @date 2016年9月13日 下午6:13:59  
+      * @Description: TODO 根据用户id查询用户
+      * @param @param userId
+      * @param @return      
+      * @return User
+     */
+	@Override
+    public User getUserById(String userId){
+		User u = new User();
+		u.setId(userId);
+		List<User> list = userMapper.selectUser(u);
+		if(list!=null && list.size()>0){
+			return list.get(0);
+		}
+		return null;
+    }
 }

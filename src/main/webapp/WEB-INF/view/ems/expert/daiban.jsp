@@ -191,9 +191,9 @@
    </div>
    
   <div class="container mt20">
-   <div class="col-md-4"><a href='${pageContext.request.contextPath}/expert/toShenHeExpert.html?status=0'>专家未审核（${weishenhe }）</a></div><div class="col-md-4"></div><div class="col-md-4"></div>
-   <div class="col-md-4"><a href='${pageContext.request.contextPath}/expert/toShenHeExpert.html?status=1'>专家审核通过（${tongguo }）</a></div><div class="col-md-4"></div><div class="col-md-4"></div>
-   <div class="col-md-4"><a href='${pageContext.request.contextPath}/expert/toShenHeExpert.html?status=2'>专家审核未通过（${pass }）</a></div><div class="col-md-4"></div><div class="col-md-4"></div>
+   <div class="col-md-4"><a href='${pageContext.request.contextPath}/expert/toShenHeExpert.html'>专家未审核（${weishenhe }）</a></div><div class="col-md-4"></div><div class="col-md-4"></div>
+   <div class="col-md-4"><a href='${pageContext.request.contextPath}/expert/toShenHeExpert2.html'>专家审核通过（${tongguo }）</a></div><div class="col-md-4"></div><div class="col-md-4"></div>
+   <div class="col-md-4"><a href='${pageContext.request.contextPath}/expert/toShenHeExpert3.html'>专家审核未通过（${pass }）</a></div><div class="col-md-4"></div><div class="col-md-4"></div>
   </div>  
 
 </body>
