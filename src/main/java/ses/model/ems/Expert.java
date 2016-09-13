@@ -12,16 +12,16 @@ import java.util.Date;
 public class Expert {
 	/**主键*/
     private String id;
-    /**登录名*/
-    private String loginName;
+    /**是否提交*/
+    private String isSubmit = "0";
     /**密码*/
     private String password;
     /**是否删除；0未删除，1已删除*/
     private Short isDelete;
     /**创建时间*/
     private Date createdAt = new Date();
-    /**性别*/
-    private String sex;
+    /**性别 M 男  F 女*/
+    private String gender;
     /**修改时间*/
     private Date updatedAt;
     /**联系电话*/
@@ -37,7 +37,7 @@ public class Expert {
     /**政治面貌*/
     private String politicsStatus;
     /**民族*/
-    private String nayion;
+    private String nation;
     /**毕业院校*/
     private String graduateSchool;
     /**最高学历*/
@@ -47,7 +47,7 @@ public class Expert {
     /**工作单位名称*/
     private String workUnit;
     /**固话*/
-    private String fixPhone;
+    private String  telephone;
     /**传真*/
     private String fax;
     /**取得技术时间*/
@@ -65,7 +65,7 @@ public class Expert {
     /**单位地址*/
     private String unitAddress;
     /**邮编*/
-    private String zipCode;
+    private String postCode;
     /**学位*/
     private String degree;
     /**现任职务*/
@@ -74,7 +74,7 @@ public class Expert {
     private String expertsTypeId;
     /**采购机构id*/
     private String purchaseDepId;
-    /**审核状态；0未审核，1通过，2未通过*/
+    /**审核状态；0未审核，1通过，2未通过,3退回修改*/
     private String status;
     /**是否拉黑；0未拉黑，1已拉黑*/
     private String isBlack = "0";
@@ -90,12 +90,12 @@ public class Expert {
         this.id = id == null ? null : id.trim();
     }
 
-    public String getLoginName() {
-        return loginName;
+    public String getIsSubmit() {
+        return isSubmit;
     }
 
-    public void setLoginName(String loginName) {
-        this.loginName = loginName == null ? null : loginName.trim();
+    public void setIsSubmit(String isSubmit) {
+        this.isSubmit = isSubmit == null ? null : isSubmit.trim();
     }
 
     public String getPassword() {
@@ -122,12 +122,12 @@ public class Expert {
         this.createdAt = createdAt;
     }
 
-    public String getSex() {
-        return sex;
+    public String getGender() {
+        return gender;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex == null ? null : sex.trim();
+    public void setGender(String gender) {
+        this.gender = gender == null ? null : gender.trim();
     }
 
     public Date getUpdatedAt() {
@@ -186,12 +186,12 @@ public class Expert {
         this.politicsStatus = politicsStatus == null ? null : politicsStatus.trim();
     }
 
-    public String getNayion() {
-        return nayion;
+    public String getNation() {
+        return nation;
     }
 
-    public void setNayion(String nayion) {
-        this.nayion = nayion == null ? null : nayion.trim();
+    public void setNation(String nation) {
+        this.nation = nation == null ? null : nation.trim();
     }
 
     public String getGraduateSchool() {
@@ -226,12 +226,12 @@ public class Expert {
         this.workUnit = workUnit == null ? null : workUnit.trim();
     }
 
-    public String getFixPhone() {
-        return fixPhone;
+    public String getTelephone() {
+        return telephone;
     }
 
-    public void setFixPhone(String fixPhone) {
-        this.fixPhone = fixPhone == null ? null : fixPhone.trim();
+    public void setTelephone(String telephone) {
+        this.telephone = telephone == null ? null : telephone.trim();
     }
 
     public String getFax() {
@@ -298,12 +298,12 @@ public class Expert {
         this.unitAddress = unitAddress == null ? null : unitAddress.trim();
     }
 
-    public String getZipCode() {
-        return zipCode;
+    public String getPostCode() {
+        return postCode;
     }
 
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode == null ? null : zipCode.trim();
+    public void setPostCode(String postCode) {
+        this.postCode = postCode == null ? null : postCode.trim();
     }
 
     public String getDegree() {

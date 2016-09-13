@@ -93,7 +93,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="wrapper">
 <!-- 修改订列表开始-->
    <div class="container">
-   <form action="<%=basePath %>expert/expertType.do" method="post"  id="form1">
+   <form action="<%=basePath %>expert/expertType.html" method="post"  id="form1">
    		<%
 			session.setAttribute("tokenSession", tokenValue);
 		 %>

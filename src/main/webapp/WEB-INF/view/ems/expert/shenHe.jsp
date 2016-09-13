@@ -159,16 +159,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 //是否通过标示
 	 function pass(flag){
 		 $("#isPass").val(flag);
-		 if(flag==1 || flag=="1"){
+		/*  if(flag==1 || flag=="1"){
 			 $("#form1").submit();
-		 }else {
+		 }else { */
 			var remark = $("#remark").val(); 
 			 if(remark.replace(/(^\s*)|(\s*$)/g, "")=="" || remark==null){
 				 layer.alert("请填写意见！",{offset: ['222px', '390px'],shade:0.01});
 			 }else{
 				 $("#form1").submit();
 			 }
-		 }
+		 //}
 	 }
 </script>
 </head>
@@ -264,19 +264,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="clear"></div>
 	  </div>
    </div>
-   
+   <!-- 项目戳开始 -->
+		<div class="container clear margin-top-30">
+		<!--详情开始-->
+		<div class="container content height-350">
+			<div class="row magazine-page">
+				<div class="col-md-12 tab-v2 job-content">
+					<div class="padding-top-10">
+						<ul class="nav nav-tabs bgdd">
+							<li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="s_news f18">基本信息</a></li>
+							<li class="">	   <a aria-expanded="false" href="#tab-2" data-toggle="tab" class="fujian f18">专家类型</a></li>
+							<!-- <li class="">	   <a aria-expanded="false" href="#tab-3" data-toggle="tab" class="fujian f18"></a></li> -->
+						</ul>
 <!-- 修改订列表开始-->
    <div class="container">
    <form action="<%=basePath %>expert/shenhe.do"  method="post" id="form1" enctype="multipart/form-data" class="registerform"> 
    		<%
 			session.setAttribute("tokenSession", tokenValue);
 		%>
-		 <input type="hidden"  name="token2" value="<%=tokenValue%>">
+   <input type="hidden"  name="token2" value="<%=tokenValue%>">
    <input type="hidden" name="id" value="${expert.id }">
    <input type="hidden" name="isPass" id="isPass"/>
-   <div>
-   <div class="headline-v2">
-   <h2>评标专家信息</h2>
+  <div class="tab-content padding-top-20" >
+	<div class="tab-pane fade active in height-450" id="tab-1">
+	<div class=" margin-bottom-0">
+	<i>01</i>评标专家基本信息
    </div>
    <ul class="list-unstyled list-flow p0_20">
      <li class="col-md-6 p0">
@@ -287,9 +299,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 </li>
      <li class="col-md-6  p0 ">
 	   <span class="">性别：</span>
-	   <select class="span2" name="sex" disabled="disabled">
-	   	<option <c:if test="${expert.sex eq '男' }">selected="selected"</c:if> value="男">男</option>
-	   	<option <c:if test="${expert.sex eq '女' }">selected="selected"</c:if> value="女">女</option>
+	   <select class="span2" name="gender" disabled="disabled">
+	   	<option <c:if test="${expert.gender eq '男' }">selected="selected"</c:if> value="男">男</option>
+	   	<option <c:if test="${expert.gender eq '女' }">selected="selected"</c:if> value="女">女</option>
 	   	<option value="其他">其他</option>
 	   </select>
 	   
@@ -335,7 +347,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 </li>  
      <li class="col-md-6  p0 ">
 	   <span class="">民族：</span>
-        <input class="span2" disabled="disabled" maxlength="10" onblur="validataForm(this,'nameFont4');"  value="${expert.nayion }" name="nayion" id="appendedInput" type="text">
+        <input class="span2" disabled="disabled" maxlength="10" onblur="validataForm(this,'nameFont4');"  value="${expert.nation }" name="nation" id="appendedInput" type="text">
           
        <font id="nameFont4"></font>
 	 </li> 
@@ -411,7 +423,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 </li> 
 	  <li class="col-md-6  p0 ">
 	   <span class="">邮政编码：</span>
-        <input class="span2" maxlength="6" disabled="disabled" onblur="validataForm(this,'nameFont15');"  value="${expert.zipCode }" name="zipCode" id="appendedInput" type="text">
+        <input class="span2" maxlength="6" disabled="disabled" onblur="validataForm(this,'nameFont15');"  value="${expert.postCode }" name="postCode" id="appendedInput" type="text">
           
        <font id="nameFont15"></font>
 	 </li> 
@@ -439,13 +451,34 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        <font id="nameFont19"></font>
 	 </li>
    </ul>
-  </div> 
-   
+  
   <!-- 附件信息-->
   <div class="padding-top-10 clear">
    <div class="headline-v2 clear">
    <h2>附件信息</h2>
    </div>
+  </div>
+  </div> 
+   <div class="tab-pane fade height-450" id="tab-2">
+		<div class="margin-bottom-0  categories">
+		 <ul class="list-unstyled list-flow" style="margin-left: 250px;">
+     		<li class="p0">
+			   <span class="">专家类型：</span>
+			   <input type="hidden" id="expertsTypeIds" value="${expert.expertsTypeId }">
+			   <select name="expertsTypeId" id="expertsTypeId" disabled="disabled">
+			   		<option value="0">-请选择-</option>
+			   		<option <c:if test="${expert.expertsTypeId eq '1' }">selected="selected"</c:if> value="1">技术</option>
+			   		<option <c:if test="${expert.expertsTypeId eq '2' }">selected="selected"</c:if> value="2">法律</option>
+			   		<option <c:if test="${expert.expertsTypeId eq '3' }">selected="selected"</c:if> value="3">商务</option>
+			   </select>
+			 </li>
+        </ul>
+		</div>
+	</div>
+	<!-- <div class="tab-pane fade height-450" id="tab-3">
+			<div class="margin-bottom-0  categories">
+			</div>
+	</div> -->
   </div>
  <!--  <div class="padding-left-40 padding-right-20 clear">
    <ul class="list-unstyled list-flow p0_20">
@@ -497,12 +530,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <!-- <button class="btn btn-windows add" type="submit">下一步</button> -->
 	<!-- <button class="btn btn-windows delete" type="submit">删除</button> -->
 	<input class="btn btn-windows delete" type="button" onclick="pass('2');" value="不通过">
-	<!-- <button class="btn btn-windows delete" onclick="pass('1');" type="submit">不通过</button> -->
+	<input class="btn btn-windows back" type="button" onclick="pass('3');" value="退回修改">
 	<a class="btn btn-windows reset"  onclick="location.href='javascript:history.go(-1);'">返回</a>
 	</div>
   </div>
   </form>
  </div>
+ 	</div>
+				</div>
+			</div>
+	</div>
+	</div>
  <!--底部代码开始-->
 <div >
       <div class="footer">
@@ -519,7 +557,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!--/footer--> 
       </div>
       </div>
-      
 </div>
 </body>
 </html>

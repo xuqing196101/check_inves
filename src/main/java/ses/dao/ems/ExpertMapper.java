@@ -19,7 +19,18 @@ public interface ExpertMapper {
 
     int updateByPrimaryKey(Expert record);
     
-    List<Expert> selectLoginNameList(String loginName);
+   // List<Expert> selectLoginNameList(String loginName);
+    /**
+     * 
+      * @Title: getCount
+      * @author ShaoYangYang
+      * @date 2016年9月12日 下午3:58:35  
+      * @Description: TODO 查询专家待审核数量
+      * @param @param expert
+      * @param @return      
+      * @return Integer
+     */
+    Integer getCount(Expert expert);
     /**
      * 
       * @Title: selectAllExpert

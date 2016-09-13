@@ -74,7 +74,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		   
 	   }
 	  
-	   $.ajax({
+	 <%--   $.ajax({
 		   url:"<%=basePath%>expert/findAllLoginName.do",
 		   type:"post",
 		   data:{"loginName":loginName},
@@ -83,13 +83,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				   $("#spp").html("用户名已存在").css('color','red');
 				   flag=1;
 				   return false;
-			   }else{
+			   }else{ --%>
 				   $("#spp").html("通过!").css('color','lime');
 				   flag=2;
 				   return true;
-			   }
+			/*    }
 		   }
-	   });
+	   }); */
    }
    function validataPassword(){
 	   var password1 = $("#password1").val();
@@ -172,7 +172,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
 <!-- 修改订列表开始-->
    <div class="container">
-   <form action="<%=basePath %>expert/register.do" method="post"  id="form1">
+   <form action="<%=basePath %>expert/register.html" method="post"  id="form1">
    		<%
 			session.setAttribute("tokenSession", tokenValue);
 		 %>
@@ -194,7 +194,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<br/><br/>
    <ul class="list-unstyled list-flow" style="margin-left: 250px;">
      		<li class="p0">
-			   <span class="">用户名：</span>
+			   <span class=""><i class="red mr5">*</i>用户名：</span>
 			   <div class="input-append">
 		        <input class="span2" name="loginName" placeholder="用户名为3~8位" maxlength="8" type="text" onblur="validataLoginName();" value="">
 		        <span class="add-on">i</span>
@@ -203,7 +203,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			 
 		    
 		      <li class="p0 ">
-			   <span class="">密码：</span>
+			   <span class=""><i class="red mr5">*</i>密码：</span>
 			   <div class="input-append">
 		        <input class="span2" name="password" placeholder="密码为6~20位" maxlength="20" id="password1" onblur="validataPassword();"  type="password" >
 		        <span class="add-on">i</span>
@@ -211,22 +211,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			 </li> 
 	 		
 			  <li class="p0 ">
-			   <span class="">确认密码：</span>
+			   <span class=""><i class="red mr5">*</i>确认密码：</span>
 			   <div class="input-append">
 		        <input class="span2" id="password2"  maxlength="20" onblur="validataPwd2();" type="password" value="">
 		        <span class="add-on">i</span>
 		       </div><font  id="pwd2"></font>
 			 </li> 
 			 <li class="p0 ">
-			   <span class="">手机号码：</span>
+			   <span class=""><i class="red mr5">*</i>手机号码：</span>
 			   <div class="input-append">
-		        <input class="span2" name="mobile" placeholder="请输入正确的手机号码" maxlength="14" id="phone" onblur="validataPhone();"  value="" type="text">
+		        <input class="span2" name="phone" placeholder="请输入正确的手机号码" maxlength="14" id="phone" onblur="validataPhone();"  value="" type="text">
 		        <span class="add-on">i</span>
 		       </div>
 		        <input class="btn" type="button" value="发送验证码"><font  id="phone2"></font>
 			 </li>
 			 <li class="p0">
-			   <span class="">验证码：</span>
+			   <span class=""><i class="red mr5">*</i>验证码：</span>
 			   <div class="input-append">
 		        <input class="span2" name="phone" maxlength="6" type="text" value="">
 		        <span class="add-on">i</span>

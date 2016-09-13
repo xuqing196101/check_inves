@@ -3,11 +3,11 @@
 <mapper namespace="ses.dao.ems.ExpertMapper">
   <resultMap id="BaseResultMap" type="ses.model.ems.Expert">
     <id column="ID" jdbcType="VARCHAR" property="id" />
-    <result column="LOGIN_NAME" jdbcType="VARCHAR" property="loginName" />
+    <result column="IS_SUBMIT" jdbcType="VARCHAR" property="isSubmit" />
     <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
     <result column="IS_DELETE" jdbcType="DECIMAL" property="isDelete" />
     <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
-    <result column="SEX" jdbcType="CHAR" property="sex" />
+    <result column="GENDER" jdbcType="CHAR" property="gender" />
     <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
     <result column="MOBILE" jdbcType="VARCHAR" property="mobile" />
     <result column="BIRTHDAY" jdbcType="DATE" property="birthday" />
@@ -15,12 +15,12 @@
     <result column="ID_TYPE" jdbcType="VARCHAR" property="idType" />
     <result column="EXPERTS_FROM" jdbcType="VARCHAR" property="expertsFrom" />
     <result column="POLITICS_STATUS" jdbcType="VARCHAR" property="politicsStatus" />
-    <result column="NAYION" jdbcType="VARCHAR" property="nayion" />
+    <result column="NATION" jdbcType="VARCHAR" property="nation" />
     <result column="GRADUATE_SCHOOL" jdbcType="VARCHAR" property="graduateSchool" />
     <result column="HIGHT_EDUCATION" jdbcType="VARCHAR" property="hightEducation" />
     <result column="MAJOR" jdbcType="VARCHAR" property="major" />
     <result column="WORK_UNIT" jdbcType="VARCHAR" property="workUnit" />
-    <result column="FIX_PHONE" jdbcType="VARCHAR" property="fixPhone" />
+    <result column="TELEPHONE" jdbcType="VARCHAR" property="telephone" />
     <result column="FAX" jdbcType="VARCHAR" property="fax" />
     <result column="MAKE_TECH_DATE" jdbcType="DATE" property="makeTechDate" />
     <result column="HEALTH_STATE" jdbcType="VARCHAR" property="healthState" />
@@ -29,7 +29,7 @@
     <result column="TIME_TO_WORK" jdbcType="DATE" property="timeToWork" />
     <result column="TIME_START_WORK" jdbcType="DATE" property="timeStartWork" />
     <result column="UNIT_ADDRESS" jdbcType="VARCHAR" property="unitAddress" />
-    <result column="ZIP_CODE" jdbcType="VARCHAR" property="zipCode" />
+    <result column="POST_CODE" jdbcType="VARCHAR" property="postCode" />
     <result column="DEGREE" jdbcType="VARCHAR" property="degree" />
     <result column="AT_DUTY" jdbcType="VARCHAR" property="atDuty" />
     <result column="EXPERTS_TYPE_ID" jdbcType="VARCHAR" property="expertsTypeId" />
@@ -40,23 +40,22 @@
     <result column="REL_NAME" jdbcType="VARCHAR" property="relName" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, LOGIN_NAME, PASSWORD, IS_DELETE, CREATED_AT, SEX, UPDATED_AT, MOBILE, BIRTHDAY, 
-    ID_NUMBER, ID_TYPE, EXPERTS_FROM, POLITICS_STATUS, NAYION, GRADUATE_SCHOOL, HIGHT_EDUCATION, 
-    MAJOR, WORK_UNIT, FIX_PHONE, FAX, MAKE_TECH_DATE, HEALTH_STATE, ADDRESS, PROFESS_TECH_TITLES, 
-    TIME_TO_WORK, TIME_START_WORK, UNIT_ADDRESS, ZIP_CODE, DEGREE, AT_DUTY, EXPERTS_TYPE_ID, 
+    ID, IS_SUBMIT, PASSWORD, IS_DELETE, CREATED_AT, GENDER, UPDATED_AT, MOBILE, BIRTHDAY, 
+    ID_NUMBER, ID_TYPE, EXPERTS_FROM, POLITICS_STATUS, NATION, GRADUATE_SCHOOL, HIGHT_EDUCATION, 
+    MAJOR, WORK_UNIT, TELEPHONE, FAX, MAKE_TECH_DATE, HEALTH_STATE, ADDRESS, PROFESS_TECH_TITLES, 
+    TIME_TO_WORK, TIME_START_WORK, UNIT_ADDRESS, POST_CODE, DEGREE, AT_DUTY, EXPERTS_TYPE_ID, 
     PURCHASE_DEP_ID, STATUS, IS_BLACK, HONESTY_SCORE, REL_NAME
   </sql>
   <!-- 查询用户名是否存在 -->
-    <select id="selectLoginNameList" parameterType="java.lang.String" resultMap="BaseResultMap" >
-  	select LOGIN_NAME from T_SES_EMS_EXPERT where LOGIN_NAME = #{loginName}
-  	</select>
+    <!-- <select id="selectisSubmitList" parameterType="java.lang.String" resultMap="BaseResultMap" >
+  	select IS_SUBMIT from T_SES_EMS_EXPERT where IS_SUBMIT = #{isSubmit}
+  	</select> -->
   	<!-- 查询所有专家 -->
   	<select id="selectAllExpert"   resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from T_SES_EMS_EXPERT 
-    where
-    	 1=1
+    where 1=1 
        <if test="relName != null and relName !=''">  
               AND  REL_NAME like '%${relName}%'   
        </if>  
@@ -70,9 +69,27 @@
               AND EXPERTS_TYPE_ID = ${expertsTypeId}
        </if>
        ORDER BY CREATED_AT DESC 
-    
-    
   </select>
+  <!-- 查找待办数量 -->
+  <select id="getCount" parameterType="ses.model.ems.Expert" resultType="java.lang.Integer">
+    <!--
+    @mbggenerated
+    -->
+    select 
+	count(*)
+    from T_SES_EMS_EXPERT
+    where 1=1 
+    <if test="relName!=null">
+    	and REL_NAME= #{relName,jdbcType=VARCHAR}
+    </if>
+    <if test="expertsTypeId!=null">
+    	and EXPERTS_TYPE_ID= #{expertsTypeId,jdbcType=VARCHAR}
+    </if>
+    <if test="status!=null">
+    	and STATUS = #{status,jdbcType=DECIMAL}
+    </if>
+  </select>
+  
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -84,29 +101,29 @@
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="ses.model.ems.Expert">
-    insert into T_SES_EMS_EXPERT (ID, LOGIN_NAME, PASSWORD, 
-      IS_DELETE, CREATED_AT, SEX, 
+    insert into T_SES_EMS_EXPERT (ID, IS_SUBMIT, PASSWORD, 
+      IS_DELETE, CREATED_AT, GENDER, 
       UPDATED_AT, MOBILE, BIRTHDAY, 
       ID_NUMBER, ID_TYPE, EXPERTS_FROM, 
-      POLITICS_STATUS, NAYION, GRADUATE_SCHOOL, 
+      POLITICS_STATUS, NATION, GRADUATE_SCHOOL, 
       HIGHT_EDUCATION, MAJOR, WORK_UNIT, 
-      FIX_PHONE, FAX, MAKE_TECH_DATE, 
+      TELEPHONE, FAX, MAKE_TECH_DATE, 
       HEALTH_STATE, ADDRESS, PROFESS_TECH_TITLES, 
       TIME_TO_WORK, TIME_START_WORK, UNIT_ADDRESS, 
-      ZIP_CODE, DEGREE, AT_DUTY, 
+      POST_CODE, DEGREE, AT_DUTY, 
       EXPERTS_TYPE_ID, PURCHASE_DEP_ID, STATUS, 
       IS_BLACK, HONESTY_SCORE, REL_NAME
       )
-    values (#{id,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{isDelete,jdbcType=DECIMAL}, #{createdAt,jdbcType=DATE}, #{sex,jdbcType=CHAR}, 
+    values (#{id,jdbcType=VARCHAR}, #{isSubmit,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{isDelete,jdbcType=DECIMAL}, #{createdAt,jdbcType=DATE}, #{gender,jdbcType=CHAR}, 
       #{updatedAt,jdbcType=DATE}, #{mobile,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, 
       #{idNumber,jdbcType=VARCHAR}, #{idType,jdbcType=VARCHAR}, #{expertsFrom,jdbcType=VARCHAR}, 
-      #{politicsStatus,jdbcType=VARCHAR}, #{nayion,jdbcType=VARCHAR}, #{graduateSchool,jdbcType=VARCHAR}, 
+      #{politicsStatus,jdbcType=VARCHAR}, #{NATION,jdbcType=VARCHAR}, #{graduateSchool,jdbcType=VARCHAR}, 
       #{hightEducation,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR}, #{workUnit,jdbcType=VARCHAR}, 
-      #{fixPhone,jdbcType=VARCHAR}, #{fax,jdbcType=VARCHAR}, #{makeTechDate,jdbcType=DATE}, 
+      #{telephone,jdbcType=VARCHAR}, #{fax,jdbcType=VARCHAR}, #{makeTechDate,jdbcType=DATE}, 
       #{healthState,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{professTechTitles,jdbcType=VARCHAR}, 
       #{timeToWork,jdbcType=DATE}, #{timeStartWork,jdbcType=DATE}, #{unitAddress,jdbcType=VARCHAR}, 
-      #{zipCode,jdbcType=VARCHAR}, #{degree,jdbcType=VARCHAR}, #{atDuty,jdbcType=VARCHAR}, 
+      #{postCode,jdbcType=VARCHAR}, #{degree,jdbcType=VARCHAR}, #{atDuty,jdbcType=VARCHAR}, 
       #{expertsTypeId,jdbcType=VARCHAR}, #{purchaseDepId,jdbcType=DECIMAL}, #{status,jdbcType=CHAR}, 
       #{isBlack,jdbcType=CHAR}, #{honestyScore,jdbcType=DECIMAL}, #{relName,jdbcType=VARCHAR}
       )
@@ -117,8 +134,8 @@
       <if test="id != null">
         ID,
       </if>
-      <if test="loginName != null">
-        LOGIN_NAME,
+      <if test="isSubmit != null">
+        IS_SUBMIT,
       </if>
       <if test="password != null">
         PASSWORD,
@@ -129,8 +146,8 @@
       <if test="createdAt != null">
         CREATED_AT,
       </if>
-      <if test="sex != null">
-        SEX,
+      <if test="gender != null">
+        GENDER,
       </if>
       <if test="updatedAt != null">
         UPDATED_AT,
@@ -153,8 +170,8 @@
       <if test="politicsStatus != null">
         POLITICS_STATUS,
       </if>
-      <if test="nayion != null">
-        NAYION,
+      <if test="nation != null">
+        NATION,
       </if>
       <if test="graduateSchool != null">
         GRADUATE_SCHOOL,
@@ -168,8 +185,8 @@
       <if test="workUnit != null">
         WORK_UNIT,
       </if>
-      <if test="fixPhone != null">
-        FIX_PHONE,
+      <if test="telephone != null">
+        TELEPHONE,
       </if>
       <if test="fax != null">
         FAX,
@@ -195,8 +212,8 @@
       <if test="unitAddress != null">
         UNIT_ADDRESS,
       </if>
-      <if test="zipCode != null">
-        ZIP_CODE,
+      <if test="postCode != null">
+        POST_CODE,
       </if>
       <if test="degree != null">
         DEGREE,
@@ -227,8 +244,8 @@
       <if test="id != null">
         #{id,jdbcType=VARCHAR},
       </if>
-      <if test="loginName != null">
-        #{loginName,jdbcType=VARCHAR},
+      <if test="isSubmit != null">
+        #{isSubmit,jdbcType=VARCHAR},
       </if>
       <if test="password != null">
         #{password,jdbcType=VARCHAR},
@@ -239,8 +256,8 @@
       <if test="createdAt != null">
         #{createdAt,jdbcType=DATE},
       </if>
-      <if test="sex != null">
-        #{sex,jdbcType=CHAR},
+      <if test="gender != null">
+        #{gender,jdbcType=CHAR},
       </if>
       <if test="updatedAt != null">
         #{updatedAt,jdbcType=DATE},
@@ -263,8 +280,8 @@
       <if test="politicsStatus != null">
         #{politicsStatus,jdbcType=VARCHAR},
       </if>
-      <if test="nayion != null">
-        #{nayion,jdbcType=VARCHAR},
+      <if test="nation != null">
+        #{nation,jdbcType=VARCHAR},
       </if>
       <if test="graduateSchool != null">
         #{graduateSchool,jdbcType=VARCHAR},
@@ -278,8 +295,8 @@
       <if test="workUnit != null">
         #{workUnit,jdbcType=VARCHAR},
       </if>
-      <if test="fixPhone != null">
-        #{fixPhone,jdbcType=VARCHAR},
+      <if test="telephone != null">
+        #{telephone,jdbcType=VARCHAR},
       </if>
       <if test="fax != null">
         #{fax,jdbcType=VARCHAR},
@@ -305,8 +322,8 @@
       <if test="unitAddress != null">
         #{unitAddress,jdbcType=VARCHAR},
       </if>
-      <if test="zipCode != null">
-        #{zipCode,jdbcType=VARCHAR},
+      <if test="postCode != null">
+        #{postCode,jdbcType=VARCHAR},
       </if>
       <if test="degree != null">
         #{degree,jdbcType=VARCHAR},
@@ -337,8 +354,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="ses.model.ems.Expert">
     update T_SES_EMS_EXPERT
     <set>
-      <if test="loginName != null">
-        LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
+      <if test="isSubmit != null">
+        IS_SUBMIT = #{isSubmit,jdbcType=VARCHAR},
       </if>
       <if test="password != null">
         PASSWORD = #{password,jdbcType=VARCHAR},
@@ -349,8 +366,8 @@
       <if test="createdAt != null">
         CREATED_AT = #{createdAt,jdbcType=DATE},
       </if>
-      <if test="sex != null">
-        SEX = #{sex,jdbcType=CHAR},
+      <if test="gender != null">
+        GENDER = #{gender,jdbcType=CHAR},
       </if>
       <if test="updatedAt != null">
         UPDATED_AT = #{updatedAt,jdbcType=DATE},
@@ -373,8 +390,8 @@
       <if test="politicsStatus != null">
         POLITICS_STATUS = #{politicsStatus,jdbcType=VARCHAR},
       </if>
-      <if test="nayion != null">
-        NAYION = #{nayion,jdbcType=VARCHAR},
+      <if test="nation != null">
+        NATION = #{nation,jdbcType=VARCHAR},
       </if>
       <if test="graduateSchool != null">
         GRADUATE_SCHOOL = #{graduateSchool,jdbcType=VARCHAR},
@@ -388,8 +405,8 @@
       <if test="workUnit != null">
         WORK_UNIT = #{workUnit,jdbcType=VARCHAR},
       </if>
-      <if test="fixPhone != null">
-        FIX_PHONE = #{fixPhone,jdbcType=VARCHAR},
+      <if test="telephone != null">
+        TELEPHONE = #{telephone,jdbcType=VARCHAR},
       </if>
       <if test="fax != null">
         FAX = #{fax,jdbcType=VARCHAR},
@@ -415,8 +432,8 @@
       <if test="unitAddress != null">
         UNIT_ADDRESS = #{unitAddress,jdbcType=VARCHAR},
       </if>
-      <if test="zipCode != null">
-        ZIP_CODE = #{zipCode,jdbcType=VARCHAR},
+      <if test="postCode != null">
+        POST_CODE = #{postCode,jdbcType=VARCHAR},
       </if>
       <if test="degree != null">
         DEGREE = #{degree,jdbcType=VARCHAR},
@@ -447,11 +464,11 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="ses.model.ems.Expert">
     update T_SES_EMS_EXPERT
-    set LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
+    set IS_SUBMIT = #{isSubmit,jdbcType=VARCHAR},
       PASSWORD = #{password,jdbcType=VARCHAR},
       IS_DELETE = #{isDelete,jdbcType=DECIMAL},
       CREATED_AT = #{createdAt,jdbcType=DATE},
-      SEX = #{sex,jdbcType=CHAR},
+      GENDER = #{gender,jdbcType=CHAR},
       UPDATED_AT = #{updatedAt,jdbcType=DATE},
       MOBILE = #{mobile,jdbcType=VARCHAR},
       BIRTHDAY = #{birthday,jdbcType=DATE},
@@ -459,12 +476,12 @@
       ID_TYPE = #{idType,jdbcType=VARCHAR},
       EXPERTS_FROM = #{expertsFrom,jdbcType=VARCHAR},
       POLITICS_STATUS = #{politicsStatus,jdbcType=VARCHAR},
-      NAYION = #{nayion,jdbcType=VARCHAR},
+      NATION = #{nation,jdbcType=VARCHAR},
       GRADUATE_SCHOOL = #{graduateSchool,jdbcType=VARCHAR},
       HIGHT_EDUCATION = #{hightEducation,jdbcType=VARCHAR},
       MAJOR = #{major,jdbcType=VARCHAR},
       WORK_UNIT = #{workUnit,jdbcType=VARCHAR},
-      FIX_PHONE = #{fixPhone,jdbcType=VARCHAR},
+      TELEPHONE = #{telephone,jdbcType=VARCHAR},
       FAX = #{fax,jdbcType=VARCHAR},
       MAKE_TECH_DATE = #{makeTechDate,jdbcType=DATE},
       HEALTH_STATE = #{healthState,jdbcType=VARCHAR},
@@ -473,7 +490,7 @@
       TIME_TO_WORK = #{timeToWork,jdbcType=DATE},
       TIME_START_WORK = #{timeStartWork,jdbcType=DATE},
       UNIT_ADDRESS = #{unitAddress,jdbcType=VARCHAR},
-      ZIP_CODE = #{zipCode,jdbcType=VARCHAR},
+      POST_CODE = #{postCode,jdbcType=VARCHAR},
       DEGREE = #{degree,jdbcType=VARCHAR},
       AT_DUTY = #{atDuty,jdbcType=VARCHAR},
       EXPERTS_TYPE_ID = #{expertsTypeId,jdbcType=VARCHAR},

@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,20 +24,17 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.pagehelper.PageInfo;
 
+import ses.model.bms.User;
 import ses.model.ems.Expert;
+import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertService;
 import ses.util.Encrypt;
 import ses.util.WfUtil;
@@ -46,7 +44,8 @@ import ses.util.WordUtil;
 @Controller
 @RequestMapping("/expert")
 public class ExpertController {
-
+	@Autowired
+	private UserServiceI userService;
 	@Autowired
 	private ExpertService service;
 	/**
@@ -91,7 +90,7 @@ public class ExpertController {
 	  * @return String
 	 */
 	@RequestMapping("/register")
-	public String register( Expert expert,HttpSession session, Model model,HttpServletRequest request,@RequestParam String token2){
+	public String register( User expert,HttpSession session, Model model,HttpServletRequest request,@RequestParam String token2){
 		Object tokenValue = session.getAttribute("tokenSession");
 		if (tokenValue != null && tokenValue.equals(token2)) {
 			// 正常提交
@@ -114,15 +113,17 @@ public class ExpertController {
 				return "ems/expert/expertRegister";
 			}
 		expert.setId(UUID.randomUUID().toString());
+		expert.setCreatedAt(new Date());
+		expert.setIsDeleted(0);
 		//密码加密
-		String md5AndSha = Encrypt.md5AndSha(expert.getPassword());
+		String md5AndSha = Encrypt.md5AndSha(expert.getLoginName()+expert.getPassword());
 		expert.setPassword(md5AndSha);
-		request.setAttribute("expert", expert);
+		request.setAttribute("user", expert);
 		//model.addAttribute("expert", expert);
-		service.insertSelective(expert);
-		return "ems/expert/basicInfo";
+		userService.save(expert);
+		return "ems/expert/basic_info";
 		} else{
-			return "ems/expert/basicInfo";
+			return "ems/expert/basic_info";
 		}
 	}
 	/**
@@ -139,7 +140,7 @@ public class ExpertController {
 	public String toBasicInfo(@RequestParam("id")String id,HttpServletRequest request,HttpServletResponse response,  Model model){
 		Expert expert = service.selectByPrimaryKey(id);
 		model.addAttribute("expert", expert);
-		return "ems/expert/basicInfo";
+		return "ems/expert/basic_info";
 	}
 	/**
 	 * 
@@ -183,8 +184,9 @@ public class ExpertController {
 	 * @throws IOException 
 	 */
 	@RequestMapping("/edit")
-	public String edit(@RequestParam("files")MultipartFile[] files,@RequestParam("zancun")String zancun,Expert expert ,Model model,HttpSession session,@RequestParam String token2 ,HttpServletRequest request,HttpServletResponse response) throws IOException{
+	public String edit(@RequestParam("files")MultipartFile[] files,Expert expert,@RequestParam("userId")String userId,Model model,HttpSession session,@RequestParam String token2 ,HttpServletRequest request,HttpServletResponse response) throws IOException{
 		Object tokenValue = session.getAttribute("tokenSession");
+		String expertId = UUID.randomUUID().toString();
 		if (tokenValue != null && tokenValue.equals(token2)) {
 			// 正常提交
 			session.removeAttribute("tokenSession");
@@ -205,28 +207,68 @@ public class ExpertController {
 		            }  
 		        }  
 			}
+		//个人信息关联用户
+		if(userId!=null && userId.length()>0){
+			//直接注册完之后填写个人信息
+			
+		}else{
+			//注册完账号  过段时间又填写个人信息
+			//User user = (User)session.getAttribute("loginUser");
+			
+		}
+		if(expert.getId()==null || expert.getId()=="" || expert.getId().length()==0){
+			//id为空 说明为新增数据
+			expert.setId(expertId);
+			//已提交
+			expert.setIsSubmit("1");
+			//修改时间
+			expert.setUpdatedAt(new Date());
+			service.insertSelective(expert);
+		}else{
+			//否则为修改
+			//已提交
+			expert.setIsSubmit("1");
 			//修改时间
 			expert.setUpdatedAt(new Date());
 			service.updateByPrimaryKeySelective(expert);
+		}
+		//关联信息
+		
 			//查询出所有信息放进model中
 			Expert expert2 = service.selectByPrimaryKey(expert.getId());
 			model.addAttribute("expert", expert2); 
 			//判断是暂存还是下一步
-		if(zancun!=null && zancun.equals("1")){
+		/*if(zancun!=null && zancun.equals("1")){
 			return "redirect:/";
-		}
-		return "ems/expert/expertType";
+		}*/
+		return "redirect:/";
 		}else{
 			//查询出所有信息放进model中
 		Expert expert2 = service.selectByPrimaryKey(expert.getId());
 		model.addAttribute("expert", expert2);
-		if(zancun!=null && zancun.equals("1")){
+		/*if(zancun!=null && zancun.equals("1")){
 			return "redirect:/";
-		}
-		return "ems/expert/expertType";
+		}*/
+		//String id = expert.getId();
+		//attr.addAttribute("id", id);
+		return "redirect:/";
 		}
 	}
-	
+	/**
+	 * 
+	  * @Title: deleteAll
+	  * @author ShaoYangYang
+	  * @date 2016年9月8日 下午3:53:36  
+	  * @Description: TODO 跳转到类型
+	  * @param       
+	  * @return void
+	 */
+	@RequestMapping("/toExpertType")
+	public String toExpertType(@RequestParam("id") String id,Model model,RedirectAttributes attr){
+		Expert expert = service.selectByPrimaryKey(id);
+		model.addAttribute("expert", expert);
+		return "ems/expert/expertType";
+	}
 	/**
 	 * 
 	  * @Title: deleteAll
@@ -250,19 +292,38 @@ public class ExpertController {
 	  * @Title: findAllExpert
 	  * @author lkzx 
 	  * @date 2016年9月2日 下午5:44:37  
-	  * @Description: TODO 查询所有专家
+	  * @Description: TODO 查询所有专家  可以条件查询
 	  * @param @return      
 	  * @return String
 	 */
 	@RequestMapping("/findAllExpert")
-	public String findAllExpert( Expert expert,Integer page,HttpServletRequest request,HttpServletResponse response){
+	public String findAllExpert(@RequestParam("flag")String shenhe,  Expert expert,Integer page,HttpServletRequest request,HttpServletResponse response){
 		List<Expert> allExpert = service.selectAllExpert(page==null?1:page,expert);
 		
 		request.setAttribute("result", new PageInfo<>(allExpert));
 		request.setAttribute("expert", expert);
+		if(shenhe!=null && !StringUtils.isEmpty(shenhe) && shenhe.equals("shenhe")){
+			return "ems/expert/expertList";
+		}
 		return "ems/expert/list";
 	}
-	
+	/**
+	 * 
+	  * @Title: findAllExpert
+	  * @author lkzx 
+	  * @date 2016年9月2日 下午5:44:37  
+	  * @Description: TODO 跳转到审核专家
+	  * @param @return      
+	  * @return String
+	 */
+	@RequestMapping("/toShenHeExpert")
+	public String toShenHeExpert( Expert expert,Integer page,HttpServletRequest request,HttpServletResponse response){
+		List<Expert> allExpert = service.selectAllExpert(page==null?1:page,expert);
+		
+		request.setAttribute("result", new PageInfo<>(allExpert));
+		request.setAttribute("expert", expert);
+		return "ems/expert/expertList";
+	}
   /**
    * 
     * @Title: findAllLoginName
@@ -273,12 +334,12 @@ public class ExpertController {
     * @param @return      
     * @return List<String>
    */
-	@RequestMapping("/findAllLoginName")
+/*	@RequestMapping("/findAllLoginName")
 	@ResponseBody
 	public List<Expert> findAllLoginName(@RequestParam("loginName")String loginName, Model model){
 		List<Expert> selectLoginNameList = service.selectLoginNameList(loginName);
 		return selectLoginNameList;
-	}
+	}*/
 	/**
 	 * 
 	  * @Title: expertType
@@ -377,6 +438,29 @@ public class ExpertController {
 	 }
 	 /**
 	  * 
+	   * @Title: toDaiBan
+	   * @author ShaoYangYang
+	   * @date 2016年9月12日 下午4:01:22  
+	   * @Description: TODO 跳转到待办页面
+	   * @param @param model
+	   * @param @return      
+	   * @return String
+	  */
+	 @RequestMapping("/toDaiBan")
+	 public String toDaiBan(Expert expert,Model model){
+		 expert.setStatus("0");
+		 Integer weishenhe = service.getCount(expert);
+		 expert.setStatus("1");
+		 Integer tongguo = service.getCount(expert);
+		 expert.setStatus("2");
+		 Integer pass = service.getCount(expert);
+		  model.addAttribute("weishenhe", weishenhe);
+		  model.addAttribute("tongguo", tongguo);
+		  model.addAttribute("pass", pass);
+		 return "ems/expert/daiban";
+	 }
+	 /**
+	  * 
 	   * @Title: upLoadExpertTable
 	   * @author ShaoYangYang
 	   * @date 2016年9月6日 下午5:17:45  
@@ -422,8 +506,8 @@ public class ExpertController {
 	   * @return ResponseEntity<byte[]>
 	  */
 	 @RequestMapping("download")
-	 public ResponseEntity<byte[]> download(@RequestParam(value="id",required=false)String id,HttpServletRequest request) throws Exception{
-		 Expert expert = service.selectByPrimaryKey(id);
+	 public ResponseEntity<byte[]> download(Expert expert,HttpServletRequest request) throws Exception{
+		 //Expert expert = service.selectByPrimaryKey(id);
 		 String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload/");
 		 String fileName = createWordMethod(expert, request);
 		 File file=new File(filePath+"/"+fileName);  
@@ -452,7 +536,7 @@ public class ExpertController {
 			/** 用于组装word页面需要的数据 */
 			Map<String, Object> dataMap = new HashMap<String, Object>();
 			dataMap.put("name", expert.getRelName()== null ? "" : expert.getRelName());
-			dataMap.put("sex",expert.getSex()== null ? "" : expert.getSex());
+			dataMap.put("sex",expert.getGender()== null ? "" : expert.getGender());
 			dataMap.put("birthday",expert.getBirthday()== null ? "" :new SimpleDateFormat(
 					"yyyy-MM-dd").format(expert.getBirthday()));
 			dataMap.put("face",expert.getPoliticsStatus()== null ? "" : expert.getPoliticsStatus());
@@ -476,11 +560,11 @@ public class ExpertController {
 			dataMap.put("xueli",expert.getHightEducation() == null ? "" : expert.getHightEducation());
 			dataMap.put("xuewei",expert.getDegree() == null ? "" : expert.getDegree());
 			dataMap.put("phone", expert.getMobile() == null ? "" : expert.getMobile());
-			dataMap.put("teliphone", expert.getFixPhone() == null ? "" : expert.getFixPhone());
+			dataMap.put("teliphone", expert.getTelephone() == null ? "" : expert.getTelephone());
 			dataMap.put("school", expert.getGraduateSchool() == null ? "" : expert.getGraduateSchool());
 			dataMap.put("unitName", expert.getWorkUnit() == null ? "" : expert.getWorkUnit());
 			dataMap.put("unitAddress", expert.getUnitAddress() == null ? "" : expert.getUnitAddress());
-			dataMap.put("zipCode", expert.getZipCode() == null ? "" : expert.getZipCode());
+			dataMap.put("zipCode", expert.getPostCode() == null ? "" : expert.getPostCode());
 			
 			// 文件名称
 			String fileName = new String(("军队评标专家申请表.doc").getBytes("UTF-8"), "UTF-8");

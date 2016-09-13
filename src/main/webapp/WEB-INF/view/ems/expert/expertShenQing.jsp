@@ -142,7 +142,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			var x10=document.forms["form1"]["timeStartWork"].value;
 			var x11=document.forms["form1"]["workUnit"].value;
 			var x12=document.forms["form1"]["unitAddress"].value;
-			var x13=document.forms["form1"]["fixPhone"].value;
+			var x13=document.forms["form1"]["telephone"].value;
 			var x14=document.forms["form1"]["fax"].value;
 			var x15=document.forms["form1"]["zipCode"].value;
 			var x16=document.forms["form1"]["makeTechDate"].value;
@@ -273,7 +273,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    		<td align="center">手机号码</td>
    		<td align="center">${expert.mobile }</td>
    		<td align="center">单位电话</td>
-   		<td align="center" colspan="2">${expert.fixPhone }</td>
+   		<td align="center" colspan="2">${expert.telephone }</td>
    </tr>
    <tr>
    		<td align="center">住宅电话</td>

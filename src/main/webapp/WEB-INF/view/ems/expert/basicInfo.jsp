@@ -218,11 +218,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div class="wrapper">
 <!-- 修改订列表开始-->
    <div class="container">
-   <form action="<%=basePath %>expert/edit.do" onsubmit="return submitForm()" method="post" id="form1" enctype="multipart/form-data" class="registerform"> 
+   <form action="<%=basePath %>expert/edit.html" onsubmit="return submitForm()" method="post" id="form1" enctype="multipart/form-data" class="registerform"> 
    		<%
 			session.setAttribute("tokenSession", tokenValue);
 		%>
 		 <input type="hidden"  name="token2" value="<%=tokenValue%>">
+   <input type="hidden" name="userId" value="${user.id }">
    <input type="hidden" name="id" value="${expert.id }">
    <input type="hidden" id="hehe" name="zancun">
    <div>
@@ -368,7 +369,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 </li> 
 	  <li class="col-md-6  p0 ">
 	   <span class="">联系电话（固话）：</span>
-        <input class="span2" maxlength="15" value=" ${expert.fixPhone }"  name="fixPhone" id="appendedInput" type="text">
+        <input class="span2" maxlength="15" value=" ${expert.telephone }"  name="telephone" id="appendedInput" type="text">
+          
+       <font id="nameFont13"></font>
+	 </li> 
+	  <li class="col-md-6  p0 ">
+	   <span class="">手机：</span>
+        <input class="span2" maxlength="15" value=" ${expert.mobile }"  name="mobile" id="appendedInput" type="text">
           
        <font id="nameFont13"></font>
 	 </li> 

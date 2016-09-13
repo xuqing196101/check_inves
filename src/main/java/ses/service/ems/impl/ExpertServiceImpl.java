@@ -45,11 +45,11 @@ public class ExpertServiceImpl implements ExpertService {
 
 	}
 
-	@Override
+	/*@Override
 	public List<Expert> selectLoginNameList(String loginName) {
 		List<Expert> expertList = mapper.selectLoginNameList(loginName);
 		return expertList;
-	}
+	}*/
 
 	@Override
 	public List<Expert> selectAllExpert(Integer pageNum,Expert expert) {
@@ -68,6 +68,21 @@ public class ExpertServiceImpl implements ExpertService {
 			map.put("expertsTypeId", null);
 		}
 		return mapper.selectAllExpert(map);
+	}
+	  /***
+     * 
+      * @Title: getCount
+      * @author ShaoYangYang
+      * @date 2016年9月12日 下午4:00:10  
+      * @Description: TODO 查询审核专家数量
+      * @param @param expert
+      * @param @return      
+      * @return Integer
+     */
+	@Override
+	public Integer getCount(Expert expert) {
+		
+		return mapper.getCount(expert);
 	}
 
 }

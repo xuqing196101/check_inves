@@ -65,7 +65,7 @@ public interface ExpertService {
 	      * @param @return      
 	      * @return List<String>
 	     */
-	    List<Expert> selectLoginNameList(String loginName);
+	   // List<Expert> selectLoginNameList(String loginName);
 	    /**
 	     * 
 	      * @Title: selectAllExpert
@@ -76,4 +76,15 @@ public interface ExpertService {
 	      * @return List<Expert>
 	     */
 	    List<Expert> selectAllExpert(Integer pageNum,Expert expert);
+	    /***
+	     * 
+	      * @Title: getCount
+	      * @author ShaoYangYang
+	      * @date 2016年9月12日 下午4:00:10  
+	      * @Description: TODO 查询审核专家数量
+	      * @param @param expert
+	      * @param @return      
+	      * @return Integer
+	     */
+	    Integer getCount(Expert expert);
 }

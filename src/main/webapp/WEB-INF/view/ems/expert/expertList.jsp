@@ -113,6 +113,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/james.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/layer/extend/layer.ext.js"></script>
+<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 </head>
 <body>
   <div class="wrapper">
@@ -212,6 +213,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
    </div>
    <script type="text/javascript">
+   $(function(){
+		  laypage({
+			    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+			    pages: "${result.pages}", //总页数
+			    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+			    skip: true, //是否开启跳页
+			    groups: "${result.pages}">=3?3:"${result.pages}", //连续显示分页数
+			    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+//			        var page = location.search.match(/page=(\d+)/);
+//			        return page ? page[1] : 1;
+					return "${result.pageNum}";
+			    }(), 
+			    jump: function(e, first){ //触发分页后的回调
+			        if(!first){ //一定要加此判断，否则初始时会无限刷新
+			        	$("#page").val(e.curr);
+			        	$("#form1").submit();
+			        	
+			          //location.href = '<%=basePath%>expert/findAllExpert.do?page='+e.curr;
+			        }
+			    }
+			});
+	  });
    /** 全选全不选 */
 	function selectAll(){
 		 var checklist = document.getElementsByName ("check");
@@ -261,6 +284,43 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        	}
     }
    </script>
+   <form action="<%=basePath %>expert/findAllExpert.html"  method="post" id="form1" enctype="multipart/form-data" class="registerform"> 
+	<input type="hidden" name="page" id="page">
+	<input type="hidden" name="flag" value="shenhe">
+	<input type="hidden" name="status" value="${expert.status }">
+   <div align="center">
+                    <table>
+                    <tr>
+                    <td>
+                    <span>姓名：</span><input type="text" name="relName" value="${expert.relName }">
+                    </td>
+                    <td>
+						 <span>来源：</span>
+						   <select  name="expertsFrom" id="expertsFrom">
+						    <option value=''>-请选择-</option>
+						   	<option <c:if test="${expert.expertsFrom =='军队' }">selected = "true"</c:if> value="军队">军队</option>
+						   	<option <c:if test="${expert.expertsFrom =='地方' }">selected = "true"</c:if> value="地方">地方</option>
+						   	<option <c:if test="${expert.expertsFrom =='其他' }">selected = "true"</c:if> value="其他">其他</option>
+						   </select>
+					</td>
+                     <td> 	
+                         		<span >专家类型：</span>
+							   <select name="expertsTypeId" id="expertsTypeId">
+							   		<option value=''>-请选择-</option>
+							   		<option <c:if test="${expert.expertsTypeId =='1' }">selected = "true"</c:if> value="1">技术</option>
+							   		<option <c:if test="${expert.expertsTypeId =='2' }">selected = "true"</c:if> value="2">法律</option>
+							   		<option <c:if test="${expert.expertsTypeId =='3' }">selected = "true"</c:if> value="3">商务</option>
+							   </select>
+					</td>
+					<td>
+                        <span class="input-group-btn">
+                          <input class="btn-u" name="commit" value="搜索" type="submit">
+                        </span>
+                     </td>
+                        </tr>
+                        </table>
+                  </div>
+                  </form>
 <!-- 表格开始-->
    <div class="container">
    <div class="col-md-8">
@@ -269,25 +329,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<button class="btn btn-windows delete" type="submit">删除</button> -->
 	<button class="btn btn-windows git" type="button" onclick="shenhe();">审核</button>
 	</div>
-            <div class="col-md-4 ">
-              <div class="search-block-v2">
-                <div class="">
-                  <form accept-charset="UTF-8" action="" method="get"><div style="display:none"><input name="utf8" value="✓" type="hidden"></div>
-                    <input id="t" name="t" value="search_products" type="hidden">
-                    <div class="col-md-12 pull-right">
-                      <div class="input-group">
-                        <input class="form-control bgnone h37 p0_10" id="k" name="k" placeholder="" type="text">
-                        <span class="input-group-btn">
-                          <input class="btn-u" name="commit" value="搜索" type="submit">
-                        </span>
-                      </div>
-                    </div>
-                  </form>               
-			   </div>
-              </div>
-            </div>	
     </div>
-   
    <div class="container margin-top-5">
      <div class="content padding-left-25 padding-right-25 padding-top-5">
         <table class="table table-bordered table-condensed">
@@ -296,7 +338,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  <th class="info w30"><input type="checkbox" onclick="selectAll();"  id="allId" alt=""></th>
 		  <th class="info w50">序号</th>
 		  <th class="info">专家姓名</th>
-		  <th class="info">登录名</th>
 		  <th class="info">性别</th>
 		  <th class="info">类型</th>
 		  <th class="info">毕业院校</th>
@@ -305,13 +346,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  <th class="info">审核状态</th>
 		</tr>
 		</thead>
-		<c:forEach items="${expert }" var="e" varStatus="s">
+		<c:forEach items="${result.list }" var="e" varStatus="s">
 		<tr>
 		  <td class="tc w30"><input type="checkbox" name="check" id="checked" alt="" value="${e.id }"></td>
 		  <td class="tc w50">${s.count }</td>
 		  <td class="tc">${e.relName}</td>
-		  <td class="tc">${e.loginName}</td>
-		  <td class="tc">${e.sex }</td>
+		  <c:choose>
+		  	<c:when test="${e.gender =='M'}">
+		  		<td class="tc">男</td>
+		  	</c:when>
+		  	<c:when test="${e.gender =='F'}">
+		  		<td class="tc">女</td>
+		  	</c:when>
+		  	<c:otherwise>
+		  	<td class="tc"></td>
+		  	</c:otherwise>
+		  </c:choose>
+		 
 		  <c:if test="${e.expertsTypeId ==null}">
 		   <td class="tc"></td>
 		  </c:if>
@@ -339,26 +390,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</tr>
 		</c:forEach>
         </table>
+          <div id="pagediv" align="right"></div>
      </div>
-   
+
    </div>
+       
+   
  </div>
 <!--底部代码开始-->
-<div class="footer-v2" id="footer-v2">
-
+<!-- <div class="footer-v2" id="footer-v2">
       <div class="footer">
-
-            <!-- Address -->
               <address class="">
 			  Copyright © 2016 版权所有：中央军委后勤保障部 京ICP备09055519号
               </address>
               <div class="">
 		       浏览本网主页，建议将电脑显示屏的分辨率调为1024*768
               </div> 
-            <!-- End Address -->
-
-<!--/footer--> 
       </div>
-</div>
+</div> -->
 </body>
 </html>
