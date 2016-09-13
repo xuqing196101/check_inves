@@ -1,6 +1,6 @@
 package ses.util;
 
-import iss.service.article.SolrNewsService;
+import iss.service.ps.SolrNewsService;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
