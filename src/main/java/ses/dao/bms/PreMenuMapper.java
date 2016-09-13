@@ -13,4 +13,6 @@ public interface PreMenuMapper {
 	List<PreMenu> queryByList(PreMenu preMenu);
 
 	PreMenu queryByMenuId(String id);
+
+	void update(PreMenu menu);
 }

@@ -5,75 +5,115 @@ import java.util.List;
 import ses.model.bms.User;
 import ses.model.bms.Userrole;
 
-
 /**
-* <p>Title:UserMapper </p>
-* <p>Description: 用户持久化接口</p>
-* @author Ye MaoLin
-* @date 2016-7-27下午4:51:54
-*/
+ * Description: 用户表持久化操作
+ * 
+ * @author Ye MaoLin
+ * @version 2016-9-13
+ * @since JDK1.7
+ */
 public interface UserMapper {
 
-	/**   
-	* @Title: insertSelective
-	* @author Ye MaoLin
-	* @date 2016-7-27 下午4:52:29  
-	* @Description: 新增用户信息
-	* @param @param user
-	*/
+	/**
+	 * Description: 根据id删除
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-13
+	 * @param id
+	 * @exception IOException
+	 */
+	void deleteByPrimaryKey(String id);
+
+	/**
+	 * Description: 插入数据
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-13
+	 * @param user
+	 * @exception IOException
+	 */
+	void insert(User user);
+
+	/**
+	 * Description: 插入不为空数据
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-13
+	 * @param user
+	 * @exception IOException
+	 */
 	void insertSelective(User user);
 
-	/**   
-	* @Title: queryByList
-	* @author Ye MaoLin
-	* @date 2016-7-27 下午4:55:58  
-	* @Description: 条件查询
-	* @return List<User>     
-	*/
+	/**
+	 * Description: 保存用户和角色之间的关系信息
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-13
+	 * @param userrole
+	 * @exception IOException
+	 */
+	void saveRelativity(Userrole userrole);
+	
+	/**
+	 * Description: 更新不为空数据
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-13
+	 * @param user
+	 * @exception IOException
+	 */
+	void updateByPrimaryKeySelective(User user);
+
+	/**
+	 * Description: 更新数据
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-13
+	 * @param user
+	 * @exception IOException
+	 */
+	void updateByPrimaryKey(User user);
+
+	/**
+	 * Description: 根据id查询(不带关联集合)
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-13
+	 * @param id
+	 * @return List<User>
+	 * @exception IOException
+	 */
+	List<User> selectByPrimaryKey(String id);
+	
+	/**
+	 * Description: 根据不为空的条件查询用户信息，不带关联集合
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-13
+	 * @param user
+	 * @return List<User>
+	 * @exception IOException
+	 */
 	List<User> queryByList(User user);
 
-	/**   
-	* @Title: queryByCount
-	* @author Ye MaoLin
-	* @date 2016-7-27 下午4:57:10  
-	* @Description: 查询记录数
-	* @return Integer     
-	*/
+	/**
+	 * @Title: queryByCount
+	 * @author Ye MaoLin
+	 * @date 2016-7-27 下午4:57:10
+	 * @Description: 查询记录数
+	 * @return Integer
+	 */
 	Integer queryByCount();
 
-	/**   
-	* @Title: delete
-	* @author Ye MaoLin
-	* @date 2016-7-27 下午4:57:40  
-	* @Description: 根据id删除 
-	* @param @param id      
-	* @return void     
-	*/
-	void delete(String id);
-
-	/**   
-	* @Title: queryById
-	* @author Ye MaoLin
-	* @date 2016-7-27 下午4:57:51  
-	* @Description: 根据id查询 
-	* @param @param id
-	* @return User     
-	*/
-	User queryById(String id);
-
-	/**   
-	* @Title: updateBySelective
-	* @author Ye MaoLin
-	* @date 2016-7-27 下午4:58:26  
-	* @Description:更新用户信息
-	* @return void     
-	*/
-	void updateBySelective(User u);
-
-	void saveRelativity(Userrole userrole);
-
-	List<User> selectUserRole(User u);
-
-	List<User> loginQuery(User user);
+	/**
+	 * Description: 根据不为空的条件查询用户信息（包含角色信息）
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-13
+	 * @param u
+	 * @return List<User>
+	 * @exception IOException
+	 */
+	List<User> selectUser(User u);
 
 }

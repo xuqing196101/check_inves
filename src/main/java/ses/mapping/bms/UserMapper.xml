@@ -1,243 +1,357 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="ses.dao.bms.UserMapper">
-  <resultMap id="UserResultMap" type="ses.model.bms.User">
-    <result column="ID"  property="id" />
-    <result column="LOGIN_NAME"  property="loginName" />
-    <result column="PASSWORD"  property="password" />
-    <result column="CREATED_AT"  property="createdAt" jdbcType="TIMESTAMP"/>
+<mapper namespace="ses.mapping.bms.UserMapper">
+  <resultMap id="UserBaseMap" type="ses.model.bms.User">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="LOGIN_NAME" jdbcType="VARCHAR" property="loginName" />
+    <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
     <result column="IS_DELETED"  property="isDeleted" />
-    <result column="REL_NAME"  property="relName" />
-    <result column="UPDATED_AT"  property="updatedAt" jdbcType="TIMESTAMP"/>
-    <result column="PHONE"  property="phone" />
+    <result column="REL_NAME" jdbcType="VARCHAR" property="relName" />
+    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+    <result column="MOBILE" jdbcType="VARCHAR" property="mobile" />
+    <result column="GENDER" jdbcType="VARCHAR" property="gender" />
+    <result column="TELEPHONE" jdbcType="VARCHAR" property="telephone" />
+    <result column="EMAIL" jdbcType="VARCHAR" property="email" />
+    <result column="DUITES" jdbcType="VARCHAR" property="duites" />
+    <result column="TYPE_NAME"  property="typeName" />
+    <result column="TYPE_ID" jdbcType="VARCHAR" property="typeId" />
+    <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+    <!-- 查询机构 -->  
+    <association column="ORG_ID"  property="org" select="" />
     <!-- 查询创建人 -->  
-    <association column="CREATER_ID"  property="creater" select="queryById" />  
+    <association column="USER_ID"  property="user" select="selectByPrimaryKey" />  
   </resultMap>
-  <resultMap type="ses.model.bms.User" id="userroleMap" extends="UserResultMap">  
+  
+  <resultMap type="ses.model.bms.User" id="UserResultMap" extends="UserBaseMap">  
     <!-- property: 指的是集合属性的值, ofType：指的是集合中元素的类型-->
 	<collection property="roles" ofType="ses.model.bms.Role">
 		<id column="roleId"  property="id" />
 	    <result column="roleName" jdbcType="VARCHAR" property="name" />
 	    <result column="roleCreatedAt" jdbcType="TIMESTAMP" property="createdAt" />
-	    <result column="describe" jdbcType="VARCHAR" property="describe" />
+	    <result column="description" jdbcType="VARCHAR" property="description" />
 	    <result column="roleIsDeleted" property="isDeleted" />
+	    <result column="roleUpdatedAt" jdbcType="TIMESTAMP" property="updatedAt" />
 	</collection>   
-  </resultMap>  
+  </resultMap>
+  
+  <!-- 表名 -->
   <sql id="Tabel_Name">
     T_SES_BMS_USERINFO
   </sql>
   
   <!-- 表中所有列 -->
-  <sql id="Base_Column_List" >
-   ID,LOGIN_NAME,PASSWORD,CREATED_AT,IS_DELETED,REL_NAME,UPDATED_AT,CREATER_ID,PHONE
+  <sql id="Base_Column_List">
+    ID, LOGIN_NAME, PASSWORD, CREATED_AT, IS_DELETED, REL_NAME, UPDATED_AT, USER_ID, 
+    MOBILE, GENDER, TELEPHONE, EMAIL, ORG_ID, DUITES, TYPE_NAME, TYPE_ID, ADDRESS 
   </sql>
-
+  
   <!-- 查询条件 -->
   <sql id="Example_Where_Clause">
-    where IS_DELETED=0
+    where u.IS_DELETED = 0 
     <trim suffixOverrides=",">
-      <if test="id!= null and id !=''">
-        and ID = #{id}
+      <if test="id != null and id != ''">
+        and u.ID = #{id} 
       </if>
       <if test="loginName != null and loginName != ''">
-        and LOGIN_NAME = #{loginName}
+        and u.LOGIN_NAME = #{loginName} 
       </if>
       <if test="password != null and password != ''">
-        and PASSWORD = #{password}
+        and u.PASSWORD = #{password} 
       </if>
       <if test="createdAt != null">
-        and CREATED_AT = #{createdAt}
+        and u.CREATED_AT = #{createdAt} 
       </if>
       <if test="relName != null and relName != ''">
-        and REL_NAME = #{relName}
+        and u.REL_NAME = #{relName} 
       </if>
       <if test="updatedAt != null">
-        and UPDATED_AT = #{updatedAt}
+        and u.UPDATED_AT = #{updatedAt} 
       </if>
-      <if test="creater != null">
-        and CREATER_ID = #{creater.id}
+      <if test="user.id != null and user.id != ''">
+        and u.USER_ID = #{user.id}
+      </if> 
+      <if test="mobile != null and mobile != ''">
+        and u.MOBILE = #{mobile}
       </if>
-      <if test="phone != null and phone != ''">
-        and phone = #{phone}
+      <if test="gender != null and gender != ''">
+        and u.GENDER = #{gender}
+      </if>
+      <if test="telephone != null and telephone != ''">
+        and u.TELEPHONE = #{telephone}
+      </if>
+      <if test="email != null and email != ''">
+        and u.EMAIL= #{email}
+      </if>
+      <if test="org.id != null  and org.id != ''">
+        and u.ORG_ID = #{org.id} 
+      </if>
+      <if test="duites != null and duites != ''">
+        and u.DUITES = #{duites} 
+      </if>
+      <if test="typeName != null">
+        and u.TYPE_NAME = #{typeName} 
+      </if>
+      <if test="typeId != null and typeId != ''">
+        and u.TYPE_ID = #{typeId}
+      </if>
+      <if test="address != null and address != ''">
+        and u.ADDRESS = #{address}
       </if>
     </trim>
   </sql>
   
-  <!-- 1.新增记录 -->
-  <insert id="add" parameterType="Object" >
-    <selectKey keyProperty="id" resultType="String" order="BEFORE">
-        select sys_guid() from dual
-    </selectKey>
-    insert into T_SES_BMS_USERINFO(ID,LOGIN_NAME,PASSWORD,CREATED_AT,IS_DELETED,REL_NAME,UPDATED_AT,CREATER_ID,PHONE) values(#{id},#{loginName},#{password},#{createdAt},#{isDeleted},#{relName},#{updatedAt},#{creater.id},#{phone})
-  </insert> 
-  <!-- 1.1新增记录(可插入null) -->
+  <!-- 1.根据id查询(不带关联集合) -->
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="UserBaseMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_BMS_USER 
+    where IS_DELETED = 0 
+    and ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 2.根据id删除 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_SES_BMS_USER
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  
+  <!-- 3.插入数据 -->
+  <insert id="insert" parameterType="ses.model.bms.User">
+    insert into T_SES_BMS_USER (ID, LOGIN_NAME, PASSWORD, 
+      CREATED_AT, IS_DELETED, REL_NAME, 
+      UPDATED_AT, USER_ID, MOBILE, 
+      GENDER, TELEPHONE, EMAIL, 
+      ORG_ID, DUITES, TYPE_NAME, 
+      TYPE_ID, ADDRESS)
+    values (#{id,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{createdAt,jdbcType=DATE}, #{isDeleted}, #{relName,jdbcType=VARCHAR}, 
+      #{updatedAt,jdbcType=DATE}, #{user.id,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{gender}, #{telephone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{org.id,jdbcType=VARCHAR}, #{duites,jdbcType=VARCHAR}, #{typeName}, 
+      #{typeId,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR})
+  </insert>
+  
+  <!-- 4.插入不为空数据 -->
   <insert id="insertSelective" parameterType="ses.model.bms.User">
-    <selectKey keyProperty="id" resultType="String" order="BEFORE">
-        select sys_guid() from dual
-    </selectKey>
-    insert into T_SES_BMS_USERINFO
+    insert into T_SES_BMS_USER
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null and id !=''">
+      <if test="id != null and id != ''">
         ID,
       </if>
       <if test="loginName != null and loginName != ''">
         LOGIN_NAME,
       </if>
-      <if test="password != null and password !=''">
+      <if test="password != null and password != ''">
         PASSWORD,
-      </if>
-      <if test="isDeleted != null">
-        IS_DELETED,
       </if>
       <if test="createdAt != null">
         CREATED_AT,
       </if>
-      <if test="relName != null and relName !=''">
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+      <if test="relName != null and relName != ''">
         REL_NAME,
       </if>
       <if test="updatedAt != null">
         UPDATED_AT,
       </if>
-      <if test="creater != null">
-        CREATER_ID,
+      <if test="user.id != null and user.id != ''">
+        USER_ID,
       </if>
-      <if test="phone != null and phone !=''">
-        PHONE,
+      <if test="mobile != null and mobile != ''">
+        MOBILE,
+      </if>
+      <if test="gender != null  and gender != ''">
+        GENDER,
+      </if>
+      <if test="telephone != null and telephone != ''">
+        TELEPHONE,
+      </if>
+      <if test="email != null and email != ''">
+        EMAIL,
+      </if>
+      <if test="org.id != null and org.id != ''">
+        ORG_ID,
+      </if>
+      <if test="duites != null  and duites != ''">
+        DUITES,
+      </if>
+      <if test="typeName != null">
+        TYPE_NAME,
+      </if>
+      <if test="typeId != null and typeId != ''">
+        TYPE_ID,
+      </if>
+      <if test="address != null and address != ''">
+        ADDRESS,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null and id !=''">
-        #{id},
+      <if test="id != null and id != ''">
+        #{id,jdbcType=VARCHAR},
       </if>
-      <if test="loginName != null and loginName !=''">
+      <if test="loginName != null and loginName != ''">
         #{loginName,jdbcType=VARCHAR},
       </if>
-      <if test="password != null and password !='' ">
+      <if test="password != null and password != ''">
         #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=DATE},
       </if>
       <if test="isDeleted != null">
         #{isDeleted},
       </if>
-      <if test="createdAt != null">
-        #{createdAt},
-      </if>
-      <if test="relName != null and relName != '' ">
+      <if test="relName != null and relName != ''">
         #{relName,jdbcType=VARCHAR},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt},
+        #{updatedAt,jdbcType=DATE},
       </if>
-      <if test="creater != null">
-        #{creater.id},
+      <if test="user.id != null and user.id != ''">
+        #{user.id,jdbcType=VARCHAR},
       </if>
-      <if test="phone != null and phone !=''">
-        #{phone},
+      <if test="mobile != null and mobile != ''">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null and gender != ''">
+        #{gender},
+      </if>
+      <if test="telephone != null and telephone != ''">
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null and email != ''">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="org.id != null and org.id != ''">
+        #{org.id,jdbcType=VARCHAR},
+      </if>
+      <if test="duites != null and id != ''">
+        #{duites,jdbcType=VARCHAR},
+      </if>
+      <if test="typeName != null">
+        #{typeName,jdbcType=DECIMAL},
+      </if>
+      <if test="typeId != null and typeId != ''">
+        #{typeId,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null and address != ''">
+        #{address,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <!-- 2.根据id修改记录-->  
-  <update id="update" parameterType="Object" >
-    update T_SES_BMS_USERINFO set LOGIN_NAME=#{loginName},PASSWORD=#{password},CREATED_AT=#{createdAt},IS_DELETED=#{isDeleted},REL_NAME=#{relName},UPDATED_AT=#{updatedAt},CREATER_ID=#{creater.id},PHONE=#{phone}  where id=#{id}
-  </update>
-
-  <!-- 3.只修改不为空的字段 -->
-  <update id="updateBySelective" parameterType="Object" >
-    update T_SES_BMS_USERINFO set 
-    <trim  suffixOverrides="," >
-      <if test="loginName != null and loginName !=''">
-        LOGIN_NAME=#{loginName,jdbcType=VARCHAR},
+  
+  <!-- 5.根据更新不为空数据 -->
+  <update id="updateByPrimaryKeySelective" parameterType="ses.model.bms.User">
+    update T_SES_BMS_USER
+    <set>
+      <if test="loginName != null and loginName != ''">
+        LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
       </if>
-      <if test="password != null and password !='' ">
-        PASSWORD=#{password,jdbcType=VARCHAR},
-      </if>
-      <if test="isDeleted != null">
-        IS_DELETED=#{isDeleted},
+      <if test="password != null and password != ''">
+        PASSWORD = #{password,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
-        CREATED_AT=#{createdAt},
+        CREATED_AT = #{createdAt,jdbcType=DATE},
       </if>
-      <if test="relName != null and relName != '' ">
-        REL_NAME=#{relName,jdbcType=VARCHAR},
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted},
+      </if>
+      <if test="relName != null and relName != ''">
+        REL_NAME = #{relName,jdbcType=VARCHAR},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT=#{updatedAt},
+        UPDATED_AT = #{updatedAt,jdbcType=DATE},
       </if>
-      <if test="creater != null">
-        CREATER_ID=#{creater.id},
+      <if test="user.id != null and user.id != ''">
+        USER_ID = #{user.id,jdbcType=VARCHAR},
       </if>
-      <if test="phone != null and phone != '' ">
-        PHONE=#{phone,jdbcType=VARCHAR},
+      <if test="mobile != null and mobile != ''">
+        MOBILE = #{mobile,jdbcType=VARCHAR},
       </if>
-    </trim> where ID=#{id}
+      <if test="gender != null and gender != ''">
+        GENDER = #{gender},
+      </if>
+      <if test="telephone != null and telephone != ''">
+        TELEPHONE = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null and email != ''">
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="org.id != null and org.id != ''">
+        ORG_ID = #{org.id,jdbcType=VARCHAR},
+      </if>
+      <if test="duites != null and duites != ''">
+        DUITES = #{duites,jdbcType=VARCHAR},
+      </if>
+      <if test="typeName != null">
+        TYPE_NAME = #{typeName},
+      </if>
+      <if test="typeId != null and typeId != ''">
+        TYPE_ID = #{typeId,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null and address != ''">
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
   </update>
-
-  <!-- 4.根据id进行删除 -->
-  <delete id="delete" parameterType="Object">
-    delete from T_SES_BMS_USERINFO where ID = #{id}
-  </delete>
   
-  <!-- 5.根据id查询 -->
-  <select id="queryById" resultMap="UserResultMap" parameterType="Object">
-    select
-    <include refid="Base_Column_List" />
-    from T_SES_BMS_USERINFO where ID = #{id}
-  </select>
-  <!-- <select id="getCreaterById" parameterType="Object" resultMap="UserResultMap">  
-     select
-     <include refid="Base_Column_List" />
-     from T_SES_BMS_USERINFO where ID = #{id}  
-  </select> -->  
-  <!-- 6.查询列表，只查询不为空的字段 -->
-  <select id="queryBySelective" resultMap="UserResultMap" parameterType="Object">
-    select
-    <include refid="Base_Column_List" />
-    from T_SES_BMS_USERINFO
-    <include refid="Example_Where_Clause" />
-  </select>
+  <!-- 6.更新数据 -->
+  <update id="updateByPrimaryKey" parameterType="ses.model.bms.User">
+    update T_SES_BMS_USER
+    set LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
+      PASSWORD = #{password,jdbcType=VARCHAR},
+      CREATED_AT = #{createdAt,jdbcType=DATE},
+      IS_DELETED = #{isDeleted},
+      REL_NAME = #{relName,jdbcType=VARCHAR},
+      UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      USER_ID = #{user.id,jdbcType=VARCHAR},
+      MOBILE = #{mobile,jdbcType=VARCHAR},
+      GENDER = #{gender},
+      TELEPHONE = #{telephone,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      ORG_ID = #{org.id,jdbcType=VARCHAR},
+      DUITES = #{duites,jdbcType=VARCHAR},
+      TYPE_NAME = #{typeName},
+      TYPE_ID = #{typeId,jdbcType=VARCHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR} 
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
   
   <!-- 7.列表总数 -->
   <select id="queryByCount" resultType="java.lang.Integer" parameterType="Object">
-    select count(1) from T_SES_BMS_USERINFO
-    <include refid="Example_Where_Clause" />
+    select count(1) 
+    from T_SES_BMS_USERINFO
+    where IS_DELETED = 0
   </select>
   
-  <!-- 8.查询列表 -->
-  <select id="queryByList" resultMap="UserResultMap" parameterType="Object">
+  <!-- 8.查询列表(查询不为空的字段，不带关联集合) -->
+  <select id="queryByList" resultMap="UserBaseMap" parameterType="Object">
     select
     <include refid="Base_Column_List" />
-    from T_SES_BMS_USERINFO 
+    from T_SES_BMS_USER u
     <include refid="Example_Where_Clause"/>
-    ORDER BY CREATED_AT DESC
-  </select>
-  <!-- 9.登录查询 -->
-  <select id="loginQuery" resultMap="UserResultMap" parameterType="Object">
-    select 
-    <include refid="Base_Column_List" />
-    from T_SES_BMS_USERINFO u 
-    where u.IS_DELETED=0 
-    and u.LOGIN_NAME = #{loginName} 
-    and u.PASSWORD=#{password}
+    ORDER BY u.CREATED_AT DESC
   </select>
   
-  <!-- 10.根据user表中的id查询用户和角色信息 -->  
-  <select id="selectUserRole" parameterType="Object"  
-      resultMap="userroleMap">  
+  <!-- 9.根据不为空的条件查询用户信息（包含角色信息） -->  
+  <select id="selectUser" parameterType="Object" resultMap="UserResultMap">  
       select 
       u.*,
-      r.ID as roleId,r.NAME as roleName,r.CREATED_AT as roleCreatedAt,r.DESCRIBE as describe,r.IS_DELETED as roleIsDeleted 
+      r.ID as roleId,r.NAME as roleName,r.CREATED_AT as roleCreatedAt,r.DESCRIPTION as description,r.IS_DELETED as roleIsDeleted,r.UPDATED_AT as roleUpdatedAt   
       from 
       T_SES_BMS_USERINFO u left join T_SES_BMS_USERROLE ur 
-      on u.ID=ur."USER_ID"  
+      on u.ID = ur."USER_ID"  
       left join T_SES_BMS_ROLEMAN r 
-      on ur."ROLE_ID"=r.ID
-      where 
-      u.IS_DELETED=0 
-      <if test="id!= null">
-        and u.ID = #{id}  
-      </if> 
+      on ur."ROLE_ID" = r.ID 
+      <include refid="Example_Where_Clause"/>
       ORDER BY u.CREATED_AT DESC
-  </select>  
-  <!-- 保存用户和角色之间的关系信息 -->  
+  </select>
+  
+  <!-- 10.保存用户和角色之间的关系信息 -->  
   <insert id="saveRelativity" parameterType="Object">  
       insert into T_SES_BMS_USERROLE("USER_ID","ROLE_ID")  	
       values(#{userId.id},#{roleId.id})  

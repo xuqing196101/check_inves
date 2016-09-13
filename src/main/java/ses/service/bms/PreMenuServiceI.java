@@ -14,4 +14,6 @@ public interface PreMenuServiceI {
 
 	PreMenu get(String id);
 
+	void update(PreMenu menu);
+
 }

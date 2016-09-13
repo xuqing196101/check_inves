@@ -3,60 +3,44 @@ package ses.model.bms;
 import java.util.Date;
 import java.util.List;
 
-/**
-* <p>Title:User </p>
-* <p>Description:用户实体类 </p>
-* <p>Company: ses </p> 
-* @author yyyml
-* @date 2016-7-27下午4:53:36
-*/
+import ses.model.oms.Orgnization;
+
 public class User {
 	
-	
-    /**
-     * @Fields id : 主键
-     */
+    /** 主键 */
     private String id;
 
-    /**
-     * @Fields loginName : 用户名
-     */
     private String loginName;
 
-    /**
-     * @Fields password : 密码
-     */
     private String password;
 
-    /**
-     * @Fields createdAt : 创建日期
-     */
     private Date createdAt;
 
-    /**
-     * @Fields isDeleted : 删除状态 0：未删除，1：已删除
-     */
     private Integer isDeleted;
 
-    /**
-     * @Fields relName : 真实姓名
-     */
     private String relName;
 
-    /**
-     * @Fields updatedAt : 更新日期
-     */
     private Date updatedAt;
 
-    /**
-     * @Fields phone : 联系电话
-     */
-    private String phone;
+    private User user;
+
+    private String mobile;
+
+    private String gender;
+
+    private String telephone;
+
+    private String email;
+
+    private Orgnization org;
+
+    private String duites;
+
+    private Integer typeName;
+
+    private String typeId;
     
-    /**
-     * @Fields creater : 创建人
-     */
-    private User creater;
+    private String address;
     
     private List<Role> roles;
 
@@ -65,7 +49,7 @@ public class User {
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.id = id == null ? null : id.trim();
     }
 
     public String getLoginName() {
@@ -116,12 +100,76 @@ public class User {
         this.updatedAt = updatedAt;
     }
 
-    public User getCreater() {
-        return creater;
+    public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public String getMobile() {
+        return mobile;
     }
 
-    public void setCreater(User creater) {
-        this.creater = creater;
+    public void setMobile(String mobile) {
+        this.mobile = mobile == null ? null : mobile.trim();
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone == null ? null : telephone.trim();
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email == null ? null : email.trim();
+    }
+
+    public Orgnization getOrg() {
+		return org;
+	}
+
+	public void setOrg(Orgnization org) {
+		this.org = org;
+	}
+
+	public String getDuites() {
+        return duites;
+    }
+
+    public void setDuites(String duites) {
+        this.duites = duites == null ? null : duites.trim();
+    }
+
+    public Integer getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(Integer typeName) {
+        this.typeName = typeName;
+    }
+
+    public String getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(String typeId) {
+        this.typeId = typeId == null ? null : typeId.trim();
     }
 
 	public List<Role> getRoles() {
@@ -132,12 +180,12 @@ public class User {
 		this.roles = roles;
 	}
 
-	public String getPhone() {
-		return phone;
+	public String getAddress() {
+		return address;
 	}
 
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setAddress(String address) {
+		this.address = address;
 	}
-	
+    
 }

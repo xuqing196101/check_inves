@@ -10,6 +10,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JsonConfig;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -21,6 +23,7 @@ import ses.model.bms.PreMenu;
 import ses.model.bms.Role;
 import ses.service.bms.PreMenuServiceI;
 import ses.service.bms.RoleServiceI;
+import ses.util.JsonDateValueProcessor;
 
 
 import com.alibaba.fastjson.JSON;
@@ -135,5 +138,45 @@ public class PreMenuController {
 			}
 		}
 		return null;
+	}
+	
+	/**
+	 * Description: 根据父菜单查询子菜单
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-12
+	 * @param response
+	 * @param id
+	 * @exception IOException
+	 */
+	@RequestMapping("findListByParent")
+	public void findListByParent(HttpServletResponse response,String id){
+		try {
+			PreMenu parent=new PreMenu();
+			parent.setId(id);
+			PreMenu preMenu=new PreMenu();
+			preMenu.setParentId(parent);
+			List<PreMenu> list=preMenuService.getAll(preMenu);
+			net.sf.json.JSONArray json = new net.sf.json.JSONArray();
+			JsonConfig jsonConfig = new JsonConfig();
+	        jsonConfig.registerJsonValueProcessor(Date.class,
+	                new JsonDateValueProcessor());
+			String jsonStr=json.fromObject(list,jsonConfig).toString();
+			response.setContentType("text/html;charset=utf-8");
+			response.getWriter().print(jsonStr);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping("delete_soft")
+	public String delete_soft(String ids){
+		String[] idarry=ids.split(",");
+		for (String id : idarry) {
+			PreMenu menu=preMenuService.get(id);
+			menu.setIsDeleted(1);
+			preMenuService.update(menu);
+		}
+		return "redirectlist.html";
 	}
 }

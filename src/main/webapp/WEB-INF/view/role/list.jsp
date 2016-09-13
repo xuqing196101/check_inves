@@ -204,24 +204,26 @@
    <div class="container margin-top-5">
      <div class="content padding-left-25 padding-right-25 padding-top-5">
         <table class="table table-bordered table-condensed">
-		<thead>
-		<tr>
-		  <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
-		  <th class="info w50">序号</th>
-		  <th class="info">名称</th>
-		  <th class="info">用户数</th>
-		  <th class="info">描述</th>
-		</tr>
-		</thead>
-		<c:forEach items="${list}" var="role" varStatus="vs">
-			<tr>
-				  <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${role.id}" /></td>
-				  <td class="tc">${vs.index+1}</td>
-				  <td class="tc" onclick="view(${role.id});">${role.name}</td>
-				  <td class="tc">${role.users.size()}</td>
-				  <td class="tc">${role.describe}</td>
-			</tr>
-		</c:forEach>
+			<thead>
+				<tr>
+				  <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
+				  <th class="info w50">序号</th>
+				  <th class="info">名称</th>
+				  <th class="info">用户数</th>
+				  <th class="info">描述</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${list}" var="role" varStatus="vs">
+				   <tr>
+					  <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${role.id}" /></td>
+					  <td class="tc">${vs.index+1}</td>
+					  <td class="tc" onclick="view(${role.id});">${role.name}</td>
+					  <td class="tc">${role.users.size()}</td>
+					  <td class="tc">${role.describe}</td>
+				   </tr>
+				</c:forEach>
+			</tbody>
         </table>
      </div>
    

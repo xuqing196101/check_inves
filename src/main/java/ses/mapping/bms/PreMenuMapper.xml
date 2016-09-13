@@ -65,7 +65,7 @@
         and MENULEVEL = #{menulevel},
       </if>
       <if test="parentId != null">
-        and PARENT_ID = #{parentId}
+        and PARENT_ID = #{parentId.id}
       </if>
     </trim>
   </sql>
@@ -168,5 +168,6 @@
     </trim>
   </insert>
  
+  
   
 </mapper>

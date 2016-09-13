@@ -4,18 +4,15 @@ import java.util.Date;
 import java.util.List;
 
 public class PreMenu {
-    /**
-     * @Fields id :主键 
-     */
+	
+    /** 主键 */
     private String id;
 
-    /**
-     * @Fields name :名称 
-     */
+    /** name :名称 */
     private String name;
 
     /**
-     * @Fields type :类型
+     * 类型
      * navigation:导航
 	 * accordion：折叠导航
 	 * menu:菜单  
@@ -24,42 +21,36 @@ public class PreMenu {
     private String type;
 
     /**
-     * @Fields isDeleted : 删除标志  
+     *  删除标志  
      * 0：未删除，1：删除
      */
     private Integer isDeleted;
 
     /**
-     * @Fields state :状态 
+     * 状态 
      * 0：可用，1：暂停
      */
     private Integer state;
 
-    /**
-     * @Fields url : 路径
-     */
+    /** 路径 */
     private String url;
 
-    /**
-     * @Fields createdAt : 创建时间
-     */
+    /** 创建时间 */ 
     private Date createdAt;
+    
+    /** 修改时间 */
+    private Date updatedAt;
 
-    /**
-     * @Fields orderby :排序 
-     */
+    /** orderby :排序 */
     private Integer orderby;
 
-    /**
-     * @Fields menulevel : 菜单级别
-     */
+    /** 菜单级别 */
     private Integer menulevel;
 
-    /**
-     * @Fields parentId :上级菜单 
-     */
+    /** parentId :上级菜单 */
     private PreMenu parentId;
     
+    /** 角色 */
     private List<Role> roles;
 
 	public String getId() {
@@ -150,4 +141,12 @@ public class PreMenu {
 		this.roles = roles;
 	}
 
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+	
 }

@@ -20,107 +20,129 @@ import ses.service.bms.StationMessageService;
 import ses.service.bms.UserServiceI;
 import ses.service.sms.SupplierAgentsService;
 
-
 /**
-* <p>Title:LoginController </p>
-* <p>Description: 用户登录</p>
-* <p>Company: ses </p> 
-* @author yyyml
-* @date 2016-7-15下午2:52:15
-*/
+ * Description: 用户登录
+ * 
+ * @author Ye MaoLin
+ * @version 2016-9-13
+ * @since JDK1.7
+ */
 @Controller
 @Scope("prototype")
 @RequestMapping("/login")
 public class LoginController {
-	
+
 	@Autowired
 	private SupplierAgentsService agentsService;
 	@Autowired
 	private UserServiceI userService;
 	@Autowired
 	private StationMessageService stationMessageService;
-	
-	private static Logger logger = Logger.getLogger(LoginController.class); 
-	/**   
-	* @Title: login
-	* @author yyyml
-	* @date 2016-7-15 下午2:52:38  
-	* @Description: 用户登录 
-	* @param @param user
-	* @param @param req
-	* @return String     
-	 * @throws IOException 
-	*/
+
+	private static Logger logger = Logger.getLogger(LoginController.class);
+
+	/**
+	 * Description: 用户登录控制
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-13
+	 * @param user
+	 * @param req
+	 * @param response
+	 * @param model
+	 * @param rqcode
+	 * @throws IOException
+	 * @exception IOException
+	 */
 	@RequestMapping("/login")
-	public void login(User user,HttpServletRequest req,	HttpServletResponse response,Model model,String rqcode) throws IOException {
-		PrintWriter out =response.getWriter();
-		if(user.getLoginName()!=null && !"".equals(user.getPassword().trim()) && user.getPassword()!=null && !"".equals(user.getPassword().trim()) && rqcode!=null && !"".equals(rqcode.trim())){
-			User u = userService.getUserByLogin(user);
-			//获取验证码
-			String code = (String) req.getSession().getAttribute(com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY);
-			if(!rqcode.toUpperCase().equals(code)){
+	public void login(User user, HttpServletRequest req,
+			HttpServletResponse response, Model model, String rqcode)
+			throws IOException {
+		PrintWriter out = response.getWriter();
+		if (user.getLoginName() != null
+				&& !"".equals(user.getPassword().trim())
+				&& user.getPassword() != null
+				&& !"".equals(user.getPassword().trim()) && rqcode != null
+				&& !"".equals(rqcode.trim())) {
+			User u = userService.selectUser(user, null).get(0);
+			// 获取验证码
+			String code = (String) req.getSession().getAttribute(
+					com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY);
+			if (!rqcode.toUpperCase().equals(code)) {
 				logger.info("验证码输入有误");
 				out.print("errorcode");
-			}else if(u!=null){
+			} else if (u != null) {
 				req.getSession().setAttribute("loginUser", u);
 				logger.info("登录成功");
 				out.print("scuesslogin");
-			}else{
+			} else {
 				logger.error("验证失败");
 				out.print("errorlogin");
 			}
-		}else{
+		} else {
 			logger.error("请输入用户名密码或者验证码");
 			out.print("nullcontext");
 		}
 	}
-	
-	/**   
-	* @Title: index
-	* @author yyyml
-	* @date 2016-8-30 下午3:01:15  
-	* @Description: 跳转后台首页
-	* @return String     
-	*/
+
+	/**
+	 * Description: 跳转后台首页
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-13
+	 * @param req
+	 * @return String
+	 * @exception IOException
+	 */
 	@RequestMapping("/index")
-	public String index(HttpServletRequest req){
-		//代办事项
-		req.setAttribute("SupplierAgent", agentsService.getAllSupplierAgent(new SupplierAgents(new Short("0")), 0, 8));
-		//催办事项
-		req.setAttribute("SupplierReminders", agentsService.getAllSupplierAgent(new SupplierAgents(new Short("1")), 0, 8));
-		//站内消息
-		req.setAttribute("stationMessage",stationMessageService.listStationMessage(new StationMessage(0,9)));
+	public String index(HttpServletRequest req) {
+		// 代办事项
+		req.setAttribute("SupplierAgent", agentsService.getAllSupplierAgent(
+				new SupplierAgents(new Short("0")), 0, 8));
+		// 催办事项
+		req.setAttribute("SupplierReminders", agentsService
+				.getAllSupplierAgent(new SupplierAgents(new Short("1")), 0, 8));
+		// 站内消息
+		req.setAttribute("stationMessage", stationMessageService
+				.listStationMessage(new StationMessage(0, 9)));
 		return "index";
 	}
-	
-	/**   
-	* @Title: home
-	* @author yyyml
-	* @date 2016-8-30 下午3:04:14  
-	* @Description: 后台默认内容
-	* @return String     
-	*/
+
+	/**
+	 * Description: 后台默认内容
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-13
+	 * @param model
+	 * @return String
+	 * @exception IOException
+	 */
 	@RequestMapping("/home")
-	public String home(Model model){
-		//代办事项
-		model.addAttribute("SupplierAgent",agentsService.getAllSupplierAgent(new SupplierAgents(new Short("0")), 0, 8));
-		//催办事项
-		model.addAttribute("SupplierReminders", agentsService.getAllSupplierAgent(new SupplierAgents(new Short("1")), 0, 8));
-		//站内消息
-		model.addAttribute("stationMessage",stationMessageService.listStationMessage(new StationMessage(0,9)));
+	public String home(Model model) {
+		// 代办事项
+		model.addAttribute("SupplierAgent", agentsService.getAllSupplierAgent(
+				new SupplierAgents(new Short("0")), 0, 8));
+		// 催办事项
+		model.addAttribute("SupplierReminders", agentsService
+				.getAllSupplierAgent(new SupplierAgents(new Short("1")), 0, 8));
+		// 站内消息
+		model.addAttribute("stationMessage", stationMessageService
+				.listStationMessage(new StationMessage(0, 9)));
 		return "backend";
 	}
-	/**   
-	* @Title: loginOut
-	* @author yyyml
-	* @date 2016-8-30 下午3:04:33  
-	* @Description: 退出登录 
-	* @param @param req
-	* @return String     
-	*/
+
+	/**
+	 * Description: 退出登录
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-13
+	 * @param req
+	 * @return String
+	 * @exception IOException
+	 */
 	@RequestMapping("/loginOut")
-	public String loginOut(HttpServletRequest req){
-		req.getSession().removeAttribute("loginUser");
+	public String loginOut(HttpServletRequest req) {
+		req.getSession().invalidate();
 		return "redirect:/";
 	}
 }

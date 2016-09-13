@@ -10,18 +10,18 @@ import ses.dao.bms.UserMapper;
 import ses.model.bms.User;
 import ses.model.bms.Userrole;
 import ses.service.bms.UserServiceI;
-import ses.util.Encrypt;
 import ses.util.PropertiesUtil;
 
 import com.github.pagehelper.PageHelper;
 
 
 /**
-* <p>Title:UserServiceImpl </p>
-* <p>Description: 用户服务接口实现类</p>
-* @author Ye MaoLin
-* @date 2016-7-27下午4:34:05
-*/
+ * Description: 用户业务接口实现类
+ *
+ * @author Ye MaoLin
+ * @version 2016-9-13
+ * @since JDK1.7
+ */
 @Service("userService")
 public class UserServiceImpl implements UserServiceI {
 
@@ -29,50 +29,20 @@ public class UserServiceImpl implements UserServiceI {
 	private UserMapper userMapper;
 	
 	@Override
-	public User getUserById(User user) {
-		return userMapper.queryById(user.getId());
-	}
-
-	@Override
 	public void save(User user) {
 		userMapper.insertSelective(user);
 	}
 
 	@Override
-	public List<User> getAll() {
-		List<User> list=userMapper.queryByList(null);
-		Integer count = userMapper.queryByCount();
-		return list;
-	}
-
-	@Override
-	public User getUserByLogin(User user) {
-		String psw=Encrypt.md5AndSha(user.getLoginName()+user.getPassword());
-		user.setPassword(psw);
-		List<User> ulist=userMapper.loginQuery(user);
-		if(ulist.size()>0){
-			User u=ulist.get(0);
-			return u;
-		}else{
-			return null;
-		}
-	}
-
-	@Override
-	public void delete(String id) {
-		userMapper.delete(id);
-	}
-
-	@Override
 	public void deleteByLogic(String id) {
-		User u=userMapper.queryById(id);
+		User u=userMapper.selectByPrimaryKey(id).get(0);
 		u.setIsDeleted(1);
-		userMapper.updateBySelective(u);
+		userMapper.updateByPrimaryKey(u);
 	}
 
 	@Override
 	public void update(User u) {
-		userMapper.updateBySelective(u);
+		userMapper.updateByPrimaryKey(u);
 	}
 
 	@Override
@@ -81,10 +51,10 @@ public class UserServiceImpl implements UserServiceI {
 	}
 
 	@Override
-	public List<User> selectUserRole(User user,Integer pageNum) {
-			PropertiesUtil config = new PropertiesUtil("config.properties");
+	public List<User> selectUser(User user, Integer pageNum) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
-		return userMapper.selectUserRole(user);
+		return userMapper.selectUser(user);
 	}
 }
 

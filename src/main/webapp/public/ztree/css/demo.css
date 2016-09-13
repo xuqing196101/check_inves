@@ -181,7 +181,7 @@ div.ruler div.cursor {
 }
 
 .ztree li a {
-	width: 200px;
+	/* width: 200px; */
 	height: 30px;
 	padding-top: 0px;
 }

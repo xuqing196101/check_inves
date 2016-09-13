@@ -9,8 +9,7 @@
     <base href="<%=basePath%>">
     
     <title>菜单管理</title>
-    
-	<meta http-equiv="pragma" content="no-cache">
+   	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
@@ -29,6 +28,9 @@
 				simpleData: {
 					enable: true
 				}
+			},
+			callback:{
+				onClick:zTreeOnClick
 			}
 		};
 		$(document).ready(function(){
@@ -45,10 +47,48 @@
 			                //zNodes[i].icon = "<%=basePath%>public/ZHH/images/";//设置图标  
 			            }  
 			        }  
-			        tree = $.fn.zTree.init($("#menuTree"), setting, zNodes);  
+			        tree = $.fn.zTree.init($("#menuTree"), setting, zNodes); 
+			        getList("0");
                }
          	});
+         	
 		});
+		
+		function zTreeOnClick(event,treeId,treeNode){
+			$("#checkedAll").attr("checked",false);
+			getList(treeNode.id);
+		};
+		
+		function getList(id){
+			$.ajax({   
+	            type: "POST",  
+	            dataType: "json",
+	            async:false,
+	            url: "<%=basePath%>preMenu/findListByParent.do?id="+id,         
+	            success: function(data) {
+	            	var tabhtml="";
+	            	for(var i=0;i<data.length;i++){
+	            		var state="";
+	            		if(data[i].state==0){
+	            			state =+ "可用";
+	            		}else if(data[i].state==1){
+	            			state =+ "暂停";
+	            		}
+	            		var state="";
+	            		tabhtml += "<tr>";
+	            		tabhtml +="<td class='tc'><input onclick='check()' type='checkbox' name='chkItem' value="+data[i].id+" /></td>";
+	            		tabhtml +="<td class='tc'>"+1+"</td>";
+	            		tabhtml +="<td class='tc'>"+data[i].name+"</td>";
+	            		tabhtml +="<td class='tc'>"+data[i].type+"</td>";
+	            		tabhtml +="<td class='tc'>"+data[i].menulevel+"</td>";
+	            		tabhtml +="<td class='tc'>"+data[i].url+"</td>";
+	            		tabhtml +="<td class='tc'>"+state+"</td>";
+	            	}
+	            	$("#tab_menu tbody").html("");
+	            	$("#tab_menu tbody").append(tabhtml);
+	            }  
+	        });
+		}
 	</script>
   </head>
   
@@ -81,47 +121,12 @@
 				   break;
 			   }
 			   for(var j=0;j<checklist.length;j++){
-					 if(checklist[j].checked == true){
-						   checkAll.checked = true;
-						   count++;
-					   }
+				 if(checklist[j].checked == true){
+					   checkAll.checked = true;
+					   count++;
 				 }
+			   }
 		   }
-	}
-	
-	function openPreMenu(){
-		var ids =[]; 
-		$('input[name="chkItem"]:checked').each(function(){ 
-			ids.push($(this).val()); 
-		}); 
-		if(ids.length==1){
-			queryMenus(ids);
-			var menucon=$("#menu").html();
-			layer.open({
-			  type: 1, //page层
-			  area: ['300px', '500px'],
-			  title: '配置权限',
-			  closeBtn: 1,
-			  shade:0.01, //遮罩透明度
-			  moveType: 1, //拖拽风格，0是默认，1是传统拖动
-			  shift: 1, //0-6的动画形式，-1不开启
-			  offset: ['180px', '550px'],
-			  shadeClose: false,
-			  content: menucon,
-			  btn: ['保存', '关闭'] 
-			  ,yes: function(){
-			  	onCheck();
-			  }
-			  ,btn2: function(){
-			    layer.closeAll();
-			  }
-			});
-		}else if(ids.length>1){
-			layer.alert("只能同时选择一个角色",{offset: ['222px', '390px'], shade:0.01});
-		}else{
-			layer.alert("请选择一个角色",{offset: ['222px', '390px'], shade:0.01});
-		}
-	
 	}
 	
   	function view(id){
@@ -147,12 +152,12 @@
 			ids.push($(this).val()); 
 		}); 
 		if(ids.length>0){
-			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+			layer.confirm('您确定要删除该菜单及其下子菜单吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>role/delete.do?ids="+ids;
+				window.location.href="<%=basePath%>preMenu/delete_soft.html?ids="+ids;
 			});
 		}else{
-			layer.alert("请选择要删除的角色",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择要删除的菜单",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
     function add(){
@@ -184,34 +189,21 @@
 				    <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
 					<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 					<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
-					<div class="col-md-4 ">
-         <div class="search-block-v2">
-           <div class="">
-             <form accept-charset="UTF-8" action="" method="get"><div style="display:none"><input name="utf8" value="✓" type="hidden"></div>
-               <input id="t" name="t" value="search_products" type="hidden">
-               <div class="col-md-12 pull-right">
-                 <div class="input-group">
-                   <input class="form-control bgnone h37 p0_10" id="k" name="k" placeholder="" type="text">
-                   <span class="input-group-btn">
-                     <input class="btn-u" name="commit" value="搜索" type="submit">
-                   </span>
-                 </div>
-               </div>
-             </form>               
-			</div>
-         </div>
-       </div>
 			    </div>
-			    <table class="table table-bordered table-condensed">
-					<thead>
+			    <table id="tab_menu" class="table table-bordered table-condensed">
+					<thead >
 						<tr>
 						  <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 						  <th class="info w50">序号</th>
 						  <th class="info">名称</th>
 						  <th class="info">类型</th>
+						  <th class="info">级别</th>
 						  <th class="info">URL</th>
+						  <th class="info">状态</th>
 						</tr>
 					</thead>
+					<tbody >
+					</tbody>
 		        </table>
 		    
 	   </div>

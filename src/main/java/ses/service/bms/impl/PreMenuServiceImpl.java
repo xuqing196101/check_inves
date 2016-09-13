@@ -32,6 +32,11 @@ public class PreMenuServiceImpl implements PreMenuServiceI {
 		return preMenuMapper.queryByMenuId(id);
 	}
 
+	@Override
+	public void update(PreMenu menu) {
+		preMenuMapper.update(menu);
+	}
+
 	
 }
 
