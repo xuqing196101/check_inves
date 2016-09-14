@@ -662,6 +662,12 @@
 	<select id="getSupplier" parameterType="java.lang.String" resultMap="supplierMap">
 		select * from T_SES_SMS_SUPPLIER where ID = #{id}
 	</select>
+	
+	<!-- 查询供应商 -->
+	<select id="findSupplier"  resultMap="BaseResultMap">
+   		 select * from T_SES_SMS_SUPPLIER
+ 	</select>
+  
 	<resultMap type="ses.model.sms.Supplier" id="supplierMap" extends="BaseResultMap">
 		<collection property="listSupplierFinances" select="ses.dao.sms.SupplierFinanceMapper.findFinanceBySupplierId" column="ID" />
 		<collection property="listSupplierStockholders" select="ses.dao.sms.SupplierStockholderMapper.findStockholderBySupplierId" column="ID" />

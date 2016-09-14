@@ -1,8 +1,18 @@
 package ses.controller.sys.sms;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import ses.model.sms.Supplier;
+import ses.model.sms.SupplierFinance;
+import ses.service.sms.SupplierAuditServlice;
 
 /**
  * <p>Title:SupplierAuditController </p>
@@ -14,6 +24,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Scope("prototype")
 @RequestMapping("/supplierAudit")
 public class SupplierAuditController {
+	@Autowired
+	private SupplierAuditServlice supplierAuditServlice;
+	
 	/**
 	 * @Title: daiBan
 	 * @author Xu Qing
@@ -24,6 +37,7 @@ public class SupplierAuditController {
 	 */
 	@RequestMapping("daiBan")
 	public String daiBan() {
+		
 		return "ses/sms/supplier_audit/daiban";
 	}
 	/**
@@ -35,7 +49,9 @@ public class SupplierAuditController {
 	 * @return String
 	 */
 	@RequestMapping("supplierList")
-	public String SupplierList() {
+	public String supplierList(HttpServletRequest request) {
+		List<Supplier> supplierList =supplierAuditServlice.supplierList();
+		request.setAttribute("supplierList", supplierList);
 		return "ses/sms/supplier_audit/supplier_list";
 	}
 	/**
@@ -47,7 +63,12 @@ public class SupplierAuditController {
 	 * @return String
 	 */
 	@RequestMapping("essential")
-	public String essentialInformation() {
+	public String essentialInformation(HttpServletRequest request,Model model) {
+		String id = request.getParameter("id");
+		Supplier supplier = supplierAuditServlice.supplierById(id);
+		request.setAttribute("supplier", supplier);
+		request.getAttribute(id);
+/*		model.addAttribute("id",id);*/
 		return "ses/sms/supplier_audit/essential";
 	}
 	/**
@@ -59,7 +80,10 @@ public class SupplierAuditController {
 	 * @return String
 	 */
 	@RequestMapping("financial")
-	public String financialInformation() {
+	public String financialInformation(HttpServletRequest request) {
+		String id = request.getParameter("id");
+		List<SupplierFinance> supplierFinance = supplierAuditServlice.supplierFinanceByid(id);
+		request.setAttribute("supplier", supplierFinance);
 		return "ses/sms/supplier_audit/financial";
 	}
 	/**

@@ -114,17 +114,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</form>
 	</div>
    <!-- 表格开始-->
-   <div class="container">
+<!--    <div class="container">
     	 <div class="col-md-8">
      		<button class="btn btn-windows edit" onclick="shenHe();">初审</button>
 		</div>
-   </div>
+   </div> -->
    <div class="container margin-top-5">
      <div class="content padding-left-25 padding-right-25 padding-top-5">
         <table class="table table-bordered table-condensed">
 		<thead>
 		<tr>
-		  <th class="info w30"><input type="checkbox" onclick="selectAll();"  id="checkAll"></th>
 		  <th class="info w50">序号</th>
 		  <th class="info">供应商名称</th>
 		  <th class="info">企业类型</th>
@@ -133,15 +132,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  <th class="info">审核状态</th>
 		</tr>
 		</thead>
-		<c:forEach items="${expertList}" var="e" >
+		<c:forEach items="${supplierList}" var="list" >
 		<tr>
-		  <td class="tc w30"><input type="checkbox" value="${e.id }" name="chkItem" onclick="check()"></td>
 		  <td class="tc w50"></td>
+		  <td class="tc w50">${list.supplierName }</td>
+		  <td class="tc">${list.supplierTypeId }</td>
+		  <td class="tc">${list.businessType }</td>
 		  <td class="tc"></td>
-		  <td class="tc"></td>
-		  <td class="tc"></td>
-		  <td class="tc"></td>
-		  <td class="tc"></td>
+		  <td>
+			<input type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/supplierAudit/essential.html?id=${list.id }'" value="初审" />
+			<%-- <c:if test="${list.status==1 }"><input type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/importSupplier/audit.html?id=${list.id }'" value="复审" /></c:if>
+			<c:if test="${list.status==2 }"><input type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/importSupplier/audit.html?id=${list.id }'" value="已审核" /></c:if> --%>
+		  </td>
 		</tr>
 		</c:forEach>
         </table>

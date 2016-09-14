@@ -1,5 +1,7 @@
 package ses.dao.sms;
 
+import java.util.List;
+
 import ses.model.sms.SupplierFinance;
 
 /**
@@ -85,7 +87,7 @@ public interface SupplierFinanceMapper {
 	 * @param: @return
 	 * @return: SupplierFinance
 	 */
-	SupplierFinance findFinanceBySupplierId(String supplierId);
+	List<SupplierFinance> findFinanceBySupplierId(String supplierId);
 	
 	/**
 	 * @Title: deleteFinanceBySupplierId
@@ -97,4 +99,5 @@ public interface SupplierFinanceMapper {
 	 * @return: int
 	 */
 	int deleteFinanceBySupplierId(String supplierId);
+	
 }

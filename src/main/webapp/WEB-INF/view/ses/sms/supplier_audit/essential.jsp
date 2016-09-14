@@ -31,58 +31,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
-<script type="text/javascript">
-		/** 全选全不选 */
-	function selectAll(){
-		 var checklist = document.getElementsByName ("chkItem");
-		 var checkAll = document.getElementById("checkAll");
-		   if(checkAll.checked){
-			   for(var i=0;i<checklist.length;i++)
-			   {
-			      checklist[i].checked = true;
-			   } 
-			 }else{
-			  for(var j=0;j<checklist.length;j++)
-			  {
-			     checklist[j].checked = false;
-			  }
-		 	}
-		}
-	
-	/** 单选 */
-	function check(){
-		 var count=0;
-		 var checklist = document.getElementsByName ("chkItem");
-		 var checkAll = document.getElementById("checkAll");
-		 for(var i=0;i<checklist.length;i++){
-			   if(checklist[i].checked == false){
-				   checkAll.checked = false;
-				   break;
-			   }
-			   for(var j=0;j<checklist.length;j++){
-					 if(checklist[j].checked == true){
-						   checkAll.checked = true;
-						   count++;
-					   }
-				 }
-		   }
-	}
-	
-	//更新
-   function update(){
-    	var id=[]; 
-		$('input[name="chkItem"]:checked').each(function(){ 
-			id.push($(this).val());
-		}); 
-		if(id.length==1){
-			window.location.href="<%=basePath%>expert/editBlacklist.html?id="+id;
-		}else if(id.length>1){
-			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
-		}else{
-			layer.alert("请选择需要修改的信息",{offset: ['222px', '390px'], shade:0.01});
-		}
-    }
-</script>
 </head>
 <body>
 
@@ -95,97 +43,85 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="clear"></div>
 	  </div>
    </div> -->
-   
-   <div class="container clear margin-top-30">
-   	<div class="col-md-12 tab-v2 job-content">
-	<ul class="nav nav-tabs bgdd">
-		<li class="active"><a class="s_news f18" href="${pageContext.request.contextPath}/supplierAudit/essential.html">基本信息</a></li>
-		<li class="active"><a class="s_news f18" href="${pageContext.request.contextPath}/supplierAudit/financial.html">财务信息</a></li>
-		<li class="active"><a class="s_news f18" href="${pageContext.request.contextPath}/supplierAudit/shareholder.html">股东信息</a></li>
-		<li class="active"><a class="s_news f18" href="${pageContext.request.contextPath}/supplierAudit/materialProduction.html">物资-生产型专业信息</a></li>
-		<li class="active"><a class="s_news f18">物资-销售型专业信息</a></li>
-		<li class="active"><a class="s_news f18">工程-专业信息</a></li>
-		<li class="active"><a class="s_news f18">服务-专业信息</a></li>
-		<li class="active"><a class="s_news f18">品目信息</a></li>
-		<li class="active"><a class="s_news f18">产品信息</a></li>
-		<li class="active"><a class="s_news f18">审核汇总</a></li>
-	</ul>
-	</div>
-   </div>
+   <jsp:include page="../../../../../WEB-INF/view/ses/sms/supplier_audit/tabel.jsp"></jsp:include>
    <!-- 表格开始-->
   <div class="container margin-top-5">
-		<div class="content padding-left-25 padding-right-25 padding-top-5">
-			<div class=" margin-bottom-0">
+    <div class="content padding-left-25 padding-right-25 padding-top-5">
+	    <div class=" margin-bottom-0">
 				<h2 class="f16 jbxx">
 				<i>01</i>企业基本信息
 				</h2>
 				<ul class="list-unstyled list-flow">
-					<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>企业名称：</span>
+					<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>供应商名称：</span>
 						<div class="input-append">
-							<input class="span3" id="supplierName" name="supplierName" value=" " type="text">
+							<input class="span3" id="supplierName" name="supplierName" value="${supplier.supplierName } " type="text">
 							<div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
 						</div>
 					</li>
 					<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>公司网址：</span>
 						<div class="input-append">
-							<input class="span3" id="supplierTepe" name="supplierTepe" value=" "  type="text">
+							<input class="span3" id="supplierTepe" name="supplierTepe" value="${supplier.website } "  type="text">
 							<div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
 						</div>
 					</li>
 					<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>成立日期：</span>
 						<div class="input-append">
-							<input class="span3" id="supplierChinesrName" name="supplierChinesrName" value=" " type="text">
+							<input class="span3" id="supplierChinesrName" name="supplierChinesrName" value="<fmt:formatDate type='date' value='${supplier.foundDate }' dateStyle="default" pattern="yyyy-MM-dd"/>" type="text">
 							<div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
 						</div>
 					</li>
 					<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>营业执照登记类型：</span>
 						<div class="input-append">
-							<input class="span3" id="legalName" name="legalName" value=" " type="text">
+							<input class="span3" id="legalName" name="legalName" value="${supplier.businessType } " type="text">
 							<div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
 						</div>
 					</li>
 					<li class="col-md-6 p0"><span class=""><i class="red">＊</i>地址：</span>
 						<div class="input-append">
-							<input class="span3" id="legalName" name="legalName" value=" " type="text">
+							<input class="span3" id="legalName" name="legalName" value="${supplier.address } " type="text">
 							<div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
 						</div>
 					</li>
 					<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>开户行名称：</span>
 						<div class="input-append">
-							<input class="span3" id="supplierZipCode" name="supplierZipCode" value=" "  type="text">
+							<input class="span3" id="supplierZipCode" name="supplierZipCode" value="${supplier.bankName } "  type="text">
 							<div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
 						</div>
 					</li>
 					<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>开户行账户：</span>
 						<div class="input-append">
-							<input class="span3" id="productType" name="productType" value=" " type="text">
+							<input class="span3" id="productType" name="productType" value="${supplier.bankAccount } " type="text">
 							<div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
 						</div>
 					</li>
 					<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>邮编：</span>
 						<div class="input-append">
-							<input class="span3" id="majorProduct" name="majorProduct" value=" " type="text">
+							<input class="span3" id="majorProduct" name="majorProduct" value="${supplier.postCode }" type="text">
 							<div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
 						</div>
 					</li>
 					<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>近三个月完税凭证：</span>
 						<div class="input-append">
 							<a >附件下载</a>
+							<div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
 						</div>
 					</li>
 					<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>近三年银行账单：</span>
 						<div class="input-append">
 							<a>附件下载</a>
+							<div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
 						</div>
 					</li>
 					<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>近三个月保险凭证：</span>
 						<div class="input-append">
 							<a>附件下载</a>
+							<div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
 						</div>
 					</li>
 					<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>近三年违法记录：</span>
 						<div class="input-append">
 							<a>附件下载</a>
+							<div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
 						</div>
 					</li>
 				</ul>
@@ -198,23 +134,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<ul class="list-unstyled list-flow">
 					<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>姓名：</span>
 						<div class="input-append">
-							<input class="span3" id="supplierName" name="supplierName" value=" " type="text">
+							<input class="span3" id="supplierName" name="supplierName" value="${supplier.legalName } " type="text">
 							<div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
 						</div>
 					</li>
 					<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>身份证号：</span>
 						<div class="input-append">
-							<input class="span3" id="supplierTepe" name="supplierTepe" value=" "  type="text">
+							<input class="span3" id="supplierTepe" name="supplierTepe" value="${supplier.legaIdCard } "  type="text">
+							<div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
 						</div>
 					</li>
 					<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>固定电话：</span>
 						<div class="input-append">
-							<input class="span3" id="supplierChinesrName" name="supplierChinesrName" value=" " type="text">
+							<input class="span3" id="supplierChinesrName" name="supplierChinesrName" value="${supplier.legalTelephone } " type="text">
+							<div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
 						</div>
 					</li>
 					<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>手机：</span>
 						<div class="input-append">
-							<input class="span3" id="legalName" name="legalName" value=" " type="text">
+							<input class="span3" id="legalName" name="legalName" value="${supplier.legalMobile } " type="text">
+							<div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
 						</div>
 					</li>
 				</ul>
@@ -227,33 +166,38 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<ul class="list-unstyled list-flow">
 					<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>姓名：</span>
 						<div class="input-append">
-							<input class="span3" id="supplierName" name="supplierName" value=" " type="text">
+							<input class="span3" id="supplierName" name="supplierName" value="${supplier.contactName } " type="text">
 							<div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
 						</div>
 					</li>
 					<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>传真：</span>
 						<div class="input-append">
-							<input class="span3" id="supplierTepe" name="supplierTepe" value=" "  type="text">
+							<input class="span3" id="supplierTepe" name="supplierTepe" value="${supplier.contactFax } "  type="text">
+							<div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
 						</div>
 					</li>
 					<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>固定电话：</span>
 						<div class="input-append">
-							<input class="span3" id="supplierChinesrName" name="supplierChinesrName" value=" " type="text">
+							<input class="span3" id="supplierChinesrName" name="supplierChinesrName" value="${supplier.contactTelephone } " type="text">
+							<div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
 						</div>
 					</li>
 					<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>手机：</span>
 						<div class="input-append">
-							<input class="span3" id="legalName" name="legalName" value=" " type="text">
+							<input class="span3" id="legalName" name="legalName" value="${supplier.contactMobile } " type="text">
+							<div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
 						</div>
 					</li>
 					<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>邮箱：</span>
 						<div class="input-append">
-							<input class="span3" id="legalName" name="legalName" value=" " type="text">
+							<input class="span3" id="legalName" name="legalName" value="${supplier.contactEmail } " type="text">
+							<div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
 						</div>
 					</li>
 					<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>地址：</span>
 						<div class="input-append">
-							<input class="span3" id="legalName" name="legalName" value=" " type="text">
+							<input class="span3" id="legalName" name="legalName" value="${supplier.contactAddress } " type="text">
+							<div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
 						</div>
 					</li>
 				</ul>
@@ -266,65 +210,76 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<ul class="list-unstyled list-flow">
 					<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>统一社会信用代码：</span>
 						<div class="input-append">
-							<input class="span3" id="supplierName" name="supplierName" value=" " type="text">
+							<input class="span3" id="supplierName" name="supplierName" value="${supplier.creditCode } " type="text">
 							<div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
 						</div>
 					</li>
 					<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>登记机关：</span>
 						<div class="input-append">
-							<input class="span3" id="supplierTepe" name="supplierTepe" value=" "  type="text">
+							<input class="span3" id="supplierTepe" name="supplierTepe" value="${supplier.registAuthority } "  type="text">
+							<div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
 						</div>
 					</li>
 					<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>注册资本：</span>
 						<div class="input-append">
-							<input class="span3" id="supplierChinesrName" name="supplierChinesrName" value=" " type="text">
+							<input class="span3" id="supplierChinesrName" name="supplierChinesrName" value="${supplier.registFund } " type="text">
+							<div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
 						</div>
 					</li>
 					<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>营业期限：</span>
 						<div class="input-append">
-							<input class="span3" id="legalName" name="legalName" value=" " type="text">
+							<input class="span3" id="legalName" name="legalName" value="${supplier.businessStartDate }至 ${supplier.businessEndDate} " type="text">
+							<div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
 						</div>
 					</li>
 					<li class="col-md-12 p0 mt10"><span class="fl"><i class="red">＊</i>经营范围：</span>
 						<div class="col-md-9 mt5">
 							<div class="row">
-								<textarea class="text_area col-md-12" id="supplyLevel" name="supplyLevel"  title="不超过800个字" > </textarea>
+								<textarea class="text_area col-md-12" id="supplyLevel" name="supplyLevel"  title="不超过800个字" >${supplier.businessScope }</textarea>
+								<div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
 							</div>
 						</div>
 					</li>
 					<li class="col-md-6 p0 "><span class="fl"><i class="red">＊</i>生产或经营地址：</span>
 						<div class="input-append">
-							<input class="span3" id="legalName" name="legalName" value=" " type="text">
+							<input class="span3" id="legalName" name="legalName" value="${supplier.businessAddress } " type="text">
+							<div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
 						</div>
 					</li>
 					<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>邮编：</span>
 						<div class="input-append">
-							<input class="span3" id="legalName" name="legalName" value=" " type="text">
+							<input class="span3" id="legalName" name="legalName" value="${supplier.businessPostCode } " type="text">
+							<div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
 						</div>
 					</li>
 					<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>境外分支机构：</span>
 						<div class="input-append">
-							<input class="span3" id="legalName" name="legalName" value=" " type="text">
+							<input class="span3" id="legalName" name="legalName" value="${supplier.overseasBranch } " type="text">
+							<div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
 						</div>
 					</li>
 					<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>国家：</span>
 						<div class="input-append">
-							<input class="span3" id="legalName" name="legalName" value=" " type="text">
+							<input class="span3" id="legalName" name="legalName" value="${supplier.branchCountry } " type="text">
+							<div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
 						</div>
 					</li>
 					<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>详细地址：</span>
 						<div class="input-append">
-							<input class="span3" id="legalName" name="legalName" value=" " type="text">
+							<input class="span3" id="legalName" name="legalName" value="${supplier.branchAddress } " type="text">
+							<div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
 						</div>
 					</li>
 					<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>机构名称：</span>
 						<div class="input-append">
-							<input class="span3" id="legalName" name="legalName" value=" " type="text">
+							<input class="span3" id="legalName" name="legalName" value="${supplier.branchName } " type="text">
+							<div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
 						</div>
 					</li>
 					<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>生产经营范围：</span>
 						<div class="input-append">
-							<input class="span3" id="legalName" name="legalName" value=" " type="text">
+							<input class="span3" id="legalName" name="legalName" value="${supplier.branchBusinessScope } " type="text">
+							<div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
 						</div>
 					</li>
 				</ul>

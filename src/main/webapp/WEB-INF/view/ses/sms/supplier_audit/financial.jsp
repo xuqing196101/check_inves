@@ -33,23 +33,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
 </head>
 <body>
-	<!--页标签-->
-    <div class="container clear margin-top-30">
-   	<div class="col-md-12 tab-v2 job-content">
-	<ul class="nav nav-tabs bgdd">
-		<li class="active"><a class="s_news f18" href="${pageContext.request.contextPath}/supplierAudit/essential.html">基本信息</a></li>
-		<li class="active"><a class="s_news f18" href="${pageContext.request.contextPath}/supplierAudit/financial.html">财务信息</a></li>
-		<li class="active"><a class="s_news f18" href="${pageContext.request.contextPath}/supplierAudit/shareholder.html">股东信息</a></li>
-		<li class="active"><a class="s_news f18" href="${pageContext.request.contextPath}/supplierAudit/materialProduction.html">物资-生产型专业信息</a></li>
-		<li class="active"><a class="s_news f18">物资-销售型专业信息</a></li>
-		<li class="active"><a class="s_news f18">工程-专业信息</a></li>
-		<li class="active"><a class="s_news f18">服务-专业信息</a></li>
-		<li class="active"><a class="s_news f18">品目信息</a></li>
-		<li class="active"><a class="s_news f18">产品信息</a></li>
-		<li class="active"><a class="s_news f18">审核汇总</a></li>
-	</ul>
-	</div>
-    </div>
+<!--页标签-->
+   <jsp:include page="../../../../../WEB-INF/view/ses/sms/supplier_audit/tabel.jsp"></jsp:include>
    <!-- 表格开始-->
   <div class="container margin-top-5">
      <div class="content padding-left-25 padding-right-25 padding-top-5">
@@ -68,17 +53,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				  <th class="info">营业收入</th>
 				</tr>
 				</thead>
-				<c:forEach items="${expertList}" var="e" >
+				<c:forEach items="${supplier}" var="s" >
 					<tr>
 					  <td class="tc w50"></td>
-					  <td class="tc"></td>
-					  <td class="tc"></td>
-					  <td class="tc"></td>
-					  <td class="tc"></td>
-					  <td class="tc"></td>
-					  <td class="tc"></td>
-					  <td class="tc"></td>
-					  <td class="tc"></td>
+					  <td class="tc">${s.name }</td>
+					  <td class="tc">${s.telephone }</td>
+					  <td class="tc">${s.auditors }</td>
+					  <td class="tc">${s.quota }</td>
+					  <td class="tc">${s.totalAssets }</td>
+					  <td class="tc">${s.totalLiabilities }</td>
+					  <td class="tc">${s.totalNetAssets}</td>
+					  <td class="tc">${s.taking}</td>
 					</tr>
 				</c:forEach>
 		</table>
