@@ -69,7 +69,7 @@ public class ArticleController {
 		List<Article> list = articleService.selectAllArticle(null, page==null?1:page);
 		model.addAttribute("list", new PageInfo<Article>(list));
 		logger.info(JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss"));
-		return "article/list";
+		return "iss/ps/article/list";
 	}
 
 	/**
@@ -84,7 +84,7 @@ public class ArticleController {
 	public String add(Model model){
 		List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
 		model.addAttribute("list", list);
-		return "article/add";
+		return "iss/ps/article/add";
 	}
 
 	/**
@@ -107,13 +107,15 @@ public class ArticleController {
 			}
 		}
 		User user = new User();
-		user.setId("be9bf4e9-6fa3-4fe6-ad4a-cc67272816a2");
+		user.setId("be9bf4e9-6fa3-4fe6-ad4a-cc67272816a2");   //死数据
 		article.setUser(user);
 		article.setCreatedAt(new Date());
 		article.setUpdatedAt(new Date());
 		article.setIsDeleted(0);
 		article.setStatus(0);
 		article.setProjectId("123131231");//死数据
+		article.setShowCount(0);
+		article.setDownloadCount(0);
 		articleService.addArticle(article);
 		uploadFile(article,request,attaattach);
 		return "redirect:getAll.html";
@@ -178,7 +180,7 @@ public class ArticleController {
 		List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(article.getId());
 		article.setArticleAttachments(articleAttaList);
 		model.addAttribute("article",article);
-		return "article/edit";
+		return "iss/ps/article/edit";
 	}
 
 	/**
@@ -248,7 +250,7 @@ public class ArticleController {
 		List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(article.getId());
 		article.setArticleAttachments(articleAttaList);
 		model.addAttribute("article",article);
-		return "article/look";
+		return "iss/ps/article/look";
 	}
 	
 	/**
@@ -265,7 +267,7 @@ public class ArticleController {
 		List<Article> list = articleService.selectArticleByStatus(article,page==null?1:page);
 		model.addAttribute("list", new PageInfo<Article>(list));
 		logger.info(JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss"));
-		return "article/sub/list";
+		return "iss/ps/article/sub/list";
 	}
 	
 	/**
@@ -282,7 +284,7 @@ public class ArticleController {
 		List<Article> list = articleService.selectArticleByStatus(article,page==null?1:page);
 		model.addAttribute("list", new PageInfo<Article>(list));
 		logger.info(JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss"));
-		return "article/audit/list";
+		return "iss/ps/article/audit/list";
 	}
 	
 	/**
@@ -326,7 +328,7 @@ public class ArticleController {
 		List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(article.getId());
 		article.setArticleAttachments(articleAttaList);
 		model.addAttribute("article",article);
-		return "article/audit/audit";
+		return "iss/ps/article/audit/audit";
 	}
 	
 	/**
