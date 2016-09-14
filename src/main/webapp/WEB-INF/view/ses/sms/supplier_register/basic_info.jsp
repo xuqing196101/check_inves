@@ -168,7 +168,7 @@
 <body>
 	<div class="wrapper">
 		<!-- header -->
-		<jsp:include page="../../../indexhead.jsp"></jsp:include>
+		<jsp:include page="../../../../../indexhead.jsp"></jsp:include>
 
 		<!-- 项目戳开始 -->
 		<div class="container clear margin-top-30">
@@ -727,6 +727,6 @@
 		</div>
 	</div>
 	<!-- footer -->
-	<jsp:include page="../../../indexbottom.jsp"></jsp:include>
+	<jsp:include page="../../../../../indexbottom.jsp"></jsp:include>
 </body>
 </html>

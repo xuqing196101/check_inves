@@ -52,7 +52,7 @@ public class SupplierController {
 			model.addAttribute("stockholderSize", supplier.getListSupplierStockholders().size());
 		}
 		request.getSession().setAttribute("supplierId", supplier.getId());
-		return "sms/basic_info";
+		return "ses/sms/supplier_register/basic_info";
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class SupplierController {
 	 */
 	@RequestMapping("registration_page")
 	public String registrationPage() {
-		return "sms/registration";
+		return "ses/sms/supplier_register/registration";
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class SupplierController {
 	public String registerPage(HttpServletRequest request) {
 		boolean flag = this.checkReferer(request, "/supplier/registration_page.html");
 		if (flag) {
-			return "sms/register";
+			return "ses/sms/supplier_register/register";
 		}
 		return "redirect:registration_page.html";
 	}
@@ -229,7 +229,7 @@ public class SupplierController {
 	@RequestMapping(value = "pageJump")
 	public String pageJump(HttpServletRequest request) {
 		String page = (String) request.getSession().getAttribute("jump.page");
-		return "sms/" + page;
+		return "ses/sms/supplier_register" + page;
 	}
 
 	/**
