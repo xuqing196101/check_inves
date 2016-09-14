@@ -62,103 +62,105 @@
    <div class="headline-v2">
    <h2>修改用户</h2>
    </div>
-   <ul class="list-unstyled list-flow p0_20">
-   	<input class="span2" name="id" type="hidden" value="${user.id}">
+    <input class="span2" name="id" type="hidden" value="${user.id}">
    	<input class="span2" name="createdAt" type="hidden" value="<fmt:formatDate value='${user.createdAt}' pattern='yyyy-MM-dd  HH:mm:ss'/>">
    	<input class="span2" name="isDeleted" type="hidden" value="${user.isDeleted}">
-     		<li class="col-md-6 p0">
-			   <span class="">用户名：</span>
-			   <div class="input-append">
-		        <input class="span2" name="loginName" type="text" value="${user.loginName}">
-		        <span class="add-on">i</span>
-		       </div>
-			 </li>
-		     <li class="col-md-6  p0 ">
-			   <span class="">真实姓名：</span>
-			   <div class="input-append">
-		        <input class="span2" name="relName" type="text" value="${user.relName}">
-		        <span class="add-on">i</span>
-		       </div>
-			 </li>
-			 <li class="col-md-6 p0">
-			   <span class="">性别：</span>
-		        <select name="gender">
-		        	<option >-请选择-</option> 
-		        	<option value="M" <c:if test="${'M' eq gender}">selected</c:if> >男</option>
-		        	<option value="F" <c:if test="${'F' eq gender}">selected</c:if>>女</option>
-		        </select>
-			 </li>
-		     <li class="col-md-6  p0 ">
-			   <span class="">手机：</span>
-			   <div class="input-append">
-		        <input class="span2" name="mobile" value="${role.mobile }" type="text">
-		        <span class="add-on">i</span>
-		       </div>
-			 </li>
-		     <li class="col-md-6 p0">
-			   <span class="">邮箱：</span>
-			   <div class="input-append">
-		        <input class="span2" name="email" value="${role.email }" type="text">
-		        <span class="add-on">i</span>
-		       </div>
-			 </li>
-		     <li class="col-md-6  p0 ">
-			   <span class="">职务：</span>
-			   <div class="input-append">
-		        <input class="span2" name="duties" value="${role.duties }" type="text">
-		        <span class="add-on">i</span>
-		       </div>
-			 </li>
-			 <li class="col-md-6 p0">
-			   <span class="">类型：</span>
-		        <select name="typeName">
-		        	<option value="2" <c:if test="${'2' eq typeName}">selected</c:if>>需求人员</option>
-		        	<option value="1" <c:if test="${'1' eq typeName}">selected</c:if>>采购人员</option>
-		        	<option value="0" <c:if test="${'0' eq typeName}">selected</c:if>>采购管理人员</option>
-		        	<option value="3" <c:if test="${'3' eq typeName}">selected</c:if>>其他人员</option>
-		        	<option value="4" <c:if test="${'4' eq typeName}">selected</c:if>>供应商</option>
-		        	<option value="5" <c:if test="${'5' eq typeName}">selected</c:if>>专家</option>
-		        </select>
-			 </li>
-			 <li class="col-md-6  p0 ">
-			   <span class="">所属机构：</span>
-			   <div class="input-append">
-		        <input class="span2" name="orgId" type="text">
-		        <span class="add-on">i</span>
-		       </div>
-			 </li>
-		     <li class="col-md-6  p0 ">
-			   <span class="">联系电话：</span>
-			   <div class="input-append">
-		        <input class="span2" name="phone" type="text" value="${user.telephone}">
-		        <span class="add-on">i</span>
-		       </div>
-			 </li> 
-	 		<li class="col-md-6 p0">
-			   <span class="">角色：</span>
-			   <div class="input-append">
-			   	 <input class="span2" id="roleId" name="roleId" type="hidden" value="${roleId }">
-		         <input class="span2" id="roleName" name="roleName" type="text" value="${roleName }">
-				 <div class="btn-group ">
-		          <button class="btn dropdown-toggle add-on" data-toggle="dropdown">
-				  <img src="<%=basePath%>public/ZHH/images/down.png" />
-		          </button>
-		          <ul class="dropdown-menu list-unstyled">
-		          	<c:forEach items="${roles}" var="role" varStatus="vs">
-		          		<li>
-	          				<input type="checkbox" name="chkItem" value="${role.id };${role.name }" onclick="cheClick();">${role.name }
-		          		</li>
-		          	</c:forEach>
-		          </ul>
-		       </div>
-		      </div>
-			 </li>
-			 <li class="col-md-12 p0">
-			   <span class="fl">详细地址：</span>
-			   <div class="col-md-12 pl200 fn mt5 pwr9">
-		        <textarea class="text_area col-md-12 " address="describe" maxlength="200" title="" placeholder="">${role.address}</textarea>
-		       </div>
-			 </li>
+   	<input class="span2" name="password" type="hidden" value="${user.password}">
+   	<input class="span2" name="randomCode" type="hidden" value="${user.randomCode}">
+   <ul class="list-unstyled list-flow p0_20">
+	   	<li class="col-md-6 p0">
+		   <span class="">用户名：</span>
+		   <div class="input-append">
+	        <input class="span2" name="loginName" type="text" readonly="readonly" value="${user.loginName}">
+	        <span class="add-on">i</span>
+	       </div>
+		 </li>
+	     <li class="col-md-6  p0 ">
+		   <span class="">真实姓名：</span>
+		   <div class="input-append">
+	        <input class="span2" name="relName" type="text" value="${user.relName}">
+	        <span class="add-on">i</span>
+	       </div>
+		 </li>
+		 <li class="col-md-6 p0">
+		   <span class="">性别：</span>
+	        <select name="gender">
+	        	<option >-请选择-</option> 
+	        	<option value="M" <c:if test="${'M' eq user.gender}">selected</c:if> >男</option>
+	        	<option value="F" <c:if test="${'F' eq user.gender}">selected</c:if>>女</option>
+	        </select>
+		 </li>
+	     <li class="col-md-6  p0 ">
+		   <span class="">手机：</span>
+		   <div class="input-append">
+	        <input class="span2" name="mobile" value="${user.mobile }" type="text">
+	        <span class="add-on">i</span>
+	       </div>
+		 </li>
+	     <li class="col-md-6 p0">
+		   <span class="">邮箱：</span>
+		   <div class="input-append">
+	        <input class="span2" name="email" value="${user.email }" type="text">
+	        <span class="add-on">i</span>
+	       </div>
+		 </li>
+	     <li class="col-md-6  p0 ">
+		   <span class="">职务：</span>
+		   <div class="input-append">
+	        <input class="span2" name="duties" value="${user.duties }" type="text">
+	        <span class="add-on">i</span>
+	       </div>
+		 </li>
+		 <li class="col-md-6 p0">
+		   <span class="">类型：</span>
+	        <select name="typeName">
+	        	<option value="2" <c:if test="${'2' eq user.typeName}">selected</c:if>>需求人员</option>
+	        	<option value="1" <c:if test="${'1' eq user.typeName}">selected</c:if>>采购人员</option>
+	        	<option value="0" <c:if test="${'0' eq user.typeName}">selected</c:if>>采购管理人员</option>
+	        	<option value="3" <c:if test="${'3' eq user.typeName}">selected</c:if>>其他人员</option>
+	        	<option value="4" <c:if test="${'4' eq user.typeName}">selected</c:if>>供应商</option>
+	        	<option value="5" <c:if test="${'5' eq user.typeName}">selected</c:if>>专家</option>
+	        </select>
+		 </li>
+		 <li class="col-md-6  p0 ">
+		   <span class="">所属机构：</span>
+		   <div class="input-append">
+	        <input class="span2" name="orgId" type="text">
+	        <span class="add-on">i</span>
+	       </div>
+		 </li>
+	     <li class="col-md-6  p0 ">
+		   <span class="">联系电话：</span>
+		   <div class="input-append">
+	        <input class="span2" name="telephone" type="text" value="${user.telephone}">
+	        <span class="add-on">i</span>
+	       </div>
+		 </li> 
+			<li class="col-md-6 p0">
+		   <span class="">角色：</span>
+		   <div class="input-append">
+		   	 <input class="span2" id="roleId" name="roleId" type="hidden" value="${roleId }">
+	         <input class="span2" id="roleName" name="roleName" type="text" value="${roleName }">
+			 <div class="btn-group ">
+	          <button class="btn dropdown-toggle add-on" data-toggle="dropdown">
+			  <img src="<%=basePath%>public/ZHH/images/down.png" />
+	          </button>
+	          <ul class="dropdown-menu list-unstyled">
+	          	<c:forEach items="${roles}" var="role" varStatus="vs">
+	          		<li>
+	         				<input type="checkbox" name="chkItem" value="${role.id };${role.name }" onclick="cheClick();">${role.name }
+	          		</li>
+	          	</c:forEach>
+	          </ul>
+	       </div>
+	      </div>
+		 </li>
+		 <li class="col-md-12 p0">
+		   <span class="fl">详细地址：</span>
+		   <div class="col-md-12 pl200 fn mt5 pwr9">
+	        <textarea class="text_area col-md-12 " address="address" maxlength="200" title="" placeholder="">${user.address}</textarea>
+	       </div>
+		 </li>
 			 
    </ul>
   </div> 

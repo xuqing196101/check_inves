@@ -37,8 +37,17 @@
 	</security:authentication-manager>
 	
 	<!-- 对密码进行MD5编码 -->
-	<bean class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" id="passwordEncoder"/>
+	<!-- <bean class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" id="passwordEncoder"/> -->
 
+	<bean id="daoAuthenticationProvider" class="org.acegisecurity.providers.dao.DaoAuthenticationProvider">     
+	    <property name="passwordEncoder">     
+	        <bean class="org.acegisecurity.providers.encoding.Md5PasswordEncoder">     
+	            <!-- false 表示：生成32位的Hex版, 这也是encodeHashAsBase64的, Acegi 默认配置; true  表示：生成24位的Base64版 -->     
+	            <property name="encodeHashAsBase64" value="false" />     
+	        </bean>     
+	    </property>     
+	</bean> 
+	
 	<!-- 
 		通过 customUserDetailsService,Spring会自动的用户的访问级别.
 		也可以理解成:以后我们和数据库操作就是通过customUserDetailsService来进行关联.

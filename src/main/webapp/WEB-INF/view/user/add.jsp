@@ -29,10 +29,10 @@
 		$("#roleId").val(roleIds.substr(0,roleIds.length-1));
 		$("#roleName").val(roleNames.substr(0,roleNames.length-1));
 	}
+	
 </script>
 <body>
-
-<!--面包屑导航开始-->
+   <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
@@ -42,136 +42,134 @@
 	  </div>
    </div>
    
-<!-- 修改订列表开始-->
+   <!-- 修改订列表开始-->
    <div class="container">
    <form action="<%=basePath %>user/save.html" method="post">
    <div>
-   <div class="headline-v2">
-   <h2>新增用户</h2>
-   </div>
-   <ul class="list-unstyled list-flow p0_20">
-     		<li class="col-md-6 p0">
-			   <span class="">用户名：</span>
-			   <div class="input-append">
-		        <input class="span2" name="loginName" type="text">
-		        <span class="add-on">i</span>
-		       </div>
-			 </li>
-		     <li class="col-md-6  p0 ">
-			   <span class="">真实姓名：</span>
-			   <div class="input-append">
-		        <input class="span2" name="relName" type="text">
-		        <span class="add-on">i</span>
-		       </div>
-			 </li>
-			 <li class="col-md-6  p0 ">
-			   <span class="">密码：</span>
-			   <div class="input-append">
-		        <input class="span2" name="password" id="password1" type="password">
-		        <span class="add-on">i</span>
-		       </div>
-			 </li> 
-		     <li class="col-md-6  p0 ">
-			   <span class="">确认密码：</span>
-			   <div class="input-append">
-		        <input class="span2" id="password2" type="password">
-		        <span class="add-on">i</span>
-		       </div>
-			 </li>
-			  <li class="col-md-6 p0">
-			   <span class="">性别：</span>
-			   <div class="input-append">
-		        <select name="gender">
-		        	<option >-请选择-</option>
-		        	<option value="M">男</option>
-		        	<option value="F">女</option>
-		        </select>
-		       </div>
-			 </li>
-		     <li class="col-md-6  p0 ">
-			   <span class="">手机：</span>
-			   <div class="input-append">
-		        <input class="span2" name="mobile" type="text">
-		        <span class="add-on">i</span>
-		       </div>
-			 </li>
-		     <li class="col-md-6 p0">
-			   <span class="">邮箱：</span>
-			   <div class="input-append">
-		        <input class="span2" name="email" type="text">
-		        <span class="add-on">i</span>
-		       </div>
-			 </li>
-		     <li class="col-md-6  p0 ">
-			   <span class="">职务：</span>
-			   <div class="input-append">
-		        <input class="span2" name="duties" type="text">
-		        <span class="add-on">i</span>
-		       </div>
-			 </li>
-			 <li class="col-md-6 p0">
-			   <span class="">类型：</span>
-			   <div class="input-append">
-		        <select name="typeName">
-		        	<option value="2">需求人员</option>
-		        	<option value="1">采购人员</option>
-		        	<option value="0">采购管理人员</option>
-		        	<option value="3">其他人员</option>
-		        	<option value="4">供应商</option>
-		        	<option value="5">专家</option>
-		        </select>
-		       </div>
-			 </li>
-			 <li class="col-md-6  p0 ">
-			   <span class="">所属机构：</span>
-			   <div class="input-append">
-		        <input class="span2" name="org" type="text">
-		        <span class="add-on">i</span>
-		       </div>
-			 </li>
-		     <li class="col-md-6  p0 ">
-			   <span class="">座机电话：</span>
-			   <div class="input-append">
-		        <input class="span2" name="telephone" type="text">
-		        <span class="add-on">i</span>
-		       </div>
-			 </li> 
-	 		<li class="col-md-6 p0">
-			   <span class="">角色：</span>
-			   <div class="input-append">
-			   	 <input class="span2" id="roleId" name="roleId" type="hidden">
-		         <input class="span2" id="roleName" name="roleName" type="text">
-				 <div class="btn-group ">
-		          <button class="btn dropdown-toggle add-on" data-toggle="dropdown">
-				  <img src="<%=basePath%>public/ZHH/images/down.png" />
-		          </button>
-		          <ul class="dropdown-menu list-unstyled">
-		          	<c:forEach items="${roles}" var="role" varStatus="vs">
-		          		<li class="select_opt">
-		          			<input type="checkbox" name="chkItem" value="${role.id };${role.name }" onclick="cheClick();" class="select_input">${role.name }
-		          		</li>
-		          	</c:forEach>
-		          </ul>
-		       </div>
-		      </div>
-			 </li>
-			 <li class="col-md-12 p0">
-			   <span class="fl">详细地址：</span>
-			   <div class="col-md-12 pl200 fn mt5 pwr9">
-		        <textarea class="text_area col-md-12 " name="address" maxlength="200" title="" placeholder=""></textarea>
-		       </div>
-			 </li>
-			 
-   </ul>
-  </div> 
+	   <div class="headline-v2">
+	   	 <h2>新增用户</h2>
+	   </div>
+	   <ul class="list-unstyled list-flow p0_20">
+    	 <li class="col-md-6 p0">
+		   <span class="">用户名：</span>
+		   <div class="input-append">
+	        <input class="span2" name="loginName" maxlength="30" type="text">
+	        <span class="add-on">i</span>
+	        <div class="b f18 ml10 red hand">${loginName_msg}</div>
+	       </div>
+		 </li>
+	     <li class="col-md-6  p0 ">
+		   <span class="">真实姓名：</span>
+		   <div class="input-append">
+	        <input class="span2" name="relName" maxlength="10" type="text">
+	        <span class="add-on">i</span>
+	       </div>
+		 </li>
+		 <li class="col-md-6  p0 ">
+		   <span class="">密码：</span>
+		   <div class="input-append">
+	        <input class="span2" name="password" maxlength="30" id="password1" type="password">
+	        <span class="add-on">i</span>
+	        <div class="b f18 ml10 red hand">${password_msg}</div>
+	       </div>
+		 </li> 
+	     <li class="col-md-6  p0 ">
+		   <span class="">确认密码：</span>
+		   <div class="input-append">
+	        <input class="span2" id="password2" maxlength="30" name="password2" type="password">
+	        <span class="add-on">i</span>
+	        <div class="b f18 ml10 red hand">${password2_msg}</div>
+	       </div>
+		 </li>
+		  <li class="col-md-6 p0">
+		   <span class="">性别：</span>
+	        <select name="gender">
+	        	<option value="">-请选择-</option>
+	        	<option value="M">男</option>
+	        	<option value="F">女</option>
+	        </select>
+		 </li>
+	     <li class="col-md-6  p0 ">
+		   <span class="">手机：</span>
+		   <div class="input-append">
+	        <input class="span2" name="mobile" maxlength="40" type="text">
+	        <span class="add-on">i</span>
+	       </div>
+		 </li>
+	     <li class="col-md-6 p0">
+		   <span class="">邮箱：</span>
+		   <div class="input-append">
+	        <input class="span2" name="email" maxlength="100" type="text">
+	        <span class="add-on">i</span>
+	       </div>
+		 </li>
+	     <li class="col-md-6  p0 ">
+		   <span class="">职务：</span>
+		   <div class="input-append">
+	        <input class="span2" name="duties" maxlength="40" type="text">
+	        <span class="add-on">i</span>
+	       </div>
+		 </li>
+		 <li class="col-md-6 p0">
+		    <span class="">类型：</span>
+	        <select name="typeName">
+	        	<option value="2">需求人员</option>
+	        	<option value="1">采购人员</option>
+	        	<option value="0">采购管理人员</option>
+	        	<option value="3">其他人员</option>
+	        	<option value="4">供应商</option>
+	        	<option value="5">专家</option>
+	        </select>
+		 </li>
+		 <li class="col-md-6  p0 ">
+		   <span class="">所属机构：</span>
+		   <div class="input-append">
+	        <input class="span2" name="orgId" type="text">
+	        <span class="add-on">i</span>
+	       </div>
+		 </li>
+	     <li class="col-md-6  p0 ">
+		   <span class="">座机电话：</span>
+		   <div class="input-append">
+	        <input class="span2" name="telephone" maxlength="40" type="text">
+	        <span class="add-on">i</span>
+	       </div>
+		 </li> 
+ 		 <li class="col-md-6 p0">
+		   <span class="">角色：</span>
+		   <div class="input-append">
+		   	 <input class="span2" id="roleId" name="roleId" type="hidden">
+	         <input class="span2" id="roleName" name="roleName" type="text">
+			 <div class="btn-group ">
+	          <button class="btn dropdown-toggle add-on" data-toggle="dropdown">
+			  <img src="<%=basePath%>public/ZHH/images/down.png" />
+	          </button>
+	          <ul class="dropdown-menu list-unstyled">
+	          	<c:forEach items="${roles}" var="role" varStatus="vs">
+	          		<li class="select_opt">
+	          			<input type="checkbox" name="chkItem" value="${role.id };${role.name }" onclick="cheClick();" class="select_input">${role.name }
+	          		</li>
+	          	</c:forEach>
+	          </ul>
+	       </div>
+	      </div>
+		 </li>
+		 <li class="col-md-12 p0">
+		   <span class="fl">详细地址：</span>
+		   <div class="col-md-12 pl200 fn mt5 pwr9">
+	        <textarea class="text_area col-md-12 " name="address" maxlength="400" title="" placeholder=""></textarea>
+	       </div>
+		 </li>
+	   </ul>
+    </div> 
    
-  <div  class="col-md-12">
-   <div class="fl padding-10">
-    <button class="btn btn-windows save" type="submit">保存</button>
-    <button class="btn btn-windows git" onclick="history.go(-1)" type="button">返回</button>
-	</div>
-  </div>
+    <div  class="col-md-12">
+      <div class="fl padding-10">
+	    <button class="btn btn-windows save" type="submit">保存</button>
+	    <button class="btn btn-windows git" onclick="history.go(-1)" type="button">返回</button>
+	  </div>
+    </div>
   </form>
- </div>
+  </div>
 </body>
 </html>

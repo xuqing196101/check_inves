@@ -81,6 +81,9 @@ public class User {
     /** 详细地址 */
     private String address;
     
+    /** 随机码 */
+    private String randomCode;
+    
     /** 所属角色 */
     private List<Role> roles;
 
@@ -227,5 +230,21 @@ public class User {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-    
+
+	public String getDuties() {
+		return duties;
+	}
+
+	public void setDuties(String duties) {
+		this.duties = duties;
+	}
+
+	public String getRandomCode() {
+		return randomCode;
+	}
+
+	public void setRandomCode(String randomCode) {
+		this.randomCode = randomCode;
+	}
+	
 }

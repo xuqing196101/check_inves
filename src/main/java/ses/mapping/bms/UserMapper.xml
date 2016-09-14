@@ -17,8 +17,9 @@
     <result column="TYPE_NAME"  property="typeName" />
     <result column="TYPE_ID" jdbcType="VARCHAR" property="typeId" />
     <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+    <result column="RANDOM_CODE" jdbcType="VARCHAR" property="randomCode" />
     <!-- 查询机构 -->  
-    <!-- <association column="ORG_ID"  property="org" select="" />  -->
+    <association column="ORG_ID"  property="org" select="ses.dao.oms.OrgnizationMapper.findOrgnizationById" />
     <!-- 查询创建人 -->  
     <association column="USER_ID"  property="user" select="selectByPrimaryKey" />  
   </resultMap>
@@ -43,7 +44,7 @@
   <!-- 表中所有列 -->
   <sql id="Base_Column_List">
     ID, LOGIN_NAME, PASSWORD, CREATED_AT, IS_DELETED, REL_NAME, UPDATED_AT, USER_ID, 
-    MOBILE, GENDER, TELEPHONE, EMAIL, ORG_ID, DUTIES, TYPE_NAME, TYPE_ID, ADDRESS 
+    MOBILE, GENDER, TELEPHONE, EMAIL, ORG_ID, DUTIES, TYPE_NAME, TYPE_ID, ADDRESS, RANDOM_CODE 
   </sql>
   
   <!-- 查询条件 -->
@@ -126,13 +127,13 @@
       UPDATED_AT, USER_ID, MOBILE, 
       GENDER, TELEPHONE, EMAIL, 
       ORG_ID, DUTIES, TYPE_NAME, 
-      TYPE_ID, ADDRESS)
+      TYPE_ID, ADDRESS, RANDOM_CODE)
     values (#{id,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{createdAt,jdbcType=TIMESTAMP}, #{isDeleted}, #{relName,jdbcType=VARCHAR}, 
       #{updatedAt,jdbcType=TIMESTAMP}, #{user.id,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
       #{gender}, #{telephone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{org.id,jdbcType=VARCHAR}, #{duties,jdbcType=VARCHAR}, #{typeName}, 
-      #{typeId,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR})
+      #{typeId,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{randomCode,jdbcType=VARCHAR})
   </insert>
   
   <!-- 4.插入不为空数据 -->
@@ -193,6 +194,9 @@
       <if test="address != null and address != ''">
         ADDRESS,
       </if>
+      <if test="randomCode != null and randomCode != ''">
+        RANDOM_CODE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null and id != ''">
@@ -245,6 +249,9 @@
       </if>
       <if test="address != null and address != ''">
         #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="randomCode != null and randomCode != ''">
+        #{randomCode,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -301,6 +308,9 @@
       <if test="address != null and address != ''">
         ADDRESS = #{address,jdbcType=VARCHAR},
       </if>
+      <if test="randomCode != null and randomCode != ''">
+        RANDOM_CODE = #{randomCode,jdbcType=VARCHAR},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -323,7 +333,8 @@
       DUTIES = #{duties,jdbcType=VARCHAR},
       TYPE_NAME = #{typeName},
       TYPE_ID = #{typeId,jdbcType=VARCHAR},
-      ADDRESS = #{address,jdbcType=VARCHAR} 
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      RANDOM_CODE = #{randomCode,jdbcType=VARCHAR} 
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   

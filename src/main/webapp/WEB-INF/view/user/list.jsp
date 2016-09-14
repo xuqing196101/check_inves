@@ -78,7 +78,7 @@
 		   }
 	}
   	function view(id){
-  		window.location.href="<%=basePath%>user/view.html?id="+id;
+  		window.location.href="<%=basePath%>user/show.html?id="+id;
   	}
     function edit(){
     	var id=[]; 
@@ -183,7 +183,7 @@
 			     		</c:if>
 			     	</c:forEach>
 				  </td>
-				  <td class="tc">总后勤部</td>
+				  <td class="tc">${user.org.name}</td>
 				  <td class="tc">${user.telephone}</td>
 			</tr>
 		</c:forEach>

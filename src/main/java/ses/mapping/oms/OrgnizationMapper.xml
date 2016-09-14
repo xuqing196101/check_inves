@@ -51,4 +51,17 @@
 		  #{NATURE,typeHandler=ses.controller.sys.oms.NullValueHandler},#{ORG_LEVEL,typeHandler=ses.controller.sys.oms.NullValueHandler},#{POSITION,typeHandler=ses.controller.sys.oms.NullValueHandler}
 		 )
 	</insert>
+	
+	<select id="findOrgnizationById" parameterType="java.lang.String" resultType="ses.model.oms.Orgnization">
+			   select d.id  as id,
+		       d.ORG_LEVEL       as orgLevel,
+		       d.IS_DELETED       as isDeleted,
+		       d.PARENT_ID     as parentId,
+		       d.NAME         as name,
+		       d.DEP_ID       as depId,
+		       d.TYPE_NAME       as typeName,
+		       d.IS_ROOT         as isRoot
+		  from T_SES_OMS_ORG     d
+		  where d.id= #{id,jdbcType=VARCHAR}
+	</select>
 </mapper>

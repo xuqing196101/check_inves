@@ -15,7 +15,7 @@ import ses.model.bms.Userrole;
 public interface UserServiceI {
 
 	/**
-	 * Description: 查询列表
+	 * Description: 查询列表，分页
 	 * 
 	 * @author Ye MaoLin
 	 * @version 2016-9-13
@@ -34,7 +34,7 @@ public interface UserServiceI {
 	 * @param user
 	 * @exception IOException
 	 */
-	void save(User user);
+	void save(User user, User currUser);
 
 	/**
 	 * Description: 保存用户-角色关联
@@ -66,6 +66,26 @@ public interface UserServiceI {
 	 */
 	void deleteByLogic(String id);
 
+	/**
+	 * Description: 查询用户，不分页
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-14
+	 * @param user
+	 * @return List<User>
+	 * @exception IOException
+	 */
 	List<User> find(User user);
+
+	/**
+	 * Description: 根据用户名查询
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-14
+	 * @param loginName
+	 * @return
+	 * @exception IOException
+	 */
+	List<User> findByLoginName(String loginName);
 
 }
