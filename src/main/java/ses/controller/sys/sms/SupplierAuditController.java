@@ -24,7 +24,7 @@ public class SupplierAuditController {
 	 */
 	@RequestMapping("daiBan")
 	public String daiBan() {
-		return "sms/supplier_audit/daiban";
+		return "ses/sms/supplier_audit/daiban";
 	}
 	/**
 	 * @Title: SupplierList
@@ -36,7 +36,7 @@ public class SupplierAuditController {
 	 */
 	@RequestMapping("supplierList")
 	public String SupplierList() {
-		return "sms/supplier_audit/supplier_list";
+		return "ses/sms/supplier_audit/supplier_list";
 	}
 	/**
 	 * @Title: essentialInformation
@@ -48,7 +48,7 @@ public class SupplierAuditController {
 	 */
 	@RequestMapping("essential")
 	public String essentialInformation() {
-		return "sms/supplier_audit/essential";
+		return "ses/sms/supplier_audit/essential";
 	}
 	/**
 	 * @Title: financialInformation
@@ -60,7 +60,7 @@ public class SupplierAuditController {
 	 */
 	@RequestMapping("financial")
 	public String financialInformation() {
-		return "sms/supplier_audit/financial";
+		return "ses/sms/supplier_audit/financial";
 	}
 	/**
 	 * @Title: shareholderinformation
@@ -72,7 +72,7 @@ public class SupplierAuditController {
 	 */
 	@RequestMapping("shareholder")
 	public String shareholderinformation() {
-		return "sms/supplier_audit/shareholder";
+		return "ses/sms/supplier_audit/shareholder";
 	}
 	/**
 	 * @Title: materialProduction
@@ -84,7 +84,7 @@ public class SupplierAuditController {
 	 */
 	@RequestMapping("materialProduction")
 	public String materialProduction() {
-		return "sms/supplier_audit/material_production";
+		return "ses/sms/supplier_audit/material_production";
 	}
 	
 }
