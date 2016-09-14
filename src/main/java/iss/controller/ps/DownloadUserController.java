@@ -1,7 +1,6 @@
 package iss.controller.ps;
 
 import iss.model.ps.Article;
-import iss.model.ps.ArticleType;
 import iss.model.ps.DownloadUser;
 import iss.service.ps.ArticleService;
 import iss.service.ps.DownloadUserService;
@@ -54,7 +53,7 @@ public class DownloadUserController {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page==null?1:page,Integer.parseInt(config.getString("pageSize")));
 		model.addAttribute("list", new PageInfo<DownloadUser>(downloadUserList));
-		return "downloadUser/list";
+		return "iss/ps/downloadUser/list";
 	};
 	
 	/**
@@ -98,6 +97,6 @@ public class DownloadUserController {
 			List<DownloadUser> list = downloadUserService.selectDownloadUserByParam(downloadUser);
 			model.addAttribute("list", list);
 		}
-		return "downloadUser/list";
+		return "iss/ps/downloadUser/list";
 	};
 }
