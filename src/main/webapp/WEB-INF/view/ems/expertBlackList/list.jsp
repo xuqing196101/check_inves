@@ -368,9 +368,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</c:forEach>
         </table>
      </div>
-   
    </div>
- </div>
 <!--底部代码开始-->
 
 </body>
