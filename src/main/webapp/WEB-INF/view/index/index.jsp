@@ -297,8 +297,8 @@ function kaptcha(){
 	  <li class="fl margin-5"><a href="#" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow"><i class="icon-custom icon-sm gjfg"></i>国家法规</span></a></li>
 	  <li class="fl margin-5"><a href="#" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow"><i class="icon-custom icon-sm jgzs"></i>价格指数</span></a></li>
 	  <li class="fl margin-5"><a href="#" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow"><i class="icon-custom icon-sm cfmd"></i>处罚名单</span></a></li>
-	   <li class="fl margin-5"><a href="<%=basePath %>supplierFsInfo/registerStart.html" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow" style="width:170px;"><i class="icon-custom icon-sm qyzc"></i>进口供应商注册</span></a></li>
-	  <li class="fl margin-5"><a href="<%=basePath %>supplierFsInfo/daiban.html" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow" style="width:170px;"><i class="icon-custom icon-sm qyzc"></i>进口供应商审核</span></a></li>
+	   <li class="fl margin-5"><a href="<%=basePath %>importSupplier/registerStart.html" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow" style="width:170px;"><i class="icon-custom icon-sm qyzc"></i>进口供应商注册</span></a></li>
+	  <li class="fl margin-5"><a href="<%=basePath %>importSupplier/daiban.html" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow" style="width:170px;"><i class="icon-custom icon-sm qyzc"></i>进口供应商审核</span></a></li>
 	  </ul>
 	  <div class="clear"></div>
 	  </div>

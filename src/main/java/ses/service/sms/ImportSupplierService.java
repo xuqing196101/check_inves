@@ -2,36 +2,37 @@ package ses.service.sms;
 
 import java.util.List;
 
-import ses.model.sms.SupplierFsInfoWithBLOBs;
+import ses.model.sms.ImportSupplierWithBLOBs;
+
 
 
 /**
- * @Title: SupplierFsInfoService
+ * @Title: ImportSupplierService
  * @Description: 进口供应商注册审核服务层
  * @author: Song Biaowei
  * @date: 2016-9-7下午6:02:26
  */
-public interface SupplierFsInfoService {
+public interface ImportSupplierService {
 	
 	/**
 	* @Title: register
 	* @author Song Biaowei
 	* @date 2016-9-1 下午3:31:35  
 	* @Description: 进口供应商注册 
-	* @param @param sfi      
+	* @param @param is      
 	* @return void
 	 */
-	void register(SupplierFsInfoWithBLOBs sfi);
+	void register(ImportSupplierWithBLOBs is);
 	
 	/**
 	* @Title: updateRegisterInfo
 	* @author Song Biaowei
 	* @date 2016-9-1 下午4:07:18  
 	* @Description:修改进口供应商注册信息 
-	* @param @param sfi      
+	* @param @param is      
 	* @return void
 	 */
-	void updateRegisterInfo(SupplierFsInfoWithBLOBs sfi);
+	void updateRegisterInfo(ImportSupplierWithBLOBs is);
 	
 	/**
 	* @Title: findById
@@ -40,9 +41,9 @@ public interface SupplierFsInfoService {
 	* @Description: 按照id查询
 	* @param @param id
 	* @param @return      
-	* @return SupplierFsInfoWithBLOBs
+	* @return ImportSupplierWithBLOBs
 	 */
-	SupplierFsInfoWithBLOBs findById(String id);
+	ImportSupplierWithBLOBs findById(String id);
 	
 	/**
 	* @Title: getCount
@@ -52,29 +53,29 @@ public interface SupplierFsInfoService {
 	* @param @return      
 	* @return int
 	 */
-	int getCount(SupplierFsInfoWithBLOBs sfi);
+	int getCount(ImportSupplierWithBLOBs is);
 	
 	/**
 	* @Title: selectByFsInfo
 	* @author Song Biaowei
 	* @date 2016-9-5 上午9:26:51  
 	* @Description: 查询进口供应商列表
-	* @param @param sfi
+	* @param @param is
 	* @param @return      
-	* @return List<SupplierFsInfoWithBLOBs>
+	* @return List<ImportSupplierWithBLOBs>
 	 */
-	List<SupplierFsInfoWithBLOBs> selectByFsInfo(SupplierFsInfoWithBLOBs sfi);
+	List<ImportSupplierWithBLOBs> selectByFsInfo(ImportSupplierWithBLOBs is,Integer page);
 	
 	/**
 	* @Title: selectByPrimaryKey
 	* @author Song Biaowei
 	* @date 2016-9-6 上午11:25:27  
 	* @Description: TODO 
-	* @param @param sfi
+	* @param @param is
 	* @param @return      
-	* @return SupplierFsInfoWithBLOBs
+	* @return ImportSupplierWithBLOBs
 	 */
-	SupplierFsInfoWithBLOBs selectByPrimaryKey(SupplierFsInfoWithBLOBs sfi);
+	ImportSupplierWithBLOBs selectByPrimaryKey(ImportSupplierWithBLOBs is);
 	
 	/**
 	 * @Title: selectIdByLoginName
@@ -85,5 +86,5 @@ public interface SupplierFsInfoService {
 	 * @param @return
 	 * @return String
 	 */
-	String selectIdByLoginName(SupplierFsInfoWithBLOBs sfi);
+	String selectIdByLoginName(ImportSupplierWithBLOBs is);
 }

@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.sms.ImportSupplierAudMapper">
+  <resultMap id="BaseResultMap" type="ses.model.sms.ImportSupplierAud">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="NAME_REASON" jdbcType="VARCHAR" property="nameReason" />
+    <result column="CHINESR_NAME_REASON" jdbcType="VARCHAR" property="chinesrNameReason" />
+    <result column="ADDRESS_REASON" jdbcType="VARCHAR" property="addressReason" />
+    <result column="PRODUCT_TYPE_REASON" jdbcType="VARCHAR" property="productTypeReason" />
+    <result column="MAJORP_RODUCT_REASON" jdbcType="VARCHAR" property="majorpRoductReason" />
+    <result column="BYPRODUCT_REASON" jdbcType="VARCHAR" property="byproductReason" />
+    <result column="PRODUCER_NAME_REASON" jdbcType="VARCHAR" property="producerNameReason" />
+    <result column="CONTACT_PERSON_REASON" jdbcType="VARCHAR" property="contactPersonReason" />
+    <result column="TELEPHONE_REASON" jdbcType="VARCHAR" property="telephoneReason" />
+    <result column="FAX_REASON" jdbcType="VARCHAR" property="faxReason" />
+    <result column="EMAIL_REASON" jdbcType="VARCHAR" property="emailReason" />
+    <result column="WEBSITE_REASON" jdbcType="VARCHAR" property="websiteReason" />
+    <result column="PLEDGE_REASON" jdbcType="VARCHAR" property="pledgeReason" />
+    <result column="REGLIST_REASON" jdbcType="VARCHAR" property="reglistReason" />
+    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+    <result column="LEGAL_NAME_REASON" jdbcType="VARCHAR" property="legalNameReason" />
+    <result column="SUPPLIER_TYPE_REASON" jdbcType="VARCHAR" property="supplierTypeReason" />
+    <result column="MOBILE_REASON" jdbcType="VARCHAR" property="mobileReason" />
+    <result column="AUDIT_COUNT" jdbcType="DECIMAL" property="auditCount" />
+    <result column="POST_CODE_REASON" jdbcType="VARCHAR" property="postCodeReason" />
+    <result column="CIVIL_ACHIEVEMENT__REASON" jdbcType="VARCHAR" property="civilAchievementReason" />
+    <result column="REMARK_REASON" jdbcType="VARCHAR" property="remarkReason" />
+    <result column="IMPORT_SUPPLIER_ID" jdbcType="VARCHAR" property="importSupplierId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, NAME_REASON, CHINESR_NAME_REASON, ADDRESS_REASON, PRODUCT_TYPE_REASON, MAJORP_RODUCT_REASON, 
+    BYPRODUCT_REASON, PRODUCER_NAME_REASON, CONTACT_PERSON_REASON, TELEPHONE_REASON, 
+    FAX_REASON, EMAIL_REASON, WEBSITE_REASON, PLEDGE_REASON, REGLIST_REASON, CREATED_AT, 
+    UPDATED_AT, LEGAL_NAME_REASON, SUPPLIER_TYPE_REASON, MOBILE_REASON, AUDIT_COUNT, 
+    POST_CODE_REASON, CIVIL_ACHIEVEMENT__REASON, REMARK_REASON, IMPORT_SUPPLIER_ID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_IMPORT_SUPPLIER_AUD
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_SES_SMS_IMPORT_SUPPLIER_AUD
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="ses.model.sms.ImportSupplierAud">
+    insert into T_SES_SMS_IMPORT_SUPPLIER_AUD (ID, NAME_REASON, CHINESR_NAME_REASON, 
+      ADDRESS_REASON, PRODUCT_TYPE_REASON, MAJORP_RODUCT_REASON, 
+      BYPRODUCT_REASON, PRODUCER_NAME_REASON, CONTACT_PERSON_REASON, 
+      TELEPHONE_REASON, FAX_REASON, EMAIL_REASON, 
+      WEBSITE_REASON, PLEDGE_REASON, REGLIST_REASON, 
+      CREATED_AT, UPDATED_AT, LEGAL_NAME_REASON, 
+      SUPPLIER_TYPE_REASON, MOBILE_REASON, AUDIT_COUNT, 
+      POST_CODE_REASON, CIVIL_ACHIEVEMENT__REASON, 
+      REMARK_REASON, IMPORT_SUPPLIER_ID)
+    values (#{id,jdbcType=VARCHAR}, #{nameReason,jdbcType=VARCHAR}, #{chinesrNameReason,jdbcType=VARCHAR}, 
+      #{addressReason,jdbcType=VARCHAR}, #{productTypeReason,jdbcType=VARCHAR}, #{majorpRoductReason,jdbcType=VARCHAR}, 
+      #{byproductReason,jdbcType=VARCHAR}, #{producerNameReason,jdbcType=VARCHAR}, #{contactPersonReason,jdbcType=VARCHAR}, 
+      #{telephoneReason,jdbcType=VARCHAR}, #{faxReason,jdbcType=VARCHAR}, #{emailReason,jdbcType=VARCHAR}, 
+      #{websiteReason,jdbcType=VARCHAR}, #{pledgeReason,jdbcType=VARCHAR}, #{reglistReason,jdbcType=VARCHAR}, 
+      #{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE}, #{legalNameReason,jdbcType=VARCHAR}, 
+      #{supplierTypeReason,jdbcType=VARCHAR}, #{mobileReason,jdbcType=VARCHAR}, #{auditCount,jdbcType=DECIMAL}, 
+      #{postCodeReason,jdbcType=VARCHAR}, #{civilAchievementReason,jdbcType=VARCHAR}, 
+      #{remarkReason,jdbcType=VARCHAR}, #{importSupplierId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="ses.model.sms.ImportSupplierAud">
+    insert into T_SES_SMS_IMPORT_SUPPLIER_AUD
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="nameReason != null">
+        NAME_REASON,
+      </if>
+      <if test="chinesrNameReason != null">
+        CHINESR_NAME_REASON,
+      </if>
+      <if test="addressReason != null">
+        ADDRESS_REASON,
+      </if>
+      <if test="productTypeReason != null">
+        PRODUCT_TYPE_REASON,
+      </if>
+      <if test="majorpRoductReason != null">
+        MAJORP_RODUCT_REASON,
+      </if>
+      <if test="byproductReason != null">
+        BYPRODUCT_REASON,
+      </if>
+      <if test="producerNameReason != null">
+        PRODUCER_NAME_REASON,
+      </if>
+      <if test="contactPersonReason != null">
+        CONTACT_PERSON_REASON,
+      </if>
+      <if test="telephoneReason != null">
+        TELEPHONE_REASON,
+      </if>
+      <if test="faxReason != null">
+        FAX_REASON,
+      </if>
+      <if test="emailReason != null">
+        EMAIL_REASON,
+      </if>
+      <if test="websiteReason != null">
+        WEBSITE_REASON,
+      </if>
+      <if test="pledgeReason != null">
+        PLEDGE_REASON,
+      </if>
+      <if test="reglistReason != null">
+        REGLIST_REASON,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="legalNameReason != null">
+        LEGAL_NAME_REASON,
+      </if>
+      <if test="supplierTypeReason != null">
+        SUPPLIER_TYPE_REASON,
+      </if>
+      <if test="mobileReason != null">
+        MOBILE_REASON,
+      </if>
+      <if test="auditCount != null">
+        AUDIT_COUNT,
+      </if>
+      <if test="postCodeReason != null">
+        POST_CODE_REASON,
+      </if>
+      <if test="civilAchievementReason != null">
+        CIVIL_ACHIEVEMENT__REASON,
+      </if>
+      <if test="remarkReason != null">
+        REMARK_REASON,
+      </if>
+      <if test="importSupplierId != null">
+        IMPORT_SUPPLIER_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="nameReason != null">
+        #{nameReason,jdbcType=VARCHAR},
+      </if>
+      <if test="chinesrNameReason != null">
+        #{chinesrNameReason,jdbcType=VARCHAR},
+      </if>
+      <if test="addressReason != null">
+        #{addressReason,jdbcType=VARCHAR},
+      </if>
+      <if test="productTypeReason != null">
+        #{productTypeReason,jdbcType=VARCHAR},
+      </if>
+      <if test="majorpRoductReason != null">
+        #{majorpRoductReason,jdbcType=VARCHAR},
+      </if>
+      <if test="byproductReason != null">
+        #{byproductReason,jdbcType=VARCHAR},
+      </if>
+      <if test="producerNameReason != null">
+        #{producerNameReason,jdbcType=VARCHAR},
+      </if>
+      <if test="contactPersonReason != null">
+        #{contactPersonReason,jdbcType=VARCHAR},
+      </if>
+      <if test="telephoneReason != null">
+        #{telephoneReason,jdbcType=VARCHAR},
+      </if>
+      <if test="faxReason != null">
+        #{faxReason,jdbcType=VARCHAR},
+      </if>
+      <if test="emailReason != null">
+        #{emailReason,jdbcType=VARCHAR},
+      </if>
+      <if test="websiteReason != null">
+        #{websiteReason,jdbcType=VARCHAR},
+      </if>
+      <if test="pledgeReason != null">
+        #{pledgeReason,jdbcType=VARCHAR},
+      </if>
+      <if test="reglistReason != null">
+        #{reglistReason,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=DATE},
+      </if>
+      <if test="legalNameReason != null">
+        #{legalNameReason,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierTypeReason != null">
+        #{supplierTypeReason,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileReason != null">
+        #{mobileReason,jdbcType=VARCHAR},
+      </if>
+      <if test="auditCount != null">
+        #{auditCount,jdbcType=DECIMAL},
+      </if>
+      <if test="postCodeReason != null">
+        #{postCodeReason,jdbcType=VARCHAR},
+      </if>
+      <if test="civilAchievementReason != null">
+        #{civilAchievementReason,jdbcType=VARCHAR},
+      </if>
+      <if test="remarkReason != null">
+        #{remarkReason,jdbcType=VARCHAR},
+      </if>
+      <if test="importSupplierId != null">
+        #{importSupplierId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.ImportSupplierAud">
+    update T_SES_SMS_IMPORT_SUPPLIER_AUD
+    <set>
+      <if test="nameReason != null">
+        NAME_REASON = #{nameReason,jdbcType=VARCHAR},
+      </if>
+      <if test="chinesrNameReason != null">
+        CHINESR_NAME_REASON = #{chinesrNameReason,jdbcType=VARCHAR},
+      </if>
+      <if test="addressReason != null">
+        ADDRESS_REASON = #{addressReason,jdbcType=VARCHAR},
+      </if>
+      <if test="productTypeReason != null">
+        PRODUCT_TYPE_REASON = #{productTypeReason,jdbcType=VARCHAR},
+      </if>
+      <if test="majorpRoductReason != null">
+        MAJORP_RODUCT_REASON = #{majorpRoductReason,jdbcType=VARCHAR},
+      </if>
+      <if test="byproductReason != null">
+        BYPRODUCT_REASON = #{byproductReason,jdbcType=VARCHAR},
+      </if>
+      <if test="producerNameReason != null">
+        PRODUCER_NAME_REASON = #{producerNameReason,jdbcType=VARCHAR},
+      </if>
+      <if test="contactPersonReason != null">
+        CONTACT_PERSON_REASON = #{contactPersonReason,jdbcType=VARCHAR},
+      </if>
+      <if test="telephoneReason != null">
+        TELEPHONE_REASON = #{telephoneReason,jdbcType=VARCHAR},
+      </if>
+      <if test="faxReason != null">
+        FAX_REASON = #{faxReason,jdbcType=VARCHAR},
+      </if>
+      <if test="emailReason != null">
+        EMAIL_REASON = #{emailReason,jdbcType=VARCHAR},
+      </if>
+      <if test="websiteReason != null">
+        WEBSITE_REASON = #{websiteReason,jdbcType=VARCHAR},
+      </if>
+      <if test="pledgeReason != null">
+        PLEDGE_REASON = #{pledgeReason,jdbcType=VARCHAR},
+      </if>
+      <if test="reglistReason != null">
+        REGLIST_REASON = #{reglistReason,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      </if>
+      <if test="legalNameReason != null">
+        LEGAL_NAME_REASON = #{legalNameReason,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierTypeReason != null">
+        SUPPLIER_TYPE_REASON = #{supplierTypeReason,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileReason != null">
+        MOBILE_REASON = #{mobileReason,jdbcType=VARCHAR},
+      </if>
+      <if test="auditCount != null">
+        AUDIT_COUNT = #{auditCount,jdbcType=DECIMAL},
+      </if>
+      <if test="postCodeReason != null">
+        POST_CODE_REASON = #{postCodeReason,jdbcType=VARCHAR},
+      </if>
+      <if test="civilAchievementReason != null">
+        CIVIL_ACHIEVEMENT__REASON = #{civilAchievementReason,jdbcType=VARCHAR},
+      </if>
+      <if test="remarkReason != null">
+        REMARK_REASON = #{remarkReason,jdbcType=VARCHAR},
+      </if>
+      <if test="importSupplierId != null">
+        IMPORT_SUPPLIER_ID = #{importSupplierId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="ses.model.sms.ImportSupplierAud">
+    update T_SES_SMS_IMPORT_SUPPLIER_AUD
+    set NAME_REASON = #{nameReason,jdbcType=VARCHAR},
+      CHINESR_NAME_REASON = #{chinesrNameReason,jdbcType=VARCHAR},
+      ADDRESS_REASON = #{addressReason,jdbcType=VARCHAR},
+      PRODUCT_TYPE_REASON = #{productTypeReason,jdbcType=VARCHAR},
+      MAJORP_RODUCT_REASON = #{majorpRoductReason,jdbcType=VARCHAR},
+      BYPRODUCT_REASON = #{byproductReason,jdbcType=VARCHAR},
+      PRODUCER_NAME_REASON = #{producerNameReason,jdbcType=VARCHAR},
+      CONTACT_PERSON_REASON = #{contactPersonReason,jdbcType=VARCHAR},
+      TELEPHONE_REASON = #{telephoneReason,jdbcType=VARCHAR},
+      FAX_REASON = #{faxReason,jdbcType=VARCHAR},
+      EMAIL_REASON = #{emailReason,jdbcType=VARCHAR},
+      WEBSITE_REASON = #{websiteReason,jdbcType=VARCHAR},
+      PLEDGE_REASON = #{pledgeReason,jdbcType=VARCHAR},
+      REGLIST_REASON = #{reglistReason,jdbcType=VARCHAR},
+      CREATED_AT = #{createdAt,jdbcType=DATE},
+      UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      LEGAL_NAME_REASON = #{legalNameReason,jdbcType=VARCHAR},
+      SUPPLIER_TYPE_REASON = #{supplierTypeReason,jdbcType=VARCHAR},
+      MOBILE_REASON = #{mobileReason,jdbcType=VARCHAR},
+      AUDIT_COUNT = #{auditCount,jdbcType=DECIMAL},
+      POST_CODE_REASON = #{postCodeReason,jdbcType=VARCHAR},
+      CIVIL_ACHIEVEMENT__REASON = #{civilAchievementReason,jdbcType=VARCHAR},
+      REMARK_REASON = #{remarkReason,jdbcType=VARCHAR},
+      IMPORT_SUPPLIER_ID = #{importSupplierId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

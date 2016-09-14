@@ -107,6 +107,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/masterslider.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.easing.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/james.js"></script>
+  <script src="<%=basePath%>public/layer/layer.js"></script>
+    <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+<script type="text/javascript">
+   $(function(){
+		  laypage({
+			    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+			    pages: "${isList.pages}", //总页数
+			    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+			    skip: true, //是否开启跳页
+			    groups: "${isList.pages}">=3?3:"${isList.pages}", //连续显示分页数
+			    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+					return "${isList.pageNum}";
+			    }(), 
+			    jump: function(e, first){ //触发分页后的回调
+			        if(!first){ //一定要加此判断，否则初始时会无限刷新
+			        	$("#page").val(e.curr);
+			        	$("#form1").submit();
+			        }
+			    }
+			});
+	  });
+	function submit(){
+		form1.submit();
+	}
+</script>
 <style type="text/css">
 
 </style>
@@ -195,18 +220,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </div>
 		<div class="container clear margin-top-30">
 		  <h2 class="f16 jbxx">供应商列表</h2>
-		     <form action="" method="post">
+		     <form id="form1" action="${pageContext.request.contextPath}/importSupplier/auditList.html" method="post">
+		       <input type="hidden" name="page" id="page">
 			   <span class="">进口供应商名称：</span>
 			   <div class="input-append">
-		        <input class="span2" name="loginName" type="text">
+		        <input class="span2" name="supName" value="${name }" type="text">
 		        <!-- <span class="add-on">i</span> -->
 		       </div>
 		        <span class="">供应商类别：</span>
 			   <div class="input-append">
-		        <input class="span2" name="loginName" type="text">
+		        <input class="span2" name="supType"  value="${supplierType }" type="text">
 		       <!--  <span class="add-on">i</span> -->
 		       </div>
-		       <input class="btn padding-left-20 padding-right-20 btn_back" name="submit" type="submit" value="查询">
+		       <input class="btn padding-left-20 padding-right-20 btn_back" onclick="submit()" type="button" value="查询">
 		     </form>
 		  <table id="tb1"  class="table table-bordered table-condensed tc">
 				<tr>
@@ -216,20 +242,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<td>电话</td>
 					<td>审核状态</td>
 				</tr>
-				 <c:forEach items="${sfiList }" var="list" varStatus="vs">
+				 <c:forEach items="${isList.list }" var="list" varStatus="vs">
 					<tr>
-						<td>${list.supplierName }</td>
-						<td>${list.supplierTepe }</td>
+						<td>${list.name }</td>
+						<td>${list.supplierType }</td>
 						<td>${list.legalName }</td>
 						<td>${list.mobile }</td>
 						<td>
-							<c:if test="${list.status==0 }"><input type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/supplierFsInfo/audit.html?id=${list.id }'" value="初审" /></c:if>
-							<c:if test="${list.status==1 }"><input type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/supplierFsInfo/audit.html?id=${list.id }'" value="复审" /></c:if>
-							<c:if test="${list.status==2 }"><input type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/supplierFsInfo/audit.html?id=${list.id }'" value="已审核" /></c:if>
+							<c:if test="${list.status==0 }"><input type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/importSupplier/audit.html?id=${list.id }'" value="初审" /></c:if>
+							<c:if test="${list.status==1 }"><input type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/importSupplier/audit.html?id=${list.id }'" value="复审" /></c:if>
+							<c:if test="${list.status==2 }"><input type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/importSupplier/audit.html?id=${list.id }'" value="已审核" /></c:if>
 						</td>
 					</tr>
 				</c:forEach> 
 			</table>
+			<div id="pagediv" align="right"></div>
 		 </div>		 
 </body>
 </html>

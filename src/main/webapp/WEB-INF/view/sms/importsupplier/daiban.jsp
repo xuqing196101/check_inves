@@ -100,6 +100,12 @@
 <script src="${pageContext.request.contextPath}/public/ZHH/js/masterslider.min.js"></script>
 <script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.easing.min.js"></script>
 <script src="${pageContext.request.contextPath}/public/ZHH/js/james.js"></script>
+<script type="text/javascript">
+function tijiao(status){
+	$("#status").val(status);
+	form1.submit();
+}
+</script>
 </head>
 <body>
   <div class="wrapper">
@@ -191,9 +197,12 @@
    </div>
    
   <div class="container mt20">
-   <div class="col-md-4"><span onclick="location='${pageContext.request.contextPath}/supplierFsInfo/auditList.html?status=0'">供应商未审核</span>（<a class="red b">${weishenhe }</a>）</div><div class="col-md-4"></div><div class="col-md-4"></div>
-   <div class="col-md-4"><span onclick="location='${pageContext.request.contextPath}/supplierFsInfo/auditList.html?status=1'">供应商已审核</span>（<a class="red b">${yishenhe }</a>）</div><div class="col-md-4"></div><div class="col-md-4"></div>
-   <div class="col-md-4"><span onclick="location='${pageContext.request.contextPath}/supplierFsInfo/auditList.html?status=2'">供应商审核中</span>（<a class="red b">${shenhezhong }</a>）</div><div class="col-md-4"></div><div class="col-md-4"></div>
+  <form id="form1" action="${pageContext.request.contextPath}/importSupplier/auditList.html" method="post">
+   <input type="hidden" name="status" id="status" />
+   <div class="col-md-4"><span onclick="tijiao(0)">供应商未审核</span>（<a class="red b">${weishenhe }</a>）</div><div class="col-md-4"></div><div class="col-md-4"></div>
+   <div class="col-md-4"><span onclick="tijiao(1)">供应商已审核</span>（<a class="red b">${yishenhe }</a>）</div><div class="col-md-4"></div><div class="col-md-4"></div>
+   <div class="col-md-4"><span onclick="tijiao(2)">供应商审核中</span>（<a class="red b">${shenhezhong }</a>）</div><div class="col-md-4"></div><div class="col-md-4"></div>
+  </form>
   </div>  
 
 </body>

@@ -73,19 +73,19 @@ function validateRegSupplierInfo() {
 
 /** 校验工商注册信息 */
 function validateBusinessSupplierInfo() {
-	var supplierName = $("#supplierName").val();
+	var supplierName = $("#name").val();
 	if (!supplierName) {
-		layer.tips("请输入名称 !", "#supplierName");
+		layer.tips("请输入名称 !", "#name");
 		return false;
 	}
-	var supplierTepe = $("#supplierTepe").val();
+	var supplierTepe = $("#supplierType").val();
 	if (!supplierTepe) {
-		layer.tips("请输入企业类别!", "#supplierTepe");
+		layer.tips("请输入企业类别!", "#supplierType");
 		return false;
 	}
-	var supplierChinesrName = $("#supplierChinesrName").val();
+	var supplierChinesrName = $("#chinesrName").val();
 	if (!supplierChinesrName) {
-		layer.tips("请输入中文译名 !", "#supplierChinesrName");
+		layer.tips("请输入中文译名 !", "#chinesrName");
 		return false;
 	}
 	var legalName = $("#legalName").val();
@@ -101,9 +101,9 @@ function validateBusinessSupplierInfo() {
 		layer.tips("请输入地址 !", "#address");
 		return false;
 	}
-	var supplierZipCode = $("#supplierZipCode").val();
+	var supplierZipCode = $("#postCode").val();
 	if (!supplierZipCode) {
-		layer.tips("请输入邮政编码 !", "#supplierZipCode");
+		layer.tips("请输入邮政编码 !", "#postCode");
 		return false;
 	}
 	var productType = $("#productType").val();
@@ -116,9 +116,9 @@ function validateBusinessSupplierInfo() {
 		layer.tips("请输入主营产品 !", "#majorProduct");
 		return false;
 	}
-	var sideProduct = $("#sideProduct").val();
+	var sideProduct = $("#byproduct").val();
 	if (!sideProduct) {
-		layer.tips("请输入兼营产品 !", "#sideProduct");
+		layer.tips("请输入兼营产品 !", "#byproduct");
 		return false;
 	}
 	var producerName = $("#producerName").val();
@@ -131,37 +131,37 @@ function validateBusinessSupplierInfo() {
 		layer.tips("请输入联系人 !", "#contactPerson");
 		return false;
 	}
-	var supplierTele = $("#supplierTele").val();
+	var supplierTele = $("#telephone").val();
 	if (!supplierTele) {
-		layer.tips("请输入电话 !", "#supplierTele");
+		layer.tips("请输入电话 !", "#telephone");
 		return false;
 	}
-	var supplierFax = $("#supplierFax").val();
+	var supplierFax = $("#fax").val();
 	if (!supplierFax) {
-		layer.tips("请输入传真 !", "#supplierFax");
+		layer.tips("请输入传真 !", "#fax");
 		return false;
 	}
-	var supplierEmail = $("#supplierEmail").val();
+	var supplierEmail = $("#email").val();
 	if (!supplierEmail) {
-		layer.tips("请输入电子邮件 !", "#supplierEmail");
+		layer.tips("请输入电子邮件 !", "#email");
 		return false;
 	} /*else if(!regMoney.match(/^-?(?:\d+|\d{1,3}(?:,\d{3})+)(?:\.\d+)?$/)) {
 		layer.tips("请输入合法数字 !", "#regMoney");
 		return false;
 	}*/
-	var netUrl = $("#netUrl").val();
+	var netUrl = $("#website").val();
 	if (!netUrl) {
-		layer.tips("请输入企业网址 !", "#netUrl");
+		layer.tips("请输入企业网址 !", "#website");
 		return false;
 	}
-	var supplyLevel = $("#supplyLevel").val().trim();
+	var supplyLevel = $("#civilAchievement").val().trim();
 	if (!supplyLevel) {
-		layer.tips("请输入国内供货业绩 !", "#supplyLevel");
+		layer.tips("请输入国内供货业绩 !", "#civilAchievement");
 		return false;
 	}
-	var supplierRemark = $("#supplierRemark").val();
+	var supplierRemark = $("#remark").val();
 	if (!supplierRemark) {
-		layer.tips("请输入企业简介 !", "#supplierRemark");
+		layer.tips("请输入企业简介 !", "#remark");
 		return false;
 	}
 	return true;

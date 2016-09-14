@@ -54,7 +54,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="<%=basePath%>public/ZHH/css/footer-v4.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/masterslider.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/james.css" media="screen" rel="stylesheet">
-    <script src="<%=basePath%>public/ZHH/js/hm.js"></script><script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
+<link href="<%=basePath%>public/layer/skin/layer.css" media="screen" rel="stylesheet" type="text/css">
+<link href="<%=basePath%>public/layer/skin/layer.ext.css" media="screen" rel="stylesheet" type="text/css">
+<link href="<%=basePath%>public/ZHH/css/WdatePicker(1).css" rel="stylesheet" type="text/css">
+<script src="<%=basePath%>public/ZHH/js/hm.js"></script><script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery-migrate-1.2.1.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
 <script src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
@@ -74,10 +77,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/owl-carousel.js"></script>
 <script src="<%=basePath%>public/ZHH/js/owl-recent-works.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.mCustomScrollbar.concat.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/WdatePicker.js"></script><link href="<%=basePath%>public/ZHH/css/WdatePicker(1).css" rel="stylesheet" type="text/css">
+<script src="<%=basePath%>public/ZHH/js/WdatePicker.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.form.min.js"></script>
-<link href="<%=basePath%>public/layer/skin/layer.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/layer/skin/layer.ext.css" media="screen" rel="stylesheet" type="text/css">
 <script src="<%=basePath%>public/layer/layer.js"></script>
 <script src="<%=basePath%>public/layer/extend/layer.ext.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.validate.min.js"></script>
@@ -111,8 +112,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/jquery.easing.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/james.js"></script>
 <script type="text/javascript">
-	function reason(){
-	}
+function reason(id){
+	var id1=id+"1";
+	var id2=id+"2";
+	var supplierName=$("#"+id2+"").text().replaceAll("＊","");
+    layer.confirm('确认审核不通过？', {
+  		btn: ['不通过','通过'] //按钮
+	}, function(){
+  		$("#"+id1+"").hide();
+  		layer.prompt({title: '请填写不通过理由', formType: 2}, function(text){
+  		    var ul=document.getElementById("reason");             
+        	var obj=document.createElement("li"); 
+        	obj.className="col-md-6 p0";
+       	 	obj.innerHTML="<span>"+supplierName+"</span><div class='input-append'><input class='span3 red' id='supplierType' name="+id+" value="+text+"  type='text'></div>";
+        	ul.appendChild(obj); 
+    		layer.msg("审核不通过的理由是："+text);
+ 		});
+	});
+}
+
+function tijiao(status){
+	$("#status").val(status);
+	form1.submit();
+}
 </script>
 </head>
   
@@ -219,94 +241,127 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										<i>01</i>企业基本信息
 										</h2>
 									<ul class="list-unstyled list-flow">
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 企业名称：</span>
+										<li class="col-md-6 p0 "><span id="supplierNameReason2" class=""><i class="red">＊</i> 企业名称：</span>
 											<div class="input-append">
-												<input class="span3" id="supplierName" name="supplierName" value="${sfi.supplierName }" type="text">
-												<div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
+												<input class="span3" id="supplierName" name="supplierName" value="${is.name }" type="text">
+												<div id="supplierNameReason1" class="b f18 fl ml10 red hand">√</div>
+												<div id="supplierNameReason" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 企业类别：</span>
+										<li class="col-md-6 p0 "><span id="supplierTepeReason2" ><i class="red">＊</i> 企业类别：</span>
 											<div class="input-append">
-												<input class="span3" id="supplierTepe" name="supplierTepe" value="${sfi.supplierTepe }"  type="text">
+												<input class="span3" id="supplierTepe" name="supplierTepe" value="${is.supplierType }"  type="text">
+												<div id="supplierTepeReason1" class="b f18 fl ml10 red hand">√</div>
+												<div id="supplierTepeReason" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 中文译名：</span>
+										<li class="col-md-6 p0 "><span id="supplierChinesrNameReason2"><i class="red">＊</i> 中文译名：</span>
 											<div class="input-append">
-												<input class="span3" id="supplierChinesrName" name="supplierChinesrName" value="${sfi.supplierChinesrName }" type="text">
+												<input class="span3" id="supplierChinesrName" name="supplierChinesrName" value="${is.chinesrName }" type="text">
+												<div id="supplierChinesrNameReason1" class="b f18 fl ml10 red hand">√</div>
+												<div id="supplierChinesrNameReason" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 法定代表人：</span>
+										<li class="col-md-6 p0 "><span id="legalNameReason2"><i class="red">＊</i> 法定代表人：</span>
 											<div class="input-append">
-												<input class="span3" id="legalName" name="legalName" value="${sfi.legalName }" type="text">
+												<input class="span3" id="legalName" name="legalName" value="${is.legalName }" type="text">
+												<div id="legalNameReason1" class="b f18 fl ml10 red hand">√</div>
+												<div id="legalNameReason" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
 											</div>
 										</li>
-										<li class="col-md-6 p0"><span class=""><i class="red">＊</i>企业注册地址：</span>
+										<li class="col-md-6 p0"><span id="addressReason2"><i class="red">＊</i>企业注册地址：</span>
 											<div class="input-append">
-												<input class="span3" id="legalName" name="legalName" value="${sfi.address }" type="text">
+												<input class="span3" id="address" name="address" value="${is.address }" type="text">
+												<div id="addressReason1" class="b f18 fl ml10 red hand">√</div>
+												<div id="addressReason" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>邮政编码：</span>
+										<li class="col-md-6 p0 "><span id="supplierZipCodeReason2" class=""><i class="red">＊</i>邮政编码：</span>
 											<div class="input-append">
-												<input class="span3" id="supplierZipCode" name="supplierZipCode" value="${sfi.supplierZipCode }"  type="text">
+												<input class="span3" id="supplierZipCode" name="supplierZipCode" value="${is.postCode }"  type="text">
+												<div id="supplierZipCodeReason1" class="b f18 fl ml10 red hand">√</div>
+												<div id="supplierZipCodeReason" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>经营产品大类：</span>
+										<li class="col-md-6 p0 "><span id="productTypeReason2"><i class="red">＊</i>经营产品大类：</span>
 											<div class="input-append">
-												<input class="span3" id="productType" name="productType" value="${sfi.productType }" type="text">
+												<input class="span3" id="productType" name="productType" value="${is.productType }" type="text">
+												<div id="productTypeReason1" class="b f18 fl ml10 red hand">√</div>
+												<div id="productTypeReason" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>主营产品：</span>
+										<li class="col-md-6 p0 "><span id="majorpRoductReason2" class=""><i class="red">＊</i>主营产品：</span>
 											<div class="input-append">
-												<input class="span3" id="majorProduct" name="majorProduct" value="${sfi.majorProduct }" type="text">
+												<input class="span3" id="majorProduct" name="majorProduct" value="${is.majorProduct }" type="text">
+												<div id="majorpRoductReason1" class="b f18 fl ml10 red hand">√</div>
+												<div id="majorpRoductReason" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>兼营产品：</span>
+										<li class="col-md-6 p0 "><span id="sideProductReason2"><i class="red">＊</i>兼营产品：</span>
 											<div class="input-append">
-												<input class="span3" id="sideProduct" name="sideProduct" value="${sfi.sideProduct }" type="text">
+												<input class="span3" id="sideProduct" name="sideProduct" value="${is.byproduct }" type="text">
+												<div id="sideProductReason1" class="b f18 fl ml10 red hand">√</div>
+												<div id="sideProductReason" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>生产商名称：</span>
+										<li class="col-md-6 p0 "><span id="producerNameReason2"><i class="red">＊</i>生产商名称：</span>
 											<div class="input-append">
-												<input class="span3" id="producerName" name="producerName" value="${sfi.producerName }"  type="text">
+												<input class="span3" id="producerName" name="producerName" value="${is.producerName }"  type="text">
+												<div id="producerNameReason1" class="b f18 fl ml10 red hand">√</div>
+												<div id="producerNameReason" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 联系人：</span>
+										<li class="col-md-6 p0 "><span id="contactPersonReason2"><i class="red">＊</i> 联系人：</span>
 											<div class="input-append">
-												<input class="span3" id="contactPerson" name="contactPerson" value="${sfi.contactPerson }" type="text">
+												<input class="span3" id="contactPerson" name="contactPerson" value="${is.contactPerson }" type="text">
+												<div id="contactPersonReason1" class="b f18 fl ml10 red hand">√</div>
+												<div id="contactPersonReason" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 电话：</span>
+										<li class="col-md-6 p0 "><span id="supplierTeleReason2"><i class="red">＊</i> 电话：</span>
 											<div class="input-append">
-												<input class="span3" id="supplierTele" name="supplierTele" value="${sfi.supplierTele }" type="text">
+												<input class="span3" id="supplierTele" name="supplierTele" value="${is.telephone }" type="text">
+												<div id="supplierTeleReason1" class="b f18 fl ml10 red hand">√</div>
+												<div id="supplierTeleReason" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 传真：</span>
+										<li class="col-md-6 p0 "><span id="supplierFaxReason2"><i class="red">＊</i> 传真：</span>
 											<div class="input-append">
-												<input class="span3" id="supplierFax" name="supplierFax" value="${sfi.supplierFax }" type="text">
+												<input class="span3" id="supplierFax" name="supplierFax" value="${is.fax }" type="text">
+												<div id="supplierFaxReason1" class="b f18 fl ml10 red hand">√</div>
+												<div id="supplierFaxReason" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 电子邮件：</span>
+										<li class="col-md-6 p0 "><span id="supplierEmailReason2"><i class="red">＊</i> 电子邮件：</span>
 											<div class="input-append">
-												<input class="span3" id="supplierEmail" name="supplierEmail" value="${sfi.supplierEmail }" type="text">
+												<input class="span3" id="supplierEmail" name="supplierEmail" value="${is.email }" type="text">
+												<div id="supplierEmailReason1" class="b f18 fl ml10 red hand">√</div>
+												<div id="supplierEmailReason" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 企业网址：</span>
+										<li class="col-md-6 p0 "><span id="netUrlReason2"><i class="red">＊</i> 企业网址：</span>
 											<div class="input-append">
-												<input class="span3" id="netUrl" name="netUrl" value="${sfi.netUrl }" type="text">
+												<input class="span3" id="netUrl" name="netUrl" value="${is.website }" type="text">
+												<div id="netUrlReason1" class="b f18 fl ml10 red hand">√</div>
+												<div id="netUrlReason" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
 											</div>
 										</li>
-										<li class="col-md-12 p0 mt10"><span class="fl"><i class="red">＊</i>国内供货业绩：</span>
+										<li class="col-md-12 p0 mt10"><span id="supplyLevelReason2" class="fl"><i class="red">＊</i>国内供货业绩：</span>
 											<div class="col-md-9 mt5">
 												<div class="row">
-													<textarea class="text_area col-md-12" id="supplyLevel" name="supplyLevel"  title="不超过800个字" placeholder=""> ${sfi.supplyLevel }</textarea>
+													<textarea class="text_area col-md-12" id="supplyLevel" name="supplyLevel"  title="不超过800个字" placeholder=""> ${is.civilAchievement }</textarea>
+													<div id="supplyLevelReason1" class="b f18 fl ml10 red hand">√</div>
+													<div id="supplyLevelReason" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
 												</div>
 											</div>
 											<div class="clear"></div>
 										</li>
-										<li class="col-md-12 p0 mt10"><span class="fl"><i class="red">＊</i>企业简介：</span>
+										<li class="col-md-12 p0 mt10"><span  id="supplierRemarkReason2" class="fl"><i class="red">＊</i>企业简介：</span>
 											<div class="col-md-9 mt5">
 												<div class="row">
-													<textarea class="text_area col-md-12" id="supplierRemark" name="supplierRemark" title="不超过800个字" placeholder="">${sfi.supplierRemark }</textarea>
+													<textarea class="text_area col-md-12" id="supplierRemark" name="supplierRemark" title="不超过800个字" placeholder="">${is.remark }</textarea>
+													<div id="supplierRemarkReason1" class="b f18 fl ml10 red hand">√</div>
+													<div id="supplierRemarkReason" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
 												</div>
 											</div>
 											<div class="clear"></div>
@@ -316,10 +371,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								</div>
 								<div class="tab-pane fade height-450" id="tab-2">
 									<div class="margin-bottom-0  categories">
+										<img src="${is.regList }" width="300px" height="500px" >
 									</div>
 								</div>
 								<div class="tab-pane fade height-450" id="tab-3">
 									<div class="margin-bottom-0  categories">
+									<form id="form1" action="${pageContext.request.contextPath}/importSupplier/auditReason.html" method="post">
+									    <input type="hidden" name="status" id="status"/>
+									    <input type="hidden" name="sfiId" value="${is.id }"/>
+										<ul class="list-unstyled list-flow" id="reason">
+										</ul>
+									
+									<div class="col-md-12 add_regist tc">
+									<c:if test="${is.status==0 }">
+										<input class="btn padding-left-20 padding-right-20 btn_back"  type="button" onclick="tijiao(1)" value="审核通过">
+										<input class="btn padding-left-20 padding-right-20 btn_back"  type="button" onclick="tijiao(2)" value="审核不通过">
+										<input class="btn padding-left-20 padding-right-20 btn_back"  type="button" onclick="tijiao(3)" value="退回修改">
+									</c:if>
+									<c:if test="${is.status==1 }">
+										<input class="btn padding-left-20 padding-right-20 btn_back"  type="button" onclick="tijiao(4)" value="审核通过">
+										<input class="btn padding-left-20 padding-right-20 btn_back"  type="button" onclick="tijiao(2)" value="审核不通过">
+										<input class="btn padding-left-20 padding-right-20 btn_back"  type="button" onclick="tijiao(3)" value="退回修改">
+									</c:if>
+									</div>
+									</form>
 									</div>
 								</div>
 							</div>

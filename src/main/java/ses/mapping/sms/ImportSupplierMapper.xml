@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.sms.ImportSupplierMapper">
+  <resultMap id="BaseResultMap" type="ses.model.sms.ImportSupplier">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="LOGIN_NAME" jdbcType="VARCHAR" property="loginName" />
+    <result column="MOBILE" jdbcType="VARCHAR" property="mobile" />
+    <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="SUPPLIER_TYPE" jdbcType="VARCHAR" property="supplierType" />
+    <result column="CHINESR_NAME" jdbcType="VARCHAR" property="chinesrName" />
+    <result column="LEGAL_NAME" jdbcType="VARCHAR" property="legalName" />
+    <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+    <result column="POST_CODE" jdbcType="DECIMAL" property="postCode" />
+    <result column="PRODUCT_TYPE" jdbcType="VARCHAR" property="productType" />
+    <result column="MAJOR_PRODUCT" jdbcType="VARCHAR" property="majorProduct" />
+    <result column="BYPRODUCT" jdbcType="VARCHAR" property="byproduct" />
+    <result column="PRODUCER_NAME" jdbcType="VARCHAR" property="producerName" />
+    <result column="CONTACT_PERSON" jdbcType="VARCHAR" property="contactPerson" />
+    <result column="TELEPHONE" jdbcType="DECIMAL" property="telephone" />
+    <result column="FAX" jdbcType="VARCHAR" property="fax" />
+    <result column="EMAIL" jdbcType="VARCHAR" property="email" />
+    <result column="WEBSITE" jdbcType="VARCHAR" property="website" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="ORG_ID" jdbcType="VARCHAR" property="orgId" />
+    <result column="PLEDGE" jdbcType="VARCHAR" property="pledge" />
+    <result column="REG_LIST" jdbcType="VARCHAR" property="regList" />
+    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="ses.model.sms.ImportSupplierWithBLOBs">
+    <result column="CIVIL_ACHIEVEMENT" jdbcType="CLOB" property="civilAchievement" />
+    <result column="REMARK" jdbcType="CLOB" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, LOGIN_NAME, MOBILE, PASSWORD, NAME, SUPPLIER_TYPE, CHINESR_NAME, LEGAL_NAME, 
+    ADDRESS, POST_CODE, PRODUCT_TYPE, MAJOR_PRODUCT, BYPRODUCT, PRODUCER_NAME, CONTACT_PERSON, 
+    TELEPHONE, FAX, EMAIL, WEBSITE, STATUS, ORG_ID, PLEDGE, REG_LIST, CREATED_AT, UPDATED_AT
+  </sql>
+  <sql id="Blob_Column_List">
+    CIVIL_ACHIEVEMENT, REMARK
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from T_SES_SMS_IMPORT_SUPPLIER
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_SES_SMS_IMPORT_SUPPLIER
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="ses.model.sms.ImportSupplierWithBLOBs">
+    insert into T_SES_SMS_IMPORT_SUPPLIER (ID, LOGIN_NAME, MOBILE, 
+      PASSWORD, NAME, SUPPLIER_TYPE, 
+      CHINESR_NAME, LEGAL_NAME, ADDRESS, 
+      POST_CODE, PRODUCT_TYPE, MAJOR_PRODUCT, 
+      BYPRODUCT, PRODUCER_NAME, CONTACT_PERSON, 
+      TELEPHONE, FAX, EMAIL, 
+      WEBSITE, STATUS, ORG_ID, 
+      PLEDGE, REG_LIST, CREATED_AT, 
+      UPDATED_AT, CIVIL_ACHIEVEMENT, REMARK
+      )
+    values (#{id,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{supplierType,jdbcType=VARCHAR}, 
+      #{chinesrName,jdbcType=VARCHAR}, #{legalName,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{postCode,jdbcType=DECIMAL}, #{productType,jdbcType=VARCHAR}, #{majorProduct,jdbcType=VARCHAR}, 
+      #{byproduct,jdbcType=VARCHAR}, #{producerName,jdbcType=VARCHAR}, #{contactPerson,jdbcType=VARCHAR}, 
+      #{telephone,jdbcType=DECIMAL}, #{fax,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{website,jdbcType=VARCHAR}, #{status,jdbcType=DECIMAL}, #{orgId,jdbcType=VARCHAR}, 
+      #{pledge,jdbcType=VARCHAR}, #{regList,jdbcType=VARCHAR}, #{createdAt,jdbcType=DATE}, 
+      #{updatedAt,jdbcType=DATE}, #{civilAchievement,jdbcType=CLOB}, #{remark,jdbcType=CLOB}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="ses.model.sms.ImportSupplierWithBLOBs">
+    insert into T_SES_SMS_IMPORT_SUPPLIER
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="loginName != null">
+        LOGIN_NAME,
+      </if>
+      <if test="mobile != null">
+        MOBILE,
+      </if>
+      <if test="password != null">
+        PASSWORD,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="supplierType != null">
+        SUPPLIER_TYPE,
+      </if>
+      <if test="chinesrName != null">
+        CHINESR_NAME,
+      </if>
+      <if test="legalName != null">
+        LEGAL_NAME,
+      </if>
+      <if test="address != null">
+        ADDRESS,
+      </if>
+      <if test="postCode != null">
+        POST_CODE,
+      </if>
+      <if test="productType != null">
+        PRODUCT_TYPE,
+      </if>
+      <if test="majorProduct != null">
+        MAJOR_PRODUCT,
+      </if>
+      <if test="byproduct != null">
+        BYPRODUCT,
+      </if>
+      <if test="producerName != null">
+        PRODUCER_NAME,
+      </if>
+      <if test="contactPerson != null">
+        CONTACT_PERSON,
+      </if>
+      <if test="telephone != null">
+        TELEPHONE,
+      </if>
+      <if test="fax != null">
+        FAX,
+      </if>
+      <if test="email != null">
+        EMAIL,
+      </if>
+      <if test="website != null">
+        WEBSITE,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="orgId != null">
+        ORG_ID,
+      </if>
+      <if test="pledge != null">
+        PLEDGE,
+      </if>
+      <if test="regList != null">
+        REG_LIST,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="civilAchievement != null">
+        CIVIL_ACHIEVEMENT,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="loginName != null">
+        #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierType != null">
+        #{supplierType,jdbcType=VARCHAR},
+      </if>
+      <if test="chinesrName != null">
+        #{chinesrName,jdbcType=VARCHAR},
+      </if>
+      <if test="legalName != null">
+        #{legalName,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="postCode != null">
+        #{postCode,jdbcType=DECIMAL},
+      </if>
+      <if test="productType != null">
+        #{productType,jdbcType=VARCHAR},
+      </if>
+      <if test="majorProduct != null">
+        #{majorProduct,jdbcType=VARCHAR},
+      </if>
+      <if test="byproduct != null">
+        #{byproduct,jdbcType=VARCHAR},
+      </if>
+      <if test="producerName != null">
+        #{producerName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactPerson != null">
+        #{contactPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null">
+        #{telephone,jdbcType=DECIMAL},
+      </if>
+      <if test="fax != null">
+        #{fax,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="website != null">
+        #{website,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="orgId != null">
+        #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="pledge != null">
+        #{pledge,jdbcType=VARCHAR},
+      </if>
+      <if test="regList != null">
+        #{regList,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=DATE},
+      </if>
+      <if test="civilAchievement != null">
+        #{civilAchievement,jdbcType=CLOB},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=CLOB},
+      </if>
+    </trim>
+      <selectKey  keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			select sys_guid() from dual
+	</selectKey>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.ImportSupplierWithBLOBs">
+    update T_SES_SMS_IMPORT_SUPPLIER
+    <set>
+      <if test="loginName != null">
+        LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        MOBILE = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        PASSWORD = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierType != null">
+        SUPPLIER_TYPE = #{supplierType,jdbcType=VARCHAR},
+      </if>
+      <if test="chinesrName != null">
+        CHINESR_NAME = #{chinesrName,jdbcType=VARCHAR},
+      </if>
+      <if test="legalName != null">
+        LEGAL_NAME = #{legalName,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="postCode != null">
+        POST_CODE = #{postCode,jdbcType=DECIMAL},
+      </if>
+      <if test="productType != null">
+        PRODUCT_TYPE = #{productType,jdbcType=VARCHAR},
+      </if>
+      <if test="majorProduct != null">
+        MAJOR_PRODUCT = #{majorProduct,jdbcType=VARCHAR},
+      </if>
+      <if test="byproduct != null">
+        BYPRODUCT = #{byproduct,jdbcType=VARCHAR},
+      </if>
+      <if test="producerName != null">
+        PRODUCER_NAME = #{producerName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactPerson != null">
+        CONTACT_PERSON = #{contactPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null">
+        TELEPHONE = #{telephone,jdbcType=DECIMAL},
+      </if>
+      <if test="fax != null">
+        FAX = #{fax,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="website != null">
+        WEBSITE = #{website,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="orgId != null">
+        ORG_ID = #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="pledge != null">
+        PLEDGE = #{pledge,jdbcType=VARCHAR},
+      </if>
+      <if test="regList != null">
+        REG_LIST = #{regList,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      </if>
+      <if test="civilAchievement != null">
+        CIVIL_ACHIEVEMENT = #{civilAchievement,jdbcType=CLOB},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=CLOB},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="ses.model.sms.ImportSupplierWithBLOBs">
+    update T_SES_SMS_IMPORT_SUPPLIER
+    set LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
+      MOBILE = #{mobile,jdbcType=VARCHAR},
+      PASSWORD = #{password,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      SUPPLIER_TYPE = #{supplierType,jdbcType=VARCHAR},
+      CHINESR_NAME = #{chinesrName,jdbcType=VARCHAR},
+      LEGAL_NAME = #{legalName,jdbcType=VARCHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      POST_CODE = #{postCode,jdbcType=DECIMAL},
+      PRODUCT_TYPE = #{productType,jdbcType=VARCHAR},
+      MAJOR_PRODUCT = #{majorProduct,jdbcType=VARCHAR},
+      BYPRODUCT = #{byproduct,jdbcType=VARCHAR},
+      PRODUCER_NAME = #{producerName,jdbcType=VARCHAR},
+      CONTACT_PERSON = #{contactPerson,jdbcType=VARCHAR},
+      TELEPHONE = #{telephone,jdbcType=DECIMAL},
+      FAX = #{fax,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      WEBSITE = #{website,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=DECIMAL},
+      ORG_ID = #{orgId,jdbcType=VARCHAR},
+      PLEDGE = #{pledge,jdbcType=VARCHAR},
+      REG_LIST = #{regList,jdbcType=VARCHAR},
+      CREATED_AT = #{createdAt,jdbcType=DATE},
+      UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      CIVIL_ACHIEVEMENT = #{civilAchievement,jdbcType=CLOB},
+      REMARK = #{remark,jdbcType=CLOB}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="ses.model.sms.ImportSupplier">
+    update T_SES_SMS_IMPORT_SUPPLIER
+    set LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
+      MOBILE = #{mobile,jdbcType=VARCHAR},
+      PASSWORD = #{password,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      SUPPLIER_TYPE = #{supplierType,jdbcType=VARCHAR},
+      CHINESR_NAME = #{chinesrName,jdbcType=VARCHAR},
+      LEGAL_NAME = #{legalName,jdbcType=VARCHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      POST_CODE = #{postCode,jdbcType=DECIMAL},
+      PRODUCT_TYPE = #{productType,jdbcType=VARCHAR},
+      MAJOR_PRODUCT = #{majorProduct,jdbcType=VARCHAR},
+      BYPRODUCT = #{byproduct,jdbcType=VARCHAR},
+      PRODUCER_NAME = #{producerName,jdbcType=VARCHAR},
+      CONTACT_PERSON = #{contactPerson,jdbcType=VARCHAR},
+      TELEPHONE = #{telephone,jdbcType=DECIMAL},
+      FAX = #{fax,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      WEBSITE = #{website,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=DECIMAL},
+      ORG_ID = #{orgId,jdbcType=VARCHAR},
+      PLEDGE = #{pledge,jdbcType=VARCHAR},
+      REG_LIST = #{regList,jdbcType=VARCHAR},
+      CREATED_AT = #{createdAt,jdbcType=DATE},
+      UPDATED_AT = #{updatedAt,jdbcType=DATE}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+<select id="selectByFsInfo" parameterType="ses.model.sms.ImportSupplierWithBLOBs" resultMap="ResultMapWithBLOBs">
+    <!--
+    @mbggenerated
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from T_SES_SMS_IMPORT_SUPPLIER
+    where 1=1
+    <if test="name!=null">
+    	and NAME like '%${name}%'
+    </if>
+     <if test="loginName!=null">
+    	and LOGIN_NAME= #{loginName,jdbcType=VARCHAR}
+    </if>
+    <if test="mobile!=null">
+    	and MOBILE= #{mobile,jdbcType=VARCHAR}
+    </if>
+    <if test="supplierType!=null">
+    	and SUPPLIER_TYPE= #{supplierType,jdbcType=VARCHAR}
+    </if>
+    <if test="status!=null">
+    	and status= #{status,jdbcType=DECIMAL}
+    </if>
+    </select>
+  
+    <select id="getCount" parameterType="ses.model.sms.ImportSupplierWithBLOBs" resultType="java.lang.Integer">
+    <!--
+    @mbggenerated
+    -->
+    select 
+	count(*)
+    from T_SES_SMS_IMPORT_SUPPLIER
+    where 1=1
+    <if test="name!=null">
+    	and NAME= #{name,jdbcType=VARCHAR}
+    </if>
+     <if test="supplierType!=null">
+    	and SUPPLIER_TYPE= #{supplierType,jdbcType=VARCHAR}
+    </if>
+    <if test="status!=null">
+    	and status= #{status,jdbcType=DECIMAL}
+    </if>
+  </select>
+
+ <select id="selectIdByLoginName" parameterType="ses.model.sms.ImportSupplierWithBLOBs" resultType="java.lang.String" >
+		select ID from T_SES_SMS_IMPORT_SUPPLIER t1 where t1.LOGIN_NAME=#{loginName,jdbcType=VARCHAR}
+	</select>
+</mapper>
