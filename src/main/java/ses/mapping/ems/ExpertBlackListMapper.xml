@@ -41,7 +41,7 @@
               AND PUNISH_TYPE = '${punishType}' 
        </if> 
        <if test="punishDate != null and punishDate !=''">  
-              AND PUNISH_DATE = '${punishDate}
+              AND PUNISH_DATE = '${punishDate}'
        </if> 
        ORDER BY CREATED_AT DESC 
   </select>
