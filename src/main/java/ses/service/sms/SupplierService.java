@@ -1,33 +1,37 @@
 package ses.service.sms;
 
-import ses.model.sms.SupplierInfo;
+import ses.model.sms.Supplier;
 /**
  * @Title: SupplierInfoService
- * @Description: SupplierInfo 接口
+ * @Description: Supplier 接口
  * @author: Wang Zhaohua
  * @date: 2016-9-7下午6:12:01
  */
-public interface SupplierInfoService {
+public interface SupplierService {
+	
+	public Supplier login(String id);
+	
+	
 	/**
 	 * @Title: register
 	 * @author: Wang Zhaohua
 	 * @date: 2016-9-5 下午4:13:42
 	 * @Description: 供应商注册
-	 * @param: @param supplierInfo
+	 * @param: @param supplier
 	 * @param: @return
 	 * @return: String
 	 */
-	public String register(SupplierInfo supplierInfo);
+	public String register(Supplier supplier);
 	
 	/**
 	 * @Title: perfectBasic
 	 * @author: Wang Zhaohua
 	 * @date: 2016-9-7 下午5:51:16
 	 * @Description: 供应商完善基本信息
-	 * @param: @param supplierInfo
+	 * @param: @param supplier
 	 * @return: void
 	 */
-	public void perfectBasic(SupplierInfo supplierInfo);
+	public void perfectBasic(Supplier supplier);
 	
 	/**
 	 * @Title: selectLastInsertId

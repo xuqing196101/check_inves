@@ -1,6 +1,6 @@
 package ses.dao.sms;
 
-import ses.model.sms.SupplierShare;
+import ses.model.sms.SupplierStockholder;
 
 /**
  * @Title: SupplierShareMapper
@@ -9,7 +9,7 @@ import ses.model.sms.SupplierShare;
  * @author: Poppet_Brook
  * @date: 2016-9-1下午3:42:17
  */
-public interface SupplierShareMapper {
+public interface SupplierStockholderMapper {
 	/**
 	 * @Title: deleteByPrimaryKey
 	 * @author: Poppet_Brook
@@ -30,7 +30,7 @@ public interface SupplierShareMapper {
      * @param: @return
      * @return: int
      */
-    int insert(SupplierShare record);
+    int insert(SupplierStockholder record);
 
     /**
      * @Title: insertSelective
@@ -41,7 +41,7 @@ public interface SupplierShareMapper {
      * @param: @return
      * @return: int
      */
-    int insertSelective(SupplierShare record);
+    int insertSelective(SupplierStockholder record);
 
     /**
      * @Title: selectByPrimaryKey
@@ -52,7 +52,7 @@ public interface SupplierShareMapper {
      * @param: @return
      * @return: SupplierShare
      */
-    SupplierShare selectByPrimaryKey(String id);
+    SupplierStockholder selectByPrimaryKey(String id);
 
     /**
      * @Title: updateByPrimaryKeySelective
@@ -63,7 +63,7 @@ public interface SupplierShareMapper {
      * @param: @return
      * @return: int
      */
-    int updateByPrimaryKeySelective(SupplierShare record);
+    int updateByPrimaryKeySelective(SupplierStockholder record);
 
     /**
      * @Title: updateByPrimaryKey
@@ -74,5 +74,27 @@ public interface SupplierShareMapper {
      * @param: @return
      * @return: int
      */
-    int updateByPrimaryKey(SupplierShare record);
+    int updateByPrimaryKey(SupplierStockholder record);
+    
+    /**
+     * @Title: findStockholderBySupplierId
+     * @author: Wang Zhaohua
+     * @date: 2016-9-14 上午10:00:45
+     * @Description: 根据供应商 ID 查询供应商股东信息
+     * @param: @param supplierId
+     * @param: @return
+     * @return: SupplierStockholder
+     */
+    SupplierStockholder findStockholderBySupplierId(String supplierId);
+    
+    /**
+     * @Title: deleteStockholderBySupplierId
+     * @author: Wang Zhaohua
+     * @date: 2016-9-14 上午10:01:32
+     * @Description: 根据供应商 ID 删除供应商股东信息
+     * @param: @param supplierId
+     * @param: @return
+     * @return: int
+     */
+    int deleteStockholderBySupplierId(String supplierId);
 }

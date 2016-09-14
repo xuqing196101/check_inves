@@ -1,14 +1,14 @@
 package ses.dao.sms;
 
-import ses.model.sms.SupplierInfo;
+import ses.model.sms.Supplier;
 
 /**
- * @Title: SupplierInfoMapper
- * @Description: SupplierInfoMapper
+ * @Title: SupplierMapper
+ * @Description: SupplierMapper
  * @author: Wang Zhaohua
  * @date: 2016-9-7下午6:06:56
  */
-public interface SupplierInfoMapper {
+public interface SupplierMapper {
 
 	/**
 	 * @Title: deleteByPrimaryKey
@@ -30,7 +30,7 @@ public interface SupplierInfoMapper {
 	 * @param: @return
 	 * @return: int
 	 */
-	int insert(SupplierInfo record);
+	int insert(Supplier record);
 
 	/**
 	 * @Title: insertSelective
@@ -41,7 +41,7 @@ public interface SupplierInfoMapper {
 	 * @param: @return
 	 * @return: int
 	 */
-	int insertSelective(SupplierInfo record);
+	int insertSelective(Supplier record);
 
 	/**
 	 * @Title: selectByPrimaryKey
@@ -52,7 +52,7 @@ public interface SupplierInfoMapper {
 	 * @param: @return
 	 * @return: SupplierInfo
 	 */
-	SupplierInfo selectByPrimaryKey(String id);
+	Supplier selectByPrimaryKey(String id);
 
 	/**
 	 * @Title: updateByPrimaryKeySelective
@@ -63,7 +63,7 @@ public interface SupplierInfoMapper {
 	 * @param: @return
 	 * @return: int
 	 */
-	int updateByPrimaryKeySelective(SupplierInfo record);
+	int updateByPrimaryKeySelective(Supplier record);
 
 	/**
 	 * @Title: updateByPrimaryKey
@@ -74,7 +74,7 @@ public interface SupplierInfoMapper {
 	 * @param: @return
 	 * @return: int
 	 */
-	int updateByPrimaryKey(SupplierInfo record);
+	int updateByPrimaryKey(Supplier record);
 
 	/**
 	 * @Title: selectLastInsertId
@@ -85,4 +85,6 @@ public interface SupplierInfoMapper {
 	 * @return: int
 	 */
 	String selectLastInsertId();
+	
+	Supplier getSupplier(String id);
 }

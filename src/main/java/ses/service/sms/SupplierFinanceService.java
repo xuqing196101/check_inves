@@ -1,6 +1,6 @@
 package ses.service.sms;
 
-import ses.model.sms.SupplierInfo;
+import ses.model.sms.Supplier;
 
 /**
  * @Title: SupplierFinance
@@ -15,8 +15,8 @@ public interface SupplierFinanceService {
 	 * @author: Wang Zhaohua
 	 * @date: 2016-9-8 上午10:02:14
 	 * @Description: 保存供应商财务信息
-	 * @param: @param supplierInfo
+	 * @param: @param supplier
 	 * @return: void
 	 */
-	public void saveFinance(SupplierInfo supplierInfo);
+	public void saveFinance(Supplier supplier);
 }

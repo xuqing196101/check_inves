@@ -75,4 +75,26 @@ public interface SupplierFinanceMapper {
 	 * @return: int
 	 */
 	int updateByPrimaryKey(SupplierFinance record);
+	
+	/**
+	 * @Title: findFinanceBySupplierId
+	 * @author: Wang Zhaohua
+	 * @date: 2016-9-14 上午9:53:08
+	 * @Description: 根据供应商 ID 查询供应商财务信息
+	 * @param: @param supplierId
+	 * @param: @return
+	 * @return: SupplierFinance
+	 */
+	SupplierFinance findFinanceBySupplierId(String supplierId);
+	
+	/**
+	 * @Title: deleteFinanceBySupplierId
+	 * @author: Wang Zhaohua
+	 * @date: 2016-9-14 上午9:53:42
+	 * @Description: 根据供应商 ID 删除供应商财务信息
+	 * @param: @param supplierId
+	 * @param: @return
+	 * @return: int
+	 */
+	int deleteFinanceBySupplierId(String supplierId);
 }

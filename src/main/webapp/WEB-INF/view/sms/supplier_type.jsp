@@ -41,8 +41,8 @@
 	<div class="wrapper">
 		<!-- header -->
 		<jsp:include page="../../../indexhead.jsp"></jsp:include>
-		
-		
+
+
 		<!-- 项目戳开始 -->
 		<div class="container clear margin-top-30">
 			<h2 class="padding-20 mt40 ml30">
@@ -72,53 +72,26 @@
 										<input type="checkbox" id="" class="fl" /><span class="ml5">物资</span>
 									</div>
 									<ul class="navContent " style="display: block;">
-										<li><input type="checkbox" id="" class="fl" /><span class="ml5">生产型</span>
-										</li>
-										<li><input type="checkbox" id="" class="fl" /><span class="ml5">销售型</span>
-										</li>
+										<li><input type="checkbox" id="" class="fl" /><span class="ml5">生产型</span></li>
+										<li><input type="checkbox" id="" class="fl" /><span class="ml5">销售型</span></li>
 									</ul>
 									<div class="subNav_new">
 										<input type="checkbox" id="" class="fl" /><span class="ml5">工程</span>
 									</div>
-									
+
 									<div class="subNav_new">
 										<input type="checkbox" id="" class="fl" /><span class="ml5">服务</span>
 									</div>
-									
+
 									<div class="subNav_new ">
 										<input type="checkbox" id="" class="fl" /><span class="ml5">电冰箱</span>
 									</div>
-									
-								</div>
-								<div class="mt40 tc mb50">
-									<button class="btn padding-left-20 padding-right-20 btn_back margin-15">上一步</button>
-									<button class="btn padding-left-20 padding-right-20 btn_back margin-15">下一步</button>
-								</div>
-								<div class="mt40 tc mb50">
-									<button class="btn padding-left-20 padding-right-20 btn_back margin-15">上一步</button>
-									<button class="btn padding-left-20 padding-right-20 btn_back margin-15">下一步</button>
-								</div>
-								<div class="mt40 tc mb50">
-									<button class="btn padding-left-20 padding-right-20 btn_back margin-15">上一步</button>
-									<button class="btn padding-left-20 padding-right-20 btn_back margin-15">下一步</button>
-								</div>
-								<div class="mt40 tc mb50">
-									<button class="btn padding-left-20 padding-right-20 btn_back margin-15">上一步</button>
-									<button class="btn padding-left-20 padding-right-20 btn_back margin-15">下一步</button>
-								</div>
-								<div class="mt40 tc mb50">
-									<button class="btn padding-left-20 padding-right-20 btn_back margin-15">上一步</button>
-									<button class="btn padding-left-20 padding-right-20 btn_back margin-15">下一步</button>
-								</div>
-								<div class="mt40 tc mb50">
-									<button class="btn padding-left-20 padding-right-20 btn_back margin-15">上一步</button>
-									<button class="btn padding-left-20 padding-right-20 btn_back margin-15">下一步</button>
-								</div>
-								<div class="mt40 tc mb50">
-									<button class="btn padding-left-20 padding-right-20 btn_back margin-15">上一步</button>
-									<button class="btn padding-left-20 padding-right-20 btn_back margin-15">下一步</button>
-								</div>
 
+								</div>
+								<div class="mt40 tc mb50">
+									<button class="btn padding-left-20 padding-right-20 btn_back margin-15">上一步</button>
+									<button class="btn padding-left-20 padding-right-20 btn_back margin-15">下一步</button>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -126,7 +99,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<!-- footer -->
 	<jsp:include page="../../../indexbottom.jsp"></jsp:include>
 </body>

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ses.dao.sms.SupplierAuditMapper;
-import ses.model.sms.SupplierInfo;
+import ses.model.sms.Supplier;
 import ses.service.sms.SupplierAuditServlice;
 
 /**
@@ -22,7 +22,7 @@ public class SupplierAuditServliceImpl implements SupplierAuditServlice {
 	private SupplierAuditMapper supplierAuditMapper;
 	
 	@Override
-	public List<SupplierInfo> supplierList() {
+	public List<Supplier> supplierList() {
 		
 		return null;
 	}

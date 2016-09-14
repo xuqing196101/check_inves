@@ -5,7 +5,7 @@
 		<id column="ID" property="id" />
 		<result column="NAME" property="name" />
 		<result column="YEAR" property="year" />
-		<result column="MOBILE" property="mobile" />
+		<result column="TELEPHONE" property="telephone" />
 		<result column="AUDITORS" property="auditors" />
 		<result column="QUOTA" property="quota" />
 		<result column="TOTAL_ASSETS" property="totalAssets" />
@@ -22,7 +22,7 @@
 		<result column="UPDATED_AT" property="updatedAt" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		ID, NAME, YEAR, MOBILE, AUDITORS, QUOTA, TOTAL_ASSETS, TOTAL_LIABILITIES, TOTAL_NET_ASSETS,
+		ID, NAME, YEAR, TELEPHONE, AUDITORS, QUOTA, TOTAL_ASSETS, TOTAL_LIABILITIES, TOTAL_NET_ASSETS,
 		TAKING, AUDIT_OPINION, LIABILITIES_LIST, PROFIT_LIST, CASH_FLOW_STATEMENT, CHANGE_LIST,
 		SUPPLIER_ID, CREATED_AT, UPDATED_AT
 	</sql>
@@ -38,14 +38,14 @@
 	</delete>
 	<insert id="insert" parameterType="ses.model.sms.SupplierFinance">
 		insert into T_SES_SMS_SUPPLIER_FINANCE (ID, NAME, YEAR,
-		MOBILE, AUDITORS, QUOTA,
+		TELEPHONE, AUDITORS, QUOTA,
 		TOTAL_ASSETS, TOTAL_LIABILITIES, TOTAL_NET_ASSETS,
 		TAKING, AUDIT_OPINION, LIABILITIES_LIST,
 		PROFIT_LIST, CASH_FLOW_STATEMENT, CHANGE_LIST,
 		SUPPLIER_ID, CREATED_AT, UPDATED_AT
 		)
 		values (#{id}, #{name}, #{year},
-		#{mobile}, #{auditors}, #{quota},
+		#{telephone}, #{auditors}, #{quota},
 		#{totalAssets}, #{totalLiabilities}, #{totalNetAssets},
 		#{taking}, #{auditOpinion}, #{liabilitiesList},
 		#{profitList}, #{cashFlowStatement}, #{changeList},
@@ -64,8 +64,8 @@
 			<if test="year != null">
 				YEAR,
 			</if>
-			<if test="mobile != null">
-				MOBILE,
+			<if test="telephone != null">
+				TELEPHONE,
 			</if>
 			<if test="auditors != null">
 				AUDITORS,
@@ -120,8 +120,8 @@
 			<if test="year != null">
 				#{year},
 			</if>
-			<if test="mobile != null">
-				#{mobile},
+			<if test="telephone != null">
+				#{telephone},
 			</if>
 			<if test="auditors != null">
 				#{auditors},
@@ -179,8 +179,8 @@
 			<if test="year != null">
 				YEAR = #{year},
 			</if>
-			<if test="mobile != null">
-				MOBILE = #{mobile},
+			<if test="telephone != null">
+				TELEPHONE = #{telephone},
 			</if>
 			<if test="auditors != null">
 				AUDITORS = #{auditors},
@@ -231,7 +231,7 @@
 		update T_SES_SMS_SUPPLIER_FINANCE
 		set NAME = #{name},
 		YEAR = #{year},
-		MOBILE = #{mobile},
+		TELEPHONE = #{telephone},
 		AUDITORS = #{auditors},
 		QUOTA = #{quota},
 		TOTAL_ASSETS = #{totalAssets},
@@ -248,4 +248,13 @@
 		UPDATED_AT = #{updatedAt}
 		where ID = #{id}
 	</update>
+	
+	<select id="findFinanceBySupplierId" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select * from T_SES_SMS_SUPPLIER_FINANCE where SUPPLIER_ID = #{SUPPLIER_ID}
+	</select>
+	
+	<delete id="deleteFinanceBySupplierId" parameterType="java.lang.String">
+		delete from T_SES_SMS_SUPPLIER_FINANCE where SUPPLIER_ID = #{SUPPLIER_ID}
+	</delete>
+	
 </mapper>

@@ -1,24 +1,23 @@
 package ses.model.sms;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 /**
- * @Title: SupplierInfo
- * @Description: 供应商基本信息表
- * @author: Poppet_Brook
- * @date: 2016-9-1下午3:33:52
+ * @Title: Supplier
+ * @Description: 供应商实体类
+ * @author: Wang Zhaohua
+ * @date: 2016-9-13上午9:45:27
  */
-public class SupplierInfo implements Serializable {
-	private static final long serialVersionUID = 1198428984275872724L;
+public class Supplier implements Serializable {
+	private static final long serialVersionUID = 8734428260706437179L;
 
 	/**
 	 * <pre>
 	 * 主键
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.ID
+	 * 表字段 : T_SES_SMS_SUPPLIER.ID
 	 * </pre>
 	 */
 	private String id;
@@ -26,7 +25,7 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 登录名
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.LOGIN_NAME
+	 * 表字段 : T_SES_SMS_SUPPLIER.LOGIN_NAME
 	 * </pre>
 	 */
 	private String loginName;
@@ -34,7 +33,7 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 手机号
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.MOBILE
+	 * 表字段 : T_SES_SMS_SUPPLIER.MOBILE
 	 * </pre>
 	 */
 	private String mobile;
@@ -42,7 +41,7 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 密码
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.PASSWORD
+	 * 表字段 : T_SES_SMS_SUPPLIER.PASSWORD
 	 * </pre>
 	 */
 	private String password;
@@ -50,7 +49,7 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 供应商名称
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.SUPPLIER_NAME
+	 * 表字段 : T_SES_SMS_SUPPLIER.SUPPLIER_NAME
 	 * </pre>
 	 */
 	private String supplierName;
@@ -58,15 +57,15 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 网址
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.NET_URL
+	 * 表字段 : T_SES_SMS_SUPPLIER.WEBSITE
 	 * </pre>
 	 */
-	private String netUrl;
+	private String website;
 
 	/**
 	 * <pre>
 	 * 成立日期
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.FOUND_DATE
+	 * 表字段 : T_SES_SMS_SUPPLIER.FOUND_DATE
 	 * </pre>
 	 */
 	private Date foundDate;
@@ -74,7 +73,7 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 营业执照类型
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.BUSINESS_TYPE
+	 * 表字段 : T_SES_SMS_SUPPLIER.BUSINESS_TYPE
 	 * </pre>
 	 */
 	private String businessType;
@@ -82,7 +81,7 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 公司地址
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.ADDRESS
+	 * 表字段 : T_SES_SMS_SUPPLIER.ADDRESS
 	 * </pre>
 	 */
 	private String address;
@@ -90,15 +89,15 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 开户行名称
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.BANGK_NAME
+	 * 表字段 : T_SES_SMS_SUPPLIER.BANK_NAME
 	 * </pre>
 	 */
-	private String bangkName;
+	private String bankName;
 
 	/**
 	 * <pre>
 	 * 开户行账号
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.BANK_ ACCOUNT
+	 * 表字段 : T_SES_SMS_SUPPLIER.BANK_ ACCOUNT
 	 * </pre>
 	 */
 	private String bankAccount;
@@ -106,15 +105,15 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 邮编
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.SUPPLIER_ZIP_CODE
+	 * 表字段 : T_SES_SMS_SUPPLIER.POST_CODE
 	 * </pre>
 	 */
-	private String supplierZipCode;
+	private String postCode;
 
 	/**
 	 * <pre>
 	 * 税凭证
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.TAX_CERT
+	 * 表字段 : T_SES_SMS_SUPPLIER.TAX_CERT
 	 * </pre>
 	 */
 	private String taxCert;
@@ -122,7 +121,7 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 年末对账单
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.BILL_CERT
+	 * 表字段 : T_SES_SMS_SUPPLIER.BILL_CERT
 	 * </pre>
 	 */
 	private String billCert;
@@ -130,7 +129,7 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 保险金凭证
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.SECURITY_CERT
+	 * 表字段 : T_SES_SMS_SUPPLIER.SECURITY_CERT
 	 * </pre>
 	 */
 	private String securityCert;
@@ -138,7 +137,7 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 违纪记录声明
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.BREACH_CERT
+	 * 表字段 : T_SES_SMS_SUPPLIER.BREACH_CERT
 	 * </pre>
 	 */
 	private String breachCert;
@@ -146,7 +145,7 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 法人姓名
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.LEGAL_NAME
+	 * 表字段 : T_SES_SMS_SUPPLIER.LEGAL_NAME
 	 * </pre>
 	 */
 	private String legalName;
@@ -154,31 +153,31 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 法人身份证号
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.LEGA_IDCARD
+	 * 表字段 : T_SES_SMS_SUPPLIER.LEGA_ID_CARD
 	 * </pre>
 	 */
-	private String legaIdcard;
+	private String legaIdCard;
 
 	/**
 	 * <pre>
 	 * 法人固定电话
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.LEGAL_MOBILE
+	 * 表字段 : T_SES_SMS_SUPPLIER.LEGAL_TELEPHONE
 	 * </pre>
 	 */
-	private Long legalMobile;
+	private String legalTelephone;
 
 	/**
 	 * <pre>
 	 * 法人手机号
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.LEGAL_PHONE
+	 * 表字段 : T_SES_SMS_SUPPLIER.LEGAL_MOBILE
 	 * </pre>
 	 */
-	private String legalPhone;
+	private String legalMobile;
 
 	/**
 	 * <pre>
 	 * 联系人姓名
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.CONTACT_NAME
+	 * 表字段 : T_SES_SMS_SUPPLIER.CONTACT_NAME
 	 * </pre>
 	 */
 	private String contactName;
@@ -186,15 +185,15 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 联系电话
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.CONTACT_MOBILE
+	 * 表字段 : T_SES_SMS_SUPPLIER.CONTACT_TELEPHONE
 	 * </pre>
 	 */
-	private String contactMobile;
+	private String contactTelephone;
 
 	/**
 	 * <pre>
 	 * 联系人传真
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.CONTACT_FAX
+	 * 表字段 : T_SES_SMS_SUPPLIER.CONTACT_FAX
 	 * </pre>
 	 */
 	private String contactFax;
@@ -202,15 +201,15 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 联系人手机
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.CONTACT_PHONE
+	 * 表字段 : T_SES_SMS_SUPPLIER.CONTACT_MOBILE
 	 * </pre>
 	 */
-	private Long contactPhone;
+	private String contactMobile;
 
 	/**
 	 * <pre>
 	 * 联系人邮箱
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.CONTACT_EMAIL
+	 * 表字段 : T_SES_SMS_SUPPLIER.CONTACT_EMAIL
 	 * </pre>
 	 */
 	private String contactEmail;
@@ -218,7 +217,7 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 联系人地址
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.CONTACT_ADDRESS
+	 * 表字段 : T_SES_SMS_SUPPLIER.CONTACT_ADDRESS
 	 * </pre>
 	 */
 	private String contactAddress;
@@ -226,7 +225,7 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 统一社会信用代码
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.CREDIT_CODE
+	 * 表字段 : T_SES_SMS_SUPPLIER.CREDIT_CODE
 	 * </pre>
 	 */
 	private String creditCode;
@@ -234,7 +233,7 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 登记机关
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.REGIST_AUTHORITY
+	 * 表字段 : T_SES_SMS_SUPPLIER.REGIST_AUTHORITY
 	 * </pre>
 	 */
 	private String registAuthority;
@@ -242,15 +241,15 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 注册资金
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.REGIST_FUND
+	 * 表字段 : T_SES_SMS_SUPPLIER.REGIST_FUND
 	 * </pre>
 	 */
-	private BigDecimal registFund;
+	private Long registFund;
 
 	/**
 	 * <pre>
 	 * 营业起始日期
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.BUSINESS_START_DATE
+	 * 表字段 : T_SES_SMS_SUPPLIER.BUSINESS_START_DATE
 	 * </pre>
 	 */
 	private Date businessStartDate;
@@ -258,7 +257,7 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 营业结束日期
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.BUSINESS_END_DATE
+	 * 表字段 : T_SES_SMS_SUPPLIER.BUSINESS_END_DATE
 	 * </pre>
 	 */
 	private Date businessEndDate;
@@ -266,7 +265,7 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 营业范围
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.BUSINESS_SCOPE
+	 * 表字段 : T_SES_SMS_SUPPLIER.BUSINESS_SCOPE
 	 * </pre>
 	 */
 	private String businessScope;
@@ -274,7 +273,7 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 经营地址
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.BUSINESS_ADDRESS
+	 * 表字段 : T_SES_SMS_SUPPLIER.BUSINESS_ADDRESS
 	 * </pre>
 	 */
 	private String businessAddress;
@@ -282,15 +281,15 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 经营地址邮编
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.BUSINESS_ZIP_CODE
+	 * 表字段 : T_SES_SMS_SUPPLIER.BUSINESS_POST_CODE
 	 * </pre>
 	 */
-	private String businessZipCode;
+	private Integer businessPostCode;
 
 	/**
 	 * <pre>
 	 * 境外分支机构 0代表无  1代表有
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.OVERSEAS_BRANCH
+	 * 表字段 : T_SES_SMS_SUPPLIER.OVERSEAS_BRANCH
 	 * </pre>
 	 */
 	private Integer overseasBranch;
@@ -298,7 +297,7 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 分支所在国家
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.BRANCH_COUNTRY
+	 * 表字段 : T_SES_SMS_SUPPLIER.BRANCH_COUNTRY
 	 * </pre>
 	 */
 	private String branchCountry;
@@ -306,7 +305,7 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 分支地址
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.BRANCH_ADDRESS
+	 * 表字段 : T_SES_SMS_SUPPLIER.BRANCH_ADDRESS
 	 * </pre>
 	 */
 	private String branchAddress;
@@ -314,7 +313,7 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 分支名称
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.BRANCH_NAME
+	 * 表字段 : T_SES_SMS_SUPPLIER.BRANCH_NAME
 	 * </pre>
 	 */
 	private String branchName;
@@ -322,7 +321,7 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 分支经营范围
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.BRANCH_BUSINESS_SCOPE
+	 * 表字段 : T_SES_SMS_SUPPLIER.BRANCH_BUSINESS_SCOPE
 	 * </pre>
 	 */
 	private String branchBusinessScope;
@@ -330,15 +329,15 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 供应商类别ID   T_SES_SMS_SUPPLIER_TYPES
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.SUPPLIER_TYPE_ID
+	 * 表字段 : T_SES_SMS_SUPPLIER.SUPPLIER_TYPE_ID
 	 * </pre>
 	 */
-	private Integer supplierTypeId;
+	private String supplierTypeId;
 
 	/**
 	 * <pre>
 	 * 供应商状态 0代表待审核 1表审核通过 2代表未通过 3代表变更
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.STATUS
+	 * 表字段 : T_SES_SMS_SUPPLIER.STATUS
 	 * </pre>
 	 */
 	private Integer status;
@@ -346,15 +345,15 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 机构ID  T_SES_OMS_PROCUREMENT_DEP
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.ORGMAN_ID
+	 * 表字段 : T_SES_SMS_SUPPLIER.PROCUREMENT_ID
 	 * </pre>
 	 */
-	private Integer orgmanId;
+	private String procurementId;
 
 	/**
 	 * <pre>
 	 * 供应商分级办法 上传
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.SUPPLIER_LEVEL
+	 * 表字段 : T_SES_SMS_SUPPLIER.SUPPLIER_LEVEL
 	 * </pre>
 	 */
 	private String supplierLevel;
@@ -362,7 +361,7 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 供应商承诺书 上传
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.SUPPLIER_PLEDGE
+	 * 表字段 : T_SES_SMS_SUPPLIER.SUPPLIER_PLEDGE
 	 * </pre>
 	 */
 	private String supplierPledge;
@@ -370,7 +369,7 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 供应商入库申请表 上传
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.SUPPLIER_REG_LIST
+	 * 表字段 : T_SES_SMS_SUPPLIER.SUPPLIER_REG_LIST
 	 * </pre>
 	 */
 	private String supplierRegList;
@@ -378,7 +377,7 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 供应商抽取记录表 上传
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.SUPPLIER_EXTRACTS_LIST
+	 * 表字段 : T_SES_SMS_SUPPLIER.SUPPLIER_EXTRACTS_LIST
 	 * </pre>
 	 */
 	private String supplierExtractsList;
@@ -386,7 +385,7 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 供应商考察记录表 上传
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.SUPPLIER_INSPECT_LIST
+	 * 表字段 : T_SES_SMS_SUPPLIER.SUPPLIER_INSPECT_LIST
 	 * </pre>
 	 */
 	private String supplierInspectList;
@@ -394,7 +393,7 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 供应商考察廉政意见函 上传
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.SUPPLIER_REVIEW_LIST
+	 * 表字段 : T_SES_SMS_SUPPLIER.SUPPLIER_REVIEW_LIST
 	 * </pre>
 	 */
 	private String supplierReviewList;
@@ -402,7 +401,7 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 供应商变更申请表 上传
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.SUPPLIER_CHANGE_LIST
+	 * 表字段 : T_SES_SMS_SUPPLIER.SUPPLIER_CHANGE_LIST
 	 * </pre>
 	 */
 	private String supplierChangeList;
@@ -410,7 +409,7 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 供应商退库申请表 上传
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.SUPPLIER_EXIT_LIST
+	 * 表字段 : T_SES_SMS_SUPPLIER.SUPPLIER_EXIT_LIST
 	 * </pre>
 	 */
 	private String supplierExitList;
@@ -418,7 +417,7 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 创建时间 格式年月日时分秒
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.CREATED_AT
+	 * 表字段 : T_SES_SMS_SUPPLIER.CREATED_AT
 	 * </pre>
 	 */
 	private Date createdAt;
@@ -426,24 +425,14 @@ public class SupplierInfo implements Serializable {
 	/**
 	 * <pre>
 	 * 更新时间 格式年月日时分秒
-	 * 表字段 : T_SES_SMS_SUPPLIER_INFO.UPDATED_AT
+	 * 表字段 : T_SES_SMS_SUPPLIER.UPDATED_AT
 	 * </pre>
 	 */
 	private Date updatedAt;
-	
-	/**
-	 * <pre>
-	 * 财务信息
-	 * </pre>
-	 */
+
 	private List<SupplierFinance> listSupplierFinances = new ArrayList<SupplierFinance>();
-	
-	/**
-	 * <pre>
-	 * 股东信息
-	 * </pre>
-	 */
-	private List<SupplierShare> listSupplierShares = new ArrayList<SupplierShare>();
+
+	private List<SupplierStockholder> listSupplierStockholders = new ArrayList<SupplierStockholder>();
 
 	public String getId() {
 		return id;
@@ -485,12 +474,12 @@ public class SupplierInfo implements Serializable {
 		this.supplierName = supplierName;
 	}
 
-	public String getNetUrl() {
-		return netUrl;
+	public String getWebsite() {
+		return website;
 	}
 
-	public void setNetUrl(String netUrl) {
-		this.netUrl = netUrl;
+	public void setWebsite(String website) {
+		this.website = website;
 	}
 
 	public Date getFoundDate() {
@@ -517,12 +506,12 @@ public class SupplierInfo implements Serializable {
 		this.address = address;
 	}
 
-	public String getBangkName() {
-		return bangkName;
+	public String getBankName() {
+		return bankName;
 	}
 
-	public void setBangkName(String bangkName) {
-		this.bangkName = bangkName;
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
 	}
 
 	public String getBankAccount() {
@@ -533,12 +522,12 @@ public class SupplierInfo implements Serializable {
 		this.bankAccount = bankAccount;
 	}
 
-	public String getSupplierZipCode() {
-		return supplierZipCode;
+	public String getPostCode() {
+		return postCode;
 	}
 
-	public void setSupplierZipCode(String supplierZipCode) {
-		this.supplierZipCode = supplierZipCode;
+	public void setPostCode(String postCode) {
+		this.postCode = postCode;
 	}
 
 	public String getTaxCert() {
@@ -581,28 +570,28 @@ public class SupplierInfo implements Serializable {
 		this.legalName = legalName;
 	}
 
-	public String getLegaIdcard() {
-		return legaIdcard;
+	public String getLegaIdCard() {
+		return legaIdCard;
 	}
 
-	public void setLegaIdcard(String legaIdcard) {
-		this.legaIdcard = legaIdcard;
+	public void setLegaIdCard(String legaIdCard) {
+		this.legaIdCard = legaIdCard;
 	}
 
-	public Long getLegalMobile() {
+	public String getLegalTelephone() {
+		return legalTelephone;
+	}
+
+	public void setLegalTelephone(String legalTelephone) {
+		this.legalTelephone = legalTelephone;
+	}
+
+	public String getLegalMobile() {
 		return legalMobile;
 	}
 
-	public void setLegalMobile(Long legalMobile) {
+	public void setLegalMobile(String legalMobile) {
 		this.legalMobile = legalMobile;
-	}
-
-	public String getLegalPhone() {
-		return legalPhone;
-	}
-
-	public void setLegalPhone(String legalPhone) {
-		this.legalPhone = legalPhone;
 	}
 
 	public String getContactName() {
@@ -613,12 +602,12 @@ public class SupplierInfo implements Serializable {
 		this.contactName = contactName;
 	}
 
-	public String getContactMobile() {
-		return contactMobile;
+	public String getContactTelephone() {
+		return contactTelephone;
 	}
 
-	public void setContactMobile(String contactMobile) {
-		this.contactMobile = contactMobile;
+	public void setContactTelephone(String contactTelephone) {
+		this.contactTelephone = contactTelephone;
 	}
 
 	public String getContactFax() {
@@ -629,12 +618,12 @@ public class SupplierInfo implements Serializable {
 		this.contactFax = contactFax;
 	}
 
-	public Long getContactPhone() {
-		return contactPhone;
+	public String getContactMobile() {
+		return contactMobile;
 	}
 
-	public void setContactPhone(Long contactPhone) {
-		this.contactPhone = contactPhone;
+	public void setContactMobile(String contactMobile) {
+		this.contactMobile = contactMobile;
 	}
 
 	public String getContactEmail() {
@@ -669,11 +658,11 @@ public class SupplierInfo implements Serializable {
 		this.registAuthority = registAuthority;
 	}
 
-	public BigDecimal getRegistFund() {
+	public Long getRegistFund() {
 		return registFund;
 	}
 
-	public void setRegistFund(BigDecimal registFund) {
+	public void setRegistFund(Long registFund) {
 		this.registFund = registFund;
 	}
 
@@ -709,12 +698,12 @@ public class SupplierInfo implements Serializable {
 		this.businessAddress = businessAddress;
 	}
 
-	public String getBusinessZipCode() {
-		return businessZipCode;
+	public Integer getBusinessPostCode() {
+		return businessPostCode;
 	}
 
-	public void setBusinessZipCode(String businessZipCode) {
-		this.businessZipCode = businessZipCode;
+	public void setBusinessPostCode(Integer businessPostCode) {
+		this.businessPostCode = businessPostCode;
 	}
 
 	public Integer getOverseasBranch() {
@@ -757,11 +746,11 @@ public class SupplierInfo implements Serializable {
 		this.branchBusinessScope = branchBusinessScope;
 	}
 
-	public Integer getSupplierTypeId() {
+	public String getSupplierTypeId() {
 		return supplierTypeId;
 	}
 
-	public void setSupplierTypeId(Integer supplierTypeId) {
+	public void setSupplierTypeId(String supplierTypeId) {
 		this.supplierTypeId = supplierTypeId;
 	}
 
@@ -773,12 +762,12 @@ public class SupplierInfo implements Serializable {
 		this.status = status;
 	}
 
-	public Integer getOrgmanId() {
-		return orgmanId;
+	public String getProcurementId() {
+		return procurementId;
 	}
 
-	public void setOrgmanId(Integer orgmanId) {
-		this.orgmanId = orgmanId;
+	public void setProcurementId(String procurementId) {
+		this.procurementId = procurementId;
 	}
 
 	public String getSupplierLevel() {
@@ -869,11 +858,11 @@ public class SupplierInfo implements Serializable {
 		this.listSupplierFinances = listSupplierFinances;
 	}
 
-	public List<SupplierShare> getListSupplierShares() {
-		return listSupplierShares;
+	public List<SupplierStockholder> getListSupplierStockholders() {
+		return listSupplierStockholders;
 	}
 
-	public void setListSupplierShares(List<SupplierShare> listSupplierShares) {
-		this.listSupplierShares = listSupplierShares;
+	public void setListSupplierStockholders(List<SupplierStockholder> listSupplierStockholders) {
+		this.listSupplierStockholders = listSupplierStockholders;
 	}
 }

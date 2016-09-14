@@ -2,8 +2,8 @@ package ses.dao.sms;
 
 import java.util.List;
 
+import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAudit;
-import ses.model.sms.SupplierInfo;
 
 public interface SupplierAuditMapper {
     int deleteByPrimaryKey(String id);
@@ -19,6 +19,6 @@ public interface SupplierAuditMapper {
     int updateByPrimaryKey(SupplierAudit record);
     
     
-    List<SupplierInfo> supplierList();
+    List<Supplier> supplierList();
     
 }

@@ -29,7 +29,7 @@ public class SupplierFinance implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER_FINANCE.YEAR
 	 * </pre>
 	 */
-	private Date year;
+	private String year;
 
 	/**
 	 * <pre>
@@ -37,7 +37,7 @@ public class SupplierFinance implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER_FINANCE.MOBILE
 	 * </pre>
 	 */
-	private Long mobile;
+	private String telephone;
 
 	/**
 	 * <pre>
@@ -166,20 +166,20 @@ public class SupplierFinance implements Serializable {
 		this.name = name;
 	}
 
-	public Date getYear() {
+	public String getYear() {
 		return year;
 	}
 
-	public void setYear(Date year) {
+	public void setYear(String year) {
 		this.year = year;
 	}
 
-	public Long getMobile() {
-		return mobile;
+	public String getTelephone() {
+		return telephone;
 	}
 
-	public void setMobile(Long mobile) {
-		this.mobile = mobile;
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
 	}
 
 	public String getAuditors() {

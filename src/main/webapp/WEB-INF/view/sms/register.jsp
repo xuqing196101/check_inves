@@ -57,7 +57,7 @@
 
 			<div class="col-md-12 margin-top-40">
 				<div class="row">
-					<form action="${pageContext.request.contextPath}/supplierInfo/register.html" method="post">
+					<form action="${pageContext.request.contextPath}/supplier/register.html" method="post">
 						<div class="login_main mt20">
 							<div class="login_item">
 								<label class="col-md-3 p0"><i class="red mr5">*</i>用 户 名：</label> <input id="login_input_id" type="text" name="loginName" class="fl"> <span class="fl warning">（用户名由字母、数字、－等字符组成）</span>
@@ -92,7 +92,7 @@
 							</div>
 							<div class="tc mt20 clear col-md-11">
 								<button type="submit" class="btn padding-left-20 padding-right-20 btn_back margin-5">注册</button>
-								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="location='${pageContext.request.contextPath}/supplierInfo/registration_page.do'">返回</button>
+								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="location='${pageContext.request.contextPath}/supplier/registration_page.html'">返回</button>
 							</div>
 						</div>
 					</form>

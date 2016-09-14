@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="ses.dao.sms.SupplierShareMapper">
-	<resultMap id="BaseResultMap" type="ses.model.sms.SupplierShare">
+<mapper namespace="ses.dao.sms.SupplierStockholderMapper">
+	<resultMap id="BaseResultMap" type="ses.model.sms.SupplierStockholder">
 		<id column="ID" property="id" />
 		<result column="SUPPLIER_ID" property="supplierId" />
 		<result column="NAME" property="name" />
 		<result column="NATURE" property="nature" />
 		<result column="IDENTITY" property="identity" />
-		<result column="SHARE" property="share" />
+		<result column="SHARES" property="shares" />
 		<result column="PROPORTION" property="proportion" />
 		<result column="CREATED_AT" property="createdAt" />
 		<result column="UPDATED_AT" property="updatedAt" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		ID, SUPPLIER_ID, NAME, NATURE, IDENTITY, SHARE, PROPORTION, CREATED_AT, UPDATED_AT
+		ID, SUPPLIER_ID, NAME, NATURE, IDENTITY, SHARES, PROPORTION, CREATED_AT, UPDATED_AT
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-		from T_SES_SMS_SUPPLIER_SHARE
+		from T_SES_SMS_SUPPLIER_STOCKHOLDER
 		where ID = #{id}
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-		delete from T_SES_SMS_SUPPLIER_SHARE
+		delete from T_SES_SMS_SUPPLIER_STOCKHOLDER
 		where ID = #{id}
 	</delete>
-	<insert id="insert" parameterType="ses.model.sms.SupplierShare">
-		insert into T_SES_SMS_SUPPLIER_SHARE (ID, SUPPLIER_ID, NAME,
-		NATURE, IDENTITY, SHARE,
+	<insert id="insert" parameterType="ses.model.sms.SupplierStockholder">
+		insert into T_SES_SMS_SUPPLIER_STOCKHOLDER (ID, SUPPLIER_ID, NAME,
+		NATURE, IDENTITY, SHARES,
 		PROPORTION, CREATED_AT, UPDATED_AT
 		)
 		values (#{id}, #{supplierId}, #{name},
-		#{nature}, #{identity}, #{share},
+		#{nature}, #{identity}, #{shares},
 		#{proportion}, #{createdAt}, #{updatedAt}
 		)
 	</insert>
-	<insert id="insertSelective" parameterType="ses.model.sms.SupplierShare">
-		insert into T_SES_SMS_SUPPLIER_SHARE
+	<insert id="insertSelective" parameterType="ses.model.sms.SupplierStockholder">
+		insert into T_SES_SMS_SUPPLIER_STOCKHOLDER
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				ID,
@@ -53,8 +53,8 @@
 			<if test="identity != null">
 				IDENTITY,
 			</if>
-			<if test="share != null">
-				SHARE,
+			<if test="shares != null">
+				SHARES,
 			</if>
 			<if test="proportion != null">
 				PROPORTION,
@@ -82,8 +82,8 @@
 			<if test="identity != null">
 				#{identity},
 			</if>
-			<if test="share != null">
-				#{share},
+			<if test="shares != null">
+				#{shares},
 			</if>
 			<if test="proportion != null">
 				#{proportion},
@@ -95,9 +95,12 @@
 				#{updatedAt},
 			</if>
 		</trim>
+		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			select sys_guid() from dual
+		</selectKey>
 	</insert>
-	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierShare">
-		update T_SES_SMS_SUPPLIER_SHARE
+	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierStockholder">
+		update T_SES_SMS_SUPPLIER_STOCKHOLDER
 		<set>
 			<if test="supplierId != null">
 				SUPPLIER_ID = #{supplierId},
@@ -111,8 +114,8 @@
 			<if test="identity != null">
 				IDENTITY = #{identity},
 			</if>
-			<if test="share != null">
-				SHARE = #{share},
+			<if test="shares != null">
+				SHARES = #{shares},
 			</if>
 			<if test="proportion != null">
 				PROPORTION = #{proportion},
@@ -126,16 +129,24 @@
 		</set>
 		where ID = #{id}
 	</update>
-	<update id="updateByPrimaryKey" parameterType="ses.model.sms.SupplierShare">
-		update T_SES_SMS_SUPPLIER_SHARE
+	<update id="updateByPrimaryKey" parameterType="ses.model.sms.SupplierStockholder">
+		update T_SES_SMS_SUPPLIER_STOCKHOLDER
 		set SUPPLIER_ID = #{supplierId},
 		NAME = #{name},
 		NATURE = #{nature},
 		IDENTITY = #{identity},
-		SHARE = #{share},
+		SHARES = #{shares},
 		PROPORTION = #{proportion},
 		CREATED_AT = #{createdAt},
 		UPDATED_AT = #{updatedAt}
 		where ID = #{id}
 	</update>
+	
+	<select id="findStockholderBySupplierId" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select * from T_SES_SMS_SUPPLIER_STOCKHOLDER where SUPPLIER_ID = #{SUPPLIER_ID}
+	</select>
+	
+	<delete id="deleteStockholderBySupplierId" parameterType="java.lang.String">
+		delete from T_SES_SMS_SUPPLIER_STOCKHOLDER where SUPPLIER_ID = #{SUPPLIER_ID}
+	</delete>
 </mapper>

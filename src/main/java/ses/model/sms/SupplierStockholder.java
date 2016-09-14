@@ -9,7 +9,7 @@ import java.util.Date;
  * @author: Poppet_Brook
  * @date: 2016-9-1下午3:28:39
  */
-public class SupplierShare implements Serializable {
+public class SupplierStockholder implements Serializable {
 	private static final long serialVersionUID = -5047831902205549532L;
 
 	/**
@@ -26,7 +26,7 @@ public class SupplierShare implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER_SHARE.SUPPLIER_ID
 	 * </pre>
 	 */
-	private Integer supplierId;
+	private String supplierId;
 
 	/**
 	 * <pre>
@@ -55,10 +55,10 @@ public class SupplierShare implements Serializable {
 	/**
 	 * <pre>
 	 * 出资金额或股份
-	 * 表字段 : T_SES_SMS_SUPPLIER_SHARE.SHARE
+	 * 表字段 : T_SES_SMS_SUPPLIER_SHARE.SHARES
 	 * </pre>
 	 */
-	private String share;
+	private String shares;
 
 	/**
 	 * <pre>
@@ -83,13 +83,13 @@ public class SupplierShare implements Serializable {
 	 * </pre>
 	 */
 	private Date updatedAt;
-	
+
 	/**
 	 * <pre>
 	 * 供应商信息
 	 * </pre>
 	 */
-	private SupplierInfo supplierInfo;
+	private Supplier supplierInfo;
 
 	public String getId() {
 		return id;
@@ -99,11 +99,11 @@ public class SupplierShare implements Serializable {
 		this.id = id;
 	}
 
-	public Integer getSupplierId() {
+	public String getSupplierId() {
 		return supplierId;
 	}
 
-	public void setSupplierId(Integer supplierId) {
+	public void setSupplierId(String supplierId) {
 		this.supplierId = supplierId;
 	}
 
@@ -131,12 +131,12 @@ public class SupplierShare implements Serializable {
 		this.identity = identity;
 	}
 
-	public String getShare() {
-		return share;
+	public String getShares() {
+		return shares;
 	}
 
-	public void setShare(String share) {
-		this.share = share;
+	public void setShares(String shares) {
+		this.shares = shares;
 	}
 
 	public String getProportion() {
@@ -163,11 +163,11 @@ public class SupplierShare implements Serializable {
 		this.updatedAt = updatedAt;
 	}
 
-	public SupplierInfo getSupplierInfo() {
+	public Supplier getSupplierInfo() {
 		return supplierInfo;
 	}
 
-	public void setSupplierInfo(SupplierInfo supplierInfo) {
+	public void setSupplierInfo(Supplier supplierInfo) {
 		this.supplierInfo = supplierInfo;
 	}
 }

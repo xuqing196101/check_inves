@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="ses.dao.sms.SupplierInfoMapper">
-	<resultMap id="BaseResultMap" type="ses.model.sms.SupplierInfo">
+<mapper namespace="ses.dao.sms.SupplierMapper">
+	<resultMap id="BaseResultMap" type="ses.model.sms.Supplier">
 		<id column="ID" property="id" />
 		<result column="LOGIN_NAME" property="loginName" />
 		<result column="MOBILE" property="mobile" />
 		<result column="PASSWORD" property="password" />
 		<result column="SUPPLIER_NAME" property="supplierName" />
-		<result column="NET_URL" property="netUrl" />
+		<result column="WEBSITE" property="website" />
 		<result column="FOUND_DATE" property="foundDate" />
 		<result column="BUSINESS_TYPE" property="businessType" />
 		<result column="ADDRESS" property="address" />
-		<result column="BANGK_NAME" property="bangkName" />
+		<result column="BANK_NAME" property="bankName" />
 		<result column="BANK_ ACCOUNT" property="bankAccount" />
-		<result column="SUPPLIER_ZIP_CODE" property="supplierZipCode" />
+		<result column="POST_CODE" property="postCode" />
 		<result column="TAX_CERT" property="taxCert" />
 		<result column="BILL_CERT" property="billCert" />
 		<result column="SECURITY_CERT" property="securityCert" />
 		<result column="BREACH_CERT" property="breachCert" />
 		<result column="LEGAL_NAME" property="legalName" />
-		<result column="LEGA_IDCARD" property="legaIdcard" />
+		<result column="LEGA_ID_CARD" property="legaIdCard" />
+		<result column="LEGAL_TELEPHONE" property="legalTelephone" />
 		<result column="LEGAL_MOBILE" property="legalMobile" />
-		<result column="LEGAL_PHONE" property="legalPhone" />
 		<result column="CONTACT_NAME" property="contactName" />
-		<result column="CONTACT_MOBILE" property="contactMobile" />
+		<result column="CONTACT_TELEPHONE" property="contactTelephone" />
 		<result column="CONTACT_FAX" property="contactFax" />
-		<result column="CONTACT_PHONE" property="contactPhone" />
+		<result column="CONTACT_MOBILE" property="contactMobile" />
 		<result column="CONTACT_EMAIL" property="contactEmail" />
 		<result column="CONTACT_ADDRESS" property="contactAddress" />
 		<result column="CREDIT_CODE" property="creditCode" />
@@ -35,7 +35,7 @@
 		<result column="BUSINESS_END_DATE" property="businessEndDate" />
 		<result column="BUSINESS_SCOPE" property="businessScope" />
 		<result column="BUSINESS_ADDRESS" property="businessAddress" />
-		<result column="BUSINESS_ZIP_CODE" property="businessZipCode" />
+		<result column="BUSINESS_POST_CODE" property="businessPostCode" />
 		<result column="OVERSEAS_BRANCH" property="overseasBranch" />
 		<result column="BRANCH_COUNTRY" property="branchCountry" />
 		<result column="BRANCH_ADDRESS" property="branchAddress" />
@@ -43,7 +43,7 @@
 		<result column="BRANCH_BUSINESS_SCOPE" property="branchBusinessScope" />
 		<result column="SUPPLIER_TYPE_ID" property="supplierTypeId" />
 		<result column="STATUS" property="status" />
-		<result column="ORGMAN_ID" property="orgmanId" />
+		<result column="PROCUREMENT_ID" property="procurementId" />
 		<result column="SUPPLIER_LEVEL" property="supplierLevel" />
 		<result column="SUPPLIER_PLEDGE" property="supplierPledge" />
 		<result column="SUPPLIER_REG_LIST" property="supplierRegList" />
@@ -56,68 +56,68 @@
 		<result column="UPDATED_AT" property="updatedAt" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		ID, LOGIN_NAME, MOBILE, PASSWORD, SUPPLIER_NAME, NET_URL, FOUND_DATE, BUSINESS_TYPE,
-		ADDRESS, BANGK_NAME, "BANK_ ACCOUNT", SUPPLIER_ZIP_CODE, TAX_CERT, BILL_CERT, SECURITY_CERT,
-		BREACH_CERT, LEGAL_NAME, LEGA_IDCARD, LEGAL_MOBILE, LEGAL_PHONE, CONTACT_NAME, CONTACT_MOBILE,
-		CONTACT_FAX, CONTACT_PHONE, CONTACT_EMAIL, CONTACT_ADDRESS, CREDIT_CODE, REGIST_AUTHORITY,
-		REGIST_FUND, BUSINESS_START_DATE, BUSINESS_END_DATE, BUSINESS_SCOPE, BUSINESS_ADDRESS,
-		BUSINESS_ZIP_CODE, OVERSEAS_BRANCH, BRANCH_COUNTRY, BRANCH_ADDRESS, BRANCH_NAME,
-		BRANCH_BUSINESS_SCOPE, SUPPLIER_TYPE_ID, STATUS, ORGMAN_ID, SUPPLIER_LEVEL, SUPPLIER_PLEDGE,
-		SUPPLIER_REG_LIST, SUPPLIER_EXTRACTS_LIST, SUPPLIER_INSPECT_LIST, SUPPLIER_REVIEW_LIST,
-		SUPPLIER_CHANGE_LIST, SUPPLIER_EXIT_LIST, CREATED_AT, UPDATED_AT
+		ID, LOGIN_NAME, MOBILE, PASSWORD, SUPPLIER_NAME, WEBSITE, FOUND_DATE, BUSINESS_TYPE,
+		ADDRESS, BANK_NAME, "BANK_ ACCOUNT", POST_CODE, TAX_CERT, BILL_CERT, SECURITY_CERT,
+		BREACH_CERT, LEGAL_NAME, LEGA_ID_CARD, LEGAL_TELEPHONE, LEGAL_MOBILE, CONTACT_NAME,
+		CONTACT_TELEPHONE, CONTACT_FAX, CONTACT_MOBILE, CONTACT_EMAIL, CONTACT_ADDRESS, CREDIT_CODE,
+		REGIST_AUTHORITY, REGIST_FUND, BUSINESS_START_DATE, BUSINESS_END_DATE, BUSINESS_SCOPE,
+		BUSINESS_ADDRESS, BUSINESS_POST_CODE, OVERSEAS_BRANCH, BRANCH_COUNTRY, BRANCH_ADDRESS,
+		BRANCH_NAME, BRANCH_BUSINESS_SCOPE, SUPPLIER_TYPE_ID, STATUS, PROCUREMENT_ID, SUPPLIER_LEVEL,
+		SUPPLIER_PLEDGE, SUPPLIER_REG_LIST, SUPPLIER_EXTRACTS_LIST, SUPPLIER_INSPECT_LIST,
+		SUPPLIER_REVIEW_LIST, SUPPLIER_CHANGE_LIST, SUPPLIER_EXIT_LIST, CREATED_AT, UPDATED_AT
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-		from T_SES_SMS_SUPPLIER_INFO
+		from T_SES_SMS_SUPPLIER
 		where ID = #{id}
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-		delete from T_SES_SMS_SUPPLIER_INFO
+		delete from T_SES_SMS_SUPPLIER
 		where ID = #{id}
 	</delete>
-	<insert id="insert" parameterType="ses.model.sms.SupplierInfo">
-		insert into T_SES_SMS_SUPPLIER_INFO (ID, LOGIN_NAME, MOBILE,
-		PASSWORD, SUPPLIER_NAME, NET_URL,
+	<insert id="insert" parameterType="ses.model.sms.Supplier">
+		insert into T_SES_SMS_SUPPLIER (ID, LOGIN_NAME, MOBILE,
+		PASSWORD, SUPPLIER_NAME, WEBSITE,
 		FOUND_DATE, BUSINESS_TYPE, ADDRESS,
-		BANGK_NAME, "BANK_ ACCOUNT", SUPPLIER_ZIP_CODE,
+		BANK_NAME, "BANK_ ACCOUNT", POST_CODE,
 		TAX_CERT, BILL_CERT, SECURITY_CERT,
-		BREACH_CERT, LEGAL_NAME, LEGA_IDCARD,
-		LEGAL_MOBILE, LEGAL_PHONE, CONTACT_NAME,
-		CONTACT_MOBILE, CONTACT_FAX, CONTACT_PHONE,
+		BREACH_CERT, LEGAL_NAME, LEGA_ID_CARD,
+		LEGAL_TELEPHONE, LEGAL_MOBILE, CONTACT_NAME,
+		CONTACT_TELEPHONE, CONTACT_FAX, CONTACT_MOBILE,
 		CONTACT_EMAIL, CONTACT_ADDRESS, CREDIT_CODE,
 		REGIST_AUTHORITY, REGIST_FUND, BUSINESS_START_DATE,
 		BUSINESS_END_DATE, BUSINESS_SCOPE, BUSINESS_ADDRESS,
-		BUSINESS_ZIP_CODE, OVERSEAS_BRANCH, BRANCH_COUNTRY,
+		BUSINESS_POST_CODE, OVERSEAS_BRANCH, BRANCH_COUNTRY,
 		BRANCH_ADDRESS, BRANCH_NAME, BRANCH_BUSINESS_SCOPE,
-		SUPPLIER_TYPE_ID, STATUS, ORGMAN_ID,
+		SUPPLIER_TYPE_ID, STATUS, PROCUREMENT_ID,
 		SUPPLIER_LEVEL, SUPPLIER_PLEDGE, SUPPLIER_REG_LIST,
 		SUPPLIER_EXTRACTS_LIST, SUPPLIER_INSPECT_LIST,
 		SUPPLIER_REVIEW_LIST, SUPPLIER_CHANGE_LIST,
 		SUPPLIER_EXIT_LIST, CREATED_AT, UPDATED_AT
 		)
 		values (#{id}, #{loginName}, #{mobile},
-		#{password}, #{supplierName}, #{netUrl},
+		#{password}, #{supplierName}, #{website},
 		#{foundDate}, #{businessType}, #{address},
-		#{bangkName}, #{bankAccount}, #{supplierZipCode},
+		#{bankName}, #{bankAccount}, #{postCode},
 		#{taxCert}, #{billCert}, #{securityCert},
-		#{breachCert}, #{legalName}, #{legaIdcard},
-		#{legalMobile}, #{legalPhone}, #{contactName},
-		#{contactMobile}, #{contactFax}, #{contactPhone},
+		#{breachCert}, #{legalName}, #{legaIdCard},
+		#{legalTelephone}, #{legalMobile}, #{contactName},
+		#{contactTelephone}, #{contactFax}, #{contactMobile},
 		#{contactEmail}, #{contactAddress}, #{creditCode},
 		#{registAuthority}, #{registFund}, #{businessStartDate},
 		#{businessEndDate}, #{businessScope}, #{businessAddress},
-		#{businessZipCode}, #{overseasBranch}, #{branchCountry},
+		#{businessPostCode}, #{overseasBranch}, #{branchCountry},
 		#{branchAddress}, #{branchName}, #{branchBusinessScope},
-		#{supplierTypeId}, #{status}, #{orgmanId},
+		#{supplierTypeId}, #{status}, #{procurementId},
 		#{supplierLevel}, #{supplierPledge}, #{supplierRegList},
 		#{supplierExtractsList}, #{supplierInspectList},
 		#{supplierReviewList}, #{supplierChangeList},
 		#{supplierExitList}, #{createdAt}, #{updatedAt}
 		)
 	</insert>
-	<insert id="insertSelective" parameterType="ses.model.sms.SupplierInfo">
-		insert into T_SES_SMS_SUPPLIER_INFO
+	<insert id="insertSelective" parameterType="ses.model.sms.Supplier">
+		insert into T_SES_SMS_SUPPLIER
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				ID,
@@ -134,8 +134,8 @@
 			<if test="supplierName != null">
 				SUPPLIER_NAME,
 			</if>
-			<if test="netUrl != null">
-				NET_URL,
+			<if test="website != null">
+				WEBSITE,
 			</if>
 			<if test="foundDate != null">
 				FOUND_DATE,
@@ -146,14 +146,14 @@
 			<if test="address != null">
 				ADDRESS,
 			</if>
-			<if test="bangkName != null">
-				BANGK_NAME,
+			<if test="bankName != null">
+				BANK_NAME,
 			</if>
 			<if test="bankAccount != null">
 				"BANK_ ACCOUNT",
 			</if>
-			<if test="supplierZipCode != null">
-				SUPPLIER_ZIP_CODE,
+			<if test="postCode != null">
+				POST_CODE,
 			</if>
 			<if test="taxCert != null">
 				TAX_CERT,
@@ -170,26 +170,26 @@
 			<if test="legalName != null">
 				LEGAL_NAME,
 			</if>
-			<if test="legaIdcard != null">
-				LEGA_IDCARD,
+			<if test="legaIdCard != null">
+				LEGA_ID_CARD,
+			</if>
+			<if test="legalTelephone != null">
+				LEGAL_TELEPHONE,
 			</if>
 			<if test="legalMobile != null">
 				LEGAL_MOBILE,
 			</if>
-			<if test="legalPhone != null">
-				LEGAL_PHONE,
-			</if>
 			<if test="contactName != null">
 				CONTACT_NAME,
 			</if>
-			<if test="contactMobile != null">
-				CONTACT_MOBILE,
+			<if test="contactTelephone != null">
+				CONTACT_TELEPHONE,
 			</if>
 			<if test="contactFax != null">
 				CONTACT_FAX,
 			</if>
-			<if test="contactPhone != null">
-				CONTACT_PHONE,
+			<if test="contactMobile != null">
+				CONTACT_MOBILE,
 			</if>
 			<if test="contactEmail != null">
 				CONTACT_EMAIL,
@@ -218,8 +218,8 @@
 			<if test="businessAddress != null">
 				BUSINESS_ADDRESS,
 			</if>
-			<if test="businessZipCode != null">
-				BUSINESS_ZIP_CODE,
+			<if test="businessPostCode != null">
+				BUSINESS_POST_CODE,
 			</if>
 			<if test="overseasBranch != null">
 				OVERSEAS_BRANCH,
@@ -242,8 +242,8 @@
 			<if test="status != null">
 				STATUS,
 			</if>
-			<if test="orgmanId != null">
-				ORGMAN_ID,
+			<if test="procurementId != null">
+				PROCUREMENT_ID,
 			</if>
 			<if test="supplierLevel != null">
 				SUPPLIER_LEVEL,
@@ -292,8 +292,8 @@
 			<if test="supplierName != null">
 				#{supplierName},
 			</if>
-			<if test="netUrl != null">
-				#{netUrl},
+			<if test="website != null">
+				#{website},
 			</if>
 			<if test="foundDate != null">
 				#{foundDate},
@@ -304,14 +304,14 @@
 			<if test="address != null">
 				#{address},
 			</if>
-			<if test="bangkName != null">
-				#{bangkName},
+			<if test="bankName != null">
+				#{bankName},
 			</if>
 			<if test="bankAccount != null">
 				#{bankAccount},
 			</if>
-			<if test="supplierZipCode != null">
-				#{supplierZipCode},
+			<if test="postCode != null">
+				#{postCode},
 			</if>
 			<if test="taxCert != null">
 				#{taxCert},
@@ -328,26 +328,26 @@
 			<if test="legalName != null">
 				#{legalName},
 			</if>
-			<if test="legaIdcard != null">
-				#{legaIdcard},
+			<if test="legaIdCard != null">
+				#{legaIdCard},
+			</if>
+			<if test="legalTelephone != null">
+				#{legalTelephone},
 			</if>
 			<if test="legalMobile != null">
 				#{legalMobile},
 			</if>
-			<if test="legalPhone != null">
-				#{legalPhone},
-			</if>
 			<if test="contactName != null">
 				#{contactName},
 			</if>
-			<if test="contactMobile != null">
-				#{contactMobile},
+			<if test="contactTelephone != null">
+				#{contactTelephone},
 			</if>
 			<if test="contactFax != null">
 				#{contactFax},
 			</if>
-			<if test="contactPhone != null">
-				#{contactPhone},
+			<if test="contactMobile != null">
+				#{contactMobile},
 			</if>
 			<if test="contactEmail != null">
 				#{contactEmail},
@@ -376,8 +376,8 @@
 			<if test="businessAddress != null">
 				#{businessAddress},
 			</if>
-			<if test="businessZipCode != null">
-				#{businessZipCode},
+			<if test="businessPostCode != null">
+				#{businessPostCode},
 			</if>
 			<if test="overseasBranch != null">
 				#{overseasBranch},
@@ -400,8 +400,8 @@
 			<if test="status != null">
 				#{status},
 			</if>
-			<if test="orgmanId != null">
-				#{orgmanId},
+			<if test="procurementId != null">
+				#{procurementId},
 			</if>
 			<if test="supplierLevel != null">
 				#{supplierLevel},
@@ -434,12 +434,12 @@
 				#{updatedAt},
 			</if>
 		</trim>
-		<selectKey  keyProperty="id" order="BEFORE" resultType="java.lang.String">
+		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
 			select sys_guid() from dual
 		</selectKey>
 	</insert>
-	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierInfo">
-		update T_SES_SMS_SUPPLIER_INFO
+	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.Supplier">
+		update T_SES_SMS_SUPPLIER
 		<set>
 			<if test="loginName != null">
 				LOGIN_NAME = #{loginName},
@@ -453,8 +453,8 @@
 			<if test="supplierName != null">
 				SUPPLIER_NAME = #{supplierName},
 			</if>
-			<if test="netUrl != null">
-				NET_URL = #{netUrl},
+			<if test="website != null">
+				WEBSITE = #{website},
 			</if>
 			<if test="foundDate != null">
 				FOUND_DATE = #{foundDate},
@@ -465,14 +465,14 @@
 			<if test="address != null">
 				ADDRESS = #{address},
 			</if>
-			<if test="bangkName != null">
-				BANGK_NAME = #{bangkName},
+			<if test="bankName != null">
+				BANK_NAME = #{bankName},
 			</if>
 			<if test="bankAccount != null">
 				"BANK_ ACCOUNT" = #{bankAccount},
 			</if>
-			<if test="supplierZipCode != null">
-				SUPPLIER_ZIP_CODE = #{supplierZipCode},
+			<if test="postCode != null">
+				POST_CODE = #{postCode},
 			</if>
 			<if test="taxCert != null">
 				TAX_CERT = #{taxCert},
@@ -489,26 +489,26 @@
 			<if test="legalName != null">
 				LEGAL_NAME = #{legalName},
 			</if>
-			<if test="legaIdcard != null">
-				LEGA_IDCARD = #{legaIdcard},
+			<if test="legaIdCard != null">
+				LEGA_ID_CARD = #{legaIdCard},
+			</if>
+			<if test="legalTelephone != null">
+				LEGAL_TELEPHONE = #{legalTelephone},
 			</if>
 			<if test="legalMobile != null">
 				LEGAL_MOBILE = #{legalMobile},
 			</if>
-			<if test="legalPhone != null">
-				LEGAL_PHONE = #{legalPhone},
-			</if>
 			<if test="contactName != null">
 				CONTACT_NAME = #{contactName},
 			</if>
-			<if test="contactMobile != null">
-				CONTACT_MOBILE = #{contactMobile},
+			<if test="contactTelephone != null">
+				CONTACT_TELEPHONE = #{contactTelephone},
 			</if>
 			<if test="contactFax != null">
 				CONTACT_FAX = #{contactFax},
 			</if>
-			<if test="contactPhone != null">
-				CONTACT_PHONE = #{contactPhone},
+			<if test="contactMobile != null">
+				CONTACT_MOBILE = #{contactMobile},
 			</if>
 			<if test="contactEmail != null">
 				CONTACT_EMAIL = #{contactEmail},
@@ -537,8 +537,8 @@
 			<if test="businessAddress != null">
 				BUSINESS_ADDRESS = #{businessAddress},
 			</if>
-			<if test="businessZipCode != null">
-				BUSINESS_ZIP_CODE = #{businessZipCode},
+			<if test="businessPostCode != null">
+				BUSINESS_POST_CODE = #{businessPostCode},
 			</if>
 			<if test="overseasBranch != null">
 				OVERSEAS_BRANCH = #{overseasBranch},
@@ -561,8 +561,8 @@
 			<if test="status != null">
 				STATUS = #{status},
 			</if>
-			<if test="orgmanId != null">
-				ORGMAN_ID = #{orgmanId},
+			<if test="procurementId != null">
+				PROCUREMENT_ID = #{procurementId},
 			</if>
 			<if test="supplierLevel != null">
 				SUPPLIER_LEVEL = #{supplierLevel},
@@ -597,31 +597,31 @@
 		</set>
 		where ID = #{id}
 	</update>
-	<update id="updateByPrimaryKey" parameterType="ses.model.sms.SupplierInfo">
-		update T_SES_SMS_SUPPLIER_INFO
+	<update id="updateByPrimaryKey" parameterType="ses.model.sms.Supplier">
+		update T_SES_SMS_SUPPLIER
 		set LOGIN_NAME = #{loginName},
 		MOBILE = #{mobile},
 		PASSWORD = #{password},
 		SUPPLIER_NAME = #{supplierName},
-		NET_URL = #{netUrl},
+		WEBSITE = #{website},
 		FOUND_DATE = #{foundDate},
 		BUSINESS_TYPE = #{businessType},
 		ADDRESS = #{address},
-		BANGK_NAME = #{bangkName},
+		BANK_NAME = #{bankName},
 		"BANK_ ACCOUNT" = #{bankAccount},
-		SUPPLIER_ZIP_CODE = #{supplierZipCode},
+		POST_CODE = #{postCode},
 		TAX_CERT = #{taxCert},
 		BILL_CERT = #{billCert},
 		SECURITY_CERT = #{securityCert},
 		BREACH_CERT = #{breachCert},
 		LEGAL_NAME = #{legalName},
-		LEGA_IDCARD = #{legaIdcard},
+		LEGA_ID_CARD = #{legaIdCard},
+		LEGAL_TELEPHONE = #{legalTelephone},
 		LEGAL_MOBILE = #{legalMobile},
-		LEGAL_PHONE = #{legalPhone},
 		CONTACT_NAME = #{contactName},
-		CONTACT_MOBILE = #{contactMobile},
+		CONTACT_TELEPHONE = #{contactTelephone},
 		CONTACT_FAX = #{contactFax},
-		CONTACT_PHONE = #{contactPhone},
+		CONTACT_MOBILE = #{contactMobile},
 		CONTACT_EMAIL = #{contactEmail},
 		CONTACT_ADDRESS = #{contactAddress},
 		CREDIT_CODE = #{creditCode},
@@ -631,7 +631,7 @@
 		BUSINESS_END_DATE = #{businessEndDate},
 		BUSINESS_SCOPE = #{businessScope},
 		BUSINESS_ADDRESS = #{businessAddress},
-		BUSINESS_ZIP_CODE = #{businessZipCode},
+		BUSINESS_POST_CODE = #{businessPostCode},
 		OVERSEAS_BRANCH = #{overseasBranch},
 		BRANCH_COUNTRY = #{branchCountry},
 		BRANCH_ADDRESS = #{branchAddress},
@@ -639,7 +639,7 @@
 		BRANCH_BUSINESS_SCOPE = #{branchBusinessScope},
 		SUPPLIER_TYPE_ID = #{supplierTypeId},
 		STATUS = #{status},
-		ORGMAN_ID = #{orgmanId},
+		PROCUREMENT_ID = #{procurementId},
 		SUPPLIER_LEVEL = #{supplierLevel},
 		SUPPLIER_PLEDGE = #{supplierPledge},
 		SUPPLIER_REG_LIST = #{supplierRegList},
@@ -652,9 +652,18 @@
 		UPDATED_AT = #{updatedAt}
 		where ID = #{id}
 	</update>
-	
-	<!--  -->
+
+	<!-- -->
 	<select id="selectLastInsertId" resultType="java.lang.String">
-		select ID from T_SES_SMS_SUPPLIER_INFO t1 where t1.rowid = (select max(rowid) from T_SES_SMS_SUPPLIER_INFO t2)
+		select ID from T_SES_SMS_SUPPLIER t1 where t1.rowid = (select max(rowid) from T_SES_SMS_SUPPLIER t2)
 	</select>
+
+	<!-- 查询供应商全部信息 -->
+	<select id="getSupplier" parameterType="java.lang.String" resultMap="supplierMap">
+		select * from T_SES_SMS_SUPPLIER where ID = #{id}
+	</select>
+	<resultMap type="ses.model.sms.Supplier" id="supplierMap" extends="BaseResultMap">
+		<collection property="listSupplierFinances" select="ses.dao.sms.SupplierFinanceMapper.findFinanceBySupplierId" column="ID" />
+		<collection property="listSupplierStockholders" select="ses.dao.sms.SupplierStockholderMapper.findStockholderBySupplierId" column="ID" />
+	</resultMap>
 </mapper>

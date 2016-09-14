@@ -2,7 +2,7 @@ package ses.service.sms;
 
 import java.util.List;
 
-import ses.model.sms.SupplierInfo;
+import ses.model.sms.Supplier;
 /**
  * <p>Title:SupplierAuditServlice </p>
  * <p>Description: 供应商审核接口</p>
@@ -12,5 +12,5 @@ import ses.model.sms.SupplierInfo;
 
 public interface SupplierAuditServlice {
 	
-	public List<SupplierInfo> supplierList();
+	public List<Supplier> supplierList();
 }

@@ -70,7 +70,7 @@
 					</div>
 					<div class="mt40 tc">
 						<input type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/first.jsp'" value="返回"> 
-						<input id="register_input_id" type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/supplierInfo/register_page.html'" value="开始注册">
+						<input id="register_input_id" type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/supplier/register_page.html'" value="开始注册">
 					</div>
 				</div>
 			</div>
