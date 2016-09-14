@@ -23,9 +23,9 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
 <link href="${pageContext.request.contextPath}/public/layer/skin/layer.css" media="screen" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/public/layer/skin/layer.ext.css" media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/supplier/validateSupplier.js"></script>
 <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
@@ -40,9 +40,11 @@
 			LODOP.PREVIEW();
 		}
 	};
+	
 	function kaptcha() {
 		$("#kaptchaImage").hide().attr('src', '${pageContext.request.contextPath}/Kaptcha.jpg').fadeIn();
 	}
+	
 	$(function() {
 		// 注册须知
 		$("#registration_input_id").change(function() {
@@ -54,7 +56,8 @@
 			}
 		});
 	});
-		/** 供应商完善注册信息页面 */
+	
+	/** 供应商完善注册信息页面 */
 	function supplierRegist(name, i, position) {
 		if(i==3){
 			if (!validateRegSupplierInfo()) {
@@ -81,6 +84,7 @@
 		$("#" + t).hide();
 		$("#" + l).show();
 	}
+	
 	$(function() {
 	/** 校验用户名是否存在 */
 		$("#loginName").blur(function() {
@@ -140,6 +144,7 @@
 				return false;
 			}
 		});
+		
 		$("#confirmPassword").change(function() {
 			var confirmPassword = $("#confirmPassword").val();
 			var password = $("#password").val();
@@ -183,7 +188,8 @@
 											<input id="t" name="t" value="search_products" type="hidden">
 											<div class="col-md-12 pull-right">
 												<div class="input-group bround4">
-													<input class="form-control h38" id="k" name="k" placeholder="" type="text"> <span class="input-group-btn"> <input class="btn-u h38" name="commit" value="搜索" type="submit"> </span>
+													<input class="form-control h38" id="k" name="k" placeholder="" type="text"> 
+													<span class="input-group-btn"> <input class="btn-u h38" name="commit" value="搜索" type="submit"> </span>
 												</div>
 											</div>
 										</form>
@@ -195,7 +201,8 @@
 					</div>
 
 					<button data-target=".navbar-responsive-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
-						<span class="full-width-menu">全部商品分类</span> <span class="icon-toggle"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </span>
+						<span class="full-width-menu">全部商品分类</span> 
+						<span class="icon-toggle"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </span>
 					</button>
 				</div>
 
@@ -205,30 +212,44 @@
 					<div class="container">
 						<ul class="nav navbar-nav">
 							<!-- 通知 -->
-							<li class="active dropdown tongzhi_li"><a class=" dropdown-toggle p0_30" href=""><i class="tongzhi nav_icon"></i>通知</a></li>
+							<li class="active dropdown tongzhi_li">
+								<a class=" dropdown-toggle p0_30" href=""><i class="tongzhi nav_icon"></i>通知</a>
+							</li>
 							<!-- End 通知 -->
 
 							<!-- 公告 -->
-							<li class="dropdown gonggao_li"><a class=" dropdown-toggle p0_30" href=""><i class="gonggao nav_icon"></i>公告</a></li>
+							<li class="dropdown gonggao_li">
+								<a class=" dropdown-toggle p0_30" href=""><i class="gonggao nav_icon"></i>公告</a>
+							</li>
 							<!-- End 公告 -->
 
 							<!-- 公示 -->
-							<li class="dropdown gongshi_li"><a data-toggle="dropdown" class="dropdown-toggle p0_30 " href=""><i class="gongshi nav_icon"></i>公示</a></li>
+							<li class="dropdown gongshi_li">
+								<a data-toggle="dropdown" class="dropdown-toggle p0_30 " href=""><i class="gongshi nav_icon"></i>公示</a>
+							</li>
 							<!-- End 公示 -->
 
 							<!-- 专家 -->
-							<li class="dropdown zhuanjia_li"><a href="#" class="dropdown-toggle p0_30 " data-toggle="dropdown"><i class="zhuanjia nav_icon"></i>专家</a></li>
+							<li class="dropdown zhuanjia_li">
+								<a href="#" class="dropdown-toggle p0_30 " data-toggle="dropdown"><i class="zhuanjia nav_icon"></i>专家</a>
+							</li>
 							<!-- End 专家 -->
 
 							<!-- 投诉 -->
-							<li class="dropdown tousu_li"><a data-toggle="dropdown" class="dropdown-toggle p0_30" href=""><i class="tousu nav_icon"></i>投诉</a></li>
+							<li class="dropdown tousu_li">
+								<a data-toggle="dropdown" class="dropdown-toggle p0_30" href=""><i class="tousu nav_icon"></i>投诉</a>
+							</li>
 							<!-- End 投诉 -->
 
 							<!-- 法规 -->
-							<li class="dropdown  fagui_li"><a href="" class="dropdown-toggle p0_30" data-toggle="dropdown"><i class="fagui nav_icon"></i>法规</a></li>
+							<li class="dropdown  fagui_li">
+								<a href="" class="dropdown-toggle p0_30" data-toggle="dropdown"><i class="fagui nav_icon"></i>法规</a>
+							</li>
 							<!-- End 法规 -->
 
-							<li class="dropdown luntan_li"><a aria-expanded="false" href="" class="dropdown-toggle p0_30" data-toggle="dropdown"><i class="luntan nav_icon"></i>论坛</a></li>
+							<li class="dropdown luntan_li">
+								<a aria-expanded="false" href="" class="dropdown-toggle p0_30" data-toggle="dropdown"><i class="luntan nav_icon"></i>论坛</a>
+							</li>
 
 						</ul>
 					</div>

@@ -48,7 +48,9 @@
 <link href="${pageContext.request.contextPath}/public/ZHH/css/style(1).css" media="screen" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/public/ZHH/css/masterslider.css" media="screen" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/public/ZHH/css/james.css" media="screen" rel="stylesheet">
-    <script src="${pageContext.request.contextPath}/public/ZHH/js/hm.js"></script><script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
+<link href="${pageContext.request.contextPath}/public/ZHH/css/WdatePicker(1).css" rel="stylesheet" type="text/css">
+<script src="${pageContext.request.contextPath}/public/ZHH/js/hm.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/public/ZHH/js/jquery-migrate-1.2.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/public/ZHH/js/jquery_ujs.js"></script>
 <script src="${pageContext.request.contextPath}/public/ZHH/js/bootstrap.min.js"></script>
@@ -68,7 +70,7 @@
 <script src="${pageContext.request.contextPath}/public/ZHH/js/owl-carousel.js"></script>
 <script src="${pageContext.request.contextPath}/public/ZHH/js/owl-recent-works.js"></script>
 <script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.mCustomScrollbar.concat.min.js"></script>
-<script src="${pageContext.request.contextPath}/public/ZHH/js/WdatePicker.js"></script><link href="${pageContext.request.contextPath}/public/ZHH/css/WdatePicker(1).css" rel="stylesheet" type="text/css">
+<script src="${pageContext.request.contextPath}/public/ZHH/js/WdatePicker.js"></script>
 <script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.form.min.js"></script>
 <script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.validate.min.js"></script>
 <script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.maskedinput.min.js"></script>
@@ -136,10 +138,18 @@ function tijiao(status){
 				  <span>业务监管</span>
 				 </a>
 				<ul class="dropdown-menu">
-                 <li><a href="${pageContext.request.contextPath}/public/ZHH/#" target="_blank">轿车</a></li>
-                 <li><a href="${pageContext.request.contextPath}/public/ZHH/#" target="_blank">越野车</a></li>
-                 <li><a href="${pageContext.request.contextPath}/public/ZHH/#" target="_blank">面包车</a></li>
-                 <li><a href="${pageContext.request.contextPath}/public/ZHH/#" target="_blank">客车</a></li>
+                 <li>
+                 	<a href="${pageContext.request.contextPath}/public/ZHH/#" target="_blank">轿车</a>
+                 </li>
+                 <li>
+                 	<a href="${pageContext.request.contextPath}/public/ZHH/#" target="_blank">越野车</a>
+                 </li>
+                 <li>
+                 	<a href="${pageContext.request.contextPath}/public/ZHH/#" target="_blank">面包车</a>
+                 </li>
+                 <li>
+                 	<a href="${pageContext.request.contextPath}/public/ZHH/#" target="_blank">客车</a>
+                 </li>
                 </ul>
 				</li>
 			    <li>
@@ -197,12 +207,24 @@ function tijiao(status){
    </div>
    
   <div class="container mt20">
-  <form id="form1" action="${pageContext.request.contextPath}/importSupplier/auditList.html" method="post">
-   <input type="hidden" name="status" id="status" />
-   <div class="col-md-4"><span onclick="tijiao(0)">供应商未审核</span>（<a class="red b">${weishenhe }</a>）</div><div class="col-md-4"></div><div class="col-md-4"></div>
-   <div class="col-md-4"><span onclick="tijiao(1)">供应商已审核</span>（<a class="red b">${yishenhe }</a>）</div><div class="col-md-4"></div><div class="col-md-4"></div>
-   <div class="col-md-4"><span onclick="tijiao(2)">供应商审核中</span>（<a class="red b">${shenhezhong }</a>）</div><div class="col-md-4"></div><div class="col-md-4"></div>
-  </form>
+	  <form id="form1" action="${pageContext.request.contextPath}/importSupplier/auditList.html" method="post">
+		   <input type="hidden" name="status" id="status" />
+		   <div class="col-md-4">
+		   		<span onclick="tijiao(0)">供应商未审核</span>（<a class="red b">${weishenhe }</a>）
+		   </div>
+		   <div class="col-md-4"></div>
+		   <div class="col-md-4"></div>
+		   <div class="col-md-4">
+		   		<span onclick="tijiao(2)">供应商已审核</span>（<a class="red b">${yishenhe }</a>）
+		   </div>
+	   	   <div class="col-md-4"></div>
+	   	   <div class="col-md-4"></div>
+		   <div class="col-md-4">
+		   		<span onclick="tijiao(1)">供应商审核中</span>（<a class="red b">${shenhezhong }</a>）
+		   </div>
+		   <div class="col-md-4"></div>
+		   <div class="col-md-4"></div>
+	  </form>
   </div>  
 
 </body>

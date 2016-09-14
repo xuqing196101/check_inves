@@ -17,7 +17,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet">
+<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/animate.css" media="screen" rel="stylesheet">
@@ -53,7 +53,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="<%=basePath%>public/ZHH/css/footer-v4.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/masterslider.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/james.css" media="screen" rel="stylesheet">
-    <script src="<%=basePath%>public/ZHH/js/hm.js"></script><script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
+<link href="<%=basePath%>public/ZHH/css/WdatePicker(1).css" rel="stylesheet" type="text/css">
+<script src="<%=basePath%>public/ZHH/js/hm.js"></script>
+<script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery-migrate-1.2.1.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
 <script src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
@@ -73,10 +75,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/owl-carousel.js"></script>
 <script src="<%=basePath%>public/ZHH/js/owl-recent-works.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.mCustomScrollbar.concat.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/WdatePicker.js"></script><link href="<%=basePath%>public/ZHH/css/WdatePicker(1).css" rel="stylesheet" type="text/css">
+<script src="<%=basePath%>public/ZHH/js/WdatePicker.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.form.min.js"></script>
-
-
 <script src="<%=basePath%>public/ZHH/js/jquery.validate.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.maskedinput.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery-ui.min.js"></script>
@@ -107,8 +107,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/masterslider.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.easing.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/james.js"></script>
-  <script src="<%=basePath%>public/layer/layer.js"></script>
-    <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+<script src="<%=basePath%>public/layer/layer.js"></script>
+<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
    $(function(){
 		  laypage({
@@ -210,7 +210,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				  <span>安全退出</span>
 				 </a>
 				</li>
-				
 			  </ul>
 			</div>
     </div>
@@ -236,11 +235,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		     </form>
 		  <table id="tb1"  class="table table-bordered table-condensed tc">
 				<tr>
-					<td>进口供应商名称</td>
-					<td>企业类别</td>
-					<td>法定代表人</td>
-					<td>电话</td>
-					<td>审核状态</td>
+					<th class="info">进口供应商名称</th>
+					<th class="info">企业类别</th>
+					<th class="info">法定代表人</th>
+					<th class="info">电话</th>
+					<th class="info">审核状态</th>
 				</tr>
 				 <c:forEach items="${isList.list }" var="list" varStatus="vs">
 					<tr>
@@ -249,9 +248,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td>${list.legalName }</td>
 						<td>${list.mobile }</td>
 						<td>
-							<c:if test="${list.status==0 }"><input type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/importSupplier/audit.html?id=${list.id }'" value="初审" /></c:if>
-							<c:if test="${list.status==1 }"><input type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/importSupplier/audit.html?id=${list.id }'" value="复审" /></c:if>
-							<c:if test="${list.status==2 }"><input type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/importSupplier/audit.html?id=${list.id }'" value="已审核" /></c:if>
+							<c:if test="${list.status==0 }">
+								<input type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/importSupplier/audit.html?id=${list.id }'" value="初审" />
+							</c:if>
+							<c:if test="${list.status==1 }">
+								<input type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/importSupplier/audit.html?id=${list.id }'" value="复审" />
+							</c:if>
+							<c:if test="${list.status==2 }">
+								<input type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/importSupplier/audit.html?id=${list.id }'" value="已审核" />
+							</c:if>
 						</td>
 					</tr>
 				</c:forEach> 

@@ -67,7 +67,7 @@ public class ImportSupplierController {
 	 */
 	@RequestMapping("registerStart")
 	public String registerStart(){
-		return "sms/importsupplier/register1";
+		return "ses/sms/importsupplier/register1";
 	}
 	
 	/**
@@ -92,7 +92,7 @@ public class ImportSupplierController {
 		userService.save(user);
 		//待到页面，保存基本信息的时候是 修改动作
 		model.addAttribute("id", is.getId());
-		return "sms/importsupplier/register";
+		return "ses/sms/importsupplier/register";
 	}
 	
 	/**
@@ -160,7 +160,7 @@ public class ImportSupplierController {
 		//审核理由：id可以从登录信息里面去里面取
 		ImportSupplierAud isa=importSupplierAudService.findById("4D5350B058F348378F5140D7238CC8F0");
 		model.addAttribute("isa", isa);	
-		return "sms/importsupplier/register";
+		return "ses/sms/importsupplier/register";
 	}
 	
 	/**
@@ -276,7 +276,7 @@ public class ImportSupplierController {
 		model.addAttribute("weishenhe", weishenhe);
 		model.addAttribute("shenhezhong",fushen);
 		model.addAttribute("yishenhe", yishenhe);
-		return "sms/importsupplier/daiban";
+		return "ses/sms/importsupplier/daiban";
 	}
 	
 	/**
@@ -311,7 +311,7 @@ public class ImportSupplierController {
 		request.setAttribute("isList", new PageInfo<>(isList));
 		model.addAttribute("name", is.getName());
 		model.addAttribute("supplierType", is.getSupplierType());
-		return "sms/importsupplier/auditList";
+		return "ses/sms/importsupplier/auditList";
 	}
 	
 	
@@ -332,7 +332,7 @@ public class ImportSupplierController {
 		model.addAttribute("is", importSupplierWithBLOBs);
 		//给待办删除因为审核完毕
 		
-		return "sms/importsupplier/firstAudit";
+		return "ses/sms/importsupplier/firstAudit";
 	}
 	
 	/**
@@ -349,10 +349,11 @@ public class ImportSupplierController {
 	public String saveReason(ImportSupplierAud isa,ImportSupplierWithBLOBs is,String sfiId){
 		is.setId(sfiId);
 		//初审后改变状态
-		ImportSupplierWithBLOBs ImportSupplierWithBLOBs = importSupplierService.selectByPrimaryKey(is);
-		importSupplierService.updateRegisterInfo(ImportSupplierWithBLOBs);
+		ImportSupplierWithBLOBs importSupplierWithBLOBs = importSupplierService.selectByPrimaryKey(is);
+		importSupplierWithBLOBs.setStatus(is.getStatus());
+		importSupplierService.updateRegisterInfo(importSupplierWithBLOBs);
 		//给审核不通过的理由存到表里
-		isa.setImportSupplierId(ImportSupplierWithBLOBs.getId());
+		isa.setImportSupplierId(importSupplierWithBLOBs.getId());
 		if(is.getStatus()==1){
 			importSupplierAudService.register(isa);
 		}else if(is.getStatus()==4){
