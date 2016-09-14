@@ -66,4 +66,6 @@ public interface UserServiceI {
 	 */
 	void deleteByLogic(String id);
 
+	List<User> find(User user);
+
 }

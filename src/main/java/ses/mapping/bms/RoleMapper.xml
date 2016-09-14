@@ -28,7 +28,7 @@
 	    <result column="uaddress"  property="address" />
 	    <result column="uemail"  property="email" />
 	  	<!-- 查询机构 -->  
-    	<association column="org"  property="org" select="ses.dao.oms.OrgnizationMapper.findOrgnizationList" />
+    	<association column="org"  property="org" select="" />
 	    <!-- 查询创建人 -->
 	    <association column="creater"  property="user" select="ses.dao.bms.UserMapper.selectByPrimaryKey" />   
     </collection> 
@@ -190,7 +190,7 @@
   </select>
   
    <!-- 8.根据角色条件查询角色信息（带出关联信息） -->  
-   <select id="selectRoleUser" parameterType="Object" resultMap="relativityMap"> 
+   <select id="selectRoleUser" parameterType="Object" resultMap="RoleResultap"> 
        select 
        r.ID as ID, r.NAME as NAME, r.CREATED_AT as CREATED_AT, r.DESCRIPTION as DESCRIPTION, 
        r.IS_DELETED as IS_DELETED, r.UPDATED_AT as UPDATED_AT,
@@ -223,8 +223,8 @@
     <delete id="deleteRoelUser" parameterType="Object">  
         delete from T_SES_BMS_USER_ROLE  
         <where>  
-            <if test="userId.id != null and userId.id != ''">"USER_ID" = #{userId.id}</if>  
-            <if test="roleId.id != null and roleId.id != ''">and "ROLE_ID" = #{roleId.id}</if>  
+            <if test="userId != null">"USER_ID" = #{userId.id}</if>  
+            <if test="roleId != null">and "ROLE_ID" = #{roleId.id}</if>  
         </where>  
     </delete>  
   
@@ -238,8 +238,8 @@
     <delete id="deleteRoelMenu" parameterType="Object">  
         delete from T_SES_BMS_ROLE_PERMISSION  
         <where>  
-            <if test="preMenu.id != null and preMenu.id !=''">"PERMENU_ID" = #{preMenu.id}</if>  
-            <if test="role.id != null and role.id != ''">and "ROLE_ID" = #{role.id}</if>  
+            <if test="preMenu != null">"PERMENU_ID" = #{preMenu.id}</if>  
+            <if test="role != null">and "ROLE_ID" = #{role.id}</if>  
         </where>  
     </delete>
     

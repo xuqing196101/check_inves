@@ -35,9 +35,14 @@ public class UserServiceImpl implements UserServiceI {
 
 	@Override
 	public void deleteByLogic(String id) {
-		User u=userMapper.selectByPrimaryKey(id).get(0);
-		u.setIsDeleted(1);
-		userMapper.updateByPrimaryKey(u);
+		List<User> list=userMapper.selectByPrimaryKey(id);
+		if(list != null && list.size()>0){
+			User u = list.get(0);
+			u.setIsDeleted(1);
+			userMapper.updateByPrimaryKey(u);
+		}else{
+			
+		}
 	}
 
 	@Override
@@ -56,5 +61,12 @@ public class UserServiceImpl implements UserServiceI {
 		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
 		return userMapper.selectUser(user);
 	}
+
+	@Override
+	public List<User> find(User user) {
+		List<User> users = userMapper.selectUser(user);
+		return users;
+	}
+
 }
 

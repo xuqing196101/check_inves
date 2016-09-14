@@ -174,9 +174,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                    		<li class="line-block">
                    			<a href="#" target="home" class="son-menu"><span class="mr5">◇</span>后台管理</a>
                    			<ul class="dropdown-menuson dropdown-menu">
-                   				<li><a href="<%=basePath%>user/getAll.do" target="home" class="son-menu"><span class="mr5">◇</span>用户管理</a></li>
-                   				<li><a href="<%=basePath%>role/getAll.do" target="home" class="son-menu"><span class="mr5">◇</span>角色管理</a></li>
-                   				<li><a href="<%=basePath%>preMenu/list.do" target="home" class="son-menu"><span class="mr5">◇</span>菜单管理</a></li>
+                   				<li><a href="<%=basePath%>user/list.html" target="home" class="son-menu"><span class="mr5">◇</span>用户管理</a></li>
+                   				<li><a href="<%=basePath%>role/list.html" target="home" class="son-menu"><span class="mr5">◇</span>角色管理</a></li>
+                   				<li><a href="<%=basePath%>preMenu/list.html" target="home" class="son-menu"><span class="mr5">◇</span>菜单管理</a></li>
                    				<li><a href="<%=basePath%>templet/getAll.do" target="home" class="son-menu"><span class="mr5">◇</span>模板管理</a></li>
                    				<li><a href="<%=basePath%>usertask/getmonth.html" target="home" class="son-menu"><span class="mr5">◇</span>用户任务管理</a></li>
                    				<li><a href="<%=basePath%>article/getAll.do" target="home" class="son-menu"><span class="mr5">◇</span>信息管理</a></li>

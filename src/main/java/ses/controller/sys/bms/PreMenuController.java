@@ -103,9 +103,9 @@ public class PreMenuController {
 			preMenu.setName("菜单" + i);
 			preMenu.setIsDeleted(0);
 			preMenu.setMenulevel(1);
-			preMenu.setOrderby(i);
+			preMenu.setPosition(i);
 			preMenu.setParentId(null);
-			preMenu.setState(0);
+			preMenu.setStatus(0);
 			preMenu.setType("navigation");
 			preMenu.setCreatedAt(new Date());
 			preMenu.setUrl(null);
@@ -115,9 +115,9 @@ public class PreMenuController {
 				preMenu1.setName("菜单" + i + "-" + j);
 				preMenu1.setIsDeleted(0);
 				preMenu1.setMenulevel(2);
-				preMenu1.setOrderby(j);
+				preMenu1.setPosition(j);
 				preMenu1.setParentId(preMenu);
-				preMenu1.setState(0);
+				preMenu1.setStatus(0);
 				preMenu1.setType("accordion");
 				preMenu1.setCreatedAt(new Date());
 				preMenu1.setUrl(null);
@@ -127,9 +127,9 @@ public class PreMenuController {
 					preMenu2.setName("菜单" + i + "-" + j + "-" + k);
 					preMenu2.setIsDeleted(0);
 					preMenu2.setMenulevel(3);
-					preMenu2.setOrderby(k);
+					preMenu2.setPosition(k);
 					preMenu2.setParentId(preMenu1);
-					preMenu2.setState(0);
+					preMenu2.setStatus(0);
 					preMenu2.setType("menu");
 					preMenu2.setCreatedAt(new Date());
 					preMenu2.setUrl(null);

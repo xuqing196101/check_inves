@@ -50,7 +50,7 @@
    <h2>新增用户</h2>
    </div>
    <ul class="list-unstyled list-flow p0_20">
-     <li class="col-md-6 p0">
+     		<li class="col-md-6 p0">
 			   <span class="">用户名：</span>
 			   <div class="input-append">
 		        <input class="span2" name="loginName" type="text">
@@ -64,7 +64,7 @@
 		        <span class="add-on">i</span>
 		       </div>
 			 </li>
-			  <li class="col-md-6  p0 ">
+			 <li class="col-md-6  p0 ">
 			   <span class="">密码：</span>
 			   <div class="input-append">
 		        <input class="span2" name="password" id="password1" type="password">
@@ -77,11 +77,62 @@
 		        <input class="span2" id="password2" type="password">
 		        <span class="add-on">i</span>
 		       </div>
-			 </li> 
-		     <li class="col-md-6  p0 ">
-			   <span class="">联系电话：</span>
+			 </li>
+			  <li class="col-md-6 p0">
+			   <span class="">性别：</span>
 			   <div class="input-append">
-		        <input class="span2" name="phone" type="text">
+		        <select name="gender">
+		        	<option >-请选择-</option>
+		        	<option value="M">男</option>
+		        	<option value="F">女</option>
+		        </select>
+		       </div>
+			 </li>
+		     <li class="col-md-6  p0 ">
+			   <span class="">手机：</span>
+			   <div class="input-append">
+		        <input class="span2" name="mobile" type="text">
+		        <span class="add-on">i</span>
+		       </div>
+			 </li>
+		     <li class="col-md-6 p0">
+			   <span class="">邮箱：</span>
+			   <div class="input-append">
+		        <input class="span2" name="email" type="text">
+		        <span class="add-on">i</span>
+		       </div>
+			 </li>
+		     <li class="col-md-6  p0 ">
+			   <span class="">职务：</span>
+			   <div class="input-append">
+		        <input class="span2" name="duties" type="text">
+		        <span class="add-on">i</span>
+		       </div>
+			 </li>
+			 <li class="col-md-6 p0">
+			   <span class="">类型：</span>
+			   <div class="input-append">
+		        <select name="typeName">
+		        	<option value="2">需求人员</option>
+		        	<option value="1">采购人员</option>
+		        	<option value="0">采购管理人员</option>
+		        	<option value="3">其他人员</option>
+		        	<option value="4">供应商</option>
+		        	<option value="5">专家</option>
+		        </select>
+		       </div>
+			 </li>
+			 <li class="col-md-6  p0 ">
+			   <span class="">所属机构：</span>
+			   <div class="input-append">
+		        <input class="span2" name="org" type="text">
+		        <span class="add-on">i</span>
+		       </div>
+			 </li>
+		     <li class="col-md-6  p0 ">
+			   <span class="">座机电话：</span>
+			   <div class="input-append">
+		        <input class="span2" name="telephone" type="text">
 		        <span class="add-on">i</span>
 		       </div>
 			 </li> 
@@ -103,6 +154,12 @@
 		          </ul>
 		       </div>
 		      </div>
+			 </li>
+			 <li class="col-md-12 p0">
+			   <span class="fl">详细地址：</span>
+			   <div class="col-md-12 pl200 fn mt5 pwr9">
+		        <textarea class="text_area col-md-12 " name="address" maxlength="200" title="" placeholder=""></textarea>
+		       </div>
 			 </li>
 			 
    </ul>

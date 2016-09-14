@@ -25,11 +25,12 @@ import ses.service.bms.RoleServiceI;
 import com.alibaba.fastjson.JSON;
 
 /**
-* <p>Title:RoleManageController </p>
-* <p>Description: 角色管理控制类</p>
-* @author Ye MaoLin
-* @date 2016-8-2上午11:41:50
-*/
+ * Description: 角色管理控制类
+ *
+ * @author Ye MaoLin
+ * @version 2016-9-13
+ * @since JDK1.7
+ */
 @Controller
 @Scope("prototype")
 @RequestMapping("/role")
@@ -43,16 +44,16 @@ public class RoleManageController {
 	
 	private static Logger logger = Logger.getLogger(RoleManageController.class);
 	
-	/**   
-	* @Title: getAll
-	* @author Ye MaoLin
-	* @date 2016-8-30 下午3:12:37  
-	* @Description: 获取
-	* @param @param model
-	* @param @return      
-	* @return String     
-	*/
-	@RequestMapping("/getAll")
+	/**
+	 * Description: 获取角色列表
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-14
+	 * @param model
+	 * @return String
+	 * @exception IOException
+	 */
+	@RequestMapping("/list")
 	public String list(Model model){
 		List<Role> roles=roleService.selectRoleUser(null);
 		model.addAttribute("list", roles);
@@ -83,25 +84,22 @@ public class RoleManageController {
 	*/
 	@RequestMapping("/save")
 	public void save(HttpServletResponse response, Role r){
-		r.setCreatedAt(new Date());
-		r.setIsDeleted(0);
-		roleService.save(r);
-//		try{
-//			if("".equals(r.getName()) || r.getName()==null){
-//				String msg="请填写角色名称";
-//				response.setContentType("text/html;charset=utf-8");
-//				response.getWriter().print("{\"success\": "+false+", \"msg\": \""+msg+"\"}");
-//			}else{
-//				r.setCreatedAt(new Date());
-//				r.setIsDeleted(0);
-//				roleService.save(r);
-//				String msg="添加成功";
-//				response.setContentType("text/html;charset=utf-8");
-//				response.getWriter().print("{\"success\": "+true+", \"msg\": \""+msg+"\"}");
-//			}
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+		try{
+			if("".equals(r.getName()) || r.getName()==null){
+				String msg="请填写角色名称";
+				response.setContentType("text/html;charset=utf-8");
+				response.getWriter().print("{\"success\": "+false+", \"msg\": \""+msg+"\"}");
+			}else{
+				r.setCreatedAt(new Date());
+				r.setIsDeleted(0);
+				roleService.save(r);
+				String msg="添加成功";
+				response.setContentType("text/html;charset=utf-8");
+				response.getWriter().print("{\"success\": "+true+", \"msg\": \""+msg+"\"}");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**   
@@ -137,7 +135,7 @@ public class RoleManageController {
 				response.getWriter().print("{\"success\": "+false+", \"msg\": \""+msg+"\"}");
 			}else{
 				Role role=roleService.get(r.getId());
-				role.setDescribe(r.getDescribe());
+				role.setDescription(r.getDescription());
 				role.setName(r.getName());
 				roleService.update(role);
 				String msg="更新成功";

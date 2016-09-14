@@ -2,7 +2,6 @@ package ses.controller.sys.bms;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,7 +20,6 @@ import ses.service.bms.UserServiceI;
 import ses.util.Encrypt;
 
 import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 
 
@@ -114,7 +112,7 @@ public class UserManageController {
 			userrole.setUserId(user);
 			userService.saveRelativity(userrole);
 		}
-		return "redirect:getAll.html";
+		return "redirect:list.html";
 	}
 
 	/**
@@ -129,29 +127,33 @@ public class UserManageController {
 	 */
 	@RequestMapping("/edit")
 	public String edit(User u, Model model) {
-		List<User> users = userService.selectUser(u, null);
-		User user = users.get(0);
-		logger.info(JSON
-				.toJSONStringWithDateFormat(user, "yyyy-MM-dd HH:mm:ss"));
-		logger.info(JSON.toJSONStringWithDateFormat(user.getUser(),
-				"yyyy-MM-dd HH:mm:ss"));
-		List<Role> roles = roleService.getAll(null);
-		String roleId = "";
-		String roleName = "";
-		List<Role> list = user.getRoles();
-		for (int i = 0; i < list.size(); i++) {
-			if (i + 1 == list.size()) {
-				roleId += list.get(i).getId();
-				roleName += list.get(i).getName();
-			} else {
-				roleId += list.get(i).getId() + ",";
-				roleName += list.get(i).getName() + ",";
+		List<User> users = userService.find(u);
+		if(users != null && users.size()>0){
+			User user = users.get(0);
+			logger.info(JSON
+					.toJSONStringWithDateFormat(user, "yyyy-MM-dd HH:mm:ss"));
+			logger.info(JSON.toJSONStringWithDateFormat(user.getUser(),
+					"yyyy-MM-dd HH:mm:ss"));
+			List<Role> roles = roleService.getAll(null);
+			String roleId = "";
+			String roleName = "";
+			List<Role> list = user.getRoles();
+			for (int i = 0; i < list.size(); i++) {
+				if (i + 1 == list.size()) {
+					roleId += list.get(i).getId();
+					roleName += list.get(i).getName();
+				} else {
+					roleId += list.get(i).getId() + ",";
+					roleName += list.get(i).getName() + ",";
+				}
 			}
+			model.addAttribute("roleName", roleName);
+			model.addAttribute("roleId", roleId);
+			model.addAttribute("roles", roles);
+			model.addAttribute("user", user);
+		}else{
+			
 		}
-		model.addAttribute("roleName", roleName);
-		model.addAttribute("roleId", roleId);
-		model.addAttribute("roles", roles);
-		model.addAttribute("user", user);
 		return "user/edit";
 	}
 
@@ -167,33 +169,53 @@ public class UserManageController {
 	 * @exception IOException
 	 */
 	@RequestMapping("/update")
-	public String update(HttpServletRequest request, User user, String roleId) {
-		List<User> users = userService.selectUser(user, null);
-		User u = users.get(0);
-		// 先删除之前的与角色的关联关系
-		List<Role> oldRole = u.getRoles();
-		for (Role role : oldRole) {
-			Userrole userrole = new Userrole();
-			userrole.setUserId(u);
-			userrole.setRoleId(role);
-			roleService.deleteRoelUser(userrole);
+	public String update(HttpServletRequest request, User u, String roleId) {
+		
+		User temp = new User();
+		temp.setId(u.getId());
+		//查询旧数据的关联关系
+		List<User> users = userService.find(temp);
+		if(users != null && users.size() > 0){
+			User olduser = users.get(0);
+			
+			// 先删除之前的与角色的关联关系
+			List<Role> oldRole = olduser.getRoles();
+			for (Role role : oldRole) {
+				Userrole userrole = new Userrole();
+				userrole.setUserId(olduser);
+				userrole.setRoleId(role);
+				roleService.deleteRoelUser(userrole);
+			}
+			
+			//获取old创建人
+			User oldCreate = new User();
+			String oldCreaterId = request.getParameter("userId");
+			User oldtemp = new User();
+			oldtemp.setId(oldCreaterId);
+			List<User> creaters=userService.find(oldtemp);
+			if(creaters != null && creaters.size() > 0){
+				oldCreate = creaters.get(0);
+			}else{
+				oldCreate = null;
+			}
+			
+			u.setUser(olduser);
+			u.setUpdatedAt(new Date());
+			userService.update(u);
+			
+			String[] roleIds = roleId.split(",");
+			for (int i = 0; i < roleIds.length; i++) {
+				Userrole userrole = new Userrole();
+				Role role = roleService.get(roleIds[i]);
+				userrole.setRoleId(role);
+				userrole.setUserId(u);
+				userService.saveRelativity(userrole);
+			}
+		}else{
+			
 		}
 
-		u.setLoginName(user.getLoginName());
-		u.setRelName(user.getRelName());
-		u.setUpdatedAt(new Date());
-		userService.update(u);
-
-		String[] roleIds = roleId.split(",");
-		for (int i = 0; i < roleIds.length; i++) {
-			Userrole userrole = new Userrole();
-			Role role = roleService.get(roleIds[i]);
-			userrole.setRoleId(role);
-			userrole.setUserId(user);
-			userService.saveRelativity(userrole);
-		}
-
-		return "redirect:getAll.html";
+		return "redirect:list.html";
 	}
 
 	/**
@@ -216,7 +238,7 @@ public class UserManageController {
 			roleService.deleteRoelUser(userrole);
 			userService.deleteByLogic(str);
 		}
-		return "redirect:getAll.html";
+		return "redirect:list.html";
 	}
 
 	/**
@@ -231,8 +253,12 @@ public class UserManageController {
 	 */
 	@RequestMapping("/view")
 	public String view(Model model, User user) {
-		List<User> ulist = userService.selectUser(user, null);
-		model.addAttribute("user", ulist.get(0));
+		List<User> ulist = userService.find(user);
+		if(ulist != null && ulist.size() > 0){
+			model.addAttribute("user", ulist.get(0));
+		}else{
+			
+		}
 		return "user/view";
 	}
 
