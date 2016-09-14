@@ -27,13 +27,14 @@
 		<result column="STARUS" jdbcType="VARCHAR" property="status" />
 		<result column="MEMO" jdbcType="VARCHAR" property="memo" />
 		<result column="SEQ" jdbcType="VARCHAR" property="seq" />
+		<result column="HISTORY_STATUS" jdbcType="VARCHAR" property="historyStatus" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		ID, PLAN_NAME, PLAN_NO, PLAN_TYPE, DEPARTMENT, GOODS_NAME, STAND,
 		QUALIT_STAND, ITEM,
 		PURCHASE_COUNT, PRICE, BUDGET, DELIVER_DATE, PURCHASE_TYPE, SUPPLIER, IS_FREE_TAX,
 		GOODS_USE, USE_UNIT, CREATED_AT, USER_ID, PARENT_ID, REQ_LEVEL,
-		STARUS, MEMO,SEQ
+		STARUS, MEMO,SEQ,HISTORY_STATUS
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="PurchaseRequired_Map">
@@ -54,7 +55,7 @@
 		DELIVER_DATE, PURCHASE_TYPE, SUPPLIER,
 		IS_FREE_TAX, GOODS_USE, USE_UNIT,
 		CREATED_AT, USER_ID, PARENT_ID,
-		REQ_LEVEL, STARUS, MEMO,SEQ
+		REQ_LEVEL, STARUS, MEMO,SEQ,HISTORY_STATUS
 		)
 		values (#{id,jdbcType=VARCHAR}, #{planName,jdbcType=VARCHAR},
 		#{planNo,jdbcType=VARCHAR},
@@ -68,7 +69,7 @@
 		#{createdAt,jdbcType=DATE}, #{userId,jdbcType=VARCHAR},
 		#{parentId,jdbcType=VARCHAR},
 		#{reqLevel,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},
-		#{memo,jdbcType=VARCHAR},#{seq,jdbcType=VARCHAR}
+		#{memo,jdbcType=VARCHAR},#{seq,jdbcType=VARCHAR},#{HISTORY_STATUS,jdbcType=VARCHAR}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="bss.model.pms.PurchaseRequired">
@@ -149,6 +150,9 @@
 			<if test="seq != null">
 				SEQ,
 			</if>
+			<if test="historyStatus != null">
+				HISTORY_STATUS,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -225,6 +229,9 @@
 			</if>
 			<if test="seq != null">
 				#{seq,jdbcType=VARCHAR},
+			</if>
+			<if test="historyStatus != null">
+				#{historyStatus,jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>
@@ -303,6 +310,9 @@
 			<if test="seq != null">
 				SEQ = #{seq,jdbcType=VARCHAR},
 			</if>
+			<if test="historyStatus != null">
+				HISTORY_STATUS = #{historyStatus,jdbcType=VARCHAR},
+			</if>
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
@@ -332,6 +342,7 @@
 		STARUS = #{status,jdbcType=VARCHAR},
 		MEMO = #{memo,jdbcType=VARCHAR},
 		SEQ = #{seq,jdbcType=VARCHAR},
+		HISTORY_STATUS = #{historyStatus,jdbcType=VARCHAR},
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
 	<select id="query" parameterType="bss.model.pms.PurchaseRequired"

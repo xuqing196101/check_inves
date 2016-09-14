@@ -54,6 +54,9 @@ public class PurchaseRequired {
     private String memo;
 
     private String seq;
+    
+    private String historyStatus;
+    
     public String getId() {
         return id;
     }
@@ -126,11 +129,11 @@ public class PurchaseRequired {
         this.item = item == null ? null : item.trim();
     }
 
-    public Long getPurchaseNum() {
+    public Long getPurchaseCount() {
         return purchaseCount;
     }
 
-    public void setPurchaseNum(Long purchaseCount) {
+    public void setPurchaseCount(Long purchaseCount) {
         this.purchaseCount = purchaseCount;
     }
 
@@ -206,11 +209,11 @@ public class PurchaseRequired {
         this.createdAt = createdAt;
     }
 
-    public String getComplieId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setComplieId(String complieId) {
+    public void setUserId(String userId) {
         this.userId = userId == null ? null : userId.trim();
     }
 
@@ -230,11 +233,11 @@ public class PurchaseRequired {
         this.reqLevel = reqLevel == null ? null : reqLevel.trim();
     }
 
-    public String getState() {
+    public String getStatus() {
         return status;
     }
 
-    public void setState(String state) {
+    public void setStatus(String status) {
         this.status = status == null ? null : status.trim();
     }
 
@@ -253,6 +256,16 @@ public class PurchaseRequired {
 	public void setSeq(String seq) {
 		this.seq = seq == null ? null : seq.trim();
 	}
+
+	public String getHistoryStatus() {
+		return historyStatus;
+	}
+
+	public void setHistoryStatus(String historyStatus) {
+		this.historyStatus = historyStatus == null ? null : historyStatus.trim();
+	}
+
+	 
     
     
 }
