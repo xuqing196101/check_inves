@@ -1,17 +1,12 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
-<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
-<!--[if !IE]><!-->
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<title></title>
-
-	<!-- Meta -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="">
-	<meta name="author" content="">
+<title>审核待办</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
 <link href="${pageContext.request.contextPath}/public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/public/ZHH/css/style.css" media="screen" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/public/ZHH/css/animate.css" media="screen" rel="stylesheet">
@@ -48,7 +43,7 @@
 <link href="${pageContext.request.contextPath}/public/ZHH/css/style(1).css" media="screen" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/public/ZHH/css/masterslider.css" media="screen" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/public/ZHH/css/james.css" media="screen" rel="stylesheet">
-    <script src="${pageContext.request.contextPath}/public/ZHH/js/hm.js"></script><script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/hm.js"></script><script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/public/ZHH/js/jquery-migrate-1.2.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/public/ZHH/js/jquery_ujs.js"></script>
 <script src="${pageContext.request.contextPath}/public/ZHH/js/bootstrap.min.js"></script>
@@ -172,7 +167,6 @@
 				  <span>安全退出</span>
 				 </a>
 				</li>
-				
 			  </ul>
 			</div>
     </div>
@@ -181,20 +175,19 @@
    </div>
 </div>
 <!--面包屑导航开始-->
-   <div class="margin-top-10 breadcrumbs ">
-      <div class="container">
-		   <ul class="breadcrumb margin-left-0">
-		    <li><a href="#"> 专家审核</a></li><li><a href="#">我的待办</a></li>
-		   </ul>
-		<div class="clear"></div>
-	  </div>
-   </div>
-   
-  <div class="container mt20">
-   <div class="col-md-4"><a href='${pageContext.request.contextPath}/expert/toShenHeExpert.html'>专家未审核（${weishenhe }）</a></div><div class="col-md-4"></div><div class="col-md-4"></div>
-   <div class="col-md-4"><a href='${pageContext.request.contextPath}/expert/toShenHeExpert2.html'>专家审核通过（${tongguo }）</a></div><div class="col-md-4"></div><div class="col-md-4"></div>
-   <div class="col-md-4"><a href='${pageContext.request.contextPath}/expert/toShenHeExpert3.html'>专家审核未通过（${pass }）</a></div><div class="col-md-4"></div><div class="col-md-4"></div>
-  </div>  
-
+	   <div class="margin-top-10 breadcrumbs ">
+		   <div class="container">
+				   <ul class="breadcrumb margin-left-0">
+				   		<li><a href="#"> 专家审核</a></li><li><a href="#">我的待办</a></li>
+				   </ul>
+			<div class="clear"></div>
+		</div>
+	   </div>
+	  <div class="container mt20">
+		   <div class="col-md-4"><a href='${pageContext.request.contextPath}/expert/toShenHeExpert.html'>专家未审核（${weishenhe }）</a></div><div class="col-md-4"></div><div class="col-md-4"></div>
+		   <div class="col-md-4"><a href='${pageContext.request.contextPath}/expert/toShenHeExpert2.html'>专家审核通过（${tongguo }）</a></div><div class="col-md-4"></div><div class="col-md-4"></div>
+		   <div class="col-md-4"><a href='${pageContext.request.contextPath}/expert/toShenHeExpert3.html'>专家审核未通过（${pass }）</a></div><div class="col-md-4"></div><div class="col-md-4"></div>
+	  </div>  
+</div>
 </body>
 </html>

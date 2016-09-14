@@ -32,18 +32,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/shop.style.css" type="text/css" />
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
+ <script src="${pageContext.request.contextPath}/public/ZHQ/js/expert/validate_regester.js"></script>
  <script type="text/javascript">
    $(function(){
 	   var message = $("#message").val();
 	   $("#massage").html(message).css('color','red');
    });
-   //用户信息验证
+ //用户信息验证
    var flag = 1;
    var flag2 = 1;
    var flag3 = 1;
    var flag4 = 1;
    function validataLoginName(){
-	   var loginName = $("input[name='loginName']").val();
+	   var loginName = $("#loginName").val();
 	   var patrn=/[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im;  
 	   //var patrn2=/^(?=.*[a-z])[a-z0-9]+/ig;
 	   if(loginName.replace(/\s/g,"")==null || loginName.replace(/\s/g,"")==""){
@@ -74,95 +75,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		   
 	   }
 	  
-	 <%--   $.ajax({
-		   url:"<%=basePath%>expert/findAllLoginName.do",
+	    $.ajax({
+		   url:'${pageContext.request.contextPath}/expert/findAllLoginName.do',
 		   type:"post",
 		   data:{"loginName":loginName},
 		   success:function(obj){
-			   if(obj.length>0){
+			   if(obj=='1'){
 				   $("#spp").html("用户名已存在").css('color','red');
 				   flag=1;
 				   return false;
-			   }else{ --%>
+			   }else{ 
 				   $("#spp").html("通过!").css('color','lime');
 				   flag=2;
 				   return true;
-			/*    }
+			    }
 		   }
-	   }); */
+	   }); 
    }
-   function validataPassword(){
-	   var password1 = $("#password1").val();
-	   var patrn=/[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im;  
-	   if(patrn.test(password1)){  
-			$("#pwd1").html("密码不能有非法字符").css('color','red');
-			flag2=1;
-			return false;
-		}else
-		if(password1.indexOf(" ")!=-1){
-			$("#pwd1").html("密码中不能有空格").css('color','red');
-			flag2=1;
-			return false;
-		}else
-	   if(password1.replace(/\s/g,"")==null || password1.replace(/\s/g,"")==""){
-		   $("#pwd1").html("密码不能为空").css('color','red');
-		   flag2=1;
-		   return false;
-	   }else
-	   if(password1.replace(/\s/g,"").length<6){
-		   $("#pwd1").html("密码必须六位以上").css('color','red');
-		   flag2=1;
-		   return false;
-	   }else{
-	   $("#pwd1").html("通过!").css('color','lime');
-	   flag2=2;		   
-	   }
-   }
-   function validataPwd2(){
-	   var password1 = $("#password1").val();
-	   var password2 = $("#password2").val();
-	   if(password2.replace(/\s/g,"")==null || password2.replace(/\s/g,"")==""){
-		   $("#pwd2").html("重复密码不能为空").css('color','red');
-		   flag3=1;
-		   return false;
-	   }else
-	   if(password1!=password2){
-		   $("#pwd2").html("两次密码不一致").css('color','red');
-		   flag3=1;
-		   return false;
-	   }else{
-		   $("#pwd2").html("通过!").css('color','lime');
-		   flag3=2;
-		   return true;
-	   }
-   }
-   function validataPhone(){
-	   var phone = $("#phone").val();
-	   if(phone.replace(/\s/g,"")==null || phone.replace(/\s/g,"")==""){
-		   $("#phone2").html("手机号不能为空").css('color','red');
-		   flag4=1;
-		   return false;
-	   }else if(!(/^1[3|4|5|7|8]\d{9}$/.test(phone))){ 
-		   $("#phone2").html("手机号码格式错误").css('color','red');
-		   flag4=1;
-		   return false;
-		}else{
-			 $("#phone2").html("");
-			   flag4=2;
-			   return true;
-		}
-   }
-    function submitForm(){
-    	validataLoginName();
-    	validataPassword();
-    	validataPwd2();
-    	validataPhone();
-	 if(flag==2 && flag2==2 && flag3==2&&flag4==2){
-		 $("#form1").submit();
-	 }
-	   
-   }  
-   
    </script>
 
 </head>
@@ -196,7 +125,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      		<li class="p0">
 			   <span class=""><i class="red mr5">*</i>用户名：</span>
 			   <div class="input-append">
-		        <input class="span2" name="loginName" placeholder="用户名为3~8位" maxlength="8" type="text" onblur="validataLoginName();" value="">
+		        <input class="span2" name="loginName" id="loginName" placeholder="用户名为3~8位" maxlength="8" type="text" onblur="validataLoginName();" value="">
 		        <span class="add-on">i</span>
 		       </div><font  id="spp"></font>
 			 </li>

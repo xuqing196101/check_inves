@@ -35,6 +35,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHQ/js/expert/validate_expert_basic_info.js"></script>
 <script type="text/javascript">
 	function kaptcha() {
 		$("#kaptchaImage").hide().attr('src', '${pageContext.request.contextPath}/Kaptcha.jpg').fadeIn();
@@ -62,16 +63,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	});
 		/** 供应商完善注册信息页面 */
 	function supplierRegist(name, i, position) {
-		/* if(i==3){
-			if (!validateRegSupplierInfo()) {
+		 if(i==3){
+			if (!validateForm1()) {
 				return;
 			}
 		}
 		if(i==4){
-			if (!validateBusinessSupplierInfo()) {
+			if (!validateType()) {
 				return;
 			}
-		} */
+		} 
+		if(i==5){
+			if(!validateJiGou()){
+				return;
+			}
+		}
+		if(i==7){
+			if(!validateHeTong()){
+				return;
+			}
+		}
 		var t = null;
 		var l = null;
 		if (position == "pre") {
@@ -240,7 +251,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>证件号码：</span>
 											<div class="input-append">
-												 <input class="span3" maxlength="30" value=" ${expert.idNumber }"  name="idNumber" id="appendedInput" type="text">
+												 <input class="span3" maxlength="30" value=" ${expert.idNumber }"  name="idNumber" id="idNumber" type="text">
         									</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>政治面貌：</span>
@@ -366,40 +377,40 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											   <span class="">身份证：</span>
 											   <div class="uploader orange m0">
 													<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..."/>
-													<input type="button" name="file" class="button" value="选择文件..."/>
-													<input id="regIdentity" type="file" name="files" size="30" accept="image/*"/>
+													<input type="button" name="file" class="button"  id="file10" value="选择文件..."/>
+													<input type="file" name="files" id ="file1" size="30" accept="image/*"/>
 												</div>
 											 </li>
 											 <li class="col-md-6  p0 ">
 											   <span class="">学历证书：</span>
 											    <div class="uploader orange m0">
 													<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..."/>
-													<input type="button" name="file" class="button" value="选择文件..."/>
-													<input id="regIdentity" type="file" name="files" size="30" accept="image/*"/>
+													<input type="button" name="file" class="button"  id="file9" value="选择文件..."/>
+													<input  type="file" name="files" id ="file2" size="30" accept="image/*"/>
 												</div>
 											 </li>
 											 <li class="col-md-6  p0 ">
 											   <span class="">职称证书：</span>
 											     <div class="uploader orange m0">
 													<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..."/>
-													<input type="button" name="file" class="button" value="选择文件..."/>
-													<input id="regIdentity" type="file" name="files" size="30" accept="image/*"/>
+													<input type="button" name="file" class="button"  id="file8" value="选择文件..."/>
+													<input type="file" name="files" id ="file3" size="30" accept="image/*"/>
 												</div>
 											 </li>
 											  <li class="col-md-6  p0 ">
 											   <span class="">学位证书：</span>
 											     <div class="uploader orange m0">
 													<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..."/>
-													<input type="button" name="file" class="button" value="选择文件..."/>
-													<input id="regIdentity" type="file" name="files" size="30" accept="image/*"/>
+													<input type="button" name="file" class="button"  id="file7" value="选择文件..."/>
+													<input type="file" name="files" id ="file4" size="30" accept="image/*"/>
 												</div>
 											  </li>
 											  <li class="col-md-6  p0 ">
 											   <span class="">本人照片：</span>
 											     <div class="uploader orange m0">
 													<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..."/>
-													<input type="button" name="file" class="button" value="选择文件..."/>
-													<input id="regIdentity" type="file" name="files" size="30" accept="image/*"/>
+													<input type="button" name="file" class="button" id="file6" value="选择文件..."/>
+													<input type="file" name="files" id ="file5" size="30" accept="image/*"/>
 												</div>
 											 </li>
 										   </ul>
@@ -459,13 +470,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<span class="new_step fl"><i class="">6</i> <span class="step_desc_02">上传申请表</span> </span> 
 				<div class="clear"></div>
 			</h2><br/>
-		    <h2 class="f16 jbxx">
-			<i>03</i>选择采购机构
-			</h2>
+		      <h2 class="f16 jbxx">
+			    <i>03</i>选择采购机构
+			  </h2>
+			    <h2 class="f16 jbxx">
+				  推荐采购机构
+			    </h2>
 			<table id="tb1"  class="table table-bordered table-condensed">
+			
 				<thead>
 					<tr>
-					  <th class="info w30"><input type="radio"  disabled="disabled"  id="allId" alt=""></th>
+					  <th class="info w30"><input type="radio"  disabled="disabled"  id="purchaseDepId2" alt=""></th>
 					  <th class="info w50">序号</th>
 					  <th class="info">采购机构</th>
 					  <th class="info">联系人</th>
@@ -484,7 +499,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</tr>
 				</c:forEach> --%>
 				<tr>
-				  <td class="tc w30"><input type="radio" name="purchaseDepId" id="checked" alt="" value="2"></td>
+				  <td class="tc w30"><input type="radio" name="purchaseDepId"  alt="" value="2"></td>
 				  <td class="tc w50">1</td>
 				  <td class="tc">哈哈</td>
 				  <td class="tc">飒飒</td>
@@ -498,7 +513,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<table id="tb2" class="table table-bordered table-condensed">
 				<thead>
 					<tr>
-					  <th class="info w30"><input type="radio" disabled="disabled"  id="allId" alt=""></th>
+					  <th class="info w30"><input type="radio" disabled="disabled"  alt=""></th>
 					  <th class="info w50">序号</th>
 					  <th class="info">采购机构</th>
 					  <th class="info">联系人</th>
@@ -751,14 +766,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<div class="uploader orange m0">
 				   		<div class="fl mr20"><label class="regist_name">专家申请表上传：</label></div>
 							<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..."/>
-							<input type="button" name="file" class="button" value="选择文件..."/>
-							<input id="regIdentity" type="file" name="files" size="30" accept="image/*"/>
+							<input type="button" name="file" class="button" id="regIdentity3" value="选择文件..."/>
+							<input id="regIdentity1" type="file" name="files" size="30" accept="image/*"/>
 						</div>
 						 <div class="uploader orange m0">
 						<div class="fl mr20"><label class="regist_name">专家承诺书上传：</label></div>
 							<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..."/>
-							<input type="button" name="file" class="button" value="选择文件..."/>
-							<input id="regIdentity" type="file" name="files" size="30" accept="image/*"/>
+							<input type="button" name="file" class="button" id="regIdentity4" value="选择文件..."/>
+							<input id="regIdentity2" type="file" name="files" size="30" accept="image/*"/>
 						</div> 
 					</div>
 			<div class="col-md-12 add_regist" style="margin-left:170px;">
