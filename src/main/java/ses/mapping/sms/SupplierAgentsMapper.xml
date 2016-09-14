@@ -32,10 +32,10 @@
     <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
     <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
     <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
-     <result column="IS_REMINDERS" jdbcType="DATE" property="isReminders" />
-      <result column="UNDO_STATUS" jdbcType="DATE" property="undoStatus" />
-     <result column="USER_NAME"  property="usersName"/>
-     <result column="OPERATOR_NAME" property="operatorName"/> 
+    <result column="IS_REMINDERS" jdbcType="DATE" property="isReminders" />
+    <result column="UNDO_STATUS" jdbcType="DATE" property="undoStatus" />
+    <result column="RECEIVER_NAME"  property="receiverName"/>
+    <result column="SENDER_NAME" property="senderName"/> 
   </resultMap>
   
     <resultMap id="SupplierAgentsMap" type="ses.model.sms.SupplierAgents">

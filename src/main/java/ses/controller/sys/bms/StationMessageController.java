@@ -78,7 +78,7 @@ public class StationMessageController {
 	@RequestMapping("/listStationMessage")
 	public String listStationMessage(Model model, StationMessage stationMessage,String page) {
 		//第几页
-		stationMessage.setPageNum(page==null?1:Integer.parseInt(page));
+		stationMessage.setPageNum(page==null||"".equals(page)?1:Integer.parseInt(page));
 		List<StationMessage> listStationMessage = stationMessageService.listStationMessage(stationMessage);
 		model.addAttribute("listStationMessage", new PageInfo<StationMessage>(listStationMessage));
 		return "bms/station/list";

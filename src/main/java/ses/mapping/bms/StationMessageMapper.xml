@@ -6,18 +6,20 @@
     @mbggenerated
     -->
     <id column="ID" jdbcType="VARCHAR" property="id" />
-    <result column="OPERATOR_ID" jdbcType="VARCHAR" property="operatorId" />
+    <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
     <result column="TITLE" jdbcType="VARCHAR" property="title" />
-    <result column="CONTEXT" jdbcType="VARCHAR" property="context" />
+    <result column="CONTENT" jdbcType="VARCHAR" property="content" />
     <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
     <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
-    <result column="IS_ISSUANCE" jdbcType="DECIMAL" property="isIssuance" />
+    <result column="IS_PUBLISH" jdbcType="DECIMAL" property="isPublish" />
+    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+   <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--
     @mbggenerated
     -->
-    ID, OPERATOR_ID, TITLE, CONTEXT, CREATED_AT, IS_DELETED, IS_ISSUANCE
+    ID, USER_ID, TITLE, CONTENT, CREATED_AT, IS_DELETED, IS_PUBLISH, UPDATED_AT
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     <!--
@@ -39,12 +41,10 @@
     <!--
     @mbggenerated
     -->
-    insert into T_SES_BMS_STATION_MESSAGE ( OPERATOR_ID, TITLE, 
-      CONTEXT, IS_DELETED, 
-      IS_ISSUANCE)
-    values ( #{operatorId,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
-      #{context,jdbcType=VARCHAR},  #{isDeleted,jdbcType=DECIMAL}, 
-      #{isIssuance,jdbcType=DECIMAL})
+    insert into T_SES_BMS_STATION_MESSAGE ( USER_ID, TITLE, 
+      CONTENT,  UPDATED_AT)
+    values (#{userId,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{updatedAt,jdbcType=DATE})
   </insert>
   <insert id="insertSelective" parameterType="ses.model.bms.StationMessage">
     <!--
@@ -55,14 +55,14 @@
       <if test="id != null">
         ID,
       </if>
-      <if test="operatorId != null">
-        OPERATOR_ID,
+      <if test="userId != null">
+        USER_ID,
       </if>
       <if test="title != null">
         TITLE,
       </if>
-      <if test="context != null">
-        CONTEXT,
+      <if test="content != null">
+        CONTENT,
       </if>
       <if test="createdAt != null">
         CREATED_AT,
@@ -70,22 +70,25 @@
       <if test="isDeleted != null">
         IS_DELETED,
       </if>
-      <if test="isIssuance != null">
-        IS_ISSUANCE,
+      <if test="isPublish != null">
+        IS_PUBLISH,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=VARCHAR},
       </if>
-      <if test="operatorId != null">
-        #{operatorId,jdbcType=VARCHAR},
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
       </if>
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
       </if>
-      <if test="context != null">
-        #{context,jdbcType=VARCHAR},
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
         #{createdAt,jdbcType=DATE},
@@ -93,8 +96,11 @@
       <if test="isDeleted != null">
         #{isDeleted,jdbcType=DECIMAL},
       </if>
-      <if test="isIssuance != null">
-        #{isIssuance,jdbcType=DECIMAL},
+      <if test="isPublish != null">
+        #{isPublish,jdbcType=DECIMAL},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=DATE},
       </if>
     </trim>
   </insert>
@@ -104,14 +110,14 @@
     -->
     update T_SES_BMS_STATION_MESSAGE
     <set>
-      <if test="operatorId != null">
-        OPERATOR_ID = #{operatorId,jdbcType=VARCHAR},
+      <if test="userId != null">
+        USER_ID = #{userId,jdbcType=VARCHAR},
       </if>
       <if test="title != null">
         TITLE = #{title,jdbcType=VARCHAR},
       </if>
-      <if test="context != null">
-        CONTEXT = #{context,jdbcType=VARCHAR},
+      <if test="content != null">
+        CONTENT = #{content,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
         CREATED_AT = #{createdAt,jdbcType=DATE},
@@ -119,8 +125,11 @@
       <if test="isDeleted != null">
         IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
       </if>
-      <if test="isIssuance != null">
-        IS_ISSUANCE = #{isIssuance,jdbcType=DECIMAL},
+      <if test="isPublish != null">
+        IS_PUBLISH = #{isPublish,jdbcType=DECIMAL},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=DATE},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
@@ -130,27 +139,25 @@
     @mbggenerated
     -->
     update T_SES_BMS_STATION_MESSAGE
-    set OPERATOR_ID = #{operatorId,jdbcType=VARCHAR},
+    set USER_ID = #{userId,jdbcType=VARCHAR},
       TITLE = #{title,jdbcType=VARCHAR},
-      CONTEXT = #{context,jdbcType=VARCHAR},
+      CONTENT = #{content,jdbcType=VARCHAR},
       CREATED_AT = #{createdAt,jdbcType=DATE},
       IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
-      IS_ISSUANCE = #{isIssuance,jdbcType=DECIMAL}
+      IS_PUBLISH = #{isPublish,jdbcType=DECIMAL},
+      UPDATED_AT = #{updatedAt,jdbcType=DATE}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
-  
-  
-  
-<!-- 分页获取数据 -->
+  <!-- 分页获取数据 -->
   <select id="listStationMessage" resultMap="BaseResultMap">
   
-  	 SELECT 
-  	 
-    <include refid="Base_Column_List" />
-    
-    from T_SES_BMS_STATION_MESSAGE WHERE IS_DELETED=0 ORDER BY CREATED_AT  DESC
-  
+	SELECT
+		T_SES_BMS_STATION_MESSAGE.*, T_SES_BMS_USER.REL_NAME AS USER_NAME
+	FROM
+		T_SES_BMS_STATION_MESSAGE
+	INNER JOIN T_SES_BMS_USER ON T_SES_BMS_USER."ID" = T_SES_BMS_STATION_MESSAGE.USER_ID 
+	
+	WHERE T_SES_BMS_STATION_MESSAGE.TITLE LIKE '%${title}%'
   </select>
-  
   
 </mapper>

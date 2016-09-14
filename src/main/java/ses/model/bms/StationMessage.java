@@ -7,6 +7,7 @@ import ses.util.PropertiesUtil;
 public class StationMessage {
     /**
      * <pre>
+     * ID
      * 表字段 : T_SES_BMS_STATION_MESSAGE.ID
      * </pre>
      */
@@ -15,10 +16,10 @@ public class StationMessage {
     /**
      * <pre>
      * 操作人ID T_SES_OMS_DEMAND_DEP_USER
-     * 表字段 : T_SES_BMS_STATION_MESSAGE.OPERATOR_ID
+     * 表字段 : T_SES_BMS_STATION_MESSAGE.USER_ID
      * </pre>
      */
-    private String operatorId;
+    private String userId;
 
     /**
      * <pre>
@@ -31,10 +32,10 @@ public class StationMessage {
     /**
      * <pre>
      * 内容
-     * 表字段 : T_SES_BMS_STATION_MESSAGE.CONTEXT
+     * 表字段 : T_SES_BMS_STATION_MESSAGE.CONTENT
      * </pre>
      */
-    private String context;
+    private String content;
 
     /**
      * <pre>
@@ -55,18 +56,26 @@ public class StationMessage {
     /**
      * <pre>
      * 是否发布 0不发布 1发布
-     * 表字段 : T_SES_BMS_STATION_MESSAGE.IS_ISSUANCE
+     * 表字段 : T_SES_BMS_STATION_MESSAGE.IS_PUBLISH
      * </pre>
      */
-    private Short isIssuance;
+    private Short isPublish;
 
     /**
      * <pre>
-     * 获取：null
+     * 修改时间
+     * 表字段 : T_SES_BMS_STATION_MESSAGE.UPDATED_AT
+     * </pre>
+     */
+    private Date updatedAt;
+
+    /**
+     * <pre>
+     * 获取：ID
      * 表字段：T_SES_BMS_STATION_MESSAGE.ID
      * </pre>
      *
-     * @return T_SES_BMS_STATION_MESSAGE.ID：null
+     * @return T_SES_BMS_STATION_MESSAGE.ID：ID
      */
     public String getId() {
         return id;
@@ -74,12 +83,12 @@ public class StationMessage {
 
     /**
      * <pre>
-     * 设置：null
+     * 设置：ID
      * 表字段：T_SES_BMS_STATION_MESSAGE.ID
      * </pre>
      *
      * @param id
-     *            T_SES_BMS_STATION_MESSAGE.ID：null
+     *            T_SES_BMS_STATION_MESSAGE.ID：ID
      */
     public void setId(String id) {
         this.id = id == null ? null : id.trim();
@@ -88,26 +97,26 @@ public class StationMessage {
     /**
      * <pre>
      * 获取：操作人ID T_SES_OMS_DEMAND_DEP_USER
-     * 表字段：T_SES_BMS_STATION_MESSAGE.OPERATOR_ID
+     * 表字段：T_SES_BMS_STATION_MESSAGE.USER_ID
      * </pre>
      *
-     * @return T_SES_BMS_STATION_MESSAGE.OPERATOR_ID：操作人ID T_SES_OMS_DEMAND_DEP_USER
+     * @return T_SES_BMS_STATION_MESSAGE.USER_ID：操作人ID T_SES_OMS_DEMAND_DEP_USER
      */
-    public String getOperatorId() {
-        return operatorId;
+    public String getUserId() {
+        return userId;
     }
 
     /**
      * <pre>
      * 设置：操作人ID T_SES_OMS_DEMAND_DEP_USER
-     * 表字段：T_SES_BMS_STATION_MESSAGE.OPERATOR_ID
+     * 表字段：T_SES_BMS_STATION_MESSAGE.USER_ID
      * </pre>
      *
-     * @param operatorId
-     *            T_SES_BMS_STATION_MESSAGE.OPERATOR_ID：操作人ID T_SES_OMS_DEMAND_DEP_USER
+     * @param userId
+     *            T_SES_BMS_STATION_MESSAGE.USER_ID：操作人ID T_SES_OMS_DEMAND_DEP_USER
      */
-    public void setOperatorId(String operatorId) {
-        this.operatorId = operatorId == null ? null : operatorId.trim();
+    public void setUserId(String userId) {
+        this.userId = userId == null ? null : userId.trim();
     }
 
     /**
@@ -138,26 +147,26 @@ public class StationMessage {
     /**
      * <pre>
      * 获取：内容
-     * 表字段：T_SES_BMS_STATION_MESSAGE.CONTEXT
+     * 表字段：T_SES_BMS_STATION_MESSAGE.CONTENT
      * </pre>
      *
-     * @return T_SES_BMS_STATION_MESSAGE.CONTEXT：内容
+     * @return T_SES_BMS_STATION_MESSAGE.CONTENT：内容
      */
-    public String getContext() {
-        return context;
+    public String getContent() {
+        return content;
     }
 
     /**
      * <pre>
      * 设置：内容
-     * 表字段：T_SES_BMS_STATION_MESSAGE.CONTEXT
+     * 表字段：T_SES_BMS_STATION_MESSAGE.CONTENT
      * </pre>
      *
-     * @param context
-     *            T_SES_BMS_STATION_MESSAGE.CONTEXT：内容
+     * @param content
+     *            T_SES_BMS_STATION_MESSAGE.CONTENT：内容
      */
-    public void setContext(String context) {
-        this.context = context == null ? null : context.trim();
+    public void setContent(String content) {
+        this.content = content == null ? null : content.trim();
     }
 
     /**
@@ -169,7 +178,7 @@ public class StationMessage {
      * @return T_SES_BMS_STATION_MESSAGE.CREATED_AT：创建时间
      */
     public Date getCreatedAt() {
-        return createdAt==null||"".equals(createdAt)?new Date():createdAt;
+        return createdAt;
     }
 
     /**
@@ -194,7 +203,7 @@ public class StationMessage {
      * @return T_SES_BMS_STATION_MESSAGE.IS_DELETED：是否删除 0不删除 1删除
      */
     public Short getIsDeleted() {
-        return isDeleted==null?0:isDeleted;
+        return isDeleted;
     }
 
     /**
@@ -213,31 +222,57 @@ public class StationMessage {
     /**
      * <pre>
      * 获取：是否发布 0不发布 1发布
-     * 表字段：T_SES_BMS_STATION_MESSAGE.IS_ISSUANCE
+     * 表字段：T_SES_BMS_STATION_MESSAGE.IS_PUBLISH
      * </pre>
      *
-     * @return T_SES_BMS_STATION_MESSAGE.IS_ISSUANCE：是否发布 0不发布 1发布
+     * @return T_SES_BMS_STATION_MESSAGE.IS_PUBLISH：是否发布 0不发布 1发布
      */
-    public Short getIsIssuance() {
-        return isIssuance==null?0:isIssuance;
+    public Short getIsPublish() {
+        return isPublish;
     }
 
     /**
      * <pre>
      * 设置：是否发布 0不发布 1发布
-     * 表字段：T_SES_BMS_STATION_MESSAGE.IS_ISSUANCE
+     * 表字段：T_SES_BMS_STATION_MESSAGE.IS_PUBLISH
      * </pre>
      *
-     * @param isIssuance
-     *            T_SES_BMS_STATION_MESSAGE.IS_ISSUANCE：是否发布 0不发布 1发布
+     * @param isPublish
+     *            T_SES_BMS_STATION_MESSAGE.IS_PUBLISH：是否发布 0不发布 1发布
      */
-    public void setIsIssuance(Short isIssuance) {
-        this.isIssuance = isIssuance;
+    public void setIsPublish(Short isPublish) {
+        this.isPublish = isPublish;
     }
 
+    /**
+     * <pre>
+     * 获取：修改时间
+     * 表字段：T_SES_BMS_STATION_MESSAGE.UPDATED_AT
+     * </pre>
+     *
+     * @return T_SES_BMS_STATION_MESSAGE.UPDATED_AT：修改时间
+     */
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    /**
+     * <pre>
+     * 设置：修改时间
+     * 表字段：T_SES_BMS_STATION_MESSAGE.UPDATED_AT
+     * </pre>
+     *
+     * @param updatedAt
+     *            T_SES_BMS_STATION_MESSAGE.UPDATED_AT：修改时间
+     */
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+    
 
 	//--------------手写------------------------
-	
+	private String userName;
+    
 	/**
 	 * 	 页码
 	 */
@@ -247,6 +282,17 @@ public class StationMessage {
 	 * 每页显示的数量
 	 */
 	private Integer pageSize;
+
+	
+	
+	
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
 	public Integer getPageNum() {
 		return pageNum;
@@ -287,10 +333,10 @@ public class StationMessage {
 	 * @param isIssuance
 	 * @param str 无效参数
 	 */
-	public StationMessage(String id, Short isIssuance,String str) {
+	public StationMessage(String id, Short isPublish,String str) {
 		super();
 		this.id = id;
-		this.isIssuance = isIssuance;
+		this.isPublish = isPublish;
 		str=null;
 	}
 	/**
@@ -304,6 +350,4 @@ public class StationMessage {
 		this.pageSize = pageSize;
 	}
 	
-	
-    
 }

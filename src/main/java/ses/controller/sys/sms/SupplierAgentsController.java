@@ -62,7 +62,7 @@ public class SupplierAgentsController {
 		req.setAttribute("getListSupplier",new PageInfo<SupplierAgents>(getListSupplier));
 		req.setAttribute("type", type);
 		req.setAttribute("id", id);
-		return "sms/supplieragentlist";
+		return "/backend";
 	}
 	/**
 	 * @Description:   软删除代办事项

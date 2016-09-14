@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.bms.TodosMapper">
+  <resultMap id="BaseResultMap" type="ses.model.bms.Todos">
+    <!--
+    @mbggenerated
+    -->
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
+    <result column="URL" jdbcType="VARCHAR" property="url" />
+    <result column="IS_FINISH" jdbcType="DECIMAL" property="isFinish" />
+    <result column="CLASS_NAME" jdbcType="VARCHAR" property="className" />
+    <result column="CLASS_ID" jdbcType="DECIMAL" property="classId" />
+    <result column="UNDO_TYPE" jdbcType="DECIMAL" property="undoType" />
+    <result column="SENDER_ID" jdbcType="VARCHAR" property="senderId" />
+    <result column="RECEIVER_ID" jdbcType="VARCHAR" property="receiverId" />
+    <result column="RECEIVER_NAME"  property="receiverName"/>
+    <result column="SENDER_NAME" property="senderName"/> 
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+    @mbggenerated
+    -->
+    ID, CREATED_AT, NAME, IS_DELETED, URL, IS_FINISH, CLASS_NAME, CLASS_ID, UNDO_TYPE, SENDER_ID, 
+    RECEIVER_ID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--
+    @mbggenerated
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_BMS_TODOS
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <!--
+    @mbggenerated
+    -->
+    delete from T_SES_BMS_TODOS
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="ses.model.bms.Todos">
+    <!--
+    @mbggenerated
+    -->
+    insert into T_SES_BMS_TODOS (NAME, 
+      IS_DELETED, URL, IS_FINISH, 
+      CLASS_NAME, CLASS_ID, UNDO_TYPE, 
+      SENDER_ID, RECEIVER_ID)
+    values (#{name,jdbcType=VARCHAR}, 
+      #{isDeleted,jdbcType=DECIMAL}, #{url,jdbcType=VARCHAR}, #{isFinish,jdbcType=DECIMAL}, 
+      #{className,jdbcType=VARCHAR}, #{classId,jdbcType=DECIMAL}, #{undoType,jdbcType=DECIMAL}, 
+      #{senderId,jdbcType=VARCHAR}, #{receiverId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="ses.model.bms.Todos">
+    <!--
+    @mbggenerated
+    -->
+    insert into T_SES_BMS_TODOS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+      <if test="url != null">
+        URL,
+      </if>
+      <if test="isFinish != null">
+        IS_FINISH,
+      </if>
+      <if test="className != null">
+        CLASS_NAME,
+      </if>
+      <if test="classId != null">
+        CLASS_ID,
+      </if>
+      <if test="undoType != null">
+        UNDO_TYPE,
+      </if>
+      <if test="senderId != null">
+        SENDER_ID,
+      </if>
+      <if test="receiverId != null">
+        RECEIVER_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="isFinish != null">
+        #{isFinish,jdbcType=DECIMAL},
+      </if>
+      <if test="className != null">
+        #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="classId != null">
+        #{classId,jdbcType=DECIMAL},
+      </if>
+      <if test="undoType != null">
+        #{undoType,jdbcType=DECIMAL},
+      </if>
+      <if test="senderId != null">
+        #{senderId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverId != null">
+        #{receiverId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="ses.model.bms.Todos">
+    <!--
+    @mbggenerated
+    -->
+    update T_SES_BMS_TODOS
+    <set>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="url != null">
+        URL = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="isFinish != null">
+        IS_FINISH = #{isFinish,jdbcType=DECIMAL},
+      </if>
+      <if test="className != null">
+        CLASS_NAME = #{class,jdbcType=VARCHAR},
+      </if>
+      <if test="classId != null">
+        CLASS_ID = #{classId,jdbcType=DECIMAL},
+      </if>
+      <if test="undoType != null">
+        UNDO_TYPE = #{undoType,jdbcType=DECIMAL},
+      </if>
+      <if test="senderId != null">
+        SENDER_ID = #{senderId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverId != null">
+        RECEIVER_ID = #{receiverId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="ses.model.bms.Todos">
+    <!--
+    @mbggenerated
+    -->
+    update T_SES_BMS_TODOS
+    set CREATED_AT = #{createdAt,jdbcType=DATE},
+      NAME = #{name,jdbcType=VARCHAR},
+      IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      URL = #{url,jdbcType=VARCHAR},
+      IS_FINISH = #{isFinish,jdbcType=DECIMAL},
+      CLASS_NAME = #{className,jdbcType=VARCHAR},
+      CLASS_ID = #{classId,jdbcType=DECIMAL},
+      UNDO_TYPE = #{undoType,jdbcType=DECIMAL},
+      SENDER_ID = #{senderId,jdbcType=VARCHAR},
+      RECEIVER_ID = #{receiverId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+
+	<!--   获取所有的待办已办信息 -->
+   <select id="listTodos"  parameterType="ses.model.bms.Todos"  resultMap="BaseResultMap">
+	SELECT
+		BT.*, bu.REL_NAME AS RECEIVER_NAME,
+		BU1.REL_NAME AS SENDER_NAME
+	FROM
+		T_SES_BMS_TODOS BT
+	INNER JOIN T_SES_BMS_USER bu1 ON BT.SENDER_ID = BU1."ID"
+	INNER JOIN T_SES_BMS_USER bu ON BT.RECEIVER_ID = bu."ID"
+	WHERE 
+	 BT.IS_DELETED = 0  AND IS_FINISH=#{isFinish,jdbcType=DECIMAL} AND BT.UNDO_TYPE=#{undoType,jdbcType=DECIMAL} ORDER BY UNDO_TYPE
+</select>
+<!-- 查询出任务类型 -->
+<select id="listUndoType" resultType="java.lang.String">
+	SELECT UNDO_TYPE FROM T_SES_BMS_TODOS GROUP BY UNDO_TYPE ORDER BY UNDO_TYPE
+</select>
+
+</mapper>

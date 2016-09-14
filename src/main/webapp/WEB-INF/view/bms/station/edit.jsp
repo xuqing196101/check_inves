@@ -167,7 +167,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			 </li>
 		     <li class="col-md-12  p0 " >
 			   <span class="">内容：</span>
-		        <textarea  cols="3" rows="100" name="context" >${StationMessage.context}</textarea>
+		        <textarea   cols="3" rows="100" name="context" style="width: 200px;height: 10px;">${StationMessage.content}</textarea>
 			 </li> 
    </ul>
   </div> 

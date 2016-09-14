@@ -5,25 +5,25 @@
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-  <head>
-    <base href="<%=basePath%>">
-    
-    <title>站内消息</title>
-    
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
-	<!--
+<head>
+<base href="<%=basePath%>">
+
+<title>站内消息</title>
+
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="This is my page">
+<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-	
-	
-  </head>
-  <script src="<%=basePath%>public/layer/layer.js"></script>
-    <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
-  <script type="text/javascript">
+
+
+</head>
+<script src="<%=basePath%>public/layer/layer.js"></script>
+<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+<script type="text/javascript">
   $(function(){
 	  laypage({
 		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
@@ -32,18 +32,17 @@
 		    skip: true, //是否开启跳页
 		    groups: "${listStationMessage.pages}">=3?3:"${listStationMessage.pages}", //连续显示分页数
 		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
-		        var page = location.search.match(/page=(\d+)/);
-		        return page ? page[1] : 1;
+// 		        var page = location.search.match(/page=(\d+)/);
+		        return "${listStationMessage.pageNum}";
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		            location.     = '<%=basePath%>StationMessage/listStationMessage.do?page='+e.curr;
+		        	$("#pages").val(e.curr);
+		        	$("form:first").submit();
 		        }
 		    }
 		});
   });
-  
-  
   	/** 全选全不选 */
 	function selectAll(){
 		 var checklist = document.getElementsByName ("chkItem");
@@ -111,90 +110,104 @@
     function add(){
     	window.location.href="<%=basePath%>StationMessage/showInsertSM.do";
     }
+    function show(id){
+    	window.location.href="<%=basePath%>StationMessage/showStationMessage.do?id="+id+"&&type=view";
+    }
   </script>
-  <body>
+<body>
 	<!--面包屑导航开始-->
-   <div class="margin-top-10 breadcrumbs ">
-      <div class="container">
-		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">后台管理</a></li><li class="active"><a href="#">模版管理</a></li>
-		   </ul>
-		<div class="clear"></div>
-	  </div>
-   </div>
-   <div class="container">
-	   <div class="headline-v2">
-	   		<h2>站内消息管理</h2>
-	   </div>
-   </div>
-<!-- 表格开始-->
-   <div class="container">
-   <div class="col-md-8">
-    <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
-	<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
-	<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
+	<div class="margin-top-10 breadcrumbs ">
+		<div class="container">
+			<ul class="breadcrumb margin-left-0">
+				<li><a href="#"> 首页</a></li>
+				<li><a href="#">支撑系统</a></li>
+				<li><a href="#">后台管理</a></li>
+				<li class="active"><a href="#">模版管理</a></li>
+			</ul>
+			<div class="clear"></div>
+		</div>
 	</div>
-            <div class="col-md-4 ">
-              <div class="search-block-v2">
-                <div class="">
-                  <form accept-charset="UTF-8" action="" method="get"><div style="display:none"><input name="utf8" value="✓" type="hidden"></div>
-                    <input id="t" name="t" value="search_products" type="hidden">
-                    <div class="col-md-12 pull-right">
-                      <div class="input-group">
-                        <input class="form-control bgnone h37 p0_10" id="k" name="k" placeholder="" type="text">
-                        <span class="input-group-btn">
-                          <input class="btn-u" name="commit" value="搜索" type="submit">
-                        </span>
-                      </div>
-                    </div>
-                  </form>               
-			   </div>
-              </div>
-            </div>	
-    </div>
-   
-   <div class="container margin-top-5">
-     <div class="content padding-left-25 padding-right-25 padding-top-5">
-        <table class="table table-bordered table-condensed">
-		<thead>
-		<tr>
-		  <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
-		  <th class="info w50">序号</th>
-		  <th class="info">标题</th>
-		  <th class="info">内容</th>
-		  <th class="info">创建人</th>
-		  <th class="info">是否发布</th>
-		</tr>
-		</thead>
-		<c:forEach items="${listStationMessage.list}" var="listsm" varStatus="vs">
-			<tr onclick="location.href='<%=basePath%>StationMessage/showStationMessage.do?id=${listsm.id }&&type=view'">
-				<!-- 选择框 -->
-				<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${listsm.id}" /></td>
-				<!-- 序号 -->
-				<td class="tc">${vs.index+1}</td>
-				<!-- 标题 -->
-				<td class="tc">${listsm.title}</td>
-				<!-- 内容 -->
-				<td class="tc">${listsm.context}</td>
-				<!-- 创建人-->
-<%-- 				//${listsm.operatorName} --%>
-				<td class="tc">admin </td>
-				<!-- 是否发布 -->
-				<td class="tc">
-				 <c:choose>
-				 	<c:when test="${listsm.isIssuance==0}">
-				 		<a href="StationMessage/updateSMIsIssuance.do?id=${listsm.id}&&isIssuance=1">发布</a>
-				 	</c:when>
-				 	<c:otherwise>
-				 		<a href="StationMessage/updateSMIsIssuance.do?id=${listsm.id}&&isIssuance=0">撤回</a>
-				 	</c:otherwise>
-				 </c:choose>
-				</td>
-			</tr>
-		</c:forEach>
-        </table>
-     </div>
-     <div id="pagediv" align="right"></div>
-   </div>
-  </body>
+	<div class="container">
+		<div class="headline-v2">
+			<h2>站内消息管理</h2>
+		</div>
+	</div>
+	<!-- 表格开始-->
+	<div class="container">
+		<div class="col-md-8">
+			<button class="btn btn-windows add" type="button" onclick="add()">新增</button>
+			<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
+			<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
+		</div>
+		<div class="col-md-4 ">
+			<div class="search-block-v2">
+				<div class="">
+					<form accept-charset="UTF-8" action="<%=basePath%>StationMessage/listStationMessage.do" method="post">
+						<div style="display: none">
+							<input name="utf8" value="✓" type="hidden">
+								<input type="hidden" id="pages" name="page" value="">
+						</div>
+						<input id="t" name="t" value="search_products" type="hidden">
+						<div class="col-md-12 pull-right">
+							<div class="input-group">
+								<input class="form-control bgnone h37 p0_10" id="k" name="title"
+									placeholder="" type="text"> <span
+									class="input-group-btn"> <input class="btn-u"
+									name="commit" value="搜索" type="submit">
+								</span>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container margin-top-5">
+		<div class="content padding-left-25 padding-right-25 padding-top-5">
+		
+				<table class="table table-bordered table-condensed">
+					<thead>
+						<tr>
+							<th class="info w30"><input id="checkAll" type="checkbox"
+								onclick="selectAll()" /></th>
+							<th class="info w50">序号</th>
+							<th class="info">标题</th>
+							<th class="info">内容</th>
+							<th class="info">创建人</th>
+							<th class="info">是否发布</th>
+						</tr>
+					</thead>
+					<c:forEach items="${listStationMessage.list}" var="listsm"
+						varStatus="vs">
+						<tr>
+							<!-- 选择框 -->
+							<td onclick="null" class="tc"><input onclick="check()"
+								type="checkbox" name="chkItem" value="${listsm.id}" /></td>
+							<!-- 序号 -->
+							<td class="tc" onclick="show(${listsm.id});">${vs.index+1}</td>
+							<!-- 标题 -->
+							<td class="tc" onclick="show(${listsm.id});">${listsm.title}</td>
+							<!-- 内容 -->
+							<td class="tc" onclick="show(${listsm.id});">${listsm.content}</td>
+							<!-- 创建人-->
+							<td class="tc" onclick="show(${listsm.id});">${llitsm.userName}</td>
+							<!-- 是否发布 -->
+							<td class="tc"><c:choose>
+									<c:when test="${listsm.isPublish==0}">
+										<a
+											href="StationMessage/updateSMIsIssuance.do?id=${listsm.id}&&isIssuance=1">发布</a>
+									</c:when>
+									<c:otherwise>
+										<a
+											href="StationMessage/updateSMIsIssuance.do?id=${listsm.id}&&isIssuance=0">撤回</a>
+									</c:otherwise>
+								</c:choose></td>
+						</tr>
+					</c:forEach>
+				</table>
+		</div>
+		<div id="pagediv" align="right"></div>
+	</div>
+</body>
 </html>

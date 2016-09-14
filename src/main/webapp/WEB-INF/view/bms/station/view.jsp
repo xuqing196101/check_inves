@@ -59,14 +59,14 @@
 			 </li>
 		     <li class="col-md-12  p0 " >
 			   <span class="">内容：</span>
-		        <textarea  cols="3" rows="100" name="context" >${StationMessage.context}</textarea>
+		        <textarea  cols="3" rows="100" name="context" >${StationMessage.content}</textarea>
 			 </li> 
    </ul>
   </div> 
   <div  class="col-md-12">
    	<div class="fl padding-10">
     	  <c:choose>
-				 	<c:when test="${StationMessage.isIssuance==0}">
+				 	<c:when test="${StationMessage.isPublish==0}">
 				 		<a class="btn btn-windows reset" href="updateSMIsIssuance.do?id=${StationMessage.id}&&isIssuance=1">发布</a>
 				 	</c:when>
 				 	<c:otherwise>
