@@ -48,7 +48,7 @@ public class AreaController {
 	 */
 	@RequestMapping("/createList")
 	public String createList() {
-		return "area/list";
+		return "bms/area/list";
 	}
 
 	/**

@@ -28,9 +28,9 @@ public class Area {
 	 */
     private Integer isDeleted;
     /**
-	 * @Fields order : 序号
+	 * @Fields position : 序号
 	 */
-    private Integer order;
+    private Integer position;
     /**
 	 * @Fields areaType : 地区类型
 	 */
@@ -68,17 +68,15 @@ public class Area {
         this.updatedAt = updatedAt;
     }
 
-    
+    public Integer getPosition() {
+		return position;
+	}
 
-    public Integer getOrder() {
-        return order;
-    }
+	public void setPosition(Integer position) {
+		this.position = position;
+	}
 
-    public void setOrder(Integer order) {
-        this.order = order;
-    }
-
-    public Integer getIsDeleted() {
+	public Integer getIsDeleted() {
 		return isDeleted;
 	}
 
