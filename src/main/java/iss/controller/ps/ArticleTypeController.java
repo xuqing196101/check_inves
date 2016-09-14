@@ -47,7 +47,7 @@ public class ArticleTypeController {
 	public String getArticleTypeList(Model model,Integer page) {
 		List<ArticleType> articletypes = articleTypeService.selectAllArticleType(page==null?1:page);
 		model.addAttribute("list", new PageInfo<ArticleType>(articletypes));
-		return "iss/articletype/list";
+		return "iss/ps/articletype/list";
 	}
 	
 	/**
@@ -62,7 +62,7 @@ public class ArticleTypeController {
 	public String view(Model model, String id) {
 		ArticleType articletype = articleTypeService.selectTypeByPrimaryKey(id);
 		model.addAttribute("articletype", articletype);
-		return "iss/articletype/view";
+		return "iss/ps/articletype/view";
 	}
 	/**
 	 * @Title: view
@@ -76,7 +76,7 @@ public class ArticleTypeController {
 	public String edit(Model model, String id) {
 		ArticleType articletype = articleTypeService.selectTypeByPrimaryKey(id);
 		model.addAttribute("articletype", articletype);
-		return "iss/articletype/edit";
+		return "iss/ps/articletype/edit";
 	}
 	
 	/**

@@ -87,7 +87,7 @@ function kaptcha(){
 
 <body>
   <div class="wrapper">
-  <jsp:include page="/indexhead.jsp"></jsp:include>
+  <jsp:include page="/index_head.jsp"></jsp:include>
   <!-- End Navbar -->
   <div class="container content height-350 job-content ">
      <div class="row magazine-page">
@@ -487,7 +487,7 @@ function kaptcha(){
    </div>
   </div> 
 
-<jsp:include page="/indexbottom.jsp"></jsp:include>
+<jsp:include page="/index_bottom.jsp"></jsp:include>
 <!--[if lt IE 9]>
     <script src="/assets/plugins/respond.js?body=1"></script>
 <script src="/assets/plugins/html5shiv.js?body=1"></script>

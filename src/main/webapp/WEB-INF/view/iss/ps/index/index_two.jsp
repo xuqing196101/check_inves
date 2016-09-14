@@ -37,7 +37,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <body>
   <div class="wrapper">
-  <jsp:include page="/indexhead.jsp"></jsp:include>
+  <jsp:include page="/index_head.jsp"></jsp:include>
   <div class="container content height-350 job-content ">
   <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
@@ -77,6 +77,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </div>
 	  </div>
 <!--底部代码开始-->
-<jsp:include page="/indexbottom.jsp"></jsp:include>
+<jsp:include page="/index_bottom.jsp"></jsp:include>
 </body>
 </html>

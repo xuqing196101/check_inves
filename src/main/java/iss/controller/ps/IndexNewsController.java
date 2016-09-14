@@ -91,7 +91,7 @@ public class IndexNewsController {
 			}
 		}
 		model.addAttribute("indexMapper", indexMapper);
-		return "index/index";
+		return "iss/ps/index/index";
 	};
 	
 	/**
@@ -111,7 +111,7 @@ public class IndexNewsController {
 		List<Article> indexNewsList = indexNewsService.selectNewsByArticleTypeId(articleType.getId());
 		model.addAttribute("indexList", indexNewsList);
 		model.addAttribute("typeName", indexNewsList.get(0).getArticleType().getName());
-		return "index/index_two";
+		return "iss/ps/index/index_two";
 	}
 	
 	/**
@@ -135,7 +135,7 @@ public class IndexNewsController {
 		List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(articleDetail.getId());
 		articleDetail.setArticleAttachments(articleAttaList);
 		model.addAttribute("articleDetail", articleDetail);
-		return "index/index_details";
+		return "iss/ps/index/index_details";
 	}
 	
 	/**
@@ -156,7 +156,7 @@ public class IndexNewsController {
 		Map<String, Object> map = solrNewsService.findByIndex(condition);
 		model.addAttribute("solrMap",map);
 		model.addAttribute("oldCondition", condition);
-		return "index/index_solr";
+		return "iss/ps/index/index_solr";
 	}
 	
 	/**
