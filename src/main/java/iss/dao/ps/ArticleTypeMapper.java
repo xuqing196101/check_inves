@@ -23,7 +23,7 @@ public interface ArticleTypeMapper {
     * @param @return      
     * @return ArticleType
      */
-    ArticleType selectByPrimaryKey(String id);
+    ArticleType selectTypeByPrimaryKey(String id);
     /**
      * 
     * @Title: selectAllArticleType

@@ -78,12 +78,10 @@
   	}
     
   	function del(){
-  		alert(1);
-  		var ids =[]; 
+    	var ids =[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			ids.push($(this).val()); 
 		}); 
-		alert(ids.length);
 		if(ids.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
@@ -92,7 +90,7 @@
 		}else{
 			layer.alert("请选择要删除的信息",{offset: ['222px', '390px'], shade:0.01});
 		}
-  	}
+    }
   </script>
   </head>
   
@@ -115,8 +113,25 @@
 <!-- 表格开始-->
    <div class="container">
    	<div class="col-md-8">
-		<input class="btn btn-windows edit" type="button" onclick="del()" value="删除"/>
+      <button class="btn btn-windows delete" type="button" onclick="del()"/>删除</button>
 	</div>
+	<div class="col-md-4 ">
+              <div class="search-block-v2">
+                <div class="">
+                  <form accept-charset="UTF-8" action="" method="post"><div style="display:none"><input name="utf8" value="✓" type="hidden"></div>
+                    <input id="t" name="t" value="search_products" type="hidden">
+                    <div class="col-md-12 pull-right">
+                      <div class="input-group">
+                        <input class="form-control bgnone h37 p0_10" id="k" name="articleName" placeholder="" type="text">
+                        <span class="input-group-btn">
+                          <input class="btn-u" name="commit" value="搜索" type="submit">
+                        </span>
+                      </div>
+                    </div>
+                  </form>               
+			   </div>
+              </div>
+            </div>
    </div>
    <div class="container margin-top-5">
      <div class="content padding-left-25 padding-right-25 padding-top-5">
@@ -134,11 +149,11 @@
 		<c:forEach items="${list.list}" var="downloadUser" varStatus="vs">
 			<tr>
 				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${downloadUser.id}" /></td>
-				<td class="tc pointer" onclick="view('${downloadUser.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-				<td class="tc pointer" onclick="view('${downloadUser.id}')">${downloadUser.article.name}</td>
-				<td class="tc pointer" onclick="view('${downloadUser.id}')"><fmt:formatDate value='${downloadUser.createdAt}' pattern="yyyy年MM月dd日  HH:mm:ss" /></td>
-				<td class="tc pointer" onclick="view('${downloadUser.id}')"><fmt:formatDate value='${downloadUser.updatedAt}' pattern="yyyy年MM月dd日  HH:mm:ss" /></td>
-				<td class="tc pointer" onclick="view('${downloadUser.id}')">${downloadUser.user.relName}</td>
+				<td class="tc pointer">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+				<td class="tc pointer">${downloadUser.article.name}</td>
+				<td class="tc pointer"><fmt:formatDate value='${downloadUser.createdAt}' pattern="yyyy年MM月dd日  HH:mm:ss" /></td>
+				<td class="tc pointer"><fmt:formatDate value='${downloadUser.updatedAt}' pattern="yyyy年MM月dd日  HH:mm:ss" /></td>
+				<td class="tc pointer">${downloadUser.user.relName}</td>
 			</tr>
 		</c:forEach>
 	</table>

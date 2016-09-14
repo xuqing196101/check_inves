@@ -58,7 +58,7 @@ public interface ArticleAttachmentsMapper {
     * @param @return      
     * @return ArticleAttachments
      */
-    ArticleAttachments selectByPrimaryKey(String id);
+    ArticleAttachments selectArticleAttaByPrimaryKey(String id);
     
     /**
      * 

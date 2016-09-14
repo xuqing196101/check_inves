@@ -60,7 +60,7 @@ public class ArticleTypeController {
 	 */
 	@RequestMapping("/view")
 	public String view(Model model, String id) {
-		ArticleType articletype = articleTypeService.selectByPrimaryKey(id);
+		ArticleType articletype = articleTypeService.selectTypeByPrimaryKey(id);
 		model.addAttribute("articletype", articletype);
 		return "iss/articletype/view";
 	}
@@ -74,7 +74,7 @@ public class ArticleTypeController {
 	 */
 	@RequestMapping("/edit")
 	public String edit(Model model, String id) {
-		ArticleType articletype = articleTypeService.selectByPrimaryKey(id);
+		ArticleType articletype = articleTypeService.selectTypeByPrimaryKey(id);
 		model.addAttribute("articletype", articletype);
 		return "iss/articletype/edit";
 	}

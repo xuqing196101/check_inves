@@ -59,7 +59,7 @@ public interface DownloadUserMapper {
     * @param @return      
     * @return DownloadUser
      */
-    DownloadUser selectByPrimaryKey(String id);
+    DownloadUser selectDownloadByPrimaryKey(String id);
     
     /**
      * 
@@ -96,4 +96,15 @@ public interface DownloadUserMapper {
     * @return int
      */
     int updateByPrimaryKey(DownloadUser record);
+    
+    /**
+     * 
+    * @Title: selectDownloadUserByParam
+    * @author QuJie 
+    * @date 2016-9-13 下午3:36:46  
+    * @Description:根据条件查询下载人 
+    * @param @return      
+    * @return List<DownloadUser>
+     */
+    List<DownloadUser> selectDownloadUserByParam(DownloadUser downloadUser);
 }

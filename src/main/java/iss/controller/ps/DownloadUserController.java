@@ -3,6 +3,7 @@ package iss.controller.ps;
 import iss.model.ps.Article;
 import iss.model.ps.ArticleType;
 import iss.model.ps.DownloadUser;
+import iss.service.ps.ArticleService;
 import iss.service.ps.DownloadUserService;
 
 import java.util.List;
@@ -31,6 +32,9 @@ import ses.util.PropertiesUtil;
 public class DownloadUserController {
 	@Autowired
 	private DownloadUserService downloadUserService;
+	
+	@Autowired
+	private ArticleService articleService;
 	
 	/**
 	 * 
@@ -64,7 +68,36 @@ public class DownloadUserController {
 	* @return void
 	 */
 	@RequestMapping("/deleteDownloadUser")
-	public void deleteDownloadUser(String[] ids) throws Exception{
-		System.out.println(ids);
+	public String deleteDownloadUser(String[] ids) throws Exception{
+		DownloadUser downloadUser = downloadUserService.selectDownloadUserById(ids[0]);
+		String id = downloadUser.getArticle().getId();
+		for(int i=0;i<ids.length;i++){
+			downloadUserService.deleteDownloadUserById(ids[i]);
+		}
+		Article article = downloadUser.getArticle();
+		article.setDownloadCount(article.getDownloadCount()-1);
+		articleService.update(article);
+		return "redirect:selectDownloadUserByArticleId.html?id="+id;
+	};
+	
+	/**
+	 * 
+	* @Title: selectDownloadUserByParam
+	* @author QuJie 
+	* @date 2016-9-14 上午11:11:55  
+	* @Description: 根据条件查询下载人信息 
+	* @param @param downloadUser
+	* @param @param model
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
+	@RequestMapping("/selectDownloadUserByParam")
+	public String selectDownloadUserByParam(DownloadUser downloadUser,Model model) throws Exception{
+		if(downloadUser.getArticle().getName()!=null){
+			List<DownloadUser> list = downloadUserService.selectDownloadUserByParam(downloadUser);
+			model.addAttribute("list", list);
+		}
+		return "downloadUser/list";
 	};
 }

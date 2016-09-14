@@ -29,8 +29,8 @@ public class ArticleTypeServiceImpl implements ArticleTypeService {
 	 * 根据id查找文章类型
 	 */
 	@Override
-	public ArticleType selectByPrimaryKey(String id) {
-		return articleTypeMapper.selectByPrimaryKey(id);
+	public ArticleType selectTypeByPrimaryKey(String id) {
+		return articleTypeMapper.selectTypeByPrimaryKey(id);
 	}
 
 	/**

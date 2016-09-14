@@ -6,7 +6,7 @@
     <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="IS_DELETED" property="isDeleted" />
-    <association property="user" column="USER_ID" select="ses.dao.bms.UserMapper.queryById"/>
+    <association property="user" column="USER_ID" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>
     <association property="article" column="ARTICLE_ID" select="iss.dao.ps.ArticleMapper.selectById"/>
   </resultMap>
   
@@ -15,7 +15,7 @@
   </sql>
   
   <!-- 根据id查询下载人信息 -->
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="DownloadUserMap">
+  <select id="selectDownloadByPrimaryKey" parameterType="java.lang.Long" resultMap="DownloadUserMap">
     select 
     <include refid="DownloadUser_Column_List" />
     from T_ISS_PS_DOWNLOAD_INFO
@@ -28,6 +28,28 @@
     <include refid="DownloadUser_Column_List" />
     from T_ISS_PS_DOWNLOAD_INFO
     where ARTICLE_ID = #{article.id}
+  </select>
+  
+  <!-- 根据条件查询 -->
+  <select id="selectDownloadUserByParam" parameterType="iss.model.ps.DownloadUser" resultMap="DownloadUserMap">
+  	select
+  	<include refid="DownloadUser_Column_List" />
+  	from T_ISS_PS_DOWNLOAD_INFO where
+  	  <if test="article != null">
+        ARTICLE_ID = #{article.id}
+      </if>
+      <if test="user != null">
+       and USER_ID = #{user.id},
+      </if>
+      <if test="createdAt != null">
+       and CREATED_AT = #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+       and UPDATED_AT = #{updatedAt},
+      </if>
+      <if test="isDeleted != null">
+       and IS_DELETED  = #{isDeleted},
+      </if>
   </select>
   
   <!-- 根据id删除下载人信息 -->

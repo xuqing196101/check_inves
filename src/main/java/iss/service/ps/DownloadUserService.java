@@ -36,4 +36,39 @@ public interface DownloadUserService {
     * @return List<DownloadUser>
      */
     List<DownloadUser> selectByArticleId(String id);
+    
+    /**
+     * 
+    * @Title: deleteDownloadUserById
+    * @author QuJie 
+    * @date 2016-9-13 上午11:21:27  
+    * @Description: 根据id删除下载人信息 
+    * @param @param id      
+    * @return void
+     */
+    void deleteDownloadUserById(String id);
+    
+    /**
+     * 
+    * @Title: selectDownloadUserById
+    * @author QuJie 
+    * @date 2016-9-13 下午1:34:57  
+    * @Description: 根据id查找下载人信息 
+    * @param @param id
+    * @param @return      
+    * @return DownloadUser
+     */
+    DownloadUser selectDownloadUserById(String id);
+    
+    /**
+     * 
+    * @Title: selectDownloadUserByParam
+    * @author QuJie 
+    * @date 2016-9-13 下午3:49:55  
+    * @Description: 根据条件查询
+    * @param @param downloadUser
+    * @param @return      
+    * @return List<DownloadUser>
+     */
+    List<DownloadUser> selectDownloadUserByParam(DownloadUser downloadUser);
 }

@@ -42,4 +42,29 @@ public class DownloadUserServiceImpl implements DownloadUserService {
 	public List<DownloadUser> selectByArticleId(String id) {
 		return downloadUserMapper.selectByArticleId(id);
 	}
+	
+	/**
+	 * 根据id删除下载人信息
+	 */
+	@Override
+	public void deleteDownloadUserById(String id) {
+		downloadUserMapper.deleteByPrimaryKey(id);
+	}
+	
+	/**
+	 * 根据id查找下载人
+	 */
+	@Override
+	public DownloadUser selectDownloadUserById(String id) {
+		return downloadUserMapper.selectDownloadByPrimaryKey(id);
+	}
+	
+	/**
+	 * 根据条件查询
+	 */
+	@Override
+	public List<DownloadUser> selectDownloadUserByParam(
+			DownloadUser downloadUser) {
+		return downloadUserMapper.selectDownloadUserByParam(downloadUser);
+	}
 }

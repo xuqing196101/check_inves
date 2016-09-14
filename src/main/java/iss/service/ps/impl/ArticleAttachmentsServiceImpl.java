@@ -45,7 +45,7 @@ public class ArticleAttachmentsServiceImpl implements ArticleAttachmentsService 
 	 */
 	@Override
 	public ArticleAttachments selectArticleAttaById(String id) {
-		return articleAttachmentsMapper.selectByPrimaryKey(id);
+		return articleAttachmentsMapper.selectArticleAttaByPrimaryKey(id);
 	}
 	
 	/**

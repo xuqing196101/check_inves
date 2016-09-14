@@ -7,8 +7,7 @@
     <result column="DESCRIBE" property="describe" />
     <result column="CREATED_AT"  property="createdAt" />
     <result column="UPDATED_AT"  property="updatedAt" />
-   
-    <association column="CREATER_ID" property="creater" select="ses.dao.bms.UserMapper.queryById"></association>
+    <association column="CREATER_ID" property="creater" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>
   </resultMap>
   
   <sql id="ArticleType_Column_List">
@@ -16,7 +15,7 @@
   </sql>
   
   <!-- 根据id查询栏目类型 -->
-  <select id="selectByPrimaryKey" parameterType="Object" resultMap="ArticleTypeMapper">
+  <select id="selectTypeByPrimaryKey" parameterType="Object" resultMap="ArticleTypeMapper">
     select 
     <include refid="ArticleType_Column_List" />
     from T_ISS_PS_ARTICLE_TYPE
@@ -54,5 +53,4 @@
     </set>
     where ID = #{id}
   </update>
-   
 </mapper>

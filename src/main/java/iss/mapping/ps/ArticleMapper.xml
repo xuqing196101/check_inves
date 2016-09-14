@@ -20,8 +20,8 @@
     <result column="RANGE" property="range" />
     <result column="IS_DELETED" property="isDeleted" />
     <result column="REASON" property="reason" />
-    <association property="user" column="USER_ID" select="ses.dao.bms.UserMapper.queryById"/>
-    <association property="articleType" column="ARTICLE_TYPE_ID" select="iss.dao.ps.ArticleTypeMapper.selectByPrimaryKey"/>
+    <association property="user" column="USER_ID" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>
+    <association property="articleType" column="ARTICLE_TYPE_ID" select="iss.dao.ps.ArticleTypeMapper.selectTypeByPrimaryKey"/>
   </resultMap> 
   
   <resultMap extends="ArticleMapper" id="ArticleBlob" type="iss.model.ps.Article">

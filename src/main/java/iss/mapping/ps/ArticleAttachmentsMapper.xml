@@ -19,7 +19,7 @@
   </sql>
   
   <!-- 根据id查询 -->
-  <select id="selectByPrimaryKey" parameterType="Object" resultMap="ArticleAttachMap">
+  <select id="selectArticleAttaByPrimaryKey" parameterType="Object" resultMap="ArticleAttachMap">
     select 
     <include refid="ArticleAttach_Column_List" />
     from T_ISS_PS_ARTICLE_ATTACHMENT
