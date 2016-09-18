@@ -41,7 +41,7 @@
         var timeLeft = ${examRule.testTime}*60*1000;//这里设定的时间是10分钟 
 		function countTime(){ 
 		     if(timeLeft == 0){//这里就是时间到了之后应该执行的动作了，这里只是弹了一个警告框 
-		         alert("123"); 
+		         alert("时间到！http://www.daimajiayuan.com/"); 
 		         return; 
 		     } 
 		     var startMinutes = parseInt(timeLeft / (60 * 1000), 10); 
@@ -54,11 +54,9 @@
   </head>
   
   <body onload="countTime()">
-  <div class="container margin-top-5">
-     <div class="content padding-left-25 padding-right-25 padding-top-5">
+  <div>
   	<div style="float:left;">XXX考试进行中</div>
   	<div style="float:left;" id="time">距离考试还有<span id="second"></span></div>
-  </div>
   </div>
   <form action="<%=path %>/expertExam/saveScore.html" method="post">
   <c:choose>
