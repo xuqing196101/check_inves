@@ -49,6 +49,7 @@ import com.google.gson.Gson;
 public class CategoryController {
 	@Autowired
 	private CategoryService categoryService;
+	@Autowired
 	private CategoryAttchmentService categoryAttchmentService;
 	private  Map<String, Object> listCategory=new  HashMap<String, Object>();
 	
@@ -122,7 +123,7 @@ public class CategoryController {
 	 * */
 	@RequestMapping("/get")
 	public String get(HttpServletRequest request){
-		return "category/list";
+		return "category/bms/list";
 	}
 
 	/**
@@ -136,7 +137,7 @@ public class CategoryController {
     @RequestMapping("/add")
     public String addCategory(HttpServletRequest request,Model model,Category category){  
     	model.addAttribute("id",category.getId());
-        return "category/add";  
+        return "category/bms/add";  
 		
 		
 	}
@@ -166,7 +167,7 @@ public class CategoryController {
 	}
 	  categoryService.insertSelective(category);
 	  upload(request,attaattach,category);
-	return "category/list";
+	return "category/bms/list";
    }
    
    /**
@@ -225,7 +226,7 @@ public class CategoryController {
 	   Category cate=categoryService.selectByPrimaryKey(category.getId());
 	   
 	   model.addAttribute("category",cate);
-	return "category/edit";
+	return "category/bms/edit";
    }
    /**
   	 * 
@@ -256,7 +257,7 @@ public class CategoryController {
 			category.setIsEnd("false");
 		}
 	  categoryService.updateByPrimaryKey(category);
-	return "category/list";
+	return "category/bms/list";
    }
    /**
  	 * 
@@ -269,7 +270,7 @@ public class CategoryController {
    @RequestMapping("/rename")
    public String updateName(HttpServletRequest request,Category category){
 	   categoryService.updateByPrimaryKeySelective(category);
-	return "category/list";
+	return "category/bms/list";
    }
    
    
@@ -310,7 +311,7 @@ public class CategoryController {
 		categoryService.updateByPrimaryKeySelective(cate);
 	}
 		
-	return "category/list";
+	return "category/bms/list";
 	   
    }
    

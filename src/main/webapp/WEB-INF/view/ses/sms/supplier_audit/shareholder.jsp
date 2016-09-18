@@ -49,14 +49,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  <th class="info">比例</th>
 		</tr>
 		</thead>
-		<c:forEach items="${expertList}" var="e" >
+		<c:forEach items="${shareholder}" var="s" >
 		<tr>
 		  <td class="tc w50"></td>
-		  <td class="tc"></td>
-		  <td class="tc"></td>
-		  <td class="tc"></td>
-		  <td class="tc"></td>
-		  <td class="tc"></td>
+		  <td class="tc">${s.name}</td>
+		  <td class="tc">${s.nature}</td>
+		  <td class="tc">${s.identity}</td>
+		  <td class="tc">${s.shares}</td>
+		  <td class="tc">${s.proportion}</td>
 		</tr>
 		</c:forEach>
         </table>

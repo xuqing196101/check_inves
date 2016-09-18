@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierFinance;
+import ses.model.sms.SupplierStockholder;
 import ses.service.sms.SupplierAuditServlice;
 
 /**
@@ -40,11 +41,12 @@ public class SupplierAuditController {
 		
 		return "ses/sms/supplier_audit/daiban";
 	}
+	
 	/**
 	 * @Title: SupplierList
 	 * @author Xu Qing
 	 * @date 2016-9-12 下午5:19:07  
-	 * @Description: 供应商列表 
+	 * @Description: 所有供应商 
 	 * @param @return      
 	 * @return String
 	 */
@@ -54,6 +56,7 @@ public class SupplierAuditController {
 		request.setAttribute("supplierList", supplierList);
 		return "ses/sms/supplier_audit/supplier_list";
 	}
+	
 	/**
 	 * @Title: essentialInformation
 	 * @author Xu Qing
@@ -64,13 +67,16 @@ public class SupplierAuditController {
 	 */
 	@RequestMapping("essential")
 	public String essentialInformation(HttpServletRequest request,Model model) {
-		String id = request.getParameter("id");
-		Supplier supplier = supplierAuditServlice.supplierById(id);
+		String supplierId = request.getParameter("supplierId");
+		if(supplierId==null ){
+			supplierId = (String) request.getSession().getAttribute("supplierId");
+		}
+		Supplier supplier = supplierAuditServlice.supplierById(supplierId);
 		request.setAttribute("supplier", supplier);
-		request.getAttribute(id);
-/*		model.addAttribute("id",id);*/
+		request.getSession().setAttribute("supplierId", supplierId);
 		return "ses/sms/supplier_audit/essential";
 	}
+	
 	/**
 	 * @Title: financialInformation
 	 * @author Xu Qing
@@ -81,13 +87,14 @@ public class SupplierAuditController {
 	 */
 	@RequestMapping("financial")
 	public String financialInformation(HttpServletRequest request) {
-		String id = request.getParameter("id");
-		List<SupplierFinance> supplierFinance = supplierAuditServlice.supplierFinanceByid(id);
+		String supplierId = (String) request.getSession().getAttribute("supplierId");
+		List<SupplierFinance> supplierFinance = supplierAuditServlice.supplierFinanceBySupplierId(supplierId);
 		request.setAttribute("supplier", supplierFinance);
 		return "ses/sms/supplier_audit/financial";
 	}
+	
 	/**
-	 * @Title: shareholderinformation
+	 * @Title: shareholderInformation
 	 * @author Xu Qing
 	 * @date 2016-9-13 上午11:19:37  
 	 * @Description: 股东信息 
@@ -95,9 +102,13 @@ public class SupplierAuditController {
 	 * @return String
 	 */
 	@RequestMapping("shareholder")
-	public String shareholderinformation() {
+	public String shareholderInformation(HttpServletRequest request) {
+		String supplierId = (String) request.getSession().getAttribute("supplierId");
+		List<SupplierStockholder> supplierStockholder = supplierAuditServlice.ShareholderBySupplierId(supplierId);
+		request.setAttribute("shareholder", supplierStockholder);
 		return "ses/sms/supplier_audit/shareholder";
 	}
+	
 	/**
 	 * @Title: materialProduction
 	 * @author Xu Qing

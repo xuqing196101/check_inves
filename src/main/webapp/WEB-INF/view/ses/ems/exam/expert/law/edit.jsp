@@ -234,12 +234,12 @@
 		   
 		  		<li class="col-md-12 p0">
 					<span class="fl">答案:</span>	
-					<div class="fl ml5 mt5">
-			        A <input type="radio" id="A" name="que" value="A" class="mt0"/> 
-		  			B <input type="radio" id="B" name="que" value="B" class="mt0"/> 
-		  			C <input type="radio" id="C" name="que" value="C" class="mt0"/> 
-		  			D <input type="radio" id="D" name="que" value="D" class="mt0"/>
-			       </div>
+					<span>
+			        A <input type="radio" id="A" name="que" value="A"/> 
+		  			B <input type="radio" id="B" name="que" value="B"/> 
+		  			C <input type="radio" id="C" name="que" value="C"/> 
+		  			D <input type="radio" id="D" name="que" value="D"/>
+			       </span>
 					<span id="queSelect"></span>
 				</li>
 				

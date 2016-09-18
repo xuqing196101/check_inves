@@ -73,6 +73,10 @@
 		window.location.href="<%=basePath%>article/getAll.html";
 	}
 	
+	function sub(){
+    	window.location.href="<%=basePath%>article/sublist.html?status=0";
+    }
+	
 	function view(id){
 		window.location.href="<%=basePath%>article/auditInfo.html?id="+id;
 	}
@@ -112,6 +116,7 @@
 	  	<div class="content padding-left-25 padding-right-25 padding-top-5">
 	  		<h4>审核信息列表</h4>
 	  		<button class="btn btn-windows git" type="button" onclick="getInfo()">返回信息页面</button>
+	  		<button class="btn btn-windows git" type="button" onclick="sub()">提交信息页面</button>
 	  		<br/>
 			<button class="btn btn-windows add" type="button" onclick="audit()">审核信息</button>
 		  <table class="table table-bordered table-condensed">
@@ -137,7 +142,7 @@
 		  				<c:if test="${article.range=='1' }">
 		  					外网
 		  				</c:if>
-		  				<c:if test="${article.range=='3' }">
+		  				<c:if test="${article.range=='2' }">
 		  					内网/外网
 		  				</c:if>
 		  			</td>

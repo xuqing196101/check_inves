@@ -5,9 +5,6 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-<% 
-Object sessionValues=request.getSession().getAttribute("id"); 
-%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -16,8 +13,8 @@ Object sessionValues=request.getSession().getAttribute("id");
 	<div class="container clear margin-top-30">
    	<div class="col-md-12 tab-v2 job-content">
 	    <ul class="nav nav-tabs bgdd">
-		    <li class="active"><a class="s_news f18" href="${pageContext.request.contextPath}/supplierAudit/essential.html?id= <%=sessionValues %>">基本信息</a></li>
-		    <li class="active"><a class="s_news f18" href="${pageContext.request.contextPath}/supplierAudit/financial.html?id= <%=sessionValues %>">财务信息</a></li>
+		    <li class="active"><a class="s_news f18" href="${pageContext.request.contextPath}/supplierAudit/essential.html">基本信息</a></li>
+		    <li class="active"><a class="s_news f18" href="${pageContext.request.contextPath}/supplierAudit/financial.html">财务信息</a></li>
 	     	<li class="active"><a class="s_news f18" href="${pageContext.request.contextPath}/supplierAudit/shareholder.html">股东信息</a></li>
 	     	<li class="active"><a class="s_news f18" href="${pageContext.request.contextPath}/supplierAudit/materialProduction.html">物资-生产型专业信息</a></li>
 		     <li class="active"><a class="s_news f18">物资-销售型专业信息</a></li>
