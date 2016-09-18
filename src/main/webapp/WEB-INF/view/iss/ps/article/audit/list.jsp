@@ -1,7 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ include file="../../common.jsp"%>
+<%@ include file="../../../../common.jsp"%>
 
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -111,8 +111,9 @@
 	   <input type="hidden" id="depid" name="depid">
 	  	<div class="content padding-left-25 padding-right-25 padding-top-5">
 	  		<h4>审核信息列表</h4>
+	  		<button class="btn btn-windows git" type="button" onclick="getInfo()">返回信息页面</button>
+	  		<br/>
 			<button class="btn btn-windows add" type="button" onclick="audit()">审核信息</button>
-			<button class="btn btn-windows git" type="button" onclick="getInfo()">返回信息页面</button>
 		  <table class="table table-bordered table-condensed">
 		  	<thead>
 	  			<tr>

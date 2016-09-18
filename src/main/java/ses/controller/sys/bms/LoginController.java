@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,16 +65,35 @@ public class LoginController {
 	 * @throws IOException 
 	 */
 	@RequestMapping("/login")
-	public void login(User user,HttpServletRequest req,	HttpServletResponse response,Model model,String rqcode) throws IOException {
-		PrintWriter out =response.getWriter();
-		if(user.getLoginName()!=null && !"".equals(user.getPassword().trim()) && user.getPassword()!=null && !"".equals(user.getPassword().trim()) && rqcode!=null && !"".equals(rqcode.trim())){
-			User u = userService.getUserByLogin(user);
+	public void login(User user,HttpServletRequest req,	HttpServletResponse response, Model model, String rqcode) throws IOException {
+		PrintWriter out = response.getWriter();
+		if(user.getLoginName() != null && !"".equals(user.getPassword().trim()) && user.getPassword() != null && !"".equals(user.getPassword().trim()) && rqcode != null && !"".equals(rqcode.trim())){
+			//根据用户名查找
+			List<User> list = userService.findByLoginName(user.getLoginName());
+			//获取当前登录用户名的随机码
+			String randomCode = "";
+			if(list.size() > 0){
+				randomCode = list.get(0).getRandomCode();
+			}
+			//根据随机码+密码加密
+			Md5PasswordEncoder md5 = new Md5PasswordEncoder();     
+	        // false 表示：生成32位的Hex版, 这也是encodeHashAsBase64的, Acegi 默认配置; true  表示：生成24位的Base64版     
+	        md5.setEncodeHashAsBase64(false);     
+	        String pwd = md5.encodePassword(user.getPassword(), randomCode);
+	        //根据用户名、密码验证用户登录
+	        user.setPassword(pwd);
+	        List<User> ulist = userService.find(user);
+	        User u = null;
+	        if(ulist.size() > 0){
+	        	u = ulist.get(0);
+	        }
+	        
 			//获取验证码
 			String code = (String) req.getSession().getAttribute(com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY);
 			if(!rqcode.toUpperCase().equals(code)){
 				logger.info("验证码输入有误");
 				out.print("errorcode");
-			}else if(u!=null){
+			}else if(u != null){
 				req.getSession().setAttribute("loginUser", u);
 				logger.info("登录成功");
 				out.print("scuesslogin");

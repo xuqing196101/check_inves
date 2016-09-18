@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ include file="../common.jsp"%>
+<%@ include file="../../../common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -31,6 +31,7 @@ $(function(){
 	}else{
 		$("input[name='range'][value="+range+"]").attr("checked",true); 
 	}
+	$("#articleTypeId").val("${article.articleType.id }");
 });
 
 function sub(){
@@ -68,19 +69,18 @@ function sub(){
 	   <span class="">信息标题：</span>
 	   <div class="input-append">
         <input class="span2" type="text" value="${article.name }" disabled>
-        <span class="add-on">i</span>
        </div>
 	 </li>
      <li class="col-md-6  p0 ">
 	   <span class="">发布范围：</span>
-	   <div class="input-append">
-        <label><input type="checkbox" name="range" value="0" disabled>内网</label>
-        <label><input type="checkbox" name="range" value="1" disabled>外网</label>
+	   <div class="input-append mt5">
+        <label class="fl margin-bottom-0"><input type="checkbox" name="range" value="0" disabled>内网</label>
+        <label class="ml10 fl"><input type="checkbox" name="range" value="1" disabled>外网</label>
        </div>
 	 </li> 
      <li class="col-md-6  p0 ">
 	   <span class="">信息类型：</span>
-	   <div class="input-append">
+	   <%-- <div class="input-append">
          <input class="span2" type="hidden" value="${article.articleType.id }" disabled>
 		 <input class="span2" type="text" value="${article.articleType.name }" disabled>
 		 <div class="btn-group ">
@@ -91,7 +91,13 @@ function sub(){
 		          			<input type="radio" name="chkItem" value="${list.name }"  disabled>${list.name }
 		    </c:forEach>
        </div>
-      </div>
+      </div> --%>
+       <select id="articleTypeId" name="articleType.id" class="w230" disabled>
+   		 	<option></option>
+          	<c:forEach items="${list}" var="list" varStatus="vs">
+          		<option value="${list.id }" >${list.name }</option>
+		    </c:forEach>
+         </select>
 	 </li> 
      <li class="col-md-12 p0">
 	   <span class="fl">信息正文：</span>

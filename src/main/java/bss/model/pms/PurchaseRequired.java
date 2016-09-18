@@ -57,6 +57,8 @@ public class PurchaseRequired {
     
     private String historyStatus;
     
+    private String goodsType;
+    
     public String getId() {
         return id;
     }
@@ -265,7 +267,15 @@ public class PurchaseRequired {
 		this.historyStatus = historyStatus == null ? null : historyStatus.trim();
 	}
 
-	 
+	public String getGoodsType() {
+		return goodsType;
+	}
+
+	public void setGoodsType(String goodsType) {
+		this.goodsType = goodsType == null ? null : goodsType.trim();
+	}
+
+	
     
     
 }

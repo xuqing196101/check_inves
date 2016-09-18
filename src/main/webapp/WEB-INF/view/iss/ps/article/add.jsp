@@ -1,7 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ include file="../common.jsp"%>
+<%@ include file="../../../common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -69,7 +69,7 @@
 	 
      <li class="col-md-6  p0 ">
 	   <span class=""><i class="red">＊</i> 信息类型：</span>
-	   <div class="input-append">
+	   <%-- <div class="input-append">
          <input class="span2" id="articleTypeId" name="articleType.id" type="hidden">
 		 <input class="span2" id="articleTypeName" name="articleTypeName" type="text">
 		 <div class="btn-group ">
@@ -84,7 +84,13 @@
 		    </c:forEach>
           </ul>
        </div>
-      </div>
+       </div> --%>
+       <select name="articleType.id" class="w230">
+          	<option></option>
+          	<c:forEach items="${list}" var="list" varStatus="vs">
+          		<option value="${list.id }" >${list.name }</option>
+		    </c:forEach>
+          </select>
 	 </li> 
 	 
      <li class="col-md-12 p0">
@@ -93,6 +99,7 @@
 	   <script id="editor" name="content" type="text/plain" class="ml125 mt20 w900"></script>
        </div>
 	 </li> 
+	 
 	 <li class="col-md-12 p0">
 	    <span class="f14 fl">上传附件：</span>
 	    <div class="fl" id="uploadAttach" >
