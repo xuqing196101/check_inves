@@ -181,6 +181,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<form id="form1" action="${pageContext.request.contextPath}/expert/edit.html" method="post"  enctype="multipart/form-data">
 		<input type="hidden" name="userId" value="${user.id }">
 		<input type="hidden" id="purchaseDepId" value="${expert.purchaseDepId }">
+		<input type="hidden" name="id" value="${expert.id }">
 		<%
 			session.setAttribute("tokenSession", tokenValue);
 		%>
@@ -220,7 +221,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												  </select>
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 出生日期：</span>
+										<li class="col-md-6 p0 "><span class=""> 出生日期：</span>
 											<div class="input-append">
        											 <input class="span3 Wdate w220"   readonly="readonly" value="<fmt:formatDate type='date' value='${expert.birthday }' dateStyle="default" pattern="yyyy-MM-dd"/>" name="birthday" id="appendedInput" type="text" onclick='WdatePicker()'>
       										</div>
@@ -254,7 +255,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												 <input class="span3" maxlength="30" value=" ${expert.idNumber }"  name="idNumber" id="idNumber" type="text">
         									</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>政治面貌：</span>
+										<li class="col-md-6 p0 "><span class="">政治面貌：</span>
 											<div class="input-append">
 												<select class="span3" name="politicsStatus" id="politicsStatus">
 												<option value="">-请选择-</option>
@@ -264,32 +265,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											   	<option value="其他">其他</option>
 											   </select></div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>民族：</span>
+										<li class="col-md-6 p0 "><span class="">民族：</span>
 											<div class="input-append">
 											<input class="span3" maxlength="10" value=" ${expert.nation }"  name="nation" id="appendedInput" type="text">
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>所在地区：</span>
+										<li class="col-md-6 p0 "><span class="">所在地区：</span>
 											<div class="input-append">
 											<input class="span3" maxlength="40" value=" ${expert.address }"  name="address" id="appendedInput" type="text">
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>毕业院校：</span>
+										<li class="col-md-6 p0 "><span class="">毕业院校：</span>
 											<div class="input-append">
 											<input class="span3" maxlength="40" value=" ${expert.graduateSchool }"  name="graduateSchool" id="appendedInput" type="text">
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 专家技术职称：</span>
+										<li class="col-md-6 p0 "><span class=""> 专家技术职称：</span>
 											<div class="input-append">
 											<input class="span3" maxlength="20" value=" ${expert.professTechTitles }"  name="professTechTitles" id="appendedInput" type="text">
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 参加工作时间：</span>
+										<li class="col-md-6 p0 "><span class=""> 参加工作时间：</span>
 											<div class="input-append">
 											<input class="span3 Wdate w220"   readonly="readonly" value="<fmt:formatDate type='date' value='${expert.timeToWork }' dateStyle="default" pattern="yyyy-MM-dd"/>" name="timeToWork" id="appendedInput" type="text" onclick='WdatePicker()'>
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 最高学历：</span>
+										<li class="col-md-6 p0 "><span class=""> 最高学历：</span>
 											<div class="input-append">
 											 <select class="span3" name="hightEducation" id="hightEducation" >
 											 	<option value="">-请选择-</option>
@@ -303,62 +304,62 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											  </select>
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 专业：</span>
+										<li class="col-md-6 p0 "><span class=""> 专业：</span>
 											<div class="input-append">
 											<input class="span3" maxlength="20" value=" ${expert.major }"  name="major" id="appendedInput" type="text">
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 从事专业起始年度：</span>
+										<li class="col-md-6 p0 "><span class=""> 从事专业起始年度：</span>
 											<div class="input-append">
 											 <input class="span3 Wdate w220" value="<fmt:formatDate type='date' value='${expert.timeStartWork }' dateStyle="default" pattern="yyyy-MM-dd"/>"  readonly="readonly" name="timeStartWork" id="appendedInput" type="text" onclick='WdatePicker()'>
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 工作单位：</span>
+										<li class="col-md-6 p0 "><span class="">工作单位：</span>
 											<div class="input-append">
 											<input class="span3" maxlength="40" value=" ${expert.workUnit }"  name="workUnit" id="appendedInput" type="text">
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 单位地址：</span>
+										<li class="col-md-6 p0 "><span class=""> 单位地址：</span>
 											<div class="input-append">
 											 <input class="span3" maxlength="40" value=" ${expert.unitAddress }"  name="unitAddress" id="appendedInput" type="text">
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 联系电话（固话）：</span>
+										<li class="col-md-6 p0 "><span class=""> 联系电话（固话）：</span>
 											<div class="input-append">
 											<input class="span3" maxlength="15" value=" ${expert.telephone }"  name="telephone" id="appendedInput" type="text">
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 手机：</span>
+										<li class="col-md-6 p0 "><span class="">手机：</span>
 											<div class="input-append">
 											<input class="span3" maxlength="15" value=" ${expert.mobile }"  name="mobile" id="appendedInput" type="text">
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 传真：</span>
+										<li class="col-md-6 p0 "><span class=""> 传真：</span>
 											<div class="input-append">
 											<input class="span3" maxlength="10" value=" ${expert.fax }"  name="fax" id="appendedInput" type="text">
 											</div>
 										</li> 
-        								<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 邮编：</span>
+        								<li class="col-md-6 p0 "><span class=""> 邮编：</span>
 											<div class="input-append">
 											<input class="span3" maxlength="6" value=" ${expert.postCode }"  name="postCode" id="appendedInput" type="text">
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 获得技术时间：</span>
+										<li class="col-md-6 p0 "><span class=""> 获得技术时间：</span>
 											<div class="input-append">
 											<input class="span3 Wdate w220" value="<fmt:formatDate type='date' value='${expert.makeTechDate }' dateStyle="default" pattern="yyyy-MM-dd"/>"  readonly="readonly" name="makeTechDate" id="appendedInput" type="text" onclick='WdatePicker()'>
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 学位：</span>
+										<li class="col-md-6 p0 "><span class=""> 学位：</span>
 											<div class="input-append">
 											<input class="span3" maxlength="10" value=" ${expert.degree }"  name="degree" id="appendedInput" type="text">
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 健康状态：</span>
+										<li class="col-md-6 p0 "><span class=""> 健康状态：</span>
 											<div class="input-append">
 											<input class="span3" maxlength="10" value=" ${expert.healthState }"  name="healthState" id="appendedInput" type="text">
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 现任职务：</span>
+										<li class="col-md-6 p0 "><span class=""> 现任职务：</span>
 											<div class="input-append">
 											<input class="span3" maxlength="10" value=" ${expert.atDuty }"  name="atDuty" id="appendedInput" type="text">
 											</div>
@@ -374,7 +375,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										  <div class="padding-left-40 padding-right-20 clear">
 										   <ul class="list-unstyled list-flow p0_20">
 										   <li class="col-md-6  p0 ">
-											   <span class="">身份证：</span>
+											   <span class=""><i class="red">＊</i>身份证：</span>
 											   <div class="uploader orange m0">
 													<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..."/>
 													<input type="button" name="file" class="button"  id="file10" value="选择文件..."/>
@@ -382,7 +383,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												</div>
 											 </li>
 											 <li class="col-md-6  p0 ">
-											   <span class="">学历证书：</span>
+											   <span class=""><i class="red">＊</i>学历证书：</span>
 											    <div class="uploader orange m0">
 													<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..."/>
 													<input type="button" name="file" class="button"  id="file9" value="选择文件..."/>
@@ -390,7 +391,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												</div>
 											 </li>
 											 <li class="col-md-6  p0 ">
-											   <span class="">职称证书：</span>
+											   <span class=""><i class="red">＊</i>职称证书：</span>
 											     <div class="uploader orange m0">
 													<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..."/>
 													<input type="button" name="file" class="button"  id="file8" value="选择文件..."/>
@@ -398,7 +399,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												</div>
 											 </li>
 											  <li class="col-md-6  p0 ">
-											   <span class="">学位证书：</span>
+											   <span class=""><i class="red">＊</i>学位证书：</span>
 											     <div class="uploader orange m0">
 													<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..."/>
 													<input type="button" name="file" class="button"  id="file7" value="选择文件..."/>
@@ -406,7 +407,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												</div>
 											  </li>
 											  <li class="col-md-6  p0 ">
-											   <span class="">本人照片：</span>
+											   <span class=""><i class="red">＊</i>本人照片：</span>
 											     <div class="uploader orange m0">
 													<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..."/>
 													<input type="button" name="file" class="button" id="file6" value="选择文件..."/>
@@ -416,7 +417,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										   </ul>
 										   </div>
 									<div class="tc mt20 clear col-md-11">
-											<button class="btn btn-windows git"   type="button" onclick="supplierRegist('reg_box_id', 3, 'pre')">上一步</button>
 											<button class="btn btn-windows git"   type="button" onclick="supplierRegist('reg_box_id', 3, 'next')">下一步</button>
 									</div>
 								</div>

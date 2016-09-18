@@ -60,7 +60,7 @@ public class ExpertController {
 	@RequestMapping(value="/toExpert")
 	public String toExpert(){
 		
-		return "ems/expert/expertRegister";
+		return "ses/ems/expert/expertRegister";
 	}
 	
 	/**
@@ -75,7 +75,7 @@ public class ExpertController {
 	@RequestMapping(value="/toRegisterNotice")
 	public String toRegisterNotice(){
 		
-		return "ems/expert/basic_info";
+		return "ses/ems/expert/basic_info";
 	}
 	
 	/**
@@ -120,10 +120,10 @@ public class ExpertController {
 		expert.setPassword(md5AndSha);
 		request.setAttribute("user", expert);
 		//model.addAttribute("expert", expert);
-		userService.save(expert);
-		return "ems/expert/basic_info";
+		userService.save(expert, null);
+		return "ses/ems/expert/basic_info";
 		} else{
-			return "ems/expert/basic_info";
+			return "ses/ems/expert/basic_info";
 		}
 	}
 	/**
@@ -140,7 +140,7 @@ public class ExpertController {
 	public String toBasicInfo(@RequestParam("id")String id,HttpServletRequest request,HttpServletResponse response,  Model model){
 		Expert expert = service.selectByPrimaryKey(id);
 		model.addAttribute("expert", expert);
-		return "ems/expert/basic_info";
+		return "ses/ems/expert/basic_info";
 	}
 	/**
 	 * 
@@ -156,7 +156,7 @@ public class ExpertController {
 	public String toShenHe(@RequestParam("id") String id,HttpServletRequest request,HttpServletResponse response,  Model model){
 		Expert expert = service.selectByPrimaryKey(id);
 		request.setAttribute("expert", expert);
-		return "ems/expert/shenHe";
+		return "ses/ems/expert/shenHe";
 	}
 	/**
 	 * 
@@ -294,7 +294,7 @@ public class ExpertController {
 		List<Expert> allExpert = service.selectAllExpert(page==null?1:page,expert);
 		request.setAttribute("result", new PageInfo<>(allExpert));
 		request.setAttribute("expert", expert);
-		return "ems/expert/list";
+		return "ses/ems/expert/list";
 	}
 	/**
 	 * 
@@ -310,7 +310,7 @@ public class ExpertController {
 		List<Expert> allExpert = service.selectAllExpert(page==null?1:page,expert);
 		request.setAttribute("result", new PageInfo<>(allExpert));
 		request.setAttribute("expert", expert);
-		return "ems/expert/expertList";
+		return "ses/ems/expert/expertList";
 	}
 	/**
 	 * 
@@ -327,7 +327,7 @@ public class ExpertController {
 		List<Expert> allExpert = service.selectAllExpert(page==null?1:page,expert);
 		request.setAttribute("result", new PageInfo<>(allExpert));
 		request.setAttribute("expert", expert);
-		return "ems/expert/expertList";
+		return "ses/ems/expert/expertList";
 	}
 	
 	/**
@@ -345,7 +345,7 @@ public class ExpertController {
 		List<Expert> allExpert = service.selectAllExpert(page==null?1:page,expert);
 		request.setAttribute("result", new PageInfo<>(allExpert));
 		request.setAttribute("expert", expert);
-		return "ems/expert/expertList";
+		return "ses/ems/expert/expertList";
 	}
 	/**
 	 * 
@@ -362,7 +362,7 @@ public class ExpertController {
 		List<Expert> allExpert = service.selectAllExpert(page==null?1:page,expert);
 		request.setAttribute("result", new PageInfo<>(allExpert));
 		request.setAttribute("expert", expert);
-		return "ems/expert/expertList";
+		return "ses/ems/expert/expertList";
 	}
 	 /**
 	  * 
@@ -385,7 +385,7 @@ public class ExpertController {
 		  model.addAttribute("weishenhe", weishenhe);
 		  model.addAttribute("tongguo", tongguo);
 		  model.addAttribute("pass", pass);
-		 return "ems/expert/daiban";
+		 return "ses/ems/expert/daiban";
 	 }
 	 /**
 	  * 
