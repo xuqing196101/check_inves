@@ -4,6 +4,7 @@ import java.util.List;
 
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierFinance;
+import ses.model.sms.SupplierStockholder;
 /**
  * <p>Title:SupplierAuditServlice </p>
  * <p>Description: 供应商审核接口</p>
@@ -27,12 +28,13 @@ public interface SupplierAuditServlice {
 	 * @Title: supplierById
 	 * @author Xu Qing
 	 * @date 2016-9-14 下午3:43:26  
-	 * @Description: 根据id查询供应商信息 
+	 * @Description: 根据id查询供应商基本信息 
 	 * @param @param id
 	 * @param @return      
 	 * @return Supplier
 	 */
 	Supplier supplierById(String id);
+	
 	/**
 	 * @Title: supplierFinanceByid
 	 * @author Xu Qing
@@ -42,5 +44,16 @@ public interface SupplierAuditServlice {
 	 * @param @return      
 	 * @return List<SupplierFinance>
 	 */
-	List<SupplierFinance> supplierFinanceByid(String supplierId);
+	List<SupplierFinance> supplierFinanceBySupplierId(String supplierId);
+	
+	/**
+	 * @Title: ShareholderById
+	 * @author Xu Qing
+	 * @date 2016-9-18 上午9:51:00  
+	 * @Description: 根据供应商id查询股东信息 
+	 * @param @param supplierId
+	 * @param @return      
+	 * @return List<SupplierStockholder>
+	 */
+	List<SupplierStockholder> ShareholderBySupplierId(String supplierId);
 }

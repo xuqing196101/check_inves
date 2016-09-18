@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 
 import ses.dao.sms.SupplierFinanceMapper;
 import ses.dao.sms.SupplierMapper;
+import ses.dao.sms.SupplierStockholderMapper;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierFinance;
+import ses.model.sms.SupplierStockholder;
 import ses.service.sms.SupplierAuditServlice;
 
 /**
@@ -19,6 +21,7 @@ import ses.service.sms.SupplierAuditServlice;
  */
 @Service
 public class SupplierAuditServliceImpl implements SupplierAuditServlice {
+	
 	/**
 	 * 供应商信息
 	 */
@@ -30,6 +33,12 @@ public class SupplierAuditServliceImpl implements SupplierAuditServlice {
 	 */
 	@Autowired
 	private SupplierFinanceMapper supplierFinanceMapper;
+	
+	/**
+	 * 股东信息
+	 */
+	@Autowired
+	private SupplierStockholderMapper supplierStockholderMapper;
 	
 	/**
 	 * @Title: supplierList
@@ -70,9 +79,15 @@ public class SupplierAuditServliceImpl implements SupplierAuditServlice {
 	 * @return List<SupplierFinance>
 	 */
 	@Override
-	public List<SupplierFinance> supplierFinanceByid(String supplierId) {
+	public List<SupplierFinance> supplierFinanceBySupplierId(String supplierId) {
 		
 		return supplierFinanceMapper.findFinanceBySupplierId(supplierId);
+	}
+
+	@Override
+	public List<SupplierStockholder> ShareholderBySupplierId(String supplierId) {
+		
+		return supplierStockholderMapper.findStockholderBySupplierId(supplierId);
 	}
 
 	
