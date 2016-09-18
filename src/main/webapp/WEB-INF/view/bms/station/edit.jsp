@@ -54,6 +54,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="<%=basePath%>public/ZHH/css/style(1).css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/masterslider.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/james.css" media="screen" rel="stylesheet">
+<link href="<%=basePath%>public/supplier/css/supplieragents.css" media="screen" rel="stylesheet">
     <script src="<%=basePath%>public/ZHH/js/hm.js"></script><script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery-migrate-1.2.1.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
@@ -161,13 +162,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		 <li class="col-md-6 p0 " >
 			   <span class="">标题：</span>
 			   <div class="input-append">
-		        <input class="span2" name="title" type="text" value="${StationMessage.title}">
-		        <span class="add-on">i</span>
+		        <input class="span2 w350 " name="title" type="text" value="${StationMessage.title}">
 		       </div>
 			 </li>
 		     <li class="col-md-12  p0 " >
 			   <span class="">内容：</span>
-		        <textarea   cols="3" rows="100" name="context" style="width: 200px;height: 10px;">${StationMessage.content}</textarea>
+		        <textarea  class="w350 h100"  cols="3" rows="100" name="context" style="width: 200px;height: 10px;">${StationMessage.content}</textarea>
 			 </li> 
    </ul>
   </div> 

@@ -15,6 +15,7 @@
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
+<link href="<%=basePath%>public/supplier/css/supplieragents.css" media="screen" rel="stylesheet">
 <!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
@@ -180,18 +181,18 @@
 					</thead>
 					<c:forEach items="${listStationMessage.list}" var="listsm"
 						varStatus="vs">
-						<tr>
+						<tr class="cursor">
 							<!-- 选择框 -->
 							<td onclick="null" class="tc"><input onclick="check()"
 								type="checkbox" name="chkItem" value="${listsm.id}" /></td>
 							<!-- 序号 -->
-							<td class="tc" onclick="show(${listsm.id});">${vs.index+1}</td>
+							<td class="tc" onclick="show('${listsm.id}');">${vs.index+1}</td>
 							<!-- 标题 -->
-							<td class="tc" onclick="show(${listsm.id});">${listsm.title}</td>
+							<td class="tc" onclick="show('${listsm.id}');">${listsm.title}</td>
 							<!-- 内容 -->
-							<td class="tc" onclick="show(${listsm.id});">${listsm.content}</td>
+							<td class="tc" onclick="show('${listsm.id}');">${listsm.content}</td>
 							<!-- 创建人-->
-							<td class="tc" onclick="show(${listsm.id});">${llitsm.userName}</td>
+							<td class="tc" onclick="show('${listsm.id}');">${llitsm.userName}</td>
 							<!-- 是否发布 -->
 							<td class="tc"><c:choose>
 									<c:when test="${listsm.isPublish==0}">
