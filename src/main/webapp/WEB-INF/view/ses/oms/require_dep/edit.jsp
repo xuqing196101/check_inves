@@ -15,12 +15,15 @@
 <meta name="author" content="">
 <script src="<%=basePath%>public/layer/layer.js"></script>
 <script type="text/javascript">
-	function save(){
+	function update(){
 		var index = parent.layer.getFrameIndex(window.name); 
+		var pid = parent.$("#parentid").val();
+		console.dir(pid);
 		$.ajax({
 		    type: 'post',
-		    url: "${pageContext.request.contextPath}/purchaseManage/saveOrg.do?",
-		    data: $("#formID").serialize(),
+		    url: "${pageContext.request.contextPath}/purchaseManage/updateOrg.do?",
+		    data : $.param({'parentId':pid}) + '&' + $('#formID').serialize(),
+		    //data: {'pid':pid,$("#formID").serialize()},
 		    success: function(data) {
 		        truealert(data.message,data.success == false ? 5:1);
 		    }
@@ -34,8 +37,10 @@
 		    shade: [0.3, '#000'],
 		    yes: function(index){
 		        //do something
+		         parent.location.reload();
 		    	 layer.closeAll();
 		    	 parent.layer.close(index); //执行关闭
+		    	 //parent.location.href="${pageContext.request.contextPath}/purchaseManage/list.do";
 		    }
 		});
 	}
@@ -62,30 +67,32 @@
 
 	<!-- 修改订列表开始-->
 	<div class="container">
-		<form action="<%=basePath%>purchaseManage/create.do" method="post" id="formID">
+		<form action="" method="post" id="formID">
+			<input type="hidden" value="${orgnization.typeName }" name="typeName"/>
+			<input type="hidden" value="${orgnization.id }" name="id"/>
 			<div>
 				<div class="headline-v2">
-					<h2>新增需求部门</h2>
+					<h2>修改需求部门</h2>
 				</div>
 				<ul class="list-unstyled list-flow p0_20">
 					<li class="col-md-6 p0"><span class="">名称：</span>
 						<div class="input-append">
-							<input class="span2" name="name" type="text"> <span
+							<input class="span2" name="name" type="text" value="${orgnization.name }"> <span
 								class="add-on">i</span>
 						</div></li>
 					<li class="col-md-6  p0 "><span class="">地址：</span>
 						<div class="input-append">
-							<input class="span2" name="addr" type="text"> <span
+							<input class="span2" name="addr" type="text" value="${orgnization.address }"> <span
 								class="add-on">i</span>
 						</div></li>
 					<li class="col-md-6  p0 "><span class="">手机号：</span>
 						<div class="input-append">
-							<input class="span2" name="phone" 
-								type="password"> <span class="add-on">i</span>
+							<input class="span2" name="mobile" value="${orgnization.mobile }"
+								type="text"> <span class="add-on">i</span>
 						</div></li>
 					<li class="col-md-6  p0 "><span class="">邮编：</span>
 						<div class="input-append">
-							<input class="span2" name="postCode" type="password"> <span
+							<input class="span2" name="postCode" type="text" value="${orgnization.postCode }"> <span
 								class="add-on">i</span>
 						</div></li>
 					</li>
@@ -95,7 +102,7 @@
 
 			<div class="col-md-12">
 				<div class="fl padding-10">
-					<button onclick="save();" class="btn btn-windows save" type="button">保存</button>
+					<button onclick="update();" class="btn btn-windows save" type="button">更新</button>
 				</div>
 			</div>
 		</form>

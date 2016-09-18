@@ -10,7 +10,11 @@
 		       d.NAME         as name,
 		       d.DEP_ID       as depId,
 		       d.TYPE_NAME       as typeName,
-		       d.IS_ROOT         as isRoot
+		       d.IS_ROOT         as isRoot,
+		       d.EMAIL      as email,
+		       d.MOBILE    as mobile,
+		       d.POST_CODE  as postCode,
+		       d.ADDRESS   as address
 		  from T_SES_OMS_ORG     d
 		 where nvl(d.is_deleted,0)=0
 		 <if test="id != null and id != ''">
@@ -26,7 +30,6 @@
 			and d.type= #{type}
 		</if> 
 	</select>
-	
 	<!-- 保存部门 -->
 	<insert id="saveOrgnization" parameterType="java.util.Map">
 		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
@@ -35,20 +38,20 @@
 		insert into T_SES_OMS_ORG
 		 (ID,NAME,TYPE_NAME,
 		  DEP_ID,PARENT_ID,CREATED_AT,
-		  DESCRIBTION,ADDRESS,PHONE,
+		  DESCRIBTION,ADDRESS,MOBILE,
 		  POST_CODE,ORG_CODE,TELEPHONE,
 		  AREA_ID,DETAIL_ADDR,FAX,
 		  WEBSITE,PRINCINPAL,PRINCINPAL_ID_CARD,
-		  NATURE,ORG_LEVEL,POSITION
+		  NATURE,ORG_LEVEL,POSITION,IS_ROOT,EMAIL
           )
 		values(
-	      #{id},#{name,typeHandler=ses.controller.sys.oms.NullValueHandler},#{type_name,typeHandler=ses.controller.sys.oms.NullValueHandler},
-		  #{DEP_ID,typeHandler=ses.controller.sys.oms.NullValueHandler},#{PARENT_ID,typeHandler=ses.controller.sys.oms.NullValueHandler},sysdate,
-		  #{DESCRIBTION,typeHandler=ses.controller.sys.oms.NullValueHandler},#{ADDRESS,typeHandler=ses.controller.sys.oms.NullValueHandler},#{PHONE,typeHandler=ses.controller.sys.oms.NullValueHandler},
-		  #{POST_CODE,typeHandler=ses.controller.sys.oms.NullValueHandler},#{ORG_CODE,typeHandler=ses.controller.sys.oms.NullValueHandler},#{TELEPHONE,typeHandler=ses.controller.sys.oms.NullValueHandler},
-		  #{AREA_ID,typeHandler=ses.controller.sys.oms.NullValueHandler},#{DETAIL_ADDR,typeHandler=ses.controller.sys.oms.NullValueHandler},#{FAX,typeHandler=ses.controller.sys.oms.NullValueHandler},
-		  #{WEBSITE,typeHandler=ses.controller.sys.oms.NullValueHandler},#{PRINCINPAL,typeHandler=ses.controller.sys.oms.NullValueHandler},#{PRINCINPAL_ID_CARD,typeHandler=ses.controller.sys.oms.NullValueHandler},
-		  #{NATURE,typeHandler=ses.controller.sys.oms.NullValueHandler},#{ORG_LEVEL,typeHandler=ses.controller.sys.oms.NullValueHandler},#{POSITION,typeHandler=ses.controller.sys.oms.NullValueHandler}
+	      #{id},#{name,jdbcType=VARCHAR},#{type_name,jdbcType=NUMERIC},
+		  #{dep_id,jdbcType=VARCHAR},#{parent_id,jdbcType=VARCHAR},sysdate,
+		  #{describtion,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR},#{mobile,jdbcType=INTEGER},
+		  #{post_code,jdbcType=INTEGER},#{org_code,jdbcType=VARCHAR},#{telephone,jdbcType=VARCHAR},
+		  #{area_id,jdbcType=VARCHAR},#{detail_addr,jdbcType=VARCHAR},#{fax,jdbcType=VARCHAR},
+		  #{website,jdbcType=VARCHAR},#{princinpal,jdbcType=VARCHAR},#{princinpal_id_card,jdbcType=VARCHAR},
+		  #{nature,jdbcType=VARCHAR},#{org_level,jdbcType=INTEGER},#{position,jdbcType=INTEGER},#{is_root,jdbcType=INTEGER},#{email,jdbcType=VARCHAR}
 		 )
 	</insert>
 	
@@ -64,4 +67,80 @@
 		  from T_SES_OMS_ORG     d
 		  where d.id= #{id,jdbcType=VARCHAR}
 	</select>
+	<!-- <insert id="saveOrgnization" parameterType="java.util.Map">
+		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			select rawtohex(sys_guid()) as VALUE from dual
+		</selectKey>
+		insert into T_SES_OMS_ORG
+		 (ID,NAME,TYPE_NAME,
+		  DEP_ID,PARENT_ID,CREATED_AT,
+		  DESCRIBTION,ADDRESS,MOBILE,
+		  POST_CODE,ORG_CODE,TELEPHONE,
+		  AREA_ID,DETAIL_ADDR,FAX,
+		  WEBSITE,PRINCINPAL,PRINCINPAL_ID_CARD,
+		  NATURE,ORG_LEVEL,POSITION,IS_ROOT
+          )
+		values(
+	      #{id},#{name,typeHandler=ses.controller.sys.oms.NullValueHandler},#{type_name,jdbcType=INTEGER,typeHandler=ses.controller.sys.oms.NullValueHandler},
+		  #{dep_id,typeHandler=ses.controller.sys.oms.NullValueHandler},#{parent_id,typeHandler=ses.controller.sys.oms.NullValueHandler},sysdate,
+		  #{describtion,typeHandler=ses.controller.sys.oms.NullValueHandler},#{address,typeHandler=ses.controller.sys.oms.NullValueHandler},#{mobile,jdbcType=INTEGER,typeHandler=ses.controller.sys.oms.NullValueHandler},
+		  #{post_code,jdbcType=INTEGER,typeHandler=ses.controller.sys.oms.NullValueHandler},#{org_code,typeHandler=ses.controller.sys.oms.NullValueHandler},#{telephone,typeHandler=ses.controller.sys.oms.NullValueHandler},
+		  #{area_id,typeHandler=ses.controller.sys.oms.NullValueHandler},#{detail_addr,typeHandler=ses.controller.sys.oms.NullValueHandler},#{fax,typeHandler=ses.controller.sys.oms.NullValueHandler},
+		  #{website,typeHandler=ses.controller.sys.oms.NullValueHandler},#{princinpal,typeHandler=ses.controller.sys.oms.NullValueHandler},#{princinpal_id_card,typeHandler=ses.controller.sys.oms.NullValueHandler},
+		  #{nature,typeHandler=ses.controller.sys.oms.NullValueHandler},#{org_level,jdbcType=INTEGER,typeHandler=ses.controller.sys.oms.NullValueHandler},#{position,jdbcType=INTEGER,typeHandler=ses.controller.sys.oms.NullValueHandler},#{is_root}
+		 )
+	</insert> -->
+	<!-- 更新部门 -->
+	<update id="updateOrgnization" parameterType="java.util.Map">
+			 update T_SES_OMS_ORG s
+	     set 
+	         UPDATED_AT=sysdate
+	         <!-- -->
+	        <if test="name != null and name != ''">
+		 		,NAME=#{name,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="address != null and address != ''">
+		 		,ADDRESS=#{address,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="mobile != null and mobile != ''">
+		 		,MOBILE=#{mobile,jdbcType=NUMERIC}
+		 	</if>
+		 	 <if test="postCode != null and postCode != ''">
+		 		,POST_CODE=#{postCode,jdbcType=NUMERIC}
+		 	</if>
+	        <if test="shortName != null and shortName != ''">
+		 		,SHORT_NAME=#{shortName,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="orgCode != null and orgCode != ''">
+		 		,ORG_CODE=#{orgCode,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="telephone != null and telephone != ''">
+		 		,TELEPHONE=#{telephone,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="areaId != null and areaId != ''">
+		 		,AREA_ID=#{areaId,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="detailAddr != null and detailAddr != ''">
+		 		,DETAIL_ADDR=#{detailAddr,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="fax != null and fax != ''">
+		 		,FAX=#{fax,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="website != null and website != ''">
+		 		,WEBSITE=#{website,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="princinpal != null and princinpal != ''">
+		 		,PRINCINPAL=#{princinpal,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="princinpalIdCard != null and princinpalIdCard != ''">
+		 		,PRINCINPAL_ID_CARD=#{princinpalIdCard,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="nature != null and nature != ''">
+		 		,NATURE=#{nature,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="is_deleted != null and is_deleted != ''">
+		 		,IS_DELETED=#{is_deleted,jdbcType=NUMERIC}
+		 	</if>
+	     where s.id=#{id}    
+	</update>
 </mapper>

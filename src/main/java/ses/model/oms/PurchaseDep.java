@@ -3,7 +3,7 @@ package ses.model.oms;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class PurchaseDep {
+public class PurchaseDep extends Orgnization{
     private String id;
 
     private String level;
@@ -83,6 +83,8 @@ public class PurchaseDep {
     private Date updatedAt;
 
     private Date createdAt;
+    
+    private String orgId;
 
     public String getId() {
         return id;
@@ -403,4 +405,13 @@ public class PurchaseDep {
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
+
+	public String getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
+	}
+    
 }

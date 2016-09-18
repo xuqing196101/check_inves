@@ -58,12 +58,13 @@
 	/*这个方法的treeNode.id就是对应的id。treeNode.name就是对应的name*/
 	function zTreeOnClick(event,treeId,treeNode){
 		console.dir(treeNode);
+		$("#parentid").val(treeNode.id);
 		if(treeNode.isParent==true){
 			//console.dir("true");
 		}else{
 			getDetail(treeNode.id);
 		}
-		//getList(treeNode.id);
+		//getDetail(treeNode.id);
 	};
 	function getDetail(id){
 		$.ajax({   
@@ -72,7 +73,11 @@
             async:false,
             url: "${pageContext.request.contextPath}/purchaseManage/getDetail.do?id="+id,      //提交到一般处理程序请求数据   
             success: function(data) {
-            	console.dir(data);
+            	console.dir(data.orgnization.name);
+            	$("#org_name").html(data.orgnization.name);
+            	$("#org_address").html(data.orgnization.address);
+            	$("#org_mobile").html(data.orgnization.mobile);
+            	$("#org_postCode").html(data.orgnization.postCode);
             	//var html ="";
                 //$("#Result tr:gt(0)").remove();        //移除Id为Result的表格里的行，从第二行开始（这里根据页面布局不同页变）
                //$("#Result").append(html); 
@@ -83,8 +88,21 @@
 	function add(){
 		showiframe("需求部门新增",1000,600,"${pageContext.request.contextPath}/purchaseManage/add.do?","-4");
 	}
-	function update(){
-		
+	function edit(){
+		var id = $("#parentid").val();
+		showiframe("需求部门修改",1000,600,"${pageContext.request.contextPath}/purchaseManage/edit.do?id="+id,"-4");
+    }
+    function del(){
+		var id = $("#parentid").val();
+		layer.confirm('您确定要删除吗？',{icon:3,offset:295}, function(index){
+			$.post("${pageContext.request.contextPath}/purchaseManage/updateOrg.do",
+			{is_deleted:1,id:id},		
+			function(data){
+				showalert(data.message,1,"295");
+				location.reload();
+			},"json"); 
+    	});
+		showiframe("需求部门修改",1000,600,"${pageContext.request.contextPath}/purchaseManage/updateOrg.do?is_deleted=1&id="+id,"-4");
     }
    function showiframe(titles,width,height,url,top){
 		 if(top == null || top == "underfined"){
@@ -129,20 +147,21 @@
 				    <button class="btn btn-windows add" type="button" onclick="add()">新增需求部门信息</button>
 					<button class="btn btn-windows edit" type="button" onclick="edit()">修改部门信息</button>
 					<button class="btn btn-windows delete" type="button" onclick="del();">删除需求部门信息</button>
+					<input id="parentid" type="hidden"/>
 			    </div>
 			    <table id="fResult" class="table table-bordered table-condensed">
 			    	<caption>需求部门信息</caption>
 			    	<tr>
-			    		<td>名称</td>
-			    		<td></td>
-			    		<td>地址</td>
-			    		<td></td>
+			    		<td class="tc w110">名称</td>
+			    		<td class="tc w140" id="org_name"></td>
+			    		<td class="tc w110">地址</td>
+			    		<td class="tc w140" id="org_address"></td>
 			    	</tr>
 			    	<tr>
-			    		<td>手机号</td>
-			    		<td></td>
-			    		<td>邮编</td>
-			    		<td></td>
+			    		<td class="tc w110">手机号</td>
+			    		<td class="tc w140" id="org_mobile"></td>
+			    		<td class="tc w110">邮编</td>
+			    		<td class="tc w140" id="org_postCode"></td>
 			    	</tr>
 		        </table>
 				<div>
@@ -184,7 +203,7 @@
 					</thead>
 		        </table>
 		        <div>
-					<span>采购管理部门信息</span>
+				    <span>采购管理部门信息</span>
 					<button class="btn btn-windows delete fr" type="button" onclick="show()">删除管理部门</button>
 					<button class="btn btn-windows add fr" type="button" onclick="show()">添加管理部门</button>
 				</div>	
