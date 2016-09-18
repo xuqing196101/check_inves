@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import ses.dao.bms.UserMapper;
 import ses.model.bms.User;
+import ses.model.bms.UserPreMenu;
 import ses.model.bms.Userrole;
 import ses.service.bms.UserServiceI;
 import ses.util.PropertiesUtil;
@@ -51,7 +52,7 @@ public class UserServiceImpl implements UserServiceI {
         String pwd = md5.encodePassword(user.getPassword(), randomCode);
 		user.setPassword(pwd);
 		user.setRandomCode(randomCode);
-		userMapper.insert(user);
+		userMapper.insertSelective(user);
 	}
 
 	@Override
@@ -120,5 +121,10 @@ public class UserServiceImpl implements UserServiceI {
         }  
         return sb.toString();  
     }
+
+	@Override
+	public void saveUserMenu(UserPreMenu userPreMenu) {
+		userMapper.saveUserMenu(userPreMenu);
+	}
 }
 
