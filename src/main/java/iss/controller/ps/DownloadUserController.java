@@ -5,7 +5,9 @@ import iss.model.ps.DownloadUser;
 import iss.service.ps.ArticleService;
 import iss.service.ps.DownloadUserService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -49,10 +51,15 @@ public class DownloadUserController {
 	 */
 	@RequestMapping("/selectDownloadUserByArticleId")
 	public String selectDownloadUserByArticleId(Model model,Article article,Integer page) throws Exception{
-		List<DownloadUser> downloadUserList = downloadUserService.selectByArticleId(article.getId());
+		Map<String,Object> map = new HashMap<String, Object>();
 		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(page==null?1:page,Integer.parseInt(config.getString("pageSize")));
-		model.addAttribute("list", new PageInfo<DownloadUser>(downloadUserList));
+		Integer pageSize = Integer.parseInt(config.getString("pageSize"));
+		map.put("articleId",article.getId());
+		map.put("pageSize",pageSize);
+		map.put("page",page);
+		List<DownloadUser> downloadUserList = downloadUserService.selectByArticleId(map);
+//		PageHelper.startPage(page==null?1:page,Integer.parseInt(config.getString("pageSize")));
+//		model.addAttribute("list", new PageInfo<DownloadUser>(downloadUserList));
 		return "iss/ps/downloadUser/list";
 	};
 	

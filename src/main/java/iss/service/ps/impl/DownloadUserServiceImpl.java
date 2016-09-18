@@ -6,6 +6,7 @@ import iss.model.ps.DownloadUser;
 import iss.service.ps.DownloadUserService;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,8 +40,8 @@ public class DownloadUserServiceImpl implements DownloadUserService {
 	 * 根据文章id查询下载人信息
 	 */
 	@Override
-	public List<DownloadUser> selectByArticleId(String id) {
-		return downloadUserMapper.selectByArticleId(id);
+	public List<DownloadUser> selectByArticleId(Map<String,Object> map) {
+		return downloadUserMapper.selectByArticleId(map);
 	}
 	
 	/**
