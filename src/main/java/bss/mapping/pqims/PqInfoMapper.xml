@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.pqims.PqInfoMapper">
+  <resultMap id="BaseResultMap" type="bss.model.pqims.PqInfo">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="CONTRACT_ID" jdbcType="VARCHAR" property="contractId" />
+    <result column="PROJECT_TYPE" jdbcType="VARCHAR" property="projectType" />
+    <result column="UNIT" jdbcType="VARCHAR" property="unit" />
+    <result column="TYPE" jdbcType="DECIMAL" property="type" />
+    <result column="PLACE" jdbcType="VARCHAR" property="place" />
+    <result column="DATE" jdbcType="DATE" property="date" />
+    <result column="INSPECTORS" jdbcType="VARCHAR" property="inspectors" />
+    <result column="CONDITION" jdbcType="VARCHAR" property="condition" />
+    <result column="CONCLUSION" jdbcType="DECIMAL" property="conclusion" />
+    <result column="DETAIL" jdbcType="VARCHAR" property="detail" />
+    <result column="REPORT" jdbcType="VARCHAR" property="report" />
+    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, CONTRACT_ID, PROJECT_TYPE, UNIT, TYPE, PLACE, DATE, INSPECTORS, CONDITION, CONCLUSION, 
+    DETAIL, REPORT, CREATED_AT, UPDATED_AT
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PQIMS_PQINFO
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BSS_PQIMS_PQINFO
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="bss.model.pqims.PqInfo">
+    insert into T_BSS_PQIMS_PQINFO (ID, CONTRACT_ID, PROJECT_TYPE, 
+      UNIT, TYPE, PLACE, 
+      DATE, INSPECTORS, CONDITION, 
+      CONCLUSION, DETAIL, REPORT, 
+      CREATED_AT, UPDATED_AT)
+    values (#{id,jdbcType=VARCHAR}, #{contractId,jdbcType=VARCHAR}, #{projectType,jdbcType=VARCHAR}, 
+      #{unit,jdbcType=VARCHAR}, #{type,jdbcType=DECIMAL}, #{place,jdbcType=VARCHAR}, 
+      #{date,jdbcType=DATE}, #{inspectors,jdbcType=VARCHAR}, #{condition,jdbcType=VARCHAR}, 
+      #{conclusion,jdbcType=DECIMAL}, #{detail,jdbcType=VARCHAR}, #{report,jdbcType=VARCHAR}, 
+      #{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="bss.model.pqims.PqInfo">
+    insert into T_BSS_PQIMS_PQINFO
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="contractId != null">
+        CONTRACT_ID,
+      </if>
+      <if test="projectType != null">
+        PROJECT_TYPE,
+      </if>
+      <if test="unit != null">
+        UNIT,
+      </if>
+      <if test="type != null">
+        TYPE,
+      </if>
+      <if test="place != null">
+        PLACE,
+      </if>
+      <if test="date != null">
+        DATE,
+      </if>
+      <if test="inspectors != null">
+        INSPECTORS,
+      </if>
+      <if test="condition != null">
+        CONDITION,
+      </if>
+      <if test="conclusion != null">
+        CONCLUSION,
+      </if>
+      <if test="detail != null">
+        DETAIL,
+      </if>
+      <if test="report != null">
+        REPORT,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="contractId != null">
+        #{contractId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectType != null">
+        #{projectType,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="place != null">
+        #{place,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null">
+        #{date,jdbcType=DATE},
+      </if>
+      <if test="inspectors != null">
+        #{inspectors,jdbcType=VARCHAR},
+      </if>
+      <if test="condition != null">
+        #{condition,jdbcType=VARCHAR},
+      </if>
+      <if test="conclusion != null">
+        #{conclusion,jdbcType=DECIMAL},
+      </if>
+      <if test="detail != null">
+        #{detail,jdbcType=VARCHAR},
+      </if>
+      <if test="report != null">
+        #{report,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="bss.model.pqims.PqInfo">
+    update T_BSS_PQIMS_PQINFO
+    <set>
+      <if test="contractId != null">
+        CONTRACT_ID = #{contractId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectType != null">
+        PROJECT_TYPE = #{projectType,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        UNIT = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        TYPE = #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="place != null">
+        PLACE = #{place,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null">
+        DATE = #{date,jdbcType=DATE},
+      </if>
+      <if test="inspectors != null">
+        INSPECTORS = #{inspectors,jdbcType=VARCHAR},
+      </if>
+      <if test="condition != null">
+        CONDITION = #{condition,jdbcType=VARCHAR},
+      </if>
+      <if test="conclusion != null">
+        CONCLUSION = #{conclusion,jdbcType=DECIMAL},
+      </if>
+      <if test="detail != null">
+        DETAIL = #{detail,jdbcType=VARCHAR},
+      </if>
+      <if test="report != null">
+        REPORT = #{report,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="bss.model.pqims.PqInfo">
+    update T_BSS_PQIMS_PQINFO
+    set CONTRACT_ID = #{contractId,jdbcType=VARCHAR},
+      PROJECT_TYPE = #{projectType,jdbcType=VARCHAR},
+      UNIT = #{unit,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=DECIMAL},
+      PLACE = #{place,jdbcType=VARCHAR},
+      DATE = #{date,jdbcType=DATE},
+      INSPECTORS = #{inspectors,jdbcType=VARCHAR},
+      CONDITION = #{condition,jdbcType=VARCHAR},
+      CONCLUSION = #{conclusion,jdbcType=DECIMAL},
+      DETAIL = #{detail,jdbcType=VARCHAR},
+      REPORT = #{report,jdbcType=VARCHAR},
+      CREATED_AT = #{createdAt,jdbcType=DATE},
+      UPDATED_AT = #{updatedAt,jdbcType=DATE}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

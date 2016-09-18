@@ -46,7 +46,7 @@ public class TempletController {
 	public String getAll(Model model,Integer page){
 		List<Templet> templets = templetService.getAll(page==null?1:page);
 		model.addAttribute("list",new PageInfo<Templet>(templets));
-		return "bms/templet/list";
+		return "ses/bms/templet/list";
 	}
 	
 	/**
@@ -60,7 +60,7 @@ public class TempletController {
 	 */
 	@RequestMapping("/add")
 	public String add(HttpServletRequest request,Model model){	
-		return "bms/templet/add";
+		return "ses/bms/templet/add";
 	}
 	
 	/**
@@ -90,7 +90,7 @@ public class TempletController {
 	@RequestMapping("/edit")
 	public String edit(Model model,String id){
 		model.addAttribute("templet",templetService.get(id));
-		return "bms/templet/edit";
+		return "ses/bms/templet/edit";
 	}
 	
 	/**
@@ -139,6 +139,6 @@ public class TempletController {
 	@RequestMapping("/view")
 	public String view(Model model,String id){
 		model.addAttribute("templet",templetService.get(id));
-		return "bms/templet/view";
+		return "ses/bms/templet/view";
 	}
 }
