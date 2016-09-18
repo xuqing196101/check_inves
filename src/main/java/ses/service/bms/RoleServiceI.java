@@ -22,7 +22,7 @@ public interface RoleServiceI {
 
 	void deleteRoelUser(Userrole userrole);
 
-	List<Role> selectRoleUser(Role r);
+	List<Role> selectRole(Role r);
 
 	List<Role> getRoleMenus(Role r);
 

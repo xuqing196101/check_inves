@@ -54,15 +54,19 @@ public class LoginController {
 	private StationMessageService stationMessageService;
 
 	private static Logger logger = Logger.getLogger(LoginController.class); 
-	/**   
-	 * @Title: login
-	 * @author yyyml
-	 * @date 2016-7-15 下午2:52:38  
-	 * @Description: 用户登录 
-	 * @param @param user
-	 * @param @param req
-	 * @return String     
-	 * @throws IOException 
+	
+	/**
+	 * Description: 用户登录
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-18
+	 * @param user
+	 * @param req
+	 * @param response
+	 * @param model
+	 * @param rqcode
+	 * @throws IOException
+	 * @exception IOException
 	 */
 	@RequestMapping("/login")
 	public void login(User user,HttpServletRequest req,	HttpServletResponse response, Model model, String rqcode) throws IOException {

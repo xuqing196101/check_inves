@@ -26,7 +26,16 @@ public interface RoleMapper {
 
 	void deleteRoelUser(Userrole userrole);
 
-	List<Role> selectRoleUser(Role r);
+	/**
+	 * Description: 查询角色信息（包含关联信息）
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-18
+	 * @param r
+	 * @return List<Role>
+	 * @exception IOException
+	 */
+	List<Role> selectRole(Role r);
 
 	List<Role> selectRolePreMenu(Role r);
 

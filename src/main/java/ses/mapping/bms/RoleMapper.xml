@@ -10,9 +10,9 @@
     <result column="IS_DELETED" property="isDeleted" />
   </resultMap>
   
-  <resultMap type="ses.model.bms.Role" id="RoleResultap" extends="RoleBaseMap">  
+  <resultMap type="ses.model.bms.Role" id="RoleResultMap" extends="RoleBaseMap">  
     <collection property="users" ofType="ses.model.bms.User">  
-        <result column="uId"  property="id" />
+        <result column="userid"  property="id" />
 	    <result column="uloginName"  property="loginName" />
 	    <result column="upassword"  property="password" />
 	    <result column="uCreatedAt"  property="createdAt" jdbcType="TIMESTAMP"/>
@@ -27,8 +27,9 @@
 	    <result column="utypeId"  property="typeId" />
 	    <result column="uaddress"  property="address" />
 	    <result column="uemail"  property="email" />
+	    <result column="urandomCode"  property="randomCode" />
 	  	<!-- 查询机构 -->  
-    	<association column="org"  property="org" select="" />
+    	<association column="org"  property="org" select="ses.dao.oms.OrgnizationMapper.findOrgnizationById" />
 	    <!-- 查询创建人 -->
 	    <association column="creater"  property="user" select="ses.dao.bms.UserMapper.selectByPrimaryKey" />   
     </collection> 
@@ -36,15 +37,16 @@
         <result column="mid" property="id" />
 	    <result column="mname" property="name" />
 	    <result column="mtype" property="type" />
-	    <result column="misDleted" property="isDeleted" />
+	    <result column="misDeleted" property="isDeleted" />
 	    <result column="mstatus" property="status" />
 	    <result column="murl" property="url" />
 	    <result column="mcreatedAt" jdbcType="TIMESTAMP" property="createdAt" />
 	    <result column="mupdatedAt" jdbcType="TIMESTAMP" property="updatedAt" />
 	    <result column="mposition" property="position" />
 	    <result column="menulevel" property="menulevel" />
+	    <result column="mkind" property="kind" />
 		<!--查询上级菜单   -->
-	    <association column="parentId"  property="parentId" select="queryByMenuId" />  
+	    <association column="parentId"  property="parentId" select="ses.dao.bms.PreMenuMapper.selectByPrimaryKey" />  
     </collection>
   </resultMap> 
   
@@ -61,7 +63,7 @@
         and ID = #{id}
       </if>
       <if test="name != null and name != ''">
-        and Name like concat(concat('%', '${name}'), '%')
+        and Name = #{name}
       </if>
       <if test="createdAt != null">
         and CREATED_AT = #{createdAt}
@@ -176,7 +178,7 @@
     set NAME = #{name},
       CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       DESCRIPTION = #{description,jdbcType=VARCHAR},
-      IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      IS_DELETED = #{isDeleted},
       UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP}
     where ID = #{id}
   </update>
@@ -189,38 +191,61 @@
     <include refid="Example_Where_Clause"/>
   </select>
   
-   <!-- 8.根据角色条件查询角色信息（带出关联信息） -->  
-   <select id="selectRoleUser" parameterType="Object" resultMap="RoleResultap"> 
-       select 
-       r.ID as ID, r.NAME as NAME, r.CREATED_AT as CREATED_AT, r.DESCRIPTION as DESCRIPTION, 
-       r.IS_DELETED as IS_DELETED, r.UPDATED_AT as UPDATED_AT,
-       u.ID as uId,u.LOGIN_NAME as uloginName,u.PASSWORD as upassword,u.CREATED_AT as uCreatedAt,
-       u.IS_DELETED as uIsDeleted, u.REL_NAME as urelName, u.UPDATED_AT as uUpdatedAt, u.MOBILE as umobile,
-       u.GENDER as ugender, u.TELEPHONE as utelephone, u.DUTIES as uduties, u.TYPE_NAME ad utypeName,
-       u.TYPE_ID as utypeId, u.ADDRESS as uaddress, u.EMAIL as uemail, u.ORG_ID as org, u.USER_ID as creater,
-       pm.ID as mid, pm.NAME as mname, pm.MTYPE as mtype, pm.IS_DELETED as misDleted, pm.STATUS as mstatus,
-       pm.URL as murl, pm.CREATED_AT as mcreatedAt, pm.UPDATED_AT as mupdatedAt, pm.POSITION as mposition,
-       pm.MENULEVEL as menulevel, pm.PARENT_ID as parentId   
-       from 
-       T_SES_BMS_ROLE r  
-		LEFT JOIN T_SES_BMS_ROLEPERMISSION rp 
-		ON rp.ROLE_ID = r. ID 
-		LEFT JOIN T_SES_BMS_PERMENU pm  
-		ON pm. ID = rp.PERMENU_ID 
-		LEFT JOIN T_SES_BMS_USERROLE ur  
-		ON r. ID = ur.ROLE_ID 
-		LEFT JOIN T_SES_BMS_USERINFO u 
-		ON ur.USER_ID = u. ID 
-       where 
-       r.IS_DELETED=0 
-       <if test="id!= null and id != ''"> 
-       and r.ID=#{id}  
-       </if>  
-       ORDER BY r.CREATED_AT DESC
+  <!-- 8.根据角色条件查询角色信息（带出关联信息） -->  
+  <select id="selectRole" parameterType="Object" resultMap="RoleResultMap"> 
+      select 
+	        r. ID AS ID,
+			r. NAME AS NAME,
+			r.CREATED_AT AS CREATED_AT,
+			r.DESCRIPTION AS DESCRIPTION,
+			r.IS_DELETED AS IS_DELETED,
+			r.UPDATED_AT AS UPDATED_AT,
+			U .ID AS userid,
+			U .LOGIN_NAME AS uloginName,
+			U .PASSWORD AS upassword,
+			U .CREATED_AT AS uCreatedAt,
+			U .IS_DELETED AS uIsDeleted,
+			U .REL_NAME AS urelName,
+			U .UPDATED_AT AS uUpdatedAt,
+			U .MOBILE AS umobile,
+			U .GENDER AS ugender,
+			U .TELEPHONE AS utelephone,
+			U .DUTIES AS uduties,
+			U .TYPE_NAME AS utypeName,
+			U .TYPE_ID AS utypeId,
+			U .ADDRESS AS uaddress,
+			U .EMAIL AS uemail,
+			U .ORG_ID AS org,
+			U .USER_ID AS creater,
+			U .RANDOM_CODE AS urandomCode,
+			pm. ID AS mid,
+			pm. NAME AS mname,
+			pm.MENU_TYPE AS mtype,
+			pm.IS_DELETED AS misDeleted,
+			pm.STATUS AS mstatus,
+			pm.URL AS murl,
+			pm.CREATED_AT AS mcreatedAt,
+			pm.UPDATED_AT AS mupdatedAt,
+			pm.POSITION AS mposition,
+			pm.MENU_LEVEL AS menulevel,
+			pm.PARENT_ID AS parentId,
+			pm.KIND AS kind
+		FROM
+			T_SES_BMS_ROLE r
+		LEFT JOIN T_SES_BMS_ROLE_PERMISSION rp ON rp.ROLE_ID = r. ID
+		LEFT JOIN T_SES_BMS_PERMISSION pm ON pm. ID = rp.PERMENU_ID
+		LEFT JOIN T_SES_BMS_USER_ROLE ur ON r. ID = ur.ROLE_ID
+		LEFT JOIN T_SES_BMS_USER U ON ur.USER_ID = U . ID
+		WHERE
+			r.IS_DELETED = 0 
+	       <if test="id!= null and id != ''"> 
+	       and r.ID=#{id}  
+	       </if>  
+	    ORDER BY r.CREATED_AT DESC
    </select>
    
    <!-- 9.删除角色与角色内成员之间的对应关系 -->  
-    <delete id="deleteRoelUser" parameterType="Object">  
+   <delete id="deleteRoelUser" parameterType="Object">  
         delete from T_SES_BMS_USER_ROLE  
         <where>  
             <if test="userId != null">"USER_ID" = #{userId.id}</if>  

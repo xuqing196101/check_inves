@@ -67,7 +67,7 @@
 			     <li class="col-md-12 p0">
 				   <span class="fl">描述：</span>
 				   <div class="col-md-12 pl200 fn mt5 pwr9">
-			        <textarea class="text_area col-md-12 " name="describe"  maxlength="200" title="" placeholder="">${role.describe }</textarea>
+			        <textarea class="text_area col-md-12 " name="description"  maxlength="200" title="" placeholder="">${role.description }</textarea>
 			       </div>
 				 </li> 
 			   </ul>

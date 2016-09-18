@@ -52,8 +52,8 @@ public class RoleServiceImpl implements RoleServiceI {
 	}
 
 	@Override
-	public List<Role> selectRoleUser(Role r) {
-		return roleMapper.selectRoleUser(r);
+	public List<Role> selectRole(Role r) {
+		return roleMapper.selectRole(r);
 	}
 
 	@Override

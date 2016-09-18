@@ -54,7 +54,7 @@ public class PreMenuController {
 	}
 
 	/**
-	 * Description: 权限菜单控制类
+	 * Description: 权限树
 	 * 
 	 * @author Ye MaoLin
 	 * @version 2016-9-7
@@ -70,8 +70,8 @@ public class PreMenuController {
 			throws IOException {
 		List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
 		List<PreMenu> roleMenus = new ArrayList<PreMenu>();
-		List<PreMenu> list = preMenuService.getAll(null);
-		List<Role> roles = roleService.selectRoleUser(r);
+		List<PreMenu> list = preMenuService.find(null);
+		List<Role> roles = roleService.selectRole(r);
 		if (roles.size() == 0) {
 			roleMenus = null;
 		} else {
@@ -156,7 +156,7 @@ public class PreMenuController {
 			parent.setId(id);
 			PreMenu preMenu=new PreMenu();
 			preMenu.setParentId(parent);
-			List<PreMenu> list=preMenuService.getAll(preMenu);
+			List<PreMenu> list=preMenuService.find(preMenu);
 			net.sf.json.JSONArray json = new net.sf.json.JSONArray();
 			JsonConfig jsonConfig = new JsonConfig();
 	        jsonConfig.registerJsonValueProcessor(Date.class,

@@ -220,7 +220,7 @@
 					  <td class="tc">${vs.index+1}</td>
 					  <td class="tc" onclick="view(${role.id});">${role.name}</td>
 					  <td class="tc">${role.users.size()}</td>
-					  <td class="tc">${role.describe}</td>
+					  <td class="tc">${role.description}</td>
 				   </tr>
 				</c:forEach>
 			</tbody>

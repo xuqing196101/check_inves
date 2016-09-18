@@ -8,7 +8,7 @@ import ses.model.bms.PreMenu;
 
 public interface PreMenuServiceI {
 
-	List<PreMenu> getAll(PreMenu preMenu);
+	List<PreMenu> find(PreMenu preMenu);
 
 	void save(PreMenu menu);
 

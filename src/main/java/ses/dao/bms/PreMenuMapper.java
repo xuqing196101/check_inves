@@ -10,7 +10,7 @@ public interface PreMenuMapper {
 
     int insertSelective(PreMenu record);
 
-	List<PreMenu> queryByList(PreMenu preMenu);
+	List<PreMenu> find(PreMenu preMenu);
 
 	PreMenu queryByMenuId(String id);
 

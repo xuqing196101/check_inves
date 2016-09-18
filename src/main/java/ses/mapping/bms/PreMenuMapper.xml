@@ -2,31 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ses.dao.bms.PreMenuMapper">
   <resultMap id="MenuBaseMap" type="ses.model.bms.PreMenu">
-    <result column="ID" property="id" />
-    <result column="NAME" property="name" />
-    <result column="MTYPE" property="type" />
-    <result column="IS_DELETED" property="isDeleted" />
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="MENU_TYPE" jdbcType="VARCHAR" property="type" />
+    <result column="IS_DELETED"  property="isDeleted" />
     <result column="STATUS" property="status" />
-    <result column="URL" property="url" />
+    <result column="URL" jdbcType="VARCHAR" property="url" />
     <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
-    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="POSITION" property="position" />
-    <result column="MENU_LEVEL" property="menulevel" />
-     <!-- 查询上级菜单 -->  
-    <association column="PARENT_ID"  property="parentId" select="queryByMenuId" />
+    <result column="MENU_LEVEL"  property="menulevel" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="KIND"  property="kind" />
+    <!--查询上级菜单   -->
+	<association column="PARENT_ID"  property="parentId" select="selectByPrimaryKey" /> 
   </resultMap>
   
-  <!-- 表名 -->
-  <sql id="Tabel_Name">
-    T_SES_BMS_PERMISSION
+  <!-- 所有列 -->
+  <sql id="Base_Column_List">
+    ID, NAME, MENU_TYPE, IS_DELETED, STATUS, URL, CREATED_AT, POSITION, MENU_LEVEL, PARENT_ID, 
+    UPDATED_AT, KIND
   </sql>
   
-  <!-- 表中所有列 -->
-  <sql id="Base_Column_List" >
-   ID, NAME, MENU_TYPE, IS_DELETED, STATUS, URL, CREATED_AT, POSITION, MENU_LEVEL, PARENT_ID, UPDATED_AT
-  </sql>
-  
-  <!-- 查询条件 -->
+   <!--  查询条件 -->
   <sql id="Example_Where_Clause">
     where IS_DELETED=0
     <trim suffixOverrides=",">
@@ -63,107 +60,192 @@
       <if test="updatedAt != null">
         and UPDATED_AT = #{updatedAt},
       </if>
+      <if test="kind != null">
+        and KIND = #{kind},
+      </if>
     </trim>
   </sql>
   
-  <select id="queryByMenuId" resultMap="MenuBaseMap" parameterType="Object">
-    select
+  <!-- 1.根据id查询 -->
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="MenuBaseMap">
+    select 
     <include refid="Base_Column_List" />
-    from T_SES_BMS_PERMENU where ID = #{id}
+    from T_SES_BMS_PERMISSION
+    where ID = #{id,jdbcType=VARCHAR}
   </select>
   
-  <select id="queryByList" resultMap="MenuBaseMap" parameterType="Object">
-    select
-    <include refid="Base_Column_List" />
-    from T_SES_BMS_PERMENU
-    <include refid="Example_Where_Clause"/>
-    ORDER BY MENU_LEVEL,ORDERBY ASC
-  </select>
+  <!-- 2.根据id进行删除 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_SES_BMS_PERMISSION
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
   
+  <!-- 3.插入数据 -->
   <insert id="insert" parameterType="ses.model.bms.PreMenu">
-    <selectKey keyProperty="id" resultType="String" order="BEFORE">
+  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
         select sys_guid() from dual
     </selectKey>
-    insert into T_SES_BMS_PERMENU (ID, NAME, MTYPE, 
-      IS_DELETED, STATE, URL, 
-      CREATED_AT, ORDERBY, MENU_LEVEL, 
-      PARENT_ID)
-    values (#{id}, #{name}, #{type}, 
-      #{isDeleted}, #{state}, #{url}, 
-      #{createdAt}, #{orderby}, #{menulevel}, 
-      #{parentId})
+    insert into T_SES_BMS_PERMISSION (ID, NAME, MENU_TYPE, 
+      IS_DELETED, STATUS, URL, 
+      CREATED_AT, POSITION, MENU_LEVEL, 
+      PARENT_ID, UPDATED_AT, KIND
+      )
+    values (#{id}, #{name}, #{menuType}, 
+      #{isDeleted}, #{status}, #{url,jdbcType=VARCHAR}, 
+      #{createdAt,jdbcType=TIMESTAMP}, #{position}, #{menuLevel}, 
+      #{parentId}, #{updatedAt,jdbcType=TIMESTAMP}, #{kind}
+      )
   </insert>
+  
+  <!-- 4.插入不为空数据 -->
   <insert id="insertSelective" parameterType="ses.model.bms.PreMenu">
-    <selectKey keyProperty="id" resultType="String" order="BEFORE">
+  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
         select sys_guid() from dual
     </selectKey>
-    insert into T_SES_BMS_PERMENU
+    insert into T_SES_BMS_PERMISSION
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         ID,
       </if>
-      <if test="name != null and name !=''">
+      <if test="name != null">
         NAME,
       </if>
-      <if test="type != null and type !=''">
-        MTYPE,
+      <if test="menuType != null">
+        MENU_TYPE,
       </if>
       <if test="isDeleted != null">
         IS_DELETED,
       </if>
-      <if test="state != null">
-        STATE,
+      <if test="status != null">
+        STATUS,
       </if>
-      <if test="url != null and url !=''">
+      <if test="url != null">
         URL,
       </if>
       <if test="createdAt != null">
         CREATED_AT,
       </if>
-      <if test="orderby != null">
-        ORDERBY,
+      <if test="position != null">
+        POSITION,
       </if>
-      <if test="menulevel != null">
+      <if test="menuLevel != null">
         MENU_LEVEL,
       </if>
       <if test="parentId != null">
         PARENT_ID,
       </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="kind != null">
+        KIND,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id},
+        #{id,jdbcType=VARCHAR},
       </if>
-      <if test="name != null and name !=''">
-        #{name},
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
       </if>
-      <if test="type != null and type !=''">
-        #{type},
+      <if test="menuType != null">
+        #{menuType,jdbcType=VARCHAR},
       </if>
       <if test="isDeleted != null">
         #{isDeleted},
       </if>
-      <if test="state != null">
-        #{state},
+      <if test="status != null">
+        #{status},
       </if>
-      <if test="url != null and url !=''">
-        #{url},
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
-        #{createdAt},
+        #{createdAt,jdbcType=TIMESTAMP},
       </if>
-      <if test="orderby != null">
-        #{orderby},
+      <if test="position != null">
+        #{position},
       </if>
-      <if test="menulevel != null">
-        #{menulevel},
+      <if test="menuLevel != null">
+        #{menuLevel},
       </if>
       <if test="parentId != null">
-        #{parentId.id},
+        #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="kind != null">
+        #{kind},
       </if>
     </trim>
   </insert>
- 
   
+  <!-- 5.更新不为空数据 -->
+  <update id="updateByPrimaryKeySelective" parameterType="ses.model.bms.PreMenu">
+    update T_SES_BMS_PERMISSION
+    <set>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="menuType != null">
+        MENU_TYPE = #{menuType,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted},
+      </if>
+      <if test="status != null">
+        STATUS = #{status},
+      </if>
+      <if test="url != null">
+        URL = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="position != null">
+        POSITION = #{position},
+      </if>
+      <if test="menuLevel != null">
+        MENU_LEVEL = #{menuLevel},
+      </if>
+      <if test="parentId != null">
+        PARENT_ID = #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="kind != null">
+        KIND = #{kind},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 6.更新数据 -->
+  <update id="updateByPrimaryKey" parameterType="ses.model.bms.PreMenu">
+    update T_SES_BMS_PERMISSION
+    set NAME = #{name,jdbcType=VARCHAR},
+      MENU_TYPE = #{menuType,jdbcType=VARCHAR},
+      IS_DELETED = #{isDeleted},
+      STATUS = #{status},
+      URL = #{url},
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      POSITION = #{position},
+      MENU_LEVEL = #{menuLevel},
+      PARENT_ID = #{parentId},
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      KIND = #{kind}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 7.条件查询 -->  
+  <select id="find" parameterType="Object" resultMap="MenuBaseMap">
+    select
+    <include refid="Base_Column_List" />
+    from T_SES_BMS_PERMISSION
+    <include refid="Example_Where_Clause" />
+    ORDER BY MENU_LEVEL,POSITION ASC
+  </select>
   
 </mapper>

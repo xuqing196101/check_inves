@@ -59,6 +59,8 @@ public class PreMenu {
     /** parentId :上级菜单 */
     private PreMenu parentId;
     
+    private Integer kind;
+    
     /** 角色 */
     private List<Role> roles;
 
@@ -156,6 +158,14 @@ public class PreMenu {
 
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+
+	public Integer getKind() {
+		return kind;
+	}
+
+	public void setKind(Integer kind) {
+		this.kind = kind;
 	}
 	
 }

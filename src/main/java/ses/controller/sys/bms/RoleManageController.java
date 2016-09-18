@@ -55,7 +55,7 @@ public class RoleManageController {
 	 */
 	@RequestMapping("/list")
 	public String list(Model model){
-		List<Role> roles=roleService.selectRoleUser(null);
+		List<Role> roles=roleService.selectRole(null);
 		model.addAttribute("list", roles);
 		logger.info(JSON.toJSONStringWithDateFormat(roles, "yyyy-MM-dd HH:mm:ss"));
 		return "ses/bms/role/list";

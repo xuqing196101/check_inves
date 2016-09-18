@@ -18,8 +18,8 @@ public class PreMenuServiceImpl implements PreMenuServiceI {
 	private PreMenuMapper preMenuMapper;
 
 	@Override
-	public List<PreMenu> getAll(PreMenu preMenu) {
-		return preMenuMapper.queryByList(preMenu);
+	public List<PreMenu> find(PreMenu preMenu) {
+		return preMenuMapper.find(preMenu);
 	}
 
 	@Override
