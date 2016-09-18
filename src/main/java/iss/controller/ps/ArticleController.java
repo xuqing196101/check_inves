@@ -379,4 +379,41 @@ public class ArticleController {
 		return "redirect:getAll.html";
 	}
 	
+	/**
+	* @Title: serch
+	* @author Shen Zhenfei 
+	* @date 2016-9-18 下午2:02:05  
+	* @Description: 根据标题查询列表
+	* @param @param kname
+	* @param @param page
+	* @param @param stauts
+	* @param @param model
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/serch")
+	public String serch(String kname,Integer page,Integer status,Model model){
+		Article article = new Article();
+		article.setName("%"+kname+"%");
+		if(status!=null){
+			if(status==0){
+				article.setStatus(status);
+				List<Article> list = articleService.selectArticleByName(article, page==null?1:page);
+				model.addAttribute("list", new PageInfo<Article>(list));
+				return "iss/ps/article/sub/list";
+			}else if(status==1){
+				article.setStatus(status);
+				List<Article> list = articleService.selectArticleByName(article, page==null?1:page);
+				model.addAttribute("list", new PageInfo<Article>(list));
+				return "iss/ps/article/audit/list";
+			}
+		}else{
+			List<Article> list = articleService.selectArticleByName(article, page==null?1:page);
+			model.addAttribute("list", new PageInfo<Article>(list));
+			return "iss/ps/article/list";
+		}
+		return kname;
+		
+	}
+	
 }

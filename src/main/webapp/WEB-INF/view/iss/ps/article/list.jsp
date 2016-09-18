@@ -133,10 +133,7 @@
 
   </head>
   
-  
   <body>
-
-
 
 	<!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
@@ -146,19 +143,48 @@
 		<div class="clear"></div>
 	  </div>
    </div>
-  
+   
+   <div class="container">
+	   <div class="headline-v2">
+	   		<h2>信息列表</h2>
+	   </div>
+	   <div class="col-md-8">
+		   <button class="btn btn-windows git" type="button" onclick="sub()">提交信息列表 </button>
+		   <button class="btn btn-windows git" type="button" onclick="audit()">审核信息列表</button>
+	   </div>
+   </div>
+   
+	   <input type="hidden" id="depid" name="depid">
+	  	
+		<div class="container">	
+			<div class="col-md-8">
+	   			<button class="btn btn-windows add" type="button" onclick="add()">新增信息</button>
+				<button class="btn btn-windows edit" type="button" onclick="edit()">修改信息</button>
+				<button class="btn btn-windows delete" type="button" onclick="del()">删除信息</button>
+				<button class="btn btn-windows delete" type="button" onclick="find()">查看信息</button>
+			</div>
+			
+			<div class="col-md-4 ">
+              <div class="search-block-v2">
+                <div class="">
+                  <form accept-charset="UTF-8" action="<%=basePath%>article/serch.html" method="get"><div style="display:none"><input name="utf8" value="✓" type="hidden"></div>
+                    <input id="t" name="t" value="search_products" type="hidden">
+                    <div class="col-md-12 pull-right">
+                      <div class="input-group">
+                        <input class="form-control bgnone h37 p0_10" id="kname" name="kname" placeholder="" type="text">
+                        <span class="input-group-btn">
+                          <input class="btn-u" name="commit" value="搜索" type="submit">
+                        </span>
+                      </div>
+                    </div>
+                  </form>               
+			   </div>
+              </div>
+            </div>
+		</div>
+			
 	<div class="container margin-top-5">
 	<div class="content padding-left-25 padding-right-25 padding-top-5">
-	   <input type="hidden" id="depid" name="depid">
-	  	<div class="content padding-left-25 padding-right-25 padding-top-5">
-	  		<h4>信息列表</h4>
-	  		<button class="btn btn-windows git" type="button" onclick="sub()">提交信息列表 </button>
-			<button class="btn btn-windows git" type="button" onclick="audit()">审核信息列表</button>
-			</br>
-	  		<button class="btn btn-windows add" type="button" onclick="add()">新增信息</button>
-			<button class="btn btn-windows edit" type="button" onclick="edit()">修改信息</button>
-			<button class="btn btn-windows delete" type="button" onclick="del()">删除信息</button>
-			<button class="btn btn-windows delete" type="button" onclick="find()">查看信息</button>
 		  <table class="table table-bordered table-condensed">
 		  	<thead>
 	  			<tr>
@@ -215,8 +241,6 @@
 	  	</div>  
 	  	<div id="pagediv" align="right"></div>
   </div>
-  </div>
-  
   
   </body>
 </html>

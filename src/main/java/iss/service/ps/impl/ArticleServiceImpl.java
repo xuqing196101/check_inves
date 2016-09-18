@@ -97,4 +97,15 @@ public class ArticleServiceImpl implements ArticleService {
 	public List<Article> selectAllArticleToSolr() {
 		return articleMapper.selectAllArticleToSolr();
 	}
+
+	/**
+	 * 根据标题查询列表
+	 */
+	@Override
+	public List<Article> selectArticleByName(Article article, Integer pageNum) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
+		List<Article> list = articleMapper.selectArticleByName(article);
+		return list;
+	}
 }

@@ -94,6 +94,21 @@
     order by UPDATED_AT DESC
   </select>
   
+  <!-- 根据标题查询查询 -->
+  <select id="selectArticleByName" resultMap="ArticleBlob">
+  	select
+  	<include refid="Article_Column_List"/>
+  	,
+    <include refid="Article_BlOB_Column_List" />
+    from T_ISS_PS_ARTICLE
+    where IS_DELETED = 0
+    	AND NAME LIKE #{name}
+	  	<if test="status != null">
+	  	  AND STATUS = #{status}
+	  	</if>
+    order by UPDATED_AT DESC
+  </select>
+  
   <!-- 查询所有位索引的信息 -->
   <select id="selectByIsIndex" resultMap="ArticleBlob">
   	select

@@ -136,5 +136,16 @@ public interface ArticleMapper {
 	* @return List<Article>
 	 */
 	List<Article> selectAllArticleToSolr();
+	
+	/**
+	* @Title: selectArticleByName
+	* @author Shen Zhenfei 
+	* @date 2016-9-18 下午1:55:48  
+	* @Description: 根据标题查询列表
+	* @param @param article
+	* @param @return      
+	* @return List<Article>
+	 */
+	List<Article> selectArticleByName(Article article);
     
 }

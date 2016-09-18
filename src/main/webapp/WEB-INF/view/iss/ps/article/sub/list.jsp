@@ -112,16 +112,47 @@
 		<div class="clear"></div>
 	  </div>
    </div>
-  
+
+			
+	<div class="container">
+	   <div class="headline-v2">
+	   		<h2>提交信息列表</h2>
+	   </div>
+	   <div class="col-md-8">
+		   <button class="btn btn-windows git" type="button" onclick="getInfo()">返回信息页面</button>
+	  	   <button class="btn btn-windows git" type="button" onclick="audit()">审核信息页面</button>
+	   </div>
+   </div>
+   
+	   <input type="hidden" id="depid" name="depid">
+	  	
+		<div class="container">	
+			<div class="col-md-8">
+	   			<button class="btn btn-windows add" type="button" onclick="sub()">提交信息</button>
+			</div>
+			
+			<div class="col-md-4 ">
+              <div class="search-block-v2">
+                <div class="">
+                  <form accept-charset="UTF-8" action="<%=basePath%>article/serch.html" method="get"><div style="display:none"><input name="utf8" value="✓" type="hidden"></div>
+                    <input id="t" name="t" value="search_products" type="hidden">
+                    <input name="status" value="0" type="hidden">
+                    <div class="col-md-12 pull-right">
+                      <div class="input-group">
+                        <input class="form-control bgnone h37 p0_10" id="kname" name="kname" placeholder="" type="text">
+                        <span class="input-group-btn">
+                          <input class="btn-u" name="commit" value="搜索" type="submit">
+                        </span>
+                      </div>
+                    </div>
+                  </form>               
+			   </div>
+              </div>
+            </div>
+		</div>
+			
 	<div class="container margin-top-5">
 	<div class="content padding-left-25 padding-right-25 padding-top-5">
-	   <input type="hidden" id="depid" name="depid">
-	  	<div class="content padding-left-25 padding-right-25 padding-top-5">
-	  		<h4>提交信息列表</h4>
-	  		<button class="btn btn-windows git" type="button" onclick="getInfo()">返回信息页面</button>
-	  		<button class="btn btn-windows git" type="button" onclick="audit()">审核信息页面</button>
-	  		<br/>
-			<button class="btn btn-windows add" type="button" onclick="sub()">提交信息</button>
 		  <table class="table table-bordered table-condensed">
 		  	<thead>
 	  			<tr>
@@ -158,7 +189,6 @@
 		  </table>
 	  	</div>  
 	  	<div id="pagediv" align="right"></div>
-  </div>
   </div>
   
   </body>
