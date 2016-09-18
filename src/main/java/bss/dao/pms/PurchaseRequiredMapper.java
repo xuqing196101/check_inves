@@ -2,6 +2,8 @@ package bss.dao.pms;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import bss.model.pms.PurchaseRequired;
 /**
  * 
@@ -79,7 +81,7 @@ public interface PurchaseRequiredMapper {
      */
     int updateByPrimaryKey(PurchaseRequired record);
     
-    /**
+    /**@
      * 
     * @Title: query
     * @Description: 根据实体类查询
@@ -90,4 +92,16 @@ public interface PurchaseRequiredMapper {
     * @throws
      */
     List<PurchaseRequired> query(PurchaseRequired purchaseRequired);
+    
+    /**
+     * 
+    * @Title: queryByNo
+    * @Description: 根据编号查询最新状态
+    * author: Li Xiaoxiao 
+    * @param @param no
+    * @param @return     
+    * @return List<PurchaseRequired>     
+    * @throws
+     */
+    List<PurchaseRequired> queryByNo(@Param("planNo")String planNo);
 }

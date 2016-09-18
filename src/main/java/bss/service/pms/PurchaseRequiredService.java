@@ -55,5 +55,16 @@ public interface PurchaseRequiredService {
 	* @throws
 	 */
 	List<PurchaseRequired> query(PurchaseRequired purchaseRequired,Integer page);
+	/**
+	 * 
+	* @Title: queryByNo
+	* @Description: 根据编号查询最新的状态
+	* author: Li Xiaoxiao 
+	* @param @param no
+	* @param @return     
+	* @return String     
+	* @throws
+	 */
+	String queryByNo(String no);
 	
 }

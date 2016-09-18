@@ -363,7 +363,7 @@
 		<include refid="Base_Column_List" />
 		from T_BSS_PMS_PURCHASE_REQUIRED
 		<where>
-			1=1
+			HISTORY_STATUS='0'
 			<if test="department !=null and department!=''">
 				and CREATED_AT = #{createdAt}
 			</if>
@@ -376,4 +376,15 @@
 		</where>
 	</select>
 
+<select id="queryByNo" parameterType="String"  resultMap="PurchaseRequired_Map">
+		select
+		<include refid="Base_Column_List" />
+		from T_BSS_PMS_PURCHASE_REQUIRED
+		<where>
+			<if test="planNo !=null and planNo!='' ">
+			 PLAN_NO = #{planNo} ORDER BY HISTORY_STATUS DESC
+			</if>
+		</where>
+	</select>
+	
 </mapper>

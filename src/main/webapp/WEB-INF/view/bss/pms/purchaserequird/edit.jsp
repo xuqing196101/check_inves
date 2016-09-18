@@ -186,7 +186,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div class="container clear margin-top-30">
 
-			<form action="<%=basePath%>purchaser/adddetail.html" method="post">
+			<form action="<%=basePath%>purchaser/update.html" method="post">
 				<table class="table table-bordered table-condensed mt5">
 					<thead>
 						<tr>
@@ -215,39 +215,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								name="list[${vs.count }].seq" value="${obj.seq }"><input
 								type="hidden" name="list[${vs.count }].id" value="${obj.id }">
 							</td>
-							<td><input type="text" name="list[${vs.count }].department"
-								value="${obj.department }"></td>
-							<td><input type="text" name="list[${vs.count }].goodsName"
-								value="${obj.goodsName }"></td>
-							<td class="tc"><input type="text"
-								name="list[${vs.count }].stand" value="${obj.stand }"></td>
-							<td class="tc"><input type="text"
-								name="list[${vs.count }].qualitStand"
-								value="${obj.qualitStand }"></td>
-							<td class="tc"><input type="text"
-								name="list[${vs.count }].item" value="${obj.item }"></td>
-							<td class="tc"><input type="text"
-								name="list[${vs.count }].purchaseCount"
-								value="${obj.purchaseCount }"></td>
-							<td class="tc"><input type="text"
-								name="list[${vs.count }].price" value="${obj.price }"></td>
-							<td class="tc"><input type="text"
-								name="list[${vs.count }].budget" value="${obj.budget }"></td>
-							<td><input type="text" name="list[${vs.count }].deliverDate"
-								value="${obj.deliverDate }"></td>
-							<td><input type="text"
-								name="list[${vs.count }].purchaseType"
-								value="${obj.purchaseType }"></td>
-							<td class="tc"><input type="text"
-								name="list[${vs.count }].supplier" value="${obj.supplier }"></td>
-							<td class="tc"><input type="text"
-								name="list[${vs.count }].isFreeTax" value="${obj.isFreeTax }"></td>
-							<td class="tc"><input type="text"
-								name="list[${vs.count }].goodsUse" value="${obj.goodsUse }"></td>
-							<td class="tc"><input type="text"
-								name="list[${vs.count }].useUnit" value="${obj.useUnit }"></td>
-							<td class="tc"><input type="text"
-								name="list[${vs.count }].memo" value="${obj.memo }"></td>
+							<td><input type="text" name="list[${vs.count }].department" value="${obj.department }"></td>
+							<td><input type="text" name="list[${vs.count }].goodsName" value="${obj.goodsName }"></td>
+							<td class="tc"><input type="text" name="list[${vs.count }].stand" value="${obj.stand }"></td>
+							<td class="tc"><input type="text" name="list[${vs.count }].qualitStand" value="${obj.qualitStand }"></td>
+							<td class="tc"><input type="text" name="list[${vs.count }].item" value="${obj.item }"></td>
+							<td class="tc"><input type="text" name="list[${vs.count }].purchaseCount" value="${obj.purchaseCount }"></td>
+							<td class="tc"><input type="text" name="list[${vs.count }].price" value="${obj.price }"></td>
+							<td class="tc"><input type="text" name="list[${vs.count }].budget" value="${obj.budget }"></td>
+							<td><input type="text" name="list[${vs.count }].deliverDate" value="${obj.deliverDate }"></td>
+							<td><input type="text" name="list[${vs.count }].purchaseType" value="${obj.purchaseType }"></td>
+							<td class="tc"><input type="text" name="list[${vs.count }].supplier" value="${obj.supplier }"></td>
+							<td class="tc"><input type="text" name="list[${vs.count }].isFreeTax" value="${obj.isFreeTax }"></td>
+							<td class="tc"><input type="text" name="list[${vs.count }].goodsUse" value="${obj.goodsUse }"></td>
+							<td class="tc"><input type="text" name="list[${vs.count }].useUnit" value="${obj.useUnit }"></td>
+							<td class="tc"><input type="text" name="list[${vs.count }].memo" value="${obj.memo }">
+							<input type="hidden" name="list[${vs.count }].planName" value="${obj.planName }">
+							<input type="hidden" name="list[${vs.count }].planNo" value="${obj.planNo }">
+							<input type="hidden" name="list[${vs.count }].planType" value="${obj.planType }">
+							<input type="hidden" name="list[${vs.count }].parentId" value="${obj.parentId }">
+							<input type="hidden" name="list[${vs.count }].historyStatus" value="${obj.historyStatus }">
+							<input type="hidden" name="list[${vs.count }].goodsType" value="${obj.goodsType }">
+							</td>
 						</tr>
 
 					</c:forEach>

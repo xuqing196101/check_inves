@@ -136,11 +136,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				  <span>业务监管</span>
 				 </a>
 				</li>
-			    <li>
-				<a href="#">
+			    <li class="dropdown">
+				<a ria-expanded="false" data-toggle="dropdown" class="dropdown-toggle p0_30 " href="">
 				  <div><img src="<%=basePath%>public/ZHH/images/top_03.png"/></div>
 				  <span>障碍作业</span>
 				 </a>
+				 
+				 <ul class="dropdown-menu">
+                   		<li class="line-block">
+                   			<a href="" target="home" class="son-menu"><span class="mr5">◇</span>采购计划管理</a>
+                   			<ul class="dropdown-menuson dropdown-menu">
+                   				<li><a href="<%=basePath%>purchaser/list.html" target="home" class="son-menu"><span class="mr5">◇</span>采购需求管理</a></li>
+                   			</ul>
+                   		</li>
+                   		 
+               		</ul>
+               		
 				</li>	
 				
 			    <li class="dropdown">

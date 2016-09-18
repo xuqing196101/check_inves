@@ -51,6 +51,17 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 		// TODO Auto-generated method stub
 		return purchaseRequiredMapper.selectByPrimaryKey(id);
 	}
+
+	@Override
+	public String queryByNo(String no) {
+		List<PurchaseRequired> list = purchaseRequiredMapper.queryByNo(no);
+		if(list.size()>0){
+			return list.get(0).getHistoryStatus();
+		}else{
+			return null;
+		}
+		
+	}
 	
 	 
 

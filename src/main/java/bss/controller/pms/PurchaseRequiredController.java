@@ -89,9 +89,30 @@ public class PurchaseRequiredController extends BaseController{
 	* @throws
 	 */
 	@RequestMapping("/update")
-	public String updateById(PurchaseRequired purchaseRequired){
-		purchaseRequiredService.update(purchaseRequired);
-		return "";
+	public String updateById(PurchaseRequiredFormBean list){
+		
+		if(list!=null){
+			if(list.getList()!=null&&list.getList().size()>0){
+				for( PurchaseRequired p:list.getList()){
+					if( p.getId()!=null){
+						purchaseRequiredService.update(p);
+						if(p.getParentId()!=null){
+							p.setParentId(p.getParentId());
+						}
+					
+						String id = UUID.randomUUID().toString().replaceAll("-", "");
+						p.setId(id);
+						Integer s=Integer.valueOf(purchaseRequiredService.queryByNo(p.getPlanNo()))+1;
+						p.setHistoryStatus(String.valueOf(s));
+						purchaseRequiredService.add(p);	
+					}
+				
+					
+				}
+			}
+		}
+//		purchaseRequiredService.update(purchaseRequired);
+		return "redirect:/list.html";
 	}
 	/**
 	 *   
@@ -170,21 +191,16 @@ public class PurchaseRequiredController extends BaseController{
 			if(list.getList()!=null&&list.getList().size()>0){
 				for(PurchaseRequired p:list.getList()){
 					if(p!=null){
-						if(p.getId()!=null){
-							p.setHistoryStatus("2");
-							p.setHistoryStatus("1");
-							purchaseRequiredService.update(p);
-							
-						}else{
+				 
 							String id = UUID.randomUUID().toString().replaceAll("-", "");
 							p.setGoodsType(type);
 							p.setPlanNo(planNo);
 							p.setPlanName(planName);
 							p.setId(id);
 							p.setPlanType(type);
-							p.setHistoryStatus("1");
+							p.setHistoryStatus("0");
 							purchaseRequiredService.add(p);	
-						}
+						 
 						
 					}
 
@@ -193,7 +209,7 @@ public class PurchaseRequiredController extends BaseController{
 	 
 	}
 
-	    return "";
+		return "redirect:/list.html";
 	}
 	
 	

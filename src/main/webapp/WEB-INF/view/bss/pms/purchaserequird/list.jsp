@@ -109,7 +109,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
   	function view(no){
   		
-  		alert(no);
   		window.location.href="<%=basePath%>purchaser/queryByNo.html?planNo="+no;
   	}
   	
