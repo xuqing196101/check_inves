@@ -8,10 +8,12 @@
 				    <result column="IS_TOP"  property="isTop" />
 				    <result column="IS_LOCKING"  property="isLocking" />
 				    <result column="IS_ESSENCE"  property="isEssence" />
-				    <result column="IS_CAN_REPLY"  property="isCanReply" />
+				    <result column="CAN_REPLY"  property="isCanReply" />
 				    <result column="PUBLISHED_TIME"  property="publishedTime" />
-				    <result column="LAST_REPLYED_TIME"  property="lastReplyedTime" />							    	    
-				    <association column="USER_ID"  property="user" select="ses.dao.bms.UserMapper.queryById"/>
+				    <result column="LAST_RE_TIME"  property="lastReplyedTime" />	
+				    	
+				    <association column="LAST_RE_ID"  property="lastReplyer" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>						    	    
+				    <association column="USER_ID"  property="user" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>
 				    <association column="TOPIC_ID"  property="topic" select="iss.dao.fs.TopicMapper.selectByPrimaryKey"/>	
 				    <association column="PARK_ID"  property="park" select="iss.dao.fs.ParkMapper.selectByPrimaryKey"/>		    
 			  </resultMap>
@@ -27,8 +29,8 @@
 				  
 			  <!-- 所有列 -->
 			  <sql id="Base_Column_List">
-			    ID, NAME,CONTENT, IS_TOP, IS_LOCKING, IS_ESSENCE, IS_CAN_REPLY, USER_ID, TOPIC_ID,PARK_ID,
-			    PUBLISHED_TIME, LAST_REPLYED_TIME
+			    ID, NAME,CONTENT, IS_TOP, IS_LOCKING, IS_ESSENCE, CAN_REPLY, USER_ID, TOPIC_ID,PARK_ID,
+			    PUBLISHED_TIME, LAST_RE_TIME,LAST_RE_ID
 			    
 			  </sql>
 	  	
@@ -56,7 +58,7 @@
 		    select 
 		    <include refid="Base_Column_List" />
 		    from T_ISS_FS_POST
-		    <include refid="Example_Where_Clause" />
+		   <!--  <include refid="Example_Where_Clause" /> -->
 		    ORDER BY PUBLISHED_TIME DESC
 		  </select>
 		  
@@ -97,7 +99,7 @@
 		        IS_ESSENCE,
 		      </if>
 		      <if test="isCanReply != null">
-		        IS_CAN_REPLY,
+		        CAN_REPLY,
 		      </if>
 		      <if test="publishedTime != null">
 		        PUBLISHED_TIME,
@@ -170,7 +172,7 @@
 		        IS_ESSENCE = #{isEssence},
 		      </if>
 		      <if test="isCanReply != null">
-		        IS_CAN_REPLY = #{isCanReply},
+		        CAN_REPLY = #{isCanReply},
 		      </if>
 		      <if test="lastReplyedTime != null">
 		        LAST_REPLYED_TIME = #{lastReplyedTime},

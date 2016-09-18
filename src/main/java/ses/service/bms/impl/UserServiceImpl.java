@@ -88,6 +88,12 @@ public class UserServiceImpl implements UserServiceI {
 		List<User> users = userMapper.selectUser(user);
 		return users;
 	}
+	@Override
+	public User getUserById(String id) {
+		List<User> users = userMapper.selectByPrimaryKey(id);
+		User user = users.get(0);
+		return user;
+	}
 
 	@Override
 	public List<User> findByLoginName(String loginName) {

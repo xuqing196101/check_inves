@@ -12,6 +12,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.util.PropertiesUtil;
+
+import com.github.pagehelper.PageHelper;
+
 
 
 /**
@@ -33,11 +37,13 @@ public class ParkServiceImpl implements ParkService{
 	}
 
 	@Override
-	public List<Park> queryByList(Park park) {
+	public List<Park> queryByList(Park park,Integer page) {
 		// TODO Auto-generated method stub
-		return parkMapper.queryByList(park);
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		return parkMapper.queryByList(park,page);
 	}
-
+	
 
 	@Override
 	public Park selectByPrimaryKey(String id) {
@@ -64,6 +70,13 @@ public class ParkServiceImpl implements ParkService{
 	public void updateByPrimaryKeySelective(Park park) {
 		// TODO Auto-generated method stub
 		parkMapper.updateByPrimaryKeySelective(park);
+	}
+
+
+	@Override
+	public List<Park> getAll(Park park) {
+		// TODO Auto-generated method stub
+		return parkMapper.getAll(park);
 	}
 	
 }

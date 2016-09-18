@@ -5,10 +5,11 @@
 			    <id column="ID"  property="id" />
 			    <result column="NAME"  property="name" />
 			     <result column="CONTENT"  property="content" />
-			    <result column="PUBLISHED_TIME"  property="publishedTime" />
+			     <result column="PUBLISHED_AT"  property="publishedAt" />
+			     <result column="UPDATED_AT"  property="updatedAt" />
 			     <association column="POST_ID"  property="post" select="iss.dao.fs.PostMapper.selectByPrimaryKey"/>
 			    <association column="REPLY_ID"  property="reply" select="selectByPrimaryKey"/>
-			    <association column="USER_ID"  property="user" select="ses.dao.bms.UserMapper.queryById"/>			    			    
+			    <association column="USER_ID"  property="user" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>			    			    
 			  </resultMap>
 			  			  			  
 	  			<!-- 表名 -->
@@ -18,13 +19,16 @@
 				
 		  	  <!-- 所有列 -->
 			  <sql id="Base_Column_List">
-			    ID, NAME, CONTENT,POST_ID, REPLY_ID, USER_ID, PUBLISHED_TIME  
+			    ID, NAME, CONTENT,POST_ID, REPLY_ID, USER_ID, PUBLISHED_AT,UPDATED_AT
 			  </sql>
 			  
 	  			  <!-- 查询条件 -->
 			  <sql id="Example_Where_Clause">
 			  	where 1 = 1
-				 <trim suffixOverrides=",">			
+				 <trim suffixOverrides=",">	
+				 	<if test="post!= null">
+			        and POST_ID = #{post.id}
+			      </if>		
 				</trim>
 				</sql>
 			
@@ -58,14 +62,14 @@
 					WHERE TOPIC_ID = #{topicId}
 					)
 			  </select>
-			  		  
+	  
 			  <!-- 3.根据条件查询列表 -->
 			  <select id="queryByList" parameterType="Object" resultMap="ReplyResultMap">
 			    select 
 			    <include refid="Base_Column_List" />
 			    from T_ISS_FS_REPLY
-			    <include refid="Example_Where_Clause" />
-			    ORDER BY PUBLISHED_TIME DESC
+			  
+			    ORDER BY PUBLISHED_AT DESC
 			    
 			  </select>
   
@@ -83,14 +87,11 @@
 			    </selectKey>
 			    insert into T_ISS_FS_REPLY
 			    <trim prefix="(" suffix=")" suffixOverrides=",">
-			      <if test="id != null">
-			        ID,
-			      </if>
 			      <if test="name != null">
 			        NAME,
 			      </if>
-			      <if test="publishedTime != null">
-			        PUBLISHED_TIME,
+			      <if test="publishedAt != null">
+			        PUBLISHED_AT,
 			      </if>
 			      <if test="content != null">
 			        CONTENT,
@@ -106,14 +107,11 @@
 			      </if>
 			    </trim>
 			    <trim prefix="values (" suffix=")" suffixOverrides=",">
-			      <if test="id != null">
-			        #{id},
-			      </if>
 			      <if test="name != null">
 			        #{name},
 			      </if>
-			      <if test="publishedTime != null">
-			        #{publishedTime},
+			      <if test="publishedAt != null">
+			        #{publishedAt},
 			      </if>
 			      <if test="content != null">
 			        #{content},
@@ -136,21 +134,12 @@
 			      <if test="name != null">
 			        NAME = #{name},
 			      </if>
-			      <if test="publishedTime != null">
-			        PUBLISHED_TIME = #{publishedTime},
-			      </if>
 			      <if test="content != null">
 			        CONTENT = #{content},
 			      </if>
-			      <if test="user != null">
-			        USER_ID = #{user.id},
-			      </if>
-			      <if test="post != null">
-			        POST_ID = #{post.id},
-			      </if>
-			      <if test="reply != null">
-			       REPLY_ID =  #{reply.id},
-			      </if>
+			      <if test="updatedAt != null">
+                    UPDATED_AT = #{updatedAt},
+                  </if>
 			    </set>
 			    where ID = #{id}
 			  </update>
@@ -161,7 +150,7 @@
 			    <include refid="Base_Column_List" />
 			    from T_ISS_FS_REPLY
 			    where POST_ID = #{postID}
-			    ORDER BY PUBLISHED_TIME DESC
+			    ORDER BY PUBLISHED_AT DESC
 		  </select>		  
  
 </mapper>

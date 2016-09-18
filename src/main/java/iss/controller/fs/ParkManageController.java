@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ses.model.bms.User;
 import ses.service.bms.UserServiceI;
 
+import com.github.pagehelper.PageInfo;
+
 
 /**
 * @Title:ParkManageController 
@@ -57,8 +59,8 @@ public class ParkManageController {
 	 * @return String
 	 */
 	@RequestMapping("/getlist")
-	public String getParkList(Model model, Park park) {
-		List<Park> parklist = parkService.queryByList(park);
+	public String getParkList(Model model, Park park,Integer page) {
+		List<Park> parklist = parkService.queryByList(park,page==null?1:page);
 		for (Park park2 : parklist) {
 			Topic topic = new Topic();
 			topic.setPark(park2);
@@ -70,8 +72,8 @@ public class ParkManageController {
 			park2.setTopiccount(topiccount);
 			park2.setPostcount(postcount);
 			park2.setReplycount(replycount);
-		}
-		model.addAttribute("list", parklist);
+		}	
+		model.addAttribute("list", new PageInfo<Park>(parklist));
 		return "iss/forum/park/parklist";
 	}
 
@@ -111,7 +113,7 @@ public class ParkManageController {
 	 */
 	@RequestMapping("/add")
 	public String add(Model model, HttpServletRequest request) {
-		List<User> users = userService.getAll();
+		List<User> users = userService.find(null);
 		model.addAttribute("users", users);
 		return "iss/forum/park/add";
 	}
@@ -127,15 +129,14 @@ public class ParkManageController {
 	 */
 	@RequestMapping("/save")
 	public String save(HttpServletRequest request, Park park) {
-		System.out.println((String) request.getParameter("userId"));
-		User user = new User();
-		user.setId((String) request.getParameter("userId"));
-		user = userService.getUserById(user);
+		User user = userService.getUserById((String) request.getParameter("userId"));
 		park.setUser(user);
 		User creater = (User) request.getSession().getAttribute("loginUser");
 		park.setCreater(creater);
 		Timestamp ts = new Timestamp(new Date().getTime());
 		park.setCreatedAt(ts);
+		Timestamp ts1 = new Timestamp(new Date().getTime());
+		park.setUpdatedAt(ts1);
 		parkService.insertSelective(park);
 		return "redirect:getlist.html";
 	}
@@ -153,7 +154,7 @@ public class ParkManageController {
 	public String edit(String id, Model model) {
 		Park p = parkService.selectByPrimaryKey(id);
 		model.addAttribute("park", p);
-		List<User> users = userService.getAll();
+		List<User> users = userService.find(null);
 		model.addAttribute("users", users);
 		return "iss/forum/park/edit";
 	}
@@ -169,10 +170,7 @@ public class ParkManageController {
 	 */
 	@RequestMapping("/update")
 	public String update(HttpServletRequest request, Park park) {
-
-		User user = new User();
-		user.setId((String) request.getParameter("userId"));
-		user = userService.getUserById(user);
+		User user = userService.getUserById((String) request.getParameter("userId"));
 		park.setUser(user);
 		Timestamp ts = new Timestamp(new Date().getTime());
 		park.setUpdatedAt(ts);
@@ -191,8 +189,11 @@ public class ParkManageController {
 	 * @return String
 	 */
 	@RequestMapping("/delete")
-	public String delete(String id) {
-		parkService.deleteByPrimaryKey(id);
+	public String delete(String ids) {	
+		String[] id=ids.split(",");
+		for (String str : id) {
+			parkService.deleteByPrimaryKey(str);
+		}
 		return "redirect:getlist.html";
 	}
 
@@ -207,7 +208,7 @@ public class ParkManageController {
 	 */
 	@RequestMapping("/getIndex")
 	public String getPostIndex(Model model, Park park) {
-		List<Park> parklist = parkService.queryByList(park);
+		List<Park> parklist = parkService.getAll(park);
 		for (Park park2 : parklist) {
 			List<Post> postlist = postService.selectByParkID(park2.getId());
 			park2.setPosts(postlist);

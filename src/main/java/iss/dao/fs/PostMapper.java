@@ -31,7 +31,7 @@ public interface PostMapper {
 	* @param post
 	* @return List<Post>     
 	*/
-	List<Post> queryByList(Post post);
+	List<Post> queryByList(Post post,Integer page);
 	
 	/**   
 	* @Title: selectByPrimaryKey

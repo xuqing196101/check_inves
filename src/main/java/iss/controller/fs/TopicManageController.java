@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.pagehelper.PageInfo;
+
 import ses.model.bms.User;
 import ses.service.bms.UserServiceI;
 
@@ -61,8 +63,8 @@ public class TopicManageController {
 	* @return String     
 	*/
 	@RequestMapping("/getlist")
-	public String getList(Model model,Topic topic){
-		List<Topic> list = topicService.queryByList(topic);
+	public String getList(Model model,Topic topic,Integer page){
+		List<Topic> list = topicService.queryByList(topic,page==null?1:page);
 		for (Topic topic2 : list) {
 			Post post = new Post();
 			post.setTopic(topic2);
@@ -71,7 +73,7 @@ public class TopicManageController {
 			BigDecimal replycount = replyService.queryCountByParkId(topic2.getId());
 			topic2.setReplycount(replycount);
 		}
-		model.addAttribute("list", list);
+		model.addAttribute("list", new PageInfo<Topic>(list));
 		return "iss/forum/topic/list";
 	}
 	
@@ -107,7 +109,7 @@ public class TopicManageController {
 	*/
 	@RequestMapping("/add")
 	public String add(HttpServletRequest request,Model model){
-		List<Park> parks = parkService.queryByList(null);
+		List<Park> parks = parkService.getAll(null);
 		model.addAttribute("parks", parks);
 		return "iss/forum/topic/add";
 	}
@@ -129,6 +131,8 @@ public class TopicManageController {
 		topic.setUser(user);
 		Timestamp ts = new Timestamp(new Date().getTime());
 		topic.setCreatedAt(ts);
+		Timestamp ts1 = new Timestamp(new Date().getTime());
+		topic.setUpdatedAt(ts1);
 		topicService.insertSelective(topic);
 		return "redirect:getlist.html";
 	}
@@ -147,7 +151,7 @@ public class TopicManageController {
 	public String edit(String id,Model model){
 		Topic p = topicService.selectByPrimaryKey(id);
 		model.addAttribute("topic", p);
-		List<Park> parks = parkService.queryByList(null);
+		List<Park> parks = parkService.getAll(null);
 		model.addAttribute("parks", parks);
 		return "iss/forum/topic/edit";
 	}
@@ -183,7 +187,10 @@ public class TopicManageController {
 	*/
 	@RequestMapping("/delete")
 	public String delete(String id){
-		topicService.deleteByPrimaryKey(id);
+		String[] ids=id.split(",");
+		for (String str : ids) {
+			topicService.deleteByPrimaryKey(str);
+		}		
 		return "redirect:getlist.html";
 	}
 	

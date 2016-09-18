@@ -17,10 +17,28 @@
 	<meta http-equiv="description" content="This is my page">
 	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/layer.js"></script>
 	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
-		<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
+	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
 	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
+	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
   <script type="text/javascript">
-  
+  $(function(){
+	  laypage({
+		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+		    pages: "${list.pages}", //总页数
+		    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+		    skip: true, //是否开启跳页
+		    groups: "${list.pages}">=3?3:"${list.pages}", //连续显示分页数
+		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+		        var page = location.search.match(/page=(\d+)/);
+		        return page ? page[1] : 1;
+		    }(), 
+		    jump: function(e, first){ //触发分页后的回调
+		        if(!first){ //一定要加此判断，否则初始时会无限刷新
+		            location.href = '<%=basePath%>topic/getlist.do?page='+e.curr;
+		        }
+		    }
+		});
+  });
   	/** 全选全不选 */
 	function selectAll(){
 		 var checklist = document.getElementsByName ("chkItem");
@@ -72,7 +90,7 @@
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
-			layer.alert("请选择需要修改的版块",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择需要修改的主题",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
     
@@ -87,7 +105,7 @@
 				window.location.href="<%=basePath%>topic/delete.html?id="+id;
 			});
 		}else{
-			layer.alert("请选择要删除的版块",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择要删除的主题",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
     
@@ -116,7 +134,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">论坛管理</a></li><li class="active"><a href="#">主题管理</a></li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">信息服务</a></li><li><a href="#">论坛管理</a></li><li class="active"><a href="#">主题管理</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -154,10 +172,10 @@
 			</tr>
 		</thead>
 		
-		<c:forEach items="${list}" var="topic" varStatus="vs">
+		<c:forEach items="${list.list}" var="topic" varStatus="vs">
 			<tr>
 				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${topic.id}" /></td>
-				<td class="tc pointer" onclick="view('${topic.id}')">${vs.index+1}</td>
+				<td class="tc pointer" onclick="view('${topic.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 				<td class="tc pointer" onclick="view('${topic.id}')">${topic.name}</td>
 				
 				<c:set value="${topic.content}" var="content"></c:set>
@@ -168,8 +186,8 @@
 				<c:if test="${length<10}">
 					<td onclick="view('${topic.id}')" onmouseover="out('${topic.content}')" class="tc pointer ">${content } </td>
 				</c:if>	
-				<td class="tc pointer" onclick="view('${topic.id}')"><fmt:formatDate value='${topic.createdAt}' pattern="yyyy年MM月dd日  HH:mm:ss" /></td>
-				<td class="tc pointer" onclick="view('${topic.id}')"><fmt:formatDate value='${topic.updatedAt}' pattern="yyyy年MM月dd日  HH:mm:ss" /></td>
+				<td class="tc pointer" onclick="view('${topic.id}')"><fmt:formatDate value='${topic.createdAt}' pattern="yyyy-MM-dd  HH:mm:ss" /></td>
+				<td class="tc pointer" onclick="view('${topic.id}')"><fmt:formatDate value='${topic.updatedAt}' pattern="yyyy-MM-dd  HH:mm:ss" /></td>
 				<td class="tc pointer" onclick="view('${topic.id}')">${topic.user.relName}</td>
 				<td class="tc pointer" onclick="view('${topic.id}')">${topic.park.name}</td>
 				<td class="tc pointer" onclick="view('${topic.id}')">${topic.postcount }</td>
@@ -178,7 +196,7 @@
 		</c:forEach>
 	</table>
      </div>
-   
+   <div id="pagediv" align="right"></div>
    </div>
    
 

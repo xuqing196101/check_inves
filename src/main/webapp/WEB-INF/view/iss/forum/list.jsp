@@ -37,8 +37,6 @@
   </head>
   
   <body>
-  
-  <jsp:include page="/indexhead.jsp"></jsp:include>
    <div class="container margin-top-10">
      <div class="content padding-left-25 padding-right-25 padding-top-20">		
 		          <c:forEach items="${list}"  var="post" varStatus="vs">
@@ -54,14 +52,13 @@
 							<a href='<%=basePath %>post/getIndexDetail.html?postId=${post.id}' ></a>${post.name}
 						</c:if>
 				
-				          <span class='hex pull-right'><fmt:formatDate value='${post.publishedTime}' pattern="yyyy年MM月dd日  " /></span>
+				          <span class='hex pull-right'><fmt:formatDate value='${post.publishedTime}' pattern="yyyy-MM-dd " /></span>
 				       </li>			          
 			          </ul>
 		          </c:forEach>
      </div>
    </div>
-   
-  <jsp:include page="/indexbottom.jsp"></jsp:include>
+
   </body>
 </html>
 

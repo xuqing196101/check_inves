@@ -76,6 +76,16 @@ public interface UserServiceI {
 	 * @exception IOException
 	 */
 	List<User> find(User user);
+	/**
+	 * Description: 根据查询用户
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-18
+	 * @param id
+	 * @return User
+	 * @exception IOException
+	 */
+	User getUserById(String id);
 
 	/**
 	 * Description: 根据用户名查询

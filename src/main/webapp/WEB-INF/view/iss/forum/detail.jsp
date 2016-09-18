@@ -38,8 +38,6 @@
   
   <body>
   
-  <jsp:include page="/indexhead.jsp"></jsp:include>
-
    <div class="container margin-top-10">
      <div class="content padding-left-25 padding-right-25 padding-top-20">	
      	帖子名称：${post.name }<br/>
@@ -55,7 +53,7 @@
      </div>
    </div>
    
-  <jsp:include page="/indexbottom.jsp"></jsp:include>
+
   </body>
 </html>
 

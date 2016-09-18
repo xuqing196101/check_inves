@@ -83,14 +83,14 @@
 			 <li class="col-md-6  p0 ">
 			   <span class="fl">创建时间：</span>				 	
 	  			<div  class="input-append">
-		        <input class="span2"  type="text" value = "<fmt:formatDate value='${park.createdAt}' pattern="yyyy年MM月dd日  HH:mm:ss" />" readonly="readonly">
+		        <input class="span2"  type="text" value = "<fmt:formatDate value='${park.createdAt}' pattern="yyyy-MM-dd  HH:mm:ss" />" readonly="readonly">
 		        <%--<span class="add-on">i</span>--%>
 		       </div>
 			 </li>
 			 <li class="col-md-6  p0 ">
 			   <span class="fl">更新时间：</span>				 	
 	  			<div class="input-append">
-		         <input class="span2"  type="text" value = "<fmt:formatDate value='${park.updatedAt}' pattern="yyyy年MM月dd日  HH:mm:ss" />" readonly="readonly">
+		         <input class="span2"  type="text" value = "<fmt:formatDate value='${park.updatedAt}' pattern="yyyy-MM-dd  HH:mm:ss" />" readonly="readonly">
 		        <%--<span class="add-on">i</span>--%>
 		       </div>
 			 </li>

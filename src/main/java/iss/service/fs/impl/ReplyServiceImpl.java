@@ -13,6 +13,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.util.PropertiesUtil;
+
+import com.github.pagehelper.PageHelper;
+
 
 
 /**
@@ -43,9 +47,11 @@ public class ReplyServiceImpl implements ReplyService{
 	}
 
 	@Override
-	public List<Reply> queryByList(Reply reply) {
+	public List<Reply> queryByList(Reply reply,Integer page) {
 		// TODO Auto-generated method stub
-		return replyMapper.queryByList(reply);
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		return replyMapper.queryByList(reply,page);
 	}
 
 

@@ -23,7 +23,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">论坛管理</a></li><li class="active"><a href="#">版块管理</a></li><li class="active"><a href="#">版块详情</a></li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">论坛管理</a></li><li class="active"><a href="#">主题管理</a></li><li class="active"><a href="#">主题详情</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -76,14 +76,14 @@
 			 <li class="col-md-6  p0 ">
 			   <span class="fl">创建时间：</span>				 	
 	  			<div class="input-append">
-		       <input class="span2"  type="text" value = "<fmt:formatDate value='${topic.createdAt}' pattern="yyyy年MM月dd日  HH:mm:ss" />" readonly="readonly">
+		       <input class="span2"  type="text" value = "<fmt:formatDate value='${topic.createdAt}' pattern="yyyy-MM-dd  HH:mm:ss" />" readonly="readonly">
 		        <%--<span class="add-on">i</span>--%>
 		       </div>
 			 </li>
 			 <li class="col-md-6  p0 ">
 			   <span class="fl">更新时间：</span>				 	
 	  			<div class="input-append">
-		        <input class="span2"  type="text" value = "<fmt:formatDate value='${topic.updatedAt}' pattern="yyyy年MM月dd日  HH:mm:ss" />" readonly="readonly">
+		        <input class="span2"  type="text" value = "<fmt:formatDate value='${topic.updatedAt}' pattern="yyyy-MM-dd  HH:mm:ss" />" readonly="readonly">
 		        <%--<span class="add-on">i</span>--%>
 		       </div>
 			 </li>

@@ -8,9 +8,9 @@
 		    <result column="CREATED_AT"  property="createdAt" />
 		    <result column="UPDATED_AT"  property="updatedAt" />			
 			<!-- 查询版主 -->
-		    <association column="USER_ID"  property="user" select="ses.dao.bms.UserMapper.queryById"/>
+		    <association column="USER_ID"  property="user" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>
 		    <!-- 查询创建人 -->
-		    <association column="CREATER_ID"  property="creater" select="ses.dao.bms.UserMapper.queryById"/>		    
+		    <association column="CREATER_ID"  property="creater" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>		    
 		  </resultMap>
 		  
 		  <resultMap type="iss.model.fs.Park" id="ParkTopicPostMap" extends="ParkResultMap">
@@ -46,14 +46,15 @@
 		    where ID = #{id}
 		  </select>
 		  		
-		  <!-- 3.查询版块列表 -->
+		  <!-- 3.1查询版块列表分页 -->
 		    <select id="queryByList" parameterType="Object" resultMap="ParkTopicPostMap">
 		    select 
 		    <include refid="Base_Column_List" />
 		    from T_ISS_FS_PARK
 		   <!--  <include refid="Example_Where_Clause" /> -->
-		   ORDER BY CREATED_AT ASC
-		  </select>		  
+		   ORDER BY CREATED_AT ASC 
+		  </select>	
+		  	  
 		  <!-- 4.根据ID删除 -->
 		  <delete id="deleteByPrimaryKey" parameterType="Object">
 		    delete from T_ISS_FS_PARK
@@ -76,6 +77,9 @@
 		      <if test="createdAt != null">
 		        CREATED_AT,
 		      </if>
+		      <if test="updatedAt != null">
+		        UPDATED_AT,
+		      </if>
 		      <if test="content != null">
 		        CONTENT,
 		      </if>
@@ -95,6 +99,9 @@
 		      </if>
 		      <if test="createdAt != null">
 		        #{createdAt},
+		      </if>
+		      <if test="createdAt != null">
+		        #{updatedAt},
 		      </if>
 		      <if test="content != null">
 		        #{content},
@@ -126,5 +133,13 @@
 		      </if>
 		    </set>
 		    where ID = #{id}
-		  </update>		  
+		  </update>	
+		  <!-- 7.查询所有版块列表 -->
+		    <select id="getAll" parameterType="Object" resultMap="ParkTopicPostMap">
+		    select 
+		    <include refid="Base_Column_List" />
+		    from T_ISS_FS_PARK
+		   <!--  <include refid="Example_Where_Clause" /> -->
+		   ORDER BY CREATED_AT ASC
+		  </select>		  
 </mapper>

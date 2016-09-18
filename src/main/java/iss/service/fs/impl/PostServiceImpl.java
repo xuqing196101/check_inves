@@ -13,6 +13,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.util.PropertiesUtil;
+
+import com.github.pagehelper.PageHelper;
+
 
 
 /**
@@ -34,9 +38,11 @@ public class PostServiceImpl implements PostService{
 	}
 
 	@Override
-	public List<Post> queryByList(Post post) {
+	public List<Post> queryByList(Post post,Integer page) {
 		// TODO Auto-generated method stub
-		return postMapper.queryByList(post);
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		return postMapper.queryByList(post,page);
 	}
 
 

@@ -13,6 +13,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.util.PropertiesUtil;
+
+import com.github.pagehelper.PageHelper;
+
 
 
 /**
@@ -34,9 +38,11 @@ public class TopicServiceImpl implements TopicService{
 	}
 
 	@Override
-	public List<Topic> queryByList(Topic topic) {
+	public List<Topic> queryByList(Topic topic,Integer page) {
 		// TODO Auto-generated method stub
-		return topicMapper.queryByList(topic);
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		return topicMapper.queryByList(topic,page);
 	}
 
 
@@ -72,6 +78,13 @@ public class TopicServiceImpl implements TopicService{
 	public List<Topic> selectByParkID(String parkID) {
 		// TODO Auto-generated method stub
 		return topicMapper.selectByParkID(parkID);
+	}
+
+
+	@Override
+	public List<Topic> getAll(Topic topic) {
+		// TODO Auto-generated method stub
+		return topicMapper.getAll(topic);
 	}
 
 }

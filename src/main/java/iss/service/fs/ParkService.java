@@ -34,7 +34,18 @@ public interface ParkService {
 	* @param park
 	* @return List<Park>     
 	*/
-	List<Park> queryByList(Park park);
+	List<Park> queryByList(Park park,Integer page);
+	/**
+	 * 
+	* @Title: getAll
+	* @author Peng Zhongjun
+	* @date 2016-9-12 上午8:40:32  
+	* @Description: 获取所有 
+	* @param @param park
+	* @param @return      
+	* @return List<Park>
+	 */
+	List<Park> getAll(Park park);
 	
 	/**   
 	* @Title: selectByPrimaryKey

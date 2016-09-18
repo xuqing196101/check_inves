@@ -36,9 +36,7 @@
  </script>
   </head>
   
-  <body>
-  <jsp:include page="/indexhead.jsp"></jsp:include>
-    
+  <body>    
   <div class="container content padding-top-0">
    
      <div class=" magazine-page">
@@ -63,7 +61,7 @@
 							<a href='<%=basePath %>post/getIndexDetail.html?postId=${post.id}' value='${post.name}'>${post.name}</a>
 						</c:if>
 				
-				          <span class='hex pull-right'><fmt:formatDate value='${post.publishedTime}' pattern="yyyy年MM月dd日  " /></span>
+				          <span class='hex pull-right'><fmt:formatDate value='${post.publishedTime}' pattern="yyyy-MM-dd " /></span>
 				       </li>			          
 			          </ul>
 		         </c:forEach>
@@ -75,9 +73,7 @@
   <div class="my_post">
   <a href='<%=basePath %>post/publish.html'>我要发帖</a>
   </div>
- 
-   
-  <jsp:include page="/indexbottom.jsp"></jsp:include>
+
   </body>
 </html>
 

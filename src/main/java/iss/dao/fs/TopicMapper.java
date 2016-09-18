@@ -27,11 +27,22 @@ public interface TopicMapper {
 	* @Title: queryByList
 	* @author Peng Zhongjun
 	* @date 2016-8-4 下午4:55:58  
-	* @Description: 条件查询
+	* @Description: 条件查询分页
 	* @param topic
 	* @return List<Topic>     
 	*/
-	List<Topic> queryByList(Topic topic);
+	List<Topic> queryByList(Topic topic,Integer page);
+	/**
+	 * 
+	* @Title: getAll
+	* @author Peng Zhongjun
+	* @date 2016-9-12 上午8:32:12  
+	* @Description: 获取所有
+	* @param @param topic
+	* @param @return      
+	* @return List<Topic>
+	 */
+	List<Topic> getAll(Topic topic);
 	
 	/**   
 	* @Title: selectByPrimaryKey

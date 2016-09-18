@@ -4,8 +4,11 @@
 package iss.controller.fs;
 
 import iss.model.fs.Reply;
+import iss.model.fs.Topic;
 import iss.service.fs.ReplyService;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +18,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.github.pagehelper.PageInfo;
 
 
 
@@ -41,9 +46,9 @@ public class ReplyManageController {
 	* @return String     
 	*/
 	@RequestMapping("/getlist")
-	public String getList(Model model,Reply reply){
-		List<Reply> list = replyService.queryByList(reply);
-		model.addAttribute("list", list);
+	public String getList(Model model,Reply reply,Integer page){
+		List<Reply> list = replyService.queryByList(reply,page==null?1:page);
+		model.addAttribute("list", new PageInfo<Reply>(list));
 		return "iss/forum/reply/list";
 	}
 	
@@ -119,6 +124,10 @@ public class ReplyManageController {
 	*/
 	@RequestMapping("/update")
 	public String update(HttpServletRequest request,Reply reply){
+		Timestamp ts = new Timestamp(new Date().getTime());
+		reply.setUpdatedAt(ts);
+		String id = request.getParameter("replyId");
+		reply.setId(id);
 		replyService.updateByPrimaryKeySelective(reply);
 		return "redirect:getlist.html";
 	}
@@ -133,7 +142,10 @@ public class ReplyManageController {
 	*/
 	@RequestMapping("/delete")
 	public String delete(String id){
-		replyService.deleteByPrimaryKey(id);
+		String[] ids=id.split(",");
+		for (String str : ids) {
+			replyService.deleteByPrimaryKey(str);
+		}
 		return "redirect:getlist.html";
 	}
 }

@@ -102,7 +102,7 @@
   width: 320px; }
 
 .w400 {
-  width: 400px; }
+  width: 400px!important; }
 
 .w450 {
   width: 450px; }
@@ -120,10 +120,15 @@
   width: 700px; }
 
 .w750 {
-  width: 750px; }
-
+  width: 750px!important; }
+  
+.w745 {
+  width: 745px!important; }
+.w775 {
+ width: 775px!important; }
+  
 .w800 {
-  width: 800px; }
+  width: 800px!important; }
 
 .w960 {
   width: 960px; }
@@ -258,7 +263,7 @@
   margin-top: 8px; }
 
 .mt10 {
-  margin-top: 10px; }
+  margin-top: 10px!important; }
 
 .mt11 {
   margin-top: 11px; }
@@ -336,7 +341,7 @@
   padding-left: 5px; }
   
 .pl10 {
-  padding-left: 10px; }
+  padding-left: 10px!important; }
 
 .pl200{
   padding-left:200px!important;}

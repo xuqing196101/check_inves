@@ -1,4 +1,5 @@
 package iss.model.fs;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -48,6 +49,10 @@ public class Post {
      * @Fields lastReplyedTime : 最后回复时间
      */
     private Timestamp lastReplyedTime;
+    /**
+     * @Fields lastReply : 最后回复人
+     */
+    private User lastReplyer;
     
     /**
      * @Fields user : 发表人
@@ -62,9 +67,13 @@ public class Post {
      */
     private Topic topic;
     /**
-     * @Fields topic : 回复表
+     * @Fields replies : 回复表
      */
     private List<Reply> replies;
+    /**
+     * @Fields replycount : 回复数
+     */
+    private BigDecimal replycount;
 
 
     public String getId() {
@@ -168,6 +177,22 @@ public class Post {
 
 	public void setReplies(List<Reply> replies) {
 		this.replies = replies;
+	}
+
+	public User getLastReplyer() {
+		return lastReplyer;
+	}
+
+	public void setLastReplyer(User lastReplyer) {
+		this.lastReplyer = lastReplyer;
+	}
+
+	public BigDecimal getReplycount() {
+		return replycount;
+	}
+
+	public void setReplycount(BigDecimal replycount) {
+		this.replycount = replycount;
 	}
 	   
 }

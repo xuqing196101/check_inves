@@ -26,12 +26,22 @@ public interface ParkMapper {
 	* @Title: queryByList
 	* @author Peng Zhongjun
 	* @date 2016-8-4 下午4:55:58  
-	* @Description: 条件查询
+	* @Description: 条件查询分页查询
 	* @param park
 	* @return List<Park>     
 	*/
-	List<Park> queryByList(Park park);
-	
+	List<Park> queryByList(Park park,Integer page);
+	/**
+	 * 
+	* @Title: getAll
+	* @author Peng Zhongjun
+	* @date 2016-9-12 上午8:30:47  
+	* @Description: 获取所有
+	* @param @param park
+	* @param @return      
+	* @return List<Park>
+	 */
+	List<Park> getAll(Park park);
 	/**   
 	* @Title: selectByPrimaryKey
 	* @author Peng Zhongjun

@@ -8,7 +8,7 @@
 		    <result column="UPDATED_AT"  property="updatedAt" />
 		     <result column="CONTENT" jdbcType="CLOB" property="content" />		     
 		    <association  column="PARK_ID"  property="park"  select="iss.dao.fs.ParkMapper.selectByPrimaryKey"/>  
-		    <association  column="USER_ID"  property="user" select="ses.dao.bms.UserMapper.queryById"/>
+		    <association  column="USER_ID"  property="user" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>
 		  </resultMap>
 		  
 		  	<resultMap type="iss.model.fs.Topic" id="TopicPostMap" extends="TopicResultMap">
@@ -42,8 +42,17 @@
 			    where ID = #{id}
 		  </select>
 	    
-		    <!-- 2.查询列表 -->
+		    <!-- 2.1查询列表 -->
 		   <select id="queryByList" parameterType="Object" resultMap="TopicPostMap">
+			    select 
+			    <include refid="Base_Column_List" />
+			    from T_ISS_FS_TOPIC
+			    <!-- <include refid="Example_Where_Clause" /> -->
+			    ORDER BY CREATED_AT DESC
+			    
+		  	</select>		  
+		  	 <!-- 2.2查询列表 -->
+		   <select id="getAll" parameterType="Object" resultMap="TopicPostMap">
 			    select 
 			    <include refid="Base_Column_List" />
 			    from T_ISS_FS_TOPIC
@@ -79,6 +88,9 @@
 		      <if test="createdAt != null">
 		        CREATED_AT,
 		      </if>
+		      <if test="updatedAt != null">
+		        UPDATED_AT,
+		      </if>
 		      <if test="content != null">
 		        CONTENT,
 		      </if>
@@ -98,6 +110,9 @@
 		      </if>
 		      <if test="createdAt != null">
 		        #{createdAt},
+		      </if>
+		      <if test="updatedAt != null">
+		        #{updatedAt},
 		      </if>
 		      <if test="content != null">
 		        #{content},

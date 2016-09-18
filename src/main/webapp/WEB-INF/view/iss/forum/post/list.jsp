@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ include file="../../common.jsp"%>
+<%@ include file="../../../common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -17,10 +17,28 @@
 	<meta http-equiv="description" content="This is my page">
 	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/layer.js"></script>
 	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
-		<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
+	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
 	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
+	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
   <script type="text/javascript">
-  
+  $(function(){
+	  laypage({
+		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+		    pages: "${list.pages}", //总页数
+		    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+		    skip: true, //是否开启跳页
+		    groups: "${list.pages}">=3?3:"${list.pages}", //连续显示分页数
+		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+		        var page = location.search.match(/page=(\d+)/);
+		        return page ? page[1] : 1;
+		    }(), 
+		    jump: function(e, first){ //触发分页后的回调
+		        if(!first){ //一定要加此判断，否则初始时会无限刷新
+		            location.href = '<%=basePath%>post/getlist.do?page='+e.curr;
+		        }
+		    }
+		});
+  });
   	/** 全选全不选 */
 	function selectAll(){
 		 var checklist = document.getElementsByName ("chkItem");
@@ -58,7 +76,7 @@
 	}
 	
   	function view(id){
-  		window.location.href="<%=basePath%>park/view.html?id="+id;
+  		window.location.href="<%=basePath%>post/view.html?id="+id;
   	}
   	
     function edit(){
@@ -96,8 +114,8 @@
     }
     
 	//鼠标移动显示全部内容
-	function out(content){
-	if(content.length>45){
+	function out(name){
+	if(name.length>10){
 	layer.msg(content, {
 			icon:6,
 			shade:false,
@@ -116,7 +134,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">后台管理</a></li><li class="active"><a href="#">帖子管理</a></li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">信息服务</a></li><li><a href="#">论坛管理</a></li><li class="active"><a href="#">帖子管理</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -133,23 +151,6 @@
 	<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 	<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
 	</div>
-            <div class="col-md-4 ">
-              <div class="search-block-v2">
-                <div class="">
-                  <form accept-charset="UTF-8" action="" method="get"><div style="display:none"><input name="utf8" value="✓" type="hidden"></div>
-                    <input id="t" name="t" value="search_products" type="hidden">
-                    <div class="col-md-12 pull-right">
-                      <div class="input-group">
-                        <input class="form-control bgnone h37 p0_10" id="k" name="k" placeholder="" type="text">
-                        <span class="input-group-btn">
-                          <input class="btn-u" name="commit" value="搜索" type="submit">
-                        </span>
-                      </div>
-                    </div>
-                  </form>               
-			   </div>
-              </div>
-            </div>	
     </div>
    
    <div class="container margin-top-5">
@@ -159,24 +160,52 @@
 		<thead>
 			<tr>
 				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
-			    <th class="info" width="50">序号</th>
-			    <th class="info" width="50">名称</th>
-			</tr>
+			    <th class="info">序号</th>
+			    <th class="info">名称</th>
+			    <th class="info">置顶</th>
+			    <th class="info">锁定</th>
+			    <th class="info">精华</th>
+			    <th class="info">可回复</th>
+			    <th class="info">发布时间</th>
+			    <th class="info">最后回复时间</th>
+			    <th class="info">最后回复人</th>
+			    <th class="info">回复数</th><%--
+			    <th class="info">创建人</th>
+			    <th class="info">所属板块</th>
+			    <th class="info">所属主题</th>
+			--%></tr>
 		</thead>
 		
-		<
-		<c:forEach items="${list}" var="post" varStatus="vs">
+		<c:forEach items="${list.list}" var="post" varStatus="vs">
 			<tr>
 				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${post.id}" /></td>
-				<td class="tc pointer" onclick="view(${post.id})">${vs.index+1}</td>
-				<td class="tc pointer" onclick="view(${post.id})">${post.name}</td>
-				<td class="tc pointer" onclick="view(${post.id})">${post.publishedTime}</td>
-			</tr>
+				<td class="tc pointer" onclick="view('${post.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>				
+				<c:set value="${post.name}" var="name"></c:set>
+				<c:set value="${fn:length(name)}" var="length"></c:set>
+				<c:if test="${length>10}">
+					<td onclick="view('${post.id}')" onmouseover="out('${post.name}')" class="tc pointer ">${fn:substring(name,0,10)}...</td>
+				</c:if>
+				<c:if test="${length<10}">
+					<td onclick="view('${post.id}')" onmouseover="out('${post.name}')" class="tc pointer ">${name } </td>
+				</c:if>		
+				<td class="tc pointer" onclick="view('${post.id}')">${post.isTop}</td>
+				<td class="tc pointer" onclick="view('${post.id}')">${post.isLocking}</td>	
+				<td class="tc pointer" onclick="view('${post.id}')">${post.isEssence}</td>
+				<td class="tc pointer" onclick="view('${post.id}')">${post.isCanReply}</td>		
+				<td class="tc pointer" onclick="view('${post.id}')"><fmt:formatDate value='${post.publishedTime}' pattern="yyyy-MM-dd HH:mm:ss" /></td>
+				<td class="tc pointer" onclick="view('${post.id}')"><fmt:formatDate value='${post.lastReplyedTime}' pattern="yyyy-MM-dd HH:mm:ss" /></td>
+				<td class="tc pointer" onclick="view('${post.id}')">${post.lastReplyer.relName}</td>
+				<td class="tc pointer" onclick="view('${post.id}')">${post.replycount}</td><%--
+				<td class="tc pointer" onclick="view('${post.id}')">${post.user.relName}</td>
+				<td class="tc pointer" onclick="view('${post.id}')">${post.park.name}</td>
+				<td class="tc pointer" onclick="view('${post.id}')">${post.topic.name}</td>
+			--%></tr>
 		</c:forEach>
 	</table>
      </div>
-   
+   <div id="pagediv" align="right"></div>
    </div>
+   
   </body>
 </html>
 

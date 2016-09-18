@@ -47,7 +47,7 @@ public interface ReplyMapper {
 	* @param reply
 	* @return List<reply>     
 	*/
-	List<Reply> queryByList(Reply reply);
+	List<Reply> queryByList(Reply reply,Integer page);
 	
 	/**   
 	* @Title: selectByPrimaryKey

@@ -9,6 +9,7 @@ import iss.service.fs.PostService;
 import iss.service.fs.ReplyService;
 import iss.service.fs.TopicService;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -21,6 +22,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.github.pagehelper.PageInfo;
+
+import ses.model.bms.User;
 import ses.util.DateUtil;
 
 
@@ -53,9 +57,15 @@ public class PostManageController {
 	* @return String     
 	*/
 	@RequestMapping("/getlist")
-	public String getList(Model model,Post post){
-		List<Post> list = postService.queryByList(post);
-		model.addAttribute("list", list);
+	public String getList(Model model,Post post,Integer page){
+		List<Post> list = postService.queryByList(post,page==null?1:page);
+		for (Post post2 : list) {
+			Reply reply = new Reply();
+			reply.setPost(post2);
+			BigDecimal replycount = replyService.queryByCount(reply);
+			post2.setReplycount(replycount);
+		}
+		model.addAttribute("list", new PageInfo<Post>(list));
 		return "iss/forum/post/list";
 	}	
 	
@@ -70,8 +80,8 @@ public class PostManageController {
 	*/
 	@RequestMapping("/view")
 	public String view(Model model,String id){
-		Post p = postService.selectByPrimaryKey(id);
-		model.addAttribute("post", p);
+		Post p = postService.selectByPrimaryKey(id);		
+		model.addAttribute("post", p);		
 		return "iss/forum/post/view";
 	}
 	
@@ -85,7 +95,7 @@ public class PostManageController {
 	*/
 	@RequestMapping("/add")
 	public String add(Model model,HttpServletRequest request){
-		List<Park> parks = parkService.queryByList(null);
+		List<Park> parks = parkService.getAll(null);
 		model.addAttribute("parks", parks);
 		return "iss/forum/post/add";
 	}
@@ -101,6 +111,16 @@ public class PostManageController {
 	*/
 	@RequestMapping("/save")
 	public String save(HttpServletRequest request,Post post){
+		Timestamp ts = new Timestamp(new Date().getTime());
+		post.setPublishedTime(ts);
+		String parkId = request.getParameter("parkId");
+		Park park = parkService.selectByPrimaryKey(parkId);
+		post.setPark(park);
+		String topicId = request.getParameter("topicId");
+		Topic topic = topicService.selectByPrimaryKey(topicId);
+		post.setTopic(topic);
+		User user = (User)request.getSession().getAttribute("loginUser");
+		post.setUser(user);
 		postService.insertSelective(post);
 		return "redirect:getlist.html";
 	}
@@ -118,6 +138,10 @@ public class PostManageController {
 	public String edit(String id,Model model){
 		Post p = postService.selectByPrimaryKey(id);
 		model.addAttribute("post", p);
+		List<Park> parks = parkService.getAll(null);
+		model.addAttribute("parks", parks);
+		List<Topic> topics = topicService.selectByParkID(p.getPark().getId());
+		model.addAttribute("topics", topics);
 		return "iss/forum/post/edit";
 	}
 	
@@ -132,6 +156,14 @@ public class PostManageController {
 	*/
 	@RequestMapping("/update")
 	public String update(HttpServletRequest request,Post post){
+		String parkId = request.getParameter("parkId");
+		Park park = parkService.selectByPrimaryKey(parkId);
+		post.setPark(park);
+		String topicId = request.getParameter("topicId");
+		Topic topic = topicService.selectByPrimaryKey(topicId);
+		post.setTopic(topic);
+		String postId= request.getParameter("postId");
+		post.setId(postId);
 		postService.updateByPrimaryKeySelective(post);
 		return "redirect:getlist.html";
 	}
@@ -145,8 +177,11 @@ public class PostManageController {
 	* @return String     
 	*/
 	@RequestMapping("/delete")
-	public String delete(String id){
-		postService.deleteByPrimaryKey(id);
+	public String delete(String id){		
+		String[] ids=id.split(",");
+		for (String str : ids) {
+			postService.deleteByPrimaryKey(str);
+		}
 		return "redirect:getlist.html";
 	}
 	/**   
@@ -194,7 +229,7 @@ public class PostManageController {
 	*/
 	@RequestMapping("/publish")
 	public String indexpublish(Model model,HttpServletRequest request){
-		List<Park> parks = parkService.queryByList(null);
+		List<Park> parks = parkService.getAll(null);
 
 		model.addAttribute("parks", parks);
 
@@ -204,7 +239,7 @@ public class PostManageController {
 	* @Title: indexsave
 	* @author Peng Zhongjun
 	* @date 2016-8-31下午19:58:43   
-	* @Description: 获取帖子列表跳转到前台界面
+	* @Description: 发布帖子
 	* @param @param request
 	* @return String     
 	*/

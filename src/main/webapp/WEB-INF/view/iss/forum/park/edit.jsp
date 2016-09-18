@@ -16,8 +16,20 @@
 	<script src="<%=basePath%>public/ZHQ/js/jquery.min.js"></script>
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->	
+	--><%--	
 	<script type="text/javascript">    
+	$(function(){ 
+		$("#userName").val("${park.user.relName}");
+		}); 
+	function cheClick(){
+		var userId =$('input:radio[name="item"]:checked').val();
+		var userName=$('input:radio[name="item"]:checked').next().html();
+		$("#userId").val(userId);
+		$("#userName").val(userName);
+	}
+	</script>
+  --%>
+  	<script type="text/javascript">    
 	$(function(){ 
 		$("#user").val("${park.user.id}");
 		});  
@@ -54,14 +66,30 @@
 			 </li>
 			 
 			 <li class="col-md-6  p0 ">
-			   <span class="fl">版主：</span>				 
-		        <select id="user" name ="userId" class="w230" >
+			   <span class="fl">版主：</span>
+			   <%--				 
+	  			<div class="input-append">
+	  			   <input class="span2" name ="userId" id="userId" type="hidden">
+                   <input class="span2" name ="userName" id="userName" type="text">
+		           <div class="btn-group">
+                    <button aria-expanded="false" class="btn dropdown-toggle add-on" data-toggle="dropdown">
+		              <img src="<%=basePath%>public/ZHH/images/down.png" >
+                    </button>
+                    <ul class="dropdown-menu list-unstyled" >
+				  	  	<c:forEach items="${users}" var="user">
+							<li class="select_opt">
+		          				<input type="radio" name="item" class="fl mt10" value="${user.id }" onclick="cheClick();" ><div  class="ml10 fl">${user.relName}</div>		          				
+		          			</li>
+				  	  	</c:forEach> 
+                    </ul>
+                   </div>
+                 </div>--%>
+                 <select id="user" name ="userId" class="w230" >
 					<option></option>
 			  	  	<c:forEach items="${users}" var="user">
 			  	  		<option value="${user.id}">${user.relName}</option>
 			  	  	</c:forEach> 
-	  			</select>	
-	  			 
+	  			</select>
 			 </li>
 			<li class="col-md-12  p0 ">	  	 			
 				<span class="fl"> 版块介绍：</span>

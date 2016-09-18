@@ -27,7 +27,11 @@ public class Reply {
     /**
      * @Fields publishedTime : 发表时间
      */
-    private Timestamp publishedTime;
+    private Timestamp publishedAt;
+    /**
+     * @Fields publishedTime : 更新时间
+     */
+    private Timestamp updatedAt;
     /**
      * @Fields post : 所属帖子
      */
@@ -37,7 +41,7 @@ public class Reply {
      */
     private Reply reply;
     /**
-     * @Fields user : 回复人
+     * @Fields user : 发布人
      */
     private User user;
 
@@ -57,17 +61,25 @@ public class Reply {
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
     }
+    public Timestamp getPublishedAt() {
+		return publishedAt;
+	}
+
+	public void setPublishedAt(Timestamp publishedAt) {
+		this.publishedAt = publishedAt;
+	}
 
 
-    public Timestamp getPublishedTime() {
-        return publishedTime;
-    }
 
-    public void setPublishedTime(Timestamp publishedTime) {
-        this.publishedTime = publishedTime;
-    }
+	public Timestamp getUpdatedAt() {
+		return updatedAt;
+	}
 
-    public String getContent() {
+	public void setUpdatedAt(Timestamp updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public String getContent() {
         return content;
     }
 
