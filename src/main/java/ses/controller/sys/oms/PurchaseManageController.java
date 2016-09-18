@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import ses.model.oms.Deparent;
 import ses.model.oms.Orgnization;
@@ -49,7 +48,7 @@ public class PurchaseManageController {
 	
 	@RequestMapping("list")
 	public String list() {
-		return "oms/require_dep/list";
+		return "ses/oms/require_dep/list";
 	}
 	/**
 	 * 
@@ -81,7 +80,7 @@ public class PurchaseManageController {
 	}
 	@RequestMapping("add")
 	public String add() {
-		return "oms/require_dep/add";
+		return "ses/oms/require_dep/add";
 	}
 	/**
 	 * 
@@ -213,7 +212,7 @@ public class PurchaseManageController {
 		if(oList!=null && oList.size()>0){
 			model.addAttribute("orgnization", oList.get(0));
 		}
-		return "oms/require_dep/edit";
+		return "ses/oms/require_dep/edit";
 	}
 	/**
 	 * 

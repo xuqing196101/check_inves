@@ -60,7 +60,7 @@
 		</if> 
 	</select>
 	<!-- 保存采购机构 -->
-	<insert id="savePurchaseDep" parameterType="ses.model.sms.PurchaseDep">
+	<insert id="savePurchaseDep" parameterType="ses.model.oms.PurchaseDep">
 		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
 			select rawtohex(sys_guid()) as VALUE from dual
 		</selectKey>
@@ -80,7 +80,7 @@
 		  BID_ROOM_COUNT,CREATED_AT,ORG_ID
           )
 		values(
-	      #{id},#{name,jdbcType=VARCHAR},#{level,jdbcType=VARCHAR},
+	      #{id},#{level,jdbcType=VARCHAR},
 		  #{subordinateOrgId,jdbcType=VARCHAR},#{subordinateOrgName,jdbcType=VARCHAR},#{businessDep,jdbcType=VARCHAR},
 		  #{businessDepId,jdbcType=VARCHAR},#{businessRange,jdbcType=VARCHAR},#{quaCode,jdbcType=VARCHAR},
 		  #{quaLevel,jdbcType=VARCHAR},#{quaEdndate,jdbcType=TIMESTAMP },#{quaRange,jdbcType=NUMERIC},
