@@ -59,7 +59,7 @@ public class UserManageController {
 		List<User> users = userService.selectUser(null, page == null ? 1 : page);
 		model.addAttribute("list", new PageInfo<User>(users));
 		logger.info(JSON.toJSONStringWithDateFormat(users, "yyyy-MM-dd HH:mm:ss"));
-		return "user/list";
+		return "ses/bms/user/list";
 	}
 
 	/**
@@ -120,7 +120,7 @@ public class UserManageController {
 		request.getSession().removeAttribute("userSaveTipMsg_loginName");
 		request.getSession().removeAttribute("userSaveTipMsg_password");
 		request.getSession().removeAttribute("userSaveTipMsg_password2");
-		return "user/add";
+		return "ses/bms/user/add";
 	}
 
 	/**
@@ -219,7 +219,7 @@ public class UserManageController {
 		}else{
 			
 		}
-		return "user/edit";
+		return "ses/bms/user/edit";
 	}
 
 	/**
@@ -315,7 +315,7 @@ public class UserManageController {
 		}else{
 			
 		}
-		return "user/view";
+		return "ses/bms/user/view";
 	}
 
 }

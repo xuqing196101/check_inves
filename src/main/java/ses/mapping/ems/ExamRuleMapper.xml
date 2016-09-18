@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.ems.ExamRuleMapper">
+  <resultMap id="BaseResultMap" type="ses.model.ems.ExamRule">
+    <id column="ID" property="id" />
+    <result column="PASS_STANDARD" property="passStandard" />
+    <result column="QUESTION_COUNT" property="questionCount" />
+    <result column="PAPER_SCORE" property="paperScore" />
+    <result column="TEST_CYCLE" property="testCycle" />
+    <result column="TEST_TIME" property="testTime" />
+    <result column="CREATED_AT" property="createdAt" />
+    <result column="UPDATED_AT" property="updatedAt" />
+    <result column="TEST_LONG" property="testLong" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, PASS_STANDARD, QUESTION_COUNT,PAPER_SCORE,TEST_CYCLE,TEST_TIME,CREATED_AT, UPDATED_AT,TEST_LONG
+  </sql>
+  
+  <!-- 根据主键ID查询考试规则 -->
+  <select id="select" parameterType="Object" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_EMS_EXAM_RULE
+  </select>
+  
+ <!-- 设置考试规则,可插入null -->
+  <insert id="insertSelective" parameterType="Object">
+  	<selectKey resultType="String" order="BEFORE" keyProperty="id">
+      select sys_guid() from dual
+    </selectKey>
+    insert into T_SES_EMS_EXAM_RULE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="passStandard != null">
+        PASS_STANDARD,
+      </if>
+      <if test="questionCount != null">
+        QUESTION_COUNT,
+      </if>
+      <if test="paperScore != null">
+        PAPER_SCORE,
+      </if>
+      <if test="testCycle != null">
+        TEST_CYCLE,
+      </if>
+      <if test="testTime != null">
+        TEST_TIME,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="testLong != null">
+        TEST_LONG,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="passStandard != null">
+        #{passStandard},
+      </if>
+      <if test="questionCount != null">
+        #{questionCount},
+      </if>
+      <if test="paperScore != null">
+        #{paperScore},
+      </if>
+      <if test="testCycle != null">
+        #{testCycle},
+      </if>
+      <if test="testTime != null">
+        #{testTime},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt},
+      </if>
+      <if test="testLong != null">
+        #{testLong},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 根据主键ID更新考试规则 -->
+  <update id="updateByPrimaryKeySelective" parameterType="ses.model.ems.ExamRule">
+    update T_SES_EMS_EXAM_RULE
+    <set>
+      <if test="passStandard != null">
+        PASS_STANDARD = #{passStandard},
+      </if>
+      <if test="questionCount != null">
+        QUESTION_COUNT = #{questionCount},
+      </if>
+      <if test="paperScore != null">
+        PAPER_SCORE = #{paperScore},
+      </if>
+      <if test="testCycle != null">
+        TEST_CYCLE = #{testCycle},
+      </if>
+      <if test="testTime != null">
+        TEST_TIME = #{testTime},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt},
+      </if>
+      <if test="testLong != null">
+        TEST_LONG = #{testLong},
+      </if>
+    </set>
+  </update>
+</mapper>

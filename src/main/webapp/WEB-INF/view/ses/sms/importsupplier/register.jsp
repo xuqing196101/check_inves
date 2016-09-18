@@ -438,8 +438,9 @@
 		    <h2 class="f16 jbxx">
 				可选择的采购机构
 			</h2>
-			 <input type="hidden" id="orgmanId" name="orgmanId" value="${orgmanId }" />
+			 <input type="hidden" id="orgId" name="orgId" value="${orgId }" />
 			<table id="tb1"  class="table table-bordered table-condensed">
+			  <thead>
 				<tr>
 					<td>选择</td>
 					<td>序号</td>
@@ -448,6 +449,8 @@
 					<td>是否可审核</td>
 					<td>所在城市</td>
 				</tr>
+			  </thead>
+			  <tbody>
 				<%-- <c:forEach items="" var="" varStatus="vs">
 					<tr>
 						<td><input type="checkbox" name="cbox" onclick="box(this)" /></td>
@@ -458,11 +461,13 @@
 						<td></td>
 					</tr>
 				</c:forEach> --%>
+			  </tbody>
 			</table>
 			 <h2 class="f16 jbxx">
 				其他采购机构
 			</h2>
 			<table id="tb2" class="table table-bordered table-condensed">
+			  <thead>
 				<tr>
 					<td>选择</td>
 					<td>序号</td>
@@ -471,6 +476,8 @@
 					<td>是否可审核</td>
 					<td>所在城市</td>
 				</tr>
+			  </thead>
+			  <tbody>
 				<%-- <c:forEach items="" var="" varStatus="vs">
 					<tr>
 						<td><input type="checkbox"  name="cbox" onclick="box(this)" /></td>
@@ -481,6 +488,7 @@
 						<td></td>
 					</tr>
 				</c:forEach> --%>
+			  </tbody>
 			</table>
 			<h6>
 		               友情提示：请供应商记录好初审采购机构的相关信息，以便进行及时沟通

@@ -707,3 +707,6 @@ th.bg_tc {
 a.redhover:hover{
 	color:red;
 }
+.question_input{
+	min-width:130px;
+}

@@ -1,5 +1,4 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -17,7 +16,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="">
-<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet">
+	<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/animate.css" media="screen" rel="stylesheet">
@@ -51,11 +50,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/footer-v4.css" media="screen" rel="stylesheet">
+<link href="<%=basePath%>public/ZHH/css/style(1).css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/masterslider.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/james.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/WdatePicker(1).css" rel="stylesheet" type="text/css">
-<script src="<%=basePath%>public/ZHH/js/hm.js"></script>
-<script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
+    <script src="<%=basePath%>public/ZHH/js/hm.js"></script><script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery-migrate-1.2.1.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
 <script src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
@@ -75,8 +73,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/owl-carousel.js"></script>
 <script src="<%=basePath%>public/ZHH/js/owl-recent-works.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.mCustomScrollbar.concat.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/WdatePicker.js"></script>
+<script src="<%=basePath%>public/ZHH/js/WdatePicker.js"></script><link href="<%=basePath%>public/ZHH/css/WdatePicker(1).css" rel="stylesheet" type="text/css">
 <script src="<%=basePath%>public/ZHH/js/jquery.form.min.js"></script>
+
 <script src="<%=basePath%>public/ZHH/js/jquery.validate.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.maskedinput.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery-ui.min.js"></script>
@@ -107,38 +106,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/masterslider.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.easing.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/james.js"></script>
-<script src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
-<script type="text/javascript">
-   $(function(){
-		  laypage({
-			    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
-			    pages: "${isList.pages}", //总页数
-			    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
-			    skip: true, //是否开启跳页
-			    groups: "${isList.pages}">=3?3:"${isList.pages}", //连续显示分页数
-			    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
-					return "${isList.pageNum}";
-			    }(), 
-			    jump: function(e, first){ //触发分页后的回调
-			        if(!first){ //一定要加此判断，否则初始时会无限刷新
-			        	$("#page").val(e.curr);
-			        	$("#form1").submit();
-			        }
-			    }
-			});
-	  });
-	function submit(){
-		form1.submit();
-	}
-</script>
-<style type="text/css">
-
-</style>
 </head>
-  
 <body>
-<div class="wrapper">
+  <div class="wrapper">
 	<div class="header-v4 header-v5">
     <!-- Navbar -->
     <div class="navbar navbar-default mega-menu" role="navigation">
@@ -151,11 +121,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                  <img alt="Logo" src="<%=basePath%>public/ZHH/images/logo_2.png" id="logo-header">
               </a>
             </div>
-			<!--搜索开始-->
-            <div class="col-md-8 topbar-v1 col-md-12 padding-0">
+			<!--菜单开始-->
+            <div class="col-md-8 topbar-v1 col-md-12 ">
               <ul class="top-v1-data padding-0">
 			    <li>
-				 <a href"#">
+				<a href="#">
 				  <div><img src="<%=basePath%>public/ZHH/images/top_01.png"/></div>
 				  <span>决策支持</span>
 				 </a>
@@ -178,19 +148,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				  <span>信息服务</span>
 				 </a>
 				</li>
-			   <li class="dropdown">
-			     	<a aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle p0_30 " href="">
-				  		<div><img src="<%=basePath%>public/ZHH/images/top_05.png"/></div>
-				  		<span>支撑环境</span>
-				 	</a>
-					<ul class="dropdown-menu">
-                   		<li class="line-block">
-                   			<a href="#" target="_blank" class="son-menu"><span class="mr5">◇</span>后台管理</a>
-                   			<ul class="dropdown-menuson dropdown-menu">
-                   				<li><a href="#" target="_blank" class="son-menu"><span class="mr5">◇</span>用户管理</a></li>
-                   			</ul>
-                   		</li>
-               		</ul>
+			    <li class="dropdown">
+				  <div><img src="<%=basePath%>public/ZHH/images/top_05.png"/></div>
+				  <a href="#">
+				  <span>支撑环境</span>
+				  </a>
+				   <ul class="dropdown-menu">
+                   <li><a href="#" target="_blank" class="son-menu">后台管理</a></li>
+                   <li><a href="#" target="_blank" class="son-menu">用户管理</a></li>
+                 	</ul>
 				</li>
 			    <li>
 				<a href="#">
@@ -210,6 +176,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				  <span>安全退出</span>
 				 </a>
 				</li>
+				
 			  </ul>
 			</div>
     </div>
@@ -217,55 +184,89 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
    </div>
 </div>
-		<div class="container clear margin-top-30">
-		  <h2 class="f16 jbxx">供应商列表</h2>
-		     <form id="form1" action="${pageContext.request.contextPath}/importSupplier/auditList.html" method="post">
-		       <input type="hidden" name="page" id="page">
-			   <span class="">进口供应商名称：</span>
-			   <div class="input-append">
-		        <input class="span2" name="supName" value="${name }" type="text">
-		        <!-- <span class="add-on">i</span> -->
-		       </div>
-		        <span class="">供应商类别：</span>
-			   <div class="input-append">
-		        <input class="span2" name="supType"  value="${supplierType }" type="text">
-		       <!--  <span class="add-on">i</span> -->
-		       </div>
-		       <input class="btn padding-left-20 padding-right-20 btn_back" onclick="submit()" type="button" value="查询">
-		     </form>
-		  <table id="tb1"  class="table table-bordered table-condensed tc">
-		      <thead>
-				<tr>
-					<th class="info">进口供应商名称</th>
-					<th class="info">企业类别</th>
-					<th class="info">法定代表人</th>
-					<th class="info">电话</th>
-					<th class="info">审核状态</th>
-				</tr>
-			  </thead>
-			  <tbody>
-				 <c:forEach items="${isList.list }" var="list" varStatus="vs">
-					<tr>
-						<td>${list.name }</td>
-						<td>${list.supplierType }</td>
-						<td>${list.legalName }</td>
-						<td>${list.mobile }</td>
-						<td>
-							<c:if test="${list.status==0 }">
-								<input type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/importSupplier/audit.html?id=${list.id }'" value="初审" />
-							</c:if>
-							<c:if test="${list.status==1 }">
-								<input type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/importSupplier/audit.html?id=${list.id }'" value="复审" />
-							</c:if>
-							<c:if test="${list.status==2 }">
-								<input type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/importSupplier/audit.html?id=${list.id }'" value="已审核" />
-							</c:if>
-						</td>
-					</tr>
-				</c:forEach> 
-			  </tbody>
-		 </table>
-			<div id="pagediv" align="right"></div>
-		 </div>		 
+
+<!--面包屑导航开始-->
+   <div class="margin-top-10 breadcrumbs">
+      <div class="container">
+		   <ul class="breadcrumb margin-left-0">
+		   <li><a href="#"> 首页</a></li><li><a href="#">考试系统</a></li><li class="active"><a href="#">专家题库管理</a></li>
+		   </ul>
+		<div class="clear"></div>
+	  </div>
+   </div>
+<!-- 我的订单页面开始-->
+   <div class="container">
+   <div class="headline-v2">
+   <h2>考试题库设置</h2>
+   <a href="<%=path%>/expertExam/searchTecExpPool.html">技术类专家题库</a>
+   <a href="<%=path%>/expertExam/searchComExpPool.html">商务类专家题库</a>
+   <a href="<%=path%>/expertExam/searchLawExpPool.html">法律类专家题库</a>
+   </div>
+   </div>
+<!-- 表格开始-->
+   <div class="container">
+   <div class="col-md-8">
+    <button class="btn btn-windows add" type="submit">新增</button>
+	<button class="btn btn-windows edit" type="submit">修改</button>
+	<button class="btn btn-windows git" type="submit">提交</button>
+	<button class="btn btn-windows delete" type="submit">删除</button>
+	</div>
+            <div class="col-md-4 ">
+              <div class="search-block-v2">
+                <div class="">
+                  <form accept-charset="UTF-8" action="" method="get"><div style="display:none"><input name="utf8" value="✓" type="hidden"></div>
+                    <input id="t" name="t" value="search_products" type="hidden">
+                    <div class="col-md-12 pull-right">
+                      <div class="input-group">
+                        <input class="form-control bgnone h37 p0_10" id="k" name="k" placeholder="" type="text">
+                        <span class="input-group-btn">
+                          <input class="btn-u" name="commit" value="搜索" type="submit">
+                        </span>
+                      </div>
+                    </div>
+                  </form>               
+			   </div>
+              </div>
+            </div>	
+    </div>
+   
+   <div class="container margin-top-5">
+     <div class="content padding-left-25 padding-right-25 padding-top-5">
+        <table class="table table-bordered table-condensed">
+		<thead>
+		<tr>
+		  <th class="info w30"><input type="checkbox" alt=""></th>
+		  <th class="info w50">序号</th>
+		  <th class="info">题型</th>
+		  <th class="info">题干</th>
+		  <th class="info">选项</th>
+		  <th class="info">答案</th>
+		  <th class="info">分值</th>
+		</tr>
+		</thead>
+		
+		
+        </table>
+     </div>
+   
+   </div>
+ </div>
+<!--底部代码开始-->
+<div class="footer-v2" id="footer-v2">
+
+      <div class="footer">
+
+            <!-- Address -->
+              <address class="">
+			  Copyright © 2016 版权所有：中央军委后勤保障部 京ICP备09055519号
+              </address>
+              <div class="">
+		       浏览本网主页，建议将电脑显示屏的分辨率调为1024*768
+              </div> 
+            <!-- End Address -->
+
+<!--/footer--> 
+      </div>
+</div>
 </body>
 </html>
