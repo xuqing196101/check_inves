@@ -1,5 +1,7 @@
 package ses.dao.sms;
 
+import java.util.List;
+
 import ses.model.sms.SupplierStockholder;
 
 /**
@@ -85,7 +87,7 @@ public interface SupplierStockholderMapper {
      * @param: @return
      * @return: SupplierStockholder
      */
-    SupplierStockholder findStockholderBySupplierId(String supplierId);
+    List<SupplierStockholder> findStockholderBySupplierId(String supplierId);
     
     /**
      * @Title: deleteStockholderBySupplierId
