@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.ems.ExamQuestionMapper">
+  <resultMap id="BaseResultMap" type="ses.model.ems.ExamQuestion">
+    <id column="ID" property="id" />
+    <result column="ANSWER" property="answer" />
+    <result column="POINT" property="point" />
+    <result column="QUESTION_TYPE_ID" property="questionTypeId" />
+    <result column="PERSON_TYPE" property="personType" />
+    <result column="KIND" property="kind" />
+    <result column="CREATED_AT" property="createdAt" />
+    <result column="UPDATED_AT" property="updatedAt" />
+    <result column="TOPIC" property="topic" />
+    <result column="ITEMS" property="items" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    ID, ANSWER, POINT, QUESTION_TYPE_ID, PERSON_TYPE, KIND, to_char(CREATED_AT,'yyyy/mm/dd:hh:mi:ss'),to_char(UPDATED_AT,'yyyy/mm/dd:hh:mi:ss') ,TOPIC, ITEMS
+  </sql>
+  
+  <!-- 根据主键ID查询题目 -->
+  <select id="selectByPrimaryKey" parameterType="Object" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_EMS_EXAM_QUESTION
+    where ID = #{id}
+  </select>
+  
+  <!-- 根据id删除题目 -->
+  <delete id="deleteByPrimaryKey" parameterType="Object">
+    delete from T_SES_EMS_EXAM_QUESTION
+    where ID = #{id}
+  </delete>
+  
+  <!-- 新增题目,可插入null -->
+  <insert id="insertSelective" parameterType="Object">
+  	<selectKey resultType="String" order="BEFORE" keyProperty="id">
+      select sys_guid() from dual
+    </selectKey>
+    insert into T_SES_EMS_EXAM_QUESTION
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="answer != null">
+        ANSWER,
+      </if>
+      <if test="point != null">
+        POINT,
+      </if>
+      <if test="questionTypeId != null">
+        QUESTION_TYPE_ID,
+      </if>
+      <if test="personType != null">
+        PERSON_TYPE,
+      </if>
+      <if test="kind != null">
+        KIND,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="topic != null">
+        TOPIC,
+      </if>
+      <if test="items != null">
+        ITEMS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="answer != null">
+        #{answer},
+      </if>
+      <if test="point != null">
+        #{point},
+      </if>
+      <if test="questionTypeId != null">
+        #{questionTypeId},
+      </if>
+      <if test="personType != null">
+        #{personType},
+      </if>
+      <if test="kind != null">
+        #{kind},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt},
+      </if>
+      <if test="topic != null">
+        #{topic},
+      </if>
+      <if test="items != null">
+        #{items},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 根据主键ID更新题库 -->
+  <update id="updateByPrimaryKeySelective" parameterType="ses.model.ems.ExamQuestion">
+    update T_SES_EMS_EXAM_QUESTION
+    <set>
+      <if test="answer != null">
+        ANSWER = #{answer},
+      </if>
+      <if test="point != null">
+        POINT = #{point},
+      </if>
+      <if test="questionTypeId != null">
+        QUESTION_TYPE_ID = #{questionTypeId},
+      </if>
+      <if test="personType != null">
+        PERSON_TYPE = #{personType},
+      </if>
+      <if test="kind != null">
+        KIND = #{kind},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt},
+      </if>
+      <if test="topic != null">
+        TOPIC = #{topic},
+      </if>
+      <if test="items != null">
+        ITEMS = #{items},
+      </if>
+    </set>
+    where ID = #{id}
+  </update>
+  
+  
+  <resultMap id="BaseColumn" type="ses.model.ems.ExamQuestion">
+    <id column="ID" property="id" />
+    <result column="ANSWER" property="answer" />
+    <result column="POINT" property="point" />
+    <result column="QUESTION_TYPE_ID" property="questionTypeId" />
+    <result column="PERSON_TYPE" property="personType" />
+    <result column="KIND" property="kind" />
+    <result column="TOPIC"  property="topic" />
+    <result column="ITEMS" property="items" />
+    <result column="CREATED_AT" property="createdAt" />
+    <result column="UPDATED_AT" property="updatedAt" />
+    <association property="examQuestionType" javaType="ses.model.ems.ExamQuestionType">
+    	<result column="NAME" property="name"/>
+    </association>
+  </resultMap>
+  
+  <!-- 查询技术类专家题库 -->
+  <select id="searchTecExpPool" resultMap="BaseColumn">
+  	SELECT
+		E.ID,
+		E.TOPIC,
+		E.ITEMS,
+		E.ANSWER,
+		E.POINT,
+		E.CREATED_AT,
+		T.NAME
+	FROM
+		T_SES_EMS_EXAM_QUESTION E,
+		T_SES_EMS_EXAM_QUESTION_TYPE T
+	WHERE
+		E.PERSON_TYPE = 1
+	AND E.KIND = 0
+	AND E.QUESTION_TYPE_ID = T.ID
+	AND E.QUESTION_TYPE_ID IN (1,2)
+	ORDER BY
+		E.CREATED_AT DESC
+  </select>
+  
+  <!-- 查询商务类专家题库 -->
+  <select id="searchComExpPool" resultMap="BaseColumn">
+  	SELECT
+		E.ID,
+		E.TOPIC,
+		E.ITEMS,
+		E.ANSWER,
+		E.POINT,
+		E.CREATED_AT,
+		T.NAME
+	FROM
+		T_SES_EMS_EXAM_QUESTION E,
+		T_SES_EMS_EXAM_QUESTION_TYPE T
+	WHERE
+		E.PERSON_TYPE = 1
+	AND E.KIND = 1
+	AND E.QUESTION_TYPE_ID = T.ID
+	AND E.QUESTION_TYPE_ID IN (1,2)
+	ORDER BY
+		E.CREATED_AT DESC
+  </select>
+  
+  <!-- 查询法律类专家题库 -->
+  <select id="searchLawExpPool" resultMap="BaseColumn">
+	  	SELECT
+			E.ID,
+			E.TOPIC,
+			E.ITEMS,
+			E.ANSWER,
+			E.POINT,
+			E.CREATED_AT,
+			T.NAME
+		FROM
+			T_SES_EMS_EXAM_QUESTION E,
+			T_SES_EMS_EXAM_QUESTION_TYPE T
+		WHERE
+			E.PERSON_TYPE = 1
+		AND E.KIND = 2
+		AND E.QUESTION_TYPE_ID = T.ID
+		AND E.QUESTION_TYPE_ID IN (1,2)
+		ORDER BY
+			E.CREATED_AT DESC
+  </select>
+  
+  <!-- 技术类专家随机抽题 -->
+  <select id="selectTecRandom" resultMap="BaseColumn">
+  		SELECT
+			*
+		FROM
+			(
+			SELECT
+				E.ID,
+				E.TOPIC,
+				E.ITEMS,
+				E.ANSWER,
+				E.POINT,
+				T.NAME
+			FROM
+				T_SES_EMS_EXAM_QUESTION E,
+				T_SES_EMS_EXAM_QUESTION_TYPE T
+			WHERE
+				E.QUESTION_TYPE_ID = T.ID
+			AND E.PERSON_TYPE = 1
+			AND E.KIND = 0
+			ORDER BY
+				dbms_random.
+			VALUE
+		)
+		WHERE
+			ROWNUM &lt;= #{queNum}
+  </select>
+  
+  <!-- 商务类专家随机抽题 -->
+  <select id="selectComRandom" resultMap="BaseColumn">
+  		SELECT
+			*
+		FROM
+			(
+			SELECT
+				E.ID,
+				E.TOPIC,
+				E.ITEMS,
+				E.ANSWER,
+				E.POINT,
+				T.NAME
+			FROM
+				T_SES_EMS_EXAM_QUESTION E,
+				T_SES_EMS_EXAM_QUESTION_TYPE T
+			WHERE
+				E.QUESTION_TYPE_ID = T.ID
+			AND E.PERSON_TYPE = 1
+			AND E.KIND = 1
+			ORDER BY
+				dbms_random.
+			VALUE
+		)
+		WHERE
+			ROWNUM &lt;= #{queNum}
+  </select>
+  
+  <!-- 法律类专家随机抽题 -->
+  <select id="selectLawRandom" resultMap="BaseColumn">
+  		SELECT
+			*
+		FROM
+			(
+			SELECT
+				E.ID,
+				E.TOPIC,
+				E.ITEMS,
+				E.ANSWER,
+				E.POINT,
+				T.NAME
+			FROM
+				T_SES_EMS_EXAM_QUESTION E,
+				T_SES_EMS_EXAM_QUESTION_TYPE T
+			WHERE
+				E.QUESTION_TYPE_ID = T.ID
+			AND E.PERSON_TYPE = 1
+			AND E.KIND = 2
+			ORDER BY
+				dbms_random.
+			VALUE
+		)
+		WHERE
+			ROWNUM &lt;= #{queNum}
+  </select>
+  
+  <!-- 采购人题库根据类型查询 -->
+  <select id="queryPurchaserByType" parameterType="Object" resultMap="BaseColumn">
+  		SELECT
+			E.ID,
+			E.TOPIC,
+			E.ITEMS,
+			E.ANSWER,
+			E.CREATED_AT,
+			E.POINT,
+			T.NAME
+		FROM
+			T_SES_EMS_EXAM_QUESTION E,
+			T_SES_EMS_EXAM_QUESTION_TYPE T
+		WHERE
+			E.QUESTION_TYPE_ID = T.ID
+		AND E.PERSON_TYPE = 2
+		AND E.QUESTION_TYPE_ID = #{questionTypeId}
+  </select> 
+  
+  <!-- 采购人根据名字查询题目 -->
+  <select id="queryPurchaserByName" parameterType="Object" resultMap="BaseColumn">
+  		SELECT
+			E.ID,
+			E.TOPIC,
+			E.ITEMS,
+			E.ANSWER,
+			E.CREATED_AT,
+			E.POINT,
+			T.NAME
+		FROM
+			T_SES_EMS_EXAM_QUESTION E,
+			T_SES_EMS_EXAM_QUESTION_TYPE T
+		WHERE
+			E.QUESTION_TYPE_ID = T.ID
+		AND E.PERSON_TYPE = 2
+		AND E.TOPIC like #{topic}
+  </select> 
+  
+  <!-- 采购人根据考卷题型随机查找单选题 -->
+  <select id="selectSingleRandom" parameterType="Object" resultMap="BaseColumn">
+  		SELECT
+			*
+		FROM
+			(
+			SELECT
+				E.ID,
+				E.TOPIC,
+				E.ITEMS,
+				E.ANSWER,
+				E.POINT,
+				T.NAME
+			FROM
+				T_SES_EMS_EXAM_QUESTION E,
+				T_SES_EMS_EXAM_QUESTION_TYPE T
+			WHERE
+				E.QUESTION_TYPE_ID = T.ID
+			AND E.PERSON_TYPE = 2
+			AND E.QUESTION_TYPE_ID = 1
+			ORDER BY
+				dbms_random.
+			VALUE
+		)
+		WHERE
+			ROWNUM &lt;= #{singleNum}
+  </select>
+  
+   <!-- 采购人根据考卷题型随机查找多选题 -->
+  <select id="selectMultipleRandom" parameterType="Object" resultMap="BaseColumn">
+  		SELECT
+			*
+		FROM
+			(
+			SELECT
+				E.ID,
+				E.TOPIC,
+				E.ITEMS,
+				E.ANSWER,
+				E.POINT,
+				T.NAME
+			FROM
+				T_SES_EMS_EXAM_QUESTION E,
+				T_SES_EMS_EXAM_QUESTION_TYPE T
+			WHERE
+				E.QUESTION_TYPE_ID = T.ID
+			AND E.PERSON_TYPE = 2
+			AND E.QUESTION_TYPE_ID = 2
+			ORDER BY
+				dbms_random.
+			VALUE
+		)
+		WHERE
+			ROWNUM &lt;= #{multipleNum}
+  </select>
+  
+   <!-- 采购人根据考卷题型随机查找判断题 -->
+  <select id="selectJudgeRandom" parameterType="Object" resultMap="BaseColumn">
+  		SELECT
+			*
+		FROM
+			(
+			SELECT
+				E.ID,
+				E.TOPIC,
+				E.ITEMS,
+				E.ANSWER,
+				E.POINT,
+				T.NAME
+			FROM
+				T_SES_EMS_EXAM_QUESTION E,
+				T_SES_EMS_EXAM_QUESTION_TYPE T
+			WHERE
+				E.QUESTION_TYPE_ID = T.ID
+			AND E.PERSON_TYPE = 2
+			AND E.QUESTION_TYPE_ID = 3
+			ORDER BY
+				dbms_random.
+			VALUE
+		)
+		WHERE
+			ROWNUM &lt;= #{judgeNum}
+  </select>
+  
+  <select id="selectAllContent" resultMap="BaseResultMap">
+  		select * from T_SES_EMS_EXAM_QUESTION 
+  </select>
+  
+</mapper>

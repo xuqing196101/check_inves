@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.ems.ExamPaperMapper">
+  <resultMap id="BaseResultMap" type="ses.model.ems.ExamPaper">
+    <id column="ID" property="id" />
+    <result column="NAME" property="name" />
+    <result column="CODE" property="code" />
+    <result column="SCORE" property="score" />
+    <result column="START_TIME" property="startTime" />
+    <result column="YEAR" property="year" />
+    <result column="TYPE_DISTRIBUTION" property="typeDistribution" />
+    <result column="TEST_TIME" property="testTime" />
+    <result column="CREATED_AT" property="createdAt" />
+    <result column="UPDATED_AT" property="updatedAt" />
+    <result column="IS_ALLOW_RETAKE" property="isAllowRetake" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    ID, NAME, CODE, SCORE, START_TIME, YEAR, 
+    TYPE_DISTRIBUTION, TEST_TIME, CREATED_AT, UPDATED_AT, IS_ALLOW_RETAKE
+  </sql>
+  
+  <!-- 根据主键ID查找考卷 -->
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_EMS_EXAM_PAPER
+    where ID = #{id}
+  </select>
+  
+  <!-- 根据主键ID删除考卷 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_SES_EMS_EXAM_PAPER
+    where ID = #{id}
+  </delete>
+  
+  <!-- 新增考卷 -->
+  <insert id="insertSelective" parameterType="ses.model.ems.ExamPaper">
+  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_SES_EMS_EXAM_PAPER
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="code != null">
+        CODE,
+      </if>
+      <if test="score != null">
+        SCORE,
+      </if>
+      <if test="startTime != null">
+        START_TIME,
+      </if>
+      <if test="year != null">
+        YEAR,
+      </if>
+      <if test="typeDistribution != null">
+        TYPE_DISTRIBUTION,
+      </if>
+      <if test="testTime != null">
+        TEST_TIME,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="isAllowRetake != null">
+        IS_ALLOW_RETAKE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="name != null">
+        #{name},
+      </if>
+      <if test="code != null">
+        #{code},
+      </if>
+      <if test="score != null">
+        #{score},
+      </if>
+      <if test="startTime != null">
+        #{startTime},
+      </if>
+      <if test="year != null">
+        #{year},
+      </if>
+      <if test="typeDistribution != null">
+        #{typeDistribution},
+      </if>
+      <if test="testTime != null">
+        #{testTime},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt},
+      </if>
+      <if test="isAllowRetake != null">
+        #{isAllowRetake},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 根据主键ID更新考卷 -->
+  <update id="updateByPrimaryKeySelective" parameterType="ses.model.ems.ExamPaper">
+    update T_SES_EMS_EXAM_PAPER
+    <set>
+      <if test="name != null">
+        NAME = #{name},
+      </if>
+      <if test="code != null">
+        CODE = #{code},
+      </if>
+      <if test="score != null">
+        SCORE = #{score},
+      </if>
+      <if test="startTime != null">
+        START_TIME = #{startTime},
+      </if>
+      <if test="year != null">
+        YEAR = #{year},
+      </if>
+      <if test="typeDistribution != null">
+        TYPE_DISTRIBUTION = #{typeDistribution},
+      </if>
+      <if test="testTime != null">
+        TEST_TIME = #{testTime},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt},
+      </if>
+      <if test="isAllowRetake != null">
+        IS_ALLOW_RETAKE = #{isAllowRetake},
+      </if>
+    </set>
+    where ID = #{id}
+  </update>
+  
+  <!-- 查找所有的采购人考卷 -->
+  <select id="queryAllPaper" resultMap="BaseResultMap">
+  	SELECT
+		*
+	FROM
+		T_SES_EMS_EXAM_PAPER
+  </select>
+  
+  <!-- 根据考试编号查找考卷 -->
+  <select id="selectByPaperNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_EMS_EXAM_PAPER
+    where CODE = #{code}
+  </select>
+</mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.ems.ExamQuestionTypeMapper">
+  <resultMap id="BaseResultMap" type="ses.model.ems.ExamQuestionType">
+    <id column="ID" property="id" />
+    <result column="NAME" property="name" />
+    <result column="CREATED_AT" property="createdAt" />
+    <result column="UPDATED_AT" property="updatedAt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, NAME, CREATED_AT, UPDATED_AT
+  </sql>
+  
+  <!-- 查询专家的题库类型 -->
+  <select id="selectExpertAll" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from T_SES_EMS_EXAM_QUESTION_TYPE 
+    WHERE ID in(1,2)
+  </select>
+  
+  <!-- 查询采购人的题库类型 -->
+  <select id="selectPurchaserAll" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from T_SES_EMS_EXAM_QUESTION_TYPE
+  </select>
+</mapper>

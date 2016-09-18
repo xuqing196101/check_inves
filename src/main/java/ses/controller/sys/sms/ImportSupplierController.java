@@ -89,7 +89,7 @@ public class ImportSupplierController {
 		user.setPassword(psw);
 		user.setMobile(is.getMobile());
 		user.setTypeId(is.getId());
-		userService.save(user);
+		userService.save(user, user);
 		//待到页面，保存基本信息的时候是 修改动作
 		model.addAttribute("id", is.getId());
 		return "ses/sms/importsupplier/register";
@@ -155,8 +155,8 @@ public class ImportSupplierController {
 	@RequestMapping("updateRegister")
 	public String updateRegister(ImportSupplierWithBLOBs is,Model model){
 		is.setId("4D5350B058F348378F5140D7238CC8F0");
-		ImportSupplierWithBLOBs ImportSupplierWithBLOBs = importSupplierService.selectByPrimaryKey(is);
-		model.addAttribute("is", ImportSupplierWithBLOBs);	
+		ImportSupplierWithBLOBs importSupplierWithBLOBs = importSupplierService.selectByPrimaryKey(is);
+		model.addAttribute("is", importSupplierWithBLOBs);	
 		//审核理由：id可以从登录信息里面去里面取
 		ImportSupplierAud isa=importSupplierAudService.findById("4D5350B058F348378F5140D7238CC8F0");
 		model.addAttribute("isa", isa);	
