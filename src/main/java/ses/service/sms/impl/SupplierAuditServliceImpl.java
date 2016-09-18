@@ -5,10 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.dao.sms.SupplierAuditMapper;
 import ses.dao.sms.SupplierFinanceMapper;
 import ses.dao.sms.SupplierMapper;
 import ses.dao.sms.SupplierStockholderMapper;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierStockholder;
 import ses.service.sms.SupplierAuditServlice;
@@ -27,6 +29,12 @@ public class SupplierAuditServliceImpl implements SupplierAuditServlice {
 	 */
 	@Autowired
 	private SupplierMapper supplierMapper;
+	
+	/**
+	 * 供应商审核记录
+	 */
+	@Autowired
+	private SupplierAuditMapper supplierAuditMapper;
 	
 	/**
 	 * 财务信息
@@ -83,11 +91,34 @@ public class SupplierAuditServliceImpl implements SupplierAuditServlice {
 		
 		return supplierFinanceMapper.findFinanceBySupplierId(supplierId);
 	}
-
+	
+	/**
+	 * @Title: ShareholderById
+	 * @author Xu Qing
+	 * @date 2016-9-18 上午9:51:00  
+	 * @Description: 根据供应商id查询股东信息 
+	 * @param @param supplierId
+	 * @param @return      
+	 * @return List<SupplierStockholder>
+	 */
 	@Override
 	public List<SupplierStockholder> ShareholderBySupplierId(String supplierId) {
 		
 		return supplierStockholderMapper.findStockholderBySupplierId(supplierId);
+	}
+
+	/**
+	 * @Title: auditReasons
+	 * @author Xu Qing
+	 * @date 2016-9-18 下午5:51:55  
+	 * @Description: 审核记录
+	 * @param @param supplierAudit      
+	 * @return void
+	 */
+	@Override
+	public void auditReasons(SupplierAudit supplierAudit) {
+		supplierAuditMapper.insertSelective(supplierAudit);
+		
 	}
 
 	

@@ -3,6 +3,7 @@ package ses.service.sms;
 import java.util.List;
 
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierStockholder;
 /**
@@ -56,4 +57,14 @@ public interface SupplierAuditServlice {
 	 * @return List<SupplierStockholder>
 	 */
 	List<SupplierStockholder> ShareholderBySupplierId(String supplierId);
+	
+	/**
+	 * @Title: auditReasons
+	 * @author Xu Qing
+	 * @date 2016-9-18 下午5:51:55  
+	 * @Description: 审核记录
+	 * @param @param supplierAudit      
+	 * @return void
+	 */
+	public void auditReasons (SupplierAudit supplierAudit);
 }

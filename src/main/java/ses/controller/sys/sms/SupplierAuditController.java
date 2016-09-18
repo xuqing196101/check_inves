@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierStockholder;
 import ses.service.sms.SupplierAuditServlice;
@@ -122,4 +123,42 @@ public class SupplierAuditController {
 		return "ses/sms/supplier_audit/material_production";
 	}
 	
+	/**
+	 * @Title: materialSales
+	 * @author Xu Qing
+	 * @date 2016-9-18 下午8:05:15  
+	 * @Description: 物资销售专业信息 
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping("materialSales")
+	public String materialSales(){
+		return "ses/sms/supplier_audit/material_sales";
+	}
+	
+	/**
+	 * @Title: engineeringInformation
+	 * @author Xu Qing
+	 * @date 2016-9-18 下午8:13:24  
+	 * @Description: 工程专业信息 
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping("engineering")
+	public String engineeringInformation(){
+		return "ses/sms/supplier_audit/engineering";
+	}
+	
+	/**
+	 * @Title: auditReasons
+	 * @author Xu Qing
+	 * @date 2016-9-18 下午5:55:44  
+	 * @Description: 审核记录 
+	 * @param @param supplierAudit      
+	 * @return void
+	 */
+	@RequestMapping("auditReasons")
+	public void auditReasons(SupplierAudit supplierAudit){
+		supplierAuditServlice.auditReasons(supplierAudit);
+	}
 }

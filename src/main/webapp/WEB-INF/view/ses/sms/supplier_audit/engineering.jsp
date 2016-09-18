@@ -11,7 +11,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]-->
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<title>物资-生产型专业信息</title>
+<title>工程专业信息</title>
 <!-- Meta -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -145,10 +145,10 @@ function reason(id){
             <ul class="nav nav-tabs bgdd">
               <li class=""><a aria-expanded="fale" href="#tab-1" data-toggle="tab" onclick="location='<%=basePath%>supplierAudit/essential.html'">基本信息</a></li>
               <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" onclick="location='<%=basePath%>supplierAudit/financial.html'">财务信息</a></li>
-              <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="location='<%=basePath%>supplierAudit/shareholder.html'">股东信息</a></li>
-              <li class="active"><a aria-expanded="true" href="#tab-2" data-toggle="tab" onclick="location='<%=basePath%>supplierAudit/materialProduction.html'">物资-生产型专业信息</a></li>
+              <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="location='<%=basePath%>supplierAudit/shareholder.html'">股东信息</a></li>
+              <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" onclick="location='<%=basePath%>supplierAudit/materialProduction.html'">物资-生产型专业信息</a></li>
               <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="location='<%=basePath%>supplierAudit/materialSales.html'">物资-销售型专业信息</a></li>
-              <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="location='<%=basePath%>supplierAudit/engineering.html'">工程-专业信息</a></li>
+              <li class="active"><a aria-expanded="true" href="#tab-3" data-toggle="tab" onclick="location='<%=basePath%>supplierAudit/engineering.html'">工程-专业信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >服务-专业信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" >品目信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >产品信息</a></li>
@@ -157,29 +157,45 @@ function reason(id){
               <div class="tab-content padding-top-20" style="height:1400px;">
                 <div class="tab-pane fade active in height-450" id="tab-1">
                   <table class="table table-bordered table-condensed">
-							      <thead>
-							        <tr>
-							          <th class="info w50">序号</th>
-							          <th class="info">资质证书名称</th>
-							          <th class="info">资质登记</th>
-							          <th class="info">发证机关</th>
-							          <th class="info">有效期(起止时间)</th>
-							          <th class="info">是否年检</th>
-							          <th class="info">附件上传</th>
-							        </tr>
-							        </thead>
-							        <c:forEach items="${expertList}" var="e" >
-							          <tr>
-							            <td class="tc w50"></td>
-							            <td class="tc"></td>
-							            <td class="tc"></td>
-							            <td class="tc"></td>
-							            <td class="tc"></td>
-							            <td class="tc"></td>
-							            <td class="tc"></td>
-							          </tr>
-							        </c:forEach>
-							    </table>
+                    <thead>
+                      <tr>
+                        <th class="info w50">序号</th>
+                        <th class="info">资质资格类型</th>
+                        <th class="info">证书编号</th>
+                        <th class="info">资质资格最高等级</th>
+                        <th class="info">技术负责人姓名</th>
+                        <th class="info">技术负责人职称</th>
+                        <th class="info">技术负责人职务</th>
+                        <th class="info">单位负责人姓名</th>
+                        <th class="info">单位负责人职称</th>
+                        <th class="info">单位负责人职务</th>
+                        <th class="info">发证机关</th>
+                        <th class="info">发证日期</th>
+                        <th class="info">证书有效期截止日期</th>
+                        <th class="info">证书状态</th>
+                        <th class="info">附件上传</th>
+                      </tr>
+                    </thead>
+                    <c:forEach items="${shareholder}" var="s" >
+                      <tr>
+                        <td class="tc w50"></td>
+                        <td class="tc"></td>
+                        <td class="tc"></td>
+                        <td class="tc"></td>
+                        <td class="tc"></td>
+                        <td class="tc"></td>
+                        <td class="tc"></td>
+                        <td class="tc"></td>
+                        <td class="tc"></td>
+                        <td class="tc"></td>
+                        <td class="tc"></td>
+                        <td class="tc"></td>
+                        <td class="tc"></td>
+                        <td class="tc"></td>
+                        <td class="tc"></td>
+                      </tr>
+                    </c:forEach>
+                  </table>
                 </div>
               </div>
           </div>
