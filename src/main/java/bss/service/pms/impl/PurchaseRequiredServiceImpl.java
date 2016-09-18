@@ -5,6 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.util.PropertiesUtil;
+
+import com.github.pagehelper.PageHelper;
+
 import bss.dao.pms.PurchaseRequiredMapper;
 import bss.model.pms.PurchaseRequired;
 import bss.service.pms.PurchaseRequiredService;
@@ -35,8 +39,10 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 	}
 
 	@Override
-	public List<PurchaseRequired> query(PurchaseRequired purchaseRequired) {
+	public List<PurchaseRequired> query(PurchaseRequired purchaseRequired,Integer page) {
 		List<PurchaseRequired> list = purchaseRequiredMapper.query(purchaseRequired);
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 		return list;
 	}
 
