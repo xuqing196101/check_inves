@@ -1,4 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ses.dao.oms.PurchaseDepMapper">
+	 <!-- 根据条件查部 采购机构-->
+	<select id="findPurchaseDepList" parameterType="java.util.Map" resultType="ses.model.oms.PurchaseDep">
+			   select d.id  as id,
+		       d.LEVEL       as level,
+		       d.SUBORDINATE_ORG_ID       as subordinateOrgId,
+		       d.SUBORDINATE_ORG__NAME     as subordinateOrgName,
+		       d.BUSINESS_DEP         as businessDep,
+		       d.BUSINESS_DEP_ID       as businessDepId,
+		       d.BUSINESS_RANGE       as businessRange,
+		       d.QUA_CODE         as quaCode,
+		       d.QUA_LEVEL      as quaLevel,
+		       d.QUA_EDNDATE    as quaEdndate,
+		       d.QUA_RANGE  as quaRange,
+		       d.QUA_CERT   as quaCert,
+		       d.LEADER_TELEPHONE as leaderTelephone,
+		       d.OFFICER_COUNTNUM   as officerCountnum,
+		       d.OFFICER_NOW_COUNTS   as officerNowCounts,
+		       d.SOLDIER_NUM   as soldierNum,
+		       d.SOLDIER_NOW_COUNTS   as soldierNowCounts,
+		       d.STAFF_NUM   as staffNum,
+		       d.STAFF_NOW_COUNTS   as staffNowCounts,
+		       d.PURCHASERS_COUNT   as purchasersCount,
+		       d.JUNIOR_PUR_COUNT   as juniorPurCount,
+		       d.SENIOR_PUR_COUNT   as seniorPurCount,
+		       d.DEP_NAME   as depName,
+		       d.LEGAL   as legal,
+		       d.AGENT   as agent,
+		       d.CONTACT   as contact,
+		       d.CONTACT_TELEPHONE   as contactTelephone,
+		       d.CONTACT_ADDRESS   as contactAddress,
+		       d.UNIT_POST_CODE   as unitPostCode,
+		       d.PAY_DEP   as payDep,
+		       d.BANK   as bank,
+		       d.BANK_ACCOUNT   as bankAccount,
+		       d.OFFICE_AREA   as officeArea,
+		       d.OFFICE_COUNT  as officeCount,
+		       d.METTING_ROOM_COUNT   as mettingRoomCount,
+		       d.INVITE_ROOM_COUNT   as inviteRoomCount,
+		       d.BID_ROOM_COUNT   as bidRoomCount,
+		       d.IS_DELETED   as isDeleted,
+		       d.UPDATED_AT   as updatedAt,
+		       d.CREATED_AT   as createdAt,
+		       d.ORG_ID       as orgId
+		  from T_SES_OMS_PURCHASE_DEP     d
+		 where nvl(d.is_deleted,0)=0
+		 <if test="id != null and id != ''">
+			and d.id= #{id}
+		</if>
+		 <if test="pid != null and pid != ''">
+			and d.PARENT_ID= #{pid}
+		</if>
+		<if test="isroot != null and isroot != ''">
+			and nvl(d.IS_ROOT,'0')= 1
+		</if>
+		<if test="type != null and type != ''">
+			and d.type= #{type}
+		</if> 
+	</select>
+	<!-- 保存采购机构 -->
+	<insert id="savePurchaseDep" parameterType="ses.model.sms.PurchaseDep">
+		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			select rawtohex(sys_guid()) as VALUE from dual
+		</selectKey>
+		insert into T_SES_OMS_PURCHASE_DEP
+		 (ID,LEVEL,SUBORDINATE_ORG_ID,
+		  SUBORDINATE_ORG__NAME,BUSINESS_DEP,BUSINESS_DEP_ID,
+		  BUSINESS_RANGE,QUA_CODE,QUA_LEVEL,
+		  QUA_EDNDATE,QUA_RANGE,QUA_CERT,
+		  LEADER_TELEPHONE,OFFICER_COUNTNUM,OFFICER_NOW_COUNTS,
+		  SOLDIER_NUM,SOLDIER_NOW_COUNTS,STAFF_NUM,
+		  STAFF_NOW_COUNTS,PURCHASERS_COUNT,JUNIOR_PUR_COUNT,
+		  SENIOR_PUR_COUNT,DEP_NAME,LEGAL,
+		  AGENT,CONTACT,CONTACT_TELEPHONE,
+		  CONTACT_ADDRESS,UNIT_POST_CODE,PAY_DEP,
+		  BANK,BANK_ACCOUNT,OFFICE_AREA,
+		  OFFICE_COUNT,METTING_ROOM_COUNT,INVITE_ROOM_COUNT,
+		  BID_ROOM_COUNT,CREATED_AT,ORG_ID
+          )
+		values(
+	      #{id},#{name,jdbcType=VARCHAR},#{level,jdbcType=VARCHAR},
+		  #{subordinateOrgId,jdbcType=VARCHAR},#{subordinateOrgName,jdbcType=VARCHAR},#{businessDep,jdbcType=VARCHAR},
+		  #{businessDepId,jdbcType=VARCHAR},#{businessRange,jdbcType=VARCHAR},#{quaCode,jdbcType=VARCHAR},
+		  #{quaLevel,jdbcType=VARCHAR},#{quaEdndate,jdbcType=TIMESTAMP },#{quaRange,jdbcType=NUMERIC},
+		  #{quaCert,jdbcType=VARCHAR},#{leaderTelephone,jdbcType=VARCHAR},#{officerCountnum,jdbcType=NUMERIC},
+		  #{officerNowCounts,jdbcType=NUMERIC},#{soldierNum,jdbcType=NUMERIC},#{soldierNowCounts,jdbcType=NUMERIC},
+		  #{staffNum,jdbcType=NUMERIC},#{staffNowCounts,jdbcType=NUMERIC},#{purchasersCount,jdbcType=NUMERIC},
+		  #{juniorPurCount,jdbcType=NUMERIC},#{seniorPurCount,jdbcType=NUMERIC},#{depName,jdbcType=VARCHAR},
+		  #{legal,jdbcType=VARCHAR},#{agent,jdbcType=VARCHAR},#{contact,jdbcType=VARCHAR},
+		  #{contactTelephone,jdbcType=VARCHAR},#{contactAddress,jdbcType=VARCHAR},#{unitPostCode,jdbcType=NUMERIC},
+		  #{payDep,jdbcType=VARCHAR},#{bank,jdbcType=VARCHAR},#{bankAccount,jdbcType=VARCHAR},
+		  #{officeArea,jdbcType=NUMERIC},#{officeCount,jdbcType=NUMERIC},#{mettingRoomCount,jdbcType=NUMERIC},
+		  #{inviteRoomCount,jdbcType=NUMERIC},#{bidRoomCount,jdbcType=NUMERIC},sysdate,
+		  #{orgId,jdbcType=VARCHAR}
+		 )
+	</insert>
 </mapper>

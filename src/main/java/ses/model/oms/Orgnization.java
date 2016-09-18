@@ -11,7 +11,7 @@ public class Orgnization {
 
     private String address;
 
-    private Integer phone;
+    private Integer mobile;
 
     private Integer postCode;
 
@@ -52,6 +52,8 @@ public class Orgnization {
     private String shortName;
 
     private String describtion;
+    
+    private String email;
 
     public String getId() {
         return id;
@@ -74,7 +76,7 @@ public class Orgnization {
     }
 
     public void setTypeName(Integer typeName) {
-        this.typeName = typeName;
+        this.typeName = typeName==null ? 0 : typeName;
     }
 
     public String getAddress() {
@@ -85,15 +87,17 @@ public class Orgnization {
         this.address = address == null ? null : address.trim();
     }
 
-    public Integer getPhone() {
-        return phone;
-    }
+    
 
-    public void setPhone(Integer phone) {
-        this.phone = phone;
-    }
+    public Integer getMobile() {
+		return mobile;
+	}
 
-    public Integer getPostCode() {
+	public void setMobile(Integer mobile) {
+		this.mobile = mobile ;
+	}
+
+	public Integer getPostCode() {
         return postCode;
     }
 
@@ -252,4 +256,13 @@ public class Orgnization {
     public void setDescribtion(String describtion) {
         this.describtion = describtion == null ? null : describtion.trim();
     }
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+    
 }

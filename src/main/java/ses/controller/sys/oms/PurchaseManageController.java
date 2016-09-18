@@ -1,6 +1,5 @@
 package ses.controller.sys.oms;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +18,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sun.org.apache.bcel.internal.generic.NEW;
+
 import ses.model.oms.Deparent;
 import ses.model.oms.Orgnization;
 import ses.model.oms.util.AjaxJsonData;
@@ -29,11 +30,10 @@ import ses.service.oms.OrgnizationServiceI;
 
 /**
  * 
-* <p>Title:PurchaseManageController </p>
-* <p>Description: </p>
-* <p>Company: ses </p> 
-* @author tkf
-* @date 2016-8-31婵犵數濮烽弫鍛婃叏閻戣棄鏋侀柟闂寸绾惧鏌ｉ幇顒佹儓闁搞劌鍊块弻娑㈩敃閿濆棛顦辩紓浣哄С閸楁娊寮婚悢鍏尖拻閻庡灚鐡曠粣妤呮⒑鏉炴壆顦查悗姘嵆瀵鈽夊Ο閿嬵瀲闂佸憡顨熼崑娑氱不婵犳碍鈷戦柛婵嗗閿涙梻绱掗悩铏磳鐎殿喖顭锋俊鎼佸煛閸屾矮绨介梻浣侯焾閺堫剛绮欓幋锔绘晜闁跨噦鎷�28
+ * @Title: PurchaseManageController
+ * @Description: 
+ * @author: Tian Kunfeng
+ * @date: 2016-9-13娑撳﹤宕�0:58:02
  */
 @Controller
 @Scope("prototype")
@@ -44,12 +44,41 @@ public class PurchaseManageController {
 	@Autowired
 	private OrgnizationServiceI orgnizationServiceI;
 	
+	private AjaxJsonData jsonData = new AjaxJsonData();
+	HashMap<String,Object> resultMap = new HashMap<String,Object>();
 	
 	@RequestMapping("list")
 	public String list() {
 		return "oms/require_dep/list";
 	}
-	
+	/**
+	 * 
+	 * @Title: getDetail
+	 * @author: 获取详情   获取部门信息  部门人员信息   监管部门信息
+	 * @date: 2016-9-14 下午2:27:32
+	 * @Description: TODO
+	 * @param: @param model
+	 * @param: @param request
+	 * @param: @param orgnization
+	 * @param: @return
+	 * @return: HashMap<String,Object>
+	 */
+	@RequestMapping("getDetail")
+	@ResponseBody
+	public HashMap<String,Object> getDetail(Model model,HttpServletRequest request,@ModelAttribute Orgnization orgnization) {
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("id", orgnization.getId());
+		List<Orgnization> oList = orgnizationServiceI.findOrgnizationList(map);
+		if(oList!=null && oList.size()>0){
+			model.addAttribute("orgnization", oList.get(0).getName());
+			Object object = oList.get(0);
+			resultMap.put("orgnization",  oList.get(0));
+			//jsonData.setObj(object);
+			jsonData.setMessage("nihao");
+		}
+		
+		return resultMap;
+	}
 	@RequestMapping("add")
 	public String add() {
 		return "oms/require_dep/add";
@@ -58,8 +87,8 @@ public class PurchaseManageController {
 	 * 
 	 * @Title: create
 	 * @author: Tian Kunfeng
-	 * @date: 2016-9-12 娑撳﹤宕�1:09:13
-	 * @Description: 閸氬本顒炴穱婵嗙摠闁劑妫�  閺堢儤鐎� 婢舵俺銆冩穱婵嗙摠閺佺増宓�
+	 * @date: 2016-9-13 娑撳﹤宕�0:57:54
+	 * @Description: TODO
 	 * @param: @param deparent
 	 * @param: @param request
 	 * @param: @return
@@ -83,7 +112,7 @@ public class PurchaseManageController {
 	 * 
 	 * @Title: save
 	 * @author: Tian Kunfeng
-	 * @date: 2016-9-12 娑撳﹤宕�1:09:05
+	 * @date: 2016-9-13 娑撳﹤宕�0:57:47
 	 * @Description: TODO
 	 * @param: @param request
 	 * @param: @param deparent
@@ -134,17 +163,16 @@ public class PurchaseManageController {
 	}
 	/**
 	 * 
-	 * @Title: saveRequireDep
+	 * @Title: saveOrg
 	 * @author: Tian Kunfeng
-	 * @date: 2016-9-12 娑撳﹤宕�1:08:35
-	 * @Description: 瀵倹顒炴穱婵嗙摠闁劑妫� 缂佸嫮绮愰張鐑樼�
+	 * @date: 2016-9-13 娑撳﹤宕�0:57:38
+	 * @Description: TODO
 	 * @param: @param model
 	 * @param: @param request
-	 * @param: @param deparent
+	 * @param: @param orgnization
 	 * @param: @param session
 	 * @param: @param response
 	 * @param: @return
-	 * @param: @throws IOException
 	 * @return: AjaxJsonData
 	 */
 	@RequestMapping(value = "saveOrg")
@@ -154,23 +182,104 @@ public class PurchaseManageController {
 		//UserEntity user = (UserEntity) session.getAttribute(SessionStringPool.LOGIN_USER);
 		HashMap<String, Object> orgMap = new HashMap<String, Object>();
 		HashMap<String, Object> purMap = new HashMap<String, Object>();
+		orgMap.put("type_name", orgnization.getTypeName()==null?0:orgnization.getTypeName());
 		orgMap.put("name", orgnization.getName()==null?"":orgnization.getName());
-		orgMap.put("type_name", orgnization.getTypeName()==null?"":orgnization.getTypeName());
-		orgMap.put("addr", orgnization.getAddress()==null?"":orgnization.getAddress());
-		orgMap.put("phone", orgnization.getPhone()==null?"":orgnization.getPhone());
-		orgMap.put("postCode", orgnization.getPostCode()==null?"":orgnization.getPostCode());
+		orgMap.put("address", orgnization.getAddress()==null?"":orgnization.getAddress());
+		orgMap.put("mobile", orgnization.getMobile());
+		orgMap.put("postCode", orgnization.getPostCode());
+		
 		orgMap.put("parent_id", orgnization.getParentId()==null?"":orgnization.getParentId());
+		if(orgnization.getParentId()!=null && !orgnization.getParentId().equals("")){
+		}else {
+			orgMap.put("is_root", 1);
+		}
 		//departmentServiceI.saveDepartment(orgMap);
 		orgnizationServiceI.saveOrgnization(orgMap);
-		orgMap.put("org_id", orgMap.get("id"));
-		orgMap.put("name", orgnization.getName()==null?"":orgnization.getName());
-		orgMap.put("type_name", orgnization.getTypeName()==null?"":orgnization.getTypeName());
-		//保存采购机构代码;
+		purMap.put("org_id", orgMap.get("id"));
+		purMap.put("name", orgnization.getName()==null?"":orgnization.getName());
+		purMap.put("type_name", orgnization.getTypeName()==null?"":orgnization.getTypeName());
+		//保存采购机构
 		
 		AjaxJsonData json = new AjaxJsonData();
 		json.setSuccess(true);
-		json.setMessage("保存成功！");
+		json.setMessage("保存成功");
 		return json;
+	}
+	@RequestMapping("edit")
+	public String edit(@ModelAttribute Orgnization orgnization,Model model) {
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("id", orgnization.getId());
+		List<Orgnization> oList = orgnizationServiceI.findOrgnizationList(map);
+		if(oList!=null && oList.size()>0){
+			model.addAttribute("orgnization", oList.get(0));
+		}
+		return "oms/require_dep/edit";
+	}
+	/**
+	 * 
+	 * @Title: updateOrg
+	 * @author: Tian Kunfeng
+	 * @date: 2016-9-14 下午4:47:46
+	 * @Description: 删除直接传is_deleted=1即可   逻辑删除  更新  公用此方法
+	 * @param: @param model
+	 * @param: @param request
+	 * @param: @param orgnization
+	 * @param: @param session
+	 * @param: @param response
+	 * @param: @return
+	 * @return: AjaxJsonData
+	 */
+	@RequestMapping(value = "updateOrg")
+	@ResponseBody    
+	public AjaxJsonData updateOrg(Model model,HttpServletRequest request,@ModelAttribute Orgnization orgnization,HttpSession session,HttpServletResponse response) {
+		//UserEntity user = (UserEntity) session.getAttribute(SessionStringPool.LOGIN_USER);
+		HashMap<String, Object> orgMap = new HashMap<String, Object>();
+		HashMap<String, Object> purMap = new HashMap<String, Object>();
+		orgMap.put("id", orgnization.getId());
+		orgMap.put("name", orgnization.getName()==null?"":orgnization.getName());
+		orgMap.put("address", orgnization.getAddress()==null?"":orgnization.getAddress());
+		orgMap.put("mobile", orgnization.getMobile());
+		orgMap.put("postCode", orgnization.getPostCode());
+		
+		orgMap.put("shortName", orgnization.getShortName());
+		orgMap.put("orgCode", orgnization.getOrgCode());
+		orgMap.put("telephone", orgnization.getTelephone());
+		orgMap.put("areaId", orgnization.getAreaId());
+		orgMap.put("detailAddr", orgnization.getDetailAddr());
+		orgMap.put("fax", orgnization.getFax());
+		orgMap.put("website", orgnization.getWebsite());
+		orgMap.put("princinpal", orgnization.getPrincinpal());
+		orgMap.put("princinpalIdCard", orgnization.getPrincinpalIdCard());
+		orgMap.put("nature", orgnization.getNature());
+		orgMap.put("is_deleted", orgnization.getIsDeleted()==null?0:1);
+		orgnizationServiceI.updateOrgnization(orgMap);
+		purMap.put("org_id", orgMap.get("id"));
+		purMap.put("name", orgnization.getName()==null?"":orgnization.getName());
+		//purMap.put("type_name", orgnization.getTypeName()==null?"":orgnization.getTypeName());
+		//更新采购机构
+		if(orgnization.getTypeName()!=null &&orgnization.getTypeName().equals(2)){
+			//更新采购机构
+		}
+		AjaxJsonData json = new AjaxJsonData();
+		json.setSuccess(true);
+		json.setMessage("更新成功");
+		if(orgnization.getIsDeleted()!=null && orgnization.getIsDeleted().equals(1)){
+			json.setMessage("删除成功");
+		}
+		return json;
+	}
+	//-----------------------------------------------------
+	public AjaxJsonData getJsonData() {
+		return jsonData;
+	}
+	public void setJsonData(AjaxJsonData jsonData) {
+		this.jsonData = jsonData;
+	}
+	public HashMap<String, Object> getResultMap() {
+		return resultMap;
+	}
+	public void setResultMap(HashMap<String, Object> resultMap) {
+		this.resultMap = resultMap;
 	}
 	
 }

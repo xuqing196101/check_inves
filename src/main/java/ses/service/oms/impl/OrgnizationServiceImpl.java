@@ -26,4 +26,9 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
 		return orgniztionMapper.saveOrgnization(map);
 	}
 
+	@Override
+	public int updateOrgnization(HashMap<String, Object> map) {
+		return orgniztionMapper.updateOrgnization(map);
+	}
+
 }

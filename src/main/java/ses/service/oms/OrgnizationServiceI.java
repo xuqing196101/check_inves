@@ -9,4 +9,5 @@ import ses.model.oms.Orgnization;
 public interface OrgnizationServiceI {
 	public List<Orgnization> findOrgnizationList(HashMap<String,Object> map);
 	int saveOrgnization(HashMap<String, Object> map);
+	int updateOrgnization(HashMap<String, Object> map);
 }

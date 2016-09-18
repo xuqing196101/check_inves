@@ -1,4 +1,4 @@
-/弹出层"'"+titles+"'"
+//弹出层"'"+titles+"'"
 function showiframe(titles,width,height,url,top){
 	 if(top == null || top == "underfined"){
 	  top = 120;
