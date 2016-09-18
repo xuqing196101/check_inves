@@ -24,10 +24,24 @@
   
   <!-- 根据文章id查询下载人信息 -->
   <select id="selectByArticleId" parameterType="Object" resultMap="DownloadUserMap">
-  	select 
-    <include refid="DownloadUser_Column_List" />
-    from T_ISS_PS_DOWNLOAD_INFO
-    where ARTICLE_ID = #{article.id}
+  	<![CDATA[SELECT
+				*
+				FROM
+				(
+					SELECT
+						t.*, ROWNUM
+					FROM
+						(
+							SELECT
+								*
+							FROM
+								T_ISS_PS_ARTICLE
+							WHERE ID = #{articleId,jdbcType=INTEGER}
+						) t
+					WHERE
+						ROWNUM <=#{page,jdbcType=INTEGER}*#{pageSize,jdbcType=INTEGER} 
+					AND ROWNUM >#{page-1,jdbcType=INTEGER}*#{pageSize,jdbcType=INTEGER}
+	)]]> 
   </select>
   
   <!-- 根据条件查询 -->

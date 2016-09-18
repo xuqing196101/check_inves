@@ -50,7 +50,7 @@ public class PreMenuController {
 
 	@RequestMapping("/list")
 	public String list() {
-		return "premenu/list";
+		return "ses/bms/menu/list";
 	}
 
 	/**

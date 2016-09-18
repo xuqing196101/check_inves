@@ -70,10 +70,9 @@ public class ExcelUtil {
 	        				 rq.setItem(cell.getStringCellValue());
 	        			 }
 	        			 if(cell.getColumnIndex()==6){
-	        				 double value = cell.getNumericCellValue();
-//	        				String value = cell.getStringCellValue();
-	        				 System.out.println(value);
-//	        				 rq.setPurchaseNum(cell.getStringCellValue());
+	        				 Double value = cell.getNumericCellValue();
+	        				 
+	        				 rq.setPurchaseCount(value.longValue());
 	        			 }
 	        			 if(cell.getColumnIndex()==7){
 	        				 rq.setPrice(new BigDecimal(cell.getNumericCellValue()));

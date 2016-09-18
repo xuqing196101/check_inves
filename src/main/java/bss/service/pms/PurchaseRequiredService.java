@@ -54,6 +54,6 @@ public interface PurchaseRequiredService {
 	* @return List<PurchaseRequired>     
 	* @throws
 	 */
-	List<PurchaseRequired> query(PurchaseRequired purchaseRequired);
+	List<PurchaseRequired> query(PurchaseRequired purchaseRequired,Integer page);
 	
 }

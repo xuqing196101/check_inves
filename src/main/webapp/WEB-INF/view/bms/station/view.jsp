@@ -15,6 +15,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="">
+	<link href="<%=basePath%>public/supplier/css/supplieragents.css" media="screen" rel="stylesheet">
 </head>
 <script type="text/javascript">
 	function cheClick(){
@@ -31,7 +32,6 @@
 	}
 </script>
 <body>
-
 <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
@@ -41,25 +41,23 @@
 		<div class="clear"></div>
 	  </div>
    </div>
-   
 <!-- 修改订列表开始-->
    <div class="container">
    <div>
    <div class="headline-v2">
-   <h2>修改站内消息</h2>
+   <h2>查看站内消息</h2>
    </div>
    <ul class="list-unstyled list-flow p0_20">
    			<input class="span2" name="id" type="hidden" value="${StationMessage.id}">
     		 <li class="col-md-6 p0 " >
 			   <span class="">标题：</span>
 			   <div class="input-append">
-		        <input class="span2" name="title" type="text" value="${StationMessage.title}">
-		        <span class="add-on">i</span>
+		        <input class="span2 w350" name="title" type="text" value="${StationMessage.title}">
 		       </div>
 			 </li>
 		     <li class="col-md-12  p0 " >
 			   <span class="">内容：</span>
-		        <textarea  cols="3" rows="100" name="context" >${StationMessage.content}</textarea>
+		        <textarea class="w350 h100"  cols="3" rows="100" name="context" >${StationMessage.content}</textarea>
 			 </li> 
    </ul>
   </div> 

@@ -60,7 +60,7 @@ public class ExpertController {
 	@RequestMapping(value="/toExpert")
 	public String toExpert(){
 		
-		return "ems/expert/expertRegister";
+		return "ses/ems/expert/expertRegister";
 	}
 	
 	/**
@@ -75,7 +75,7 @@ public class ExpertController {
 	@RequestMapping(value="/toRegisterNotice")
 	public String toRegisterNotice(){
 		
-		return "ems/expert/basic_info";
+		return "ses/ems/expert/basic_info";
 	}
 	
 	/**
@@ -120,10 +120,10 @@ public class ExpertController {
 		expert.setPassword(md5AndSha);
 		request.setAttribute("user", expert);
 		//model.addAttribute("expert", expert);
-		userService.save(expert);
-		return "ems/expert/basic_info";
+		userService.save(expert, null);
+		return "ses/ems/expert/basic_info";
 		} else{
-			return "ems/expert/basic_info";
+			return "ses/ems/expert/basic_info";
 		}
 	}
 	/**
@@ -140,7 +140,7 @@ public class ExpertController {
 	public String toBasicInfo(@RequestParam("id")String id,HttpServletRequest request,HttpServletResponse response,  Model model){
 		Expert expert = service.selectByPrimaryKey(id);
 		model.addAttribute("expert", expert);
-		return "ems/expert/basic_info";
+		return "ses/ems/expert/basic_info";
 	}
 	/**
 	 * 
@@ -156,7 +156,7 @@ public class ExpertController {
 	public String toShenHe(@RequestParam("id") String id,HttpServletRequest request,HttpServletResponse response,  Model model){
 		Expert expert = service.selectByPrimaryKey(id);
 		request.setAttribute("expert", expert);
-		return "ems/expert/shenHe";
+		return "ses/ems/expert/shenHe";
 	}
 	/**
 	 * 
@@ -201,7 +201,7 @@ public class ExpertController {
 		                //文件名处理
 		                filename=uuid+filename;
 		                //如果用的是Tomcat服务器，则文件会上传到\\%TOMCAT_HOME%\\webapps\\YourWebProject\\WEB-INF\\upload\\文件夹中  
-		                String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload");  
+		                String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");  
 		                //这里不必处理IO流关闭的问题，因为FileUtils.copyInputStreamToFile()方法内部会自动把用到的IO流关掉，我是看它的源码才知道的  
 		                FileUtils.copyInputStreamToFile(myfile.getInputStream(), new File(realPath, filename));  
 		            }  
@@ -290,16 +290,15 @@ public class ExpertController {
 	  * @return String
 	 */
 	@RequestMapping("/findAllExpert")
-	public String findAllExpert(  Expert expert,Integer page,HttpServletRequest request,HttpServletResponse response){
+	public String findAllExpert(Expert expert,Integer page,HttpServletRequest request,HttpServletResponse response){
 		List<Expert> allExpert = service.selectAllExpert(page==null?1:page,expert);
-		
 		request.setAttribute("result", new PageInfo<>(allExpert));
 		request.setAttribute("expert", expert);
-		return "ems/expert/list";
+		return "ses/ems/expert/list";
 	}
 	/**
 	 * 
-	  * @Title: findAllExpert
+	  * @Title: findAllExpertShenHe
 	  * @author lkzx 
 	  * @date 2016年9月2日 下午5:44:37  
 	  * @Description: TODO 查询所有审核专家  可以条件查询
@@ -307,16 +306,15 @@ public class ExpertController {
 	  * @return String
 	 */
 	@RequestMapping("/findAllExpertShenHe")
-	public String findAllExpertShenHe(  Expert expert,Integer page,HttpServletRequest request,HttpServletResponse response){
+	public String findAllExpertShenHe(Expert expert,Integer page,HttpServletRequest request,HttpServletResponse response){
 		List<Expert> allExpert = service.selectAllExpert(page==null?1:page,expert);
-		
 		request.setAttribute("result", new PageInfo<>(allExpert));
 		request.setAttribute("expert", expert);
-		return "ems/expert/expertList";
+		return "ses/ems/expert/expertList";
 	}
 	/**
 	 * 
-	  * @Title: findAllExpert
+	  * @Title: toShenHeExpert
 	  * @author lkzx 
 	  * @date 2016年9月2日 下午5:44:37  
 	  * @Description: TODO 跳转到未审核专家
@@ -327,15 +325,14 @@ public class ExpertController {
 	public String toShenHeExpert( Expert expert,Integer page,HttpServletRequest request,HttpServletResponse response){
 		expert.setStatus("0");
 		List<Expert> allExpert = service.selectAllExpert(page==null?1:page,expert);
-		
 		request.setAttribute("result", new PageInfo<>(allExpert));
 		request.setAttribute("expert", expert);
-		return "ems/expert/expertList";
+		return "ses/ems/expert/expertList";
 	}
 	
 	/**
 	 * 
-	  * @Title: findAllExpert
+	  * @Title: toShenHeExpert2
 	  * @author lkzx 
 	  * @date 2016年9月2日 下午5:44:37  
 	  * @Description: TODO 跳转到审核通过专家
@@ -346,14 +343,13 @@ public class ExpertController {
 	public String toShenHeExpert2( Expert expert,Integer page,HttpServletRequest request,HttpServletResponse response){
 		expert.setStatus("1");
 		List<Expert> allExpert = service.selectAllExpert(page==null?1:page,expert);
-		
 		request.setAttribute("result", new PageInfo<>(allExpert));
 		request.setAttribute("expert", expert);
-		return "ems/expert/expertList";
+		return "ses/ems/expert/expertList";
 	}
 	/**
 	 * 
-	  * @Title: findAllExpert
+	  * @Title: toShenHeExpert3
 	  * @author lkzx 
 	  * @date 2016年9月2日 下午5:44:37  
 	  * @Description: TODO 跳转到审核未通过专家
@@ -364,10 +360,9 @@ public class ExpertController {
 	public String toShenHeExpert3( Expert expert,Integer page,HttpServletRequest request,HttpServletResponse response){
 		expert.setStatus("2");
 		List<Expert> allExpert = service.selectAllExpert(page==null?1:page,expert);
-		
 		request.setAttribute("result", new PageInfo<>(allExpert));
 		request.setAttribute("expert", expert);
-		return "ems/expert/expertList";
+		return "ses/ems/expert/expertList";
 	}
 	 /**
 	  * 
@@ -390,7 +385,7 @@ public class ExpertController {
 		  model.addAttribute("weishenhe", weishenhe);
 		  model.addAttribute("tongguo", tongguo);
 		  model.addAttribute("pass", pass);
-		 return "ems/expert/daiban";
+		 return "ses/ems/expert/daiban";
 	 }
 	 /**
 	  * 
@@ -407,7 +402,6 @@ public class ExpertController {
 	  */
 	 @RequestMapping("/upLoadExpertTable")
 	 public String upLoadExpertTable(@RequestParam("id") String id,@RequestParam("files") MultipartFile[] files,HttpServletRequest request) throws IOException{
-		 
 		 if(files!=null && files.length>0){
 			 for(MultipartFile myfile : files){  
 		            if(myfile.isEmpty()){  
@@ -426,6 +420,30 @@ public class ExpertController {
 			}
 		 return "redirect:/";
 	 }
+	 
+	 /**
+	  * 
+	   * @Title: findAllLoginName
+	   * @author ShaoYangYang
+	   * @date 2016年9月14日 下午6:13:09  
+	   * @Description: TODO 用户名唯一判断
+	   * @param @param loginName
+	   * @param @param model
+	   * @param @return      
+	   * @return List<User>
+	  */
+		@RequestMapping("/findAllLoginName")
+		@ResponseBody
+		public String findAllLoginName(@RequestParam("loginName")String loginName, Model model){
+			User user = new User();
+			user.setLoginName(loginName);
+			List<User> userList = userService.find(user);
+			if(userList!=null && userList.size()>0){
+				return "1";
+			}
+			return "2";
+		}
+	 
 	 /**
 	  * 
 	   * @Title: download
@@ -441,7 +459,7 @@ public class ExpertController {
 	 @RequestMapping("download")
 	 public ResponseEntity<byte[]> download(Expert expert,HttpServletRequest request) throws Exception{
 		 //Expert expert = service.selectByPrimaryKey(id);
-		 String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload/");
+		 String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
 		 String fileName = createWordMethod(expert, request);
 		 File file=new File(filePath+"/"+fileName);  
 	        HttpHeaders headers = new HttpHeaders(); 
@@ -452,7 +470,6 @@ public class ExpertController {
 	        file.delete();
 	        return entity;
 	 }
-	 
 	 
 	 /**
 		 * 

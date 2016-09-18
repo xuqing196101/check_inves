@@ -234,6 +234,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		       <input class="btn padding-left-20 padding-right-20 btn_back" onclick="submit()" type="button" value="查询">
 		     </form>
 		  <table id="tb1"  class="table table-bordered table-condensed tc">
+		      <thead>
 				<tr>
 					<th class="info">进口供应商名称</th>
 					<th class="info">企业类别</th>
@@ -241,6 +242,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<th class="info">电话</th>
 					<th class="info">审核状态</th>
 				</tr>
+			  </thead>
+			  <tbody>
 				 <c:forEach items="${isList.list }" var="list" varStatus="vs">
 					<tr>
 						<td>${list.name }</td>
@@ -260,7 +263,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</td>
 					</tr>
 				</c:forEach> 
-			</table>
+			  </tbody>
+		 </table>
 			<div id="pagediv" align="right"></div>
 		 </div>		 
 </body>

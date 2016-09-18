@@ -58,7 +58,7 @@ public class RoleManageController {
 		List<Role> roles=roleService.selectRoleUser(null);
 		model.addAttribute("list", roles);
 		logger.info(JSON.toJSONStringWithDateFormat(roles, "yyyy-MM-dd HH:mm:ss"));
-		return "role/list";
+		return "ses/bms/role/list";
 	}
 	
 	/**   
@@ -70,7 +70,7 @@ public class RoleManageController {
 	*/
 	@RequestMapping("/add")
 	public String toAdd(){
-		return "role/add";
+		return "ses/bms/role/add";
 	}
 	
 	/**   
@@ -115,7 +115,7 @@ public class RoleManageController {
 	public String edit(Role r,Model model){
 		Role role=roleService.get(r.getId());
 		model.addAttribute("role", role);
-		return "role/edit";
+		return "ses/bms/role/edit";
 	}
 	
 	/**   
@@ -178,7 +178,7 @@ public class RoleManageController {
 	@RequestMapping("/openPreMenu")
 	public String openPreMenu(Model model,String id){
 		model.addAttribute("rid", id);
-		return "role/addPreMenu";
+		return "ses/bms/role/addPreMenu";
 	}
 	
 	@RequestMapping("/saveRoleMenu")

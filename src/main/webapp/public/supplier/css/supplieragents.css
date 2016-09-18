@@ -5,3 +5,9 @@
 .ww100 {
 	height: 500px;
 }
+.h100{
+	height: 100px!important;
+}
+.w350{
+	width: 350px!important; 
+}
