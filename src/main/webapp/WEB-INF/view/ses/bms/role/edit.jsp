@@ -1,14 +1,14 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ include file="../common.jsp"%>
+<%@ include file="../../../common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
     <base href="<%=basePath%>">
     
-    <title>添加角色</title>
+    <title>修改角色</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -22,10 +22,10 @@
   </head>
   <script type="text/javascript">
   	$(function(){
-		$("#save").click(function(){
+		$("#update").click(function(){
 			$.ajax({  
 			   type: "POST",  
-			   url: "<%=basePath %>role/save.html",  
+			   url: "<%=basePath %>role/update.html",  
 			   data: $("#form1").serializeArray(),  
 			   dataType: 'json',  
 			   success:function(result){
@@ -39,7 +39,7 @@
 	       			}
 	       		},
 	       		error: function(result){
-					layer.msg("添加失败",{offset: ['150px', '180px']});
+					layer.msg("更新失败",{offset: ['150px', '180px']});
 				}
 			});
 			
@@ -55,19 +55,19 @@
    <div class="container">
 	   <form action="" id="form1" method="post">
 		   <div>
-		   	
+			   <input name="id" value=${role.id } type="hidden">
 			   <ul class="list-unstyled list-flow p0_20">
 			     <li class="col-md-6 p0">
 				   <span class="">名称：</span>
 				   <div class="input-append">
-			        <input class="span2" name="name" maxlength="30" type="text">
+			        <input class="span2" name="name" value=${role.name } maxlength="30" type="text">
 			        <span class="add-on">i</span>
 			       </div>
 				 </li>
 			     <li class="col-md-12 p0">
 				   <span class="fl">描述：</span>
 				   <div class="col-md-12 pl200 fn mt5 pwr9">
-			        <textarea class="text_area col-md-12 " name="describe" maxlength="200" title="" placeholder=""></textarea>
+			        <textarea class="text_area col-md-12 " name="describe"  maxlength="200" title="" placeholder="">${role.describe }</textarea>
 			       </div>
 				 </li> 
 			   </ul>
@@ -75,7 +75,7 @@
 	   
 		  <div  class="col-md-12">
 		    <div class="fl padding-10">
-			    <button class="btn btn-windows save" id="save" type="button">保存</button>
+			    <button class="btn btn-windows save" id="update" type="button">更新</button>
 			    <button class="btn btn-windows git" id="backups" type="button">返回</button>
 			</div>
 		  </div>
