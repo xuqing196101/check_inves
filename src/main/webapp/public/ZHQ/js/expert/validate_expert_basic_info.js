@@ -25,6 +25,11 @@ function validateForm1(){
 		layer.tips("请填写证件号码 !", "#idNumber");
 		return false;
 	}
+	var id_areaSelect = $("#id_areaSelect").val();
+	if(!id_areaSelect){
+		layer.tips("请选择区域 !", "#id_areaSelect");
+		return false;
+	}
 	var file1=$("#file1");
     if($.trim(file1.val())==''){
     	layer.tips("请选择要上传的附件 !", "#file10");

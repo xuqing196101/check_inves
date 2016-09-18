@@ -28,7 +28,7 @@ public class WordUtil {
 	    @SuppressWarnings("unchecked")
 	public static String createWord(Map dataMap,String templateName,String fileName ,HttpServletRequest request){
 	    	//暫存url
-	    	String url = request.getSession().getServletContext().getRealPath("/WEB-INF/upload/");
+	    	String url = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
 	    	//String url="";
 	    	//存放地址
 	    	//String filePath = FileUtil.getPath();

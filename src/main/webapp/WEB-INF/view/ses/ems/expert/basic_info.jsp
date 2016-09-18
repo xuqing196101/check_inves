@@ -36,6 +36,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
 <script src="${pageContext.request.contextPath}/public/ZHQ/js/expert/validate_expert_basic_info.js"></script>
+  <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/expert/TestAddress.js"></script>
+  <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/expert/TestChooseAddress.js"></script>
 <script type="text/javascript">
 	function kaptcha() {
 		$("#kaptchaImage").hide().attr('src', '${pageContext.request.contextPath}/Kaptcha.jpg').fadeIn();
@@ -61,6 +63,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 		}
 		   }
 	});
+	function submitForm1(){
+		if(validateForm1()){
+			$("#zancun").val(1);
+			$("#form1").submit();
+		}
+	}
 		/** 供应商完善注册信息页面 */
 	function supplierRegist(name, i, position) {
 		 if(i==3){
@@ -83,6 +91,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				return;
 			}
 		}
+		
 		var t = null;
 		var l = null;
 		if (position == "pre") {
@@ -93,10 +102,61 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			t = name + "_" + i;
 			l = name + "_" + (i + 1);
 		}
+		$("#zancun").val(0);
 		$("#" + t).hide();
 		$("#" + l).show();
 	}
-	
+		//地区联动js
+	function loadProvince(regionId){
+		  $("#id_provSelect").html("");
+		  $("#id_provSelect").append("<option value=''>请选择省份</option>");
+		  var jsonStr = getAddress(regionId,0);
+		  for(var k in jsonStr) {
+			$("#id_provSelect").append("<option value='"+k+"'>"+jsonStr[k]+"</option>");
+		  }
+		  if(regionId.length!=6) {
+			$("#id_citySelect").html("");
+		    $("#id_citySelect").append("<option value=''>请选择城市</option>");
+			$("#id_areaSelect").html("");
+		    $("#id_areaSelect").append("<option value=''>请选择区域</option>");
+		  } else {
+			 $("#id_provSelect").val(regionId.substring(0,2)+"0000");
+			 loadCity(regionId);
+		  }
+	}
+
+	function loadCity(regionId){
+	  $("#id_citySelect").html("");
+	  $("#id_citySelect").append("<option value=''>请选择城市</option>");
+	  if(regionId.length!=6) {
+		$("#id_areaSelect").html("");
+	    $("#id_areaSelect").append("<option value=''>请选择区域</option>");
+	  } else {
+		var jsonStr = getAddress(regionId,1);
+	    for(var k in jsonStr) {
+		  $("#id_citySelect").append("<option value='"+k+"'>"+jsonStr[k]+"</option>");
+	    }
+		if(regionId.substring(2,6)=="0000") {
+		  $("#id_areaSelect").html("");
+	      $("#id_areaSelect").append("<option value=''>请选择区域</option>");
+		} else {
+		   $("#id_citySelect").val(regionId.substring(0,4)+"00");
+		   loadArea(regionId);
+		}
+	  }
+	}
+
+	function loadArea(regionId){
+	  $("#id_areaSelect").html("");
+	  $("#id_areaSelect").append("<option value=''>请选择区域</option>");
+	  if(regionId.length==6) {
+	    var jsonStr = getAddress(regionId,2);
+	    for(var k in jsonStr) {
+		  $("#id_areaSelect").append("<option value='"+k+"'>"+jsonStr[k]+"</option>");
+	    }
+		if(regionId.substring(4,6)!="00") {$("#id_areaSelect").val(regionId);}
+	  }
+	}
 </script>
 
 </head>
@@ -178,10 +238,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<!--/end container-->
 			</div>
 		</div>
-		<form id="form1" action="${pageContext.request.contextPath}/expert/edit.html" method="post"  enctype="multipart/form-data">
+		<form id="form1" action="${pageContext.request.contextPath}/expert/edit.html" method="post"  enctype="multipart/form-data" >
 		<input type="hidden" name="userId" value="${user.id }">
 		<input type="hidden" id="purchaseDepId" value="${expert.purchaseDepId }">
 		<input type="hidden" name="id" value="${expert.id }">
+		<input type="hidden" name="zancun" id="zancun">
 		<%
 			session.setAttribute("tokenSession", tokenValue);
 		%>
@@ -252,7 +313,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>证件号码：</span>
 											<div class="input-append">
-												 <input class="span3" maxlength="30" value=" ${expert.idNumber }"  name="idNumber" id="idNumber" type="text">
+												 <input class="span3" maxlength="30" value="${expert.idNumber }"  name="idNumber" id="idNumber" type="text">
         									</div>
 										</li>
 										<li class="col-md-6 p0 "><span class="">政治面貌：</span>
@@ -271,8 +332,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class="">所在地区：</span>
+										<!-- <script type="text/javascript">
+											function addressCode(){
+												var code = $("#id_areaSelect").val();
+												$("address").val(code);
+											}
+										</script> -->
 											<div class="input-append">
-											<input class="span3" maxlength="40" value=" ${expert.address }"  name="address" id="appendedInput" type="text">
+											  <select id="id_provSelect" name="provSelect" onChange="loadCity(this.value);"><option value="">请选择省份</option></select>
+											  <select id="id_citySelect" name="citySelect" onChange="loadArea(this.value);"><option value="">请选择城市</option></select>
+											  <select id="id_areaSelect" name="address" onchange="addressCode();"><option value="">请选择区域</option></select>
+											  <SCRIPT LANGUAGE="JavaScript"> loadProvince('${expert.address }');</SCRIPT>
+											<%-- <input class="span3" maxlength="20" value=" ${expert.address }"  name="detailAddress" id="appendedInput" type="text"> --%>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class="">毕业院校：</span>
@@ -417,6 +488,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										   </ul>
 										   </div>
 									<div class="tc mt20 clear col-md-11">
+									
+									        <button class="btn btn-windows git" onclick="submitForm1();"  type="button">暂存</button>
 											<button class="btn btn-windows git"   type="button" onclick="supplierRegist('reg_box_id', 3, 'next')">下一步</button>
 									</div>
 								</div>
@@ -480,7 +553,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			
 				<thead>
 					<tr>
-					  <th class="info w30"><input type="radio"  disabled="disabled"  id="purchaseDepId2" alt=""></th>
+					  <th class="info w30"><input type="radio"  disabled="disabled"  id="purchaseDepId2" ></th>
 					  <th class="info w50">序号</th>
 					  <th class="info">采购机构</th>
 					  <th class="info">联系人</th>
@@ -488,16 +561,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					  <th class="info">联系电话</th>
 					</tr>
 				</thead>
-				<%-- <c:forEach items="" var="" varStatus="vs">
+				 <c:forEach items="${ purchase}" var="p" varStatus="vs">
 					<tr>
 						<td><input type="checkbox" name="cbox" onclick="box(this)" /></td>
-						<td>${(l-1)*10+vs.index+1}</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
+						<td>${vs.count}</td>
+						<td>${p.businessDep }</td>
+						<td>${p.contact }</td>
+						<td>${p.contactAddress }</td>
+						<td>${p.contactTelephone }</td>
 					</tr>
-				</c:forEach> --%>
+				</c:forEach> 
 				<tr>
 				  <td class="tc w30"><input type="radio" name="purchaseDepId"  alt="" value="2"></td>
 				  <td class="tc w50">1</td>

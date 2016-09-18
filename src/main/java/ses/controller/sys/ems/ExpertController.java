@@ -34,8 +34,10 @@ import com.github.pagehelper.PageInfo;
 
 import ses.model.bms.User;
 import ses.model.ems.Expert;
+import ses.model.oms.PurchaseDep;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertService;
+import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.Encrypt;
 import ses.util.WfUtil;
 import ses.util.WordUtil;
@@ -48,6 +50,8 @@ public class ExpertController {
 	private UserServiceI userService;
 	@Autowired
 	private ExpertService service;
+	@Autowired
+	PurchaseOrgnizationServiceI purchaseOrgnizationService;
 	/**
 	 * 
 	  * @Title: toExpert
@@ -59,7 +63,6 @@ public class ExpertController {
 	 */
 	@RequestMapping(value="/toExpert")
 	public String toExpert(){
-		
 		return "ses/ems/expert/expertRegister";
 	}
 	
@@ -74,7 +77,6 @@ public class ExpertController {
 	 */
 	@RequestMapping(value="/toRegisterNotice")
 	public String toRegisterNotice(){
-		
 		return "ses/ems/expert/basic_info";
 	}
 	
@@ -113,11 +115,6 @@ public class ExpertController {
 				return "ems/expert/expertRegister";
 			}
 		expert.setId(UUID.randomUUID().toString());
-		expert.setCreatedAt(new Date());
-		expert.setIsDeleted(0);
-		//密码加密
-		String md5AndSha = Encrypt.md5AndSha(expert.getLoginName()+expert.getPassword());
-		expert.setPassword(md5AndSha);
 		request.setAttribute("user", expert);
 		//model.addAttribute("expert", expert);
 		userService.save(expert, null);
@@ -139,6 +136,8 @@ public class ExpertController {
 	@RequestMapping("/toBasicInfo")
 	public String toBasicInfo(@RequestParam("id")String id,HttpServletRequest request,HttpServletResponse response,  Model model){
 		Expert expert = service.selectByPrimaryKey(id);
+		List<PurchaseDep> purchaseDepList = purchaseOrgnizationService.findPurchaseDepList(null);
+		model.addAttribute("purchase", purchaseDepList);
 		model.addAttribute("expert", expert);
 		return "ses/ems/expert/basic_info";
 	}
@@ -184,7 +183,7 @@ public class ExpertController {
 	 * @throws IOException 
 	 */
 	@RequestMapping("/edit")
-	public String edit(@RequestParam("files")MultipartFile[] files,Expert expert,@RequestParam("userId")String userId,Model model,HttpSession session,@RequestParam String token2 ,HttpServletRequest request,HttpServletResponse response) throws IOException{
+	public String edit(@RequestParam("files")MultipartFile[] files,@RequestParam("zancun")String zancun,Expert expert,@RequestParam("userId")String userId,Model model,HttpSession session,@RequestParam String token2 ,HttpServletRequest request,HttpServletResponse response) throws IOException{
 		Object tokenValue = session.getAttribute("tokenSession");
 		String expertId = UUID.randomUUID().toString();
 		if (tokenValue != null && tokenValue.equals(token2)) {
@@ -194,13 +193,12 @@ public class ExpertController {
 		if(files!=null && files.length>0){
 			 for(MultipartFile myfile : files){  
 		            if(myfile.isEmpty()){  
-		            	
 		            }else{  
 		                String filename = myfile.getOriginalFilename();
 		                String uuid = WfUtil.createUUID();
 		                //文件名处理
 		                filename=uuid+filename;
-		                //如果用的是Tomcat服务器，则文件会上传到\\%TOMCAT_HOME%\\webapps\\YourWebProject\\WEB-INF\\upload\\文件夹中  
+		                //如果用的是Tomcat服务器，则文件会上传到\\%TOMCAT_HOME%\\webapps\\YourWebProject\\WEB-INF\\upload_file\\文件夹中  
 		                String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");  
 		                //这里不必处理IO流关闭的问题，因为FileUtils.copyInputStreamToFile()方法内部会自动把用到的IO流关掉，我是看它的源码才知道的  
 		                FileUtils.copyInputStreamToFile(myfile.getInputStream(), new File(realPath, filename));  
@@ -228,6 +226,27 @@ public class ExpertController {
 			}
 			userService.update(user);*/
 		}
+		if(zancun!=null && zancun.equals("1")){//说明为暂存否则为提交
+			if(expert.getId()==null || expert.getId()=="" || expert.getId().length()==0){
+				//id为空 说明为新增数据
+				expert.setId(expertId);
+				//已提交
+				expert.setIsSubmit("0");
+				//修改时间
+				expert.setUpdatedAt(new Date());
+				service.insertSelective(expert);
+				return "redirect:/";
+			}else{
+				//否则为修改
+				//已提交
+				expert.setIsSubmit("0");
+				//修改时间
+				expert.setUpdatedAt(new Date());
+				service.updateByPrimaryKeySelective(expert);
+				return "redirect:/";
+			}
+			
+		}
 		if(expert.getId()==null || expert.getId()=="" || expert.getId().length()==0){
 			//id为空 说明为新增数据
 			expert.setId(expertId);
@@ -244,15 +263,12 @@ public class ExpertController {
 			expert.setUpdatedAt(new Date());
 			service.updateByPrimaryKeySelective(expert);
 		}
-		//关联机构信息
+		    //关联机构信息
 		
 			//查询出所有信息放进model中
 			Expert expert2 = service.selectByPrimaryKey(expert.getId());
 			model.addAttribute("expert", expert2); 
-			//判断是暂存还是下一步
-		/*if(zancun!=null && zancun.equals("1")){
-			return "redirect:/";
-		}*/
+	
 		return "redirect:/";
 		}else{//重复提交
 			//查询出所有信息放进model中
@@ -366,7 +382,7 @@ public class ExpertController {
 	}
 	 /**
 	  * 
-	   * @Title: toDaiBan
+	   * @Title: to
 	   * @author ShaoYangYang
 	   * @date 2016年9月12日 下午4:01:22  
 	   * @Description: TODO 跳转到待办页面
@@ -374,8 +390,8 @@ public class ExpertController {
 	   * @param @return      
 	   * @return String
 	  */
-	 @RequestMapping("/toDaiBan")
-	 public String toDaiBan(Expert expert,Model model){
+	 @RequestMapping("/toBackLog")
+	 public String toBackLog(Expert expert,Model model){
 		 expert.setStatus("0");
 		 Integer weishenhe = service.getCount(expert);
 		 expert.setStatus("1");
@@ -385,7 +401,7 @@ public class ExpertController {
 		  model.addAttribute("weishenhe", weishenhe);
 		  model.addAttribute("tongguo", tongguo);
 		  model.addAttribute("pass", pass);
-		 return "ses/ems/expert/daiban";
+		 return "ses/ems/expert/backlog";
 	 }
 	 /**
 	  * 
@@ -411,8 +427,8 @@ public class ExpertController {
 		                String uuid = WfUtil.createUUID();
 		                //文件名处理
 		                filename=uuid+filename;
-		                //如果用的是Tomcat服务器，则文件会上传到\\%TOMCAT_HOME%\\webapps\\YourWebProject\\WEB-INF\\upload\\文件夹中  
-		                String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload");  
+		                //如果用的是Tomcat服务器，则文件会上传到\\%TOMCAT_HOME%\\webapps\\YourWebProject\\WEB-INF\\upload_file\\文件夹中  
+		                String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file");  
 		                //这里不必处理IO流关闭的问题，因为FileUtils.copyInputStreamToFile()方法内部会自动把用到的IO流关掉，我是看它的源码才知道的  
 		                FileUtils.copyInputStreamToFile(myfile.getInputStream(), new File(realPath, filename));  
 		            }  

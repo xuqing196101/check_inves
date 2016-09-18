@@ -223,7 +223,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			 <li class="p0 ">
 			   <span class=""><i class="red mr5">*</i>手机号码：</span>
 			   <div class="input-append">
-		        <input class="span2" name="phone" placeholder="请输入正确的手机号码" maxlength="14" id="phone" onblur="validataPhone();"  value="" type="text">
+		        <input class="span2" name="mobile" placeholder="请输入正确的手机号码" maxlength="14" id="phone" onblur="validataPhone();"  value="" type="text">
 		        <span class="add-on">i</span>
 		       </div>
 		        <input class="btn" type="button" value="发送验证码"><font  id="phone2"></font>
@@ -231,7 +231,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			 <li class="p0">
 			   <span class=""><i class="red mr5">*</i>验证码：</span>
 			   <div class="input-append">
-		        <input class="span2" name="phone" maxlength="6" type="text" value="">
+		        <input class="span2" name="yzm" maxlength="6" type="text" value="">
 		        <span class="add-on">i</span>
 		       </div><font  id="yzm"></font>
 			 </li>
