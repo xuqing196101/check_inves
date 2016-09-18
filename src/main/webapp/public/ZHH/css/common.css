@@ -715,3 +715,7 @@ a.redhover:hover{
 .question_input{
 	min-width:130px;
 }
+.text_area2{
+	width:80%;
+	height:180px;
+}

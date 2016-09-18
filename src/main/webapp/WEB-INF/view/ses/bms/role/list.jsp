@@ -143,7 +143,7 @@
     function add(){
     	layer.open({
 			  type: 2, //page层
-			  area: ['450px', '350px'],
+			  area: ['40%', '350px'],
 			  title: '新增角色',
 			  closeBtn: 1,
 			  shade:0.01, //遮罩透明度
