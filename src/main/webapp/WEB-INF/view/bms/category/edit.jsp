@@ -1,14 +1,12 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ include file="../common.jsp"%>
-
+<%@ include file="../../common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-
     
-    <title>My JSP 'add.jsp' starting page</title>
+    <title>采购目录更新</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -18,25 +16,7 @@
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-<script type="text/javascript">
-	function cheClick(id,name){
-		$("#articleTypeId").val(id);
-		$("#articleTypeName").val(name);
-	}
-	
-	function addAttach(){
-		html="<input id='pic' type='file' class='toinline' name='attaattach'/><a href='#' onclick='deleteattach(this)' class='toinline'>x</a><br/>";
-		$("#uploadAttach").append(html);
-	}
-	
-	function deleteattach(obj){
-		$(obj).prev().remove();
-		$(obj).next().remove();
-		$(obj).remove();
-	}
 
-
-</script>
   </head>
   
   <body>
@@ -113,8 +93,9 @@
 	</div>
    </div>
 </div>
-	<!--面包屑导航开始-->
+  <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
+      
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
 		   <li><a href="#"> 首页</a><><li><a href="#">采购目录管理</a><><li>
@@ -122,30 +103,44 @@
 		<div class="clear"></div>
 	  </div>
    </div>
-  <div class="container">
-	<form action="<%=basePath%>category/save.do" method="post" enctype="multipart/form-data">
-	<input type="hidden" value="${id }" name="ancestry"/>
-	       <div class=""><span>目录名称:</span><input type="text" name="name" /></div>
-	       <div class=""><span>排序:</span><input type="text"name="orderNum" /></div>
-	       <div class=""><span>前台展示优先级</span><input type="text" name="code" /></div>
-	        
-	        <div id="uploadAttach" class="clear ml160">
+   <div class="container">
+	<form action="<%=basePath%>category/edit.do" method="post">
+		<input type="hidden" value="${id}" name="ancestry"/>
+	       <div >目录名称：<input type="text" name="name" value="${category.name }"/></div>
+	       <div>父节点<input type="text" name="ancestry" value="${category.ancestry }"/></div>
+	       <div>排序：<input type="text" name="orderNum" value="${category.orderNum }"/></div>
+	       <div>前台展示优先级:<input type="text" name="params" value="${category.code }"/></div>
+	       <div id="uploadAttach" class="clear ml160">
 	 		 <div class="f14">上传附件</div>
 	  		 <input id="pic" type="file" class="toinline" name="attaattach"/>
 	   		 <input class="toinline" type="button" value="添加" onclick="addAttach()"/><br/>
 	 		</div>
-	       <div class=""><span>描述:</span><input type="text"  name="description"/></div>
+	       
+	       
+	       <div >描述：<input type="text" name="description" value="${category.description }"/></div>
 	       <div class=""><span>是否末级</span>
 	       		 <select name="isEnd">
 	  	  		<option value="0">是</option>
 	  	  		<option value="1">否</option> 
 	  		</select>
 	       </div>
-	    <div>
-			<input class="btn btn-window " value="提交" type="submit"> 
+	      <div class="item ml125 mt20">
+			<input class="btn btn-window " name="commit" value="更新" type="submit"> 
 			<input class="btn btn-window " onclick="location.href='javascript:history.go(-1);'" value="返回" type="button"/>
 		</div>
-		</div>
-	</form>
+		</form>
+		<!--底部代码开始-->
+			<div class="footer-v2 clear" id="footer-v2">
+      			<div class="footer">
+           		 <!-- Address -->
+              <address class="">
+			  Copyright © 2016 版权所有：中央军委后勤保障部 京ICP备09055519号
+              </address>
+              <div class="">
+		       浏览本网主页，建议将电脑显示屏的分辨率调为1024*768
+              </div> 
+            <!-- End Address -->
+<!--/footer--> 
+    </div>
   </body>
 </html>
