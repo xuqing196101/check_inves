@@ -1,9 +1,9 @@
 package iss.service.ps;
 
-import iss.model.ps.Article;
 import iss.model.ps.DownloadUser;
 
 import java.util.List;
+import java.util.Map;
 
 
 /*
@@ -35,7 +35,7 @@ public interface DownloadUserService {
     * @param @return      
     * @return List<DownloadUser>
      */
-    List<DownloadUser> selectByArticleId(String id);
+    List<DownloadUser> selectByArticleId(Map<String,Object> map);
     
     /**
      * 

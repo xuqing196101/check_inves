@@ -12,7 +12,9 @@ import org.apache.solr.client.solrj.impl.HttpSolrClient;
 public class SolrContext {
 	private static SolrClient server=null;
 	static{
-		server = new HttpSolrClient("http://192.168.23.3:8983/solr/zh");
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		server = new HttpSolrClient(config.getString("solrUrl"));
+//		server = new HttpSolrClient("http://192.168.23.3:8983/solr/zh");
 	}
 	
 	public static SolrClient getServer(){

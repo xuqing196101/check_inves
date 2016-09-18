@@ -8,6 +8,7 @@ import iss.model.ps.ArticleType;
 import iss.service.ps.ArticleAttachmentsService;
 import iss.service.ps.ArticleService;
 import iss.service.ps.ArticleTypeService;
+import iss.service.ps.SolrNewsService;
 
 import java.util.List;
 import java.util.Date;
@@ -52,6 +53,9 @@ public class ArticleController {
 	
 	@Autowired
 	private ArticleAttachmentsService articleAttachmentsService;
+	
+	@Autowired
+	private SolrNewsService solrNewsService;
 	
 	private Logger logger = Logger.getLogger(LoginController.class); 
 	
@@ -210,6 +214,10 @@ public class ArticleController {
 				article.setRange(Integer.valueOf(ranges[i]));
 			}
 		}
+		if(article.getStatus()==2){
+			article.setStatus(0);
+			solrNewsService.deleteIndex(article.getId());
+		}
 		article.setProjectId("123131231");//死数据
 		article.setUpdatedAt(new Date());
 		articleService.update(article);
@@ -229,6 +237,12 @@ public class ArticleController {
 	public String delete(HttpServletRequest request,String ids){
 		String[] id=ids.split(",");
 		for (String str : id) {
+			Article article = articleService.selectArticleById(str);
+			if(article.getStatus()==2){
+				article.setStatus(0);
+				solrNewsService.deleteIndex(article.getId());
+				articleService.update(article);
+			}
 			articleService.delete(str);
 		}
 		return "redirect:getAll.html";
@@ -348,6 +362,7 @@ public class ArticleController {
 		
 		if(article.getStatus()==2){
 			article.setReason("");
+			solrNewsService.addIndex(article);
 			articleService.update(article);
 		}else if(article.getStatus()==3){
 			String reason = new String((article.getReason()).getBytes("ISO-8859-1") , "UTF-8");
