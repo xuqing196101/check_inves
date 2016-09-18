@@ -6,7 +6,7 @@ import java.util.Date;
 public class PurchaseDep extends Orgnization{
     private String id;
 
-    private String level;
+    private String levelDep;
 
     private String subordinateOrgId;
 
@@ -94,15 +94,17 @@ public class PurchaseDep extends Orgnization{
         this.id = id == null ? null : id.trim();
     }
 
-    public String getLevel() {
-        return level;
-    }
+   
 
-    public void setLevel(String level) {
-        this.level = level == null ? null : level.trim();
-    }
+    public String getLevelDep() {
+		return levelDep;
+	}
 
-    public String getSubordinateOrgId() {
+	public void setLevelDep(String levelDep) {
+		this.levelDep = levelDep;
+	}
+
+	public String getSubordinateOrgId() {
         return subordinateOrgId;
     }
 

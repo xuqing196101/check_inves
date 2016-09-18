@@ -1,0 +1,9 @@
+ p.pagestyle{ display:inline-block; float:right; margin-top:8px; text-align:right; font-size:12px;}
+ p.pagestyle a{ display:inline-block; float:left; color:#333; width:30px; height:30px; line-height:30px; border:1px solid #ececec; text-align:center; font-size:12px; margin-left:4px; margin-right:4px;}
+ p.pagestyle a:active {background:#568ddf;border:1px solid #568ddf; color:#fff;}
+ p.pagestyle a.sel{ background:#568ddf;border:1px solid #568ddf; color:#fff;}
+ p.pagestyle a.pre{ display:inline-block; background:url(../images/arrowL.png) center no-repeat;}
+ p.pagestyle a.next{ display:inline-block; background:url(../images/arrowR.png) center no-repeat;}
+ p.pagestyle input{ display:inline-block; float:left; width:30px; height:28px;}
+ p.pagestyle span{ float:left;display:inline-block; padding-left:10px; padding-right:10px; line-height:30px; text-align:center;}
+ p.pagestyle a.subm{ color:#fff; padding-left:10px; padding-right:10px; background:#568ddf; border:1px solid #568ddf;-moz-border-radius: 3px; /* Gecko browsers */  -webkit-border-radius: 3px; /* Webkit browsers */border-radius:3px;/* W3C syntax*/}

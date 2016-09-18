@@ -4,7 +4,7 @@
 	 <!-- 根据条件查部 采购机构-->
 	<select id="findPurchaseDepList" parameterType="java.util.Map" resultType="ses.model.oms.PurchaseDep">
 			   select d.id  as id,
-		       d.LEVEL       as level,
+		       d.LEVEL_DEP       as levelDep,
 		       d.SUBORDINATE_ORG_ID       as subordinateOrgId,
 		       d.SUBORDINATE_ORG__NAME     as subordinateOrgName,
 		       d.BUSINESS_DEP         as businessDep,

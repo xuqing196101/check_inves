@@ -18,13 +18,21 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
+
+import ses.model.bms.StationMessage;
 import ses.model.oms.Deparent;
 import ses.model.oms.Orgnization;
+import ses.model.oms.PurchaseDep;
 import ses.model.oms.util.AjaxJsonData;
+import ses.model.oms.util.CommUtils;
+import ses.model.oms.util.CommonConstant;
 import ses.model.oms.util.Ztree;
 import ses.service.oms.DepartmentServiceI;
 import ses.service.oms.OrgnizationServiceI;
+import ses.service.oms.PurchaseOrgnizationServiceI;
 
 
 /**
@@ -42,6 +50,8 @@ public class PurchaseManageController {
 	private DepartmentServiceI departmentServiceI;
 	@Autowired
 	private OrgnizationServiceI orgnizationServiceI;
+	@Autowired
+	private PurchaseOrgnizationServiceI purchaseOrgnizationServiceI;
 	
 	private AjaxJsonData jsonData = new AjaxJsonData();
 	HashMap<String,Object> resultMap = new HashMap<String,Object>();
@@ -267,7 +277,32 @@ public class PurchaseManageController {
 		}
 		return json;
 	}
-	//-----------------------------------------------------
+	//-------------------------------采购相关机构操作------------------------------------------------------------------------------
+	/**
+	 * 
+	 * @Title: purchaseUnitList
+	 * @author: Tian Kunfeng
+	 * @date: 2016-9-18 下午1:58:58
+	 * @Description: 采购机构查询列表页
+	 * @param: @return
+	 * @return: String
+	 */
+	@RequestMapping("purchaseUnitList")
+	public String purchaseUnitList(Model model,@ModelAttribute PageInfo page,@ModelAttribute PurchaseDep purchaseDep){
+		//每页显示十条
+		PageHelper.startPage(page.getPageNum(),CommonConstant.PAGE_SIZE);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		List<PurchaseDep> purchaseDepList = purchaseOrgnizationServiceI.findPurchaseDepList(map);
+		page = new PageInfo(purchaseDepList);
+		model.addAttribute("purchaseDepList",purchaseDepList);
+
+		//分页标签
+		String pagesales = CommUtils.getTranslation(page,"sales/SaleIndexList.do");
+		model.addAttribute("pagesql", pagesales);
+		model.addAttribute("purchaseDep", purchaseDep);
+		return "ses/oms/purchase_dep/list";
+	}
+	//-----------------------------------------------------基本get()/set()--------------------------------------------------
 	public AjaxJsonData getJsonData() {
 		return jsonData;
 	}
