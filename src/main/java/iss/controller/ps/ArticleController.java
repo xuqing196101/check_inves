@@ -180,6 +180,8 @@ public class ArticleController {
 		List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(article.getId());
 		article.setArticleAttachments(articleAttaList);
 		model.addAttribute("article",article);
+		List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
+		model.addAttribute("list", list);
 		return "iss/ps/article/edit";
 	}
 
@@ -250,6 +252,8 @@ public class ArticleController {
 		List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(article.getId());
 		article.setArticleAttachments(articleAttaList);
 		model.addAttribute("article",article);
+		List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
+		model.addAttribute("list", list);
 		return "iss/ps/article/look";
 	}
 	
@@ -291,7 +295,7 @@ public class ArticleController {
 	* @Title: sumbit
 	* @author Shen Zhenfei
 	* @date 2016-9-5 下午1:55:35 
-	* @Description: 提交、审核、退回
+	* @Description: 提交
 	* @param @param request
 	* @param @param article
 	* @param @return      
@@ -328,6 +332,8 @@ public class ArticleController {
 		List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(article.getId());
 		article.setArticleAttachments(articleAttaList);
 		model.addAttribute("article",article);
+		List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
+		model.addAttribute("list", list);
 		return "iss/ps/article/audit/audit";
 	}
 	
@@ -358,18 +364,4 @@ public class ArticleController {
 		return "redirect:getAll.html";
 	}
 	
-	/**
-	* @Title: checkName
-	* @author Shen Zhenfei
-	* @date 2016-9-7 上午9:15:45  
-	* @Description: 验证信息标题是否重复
-	* @param @return      
-	* @return boolean
-	 */
-	@ResponseBody
-	@RequestMapping("/check")
-	public boolean checkName(String name){
-		boolean check = false;
-		return check;
-	}
 }
