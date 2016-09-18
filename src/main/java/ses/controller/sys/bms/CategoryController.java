@@ -1,7 +1,10 @@
 package ses.controller.sys.bms;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -12,11 +15,20 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.jsqlparser.statement.create.index.CreateIndex;
+
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -34,8 +46,6 @@ import ses.model.bms.CategoryTree;
 import ses.service.bms.CategoryAttchmentService;
 import ses.service.bms.CategoryService;
 import com.google.gson.Gson;
-
-
 /**
  * 
 * @Title:CategoryController
@@ -68,19 +78,20 @@ public class CategoryController {
 	* @param @return
 	* @param @throws Exception      
 	* @return String
-	 */
+	*/
 	@ResponseBody
 	@RequestMapping("/findListByParent")
 	public String selectAll(HttpServletRequest request,Category category){
 		if (category.getId()==null) {
 			category.setId("a");
 		}
-		Gson gson=new Gson();
+		Gson gson = new Gson();
 		List<Category> cateList=categoryService.listByParent(category.getId());
 		listCategory.put("cateList", cateList);
 		listCategory.put("id", category.getId());
 		return gson.toJson(listCategory);
 	}
+	
 	/**
 	 * 
 	* @Title: getCategoryAll
@@ -95,7 +106,7 @@ public class CategoryController {
 	public String getAll(Category category){
 		if(category.getId()==null){
 			category.setId("a");
-		}
+	}
 		List<CategoryTree> jList=new ArrayList<CategoryTree>(); 
 		List<Category> cateList=categoryService.findTreeByPid(category.getId());
 		Gson gson=new Gson();
@@ -110,7 +121,7 @@ public class CategoryController {
 			}
 			ct.setId(cate.getId());
 			ct.setName(cate.getName());
-			ct.setpId(cate.getAncestry());
+			ct.setpId(cate.getParentId());
 			jList.add(ct);
 			list = gson.toJson(jList);
 	}
@@ -123,7 +134,7 @@ public class CategoryController {
 	 * */
 	@RequestMapping("/get")
 	public String get(HttpServletRequest request){
-		return "category/bms/list";
+		return "category/ses/bms/list";
 	}
 
 	/**
@@ -137,7 +148,7 @@ public class CategoryController {
     @RequestMapping("/add")
     public String addCategory(HttpServletRequest request,Model model,Category category){  
     	model.addAttribute("id",category.getId());
-        return "category/bms/add";  
+        return "category/ses/bms/add";  
 		
 		
 	}
@@ -154,9 +165,9 @@ public class CategoryController {
    public String save(@RequestParam("attaattach") MultipartFile[] attaattach,
 	          HttpServletRequest request, HttpServletResponse response,Category category){
 	  category.setName(request.getParameter("name"));
-	  category.setOrderNum(Integer.parseInt(request.getParameter("orderNum")));
+	  category.setPosition(Integer.parseInt(request.getParameter("position")));
 	  category.setStatus(1);
-	  category.setCode(Integer.parseInt(request.getParameter("code")));
+	  category.setCode(request.getParameter("code"));
 	  category.setCreatedAt(new Date());
 	  category.setDescription(request.getParameter("description"));
 	  category.setIsEnd(request.getParameter("isEnd"));
@@ -167,7 +178,7 @@ public class CategoryController {
 	}
 	  categoryService.insertSelective(category);
 	  upload(request,attaattach,category);
-	return "category/bms/list";
+	return "category/ses/bms/list";
    }
    
    /**
@@ -189,18 +200,16 @@ public class CategoryController {
 				if (!rootfile.exists()) {
 					rootfile.mkdirs();
 				}
-		        String fileName = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase() + "_" + attaattach[i].getOriginalFilename();
-		        String filePath = rootpath+fileName;
+		        String fileName = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase() + "_" + attaattach[i].getOriginalFilename();		        String filePath = rootpath+fileName;
 		        File file = new File(filePath);
 		        try {
 					attaattach[i].transferTo(file);
 				} catch (IllegalStateException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+					e.printStackTrace();				} catch (IOException e) {
+				e.printStackTrace();
+			}
 				 CategoryAttchment attachment=new CategoryAttchment();
-				attachment.setCategory(new Category(category.getId()));
+         		attachment.setCategory(new Category(category.getId()));
 				attachment.setFileName(fileName);
 				attachment.setCreatedAt(new Date());
 				attachment.setUpdatedAt(new Date());
@@ -216,7 +225,7 @@ public class CategoryController {
     /**
 	 * 
 	* @Title: update
-	* @author zhangxuefeng
+	* @author zhangxuefeng	
 	* @Description:创建修改页面
 	* @param @return 
 	* @return String
@@ -226,7 +235,7 @@ public class CategoryController {
 	   Category cate=categoryService.selectByPrimaryKey(category.getId());
 	   
 	   model.addAttribute("category",cate);
-	return "category/bms/edit";
+	return "category/ses/bms/edit";
    }
    /**
   	 * 
@@ -239,16 +248,11 @@ public class CategoryController {
    @RequestMapping("/edit")
    public String  edit(HttpServletRequest request,Category category){
 	      category.setId(request.getParameter("id"));
-	   	  category.setName(request.getParameter("name"));
-		  category.setAncestry(request.getParameter("ancestry"));
-		  if (category.getAncestry().equals("true")) {
-			category.setAncestry("0");
-		}else if (category.getAncestry().equals("false")) {
-			category.setAncestry("1");
-		}
-		  category.setOrderNum(Integer.parseInt(request.getParameter("orderNum")));
+  	      category.setName(request.getParameter("name"));
+		  category.setParentId(request.getParameter("parentId"));
+		  category.setPosition(Integer.parseInt(request.getParameter("position")));
 		  category.setUpdatedAt(new Date());
-		  category.setCode(Integer.parseInt(request.getParameter("code")));
+		  category.setCode(request.getParameter("code"));
 		  category.setDescription(request.getParameter("description"));
 		  category.setIsEnd(request.getParameter("isEnd"));
 		  if (category.getIsEnd().equals("0")) {
@@ -257,8 +261,9 @@ public class CategoryController {
 			category.setIsEnd("false");
 		}
 	  categoryService.updateByPrimaryKey(category);
-	return "category/bms/list";
+	return "category/ses/bms/list";
    }
+   
    /**
  	 * 
  	* @Title: rename
@@ -270,17 +275,15 @@ public class CategoryController {
    @RequestMapping("/rename")
    public String updateName(HttpServletRequest request,Category category){
 	   categoryService.updateByPrimaryKeySelective(category);
-	return "category/bms/list";
+	return "category/ses/bms/list";
    }
-   
-   
    /**
 	 * 
-	* @Title: delete
-	* @author Zhang XueFeng
-	* @Description:删除目录节点
-	* @param @return 
-	* @return String
+	 * @Title: delete
+	 * @author Zhang XueFeng/	
+	 * 
+     * @Description:删除目录节点
+	 * @param @return 	* @return String
      */ 
    @RequestMapping("/del")
    public void delete(Category  category){
@@ -290,7 +293,7 @@ public class CategoryController {
    }
    
    /**
-  	 * 
+  	* 
   	* @Title: ros
   	* @author Zhang XueFeng
   	* @Description:修改状态（激活休眠）
@@ -298,7 +301,7 @@ public class CategoryController {
   	* @return String
        */ 
    @RequestMapping("/ros")
-   public String change(HttpServletRequest request,Category category){
+    public String change(HttpServletRequest request,Category category){
 	   String ids=request.getParameter("ids");
 	   String[] cids=ids.split(",");
 	   for (int i = 0; i < cids.length; i++) {
@@ -311,7 +314,7 @@ public class CategoryController {
 		categoryService.updateByPrimaryKeySelective(cate);
 	}
 		
-	return "category/bms/list";
+	return "category/ses/bms/list";
 	   
    }
    
@@ -322,31 +325,77 @@ public class CategoryController {
  	* @Description:
  	* @param @return 
  	* @return String
+ * @throws IOException 
+ * @throws FileNotFoundException 
       */ 
-	   
-	   public String readExcel(String fileName,Category category){
-		   //创建webbook  对应一个excel文件
-		  HSSFWorkbook wb = new HSSFWorkbook();
-		  HSSFSheet sheet = wb.createSheet();
-		  HSSFRow row = sheet.createRow((int) 0);
-		  HSSFCellStyle style = wb.createCellStyle();
-		  style.setAlignment(HSSFCellStyle.ALIGN_CENTER);//设为居中格式
-		  
-	  HSSFCell cell = row.createCell((short) 0);
-//		  cell.setCellValue(value);
-		  
-		  //写入实体数据  实际应用中这些数据从数据库得到
-		//  List list =Create
-		   //row = sheet.createRow(rownum);
-		   //创建单元格 设置值
-		   row.createCell((short) 0).setCellValue((String)category.getId());
-		  // row.createCell(column);
-		return fileName;
-	   }
-   
-   
-
-	}
 	
 
+	public String read(Integer length) throws IOException {
+		   Workbook workbook;
+		   InputStream is = new FileInputStream(new File("D:\\add\\基础数据字典.xlsx"));
+			try {
+				workbook = new XSSFWorkbook(is);
+			} catch (FileNotFoundException e) {
+				workbook = new HSSFWorkbook(is);
+			}
+			Sheet sheet = workbook.getSheetAt(5);
+			for(int i=0;i<sheet.getPhysicalNumberOfRows();i++){
+				Row row = sheet.getRow(i);
+				if(row==null){
+					continue;
+				}
+				Cell queType = row.getCell(0);
+				if(length==null){
+					length=1;
+				}
+				if(queType.toString().length()==length){
+//					if(length!=1){
+//					List<Category> list=categoryService.readExcel();   
+//						for(Category cate:list){
+//							if(cate.getCode().length()==queType.toString().length()-2){//这个数据库的数据和queType的length-2的截取字符串对比 //查询语句lenngth-2;select  from category by 
+//									Category ca  = new Category();
+//									ca.setCode(queType.toString());
+//									ca.setParentId("");	
+//							}
+//						}
+//					}else{
+//						Category cate  = new Category();
+//						cate.setCode(queType.toString());
+//						cate.setParentId("0");
+//						//Category catego=categoryService.insertSelective();//插入语句
+//					}
+				}
+			}
+     return read(length+2);
+	   }
 
+    /** 
+    * * 
+    * @Title: 导出数据库中的内容
+    * @author Zhang XueFeng
+    * @Description:
+    * @param @return 
+    * @return String
+    * @throws IOException 
+    * @throws FileNotFoundException 
+     */ 
+    public String writeExcel(){
+    	HSSFWorkbook wb = new HSSFWorkbook();
+    	HSSFSheet sheet = wb.createSheet("采购目录表");
+    	HSSFRow  row = sheet.createRow(0);
+    	//创建单元格，并设置表头，且居中
+    	HSSFCellStyle  style = wb.createCellStyle();
+    	style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+    	HSSFCell cell = row.createCell(0);
+    	cell.setCellValue("编码");
+    	cell.setCellStyle(style);
+    	cell.setCellValue("目录名称 ");
+    	cell.setCellStyle(style);
+    	//写入实体数据，从数据库得到
+    	
+		return null;
+    	
+    	
+    	
+    }
+	}

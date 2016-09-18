@@ -25,7 +25,7 @@ public class Category {
      * 
      * 
      * */
-    private String ancestry;
+    private String parentId;
     /*
      * 创建时间
      * 
@@ -52,12 +52,12 @@ public class Category {
      * 前台展示优先级
      * 
      * */
-    private Integer code;
+    private String code;
     /*
      * 排序号
      * 
      * */
-    private Integer orderNum;
+    private Integer position;
     /*
      * 是否删除
      * 
@@ -106,15 +106,17 @@ public class Category {
         this.status = status;
     }
 
-    public String getAncestry() {
-        return ancestry;
-    }
+   
 
-    public void setAncestry(String ancestry) {
-        this.ancestry = ancestry;
-    }
+    public String getParentId() {
+		return parentId;
+	}
 
-    public Date getCreatedAt() {
+	public void setParentId(String parentId) {
+		this.parentId = parentId == null ? null : parentId.trim();
+	}
+
+	public Date getCreatedAt() {
         return createdAt;
     }
 
@@ -148,20 +150,20 @@ public class Category {
         this.isEnd = isEnd == null ? null : isEnd.trim();
     }
 
-    public Integer getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
-        this.code = code;
+    public void setCode(String code) {
+        this.code = code == null ? null : code.trim();
     }
 
-    public Integer getOrderNum() {
-        return orderNum;
+    public Integer getPosition() {
+        return position;
     }
 
-    public void setOrderNum(Integer orderNum) {
-        this.orderNum = orderNum;
+    public void setPosition(Integer position) {
+        this.position = position;
     }
 
 	public Category(String id) {
@@ -171,6 +173,11 @@ public class Category {
 
 	public Category() {
 		super();
+	}
+
+	public void setCode(String string, String string2, String string3) {
+		// TODO Auto-generated method stub
+		
 	}
     
     

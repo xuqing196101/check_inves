@@ -27,6 +27,14 @@ public interface CategoryMapper {
 	
 
 	/**   
+	* @Title: readExcel
+	* @author zhangxuefeng
+	* @date 2016-7-27 下午4:52:29  
+	* @Description: 根据编码获取所有数据
+	* @param @param list<Category>
+	*/
+    public List<Category> readExcel(Category category);
+	/**   
 	* @Title: insert
 	* @author zhangxuefeng
 	* @date 2016-7-27 下午4:52:29  
@@ -106,4 +114,6 @@ public interface CategoryMapper {
 	* @return int
 	 */
 	public int deleteByPrimaryKey(String id);
+	
+	
 }

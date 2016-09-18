@@ -5,19 +5,19 @@
     <id column="ID" property="id" />
     <result column="NAME"  property="name" />
     <result column="STATUS"  property="status" />
-    <result column="ANCESTRY" property="ancestry" />
+    <result column="PARENT_ID" property="parentId" />
     <result column="CREATED_AT"  property="createdAt" />
     <result column="UPDATED_AT"  property="updatedAt" />
     <result column="DESCRIPTION"  property="description" />
     <result column="IS_END" property="isEnd" />
     <result column="CODE"  property="code" />
-    <result column="ORDER_NUM"  property="orderNum" />
+    <result column="POSITION"  property="position" />
  	 <result column="IS_DELETED"  property="isDeleted" />
  	 
   </resultMap>
   <sql id="Base_Column_List">
-    ID, NAME, STATUS, ANCESTRY, CREATED_AT, UPDATED_AT, DESCRIPTION, IS_END, 
-    CODE, ORDER_NUM,IS_DELETED
+    ID, NAME, STATUS, PARENT_ID, CREATED_AT, UPDATED_AT, DESCRIPTION, IS_END, 
+    CODE, POSITION,IS_DELETED
   </sql>
   
   <!-- 根据id查询 -->
@@ -33,7 +33,7 @@
   	select
   	<include refid="Base_Column_List" />
   	from T_SES_BMS_CATEGORY
-    where  ANCESTRY=#{pid}
+    where  PARENT_ID=#{pid}
   </select>
   
   <!-- 根据pid查询生成树 -->
@@ -41,7 +41,15 @@
   select
   <include refid="Base_Column_List" />
   from T_SES_BMS_CATEGORY
-  where ANCESTRY=#{id}
+  where PARENT_ID=#{id}
+  </select>
+  
+   <!-- 根据pid查询生成树 -->
+  <select id="readExcel" parameterType="Object" resultMap="BaseResultMap">
+  select
+  <include refid="Base_Column_List" />
+  from T_SES_BMS_CATEGORY
+  where CODE=#{code}
   </select>
   
   <!-- 根据id删除 -->
@@ -53,13 +61,13 @@
   <!-- 新增 -->
   <insert id="insert" parameterType="ses.model.bms.Category">
     insert into T_SES_BMS_CATEGORY (ID, NAME, STATUS, 
-      ANCESTRY, CREATED_AT, UPDATED_AT, 
+      PARENT_ID, CREATED_AT, UPDATED_AT, 
       ATTCHMENT, DESCRIPTION, IS_END, 
-      CODE, ORDER_NUM,IS_DELETED)
+      CODE, POSITION,IS_DELETED)
     values (#{id}, #{name}, #{status}, 
-      #{ancestry}, #{createdAt}, #{updatedAt}, 
+      #{parentId}, #{createdAt}, #{updatedAt}, 
      #{description}, #{isEnd}, 
-      #{code}, #{orderNum},#{is_deleted})
+      #{code}, #{position},#{is_deleted})
   </insert>
   
   <insert id="insertSelective" parameterType="ses.model.bms.Category">
@@ -77,7 +85,7 @@
       <if test="status != null">
         STATUS,
       </if>
-      <if test="ancestry != null">
+      <if test="parentId != null">
         ANCESTRY,
       </if>
       <if test="createdAt != null">
@@ -96,7 +104,7 @@
       <if test="code != null">
         CODE,
       </if>
-      <if test="orderNum != null">
+      <if test="position != null">
         ORDER_NUM,
       </if>
       <if test="isDeleted != null">
@@ -113,7 +121,7 @@
       <if test="status != null">
         #{status},
       </if>
-      <if test="ancestry != null">
+      <if test="parentId != null">
         #{ancestry},
       </if>
       <if test="createdAt != null">
@@ -132,7 +140,7 @@
       <if test="code != null">
         #{code},
       </if>
-      <if test="orderNum != null">
+      <if test="position != null">
         #{orderNum},
       </if>
       <if test="isDeleted != null">
@@ -151,7 +159,7 @@
       <if test="status != null">
         STATUS = #{status},
       </if>
-      <if test="ancestry != null">
+      <if test="parentId != null">
         ANCESTRY = #{ancestry},
       </if>
       <if test="createdAt != null">
@@ -170,7 +178,7 @@
       <if test="code != null">
         CODE = #{code},
       </if>
-      <if test="orderNum != null">
+      <if test="position != null">
         ORDER_NUM = #{orderNum},
       </if>
 
@@ -186,14 +194,14 @@
     update T_SES_BMS_CATEGORY
     set NAME = #{name},
       STATUS = #{status},
-      ANCESTRY = #{ancestry},
+      PARENT_ID = #{parentId},
       CREATED_AT = #{createdAt},
       UPDATED_AT = #{updatedAt},
       DESCRIPTION = #{description},
       IS_END = #{isEnd},
       CODE = #{code},
       IS_DELETED=#{isDeleted},
-      ORDER_NUM = #{orderNum}
+      position = #{position}
     where ID = #{id}
   </update>
   

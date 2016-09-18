@@ -23,6 +23,15 @@ import ses.model.bms.Category;
 	* 
 	*/
 	public List<Category> listByParent(String pid);
+
+	/**   
+	* @Title: readExcel
+	* @author zhangxuefeng
+	* @date 2016-7-27 下午4:52:29  
+	* @Description: 根据编码获取所有数据
+	* @param @param list<Category>
+	*/
+    public List<Category> readExcel(Category category);
 	/**   
 	* @Title: insertsertSelective
 	* @author zhangxuefeng

@@ -105,7 +105,7 @@
         #{updatedAt},
       </if>
       <if test="category != null">
-        #{category},
+        #{category.id},
       </if>
       <if test="isDeleted != null">
         #{isDeleted},

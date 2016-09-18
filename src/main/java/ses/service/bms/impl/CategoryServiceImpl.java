@@ -90,6 +90,15 @@ public class CategoryServiceImpl implements CategoryService {
 
 
 
+
+	@Override
+	public List<Category> readExcel(Category category) {
+		// TODO Auto-generated method stub
+		return categoryMapper.readExcel(category);
+	}
+
+
+
 	
 	
 
