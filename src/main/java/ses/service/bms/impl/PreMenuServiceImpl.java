@@ -1,6 +1,5 @@
 package ses.service.bms.impl;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +7,16 @@ import org.springframework.stereotype.Service;
 
 import ses.dao.bms.PreMenuMapper;
 import ses.model.bms.PreMenu;
+import ses.model.bms.RolePreMenu;
 import ses.service.bms.PreMenuServiceI;
 
-
+/**
+ * Description: 权限菜单业务实现类
+ * 
+ * @author Ye MaoLin
+ * @version 2016-9-18
+ * @since JDK1.7
+ */
 @Service("premenuService")
 public class PreMenuServiceImpl implements PreMenuServiceI {
 
@@ -29,14 +35,17 @@ public class PreMenuServiceImpl implements PreMenuServiceI {
 
 	@Override
 	public PreMenu get(String id) {
-		return preMenuMapper.queryByMenuId(id);
+		return preMenuMapper.selectByPrimaryKey(id);
 	}
 
 	@Override
 	public void update(PreMenu menu) {
-		preMenuMapper.update(menu);
+		preMenuMapper.updateByPrimaryKey(menu);
 	}
 
-	
-}
+	@Override
+	public List<String> findByRole(String[] roleIds) {
+		return preMenuMapper.findByRole(roleIds);
+	}
 
+}

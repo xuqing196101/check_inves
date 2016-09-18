@@ -33,7 +33,7 @@
 	       				layer.msg(result.msg,{offset: ['150px', '180px']});
 	       			}else{
 			       		parent.window.setTimeout(function(){
-			       			parent.window.location.href = "<%=basePath%>role/getAll.html";
+			       			parent.window.location.href = "<%=basePath%>role/list.html";
 			       		}, 1000);
 			       		layer.msg(result.msg,{offset: ['150px', '180px']});
 	       			}
@@ -56,18 +56,18 @@
 	   <form action="" id="form1" method="post">
 		   <div>
 			   <input name="id" value=${role.id } type="hidden">
-			   <ul class="list-unstyled list-flow p0_20">
+			  <ul class="list-unstyled mt10">
 			     <li class="col-md-6 p0">
-				   <span class="">名称：</span>
+				   <span class="fl mt5">名称：</span>
 				   <div class="input-append">
 			        <input class="span2" name="name" value=${role.name } maxlength="30" type="text">
 			        <span class="add-on">i</span>
 			       </div>
 				 </li>
 			     <li class="col-md-12 p0">
-				   <span class="fl">描述：</span>
-				   <div class="col-md-12 pl200 fn mt5 pwr9">
-			        <textarea class="text_area col-md-12 " name="description"  maxlength="200" title="" placeholder="">${role.description }</textarea>
+				   <span class="fl mt5">描述：</span>
+				   <div class="fn mt5">
+			        <textarea class="text_area2 " name="description"  maxlength="200" title="" placeholder="">${role.description }</textarea>
 			       </div>
 				 </li> 
 			   </ul>

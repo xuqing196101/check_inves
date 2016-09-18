@@ -1,20 +1,23 @@
 package ses.service.bms.impl;
 
-
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ses.dao.bms.RoleMapper;
-import ses.model.bms.PreMenu;
 import ses.model.bms.Role;
 import ses.model.bms.RolePreMenu;
 import ses.model.bms.Userrole;
 import ses.service.bms.RoleServiceI;
 
-
+/**
+ * Description: 角色业务实现类
+ * 
+ * @author Ye MaoLin
+ * @version 2016-9-18
+ * @since JDK1.7
+ */
 @Service("roleService")
 public class RoleServiceImpl implements RoleServiceI {
 
@@ -22,8 +25,8 @@ public class RoleServiceImpl implements RoleServiceI {
 	private RoleMapper roleMapper;
 
 	@Override
-	public List<Role> getAll(Role r) {
-		return roleMapper.queryByList(r);
+	public List<Role> find(Role r) {
+		return roleMapper.find(r);
 	}
 
 	@Override
@@ -57,11 +60,6 @@ public class RoleServiceImpl implements RoleServiceI {
 	}
 
 	@Override
-	public List<Role> getRoleMenus(Role r) {
-		return roleMapper.selectRolePreMenu(r);
-	}
-
-	@Override
 	public void saveRolePreMenu(RolePreMenu rolePreMenu) {
 		roleMapper.saveRelativity(rolePreMenu);
 	}
@@ -72,4 +70,3 @@ public class RoleServiceImpl implements RoleServiceI {
 	}
 
 }
-

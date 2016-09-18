@@ -248,4 +248,16 @@
     ORDER BY MENU_LEVEL,POSITION ASC
   </select>
   
+  <!-- 8.根据角色id获取该角色的菜单id -->
+  <select id="findByRole" parameterType="Object" resultType="String">
+    SELECT
+		distinct PERMENU_ID
+	FROM
+		T_SES_BMS_ROLE_PERMISSION
+	WHERE
+		ROLE_ID in
+	<foreach item="item" index="index" collection="array" open="(" separator="," close=")">  
+	 	#{item}  
+	</foreach>
+  </select>
 </mapper>

@@ -375,4 +375,10 @@
       values(#{userId.id},#{roleId.id})  
   </insert>
   
+  <!-- 11.保存用户和菜单之间的关系信息 -->  
+  <insert id="saveUserMenu" parameterType="Object">  
+      insert into T_SES_BMS_USER_PERMISSION("USER_ID","PERMENU_ID")  	
+      values(#{user.id},#{preMenu.id})  
+  </insert>
+  
 </mapper>

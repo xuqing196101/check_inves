@@ -3,6 +3,7 @@ package ses.dao.bms;
 import java.util.List;
 
 import ses.model.bms.User;
+import ses.model.bms.UserPreMenu;
 import ses.model.bms.Userrole;
 
 /**
@@ -115,5 +116,15 @@ public interface UserMapper {
 	 * @exception IOException
 	 */
 	List<User> selectUser(User u);
+
+	/**
+	 * Description: 保存用户与角色多对应权限的关联id
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-18
+	 * @param userPreMenu
+	 * @exception IOException
+	 */
+	void saveUserMenu(UserPreMenu userPreMenu);
 
 }

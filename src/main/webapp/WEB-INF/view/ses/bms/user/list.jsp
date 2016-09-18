@@ -22,24 +22,24 @@
   <script src="<%=basePath%>public/layer/layer.js"></script>
     <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
   <script type="text/javascript">
-  $(function(){
-	  laypage({
-		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
-		    pages: "${list.pages}", //总页数
-		    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
-		    skip: true, //是否开启跳页
-		    groups: "${list.pages}">=3?3:"${list.pages}", //连续显示分页数
-		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
-		        var page = location.search.match(/page=(\d+)/);
-		        return page ? page[1] : 1;
-		    }(), 
-		    jump: function(e, first){ //触发分页后的回调
-		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		            location.href = '<%=basePath%>user/list.do?page='+e.curr;
-		        }
-		    }
-		});
-  });
+	  $(function(){
+		  laypage({
+			    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+			    pages: "${list.pages}", //总页数
+			    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+			    skip: true, //是否开启跳页
+			    groups: "${list.pages}">=3?3:"${list.pages}", //连续显示分页数
+			    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+			        var page = location.search.match(/page=(\d+)/);
+			        return page ? page[1] : 1;
+			    }(), 
+			    jump: function(e, first){ //触发分页后的回调
+			        if(!first){ //一定要加此判断，否则初始时会无限刷新
+			            location.href = '<%=basePath%>user/list.do?page='+e.curr;
+			        }
+			    }
+			});
+	  });
    
   
   	/** 全选全不选 */
@@ -77,9 +77,11 @@
 				 }
 		   }
 	}
+	
   	function view(id){
   		window.location.href="<%=basePath%>user/show.html?id="+id;
   	}
+  	
     function edit(){
     	var id=[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
@@ -94,6 +96,7 @@
 			layer.alert("请选择需要修改的用户",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
+    
     function del(){
     	var ids =[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
@@ -108,9 +111,47 @@
 			layer.alert("请选择要删除的用户",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
+    
     function add(){
     	window.location.href="<%=basePath%>user/add.html";
     }
+    
+    function openPreMenu(){
+		var ids =[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			ids.push($(this).val()); 
+		}); 
+		if(ids.length==1){
+			var iframeWin;
+			layer.open({
+			  type: 2, //page层
+			  area: ['300px', '500px'],
+			  title: '配置权限',
+			  closeBtn: 1,
+			  shade:0.01, //遮罩透明度
+			  moveType: 1, //拖拽风格，0是默认，1是传统拖动
+			  shift: 1, //0-6的动画形式，-1不开启
+			  offset: ['180px', '550px'],
+			  shadeClose: false,
+			  content: '<%=basePath%>user/openPreMenu.html?id='+ids,
+			  success: function(layero, index){
+			    iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+			  },
+			  btn: ['保存', '关闭'] 
+			  ,yes: function(){
+			    iframeWin.onCheck(ids);
+			  }
+			  ,btn2: function(){
+			    layer.closeAll();
+			  }
+			});
+		}else if(ids.length>1){
+			layer.alert("只能同时选择一个用户",{offset: ['222px', '390px'], shade:0.01});
+		}else{
+			layer.alert("请选择一个用户",{offset: ['222px', '390px'], shade:0.01});
+		}
+	
+	}
   </script>
   <body>
 	<!--面包屑导航开始-->
@@ -133,6 +174,7 @@
     <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
 	<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 	<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
+	<button class="btn btn-windows edit" type="button" onclick="openPreMenu()">设置权限</button>
 	</div>
             <div class="col-md-4 ">
               <div class="search-block-v2">

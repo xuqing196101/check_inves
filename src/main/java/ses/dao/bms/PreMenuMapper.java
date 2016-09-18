@@ -3,16 +3,97 @@ package ses.dao.bms;
 import java.util.List;
 
 import ses.model.bms.PreMenu;
+import ses.model.bms.RolePreMenu;
 
 
 public interface PreMenuMapper {
+	
+	/**
+	 * Description: 根据id查询
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-18
+	 * @param id 
+	 * @return PreMenu
+	 * @exception IOException
+	 */
+	PreMenu selectByPrimaryKey(String id);
+	
+	/**
+	 * Description: 根据id删除
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-18
+	 * @param id
+	 * @return int
+	 * @exception IOException
+	 */
+	int deleteByPrimaryKey(String id);
+	
+    /**
+     * Description: 插入数据
+     * 
+     * @author Ye MaoLin
+     * @version 2016-9-18
+     * @param record
+     * @return int
+     * @exception IOException
+     */
     int insert(PreMenu record);
 
+    /**
+     * Description: 插入不为空数据
+     * 
+     * @author Ye MaoLin
+     * @version 2016-9-18
+     * @param record
+     * @return
+     * @exception IOException
+     */
     int insertSelective(PreMenu record);
+    
+    /**
+     * Description: 更新不为空数据
+     * 
+     * @author Ye MaoLin
+     * @version 2016-9-18
+     * @param record
+     * @return int
+     * @exception IOException
+     */
+    int updateByPrimaryKeySelective(PreMenu record);
+    
+    /**
+     * Description: 更新数据
+     * 
+     * @author Ye MaoLin
+     * @version 2016-9-18
+     * @param record
+     * @return int
+     * @exception IOException
+     */
+    int updateByPrimaryKey(PreMenu record);
 
+	/**
+	 * Description: 根据条件查询
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-18
+	 * @param preMenu
+	 * @return List<PreMenu>
+	 * @exception IOException
+	 */
 	List<PreMenu> find(PreMenu preMenu);
 
-	PreMenu queryByMenuId(String id);
+	/**
+	 * Description: 根据角色id获取角色-菜单关联
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-18
+	 * @param roleIds
+	 * @return
+	 * @exception IOException
+	 */
+	List<String> findByRole(String[] roleIds);
 
-	void update(PreMenu menu);
 }

@@ -1,5 +1,6 @@
 package ses.controller.sys.bms;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -7,26 +8,29 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.aspectj.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ses.model.bms.PreMenu;
 import ses.model.bms.Role;
+import ses.model.bms.RolePreMenu;
 import ses.model.bms.User;
+import ses.model.bms.UserPreMenu;
 import ses.model.bms.Userrole;
+import ses.service.bms.PreMenuServiceI;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
-import ses.util.Encrypt;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
-
 /**
  * Description: 用户管理控制类 
- *
+ * 
  * @author Ye MaoLin
  * @version 2016-9-13
  * @since JDK1.7
@@ -42,6 +46,9 @@ public class UserManageController {
 	@Autowired
 	private RoleServiceI roleService;
 	
+	@Autowired
+	private PreMenuServiceI preMenuService;
+
 	private Logger logger = Logger.getLogger(UserManageController.class);
 
 	/**
@@ -56,9 +63,11 @@ public class UserManageController {
 	 */
 	@RequestMapping("/list")
 	public String list(Model model, Integer page) {
-		List<User> users = userService.selectUser(null, page == null ? 1 : page);
+		List<User> users = userService
+				.selectUser(null, page == null ? 1 : page);
 		model.addAttribute("list", new PageInfo<User>(users));
-		logger.info(JSON.toJSONStringWithDateFormat(users, "yyyy-MM-dd HH:mm:ss"));
+		logger.info(JSON.toJSONStringWithDateFormat(users,
+				"yyyy-MM-dd HH:mm:ss"));
 		return "ses/bms/user/list";
 	}
 
@@ -72,25 +81,29 @@ public class UserManageController {
 	 * @exception IOException
 	 */
 	@RequestMapping("/findByLoginName")
-	public void findByLoginName(String loginName, HttpServletResponse response){
+	public void findByLoginName(String loginName, HttpServletResponse response) {
 		try {
 			List<User> users = userService.findByLoginName(loginName);
-			String msg="";
-			if(users != null && users.size() > 0){
+			String msg = "";
+			if (users != null && users.size() > 0) {
 				msg = "该用户名已存在";
 				response.setContentType("text/html;charset=utf-8");
-				response.getWriter().print("{\"success\": "+false+", \"msg\": \""+msg+"\"}");
-			}else {
+				response.getWriter().print(
+						"{\"success\": " + false + ", \"msg\": \"" + msg
+								+ "\"}");
+			} else {
 				msg = "该用户名可用";
 				response.setContentType("text/html;charset=utf-8");
-				response.getWriter().print("{\"success\": "+true+", \"msg\": \""+msg+"\"}");
+				response.getWriter()
+						.print("{\"success\": " + true + ", \"msg\": \"" + msg
+								+ "\"}");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	/**
 	 * Description: 跳转新增编辑页面
 	 * 
@@ -103,18 +116,21 @@ public class UserManageController {
 	 */
 	@RequestMapping("/add")
 	public String add(HttpServletRequest request, Model model) {
-		List<Role> roles = roleService.getAll(null);
+		List<Role> roles = roleService.find(null);
 		model.addAttribute("roles", roles);
-		String loginNameTip = (String) request.getSession().getAttribute("userSaveTipMsg_loginName");
-		String passwordTip = (String) request.getSession().getAttribute("userSaveTipMsg_password");
-		String password2Tip = (String) request.getSession().getAttribute("userSaveTipMsg_password2");
-		if(loginNameTip != null && !"".equals(loginNameTip)){
+		String loginNameTip = (String) request.getSession().getAttribute(
+				"userSaveTipMsg_loginName");
+		String passwordTip = (String) request.getSession().getAttribute(
+				"userSaveTipMsg_password");
+		String password2Tip = (String) request.getSession().getAttribute(
+				"userSaveTipMsg_password2");
+		if (loginNameTip != null && !"".equals(loginNameTip)) {
 			model.addAttribute("loginName_msg", loginNameTip);
 		}
-		if(passwordTip != null && !"".equals(passwordTip)){
+		if (passwordTip != null && !"".equals(passwordTip)) {
 			model.addAttribute("password_msg", passwordTip);
 		}
-		if(password2Tip != null && !"".equals(password2Tip)){
+		if (password2Tip != null && !"".equals(password2Tip)) {
 			model.addAttribute("password2_msg", password2Tip);
 		}
 		request.getSession().removeAttribute("userSaveTipMsg_loginName");
@@ -136,50 +152,70 @@ public class UserManageController {
 	 * @exception IOException
 	 */
 	@RequestMapping("/save")
-	public String save(HttpServletRequest request, Model model, User user, String roleId) {
+	public String save(HttpServletRequest request, Model model, User user,
+			String roleId) {
 		String loginName = user.getLoginName();
 		List<User> users = userService.findByLoginName(user.getLoginName());
 		String password2 = request.getParameter("password2");
-		if(loginName == null || "".equals(loginName)){
-			request.getSession().setAttribute("userSaveTipMsg_loginName","请输入用户名");
-			if(user.getPassword() == null || "".equals(user.getPassword())){
-				request.getSession().setAttribute("userSaveTipMsg_password","请输入密码");
-			}else if(!user.getPassword().equals(password2)){
-				request.getSession().setAttribute("userSaveTipMsg_password2","两次密码输入不一致");
+		if (loginName == null || "".equals(loginName)) {
+			request.getSession().setAttribute("userSaveTipMsg_loginName",
+					"请输入用户名");
+			if (user.getPassword() == null || "".equals(user.getPassword())) {
+				request.getSession().setAttribute("userSaveTipMsg_password",
+						"请输入密码");
+			} else if (!user.getPassword().equals(password2)) {
+				request.getSession().setAttribute("userSaveTipMsg_password2",
+						"两次密码输入不一致");
 			}
 			return "redirect:add.html";
-		}else if(users.size() > 0){
-			request.getSession().setAttribute("userSaveTipMsg_loginName","用户名已存在");
-			if(user.getPassword() == null || "".equals(user.getPassword())){
-				request.getSession().setAttribute("userSaveTipMsg_password","请输入密码");
-			}else if(!user.getPassword().equals(password2)){
-				request.getSession().setAttribute("userSaveTipMsg_password2","两次密码输入不一致");
+		} else if (users.size() > 0) {
+			request.getSession().setAttribute("userSaveTipMsg_loginName",
+					"用户名已存在");
+			if (user.getPassword() == null || "".equals(user.getPassword())) {
+				request.getSession().setAttribute("userSaveTipMsg_password",
+						"请输入密码");
+			} else if (!user.getPassword().equals(password2)) {
+				request.getSession().setAttribute("userSaveTipMsg_password2",
+						"两次密码输入不一致");
 			}
 			return "redirect:add.html";
-		}else if(user.getPassword() == null || "".equals(user.getPassword())){
-			request.getSession().setAttribute("userSaveTipMsg_password","请输入密码");
+		} else if (user.getPassword() == null || "".equals(user.getPassword())) {
+			request.getSession().setAttribute("userSaveTipMsg_password",
+					"请输入密码");
 			return "redirect:add.html";
-		}else if(!user.getPassword().equals(password2)){
-			request.getSession().setAttribute("userSaveTipMsg_password2","两次密码输入不一致");
+		} else if (!user.getPassword().equals(password2)) {
+			request.getSession().setAttribute("userSaveTipMsg_password2",
+					"两次密码输入不一致");
 			return "redirect:add.html";
-		}else {
-			User currUser = (User) request.getSession().getAttribute("loginUser");
+		} else {
+			User currUser = (User) request.getSession().getAttribute(
+					"loginUser");
 			userService.save(user, currUser);
-			
+
 			String[] roleIds = roleId.split(",");
-			if(roleIds.length > 1){
+			if (roleIds.length > 1) {
 				for (int i = 0; i < roleIds.length; i++) {
 					Userrole userrole = new Userrole();
 					Role role = roleService.get(roleIds[i]);
 					userrole.setRoleId(role);
 					userrole.setUserId(user);
+					//保存角色-用户关联信息
 					userService.saveRelativity(userrole);
+				}
+				//保存用户与角色多对应权限的关联id
+				List<String> mids = preMenuService.findByRole(roleIds);
+				for (String mid : mids) {
+					UserPreMenu userPreMenu = new UserPreMenu();
+					PreMenu menu = preMenuService.get(mid);
+					userPreMenu.setPreMenu(menu);
+					userPreMenu.setUser(user);
+					userService.saveUserMenu(userPreMenu);
 				}
 			}
 			return "redirect:list.html";
 		}
 	}
-
+	
 	/**
 	 * Description: 跳转修改编辑页面
 	 * 
@@ -193,13 +229,13 @@ public class UserManageController {
 	@RequestMapping("/edit")
 	public String edit(User u, Model model) {
 		List<User> users = userService.find(u);
-		if(users != null && users.size()>0){
+		if (users != null && users.size() > 0) {
 			User user = users.get(0);
-			logger.info(JSON
-					.toJSONStringWithDateFormat(user, "yyyy-MM-dd HH:mm:ss"));
+			logger.info(JSON.toJSONStringWithDateFormat(user,
+					"yyyy-MM-dd HH:mm:ss"));
 			logger.info(JSON.toJSONStringWithDateFormat(user.getUser(),
 					"yyyy-MM-dd HH:mm:ss"));
-			List<Role> roles = roleService.getAll(null);
+			List<Role> roles = roleService.find(null);
 			String roleId = "";
 			String roleName = "";
 			List<Role> list = user.getRoles();
@@ -216,8 +252,8 @@ public class UserManageController {
 			model.addAttribute("roleId", roleId);
 			model.addAttribute("roles", roles);
 			model.addAttribute("user", user);
-		}else{
-			
+		} else {
+
 		}
 		return "ses/bms/user/edit";
 	}
@@ -235,14 +271,14 @@ public class UserManageController {
 	 */
 	@RequestMapping("/update")
 	public String update(HttpServletRequest request, User u, String roleId) {
-		
+
 		User temp = new User();
 		temp.setId(u.getId());
-		//查询旧数据的关联关系
+		// 查询旧数据的关联关系
 		List<User> users = userService.find(temp);
-		if(users != null && users.size() > 0){
+		if (users != null && users.size() > 0) {
 			User olduser = users.get(0);
-			
+
 			// 先删除之前的与角色的关联关系
 			List<Role> oldRole = olduser.getRoles();
 			for (Role role : oldRole) {
@@ -251,14 +287,14 @@ public class UserManageController {
 				userrole.setRoleId(role);
 				roleService.deleteRoelUser(userrole);
 			}
-			
+
 			u.setCreatedAt(olduser.getCreatedAt());
 			u.setUser(olduser.getUser());
 			u.setUpdatedAt(new Date());
 			userService.update(u);
-			
+
 			String[] roleIds = roleId.split(",");
-			if(roleIds.length > 1){
+			if (roleIds.length > 1) {
 				for (int i = 0; i < roleIds.length; i++) {
 					Userrole userrole = new Userrole();
 					Role role = roleService.get(roleIds[i]);
@@ -267,8 +303,8 @@ public class UserManageController {
 					userService.saveRelativity(userrole);
 				}
 			}
-		}else{
-			
+		} else {
+
 		}
 
 		return "redirect:list.html";
@@ -288,7 +324,7 @@ public class UserManageController {
 		String[] id = ids.split(",");
 		for (String str : id) {
 			Userrole userrole = new Userrole();
-			User user=new User();
+			User user = new User();
 			user.setId(str);
 			userrole.setUserId(user);
 			roleService.deleteRoelUser(userrole);
@@ -310,12 +346,27 @@ public class UserManageController {
 	@RequestMapping("/show")
 	public String show(Model model, User user) {
 		List<User> ulist = userService.find(user);
-		if(ulist != null && ulist.size() > 0){
+		if (ulist != null && ulist.size() > 0) {
 			model.addAttribute("user", ulist.get(0));
-		}else{
-			
+		} else {
+
 		}
 		return "ses/bms/user/view";
 	}
 
+	/**
+	 * Description: 弹出权限分配页面
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-18
+	 * @param model
+	 * @param id
+	 * @return String
+	 * @exception IOException
+	 */
+	@RequestMapping("/openPreMenu")
+	public String openPreMenu(Model model,String id){
+		model.addAttribute("uid", id);
+		return "ses/bms/user/addPreMenu";
+	}
 }

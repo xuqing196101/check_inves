@@ -32,7 +32,7 @@
                         layer.msg(result.msg,{offset: ['150px', '180px']});
                     }else{
                         parent.window.setTimeout(function(){
-                            parent.window.location.href = "<%=basePath%>role/getAll.html";
+                            parent.window.location.href = "<%=basePath%>role/list.html";
                         }, 1000);
                         layer.msg(result.msg,{offset: ['150px', '180px']});
                     }
@@ -66,7 +66,7 @@
 			     <li class="col-md-12 p0">
 				   <span class="fl mt5">描述：</span>
 				   <div class="fn mt5">
-			        <textarea class="text_area2 " name="describe" maxlength="200" title="" placeholder=""></textarea>
+			        <textarea class="text_area2 " name="description" maxlength="200" title="" placeholder=""></textarea>
 			       </div>
 				 </li> 
 			   </ul>

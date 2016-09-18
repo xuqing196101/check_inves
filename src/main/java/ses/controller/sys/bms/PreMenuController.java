@@ -66,7 +66,7 @@ public class PreMenuController {
 	 */
 	@RequestMapping("/treedata")
 	public void menutree(HttpServletRequest request,
-			HttpServletResponse response, Model model, Role r)
+			HttpServletResponse response, Model model, Role r, String userId)
 			throws IOException {
 		List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
 		List<PreMenu> roleMenus = new ArrayList<PreMenu>();
@@ -169,6 +169,15 @@ public class PreMenuController {
 		}
 	}
 	
+	/**
+	 * Description: 删除菜单，逻辑删除
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-18
+	 * @param ids
+	 * @return String
+	 * @exception IOException
+	 */
 	@RequestMapping("delete_soft")
 	public String delete_soft(String ids){
 		String[] idarry=ids.split(",");

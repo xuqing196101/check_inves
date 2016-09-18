@@ -184,7 +184,7 @@
   </update>
   
   <!-- 7.根据不为空的条件查询列表（不带关联数据） -->
-  <select id="queryByList" resultMap="RoleBaseMap" parameterType="Object">
+  <select id="find" resultMap="RoleBaseMap" parameterType="Object">
     select
     <include refid="Base_Column_List" />
     from T_SES_BMS_ROLE 

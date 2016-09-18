@@ -45,7 +45,7 @@ public class RoleManageController {
 	private static Logger logger = Logger.getLogger(RoleManageController.class);
 	
 	/**
-	 * Description: 获取角色列表
+	 * Description: 获取角色列表（包括关联数据）
 	 * 
 	 * @author Ye MaoLin
 	 * @version 2016-9-14
@@ -61,31 +61,32 @@ public class RoleManageController {
 		return "ses/bms/role/list";
 	}
 	
-	/**   
-	* @Title: toAdd
-	* @author Ye MaoLin
-	* @date 2016-8-30 下午3:13:49  
-	* @Description: 跳转添加页面 
-	* @return String     
-	*/
+	/**
+	 * Description: 跳转添加页面 
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-18
+	 * @return String
+	 * @exception IOException
+	 */
 	@RequestMapping("/add")
 	public String toAdd(){
 		return "ses/bms/role/add";
 	}
 	
-	/**   
-	* @Title: save
-	* @author Ye MaoLin
-	* @date 2016-8-30 下午3:14:04  
-	* @Description: 保存角色
-	* @param @param r
-	* @return String     
-	 * @throws IOException 
-	*/
+	/**
+	 * Description: 保存角色
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-18
+	 * @param response
+	 * @param r
+	 * @exception IOException
+	 */
 	@RequestMapping("/save")
 	public void save(HttpServletResponse response, Role r){
 		try{
-			if("".equals(r.getName()) || r.getName()==null){
+			if("".equals(r.getName()) || r.getName() == null){
 				String msg="请填写角色名称";
 				response.setContentType("text/html;charset=utf-8");
 				response.getWriter().print("{\"success\": "+false+", \"msg\": \""+msg+"\"}");
@@ -102,15 +103,16 @@ public class RoleManageController {
 		}
 	}
 	
-	/**   
-	* @Title: edit
-	* @author Ye MaoLin
-	* @date 2016-8-30 下午3:14:18  
-	* @Description: 跳转编辑页面 
-	* @param @param r
-	* @param @param model
-	* @return String     
-	*/
+	/**
+	 * Description: 跳转编辑页面
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-18
+	 * @param r
+	 * @param model
+	 * @return String
+	 * @exception IOException
+	 */
 	@RequestMapping("/edit")
 	public String edit(Role r,Model model){
 		Role role=roleService.get(r.getId());
@@ -118,14 +120,15 @@ public class RoleManageController {
 		return "ses/bms/role/edit";
 	}
 	
-	/**   
-	* @Title: update
-	* @author Ye MaoLin
-	* @date 2016-8-30 下午3:14:34  
-	* @Description: 更新角色信息
-	* @param @param r
-	* @return String     
-	*/
+	/**
+	 * Description: 更新角色信息
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-18
+	 * @param response
+	 * @param r
+	 * @exception IOException
+	 */
 	@RequestMapping("/update")
 	public void update(HttpServletResponse response, Role r){
 		try {
@@ -147,14 +150,15 @@ public class RoleManageController {
 		}
 	}
 	
-	/**   
-	* @Title: delete_soft
-	* @author Ye MaoLin
-	* @date 2016-8-30 下午3:14:44  
-	* @Description:删除角色
-	* @param @param r
-	* @return String     
-	*/
+	/**
+	 * Description: 删除角色，逻辑删除
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-18
+	 * @param ids
+	 * @return String
+	 * @exception IOException
+	 */
 	@RequestMapping("/delete")
 	public String delete_soft(String ids){
 		String[] idstr=ids.split(",");
@@ -172,15 +176,37 @@ public class RoleManageController {
 			r.setIsDeleted(1);
 			roleService.update(r);
 		}
-		return "redirect:getAll.html";
+		return "redirect:list.html";
 	}
 	
+	/**
+	 * Description: 弹出权限分配页面
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-18
+	 * @param model
+	 * @param id
+	 * @return String
+	 * @exception IOException
+	 */
 	@RequestMapping("/openPreMenu")
 	public String openPreMenu(Model model,String id){
 		model.addAttribute("rid", id);
 		return "ses/bms/role/addPreMenu";
 	}
 	
+	/**
+	 * Description: 保存角色权限
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-18
+	 * @param request
+	 * @param response
+	 * @param roleId
+	 * @param ids
+	 * @throws IOException
+	 * @exception IOException
+	 */
 	@RequestMapping("/saveRoleMenu")
 	public void saveRoleMenu(HttpServletRequest request,HttpServletResponse response, String roleId , String ids) throws IOException{
 	
