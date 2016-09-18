@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.ems.ExamUserScoreMapper">
+  <resultMap id="BaseResultMap" type="ses.model.ems.ExamUserScore">
+    <id column="ID"  property="id" />
+    <result column="USER_ID" property="userId" />
+    <result column="USER_TYPE" property="userType" />
+    <result column="SCORE" property="score" />
+    <result column="TEST_STATE" property="testState" />
+    <result column="PAPER_ID" property="paperId" />
+    <result column="TARGET_DATE" property="targetDate" />
+    <result column="CREATED_AT" property="createdAt" />
+    <result column="UPDATED_AT" property="updatedAt" />
+    <result column="USER_DUTY" property="userDuty" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    ID, USER_ID, USER_TYPE, SCORE, TEST_STATE, PAPER_ID, TARGET_DATE, CREATED_AT, 
+    UPDATED_AT,USER_DUTY
+  </sql>
+  
+  <!-- 根据主键ID查找用户成绩 -->
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_EMS_EXAM_USER_SCORE
+    where ID = #{id}
+  </select>
+  
+  <!-- 根据主键ID删除用户成绩 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_SES_EMS_EXAM_USER_SCORE
+    where ID = #{id}
+  </delete>
+  
+  <!-- 插入用户成绩 -->
+  <insert id="insertSelective" parameterType="ses.model.ems.ExamUserScore">
+  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_SES_EMS_EXAM_USER_SCORE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="userType != null">
+        USER_TYPE,
+      </if>
+      <if test="score != null">
+        SCORE,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="paperId != null">
+        PAPER_ID,
+      </if>
+      <if test="targetDate != null">
+        TARGET_DATE,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="userDuty != null">
+        USER_DUTY,
+      </if>
+      <if test="testDate != null">
+        TEST_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="userId != null">
+        #{userId},
+      </if>
+      <if test="userType != null">
+        #{userType},
+      </if>
+      <if test="score != null">
+        #{score},
+      </if>
+      <if test="status != null">
+        #{status},
+      </if>
+      <if test="paperId != null">
+        #{paperId},
+      </if>
+      <if test="targetDate != null">
+        #{targetDate},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt},
+      </if>
+      <if test="userDuty != null">
+        #{userDuty},
+      </if>
+      <if test="testDate != null">
+        #{testDate},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 根据主键ID更新用户成绩 -->
+  <update id="updateByPrimaryKeySelective" parameterType="ses.model.ems.ExamUserScore">
+    update T_SES_EMS_EXAM_USER_SCORE
+    <set>
+      <if test="userId != null">
+        USER_ID = #{userId},
+      </if>
+      <if test="userType != null">
+        USER_TYPE = #{userType},
+      </if>
+      <if test="score != null">
+        SCORE = #{score},
+      </if>
+      <if test="status != null">
+        STATUS = #{status},
+      </if>
+      <if test="paperId != null">
+        PAPER_ID = #{paperId},
+      </if>
+      <if test="targetDate != null">
+        TARGET_DATE = #{targetDate},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt},
+      </if>
+      <if test="userDuty != null">
+        USER_DUTY = #{userDuty},
+      </if>
+    </set>
+    where ID = #{id}
+  </update>
+  
+  
+  
+  <!-- 专家考试成绩查询3个条件 -->
+  <!-- <select id="expertQueryList" parameterType="Object" resultMap="BaseQueryList">
+  	SELECT
+  		s.ID,
+		s.USER_SCORE,
+		s.TEST_STATE,
+		s.TARGET_DATE,
+		s.USER_DUTY,
+		u.REL_NAME
+	FROM
+		T_SES_EMS_EXAM_USER_SCORE s,
+		T_SES_BMS_USERINFO u
+	WHERE
+		s.USER_ID=u.ID
+	AND 
+		s.USER_TYPE=1	
+	AND 
+		s.USER_DUTY=#{userDuty}
+	AND
+		s.TEST_STATE=#{testState}
+	AND
+		u.REL_NAME like #{relName}
+  </select> -->
+  
+  <!--专家考试成绩查询(通过姓名查找) -->
+  <!-- <select id="queryListByName" parameterType="Object" resultMap="BaseQueryList">
+  	SELECT
+  		s.ID,
+		s.USER_SCORE,
+		s.TEST_STATE,
+		s.TARGET_DATE,
+		s.USER_DUTY,
+		u.REL_NAME
+	FROM
+		T_SES_EMS_EXAM_USER_SCORE s,
+		T_SES_BMS_USERINFO u
+	WHERE
+		s.USER_ID=u.ID
+	AND 
+		s.USER_TYPE=1
+	AND
+		u.REL_NAME like #{relName}
+  </select> -->
+  
+  <!-- 专家考试成绩查询(通过专家类型查找) -->
+  <!-- <select id="queryListByDuty" parameterType="Object" resultMap="BaseQueryList">
+  	SELECT
+  		s.ID,
+		s.USER_SCORE,
+		s.TEST_STATE,
+		s.TARGET_DATE,
+		s.USER_DUTY,
+		u.REL_NAME
+	FROM
+		T_SES_EMS_EXAM_USER_SCORE s,
+		T_SES_BMS_USERINFO u
+	WHERE
+		s.USER_ID=u.ID
+	AND 
+		s.USER_TYPE=1
+	AND
+		s.USER_DUTY=#{userDuty}
+  </select> -->
+  
+  <!-- 专家考试成绩查询(通过考试状态查询) -->
+  <!-- <select id="queryListByState" parameterType="Object" resultMap="BaseQueryList">
+  	SELECT
+  		s.ID,
+		s.USER_SCORE,
+		s.TEST_STATE,
+		s.TARGET_DATE,
+		s.USER_DUTY,
+		u.REL_NAME
+	FROM
+		T_SES_EMS_EXAM_USER_SCORE s,
+		T_SES_BMS_USERINFO u
+	WHERE
+		s.USER_ID=u.ID
+	AND 
+		s.USER_TYPE=1
+	AND
+		s.TEST_STATE=#{testState}
+  </select> -->
+  
+  <!-- 专家考试成绩查询(通过考试状态及专家类型查询) -->
+  <!-- <select id="queryListByDuSt" parameterType="Object" resultMap="BaseQueryList">
+  	SELECT
+  		s.ID,
+		s.USER_SCORE,
+		s.TEST_STATE,
+		s.TARGET_DATE,
+		s.USER_DUTY,
+		u.REL_NAME
+	FROM
+		T_SES_EMS_EXAM_USER_SCORE s,
+		T_SES_BMS_USERINFO u
+	WHERE
+		s.USER_ID=u.ID
+	AND 
+		s.USER_TYPE=1
+	AND 
+		s.USER_DUTY=#{userDuty}
+	AND
+		s.TEST_STATE=#{testState}
+  </select> -->
+  
+  <select id="selectExpertResultByTerm" parameterType="Object" resultMap="BaseExpertTerm">
+  		SELECT
+			E.ID,
+			E.REL_NAME,
+			E.EXPERTS_TYPE_ID,
+			U.STATUS,
+			U.SCORE,
+			U.USER_DUTY
+		FROM
+			T_SES_EMS_EXPERT E,
+			T_SES_EMS_EXAM_USER_SCORE U
+		<where>
+			E.ID = U.USER_ID
+			AND U.USER_TYPE = 1
+            <if test="relName != null and '' != relName">
+            	<![CDATA[
+               	 AND E.REL_NAME LIKE #{relName}
+                 ]]>  
+            </if> 
+            <if test="testState != null and '' != testState">
+            	<![CDATA[
+                AND U.STATUS = #{status}
+                ]]>
+            </if> 
+            <if test="userDuty != null and '' != userDuty">
+           		<![CDATA[
+                AND U.USER_DUTY = #{userDuty} 
+                ]]>
+            </if>
+        </where>
+  </select>
+  
+  <resultMap id="BaseExpertTerm" type="ses.model.ems.ExamUserScore">
+  		<id column="ID"  property="id" />
+  		<result column="USER_ID" property="userId" />
+  		<result column="USER_TYPE" property="userType" />
+  		<result column="SCORE" property="score" />
+	    <result column="STATUS" property="status" />
+	    <result column="TARGET_DATE" property="targetDate" />
+	    <result column="CREATED_AT" property="createdAt" />
+	    <result column="UPDATED_AT" property="updatedAt" />
+	    <result column="TEST_DATE" property="testDate" />
+	    <result column="USER_DUTY" property="userDuty" />
+	    <association property="expert" javaType="ses.model.ems.Expert">
+	    	<id column="ID"  property="id" />
+    		<result column="REL_NAME" property="relName"/>
+    		<result column="EXPERTS_TYPE_ID" property="expertsTypeId"/>
+   		</association>
+  </resultMap>
+</mapper>

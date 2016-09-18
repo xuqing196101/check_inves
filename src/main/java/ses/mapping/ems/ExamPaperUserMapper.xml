@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.ems.ExamPaperUserMapper">
+  <resultMap id="BaseResultMap" type="ses.model.ems.ExamPaperUser">
+    <id column="ID" property="id" />
+    <result column="USER_ID" property="userId" />
+    <result column="PAPER_ID" property="paperId" />
+    <result column="IS_DO" property="isDo" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, USER_ID, PAPER_ID, IS_DO
+  </sql>
+  
+  <!-- 根据主键查询 参考人员-->
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from T_SES_EMS_EXAM_PAPER_USER
+    where ID = #{id}
+  </select>
+  
+  <!-- 根据主键ID删除参考人员 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_SES_EMS_EXAM_PAPER_USER
+    where ID = #{id}
+  </delete>
+  
+  <!-- 新增参考人员 -->
+  <insert id="insertSelective" parameterType="ses.model.ems.ExamPaperUser">
+  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_SES_EMS_EXAM_PAPER_USER
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="paperId != null">
+        PAPER_ID,
+      </if>
+      <if test="isDo != null">
+        IS_DO,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="userId != null">
+        #{userId},
+      </if>
+      <if test="paperId != null">
+        #{paperId},
+      </if>
+      <if test="isDo != null">
+        #{isDo},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 根据主键ID更新考卷 -->
+  <update id="updateByPrimaryKeySelective" parameterType="ses.model.ems.ExamPaperUser">
+    update T_SES_EMS_EXAM_PAPER_USER
+    <set>
+      <if test="userId != null">
+        USER_ID = #{userId},
+      </if>
+      <if test="paperId != null">
+        PAPER_ID = #{paperId},
+      </if>
+      <if test="isDo != null">
+        IS_DO = #{isDo},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt},
+      </if>
+    </set>
+    where ID = #{id}
+  </update>
+</mapper>
