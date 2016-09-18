@@ -51,7 +51,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			}
 		});
 		
-		
+		//采购机构
 		var sup = $("#purchaseDepId").val();
 		   var radio=document.getElementsByName("purchaseDepId");
 		   for(var i=0;i<radio.length;i++){
