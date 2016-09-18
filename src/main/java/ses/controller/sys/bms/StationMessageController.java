@@ -81,7 +81,7 @@ public class StationMessageController {
 		stationMessage.setPageNum(page==null||"".equals(page)?1:Integer.parseInt(page));
 		List<StationMessage> listStationMessage = stationMessageService.listStationMessage(stationMessage);
 		model.addAttribute("listStationMessage", new PageInfo<StationMessage>(listStationMessage));
-		return "bms/station/list";
+		return "ses/bms/station/list";
 	}
 
 	/**
@@ -97,10 +97,10 @@ public class StationMessageController {
 		StationMessage showStationMessage = stationMessageService.showStationMessage(id);
 		model.addAttribute("StationMessage",showStationMessage);
 		if("view".equals(type)){
-			return "bms/station/view";
+			return "ses/bms/station/view";
 		}else{
 			model.addAttribute("operation", "修改");
-			return "bms/station/edit";
+			return "ses/bms/station/edit";
 		}
 	}
 
@@ -148,7 +148,7 @@ public class StationMessageController {
 	@RequestMapping("/showInsertSM")
 	public String showInsertSM(Model model){
 		model.addAttribute("operation", "保存");
-		return "bms/station/edit";
+		return "ses/bms/station/edit";
 		
 	}
 	
