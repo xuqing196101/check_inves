@@ -1,5 +1,6 @@
 package ses.model.sms;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class ImportSupplier {
@@ -49,9 +50,9 @@ public class ImportSupplier {
 
     private String regList;
 
-    private Date createdAt;
+    private Timestamp createdAt;
 
-    private Date updatedAt;
+    private Timestamp updatedAt;
 
     public String getId() {
         return id;
@@ -241,7 +242,7 @@ public class ImportSupplier {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -249,7 +250,7 @@ public class ImportSupplier {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
 }
