@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ses.dao.bms.CategoryAttchmentMapper">
-  <resultMap id="BaseResultMap" type="ses.model.bms.CategoryAttchment">
+  <resultMap id="CategoryAttchmentMap" type="ses.model.bms.CategoryAttchment">
     <id column="ID"  property="id" />
     <result column="FILE_NAME"  property="fileName" />
     <result column="CONTENT_TYPE" property="contentType" />
@@ -12,19 +12,20 @@
     <result column="IS_DELETED"  property="isDeleted" />
     <association property="category" column="CATEGORY_ID" select="ses.dao.bms.CategoryMapper.selectByPrimaryKey"/>
   </resultMap>
+  
   <sql id="Base_Column_List">
     ID, FILE_NAME, CONTENT_TYPE, FILE_SIZE, ATTCHMENT_PATH, CREATED_AT, UPDATED_AT, CATEGORY_ID, 
     IS_DELETED
   </sql>
   
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="CategoryAttchmentMap">
     select 
     <include refid="Base_Column_List" />
     from T_SES_BMS_CATEGORY_ATTCHMENT
     where ID = #{id}
   </select>
   
-  <select id="selectAllCategoryAttchment" parameterType="Object" resultMap="BaseResultMap">
+  <select id="selectAllCategoryAttchment" parameterType="Object" resultMap="CategoryAttchmentMap">
     select 
     <include refid="Base_Column_List" />
     from T_SES_BMS_CATEGORY_ATTCHMENT

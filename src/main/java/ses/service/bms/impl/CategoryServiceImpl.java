@@ -34,9 +34,9 @@ public class CategoryServiceImpl implements CategoryService {
 
 
 
-	public Category insertSelective(Category category) {
+	public void insertSelective(Category category) {
 		
-		return categoryMapper.insertSelective(category);
+		 categoryMapper.insertSelective(category);
 		
 	}
 

@@ -51,7 +51,7 @@ public interface CategoryMapper {
 	* @param @param category
 	* 
 	*/
-	public Category insertSelective(Category category);
+	public void insertSelective(Category category);
 	/**
 	 * 
 	* @Title: findTreeByPid

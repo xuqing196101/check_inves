@@ -352,15 +352,14 @@ public class CategoryController {
 				}
 				if(queType.toString().length()==length){
 					if(length!=1){
-					List<Category> list=categoryService.readExcel(category);   
+					List<Category> list=categoryService.selectAll();  
 					for(int k=0;k<list.size();k++){
 						if(list.get(k).equals(list.toString().substring(0, length-2))){//这个数据库的数据和queType的length-2的截取字符串对比 //查询语句lenngth-2;select  from category by 
 								category.setParentId(list.get(k).getId());
 						}
 					}
 			}else{
-					
-						category.setCode(queType.toString());
+				    category.setCode(queType.toString());
 					category.setParentId("0");
 					categoryService.insertSelective(category);//插入语句
 					}

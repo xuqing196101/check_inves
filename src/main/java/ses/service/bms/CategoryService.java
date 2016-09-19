@@ -48,7 +48,7 @@ import ses.model.bms.Category;
 	* @param @param category
 	* 
 	*/
-	public Category insertSelective(Category category);
+	public void insertSelective(Category category);
 	
 	/**
 	 * 

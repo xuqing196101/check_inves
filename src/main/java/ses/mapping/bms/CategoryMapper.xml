@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ses.dao.bms.CategoryMapper">
-  <resultMap id="CategoryResultMap" type="ses.model.bms.Category">
+  <resultMap id="CateMap" type="ses.model.bms.Category">
     <id column="ID" property="id" />
     <result column="NAME"  property="name" />
     <result column="STATUS"  property="status" />
@@ -21,7 +21,7 @@
   </sql>
   
   <!-- 根据id查询 -->
-  <select id="selectByPrimaryKey" parameterType="Object" resultMap="CategoryResultMap">
+  <select id="selectByPrimaryKey" parameterType="Object" resultMap="CateMap">
     select 
     <include refid="Base_Column_List" />
     from T_SES_BMS_CATEGORY
@@ -29,7 +29,7 @@
   </select>
   
   <!-- 根据pid生成列表 -->
-   <select id="listByParent" parameterType="Object" resultMap="BaseResultMap">
+   <select id="listByParent" parameterType="Object" resultMap="CateMap">
   	select
   	<include refid="Base_Column_List" />
   	from T_SES_BMS_CATEGORY
@@ -37,14 +37,14 @@
   </select>
   
   <!-- 根据pid查询生成树 -->
-  <select id="findTreeByPid" parameterType="Object" resultMap="CategoryResultMap">
+  <select id="findTreeByPid" parameterType="Object" resultMap="CateMap">
   select
   <include refid="Base_Column_List" />
   from T_SES_BMS_CATEGORY
   where PARENT_ID=#{id}
   </select>
   
-  <select id="selectAll" parameterType="object" resultMap="CategoryResultMap">
+  <select id="selectAll" parameterType="object" resultMap="CateMap">
   select 
   <include refid="Base_Column_List"/>
   from T_SES_BMS_CATEGORY
@@ -78,7 +78,7 @@
   </insert>
   
   <insert id="insertSelective" parameterType="ses.model.bms.Category">
-  <selectKey keyProperty="id" resultType="CategoryResultMap" order="BEFORE">
+  <selectKey keyProperty="id" resultType="String" order="BEFORE">
         select sys_guid() from dual
     </selectKey>
     insert into T_SES_BMS_CATEGORY
@@ -112,7 +112,7 @@
         CODE,
       </if>
       <if test="position != null">
-        ORDER_NUM,
+        POSITION,
       </if>
       <if test="isDeleted != null">
         IS_DELETED,
@@ -148,7 +148,7 @@
         #{code},
       </if>
       <if test="position != null">
-        #{orderNum},
+        #{position},
       </if>
       <if test="isDeleted != null">
         #{isDeleted},
@@ -186,7 +186,7 @@
         CODE = #{code},
       </if>
       <if test="position != null">
-        ORDER_NUM = #{orderNum},
+        POSITION = #{position},
       </if>
 
       <if test="isDeleted != null">
