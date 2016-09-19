@@ -180,7 +180,7 @@
     		}else if(count<1){
     			layer.alert("请选择一条记录",{offset: ['222px', '390px'],shade:0.01});
     		}else if(count==1){
-    			window.location.href="<%=basePath%>expert/toBasicInfo.html?id="+id;
+    			window.location.href="<%=basePath%>expert/toEditBasicInfo.html?id="+id;
        	}
     }
    	//删除
