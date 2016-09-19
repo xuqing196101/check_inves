@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,20 +24,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-
 import ses.model.bms.User;
+import ses.model.oms.PurchaseDep;
 import ses.model.sms.ImportSupplierAud;
 import ses.model.sms.ImportSupplierWithBLOBs;
 import ses.service.bms.UserServiceI;
+import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.ImportSupplierAudService;
 import ses.service.sms.ImportSupplierService;
 import ses.service.sms.SupplierAgentsService;
 import ses.util.Encrypt;
-import ses.util.PropertiesUtil;
 import ses.util.WfUtil;
 import ses.util.WordUtil;
+
+import com.github.pagehelper.PageInfo;
 
 /**
  * @Title: ImportSupplierController
@@ -56,6 +57,8 @@ public class ImportSupplierController {
 	private ImportSupplierAudService importSupplierAudService;
 	@Autowired
 	private SupplierAgentsService supplierAgentService;
+	@Autowired
+	private PurchaseOrgnizationServiceI poService;
 
 	/**
 	* @Title: beforeRegister
@@ -67,7 +70,7 @@ public class ImportSupplierController {
 	 */
 	@RequestMapping("registerStart")
 	public String registerStart(){
-		return "ses/sms/importsupplier/register1";
+		return "ses/sms/import_supplier/register_start";
 	}
 	
 	/**
@@ -80,7 +83,7 @@ public class ImportSupplierController {
 	 * @return String
 	 */
 	@RequestMapping("register")
-	public String register(ImportSupplierWithBLOBs is,Model model){
+	public String register(ImportSupplierWithBLOBs is,HttpServletRequest request,Model model){
 		//保存基本信息返回 id作为外键保存到user用户表里面去
 		importSupplierService.register(is);
 		User user=new User();
@@ -89,10 +92,14 @@ public class ImportSupplierController {
 		user.setPassword(psw);
 		user.setMobile(is.getMobile());
 		user.setTypeId(is.getId());
-		userService.save(user, user);
+		user.setTypeName(6);
+		userService.save(user, null);
 		//待到页面，保存基本信息的时候是 修改动作
 		model.addAttribute("id", is.getId());
-		return "ses/sms/importsupplier/register";
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		List<PurchaseDep> findPurchaseDepList = poService.findPurchaseDepList(map);
+		model.addAttribute("findPurchaseDepList", findPurchaseDepList);
+		return "ses/sms/import_supplier/register";
 	}
 	
 	/**
@@ -116,11 +123,11 @@ public class ImportSupplierController {
 		                String uuid = WfUtil.createUUID();
 		                filename=uuid+filename;
 		                String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload");  
-		                FileUtils.copyInputStreamToFile(myfile.getInputStream(), new File(realPath, filename));  
+		                FileUtils.copyInputStreamToFile(myfile.getInputStream(), new File(realPath, filename)); 
+		                is.setRegList(realPath+"/"+filename); 
 		            }  
 		        }  
 			}
-		is.setRegList(files[0].getName());
 		is.setStatus((short)0);
 		is.setCreatedAt(new Date());
 		importSupplierService.updateRegisterInfo(is);
@@ -153,14 +160,15 @@ public class ImportSupplierController {
 	 * @return String
 	 */
 	@RequestMapping("updateRegister")
-	public String updateRegister(ImportSupplierWithBLOBs is,Model model){
-		is.setId("4D5350B058F348378F5140D7238CC8F0");
+	public String updateRegister(ImportSupplierWithBLOBs is,Model model,HttpServletRequest request){
+		String id=(String) request.getSession().getAttribute("importSupplierId");
+		is.setId(id);
 		ImportSupplierWithBLOBs importSupplierWithBLOBs = importSupplierService.selectByPrimaryKey(is);
 		model.addAttribute("is", importSupplierWithBLOBs);	
 		//审核理由：id可以从登录信息里面去里面取
-		ImportSupplierAud isa=importSupplierAudService.findById("4D5350B058F348378F5140D7238CC8F0");
+		ImportSupplierAud isa=importSupplierAudService.findById(id);
 		model.addAttribute("isa", isa);	
-		return "ses/sms/importsupplier/register";
+		return "ses/sms/import_supplier/register";
 	}
 	
 	/**
@@ -276,7 +284,7 @@ public class ImportSupplierController {
 		model.addAttribute("weishenhe", weishenhe);
 		model.addAttribute("shenhezhong",fushen);
 		model.addAttribute("yishenhe", yishenhe);
-		return "ses/sms/importsupplier/daiban";
+		return "ses/sms/import_supplier/todos";
 	}
 	
 	/**
@@ -311,7 +319,7 @@ public class ImportSupplierController {
 		request.setAttribute("isList", new PageInfo<>(isList));
 		model.addAttribute("name", is.getName());
 		model.addAttribute("supplierType", is.getSupplierType());
-		return "ses/sms/importsupplier/auditList";
+		return "ses/sms/import_supplier/audit_list";
 	}
 	
 	
@@ -332,7 +340,7 @@ public class ImportSupplierController {
 		model.addAttribute("is", importSupplierWithBLOBs);
 		//给待办删除因为审核完毕
 		
-		return "ses/sms/importsupplier/firstAudit";
+		return "ses/sms/import_supplier/first_audit";
 	}
 	
 	/**
@@ -393,4 +401,61 @@ public class ImportSupplierController {
         file.delete();
         return entity;
 	} 
+	
+	@RequestMapping("highmaps")
+	public String highmaps(Model model){
+		StringBuffer sb = new StringBuffer("");
+		Map<String,String> myMap= new HashMap<String,String>(40);
+		myMap.put("吉林省","cn-jl");        
+		myMap.put("天津市","cn-tj");        
+		myMap.put("安徽省","cn-ah");        
+		myMap.put("山东省","cn-sd");        
+		myMap.put("山西省","cn-sx");        
+		myMap.put("新疆维吾尔自治区","cn-xj");
+		myMap.put("河北省","cn-hb");        
+		myMap.put("河南省","cn-he");        
+		myMap.put("湖南省","cn-hn");        
+		myMap.put("甘肃省","cn-gs");        
+		myMap.put("福建省","cn-fj");        
+		myMap.put("贵州省","cn-gz");        
+		myMap.put("重庆市","cn-cq");        
+		myMap.put("江苏省","cn-js");        
+		myMap.put("湖北省","cn-hu");        
+		myMap.put("内蒙古自治区","cn-nm");  
+		myMap.put("广西壮族自治区","cn-gx"); 
+		myMap.put("黑龙江省","cn-hl");      
+		myMap.put("云南省","cn-yn");        
+		myMap.put("辽宁省","cn-ln");        
+		myMap.put("香港特别行政区","cn-6668"); 
+		myMap.put("浙江省","cn-zj");        
+		myMap.put("上海市","cn-sh");        
+		myMap.put("北京市","cn-bj");        
+		myMap.put("广东省","cn-gd");        
+		myMap.put("澳门特别行政区","cn-3681"); 
+		myMap.put("西藏自治区","cn-xz");    
+		myMap.put("陕西省","cn-sa");        
+		myMap.put("四川省","cn-sc");        
+		myMap.put("海南省","cn-ha");        
+		myMap.put("宁夏回族自治区","cn-nx"); 
+		myMap.put("青海省","cn-qh");        
+		myMap.put("江西省","cn-jx");        
+		myMap.put("台湾省","tw-tw");        
+		
+		//  {"hc-key": "cn-sh","value": 0},
+		Random random = new Random();
+		String value="";
+		for (Object o : myMap.keySet()) { 
+			value= random.nextInt(100)+1+"" ;
+			sb.append("{'hc-key':'").
+			append(myMap.get(o)).
+			append("','value':").
+			append(value).
+			append("},").append("\n");
+			;
+			}
+		
+		String highMapStr=sb.deleteCharAt(sb.length()-1).toString();
+		model.addAttribute("data", highMapStr);
+		return "ses/sms/supplier_query/all_supplier";
+	}
 }

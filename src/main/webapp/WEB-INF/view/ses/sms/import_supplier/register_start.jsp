@@ -294,7 +294,7 @@
 								<label class="col-md-3 p0"><i class="red mr5">*</i>验证码：</label> <input type="text" id="identityCode_input_id" class="fl input-yzm">
 								<div class="fl">
 									<div class="yzm fl">
-										<img src="${pageContext.request.contextPath}/Kaptcha.jpg" onclick="kaptcha();" id="kaptchaImage" /> 
+										<img src="/index/Kaptcha.jpg" onclick="kaptcha();" id="kaptchaImage" /> 
 									</div>
 									<button class="btn padding-left-10 padding-right-10 btn_back ml10 fl" onclick="kaptcha();">换一张</button>
 								</div>

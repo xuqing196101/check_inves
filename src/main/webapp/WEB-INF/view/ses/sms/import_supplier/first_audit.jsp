@@ -114,6 +114,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/james.js"></script>
 <script type="text/javascript">
 function reason(id){
+	var value=document.getElementsByName(id)[0];
+	if(value){
+		return;
+	}
 	var id1=id+"1";
 	var id2=id+"2";
 	var supplierName=$("#"+id2+"").text().replaceAll("＊","");

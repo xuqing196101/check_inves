@@ -161,6 +161,18 @@
 			}
 		});
 	});
+	function box(cb){
+			var obj = document.getElementsByName("cbox");
+				 	for (i=0; i<obj.length; i++){   
+		             if (obj[i]!=cb) 
+		                 obj[i].checked = false;      
+			            else {
+			               obj[i].checked = true;  
+			               var tdId=obj[0].value;
+			               document.getElementById("orgId").value=tdId;
+			            } 
+	         	}   
+} 
 </script>
 
 </head>
@@ -439,11 +451,11 @@
 				可选择的采购机构
 			</h2>
 			 <input type="hidden" id="orgId" name="orgId" value="${orgId }" />
-			<table id="tb1"  class="table table-bordered table-condensed">
+			<table id="tb1"  class="table table-bordered table-condensed tc">
 			  <thead>
 				<tr>
-					<td>选择</td>
-					<td>序号</td>
+					<td class="w50">选择</td>
+					<td class="w50">序号</td>
 					<td>采购机构名称</td>
 					<td>机构代称</td>
 					<td>是否可审核</td>
@@ -451,26 +463,26 @@
 				</tr>
 			  </thead>
 			  <tbody>
-				<%-- <c:forEach items="" var="" varStatus="vs">
+			    <c:forEach items="${findPurchaseDepList }" var="fpd" varStatus="vs">
 					<tr>
-						<td><input type="checkbox" name="cbox" onclick="box(this)" /></td>
-						<td>${(l-1)*10+vs.index+1}</td>
-						<td></td>
+						<td><input value="${fpd.id }" type="checkbox" name="cbox" onclick="box(this)" /></td>
+						<td>${vs.index+1}</td>
+						<td>${fpd.depName }</td>
 						<td></td>
 						<td></td>
 						<td></td>
 					</tr>
-				</c:forEach> --%>
+				</c:forEach> 
 			  </tbody>
 			</table>
 			 <h2 class="f16 jbxx">
 				其他采购机构
 			</h2>
-			<table id="tb2" class="table table-bordered table-condensed">
+			<table id="tb2" class="table table-bordered table-condensed tc">
 			  <thead>
 				<tr>
-					<td>选择</td>
-					<td>序号</td>
+					<td class="w50">选择</td>
+					<td class="w50">序号</td>
 					<td>采购机构名称</td>
 					<td>机构代称</td>
 					<td>是否可审核</td>

@@ -20,10 +20,12 @@ import com.github.pagehelper.PageInfo;
 import ses.model.bms.StationMessage;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
+import ses.model.sms.ImportSupplierWithBLOBs;
 import ses.model.sms.SupplierAgents;
 import ses.service.bms.StationMessageService;
 import ses.service.bms.TodosService;
 import ses.service.bms.UserServiceI;
+import ses.service.sms.ImportSupplierService;
 import ses.service.sms.SupplierAgentsService;
 import ses.util.PropertiesUtil;
 
@@ -47,6 +49,9 @@ public class LoginController {
 
 	@Autowired
 	private UserServiceI userService;
+	
+	@Autowired
+	private ImportSupplierService importSupplierService;
 	/**
 	 * 站内消息
 	 */
@@ -101,6 +106,21 @@ public class LoginController {
 				req.getSession().setAttribute("loginUser", u);
 				logger.info("登录成功");
 				out.print("scuesslogin");
+				/*//等于6说明是进口供应商登录
+				if(u.getTypeName()!=null&&u.getTypeName()==6){
+					ImportSupplierWithBLOBs is=new ImportSupplierWithBLOBs();
+					is.setLoginName(user.getLoginName());
+					List<ImportSupplierWithBLOBs> isList=importSupplierService.selectByFsInfo(is,1);
+					//不等于2说明是审核未通过，则重定向
+					if(isList.get(0).getStatus()!=2){
+						req.getSession().setAttribute("importSupplierId", isList.get(0).getId());
+						out.print("scuesslogin_auditNotPass");
+						return;
+					}
+				}else{
+					out.print("scuesslogin");
+				}
+				out.print("scuesslogin_auditNotPass");*/
 			}else{
 				logger.error("验证失败");
 				out.print("errorlogin");

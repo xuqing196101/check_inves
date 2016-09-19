@@ -69,7 +69,10 @@ function login(){
 				}else if(data=="scuesslogin"){				
 					layer.close(index);
 					window.location.href="<%=basePath%>login/index.html";
-				}
+				}<%-- else if(data="scuesslogin_auditNotPass"){
+					layer.close(index);
+					window.location.href="<%=basePath%>importSupplier/updateRegister.html";
+				} --%>
 				kaptcha();
 			}
 		});

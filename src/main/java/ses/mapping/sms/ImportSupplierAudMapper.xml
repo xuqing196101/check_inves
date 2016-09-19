@@ -39,7 +39,7 @@
     select 
     <include refid="Base_Column_List" />
     from T_SES_SMS_IMPORT_SUPPLIER_AUD
-    where ID = #{id,jdbcType=VARCHAR}
+    where IMPORT_SUPPLIER_ID = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from T_SES_SMS_IMPORT_SUPPLIER_AUD
