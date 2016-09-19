@@ -238,11 +238,11 @@
       <if test="org != null">
         #{org.id,jdbcType=VARCHAR},
       </if>
-      <if test="duties != null and id != ''">
+      <if test="duties != null and duties != ''">
         #{duties,jdbcType=VARCHAR},
       </if>
       <if test="typeName != null">
-        #{typeName,jdbcType=DECIMAL},
+        #{typeName},
       </if>
       <if test="typeId != null and typeId != ''">
         #{typeId,jdbcType=VARCHAR},
@@ -278,7 +278,7 @@
       <if test="updatedAt != null">
         UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
-      <if test="user.id != null and user.id != ''">
+      <if test="user != null ">
         USER_ID = #{user.id,jdbcType=VARCHAR},
       </if>
       <if test="mobile != null and mobile != ''">
@@ -293,7 +293,7 @@
       <if test="email != null and email != ''">
         EMAIL = #{email,jdbcType=VARCHAR},
       </if>
-      <if test="org.id != null and org.id != ''">
+      <if test="org != null">
         ORG_ID = #{org.id,jdbcType=VARCHAR},
       </if>
       <if test="duties != null and duties != ''">
@@ -356,17 +356,33 @@
   
   <!-- 9.根据不为空的条件查询用户信息（包含角色信息） -->  
   <select id="selectUser" parameterType="Object" resultMap="UserResultMap">  
-      select 
-      u.*,
-      r.ID as roleId, r.NAME as roleName, r.CREATED_AT as roleCreatedAt, r.DESCRIPTION as description,
-      r.IS_DELETED as roleIsDeleted, r.UPDATED_AT as roleUpdatedAt   
-      from 
-      T_SES_BMS_USER u left join T_SES_BMS_USER_ROLE ur 
-      on u.ID = ur."USER_ID"  
-      left join T_SES_BMS_ROLE r 
-      on ur."ROLE_ID" = r.ID 
-      <include refid="Example_Where_Clause"/>
-      ORDER BY u.CREATED_AT DESC
+      SELECT
+			U .*, r. ID AS roleId,
+			r. NAME AS roleName,
+			r.CREATED_AT AS roleCreatedAt,
+			r.DESCRIPTION AS description,
+			r.IS_DELETED AS roleIsDeleted,
+			r.UPDATED_AT AS roleUpdatedAt,
+			pm. ID AS mid,
+			pm. NAME AS mname,
+			pm.MENU_TYPE AS mtype,
+			pm.IS_DELETED AS misDeleted,
+			pm.STATUS AS mstatus,
+			pm.URL AS murl,
+			pm.CREATED_AT AS mcreatedAt,
+			pm.UPDATED_AT AS mupdatedAt,
+			pm.POSITION AS mposition,
+			pm.MENU_LEVEL AS menulevel,
+			pm.PARENT_ID AS parentId,
+			pm.KIND AS kind
+		FROM
+			T_SES_BMS_USER U
+		LEFT JOIN T_SES_BMS_USER_ROLE ur ON U . ID = ur."USER_ID"
+		LEFT JOIN T_SES_BMS_ROLE r ON ur."ROLE_ID" = r. ID
+		LEFT JOIN T_SES_BMS_USER_PERMISSION up ON U . ID = up.USER_ID
+		LEFT JOIN T_SES_BMS_PERMISSION pm ON up.PERMENU_ID = pm. ID
+      	<include refid="Example_Where_Clause"/>
+      	ORDER BY u.CREATED_AT DESC
   </select>
   
   <!-- 10.保存用户和角色之间的关系信息 -->  
@@ -380,5 +396,14 @@
       insert into T_SES_BMS_USER_PERMISSION("USER_ID","PERMENU_ID")  	
       values(#{user.id},#{preMenu.id})  
   </insert>
+  
+  <!-- 12.删除用户和菜单之间的关系信息 -->  
+  <delete id="deleteUserMenu" parameterType="Object">  
+      delete from T_SES_BMS_USER_PERMISSION  
+      <where>  
+          <if test="user != null">"USER_ID" = #{user.id}</if>  
+          <if test="preMenu != null">and "PERMENU_ID" = #{preMenu.id}</if>  
+      </where>  
+  </delete>  
   
 </mapper>

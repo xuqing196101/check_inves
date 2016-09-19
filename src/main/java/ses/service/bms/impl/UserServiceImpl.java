@@ -79,8 +79,8 @@ public class UserServiceImpl implements UserServiceI {
 
 	@Override
 	public List<User> selectUser(User user, Integer pageNum) {
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(pageNum,10);
+//		PropertiesUtil config = new PropertiesUtil("config.properties");
+//		PageHelper.startPage(pageNum,10);
 		return userMapper.selectUser(user);
 	}
 
@@ -125,6 +125,11 @@ public class UserServiceImpl implements UserServiceI {
 	@Override
 	public void saveUserMenu(UserPreMenu userPreMenu) {
 		userMapper.saveUserMenu(userPreMenu);
+	}
+
+	@Override
+	public void deleteUserMenu(UserPreMenu userPreMenu) {
+		userMapper.deleteUserMenu(userPreMenu);
 	}
 }
 

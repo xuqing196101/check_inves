@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+
 import ses.dao.bms.RoleMapper;
 import ses.model.bms.Role;
 import ses.model.bms.RolePreMenu;
@@ -55,7 +57,9 @@ public class RoleServiceImpl implements RoleServiceI {
 	}
 
 	@Override
-	public List<Role> selectRole(Role r) {
+	public List<Role> selectRole(Role r, Integer pageNum) {
+		//PropertiesUtil config = new PropertiesUtil("config.properties");
+		//PageHelper.startPage(pageNum,10);
 		return roleMapper.selectRole(r);
 	}
 

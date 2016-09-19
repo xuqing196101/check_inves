@@ -76,7 +76,7 @@
          	}); 
 		} 
 		//获取选中节点  
-		function onCheck(rid){  
+		function onCheck(uid){  
 		     var treeObj=$.fn.zTree.getZTreeObj("menuTree");  
 		     var nodes=treeObj.getCheckedNodes(true);  
 		     var ids = new Array();  
@@ -84,7 +84,7 @@
 		        //获取选中节点的值  
 		         ids.push(nodes[i].id); 
 		     } 
-		   ajaxSubmit(rid,ids);       
+		   ajaxSubmit(uid,ids);       
 		}  
 	</script>
   </head>

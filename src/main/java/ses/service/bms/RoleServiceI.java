@@ -79,7 +79,7 @@ public interface RoleServiceI {
 	 * @return List<Role>
 	 * @exception IOException
 	 */
-	List<Role> selectRole(Role r);
+	List<Role> selectRole(Role r, Integer pageNum);
 
 	/**
 	 * Description: 保存角色-菜单关联关系

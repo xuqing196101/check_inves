@@ -72,6 +72,7 @@ public class User {
      * 3:其他人员
      * 4：供应商
      * 5：专家
+     * 6：进口供应商
      */
     private Integer typeName;
 

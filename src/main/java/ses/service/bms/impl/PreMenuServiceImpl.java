@@ -44,8 +44,13 @@ public class PreMenuServiceImpl implements PreMenuServiceI {
 	}
 
 	@Override
-	public List<String> findByRole(String[] roleIds) {
-		return preMenuMapper.findByRole(roleIds);
+	public List<String> findByRids(String[] roleIds) {
+		return preMenuMapper.findByRids(roleIds);
+	}
+
+	@Override
+	public List<String> findByUids(String[] userIds) {
+		return preMenuMapper.findByUids(userIds);
 	}
 
 }

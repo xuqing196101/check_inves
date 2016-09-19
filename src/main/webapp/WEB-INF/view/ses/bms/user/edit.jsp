@@ -85,7 +85,7 @@
 		 <li class="col-md-6 p0">
 		   <span class="">性别：</span>
 	        <select name="gender">
-	        	<option >-请选择-</option> 
+	        	<option value="">-请选择-</option> 
 	        	<option value="M" <c:if test="${'M' eq user.gender}">selected</c:if> >男</option>
 	        	<option value="F" <c:if test="${'F' eq user.gender}">selected</c:if>>女</option>
 	        </select>

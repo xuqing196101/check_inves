@@ -2,6 +2,7 @@ package ses.controller.sys.bms;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -192,8 +193,8 @@ public class UserManageController {
 					"loginUser");
 			userService.save(user, currUser);
 
-			String[] roleIds = roleId.split(",");
-			if (roleIds.length > 1) {
+			if(roleId != null && !"".equals(roleId)){
+				String[] roleIds = roleId.split(",");
 				for (int i = 0; i < roleIds.length; i++) {
 					Userrole userrole = new Userrole();
 					Role role = roleService.get(roleIds[i]);
@@ -203,7 +204,7 @@ public class UserManageController {
 					userService.saveRelativity(userrole);
 				}
 				//保存用户与角色多对应权限的关联id
-				List<String> mids = preMenuService.findByRole(roleIds);
+				List<String> mids = preMenuService.findByRids(roleIds);
 				for (String mid : mids) {
 					UserPreMenu userPreMenu = new UserPreMenu();
 					PreMenu menu = preMenuService.get(mid);
@@ -287,14 +288,30 @@ public class UserManageController {
 				userrole.setRoleId(role);
 				roleService.deleteRoelUser(userrole);
 			}
-
+			//删除用户之前的与角色下权限菜单的关联关系
+			if(oldRole.size() > 0){
+				String[] oldrIds = new String[oldRole.size()];
+				for (int i = 0; i < oldRole.size(); i++) {
+					oldrIds[i] = oldRole.get(i).getId();
+				}
+				List<String> oldmids = preMenuService.findByRids(oldrIds);
+				for (String mid : oldmids) {
+					UserPreMenu userPreMenu = new UserPreMenu();
+					PreMenu menu = preMenuService.get(mid);
+					userPreMenu.setPreMenu(menu);
+					userPreMenu.setUser(olduser);
+					userService.deleteUserMenu(userPreMenu);
+				}
+			}
+			
 			u.setCreatedAt(olduser.getCreatedAt());
 			u.setUser(olduser.getUser());
 			u.setUpdatedAt(new Date());
 			userService.update(u);
 
-			String[] roleIds = roleId.split(",");
-			if (roleIds.length > 1) {
+			if(roleId != null && !"".equals(roleId)){
+				
+				String[] roleIds = roleId.split(",");
 				for (int i = 0; i < roleIds.length; i++) {
 					Userrole userrole = new Userrole();
 					Role role = roleService.get(roleIds[i]);
@@ -302,7 +319,17 @@ public class UserManageController {
 					userrole.setUserId(u);
 					userService.saveRelativity(userrole);
 				}
+				//保存用户与角色多对应权限的关联id
+				List<String> mids = preMenuService.findByRids(roleIds);
+				for (String mid : mids) {
+					UserPreMenu userPreMenu = new UserPreMenu();
+					PreMenu menu = preMenuService.get(mid);
+					userPreMenu.setPreMenu(menu);
+					userPreMenu.setUser(u);
+					userService.saveUserMenu(userPreMenu);
+				}
 			}
+			
 		} else {
 
 		}
@@ -368,5 +395,32 @@ public class UserManageController {
 	public String openPreMenu(Model model,String id){
 		model.addAttribute("uid", id);
 		return "ses/bms/user/addPreMenu";
+	}
+	
+	@RequestMapping("/saveUserMenu")
+	public void saveUserMenu(HttpServletRequest request,
+			HttpServletResponse response, String userId, String ids)
+			throws IOException {
+
+		try {
+			User user = userService.getUserById(userId);
+			UserPreMenu um = new UserPreMenu();
+			um.setUser(user);
+			userService.deleteUserMenu(um);
+
+			String[] mIds = ids.split(",");
+			for (String str : mIds) {
+				UserPreMenu up = new UserPreMenu();
+				PreMenu preMenu = preMenuService.get(str);
+				up.setPreMenu(preMenu);
+				up.setUser(user);
+				userService.saveUserMenu(up);
+			}
+			response.setContentType("text/html;charset=utf-8");
+			response.getWriter().print("权限配置完成");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 }

@@ -127,4 +127,14 @@ public interface UserMapper {
 	 */
 	void saveUserMenu(UserPreMenu userPreMenu);
 
+	/**
+	 * Description: 删除用户-权限菜单的关联关系
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-18
+	 * @param userPreMenu
+	 * @exception IOException
+	 */
+	void deleteUserMenu(UserPreMenu userPreMenu);
+
 }

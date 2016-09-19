@@ -86,7 +86,7 @@ public interface PreMenuMapper {
 	List<PreMenu> find(PreMenu preMenu);
 
 	/**
-	 * Description: 根据角色id获取角色-菜单关联
+	 * Description: 根据角色id数组获取角色-菜单关联
 	 * 
 	 * @author Ye MaoLin
 	 * @version 2016-9-18
@@ -94,6 +94,16 @@ public interface PreMenuMapper {
 	 * @return
 	 * @exception IOException
 	 */
-	List<String> findByRole(String[] roleIds);
+	List<String> findByRids(String[] roleIds);
+
+	/**
+	 * Description: 根据用户id数组获取该用户的菜单id
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-18
+	 * @param userIds
+	 * @exception IOException
+	 */
+	List<String> findByUids(String[] userIds);
 
 }

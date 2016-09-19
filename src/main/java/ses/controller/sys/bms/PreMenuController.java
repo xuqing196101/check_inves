@@ -69,13 +69,17 @@ public class PreMenuController {
 			HttpServletResponse response, Model model, Role r, String userId)
 			throws IOException {
 		List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
-		List<PreMenu> roleMenus = new ArrayList<PreMenu>();
+		List<String> menuIds = new ArrayList<String>();
 		List<PreMenu> list = preMenuService.find(null);
-		List<Role> roles = roleService.selectRole(r);
-		if (roles.size() == 0) {
-			roleMenus = null;
-		} else {
-			roleMenus = roles.get(0).getPreMenus();
+		
+		//如果是给角色配置权限
+		if(userId != null && !"".equals(userId)){
+			//给用户配置权限
+			String[] userIds = userId.split(",");
+			menuIds = preMenuService.findByUids(userIds);
+		}else{
+			String[] roleIds = {r.getId()};
+			menuIds = preMenuService.findByRids(roleIds);
 		}
 		for (int i = 0; i < list.size(); i++) {
 			PreMenu e = list.get(i);
@@ -84,8 +88,8 @@ public class PreMenuController {
 			map.put("pId", e.getParentId() != null ? e.getParentId().getId()
 					: 0);
 			map.put("name", e.getName());
-			for (PreMenu roleMenu : roleMenus) {
-				if (roleMenu.getId().equals(e.getId())) {
+			for (String menuId : menuIds) {
+				if (menuId.equals(e.getId())) {
 					map.put("checked", true);
 				}
 			}
@@ -150,18 +154,18 @@ public class PreMenuController {
 	 * @exception IOException
 	 */
 	@RequestMapping("findListByParent")
-	public void findListByParent(HttpServletResponse response,String id){
+	public void findListByParent(HttpServletResponse response, String id){
 		try {
-			PreMenu parent=new PreMenu();
+			PreMenu parent = new PreMenu();
 			parent.setId(id);
-			PreMenu preMenu=new PreMenu();
+			PreMenu preMenu = new PreMenu();
 			preMenu.setParentId(parent);
-			List<PreMenu> list=preMenuService.find(preMenu);
+			List<PreMenu> list = preMenuService.find(preMenu);
 			net.sf.json.JSONArray json = new net.sf.json.JSONArray();
 			JsonConfig jsonConfig = new JsonConfig();
 	        jsonConfig.registerJsonValueProcessor(Date.class,
 	                new JsonDateValueProcessor());
-			String jsonStr=json.fromObject(list,jsonConfig).toString();
+			String jsonStr = json.fromObject(list,jsonConfig).toString();
 			response.setContentType("text/html;charset=utf-8");
 			response.getWriter().print(jsonStr);
 		} catch (IOException e) {
@@ -180,12 +184,13 @@ public class PreMenuController {
 	 */
 	@RequestMapping("delete_soft")
 	public String delete_soft(String ids){
-		String[] idarry=ids.split(",");
+		String[] idarry = ids.split(",");
 		for (String id : idarry) {
-			PreMenu menu=preMenuService.get(id);
+			PreMenu menu = preMenuService.get(id);
 			menu.setIsDeleted(1);
 			preMenuService.update(menu);
 		}
 		return "redirectlist.html";
 	}
+	
 }
