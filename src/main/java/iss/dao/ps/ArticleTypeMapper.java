@@ -24,6 +24,7 @@ public interface ArticleTypeMapper {
     * @return ArticleType
      */
     ArticleType selectTypeByPrimaryKey(String id);
+    
     /**
      * 
     * @Title: selectAllArticleType
@@ -34,6 +35,27 @@ public interface ArticleTypeMapper {
     * @return List<ArticleType>
      */
     List<ArticleType> selectAllArticleType();
+    
+    /**
+     * 
+    * @Title: selectArticleTypesByParentId
+    * @author QuJie 
+    * @date 2016-8-26 下午4:49:08  
+    * @Description: 根据父栏目ID查询所有栏目类别 
+    * @param @return      
+    * @return List<ArticleType>
+     */
+    List<ArticleType> selectArticleTypesByParentId(String parentId);
+    /**
+     * 
+    * @Title: getAll
+    * @author QuJie 
+    * @date 2016-8-26 下午4:49:08  
+    * @Description: 查询所有栏目类别 
+    * @param @return      
+    * @return List<ArticleType>
+     */
+    List<ArticleType> getAll();
     
     /**
      * 

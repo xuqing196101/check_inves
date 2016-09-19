@@ -144,6 +144,7 @@
 				<th class="info">创建时间</th>
 				<th class="info">更新时间</th>
 				<th class="info">创建人</th>
+				<th class="info">上级栏目</th>
 			</tr>
 		</thead>
 		
@@ -164,6 +165,7 @@
 				<td class="tc pointer" onclick="view('${articletype.id}')"><fmt:formatDate value='${articletype.createdAt}' pattern="yyyy年MM月dd日  HH:mm:ss" /></td>
 				<td class="tc pointer" onclick="view('${articletype.id}')"><fmt:formatDate value='${articletype.updatedAt}' pattern="yyyy年MM月dd日  HH:mm:ss" /></td>
 				<td class="tc pointer" onclick="view('${articletype.id}')">${articletype.creater.relName}</td>
+				<td class="tc pointer" onclick="view('${articletype.id}')">${articletype.parent.name}</td>
 			</tr>
 		</c:forEach>
 	</table>

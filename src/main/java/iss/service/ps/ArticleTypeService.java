@@ -32,6 +32,26 @@ public interface ArticleTypeService {
     * @return List<ArticleType>
      */
     List<ArticleType> selectAllArticleType(Integer page);
+    /**
+     * 
+    * @Title: selectArticleTypesByParentId
+    * @author QuJie 
+    * @date 2016-8-26 下午4:49:08  
+    * @Description: 根据父栏目ID查询所有栏目类别 
+    * @param @return      
+    * @return List<ArticleType>
+     */
+    List<ArticleType> selectArticleTypesByParentId(String parentId);
+    /**
+     * 
+    * @Title: getAll
+    * @author QuJie 
+    * @date 2016-8-26 下午4:49:08  
+    * @Description: 查询所有栏目类别 
+    * @param @return      
+    * @return List<ArticleType>
+     */
+    List<ArticleType> getAll();
       
     /**
      * 

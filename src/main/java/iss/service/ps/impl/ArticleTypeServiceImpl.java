@@ -42,7 +42,14 @@ public class ArticleTypeServiceImpl implements ArticleTypeService {
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 		return articleTypeMapper.selectAllArticleType();
 	}
-
+	
+	/**
+	 * 查找所有文章类型
+	 */
+	@Override
+	public List<ArticleType> getAll() {
+		return articleTypeMapper.getAll();
+	}
 	/**
 	 * 根据主键修改文章类型
 	 */
@@ -57,5 +64,11 @@ public class ArticleTypeServiceImpl implements ArticleTypeService {
 	@Override
 	public List<ArticleType> selectAllArticleTypeForSolr() {
 		return articleTypeMapper.selectAllArticleTypeForSolr();
+	}
+
+	@Override
+	public List<ArticleType> selectArticleTypesByParentId(String parentId) {
+		// TODO Auto-generated method stub
+		return articleTypeMapper.selectArticleTypesByParentId(parentId);
 	}
 }

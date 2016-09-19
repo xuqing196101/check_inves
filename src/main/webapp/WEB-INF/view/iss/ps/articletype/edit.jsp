@@ -18,7 +18,9 @@
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->	
 	<script type="text/javascript">    
- 
+    $(function(){ 
+        $("#parent").val("${articletype.parent.id}");
+        }); 
 	</script>
   </head>
   <body>
@@ -51,6 +53,15 @@
 		        <%--<span class="add-on">i</span>--%>
 		       </div>
 			 </li>
+			 <li class="col-md-6  p0 ">
+               <span class="fl">上级栏目：</span>
+                 <select id="parent" name ="parentId" class="w230" >
+                    <option></option>
+                    <c:forEach items="${list}" var="articletype">
+                        <option value="${articletype.id}">${articletype.name}</option>
+                    </c:forEach> 
+                </select>
+             </li>
 			 
 			<li class="col-md-12  p0 ">	  	 			
 				<span class="fl">栏目介绍：</span>

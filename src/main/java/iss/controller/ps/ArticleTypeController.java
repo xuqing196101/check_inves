@@ -1,14 +1,14 @@
 package iss.controller.ps;
 
+import iss.model.ps.ArticleType;
+import iss.service.ps.ArticleService;
+import iss.service.ps.ArticleTypeService;
+
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-
-import iss.model.ps.ArticleType;
-import iss.service.ps.ArticleService;
-import iss.service.ps.ArticleTypeService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -75,7 +75,16 @@ public class ArticleTypeController {
 	@RequestMapping("/edit")
 	public String edit(Model model, String id) {
 		ArticleType articletype = articleTypeService.selectTypeByPrimaryKey(id);
+		List<ArticleType> articletypes = articleTypeService.getAll();
+		List<ArticleType> children = articleTypeService.selectArticleTypesByParentId(id);
+		for (ArticleType child : children) {
+			articletypes.remove(child);
+		}
+		Boolean b = articletypes.remove(articletype);
+		System.out.println(b);
+		System.out.println(articletypes.size());
 		model.addAttribute("articletype", articletype);
+		model.addAttribute("list", articletypes);
 		return "iss/ps/articletype/edit";
 	}
 	
@@ -94,6 +103,8 @@ public class ArticleTypeController {
 		String id = request.getParameter("articletypeId");
 		articleType.setId(id);
 		System.out.println(articleType);
+		ArticleType parentArticleType = articleTypeService.selectTypeByPrimaryKey(request.getParameter("parentId")) ;
+		articleType.setParent(parentArticleType);
 		articleTypeService.updateByPrimaryKey(articleType);	
 		return "redirect:getAll.html";
 	}

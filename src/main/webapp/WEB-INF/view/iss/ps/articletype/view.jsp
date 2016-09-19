@@ -53,6 +53,13 @@
 		        <%--<span class="add-on">i</span>--%>
 		       </div>
 			 </li>
+			  <li class="col-md-6  p0 ">
+               <span class="fl">上级栏目：</span>                 
+                <div class="input-append">
+                <input class="span2"  type="text" value = '${articletype.parent.name}' readonly="readonly">
+                <%--<span class="add-on">i</span>--%>
+               </div>
+             </li>
 
 			 <li class="col-md-6  p0 ">
 			   <span class="fl">创建时间：</span>				 	
