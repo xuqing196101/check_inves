@@ -104,25 +104,36 @@
 	  	
 	  		<li class="col-md-12 p0">
 				<span class="fl">选项:</span>
-					<div class="">
-				   		A<input type="text" name="option" id="optionA" value="${optionA}" disabled="disabled"/>
-						B<input type="text" name="option" id="optionB" value="${optionB}" disabled="disabled"/>
-						C<input type="text" name="option" id="optionC" value="${optionC}" disabled="disabled"/>
-						D<input type="text" name="option" id="optionD" value="${optionD}" disabled="disabled"/>
-		        
-			 		</div> 
-		   </li>
+				<div class="col-md-9">
+				<div>
+			  		<div class="fl mt5">A</div><textarea name="option" id="optionA" class="ml5 col-md-8" disabled="disabled">${optionA}</textarea>
+			  		<div class="clear"></div>
+			  	</div>
+			  	<div class="clear mt10">
+					<div class="fl mt5">B</div><textarea name="option" id="optionB" class="ml5 col-md-8" disabled="disabled">${optionB}</textarea>
+				    <div class="clear"></div>
+				</div>
+				<div class="clear mt10">
+					<div class="fl mt5">C</div><textarea name="option" id="optionC" class="ml5 col-md-8" disabled="disabled">${optionC}</textarea>
+				    <div class="clear"></div>
+				</div>
+				<div class="clear mt10">
+					<div class="fl mt5">D</div><textarea name="option" id="optionD" class="ml5 col-md-8" disabled="disabled">${optionD}</textarea>
+				    <div class="clear"></div>
+				</div>
+		       </div>
+			 </li> 
 	  	
-		 	<li class="col-md-12 p0">
-				<span class="fl"> 答案:</span>	
-					<div class="fl">
-				        A <input type="radio" id="A" name="que" value="A" disabled="disabled"/> 
-			  			B <input type="radio" id="B" name="que" value="B" disabled="disabled"/> 
-			  			C <input type="radio" id="C" name="que" value="C" disabled="disabled"/> 
-			  			D <input type="radio" id="D" name="que" value="D" disabled="disabled"/>
-			  			<span id="queSelect"></span>
-				 	</div> 
-			</li>
+		 		<li class="col-md-12 p0">
+					<span class="fl">答案:</span>	
+					<div class="fl ml5 mt5">
+			        A <input type="radio" id="A" name="que" value="A" class="mt0" disabled="disabled"/> 
+		  			B <input type="radio" id="B" name="que" value="B" class="mt0" disabled="disabled"/> 
+		  			C <input type="radio" id="C" name="que" value="C" class="mt0" disabled="disabled"/> 
+		  			D <input type="radio" id="D" name="que" value="D" class="mt0" disabled="disabled"/>
+			       </div>
+					<span id="queSelect"></span>
+				</li>
 		  
 	  	<li class="col-md-12 p0">
 	  		<span class="fl">分值:</span>

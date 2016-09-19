@@ -47,40 +47,38 @@
      <div class="content padding-left-25 padding-right-25 padding-top-5">
      	<div>
 		   <div class="headline-v2">
-		   		<h2>编辑考卷</h2>
+		   		<h2>查看考卷</h2>
 		   </div>
-    <form action="<%=path %>/purchaserExam/editToExamPaper.html" method="post">
-    	<input type="hidden" name="paperId" value="${examPaper.id }"/>
     	<ul class="list-unstyled list-flow p0_20">
 		     <li class="col-md-12 p0">
 	  			<span class="fl">试卷名称:</span>
-		  		<input type="text" name="paperName" value="${examPaper.name }"/>
+		  		<input type="text" name="paperName" value="${examPaper.name }" disabled="disabled"/>
 	  		</li>
     		
     		<li class="col-md-12 p0">
 	  			<span class="fl">试卷编号:</span>
-		  		<input type="text" name="paperNo" value="${examPaper.code }"/>
+		  		<input type="text" name="paperNo" value="${examPaper.code }" disabled="disabled"/>
 	  		</li>
     		
     		<li class="col-md-12 p0">
 	  			<span class="fl">题型分布:</span>
 	  			<div class="fl">
-	  			   <label class="fl mt5">单选题:</label><input type="text" name="singleNum" id="singleNum" class="ml10 w50"/>条<input type="text" name="singlePoint" id="singlePoint" class="ml10 w50"/>分/条<br/>
-		    	   <label class="fl mt5">多选题:</label><input type="text" name="multipleNum" id="multipleNum" class="ml10 w50"/>条<input type="text" name="multiplePoint" id="multiplePoint" class="ml10 w50"/>分/条<br/>
-		    	   <label class="fl mt5">判断题:</label> <input type="text" name="judgeNum" id="judgeNum" class="ml10 w50"/>条<input type="text" name="judgePoint" id="judgePoint" class="ml10 w50"/>分/条<br/>
+	  			   <label class="fl mt5">单选题:</label><input type="text" name="singleNum" id="singleNum" class="ml10 w50" disabled="disabled"/>条<input type="text" name="singlePoint" id="singlePoint" class="ml10 w50" disabled="disabled"/>分/条<br/>
+		    	   <label class="fl mt5">多选题:</label><input type="text" name="multipleNum" id="multipleNum" class="ml10 w50" disabled="disabled"/>条<input type="text" name="multiplePoint" id="multiplePoint" class="ml10 w50" disabled="disabled"/>分/条<br/>
+		    	   <label class="fl mt5">判断题:</label> <input type="text" name="judgeNum" id="judgeNum" class="ml10 w50" disabled="disabled"/>条<input type="text" name="judgePoint" id="judgePoint" class="ml10 w50" disabled="disabled"/>分/条<br/>
 	  		    </div>
 	  		    <div class="clear"></div>
 	  		</li>
     		
     		<li class="col-md-12 p0">
 	  			<span class="fl">总分值:</span>
-		  		<input class="w50" type="text" name="totalPoint" id="totalPoint" value="${examPaper.score }"/>分
+		  		<input class="w50" type="text" name="totalPoint" id="totalPoint" value="${examPaper.score }" disabled="disabled"/>分
 	  		</li>
     		
     		<li class="col-md-12 p0">
 	  			<span class="fl">考试开始时间:</span>
-		  		<input type="text" value="${startTime }" name="startTime" id="startTime" class="Wdate" onfocus="WdatePicker({isShowWeek:true})"/>
-	  			<select id="hour" name="hour" class="mb8">
+		  		<input type="text" disabled="disabled" value="${startTime }" name="startTime" id="startTime" class="Wdate" onfocus="WdatePicker({isShowWeek:true})"/>
+	  			<select id="hour" name="hour" class="mb8" disabled="disabled">
 	  				<option value="">请选择</option>
 	  				<c:forEach items="${hours }" varStatus="h">
 	  					<c:choose>
@@ -93,7 +91,7 @@
 	  					</c:choose>
 	  				</c:forEach>
 	  			</select>时
-	  			<select id="second" name="second" class="mb8">
+	  			<select id="second" name="second" class="mb8" disabled="disabled">
 	  				<option value="">请选择</option>
 	  				<c:forEach items="${seconds }" varStatus="s">
 	  					<c:choose>
@@ -110,13 +108,13 @@
 	  		
 	  		<li class="col-md-12 p0">
 	  			<span class="fl">考试用时:</span>
-		  		<input class="w50" type="text" name="useTime" id="useTime" value="${examPaper.testTime }"/>分钟
+		  		<input class="w50" type="text" name="useTime" id="useTime" value="${examPaper.testTime }" disabled="disabled"/>分钟
 	  		</li>
 	  		
 	  		<li class="col-md-12 p0">
 	  			<span class="fl w250">首次考试不及格的是否允许30分钟内重考:</span>
-		  		<input type="checkbox" name="isAllowTrue" id="isAllowTrue">是
-    			<input type="checkbox" name="isAllowFalse" id="isAllowFalse"/>否
+		  		<input type="checkbox" name="isAllowTrue" id="isAllowTrue" disabled="disabled">是
+    			<input type="checkbox" name="isAllowFalse" id="isAllowFalse" disabled="disabled"/>否
 	  		</li>
     	</ul>
    
@@ -125,13 +123,12 @@
   		<div class="padding-top-10 clear">
 			<div class="col-md-12 pl200 ">
 				<div class="mt40 tc mb50">
-				 	<button class="btn btn-windows save" type="submit">更新</button>
 	    			<input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 				</div>
 	  		</div>
 	  	</div>
     
-    			</form>
+    			
     		</div>
     	</div>
     </div>

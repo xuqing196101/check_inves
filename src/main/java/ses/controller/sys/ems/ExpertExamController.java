@@ -4,18 +4,29 @@
 package ses.controller.sys.ems;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -25,7 +36,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.github.pagehelper.PageInfo;
 
@@ -58,8 +71,6 @@ public class ExpertExamController {
 	@Autowired
 	private ExamUserScoreServiceI examUserScoreService;
 	@Autowired
-	private ExamPaperServiceI examPaperService;
-	@Autowired
 	private ExamRuleServiceI examRuleService;
 	
 	/**
@@ -73,7 +84,7 @@ public class ExpertExamController {
 	 */
 	@RequestMapping("/returnLawExpert")
 	public String returnLawExpert(){
-		return "ems/exam/expert/law/list";
+		return "ses/ems/exam/expert/law/list";
 	}
 	
 	/**
@@ -101,7 +112,7 @@ public class ExpertExamController {
 			}
 		}
 		model.addAttribute("technicalList",ntechnicalList);
-		return "ems/exam/expert/technical/list";
+		return "ses/ems/exam/expert/technical/list";
 	}
 	
 	/**
@@ -129,7 +140,7 @@ public class ExpertExamController {
 			}
 		}
 		model.addAttribute("commerceList",ncommerceList);
-		return "ems/exam/expert/commerce/list";
+		return "ses/ems/exam/expert/commerce/list";
 	}
 	
 	/**
@@ -159,7 +170,7 @@ public class ExpertExamController {
 		model.addAttribute("list",new PageInfo<ExamQuestion>(lawList));
 //		System.out.println(nlawList);
 //		System.out.println(111);
-		return "ems/exam/expert/law/list";
+		return "ses/ems/exam/expert/law/list";
 	}
 	
 	/**
@@ -173,7 +184,7 @@ public class ExpertExamController {
 	 */
 	@RequestMapping("/addLaw")
 	public String addLaw(){
-		return "ems/exam/expert/law/add";
+		return "ses/ems/exam/expert/law/add";
 	}
 	
 	/**
@@ -187,7 +198,7 @@ public class ExpertExamController {
 	 */
 	@RequestMapping("/addTechnical")
 	public String addTechnical(){
-		return "ems/exam/expert/technical/add";
+		return "ses/ems/exam/expert/technical/add";
 	}
 	
 	/**
@@ -201,7 +212,7 @@ public class ExpertExamController {
 	 */
 	@RequestMapping("/addCommerce")
 	public String addCommerce(){
-		return "ems/exam/expert/commerce/add";
+		return "ses/ems/exam/expert/commerce/add";
 	}
 	
 	/**
@@ -216,19 +227,19 @@ public class ExpertExamController {
 	* @return String
 	 */
 	@RequestMapping("/saveToLaw")
-	public String saveToLaw(HttpServletRequest request,ExamQuestion examPool){
-		examPool.setQuestionTypeId(Integer.parseInt(request.getParameter("queType")));
-		examPool.setTopic(request.getParameter("queTopic"));
+	public String saveToLaw(HttpServletRequest request,ExamQuestion examQuestion){
+		examQuestion.setQuestionTypeId(Integer.parseInt(request.getParameter("queType")));
+		examQuestion.setTopic(request.getParameter("queTopic"));
 		String[] queOption = request.getParameterValues("option");
 		StringBuffer sb_option = new StringBuffer();
-		sb_option.append("A"+queOption[0].trim()+";");
-		sb_option.append("B"+queOption[1].trim()+";");
-		sb_option.append("C"+queOption[2].trim()+";");
-		sb_option.append("D"+queOption[3].trim()+";");
-		examPool.setItems(sb_option.toString());
-		examPool.setPersonType(1);
-		examPool.setKind(2);
-		examPool.setCreatedAt(new Date());
+		sb_option.append("A."+queOption[0].trim()+";");
+		sb_option.append("B."+queOption[1].trim()+";");
+		sb_option.append("C."+queOption[2].trim()+";");
+		sb_option.append("D."+queOption[3].trim()+";");
+		examQuestion.setItems(sb_option.toString());
+		examQuestion.setPersonType(1);
+		examQuestion.setKind(2);
+		examQuestion.setCreatedAt(new Date());
 		StringBuffer sb = new StringBuffer();
 		if(request.getParameter("que")!=null){
 			String[] queSelect = request.getParameterValues("que");
@@ -236,9 +247,9 @@ public class ExpertExamController {
 				sb.append(queSelect[i]);
 			}
 		}
-		examPool.setAnswer(sb.toString());
-		examPool.setPoint(Integer.parseInt(request.getParameter("quePoint")));
-		examQuestionService.insertSelective(examPool);
+		examQuestion.setAnswer(sb.toString());
+		examQuestion.setPoint(Integer.parseInt(request.getParameter("quePoint")));
+		examQuestionService.insertSelective(examQuestion);
 		return "redirect:searchLawExpPool.html";
 	}
 	
@@ -254,19 +265,19 @@ public class ExpertExamController {
 	* @return String
 	 */
 	@RequestMapping("/saveToTec")
-	public String saveToTec(HttpServletRequest request,ExamQuestion examPool){
-		examPool.setQuestionTypeId(Integer.parseInt(request.getParameter("queType")));
-		examPool.setTopic(request.getParameter("queTopic"));
+	public String saveToTec(HttpServletRequest request,ExamQuestion examQuestion){
+		examQuestion.setQuestionTypeId(Integer.parseInt(request.getParameter("queType")));
+		examQuestion.setTopic(request.getParameter("queTopic"));
 		String[] queOption = request.getParameterValues("option");
 		StringBuffer sb_option = new StringBuffer();
-		sb_option.append("A"+queOption[0].trim()+";");
-		sb_option.append("B"+queOption[1].trim()+";");
-		sb_option.append("C"+queOption[2].trim()+";");
-		sb_option.append("D"+queOption[3].trim()+";");
-		examPool.setItems(sb_option.toString());
-		examPool.setPersonType(1);
-		examPool.setKind(0);
-		examPool.setCreatedAt(new Date());
+		sb_option.append("A."+queOption[0].trim()+";");
+		sb_option.append("B."+queOption[1].trim()+";");
+		sb_option.append("C."+queOption[2].trim()+";");
+		sb_option.append("D."+queOption[3].trim()+";");
+		examQuestion.setItems(sb_option.toString());
+		examQuestion.setPersonType(1);
+		examQuestion.setKind(0);
+		examQuestion.setCreatedAt(new Date());
 		StringBuffer sb = new StringBuffer();
 		if(request.getParameter("que")!=null){
 			String[] queSelect = request.getParameterValues("que");
@@ -274,9 +285,9 @@ public class ExpertExamController {
 				sb.append(queSelect[i]);
 			}
 		}
-		examPool.setAnswer(sb.toString());
-		examPool.setPoint(Integer.parseInt(request.getParameter("quePoint")));
-		examQuestionService.insertSelective(examPool);
+		examQuestion.setAnswer(sb.toString());
+		examQuestion.setPoint(Integer.parseInt(request.getParameter("quePoint")));
+		examQuestionService.insertSelective(examQuestion);
 		return "redirect:searchTecExpPool.html";
 	}
 	
@@ -292,19 +303,19 @@ public class ExpertExamController {
 	* @return String
 	 */
 	@RequestMapping("/saveToCom")
-	public String saveToCom(HttpServletRequest request,ExamQuestion examPool){
-		examPool.setQuestionTypeId(Integer.parseInt(request.getParameter("queType")));
-		examPool.setTopic(request.getParameter("queTopic"));
+	public String saveToCom(HttpServletRequest request,ExamQuestion examQuestion){
+		examQuestion.setQuestionTypeId(Integer.parseInt(request.getParameter("queType")));
+		examQuestion.setTopic(request.getParameter("queTopic"));
 		String[] queOption = request.getParameterValues("option");
 		StringBuffer sb_option = new StringBuffer();
-		sb_option.append("A"+queOption[0].trim()+";");
-		sb_option.append("B"+queOption[1].trim()+";");
-		sb_option.append("C"+queOption[2].trim()+";");
-		sb_option.append("D"+queOption[3].trim()+";");
-		examPool.setItems(sb_option.toString());
-		examPool.setPersonType(1);
-		examPool.setKind(1);
-		examPool.setCreatedAt(new Date());
+		sb_option.append("A."+queOption[0].trim()+";");
+		sb_option.append("B."+queOption[1].trim()+";");
+		sb_option.append("C."+queOption[2].trim()+";");
+		sb_option.append("D."+queOption[3].trim()+";");
+		examQuestion.setItems(sb_option.toString());
+		examQuestion.setPersonType(1);
+		examQuestion.setKind(1);
+		examQuestion.setCreatedAt(new Date());
 		StringBuffer sb = new StringBuffer();
 		if(request.getParameter("que")!=null){
 			String[] queSelect = request.getParameterValues("que");
@@ -312,9 +323,9 @@ public class ExpertExamController {
 				sb.append(queSelect[i]);
 			}
 		}
-		examPool.setAnswer(sb.toString());
-		examPool.setPoint(Integer.parseInt(request.getParameter("quePoint")));
-		examQuestionService.insertSelective(examPool);
+		examQuestion.setAnswer(sb.toString());
+		examQuestion.setPoint(Integer.parseInt(request.getParameter("quePoint")));
+		examQuestionService.insertSelective(examQuestion);
 		return "redirect:searchComExpPool.html";
 	}
 	
@@ -331,18 +342,18 @@ public class ExpertExamController {
 	 */
 	@RequestMapping("/editLaw")
 	public String editLaw(Model model,HttpServletRequest request){
-		ExamQuestion examPool = examQuestionService.selectByPrimaryKey(request.getParameter("id"));
-		model.addAttribute("lawQue",examPool);
-		String queAnswer = examPool.getAnswer();
+		ExamQuestion examQuestion = examQuestionService.selectByPrimaryKey(request.getParameter("id"));
+		model.addAttribute("lawQue",examQuestion);
+		String queAnswer = examQuestion.getAnswer();
 		model.addAttribute("lawAnswer",queAnswer);
 		List<ExamQuestionType> examPoolType = examQuestionTypeService.selectExpertAll();
 		model.addAttribute("examPoolType",examPoolType);
-		String[] queOption = examPool.getItems().split(";");
-		model.addAttribute("optionA", queOption[0].substring(1));
-		model.addAttribute("optionB", queOption[1].substring(1));
-		model.addAttribute("optionC", queOption[2].substring(1));
-		model.addAttribute("optionD", queOption[3].substring(1));
-		return "ems/exam/expert/law/edit";
+		String[] queOption = examQuestion.getItems().split(";");
+		model.addAttribute("optionA", queOption[0].substring(2));
+		model.addAttribute("optionB", queOption[1].substring(2));
+		model.addAttribute("optionC", queOption[2].substring(2));
+		model.addAttribute("optionD", queOption[3].substring(2));
+		return "ses/ems/exam/expert/law/edit";
 	}
 	
 	/**
@@ -358,18 +369,18 @@ public class ExpertExamController {
 	 */
 	@RequestMapping("/editTechnical")
 	public String editTechnical(Model model,HttpServletRequest request){
-		ExamQuestion examPool = examQuestionService.selectByPrimaryKey(request.getParameter("id"));
-		model.addAttribute("tecQue",examPool);
-		String queAnswer = examPool.getAnswer();
+		ExamQuestion examQuestion = examQuestionService.selectByPrimaryKey(request.getParameter("id"));
+		model.addAttribute("tecQue",examQuestion);
+		String queAnswer = examQuestion.getAnswer();
 		model.addAttribute("tecAnswer",queAnswer);
 		List<ExamQuestionType> examPoolType = examQuestionTypeService.selectExpertAll();
 		model.addAttribute("examPoolType",examPoolType);
-		String[] queOption = examPool.getItems().split(";");
-		model.addAttribute("optionA", queOption[0].substring(1));
-		model.addAttribute("optionB", queOption[1].substring(1));
-		model.addAttribute("optionC", queOption[2].substring(1));
-		model.addAttribute("optionD", queOption[3].substring(1));
-		return "ems/exam/expert/technical/edit";
+		String[] queOption = examQuestion.getItems().split(";");
+		model.addAttribute("optionA", queOption[0].substring(2));
+		model.addAttribute("optionB", queOption[1].substring(2));
+		model.addAttribute("optionC", queOption[2].substring(2));
+		model.addAttribute("optionD", queOption[3].substring(2));
+		return "ses/ems/exam/expert/technical/edit";
 	}
 	
 	/**
@@ -385,18 +396,18 @@ public class ExpertExamController {
 	 */
 	@RequestMapping("/editCommerce")
 	public String editCommerce(Model model,HttpServletRequest request){
-		ExamQuestion examPool = examQuestionService.selectByPrimaryKey(request.getParameter("id"));
-		model.addAttribute("comQue",examPool);
-		String queAnswer = examPool.getAnswer();
+		ExamQuestion examQuestion = examQuestionService.selectByPrimaryKey(request.getParameter("id"));
+		model.addAttribute("comQue",examQuestion);
+		String queAnswer = examQuestion.getAnswer();
 		model.addAttribute("comAnswer",queAnswer);
 		List<ExamQuestionType> examPoolType = examQuestionTypeService.selectExpertAll();
 		model.addAttribute("examPoolType",examPoolType);
-		String[] queOption = examPool.getItems().split(";");
-		model.addAttribute("optionA", queOption[0].substring(1));
-		model.addAttribute("optionB", queOption[1].substring(1));
-		model.addAttribute("optionC", queOption[2].substring(1));
-		model.addAttribute("optionD", queOption[3].substring(1));
-		return "ems/exam/expert/commerce/edit";
+		String[] queOption = examQuestion.getItems().split(";");
+		model.addAttribute("optionA", queOption[0].substring(2));
+		model.addAttribute("optionB", queOption[1].substring(2));
+		model.addAttribute("optionC", queOption[2].substring(2));
+		model.addAttribute("optionD", queOption[3].substring(2));
+		return "ses/ems/exam/expert/commerce/edit";
 	}
 	
 	/**
@@ -412,16 +423,16 @@ public class ExpertExamController {
 	* @return String
 	 */
 	@RequestMapping("/editToLaw")
-	public String editToLaw(Model model,HttpServletRequest request,ExamQuestion examPool){
-		examPool.setId(request.getParameter("id"));
-		examPool.setTopic(request.getParameter("queTopic"));
+	public String editToLaw(Model model,HttpServletRequest request,ExamQuestion examQuestion){
+		examQuestion.setId(request.getParameter("id"));
+		examQuestion.setTopic(request.getParameter("queTopic"));
 		String[] queOption = request.getParameterValues("option");
 		StringBuffer sb_option = new StringBuffer();
-		sb_option.append("A"+queOption[0].trim()+";");
-		sb_option.append("B"+queOption[1].trim()+";");
-		sb_option.append("C"+queOption[2].trim()+";");
-		sb_option.append("D"+queOption[3].trim()+";");
-		examPool.setItems(sb_option.toString());
+		sb_option.append("A."+queOption[0].trim()+";");
+		sb_option.append("B."+queOption[1].trim()+";");
+		sb_option.append("C."+queOption[2].trim()+";");
+		sb_option.append("D."+queOption[3].trim()+";");
+		examQuestion.setItems(sb_option.toString());
 		StringBuffer sb = new StringBuffer();
 		if(request.getParameter("que")!=null){
 			String[] queSelect = request.getParameterValues("que");
@@ -429,9 +440,9 @@ public class ExpertExamController {
 				sb.append(queSelect[i]);
 			}
 		}
-		examPool.setAnswer(sb.toString());
-		examPool.setPoint(Integer.parseInt(request.getParameter("quePoint")));
-		examQuestionService.updateByPrimaryKeySelective(examPool);
+		examQuestion.setAnswer(sb.toString());
+		examQuestion.setPoint(Integer.parseInt(request.getParameter("quePoint")));
+		examQuestionService.updateByPrimaryKeySelective(examQuestion);
 		return "redirect:searchLawExpPool.html";
 	}
 	
@@ -448,16 +459,16 @@ public class ExpertExamController {
 	* @return String
 	 */
 	@RequestMapping("/editToTec")
-	public String editToTec(Model model,HttpServletRequest request,ExamQuestion examPool){
-		examPool.setId(request.getParameter("id"));
-		examPool.setTopic(request.getParameter("queTopic"));
+	public String editToTec(Model model,HttpServletRequest request,ExamQuestion examQuestion){
+		examQuestion.setId(request.getParameter("id"));
+		examQuestion.setTopic(request.getParameter("queTopic"));
 		String[] queOption = request.getParameterValues("option");
 		StringBuffer sb_option = new StringBuffer();
-		sb_option.append("A"+queOption[0].trim()+";");
-		sb_option.append("B"+queOption[1].trim()+";");
-		sb_option.append("C"+queOption[2].trim()+";");
-		sb_option.append("D"+queOption[3].trim()+";");
-		examPool.setItems(sb_option.toString());
+		sb_option.append("A."+queOption[0].trim()+";");
+		sb_option.append("B."+queOption[1].trim()+";");
+		sb_option.append("C."+queOption[2].trim()+";");
+		sb_option.append("D."+queOption[3].trim()+";");
+		examQuestion.setItems(sb_option.toString());
 		StringBuffer sb = new StringBuffer();
 		if(request.getParameter("que")!=null){
 			String[] queSelect = request.getParameterValues("que");
@@ -465,9 +476,9 @@ public class ExpertExamController {
 				sb.append(queSelect[i]);
 			}
 		}
-		examPool.setAnswer(sb.toString());
-		examPool.setPoint(Integer.parseInt(request.getParameter("quePoint")));
-		examQuestionService.updateByPrimaryKeySelective(examPool);
+		examQuestion.setAnswer(sb.toString());
+		examQuestion.setPoint(Integer.parseInt(request.getParameter("quePoint")));
+		examQuestionService.updateByPrimaryKeySelective(examQuestion);
 		return "redirect:searchTecExpPool.html";
 	}
 	
@@ -484,16 +495,16 @@ public class ExpertExamController {
 	* @return String
 	 */
 	@RequestMapping("/editToCom")
-	public String editToCom(Model model,HttpServletRequest request,ExamQuestion examPool){
-		examPool.setId(request.getParameter("id"));
-		examPool.setTopic(request.getParameter("queTopic"));
+	public String editToCom(Model model,HttpServletRequest request,ExamQuestion examQuestion){
+		examQuestion.setId(request.getParameter("id"));
+		examQuestion.setTopic(request.getParameter("queTopic"));
 		String[] queOption = request.getParameterValues("option");
 		StringBuffer sb_option = new StringBuffer();
-		sb_option.append("A"+queOption[0].trim()+";");
-		sb_option.append("B"+queOption[1].trim()+";");
-		sb_option.append("C"+queOption[2].trim()+";");
-		sb_option.append("D"+queOption[3].trim()+";");
-		examPool.setItems(sb_option.toString());
+		sb_option.append("A."+queOption[0].trim()+";");
+		sb_option.append("B."+queOption[1].trim()+";");
+		sb_option.append("C."+queOption[2].trim()+";");
+		sb_option.append("D."+queOption[3].trim()+";");
+		examQuestion.setItems(sb_option.toString());
 		StringBuffer sb = new StringBuffer();
 		if(request.getParameter("que")!=null){
 			String[] queSelect = request.getParameterValues("que");
@@ -501,9 +512,9 @@ public class ExpertExamController {
 				sb.append(queSelect[i]);
 			}
 		}
-		examPool.setAnswer(sb.toString());
-		examPool.setPoint(Integer.parseInt(request.getParameter("quePoint")));
-		examQuestionService.updateByPrimaryKeySelective(examPool);
+		examQuestion.setAnswer(sb.toString());
+		examQuestion.setPoint(Integer.parseInt(request.getParameter("quePoint")));
+		examQuestionService.updateByPrimaryKeySelective(examQuestion);
 		return "redirect:searchComExpPool.html";
 	}
 	
@@ -549,7 +560,7 @@ public class ExpertExamController {
 		examUserScore.setTestDate(new Date());
 		examUserScore.setScore(String.valueOf(score));
 		examUserScoreService.insertSelective(examUserScore);
-		return "ems/exam/expert/score";
+		return "ses/ems/exam/expert/score";
 	}
 	
 	/**
@@ -563,7 +574,7 @@ public class ExpertExamController {
 	 */
 	@RequestMapping("/result")
 	public String result(){
-		return "ems/exam/expert/result";
+		return "ses/ems/exam/expert/result";
 	}
 	
 	/**
@@ -578,13 +589,12 @@ public class ExpertExamController {
 	 */
 	@RequestMapping("/deleteById")
 	@ResponseBody
-	public Integer deleteById(HttpServletRequest request){
+	public String deleteById(HttpServletRequest request){
 		String[] ids = request.getParameter("ids").split(",");
-		Integer id = null;
 		for(int i = 0;i<ids.length;i++){
-			id = examQuestionService.deleteByPrimaryKey(ids[i]);
+			examQuestionService.deleteByPrimaryKey(ids[i]);
 		}
-		return id;
+		return "1";
 	}
 	
 	/**
@@ -600,7 +610,7 @@ public class ExpertExamController {
 	public String ready(Model model){
 		List<ExamRule> examRule = examRuleService.select();
 		model.addAttribute("testCycle", examRule.get(0).getTestCycle());
-		return "ems/exam/expert/ready";
+		return "ses/ems/exam/expert/ready";
 	}
 	
 	/**
@@ -653,79 +663,7 @@ public class ExpertExamController {
 		model.addAttribute("examRule", examRule.get(0));
 		model.addAttribute("pageNum", pageNum);
 		model.addAttribute("pageSize", pageNum.size());
-		return "ems/exam/expert/test";
-	}
-	
-	/**
-	 * 
-	* @Title: queryParam
-	* @author ZhaoBo
-	* @date 2016-9-7 上午11:19:35  
-	* @Description: 专家考试成绩查询 (按条件查询) 
-	* @param @param model
-	* @param @param request
-	* @param @param examUserScore
-	* @param @return      
-	* @return List<ExamUserScore>
-	 */
-	@RequestMapping("/queryParam")
-	@ResponseBody
-	public List<ExamUserScore> queryParam(Model model,HttpServletRequest request,ExamUserScore examUserScore){
-//		List<ExamUserScore> userList = new ArrayList<ExamUserScore>();
-//		if(request.getParameter("testState").equals("请选择")&&request.getParameter("userDuty").equals("请选择")){
-//			String userName = request.getParameter("userName");
-//			examUserScore.setRelName("%"+userName+"%");
-//			userList = examUserScoreService.queryListByName(examUserScore);
-//		}else if(request.getParameter("userName").isEmpty()&&request.getParameter("testState").equals("请选择")){
-//			String userDuty = request.getParameter("userDuty");
-//			if(userDuty.equals("技术")){
-//				examUserScore.setUserDuty("1");
-//			}else if(userDuty.equals("商务")){
-//				examUserScore.setUserDuty("2");
-//			}else if(userDuty.equals("法律")){
-//				examUserScore.setUserDuty("3");
-//			}
-//			userList = examUserScoreService.queryListByDuty(examUserScore);
-//		}else if(request.getParameter("userName").isEmpty()&&request.getParameter("userDuty").equals("请选择")){
-//			String testState = request.getParameter("testState");
-//			examUserScore.setTestState(testState);
-//			userList = examUserScoreService.queryListByState(examUserScore);
-//		}else if(request.getParameter("userName").isEmpty()&&!request.getParameter("testState").equals("请选择")&&!request.getParameter("userDuty").equals("请选择")){
-//			String userDuty = request.getParameter("userDuty");
-//			if(userDuty.equals("技术")){
-//				examUserScore.setUserDuty("1");
-//			}else if(userDuty.equals("商务")){
-//				examUserScore.setUserDuty("2");
-//			}else if(userDuty.equals("法律")){
-//				examUserScore.setUserDuty("3");
-//			}
-//			String testState = request.getParameter("testState");
-//			examUserScore.setTestState(testState);
-//			userList = examUserScoreService.queryListByDuSt(examUserScore);
-//		}else if(!request.getParameter("userName").isEmpty()&&!request.getParameter("testState").equals("请选择")&&!request.getParameter("userDuty").equals("请选择")){
-//			examUserScore.setRelName("%"+request.getParameter("userName")+"%");
-//			String userDuty = request.getParameter("userDuty");
-//			if(userDuty.equals("技术")){
-//				examUserScore.setUserDuty("1");
-//			}else if(userDuty.equals("商务")){
-//				examUserScore.setUserDuty("2");
-//			}else if(userDuty.equals("法律")){
-//				examUserScore.setUserDuty("3");
-//			}
-//			examUserScore.setTestState(request.getParameter("testState"));
-//			userList = examUserScoreService.expertQueryList(examUserScore);
-//		}
-//		for(int i=0;i<userList.size();i++){
-//			Date date = userList.get(i).getTargetDate();
-//			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-//			userList.get(i).setFormatDate(sdf.format(date));
-//		}
-		return null;
-	}
-	
-	@RequestMapping("/order")
-	public String order(){
-		return "ems/exam/expert/order";
+		return "ses/ems/exam/expert/test";
 	}
 	
 	/**
@@ -742,18 +680,18 @@ public class ExpertExamController {
 	@RequestMapping("/viewLaw")
 	public String viewLaw(HttpServletRequest request,Model model){
 		String id = request.getParameter("id");
-		ExamQuestion examPool = examQuestionService.selectByPrimaryKey(id);
-		model.addAttribute("lawQue",examPool);
-		String queAnswer = examPool.getAnswer();
+		ExamQuestion examQuestion = examQuestionService.selectByPrimaryKey(id);
+		model.addAttribute("lawQue",examQuestion);
+		String queAnswer = examQuestion.getAnswer();
 		model.addAttribute("lawAnswer",queAnswer);
 		List<ExamQuestionType> examPoolType = examQuestionTypeService.selectExpertAll();
 		model.addAttribute("examPoolType",examPoolType);
-		String[] queOption = examPool.getItems().split(";");
-		model.addAttribute("optionA", queOption[0].substring(1));
-		model.addAttribute("optionB", queOption[1].substring(1));
-		model.addAttribute("optionC", queOption[2].substring(1));
-		model.addAttribute("optionD", queOption[3].substring(1));
-		return "ems/exam/expert/law/view";
+		String[] queOption = examQuestion.getItems().split(";");
+		model.addAttribute("optionA", queOption[0].substring(2));
+		model.addAttribute("optionB", queOption[1].substring(2));
+		model.addAttribute("optionC", queOption[2].substring(2));
+		model.addAttribute("optionD", queOption[3].substring(2));
+		return "ses/ems/exam/expert/law/view";
 	}
 	
 	/**
@@ -770,18 +708,18 @@ public class ExpertExamController {
 	@RequestMapping("/viewTec")
 	public String viewTec(HttpServletRequest request,Model model){
 		String id = request.getParameter("id");
-		ExamQuestion examPool = examQuestionService.selectByPrimaryKey(id);
-		model.addAttribute("tecQue",examPool);
-		String queAnswer = examPool.getAnswer();
+		ExamQuestion examQuestion = examQuestionService.selectByPrimaryKey(id);
+		model.addAttribute("tecQue",examQuestion);
+		String queAnswer = examQuestion.getAnswer();
 		model.addAttribute("tecAnswer",queAnswer);
 		List<ExamQuestionType> examPoolType = examQuestionTypeService.selectExpertAll();
 		model.addAttribute("examPoolType",examPoolType);
-		String[] queOption = examPool.getItems().split(";");
-		model.addAttribute("optionA", queOption[0].substring(1));
-		model.addAttribute("optionB", queOption[1].substring(1));
-		model.addAttribute("optionC", queOption[2].substring(1));
-		model.addAttribute("optionD", queOption[3].substring(1));
-		return "ems/exam/expert/technical/view";
+		String[] queOption = examQuestion.getItems().split(";");
+		model.addAttribute("optionA", queOption[0].substring(2));
+		model.addAttribute("optionB", queOption[1].substring(2));
+		model.addAttribute("optionC", queOption[2].substring(2));
+		model.addAttribute("optionD", queOption[3].substring(2));
+		return "ses/ems/exam/expert/technical/view";
 	}
 	
 	/**
@@ -798,18 +736,18 @@ public class ExpertExamController {
 	@RequestMapping("/viewCom")
 	public String viewCom(HttpServletRequest request,Model model){
 		String id = request.getParameter("id");
-		ExamQuestion examPool = examQuestionService.selectByPrimaryKey(id);
-		model.addAttribute("comQue",examPool);
-		String queAnswer = examPool.getAnswer();
+		ExamQuestion examQuestion = examQuestionService.selectByPrimaryKey(id);
+		model.addAttribute("comQue",examQuestion);
+		String queAnswer = examQuestion.getAnswer();
 		model.addAttribute("comAnswer",queAnswer);
 		List<ExamQuestionType> examPoolType = examQuestionTypeService.selectExpertAll();
 		model.addAttribute("examPoolType",examPoolType);
-		String[] queOption = examPool.getItems().split(";");
-		model.addAttribute("optionA", queOption[0].substring(1));
-		model.addAttribute("optionB", queOption[1].substring(1));
-		model.addAttribute("optionC", queOption[2].substring(1));
-		model.addAttribute("optionD", queOption[3].substring(1));
-		return "ems/exam/expert/commerce/view";
+		String[] queOption = examQuestion.getItems().split(";");
+		model.addAttribute("optionA", queOption[0].substring(2));
+		model.addAttribute("optionB", queOption[1].substring(2));
+		model.addAttribute("optionC", queOption[2].substring(2));
+		model.addAttribute("optionD", queOption[3].substring(2));
+		return "ses/ems/exam/expert/commerce/view";
 	}
 	
 	/**
@@ -823,7 +761,7 @@ public class ExpertExamController {
 	 */
 	@RequestMapping("/createRule")
 	public String createRule(){
-		return "ems/exam/expert/rule";
+		return "ses/ems/exam/expert/rule";
 	}
 	
 	
@@ -869,7 +807,7 @@ public class ExpertExamController {
 			examRule.setTestLong(dNow);
 			examRuleService.updateByPrimaryKeySelective(examRule);
 		}
-		return "redirect:order.html";
+		return "redirect:/login/index.html";
 	}
 	
 	/**
@@ -946,5 +884,230 @@ public class ExpertExamController {
 		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);  
 		headers.setContentDispositionFormData("attachment", new String("专家题库模板.xlsx".getBytes("UTF-8"), "iso-8859-1"));  
 		return (new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(new File(path)), headers, HttpStatus.CREATED));  
+	}
+	
+	private static final String uploadFolderName = "uploadFiles"; //上传到服务器的文件夹名 
+	private static String [] extensionPermit = {"xls","xlsx"}; //允许上传的文件格式
+	
+	/**
+	 * 
+	* @Title: importTec
+	* @author ZhaoBo
+	* @date 2016-9-7 上午11:31:37  
+	* @Description: 导入技术类专家题库 
+	* @param @param file
+	* @param @param session
+	* @param @param request
+	* @param @param response
+	* @param @return
+	* @param @throws FileNotFoundException
+	* @param @throws IOException      
+	* @return String
+	 */
+	@RequestMapping(value="/importTec",method = RequestMethod.POST)
+	@ResponseBody
+	public String importTec(@RequestParam("file") CommonsMultipartFile file,
+			 HttpSession session,HttpServletRequest request,HttpServletResponse response) throws FileNotFoundException, IOException{
+		String curProjectPath = session.getServletContext().getRealPath("/");  
+        String saveDirectoryPath = curProjectPath + "/" + uploadFolderName;  
+        // File newFileName = new File(saveDirectoryPath); 
+        // 判断文件是否存在  
+        String fileName = null;
+        File excelFile = null;
+        if (!file.isEmpty()) {  
+            fileName = file.getOriginalFilename();  
+            String fileExtension = FilenameUtils.getExtension(fileName);   
+            if(!Arrays.asList(extensionPermit).contains(fileExtension)){
+               
+            } 
+            excelFile = new File(saveDirectoryPath,System.currentTimeMillis()+file.getOriginalFilename());
+            FileUtils.copyInputStreamToFile(file.getInputStream(), excelFile);
+        }
+        //File excelFile = new File(newFileName, fileName);
+		Workbook workbook = null;
+		//判断Excel是2007以下还是2007以上版本
+		try {
+			workbook = new XSSFWorkbook(excelFile);
+		}catch (Exception ex) {
+			workbook = new HSSFWorkbook(new FileInputStream(excelFile));
+		}
+		Sheet sheet = workbook.getSheetAt(0);
+		for (int j = 1; j <= sheet.getPhysicalNumberOfRows(); j++) {
+			Row row = sheet.getRow(j);
+			if (row == null) {
+				continue;
+			}
+			Cell queType = row.getCell(0);
+			if (queType.toString().equals("单选题")
+					|| queType.toString().equals("多选题")) {
+				Cell queTopic = row.getCell(1);
+				Cell queOption = row.getCell(2);
+				Cell queAnswer = row.getCell(3);
+				Cell quePoint = row.getCell(4);
+				ExamQuestion examQuestion = new ExamQuestion();
+				examQuestion.setPersonType(1);
+				examQuestion.setKind(0);
+				examQuestion.setTopic(queTopic.toString());
+				examQuestion.setItems(queOption.toString());
+				examQuestion.setAnswer(queAnswer.toString());
+				examQuestion.setPoint((int) quePoint.getNumericCellValue());
+				if (queType.toString().equals("单选题")) {
+					examQuestion.setQuestionTypeId(1);
+				} else {
+					examQuestion.setQuestionTypeId(2);
+				}
+				examQuestion.setCreatedAt(new Date());
+				examQuestionService.insertSelective(examQuestion);
+			}
+		}
+		return "1";
+	}
+	
+	/**
+	 * 
+	* @Title: importLaw
+	* @author ZhaoBo
+	* @date 2016-9-7 上午11:31:37  
+	* @Description: 导入技术类专家题库 
+	* @param @param file
+	* @param @param session
+	* @param @param request
+	* @param @param response
+	* @param @return
+	* @param @throws FileNotFoundException
+	* @param @throws IOException      
+	* @return String
+	 */
+	@RequestMapping(value="/importLaw",method = RequestMethod.POST)
+	@ResponseBody
+	public String importLaw(@RequestParam("file") CommonsMultipartFile file,
+			 HttpSession session,HttpServletRequest request,HttpServletResponse response) throws FileNotFoundException, IOException{
+		String curProjectPath = session.getServletContext().getRealPath("/");  
+        String saveDirectoryPath = curProjectPath + "/" + uploadFolderName;  
+        // File newFileName = new File(saveDirectoryPath); 
+        // 判断文件是否存在  
+        String fileName = null;
+        File excelFile = null;
+        if (!file.isEmpty()) {  
+            fileName = file.getOriginalFilename();  
+            String fileExtension = FilenameUtils.getExtension(fileName);   
+            if(!Arrays.asList(extensionPermit).contains(fileExtension)){
+               
+            } 
+            excelFile = new File(saveDirectoryPath,System.currentTimeMillis()+file.getOriginalFilename());
+            FileUtils.copyInputStreamToFile(file.getInputStream(), excelFile);
+        }
+        //File excelFile = new File(newFileName, fileName);
+		Workbook workbook = null;
+		//判断Excel是2007以下还是2007以上版本
+		try {
+			workbook = new XSSFWorkbook(excelFile);
+		}catch (Exception ex) {
+			workbook = new HSSFWorkbook(new FileInputStream(excelFile));
+		}
+		Sheet sheet = workbook.getSheetAt(0);
+		for (int j = 1; j <= sheet.getPhysicalNumberOfRows(); j++) {
+			Row row = sheet.getRow(j);
+			if (row == null) {
+				continue;
+			}
+			Cell queType = row.getCell(0);
+			if (queType.toString().equals("单选题")
+					|| queType.toString().equals("多选题")) {
+				Cell queTopic = row.getCell(1);
+				Cell queOption = row.getCell(2);
+				Cell queAnswer = row.getCell(3);
+				Cell quePoint = row.getCell(4);
+				ExamQuestion examQuestion = new ExamQuestion();
+				examQuestion.setPersonType(1);
+				examQuestion.setKind(2);
+				examQuestion.setTopic(queTopic.toString());
+				examQuestion.setItems(queOption.toString());
+				examQuestion.setAnswer(queAnswer.toString());
+				examQuestion.setPoint((int) quePoint.getNumericCellValue());
+				if (queType.toString().equals("单选题")) {
+					examQuestion.setQuestionTypeId(1);
+				} else {
+					examQuestion.setQuestionTypeId(2);
+				}
+				examQuestion.setCreatedAt(new Date());
+				examQuestionService.insertSelective(examQuestion);
+			}
+		}
+		return "1";
+	}
+	
+	/**
+	 * 
+	* @Title: importCom
+	* @author ZhaoBo
+	* @date 2016-9-7 上午11:31:37  
+	* @Description: 导入技术类专家题库 
+	* @param @param file
+	* @param @param session
+	* @param @param request
+	* @param @param response
+	* @param @return
+	* @param @throws FileNotFoundException
+	* @param @throws IOException      
+	* @return String
+	 */
+	@RequestMapping(value="/importCom",method = RequestMethod.POST)
+	@ResponseBody
+	public String importCom(@RequestParam("file") CommonsMultipartFile file,
+			 HttpSession session,HttpServletRequest request,HttpServletResponse response) throws FileNotFoundException, IOException{
+		String curProjectPath = session.getServletContext().getRealPath("/");  
+        String saveDirectoryPath = curProjectPath + "/" + uploadFolderName;  
+        // File newFileName = new File(saveDirectoryPath); 
+        // 判断文件是否存在  
+        String fileName = null;
+        File excelFile = null;
+        if (!file.isEmpty()) {  
+            fileName = file.getOriginalFilename();  
+            String fileExtension = FilenameUtils.getExtension(fileName);   
+            if(!Arrays.asList(extensionPermit).contains(fileExtension)){
+               
+            } 
+            excelFile = new File(saveDirectoryPath,System.currentTimeMillis()+file.getOriginalFilename());
+            FileUtils.copyInputStreamToFile(file.getInputStream(), excelFile);
+        }
+        //File excelFile = new File(newFileName, fileName);
+		Workbook workbook = null;
+		//判断Excel是2007以下还是2007以上版本
+		try {
+			workbook = new XSSFWorkbook(excelFile);
+		}catch (Exception ex) {
+			workbook = new HSSFWorkbook(new FileInputStream(excelFile));
+		}
+		Sheet sheet = workbook.getSheetAt(0);
+		for (int j = 1; j <= sheet.getPhysicalNumberOfRows(); j++) {
+			Row row = sheet.getRow(j);
+			if (row == null) {
+				continue;
+			}
+			Cell queType = row.getCell(0);
+			if (queType.toString().equals("单选题")
+					|| queType.toString().equals("多选题")) {
+				Cell queTopic = row.getCell(1);
+				Cell queOption = row.getCell(2);
+				Cell queAnswer = row.getCell(3);
+				Cell quePoint = row.getCell(4);
+				ExamQuestion examQuestion = new ExamQuestion();
+				examQuestion.setPersonType(1);
+				examQuestion.setKind(1);
+				examQuestion.setTopic(queTopic.toString());
+				examQuestion.setItems(queOption.toString());
+				examQuestion.setAnswer(queAnswer.toString());
+				examQuestion.setPoint((int) quePoint.getNumericCellValue());
+				if (queType.toString().equals("单选题")) {
+					examQuestion.setQuestionTypeId(1);
+				} else {
+					examQuestion.setQuestionTypeId(2);
+				}
+				examQuestion.setCreatedAt(new Date());
+				examQuestionService.insertSelective(examQuestion);
+			}
+		}
+		return "1";
 	}
 }

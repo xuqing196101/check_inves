@@ -17,7 +17,7 @@
 	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript">
 		var count = parseInt("${count}");	
-	
+		
 		$(function(){
 			$("#reTake").hide();
 			var score = "${score}";
@@ -49,7 +49,12 @@
   </head>
   
   <body>
-    	恭喜您获得了${score }分
-    	<input type="button" value="重考" onclick="reTake()" id="reTake"/>
+  
+  		<div class="container tc border1">
+  			<div id="isPass" class="f18"></div>
+  			<div><span class="f14">得分:</span><span class="f22">${score }</span><span class="f14">分</span></div>
+  			<div class="f18 mt10">感谢您的参与!</div>
+  			<input type="button" value="重考" class="btn" onclick="reTake()" id="reTake"/>
+  		</div>
   </body>
 </html>

@@ -193,6 +193,34 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                    				<li><a href="<%=basePath%>article/getAll.do" target="home" class="son-menu"><span class="mr5">◇</span>信息管理</a></li>
                    			</ul>
                    		</li>
+                   		<li class="line-block">
+                   			<a href="#" target="home" class="son-menu"><span class="mr5">◇</span>题库管理</a>
+                   			<ul class="dropdown-menuson dropdown-menu">
+                   				<li><a href="<%=path%>/expertExam/searchTecExpPool.html" target="home" class="son-menu"><span class="mr5">◇</span>技术类专家题库管理</a></li>
+                   				<li><a href="<%=path%>/expertExam/searchComExpPool.html" target="home" class="son-menu"><span class="mr5">◇</span>商务类专家题库管理</a></li>
+                   				<li><a href="<%=path%>/expertExam/searchLawExpPool.html" target="home" class="son-menu"><span class="mr5">◇</span>法律类专家题库管理</a></li>
+                   				<li><a href="<%=path%>/purchaserExam/purchaserList.html" target="home" class="son-menu"><span class="mr5">◇</span>采购人题库管理</a></li>
+                   			</ul>
+                   		</li>
+                   		<li class="line-block">
+                   			<a href="#" target="home" class="son-menu"><span class="mr5">◇</span>考试规则管理</a>
+                   			<ul class="dropdown-menuson dropdown-menu">
+                   				<li><a href="<%=path%>/expertExam/createRule.html" target="home" class="son-menu"><span class="mr5">◇</span>考试规则设置</a></li>
+                   			</ul>
+                   		</li>
+                   		<li class="line-block">
+                   			<a href="#" target="home" class="son-menu"><span class="mr5">◇</span>考卷管理</a>
+                   			<ul class="dropdown-menuson dropdown-menu">
+                   				<li><a href="<%=path%>/purchaserExam/paperManage.html" target="home" class="son-menu"><span class="mr5">◇</span>历史考卷列表</a></li>
+                   			</ul>
+                   		</li>
+                   		<li class="line-block">
+                   			<a href="#" target="home" class="son-menu"><span class="mr5">◇</span>成绩管理</a>
+                   			<ul class="dropdown-menuson dropdown-menu">
+                   				<li><a href="<%=path%>/expertExam/result.html" target="home" class="son-menu"><span class="mr5">◇</span>专家成绩管理</a></li>
+                   				<li><a href="<%=path%>/purchaserExam/result.html" target="home" class="son-menu"><span class="mr5">◇</span>采购人成绩管理</a></li>
+                   			</ul>
+                   		</li>
                		</ul>
 				</li>
 				<li>

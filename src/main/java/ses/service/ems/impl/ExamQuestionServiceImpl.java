@@ -69,16 +69,6 @@ public class ExamQuestionServiceImpl implements ExamQuestionServiceI {
 	}
 	
 	@Override
-	public List<ExamQuestion> queryPurchaserByType(ExamQuestion examPool) {
-		return examQuestionMapper.queryPurchaserByType(examPool);
-	}
-	
-	@Override
-	public List<ExamQuestion> queryPurchaserByName(ExamQuestion examPool) {
-		return examQuestionMapper.queryPurchaserByName(examPool);
-	}
-	
-	@Override
 	public List<ExamQuestion> selectSingleRandom(ExamQuestion examPool) {
 		return examQuestionMapper.selectSingleRandom(examPool);
 	}
@@ -107,6 +97,17 @@ public class ExamQuestionServiceImpl implements ExamQuestionServiceI {
 	@Override
 	public List<ExamQuestion> selectAllContent() {
 		return examQuestionMapper.selectAllContent();
+	}
+	
+	@Override
+	public List<ExamQuestion> queryPurchaserByTerm(ExamQuestion examPool) {
+		return examQuestionMapper.queryPurchaserByTerm(examPool);
+	}
+
+	
+	@Override
+	public List<ExamQuestion> getAllPurchaserQuestion() {
+		return examQuestionMapper.getAllPurchaserQuestion();
 	}
 
 	

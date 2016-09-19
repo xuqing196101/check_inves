@@ -128,27 +128,15 @@ public interface ExamQuestionMapper {
     
     /**
      * 
-    * @Title: queryPurchaserByType
+    * @Title: queryPurchaserByTerm
     * @author zb
     * @date 2016-8-31 下午5:34:43  
-    * @Description: 采购人题库根据类型查询 
+    * @Description: 采购人题库按条件查询 
     * @param @param examPool
     * @param @return      
     * @return List<ExamPool>
      */
-    List<ExamQuestion> queryPurchaserByType(ExamQuestion examPool);
-    
-    /**
-     * 
-    * @Title: queryPurchaserByName
-    * @author zb
-    * @date 2016-8-31 下午5:34:43  
-    * @Description: 采购人题库根据类型查询 
-    * @param @param examPool
-    * @param @return      
-    * @return List<ExamPool>
-     */
-    List<ExamQuestion> queryPurchaserByName(ExamQuestion examPool);
+    List<ExamQuestion> queryPurchaserByTerm(ExamQuestion examPool);
     
     /**
      * 
@@ -187,4 +175,15 @@ public interface ExamQuestionMapper {
     List<ExamQuestion> selectJudgeRandom(ExamQuestion examPool);
     
     List<ExamQuestion> selectAllContent();
+    
+    /**
+     * 
+    * @Title: getAllPurchaserQuestion
+    * @author ZhaoBo
+    * @date 2016-9-19 下午1:25:19  
+    * @Description: 查询所有的采购人题目 
+    * @param @return      
+    * @return List<ExamQuestion>
+     */
+    List<ExamQuestion> getAllPurchaserQuestion();
 }

@@ -174,15 +174,17 @@
 		<div class="clear"></div>
 	  </div>
    </div>
-   <div class="container">
-	   <div class="headline-v2">
-	   		<h2>修改考题</h2>
-	   </div>
-   </div>
+   <div class="container margin-top-5">
+    <div class="content padding-left-25 padding-right-25 padding-top-5">
+    <div>
+		<div class="headline-v2">
+		   	<h2>修改题目</h2>
+		</div>
+		
   	<form action="<%=path %>/expertExam/editToTec.html?id=${tecQue.id }" method="post" id="form">
-		<div class="padding-top-10 clear">
-			<div class="col-md-12 pl200 ">
-				请选择题型:
+		<ul class="list-unstyled list-flow p0_20">
+		     <li class="col-md-12 p0">
+	  			<span class="fl">请选择题型:</span>
 		  		<select id="queType" name="queType" onchange="changeType()">
 		  			<option value="">请选择</option>
 		  			<c:forEach items="${examPoolType }" var="e">
@@ -196,87 +198,93 @@
 		  				</c:choose>
 		  			</c:forEach>
 		  		</select>
-	  		</div>
-		</div>
-		<div class="padding-top-10 clear">
-		   <ul class="list-unstyled list-flow ">
-		     <li class="col-md-12 p0">
-			   <span class="fl">题干：</span>
-			   <div class="col-md-12 pl200 fn mt5 pwr9">
-		        <textarea class="text_area col-md-12 " name="queTopic" id="queTopic">${tecQue.topic }</textarea>
+	  		</li>
+		
+			<li class="col-md-12 p0">
+			   <span class="fl">题干:</span>
+			   <div class="">
+		        	<textarea class="text_area col-md-8" name="queTopic" id="queTopic">${tecQue.topic }</textarea>
 		       </div>
 			 </li> 
-		   </ul>
-	  	</div>
+		   
 	  	
-	  	<div class="padding-top-10 clear">
-		   <ul class="list-unstyled list-flow p0_20 ">
-		     <li class="col-md-12 p0">
-			   <span class="fl">选项：</span>
-			   <div class="col-md-12 pl200 fn mt5 pwr9">
-			   		A<input type="text" name="option" id="optionA" value="${optionA}"/>
-					B<input type="text" name="option" id="optionB" value="${optionB}"/>
-					C<input type="text" name="option" id="optionC" value="${optionC}"/>
-					D<input type="text" name="option" id="optionD" value="${optionD}"/>
-		        <%--<textarea class="text_area col-md-12 " name="queOption" id="queOption">${tecQue.queOption }</textarea>
-		       --%></div>
+	  		<li class="col-md-12 p0">
+				<span class="fl">选项:</span>
+				<div class="col-md-9">
+				<div>
+			  		<div class="fl mt5">A</div><textarea name="option" id="optionA" class="ml5 col-md-8">${optionA}</textarea>
+			  		<div class="clear"></div>
+			  	</div>
+			  	<div class="clear mt10">
+					<div class="fl mt5">B</div><textarea name="option" id="optionB" class="ml5 col-md-8">${optionB}</textarea>
+				    <div class="clear"></div>
+				</div>
+				<div class="clear mt10">
+					<div class="fl mt5">C</div><textarea name="option" id="optionC" class="ml5 col-md-8">${optionC}</textarea>
+				    <div class="clear"></div>
+				</div>
+				<div class="clear mt10">
+					<div class="fl mt5">D</div><textarea name="option" id="optionD" class="ml5 col-md-8">${optionD}</textarea>
+				    <div class="clear"></div>
+				</div>
+		       </div>
 			 </li> 
-		   </ul>
-	  	</div>
-		  <div class="padding-top-10 clear">
-			   <ul class="list-unstyled list-flow p0_20 ">
-			     <li class="col-md-12 p0">
-				   <span class="fl">答案：</span>
-				   <div class="col-md-12 pl200 fn mt5 pwr9">
-			        A <input type="radio" id="A" name="que" value="A"/> 
-		  			B <input type="radio" id="B" name="que" value="B"/> 
-		  			C <input type="radio" id="C" name="que" value="C"/> 
-		  			D <input type="radio" id="D" name="que" value="D"/>
-		  			<span id="queSelect"></span>
+		   
+		  		<li class="col-md-12 p0">
+					<span class="fl">答案:</span>	
+					<div class="fl ml5 mt5">
+			        A <input type="radio" id="A" name="que" value="A" class="mt0"/> 
+		  			B <input type="radio" id="B" name="que" value="B" class="mt0"/> 
+		  			C <input type="radio" id="C" name="que" value="C" class="mt0"/> 
+		  			D <input type="radio" id="D" name="que" value="D" class="mt0"/>
 			       </div>
-				 </li> 
-			   </ul>
-		  </div>
-	  <div class="padding-top-10 clear">
-			<div class="col-md-12 pl200 ">
-			分值:
-  			<select name="quePoint" id="quePoint">
-  				<option value="1" 
-  					<c:if test="${tecQue.point==1 }">
-  						selected
-  					</c:if>
-  				>1</option>
-  				<option value="2" 
-  					<c:if test="${tecQue.point==2 }">
-  						selected
-  					</c:if>
-  				>2</option>
-  				<option value="3" 
-  					<c:if test="${tecQue.point==3 }">
-  						selected
-  					</c:if>
-  				>3</option>
-  				<option value="4" 
-  					<c:if test="${tecQue.point==4 }">
-  						selected
-  					</c:if>
-  				>4</option>
-  				<option value="5" 
-  					<c:if test="${tecQue.point==5 }">
-  						selected
-  					</c:if>
-  				>5</option>
-  			</select>
-  			</div>
+					<span id="queSelect"></span>
+				</li>
+				
+			  <li class="col-md-12 p0">
+			  		<span class="fl">分值:</span>
+		  			<select name="quePoint" id="quePoint">
+		  				<option value="1" 
+		  					<c:if test="${tecQue.point==1 }">
+		  						selected
+		  					</c:if>
+		  				>1</option>
+		  				<option value="2" 
+		  					<c:if test="${tecQue.point==2 }">
+		  						selected
+		  					</c:if>
+		  				>2</option>
+		  				<option value="3" 
+		  					<c:if test="${tecQue.point==3 }">
+		  						selected
+		  					</c:if>
+		  				>3</option>
+		  				<option value="4" 
+		  					<c:if test="${tecQue.point==4 }">
+		  						selected
+		  					</c:if>
+		  				>4</option>
+		  				<option value="5" 
+		  					<c:if test="${tecQue.point==5 }">
+		  						selected
+		  					</c:if>
+		  				>5</option>
+		  			</select>
+		  		</li>
+  			</ul>
   		</div>
-  		
+  		<!-- 底部按钮 -->
 	  	<div class="padding-top-10 clear">
 			<div class="col-md-12 pl200 ">
-	  			<input type="button" onclick="save()" value="提交"/>
-	  			<input type="button" onclick="location.href='javascript:history.go(-1);'" value="返回"/>
+				<div class="mt40 tc mb50">
+					<button class="btn btn-windows save" onclick="save()">更新</button>
+		  			<button class="btn btn-windows reset" onclick="history.go(-1)" type="button">返回</button>
+	  			</div>
 	  		</div>
 	  	</div>
-		
+	  	
+		</div>
+		</div>
   	
   	</form>
   </body>
