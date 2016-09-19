@@ -364,9 +364,11 @@ public class ImportSupplierController {
 		importSupplierService.updateRegisterInfo(importSupplierWithBLOBs);
 		//给审核不通过的理由存到表里
 		isa.setImportSupplierId(importSupplierWithBLOBs.getId());
-		if(is.getStatus()==1){
+		if(is.getStatus()==2&&importSupplierWithBLOBs.getStatus()==0){
 			importSupplierAudService.register(isa);
-		}else if(is.getStatus()==4){
+		}else if(is.getStatus()==3){
+			importSupplierAudService.updateRegisterInfo(isa);
+		}else if(importSupplierWithBLOBs.getStatus()==1&&is.getStatus()==2){
 			importSupplierAudService.updateRegisterInfo(isa);
 		}
 		

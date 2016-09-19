@@ -215,7 +215,7 @@ function tijiao(status){
 		   <div class="col-md-4"></div>
 		   <div class="col-md-4"></div>
 		   <div class="col-md-4">
-		   		<span onclick="tijiao(2)">供应商已审核</span>（<a class="red b">${yishenhe }</a>）
+		   		<span onclick="tijiao(4)">供应商已审核</span>（<a class="red b">${yishenhe }</a>）
 		   </div>
 	   	   <div class="col-md-4"></div>
 	   	   <div class="col-md-4"></div>
