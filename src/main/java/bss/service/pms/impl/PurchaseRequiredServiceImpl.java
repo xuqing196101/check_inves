@@ -62,6 +62,12 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 		}
 		
 	}
+
+	@Override
+	public void delete(String planNo) {
+		purchaseRequiredMapper.delete(planNo);
+		
+	}
 	
 	 
 

@@ -66,5 +66,14 @@ public interface PurchaseRequiredService {
 	* @throws
 	 */
 	String queryByNo(String no);
-	
+	/**
+	 * 
+	* @Title: delete
+	* @Description: 逻辑删除一条数据
+	* author: Li Xiaoxiao 
+	* @param @param planNo     
+	* @return void     
+	* @throws
+	 */
+	void delete(String planNo);
 }

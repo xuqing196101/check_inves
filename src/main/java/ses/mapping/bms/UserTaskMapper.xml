@@ -156,7 +156,7 @@
   <select id="getByMonth" parameterType="Map" resultMap="UserTask_Map">
  select
   <include refid="Base_Column_List" />
-  from T_SES_BMS_USERTASK where 
+  from T_SES_BMS_USER_TASK where 
   <![CDATA[
     to_char(START_DATE,'yyyy-mm')=#{date}
     ]]>

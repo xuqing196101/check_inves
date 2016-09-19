@@ -88,20 +88,36 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	}
 	//上传excel文件
 	function upload(){
+		  var name=$("#jhmc").val();
+	 		 var no=$("#jhbh").val();
+	 		 
+	 		 
  		var type=$("#goodsType").val();
  		
+ 		if(name==""){
+ 			layer.tips("计划名称不允许为空","#jhmc");
+ 		 } else if(no==""){
+ 			layer.tips("计划编号不允许为空","#jhbh");
+ 		 }else{
+ 			 
+ 		 
 		            $.ajaxFileUpload (
 		                {
-		                    url: '${pageContext.request.contextPath}/purchaser/upload.do?type='+type, //用于文件上传的服务器端请求地址
+		                    url: '${pageContext.request.contextPath}/purchaser/upload.do?type='+type+"&&planName="+name+"&&planNo="+no, //用于文件上传的服务器端请求地址
 		                    secureuri: false, //一般设置为false
 		                    fileElementId: 'fileName', //文件上传空间的id属性  <input type="file" id="file" name="file" />
 		                  
 		                 	 dataType: "text", //返回值类型 一般设置为json
 		                    success: function (data)  //服务器成功响应处理函数
 		                    { 
+		                    	
 		                    	if(data=="ERROR"){
 		                    		 alert("文件名错误");
-		                    	}else{
+		                    	}else if(data="exception"){
+		                    		alert("格式出错");
+		                    	}
+		                    	
+		                    	else{
 		                    		alert("上传成功");
 		                    	}
 		                   
@@ -113,7 +129,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		                }
 		            );
 		            
-		  
+ 		 }
+ 		
 		  	}    
 	  
 	  
@@ -150,14 +167,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  }
  	 function incr(){
  		 
- 		 $("#add_form").find("*").each(function(){ 
-  			var elem = $(this); 
-  			if (elem.prop("name") != null&&elem.prop("name") != "") { 
-  			if(elem.val()==""){ 
-  			elem.removeAttr("name"); 
-  			} 
-  			} 
-  			}); 
+ 		
+ 	  var name=$("#jhmc").val();
+ 		 var no=$("#jhbh").val();
+ 		 
+ 		 if(name==""){
+ 			layer.tips("计划名称不允许为空","#jhmc");
+ 		 } else if(no==""){
+ 			layer.tips("计划编号不允许为空","#jhbh");
+ 		 } 
+ 		 
+ 		 else{
+ 			 $("#fjhmc").val(name);
+ 	 		$("#fjhbh").val(no);
+ 	 		
+ 			 $("#add_form").find("*").each(function(){ 
+ 	  			var elem = $(this); 
+ 	  			if (elem.prop("name") != null&&elem.prop("name") != "") { 
+ 	  			if(elem.val()==""){ 
+ 	  			elem.removeAttr("name"); 
+ 	  			} 
+ 	  			} 
+ 	  			}); 
+ 			 
+ 		 
  		 $.ajax({
  			 url:"<%=basePath%>purchaser/adddetail.html",
  			 type:"post",
@@ -171,11 +204,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  		 });
  		//  $("#add_form").submit();   
  		 
- 		  
+ 		 }   
  		
  			 
  		 
 	}
+ 	 
+ 	 function down(){
+ 		 window.location.href="<%=basePath%>purchaser/download.html?filename=模板.xlsx";
+ 	 }
 </script>
 </head>
 
@@ -195,15 +232,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 
 	<div class="container clear margin-top-30">
+	<span>计划名称<input type="text" name="name" id="jhmc" ></span>
+		<span>计划编号<input type="text" name="no" id="jhbh" ></span>
+		<span>物资类别<c:if test="${type=='1' }"> <input type="text" name="" id="hw" value="货物" readonly="readonly" > </c:if> 
+		<c:if test="${type=='2' }">工程 <input type="text" name="" id="fw" value="服务" readonly="readonly"  ></c:if>
+		 <c:if test="${type=='3' }">服务<input type="text" name="" id="gc" value="工程" readonly="readonly" ></c:if>
+		 </span>
+		
 		<h2 class="padding-10 border1">
-			<ul class="demand_list">
+			<ul class="demand_list" >
 				<li class="fl"><label class="fl">需求计划导入（Excel表格）：</label><span><input
 						type="file" id="fileName" name="file" /> </span> <a href="#"
 					class="btn padding-left-10 padding-right-10 btn_back"
 					onclick="upload()">导入</a></li>
 			</ul>
 			<span class="fr">
-				<button class="btn padding-left-10 padding-right-10 btn_back">下载Excel模板</button>
+				<button class="btn padding-left-10 padding-right-10 btn_back" onclick="down()">下载Excel模板</button>
 				<button class="btn padding-left-10 padding-right-10 btn_back">查看产品分类目录</button>
 				<button class="btn padding-left-10 padding-right-10 btn_back"
 					onclick="chakan()">查看编制说明</button> <!-- 	 <button class="btn padding-left-10 padding-right-10 btn_back">导入</button>
@@ -211,6 +255,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<button class="btn padding-left-10 padding-right-10 btn_back"
 					onclick="adds()">录入</button>
 			</span>
+			
 		</h2>
 	</div>
 
@@ -222,10 +267,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 
 		<form id="add_form" action="<%=basePath%>purchaser/adddetail.html" method="post">
-		<span>计划名称<input type="text" name="planName" ></span>
-		<span>计划编号<input type="text" name="planNo" ></span>
-		<span>物资类别<c:if test="${type=='1' }"> 货物</c:if> <c:if test="${type=='2' }">工程 </c:if> <c:if test="${type=='3' }">服务</c:if></span>
-			<table class="table table-bordered table-condensed mt5">
+			<input type="hidden" name="planName" id="fjhmc">
+			<input type="hidden" name="planNo" id="fjhbh">
+			<table class="">
 				<thead>
 					<tr>
 						<th class="info w50">序号</th>
