@@ -6,7 +6,7 @@
     <result column="USER_ID" property="userId" />
     <result column="USER_TYPE" property="userType" />
     <result column="SCORE" property="score" />
-    <result column="TEST_STATE" property="testState" />
+    <result column="STATUS" property="status" />
     <result column="PAPER_ID" property="paperId" />
     <result column="TARGET_DATE" property="targetDate" />
     <result column="CREATED_AT" property="createdAt" />
@@ -15,7 +15,7 @@
   </resultMap>
   
   <sql id="Base_Column_List">
-    ID, USER_ID, USER_TYPE, SCORE, TEST_STATE, PAPER_ID, TARGET_DATE, CREATED_AT, 
+    ID, USER_ID, USER_TYPE, SCORE, STATUS, PAPER_ID, TARGET_DATE, CREATED_AT, 
     UPDATED_AT,USER_DUTY
   </sql>
   
@@ -33,7 +33,7 @@
     where ID = #{id}
   </delete>
   
-  <!-- 插入用户成绩 -->
+  <!-- 新增用户成绩 -->
   <insert id="insertSelective" parameterType="ses.model.ems.ExamUserScore">
   	<selectKey keyProperty="id" resultType="String" order="BEFORE">
         select sys_guid() from dual
@@ -145,115 +145,7 @@
     </set>
     where ID = #{id}
   </update>
-  
-  
-  
-  <!-- 专家考试成绩查询3个条件 -->
-  <!-- <select id="expertQueryList" parameterType="Object" resultMap="BaseQueryList">
-  	SELECT
-  		s.ID,
-		s.USER_SCORE,
-		s.TEST_STATE,
-		s.TARGET_DATE,
-		s.USER_DUTY,
-		u.REL_NAME
-	FROM
-		T_SES_EMS_EXAM_USER_SCORE s,
-		T_SES_BMS_USERINFO u
-	WHERE
-		s.USER_ID=u.ID
-	AND 
-		s.USER_TYPE=1	
-	AND 
-		s.USER_DUTY=#{userDuty}
-	AND
-		s.TEST_STATE=#{testState}
-	AND
-		u.REL_NAME like #{relName}
-  </select> -->
-  
-  <!--专家考试成绩查询(通过姓名查找) -->
-  <!-- <select id="queryListByName" parameterType="Object" resultMap="BaseQueryList">
-  	SELECT
-  		s.ID,
-		s.USER_SCORE,
-		s.TEST_STATE,
-		s.TARGET_DATE,
-		s.USER_DUTY,
-		u.REL_NAME
-	FROM
-		T_SES_EMS_EXAM_USER_SCORE s,
-		T_SES_BMS_USERINFO u
-	WHERE
-		s.USER_ID=u.ID
-	AND 
-		s.USER_TYPE=1
-	AND
-		u.REL_NAME like #{relName}
-  </select> -->
-  
-  <!-- 专家考试成绩查询(通过专家类型查找) -->
-  <!-- <select id="queryListByDuty" parameterType="Object" resultMap="BaseQueryList">
-  	SELECT
-  		s.ID,
-		s.USER_SCORE,
-		s.TEST_STATE,
-		s.TARGET_DATE,
-		s.USER_DUTY,
-		u.REL_NAME
-	FROM
-		T_SES_EMS_EXAM_USER_SCORE s,
-		T_SES_BMS_USERINFO u
-	WHERE
-		s.USER_ID=u.ID
-	AND 
-		s.USER_TYPE=1
-	AND
-		s.USER_DUTY=#{userDuty}
-  </select> -->
-  
-  <!-- 专家考试成绩查询(通过考试状态查询) -->
-  <!-- <select id="queryListByState" parameterType="Object" resultMap="BaseQueryList">
-  	SELECT
-  		s.ID,
-		s.USER_SCORE,
-		s.TEST_STATE,
-		s.TARGET_DATE,
-		s.USER_DUTY,
-		u.REL_NAME
-	FROM
-		T_SES_EMS_EXAM_USER_SCORE s,
-		T_SES_BMS_USERINFO u
-	WHERE
-		s.USER_ID=u.ID
-	AND 
-		s.USER_TYPE=1
-	AND
-		s.TEST_STATE=#{testState}
-  </select> -->
-  
-  <!-- 专家考试成绩查询(通过考试状态及专家类型查询) -->
-  <!-- <select id="queryListByDuSt" parameterType="Object" resultMap="BaseQueryList">
-  	SELECT
-  		s.ID,
-		s.USER_SCORE,
-		s.TEST_STATE,
-		s.TARGET_DATE,
-		s.USER_DUTY,
-		u.REL_NAME
-	FROM
-		T_SES_EMS_EXAM_USER_SCORE s,
-		T_SES_BMS_USERINFO u
-	WHERE
-		s.USER_ID=u.ID
-	AND 
-		s.USER_TYPE=1
-	AND 
-		s.USER_DUTY=#{userDuty}
-	AND
-		s.TEST_STATE=#{testState}
-  </select> -->
-  
+    
   <select id="selectExpertResultByTerm" parameterType="Object" resultMap="BaseExpertTerm">
   		SELECT
 			E.ID,
@@ -285,6 +177,60 @@
             </if>
         </where>
   </select>
+  
+  <!-- 专家成绩按条件查询 -->
+  <select id="selectExpertResultByCondition" parameterType="Object" resultMap="BaseExpertCondition">
+  	SELECT
+		U.ID,
+		U.REL_NAME,
+		s.USER_DUTY,
+		s.TEST_DATE,
+		s.SCORE,
+		s.STATUS
+	FROM
+		T_SES_EMS_EXAM_USER_SCORE s
+	LEFT JOIN T_SES_BMS_USER U ON s.USER_ID = U.ID
+	LEFT JOIN T_SES_EMS_EXPERT E ON U.type_id = E.ID
+	<where>
+		U.TYPE_NAME = 5
+		AND s.USER_TYPE = 1
+        <if test="relName != null and '' != relName">
+           <![CDATA[
+           AND U.REL_NAME LIKE #{relName}
+           ]]>  
+        </if> 
+        <if test="status != null and '' != status">
+           <![CDATA[
+           AND s.STATUS = #{status}
+           ]]>
+        </if> 
+        <if test="userDuty != null and '' != userDuty">
+           <![CDATA[
+           AND s.USER_DUTY = #{userDuty} 
+           ]]>
+        </if>
+    </where>
+  </select>
+  
+  <resultMap id="BaseExpertCondition" type="ses.model.ems.ExamUserScore">
+  		<id column="ID"  property="id" />
+  		<result column="USER_ID" property="userId" />
+  		<result column="USER_TYPE" property="userType" />
+  		<result column="SCORE" property="score" />
+	    <result column="STATUS" property="status" />
+	    <result column="TARGET_DATE" property="targetDate" />
+	    <result column="CREATED_AT" property="createdAt" />
+	    <result column="UPDATED_AT" property="updatedAt" />
+	    <result column="TEST_DATE" property="testDate" />
+	    <result column="USER_DUTY" property="userDuty" />
+	    <association property="expert" javaType="ses.model.ems.Expert">
+    		<result column="EXPERTS_TYPE_ID" property="expertsTypeId"/>
+   		</association>
+   		<association property="user" javaType="ses.model.bms.User">
+	    	<id column="ID"  property="id" />
+    		<result column="REL_NAME" property="relName"/>
+   		</association>
+  </resultMap>
   
   <resultMap id="BaseExpertTerm" type="ses.model.ems.ExamUserScore">
   		<id column="ID"  property="id" />

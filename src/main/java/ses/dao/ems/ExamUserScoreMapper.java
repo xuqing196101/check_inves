@@ -16,7 +16,7 @@ public interface ExamUserScoreMapper {
 	* @Title: deleteByPrimaryKey
 	* @author ZhaoBo
 	* @date 2016-9-7 上午10:26:36  
-	* @Description: TODO 
+	* @Description: 根据ID删除用户成绩 
 	* @param @param id
 	* @param @return      
 	* @return int
@@ -28,7 +28,7 @@ public interface ExamUserScoreMapper {
     * @Title: insertSelective
     * @author ZhaoBo
     * @date 2016-9-7 上午10:27:27  
-    * @Description: TODO 
+    * @Description: 新增用户成绩 
     * @param @param examUserScore
     * @param @return      
     * @return int
@@ -52,7 +52,7 @@ public interface ExamUserScoreMapper {
     * @Title: updateByPrimaryKeySelective
     * @author ZhaoBo
     * @date 2016-9-7 上午10:27:35  
-    * @Description: TODO 
+    * @Description: 根据ID更新用户成绩 
     * @param @param examUserScore
     * @param @return      
     * @return int
@@ -61,63 +61,15 @@ public interface ExamUserScoreMapper {
     
     /**
      * 
-    * @Title: expertQueryList
-    * @author zb
-    * @date 2016-8-31 下午1:14:18  
-    * @Description: 专家考试成绩查询(查3个条件)
+    * @Title: selectExpertResultByCondition
+    * @author ZhaoBo
+    * @date 2016-9-19 下午8:54:53  
+    * @Description: 专家考试成绩按条件查询 
     * @param @param examUserScore
     * @param @return      
     * @return List<ExamUserScore>
      */
-    List<ExamUserScore> expertQueryList(ExamUserScore examUserScore);
-    
-    /**
-     * 
-    * @Title: queryListByName
-    * @author zb
-    * @date 2016-8-31 下午1:15:15  
-    * @Description: 专家考试成绩查询(通过姓名查找) 
-    * @param @param examUserScore
-    * @param @return      
-    * @return List<ExamUserScore>
-     */
-    List<ExamUserScore> queryListByName(ExamUserScore examUserScore);
-    
-    /**
-     * 
-    * @Title: queryListByDuty
-    * @author zb
-    * @date 2016-8-31 下午1:16:13  
-    * @Description: 专家考试成绩查询(通过专家类型查找) 
-    * @param @param examUserScore
-    * @param @return      
-    * @return List<ExamUserScore>
-     */
-    List<ExamUserScore> queryListByDuty(ExamUserScore examUserScore);
-    
-    /**
-     * 
-    * @Title: queryListByState
-    * @author zb
-    * @date 2016-8-31 下午1:17:26  
-    * @Description: 专家考试成绩查询(通过考试状态查找) 
-    * @param @param examUserScore
-    * @param @return      
-    * @return List<ExamUserScore>
-     */
-    List<ExamUserScore> queryListByState(ExamUserScore examUserScore);
-    
-    /**
-     * 
-    * @Title: queryListByDuSt
-    * @author zb
-    * @date 2016-8-31 下午1:19:33  
-    * @Description: 通过考试状态及专家类型查询
-    * @param @param examUserScore
-    * @param @return      
-    * @return List<ExamUserScore>
-     */
-    List<ExamUserScore> queryListByDuSt(ExamUserScore examUserScore);
+    List<ExamUserScore> selectExpertResultByCondition(ExamUserScore examUserScore);
     
     List<ExamUserScore> selectExpertResultByTerm(ExamUserScore examUserScore);
 }

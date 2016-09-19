@@ -24,17 +24,17 @@
 			$.ajax({
 				type:"POST",
 				dataType:"json",
-				url:"<%=basePath%>expertExam/selectExpertResultByTerm.do?userName="+userName+"&userType="+userType+"&testState="+testState,
+				url:"<%=basePath%>expertExam/selectExpertResultByCondition.do?userName="+userName+"&userType="+userType+"&testState="+testState,
 				success:function(json){
 	       			if(json){
 	       				var html = "";
 		            	for(var i=0;i<json.length;i++){
 		            	  html = html + "<tr>";
-		            	  html = html + "<td>"+json[i].expert.relName+"</td>";
-		            	  html = html + "<td>"+json[i].expert.relName+"</td>";
-		            	  html = html + "<td>"+json[i].expert.relName+"</td>";
-		            	  html = html + "<td>"+json[i].score+"</td>";
-		            	  html = html + "<td>"+json[i].status+"</td>";
+		            	  html = html + "<td class='tc'>"+json[i].user.relName+"</td>";
+		            	  html = html + "<td class='tc'>"+json[i].userDuty+"</td>";
+		            	  html = html + "<td class='tc'>"+json[i].formatDate+"</td>";
+		            	  html = html + "<td class='tc'>"+json[i].score+"</td>";
+		            	  html = html + "<td class='tc'>"+json[i].status+"</td>";
 		            	  html = html + "</tr>";
 		            	}
 		            	$("#resultList").html(html);

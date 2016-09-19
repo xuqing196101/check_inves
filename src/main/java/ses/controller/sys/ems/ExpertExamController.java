@@ -812,7 +812,7 @@ public class ExpertExamController {
 	
 	/**
 	 * 
-	* @Title: selectExpertResultByTerm
+	* @Title: selectExpertResultByCondition
 	* @author ZhaoBo
 	* @date 2016-9-8 下午6:23:20  
 	* @Description: 专家考试成绩(按条件查询) 
@@ -821,9 +821,9 @@ public class ExpertExamController {
 	* @param @return      
 	* @return List<ExamUserScore>
 	 */
-	@RequestMapping("/selectExpertResultByTerm")
+	@RequestMapping("/selectExpertResultByCondition")
 	@ResponseBody
-	public List<ExamUserScore> selectExpertResultByTerm(HttpServletRequest request,ExamUserScore examUserScore,HttpServletResponse response){
+	public List<ExamUserScore> selectExpertResultByCondition(HttpServletRequest request,ExamUserScore examUserScore,HttpServletResponse response){
 		if(!request.getParameter("userName").isEmpty()){
 			String name = request.getParameter("userName");
 			examUserScore.setRelName("%"+name+"%");
@@ -841,8 +841,11 @@ public class ExpertExamController {
 		if(!request.getParameter("testState").isEmpty()){
 			examUserScore.setStatus(request.getParameter("testState"));
 		}
-		List<ExamUserScore> userList = examUserScoreService.selectExpertResultByTerm(examUserScore);
-		System.out.println(122345);
+		List<ExamUserScore> userList = examUserScoreService.selectExpertResultByCondition(examUserScore);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		for(int i=0;i<userList.size();i++){
+			userList.get(i).setFormatDate(sdf.format(userList.get(i).getTestDate()));
+		}
 		return userList;
 	}
 	
