@@ -11,7 +11,36 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
+	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/layer.js"></script>
+	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
+	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js" type="text/javascript"></script>
+	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
+	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript">
+		$(function(){
+			$.ajax({
+				type:"POST",
+				dataType:"json",
+				url:"<%=path%>/purchaserExam/getAllPurchaserQuestion.do",
+	       		success:function(data){
+	       			if(data){
+	       				var html = "";
+	       				for(var i=0;i<data.length;i++){
+	       			      html = html + "<tr>";
+		            	  html = html + "<td class='tc'><input type='checkbox' name='info' value='"+data[i].id+"'/></td>";
+		            	  html = html + "<td class='tc pointer' onclick='view(\""+data[i].id+"\")'>"+data[i].examQuestionType.name+"</td>";
+		            	  html = html + "<td class='tc pointer' onclick='view(\""+data[i].id+"\")'>"+data[i].topic+"</td>";
+		            	  html = html + "<td class='tc pointer' onclick='view(\""+data[i].id+"\")'>"+data[i].items+"</td>";
+		            	  html = html + "<td class='tc pointer' onclick='view(\""+data[i].id+"\")'>"+data[i].answer+"</td>";
+		            	  html = html + "<td class='tc pointer' onclick='view(\""+data[i].id+"\")'>"+data[i].point+"</td>";
+		            	  html = html + "</tr>";
+						}
+	       				$("#resultList").html(html);
+					}
+				}
+			});
+		})
+	
 		//采购人新增题库
 		function add(){
 			window.location.href = "<%=path%>/purchaserExam/addPurQue.html";
@@ -28,10 +57,12 @@
 				}
 			}
 			if(count > 1){
-				alert("只能选择一项");
+				layer.alert("只能选择一项",{offset: ['222px', '390px']});
+				$(".layui-layer-shade").remove();
 				return;
 			}else if(count == 0){
-				alert("请先选择一项");
+				layer.alert("请先选择一项",{offset: ['222px', '390px']});
+				$(".layui-layer-shade").remove();
 				return;
 			}else{
 				for(var i = 0;i<info.length;i++){
@@ -54,7 +85,8 @@
 				}
 			}
 			if(count == 0){
-				alert("请选择删除内容");
+				layer.alert("请选择删除内容",{offset: ['222px', '390px']});
+				$(".layui-layer-shade").remove();
 				return;
 			}
 			for(var i=0;i<info.length;i++){    
@@ -62,19 +94,20 @@
 		        	ids += info[i].value+',';
 		        }
 			}
-			$.ajax({
-				type:"POST",
-				dataType:"json",
-				url:"<%=path%>/purchaserExam/deleteById.do?ids="+ids,
-		       	success:function(data){
-			       	window.setTimeout(function(){
-			       		window.location.href="<%=path%>/purchaserExam/purchaserExam.html";
-			       	}, 1000);
-		       	},
-		       	error: function(){
-					alert("删除失败");
-				}
-		    });
+			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+				layer.close(index);
+				$.ajax({
+					type:"POST",
+					dataType:"json",
+					url:"<%=path%>/purchaserExam/deleteById.do?ids="+ids,
+			       	success:function(data){
+			       		layer.msg('删除成功',{offset: ['222px', '390px']});
+				       	window.setTimeout(function(){
+				       		window.location.href="<%=path%>/purchaserExam/purchaserList.html";
+				       	}, 1000);
+			       	}
+			    });
+			});	
 		}
 		
 		//按条件查询采购人题库
@@ -94,12 +127,12 @@
 	       				var html = "";
 		            	for(var i=0;i<data.length;i++){
 		            	  html = html + "<tr>";
-		            	  html = html + "<td><input type='checkbox' name='info' value='"+data[i].id+"'/></td>";
-		            	  html = html + "<td>"+data[i].examQuestionType.name+"</td>";
-		            	  html = html + "<td>"+data[i].topic+"</td>";
-		            	  html = html + "<td>"+data[i].items+"</td>";
-		            	  html = html + "<td>"+data[i].answer+"</td>";
-		            	  html = html + "<td>"+data[i].point+"</td>";
+		            	  html = html + "<td class='tc'><input type='checkbox' name='info' value='"+data[i].id+"'/></td>";
+		            	  html = html + "<td class='tc pointer' onclick='view(\""+data[i].id+"\")'>"+data[i].examQuestionType.name+"</td>";
+		            	  html = html + "<td class='tc pointer' onclick='view(\""+data[i].id+"\")'>"+data[i].topic+"</td>";
+		            	  html = html + "<td class='tc pointer' onclick='view(\""+data[i].id+"\")'>"+data[i].items+"</td>";
+		            	  html = html + "<td class='tc pointer' onclick='view(\""+data[i].id+"\")'>"+data[i].answer+"</td>";
+		            	  html = html + "<td class='tc pointer' onclick='view(\""+data[i].id+"\")'>"+data[i].point+"</td>";
 		            	  html = html + "</tr>";
 		            	}
 		            	$("#resultList").html(html);
@@ -131,45 +164,70 @@
 			    fileElementId: "excelFile",
 			    dataType: "json",
 			    success: function(data) {  
-			    	alert("导入成功");
+			    	layer.msg('导入成功',{offset: ['222px', '390px']});
+			    	window.setTimeout(function(){
+			       		window.location.href="<%=path%>/purchaserExam/purchaserList.html";
+			       	}, 1000);
 			    }  
 			}); 
+		}
+		
+		//重置方法
+		function reset(){
+			$("#queName").val("");
+			$("#queType").val("");
+		}
+		
+		//查看采购人题库
+		function view(obj){
+			window.location.href = "<%=path%>/purchaserExam/view.html?id="+obj;
 		}
 	</script>
 
   </head>
   
   <body>
-    <div>
-    	名称:<input type="text" id="queName"/>
-    	题型:<select id="queType">
-    		<option value="">请选择</option>
-    		<option value="1">单选题</option>
-    		<option value="2">多选题</option>
-    		<option value="3">判断题</option>
-    	</select>
-    	<input type="button" value="查询" onclick="query()"/>
-    	<input type="button" value="重置"/>
+    <div class="container">
+    	<div class="border1 col-md-5 ml30">
+	    	名称:<input type="text" id="queName" class="mt10"/>
+	    	题型:<select id="queType">
+	    		<option value="">请选择</option>
+	    		<option value="1">单选题</option>
+	    		<option value="2">多选题</option>
+	    		<option value="3">判断题</option>
+	    	</select>
+	    	<button type="button" onclick="query()" class="btn">查询</button>
+	    	<button type="button" onclick="reset()" class="btn">重置</button>
+    	</div>
     </div>
-    <div>
-    	<input type="button" value="新增题目" onclick="add()"/>
-    	<input type="button" value="修改" onclick="edit()"/>
-    	<input type="button" value="删除" onclick="deleteById()"/>
-    	<input type="file" name="file" id="excelFile"/>
-    	<input type="button" value="导入" onclick="poiExcel()" />
+    <div class="container">
+    	<div class="col-md-12 mt0">
+	    	<input type="button" class="btn btn-windows add" value="新增题目" onclick="add()"/>
+	    	<input type="button" class="btn btn-windows edit" value="修改" onclick="edit()"/>
+	    	<input type="button" class="btn btn-windows delete" value="删除" onclick="deleteById()"/>
+	    	<input type="file" name="file" id="excelFile" style="display:inline;"/>
+	    	<input type="button" value="导入" class="btn" onclick="poiExcel()"/>
+    	</div>
     </div>
-    <table>
-    	<thead>
-    		<th><input type="checkbox" id="selectAll" onclick="selectAll()"/></th>
-    		<th>题型</th>
-    		<th>题干</th>
-    		<th>选项</th>
-    		<th>答案</th>
-    		<th>分值</th>
-    	</thead>
-    	<tbody id="resultList">
-    		
-    	</tbody>
-    </table>
+    
+    <div class="container margin-top-5">
+     	<div class="content padding-left-25 padding-right-25 padding-top-5">
+   		<table class="table table-bordered table-condensed">
+	    	<thead>
+	    		<tr>
+		    		<th class="info"><input type="checkbox" id="selectAll" onclick="selectAll()"/></th>
+		    		<th class="info">题型</th>
+		    		<th class="info">题干</th>
+		    		<th class="info">选项</th>
+		    		<th class="info">答案</th>
+		    		<th class="info">分值</th>
+	    		</tr>
+	    	</thead>
+	    	<tbody id="resultList">
+	    		
+	    	</tbody>
+    	</table>
+    	</div>
+    </div>
   </body>
 </html>

@@ -5,6 +5,7 @@
 <html>
   <head>
     <title>新增商务类专家题库</title>
+
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -32,13 +33,13 @@
 				rules:{
 					queType:"required",
 					queTopic:"required",
-					queOption:"required",
+					//queOption:"required",
 					quePoint:"required"
 				},
 				messages:{
 					queType:"题型不能为空",
 					queTopic:"题干不能为空",
-					queOption:"选项不能为空",
+					//queOption:"选项不能为空",
 					quePoint:"请选择分值"
 				}
 			});
@@ -128,7 +129,6 @@
 			}
 			
 		}
-		
 	</script>
   </head>
   
@@ -137,75 +137,77 @@
 	   <div class="margin-top-10 breadcrumbs ">
 	      <div class="container">
 			   <ul class="breadcrumb margin-left-0">
-			   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">专家考试</a></li><li class="active"><a href="#">题库管理</a></li>
+			   <li><a href="#"> 首页</a></li><li><a href="#">支撑环境</a></li><li><a href="#">题库管理</a></li>
 			   </ul>
 			<div class="clear"></div>
 		  </div>
 	   </div>
-	   <div class="container">
+	   
+     <div class="container margin-top-5">
+     <div class="content padding-left-25 padding-right-25 padding-top-5">
+     <div>
 		   <div class="headline-v2">
-		   		<h2>新增考题</h2>
+		   		<h2>新增题目</h2>
 		   </div>
-	   </div>
+	   
   	<form action="<%=path %>/expertExam/saveToCom.html" method="post" id="form">
-  		<div class="padding-top-10 clear">
-			<div class="col-md-12 pl200 ">
-	  		请选择题型:
-	  		<select id="queType" name="queType" onchange="changeType()">
-	  			<option></option>
-	  			<option value="1">单选题</option>
-	  			<option value="2">多选题</option>
-	  		</select>
-	  		</div>
-  		</div>
-  		
-  		<div class="padding-top-10 clear">
-		   <ul class="list-unstyled list-flow ">
+  		<ul class="list-unstyled list-flow p0_20">
 		     <li class="col-md-12 p0">
-			   <span class="fl">题干：</span>
-			   <div class="col-md-12 pl200 fn mt5 pwr9">
-		        <textarea class="text_area col-md-8 " name="queTopic" id="queTopic"></textarea>
+	  			<span class="fl">请选择题型:</span>
+		  		<select id="queType" name="queType" onchange="changeType()">
+		  			<option>请选择</option>
+		  			<option value="1">单选题</option>
+		  			<option value="2">多选题</option>
+		  		</select>
+	  		</li>
+  		
+		    <li class="col-md-12 p0">
+			   <span class="fl">题干:</span>
+			   <div class="">
+		        	<textarea class="text_area col-md-8" name="queTopic" id="queTopic"></textarea>
+		       </div>
+			</li> 
+		   
+
+		
+				<li class="col-md-12 p0">
+				<span class="fl">选项:</span>
+				<div class="col-md-9">
+				<div>
+			  		<div class="fl mt5">A</div><textarea name="option" id="optionA" class="ml5 col-md-8"></textarea>
+			  		<div class="clear"></div>
+			  	</div>
+			  	<div class="clear mt10">
+					<div class="fl mt5">B</div><textarea name="option" id="optionB" class="ml5 col-md-8"></textarea>
+				    <div class="clear"></div>
+				</div>
+				<div class="clear mt10">
+					<div class="fl mt5">C</div><textarea name="option" id="optionC" class="ml5 col-md-8"></textarea>
+				    <div class="clear"></div>
+				</div>
+				<div class="clear mt10">
+					<div class="fl mt5">D</div><textarea name="option" id="optionD" class="ml5 col-md-8"></textarea>
+				    <div class="clear"></div>
+				</div>
 		       </div>
 			 </li> 
-		   </ul>
-	  	</div>
+			
 
-		<div class="padding-top-10 clear">
-			<ul class="list-unstyled list-flow ">
-				<li class="col-md-12 p0"><span class="fl">选项：</span>
-					<div class="col-md-12 pl200 fn mt5 pwr9">
-						A<input type="text" name="option" id="optionA"/>
-						B<input type="text" name="option" id="optionB"/>
-						C<input type="text" name="option" id="optionC"/>
-						D<input type="text" name="option" id="optionD"/>
-						<%--<textarea class="text_area col-md-8 " name="queOption"
-							id="queOption" onblur="judgeInput()"></textarea>
-						<span class="col-md-4" style="color: red">
-							选项格式:A上;<br/>
-							B下;<br/>
-							C左;<br/>
-							D右;<br/>
-							分号必须是英文状态下的分号
-						</span>	
-					--%></div></li>
-			</ul>
-		</div>
+		
+				<li class="col-md-12 p0">
+					<span class="fl">答案:</span>	
+					<div class="fl ml5 mt5">
+			        A <input type="radio" id="A" name="que" value="A" class="mt0"/> 
+		  			B <input type="radio" id="B" name="que" value="B" class="mt0"/> 
+		  			C <input type="radio" id="C" name="que" value="C" class="mt0"/> 
+		  			D <input type="radio" id="D" name="que" value="D" class="mt0"/>
+			       </div>
+					<span id="queSelect"></span>
+				</li>
+			
 
-		<div class="padding-top-10 clear">
-			<ul class="list-unstyled list-flow p0_20 ">
-				<li class="col-md-12 p0"><span class="fl">答案：</span>
-					<div class="col-md-12 pl200 fn mt5 pwr9">
-						A <input type="radio" id="A" name="que" value="A" /> B <input
-							type="radio" id="B" name="que" value="B" /> C <input type="radio"
-							id="C" name="que" value="C" /> D <input type="radio" id="D"
-							name="que" value="D" /> <span id="queSelect"></span>
-					</div></li>
-			</ul>
-		</div>
-
-		<div class="padding-top-10 clear">
-			<div class="col-md-12 pl200 ">
-	  			分值:
+			<li class="col-md-12 p0">
+	  			<span class="fl">分值:</span>
 	  			<select name="quePoint" id="quePoint">
 	  				<option value="1">1</option>
 	  				<option value="2">2</option>
@@ -213,8 +215,10 @@
 	  				<option value="4">4</option>
 	  				<option value="5">5</option>
 	  			</select>
-  			</div>
-  		</div>
+  			</li>
+  		</ul>
+  	</div>
+  			<!-- 按钮 -->
   		<div class="padding-top-10 clear">
 			<div class="col-md-12 pl200 ">
 				<div class="mt40 tc mb50">
@@ -223,6 +227,9 @@
 				</div>
 	  		</div>
 	  	</div>
+	  	
   	</form>
+  	     </div>
+     </div>
   </body>
 </html>

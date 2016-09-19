@@ -1,11 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
-<!DOCTYPE html>
+<%@ include file="/WEB-INF/view/common.jsp"%>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
     <title>采购人成绩查询</title>
@@ -14,7 +10,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script src="<%=basePath%>public/ZHH/js/jquery.min.js" type="text/javascript"></script>
 	<script type="text/javascript">
 		//查询方法
 		function query(){
@@ -50,7 +45,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-    <div style="margin:0 auto;width:960px;height:100px;border:1px solid grey;">
+    <div class="container tc border1">
     	姓名:<input type="text" id="userName" name="userName"/>
     	考试状态:<select name="testState" id="testState">
     		<option value="">请选择</option>

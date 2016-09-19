@@ -48,10 +48,7 @@
 				       	window.setTimeout(function(){
 				       		window.location.href="<%=path%>/expertExam/searchComExpPool.html";
 				       	}, 1000);
-			       	},
-			       	error: function(){
-						alert("删除失败");
-					}
+			       	}
 		       	});
 			});
 		}
@@ -62,7 +59,7 @@
 		}
 		
 		//修改题库
-		function editTechnical(){
+		function editCommerce(){
 			var count = 0;
 			var info = document.getElementsByName("info");
 			var str = "";
@@ -93,6 +90,27 @@
 		function view(obj){
 			window.location.href = "<%=path%>/expertExam/viewCom.html?id="+obj;
 		}
+		
+		//下载模板
+		function download(){
+			window.location.href = "<%=path%>/expertExam/loadExpertTemplet.html";
+		}
+		
+		//导入商务类题目
+		function poiExcel(){
+			$.ajaxFileUpload({
+			    url: "<%=path %>/expertExam/importCom.html",  
+			    secureuri: false,
+			    fileElementId: "excelFile",
+			    dataType: "json",
+			    success: function(data) {  
+			    	layer.msg('导入成功',{offset: ['222px', '390px']});
+			    	window.setTimeout(function(){
+			       		window.location.href="<%=path%>/expertExam/searchComExpPool.html";
+			       	}, 1000);
+			    }  
+			}); 
+		}
 	</script>
   </head>
   
@@ -101,24 +119,25 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">专家考试</a></li><li class="active"><a href="#">题库管理</a></li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">支撑环境</a></li><li><a href="#">题库管理</a></li><li class="active"><a href="#">商务类专家题库管理</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
    </div>
    <div class="container">
 	   <div class="headline-v2">
-	   		<h2>商务类题库列表</h2>
+	   		<h2>商务类专家题库列表</h2>
 	   </div>
    </div>
 	<!-- 表格开始-->
    <div class="container">
-   		<div class="col-md-10">
+   		<div class="col-md-12">
 		    <button class="btn btn-windows add" type="button" onclick="addCommerce()">新增题目</button>
 		    <input type="file" name="file" id="excelFile" style="display:inline"/>
 		    <button class="btn btn-windows add" type="button" onclick="poiExcel()">Excel导入</button>
 			<button class="btn btn-windows edit" type="button" onclick="editCommerce()">修改</button>
 			<button class="btn btn-windows delete" type="button" onclick="deleteById()">删除</button>
+			<button class="btn" type="button" onclick="download()">专家题库模板下载</button>
 		</div>
     </div>
                        
