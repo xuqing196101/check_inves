@@ -24,11 +24,11 @@ public interface ExpertBlackListMapper {
 	 * @Title: findList
 	 * @author Xu Qing
 	 * @date 2016-9-8 下午2:42:58  
-	 * @Description: 查询黑名单 
+	 * @Description: 查询黑名单,可条件查询
 	 * @param @return      
 	 * @return List<ExpertBlackList>
 	 */
-	List<ExpertBlackList> findList();
+	List<ExpertBlackList> findList(Map paramMap);
 	/**
 	 * @Title: insert
 	 * @author Xu Qing
@@ -57,14 +57,4 @@ public interface ExpertBlackListMapper {
 	 * @return void
 	 */
 	void deleteByPrimaryKey(String id);
-	/**
-	 * @Title: query
-	 * @author Xu Qing
-	 * @date 2016-9-12 下午3:19:10  
-	 * @Description: 条件查询 
-	 * @param @param paramMap
-	 * @param @return      
-	 * @return List<ExpertBlackList>
-	 */
-	List<ExpertBlackList> query (Map paramMap);
 }

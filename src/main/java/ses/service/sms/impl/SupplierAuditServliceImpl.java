@@ -1,9 +1,13 @@
 package ses.service.sms.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.github.pagehelper.PageHelper;
 
 import ses.dao.sms.SupplierAuditMapper;
 import ses.dao.sms.SupplierFinanceMapper;
@@ -14,6 +18,7 @@ import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierStockholder;
 import ses.service.sms.SupplierAuditServlice;
+import ses.util.PropertiesUtil;
 
 /**
  * <p>Title:SupplierAuditServliceImpl </p>
@@ -52,14 +57,23 @@ public class SupplierAuditServliceImpl implements SupplierAuditServlice {
 	 * @Title: supplierList
 	 * @author Xu Qing
 	 * @date 2016-9-14 下午2:10:56  
-	 * @Description: 供应商列表 
+	 * @Description: 供应商列表 ,可条件查询
 	 * @param @return      
 	 * @return List<Supplier>
 	 */
 	@Override
-	public List<Supplier> supplierList() {
-		
-		return supplierMapper.findSupplier();
+	public List<Supplier> supplierList(Supplier supplier,Integer page) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		Map map = new HashMap();
+		if(supplier!=null){
+			map.put("supplierName", supplier.getSupplierName());
+			map.put("businessType", supplier.getBusinessType());
+		}else{
+			map.put("supplierName", null);
+			map.put("businessType", null);
+		}
+		return supplierMapper.findSupplier(map);
 	}
 
 	/**

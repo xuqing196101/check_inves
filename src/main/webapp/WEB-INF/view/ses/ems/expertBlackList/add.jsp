@@ -118,78 +118,66 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </script>
 </head>
 <body>
-
-
-<!--面包屑导航开始-->
-   <div class="margin-top-10 breadcrumbs ">
-      <div class="container">
-		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">评审专家管理</a></li><li><a href="#">不良专家名单管理</a></li><li class="active"><a href="#">增加信息</a></li>
-		   </ul>
-		<div class="clear"></div>
+	<!--面包屑导航开始-->
+	<div class="margin-top-10 breadcrumbs ">
+	  <div class="container">
+	    <ul class="breadcrumb margin-left-0">
+	      <li><a href="#"> 首页</a></li><li><a href="#">评审专家管理</a></li><li><a href="#">不良专家名单管理</a></li><li class="active"><a href="#">增加信息</a></li>
+			</ul>
 	  </div>
-   </div>
-<!-- 我的订单页面开始-->
-   <div class="container">
-   <div class="headline-v2">
-    <h2>新增黑名单</h2>
-   </div>
-   </div>
-
-<!-- 表格开始-->
-<div class="container">
-   <form action="<%=basePath %>expert/saveBlacklist.do" method="post" id="form1" enctype="multipart/form-data" class="registerform">
-   <ul class="list-unstyled list-flow p0_20">
-     <li class="col-md-6 p0">
-	   <span class="">专家姓名：</span>
-        <input class="span2" maxlength="10" name="relName" type="text">
-        <font id="nameFont"></font>
-	 </li>
-     <li class="col-md-6  p0 ">
-	   <span class="">入库时间：</span>
-        <input class="span2 Wdate w220"  readonly="readonly" name="storageTime"  type="text" onclick='WdatePicker()'>
-      <font id="nameFont2"></font>
-	 </li> 
-     <li class="col-md-6  p0 ">
-	   <span class="">处罚日期：</span>
-        <input class="span2 Wdate w220"  readonly="readonly" name="dateOfPunishment"  type="text" onclick='WdatePicker()'>
-      <font id="nameFont2"></font>
-	 </li> 
-     <li class="col-md-6  p0 ">
-	   <span class="">处罚时限：</span>
-	   <select class="span2" name="punishDate">
-	  		<option value="">请选择</option>
-	  		<option value="三个月">三个月</option>
-	  		<option value="半年">半年</option>
-	  		<option value="一年">一年</option>
-	  		<option value="两年">两年</option>
-	  		<option value="三年">三年</option>
-		</select>
-	 </li> 
-     <li class="col-md-6  p0 ">
-	   <span class="">处罚方式：</span>
-	  	<select class="span2" name="punishType">
-	  	    <option value="">请选择</option>
-	  		<option value="1">警告</option>
-	  		<option value="2">严重警告</option>
-	  		<option value="3">取消资格</option>
-		</select>
-	 </li> 
-     <li class="col-md-6  p0 ">
-	   <span class="">处罚理由：</span>
-	   <input class="span2"  id="reason" maxlength="10"  name="reason" type="text">
-	  <!--  <textarea id="content" name="reason" class="extra_cont" ></textarea> -->
-	 </li> 
-   </ul>
-  
-  <div  class="col-md-12">
-   <div class="fl padding-10">
-	<button class="btn btn-windows save" type="submit">保存</button>
-	<a class="btn btn-windows reset"  onclick="location.href='javascript:history.go(-1);'">返回</a>
 	</div>
+	<!-- 表格开始-->
+  <div class="container">
+    <form action="<%=basePath %>expert/saveBlacklist.do" method="post" id="form1" enctype="multipart/form-data" class="registerform">
+      <ul class="list-unstyled list-flow p0_20">
+        <li class="col-md-6 p0">
+		      <span class="">专家姓名：</span>
+	        <input class="span2" maxlength="10" name="relName" type="text">
+	        <font id="nameFont"></font>
+		    </li>
+	      <li class="col-md-6  p0 ">
+		      <span class="">入库时间：</span>
+	        <input class="span2 Wdate w220"  readonly="readonly" name="storageTime"  type="text" onclick='WdatePicker()'>
+	        <font id="nameFont2"></font>
+		    </li> 
+	      <li class="col-md-6  p0 ">
+		      <span class="">处罚日期：</span>
+	        <input class="span2 Wdate w220"  readonly="readonly" name="dateOfPunishment"  type="text" onclick='WdatePicker()'>
+	        <font id="nameFont2"></font>
+		    </li> 
+		    <li class="col-md-6  p0 ">
+	       <span class="">处罚时限：</span>
+			    <select class="span2" name="punishDate">
+			  		<option value="">请选择</option>
+			  		<option value="三个月">三个月</option>
+			  		<option value="半年">半年</option>
+			  		<option value="一年">一年</option>
+			  		<option value="两年">两年</option>
+			  		<option value="三年">三年</option>
+				  </select>
+			  </li> 
+	      <li class="col-md-6  p0 ">
+		      <span class="">处罚方式：</span>
+		  	  <select class="span2" name="punishType">
+			  	  <option value="">请选择</option>
+			  		<option value="1">警告</option>
+			  		<option value="2">严重警告</option>
+			  		<option value="3">取消资格</option>
+			    </select>
+		    </li> 
+	      <li class="col-md-6  p0 ">
+		      <span class="">处罚理由：</span>
+		      <input class="span2"  id="reason" maxlength="10"  name="reason" type="text">
+		      <!--  <textarea id="content" name="reason" class="extra_cont" ></textarea> -->
+		     </li> 
+	   </ul>
+	   <div  class="col-md-12">
+	     <div class="fl padding-10">
+		    <button class="btn btn-windows save" type="submit">保存</button>
+		    <a class="btn btn-windows reset"  onclick="location.href='javascript:history.go(-1);'">返回</a>
+		   </div>
+	  </div>
+	 </form>
   </div>
-  </form>
- </div>
-
 </body>
 </html>

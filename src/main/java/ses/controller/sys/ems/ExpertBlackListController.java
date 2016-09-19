@@ -15,6 +15,8 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.github.pagehelper.PageInfo;
+
 import ses.model.ems.ExpertBlackList;
 import ses.service.ems.ExpertBlackListService;
 
@@ -40,7 +42,7 @@ public class ExpertBlackListController {
 	 */
 	@RequestMapping("/addBlacklist")
 	public String add(ExpertBlackList expertBlackList){
-		return "ems/expertBlackList/add";
+		return "ses/ems/expertBlackList/add";
 	}
 	/**
 	 * @Title: save
@@ -61,15 +63,16 @@ public class ExpertBlackListController {
 	 * @Title: fnidList
 	 * @author Xu Qing
 	 * @date 2016-9-8 下午5:14:12  
-	 * @Description: 列表页 
+	 * @Description: 列表页 ,可条件查询
 	 * @param @return      
 	 * @return String
 	 */
 	@RequestMapping("/blacklist")
-	public String fnidAll(Model model){
-		List<ExpertBlackList> expertList = service.findAll();
+	public String fnidAll(HttpServletRequest request,Model model,Integer page,ExpertBlackList expert){
+		List<ExpertBlackList> expertList = service.findAll(expert,page==null?1:page);
+		request.setAttribute("result", new PageInfo<>(expertList));
 		model.addAttribute("expertList", expertList);
-		return "ems/expertBlackList/list";
+		return "ses/ems/expertBlackList/list";
 	}
 	/**
 	 * @Title: edit
@@ -84,7 +87,7 @@ public class ExpertBlackListController {
 		String id = request.getParameter("id");
 		ExpertBlackList expertBlackList = service.findById(id);
 		model.addAttribute("expert", expertBlackList);
-		return "ems/expertBlackList/edit";
+		return "ses/ems/expertBlackList/edit";
 	}
 	/**
 	 * @Title: update
@@ -118,22 +121,6 @@ public class ExpertBlackListController {
 		}
 		return "redirect:blacklist.html";
 	}
-	/**
-	 * @Title: delete
-	 * @author Xu Qing
-	 * @date 2016-9-12 下午3:30:37  
-	 * @Description: 条件查询 
-	 * @param @param request
-	 * @param @return      
-	 * @return String
-	 */
-	@RequestMapping("/queryBlacklist")
-	public String query(HttpServletRequest request,ExpertBlackList expert,HttpServletResponse response){
-		List<ExpertBlackList> expertList = service.query(expert);
-		request.setAttribute("expertList", expertList);
-		return "ems/expertBlackList/list";
-	}
-	
 	
 	@InitBinder
 	public void initBinder(ServletRequestDataBinder binder) {

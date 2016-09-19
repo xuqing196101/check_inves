@@ -663,10 +663,21 @@
 		select * from T_SES_SMS_SUPPLIER where ID = #{id}
 	</select>
 	
-	<!-- 查询供应商 -->
-	<select id="findSupplier"  resultMap="BaseResultMap">
-   		 select * from T_SES_SMS_SUPPLIER
- 	</select>
+	  <!-- 查询查询供应商及条件查询 -->
+  <select id="findSupplier"   resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_SUPPLIER 
+    where 
+       1=1
+       <if test="supplierName != null and supplierName !=''">  
+        AND  SUPPLIER_NAME like '%${supplierName}%'   
+       </if>  
+       <if test="supplierTypeId != null and supplierTypeId !=''">  
+        AND SUPPLIER_TYPE_ID = '${supplierTypeId}' 
+       </if> 
+        ORDER BY FOUND_DATE DESC 
+  </select>
   
 	<resultMap type="ses.model.sms.Supplier" id="supplierMap" extends="BaseResultMap">
 		<collection property="listSupplierFinances" select="ses.dao.sms.SupplierFinanceMapper.findFinanceBySupplierId" column="ID" />

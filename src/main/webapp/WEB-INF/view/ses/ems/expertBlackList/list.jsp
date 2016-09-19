@@ -6,19 +6,14 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
-<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
-<!--[if !IE]><!-->
-<html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<title></title>
-
-	<!-- Meta -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="">
-	<meta name="author" content="">
-	<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet">
+<html>
+<head>
+<title>专家黑名单</title>
+  <!-- Meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/animate.css" media="screen" rel="stylesheet">
@@ -58,7 +53,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="<%=basePath%>public/layer/skin/layer.css" media="screen" rel="stylesheet" type="text/css">
 <link href="<%=basePath%>public/layer/skin/layer.ext.css" media="screen" rel="stylesheet" type="text/css">
 
-    <script src="<%=basePath%>public/ZHH/js/hm.js"></script><script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
+<script src="<%=basePath%>public/ZHH/js/hm.js"></script><script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery-migrate-1.2.1.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
 <script src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
@@ -113,6 +108,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/james.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/layer/extend/layer.ext.js"></script>
+<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+<script type="text/javascript">
+$(function(){
+      laypage({
+          cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+          pages: "${result.pages}", //总页数
+          skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+          skip: true, //是否开启跳页
+          groups: "${isList.pages}">=3?3:"${isList.pages}", //连续显示分页数
+          curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+          return "${isList.pageNum}";
+          }(), 
+          jump: function(e, first){ //触发分页后的回调
+              if(!first){ //一定要加此判断，否则初始时会无限刷新
+                $("#page").val(e.curr);
+                $("#form1").submit();
+              }
+          }
+      });
+    });
+</script>
 <script type="text/javascript">
 		/** 全选全不选 */
 	function selectAll(){
@@ -200,176 +216,95 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </script>
 </head>
 <body>
-	<div class="header-v4 header-v5">
-    <!-- Navbar -->
-    <div class="navbar navbar-default mega-menu" role="navigation">
-      <div class="container">
-        <!-- logo和搜索 -->
-        <div class="navbar-header">
-          <div class="row container">
-            <div class="col-md-4 padding-bottom-30">
-              <a href="">
-                 <img alt="Logo" src="<%=basePath%>public/ZHH/images/logo_2.png" id="logo-header">
-              </a>
-            </div>
-			<!--菜单开始-->
-            <div class="col-md-8 topbar-v1 col-md-12 ">
-              <ul class="top-v1-data padding-0">
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_01.png"/></div>
-				  <span>决策支持</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_02.png"/></div>
-				  <span>业务监管</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_03.png"/></div>
-				  <span>障碍作业</span>
-				 </a>
-				</li>	
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_04.png"/></div>
-				  <span>信息服务</span>
-				 </a>
-				</li>
-			   <li class="dropdown">
-			     	<a aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle p0_30 " href="">
-				  		<div><img src="<%=basePath%>public/ZHH/images/top_05.png"/></div>
-				  		<span>支撑环境</span>
-				 	</a>
-					<ul class="dropdown-menu">
-                   		<li class="line-block">
-                   			<a href="#" target="_blank" class="son-menu"><span class="mr5">◇</span>后台管理</a>
-                   			<ul class="dropdown-menuson dropdown-menu">
-                   				<li><a href="#" target="_blank" class="son-menu"><span class="mr5">◇</span>用户管理</a></li>
-                   			</ul>
-                   		</li>
-               		</ul>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_06.png"/></div>
-				  <span>配置配置</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_07.png"/></div>
-				  <span>后台首页</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_08.png"/></div>
-				  <span>安全退出</span>
-				 </a>
-				</li>
-				
-			  </ul>
-			</div>
-    </div>
-	</div>
-	</div>
-   </div>
-</div>
 
 <!--面包屑导航开始-->
-   <div class="margin-top-10 breadcrumbs ">
-      <div class="container">
-		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">评审专家管理</a></li><li><a href="#">不良专家名单管理</a></li><li class="active"><a href="#">不良专家名单</a></li>
-		   </ul>
-		<div class="clear"></div>
+	<div class="margin-top-10 breadcrumbs ">
+	  <div class="container">
+	    <ul class="breadcrumb margin-left-0">
+	      <li><a href="#"> 首页</a></li><li><a href="#">评审专家管理</a></li><li><a href="#">不良专家名单管理</a></li><li class="active"><a href="#">不良专家名单</a></li>
+	    </ul>
 	  </div>
-   </div>
-<!-- 搜索 -->
-		<form action="<%=basePath %>expert/queryBlacklist.html"  method="post" id="form1" enctype="multipart/form-data" class="registerform"> 
-		<input id="page_id" type="hidden" name="page" value="1">
-		<div align="center">
-        	<table>
-            	<tr>
-                	<td>
-                    	<span>姓名：</span><input type="text" name="relName"">
-                    </td>
-					<td>
-                      	<span>处罚方式:</span>
-							<select name="punishDate">
-								<option value="">请选择</option>
-	  							<option value="三个月">三个月</option>
-	  							<option value="半年">半年</option>
-	  							<option value="一年">一年</option>
-	  							<option value="两年">两年</option>
-	  							<option value="三年">三年</option>
-							 </select>
-                     </td>
-                     <td> 	
-                         <span >处罚时限：</span>
-							<select name="punishType">
-							  	<option value=''>-请选择-</option>
-							   	<option value="1">警告</option>
-							   	<option value="2">严重警告</option>
-							   	<option value="3">取消资格</option>
-							</select>
-					</td>
-					<td>
-                        <span class="input-group-btn">
-                          <input class="btn-u" name="commit" value="搜索" type="submit">
-                        </span>
-                    </td>
-                  </tr>
-               </table>
-            </div>
-		</form>
-   <!-- 表格开始-->
-   <div class="container">
-     <div class="col-md-8">
-     	<button class="btn btn-windows add" type="button" onclick="add();">新增</button>
-     	<button class="btn btn-windows edit" type="button" onclick="update();">修改</button>
-		<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
 	</div>
-   </div>
-   <div class="container margin-top-5">
-     <div class="content padding-left-25 padding-right-25 padding-top-5">
-        <table class="table table-bordered table-condensed">
-		<thead>
-		<tr>
-		  <th class="info w30"><input type="checkbox" onclick="selectAll();"  id="checkAll"></th>
-		  <th class="info w50">序号</th>
-		  <th class="info">姓名</th>
-		  <th class="info">入库时间</th>
-		  <th class="info">处罚日期</th>
-		  <th class="info">处罚时限</th>
-		  <th class="info">处罚方式</th>
-		  <th class="info">处罚理由</th>
-		</tr>
-		</thead>
-		<c:forEach items="${expertList}" var="e" >
-		<tr>
-		  <td class="tc w30"><input type="checkbox" value="${e.id }" name="chkItem" onclick="check()"></td>
-		  <td class="tc w50">1</td>
-		  <td class="tc">${e.relName }</td>
-		  <td class="tc"><fmt:formatDate type='date' value='${e.storageTime }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
-		  <td class="tc"><fmt:formatDate type='date' value='${e.dateOfPunishment }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
-		  <td class="tc">${e.punishDate }</td>
-		  <td class="tc">
-		   	<c:if test="${e.punishType == 1}">警告</c:if>
-			<c:if test="${e.punishType == 2}">严重警告</c:if>
-			<c:if test="${e.punishType == 3}">取消资格</c:if>
-		  </td>
-		  <td class="tc">${e.reason }</td>
-		</tr>
-		</c:forEach>
-        </table>
-     </div>
-   </div>
-<!--底部代码开始-->
-
+	<!-- 搜索 -->
+	<form action="<%=basePath %>expert/blacklist.html"  method="post" id="form1" enctype="multipart/form-data" class="registerform"> 
+	  <input type="hidden" name="page" id="page">
+	  <div align="center">
+	    <table>
+	      <tr>
+	        <td>
+	          <span>姓名：</span><input type="text" name="relName">
+	        </td>
+				  <td>
+	          <span>处罚方式:</span>
+	          <select name="punishDate">
+	            <option value="">请选择</option>
+								<option value="三个月">三个月</option>
+								<option value="半年">半年</option>
+								<option value="一年">一年</option>
+								<option value="两年">两年</option>
+								<option value="三年">三年</option>
+						</select>
+	        </td>
+	        <td> 	
+	          <span >处罚时限：</span>
+						<select name="punishType">
+	            <option value=''>-请选择-</option>
+						  <option value="1">警告</option>
+						  <option value="2">严重警告</option>
+						  <option value="3">取消资格</option>
+						</select>
+				  </td>
+				  <td>
+	          <span class="input-group-btn">
+	          <input class="btn-u" name="commit" value="搜索" type="submit">
+	          </span>
+	        </td>
+	      </tr>
+	    </table>
+	  </div>
+	</form>
+	<!-- 表格开始-->
+	<div class="container">
+	  <div class="col-md-8">
+	 	  <button class="btn btn-windows add" type="button" onclick="add();">新增</button>
+	    <button class="btn btn-windows edit" type="button" onclick="update();">修改</button>
+	    <button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
+	  </div>
+	</div>
+  <div class="container margin-top-5">
+    <div class="content padding-left-25 padding-right-25 padding-top-5">
+      <table class="table table-bordered table-condensed">
+        <thead>
+          <tr>
+						<th class="info w30"><input type="checkbox" onclick="selectAll();"  id="checkAll"></th>
+					  <th class="info w50">序号</th>
+					  <th class="info">姓名</th>
+					  <th class="info">入库时间</th>
+					  <th class="info">处罚日期</th>
+					  <th class="info">处罚时限</th>
+					  <th class="info">处罚方式</th>
+					  <th class="ino">处罚理由</th>
+          </tr>
+        </thead>
+         <c:forEach items="${expertList }" var="e" varStatus="s">
+	        <tr>
+	          <td class="tc w30"><input type="checkbox" value="${e.id }" name="chkItem" onclick="check()"></td>
+							<td class="tc w50">${s.count}</td>
+							<td class="tc">${e.relName }</td>
+							<td class="tc"><fmt:formatDate type='date' value='${e.storageTime }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
+							<td class="tc"><fmt:formatDate type='date' value='${e.dateOfPunishment }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
+							<td class="tc">${e.punishDate }</td>
+							<td class="tc">
+								<c:if test="${e.punishType == 1}">警告</c:if>
+								<c:if test="${e.punishType == 2}">严重警告</c:if>
+								<c:if test="${e.punishType == 3}">取消资格</c:if>
+							</td>
+	          <td class="tc">${e.reason }</td>
+	        </tr>
+        </c:forEach>
+      </table>
+      <div id="pagediv" align="right"></div>
+    </div>
+  </div>
 </body>
 </html>

@@ -19,11 +19,11 @@ public interface SupplierAuditServlice {
 	 * @Title: supplierList
 	 * @author Xu Qing
 	 * @date 2016-9-14 下午2:10:56  
-	 * @Description: 供应商列表 
+	 * @Description: 供应商列表,可条件查询
 	 * @param @return      
 	 * @return List<Supplier>
 	 */
-	public List<Supplier> supplierList();
+	public List<Supplier> supplierList(Supplier supplier,Integer page);
 	
 	/**
 	 * @Title: supplierById

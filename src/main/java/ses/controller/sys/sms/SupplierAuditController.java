@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.github.pagehelper.PageInfo;
+
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierFinance;
@@ -52,8 +54,9 @@ public class SupplierAuditController {
 	 * @return String
 	 */
 	@RequestMapping("supplierList")
-	public String supplierList(HttpServletRequest request) {
-		List<Supplier> supplierList =supplierAuditServlice.supplierList();
+	public String supplierList(HttpServletRequest request,Integer page,Supplier supplier) {
+		List<Supplier> supplierList =supplierAuditServlice.supplierList(supplier,page==null?1:page);
+		request.setAttribute("result", new PageInfo<>(supplierList));
 		request.setAttribute("supplierList", supplierList);
 		return "ses/sms/supplier_audit/supplier_list";
 	}

@@ -7,9 +7,12 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+
 import ses.dao.ems.ExpertBlackListMapper;
 import ses.model.ems.ExpertBlackList;
 import ses.service.ems.ExpertBlackListService;
+import ses.util.PropertiesUtil;
 
 /**
  * <p>Title:ExpertBlackListServiceImpl </p>
@@ -52,14 +55,25 @@ public class ExpertBlackListServiceImpl implements ExpertBlackListService{
 	 * @Title: findList
 	 * @author Xu Qing
 	 * @date 2016-9-8 下午2:42:58  
-	 * @Description: 查询黑名单 
+	 * @Description: 查询黑名单,可条件查询
 	 * @param @return      
 	 * @return List<ExpertBlackList>
 	 */
 	@Override
-	public List<ExpertBlackList> findAll() {
-		
-		return mapper.findList();
+	public List<ExpertBlackList> findAll(ExpertBlackList expertBlackList,Integer page) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		Map map = new HashMap();
+		if(expertBlackList!=null){
+			map.put("relName", expertBlackList.getRelName());
+			map.put("punishType", expertBlackList.getPunishType());
+			map.put("punishDate", expertBlackList.getPunishDate());
+		}else{
+			map.put("relName", null);
+			map.put("punishType", null);
+			map.put("punishDate", null);
+		}
+		return mapper.findList(map);
 	}
 	/**
 	 * @Title: findById
@@ -88,28 +102,6 @@ public class ExpertBlackListServiceImpl implements ExpertBlackListService{
 		mapper.deleteByPrimaryKey(id);
 		
 	}
-	/**
-	 * @Title: query
-	 * @author Xu Qing
-	 * @date 2016-9-12 下午3:22:31  
-	 * @Description: 条件查询 
-	 * @param @param expertBlackList
-	 * @param @return      
-	 * @return List<ExpertBlackList>
-	 */
-	@Override
-	public List<ExpertBlackList> query(ExpertBlackList expertBlackList) {
-		Map map = new HashMap();
-		if(expertBlackList!=null){
-			map.put("relName", expertBlackList.getRelName());
-			map.put("punishType", expertBlackList.getPunishType());
-			map.put("punishDate", expertBlackList.getPunishDate());
-		}else{
-			map.put("relName", null);
-			map.put("punishType", null);
-			map.put("punishDate", null);
-		}
-		return mapper.query(map);
-	}
+
 
 }

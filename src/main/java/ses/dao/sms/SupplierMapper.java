@@ -1,6 +1,7 @@
 package ses.dao.sms;
 
 import java.util.List;
+import java.util.Map;
 
 import ses.model.sms.Supplier;
 
@@ -90,15 +91,14 @@ public interface SupplierMapper {
 	
 	Supplier getSupplier(String id);
 	
-/************************************************供应商审核******************************************************/
 	/**
 	 * @Title: supplierList
 	 * @author Xu Qing
 	 * @date 2016-9-14 上午11:11:52  
-	 * @Description: 供应商列表 
+	 * @Description: 供应商列表 及条件查询
 	 * @param @return      
 	 * @return List<Supplier>
 	 */
-	List<Supplier> findSupplier();
+	List<Supplier> findSupplier(Map paramMap);
 	
 }

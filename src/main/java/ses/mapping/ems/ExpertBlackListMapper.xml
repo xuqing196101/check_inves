@@ -20,19 +20,12 @@
     PUNISH_DATE, REASON, CREATED_AT, UPDATED_AT, ATTACHMENT_CERT
   </sql>
   
-  <!-- 查询所有专家黑名单 -->
-  	<select id="findList"  resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from T_SES_EMS_EXPERT_BLACKLIST ORDER BY CREATED_AT DESC
-  </select>
-  
-  <!-- 条件查询 -->
-  <select id="query"   resultMap="BaseResultMap">
+  <!-- 查询所有专家黑名单及条件查询 -->
+  <select id="findList"   resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from T_SES_EMS_EXPERT_BLACKLIST 
-    where
+    where 
     	 1=1
        <if test="relName != null and relName !=''">  
               AND  REL_NAME like '%${relName}%'   
@@ -45,7 +38,6 @@
        </if> 
        ORDER BY CREATED_AT DESC 
   </select>
-  
   
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
