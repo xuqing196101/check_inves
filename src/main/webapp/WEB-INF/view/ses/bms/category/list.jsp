@@ -1,7 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ include file="../../common.jsp"%>
+<%@ include file="../../../common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -132,7 +132,13 @@
 	 			url:"<%=basePath%>category/rename.do?id="+treeNode.id+"&name="+newName,
 	 		});
 		} 
+		function read(){
+			window.location.href="<%=basePath%>category/read.do";
+		}
  		
+		function write(){
+			window.location.href="<%=basePath%>category/update.do?id="+treeid;
+		}
 	/*获取后台json列表展示*/
 	function getList(treeid){
 		$.ajax({
@@ -264,31 +270,31 @@
    </div>
    <div class="container">
 
-	<div id="ztree" class="ztree"></div>
-		<div class="">
+	<div id="ztree" class="ztree col-md-3"></div>
+		<div class="mt10">
 			<span id="add"><a href="javascript:void(0);" onclick="news()" class="btn btn-window ">新增 </a></span> 
 			<span><a href="javascript:void(0);" onclick="update()"  class="btn btn-window ">修改</a></span> 
 			<span><a href="javascript:void(0);" onclick="ros()"  class="btn btn-window ">激活/休眠</a></span>
 		
-			<span ><a href="javascript:void(0);" onclick="()"  class="btn btn-window ">导入</a></span>
-			<span ><a href="javascript:void(0);" onclick="()"  class="btn btn-window ">导出</a></span>
+			<span ><a href="javascript:void(0);" onclick="read()"  class="btn btn-window ">导入</a></span>
+			<span ><a href="javascript:void(0);" onclick="write()"  class="btn btn-window ">导出</a></span>
 			
 			
 		<form id="query_form">
 		<input id="parent_id" type="hidden" value=""/>
 	</form>
-		<table id="Result" >    
+		<table id="Result"  class="table table-bordered table-condensed  ">    
             <thead >
 			    <tr>
 			      <th ><input id="checkedAll" type="checkbox" name="checkedAll" onclick="selectAll()"/></th>
-				  <th class="tc">序号</th>
-				  <th class="tc">目录名称</th> 
-				  <th class="tc">父节点</th>
-				  <th class="tc">状态</th>
-				  <th class="tc">排序</th> 
-				  <th class="tc">编码</th> 
-				  <th class="tc">图片</th> 
-				  <th class="tc">描述 </th> 
+				  <th class="info w30">序号</th>
+				  <th class="info w50">目录名称</th> 
+				  <th class="info">父节点</th>
+				  <th class="info">状态</th>
+				  <th class="info">排序</th> 
+				  <th class="info">编码</th> 
+				  <th class="info">图片</th> 
+				  <th class="info">描述 </th> 
 				</tr>
 	  		</thead>  
 		<%-- <tr>

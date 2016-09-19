@@ -3,6 +3,7 @@ package ses.controller.sys.bms;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -134,7 +135,7 @@ public class CategoryController {
 	 * */
 	@RequestMapping("/get")
 	public String get(HttpServletRequest request){
-		return "category/ses/bms/list";
+		return "ses/bms/category/list";
 	}
 
 	/**
@@ -148,7 +149,7 @@ public class CategoryController {
     @RequestMapping("/add")
     public String addCategory(HttpServletRequest request,Model model,Category category){  
     	model.addAttribute("id",category.getId());
-        return "category/ses/bms/add";  
+        return "ses/bms/category/add";  
 		
 		
 	}
@@ -178,7 +179,7 @@ public class CategoryController {
 	}
 	  categoryService.insertSelective(category);
 	  upload(request,attaattach,category);
-	return "category/ses/bms/list";
+	return "ses/bms/category/list";
    }
    
    /**
@@ -235,7 +236,7 @@ public class CategoryController {
 	   Category cate=categoryService.selectByPrimaryKey(category.getId());
 	   
 	   model.addAttribute("category",cate);
-	return "category/ses/bms/edit";
+	return "ses/bms/category/edit";
    }
    /**
   	 * 
@@ -261,7 +262,7 @@ public class CategoryController {
 			category.setIsEnd("false");
 		}
 	  categoryService.updateByPrimaryKey(category);
-	return "category/ses/bms/list";
+	return "ses/bms/category/list";
    }
    
    /**
@@ -275,7 +276,7 @@ public class CategoryController {
    @RequestMapping("/rename")
    public String updateName(HttpServletRequest request,Category category){
 	   categoryService.updateByPrimaryKeySelective(category);
-	return "category/ses/bms/list";
+	return "ses/bms/category/list";
    }
    /**
 	 * 
@@ -314,7 +315,7 @@ public class CategoryController {
 		categoryService.updateByPrimaryKeySelective(cate);
 	}
 		
-	return "category/ses/bms/list";
+	return "ses/bms/category/list";
 	   
    }
    
@@ -329,8 +330,8 @@ public class CategoryController {
  * @throws FileNotFoundException 
       */ 
 	
-
-	public String read(Integer length) throws IOException {
+    @RequestMapping("/read")
+	public void read(Integer length) throws IOException {
 		   Workbook workbook;
 		   InputStream is = new FileInputStream(new File("D:\\add\\基础数据字典.xlsx"));
 			try {
@@ -344,29 +345,28 @@ public class CategoryController {
 				if(row==null){
 					continue;
 				}
+				Category category = new Category();
 				Cell queType = row.getCell(0);
 				if(length==null){
 					length=1;
 				}
 				if(queType.toString().length()==length){
-//					if(length!=1){
-//					List<Category> list=categoryService.readExcel();   
-//						for(Category cate:list){
-//							if(cate.getCode().length()==queType.toString().length()-2){//这个数据库的数据和queType的length-2的截取字符串对比 //查询语句lenngth-2;select  from category by 
-//									Category ca  = new Category();
-//									ca.setCode(queType.toString());
-//									ca.setParentId("");	
-//							}
-//						}
-//					}else{
-//						Category cate  = new Category();
-//						cate.setCode(queType.toString());
-//						cate.setParentId("0");
-//						//Category catego=categoryService.insertSelective();//插入语句
-//					}
+					if(length!=1){
+					List<Category> list=categoryService.readExcel(category);   
+					for(int k=0;k<list.size();k++){
+						if(list.get(k).equals(list.toString().substring(0, length-2))){//这个数据库的数据和queType的length-2的截取字符串对比 //查询语句lenngth-2;select  from category by 
+								category.setParentId(list.get(k).getId());
+						}
+					}
+			}else{
+					
+						category.setCode(queType.toString());
+					category.setParentId("0");
+					categoryService.insertSelective(category);//插入语句
+					}
 				}
 			}
-     return read(length+2);
+     read(length+2);
 	   }
 
     /** 
@@ -379,7 +379,7 @@ public class CategoryController {
     * @throws IOException 
     * @throws FileNotFoundException 
      */ 
-    public String writeExcel(){
+    public void writeExcel() throws IOException{
     	HSSFWorkbook wb = new HSSFWorkbook();
     	HSSFSheet sheet = wb.createSheet("采购目录表");
     	HSSFRow  row = sheet.createRow(0);
@@ -392,8 +392,22 @@ public class CategoryController {
     	cell.setCellValue("目录名称 ");
     	cell.setCellStyle(style);
     	//写入实体数据，从数据库得到
-    	
-		return null;
+    	List<Category> list = categoryService.selectAll();
+    	for (int i = 0; i < list.size(); i++) {
+			row = sheet.createRow(i+1);
+			Category cate =  list.get(i);
+			row.createCell(0).setCellValue(cate.getCode());
+			row.createCell(1).setCellValue(cate.getName());
+		}
+    	try {
+			FileOutputStream fout = new FileOutputStream("F:/category/xls");
+			wb.write(fout);
+			fout.close();
+		} catch (FileNotFoundException e) {
+			
+			e.printStackTrace();
+		}
+	
     	
     	
     	

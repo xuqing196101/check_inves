@@ -34,9 +34,10 @@ public class CategoryServiceImpl implements CategoryService {
 
 
 
-	public void insertSelective(Category category) {
+	public Category insertSelective(Category category) {
 		
-		 categoryMapper.insertSelective(category);
+		return categoryMapper.insertSelective(category);
+		
 	}
 
 
@@ -99,9 +100,11 @@ public class CategoryServiceImpl implements CategoryService {
 
 
 
-	
-	
 
-	
+	@Override
+	public List<Category> selectAll() {
+		// TODO Auto-generated method stub
+		return categoryMapper.selectAll();
+	}
 
 }

@@ -32,6 +32,14 @@ import ses.model.bms.Category;
 	* @param @param list<Category>
 	*/
     public List<Category> readExcel(Category category);
+    /**   
+	* @Title: selectAll
+	* @author zhangxuefeng
+	* @date 2016-7-27 下午4:52:29  
+	* @Description:获取所有数据
+	* @param @param list<Category>
+	*/
+	public List<Category> selectAll();
 	/**   
 	* @Title: insertsertSelective
 	* @author zhangxuefeng
@@ -40,7 +48,7 @@ import ses.model.bms.Category;
 	* @param @param category
 	* 
 	*/
-	public void insertSelective(Category category);
+	public Category insertSelective(Category category);
 	
 	/**
 	 * 
@@ -100,4 +108,5 @@ import ses.model.bms.Category;
 	* @return void
 	 */
 	public void updateByPrimaryKeySelective(Category category);
+	
 }

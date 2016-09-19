@@ -17,13 +17,22 @@ import ses.model.bms.Category;
 public interface CategoryMapper {
 
 	/**   
-	* @Title: selectAll
+	* @Title: listByParent
 	* @author zhangxuefeng
 	* @date 2016-7-27 下午4:52:29  
 	* @Description: 根据pid获取所有子栏目
 	* @param @param list<Category>
 	*/
 	public List<Category> listByParent(String pid);
+	
+	/**   
+	* @Title: selectAll
+	* @author zhangxuefeng
+	* @date 2016-7-27 下午4:52:29  
+	* @Description:获取所有数据
+	* @param @param list<Category>
+	*/
+	public List<Category> selectAll();
 	
 
 	/**   
@@ -42,7 +51,7 @@ public interface CategoryMapper {
 	* @param @param category
 	* 
 	*/
-	public void insertSelective(Category category);
+	public Category insertSelective(Category category);
 	/**
 	 * 
 	* @Title: findTreeByPid

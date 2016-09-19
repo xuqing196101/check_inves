@@ -1,6 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ include file="../../../common.jsp"%>
+<%@ include file="/WEB-INF/view/common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -16,7 +16,25 @@
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
+    <script type="text/javascript">
+	function cheClick(id,name){
+		$("#articleTypeId").val(id);
+		$("#articleTypeName").val(name);
+	}
+	
+	function addAttach(){
+		html="<input id='pic' type='file' class='toinline' name='attaattach'/><a href='#' onclick='deleteattach(this)' class='toinline'>x</a><br/>";
+		$("#uploadAttach").append(html);
+	}
+	
+	function deleteattach(obj){
+		$(obj).prev().remove();
+		$(obj).next().remove();
+		$(obj).remove();
+	}
 
+
+</script>
   </head>
   
   <body>
