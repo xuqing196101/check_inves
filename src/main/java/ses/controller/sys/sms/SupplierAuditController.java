@@ -156,12 +156,26 @@ public class SupplierAuditController {
 	 * @Title: auditReasons
 	 * @author Xu Qing
 	 * @date 2016-9-18 下午5:55:44  
-	 * @Description: 审核记录 
+	 * @Description: 记录审核原因
 	 * @param @param supplierAudit      
 	 * @return void
 	 */
 	@RequestMapping("auditReasons")
 	public void auditReasons(SupplierAudit supplierAudit){
-		supplierAuditServlice.auditReasons(supplierAudit);
+		/*supplierAuditServlice.auditReasons(supplierAudit);*/
+	}
+	
+	/**
+	 * @Title: reasonsList
+	 * @author Xu Qing
+	 * @date 2016-9-20 上午9:44:58  
+	 * @Description: 审核问题汇总 
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping("reasonsList")
+	public String reasonsList(){
+		/*supplierAuditServlice.auditReasons(supplierAudit);*/
+		return "ses/sms/supplier_audit/audit_reasons";
 	}
 }

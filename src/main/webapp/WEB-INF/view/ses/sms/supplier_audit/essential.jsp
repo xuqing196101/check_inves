@@ -116,7 +116,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <script type="text/javascript">
 function reason(id){
-alert(id);
   var id1=id+"1";
   var id2=id+"2";
   var supplierName=$("#"+id2+"").text().replaceAll("＊","");
@@ -160,7 +159,7 @@ function tijiao(status){
 				    <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >服务-专业信息</a></li>
 				    <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" >品目信息</a></li>
 				    <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >产品信息</a></li>
-				    <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" >审核汇总</a></li>
+				    <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="location='<%=basePath%>supplierAudit/reasonsList.html'">审核汇总</a></li>
           </ul>
             <div class="tab-content padding-top-20" style="height:1500px;">
               <div class="tab-pane fade active in height-450" id="tab-1">
