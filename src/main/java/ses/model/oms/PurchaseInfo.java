@@ -2,12 +2,14 @@ package ses.model.oms;
 
 import java.util.Date;
 
-public class PurchaseInfo {
+import ses.model.bms.User;
+
+public class PurchaseInfo extends User{
     private String id;
 
-    private Integer sex;
+   // private Integer gender;//父类继承
 
-    private String ethnic;
+    private String nation;
 
     private String purchaseDepId;
 
@@ -53,6 +55,10 @@ public class PurchaseInfo {
     private String workExperience;
 
     private String trainExperience;
+    
+    private Date quaStartDate;
+    private Integer isDeleted; 
+    private String userId;//用户id
 
     public String getId() {
         return id;
@@ -62,21 +68,7 @@ public class PurchaseInfo {
         this.id = id == null ? null : id.trim();
     }
 
-    public Integer getSex() {
-        return sex;
-    }
-
-    public void setSex(Integer sex) {
-        this.sex = sex;
-    }
-
-    public String getEthnic() {
-        return ethnic;
-    }
-
-    public void setEthnic(String ethnic) {
-        this.ethnic = ethnic == null ? null : ethnic.trim();
-    }
+    
 
     public String getPurchaseDepId() {
         return purchaseDepId;
@@ -260,4 +252,40 @@ public class PurchaseInfo {
     public void setTrainExperience(String trainExperience) {
         this.trainExperience = trainExperience == null ? null : trainExperience.trim();
     }
+
+	
+
+	
+	public String getNation() {
+		return nation;
+	}
+
+	public void setNation(String nation) {
+		this.nation = nation;
+	}
+
+	public Date getQuaStartDate() {
+		return quaStartDate;
+	}
+
+	public void setQuaStartDate(Date quaStartDate) {
+		this.quaStartDate = quaStartDate;
+	}
+
+	public Integer getIsDeleted() {
+		return isDeleted;
+	}
+
+	public void setIsDeleted(Integer isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+    
 }

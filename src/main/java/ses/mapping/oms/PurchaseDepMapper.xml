@@ -43,8 +43,23 @@
 		       d.IS_DELETED   as isDeleted,
 		       d.UPDATED_AT   as updatedAt,
 		       d.CREATED_AT   as createdAt,
-		       d.ORG_ID       as orgId
+		       d.ORG_ID       as orgId,
+		       o.NAME         as name,
+		       o.SHORT_NAME   as shortName,
+		       o.ORG_CODE     as orgCode,
+		       CONCAT(a.name, b.name) as areaName,
+		       d.DUTY_ROOM_PHONE  as dutyRoomPhone,
+		       a.id               as provinceId,
+		       a.name             as provinceName,
+		       b.id               as cityId,
+		       b.name             as cityName,
+		       nvl(d.IS_AUDIT_SUPPLIER,0) as isAuditSupplier,
+		       d.QUA_START_DATE    as quaStartDate,
+		       d.QUA_STATUS        as quaStatus
 		  from T_SES_OMS_PURCHASE_DEP     d
+		  LEFT JOIN T_SES_OMS_ORG o on d.ORG_ID = o.id
+		  LEFT JOIN T_SES_BMS_AREA a on o.province_id=a.id
+		  LEFT JOIN T_SES_BMS_AREA b on o.city_id=b.id
 		 where nvl(d.is_deleted,0)=0
 		 <if test="id != null and id != ''">
 			and d.id= #{id}
@@ -77,7 +92,9 @@
 		  CONTACT_ADDRESS,UNIT_POST_CODE,PAY_DEP,
 		  BANK,BANK_ACCOUNT,OFFICE_AREA,
 		  OFFICE_COUNT,METTING_ROOM_COUNT,INVITE_ROOM_COUNT,
-		  BID_ROOM_COUNT,CREATED_AT,ORG_ID
+		  BID_ROOM_COUNT,CREATED_AT,ORG_ID,
+		  IS_AUDIT_SUPPLIER,DUTY_ROOM_PHONE,
+		  QUA_START_DATE,QUA_STATUS
           )
 		values(
 	      #{id},#{level,jdbcType=VARCHAR},
@@ -93,7 +110,8 @@
 		  #{payDep,jdbcType=VARCHAR},#{bank,jdbcType=VARCHAR},#{bankAccount,jdbcType=VARCHAR},
 		  #{officeArea,jdbcType=NUMERIC},#{officeCount,jdbcType=NUMERIC},#{mettingRoomCount,jdbcType=NUMERIC},
 		  #{inviteRoomCount,jdbcType=NUMERIC},#{bidRoomCount,jdbcType=NUMERIC},sysdate,
-		  #{orgId,jdbcType=VARCHAR}
+		  #{orgId,jdbcType=VARCHAR},#{isAuditSupplier,jdbcType=NUMERIC},#{dutyRoomPhone,jdbcType=VARCHAR},
+		  #{quaStartDate,jdbcType=TIMESTAMP },1
 		 )
 	</insert>
 </mapper>

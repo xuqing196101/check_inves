@@ -22,7 +22,6 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 
-import ses.model.bms.StationMessage;
 import ses.model.oms.Deparent;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
@@ -297,10 +296,16 @@ public class PurchaseManageController {
 		model.addAttribute("purchaseDepList",purchaseDepList);
 
 		//分页标签
-		String pagesales = CommUtils.getTranslation(page,"sales/SaleIndexList.do");
+		String pagesales = CommUtils.getTranslation(page,"purchaseManage/purchaseUnitList.do");
 		model.addAttribute("pagesql", pagesales);
 		model.addAttribute("purchaseDep", purchaseDep);
 		return "ses/oms/purchase_dep/list";
+	}
+	/**
+	 */
+	@RequestMapping("addPurchaseDep")
+	public String addPurchaseDep() {
+		return "ses/oms/purchase_dep/add";
 	}
 	//-----------------------------------------------------基本get()/set()--------------------------------------------------
 	public AjaxJsonData getJsonData() {

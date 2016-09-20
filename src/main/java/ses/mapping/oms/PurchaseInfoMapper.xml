@@ -1,4 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ses.dao.oms.PurchaseInfoMapper">
+	 <!-- 根据条件查部 采购机构-->
+	<select id="findPurchaseList" parameterType="java.util.Map" resultType="ses.model.oms.PurchaseInfo">
+			   select d.id  as id,
+		       d.GENDER       as gender,
+		       d.NATION       as nation,
+		       d.PURCHASE_DEP_ID     as purchaseDepId,
+		       d.POLITICAL         as political,
+		       d.PURCAHSER_TYPE       as purcahserType,
+		       d.BIRTH_AT       as birthAt,
+		       d.AREA         as area,
+		       d.PROVINCE_ID      as provinceId,
+		       d.CITY_ID    as cityId,
+		       d.TOWN_ID  as townId,
+		       d.DETAIL_ADDR   as detailAddr,
+		       d.ID_CARD as idCard,
+		       d.PROFESSIONAL   as professional,
+		       d.TOP_STUDY   as topStudy,
+		       d.GRADUATE_SCHOOL   as graduateSchool,
+		       d.WORK_EXPERIENCE   as workExperience,
+		       d.TRAIN_EXPERIENCE   as trainExperience,
+		       d.QUA_CODE   as quaCode,
+		       d.QUA_LEVEL   as quaLevel,
+		       d.QUA_EDNDATE   as quaEdndate,
+		       d.QUA_CERT   as quaCert,
+		       d.QUA_RANK   as quaRank,
+		       d.FAX   as fax,
+		       d.ADDRESS   as address,
+		       d.POST_CODE   as postCode,
+		       d.QUA_START_DATE   as quaStartDate,
+		       o.name    as  name,
+		       u.id      as  userId,
+		       u.REL_NAME as relName
+		  from T_SES_OMS_PURCHASER     d
+		  LEFT JOIN T_SES_OMS_PURCHASE_DEP p on d.PURCHASE_DEP_ID = p.id
+		  LEFT JOIN T_SES_OMS_ORG o on o.id = p.ORG_ID
+		  LEFT JOIN	T_SES_BMS_USER u on d.user_id = u.id
+		 where nvl(d.is_deleted,0)=0
+		 <if test="id != null and id != ''">
+			and d.id= #{id}
+		</if>
+		 <if test="pid != null and pid != ''">
+			and d.PARENT_ID= #{pid}
+		</if>
+		<!-- 根据采购机构名称id查询 -->
+		<if test="purchaseDepId != null and purchaseDepId != ''">
+			and p.ID= #{purchaseDepId}
+		</if>
+		<!-- 根据用户表真实姓名查询 -->
+		<if test="relName != null and relName != ''">
+			and u.REL_NAME= #{relName}
+		</if> 
+	</select>
+	<!-- 保存采购机构 -->
+	<insert id="savePurchase" parameterType="ses.model.oms.PurchaseInfo">
+		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			select rawtohex(sys_guid()) as VALUE from dual
+		</selectKey>
+		insert into T_SES_OMS_PURCHASE_DEP
+		 (ID,LEVEL,SUBORDINATE_ORG_ID,
+		  SUBORDINATE_ORG__NAME,BUSINESS_DEP,BUSINESS_DEP_ID,
+		  BUSINESS_RANGE,QUA_CODE,QUA_LEVEL,
+		  QUA_EDNDATE,QUA_RANGE,QUA_CERT,
+		  LEADER_TELEPHONE,OFFICER_COUNTNUM,OFFICER_NOW_COUNTS,
+		  SOLDIER_NUM,SOLDIER_NOW_COUNTS,STAFF_NUM,
+		  STAFF_NOW_COUNTS,PURCHASERS_COUNT,JUNIOR_PUR_COUNT,
+		  SENIOR_PUR_COUNT,DEP_NAME,LEGAL,
+		  AGENT,CONTACT,CONTACT_TELEPHONE,
+		  CONTACT_ADDRESS,UNIT_POST_CODE,PAY_DEP,
+		  BANK,BANK_ACCOUNT,OFFICE_AREA,
+		  OFFICE_COUNT,METTING_ROOM_COUNT,INVITE_ROOM_COUNT,
+		  BID_ROOM_COUNT,CREATED_AT,ORG_ID,
+		  IS_AUDIT_SUPPLIER,DUTY_ROOM_PHONE,
+		  QUA_START_DATE,QUA_STATUS
+          )
+		values(
+	      #{id},#{level,jdbcType=VARCHAR},
+		  #{subordinateOrgId,jdbcType=VARCHAR},#{subordinateOrgName,jdbcType=VARCHAR},#{businessDep,jdbcType=VARCHAR},
+		  #{businessDepId,jdbcType=VARCHAR},#{businessRange,jdbcType=VARCHAR},#{quaCode,jdbcType=VARCHAR},
+		  #{quaLevel,jdbcType=VARCHAR},#{quaEdndate,jdbcType=TIMESTAMP },#{quaRange,jdbcType=NUMERIC},
+		  #{quaCert,jdbcType=VARCHAR},#{leaderTelephone,jdbcType=VARCHAR},#{officerCountnum,jdbcType=NUMERIC},
+		  #{officerNowCounts,jdbcType=NUMERIC},#{soldierNum,jdbcType=NUMERIC},#{soldierNowCounts,jdbcType=NUMERIC},
+		  #{staffNum,jdbcType=NUMERIC},#{staffNowCounts,jdbcType=NUMERIC},#{purchasersCount,jdbcType=NUMERIC},
+		  #{juniorPurCount,jdbcType=NUMERIC},#{seniorPurCount,jdbcType=NUMERIC},#{depName,jdbcType=VARCHAR},
+		  #{legal,jdbcType=VARCHAR},#{agent,jdbcType=VARCHAR},#{contact,jdbcType=VARCHAR},
+		  #{contactTelephone,jdbcType=VARCHAR},#{contactAddress,jdbcType=VARCHAR},#{unitPostCode,jdbcType=NUMERIC},
+		  #{payDep,jdbcType=VARCHAR},#{bank,jdbcType=VARCHAR},#{bankAccount,jdbcType=VARCHAR},
+		  #{officeArea,jdbcType=NUMERIC},#{officeCount,jdbcType=NUMERIC},#{mettingRoomCount,jdbcType=NUMERIC},
+		  #{inviteRoomCount,jdbcType=NUMERIC},#{bidRoomCount,jdbcType=NUMERIC},sysdate,
+		  #{orgId,jdbcType=VARCHAR},#{isAuditSupplier,jdbcType=NUMERIC},#{dutyRoomPhone,jdbcType=VARCHAR},
+		  #{quaStartDate,jdbcType=TIMESTAMP },1
+		 )
+	</insert>
 </mapper>

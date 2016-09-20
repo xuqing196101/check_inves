@@ -8,7 +8,7 @@
 <head>
 <base href="<%=basePath%>">
 
-<title>采购机构查询列表</title>
+<title>采购机构人员列表</title>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -123,83 +123,110 @@
 				<li><a href="#"> 首页</a></li>
 				<li><a href="#">支撑系统</a></li>
 				<li><a href="#">后台管理</a></li>
-				<li class="active"><a href="#">采购机构管理</a></li>
+				<li class="active"><a href="#">采购人管理</a></li>
 			</ul>
 			<div class="clear"></div>
 		</div>
 	</div>
 	<div class="container">
 		<div class="headline-v2">
-			<h2>采购机构管理列表</h2>
+			<h2>采购机构人员列表</h2>
+			<div class="mt15">
+				<form id="query_form_id" class="mt0"
+					action="${pageContext.request.contextPath}/purchase/list.do"
+					method="post">
+					<input id="page_id" type="hidden" name="page" value="1"> 
+					<span>采购人姓名：</span>
+					<input type="text" class="query_input ww12" name="depName"
+						value="${requestScope.depName}">
+					<span class="ml10">上级采购机构：</span>
+					<select class="select_opt ww12" name="status">
+						<option value="-1">全部</option>
+						<option value="0">机构 1</option>
+						<option value="1">机构 1</option>
+						<option value="2">机构 1</option>
+					</select>
+					<span class="ml10">人员类型：</span>
+					<select class="select_opt ww12" name="status">
+						<option value="-1">全部</option>
+						<option value="0">军人</option>
+						<option value="1">文职</option>
+						<option value="2">职工</option>
+						<option value="3">战士</option>
+					</select> <input id="sub" type="submit" value="查询" class="input_btn orange" />
+					<input id="sub" type="button" value="重置" class="input_btn orange"
+						onclick="resetForm()" />
+				</form>
+			</div>
 		</div>
 	</div>
 	<!-- 表格开始-->
 	<div class="container">
-		<form id="findform" action="${pageContext.request.contextPath}/purchaseManage/purchaseUnitList。do" method="post">
-			<div class="topFormArea">
-				<p>
-					<span>上级监管部门：</span><select name="monitor_dep_name" id="monitor_dep_id"></select>
-					<span>名称：</span><input name="name" id="name" value="${purchaseDep.name}"></input>
-					<span>等级：</span><input name="levelDep" id="levelDep" value="${purchaseDep.levelDep}"></input>
-					<a  id="findbtn" class="searchBtn">查询</a>
-				</p>
-				<br/>
-				<div class="clearfloat"></div>
-			</div>
-		</form>
+		<div class="col-md-8">
+			<button class="btn btn-windows add" type="button" onclick="add()">新增</button>
+			<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
+			<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
+		</div>
 	</div>
 
 	<div class="container margin-top-5 list">
 		<div class="content padding-left-25 padding-right-25 padding-top-5">
-				<div class="col-md-88">
-					<button class="btn btn-windows edit fr" type="button" onclick="over()">资质终止</button>
-					<button class="btn btn-windows edit fr" type="button" onclick="stash()">资质暂停</button>
-					<button class="btn btn-windows add fr" type="button" onclick="purchaseManage()">采购人员管理</button>
-					<button class="btn btn-windows git fr" type="button" onclick="show()">查看</button>
-					<button class="btn btn-windows delete fr" type="button" onclick="del();">删除</button>
-					<button class="btn btn-windows edit fr" type="button" onclick="edit()">修改</button>
-					<button class="btn btn-windows add fr" type="button" onclick="add()">新增</button>
-					<input id="parentid" type="hidden"/>
-			    </div>
 				<table class="table table-bordered table-condensed">
 					<thead>
 						<tr>
 							<th class="info w30"><input id="checkAll" type="checkbox"
 								onclick="selectAll()" /></th>
 							<th class="info w50">序号</th>
-							<th class="info">采购机构名称</th>
-							<th class="info">邮编</th>
-							<th class="info">单位地址</th>
-							<th class="info">采购业务范围</th>
-							<th class="info">采购资质编号</th>
-							<th class="info">采购业务等级</th>
-							<th class="info">采购资质范围</th>
+							<th class="info">姓名</th>
+							<th class="info">所属采购机构</th>
+							<th class="info">类型</th>
+							<th class="info">性别</th>
+							<th class="info">年龄</th>
+							<th class="info">职务</th>
+							<th class="info">职称</th>
+							<th class="info">等级</th>
+							<th class="info">学历</th>
+							<th class="info">电话</th>
+							<th class="info">资质证书类型</th>
+							<th class="info">证书编号</th>
 						</tr>
 					</thead>
-					<c:forEach items="${purchaseDepList}" var="p"
-						varStatus="vs">
-						<tr class="cursor">
-							<!-- 选择框 -->
-							<td onclick="null" class="tc"><input onclick="check()"
-								type="checkbox" name="chkItem" value="${p.id}" /></td>
-							<!-- 序号 -->
-							<td class="tc" onclick="show('${p.id}');">${vs.index+1}</td>
-							<!-- 标题 -->
-							<td class="tc" onclick="show('${p.id}');">${p.name}</td>
-							<!-- 内容 -->
-							<td class="tc" onclick="show('${p.id}');">${p.postCode}</td>
-							<!-- 创建人-->
-							<td class="tc" onclick="show('${p.id}');">${p.address}</td>
-							<!-- 是否发布 -->
-							<td class="tc" onclick="show('${p.id}');">${p.businessRange}</td>
+					<tbody>
+						<c:forEach items="${purchaseDepList}" var="p"
+							varStatus="vs">
+							<tr class="cursor">
+								<!-- 选择框 -->
+								<td onclick="null" class="tc"><input onclick="check()"
+									type="checkbox" name="chkItem" value="${p.id}" /></td>
+								<!-- 序号 -->
+								<td class="tc" onclick="show('${p.id}');">${vs.index+1}</td>
+								<!-- 标题 -->
+								<td class="tc" onclick="show('${p.id}');">${p.name}</td>
+								<!-- 内容 -->
+								<td class="tc" onclick="show('${p.id}');">${p.postCode}</td>
+								<!-- 创建人-->
+								<td class="tc" onclick="show('${p.id}');">${p.address}</td>
 								<!-- 是否发布 -->
-							<td class="tc" onclick="show('${p.id}');">${p.quaCode}</td>
+								<td class="tc" onclick="show('${p.id}');">${p.businessRange}</td>
+									<!-- 是否发布 -->
+								<td class="tc" onclick="show('${p.id}');">${p.quaCode}</td>
+									<!-- 是否发布 -->
+								<td class="tc" onclick="show('${p.id}');">${p.quaLevel}</td>
+									<!-- 是否发布 -->
+								<td class="tc" onclick="show('${p.id}');">${p.quaRange}</td>
+									<!-- 创建人-->
+								<td class="tc" onclick="show('${p.id}');">${p.address}</td>
 								<!-- 是否发布 -->
-							<td class="tc" onclick="show('${p.id}');">${p.quaLevel}</td>
-								<!-- 是否发布 -->
-							<td class="tc" onclick="show('${p.id}');">${p.quaRange}</td>
-						</tr>
-					</c:forEach>
+								<td class="tc" onclick="show('${p.id}');">${p.businessRange}</td>
+									<!-- 是否发布 -->
+								<td class="tc" onclick="show('${p.id}');">${p.quaCode}</td>
+									<!-- 是否发布 -->
+								<td class="tc" onclick="show('${p.id}');">${p.quaLevel}</td>
+									<!-- 是否发布 -->
+								<td class="tc" onclick="show('${p.id}');">${p.quaRange}</td>
+							</tr>
+						</c:forEach>
+					</tbody>
 				</table>
 		</div>
 		<!-- <div id="pagediv" align="right"></div> -->

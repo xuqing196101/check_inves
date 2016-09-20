@@ -54,7 +54,13 @@ public class Orgnization {
     private String describtion;
     
     private String email;
-
+    
+    private String provinceId;
+    private String cityId;
+    private String townId;
+    private String provinceName;//区域  省名称
+    private String cityName;
+    private String townName;
     public String getId() {
         return id;
     }
@@ -263,6 +269,54 @@ public class Orgnization {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getProvinceId() {
+		return provinceId;
+	}
+
+	public void setProvinceId(String provinceId) {
+		this.provinceId = provinceId;
+	}
+
+	public String getCityId() {
+		return cityId;
+	}
+
+	public void setCityId(String cityId) {
+		this.cityId = cityId;
+	}
+
+	public String getTownId() {
+		return townId;
+	}
+
+	public void setTownId(String townId) {
+		this.townId = townId;
+	}
+
+	public String getProvinceName() {
+		return provinceName;
+	}
+
+	public void setProvinceName(String provinceName) {
+		this.provinceName = provinceName;
+	}
+
+	public String getCityName() {
+		return cityName;
+	}
+
+	public void setCityName(String cityName) {
+		this.cityName = cityName;
+	}
+
+	public String getTownName() {
+		return townName;
+	}
+
+	public void setTownName(String townName) {
+		this.townName = townName;
 	}
     
 }
