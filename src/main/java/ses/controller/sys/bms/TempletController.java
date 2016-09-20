@@ -132,7 +132,7 @@ public class TempletController {
 	 * @Title: view
 	 * @author Liyi 
 	 * @date 2016-9-6 下午1:36:40  
-	 * @Description:
+	 * @Description:跳转查看页面
 	 * @param:     
 	 * @return:
 	 */

@@ -137,6 +137,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				 </a>
 				</li>
 			    <li class="dropdown">
+<<<<<<< Updated upstream
 				<a ria-expanded="false" data-toggle="dropdown" class="dropdown-toggle p0_30 " href="">
 				  <div><img src="<%=basePath%>public/ZHH/images/top_03.png"/></div>
 				  <span>障碍作业</span>
@@ -152,6 +153,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                    		 
                		</ul>
                		
+=======
+					<a aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle p0_30 " href="">
+				  		<div><img src="<%=basePath%>public/ZHH/images/top_03.png"/></div>
+				  		<span>障碍作业</span>
+				 	</a>
+				 	<ul class="dropdown-menu">
+                   		<li class="line-block">
+                   			<a href="" target="home" class="son-menu"><span class="mr5">◇</span>产品质量管理</a>
+                   			<ul class="dropdown-menuson dropdown-menu">
+                   				<li><a href="<%=basePath%>pqinfo/getAll.html" target="home" class="son-menu"><span class="mr5">◇</span>质量结果登记</a></li>
+                   			</ul>
+                   		</li>
+               		</ul>
+>>>>>>> Stashed changes
 				</li>	
 				
 			    <li class="dropdown">
