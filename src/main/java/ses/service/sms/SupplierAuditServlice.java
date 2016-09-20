@@ -23,7 +23,7 @@ public interface SupplierAuditServlice {
 	 * @param @return      
 	 * @return List<Supplier>
 	 */
-	public List<Supplier> supplierList(Supplier supplier,Integer page);
+	 List<Supplier> supplierList(Supplier supplier,Integer page);
 	
 	/**
 	 * @Title: supplierById
@@ -62,9 +62,19 @@ public interface SupplierAuditServlice {
 	 * @Title: auditReasons
 	 * @author Xu Qing
 	 * @date 2016-9-18 下午5:51:55  
-	 * @Description: 审核记录
+	 * @Description: 记录审核原因
 	 * @param @param supplierAudit      
 	 * @return void
 	 */
-	public void auditReasons (SupplierAudit supplierAudit);
+	void auditReasons (SupplierAudit supplierAudit);
+	
+	/**
+	 * @Title: findAll
+	 * @author Xu Qing
+	 * @date 2016-9-20 上午10:08:44  
+	 * @Description: 查询所有审核记录 
+	 * @param @return      
+	 * @return List<SupplierAudit>
+	 */
+	List<SupplierAudit> findAll();
 }

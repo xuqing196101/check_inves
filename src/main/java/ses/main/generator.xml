@@ -4,7 +4,7 @@
 	<!-- 数据库驱动包位置 -->
 	<!--  <classPathEntry location="D:\AAS-V9.0.SP4\lib\mysql-connector-java-5.1.38-bin.jar" /> -->
 	<!-- <classPathEntry location="G:\repository\com\oracle\ojdbc14\10.2.0.4.0\ojdbc14-10.2.0.4.0.jar" /> -->
-	<classPathEntry location="E:\repository\com\oracle\ojdbc14\10.2.0.4.0\ojdbc14-10.2.0.4.0.jar" />
+	<classPathEntry location="E:\work4MyEclipse\jdcg\zhbj\target\zhbj\WEB-INF\lib\ojdbc14-10.2.0.4.0.jar" />
 	<context id="DB2Tables" targetRuntime="MyBatis3">
 	<!-- <context id="MySqlTables" targetRuntime="Ibatis2Java5">
 	<context id="OracleTables" targetRuntime="MyBatis3"> -->
@@ -13,35 +13,34 @@
 		</commentGenerator>
 		<!-- 数据库链接URL、用户名、密码 -->
 		 <!-- <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/zhbj" userId="root" password="ROOT">  -->
-		<jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver" connectionURL="jdbc:oracle:thin:@192.168.1.153:1521:orcl" userId="JDCG" password="JDCG">
+		<jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver" connectionURL="jdbc:oracle:thin:@192.168.1.200:1521:orcl" userId="JDCG" password="JDCG">
 		</jdbcConnection>
 		<javaTypeResolver>
 			<property name="forceBigDecimals" value="false" />
 		</javaTypeResolver>
 		<!-- 生成模型的包名和位置 -->
 		<!-- <javaModelGenerator targetPackage="ses.model.ems" targetProject="D:\WORKproject\jdcg\jdcg\src\main\java"> -->
-		<javaModelGenerator targetPackage="ses.model.prms" targetProject="E:\workspace_zh\src\main\java">
+		<javaModelGenerator targetPackage="ses.model.sms" targetProject="E:\work4MyEclipse\jdcg\zhbj\src\main\java">
 			<property name="enableSubPackages" value="true" />
 			<property name="trimStrings" value="true" />
 		</javaModelGenerator>
 		<!-- 生成的映射文件包名和位置 -->
-		<sqlMapGenerator targetPackage="ses.mapping.prms" targetProject="E:\workspace_zh\src\main\java">
+		<!-- <sqlMapGenerator targetPackage="ses.mapping.ems" targetProject="E:\work4MyEclipse\jdcg\zhbj\src\main\java">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator> -->
+		<!-- 生成DAO的包名和位置 -->
+		<!-- <javaClientGenerator type="XMLMAPPER" targetPackage="ses.dao.ems" targetProject="D:\WORKproject\jdcg\jdcg\src\main\java"> -->
+		<sqlMapGenerator targetPackage="ses.mapping.sms" targetProject="E:\work4MyEclipse\jdcg\zhbj\src\main\java">
 			<property name="enableSubPackages" value="true" />
 		</sqlMapGenerator>
 		<!-- 生成DAO的包名和位置 -->
-		<javaClientGenerator type="XMLMAPPER" targetPackage="ses.dao.prms" targetProject="E:\workspace_zh\src\main\java"> -->
-		<sqlMapGenerator targetPackage="ses.mapping.oms" targetProject="E:\workspace_zh\src\main\java">
-			<property name="enableSubPackages" value="true" />
-		</sqlMapGenerator>
-		<!-- 生成DAO的包名和位置 -->
-		<javaClientGenerator type="XMLMAPPER" targetPackage="ses.dao.prms" targetProject="E:\workspace_zh\src\main\java">
+		<javaClientGenerator type="XMLMAPPER" targetPackage="ses.dao.sms" targetProject="E:\work4MyEclipse\jdcg\zhbj\src\main\java">
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 		<!-- 要生成那些表(更改tableName和domainObjectName就可以) -->
-		<!-- 评审专家信息表 -->
-		<table tableName="T_SES_PRMS_PRODUCT_PARAM" domainObjectName="ProductParam" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />
 		
-		<table tableName="T_SES_PRMS_PRODUCT_PARAM_VALUE" domainObjectName="ProductParamValue" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />
+		<table tableName="T_SES_SMS_SUPPLIER_AUDIT" domainObjectName="SupplierAudit" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />
+		
 		
 		
 	</context>

@@ -4,15 +4,18 @@
   <resultMap id="BaseResultMap" type="ses.model.sms.SupplierAudit">
     <id column="ID" jdbcType="VARCHAR" property="id" />
     <result column="SUGGEST" jdbcType="VARCHAR" property="suggest" />
-    <result column="SUGGEST_TYPE" jdbcType="VARCHAR" property="suggestType" />
+    <result column="AUDIT_TYPE" jdbcType="VARCHAR" property="auditType" />
     <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
     <result column="SUPPLIER_ID" jdbcType="VARCHAR" property="supplierId" />
     <result column="STATUS" jdbcType="DECIMAL" property="status" />
     <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
     <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+    <result column="AUDIT_FIELD" jdbcType="VARCHAR" property="auditField" />
+    <result column="AUDIT_CONTENT" jdbcType="VARCHAR" property="auditContent" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, SUGGEST, SUGGEST_TYPE, USER_ID, SUPPLIER_ID, STATUS, CREATED_AT, UPDATED_AT
+    ID, SUGGEST, AUDIT_TYPE, USER_ID, SUPPLIER_ID, STATUS, CREATED_AT, UPDATED_AT, AUDIT_FIELD, 
+    AUDIT_CONTENT
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -25,13 +28,24 @@
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="ses.model.sms.SupplierAudit">
-    insert into T_SES_SMS_SUPPLIER_AUDIT (ID, SUGGEST, SUGGEST_TYPE, 
+    insert into T_SES_SMS_SUPPLIER_AUDIT (ID, SUGGEST, AUDIT_TYPE, 
       USER_ID, SUPPLIER_ID, STATUS, 
-      CREATED_AT, UPDATED_AT)
-    values (#{id,jdbcType=VARCHAR}, #{suggest,jdbcType=VARCHAR}, #{suggestType,jdbcType=VARCHAR}, 
+      CREATED_AT, UPDATED_AT, AUDIT_FIELD, 
+      AUDIT_CONTENT)
+    values (#{id,jdbcType=VARCHAR}, #{suggest,jdbcType=VARCHAR}, #{auditType,jdbcType=VARCHAR}, 
       #{userId,jdbcType=VARCHAR}, #{supplierId,jdbcType=VARCHAR}, #{status,jdbcType=DECIMAL}, 
-      #{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE})
+      #{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE}, #{auditField,jdbcType=VARCHAR}, 
+      #{auditContent,jdbcType=VARCHAR})
   </insert>
+  
+  <!-- 查询所有审核记录 -->
+  <select id="findAll" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_SUPPLIER_AUDIT
+  </select>
+  
+  <!-- 插入审核记录 -->
   <insert id="insertSelective" parameterType="ses.model.sms.SupplierAudit">
     insert into T_SES_SMS_SUPPLIER_AUDIT
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -41,8 +55,8 @@
       <if test="suggest != null">
         SUGGEST,
       </if>
-      <if test="suggestType != null">
-        SUGGEST_TYPE,
+      <if test="auditType != null">
+        AUDIT_TYPE,
       </if>
       <if test="userId != null">
         USER_ID,
@@ -59,6 +73,12 @@
       <if test="updatedAt != null">
         UPDATED_AT,
       </if>
+      <if test="auditField != null">
+        AUDIT_FIELD,
+      </if>
+      <if test="auditContent != null">
+        AUDIT_CONTENT,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -67,8 +87,8 @@
       <if test="suggest != null">
         #{suggest,jdbcType=VARCHAR},
       </if>
-      <if test="suggestType != null">
-        #{suggestType,jdbcType=VARCHAR},
+      <if test="auditType != null">
+        #{auditType,jdbcType=VARCHAR},
       </if>
       <if test="userId != null">
         #{userId,jdbcType=VARCHAR},
@@ -85,7 +105,16 @@
       <if test="updatedAt != null">
         #{updatedAt,jdbcType=DATE},
       </if>
+      <if test="auditField != null">
+        #{auditField,jdbcType=VARCHAR},
+      </if>
+      <if test="auditContent != null">
+        #{auditContent,jdbcType=VARCHAR},
+      </if>
     </trim>
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+      select sys_guid() from dual
+  </selectKey>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierAudit">
     update T_SES_SMS_SUPPLIER_AUDIT
@@ -93,8 +122,8 @@
       <if test="suggest != null">
         SUGGEST = #{suggest,jdbcType=VARCHAR},
       </if>
-      <if test="suggestType != null">
-        SUGGEST_TYPE = #{suggestType,jdbcType=VARCHAR},
+      <if test="auditType != null">
+        AUDIT_TYPE = #{auditType,jdbcType=VARCHAR},
       </if>
       <if test="userId != null">
         USER_ID = #{userId,jdbcType=VARCHAR},
@@ -111,18 +140,26 @@
       <if test="updatedAt != null">
         UPDATED_AT = #{updatedAt,jdbcType=DATE},
       </if>
+      <if test="auditField != null">
+        AUDIT_FIELD = #{auditField,jdbcType=VARCHAR},
+      </if>
+      <if test="auditContent != null">
+        AUDIT_CONTENT = #{auditContent,jdbcType=VARCHAR},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="ses.model.sms.SupplierAudit">
     update T_SES_SMS_SUPPLIER_AUDIT
     set SUGGEST = #{suggest,jdbcType=VARCHAR},
-      SUGGEST_TYPE = #{suggestType,jdbcType=VARCHAR},
+      AUDIT_TYPE = #{auditType,jdbcType=VARCHAR},
       USER_ID = #{userId,jdbcType=VARCHAR},
       SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
       STATUS = #{status,jdbcType=DECIMAL},
       CREATED_AT = #{createdAt,jdbcType=DATE},
-      UPDATED_AT = #{updatedAt,jdbcType=DATE}
+      UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      AUDIT_FIELD = #{auditField,jdbcType=VARCHAR},
+      AUDIT_CONTENT = #{auditContent,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

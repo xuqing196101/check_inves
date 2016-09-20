@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.github.pagehelper.PageInfo;
 
@@ -161,8 +162,11 @@ public class SupplierAuditController {
 	 * @return void
 	 */
 	@RequestMapping("auditReasons")
-	public void auditReasons(SupplierAudit supplierAudit){
-		/*supplierAuditServlice.auditReasons(supplierAudit);*/
+	public void auditReasons(SupplierAudit supplierAudit,HttpServletRequest request){
+		String supplierId = (String) request.getSession().getAttribute("supplierId");
+		supplierAudit.setSupplierId(supplierId);
+		supplierAudit.setUserId("EDED66BAC3304F34B75EBCDB88AE427F");
+		supplierAuditServlice.auditReasons(supplierAudit);
 	}
 	
 	/**
@@ -175,7 +179,7 @@ public class SupplierAuditController {
 	 */
 	@RequestMapping("reasonsList")
 	public String reasonsList(){
-		/*supplierAuditServlice.auditReasons(supplierAudit);*/
+	/*	supplierAuditServlice.findAll();*/
 		return "ses/sms/supplier_audit/audit_reasons";
 	}
 }

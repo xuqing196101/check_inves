@@ -7,7 +7,7 @@ public class SupplierAudit {
 
     private String suggest;
 
-    private String suggestType;
+    private String auditType;
 
     private String userId;
 
@@ -18,6 +18,10 @@ public class SupplierAudit {
     private Date createdAt;
 
     private Date updatedAt;
+
+    private String auditField;
+
+    private String auditContent;
 
     public String getId() {
         return id;
@@ -35,23 +39,23 @@ public class SupplierAudit {
         this.suggest = suggest == null ? null : suggest.trim();
     }
 
-    public String getSuggestType() {
-        return suggestType;
+    public String getAuditType() {
+        return auditType;
     }
 
-    public void setSuggestType(String suggestType) {
-        this.suggestType = suggestType == null ? null : suggestType.trim();
+    public void setAuditType(String auditType) {
+        this.auditType = auditType == null ? null : auditType.trim();
     }
 
     public String getUserId() {
-		return userId;
-	}
+        return userId;
+    }
 
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
+    public void setUserId(String userId) {
+        this.userId = userId == null ? null : userId.trim();
+    }
 
-	public String getSupplierId() {
+    public String getSupplierId() {
         return supplierId;
     }
 
@@ -81,5 +85,21 @@ public class SupplierAudit {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getAuditField() {
+        return auditField;
+    }
+
+    public void setAuditField(String auditField) {
+        this.auditField = auditField == null ? null : auditField.trim();
+    }
+
+    public String getAuditContent() {
+        return auditContent;
+    }
+
+    public void setAuditContent(String auditContent) {
+        this.auditContent = auditContent == null ? null : auditContent.trim();
     }
 }
