@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserServiceI {
 		if(list != null && list.size()>0){
 			User u = list.get(0);
 			u.setIsDeleted(1);
-			userMapper.updateByPrimaryKey(u);
+			userMapper.updateByPrimaryKeySelective(u);
 		}else{
 			
 		}
@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserServiceI {
 
 	@Override
 	public void update(User u) {
-		userMapper.updateByPrimaryKey(u);
+		userMapper.updateByPrimaryKeySelective(u);
 	}
 
 	@Override
@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserServiceI {
 	@Override
 	public List<User> selectUser(User user, Integer pageNum) {
 //		PropertiesUtil config = new PropertiesUtil("config.properties");
-//		PageHelper.startPage(pageNum,10);
+		PageHelper.startPage(pageNum,10);
 		return userMapper.selectUser(user);
 	}
 

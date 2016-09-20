@@ -21,12 +21,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.model.bms.PreMenu;
 import ses.model.bms.Role;
+import ses.model.bms.User;
 import ses.service.bms.PreMenuServiceI;
 import ses.service.bms.RoleServiceI;
 import ses.util.JsonDateValueProcessor;
 
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
 
 /**
  * Description: 权限菜单控制类
@@ -77,7 +79,7 @@ public class PreMenuController {
 			//给用户配置权限
 			String[] userIds = userId.split(",");
 			menuIds = preMenuService.findByUids(userIds);
-		}else{
+		}else if(r.getId() != null && !"".equals(r.getId())){
 			String[] roleIds = {r.getId()};
 			menuIds = preMenuService.findByRids(roleIds);
 		}
@@ -99,49 +101,43 @@ public class PreMenuController {
 		response.setContentType("text/html;charset=utf-8");
 		response.getWriter().print(jsonstr);
 	}
+	
+	@RequestMapping("/add")
+	public String add(HttpServletRequest request, Model model){
+		String pid = request.getParameter("pid");
+		PreMenu pmenu = preMenuService.get(pid);
+		model.addAttribute("pmenu",pmenu);
+		return "ses/bms/menu/add";
+	}
 
 	@RequestMapping("/save")
-	public String save() {
-		for (int i = 1; i < 10; i++) {
-			PreMenu preMenu = new PreMenu();
-			preMenu.setName("菜单" + i);
-			preMenu.setIsDeleted(0);
-			preMenu.setMenulevel(1);
-			preMenu.setPosition(i);
-			preMenu.setParentId(null);
-			preMenu.setStatus(0);
-			preMenu.setType("navigation");
-			preMenu.setCreatedAt(new Date());
-			preMenu.setUrl(null);
-			preMenuService.save(preMenu);
-			for (int j = 1; j < 6; j++) {
-				PreMenu preMenu1 = new PreMenu();
-				preMenu1.setName("菜单" + i + "-" + j);
-				preMenu1.setIsDeleted(0);
-				preMenu1.setMenulevel(2);
-				preMenu1.setPosition(j);
-				preMenu1.setParentId(preMenu);
-				preMenu1.setStatus(0);
-				preMenu1.setType("accordion");
-				preMenu1.setCreatedAt(new Date());
-				preMenu1.setUrl(null);
-				preMenuService.save(preMenu1);
-				for (int k = 1; k < 6; k++) {
-					PreMenu preMenu2 = new PreMenu();
-					preMenu2.setName("菜单" + i + "-" + j + "-" + k);
-					preMenu2.setIsDeleted(0);
-					preMenu2.setMenulevel(3);
-					preMenu2.setPosition(k);
-					preMenu2.setParentId(preMenu1);
-					preMenu2.setStatus(0);
-					preMenu2.setType("menu");
-					preMenu2.setCreatedAt(new Date());
-					preMenu2.setUrl(null);
-					preMenuService.save(preMenu2);
+	public void save(HttpServletResponse response, PreMenu menu) {
+		try {
+			if ("".equals(menu.getName()) || menu.getName() == null) {
+				String msg = "请填写名称";
+				response.setContentType("text/html;charset=utf-8");
+				response.getWriter().print("{\"success\": " + false + ", \"msg\": \"" + msg + "\"}");
+			} else {
+				//获取父节点
+				PreMenu pmenu = null;
+				if(menu.getId() != null && !"".equals(menu.getId())){
+					pmenu = preMenuService.get(menu.getId());
+					menu.setMenulevel(pmenu.getMenulevel()+1);
+				}else{
+					menu.setMenulevel(1);
 				}
+				menu.setId(null);
+				menu.setParentId(pmenu);
+				menu.setCreatedAt(new Date());
+				menu.setIsDeleted(0);
+				preMenuService.save(menu);
+				String msg = "添加成功";
+				response.setContentType("text/html;charset=utf-8");
+				response.getWriter().print("{\"success\": " + true + ", \"msg\": \"" + msg + "\"}");
 			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		return null;
 	}
 	
 	/**

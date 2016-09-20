@@ -23,40 +23,37 @@
 	<script type="text/javascript" src="<%=basePath%>public/ztree/jquery.ztree.excheck.js"></script>
 	<script src="<%=basePath%>public/layer/layer.js"></script>
 	<script type="text/javascript">
-		var setting = {
-			data: {
-				simpleData: {
-					enable: true
+	    
+		$(function(){
+			var setting = {
+				async:{
+					autoParam:["id"],
+					enable:true,
+					url:"<%=basePath%>preMenu/treedata.do",
+					dataType:"json",
+					type:"post",
+				},
+				data: {
+					simpleData: {
+						enable:true,
+						idKey:"id",
+						pId:"pId",
+						rootPId:-1,
+					}
+				},
+				callback:{
+					onClick:zTreeOnClick
 				}
-			},
-			callback:{
-				onClick:zTreeOnClick
-			}
-		};
-		$(document).ready(function(){
-			$.ajax({
-             type: "GET",
-             async: false, 
-             url: "<%=basePath%>preMenu/treedata.html",
-             dataType: "json",
-             success: function(zNodes){
-                     for (var i = 0; i < zNodes.length; i++) { 
-			            if (zNodes[i].isParent) {  
-			  
-			            } else {  
-			                //zNodes[i].icon = "<%=basePath%>public/ZHH/images/";//设置图标  
-			            }  
-			        }  
-			        tree = $.fn.zTree.init($("#menuTree"), setting, zNodes); 
-			        getList("0");
-               }
-         	});
-         	
+			};
+			var treeObj=$.fn.zTree.init($("#menuTree"),setting);
+			treeObj.expandAll(false);
+			getList("0");
 		});
 		
 		function zTreeOnClick(event,treeId,treeNode){
 			$("#checkedAll").attr("checked",false);
 			getList(treeNode.id);
+			$("#mid").val(treeNode.id);
 		};
 		
 		function getList(id){
@@ -66,22 +63,23 @@
 	            async:false,
 	            url: "<%=basePath%>preMenu/findListByParent.do?id="+id,         
 	            success: function(data) {
-	            	var tabhtml="";
-	            	for(var i=0;i<data.length;i++){
+	            	var len = data[0].list.length;
+	            	var tabhtml = "";
+	            	for(var i = 0; i < len; i++){
 	            		var state="";
-	            		if(data[i].state==0){
+	            		if(data[0].list[i].state==0){
 	            			state =+ "可用";
-	            		}else if(data[i].state==1){
+	            		}else if(data[0].list[i].state==1){
 	            			state =+ "暂停";
 	            		}
 	            		var state="";
 	            		tabhtml += "<tr>";
-	            		tabhtml +="<td class='tc'><input onclick='check()' type='checkbox' name='chkItem' value="+data[i].id+" /></td>";
+	            		tabhtml +="<td class='tc'><input onclick='check()' type='checkbox' name='chkItem' value="+data[0].list[i].id+" /></td>";
 	            		tabhtml +="<td class='tc'>"+1+"</td>";
-	            		tabhtml +="<td class='tc'>"+data[i].name+"</td>";
-	            		tabhtml +="<td class='tc'>"+data[i].type+"</td>";
-	            		tabhtml +="<td class='tc'>"+data[i].menulevel+"</td>";
-	            		tabhtml +="<td class='tc'>"+data[i].url+"</td>";
+	            		tabhtml +="<td class='tc'>"+data[0].list[i].name+"</td>";
+	            		tabhtml +="<td class='tc'>"+data[0].list[i].type+"</td>";
+	            		tabhtml +="<td class='tc'>"+data[0].list[i].menulevel+"</td>";
+	            		tabhtml +="<td class='tc'>"+data[0].list[i].url+"</td>";
 	            		tabhtml +="<td class='tc'>"+state+"</td>";
 	            	}
 	            	$("#tab_menu tbody").html("");
@@ -161,7 +159,19 @@
 		}
     }
     function add(){
-    	window.location.href="<%=basePath%>role/toAdd.do";
+    	var pid = $("#mid").val();
+		layer.open({
+		  type: 2, //page层
+		  area: ['430px', '400px'],
+		  title: '添加菜单',
+		  closeBtn: 1,
+		  shade:0.01, //遮罩透明度
+		  moveType: 1, //拖拽风格，0是默认，1是传统拖动
+		  shift: 1, //0-6的动画形式，-1不开启
+		  offset: ['120px', '550px'],
+		  shadeClose: false,
+		  content: '<%=basePath%>preMenu/add.html?pid='+pid
+		});
     }
   </script>
   <body>
@@ -190,6 +200,7 @@
 					<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 					<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
 			    </div>
+			    <input type="hidden" name="nodeId" id="mid">
 			    <table id="tab_menu" class="table table-bordered table-condensed">
 					<thead >
 						<tr>
@@ -208,7 +219,7 @@
 		    
 	   </div>
     </div>
-   
+   <div id="pagediv" align="right"></div>
    
   </body>
 </html>

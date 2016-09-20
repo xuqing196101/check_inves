@@ -59,6 +59,12 @@ public class PreMenu {
     /** parentId :上级菜单 */
     private PreMenu parentId;
     
+    /** 菜单种类
+     * 0:采购管理后台 
+     * 1：供应商后台 
+     * 2：专家后台
+     * 3：进口供应商后台
+     */
     private Integer kind;
     
     /** 角色 */

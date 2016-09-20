@@ -110,7 +110,7 @@
       <if test="name != null">
         NAME,
       </if>
-      <if test="menuType != null">
+      <if test="type != null">
         MENU_TYPE,
       </if>
       <if test="isDeleted != null">
@@ -128,7 +128,7 @@
       <if test="position != null">
         POSITION,
       </if>
-      <if test="menuLevel != null">
+      <if test="menulevel != null">
         MENU_LEVEL,
       </if>
       <if test="parentId != null">
@@ -148,8 +148,8 @@
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="menuType != null">
-        #{menuType,jdbcType=VARCHAR},
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
       </if>
       <if test="isDeleted != null">
         #{isDeleted},
@@ -166,11 +166,11 @@
       <if test="position != null">
         #{position},
       </if>
-      <if test="menuLevel != null">
-        #{menuLevel},
+      <if test="menulevel != null">
+        #{menulevel},
       </if>
       <if test="parentId != null">
-        #{parentId,jdbcType=VARCHAR},
+        #{parentId.id,jdbcType=VARCHAR},
       </if>
       <if test="updatedAt != null">
         #{updatedAt,jdbcType=TIMESTAMP},

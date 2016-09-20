@@ -357,7 +357,8 @@
   <!-- 9.根据不为空的条件查询用户信息（包含角色信息） -->  
   <select id="selectUser" parameterType="Object" resultMap="UserResultMap">  
       SELECT
-			U .*, r. ID AS roleId,
+			U .*,
+			r. ID AS roleId,
 			r. NAME AS roleName,
 			r.CREATED_AT AS roleCreatedAt,
 			r.DESCRIPTION AS description,

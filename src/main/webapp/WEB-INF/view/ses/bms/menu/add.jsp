@@ -2,13 +2,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ include file="../../../common.jsp"%>
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
     <base href="<%=basePath%>">
     
-    <title>添加角色</title>
+    <title>添加菜单</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -18,105 +17,112 @@
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-	<link rel="stylesheet" href="<%=basePath%>public/ztree/css/demo.css" type="text/css">
-	<link rel="stylesheet" href="<%=basePath%>public/ztree/css/zTreeStyle.css" type="text/css">
-	<script type="text/javascript" src="<%=basePath%>public/ztree/jquery.ztree.core.js"></script>
-	<script type="text/javascript" src="<%=basePath%>public/ztree/jquery.ztree.excheck.js"></script>
-	<SCRIPT type="text/javascript">
-		<!--
-		var setting = {
-			check: {
-				enable: true,
-				chkboxType: {"Y":"", "N":""}
-			},
-			view: {
-				dblClickExpand: false
-			},
-			data: {
-				simpleData: {
-					enable: true
-				}
-			},
-			callback: {
-				beforeClick: beforeClick,
-				onCheck: onCheck
-			}
-		};
-		var zNodes =[
-			{id:1, pId:0, name:"北京"},
-			{id:2, pId:0, name:"天津"},
-			{id:3, pId:0, name:"上海"},
-			{id:6, pId:0, name:"重庆"},
-			{id:4, pId:0, name:"河北省", open:true, nocheck:true},
-			{id:41, pId:4, name:"石家庄"},
-			{id:42, pId:4, name:"保定"},
-			{id:43, pId:4, name:"邯郸"},
-			{id:44, pId:4, name:"承德"},
-			{id:5, pId:0, name:"广东省", open:true, nocheck:true},
-			{id:51, pId:5, name:"广州"},
-			{id:52, pId:5, name:"深圳"},
-			{id:53, pId:5, name:"东莞"},
-			{id:54, pId:5, name:"佛山"},
-			{id:6, pId:0, name:"福建省", open:true, nocheck:true},
-			{id:61, pId:6, name:"福州"},
-			{id:62, pId:6, name:"厦门"},
-			{id:63, pId:6, name:"泉州"},
-			{id:64, pId:6, name:"三明"}
-		 ];
-		function beforeClick(treeId, treeNode) {
-			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-			zTree.checkNode(treeNode, !treeNode.checked, null, true);
-			return false;
-		}
-		
-		function onCheck(e, treeId, treeNode) {
-			var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
-			nodes = zTree.getCheckedNodes(true),
-			v = "";
-			for (var i=0, l=nodes.length; i<l; i++) {
-				v += nodes[i].name + ",";
-			}
-			if (v.length > 0 ) v = v.substring(0, v.length-1);
-			var cityObj = $("#citySel");
-			cityObj.attr("value", v);
-		}
-		function showMenu() {
-			var cityObj = $("#citySel");
-			var cityOffset = $("#citySel").offset();
-			$("#menuContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
-			$("body").bind("mousedown", onBodyDown);
-		}
-		function hideMenu() {
-			$("#menuContent").fadeOut("fast");
-			$("body").unbind("mousedown", onBodyDown);
-		}
-		function onBodyDown(event) {
-			if (!(event.target.id == "menuBtn" || event.target.id == "citySel" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length>0)) {
-				hideMenu();
-			}
-		}
-		$(document).ready(function(){
-			$.fn.zTree.init($("#treeDemo"), setting, zNodes);
-		});
-		//-->
-	</SCRIPT>
+	<script src="<%=basePath%>public/layer/layer.js"></script>
   </head>
-  
-  <body>
-  	<div class="zTreeDemoBackground left">
-		<ul class="list">
-			<li class="title">&nbsp;&nbsp;<span class="highlight_red">勾选 checkbox 或者 点击节点 进行选择</span></li>
-			<li class="title">&nbsp;&nbsp;Test: <input id="citySel" type="text" readonly value="" style="width:120px;" onclick="showMenu();" />
-		&nbsp;<a id="menuBtn" href="#" onclick="showMenu(); return false;">select</a></li>
-		</ul>
-	</div>
-	<div id="menuContent" class="menuContent" style="display:none; position: absolute;">
-		<ul id="treeDemo" class="ztree" style="margin-top:0; width:180px; height: 300px;"></ul>
-	</div>
-    <form action="<%=basePath %>role/save.do" method="post">
-	         角色名：<input autofocus="autofocus"  name="name" size="30" type="text">
-	         描述：<textarea rows="3" cols="3" name="describe"></textarea>
-	        <input value="保存" type="submit">
-     </form>
-  </body>
+  <script type="text/javascript">
+    $(function(){
+        $("#save").click(function(){
+        	
+            $.ajax({  
+               type: "POST",  
+               url: "<%=basePath %>preMenu/save.html",  
+               data: $("#form1").serializeArray(),  
+               dataType: 'json',  
+               success:function(result){
+                    if(!result.success){
+                        layer.msg(result.msg,{offset: ['150px', '180px']});
+                    }else{
+                        parent.window.setTimeout(function(){
+                            parent.window.location.href = "<%=basePath%>preMenu/list.html";
+                        }, 1000);
+                        layer.msg(result.msg,{offset: ['150px', '180px']});
+                    }
+                },
+                error: function(result){
+                    layer.msg("添加失败",{offset: ['150px', '180px']});
+                }
+            });
+            
+        });
+        $("#backups").click(function(){
+            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+            parent.layer.close(index); 
+        });
+    });
+  </script>
+ <body>
+   
+   <div class="container">
+	   <form action="" id="form1" method="post">
+		   <div>
+		   	   <input type="hidden" name="id" id="pid" value="${pmenu.id }">
+			   <ul class="list-unstyled mt10 p0_20">
+			     <li class="col-md-6 p0">
+				   <span class="fl mt5">上级菜单：</span>
+				   <div class="input-append">
+			        <input class="span2" name="pname" value="${pmenu.name }" readonly="readonly" type="text">
+			        <span class="add-on">i</span>
+			       </div>
+				 </li>
+			     <li class="col-md-6 p0">
+				   <span class="fl mt5">&nbsp&nbsp名称：</span>
+				   <div class="input-append">
+			        <input class="span2" name="name" maxlength="30" type="text">
+			        <span class="add-on">i</span>
+			       </div>
+				 </li>
+				 <li class="col-md-6 p0 ">
+				 	<span class=""> 菜单类型：</span>
+					<select name="type"  >
+					 	<option value="">-请选择-</option>
+					   	<option value="navigation">导航</option>
+					   	<option value="accordion">折叠导航</option>
+					   	<option value="menu">菜单</option>
+					   	<option value="button">按钮</option>
+					</select>
+				</li>
+				<li class="col-md-6 p0 ">
+				 	<span class="">&nbsp&nbsp状态：</span>
+					<select  name="status"  >
+					 	<option value="">-请选择-</option>
+					   	<option value="0">可用</option>
+					   	<option value="1">暂停</option>
+				    </select>
+				</li>
+				<li class="col-md-6 p0">
+				   <span class="fl mt5">&nbsp&nbsp路径：</span>
+				   <div class="input-append">
+			        <input class="span2" name="url" maxlength="300" type="text">
+			        <span class="add-on">i</span>
+			       </div>
+				 </li>
+			     <li class="col-md-6 p0">
+				   <span class="fl mt5">&nbsp&nbsp排序：</span>
+				   <div class="input-append">
+			        <input class="span2" name="position" maxlength="3" type="text">
+			        <span class="add-on">i</span>
+			       </div>
+				 </li>
+				 <li class="col-md-6 p0 ">
+				 	<span class=""> 菜单种类：</span>
+					<select  name="kind"  >
+					 	<option value="">-请选择-</option>
+					   	<option value="0">采购管理后台</option>
+					   	<option value="1">供应商后台 </option>
+					   	<option value="2">专家后台</option>
+					   	<option value="1">进口供应商后台 </option>
+					</select>
+				</li>
+			   </ul>
+		  </div> 
+	   
+		  <div  class="col-md-12">
+		    <div class="fl padding-10">
+			    <button class="btn btn-windows save" id="save" type="button">保存</button>
+			    <button class="btn btn-windows git" id="backups" type="button">返回</button>
+			</div>
+		  </div>
+	  </form>
+  </div>
+ </body>
 </html>
