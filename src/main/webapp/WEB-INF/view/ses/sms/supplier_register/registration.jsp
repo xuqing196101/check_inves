@@ -42,7 +42,7 @@
 <body>
 	<div class="wrapper">
 		<!-- header -->
-		<jsp:include page="../../../../../indexhead.jsp"></jsp:include>
+		<jsp:include page="../../../../../index_head.jsp"></jsp:include>
 
 		<div class="container content height-350 job-content ">
 
@@ -77,6 +77,6 @@
 		</div>
 	</div>
 	<!-- footer -->
-	<jsp:include page="../../../../../indexbottom.jsp"></jsp:include>
+	<jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
 </body>
 </html>

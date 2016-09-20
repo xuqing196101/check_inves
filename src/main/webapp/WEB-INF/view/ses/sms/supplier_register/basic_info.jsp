@@ -161,6 +161,19 @@
 		});
 	}
 	
+	/** 保存基本信息 */
+	function saveBasicInfo(sign) {
+		var action = "${pageContext.request.contextPath}/supplier/";
+		if (sign) {
+			action += "nextStep.html";
+		} else {
+			action += "stashStep.html";
+		}
+		$("#basic_info_form_id").attr("action", action);
+		$("#basic_info_form_id").submit();
+		
+	}
+	
 </script>
 
 </head>
@@ -168,7 +181,7 @@
 <body>
 	<div class="wrapper">
 		<!-- header -->
-		<jsp:include page="../../../../../indexhead.jsp"></jsp:include>
+		<jsp:include page="../../../../../index_head.jsp"></jsp:include>
 
 		<!-- 项目戳开始 -->
 		<div class="container clear margin-top-30">
@@ -181,7 +194,8 @@
 					<div class="line"></div> <span class="step_desc_01">品目信息</span> </span> <span class="new_step fl"><i class="">6</i>
 					<div class="line"></div> <span class="step_desc_02">产品信息</span> </span> <span class="new_step fl"><i class="">7</i>
 					<div class="line"></div> <span class="step_desc_01">初审采购机构</span> </span> <span class="new_step fl"><i class="">8</i>
-					<div class="line"></div> <span class="step_desc_02">打印申请表</span> </span> <span class="new_step fl"><i class="">9</i><span class="step_desc_01">申请表承诺书上传</span> </span>
+					<div class="line"></div> <span class="step_desc_02">打印申请表</span> </span> <span class="new_step fl"><i class="">9</i>
+					<span class="step_desc_01">申请表承诺书上传</span> </span>
 				<div class="clear"></div>
 			</h2>
 		</div>
@@ -196,7 +210,7 @@
 							<li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="fujian f18">财务信息</a></li>
 							<li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="fujian f18">股东信息</a></li>
 						</ul>
-						<form action="${pageContext.request.contextPath}/supplier/nextStep.html" method="post"  enctype="multipart/form-data">
+						<form id="basic_info_form_id" action="${pageContext.request.contextPath}/supplier/nextStep.html" method="post"  enctype="multipart/form-data">
 							<input name="id" value="${supplierId}" type="hidden" />
 							<input name="sign" value="2" type="hidden" />
 							<div class="tab-content padding-top-20">
@@ -210,11 +224,13 @@
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 供应商名称：</span>
 												<div class="input-append">
 													<input class="span3" id="supplierName_input_id" type="text" name="supplierName" />
-												</div></li>
+												</div>
+											</li>
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 公司网址：</span>
 												<div class="input-append">
 													<input class="span3" type="text" name="website" />
-												</div></li>
+												</div>
+											</li>
 											<li class="col-md-6  p0 "><span class=""><i class="red">＊</i>成立日期：</span>
 												<div class="input-append">
 													<input class="span2" type="text" readonly="readonly" onClick="WdatePicker()" name="foundDate" /> 
@@ -236,7 +252,8 @@
 															<li class="hand tc" onclick="checkText(this, 'businessType_input_id')">私营企业</li>
 														</ul>
 													</div>
-												</div></li>
+												</div>
+											</li>
 
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i>公司地址：</span>
 												<div class="fl">
@@ -267,17 +284,20 @@
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i>开户行名称：</span>
 												<div class="input-append">
 													<input class="span3" type="text" name="bankName" />
-												</div></li>
+												</div>
+											</li>
 
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i>开户行账号：</span>
 												<div class="input-append">
 													<input class="span3" type="text" name="bankAccount" />
-												</div></li>
+												</div>
+											</li>
 
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 邮编：</span>
 												<div class="input-append">
 													<input class="span3" type="text" name="postCode" />
-												</div></li>
+												</div>
+											</li>
 											<div class="clear"></div>
 										</ul>
 
@@ -509,8 +529,8 @@
 												</tr>
 											</thead>
 											<tbody id="tbody_id_1">
-												<c:if test="${supplier.listSupplierFinances != null}">
-													<c:forEach items="${supplier.listSupplierFinances}" var="finances" varStatus="vs">
+												<c:if test="${currObject.listSupplierFinances != null}">
+													<c:forEach items="${currObject.listSupplierFinances}" var="finances" varStatus="vs">
 														<tr id="tr_id_${vs.index}">
 															<td class="tc">
 																<input type="checkbox" id="checkbox_input_id_${vs.index}" />
@@ -519,7 +539,7 @@
 															<td class="tc">
 																<input id="curr_select_id_${vs.index}" class="maxw100 mt10" type="text" readonly="readonly" onClick="WdatePicker({dateFmt:'yyyy'})" name="listSupplierFinances[${vs.index}].year" value="${finances.year}" onselect="changeYear(this)" /> 
 															</td>
-															<td class="tc"><input name="listSupplierFinances[${vs.index}].name" class="maxw100 mt10" type="text" value="${finances.name}"></td>
+															<td class="tc"><input style="border: 0" name="listSupplierFinances[${vs.index}].name" class="maxw100 mt10" type="text" value="${finances.name}"></td>
 															<td class="tc"><input name="listSupplierFinances[${vs.index}].telephone" class="maxw100 mt10" type="text" value="${finances.telephone}"></td>
 															<td class="tc"><input name="listSupplierFinances[${vs.index}].auditors" class="maxw100 mt10" type="text" value="${finances.auditors}"></td>
 															<td class="tc"><input name="listSupplierFinances[${vs.index}].quota" class="maxw100 mt10" type="text" value="${finances.quota}"></td>
@@ -530,7 +550,7 @@
 														</tr>
 													</c:forEach>
 												</c:if>
-												<c:if test="${supplier.listSupplierFinances == null}">
+												<c:if test="${currObject.listSupplierFinances == null}">
 													<tr id="tr_id_0">
 														<td class="tc">
 															<input type="checkbox" id="checkbox_input_id_0" />
@@ -552,8 +572,8 @@
 											</tbody>
 										</table>
 										<div id="list_div_id">
-											<c:if test="${supplier.listSupplierFinances != null}">
-												<c:forEach items="${supplier.listSupplierFinances}" var="finances" varStatus="vs">
+											<c:if test="${currObject.listSupplierFinances != null}">
+												<c:forEach items="${currObject.listSupplierFinances}" var="finances" varStatus="vs">
 													<h5 id="year_h_id_${vs.index}">${finances.year}年</h5>
 													<ul class="list-unstyled list-flow" id="ul_id_${vs.index}">
 														<li class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i> 财务审计报告的审计意见：</span>
@@ -606,7 +626,7 @@
 												</c:forEach>
 											</c:if>
 											
-											<c:if test="${supplier.listSupplierFinances == null}">
+											<c:if test="${currObject.listSupplierFinances == null}">
 												<h5 id="year_h_id_0" class="ready_write_h5">未选择年份</h5>
 												<ul class="list-unstyled list-flow" id="ul_id_0">
 													<li class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i> 财务审计报告的审计意见：</span>
@@ -683,8 +703,8 @@
 												</tr>
 											</thead>
 											<tbody id="tbody_id_2">
-												<c:if test="${supplier.listSupplierStockholders != null}">
-													<c:forEach items="${supplier.listSupplierStockholders}" var="stockholder" varStatus="vs">
+												<c:if test="${currObject.listSupplierStockholders != null}">
+													<c:forEach items="${currObject.listSupplierStockholders}" var="stockholder" varStatus="vs">
 														<tr id="share_tr_id_${vs.index}">
 															<td class="tc">
 																<input type="checkbox" id="share_input_id_${vs.index}">
@@ -698,7 +718,7 @@
 														</tr>
 													</c:forEach>
 												</c:if>
-												<c:if test="${supplier.listSupplierStockholders == null}">
+												<c:if test="${currObject.listSupplierStockholders == null}">
 													<tr id="share_tr_id_0">
 														<td class="tc">
 															<input type="checkbox" id="share_input_id_0">
@@ -717,8 +737,8 @@
 								</div>
 							</div>
 							<div class="mt40 tc mb50">
-								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5">暂存</button>
-								<button type="submit" class="btn padding-left-20 padding-right-20 btn_back margin-5">下一步</button>
+								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveBasicInfo(0)">暂存</button>
+								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveBasicInfo(1)">下一步</button>
 							</div>
 						</form>
 					</div>
@@ -727,6 +747,6 @@
 		</div>
 	</div>
 	<!-- footer -->
-	<jsp:include page="../../../../../indexbottom.jsp"></jsp:include>
+	<jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
 </body>
 </html>

@@ -433,6 +433,8 @@ public class Supplier implements Serializable {
 	private List<SupplierFinance> listSupplierFinances = new ArrayList<SupplierFinance>();
 
 	private List<SupplierStockholder> listSupplierStockholders = new ArrayList<SupplierStockholder>();
+	
+	private String ids;
 
 	public String getId() {
 		return id;
@@ -864,5 +866,13 @@ public class Supplier implements Serializable {
 
 	public void setListSupplierStockholders(List<SupplierStockholder> listSupplierStockholders) {
 		this.listSupplierStockholders = listSupplierStockholders;
+	}
+
+	public String getIds() {
+		return ids;
+	}
+
+	public void setIds(String ids) {
+		this.ids = ids;
 	}
 }

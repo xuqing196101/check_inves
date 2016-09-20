@@ -1,9 +1,12 @@
 package ses.controller.sys.sms;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -15,10 +18,12 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierTypeTree;
 import ses.service.sms.SupplierFinanceService;
 import ses.service.sms.SupplierService;
 import ses.service.sms.SupplierStockholderService;
-
+import ses.service.sms.SupplierTypeRelateService;
+import ses.service.sms.SupplierTypeService;
 
 /**
  * @Title: supplierController
@@ -29,22 +34,27 @@ import ses.service.sms.SupplierStockholderService;
 @Controller
 @Scope("prototype")
 @RequestMapping("/supplier")
-public class SupplierController {
-	
+public class SupplierController extends BaseSupplierController {
+
 	@Autowired
 	private SupplierService supplierService;// 供应商基本信息
-	
+
 	@Autowired
 	private SupplierFinanceService supplierFinanceService;// 供应商财务信息
-	
+
 	@Autowired
 	private SupplierStockholderService supplierStockholderService;// 供应商股东信息
-	
-	
+
+	@Autowired
+	private SupplierTypeService supplierTypeService;// 供应商类型
+
+	@Autowired
+	private SupplierTypeRelateService supplierTypeRelateService;// 供应商类型关联
+
 	@RequestMapping("login")
 	public String login(HttpServletRequest request, Model model) {
 		Supplier supplier = supplierService.login("53BF9E64B38B46228914807B92BAE812");
-		model.addAttribute("supplier", supplier);
+		model.addAttribute("currObject", supplier);
 		if (supplier.getListSupplierFinances() != null) {
 			model.addAttribute("financeSize", supplier.getListSupplierFinances().size());
 		}
@@ -104,8 +114,7 @@ public class SupplierController {
 		request.getSession().setAttribute("supplierId", id);
 		return "redirect:pageJump.html";
 	}
-	
-	
+
 	/**
 	 * @Title: prevStep
 	 * @author: Wang Zhaohua
@@ -116,10 +125,30 @@ public class SupplierController {
 	 * @param: @return
 	 * @return: String
 	 */
-	public String prevStep(String page, Integer sign) {
+	@RequestMapping(value = "prevStep")
+	public String prevStep(HttpServletRequest request, String page, Integer sign, Supplier supplier) {
+		if (sign == 3) {
+			// 保存供应商类型
+			supplierTypeRelateService.saveSupplierTypeRelate(supplier);
+
+			// 查询供应商基本信息
+			supplier = supplierService.login(supplier.getId());
+			request.getSession().setAttribute("currObject", supplier);
+			if (supplier.getListSupplierFinances() != null) {
+				request.getSession().setAttribute("financeSize", supplier.getListSupplierFinances().size());
+			}
+			if (supplier.getListSupplierStockholders() != null) {
+				request.getSession().setAttribute("stockholderSize", supplier.getListSupplierStockholders().size());
+			}
+
+			// 跳转页面
+			request.getSession().setAttribute("supplierId", supplier.getId());
+			request.getSession().setAttribute("jump.page", "basic_info");
+			return "redirect:pageJump.html";
+		}
 		return null;
 	}
-	
+
 	/**
 	 * @Title: stashStep
 	 * @author: Wang Zhaohua
@@ -129,28 +158,41 @@ public class SupplierController {
 	 * @param: @return
 	 * @return: String
 	 */
+	@RequestMapping(value = "stashStep")
 	public String stashStep(HttpServletRequest request, Integer sign, Supplier supplier) {
 		if (sign == 2) {
 			// 保持供应商基本信息
 			String id = supplier.getId();
-			if (id == null || "".equals(id)) {
-				id = (String) request.getSession().getAttribute("supplierId");
-				supplier.setId(id);
-			}
 			supplierService.perfectBasic(supplier);// 保存供应商详细信息
 			supplierFinanceService.saveFinance(supplier);// 保存供应商财务信息
 			supplierStockholderService.saveStockholder(supplier);// 保存供应商股东信息
-			
+
+			// 查询供应商基本信息
+			supplier = supplierService.login(id);
 			request.getSession().setAttribute("currObject", supplier);
-			
+			if (supplier.getListSupplierFinances() != null) {
+				request.getSession().setAttribute("financeSize", supplier.getListSupplierFinances().size());
+			}
+			if (supplier.getListSupplierStockholders() != null) {
+				request.getSession().setAttribute("stockholderSize", supplier.getListSupplierStockholders().size());
+			}
+
 			// 页面跳转
 			request.getSession().setAttribute("supplierId", id);
 			request.getSession().setAttribute("jump.page", "basic_info");
 			return "redirect:pageJump.html";
+		} else if (sign == 3) {
+			// 保存供应商类型
+			supplierTypeRelateService.saveSupplierTypeRelate(supplier);
+
+			// 跳转页面
+			request.getSession().setAttribute("supplierId", supplier.getId());
+			request.getSession().setAttribute("jump.page", "supplier_type");
+			return "redirect:pageJump.html";
 		}
 		return null;
 	}
-	
+
 	/**
 	 * @Title: nextStep
 	 * @author: Wang Zhaohua
@@ -163,8 +205,7 @@ public class SupplierController {
 	 */
 	@RequestMapping(value = "nextStep")
 	public String nextStep(HttpServletRequest request, String page, Integer sign, Supplier supplier) {
-		if (sign == 2) {
-			// 保持供应商基本信息
+		if (sign == 2) {// 保持供应商基本信息
 			String id = supplier.getId();
 			if (id == null || "".equals(id)) {
 				id = (String) request.getSession().getAttribute("supplierId");
@@ -173,23 +214,56 @@ public class SupplierController {
 			supplierService.perfectBasic(supplier);// 保存供应商详细信息
 			supplierFinanceService.saveFinance(supplier);// 保存供应商财务信息
 			supplierStockholderService.saveStockholder(supplier);// 保存供应商股东信息
-			/*
-			// 查询下一步信息(供应商类型)
-			List<SupplierType> listSupplierTypes = supplierTypesService.findSupplierTypesBySupplierId(id);
-			if (listSupplierTypes != null) {
-				request.getSession().setAttribute("currObject", listSupplierTypes);
-			}*/
 			
+			// Ajax 查询供应商类型树, 这里不用写了
+
 			// 页面跳转
 			request.getSession().setAttribute("supplierId", id);
 			request.getSession().setAttribute("jump.page", "supplier_type");
 			return "redirect:pageJump.html";
 		} else if (sign == 3) {
+			// 保存供应商类型
+			supplierTypeRelateService.saveSupplierTypeRelate(supplier);
 			
+			// 查询专业信息
+			
+			request.getSession().setAttribute("supplierId", supplier.getId());
+			request.getSession().setAttribute("jump.page", "professional_info");
+			return "redirect:pageJump.html";
+		} else if (sign == 4) {
+			// 保存供应商专业信息
+			
+			// Ajax 查询品目树, 这里不用写了
+			
+			// 页面跳转
+			request.getSession().setAttribute("supplierId", supplier.getId());
+			request.getSession().setAttribute("jump.page", "items");
+			return "redirect:pageJump.html";
 		}
 		return null;
-	}	
+	}
 	
+	@RequestMapping(value = "add_cert_pro")
+	public String addCertPro() {
+		return "ses/sms/supplier_register/add_cert_pro";
+	}
+	
+	/**
+	 * @Title: findSupplierType
+	 * @author: Wang Zhaohua
+	 * @date: 2016-9-19 下午2:11:08
+	 * @Description: 查询供应商类型 Ajax
+	 * @param: @param response
+	 * @param: @param supplierId
+	 * @param: @throws IOException
+	 * @return: void
+	 */
+	@RequestMapping(value = "findSupplierType")
+	public void findSupplierType(HttpServletResponse response, String supplierId) throws IOException {
+		List<SupplierTypeTree> listSupplierTypeTrees = supplierTypeService.findSupplierType(supplierId);
+		super.writeJson(response, listSupplierTypeTrees);
+	}
+
 	/**
 	 * @Title: basic
 	 * @author: Wang Zhaohua
@@ -202,8 +276,8 @@ public class SupplierController {
 	 * @return: String
 	 */
 	@RequestMapping(value = "perfect_basic")
-	public  String perfectBasic(HttpServletRequest request, Supplier supplier) {
-		
+	public String perfectBasic(HttpServletRequest request, Supplier supplier) {
+
 		String id = supplier.getId();
 		if (id == null || "".equals(id)) {
 			id = (String) request.getSession().getAttribute("supplierId");
@@ -216,7 +290,7 @@ public class SupplierController {
 		request.getSession().setAttribute("jump.page", "supplier_type");
 		return "redirect:pageJump.html";
 	}
-	
+
 	/**
 	 * @Title: pageJump
 	 * @author: Wang Zhaohua
@@ -229,7 +303,7 @@ public class SupplierController {
 	@RequestMapping(value = "pageJump")
 	public String pageJump(HttpServletRequest request) {
 		String page = (String) request.getSession().getAttribute("jump.page");
-		return "ses/sms/supplier_register" + page;
+		return "ses/sms/supplier_register/" + page;
 	}
 
 	/**
@@ -253,7 +327,7 @@ public class SupplierController {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * @Title: initBinder
 	 * @author: Wang Zhaohua
@@ -266,18 +340,12 @@ public class SupplierController {
 	public void initBinder(ServletRequestDataBinder binder) {
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true));
 	}
-	
+
 	public void checkSupplier(Supplier supplier) {
-		/*List<SupplierFinance> listSupplierFinances = supplier.getListSupplierFinances();
-		for (SupplierFinance supplierFinance : listSupplierFinances) {
-			boolean flag1 = supplierFinance.getName() == null || "".equals(supplierFinance.getName());
-			boolean flag2 = supplierFinance.getTelephone() == null || "".equals(supplierFinance.getTelephone());
-			boolean flag3 = supplierFinance.getAuditors() == null || "".equals(supplierFinance.getAuditors());
-			boolean flag4 = supplierFinance.getQuota() == null || "".equals(supplierFinance.getQuota());
-			boolean flag5 = supplierFinance.getTotalAssets() == null || "".equals(supplierFinance.getTotalAssets());
-			boolean flag6 = supplierFinance.getTotalLiabilities() == null || "".equals(supplierFinance.getTotalLiabilities());
-			boolean flag7 = supplierFinance.getName() == null || "".equals(supplierFinance.getName());
-			
-		}*/
+		/*
+		 * List<SupplierFinance> listSupplierFinances = supplier.getListSupplierFinances(); for (SupplierFinance supplierFinance : listSupplierFinances) { boolean flag1 = supplierFinance.getName() == null || "".equals(supplierFinance.getName()); boolean flag2 = supplierFinance.getTelephone() == null || "".equals(supplierFinance.getTelephone()); boolean flag3 = supplierFinance.getAuditors() == null || "".equals(supplierFinance.getAuditors()); boolean flag4 = supplierFinance.getQuota() == null || "".equals(supplierFinance.getQuota()); boolean flag5 = supplierFinance.getTotalAssets() == null || "".equals(supplierFinance.getTotalAssets()); boolean flag6 = supplierFinance.getTotalLiabilities() == null || "".equals(supplierFinance.getTotalLiabilities()); boolean flag7 = supplierFinance.getName() == null || "".equals(supplierFinance.getName());
+		 * 
+		 * }
+		 */
 	}
 }

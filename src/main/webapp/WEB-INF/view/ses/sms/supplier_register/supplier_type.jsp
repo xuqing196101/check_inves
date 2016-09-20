@@ -20,19 +20,66 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/img-hover.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/page_job.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/shop.style.css" type="text/css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css" type="text/css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
-
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.excheck.js"></script>
 <script type="text/javascript">
+	var zTreeObj;
+	var zNodes;
+	var setting = {
+		check : {
+			enable : true,
+			chkboxType: { "Y": "ps", "N": "ps" }
+		},
+		data : {
+			simpleData : {
+				enable : true,
+				idKey : "id",
+				pIdKey : "parentId"
+			}
+		},
+	};
 	$(function() {
-		$(".subNav_new").click(function() {
-			$(this).toggleClass("currentDd").siblings(".subNav").removeClass("currentDd");
-			$(this).toggleClass("currentDt").siblings(".subNav").removeClass("currentDt");
-
-			// 修改数字控制速度， slideUp(500)控制卷起速度
-			$(this).next(".navContent").slideToggle(500).siblings(".navContent").slideUp(500);
+		$.ajax({
+			url : "${pageContext.request.contextPath}/supplier/findSupplierType.do",
+			type : "post",
+			dataType : "json",
+			data : {
+				supplierId : "${supplierId}"
+			},
+			success : function(result) {
+				zNodes = result;
+				zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+				
+			},
 		});
+		
+
 	});
+	
+	function checkedTree(sign) {
+		var action = "${pageContext.request.contextPath}/supplier/";
+		if (sign == 1) {
+			action += "nextStep.html";
+		} else if (sign == -1) {
+			action += "prevStep.html";
+		} else {
+			action += "stashStep.html";
+		}		
+		var nodes = zTreeObj.getCheckedNodes(true);
+		var ids = "";
+		for (var i = 0; i < nodes.length; i++) {
+			if (i != 0) {
+				ids += ",";
+			}
+			ids += $(nodes[i]).attr("id");
+		}
+		$("#supplier_type_input_id").val(ids);
+		$("#supplier_type_form_id").attr("action", action);
+		$("#supplier_type_form_id").submit();
+	}
 </script>
 
 </head>
@@ -40,8 +87,7 @@
 <body>
 	<div class="wrapper">
 		<!-- header -->
-		<jsp:include page="../../../../../indexhead.jsp"></jsp:include>
-
+		<jsp:include page="../../../../../index_head.jsp"></jsp:include>
 
 		<!-- 项目戳开始 -->
 		<div class="container clear margin-top-30">
@@ -65,32 +111,14 @@
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10">
 						<div class="padding-top-20">
-							<div class=" margin-bottom-0">
-								<div class="tc bgdd subnav_title">供应商类型</div>
-								<div class="subNavBoxs">
-									<div class="subNav_new currentDd currentDt">
-										<input type="checkbox" id="" class="fl" /><span class="ml5">物资</span>
-									</div>
-									<ul class="navContent " style="display: block;">
-										<li><input type="checkbox" id="" class="fl" /><span class="ml5">生产型</span></li>
-										<li><input type="checkbox" id="" class="fl" /><span class="ml5">销售型</span></li>
-									</ul>
-									<div class="subNav_new">
-										<input type="checkbox" id="" class="fl" /><span class="ml5">工程</span>
-									</div>
-
-									<div class="subNav_new">
-										<input type="checkbox" id="" class="fl" /><span class="ml5">服务</span>
-									</div>
-
-									<div class="subNav_new ">
-										<input type="checkbox" id="" class="fl" /><span class="ml5">电冰箱</span>
-									</div>
-
+							<div class="margin-bottom-0 tc">
+								<div style="width: 110px; margin: 0 auto; border: 0;">
+									<ul id="treeDemo" class="ztree"></ul>
 								</div>
 								<div class="mt40 tc mb50">
-									<button class="btn padding-left-20 padding-right-20 btn_back margin-15">上一步</button>
-									<button class="btn padding-left-20 padding-right-20 btn_back margin-15">下一步</button>
+									<button class="btn padding-left-20 padding-right-20 btn_back margin-15" onclick="checkedTree(-1)">上一步</button>
+									<button class="btn padding-left-20 padding-right-20 btn_back margin-15" onclick="checkedTree(0)">暂存</button>
+									<button class="btn padding-left-20 padding-right-20 btn_back margin-15" onclick="checkedTree(1)">下一步</button>
 								</div>
 							</div>
 						</div>
@@ -99,8 +127,14 @@
 			</div>
 		</div>
 	</div>
-
+	
+	<form id="supplier_type_form_id" action="${pageContext.request.contextPath}/supplier/nextStep.html" method="post">
+		<input name="id" type="hidden" value="${supplierId}" />
+		<input name="sign" type="hidden" value="3" />
+		<input id="supplier_type_input_id" name="ids" type="hidden" />
+	</form>
+	
 	<!-- footer -->
-	<jsp:include page="../../../../../indexbottom.jsp"></jsp:include>
+	<jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
 </body>
 </html>
