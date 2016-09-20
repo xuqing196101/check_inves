@@ -17,6 +17,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/import_supplier.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet">
@@ -257,7 +258,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<c:if test="${list.status==1 }">
 								<input type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/importSupplier/audit.html?id=${list.id }'" value="复审" />
 							</c:if>
-							<c:if test="${list.status==2 }">
+							<c:if test="${list.status==4 }">
 								<input type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/importSupplier/audit.html?id=${list.id }'" value="已审核" />
 							</c:if>
 						</td>

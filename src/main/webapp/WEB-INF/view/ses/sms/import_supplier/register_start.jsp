@@ -9,6 +9,7 @@
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/import_supplier.css" media="screen" rel="stylesheet">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/common.css" type="text/css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/bootstrap.min.css" type="text/css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" type="text/css"/>
@@ -167,7 +168,7 @@
 								<div class="search-block-v2">
 									<div class="">
 										<form accept-charset="UTF-8" action="" method="get">
-											<div style="display:none">
+											<div>
 												<input name="utf8" value="" type="hidden">
 											</div>
 											<input id="t" name="t" value="search_products" type="hidden">
@@ -191,7 +192,7 @@
 
 				<div class="clearfix"></div>
 
-				<div style="height: 0px;" aria-expanded="false" class="navbar-collapse navbar-responsive-collapse collapse">
+				<div  aria-expanded="false" class="navbar-collapse navbar-responsive-collapse collapse">
 					<div class="container">
 						<ul class="nav navbar-nav">
 							<!-- 通知 -->

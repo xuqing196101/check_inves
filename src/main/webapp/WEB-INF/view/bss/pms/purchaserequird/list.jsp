@@ -109,7 +109,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
   	function view(no){
   		
-  		window.location.href="<%=basePath%>purchaser/queryByNo.html?planNo="+no;
+  		window.location.href="<%=basePath%>purchaser/queryByNo.html?planNo="+no+"&&type=1";
   	}
   	
     function edit(){
@@ -119,7 +119,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}); 
 		if(id.length==1){
 			
-			window.location.href="<%=basePath%>purchaser/queryByNo.html?planNo="+id;
+			window.location.href="<%=basePath%>purchaser/queryByNo.html?planNo="+id+"&&type=2";;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -135,7 +135,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		if(id.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>park/delete.html?id="+id;
+				 $.ajax({
+		 			 url:"<%=basePath%>purchaser/delete.html",
+		 			 type:"post",
+		 			 data:{
+		 				 planNo:$('input[name="chkItem"]:checked').val()
+		 				 },
+		 			 success:function(){
+		 				window.location.reload();
+		 				 
+		 			 },error:function(){
+		 				 
+		 			 }
+		 		 });
 			});
 		}else{
 			layer.alert("请选择要删除的版块",{offset: ['222px', '390px'], shade:0.01});
@@ -180,6 +192,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		layer.close(index);	
 	}
 	
+	function exports(){
+		var id=[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			id.push($(this).val());
+		}); 
+		if(id.length==1){
+			
+			window.location.href="<%=basePath%>purchaser/exports.html?planNo="+id+"&&type=2";;
+		}else if(id.length>1){
+			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+		}else{
+			layer.alert("请选中一条",{offset: ['222px', '390px'], shade:0.01});
+		}
+		
+	}
+	
   </script>
   </head>
   
@@ -200,17 +228,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
 <!-- 项目戳开始 -->
   <div class="container clear margin-top-30">
+    <form id="add_form" action="<%=basePath%>purchaser/list.html" method="post" >
    <h2 class="padding-10 border1">
+
 	 <ul class="demand_list">
-	   <li class="fl"><label class="fl">需求部门：</label><span><input type="text"/></span></li>
-	   <li class="fl"><label class="fl">需求计划名称：</label><span><input type="text"/></span></li>
-	   <li class="fl"><label class="fl">需求计划编号：</label><span><input type="text"/></span></li>
-	   <li class="fl"><label class="fl">需求填报日期：</label><span><input type="text" value="2016-07-15"/></span></li>
-	   	 <button class="btn padding-left-10 padding-right-10 btn_back fl margin-top-5">查询</button>
+	   <li class="fl"><label class="fl">需求部门：</label><span><input type="text" name="department" value="${inf.department }" /></span></li>
+	   <li class="fl"><label class="fl">需求计划名称：</label><span><input type="text" name="planName" value="${inf.planName }"/></span></li>
+	   <li class="fl"><label class="fl">需求计划编号：</label><span><input type="text" name="planNo" value="${inf.planNo }" /></span></li>
+	   <li class="fl"><label class="fl">需求填报日期：</label><span> <input class="span2 Wdate w220"  value='<fmt:formatDate value="${inf.createdAt }"/>' name="createdAt" type="text" onclick='WdatePicker()'></span></li>
+	   	 <input class="btn-u"   type="submit" name="" value="查询" /> 
 	 </ul>
 
-	 <div class="clear"></div>
+	
    </h2>
+   </form>
   </div>
    <div class="headline-v2 fl">
       <h2>需求计划列表
@@ -219,7 +250,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    	  <span class="fr option_btn margin-top-10">
 	    <button class="btn padding-left-10 padding-right-10 btn_back" onclick="add()">需求计划录入</button>
 	    <button class="btn padding-left-10 padding-right-10 btn_back"  onclick="edit()">修改</button>
-		<button class="btn padding-left-10 padding-right-10 btn_back">下载</button>
+		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="exports()">下载</button>
 	    <button class="btn padding-left-10 padding-right-10 btn_back" onclick="del()">删除</button>
 		<button class="btn padding-left-10 padding-right-10 btn_back">提交</button>
 	  </span>
@@ -246,7 +277,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  <td class="tc" onclick="view('${obj.planNo }')">${obj.budget }</td>
 			  <td class="tc" onclick="view('${obj.planNo }')"><fmt:formatDate value="${obj.createdAt }"/></td>
 			  <td class="tc" onclick="view('${obj.planNo }')"><fmt:formatDate value="${obj.createdAt }"/> </td>
-			  <td class="tc" onclick="view('${obj.planNo }')">${obj.status }</td>
+			  <td class="tc" onclick="view('${obj.planNo }')">
+			  <c:if test="${obj.status=='1' }">
+			 	 已编制为采购计划
+			  </c:if>
+			  
+			  </td>
 			</tr>
 	 
 		 </c:forEach>

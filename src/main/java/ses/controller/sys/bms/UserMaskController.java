@@ -56,7 +56,7 @@ public class UserMaskController {
 		List<UserTaskFormBean> list = userTaksService.getAl(map);
 		String string = JSON.toJSONString(list);
 		model.addAttribute("data", string);
-		return "user/usertask";
+		return "ses/bms/user/usertask";
 	}
 	/**
 	 * @throws ParseException 

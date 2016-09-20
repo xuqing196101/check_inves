@@ -695,7 +695,7 @@
 .header-v4 .mega-menu .dropdown-menu > li {
   	margin-left:0px;
   	background:#16888f;
-  	width:100px;
+  	min-width:100px;
   	
 }
 
@@ -1039,9 +1039,8 @@ li.dropdown ul.dropdown-menu > li > .dropdown-menuson{
     background-color: #16888F;
     padding: 0;
     border: none;
-    width: 100px;
+    min-width: 100px;
     z-index: 9999 !important;
 }
-
 
 .dropdown-menu > .line-block 

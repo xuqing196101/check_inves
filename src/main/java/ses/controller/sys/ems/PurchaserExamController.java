@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,6 +28,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Row.MissingCellPolicy;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -76,16 +78,48 @@ public class PurchaserExamController {
 	
 	/**
 	 * 
-	* @Title: purchaserExam
+	* @Title: purchaserList
 	* @author ZhaoBo
 	* @date 2016-9-7 上午11:25:28  
-	* @Description: 采购人考试系统
+	* @Description: 采购人题库管理页面
 	* @param @return      
 	* @return String
 	 */
-	@RequestMapping("/purchaserExam")
-	public String purchaserExam(){
-		return "ems/exam/purchaser/question/list";
+	@RequestMapping("/purchaserList")
+	public String purchaserList(){
+		return "ses/ems/exam/purchaser/question/list";
+	}
+	
+	/**
+	 * 
+	* @Title: getAllPurchaserQuestion
+	* @author ZhaoBo
+	* @date 2016-9-19 下午1:31:17  
+	* @Description: 查询所有的采购人题库 
+	* @param @return      
+	* @return List<ExamQuestion>
+	 */
+	@RequestMapping("/getAllPurchaserQuestion")
+	@ResponseBody
+	public List<ExamQuestion> getAllPurchaserQuestion(){
+		List<ExamQuestion> examQuestion = examQuestionService.getAllPurchaserQuestion();
+		List<ExamQuestion> newExamQuestion = new ArrayList<ExamQuestion>();
+		for(int i = 0;i<examQuestion.size();i++){
+			if(examQuestion.get(i).getExamQuestionType().getName().equals("单选题")){
+				newExamQuestion.add(examQuestion.get(i));
+			}
+		}
+		for(int i = 0;i<examQuestion.size();i++){
+			if(examQuestion.get(i).getExamQuestionType().getName().equals("多选题")){
+				newExamQuestion.add(examQuestion.get(i));
+			}
+		}
+		for(int i = 0;i<examQuestion.size();i++){
+			if(examQuestion.get(i).getExamQuestionType().getName().equals("判断题")){
+				newExamQuestion.add(examQuestion.get(i));
+			}
+		}
+		return newExamQuestion;
 	}
 	
 	/**
@@ -95,22 +129,22 @@ public class PurchaserExamController {
 	* @date 2016-9-7 上午11:26:37  
 	* @Description: 根据条件查询采购人题库  
 	* @param @param request
-	* @param @param examPool
+	* @param @param examQuestion
 	* @param @return      
 	* @return List<ExamPool>
 	 */
 	@RequestMapping("/queryPurchaser")
 	@ResponseBody
-	public List<ExamQuestion> queryPurchaser(HttpServletRequest request,ExamQuestion examPool){
+	public List<ExamQuestion> queryPurchaser(HttpServletRequest request,ExamQuestion examQuestion){
 		List<ExamQuestion> queryList = new ArrayList<ExamQuestion>();
-		if(request.getParameter("queType").isEmpty()){
-			String queName = request.getParameter("queName");
-			examPool.setTopic("%"+queName+"%");
-			queryList = examQuestionService.queryPurchaserByName(examPool);
-		}else if(request.getParameter("queName").isEmpty()){
-			examPool.setQuestionTypeId(Integer.parseInt(request.getParameter("queType")));
-			queryList = examQuestionService.queryPurchaserByType(examPool);
+		if(!request.getParameter("queType").isEmpty()){
+			examQuestion.setQuestionTypeId(Integer.parseInt(request.getParameter("queType")));
 		}
+		if(!request.getParameter("queName").isEmpty()){
+			String queName = request.getParameter("queName");
+			examQuestion.setTopic("%"+queName+"%");
+		}
+		queryList = examQuestionService.queryPurchaserByTerm(examQuestion);
 		return queryList;
 	}
 	
@@ -125,7 +159,7 @@ public class PurchaserExamController {
 	 */
 	@RequestMapping("/addPurQue")
 	public String addPurQue(){
-		return "ems/exam/purchaser/question/add";
+		return "ses/ems/exam/purchaser/question/add";
 	}
 	
 	/**
@@ -141,18 +175,18 @@ public class PurchaserExamController {
 	* @return String
 	 */
 	@RequestMapping("/saveToPurPool")
-	public String saveToPurPool(Model model,HttpServletRequest request,ExamQuestion examPool){
-		examPool.setQuestionTypeId(Integer.parseInt(request.getParameter("queType")));
-		examPool.setTopic(request.getParameter("queTopic"));
+	public String saveToPurPool(Model model,HttpServletRequest request,ExamQuestion examQuestion){
+		examQuestion.setQuestionTypeId(Integer.parseInt(request.getParameter("queType")));
+		examQuestion.setTopic(request.getParameter("queTopic"));
 		String[] queOption = request.getParameterValues("option");
 		StringBuffer sb_option = new StringBuffer();
 		sb_option.append("A"+queOption[0].trim()+";");
 		sb_option.append("B"+queOption[1].trim()+";");
 		sb_option.append("C"+queOption[2].trim()+";");
 		sb_option.append("D"+queOption[3].trim()+";");
-		examPool.setItems(sb_option.toString());
-		examPool.setPersonType(2);
-		examPool.setCreatedAt(new Date());
+		examQuestion.setItems(sb_option.toString());
+		examQuestion.setPersonType(2);
+		examQuestion.setCreatedAt(new Date());
 		StringBuffer sb = new StringBuffer();
 		if(request.getParameter("que")!=null){
 			String[] queSelect = request.getParameterValues("que");
@@ -166,9 +200,9 @@ public class PurchaserExamController {
 				sb.append(queJudge[i]);
 			}
 		}
-		examPool.setAnswer(sb.toString());
-		examPool.setPoint(Integer.parseInt(request.getParameter("quePoint")));
-		examQuestionService.insertSelective(examPool);
+		examQuestion.setAnswer(sb.toString());
+		examQuestion.setPoint(Integer.parseInt(request.getParameter("quePoint")));
+		examQuestionService.insertSelective(examQuestion);
 		return "redirect:purchaserExam.html";
 	}
 	
@@ -185,18 +219,18 @@ public class PurchaserExamController {
 	 */
 	@RequestMapping("/editPurQue")
 	public String editPurQue(HttpServletRequest request,Model model){
-		ExamQuestion examPool = examQuestionService.selectByPrimaryKey(request.getParameter("id"));
-		model.addAttribute("purchaserQue",examPool);
-		String queAnswer = examPool.getAnswer();
+		ExamQuestion examQuestion = examQuestionService.selectByPrimaryKey(request.getParameter("id"));
+		model.addAttribute("purchaserQue",examQuestion);
+		String queAnswer = examQuestion.getAnswer();
 		model.addAttribute("purchaserAnswer",queAnswer);
 		List<ExamQuestionType> examPoolType = examQuestionTypeService.selectPurchaserAll();
 		model.addAttribute("examPoolType",examPoolType);
-		String[] queOption = examPool.getItems().split(";");
+		String[] queOption = examQuestion.getItems().split(";");
 		model.addAttribute("optionA", queOption[0].substring(1));
 		model.addAttribute("optionB", queOption[1].substring(1));
 		model.addAttribute("optionC", queOption[2].substring(1));
 		model.addAttribute("optionD", queOption[3].substring(1));
-		return "ems/exam/purchaser/question/edit";
+		return "ses/ems/exam/purchaser/question/edit";
 	}
 	
 	/**
@@ -211,16 +245,16 @@ public class PurchaserExamController {
 	* @return String
 	 */
 	@RequestMapping("/editToPurchaser")
-	public String editToPurchaser(HttpServletRequest request,ExamQuestion examPool){
-		examPool.setId(request.getParameter("id"));
-		examPool.setTopic(request.getParameter("queTopic"));
+	public String editToPurchaser(HttpServletRequest request,ExamQuestion examQuestion){
+		examQuestion.setId(request.getParameter("id"));
+		examQuestion.setTopic(request.getParameter("queTopic"));
 		String[] queOption = request.getParameterValues("option");
 		StringBuffer sb_option = new StringBuffer();
 		sb_option.append("A"+queOption[0].trim()+";");
 		sb_option.append("B"+queOption[1].trim()+";");
 		sb_option.append("C"+queOption[2].trim()+";");
 		sb_option.append("D"+queOption[3].trim()+";");
-		examPool.setItems(sb_option.toString());
+		examQuestion.setItems(sb_option.toString());
 		StringBuffer sb = new StringBuffer();
 		if(request.getParameter("que")!=null){
 			String[] queSelect = request.getParameterValues("que");
@@ -234,9 +268,9 @@ public class PurchaserExamController {
 				sb.append(queJudge[i]);
 			}
 		}
-		examPool.setAnswer(sb.toString());
-		examPool.setPoint(Integer.parseInt(request.getParameter("quePoint")));
-		examQuestionService.updateByPrimaryKeySelective(examPool);
+		examQuestion.setAnswer(sb.toString());
+		examQuestion.setPoint(Integer.parseInt(request.getParameter("quePoint")));
+		examQuestionService.updateByPrimaryKeySelective(examQuestion);
 		return "redirect:purchaserExam.html";
 	}
 	
@@ -307,9 +341,9 @@ public class PurchaserExamController {
 			workbook = new HSSFWorkbook(new FileInputStream(excelFile));
 		}
 		Sheet sheet = workbook.getSheetAt(0);
-		for (int j = 1; j <= sheet.getPhysicalNumberOfRows(); j++) {
+		for (int j=1;j<=sheet.getPhysicalNumberOfRows();j++) {
 			Row row = sheet.getRow(j);
-			if (row == null) {
+			if (row==null) {
 				continue;
 			}
 			Cell queType = row.getCell(0);
@@ -319,33 +353,34 @@ public class PurchaserExamController {
 				Cell queOption = row.getCell(2);
 				Cell queAnswer = row.getCell(3);
 				Cell quePoint = row.getCell(4);
-				ExamQuestion examPool = new ExamQuestion();
-				examPool.setPersonType(2);
-				examPool.setTopic(queTopic.toString());
-				examPool.setItems(queOption.toString());
-				examPool.setAnswer(queAnswer.toString());
-				examPool.setPoint((int) quePoint.getNumericCellValue());
-				if (queType.toString().equals("单选题")) {
-					examPool.setQuestionTypeId(1);
-				} else {
-					examPool.setQuestionTypeId(2);
+				ExamQuestion examQuestion = new ExamQuestion();
+				examQuestion.setPersonType(2);
+				examQuestion.setTopic(queTopic.toString());
+				examQuestion.setItems(queOption.toString());
+				examQuestion.setAnswer(queAnswer.toString());
+				examQuestion.setPoint((int) quePoint.getNumericCellValue());
+				if(queType.toString().equals("单选题")) {
+					examQuestion.setQuestionTypeId(1);
+				}else{
+					examQuestion.setQuestionTypeId(2);
 				}
-				examPool.setCreatedAt(new Date());
-				examQuestionService.insertSelective(examPool);
-			} else {
+				examQuestion.setCreatedAt(new Date());
+				examQuestionService.insertSelective(examQuestion);
+			}
+			if(queType.toString().equals("判断题")){
+				ExamQuestion examQuestion = new ExamQuestion();
 				Cell queTopic = row.getCell(1);
 				Cell queAnswer = row.getCell(3);
 				Cell quePoint = row.getCell(4);
-				ExamQuestion examPool = new ExamQuestion();
-				examPool.setPersonType(2);
-				examPool.setTopic(queTopic.toString());
-				examPool.setAnswer(queAnswer.toString());
-				examPool.setPoint((int) quePoint.getNumericCellValue());
-				examPool.setQuestionTypeId(3);
-				examPool.setCreatedAt(new Date());
-				examQuestionService.insertSelective(examPool);
+				examQuestion.setPersonType(2);
+				examQuestion.setItems(" ");
+				examQuestion.setTopic(queTopic.toString());
+				examQuestion.setAnswer(queAnswer.toString());
+				examQuestion.setPoint((int) quePoint.getNumericCellValue());
+				examQuestion.setQuestionTypeId(3);
+				examQuestion.setCreatedAt(new Date());
+				examQuestionService.insertSelective(examQuestion);
 			}
-
 		}
 		return "1";
 	}
@@ -366,7 +401,7 @@ public class PurchaserExamController {
 		String paperNo = request.getParameter("paperNo");
 		ExamPaper examPaper = examPaperService.selectByPaperNo(paperNo);
 		model.addAttribute("paperId", examPaper.getId());
-		return "ems/exam/purchaser/timing";
+		return "ses/ems/exam/purchaser/timing";
 	}
 	
 	/**
@@ -388,16 +423,10 @@ public class PurchaserExamController {
 		JSONObject obj = JSONObject.fromObject(typeDistribution);
 		String singleN =  (String) obj.get("singleNum");
 		Integer singleNum = Integer.parseInt(singleN);
-		//String singleP = (String) obj.get("singlePoint");
-		//Integer singlePoint = Integer.parseInt(singleP);
 		String multipleN = (String) obj.get("multipleNum");
 		Integer multipleNum = Integer.parseInt(multipleN);
-		//String multipleP = (String) obj.get("multiplePoint");
-		//Integer multiplePoint = Integer.parseInt(multipleP);
 		String judgeN = (String) obj.get("judgeNum");
 		Integer judgeNum = Integer.parseInt(judgeN);
-		//String judgeP = (String) obj.get("judgePoint");
-		//Integer judgePoint = Integer.parseInt(judgeP);
 		ExamQuestion single = new ExamQuestion();
 		single.setSingleNum(singleNum);
 		ExamQuestion multiple = new ExamQuestion();
@@ -412,12 +441,12 @@ public class PurchaserExamController {
 		purchaserQue.addAll(multipleQue);
 		purchaserQue.addAll(judgeQue);
 		List<Integer> pageNum = new ArrayList<Integer>();
-		if(purchaserQue.size()%2==0){
-			for(int i=0;i<purchaserQue.size()/2;i++){
+		if(purchaserQue.size()%5==0){
+			for(int i=0;i<purchaserQue.size()/5;i++){
 				pageNum.add(i);
 			}
 		}else{
-			for(int i=0;i<purchaserQue.size()/2+1;i++){
+			for(int i=0;i<purchaserQue.size()/5+1;i++){
 				pageNum.add(i);
 			}
 		}
@@ -436,7 +465,9 @@ public class PurchaserExamController {
 		model.addAttribute("paperId", paperId);
 		model.addAttribute("purQueId", sb_questionIds);
 		model.addAttribute("count", 0);
-		return "ems/exam/purchaser/test";
+		System.out.println(pageNum.size());
+		model.addAttribute("pageSize", pageNum.size());
+		return "ses/ems/exam/purchaser/test";
 	}
 	
 	/**
@@ -450,7 +481,7 @@ public class PurchaserExamController {
 	 */
 	@RequestMapping("/paperManage")
 	public String paperManage(){
-		return "ems/exam/purchaser/paper/list";
+		return "ses/ems/exam/purchaser/paper/list";
 	}
 	
 	/**
@@ -483,8 +514,18 @@ public class PurchaserExamController {
 	* @return String
 	 */
 	@RequestMapping("/addPaper")
-	public String addPaper(){
-		return "ems/exam/purchaser/paper/add";
+	public String addPaper(Model model){
+		List<Integer> hour = new ArrayList<Integer>();
+		List<Integer> second = new ArrayList<Integer>();
+		for(int i=1;i<25;i++){
+			hour.add(i);
+		}
+		for(int i=0;i<60;i++){
+			second.add(i);
+		}
+		model.addAttribute("hour", hour);
+		model.addAttribute("second", second);
+		return "ses/ems/exam/purchaser/paper/add";
 	}
 	
 	/**
@@ -498,17 +539,40 @@ public class PurchaserExamController {
 	* @param @param examPaper
 	* @param @return      
 	* @return String
+	 * @throws ParseException 
 	 */
 	@RequestMapping("/saveToExamPaper")
-	public String saveToExamPaper(HttpServletRequest request,Model model,ExamPaper examPaper){
+	public String saveToExamPaper(HttpServletRequest request,Model model,ExamPaper examPaper) throws ParseException{
 		examPaper.setCreatedAt(new Date());
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
-		examPaper.setYear(sdf.format(new Date()));
 		examPaper.setName(request.getParameter("paperName"));
 		examPaper.setCode(request.getParameter("paperNo"));
 		examPaper.setScore(request.getParameter("totalPoint"));
 		examPaper.setTestTime(request.getParameter("useTime"));
-		examPaper.setStartTime(new Date());
+		String startTime = request.getParameter("startTime");
+		String newHour = null;
+		String newSecond = null;
+		String hour = request.getParameter("hour");
+		String second = request.getParameter("second");
+		if(hour.length()==1){
+			newHour = "0"+hour;
+		}else{
+			newHour = hour;
+		}
+		if(second.length()==1){
+			newSecond = "0"+second;
+		}else{
+			newSecond = second;
+		}
+		String examStartTime = startTime+" "+newHour+":"+newSecond+":"+"00";
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		examPaper.setStartTime(sdf.parse(examStartTime));
+		String[] isAllow = request.getParameterValues("isAllow");
+		if(isAllow[0].equals("是")){
+			examPaper.setIsAllowRetake(1);
+		}else{
+			examPaper.setIsAllowRetake(0);
+		}
+		examPaper.setYear(startTime.substring(0, 4));
 		String singleNum = request.getParameter("singleNum");
 		String singlePoint = request.getParameter("singlePoint");
 		String multipleNum = request.getParameter("multipleNum");
@@ -529,7 +593,7 @@ public class PurchaserExamController {
 		JSONSerializer.toJSON(map);
 		examPaper.setTypeDistribution(JSONSerializer.toJSON(map).toString());
 		examPaperService.insertSelective(examPaper);
-		return "redirect:testManage.html";
+		return "redirect:paperManage.html";
 	}
 	
 	/**
@@ -561,7 +625,7 @@ public class PurchaserExamController {
 	* @Title: editNoTestPaper
 	* @author ZhaoBo
 	* @date 2016-9-6 上午10:55:31  
-	* @Description: 修改选中的考卷 
+	* @Description: 修改考卷页面
 	* @param @param model
 	* @param @param request
 	* @param @return      
@@ -572,7 +636,68 @@ public class PurchaserExamController {
 		String[] id = request.getParameter("id").split(",");
 		ExamPaper examPaper = examPaperService.selectByPrimaryKey(id[0]);
 		model.addAttribute("examPaper", examPaper);
-		return "ems/exam/purchaser/paper/edit";
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String time = sdf.format(examPaper.getStartTime());
+		String startTime = time.substring(0,10);
+		String hour = time.substring(11, 13);
+		String second = time.substring(14, 16);
+		model.addAttribute("startTime", startTime);
+		model.addAttribute("hour", hour);
+		model.addAttribute("second", second);
+		List<Integer> hours = new ArrayList<Integer>();
+		List<Integer> seconds = new ArrayList<Integer>();
+		for(int i=1;i<25;i++){
+			hours.add(i);
+		}
+		for(int i=0;i<60;i++){
+			seconds.add(i);
+		}
+		model.addAttribute("hours", hours);
+		model.addAttribute("seconds", seconds);
+		return "ses/ems/exam/purchaser/paper/edit";
+	}
+	
+	/**
+	 * 
+	* @Title: editToExamPaper
+	* @author ZhaoBo
+	* @date 2016-9-5 下午4:19:29  
+	* @Description: 编辑考卷并保存 
+	* @param @param request
+	* @param @param model
+	* @param @param examPaper
+	* @param @return      
+	* @return String
+	 * @throws ParseException 
+	 */
+	@RequestMapping("/editToExamPaper")
+	public String editToExamPaper(HttpServletRequest request,Model model,ExamPaper examPaper) throws ParseException{
+		examPaper.setId(request.getParameter("paperId"));
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+		Date year = sdf.parse(request.getParameter("startTime"));
+		examPaper.setYear(sdf.format(year));
+		examPaper.setName(request.getParameter("paperName"));
+		examPaper.setCode(request.getParameter("paperNo"));
+		examPaper.setScore(request.getParameter("totalPoint"));
+		examPaper.setTestTime(request.getParameter("useTime"));
+		examPaper.setStartTime(new Date());
+		String singleNum = request.getParameter("singleNum");
+		String singlePoint = request.getParameter("singlePoint");
+		String multipleNum = request.getParameter("multipleNum");
+		String multiplePoint = request.getParameter("multiplePoint");
+		String judgeNum = request.getParameter("judgeNum");
+		String judgePoint = request.getParameter("judgePoint");
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("singleNum", singleNum);
+		map.put("singlePoint", singlePoint);
+		map.put("multipleNum", multipleNum);
+		map.put("multiplePoint", multiplePoint);
+		map.put("judgeNum", judgeNum);
+		map.put("judgePoint", judgePoint);
+		JSONSerializer.toJSON(map);
+		examPaper.setTypeDistribution(JSONSerializer.toJSON(map).toString());
+		examPaperService.updateByPrimaryKeySelective(examPaper);
+		return "redirect:paperManage.html";
 	}
 	
 	/**
@@ -610,7 +735,7 @@ public class PurchaserExamController {
 	 */
 	@RequestMapping("/ready")
 	public String ready(){
-		return "ems/exam/purchaser/ready";
+		return "ses/ems/exam/purchaser/ready";
 	}
 	
 	/**
@@ -682,7 +807,7 @@ public class PurchaserExamController {
 		}else{
 			model.addAttribute("count", 0);
 		}
-		return "ems/exam/purchaser/score";
+		return "ses/ems/exam/purchaser/score";
 	}
 	
 	/**
@@ -696,7 +821,7 @@ public class PurchaserExamController {
 	 */
 	@RequestMapping("/result")
 	public String result(){
-		return "ems/exam/purchaser/result";
+		return "ses/ems/exam/purchaser/result";
 	}
 	
 	/**
@@ -728,7 +853,7 @@ public class PurchaserExamController {
 	public String printTable(Model model){
 		List<ExamQuestion> examPool = examQuestionService.selectAllContent();
 		model.addAttribute("examPool", examPool);
-		return "ems/exam/purchaser/abc";
+		return "ses/ems/exam/purchaser/abc";
 	}
 	
 	/**
@@ -793,7 +918,7 @@ public class PurchaserExamController {
 		model.addAttribute("purQueId", sb_questionIds);
 		model.addAttribute("countDown", 1);
 		model.addAttribute("count", request.getParameter("count"));
-		return "ems/exam/purchaser/test";
+		return "ses/ems/exam/purchaser/test";
 	}
 	
 	/**
@@ -858,6 +983,68 @@ public class PurchaserExamController {
 		model.addAttribute("purQueId", sb_questionIds);
 		model.addAttribute("countDown", 1);
 		model.addAttribute("count", request.getParameter("count"));
-		return "ems/exam/purchaser/test";
+		return "ses/ems/exam/purchaser/test";
+	}
+	
+	/**
+	 * 
+	* @Title: view
+	* @author ZhaoBo
+	* @date 2016-9-18 下午5:18:00  
+	* @Description: 采购人查看题库页面 
+	* @param @param request
+	* @param @param model
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/view")
+	public String view(HttpServletRequest request,Model model){
+		ExamQuestion examPool = examQuestionService.selectByPrimaryKey(request.getParameter("id"));
+		model.addAttribute("purchaserQue",examPool);
+		String queAnswer = examPool.getAnswer();
+		model.addAttribute("purchaserAnswer",queAnswer);
+		List<ExamQuestionType> examPoolType = examQuestionTypeService.selectPurchaserAll();
+		model.addAttribute("examPoolType",examPoolType);
+		String[] queOption = examPool.getItems().split(";");
+		model.addAttribute("optionA", queOption[0].substring(1));
+		model.addAttribute("optionB", queOption[1].substring(1));
+		model.addAttribute("optionC", queOption[2].substring(1));
+		model.addAttribute("optionD", queOption[3].substring(1));
+		return "ses/ems/exam/purchaser/question/view";
+	}
+	
+	/**
+	 * 
+	* @Title: viewPaper
+	* @author ZhaoBo
+	* @date 2016-9-19 下午5:18:33  
+	* @Description: 查看考卷页面 
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/viewPaper")
+	public String viewPaper(HttpServletRequest request,Model model){
+		String id = request.getParameter("id");
+		ExamPaper examPaper = examPaperService.selectByPrimaryKey(id);
+		model.addAttribute("examPaper", examPaper);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String time = sdf.format(examPaper.getStartTime());
+		String startTime = time.substring(0,10);
+		String hour = time.substring(11, 13);
+		String second = time.substring(14, 16);
+		model.addAttribute("startTime", startTime);
+		model.addAttribute("hour", hour);
+		model.addAttribute("second", second);
+		List<Integer> hours = new ArrayList<Integer>();
+		List<Integer> seconds = new ArrayList<Integer>();
+		for(int i=1;i<25;i++){
+			hours.add(i);
+		}
+		for(int i=0;i<60;i++){
+			seconds.add(i);
+		}
+		model.addAttribute("hours", hours);
+		model.addAttribute("seconds", seconds);
+		return "ses/ems/exam/purchaser/paper/view";
 	}
 }

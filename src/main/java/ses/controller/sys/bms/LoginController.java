@@ -104,23 +104,46 @@ public class LoginController {
 				out.print("errorcode");
 			}else if(u != null){
 				req.getSession().setAttribute("loginUser", u);
-				logger.info("登录成功");
-				out.print("scuesslogin");
-				/*//等于6说明是进口供应商登录
+				//logger.info("登录成功");
+				//out.print("scuesslogin");
+				//等于6说明是进口供应商登录
 				if(u.getTypeName()!=null&&u.getTypeName()==6){
 					ImportSupplierWithBLOBs is=new ImportSupplierWithBLOBs();
 					is.setLoginName(user.getLoginName());
 					List<ImportSupplierWithBLOBs> isList=importSupplierService.selectByFsInfo(is,1);
-					//不等于2说明是审核未通过，则重定向
-					if(isList.get(0).getStatus()!=2){
-						req.getSession().setAttribute("importSupplierId", isList.get(0).getId());
-						out.print("scuesslogin_auditNotPass");
+					//不等于4说明是审核未通过，则重定向
+					if(isList!=null){
+						if(isList.get(0).getStatus()==null){
+							req.getSession().setAttribute("importSupplierId", isList.get(0).getId());
+							req.getSession().setAttribute("id", u.getTypeId());
+							out.print("scuesslogin_auditNotPass");
+							return;
+						}else if(isList.get(0).getStatus()==2){
+							logger.error("不好意思(先生/女士),您的企业信息不符合我们的相关规定,禁止注册.");
+							out.print("hemingdan");
+							return;
+						}else if(isList.get(0).getStatus()==3){
+							req.getSession().setAttribute("importSupplierId", isList.get(0).getId());
+							req.getSession().setAttribute("id", u.getTypeId());
+							out.print("scuesslogin_auditNotPass");
+							return;
+						}else if(isList.get(0).getStatus()==4){
+							logger.info("登录成功");
+							out.print("scuesslogin");
+						}else if(isList.get(0).getStatus()==1||isList.get(0).getStatus()==0){
+							logger.error("正在审核中...");
+							out.print("auditing");
+							return;
+						}
+					}else{
+						logger.error("请输入用户名密码或者验证码");
+						out.print("nullcontext");
 						return;
 					}
 				}else{
 					out.print("scuesslogin");
+					return;
 				}
-				out.print("scuesslogin_auditNotPass");*/
 			}else{
 				logger.error("验证失败");
 				out.print("errorlogin");

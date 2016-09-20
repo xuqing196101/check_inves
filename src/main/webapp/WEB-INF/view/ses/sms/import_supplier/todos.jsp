@@ -12,6 +12,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/import_supplier.css" media="screen" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/public/ZHH/css/style.css" media="screen" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/public/ZHH/css/animate.css" media="screen" rel="stylesheet">
@@ -215,7 +216,7 @@ function tijiao(status){
 		   <div class="col-md-4"></div>
 		   <div class="col-md-4"></div>
 		   <div class="col-md-4">
-		   		<span onclick="tijiao(2)">供应商已审核</span>（<a class="red b">${yishenhe }</a>）
+		   		<span onclick="tijiao(4)">供应商已审核</span>（<a class="red b">${yishenhe }</a>）
 		   </div>
 	   	   <div class="col-md-4"></div>
 	   	   <div class="col-md-4"></div>

@@ -227,19 +227,17 @@
 					<div class="fl mt5">D</div><textarea name="option" id="optionD" class="ml5 col-md-8">${optionD}</textarea>
 				    <div class="clear"></div>
 				</div>
-		        <%--<textarea class="text_area col-md-12 " name="queOption" id="queOption">${lawQue.queOption }</textarea>
-		       --%>
 		       </div>
 			 </li> 
 		   
 		  		<li class="col-md-12 p0">
 					<span class="fl">答案:</span>	
-					<span>
-			        A <input type="radio" id="A" name="que" value="A"/> 
-		  			B <input type="radio" id="B" name="que" value="B"/> 
-		  			C <input type="radio" id="C" name="que" value="C"/> 
-		  			D <input type="radio" id="D" name="que" value="D"/>
-			       </span>
+					<div class="fl ml5 mt5">
+			        A <input type="radio" id="A" name="que" value="A" class="mt0"/> 
+		  			B <input type="radio" id="B" name="que" value="B" class="mt0"/> 
+		  			C <input type="radio" id="C" name="que" value="C" class="mt0"/> 
+		  			D <input type="radio" id="D" name="que" value="D" class="mt0"/>
+			       </div>
 					<span id="queSelect"></span>
 				</li>
 				
@@ -274,7 +272,7 @@
 		  			</select>
 		  		</li>
   			</ul>
-  		</div>
+  		
   		<!-- 底部按钮 -->
 	  	<div class="padding-top-10 clear">
 			<div class="col-md-12 pl200 ">
@@ -285,9 +283,9 @@
 	  		</div>
 	  	</div>
 	  	
+  		</form>
+	  		</div>
 		</div>
-		</div>
-  	
-  	</form>
+	</div>
   </body>
 </html>

@@ -237,60 +237,94 @@
   </head>
   
   <body>
-  	<div>采购人修改题库</div>
-  	<form action="<%=path %>/purchaserExam/editToPurchaser.html?id=${purchaserQue.id }" method="post" id="form">
-  		<div>
-	  		请选择题型:
-	  		<select id="queType" name="queType" onchange="changeType()">
-	  			<option></option>
-	  			<c:forEach items="${examPoolType }" var="e">
-	  				<c:choose>
-	  					<c:when test="${e.id==purchaserQue.questionTypeId }">
-	  						<option value="${e.id }" selected="selected">${e.name }</option>
-	  					</c:when>
-	  					<c:otherwise>
-	  						<option value="${e.id }">${e.name }</option>
-	  					</c:otherwise>
-	  				</c:choose>
-	  			</c:forEach>
-	  		</select>
-  		</div>
-  		<div>
-  			题干:
-  			<textarea width="400" height="200" name="queTopic" id="queTopic">
-  			${purchaserQue.topic }
-  			</textarea>
-  		</div>
-  		<div>
-  			<ul class="list-unstyled list-flow p0_20 ">
-		     <li class="col-md-12 p0">
-			   <span class="fl">选项：</span>
-			   <div class="col-md-12 pl200 fn mt5 pwr9">
-			  		A<input type="text" name="option" id="optionA" value="${optionA}"/>
-					B<input type="text" name="option" id="optionB" value="${optionB}"/>
-					C<input type="text" name="option" id="optionC" value="${optionC}"/>
-					D<input type="text" name="option" id="optionD" value="${optionD}"/>
-		        <%--<textarea class="text_area col-md-12 " name="queOption" id="queOption">${lawQue.queOption }</textarea>
-		       --%></div>
-			 </li> 
+  	<!--面包屑导航开始-->
+   <div class="margin-top-10 breadcrumbs ">
+      <div class="container">
+		   <ul class="breadcrumb margin-left-0">
+		   <li><a href="#"> 首页</a></li><li><a href="#">支撑环境</a></li><li><a href="#">题库管理</a></li><li class="active"><a href="#">采购人题库管理</a></li>
 		   </ul>
-  			<%--<textarea width="400" height="200" name="queOption" id="queOption">
-  			${purchaserQue.queOption }
-  			</textarea>
-  		--%></div>
-  		<div>
-  			答案:
-  			A <input type="radio" id="A" name="que" value="A" onclick="queDis()"/> 
-  			B <input type="radio" id="B" name="que" value="B" onclick="queDis()"/> 
-  			C <input type="radio" id="C" name="que" value="C" onclick="queDis()"/> 
-  			D <input type="radio" id="D" name="que" value="D" onclick="queDis()"/>
-  			<span id="queSelect"></span><br/>
-  			对 <input type="radio" value="对" name="judge" onclick="judgeDis()" id="judgeTrue"/>
-  			错 <input type="radio" value="错" name="judge" onclick="judgeDis()" id="judgeFalse"/>
-  			<span id="queJudge"></span>
-  		</div>
-  		<div>
-  			分值:
+		<div class="clear"></div>
+	  </div>
+   </div>
+   
+   	<div class="container margin-top-5">
+    <div class="content padding-left-25 padding-right-25 padding-top-5">
+    <div>
+		<div class="headline-v2">
+		   	<h2>修改题目</h2>
+		</div>
+		
+  	<form action="<%=path %>/purchaserExam/editToPurchaser.html?id=${purchaserQue.id }" method="post" id="form">
+  		<ul class="list-unstyled list-flow p0_20">
+		     <li class="col-md-12 p0">
+	  			<span class="fl">请选择题型:</span>
+			  		<select id="queType" name="queType" onchange="changeType()">
+			  			<option></option>
+			  			<c:forEach items="${examPoolType }" var="e">
+			  				<c:choose>
+			  					<c:when test="${e.id==purchaserQue.questionTypeId }">
+			  						<option value="${e.id }" selected="selected">${e.name }</option>
+			  					</c:when>
+			  					<c:otherwise>
+			  						<option value="${e.id }">${e.name }</option>
+			  					</c:otherwise>
+			  				</c:choose>
+			  			</c:forEach>
+			  		</select>
+  			</li>
+  		
+  		<li class="col-md-12 p0">
+			<span class="fl">题干:</span>
+			<div class="">
+	  			<textarea class="text_area col-md-8" name="queTopic" id="queTopic">
+	  			${purchaserQue.topic }
+	  			</textarea>
+  			</div>
+  		</li>
+  		
+  		
+  		<li class="col-md-12 p0">
+				<span class="fl">选项:</span>
+				<div class="col-md-9">
+				<div>
+			  		<div class="fl mt5">A</div><textarea name="option" id="optionA" class="ml5 col-md-8">${optionA}</textarea>
+			  		<div class="clear"></div>
+			  	</div>
+			  	<div class="clear mt10">
+					<div class="fl mt5">B</div><textarea name="option" id="optionB" class="ml5 col-md-8">${optionB}</textarea>
+				    <div class="clear"></div>
+				</div>
+				<div class="clear mt10">
+					<div class="fl mt5">C</div><textarea name="option" id="optionC" class="ml5 col-md-8">${optionC}</textarea>
+				    <div class="clear"></div>
+				</div>
+				<div class="clear mt10">
+					<div class="fl mt5">D</div><textarea name="option" id="optionD" class="ml5 col-md-8">${optionD}</textarea>
+				    <div class="clear"></div>
+				</div>
+		       </div>
+			 </li> 
+  		
+  		
+  		
+  		<li class="col-md-12 p0">
+			<span class="fl">答案:</span>	
+			<div class="fl ml5 mt5">
+			  	A <input type="radio" id="A" name="que" value="A" onclick="queDis()"/> 
+			  	B <input type="radio" id="B" name="que" value="B" onclick="queDis()"/> 
+			  	C <input type="radio" id="C" name="que" value="C" onclick="queDis()"/> 
+			  	D <input type="radio" id="D" name="que" value="D" onclick="queDis()"/>
+  				<span id="queSelect"></span>
+  			</div>
+  			<div class="clear ml5 mt5">
+	  			对 <input type="radio" value="对" name="judge" onclick="judgeDis()" id="judgeTrue"/>
+	  			错 <input type="radio" value="错" name="judge" onclick="judgeDis()" id="judgeFalse"/>
+  				<span id="queJudge"></span>
+  			</div>
+  		</li>
+  		
+  		 <li class="col-md-12 p0">
+			<span class="fl">分值:</span>
   			<select name="quePoint" id="quePoint">
   				<option value="1" 
   					<c:if test="${purchaserQue.point==1 }">
@@ -318,11 +352,24 @@
   					</c:if>
   				>5</option>
   			</select>
-  		</div>
-  		<div>
-  			<input type="button" onclick="save()" value="保存"/>
-  			<input type="button" onclick="location.href='javascript:history.go(-1);'" value="返回"/>
-  		</div>
+  		</li>
+  		</ul>
+  		
+  		<!-- 底部按钮 -->
+	  	<div class="padding-top-10 clear">
+			<div class="col-md-12 pl200 ">
+				<div class="mt40 tc mb50">
+					<button class="btn btn-windows save" onclick="save()">更新</button>
+		  			<button class="btn btn-windows reset" onclick="history.go(-1)" type="button">返回</button>
+	  			</div>
+	  		</div>
+	  	</div>
+	  	
+		
+  	
   	</form>
+  		</div>
+		</div>
+		</div>
   </body>
 </html>

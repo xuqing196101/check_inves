@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="bss.dao.pqims.PqInfoMapper">
-  <resultMap id="BaseResultMap" type="bss.model.pqims.PqInfo">
-    <id column="ID" jdbcType="VARCHAR" property="id" />
-    <result column="CONTRACT_ID" jdbcType="VARCHAR" property="contractId" />
+  <resultMap id="PqInfoResultMap" type="bss.model.pqims.PqInfo">
+    <id column="ID" jdbcType="VARCHAR" property="id" />  
     <result column="PROJECT_TYPE" jdbcType="VARCHAR" property="projectType" />
     <result column="UNIT" jdbcType="VARCHAR" property="unit" />
     <result column="TYPE" jdbcType="DECIMAL" property="type" />
@@ -16,22 +15,40 @@
     <result column="REPORT" jdbcType="VARCHAR" property="report" />
     <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
     <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+    <!-- 查询合同  -->
+    <association column="CONTRACT_ID"  property="contract" select="bss.dao.cs.ContractMapper.selectByPrimaryKey" />  
   </resultMap>
+  
+  <!-- 表名 -->
+  <sql id="Tabel_Name">
+    T_BSS_PQIMS_PQINFO
+  </sql>
+  
+  <!-- 表中所有列 -->
   <sql id="Base_Column_List">
     ID, CONTRACT_ID, PROJECT_TYPE, UNIT, TYPE, PLACE, DATE, INSPECTORS, CONDITION, CONCLUSION, 
     DETAIL, REPORT, CREATED_AT, UPDATED_AT
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+  
+   <!-- 1.根据id查询(不带关联集合) -->
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="PqInfoResultMap">
     select 
     <include refid="Base_Column_List" />
     from T_BSS_PQIMS_PQINFO
     where ID = #{id,jdbcType=VARCHAR}
   </select>
+  
+  <!-- 2.根据id删除 -->
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from T_BSS_PQIMS_PQINFO
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
+  
+  <!-- 3.插入数据 -->
   <insert id="insert" parameterType="bss.model.pqims.PqInfo">
+ 	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
     insert into T_BSS_PQIMS_PQINFO (ID, CONTRACT_ID, PROJECT_TYPE, 
       UNIT, TYPE, PLACE, 
       DATE, INSPECTORS, CONDITION, 
@@ -43,7 +60,12 @@
       #{conclusion,jdbcType=DECIMAL}, #{detail,jdbcType=VARCHAR}, #{report,jdbcType=VARCHAR}, 
       #{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE})
   </insert>
+  
+  <!-- 4.插入不为空数据 -->
   <insert id="insertSelective" parameterType="bss.model.pqims.PqInfo">
+    <selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
     insert into T_BSS_PQIMS_PQINFO
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -134,6 +156,8 @@
       </if>
     </trim>
   </insert>
+  
+  <!-- 5.根据更新不为空数据 -->
   <update id="updateByPrimaryKeySelective" parameterType="bss.model.pqims.PqInfo">
     update T_BSS_PQIMS_PQINFO
     <set>
@@ -179,6 +203,8 @@
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <!-- 6.更新数据 -->
   <update id="updateByPrimaryKey" parameterType="bss.model.pqims.PqInfo">
     update T_BSS_PQIMS_PQINFO
     set CONTRACT_ID = #{contractId,jdbcType=VARCHAR},
@@ -196,4 +222,19 @@
       UPDATED_AT = #{updatedAt,jdbcType=DATE}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <!-- 7.列表总数 -->
+  <select id="queryByCount" resultType="java.lang.Integer" parameterType="Object">
+    select count(1) 
+    from T_BSS_PQIMS_PQINFO
+    <!-- where IS_DELETED = 0 -->
+  </select>
+  
+  <!-- 8.查询列表(查询不为空的字段，不带关联集合) -->
+  <select id="queryByList" resultMap="PqInfoResultMap" parameterType="Object">
+    select
+    <include refid="Base_Column_List" />
+    from T_BSS_PQIMS_PQINFO p
+    ORDER BY p.CREATED_AT DESC
+  </select>
 </mapper>

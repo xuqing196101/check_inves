@@ -80,7 +80,36 @@ public interface PqInfoMapper {
      */
     int updateByPrimaryKey(PqInfo record);
     
-    List<PqInfo> queryByList(PqInfo pqInfo);
+    /**
+     * 
+     * @Title: queryByList
+     * @author Liyi 
+     * @date 2016-9-18 下午4:19:35  
+     * @Description:查询所有信息
+     * @param:     
+     * @return:
+     */
+    List<PqInfo> queryByList();
     
-    List<PqInfo> selectPqInfo (PqInfo pqInfo);
+    /**
+     * 
+     * @Title: queryByCount
+     * @author Liyi 
+     * @date 2016-9-18 下午4:19:53  
+     * @Description:查询记录数
+     * @param:     
+     * @return:
+     */
+    Integer queryByCount();
+    
+    /**
+     * 
+     * @Title: selectPqInfo
+     * @author Liyi 
+     * @date 2016-9-18 下午4:25:43  
+     * @Description:根据不为空的条件查询用户信息
+     * @param:     
+     * @return:
+     */
+    /*List<PqInfo> selectPqInfo (PqInfo pqInfo);*/
 }

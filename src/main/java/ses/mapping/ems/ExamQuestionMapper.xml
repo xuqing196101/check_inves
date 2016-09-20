@@ -306,8 +306,8 @@
 			ROWNUM &lt;= #{queNum}
   </select>
   
-  <!-- 采购人题库根据类型查询 -->
-  <select id="queryPurchaserByType" parameterType="Object" resultMap="BaseColumn">
+  <!-- 采购人根据条件查询题目 -->
+  <select id="queryPurchaserByTerm" parameterType="Object" resultMap="BaseColumn">
   		SELECT
 			E.ID,
 			E.TOPIC,
@@ -319,29 +319,22 @@
 		FROM
 			T_SES_EMS_EXAM_QUESTION E,
 			T_SES_EMS_EXAM_QUESTION_TYPE T
-		WHERE
+		<where>
 			E.QUESTION_TYPE_ID = T.ID
-		AND E.PERSON_TYPE = 2
-		AND E.QUESTION_TYPE_ID = #{questionTypeId}
-  </select> 
-  
-  <!-- 采购人根据名字查询题目 -->
-  <select id="queryPurchaserByName" parameterType="Object" resultMap="BaseColumn">
-  		SELECT
-			E.ID,
-			E.TOPIC,
-			E.ITEMS,
-			E.ANSWER,
-			E.CREATED_AT,
-			E.POINT,
-			T.NAME
-		FROM
-			T_SES_EMS_EXAM_QUESTION E,
-			T_SES_EMS_EXAM_QUESTION_TYPE T
-		WHERE
-			E.QUESTION_TYPE_ID = T.ID
-		AND E.PERSON_TYPE = 2
-		AND E.TOPIC like #{topic}
+			AND E.PERSON_TYPE = 2
+            <if test="topic != null and '' != topic">
+            	<![CDATA[
+               	 AND E.TOPIC LIKE #{topic}
+                 ]]>  
+            </if> 
+            <if test="questionTypeId != null and '' != questionTypeId">
+            	<![CDATA[
+                AND E.QUESTION_TYPE_ID = #{questionTypeId}
+                ]]>
+            </if> 
+        </where>
+        ORDER BY
+        	E.CREATED_AT DESC
   </select> 
   
   <!-- 采购人根据考卷题型随机查找单选题 -->
@@ -432,4 +425,24 @@
   		select * from T_SES_EMS_EXAM_QUESTION 
   </select>
   
+  <!-- 查询所有的采购人题目 -->
+  <select id="getAllPurchaserQuestion" resultMap="BaseColumn">
+  		SELECT
+			E.ID,
+			E.TOPIC,
+			E.ITEMS,
+			E.ANSWER,
+			E.POINT,
+			E.CREATED_AT,
+			T.NAME
+		FROM
+			T_SES_EMS_EXAM_QUESTION E,
+			T_SES_EMS_EXAM_QUESTION_TYPE T
+		WHERE
+			E.PERSON_TYPE = 2
+		AND E.QUESTION_TYPE_ID = T.ID
+		AND E.QUESTION_TYPE_ID IN (1,2,3)
+		ORDER BY
+			E.CREATED_AT DESC
+  </select>
 </mapper>

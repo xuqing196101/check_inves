@@ -2,11 +2,12 @@ package ses.controller.sys.sms;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -33,7 +34,6 @@ import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.ImportSupplierAudService;
 import ses.service.sms.ImportSupplierService;
 import ses.service.sms.SupplierAgentsService;
-import ses.util.Encrypt;
 import ses.util.WfUtil;
 import ses.util.WordUtil;
 
@@ -87,9 +87,8 @@ public class ImportSupplierController {
 		//保存基本信息返回 id作为外键保存到user用户表里面去
 		importSupplierService.register(is);
 		User user=new User();
-		String psw=Encrypt.md5AndSha(is.getLoginName()+is.getPassword());
 		user.setLoginName(is.getLoginName());
-		user.setPassword(psw);
+		user.setPassword(is.getPassword());
 		user.setMobile(is.getMobile());
 		user.setTypeId(is.getId());
 		user.setTypeName(6);
@@ -129,7 +128,7 @@ public class ImportSupplierController {
 		        }  
 			}
 		is.setStatus((short)0);
-		is.setCreatedAt(new Date());
+		is.setCreatedAt(new Timestamp(new Date().getTime()));
 		importSupplierService.updateRegisterInfo(is);
 		/*SupplierAgents sa=new SupplierAgents();
 		//自己的id
@@ -144,7 +143,7 @@ public class ImportSupplierController {
 		sa.setIsDeleted((short)0);
 		sa.setCreatedAt(new Date());
 		supplierAgentService.insert(sa);*/
-		return "redirect:daiban.html";
+		return "redirect:../login/index.html";
 	}
 	
 	/**
@@ -161,6 +160,9 @@ public class ImportSupplierController {
 	 */
 	@RequestMapping("updateRegister")
 	public String updateRegister(ImportSupplierWithBLOBs is,Model model,HttpServletRequest request){
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		List<PurchaseDep> findPurchaseDepList = poService.findPurchaseDepList(map);
+		model.addAttribute("findPurchaseDepList", findPurchaseDepList);
 		String id=(String) request.getSession().getAttribute("importSupplierId");
 		is.setId(id);
 		ImportSupplierWithBLOBs importSupplierWithBLOBs = importSupplierService.selectByPrimaryKey(is);
@@ -200,7 +202,7 @@ public class ImportSupplierController {
 		        }  
 			}
 		is.setStatus((short)0);
-		is.setCreatedAt(new Date());
+		is.setUpdatedAt(new Timestamp(new Date().getTime()));
 		importSupplierService.updateRegisterInfo(is);
 		/*SupplierAgents sa=new SupplierAgents();
 		//自己的id
@@ -215,7 +217,7 @@ public class ImportSupplierController {
 		sa.setIsDeleted((short)0);
 		sa.setCreatedAt(new Date());
 		supplierAgentService.insert(sa);*/
-		return "redirect:daiban.html";
+		return "redirect:../..//";
 	}
 
 	/**
@@ -279,7 +281,7 @@ public class ImportSupplierController {
 		is.setStatus((short)1);
 		int fushen=importSupplierService.getCount(is);
 		//审核通过
-		is.setStatus((short)2);
+		is.setStatus((short)4);
 		int yishenhe=importSupplierService.getCount(is);
 		model.addAttribute("weishenhe", weishenhe);
 		model.addAttribute("shenhezhong",fushen);
@@ -362,9 +364,11 @@ public class ImportSupplierController {
 		importSupplierService.updateRegisterInfo(importSupplierWithBLOBs);
 		//给审核不通过的理由存到表里
 		isa.setImportSupplierId(importSupplierWithBLOBs.getId());
-		if(is.getStatus()==1){
+		if(is.getStatus()==2&&importSupplierWithBLOBs.getStatus()==0){
 			importSupplierAudService.register(isa);
-		}else if(is.getStatus()==4){
+		}else if(is.getStatus()==3){
+			importSupplierAudService.updateRegisterInfo(isa);
+		}else if(importSupplierWithBLOBs.getStatus()==1&&is.getStatus()==2){
 			importSupplierAudService.updateRegisterInfo(isa);
 		}
 		
@@ -440,22 +444,74 @@ public class ImportSupplierController {
 		myMap.put("青海省","cn-qh");        
 		myMap.put("江西省","cn-jx");        
 		myMap.put("台湾省","tw-tw");        
-		
-		//  {"hc-key": "cn-sh","value": 0},
-		Random random = new Random();
-		String value="";
-		for (Object o : myMap.keySet()) { 
-			value= random.nextInt(100)+1+"" ;
+		//调用供应商查询方法 List<Supplier>
+		//开始循环 判断地址是否
+		Map<String,Integer> map= new HashMap<String,Integer>(40);
+		List<String> list=getAllProvince();
+		for(String str:list){
+			int count=1;
+			if("上海市浙江省江苏省安徽省".indexOf(str)!=-1){
+				if(map.get(str)==null){
+					map.put(myMap.get(str), count);
+				}else{
+					map.put(str,map.get(str)+1);
+				}
+			}
+		}
+		for (Object o : map.keySet()) { 
 			sb.append("{'hc-key':'").
-			append(myMap.get(o)).
+			append(o).
 			append("','value':").
-			append(value).
+			append(map.get(o)).
 			append("},").append("\n");
 			;
-			}
-		
-		String highMapStr=sb.deleteCharAt(sb.length()-1).toString();
+		}
+		String highMapStr=null;
+		if(sb.length()>0){
+			highMapStr=sb.deleteCharAt(sb.length()-1).toString();
+		}
 		model.addAttribute("data", highMapStr);
 		return "ses/sms/supplier_query/all_supplier";
+	}
+	public static List<String> getAllProvince(){
+		List<String> list=new ArrayList<String>();
+		list.add("吉林省");
+		list.add("天津市");
+		list.add("安徽省");
+		list.add("山东省");
+		list.add("山西省");
+		list.add("新疆维吾尔自治区");
+		list.add("河北省");
+		list.add("河南省");
+		list.add("湖南省");
+		list.add("甘肃省");
+		
+		list.add("福建省");
+		list.add("贵州省");
+		list.add("重庆市");
+		list.add("江苏省");
+		list.add("湖北省");
+		list.add("内蒙古自治区");
+		list.add("广西壮族自治区");
+		list.add("黑龙江省");
+		list.add("云南省");
+		list.add("辽宁省");
+		
+		list.add("香港特别行政区");
+		list.add("浙江省");
+		list.add("上海市");
+		list.add("北京市");
+		list.add("广东省");
+		list.add("澳门特别行政区");
+		list.add("西藏自治区");
+		list.add("陕西省");
+		list.add("四川省");
+		list.add("海南省");
+		
+		list.add("宁夏回族自治区");
+		list.add("青海省");
+		list.add("江西省");
+		list.add("台湾省");
+		return list;
 	}
 }

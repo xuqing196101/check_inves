@@ -20,7 +20,7 @@
   	<form action="<%=path %>/expertExam/saveExamRule.html" method="post">
 	  	<ul class="list-unstyled list-flow p0_20">
 		     <li class="col-md-12 p0">
-	  			<span class="fl">考试时间:</span>
+	  			<span class="fl">考试用时:</span>
 	    		<input type="text" name="testTime"/>
 	    	</li>
 	    	<li class="col-md-12 p0">

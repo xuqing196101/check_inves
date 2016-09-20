@@ -46,3 +46,6 @@
 .fz11 {
 	font-size: 11px !important;
 }
+.ztree ul {
+	border: 0px;
+}

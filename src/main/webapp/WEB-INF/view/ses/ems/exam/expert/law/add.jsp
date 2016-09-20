@@ -5,7 +5,6 @@
 <html>
   <head>
     <title>新增法律类专家题库</title>
-
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -155,7 +154,7 @@
 		     <li class="col-md-12 p0">
 	  			<span class="fl">请选择题型:</span>
 		  		<select id="queType" name="queType" onchange="changeType()">
-		  			<option></option>
+		  			<option>请选择</option>
 		  			<option value="1">单选题</option>
 		  			<option value="2">多选题</option>
 		  		</select>
@@ -172,33 +171,36 @@
 		
 				<li class="col-md-12 p0">
 				<span class="fl">选项:</span>
-					<div class="">
-						A<input type="text" name="option" id="optionA"/>
-						B<input type="text" name="option" id="optionB"/>
-						C<input type="text" name="option" id="optionC"/>
-						D<input type="text" name="option" id="optionD"/>
-						<%--<textarea class="text_area col-md-8 " name="queOption"
-							id="queOption" onblur="judgeInput()"></textarea>
-						<span class="col-md-4" style="color: red">
-							选项格式:A上;<br/>
-							B下;<br/>
-							C左;<br/>
-							D右;<br/>
-							分号必须是英文状态下的分号
-						</span>	
-					--%></div>
-					</li>
+				<div class="col-md-9">
+				<div>
+			  		<div class="fl mt5">A</div><textarea name="option" id="optionA" class="ml5 col-md-8"></textarea>
+			  		<div class="clear"></div>
+			  	</div>
+			  	<div class="clear mt10">
+					<div class="fl mt5">B</div><textarea name="option" id="optionB" class="ml5 col-md-8"></textarea>
+				    <div class="clear"></div>
+				</div>
+				<div class="clear mt10">
+					<div class="fl mt5">C</div><textarea name="option" id="optionC" class="ml5 col-md-8"></textarea>
+				    <div class="clear"></div>
+				</div>
+				<div class="clear mt10">
+					<div class="fl mt5">D</div><textarea name="option" id="optionD" class="ml5 col-md-8"></textarea>
+				    <div class="clear"></div>
+				</div>
+		       </div>
+			 </li> 
 			
 
 		
 				<li class="col-md-12 p0">
 					<span class="fl">答案:</span>	
-					<span>
-						A<input type="radio" id="A" name="que" value="A" /> 
-						B<input type="radio" id="B" name="que" value="B" /> 
-						C<input type="radio" id="C" name="que" value="C" /> 
-						D<input type="radio" id="D"name="que" value="D" /> 
-					</span>
+					<div class="fl ml5 mt5">
+			        A <input type="radio" id="A" name="que" value="A" class="mt0"/> 
+		  			B <input type="radio" id="B" name="que" value="B" class="mt0"/> 
+		  			C <input type="radio" id="C" name="que" value="C" class="mt0"/> 
+		  			D <input type="radio" id="D" name="que" value="D" class="mt0"/>
+			       </div>
 					<span id="queSelect"></span>
 				</li>
 			
@@ -214,8 +216,9 @@
 	  			</select>
   			</li>
   		</ul>
-  	</div>
-  			<!-- 按钮 -->
+  	
+  	
+  		<!-- 按钮 -->
   		<div class="padding-top-10 clear">
 			<div class="col-md-12 pl200 ">
 				<div class="mt40 tc mb50">
@@ -226,6 +229,7 @@
 	  	</div>
 	  	
   	</form>
+  	</div>
   	     </div>
      </div>
   </body>

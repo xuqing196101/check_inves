@@ -6,77 +6,83 @@ import java.util.Date;
 public class PurchaseDep extends Orgnization{
     private String id;
 
-    private String levelDep;
+    private String levelDep;//采购机构级别
 
     private String subordinateOrgId;
 
-    private String subordinateOrgName;
+    private String subordinateOrgName;//行政隶属单位名称
 
-    private String businessDep;
+    private String businessDep;//暂时废弃
 
     private String businessDepId;
 
-    private String businessRange;
+    private String businessRange;//采购业务范围
+    
+    private String dutyRoomPhone;//值班室电话
 
-    private String quaCode;
+    private String quaCode;//采购资质编号
 
-    private String quaLevel;
+    private String quaLevel;//采购资质等级 一级----九级
+    
+    private Date quaStartDate;//采购资质开始日期
 
-    private Date quaEdndate;
+    private Date quaEdndate;//采购资质截止日期
 
-    private Integer quaRange;
+    private Integer quaRange;//采购资质范围,1：综合2：物资3：工程 4：服务 
+    
+    private Integer quaStatus;//资质状态  0资质暂停1默认正常2资质终止
 
     private String quaCert;
 
-    private String leaderTelephone;
+    private String leaderTelephone;//单位主要领导姓名及电话
 
-    private Integer officerCountnum;
+    private Integer officerCountnum;//军官编制人数
 
-    private Integer officerNowCounts;
+    private Integer officerNowCounts;//军官现有人数
 
-    private Integer soldierNum;
+    private Integer soldierNum;//士兵编制人数
 
-    private Integer soldierNowCounts;
+    private Integer soldierNowCounts;//士兵现有人数
 
-    private Integer staffNum;
+    private Integer staffNum;//职工编制人数
 
-    private Integer staffNowCounts;
+    private Integer staffNowCounts;//职工现有人数
 
-    private Integer purchasersCount;
+    private Integer purchasersCount;//具备采购资格人员数量
 
-    private Integer juniorPurCount;
+    private Integer juniorPurCount;//初级采购师人数
 
-    private Integer seniorPurCount;
+    private Integer seniorPurCount;//高级采购师人数
 
-    private String depName;
+    private String depName;//单位名称
 
-    private String legal;
+    private String legal;//法定代表人
 
-    private String agent;
+    private String agent;//委托代理人
 
-    private String contact;
+    private String contact;//联系人
 
-    private String contactTelephone;
+    private String contactTelephone;//联系电话
 
-    private String contactAddress;
+    private String contactAddress;//通讯地址
 
-    private Integer unitPostCode;
+    private Integer unitPostCode;//邮政编码
 
-    private String payDep;
+    private String payDep;//付款单位
 
-    private String bank;
+    private String bank;//开户银行
 
-    private BigDecimal bankAccount;
+    private BigDecimal bankAccount;//银行账号
 
-    private Integer officeArea;
+    private Integer officeArea;//办公场地总面积
 
-    private Integer officeCount;
+    private Integer officeCount;//办公司数量
 
-    private Integer mettingRoomCount;
+    private Integer mettingRoomCount;//会议室数量
 
-    private Integer inviteRoomCount;
+    private Integer inviteRoomCount;//招标室数量
 
-    private Integer bidRoomCount;
+    private Integer bidRoomCount;//评标室数量
 
     private Integer isDeleted;
 
@@ -85,6 +91,11 @@ public class PurchaseDep extends Orgnization{
     private Date createdAt;
     
     private String orgId;
+    
+    private String areaName;//采购机构归属地  组合  省市
+    
+    
+    private Integer isAuditSupplier;//是否具有进口供应商审核权限，0没有1有
 
     public String getId() {
         return id;
@@ -414,6 +425,47 @@ public class PurchaseDep extends Orgnization{
 
 	public void setOrgId(String orgId) {
 		this.orgId = orgId;
+	}
+
+	public String getAreaName() {
+		return areaName;
+	}
+
+	public void setAreaName(String areaName) {
+		this.areaName = areaName;
+	}
+
+	
+	public String getDutyRoomPhone() {
+		return dutyRoomPhone;
+	}
+
+	public void setDutyRoomPhone(String dutyRoomPhone) {
+		this.dutyRoomPhone = dutyRoomPhone;
+	}
+
+	public Integer getIsAuditSupplier() {
+		return isAuditSupplier;
+	}
+
+	public void setIsAuditSupplier(Integer isAuditSupplier) {
+		this.isAuditSupplier = isAuditSupplier;
+	}
+
+	public Date getQuaStartDate() {
+		return quaStartDate;
+	}
+
+	public void setQuaStartDate(Date quaStartDate) {
+		this.quaStartDate = quaStartDate;
+	}
+
+	public Integer getQuaStatus() {
+		return quaStatus;
+	}
+
+	public void setQuaStatus(Integer quaStatus) {
+		this.quaStatus = quaStatus;
 	}
     
 }

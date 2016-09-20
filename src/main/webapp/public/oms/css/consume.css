@@ -7,3 +7,52 @@
  p.pagestyle input{ display:inline-block; float:left; width:30px; height:28px;}
  p.pagestyle span{ float:left;display:inline-block; padding-left:10px; padding-right:10px; line-height:30px; text-align:center;}
  p.pagestyle a.subm{ color:#fff; padding-left:10px; padding-right:10px; background:#568ddf; border:1px solid #568ddf;-moz-border-radius: 3px; /* Gecko browsers */  -webkit-border-radius: 3px; /* Webkit browsers */border-radius:3px;/* W3C syntax*/}
+ 
+ .list p.page{ display:inline-block; float:right; margin-top:8px; text-align:right; font-size:12px;}
+.list p.page a{ display:inline-block; float:left; color:#333; width:30px; height:30px; line-height:30px; border:1px solid #ececec; text-align:center; font-size:12px; margin-left:4px; margin-right:4px;}
+.list p.page a:active {background:#568ddf;border:1px solid #568ddf; color:#fff;}
+.list p.page a.sel{ background:#568ddf;border:1px solid #568ddf; color:#fff;}
+.list p.page a.pre{ display:inline-block; background:url(../images/arrowL.png) center no-repeat;}
+.list p.page a.next{ display:inline-block; background:url(../images/arrowR.png) center no-repeat;}
+.list p.page input{ display:inline-block; float:left; width:40px; height:30px;font-size:12px;}
+.list p.page span{ float:left;display:inline-block; padding-left:10px; padding-right:10px; line-height:30px; text-align:center;}
+.list p.page a.subm{ color:#fff; padding-left:10px; padding-right:10px; background:#568ddf; border:1px solid #568ddf;-moz-border-radius: 3px; /* Gecko browsers */  -webkit-border-radius: 3px; /* Webkit browsers */border-radius:3px;/* W3C syntax*/}
+
+.clearfloat { clear: both; font-size: 0; height: 0; overflow: hidden; }
+
+.topFormArea{width:98%; padding:1%; margin-top:6px;}
+.topFormArea p{ display:inline-block;  line-height:36px;}
+.topFormArea p span{ display:inline-block; float:left; font-size:12px; width:90px; text-align:right; padding-right:4px;} 
+.topFormArea p input{display:inline-block; float:left; width:150px; height:26px; line-height:26px;border:1px solid #dedede;-moz-border-radius: 3px; /* Gecko browsers */  -webkit-border-radius:3px; /* Webkit browsers */border-radius:3px;/* W3C syntax*/}
+.topFormArea p input.dateIcon{ background:url(../images/dateIcon.png) 128px 4px no-repeat;border:1px solid #dedede;-moz-border-radius: 3px; /* Gecko browsers */  -webkit-border-radius:3px; /* Webkit browsers */border-radius:3px;/* W3C syntax*/}
+.topFormArea p input.dateIcon12{ width:120px;background:url(../images/dateIcon.png) 98px 4px no-repeat;border:1px solid #dedede;-moz-border-radius: 3px; /* Gecko browsers */  -webkit-border-radius:3px; /* Webkit browsers */border-radius:3px;/* W3C syntax*/ text-indent:8px;}
+.topFormArea p span.w7{ width:70px;}
+.topFormArea p span.w5{ width:50px;}
+.topFormArea p input.w12{ width:120px;}
+.topFormArea p div{ display:inline-block;float:left; }
+
+.topFormArea p a{display:inline-block; float:left;}
+.topFormArea p select{display:inline-block; float:left;background: none repeat scroll 0 0 #fcfcfc;    border: 1px solid #ccc;    border-radius: 3px;    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) inset;    color: #777;    display: inline-block;    font-size: 14px;    height: 30px;    line-height: 1;    padding: 0x; width:150px;}
+.topFormArea p select.w12{ width:120px;}
+
+.list{ display:inline-block; width:98%; padding:1%;margin-top: -10px}
+.list p.sort{ display:inline-block; width:100%; height:30px; line-height:30px; margin-bottom:6px; background:#f8f8f8; border:1px solid #e8e8e8; font-size:12px; text-indent:8px;}
+.list p.sort a{ font-size:12px; margin-left:8px; color:#333;}
+.list p.sort a.sel{color:#f7a31c; font-weight:bold;}
+.list table{ border-collapse:collapse; width:100%; border:1px solid #e8e8e8;}
+.list table th{ background:#f8f8f8; line-height:48px; font-size:14px; font-weight:normal; text-align:left; text-indent:8px;border:1px solid #e8e8e8;text-align:center;}
+.list table td{ font-size:12px; text-align:left; text-indent:8px; line-height:40px;border:1px solid #e8e8e8; font-family:arial,Microsoft Yahei;text-align:center;}
+.list table td span.w10{ display:inline-block; width:100px; float:left;white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.list table td span.w8{ display:inline-block; width:80px; float:left;white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.list table td b{ color:#f7a31c; font-size:14px; font-family:arial;}
+.list table td b.y{ color:#333; font-weight:normal; font-size:12px;}
+.list table td b.n{ color:#f20000; font-weight:normal;font-size:12px;}
+.list table td a{ text-decoration:underline;color:#568ddf;}
+.list table tr.colorG{ background:#f9fcfe;}
+.list table tr:hover{ background-color:#E2F9FF;}
+
+a.searchBtn{display:inline-block; width:78px; text-align:center; height:30px;line-height:30px;  background:url(../images/searchBtn.png) no-repeat; margin-left:16px;}
+.rigCon{ float:left; width:880px; margin-left:10px; margin-top:10px; background:#fff; border:1px solid #dedede; padding-bottom:10px;}
+
+/* bootstarp 修改默认样式 */
+/* bootstarp 修改默认样式 */

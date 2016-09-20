@@ -68,10 +68,10 @@ public class SupplierAuditServliceImpl implements SupplierAuditServlice {
 		Map map = new HashMap();
 		if(supplier!=null){
 			map.put("supplierName", supplier.getSupplierName());
-			map.put("businessType", supplier.getBusinessType());
+			map.put("supplierTypeId", supplier.getSupplierTypeId());
 		}else{
 			map.put("supplierName", null);
-			map.put("businessType", null);
+			map.put("supplierTypeId", null);
 		}
 		return supplierMapper.findSupplier(map);
 	}
@@ -133,6 +133,20 @@ public class SupplierAuditServliceImpl implements SupplierAuditServlice {
 	public void auditReasons(SupplierAudit supplierAudit) {
 		supplierAuditMapper.insertSelective(supplierAudit);
 		
+	}
+	
+	/**
+	 * @Title: findAll
+	 * @author Xu Qing
+	 * @date 2016-9-20 上午10:08:44  
+	 * @Description: 查询所有审核记录 
+	 * @param @return      
+	 * @return List<SupplierAudit>
+	 */
+	@Override
+	public List<SupplierAudit> findAll() {
+		
+		return supplierAuditMapper.findAll();
 	}
 
 	

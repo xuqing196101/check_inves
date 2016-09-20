@@ -2,34 +2,99 @@ package bss.model.pqims;
 
 import java.util.Date;
 
+import bss.model.cs.Contract;
+
+/**
+ * 
+ * @Title:PqInfo 
+ * @Description:质检信息实体类 
+ * @author Liyi
+ * @date 2016-9-20下午2:41:11
+ *
+ */
 public class PqInfo {
+	/*
+	 * 主键
+	 */
     private String id;
 
+    /*
+     * 合同id
+     */
     private String contractId;
 
+    /*
+     * 项目类型
+     */
     private String projectType;
 
+    /*
+     * 质检单位
+     */
     private String unit;
 
-    private Short type;
+    /*
+     * 质检类型、验收类型
+     */
+    private int type;
 
+    /*
+     * 质检地点
+     */
     private String place;
 
+    /*
+     * 质检日期
+     */
     private Date date;
 
+    /*
+     * 质检人员
+     */
     private String inspectors;
 
+    /*
+     * 质检情况
+     */
     private String condition;
 
-    private Short conclusion;
+    /*
+     * 质检结果
+     */
+    private int conclusion;
 
+    /*
+     * 详细情况
+     */
     private String detail;
 
+    /*
+     * 质检报告
+     */
     private String report;
 
+    /*
+     * 创建时间
+     */
     private Date createdAt;
 
+    /*
+     * 修改时间
+     */
     private Date updatedAt;
+    
+    /*
+     * 合同实体类
+     */
+    private Contract contract;
+    
+    public Contract getContract() {
+		return contract;
+	}
+
+	public void setContract(Contract contract) {
+		this.contract = contract;
+	}
 
     public String getId() {
         return id;
@@ -63,11 +128,11 @@ public class PqInfo {
         this.unit = unit == null ? null : unit.trim();
     }
 
-    public Short getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(Short type) {
+    public void setType(int type) {
         this.type = type;
     }
 
@@ -103,11 +168,11 @@ public class PqInfo {
         this.condition = condition == null ? null : condition.trim();
     }
 
-    public Short getConclusion() {
+    public int getConclusion() {
         return conclusion;
     }
 
-    public void setConclusion(Short conclusion) {
+    public void setConclusion(int conclusion) {
         this.conclusion = conclusion;
     }
 

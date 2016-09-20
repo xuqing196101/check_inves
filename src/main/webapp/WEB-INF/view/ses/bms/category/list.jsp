@@ -155,12 +155,11 @@
 				for ( var i = 0;  i< list.length; i++) {
 			
 				  html = html + "<tr>";
-            	  html += "<th class='tc'><input type='checkbox' class='checkboxes' onclick='check()'  value='"+list[i].id+","+list[i].parentId+"'/></th>"
+            	 /*  html += "<th class='tc'><input type='checkbox' class='checkboxes' onclick='check()'/></th>" */
             	  html = html + "<th >"+(i+1)+"</th>";
             	  html = html + "<th>"+list[i].name+"</th>";
-            	　 /* html = html + "<td class='tc acur' onclick='checklist("+list[i].tr+")'>"+list[i].ancestry+"</td>";  */
+            	  html = html + "<th>"+list[i].parentId+"</th>";
             	  html = html + "<td >"+list[i].status+"</td>";
-            	   html = html + "<td >"+list[i].ancestry+"</td>";  
             	  html = html + "<td  >"+list[i].position+"</td>";
             	  html = html + "<td  >"+list[i].code+"</td>";
             	  html = html + "<td  >"+list[i].attchment+"</td>";
@@ -271,7 +270,7 @@
    <div class="container">
 
 	<div id="ztree" class="ztree col-md-3"></div>
-		<div class="mt10">
+		<div class="mt10 col-md-9">
 			<span id="add"><a href="javascript:void(0);" onclick="news()" class="btn btn-window ">新增 </a></span> 
 			<span><a href="javascript:void(0);" onclick="update()"  class="btn btn-window ">修改</a></span> 
 			<span><a href="javascript:void(0);" onclick="ros()"  class="btn btn-window ">激活/休眠</a></span>
@@ -286,9 +285,9 @@
 		<table id="Result"  class="table table-bordered table-condensed  ">    
             <thead >
 			    <tr>
-			      <th ><input id="checkedAll" type="checkbox" name="checkedAll" onclick="selectAll()"/></th>
-				  <th class="info w30">序号</th>
-				  <th class="info w50">目录名称</th> 
+			      <!-- <th><input id="checkedAll" type="checkbox" name="checkedAll" onclick="selectAll()"/></th> -->
+				  <th class="info">序号</th>
+				  <th class="info">目录名称</th> 
 				  <th class="info">父节点</th>
 				  <th class="info">状态</th>
 				  <th class="info">排序</th> 

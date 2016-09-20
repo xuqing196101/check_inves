@@ -48,40 +48,15 @@ public class ExamUserScoreServiceImpl implements ExamUserScoreServiceI {
 
 	
 	@Override
-	public List<ExamUserScore> expertQueryList(ExamUserScore examUserScore) {
-		return examUserScoreMapper.expertQueryList(examUserScore);
-	}
-
-
-	@Override
-	public List<ExamUserScore> queryListByName(ExamUserScore examUserScore) {
-		return examUserScoreMapper.queryListByName(examUserScore);
-	}
-
-
-	
-	@Override
-	public List<ExamUserScore> queryListByDuty(ExamUserScore examUserScore) {
-		return examUserScoreMapper.queryListByDuty(examUserScore);
-	}
-
-
-	
-	@Override
-	public List<ExamUserScore> queryListByState(ExamUserScore examUserScore) {
-		return examUserScoreMapper.queryListByState(examUserScore);
-	}
-	
-	
-	@Override
-	public List<ExamUserScore> queryListByDuSt(ExamUserScore examUserScore) {
-		return examUserScoreMapper.queryListByDuSt(examUserScore);
-	}
-
-	
-	@Override
 	public List<ExamUserScore> selectExpertResultByTerm(ExamUserScore examUserScore) {
 		return examUserScoreMapper.selectExpertResultByTerm(examUserScore);
+	}
+
+
+	
+	@Override
+	public List<ExamUserScore> selectExpertResultByCondition(ExamUserScore examUserScore) {
+		return examUserScoreMapper.selectExpertResultByCondition(examUserScore);
 	}
 
 

@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.github.pagehelper.PageInfo;
 
@@ -156,12 +157,29 @@ public class SupplierAuditController {
 	 * @Title: auditReasons
 	 * @author Xu Qing
 	 * @date 2016-9-18 下午5:55:44  
-	 * @Description: 审核记录 
+	 * @Description: 记录审核原因
 	 * @param @param supplierAudit      
 	 * @return void
 	 */
 	@RequestMapping("auditReasons")
-	public void auditReasons(SupplierAudit supplierAudit){
+	public void auditReasons(SupplierAudit supplierAudit,HttpServletRequest request){
+		String supplierId = (String) request.getSession().getAttribute("supplierId");
+		supplierAudit.setSupplierId(supplierId);
+		supplierAudit.setUserId("EDED66BAC3304F34B75EBCDB88AE427F");
 		supplierAuditServlice.auditReasons(supplierAudit);
+	}
+	
+	/**
+	 * @Title: reasonsList
+	 * @author Xu Qing
+	 * @date 2016-9-20 上午9:44:58  
+	 * @Description: 审核问题汇总 
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping("reasonsList")
+	public String reasonsList(){
+	/*	supplierAuditServlice.findAll();*/
+		return "ses/sms/supplier_audit/audit_reasons";
 	}
 }

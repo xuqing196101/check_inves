@@ -59,6 +59,15 @@ public class PurchaseRequired {
     
     private String goodsType;
     
+    private String organization;
+    
+    private Date auditDate;
+    
+    private String isMaster;
+    
+    private Integer isDelete;
+    
+    
     public String getId() {
         return id;
     }
@@ -274,6 +283,40 @@ public class PurchaseRequired {
 	public void setGoodsType(String goodsType) {
 		this.goodsType = goodsType == null ? null : goodsType.trim();
 	}
+
+	public String getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(String organization) {
+		  this.organization = organization == null ? null : organization.trim();
+	}
+
+	public Date getAuditDate() {
+		return auditDate;
+	}
+
+	public void setAuditDate(Date auditDate) {
+		this.auditDate = auditDate;
+	}
+
+	public String getIsMaster() {
+		return isMaster;
+	}
+
+	public void setIsMaster(String isMaster) {
+		this.isMaster = isMaster;
+	}
+
+	public Integer getIsDelete() {
+		return isDelete;
+	}
+
+	public void setIsDelete(Integer isDelete) {
+		this.isDelete = isDelete;
+	}
+
+	 
 
 	
     

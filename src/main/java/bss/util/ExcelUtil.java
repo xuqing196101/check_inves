@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.poi.hssf.util.HSSFCellUtil;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -44,17 +45,18 @@ public class ExcelUtil {
 	        Sheet sheet = workbook.getSheetAt(0);
 	        for (Row row : sheet) {
 	        	PurchaseRequired rq=new PurchaseRequired();
-	        	if(row.getRowNum()>0){
+	        	if(row.getRowNum()>1){
 	        		
 	        
-	        	if(row.getRowNum()>0){
+	        	 
 	        		for (Cell cell : row) {
 	        		
 	        			 if(cell.getColumnIndex()==0){
-	        				 System.out.println(cell.getStringCellValue());
-	        				 rq.setSeq(cell.getStringCellValue());
+//	        		
+	        				 rq.setSeq(cell.getRichStringCellValue().toString());
 	        			 }
 	        			 if(cell.getColumnIndex()==1){
+	        				
 	        				 rq.setDepartment(cell.getStringCellValue());
 	        			 }
 	        			 if(cell.getColumnIndex()==2){
@@ -101,8 +103,9 @@ public class ExcelUtil {
 	        			 if(cell.getColumnIndex()==15){
 	        				 rq.setMemo(cell.getStringCellValue());
 	        			 }
+	        			 rq.setStatus("1");
+	        			 rq.setHistoryStatus("0");
 						}
-	        	}
 	        		list.add(rq);
 					}
 	        	}
@@ -113,5 +116,5 @@ public class ExcelUtil {
 		return list;
 		
 	}
-	
+
 }

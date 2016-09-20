@@ -9,6 +9,7 @@
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/import_supplier.css" media="screen" rel="stylesheet">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/common.css" type="text/css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/bootstrap.min.css" type="text/css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" type="text/css"/>
@@ -46,15 +47,12 @@
 	}
 	
 	$(function() {
-		// 注册须知
-		$("#registration_input_id").change(function() {
-			var flag = $(this).prop("checked");
-			if (!flag) {
-				$("#register_input_id").attr("disabled", "disabled");
-			} else {
-				$("#register_input_id").removeAttr("disabled", "disabled");
-			}
-		});
+		var obj = document.getElementsByName("cbox");
+				 	for (i=0; i<obj.length; i++){   
+		            	if(obj[i].value=='${is.orgId}'){
+		            		obj[i].checked = true;  
+		            	}
+			        } 
 	});
 	
 	/** 供应商完善注册信息页面 */
@@ -220,7 +218,7 @@
 
 				<div class="clearfix"></div>
 
-				<div style="height: 0px;" aria-expanded="false" class="navbar-collapse navbar-responsive-collapse collapse">
+				<div aria-expanded="false" class="navbar-collapse navbar-responsive-collapse collapse">
 					<div class="container">
 						<ul class="nav navbar-nav">
 							<!-- 通知 -->
@@ -450,9 +448,8 @@
 		    <h2 class="f16 jbxx">
 				可选择的采购机构
 			</h2>
-			 <input type="hidden" id="orgId" name="orgId" value="${orgId }" />
+			 <input type="hidden" id="orgId" name="orgId" value="${is.orgId }" />
 			<table id="tb1"  class="table table-bordered table-condensed tc">
-			  <thead>
 				<tr>
 					<td class="w50">选择</td>
 					<td class="w50">序号</td>
@@ -461,8 +458,6 @@
 					<td>是否可审核</td>
 					<td>所在城市</td>
 				</tr>
-			  </thead>
-			  <tbody>
 			    <c:forEach items="${findPurchaseDepList }" var="fpd" varStatus="vs">
 					<tr>
 						<td><input value="${fpd.id }" type="checkbox" name="cbox" onclick="box(this)" /></td>
@@ -473,13 +468,11 @@
 						<td></td>
 					</tr>
 				</c:forEach> 
-			  </tbody>
 			</table>
 			 <h2 class="f16 jbxx">
 				其他采购机构
 			</h2>
 			<table id="tb2" class="table table-bordered table-condensed tc">
-			  <thead>
 				<tr>
 					<td class="w50">选择</td>
 					<td class="w50">序号</td>
@@ -488,8 +481,6 @@
 					<td>是否可审核</td>
 					<td>所在城市</td>
 				</tr>
-			  </thead>
-			  <tbody>
 				<%-- <c:forEach items="" var="" varStatus="vs">
 					<tr>
 						<td><input type="checkbox"  name="cbox" onclick="box(this)" /></td>
@@ -500,7 +491,6 @@
 						<td></td>
 					</tr>
 				</c:forEach> --%>
-			  </tbody>
 			</table>
 			<h6>
 		               友情提示：请供应商记录好初审采购机构的相关信息，以便进行及时沟通
@@ -696,7 +686,7 @@
 			</div>
 	</div>
 	<div id="reg_box_id_7" class="container clear margin-top-30 yinc">
-		  	<h2 class="padding-20 mt40" style="margin-left:280px;">
+		  	<h2 class="padding-20 mt40 ml280">
 				<span class="new_step current fl"><i class="">1</i>
 					<div class="line"></div> <span class="step_desc_01">用户名密码</span> </span> <span class="new_step current fl"><i class="">2</i>
 					<div class="line"></div> <span class="step_desc_02">基本信息</span> </span> <span class="new_step current fl"><i class="">3</i>
@@ -706,7 +696,7 @@
 			</h2>
 			<!-- 供应商申请书上传：<input type="file" name=""/>
 			供应商承诺书上传：<input type="file" name=""/> -->
-				   	<div class="input-append mt40" style="margin-left:280px;">
+				   	<div class="input-append mt40 ml280">
 						<div class="uploader orange m0">
 							<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..."/>
 							<input type="button" name="file" class="button" value="选择文件..."/>
@@ -718,7 +708,7 @@
 							<input id="regIdentity" type="file" name="files" size="30" accept="image/*"/>
 						</div> -->
 					</div>
-			<div class="col-md-12 add_regist" style="margin-left:170px;">
+			<div class="col-md-12 add_regist ml170" >
 				 <div class="fl mr20"><label class="regist_name">采购机构名称：</label><span class="regist_desc">广州军区物资采购站</span></div>
 				 <div class="fl mr20"><label class="regist_name">采购机构联系人：</label><span class="regist_desc">张三</span></div>
 				 <div class="fl mr20"><label class="regist_name">采购机构地址：</label><span class="regist_desc">广州军区物资采购站</span></div>

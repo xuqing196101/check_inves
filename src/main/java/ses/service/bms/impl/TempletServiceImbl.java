@@ -1,7 +1,6 @@
 package ses.service.bms.impl;
 
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -89,7 +88,7 @@ public class TempletServiceImbl implements TempletService{
 	 */
 	@Override
 	public Integer queryByCount() {
-		return queryByCount();
+		return templetMapper.queryByCount();
 	}
 	
 }

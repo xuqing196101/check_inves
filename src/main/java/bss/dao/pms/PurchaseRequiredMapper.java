@@ -104,4 +104,14 @@ public interface PurchaseRequiredMapper {
     * @throws
      */
     List<PurchaseRequired> queryByNo(@Param("planNo")String planNo);
+    /**
+     * 
+    * @Title: delete
+    * @Description:根据编号进行逻辑删除
+    * author: Li Xiaoxiao 
+    * @param @param planNo     
+    * @return void     
+    * @throws
+     */
+    void delete(@Param("planNo")String planNo);
 }

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.sms.SupplierTypeRelateMapper">
+	<resultMap id="BaseResultMap" type="ses.model.sms.SupplierTypeRelate">
+		<id column="ID" property="id" />
+		<result column="SUPPLIER_ID" property="supplierId" />
+		<result column="SUPPLIER_TYPE_ID" property="supplierTypeId" />
+		<result column="CREATED_AT" property="createdAt" />
+		<result column="UPDATED_AT" property="updatedAt" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, SUPPLIER_ID, SUPPLIER_TYPE_ID, CREATED_AT, UPDATED_AT
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_SMS_SUPPLIER_TYPE_RELATE
+		where ID = #{id}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from T_SES_SMS_SUPPLIER_TYPE_RELATE
+		where ID = #{id}
+	</delete>
+	<insert id="insert" parameterType="ses.model.sms.SupplierTypeRelate">
+		insert into T_SES_SMS_SUPPLIER_TYPE_RELATE (ID, SUPPLIER_ID, SUPPLIER_TYPE_ID,
+		CREATED_AT, UPDATED_AT)
+		values (#{id}, #{supplierId}, #{supplierTypeId},
+		#{createdAt}, #{updatedAt})
+	</insert>
+	<insert id="insertSelective" parameterType="ses.model.sms.SupplierTypeRelate">
+		insert into T_SES_SMS_SUPPLIER_TYPE_RELATE
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="supplierId != null">
+				SUPPLIER_ID,
+			</if>
+			<if test="supplierTypeId != null">
+				SUPPLIER_TYPE_ID,
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT,
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="supplierId != null">
+				#{supplierId},
+			</if>
+			<if test="supplierTypeId != null">
+				#{supplierTypeId},
+			</if>
+			<if test="createdAt != null">
+				#{createdAt},
+			</if>
+			<if test="updatedAt != null">
+				#{updatedAt},
+			</if>
+		</trim>
+		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			select sys_guid() from dual
+		</selectKey>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierTypeRelate">
+		update T_SES_SMS_SUPPLIER_TYPE_RELATE
+		<set>
+			<if test="supplierId != null">
+				SUPPLIER_ID = #{supplierId},
+			</if>
+			<if test="supplierTypeId != null">
+				SUPPLIER_TYPE_ID = #{supplierTypeId},
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT = #{createdAt},
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT = #{updatedAt},
+			</if>
+		</set>
+		where ID = #{id}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="ses.model.sms.SupplierTypeRelate">
+		update T_SES_SMS_SUPPLIER_TYPE_RELATE
+		set SUPPLIER_ID = #{supplierId},
+		SUPPLIER_TYPE_ID = #{supplierTypeId},
+		CREATED_AT = #{createdAt},
+		UPDATED_AT = #{updatedAt}
+		where ID = #{id}
+	</update>
+
+	<select id="findSupplierTypeIdBySupplierId" parameterType="java.lang.String" resultType="java.lang.String">
+		select SUPPLIER_TYPE_ID from T_SES_SMS_SUPPLIER_TYPE_RELATE where SUPPLIER_ID = #{supplierId}
+	</select>
+
+	<delete id="deleteBySupplierId" parameterType="java.lang.String">
+		delete from T_SES_SMS_SUPPLIER_TYPE_RELATE where SUPPLIER_ID = #{supplierId}
+	</delete>
+</mapper>

@@ -69,10 +69,14 @@ function login(){
 				}else if(data=="scuesslogin"){				
 					layer.close(index);
 					window.location.href="<%=basePath%>login/index.html";
-				}<%-- else if(data="scuesslogin_auditNotPass"){
+				}else if(data=="scuesslogin_auditNotPass"){
 					layer.close(index);
 					window.location.href="<%=basePath%>importSupplier/updateRegister.html";
-				} --%>
+				}else if(data=="auditing"){
+					layer.msg("注册帐号在审核中...审核通过才能登录!");
+				}else if(data=="heimingdan"){
+					layer.msg("不好意思(先生/女士),您的企业信息不符合我们的相关规定,禁止注册.");
+				}
 				kaptcha();
 			}
 		});

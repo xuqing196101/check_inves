@@ -82,6 +82,9 @@ public class ExamUserScore {
      */
     private String formatDate;
     
+    /**
+     *@Fields user : 关联USER表 
+     */
     private User user;
 
 	public String getId() {
@@ -194,6 +197,14 @@ public class ExamUserScore {
 
 	public void setFormatDate(String formatDate) {
 		this.formatDate = formatDate;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	

@@ -24,17 +24,17 @@
 			$.ajax({
 				type:"POST",
 				dataType:"json",
-				url:"<%=basePath%>expertExam/selectExpertResultByTerm.do?userName="+userName+"&userType="+userType+"&testState="+testState,
+				url:"<%=basePath%>expertExam/selectExpertResultByCondition.do?userName="+userName+"&userType="+userType+"&testState="+testState,
 				success:function(json){
 	       			if(json){
 	       				var html = "";
 		            	for(var i=0;i<json.length;i++){
 		            	  html = html + "<tr>";
-		            	  html = html + "<td>"+json[i].expert.relName+"</td>";
-		            	  html = html + "<td>"+json[i].expert.relName+"</td>";
-		            	  html = html + "<td>"+json[i].expert.relName+"</td>";
-		            	  html = html + "<td>"+json[i].score+"</td>";
-		            	  html = html + "<td>"+json[i].status+"</td>";
+		            	  html = html + "<td class='tc'>"+json[i].user.relName+"</td>";
+		            	  html = html + "<td class='tc'>"+json[i].userDuty+"</td>";
+		            	  html = html + "<td class='tc'>"+json[i].formatDate+"</td>";
+		            	  html = html + "<td class='tc'>"+json[i].score+"</td>";
+		            	  html = html + "<td class='tc'>"+json[i].status+"</td>";
 		            	  html = html + "</tr>";
 		            	}
 		            	$("#resultList").html(html);
@@ -55,37 +55,43 @@
   </head>
   
   <body>
-  	<div>
-  		姓名:<input type="text" id="userName"/>
-  		专家类型:
-  		<select id="userType">
-  			<option value="">请选择</option>
-  			<option value="1">技术</option>
-  			<option value="3">商务</option>
-  			<option value="2">法律</option>
-  		</select>
-  		考试状态:
-  		<select id="testState">
-  			<option value="">请选择</option>
-  			<option value="及格">及格</option>
-  			<option value="不及格">不及格</option>
-  		</select>
-  		<input type="button" value="查询" onclick="queryResult()"/>
-  		<input type="button" value="重置" onclick="resetResult()"/>
+  	<div class="container">
+  		<div class="border1 col-md-7">
+	  		姓名:<input type="text" id="userName" class="mt10"/>
+	  		专家类型:
+	  		<select id="userType">
+	  			<option value="">请选择</option>
+	  			<option value="1">技术</option>
+	  			<option value="3">商务</option>
+	  			<option value="2">法律</option>
+	  		</select>
+	  		考试状态:
+	  		<select id="testState">
+	  			<option value="">请选择</option>
+	  			<option value="及格">及格</option>
+	  			<option value="不及格">不及格</option>
+	  		</select>
+	  		<button class="btn" type="button" onclick="queryResult()">查询</button>
+	  		<button class="btn" type="button" onclick="resetResult()">重置</button>
+  		</div>
   	</div>
-  	<div>
-  		<table>
-  			<thead>
-  				<th>专家姓名</th>
-  				<th>专家类型</th>
-  				<th>考试时间</th>
-  				<th>得分</th>
-  				<th>考试状态</th>
-  			</thead>
-  			<tbody id="resultList">
-  				
-  			</tbody>
-  		</table>
+  	<div class="container">
+  		<div class="content">
+	  		<table class="table table-bordered table-condensed">
+				<thead>
+					<tr>
+						<th class="info w100">专家姓名</th>
+						<th class="info w100">专家类型</th>
+					    <th class="info" width="100">考试时间</th>
+						<th class="info" width="100">得分</th>
+						<th class="info" width="100">考试状态</th>
+					</tr>
+				</thead>
+				<tbody id="resultList">
+				
+				</tbody>
+			</table>
+		</div>
   	</div>
   	
   	
