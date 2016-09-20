@@ -153,7 +153,7 @@
 	    <span class="f14 fl">上传附件：</span>
 	    <div class="fl" id="uploadAttach" >
 	      <input id="pic" type="file" class="toinline" name="attaattach"/>
-	      <input class="toinline" type="button" value="添加" onclick="addAttach()"/><br/>
+	      <input class="toinline" type="button" value="添加 ${category.attchment }" onclick="addAttach()"/><br/>
 	    </div>
 	 </li>
 	       
@@ -165,8 +165,10 @@
 	<li class="col-md-6 p0">
 	       	<span>是否末级：</span>
 	       	<div class="input-append mt5">
-	       		 <label class="fl margin-bottom-0"><input type="radio" name="isEnd" value="0">是</label>
-        		 <label class="ml10 fl"><input type="radio" name="isEnd" value="1">否</label>
+	       		 <select class="ml10 fl" name="isEnd">
+        		 <option value="0">是</option>
+        		 <option value="1">否</option>
+        		 </select>
        </div>
 	 </li> 
 	       </ul>

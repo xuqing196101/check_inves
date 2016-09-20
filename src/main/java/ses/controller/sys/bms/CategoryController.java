@@ -320,16 +320,15 @@ public class CategoryController {
    }
    
    /**
- 	 * 
+ 	* 
  	* @Title: 导入excel中的内容
  	* @author Zhang XueFeng
  	* @Description:
  	* @param @return 
  	* @return String
- * @throws IOException 
- * @throws FileNotFoundException 
-      */ 
-	
+    * @throws IOException 
+    * @throws FileNotFoundException 
+    */ 
     @RequestMapping("/read")
 	public void read(Integer length) throws IOException {
 		   Workbook workbook;
@@ -340,32 +339,41 @@ public class CategoryController {
 				workbook = new HSSFWorkbook(is);
 			}
 			Sheet sheet = workbook.getSheetAt(5);
-			for(int i=0;i<sheet.getPhysicalNumberOfRows();i++){
+			for(int i=3;i<sheet.getPhysicalNumberOfRows();i++){
 				Row row = sheet.getRow(i);
 				if(row==null){
 					continue;
 				}
 				Category category = new Category();
-				Cell queType = row.getCell(0);
-				if(length==null){
+				Cell queType = row.getCell(1);
+				Cell name = row.getCell(2);
+				if(length==0){
 					length=1;
 				}
 				if(queType.toString().length()==length){
 					if(length!=1){
+					
 					List<Category> list=categoryService.selectAll();  
 					for(int k=0;k<list.size();k++){
-						if(list.get(k).equals(list.toString().substring(0, length-2))){//这个数据库的数据和queType的length-2的截取字符串对比 //查询语句lenngth-2;select  from category by 
+						//这个数据库的数据和queType的length-2的截取字符串对比 //查询语句lenngth-2;select  from category by
+						if((list.get(k)).equals(queType.toString().substring(0, length-2))){
 								category.setParentId(list.get(k).getId());
+								
+								categoryService.insertSelective(category);
 						}
 					}
 			}else{
-				    category.setCode(queType.toString());
-					category.setParentId("0");
-					categoryService.insertSelective(category);//插入语句
+				    Category cate = new Category();
+				    cate.setCode(queType.toString());
+				    cate.setName(name.toString());
+				    cate.setParentId("a");
+					categoryService.insertSelective(cate);//插入语句
 					}
 				}
 			}
      read(length+2);
+    
+    	
 	   }
 
     /** 
