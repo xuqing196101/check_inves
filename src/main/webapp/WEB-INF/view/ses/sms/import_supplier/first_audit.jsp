@@ -4,7 +4,7 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-<!DOCTYPE html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!-->
@@ -113,6 +113,42 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/masterslider.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.easing.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/james.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/expert/TestAddress1.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/expert/TestChooseAddress.js"></script>
+<SCRIPT LANGUAGE="JavaScript">
+function loadProvince(regionId){
+  $("#id_provSelect").html("");
+  $("#id_provSelect").append("<option value=''>请选择省份</option>");
+  var jsonStr = getAddress(regionId,0);
+  for(var k in jsonStr) {
+	$("#id_provSelect").append("<option value='"+k+"'>"+jsonStr[k]+"</option>");
+  }
+  if(regionId.length!=6) {
+	$("#address").html("");
+    $("#address").append("<option value=''>请选择城市</option>");
+  } else {
+	 $("#id_provSelect").val(regionId.substring(0,2)+"0000");
+	 loadCity(regionId);
+  }
+}
+
+function loadCity(regionId){
+  $("#address").html("");
+  $("#address").append("<option value=''>请选择城市</option>");
+  if(regionId.length==6) {
+	var jsonStr = getAddress(regionId,1);
+    for(var k in jsonStr) {
+	  $("#address").append("<option value='"+k+"'>"+jsonStr[k]+"</option>");
+    }
+	var str = regionId.substring(0,2);//四个直辖市
+	if(str=="11" || str=="12" || str=="31" || str=="50") {
+	   $("#address").val(regionId);
+	} else {
+	   $("#address").val(regionId.substring(0,4)+"00");
+	}
+  }
+}
+</SCRIPT>
 <script type="text/javascript">
 function reason(id){
 	var value=document.getElementsByName(id)[0];
@@ -251,105 +287,107 @@ function tijiao(status){
 									<ul class="list-unstyled list-flow">
 										<li class="col-md-6 p0 "><span id="nameReason2" class=""><i class="red">＊</i> 企业名称：</span>
 											<div class="input-append">
-												<input class="span3" id="supplierName" name="supplierName" value="${is.name }" type="text">
+												<input class="span3" id="supplierName" name="supplierName" value="${is.name }" type="text" readonly="readonly">
 												<div id="nameReason1" class="b f18 fl ml10 red hand">√</div>
 												<div id="nameReason" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span id="supplierTypeReason2" ><i class="red">＊</i> 企业类别：</span>
 											<div class="input-append">
-												<input class="span3" id="supplierType" name="supplierType" value="${is.supplierType }"  type="text">
+												<input class="span3" id="supplierType" name="supplierType" value="${is.supplierType }"  type="text" readonly="readonly">
 												<div id="supplierTypeReason1" class="b f18 fl ml10 red hand">√</div>
 												<div id="supplierTypeReason" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span id="chinesrNameReason2"><i class="red">＊</i> 中文译名：</span>
 											<div class="input-append">
-												<input class="span3" id="chinesrName" name="chinesrName" value="${is.chinesrName }" type="text">
+												<input class="span3" id="chinesrName" name="chinesrName" value="${is.chinesrName }" type="text" readonly="readonly">
 												<div id="chinesrNameReason1" class="b f18 fl ml10 red hand">√</div>
 												<div id="chinesrNameReason" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span id="legalNameReason2"><i class="red">＊</i> 法定代表人：</span>
 											<div class="input-append">
-												<input class="span3" id="legalName" name="legalName" value="${is.legalName }" type="text">
+												<input class="span3" id="legalName" name="legalName" value="${is.legalName }" type="text" readonly="readonly">
 												<div id="legalNameReason1" class="b f18 fl ml10 red hand">√</div>
 												<div id="legalNameReason" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
 											</div>
 										</li>
 										<li class="col-md-6 p0"><span id="addressReason2"><i class="red">＊</i>企业注册地址：</span>
-											<div class="input-append">
-												<input class="span3" id="address" name="address" value="${is.address }" type="text">
+											<div>
+												<select id="id_provSelect" name="provSelect" class="fl mr30" disabled="disabled"><option value="">请选择省份</option></select>
+  												<select id="address" class="fl" name="address" disabled="disabled"><option value="" >请选择城市</option></select>
+  												<SCRIPT LANGUAGE="JavaScript">loadProvince('${is.address}');</SCRIPT>
 												<div id="addressReason1" class="b f18 fl ml10 red hand">√</div>
 												<div id="addressReason" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span id="postCodeReason2" class=""><i class="red">＊</i>邮政编码：</span>
 											<div class="input-append">
-												<input class="span3" id="postCode" name="postCode" value="${is.postCode }"  type="text">
+												<input class="span3" id="postCode" name="postCode" value="${is.postCode }"  type="text" readonly="readonly">
 												<div id="postCodeReason1" class="b f18 fl ml10 red hand">√</div>
 												<div id="postCodeReason" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span id="productTypeReason2"><i class="red">＊</i>经营产品大类：</span>
 											<div class="input-append">
-												<input class="span3" id="productType" name="productType" value="${is.productType }" type="text">
+												<input class="span3" id="productType" name="productType" value="${is.productType }" type="text" readonly="readonly">
 												<div id="productTypeReason1" class="b f18 fl ml10 red hand">√</div>
 												<div id="productTypeReason" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span id="majorpRoductReason2" class=""><i class="red">＊</i>主营产品：</span>
 											<div class="input-append">
-												<input class="span3" id="majorProduct" name="majorProduct" value="${is.majorProduct }" type="text">
+												<input class="span3" id="majorProduct" name="majorProduct" value="${is.majorProduct }" type="text" readonly="readonly">
 												<div id="majorpRoductReason1" class="b f18 fl ml10 red hand">√</div>
 												<div id="majorpRoductReason" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span id="byproductReason2"><i class="red">＊</i>兼营产品：</span>
 											<div class="input-append">
-												<input class="span3" id="byproduct" name="byproduct" value="${is.byproduct }" type="text">
+												<input class="span3" id="byproduct" name="byproduct" value="${is.byproduct }" type="text" readonly="readonly">
 												<div id="byproductReason1" class="b f18 fl ml10 red hand">√</div>
 												<div id="byproductReason" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span id="producerNameReason2"><i class="red">＊</i>生产商名称：</span>
 											<div class="input-append">
-												<input class="span3" id="producerName" name="producerName" value="${is.producerName }"  type="text">
+												<input class="span3" id="producerName" name="producerName" value="${is.producerName }"  type="text" readonly="readonly">
 												<div id="producerNameReason1" class="b f18 fl ml10 red hand">√</div>
 												<div id="producerNameReason" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span id="contactPersonReason2"><i class="red">＊</i> 联系人：</span>
 											<div class="input-append">
-												<input class="span3" id="contactPerson" name="contactPerson" value="${is.contactPerson }" type="text">
+												<input class="span3" id="contactPerson" name="contactPerson" value="${is.contactPerson }" type="text" readonly="readonly">
 												<div id="contactPersonReason1" class="b f18 fl ml10 red hand">√</div>
 												<div id="contactPersonReason" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span id="telephoneReason2"><i class="red">＊</i> 电话：</span>
 											<div class="input-append">
-												<input class="span3" id="telephone" name="telephone" value="${is.telephone }" type="text">
+												<input class="span3" id="telephone" name="telephone" value="${is.telephone }" type="text" readonly="readonly">
 												<div id="telephoneReason1" class="b f18 fl ml10 red hand">√</div>
 												<div id="telephoneReason" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span id="faxReason2"><i class="red">＊</i> 传真：</span>
 											<div class="input-append">
-												<input class="span3" id="fax" name="fax" value="${is.fax }" type="text">
+												<input class="span3" id="fax" name="fax" value="${is.fax }" type="text" readonly="readonly">
 												<div id="faxReason1" class="b f18 fl ml10 red hand">√</div>
 												<div id="faxReason" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span id="emailReason2"><i class="red">＊</i> 电子邮件：</span>
 											<div class="input-append">
-												<input class="span3" id="email" name="email" value="${is.email }" type="text">
+												<input class="span3" id="email" name="email" value="${is.email }" type="text" readonly="readonly">
 												<div id="emailReason1" class="b f18 fl ml10 red hand">√</div>
 												<div id="emailReason" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span id="websiteReason2"><i class="red">＊</i> 企业网址：</span>
 											<div class="input-append">
-												<input class="span3" id="website" name="website" value="${is.website }" type="text">
+												<input class="span3" id="website" name="website" value="${is.website }" type="text" readonly="readonly">
 												<div id="websiteReason1" class="b f18 fl ml10 red hand">√</div>
 												<div id="websiteReason" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
 											</div>
@@ -357,7 +395,7 @@ function tijiao(status){
 										<li class="col-md-12 p0 mt10"><span id="civilAchievementReason2" class="fl"><i class="red">＊</i>国内供货业绩：</span>
 											<div class="col-md-9 mt5">
 												<div class="row">
-													<textarea class="text_area col-md-12" id="civilAchievement" name="civilAchievement"  title="不超过800个字" placeholder=""> ${is.civilAchievement }</textarea>
+													<textarea class="text_area col-md-12" id="civilAchievement" name="civilAchievement" readonly="readonly"  title="不超过800个字" placeholder=""> ${is.civilAchievement }</textarea>
 													<div id="civilAchievementReason1" class="b f18 fl ml10 red hand">√</div>
 													<div id="civilAchievementReason" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
 												</div>
@@ -367,7 +405,7 @@ function tijiao(status){
 										<li class="col-md-12 p0 mt10"><span  id="remarkReason2" class="fl"><i class="red">＊</i>企业简介：</span>
 											<div class="col-md-9 mt5">
 												<div class="row">
-													<textarea class="text_area col-md-12" id="remark" name="remark" title="不超过800个字" placeholder="">${is.remark }</textarea>
+													<textarea class="text_area col-md-12" id="remark" name="remark" title="不超过800个字" readonly="readonly" placeholder="">${is.remark }</textarea>
 													<div id="remarkReason1" class="b f18 fl ml10 red hand">√</div>
 													<div id="remarkReason" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
 												</div>

@@ -31,6 +31,42 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/supplier/validateSupplier.js"></script>
 <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 <script src="${pageContext.request.contextPath}/public/lodop/LodopFuncs.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/expert/TestAddress1.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/expert/TestChooseAddress.js"></script>
+<SCRIPT LANGUAGE="JavaScript">
+function loadProvince(regionId){
+  $("#id_provSelect").html("");
+  $("#id_provSelect").append("<option value=''>请选择省份</option>");
+  var jsonStr = getAddress(regionId,0);
+  for(var k in jsonStr) {
+	$("#id_provSelect").append("<option value='"+k+"'>"+jsonStr[k]+"</option>");
+  }
+  if(regionId.length!=6) {
+	$("#address").html("");
+    $("#address").append("<option value=''>请选择城市</option>");
+  } else {
+	 $("#id_provSelect").val(regionId.substring(0,2)+"0000");
+	 loadCity(regionId);
+  }
+}
+
+function loadCity(regionId){
+  $("#address").html("");
+  $("#address").append("<option value=''>请选择城市</option>");
+  if(regionId.length==6) {
+	var jsonStr = getAddress(regionId,1);
+    for(var k in jsonStr) {
+	  $("#address").append("<option value='"+k+"'>"+jsonStr[k]+"</option>");
+    }
+	var str = regionId.substring(0,2);//四个直辖市
+	if(str=="11" || str=="12" || str=="31" || str=="50") {
+	   $("#address").val(regionId);
+	} else {
+	   $("#address").val(regionId.substring(0,4)+"00");
+	}
+  }
+}
+</SCRIPT>
 <script type="text/javascript">
 	var LODOP; 
 	function prn3_preview(){
@@ -316,34 +352,11 @@
 										</li>
 										<li class="col-md-6 p0"><span class=""><i class="red">＊</i>企业注册地址：</span>
 											<div class="input-append">
-												<input class="span3" id="address" name="address" value="${is.address }" type="text">
-												<div class="red">${isa.addressReason }</div>
+												<select id="id_provSelect" name="provSelect" onChange="loadCity(this.value);"><option value="">请选择省份</option></select>&nbsp;
+  												<select id="address" name="address"><option value="">请选择城市</option></select>&nbsp;
+  												<SCRIPT LANGUAGE="JavaScript">loadProvince('${is.address}');</SCRIPT>
+  												<font class="red">${isa.addressReason }</font>
 											</div>
-											<%-- <div class="fl">
-												<div class="input-append mr18">
-												    <input id="address" name="address" value="${is.address }" type="hidden">
-													<input class="span4" id="address" name="address" value="${is.address }" type="text">
-													<div class="btn-group ">
-														<button class="btn dropdown-toggle add-on" data-toggle="dropdown">
-															<img src="${pageContext.request.contextPath}/public/ZHQ/images/down.png" class="margin-bottom-5" />
-														</button>
-														<ul class="dropdown-menu list-unstyled">
-															<li>fasdfasdfa</li>
-														</ul>
-													</div>
-												</div>
-												<div class="input-append">
-													<input class="span4" id="appendedInput" type="text">
-													<div class="btn-group ">
-														<button class="btn dropdown-toggle add-on" data-toggle="dropdown">
-															<img src="${pageContext.request.contextPath}/public/ZHQ/images/down.png" class="margin-bottom-5" />
-														</button>
-														<ul class="dropdown-menu list-unstyled">
-														<li>fasdfasdfa</li>
-														</ul>
-													</div>
-												</div>
-											</div> --%>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>邮政编码：</span>
 											<div class="input-append">
@@ -530,63 +543,63 @@
 									     <li class="col-md-6 p0">
 										   <span class="">企业名称：</span>
 										   <div class="input-append">
-									        <input class="span2" id="appendedInput" type="text">
+									        <input class="span2" id="appendedInput" type="text" readonly="readonly">
 									        <span class="add-on">i</span>
 									       </div>
 										 </li>
 									     <li class="col-md-6  p0 ">
 										   <span class="">企业类别：</span>
 										   <div class="input-append">
-									        <input class="span2" id="appendedInput" type="text">
+									        <input class="span2" id="appendedInput" type="text" readonly="readonly">
 									        <span class="add-on">i</span>
 									       </div>
 										 </li>
 									     <li class="col-md-6  p0 ">
 										   <span class="">中文译名：</span>
 										   <div class="input-append">
-									        <input class="span2" id="appendedInput" type="text">
+									        <input class="span2" id="appendedInput" type="text" readonly="readonly">
 									        <span class="add-on">i</span>
 									       </div>
 										 </li> 
 									     <li class="col-md-6  p0 ">
 										   <span class="">法定代表人：</span>
 										   <div class="input-append">
-									        <input class="span2" id="appendedInput" type="text">
+									        <input class="span2" id="appendedInput" type="text" readonly="readonly">
 									        <span class="add-on">i</span>
 									       </div>
 										 </li> 
 									     <li class="col-md-6  p0 ">
 										   <span class="">企业注册地址：</span>
 										   <div class="input-append">
-									        <input class="span2" id="appendedInput" type="text">
+									        <input class="span2" id="appendedInput" type="text" readonly="readonly">
 									        <span class="add-on">i</span>
 									       </div>
 										 </li> 
 									     <li class="col-md-6  p0 ">
 										   <span class="">邮政编码：</span>
 										   <div class="input-append">
-									        <input class="span2" id="appendedInput" type="text">
+									        <input class="span2" id="appendedInput" type="text" readonly="readonly">
 									        <span class="add-on">i</span>
 									       </div>
 										 </li> 
 									     <li class="col-md-6  p0 ">
 										   <span class="">营业执照注册号：</span>
 										   <div class="input-append">
-									        <input class="span2" id="appendedInput" type="text">
+									        <input class="span2" id="appendedInput" type="text" readonly="readonly">
 									        <span class="add-on">i</span>
 									       </div>
 										 </li>  
 									     <li class="col-md-6  p0 ">
 										   <span class="">发证机关：</span>
 										   <div class="input-append">
-									        <input class="span2" id="appendedInput" type="text">
+									        <input class="span2" id="appendedInput" type="text" readonly="readonly">
 									        <span class="add-on">i</span>
 									       </div>
 										 </li>
 										  <li class="col-md-6  p0 ">
 										   <span class="">经营产品大类：</span>
 										   <div class="input-append">
-									        <input class="span2" id="appendedInput" type="text">
+									        <input class="span2" id="appendedInput" type="text" readonly="readonly">
 									        <span class="add-on">i</span>
 									       </div>
 										 </li>  
@@ -600,14 +613,14 @@
 									     <li class="col-md-6 p0 ">
 										   <span class="">主营产品：</span>
 										   <div class="input-append">
-									        <input class="span2" id="appendedInput" type="text">
+									        <input class="span2" id="appendedInput" type="text" readonly="readonly">
 									        <span class="add-on">i</span>
 									       </div>
 										 </li>  
 									     <li class="col-md-6 p0 ">
 										   <span class="">兼营产品：</span>
 										   <div class="input-append">
-									        <input class="span2" id="appendedInput" type="text">
+									        <input class="span2" id="appendedInput" type="text" readonly="readonly">
 									        <span class="add-on">i</span>
 									       </div>
 										 </li> 
@@ -619,52 +632,52 @@
 									     <li class="col-md-6 p0 ">
 										   <span class="">联系人：</span>
 										   <div class="input-append">
-									        <input class="span2" id="appendedInput" type="text">
+									        <input class="span2" id="appendedInput" type="text" readonly="readonly">
 									        <span class="add-on">i</span>
 									       </div>
 										 </li>  
 									     <li class="col-md-6 p0 ">
 										   <span class="">电子邮件：</span>
 										   <div class="input-append">
-									        <input class="span2" id="appendedInput" type="text">
+									        <input class="span2" id="appendedInput" type="text" readonly="readonly">
 									        <span class="add-on">i</span>
 									       </div>
 										 </li>  
 									     <li class="col-md-6 p0 ">
 										   <span class="">企业网址：</span>
 										   <div class="input-append">
-									        <input class="span2" id="appendedInput" type="text">
+									        <input class="span2" id="appendedInput" type="text" readonly="readonly">
 									        <span class="add-on">i</span>
 									       </div>
 										 </li>  
 									     <li class="col-md-12 p0">
 										   <span class="fl">国内供货业绩：</span>
 										   <div class="col-md-9 p0 fn mt5 pwr9">
-									        <textarea class="text_area col-md-12 " title="" placeholder=""></textarea>
+									        <textarea class="text_area col-md-12 " title="" placeholder=""  readonly="readonly"></textarea>
 									       </div>
 										 </li> 
 									     <li class="col-md-12 p0">
 										   <span class="fl">企业简介：</span>
 										   <div class="col-md-9 p0 fn mt5 pwr9">
-									        <textarea class="text_area col-md-12 " title="" placeholder=""></textarea>
+									        <textarea class="text_area col-md-12 " title="" placeholder=""  readonly="readonly"></textarea>
 									       </div>
 										 </li> 
 										 <li class="col-md-12 p0">
 										   <span class="fl">物资进口单位或物&nbsp;<br/>资采购机构初审意见：</span>
 										   <div class="col-md-9 p0 fn mt5 pwr9">
-									        <textarea class="text_area col-md-12 " title="" placeholder=""></textarea>
+									        <textarea class="text_area col-md-12 " title="" placeholder=""  readonly="readonly"></textarea>
 									       </div>
 										 </li> 
 										  <li class="col-md-12 p0">
 										   <span class="fl">军区级物资进口&nbsp;<br/>管理部门审查意见：</span>
 										   <div class="col-md-9 p0 fn mt5 pwr9">
-									        <textarea class="text_area col-md-12 " title="" placeholder=""></textarea>
+									        <textarea class="text_area col-md-12 " title="" placeholder=""  readonly="readonly"></textarea>
 									       </div>
 										 </li>  
 										 <li class="col-md-12 p0">
 										   <span class="fl">总后勤部军区物&nbsp;<br/>资油料部审核意见：</span>
 										   <div class="col-md-9 p0 fn mt5 pwr9">
-									        <textarea class="text_area col-md-12 " title="" placeholder=""></textarea>
+									        <textarea class="text_area col-md-12 " title="" placeholder=""  readonly="readonly"></textarea>
 									       </div>
 										 </li> 
 										 	</ul> 

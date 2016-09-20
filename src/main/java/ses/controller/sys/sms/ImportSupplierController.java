@@ -395,7 +395,7 @@ public class ImportSupplierController {
 		//文件名称
 		String fileName =new String(("进口供应商注册信息表.docx").getBytes("UTF-8"), "UTF-8");
 		String name = WordUtil.createWord(dataMap, "importSupplier.ftl",fileName, request);
-		String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload/");
+		String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
 		File file=new File(filePath+"/"+name);  
         HttpHeaders headers = new HttpHeaders(); 
         String downFileName=new String("进口供应商注册信息表.doc".getBytes("UTF-8"),"iso-8859-1");//为了解决中文名称乱码问题  
