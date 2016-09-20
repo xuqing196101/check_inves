@@ -69,12 +69,13 @@ public interface SupplierAuditServlice {
 	void auditReasons (SupplierAudit supplierAudit);
 	
 	/**
-	 * @Title: findAll
-	 * @author Xu Qing
-	 * @date 2016-9-20 上午10:08:44  
-	 * @Description: 查询所有审核记录 
-	 * @param @return      
-	 * @return List<SupplierAudit>
-	 */
-	List<SupplierAudit> findAll();
+     * @Title: selectByPrimaryKey
+     * @author Xu Qing
+     * @date 2016-9-20 下午5:12:26  
+     * @Description: 根据供应商id查询审核汇总 
+     * @param @param id
+     * @param @return      
+     * @return List<SupplierAudit>
+     */
+    List<SupplierAudit> selectByPrimaryKey(String supplierId);
 }

@@ -9,8 +9,6 @@ public interface SupplierAuditMapper {
 
     int insert(SupplierAudit record);
 
-    SupplierAudit selectByPrimaryKey(String id);
-
     int updateByPrimaryKeySelective(SupplierAudit record);
 
     int updateByPrimaryKey(SupplierAudit record);
@@ -26,12 +24,13 @@ public interface SupplierAuditMapper {
     int insertSelective(SupplierAudit record);
     
     /**
-     * @Title: findAll
+     * @Title: selectByPrimaryKey
      * @author Xu Qing
-     * @date 2016-9-20 下午2:16:33  
-     * @Description:查询所有审核记录 
+     * @date 2016-9-20 下午5:12:26  
+     * @Description: 根据供应商id查询审核汇总 
+     * @param @param id
      * @param @return      
      * @return List<SupplierAudit>
      */
-    List<SupplierAudit> findAll(); 
+    List<SupplierAudit> selectByPrimaryKey(String supplierId);
 }

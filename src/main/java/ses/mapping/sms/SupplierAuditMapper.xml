@@ -17,12 +17,14 @@
     ID, SUGGEST, AUDIT_TYPE, USER_ID, SUPPLIER_ID, STATUS, CREATED_AT, UPDATED_AT, AUDIT_FIELD, 
     AUDIT_CONTENT
   </sql>
+  
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from T_SES_SMS_SUPPLIER_AUDIT
-    where ID = #{id,jdbcType=VARCHAR}
+    where SUPPLIER_ID = #{SUPPLIER_ID}
   </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from T_SES_SMS_SUPPLIER_AUDIT
     where ID = #{id,jdbcType=VARCHAR}
@@ -37,13 +39,6 @@
       #{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE}, #{auditField,jdbcType=VARCHAR}, 
       #{auditContent,jdbcType=VARCHAR})
   </insert>
-  
-  <!-- 查询所有审核记录 -->
-  <select id="findAll" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from T_SES_SMS_SUPPLIER_AUDIT
-  </select>
   
   <!-- 插入审核记录 -->
   <insert id="insertSelective" parameterType="ses.model.sms.SupplierAudit">

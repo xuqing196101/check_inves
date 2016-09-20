@@ -122,26 +122,21 @@ function reason(id){
   var auditField=$("#"+id2+"").text().replaceAll("＊","").replaceAll("：",""); //审批的字段名字
   var  auditContent= document.getElementById(""+id3+"").value; //审批的字段内容
   var auditType=$("#essential").text(); //审核类型
-    layer.confirm('确认审核不通过？', {
-      btn: ['确认','取消'] //按钮
-  }, function(){
-      $("#"+id1+"").hide();
-      layer.prompt({title: '请填写不通过理由', formType: 2}, function(text){
-	      $.ajax({
-	          url:"<%=basePath%>supplierAudit/auditReasons.html",
-	          type:"post",
-	          data:"auditType="+auditType+"&auditField="+auditField+"&auditContent="+auditContent+"&suggest="+text,
-	        });
-	        
-      layer.close(index);
-    /*    $("input[name='auditType']").val(auditType);
-       $("input[name='auditField']").val(auditField);
-       $("input[name='auditContent']").val(auditContent);
-       $("input[name='suggest']").val(text);
-        
-       $("#save_reaeon").submit(); */
+  layer.prompt({title: '请填写不通过理由', formType: 2}, function(text){
+    $.ajax({
+        url:"<%=basePath%>supplierAudit/auditReasons.html",
+        type:"post",
+        data:"auditType="+auditType+"&auditField="+auditField+"&auditContent="+auditContent+"&suggest="+text,
+      });
+  $("#"+id1+"").hide();
+  layer.msg("审核不通过的理由是："+text);    
+/*    $("input[name='auditType']").val(auditType);
+   $("input[name='auditField']").val(auditField);
+   $("input[name='auditContent']").val(auditContent);
+   $("input[name='suggest']").val(text);
+    
+   $("#save_reaeon").submit(); */
     });
-  });
 }
 
 </script>

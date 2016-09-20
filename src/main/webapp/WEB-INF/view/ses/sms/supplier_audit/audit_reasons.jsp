@@ -38,27 +38,19 @@
                    <thead>
                      <tr>
                        <th class="info w50">序号</th>
-                       <th class="info"></th>
-                       <th class="info"></th>
-                       <th class="info"></th>
-                       <th class="info"></th>
-                       <th class="info"></th>
-                       <th class="info"></th>
-                       <th class="info"></th>
-                       <th class="info"></th>
+                       <th class="info">审批类型</th>
+                       <th class="info">审批字段</th>
+                       <th class="info">审批内容</th>
+                       <th class="info">不通过理由</th>
                      </tr>
                    </thead>
-                     <c:forEach items="" var="s" >
+                     <c:forEach items="${reasonsList }" var="list" >
                        <tr>
                          <td class="tc w50"></td>
-                         <td class="tc"></td>
-                         <td class="tc"></td>
-                         <td class="tc"></td>
-                         <td class="tc"></td>
-                         <td class="tc"></td>
-                         <td class="tc"></td>
-                         <td class="tc"></td>
-                         <td class="tc"></td>
+                         <td class="tc">${list.auditType }</td>
+                         <td class="tc">${list.auditField }</td>
+                         <td class="tc">${list.auditContent}</td>
+                         <td class="tc">${list.suggest}</td>
                        </tr>
                      </c:forEach>
                   </table>

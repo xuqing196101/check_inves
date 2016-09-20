@@ -134,19 +134,20 @@ public class SupplierAuditServliceImpl implements SupplierAuditServlice {
 		supplierAuditMapper.insertSelective(supplierAudit);
 		
 	}
-	
+
 	/**
-	 * @Title: findAll
-	 * @author Xu Qing
-	 * @date 2016-9-20 上午10:08:44  
-	 * @Description: 查询所有审核记录 
-	 * @param @return      
-	 * @return List<SupplierAudit>
-	 */
+     * @Title: selectByPrimaryKey
+     * @author Xu Qing
+     * @date 2016-9-20 下午5:12:26  
+     * @Description: 根据供应商id查询审核汇总 
+     * @param @param id
+     * @param @return      
+     * @return List<SupplierAudit>
+     */
 	@Override
-	public List<SupplierAudit> findAll() {
+	public List<SupplierAudit> selectByPrimaryKey(String supplierId) {
 		
-		return supplierAuditMapper.findAll();
+		return supplierAuditMapper.selectByPrimaryKey(supplierId);
 	}
 
 	

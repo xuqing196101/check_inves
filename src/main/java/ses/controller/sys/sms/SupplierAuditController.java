@@ -178,8 +178,10 @@ public class SupplierAuditController {
 	 * @return String
 	 */
 	@RequestMapping("reasonsList")
-	public String reasonsList(){
-	/*	supplierAuditServlice.findAll();*/
+	public String reasonsList(HttpServletRequest request){
+		String supplierId = (String) request.getSession().getAttribute("supplierId");
+		List<SupplierAudit> reasonsList = supplierAuditServlice.selectByPrimaryKey(supplierId);
+		request.setAttribute("reasonsList", reasonsList);
 		return "ses/sms/supplier_audit/audit_reasons";
 	}
 }
