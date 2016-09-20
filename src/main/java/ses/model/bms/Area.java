@@ -32,11 +32,11 @@ public class Area {
 	 */
     private Integer position;
     /**
-	 * @Fields areaType : 地区类型
+	 * @Fields areaType : 父节点
 	 */
     private String areaType;
     /**
-	 * @Fields parentId : 上级地区色
+	 * @Fields parentId : 上级地区
 	 */
     private String parentId;
     /**
