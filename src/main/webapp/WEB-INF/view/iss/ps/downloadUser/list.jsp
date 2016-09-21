@@ -22,17 +22,19 @@
   $(function(){
 	  laypage({
 		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
-		    pages: "${list.pages}", //总页数
+		    pages: "${pages}", //总页数
 		    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
 		    skip: true, //是否开启跳页
-		    groups: "${list.pages}">=3?3:"${list.pages}", //连续显示分页数
+		    groups: "${pages}">=3?3:"${pages}", //连续显示分页数
 		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
 		        var page = location.search.match(/page=(\d+)/);
 		        return page ? page[1] : 1;
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		            location.href = '<%=basePath%>articletype/getAll.html?page='+e.curr;
+		        	var articleId = "${articleId}";
+		        	var condition = "${userName}";
+		            location.href = "<%=basePath%>downloadUser/selectDownloadUserByArticleId.html?page="+e.curr+"&articleId="+articleId+"&userName="+condition;
 		        }
 		    }
 		});
@@ -91,6 +93,12 @@
 			layer.alert("请选择要删除的信息",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
+  	
+  	function search(){
+  		var condition = $("#condition").val();
+  		var articleId = "${articleId}";
+  		window.location.href="<%=basePath%>downloadUser/selectDownloadUserByArticleId.html?userName="+condition+"&articleId="+articleId;
+  	}
   </script>
   </head>
   
@@ -105,55 +113,47 @@
 		<div class="clear"></div>
 	  </div>
    </div>
-   <div class="container">
-	   <div class="headline-v2">
-	   		<h2>下载人管理</h2>
-	   </div>
+  <div class="container">
+   <div class="headline-v2">
+      <h2>查询条件</h2>
    </div>
-<!-- 表格开始-->
-   <div class="container">
-   	<div class="col-md-8">
-      <button class="btn btn-windows delete" type="button" onclick="del()"/>删除</button>
-	</div>
-	<div class="col-md-4 ">
-              <div class="search-block-v2">
-                <div class="">
-                  <form accept-charset="UTF-8" action="" method="post"><div style="display:none"><input name="utf8" value="✓" type="hidden"></div>
-                    <input id="t" name="t" value="search_products" type="hidden">
-                    <div class="col-md-12 pull-right">
-                      <div class="input-group">
-                        <input class="form-control bgnone h37 p0_10" id="k" name="articleName" placeholder="" type="text">
-                        <span class="input-group-btn">
-                          <input class="btn-u" name="commit" value="搜索" type="submit">
-                        </span>
-                      </div>
-                    </div>
-                  </form>               
-			   </div>
-              </div>
-            </div>
-   </div>
-   <div class="container margin-top-5">
-     <div class="content padding-left-25 padding-right-25 padding-top-5">
-   	<table class="table table-bordered table-condensed">
+<!-- 项目戳开始 -->
+  <div class="container clear margin-top-30">
+   <h2 class="padding-10 border1">
+	 <ul class="demand_list list-unstyled">
+	   <li class="fl"><label class="fl mt10">下载人姓名：</label><span><input type="text" value="${userName}" id="condition" class="mb0 mt5"/></span></li>
+	   	 <button class="btn btn_back fl ml10 mt8" onclick="search()">查询</button>
+	 </ul>
+	 <div class="clear"></div>
+   </h2>
+  </div>
+   <div class="headline-v2 fl">
+      <h2>下载人列表
+	  </h2>
+   </div> 
+   	  <span class="fr option_btn margin-top-20">
+	    <button class="btn padding-left-10 padding-right-10 btn_back">删除</button>
+	  </span>
+   <div class="container clear margin-top-30">
+   	<table class="table table-bordered table-condensed mt5">
 		<thead>
 			<tr>
 				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
-			    <th class="info" >序号</th>
-				<th class="info" >文章名</th>
+			    <th class="info w50">序号</th>
+				<th class="info">文章名</th>
 				<th class="info">创建时间</th>
 				<th class="info">更新时间</th>
 				<th class="info">下载人</th>
 			</tr>
 		</thead>
-		<c:forEach items="${list.list}" var="downloadUser" varStatus="vs">
+		<c:forEach items="${list}" var="downloadUser" varStatus="vs">
 			<tr>
 				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${downloadUser.id}" /></td>
-				<td class="tc pointer">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+				<td class="tc pointer">${(vs.index+1)+(page-1)*(pageSize)}</td>
 				<td class="tc pointer">${downloadUser.article.name}</td>
 				<td class="tc pointer"><fmt:formatDate value='${downloadUser.createdAt}' pattern="yyyy年MM月dd日  HH:mm:ss" /></td>
 				<td class="tc pointer"><fmt:formatDate value='${downloadUser.updatedAt}' pattern="yyyy年MM月dd日  HH:mm:ss" /></td>
-				<td class="tc pointer">${downloadUser.user.relName}</td>
+				<td class="tc pointer">${downloadUser.userName}</td>
 			</tr>
 		</c:forEach>
 	</table>

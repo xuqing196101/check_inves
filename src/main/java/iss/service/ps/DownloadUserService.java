@@ -71,4 +71,16 @@ public interface DownloadUserService {
     * @return List<DownloadUser>
      */
     List<DownloadUser> selectDownloadUserByParam(DownloadUser downloadUser);
+    
+    /**
+     * 
+    * @Title: selectDownloadUserCount
+    * @author QuJie 
+    * @date 2016-9-18 下午1:50:52  
+    * @Description: 查询下载人的数量 
+    * @param @param articleId
+    * @param @return      
+    * @return Integer
+     */
+    Integer selectDownloadUserCount(Map<String,Object> countMap);
 }

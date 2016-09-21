@@ -6,12 +6,13 @@
     <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="IS_DELETED" property="isDeleted" />
+    <result column="USER_NAME" property="userName"/>
     <association property="user" column="USER_ID" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>
     <association property="article" column="ARTICLE_ID" select="iss.dao.ps.ArticleMapper.selectById"/>
   </resultMap>
   
   <sql id="DownloadUser_Column_List">
-    ID, ARTICLE_ID, USER_ID, CREATED_AT, UPDATED_AT,IS_DELETED
+    ID, ARTICLE_ID, USER_ID, CREATED_AT, UPDATED_AT,IS_DELETED,USER_NAME
   </sql>
   
   <!-- 根据id查询下载人信息 -->
@@ -22,26 +23,44 @@
     where ID = #{id}
   </select>
   
+  <!-- 查询下载人数量 -->
+  <select id="selectDownloadUserCount" parameterType="Object" resultType="java.lang.Integer">
+  	select count(*) from T_ISS_PS_DOWNLOAD_INFO
+  	where 1=1
+  	<if test="articleId!=null and articleId!=''">
+  		and ARTICLE_ID = #{articleId}
+  	</if>
+  	<if test="userName!=null and userName!=''">
+  		and USER_NAME like '%'||#{userName}||'%'
+  	</if>
+  </select>
+  
   <!-- 根据文章id查询下载人信息 -->
-  <select id="selectByArticleId" parameterType="Object" resultMap="DownloadUserMap">
-  	<![CDATA[SELECT
-				*
-				FROM
+  <select id="selectByArticleId" parameterType="Map" resultType="list" resultMap="DownloadUserMap">
+  	SELECT
+		*
+		FROM
+		(
+			SELECT
+				t.*, ROWNUM rownum_
+			FROM
 				(
 					SELECT
-						t.*, ROWNUM
+						*
 					FROM
-						(
-							SELECT
-								*
-							FROM
-								T_ISS_PS_ARTICLE
-							WHERE ID = #{articleId,jdbcType=INTEGER}
-						) t
-					WHERE
-						ROWNUM <=#{page,jdbcType=INTEGER}*#{pageSize,jdbcType=INTEGER} 
-					AND ROWNUM >#{page-1,jdbcType=INTEGER}*#{pageSize,jdbcType=INTEGER}
-	)]]> 
+						T_ISS_PS_DOWNLOAD_INFO
+					WHERE 1=1
+					<if test="articleId!=null and articleId!=''">
+					 	and ARTICLE_ID = #{articleId}
+					</if>
+					<if test="userName!=null and userName!=''">
+						and USER_NAME like '%'||#{userName}||'%'
+					</if>
+					order by UPDATED_AT desc
+				) t
+			WHERE
+				ROWNUM &lt;=#{page}*#{pageSize} 
+	) where rownum_ &gt;(#{page}-1)*#{pageSize}
   </select>
   
   <!-- 根据条件查询 -->
@@ -49,20 +68,9 @@
   	select
   	<include refid="DownloadUser_Column_List" />
   	from T_ISS_PS_DOWNLOAD_INFO where
-  	  <if test="article != null">
-        ARTICLE_ID = #{article.id}
-      </if>
-      <if test="user != null">
-       and USER_ID = #{user.id},
-      </if>
-      <if test="createdAt != null">
-       and CREATED_AT = #{createdAt},
-      </if>
-      <if test="updatedAt != null">
-       and UPDATED_AT = #{updatedAt},
-      </if>
-      <if test="isDeleted != null">
-       and IS_DELETED  = #{isDeleted},
+  	   ARTICLE_ID = #{article.id}
+  	  <if test="userName != null">
+       and USER_NAME like '%'||#{userName}||'%'
       </if>
   </select>
   
@@ -75,9 +83,9 @@
   <!-- 新增下载人信息 -->
   <insert id="insert" parameterType="iss.model.ps.DownloadUser">
     insert into T_ISS_PS_DOWNLOAD_INFO (ID, ARTICLE_ID, USER_ID, 
-      CREATED_AT, UPDATED_AT,IS_DELETED)
-    values (#{id}, #{article.id}, #{userId}, 
-      #{createdAt}, #{updatedAt},#{isDeleted})
+      CREATED_AT, UPDATED_AT,IS_DELETED,USER_NAME)
+    values (#{id}, #{article.id}, #{user.id}, 
+      #{createdAt}, #{updatedAt},#{isDeleted},#{userName})
   </insert>
   
   <!-- 根据条件新增 -->
@@ -105,6 +113,9 @@
       <if test="isDeleted != null">
         IS_DELETED,
       </if>
+      <if test="userName != null">
+        USER_NAME,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -124,6 +135,9 @@
       </if>
       <if test="isDeleted != null">
         #{isDeleted},
+      </if>
+      <if test="userName != null">
+        #{userName},
       </if>
     </trim>
   </insert>
@@ -147,6 +161,9 @@
       <if test="isDeleted != null">
         IS_DELETED  = #{isDeleted},
       </if>
+      <if test="userName != null">
+        USER_NAME  = #{userName},
+      </if>
     </set>
     where ID = #{id}
   </update>
@@ -158,7 +175,8 @@
       USER_ID = #{user.id},
       CREATED_AT = #{createdAt},
       UPDATED_AT = #{updatedAt},
-      IS_DELETED = #{isDeleted}
+      IS_DELETED = #{isDeleted},
+      USER_NAME = #{userName}
     where ID = #{id}
   </update>
 </mapper>

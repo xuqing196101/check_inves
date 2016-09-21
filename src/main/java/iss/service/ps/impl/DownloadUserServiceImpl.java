@@ -68,4 +68,12 @@ public class DownloadUserServiceImpl implements DownloadUserService {
 			DownloadUser downloadUser) {
 		return downloadUserMapper.selectDownloadUserByParam(downloadUser);
 	}
+	
+	/**
+	 * 查询下载人数量
+	 */
+	@Override
+	public Integer selectDownloadUserCount(Map<String,Object> countMap) {
+		return downloadUserMapper.selectDownloadUserCount(countMap);
+	}
 }

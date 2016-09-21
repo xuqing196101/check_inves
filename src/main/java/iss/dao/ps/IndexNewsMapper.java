@@ -30,10 +30,34 @@ public interface IndexNewsMapper {
 	* @Title: selectNewsByArticleTypeId
 	* @author QuJie 
 	* @date 2016-8-29 上午8:52:43  
+	* @Description: 根据栏目类型id查询对应信息 (分页)
+	* @param @param id
+	* @param @return      
+	* @return List<Article>
+	 */
+	List<Article> selectNewsByArticleTypeId(Map<String, Object> map);
+	
+	/**
+	 * 
+	* @Title: selectNews
+	* @author QuJie 
+	* @date 2016-9-20 下午1:56:03  
 	* @Description: 根据栏目类型id查询对应信息 
 	* @param @param id
 	* @param @return      
 	* @return List<Article>
 	 */
-	List<Article> selectNewsByArticleTypeId(String id);
+	List<Article> selectNews(String id);
+	
+	/**
+	 * 
+	* @Title: selectCount
+	* @author QuJie 
+	* @date 2016-9-20 下午3:10:50  
+	* @Description: 二级页信息条数 
+	* @param @param id
+	* @param @return      
+	* @return Integer
+	 */
+	Integer selectCount(Map<String,Object> countMap);
 }

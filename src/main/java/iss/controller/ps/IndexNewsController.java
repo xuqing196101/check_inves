@@ -34,6 +34,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.model.bms.User;
+import ses.util.PropertiesUtil;
 
 
 /*
@@ -79,7 +80,7 @@ public class IndexNewsController {
 		Map<String, Object> indexMapper = new HashMap<String, Object>();
 		List<ArticleType> articleTypeList = articleTypeService.selectAllArticleTypeForSolr();
 		for(int i=0;i<articleTypeList.size();i++){
-			List<Article> indexNewsList = indexNewsService.selectNewsByArticleTypeId(articleTypeList.get(i).getId());
+			List<Article> indexNewsList = indexNewsService.selectNews(articleTypeList.get(i).getId());
 			if(indexNewsList!=null){
 				indexMapper.put("select"+articleTypeList.get(i).getId()+"List", indexNewsList);
 			}else{
@@ -107,10 +108,26 @@ public class IndexNewsController {
 	* @return String
 	 */
 	@RequestMapping("/selectIndexNewsByTypeId")
-	public String selectIndexNewsByTypeId(ArticleType articleType,Model model) throws Exception{
-		List<Article> indexNewsList = indexNewsService.selectNewsByArticleTypeId(articleType.getId());
+	public String selectIndexNewsByTypeId(Model model,Integer page,HttpServletRequest request) throws Exception{
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> countMap = new HashMap<String, Object>();
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		String pageSize = config.getString("pageSize");
+		if(page==null){
+			page=1;
+		}
+		String articleTypeId = request.getParameter("id");
+		map.put("articleTypeId", articleTypeId);
+		map.put("page", page);
+		map.put("pageSize", pageSize);
+		countMap.put("articleTypeId", articleTypeId);
+		List<Article> indexNewsList = indexNewsService.selectNewsByArticleTypeId(map);
+		ArticleType articleTypeOne = articleTypeService.selectTypeByPrimaryKey(articleTypeId);
+		Integer pages = indexNewsService.selectCount(countMap);
+		model.addAttribute("pages", Math.ceil((double)pages/Integer.parseInt(pageSize)));
 		model.addAttribute("indexList", indexNewsList);
-		model.addAttribute("typeName", indexNewsList.get(0).getArticleType().getName());
+		model.addAttribute("typeName", articleTypeOne.getName());
+		model.addAttribute("articleTypeId", articleTypeId);
 		return "iss/ps/index/index_two";
 	}
 	
@@ -151,11 +168,18 @@ public class IndexNewsController {
 	* @return String
 	 */
 	@RequestMapping("/solrSearch")
-	public String solrSearch(Model model,HttpServletRequest request) throws Exception{
+	public String solrSearch(Model model,HttpServletRequest request,Integer page) throws Exception{
 		String condition = request.getParameter("condition");
-		Map<String, Object> map = solrNewsService.findByIndex(condition);
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		String pageSize = config.getString("pageSize");
+		if(page==null){
+			page=1;
+		}
+		Map<String, Object> map = solrNewsService.findByIndex(condition,page,Integer.parseInt(pageSize));
+		Integer pages = (Integer)map.get("tdsTotal");
 		model.addAttribute("solrMap",map);
 		model.addAttribute("oldCondition", condition);
+		model.addAttribute("pages", Math.ceil((double)pages/Integer.parseInt(pageSize)));
 		return "iss/ps/index/index_solr";
 	}
 	
@@ -189,6 +213,7 @@ public class IndexNewsController {
 		downloadUser.setArticle(article);
 		downloadUser.setIsDeleted(0);
 		downloadUser.setUpdatedAt(new Date());
+		downloadUser.setUserName("qqq");
 //		downloadUser.setUser("1231231");//死数据
 		downloadUserService.addDownloadUser(downloadUser);
 		article.setDownloadCount(article.getDownloadCount()+1);

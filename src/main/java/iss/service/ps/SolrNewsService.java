@@ -56,7 +56,7 @@ public interface SolrNewsService {
 	* @param @return      
 	* @return Pager<NewsEntity>
 	 */
-	public Map<String, Object> findByIndex(String condition);
+	public Map<String, Object> findByIndex(String condition,Integer page,Integer pageSize);
 	
 	/**
 	 * 

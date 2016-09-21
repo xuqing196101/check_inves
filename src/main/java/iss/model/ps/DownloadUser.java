@@ -43,6 +43,11 @@ public class DownloadUser implements Serializable{
      */
     private Integer isDeleted;
     
+    /**
+     * @Fields userName : 下载人姓名
+     */
+    private String userName;
+    
     public String getId() {
 		return id;
 	}
@@ -90,4 +95,12 @@ public class DownloadUser implements Serializable{
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 }

@@ -234,7 +234,7 @@
 		  				</c:if>
 		  			</td>
 		  			<td class="tc">${article.showCount }</td>
-		  			<td class="tc"><a href="<%=basePath%>downloadUser/selectDownloadUserByArticleId.html?id=${article.id}">${article.downloadCount }</a></td>
+		  			<td class="tc"><a href="<%=basePath%>downloadUser/selectDownloadUserByArticleId.html?articleId=${article.id}">${article.downloadCount }</a></td>
 		  		</tr>
 	  		</c:forEach>
 		  </table>

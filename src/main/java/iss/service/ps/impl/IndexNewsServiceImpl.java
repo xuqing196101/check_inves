@@ -7,6 +7,7 @@ import iss.model.ps.ArticleAttachments;
 import iss.service.ps.IndexNewsService;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,12 +35,28 @@ public class IndexNewsServiceImpl implements IndexNewsService {
 	 * 首页查询所有信息方法
 	 */
 	@Override
-	public List<Article> selectNewsByArticleTypeId(String id) {
-		List<Article> indexNewsList = indeNewsMapper.selectNewsByArticleTypeId(id);
+	public List<Article> selectNewsByArticleTypeId(Map<String, Object> map) {
+		List<Article> indexNewsList = indeNewsMapper.selectNewsByArticleTypeId(map);
 		if(indexNewsList.isEmpty()){
 			return null;
 		}else{
 			return indexNewsList;
 		}	
+	}
+	
+	/**
+	 * 根据栏目类型id查询对应信息 
+	 */
+	@Override
+	public List<Article> selectNews(String id) {
+		return indeNewsMapper.selectNews(id);
+	}
+	
+	/**
+	 * 二级页信息数量
+	 */
+	@Override
+	public Integer selectCount(Map<String,Object> countMap) {
+		return indeNewsMapper.selectCount(countMap);
 	}
 }

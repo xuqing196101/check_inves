@@ -35,11 +35,49 @@
     CONTENT
   </sql>
   
-  <!-- 查询首页所有信息 -->
-  <select id="selectNewsByArticleTypeId" resultMap="IndexNewsMapper" parameterType="Object">
+  <!-- 查询二级页信息 -->
+  <select id="selectNewsByArticleTypeId" resultMap="IndexNewsMapper" parameterType="Map">
+	  SELECT
+			*
+			FROM
+			(
+				SELECT
+					t.*, ROWNUM rownum_
+				FROM
+					(
+						SELECT
+							*
+						FROM
+							T_ISS_PS_ARTICLE
+						WHERE STATUS = 2
+						<if test="articleTypeId!=null and articleTypeId!=''">
+						 	and ARTICLE_TYPE_ID = #{articleTypeId}
+						</if>
+						order by PUBLISHED_AT desc
+					) t
+				WHERE 
+					ROWNUM &lt;=#{page}*#{pageSize} 
+			) where rownum_ &gt;(#{page}-1)*#{pageSize}
+  </select>
+  
+  <!-- 查看首页信息 -->
+  <select id="selectNews" resultMap="IndexNewsMapper" parameterType="Object">
   	select 
-  	<include refid="IndexNews_Column_List"/>
-  	from T_ISS_PS_ARTICLE
-  	where ARTICLE_TYPE_ID = #{articleType.id} and STATUS = 2
+  		<include refid="IndexNews_Column_List"/>
+  		from T_ISS_PS_ARTICLE
+  			where ARTICLE_TYPE_ID = #{articleType.id} and STATUS = 2 and rownum &lt;=8
+  		order by PUBLISHED_AT desc
+  </select>
+  
+  <!-- 二级页信息数量 -->
+  <select id="selectCount" parameterType="Object" resultType="java.lang.Integer">
+  	SELECT
+		count(*)
+	FROM
+		T_ISS_PS_ARTICLE
+	WHERE STATUS = 2
+	<if test="articleTypeId!=null and articleTypeId!=''">
+	 	and ARTICLE_TYPE_ID = #{articleTypeId}
+	</if>
   </select>
 </mapper>

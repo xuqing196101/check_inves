@@ -108,4 +108,16 @@ public interface DownloadUserMapper {
     * @return List<DownloadUser>
      */
     List<DownloadUser> selectDownloadUserByParam(DownloadUser downloadUser);
+    
+    /**
+     * 
+    * @Title: selectDownloadUserCount
+    * @author QuJie 
+    * @date 2016-9-18 下午1:44:12  
+    * @Description: 根据articleId查询下载人总数 
+    * @param @param articleId
+    * @param @return      
+    * @return Integer
+     */
+    Integer selectDownloadUserCount(Map<String,Object> countMap);
 }

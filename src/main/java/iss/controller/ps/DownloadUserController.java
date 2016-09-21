@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
+import ses.model.bms.User;
 import ses.util.PropertiesUtil;
 
 /**
@@ -50,14 +53,32 @@ public class DownloadUserController {
 	* @return List<DownloadUser>
 	 */
 	@RequestMapping("/selectDownloadUserByArticleId")
-	public String selectDownloadUserByArticleId(Model model,Article article,Integer page) throws Exception{
+	public String selectDownloadUserByArticleId(Model model,Integer page,HttpServletRequest request) throws Exception{
 		Map<String,Object> map = new HashMap<String, Object>();
+		Map<String,Object> countMap = new HashMap<String, Object>();
 		PropertiesUtil config = new PropertiesUtil("config.properties");
-		Integer pageSize = Integer.parseInt(config.getString("pageSize"));
-		map.put("articleId",article.getId());
+		String pageSize = config.getString("pageSize");
+		String userName = request.getParameter("userName");
+		String articleId = request.getParameter("articleId");
+		if(page==null){
+			page=1;
+		}
+		map.put("articleId",articleId);
 		map.put("pageSize",pageSize);
-		map.put("page",page);
+		map.put("page",page.toString());
+		if(userName!=null){
+			map.put("userName", userName);
+		}
+		countMap.put("articleId", articleId);
+		countMap.put("userName", userName);
 		List<DownloadUser> downloadUserList = downloadUserService.selectByArticleId(map);
+		Integer pages = downloadUserService.selectDownloadUserCount(countMap);
+		model.addAttribute("pages", Math.ceil((double)pages/Integer.parseInt(pageSize)));
+		model.addAttribute("list", downloadUserList);
+		model.addAttribute("articleId", articleId);
+		model.addAttribute("pageSize", pageSize);
+		model.addAttribute("page", page);
+		model.addAttribute("userName",userName);
 //		PageHelper.startPage(page==null?1:page,Integer.parseInt(config.getString("pageSize")));
 //		model.addAttribute("list", new PageInfo<DownloadUser>(downloadUserList));
 		return "iss/ps/downloadUser/list";
@@ -84,26 +105,5 @@ public class DownloadUserController {
 		article.setDownloadCount(article.getDownloadCount()-1);
 		articleService.update(article);
 		return "redirect:selectDownloadUserByArticleId.html?id="+id;
-	};
-	
-	/**
-	 * 
-	* @Title: selectDownloadUserByParam
-	* @author QuJie 
-	* @date 2016-9-14 上午11:11:55  
-	* @Description: 根据条件查询下载人信息 
-	* @param @param downloadUser
-	* @param @param model
-	* @param @return
-	* @param @throws Exception      
-	* @return String
-	 */
-	@RequestMapping("/selectDownloadUserByParam")
-	public String selectDownloadUserByParam(DownloadUser downloadUser,Model model) throws Exception{
-		if(downloadUser.getArticle().getName()!=null){
-			List<DownloadUser> list = downloadUserService.selectDownloadUserByParam(downloadUser);
-			model.addAttribute("list", list);
-		}
-		return "iss/ps/downloadUser/list";
 	};
 }

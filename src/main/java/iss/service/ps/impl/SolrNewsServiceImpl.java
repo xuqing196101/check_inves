@@ -106,12 +106,11 @@ public class SolrNewsServiceImpl implements SolrNewsService {
 	 * 根据条件查找
 	 */
 	@Override
-	public Map<String, Object> findByIndex(String condition) {
+	public Map<String, Object> findByIndex(String condition,Integer page,Integer pageSize) {
 		Map<String,Object> map=new HashMap<String, Object>();
 		List<IndexEntity> indexList=new ArrayList<IndexEntity>();
 		try {
-//			int pageSize=pager.getPageSize();
-//			int pageOffset=pager.getCurPage()*pager.getPageSize();
+			int pageOffset=(page-1)*pageSize;
 			if(condition.isEmpty() || condition==null){
 				condition="";
 			}
@@ -123,8 +122,8 @@ public class SolrNewsServiceImpl implements SolrNewsService {
             query.setHighlightSimplePost("</font>");
             query.setHighlight(true).setHighlightSnippets(1);
             query.setHighlightFragsize(30);
-//			query.setStart(pageOffset);
-//			query.setRows(pageSize);
+			query.setStart(pageOffset);
+			query.setRows(pageSize);
 			SolrDocumentList sdl = SolrContext.getServer().query(query).getResults();
 			Map<String,Map<String,List<String>>> highlighting = null;
 			try {
