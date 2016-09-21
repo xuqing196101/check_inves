@@ -37,6 +37,9 @@ public class PurchaseController {
 		//每页显示十条
 		PageHelper.startPage(page.getPageNum(),CommonConstant.PAGE_SIZE);
 		HashMap<String, Object> map = new HashMap<String, Object>();
+		if(purchaseInfo.getRelName()!=null&&!purchaseInfo.equals("")){
+			map.put("relName", purchaseInfo.getRelName());
+		}
 		List<PurchaseInfo> purchaseList = purchaseServiceI.findPurchaseList(map);
 		page = new PageInfo(purchaseList);
 		model.addAttribute("purchaseList",purchaseList);

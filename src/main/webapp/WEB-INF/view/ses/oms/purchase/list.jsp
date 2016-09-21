@@ -11,23 +11,69 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="">
-    <link href="css/bootstrap.min.css" media="screen" rel="stylesheet">
-	<link href="css/common.css" media="screen" rel="stylesheet">
-    <link href="css/style.css" media="screen" rel="stylesheet">
-    <link href="css/line-icons.css" media="screen" rel="stylesheet">
-    <link href="css/app.css" media="screen" rel="stylesheet">
-    <link href="css/application.css" media="screen" rel="stylesheet">
-    <link href="css/header-v4.css" media="screen" rel="stylesheet">
-    <link href="css/header-v5.css" media="screen" rel="stylesheet">
-    <link href="css/footer-v2.css" media="screen" rel="stylesheet">
-    <link href="css/img-hover.css" media="screen" rel="stylesheet">
-    <link href="css/page_job.css" media="screen" rel="stylesheet">
-    <link href="css/shop.style.css" media="screen" rel="stylesheet">
-
-    <script src="js/jquery.min.js"></script>
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/public/ZHH/css/common.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/style.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/line-icons.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/app.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/application.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/header-v4.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/header-v5.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/img-hover.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/page_job.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
+	
+	
+	<link href="<%=basePath%>public/oms/css/consume.css"  rel="stylesheet">
+	
+	
+    <script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
     <!--导航js-->
-    <script src="js/jquery_ujs.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="${pageContext.request.contextPath}/public/ZHH/js/jquery_ujs.js"></script>
+    <script src="${pageContext.request.contextPath}/public/ZHH/js/bootstrap.min.js"></script>
+    
+    <%--  <script type="text/javascript" src="${pageContext.request.contextPath}/public/oms/js/bxCarousel.js"></script> --%>
+    <script type="text/javascript">
+    	<%-- $(function(){
+		   laypage({
+			    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+			    pages: "${result.pages}", //总页数
+			    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+			    skip: true, //是否开启跳页
+			    groups: "${result.pages}">=3?3:"${result.pages}", //连续显示分页数
+			    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+// 			        var page = location.search.match(/page=(\d+)/);
+// 			        return page ? page[1] : 1;
+					return "${result.pageNum}";
+			    }(), 
+			    jump: function(e, first){ //触发分页后的回调
+			        if(!first){ //一定要加此判断，否则初始时会无限刷新
+			        	$("#page").val(e.curr);
+			        	$("#form1").submit();
+			        	
+			          //location.href = '<%=basePath%>purchase/list.do?page='+e.curr;
+			        }
+			    }
+			});
+	 	 });  --%>
+   /** 全选全不选 */
+	function selectAll(){
+		 var checklist = document.getElementsByName ("check");
+		 var checkAll = document.getElementById("allId");
+		   if(checkAll.checked){
+			   for(var i=0;i<checklist.length;i++)
+			   {
+			      checklist[i].checked = true;
+			   } 
+			 }else{
+			  for(var j=0;j<checklist.length;j++)
+			  {
+			     checklist[j].checked = false;
+			  }
+		 	}
+		}
+    </script>
 </head>
 
 <body>
@@ -105,7 +151,7 @@
 			<div class="headline-v2">
 				<h2>采购机构人员列表</h2>
 		</div>
-		<form action="<%=basePath%>expert/findAllExpert.html" method="post"
+		<form action="<%=basePath%>purchase/list.html" method="post"
 			id="form1" enctype="multipart/form-data" class="registerform">
 			<input type="hidden" name="page" id="page"> <input
 				type="hidden" name="flag" value="0">
@@ -113,47 +159,20 @@
 				<table>
 					<tr>
 						<td><span>姓名：</span><input type="text" name="relName"
-							value="${expert.relName }">
+							value="${purchaseInfo.relName }">
 						</td>
-						<td><span>来源：</span> <select name="expertsFrom"
-							id="expertsFrom">
+						<td><span>采购机构名称：</span> <select name="purchaseDepName"
+							id="purchaseDepName">
 								<option value=''>-请选择-</option>
 								<option
-									<c:if test="${expert.expertsFrom =='军队' }">selected = "true"</c:if>
+									<c:if test="${purchaseInfo.purchaseDepName =='军队' }">selected = "true"</c:if>
 									value="军队">军队</option>
 								<option
-									<c:if test="${expert.expertsFrom =='地方' }">selected = "true"</c:if>
+									<c:if test="${purchaseInfo.purchaseDepName =='地方' }">selected = "true"</c:if>
 									value="地方">地方</option>
 								<option
-									<c:if test="${expert.expertsFrom =='其他' }">selected = "true"</c:if>
+									<c:if test="${purchaseInfo.purchaseDepName =='其他' }">selected = "true"</c:if>
 									value="其他">其他</option>
-						</select>
-						</td>
-						<td><span>状态：</span> <select name="status" id="status">
-								<option value=''>-请选择-</option>
-								<option
-									<c:if test="${expert.status =='0' }">selected = "true"</c:if>
-									value="0">未审核</option>
-								<option
-									<c:if test="${expert.status =='1' }">selected = "true"</c:if>
-									value="1">审核通过</option>
-								<option
-									<c:if test="${expert.status =='2' }">selected = "true"</c:if>
-									value="2">审核未通过</option>
-						</select>
-						</td>
-						<td><span>专家类型：</span> <select name="expertsTypeId"
-							id="expertsTypeId">
-								<option value=''>-请选择-</option>
-								<option
-									<c:if test="${expert.expertsTypeId =='1' }">selected = "true"</c:if>
-									value="1">技术</option>
-								<option
-									<c:if test="${expert.expertsTypeId =='2' }">selected = "true"</c:if>
-									value="2">法律</option>
-								<option
-									<c:if test="${expert.expertsTypeId =='3' }">selected = "true"</c:if>
-									value="3">商务</option>
 						</select>
 						</td>
 						<td><span class="input-group-btn"> <input
@@ -190,16 +209,16 @@
 								<th class="info">年龄</th>
 								<th class="info">职务</th>
 								<th class="info">职称</th>
-								<th class="info">等级</th>
+								<th class="info">采购资格等级</th>
 								<th class="info">学历</th>
 								<th class="info">电话</th>
-								<th class="info">资质证书类型</th>
+								<!-- <th class="info">资质证书类型</th> -->
 								<th class="info">证书编号</th>
 							</tr>
 						</thead>
 
 						<tbody>
-							<c:forEach items="${purchaseDepList}" var="p" varStatus="vs">
+							<c:forEach items="${purchaseList}" var="p" varStatus="vs">
 								<tr class="cursor">
 									<!-- 选择框 -->
 									<td onclick="null" class="tc"><input onclick="check()"
@@ -207,34 +226,35 @@
 									<!-- 序号 -->
 									<td class="tc" onclick="show('${p.id}');">${vs.index+1}</td>
 									<!-- 标题 -->
-									<td class="tc" onclick="show('${p.id}');">${p.name}</td>
+									<td class="tc" onclick="show('${p.id}');">${p.relName}</td>
 									<!-- 内容 -->
-									<td class="tc" onclick="show('${p.id}');">${p.postCode}</td>
+									<td class="tc" onclick="show('${p.id}');">${p.purchaseDepName}</td>
 									<!-- 创建人-->
-									<td class="tc" onclick="show('${p.id}');">${p.address}</td>
+									<td class="tc" onclick="show('${p.id}');">${p.purcahserType}</td>
 									<!-- 是否发布 -->
-									<td class="tc" onclick="show('${p.id}');">${p.businessRange}</td>
+									<td class="tc" onclick="show('${p.id}');">${p.gender}</td>
 									<!-- 是否发布 -->
-									<td class="tc" onclick="show('${p.id}');">${p.quaCode}</td>
+									<td class="tc" onclick="show('${p.id}');">${p.age}</td>
+									<!-- 是否发布 -->
+									<td class="tc" onclick="show('${p.id}');">${p.duties}</td>
+									<!-- 是否发布 -->
+									<td class="tc" onclick="show('${p.id}');">${p.professional}</td>
 									<!-- 是否发布 -->
 									<td class="tc" onclick="show('${p.id}');">${p.quaLevel}</td>
-									<!-- 是否发布 -->
-									<td class="tc" onclick="show('${p.id}');">${p.quaRange}</td>
 									<!-- 创建人-->
-									<td class="tc" onclick="show('${p.id}');">${p.address}</td>
+									<td class="tc" onclick="show('${p.id}');">${p.topStudy}</td>
 									<!-- 是否发布 -->
-									<td class="tc" onclick="show('${p.id}');">${p.businessRange}</td>
+									<td class="tc" onclick="show('${p.id}');">${p.telephone}</td>
+									<!-- 是否发布 -->
+									<%-- <td class="tc" onclick="show('${p.id}');">${p.quaCode}</td> --%>
 									<!-- 是否发布 -->
 									<td class="tc" onclick="show('${p.id}');">${p.quaCode}</td>
-									<!-- 是否发布 -->
-									<td class="tc" onclick="show('${p.id}');">${p.quaLevel}</td>
-									<!-- 是否发布 -->
-									<td class="tc" onclick="show('${p.id}');">${p.quaRange}</td>
 								</tr>
 							</c:forEach>
 						</tbody>
 					</table>
-					<div id="pagediv" align="right"></div>
+					<!-- <div id="page" align="right"></div> -->
+					<p class="pagestyle">${pagesql}</p>
 
 				</div>
 			</div>

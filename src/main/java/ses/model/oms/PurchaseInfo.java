@@ -11,7 +11,8 @@ public class PurchaseInfo extends User{
 
     private String nation;
 
-    private String purchaseDepId;
+    private String purchaseDepId;//采购机构id
+    private String purchaseDepName;//采购机构名称
 
     private String political;
 
@@ -31,15 +32,15 @@ public class PurchaseInfo extends User{
 
     private String idCard;
 
-    private String professional;
+    private String professional;//职称
 
-    private String topStudy;
+    private String topStudy;//学历
 
     private String graduateSchool;
 
     private String quaCode;
 
-    private String quaLevel;
+    private String quaLevel;//采购资格等级
 
     private Date quaEdndate;
 
@@ -59,6 +60,8 @@ public class PurchaseInfo extends User{
     private Date quaStartDate;
     private Integer isDeleted; 
     private String userId;//用户id
+    
+    private Integer age;
 
     public String getId() {
         return id;
@@ -286,6 +289,22 @@ public class PurchaseInfo extends User{
 
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	public String getPurchaseDepName() {
+		return purchaseDepName;
+	}
+
+	public void setPurchaseDepName(String purchaseDepName) {
+		this.purchaseDepName = purchaseDepName;
+	}
+
+	public Integer getAge() {
+		return age;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
 	}
     
 }

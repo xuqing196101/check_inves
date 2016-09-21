@@ -55,7 +55,9 @@ public class CommUtils {
         	st="";
 		}
         //name=\"pageNum\"
-        st = st + "<span>共"+pageCount+"页"+page.getTotal()+"条，去第</span><input type=\"text\" name=\"pageNum\" id=\"pageNums\" value=\"0\" ><span>页</span><a href=\"javascript:void(0);\" onclick=\"pagesub('"+0+"','"+1+"')\"  class=\"subm\">确定</a>";
+        //设置页数  2016-09-20
+        st = st + "<span>共"+pageCount+"页"+page.getTotal()+"条，去第</span><input type=\"text\" name=\"pageNum\" id=\"pageNums\" value="+page.getPageNum()+" ><span>页</span><a href=\"javascript:void(0);\" onclick=\"pagesub('"+0+"','"+1+"')\"  class=\"subm\">确定</a>";
+        //st = st + "<span>共"+pageCount+"页"+page.getTotal()+"条，去第</span><input type=\"text\" name=\"pageNum\" id=\"pageNums\" value=\"0\" ><span>页</span><a href=\"javascript:void(0);\" onclick=\"pagesub('"+0+"','"+1+"')\"  class=\"subm\">确定</a>";
     	String sc = "</br><script type=\"text/javascript\">"+
 				"function pagesub(url,type){"+
 				"var pageNum = $(\"#pageNums\").val();"+

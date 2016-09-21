@@ -30,9 +30,12 @@
 		       d.ADDRESS   as address,
 		       d.POST_CODE   as postCode,
 		       d.QUA_START_DATE   as quaStartDate,
-		       o.name    as  name,
+		       o.name    as  purchaseDepName,
 		       u.id      as  userId,
-		       u.REL_NAME as relName
+		       u.REL_NAME as relName,
+		       d.AGE      as age,
+		       u.DUTIES         as duties,
+		       u.TELEPHONE           as telephone
 		  from T_SES_OMS_PURCHASER     d
 		  LEFT JOIN T_SES_OMS_PURCHASE_DEP p on d.PURCHASE_DEP_ID = p.id
 		  LEFT JOIN T_SES_OMS_ORG o on o.id = p.ORG_ID

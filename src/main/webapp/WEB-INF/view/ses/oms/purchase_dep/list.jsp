@@ -116,100 +116,190 @@
     }
   </script>
 <body>
-	<!--面包屑导航开始-->
-	<div class="margin-top-10 breadcrumbs ">
+	<div class="wrapper">
+		<div class="header-v4 header-v5">
+			<!-- Navbar -->
+			<div class="navbar navbar-default mega-menu" role="navigation">
+				<div class="container">
+					<!-- logo和搜索 -->
+					<div class="navbar-header">
+						<div class="row container">
+							<div class="col-md-4 padding-bottom-30">
+								<a href=""> <img alt="Logo" src="images/logo_2.png"
+									id="logo-header"> </a>
+							</div>
+							<!--菜单开始-->
+							<div class="col-md-8 topbar-v1 col-md-12 ">
+								<ul class="top-v1-data padding-0">
+									<li><a href="#">
+											<div>
+												<img src="images/top_01.png" />
+											</div> <span>决策支持</span> </a></li>
+									<li><a href="#">
+											<div>
+												<img src="images/top_02.png" />
+											</div> <span>业务监管</span> </a></li>
+									<li><a href="#">
+											<div>
+												<img src="images/top_03.png" />
+											</div> <span>障碍作业</span> </a></li>
+									<li><a href="#">
+											<div>
+												<img src="images/top_04.png" />
+											</div> <span>信息服务</span> </a></li>
+									<li><a href="#">
+											<div>
+												<img src="images/top_05.png" />
+											</div> <span>支撑环境</span> </a></li>
+									<li><a href="#">
+											<div>
+												<img src="images/top_06.png" />
+											</div> <span>配置配置</span> </a></li>
+									<li><a href="#">
+											<div>
+												<img src="images/top_07.png" />
+											</div> <span>后台首页</span> </a></li>
+									<li><a href="#">
+											<div>
+												<img src="images/top_08.png" />
+											</div> <span>安全退出</span> </a></li>
+
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--面包屑导航开始-->
+		<div class="margin-top-10 breadcrumbs ">
+			<div class="container">
+				<ul class="breadcrumb margin-left-0">
+					<li><a href="#"> 首页</a>
+					</li>
+					<li><a href="#">支撑系统</a>
+					</li>
+					<li><a href="#">后台管理</a>
+					</li>
+					<li class="active"><a href="#">采购机构管理</a>
+					</li>
+				</ul>
+			</div>
+		</div>
 		<div class="container">
-			<ul class="breadcrumb margin-left-0">
-				<li><a href="#"> 首页</a></li>
-				<li><a href="#">支撑系统</a></li>
-				<li><a href="#">后台管理</a></li>
-				<li class="active"><a href="#">采购机构管理</a></li>
-			</ul>
-			<div class="clear"></div>
+			<div class="headline-v2">
+				<h2>采购机构列表</h2>
 		</div>
-	</div>
-	<div class="container">
-		<div class="headline-v2">
-			<h2>采购机构管理列表</h2>
-		</div>
-	</div>
-	<!-- 表格开始-->
-	<div class="container">
-		<form id="findform" action="${pageContext.request.contextPath}/purchaseManage/purchaseUnitList。do" method="post">
-			<div class="topFormArea">
-				<p>
-					<span>上级监管部门：</span><select name="monitor_dep_name" id="monitor_dep_id"></select>
-					<span>名称：</span><input name="name" id="name" value="${purchaseDep.name}"></input>
-					<span>等级：</span><input name="levelDep" id="levelDep" value="${purchaseDep.levelDep}"></input>
-					<a  id="findbtn" class="searchBtn">查询</a>
-				</p>
-				<br/>
-				<div class="clearfloat"></div>
+		<form action="<%=basePath%>purchaseDep/list.html" method="post"
+			id="form1" enctype="multipart/form-data" class="registerform">
+			<input type="hidden" name="page" id="page"> <input
+				type="hidden" name="flag" value="0">
+			<div align="center">
+				<table>
+					<tr>
+						<td><span>名称：</span><input type="text" name="name"
+							value="${purchaseDep.name }">
+						</td>
+						<td><span>上级监管部门：</span> <select name="purchaseDepName"
+							id="purchaseDepName">
+								<option value=''>-请选择-</option>
+								<option
+									<c:if test="${purchaseInfo.purchaseDepName =='军队' }">selected = "true"</c:if>
+									value="军队">军队</option>
+								<option
+									<c:if test="${purchaseInfo.purchaseDepName =='地方' }">selected = "true"</c:if>
+									value="地方">地方</option>
+								<option
+									<c:if test="${purchaseInfo.purchaseDepName =='其他' }">selected = "true"</c:if>
+									value="其他">其他</option>
+						</select>
+						</td>
+						<td><span class="input-group-btn"> <input
+								class="btn-u" name="commit" value="搜索" type="submit"> </span>
+						</td>
+					</tr>
+				</table>
+
+			</div>
+			<!-- 表格开始-->
+			<div class="container">
+				<div class="col-md-8">
+					<button class="btn btn-windows edit" type="button"
+						onclick="edit();">新增</button>
+					<button class="btn btn-windows edit" type="button"
+						onclick="edit();">修改</button>
+					<button class="btn btn-windows delete" type="button"
+						onclick="dell();">删除</button>
+					<button class="btn btn-windows git" type="button" onclick="show()">查看</button>
+					<button class="btn btn-windows add" type="button" onclick="purchaseManage()">采购人员管理</button>
+					<button class="btn btn-windows edit" type="button" onclick="stash()">资质暂停</button>
+					<button class="btn btn-windows edit" type="button" onclick="over()">资质终止</button>
+				</div>
+			</div>
+
+			<div class="container margin-top-5">
+				<div class="content padding-left-25 padding-right-25 padding-top-5">
+					<table class="table table-bordered table-condensed">
+							<thead>
+								<tr>
+									<th class="info w30"><input id="checkAll" type="checkbox"
+										onclick="selectAll()" />
+									</th>
+									<th class="info w50">序号</th>
+									<th class="info">采购机构名称</th>
+									<th class="info">邮编</th>
+									<th class="info">单位地址</th>
+									<th class="info">采购业务范围</th>
+									<th class="info">采购资质编号</th>
+									<th class="info">采购业务等级</th>
+									<th class="info">采购资质范围</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach items="${purchaseDepList}" var="p" varStatus="vs">
+									<tr class="cursor">
+										<!-- 选择框 -->
+										<td onclick="null" class="tc"><input onclick="check()"
+											type="checkbox" name="chkItem" value="${p.id}" />
+										</td>
+										<!-- 序号 -->
+										<td class="tc" onclick="show('${p.id}');">${vs.index+1}</td>
+										<!-- 标题 -->
+										<td class="tc" onclick="show('${p.id}');">${p.name}</td>
+										<!-- 内容 -->
+										<td class="tc" onclick="show('${p.id}');">${p.postCode}</td>
+										<!-- 创建人-->
+										<td class="tc" onclick="show('${p.id}');">${p.address}</td>
+										<!-- 是否发布 -->
+										<td class="tc" onclick="show('${p.id}');">${p.businessRange}</td>
+										<!-- 是否发布 -->
+										<td class="tc" onclick="show('${p.id}');">${p.quaCode}</td>
+										<!-- 是否发布 -->
+										<td class="tc" onclick="show('${p.id}');">${p.quaLevel}</td>
+										<!-- 是否发布 -->
+										<td class="tc" onclick="show('${p.id}');">${p.quaRange}</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+					</table>
+					<!-- <div id="page" align="right"></div> -->
+					<p class="pagestyle">${pagesql}</p>
+
+				</div>
 			</div>
 		</form>
-	</div>
-
-	<div class="container margin-top-5 list">
-		<div class="content padding-left-25 padding-right-25 padding-top-5">
-				<div class="col-md-88">
-					<button class="btn btn-windows edit fr" type="button" onclick="over()">资质终止</button>
-					<button class="btn btn-windows edit fr" type="button" onclick="stash()">资质暂停</button>
-					<button class="btn btn-windows add fr" type="button" onclick="purchaseManage()">采购人员管理</button>
-					<button class="btn btn-windows git fr" type="button" onclick="show()">查看</button>
-					<button class="btn btn-windows delete fr" type="button" onclick="del();">删除</button>
-					<button class="btn btn-windows edit fr" type="button" onclick="edit()">修改</button>
-					<button class="btn btn-windows add fr" type="button" onclick="add()">新增</button>
-					<input id="parentid" type="hidden"/>
-			    </div>
-				<table class="table table-bordered table-condensed">
-					<thead>
-						<tr>
-							<th class="info w30"><input id="checkAll" type="checkbox"
-								onclick="selectAll()" /></th>
-							<th class="info w50">序号</th>
-							<th class="info">采购机构名称</th>
-							<th class="info">邮编</th>
-							<th class="info">单位地址</th>
-							<th class="info">采购业务范围</th>
-							<th class="info">采购资质编号</th>
-							<th class="info">采购业务等级</th>
-							<th class="info">采购资质范围</th>
-						</tr>
-					</thead>
-					<c:forEach items="${purchaseDepList}" var="p"
-						varStatus="vs">
-						<tr class="cursor">
-							<!-- 选择框 -->
-							<td onclick="null" class="tc"><input onclick="check()"
-								type="checkbox" name="chkItem" value="${p.id}" /></td>
-							<!-- 序号 -->
-							<td class="tc" onclick="show('${p.id}');">${vs.index+1}</td>
-							<!-- 标题 -->
-							<td class="tc" onclick="show('${p.id}');">${p.name}</td>
-							<!-- 内容 -->
-							<td class="tc" onclick="show('${p.id}');">${p.postCode}</td>
-							<!-- 创建人-->
-							<td class="tc" onclick="show('${p.id}');">${p.address}</td>
-							<!-- 是否发布 -->
-							<td class="tc" onclick="show('${p.id}');">${p.businessRange}</td>
-								<!-- 是否发布 -->
-							<td class="tc" onclick="show('${p.id}');">${p.quaCode}</td>
-								<!-- 是否发布 -->
-							<td class="tc" onclick="show('${p.id}');">${p.quaLevel}</td>
-								<!-- 是否发布 -->
-							<td class="tc" onclick="show('${p.id}');">${p.quaRange}</td>
-						</tr>
-					</c:forEach>
-				</table>
-		</div>
-		<!-- <div id="pagediv" align="right"></div> -->
-		<c:if test="${empty  purchaseDepList}">
-			<div class="noData">
-				<p>此条件下尚无数据，请重新选择！</p>
+			<!--/container-->
+<!--底部代码开始-->
+		<div class="footer-v2" id="footer-v2">
+			<div class="footer">
+				<!-- Address -->
+				<address class="">Copyright 2016 版权所有：中央军委后勤保障部
+					京ICP备09055519号</address>
+				<div class="">浏览本网主页，建议将电脑显示屏的分辨率调为1024*768</div>
+				<!-- End Address -->
 			</div>
-		</c:if>
-		<p class="page">${pagesql}</p>
-		<div class="clearfloat"></div>
+			<!--/footer-->
+		</div>
 	</div>
 </body>
 </html>
