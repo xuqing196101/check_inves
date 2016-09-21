@@ -663,10 +663,10 @@
 		select * from T_SES_SMS_SUPPLIER where ID = #{id}
 	</select>
 	
-	  <!-- 查询查询供应商及条件查询 -->
-  <select id="findSupplier"   resultMap="BaseResultMap">
+	  <!-- 根据审核状态查询供应商及条件查询 -->
+  <select id="findSupplier" parameterType="ses.model.sms.Supplier"  resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />
+    *
     from T_SES_SMS_SUPPLIER 
     where 
        1=1
@@ -675,9 +675,30 @@
        </if>  
        <if test="supplierTypeId != null and supplierTypeId !=''">  
         AND SUPPLIER_TYPE_ID = '${supplierTypeId}' 
-       </if> 
+       </if>
+       <if test="status != null">  
+        AND STATUS = #{status} 
+       </if>  
         ORDER BY FOUND_DATE DESC 
   </select>
+  
+  <!-- 根据审核状态获取条数 -->
+  <select id="getCount" parameterType="ses.model.sms.Supplier" resultType="java.lang.Integer">
+    select count(*) from T_SES_SMS_SUPPLIER
+    where 1=1
+    <if test="status!=null">
+      and status= #{status,jdbcType=DECIMAL}
+    </if>
+  </select>
+  
+  <!-- 根据供应商Id更新状态 -->
+  <update id="updateStatus" parameterType="ses.model.sms.Supplier">
+    update T_SES_SMS_SUPPLIER
+    set
+      STATUS = #{status}
+    where ID = #{id}
+  </update>
+  
   
 	<resultMap type="ses.model.sms.Supplier" id="supplierMap" extends="BaseResultMap">
 		<collection property="listSupplierFinances" select="ses.dao.sms.SupplierFinanceMapper.findFinanceBySupplierId" column="ID" />

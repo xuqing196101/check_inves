@@ -1,13 +1,9 @@
 package ses.service.sms.impl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.github.pagehelper.PageHelper;
 
 import ses.dao.sms.SupplierAuditMapper;
 import ses.dao.sms.SupplierFinanceMapper;
@@ -19,6 +15,8 @@ import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierStockholder;
 import ses.service.sms.SupplierAuditServlice;
 import ses.util.PropertiesUtil;
+
+import com.github.pagehelper.PageHelper;
 
 /**
  * <p>Title:SupplierAuditServliceImpl </p>
@@ -65,15 +63,7 @@ public class SupplierAuditServliceImpl implements SupplierAuditServlice {
 	public List<Supplier> supplierList(Supplier supplier,Integer page) {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-		Map map = new HashMap();
-		if(supplier!=null){
-			map.put("supplierName", supplier.getSupplierName());
-			map.put("supplierTypeId", supplier.getSupplierTypeId());
-		}else{
-			map.put("supplierName", null);
-			map.put("supplierTypeId", null);
-		}
-		return supplierMapper.findSupplier(map);
+		return supplierMapper.findSupplier(supplier);
 	}
 
 	/**
@@ -149,8 +139,35 @@ public class SupplierAuditServliceImpl implements SupplierAuditServlice {
 		
 		return supplierAuditMapper.selectByPrimaryKey(supplierId);
 	}
-
 	
+	/**
+     * @Title: updateStatus
+     * @author Xu Qing
+     * @date 2016-9-20 下午7:24:46  
+     * @Description: 根据供应商ID更新审核状态 
+     * @param @param supplierId      
+     * @return void
+     */
+	@Override
+	public void updateStatus(Supplier supplier) {
+		supplierMapper.updateStatus(supplier);
+		
+	}
+	
+	/**
+     * @Title: getCount
+     * @author Xu Qing
+     * @date 2016-9-21 上午10:14:27  
+     * @Description:根据审核状态获取条数
+     * @param @param supplier
+     * @param @return      
+     * @return Integer
+     */
+	@Override
+	public Integer getCount(Supplier supplier) {
+		
+		return supplierMapper.getCount(supplier);
+	}
 
 
 }

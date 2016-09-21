@@ -123,7 +123,10 @@
   </div>
   <div class="container">
     <div class="col-md-8">
-      <button class="btn btn-windows git" type="button" onclick="shenhe();">审核</button>
+      <button class="btn btn-windows git" type="button" onclick="shenhe();">
+        <c:if test="${status==0 }">初审</c:if>
+        <c:if test="${status==1 }">复审</c:if>   
+      </button>
     </div>
   </div>
   <div class="container margin-top-5">
@@ -148,24 +151,13 @@
             <td class="tc">${list.supplierTypeId }</td>
             <td class="tc">${list.businessType }</td>
             <td class="tc"></td>
-             <c:if test="${list.status eq '0' ||e.status==null }">
-              <td class="tc">待初审</td>
-             </c:if>
-             <c:if test="${list.status eq '1' }">
-              <td class="tc">初审通过</td>
-             </c:if>
-             <c:if test="${list.status eq '2' }">
-              <td class="tc">初审核未通过</td>
-             </c:if>
-             <c:if test="${list.status eq '3' }">
-              <td class="tc">待复审</td>
-             </c:if>
-             <c:if test="${list.status eq '4' }">
-              <td class="tc">复审通过</td>
-             </c:if>
-             <c:if test="${list.status eq '5' }">
-              <td class="tc">复审不通过</td>
-             </c:if>
+            <td class="tc">
+	             <c:if test="${list.status==0 }">待初审</c:if>
+	             <c:if test="${list.status==1 }">待复审</c:if>
+	             <c:if test="${list.status==2 }">初审核未通过</c:if>
+	             <c:if test="${list.status==3 }">已审核</c:if>
+	             <c:if test="${list.status==4 }">复审不通过</c:if>
+            </td>
           </tr>
         </c:forEach>
         </table>

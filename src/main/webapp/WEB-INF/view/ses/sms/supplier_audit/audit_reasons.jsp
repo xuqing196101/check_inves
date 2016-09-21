@@ -10,6 +10,13 @@
 <!-- Meta -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script type="text/javascript">
+function tijiao(status){
+  $("#status").val(status);
+  form1.submit();
+}
+
+</script>
 </head>
   
 <body>
@@ -55,13 +62,27 @@
                      </c:forEach>
                   </table>
                 </div>
-	                <div  class="col-md-12">
-	                  <div class="fl padding-10">
-										  <input class="btn btn-windows add" type="button" onclick="" value="通过">
-										  <input class="btn btn-windows delete" type="button" onclick="" value="不通过">
-										  <a class="btn btn-windows reset" onclick="location='<%=basePath%>supplierAudit/supplierList.html'">退出</a>
-									  </div>
-									</div>
+									
+                  <div class="margin-bottom-0  categories">
+                  <form id="form1" action="${pageContext.request.contextPath}/supplierAudit/updateStatus.html" method="post">
+                      <input type="hidden" name="status" id="status"/>
+                  <div class="col-md-12 add_regist tc">
+                  <c:if test="${status==0 }">
+                    <input class="btn padding-left-20 padding-right-20 btn_back"  type="button" onclick="tijiao(1)" value="初审通过 ">
+                    <input class="btn padding-left-20 padding-right-20 btn_back"  type="button" onclick="tijiao(2)" value="初审不通过">
+                    <input class="btn padding-left-20 padding-right-20 btn_back"  type="button" value="完成">
+                  </c:if>
+                  <c:if test="${status==1 }">
+                    <input class="btn padding-left-20 padding-right-20 btn_back"  type="button" onclick="tijiao(3)" value="复审通过 ">
+                    <input class="btn padding-left-20 padding-right-20 btn_back"  type="button" onclick="tijiao(4)" value="复审不通过">
+                    <input class="btn padding-left-20 padding-right-20 btn_back"  type="button" value="完成">
+                  </c:if>
+                  </div>
+                  </form>
+                  </div>
+                
+									
+									
              </div>
           </div>
         </div>

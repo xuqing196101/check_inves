@@ -95,10 +95,31 @@ public interface SupplierMapper {
 	 * @Title: supplierList
 	 * @author Xu Qing
 	 * @date 2016-9-14 上午11:11:52  
-	 * @Description: 供应商列表 及条件查询
+	 * @Description: 供应商列表及条件查询
 	 * @param @return      
 	 * @return List<Supplier>
 	 */
-	List<Supplier> findSupplier(Map paramMap);
+	List<Supplier> findSupplier(Supplier record);
 	
+	/**
+	 * @Title: getCount
+	 * @author Xu Qing
+	 * @date 2016-9-21 上午10:11:43  
+	 * @Description: 根据审核状态获取条数
+	 * @param @param supplier
+	 * @param @return      
+	 * @return Integer
+	 */
+	Integer getCount(Supplier record);
+	
+	/**
+	 * @Title: updateStatus
+	 * @author Xu Qing
+	 * @date 2016-9-21 下午4:40:27  
+	 * @Description: 根据供应商ID更新审核状态
+	 * @param @param id
+	 * @param @return      
+	 * @return Supplier
+	 */
+	void updateStatus(Supplier record);
 }

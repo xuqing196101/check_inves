@@ -9,15 +9,14 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import com.github.pagehelper.PageInfo;
 
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierStockholder;
 import ses.service.sms.SupplierAuditServlice;
+
+import com.github.pagehelper.PageInfo;
 
 /**
  * <p>Title:SupplierAuditController </p>
@@ -40,22 +39,47 @@ public class SupplierAuditController {
 	 * @param @return      
 	 * @return String
 	 */
-	@RequestMapping("daiBan")
-	public String daiBan() {
+	@RequestMapping("daiban")
+	public String daiBan(Supplier supplier,HttpServletRequest request) {
+		//未审核条数（0初审）
+		supplier.setStatus(0);
+		int weishen = supplierAuditServlice.getCount(supplier);
+		//审核中条数（1初审通过也是复审）
+		supplier.setStatus(1);
+		int shenhezhong =supplierAuditServlice.getCount(supplier);
+		//已审核条数（3复审通过）
+		supplier.setStatus(3);
+		int yishen =supplierAuditServlice.getCount(supplier);
 		
-		return "ses/sms/supplier_audit/daiban";
+		request.setAttribute("weishen", weishen);
+		request.setAttribute("shenhezhong", shenhezhong);
+		request.setAttribute("yishen", yishen);
+		
+		return "ses/sms/supplier_audit/total";
 	}
 	
 	/**
 	 * @Title: SupplierList
 	 * @author Xu Qing
 	 * @date 2016-9-12 下午5:19:07  
-	 * @Description: 所有供应商 
+	 * @Description: 根据审核状态（待办）查询供应商 
 	 * @param @return      
 	 * @return String
 	 */
 	@RequestMapping("supplierList")
 	public String supplierList(HttpServletRequest request,Integer page,Supplier supplier) {
+		//条件查询时status为空，把它存入session
+		if(supplier.getStatus()!=null){
+			request.getSession().setAttribute("status", supplier.getStatus());
+		}
+		int status =(int) request.getSession().getAttribute("status");
+		if(supplier.getStatus()!=null){
+			supplier.setStatus(supplier.getStatus());	
+		}else{
+			//条件查询的时status为空从session里取
+			supplier.setStatus(status);
+		}
+		
 		List<Supplier> supplierList =supplierAuditServlice.supplierList(supplier,page==null?1:page);
 		request.setAttribute("result", new PageInfo<>(supplierList));
 		request.setAttribute("supplierList", supplierList);
@@ -181,7 +205,27 @@ public class SupplierAuditController {
 	public String reasonsList(HttpServletRequest request){
 		String supplierId = (String) request.getSession().getAttribute("supplierId");
 		List<SupplierAudit> reasonsList = supplierAuditServlice.selectByPrimaryKey(supplierId);
+		request.getSession().getAttribute("status");
+		System.out.println("ssssssssssssssssssssssssss="+request.getSession().getAttribute("status"));
 		request.setAttribute("reasonsList", reasonsList);
 		return "ses/sms/supplier_audit/audit_reasons";
 	}
+	
+	/**
+	 * @Title: updateStatus
+	 * @author Xu Qing
+	 * @date 2016-9-20 下午7:32:49  
+	 * @Description: 根据供应商id更新审核状态
+	 * @param @param request
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping("updateStatus")
+	public String updateStatus(HttpServletRequest request,Supplier supplier){
+		String supplierId = (String) request.getSession().getAttribute("supplierId");
+		supplier.setId(supplierId);
+		supplierAuditServlice.updateStatus(supplier);
+		return "redirect:supplierList.html";
+	}
+
 }

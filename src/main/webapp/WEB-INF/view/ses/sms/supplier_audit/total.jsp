@@ -8,6 +8,12 @@
 <!-- Meta -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script type="text/javascript">
+  function tijiao(status){
+  $("#status").val(status);
+  form1.submit();
+}
+</script>
 </head>
 <body>
 	<div class="header-v4 header-v5">
@@ -37,12 +43,6 @@
 				       <div><img src="${pageContext.request.contextPath}/public/ZHH/images/top_02.png"/></div>
 				  <span>业务监管</span>
 				 </a>
-				<ul class="dropdown-menu">
-                 <li><a href="${pageContext.request.contextPath}/public/ZHH/#" target="_blank">轿车</a></li>
-                 <li><a href="${pageContext.request.contextPath}/public/ZHH/#" target="_blank">越野车</a></li>
-                 <li><a href="${pageContext.request.contextPath}/public/ZHH/#" target="_blank">面包车</a></li>
-                 <li><a href="${pageContext.request.contextPath}/public/ZHH/#" target="_blank">客车</a></li>
-                </ul>
 				</li>
 			    <li>
 				<a href="${pageContext.request.contextPath}/public/ZHH/#">
@@ -98,13 +98,25 @@
   </div>
    
   <div class="container mt20">
-    <div class="col-md-4">
-      <span onclick="location='${pageContext.request.contextPath}/supplierFsInfo/auditList.html?status=0'">供应商未审核</span>（<a class="red b">${weishenhe }</a>）
-    </div>
-   <div class="col-md-4">
-     <span onclick="location='${pageContext.request.contextPath}/supplierFsInfo/auditList.html?status=1'">供应商已审核</span>（<a class="red b">${yishenhe }</a>）</div>
-   <div class="col-md-4">
-     <span onclick="location='${pageContext.request.contextPath}/supplierFsInfo/auditList.html?status=2'">供应商审核中</span>（<a class="red b">${shenhezhong }</a>）</div>
-  </div>  
+    <form id="form1" action="${pageContext.request.contextPath}/supplierAudit/supplierList.html" method="post">
+       <input type="hidden" name="status" id="status" />
+       <div class="col-md-4" style="cursor: pointer">
+          <span onclick="tijiao(0)">供应商未审核</span>（<a class="red b">${weishen }</a>）
+       </div>
+       <div class="col-md-4"></div>
+       <div class="col-md-4"></div>
+       <div class="col-md-4" style="cursor: pointer">
+          <span onclick="tijiao(1)">供应商审核中</span>（<a class="red b">${shenhezhong }</a>）
+       </div> 
+       <div class="col-md-4"></div>
+       <div class="col-md-4"></div>
+       <div class="col-md-4" style="cursor: pointer">
+          <span onclick="tijiao(3)">供应商已审核</span>（<a class="red b" style="cursor: pointer">${yishen }</a>）
+       </div>
+       <div class="col-md-4"></div>
+       <div class="col-md-4"></div>
+    </form>
+  </div>
+    
 </body>
 </html>

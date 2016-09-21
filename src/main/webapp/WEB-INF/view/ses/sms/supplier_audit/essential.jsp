@@ -185,7 +185,7 @@ function reason(id){
 					          </li>
 					          <li class="col-md-6 p0 "><span class="" id="foundDate2"><i class="red">＊</i>成立日期：</span>
 					            <div class="input-append">
-					              <input class="span3" id="foundDate3" value="<fmt:formatDate type='date' value='${supplier.foundDate }' dateStyle="default" pattern="yyyy-MM-dd"/>" type="text">
+					              <input class="span3" id="foundDate3" value="${supplier.foundDate }" type="text">
 					              <div id="foundDate1" class="b f18 fl ml10 red hand">√</div>
 					              <div id="foundDate" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
 					            </div>

@@ -78,4 +78,25 @@ public interface SupplierAuditServlice {
      * @return List<SupplierAudit>
      */
     List<SupplierAudit> selectByPrimaryKey(String supplierId);
+    
+    /**
+     * @Title: updateStatus
+     * @author Xu Qing
+     * @date 2016-9-20 下午7:24:46  
+     * @Description: 根据供应商ID更新审核状态 
+     * @param @param supplierId      
+     * @return void
+     */
+    void updateStatus (Supplier supplier);
+    
+    /**
+     * @Title: getCount
+     * @author Xu Qing
+     * @date 2016-9-21 上午10:14:27  
+     * @Description:根据审核状态获取条数
+     * @param @param supplier
+     * @param @return      
+     * @return Integer
+     */
+    Integer getCount(Supplier supplier);
 }
