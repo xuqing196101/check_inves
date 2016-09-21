@@ -251,6 +251,10 @@
   left: 208px; }
 .mt0 {
   margin-top: 0px!important; }
+ 
+ .mt1 {
+  margin-top: 1px!important; } 
+  
 .mt3 {
   margin-top: 3px; }
 
@@ -292,7 +296,8 @@
 
 .mt120 {
   margin-top: 120px; }
-
+ .m0_30{
+  margin:0px 30px;}
 .mb8 {
   margin-bottom: 8px; }
 
@@ -344,6 +349,9 @@
 .pl10 {
   padding-left: 10px!important; }
 
+.pl13 {
+  padding-left: 13px!important; }
+  
 .pl200{
   padding-left:200px!important;}
 .pr10 {
@@ -718,15 +726,14 @@ a.redhover:hover{
 .question_input{
 	min-width:130px;
 }
-<<<<<<< Updated upstream
+
 .text_area2{
 	width:80%;
 	height:180px;
-=======
+}
 .excelFile{
 	display:inline;
 }
 .fw{
 	font-weight: 700;
->>>>>>> Stashed changes
 }

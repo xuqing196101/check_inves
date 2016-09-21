@@ -8,7 +8,7 @@
 <head>
     <base href="<%=basePath%>">
     
-    <title>新增模板</title>
+    <title>登记质检报告</title>
     <script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/ueditor.config.js"></script>
 	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/ueditor.all.min.js"> </script>
 	<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
@@ -31,7 +31,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">后台管理</a></li><li class="active"><a href="#">新增模板</a></li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">保障作业</a></li><li><a href="#">产品质量管理</a></li><li class="active"><a href="#">登记质检报告</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -39,56 +39,101 @@
    
 <!-- 新增模板开始-->
    <div class="container">
-   		<form action="<%=basePath %>templet/save.do" method="post">
+   		<form action="<%=basePath %>pqinfo/save.html" method="post">
    		<div class="headline-v2">
-   			<h2>新增模板</h2>
+   			<h2>登记质检报告</h2>
    		</div>
    		<ul class="list-unstyled list-flow p0_20">
 		     <li class="col-md-6  p0 ">
-			   <span class="">模板名称：</span>
+			   <span class="">合同编号：</span>
 			   <div class="input-append">
-		        <input class="span2" name="name" type="text">
+		        <input class="span2" name="contract_id" type="text">
 		       </div>
 			 </li>
     		 <li class="col-md-6 p0">
-			   <span class="">模板类型：</span>
-		        <div class="btn-group ">
-          			<select id="temType" name =temType class="w230" >
-						<option></option>
-			  	  		<option value="1">1</option>
-			  	  	 	<option value="2">2</option>
-	  				</select>
+			   <span class="">合同名称：</span>
+		        <div class="input-append ">
+		        	<input class="span2" name="contract_name" type="text" >
        			</div>
 			 </li>
-		     
-			 <li class="col-md-12 p0">
-	   			<span class="fl">模板内容：</span>
-	  			<div class="col-md-12 pl200 fn mt5 pwr9">
-	  				 <script id="editor" name="content" type="text/plain" class="ml125 mt20 w900"></script>
-        			<!-- <textarea class="text_area col-md-12 " title="不超过800个字" placeholder="不超过800个字"></textarea> -->
+    		 <li class="col-md-6 p0">
+			   <span class="">供应商组织机构代码：</span>
+		        <div class="input-append ">
+		        	<input class="span2" name="organization_code" type="text">
        			</div>
-			 </li> 
-		     
-	 		<%-- <li class="col-md-6 p0">
-			   <span class="">角色：</span>
+			 </li>
+		     <li class="col-md-6  p0 ">
+			   <span class="">供应商名称：</span>
 			   <div class="input-append">
-			   	 <input class="span2" id="roleId" name="roleId" type="hidden">
-		         <input class="span2" id="roleName" name="roleName" type="text">
-				 <div class="btn-group ">
-		          <button class="btn dropdown-toggle add-on" data-toggle="dropdown">
-				  <img src="<%=basePath%>public/ZHH/images/down.png" class="margin-bottom-5"/>
-		          </button>
-		          <ul class="dropdown-menu list-unstyled">
-		          	<c:forEach items="${roles}" var="role" varStatus="vs">
-		          		<li class="select_opt">
-		          			<input type="checkbox" name="chkItem" value="${role.id };${role.name }" onclick="cheClick();" class="select_input">${role.name }
-		          		</li>
-		          	</c:forEach>
-		          </ul>
+		        <input class="span2" name="supplier_name" type="text">
 		       </div>
-		      </div>
-			 </li> --%>
-			 
+			 </li>
+			 <li class="col-md-6  p0 ">
+			   <span class="fl">项目类别：</span>
+			   <div class="btn-group ">
+		        	<select id="temType" name ="project_type" class="w230" >
+						<option>请选择</option>
+	  				</select> 
+		       </div>
+			 </li>
+    		 <li class="col-md-6 p0">
+			   <span class="">质检单位：</span>
+		        <div class="input-append ">
+		        	<input class="span2" name="unit" type="text">
+       			</div>
+			 </li>
+		     <li class="col-md-6  p0 ">
+			   <span class="fl">质检类型：</span>
+			   <div class="btn-group ">
+		        	<select id="temType" name =type class="w230" >
+						<option>请选择</option>
+						<option value="1">首件检验</option>
+						<option value="2">生产验收</option>
+						<option value="3">出厂验收</option>
+						<option value="4">到货验收</option>
+	  				</select> 
+		       </div>
+			 </li>
+    		 <li class="col-md-6 p0">
+			   <span class="">质检地点：</span>
+		        <div class="input-append ">
+		        	<input class="span2" name="place" type="text">
+       			</div>
+			 </li>
+			<li class="col-md-6  p0 ">
+			   <span class="">质检日期：</span>
+			   <div class="input-append">
+		        <input class="span2" name="date" type="text">
+		       </div>
+			 </li>
+    		 <li class="col-md-6 p0">
+			   <span class="">质检人员：</span>
+		        <div class="input-append ">
+		        	<input class="span2" name="inspectors" type="text">
+       			</div>
+			 </li>
+			 <li class="col-md-6  p0 ">
+			   <span class="">质检情况：</span>
+			   <div class="input-append">
+		        <input class="span2" name="condition" type="text">
+		       </div>
+			 </li>
+    		 <li class="col-md-6 p0">
+			   <span class="fl">质检结论：</span>
+		        <div class="btn-group ">
+		        	<select id="temType" name =conclusion class="w220" >
+						<option value="" >请选择</option>
+						<option value="1">合格</option>
+						<option value="0">不合格</option>
+	  				</select> 
+       			</div>
+			 </li>
+			 <li class="col-md-12  p0 ">
+			   <span class="fl">详细情况：</span>
+			   <div class="col-md-12 pl200 fn mt5 pwr9">
+		        <input class="span2" name="detail" type="text">
+		       </div>
+			 </li>
    		</ul>
    
   		<div  class="col-md-12 ml185">

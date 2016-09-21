@@ -128,8 +128,18 @@ public class PqInfo {
         this.unit = unit == null ? null : unit.trim();
     }
 
-    public int getType() {
-        return type;
+    public String getType() {
+    	String typeString = null;
+    	if (type==1) {
+			typeString="首件检验";
+		}else if (type==2) {
+			typeString="批量验收";
+		}else if (type==3) {
+			typeString="出厂验收";
+		}else if (type==4) {
+			typeString="到货验收";
+		}
+        return typeString;
     }
 
     public void setType(int type) {
@@ -168,8 +178,14 @@ public class PqInfo {
         this.condition = condition == null ? null : condition.trim();
     }
 
-    public int getConclusion() {
-        return conclusion;
+    public String getConclusion() {
+    	String conclusionsString = null;
+    	if (conclusion==1) {
+			conclusionsString="合格";
+		}else if (conclusion==0) {
+			conclusionsString="不合格";
+		}
+        return conclusionsString;
     }
 
     public void setConclusion(int conclusion) {

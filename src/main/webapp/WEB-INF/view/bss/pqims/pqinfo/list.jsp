@@ -78,7 +78,7 @@
 		   }
 	}
   	function view(id){
-  		window.location.href="<%=basePath%>templet/view.do?id="+id;
+  		window.location.href="<%=basePath%>pqinfo/view.html?id="+id;
   	}
     function edit(){
     	var id=[]; 
@@ -87,11 +87,11 @@
 		}); 
 		if(id.length==1){
 			
-			window.location.href="<%=basePath%>templet/edit.do?id="+id;
+			window.location.href="<%=basePath%>pqinfo/edit.html?id="+id;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
-			layer.alert("请选择需要修改的用户",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择需要修改的质检报告",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
     function del(){
@@ -102,14 +102,14 @@
 		if(ids.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>templet/delete.do?ids="+ids;
+				window.location.href="<%=basePath%>pqinfo/delete.thml?ids="+ids;
 			});
 		}else{
 			layer.alert("请选择要删除的用户",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
     function add(){
-    	window.location.href="<%=basePath%>templet/add.do";
+    	window.location.href="<%=basePath%>pqinfo/add.html";
     }
   </script>
   <body>
@@ -117,27 +117,27 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">保障作业</a></li><li><a href="#">产品质量管理</a></li><li class="active"><a href="#">质量结果登记</a></li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">保障作业</a></li><li><a href="#">产品质量管理</a></li><li class="active"><a href="#">产品质量结果列表</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
    </div>
    <div class="container">
 	   <div class="headline-v2">
-	   		<h2>质量结果登记</h2>
+	   		<h2>质量结果查询</h2>
 	   </div>
    </div>
    
    <!-- 查询 -->
    
-   <div class="container clear margin-top-30">
-   <h2 class="padding-10 border1">
+   <div class="container clear margin-top-0">
+   <div class="padding-10 border1 m0_30 tc">
 	 <ul class="demand_list">
-	   <li class="fl"><label class="fl">合同名称：</label><span><input type="text"/></span></li>
-	   <li class="fl"><label class="fl">合同编号：</label><span><input type="text"/></span></li>
-	   <li class="fl"><label class="fl">验收类型：</label>
+	   <li class="fl mr15"><label class="fl mt5">合同名称：</label><span><input type="text" class="mb0"/></span></li>
+	   <li class="fl mr15"><label class="fl mt5">合同编号：</label><span><input type="text" class="mb0"/></span></li>
+	   <li class="fl mr15"><label class="fl mt5">验收类型：</label>
 	   		<span>
-	   			<select id="temType" name =temType class="w230" >
+	   			<select id="temType" name =temType class="w150" >
 					<option value="-请选择-">-请选择-</option>
 			  	  	<option value="1">首件检验</option>
 			  	 	<option value="2">生产验收</option>
@@ -146,20 +146,20 @@
 	  			</select>
 	  		</span>
 	  </li>
-	   <li class="fl"><label class="fl">质检结论：</label>
-	   		<span><input type="text"/>
-	   			<select id="temType" name =temType class="w230" >
+	   <li class="fl mr15"><label class="fl mt5">质检结论：</label>
+	   		<span>
+	   			<select id="temType" name =temType class="w150" >
 					<option value="-请选择-">-请选择-</option>
 			  	  	<option value="1">合格</option>
 			  	 	<option value="0">不合格</option>
 	  			</select>
 	   		</span>
 	   </li>
-	   	 <button class="btn padding-left-10 padding-right-10 btn_back fl margin-top-5">查询</button>
+	   	 <button class="btn fl ml20 mt1">查询</button>
 	 </ul>
 
 	 <div class="clear"></div>
-   </h2>
+   </div>
   </div>
    
 <!-- 表格开始-->
@@ -167,13 +167,14 @@
    		<div class="headline-v2 fl">
       		<h2>质检情况列表</h2>
   		</div> 
+    </div>
+    <div class="container">
    		<div class="col-md-8">
     		<button class="btn btn-windows add" type="button" onclick="add()">登记质检报告</button>
 			<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 			<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
 		</div>        
-    </div>
-   
+   </div>
    <div class="container margin-top-5">
      <div class="content padding-left-25 padding-right-25 padding-top-5">
         <table class="table table-bordered table-condensed">
@@ -206,7 +207,7 @@
 				
 				<td class="tc opinter" onclick="view('${pqinfo.id}')">${pqinfo.conclusion}</td>
 			
-				<td class="tc opinter" onclick="view('${pqinfo.id}')"></td>
+				<td class="tc opinter" onclick="view('${pqinfo.id}')"><button type="button">质检报告</button></td>
 			</tr>
 		</c:forEach>
         </table>
