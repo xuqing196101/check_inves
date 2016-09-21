@@ -17,7 +17,7 @@ public class Expert {
     /**密码*/
     private String password;
     /**是否删除；0未删除，1已删除*/
-    private Short isDelete;
+    private Short isDelete = 0;
     /**创建时间*/
     private Date createdAt = new Date();
     /**性别 M 男  F 女*/

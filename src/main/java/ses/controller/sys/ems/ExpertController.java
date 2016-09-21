@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -44,6 +45,7 @@ import ses.util.WordUtil;
 
 
 @Controller
+@Scope(value="prototype")
 @RequestMapping("/expert")
 public class ExpertController {
 	@Autowired
@@ -140,8 +142,9 @@ public class ExpertController {
 	@RequestMapping("/toAddBasicInfo")
 	public String toAddBasicInfo(@RequestParam("userId")String userId,HttpServletRequest request,HttpServletResponse response,  Model model){
 		User user  = userService.getUserById(userId);
-		//List<PurchaseDep> purchaseDepList = purchaseOrgnizationService.findPurchaseDepList(null);
-		//model.addAttribute("purchase", purchaseDepList);
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		List<PurchaseDep> purchaseDepList = purchaseOrgnizationService.findPurchaseDepList(map);
+		model.addAttribute("purchase", purchaseDepList);
 		model.addAttribute("user", user);
 		return "ses/ems/expert/basic_info";
 	}
@@ -284,12 +287,11 @@ public class ExpertController {
 		if(userId!=null && userId.length()>0){
 			//直接注册完之后填写个人信息
 			User user = service.getUserById(userId);
-			user.setTypeName(5);
-			if(expert.getId()==null || expert.getId()=="" || expert.getId().length()==0){
-				user.setTypeId(expertId);
-			}else{
-				user.setTypeId(expert.getId());
+			if(user==null){
+				throw new RuntimeException("该用户不存在！");
 			}
+			user.setTypeName(5);
+			user.setTypeId(expertId);
 			userService.update(user);
 		}else{
 			//注册完账号  过段时间又填写个人信息
