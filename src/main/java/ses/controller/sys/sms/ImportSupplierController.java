@@ -25,10 +25,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.ImportSupplierAud;
 import ses.model.sms.ImportSupplierWithBLOBs;
+import ses.service.bms.TodosService;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.ImportSupplierAudService;
@@ -56,9 +58,9 @@ public class ImportSupplierController {
 	@Autowired
 	private ImportSupplierAudService importSupplierAudService;
 	@Autowired
-	private SupplierAgentsService supplierAgentService;
-	@Autowired
 	private PurchaseOrgnizationServiceI poService;
+	@Autowired
+	private TodosService todosService;
 
 	/**
 	* @Title: beforeRegister
@@ -130,19 +132,20 @@ public class ImportSupplierController {
 		is.setStatus((short)0);
 		is.setCreatedAt(new Timestamp(new Date().getTime()));
 		importSupplierService.updateRegisterInfo(is);
-		/*SupplierAgents sa=new SupplierAgents();
+		Todos todo=new Todos();
 		//自己的id
-		sa.setOperatorId("");
+		todo.setSenderId(is.getId());
 		//代办人id
-		sa.setUsersId("");
+		todo.setReceiverId(is.getOrgId());
 		//待办类型0 未审核 1 已审核 2 审核中
-		sa.setUndoType((short)0);
+		todo.setUndoType((short)0);
 		//标题
-		sa.setTitle("");
+		todo.setName("供应商注册初审");
 		//逻辑删除 0未删除 1已删除
-		sa.setIsDeleted((short)0);
-		sa.setCreatedAt(new Date());
-		supplierAgentService.insert(sa);*/
+		todo.setIsDeleted((short)0);
+		todo.setCreatedAt(new Date());
+		todo.setUrl("importSupplier/audit.html?id="+is.getId());
+		todosService.insert(todo);
 		return "redirect:../login/index.html";
 	}
 	
@@ -204,19 +207,20 @@ public class ImportSupplierController {
 		is.setStatus((short)0);
 		is.setUpdatedAt(new Timestamp(new Date().getTime()));
 		importSupplierService.updateRegisterInfo(is);
-		/*SupplierAgents sa=new SupplierAgents();
+		Todos todo=new Todos();
 		//自己的id
-		sa.setOperatorId("");
+		todo.setSenderId(is.getId());
 		//代办人id
-		sa.setUsersId("");
+		todo.setReceiverId(is.getOrgId());
 		//待办类型0 未审核 1 已审核 2 审核中
-		sa.setUndoType((short)0);
+		todo.setUndoType((short)0);
 		//标题
-		sa.setTitle("");
+		todo.setName("供应商注册初审");
 		//逻辑删除 0未删除 1已删除
-		sa.setIsDeleted((short)0);
-		sa.setCreatedAt(new Date());
-		supplierAgentService.insert(sa);*/
+		todo.setIsDeleted((short)0);
+		todo.setCreatedAt(new Date());
+		todo.setUrl("importSupplier/audit.html?id="+is.getId());
+		todosService.insert(todo);
 		return "redirect:../..//";
 	}
 
@@ -340,8 +344,6 @@ public class ImportSupplierController {
 	public String auditShow(ImportSupplierWithBLOBs is,Model model){
 		ImportSupplierWithBLOBs importSupplierWithBLOBs = importSupplierService.selectByPrimaryKey(is);
 		model.addAttribute("is", importSupplierWithBLOBs);
-		//给待办删除因为审核完毕
-		
 		return "ses/sms/import_supplier/first_audit";
 	}
 	
@@ -373,19 +375,10 @@ public class ImportSupplierController {
 		}
 		
 		//初审复审需要判断
-		/*SupplierAgents sa=new SupplierAgents();
-		//自己的id
-		sa.setOperatorId("");
-		//代办人id
-		sa.setUsersId("");
-		//待办类型0 未审核 1 已审核 2 审核中
-		sa.setUndoType((short)0);
-		//标题
-		sa.setTitle("");
-		//逻辑删除 0未删除 1已删除
-		sa.setIsDeleted((short)0);
-		sa.setCreatedAt(new Date());
-		supplierAgentService.insert(sa);*/
+		//初审通过的话就删除待办
+		if(is.getStatus()==1){
+			todosService.updateIsFinish(is.getId());
+		}
 		return "redirect:daiban.html";
 	}
 	

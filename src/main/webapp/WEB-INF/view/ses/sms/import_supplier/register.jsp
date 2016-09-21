@@ -105,6 +105,13 @@ function loadCity(regionId){
 				return;
 			}
 		}
+		if(i==5){
+			var orgId=$("#orgId").val();
+			if(orgId){
+				layer.alert("请选择采购机构..",{offset: ['222px', '390px']});
+				reutrn;
+			}
+		}
 		var t = null;
 		var l = null;
 		if (position == "pre") {
@@ -714,7 +721,7 @@ function loadCity(regionId){
 							<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..."/>
 							<input type="button" name="file" class="button" value="选择文件..."/>
 							<input id="regIdentity" type="file" name="files" size="30" accept="image/*"/>
-						</div>
+						</div><div class="red">${isa.reglistReason }</div>
 						<!-- <div class="uploader orange m0">
 							<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..."/>
 							<input type="button" name="file" class="button" value="选择文件..."/>

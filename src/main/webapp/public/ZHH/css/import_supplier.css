@@ -1,6 +1,9 @@
 .h900{
 	height:900px;
 }
+.h600{
+	height:600px;
+}
 .dn{
 	display:none;
 }
@@ -20,4 +23,7 @@
     margin-top: 10em;
     text-align: center;
     color: gray;
+}
+#orgName{
+	border:0;
 }

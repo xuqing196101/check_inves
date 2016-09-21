@@ -416,8 +416,10 @@ function tijiao(status){
 									</div>
 								</div>
 								<div class="tab-pane fade height-450" id="tab-2">
-									<div class="margin-bottom-0  categories">
-										<img src="${is.regList }" width="300px" height="200px" >
+									<div class="margin-bottom-0  categories"><span  id="reglistReason2" class="fl yinc"><i class="red">＊</i>申请表：</span>
+										<img src="${is.regList }" width="300px" height="200px" class="fl" >
+										<div id="reglistReason1" class="b f18 fl ml10 red hand">√</div>
+										<div id="reglistReason" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
 									</div>
 								</div>
 								<div class="tab-pane fade height-450" id="tab-3">

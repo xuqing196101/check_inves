@@ -197,6 +197,7 @@ function tijiao(status){
 	</div>
    </div>
 </div>
+</div>
 <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">

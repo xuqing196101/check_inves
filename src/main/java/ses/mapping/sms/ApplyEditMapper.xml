@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.sms.ApplyEditMapper">
+  <resultMap id="BaseResultMap" type="ses.model.sms.ApplyEdit">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="SUPPLIER_NAME" jdbcType="VARCHAR" property="supplierName" />
+    <result column="CREDIT_CODE" jdbcType="VARCHAR" property="creditCode" />
+    <result column="UPDATE_BEFORE_SUPPLIER_INFO" jdbcType="VARCHAR" property="updateBeforeSupplierInfo" />
+    <result column="UPDATE_AFTER_SUPPLIER_INFO" jdbcType="VARCHAR" property="updateAfterSupplierInfo" />
+    <result column="UPDATE_REASON" jdbcType="VARCHAR" property="updateReason" />
+    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="SUPPLIER_ID" jdbcType="VARCHAR" property="supplierId" />
+    <result column="ORG_NAME" jdbcType="VARCHAR" property="orgName" />
+    <result column="AUDIT_STATUS" jdbcType="DECIMAL" property="auditStatus" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, SUPPLIER_NAME, CREDIT_CODE, UPDATE_BEFORE_SUPPLIER_INFO, UPDATE_AFTER_SUPPLIER_INFO, 
+    UPDATE_REASON, CREATED_AT, SUPPLIER_ID, ORG_NAME, AUDIT_STATUS
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_SUPPLIER_APPLY_EDIT
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_SES_SMS_SUPPLIER_APPLY_EDIT
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="ses.model.sms.ApplyEdit">
+    insert into T_SES_SMS_SUPPLIER_APPLY_EDIT (ID, SUPPLIER_NAME, CREDIT_CODE, 
+      UPDATE_BEFORE_SUPPLIER_INFO, UPDATE_AFTER_SUPPLIER_INFO, 
+      UPDATE_REASON, CREATED_AT, SUPPLIER_ID, 
+      ORG_NAME, AUDIT_STATUS)
+    values (#{id,jdbcType=VARCHAR}, #{supplierName,jdbcType=VARCHAR}, #{creditCode,jdbcType=VARCHAR}, 
+      #{updateBeforeSupplierInfo,jdbcType=VARCHAR}, #{updateAfterSupplierInfo,jdbcType=VARCHAR}, 
+      #{updateReason,jdbcType=VARCHAR}, #{createdAt,jdbcType=DATE}, #{supplierId,jdbcType=VARCHAR}, 
+      #{orgName,jdbcType=VARCHAR}, #{auditStatus,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="ses.model.sms.ApplyEdit">
+    insert into T_SES_SMS_SUPPLIER_APPLY_EDIT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="supplierName != null">
+        SUPPLIER_NAME,
+      </if>
+      <if test="creditCode != null">
+        CREDIT_CODE,
+      </if>
+      <if test="updateBeforeSupplierInfo != null">
+        UPDATE_BEFORE_SUPPLIER_INFO,
+      </if>
+      <if test="updateAfterSupplierInfo != null">
+        UPDATE_AFTER_SUPPLIER_INFO,
+      </if>
+      <if test="updateReason != null">
+        UPDATE_REASON,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="supplierId != null">
+        SUPPLIER_ID,
+      </if>
+      <if test="orgName != null">
+        ORG_NAME,
+      </if>
+      <if test="auditStatus != null">
+        AUDIT_STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null">
+        #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="creditCode != null">
+        #{creditCode,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBeforeSupplierInfo != null">
+        #{updateBeforeSupplierInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="updateAfterSupplierInfo != null">
+        #{updateAfterSupplierInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="updateReason != null">
+        #{updateReason,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="supplierId != null">
+        #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null">
+        #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="auditStatus != null">
+        #{auditStatus,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.ApplyEdit">
+    update T_SES_SMS_SUPPLIER_APPLY_EDIT
+    <set>
+      <if test="supplierName != null">
+        SUPPLIER_NAME = #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="creditCode != null">
+        CREDIT_CODE = #{creditCode,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBeforeSupplierInfo != null">
+        UPDATE_BEFORE_SUPPLIER_INFO = #{updateBeforeSupplierInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="updateAfterSupplierInfo != null">
+        UPDATE_AFTER_SUPPLIER_INFO = #{updateAfterSupplierInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="updateReason != null">
+        UPDATE_REASON = #{updateReason,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="supplierId != null">
+        SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null">
+        ORG_NAME = #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="auditStatus != null">
+        AUDIT_STATUS = #{auditStatus,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="ses.model.sms.ApplyEdit">
+    update T_SES_SMS_SUPPLIER_APPLY_EDIT
+    set SUPPLIER_NAME = #{supplierName,jdbcType=VARCHAR},
+      CREDIT_CODE = #{creditCode,jdbcType=VARCHAR},
+      UPDATE_BEFORE_SUPPLIER_INFO = #{updateBeforeSupplierInfo,jdbcType=VARCHAR},
+      UPDATE_AFTER_SUPPLIER_INFO = #{updateAfterSupplierInfo,jdbcType=VARCHAR},
+      UPDATE_REASON = #{updateReason,jdbcType=VARCHAR},
+      CREATED_AT = #{createdAt,jdbcType=DATE},
+      SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
+      ORG_NAME = #{orgName,jdbcType=VARCHAR},
+      AUDIT_STATUS = #{auditStatus,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
