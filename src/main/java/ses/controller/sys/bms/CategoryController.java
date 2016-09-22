@@ -16,37 +16,38 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.jsqlparser.statement.create.index.CreateIndex;
+
+
+
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-
-
+import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryAttchment;
 import ses.model.bms.CategoryTree;
 import ses.service.bms.CategoryAttchmentService;
 import ses.service.bms.CategoryService;
+
+import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
+
 /**
  * 
 * @Title:CategoryController
@@ -57,7 +58,7 @@ import com.google.gson.Gson;
 @Controller
 @Scope("prototype")
 @RequestMapping("/category")
-public class CategoryController {
+public class CategoryController extends  BaseSupplierController{
 	@Autowired
 	private CategoryService categoryService;
 	@Autowired
@@ -80,18 +81,17 @@ public class CategoryController {
 	* @param @throws Exception      
 	* @return String
 	*/
-	@ResponseBody
+	/*@ResponseBody
 	@RequestMapping("/findListByParent")
 	public String selectAll(HttpServletRequest request,Category category){
 		if (category.getId()==null) {
 			category.setId("a");
 		}
-		Gson gson = new Gson();
 		List<Category> cateList=categoryService.listByParent(category.getId());
 		listCategory.put("cateList", cateList);
 		listCategory.put("id", category.getId());
-		return gson.toJson(listCategory);
-	}
+		return JSON.toJSONString(listCategory);
+	}*/
 	
 	/**
 	 * 
@@ -107,11 +107,10 @@ public class CategoryController {
 	public String getAll(Category category){
 		if(category.getId()==null){
 			category.setId("a");
-	}
+	}	Gson gson = new Gson();
+	    String list="";
 		List<CategoryTree> jList=new ArrayList<CategoryTree>(); 
 		List<Category> cateList=categoryService.findTreeByPid(category.getId());
-		Gson gson=new Gson();
-		String list="";
 		for(Category cate:cateList){
 			List<Category> cList=categoryService.findTreeByPid(cate.getId());
 			CategoryTree ct=new CategoryTree();
@@ -124,7 +123,7 @@ public class CategoryController {
 			ct.setName(cate.getName());
 			ct.setpId(cate.getParentId());
 			jList.add(ct);
-			list = gson.toJson(jList);
+			list=gson.toJson(jList);
 	}
 		return list;
 	}
@@ -146,13 +145,13 @@ public class CategoryController {
 	* @param @return    
 	* @return String
      */  
-    @RequestMapping("/add")
+   /* @RequestMapping("/add")
     public String addCategory(HttpServletRequest request,Model model,Category category){  
     	model.addAttribute("id",category.getId());
         return "ses/bms/category/add";  
 		
 		
-	}
+	}*/
     /**
   	 * 
   	* @Title: 保存新增目录信息 
@@ -171,15 +170,15 @@ public class CategoryController {
 	  category.setCode(request.getParameter("code"));
 	  category.setCreatedAt(new Date());
 	  category.setDescription(request.getParameter("description"));
-	  category.setIsEnd(request.getParameter("isEnd"));
-	  if (category.getIsEnd().equals("0")) {
-		  category.setIsEnd("true");
-	}else if (category.getIsEnd().equals("1")) {
-		category.setIsEnd("false");
-	}
+//	  category.setIsEnd(request.getParameter("isEnd"));
+//	  if (category.getIsEnd().equals("0")) {
+//		  category.setIsEnd("true");
+//	}else if (category.getIsEnd().equals("1")) {
+//		category.setIsEnd("false");
+//	}
 	  categoryService.insertSelective(category);
 	  upload(request,attaattach,category);
-	return "ses/bms/category/list";
+	return "redirect:get.html";
    }
    
    /**
@@ -201,7 +200,8 @@ public class CategoryController {
 				if (!rootfile.exists()) {
 					rootfile.mkdirs();
 				}
-		        String fileName = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase() + "_" + attaattach[i].getOriginalFilename();		        String filePath = rootpath+fileName;
+		        String fileName = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase() + "_" + attaattach[i].getOriginalFilename();		        
+		        String filePath = rootpath+fileName;
 		        File file = new File(filePath);
 		        try {
 					attaattach[i].transferTo(file);
@@ -220,23 +220,23 @@ public class CategoryController {
 				categoryAttchmentService.insert(attachment);
 			}
 		}
-		return "redirect:list.html";
+		return "redirect:get.html";
+		
 	}
     
     /**
 	 * 
 	* @Title: update
 	* @author zhangxuefeng	
-	* @Description:创建修改页面
+	* @Description:获取需要修改的节点数据
 	* @param @return 
 	* @return String
-     */  
+     */
+   
    @RequestMapping("/update")
-   public String update(Category category,Model model){
+   public void update(Category category,HttpServletResponse response){
 	   Category cate=categoryService.selectByPrimaryKey(category.getId());
-	   
-	   model.addAttribute("category",cate);
-	return "ses/bms/category/edit";
+	   super.writeJson(response, cate);
    }
    /**
   	 * 
@@ -338,40 +338,41 @@ public class CategoryController {
 			} catch (FileNotFoundException e) {
 				workbook = new HSSFWorkbook(is);
 			}
-			Sheet sheet = workbook.getSheetAt(5);
-			for(int i=3;i<sheet.getPhysicalNumberOfRows();i++){
+			Sheet sheet = workbook.getSheetAt(4);
+			for(int i=0;i<sheet.getPhysicalNumberOfRows();i++){
 				Row row = sheet.getRow(i);
 				if(row==null){
 					continue;
 				}
-				Category category = new Category();
-				Cell queType = row.getCell(1);
-				Cell name = row.getCell(2);
-				if(length==0){
+				
+				Cell queType = row.getCell(0);
+				Cell name = row.getCell(1);
+				if(length==null){
 					length=1;
 				}
 				if(queType.toString().length()==length){
 					if(length!=1){
-					
+						Category category = new Category();
 					List<Category> list=categoryService.selectAll();  
 					for(int k=0;k<list.size();k++){
 						//这个数据库的数据和queType的length-2的截取字符串对比 //查询语句lenngth-2;select  from category by
-						if((list.get(k)).equals(queType.toString().substring(0, length-2))){
+						if((list.get(k).getCode()).equals(queType.toString().substring(0, length-2))){
 								category.setParentId(list.get(k).getId());
-								
+								category.setName(name.toString());
+								category.setCode(queType.toString());
 								categoryService.insertSelective(category);
 						}
 					}
 			}else{
-				    Category cate = new Category();
-				    cate.setCode(queType.toString());
-				    cate.setName(name.toString());
-				    cate.setParentId("a");
-					categoryService.insertSelective(cate);//插入语句
+				    Category category = new Category();
+				    category.setCode(queType.toString());
+				    category.setName(name.toString());
+				    category.setParentId("a");
+					categoryService.insertSelective(category);//插入语句
 					}
 				}
 			}
-     read(length+2);
+     read(length+=2);
     
     	
 	   }
@@ -386,6 +387,7 @@ public class CategoryController {
     * @throws IOException 
     * @throws FileNotFoundException 
      */ 
+    @RequestMapping("/write")
     public void writeExcel() throws IOException{
     	HSSFWorkbook wb = new HSSFWorkbook();
     	HSSFSheet sheet = wb.createSheet("采购目录表");
@@ -407,7 +409,7 @@ public class CategoryController {
 			row.createCell(1).setCellValue(cate.getName());
 		}
     	try {
-			FileOutputStream fout = new FileOutputStream("F:/category/xls");
+			FileOutputStream fout = new FileOutputStream("F:\\category\\xls");
 			wb.write(fout);
 			fout.close();
 		} catch (FileNotFoundException e) {

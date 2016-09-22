@@ -17,9 +17,8 @@
 <script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.exedit.js"></script>
 
 <script type="text/javascript">
+	var datas;
   $(function(){
- 	var datas;
-	var treeid;
 	 var setting={
 		async:{
 					autoParam:["id"],
@@ -57,44 +56,81 @@
 			   check:{
 					enable: true
 			   }
-			    
   };
-			    var treeObj=$.fn.zTree.init($("#ztree"),setting,datas);
-			    treeObj.expandAll(false);
-			    var id="${id}";
-			    if (id!=''&&id!=null) {
-					getList(id);
-				}else{
-					id="a";
-					getList(id);
-				
-			    }
-    
-          
-})
-   /*添加*/
-		function news(){
+    var treeObj=$.fn.zTree.init($("#ztree"),setting,datas);
+			
+    })
+    var treeid=null;
+    /*点击事件*/
+    function zTreeOnClick(event,treeId,treeNode){
+		treeid=treeNode.id
+    }
+         /*添加采购目录*/
+    function news(){
 			if (treeid==null) {
-			alert("请选择一个节点",{offset: ['222px', '390px']});
+			alert("请选择一个节点");
 					return;		
 			}else{
-			window.location.href="<%=basePath%>category/add.do?id="+treeid;
+				$.ajax({
+					success:function(){
+						var html = "";
+						html = html+"<tr><td>目录名称</td>"+"<td><input name='name'/></td></tr>" ;
+				/* 		html = html+"<tr><td>父节点</td>"+"<td><input name='parentId'/></td></tr>"; */
+						html = html+"<tr><td>排序</td>"+"<td><input name='position'/></td></tr>";
+						html = html+"<tr><td>编码</td>"+"<td><input name='code'/></td></tr>";
+						html = html+"<tr><td>图片</td>"+"<td id='uploadAttach'><input id='pic'type='file' class='toinline' name='attaattach' /></td></tr>";
+						html = html+"<tr><td>描述</td>"+"<td><textarea name='descrption'/></td></tr>";
+						html = html+"<tr><td colspan='2'><a onclick='check()' class='btn btn-window'>提交</a></td></tr>"
+						$("#result").append(html);
+					}
+				
+				})
 			}
+			
 		}
-		  function  zTreeOnClick(event,treeId,treeNode){
-           		treeid=treeNode.id
-            	getList(treeid);
-            }
-     
- 		function update(){
+   /*  function addAttach(){
+		html="<input id='pic' type='file' class='toinline' name='attaattach'/><a href='#' onclick='deleteattach(this)' class='toinline'>x</a><br/>";
+		$("#uploadAttach").append(html);
+	}
+     */
+  /*   function deleteattach(obj){
+		$(obj).prev().remove();
+		$(obj).next().remove();
+		$(obj).remove(); 
+	}*/
+	
+	<%-- function update(){
+		$.ajax({
+			url:"<%=basePath%>category/update.do",
+		})
+	} --%>
+		/*修改节点信息*/
+    function update(){
 	 		if (treeid==null) {
 				alert("请选择一个节点");
 			}else{
-	 			window.location.href="<%=basePath%>category/update.do?id="+treeid;
+				$.ajax({
+					url:"<%=basePath%>category/update.do?id="+treeid,
+					dataType:"json",
+					type:"post",
+					success:function(cate){
+						alert(cate.name);
+						var html = "";
+						html = html+"<tr><td>目录名称</td><td><input value='"+cate.name+"'/></td></tr>";
+						/* html = html+"<tr><td>父节点</td>"+"<td></td></tr>"; */
+						html = html+"<tr><td>父节点</td><td><input value='"+cate.parentId+"'/></td></tr>";
+						html = html+"<tr><td>排序</td><td><input value='"+cate.position+"'/></td></tr>";
+						html = html+"<tr><td>编码</td><td><input value='"+cate.code+"'/></td></tr>";
+						html = html+"<tr><td>附件</td><td><input value='"+cate.attchment+"'/></td></tr>";
+						html = html+"<tr><td>描述</td><td><input value='"+cate.description+"'/></td></tr>";
+						html = html+"<tr><td colspan='2'><a type='button' onclick='mysubmit()' class='btn btn-window '>更新</a></td></tr>"
+						$("#result").append(html);
+					}
+				})
 	 		}
  		}
  		/*休眠-激活*/
-	 	function ros(){
+    function ros(){
  			var str="";
 	 		var treeObj = $.fn.zTree.getZTreeObj("ztree");
 			var nodes = treeObj.getCheckedNodes(true);
@@ -110,75 +146,36 @@
  		}
  		
  		
- 		function zTreeOnRemove(event, treeId, treeNode,isCancel) {
-				
-				
+    function zTreeOnRemove(event, treeId, treeNode,isCancel) {
 		}
- 		function zTreeOnRename(event, treeId, treeNode, isCancel) {
+    function zTreeOnRename(event, treeId, treeNode, isCancel) {
 				 alert(treeNode.tId + ", " + treeNode.name); 
 				
 		}
-
-	 	function zTreeBeforeRemove(treeId, treeNode){
+		/*删除目录信息*/
+    function zTreeBeforeRemove(treeId, treeNode){
 	 		$.ajax({
 	 			type:"post",
 	 			url:"<%=basePath%>category/del.do?id="+treeNode.id,
 	 		});
 		}
-		function zTreeBeforeRename(treeId,treeNode,newName,isCancel){
-			
+	 	
+	 	/*节点重命名*/
+    function zTreeBeforeRename(treeId,treeNode,newName,isCancel){
 			$.ajax({
 	 			type:"post",
 	 			url:"<%=basePath%>category/rename.do?id="+treeNode.id+"&name="+newName,
 	 		});
 		} 
-		function read(){
-			window.location.href="<%=basePath%>category/read.do";
-		}
- 		
-		function write(){
-			window.location.href="<%=basePath%>category/update.do?id="+treeid;
-		}
-	/*获取后台json列表展示*/
-	function getList(treeid){
-		$.ajax({
-			type:"POST",
-			dataType:"json",
-			async:false,
-			url:"${pageContext.request.contextPath}/category/findListByParent.do?id="+treeid,
-			success:function(data){
-			console.info(data);
-				var list=data.cateList;
-				console.info(list);
-				var html="";
-				var addhtml="";
-				for ( var i = 0;  i< list.length; i++) {
-			
-				  html = html + "<tr>";
-            	 /*  html += "<th class='tc'><input type='checkbox' class='checkboxes' onclick='check()'/></th>" */
-            	  html = html + "<th >"+(i+1)+"</th>";
-            	  html = html + "<th>"+list[i].name+"</th>";
-            	  html = html + "<th>"+list[i].parentId+"</th>";
-            	  html = html + "<td >"+list[i].status+"</td>";
-            	  html = html + "<td  >"+list[i].position+"</td>";
-            	  html = html + "<td  >"+list[i].code+"</td>";
-            	  html = html + "<td  >"+list[i].attchment+"</td>";
-            	  html = html + "<td >"+list[i].description+"</td>"; 
-            	  html = html + "</tr>";
-            	 
-				}
-				idhtml="<input id='parent_id' type='hidden' value='"+data.id+"'/>";
-				addhtml="<a href='javascription:void(0);' onclick='add("+data.id+")'新增</a>"
-				 $("#Result tr:gt(0)").remove(); 
-				$("#add a").remove;
-				$("#add").append(addhtml)
-				$("#parent_id").remove;
-				$("#query_form").append(idhtml);
-				$("#Result").append(html);
-				
-			}
-		})
+		
+	function check(){
+		fm.action="<%=basePath%>category/save.do";
 	}
+	function mysubmit(){
+		fm.action="<%=basePath%>category/edit.do";
+	}
+	
+	
 </script>
 </head>
 
@@ -252,14 +249,13 @@
 				
 			  </ul>
 			</div>
+          </div>
+	     </div>
+	    </div>
+       </div>
     </div>
-	</div>
-	</div>
-   </div>
-</div>
 	<!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
-      
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
 		   <li><a href="#"> 首页</a><><li><a href="#">采购目录管理</a><><li>
@@ -268,55 +264,34 @@
 	  </div>
    </div>
    <div class="container">
-
-	<div id="ztree" class="ztree col-md-3"></div>
+   <div class="col-md-3">
+     
+	 <div>
+	   <input type="text" class="btn btn-window mt10"/>
+	   <input type="button" value="查询" class="btn  btn-window mr10"/>
+	 </div>
+	 <div id="ztree" class="ztree"></div>
+	</div>
 		<div class="mt10 col-md-9">
 			<span id="add"><a href="javascript:void(0);" onclick="news()" class="btn btn-window ">新增 </a></span> 
 			<span><a href="javascript:void(0);" onclick="update()"  class="btn btn-window ">修改</a></span> 
 			<span><a href="javascript:void(0);" onclick="ros()"  class="btn btn-window ">激活/休眠</a></span>
-		
-			<span ><a href="javascript:void(0);" onclick="read()"  class="btn btn-window ">导入</a></span>
-			<span ><a href="javascript:void(0);" onclick="write()"  class="btn btn-window ">导出</a></span>
-			
-			
-		<form id="query_form">
-		<input id="parent_id" type="hidden" value=""/>
-	</form>
-		<table id="Result"  class="table table-bordered table-condensed  ">    
-            <thead >
-			    <tr>
-			      <!-- <th><input id="checkedAll" type="checkbox" name="checkedAll" onclick="selectAll()"/></th> -->
-				  <th class="info">序号</th>
-				  <th class="info">目录名称</th> 
-				  <th class="info">父节点</th>
-				  <th class="info">状态</th>
-				  <th class="info">排序</th> 
-				  <th class="info">编码</th> 
-				  <th class="info">图片</th> 
-				  <th class="info">描述 </th> 
-				</tr>
-	  		</thead>  
-		<%-- <tr>
-					<c:forEach  var="i" items="${request.list}" varStatus="vs">
-					    <td><input onclick="check()" type="checkbox" name="chkItem" value=""/></td>
-					    <td>${(l-1)*10+vs.index+1} </td>
-						<td>${i.name}</td>
-						<td>${i.ancestry}</td>
-						<td>${i.status }</td>
-						<td>${i.orderNum }</td>
-						<td>${i.code}</td>
-						<td>${i.attchment }</td>
-						<td>${i.description }</td>
-					</c:forEach>
-				</tr>  --%>
-  </table>
-</div>
+  <%--  <form action="<%=basePath%>category/save.do" method="post" name="temp" enctype="multipart/form-data">
+        
+        <table id="result"  class="table table-bordered table-condensedb mt15" ></table>
+    </form>
+    < --%>
+    <form action="" name="fm" method="post">
+    <a type="submit" href="javascript:void(0);" onclick="check()"/>
+    <a type="submit" href="javascript:void(0);" onclick="mysubmit()"/>
+    <table id="result"  class="table table-bordered table-condensedb mt15" ></table>
+    </form>
+        </div>
 	</div>
+	
 	<!--底部代码开始-->
-<div class="footer-v2 clear" id="footer-v2">
-
+    <div class="footer-v2 clear" id="footer-v2">
       <div class="footer">
-
             <!-- Address -->
               <address class="">
 			  Copyright © 2016 版权所有：中央军委后勤保障部 京ICP备09055519号

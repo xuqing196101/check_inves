@@ -32,7 +32,13 @@
 		$(obj).next().remove();
 		$(obj).remove();
 	}
-
+    $(function(){
+    	$("#selected").val();
+    	
+    })
+    
+    
+    
 
 </script>
   </head>
@@ -116,7 +122,7 @@
       
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a><><li><a href="#">采购目录管理</a><><li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">采购目录管理</a></li><li><a href="#">采购目录修改</a><><li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -144,16 +150,25 @@
        </div>
 	 </li> 
 	       <li class="col-md-12 p0">
-	   <span class="fl"><i class="red">＊</i> 优先级：</span>
+	   <span class="fl"><i class="red">＊</i>编码：</span>
 	   <div class="">
 	   <input type="text"  name="code" value="${category.code}"/>
        </div>
 	 </li> 
+	 
+	  <li class="col-md-12 p0">
+	 <span class="f14 fl">已上传的附件：</span>
+	 <div class="fl mt5">
+  	   <c:forEach items="${category.attchment}" var="a">
+  	   	<a href="#">${fn:split(a.fileName, '_')[1]}</a><a href="#" onclick="deleteAtta('${a.id}',this)" class="red redhover ml10">x</a>
+  	   </c:forEach>
+	 </div>
+	 </li>
 	       <li class="col-md-12 p0">
 	    <span class="f14 fl">上传附件：</span>
 	    <div class="fl" id="uploadAttach" >
 	      <input id="pic" type="file" class="toinline" name="attaattach"/>
-	      <input class="toinline" type="button" value="添加 ${category.attchment }" onclick="addAttach()"/><br/>
+	      <input class="toinline" type="button" value=" ${category.attchment }" onclick="addAttach()"/><br/>
 	    </div>
 	 </li>
 	       
@@ -165,7 +180,7 @@
 	<li class="col-md-6 p0">
 	       	<span>是否末级：</span>
 	       	<div class="input-append mt5">
-	       		 <select class="ml10 fl" name="isEnd">
+	       		 <select id="selected" class="ml10 fl" name="isEnd" >
         		 <option value="0">是</option>
         		 <option value="1">否</option>
         		 </select>

@@ -63,6 +63,16 @@ public class Category {
      * 
      * */
     private Integer isDeleted;
+    
+   private Integer isPubliced;
+   
+   private Integer type;
+   
+   private Integer paramStatus;
+   
+   private Integer acceptenceRegulation;
+   
+   private Integer scopePublic;
 
 	private List<CategoryAttchment> categoryAttchments;
     
@@ -175,10 +185,46 @@ public class Category {
 		super();
 	}
 
-	public void setCode(String string, String string2, String string3) {
-		// TODO Auto-generated method stub
-		
+	public Integer getIsPubliced() {
+		return isPubliced;
 	}
-    
+
+	public void setIsPubliced(Integer isPubliced) {
+		this.isPubliced = isPubliced;
+	}
+
+	public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
+	}
+
+	public Integer getParamStatus() {
+		return paramStatus;
+	}
+
+	public void setParamStatus(Integer paramStatus) {
+		this.paramStatus = paramStatus;
+	}
+
+	public Integer getAcceptenceRegulation() {
+		return acceptenceRegulation;
+	}
+
+	public void setAcceptenceRegulation(Integer acceptenceRegulation) {
+		this.acceptenceRegulation = acceptenceRegulation;
+	}
+
+	public Integer getScopePublic() {
+		return scopePublic;
+	}
+
+	public void setScopePublic(Integer scopePublic) {
+		this.scopePublic = scopePublic;
+	}
+
+	
     
 }

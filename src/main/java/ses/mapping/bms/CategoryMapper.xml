@@ -12,12 +12,16 @@
     <result column="IS_END" property="isEnd" />
     <result column="CODE"  property="code" />
     <result column="POSITION"  property="position" />
- 	 <result column="IS_DELETED"  property="isDeleted" />
- 	 
+ 	<result column="IS_DELETED"  property="isDeleted" />
+ 	<result column="IS_PUBLICED"  property="isPubliced" />
+ 	<result column="TYPE"  property="type" />
+ 	<result column="PARAM_STATUS"  property="paramStatus" />
+ 	<result column="ACCEPTENCE_REGULATION"  property="acceptenceRegulation" />
+ 	<result column="SCOPE_PUBLIC"  property="scopePublic" />
   </resultMap>
   <sql id="Base_Column_List">
     ID, NAME, STATUS, PARENT_ID, CREATED_AT, UPDATED_AT, DESCRIPTION, IS_END, 
-    CODE, POSITION,IS_DELETED
+    CODE, POSITION,IS_DELETED,IS_PUBLICED,TYPE,PARAM_STATUS,ACCEPTENCE_REGULATION,SCOPE_PUBLIC
   </sql>
   
   <!-- 根据id查询 -->
@@ -48,7 +52,6 @@
   select 
   <include refid="Base_Column_List"/>
   from T_SES_BMS_CATEGORY
-  
   </select>
   
    <!-- 根据code查出已插入的数据-->
@@ -70,11 +73,11 @@
     insert into T_SES_BMS_CATEGORY (ID, NAME, STATUS, 
       PARENT_ID, CREATED_AT, UPDATED_AT, 
       ATTCHMENT, DESCRIPTION, IS_END, 
-      CODE, POSITION,IS_DELETED)
+      CODE, POSITION,IS_DELETED,IS_PUBLICED,TYPE,PARAM_STATUS,ACCEPTENCE_REGULATION,SCOPE_PUBLIC)
     values (#{id}, #{name}, #{status}, 
       #{parentId}, #{createdAt}, #{updatedAt}, 
      #{description}, #{isEnd}, 
-      #{code}, #{position},#{is_deleted})
+      #{code}, #{position},#{is_deleted},#{isPubliced},#{type},#{paramStatus},#{acceptenceRegulation},#{scopePublic})
   </insert>
   
   <insert id="insertSelective" parameterType="ses.model.bms.Category">
@@ -117,6 +120,21 @@
       <if test="isDeleted != null">
         IS_DELETED,
       </if>
+      <if test="isPubliced != null">
+        IS_PUBLICED,
+      </if>
+      <if test="type != null">
+        TYPE,
+      </if>
+      <if test="paramStatus != null">
+        PARAM_STATUS,
+      </if>
+      <if test="acceptenceRegulation != null">
+        ACCEPTENCE_REGULATION,
+      </if>
+      <if test="scopePublic != null">
+        SCOPE_PUBLIC,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -152,6 +170,21 @@
       </if>
       <if test="isDeleted != null">
         #{isDeleted},
+        </if>
+        <if test="isPubliced != null">
+        #{isPubliced},
+        </if>
+        <if test="type != null">
+        #{type},
+        </if>
+        <if test="paramStatus != null">
+        #{paramStatus},
+        </if>
+        <if test="acceptenceRegulation != null">
+        #{acceptenceRegulation},
+        </if>
+        <if test="scopePublic != null">
+        #{scopePublic},
         </if>
     </trim>
   </insert>
@@ -192,6 +225,21 @@
       <if test="isDeleted != null">
         IS_DELETED = #{isDeleted},
       </if>
+      <if test="isPubliced != null">
+         IS_PUBLICED = #{isPubliced},
+        </if>
+        <if test="type != null">
+        TYPE = #{type},
+        </if>
+        <if test="paramStatus != null">
+        PARAM_STATUS = #{paramStatus},
+        </if>
+        <if test="acceptenceRegulation != null">
+        ACCEPTENCE_REGULATION = #{acceptenceRegulation},
+        </if>
+        <if test="scopePublic != null">
+         SCOPE_PUBLIC = #{scopePublic},
+        </if>
     </set>
     where ID = #{id}
   </update>
@@ -208,7 +256,12 @@
       IS_END = #{isEnd},
       CODE = #{code},
       IS_DELETED=#{isDeleted},
-      position = #{position}
+      position = #{position},
+      IS_PUBLICED = #{isPubliced},
+      TYPE = #{type},
+      PARAM_STATUS = #{paramStatus},
+      ACCEPTENCE_REGULATION = #{acceptenceRegulation},
+      SCOPE_PUBLIC = #{scopePublic}
     where ID = #{id}
   </update>
   
