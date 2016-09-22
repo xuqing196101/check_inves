@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.ppms.CategoryParamMapper">
+ <resultMap id="CategoryParamMap" type="ses.model.ppms.CategoryParam">
+    <id column="ID"  property="id" />
+    <result column="NAME"  property="name" />
+    <result column="VALUE_TYPE"  property="valueType" />
+    <result column="CREATED_AT" property="createdAt" />
+    <result column="UPDATED_AT"  property="updatedAt" />
+    <result column="IS_DELETED"  property="isDeleted" />
+    
+ </resultMap>
+</mapper>
