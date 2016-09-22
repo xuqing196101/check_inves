@@ -123,10 +123,12 @@
   </div>
   <div class="container">
     <div class="col-md-8">
-      <button class="btn btn-windows git" type="button" onclick="shenhe();">
-        <c:if test="${status==0 }">初审</c:if>
-        <c:if test="${status==1 }">复审</c:if>   
-      </button>
+      <c:if test="${status==0 }">
+        <button class="btn btn-windows git" type="button" onclick="shenhe();">初审</button>
+      </c:if>
+      <c:if test="${status==1 }">
+        <button class="btn btn-windows git" type="button" onclick="shenhe();">复审</button>
+      </c:if>  
     </div>
   </div>
   <div class="container margin-top-5">

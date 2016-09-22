@@ -13,7 +13,7 @@ import ses.model.sms.SupplierStockholder;
  * @date 2016-9-12下午5:12:02
  */
 
-public interface SupplierAuditServlice {
+public interface SupplierAuditService {
 	
 	/**
 	 * @Title: supplierList

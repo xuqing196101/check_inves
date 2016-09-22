@@ -13,7 +13,7 @@ import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierStockholder;
-import ses.service.sms.SupplierAuditServlice;
+import ses.service.sms.SupplierAuditService;
 import ses.util.PropertiesUtil;
 
 import com.github.pagehelper.PageHelper;
@@ -25,7 +25,7 @@ import com.github.pagehelper.PageHelper;
  * @date 2016-9-12下午5:12:23
  */
 @Service
-public class SupplierAuditServliceImpl implements SupplierAuditServlice {
+public class SupplierAuditServiceImpl implements SupplierAuditService {
 	
 	/**
 	 * 供应商信息

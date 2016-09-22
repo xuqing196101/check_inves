@@ -14,7 +14,7 @@ import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierStockholder;
-import ses.service.sms.SupplierAuditServlice;
+import ses.service.sms.SupplierAuditService;
 
 import com.github.pagehelper.PageInfo;
 
@@ -29,7 +29,7 @@ import com.github.pagehelper.PageInfo;
 @RequestMapping("/supplierAudit")
 public class SupplierAuditController {
 	@Autowired
-	private SupplierAuditServlice supplierAuditServlice;
+	private SupplierAuditService supplierAuditService;
 	
 	/**
 	 * @Title: daiBan
@@ -43,13 +43,13 @@ public class SupplierAuditController {
 	public String daiBan(Supplier supplier,HttpServletRequest request) {
 		//未审核条数（0初审）
 		supplier.setStatus(0);
-		int weishen = supplierAuditServlice.getCount(supplier);
+		int weishen = supplierAuditService.getCount(supplier);
 		//审核中条数（1初审通过也是复审）
 		supplier.setStatus(1);
-		int shenhezhong =supplierAuditServlice.getCount(supplier);
+		int shenhezhong =supplierAuditService.getCount(supplier);
 		//已审核条数（3复审通过）
 		supplier.setStatus(3);
-		int yishen =supplierAuditServlice.getCount(supplier);
+		int yishen =supplierAuditService.getCount(supplier);
 		
 		request.setAttribute("weishen", weishen);
 		request.setAttribute("shenhezhong", shenhezhong);
@@ -80,7 +80,7 @@ public class SupplierAuditController {
 			supplier.setStatus(status);
 		}
 		
-		List<Supplier> supplierList =supplierAuditServlice.supplierList(supplier,page==null?1:page);
+		List<Supplier> supplierList =supplierAuditService.supplierList(supplier,page==null?1:page);
 		request.setAttribute("result", new PageInfo<>(supplierList));
 		request.setAttribute("supplierList", supplierList);
 		return "ses/sms/supplier_audit/supplier_list";
@@ -100,7 +100,7 @@ public class SupplierAuditController {
 		if(supplierId==null ){
 			supplierId = (String) request.getSession().getAttribute("supplierId");
 		}
-		Supplier supplier = supplierAuditServlice.supplierById(supplierId);
+		Supplier supplier = supplierAuditService.supplierById(supplierId);
 		request.setAttribute("supplier", supplier);
 		request.getSession().setAttribute("supplierId", supplierId);
 		return "ses/sms/supplier_audit/essential";
@@ -117,7 +117,7 @@ public class SupplierAuditController {
 	@RequestMapping("financial")
 	public String financialInformation(HttpServletRequest request) {
 		String supplierId = (String) request.getSession().getAttribute("supplierId");
-		List<SupplierFinance> supplierFinance = supplierAuditServlice.supplierFinanceBySupplierId(supplierId);
+		List<SupplierFinance> supplierFinance = supplierAuditService.supplierFinanceBySupplierId(supplierId);
 		request.setAttribute("supplier", supplierFinance);
 		return "ses/sms/supplier_audit/financial";
 	}
@@ -133,7 +133,7 @@ public class SupplierAuditController {
 	@RequestMapping("shareholder")
 	public String shareholderInformation(HttpServletRequest request) {
 		String supplierId = (String) request.getSession().getAttribute("supplierId");
-		List<SupplierStockholder> supplierStockholder = supplierAuditServlice.ShareholderBySupplierId(supplierId);
+		List<SupplierStockholder> supplierStockholder = supplierAuditService.ShareholderBySupplierId(supplierId);
 		request.setAttribute("shareholder", supplierStockholder);
 		return "ses/sms/supplier_audit/shareholder";
 	}
@@ -190,7 +190,7 @@ public class SupplierAuditController {
 		String supplierId = (String) request.getSession().getAttribute("supplierId");
 		supplierAudit.setSupplierId(supplierId);
 		supplierAudit.setUserId("EDED66BAC3304F34B75EBCDB88AE427F");
-		supplierAuditServlice.auditReasons(supplierAudit);
+		supplierAuditService.auditReasons(supplierAudit);
 	}
 	
 	/**
@@ -204,9 +204,8 @@ public class SupplierAuditController {
 	@RequestMapping("reasonsList")
 	public String reasonsList(HttpServletRequest request){
 		String supplierId = (String) request.getSession().getAttribute("supplierId");
-		List<SupplierAudit> reasonsList = supplierAuditServlice.selectByPrimaryKey(supplierId);
+		List<SupplierAudit> reasonsList = supplierAuditService.selectByPrimaryKey(supplierId);
 		request.getSession().getAttribute("status");
-		System.out.println("ssssssssssssssssssssssssss="+request.getSession().getAttribute("status"));
 		request.setAttribute("reasonsList", reasonsList);
 		return "ses/sms/supplier_audit/audit_reasons";
 	}
@@ -224,7 +223,7 @@ public class SupplierAuditController {
 	public String updateStatus(HttpServletRequest request,Supplier supplier){
 		String supplierId = (String) request.getSession().getAttribute("supplierId");
 		supplier.setId(supplierId);
-		supplierAuditServlice.updateStatus(supplier);
+		supplierAuditService.updateStatus(supplier);
 		return "redirect:supplierList.html";
 	}
 
