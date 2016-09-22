@@ -2,6 +2,7 @@ package ses.service.ems;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import ses.model.bms.User;
@@ -101,5 +102,27 @@ public interface ExpertService {
 	      * @return User
 	     */
 	    User getUserById(String userId);
-	    
+	    /**
+	     * 
+	      * @Title: uploadFile
+	      * @author ShaoYangYang
+	      * @date 2016年9月22日 下午1:53:44  
+	      * @Description: TODO 文件上传
+	      * @param @param files
+	      * @param @param realPath      
+	      * @return void
+	     */
+	    public void uploadFile(MultipartFile[] files, String realPath);
+	    /**
+	     * 
+	      * @Title: downloadFile
+	      * @author ShaoYangYang
+	      * @date 2016年9月22日 下午2:07:23  
+	      * @Description: TODO 文件下载
+	      * @param @param fileName
+	      * @param @param filePath
+	      * @param @return      
+	      * @return ResponseEntity<byte[]>
+	     */
+		ResponseEntity<byte[]> downloadFile(String fileName, String filePath, String downFileName); 
 }

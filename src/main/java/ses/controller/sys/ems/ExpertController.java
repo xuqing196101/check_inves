@@ -208,45 +208,26 @@ public class ExpertController {
 	 * @throws IOException 
 	 */
 	@RequestMapping("/edit")
-	public String edit(@RequestParam("files")MultipartFile[] files,Expert expert,@RequestParam("userId")String userId,Model model,HttpSession session,@RequestParam String token2 ,HttpServletRequest request,HttpServletResponse response) throws IOException{
+	public String edit(@RequestParam("files")MultipartFile[] files,Expert expert,@RequestParam("userId")String userId,Model model,HttpSession session,@RequestParam("token2") String token2 ,HttpServletRequest request,HttpServletResponse response) throws IOException{
 		Object tokenValue = session.getAttribute("tokenSession");
-		String expertId = UUID.randomUUID().toString();
 		if (tokenValue != null && tokenValue.equals(token2)) {
 			// 正常提交
 			session.removeAttribute("tokenSession");
-			//判断file数组不能为空并且长度大于0 
-		if(files!=null && files.length>0){
-			 for(MultipartFile myfile : files){  
-		            if(myfile.isEmpty()){  
-		            }else{  
-		                String filename = myfile.getOriginalFilename();
-		                String uuid = WfUtil.createUUID();
-		                //文件名处理
-		                filename=uuid+filename;
-		                //如果用的是Tomcat服务器，则文件会上传到\\%TOMCAT_HOME%\\webapps\\YourWebProject\\WEB-INF\\upload_file\\文件夹中  
-		                String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");  
-		                //这里不必处理IO流关闭的问题，因为FileUtils.copyInputStreamToFile()方法内部会自动把用到的IO流关掉，我是看它的源码才知道的  
-		                FileUtils.copyInputStreamToFile(myfile.getInputStream(), new File(realPath, filename));  
-		            }  
-		        }  
-			}
-			//修改
-			//已提交
+			//获取文件上传路径
+			String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
+			//文件上传到指定地址
+			service.uploadFile(files, realPath);
+			//修改状态为已提交
 			expert.setIsSubmit("1");
 			//修改时间
 			expert.setUpdatedAt(new Date());
 			service.updateByPrimaryKeySelective(expert);
-		    //关联机构信息
-		
 			//查询出所有信息放进model中
 			Expert expert2 = service.selectByPrimaryKey(expert.getId());
-			model.addAttribute("expert", expert2); 
+			model.addAttribute("expert", expert2);
 		return "redirect:findAllExpert.html";
-		}else{//重复提交
-			//查询出所有信息放进model中
-		/*if(zancun!=null && zancun.equals("1")){
-			return "redirect:/";
-		}*/
+		}else{
+			//重复提交  这里未做重复提醒，只是不重复修改
 		return "redirect:findAllExpert.html";
 		}
 	}
@@ -267,68 +248,53 @@ public class ExpertController {
 		if (tokenValue != null && tokenValue.equals(token2)) {
 			// 正常提交
 			session.removeAttribute("tokenSession");
-			//判断file数组不能为空并且长度大于0 
-		if(files!=null && files.length>0){
-			 for(MultipartFile myfile : files){  
-		            if(myfile.isEmpty()){  
-		            }else{  
-		                String filename = myfile.getOriginalFilename();
-		                String uuid = WfUtil.createUUID();
-		                //文件名处理
-		                filename=uuid+filename;
-		                //如果用的是Tomcat服务器，则文件会上传到\\%TOMCAT_HOME%\\webapps\\YourWebProject\\WEB-INF\\upload_file\\文件夹中  
-		                String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");  
-		                //这里不必处理IO流关闭的问题，因为FileUtils.copyInputStreamToFile()方法内部会自动把用到的IO流关掉，我是看它的源码才知道的  
-		                FileUtils.copyInputStreamToFile(myfile.getInputStream(), new File(realPath, filename));  
-		            }  
-		        }  
-			}
-		//个人信息关联用户
-		if(userId!=null && userId.length()>0){
-			//直接注册完之后填写个人信息
-			User user = service.getUserById(userId);
-			if(user==null){
-				throw new RuntimeException("该用户不存在！");
-			}
-			user.setTypeName(5);
-			user.setTypeId(expertId);
-			userService.update(user);
-		}else{
-			//注册完账号  过段时间又填写个人信息
-			/*User user = (User)session.getAttribute("loginUser");
-			if(expert.getId()==null || expert.getId()=="" || expert.getId().length()==0){
+			//获取文件上传路径
+			String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
+			//文件上传
+			service.uploadFile(files, realPath);
+			//个人信息关联用户
+			if(userId!=null && userId.length()>0){
+				//直接注册完之后填写个人信息
+				User user = service.getUserById(userId);
+				if(user==null){
+					throw new RuntimeException("该用户不存在！");
+				}
+				user.setTypeName(5);
 				user.setTypeId(expertId);
+				userService.update(user);
 			}else{
-				user.setTypeId(expert.getId());
+				//注册完账号  过段时间又填写个人信息
+				/*User user = (User)session.getAttribute("loginUser");
+				if(expert.getId()==null || expert.getId()=="" || expert.getId().length()==0){
+					user.setTypeId(expertId);
+				}else{
+					user.setTypeId(expert.getId());
+				}
+				userService.update(user);*/
 			}
-			userService.update(user);*/
-		}
-		if(zancun!=null && zancun.equals("1")){//说明为暂存否则为提交
-				expert.setId(expertId);
-				//已提交
-				expert.setIsSubmit("0");
-				//修改时间
-				expert.setUpdatedAt(new Date());
-				service.insertSelective(expert);
-				return "redirect:/";
-		}
+			if(zancun!=null && zancun.equals("1")){//说明为暂存否则为提交
+					expert.setId(expertId);
+					//已提交
+					expert.setIsSubmit("0");
+					//修改时间
+					expert.setUpdatedAt(new Date());
+					//保存当前填写的信息 跳转到首页
+					service.insertSelective(expert);
+					return "redirect:/";
+			}
 			expert.setId(expertId);
 			//已提交
 			expert.setIsSubmit("1");
 			//修改时间
 			expert.setUpdatedAt(new Date());
+			//执行保存
 			service.insertSelective(expert);
-		    //关联机构信息
-		
 			//查询出所有信息放进model中
 			Expert expert2 = service.selectByPrimaryKey(expert.getId());
 			model.addAttribute("expert", expert2); 
 		return "redirect:/";
-		}else{//重复提交
-			//查询出所有信息放进model中
-		/*if(zancun!=null && zancun.equals("1")){
-			return "redirect:/";
-		}*/
+		}else{
+			//重复提交  这里未做重复提醒，只是不重复增加
 		return "redirect:/";
 		}
 	}
@@ -344,6 +310,7 @@ public class ExpertController {
 	@RequestMapping("/deleteAll")
 	public String deleteAll(@RequestParam("ids") String ids){
 		String[] id = ids.split(",");
+		//循环删除选中的数据
 		for (String string : id) {
 			service.deleteByPrimaryKey(string);
 		}
@@ -472,22 +439,8 @@ public class ExpertController {
 	  */
 	 @RequestMapping("/upLoadExpertTable")
 	 public String upLoadExpertTable(@RequestParam("id") String id,@RequestParam("files") MultipartFile[] files,HttpServletRequest request) throws IOException{
-		 if(files!=null && files.length>0){
-			 for(MultipartFile myfile : files){  
-		            if(myfile.isEmpty()){  
-		                //System.out.println("文件未上传");  
-		            }else{  
-		                String filename = myfile.getOriginalFilename();
-		                String uuid = WfUtil.createUUID();
-		                //文件名处理
-		                filename=uuid+filename;
-		                //如果用的是Tomcat服务器，则文件会上传到\\%TOMCAT_HOME%\\webapps\\YourWebProject\\WEB-INF\\upload_file\\文件夹中  
-		                String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file");  
-		                //这里不必处理IO流关闭的问题，因为FileUtils.copyInputStreamToFile()方法内部会自动把用到的IO流关掉，我是看它的源码才知道的  
-		                FileUtils.copyInputStreamToFile(myfile.getInputStream(), new File(realPath, filename));  
-		            }  
-		        }  
-			}
+		 String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file");  
+         service.uploadFile(files, realPath);
 		 return "redirect:/";
 	 }
 	 
@@ -526,17 +479,13 @@ public class ExpertController {
 	  */
 	 @RequestMapping("download")
 	 public ResponseEntity<byte[]> download(Expert expert,HttpServletRequest request) throws Exception{
-		 //Expert expert = service.selectByPrimaryKey(id);
+		 //文件存储地址
 		 String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
+		 //文件名称
 		 String fileName = createWordMethod(expert, request);
-		 File file=new File(filePath+"/"+fileName);  
-	        HttpHeaders headers = new HttpHeaders(); 
-	        String downFileName=new String("军队评标专家申请表.doc".getBytes("UTF-8"),"iso-8859-1");//为了解决中文名称乱码问题  
-	        headers.setContentDispositionFormData("attachment", downFileName);   
-	        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);   
-	        ResponseEntity<byte[]> entity = new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),headers, HttpStatus.CREATED); 
-	        file.delete();
-	        return entity;
+		 //下载后的文件名
+		 String downFileName=new String("军队评标专家申请表.doc".getBytes("UTF-8"),"iso-8859-1");//为了解决中文名称乱码问题  
+	     return service.downloadFile(fileName, filePath, downFileName);
 	 }
 	 
 	 /**
@@ -545,7 +494,7 @@ public class ExpertController {
 		 * @Title: createWordMethod
 		 * @author: lkzx
 		 * @date: 2016-9-7 下午3:25:38
-		 * @Description: TODO  生成word下载
+		 * @Description: TODO  生成word文件提供下载
 		 * @param: @param expert
 		 * @return: String
 		 * @throws Exception

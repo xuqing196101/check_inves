@@ -1,4 +1,4 @@
-/*$(function() {
+$(function() {
 	
 	$("input[type=file]").change(function() {
 		$(this).parents(".uploader").find(".filename").val($(this).val());
@@ -10,9 +10,9 @@
 		}
 	});
 	
-});*/
+});
 
-(function($) {
+/*(function($) {
 	$("input[type=file]").change(function() {
 		$(this).parents(".uploader").find(".filename").val($(this).val());
 	});
@@ -22,4 +22,4 @@
 			$(this).parents(".uploader").find(".filename").val("未选择任何文件...");
 		}
 	});
-}(jQuery));
+}(jQuery));*/

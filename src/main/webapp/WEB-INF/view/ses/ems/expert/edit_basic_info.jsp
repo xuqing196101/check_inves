@@ -12,7 +12,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+""; 
 %>
 <title>修改评审专家基本信息</title>
-
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
@@ -37,8 +36,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
 <script src="${pageContext.request.contextPath}/public/ZHQ/js/expert/validate_expert_basic_info.js"></script>
-  <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/expert/TestAddress.js"></script>
-  <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/expert/TestChooseAddress.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/expert/TestAddress.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/expert/TestChooseAddress.js"></script>
 <script type="text/javascript">
 	function kaptcha() {
 		$("#kaptchaImage").hide().attr('src', '${pageContext.request.contextPath}/Kaptcha.jpg').fadeIn();
@@ -64,6 +63,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 		}
 		   }
 	});
+	//暂存
 	function submitForm1(){
 		if(validateForm1()){
 			$("#zancun").val(1);
@@ -157,6 +157,71 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    }
 		if(regionId.substring(4,6)!="00") {$("#id_areaSelect").val(regionId);}
 	  }
+	}
+	//回显基本信息到表中
+	function editTable(){
+		var name = $("#relName").val();
+		$("#tName").text(name);
+		var sex = $("#gender").val();
+		if(sex=="M"){
+		  $("#tSex").text("男");
+		}
+		if(sex=="F"){
+			$("#tSex").text("女");
+		}
+		var birthday = $("#birthday").val();
+		$("#tBirthday").text(birthday);
+		var tFace = $("#politicsStatus").val();
+		$("#tFace").text(tFace);
+		var professTechTitles = $("#professTechTitles").val();
+		$("#tHey").text(professTechTitles);
+		var idNumber = $("#idNumber").val();
+		$("#tNumber").text(idNumber);
+		var hightEducation = $("#hightEducation").val();
+		$("#tHight").text(hightEducation);
+		var degree = $("#degree").val();
+		$("#tWei").text(degree);
+		var mobile = $("#mobile").val();
+		$("#tMobile").text(mobile);
+		var telephone = $("#telephone").val();
+		$("#tTelephone").text(telephone);
+		var workUnit = $("#workUnit").val();
+		$("#tWorkUnit").text(workUnit);
+		var graduateSchool = $("#graduateSchool").val();
+		$("#tGraduateSchool").text(graduateSchool);
+		var unitAddress = $("#unitAddress").val();
+		$("#tUnitAddress").text(unitAddress);
+		var postCode = $("#postCode").val();
+		$("#tPostCode").text(postCode);
+		var timeStartWork = $("#timeStartWork").val();
+		$("#tTimeStartWork").text(timeStartWork);
+	}
+	function fun(){
+		supplierRegist('reg_box_id', 3, 'next'); 
+		editTable();
+	}
+	function fun1(){
+		supplierRegist('reg_box_id', 4, 'next');
+		var expertsTypeId = $("#expertsTypeId").val();
+		if(expertsTypeId == "1"){
+			$("#tExpertsTypeId").text("技术");
+		}
+		if(expertsTypeId == "2"){
+			$("#tExpertsTypeId").text("法律");
+		}
+		if(expertsTypeId == "3"){
+			$("#tExpertsTypeId").text("商务");
+		}
+	}
+	//下载
+	function downloadTable(){
+		$("#form1").attr("action","<%=basePath %>expert/download.html");
+		$("#form1").submit();
+	}
+	//提交
+	function addSubmitForm(){
+		$("#form1").attr("action","<%=basePath %>expert/edit.html");
+		$("#form1").submit();
 	}
 </script>
 
@@ -285,7 +350,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										</li>
 										<li class="col-md-6 p0 "><span class=""> 出生日期：</span>
 											<div class="input-append">
-       											 <input class="span3 Wdate w220"   readonly="readonly" value="<fmt:formatDate type='date' value='${expert.birthday }' dateStyle="default" pattern="yyyy-MM-dd"/>" name="birthday" id="appendedInput" type="text" onclick='WdatePicker()'>
+       											 <input class="span3 Wdate w220"   readonly="readonly" value="<fmt:formatDate type='date' value='${expert.birthday }' dateStyle="default" pattern="yyyy-MM-dd"/>" name="birthday" id="birthday" type="text" onclick='WdatePicker()'>
       										</div>
 										</li>
 										<li class="col-md-6 p0"><span class=""><i class="red">＊</i>专家来源：</span>
@@ -329,7 +394,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										</li>
 										<li class="col-md-6 p0 "><span class="">民族：</span>
 											<div class="input-append">
-											<input class="span3" maxlength="10" value=" ${expert.nation }"  name="nation" id="appendedInput" type="text">
+											<input class="span3" maxlength="10" value=" ${expert.nation }"  name="nation" id="nation" type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class="">所在地区：</span>
@@ -349,17 +414,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										</li>
 										<li class="col-md-6 p0 "><span class="">毕业院校：</span>
 											<div class="input-append">
-											<input class="span3" maxlength="40" value=" ${expert.graduateSchool }"  name="graduateSchool" id="appendedInput" type="text">
+											<input class="span3" maxlength="40" value=" ${expert.graduateSchool }"  name="graduateSchool" id="graduateSchool" type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""> 专家技术职称：</span>
 											<div class="input-append">
-											<input class="span3" maxlength="20" value=" ${expert.professTechTitles }"  name="professTechTitles" id="appendedInput" type="text">
+											<input class="span3" maxlength="20" value=" ${expert.professTechTitles }"  name="professTechTitles" id="professTechTitles" type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""> 参加工作时间：</span>
 											<div class="input-append">
-											<input class="span3 Wdate w220"   readonly="readonly" value="<fmt:formatDate type='date' value='${expert.timeToWork }' dateStyle="default" pattern="yyyy-MM-dd"/>" name="timeToWork" id="appendedInput" type="text" onclick='WdatePicker()'>
+											<input class="span3 Wdate w220"   readonly="readonly" value="<fmt:formatDate type='date' value='${expert.timeToWork }' dateStyle="default" pattern="yyyy-MM-dd"/>" name="timeToWork" id="timeToWork" type="text" onclick='WdatePicker()'>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""> 最高学历：</span>
@@ -378,62 +443,62 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										</li>
 										<li class="col-md-6 p0 "><span class=""> 专业：</span>
 											<div class="input-append">
-											<input class="span3" maxlength="20" value=" ${expert.major }"  name="major" id="appendedInput" type="text">
+											<input class="span3" maxlength="20" value=" ${expert.major }"  name="major" id="major" type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""> 从事专业起始年度：</span>
 											<div class="input-append">
-											 <input class="span3 Wdate w220" value="<fmt:formatDate type='date' value='${expert.timeStartWork }' dateStyle="default" pattern="yyyy-MM-dd"/>"  readonly="readonly" name="timeStartWork" id="appendedInput" type="text" onclick='WdatePicker()'>
+											 <input class="span3 Wdate w220" value="<fmt:formatDate type='date' value='${expert.timeStartWork }' dateStyle="default" pattern="yyyy-MM-dd"/>"  readonly="readonly" name="timeStartWork" id="timeStartWork" type="text" onclick='WdatePicker()'>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class="">工作单位：</span>
 											<div class="input-append">
-											<input class="span3" maxlength="40" value=" ${expert.workUnit }"  name="workUnit" id="appendedInput" type="text">
+											<input class="span3" maxlength="40" value=" ${expert.workUnit }"  name="workUnit" id="workUnit" type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""> 单位地址：</span>
 											<div class="input-append">
-											 <input class="span3" maxlength="40" value=" ${expert.unitAddress }"  name="unitAddress" id="appendedInput" type="text">
+											 <input class="span3" maxlength="40" value=" ${expert.unitAddress }"  name="unitAddress" id="unitAddress" type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""> 联系电话（固话）：</span>
 											<div class="input-append">
-											<input class="span3" maxlength="15" value=" ${expert.telephone }"  name="telephone" id="appendedInput" type="text">
+											<input class="span3" maxlength="15" value=" ${expert.telephone }"  name="telephone" id="telephone" type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class="">手机：</span>
 											<div class="input-append">
-											<input class="span3" maxlength="15" value=" ${expert.mobile }"  name="mobile" id="appendedInput" type="text">
+											<input class="span3" maxlength="15" value=" ${expert.mobile }"  name="mobile" id="mobile" type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""> 传真：</span>
 											<div class="input-append">
-											<input class="span3" maxlength="10" value=" ${expert.fax }"  name="fax" id="appendedInput" type="text">
+											<input class="span3" maxlength="10" value=" ${expert.fax }"  name="fax" id="fax" type="text">
 											</div>
 										</li> 
         								<li class="col-md-6 p0 "><span class=""> 邮编：</span>
 											<div class="input-append">
-											<input class="span3" maxlength="6" value=" ${expert.postCode }"  name="postCode" id="appendedInput" type="text">
+											<input class="span3" maxlength="6" value=" ${expert.postCode }"  name="postCode" id="postCode" type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""> 获得技术时间：</span>
 											<div class="input-append">
-											<input class="span3 Wdate w220" value="<fmt:formatDate type='date' value='${expert.makeTechDate }' dateStyle="default" pattern="yyyy-MM-dd"/>"  readonly="readonly" name="makeTechDate" id="appendedInput" type="text" onclick='WdatePicker()'>
+											<input class="span3 Wdate w220" value="<fmt:formatDate type='date' value='${expert.makeTechDate }' dateStyle="default" pattern="yyyy-MM-dd"/>"  readonly="readonly" name="makeTechDate" id="makeTechDate" type="text" onclick='WdatePicker()'>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""> 学位：</span>
 											<div class="input-append">
-											<input class="span3" maxlength="10" value=" ${expert.degree }"  name="degree" id="appendedInput" type="text">
+											<input class="span3" maxlength="10" value=" ${expert.degree }"  name="degree" id="degree" type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""> 健康状态：</span>
 											<div class="input-append">
-											<input class="span3" maxlength="10" value=" ${expert.healthState }"  name="healthState" id="appendedInput" type="text">
+											<input class="span3" maxlength="10" value=" ${expert.healthState }"  name="healthState" id="healthState" type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""> 现任职务：</span>
 											<div class="input-append">
-											<input class="span3" maxlength="10" value=" ${expert.atDuty }"  name="atDuty" id="appendedInput" type="text">
+											<input class="span3" maxlength="10" value=" ${expert.atDuty }"  name="atDuty" id="atDuty" type="text">
 											</div>
 										</li>
 									</ul>
@@ -491,7 +556,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<div class="tc mt20 clear col-md-11">
 									
 									        <button class="btn btn-windows git" onclick="submitForm1();"  type="button">暂存</button>
-											<button class="btn btn-windows git"   type="button" onclick="supplierRegist('reg_box_id', 3, 'next')">下一步</button>
+											<button class="btn btn-windows git" id="nextBind"  type="button" onclick="fun();" >下一步</button>
 									</div>
 								</div>
 							</div>
@@ -529,7 +594,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    			 </ul>
 		    <div class="tc mt20 clear col-md-11">
 				<button class="btn btn-windows git"   type="button" onclick="supplierRegist('reg_box_id', 4, 'pre')">上一步</button>
-				<button class="btn btn-windows git"   type="button" onclick="supplierRegist('reg_box_id', 4, 'next')">下一步</button>
+				<button class="btn btn-windows git"   type="button" onclick="fun1();">下一步</button>
 			</div>
 		</div>
 		
@@ -633,49 +698,39 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <table class="table table-bordered table-condensed">
    	<tr>
    		<td align="center" width="100px">姓名</td>
-   		<td align="center" width="150px">${expert.relName }</td>
+   		<td align="center" width="150px" id="tName"></td>
    		<td align="center">性别</td>
-   		<c:choose>
-		  	<c:when test="${e.gender =='M'}">
-		  		<td align="center" width="150px">男</td>
-		  	</c:when>
-		  	<c:when test="${e.gender =='F'}">
-		  		<td align="center" width="150px">女</td>
-		  	</c:when>
-		  	<c:otherwise>
-		  	<td class="tc"></td>
-		  	</c:otherwise>
-		  </c:choose>
+		  	<td class="tc" id="tSex"></td>
    		
    		<td align="center" rowspan="4">照片</td>
    	</tr>
    <tr>
    		<td align="center">出生日期</td>
-   		<td align="center" width="150px"><fmt:formatDate type='date' value='${expert.birthday }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
+   		<td align="center" width="150px" id="tBirthday"></td>
    		<td align="center">政治面貌</td>
-   		<td align="center" width="150px">${expert.politicsStatus}</td>
+   		<td align="center" width="150px" id="tFace"></td>
    </tr>
    <tr>
    		<td align="center">所在地区</td>
-   		<td align="center" width="150px">${expert.address }</td>
+   		<td align="center" width="150px"></td>
    		<td align="center">职称</td>
-   		<td align="center" width="150px">${expert.professTechTitles }</td>
+   		<td align="center" width="150px" id="tHey"></td>
    </tr>
    <tr>
    		<td align="center">身份证号码</td>
-   		<td align="center"  colspan="3">${expert.idNumber }</td>
+   		<td align="center" id="tNumber" colspan="3"></td>
    </tr>
    <tr>
    		<td align="center">从事专业类别</td>
-   		<td align="center" width="150px">${expert.expertsTypeId }</td>
+   		<td align="center" id="tExpertsTypeId" width="150px"></td>
    		<td align="center">从事年限</td>
-   		<td align="center" colspan="2"><fmt:formatDate type='date' value='${expert.timeToWork }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
+   		<td align="center" id="tTimeStartWork" colspan="2"></td>
    </tr>
    <tr>
    		<td align="center">最高学历</td>
-   		<td align="center" width="150px">${expert.hightEducation }</td>
+   		<td align="center" id="tHight" width="150px"></td>
    		<td align="center">最高学位</td>
-   		<td align="center" colspan="2">${expert.degree }</td>
+   		<td align="center" id="tWei" colspan="2"></td>
    
    </tr>
    <tr>
@@ -710,9 +765,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </tr>
    <tr>
    		<td align="center">手机号码</td>
-   		<td align="center" width="150px">${expert.mobile }</td>
+   		<td align="center" id="tMobile" width="150px"></td>
    		<td align="center">单位电话</td>
-   		<td align="center" colspan="2">${expert.telephone }</td>
+   		<td align="center" id="tTelephone" colspan="2"></td>
    </tr>
    <tr>
    		<td align="center">住宅电话</td>
@@ -722,17 +777,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </tr>
    <tr>
    		<td align="center">毕业院校及专业</td>
-   		<td align="center" colspan="4"></td>
+   		<td align="center" id="tGraduateSchool" colspan="4"></td>
    </tr>
    <tr>
    		<td align="center">单位名称</td>
-   		<td align="center" colspan="4">${expert.workUnit }</td>
+   		<td align="center" id="tWorkUnit" colspan="4"></td>
    </tr>
    <tr>
    		<td align="center">单位地址 </td>
-   		<td align="center" width="150px">${expert.unitAddress }</td>
+   		<td align="center" id="tUnitAddress" width="150px"></td>
    		<td align="center">单位邮编</td>
-   		<td align="center" colspan="2">${expert.postCode }</td>
+   		<td align="center" id="tPostCode" colspan="2"></td>
    </tr>
    <tr>
    		<td align="center">家庭地址 </td>
@@ -806,13 +861,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 		</div>
-		<script type="text/javascript">
-		function downloadTable(){
-			$("#form1").attr("action","<%=basePath %>expert/download.html");
-			$("#form1").submit();
-			
-		}
-		</script>
 		<div id="reg_box_id_7" class="container clear margin-top-30 yinc">
 		 <h2 class="padding-20 mt40">
 					<span class="new_step current fl"><i class="">1</i><div class="line"></div> <span class="step_desc_01">用户名密码</span> </span>
@@ -862,7 +910,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		   <div class="login_cr fl col-md-9 pt20">
 		    <div class="col-md-12">
 		     <p>
-			  <span class="regist_info f18 b">恭喜您注册成功！</span>正在等待审核人员审批。
+			  <span class="regist_info f18 b">信息填写完成！确认无误后请提交，提交后将不能更改！</span>
 			 </p>
 			 <p>以下是系统默认为您生成的账号和密码</p>
 			 <p>您的<span class="red">登录账号</span>为：<span class="red">18688164815</span>敬请查收</p>
@@ -875,8 +923,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			 <div class="fl mr20"><label class="regist_name">联系电话：</label><span class="regist_desc">1882928798</span></div>
 			 </div>
 			 <div class="mt20 col-md-12">
-			  <button class="btn btn-windows git"   type="button" onclick="supplierRegist('reg_box_id', 8, 'pre')">上一步</button>
-			  <input  class="btn btn-windows git" type="submit" value="提交" />
+			  <button class="btn btn-windows git" type="button" onclick="supplierRegist('reg_box_id', 8, 'pre')">上一步</button>
+			  <input  class="btn btn-windows git" type="button" onclick="editSubmitForm();" value="提交" />
 			 </div>
 			</div>
 		   </div>

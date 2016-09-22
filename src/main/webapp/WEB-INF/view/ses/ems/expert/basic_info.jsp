@@ -37,8 +37,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
 <script src="${pageContext.request.contextPath}/public/ZHQ/js/expert/validate_expert_basic_info.js"></script>
-  <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/expert/TestAddress.js"></script>
-  <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/expert/TestChooseAddress.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/expert/TestAddress.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/expert/TestChooseAddress.js"></script>
 <script type="text/javascript">
 	function kaptcha() {
 		$("#kaptchaImage").hide().attr('src', '${pageContext.request.contextPath}/Kaptcha.jpg').fadeIn();
@@ -212,6 +212,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		if(expertsTypeId == "3"){
 			$("#tExpertsTypeId").text("商务");
 		}
+	}
+	//下载
+	function downloadTable(){
+		$("#form1").attr("action","<%=basePath %>expert/download.html");
+		$("#form1").submit();
+	}
+	//提交
+	function addSubmitForm(){
+		$("#form1").attr("action","<%=basePath %>expert/add.html");
+		$("#form1").submit();
 	}
 </script>
 
@@ -505,7 +515,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											   <span class=""><i class="red">＊</i>身份证：</span>
 											   <div class="uploader orange m0">
 													<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..."/>
-													<input type="button" name="file" class="button"  id="file10" value="选择文件..."/>
+													<input type="button" class="button"  id="file10" value="选择文件..."/>
 													<input type="file" name="files" id ="file1" size="30" accept="image/*"/>
 												</div>
 											 </li>
@@ -851,13 +861,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 		</div>
-		<script type="text/javascript">
-		function downloadTable(){
-			$("#form1").attr("action","<%=basePath %>expert/download.html");
-			$("#form1").submit();
-			
-		}
-		</script>
 		<div id="reg_box_id_7" class="container clear margin-top-30 yinc">
 		 <h2 class="padding-20 mt40">
 					<span class="new_step current fl"><i class="">1</i><div class="line"></div> <span class="step_desc_01">用户名密码</span> </span>
@@ -921,7 +924,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			 </div>
 			 <div class="mt20 col-md-12">
 			  <button class="btn btn-windows git"   type="button" onclick="supplierRegist('reg_box_id', 8, 'pre')">上一步</button>
-			  <input  class="btn btn-windows git" type="submit" value="提交" />
+			  <input  class="btn btn-windows git" type="button" onclick="addSubmitForm();" value="提交" />
 			 </div>
 			</div>
 		   </div>
