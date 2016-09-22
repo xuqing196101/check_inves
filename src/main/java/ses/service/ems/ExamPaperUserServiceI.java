@@ -3,6 +3,8 @@
  */
 package ses.service.ems;
 
+import java.util.List;
+
 import ses.model.ems.ExamPaperUser;
 
 /**
@@ -59,4 +61,40 @@ public interface ExamPaperUserServiceI {
 	* @return int
 	 */
 	int updateByPrimaryKeySelective(ExamPaperUser examPaperUser);
+	
+	/**
+	 * 
+	* @Title: getAllByPaperId
+	* @author ZhaoBo
+	* @date 2016-9-21 上午10:59:57  
+	* @Description: 根据考试ID查找参考人员 
+	* @param @param examPaperUser
+	* @param @return      
+	* @return List<ExamPaperUser>
+	 */
+	List<ExamPaperUser> getAllByPaperId(ExamPaperUser examPaperUser);
+	
+	/**
+	 * 
+	* @Title: getAllPaperByUserId
+	* @author ZhaoBo
+	* @date 2016-9-21 下午8:59:02  
+	* @Description: 根据userId查找所参考的考卷 
+	* @param @param examPaperUser
+	* @param @return      
+	* @return List<ExamPaperUser>
+	 */
+	List<ExamPaperUser> getAllPaperByUserId(ExamPaperUser examPaperUser);
+	
+	/**
+	 * 
+	* @Title: selectPurchaserYesReference
+	* @author ZhaoBo
+	* @date 2016-9-22 下午3:04:05  
+	* @Description: 查看已考考卷的参考人员信息 
+	* @param @param examPaperUser
+	* @param @return      
+	* @return List<ExamPaperUser>
+	 */
+	List<ExamPaperUser> selectPurchaserYesReference(ExamPaperUser examPaperUser);
 }

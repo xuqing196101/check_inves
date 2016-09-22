@@ -19,25 +19,60 @@
   <body>
   	<form action="<%=path %>/expertExam/saveExamRule.html" method="post">
 	  	<ul class="list-unstyled list-flow p0_20">
-		     <li class="col-md-12 p0">
+		     <%--<li class="col-md-12 p0">
 	  			<span class="fl">考试用时:</span>
-	    		<input type="text" name="testTime"/>
+	  			<c:choose>
+	  				<c:when test="${rule.testTime!=null }">
+	  					<input type="text" name="testTime" value="${rule.testTime }"/>分钟
+	  				</c:when>
+	  				<c:otherwise>
+	  					<input type="text" name="testTime"/>分钟
+	  				</c:otherwise>
+	  			</c:choose>
 	    	</li>
-	    	<li class="col-md-12 p0">
+	    	--%><li class="col-md-12 p0">
 	  			<span class="fl">及格标准:</span>
-	    		<input type="text" name="passStandard"/>
+	  			<c:choose>
+	  				<c:when test="${rule.passStandard!=null }">
+	  					<input type="text" name="passStandard" value="${rule.passStandard }"/>分
+	  				</c:when>
+	  				<c:otherwise>
+	  					<input type="text" name="passStandard"/>分
+	  				</c:otherwise>
+	  			</c:choose>
 	    	</li>
 	    	<li class="col-md-12 p0">
 	  			<span class="fl">考试题目数量:</span>
-	    		<input type="text" name="queNum"/>
+	  			<c:choose>
+	  				<c:when test="${rule.questionCount!=null }">
+	  					<input type="text" name="queNum" value="${rule.questionCount}"/>条
+	  				</c:when>
+	  				<c:otherwise>
+	  					<input type="text" name="queNum" value="50"/>条
+	  				</c:otherwise>
+	  			</c:choose>
 	    	</li>
 	    	<li class="col-md-12 p0">
 	  			<span class="fl">试卷分值:</span>
-	    		<input type="text" name="paperScore"/>
+	  			<c:choose>
+	  				<c:when test="${rule.paperScore!=null }">
+	  					<input type="text" name="paperScore" value="${rule.paperScore}"/>分
+	  				</c:when>
+	  				<c:otherwise>
+	  					<input type="text" name="paperScore" value="${point }"/>分
+	  				</c:otherwise>
+	  			</c:choose>
 	    	</li>
 	    	<li class="col-md-12 p0">
 	  			<span class="fl">考试周期:</span>
-	    		<input type="text" name="testCycle"/>
+	  			<c:choose>
+	  				<c:when test="${rule.testCycle!=null }">
+	  					<input type="text" name="testCycle" value="${rule.testCycle}"/>月
+	  				</c:when>
+	  				<c:otherwise>
+	  					<input type="text" name="testCycle"/>月
+	  				</c:otherwise>
+	  			</c:choose>
 	    	</li>
 	    </ul>
 	    

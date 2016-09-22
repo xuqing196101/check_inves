@@ -9,6 +9,10 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
+	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/layer.js"></script>
+	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
+	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
+	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript">
 		//生成考卷方法
 		function generatePaper(){
@@ -21,7 +25,14 @@
 			    	if(data==1){
 			    		window.location.href="<%=path%>/purchaserExam/timing.html?paperNo="+paperNo;
 			    	}else if(data==0){
-			    		alert("没有当前考卷");
+			    		layer.alert("请输入正确的考试编号",{offset: ['222px', '390px']});
+						$(".layui-layer-shade").remove();
+			    	}else if(data==2){
+			    		layer.alert("考试时间未开始",{offset: ['222px', '390px']});
+						$(".layui-layer-shade").remove();
+			    	}else if(data==3){
+			    		layer.alert("考试时间已过",{offset: ['222px', '390px']});
+						$(".layui-layer-shade").remove();
 			    	}
 		       	}
 		    });

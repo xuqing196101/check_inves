@@ -30,18 +30,13 @@
 	       			if(data){
 	       				var html = "";
 	       				for(var i=0;i<data.length;i++){
-							html = html + "<tr>";
-							html += "<td class='tc'><input name='info' type='checkbox' value='"+data[i].id+"'/></td>";
+							html = html+"<tr>";
+							html = html+"<td class='tc'><input name='info' type='checkbox' value='"+data[i].id+"'/></td>";
 							html = html+"<td class='tc pointer' onclick='view(\""+data[i].id+"\")'>"+(i+1)+"</td>";
 							html = html+"<td class='tc pointer' onclick='view(\""+data[i].id+"\")'>"+data[i].name+"</td>";
 							html = html+"<td class='tc pointer' onclick='view(\""+data[i].id+"\")'>"+data[i].year+"</td>";
 							html = html+"<td class='tc pointer' onclick='view(\""+data[i].id+"\")'>"+data[i].startTrueDate+"</td>";
-							var currentTime = new Date();
-							if(currentTime.getTime()-data[i].startTime>0){
-								html = html+"<td class='tc pointer' onclick='view(\""+data[i].id+"\")'>已考</td>";
-							}else{
-								html = html+"<td class='tc pointer' onclick='view(\""+data[i].id+"\")'>未考</td>";
-							}
+							html = html+"<td class='tc pointer' onclick='view(\""+data[i].id+"\")'>"+data[i].status+"</td>";
 							html = html+"</tr>";
 						}
 	       				$("#paperResult").html(html);
@@ -81,9 +76,11 @@
 				url:"<%=path%>/purchaserExam/editSelectedPaper.html?id="+ids,
 		       	success:function(data){
 			    	if(data==1){
+			    		layer.msg('当前考卷正在考试期间',{offset: ['222px', '390px']});
+			    	}else if(data==2){
 			    		window.location.href="<%=path%>/purchaserExam/editNoTestPaper.html?id="+ids;
-			    	}else if(data==0){
-			    		layer.msg('当前考卷不可编辑',{offset: ['222px', '390px']});
+			    	}else if(data==3){
+			    		layer.msg('当前考卷已经过了考试有效期',{offset: ['222px', '390px']});
 			    	}
 		       	}
 		    });
@@ -96,24 +93,31 @@
 		
 		//查看参考人员
 		function viewReference(){
-			
-		}
-		
-		//打印表格
-		function printTable(){
-			window.location.href="<%=path%>/purchaserExam/printTable.html";
-		}
-		
-		
-			function dayin() {
-				var LODOP = getLodop();
-				if (LODOP) {
-					LODOP.ADD_PRINT_HTM(0, 0, "100%", "100%",
-							document.getElementById("div_print").innerHTML);
-					LODOP.PREVIEW();
+			var count = 0;
+			var info = document.getElementsByName("info");
+			var str = "";
+			for(var i = 0;i<info.length;i++){
+				if(info[i].checked == true){
+					count++;
 				}
 			}
-		 
+			if(count > 1){
+				layer.alert("只能选择一项",{offset: ['222px', '390px']});
+				$(".layui-layer-shade").remove();
+				return;
+			}else if(count == 0){
+				layer.alert("请先选择一项",{offset: ['222px', '390px']});
+				$(".layui-layer-shade").remove();
+				return;
+			}else{
+				for(var i = 0;i<info.length;i++){
+					if(info[i].checked == true){
+						str = info[i].value;
+					}
+				}
+				window.location.href = "<%=path%>/purchaserExam/viewReference.do?id="+str;
+			}
+		}
 	</script>
 
   </head>
@@ -139,8 +143,7 @@
    		<div class="col-md-10">
 	    	<input type="button" class="btn btn-windows add" value="新建考卷" onclick="addPaper()"/>
 	    	<input type="button" class="btn btn-windows edit" value="编辑" onclick="editPaper()"/>
-	    	<input type="button" class="btn" value="查看参考人员" onclick="viewReference()"/>
-	    	<input type="button" value="打印表格" onclick="printTable()"/>
+	    	<input type="button" class="btn btn-windows pl13" value="查看参考人员" onclick="viewReference()"/>
     	</div>
     </div>
     

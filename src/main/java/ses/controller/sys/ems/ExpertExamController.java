@@ -39,15 +39,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
-
 import com.github.pagehelper.PageInfo;
-
-import ses.model.bms.User;
 import ses.model.ems.ExamQuestion;
 import ses.model.ems.ExamQuestionType;
 import ses.model.ems.ExamRule;
 import ses.model.ems.ExamUserScore;
-import ses.service.ems.ExamPaperServiceI;
 import ses.service.ems.ExamQuestionServiceI;
 import ses.service.ems.ExamQuestionTypeServiceI;
 import ses.service.ems.ExamRuleServiceI;
@@ -760,7 +756,15 @@ public class ExpertExamController {
 	* @return String
 	 */
 	@RequestMapping("/createRule")
-	public String createRule(){
+	public String createRule(Model model){
+		List<ExamRule> ruleList = examRuleService.select();
+		if(ruleList.size()>0){
+			model.addAttribute("rule", ruleList.get(0));
+		}
+		List<ExamQuestion> examQuestion = examQuestionService.searchExpertPool();
+		if(examQuestion.size()!=0){
+			model.addAttribute("point", examQuestion.get(0).getPoint());
+		}
 		return "ses/ems/exam/expert/rule";
 	}
 	
@@ -777,32 +781,38 @@ public class ExpertExamController {
 	 */
 	@RequestMapping("/saveExamRule") 
 	public String saveExamRule(HttpServletRequest request,ExamRule examRule){
-		String testTime = request.getParameter("testTime");
+//		String testTime = request.getParameter("testTime");
 		String passStandard = request.getParameter("passStandard");
 		String queNum = request.getParameter("queNum");
 		String paperScore = request.getParameter("paperScore");
 		String testCycle = request.getParameter("testCycle");
 		List<ExamRule> ruleList = examRuleService.select();
-		Date now = new Date();   //当前时间
-		Date dNow = new Date();
-		Calendar calendar = Calendar.getInstance(); //得到日历
-		calendar.setTime(now);//把当前时间赋给日历
-		calendar.add(calendar.MONTH, 1);  
-		dNow = calendar.getTime();   
 		if(ruleList.size()==0){
+			Date now = new Date();
+			Date dNow = new Date();
+			Calendar calendar = Calendar.getInstance(); //得到日历
+			calendar.setTime(now);
+			calendar.add(calendar.MONTH, Integer.parseInt(testCycle));  
+			dNow = calendar.getTime();   
 			examRule.setPassStandard(passStandard);
 			examRule.setQuestionCount(Integer.parseInt(queNum));
 			examRule.setTestCycle(testCycle);
-			examRule.setTestTime(testTime);
+//			examRule.setTestTime(testTime);
 			examRule.setPaperScore(paperScore);
 			examRule.setCreatedAt(new Date());
 			examRule.setTestLong(dNow);
 			examRuleService.insertSelective(examRule);
 		}else{
+			Date now = ruleList.get(0).getCreatedAt();
+			Date dNow = new Date();
+			Calendar calendar = Calendar.getInstance(); //得到日历
+			calendar.setTime(now);
+			calendar.add(calendar.MONTH, Integer.parseInt(testCycle));  
+			dNow = calendar.getTime();   
 			examRule.setPassStandard(passStandard);
 			examRule.setQuestionCount(Integer.parseInt(queNum));
 			examRule.setTestCycle(testCycle);
-			examRule.setTestTime(testTime);
+//			examRule.setTestTime(testTime);
 			examRule.setPaperScore(paperScore);
 			examRule.setTestLong(dNow);
 			examRuleService.updateByPrimaryKeySelective(examRule);

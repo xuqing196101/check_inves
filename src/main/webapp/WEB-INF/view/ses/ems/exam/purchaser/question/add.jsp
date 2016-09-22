@@ -42,15 +42,13 @@
 			onkeyup : false,
 			rules:{
 				queType:"required",
-				queTopic:"required",
+				queTopic:"required"
 				//queOption:"required",
-				quePoint:"required"
 			},
 			messages:{
 				queType:"题型不能为空",
-				queTopic:"题干不能为空",
+				queTopic:"题干不能为空"
 				//queOption:"选项不能为空",
-				quePoint:"请选择分值"
 			}
 		});
 		
@@ -285,7 +283,7 @@
   		</div>
   		--%>
   		
-  			<li class="col-md-12 p0">
+  			<%--<li class="col-md-12 p0">
 	  			<span class="fl">分值:</span>
 	  			<select name="quePoint" id="quePoint">
 	  				<option value="1">1</option>
@@ -295,7 +293,7 @@
 	  				<option value="5">5</option>
 	  			</select>
   			</li>
-  			</ul>
+  			--%></ul>
   			
   		
   		<!-- 按钮 -->

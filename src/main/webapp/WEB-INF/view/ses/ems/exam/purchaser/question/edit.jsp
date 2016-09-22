@@ -80,15 +80,11 @@
 			onkeyup : false,
 			rules:{
 				queType:"required",
-				queTopic:"required",
-				//queOption:"required",
-				quePoint:"required"
+				queTopic:"required"
 			},
 			messages:{
 				queType:"题型不能为空",
-				queTopic:"题干不能为空",
-				//queOption:"选项不能为空",
-				quePoint:"请选择分值"
+				queTopic:"题干不能为空"
 			}
 		});
 		
@@ -241,7 +237,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">支撑环境</a></li><li><a href="#">题库管理</a></li><li class="active"><a href="#">采购人题库管理</a></li>
+		   <li><a href="#">首页</a></li><li><a href="#">支撑环境</a></li><li><a href="#">题库管理</a></li><li class="active"><a href="#">采购人题库管理</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -323,7 +319,7 @@
   			</div>
   		</li>
   		
-  		 <li class="col-md-12 p0">
+  		 <%--<li class="col-md-12 p0">
 			<span class="fl">分值:</span>
   			<select name="quePoint" id="quePoint">
   				<option value="1" 
@@ -353,7 +349,7 @@
   				>5</option>
   			</select>
   		</li>
-  		</ul>
+  		--%></ul>
   		
   		<!-- 底部按钮 -->
 	  	<div class="padding-top-10 clear">

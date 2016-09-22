@@ -18,14 +18,14 @@
   
   <body>
     <!--面包屑导航开始-->
-	   <div class="margin-top-10 breadcrumbs ">
-	      <div class="container">
-			   <ul class="breadcrumb margin-left-0">
+	<div class="margin-top-10 breadcrumbs ">
+	   	<div class="container">
+			<ul class="breadcrumb margin-left-0">
 			   <li><a href="#">首页</a></li><li><a href="#">支撑环境</a></li><li><a href="#">考卷管理</a></li>
-			   </ul>
+			</ul>
 			<div class="clear"></div>
-		  </div>
-	   </div>
+		</div>
+	 </div>
 	   
      <div class="container margin-top-5">
      <div class="content padding-left-25 padding-right-25 padding-top-5">
@@ -56,20 +56,20 @@
 	  		</li>
     		
     		<li class="col-md-12 p0">
-	  			<span class="fl">总分值:</span>
-		  		<input class="w50" type="text" name="totalPoint" id="totalPoint"/>分
+	  			<span class="fl mt5">总分值:</span>
+		  		<input class="w50 mt5" type="text" name="totalPoint" id="totalPoint"/>分
 	  		</li>
     		
     		<li class="col-md-12 p0">
-	  			<span class="fl">考试开始时间:</span>
-		  		<input type="text" name="startTime" id="startTime" class="Wdate" onfocus="WdatePicker({isShowWeek:true})"/>
-	  			<select id="hour" name="hour" class="mb8">
+	  			<span class="fl mt5">考试开始时间:</span>
+		  		<input type="text" name="startTime" id="startTime" class="Wdate mt5" onfocus="WdatePicker({isShowWeek:true})"/>
+	  			<select id="hour" name="hour" class="mb8 mt5">
 	  				<option value="">请选择</option>
 	  				<c:forEach items="${hour }" varStatus="h">
 	  					<option value="${h.index+1 }">${h.index+1 }</option>
 	  				</c:forEach>
 	  			</select>时
-	  			<select id="second" name="second" class="mb8">
+	  			<select id="second" name="second" class="mb8 mt5">
 	  				<option value="">请选择</option>
 	  				<c:forEach items="${second }" varStatus="s">
 	  					<option value="${s.index }">${s.index }</option>
@@ -78,14 +78,20 @@
 	  		</li>
 	  		
 	  		<li class="col-md-12 p0">
-	  			<span class="fl">考试用时:</span>
-		  		<input class="w50" type="text" name="useTime" id="useTime"/>分钟
+	  			<span class="fl mt5">考试用时:</span>
+		  		<input class="w50 mt5" type="text" name="useTime" id="useTime"/>分钟
 	  		</li>
 	  		
 	  		<li class="col-md-12 p0">
-	  			<span class="fl w250">首次考试不及格的是否允许30分钟内重考:</span>
-		  		<input type="checkbox" name="isAllow" id="isAllowTrue" value="是">是
-    			<input type="checkbox" name="isAllow" id="isAllowFalse" value="否"/>否
+	  			<span class="fl mt5">考试有效期:</span>
+		  		<input class="w50 mt5" type="text" name="expiryHour" id="expiryHour"/>小时
+		  		<input class="w50 mt5" type="text" name="expirySecond" id="expirySecond"/>分钟
+	  		</li>
+	  		
+	  		<li class="col-md-12 p0">
+	  			<span class="fl w250 mb5">首次考试不及格的是否允许30分钟内重考:</span>
+		  		<input class="mb5" type="checkbox" name="isAllow" id="isAllowTrue" value="是">是
+    			<input class="mb5" type="checkbox" name="isAllow" id="isAllowFalse" value="否"/>否
 	  		</li>
     	</ul>
    

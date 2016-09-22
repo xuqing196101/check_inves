@@ -54,7 +54,11 @@
 		<!-- 根据用户表真实姓名查询 -->
 		<if test="relName != null and relName != ''">
 			and u.REL_NAME= #{relName}
-		</if> 
+		</if>
+		<!-- 根据用户身份证号查询 -->
+		<if test="idCard != null and idCard != ''">
+			and d.ID_CARD= #{idCard}
+		</if>  
 	</select>
 	<!-- 保存采购机构 -->
 	<insert id="savePurchase" parameterType="ses.model.oms.PurchaseInfo">

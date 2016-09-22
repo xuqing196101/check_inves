@@ -186,4 +186,15 @@ public interface ExamQuestionMapper {
     * @return List<ExamQuestion>
      */
     List<ExamQuestion> getAllPurchaserQuestion();
+    
+    /**
+     * 
+    * @Title: searchExpertPool
+    * @author ZhaoBo
+    * @date 2016-9-21 上午8:52:30  
+    * @Description: 查询专家题库中有没有题目 
+    * @param @return      
+    * @return List<ExamQuestion>
+     */
+    List<ExamQuestion> searchExpertPool();
 }

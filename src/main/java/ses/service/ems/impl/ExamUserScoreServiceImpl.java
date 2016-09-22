@@ -48,15 +48,14 @@ public class ExamUserScoreServiceImpl implements ExamUserScoreServiceI {
 
 	
 	@Override
-	public List<ExamUserScore> selectExpertResultByTerm(ExamUserScore examUserScore) {
-		return examUserScoreMapper.selectExpertResultByTerm(examUserScore);
+	public List<ExamUserScore> selectExpertResultByCondition(ExamUserScore examUserScore) {
+		return examUserScoreMapper.selectExpertResultByCondition(examUserScore);
 	}
-
 
 	
 	@Override
-	public List<ExamUserScore> selectExpertResultByCondition(ExamUserScore examUserScore) {
-		return examUserScoreMapper.selectExpertResultByCondition(examUserScore);
+	public List<ExamUserScore> selectPurchaserResultByCondition(ExamUserScore examUserScore) {
+		return examUserScoreMapper.selectPurchaserResultByCondition(examUserScore);
 	}
 
 

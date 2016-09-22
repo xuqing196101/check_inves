@@ -137,7 +137,7 @@
 		    <button class="btn btn-windows add" type="button" onclick="poiExcel()">Excel导入</button>
 			<button class="btn btn-windows edit" type="button" onclick="editCommerce()">修改</button>
 			<button class="btn btn-windows delete" type="button" onclick="deleteById()">删除</button>
-			<button class="btn" type="button" onclick="download()">专家题库模板下载</button>
+			<button class="btn btn-windows pl13" type="button" onclick="download()">专家题库模板下载</button>
 		</div>
     </div>
                        

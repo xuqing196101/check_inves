@@ -40,7 +40,7 @@ public class ExamUserScore {
     /**
      * @Fields paperId : 用户做的试卷(针对采购人)
      */
-    private Integer paperId;
+    private String paperId;
     
     /**
      * @Fields targetDate : 用户完成日期
@@ -86,6 +86,11 @@ public class ExamUserScore {
      *@Fields user : 关联USER表 
      */
     private User user;
+    
+    /**
+     *@Fields code : 试卷编号
+     */
+    private String code;
 
 	public String getId() {
 		return id;
@@ -127,11 +132,11 @@ public class ExamUserScore {
 		this.status = status;
 	}
 
-	public Integer getPaperId() {
+	public String getPaperId() {
 		return paperId;
 	}
 
-	public void setPaperId(Integer paperId) {
+	public void setPaperId(String paperId) {
 		this.paperId = paperId;
 	}
 
@@ -205,6 +210,14 @@ public class ExamUserScore {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	

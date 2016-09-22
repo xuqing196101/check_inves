@@ -67,6 +67,16 @@ public class ExamPaper {
      * @Fields isAllowRetake :是否允许重考
      */
     private Integer isAllowRetake;
+    
+    /**
+     * @Fields expiryDate :考试有效期
+     */
+    private String expiryDate;
+    
+    /**
+     * @Fields status :考卷状态
+     */
+    private String status;
 
 	public String getId() {
 		return id;
@@ -162,6 +172,22 @@ public class ExamPaper {
 
 	public void setIsAllowRetake(Integer isAllowRetake) {
 		this.isAllowRetake = isAllowRetake;
+	}
+
+	public String getExpiryDate() {
+		return expiryDate;
+	}
+
+	public void setExpiryDate(String expiryDate) {
+		this.expiryDate = expiryDate;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	

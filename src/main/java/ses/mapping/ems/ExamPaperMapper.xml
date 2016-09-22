@@ -13,11 +13,12 @@
     <result column="CREATED_AT" property="createdAt" />
     <result column="UPDATED_AT" property="updatedAt" />
     <result column="IS_ALLOW_RETAKE" property="isAllowRetake" />
+    <result column="EXPIRY_DATE" property="expiryDate" />
   </resultMap>
   
   <sql id="Base_Column_List">
     ID, NAME, CODE, SCORE, START_TIME, YEAR, 
-    TYPE_DISTRIBUTION, TEST_TIME, CREATED_AT, UPDATED_AT, IS_ALLOW_RETAKE
+    TYPE_DISTRIBUTION, TEST_TIME, CREATED_AT, UPDATED_AT, IS_ALLOW_RETAKE,EXPIRY_DATE
   </sql>
   
   <!-- 根据主键ID查找考卷 -->
@@ -74,6 +75,9 @@
       <if test="isAllowRetake != null">
         IS_ALLOW_RETAKE,
       </if>
+      <if test="expiryDate != null">
+        EXPIRY_DATE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -108,6 +112,9 @@
       </if>
       <if test="isAllowRetake != null">
         #{isAllowRetake},
+      </if>
+      <if test="expiryDate != null">
+        #{expiryDate},
       </if>
     </trim>
   </insert>
@@ -145,6 +152,9 @@
       </if>
       <if test="isAllowRetake != null">
         IS_ALLOW_RETAKE = #{isAllowRetake},
+      </if>
+      <if test="expiryDate != null">
+        EXPIRY_DATE = #{expiryDate},
       </if>
     </set>
     where ID = #{id}

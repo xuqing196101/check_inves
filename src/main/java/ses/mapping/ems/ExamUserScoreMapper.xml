@@ -145,38 +145,6 @@
     </set>
     where ID = #{id}
   </update>
-    
-  <select id="selectExpertResultByTerm" parameterType="Object" resultMap="BaseExpertTerm">
-  		SELECT
-			E.ID,
-			E.REL_NAME,
-			E.EXPERTS_TYPE_ID,
-			U.STATUS,
-			U.SCORE,
-			U.USER_DUTY
-		FROM
-			T_SES_EMS_EXPERT E,
-			T_SES_EMS_EXAM_USER_SCORE U
-		<where>
-			E.ID = U.USER_ID
-			AND U.USER_TYPE = 1
-            <if test="relName != null and '' != relName">
-            	<![CDATA[
-               	 AND E.REL_NAME LIKE #{relName}
-                 ]]>  
-            </if> 
-            <if test="testState != null and '' != testState">
-            	<![CDATA[
-                AND U.STATUS = #{status}
-                ]]>
-            </if> 
-            <if test="userDuty != null and '' != userDuty">
-           		<![CDATA[
-                AND U.USER_DUTY = #{userDuty} 
-                ]]>
-            </if>
-        </where>
-  </select>
   
   <!-- 专家成绩按条件查询 -->
   <select id="selectExpertResultByCondition" parameterType="Object" resultMap="BaseExpertCondition">
@@ -232,21 +200,37 @@
    		</association>
   </resultMap>
   
-  <resultMap id="BaseExpertTerm" type="ses.model.ems.ExamUserScore">
-  		<id column="ID"  property="id" />
-  		<result column="USER_ID" property="userId" />
-  		<result column="USER_TYPE" property="userType" />
-  		<result column="SCORE" property="score" />
-	    <result column="STATUS" property="status" />
-	    <result column="TARGET_DATE" property="targetDate" />
-	    <result column="CREATED_AT" property="createdAt" />
-	    <result column="UPDATED_AT" property="updatedAt" />
-	    <result column="TEST_DATE" property="testDate" />
-	    <result column="USER_DUTY" property="userDuty" />
-	    <association property="expert" javaType="ses.model.ems.Expert">
-	    	<id column="ID"  property="id" />
-    		<result column="REL_NAME" property="relName"/>
-    		<result column="EXPERTS_TYPE_ID" property="expertsTypeId"/>
-   		</association>
-  </resultMap>
+  <select id="selectPurchaserResultByCondition" parameterType="Object" resultType="ses.model.ems.ExamUserScore">
+  		SELECT
+			s.USER_ID AS userId,
+			s.SCORE AS score,
+			s.STATUS AS status,
+			P.CODE AS code,
+			s.TEST_DATE AS testDate,
+			U.REL_NAME AS relName
+		FROM
+			T_SES_EMS_EXAM_USER_SCORE s,
+			T_SES_EMS_EXAM_PAPER P,
+			T_SES_BMS_USER U
+		<where>
+			s.PAPER_ID = P.ID
+			AND s.USER_ID = U.ID
+		<if test="relName != null and '' != relName">
+           <![CDATA[
+           	AND U.REL_NAME LIKE #{relName}
+           ]]>  
+        </if> 
+        <if test="status != null and '' != status">
+           <![CDATA[
+           	AND s.STATUS = #{status}
+           ]]>
+        </if> 
+        <if test="code != null and '' != code">
+           <![CDATA[
+           	AND P.CODE = #{code} 
+           ]]>
+        </if>
+		</where>
+  </select>
+  
 </mapper>

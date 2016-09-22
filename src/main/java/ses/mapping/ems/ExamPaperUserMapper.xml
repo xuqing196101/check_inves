@@ -6,9 +6,12 @@
     <result column="USER_ID" property="userId" />
     <result column="PAPER_ID" property="paperId" />
     <result column="IS_DO" property="isDo" />
+    <result column="UNIT_NAME" property="unitName"/>
+    <result column="CREATED_AT" property="createdAt"/>
+    <result column="UPDATED_AT" property="updatedAt"/>
   </resultMap>
   <sql id="Base_Column_List">
-    ID, USER_ID, PAPER_ID, IS_DO
+    ID, USER_ID, PAPER_ID, IS_DO,UNIT_NAME,CREATED_AT,UPDATED_AT
   </sql>
   
   <!-- 根据主键查询 参考人员-->
@@ -50,6 +53,9 @@
       <if test="updatedAt != null">
         UPDATED_AT,
       </if>
+      <if test="unitName != null">
+        UNIT_NAME,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -69,6 +75,9 @@
       </if>
       <if test="updatedAt != null">
         #{updatedAt},
+      </if>
+      <if test="unitName != null">
+        #{unitName},
       </if>
     </trim>
   </insert>
@@ -92,7 +101,61 @@
       <if test="updatedAt != null">
         UPDATED_AT = #{updatedAt},
       </if>
+      <if test="unitName != null">
+        UNIT_NAME = #{unitName},
+      </if>
     </set>
     where ID = #{id}
   </update>
+  
+  <!-- 根据考卷ID查找参考人员 -->
+  <select id="getAllByPaperId" parameterType="Object" resultType="ses.model.ems.ExamPaperUser">
+	  	SELECT
+			U.REL_NAME as userName,
+			P.ID as id,
+			P.USER_ID as userId,
+			P.UNIT_NAME as unitName,
+			D.code as code
+		FROM
+			T_SES_EMS_EXAM_PAPER_USER P
+		LEFT JOIN T_SES_BMS_USER U ON P.USER_ID = U.ID
+		LEFT JOIN T_SES_EMS_EXAM_PAPER D ON P.PAPER_ID = D.ID
+		WHERE 
+			P.PAPER_ID = #{paperId}
+		ORDER BY
+		  	P.CREATED_AT DESC
+  </select>
+  
+  <!-- 根据userId查找所考的考卷 -->
+  <select id="getAllPaperByUserId" parameterType="Object" resultType="ses.model.ems.ExamPaperUser">
+  		SELECT 
+  			ID as id,
+  			USER_ID as userId,
+  			PAPER_ID as paperId,
+  			UNIT_NAME as unitName
+  		FROM
+  			T_SES_EMS_EXAM_PAPER_USER
+  		WHERE
+  			USER_ID = #{userId} 	
+  </select>
+  
+  <!-- 查看已考考卷的参考人员信息 -->
+  <select id="selectPurchaserYesReference" parameterType="Object" resultType="ses.model.ems.ExamPaperUser">
+  		SELECT
+			U.REL_NAME as userName,
+			D.CODE as code,
+			P.UNIT_NAME as unitName,
+			s.SCORE as score
+		FROM
+			T_SES_EMS_EXAM_USER_SCORE s,
+			T_SES_EMS_EXAM_PAPER_USER P,
+			T_SES_EMS_EXAM_PAPER D,
+			T_SES_BMS_USER U
+		WHERE
+			P.USER_ID = U.ID
+		AND P.PAPER_ID = D.ID
+		AND s.PAPER_ID = D.ID
+		AND s.USER_ID = P.USER_ID
+		AND P.PAPER_ID = #{paperId}
+  </select>
 </mapper>

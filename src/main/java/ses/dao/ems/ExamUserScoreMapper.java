@@ -71,5 +71,15 @@ public interface ExamUserScoreMapper {
      */
     List<ExamUserScore> selectExpertResultByCondition(ExamUserScore examUserScore);
     
-    List<ExamUserScore> selectExpertResultByTerm(ExamUserScore examUserScore);
+    /**
+     * 
+    * @Title: selectPurchaserResultByCondition
+    * @author ZhaoBo
+    * @date 2016-9-22 上午11:13:51  
+    * @Description: 采购人考试成绩按条件查询 
+    * @param @param examUserScore
+    * @param @return      
+    * @return List<ExamUserScore>
+     */
+    List<ExamUserScore> selectPurchaserResultByCondition(ExamUserScore examUserScore);
 }

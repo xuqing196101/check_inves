@@ -3,6 +3,8 @@
  */
 package ses.service.ems.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +41,24 @@ public class ExamPaperUserServiceImpl implements ExamPaperUserServiceI {
 	@Override
 	public int updateByPrimaryKeySelective(ExamPaperUser examPaperUser) {
 		return examPaperUserMapper.updateByPrimaryKeySelective(examPaperUser);
+	}
+
+	
+	@Override
+	public List<ExamPaperUser> getAllByPaperId(ExamPaperUser examPaperUser) {
+		return examPaperUserMapper.getAllByPaperId(examPaperUser);
+	}
+
+	
+	@Override
+	public List<ExamPaperUser> getAllPaperByUserId(ExamPaperUser examPaperUser) {
+		return examPaperUserMapper.getAllPaperByUserId(examPaperUser);
+	}
+
+	
+	@Override
+	public List<ExamPaperUser> selectPurchaserYesReference(ExamPaperUser examPaperUser) {
+		return examPaperUserMapper.selectPurchaserYesReference(examPaperUser);
 	}
 
 }

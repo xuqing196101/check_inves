@@ -115,7 +115,27 @@
 			var queName = $("#queName").val();
 			var queType = $("#queType").val();
 			if((queName==""||queName==null)&&(queType==""||queType==null)){
-				$("#resultList").html("");
+				$.ajax({
+					type:"POST",
+					dataType:"json",
+					url:"<%=path%>/purchaserExam/getAllPurchaserQuestion.do",
+		       		success:function(data){
+		       			if(data){
+		       				var html = "";
+		       				for(var i=0;i<data.length;i++){
+		       			      html = html + "<tr>";
+			            	  html = html + "<td class='tc'><input type='checkbox' name='info' value='"+data[i].id+"'/></td>";
+			            	  html = html + "<td class='tc pointer' onclick='view(\""+data[i].id+"\")'>"+data[i].examQuestionType.name+"</td>";
+			            	  html = html + "<td class='tc pointer' onclick='view(\""+data[i].id+"\")'>"+data[i].topic+"</td>";
+			            	  html = html + "<td class='tc pointer' onclick='view(\""+data[i].id+"\")'>"+data[i].items+"</td>";
+			            	  html = html + "<td class='tc pointer' onclick='view(\""+data[i].id+"\")'>"+data[i].answer+"</td>";
+			            	  html = html + "<td class='tc pointer' onclick='view(\""+data[i].id+"\")'>"+data[i].point+"</td>";
+			            	  html = html + "</tr>";
+							}
+		       				$("#resultList").html(html);
+						}
+					}
+				});
 				return;
 			}
 			$.ajax({
@@ -206,7 +226,7 @@
 	    	<input type="button" class="btn btn-windows edit" value="修改" onclick="edit()"/>
 	    	<input type="button" class="btn btn-windows delete" value="删除" onclick="deleteById()"/>
 	    	<input type="file" name="file" id="excelFile" style="display:inline;"/>
-	    	<input type="button" value="导入" class="btn" onclick="poiExcel()"/>
+	    	<input type="button" value="导入" class="btn btn-windows pl13" onclick="poiExcel()"/>
     	</div>
     </div>
     

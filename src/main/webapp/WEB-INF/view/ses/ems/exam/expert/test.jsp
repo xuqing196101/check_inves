@@ -12,7 +12,7 @@
 	<meta name="author" content="">
 	<script type="text/javascript">
 		$(function(){
-			document.getElementById("second").innerHTML = ${examRule.testTime} + "分钟" + 0 + "秒"; 
+			//document.getElementById("second").innerHTML = ${examRule.testTime} + "分钟" + 0 + "秒"; 
           	//默认显示第一页
 			var exam = document.getElementsByName("exam");
        		for(var i=1;i<=exam.length;i++){
@@ -39,7 +39,7 @@
         }
 		
 		//考试倒计时
-        var timeLeft = ${examRule.testTime}*60*1000-1000;//这里设定时间
+        /**var timeLeft = ${examRule.testTime}*60*1000-1000;//这里设定时间
 		function countTime(){ 
 		     if(timeLeft == 0){//这里就是时间到了之后应该执行的动作了，这里只是弹了一个警告框 
 		         alert("123"); 
@@ -50,16 +50,16 @@
 		     document.getElementById("second").innerHTML = startMinutes + "分钟" + startSec + "秒"; 
 		     timeLeft = timeLeft - 1000; 
 		     setTimeout('countTime()',1000); 
-		 } 
+		 }*/
 	</script>
   </head>
   
-  <body onload="countTime()">
+  <body>
   <div class="container">
   <div class="col-md-12 mb10 border1 bggrey">
   	<div class="fl f18 gary b">XXX考试进行中</div>
-  	<div class="fr red mt5" id="time">距离考试还有<span id="second"></span></div>
-  </div>
+  	<%--<div class="fr red mt5" id="time">距离考试还有<span id="second"></span></div>
+  --%></div>
   <form action="<%=path %>/expertExam/saveScore.html" method="post">
   <c:choose>
   	<c:when test="${pageSize==1 }">

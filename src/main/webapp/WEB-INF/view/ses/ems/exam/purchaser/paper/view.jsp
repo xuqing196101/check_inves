@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ include file="/WEB-INF/view/common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -71,14 +72,14 @@
 	  		</li>
     		
     		<li class="col-md-12 p0">
-	  			<span class="fl">总分值:</span>
-		  		<input class="w50" type="text" name="totalPoint" id="totalPoint" value="${examPaper.score }" disabled="disabled"/>分
+	  			<span class="fl mt5">总分值:</span>
+		  		<input class="w50 mt5" type="text" name="totalPoint" id="totalPoint" value="${examPaper.score }" disabled="disabled"/>分
 	  		</li>
     		
     		<li class="col-md-12 p0">
-	  			<span class="fl">考试开始时间:</span>
-		  		<input type="text" disabled="disabled" value="${startTime }" name="startTime" id="startTime" class="Wdate" onfocus="WdatePicker({isShowWeek:true})"/>
-	  			<select id="hour" name="hour" class="mb8" disabled="disabled">
+	  			<span class="fl mt5">考试开始时间:</span>
+		  		<input type="text" disabled="disabled" value="${startTime }" name="startTime" id="startTime" class="Wdate mt5" onfocus="WdatePicker({isShowWeek:true})"/>
+	  			<select id="hour" name="hour" class="mb8 mt5" disabled="disabled">
 	  				<option value="">请选择</option>
 	  				<c:forEach items="${hours }" varStatus="h">
 	  					<c:choose>
@@ -91,7 +92,7 @@
 	  					</c:choose>
 	  				</c:forEach>
 	  			</select>时
-	  			<select id="second" name="second" class="mb8" disabled="disabled">
+	  			<select id="second" name="second" class="mb8 mt5" disabled="disabled">
 	  				<option value="">请选择</option>
 	  				<c:forEach items="${seconds }" varStatus="s">
 	  					<c:choose>
@@ -107,8 +108,15 @@
 	  		</li>
 	  		
 	  		<li class="col-md-12 p0">
-	  			<span class="fl">考试用时:</span>
-		  		<input class="w50" type="text" name="useTime" id="useTime" value="${examPaper.testTime }" disabled="disabled"/>分钟
+	  			<span class="fl mt5">考试用时:</span>
+		  		<input class="w50 mt5" type="text" name="useTime" id="useTime" value="${examPaper.testTime }" disabled="disabled"/>分钟
+	  		</li>
+	  		
+	  		<li class="col-md-12 p0">
+	  			<span class="fl mt5">考试有效期:</span>
+		  		<span class="fl mt5">考试有效期:</span>
+		  		<input class="w50 mt5" type="text" name="expiryHour" id="expiryHour" value="${fn:split(examPaper.expiryDate,',')[0]}" disabled="disabled"/>小时
+		  		<input class="w50 mt5" type="text" name="expirySecond" id="expirySecond" value="${fn:split(examPaper.expiryDate,',')[1]}" disabled="disabled"/>分钟
 	  		</li>
 	  		
 	  		<li class="col-md-12 p0">

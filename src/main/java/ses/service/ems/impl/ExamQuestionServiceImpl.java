@@ -111,6 +111,12 @@ public class ExamQuestionServiceImpl implements ExamQuestionServiceI {
 	}
 
 	
+	@Override
+	public List<ExamQuestion> searchExpertPool() {
+		return examQuestionMapper.searchExpertPool();
+	}
+
+	
 	
 
 	

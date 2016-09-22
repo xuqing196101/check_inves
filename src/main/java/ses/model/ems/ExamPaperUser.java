@@ -5,6 +5,8 @@ package ses.model.ems;
 
 import java.util.Date;
 
+import ses.model.bms.User;
+
 /**
  * @Title:ExamPaperUser
  * @Description: 参考人员实体类
@@ -41,7 +43,27 @@ public class ExamPaperUser {
 	 * @Fields updatedAt : 更新时间
 	 */
 	private Date updatedAt;
-
+	
+	/**
+	 * @Fields unitName : 采购人的所属单位名称
+	 */
+	private String unitName;
+	
+	/**
+	 * @Fields userName : 采购人姓名
+	 */
+	private String userName;
+	
+	/**
+	 * @Fields code : 试卷编号
+	 */
+	private String code;
+	
+	/**
+	 * @Fields score : 考试分数
+	 */
+	private String score;
+	
 	public String getId() {
 		return id;
 	}
@@ -89,6 +111,42 @@ public class ExamPaperUser {
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+
+	public String getUnitName() {
+		return unitName;
+	}
+
+	public void setUnitName(String unitName) {
+		this.unitName = unitName;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getScore() {
+		return score;
+	}
+
+	public void setScore(String score) {
+		this.score = score;
+	}
+
+	
+
+	
 	
 	
 }

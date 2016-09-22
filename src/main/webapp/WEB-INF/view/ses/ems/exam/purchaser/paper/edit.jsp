@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ include file="/WEB-INF/view/common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -78,9 +79,9 @@
 	  		</li>
     		
     		<li class="col-md-12 p0">
-	  			<span class="fl">考试开始时间:</span>
-		  		<input type="text" value="${startTime }" name="startTime" id="startTime" class="Wdate" onfocus="WdatePicker({isShowWeek:true})"/>
-	  			<select id="hour" name="hour" class="mb8">
+	  			<span class="fl mt5">考试开始时间:</span>
+		  		<input type="text" value="${startTime }" name="startTime" id="startTime" class="Wdate mt5" onfocus="WdatePicker({isShowWeek:true})"/>
+	  			<select id="hour" name="hour" class="mb8 mt5">
 	  				<option value="">请选择</option>
 	  				<c:forEach items="${hours }" varStatus="h">
 	  					<c:choose>
@@ -93,7 +94,7 @@
 	  					</c:choose>
 	  				</c:forEach>
 	  			</select>时
-	  			<select id="second" name="second" class="mb8">
+	  			<select id="second" name="second" class="mb8 mt5">
 	  				<option value="">请选择</option>
 	  				<c:forEach items="${seconds }" varStatus="s">
 	  					<c:choose>
@@ -109,18 +110,23 @@
 	  		</li>
 	  		
 	  		<li class="col-md-12 p0">
-	  			<span class="fl">考试用时:</span>
-		  		<input class="w50" type="text" name="useTime" id="useTime" value="${examPaper.testTime }"/>分钟
+	  			<span class="fl mt5">考试用时:</span>
+		  		<input class="w50 mt5" type="text" name="useTime" id="useTime" value="${examPaper.testTime }"/>分钟
+	  		</li>
+	  		
+	  		<li class="col-md-12 p0">
+	  			<span class="fl mt5">考试有效期:</span>
+		  		<input class="w50 mt5" type="text" name="expiryHour" id="expiryHour" value="${fn:split(examPaper.expiryDate,',')[0]}"/>小时
+		  		<input class="w50 mt5" type="text" name="expirySecond" id="expirySecond" value="${fn:split(examPaper.expiryDate,',')[1]}"/>分钟
 	  		</li>
 	  		
 	  		<li class="col-md-12 p0">
 	  			<span class="fl w250">首次考试不及格的是否允许30分钟内重考:</span>
-		  		<input type="checkbox" name="isAllowTrue" id="isAllowTrue">是
-    			<input type="checkbox" name="isAllowFalse" id="isAllowFalse"/>否
+		  		<input type="checkbox" name="isAllow" id="isAllowTrue" value="是">是
+    			<input type="checkbox" name="isAllow" id="isAllowFalse" value="否"/>否
 	  		</li>
     	</ul>
-   
-   
+   		
   		<!-- 按钮 -->
   		<div class="padding-top-10 clear">
 			<div class="col-md-12 pl200 ">

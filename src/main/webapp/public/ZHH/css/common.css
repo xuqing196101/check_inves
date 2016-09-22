@@ -642,6 +642,9 @@
 .border1{
 border:1px solid #eeeeee;
 }
+.borderb{
+	border:1px solid black;
+}
 .bb1 {
   border-bottom: 1px solid #BBB5B5; }
 .bbgreen{

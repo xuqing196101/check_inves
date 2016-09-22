@@ -111,13 +111,10 @@
 		function view(obj){
 			window.location.href = "<%=path%>/expertExam/viewLaw.html?id="+obj;
 		}
-		function dayin() {
-			var LODOP = getLodop();
-			if (LODOP) {
-				LODOP.ADD_PRINT_TABLE(0, 0, "100%", "100%",
-						document.getElementById("div_print").innerHTML);
-				LODOP.PREVIEW();
-			}
+		
+		//下载模板
+		function download(){
+			window.location.href = "<%=path%>/expertExam/loadExpertTemplet.html";
 		}
 		
 		//导入法律类题目
@@ -150,7 +147,7 @@
    </div>
    <div class="container">
 	   <div class="headline-v2">
-	   		<h2 onclick="dayin()">法律类题库列表</h2>
+	   		<h2>法律类题库列表</h2>
 	   </div>
    </div>
 	<!-- 按钮开始-->
@@ -161,7 +158,7 @@
 		    <button class="btn btn-windows add" type="button" onclick="poiExcel()">Excel导入</button>
 			<button class="btn btn-windows edit" type="button" onclick="editLaw()">修改</button>
 			<button class="btn btn-windows delete" type="button" onclick="deleteById()">删除</button>
-			<button class="btn" type="button" onclick="download()">专家题库模板下载</button>
+			<button class="btn btn-windows pl13" type="button" onclick="download()">专家题库模板下载</button>
 		</div>
     </div>
                        

@@ -222,6 +222,27 @@
 			E.CREATED_AT DESC
   </select>
   
+  <!-- 查询专家题库 -->
+  <select id="searchExpertPool" resultMap="BaseColumn">
+  	SELECT
+		E.ID,
+		E.TOPIC,
+		E.ITEMS,
+		E.ANSWER,
+		E.POINT,
+		E.CREATED_AT,
+		T.NAME
+	FROM
+		T_SES_EMS_EXAM_QUESTION E,
+		T_SES_EMS_EXAM_QUESTION_TYPE T
+	WHERE
+		E.PERSON_TYPE = 1
+	AND E.QUESTION_TYPE_ID = T.ID
+	AND E.QUESTION_TYPE_ID IN (1,2)
+	ORDER BY
+		E.CREATED_AT DESC
+  </select>
+  
   <!-- 技术类专家随机抽题 -->
   <select id="selectTecRandom" resultMap="BaseColumn">
   		SELECT
