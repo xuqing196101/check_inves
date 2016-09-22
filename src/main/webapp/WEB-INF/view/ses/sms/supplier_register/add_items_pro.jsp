@@ -4,7 +4,7 @@
 <html>
 <head>
 
-<title>添加物资生产证书信息</title>
+<title>添加物资生产品目信息</title>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -31,14 +31,14 @@
 <script type="text/javascript">
 	
 	function saveOrBack(sign) {
-		var action = "${pageContext.request.contextPath}/supplier_cert_pro/";
+		var action = "${pageContext.request.contextPath}/supplier_items_pro/";
 		if (sign) {
-			action += "save_or_update_cert_pro.html";
+			action += "save_or_update_items_pro.html";
 		} else {
 			action += "back_to_professional.html";
 		}
-		$("#cert_pro_form_id").attr("action", action);
-		$("#cert_pro_form_id").submit();
+		$("#items_pro_form_id").attr("action", action);
+		$("#items_pro_form_id").submit();
 	}
 </script>
 
@@ -52,54 +52,40 @@
 			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10">
-						<form id="cert_pro_form_id" method="post" target="_parent"  enctype="multipart/form-data">
+						<form id="items_pro_form_id" method="post" target="_parent"  enctype="multipart/form-data">
 							<input name="supplierId" value="${supplierId}" type="hidden" />
 							<input name="matProId" value="${matProId}" type="hidden" />
 							<div class="tab-content padding-top-20">
 								<!-- 详细信息 -->
-								<div class="tab-pane fade active in height-300" id="tab-1">
+								<div class="tab-pane fade active in height-200" id="tab-1">
 									<div class=" margin-bottom-0">
 										<h2 class="f16 jbxx">
-											<i>01</i>供应商资质证书
+											<i>01</i>供应商品目信息
 										</h2>
 										<ul class="list-unstyled list-flow">
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 资质证书名称：</span>
+											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 品目类别：</span>
 												<div class="input-append">
-													<input class="span3" type="text" name="name" />
+													<input class="span3" type="text" name="itemsId" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 资质等级：</span>
+											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 大类名称：</span>
 												<div class="input-append">
-													<input class="span3" type="text" name="levelCert" />
+													<input class="span3" type="text" name="bigKindName" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 供发证机关：</span>
+											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 中类名称：</span>
 												<div class="input-append">
-													<input class="span3" type="text" name="licenceAuthorith" />
+													<input class="span3" type="text" name="normalKindName" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 有效开始时间 ：</span>
+											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 小类名称 ：</span>
 												<div class="input-append">
-													<input class="span3" type="text" name="expStartDate" readonly="readonly" onClick="WdatePicker()" />
+													<input class="span3" type="text" name="smallKingName"/>
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 有效结束时间 ：</span>
+											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 品种名称 ：</span>
 												<div class="input-append">
-													<input class="span3" type="text" name="expEndDate" readonly="readonly" onClick="WdatePicker()" />
-												</div>
-											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 是否年检：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="mot" />
-												</div>
-											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 证书附件：</span>
-												<div class="input-append">
-													<div class="uploader orange m0">
-														<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..." /> 
-														<input type="button" class="button" value="选择文件..." /> 
-														<input type="file" size="30" accept="image/*" />
-													</div>
+													<input class="span3" type="text" name="kindName"/>
 												</div>
 											</li>
 											<div class="clear"></div>

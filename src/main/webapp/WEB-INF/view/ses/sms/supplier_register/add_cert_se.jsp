@@ -4,7 +4,7 @@
 <html>
 <head>
 
-<title>添加物资生产证书信息</title>
+<title>添加物资销售证书信息</title>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -31,14 +31,14 @@
 <script type="text/javascript">
 	
 	function saveOrBack(sign) {
-		var action = "${pageContext.request.contextPath}/supplier_cert_pro/";
+		var action = "${pageContext.request.contextPath}/supplier_cert_se/";
 		if (sign) {
-			action += "save_or_update_cert_pro.html";
+			action += "save_or_update_cert_se.html";
 		} else {
 			action += "back_to_professional.html";
 		}
-		$("#cert_pro_form_id").attr("action", action);
-		$("#cert_pro_form_id").submit();
+		$("#cert_se_form_id").attr("action", action);
+		$("#cert_se_form_id").submit();
 	}
 </script>
 
@@ -52,9 +52,9 @@
 			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10">
-						<form id="cert_pro_form_id" method="post" target="_parent"  enctype="multipart/form-data">
+						<form id="cert_se_form_id" method="post" target="_parent"  enctype="multipart/form-data">
 							<input name="supplierId" value="${supplierId}" type="hidden" />
-							<input name="matProId" value="${matProId}" type="hidden" />
+							<input name="matSeId" value="${matSeId}" type="hidden" />
 							<div class="tab-content padding-top-20">
 								<!-- 详细信息 -->
 								<div class="tab-pane fade active in height-300" id="tab-1">

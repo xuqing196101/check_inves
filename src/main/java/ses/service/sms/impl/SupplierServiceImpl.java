@@ -25,7 +25,7 @@ public class SupplierServiceImpl implements SupplierService {
 	private SupplierMapper supplierMapper;
 	
 	@Override
-	public Supplier login(String id) {
+	public Supplier get(String id) {
 		Supplier supplier = supplierMapper.getSupplier(id);
 		return supplier;
 	}
@@ -40,12 +40,12 @@ public class SupplierServiceImpl implements SupplierService {
 	 * @return: String
 	 */
 	@Override
-	public String register(Supplier supplier) {
+	public Supplier register(Supplier supplier) {
 		supplier.setPassword(Encrypt.e(supplier.getPassword()));// 密码 md5 加密
 		supplier.setCreatedAt(new Date());
 		supplierMapper.insertSelective(supplier);
 		//System.out.println(1/0);
-		return supplier.getId();
+		return supplier;
 	}
 	
 	/**

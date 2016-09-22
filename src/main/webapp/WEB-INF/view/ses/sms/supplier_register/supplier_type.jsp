@@ -43,11 +43,11 @@
 	};
 	$(function() {
 		$.ajax({
-			url : "${pageContext.request.contextPath}/supplier/findSupplierType.do",
+			url : "${pageContext.request.contextPath}/supplier_type/find_supplier_type.do",
 			type : "post",
 			dataType : "json",
 			data : {
-				supplierId : "${supplierId}"
+				supplierId : "${currSupplier.id}"
 			},
 			success : function(result) {
 				zNodes = result;
@@ -62,11 +62,11 @@
 	function checkedTree(sign) {
 		var action = "${pageContext.request.contextPath}/supplier/";
 		if (sign == 1) {
-			action += "nextStep.html";
+			action += "next_step.html";
 		} else if (sign == -1) {
-			action += "prevStep.html";
+			action += "prev_step.html";
 		} else {
-			action += "stashStep.html";
+			action += "stash_step.html";
 		}		
 		var nodes = zTreeObj.getCheckedNodes(true);
 		var ids = "";
@@ -128,8 +128,8 @@
 		</div>
 	</div>
 	
-	<form id="supplier_type_form_id" action="${pageContext.request.contextPath}/supplier/nextStep.html" method="post">
-		<input name="id" type="hidden" value="${supplierId}" />
+	<form id="supplier_type_form_id" method="post">
+		<input name="id" type="hidden" value="${currSupplier.id}" />
 		<input name="sign" type="hidden" value="3" />
 		<input id="supplier_type_input_id" name="ids" type="hidden" />
 	</form>

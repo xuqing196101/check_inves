@@ -9,7 +9,7 @@ import ses.model.sms.Supplier;
  */
 public interface SupplierService {
 	
-	public Supplier login(String id);
+	public Supplier get(String id);
 	
 	
 	/**
@@ -21,7 +21,7 @@ public interface SupplierService {
 	 * @param: @return
 	 * @return: String
 	 */
-	public String register(Supplier supplier);
+	public Supplier register(Supplier supplier);
 	
 	/**
 	 * @Title: perfectBasic

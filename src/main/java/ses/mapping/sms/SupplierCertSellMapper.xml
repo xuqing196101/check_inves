@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.sms.SupplierCertSellMapper">
+	<resultMap id="BaseResultMap" type="ses.model.sms.SupplierCertSell">
+		<id column="ID" property="id" />
+		<result column="MAT_SELL_ID" property="matSellId" />
+		<result column="NAME" property="name" />
+		<result column="LEVEL_CERT" property="levelCert" />
+		<result column="LICENCE_AUTHORITH" property="licenceAuthorith" />
+		<result column="EXP_START_DATE" property="expStartDate" />
+		<result column="EXP_END_DATE" property="expEndDate" />
+		<result column="MOT" property="mot" />
+		<result column="ATTACH" property="attach" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, MAT_SELL_ID, NAME, LEVEL_CERT, LICENCE_AUTHORITH, EXP_START_DATE, EXP_END_DATE,
+		MOT, ATTACH
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_SMS_SUPPLIER_CERT_SELL
+		where ID = #{id}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from T_SES_SMS_SUPPLIER_CERT_SELL
+		where ID = #{id}
+	</delete>
+	<insert id="insert" parameterType="ses.model.sms.SupplierCertSell">
+		insert into T_SES_SMS_SUPPLIER_CERT_SELL (ID, MAT_SELL_ID, NAME,
+		LEVEL_CERT, LICENCE_AUTHORITH, EXP_START_DATE,
+		EXP_END_DATE, MOT, ATTACH
+		)
+		values (#{id}, #{matSellId}, #{name},
+		#{levelCert}, #{licenceAuthorith}, #{expStartDate},
+		#{expEndDate}, #{mot}, #{attach}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="ses.model.sms.SupplierCertSell">
+		insert into T_SES_SMS_SUPPLIER_CERT_SELL
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="matSellId != null">
+				MAT_SELL_ID,
+			</if>
+			<if test="name != null">
+				NAME,
+			</if>
+			<if test="levelCert != null">
+				LEVEL_CERT,
+			</if>
+			<if test="licenceAuthorith != null">
+				LICENCE_AUTHORITH,
+			</if>
+			<if test="expStartDate != null">
+				EXP_START_DATE,
+			</if>
+			<if test="expEndDate != null">
+				EXP_END_DATE,
+			</if>
+			<if test="mot != null">
+				MOT,
+			</if>
+			<if test="attach != null">
+				ATTACH,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="matSellId != null">
+				#{matSellId},
+			</if>
+			<if test="name != null">
+				#{name},
+			</if>
+			<if test="levelCert != null">
+				#{levelCert},
+			</if>
+			<if test="licenceAuthorith != null">
+				#{licenceAuthorith},
+			</if>
+			<if test="expStartDate != null">
+				#{expStartDate},
+			</if>
+			<if test="expEndDate != null">
+				#{expEndDate},
+			</if>
+			<if test="mot != null">
+				#{mot},
+			</if>
+			<if test="attach != null">
+				#{attach},
+			</if>
+		</trim>
+		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			select sys_guid() from dual
+		</selectKey>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierCertSell">
+		update T_SES_SMS_SUPPLIER_CERT_SELL
+		<set>
+			<if test="matSellId != null">
+				MAT_SELL_ID = #{matSellId},
+			</if>
+			<if test="name != null">
+				NAME = #{name},
+			</if>
+			<if test="levelCert != null">
+				LEVEL_CERT = #{levelCert},
+			</if>
+			<if test="licenceAuthorith != null">
+				LICENCE_AUTHORITH = #{licenceAuthorith},
+			</if>
+			<if test="expStartDate != null">
+				EXP_START_DATE = #{expStartDate},
+			</if>
+			<if test="expEndDate != null">
+				EXP_END_DATE = #{expEndDate},
+			</if>
+			<if test="mot != null">
+				MOT = #{mot},
+			</if>
+			<if test="attach != null">
+				ATTACH = #{attach},
+			</if>
+		</set>
+		where ID = #{id}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="ses.model.sms.SupplierCertSell">
+		update T_SES_SMS_SUPPLIER_CERT_SELL
+		set MAT_SELL_ID = #{matSellId},
+		NAME = #{name},
+		LEVEL_CERT = #{levelCert},
+		LICENCE_AUTHORITH = #{licenceAuthorith},
+		EXP_START_DATE = #{expStartDate},
+		EXP_END_DATE = #{expEndDate},
+		MOT = #{mot},
+		ATTACH = #{attach}
+		where ID = #{id}
+	</update>
+	
+	<select id="findCertSellBySuppliermatSellId" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select * from T_SES_SMS_SUPPLIER_CERT_SELL where MAT_SELL_ID = #{supplierMatSellId}
+	</select>
+</mapper>

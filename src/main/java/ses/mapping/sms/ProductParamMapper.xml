@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.sms.ProductParamMapper">
+	<resultMap id="BaseResultMap" type="ses.model.sms.ProductParam">
+		<id column="ID" property="id" />
+		<result column="SUPPLIER_PRODUCTS_ID" property="supplierProductsId" />
+		<result column="CATEGORY_PARAM_ID" property="categoryParamId" />
+		<result column="PARAM_VALUE" property="paramValue" />
+		<result column="IS_DELETED" property="isDeleted" />
+		<result column="CREATED_AT" property="createdAt" />
+		<result column="UPDATED_AT" property="updatedAt" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, SUPPLIER_PRODUCTS_ID, CATEGORY_PARAM_ID, PARAM_VALUE, IS_DELETED, CREATED_AT,
+		UPDATED_AT
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_SMS_PRODUCT_PARAM
+		where ID = #{id}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from T_SES_SMS_PRODUCT_PARAM
+		where ID = #{id}
+	</delete>
+	<insert id="insert" parameterType="ses.model.sms.ProductParam">
+		insert into T_SES_SMS_PRODUCT_PARAM (ID, SUPPLIER_PRODUCTS_ID, CATEGORY_PARAM_ID,
+		PARAM_VALUE, IS_DELETED, CREATED_AT,
+		UPDATED_AT)
+		values (#{id}, #{supplierProductsId}, #{categoryParamId},
+		#{paramValue}, #{isDeleted}, #{createdAt},
+		#{updatedAt})
+	</insert>
+	<insert id="insertSelective" parameterType="ses.model.sms.ProductParam">
+		insert into T_SES_SMS_PRODUCT_PARAM
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="supplierProductsId != null">
+				SUPPLIER_PRODUCTS_ID,
+			</if>
+			<if test="categoryParamId != null">
+				CATEGORY_PARAM_ID,
+			</if>
+			<if test="paramValue != null">
+				PARAM_VALUE,
+			</if>
+			<if test="isDeleted != null">
+				IS_DELETED,
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT,
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="supplierProductsId != null">
+				#{supplierProductsId},
+			</if>
+			<if test="categoryParamId != null">
+				#{categoryParamId},
+			</if>
+			<if test="paramValue != null">
+				#{paramValue},
+			</if>
+			<if test="isDeleted != null">
+				#{isDeleted},
+			</if>
+			<if test="createdAt != null">
+				#{createdAt},
+			</if>
+			<if test="updatedAt != null">
+				#{updatedAt},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.ProductParam">
+		update T_SES_SMS_PRODUCT_PARAM
+		<set>
+			<if test="supplierProductsId != null">
+				SUPPLIER_PRODUCTS_ID = #{supplierProductsId},
+			</if>
+			<if test="categoryParamId != null">
+				CATEGORY_PARAM_ID = #{categoryParamId},
+			</if>
+			<if test="paramValue != null">
+				PARAM_VALUE = #{paramValue},
+			</if>
+			<if test="isDeleted != null">
+				IS_DELETED = #{isDeleted},
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT = #{createdAt},
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT = #{updatedAt},
+			</if>
+		</set>
+		where ID = #{id}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="ses.model.sms.ProductParam">
+		update T_SES_SMS_PRODUCT_PARAM
+		set SUPPLIER_PRODUCTS_ID = #{supplierProductsId},
+		CATEGORY_PARAM_ID = #{categoryParamId},
+		PARAM_VALUE = #{paramValue},
+		IS_DELETED = #{isDeleted},
+		CREATED_AT = #{createdAt},
+		UPDATED_AT = #{updatedAt}
+		where ID = #{id}
+	</update>
+</mapper>

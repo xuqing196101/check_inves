@@ -433,7 +433,13 @@ public class Supplier implements Serializable {
 	private List<SupplierFinance> listSupplierFinances = new ArrayList<SupplierFinance>();
 
 	private List<SupplierStockholder> listSupplierStockholders = new ArrayList<SupplierStockholder>();
-	
+
+	private SupplierMatPro supplierMatPro;
+
+	private SupplierMatSell supplierMatSell;
+
+	private SupplierMatSe supplierMatSe;
+
 	private String ids;
 
 	public String getId() {
@@ -874,5 +880,29 @@ public class Supplier implements Serializable {
 
 	public void setIds(String ids) {
 		this.ids = ids;
+	}
+
+	public SupplierMatPro getSupplierMatPro() {
+		return supplierMatPro;
+	}
+
+	public void setSupplierMatPro(SupplierMatPro supplierMatPro) {
+		this.supplierMatPro = supplierMatPro;
+	}
+
+	public SupplierMatSell getSupplierMatSell() {
+		return supplierMatSell;
+	}
+
+	public void setSupplierMatSell(SupplierMatSell supplierMatSell) {
+		this.supplierMatSell = supplierMatSell;
+	}
+
+	public SupplierMatSe getSupplierMatSe() {
+		return supplierMatSe;
+	}
+
+	public void setSupplierMatSe(SupplierMatSe supplierMatSe) {
+		this.supplierMatSe = supplierMatSe;
 	}
 }

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.sms.SupplierProductsMapper">
+	<resultMap id="BaseResultMap" type="ses.model.sms.SupplierProducts">
+		<id column="ID" property="id" />
+		<result column="CATEGORY_ID" property="categoryId" />
+		<result column="SUPPLIER_ID" property="supplierId" />
+		<result column="NAME" property="name" />
+		<result column="BRAND" property="brand" />
+		<result column="MODELS" property="models" />
+		<result column="SIZE" property="size" />
+		<result column="ORGIN" property="orgin" />
+		<result column="EXPIRATION_DATE" property="expirationDate" />
+		<result column="PRODUCER" property="producer" />
+		<result column="REFERENCE_PRICE" property="referencePrice" />
+		<result column="PRODUCT_PIC" property="productPic" />
+		<result column="QR_CODE" property="qrCode" />
+		<result column="CREATED_AT" property="createdAt" />
+		<result column="UPDATED_AT" property="updatedAt" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, CATEGORY_ID, SUPPLIER_ID, NAME, BRAND, MODELS, SIZE, ORGIN, EXPIRATION_DATE,
+		PRODUCER, REFERENCE_PRICE, PRODUCT_PIC, QR_CODE, CREATED_AT, UPDATED_AT
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_SMS_SUPPLIER_PRODUCTS
+		where ID = #{id}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from T_SES_SMS_SUPPLIER_PRODUCTS
+		where ID = #{id}
+	</delete>
+	<insert id="insert" parameterType="ses.model.sms.SupplierProducts">
+		insert into T_SES_SMS_SUPPLIER_PRODUCTS (ID, CATEGORY_ID, SUPPLIER_ID,
+		NAME, BRAND, MODELS,
+		SIZE, ORGIN, EXPIRATION_DATE,
+		PRODUCER, REFERENCE_PRICE, PRODUCT_PIC,
+		QR_CODE, CREATED_AT, UPDATED_AT
+		)
+		values (#{id}, #{categoryId}, #{supplierId},
+		#{name}, #{brand}, #{models},
+		#{size}, #{orgin}, #{expirationDate},
+		#{producer}, #{referencePrice}, #{productPic},
+		#{qrCode}, #{createdAt}, #{updatedAt}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="ses.model.sms.SupplierProducts">
+		insert into T_SES_SMS_SUPPLIER_PRODUCTS
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="categoryId != null">
+				CATEGORY_ID,
+			</if>
+			<if test="supplierId != null">
+				SUPPLIER_ID,
+			</if>
+			<if test="name != null">
+				NAME,
+			</if>
+			<if test="brand != null">
+				BRAND,
+			</if>
+			<if test="models != null">
+				MODELS,
+			</if>
+			<if test="size != null">
+				SIZE,
+			</if>
+			<if test="orgin != null">
+				ORGIN,
+			</if>
+			<if test="expirationDate != null">
+				EXPIRATION_DATE,
+			</if>
+			<if test="producer != null">
+				PRODUCER,
+			</if>
+			<if test="referencePrice != null">
+				REFERENCE_PRICE,
+			</if>
+			<if test="productPic != null">
+				PRODUCT_PIC,
+			</if>
+			<if test="qrCode != null">
+				QR_CODE,
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT,
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="categoryId != null">
+				#{categoryId},
+			</if>
+			<if test="supplierId != null">
+				#{supplierId},
+			</if>
+			<if test="name != null">
+				#{name},
+			</if>
+			<if test="brand != null">
+				#{brand},
+			</if>
+			<if test="models != null">
+				#{models},
+			</if>
+			<if test="size != null">
+				#{size},
+			</if>
+			<if test="orgin != null">
+				#{orgin},
+			</if>
+			<if test="expirationDate != null">
+				#{expirationDate},
+			</if>
+			<if test="producer != null">
+				#{producer},
+			</if>
+			<if test="referencePrice != null">
+				#{referencePrice},
+			</if>
+			<if test="productPic != null">
+				#{productPic},
+			</if>
+			<if test="qrCode != null">
+				#{qrCode},
+			</if>
+			<if test="createdAt != null">
+				#{createdAt},
+			</if>
+			<if test="updatedAt != null">
+				#{updatedAt},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierProducts">
+		update T_SES_SMS_SUPPLIER_PRODUCTS
+		<set>
+			<if test="categoryId != null">
+				CATEGORY_ID = #{categoryId},
+			</if>
+			<if test="supplierId != null">
+				SUPPLIER_ID = #{supplierId},
+			</if>
+			<if test="name != null">
+				NAME = #{name},
+			</if>
+			<if test="brand != null">
+				BRAND = #{brand},
+			</if>
+			<if test="models != null">
+				MODELS = #{models},
+			</if>
+			<if test="size != null">
+				SIZE = #{size},
+			</if>
+			<if test="orgin != null">
+				ORGIN = #{orgin},
+			</if>
+			<if test="expirationDate != null">
+				EXPIRATION_DATE = #{expirationDate},
+			</if>
+			<if test="producer != null">
+				PRODUCER = #{producer},
+			</if>
+			<if test="referencePrice != null">
+				REFERENCE_PRICE = #{referencePrice},
+			</if>
+			<if test="productPic != null">
+				PRODUCT_PIC = #{productPic},
+			</if>
+			<if test="qrCode != null">
+				QR_CODE = #{qrCode},
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT = #{createdAt},
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT = #{updatedAt},
+			</if>
+		</set>
+		where ID = #{id}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="ses.model.sms.SupplierProducts">
+		update T_SES_SMS_SUPPLIER_PRODUCTS
+		set CATEGORY_ID = #{categoryId},
+		SUPPLIER_ID = #{supplierId},
+		NAME = #{name},
+		BRAND = #{brand},
+		MODELS = #{models},
+		SIZE = #{size},
+		ORGIN = #{orgin},
+		EXPIRATION_DATE = #{expirationDate},
+		PRODUCER = #{producer},
+		REFERENCE_PRICE = #{referencePrice},
+		PRODUCT_PIC = #{productPic},
+		QR_CODE = #{qrCode},
+		CREATED_AT = #{createdAt},
+		UPDATED_AT = #{updatedAt}
+		where ID = #{id}
+	</update>
+</mapper>

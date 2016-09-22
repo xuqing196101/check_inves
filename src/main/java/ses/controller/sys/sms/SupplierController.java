@@ -1,12 +1,9 @@
 package ses.controller.sys.sms;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -18,12 +15,12 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.model.sms.Supplier;
-import ses.model.sms.SupplierTypeTree;
 import ses.service.sms.SupplierFinanceService;
+import ses.service.sms.SupplierMatProService;
+import ses.service.sms.SupplierMatSellService;
 import ses.service.sms.SupplierService;
 import ses.service.sms.SupplierStockholderService;
 import ses.service.sms.SupplierTypeRelateService;
-import ses.service.sms.SupplierTypeService;
 
 /**
  * @Title: supplierController
@@ -46,15 +43,18 @@ public class SupplierController extends BaseSupplierController {
 	private SupplierStockholderService supplierStockholderService;// 供应商股东信息
 
 	@Autowired
-	private SupplierTypeService supplierTypeService;// 供应商类型
-
-	@Autowired
 	private SupplierTypeRelateService supplierTypeRelateService;// 供应商类型关联
+	
+	@Autowired
+	private SupplierMatProService supplierMatProService;// 供应商物资生产专业信息
+	
+	@Autowired
+	private SupplierMatSellService supplierMatSellService;
 
 	@RequestMapping("login")
 	public String login(HttpServletRequest request, Model model) {
-		Supplier supplier = supplierService.login("53BF9E64B38B46228914807B92BAE812");
-		model.addAttribute("currObject", supplier);
+		Supplier supplier = supplierService.get("53BF9E64B38B46228914807B92BAE812");
+		model.addAttribute("currSupplier", supplier);
 		if (supplier.getListSupplierFinances() != null) {
 			model.addAttribute("financeSize", supplier.getListSupplierFinances().size());
 		}
@@ -109,10 +109,10 @@ public class SupplierController extends BaseSupplierController {
 	 */
 	@RequestMapping(value = "register")
 	public String register(HttpServletRequest request, Supplier supplier) {
-		String id = supplierService.register(supplier);
+		supplier = supplierService.register(supplier);
 		request.getSession().setAttribute("jump.page", "basic_info");
-		request.getSession().setAttribute("supplierId", id);
-		return "redirect:pageJump.html";
+		request.getSession().setAttribute("currSupplier", supplier);
+		return "redirect:page_jump.html";
 	}
 
 	/**
@@ -125,15 +125,15 @@ public class SupplierController extends BaseSupplierController {
 	 * @param: @return
 	 * @return: String
 	 */
-	@RequestMapping(value = "prevStep")
+	@RequestMapping(value = "prev_step")
 	public String prevStep(HttpServletRequest request, String page, Integer sign, Supplier supplier) {
 		if (sign == 3) {
 			// 保存供应商类型
 			supplierTypeRelateService.saveSupplierTypeRelate(supplier);
 
 			// 查询供应商基本信息
-			supplier = supplierService.login(supplier.getId());
-			request.getSession().setAttribute("currObject", supplier);
+			supplier = supplierService.get(supplier.getId());
+			request.getSession().setAttribute("currSupplier", supplier);
 			if (supplier.getListSupplierFinances() != null) {
 				request.getSession().setAttribute("financeSize", supplier.getListSupplierFinances().size());
 			}
@@ -142,9 +142,8 @@ public class SupplierController extends BaseSupplierController {
 			}
 
 			// 跳转页面
-			request.getSession().setAttribute("supplierId", supplier.getId());
 			request.getSession().setAttribute("jump.page", "basic_info");
-			return "redirect:pageJump.html";
+			return "redirect:page_jump.html";
 		}
 		return null;
 	}
@@ -158,8 +157,9 @@ public class SupplierController extends BaseSupplierController {
 	 * @param: @return
 	 * @return: String
 	 */
-	@RequestMapping(value = "stashStep")
-	public String stashStep(HttpServletRequest request, Integer sign, Supplier supplier) {
+	@RequestMapping(value = "stash_step")
+	public String stashStep(HttpServletRequest request, Integer sign, String defaultPage, Supplier supplier) {
+		request.getSession().setAttribute("defaultPage", defaultPage);
 		if (sign == 2) {
 			// 保持供应商基本信息
 			String id = supplier.getId();
@@ -168,8 +168,8 @@ public class SupplierController extends BaseSupplierController {
 			supplierStockholderService.saveStockholder(supplier);// 保存供应商股东信息
 
 			// 查询供应商基本信息
-			supplier = supplierService.login(id);
-			request.getSession().setAttribute("currObject", supplier);
+			supplier = supplierService.get(id);
+			request.getSession().setAttribute("currSupplier", supplier);
 			if (supplier.getListSupplierFinances() != null) {
 				request.getSession().setAttribute("financeSize", supplier.getListSupplierFinances().size());
 			}
@@ -178,23 +178,34 @@ public class SupplierController extends BaseSupplierController {
 			}
 
 			// 页面跳转
-			request.getSession().setAttribute("supplierId", id);
 			request.getSession().setAttribute("jump.page", "basic_info");
-			return "redirect:pageJump.html";
+			return "redirect:page_jump.html";
 		} else if (sign == 3) {
 			// 保存供应商类型
 			supplierTypeRelateService.saveSupplierTypeRelate(supplier);
 
 			// 跳转页面
-			request.getSession().setAttribute("supplierId", supplier.getId());
+			request.getSession().setAttribute("currSupplier", supplier);
 			request.getSession().setAttribute("jump.page", "supplier_type");
-			return "redirect:pageJump.html";
+			return "redirect:page_jump.html";
+		} else if (sign == 4) {
+			// 保存供应商物资生产专业信息
+			supplierMatProService.saveOrUpdateSupplierMatPro(supplier);
+			supplierMatSellService.saveOrUpdateSupplierMatSell(supplier);
+			
+			// 查询供应商信息
+			supplier = supplierService.get(supplier.getId());
+			
+			// 页面跳转
+			request.getSession().setAttribute("currSupplier", supplier);
+			request.getSession().setAttribute("jump.page", "professional_info");
+			return "redirect:page_jump.html";
 		}
 		return null;
 	}
 
 	/**
-	 * @Title: nextStep
+	 * @Title: next_step
 	 * @author: Wang Zhaohua
 	 * @date: 2016-9-12 下午2:57:06
 	 * @Description: 供应商信息完善下一步
@@ -203,14 +214,9 @@ public class SupplierController extends BaseSupplierController {
 	 * @param: @return
 	 * @return: String
 	 */
-	@RequestMapping(value = "nextStep")
+	@RequestMapping(value = "next_step")
 	public String nextStep(HttpServletRequest request, String page, Integer sign, Supplier supplier) {
 		if (sign == 2) {// 保持供应商基本信息
-			String id = supplier.getId();
-			if (id == null || "".equals(id)) {
-				id = (String) request.getSession().getAttribute("supplierId");
-				supplier.setId(id);
-			}
 			supplierService.perfectBasic(supplier);// 保存供应商详细信息
 			supplierFinanceService.saveFinance(supplier);// 保存供应商财务信息
 			supplierStockholderService.saveStockholder(supplier);// 保存供应商股东信息
@@ -218,52 +224,32 @@ public class SupplierController extends BaseSupplierController {
 			// Ajax 查询供应商类型树, 这里不用写了
 
 			// 页面跳转
-			request.getSession().setAttribute("supplierId", id);
+			request.getSession().setAttribute("currSupplier", supplier);
 			request.getSession().setAttribute("jump.page", "supplier_type");
-			return "redirect:pageJump.html";
+			return "redirect:page_jump.html";
 		} else if (sign == 3) {
 			// 保存供应商类型
 			supplierTypeRelateService.saveSupplierTypeRelate(supplier);
 			
 			// 查询专业信息
+			supplier = supplierService.get(supplier.getId());
 			
-			request.getSession().setAttribute("supplierId", supplier.getId());
+			request.getSession().setAttribute("currSupplier", supplier);
 			request.getSession().setAttribute("jump.page", "professional_info");
-			return "redirect:pageJump.html";
+			return "redirect:page_jump.html";
 		} else if (sign == 4) {
 			// 保存供应商专业信息
 			
 			// Ajax 查询品目树, 这里不用写了
 			
 			// 页面跳转
-			request.getSession().setAttribute("supplierId", supplier.getId());
+			request.getSession().setAttribute("currSupplier", supplier);
 			request.getSession().setAttribute("jump.page", "items");
-			return "redirect:pageJump.html";
+			return "redirect:page_jump.html";
 		}
 		return null;
 	}
 	
-	@RequestMapping(value = "add_cert_pro")
-	public String addCertPro() {
-		return "ses/sms/supplier_register/add_cert_pro";
-	}
-	
-	/**
-	 * @Title: findSupplierType
-	 * @author: Wang Zhaohua
-	 * @date: 2016-9-19 下午2:11:08
-	 * @Description: 查询供应商类型 Ajax
-	 * @param: @param response
-	 * @param: @param supplierId
-	 * @param: @throws IOException
-	 * @return: void
-	 */
-	@RequestMapping(value = "findSupplierType")
-	public void findSupplierType(HttpServletResponse response, String supplierId) throws IOException {
-		List<SupplierTypeTree> listSupplierTypeTrees = supplierTypeService.findSupplierType(supplierId);
-		super.writeJson(response, listSupplierTypeTrees);
-	}
-
 	/**
 	 * @Title: basic
 	 * @author: Wang Zhaohua
@@ -288,19 +274,19 @@ public class SupplierController extends BaseSupplierController {
 		supplierStockholderService.saveStockholder(supplier);// 保存供应商股东信息
 		request.getSession().setAttribute("supplierId", id);
 		request.getSession().setAttribute("jump.page", "supplier_type");
-		return "redirect:pageJump.html";
+		return "redirect:page_jump.html";
 	}
 
 	/**
-	 * @Title: pageJump
+	 * @Title: page_jump
 	 * @author: Wang Zhaohua
 	 * @date: 2016-9-7 下午5:43:49
-	 * @Description: pageJump
+	 * @Description: page_jump
 	 * @param: @param request
 	 * @param: @return
 	 * @return: String
 	 */
-	@RequestMapping(value = "pageJump")
+	@RequestMapping(value = "page_jump")
 	public String pageJump(HttpServletRequest request) {
 		String page = (String) request.getSession().getAttribute("jump.page");
 		return "ses/sms/supplier_register/" + page;

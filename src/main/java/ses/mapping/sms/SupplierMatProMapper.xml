@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.sms.SupplierMatProMapper">
+	<resultMap id="BaseResultMap" type="ses.model.sms.SupplierMatPro">
+		<id column="ID" property="id" />
+		<result column="SUPPLIER_ID" property="supplierId" />
+		<result column="ORG_NAME" property="orgName" />
+		<result column="TOTAL_PERSON" property="totalPerson" />
+		<result column="TOTAL_MANGE" property="totalMange" />
+		<result column="TOTAL_TECH" property="totalTech" />
+		<result column="TOTAL_WORKER" property="totalWorker" />
+		<result column="SCALE_TECH" property="scaleTech" />
+		<result column="SCALE_HEIGHT_TECH" property="scaleHeightTech" />
+		<result column="RESEARCH_NAME" property="researchName" />
+		<result column="TOTAL_RESEARCH" property="totalResearch" />
+		<result column="RESEARCH_LEAD" property="researchLead" />
+		<result column="COUNTRY_PRO" property="countryPro" />
+		<result column="COUNTRY_REWARD" property="countryReward" />
+		<result column="TOTAL_BELTLINE" property="totalBeltline" />
+		<result column="TOTAL_DEVICE" property="totalDevice" />
+		<result column="QC_NAME" property="qcName" />
+		<result column="TOTAL_QC" property="totalQc" />
+		<result column="QC_LEAD" property="qcLead" />
+		<result column="QC_DEVICE" property="qcDevice" />
+		<result column="CREATED_AT" property="createdAt" />
+		<result column="UPDATED_AT" property="updatedAt" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, SUPPLIER_ID, ORG_NAME, TOTAL_PERSON, TOTAL_MANGE, TOTAL_TECH, TOTAL_WORKER, SCALE_TECH,
+		SCALE_HEIGHT_TECH, RESEARCH_NAME, TOTAL_RESEARCH, RESEARCH_LEAD, COUNTRY_PRO, COUNTRY_REWARD,
+		TOTAL_BELTLINE, TOTAL_DEVICE, QC_NAME, TOTAL_QC, QC_LEAD, QC_DEVICE, CREATED_AT,
+		UPDATED_AT
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_SMS_SUPPLIER_MAT_PRO
+		where ID = #{id}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from T_SES_SMS_SUPPLIER_MAT_PRO
+		where ID = #{id}
+	</delete>
+	<insert id="insert" parameterType="ses.model.sms.SupplierMatPro">
+		insert into T_SES_SMS_SUPPLIER_MAT_PRO (ID, SUPPLIER_ID, ORG_NAME,
+		TOTAL_PERSON, TOTAL_MANGE, TOTAL_TECH,
+		TOTAL_WORKER, SCALE_TECH, SCALE_HEIGHT_TECH,
+		RESEARCH_NAME, TOTAL_RESEARCH, RESEARCH_LEAD,
+		COUNTRY_PRO, COUNTRY_REWARD, TOTAL_BELTLINE,
+		TOTAL_DEVICE, QC_NAME, TOTAL_QC,
+		QC_LEAD, QC_DEVICE, CREATED_AT,
+		UPDATED_AT)
+		values (#{id}, #{supplierId}, #{orgName},
+		#{totalPerson}, #{totalMange}, #{totalTech},
+		#{totalWorker}, #{scaleTech}, #{scaleHeightTech},
+		#{researchName}, #{totalResearch}, #{researchLead},
+		#{countryPro}, #{countryReward}, #{totalBeltline},
+		#{totalDevice}, #{qcName}, #{totalQc},
+		#{qcLead}, #{qcDevice}, #{createdAt},
+		#{updatedAt})
+	</insert>
+	<insert id="insertSelective" parameterType="ses.model.sms.SupplierMatPro">
+		insert into T_SES_SMS_SUPPLIER_MAT_PRO
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="supplierId != null">
+				SUPPLIER_ID,
+			</if>
+			<if test="orgName != null">
+				ORG_NAME,
+			</if>
+			<if test="totalPerson != null">
+				TOTAL_PERSON,
+			</if>
+			<if test="totalMange != null">
+				TOTAL_MANGE,
+			</if>
+			<if test="totalTech != null">
+				TOTAL_TECH,
+			</if>
+			<if test="totalWorker != null">
+				TOTAL_WORKER,
+			</if>
+			<if test="scaleTech != null">
+				SCALE_TECH,
+			</if>
+			<if test="scaleHeightTech != null">
+				SCALE_HEIGHT_TECH,
+			</if>
+			<if test="researchName != null">
+				RESEARCH_NAME,
+			</if>
+			<if test="totalResearch != null">
+				TOTAL_RESEARCH,
+			</if>
+			<if test="researchLead != null">
+				RESEARCH_LEAD,
+			</if>
+			<if test="countryPro != null">
+				COUNTRY_PRO,
+			</if>
+			<if test="countryReward != null">
+				COUNTRY_REWARD,
+			</if>
+			<if test="totalBeltline != null">
+				TOTAL_BELTLINE,
+			</if>
+			<if test="totalDevice != null">
+				TOTAL_DEVICE,
+			</if>
+			<if test="qcName != null">
+				QC_NAME,
+			</if>
+			<if test="totalQc != null">
+				TOTAL_QC,
+			</if>
+			<if test="qcLead != null">
+				QC_LEAD,
+			</if>
+			<if test="qcDevice != null">
+				QC_DEVICE,
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT,
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="supplierId != null">
+				#{supplierId},
+			</if>
+			<if test="orgName != null">
+				#{orgName},
+			</if>
+			<if test="totalPerson != null">
+				#{totalPerson},
+			</if>
+			<if test="totalMange != null">
+				#{totalMange},
+			</if>
+			<if test="totalTech != null">
+				#{totalTech},
+			</if>
+			<if test="totalWorker != null">
+				#{totalWorker},
+			</if>
+			<if test="scaleTech != null">
+				#{scaleTech},
+			</if>
+			<if test="scaleHeightTech != null">
+				#{scaleHeightTech},
+			</if>
+			<if test="researchName != null">
+				#{researchName},
+			</if>
+			<if test="totalResearch != null">
+				#{totalResearch},
+			</if>
+			<if test="researchLead != null">
+				#{researchLead},
+			</if>
+			<if test="countryPro != null">
+				#{countryPro},
+			</if>
+			<if test="countryReward != null">
+				#{countryReward},
+			</if>
+			<if test="totalBeltline != null">
+				#{totalBeltline},
+			</if>
+			<if test="totalDevice != null">
+				#{totalDevice},
+			</if>
+			<if test="qcName != null">
+				#{qcName},
+			</if>
+			<if test="totalQc != null">
+				#{totalQc},
+			</if>
+			<if test="qcLead != null">
+				#{qcLead},
+			</if>
+			<if test="qcDevice != null">
+				#{qcDevice},
+			</if>
+			<if test="createdAt != null">
+				#{createdAt},
+			</if>
+			<if test="updatedAt != null">
+				#{updatedAt},
+			</if>
+		</trim>
+		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			select sys_guid() from dual
+		</selectKey>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierMatPro">
+		update T_SES_SMS_SUPPLIER_MAT_PRO
+		<set>
+			<if test="supplierId != null">
+				SUPPLIER_ID = #{supplierId},
+			</if>
+			<if test="orgName != null">
+				ORG_NAME = #{orgName},
+			</if>
+			<if test="totalPerson != null">
+				TOTAL_PERSON = #{totalPerson},
+			</if>
+			<if test="totalMange != null">
+				TOTAL_MANGE = #{totalMange},
+			</if>
+			<if test="totalTech != null">
+				TOTAL_TECH = #{totalTech},
+			</if>
+			<if test="totalWorker != null">
+				TOTAL_WORKER = #{totalWorker},
+			</if>
+			<if test="scaleTech != null">
+				SCALE_TECH = #{scaleTech},
+			</if>
+			<if test="scaleHeightTech != null">
+				SCALE_HEIGHT_TECH = #{scaleHeightTech},
+			</if>
+			<if test="researchName != null">
+				RESEARCH_NAME = #{researchName},
+			</if>
+			<if test="totalResearch != null">
+				TOTAL_RESEARCH = #{totalResearch},
+			</if>
+			<if test="researchLead != null">
+				RESEARCH_LEAD = #{researchLead},
+			</if>
+			<if test="countryPro != null">
+				COUNTRY_PRO = #{countryPro},
+			</if>
+			<if test="countryReward != null">
+				COUNTRY_REWARD = #{countryReward},
+			</if>
+			<if test="totalBeltline != null">
+				TOTAL_BELTLINE = #{totalBeltline},
+			</if>
+			<if test="totalDevice != null">
+				TOTAL_DEVICE = #{totalDevice},
+			</if>
+			<if test="qcName != null">
+				QC_NAME = #{qcName},
+			</if>
+			<if test="totalQc != null">
+				TOTAL_QC = #{totalQc},
+			</if>
+			<if test="qcLead != null">
+				QC_LEAD = #{qcLead},
+			</if>
+			<if test="qcDevice != null">
+				QC_DEVICE = #{qcDevice},
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT = #{createdAt},
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT = #{updatedAt},
+			</if>
+		</set>
+		where ID = #{id}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="ses.model.sms.SupplierMatPro">
+		update T_SES_SMS_SUPPLIER_MAT_PRO
+		set SUPPLIER_ID = #{supplierId},
+		ORG_NAME = #{orgName},
+		TOTAL_PERSON = #{totalPerson},
+		TOTAL_MANGE = #{totalMange},
+		TOTAL_TECH = #{totalTech},
+		TOTAL_WORKER = #{totalWorker},
+		SCALE_TECH = #{scaleTech},
+		SCALE_HEIGHT_TECH = #{scaleHeightTech},
+		RESEARCH_NAME = #{researchName},
+		TOTAL_RESEARCH = #{totalResearch},
+		RESEARCH_LEAD = #{researchLead},
+		COUNTRY_PRO = #{countryPro},
+		COUNTRY_REWARD = #{countryReward},
+		TOTAL_BELTLINE = #{totalBeltline},
+		TOTAL_DEVICE = #{totalDevice},
+		QC_NAME = #{qcName},
+		TOTAL_QC = #{totalQc},
+		QC_LEAD = #{qcLead},
+		QC_DEVICE = #{qcDevice},
+		CREATED_AT = #{createdAt},
+		UPDATED_AT = #{updatedAt}
+		where ID = #{id}
+	</update>
+	
+	<select id="getMatProBySupplierId" parameterType="java.lang.String" resultMap="MatProMap">
+		select * from T_SES_SMS_SUPPLIER_MAT_PRO where SUPPLIER_ID = #{supplierId}
+	</select>
+	<resultMap type="ses.model.sms.SupplierMatPro" id="MatProMap" extends="BaseResultMap">
+		<collection property="listSupplierItemsPros" column="ID" select="ses.dao.sms.SupplierItemsProMapper.findItemsProBySupplierMatProId" />
+		<collection property="listSupplierCertPros" column="ID" select="ses.dao.sms.SupplierCertProMapper.findCertProBySupplierMatProId" />
+	</resultMap>
+</mapper>
