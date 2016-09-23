@@ -528,7 +528,6 @@ h3.heading-xs {
 /*Basic Tables*/
 .table thead > tr > th {
   border-bottom: none;
-  font-size:16px;
   color:#333;
   font-weight:bold;
   font-size:13px;
