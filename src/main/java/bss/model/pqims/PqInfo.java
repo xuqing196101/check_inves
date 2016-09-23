@@ -1,8 +1,7 @@
 package bss.model.pqims;
 
-import java.util.Date;
-
-import bss.model.cs.Contract;
+import java.sql.Timestamp;
+import bss.model.cs.PurchaseContract;
 
 /**
  * 
@@ -18,10 +17,6 @@ public class PqInfo {
 	 */
     private String id;
 
-    /*
-     * 合同id
-     */
-    private String contractId;
 
     /*
      * 项目类型
@@ -36,7 +31,7 @@ public class PqInfo {
     /*
      * 质检类型、验收类型
      */
-    private int type;
+    private String type;
 
     /*
      * 质检地点
@@ -46,7 +41,7 @@ public class PqInfo {
     /*
      * 质检日期
      */
-    private Date date;
+    private Timestamp date;
 
     /*
      * 质检人员
@@ -61,7 +56,7 @@ public class PqInfo {
     /*
      * 质检结果
      */
-    private int conclusion;
+    private String conclusion;
 
     /*
      * 详细情况
@@ -76,23 +71,23 @@ public class PqInfo {
     /*
      * 创建时间
      */
-    private Date createdAt;
+    private Timestamp createdAt;
 
     /*
      * 修改时间
      */
-    private Date updatedAt;
+    private Timestamp updatedAt;
     
     /*
      * 合同实体类
      */
-    private Contract contract;
+    private PurchaseContract contract;
     
-    public Contract getContract() {
+    public PurchaseContract getContract() {
 		return contract;
 	}
 
-	public void setContract(Contract contract) {
+	public void setContract(PurchaseContract contract) {
 		this.contract = contract;
 	}
 
@@ -104,13 +99,7 @@ public class PqInfo {
         this.id = id == null ? null : id.trim();
     }
 
-    public String getContractId() {
-        return contractId;
-    }
-
-    public void setContractId(String contractId) {
-        this.contractId = contractId == null ? null : contractId.trim();
-    }
+ 
 
     public String getProjectType() {
         return projectType;
@@ -129,20 +118,11 @@ public class PqInfo {
     }
 
     public String getType() {
-    	String typeString = null;
-    	if (type==1) {
-			typeString="首件检验";
-		}else if (type==2) {
-			typeString="批量验收";
-		}else if (type==3) {
-			typeString="出厂验收";
-		}else if (type==4) {
-			typeString="到货验收";
-		}
-        return typeString;
+    	
+        return type;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -154,11 +134,11 @@ public class PqInfo {
         this.place = place == null ? null : place.trim();
     }
 
-    public Date getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 
@@ -179,16 +159,11 @@ public class PqInfo {
     }
 
     public String getConclusion() {
-    	String conclusionsString = null;
-    	if (conclusion==1) {
-			conclusionsString="合格";
-		}else if (conclusion==0) {
-			conclusionsString="不合格";
-		}
-        return conclusionsString;
+    	
+        return conclusion;
     }
 
-    public void setConclusion(int conclusion) {
+    public void setConclusion(String conclusion) {
         this.conclusion = conclusion;
     }
 
@@ -208,19 +183,19 @@ public class PqInfo {
         this.report = report == null ? null : report.trim();
     }
 
-    public Date getCreatedAt() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Date getUpdatedAt() {
+    public Timestamp getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
 }

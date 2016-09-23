@@ -47,7 +47,7 @@
 		     <li class="col-md-6  p0 ">
 			   <span class="">合同编号：</span>
 			   <div class="input-append">
-		        <input class="span2" name="contract_id" type="text">
+		        <input class="span2" name="contractId" type="text">
 		       </div>
 			 </li>
     		 <li class="col-md-6 p0">
@@ -71,7 +71,7 @@
 			 <li class="col-md-6  p0 ">
 			   <span class="fl">项目类别：</span>
 			   <div class="btn-group ">
-		        	<select id="temType" name ="project_type" class="w230" >
+		        	<select id="temType" name ="projectType" class="w220" >
 						<option>请选择</option>
 	  				</select> 
 		       </div>
@@ -85,12 +85,12 @@
 		     <li class="col-md-6  p0 ">
 			   <span class="fl">质检类型：</span>
 			   <div class="btn-group ">
-		        	<select id="temType" name =type class="w230" >
+		        	<select id="temType" name =type class="w220" >
 						<option>请选择</option>
-						<option value="1">首件检验</option>
-						<option value="2">生产验收</option>
-						<option value="3">出厂验收</option>
-						<option value="4">到货验收</option>
+						<option value="首件检验">首件检验</option>
+						<option value="生产验收">生产验收</option>
+						<option value="出厂验收">出厂验收</option>
+						<option value="到货验收">到货验收</option>
 	  				</select> 
 		       </div>
 			 </li>
@@ -121,7 +121,7 @@
     		 <li class="col-md-6 p0">
 			   <span class="fl">质检结论：</span>
 		        <div class="btn-group ">
-		        	<select id="temType" name =conclusion class="w220" >
+		        	<select id="temType" name ="conclusion" class="w220" >
 						<option value="" >请选择</option>
 						<option value="1">合格</option>
 						<option value="0">不合格</option>
@@ -135,13 +135,25 @@
 		       </div>
 			 </li>
    		</ul>
-   
+   		<div class="headline-v2">
+   			<h2附件上传</h2>
+   		</div>
+   		<ul class="list-unstyled list-flow p0_20">
+		     <li class="col-md-6  p0 ">
+			   <span class="">质检报告：</span>
+			   <div class="input-append ">
+		        <input class="span2" name="report" type="text">
+		        <button type="button" class="btn ml20 mt1">附件上传</button>
+		       </div>
+			 </li>
+		</ul>
   		<div  class="col-md-12 ml185">
    			<div class="fl padding-10">
     			<button class="btn btn-windows save" type="submit">新增</button>
     			<button class="btn btn-windows git" onclick="history.go(-1)" type="button">返回</button>
 			</div>
   		</div>
+  		
   	</form>
  </div>
  

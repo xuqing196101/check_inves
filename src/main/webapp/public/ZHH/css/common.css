@@ -80,6 +80,9 @@
 .w200 {
   width: 200px; }
 
+.w220 {
+  width: 220px; }
+
 .w230 {
   width: 230px; }
 
@@ -95,11 +98,11 @@
 .w300 {
   width: 300px; }
 
-.w370 {
-  width: 370px; }
-
 .w320 {
   width: 320px; }
+
+.w370 {
+  width: 370px; }
 
 .w400 {
   width: 400px!important; }
@@ -325,6 +328,7 @@
 .ml140 {
   margin-left: 140px; }
 
+
 .ml40 {
   margin-left: 40px; }
 
@@ -404,7 +408,7 @@
   margin-left: 15px; }
 
 .ml20 {
-  margin-left: 20px; }
+  margin-left: 20px!important; }
 
 .ml30 {
   margin-left: 30px; }
