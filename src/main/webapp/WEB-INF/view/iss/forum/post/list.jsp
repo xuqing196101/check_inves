@@ -22,6 +22,11 @@
 	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
   <script type="text/javascript">
   $(function(){
+	  $("#parkId").val("${parkId}");
+	  $("#topicId").val("${topicId}");
+	  alert("${topicName}");
+	 
+	  //$("#topicId").append("<option value = '"+${topicId}+"'>"+${topicName}+"</option>");
 	  laypage({
 		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
 		    pages: "${list.pages}", //总页数
@@ -34,7 +39,10 @@
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		            location.href = '<%=basePath%>post/getlist.do?page='+e.curr;
+		        	var postName = "${postName}";
+		        	var parkId = "${parkId}";
+		        	var topicId = "${topicId}";
+		            location.href = "<%=basePath%>post/getlist.do?postName="+postName+"&parkId="+parkId+"&topicId="+topicId+"&page="+e.curr;
 		        }
 		    }
 		});
@@ -115,17 +123,49 @@
     
 	//鼠标移动显示全部内容
 	function out(name){
-	if(name.length>10){
-	layer.msg(content, {
-			icon:6,
-			shade:false,
-			area: ['600px'],
-			time : 2000    //默认消息框不关闭
-		});//去掉msg图标
-	}else{
-		layer.closeAll();//关闭消息框
-	}
-}
+		if(name.length>10){
+		layer.msg(content, {
+				icon:6,
+				shade:false,
+				area: ['600px'],
+				time : 2000    //默认消息框不关闭
+			});//去掉msg图标
+		}else{
+			layer.closeAll();//关闭消息框
+		}
+
+    }
+    //2级联动
+    function change(id){
+          $.ajax({
+              url:"<%=basePath %>topic/getListForSelect.do?parkId="+id,   
+              contentType: "application/json;charset=UTF-8", 
+              dataType:"json",   //返回格式为json
+              type:"POST",   //请求方式           
+              success : function(topics) {     
+                  if (topics) {           
+                    $("#topicId").html("");                
+                    $.each(topics, function(i, topic) {  
+                        $("#topicId").append("<option  value="+topic.id+">"+topic.name+"</option>");                     
+                    });                             
+                  }
+              }
+          });
+    }
+    function search(){
+        var postName = $("#postName").val();
+        var parkId = $("#parkId  option:selected").val();
+        var topicId = $("#topicId  option:selected").val();
+        location.href = "<%=basePath%>post/getlist.do?postName="+postName+"&parkId="+parkId+"&topicId="+topicId;
+
+     }
+     function reset(){
+         $("#postName").val("");
+         $("#parkId  option:selected").val("");
+         $("#parkId  option:selected").text("");
+         $("#topicId  option:selected").val("");
+         $("#topicId  option:selected").text("");
+     }
   </script>
   </head>
   
@@ -139,11 +179,50 @@
 		<div class="clear"></div>
 	  </div>
    </div>
+   
    <div class="container">
+   <div class="headline-v2">
+      <h2>查询条件</h2>
+   </div>
+
+<!-- 项目戳开始 -->
+  <div class="container clear">
+   <div class="padding-10 border1 m0_30">
+     <ul class="demand_list list-unstyled">
+       <li class="fl">
+       <label class="fl mt10">帖子名称：</label>
+       <span><input type="text" id="postName" class="mb0 mt5" value="${postName }"/></span>
+       </li>
+        
+       <li class="fl">
+         <label class="fl mt10 ml10">所属版块：</label>
+            <span>
+            <select id ="parkId" class="w230 mt5" onchange="change(this.options[this.selectedIndex].value)">
+             <option></option>
+             <c:forEach items="${parks}" var="park">
+                  <option  value="${park.id}">${park.name}</option>
+              </c:forEach> 
+             </select>
+            </span>
+       </li>
+        <li class="fl">
+         <label class="fl mt10 ml10">所属主题：</label>
+            <span>
+            <select id ="topicId" class="w230 mt5" >
+             <option></option>
+             </select>
+            </span>
+       </li>     
+         <button class="btn btn_back fl ml10 mt8" onclick="search()">查询</button>
+         <button class="btn btn_back fl ml10 mt8" onclick="reset()">重置</button>
+     </ul>
+     <div class="clear"></div>
+   </div>
+  </div>
 	   <div class="headline-v2">
 	   		<h2>帖子管理</h2>
 	   </div>
-   </div>
+  
 <!-- 表格开始-->
    <div class="container">
    <div class="col-md-8">
@@ -164,16 +243,12 @@
 			    <th class="info">名称</th>
 			    <th class="info">置顶</th>
 			    <th class="info">锁定</th>
-			    <th class="info">精华</th>
-			    <th class="info">可回复</th>
 			    <th class="info">发布时间</th>
 			    <th class="info">最后回复时间</th>
 			    <th class="info">最后回复人</th>
-			    <th class="info">回复数</th><%--
+			    <th class="info">回复数</th>
 			    <th class="info">创建人</th>
-			    <th class="info">所属板块</th>
-			    <th class="info">所属主题</th>
-			--%></tr>
+			</tr>
 		</thead>
 		
 		<c:forEach items="${list.list}" var="post" varStatus="vs">
@@ -190,22 +265,20 @@
 				</c:if>		
 				<td class="tc pointer" onclick="view('${post.id}')">${post.isTop}</td>
 				<td class="tc pointer" onclick="view('${post.id}')">${post.isLocking}</td>	
-				<td class="tc pointer" onclick="view('${post.id}')">${post.isEssence}</td>
-				<td class="tc pointer" onclick="view('${post.id}')">${post.isCanReply}</td>		
-				<td class="tc pointer" onclick="view('${post.id}')"><fmt:formatDate value='${post.publishedTime}' pattern="yyyy-MM-dd HH:mm:ss" /></td>
-				<td class="tc pointer" onclick="view('${post.id}')"><fmt:formatDate value='${post.lastReplyedTime}' pattern="yyyy-MM-dd HH:mm:ss" /></td>
+	
+				<td class="tc pointer" onclick="view('${post.id}')"><fmt:formatDate value='${post.publishedAt}' pattern="yyyy-MM-dd HH:mm:ss" /></td>
+				<td class="tc pointer" onclick="view('${post.id}')"><fmt:formatDate value='${post.lastReplyedAt}' pattern="yyyy-MM-dd HH:mm:ss" /></td>
 				<td class="tc pointer" onclick="view('${post.id}')">${post.lastReplyer.relName}</td>
-				<td class="tc pointer" onclick="view('${post.id}')">${post.replycount}</td><%--
+				<td class="tc pointer" onclick="view('${post.id}')">${post.replycount}</td>
 				<td class="tc pointer" onclick="view('${post.id}')">${post.user.relName}</td>
-				<td class="tc pointer" onclick="view('${post.id}')">${post.park.name}</td>
-				<td class="tc pointer" onclick="view('${post.id}')">${post.topic.name}</td>
-			--%></tr>
+
+			</tr>
 		</c:forEach>
 	</table>
      </div>
    <div id="pagediv" align="right"></div>
    </div>
-   
+    </div>
   </body>
 </html>
 

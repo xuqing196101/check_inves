@@ -7,10 +7,8 @@
 				    <result column="CONTENT" jdbcType="CLOB" property="content" />
 				    <result column="IS_TOP"  property="isTop" />
 				    <result column="IS_LOCKING"  property="isLocking" />
-				    <result column="IS_ESSENCE"  property="isEssence" />
-				    <result column="CAN_REPLY"  property="isCanReply" />
-				    <result column="PUBLISHED_TIME"  property="publishedTime" />
-				    <result column="LAST_RE_TIME"  property="lastReplyedTime" />	
+				    <result column="PUBLISHED_At"  property="publishedAt" />
+				    <result column="LAST_RE_At"  property="lastReplyedAt" />	
 				    	
 				    <association column="LAST_RE_ID"  property="lastReplyer" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>						    	    
 				    <association column="USER_ID"  property="user" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>
@@ -29,8 +27,8 @@
 				  
 			  <!-- 所有列 -->
 			  <sql id="Base_Column_List">
-			    ID, NAME,CONTENT, IS_TOP, IS_LOCKING, IS_ESSENCE, CAN_REPLY, USER_ID, TOPIC_ID,PARK_ID,
-			    PUBLISHED_TIME, LAST_RE_TIME,LAST_RE_ID
+			    ID, NAME,CONTENT, IS_TOP, IS_LOCKING, USER_ID, TOPIC_ID,PARK_ID,
+			    PUBLISHED_At, LAST_RE_At,LAST_RE_ID
 			    
 			  </sql>
 	  	
@@ -54,12 +52,23 @@
 		  </select>
 		  
 		  <!-- 2.根据条件查询列表 -->
-		  <select id="queryByList" parameterType="Object" resultMap="PostReplyMap">
+		  <select id="queryByList" parameterType="Map" resultMap="PostReplyMap">
 		    select 
 		    <include refid="Base_Column_List" />
 		    from T_ISS_FS_POST
-		   <!--  <include refid="Example_Where_Clause" /> -->
-		    ORDER BY PUBLISHED_TIME DESC
+		    where 1 = 1
+                 <trim suffixOverrides=",">
+                  <if test="postName!= null">
+                    and NAME Like concat(concat('%', '${postName}'), '%')
+                  </if> 
+                  <if test="parkId!= null">
+                    and PARK_ID = #{parkId}
+                  </if> 
+                    <if test="topicId!= null">
+                    and TOPIC_ID = #{topicId}
+                  </if>         
+                </trim>
+		    ORDER BY PUBLISHED_At DESC
 		  </select>
 		  
 		  <!-- 3.根据ID查询 -->
@@ -95,14 +104,8 @@
 		      <if test="isLocking != null">
 		        IS_LOCKING,
 		      </if>
-		      <if test="isEssence != null">
-		        IS_ESSENCE,
-		      </if>
-		      <if test="isCanReply != null">
-		        CAN_REPLY,
-		      </if>
-		      <if test="publishedTime != null">
-		        PUBLISHED_TIME,
+		      <if test="publishedAt != null">
+		        PUBLISHED_At,
 		      </if>
 		      <if test="content != null">
 		        CONTENT,
@@ -130,14 +133,8 @@
 		      <if test="isLocking != null">
 		        #{isLocking},
 		      </if>
-		      <if test="isEssence != null">
-		        #{isEssence},
-		      </if>
-		      <if test="isCanReply != null">
-		        #{isCanReply},
-		      </if>
-		      <if test="publishedTime != null">
-		        #{publishedTime},
+		      <if test="publishedAt != null">
+		        #{publishedAt},
 		      </if>
 
 		      <if test="content != null">
@@ -168,14 +165,8 @@
 		      <if test="isLocking != null">
 		        IS_LOCKING = #{isLocking},
 		      </if>
-		      <if test="isEssence != null">
-		        IS_ESSENCE = #{isEssence},
-		      </if>
-		      <if test="isCanReply != null">
-		        CAN_REPLY = #{isCanReply},
-		      </if>
-		      <if test="lastReplyedTime != null">
-		        LAST_REPLYED_TIME = #{lastReplyedTime},
+		      <if test="lastReplyedAt != null">
+		        LAST_REPLYED_At = #{lastReplyedAt},
 		      </if>
 		      <if test="content != null">
 		        CONTENT = #{content},
@@ -196,7 +187,7 @@
 			    <include refid="Base_Column_List" />
 			    from T_ISS_FS_POST
 			    where TOPIC_ID = #{topicID}
-			    ORDER BY PUBLISHED_TIME DESC
+			    ORDER BY PUBLISHED_At DESC
 		  </select>
 		  
 		  <!-- 8.首页根据parkId查询4条 -->
@@ -205,7 +196,7 @@
 			    <include refid="Base_Column_List" />
 			    from T_ISS_FS_POST
 			    where PARK_ID = #{parkID} AND ROWNUM &lt;= 4
-			    ORDER BY PUBLISHED_TIME DESC
+			    ORDER BY PUBLISHED_At DESC
 		  </select>
 		  
 		  <!-- 9.首页根据parkId查询列表 -->
@@ -214,7 +205,7 @@
 			    <include refid="Base_Column_List" />
 			    from T_ISS_FS_POST
 			    where PARK_ID = #{parkID}
-			    ORDER BY PUBLISHED_TIME DESC
+			    ORDER BY PUBLISHED_At DESC
 		  </select>
 
 </mapper>

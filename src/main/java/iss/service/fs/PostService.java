@@ -7,6 +7,7 @@ import iss.model.fs.Post;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 
 
@@ -35,7 +36,7 @@ public interface PostService {
 	* @param post
 	* @return List<Post>     
 	*/
-	List<Post> queryByList(Post post,Integer page);
+	List<Post> queryByList(Map<String,Object> map);
 	
 	/**   
 	* @Title: selectByPrimaryKey

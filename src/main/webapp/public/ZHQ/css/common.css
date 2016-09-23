@@ -124,13 +124,16 @@
   width: 700px; }
 
 .w750 {
-  width: 750px; }
+  width: 750px!important; }
+  
+.w780 {
+width: 780px!important; }
 
 .w800 {
-  width: 800px; }
+  width: 800px!important; }
 
 .w960 {
-  width: 960px; }
+  width: 960px!important; }
 
 .w100p {
   width: 100%; }
@@ -510,7 +513,7 @@
   padding-left: 20px; }
 
 .pl50 {
-  padding-left: 50px; }
+  padding-left: 50px!important; }
 
 .pl150 {
   padding-left: 150px; }
@@ -737,12 +740,22 @@ th.bg_tc {
 .my_post{
 	position: fixed;
 	width:30px;
-	height:100px;
+	height:130px;
 	border:1px solid #e5e5e5;
 	right:0px;
-	top:50%;
+	top:30%;
 	padding:10px;
 	overflow: hidden;	
+}
+.park_manager{
+    position: fixed;
+    width:30px;
+    height:130px;
+    border:1px solid #e5e5e5;
+    right:0px;
+    top:50%;
+    padding:10px;
+    overflow: hidden;   
 }
 
 a{

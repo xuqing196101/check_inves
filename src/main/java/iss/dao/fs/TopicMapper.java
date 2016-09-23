@@ -4,6 +4,7 @@ import iss.model.fs.Topic;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -31,7 +32,7 @@ public interface TopicMapper {
 	* @param topic
 	* @return List<Topic>     
 	*/
-	List<Topic> queryByList(Topic topic,Integer page);
+	List<Topic> queryByList(Map<String,Object> map);
 	/**
 	 * 
 	* @Title: getAll
@@ -82,7 +83,7 @@ public interface TopicMapper {
     void updateByPrimaryKeySelective(Topic topic);
     
     /**   
-	* @Title: selectByPrimaryKey
+	* @Title: selectByParkID
 	* @author Peng Zhongjun
 	* @date 2016-8-22下午20:03:12
 	* @Description: 根据版块Id查询

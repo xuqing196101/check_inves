@@ -74,7 +74,7 @@
 		       </div>
 			 </li>
 			 <li class="col-md-6  p0 ">
-			   <span class="fl">评论数：</span>				 	
+			   <span class="fl">回复数：</span>				 	
 	  			<div class="input-append">
 		        <input class="span2"  type="text" value = '${park.replycount}' readonly="readonly">
 		        <%--<span class="add-on">i</span>--%>

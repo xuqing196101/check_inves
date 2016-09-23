@@ -64,6 +64,10 @@ public class Park {
      * @Fields replycount : 回复数
      */
     private BigDecimal replycount;
+    /**
+     * @Fields isDeleted : 是否删除标识
+     */
+    private Integer isDeleted;
          
 	public String getId() {
         return id;
@@ -161,7 +165,14 @@ public class Park {
 	public void setReplycount(BigDecimal replycount) {
 		this.replycount = replycount;
 	}
-	
+
+	public Integer getIsDeleted() {
+		return isDeleted;
+	}
+
+	public void setIsDeleted(Integer isDeleted) {
+		this.isDeleted = isDeleted;
+	}
 	
 	
 }

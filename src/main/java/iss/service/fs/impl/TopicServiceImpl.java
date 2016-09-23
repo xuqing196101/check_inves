@@ -9,13 +9,10 @@ import iss.service.fs.TopicService;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import ses.util.PropertiesUtil;
-
-import com.github.pagehelper.PageHelper;
 
 
 
@@ -38,11 +35,10 @@ public class TopicServiceImpl implements TopicService{
 	}
 
 	@Override
-	public List<Topic> queryByList(Topic topic,Integer page) {
+	public List<Topic> queryByList(Map<String,Object> map) {
 		// TODO Auto-generated method stub
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-		return topicMapper.queryByList(topic,page);
+
+		return topicMapper.queryByList(map);
 	}
 
 

@@ -22,6 +22,9 @@
 	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
   <script type="text/javascript">
   $(function(){
+
+      $("#parkId").val("${parkId}");
+	  
 	  laypage({
 		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
 		    pages: "${list.pages}", //总页数
@@ -34,10 +37,14 @@
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		            location.href = '<%=basePath%>topic/getlist.do?page='+e.curr;
+		            var condition = "${describe}";
+		            var parkId = "${parkId}";
+		            location.href = "<%=basePath%>topic/getlist.do?condition="+condition+"&parkId="+parkId+"&page="+e.curr;
 		        }
 		    }
 		});
+
+	     
   });
   	/** 全选全不选 */
 	function selectAll(){
@@ -126,6 +133,17 @@
 		layer.closeAll();//关闭消息框
 	}
 }
+	 function search(){
+	    var condition = $("#condition").val();
+	    var parkId = $("#parkId  option:selected").val();
+	    location.href = "<%=basePath%>topic/getlist.do?condition="+condition+"&parkId="+parkId;
+
+	 }
+	 function reset(){
+		 $("#condition").val("");
+		 $("#parkId  option:selected").val("");
+		 $("#parkId  option:selected").text("");
+	 }
   </script>
   </head>
   
@@ -139,11 +157,43 @@
 		<div class="clear"></div>
 	  </div>
    </div>
+   
    <div class="container">
-	   <div class="headline-v2">
-	   		<h2>主题管理</h2>
-	   </div>
+   <div class="headline-v2">
+      <h2>查询条件</h2>
    </div>
+
+<!-- 项目戳开始 -->
+  <div class="container clear">
+   <div class="padding-10 border1 m0_30">
+     <ul class="demand_list list-unstyled">
+       <li class="fl">
+       <label class="fl mt10">主题介绍：</label>
+       <span><input type="text" id="condition" class="mb0 mt5" value="${describe }"/></span>
+       </li>
+        
+       <li class="fl">
+         <label class="fl mt10 ml10">所属版块：</label>
+            <span>
+	        <select id ="parkId" class="w230 mt5" >
+             <option></option>
+             <c:forEach items="${parks}" var="park">
+                  <option  value="${park.id}">${park.name}</option>
+              </c:forEach> 
+             </select>
+            </span>
+       </li>
+         <button class="btn btn_back fl ml10 mt8" onclick="search()">查询</button>
+         <button class="btn btn_back fl ml10 mt8" onclick="reset()">重置</button>
+     </ul>
+     <div class="clear"></div>
+   </div>
+  </div>
+   
+	<div class="headline-v2">
+	   	<h2>主题管理</h2>
+	</div>
+
 <!-- 表格开始-->
    <div class="container">
    <div class="col-md-8">
@@ -199,7 +249,7 @@
    <div id="pagediv" align="right"></div>
    </div>
    
-
+   </div>
   </body>
 </html>
 

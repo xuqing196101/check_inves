@@ -90,7 +90,7 @@
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
-			layer.alert("请选择需要修改的评论",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择需要修改的回复",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
     
@@ -105,7 +105,7 @@
 				window.location.href="<%=basePath%>reply/delete.html?id="+id;
 			});
 		}else{
-			layer.alert("请选择要删除的评论",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择要删除的回复",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
     
@@ -140,10 +140,37 @@
 	  </div>
    </div>
    <div class="container">
-	   <div class="headline-v2">
-	   		<h2>评论管理</h2>
-	   </div>
+   <div class="headline-v2">
+      <h2>查询条件</h2>
    </div>
+
+<!-- 项目戳开始 -->
+  <div class="container clear">
+   <h2 class="padding-10 border1 m0_30">
+     <ul class="demand_list list-unstyled">
+       <li class="fl">
+       <label class="fl mt10">内容：</label>
+       <span><input type="text" id="condition" class="mb0 mt5"/></span>
+       </li>
+        
+       <li class="fl">
+         <label class="fl mt10 ml10">所属板块：</label>
+           <span>
+           <select class="w220">
+               <option></option>
+           </select>
+           </span>
+       </li>
+         <button class="btn btn_back fl ml10 mt8" onclick="search()">查询</button>
+         <button class="btn btn_back fl ml10 mt8" onclick="reset()">重置</button>
+     </ul>
+     <div class="clear"></div>
+   </h2>
+  </div>
+	   <div class="headline-v2">
+	   		<h2>回复管理</h2>
+	   </div>
+
 <!-- 表格开始-->
    <div class="container">
    <div class="col-md-8">
@@ -159,20 +186,18 @@
 			<tr>
 				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 			    <th class="info" >序号</th>
-			    <th class="info">评论名称</th>
-				<th class="info">评论内容</th>
+				<th class="info">回复内容</th>
 				<th class="info">发布时间</th>
 				<th class="info">发表人</th>
 				<th class="info">所属帖子名称</th>
-				<th class="info">所属评论名称</th>
+				<th class="info">所属回复内容</th>
 			</tr>
 		</thead>
 		
 		<c:forEach items="${list.list}" var="reply" varStatus="vs">
 			<tr>
 				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${reply.id}" /></td>
-				<td class="tc pointer" onclick="view('${reply.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-				<td class="tc pointer" onclick="view('${reply.id}')">${reply.name}</td>			
+				<td class="tc pointer" onclick="view('${reply.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>		
 				<c:set value="${reply.content}" var="content"></c:set>
 				<c:set value="${fn:length(content)}" var="length"></c:set>
 				<c:if test="${length>10}">
@@ -193,14 +218,22 @@
                     <td onclick="view('${reply.id}')" class="tc pointer ">${postContent } </td>
                 </c:if> 
           
-				<td class="tc pointer" onclick="view('${reply.id}')">${reply.reply.name}</td>
+                <c:set value="${reply.reply.content}" var="replyContent"></c:set>
+                <c:set value="${fn:length(replyContent)}" var="length"></c:set>
+                <c:if test="${length>8}">
+                    <td onclick="view('${reply.id}')" class="tc pointer ">${fn:substring(replyContent,0,8)}...</td>
+                </c:if>
+                <c:if test="${length<8}">
+                    <td onclick="view('${reply.id}')" class="tc pointer ">${replyContent } </td>
+                </c:if> 
+				
 			</tr>
 		</c:forEach>
 	</table>
      </div>
    <div id="pagediv" align="right"></div>
    </div>
-
+   </div>
   </body>
 </html>
 

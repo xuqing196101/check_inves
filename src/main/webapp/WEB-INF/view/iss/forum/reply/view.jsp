@@ -33,17 +33,11 @@
      <div class="content padding-left-25 padding-right-25 padding-top-5">
     <div>
 	    <div class="headline-v2">
-	   		<h2>评论详情</h2>
+	   		<h2>回复详情</h2>
 	   </div>
 	   <ul class="list-unstyled list-flow p0_20">
 	   		  
-	   		   <li class="col-md-6  p0 ">
-			   <span class="fl">评论名称：</span>
-			   <div class="input-append">
-		        <input class="span2"  type="text" value = '${reply.name}' readonly="readonly">
-		        <%--<span class="add-on">i</span>--%>
-		       </div>
-			 </li>
+
 
 			 <li class="col-md-6  p0 ">
 			   <span class="fl">发布人：</span>				 	
@@ -71,7 +65,7 @@
 			 
 			 
 			<li class="col-md-12  p0 ">	  	 			
-				<span class="fl"> 评论内容：</span>
+				<span class="fl"> 回复内容：</span>
 				<div class="col-md-12 mt5 fn pl200 pwr9">
 				<textarea  class="text_area col-md-12" readonly="readonly">${reply.content}</textarea>		
 				</div>			

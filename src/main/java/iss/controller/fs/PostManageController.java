@@ -12,7 +12,9 @@ import iss.service.fs.TopicService;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -22,10 +24,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.github.pagehelper.PageInfo;
-
 import ses.model.bms.User;
-import ses.util.DateUtil;
+import ses.util.PropertiesUtil;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 
 /**
@@ -57,15 +60,43 @@ public class PostManageController {
 	* @return String     
 	*/
 	@RequestMapping("/getlist")
-	public String getList(Model model,Post post,Integer page){
-		List<Post> list = postService.queryByList(post,page==null?1:page);
+	public String getList(HttpServletRequest request,Model model,Integer page)throws Exception{
+		Map<String,Object> map = new HashMap<String, Object>();
+		String postName = request.getParameter("postName");
+		String parkId = request.getParameter("parkId");	
+		String topicId = request.getParameter("topicId");	
+		
+		if(page==null){
+			page=1;
+		}
+		if(postName !=null && postName!=""){
+			map.put("postName", postName);
+		}
+		if(parkId != null && parkId!=""){
+			map.put("parkId", parkId);
+		}
+		if(topicId != null && topicId!=""){
+			map.put("topicId", topicId);
+			String topicName = topicService.selectByPrimaryKey(topicId).getName();
+			model.addAttribute("topicName", topicName);
+		}
+		map.put("page",page.toString());
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		List<Post> list = postService.queryByList(map);
 		for (Post post2 : list) {
 			Reply reply = new Reply();
 			reply.setPost(post2);
 			BigDecimal replycount = replyService.queryByCount(reply);
 			post2.setReplycount(replycount);
 		}
+		List<Park> parks = parkService.getAll(null);
+		model.addAttribute("parks", parks);
 		model.addAttribute("list", new PageInfo<Post>(list));
+		model.addAttribute("postName", postName);
+		model.addAttribute("parkId", parkId);
+		model.addAttribute("topicId", topicId);
+		
 		return "iss/forum/post/list";
 	}	
 	
@@ -80,7 +111,11 @@ public class PostManageController {
 	*/
 	@RequestMapping("/view")
 	public String view(Model model,String id){
-		Post p = postService.selectByPrimaryKey(id);		
+		Post p = postService.selectByPrimaryKey(id);	
+		Reply reply = new Reply();
+		reply.setPost(p);
+		BigDecimal replycount = replyService.queryByCount(reply);
+		p.setReplycount(replycount);
 		model.addAttribute("post", p);		
 		return "iss/forum/post/view";
 	}
@@ -112,7 +147,7 @@ public class PostManageController {
 	@RequestMapping("/save")
 	public String save(HttpServletRequest request,Post post){
 		Timestamp ts = new Timestamp(new Date().getTime());
-		post.setPublishedTime(ts);
+		post.setPublishedAt(ts);
 		String parkId = request.getParameter("parkId");
 		Park park = parkService.selectByPrimaryKey(parkId);
 		post.setPark(park);
@@ -172,7 +207,7 @@ public class PostManageController {
 	* @Title: delete
 	* @author Peng Zhongjun
 	* @date 2016-8-10 下午20:03:41 
-	* @Description: 删除版块信息
+	* @Description: 删除帖子信息
 	* @param @param id
 	* @return String     
 	*/
@@ -181,6 +216,10 @@ public class PostManageController {
 		String[] ids=id.split(",");
 		for (String str : ids) {
 			postService.deleteByPrimaryKey(str);
+			List<Reply> replies = replyService.selectByPostID(str);
+			for (Reply reply : replies) {
+				replyService.deleteByPrimaryKey(reply.getId());
+			}
 		}
 		return "redirect:getlist.html";
 	}
@@ -246,7 +285,7 @@ public class PostManageController {
 	@RequestMapping("/indexsave")
 	public String indexsave(HttpServletRequest request,Post post){
 		Timestamp ts = new Timestamp(new Date().getTime());
-		post.setPublishedTime(ts);
+		post.setPublishedAt(ts);
 		Park park= parkService.selectByPrimaryKey(request.getParameter("parkId"));
 		Topic topic =topicService.selectByPrimaryKey(request.getParameter("topicId"));
 		post.setPark(park);

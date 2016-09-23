@@ -137,11 +137,11 @@
 		<div class="clear"></div>
 	  </div>
    </div>
-   <div class="container">
-	   <div class="headline-v2">
-	   		<h2>版块管理</h2>
-	   </div>
-   </div>
+<div class="container">
+	<div class="headline-v2">
+	   <h2>版块管理</h2>
+	</div>
+
 <!-- 表格开始-->
    <div class="container">
    <div class="col-md-8">
@@ -198,6 +198,6 @@
      </div>
    	<div id="pagediv" align="right"></div>
    </div>
-
+</div>
 	 </body>
 </html>

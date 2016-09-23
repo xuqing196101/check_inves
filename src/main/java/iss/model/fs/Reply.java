@@ -69,8 +69,6 @@ public class Reply {
 		this.publishedAt = publishedAt;
 	}
 
-
-
 	public Timestamp getUpdatedAt() {
 		return updatedAt;
 	}

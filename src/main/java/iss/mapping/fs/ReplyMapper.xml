@@ -3,7 +3,6 @@
 <mapper namespace="iss.dao.fs.ReplyMapper">
 			  <resultMap id="ReplyResultMap" type="iss.model.fs.Reply">
 			    <id column="ID"  property="id" />
-			    <result column="NAME"  property="name" />
 			     <result column="CONTENT"  property="content" />
 			     <result column="PUBLISHED_AT"  property="publishedAt" />
 			     <result column="UPDATED_AT"  property="updatedAt" />
@@ -19,7 +18,7 @@
 				
 		  	  <!-- 所有列 -->
 			  <sql id="Base_Column_List">
-			    ID, NAME, CONTENT,POST_ID, REPLY_ID, USER_ID, PUBLISHED_AT,UPDATED_AT
+			    ID,  CONTENT,POST_ID, REPLY_ID, USER_ID, PUBLISHED_AT,UPDATED_AT
 			  </sql>
 			  
 	  			  <!-- 查询条件 -->
@@ -87,9 +86,7 @@
 			    </selectKey>
 			    insert into T_ISS_FS_REPLY
 			    <trim prefix="(" suffix=")" suffixOverrides=",">
-			      <if test="name != null">
-			        NAME,
-			      </if>
+
 			      <if test="publishedAt != null">
 			        PUBLISHED_AT,
 			      </if>
@@ -107,9 +104,7 @@
 			      </if>
 			    </trim>
 			    <trim prefix="values (" suffix=")" suffixOverrides=",">
-			      <if test="name != null">
-			        #{name},
-			      </if>
+
 			      <if test="publishedAt != null">
 			        #{publishedAt},
 			      </if>
@@ -131,9 +126,6 @@
 			  <update id="updateByPrimaryKeySelective" parameterType="iss.model.fs.Reply">
 			    update T_ISS_FS_REPLY
 			    <set>
-			      <if test="name != null">
-			        NAME = #{name},
-			      </if>
 			      <if test="content != null">
 			        CONTENT = #{content},
 			      </if>

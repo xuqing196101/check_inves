@@ -2,6 +2,7 @@ package iss.controller.fs;
 
 import iss.model.fs.Park;
 import iss.model.fs.Post;
+import iss.model.fs.Reply;
 import iss.model.fs.Topic;
 import iss.service.fs.ParkService;
 import iss.service.fs.PostService;
@@ -129,7 +130,8 @@ public class ParkManageController {
 	 */
 	@RequestMapping("/save")
 	public String save(HttpServletRequest request, Park park) {
-		User user = userService.getUserById((String) request.getParameter("userId"));
+		User user = new User();
+		user = userService.getUserById(request.getParameter("userId"));
 		park.setUser(user);
 		User creater = (User) request.getSession().getAttribute("loginUser");
 		park.setCreater(creater);
@@ -170,7 +172,10 @@ public class ParkManageController {
 	 */
 	@RequestMapping("/update")
 	public String update(HttpServletRequest request, Park park) {
-		User user = userService.getUserById((String) request.getParameter("userId"));
+
+		User user = new User();
+	
+		user = userService.getUserById(request.getParameter("userId"));
 		park.setUser(user);
 		Timestamp ts = new Timestamp(new Date().getTime());
 		park.setUpdatedAt(ts);
@@ -193,6 +198,18 @@ public class ParkManageController {
 		String[] id=ids.split(",");
 		for (String str : id) {
 			parkService.deleteByPrimaryKey(str);
+			List<Topic> topics = topicService.selectByParkID(str);
+			for (Topic topic : topics) {
+				topicService.deleteByPrimaryKey(topic.getId());
+			}
+			List<Post> posts = postService.selectListByParkID(str); 
+			for (Post post : posts) {
+				postService.deleteByPrimaryKey(post.getId());
+				List<Reply> replies = replyService.selectByPostID(post.getId());
+				for (Reply reply : replies) {
+					replyService.deleteByPrimaryKey(reply.getId());
+				}
+			}
 		}
 		return "redirect:getlist.html";
 	}

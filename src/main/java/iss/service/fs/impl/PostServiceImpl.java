@@ -9,6 +9,7 @@ import iss.service.fs.PostService;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,11 +39,9 @@ public class PostServiceImpl implements PostService{
 	}
 
 	@Override
-	public List<Post> queryByList(Post post,Integer page) {
+	public List<Post> queryByList(Map<String,Object> map) {
 		// TODO Auto-generated method stub
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-		return postMapper.queryByList(post,page);
+		return postMapper.queryByList(map);
 	}
 
 

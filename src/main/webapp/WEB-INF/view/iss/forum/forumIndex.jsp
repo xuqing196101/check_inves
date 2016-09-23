@@ -37,6 +37,8 @@
   </head>
   
   <body>    
+  <jsp:include page="/index_head.jsp"></jsp:include>
+  
   <div class="container content padding-top-0">
    
      <div class=" magazine-page">
@@ -45,11 +47,11 @@
       
      <c:forEach items="${list}" var="park" varStatus="vs">
        <div class="headline margin-top-15">
-       		<h2 class="padding-left-15">${park.name}</h2>
+       		<h2 class="padding-left-15 f30">${park.name}</h2>
        		 <span class="badge badge-light pull-right nobgcolor" ><a href="<%=basePath %>post/getIndexlist.html?parkId=${park.id }" >更多>></a></span>
        </div>
 				<c:forEach items="${park.posts}"  var="post" varStatus="vs">
-			          <ul class="list-unstyled categories tab-content margin-0"  id="postlist">
+			          <ul class="list-unstyled categories tab-content margin-0 f16"  id="postlist">
 			          <li style="height: 30px" >
 			          	 <span>${post.topic.name}</span>			          
 						<c:set value="${post.name}" var="content"></c:set>
@@ -70,10 +72,14 @@
 	 </div>
    </div>
   </div> 
-  <div class="my_post">
+   <div class="park_manager f18">
+  <a href=''>我是版主</a>
+  </div>
+  <div class="my_post f18">
   <a href='<%=basePath %>post/publish.html'>我要发帖</a>
   </div>
 
   </body>
+   <jsp:include page="/index_bottom.jsp"></jsp:include>
 </html>
 

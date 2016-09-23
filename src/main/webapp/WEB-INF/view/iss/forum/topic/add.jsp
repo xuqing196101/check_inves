@@ -58,23 +58,6 @@
 			 
 			 <li class="col-md-6  p0 ">
 			   <span class="fl">所属版块：</span>
-			   <%--
-			 	 <div class="input-append">
-	  			   <input class="span2" name ="parkId" id="parkId" type="hidden">
-                   <input class="span2" name ="parkName" id="parkName" type="text">
-		           <div class="btn-group">
-                    <button aria-expanded="false" class="btn dropdown-toggle add-on" data-toggle="dropdown">
-		              <img src="<%=basePath%>public/ZHH/images/down.png" >
-                    </button>
-                    <ul class="dropdown-menu list-unstyled" >
-				  	  	<c:forEach items="${parks}" var="park">
-							<li class="select_opt">
-		          				<input type="radio" name="item" class="fl mt10" value="${park.id }" onclick="cheClick();" ><div  class="ml10 fl">${park.name}</div>		          				
-		          			</li>
-				  	  	</c:forEach> 
-                    </ul>
-                   </div>
-                 </div> --%>
                 <select name ="parkId" class="select w230" >
 					<option></option>
 			  	  	<c:forEach items="${parks}" var="park">

@@ -7,6 +7,7 @@ import iss.model.fs.Topic;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 
 
@@ -35,7 +36,7 @@ public interface TopicService {
 	* @param topic
 	* @return List<Topic>     
 	*/
-	List<Topic> queryByList(Topic topic,Integer page);
+	List<Topic> queryByList(Map<String,Object> map);
 	/**
 	 * 
 	* @Title: getAll

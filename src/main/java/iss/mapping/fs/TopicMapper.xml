@@ -6,6 +6,7 @@
 		    <result column="NAME"  property="name" />
 		    <result column="CREATED_AT"  property="createdAt" />
 		    <result column="UPDATED_AT"  property="updatedAt" />
+		    <result column="IS_DELETED"  property="isDeleted" />  
 		     <result column="CONTENT" jdbcType="CLOB" property="content" />		     
 		    <association  column="PARK_ID"  property="park"  select="iss.dao.fs.ParkMapper.selectByPrimaryKey"/>  
 		    <association  column="USER_ID"  property="user" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>
@@ -21,17 +22,12 @@
 	  
 		  <!-- 表中所有列 -->
 		  <sql id="Base_Column_List">
-		    ID, NAME,CONTENT,PARK_ID, USER_ID,CREATED_AT, UPDATED_AT	    
+		    ID, NAME,CONTENT,PARK_ID, USER_ID,CREATED_AT, UPDATED_AT,IS_DELETED	    
 		  </sql>
 	  	
 		  <!-- 查询条件 -->
 		  <sql id="Example_Where_Clause">
-		    where 1 = 1
-				 <trim suffixOverrides=",">
-			      <if test="park!= null">
-			        and PARK_ID = #{park.id}
-			      </if>			
-				</trim>
+
 		  </sql>
 	    
 		  <!-- 1.根据Id查询 -->
@@ -43,11 +39,19 @@
 		  </select>
 	    
 		    <!-- 2.1查询列表 -->
-		   <select id="queryByList" parameterType="Object" resultMap="TopicPostMap">
+		   <select id="queryByList" parameterType="Map" resultMap="TopicPostMap">
 			    select 
 			    <include refid="Base_Column_List" />
 			    from T_ISS_FS_TOPIC
-			    <!-- <include refid="Example_Where_Clause" /> -->
+			    WHERE IS_DELETED = 0
+                 <trim suffixOverrides=",">
+                  <if test="parkId!= null">
+                    and PARK_ID = #{parkId}
+                  </if> 
+                   <if test="content!= null">
+                    and CONTENT Like concat(concat('%', '${content}'), '%')
+                  </if>         
+                </trim>
 			    ORDER BY CREATED_AT DESC
 			    
 		  	</select>		  
@@ -56,21 +60,24 @@
 			    select 
 			    <include refid="Base_Column_List" />
 			    from T_ISS_FS_TOPIC
-			    <!-- <include refid="Example_Where_Clause" /> -->
 			    ORDER BY CREATED_AT DESC
 		  	</select>
 	  	
 	  	  <!-- 3.查询列表总数 -->
 		  <select id="queryByCount" resultType="Object" parameterType="Object">
 		    select count(1) from T_ISS_FS_TOPIC
-		    <include refid="Example_Where_Clause" />
+		    where IS_DELETED = 0
+            <if test="park!= null">
+             and PARK_ID = #{park.id}
+             </if>         
 		  </select>
 	  
 		  <!-- 4根据ID删除 -->
-		  <delete id="deleteByPrimaryKey" parameterType="Object">
-			    delete from T_ISS_FS_TOPIC
+		  <update id="deleteByPrimaryKey" parameterType="Object">
+			    update T_ISS_FS_TOPIC
+                SET IS_DELETED = 1
 			    where ID = #{id}
-		  </delete>
+		  </update>
 		  
 		  <!-- 5插入一条数据 -->
 		  <insert id="insertSelective" parameterType="iss.model.fs.Topic">
@@ -100,6 +107,7 @@
 		      <if test="park != null">
 		        PARK_ID,
 		      </if>
+		      IS_DELETED,
 		    </trim>
 		    <trim prefix="values (" suffix=")" suffixOverrides=",">
 		      <if test="id != null">
@@ -122,8 +130,8 @@
 		      </if>
 		      <if test="park != null">
 		        #{park.id},
-		      </if>
-		      
+		      </if>	
+		      0,	      
 		    </trim>
 		  </insert>
 	  

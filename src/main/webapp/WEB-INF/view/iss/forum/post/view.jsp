@@ -54,6 +54,7 @@
 		        <%--<span class="add-on">i</span>--%>
 		       </div>
 			 </li>
+
 			 <li class="col-md-6  p0 ">
 			   <span class="fl">所属版块：</span>				 	
 	  			<div class="input-append">
@@ -96,32 +97,6 @@
 		       </div>
 			 </li>
 			 
-			 <li class="col-md-6  p0 ">
-			   <span class="fl">精华：</span>					 	
-	  			<div class="input-append">
-		        <c:choose>
-				 <c:when test="${post.isEssence == 0}"> 			
-					<input class="span2"  type="text" value = '不是精华' readonly="readonly"  >
-				 </c:when>
-				 <c:otherwise > 			
-					<input class="span2"  type="text" value = '精华' readonly="readonly"  >
-				 </c:otherwise>
-				 </c:choose>
-		       </div>
-			 </li>
-			 <li class="col-md-6  p0 ">
-			   <span class="fl">可回复：</span>				 	
-	  			<div class="input-append">
-		        <c:choose>
-				 <c:when test="${post.isCanReply == 0}"> 			
-					<input class="span2"  type="text" value = '可回复' readonly="readonly"  >
-				 </c:when>
-				 <c:otherwise > 			
-					<input class="span2"  type="text" value = '不可回复' readonly="readonly"  >
-				 </c:otherwise>
-				 </c:choose>
-		       </div>
-			 </li>
 			 
 			 <li class="col-md-6  p0 ">
 			   <span class="fl">发表人：</span>				 	
@@ -141,18 +116,24 @@
 			 <li class="col-md-6  p0 ">
 			   <span class="fl">创建时间：</span>				 	
 	  			<div class="input-append">
-		       <input class="span2"  type="text" value = "<fmt:formatDate value='${post.publishedTime}' pattern="yyyy年MM月dd日  HH:mm:ss" />" readonly="readonly">
+		       <input class="span2"  type="text" value = "<fmt:formatDate value='${post.publishedAt}' pattern="yyyy年MM月dd日  HH:mm:ss" />" readonly="readonly">
 		        <%--<span class="add-on">i</span>--%>
 		       </div>
 			 </li>
 			 <li class="col-md-6  p0 ">
 			   <span class="fl">最后回复时间：</span>				 	
 	  			<div class="input-append">
-		        <input class="span2"  type="text" value = "<fmt:formatDate value='${post.lastReplyedTime}' pattern="yyyy-MM-dd  HH:mm:ss" />" readonly="readonly">
+		        <input class="span2"  type="text" value = "<fmt:formatDate value='${post.lastReplyedAt}' pattern="yyyy-MM-dd  HH:mm:ss" />" readonly="readonly">
 		        <%--<span class="add-on">i</span>--%>
 		       </div>
 			 </li>
-			 
+             <li class="col-md-6  p0 ">
+               <span class="fl">回复数：</span>                  
+                <div class="input-append">
+                <input class="span2"  type="text" value = '${post.replycount}' readonly="readonly">
+                <%--<span class="add-on">i</span>--%>
+               </div>
+             </li>
 			 
 			<li class="col-md-12 p0">
 	   			<span class="fl">帖子内容：</span>

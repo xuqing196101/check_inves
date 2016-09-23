@@ -6,7 +6,8 @@
 		    <result column="NAME"  property="name" />
 		    <result column="CONTENT"  property="content" />
 		    <result column="CREATED_AT"  property="createdAt" />
-		    <result column="UPDATED_AT"  property="updatedAt" />			
+		    <result column="UPDATED_AT"  property="updatedAt" />		
+		    <result column="IS_DELETED"  property="isDeleted" />  	
 			<!-- 查询版主 -->
 		    <association column="USER_ID"  property="user" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>
 		    <!-- 查询创建人 -->
@@ -25,7 +26,7 @@
  
 		   <!-- 表中所有列 --> 
 		  <sql id="Base_Column_List">
-		    ID, NAME, CONTENT,USER_ID,CREATER_ID,CREATED_AT, UPDATED_AT	    
+		    ID, NAME, CONTENT,USER_ID,CREATER_ID,CREATED_AT, UPDATED_AT,IS_DELETED	    
 		  </sql>
 		  
 		   <!-- 查询条件 -->
@@ -52,14 +53,16 @@
 		    <include refid="Base_Column_List" />
 		    from T_ISS_FS_PARK
 		   <!--  <include refid="Example_Where_Clause" /> -->
+		   WHERE IS_DELETED = 0
 		   ORDER BY CREATED_AT ASC 
 		  </select>	
 		  	  
-		  <!-- 4.根据ID删除 -->
-		  <delete id="deleteByPrimaryKey" parameterType="Object">
-		    delete from T_ISS_FS_PARK
+		  <!-- 4.根据ID删除 逻辑删除-->
+		  <update id="deleteByPrimaryKey" parameterType="Object">
+		    update T_ISS_FS_PARK
+		    set is_deleted = 1
 		    where ID = #{id}
-		  </delete>
+		  </update>
 		  
 		 <!-- 5.插入一条记录 -->
 		  <insert id="insertSelective" parameterType="iss.model.fs.Park">
@@ -89,6 +92,7 @@
 		      <if test="creater != null">
 		        CREATER_ID,
 		      </if>
+		       IS_DELETED,
 		    </trim>
 		    <trim prefix="values (" suffix=")" suffixOverrides=",">
 		      <if test="id != null">
@@ -112,6 +116,7 @@
 		      <if test="creater != null">
 		        #{creater.id},
 		      </if>
+		       0,
 		    </trim>
 		  </insert>
 		  

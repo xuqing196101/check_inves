@@ -78,10 +78,10 @@
 			    contentType: "application/json;charset=UTF-8", 
 			    dataType:"json",   //返回格式为json
 			    type:"POST",   //请求方式		    
-		        success : function(data) {     
-		            if (data) {          	
+		        success : function(topics) {     
+		            if (topics) {          	
 		              $("#topics").html("");                
-		              $.each(data.topics, function(i, topic) {  
+		              $.each(topics, function(i, topic) {  
 		            	  $("#topics").append("<option  value="+topic.id+">"+topic.name+"</option>");	            	  
 		              });  	                          
 		            }
@@ -150,20 +150,7 @@
 	        	<option value="1">锁定 </option>
 	  			</select>	 	
 			 </li>
-			 <li class="col-md-6  p0 ">
-			   <span class="fl">精华：</span>				 	
-			   	<select name="isEssence" class="w230 ">
-	        	<option value="0">不是精华</option>
-	        	<option value="1">精华 </option>
-	  			</select>			   	
-			 </li>
-			 <li class="col-md-6  p0 ">
-			   <span class="fl">可回复：</span>		
-			   <select name="isCanReply" class="w230 ">
-	        	<option value="0">可回复</option>
-	        	<option value="1">不可回复 </option>
-	  			</select>		 			
-			 </li>
+
 			 
 			<li class="col-md-12 p0">
 	   			<span class="fl">帖子内容：</span>

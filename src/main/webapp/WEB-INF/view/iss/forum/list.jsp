@@ -9,7 +9,7 @@
   <head>
     <base href="<%=basePath%>">
     
-    <title>论坛管理</title>  
+    <title></title>  
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -32,33 +32,60 @@
 <script src="<%=basePath%>public/ZHQ/js/jquery_ujs.js"></script>
 <script src="<%=basePath%>public/ZHQ/js/bootstrap.min.js"></script>
   <script type="text/javascript">
-
  </script>
   </head>
-  
+    
   <body>
-   <div class="container margin-top-10">
-     <div class="content padding-left-25 padding-right-25 padding-top-20">		
-		          <c:forEach items="${list}"  var="post" varStatus="vs">
-			          <ul class="list-unstyled categories tab-content margin-0" id="postlist">
-			          <li>
-			          	 <span>${post.topic.name}</span>			          
-						<c:set value="${post.name}" var="content"></c:set>
-						<c:set value="${fn:length(content)}" var="length"></c:set>
-						<c:if test="${length>15}">
-							<a  href='<%=basePath %>post/getIndexDetail.html?postId=${post.id}' >${fn:substring(content,0,15)}...</a>
-						</c:if>
-						<c:if test="${length<15}">
-							<a href='<%=basePath %>post/getIndexDetail.html?postId=${post.id}' ></a>${post.name}
-						</c:if>
-				
-				          <span class='hex pull-right'><fmt:formatDate value='${post.publishedTime}' pattern="yyyy-MM-dd " /></span>
-				       </li>			          
-			          </ul>
-		          </c:forEach>
-     </div>
+  <div class="wrapper">
+  <jsp:include page="/index_head.jsp"></jsp:include>
+    <div class="container content height-350 job-content ">
+      <!--面包屑导航开始-->
+   <div class="margin-top-10 breadcrumbs ">
+      <div class="container">
+           <ul class="breadcrumb margin-left-0">
+           <li><a href="<%=basePath %>park/getIndex.do">论坛首页</a></li><li><a href="<%=basePath %>post/getIndexlist.html?parkId=${park.id }">${park.name}</a></li>
+           </ul>
+        <div class="clear"></div>
+      </div>
    </div>
-
-  </body>
+   
+    <div class="col-md-12 p20 border1 margin-top-20">
+        <div class="tab-v1">
+          <h2 class="nav nav-tabs border0 padding-left-15">
+            ${park.name}
+          </h2>
+        </div>
+          <div class="tab-content margin-bottom-20 margin-top-10">
+            <div class="tab-pane fade active in">
+              <div class="tag-box margin-bottom-0 padding-0">
+                <ul class="categories li_square padding-left-15 margin-bottom-0">
+                <c:forEach items="${list}" var="post">
+                  
+                  <li>                                  
+                    <span class="f18 mr5">·</span>
+                        <span>${post.topic.name}</span>                      
+                        <c:set value="${post.name}" var="content"></c:set>
+                        <c:set value="${fn:length(content)}" var="length"></c:set>
+                        <c:if test="${length>15}">
+                            <a  href='<%=basePath %>post/getIndexDetail.html?postId=${post.id}' >${fn:substring(content,0,15)}...</a>
+                        </c:if>
+                        <c:if test="${length<15}">
+                            <a href='<%=basePath %>post/getIndexDetail.html?postId=${post.id}' ></a>${post.name}
+                        </c:if>
+                   
+                   <span class="hex pull-right"><fmt:formatDate value='${post.publishedTime}' pattern="yyyy年MM月dd日 " /></span>
+                  </li>
+                   
+                </c:forEach>             
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+<!--底部代码开始-->
+<jsp:include page="/index_bottom.jsp"></jsp:include>
+</body>
 </html>
 

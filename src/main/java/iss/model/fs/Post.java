@@ -32,23 +32,15 @@ public class Post {
      * @Fields isLocking : 是否锁定
      */
     private Integer isLocking;
-    /**
-     * @Fields isEssence : 是否精华
-     */
-    private Integer isEssence;
-    /**
-     * @Fields isCanReply : 是否可回复
-     */
-    private Integer isCanReply;
 
     /**
      * @Fields publishedTime : 发布时间
      */
-    private Timestamp publishedTime;
+    private Timestamp publishedAt;
     /**
      * @Fields lastReplyedTime : 最后回复时间
      */
-    private Timestamp lastReplyedTime;
+    private Timestamp lastReplyedAt;
     /**
      * @Fields lastReply : 最后回复人
      */
@@ -107,39 +99,23 @@ public class Post {
     public void setIsLocking(Integer isLocking) {
         this.isLocking = isLocking;
     }
+    public Timestamp getPublishedAt() {
+		return publishedAt;
+	}
 
-    public Integer getIsEssence() {
-        return isEssence;
-    }
+	public void setPublishedAt(Timestamp publishedAt) {
+		this.publishedAt = publishedAt;
+	}
 
-    public void setIsEssence(Integer isEssence) {
-        this.isEssence = isEssence;
-    }
+	public Timestamp getLastReplyedAt() {
+		return lastReplyedAt;
+	}
 
-    public Integer getIsCanReply() {
-        return isCanReply;
-    }
+	public void setLastReplyedAt(Timestamp lastReplyedAt) {
+		this.lastReplyedAt = lastReplyedAt;
+	}
 
-    public void setIsCanReply(Integer isCanReply) {
-        this.isCanReply = isCanReply;
-    }
-    public Timestamp getPublishedTime() {
-        return publishedTime;
-    }
-
-    public void setPublishedTime(Timestamp publishedTime) {
-        this.publishedTime = publishedTime;
-    }
-
-    public Timestamp getLastReplyedTime() {
-        return lastReplyedTime;
-    }
-
-    public void setLastReplyedTime(Timestamp lastReplyedTime) {
-        this.lastReplyedTime = lastReplyedTime;
-    }
-
-    public String getContent() {
+	public String getContent() {
         return content;
     }
 

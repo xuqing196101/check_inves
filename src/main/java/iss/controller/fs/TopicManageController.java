@@ -2,6 +2,7 @@ package iss.controller.fs;
 
 import iss.model.fs.Park;
 import iss.model.fs.Post;
+import iss.model.fs.Reply;
 import iss.model.fs.Topic;
 import iss.service.fs.ParkService;
 import iss.service.fs.PostService;
@@ -16,19 +17,20 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.github.pagehelper.PageInfo;
-
+import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.User;
-import ses.service.bms.UserServiceI;
+import ses.util.PropertiesUtil;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 
 /**
@@ -40,7 +42,7 @@ import ses.service.bms.UserServiceI;
 @Controller
 @Scope("prototype")
 @RequestMapping("/topic")
-public class TopicManageController {
+public class TopicManageController extends BaseSupplierController {
 	
 	@Autowired
 	private ParkService parkService;	
@@ -50,9 +52,6 @@ public class TopicManageController {
 	private TopicService topicService;
 	@Autowired
 	private ReplyService replyService;
-	@Autowired
-	private UserServiceI userService;
-	
 	/**   
 	* @Title: getList
 	* @author Peng Zhongjun
@@ -63,8 +62,24 @@ public class TopicManageController {
 	* @return String     
 	*/
 	@RequestMapping("/getlist")
-	public String getList(Model model,Topic topic,Integer page){
-		List<Topic> list = topicService.queryByList(topic,page==null?1:page);
+	public String getList(HttpServletRequest request,Model model,Integer page)throws Exception{
+		Map<String,Object> map = new HashMap<String, Object>();
+		String describe = request.getParameter("condition");
+		String parkId = request.getParameter("parkId");		
+		if(page==null){
+			page=1;
+		}
+		if(describe !=null && describe!=""){
+			map.put("content", describe);
+		}
+		if(parkId != null && parkId!=""){
+			map.put("parkId", parkId);
+		}
+
+		map.put("page",page.toString());
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		List<Topic> list = topicService.queryByList(map);
 		for (Topic topic2 : list) {
 			Post post = new Post();
 			post.setTopic(topic2);
@@ -73,7 +88,11 @@ public class TopicManageController {
 			BigDecimal replycount = replyService.queryCountByParkId(topic2.getId());
 			topic2.setReplycount(replycount);
 		}
+		List<Park> parks = parkService.getAll(null);
+		model.addAttribute("parks", parks);
 		model.addAttribute("list", new PageInfo<Topic>(list));
+		model.addAttribute("describe", describe);
+		model.addAttribute("parkId", parkId);
 		return "iss/forum/topic/list";
 	}
 	
@@ -190,6 +209,14 @@ public class TopicManageController {
 		String[] ids=id.split(",");
 		for (String str : ids) {
 			topicService.deleteByPrimaryKey(str);
+			List<Post> posts = postService.selectByTopicID(str);
+			for (Post post : posts) {
+				postService.deleteByPrimaryKey(post.getId());
+				List<Reply> replies = replyService.selectByPostID(post.getId());
+				for (Reply reply : replies) {
+					replyService.deleteByPrimaryKey(reply.getId());
+				}
+			}
 		}		
 		return "redirect:getlist.html";
 	}
@@ -203,12 +230,12 @@ public class TopicManageController {
 	* @return Map<String, Object>     
 	*/
 	@RequestMapping("/getListForSelect")
-	@ResponseBody 
-	public Map<String, Object> getListForSelect(@RequestParam(value= "parkId",required = true)String parkId) {
-		Map<String,Object> modelMap = new HashMap<String, Object>();
+	 
+	public void getListForSelect(HttpServletResponse response,String parkId) {
+
 		List<Topic> topics = topicService.selectByParkID(parkId);
-		modelMap.put("topics", topics);
-		return modelMap;
+		
+		super.writeJson(response, topics);
 
 	}
 }

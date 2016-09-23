@@ -42,20 +42,21 @@ public class Topic {
      */
     private User user; 
     /**
-     * @Fields posts : 帖子
+     * @Fields posts : 帖子列表
      */
     private List<Post> posts;
     /**
-     * @Fields posts : 帖子数
+     * @Fields postcount : 帖子数
      */
     private BigDecimal postcount;
     /**
-     * @Fields posts : 回复
+     * @Fields replycount : 回复数
      */
     private BigDecimal replycount;
-    
-    
-    
+    /**
+     * @Fields isDeleted : 是否删除标识
+     */
+    private Integer isDeleted;
     
 
     public String getId() {
@@ -81,8 +82,6 @@ public class Topic {
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
-
-
 
     public Timestamp getUpdatedAt() {
 		return updatedAt;
@@ -138,6 +137,13 @@ public class Topic {
 
 	public void setReplycount(BigDecimal replycount) {
 		this.replycount = replycount;
+	}
+
+	public Integer getIsDeleted() {
+		return isDeleted;
+	}
+
+	public void setIsDeleted(Integer isDeleted) {
+		this.isDeleted = isDeleted;
 	}  
-	
 }
