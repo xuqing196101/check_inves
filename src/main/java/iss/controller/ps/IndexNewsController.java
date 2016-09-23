@@ -81,7 +81,7 @@ public class IndexNewsController {
 		List<ArticleType> articleTypeList = articleTypeService.selectAllArticleTypeForSolr();
 		for(int i=0;i<articleTypeList.size();i++){
 			List<Article> indexNewsList = indexNewsService.selectNews(articleTypeList.get(i).getId());
-			if(indexNewsList!=null){
+			if(!indexNewsList.isEmpty()){
 				indexMapper.put("select"+articleTypeList.get(i).getId()+"List", indexNewsList);
 			}else{
 				List<Article> indexNews = new ArrayList<Article>();

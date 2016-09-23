@@ -1,5 +1,7 @@
 package bss.dao.cs;
 
+import java.util.List;
+
 import bss.model.cs.PurchaseContract;
 
 /*
@@ -44,4 +46,27 @@ public interface PurchaseContractMapper {
     * @return PurchaseContract
      */
     PurchaseContract selectContractByid(String id);
+    
+    /**
+     * 
+    * @Title: selectAllPurchaseContract
+    * @author QuJie 
+    * @date 2016-9-23 下午1:39:25  
+    * @Description: 查询所有采购合同 
+    * @param @return      
+    * @return List<PurchaseContract>
+     */
+    List<PurchaseContract> selectAllPurchaseContract();
+    
+    /**
+     * 
+    * @Title: selectByCode
+    * @author QuJie 
+    * @date 2016-9-23 下午4:10:44  
+    * @Description: 根据合同编号查询 
+    * @param @param code
+    * @param @return      
+    * @return PurchaseContract
+     */
+    PurchaseContract selectByCode(String code);
 }

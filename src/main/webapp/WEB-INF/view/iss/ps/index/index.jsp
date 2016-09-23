@@ -87,6 +87,11 @@ function kaptcha(){
 	$("#kaptchaImage").hide().attr('src','Kaptcha.jpg?' + Math.floor(Math.random() * 100)).fadeIn();
 }
 
+function click(){
+	alert()
+	window.location.href="<%=basePath%>purchaseContract/selectAllPuCon.html";
+}
+
 </script>
 
 
@@ -493,7 +498,9 @@ function kaptcha(){
 	 </div>
    </div>
   </div> 
-
+	<div>
+		<input type="button" value="点击" onclick="click()"/>
+	</div>
 <jsp:include page="/index_bottom.jsp"></jsp:include>
 <!--[if lt IE 9]>
     <script src="/assets/plugins/respond.js?body=1"></script>

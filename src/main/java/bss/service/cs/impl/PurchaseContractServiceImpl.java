@@ -1,5 +1,7 @@
 package bss.service.cs.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,5 +24,16 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 	public int insertSelective(PurchaseContract record) {
 		return 0;
 	}
+	
+	@Override
+	public List<PurchaseContract> selectAllPurchaseContract() {
+		List<PurchaseContract> contractList = purchaseContractMapper.selectAllPurchaseContract();
+		return null;
+	}
 
+	@Override
+	public PurchaseContract selectByCode(String code) {
+		PurchaseContract purchaseContract = purchaseContractMapper.selectByCode(code);
+		return purchaseContract;
+	}
 }

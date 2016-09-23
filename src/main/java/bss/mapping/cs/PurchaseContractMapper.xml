@@ -18,16 +18,24 @@
     <association property="project" column="PROJECT_ID" select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey"/>
   </resultMap>
   
+  <sql id="PurchaseContract_Column_List">
+  	ID, CODE, NAME, 
+      MONEY, PROJECT_ID, SUPPLIER_ID, 
+      DEMAND_SECTOR, PLAN_FILE_NAME, BUDGET, 
+      YEAR, BUDGET_SUBJECT_ITEM, PURCHASE_DEP_ID, 
+      PACKAGE_NUM, APPROVAL_NUMBER
+  </sql>
+  
   <!-- 添加采购合同 -->
   <insert id="insert" parameterType="bss.model.cs.PurchaseContract">
     insert into T_BSS_CS_PURCHASE_CONTRACT (ID, CODE, NAME, 
-      MONEY, PROJECT_NAME, SUPPLIER_ID, 
+      MONEY, PROJECT_ID, SUPPLIER_ID, 
       DEMAND_SECTOR, PLAN_FILE_NAME, BUDGET, 
-      YEAR, "BUDGET_SUBJECT_ITEM ", PURCHASE_DEP_ID, 
+      YEAR, BUDGET_SUBJECT_ITEM, PURCHASE_DEP_ID, 
       PACKAGE_NUM, APPROVAL_NUMBER
       )
     values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{money,jdbcType=DECIMAL}, #{projectName,jdbcType=VARCHAR}, #{supplier.id,jdbcType=VARCHAR}, 
+      #{money,jdbcType=DECIMAL}, #{project.id,jdbcType=VARCHAR}, #{supplier.id,jdbcType=VARCHAR}, 
       #{demandSector,jdbcType=VARCHAR}, #{planFileName,jdbcType=VARCHAR}, #{budget,jdbcType=DECIMAL}, 
       #{year,jdbcType=DECIMAL}, #{budgetSubjectItem,jdbcType=VARCHAR}, #{purchaseDep.id,jdbcType=VARCHAR}, 
       #{packageNum,jdbcType=DECIMAL}, #{approvalNumber,jdbcType=VARCHAR}
@@ -50,8 +58,8 @@
       <if test="money != null">
         MONEY,
       </if>
-      <if test="projectName != null">
-        PROJECT_NAME,
+      <if test="project != null">
+        PROJECT_ID,
       </if>
       <if test="supplier != null">
         SUPPLIER_ID,
@@ -69,7 +77,7 @@
         YEAR,
       </if>
       <if test="budgetSubjectItem != null">
-        "BUDGET_SUBJECT_ITEM ",
+        BUDGET_SUBJECT_ITEM,
       </if>
       <if test="purchaseDep != null">
         PURCHASE_DEP_ID,
@@ -94,8 +102,8 @@
       <if test="money != null">
         #{money,jdbcType=DECIMAL},
       </if>
-      <if test="projectName != null">
-        #{projectName,jdbcType=VARCHAR},
+      <if test="project != null">
+        #{project.id,jdbcType=VARCHAR},
       </if>
       <if test="supplier != null">
         #{supplier.id,jdbcType=VARCHAR},
@@ -127,5 +135,23 @@
     </trim>
   </insert>
   
-  <select id="selectContractByid"></select>
+  <select id="selectContractByid" resultType="bss.model.cs.PurchaseContract">
+  	select
+  	<include refid="PurchaseContract_Column_List"/>
+  	from T_BSS_CS_PURCHASE_CONTRACT
+  	where ID = #{id}
+  </select>
+  
+  <select id="selectAllPurchaseContract" resultMap="PurchaseContractMap">
+  	select 
+  	<include refid="PurchaseContract_Column_List"/>
+  	from T_BSS_CS_PURCHASE_CONTRACT
+  </select>
+  
+  <select id="selectByCode" parameterType="java.lang.String" resultType="bss.model.cs.PurchaseContract">
+  	select 
+  	<include refid="PurchaseContract_Column_List"/>
+  	from T_BSS_CS_PURCHASE_CONTRACT
+  	where CODE = #{code}
+  </select>
 </mapper>
