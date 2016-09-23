@@ -2,6 +2,7 @@ package ses.service.sms;
 
 import java.util.List;
 
+import ses.model.sms.SupplierType;
 import ses.model.sms.SupplierTypeTree;
 
 /**
@@ -22,4 +23,15 @@ public interface SupplierTypeService {
 	 * @return: List<SupplierTypeTree>
 	 */
 	public List<SupplierTypeTree> findSupplierType(String supplierId);
+	
+	/**
+	 * @Title: findSupplierType
+	 * @author: Wang Zhaohua
+	 * @date: 2016-9-18 下午2:48:08
+	 * @Description: 查询所有类型
+	 * @param: @param supplierId
+	 * @param: @return
+	 * @return: List<SupplierTypeTree>
+	 */
+	public List<SupplierType> findSupplierType();
 }

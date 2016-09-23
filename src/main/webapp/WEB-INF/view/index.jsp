@@ -209,6 +209,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                    				<li><a href="<%=basePath%>preMenu/list.html" target="home" class="son-menu"><span class="mr5">◇</span>菜单管理</a></li>
                    				<li><a href="<%=basePath%>templet/getAll.do" target="home" class="son-menu"><span class="mr5">◇</span>模板管理</a></li>
                    				<li><a href="<%=basePath%>usertask/getmonth.html" target="home" class="son-menu"><span class="mr5">◇</span>用户任务管理</a></li>
+                   				   <li><a href="<%=basePath%>SupplierExtracts/conditions.do" target="home" class="son-menu"><span class="mr5">◇</span>供应商抽取</a></li>
+                                  <li><a href="<%=basePath%>SupplierExtracts/listSupplierExtracts.do" target="home" class="son-menu"><span class="mr5">◇</span>供应商抽取记录</a></li>
+
+                   				
                    			</ul>
                    		</li>
                    		<li class="line-block">

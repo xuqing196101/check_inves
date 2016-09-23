@@ -44,7 +44,6 @@ public class SupplierTypeServiceImpl implements SupplierTypeService {
 		// 查询供应商勾选类型
 		List<String> listSupplierTypeIds = supplierTypeRelateMapper.findSupplierTypeIdBySupplierId(supplierId);
 		
-		
 		List<SupplierTypeTree> listSupplierTypeTrees = new ArrayList<SupplierTypeTree>();
 		for (SupplierType supplierType : listSupplierTypes) {
 			SupplierTypeTree supplierTypeTree = new SupplierTypeTree();
@@ -57,6 +56,20 @@ public class SupplierTypeServiceImpl implements SupplierTypeService {
 			listSupplierTypeTrees.add(supplierTypeTree);
 		}
 		return listSupplierTypeTrees;
+	}
+
+	/**
+	 * @Title: findSupplierType
+	 * @author: Wang Zhaohua
+	 * @date: 2016-9-18 下午2:48:08
+	 * @Description: 查询所有类型
+	 * @param: @param supplierId
+	 * @param: @return
+	 * @return: List<SupplierTypeTree>
+	 */
+	@Override
+	public List<SupplierType> findSupplierType() {
+		return supplierTypeMapper.findSupplierType();
 	}
 
 }
