@@ -111,11 +111,12 @@
         </li>
         <li class="col-md-6 p0">
           <span>企业类型：</span>
-            <select name="punishDate" class="span2">
-              <option value="">请选择</option>
-              <option value="生产型">生产型</option>
-              <option value="销售型">销售型</option>
-            </select>
+	          <select name="punishDate" class="span2">
+	          <option value="">全部</option>
+	            <c:forEach var="type" varStatus="vs" items="${supplierType}">
+	              <option value="${type.name}">${type.name}</option>
+	            </c:forEach>
+	          </select> 
             &nbsp;&nbsp;&nbsp;<input class="btn-u" name="commit" value="搜索" type="submit">
         </li>
       </ul>

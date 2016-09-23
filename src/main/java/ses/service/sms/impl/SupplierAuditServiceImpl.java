@@ -9,10 +9,12 @@ import ses.dao.sms.SupplierAuditMapper;
 import ses.dao.sms.SupplierFinanceMapper;
 import ses.dao.sms.SupplierMapper;
 import ses.dao.sms.SupplierStockholderMapper;
+import ses.dao.sms.SupplierTypeMapper;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierStockholder;
+import ses.model.sms.SupplierType;
 import ses.service.sms.SupplierAuditService;
 import ses.util.PropertiesUtil;
 
@@ -51,6 +53,11 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	@Autowired
 	private SupplierStockholderMapper supplierStockholderMapper;
 	
+	/**
+	 * 供应商类型
+	 */
+	@Autowired
+	private SupplierTypeMapper supplierTypeMapper;
 	/**
 	 * @Title: supplierList
 	 * @author Xu Qing
@@ -169,6 +176,20 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	public Integer getCount(Supplier supplier) {
 		
 		return supplierMapper.getCount(supplier);
+	}
+	
+	/**
+     * @Title: findSupplierType
+     * @author Xu Qing
+     * @date 2016-9-23 下午5:44:18  
+     * @Description: 查询所有供应商类型 
+     * @param @return      
+     * @return List<SupplierType>
+     */
+	@Override
+	public List<SupplierType> findSupplierType() {
+		
+		return supplierTypeMapper.findSupplierType();
 	}
 
 

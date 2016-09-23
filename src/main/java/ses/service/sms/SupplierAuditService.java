@@ -6,6 +6,7 @@ import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierStockholder;
+import ses.model.sms.SupplierType;
 /**
  * <p>Title:SupplierAuditServlice </p>
  * <p>Description: 供应商审核接口</p>
@@ -99,4 +100,14 @@ public interface SupplierAuditService {
      * @return Integer
      */
     Integer getCount(Supplier supplier);
+    
+    /**
+     * @Title: findSupplierType
+     * @author Xu Qing
+     * @date 2016-9-23 下午5:44:18  
+     * @Description: 查询所有供应商类型 
+     * @param @return      
+     * @return List<SupplierType>
+     */
+    List<SupplierType> findSupplierType();
 }

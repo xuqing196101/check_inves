@@ -7,12 +7,14 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierStockholder;
+import ses.model.sms.SupplierType;
 import ses.service.sms.SupplierAuditService;
 
 import com.github.pagehelper.PageInfo;
@@ -82,6 +84,10 @@ public class SupplierAuditController {
 		List<Supplier> supplierList =supplierAuditService.supplierList(supplier,page==null?1:page);
 		request.setAttribute("result", new PageInfo<>(supplierList));
 		request.setAttribute("supplierList", supplierList);
+		
+		//所有供应商类型
+		List<SupplierType> supplierType= supplierAuditService.findSupplierType();
+		request.setAttribute("supplierType", supplierType);
 		return "ses/sms/supplier_audit/supplier_list";
 	}
 	
@@ -223,4 +229,5 @@ public class SupplierAuditController {
 		return "redirect:supplierList.html";
 	}
 
+		
 }
