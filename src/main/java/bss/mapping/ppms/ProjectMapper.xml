@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.ppms.ProjectMapper">
+  <resultMap id="BaseResultMap" type="bss.model.ppms.Project">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="NUMBER" jdbcType="VARCHAR" property="number" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="PRINCIPAL" jdbcType="VARCHAR" property="principal" />
+    <result column="IPONE" jdbcType="VARCHAR" property="ipone" />
+    <result column="LINKMAN" jdbcType="VARCHAR" property="linkman" />
+    <result column="LINKMAN_IPONE" jdbcType="VARCHAR" property="linkmanIpone" />
+    <result column="BID_UNIT" jdbcType="VARCHAR" property="bidUnit" />
+    <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+    <result column="POSTCODE" jdbcType="DECIMAL" property="postcode" />
+    <result column="SUPPLIER_NUMBER" jdbcType="DECIMAL" property="supplierNumber" />
+    <result column="OFFER_STANDARD" jdbcType="DECIMAL" property="offerStandard" />
+    <result column="PR_INTRODUCE" jdbcType="VARCHAR" property="prIntroduce" />
+    <result column="BUDGET_AMOUNT" jdbcType="DECIMAL" property="budgetAmount" />
+    <result column="PASS_WORD" jdbcType="VARCHAR" property="passWord" />
+    <result column="SCORING_RUBRIC" jdbcType="VARCHAR" property="scoringRubric" />
+    <result column="OPERATOR" jdbcType="VARCHAR" property="operator" />
+    <result column="DIVISION_OF_WORK" jdbcType="VARCHAR" property="divisionOfWork" />
+    <result column="PURCHASE_TYPE" jdbcType="VARCHAR" property="purchaseType" />
+    <result column="MATERIALS_TYPE" jdbcType="VARCHAR" property="materialsType" />
+    <result column="SECTOR_OF_DEMAND" jdbcType="VARCHAR" property="sectorOfDemand" />
+    <result column="DEADLINE" jdbcType="DATE" property="deadline" />
+    <result column="DATE_OF_ENTRUSTMENT" jdbcType="DATE" property="dateOfEntrustment" />
+    <result column="BID_DATE" jdbcType="DATE" property="bidDate" />
+    <result column="BID_ADDRESS" jdbcType="VARCHAR" property="bidAddress" />
+    <association property="purchaseDep" column="PURCHASE_DEP_ID" select="ses.dao.oms.PurchaseDepMapper.selectPurchaseById"/>
+  	<collection property="requieredList" ofType="bss.model.pms.PurchaseRequired"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, NAME, NUMBER, STATUS, PRINCIPAL, IPONE, LINKMAN, LINKMAN_IPONE, BID_UNIT, ADDRESS, 
+    POSTCODE, SUPPLIER_NUMBER, OFFER_STANDARD, PR_INTRODUCE, BUDGET_AMOUNT, PASS_WORD, 
+    SCORING_RUBRIC, OPERATOR, DIVISION_OF_WORK, PURCHASE_TYPE, MATERIALS_TYPE, SECTOR_OF_DEMAND, 
+    PURCHASE_DEP_ID, DEADLINE, DATE_OF_ENTRUSTMENT, BID_DATE, BID_ADDRESS, REQUIERED_ID
+  </sql>
+  <select id="selectProjectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PPMS_PROJECTS
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BSS_PPMS_PROJECTS
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="bss.model.ppms.Project">
+    insert into T_BSS_PPMS_PROJECTS (ID, NAME, NUMBER, 
+      STATUS, PRINCIPAL, IPONE, 
+      LINKMAN, LINKMAN_IPONE, BID_UNIT, 
+      ADDRESS, POSTCODE, SUPPLIER_NUMBER, 
+      OFFER_STANDARD, PR_INTRODUCE, BUDGET_AMOUNT, 
+      PASS_WORD, SCORING_RUBRIC, OPERATOR, 
+      DIVISION_OF_WORK, PURCHASE_TYPE, MATERIALS_TYPE, 
+      SECTOR_OF_DEMAND, PURCHASE_DEP_ID, DEADLINE, 
+      DATE_OF_ENTRUSTMENT, BID_DATE, BID_ADDRESS, 
+      REQUIERED_ID)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, 
+      #{status,jdbcType=DECIMAL}, #{principal,jdbcType=VARCHAR}, #{ipone,jdbcType=VARCHAR}, 
+      #{linkman,jdbcType=VARCHAR}, #{linkmanIpone,jdbcType=VARCHAR}, #{bidUnit,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{postcode,jdbcType=DECIMAL}, #{supplierNumber,jdbcType=DECIMAL}, 
+      #{offerStandard,jdbcType=DECIMAL}, #{prIntroduce,jdbcType=VARCHAR}, #{budgetAmount,jdbcType=DECIMAL}, 
+      #{passWord,jdbcType=VARCHAR}, #{scoringRubric,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, 
+      #{divisionOfWork,jdbcType=VARCHAR}, #{purchaseType,jdbcType=VARCHAR}, #{materialsType,jdbcType=VARCHAR}, 
+      #{sectorOfDemand,jdbcType=VARCHAR}, #{purchaseDep.id,jdbcType=VARCHAR}, #{deadline,jdbcType=DATE}, 
+      #{dateOfEntrustment,jdbcType=DATE}, #{bidDate,jdbcType=DATE}, #{bidAddress,jdbcType=VARCHAR}, 
+      #{requiered.id,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="bss.model.ppms.Project">
+    insert into T_BSS_PPMS_PROJECTS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="number != null">
+        NUMBER,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="principal != null">
+        PRINCIPAL,
+      </if>
+      <if test="ipone != null">
+        IPONE,
+      </if>
+      <if test="linkman != null">
+        LINKMAN,
+      </if>
+      <if test="linkmanIpone != null">
+        LINKMAN_IPONE,
+      </if>
+      <if test="bidUnit != null">
+        BID_UNIT,
+      </if>
+      <if test="address != null">
+        ADDRESS,
+      </if>
+      <if test="postcode != null">
+        POSTCODE,
+      </if>
+      <if test="supplierNumber != null">
+        SUPPLIER_NUMBER,
+      </if>
+      <if test="offerStandard != null">
+        OFFER_STANDARD,
+      </if>
+      <if test="prIntroduce != null">
+        PR_INTRODUCE,
+      </if>
+      <if test="budgetAmount != null">
+        BUDGET_AMOUNT,
+      </if>
+      <if test="passWord != null">
+        PASS_WORD,
+      </if>
+      <if test="scoringRubric != null">
+        SCORING_RUBRIC,
+      </if>
+      <if test="operator != null">
+        OPERATOR,
+      </if>
+      <if test="divisionOfWork != null">
+        DIVISION_OF_WORK,
+      </if>
+      <if test="purchaseType != null">
+        PURCHASE_TYPE,
+      </if>
+      <if test="materialsType != null">
+        MATERIALS_TYPE,
+      </if>
+      <if test="sectorOfDemand != null">
+        SECTOR_OF_DEMAND,
+      </if>
+      <if test="purchaseDep != null">
+        PURCHASE_DEP_ID,
+      </if>
+      <if test="deadline != null">
+        DEADLINE,
+      </if>
+      <if test="dateOfEntrustment != null">
+        DATE_OF_ENTRUSTMENT,
+      </if>
+      <if test="bidDate != null">
+        BID_DATE,
+      </if>
+      <if test="bidAddress != null">
+        BID_ADDRESS,
+      </if>
+      <if test="requiered != null">
+        REQUIERED_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="principal != null">
+        #{principal,jdbcType=VARCHAR},
+      </if>
+      <if test="ipone != null">
+        #{ipone,jdbcType=VARCHAR},
+      </if>
+      <if test="linkman != null">
+        #{linkman,jdbcType=VARCHAR},
+      </if>
+      <if test="linkmanIpone != null">
+        #{linkmanIpone,jdbcType=VARCHAR},
+      </if>
+      <if test="bidUnit != null">
+        #{bidUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="postcode != null">
+        #{postcode,jdbcType=DECIMAL},
+      </if>
+      <if test="supplierNumber != null">
+        #{supplierNumber,jdbcType=DECIMAL},
+      </if>
+      <if test="offerStandard != null">
+        #{offerStandard,jdbcType=DECIMAL},
+      </if>
+      <if test="prIntroduce != null">
+        #{prIntroduce,jdbcType=VARCHAR},
+      </if>
+      <if test="budgetAmount != null">
+        #{budgetAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="passWord != null">
+        #{passWord,jdbcType=VARCHAR},
+      </if>
+      <if test="scoringRubric != null">
+        #{scoringRubric,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null">
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="divisionOfWork != null">
+        #{divisionOfWork,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseType != null">
+        #{purchaseType,jdbcType=VARCHAR},
+      </if>
+      <if test="materialsType != null">
+        #{materialsType,jdbcType=VARCHAR},
+      </if>
+      <if test="sectorOfDemand != null">
+        #{sectorOfDemand,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseDep != null">
+        #{purchaseDep.id,jdbcType=VARCHAR},
+      </if>
+      <if test="deadline != null">
+        #{deadline,jdbcType=DATE},
+      </if>
+      <if test="dateOfEntrustment != null">
+        #{dateOfEntrustment,jdbcType=DATE},
+      </if>
+      <if test="bidDate != null">
+        #{bidDate,jdbcType=DATE},
+      </if>
+      <if test="bidAddress != null">
+        #{bidAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="requiered != null">
+        #{requiered.id,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="bss.model.ppms.Project">
+    update T_BSS_PPMS_PROJECTS
+    <set>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        NUMBER = #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="principal != null">
+        PRINCIPAL = #{principal,jdbcType=VARCHAR},
+      </if>
+      <if test="ipone != null">
+        IPONE = #{ipone,jdbcType=VARCHAR},
+      </if>
+      <if test="linkman != null">
+        LINKMAN = #{linkman,jdbcType=VARCHAR},
+      </if>
+      <if test="linkmanIpone != null">
+        LINKMAN_IPONE = #{linkmanIpone,jdbcType=VARCHAR},
+      </if>
+      <if test="bidUnit != null">
+        BID_UNIT = #{bidUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="postcode != null">
+        POSTCODE = #{postcode,jdbcType=DECIMAL},
+      </if>
+      <if test="supplierNumber != null">
+        SUPPLIER_NUMBER = #{supplierNumber,jdbcType=DECIMAL},
+      </if>
+      <if test="offerStandard != null">
+        OFFER_STANDARD = #{offerStandard,jdbcType=DECIMAL},
+      </if>
+      <if test="prIntroduce != null">
+        PR_INTRODUCE = #{prIntroduce,jdbcType=VARCHAR},
+      </if>
+      <if test="budgetAmount != null">
+        BUDGET_AMOUNT = #{budgetAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="passWord != null">
+        PASS_WORD = #{passWord,jdbcType=VARCHAR},
+      </if>
+      <if test="scoringRubric != null">
+        SCORING_RUBRIC = #{scoringRubric,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null">
+        OPERATOR = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="divisionOfWork != null">
+        DIVISION_OF_WORK = #{divisionOfWork,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseType != null">
+        PURCHASE_TYPE = #{purchaseType,jdbcType=VARCHAR},
+      </if>
+      <if test="materialsType != null">
+        MATERIALS_TYPE = #{materialsType,jdbcType=VARCHAR},
+      </if>
+      <if test="sectorOfDemand != null">
+        SECTOR_OF_DEMAND = #{sectorOfDemand,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseDep != null">
+        PURCHASE_DEP_ID = #{purchaseDep.id,jdbcType=VARCHAR},
+      </if>
+      <if test="deadline != null">
+        DEADLINE = #{deadline,jdbcType=DATE},
+      </if>
+      <if test="dateOfEntrustment != null">
+        DATE_OF_ENTRUSTMENT = #{dateOfEntrustment,jdbcType=DATE},
+      </if>
+      <if test="bidDate != null">
+        BID_DATE = #{bidDate,jdbcType=DATE},
+      </if>
+      <if test="bidAddress != null">
+        BID_ADDRESS = #{bidAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="requiered != null">
+        REQUIERED_ID = #{requiered.id,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="bss.model.ppms.Project">
+    update T_BSS_PPMS_PROJECTS
+    set NAME = #{name,jdbcType=VARCHAR},
+      NUMBER = #{number,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=DECIMAL},
+      PRINCIPAL = #{principal,jdbcType=VARCHAR},
+      IPONE = #{ipone,jdbcType=VARCHAR},
+      LINKMAN = #{linkman,jdbcType=VARCHAR},
+      LINKMAN_IPONE = #{linkmanIpone,jdbcType=VARCHAR},
+      BID_UNIT = #{bidUnit,jdbcType=VARCHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      POSTCODE = #{postcode,jdbcType=DECIMAL},
+      SUPPLIER_NUMBER = #{supplierNumber,jdbcType=DECIMAL},
+      OFFER_STANDARD = #{offerStandard,jdbcType=DECIMAL},
+      PR_INTRODUCE = #{prIntroduce,jdbcType=VARCHAR},
+      BUDGET_AMOUNT = #{budgetAmount,jdbcType=DECIMAL},
+      PASS_WORD = #{passWord,jdbcType=VARCHAR},
+      SCORING_RUBRIC = #{scoringRubric,jdbcType=VARCHAR},
+      OPERATOR = #{operator,jdbcType=VARCHAR},
+      DIVISION_OF_WORK = #{divisionOfWork,jdbcType=VARCHAR},
+      PURCHASE_TYPE = #{purchaseType,jdbcType=VARCHAR},
+      MATERIALS_TYPE = #{materialsType,jdbcType=VARCHAR},
+      SECTOR_OF_DEMAND = #{sectorOfDemand,jdbcType=VARCHAR},
+      PURCHASE_DEP_ID = #{purchaseDep.id,jdbcType=VARCHAR},
+      DEADLINE = #{deadline,jdbcType=DATE},
+      DATE_OF_ENTRUSTMENT = #{dateOfEntrustment,jdbcType=DATE},
+      BID_DATE = #{bidDate,jdbcType=DATE},
+      BID_ADDRESS = #{bidAddress,jdbcType=VARCHAR},
+      REQUIERED_ID = #{requiered.id,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -33,5 +33,15 @@ public interface PurchaseContractMapper {
      */
     int insertSelective(PurchaseContract record);
     
-    
+    /**
+     * 
+    * @Title: selectContractByid
+    * @author QuJie 
+    * @date 2016-9-23 上午9:43:31  
+    * @Description: 根据id查询采购合同 
+    * @param @param id
+    * @param @return      
+    * @return PurchaseContract
+     */
+    PurchaseContract selectContractByid(String id);
 }

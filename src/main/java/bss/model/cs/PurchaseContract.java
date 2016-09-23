@@ -2,6 +2,8 @@ package bss.model.cs;
 
 import java.math.BigDecimal;
 
+import bss.model.ppms.Project;
+
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
 
@@ -12,70 +14,70 @@ public class PurchaseContract {
     private String id;
     
     /**
-	 * @Fields id : 编号
+	 * @Fields code : 编号
 	 */
     private String code;
     
     /**
-	 * @Fields id : 合同名称
+	 * @Fields name : 合同名称
 	 */
     private String name;
     
     /**
-	 * @Fields id : 成交金额
+	 * @Fields money : 成交金额
 	 */
     private BigDecimal money;
     
     /**
-	 * @Fields id : 项目名称
+	 * @Fields projectName : 项目名称
 	 */
-    private String projectName;
+    private Project project;
     
     /**
-	 * @Fields id : 成交供应商
+	 * @Fields supplier : 成交供应商
 	 */
     private Supplier supplier;
     
     /**
-	 * @Fields id : 需求部门
+	 * @Fields demandSector : 需求部门
 	 */
     private String demandSector;
     
     /**
-	 * @Fields id : 计划任务文号
+	 * @Fields planFileName : 计划任务文号
 	 */
     private String planFileName;
     
     /**
-	 * @Fields id : 预算金额
+	 * @Fields budget : 预算金额
 	 */
     private BigDecimal budget;
     
     /**
-	 * @Fields id : 年度
+	 * @Fields year : 年度
 	 */
     private Short year;
     
     /**
-	 * @Fields id : 顶级预算科目
+	 * @Fields budgetSubjectItem : 顶级预算科目
 	 */
     private String budgetSubjectItem;
     
     /**
-	 * @Fields id : 采购机构
+	 * @Fields purchaseDep : 采购机构
 	 */
     private PurchaseDep purchaseDep;
     
     /**
-	 * @Fields id : 包号
+	 * @Fields packageNum : 包号
 	 */
     private Long packageNum;
     
     /**
-	 * @Fields id : 合同批准文号
+	 * @Fields approvalNumber : 合同批准文号
 	 */
     private String approvalNumber;
-
+    
     public String getId() {
         return id;
     }
@@ -108,15 +110,15 @@ public class PurchaseContract {
         this.money = money;
     }
 
-    public String getProjectName() {
-        return projectName;
-    }
+    public Project getProject() {
+		return project;
+	}
 
-    public void setProjectName(String projectName) {
-        this.projectName = projectName == null ? null : projectName.trim();
-    }
+	public void setProject(Project project) {
+		this.project = project;
+	}
 
-    public Supplier getSupplier() {
+	public Supplier getSupplier() {
 		return supplier;
 	}
 

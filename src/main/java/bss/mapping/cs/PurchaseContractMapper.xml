@@ -6,7 +6,6 @@
     <result column="CODE" jdbcType="VARCHAR" property="code" />
     <result column="NAME" jdbcType="VARCHAR" property="name" />
     <result column="MONEY" jdbcType="DECIMAL" property="money" />
-    <result column="PROJECT_NAME" jdbcType="VARCHAR" property="projectName" />
     <result column="DEMAND_SECTOR" jdbcType="VARCHAR" property="demandSector" />
     <result column="PLAN_FILE_NAME" jdbcType="VARCHAR" property="planFileName" />
     <result column="BUDGET" jdbcType="DECIMAL" property="budget" />
@@ -16,6 +15,7 @@
     <result column="APPROVAL_NUMBER" jdbcType="VARCHAR" property="approvalNumber" />
     <association property="supplier" column="SUPPLIER_ID" select="ses.dao.sms.SupplierMapper.selectByPrimaryKey"/>
     <association property="purchaseDep" column="PURCHASE_DEP_ID" select="ses.dao.oms.PurchaseDepMapper.selectPurchaseById"/>
+    <association property="project" column="PROJECT_ID" select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey"/>
   </resultMap>
   
   <!-- 添加采购合同 -->
@@ -27,9 +27,9 @@
       PACKAGE_NUM, APPROVAL_NUMBER
       )
     values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{money,jdbcType=DECIMAL}, #{projectName,jdbcType=VARCHAR}, #{supplierId,jdbcType=VARCHAR}, 
+      #{money,jdbcType=DECIMAL}, #{projectName,jdbcType=VARCHAR}, #{supplier.id,jdbcType=VARCHAR}, 
       #{demandSector,jdbcType=VARCHAR}, #{planFileName,jdbcType=VARCHAR}, #{budget,jdbcType=DECIMAL}, 
-      #{year,jdbcType=DECIMAL}, #{budgetSubjectItem,jdbcType=VARCHAR}, #{purchaseDepId,jdbcType=VARCHAR}, 
+      #{year,jdbcType=DECIMAL}, #{budgetSubjectItem,jdbcType=VARCHAR}, #{purchaseDep.id,jdbcType=VARCHAR}, 
       #{packageNum,jdbcType=DECIMAL}, #{approvalNumber,jdbcType=VARCHAR}
       )
   </insert>
@@ -53,7 +53,7 @@
       <if test="projectName != null">
         PROJECT_NAME,
       </if>
-      <if test="supplierId != null">
+      <if test="supplier != null">
         SUPPLIER_ID,
       </if>
       <if test="demandSector != null">
@@ -71,7 +71,7 @@
       <if test="budgetSubjectItem != null">
         "BUDGET_SUBJECT_ITEM ",
       </if>
-      <if test="purchaseDepId != null">
+      <if test="purchaseDep != null">
         PURCHASE_DEP_ID,
       </if>
       <if test="packageNum != null">
@@ -97,8 +97,8 @@
       <if test="projectName != null">
         #{projectName,jdbcType=VARCHAR},
       </if>
-      <if test="supplierId != null">
-        #{supplierId,jdbcType=VARCHAR},
+      <if test="supplier != null">
+        #{supplier.id,jdbcType=VARCHAR},
       </if>
       <if test="demandSector != null">
         #{demandSector,jdbcType=VARCHAR},
@@ -115,8 +115,8 @@
       <if test="budgetSubjectItem != null">
         #{budgetSubjectItem,jdbcType=VARCHAR},
       </if>
-      <if test="purchaseDepId != null">
-        #{purchaseDepId,jdbcType=VARCHAR},
+      <if test="purchaseDep != null">
+        #{purchaseDep.id,jdbcType=VARCHAR},
       </if>
       <if test="packageNum != null">
         #{packageNum,jdbcType=DECIMAL},
@@ -126,4 +126,6 @@
       </if>
     </trim>
   </insert>
+  
+  <select id="selectContractByid"></select>
 </mapper>
