@@ -2,30 +2,79 @@ package bss.model.cs;
 
 import java.math.BigDecimal;
 
-public class Contract {
+import ses.model.oms.PurchaseDep;
+import ses.model.sms.Supplier;
+
+public class PurchaseContract {
+	/**
+	 * @Fields id : 主键
+	 */
     private String id;
-
+    
+    /**
+	 * @Fields id : 编号
+	 */
     private String code;
-
+    
+    /**
+	 * @Fields id : 合同名称
+	 */
     private String name;
-
+    
+    /**
+	 * @Fields id : 成交金额
+	 */
     private BigDecimal money;
-
+    
+    /**
+	 * @Fields id : 项目名称
+	 */
     private String projectName;
-
-    private String supplierName;
-
-    private String purchaseOrganization;
-
+    
+    /**
+	 * @Fields id : 成交供应商
+	 */
+    private Supplier supplier;
+    
+    /**
+	 * @Fields id : 需求部门
+	 */
     private String demandSector;
-
+    
+    /**
+	 * @Fields id : 计划任务文号
+	 */
     private String planFileName;
-
+    
+    /**
+	 * @Fields id : 预算金额
+	 */
     private BigDecimal budget;
-
+    
+    /**
+	 * @Fields id : 年度
+	 */
     private Short year;
-
+    
+    /**
+	 * @Fields id : 顶级预算科目
+	 */
     private String budgetSubjectItem;
+    
+    /**
+	 * @Fields id : 采购机构
+	 */
+    private PurchaseDep purchaseDep;
+    
+    /**
+	 * @Fields id : 包号
+	 */
+    private Long packageNum;
+    
+    /**
+	 * @Fields id : 合同批准文号
+	 */
+    private String approvalNumber;
 
     public String getId() {
         return id;
@@ -67,23 +116,23 @@ public class Contract {
         this.projectName = projectName == null ? null : projectName.trim();
     }
 
-    public String getSupplierName() {
-        return supplierName;
-    }
+    public Supplier getSupplier() {
+		return supplier;
+	}
 
-    public void setSupplierName(String supplierName) {
-        this.supplierName = supplierName == null ? null : supplierName.trim();
-    }
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
+	}
 
-    public String getPurchaseOrganization() {
-        return purchaseOrganization;
-    }
+	public PurchaseDep getPurchaseDep() {
+		return purchaseDep;
+	}
 
-    public void setPurchaseOrganization(String purchaseOrganization) {
-        this.purchaseOrganization = purchaseOrganization == null ? null : purchaseOrganization.trim();
-    }
+	public void setPurchaseDep(PurchaseDep purchaseDep) {
+		this.purchaseDep = purchaseDep;
+	}
 
-    public String getDemandSector() {
+	public String getDemandSector() {
         return demandSector;
     }
 
@@ -121,5 +170,21 @@ public class Contract {
 
     public void setBudgetSubjectItem(String budgetSubjectItem) {
         this.budgetSubjectItem = budgetSubjectItem == null ? null : budgetSubjectItem.trim();
+    }
+
+    public Long getPackageNum() {
+        return packageNum;
+    }
+
+    public void setPackageNum(Long packageNum) {
+        this.packageNum = packageNum;
+    }
+
+    public String getApprovalNumber() {
+        return approvalNumber;
+    }
+
+    public void setApprovalNumber(String approvalNumber) {
+        this.approvalNumber = approvalNumber == null ? null : approvalNumber.trim();
     }
 }

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.cs.PurchaseContractMapper">
+  <resultMap id="PurchaseContractMap" type="bss.model.cs.PurchaseContract">
+    <result column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="CODE" jdbcType="VARCHAR" property="code" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="MONEY" jdbcType="DECIMAL" property="money" />
+    <result column="PROJECT_NAME" jdbcType="VARCHAR" property="projectName" />
+    <result column="DEMAND_SECTOR" jdbcType="VARCHAR" property="demandSector" />
+    <result column="PLAN_FILE_NAME" jdbcType="VARCHAR" property="planFileName" />
+    <result column="BUDGET" jdbcType="DECIMAL" property="budget" />
+    <result column="YEAR" jdbcType="DECIMAL" property="year" />
+    <result column="BUDGET_SUBJECT_ITEM " jdbcType="VARCHAR" property="budgetSubjectItem" />
+    <result column="PACKAGE_NUM" jdbcType="DECIMAL" property="packageNum" />
+    <result column="APPROVAL_NUMBER" jdbcType="VARCHAR" property="approvalNumber" />
+    <association property="supplier" column="SUPPLIER_ID" select="ses.dao.sms.SupplierMapper.selectByPrimaryKey"/>
+    <association property="purchaseDep" column="PURCHASE_DEP_ID" select="ses.dao.oms.PurchaseDepMapper.selectPurchaseById"/>
+  </resultMap>
+  
+  <!-- 添加采购合同 -->
+  <insert id="insert" parameterType="bss.model.cs.PurchaseContract">
+    insert into T_BSS_CS_PURCHASE_CONTRACT (ID, CODE, NAME, 
+      MONEY, PROJECT_NAME, SUPPLIER_ID, 
+      DEMAND_SECTOR, PLAN_FILE_NAME, BUDGET, 
+      YEAR, "BUDGET_SUBJECT_ITEM ", PURCHASE_DEP_ID, 
+      PACKAGE_NUM, APPROVAL_NUMBER
+      )
+    values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{money,jdbcType=DECIMAL}, #{projectName,jdbcType=VARCHAR}, #{supplierId,jdbcType=VARCHAR}, 
+      #{demandSector,jdbcType=VARCHAR}, #{planFileName,jdbcType=VARCHAR}, #{budget,jdbcType=DECIMAL}, 
+      #{year,jdbcType=DECIMAL}, #{budgetSubjectItem,jdbcType=VARCHAR}, #{purchaseDepId,jdbcType=VARCHAR}, 
+      #{packageNum,jdbcType=DECIMAL}, #{approvalNumber,jdbcType=VARCHAR}
+      )
+  </insert>
+  
+  <!-- 根据条件添加采购合同 -->
+  <insert id="insertSelective" parameterType="bss.model.cs.PurchaseContract">
+    insert into T_BSS_CS_PURCHASE_CONTRACT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="code != null">
+        CODE,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="money != null">
+        MONEY,
+      </if>
+      <if test="projectName != null">
+        PROJECT_NAME,
+      </if>
+      <if test="supplierId != null">
+        SUPPLIER_ID,
+      </if>
+      <if test="demandSector != null">
+        DEMAND_SECTOR,
+      </if>
+      <if test="planFileName != null">
+        PLAN_FILE_NAME,
+      </if>
+      <if test="budget != null">
+        BUDGET,
+      </if>
+      <if test="year != null">
+        YEAR,
+      </if>
+      <if test="budgetSubjectItem != null">
+        "BUDGET_SUBJECT_ITEM ",
+      </if>
+      <if test="purchaseDepId != null">
+        PURCHASE_DEP_ID,
+      </if>
+      <if test="packageNum != null">
+        PACKAGE_NUM,
+      </if>
+      <if test="approvalNumber != null">
+        APPROVAL_NUMBER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="projectName != null">
+        #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierId != null">
+        #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="demandSector != null">
+        #{demandSector,jdbcType=VARCHAR},
+      </if>
+      <if test="planFileName != null">
+        #{planFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="budget != null">
+        #{budget,jdbcType=DECIMAL},
+      </if>
+      <if test="year != null">
+        #{year,jdbcType=DECIMAL},
+      </if>
+      <if test="budgetSubjectItem != null">
+        #{budgetSubjectItem,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseDepId != null">
+        #{purchaseDepId,jdbcType=VARCHAR},
+      </if>
+      <if test="packageNum != null">
+        #{packageNum,jdbcType=DECIMAL},
+      </if>
+      <if test="approvalNumber != null">
+        #{approvalNumber,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

@@ -8,4 +8,5 @@ import ses.model.oms.PurchaseDep;
 public interface PurchaseDepMapper {
 	List<PurchaseDep> findPurchaseDepList(HashMap<String, Object> map);
 	int  savePurchaseDep(PurchaseDep purchaseDep);
+	PurchaseDep selectPurchaseById(String id);
 }
