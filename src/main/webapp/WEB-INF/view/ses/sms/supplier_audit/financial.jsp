@@ -29,6 +29,33 @@ function reason(id){
     });
   });
 }
+
+function tijiao(str){
+  var action;
+  if(str=="essential"){
+     action ="<%=basePath%>supplierAudit/essential.html";
+  }
+  if(str=="financial"){
+    action = "<%=basePath%>supplierAudit/financial.html";
+  }
+  if(str=="shareholder"){
+    action = "<%=basePath%>supplierAudit/shareholder.html";
+  }
+  if(str=="materialProduction"){
+    action = "<%=basePath%>supplierAudit/materialProduction.html";
+  }
+  if(str=="materialProduction"){
+    action = "<%=basePath%>supplierAudit/materialSales.html";
+  }
+  if(str=="engineering"){
+    action = "<%=basePath%>supplierAudit/engineering.html";
+  }
+  if(str=="reasonsList"){
+    action = "<%=basePath%>supplierAudit/reasonsList.html";
+  }
+  $("#form_id").attr("action",action);
+  $("#form_id").submit();
+}
 </script>
 </head>
   
@@ -41,47 +68,87 @@ function reason(id){
         <div class="col-md-12 tab-v2 job-content">
           <div class="padding-top-10">
             <ul class="nav nav-tabs bgdd">
-              <li class=""><a aria-expanded="fale" href="#tab-1" data-toggle="tab" onclick="location='<%=basePath%>supplierAudit/essential.html'">基本信息</a></li>
-					    <li class="active"><a aria-expanded="true" href="#tab-2" data-toggle="tab" onclick="location='<%=basePath%>supplierAudit/financial.html'">财务信息</a></li>
-					    <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="location='<%=basePath%>supplierAudit/shareholder.html'">股东信息</a></li>
-              <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" onclick="location='<%=basePath%>supplierAudit/materialProduction.html'">物资-生产型专业信息</a></li>
-					    <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="location='<%=basePath%>supplierAudit/materialSales.html'">物资-销售型专业信息</a></li>
-					    <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="location='<%=basePath%>supplierAudit/engineering.html'">工程-专业信息</a></li>
-					    <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >服务-专业信息</a></li>
-					    <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" >品目信息</a></li>
-					    <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >产品信息</a></li>
-					    <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="location='<%=basePath%>supplierAudit/reasonsList.html'">审核汇总</a></li>
-					  </ul>
+              <li class=""><a aria-expanded="fale" href="#tab-1" data-toggle="tab" onclick="tijiao('essential');">基本信息</a></li>
+              <li class="active"><a aria-expanded="true" href="#tab-2" data-toggle="tab" onclick="tijiao('financial');">财务信息</a></li>
+              <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('shareholder');">股东信息</a></li>
+              <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" onclick="tijiao('materialProduction');">物资-生产型专业信息</a></li>
+              <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('materialSales');">物资-销售型专业信息</a></li>
+              <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('engineering');">工程-专业信息</a></li>
+              <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >服务-专业信息</a></li>
+              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" >品目信息</a></li>
+              <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >产品信息</a></li>
+              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('reasonsList');">审核汇总</a></li>
+            </ul>
               <div class="tab-content padding-top-20" style="height:1400px;">
                 <div class="tab-pane fade active in height-450" id="tab-1">
+                  <form id="form_id" action="" method="post"  enctype="multipart/form-data">
+                      <input name="supplierId" value="${supplierId}" type="hidden">
+                  </form>
                   <table class="table table-bordered table-condensed">
-							     <thead>
-							       <tr>
-							         <th class="info w50">序号</th>
-							         <th class="info">会计事务所名称</th>
-							         <th class="info">事务所联系电话</th>
-							         <th class="info">审计人姓名</th>
-							         <th class="info">指标</th>
-							         <th class="info">资产总额</th>
-							         <th class="info">负债总额</th>
-							         <th class="info">净资产总额</th>
-							         <th class="info">营业收入</th>
-							       </tr>
-							     </thead>
-							       <c:forEach items="${supplier}" var="s" >
-							         <tr>
-							           <td class="tc w50"></td>
-							           <td class="tc">${s.name }</td>
-							           <td class="tc">${s.telephone }</td>
-							           <td class="tc">${s.auditors }</td>
-							           <td class="tc">${s.quota }</td>
-							           <td class="tc">${s.totalAssets }</td>
-							           <td class="tc">${s.totalLiabilities }</td>
-							           <td class="tc">${s.totalNetAssets}</td>
-							           <td class="tc">${s.taking}</td>
-							         </tr>
-							       </c:forEach>
-							    </table>
+                   <thead>
+                     <tr>
+                       <th class="info w50">序号</th>
+                       <th class="info">会计事务所名称</th>
+                       <th class="info">事务所联系电话</th>
+                       <th class="info">审计人姓名</th>
+                       <th class="info">指标</th>
+                       <th class="info">资产总额</th>
+                       <th class="info">负债总额</th>
+                       <th class="info">净资产总额</th>
+                       <th class="info">营业收入</th>
+                     </tr>
+                   </thead>
+                     <c:forEach items="${financial}" var="f" >
+                       <tr>
+                         <td class="tc w50"></td>
+                         <td class="tc">${f.name }</td>
+                         <td class="tc">${f.telephone }</td>
+                         <td class="tc">${f.auditors }</td>
+                         <td class="tc">${f.quota }</td>
+                         <td class="tc">${f.totalAssets }</td>
+                         <td class="tc">${f.totalLiabilities }</td>
+                         <td class="tc">${f.totalNetAssets}</td>
+                         <td class="tc">${f.taking}</td>
+                       </tr>
+                     </c:forEach>
+                  </table>
+                  
+                  <div class=" margin-bottom-0">
+                    <ul class="list-unstyled list-flow">
+                      <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>近三年财务审计报告意见表：</span>
+                        <div class="input-append">
+                          <a class="span3">附件下载</a>
+                          <div class="b f18 fl ml10 red hand">√</div>
+                          <div onclick="reason()" class="b f18 fl ml10 hand">×</div>
+                        </div>
+                      </li>
+                      <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>资产负债表：</span>
+                        <div class="input-append">
+                          <a class="span3">附件下载</a>
+                          <div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
+                        </div>
+                      </li>
+                      <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>近三年利润表：</span>
+                        <div class="input-append">
+                          <a class="span3">附件下载</a>
+                          <div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
+                        </div>
+                      </li>
+                      <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>近三年现金流量表：</span>
+                        <div class="input-append">
+                          <a class="span3">附件下载</a>
+                          <div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
+                        </div>
+                      </li>
+                      <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>所有者权益变动表：</span>
+                        <div class="input-append">
+                          <a class="span3">附件下载</a>
+                          <div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  
                 </div>
               </div>
           </div>

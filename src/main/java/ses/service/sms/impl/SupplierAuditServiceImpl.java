@@ -61,8 +61,10 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	 */
 	@Override
 	public List<Supplier> supplierList(Supplier supplier,Integer page) {
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		if(page!=null){
+			PropertiesUtil config = new PropertiesUtil("config.properties");
+			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		}
 		return supplierMapper.findSupplier(supplier);
 	}
 

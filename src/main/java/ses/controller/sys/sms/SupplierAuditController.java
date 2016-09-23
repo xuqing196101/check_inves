@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.model.sms.Supplier;
@@ -95,14 +94,9 @@ public class SupplierAuditController {
 	 * @return String
 	 */
 	@RequestMapping("essential")
-	public String essentialInformation(HttpServletRequest request,Model model) {
-		String supplierId = request.getParameter("supplierId");
-		if(supplierId==null ){
-			supplierId = (String) request.getSession().getAttribute("supplierId");
-		}
-		Supplier supplier = supplierAuditService.supplierById(supplierId);
-		request.setAttribute("supplier", supplier);
-		request.getSession().setAttribute("supplierId", supplierId);
+	public String essentialInformation(HttpServletRequest request,Supplier supplier,String supplierId) {
+		supplier = supplierAuditService.supplierById(supplierId);
+		request.setAttribute("suppliers", supplier);
 		return "ses/sms/supplier_audit/essential";
 	}
 	
@@ -115,10 +109,12 @@ public class SupplierAuditController {
 	 * @return String
 	 */
 	@RequestMapping("financial")
-	public String financialInformation(HttpServletRequest request) {
-		String supplierId = (String) request.getSession().getAttribute("supplierId");
-		List<SupplierFinance> supplierFinance = supplierAuditService.supplierFinanceBySupplierId(supplierId);
-		request.setAttribute("supplier", supplierFinance);
+	public String financialInformation(HttpServletRequest request,SupplierFinance supplierFinance,Supplier supplier) {
+		String supplierId = supplierFinance.getSupplierId();
+		List<SupplierFinance> list = supplierAuditService.supplierFinanceBySupplierId(supplierId);
+		request.setAttribute("supplierId", supplierId);
+		request.setAttribute("financial", list);
+
 		return "ses/sms/supplier_audit/financial";
 	}
 	
@@ -131,10 +127,11 @@ public class SupplierAuditController {
 	 * @return String
 	 */
 	@RequestMapping("shareholder")
-	public String shareholderInformation(HttpServletRequest request) {
-		String supplierId = (String) request.getSession().getAttribute("supplierId");
-		List<SupplierStockholder> supplierStockholder = supplierAuditService.ShareholderBySupplierId(supplierId);
-		request.setAttribute("shareholder", supplierStockholder);
+	public String shareholderInformation(HttpServletRequest request,SupplierStockholder supplierStockholder) {
+		String supplierId = supplierStockholder.getSupplierId();
+		List<SupplierStockholder> list = supplierAuditService.ShareholderBySupplierId(supplierId);
+		request.setAttribute("supplierId", supplierId);
+		request.setAttribute("shareholder", list);
 		return "ses/sms/supplier_audit/shareholder";
 	}
 	
@@ -187,8 +184,6 @@ public class SupplierAuditController {
 	 */
 	@RequestMapping("auditReasons")
 	public void auditReasons(SupplierAudit supplierAudit,HttpServletRequest request){
-		String supplierId = (String) request.getSession().getAttribute("supplierId");
-		supplierAudit.setSupplierId(supplierId);
 		supplierAudit.setUserId("EDED66BAC3304F34B75EBCDB88AE427F");
 		supplierAuditService.auditReasons(supplierAudit);
 	}
@@ -202,10 +197,11 @@ public class SupplierAuditController {
 	 * @return String
 	 */
 	@RequestMapping("reasonsList")
-	public String reasonsList(HttpServletRequest request){
-		String supplierId = (String) request.getSession().getAttribute("supplierId");
-		List<SupplierAudit> reasonsList = supplierAuditService.selectByPrimaryKey(supplierId);
+	public String reasonsList(HttpServletRequest request,SupplierAudit supplierAudit){
+		String supplierId = supplierAudit.getSupplierId();
+		List reasonsList = supplierAuditService.selectByPrimaryKey(supplierId);
 		request.getSession().getAttribute("status");
+		request.setAttribute("supplierId", supplierId);
 		request.setAttribute("reasonsList", reasonsList);
 		return "ses/sms/supplier_audit/audit_reasons";
 	}
@@ -220,8 +216,8 @@ public class SupplierAuditController {
 	 * @return String
 	 */
 	@RequestMapping("updateStatus")
-	public String updateStatus(HttpServletRequest request,Supplier supplier){
-		String supplierId = (String) request.getSession().getAttribute("supplierId");
+	public String updateStatus(HttpServletRequest request,Supplier supplier,SupplierAudit supplierAudit){
+		String supplierId= supplierAudit.getSupplierId();
 		supplier.setId(supplierId);
 		supplierAuditService.updateStatus(supplier);
 		return "redirect:supplierList.html";
