@@ -148,21 +148,21 @@
 	   <div class="headline-v2">
 	   		<h2>信息列表</h2>
 	   </div>
-	   <div class="col-md-8">
-		   <button class="btn btn-windows git" type="button" onclick="sub()">提交信息列表 </button>
-		   <button class="btn btn-windows git" type="button" onclick="audit()">审核信息列表</button>
+	   <div class="col-md-12 padding-left-20">
+		   <button class="btn " type="button" onclick="sub()">提交信息列表 </button>
+		   <button class="btn " type="button" onclick="audit()">审核信息列表</button>
 	   </div>
    </div>
    
 	   <input type="hidden" id="depid" name="depid">
 	  	
 		<div class="container">	
-			<div class="col-md-8">
-	   			<button class="btn btn-windows add" type="button" onclick="add()">新增信息</button>
-				<button class="btn btn-windows edit" type="button" onclick="edit()">修改信息</button>
-				<button class="btn btn-windows delete" type="button" onclick="del()">删除信息</button>
+			<div class="col-md-8 mt10">
+	   			<button class="btn btn-windows add" type="button" onclick="add()">新增</button>
+				<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
+				<button class="btn btn-windows delete" type="button" onclick="del()">删除</button><%--
 				<button class="btn btn-windows delete" type="button" onclick="find()">查看信息</button>
-			</div>
+			--%></div>
 			
 			<div class="col-md-4 ">
               <div class="search-block-v2">
@@ -200,7 +200,7 @@
 	  			</tr>
 	  		</thead>
 	  		<c:forEach items="${list.list}" var="article" varStatus="vs">
-		  		<tr>
+		  		<tr class="pointer">
 		  			<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${article.id }" /></td>
 		  			<td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 		  			<td class="tc" onclick="view('${article.id }')">${article.name }</td>

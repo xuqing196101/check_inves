@@ -60,22 +60,22 @@ function sub(){
    
    <div class="container">
      <div class="headline-v2">
-	   <h2>修改信息</h2>
+	   <h2>查看信息</h2>
 	 </div>
 	  <input type="hidden" name="id" id="id" value="${article.id }" disabled>
 	  <input type="hidden" name="user.id" id="user.id" value="${article.user.id }" disabled>
 	   <ul class="list-unstyled list-flow p0_20">
-     <li class="col-md-6 p0">
+     <li class="col-md-6 p0 mb0">
 	   <span class="">信息标题：</span>
 	   <div class="input-append">
         <input class="span2" type="text" value="${article.name }" disabled>
        </div>
 	 </li>
-     <li class="col-md-6  p0 ">
+     <li class="col-md-6 p0 ">
 	   <span class="">发布范围：</span>
-	   <div class="input-append mt5">
-        <label class="fl margin-bottom-0"><input type="checkbox" name="range" value="0" disabled>内网</label>
-        <label class="ml10 fl"><input type="checkbox" name="range" value="1" disabled>外网</label>
+	   <div class="input-append">
+        <label class="fl margin-bottom-0"><input type="checkbox" name="range" value="0" disabled class="">内网</label>
+        <label class="ml10 fl"><input type="checkbox" name="range" value="1" disabled class="">外网</label>
        </div>
 	 </li> 
      <li class="col-md-6  p0 ">
@@ -92,7 +92,7 @@ function sub(){
 		    </c:forEach>
        </div>
       </div> --%>
-       <select id="articleTypeId" name="articleType.id" class="w230" disabled>
+       <select id="articleTypeId" name="articleType.id" class="w220" disabled>
    		 	<option></option>
           	<c:forEach items="${list}" var="list" varStatus="vs">
           		<option value="${list.id }" >${list.name }</option>
@@ -101,12 +101,12 @@ function sub(){
 	 </li> 
      <li class="col-md-12 p0">
 	   <span class="fl">信息正文：</span>
-	   <div class="col-md-12 pl200 fn mt5 pwr9">
-         <script id="editor"  type="text/plain" class="ml125 mt20 w900"></script>
+	   <div class="col-md-9 fl p0">
+         <script id="editor"  type="text/plain" class="col-md-12 p0"></script>
        </div>
 	 </li>  
 	 <li class="col-md-12 p0">
-	 <span class="f14 fl">已上传的附件：</span>
+	 <span class="fl">已上传的附件：</span>
 	 <div class="fl mt5">
   	   <c:forEach items="${article.articleAttachments}" var="a">
   	   	${fn:split(a.fileName, '_')[1]},
@@ -117,15 +117,8 @@ function sub(){
 	  
 	  <c:if test="${article.status==2 }">
 		 <div class="headline-v2 clear">
-		   <h2>审核</h2>
-		  </div>
-		  
-	       <div class="padding-top-10 clear">
-			   <ul class="list-unstyled list-flow p0_20 ">
-			     <li class="col-md-12 p0">
-				   <span class="fl">审核通过 </span>
-				 </li> 
-			   </ul>
+		   <h2>审核 <span class="blue ml40">审核通过 </span>
+		   </h2>
 		  </div>
 	  </c:if>
 	  
@@ -150,7 +143,7 @@ function sub(){
 	 <div  class="col-md-12">
 	   <div class="mt40 tc mb50">
 	    <%--<button class="btn btn-windows add" type="button" onclick="sub()">提交</button>
-	    --%><input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+	    --%><input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 	</div>
   </div>
      

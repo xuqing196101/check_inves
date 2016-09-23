@@ -178,8 +178,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                    				<li><a href="<%=basePath%>reply/getlist.do" target="home" class="son-menu"><span class="mr5">◇</span>回复管理</a></li>
                    			</ul>
                    		</li>
+                   		
                    		<li class="line-block">
                    			<a href="<%=basePath%>articletype/getAll.do" target="home" class="son-menu"><span class="mr5">◇</span>栏目管理</a>
+                   		</li>
+                   		
+                   		<li class="line-block">
+                   			<a href="" target="home" class="son-menu"><span class="mr5">◇</span>信息管理</a>
+                   			<ul class="dropdown-menuson dropdown-menu">
+                   				<li><a href="<%=basePath%>article/getAll.do" target="home" class="son-menu"><span class="mr5">◇</span>信息列表</a></li>
+                   				<li><a href="<%=basePath%>article/sublist.html?status=0" target="home" class="son-menu"><span class="mr5">◇</span>信息提交列表</a></li>
+                   				<li><a href="<%=basePath%>article/auditlist.html?status=1" target="home" class="son-menu"><span class="mr5">◇</span>信息审核列表</a></li>
+                   			</ul>
                    		</li>
                		</ul>
 				</li>
@@ -199,7 +209,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                    				<li><a href="<%=basePath%>preMenu/list.html" target="home" class="son-menu"><span class="mr5">◇</span>菜单管理</a></li>
                    				<li><a href="<%=basePath%>templet/getAll.do" target="home" class="son-menu"><span class="mr5">◇</span>模板管理</a></li>
                    				<li><a href="<%=basePath%>usertask/getmonth.html" target="home" class="son-menu"><span class="mr5">◇</span>用户任务管理</a></li>
-                   				<li><a href="<%=basePath%>article/getAll.do" target="home" class="son-menu"><span class="mr5">◇</span>信息管理</a></li>
                    			</ul>
                    		</li>
                    		<li class="line-block">

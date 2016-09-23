@@ -53,7 +53,7 @@
 	   <h2>新增信息</h2>
 	 </div>
 	   <ul class="list-unstyled list-flow p0_20">
-     <li class="col-md-6 p0">
+     <li class="col-md-6 p0 mb0">
 	   <span class=""><i class="red">＊</i> 信息标题：</span>
 	   <div class="input-append">
         <input class="span2" id="name" name="name" type="text">
@@ -61,7 +61,7 @@
 	 </li>
      <li class="col-md-6  p0 ">
 	   <span class=""><i class="red">＊</i>发布范围：</span>
-	   <div class="input-append mt5">
+	   <div class="input-append">
         <label class="fl margin-bottom-0"><input type="checkbox" name="range" value="0">内网</label>
         <label class="ml10 fl"><input type="checkbox" name="range" value="1">外网</label>
        </div>
@@ -85,7 +85,7 @@
           </ul>
        </div>
        </div> --%>
-       <select name="articleType.id" class="w230">
+       <select name="articleType.id" class="w220">
           	<option></option>
           	<c:forEach items="${list}" var="list" varStatus="vs">
           		<option value="${list.id }" >${list.name }</option>
@@ -95,13 +95,13 @@
 	 
      <li class="col-md-12 p0">
 	   <span class="fl"><i class="red">＊</i> 信息正文：</span>
-	   <div class="col-md-12 pl200 fn mt5 pwr9">
-	   <script id="editor" name="content" type="text/plain" class="ml125 mt20 w900"></script>
+	   <div class="col-md-9 fl p0">
+	   <script id="editor" name="content" type="text/plain" class="col-md-12 p0"></script>
        </div>
 	 </li> 
 	 
 	 <li class="col-md-12 p0">
-	    <span class="f14 fl">上传附件：</span>
+	    <span class="fl">上传附件：</span>
 	    <div class="fl" id="uploadAttach" >
 	      <input id="pic" type="file" class="toinline" name="attaattach"/>
 	      <input class="toinline" type="button" value="添加" onclick="addAttach()"/><br/>
@@ -112,7 +112,7 @@
 	 <div  class="col-md-12">
 	   <div class="mt40 tc mb50">
 	    <button class="btn btn-windows save" type="submit">保存</button>
-	    <input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+	    <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 	</div>
   </div>
 </form>

@@ -75,7 +75,7 @@ function deleteAtta(id,obj){
 	  <input type="hidden" name="id" id="id" value="${article.id }">
 	  <input type="hidden" name="user.id" id="user.id" value="${article.user.id }">
 	   <ul class="list-unstyled list-flow p0_20">
-     <li class="col-md-6 p0">
+     <li class="col-md-6 p0 mb0">
 	   <span class="">信息标题：</span>
 	   <div class="input-append">
         <input class="span2" id="name" name="name" type="text" value="${article.name }">
@@ -83,7 +83,7 @@ function deleteAtta(id,obj){
 	 </li>
      <li class="col-md-6  p0 ">
 	   <span class="">发布范围：</span>
-	   <div class="input-append mt5">
+	   <div class="input-append">
         <label class="fl margin-bottom-0"><input type="checkbox" name="range" value="0">内网</label>
         <label class="ml10 fl"><input type="checkbox" name="range" value="1">外网</label>
        </div>
@@ -106,7 +106,7 @@ function deleteAtta(id,obj){
           </ul>
        </div>
       </div>  --%>
-   		 <select id="articleTypeId" name="articleType.id" class="w230">
+   		 <select id="articleTypeId" name="articleType.id" class="w220">
    		 	<option></option>
           	<c:forEach items="${list}" var="list" varStatus="vs">
           		<option value="${list.id }" >${list.name }</option>
@@ -117,12 +117,12 @@ function deleteAtta(id,obj){
 	 
      <li class="col-md-12 p0">
 	   <span class="fl">信息正文：</span>
-	   <div class="col-md-12 pl200 fn mt5 pwr9">
-         <script id="editor" name="content" type="text/plain" class="ml125 mt20 w900"></script>
+	   <div class="col-md-9 fl p0">
+         <script id="editor" name="content" type="text/plain" class="col-md-12 p0"></script>
        </div>
 	 </li>  
 	 <li class="col-md-12 p0">
-	 <span class="f14 fl">已上传的附件：</span>
+	 <span class="fl">已上传的附件：</span>
 	 <div class="fl mt5">
   	   <c:forEach items="${article.articleAttachments}" var="a">
   	   	<a href="#">${fn:split(a.fileName, '_')[1]}</a><a href="#" onclick="deleteAtta('${a.id}',this)" class="red redhover ml10">x</a>
@@ -140,8 +140,8 @@ function deleteAtta(id,obj){
 	         
 	 <div  class="col-md-12">
 	   <div class="mt40 tc mb50">
-	    <button class="btn btn-windows save" type="submit">修改</button>
-	    <input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+	    <button class="btn btn-windows edit" type="submit">修改</button>
+	    <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 	</div>
   </div>
 	         
