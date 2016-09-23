@@ -707,6 +707,16 @@
    background-repeat:no-repeat;
    background-position:10px 10px;
 }
+.check{
+   background-image:url(../images/check.png);
+   background-repeat:no-repeat;
+   background-position:10px 10px;
+}
+.withdraw{
+   background-image:url(../images/withdraw.png);
+   background-repeat:no-repeat;
+   background-position:10px 10px;
+}
 .back{
    background-image:url(../images/back.png);
    background-repeat:no-repeat;
