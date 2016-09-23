@@ -19,15 +19,15 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="UserTask_Map">
     select 
     <include refid="Base_Column_List" />
-    from T_SES_BMS_USERTASK
+    from T_SES_BMS_USER_TASK
     where ID = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from T_SES_BMS_USERTASK
+    delete from T_SES_BMS_USER_TASK
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="ses.model.bms.UserTask">
-    insert into T_SES_BMS_USERTASK (ID, CONTENT, START_DATE, 
+    insert into T_SES_BMS_USER_TASK (ID, CONTENT, START_DATE, 
       END_DATE, STATUS, CREATED_AT, 
       UPDATED_AT, MEMO, LEV, USER_ID
       )
@@ -37,7 +37,7 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="ses.model.bms.UserTask">
-    insert into T_SES_BMS_USERTASK
+    insert into T_SES_BMS_USER_TASK
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         ID,
@@ -106,7 +106,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="ses.model.bms.UserTask">
-    update T_SES_BMS_USERTASK
+    update T_SES_BMS_USER_TASK
     <set>
       <if test="content != null">
         CONTENT = #{content,jdbcType=VARCHAR},
@@ -140,7 +140,7 @@
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="ses.model.bms.UserTask">
-    update T_SES_BMS_USERTASK
+    update T_SES_BMS_USER_TASK
     set CONTENT = #{content,jdbcType=VARCHAR},
       START_DATE = #{startDate,jdbcType=TIMESTAMP},
       END_DATE = #{endDate,jdbcType=TIMESTAMP},
