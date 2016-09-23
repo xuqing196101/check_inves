@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.pms.AuditPersonMapper">
+  <resultMap id="AuditPerson_Map" type="bss.model.pms.AuditPerson">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="MOBILE" jdbcType="VARCHAR" property="mobile" />
+    <result column="ID_NUMBER" jdbcType="VARCHAR" property="idNumber" />
+    <result column="COLLECT_ID" jdbcType="VARCHAR" property="collectId" />
+    <result column="TYPE" jdbcType="INTEGER" property="type" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, NAME, MOBILE, ID_NUMBER, COLLECT_ID,TYPE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="AuditPerson_Map">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PMS_AUDIT_PERSON
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BSS_PMS_AUDIT_PERSON
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="bss.model.pms.AuditPerson">
+    insert into T_BSS_PMS_AUDIT_PERSON (ID, NAME, MOBILE, 
+      ID_NUMBER, COLLECT_ID,TYPE)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{idNumber,jdbcType=VARCHAR}, #{collectId,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="bss.model.pms.AuditPerson">
+    insert into T_BSS_PMS_AUDIT_PERSON
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="mobile != null">
+        MOBILE,
+      </if>
+      <if test="idNumber != null">
+        ID_NUMBER,
+      </if>
+      <if test="collectId != null">
+        COLLECT_ID,
+      </if>
+        <if test="type != null">
+        TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="idNumber != null">
+        #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="collectId != null">
+        #{collectId,jdbcType=VARCHAR},
+      </if>
+       <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="bss.model.pms.AuditPerson">
+    update T_BSS_PMS_AUDIT_PERSON
+    <set>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        MOBILE = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="idNumber != null">
+        ID_NUMBER = #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="collectId != null">
+        COLLECT_ID = #{collectId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="bss.model.pms.AuditPerson">
+    update T_BSS_PMS_AUDIT_PERSON
+    set NAME = #{name,jdbcType=VARCHAR},
+      MOBILE = #{mobile,jdbcType=VARCHAR},
+      ID_NUMBER = #{idNumber,jdbcType=VARCHAR},
+      COLLECT_ID = #{collectId,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=INTEGER}
+   	 where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="query" parameterType="bss.model.pms.AuditPerson" resultMap="AuditPerson_Map">
+     select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PMS_AUDIT_PERSON
+  </select>
+  
+</mapper>

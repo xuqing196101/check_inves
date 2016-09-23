@@ -154,12 +154,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
     }
     var index;
-    function add(){
-    	
+    function collect(){
+    	var id=[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			id.push($(this).val());
+		}); 
+		 if(id.length>=1){
+			 
+	 
     	index=layer.open({
 			  type: 1, //page层
-			  area: ['300px', '200px'],
-			  title: '',
+			  area: ['500px', '300px'],
+			  title: '汇总采购计划',
 			  closeBtn: 1,
 			  shade:0.01, //遮罩透明度
 			  moveType: 1, //拖拽风格，0是默认，1是传统拖动
@@ -167,7 +173,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  offset: ['80px', '600px'],
 			  content: $('#content'),
 			});
-    	
+		}else{
+				layer.alert("请选中一条",{offset: ['222px', '390px'], shade:0.01});
+			}
    
     }
     
@@ -186,38 +194,41 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 }
 	
 	function closeLayer(){
-		var val=$("input[name='goods']:checked").val();
+		var id =[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			id.push($(this).val()); 
+		}); 
 		
-		window.location.href="<%=basePath%>purchaser/add.html?type="+val;
+		$("#plannos").val(id);
+		$("#collect_form").submit();
+		
+ 
 		layer.close(index);	
 	}
 	
-	function exports(){
-		var id=[]; 
-		$('input[name="chkItem"]:checked').each(function(){ 
-			id.push($(this).val());
-		}); 
-		if(id.length==1){
-			
-			window.location.href="<%=basePath%>purchaser/exports.html?planNo="+id+"&&type=2";
-		}else if(id.length>1){
-			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
-		}else{
-			layer.alert("请选中一条",{offset: ['222px', '390px'], shade:0.01});
-		}
-		
+	function cancel(){
+		layer.close(index);	
 	}
+	var ids=[]; 
+	function collected(){
 	
-	function sub(){
-		var id=[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
-			id.push($(this).val());
+			ids.push($(this).val());
 		}); 
-		if(id.length==1){
-			
-			window.location.href="<%=basePath%>purchaser/submit.html?planNo="+id;
-		}else if(id.length>1){
-			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+		 if(ids.length>=1){
+			  layer.open({
+				  type: 2, //page层
+				  area: ['600px', '500px'],
+				  title: '',
+				  closeBtn: 1,
+				  shade:0.01, //遮罩透明度
+				  moveType: 1, //拖拽风格，0是默认，1是传统拖动
+				  shift: 1, //0-6的动画形式，-1不开启
+				  offset: ['80px', '100px'],
+				  content:  '<%=basePath%>collect/collectlist.html',
+				});
+			 
+			 
 		}else{
 			layer.alert("请选中一条",{offset: ['222px', '390px'], shade:0.01});
 		}
@@ -243,15 +254,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
 <!-- 项目戳开始 -->
   <div class="container clear margin-top-30">
-    <form id="add_form" action="<%=basePath%>purchaser/list.html" method="post" >
+    <form id="add_form" action="<%=basePath%>collect/list.html" method="post" >
    <h2 class="padding-10 border1">
 
-	 <ul class="demand_list">
-	   <li class="fl" ><label class="fl">需求部门：</label><span><input type="text" name="department" value="${inf.department }" /></span></li>
+	 <ul class="demand_list" >
 	   <li class="fl"><label class="fl">需求计划名称：</label><span><input type="text" name="planName" value="${inf.planName }"/></span></li>
-	   <li class="fl"><label class="fl">需求计划编号：</label><span><input type="text" name="planNo" value="${inf.planNo }" /></span></li>
-	   <li class="fl"><label class="fl">需求填报日期：</label><span> <input class="span2 Wdate w220"  value='<fmt:formatDate value="${inf.createdAt }"/>' name="createdAt" type="text" onclick='WdatePicker()'></span></li>
-	   	 <input class="btn-u"   type="submit" name="" value="查询" /> 
+	   <li class="fl"><label class="fl">需求计划编号：</label><span><input type="text" name="planNo" value="${inf.planNo }"/></span></li>
+	   
+	   	  <label class="fl">状态：</label><span>  
+	   	   <select name="status" class="form-control input-lg">
+			<option value="" selected="selected"> 请选项状态</option>
+	   	   <option value="1"> 	 已编制为采购计划</option>
+	   	   <option value="2"> 	提交未受理</option>
+	   	   <option value="3"> 	 受理</option>
+ 	   	   </select>
+	   	   </span> 
+	   
+	   	 <input class="btn padding-left-10 padding-right-10 btn_back"   type="submit" name="" value="查询" /> 
 	 </ul>
 
 	
@@ -262,12 +281,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <h2>需求计划列表
 	  </h2>
    </div> 
-   	  <span class="fr option_btn margin-top-10">
-	    <button class="btn padding-left-10 padding-right-10 btn_back" onclick="add()">需求计划录入</button>
-	    <button class="btn padding-left-10 padding-right-10 btn_back"  onclick="edit()">修改</button>
-		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="exports()">下载</button>
-	    <button class="btn padding-left-10 padding-right-10 btn_back" onclick="del()">删除</button>
-		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="sub()">提交</button>
+    <span class="fr option_btn margin-top-10">
+		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="collect()">汇总</button>
+		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="collected()">汇入采购计划</button>
 	  </span>
    <div class="container clear margin-top-30">
         <table class="table table-bordered table-condensed mt5">
@@ -275,36 +291,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<tr>
 		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
 		  <th class="info w50">序号</th>
-		  <th class="info">计划名称</th>
-		  <th class="info">编制单位名称</th>
-		  <th class="info">金额</th>
-		  <th class="info">编制时间</th>
-		  <th class="info">完成时间</th>
+		  <th class="info">需求部门</th>
+		  <th class="info">需求计划名称</th>
+		  <th class="info">编报人</th>
+		  <th class="info">提交日期</th>
+		  <th class="info">预算总金额</th>
 		  <th class="info">状态</th>
 		</tr>
 		</thead>
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
 			<tr style="cursor: pointer;">
 			  <td class="tc w30"><input type="checkbox" value="${obj.planNo }" name="chkItem" onclick="check()"  alt=""></td>
-			  <td class="tc w50" onclick="view('${obj.planNo }')" >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-			  <td class="tc" onclick="view('${obj.planNo }')">${obj.planName }</td>
-			  <td class="tc" onclick="view('${obj.planNo }')">${obj.department }</td>
-			  <td class="tc" onclick="view('${obj.planNo }')">${obj.budget }</td>
-			  <td class="tc" onclick="view('${obj.planNo }')"><fmt:formatDate value="${obj.createdAt }"/></td>
-			  <td class="tc" onclick="view('${obj.planNo }')"><fmt:formatDate value="${obj.auditDate }"/> </td>
-			  <td class="tc" onclick="view('${obj.planNo }')">
+			  <td class="tc w50"   >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+			  
+			    <td class="tc"  >${obj.department }</td>
+			    
+			  <td class="tc"  >${obj.planName }</td>
+			
+			  <td class="tc"  ></td>
+			  <td class="tc"  ><fmt:formatDate value="${obj.createdAt }"/></td>
+			  <td class="tc"  ><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
+			  <td class="tc"  >
 			  <c:if test="${obj.status=='1' }">
 			 	 已编制为采购计划
 			  </c:if>
-			   <c:if test="${obj.status=='2' }">
-			 	已提交
-			  </c:if>
-			  <c:if test="${obj.status=='3' }">
-			 	提交受理
-			  </c:if>
-			    <c:if test="${obj.status=='4' }">
-			 	已受理
-			  </c:if>
+			  
 			  </td>
 			</tr>
 	 
@@ -319,17 +330,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 
  <div id="content" class="div_show">
-	 <p align="center" class="type">
-	         请选择类别
-	<br>
+	 
+	<form id="collect_form" action="<%=basePath%>collect/add.html" method="post" style="margin-top: 20px;">
 	
-	 <input type="radio" name="goods" value="1">:物资<br>
-	 <input type="radio" name="goods" value="2">:工程<br>
-	 <input type="radio" name="goods" value="3">:服务<br>
-	    </p>
-	     <button class="btn padding-left-10 padding-right-10 btn_back goods"  onclick="closeLayer()" >确定</button>
-	    
+	  <div style="text-align: center;"><span>文件名称:</span><input  type="text" name="fileName" value=""></div>
+	       <div  style="text-align: center;margin-top: 20px;"><span>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码:</span><input  type="password" name="password" value=""></div>
+	       
+	       
+		<!--  文件名称：<input type="text" name="fileName" value=""><br>
+		 密码:<input type="password" name="password" value=""><br> -->
+		 <input type="hidden" name="planNo" id="plannos" value="">
+	   	<button class="btn padding-left-10 padding-right-10 btn_back"  style="margin-top: 20px;margin-left: 180px;" onclick="closeLayer()" >生成采购计划</button>
+	   	<button class="btn padding-left-10 padding-right-10 btn_back"  style="margin-top: 20px;margin-left: 30px" onclick="cancel()" >取消</button>
+	   
+	 </form>   
  </div>
+ 
+ 
+
+ 
  
 	 </body>
 </html>

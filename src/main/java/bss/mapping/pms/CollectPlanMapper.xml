@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.pms.CollectPlanMapper">
+  <resultMap id="CollectPlan_Map" type="bss.model.pms.CollectPlan">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="FILE_NAME" jdbcType="VARCHAR" property="fileName" />
+    <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+    <result column="DEPARTMENT" jdbcType="VARCHAR" property="department" />
+    <result column="BUDGET" jdbcType="DECIMAL" property="budget" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="PURCHASE_ID" jdbcType="VARCHAR" property="purchaseId" />
+    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="ORDER_AT" jdbcType="DATE" property="orderAt" />
+    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+    <result column="POSITION" jdbcType="DECIMAL" property="position" />
+    <result column="PLAN_NO" jdbcType="VARCHAR" property="planNo" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, FILE_NAME, PASSWORD, DEPARTMENT, BUDGET, STATUS, PURCHASE_ID, CREATED_AT, ORDER_AT, 
+    UPDATED_AT, POSITION,PLAN_NO
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="CollectPlan_Map">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PMS_COLLECT_PLAN
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BSS_PMS_COLLECT_PLAN
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="bss.model.pms.CollectPlan">
+    insert into T_BSS_PMS_COLLECT_PLAN (ID, FILE_NAME, PASSWORD, 
+      DEPARTMENT, BUDGET, STATUS, 
+      PURCHASE_ID, CREATED_AT, ORDER_AT, 
+      UPDATED_AT, POSITION,PLAN_NO)
+    values (#{id,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{department,jdbcType=VARCHAR}, #{budget,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}, 
+      #{purchaseId,jdbcType=VARCHAR}, #{createdAt,jdbcType=DATE}, #{orderAt,jdbcType=DATE}, 
+      #{updatedAt,jdbcType=DATE}, #{position,jdbcType=DECIMAL}, #{PLAN_NO,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="bss.model.pms.CollectPlan">
+    insert into T_BSS_PMS_COLLECT_PLAN
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="fileName != null">
+        FILE_NAME,
+      </if>
+      <if test="password != null">
+        PASSWORD,
+      </if>
+      <if test="department != null">
+        DEPARTMENT,
+      </if>
+      <if test="budget != null">
+        BUDGET,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="purchaseId != null">
+        PURCHASE_ID,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="orderAt != null">
+        ORDER_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="position != null">
+        POSITION,
+      </if>
+       <if test="planNo != null">
+        PLAN_NO,
+      </if>
+      
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null">
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null">
+        #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="budget != null">
+        #{budget,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="purchaseId != null">
+        #{purchaseId,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="orderAt != null">
+        #{orderAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=DATE},
+      </if>
+      <if test="position != null">
+        #{position,jdbcType=DECIMAL},
+      </if>
+      <if test="planNo != null">
+        #{planNo,jdbcType=VARCHAR},
+      </if>
+      
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="bss.model.pms.CollectPlan">
+    update T_BSS_PMS_COLLECT_PLAN
+    <set>
+      <if test="fileName != null">
+        FILE_NAME = #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        PASSWORD = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null">
+        DEPARTMENT = #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="budget != null">
+        BUDGET = #{budget,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="purchaseId != null">
+        PURCHASE_ID = #{purchaseId,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="orderAt != null">
+        ORDER_AT = #{orderAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      </if>
+      <if test="position != null">
+        POSITION = #{position,jdbcType=DECIMAL},
+      </if>
+      
+       <if test="planNo != null">
+        PLAN_NO = #{planNo,jdbcType=VARCHAR},
+      </if>
+      
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="bss.model.pms.CollectPlan">
+    update T_BSS_PMS_COLLECT_PLAN
+    set FILE_NAME = #{fileName,jdbcType=VARCHAR},
+      PASSWORD = #{password,jdbcType=VARCHAR},
+      DEPARTMENT = #{department,jdbcType=VARCHAR},
+      BUDGET = #{budget,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=DECIMAL},
+      PURCHASE_ID = #{purchaseId,jdbcType=VARCHAR},
+      CREATED_AT = #{createdAt,jdbcType=DATE},
+      ORDER_AT = #{orderAt,jdbcType=DATE},
+      UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      POSITION = #{position,jdbcType=DECIMAL},
+      PLAN_NO = #{planNo,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="query" parameterType="bss.model.pms.CollectPlan" resultMap="CollectPlan_Map" >
+  
+  select 
+  <include refid="Base_Column_List"/>
+  from T_BSS_PMS_COLLECT_PLAN
+  </select>
+  
+</mapper>

@@ -2,7 +2,14 @@ package bss.model.pms;
 
 import java.math.BigDecimal;
 import java.util.Date;
-
+/**
+ * 
+ * @Title: PurchaseRequired
+ * @Description: 需求计划实体 
+ * @author Li Xiaoxiao
+ * @date  2016年9月20日,下午3:19:59
+ *
+ */
 public class PurchaseRequired {
 	
     private String id;
@@ -67,6 +74,7 @@ public class PurchaseRequired {
     
     private Integer isDelete;
     
+    private Integer isCollect;
     
     public String getId() {
         return id;
@@ -314,6 +322,14 @@ public class PurchaseRequired {
 
 	public void setIsDelete(Integer isDelete) {
 		this.isDelete = isDelete;
+	}
+
+	public Integer getIsCollect() {
+		return isCollect;
+	}
+
+	public void setIsCollect(Integer isCollect) {
+		this.isCollect = isCollect;
 	}
 
 	 

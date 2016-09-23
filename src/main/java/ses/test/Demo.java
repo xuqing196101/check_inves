@@ -4,11 +4,14 @@ package ses.test;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import bss.dao.pms.PurchaseRequiredMapper;
+import bss.model.pms.PurchaseRequired;
 import ses.dao.bms.UserMapper;
 import ses.model.bms.User;
 import ses.model.bms.UserTask;
@@ -26,6 +29,10 @@ public class Demo extends BaseTest {
 	
 	@Autowired
 	private UserTaksService userTaksService;
+	
+	@Autowired
+	private PurchaseRequiredMapper purchaseRequiredMapper;
+	
 	@Test
 	public void test1(){
 
@@ -51,5 +58,14 @@ public class Demo extends BaseTest {
 //	        SimpleDateFormat sf = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss z",Locale.ENGLISH);
 //	        Date d = sf.parse(s);
 		System.out.println(ss);
+	}
+	
+	@Test
+	public void test3(){
+		PurchaseRequired p=new PurchaseRequired();
+		p.setPlanNo("A01");
+		List<PurchaseRequired> list = purchaseRequiredMapper.query(p);
+		System.out.println(list.size());
+//		List<PurchaseRequired> queryByNo = purchaseRequiredMapper.queryByNo("A01");
 	}
 }

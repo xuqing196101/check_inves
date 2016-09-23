@@ -110,10 +110,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		                 	 dataType: "text", //返回值类型 一般设置为json
 		                    success: function (data)  //服务器成功响应处理函数
 		                    { 
-		                    	
+		                    	alert(data);
 		                    	if(data=="ERROR"){
 		                    		 alert("文件名错误");
-		                    	}else if(data="exception"){
+		                    	}else if(data=="exception"){
 		                    		alert("格式出错");
 		                    	}
 		                    	

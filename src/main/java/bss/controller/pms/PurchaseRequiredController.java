@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -64,7 +65,7 @@ public class PurchaseRequiredController extends BaseController{
 	 */
 	@RequestMapping("/list")
 	public String queryPlan(PurchaseRequired purchaseRequired,Integer page,Model model){
-		
+		purchaseRequired.setIsMaster("1");
 		List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired,page==null?1:page);
 		PageInfo<PurchaseRequired> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
@@ -120,6 +121,10 @@ public class PurchaseRequiredController extends BaseController{
 						Integer s=Integer.valueOf(purchaseRequiredService.queryByNo(p.getPlanNo()))+1;
 						p.setHistoryStatus(String.valueOf(s));
 						purchaseRequiredService.add(p);	
+					}else{
+						String id = UUID.randomUUID().toString().replaceAll("-", "");
+						p.setId(id);
+						purchaseRequiredService.add(p);	
 					}
 				
 					
@@ -127,7 +132,7 @@ public class PurchaseRequiredController extends BaseController{
 			}
 		}
 //		purchaseRequiredService.update(purchaseRequired);
-		return "redirect:/list.html";
+		return "redirect:list.html";
 	}
 	/**
 	 *   
@@ -184,7 +189,12 @@ public class PurchaseRequiredController extends BaseController{
 		try {
 			list = (List<PurchaseRequired>) ExcelUtil.readExcel(targetFile);
 		} catch (Exception e) {
-			return "exception";
+			String str = e.getMessage();
+			System.out.println("+++"+str);
+			if(str!=null){
+				return "exception";
+			}
+			
 		}
 		for(int i=0;i<list.size();i++){
 			if(i==0){
@@ -198,6 +208,7 @@ public class PurchaseRequiredController extends BaseController{
 					p.setHistoryStatus("0");
 					p.setIsDelete(0);
 					p.setIsMaster("1");
+					p.setCreatedAt(new Date());
 //					p.setUserId(user.getId());
 //					p.setOrganization(user.getOrg().getName());
 					purchaseRequiredService.add(p);	
@@ -212,6 +223,7 @@ public class PurchaseRequiredController extends BaseController{
 					p.setHistoryStatus("0");
 					p.setIsDelete(0);
 					p.setIsMaster("2");
+					p.setCreatedAt(new Date());
 //					p.setUserId(user.getId());
 //					p.setOrganization(user.getOrg().getName());
 					purchaseRequiredService.add(p);	
@@ -219,7 +231,7 @@ public class PurchaseRequiredController extends BaseController{
 		}
 		targetFile.delete();
 		
-		return "上传成功";
+		return "success";
 	}
 	/**
 	 * 
@@ -251,6 +263,7 @@ public class PurchaseRequiredController extends BaseController{
 							p.setIsDelete(0);
 							p.setIsMaster("1");
 							p.setStatus("1");
+							p.setCreatedAt(new Date());
 //							p.setUserId(user.getId());
 //							p.setOrganization(user.getOrg().getName());
 							purchaseRequiredService.add(p);	
@@ -266,6 +279,7 @@ public class PurchaseRequiredController extends BaseController{
 							p.setIsDelete(0);
 							p.setIsMaster("2");
 							p.setStatus("1");
+							p.setCreatedAt(new Date());
 //							p.setUserId(user.getId());
 //							p.setOrganization(user.getOrg().getName());
 							purchaseRequiredService.add(p);	
@@ -274,7 +288,7 @@ public class PurchaseRequiredController extends BaseController{
 			}
 	}
 
-		return "redirect:/list.html";
+		return "redirect:list.html";
 	}
 	
 	
@@ -339,7 +353,7 @@ public class PurchaseRequiredController extends BaseController{
 	@ResponseBody
 	public String delete(String planNo){
 		PurchaseRequired p=new PurchaseRequired();
-		p.setPlanNo(planNo);;
+		p.setPlanNo(planNo);
 //		List<PurchaseRequired> list = purchaseRequiredService.query(p, 0);
 //		if(list.size()>0){
 //			
@@ -375,6 +389,23 @@ public class PurchaseRequiredController extends BaseController{
 	        return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),    
 	                                          headers, HttpStatus.CREATED);    
 	    }
-	
+	    /**
+	     * 
+	    * @Title: submit
+	    * @Description: 提交
+	    * author: Li Xiaoxiao 
+	    * @param @return     
+	    * @return String     
+	    * @throws
+	     */
+	    @RequestMapping("/submit")
+	    public String submit(String planNo){
+	    	PurchaseRequired p=new PurchaseRequired();
+	    	p.setPlanNo(planNo);
+	    	p.setStatus("2");
+	    	purchaseRequiredService.updateStatus(p);
+//	    	purchaseRequiredService.update(planNo, "2");
+	    	return "redirect:list.html";
+	    }
 	
 }

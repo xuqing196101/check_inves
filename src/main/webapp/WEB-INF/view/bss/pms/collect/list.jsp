@@ -215,7 +215,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}); 
 		if(id.length==1){
 			
-			window.location.href="<%=basePath%>purchaser/submit.html?planNo="+id;
+			window.location.href="<%=basePath%>accept/submit.html?planNo="+id;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -243,15 +243,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
 <!-- 项目戳开始 -->
   <div class="container clear margin-top-30">
-    <form id="add_form" action="<%=basePath%>purchaser/list.html" method="post" >
+    <form id="add_form" action="<%=basePath%>accept/list.html" method="post" >
    <h2 class="padding-10 border1">
 
-	 <ul class="demand_list">
-	   <li class="fl" ><label class="fl">需求部门：</label><span><input type="text" name="department" value="${inf.department }" /></span></li>
+	 <ul class="demand_list" >
 	   <li class="fl"><label class="fl">需求计划名称：</label><span><input type="text" name="planName" value="${inf.planName }"/></span></li>
-	   <li class="fl"><label class="fl">需求计划编号：</label><span><input type="text" name="planNo" value="${inf.planNo }" /></span></li>
-	   <li class="fl"><label class="fl">需求填报日期：</label><span> <input class="span2 Wdate w220"  value='<fmt:formatDate value="${inf.createdAt }"/>' name="createdAt" type="text" onclick='WdatePicker()'></span></li>
-	   	 <input class="btn-u"   type="submit" name="" value="查询" /> 
+	   	 <input class="btn padding-left-10 padding-right-10 btn_back"   type="submit" name="" value="查询" /> 
 	 </ul>
 
 	
@@ -262,12 +259,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <h2>需求计划列表
 	  </h2>
    </div> 
-   	  <span class="fr option_btn margin-top-10">
-	    <button class="btn padding-left-10 padding-right-10 btn_back" onclick="add()">需求计划录入</button>
-	    <button class="btn padding-left-10 padding-right-10 btn_back"  onclick="edit()">修改</button>
-		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="exports()">下载</button>
-	    <button class="btn padding-left-10 padding-right-10 btn_back" onclick="del()">删除</button>
-		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="sub()">提交</button>
+    <span class="fr option_btn margin-top-10">
+		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="sub()">受理</button>
 	  </span>
    <div class="container clear margin-top-30">
         <table class="table table-bordered table-condensed mt5">
@@ -275,36 +268,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<tr>
 		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
 		  <th class="info w50">序号</th>
-		  <th class="info">计划名称</th>
-		  <th class="info">编制单位名称</th>
-		  <th class="info">金额</th>
-		  <th class="info">编制时间</th>
-		  <th class="info">完成时间</th>
+		  <th class="info">需求部门</th>
+		  <th class="info">需求计划名称</th>
+		  <th class="info">编报人</th>
+		  <th class="info">提交日期</th>
+		  <th class="info">预算总金额</th>
 		  <th class="info">状态</th>
 		</tr>
 		</thead>
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
 			<tr style="cursor: pointer;">
 			  <td class="tc w30"><input type="checkbox" value="${obj.planNo }" name="chkItem" onclick="check()"  alt=""></td>
-			  <td class="tc w50" onclick="view('${obj.planNo }')" >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-			  <td class="tc" onclick="view('${obj.planNo }')">${obj.planName }</td>
-			  <td class="tc" onclick="view('${obj.planNo }')">${obj.department }</td>
-			  <td class="tc" onclick="view('${obj.planNo }')">${obj.budget }</td>
-			  <td class="tc" onclick="view('${obj.planNo }')"><fmt:formatDate value="${obj.createdAt }"/></td>
-			  <td class="tc" onclick="view('${obj.planNo }')"><fmt:formatDate value="${obj.auditDate }"/> </td>
-			  <td class="tc" onclick="view('${obj.planNo }')">
+			  <td class="tc w50"   >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+			  
+			    <td class="tc"  >${obj.department }</td>
+			    
+			  <td class="tc"  >${obj.planName }</td>
+			
+			  <td class="tc"  ></td>
+			  <td class="tc"  ><fmt:formatDate value="${obj.createdAt }"/></td>
+			  <td class="tc"  ><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
+			  <td class="tc"  >
 			  <c:if test="${obj.status=='1' }">
 			 	 已编制为采购计划
 			  </c:if>
-			   <c:if test="${obj.status=='2' }">
-			 	已提交
-			  </c:if>
-			  <c:if test="${obj.status=='3' }">
-			 	提交受理
-			  </c:if>
-			    <c:if test="${obj.status=='4' }">
-			 	已受理
-			  </c:if>
+			  
 			  </td>
 			</tr>
 	 
@@ -318,18 +306,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  </div>
 
 
- <div id="content" class="div_show">
-	 <p align="center" class="type">
-	         请选择类别
-	<br>
-	
-	 <input type="radio" name="goods" value="1">:物资<br>
-	 <input type="radio" name="goods" value="2">:工程<br>
-	 <input type="radio" name="goods" value="3">:服务<br>
-	    </p>
-	     <button class="btn padding-left-10 padding-right-10 btn_back goods"  onclick="closeLayer()" >确定</button>
-	    
- </div>
+ 
  
 	 </body>
 </html>

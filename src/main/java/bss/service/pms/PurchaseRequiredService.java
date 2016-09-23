@@ -76,4 +76,15 @@ public interface PurchaseRequiredService {
 	* @throws
 	 */
 	void delete(String planNo);
+	/**
+	 * 
+	* @Title: update
+	* @Description: 修改计划状态
+	* author: Li Xiaoxiao 
+	* @param @param planNo
+	* @param @param status     
+	* @return void     
+	* @throws
+	 */
+	void updateStatus(PurchaseRequired purchaseRequired);
 }

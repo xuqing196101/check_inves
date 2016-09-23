@@ -33,13 +33,14 @@
 		<result column="ORGANIZATION" jdbcType="VARCHAR" property="organization" />
 		<result column="IS_MASTER" jdbcType="VARCHAR" property="isMaster" />
 		<result column="IS_DELETE" jdbcType="INTEGER"  property="isDelete" />
+		<result column="IS_COLLECT" jdbcType="INTEGER"  property="isCollect"/>
 	</resultMap>
 	<sql id="Base_Column_List">
 		ID, PLAN_NAME, PLAN_NO, PLAN_TYPE, DEPARTMENT, GOODS_NAME, STAND,
 		QUALIT_STAND, ITEM,
 		PURCHASE_COUNT, PRICE, BUDGET, DELIVER_DATE, PURCHASE_TYPE, SUPPLIER, IS_FREE_TAX,
 		GOODS_USE, USE_UNIT, CREATED_AT, USER_ID, PARENT_ID, REQ_LEVEL,
-		STARUS, MEMO,SEQ,HISTORY_STATUS,GOODS_TYPE,AUDIT_DATE,ORGANIZATION,IS_MASTER,IS_DELETE
+		STARUS, MEMO,SEQ,HISTORY_STATUS,GOODS_TYPE,AUDIT_DATE,ORGANIZATION,IS_MASTER,IS_DELETE,IS_COLLECT
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="PurchaseRequired_Map">
@@ -60,7 +61,7 @@
 		DELIVER_DATE, PURCHASE_TYPE, SUPPLIER,
 		IS_FREE_TAX, GOODS_USE, USE_UNIT,
 		CREATED_AT, USER_ID, PARENT_ID,
-		REQ_LEVEL, STARUS, MEMO,SEQ,HISTORY_STATUS,GOODS_TYPE,AUDIT_DATE,ORGANIZATION,IS_MASTER,IS_DELETE
+		REQ_LEVEL, STARUS, MEMO,SEQ,HISTORY_STATUS,GOODS_TYPE,AUDIT_DATE,ORGANIZATION,IS_MASTER,IS_DELETE,IS_COLLECT
 		)
 		values (#{id,jdbcType=VARCHAR}, #{planName,jdbcType=VARCHAR},
 		#{planNo,jdbcType=VARCHAR},
@@ -75,7 +76,7 @@
 		#{parentId,jdbcType=VARCHAR},
 		#{reqLevel,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},
 		#{memo,jdbcType=VARCHAR},#{seq,jdbcType=VARCHAR},#{historyStatus,jdbcType=VARCHAR},#{goodsType,jdbcType=VARCHAR},
-		#{auditDate,jdbcType=DATE},#{organization,jdbcType=VARCHAR},#{isMaster,jdbcType=VARCHAR},#{isDelete,jdbcType=INTEGER}
+		#{auditDate,jdbcType=DATE},#{organization,jdbcType=VARCHAR},#{isMaster,jdbcType=VARCHAR},#{isDelete,jdbcType=INTEGER},#{isCollect,jdbcType=INTEGER}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="bss.model.pms.PurchaseRequired">
@@ -174,6 +175,9 @@
 			<if test="isDelete != null">
 				IS_DELETE,
 			</if>
+			<if test="isCollect != null">
+				IS_COLLECT,
+			</if>
 			
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -270,6 +274,9 @@
 			<if test="isDelete != null">
 				#{isDelete,jdbcType=INTEGER},
 			</if>
+			<if test="isCollect != null">
+				#{isCollect,jdbcType=INTEGER},
+			</if>
 		</trim>
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="bss.model.pms.PurchaseRequired">
@@ -365,6 +372,10 @@
 			<if test="isDelete != null">
 				IS_DELETE = #{isDelete,jdbcType=INTEGER},
 			</if>
+			<if test="isCollect != null">
+				IS_COLLECT = #{isCollect,jdbcType=INTEGER},
+			</if>
+			
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
@@ -399,7 +410,8 @@
 		AUDIT_DATE = #{auditDate,jdbcType=VARCHAR},
 		ORGANIZATION = #{organization,jdbcType=VARCHAR},
 		IS_MASTER = #{isMaster,jdbcType=VARCHAR},
-		IS_DELETE = #{isDelete,jdbcType=INTEGER}
+		IS_DELETE = #{isDelete,jdbcType=INTEGER},
+		IS_COLLECT = #{isCollect,jdbcType=INTEGER}
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
 	<select id="query" parameterType="bss.model.pms.PurchaseRequired"
@@ -408,7 +420,7 @@
 		<include refid="Base_Column_List" />
 		from T_BSS_PMS_PURCHASE_REQUIRED
 		<where>
-			HISTORY_STATUS='0' and  IS_MASTER='1' and IS_DELETE='0'
+			HISTORY_STATUS='0'  and IS_DELETE='0'
 			<if test="createdAt!=null">
 				and CREATED_AT=#{createdAt}
 			</if>
@@ -418,7 +430,19 @@
 			<if test="planNo !=null">
 				and PLAN_NO=#{planNo}
 			</if>
+			
+			<if test="isMaster != null">
+				and IS_MASTER = #{isMaster}
+			</if>
+			<if test="status != null">
+				and STARUS = #{status}
+			</if>
+			<if test="isCollect != null">
+				and IS_COLLECT = #{isCollect}
+			</if>
 		</where>
+		
+		order by CREATED_AT 
 	</select>
 
 <select id="queryByNo" parameterType="String"  resultMap="PurchaseRequired_Map">
@@ -427,7 +451,7 @@
 		from T_BSS_PMS_PURCHASE_REQUIRED
 		<where>
 			<if test="planNo !=null and planNo!='' ">
-			 PLAN_NO = #{planNo} ORDER BY HISTORY_STATUS DESC
+			 PLAN_NO = #{planNo} ORDER BY HISTORY_STATUS  
 			</if>
 		</where>
 	</select>
@@ -439,5 +463,20 @@
 		where HISTORY_STATUS='0' and PLAN_NO=#{planNo}
 		
 	</update>
+	<update id="updateStatus" parameterType="bss.model.pms.PurchaseRequired" >
+	
+	update T_BSS_PMS_PURCHASE_REQUIRED
+	<set>
+	<if test="status != null">
+		STARUS = #{status},
+	</if>
+	<if test="isCollect != null">
+		IS_COLLECT = #{isCollect}
+	</if>
+	</set>	
+		where HISTORY_STATUS='0' and PLAN_NO=#{planNo}
+		
+	</update>
+	
 	
 </mapper>

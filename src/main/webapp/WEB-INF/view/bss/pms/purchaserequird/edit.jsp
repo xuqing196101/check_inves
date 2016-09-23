@@ -97,73 +97,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		window.location.href="<%=basePath%>purchaser/queryByNo.html?planNo="+no;
   	}
   	
-    function edit(){
-    	var id=[]; 
-		$('input[name="chkItem"]:checked').each(function(){ 
-			id.push($(this).val());
-		}); 
-		if(id.length==1){
-			
-			window.location.href="<%=basePath%>purchaser/queryByNo.html?planNo="+no;
-		}else if(id.length>1){
-			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
-		}else{
-			layer.alert("请选择需要修改的版块",{offset: ['222px', '390px'], shade:0.01});
-		}
-    }
-    
-    function del(){
-    	var id =[]; 
-		$('input[name="chkItem"]:checked').each(function(){ 
-			id.push($(this).val()); 
-		}); 
-		if(id.length>0){
-			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
-				layer.close(index);
-				window.location.href="<%=basePath%>park/delete.html?id="+id;
-			});
-		}else{
-			layer.alert("请选择要删除的版块",{offset: ['222px', '390px'], shade:0.01});
-		}
-    }
-    var index;
-    function add(){
-    	
-    	index=layer.open({
-			  type: 1, //page层
-			  area: ['300px', '200px'],
-			  title: '',
-			  closeBtn: 1,
-			  shade:0.01, //遮罩透明度
-			  moveType: 1, //拖拽风格，0是默认，1是传统拖动
-			  shift: 1, //0-6的动画形式，-1不开启
-			  offset: ['80px', '600px'],
-			  content: $('#content'),
-			});
-    	
-   
-    }
-    
-	//鼠标移动显示全部内容
-	function out(content){
-	if(content.length>10){
-	layer.msg(content, {
-			icon:6,
-			shade:false,
-			area: ['600px'],
-			time : 1000    //默认消息框不关闭
-		});//去掉msg图标
-	}else{
-		layer.closeAll();//关闭消息框
-	}
-}
+  	 function aadd(){
+		  var  s=$("#count").val();
+	      	s++;
+	      	$("#count").val(s);
+	        var tr = $("input[name=dyadds]").parent().parent();
+	        $(tr).before("<tr><td class='tc'><input type='text' name='list["+s+"].seq' /></td>"+
+		       "<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].department' /> </td>"+
+		       "<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].goodsName' /> </td>"+ 
+		       "<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].stand' /> </td>"+ 
+		       "<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].qualitStand' /> </td>"+ 
+		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].item' /> </td>"+  
+		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].purchaseCount' /> </td>"+  
+		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].price' /> </td>"+  
+		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].budget' /> </td>"+  
+		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].deliverDate' /> </td>"+  
+		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].purchaseType' /> </td>"+  
+		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].supplier' /> </td>"+  
+		       	"<td class='tc'> <input style='border: 0px;'type='text' name='list["+s+"].isFreeTax' /> </td>"+  
+		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].goodsUse' /> </td>"+  
+		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].useUnit' /> </td>"+
+		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].memo' /> </td>"+  
+	        +"<tr/>");
+	  }
+  	 
+  	 
 	
-	function closeLayer(){
-		var val=$("input[name='goods']:checked").val();
-		
-		window.location.href="<%=basePath%>purchaser/add.html?type=" + val;
-		layer.close(index);
-	}
 </script>
 </head>
 
@@ -211,39 +170,48 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 					<c:forEach items="${list }" var="obj" varStatus="vs">
 						<tr>
-							<td class="tc w50"><input type="text"
-								name="list[${vs.count }].seq" value="${obj.seq }"><input
-								type="hidden" name="list[${vs.count }].id" value="${obj.id }">
+							<td class="tc w50"><input style="border: 0px;" type="text" name="list[${vs.count }].seq" value="${obj.seq }"><input style="border: 0px;" type="hidden" name="list[${vs.count }].id" value="${obj.id }">
 							</td>
-							<td><input type="text" name="list[${vs.count }].department" value="${obj.department }"></td>
-							<td><input type="text" name="list[${vs.count }].goodsName" value="${obj.goodsName }"></td>
-							<td class="tc"><input type="text" name="list[${vs.count }].stand" value="${obj.stand }"></td>
-							<td class="tc"><input type="text" name="list[${vs.count }].qualitStand" value="${obj.qualitStand }"></td>
-							<td class="tc"><input type="text" name="list[${vs.count }].item" value="${obj.item }"></td>
-							<td class="tc"><input type="text" name="list[${vs.count }].purchaseCount" value="${obj.purchaseCount }"></td>
-							<td class="tc"><input type="text" name="list[${vs.count }].price" value="${obj.price }"></td>
-							<td class="tc"><input type="text" name="list[${vs.count }].budget" value="${obj.budget }"></td>
-							<td><input type="text" name="list[${vs.count }].deliverDate" value="${obj.deliverDate }"></td>
-							<td><input type="text" name="list[${vs.count }].purchaseType" value="${obj.purchaseType }"></td>
-							<td class="tc"><input type="text" name="list[${vs.count }].supplier" value="${obj.supplier }"></td>
-							<td class="tc"><input type="text" name="list[${vs.count }].isFreeTax" value="${obj.isFreeTax }"></td>
-							<td class="tc"><input type="text" name="list[${vs.count }].goodsUse" value="${obj.goodsUse }"></td>
-							<td class="tc"><input type="text" name="list[${vs.count }].useUnit" value="${obj.useUnit }"></td>
-							<td class="tc"><input type="text" name="list[${vs.count }].memo" value="${obj.memo }">
+							<td><input style="border: 0px;" type="text" name="list[${vs.count }].department" value="${obj.department }"></td>
+							<td><input style="border: 0px;" type="text" name="list[${vs.count }].goodsName" value="${obj.goodsName }"></td>
+							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.count }].stand" value="${obj.stand }"></td>
+							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.count }].qualitStand" value="${obj.qualitStand }"></td>
+							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.count }].item" value="${obj.item }"></td>
+							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.count }].purchaseCount" value="${obj.purchaseCount }"></td>
+							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.count }].price" value="${obj.price }"></td>
+							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.count }].budget" value="${obj.budget }"></td>
+							<td><input style="border: 0px;" type="text" name="list[${vs.count }].deliverDate" value="${obj.deliverDate }"></td>
+							<td><input style="border: 0px;" type="text" name="list[${vs.count }].purchaseType" value="${obj.purchaseType }"></td>
+							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.count }].supplier" value="${obj.supplier }"></td>
+							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.count }].isFreeTax" value="${obj.isFreeTax }"></td>
+							<td class="tc"><input style="border: 0px;"type="text" name="list[${vs.count }].goodsUse" value="${obj.goodsUse }"></td>
+							<td class="tc"><input  style="border: 0px;" type="text" name="list[${vs.count }].useUnit" value="${obj.useUnit }"></td>
+							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.count }].memo" value="${obj.memo }">
 							<input type="hidden" name="list[${vs.count }].planName" value="${obj.planName }">
 							<input type="hidden" name="list[${vs.count }].planNo" value="${obj.planNo }">
 							<input type="hidden" name="list[${vs.count }].planType" value="${obj.planType }">
 							<input type="hidden" name="list[${vs.count }].parentId" value="${obj.parentId }">
 							<input type="hidden" name="list[${vs.count }].historyStatus" value="${obj.historyStatus }">
 							<input type="hidden" name="list[${vs.count }].goodsType" value="${obj.goodsType }">
+							<input type="hidden" name="list[${vs.count }].organization" value="${obj.organization }">
+							<input type="hidden" name="list[${vs.count }].auditDate" value="${obj.auditDate }">
+							<input type="hidden" name="list[${vs.count }].isMaster" value="${obj.isMaster }">
+							<input type="hidden" name="list[${vs.count }].isDelete" value="${obj.isDelete }">
+							<input type="hidden" name="list[${vs.count }].status" value="${obj.status }">
+							
 							</td>
 						</tr>
 
 					</c:forEach>
+					
+					<tr>
+
+					<td class="tc" colspan="16"> <input type="hidden" name="type" value="${fn:length(list)}"> <input class="btn btn-windows add" name="dyadds" type="button" onclick="aadd()" value="添加"></td>
+				</tr>
+				
 				</table>
 				<input class="btn btn-windows save" type="submit" value="提交">
-				<input class="btn btn-windows reset" value="返回" type="button"
-					onclick="location.href='javascript:history.go(-1);'">
+				<input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 			</form>
 		</div>
 	</div>

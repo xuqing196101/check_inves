@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.pms.UpdateFiledMapper">
+  <resultMap id="UpdateFiled_Map" type="bss.model.pms.UpdateFiled">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="TABLE_NAME" jdbcType="VARCHAR" property="tableName" />
+    <result column="FILED" jdbcType="VARCHAR" property="filed" />
+    <result column="IS_UPDATE" jdbcType="DECIMAL" property="isUpdate" />
+    <result column="FILED_NAME" jdbcType="VARCHAR" property="filedName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, TABLE_NAME, FILED, IS_UPDATE,FILED_NAME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="UpdateFiled_Map">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BBS_PMS_UPDATE_FILED
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BBS_PMS_UPDATE_FILED
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="bss.model.pms.UpdateFiled">
+    insert into T_BBS_PMS_UPDATE_FILED (ID, TABLE_NAME, FILED, 
+      IS_UPDATE,FILED_NAME)
+    values (#{id,jdbcType=VARCHAR}, #{tableName,jdbcType=VARCHAR}, #{filed,jdbcType=VARCHAR}, 
+      #{isUpdate,jdbcType=DECIMAL},#{filedName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="bss.model.pms.UpdateFiled">
+    insert into T_BBS_PMS_UPDATE_FILED
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="tableName != null">
+        TABLE_NAME,
+      </if>
+      <if test="filed != null">
+        FILED,
+      </if>
+      <if test="isUpdate != null">
+        IS_UPDATE,
+      </if>
+       <if test="filedName != null">
+        FILED_NAME,
+      </if>
+      
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="tableName != null">
+        #{tableName,jdbcType=VARCHAR},
+      </if>
+      <if test="filed != null">
+        #{filed,jdbcType=VARCHAR},
+      </if>
+      <if test="isUpdate != null">
+        #{isUpdate,jdbcType=DECIMAL},
+      </if>
+        <if test="filedName != null">
+           #{filedName,jdbcType=VARCHAR},
+      </if>
+      
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="bss.model.pms.UpdateFiled">
+    update T_BBS_PMS_UPDATE_FILED
+    <set>
+      <if test="tableName != null">
+        TABLE_NAME = #{tableName,jdbcType=VARCHAR},
+      </if>
+      <if test="filed != null">
+        FILED = #{filed,jdbcType=VARCHAR},
+      </if>
+      <if test="isUpdate != null">
+        IS_UPDATE = #{isUpdate,jdbcType=DECIMAL},
+      </if>
+       <if test="filedName != null">
+         FILED_NAME = #{filedName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="bss.model.pms.UpdateFiled">
+    update T_BBS_PMS_UPDATE_FILED
+    set TABLE_NAME = #{tableName,jdbcType=VARCHAR},
+      FILED = #{filed,jdbcType=VARCHAR},
+      IS_UPDATE = #{isUpdate,jdbcType=DECIMAL},
+      FILED_NAME = #{filedName,jdbcType=VARCHAR},
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="getAll" resultMap="UpdateFiled_Map" >
+  select
+  	  <include refid="Base_Column_List" />
+    from T_BBS_PMS_UPDATE_FILED
+  
+  </select>
+  
+  
+  <update id="update" >
+  update  T_BBS_PMS_UPDATE_FILED
+  <set>
+    <if test="isUpdate != null">
+         IS_UPDATE = #{isUpdate}
+      </if>
+  </set>
+  
+  <where>
+  <if test="list != null">
+      FILED in  <foreach item="item" index="index" collection="list" open="("  
+            separator="," close=")">  
+            #{item}  
+        </foreach> 
+      </if>
+  
+  </where>
+  </update>
+  
+</mapper>
