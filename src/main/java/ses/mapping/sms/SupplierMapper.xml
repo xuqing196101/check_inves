@@ -681,6 +681,9 @@
 		<if test="status != null">
 			AND STATUS = #{status}
 		</if>
+        <if test="address != null and address !=''">  
+        AND ADDRESS like '%${address}%'   
+       </if> 
 		ORDER BY FOUND_DATE DESC
 	</select>
 

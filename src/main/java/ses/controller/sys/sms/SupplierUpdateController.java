@@ -89,7 +89,7 @@ public class SupplierUpdateController {
 	 */
 	@RequestMapping("show")
 	public String show(String id,Model model,HttpServletRequest req){
-		ApplyEdit ae=supplierUpdateService.selectByPrimaryKey("78DC68C9A91549BF827C61DE47A37ECF");
+		ApplyEdit ae=supplierUpdateService.selectByPrimaryKey(id);
 		model.addAttribute("ae", ae);
 		return "ses/sms/supplier_apply_edit/audit";
 	}
