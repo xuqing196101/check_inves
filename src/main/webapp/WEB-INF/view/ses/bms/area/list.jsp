@@ -4,34 +4,14 @@
 <%@ include file="../../../common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html class=" js cssanimations csstransitions" lang="en"><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title></title>
-
-    <!-- Meta -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link href="<%=request.getContextPath()%>css/bootstrap.min.css" media="screen" rel="stylesheet">
-    <link href="<%=request.getContextPath()%>css/common.css" media="screen" rel="stylesheet">
-    <link href="<%=request.getContextPath()%>css/style.css" media="screen" rel="stylesheet">
-    <link href="<%=request.getContextPath()%>css/line-icons.css" media="screen" rel="stylesheet">
-    <link href="<%=request.getContextPath()%>css/app.css" media="screen" rel="stylesheet">
-    <link href="<%=request.getContextPath()%>css/application.css" media="screen" rel="stylesheet">
-    <link href="<%=request.getContextPath()%>css/header-v4.css" media="screen" rel="stylesheet">
-    <link href="<%=request.getContextPath()%>css/header-v5.css" media="screen" rel="stylesheet">
-    <link href="<%=request.getContextPath()%>css/footer-v2.css" media="screen" rel="stylesheet">
-    <link href="<%=request.getContextPath()%>css/img-hover.css" media="screen" rel="stylesheet">
-    <link href="<%=request.getContextPath()%>css/page_job.css" media="screen" rel="stylesheet">
-    <link href="<%=request.getContextPath()%>css/shop.style.css" media="screen" rel="stylesheet">
-
-     <script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
-    <!--导航js-->
-    <script src="js/jquery_ujs.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+<html>
+  <head>
     
-    <script type="text/javascript"
+    <title>地区管理</title>
+     <script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
+ <link rel="stylesheet" type="text/css"
+    href="<%=request.getContextPath()%>/public/ztree/css/zTreeStyle.css">
+<script type="text/javascript"
     src="<%=request.getContextPath()%>/public/ztree/jquery.ztree.core.js"></script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/public/ztree/jquery.ztree.excheck.js"></script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/public/layer/layer.js"></script>
@@ -72,7 +52,8 @@
     };
     
 </script>
-</head>
+
+  </head>
 
 <body>
   <div class="wrapper">
@@ -151,7 +132,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
         <ul class="breadcrumb margin-left-0">
-           <li><a href="#">首页</a></li><li><a href="">用户管理</a></li><li><a href="">地区管理</a></li> 
+           <li><a href="#">首页</a></li><li><a href="">单位及用户管理</a></li><li><a href="">组织机构管理</a></li> 
         </ul>
       </div>
    </div>
@@ -163,14 +144,11 @@
                 <!-- Begin Content -->
                 <div class="col-md-12" style="min-height:400px;">
                      <div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
-     
-        
-        
-           
-            <div id="ztree" class="ztree"></div>
-          
-        
-     
+      <div class="tag-box tag-box-v3">
+        <ul id="ztree_show" class="ztree">
+           <div id="ztree" class="ztree"></div>
+        </ul>
+     </div>
 
      <div class="btn-group-vertical" id="rMenu" style="position:absolute; visibility:hidden;">
         <button class="btn" style="font-size:12px;" onClick="addTreeNode();">
