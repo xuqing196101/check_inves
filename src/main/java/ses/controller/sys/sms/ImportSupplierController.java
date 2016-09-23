@@ -173,7 +173,7 @@ public class ImportSupplierController {
 		//审核理由：id可以从登录信息里面去里面取
 		ImportSupplierAud isa=importSupplierAudService.findById(id);
 		model.addAttribute("isa", isa);	
-		return "ses/sms/import_supplier/register";
+		return "ses/sms/import_supplier/register_update";
 	}
 	
 	/**
@@ -438,6 +438,7 @@ public class ImportSupplierController {
 		myMap.put("江西省","cn-jx");        
 		myMap.put("台湾省","tw-tw");        
 		//调用供应商查询方法 List<Supplier>
+		
 		//开始循环 判断地址是否
 		Map<String,Integer> map= new HashMap<String,Integer>(40);
 		List<String> list=getAllProvince();

@@ -150,7 +150,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             point: {
                events: {
                    click: function () { 
-                      alert(1);
+                   var adress=this.name;
+                      window.location.href="<%=basePath%>supplierQuery/findSupplierByPriovince.html?supplierName="+adress;
                     }
                   }
            }
@@ -238,6 +239,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
    </div>
 </div> 
+</div>
   <body>
   	<div class="container clear margin-top-30">
   			<form id="form1" action="" method="post">

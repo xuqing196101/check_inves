@@ -334,102 +334,201 @@ function loadCity(regionId){
 									<ul class="list-unstyled list-flow">
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 企业名称：</span>
 											<div class="input-append">
-											    <input type="hidden" name="id" value="${id }" />
-												<input class="span3" id="name" name="name" value="${is.name }" type="text">
-												<div class="red">${isa.nameReason }</div>
+											    <c:if test="${empty isa.nameReason }">
+											    	<input type="hidden" name="id" value="${id }" />
+													<input class="span3" id="name" name="name" value="${is.name }" readonly="readonly" type="text">
+													<div class="red">${isa.nameReason }</div>
+											    </c:if>
+											    <c:if test="${not empty isa.nameReason }">
+											    	<input type="hidden" name="id" value="${id }" />
+													<input class="span3" id="name" name="name" value="${is.name }"  type="text">
+													<div class="red">${isa.nameReason }</div>
+											    </c:if>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 企业类别：</span>
 											<div class="input-append">
-												<input class="span3" id="supplierType" name="supplierType" value="${is.supplierType }"  type="text">
-												<div class="red">${isa.supplierTypeReason }</div>
+												<c:if test="${empty isa.supplierTypeReason }">
+													<input class="span3" id="supplierType" name="supplierType" readonly="readonly"  value="${is.supplierType }"  type="text">
+													<div class="red">${isa.supplierTypeReason }</div>
+												</c:if>
+												<c:if test="${not empty isa.supplierTypeReason }">
+													<input class="span3" id="supplierType" name="supplierType" value="${is.supplierType }"  type="text">
+													<div class="red">${isa.supplierTypeReason }</div>
+												</c:if>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 中文译名：</span>
 											<div class="input-append">
-												<input class="span3" id="chinesrName" name="chinesrName" value="${is.chinesrName }" type="text">
-												<div class="red">${isa.chinesrNameReason }</div>
+												<c:if test="${empty isa.chinesrNameReason }">
+													<input class="span3" id="chinesrName" name="chinesrName" readonly="readonly"  value="${is.chinesrName }" type="text">
+													<div class="red">${isa.chinesrNameReason }</div>
+												</c:if>
+												<c:if test="${not empty isa.chinesrNameReason }">
+													<input class="span3" id="chinesrName" name="chinesrName"  value="${is.chinesrName }" type="text">
+													<div class="red">${isa.chinesrNameReason }</div>
+												</c:if>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 法定代表人：</span>
 											<div class="input-append">
-												<input class="span3" id="legalName" name="legalName" value="${is.legalName }" type="text">
-												<div class="red">${isa.legalNameReason }</div>
+												<c:if test="${empty isa.legalNameReason }">
+													<input class="span3" id="legalName" name="legalName" readonly="readonly" value="${is.legalName }" type="text">
+													<div class="red">${isa.legalNameReason }</div>
+												</c:if>
+												<c:if test="${not empty isa.legalNameReason }">
+													<input class="span3" id="legalName" name="legalName"  value="${is.legalName }" type="text">
+													<div class="red">${isa.legalNameReason }</div>
+												</c:if>
 											</div>
 										</li>
 										<li class="col-md-6 p0"><span class=""><i class="red">＊</i>企业注册地址：</span>
 											<div class="input-append">
-												<select id="id_provSelect" name="provSelect" onChange="loadCity(this.value);"><option value="">请选择省份</option></select>&nbsp;
-  												<select id="address" name="address"><option value="">请选择城市</option></select>&nbsp;
-  												<SCRIPT LANGUAGE="JavaScript">loadProvince('${is.address}');</SCRIPT>
-  												<font class="red">${isa.addressReason }</font>
+												<c:if test="${empty isa.addressReason }">
+													<select id="id_provSelect" name="provSelect" ><option value="">请选择省份</option></select>&nbsp;
+  													<select id="address" name="address"><option value="">请选择城市</option></select>&nbsp;
+  													<SCRIPT LANGUAGE="JavaScript">loadProvince('${is.address}');</SCRIPT>
+  													<font class="red">${isa.addressReason }</font>
+												</c:if>
+												<c:if test="${not empty isa.addressReason }">
+													<select id="id_provSelect" name="provSelect" onChange="loadCity(this.value);"><option value="">请选择省份</option></select>&nbsp;
+  													<select id="address" name="address"><option value="">请选择城市</option></select>&nbsp;
+  													<SCRIPT LANGUAGE="JavaScript">loadProvince('${is.address}');</SCRIPT>
+  													<font class="red">${isa.addressReason }</font>
+												</c:if>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>邮政编码：</span>
 											<div class="input-append">
-												<input class="span3" id="postCode" name="postCode" value="${is.postCode }"  type="text">
-												<div class="red">${isa.postCodeReason }</div>
+												<c:if test="${empty isa.postCodeReason }">
+													<input class="span3" id="postCode" name="postCode" readonly="readonly" value="${is.postCode }"  type="text">
+													<div class="red">${isa.postCodeReason }</div>
+												</c:if>
+												<c:if test="${not empty isa.postCodeReason }">
+													<input class="span3" id="postCode" name="postCode"  value="${is.postCode }"  type="text">
+													<div class="red">${isa.postCodeReason }</div>
+												</c:if>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>经营产品大类：</span>
 											<div class="input-append">
-												<input class="span3" id="productType" name="productType" value="${is.productType }" type="text">
-												<div class="red">${isa.productTypeReason }</div>
+												<c:if test="${empty isa.productTypeReason }">
+													<input class="span3" id="productType" name="productType" readonly="readonly" value="${is.productType }" type="text">
+													<div class="red">${isa.productTypeReason }</div>
+												</c:if>
+												<c:if test="${not empty isa.productTypeReason }">
+													<input class="span3" id="productType" name="productType" value="${is.productType }" type="text">
+													<div class="red">${isa.productTypeReason }</div>
+												</c:if>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>主营产品：</span>
 											<div class="input-append">
-												<input class="span3" id="majorProduct" name="majorProduct" value="${is.majorProduct }" type="text">
-												<div class="red">${isa.majorpRoductReason }</div>
+												<c:if test="${empty isa.majorpRoductReason }">
+													<input class="span3" id="majorProduct" name="majorProduct" readonly="readonly" value="${is.majorProduct }" type="text">
+													<div class="red">${isa.majorpRoductReason }</div>
+												</c:if>
+												<c:if test="${not empty isa.majorpRoductReason }">
+													<input class="span3" id="majorProduct" name="majorProduct" value="${is.majorProduct }" type="text">
+													<div class="red">${isa.majorpRoductReason }</div>
+												</c:if>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>兼营产品：</span>
 											<div class="input-append">
-												<input class="span3" id="byproduct" name="byproduct" value="${is.byproduct }" type="text">
-												<div class="red">${isa.byproductReason }</div>
+												<c:if test="${empty isa.byproductReason }">
+													<input class="span3" id="byproduct" name="byproduct" readonly="readonly" value="${is.byproduct }" type="text">
+													<div class="red">${isa.byproductReason }</div>
+												</c:if>
+												<c:if test="${not empty isa.byproductReason }">
+													<input class="span3" id="byproduct" name="byproduct" value="${is.byproduct }" type="text">
+													<div class="red">${isa.byproductReason }</div>
+												</c:if>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>生产商名称：</span>
 											<div class="input-append">
-												<input class="span3" id="producerName" name="producerName" value="${is.producerName }"  type="text">
-												<div class="red">${isa.producerNameReason }</div>
+												<c:if test="${empty isa.producerNameReason }">
+													<input class="span3" id="producerName" name="producerName" readonly="readonly" value="${is.producerName }"  type="text">
+													<div class="red">${isa.producerNameReason }</div>
+												</c:if>
+												<c:if test="${not empty isa.producerNameReason }">
+													<input class="span3" id="producerName" name="producerName" value="${is.producerName }"  type="text">
+													<div class="red">${isa.producerNameReason }</div>
+												</c:if>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 联系人：</span>
 											<div class="input-append">
-												<input class="span3" id="contactPerson" name="contactPerson" value="${is.contactPerson }" type="text">
-												<div class="red">${isa.contactPersonReason }</div>
+												<c:if test="${empty isa.contactPersonReason }">
+													<input class="span3" id="contactPerson" name="contactPerson" readonly="readonly" value="${is.contactPerson }" type="text">
+													<div class="red">${isa.contactPersonReason }</div>
+												</c:if>
+												<c:if test="${not empty isa.contactPersonReason }">
+													<input class="span3" id="contactPerson" name="contactPerson" value="${is.contactPerson }" type="text">
+													<div class="red">${isa.contactPersonReason }</div>
+												</c:if>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 电话：</span>
 											<div class="input-append">
-												<input class="span3" id="telephone" name="telephone" value="${is.telephone }" type="text">
-												<div class="red">${isa.telephoneReason }</div>
+												<c:if test="${empty isa.telephoneReason }">
+													<input class="span3" id="telephone" name="telephone" readonly="readonly" value="${is.telephone }" type="text">
+													<div class="red">${isa.telephoneReason }</div>
+												</c:if>
+												<c:if test="${not empty isa.telephoneReason }">
+													<input class="span3" id="telephone" name="telephone" value="${is.telephone }" type="text">
+													<div class="red">${isa.telephoneReason }</div>
+												</c:if>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 传真：</span>
 											<div class="input-append">
-												<input class="span3" id="fax" name="fax" value="${is.fax }" type="text">
-												<div class="red">${isa.faxReason }</div>
+												<c:if test="${empty isa.faxReason }">
+													<input class="span3" id="fax" name="fax"  readonly="readonly"  value="${is.fax }" type="text">
+													<div class="red">${isa.faxReason }</div>
+												</c:if>
+												<c:if test="${not empty isa.faxReason }">
+													<input class="span3" id="fax" name="fax" value="${is.fax }" type="text">
+													<div class="red">${isa.faxReason }</div>
+												</c:if>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 电子邮件：</span>
 											<div class="input-append">
-												<input class="span3" id="email" name="email" value="${is.email }" type="text">
-												<div class="red">${isa.emailReason }</div>
+												<c:if test="${empty isa.emailReason }">
+													<input class="span3" id="email" name="email" readonly="readonly"  value="${is.email }" type="text">
+													<div class="red">${isa.emailReason }</div>
+												</c:if>
+												<c:if test="${not empty isa.emailReason }">
+													<input class="span3" id="email" name="email" value="${is.email }" type="text">
+													<div class="red">${isa.emailReason }</div>
+												</c:if>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 企业网址：</span>
 											<div class="input-append">
-												<input class="span3" id="website" name="website" value="${is.website }" type="text">
-												<div class="red">${isa.websiteReason }</div>
+												<c:if test="${empty isa.websiteReason }">
+													<input class="span3" id="website" name="website" readonly="readonly" value="${is.website }" type="text">
+													<div class="red">${isa.websiteReason }</div>
+												</c:if>
+												<c:if test="${not empty isa.websiteReason }">
+													<input class="span3" id="website" name="website" value="${is.website }" type="text">
+													<div class="red">${isa.websiteReason }</div>
+												</c:if>
 											</div>
 										</li>
 										<li class="col-md-12 p0 mt10"><span class="fl"><i class="red">＊</i>国内供货业绩：</span>
 											<div class="col-md-9 mt5">
 												<div class="row">
-													<textarea class="text_area col-md-12" id="civilAchievement" name="civilAchievement"  title="不超过800个字" placeholder=""> ${is.civilAchievement }</textarea>
-													<div class="red">${isa.civilAchievementReason }</div>
+													<c:if test="${empty isa.civilAchievementReason }">
+														<textarea class="text_area col-md-12" id="civilAchievement" readonly="readonly" name="civilAchievement"  title="不超过800个字" placeholder=""> ${is.civilAchievement }</textarea>
+														<div class="red">${isa.civilAchievementReason }</div>
+													</c:if>
+													<c:if test="${not empty isa.civilAchievementReason }">
+														<textarea class="text_area col-md-12" id="civilAchievement" name="civilAchievement"  title="不超过800个字" placeholder=""> ${is.civilAchievement }</textarea>
+														<div class="red">${isa.civilAchievementReason }</div>
+													</c:if>
 												</div>
 											</div>
 											<div class="clear"></div>
@@ -437,8 +536,14 @@ function loadCity(regionId){
 										<li class="col-md-12 p0 mt10"><span class="fl"><i class="red">＊</i>企业简介：</span>
 											<div class="col-md-9 mt5">
 												<div class="row">
-													<textarea class="text_area col-md-12" id="remark" name="remark" title="不超过800个字" placeholder="">${is.remark }</textarea>
-													<div class="red">${isa.remarkReason }</div>
+													<c:if test="${empty isa.remarkReason }">
+														<textarea class="text_area col-md-12" id="remark" name="remark" readonly="readonly" title="不超过800个字" placeholder="">${is.remark }</textarea>
+														<div class="red">${isa.remarkReason }</div>
+													</c:if>
+													<c:if test="${not empty isa.remarkReason }">
+														<textarea class="text_area col-md-12" id="remark" name="remark" title="不超过800个字" placeholder="">${is.remark }</textarea>
+														<div class="red">${isa.remarkReason }</div>
+													</c:if>
 												</div>
 											</div>
 											<div class="clear"></div>
@@ -479,14 +584,14 @@ function loadCity(regionId){
 					<td>所在城市</td>
 				</tr>
 			    <c:forEach items="${findPurchaseDepList }" var="fpd" varStatus="vs">
-					<tr>
-						<td><input value="${fpd.id }" type="checkbox" name="cbox" onclick="box(this)" /></td>
-						<td>${vs.index+1}</td>
-						<td>${fpd.depName }</td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
+						<tr>
+							<td><input value="${fpd.id }" type="checkbox" name="cbox" onclick="box(this)" /></td>
+							<td>${vs.index+1}</td>
+							<td>${fpd.depName }</td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
 				</c:forEach> 
 			</table>
 			 <h2 class="f16 jbxx">
