@@ -91,6 +91,11 @@ public class ExamUserScore {
      *@Fields code : 试卷编号
      */
     private String code;
+    
+    /**
+     *@Fields card : 身份证号
+     */
+    private String card;
 
 	public String getId() {
 		return id;
@@ -218,6 +223,14 @@ public class ExamUserScore {
 
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+	public String getCard() {
+		return card;
+	}
+
+	public void setCard(String card) {
+		this.card = card;
 	}
 
 	

@@ -169,7 +169,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">专家考试</a></li><li class="active"><a href="#">题库管理</a></li>
+		   <li><a href="#">首页</a></li><li><a href="#">支撑环境</a></li><li><a href="#">题库管理</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -178,13 +178,13 @@
     <div class="content padding-left-25 padding-right-25 padding-top-5">
     <div>
 		<div class="headline-v2">
-		   	<h2>修改题目</h2>
+		   	<h2>修改技术类题目</h2>
 		</div>
 		
   	<form action="<%=path %>/expertExam/editToTec.html?id=${tecQue.id }" method="post" id="form">
 		<ul class="list-unstyled list-flow p0_20">
 		     <li class="col-md-12 p0">
-	  			<span class="fl">请选择题型:</span>
+	  			<span class="fl">请选择题型：</span>
 		  		<select id="queType" name="queType" onchange="changeType()">
 		  			<option value="">请选择</option>
 		  			<c:forEach items="${examPoolType }" var="e">
@@ -201,7 +201,7 @@
 	  		</li>
 		
 			<li class="col-md-12 p0">
-			   <span class="fl">题干:</span>
+			   <span class="fl">题干：</span>
 			   <div class="">
 		        	<textarea class="text_area col-md-8" name="queTopic" id="queTopic">${tecQue.topic }</textarea>
 		       </div>
@@ -209,8 +209,8 @@
 		   
 	  	
 	  		<li class="col-md-12 p0">
-				<span class="fl">选项:</span>
-				<div class="col-md-9">
+				<span class="fl">选项：</span>
+				<div class="col-md-9 p0">
 				<div>
 			  		<div class="fl mt5">A</div><textarea name="option" id="optionA" class="ml5 col-md-8">${optionA}</textarea>
 			  		<div class="clear"></div>
@@ -231,7 +231,7 @@
 			 </li> 
 		   
 		  		<li class="col-md-12 p0">
-					<span class="fl">答案:</span>	
+					<span class="fl">答案：</span>	
 					<div class="fl ml5 mt5">
 			        A <input type="radio" id="A" name="que" value="A" class="mt0"/> 
 		  			B <input type="radio" id="B" name="que" value="B" class="mt0"/> 
@@ -242,7 +242,7 @@
 				</li>
 				
 			  <li class="col-md-12 p0">
-			  		<span class="fl">分值:</span>
+			  		<span class="fl">分值：</span>
 		  			<select name="quePoint" id="quePoint">
 		  				<option value="1" 
 		  					<c:if test="${tecQue.point==1 }">
@@ -277,8 +277,8 @@
 	  	<div class="padding-top-10 clear">
 			<div class="col-md-12 pl200 ">
 				<div class="mt40 tc mb50">
-					<button class="btn btn-windows save" onclick="save()">更新</button>
-		  			<button class="btn btn-windows reset" onclick="history.go(-1)" type="button">返回</button>
+					<button class="btn btn-windows save" onclick="save()">保存</button>
+		  			<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
 	  			</div>
 	  		</div>
 	  	</div>

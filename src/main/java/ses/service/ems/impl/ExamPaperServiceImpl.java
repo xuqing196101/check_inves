@@ -8,9 +8,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+
 import ses.dao.ems.ExamPaperMapper;
 import ses.model.ems.ExamPaper;
 import ses.service.ems.ExamPaperServiceI;
+import ses.util.PropertiesUtil;
 
 
 
@@ -49,8 +52,10 @@ public class ExamPaperServiceImpl implements ExamPaperServiceI {
 	}
 	
 	@Override
-	public List<ExamPaper> queryAllPaper() {
-		return examPaperMapper.queryAllPaper();
+	public List<ExamPaper> queryAllPaper(ExamPaper examPaper,Integer pageNum) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
+		return examPaperMapper.queryAllPaper(examPaper,pageNum);
 	}
 
 

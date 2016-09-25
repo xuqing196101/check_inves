@@ -147,7 +147,6 @@
 		var queType = $("#queType").val();
 		var que = document.getElementsByName("que");
 		var judge = document.getElementsByName("judge");
-		var all_options = document.getElementById("quePoint").options;
 		for(var i=0;i<que.length;i++){
 			$(que[i]).removeAttr("checked");
 		}
@@ -172,7 +171,6 @@
 				$("#optionB").val(" ");
 				$("#optionC").val(" ");
 				$("#optionD").val(" ");
-				all_options[0].selected = true;
 			}else if(queType==2){
 				for(var i=0;i<que.length;i++){
 					$(que[i]).attr("type","checkbox");
@@ -190,7 +188,6 @@
 				$("#optionB").val(" ");
 				$("#optionC").val(" ");
 				$("#optionD").val(" ");
-				all_options[0].selected = true;
 			}else if(queType==3){
 				for(var i=0;i<que.length;i++){
 					$(que[i]).attr("disabled",true);
@@ -207,7 +204,6 @@
 				$("#optionB").val(" ");
 				$("#optionC").val(" ");
 				$("#optionD").val(" ");
-				all_options[0].selected = true;
 			}
 		}else{
 			for(var i=0;i<que.length;i++){
@@ -218,7 +214,6 @@
 			$("#optionB").val(" ");
 			$("#optionC").val(" ");
 			$("#optionD").val(" ");
-			all_options[0].selected = true;
 		}
 	}
 	
@@ -237,7 +232,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#">首页</a></li><li><a href="#">支撑环境</a></li><li><a href="#">题库管理</a></li><li class="active"><a href="#">采购人题库管理</a></li>
+		   <li><a href="#">首页</a></li><li><a href="#">支撑环境</a></li><li><a href="#">题库管理</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -253,7 +248,7 @@
   	<form action="<%=path %>/purchaserExam/editToPurchaser.html?id=${purchaserQue.id }" method="post" id="form">
   		<ul class="list-unstyled list-flow p0_20">
 		     <li class="col-md-12 p0">
-	  			<span class="fl">请选择题型:</span>
+	  			<span class="fl">请选择题型：</span>
 			  		<select id="queType" name="queType" onchange="changeType()">
 			  			<option></option>
 			  			<c:forEach items="${examPoolType }" var="e">
@@ -270,17 +265,15 @@
   			</li>
   		
   		<li class="col-md-12 p0">
-			<span class="fl">题干:</span>
+			<span class="fl">题干：</span>
 			<div class="">
-	  			<textarea class="text_area col-md-8" name="queTopic" id="queTopic">
-	  			${purchaserQue.topic }
-	  			</textarea>
+	  			<textarea class="text_area col-md-8" name="queTopic" id="queTopic">${purchaserQue.topic }</textarea>
   			</div>
   		</li>
   		
   		
   		<li class="col-md-12 p0">
-				<span class="fl">选项:</span>
+				<span class="fl">选项：</span>
 				<div class="col-md-9">
 				<div>
 			  		<div class="fl mt5">A</div><textarea name="option" id="optionA" class="ml5 col-md-8">${optionA}</textarea>
@@ -304,14 +297,14 @@
   		
   		
   		<li class="col-md-12 p0">
-			<span class="fl">答案:</span>	
+			<span class="fl">答案：</span>	
 			<div class="fl ml5 mt5">
 			  	A <input type="radio" id="A" name="que" value="A" onclick="queDis()"/> 
 			  	B <input type="radio" id="B" name="que" value="B" onclick="queDis()"/> 
 			  	C <input type="radio" id="C" name="que" value="C" onclick="queDis()"/> 
 			  	D <input type="radio" id="D" name="que" value="D" onclick="queDis()"/>
-  				<span id="queSelect"></span>
   			</div>
+  			<span id="queSelect" class="fl"></span>
   			<div class="clear ml5 mt5">
 	  			对 <input type="radio" value="对" name="judge" onclick="judgeDis()" id="judgeTrue"/>
 	  			错 <input type="radio" value="错" name="judge" onclick="judgeDis()" id="judgeFalse"/>
@@ -355,8 +348,8 @@
 	  	<div class="padding-top-10 clear">
 			<div class="col-md-12 pl200 ">
 				<div class="mt40 tc mb50">
-					<button class="btn btn-windows save" onclick="save()">更新</button>
-		  			<button class="btn btn-windows reset" onclick="history.go(-1)" type="button">返回</button>
+					<button class="btn btn-windows save" onclick="save()">保存</button>
+		  			<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
 	  			</div>
 	  		</div>
 	  	</div>

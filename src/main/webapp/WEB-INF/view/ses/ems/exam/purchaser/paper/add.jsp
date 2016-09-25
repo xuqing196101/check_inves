@@ -36,37 +36,37 @@
     <form action="<%=path %>/purchaserExam/saveToExamPaper.html" method="post">
     	<ul class="list-unstyled list-flow p0_20">
 		     <li class="col-md-12 p0">
-	  			<span class="fl">试卷名称:</span>
+	  			<span class="fl">试卷名称：</span>
 		  		<input type="text" name="paperName"/>
 	  		</li>
     		
     		<li class="col-md-12 p0">
-	  			<span class="fl">试卷编号:</span>
+	  			<span class="fl">试卷编号：</span>
 		  		<input type="text" name="paperNo"/>
 	  		</li>
     		
     		<li class="col-md-12 p0">
-	  			<span class="fl">题型分布:</span>
+	  			<span class="fl">题型分布：</span>
 	  			<div class="fl">
-	  			   <label class="fl mt5">单选题:</label><input type="text" name="singleNum" id="singleNum" class="ml10 w50"/>条<input type="text" name="singlePoint" id="singlePoint" class="ml10 w50"/>分/条<br/>
-		    	   <label class="fl mt5">多选题:</label><input type="text" name="multipleNum" id="multipleNum" class="ml10 w50"/>条<input type="text" name="multiplePoint" id="multiplePoint" class="ml10 w50"/>分/条<br/>
-		    	   <label class="fl mt5">判断题:</label> <input type="text" name="judgeNum" id="judgeNum" class="ml10 w50"/>条<input type="text" name="judgePoint" id="judgePoint" class="ml10 w50"/>分/条<br/>
+	  			   <label class="fl mt5">单选题：</label><input type="text" name="singleNum" id="singleNum" class="ml10 w50"/>条<input type="text" name="singlePoint" id="singlePoint" class="ml10 w50"/>分/条<br/>
+		    	   <label class="fl mt5">多选题：</label><input type="text" name="multipleNum" id="multipleNum" class="ml10 w50"/>条<input type="text" name="multiplePoint" id="multiplePoint" class="ml10 w50"/>分/条<br/>
+		    	   <label class="fl mt5">判断题：</label> <input type="text" name="judgeNum" id="judgeNum" class="ml10 w50"/>条<input type="text" name="judgePoint" id="judgePoint" class="ml10 w50"/>分/条<br/>
 	  		    </div>
 	  		    <div class="clear"></div>
 	  		</li>
     		
     		<li class="col-md-12 p0">
-	  			<span class="fl mt5">总分值:</span>
+	  			<span class="fl mt5">总分值：</span>
 		  		<input class="w50 mt5" type="text" name="totalPoint" id="totalPoint"/>分
 	  		</li>
     		
     		<li class="col-md-12 p0">
-	  			<span class="fl mt5">考试开始时间:</span>
+	  			<span class="fl mt5">考试开始时间：</span>
 		  		<input type="text" name="startTime" id="startTime" class="Wdate mt5" onfocus="WdatePicker({isShowWeek:true})"/>
 	  			<select id="hour" name="hour" class="mb8 mt5">
 	  				<option value="">请选择</option>
 	  				<c:forEach items="${hour }" varStatus="h">
-	  					<option value="${h.index+1 }">${h.index+1 }</option>
+	  					<option value="${h.index }">${h.index }</option>
 	  				</c:forEach>
 	  			</select>时
 	  			<select id="second" name="second" class="mb8 mt5">
@@ -78,20 +78,24 @@
 	  		</li>
 	  		
 	  		<li class="col-md-12 p0">
-	  			<span class="fl mt5">考试用时:</span>
+	  			<span class="fl mt5">考试用时：</span>
 		  		<input class="w50 mt5" type="text" name="useTime" id="useTime"/>分钟
 	  		</li>
 	  		
-	  		<li class="col-md-12 p0">
-	  			<span class="fl mt5">考试有效期:</span>
+	  		<%--<li class="col-md-12 p0">
+	  			<span class="fl mt5">考试有效期：</span>
 		  		<input class="w50 mt5" type="text" name="expiryHour" id="expiryHour"/>小时
 		  		<input class="w50 mt5" type="text" name="expirySecond" id="expirySecond"/>分钟
 	  		</li>
 	  		
-	  		<li class="col-md-12 p0">
-	  			<span class="fl w250 mb5">首次考试不及格的是否允许30分钟内重考:</span>
+	  		--%><li class="col-md-12 p0">
+	  			<span class="fl w450 mb5">首次考试不及格的是否允许30分钟内重考：</span>
 		  		<input class="mb5" type="checkbox" name="isAllow" id="isAllowTrue" value="是">是
     			<input class="mb5" type="checkbox" name="isAllow" id="isAllowFalse" value="否"/>否
+	  		</li>
+	  		
+	  		<li class="col-md-12 p0 mt10 red">
+	  			*注意:每份考卷的登录有效期为15分钟,如:考卷开始时间上午9点,请相关参考人员于上午9点至上午9点15分内登录考试系统考试,否则视为弃考,计0分。
 	  		</li>
     	</ul>
    
@@ -101,7 +105,7 @@
 			<div class="col-md-12 pl200 ">
 				<div class="mt40 tc mb50">
 				 	<button class="btn btn-windows save" type="submit">保存</button>
-	    			<input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+	    			<input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 				</div>
 	  		</div>
 	  	</div>

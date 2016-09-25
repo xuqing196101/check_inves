@@ -28,10 +28,13 @@
 			    		layer.alert("请输入正确的考试编号",{offset: ['222px', '390px']});
 						$(".layui-layer-shade").remove();
 			    	}else if(data==2){
-			    		layer.alert("考试时间未开始",{offset: ['222px', '390px']});
+			    		layer.alert("该考卷考试时间未开始",{offset: ['222px', '390px']});
 						$(".layui-layer-shade").remove();
 			    	}else if(data==3){
-			    		layer.alert("考试时间已过",{offset: ['222px', '390px']});
+			    		layer.alert("该考卷考试时间已结束",{offset: ['222px', '390px']});
+						$(".layui-layer-shade").remove();
+			    	}else if(data==4){
+			    		layer.alert("该考卷登录有效期已过",{offset: ['222px', '390px']});
 						$(".layui-layer-shade").remove();
 			    	}
 		       	}

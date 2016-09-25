@@ -3,7 +3,9 @@
  */
 package ses.service.ems;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ses.model.ems.ExamQuestion;
 
@@ -74,7 +76,7 @@ public interface ExamQuestionServiceI {
     * @param @return      
     * @return List<ExamPool>
      */
-    List<ExamQuestion> searchTecExpPool();
+    List<ExamQuestion> searchTecExpPool(ExamQuestion examPool,Integer pageNum);
     
     /**
      * 
@@ -85,7 +87,7 @@ public interface ExamQuestionServiceI {
     * @param @return      
     * @return List<ExamPool>
      */
-    List<ExamQuestion> searchComExpPool();
+    List<ExamQuestion> searchComExpPool(ExamQuestion examPool,Integer pageNum);
     
     /**
      * 
@@ -141,7 +143,7 @@ public interface ExamQuestionServiceI {
     * @param @return      
     * @return List<ExamPool>
      */
-    List<ExamQuestion> queryPurchaserByTerm(ExamQuestion examPool);
+    List<ExamQuestion> queryPurchaserByTerm(HashMap<String, Object> map);
     
     /**
      * 
@@ -178,19 +180,6 @@ public interface ExamQuestionServiceI {
     * @return List<ExamPool>
      */
     List<ExamQuestion> selectJudgeRandom(ExamQuestion examPool);
-    
-    List<ExamQuestion> selectAllContent();
-    
-    /**
-     * 
-    * @Title: getAllPurchaserQuestion
-    * @author ZhaoBo
-    * @date 2016-9-19 下午1:25:19  
-    * @Description: 查询所有的采购人题目 
-    * @param @return      
-    * @return List<ExamQuestion>
-     */
-    List<ExamQuestion> getAllPurchaserQuestion();
     
     /**
      * 

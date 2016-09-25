@@ -43,12 +43,10 @@
 			rules:{
 				queType:"required",
 				queTopic:"required"
-				//queOption:"required",
 			},
 			messages:{
 				queType:"题型不能为空",
 				queTopic:"题干不能为空"
-				//queOption:"选项不能为空",
 			}
 		});
 		
@@ -112,7 +110,6 @@
 		var queType = $("#queType").val();
 		var que = document.getElementsByName("que");
 		var judge = document.getElementsByName("judge");
-		var all_options = document.getElementById("quePoint").options;
 		for(var i=0;i<que.length;i++){
 			$(que[i]).removeAttr("checked");
 		}
@@ -137,7 +134,6 @@
 				$("#optionB").val(" ");
 				$("#optionC").val(" ");
 				$("#optionD").val(" ");
-				all_options[0].selected = true;
 			}else if(queType==2){
 				for(var i=0;i<que.length;i++){
 					$(que[i]).attr("type","checkbox");
@@ -155,7 +151,6 @@
 				$("#optionB").val(" ");
 				$("#optionC").val(" ");
 				$("#optionD").val(" ");
-				all_options[0].selected = true;
 			}else if(queType==3){
 				for(var i=0;i<que.length;i++){
 					$(que[i]).attr("disabled",true);
@@ -172,7 +167,6 @@
 				$("#optionB").val(" ");
 				$("#optionC").val(" ");
 				$("#optionD").val(" ");
-				all_options[0].selected = true;
 			}
 		}else{
 			for(var i=0;i<que.length;i++){
@@ -219,9 +213,9 @@
   	<form action="<%=path %>/purchaserExam/saveToPurPool.html" method="post" id="form">
   		<ul class="list-unstyled list-flow p0_20">
 		     <li class="col-md-12 p0">
-	  			<span class="fl">请选择题型:</span>
+	  			<span class="fl">请选择题型：</span>
 		  		<select id="queType" name="queType" onchange="changeType()">
-		  			<option>请选择</option>
+		  			<option value="">请选择</option>
 		  			<option value="1">单选题</option>
 		  			<option value="2">多选题</option>
 		  			<option value="3">判断题</option>
@@ -231,7 +225,7 @@
 	  		
 	  		
   			<li class="col-md-12 p0">
-			   <span class="fl">题干:</span>
+			   <span class="fl">题干：</span>
 			   <div class="">
 		        	<textarea class="text_area col-md-8" name="queTopic" id="queTopic"></textarea>
 		       </div>
@@ -239,7 +233,7 @@
 			
 			
   		<li class="col-md-12 p0">
-				<span class="fl">选项:</span>
+				<span class="fl">选项：</span>
 				<div class="col-md-9">
 				<div>
 			  		<div class="fl mt5">A</div><textarea name="option" id="optionA" class="ml5 col-md-8"></textarea>
@@ -261,18 +255,18 @@
 			 </li> 
   		
   				<li class="col-md-12 p0">
-					<span class="fl">答案:</span>	
+					<span class="fl">答案：</span>	
 					<div class="fl ml5 mt5">
 			        A <input type="radio" id="A" name="que" onclick="queDis()" value="A" class="mt0"/> 
 		  			B <input type="radio" id="B" name="que" onclick="queDis()" value="B" class="mt0"/> 
 		  			C <input type="radio" id="C" name="que" onclick="queDis()" value="C" class="mt0"/> 
 		  			D <input type="radio" id="D" name="que" onclick="queDis()" value="D" class="mt0"/>
-		  			<span id="queSelect"></span>
+		  			
 			       </div>
-					
+					<span id="queSelect" class="fl"></span>
 					<div class="clear ml5 mt5">
-					        对:<input type="radio" onclick="judgeDis()" name="judge" value="对" onclick="judgeDis()"/>
-					        错:<input type="radio" onclick="judgeDis()" name="judge" value="错" onclick="judgeDis()"/>
+					        对<input type="radio" onclick="judgeDis()" name="judge" value="对" onclick="judgeDis()"/>
+					        错<input type="radio" onclick="judgeDis()" name="judge" value="错" onclick="judgeDis()"/>
 			        <span id="queJudge"></span>
 			       </div>
 				</li>
@@ -301,7 +295,7 @@
 			<div class="col-md-12 pl200 ">
 				<div class="mt40 tc mb50">
 				 	<button class="btn btn-windows save" type="button" onclick="save()">保存</button>
-	    			<input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+	    			<input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 				</div>
 	  		</div>
 	  	</div>

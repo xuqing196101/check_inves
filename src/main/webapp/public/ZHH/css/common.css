@@ -328,7 +328,9 @@
 .ml140 {
   margin-left: 140px; }
 
-
+.ml200{
+  margin-left:200px;}
+  
 .ml40 {
   margin-left: 40px; }
 
@@ -360,13 +362,16 @@
   padding-left:200px!important;}
 .pr10 {
   padding-right: 10px; }
-
+.pr100{
+  padding-right: 100px;
+}
 .p10_25 {
   padding: 10px 25px!important; }
   
 .p0_10 {
   padding: 0 10px!important; }
-  
+.p0_15 {
+  padding: 0 15px!important; }
 .p0_20 {
   padding: 0 20px!important; }
   
@@ -737,18 +742,8 @@ a.redhover:hover{
 .text_area2{
 	width:80%;
 	height:180px;
-<<<<<<< Updated upstream
 }
-=======
 
->>>>>>> Stashed changes
-.excelFile{
-	display:inline;
-}
 .fw{
 	font-weight: 700;
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 }
