@@ -67,6 +67,9 @@ public class PreMenu {
      */
     private Integer kind;
     
+    /** 图标 */
+    private String icon;
+    
     /** 角色 */
     private List<Role> roles;
 
@@ -173,5 +176,12 @@ public class PreMenu {
 	public void setKind(Integer kind) {
 		this.kind = kind;
 	}
-	
+
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
 }

@@ -73,4 +73,14 @@ public interface PreMenuServiceI {
 	 */
 	List<String> findByUids(String[] userIds);
 
+	/**
+	 * Description: 删除
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-25
+	 * @param id
+	 * @exception IOException
+	 */
+	void delete(String id);
+
 }

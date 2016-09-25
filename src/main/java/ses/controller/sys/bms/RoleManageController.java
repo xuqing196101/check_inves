@@ -1,8 +1,11 @@
 package ses.controller.sys.bms;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +24,7 @@ import ses.model.bms.User;
 import ses.model.bms.Userrole;
 import ses.service.bms.PreMenuServiceI;
 import ses.service.bms.RoleServiceI;
+import ses.service.bms.UserServiceI;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
@@ -39,6 +43,9 @@ public class RoleManageController {
 
 	@Autowired
 	private RoleServiceI roleService;
+	
+	@Autowired
+	private UserServiceI userService;
 
 	@Autowired
 	private PreMenuServiceI preMenuService;
@@ -56,9 +63,8 @@ public class RoleManageController {
 	 */
 	@RequestMapping("/list")
 	public String list(Model model, Integer page) {
-		List<Role> roles = roleService.selectRole(null, page == null ? 1 : page);
-		//model.addAttribute("list", new PageInfo<Role>(roles));
-		model.addAttribute("list", roles);
+		List<Role> roles = roleService.list(null, page == null ? 1 : page);
+		model.addAttribute("list", new PageInfo<Role>(roles));
 		logger.info(JSON.toJSONStringWithDateFormat(roles,
 				"yyyy-MM-dd HH:mm:ss"));
 		return "ses/bms/role/list";
@@ -245,4 +251,54 @@ public class RoleManageController {
 
 	}
 
+	
+	/**
+	 * Description: 获取角色树
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-25
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @param userId
+	 * @throws IOException
+	 * @exception IOException
+	 */
+	@RequestMapping("/roletree")
+	public void roletree(HttpServletRequest request,
+			HttpServletResponse response, Model model, String userId)
+			throws IOException {
+		List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
+		User u = new User();
+		u.setId(userId);
+		List<User> ulist = userService.find(u);
+		List<Role> oldRoles = new ArrayList<Role>();
+		if(ulist.size() > 0 && ulist != null){
+			oldRoles = ulist.get(0).getRoles();
+		}
+		List<Role> list = roleService.find(null);
+		for (int i = 0; i < list.size(); i++) {
+			Role e = list.get(i);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("id", e.getId());
+			map.put("pId",0);
+			map.put("name", e.getName());
+			for (Role r : oldRoles) {
+				if (r.getId().equals(e.getId())) {
+					map.put("checked", true);
+				}
+			}
+			mapList.add(map);
+		}
+		try {
+			String jsonstr = JSON.toJSONString(mapList);
+			response.setContentType("text/html;charset=utf-8");
+			response.getWriter().print(jsonstr);
+			response.getWriter().flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally{
+			response.getWriter().close();
+		}
+	}
 }

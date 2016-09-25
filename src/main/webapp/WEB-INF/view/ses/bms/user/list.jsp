@@ -204,9 +204,9 @@
 		  <th class="info w50">序号</th>
 		  <th class="info">用户名</th>
 		  <th class="info">姓名</th>
-		  <th class="info">角色</th>
 		  <th class="info">单位</th>
 		  <th class="info">联系电话</th>
+		  <th class="info">类型</th>
 		</tr>
 		</thead>
 		<c:forEach items="${list.list}" var="user" varStatus="vs">
@@ -215,18 +215,31 @@
 				  <td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 				  <td class="tc" onclick="view(${user.id});">${user.loginName}</td>
 				  <td class="tc">${user.relName}</td>
-				  <td class="tc">
-					<c:forEach items="${user.roles}" var="role" varStatus="vs">
-			     		<c:if test="${user.roles.size()>vs.index+1}">
-			     			${role.name},
-			     		</c:if>
-			     		<c:if test="${user.roles.size()<=vs.index+1}">
-			     			${role.name}
-			     		</c:if>
-			     	</c:forEach>
-				  </td>
 				  <td class="tc">${user.org.name}</td>
 				  <td class="tc">${user.telephone}</td>
+				  <td class="tc">
+					<c:if test="${user.typeName == 0}">
+						采购管理人员
+					</c:if>
+					<c:if test="${user.typeName == 1}">
+						采购机构人员
+					</c:if>
+					<c:if test="${user.typeName == 2}">
+						需求人员
+					</c:if>
+					<c:if test="${user.typeName == 3}">
+						其他人员
+					</c:if>
+					<c:if test="${user.typeName == 4}">
+						供应商
+					</c:if>
+					<c:if test="${user.typeName == 5}">
+						专家
+					</c:if>
+					<c:if test="${user.typeName == 6}">
+						进口供应商
+					</c:if>
+				  </td>
 			</tr>
 		</c:forEach>
         </table>

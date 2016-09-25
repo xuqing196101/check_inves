@@ -100,4 +100,16 @@ public interface RoleServiceI {
 	 * @exception IOException
 	 */
 	void deleteRoelMenu(RolePreMenu rm);
+
+	/**
+	 * Description: 分页查询
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-25
+	 * @param object
+	 * @param i
+	 * @return
+	 * @exception IOException
+	 */
+	List<Role> list(Role role, Integer pageNum);
 }

@@ -13,6 +13,7 @@
     <result column="MENU_LEVEL"  property="menulevel" />
     <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="KIND"  property="kind" />
+    <result column="ICON" property="icon" />
     <!--查询上级菜单   -->
 	<association column="PARENT_ID"  property="parentId" select="selectByPrimaryKey" /> 
   </resultMap>
@@ -20,7 +21,7 @@
   <!-- 所有列 -->
   <sql id="Base_Column_List">
     ID, NAME, MENU_TYPE, IS_DELETED, STATUS, URL, CREATED_AT, POSITION, MENU_LEVEL, PARENT_ID, 
-    UPDATED_AT, KIND
+    UPDATED_AT, KIND, ICON
   </sql>
   
    <!--  查询条件 -->
@@ -63,6 +64,9 @@
       <if test="kind != null">
         and KIND = #{kind},
       </if>
+      <if test="icon != null and icon != ''">
+        and ICON = #{icon},
+      </if>
     </trim>
   </sql>
   
@@ -88,12 +92,12 @@
     insert into T_SES_BMS_PERMISSION (ID, NAME, MENU_TYPE, 
       IS_DELETED, STATUS, URL, 
       CREATED_AT, POSITION, MENU_LEVEL, 
-      PARENT_ID, UPDATED_AT, KIND
+      PARENT_ID, UPDATED_AT, KIND, ICON
       )
-    values (#{id}, #{name}, #{menuType}, 
+    values (#{id}, #{name}, #{type}, 
       #{isDeleted}, #{status}, #{url,jdbcType=VARCHAR}, 
-      #{createdAt,jdbcType=TIMESTAMP}, #{position}, #{menuLevel}, 
-      #{parentId}, #{updatedAt,jdbcType=TIMESTAMP}, #{kind}
+      #{createdAt,jdbcType=TIMESTAMP}, #{position}, #{menulevel}, 
+      #{parentId.id}, #{updatedAt,jdbcType=TIMESTAMP}, #{kind}, #{icon}
       )
   </insert>
   
@@ -140,6 +144,9 @@
       <if test="kind != null">
         KIND,
       </if>
+      <if test="icon != null">
+        ICON,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -178,6 +185,9 @@
       <if test="kind != null">
         #{kind},
       </if>
+      <if test="icon != null">
+        #{icon},
+      </if>
     </trim>
   </insert>
   
@@ -188,8 +198,8 @@
       <if test="name != null">
         NAME = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="menuType != null">
-        MENU_TYPE = #{menuType,jdbcType=VARCHAR},
+      <if test="type != null">
+        MENU_TYPE = #{type,jdbcType=VARCHAR},
       </if>
       <if test="isDeleted != null">
         IS_DELETED = #{isDeleted},
@@ -206,17 +216,20 @@
       <if test="position != null">
         POSITION = #{position},
       </if>
-      <if test="menuLevel != null">
-        MENU_LEVEL = #{menuLevel},
+      <if test="menulevel != null">
+        MENU_LEVEL = #{menulevel},
       </if>
       <if test="parentId != null">
-        PARENT_ID = #{parentId,jdbcType=VARCHAR},
+        PARENT_ID = #{parentId.id,jdbcType=VARCHAR},
       </if>
       <if test="updatedAt != null">
         UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
       <if test="kind != null">
         KIND = #{kind},
+      </if>
+      <if test="icon != null">
+        ICON = #{icon},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
@@ -226,16 +239,17 @@
   <update id="updateByPrimaryKey" parameterType="ses.model.bms.PreMenu">
     update T_SES_BMS_PERMISSION
     set NAME = #{name,jdbcType=VARCHAR},
-      MENU_TYPE = #{menuType,jdbcType=VARCHAR},
+      MENU_TYPE = #{type,jdbcType=VARCHAR},
       IS_DELETED = #{isDeleted},
       STATUS = #{status},
       URL = #{url},
       CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       POSITION = #{position},
-      MENU_LEVEL = #{menuLevel},
-      PARENT_ID = #{parentId},
+      MENU_LEVEL = #{menulevel},
+      PARENT_ID = #{parentId.id},
       UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
-      KIND = #{kind}
+      KIND = #{kind},
+      ICON = #{icon}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   

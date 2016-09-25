@@ -90,6 +90,9 @@ public class PreMenuController {
 			map.put("pId", e.getParentId() != null ? e.getParentId().getId()
 					: 0);
 			map.put("name", e.getName());
+			if(i==0){
+				map.put("open", true);
+			}
 			for (String menuId : menuIds) {
 				if (menuId.equals(e.getId())) {
 					map.put("checked", true);
@@ -97,11 +100,30 @@ public class PreMenuController {
 			}
 			mapList.add(map);
 		}
-		String jsonstr = JSON.toJSONString(mapList);
-		response.setContentType("text/html;charset=utf-8");
-		response.getWriter().print(jsonstr);
+		try {
+			String jsonstr = JSON.toJSONString(mapList);
+			response.setContentType("text/html;charset=utf-8");
+			response.getWriter().print(jsonstr);
+			response.getWriter().flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally{
+			response.getWriter().close();
+		}
+		
+		
 	}
 	
+	/**
+	 * Description: 跳转添加页码
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-24
+	 * @param request
+	 * @param model
+	 * @return
+	 * @exception IOException
+	 */
 	@RequestMapping("/add")
 	public String add(HttpServletRequest request, Model model){
 		String pid = request.getParameter("pid");
@@ -110,13 +132,24 @@ public class PreMenuController {
 		return "ses/bms/menu/add";
 	}
 
+	/**
+	 * Description: 保存新增数据
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-24
+	 * @param response
+	 * @param menu
+	 * @throws IOException
+	 * @exception IOException
+	 */
 	@RequestMapping("/save")
-	public void save(HttpServletResponse response, PreMenu menu) {
+	public void save(HttpServletResponse response, PreMenu menu) throws IOException {
 		try {
 			if ("".equals(menu.getName()) || menu.getName() == null) {
 				String msg = "请填写名称";
 				response.setContentType("text/html;charset=utf-8");
 				response.getWriter().print("{\"success\": " + false + ", \"msg\": \"" + msg + "\"}");
+				response.getWriter().flush();
 			} else {
 				//获取父节点
 				PreMenu pmenu = null;
@@ -134,14 +167,17 @@ public class PreMenuController {
 				String msg = "添加成功";
 				response.setContentType("text/html;charset=utf-8");
 				response.getWriter().print("{\"success\": " + true + ", \"msg\": \"" + msg + "\"}");
+				response.getWriter().flush();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
+		} finally{
+			response.getWriter().close();
 		}
 	}
 	
 	/**
-	 * Description: 根据父菜单查询子菜单
+	 * Description: 根据id查询菜单
 	 * 
 	 * @author Ye MaoLin
 	 * @version 2016-9-12
@@ -149,28 +185,90 @@ public class PreMenuController {
 	 * @param id
 	 * @exception IOException
 	 */
-	@RequestMapping("findListByParent")
-	public void findListByParent(HttpServletResponse response, String id){
+	@RequestMapping("get")
+	public void get(HttpServletResponse response, String id) throws IOException{
 		try {
-			PreMenu parent = new PreMenu();
-			parent.setId(id);
-			PreMenu preMenu = new PreMenu();
-			preMenu.setParentId(parent);
-			List<PreMenu> list = preMenuService.find(preMenu);
+			PreMenu preMenu = preMenuService.get(id);
 			net.sf.json.JSONArray json = new net.sf.json.JSONArray();
 			JsonConfig jsonConfig = new JsonConfig();
 	        jsonConfig.registerJsonValueProcessor(Date.class,
 	                new JsonDateValueProcessor());
-			String jsonStr = json.fromObject(list,jsonConfig).toString();
+			String jsonStr = json.fromObject(preMenu,jsonConfig).toString();
 			response.setContentType("text/html;charset=utf-8");
 			response.getWriter().print(jsonStr);
+			response.getWriter().flush();
 		} catch (IOException e) {
 			e.printStackTrace();
+		} finally{
+			response.getWriter().close();
 		}
 	}
 	
 	/**
-	 * Description: 删除菜单，逻辑删除
+	 * Description: 调整到编辑页面
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-25
+	 * @param model
+	 * @param id
+	 * @return
+	 * @exception IOException
+	 */
+	@RequestMapping("/edit")
+	private String edit(Model model, String id){
+		PreMenu menu = preMenuService.get(id);
+		model.addAttribute("menu",menu);
+		return "ses/bms/menu/edit";
+	}
+	
+	/**
+	 * Description: 更新菜单
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-25
+	 * @param response
+	 * @param request
+	 * @param menu
+	 * @throws IOException
+	 * @exception IOException
+	 */
+	@RequestMapping("/update")
+	private void update(HttpServletResponse response, HttpServletRequest request, PreMenu menu) throws IOException{
+		try {
+			if ("".equals(menu.getName()) || menu.getName() == null) {
+				String msg = "请填写名称";
+				response.setContentType("text/html;charset=utf-8");
+				response.getWriter().print("{\"success\": " + false + ", \"msg\": \"" + msg + "\"}");
+				response.getWriter().flush();
+			} else {
+				//获取父节点
+				String pId = request.getParameter("pid");
+				PreMenu pmenu = null;
+				if(pId != null && !"".equals(pId)){
+					pmenu = preMenuService.get(pId);
+					menu.setMenulevel(pmenu.getMenulevel()+1);
+				}else{
+					menu.setMenulevel(1);
+				}
+				PreMenu old = preMenuService.get(menu.getId());
+				menu.setCreatedAt(old.getCreatedAt());
+				menu.setParentId(pmenu);
+				menu.setUpdatedAt(new Date());
+				preMenuService.update(menu);
+				String msg = "更新成功";
+				response.setContentType("text/html;charset=utf-8");
+				response.getWriter().print("{\"success\": " + true + ", \"msg\": \"" + msg + "\"}");
+				response.getWriter().flush();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally{
+			response.getWriter().close();
+		}
+	}
+	
+	/**
+	 * Description: 删除菜单
 	 * 
 	 * @author Ye MaoLin
 	 * @version 2016-9-18
@@ -178,15 +276,13 @@ public class PreMenuController {
 	 * @return String
 	 * @exception IOException
 	 */
-	@RequestMapping("delete_soft")
-	public String delete_soft(String ids){
+	@RequestMapping("delete")
+	public String delete(String ids){
 		String[] idarry = ids.split(",");
 		for (String id : idarry) {
-			PreMenu menu = preMenuService.get(id);
-			menu.setIsDeleted(1);
-			preMenuService.update(menu);
+			preMenuService.delete(id);
 		}
-		return "redirectlist.html";
+		return "redirect:list.html";
 	}
 	
 }

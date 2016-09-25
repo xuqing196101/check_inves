@@ -33,7 +33,23 @@
 	    <result column="description" jdbcType="VARCHAR" property="description" />
 	    <result column="roleIsDeleted" property="isDeleted" />
 	    <result column="roleUpdatedAt" jdbcType="TIMESTAMP" property="updatedAt" />
-	</collection>   
+	</collection> 
+	<collection property="menus" ofType="ses.model.bms.PreMenu">
+		<id column="mid"  property="id" />
+	    <result column="mname" jdbcType="VARCHAR" property="name" />
+	    <result column="mcreatedAt" jdbcType="TIMESTAMP" property="createdAt" />
+	    <result column="mupdatedAt" jdbcType="TIMESTAMP" property="updatedAt" />
+	    <result column="mtype" jdbcType="VARCHAR" property="type" />
+	    <result column="misDeleted" property="isDeleted" />
+	    <result column="mstatus" property="status" />
+	    <result column="murl" jdbcType="VARCHAR" property="url" />
+	    <result column="mposition" property="position" />
+	    <result column="menulevel" jdbcType="VARCHAR" property="menulevel" />
+	    <result column="mkind" property="kind" />
+	    <result column="micon" jdbcType="VARCHAR" property="icon" />
+	    <!--查询上级菜单   -->
+		<association column="mparent"  property="parentId" select="ses.dao.bms.PreMenuMapper.selectByPrimaryKey" /> 
+	</collection>  
   </resultMap>
   
   <!-- 表名 -->
@@ -374,8 +390,9 @@
 			pm.UPDATED_AT AS mupdatedAt,
 			pm.POSITION AS mposition,
 			pm.MENU_LEVEL AS menulevel,
-			pm.PARENT_ID AS parentId,
-			pm.KIND AS kind
+			pm.PARENT_ID AS mparent,
+			pm.KIND AS mkind,
+			pm.ICON AS micon
 		FROM
 			T_SES_BMS_USER U
 		LEFT JOIN T_SES_BMS_USER_ROLE ur ON U . ID = ur."USER_ID"
@@ -394,8 +411,23 @@
   
   <!-- 11.保存用户和菜单之间的关系信息 -->  
   <insert id="saveUserMenu" parameterType="Object">  
-      insert into T_SES_BMS_USER_PERMISSION("USER_ID","PERMENU_ID")  	
-      values(#{user.id},#{preMenu.id})  
+      insert into T_SES_BMS_USER_PERMISSION	
+	  <trim prefix="(" suffix=")" suffixOverrides=",">
+	      <if test="user != null">
+	        USER_ID,
+	      </if>
+	      <if test="preMenu != null">
+	        PERMENU_ID,
+	      </if>
+      </trim>
+      <trim prefix="values (" suffix=")" suffixOverrides=",">
+          <if test="user != null">
+        	#{user.id,jdbcType=VARCHAR},
+          </if>
+          <if test="preMenu != null">
+        	#{preMenu.id,jdbcType=VARCHAR},
+          </if>
+      </trim>
   </insert>
   
   <!-- 12.删除用户和菜单之间的关系信息 -->  

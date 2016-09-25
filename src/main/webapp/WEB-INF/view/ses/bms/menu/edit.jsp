@@ -7,7 +7,7 @@
   <head>
     <base href="<%=basePath%>">
     
-    <title>添加菜单</title>
+    <title>修改菜单</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -22,7 +22,7 @@
 	<script type="text/javascript" src="<%=basePath%>public/ztree/jquery.ztree.core.js"></script>
 	<script type="text/javascript" src="<%=basePath%>public/ztree/jquery.ztree.excheck.js"></script>
 	<script src="<%=basePath%>public/layer/layer.js"></script>
-	<script type="text/javascript">
+	<SCRIPT type="text/javascript">
 		var setting = {
 			check: {
 				enable: true,
@@ -93,15 +93,15 @@
 				hideMenu();
 			}
 		}
-	</script>
+	</SCRIPT>
   </head>
   <script type="text/javascript">
     $(function(){
-        $("#save").click(function(){
-        	
+        $("#update").click(function(){
+        	var pid = $("#pid").val();
             $.ajax({  
                type: "POST",  
-               url: "<%=basePath %>preMenu/save.html",  
+               url: "<%=basePath %>preMenu/update.html?pid="+pid,  
                data: $("#form1").serializeArray(),  
                dataType: 'json',  
                success:function(result){
@@ -132,21 +132,24 @@
    	   <div id="menuContent" class="menuContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
 			<ul id="treeDemo" class="ztree"  style="width: 220px"></ul>
 	   </div>
+		
 	   <form action="" id="form1" method="post">
 		   <div>
-		   	   <input type="hidden" name="id" id="pid" value="${pmenu.id }">
+		   	   <input type="hidden" name="id" id="mid" value="${menu.id }">
+		   	   <input type="hidden" name="isDeleted" value="${menu.isDeleted }">
+		   	   <input type="hidden" name="pid" id="pid" value="${menu.parentId.id }">
 			   <ul class="list-unstyled mt10 p0_20">
 			     <li class="col-md-6 p0">
 				   <span class="fl mt5">上级菜单：</span>
-				   <div class="input-append">
-				   	<input id="citySel" class="span2" name="pname" type="text" readonly value="${pmenu.name }"  onclick="showMenu();" />
+				   <div class="input-append ">
+				   	<input id="citySel" class="span2" type="text" readonly value="${menu.parentId.name }"  onclick="showMenu();" />
 			        <span class="add-on">i</span>
 			       </div>
 				 </li>
 			     <li class="col-md-6 p0">
-				   <span class="fl mt5">&nbsp;&nbsp;名称：</span>
+				   <span class="fl mt5">&nbsp&nbsp名称：</span>
 				   <div class="input-append">
-			        <input class="span2" name="name" maxlength="30" type="text">
+			        <input class="span2" name="name" maxlength="30" value="${menu.name }" type="text">
 			        <span class="add-on">i</span>
 			       </div>
 				 </li>
@@ -154,38 +157,38 @@
 				 	<span class=""> 菜单类型：</span>
 					<select name="type"  >
 					 	<option value="">-请选择-</option>
-					   	<option value="navigation">导航</option>
-					   	<option value="accordion">折叠导航</option>
-					   	<option value="menu">菜单</option>
-					   	<option value="button">按钮</option>
+					   	<option value="navigation" <c:if test="${'navigation' eq menu.type}">selected</c:if>>导航</option>
+					   	<option value="accordion" <c:if test="${'accordion' eq menu.type}">selected</c:if>>折叠导航</option>
+					   	<option value="menu" <c:if test="${'menu' eq menu.type}">selected</c:if>>菜单</option>
+					   	<option value="button" <c:if test="${'button' eq menu.type}">selected</c:if>>按钮</option>
 					</select>
 				</li>
 				<li class="col-md-6 p0 ">
-				 	<span class="">&nbsp;&nbsp;状态：</span>
+				 	<span class="">&nbsp&nbsp状态：</span>
 					<select  name="status"  >
 					 	<option value="">-请选择-</option>
-					   	<option value="0">可用</option>
-					   	<option value="1">暂停</option>
+					   	<option value="0" <c:if test="${'0' eq menu.status}">selected</c:if>>可用</option>
+					   	<option value="1" <c:if test="${'1' eq menu.status}">selected</c:if>>暂停</option>
 				    </select>
 				</li>
 				<li class="col-md-6 p0">
-				   <span class="fl mt5">&nbsp;&nbsp;路径：</span>
+				   <span class="fl mt5">&nbsp&nbsp路径：</span>
 				   <div class="input-append">
-			        <input class="span2" name="url" maxlength="300" type="text">
+			        <input class="span2" name="url" value="${menu.url }" maxlength="300" type="text">
 			        <span class="add-on">i</span>
 			       </div>
 				 </li>
 			     <li class="col-md-6 p0">
-				   <span class="fl mt5">&nbsp;&nbsp;排序：</span>
+				   <span class="fl mt5">&nbsp&nbsp排序：</span>
 				   <div class="input-append">
-			        <input class="span2" name="position" maxlength="3" type="text">
+			        <input class="span2" name="position" value="${menu.position }" maxlength="3" type="text">
 			        <span class="add-on">i</span>
 			       </div>
 				 </li>
 				<li class="col-md-6 p0">
 				   <span class="fl mt5">图标名称：</span>
 				   <div class="input-append">
-			        <input class="span2" name="icon" maxlength="200" type="text">
+			        <input class="span2" name="icon" value="${menu.icon }" maxlength="200" type="text">
 			        <span class="add-on">i</span>
 			       </div>
 				 </li>
@@ -194,7 +197,7 @@
 	   
 		  <div  class="col-md-12">
 		    <div class="fl padding-10">
-			    <button class="btn btn-windows save" id="save" type="button">保存</button>
+			    <button class="btn btn-windows reset" id="update" type="button">更新</button>
 			    <button class="btn btn-windows back" id="backups" type="button">返回</button>
 			</div>
 		  </div>

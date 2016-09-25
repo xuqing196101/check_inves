@@ -2,6 +2,7 @@ package ses.controller.sys.bms;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -22,9 +23,11 @@ import ses.model.bms.RolePreMenu;
 import ses.model.bms.User;
 import ses.model.bms.UserPreMenu;
 import ses.model.bms.Userrole;
+import ses.model.oms.Orgnization;
 import ses.service.bms.PreMenuServiceI;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
+import ses.service.oms.OrgnizationServiceI;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
@@ -48,6 +51,9 @@ public class UserManageController {
 	private RoleServiceI roleService;
 	
 	@Autowired
+	private OrgnizationServiceI orgnizationService;
+	
+	@Autowired
 	private PreMenuServiceI preMenuService;
 
 	private Logger logger = Logger.getLogger(UserManageController.class);
@@ -64,8 +70,7 @@ public class UserManageController {
 	 */
 	@RequestMapping("/list")
 	public String list(Model model, Integer page) {
-		List<User> users = userService
-				.selectUser(null, page == null ? 1 : page);
+		List<User> users = userService.list(null, page == null ? 1 : page);
 		model.addAttribute("list", new PageInfo<User>(users));
 		logger.info(JSON.toJSONStringWithDateFormat(users,
 				"yyyy-MM-dd HH:mm:ss"));
@@ -271,7 +276,7 @@ public class UserManageController {
 	 * @exception IOException
 	 */
 	@RequestMapping("/update")
-	public String update(HttpServletRequest request, User u, String roleId) {
+	public String update(HttpServletRequest request, User u, String roleId, String orgId) {
 
 		User temp = new User();
 		temp.setId(u.getId());
@@ -304,6 +309,15 @@ public class UserManageController {
 				}
 			}
 			
+			//机构
+			if(orgId != null && !"".equals(orgId)){
+				HashMap<String, Object> orgMap = new HashMap<String, Object>();
+				orgMap.put("id", orgId);
+				List<Orgnization> olist = orgnizationService.findOrgnizationList(orgMap);
+				u.setOrg(olist.get(0));
+			}else{
+				u.setOrg(null);
+			}
 			u.setCreatedAt(olduser.getCreatedAt());
 			u.setUser(olduser.getUser());
 			u.setUpdatedAt(new Date());

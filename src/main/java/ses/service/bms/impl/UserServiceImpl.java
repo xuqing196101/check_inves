@@ -10,9 +10,11 @@ import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import ses.dao.bms.UserMapper;
+import ses.dao.oms.OrgnizationMapper;
 import ses.model.bms.User;
 import ses.model.bms.UserPreMenu;
 import ses.model.bms.Userrole;
+import ses.model.oms.Orgnization;
 import ses.service.bms.UserServiceI;
 import ses.util.PropertiesUtil;
 
@@ -31,6 +33,8 @@ public class UserServiceImpl implements UserServiceI {
 
 	@Autowired
 	private UserMapper userMapper;
+	
+	private OrgnizationMapper orgnizationMapper;
 	
 	public static final String ALLCHAR = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	
@@ -79,8 +83,6 @@ public class UserServiceImpl implements UserServiceI {
 
 	@Override
 	public List<User> selectUser(User user, Integer pageNum) {
-//		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(pageNum,10);
 		return userMapper.selectUser(user);
 	}
 
@@ -131,5 +133,14 @@ public class UserServiceImpl implements UserServiceI {
 	public void deleteUserMenu(UserPreMenu userPreMenu) {
 		userMapper.deleteUserMenu(userPreMenu);
 	}
+
+	@Override
+	public List<User> list(User user, int pageNum) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
+		List<User> users = userMapper.queryByList(user);
+		return users;
+	}
+
 }
 

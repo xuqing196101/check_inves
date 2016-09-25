@@ -12,6 +12,7 @@ import ses.model.bms.Role;
 import ses.model.bms.RolePreMenu;
 import ses.model.bms.Userrole;
 import ses.service.bms.RoleServiceI;
+import ses.util.PropertiesUtil;
 
 /**
  * Description: 角色业务实现类
@@ -58,8 +59,6 @@ public class RoleServiceImpl implements RoleServiceI {
 
 	@Override
 	public List<Role> selectRole(Role r, Integer pageNum) {
-		//PropertiesUtil config = new PropertiesUtil("config.properties");
-		//PageHelper.startPage(pageNum,10);
 		return roleMapper.selectRole(r);
 	}
 
@@ -71,6 +70,13 @@ public class RoleServiceImpl implements RoleServiceI {
 	@Override
 	public void deleteRoelMenu(RolePreMenu rm) {
 		roleMapper.deleteRoelMenu(rm);
+	}
+
+	@Override
+	public List<Role> list(Role role, Integer pageNum) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
+		return roleMapper.find(role);
 	}
 
 }

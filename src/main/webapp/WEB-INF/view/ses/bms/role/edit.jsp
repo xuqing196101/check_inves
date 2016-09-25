@@ -75,8 +75,8 @@
 	   
 		  <div  class="col-md-12">
 		    <div class="fl padding-10">
-			    <button class="btn btn-windows save" id="update" type="button">更新</button>
-			    <button class="btn btn-windows git" id="backups" type="button">返回</button>
+			    <button class="btn btn-windows reset" id="update" type="button">更新</button>
+			    <button class="btn btn-windows back" id="backups" type="button">返回</button>
 			</div>
 		  </div>
 	  </form>

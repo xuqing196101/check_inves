@@ -87,6 +87,8 @@ public class User {
     
     /** 所属角色 */
     private List<Role> roles;
+    
+    private List<PreMenu> menus;
 
     public String getId() {
         return id;
@@ -246,6 +248,14 @@ public class User {
 
 	public void setRandomCode(String randomCode) {
 		this.randomCode = randomCode;
+	}
+
+	public List<PreMenu> getMenus() {
+		return menus;
+	}
+
+	public void setMenus(List<PreMenu> menus) {
+		this.menus = menus;
 	}
 	
 }

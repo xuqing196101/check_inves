@@ -15,34 +15,159 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="">
-</head>
-<script type="text/javascript">
-	function cheClick(){
-		var roleIds="";
-		var roleNames="";
-		$('input[name="chkItem"]:checked').each(function(){
-			var idName=$(this).val();
-			var arr=idName.split(";");
-			roleIds+=arr[0]+",";
-			roleNames+=arr[1]+",";
-		});
-		$("#roleId").val(roleIds.substr(0,roleIds.length-1));
-		$("#roleName").val(roleNames.substr(0,roleNames.length-1));
-	}
-	//初始化选择角色
-	$(function(){
-		var initRid=$("#roleId").val().split(",");
-		$('input[name="chkItem"]').each(function(){
-			var idName=$(this).val();
-			var arr=idName.split(";");
-			for ( var int = 0; int < initRid.length; int++) {
-				if(initRid[int]==arr[0]){
-					$(this).attr("checked",'true');
-				}
+	<link rel="stylesheet" href="<%=basePath%>public/ztree/css/demo.css" type="text/css">
+	<link rel="stylesheet" href="<%=basePath%>public/ztree/css/zTreeStyle.css" type="text/css">
+	<script type="text/javascript" src="<%=basePath%>public/ztree/jquery.ztree.core.js"></script>
+	<script type="text/javascript" src="<%=basePath%>public/ztree/jquery.ztree.excheck.js"></script>
+	<script type="text/javascript">
+		/* 机构树 */
+		
+		function onClickOrg(e, treeId, treeNode) {
+			var zTree = $.fn.zTree.getZTreeObj("treeOrg");
+			zTree.checkNode(treeNode, !treeNode.checked, null, true);
+			return false;
+		}
+		function onCheckOrg(e, treeId, treeNode) {
+			var zTree = $.fn.zTree.getZTreeObj("treeOrg"),
+			nodes = zTree.getCheckedNodes(true),
+			v = "";
+			for (var i=0, l=nodes.length; i<l; i++) {
+				v += nodes[i].name + ",";
+				$("#oId").val(nodes[i].id);
 			}
-		});
-	});
-</script>
+			if (v.length > 0 ) v = v.substring(0, v.length-1);
+			var cityObj = $("#orgSel");
+			cityObj.attr("value", v);
+			
+			hideOrg();
+		}
+		function showOrg() {
+			var setting = {
+				check: {
+					enable: true,
+					chkStyle: "radio",
+					radioType: "all"
+				},
+				view: {
+					dblClickExpand: false
+				},
+				data: {
+					simpleData: {
+						enable: true
+					}
+				},
+				callback: {
+					onClick: onClickOrg,
+					onCheck: onCheckOrg
+				}
+			};
+			$.ajax({
+             type: "GET",
+             async: false, 
+             url: "<%=basePath%>purchaseManage/gettree.do?",
+             dataType: "json",
+             success: function(zNodes){
+                     for (var i = 0; i < zNodes.length; i++) { 
+			            if (zNodes[i].isParent) {  
+			  
+			            } else {  
+			                //zNodes[i].icon = "${ctxStatic}/images/532.ico";//设置图标  
+			            }  
+			        }  
+			        tree = $.fn.zTree.init($("#treeOrg"), setting, zNodes);  
+			        tree.expandAll(true);//全部展开
+               }
+         	});
+			var cityObj = $("#orgSel");
+			var cityOffset = $("#orgSel").offset();
+			$("#orgContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
+			$("body").bind("mousedown", onBodyDownRole);
+		}
+		function hideOrg() {
+			$("#orgContent").fadeOut("fast");
+			$("body").unbind("mousedown", onBodyDownRole);
+		}
+		function onBodyDownRole(event) {
+			if (!(event.target.id == "menuBtn" || event.target.id == "orgSel" || event.target.id == "orgContent" || $(event.target).parents("#orgContent").length>0)) {
+				hideOrg();
+			}
+		}
+		
+		/* 角色 */
+		function beforeClick(treeId, treeNode) {
+			var zTree = $.fn.zTree.getZTreeObj("treeRole");
+			zTree.checkNode(treeNode, !treeNode.checked, null, true);
+			return false;
+		}
+		
+		function onCheck(e, treeId, treeNode) {
+			var zTree = $.fn.zTree.getZTreeObj("treeRole"),
+			nodes = zTree.getCheckedNodes(true),
+			v = "";
+			var rid = "";
+			for (var i=0, l=nodes.length; i<l; i++) {
+				v += nodes[i].name + ",";
+				rid += nodes[i].id + ",";
+			}
+			if (v.length > 0 ) v = v.substring(0, v.length-1);
+			if (rid.length > 0 ) rid = rid.substring(0, rid.length-1);
+			var cityObj = $("#roleSel");
+			cityObj.attr("value", v);
+			$("#rId").val(rid);
+		}
+		function showRole() {
+			var userId = $("#uId").val();
+			var setting = {
+			check: {
+					enable: true,
+					chkboxType: {"Y":"", "N":""}
+				},
+				view: {
+					dblClickExpand: false
+				},
+				data: {
+					simpleData: {
+						enable: true
+					}
+				},
+				callback: {
+					beforeClick: beforeClick,
+					onCheck: onCheck
+				}
+			};
+	        $.ajax({
+             type: "GET",
+             async: false, 
+             url: "<%=basePath%>role/roletree.do?userId="+userId,
+             dataType: "json",
+             success: function(zNodes){
+                     for (var i = 0; i < zNodes.length; i++) { 
+			            if (zNodes[i].isParent) {  
+			  
+			            } else {  
+			                //zNodes[i].icon = "${ctxStatic}/images/532.ico";//设置图标  
+			            }  
+			        }  
+			        tree = $.fn.zTree.init($("#treeRole"), setting, zNodes);  
+			        tree.expandAll(true);//全部展开
+               }
+         	});
+			var cityObj = $("#roleSel");
+			var cityOffset = $("#roleSel").offset();
+			$("#roleContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
+			$("body").bind("mousedown", onBodyDownOrg);
+		}
+		function hideRole() {
+			$("#roleContent").fadeOut("fast");
+			$("body").unbind("mousedown", onBodyDownOrg);
+		}
+		function onBodyDownOrg(event) {
+			if (!(event.target.id == "menuBtn" || event.target.id == "roleSel" || event.target.id == "roleContent" || $(event.target).parents("#roleContent").length>0)) {
+				hideRole();
+			}
+		}
+	</script>
+</head>
 <body>
 
 <!--面包屑导航开始-->
@@ -57,12 +182,18 @@
    
 <!-- 修改订列表开始-->
    <div class="container">
+	   <div id="orgContent" class="orgContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+			<ul id="treeOrg" class="ztree"  style="width: 220px"></ul>
+	   </div>
+	   <div id="roleContent" class="roleContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+			<ul id="treeRole" class="ztree" style="margin-top:0; width:220px;"></ul>
+	   </div>
    <form action="<%=basePath %>user/update.html" method="post">
    <div>
    <div class="headline-v2">
    <h2>修改用户</h2>
    </div>
-    <input class="span2" name="id" type="hidden" value="${user.id}">
+    <input class="span2" name="id" id="uId" type="hidden" value="${user.id}">
    	<input class="span2" name="createdAt" type="hidden" value="<fmt:formatDate value='${user.createdAt}' pattern='yyyy-MM-dd  HH:mm:ss'/>">
    	<input class="span2" name="isDeleted" type="hidden" value="${user.isDeleted}">
    	<input class="span2" name="password" type="hidden" value="${user.password}">
@@ -125,7 +256,8 @@
 		 <li class="col-md-6  p0 ">
 		   <span class="">所属机构：</span>
 		   <div class="input-append">
-	        <input class="span2" name="orgId" type="text">
+		   	<input id="oId" name="orgId" type="hidden">
+	        <input id="orgSel" class="span2" type="text" readonly value="${user.org.name }"  onclick="showOrg();" />
 	        <span class="add-on">i</span>
 	       </div>
 		 </li>
@@ -136,24 +268,13 @@
 	        <span class="add-on">i</span>
 	       </div>
 		 </li> 
-			<li class="col-md-6 p0">
+		 <li class="col-md-6 p0">
 		   <span class="">角色：</span>
 		   <div class="input-append">
-		   	 <input class="span2" id="roleId" name="roleId" type="hidden" value="${roleId }">
-	         <input class="span2" id="roleName" name="roleName" type="text" value="${roleName }">
-			 <div class="btn-group ">
-	          <button class="btn dropdown-toggle add-on" data-toggle="dropdown">
-			  <img src="<%=basePath%>public/ZHH/images/down.png" />
-	          </button>
-	          <ul class="dropdown-menu list-unstyled">
-	          	<c:forEach items="${roles}" var="role" varStatus="vs">
-	          		<li>
-	         				<input type="checkbox" name="chkItem" value="${role.id };${role.name }" onclick="cheClick();">${role.name }
-	          		</li>
-	          	</c:forEach>
-	          </ul>
+		   	<input id="rId" name="roleId" type="hidden" value="${roleId}">
+	        <input id="roleSel" class="span2" type="text" readonly value="${roleName}"  onclick="showRole();" />
+	        <span class="add-on">i</span>
 	       </div>
-	      </div>
 		 </li>
 		 <li class="col-md-12 p0">
 		   <span class="fl">详细地址：</span>
@@ -168,7 +289,7 @@
   <div  class="col-md-12">
    	<div class="fl padding-10">
     	<button class="btn btn-windows reset" type="submit">更新</button>
-    	<button class="btn btn-windows git" onclick="history.go(-1)" type="button">返回</button>
+    	<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
 	</div>
   </div>
   </form>

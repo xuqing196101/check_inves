@@ -5,6 +5,7 @@ import java.util.List;
 import ses.model.bms.User;
 import ses.model.bms.UserPreMenu;
 import ses.model.bms.Userrole;
+import ses.model.oms.Orgnization;
 
 /**
  * Description: 用户业务接口
@@ -118,5 +119,17 @@ public interface UserServiceI {
 	 * @exception IOException
 	 */
 	void deleteUserMenu(UserPreMenu userPreMenu);
+
+	/**
+	 * Description: 列表分页
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-25
+	 * @param object
+	 * @param i
+	 * @return List<User>
+	 * @exception IOException
+	 */
+	List<User> list(User user, int i);
 
 }

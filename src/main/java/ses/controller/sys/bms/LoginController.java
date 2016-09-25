@@ -15,19 +15,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.github.pagehelper.PageInfo;
 
+import ses.model.bms.PreMenu;
 import ses.model.bms.StationMessage;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.sms.ImportSupplierWithBLOBs;
-import ses.model.sms.SupplierAgents;
 import ses.service.bms.StationMessageService;
 import ses.service.bms.TodosService;
 import ses.service.bms.UserServiceI;
 import ses.service.sms.ImportSupplierService;
-import ses.service.sms.SupplierAgentsService;
-import ses.util.PropertiesUtil;
 
 
 /**
@@ -104,6 +101,7 @@ public class LoginController {
 				out.print("errorcode");
 			}else if(u != null){
 				req.getSession().setAttribute("loginUser", u);
+				req.getSession().setAttribute("resource", u.getMenus());
 				//logger.info("登录成功");
 				//out.print("scuesslogin");
 				//等于6说明是进口供应商登录

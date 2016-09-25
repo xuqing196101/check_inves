@@ -187,8 +187,9 @@
   <select id="find" resultMap="RoleBaseMap" parameterType="Object">
     select
     <include refid="Base_Column_List" />
-    from T_SES_BMS_ROLE 
+    from T_SES_BMS_ROLE r
     <include refid="Example_Where_Clause"/>
+    ORDER BY r.CREATED_AT DESC
   </select>
   
   <!-- 8.根据角色条件查询角色信息（带出关联信息） -->  

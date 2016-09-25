@@ -43,7 +43,7 @@ public class PreMenuServiceImpl implements PreMenuServiceI {
 
 	@Override
 	public void update(PreMenu menu) {
-		preMenuMapper.updateByPrimaryKey(menu);
+		preMenuMapper.updateByPrimaryKeySelective(menu);
 	}
 
 	@Override
@@ -54,6 +54,11 @@ public class PreMenuServiceImpl implements PreMenuServiceI {
 	@Override
 	public List<String> findByUids(String[] userIds) {
 		return preMenuMapper.findByUids(userIds);
+	}
+
+	@Override
+	public void delete(String id) {
+		preMenuMapper.deleteByPrimaryKey(id);
 	}
 
 }
