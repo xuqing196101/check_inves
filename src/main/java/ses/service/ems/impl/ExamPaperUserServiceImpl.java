@@ -71,4 +71,10 @@ public class ExamPaperUserServiceImpl implements ExamPaperUserServiceI {
 		return examPaperUserMapper.selectPrintYesReference(examPaperUser);
 	}
 
+	
+	@Override
+	public List<ExamPaperUser> findAll() {
+		return examPaperUserMapper.findAll();
+	}
+
 }

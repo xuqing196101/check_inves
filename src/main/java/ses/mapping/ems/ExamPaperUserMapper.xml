@@ -164,42 +164,53 @@
   <!-- 查看已考考卷的参考人员信息 -->
   <select id="selectPurchaserYesReference" parameterType="java.util.Map" resultType="ses.model.ems.ExamPaperUser">
   		SELECT
-			U.REL_NAME as userName,
-			D.CODE as code,
-			P.UNIT_NAME as unitName,
-			s.SCORE as score,
-			P.CARD as card
+  			p.ID as id,
+  			P.USER_ID as userId,
+			U.REL_NAME AS userName,
+			P.CODE AS code,
+			P.UNIT_NAME AS unitName,
+			MAX (s.SCORE) AS score,
+			P.CARD AS card
 		FROM
-			T_SES_EMS_EXAM_USER_SCORE s,
-			T_SES_EMS_EXAM_PAPER_USER P,
-			T_SES_EMS_EXAM_PAPER D,
-			T_SES_BMS_USER U
+			T_SES_EMS_EXAM_PAPER_USER P
+		LEFT JOIN T_SES_EMS_EXAM_USER_SCORE s ON P.USER_ID = s.USER_ID
+		AND P.PAPER_ID = s.PAPER_ID
+		LEFT JOIN T_SES_BMS_USER U ON P .user_id = U.ID
 		WHERE
-			P.USER_ID = U.ID
-		AND P.PAPER_ID = D.ID
-		AND s.PAPER_ID = D.ID
-		AND s.USER_ID = P.USER_ID
-		AND P.PAPER_ID = #{paperId}
+			P.PAPER_ID = #{paperId}
+		GROUP BY
+			p.ID,
+			P.USER_ID,
+			U.REL_NAME,
+			P.CODE,
+			P.UNIT_NAME,
+			P.CARD
   </select>
   
   <!-- 打印预览已考考卷的参考人员信息 -->
   <select id="selectPrintYesReference" parameterType="Object" resultType="ses.model.ems.ExamPaperUser">
   		SELECT
-			U.REL_NAME as userName,
-			D.CODE as code,
-			P.UNIT_NAME as unitName,
-			s.SCORE as score,
-			P.CARD as card
+			U.REL_NAME AS userName,
+			P.CODE AS code,
+			P.UNIT_NAME AS unitName,
+			MAX (s.SCORE) AS score,
+			P.CARD AS card
 		FROM
-			T_SES_EMS_EXAM_USER_SCORE s,
-			T_SES_EMS_EXAM_PAPER_USER P,
-			T_SES_EMS_EXAM_PAPER D,
-			T_SES_BMS_USER U
+			T_SES_EMS_EXAM_PAPER_USER P
+		LEFT JOIN T_SES_EMS_EXAM_USER_SCORE s ON P.USER_ID = s.USER_ID
+		AND P.PAPER_ID = s.PAPER_ID
+		LEFT JOIN T_SES_BMS_USER U ON P.user_id = U.ID
 		WHERE
-			P.USER_ID = U.ID
-		AND P.PAPER_ID = D.ID
-		AND s.PAPER_ID = D.ID
-		AND s.USER_ID = P.USER_ID
-		AND P.PAPER_ID = #{paperId}
+			P.PAPER_ID = #{paperId}
+		GROUP BY
+			U.REL_NAME,
+			P.CODE,
+			P.UNIT_NAME,
+			P.CARD
+  </select>
+  
+  <!-- 查出所有的考卷的参考人员 -->
+  <select id="findAll" resultMap="BaseResultMap">
+  		SELECT * FROM T_SES_EMS_EXAM_PAPER_USER
   </select>
 </mapper>

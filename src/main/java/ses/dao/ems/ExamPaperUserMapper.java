@@ -113,4 +113,14 @@ public interface ExamPaperUserMapper {
 	 */
 	List<ExamPaperUser> selectPrintYesReference(ExamPaperUser examPaperUser);
 	
+	/**
+	 * 
+	* @Title: findAll
+	* @author ZhaoBo
+	* @date 2016-9-25 下午8:39:08  
+	* @Description: 查找所有考卷的参考人员 
+	* @param @return      
+	* @return List<ExamPaperUser>
+	 */
+	List<ExamPaperUser> findAll();
 }

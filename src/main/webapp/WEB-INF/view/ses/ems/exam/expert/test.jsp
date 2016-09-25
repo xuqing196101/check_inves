@@ -205,7 +205,7 @@
   </c:choose>
     <input type="hidden" name="lawAnswer" value="${queAnswer}"/>
     <input type="hidden" name="lawPoint" value="${quePoint}"/>
-    
+    <input type="hidden" name="lawId" value="${queId }"/>
     </form>
     </div>
   </body>

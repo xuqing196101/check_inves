@@ -46,10 +46,12 @@ import com.github.pagehelper.PageInfo;
 import ses.model.ems.ExamQuestion;
 import ses.model.ems.ExamQuestionType;
 import ses.model.ems.ExamRule;
+import ses.model.ems.ExamUserAnswer;
 import ses.model.ems.ExamUserScore;
 import ses.service.ems.ExamQuestionServiceI;
 import ses.service.ems.ExamQuestionTypeServiceI;
 import ses.service.ems.ExamRuleServiceI;
+import ses.service.ems.ExamUserAnswerServiceI;
 import ses.service.ems.ExamUserScoreServiceI;
 import ses.util.PathUtil;
 import ses.util.PropertiesUtil;
@@ -72,6 +74,8 @@ public class ExpertExamController {
 	private ExamUserScoreServiceI examUserScoreService;
 	@Autowired
 	private ExamRuleServiceI examRuleService;
+	@Autowired
+	private ExamUserAnswerServiceI examUserAnswerService;
 	
 	/**
 	 * 
@@ -498,16 +502,29 @@ public class ExpertExamController {
 	public String saveScore(Model model,HttpServletRequest request,ExamUserScore examUserScore){
 		String[] queAnswer = request.getParameter("lawAnswer").split(",");
 		String[] quePoint = request.getParameter("lawPoint").split(",");
+		String[] queId = request.getParameter("lawId").split(",");
 		Integer score = 0;
 		for(int i=0;i<queAnswer.length;i++){
 			StringBuffer sb = new StringBuffer();
 			if(request.getParameterValues("que"+(i+1))==null){
+				ExamUserAnswer examUserAnswer = new ExamUserAnswer();
+				examUserAnswer.setContent(" ");
+				examUserAnswer.setCreatedAt(new Date());
+				examUserAnswer.setQuestionId(queId[i]);
+				examUserAnswer.setUserType(1);
+				examUserAnswerService.insertSelective(examUserAnswer);
 				continue;
 			}else{
 				String[] queUserAnswer = request.getParameterValues("que"+(i+1));
 				for(int j=0;j<queUserAnswer.length;j++){
 					sb.append(queUserAnswer[j]);
 				}
+				ExamUserAnswer examUserAnswer = new ExamUserAnswer();
+				examUserAnswer.setContent(sb.toString());
+				examUserAnswer.setCreatedAt(new Date());
+				examUserAnswer.setQuestionId(queId[i]);
+				examUserAnswer.setUserType(1);
+				examUserAnswerService.insertSelective(examUserAnswer);
 				if(queAnswer[i].equals(sb.toString())){
 					score = Integer.parseInt(quePoint[i])+score;
 				}
@@ -604,12 +621,15 @@ public class ExpertExamController {
 		}
 		StringBuffer sb_answer = new StringBuffer();
 		StringBuffer sb_point = new StringBuffer();
+		StringBuffer sb_id = new StringBuffer();
 		for(int i=0;i<nlawQueRandom.size();i++){
 			sb_answer.append(nlawQueRandom.get(i).getAnswer()+",");
 			sb_point.append(nlawQueRandom.get(i).getPoint()+",");
+			sb_id.append(nlawQueRandom.get(i).getId()+",");
 		}
 		model.addAttribute("queAnswer", sb_answer.toString());
 		model.addAttribute("quePoint", sb_point.toString());
+		model.addAttribute("queId", sb_id.toString());
 		model.addAttribute("queRandom",nlawQueRandom);
 		model.addAttribute("examRule", examRule.get(0));
 		model.addAttribute("pageNum", pageNum);

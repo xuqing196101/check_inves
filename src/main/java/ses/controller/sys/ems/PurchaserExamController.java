@@ -849,17 +849,49 @@ public class PurchaserExamController extends BaseSupplierController{
 	 */
 	@RequestMapping("/result")
 	public String result(Model model,HttpServletRequest request,Integer page){
+		List<ExamPaperUser> reference = examPaperUserService.findAll();
+		for(int i=0;i<reference.size();i++){
+			ExamPaperUser paperUser = reference.get(i);
+			String paperId = paperUser.getPaperId();
+			ExamPaper examPaper = examPaperService.selectByPrimaryKey(paperId);
+			String testTime = examPaper.getTestTime();
+			Date startTime = examPaper.getStartTime();
+		    Calendar calendar = new GregorianCalendar(); 
+		    calendar.setTime(startTime); 
+		    calendar.add(calendar.MINUTE,45+Integer.parseInt(testTime));
+		    Date endTime = calendar.getTime();
+		    if(new Date().getTime()>endTime.getTime()){
+		    	if(paperUser.getIsDo()==0){
+		    		ExamUserScore examUserScore = new ExamUserScore();
+		    		examUserScore.setCreatedAt(new Date());
+					examUserScore.setUserType(2);
+					examUserScore.setUserId(paperUser.getUserId());
+					examUserScore.setScore("0");
+					examUserScore.setPaperId(paperUser.getPaperId());
+					examUserScore.setStatus("不及格");
+					examUserScoreService.insertSelective(examUserScore);
+					ExamPaperUser paperOfUser = new ExamPaperUser();
+					paperOfUser.setId(paperUser.getId());
+					paperOfUser.setIsDo(2);
+					examPaperUserService.updateByPrimaryKeySelective(paperOfUser);
+		    	}
+		    	
+		    }
+		}
+		
+		
+		
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		String relName = request.getParameter("relName");
 		String status = request.getParameter("status");
 		String code = request.getParameter("code");
-		if(relName !=null && relName!=""){
+		if(relName!=null&&relName!=""){
 			map.put("relName", "%"+relName+"%");
 		}
-		if(code != null && code!=""){
+		if(code!=null&&code!=""){
 			map.put("code", code);
 		}
-		if(status !=null && status!=""){
+		if(status!=null&&status!=""){
 			map.put("status", status);
 		}
 		if(page==null){
@@ -871,7 +903,11 @@ public class PurchaserExamController extends BaseSupplierController{
 		List<ExamUserScore> purchaserResultList = examUserScoreService.selectPurchaserResultByCondition(map);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		for(int i=0;i<purchaserResultList.size();i++){
-			purchaserResultList.get(i).setFormatDate(sdf.format(purchaserResultList.get(i).getTestDate()));
+			if(purchaserResultList.get(i).getTestDate()==null){
+				purchaserResultList.get(i).setFormatDate(" ");
+			}else{
+				purchaserResultList.get(i).setFormatDate(sdf.format(purchaserResultList.get(i).getTestDate()));
+			}
 		}
 		model.addAttribute("purchaserResultList", new PageInfo<ExamUserScore>(purchaserResultList));
 		model.addAttribute("relName", relName);
@@ -1072,6 +1108,24 @@ public class PurchaserExamController extends BaseSupplierController{
 			path = "ses/ems/exam/purchaser/paper/view_no_reference";
 		}else if(new Date().getTime()>endTime.getTime()){
 			paperUserList = examPaperUserService.selectPurchaserYesReference(map);
+			for(int i=0;i<paperUserList.size();i++){
+				if(paperUserList.get(i).getScore()==null||paperUserList.get(i).getScore()==""){
+					paperUserList.get(i).setScore("0");
+					ExamUserScore userScore = new ExamUserScore();
+					userScore.setCreatedAt(new Date());
+					userScore.setUserType(2);
+					userScore.setUserId(paperUserList.get(i).getUserId());
+					userScore.setScore("0");
+					userScore.setPaperId(id[0]);
+					userScore.setStatus("不及格");
+					examUserScoreService.insertSelective(userScore);
+					ExamPaperUser paperUser = new ExamPaperUser();
+					paperUser.setId(paperUserList.get(i).getId());
+					paperUser.setIsDo(2);
+					examPaperUserService.updateByPrimaryKeySelective(paperUser);
+				}
+				
+			}
 			model.addAttribute("examPaper", examPaper);
 			model.addAttribute("id", id[0]);
 			model.addAttribute("paperUserList",new PageInfo<ExamPaperUser>(paperUserList));
