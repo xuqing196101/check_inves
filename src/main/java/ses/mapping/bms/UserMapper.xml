@@ -400,7 +400,7 @@
 		LEFT JOIN T_SES_BMS_USER_PERMISSION up ON U . ID = up.USER_ID
 		LEFT JOIN T_SES_BMS_PERMISSION pm ON up.PERMENU_ID = pm. ID
       	<include refid="Example_Where_Clause"/>
-      	ORDER BY u.CREATED_AT DESC
+      	ORDER BY u.CREATED_AT DESC,pm.MENU_LEVEL ,pm.POSITION ASC
   </select>
   
   <!-- 10.保存用户和角色之间的关系信息 -->  

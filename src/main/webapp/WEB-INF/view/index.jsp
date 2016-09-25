@@ -129,7 +129,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    <c:forEach items="${sessionScope.resource}" var="resource" varStatus="vs">
 					 <c:if test="${resource.menulevel == 2 }">
 						 <li class="dropdown">
-							<a ria-expanded="false" data-toggle="dropdown" class="dropdown-toggle p0_30 " href="">
+							<a <c:if test='${resource.url == null}'>ria-expanded="false" data-toggle="dropdown" class="dropdown-toggle p0_30 " href="javascript:void(0);"</c:if>
+							<c:if test='${resource.url != null && resource.name != "安全退出"}'>href="<%=basePath%>${resource.url}"  target="home"</c:if>
+							<c:if test='${resource.url != null && resource.name == "安全退出"}'>href="<%=basePath%>${resource.url}" </c:if> >
 							  <div><img src="<%=basePath%>public/ZHH/images/${resource.icon}"/></div>
 							  <span>${resource.name }</span>
 							</a>
