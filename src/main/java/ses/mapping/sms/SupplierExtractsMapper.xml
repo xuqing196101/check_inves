@@ -13,12 +13,15 @@
 		<result column="EXTRACTING_CONDITIONS" jdbcType="VARCHAR"
 			property="extractingConditions" />
 		<result column="SUPPLIERS_ID" jdbcType="VARCHAR" property="suppliersId" />
-		<result column="EXTRACTS_PEOPLE" jdbcType="VARCHAR" property="extractsPeople" />
 		<result column="SUPERINTENDENT" jdbcType="VARCHAR" property="superintendent" />
 		<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
 		<result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+<!-- 		抽取人员 -->
+		<association column="EXTRACTS_PEOPLE" property="extractsPeopleUser"
+			select="ses.dao.bms.UserMapper.selectByPrimaryKey" />
 	</resultMap>
-	<resultMap type="ses.model.sms.SupplierExtracts" id="BaseResultListMap" extends="BaseResultMap">
+	<resultMap type="ses.model.sms.SupplierExtracts" id="BaseResultListMap"
+		extends="BaseResultMap">
 		<collection property="SupplierExtRelate" ofType="ses.model.sms.SupplierExtRelate">
 			<id column="erid" jdbcType="VARCHAR" property="id" />
 			<result column="EXTRACTS_ID" jdbcType="VARCHAR" property="extractsId" />
@@ -30,19 +33,27 @@
 			<association column="SUPPLIER_ID" property="suppliers"
 				select="ses.dao.sms.SupplierMapper.selectByPrimaryKey" />
 		</collection>
+		<collection property="superintendentuser" ofType="ses.model.sms.SupplierExtUser">
+			<id column="EU_ID" jdbcType="VARCHAR" property="id" />
+			<result column="EUEXT_ID" jdbcType="VARCHAR" property="extractsId" />
+			<!-- 监督人员 -->
+			<association column="euserid" property="user"
+				select="ses.dao.bms.UserMapper.selectByPrimaryKey" />
+		</collection>
 	</resultMap>
 	<sql id="Base_Column_List">
 		<!-- @mbggenerated -->
 		ID, PROJECT_NAME, PROCUREMENT_DEP_ID, EXTRACTION_TIME,
 		EXTRACTION_SITES, EXTRACT_THE_WAY,
-		EXTRACTING_CONDITIONS, SUPPLIERS_ID, EXTRACTS_PEOPLE, SUPERINTENDENT, CREATED_AT,
+		EXTRACTING_CONDITIONS, SUPPLIERS_ID,
+		EXTRACTS_PEOPLE, SUPERINTENDENT, CREATED_AT,
 		UPDATED_AT
 	</sql>
 	<sql id="Example_Where_Clause">
-	    where ER.IS_DELETED = 0 
-	    <if test="id!=null and id!=''">
-	      AND SE."ID"=#{id}
-	    </if>
+		where ER.IS_DELETED = 0
+		<if test="id!=null and id!=''">
+			AND SE."ID"=#{id}
+		</if>
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
@@ -55,7 +66,8 @@
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
 		<!-- @mbggenerated -->
 		delete from T_SES_SMS_SUPPLIER_EXTRACTS
-		where ID = #{id,jdbcType=VARCHAR}
+		where ID =
+		#{id,jdbcType=VARCHAR}
 	</delete>
 	<insert id="insert" parameterType="ses.model.sms.SupplierExtracts">
 		<!-- @mbggenerated -->
@@ -63,11 +75,13 @@
 		PROCUREMENT_DEP_ID,
 		EXTRACTION_TIME, EXTRACTION_SITES, EXTRACT_THE_WAY,
 		EXTRACTING_CONDITIONS, SUPPLIERS_ID, EXTRACTS_PEOPLE,
-		SUPERINTENDENT, CREATED_AT, UPDATED_AT
+		SUPERINTENDENT,
+		CREATED_AT, UPDATED_AT
 		)
 		values ( #{projectName,jdbcType=VARCHAR},
 		#{procurementDepId,jdbcType=VARCHAR},
-		#{extractionTime,jdbcType=DATE}, #{extractionSites,jdbcType=VARCHAR},
+		#{extractionTime,jdbcType=DATE},
+		#{extractionSites,jdbcType=VARCHAR},
 		#{extractTheWay,jdbcType=DECIMAL},
 		#{extractingConditions,jdbcType=VARCHAR},
 		#{suppliersId,jdbcType=VARCHAR}, #{extractsPeople,jdbcType=VARCHAR},
@@ -166,7 +180,8 @@
 				PROJECT_NAME = #{projectName,jdbcType=VARCHAR},
 			</if>
 			<if test="procurementDepId != null">
-				PROCUREMENT_DEP_ID = #{procurementDepId,jdbcType=VARCHAR},
+				PROCUREMENT_DEP_ID =
+				#{procurementDepId,jdbcType=VARCHAR},
 			</if>
 			<if test="extractionTime != null">
 				EXTRACTION_TIME = #{extractionTime,jdbcType=DATE},
@@ -178,7 +193,8 @@
 				EXTRACT_THE_WAY = #{extractTheWay,jdbcType=DECIMAL},
 			</if>
 			<if test="extractingConditions != null">
-				EXTRACTING_CONDITIONS = #{extractingConditions,jdbcType=VARCHAR},
+				EXTRACTING_CONDITIONS =
+				#{extractingConditions,jdbcType=VARCHAR},
 			</if>
 			<if test="suppliersId != null">
 				SUPPLIERS_ID = #{suppliersId,jdbcType=VARCHAR},
@@ -201,16 +217,26 @@
 	<update id="updateByPrimaryKey" parameterType="ses.model.sms.SupplierExtracts">
 		<!-- @mbggenerated -->
 		update T_SES_SMS_SUPPLIER_EXTRACTS
-		set PROJECT_NAME = #{projectName,jdbcType=VARCHAR},
-		PROCUREMENT_DEP_ID = #{procurementDepId,jdbcType=VARCHAR},
-		EXTRACTION_TIME = #{extractionTime,jdbcType=DATE},
-		EXTRACTION_SITES = #{extractionSites,jdbcType=VARCHAR},
-		EXTRACT_THE_WAY = #{extractTheWay,jdbcType=DECIMAL},
-		EXTRACTING_CONDITIONS = #{extractingConditions,jdbcType=VARCHAR},
-		SUPPLIERS_ID = #{suppliersId,jdbcType=VARCHAR},
-		EXTRACTS_PEOPLE = #{extractsPeople,jdbcType=VARCHAR},
-		SUPERINTENDENT = #{superintendent,jdbcType=VARCHAR},
-		CREATED_AT = #{createdAt,jdbcType=DATE},
+		set PROJECT_NAME =
+		#{projectName,jdbcType=VARCHAR},
+		PROCUREMENT_DEP_ID =
+		#{procurementDepId,jdbcType=VARCHAR},
+		EXTRACTION_TIME =
+		#{extractionTime,jdbcType=DATE},
+		EXTRACTION_SITES =
+		#{extractionSites,jdbcType=VARCHAR},
+		EXTRACT_THE_WAY =
+		#{extractTheWay,jdbcType=DECIMAL},
+		EXTRACTING_CONDITIONS =
+		#{extractingConditions,jdbcType=VARCHAR},
+		SUPPLIERS_ID =
+		#{suppliersId,jdbcType=VARCHAR},
+		EXTRACTS_PEOPLE =
+		#{extractsPeople,jdbcType=VARCHAR},
+		SUPERINTENDENT =
+		#{superintendent,jdbcType=VARCHAR},
+		CREATED_AT =
+		#{createdAt,jdbcType=DATE},
 		UPDATED_AT = #{updatedAt,jdbcType=DATE}
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
@@ -223,10 +249,21 @@
 		ER.SUPPLIER_ID,
 		ER.IS_DELETED,
 		ER.CREATED_AT,
-		ER.EXTRACTS_ID
+		ER.EXTRACTS_ID,
+		EU."ID" AS
+		EU_ID,
+		EU.EXTRACTS_ID AS EUEXT_ID,
+		EU.USER_ID AS euserid
 		FROM
 		T_SES_SMS_SUPPLIER_EXTRACTS se
-		INNER JOIN T_SES_SMS_SUPPLIER_EXT_RELATE er ON SE."ID" = ER.EXTRACTS_ID
-		<include refid="Example_Where_Clause"/>
+
+		INNER JOIN T_SES_SMS_SUPPLIER_EXT_USER
+		eu ON eu.EXTRACTS_ID=se."ID"
+
+		INNER
+		JOIN T_SES_SMS_SUPPLIER_EXT_RELATE er
+		ON SE."ID" = ER.EXTRACTS_ID
+
+		<include refid="Example_Where_Clause" />
 	</select>
 </mapper>

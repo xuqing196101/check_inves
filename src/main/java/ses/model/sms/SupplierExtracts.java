@@ -3,6 +3,10 @@ package ses.model.sms;
 import java.util.Date;
 import java.util.List;
 
+import javax.print.DocFlavor.STRING;
+
+import ses.model.bms.User;
+
 public class SupplierExtracts {
     /**
      * <pre>
@@ -80,8 +84,22 @@ public class SupplierExtracts {
      * 表字段 : T_SES_SMS_SUPPLIER_EXTRACTS.EXTRACTS_PEOPLE
      * </pre>
      */
+    private User extractsPeopleUser;
+    /**
+     * <pre>
+     * 抽取人员 T_SES_OMS_PROCUREMENT_USER
+     * 表字段 : T_SES_SMS_SUPPLIER_EXTRACTS.EXTRACTS_PEOPLE
+     * </pre>
+     */
     private String extractsPeople;
 
+    /**
+     * <pre>
+     * 监督人T_SES_OMS_PROCUREMENT_USER
+     * 表字段 : T_SES_SMS_SUPPLIER_EXTRACTS.SUPERINTENDENT
+     * </pre>
+     */
+    private List<SupplierExtUser> superintendentuser;
     /**
      * <pre>
      * 监督人T_SES_OMS_PROCUREMENT_USER
@@ -426,6 +444,22 @@ public class SupplierExtracts {
 	public SupplierExtracts(String id) {
 		super();
 		this.id = id;
+	}
+
+	public User getExtractsPeopleUser() {
+		return extractsPeopleUser;
+	}
+
+	public void setExtractsPeopleUser(User extractsPeopleUser) {
+		this.extractsPeopleUser = extractsPeopleUser;
+	}
+
+	public List<SupplierExtUser> getSuperintendentuser() {
+		return superintendentuser;
+	}
+
+	public void setSuperintendentuser(List<SupplierExtUser> superintendentuser) {
+		this.superintendentuser = superintendentuser;
 	}
 
 	public SupplierExtracts(String projectName, String procurementDepId,

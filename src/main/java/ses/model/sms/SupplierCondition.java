@@ -13,6 +13,11 @@ import com.alibaba.fastjson.JSON;
  * @since  JDK 1.7
  */
 public class SupplierCondition {
+	
+	/**
+	 * 抽取人id
+	 */
+	private String peopleId; 
 	/**
 	 * 次数
 	 */
@@ -37,6 +42,16 @@ public class SupplierCondition {
 	 * 抽取项目
 	 */
 	private String projectName;
+	
+	
+	
+	
+	public String getPeopleId() {
+		return peopleId;
+	}
+	public void setPeopleId(String peopleId) {
+		this.peopleId = peopleId;
+	}
 	public String getNumber() {
 		return number;
 	}

@@ -16,14 +16,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
 
 import ses.model.bms.Area;
+import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCondition;
 import ses.model.sms.SupplierExtRelate;
 import ses.model.sms.SupplierExtracts;
 import ses.model.sms.SupplierType;
 import ses.service.bms.AreaServiceI;
+import ses.service.bms.UserServiceI;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierExtRelateService;
 import ses.service.sms.SupplierExtractsService;
@@ -50,7 +53,8 @@ public class SupplierExtractsController {
 	private SupplierExtRelateService extRelateService;
 	@Autowired
 	private AreaServiceI areaService;	
-
+	@Autowired
+	private UserServiceI userService;
 	/**
 	 * @Description:分页获取记录集合
 	 *
@@ -79,12 +83,13 @@ public class SupplierExtractsController {
 	 */
 	@RequestMapping("/showSupplierExtracts")
 	public String showSupplierExtracts(Model model,String id){
-
 		List<SupplierExtracts> listExtracts = supplierExtractsService.listExtracts(new SupplierExtracts(id));
 		if(listExtracts != null && listExtracts.size() !=0){
 			SupplierExtracts extracts = listExtracts.get(0);
 			model.addAttribute("extracts",extracts);
 			model.addAttribute("extRelate",extracts.getSupplierExtRelate());
+			model.addAttribute("Superintendentuser",extracts.getSuperintendentuser());
+			model.addAttribute("peopleuser", extracts.getExtractsPeopleUser());
 			SupplierCondition condition=JSON.parseObject(extracts.getExtractingConditions(),SupplierCondition.class);
 			model.addAttribute("condition",condition);
 		}
@@ -176,9 +181,11 @@ public class SupplierExtractsController {
 	 * @return String
 	 */
 	@RequestMapping("/JumpResultSupplier")
-	public String JumpResultSupplier(Model model,Supplier supplier,SupplierCondition condition,String eid){
+	public String JumpResultSupplier(Model model,HttpServletRequest rq,Supplier supplier,SupplierCondition condition,String eid,String sids){
+		Object attribute = rq.getSession().getAttribute("loginUser");
+		condition.setPeopleId(attribute==null?"2521F623FA2F4399875433678F622F2D":attribute.toString());
 		//插入抽取记录表
-		String id= supplierExtractsService.insert(supplier,condition,eid);
+		String id= supplierExtractsService.insert(supplier,condition,eid,sids);
 		//查询数据
 		List<SupplierExtracts> sextractslist = supplierExtractsService.listExtracts(new SupplierExtracts(id));
 		if(sextractslist!=null&&sextractslist.size()!=0){
@@ -214,5 +221,21 @@ public class SupplierExtractsController {
 	@RequestMapping("/showproduct")
 	public String showproduct(){
 		return "ses/sms/supplier_extracts/product";
+	}
+	
+	/**
+	 * @Description:显示监督人员
+	 *
+	 * @author Wang Wenshuai
+	 * @version 2016年9月25日 09:49:56 
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping("/showSupervise")
+	public String showSupervise(Model model, Integer page){
+			List<User> users = userService
+					.selectUser(null, page == null ? 1 : page);
+			model.addAttribute("list", new PageInfo<User>(users));
+			return "ses/sms/supplier_extracts/supervise_list";
 	}
 }

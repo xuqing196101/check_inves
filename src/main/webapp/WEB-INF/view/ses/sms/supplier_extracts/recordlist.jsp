@@ -67,7 +67,6 @@
 			id.push($(this).val());
 		}); 
 		if(id.length==1){
-			
 			window.location.href="<%=basePath%>user/edit.html?id="+id;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
@@ -129,7 +128,6 @@
 		}else{
 			layer.alert("请选择一个用户",{offset: ['222px', '390px'], shade:0.01});
 		}
-	
 	}
   </script>
 <body>
@@ -150,34 +148,23 @@
 			<h2>抽取供应商记录</h2>
 		</div>
 	</div>
+	
+	  <!-- 查询 -->
+   
+   <div class="container clear margin-top-0">
+   <div class="padding-10 border1 m0_30 tc">
+   <form action="" method="post">
+	 <ul class="demand_list">
+	   <li class="fl mr15"><label class="fl mt5">项目名称：</label><span><input type="text" class="mb0"/></span></li>
+	   <li class="fl mr15"><label class="fl mt5">采购机构：</label><span><input type="text" class="mb0"/></span></li>
+	  <li class="fl mr15"><label class="fl mt5">抽取时间：</label><span><input type="text" class="mb0"/></span></li>
+	   	 <button class="btn fl ml20 mt1">查询</button>
+	 </ul>
+   </form>
+	 <div class="clear"></div>
+   </div>
+  </div>
 	<!-- 表格开始-->
-	<div class="container">
-		<div class="col-md-8"></div>
-		<div class="col-md-4 ">
-			<div class="search-block-v2">
-				<div class="">
-					<form accept-charset="UTF-8" action="" method="get">
-						<div style="display: none">
-							<input name="utf8" value="✓" type="hidden">
-						</div>
-					
-						<input id="t" name="t" value="search_products" type="hidden">
-						    
-						<div class="col-md-12 pull-right">
-					
-							<div class="input-group">
-								<input class="form-control bgnone h37 p0_10" id="k" name="k"
-									placeholder="" type="text"/> <span
-									class="input-group-btn"> <input class="btn-u"
-									name="commit" value="搜索" type="submit">
-								</span>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
 	<div class="container margin-top-5">
 		<div class="content padding-left-25 padding-right-25 padding-top-5">
 			<table class="table table-bordered table-condensed">
@@ -206,11 +193,11 @@
 						<td class="tc">${extract.extractionSites }</td>
 						<td class="tc">
 							<c:if test="${extract.extractTheWay==0}">
-				             	     语音抽取
+				             	             人工抽取
 					        </c:if> 
 					        <c:if test="${extract.extractTheWay==1}">
-	                                                                                           人工抽取
-	                        </c:if>
+	                                  		    语音抽取                                          			   
+	           		             </c:if>
                          </td>
 					</tr>
 				</c:forEach>

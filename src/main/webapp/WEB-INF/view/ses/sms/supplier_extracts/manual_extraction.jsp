@@ -79,6 +79,19 @@ function opens(){
 	  content: '<%=basePath%>SupplierExtracts/showproduct.do' //iframe的url
 	}); 
 }
+
+function supervise(){
+// 	iframe层
+	layer.open({
+	  type: 2,
+	  title:false,
+	  shadeClose: true,
+	  shade: 0.01,
+	  move: false,
+	  area: ['1000px', '500px'],
+	  content: '<%=basePath%>SupplierExtracts/showSupervise.do' //iframe的url
+	}); 
+}
 </script>
 
 
@@ -106,6 +119,7 @@ function opens(){
                   <div class="col-md-12" style="min-height:400px;">
                       <div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
                       <input type="hidden" name="eid" value="${id }">
+                      <input type="hidden" name="sids" id="sids" />
                         <div class="tag-box tag-box-v3">
                             <ul class=" list-unstyled ">
                              <li class=" col-md-12 p0"><label class="">产品目录:</label><span><input onclick="opens();" readonly    class="title" 
@@ -147,7 +161,7 @@ function opens(){
                                <div class="clear"></div>
                                 </span>
                              </li>
-                               <li class=" col-md-12 p0"><label class="">监督人员:</label><span><input  readonly    class="title" 
+                               <li class=" col-md-12 p0"><label class="">监督人员:</label><span><input onclick="supervise();"  readonly  id="supervises"   class="title" 
                                       /> </span></li>
                                <div class="clear"></div>
                             </ul>

@@ -26,7 +26,7 @@ public interface SupplierExtractsService {
 	 * @param       
 	 * @return void
 	 */
-	String insert(Supplier supplier,SupplierCondition condition,String id);
+	String insert(Supplier supplier,SupplierCondition condition,String id,String sids);
 	
 	/**
 	 * @Description: 分页获取记录集合

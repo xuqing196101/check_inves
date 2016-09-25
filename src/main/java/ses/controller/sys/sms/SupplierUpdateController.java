@@ -55,7 +55,7 @@ public class SupplierUpdateController {
 	@RequestMapping("save")
 	public String save(ApplyEdit ae,Model model,HttpServletRequest req){
 		User user=(User) req.getSession().getAttribute("loginUser");
-		Supplier supplier=supplierService.login(user.getTypeId());
+		Supplier supplier=null;//supplierService.login(user.getTypeId());
 		ae.setSupplierId(user.getTypeId());
 		ae.setCreatedAt(new Timestamp(new Date().getTime()));
 		supplierUpdateService.insertSelective(ae);

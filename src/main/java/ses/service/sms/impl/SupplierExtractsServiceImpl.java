@@ -12,11 +12,13 @@ import org.springframework.stereotype.Service;
 
 import ses.dao.sms.SupplierAuditMapper;
 import ses.dao.sms.SupplierExtRelateMapper;
+import ses.dao.sms.SupplierExtUserMapper;
 import ses.dao.sms.SupplierExtractsMapper;
 import ses.dao.sms.SupplierMapper;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCondition;
 import ses.model.sms.SupplierExtRelate;
+import ses.model.sms.SupplierExtUser;
 import ses.model.sms.SupplierExtracts;
 import ses.service.sms.SupplierExtractsService;
 
@@ -35,7 +37,7 @@ public class SupplierExtractsServiceImpl implements SupplierExtractsService {
 	@Autowired
 	private SupplierExtRelateMapper supplierExtRelateMapper;
 	@Autowired
-	private SupplierAuditMapper supplierAuditMapper;
+	private SupplierExtUserMapper supplierExtUserMapper;
 	/**
 	 * 供应商信息
 	 */
@@ -49,7 +51,7 @@ public class SupplierExtractsServiceImpl implements SupplierExtractsService {
 	 * @param       
 	 * @return void
 	 */
-	public String insert(Supplier supplier,SupplierCondition condition,String id){
+	public String insert(Supplier supplier,SupplierCondition condition,String id,String ids){
 		
 		SupplierExtracts supplierExtracts=new SupplierExtracts();
 		//抽取条件
@@ -59,7 +61,7 @@ public class SupplierExtractsServiceImpl implements SupplierExtractsService {
 		//抽取时间
 		supplierExtracts.setExtractionTime(new Date());
 		//抽取人员
-		supplierExtracts.setExtractsPeople("sdfsdf");
+		supplierExtracts.setExtractsPeople(condition.getPeopleId());
 		//抽取方式 1人工 2自动
 		supplierExtracts.setExtractTheWay(new Short("0"));
 		//抽取项目
@@ -69,6 +71,16 @@ public class SupplierExtractsServiceImpl implements SupplierExtractsService {
 		}else{
 			supplierExtractsMapper.insertSelective(supplierExtracts);
 		}
+		//插入监督人 
+		String str[]=ids.split(",");
+		SupplierExtUser extUser=null;
+		for (String string : str) {
+			extUser=new SupplierExtUser();
+			extUser.setExtractsId(supplierExtracts.getId());
+			extUser.setUserId(string);
+			supplierExtUserMapper.insertSelective(extUser);
+		}
+		extUser=null;
 		//条件查询供应商
 		List<Supplier> supplierList = supplierMapper.findSupplier(supplier);
 		for (Supplier suppliers : supplierList) {
@@ -76,6 +88,7 @@ public class SupplierExtractsServiceImpl implements SupplierExtractsService {
 		}
 		return supplierExtracts.getId();
 	}
+	
 	/**
 	 * @Description: 分页获取记录集合
 	 *
