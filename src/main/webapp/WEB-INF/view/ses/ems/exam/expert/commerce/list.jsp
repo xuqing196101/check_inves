@@ -14,9 +14,29 @@
 	<meta http-equiv="description" content="This is my page">
 	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/layer.js"></script>
 	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
+	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js" type="text/javascript"></script>
 	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
 	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript">
+		$(function(){
+			laypage({
+			    cont: $("#pageDiv"), //容器。值支持id名、原生dom对象，jquery对象,
+			    pages: "${commerceList.pages}", //总页数
+			    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+			    skip: true, //是否开启跳页
+			    groups: "${commerceList.pages}">=3?3:"${commerceList.pages}", //连续显示分页数
+			    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+			        var page = location.search.match(/page=(\d+)/);
+			        return page ? page[1] : 1;
+			    }(), 
+			    jump: function(e, first){ //触发分页后的回调
+			        if(!first){ //一定要加此判断，否则初始时会无限刷新
+			            location.href = '<%=basePath%>expertExam/searchComExpPool.do?page='+e.curr;
+			        }
+			    }
+			});
+		})	
+	
 		//删除题库中的题目
 		function deleteById(){
 			var count = 0;
@@ -119,7 +139,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">支撑环境</a></li><li><a href="#">题库管理</a></li><li class="active"><a href="#">商务类专家题库管理</a></li>
+		   <li><a href="#">首页</a></li><li><a href="#">支撑环境</a></li><li><a href="#">题库管理</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -132,12 +152,16 @@
 	<!-- 表格开始-->
    <div class="container">
    		<div class="col-md-12">
-		    <button class="btn btn-windows add" type="button" onclick="addCommerce()">新增题目</button>
-		    <input type="file" name="file" id="excelFile" style="display:inline"/>
-		    <button class="btn btn-windows add" type="button" onclick="poiExcel()">Excel导入</button>
-			<button class="btn btn-windows edit" type="button" onclick="editCommerce()">修改</button>
+		    <button class="btn btn-windows add" type="button" onclick="addCommerce()">新增</button>
+		    <button class="btn btn-windows edit" type="button" onclick="editCommerce()">修改</button>
 			<button class="btn btn-windows delete" type="button" onclick="deleteById()">删除</button>
-			<button class="btn btn-windows pl13" type="button" onclick="download()">专家题库模板下载</button>
+		    <div class="fr mt15">
+		      <button class="btn" type="button" onclick="download()">题目模板下载</button>
+		      <span class="">
+		        <input type="file" name="file" id="excelFile" style="display:inline"/>
+		        <button class="btn" type="button" onclick="poiExcel()">导入</button>
+		      </span>
+		    </div> 
 		</div>
     </div>
                        
@@ -147,7 +171,8 @@
     
 		<thead>
 			<tr>
-				<th class="info w50">选择</th>
+				<th class="info w50"><input type="checkbox" id="selectAll" onclick="selectAll()"/></th>
+				<th class="info">序号</th>
 			    <th class="info" width="50">题型</th>
 				<th class="info" width="100">题干</th>
 				<th class="info">选项</th>
@@ -157,9 +182,10 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${commerceList }" var="c">
+			<c:forEach items="${commerceList.list }" var="c" varStatus="vs">
 				<tr>
 					<td class="tc pointer"><input type="checkbox" name="info" value="${c.id }"/></td>
+					<td class="tc pointer" onclick="view('${c.id }')">${(vs.index+1)+(technicalList.pageNum-1)*(technicalList.pageSize)}</td>
 					<td class="tc pointer" onclick="view('${c.id }')">${c.examQuestionType.name }</td>
 					<td class="tc pointer" onclick="view('${c.id }')">${c.topic }</td>
 					<td class="tc pointer" onclick="view('${c.id }')">${c.items }</td>
@@ -171,7 +197,8 @@
 		</tbody>
 	</table>
      </div>
-   
+     <div id="pageDiv" align="right"></div>
    </div>
+   
   </body>
 </html>

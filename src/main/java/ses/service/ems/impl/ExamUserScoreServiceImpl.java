@@ -3,6 +3,7 @@
  */
 package ses.service.ems.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,14 +49,14 @@ public class ExamUserScoreServiceImpl implements ExamUserScoreServiceI {
 
 	
 	@Override
-	public List<ExamUserScore> selectExpertResultByCondition(ExamUserScore examUserScore) {
-		return examUserScoreMapper.selectExpertResultByCondition(examUserScore);
+	public List<ExamUserScore> selectExpertResultByCondition(HashMap<String, Object> map) {
+		return examUserScoreMapper.selectExpertResultByCondition(map);
 	}
 
 	
 	@Override
-	public List<ExamUserScore> selectPurchaserResultByCondition(ExamUserScore examUserScore) {
-		return examUserScoreMapper.selectPurchaserResultByCondition(examUserScore);
+	public List<ExamUserScore> selectPurchaserResultByCondition(HashMap<String,Object> map) {
+		return examUserScoreMapper.selectPurchaserResultByCondition(map);
 	}
 
 

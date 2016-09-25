@@ -166,6 +166,8 @@
 		*
 	FROM
 		T_SES_EMS_EXAM_PAPER
+	ORDER BY
+		CREATED_AT DESC
   </select>
   
   <!-- 根据考试编号查找考卷 -->

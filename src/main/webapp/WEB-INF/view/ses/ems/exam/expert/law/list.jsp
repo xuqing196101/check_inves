@@ -19,7 +19,6 @@
 	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript">
 		$(function(){
-			//alert("${list.pages}");
 			laypage({
 			    cont: $("#pageDiv"), //容器。值支持id名、原生dom对象，jquery对象,
 			    pages: "${list.pages}", //总页数
@@ -107,6 +106,21 @@
 			}
 		}
 		
+		//全选方法
+		function selectAll(){
+			var info = document.getElementsByName("info");
+			var selectAll = document.getElementById("selectAll");
+			if(selectAll.checked){
+				for(var i = 0;i<info.length;i++){
+					info[i].checked = true;
+				}
+			}else{
+				for(var i = 0;i<info.length;i++){
+					info[i].checked = false;
+				}
+			}
+		}
+		
 		//查看功能
 		function view(obj){
 			window.location.href = "<%=path%>/expertExam/viewLaw.html?id="+obj;
@@ -140,25 +154,29 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">专家考试</a></li><li class="active"><a href="#">题库管理</a></li>
+		   <li><a href="#">首页</a></li><li><a href="#">支撑环境</a></li><li><a href="#">题库管理</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
    </div>
    <div class="container">
 	   <div class="headline-v2">
-	   		<h2>法律类题库列表</h2>
+	   		<h2>法律类专家题库列表</h2>
 	   </div>
    </div>
 	<!-- 按钮开始-->
    <div class="container">
    		<div class="col-md-12">
-		    <button class="btn btn-windows add" type="button" onclick="addLaw()">新增题目</button>
-		    <input type="file" name="file" id="excelFile" style="display:inline"/>
-		    <button class="btn btn-windows add" type="button" onclick="poiExcel()">Excel导入</button>
-			<button class="btn btn-windows edit" type="button" onclick="editLaw()">修改</button>
+		    <button class="btn btn-windows add" type="button" onclick="addLaw()">新增</button>
+		    <button class="btn btn-windows edit" type="button" onclick="editLaw()">修改</button>
 			<button class="btn btn-windows delete" type="button" onclick="deleteById()">删除</button>
-			<button class="btn btn-windows pl13" type="button" onclick="download()">专家题库模板下载</button>
+		    <div class="fr mt15">
+		      <button class="btn" type="button" onclick="download()">题目模板下载</button>
+		      <span class="">
+		        <input type="file" name="file" id="excelFile" style="display:inline"/>
+		        <button class="btn" type="button" onclick="poiExcel()">导入</button>
+		      </span>
+		    </div> 
 		</div>
     </div>
                        
@@ -168,7 +186,8 @@
     
 		<thead>
 			<tr>
-				<th class="info w50">选择</th>
+				<th class="info w50"><input type="checkbox" id="selectAll" onclick="selectAll()"/></th>
+				<th class="info">序号</th>
 			    <th class="info" width="50">题型</th>
 				<th class="info" width="100">题干</th>
 				<th class="info">选项</th>
@@ -178,9 +197,10 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${list.list }" var="l">
+			<c:forEach items="${list.list }" var="l" varStatus="vs">
 				<tr>
 					<td class="tc pointer"><input type="checkbox" name="info" value="${l.id }"/></td>
+					<td class="tc pointer" onclick="view('${l.id }')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 					<td class="tc pointer" onclick="view('${l.id }')">${l.examQuestionType.name }</td>
 					<td class="tc pointer" onclick="view('${l.id }')">${l.topic }</td>
 					<td class="tc pointer" onclick="view('${l.id }')">${l.items }</td>
@@ -192,7 +212,8 @@
 		</tbody>
 	</table>
      </div>
-   	<div id="pageDiv" align="right"></div>
+     <div id="pageDiv" align="right"></div>
    </div>
+   
   </body>
 </html>

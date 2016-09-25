@@ -82,7 +82,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#">首页</a></li><li><a href="#">支撑环境</a></li><li><a href="#">题库管理</a></li><li class="active"><a href="#">采购人题库管理</a></li>
+		   <li><a href="#">首页</a></li><li><a href="#">支撑环境</a></li><li><a href="#">题库管理</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -98,7 +98,7 @@
   	
   		<ul class="list-unstyled list-flow p0_20">
 		     <li class="col-md-12 p0">
-	  			<span class="fl">请选择题型:</span>
+	  			<span class="fl">请选择题型：</span>
 			  		<select id="queType" name="queType" disabled="disabled">
 			  			<option></option>
 			  			<c:forEach items="${examPoolType }" var="e">
@@ -112,20 +112,18 @@
 			  				</c:choose>
 			  			</c:forEach>
 			  		</select>
-  			</li>
+  				</li>
   		
   		<li class="col-md-12 p0">
-			<span class="fl">题干:</span>
+			<span class="fl">题干：</span>
 			<div class="">
-	  			<textarea class="text_area col-md-8" name="queTopic" id="queTopic" disabled="disabled">
-	  			${purchaserQue.topic }
-	  			</textarea>
+	  			<textarea class="text_area col-md-8" name="queTopic" id="queTopic" disabled="disabled">${purchaserQue.topic }</textarea>
   			</div>
   		</li>
   		
   		
   		<li class="col-md-12 p0">
-				<span class="fl">选项:</span>
+				<span class="fl">选项：</span>
 				<div class="col-md-9">
 				<div>
 			  		<div class="fl mt5">A</div><textarea name="option" id="optionA" class="ml5 col-md-8" disabled="disabled">${optionA}</textarea>
@@ -149,50 +147,19 @@
   		
   		
   		<li class="col-md-12 p0">
-			<span class="fl">答案:</span>	
+			<span class="fl">答案：</span>	
 			<div class="fl ml5 mt5">
 			  	A <input type="radio" id="A" name="que" value="A" disabled="disabled"/> 
 			  	B <input type="radio" id="B" name="que" value="B" disabled="disabled"/> 
 			  	C <input type="radio" id="C" name="que" value="C" disabled="disabled"/> 
 			  	D <input type="radio" id="D" name="que" value="D" disabled="disabled"/>
-  				<span id="queSelect"></span>
   			</div>
+  			<span id="queSelect" class="fl"></span>
   			<div class="clear ml5 mt5">
 	  			对 <input type="radio" value="对" name="judge" id="judgeTrue" disabled="disabled"/>
 	  			错 <input type="radio" value="错" name="judge" id="judgeFalse" disabled="disabled"/>
   				<span id="queJudge"></span>
   			</div>
-  		</li>
-  		
-  		 <li class="col-md-12 p0">
-			<span class="fl">分值:</span>
-  			<select name="quePoint" id="quePoint" disabled="disabled">
-  				<option value="1" 
-  					<c:if test="${purchaserQue.point==1 }">
-  						selected
-  					</c:if>
-  				>1</option>
-  				<option value="2" 
-  					<c:if test="${purchaserQue.point==2 }">
-  						selected
-  					</c:if>
-  				>2</option>
-  				<option value="3" 
-  					<c:if test="${purchaserQue.point==3 }">
-  						selected
-  					</c:if>
-  				>3</option>
-  				<option value="4" 
-  					<c:if test="${purchaserQue.point==4 }">
-  						selected
-  					</c:if>
-  				>4</option>
-  				<option value="5" 
-  					<c:if test="${purchaserQue.point==5 }">
-  						selected
-  					</c:if>
-  				>5</option>
-  			</select>
   		</li>
   		</ul>
   		
@@ -200,7 +167,7 @@
 	  	<div class="padding-top-10 clear">
 			<div class="col-md-12 pl200 ">
 				<div class="mt40 tc mb50">
-		  			<button class="btn btn-windows reset" onclick="history.go(-1)" type="button">返回</button>
+		  			<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
 	  			</div>
 	  		</div>
 	  	</div>

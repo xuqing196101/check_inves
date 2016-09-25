@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,6 +40,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import ses.model.ems.ExamQuestion;
 import ses.model.ems.ExamQuestionType;
@@ -49,6 +52,7 @@ import ses.service.ems.ExamQuestionTypeServiceI;
 import ses.service.ems.ExamRuleServiceI;
 import ses.service.ems.ExamUserScoreServiceI;
 import ses.util.PathUtil;
+import ses.util.PropertiesUtil;
 
 
 /**
@@ -94,20 +98,9 @@ public class ExpertExamController {
 	* @return String
 	 */
 	@RequestMapping("/searchTecExpPool")
-	public String searchTecExpPool(Model model){
-		List<ExamQuestion> technicalList = examQuestionService.searchTecExpPool();
-		List<ExamQuestion> ntechnicalList = new ArrayList<ExamQuestion>();
-		for(int i = 0;i<technicalList.size();i++){
-			if(technicalList.get(i).getExamQuestionType().getName().equals("单选题")){
-				ntechnicalList.add(technicalList.get(i));
-			}
-		}
-		for(int i = 0;i<technicalList.size();i++){
-			if(technicalList.get(i).getExamQuestionType().getName().equals("多选题")){
-				ntechnicalList.add(technicalList.get(i));
-			}
-		}
-		model.addAttribute("technicalList",ntechnicalList);
+	public String searchTecExpPool(Model model,Integer page){
+		List<ExamQuestion> technicalList = examQuestionService.searchTecExpPool(null,page==null?1:page);
+		model.addAttribute("technicalList",new PageInfo<ExamQuestion>(technicalList));
 		return "ses/ems/exam/expert/technical/list";
 	}
 	
@@ -122,20 +115,9 @@ public class ExpertExamController {
 	* @return String
 	 */
 	@RequestMapping("/searchComExpPool")
-	public String searchComExpPool(Model model){
-		List<ExamQuestion> commerceList = examQuestionService.searchComExpPool();
-		List<ExamQuestion> ncommerceList = new ArrayList<ExamQuestion>();
-		for(int i = 0;i<commerceList.size();i++){
-			if(commerceList.get(i).getExamQuestionType().getName().equals("单选题")){
-				ncommerceList.add(commerceList.get(i));
-			}
-		}
-		for(int i = 0;i<commerceList.size();i++){
-			if(commerceList.get(i).getExamQuestionType().getName().equals("多选题")){
-				ncommerceList.add(commerceList.get(i));
-			}
-		}
-		model.addAttribute("commerceList",ncommerceList);
+	public String searchComExpPool(Model model,Integer page){
+		List<ExamQuestion> commerceList = examQuestionService.searchComExpPool(null,page==null?1:page);
+		model.addAttribute("commerceList",new PageInfo<ExamQuestion>(commerceList));
 		return "ses/ems/exam/expert/commerce/list";
 	}
 	
@@ -151,21 +133,8 @@ public class ExpertExamController {
 	 */
 	@RequestMapping("/searchLawExpPool")
 	public String searchLawExpPool(Model model,Integer page){
-		List<ExamQuestion> lawList = examQuestionService.searchLawExpPool(null,page==null?1:page);
-//		List<ExamPool> nlawList = new ArrayList<ExamPool>();
-//		for(int i = 0;i<lawList.size();i++){
-//			if(lawList.get(i).getExamPoolType().getTypeName().equals("单选题")){
-//				nlawList.add(lawList.get(i));
-//			}
-//		}
-//		for(int i = 0;i<lawList.size();i++){
-//			if(lawList.get(i).getExamPoolType().getTypeName().equals("多选题")){
-//				nlawList.add(lawList.get(i));
-//			}
-//		}
+		List<ExamQuestion> lawList = examQuestionService.searchLawExpPool(null,page==null?1:page);		
 		model.addAttribute("list",new PageInfo<ExamQuestion>(lawList));
-//		System.out.println(nlawList);
-//		System.out.println(111);
 		return "ses/ems/exam/expert/law/list";
 	}
 	
@@ -561,20 +530,6 @@ public class ExpertExamController {
 	
 	/**
 	 * 
-	* @Title: result
-	* @author ZhaoBo
-	* @date 2016-9-7 上午11:11:28  
-	* @Description: 跳转到专家考试成绩查询页面 
-	* @param @return      
-	* @return String
-	 */
-	@RequestMapping("/result")
-	public String result(){
-		return "ses/ems/exam/expert/result";
-	}
-	
-	/**
-	 * 
 	* @Title: deleteById
 	* @author ZhaoBo
 	* @date 2016-9-7 上午11:12:08  
@@ -822,41 +777,53 @@ public class ExpertExamController {
 	
 	/**
 	 * 
-	* @Title: selectExpertResultByCondition
+	* @Title: result
 	* @author ZhaoBo
-	* @date 2016-9-8 下午6:23:20  
-	* @Description: 专家考试成绩(按条件查询) 
+	* @date 2016-9-23 下午3:52:00  
+	* @Description: 跳转到专家考试成绩查询页面 (也可以按条件查询)
+	* @param @param model
 	* @param @param request
-	* @param @param examUserScore
+	* @param @param page
 	* @param @return      
-	* @return List<ExamUserScore>
+	* @return String
 	 */
-	@RequestMapping("/selectExpertResultByCondition")
-	@ResponseBody
-	public List<ExamUserScore> selectExpertResultByCondition(HttpServletRequest request,ExamUserScore examUserScore,HttpServletResponse response){
-		if(!request.getParameter("userName").isEmpty()){
-			String name = request.getParameter("userName");
-			examUserScore.setRelName("%"+name+"%");
+	@RequestMapping("/result")
+	public String result(Model model,HttpServletRequest request,Integer page){
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		String userName = request.getParameter("userName");
+		String userType = request.getParameter("userType");
+		String status = request.getParameter("status");
+		if(userName !=null && userName!=""){
+			map.put("relName", "%"+userName+"%");
 		}
-		if(!request.getParameter("userType").isEmpty()){
-			String userType = request.getParameter("userType");
+		if(userType != null && userType!=""){
 			if(userType.equals("1")){
-				examUserScore.setUserDuty("技术");
+				map.put("userDuty", "技术");
 			}else if(userType.equals("2")){
-				examUserScore.setUserDuty("法律");
+				map.put("userDuty", "法律");
 			}else if(userType.equals("3")){
-				examUserScore.setUserDuty("商务");
+				map.put("userDuty", "商务");
 			}
 		}
-		if(!request.getParameter("testState").isEmpty()){
-			examUserScore.setStatus(request.getParameter("testState"));
+		if(status !=null && status!=""){
+			map.put("status", status);
 		}
-		List<ExamUserScore> userList = examUserScoreService.selectExpertResultByCondition(examUserScore);
+		if(page==null){
+			page = 1;
+		}
+		map.put("page", page.toString());
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		List<ExamUserScore> expertResultList = examUserScoreService.selectExpertResultByCondition(map);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-		for(int i=0;i<userList.size();i++){
-			userList.get(i).setFormatDate(sdf.format(userList.get(i).getTestDate()));
+		for(int i=0;i<expertResultList.size();i++){
+			expertResultList.get(i).setFormatDate(sdf.format(expertResultList.get(i).getTestDate()));
 		}
-		return userList;
+		model.addAttribute("expertResultList", new PageInfo<ExamUserScore>(expertResultList));
+		model.addAttribute("userName", userName);
+		model.addAttribute("userType", userType);
+		model.addAttribute("status", status);
+		return "ses/ems/exam/expert/result";
 	}
 	
 	/**

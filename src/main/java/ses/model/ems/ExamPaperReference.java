@@ -15,6 +15,10 @@ public class ExamPaperReference {
 	private String paperId;
 	
 	private String unitName;
+	
+	private String card;
+	
+	private String code;
 
 	public String getUserId() {
 		return userId;
@@ -38,6 +42,22 @@ public class ExamPaperReference {
 
 	public void setUnitName(String unitName) {
 		this.unitName = unitName;
+	}
+
+	public String getCard() {
+		return card;
+	}
+
+	public void setCard(String card) {
+		this.card = card;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 	
 	

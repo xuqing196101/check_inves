@@ -17,7 +17,7 @@
 		})
 		
 		//倒计时
-		var timeLeft = 1*60*1000-1000;//这里设定的时间是1分钟 
+		var timeLeft = 5*60*1000-1000;//这里设定的时间是5分钟 
 		function countTime(){ 
 		    if(timeLeft==0){
 		    	$("#startExam").show();

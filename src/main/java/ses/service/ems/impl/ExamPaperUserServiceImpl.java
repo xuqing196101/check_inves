@@ -3,14 +3,18 @@
  */
 package ses.service.ems.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+
 import ses.dao.ems.ExamPaperUserMapper;
 import ses.model.ems.ExamPaperUser;
 import ses.service.ems.ExamPaperUserServiceI;
+import ses.util.PropertiesUtil;
 
 /**
  * @Title:ExamPaperUserServiceImpl
@@ -45,8 +49,8 @@ public class ExamPaperUserServiceImpl implements ExamPaperUserServiceI {
 
 	
 	@Override
-	public List<ExamPaperUser> getAllByPaperId(ExamPaperUser examPaperUser) {
-		return examPaperUserMapper.getAllByPaperId(examPaperUser);
+	public List<ExamPaperUser> getAllByPaperId(HashMap<String,Object> map) {
+		return examPaperUserMapper.getAllByPaperId(map);
 	}
 
 	
@@ -57,8 +61,14 @@ public class ExamPaperUserServiceImpl implements ExamPaperUserServiceI {
 
 	
 	@Override
-	public List<ExamPaperUser> selectPurchaserYesReference(ExamPaperUser examPaperUser) {
-		return examPaperUserMapper.selectPurchaserYesReference(examPaperUser);
+	public List<ExamPaperUser> selectPurchaserYesReference(HashMap<String,Object> map) {
+		return examPaperUserMapper.selectPurchaserYesReference(map);
+	}
+
+	
+	@Override
+	public List<ExamPaperUser> selectPrintYesReference(ExamPaperUser examPaperUser) {
+		return examPaperUserMapper.selectPrintYesReference(examPaperUser);
 	}
 
 }

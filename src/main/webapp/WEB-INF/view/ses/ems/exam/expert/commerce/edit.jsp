@@ -178,13 +178,13 @@
     <div class="content padding-left-25 padding-right-25 padding-top-5">
     <div>
 		<div class="headline-v2">
-		   	<h2>修改题目</h2>
+		   	<h2>修改商务类题目</h2>
 		</div>
 		
   	<form action="<%=path %>/expertExam/editToCom.html?id=${comQue.id }" method="post" id="form">
 		<ul class="list-unstyled list-flow p0_20">
 		     <li class="col-md-12 p0">
-	  			<span class="fl">请选择题型:</span>
+	  			<span class="fl">请选择题型：</span>
 		  		<select id="queType" name="queType" onchange="changeType()">
 		  			<option value="">请选择</option>
 		  			<c:forEach items="${examPoolType }" var="e">
@@ -201,7 +201,7 @@
 	  		</li>
 		
 			<li class="col-md-12 p0">
-			   <span class="fl">题干:</span>
+			   <span class="fl">题干：</span>
 			   <div class="">
 		        	<textarea class="text_area col-md-8" name="queTopic" id="queTopic">${comQue.topic }</textarea>
 		       </div>
@@ -209,7 +209,7 @@
 		   
 	  	
 	  		<li class="col-md-12 p0">
-				<span class="fl">选项:</span>
+				<span class="fl">选项：</span>
 				<div class="col-md-9">
 				<div>
 			  		<div class="fl mt5">A</div><textarea name="option" id="optionA" class="ml5 col-md-8">${optionA}</textarea>
@@ -231,7 +231,7 @@
 			 </li> 
 		   
 		  		<li class="col-md-12 p0">
-					<span class="fl">答案:</span>	
+					<span class="fl">答案：</span>	
 					<div class="fl ml5 mt5">
 			        A <input type="radio" id="A" name="que" value="A" class="mt0"/> 
 		  			B <input type="radio" id="B" name="que" value="B" class="mt0"/> 
@@ -242,7 +242,7 @@
 				</li>
 				
 			  <li class="col-md-12 p0">
-			  		<span class="fl">分值:</span>
+			  		<span class="fl">分值：</span>
 		  			<select name="quePoint" id="quePoint">
 		  				<option value="1" 
 		  					<c:if test="${comQue.point==1 }">
@@ -277,8 +277,8 @@
 	  	<div class="padding-top-10 clear">
 			<div class="col-md-12 pl200 ">
 				<div class="mt40 tc mb50">
-					<button class="btn btn-windows save" onclick="save()">更新</button>
-		  			<button class="btn btn-windows reset" onclick="history.go(-1)" type="button">返回</button>
+					<button class="btn btn-windows save" onclick="save()">保存</button>
+		  			<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
 	  			</div>
 	  		</div>
 	  	</div>

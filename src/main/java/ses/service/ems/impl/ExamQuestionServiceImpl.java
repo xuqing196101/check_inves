@@ -3,6 +3,7 @@
  */
 package ses.service.ems.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,13 +48,17 @@ public class ExamQuestionServiceImpl implements ExamQuestionServiceI {
 	}
 	
 	@Override
-	public List<ExamQuestion> searchTecExpPool() {
-		return examQuestionMapper.searchTecExpPool();
+	public List<ExamQuestion> searchTecExpPool(ExamQuestion examPool,Integer pageNum) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
+		return examQuestionMapper.searchTecExpPool(examPool,pageNum);
 	}
 	
 	@Override
-	public List<ExamQuestion> searchComExpPool() {
-		return examQuestionMapper.searchComExpPool();
+	public List<ExamQuestion> searchComExpPool(ExamQuestion examPool,Integer pageNum) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
+		return examQuestionMapper.searchComExpPool(examPool,pageNum);
 	}
 	
 	@Override
@@ -92,22 +97,11 @@ public class ExamQuestionServiceImpl implements ExamQuestionServiceI {
 	public List<ExamQuestion> selectComRandom(ExamQuestion examPool) {
 		return examQuestionMapper.selectComRandom(examPool);
 	}
-
+	
 	
 	@Override
-	public List<ExamQuestion> selectAllContent() {
-		return examQuestionMapper.selectAllContent();
-	}
-	
-	@Override
-	public List<ExamQuestion> queryPurchaserByTerm(ExamQuestion examPool) {
-		return examQuestionMapper.queryPurchaserByTerm(examPool);
-	}
-
-	
-	@Override
-	public List<ExamQuestion> getAllPurchaserQuestion() {
-		return examQuestionMapper.getAllPurchaserQuestion();
+	public List<ExamQuestion> queryPurchaserByTerm(HashMap<String, Object> map) {
+		return examQuestionMapper.queryPurchaserByTerm(map);
 	}
 
 	
@@ -115,11 +109,6 @@ public class ExamQuestionServiceImpl implements ExamQuestionServiceI {
 	public List<ExamQuestion> searchExpertPool() {
 		return examQuestionMapper.searchExpertPool();
 	}
-
-	
-	
-
-	
 
 	
 }

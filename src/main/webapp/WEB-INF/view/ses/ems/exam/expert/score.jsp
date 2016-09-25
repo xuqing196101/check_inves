@@ -41,7 +41,7 @@
   			<div id="isPass" class="f18"></div>
   			<div><span class="f14">得分:</span><span class="f22">${score }</span><span class="f14">分</span></div>
   			<div class="f18 mt10">感谢您的参与!</div>
-  			<button class="btn" type="button" onclick="isReDo()" id="isReDo">重考?</button>
+  			<button class="btn" type="button" onclick="isReDo()" id="isReDo">重考</button>
   		</div>
     	
   </body>

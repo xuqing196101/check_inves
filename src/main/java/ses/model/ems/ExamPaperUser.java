@@ -5,7 +5,6 @@ package ses.model.ems;
 
 import java.util.Date;
 
-import ses.model.bms.User;
 
 /**
  * @Title:ExamPaperUser
@@ -63,6 +62,11 @@ public class ExamPaperUser {
 	 * @Fields score : 考试分数
 	 */
 	private String score;
+	
+	/**
+	 * @Fields card : 身份证号
+	 */
+	private String card;
 	
 	public String getId() {
 		return id;
@@ -142,6 +146,14 @@ public class ExamPaperUser {
 
 	public void setScore(String score) {
 		this.score = score;
+	}
+
+	public String getCard() {
+		return card;
+	}
+
+	public void setCard(String card) {
+		this.card = card;
 	}
 
 	

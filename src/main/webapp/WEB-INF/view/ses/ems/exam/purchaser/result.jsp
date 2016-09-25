@@ -16,37 +16,46 @@
 	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
 	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript">
+		$(function(){
+			$("#relName").val("${relName}");
+			$("#code").val("${code}");
+			var status_options = document.getElementById("status").options;
+			for(var i=0;i<status_options.length;i++){
+				if($(status_options[i]).attr("value")=="${status}"){
+					status_options[i].selected=true;
+				}
+			}
+			laypage({
+			    cont: $("#pageDiv"), //容器。值支持id名、原生dom对象，jquery对象,
+			    pages: "${purchaserResultList.pages}", //总页数
+			    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+			    skip: true, //是否开启跳页
+			    groups: "${purchaserResultList.pages}">=3?3:"${purchaserResultList.pages}", //连续显示分页数
+			    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+			        var page = location.search.match(/page=(\d+)/);
+			        return page ? page[1] : 1;
+			    }(), 
+			    jump: function(e, first){ //触发分页后的回调
+			        if(!first){ //一定要加此判断，否则初始时会无限刷新
+			        	var relName = "${relName}";
+						var status = "${status}";
+						var code = "${code}";
+			            location.href = "<%=path%>/purchaserExam/result.do?relName="+relName+"&status="+status+"&code="+code+"&page="+e.curr;
+			        }
+			    }
+			});		
+		})
+	
 		//查询方法
 		function query(){
 			var relName = $("#relName").val();
 			var status = $("#status").val();
 			var code = $("#code").val();
 			if((relName==""||relName==null)&&(status==""||status==null)&&(code==""||code==null)){
-				layer.alert("请输入内容",{offset: ['222px', '390px']});
-				$(".layui-layer-shade").remove();
+				window.location.href = "<%=path%>/purchaserExam/result.do";
 				return;
 			}else{
-				$.ajax({
-					type:"POST",
-					dataType:"json",
-					url:"<%=basePath%>purchaserExam/selectPurchaserByTerm.do?relName="+relName+"&status="+status+"&code="+code,
-		       		success:function(data){
-		       			if(data){
-		       				var html = "";
-			            	for(var i=0;i<data.length;i++){
-			            	  html = html + "<tr>";
-			            	  html = html + "<td class='tc'>"+(i+1)+"</td>";
-			            	  html = html + "<td class='tc'>"+data[i].relName +"</td>";
-			            	  html = html + "<td class='tc'>"+data[i].code +"</td>";
-			            	  html = html + "<td class='tc'>"+data[i].formatDate+"</td>";
-			            	  html = html + "<td class='tc'>"+data[i].score+"</td>";
-			            	  html = html + "<td class='tc'>"+data[i].status+"</td>";
-			            	  html = html + "</tr>";
-			            	}
-			            	$("#purchaserResult").html(html);
-		       			}
-		       		}
-		       	});
+				window.location.href = "<%=path%>/purchaserExam/result.do?relName="+relName+"&status="+status+"&code="+code;
 			}
 		}
 		
@@ -62,8 +71,22 @@
   </head>
   
   <body>
+  <div class="margin-top-10 breadcrumbs ">
+      <div class="container">
+		   <ul class="breadcrumb margin-left-0">
+		   <li><a href="#">首页</a></li><li><a href="#">支撑环境</a></li><li><a href="#">成绩管理</a></li>
+		   </ul>
+		<div class="clear"></div>
+	  </div>
+   </div>
+   <div class="container">
+	   <div class="headline-v2">
+	   		<h2>查询条件</h2>
+	   </div>
+   </div>
+   
     <div class="container">
-    	<div class="border1 col-md-8">
+    	<div class="border1 col-md-12 ml30">
 	    	姓名:<input type="text" id="relName" name="relName" class="mt10"/>
 	    	试卷编号:<input type="text" id="code" name="code" class="mt10"/>
 	    	考试状态:<select name="status" id="status">
@@ -75,24 +98,43 @@
 	  		<button class="btn" type="button" onclick="reset()">重置</button>
     	</div>
     </div>
+    
     <div class="container">
-  		<div class="content">
+	   <div class="headline-v2">
+	   		<h2>采购人成绩列表</h2>
+	   </div>
+   	</div>
+    
+    <div class="container">
+  		<div class="content padding-left-25 padding-right-25 padding-top-5">
 	  		<table class="table table-bordered table-condensed">
 				<thead>
 					<tr>
-						<th class="info w100">序号</th>
-						<th class="info w100">采购人姓名</th>
-						<th class="info w100">试卷编号</th>
-					    <th class="info w100">考试时间</th>
-						<th class="info w100">得分</th>
-						<th class="info w100">考试状态</th>
+						<th class="info">序号</th>
+						<th class="info">采购人姓名</th>
+						<th class="info">身份证号</th>
+						<th class="info">试卷编号</th>
+					    <th class="info">考试时间</th>
+						<th class="info">得分</th>
+						<th class="info">考试状态</th>
 					</tr>
 				</thead>
-				<tbody id="purchaserResult">
-				
+				<tbody>
+					<c:forEach items="${purchaserResultList.list }" varStatus="vs" var="result">
+						<tr>
+							<td class="tc">${(vs.index+1)+(purchaserResultList.pageNum-1)*(purchaserResultList.pageSize)}</td>
+							<td class="tc">${result.relName }</td>
+							<td class="tc">${result.card }</td>
+							<td class="tc">${result.code }</td>
+							<td class="tc">${result.formatDate }</td>
+							<td class="tc">${result.score }</td>
+							<td class="tc">${result.status }</td>
+						</tr>
+					</c:forEach>
 				</tbody>
 			</table>
 		</div>
+		<div id="pageDiv" align="right"></div>
   	</div>
   </body>
 </html>

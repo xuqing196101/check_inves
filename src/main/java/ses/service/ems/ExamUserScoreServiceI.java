@@ -3,6 +3,7 @@
  */
 package ses.service.ems;
 
+import java.util.HashMap;
 import java.util.List;
 
 import ses.model.ems.ExamUserScore;
@@ -68,13 +69,13 @@ public interface ExamUserScoreServiceI {
      * 
     * @Title: selectExpertResultByCondition
     * @author ZhaoBo
-    * @date 2016-9-19 下午8:54:53  
-    * @Description: 专家考试成绩按条件查询 
-    * @param @param examUserScore
+    * @date 2016-9-23 下午4:08:52  
+    * @Description: 专家考试成绩按条件查询  
+    * @param @param map
     * @param @return      
     * @return List<ExamUserScore>
      */
-    List<ExamUserScore> selectExpertResultByCondition(ExamUserScore examUserScore);
+    List<ExamUserScore> selectExpertResultByCondition(HashMap<String,Object> map);
     
     /**
      * 
@@ -82,9 +83,9 @@ public interface ExamUserScoreServiceI {
     * @author ZhaoBo
     * @date 2016-9-22 上午11:13:51  
     * @Description: 采购人考试成绩按条件查询 
-    * @param @param examUserScore
+    * @param @param map
     * @param @return      
     * @return List<ExamUserScore>
      */
-    List<ExamUserScore> selectPurchaserResultByCondition(ExamUserScore examUserScore);
+    List<ExamUserScore> selectPurchaserResultByCondition(HashMap<String,Object> map);
 }

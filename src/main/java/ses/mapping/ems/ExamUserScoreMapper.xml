@@ -147,7 +147,7 @@
   </update>
   
   <!-- 专家成绩按条件查询 -->
-  <select id="selectExpertResultByCondition" parameterType="Object" resultMap="BaseExpertCondition">
+  <select id="selectExpertResultByCondition" parameterType="java.util.Map" resultMap="BaseExpertCondition">
   	SELECT
 		U.ID,
 		U.REL_NAME,
@@ -200,37 +200,43 @@
    		</association>
   </resultMap>
   
-  <select id="selectPurchaserResultByCondition" parameterType="Object" resultType="ses.model.ems.ExamUserScore">
+  <!-- 采购人考试成绩查询(包括按条件查询) -->
+  <select id="selectPurchaserResultByCondition" parameterType="java.util.Map" resultType="ses.model.ems.ExamUserScore">
   		SELECT
 			s.USER_ID AS userId,
 			s.SCORE AS score,
 			s.STATUS AS status,
-			P.CODE AS code,
+			d.CODE AS code,
+			d.CARD as card,
 			s.TEST_DATE AS testDate,
 			U.REL_NAME AS relName
 		FROM
 			T_SES_EMS_EXAM_USER_SCORE s,
-			T_SES_EMS_EXAM_PAPER P,
-			T_SES_BMS_USER U
-		<where>
-			s.PAPER_ID = P.ID
+			T_SES_BMS_USER U,
+			T_SES_EMS_EXAM_PAPER_USER D
+		WHERE
+			s.PAPER_ID = d.PAPER_ID
 			AND s.USER_ID = U.ID
-		<if test="relName != null and '' != relName">
-           <![CDATA[
-           	AND U.REL_NAME LIKE #{relName}
-           ]]>  
-        </if> 
-        <if test="status != null and '' != status">
-           <![CDATA[
-           	AND s.STATUS = #{status}
-           ]]>
-        </if> 
-        <if test="code != null and '' != code">
-           <![CDATA[
-           	AND P.CODE = #{code} 
-           ]]>
-        </if>
-		</where>
+			and d.USER_ID = U.id
+		<trim suffixOverrides=",">
+			<if test="relName != null and '' != relName">
+	           <![CDATA[
+	           	AND U.REL_NAME LIKE #{relName}
+	           ]]>  
+	        </if> 
+	        <if test="status != null and '' != status">
+	           <![CDATA[
+	           	AND s.STATUS = #{status}
+	           ]]>
+	        </if> 
+	        <if test="code != null and '' != code">
+	           <![CDATA[
+	           	AND P.CODE = #{code} 
+	           ]]>
+	        </if>
+		</trim>
+		
+		
   </select>
   
 </mapper>

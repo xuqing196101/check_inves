@@ -9,9 +9,11 @@
     <result column="UNIT_NAME" property="unitName"/>
     <result column="CREATED_AT" property="createdAt"/>
     <result column="UPDATED_AT" property="updatedAt"/>
+    <result column="CARD" property="card"/>
+    <result column="CODE" property="code"/>
   </resultMap>
   <sql id="Base_Column_List">
-    ID, USER_ID, PAPER_ID, IS_DO,UNIT_NAME,CREATED_AT,UPDATED_AT
+    ID, USER_ID, PAPER_ID, IS_DO,UNIT_NAME,CREATED_AT,UPDATED_AT,CARD,CODE
   </sql>
   
   <!-- 根据主键查询 参考人员-->
@@ -56,6 +58,12 @@
       <if test="unitName != null">
         UNIT_NAME,
       </if>
+      <if test="card != null">
+        CARD,
+      </if>
+      <if test="code != null">
+        CODE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -78,6 +86,12 @@
       </if>
       <if test="unitName != null">
         #{unitName},
+      </if>
+      <if test="card != null">
+        #{card},
+      </if>
+      <if test="code != null">
+        #{code},
       </if>
     </trim>
   </insert>
@@ -104,18 +118,25 @@
       <if test="unitName != null">
         UNIT_NAME = #{unitName},
       </if>
+      <if test="card != null">
+        CARD = #{card},
+      </if>
+      <if test="code != null">
+        CODE = #{code},
+      </if>
     </set>
     where ID = #{id}
   </update>
   
   <!-- 根据考卷ID查找参考人员 -->
-  <select id="getAllByPaperId" parameterType="Object" resultType="ses.model.ems.ExamPaperUser">
+  <select id="getAllByPaperId" parameterType="java.util.Map" resultType="ses.model.ems.ExamPaperUser">
 	  	SELECT
 			U.REL_NAME as userName,
 			P.ID as id,
 			P.USER_ID as userId,
 			P.UNIT_NAME as unitName,
-			D.code as code
+			D.code as code,
+			P.CARD as card
 		FROM
 			T_SES_EMS_EXAM_PAPER_USER P
 		LEFT JOIN T_SES_BMS_USER U ON P.USER_ID = U.ID
@@ -132,7 +153,8 @@
   			ID as id,
   			USER_ID as userId,
   			PAPER_ID as paperId,
-  			UNIT_NAME as unitName
+  			UNIT_NAME as unitName,
+  			CARD as card
   		FROM
   			T_SES_EMS_EXAM_PAPER_USER
   		WHERE
@@ -140,12 +162,34 @@
   </select>
   
   <!-- 查看已考考卷的参考人员信息 -->
-  <select id="selectPurchaserYesReference" parameterType="Object" resultType="ses.model.ems.ExamPaperUser">
+  <select id="selectPurchaserYesReference" parameterType="java.util.Map" resultType="ses.model.ems.ExamPaperUser">
   		SELECT
 			U.REL_NAME as userName,
 			D.CODE as code,
 			P.UNIT_NAME as unitName,
-			s.SCORE as score
+			s.SCORE as score,
+			P.CARD as card
+		FROM
+			T_SES_EMS_EXAM_USER_SCORE s,
+			T_SES_EMS_EXAM_PAPER_USER P,
+			T_SES_EMS_EXAM_PAPER D,
+			T_SES_BMS_USER U
+		WHERE
+			P.USER_ID = U.ID
+		AND P.PAPER_ID = D.ID
+		AND s.PAPER_ID = D.ID
+		AND s.USER_ID = P.USER_ID
+		AND P.PAPER_ID = #{paperId}
+  </select>
+  
+  <!-- 打印预览已考考卷的参考人员信息 -->
+  <select id="selectPrintYesReference" parameterType="Object" resultType="ses.model.ems.ExamPaperUser">
+  		SELECT
+			U.REL_NAME as userName,
+			D.CODE as code,
+			P.UNIT_NAME as unitName,
+			s.SCORE as score,
+			P.CARD as card
 		FROM
 			T_SES_EMS_EXAM_USER_SCORE s,
 			T_SES_EMS_EXAM_PAPER_USER P,

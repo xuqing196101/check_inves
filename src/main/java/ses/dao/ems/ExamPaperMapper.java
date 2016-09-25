@@ -70,7 +70,7 @@ public interface ExamPaperMapper {
     * @param @return      
     * @return List<ExamPaper>
      */
-    List<ExamPaper> queryAllPaper();
+    List<ExamPaper> queryAllPaper(ExamPaper examPaper,Integer pageNum);
     
     /**
      * 

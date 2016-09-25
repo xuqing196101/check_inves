@@ -18,27 +18,31 @@
 	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript">
 		$(function(){
-			$.ajax({
-				type:"POST",
-				dataType:"json",
-				url:"<%=path%>/purchaserExam/getAllPurchaserQuestion.do",
-	       		success:function(data){
-	       			if(data){
-	       				var html = "";
-	       				for(var i=0;i<data.length;i++){
-	       			      html = html + "<tr>";
-		            	  html = html + "<td class='tc'><input type='checkbox' name='info' value='"+data[i].id+"'/></td>";
-		            	  html = html + "<td class='tc pointer' onclick='view(\""+data[i].id+"\")'>"+data[i].examQuestionType.name+"</td>";
-		            	  html = html + "<td class='tc pointer' onclick='view(\""+data[i].id+"\")'>"+data[i].topic+"</td>";
-		            	  html = html + "<td class='tc pointer' onclick='view(\""+data[i].id+"\")'>"+data[i].items+"</td>";
-		            	  html = html + "<td class='tc pointer' onclick='view(\""+data[i].id+"\")'>"+data[i].answer+"</td>";
-		            	  html = html + "<td class='tc pointer' onclick='view(\""+data[i].id+"\")'>"+data[i].point+"</td>";
-		            	  html = html + "</tr>";
-						}
-	       				$("#resultList").html(html);
-					}
+			$("#topic").val("${topic}");
+			var type_options = document.getElementById("questionTypeId").options;
+			for(var i=0;i<type_options.length;i++){
+				if($(type_options[i]).attr("value")=="${questionTypeId}"){
+					type_options[i].selected=true;
 				}
-			});
+			}
+			laypage({
+			    cont: $("#pageDiv"), //容器。值支持id名、原生dom对象，jquery对象,
+			    pages: "${purchaserQuestionList.pages}", //总页数
+			    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+			    skip: true, //是否开启跳页
+			    groups: "${purchaserQuestionList.pages}">=3?3:"${purchaserQuestionList.pages}", //连续显示分页数
+			    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+			        var page = location.search.match(/page=(\d+)/);
+			        return page ? page[1] : 1;
+			    }(), 
+			    jump: function(e, first){ //触发分页后的回调
+			        if(!first){ //一定要加此判断，否则初始时会无限刷新
+			        	var topic = "${topic}";
+						var questionTypeId = "${questionTypeId}";
+			            location.href = "<%=path%>/purchaserExam/purchaserList.do?topic="+topic+"&questionTypeId="+questionTypeId+"&page="+e.curr;
+			        }
+			    }
+			});		
 		})
 	
 		//采购人新增题库
@@ -103,7 +107,7 @@
 			       	success:function(data){
 			       		layer.msg('删除成功',{offset: ['222px', '390px']});
 				       	window.setTimeout(function(){
-				       		window.location.href="<%=path%>/purchaserExam/purchaserList.html";
+				       		window.location.reload();
 				       	}, 1000);
 			       	}
 			    });
@@ -112,54 +116,15 @@
 		
 		//按条件查询采购人题库
 		function query(){
-			var queName = $("#queName").val();
-			var queType = $("#queType").val();
-			if((queName==""||queName==null)&&(queType==""||queType==null)){
-				$.ajax({
-					type:"POST",
-					dataType:"json",
-					url:"<%=path%>/purchaserExam/getAllPurchaserQuestion.do",
-		       		success:function(data){
-		       			if(data){
-		       				var html = "";
-		       				for(var i=0;i<data.length;i++){
-		       			      html = html + "<tr>";
-			            	  html = html + "<td class='tc'><input type='checkbox' name='info' value='"+data[i].id+"'/></td>";
-			            	  html = html + "<td class='tc pointer' onclick='view(\""+data[i].id+"\")'>"+data[i].examQuestionType.name+"</td>";
-			            	  html = html + "<td class='tc pointer' onclick='view(\""+data[i].id+"\")'>"+data[i].topic+"</td>";
-			            	  html = html + "<td class='tc pointer' onclick='view(\""+data[i].id+"\")'>"+data[i].items+"</td>";
-			            	  html = html + "<td class='tc pointer' onclick='view(\""+data[i].id+"\")'>"+data[i].answer+"</td>";
-			            	  html = html + "<td class='tc pointer' onclick='view(\""+data[i].id+"\")'>"+data[i].point+"</td>";
-			            	  html = html + "</tr>";
-							}
-		       				$("#resultList").html(html);
-						}
-					}
-				});
+			var topic = $("#topic").val();
+			var questionTypeId = $("#questionTypeId").val();
+			if((topic==""||topic==null)&&(questionTypeId==""||questionTypeId==null)){
+				window.location.href = "<%=basePath%>purchaserExam/purchaserList.do";
 				return;
+			}else{
+				window.location.href = "<%=basePath%>purchaserExam/purchaserList.do?topic="+topic+"&questionTypeId="+questionTypeId;
 			}
-			$.ajax({
-				type:"POST",
-				dataType:"json",
-				url:"<%=basePath%>purchaserExam/queryPurchaser.do?queName="+queName+"&queType="+queType,
-	       		success:function(data){
-	       			if(data){
-	       				var html = "";
-		            	for(var i=0;i<data.length;i++){
-		            	  html = html + "<tr>";
-		            	  html = html + "<td class='tc'><input type='checkbox' name='info' value='"+data[i].id+"'/></td>";
-		            	  html = html + "<td class='tc pointer' onclick='view(\""+data[i].id+"\")'>"+data[i].examQuestionType.name+"</td>";
-		            	  html = html + "<td class='tc pointer' onclick='view(\""+data[i].id+"\")'>"+data[i].topic+"</td>";
-		            	  html = html + "<td class='tc pointer' onclick='view(\""+data[i].id+"\")'>"+data[i].items+"</td>";
-		            	  html = html + "<td class='tc pointer' onclick='view(\""+data[i].id+"\")'>"+data[i].answer+"</td>";
-		            	  html = html + "<td class='tc pointer' onclick='view(\""+data[i].id+"\")'>"+data[i].point+"</td>";
-		            	  html = html + "</tr>";
-		            	}
-		            	$("#resultList").html(html);
-	       			}
-	       		}
-	       	});
-		}
+		}	
 		
 		//全选方法
 		function selectAll(){
@@ -192,10 +157,16 @@
 			}); 
 		}
 		
+		//下载模板
+		function download(){
+			window.location.href = "<%=path%>/purchaserExam/loadPurchaserTemplet.html";
+		}
+		
 		//重置方法
 		function reset(){
-			$("#queName").val("");
-			$("#queType").val("");
+			$("#topic").val("");
+			var questionTypeId = document.getElementById("questionTypeId").options;
+			questionTypeId[0].selected=true;
 		}
 		
 		//查看采购人题库
@@ -207,10 +178,23 @@
   </head>
   
   <body>
+  <div class="margin-top-10 breadcrumbs ">
+      <div class="container">
+		   <ul class="breadcrumb margin-left-0">
+		   <li><a href="#">首页</a></li><li><a href="#">支撑环境</a></li><li><a href="#">题库管理</a></li>
+		   </ul>
+		<div class="clear"></div>
+	  </div>
+   </div>
+   <div class="container">
+	   <div class="headline-v2">
+	   		<h2>查询条件</h2>
+	   </div>
+   </div>
     <div class="container">
-    	<div class="border1 col-md-5 ml30">
-	    	名称:<input type="text" id="queName" class="mt10"/>
-	    	题型:<select id="queType">
+    	<div class="border1 col-md-12 ml30">
+	    	名称:<input type="text" id="topic" class="mt10"/>
+	    	题型:<select id="questionTypeId">
 	    		<option value="">请选择</option>
 	    		<option value="1">单选题</option>
 	    		<option value="2">多选题</option>
@@ -221,33 +205,51 @@
     	</div>
     </div>
     <div class="container">
+	   <div class="headline-v2">
+	   		<h2>采购人题库列表</h2>
+	   </div>
+   </div>
+    <div class="container">
     	<div class="col-md-12 mt0">
-	    	<input type="button" class="btn btn-windows add" value="新增题目" onclick="add()"/>
+	    	<input type="button" class="btn btn-windows add" value="新增" onclick="add()"/>
 	    	<input type="button" class="btn btn-windows edit" value="修改" onclick="edit()"/>
 	    	<input type="button" class="btn btn-windows delete" value="删除" onclick="deleteById()"/>
-	    	<input type="file" name="file" id="excelFile" style="display:inline;"/>
-	    	<input type="button" value="导入" class="btn btn-windows pl13" onclick="poiExcel()"/>
+	    	<div class="fr mt15">
+	    		<button class="btn" type="button" onclick="download()">题目模板下载</button>
+	    		<span class="">
+		    	  	<input type="file" name="file" id="excelFile" style="display:inline;"/>
+		    	  	<input type="button" value="导入" class="btn " onclick="poiExcel()"/>
+	    	  	</span>
+	    	</div>
     	</div>
     </div>
     
-    <div class="container margin-top-5">
+    <div class="container">
      	<div class="content padding-left-25 padding-right-25 padding-top-5">
    		<table class="table table-bordered table-condensed">
 	    	<thead>
-	    		<tr>
-		    		<th class="info"><input type="checkbox" id="selectAll" onclick="selectAll()"/></th>
-		    		<th class="info">题型</th>
-		    		<th class="info">题干</th>
-		    		<th class="info">选项</th>
-		    		<th class="info">答案</th>
-		    		<th class="info">分值</th>
-	    		</tr>
+		    	<th class="info"><input type="checkbox" id="selectAll" onclick="selectAll()"/></th>
+		    	<th class="info">序号</th>
+		    	<th class="info">题型</th>
+		    	<th class="info">题干</th>
+		    	<th class="info">选项</th>
+		    	<th class="info">答案</th>
 	    	</thead>
-	    	<tbody id="resultList">
-	    		
+	    	<tbody>
+	    		<c:forEach items="${purchaserQuestionList.list }" var="purchaser" varStatus="vs">
+	    			<tr>
+	    				<td class="tc"><input type="checkbox" name="info" value="${purchaser.id }"/></td>
+	    				<td class="tc pointer" onclick="view('${purchaser.id }')">${(vs.index+1)+(purchaserQuestionList.pageNum-1)*(purchaserQuestionList.pageSize)}</td>
+	    				<td class="tc pointer" onclick="view('${purchaser.id }')">${purchaser.examQuestionType.name }</td>
+	    				<td class="tc pointer" onclick="view('${purchaser.id }')">${purchaser.topic }</td>
+	    				<td class="tc pointer" onclick="view('${purchaser.id }')">${purchaser.items }</td>
+	    				<td class="tc pointer" onclick="view('${purchaser.id }')">${purchaser.answer }</td>
+	    			</tr>
+	    		</c:forEach>
 	    	</tbody>
     	</table>
     	</div>
+    	<div id="pageDiv" align="right"></div>
     </div>
   </body>
 </html>

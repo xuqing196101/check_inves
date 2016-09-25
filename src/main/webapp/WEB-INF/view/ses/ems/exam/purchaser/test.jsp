@@ -12,8 +12,13 @@
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	<script type="text/javascript">
+		var retake;
+		
 		$(function(){
-			document.getElementById("second").innerHTML = 2 + "分钟" + 0 + "秒"; 
+			if("${time}"){
+				retake = $("#retake").val();
+			}
+			document.getElementById("second").innerHTML = "${examPaper.testTime}" + "分钟" + 0 + "秒"; 
 			var exam = document.getElementsByName("exam");
        		for(var i=1;i<=exam.length;i++){
        			if(i==1){
@@ -21,8 +26,11 @@
        			}else{
        				$("#pageNum"+i).hide();
        			}
-       			
        		}
+       		if("${time}"){
+       			countReTakeTime();
+       		}
+       		
 		})
 		
 		
@@ -39,18 +47,39 @@
         }
 		
 		//考试倒计时
-        var timeLeft = 2*60*1000-1000;//这里设定时间
+        var timeLeft = "${examPaper.testTime}"*60*1000-1000;//这里设定考试用时
 		function countTime(){ 
-		     if(timeLeft == 0){//这里就是时间到了之后应该执行的动作了，这里只是弹了一个警告框 
-		         alert("123"); 
-		         return; 
+		     if(timeLeft == 0){//时间到了,系统自动提交
+		    	if("${time}"){
+		        	$("#form").attr("action","<%=path %>/purchaserExam/savePurchaserScore.do?time="+retake);
+		        	$("#form").submit();
+		        }else{
+		        	$("#form").submit();
+		        }
+		        return; 
 		     }
 		     var startMinutes = parseInt(timeLeft / (60 * 1000), 10); 
 		     var startSec = parseInt((timeLeft - startMinutes * 60 * 1000)/1000); 
 		     document.getElementById("second").innerHTML = startMinutes + "分钟" + startSec + "秒"; 
 		     timeLeft = timeLeft - 1000; 
 		     setTimeout('countTime()',1000); 
-		 } 
+		} 
+        
+        //计时重考的时间
+        function countReTakeTime(){
+    		retake = parseInt(retake,10) - 1000; 
+    		setTimeout('countReTakeTime()',1000);
+        }
+        
+        //提交方法
+        function git(){
+        	if("${time}"){
+        		$("#form").attr("action","<%=path %>/purchaserExam/savePurchaserScore.do?time="+retake);
+        		$("#form").submit();
+        	}else{
+        		$("#form").submit();
+        	}
+        }
 	</script>
 	
 	
@@ -62,7 +91,7 @@
   	<div class="fl f18 gary b">XXX考试进行中</div>
   	<div class="fr red mt5" id="time">距离考试还有<span id="second"></span></div>
   </div>
-  <form action="<%=path %>/purchaserExam/savePurchaserScore.html" method="post">
+  <form action="<%=path %>/purchaserExam/savePurchaserScore.html" method="post" id="form">
   <c:choose>
   	<c:when test="${pageSize==1 }">
 	  <table class="clear table table-bordered table-condensed" id="pageNum1" name="exam">
@@ -96,7 +125,7 @@
 	    </tbody>
 	  </table>
 	  	<div class="col-md-12 tc">
-	    	<button class="btn btn-windows save" type="submit">提交</button>
+	    	<button class="btn" type="button" onclick="git()">提交</button>
 	  	</div>
   </c:when>
 	  <c:otherwise>
@@ -174,7 +203,7 @@
 		    </table>
 		     	<div class="col-md-12 tc">
 			    	<button class="btn" type="button" onclick="setTab(${p.index})">上一页</button>
-    				<button class="btn" type="submit">提交</button>
+    				<button class="btn" type="button" onclick="git()">提交</button>
   				</div>
   				</div>
 		    </c:when>
@@ -222,13 +251,14 @@
 	</c:choose>  
 	
 	
-	
+	<c:if test="${time!=null&&time!='' }">
+		<input type="hidden" value="${time }" name="time" id="retake"/>
+	</c:if>
   			
   	<input type="hidden" value="${purQueAnswer }" name="purQueAnswer"/>
   	<input type="hidden" value="${paperId }" name="paperId"/>
   	<input type="hidden" value="${purQueType }" name="purQueType"/>
   	<input type="hidden" value="${purQueId }" name="purQueId"/>
-  	<input type="hidden" value="${count }" name="count"/>
   	</form>
   </body>
 </html>

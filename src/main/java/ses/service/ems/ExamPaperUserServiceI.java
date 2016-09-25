@@ -3,6 +3,7 @@
  */
 package ses.service.ems;
 
+import java.util.HashMap;
 import java.util.List;
 
 import ses.model.ems.ExamPaperUser;
@@ -67,12 +68,12 @@ public interface ExamPaperUserServiceI {
 	* @Title: getAllByPaperId
 	* @author ZhaoBo
 	* @date 2016-9-21 上午10:59:57  
-	* @Description: 根据考试ID查找参考人员 
+	* @Description: 根据考试编号查找参考人员 
 	* @param @param examPaperUser
 	* @param @return      
 	* @return List<ExamPaperUser>
 	 */
-	List<ExamPaperUser> getAllByPaperId(ExamPaperUser examPaperUser);
+	List<ExamPaperUser> getAllByPaperId(HashMap<String,Object> map);
 	
 	/**
 	 * 
@@ -96,5 +97,17 @@ public interface ExamPaperUserServiceI {
 	* @param @return      
 	* @return List<ExamPaperUser>
 	 */
-	List<ExamPaperUser> selectPurchaserYesReference(ExamPaperUser examPaperUser);
+	List<ExamPaperUser> selectPurchaserYesReference(HashMap<String,Object> map);
+	
+	/**
+	 * 
+	* @Title: selectPrintYesReference
+	* @author ZhaoBo
+	* @date 2016-9-24 上午11:14:52  
+	* @Description: 打印预览已考考卷的参考人员信息 
+	* @param @param examPaperUser
+	* @param @return      
+	* @return List<ExamPaperUser>
+	 */
+	List<ExamPaperUser> selectPrintYesReference(ExamPaperUser examPaperUser);
 }

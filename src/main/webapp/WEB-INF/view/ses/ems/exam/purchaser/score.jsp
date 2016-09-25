@@ -1,6 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ include file="/WEB-INF/view/common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -16,7 +15,25 @@
 	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
 	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript">
-		var count = parseInt("${count}");	
+		var count = parseInt("${count}");
+		
+		if("${time}"){
+			var timeLeft = "${time}";
+		}else{
+			var timeLeft = 30*60*1000-1000;//这里设定的时间是30分钟 
+		}
+		function countTime(){
+		    if(timeLeft<=0){
+		    	$("#reTake").hide();
+		    	$("#div_time").hide();
+		        return; 
+		    } 
+		    var startMinutes = parseInt(timeLeft / (60 * 1000), 10); 
+		    var startSec = parseInt((timeLeft - startMinutes * 60 * 1000)/1000); 
+		    document.getElementById("time").innerHTML = startMinutes + "分钟" + startSec + "秒"; 
+		    timeLeft = timeLeft - 1000;
+		    setTimeout('countTime()',1000); 
+		 }
 		
 		$(function(){
 			$("#reTake").hide();
@@ -24,37 +41,41 @@
 			var isAllowRetake = "${isAllowRetake}";
 			if(score < 60&&isAllowRetake == 1){
 				$("#reTake").show();
+				$("#div_time").show();
+			}else if(score >= 60){
+				$("#reTake").hide();
+				$("#div_time").hide();
+			}else{
+				$("#div_time").hide();
 			}
 		})
 		
 		//重考方法
 		function reTake(){
-			layer.confirm('您确定要重考吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+			layer.confirm('您确定现在重考吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
 				var paperId = "${paperId}";
-				count = count+1;
-				alert(count);
-				if(count==1){
-					alert(12);
-					window.location.href = "<%=path%>/purchaserExam/reTake.html?paperId="+paperId+"&count="+count;
-				}else{
-					alert(23);
-					window.location.href = "<%=path%>/purchaserExam/reTakes.html?paperId="+paperId+"&count="+count;
-				}
-				
+				window.location.href = "<%=path%>/purchaserExam/reTake.html?paperId="+paperId+"&time="+timeLeft;
 			});
 		}
 	</script>
 	
   </head>
   
-  <body>
+  <body onload="countTime()">
   
   		<div class="container tc border1">
   			<div id="isPass" class="f18"></div>
   			<div><span class="f14">得分:</span><span class="f22">${score }</span><span class="f14">分</span></div>
   			<div class="f18 mt10">感谢您的参与!</div>
   			<input type="button" value="重考" class="btn" onclick="reTake()" id="reTake"/>
+  		</div>
+  		
+  		<div class="container tc" id="div_time">
+  			<div id="ready">
+  				重考剩余时间
+  			</div>
+  			<div id="time"></div>
   		</div>
   </body>
 </html>

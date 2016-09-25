@@ -175,6 +175,7 @@
 	AND E.QUESTION_TYPE_ID = T.ID
 	AND E.QUESTION_TYPE_ID IN (1,2)
 	ORDER BY
+	 	E.QUESTION_TYPE_ID ASC,
 		E.CREATED_AT DESC
   </select>
   
@@ -197,6 +198,7 @@
 	AND E.QUESTION_TYPE_ID = T.ID
 	AND E.QUESTION_TYPE_ID IN (1,2)
 	ORDER BY
+		E.QUESTION_TYPE_ID ASC,
 		E.CREATED_AT DESC
   </select>
   
@@ -219,6 +221,7 @@
 		AND E.QUESTION_TYPE_ID = T.ID
 		AND E.QUESTION_TYPE_ID IN (1,2)
 		ORDER BY
+			E.QUESTION_TYPE_ID ASC,
 			E.CREATED_AT DESC
   </select>
   
@@ -328,7 +331,7 @@
   </select>
   
   <!-- 采购人根据条件查询题目 -->
-  <select id="queryPurchaserByTerm" parameterType="Object" resultMap="BaseColumn">
+  <select id="queryPurchaserByTerm" parameterType="java.util.Map" resultMap="BaseColumn">
   		SELECT
 			E.ID,
 			E.TOPIC,
@@ -345,7 +348,7 @@
 			AND E.PERSON_TYPE = 2
             <if test="topic != null and '' != topic">
             	<![CDATA[
-               	 AND E.TOPIC LIKE #{topic}
+               	AND E.TOPIC LIKE #{topic}
                  ]]>  
             </if> 
             <if test="questionTypeId != null and '' != questionTypeId">
@@ -355,6 +358,7 @@
             </if> 
         </where>
         ORDER BY
+        	E.QUESTION_TYPE_ID ASC,
         	E.CREATED_AT DESC
   </select> 
   
@@ -441,29 +445,5 @@
 		WHERE
 			ROWNUM &lt;= #{judgeNum}
   </select>
-  
-  <select id="selectAllContent" resultMap="BaseResultMap">
-  		select * from T_SES_EMS_EXAM_QUESTION 
-  </select>
-  
-  <!-- 查询所有的采购人题目 -->
-  <select id="getAllPurchaserQuestion" resultMap="BaseColumn">
-  		SELECT
-			E.ID,
-			E.TOPIC,
-			E.ITEMS,
-			E.ANSWER,
-			E.POINT,
-			E.CREATED_AT,
-			T.NAME
-		FROM
-			T_SES_EMS_EXAM_QUESTION E,
-			T_SES_EMS_EXAM_QUESTION_TYPE T
-		WHERE
-			E.PERSON_TYPE = 2
-		AND E.QUESTION_TYPE_ID = T.ID
-		AND E.QUESTION_TYPE_ID IN (1,2,3)
-		ORDER BY
-			E.CREATED_AT DESC
-  </select>
+
 </mapper>
