@@ -21,9 +21,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.model.bms.PreMenu;
 import ses.model.bms.Role;
+import ses.model.bms.RolePreMenu;
 import ses.model.bms.User;
+import ses.model.bms.UserPreMenu;
 import ses.service.bms.PreMenuServiceI;
 import ses.service.bms.RoleServiceI;
+import ses.service.bms.UserServiceI;
 import ses.util.JsonDateValueProcessor;
 
 
@@ -44,6 +47,9 @@ public class PreMenuController {
 
 	@Autowired
 	private PreMenuServiceI preMenuService;
+	
+	@Autowired
+	private UserServiceI userService; 
 
 	@Autowired
 	private RoleServiceI roleService;
@@ -281,6 +287,14 @@ public class PreMenuController {
 		String[] idarry = ids.split(",");
 		for (String id : idarry) {
 			preMenuService.delete(id);
+			//同时删除用户-权限，角色-权限关联数据
+			PreMenu menu = new PreMenu();
+			menu.setId(id);
+			UserPreMenu userPreMenu = new UserPreMenu(); 
+			userPreMenu.setPreMenu(menu);
+			userService.deleteUserMenu(userPreMenu);
+			RolePreMenu rolePreMenu = new RolePreMenu();
+			roleService.deleteRoelMenu(rolePreMenu);
 		}
 		return "redirect:list.html";
 	}

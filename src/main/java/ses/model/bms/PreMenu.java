@@ -1,5 +1,6 @@
 package ses.model.bms;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -10,9 +11,11 @@ import java.util.List;
  * @version 2016-9-13
  * @since JDK1.7
  */
-public class PreMenu {
+public class PreMenu implements Serializable{
 	
-    /** 主键 */
+	private static final long serialVersionUID = 1L;
+
+	/** 主键 */
     private String id;
 
     /** 名称 */

@@ -1,5 +1,6 @@
 package ses.model.bms;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -12,9 +13,12 @@ import ses.model.oms.Orgnization;
  * @version 2016-9-13
  * @since JDK1.7
  */
-public class User {
+public class User implements Serializable{
 	
-    /** 主键 */
+    /** todo */
+	private static final long serialVersionUID = 1L;
+
+	/** 主键 */
     private String id;
 
     /** 用户名 */

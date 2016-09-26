@@ -159,7 +159,7 @@ public class UserManageController {
 	 */
 	@RequestMapping("/save")
 	public String save(HttpServletRequest request, Model model, User user,
-			String roleId) {
+			String roleId, String orgId) {
 		String loginName = user.getLoginName();
 		List<User> users = userService.findByLoginName(user.getLoginName());
 		String password2 = request.getParameter("password2");
@@ -196,6 +196,15 @@ public class UserManageController {
 		} else {
 			User currUser = (User) request.getSession().getAttribute(
 					"loginUser");
+			//机构
+			if(orgId != null && !"".equals(orgId)){
+				HashMap<String, Object> orgMap = new HashMap<String, Object>();
+				orgMap.put("id", orgId);
+				List<Orgnization> olist = orgnizationService.findOrgnizationList(orgMap);
+				user.setOrg(olist.get(0));
+			}else{
+				user.setOrg(null);
+			}
 			userService.save(user, currUser);
 
 			if(roleId != null && !"".equals(roleId)){
