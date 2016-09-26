@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.model.sms.Supplier;
@@ -205,7 +204,7 @@ public class SupplierAuditController {
 	@RequestMapping("reasonsList")
 	public String reasonsList(HttpServletRequest request,SupplierAudit supplierAudit){
 		String supplierId = supplierAudit.getSupplierId();
-		List reasonsList = supplierAuditService.selectByPrimaryKey(supplierId);
+		List<SupplierAudit> reasonsList = supplierAuditService.selectByPrimaryKey(supplierId);
 		request.getSession().getAttribute("status");
 		request.setAttribute("supplierId", supplierId);
 		request.setAttribute("reasonsList", reasonsList);

@@ -200,7 +200,7 @@ function shenhe(status){
 	                    <ul class="list-unstyled list-flow">
 		                    <li class="col-md-6 p0 "><span class="" id="bankAccount2">${list.auditField}：</span>
 		                      <div class="input-append">
-		                        <input class="span3" id="bankAccount3" value="${list.suggest } " type="text">
+		                        <a class="span3" id="bankAccount3"  type="text">${list.suggest}</a>
 		                      </div>
 		                    </li>
 	                    </ul>
@@ -216,13 +216,12 @@ function shenhe(status){
                     <c:if test="${status==0 }">
                       <input class="btn padding-left-20 padding-right-20 btn_back"  type="button" onclick="shenhe(1)" value="初审通过 ">
                       <input class="btn padding-left-20 padding-right-20 btn_back"  type="button" onclick="shenhe(2)" value="初审不通过">
-                      <input class="btn padding-left-20 padding-right-20 btn_back"  type="button" value="完成">
                     </c:if>
                     <c:if test="${status==1 }">
                       <input class="btn padding-left-20 padding-right-20 btn_back"  type="button" onclick="shenhe(3)" value="复审通过 ">
-                      <input class="btn padding-left-20 padding-right-20 btn_back"  type="button" onclick="shenhe(4)" value="复审不通过">
-                      <input class="btn padding-left-20 padding-right-20 btn_back"  type="button" value="完成">
+                      <input class="btn padding-left-20 padding-right-20 btn_back"  type="button" onclick="shenhe(4)" value="复审不通过"> 
                     </c:if>
+                    <input class="btn padding-left-20 padding-right-20 btn_back" onclick="location='<%=basePath%>supplierAudit/daiban.html'" type="button"  value="完成">
                     </div>
                   </div>
                 </form>

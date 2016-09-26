@@ -113,7 +113,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript">
 function reason(id){
   var supplierId=$("#id").val();
-  var id1=id+"1"; //审批的字段
+  var id1=id+"1";
   var id2=id+"2";
   var id3=id+"3";
   var auditField=$("#"+id2+"").text().replaceAll("＊","").replaceAll("：",""); //审批的字段名字
