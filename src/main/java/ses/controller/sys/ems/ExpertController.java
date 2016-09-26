@@ -1,6 +1,5 @@
 package ses.controller.sys.ems;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,13 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,27 +27,33 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.pagehelper.PageInfo;
 
+import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
+import ses.model.ems.ExpertAudit;
 import ses.model.oms.PurchaseDep;
+import ses.service.bms.TodosService;
 import ses.service.bms.UserServiceI;
+import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
-import ses.util.Encrypt;
 import ses.util.WfUtil;
 import ses.util.WordUtil;
 
 
 @Controller
-@Scope(value="prototype")
 @RequestMapping("/expert")
 public class ExpertController {
 	@Autowired
-	private UserServiceI userService;
+	private UserServiceI userService;//用户管理
 	@Autowired
-	private ExpertService service;
+	private ExpertService service;//专家管理
 	@Autowired
-	PurchaseOrgnizationServiceI purchaseOrgnizationService;
+	private PurchaseOrgnizationServiceI purchaseOrgnizationService;//采购机构管理
+	@Autowired
+	private TodosService toDosService;//待办管理
+	@Autowired
+	private ExpertAuditService expertAuditService;
 	/**
 	 * 
 	  * @Title: toExpert
@@ -66,6 +66,23 @@ public class ExpertController {
 	@RequestMapping(value="/toExpert")
 	public String toExpert(){
 		return "ses/ems/expert/expertRegister";
+	}
+	
+	@RequestMapping("/view")
+	public String view(@RequestParam("id")String id,Model model){
+		//查询出专家
+		Expert expert = service.selectByPrimaryKey(id);
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("id", expert.getPurchaseDepId());
+		//查询出采购机构
+		List<PurchaseDep> depList = purchaseOrgnizationService.findPurchaseDepList(map);
+		if(depList!=null && depList.size()>0){
+			PurchaseDep purchaseDep = depList.get(0);
+			model.addAttribute("purchase", purchaseDep);
+		}
+		model.addAttribute("expert", expert);
+		
+		return "ses/ems/expert/view";
 	}
 	
 	/**
@@ -179,6 +196,14 @@ public class ExpertController {
 	@RequestMapping("/toShenHe")
 	public String toShenHe(@RequestParam("id") String id,HttpServletRequest request,HttpServletResponse response,  Model model){
 		Expert expert = service.selectByPrimaryKey(id);
+		//查询出采购机构
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("id", expert.getPurchaseDepId());
+		List<PurchaseDep> depList = purchaseOrgnizationService.findPurchaseDepList(map);
+		  if(depList!=null && depList.size()>0){
+			PurchaseDep purchaseDep = depList.get(0);
+			model.addAttribute("purchase", purchaseDep);
+		  }
 		request.setAttribute("expert", expert);
 		return "ses/ems/expert/shenHe";
 	}
@@ -187,15 +212,21 @@ public class ExpertController {
 	  * @Title: shenhe
 	  * @author lkzx 
 	  * @date 2016年9月5日 下午2:12:19  
-	  * @Description: TODO 审核专家信息
+	  * @Description: TODO 执行审核专家信息
 	  * @param @return      
 	  * @return String
 	 */
 	@RequestMapping("/shenhe")
-	public String shenhe(@RequestParam("isPass")String isPass, Expert expert,@RequestParam("remark")String remark){
+	public String shenhe(@RequestParam("isPass")String isPass, Expert expert,@RequestParam("remark")String remark,HttpSession session){
+		//当前登录用户
+		User user = (User)session.getAttribute("loginUser");
+		//专家状态修改
 		expert.setStatus(isPass);
+		//审核信息增加
+		expertAuditService.auditExpert(expert, remark, user);
+		//执行修改
 		service.updateByPrimaryKeySelective(expert);
-		return "redirect:findAllExpert.html";
+		return "redirect:toBackLog.html";
 	}
 	/**
 	 * 
@@ -222,9 +253,6 @@ public class ExpertController {
 			//修改时间
 			expert.setUpdatedAt(new Date());
 			service.updateByPrimaryKeySelective(expert);
-			//查询出所有信息放进model中
-			Expert expert2 = service.selectByPrimaryKey(expert.getId());
-			model.addAttribute("expert", expert2);
 		return "redirect:findAllExpert.html";
 		}else{
 			//重复提交  这里未做重复提醒，只是不重复修改
@@ -285,13 +313,23 @@ public class ExpertController {
 			expert.setId(expertId);
 			//已提交
 			expert.setIsSubmit("1");
+			//创建时间
+			expert.setCreatedAt(new Date());
 			//修改时间
 			expert.setUpdatedAt(new Date());
 			//执行保存
 			service.insertSelective(expert);
-			//查询出所有信息放进model中
-			Expert expert2 = service.selectByPrimaryKey(expert.getId());
-			model.addAttribute("expert", expert2); 
+			//发送待办
+			Todos todos = new Todos();
+			todos.setCreatedAt(new Date());
+			todos.setIsDeleted((short)0);
+			todos.setIsFinish((short)0);
+			todos.setName("评审专家注册");
+			todos.setReceiverId(expert.getPurchaseDepId());
+			todos.setSenderId(expert.getId());
+			todos.setUndoType((short)2);
+			todos.setUrl("expert/toShenHe?id="+expert.getId());
+			toDosService.insert(todos );
 		return "redirect:/";
 		}else{
 			//重复提交  这里未做重复提醒，只是不重复增加
@@ -338,7 +376,7 @@ public class ExpertController {
 	  * @Title: findAllExpertShenHe
 	  * @author lkzx 
 	  * @date 2016年9月2日 下午5:44:37  
-	  * @Description: TODO 查询所有审核专家  可以条件查询
+	  * @Description: TODO 查询所有审核状态的专家  可以条件查询
 	  * @param @return      
 	  * @return String
 	 */
