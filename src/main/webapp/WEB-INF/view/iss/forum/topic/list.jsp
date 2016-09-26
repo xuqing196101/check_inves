@@ -175,7 +175,7 @@
        <li class="fl">
          <label class="fl mt10 ml10">所属版块：</label>
             <span>
-	        <select id ="parkId" class="w230 mt5" >
+	        <select id ="parkId" class="w220 mt5" >
              <option></option>
              <c:forEach items="${parks}" var="park">
                   <option  value="${park.id}">${park.name}</option>

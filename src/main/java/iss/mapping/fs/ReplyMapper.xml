@@ -6,10 +6,14 @@
 			     <result column="CONTENT"  property="content" />
 			     <result column="PUBLISHED_AT"  property="publishedAt" />
 			     <result column="UPDATED_AT"  property="updatedAt" />
-			     <association column="POST_ID"  property="post" select="iss.dao.fs.PostMapper.selectByPrimaryKey"/>
-			    <association column="REPLY_ID"  property="reply" select="selectByPrimaryKey"/>
+			      <association column="REPLY_ID"  property="reply" select="selectByPrimaryKey"/>
+			     <association column="POST_ID"  property="post" select="iss.dao.fs.PostMapper.selectByPrimaryKey"/>		
 			    <association column="USER_ID"  property="user" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>			    			    
 			  </resultMap>
+			  
+			   <resultMap type="iss.model.fs.Reply" id="ReplyWithRe" extends="ReplyResultMap">            
+                  <collection property="replies" ofType="iss.model.fs.Reply" resultMap="iss.dao.fs.ReplyMapper.ReplyResultMap" />          
+               </resultMap>
 			  			  			  
 	  			<!-- 表名 -->
 			  	<sql id="Tabel_Name">
@@ -63,13 +67,17 @@
 			  </select>
 	  
 			  <!-- 3.根据条件查询列表 -->
-			  <select id="queryByList" parameterType="Object" resultMap="ReplyResultMap">
+			  <select id="queryByList" parameterType="Map" resultMap="ReplyResultMap">
 			    select 
 			    <include refid="Base_Column_List" />
 			    from T_ISS_FS_REPLY
-			  
-			    ORDER BY PUBLISHED_AT DESC
-			    
+			     where 1 = 1
+                 <trim suffixOverrides=","> 
+                  <if test="replyCon!= null">
+                    and CONTENT Like concat(concat('%', '${replyCon}'), '%')
+                  </if>      
+                </trim>
+			    ORDER BY PUBLISHED_AT DESC			    
 			  </select>
   
               <!-- 4.删除一条记录 -->
@@ -86,10 +94,15 @@
 			    </selectKey>
 			    insert into T_ISS_FS_REPLY
 			    <trim prefix="(" suffix=")" suffixOverrides=",">
-
+	              <if test="id != null">
+	                ID,
+	              </if>
 			      <if test="publishedAt != null">
 			        PUBLISHED_AT,
 			      </if>
+			      <if test="updatedAt != null">
+                    UPDATED_AT,
+                  </if>
 			      <if test="content != null">
 			        CONTENT,
 			      </if>
@@ -104,10 +117,15 @@
 			      </if>
 			    </trim>
 			    <trim prefix="values (" suffix=")" suffixOverrides=",">
-
+	              <if test="id != null">
+	                #{id},
+	              </if>
 			      <if test="publishedAt != null">
 			        #{publishedAt},
 			      </if>
+			      <if test="updatedAt != null">
+                    #{updatedAt},
+                  </if>
 			      <if test="content != null">
 			        #{content},
 			      </if>
@@ -137,12 +155,31 @@
 			  </update>
 			  
 			<!-- 7.根据postId查询 -->
-		  <select id="selectByPostID" parameterType="Object" resultMap="ReplyResultMap">
+		  <select id="selectByPostID" parameterType="Map" resultMap="ReplyResultMap">
 			    select 
 			    <include refid="Base_Column_List" />
 			    from T_ISS_FS_REPLY
-			    where POST_ID = #{postID}
-			    ORDER BY PUBLISHED_AT DESC
-		  </select>		  
+			    where 1=1
+			    <trim suffixOverrides=","> 
+                  <if test="postId != null">
+                    and POST_ID = #{postId}
+                  </if>      
+                </trim>
+                and REPLY_ID is NULL
+			    ORDER BY PUBLISHED_AT ASC
+		  </select>	
+		  <!-- 根据replyId查询 -->
+		  <select id="selectByReplyId" parameterType="Map" resultMap="ReplyResultMap">
+		        select 
+                <include refid="Base_Column_List" />
+                from T_ISS_FS_REPLY
+                where 1=1
+                <trim suffixOverrides=","> 
+                  <if test="replyId != null">
+                    and REPLY_ID = #{replyId}
+                  </if>      
+                </trim>
+                ORDER BY PUBLISHED_AT ASC
+		  </select>	  
  
 </mapper>

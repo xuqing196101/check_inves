@@ -9,7 +9,7 @@
 				    <result column="IS_LOCKING"  property="isLocking" />
 				    <result column="PUBLISHED_At"  property="publishedAt" />
 				    <result column="LAST_RE_At"  property="lastReplyedAt" />	
-				    	
+				    <result column="REPLY_COUNT"  property="replycount" />	
 				    <association column="LAST_RE_ID"  property="lastReplyer" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>						    	    
 				    <association column="USER_ID"  property="user" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>
 				    <association column="TOPIC_ID"  property="topic" select="iss.dao.fs.TopicMapper.selectByPrimaryKey"/>	
@@ -28,8 +28,7 @@
 			  <!-- 所有列 -->
 			  <sql id="Base_Column_List">
 			    ID, NAME,CONTENT, IS_TOP, IS_LOCKING, USER_ID, TOPIC_ID,PARK_ID,
-			    PUBLISHED_At, LAST_RE_At,LAST_RE_ID
-			    
+			    PUBLISHED_At, LAST_RE_At,LAST_RE_ID,REPLY_COUNT			    
 			  </sql>
 	  	
 			  <!-- 查询条件 -->
@@ -78,6 +77,14 @@
 		    from T_ISS_FS_POST
 		    where ID = #{id}
 		  </select>
+		  <!-- 根据回复量查询热门帖子 -->
+          <select id="queryHotPost"  resultMap="PostReplyMap">
+                select 
+                <include refid="Base_Column_List" />
+                from T_ISS_FS_POST
+                where ROWNUM &lt;= 10
+                ORDER BY REPLY_COUNT DESC
+          </select>
 		  	  
 		  <!-- 4.删除一条记录 -->
 		  <delete id="deleteByPrimaryKey" parameterType="Object">
@@ -166,7 +173,7 @@
 		        IS_LOCKING = #{isLocking},
 		      </if>
 		      <if test="lastReplyedAt != null">
-		        LAST_REPLYED_At = #{lastReplyedAt},
+		        LAST_RE_At = #{lastReplyedAt},
 		      </if>
 		      <if test="content != null">
 		        CONTENT = #{content},
@@ -177,6 +184,9 @@
 		      <if test="topic != null">
 		        TOPIC_ID = #{topic.id},
 		      </if>
+		       <if test="replycount != null">
+                REPLY_COUNT = #{replycount},
+              </if>
 		    </set>
 		    where ID = #{id}
 		  </update>
@@ -199,13 +209,5 @@
 			    ORDER BY PUBLISHED_At DESC
 		  </select>
 		  
-		  <!-- 9.首页根据parkId查询列表 -->
-		  <select id="selectListByParkID" parameterType="Object" resultMap="PostResultMap">
-			    select 
-			    <include refid="Base_Column_List" />
-			    from T_ISS_FS_POST
-			    where PARK_ID = #{parkID}
-			    ORDER BY PUBLISHED_At DESC
-		  </select>
 
 </mapper>

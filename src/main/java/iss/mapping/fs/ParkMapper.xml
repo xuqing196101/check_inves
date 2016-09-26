@@ -144,7 +144,21 @@
 		    select 
 		    <include refid="Base_Column_List" />
 		    from T_ISS_FS_PARK
-		   <!--  <include refid="Example_Where_Clause" /> -->
+
 		   ORDER BY CREATED_AT ASC
-		  </select>		  
+		  </select>	
+		   
+		   <select id="selectParkListByUser" parameterType="Map" resultMap="ParkTopicPostMap">
+            select 
+            <include refid="Base_Column_List" />
+            from T_ISS_FS_PARK
+            where IS_DELETED = 0
+             <trim suffixOverrides=",">
+                <if test="userId != null">
+                    and USER_ID = #{userId}
+                </if>            
+            </trim>
+           ORDER BY CREATED_AT ASC
+          </select> 
+		  	  
 </mapper>

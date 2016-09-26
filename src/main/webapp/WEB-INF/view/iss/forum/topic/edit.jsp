@@ -85,7 +85,7 @@
                     </ul>
                    </div>
                  </div>--%>
-	  			<select name ="parkId" class="w230" >
+	  			<select name ="parkId" class="w220" >
 					<option></option>
 			  	  	<c:forEach items="${parks}" var="park">
 			  	  		<option  value="${park.id}">${park.name}</option>
@@ -104,7 +104,7 @@
   <div  class="col-md-12 ml185">
    <div class="fl padding-10">
     <button class="btn btn-windows save" type="submit">更新</button>
-    <button class="btn btn-windows reset" onclick="history.go(-1)" type="button">返回</button>
+    <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
 	</div>
   </div>
      </form>

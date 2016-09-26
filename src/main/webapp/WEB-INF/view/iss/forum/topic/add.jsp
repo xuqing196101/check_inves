@@ -58,7 +58,7 @@
 			 
 			 <li class="col-md-6  p0 ">
 			   <span class="fl">所属版块：</span>
-                <select name ="parkId" class="select w230" >
+                <select name ="parkId" class="select w220" >
 					<option></option>
 			  	  	<c:forEach items="${parks}" var="park">
 			  	  		<option  value="${park.id}">${park.name}</option>
@@ -78,7 +78,7 @@
   <div  class="col-md-12 ml185">
    <div class="fl padding-10">
     <button class="btn btn-windows save" type="submit">保存</button>
-    <button class="btn btn-windows reset" onclick="history.go(-1)" type="button">返回</button>
+    <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
 	</div>
   </div>
      </form>

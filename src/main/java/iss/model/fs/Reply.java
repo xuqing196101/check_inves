@@ -1,6 +1,7 @@
 package iss.model.fs;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import ses.model.bms.User;
 
@@ -41,11 +42,16 @@ public class Reply {
      */
     private Reply reply;
     /**
+     * @Fields replies : 回复下面的回复列表
+     */
+    private List<Reply> replies;
+
+    /**
      * @Fields user : 发布人
      */
     private User user;
-
     
+ 
     public String getId() {
         return id;
     }
@@ -99,6 +105,14 @@ public class Reply {
 
 	public void setReply(Reply reply) {
 		this.reply = reply;
+	}
+
+	public List<Reply> getReplies() {
+		return replies;
+	}
+
+	public void setReplies(List<Reply> replies) {
+		this.replies = replies;
 	}
 
 	public User getUser() {

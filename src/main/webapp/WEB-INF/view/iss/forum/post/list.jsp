@@ -20,12 +20,11 @@
 	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
 	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
 	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
   <script type="text/javascript">
   $(function(){
 	  $("#parkId").val("${parkId}");
-	  $("#topicId").val("${topicId}");
-	  alert("${topicName}");
-	 
+	  $("#topicId").val("${topicId}"); 
 	  //$("#topicId").append("<option value = '"+${topicId}+"'>"+${topicName}+"</option>");
 	  laypage({
 		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
@@ -197,7 +196,7 @@
        <li class="fl">
          <label class="fl mt10 ml10">所属版块：</label>
             <span>
-            <select id ="parkId" class="w230 mt5" onchange="change(this.options[this.selectedIndex].value)">
+            <select id ="parkId" class="w220 mt5" onchange="change(this.options[this.selectedIndex].value)">
              <option></option>
              <c:forEach items="${parks}" var="park">
                   <option  value="${park.id}">${park.name}</option>
@@ -208,11 +207,20 @@
         <li class="fl">
          <label class="fl mt10 ml10">所属主题：</label>
             <span>
-            <select id ="topicId" class="w230 mt5" >
+            <select id ="topicId" class="w220 mt5" >
              <option></option>
              </select>
             </span>
-       </li>     
+       </li><%--   
+      <li class="fl">
+         <label class="fl mt10 ">发布时间：</label>
+            <span>
+				 <input class="mb0 mt5" type="text"  onClick="WdatePicker()" name="startDate" />
+				 <span class="mt10">-</span>
+				 <input class="mb0 mt5" type="text"  onClick="WdatePicker()" name="endDate" />
+            </span>
+       </li> 
+         --%>
          <button class="btn btn_back fl ml10 mt8" onclick="search()">查询</button>
          <button class="btn btn_back fl ml10 mt8" onclick="reset()">重置</button>
      </ul>

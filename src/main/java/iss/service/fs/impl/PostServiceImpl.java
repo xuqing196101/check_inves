@@ -14,10 +14,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ses.util.PropertiesUtil;
-
-import com.github.pagehelper.PageHelper;
-
 
 
 /**
@@ -87,8 +83,8 @@ public class PostServiceImpl implements PostService{
 	}
 	
 	@Override
-	public List<Post> selectListByParkID(String parkID) {
+	public List<Post> queryHotPost() {
 		// TODO Auto-generated method stub
-		return postMapper.selectListByParkID(parkID);
+		return postMapper.queryHotPost();
 	}
 }

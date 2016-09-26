@@ -216,7 +216,9 @@ public class PostManageController {
 		String[] ids=id.split(",");
 		for (String str : ids) {
 			postService.deleteByPrimaryKey(str);
-			List<Reply> replies = replyService.selectByPostID(str);
+			Map<String,Object> map = new HashMap<String, Object>();
+			map.put("postId", str);
+			List<Reply> replies = replyService.selectByPostID(map);
 			for (Reply reply : replies) {
 				replyService.deleteByPrimaryKey(reply.getId());
 			}
@@ -227,35 +229,72 @@ public class PostManageController {
 	* @Title: getIndexList
 	* @author Peng Zhongjun
 	* @date 2016-8-10 下午19:47:32  
-	* @Description: 获取帖子列表跳转到前台界面
+	* @Description: 获取帖子列表跳转到前台界面（二级页）
 	* @param @param model
 	* @param @param  request   
 	* @return String     
 	*/
 	@RequestMapping("/getIndexlist")
-	public String getIndexList(Model model,HttpServletRequest request){	
-		System.out.println(request.getParameter("parkId"));
-		List<Post> list = postService.selectListByParkID( request.getParameter("parkId"));
-		model.addAttribute("list", list);
+	public String getIndexList(Model model,HttpServletRequest request, Integer page) throws Exception{	
+		Map<String,Object> map = new HashMap<String, Object>();
+		String parkId = request.getParameter("parkId");	
+		String topicId = request.getParameter("topicId");			
+		if(page==null){
+			page=1;
+		}
+
+		if(parkId != null && parkId!=""){
+			map.put("parkId", parkId);
+		}
+		if(topicId != null && topicId!=""){
+			map.put("topicId", topicId);
+		}
+		map.put("page",page.toString());
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		List<Post> list = postService.queryByList(map);
+		Park park = parkService.selectByPrimaryKey(parkId);
+		List<Topic> topics = topicService.selectByParkID(parkId);
+		model.addAttribute("topics", topics);
+		model.addAttribute("park", park);
+		model.addAttribute("list", new PageInfo<Post>(list));
+		model.addAttribute("parkId", parkId);
+		model.addAttribute("topicId", topicId);
 		return "iss/forum/list";
 	}
 	/**   
 	* @Title: getIndexDetail
 	* @author Peng Zhongjun
 	* @date 2016-8-30 下午19:47:32  
-	* @Description: 获取帖子列表跳转到前台界面
+	* @Description: 获取帖子详情跳转到前台界面
 	* @param @param model
 	* @param @param  request   
 	* @return String     
 	*/
 	@RequestMapping("/getIndexDetail")
-	public String getIndexDetail(Model model,HttpServletRequest request){		
-		System.out.println((String) request.getParameter("postId"));
-		Post post = postService.selectByPrimaryKey( request.getParameter("postId"));
+	public String getIndexDetail(Model model,HttpServletRequest request, Integer page) throws Exception{	
+		Map<String,Object> map = new HashMap<String, Object>();
+		String postId = request.getParameter("postId");
+		if(page==null){
+			page=1;
+		}
+		if(postId != null && postId!=""){
+			map.put("postId", postId);
+		}
+		map.put("page",page.toString());
 		
-		List<Reply> replies = replyService.selectByPostID(post.getId());
-		post.setReplies(replies);
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));					
+		List<Reply> list = replyService.selectByPostID(map);
+		for (Reply reply : list) {
+			Map<String,Object> map2 = new HashMap<String, Object>();
+			map2.put("replyId", reply.getId());
+			List<Reply> replies = replyService.selectByReplyId(map2);
+			reply.setReplies(replies);
+		}
+		Post post = postService.selectByPrimaryKey(postId);	
 		model.addAttribute("post", post);
+		model.addAttribute("list",  new PageInfo<Reply>(list));
 		return "iss/forum/detail";
 	}
 	/**   

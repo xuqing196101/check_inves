@@ -37,24 +37,65 @@
     <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
     <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
     <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/lang/zh-cn/zh-cn.js"></script>
+
   <script type="text/javascript">
   $(function(){
-	  
-	  //alert("dasdasdasdsad");
+      laypage({
+            cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+            pages: "${list.pages}", //总页数
+            skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+            skip: true, //是否开启跳页
+            groups: "${list.pages}">=3?3:"${list.pages}", //连续显示分页数
+            curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+                var page = location.search.match(/page=(\d+)/);
+                return page ? page[1] : 1;
+            }(), 
+            jump: function(e, first){ //触发分页后的回调
+                if(!first){ //一定要加此判断，否则初始时会无限刷新
+                    var postId = "${post.id}";
+                    location.href = "<%=basePath%>post/getIndexDetail.do?postId="+postId+"&page="+e.curr;
+                }
+            }
+        });
+
   });
-  function publishForPost(){
-	  alert("123123123123");
+  function publishForPost(postId){
+	  var ue = UE.getEditor('editor');
+	  var text = ue.getContentTxt();
       $.ajax({
-          url:"",   
+          url:"<%=basePath%>reply/save.html?postId="+postId+"&content="+text,   
           contentType: "application/json;charset=UTF-8", 
           type:"POST",   //请求方式           
-          success : function(topics) {     
-
+          success : function() {     
+        	  location.href = "<%=basePath%>post/getIndexDetail.do?postId="+postId;
           }
       });
   }
-  function publishForReply(){
-	  alert("123123123123");
+  function writeHtml(id){
+	  var pu = $("#"+id);
+	  var html = $("#publish").html();	  
+	  alert(pu.next().has('div').length);
+	  if(pu.next().has('div').length == 1){
+		  pu.after(html);  
+	      $("#publishButton").attr("onclick","publishForReply("+id+")");
+	 }
+	   
+	  	   
+  }
+  function publishForReply(id){
+	 var ue = UE.getEditor('editor');
+	 var text = ue.getContentTxt();
+	 var postId = "${post.id}";
+
+	 $.ajax({
+	   url:"<%=basePath%>reply/save.html?postId="+postId+"&content="+text+"&replyId="+id,   
+	   contentType: "application/json;charset=UTF-8", 
+	   type:"POST",   //请求方式           
+	   success : function() {   
+	       var postId = "${post.id}";
+	       location.href = "<%=basePath%>post/getIndexDetail.do?postId="+postId;
+	       }
+	 });
   }
  </script>
   </head>
@@ -73,7 +114,7 @@
    </div>
    
 <div class="container content job-content ">
-   <div class="col-md-12 p30_40 border1 margin-top-20">
+    <div class="col-md-12 p30_40 border1 margin-top-20">
      <h3 class="tc f30">
        <div class="title bbgrey ">${post.name }</div>
      </h3>
@@ -81,56 +122,70 @@
 	     <div class="fr"><span>作者：${post.user.relName }</span>
 	     <span class="ml15"><i class="mr5">
 	     <img src="<%=basePath%>public/ZHQ/images/block.png"/></i>
-	     <fmt:formatDate value='${post.publishedTime}' pattern="yyyy.MM.dd" />
+	     <fmt:formatDate value='${post.publishedAt}' pattern="yyyy.MM.dd" />
 	     </span>
+	     <span class="ml15">评论数：<span class="red">${post.replycount }</span></span>
 	     </div>
      </div>
      
      <div class="clear margin-top-20 new_content f18">
         ${post.content }
+     </div>   
      </div>
      
-        <div class="fr">评论数:<span class="red">${post.replycount }</span></div>
-     </div>
-     
-     <!-- 评论列表 -->
+     <!-- 回复列表 -->
      <div class="col-md-12 p30_40 border1 margin-top-20">
      
-        <c:forEach items="${post.replies }" var="reply" varStatus="vs">
-        
-        <div class="col-md-12 comment_main">
-	        <div class="fl comment_pic mr10"><img src="<%=basePath%>public/ZHQ/images/logo.png"/></div>
-	        <div class="comment_desc col-md-10 p0">
-	          <div class="col-md-12 p0">
-	          	          
-	            <span class="comment_name">${vs.index+1 }楼  ${reply.user.relName }</span>
-	            <span class="grey">[<fmt:formatDate value='${reply.publishedAt}' pattern="yyyy年MM月dd日" />]</span>
-	            <span class="fr blue"><a onclick="publishForReply()">回复</a></span>
-	            
-	          </div>
+        <c:forEach items="${list.list}" var="reply" varStatus="vs">         
+            <div id="${reply.id}" class="col-md-12 comment_main">
+            <div class="fl comment_pic mr10"><img src="<%=basePath%>public/ZHQ/images/logo.png"/></div>
+            <div class="comment_desc col-md-10 p0">
+              <div class="col-md-12 p0">
+                          
+                <span class="comment_name">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}楼  ${reply.user.relName }</span>
+                <span class="grey">[<fmt:formatDate value='${reply.publishedAt}' pattern="yyyy年MM月dd日" />]</span>
+                <span class="fr blue pointer" onclick="writeHtml('${reply.id}')">回复</span>
+                
+              </div>
               <div class="col-md-12 comment_cont p0">${reply.content }</div>
+              <!--回复的回复-->
+              <div>
+                <c:forEach items="${reply.replies }" var="replytoreply">
+                    <span>${replytoreply.user.relName } [<fmt:formatDate value='${replytoreply.publishedAt}' pattern="yyyy年MM月dd日" />]</span>:                 
+                    <span>${replytoreply.content }</span>
+                </c:forEach>
+              </div>
+              
             </div>
-        </div>  
-             
+            </div> 
+            
+            
         </c:forEach>
      </div>
      <!-- 分页Div -->
-     
+     <div id="pagediv" align="right"></div>  
       <!-- 我要评论Div -->
-     <div class="col-md-12 p30_40 border1 margin-top-20">
+     <div class="col-md-12 p30_40 border1 margin-top-20" id="publish">
          <div class="clear col-md-12 p0">
-          <span>评论标题：</span>  <input type="text" name="post.reply.name"/>
+          <span class="f18 b">我要回复</span> 
+         </div>
+         <div class="clear col-md-12 p0 mt10">
+          <span>评论内容：</span>  <script id="editor" name="content" type="text/plain" class= ""></script>
          </div>
          <div class="clear col-md-12 p0">
-          <span>评论内容：</span>  <script id="editor" name="post.reply.content" type="text/plain" class= ""></script>
-         </div>
-         <div class="clear col-md-12 p0">
-           <button class="btn btn-windows fr " type="submit" onclick="publishForPost()">发布</button>
+           <button class="btn btn-windows fr " id ="publishButton" onclick="publishForPost('${post.id}')">发布</button>
          </div>    
      </div>
    </div>
 
  </div>
+ 
+  <div class="park_manager f18">
+  <a href='<%=basePath %>park/parkManager.do'>我是版主</a>
+  </div>
+  <div class="my_post f18">
+  <a href='<%=basePath %>post/publish.html'>我要发帖</a>
+  </div>
 <!--底部代码开始-->
 <jsp:include page="/index_bottom.jsp"></jsp:include>
    <script type="text/javascript">

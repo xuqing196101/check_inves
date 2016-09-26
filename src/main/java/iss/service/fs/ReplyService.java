@@ -7,6 +7,7 @@ import iss.model.fs.Reply;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 
 
@@ -51,7 +52,7 @@ public interface ReplyService {
 	* @param reply
 	* @return List<reply>     
 	*/
-	List<Reply> queryByList(Reply reply,Integer page);
+	List<Reply> queryByList(Map<String,Object> map);
 	
 	/**   
 	* @Title: selectByPrimaryKey
@@ -94,9 +95,18 @@ public interface ReplyService {
 	* @author Peng Zhongjun
 	* @date 2016-8-4 下午4:55:58  
 	* @Description: 根据帖子Id查询
+	* @param Map<String,Object> map
+	* @return List<reply>     
+	*/
+	List<Reply> selectByPostID(Map<String,Object> map);
+	/**   
+	* @Title: selectByReplyId
+	* @author Peng Zhongjun
+	* @date 2016-8-4 下午4:55:58  
+	* @Description: 根据帖子Id查询
 	* @param reply
 	* @return List<reply>     
 	*/
-	List<Reply> selectByPostID(String postID);
+	List<Reply> selectByReplyId(Map<String,Object> map);
 
 }
