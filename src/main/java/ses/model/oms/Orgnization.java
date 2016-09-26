@@ -7,13 +7,13 @@ public class Orgnization {
 
     private String name;
 
-    private Integer typeName;
+    private String typeName;//部门类型，0:采购管理部门、1:采购机构、2:需求部门
 
     private String address;
 
-    private Integer mobile;
+    private String mobile;
 
-    private Integer postCode;
+    private String postCode;
 
     private String orgCode;
 
@@ -33,21 +33,22 @@ public class Orgnization {
 
     private String nature;
 
-    private Integer isDeleted;
+    private String isDeleted;
 
     private Date createdAt;
 
     private Date updatedAt;
 
-    private Integer orgLevel;
+    private String orgLevel;
 
-    private Integer position;
+    private String position;
 
     private String parentId;
+    private String parentName;
 
     private String depId;
 
-    private Integer isRoot;
+    private String isRoot;
 
     private String shortName;
 
@@ -61,6 +62,7 @@ public class Orgnization {
     private String provinceName;//区域  省名称
     private String cityName;
     private String townName;
+    private String requireDepId;
     public String getId() {
         return id;
     }
@@ -77,12 +79,12 @@ public class Orgnization {
         this.name = name == null ? null : name.trim();
     }
 
-    public Integer getTypeName() {
+    public String getTypeName() {
         return typeName;
     }
 
-    public void setTypeName(Integer typeName) {
-        this.typeName = typeName==null ? 0 : typeName;
+    public void setTypeName(String typeName) {
+        this.typeName = typeName==null ? "0" : typeName;
     }
 
     public String getAddress() {
@@ -95,19 +97,19 @@ public class Orgnization {
 
     
 
-    public Integer getMobile() {
+    public String getMobile() {
 		return mobile;
 	}
 
-	public void setMobile(Integer mobile) {
+	public void setMobile(String mobile) {
 		this.mobile = mobile ;
 	}
 
-	public Integer getPostCode() {
+	public String getPostCode() {
         return postCode;
     }
 
-    public void setPostCode(Integer postCode) {
+    public void setPostCode(String postCode) {
         this.postCode = postCode;
     }
 
@@ -183,11 +185,11 @@ public class Orgnization {
         this.nature = nature == null ? null : nature.trim();
     }
 
-    public Integer getIsDeleted() {
+    public String getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(Integer isDeleted) {
+    public void setIsDeleted(String isDeleted) {
         this.isDeleted = isDeleted;
     }
 
@@ -207,19 +209,19 @@ public class Orgnization {
         this.updatedAt = updatedAt;
     }
 
-    public Integer getOrgLevel() {
+    public String getOrgLevel() {
         return orgLevel;
     }
 
-    public void setOrgLevel(Integer orgLevel) {
+    public void setOrgLevel(String orgLevel) {
         this.orgLevel = orgLevel;
     }
 
-    public Integer getPosition() {
+    public String getPosition() {
         return position;
     }
 
-    public void setPosition(Integer position) {
+    public void setPosition(String position) {
         this.position = position;
     }
 
@@ -239,11 +241,11 @@ public class Orgnization {
         this.depId = depId == null ? null : depId.trim();
     }
 
-    public Integer getIsRoot() {
+    public String getIsRoot() {
         return isRoot;
     }
 
-    public void setIsRoot(Integer isRoot) {
+    public void setIsRoot(String isRoot) {
         this.isRoot = isRoot;
     }
 
@@ -317,6 +319,22 @@ public class Orgnization {
 
 	public void setTownName(String townName) {
 		this.townName = townName;
+	}
+
+	public String getRequireDepId() {
+		return requireDepId;
+	}
+
+	public void setRequireDepId(String requireDepId) {
+		this.requireDepId = requireDepId;
+	}
+
+	public String getParentName() {
+		return parentName;
+	}
+
+	public void setParentName(String parentName) {
+		this.parentName = parentName;
 	}
     
 }

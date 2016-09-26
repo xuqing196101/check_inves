@@ -119,6 +119,8 @@ public interface UserServiceI {
 	 * @exception IOException
 	 */
 	void deleteUserMenu(UserPreMenu userPreMenu);
+	
+	List<User> queryByList(User user);
 
 	/**
 	 * Description: 列表分页

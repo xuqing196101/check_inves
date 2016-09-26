@@ -4,18 +4,32 @@
    <!-- 根据id查部门 -->
 	<select id="findOrgnizationList" parameterType="java.util.Map" resultType="ses.model.oms.Orgnization">
 			   select d.id  as id,
-		       d.ORG_LEVEL       as orgLevel,
-		       d.IS_DELETED       as isDeleted,
-		       d.PARENT_ID     as parentId,
 		       d.NAME         as name,
-		       d.DEP_ID       as depId,
 		       d.TYPE_NAME       as typeName,
-		       d.IS_ROOT         as isRoot,
-		       d.EMAIL      as email,
+		       d.ADDRESS   as address,
 		       d.MOBILE    as mobile,
 		       d.POST_CODE  as postCode,
-		       d.ADDRESS   as address
+		       d.ORG_CODE   as orgCode,
+		       d.TELEPHONE  as telephone,
+		       d.AREA_ID    as areaId,
+		       d.DETAIL_ADDR  as detailAddr,
+		       d.fax          as fax,
+		       d.WEBSITE      as website,
+		       d.PRINCINPAL   as princinpal,
+		       d.PRINCINPAL_ID_CARD  as princinpalIdCard,
+		       d.NATURE       as nature,
+		       d.SHORT_NAME as shortName,
+		       d.PARENT_ID     as parentId,
+		       d.PARENT_NAME      as parentName,
+		       d.PROVINCE_ID      as provinceId,
+		       d.CITY_ID          as cityId,
+		       d.ORG_LEVEL       as orgLevel,
+		       d.IS_DELETED       as isDeleted,
+		       d.DEP_ID       as depId,
+		       d.IS_ROOT         as isRoot,
+		       d.EMAIL      as email
 		  from T_SES_OMS_ORG     d
+		 <!-- LEFT JOIN T_SES_OMS_ORG dd on d.PARENT_ID=DD.id-->
 		 where nvl(d.is_deleted,0)=0
 		 <if test="id != null and id != ''">
 			and d.id= #{id}
@@ -26,11 +40,41 @@
 		<if test="isroot != null and isroot != ''">
 			and nvl(d.IS_ROOT,'0')= 1
 		</if>
-		<if test="type != null and type != ''">
-			and d.type= #{type}
+		<if test="typeName != null and typeName != ''">
+			and d.TYPE_NAME= #{typeName}
 		</if> 
+		<if test="requireDepId != null and requireDepId != ''">
+			and d.REQUIRE_DEP_ID= #{requireDepId}
+		</if> 
+		ORDER BY d.CREATED_AT DESC
 	</select>
-	<!-- 保存部门 -->
+	<!-- 多对多关联查询    org_id 1的一方   purchase_dep_id 关联多的一方 -->
+	<select id="findPurchaseOrgList" parameterType="java.util.Map" resultType="ses.model.oms.Orgnization">
+			   select d.id  as id,
+		       d.ORG_LEVEL       as orgLevel,
+		       d.IS_DELETED       as isDeleted,
+		       d.PARENT_ID     as parentId,
+		       d.NAME         as name,
+		       d.DEP_ID       as depId,
+		       d.TYPE_NAME       as typeName,
+		       d.IS_ROOT         as isRoot,
+		       d.EMAIL      as email,
+		       d.MOBILE    as mobile,
+		       d.POST_CODE  as postCode,
+		       d.ADDRESS   as address,
+		       d.SHORT_NAME as shortName,
+		       d.AREA_ID    as areaId,
+		       d.DETAIL_ADDR as detailAddr,
+		       d.fax       as fax,
+		       d.WEBSITE  as website,
+		       d.PRINCINPAL  as princinpal,
+		       d.PRINCINPAL_ID_CARD  as princinpalIdCard,
+		       d.NATURE  as nature
+		  from T_SES_OMS_ORG d  RIGHT JOIN (select * from T_SES_OMS_PURDEP_ORG po where po.org_id= #{orgId}) m  on d.id = m.org_id
+		  where nvl(d.IS_DELETED,0)=0
+		  ORDER BY d.CREATED_AT DESC
+	</select>
+	<!-- 保存机构   需求部门  监管部门-->
 	<insert id="saveOrgnization" parameterType="java.util.Map">
 		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
 			select rawtohex(sys_guid()) as VALUE from dual
@@ -42,16 +86,18 @@
 		  POST_CODE,ORG_CODE,TELEPHONE,
 		  AREA_ID,DETAIL_ADDR,FAX,
 		  WEBSITE,PRINCINPAL,PRINCINPAL_ID_CARD,
-		  NATURE,ORG_LEVEL,POSITION,IS_ROOT,EMAIL
+		  NATURE,ORG_LEVEL,POSITION,IS_ROOT,EMAIL,
+		  PROVINCE_ID,CITY_ID,PARENT_NAME,SHORT_NAME
           )
 		values(
 	      #{id},#{name,jdbcType=VARCHAR},#{type_name,jdbcType=NUMERIC},
 		  #{dep_id,jdbcType=VARCHAR},#{parent_id,jdbcType=VARCHAR},sysdate,
 		  #{describtion,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR},#{mobile,jdbcType=INTEGER},
-		  #{post_code,jdbcType=INTEGER},#{org_code,jdbcType=VARCHAR},#{telephone,jdbcType=VARCHAR},
-		  #{area_id,jdbcType=VARCHAR},#{detail_addr,jdbcType=VARCHAR},#{fax,jdbcType=VARCHAR},
-		  #{website,jdbcType=VARCHAR},#{princinpal,jdbcType=VARCHAR},#{princinpal_id_card,jdbcType=VARCHAR},
-		  #{nature,jdbcType=VARCHAR},#{org_level,jdbcType=INTEGER},#{position,jdbcType=INTEGER},#{is_root,jdbcType=INTEGER},#{email,jdbcType=VARCHAR}
+		  #{postCode,jdbcType=INTEGER},#{orgCode,jdbcType=VARCHAR},#{telephone,jdbcType=VARCHAR},
+		  #{areaId,jdbcType=VARCHAR},#{detailAddr,jdbcType=VARCHAR},#{fax,jdbcType=VARCHAR},
+		  #{website,jdbcType=VARCHAR},#{princinpal,jdbcType=VARCHAR},#{princinpalIdCard,jdbcType=VARCHAR},
+		  #{nature,jdbcType=VARCHAR},#{orgLevel,jdbcType=INTEGER},#{position,jdbcType=INTEGER},#{isroot,jdbcType=INTEGER},#{email,jdbcType=VARCHAR},
+		  #{pid,jdbcType=VARCHAR},#{cid,jdbcType=VARCHAR},#{parentName,jdbcType=VARCHAR},#{shortName,jdbcType=VARCHAR}
 		 )
 	</insert>
 	
@@ -90,7 +136,7 @@
 		  #{nature,typeHandler=ses.controller.sys.oms.NullValueHandler},#{org_level,jdbcType=INTEGER,typeHandler=ses.controller.sys.oms.NullValueHandler},#{position,jdbcType=INTEGER,typeHandler=ses.controller.sys.oms.NullValueHandler},#{is_root}
 		 )
 	</insert> -->
-	<!-- 更新部门 -->
+	<!-- 更新机构   需求部门  监管部门 -->
 	<update id="updateOrgnization" parameterType="java.util.Map">
 			 update T_SES_OMS_ORG s
 	     set 
@@ -99,6 +145,19 @@
 	        <if test="name != null and name != ''">
 		 		,NAME=#{name,jdbcType=VARCHAR}
 		 	</if>
+		 	<if test="typeName != null and typeName != ''">
+		 		,TYPE_NAME=#{typeName,jdbcType=VARCHAR}
+		 	</if>
+		 	<if test="parentId != null and parentId != ''">
+		 		,PARENT_ID=#{parentId,jdbcType=VARCHAR}
+		 	</if>
+		 	<if test="parentName != null and parentName != ''">
+		 		,PARENT_NAME=#{parentName,jdbcType=VARCHAR}
+		 	</if>
+		 	<if test="describtion != null and describtion != ''">
+		 		,DESCRIBTION=#{describtion,jdbcType=VARCHAR}
+		 	</if>
+		 	
 		 	 <if test="address != null and address != ''">
 		 		,ADDRESS=#{address,jdbcType=VARCHAR}
 		 	</if>
@@ -108,11 +167,11 @@
 		 	 <if test="postCode != null and postCode != ''">
 		 		,POST_CODE=#{postCode,jdbcType=NUMERIC}
 		 	</if>
-	        <if test="shortName != null and shortName != ''">
-		 		,SHORT_NAME=#{shortName,jdbcType=VARCHAR}
-		 	</if>
 		 	 <if test="orgCode != null and orgCode != ''">
 		 		,ORG_CODE=#{orgCode,jdbcType=VARCHAR}
+		 	</if>
+	        <if test="shortName != null and shortName != ''">
+		 		,SHORT_NAME=#{shortName,jdbcType=VARCHAR}
 		 	</if>
 		 	 <if test="telephone != null and telephone != ''">
 		 		,TELEPHONE=#{telephone,jdbcType=VARCHAR}
@@ -138,9 +197,43 @@
 		 	 <if test="nature != null and nature != ''">
 		 		,NATURE=#{nature,jdbcType=VARCHAR}
 		 	</if>
+		 	 <if test="orgLevel != null and orgLevel != ''">
+		 		,ORG_LEVEL=#{orgLevel,jdbcType=INTEGER}
+		 	</if>
+		 	 <if test="position != null and position != ''">
+		 		,POSITION=#{position,jdbcType=INTEGER}
+		 	</if>
+		 	 <if test="isroot != null and isroot != ''">
+		 		,IS_ROOT=#{isroot,jdbcType=INTEGER}
+		 	</if>
+		 	 <if test="pid != null and pid != ''">
+		 		,PROVINCE_ID=#{pid,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="cid != null and cid != ''">
+		 		,CITY_ID=#{cid,jdbcType=VARCHAR}
+		 	</if>
 		 	 <if test="is_deleted != null and is_deleted != ''">
 		 		,IS_DELETED=#{is_deleted,jdbcType=NUMERIC}
 		 	</if>
+		 	 <if test="isroot != null and isroot != ''">
+		 		,IS_ROOT=#{isroot,jdbcType=NUMERIC}
+		 	</if>
 	     where s.id=#{id}    
+	</update>
+	<!-- 删除需求部门-->
+	<delete id="delOrgnizationByid" parameterType="java.util.Map">
+		delete from T_SES_OMS_ORG s where s.id in
+		<foreach collection="list" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+	<!-- 逻辑删除需求部门-->
+	<update id="delSoftOrgnizationByid" parameterType="java.util.Map">
+		update  T_SES_OMS_ORG   t
+		set t.IS_DELETED=1
+		where t.id in
+		<foreach collection="list" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
 	</update>
 </mapper>

@@ -172,18 +172,6 @@
 			//data: {'pid':pid,$("#formID").serialize()},
 			success : function(data) {
 				//truealert(data.message, data.success == false ? 5 : 1);
-				layer.open({
-				    content: data.message,
-				    icon: 1,
-				    time:2000,
-				    shade: [0.3, '#000'],
-				    yes: function(index){
-				        //do something
-				    	 layer.closeAll();
-				    	 
-				    }
-				});
-				location.reload();
 			}
 		}); 
 	}
@@ -343,9 +331,9 @@
 						
 						</iframe>
 						<!-- iframe层-->
-						<!-- 伪表单 跳转编辑页面 post传参数-->
+						<!-- 伪表单-->
 						<form id="hform" action="${pageContext.request.contextPath}/purchaseManage/edit.do" method="post">
-							<input type="hidden" id="orgid" name="id"/>
+							<input id="orgid" name="id"/>
 						</form>
 						<!-- 伪表单-->
 						

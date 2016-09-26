@@ -84,8 +84,6 @@ public class PurchaseDep extends Orgnization{
 
     private Integer bidRoomCount;//评标室数量
 
-    private Integer isDeleted;
-
     private Date updatedAt;
 
     private Date createdAt;
@@ -395,13 +393,7 @@ public class PurchaseDep extends Orgnization{
         this.bidRoomCount = bidRoomCount;
     }
 
-    public Integer getIsDeleted() {
-        return isDeleted;
-    }
-
-    public void setIsDeleted(Integer isDeleted) {
-        this.isDeleted = isDeleted;
-    }
+    
 
     public Date getUpdatedAt() {
         return updatedAt;

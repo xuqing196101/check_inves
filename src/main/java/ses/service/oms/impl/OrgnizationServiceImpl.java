@@ -30,5 +30,19 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
 	public int updateOrgnization(HashMap<String, Object> map) {
 		return orgniztionMapper.updateOrgnization(map);
 	}
+	/**
+	 * 多对多关联查询
+	 */
+	@Override
+	public List<Orgnization> findPurchaseOrgList(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return orgniztionMapper.findPurchaseOrgList(map);
+	}
+
+	@Override
+	public int delOrgnizationByid(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return orgniztionMapper.delOrgnizationByid(map);
+	}
 
 }
