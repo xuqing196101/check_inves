@@ -93,6 +93,7 @@ public class StationMessageController {
 		stationMessage.setPageNum(page==null||"".equals(page)?1:Integer.parseInt(page));
 		List<StationMessage> listStationMessage = stationMessageService.listStationMessage(stationMessage);
 		model.addAttribute("listStationMessage", new PageInfo<StationMessage>(listStationMessage));
+		model.addAttribute("title", stationMessage.getTitle());
 		return "ses/bms/station/list";
 	}
 

@@ -39,10 +39,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="${pageContext.request.contextPath}/public/ZHQ/js/expert/validate_expert_basic_info.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/expert/TestAddress.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/expert/TestChooseAddress.js"></script>
+ <link rel="stylesheet" type="text/css" href="<%=basePath%>/public/ztree/css/zTreeStyle.css"> 
+<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.exedit.js"></script>
 <script type="text/javascript">
 	function kaptcha() {
 		$("#kaptchaImage").hide().attr('src', '${pageContext.request.contextPath}/Kaptcha.jpg').fadeIn();
 	}
+	var datas;
 	$(function() {
 		// 注册须知
 		$("#registration_input_id").change(function() {
@@ -63,7 +68,74 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 	 		break;
 		 		}
 		   }
+		   
+		   
+		   var setting={
+					async:{
+								autoParam:["id"],
+								enable:true,
+								url:"<%=basePath%>category/createtree.do",
+								dataType:"json",
+								type:"post",
+							},
+							callback:{
+						    	onClick:zTreeOnClick,//点击节点触发的事件
+						    	 beforeRemove: zTreeBeforeRemove,
+						    	beforeRename: zTreeBeforeRename, 
+								//onRemove: zTreeOnRemove,
+			       			    //onRename: zTreeOnRename,
+						    }, 
+							data:{
+								keep:{
+									parent:true,
+								},					
+								simpleData:{
+									enable:true,
+									idKey:"id",
+									pIdKey:"pId",
+									rootPId:0,
+								}
+						    },
+						    edit:{
+						    	enable:true,
+								 //editNameSelectAll:true,
+								//showRemoveBtn: true,
+								//showRenameBtn: true,
+								//removeTitle: "删除",
+								//renameTitle:"重命名",
+							},
+						   check:{
+								enable: true
+						   }
+			  };
+			  var treeObj=$.fn.zTree.init($("#ztree"),setting,datas);
 	});
+	var treeid=null;
+    /*树点击事件*/
+    function zTreeOnClick(event,treeId,treeNode){
+		treeid=treeNode.id
+    }
+    function zTreeOnRemove(event, treeId, treeNode,isCancel) {
+	}
+	function zTreeOnRename(event, treeId, treeNode, isCancel) {
+				 alert(treeNode.tId + ", " + treeNode.name); 
+				
+		}
+		/*删除目录信息*/
+	function zTreeBeforeRemove(treeId, treeNode){
+	 		$.ajax({
+	 			type:"post",
+	 			url:"<%=basePath%>category/del.do?id="+treeNode.id,
+	 		});
+		}
+	 	
+	 	/*节点重命名*/
+	function zTreeBeforeRename(treeId,treeNode,newName,isCancel){
+			$.ajax({
+	 			type:"post",
+	 			url:"<%=basePath%>category/rename.do?id="+treeNode.id+"&name="+newName,
+	 		});
+		} 
 	function submitForm1(){
 		if(validateForm1()){
 			$("#zancun").val(1);
@@ -223,6 +295,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		$("#form1").attr("action","<%=basePath %>expert/add.html");
 		$("#form1").submit();
 	}
+	//回显采购机构信息
+	function addPurList(){
+	var radio = $("input[type='radio']:checked");
+	var depName = $(radio).parent().next().next().children().val();
+	var person =  $(radio).parent().next().next().next().children().val();
+	var address = $(radio).parent().next().next().next().next().children().val();
+	var phone =  $(radio).parent().next().next().next().next().next().children().val();
+	$("#depName_").text(depName);
+	$("#person_").text(person);
+	$("#address_").text(address);
+	$("#phone_").text(phone);
+	$("#depName_2").text(depName);
+	$("#person_2").text(person);
+	$("#address_2").text(address);
+	$("#phone_2").text(phone);
+	supplierRegist('reg_box_id', 5, 'next'); 
+	}
+
 </script>
 
 </head>
@@ -327,7 +417,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10">
-						<div class="tab-content padding-top-20  h730">
+						<div class="tab-content padding-top-20  h900">
 							<div class="tab-pane fade active in height-500" id="tab-1">
 								<div class=" margin-bottom-0"><br/>
 									<h2 class="f16 jbxx">
@@ -397,19 +487,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<input class="span3" maxlength="10" value=""  name="nation" id="appendedInput" type="text">
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class="">所在地区：</span>
-										<!-- <script type="text/javascript">
-											function addressCode(){
-												var code = $("#id_areaSelect").val();
-												$("address").val(code);
-											}
-										</script> -->
+										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>所在地区：</span>
 											<div class="input-append">
 											  <select id="id_provSelect" name="provSelect" onChange="loadCity(this.value);"><option value="">请选择省份</option></select>
 											  <select id="id_citySelect" name="citySelect" onChange="loadArea(this.value);"><option value="">请选择城市</option></select>
 											  <select id="id_areaSelect" name="address" ><option value="">请选择区域</option></select>
 											 <SCRIPT LANGUAGE="JavaScript"> loadProvince('${expert.address }');</SCRIPT> 
-											<%-- <input class="span3" maxlength="20" value=" ${expert.address }"  name="detailAddress" id="appendedInput" type="text"> --%>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class="">毕业院校：</span>
@@ -592,8 +675,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			   </select>
 			 </li>
    			 </ul>
+   			 <div id="ztree" class="ztree"></div>
 		    <div class="tc mt20 clear col-md-11">
-				<button class="btn btn-windows git"   type="button" onclick="supplierRegist('reg_box_id', 4, 'pre')">上一步</button>
+				<button class="btn btn-windows back"   type="button" onclick="supplierRegist('reg_box_id', 4, 'pre')">上一步</button>
 				<button class="btn btn-windows git"   type="button" onclick="fun1();">下一步</button>
 			</div>
 		</div>
@@ -628,13 +712,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</tr>
 				</thead>
 				<c:forEach items="${ purchase}" var="p" varStatus="vs">
-					<tr>
+					<tr align="center">
 						<td><input type="radio" name="purchaseDepId"  value="${p.id }" /></td>
 						<td>${vs.count}</td>
-						<td>${p.depName }</td>
-						<td>${p.contact }</td>
-						<td>${p.contactAddress }</td>
-						<td>${p.contactTelephone }</td>
+						<td><input border="0" disabled="disabled" value="${p.depName }"></td>
+						<td><input border="0" disabled="disabled" value="${p.contact }"></td>
+						<td><input border="0" disabled="disabled" value="${p.contactAddress }"></td>
+						<td><input border="0" disabled="disabled" value="${p.contactTelephone }"></td>
 					</tr>
 				</c:forEach> 
 			</table>
@@ -665,18 +749,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<tr>
 				  <td class="tc w30"><input type="radio" name="purchaseDepId" id="checked" alt="" value="3"></td>
 				  <td class="tc w50">1</td>
-				  <td class="tc">哈哈</td>
-				  <td class="tc">飒飒</td>
-				  <td class="tc">北京</td>
-				 <td class="tc">13333333333</td>
+				  <td class="tc"><input border="0" disabled="disabled" value="哈哈"></td>
+				  <td class="tc"><input border="0" disabled="disabled" value="飒飒"></td>
+				  <td class="tc"><input border="0" disabled="disabled" value="北京"></td>
+				 <td class="tc"><input border="0" disabled="disabled" value="13333333333"></td>
 				</tr>
 			</table>
 			<h6>
-		               友情提示：请供应商记录好初审采购机构的相关信息，以便进行及时沟通
+		               友情提示：请专家记录好初审采购机构的相关信息，以便进行及时沟通
 		    </h6>
 		    <div class="tc mt20 clear col-md-11">
-				<button class="btn btn-windows git"   type="button" onclick="supplierRegist('reg_box_id', 5, 'pre')">上一步</button>
-				<button class="btn btn-windows git"   type="button" onclick="supplierRegist('reg_box_id', 5, 'next')">下一步</button>
+				<button class="btn btn-windows back"   type="button" onclick="supplierRegist('reg_box_id', 5, 'pre')">上一步</button>
+				<button class="btn btn-windows git"   type="button" onclick="addPurList();">下一步</button>
 			</div>
 		</div>
 	<div id="reg_box_id_6" class="container clear margin-top-30 yinc">
@@ -854,9 +938,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </tr>
    </table>
 		    <div class="tc mt20 clear col-md-11">
-		   		<button class="btn btn-windows git"   type="button" onclick="supplierRegist('reg_box_id', 6, 'pre')">上一步</button>
+		   		<button class="btn btn-windows back"   type="button" onclick="supplierRegist('reg_box_id', 6, 'pre')">上一步</button>
 				<button class="btn btn-windows git"   type="button" onclick="window.print()">打印</button>
-				<a class="btn btn-windows delete" onclick="downloadTable();" href="javascript:void(0)">下载</a>
+				<a class="btn btn-windows git" onclick="downloadTable();" href="javascript:void(0)">下载</a>
 				<button class="btn btn-windows git"   type="button" onclick="supplierRegist('reg_box_id', 6, 'next')">下一步</button>
 			</div>
 		</div>
@@ -891,13 +975,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</div> 
 					</div>
 			<div class="col-md-12 add_regist" style="margin-left:170px;">
-				 <div class="fl mr20"><label class="regist_name">采购机构名称：</label><span class="regist_desc">广州军区物资采购站</span></div>
-				 <div class="fl mr20"><label class="regist_name">采购机构联系人：</label><span class="regist_desc">张三</span></div>
-				 <div class="fl mr20"><label class="regist_name">采购机构地址：</label><span class="regist_desc">广州军区物资采购站</span></div>
-				 <div class="fl mr20"><label class="regist_name">联系电话：</label><span class="regist_desc">1882928798</span></div>
+				 <div class="fl mr20"><label class="regist_name">采购机构名称：</label><span id="depName_" class="regist_desc"></span></div>
+				 <div class="fl mr20"><label class="regist_name">采购机构联系人：</label><span id="person_" class="regist_desc"></span></div>
+				 <div class="fl mr20"><label class="regist_name">采购机构地址：</label><span id="address_" class="regist_desc"></span></div>
+				 <div class="fl mr20"><label class="regist_name">联系电话：</label><span id="phone_" class="regist_desc"></span></div>
 			 </div>
 		    <div class="tc mt20 clear col-md-11">
-		   		<button class="btn btn-windows git"   type="button" onclick="supplierRegist('reg_box_id', 7, 'pre')">上一步</button>
+		   		<button class="btn btn-windows back"   type="button" onclick="supplierRegist('reg_box_id', 7, 'pre')">上一步</button>
 				<button class="btn btn-windows git"   type="button" onclick="supplierRegist('reg_box_id', 7, 'next')">下一步</button>
 			</div>
 		</div>
@@ -910,20 +994,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		   <div class="login_cr fl col-md-9 pt20">
 		    <div class="col-md-12">
 		     <p>
-			  <span class="regist_info f18 b">恭喜您注册成功！</span>正在等待审核人员审批。
+			  <span class="regist_info f18 b">信息填写完成！确认无误后请提交生效，提交后将不能更改！</span>正在等待审核人员审批。
 			 </p>
-			 <p>以下是系统默认为您生成的账号和密码</p>
-			 <p>您的<span class="red">登录账号</span>为：<span class="red">18688164815</span>敬请查收</p>
-			 <p>如您忘记<span class="red">登录密码</span>，请在门户网站首页处通过<a class="red">找回密码方式</a>获取    </p>
 		    </div>
 			<div class="col-md-12 add_regist">
-			 <div class="fl mr20"><label class="regist_name">采购机构名称：</label><span class="regist_desc">广州军区物资采购站</span></div>
-			 <div class="fl mr20"><label class="regist_name">采购机构联系人：</label><span class="regist_desc">张三</span></div>
-			 <div class="fl mr20"><label class="regist_name">采购机构地址：</label><span class="regist_desc">广州军区物资采购站</span></div>
-			 <div class="fl mr20"><label class="regist_name">联系电话：</label><span class="regist_desc">1882928798</span></div>
+			 <div class="fl mr20"><label class="regist_name">采购机构名称：</label><span id="depName_2" class="regist_desc"></span></div>
+			 <div class="fl mr20"><label class="regist_name">采购机构联系人：</label><span id="person_2" class="regist_desc"></span></div>
+			 <div class="fl mr20"><label class="regist_name">采购机构地址：</label><span id="address_2" class="regist_desc"></span></div>
+			 <div class="fl mr20"><label class="regist_name">联系电话：</label><span id="phone_2" class="regist_desc"></span></div>
 			 </div>
 			 <div class="mt20 col-md-12">
-			  <button class="btn btn-windows git"   type="button" onclick="supplierRegist('reg_box_id', 8, 'pre')">上一步</button>
+			  <button class="btn btn-windows back"   type="button" onclick="supplierRegist('reg_box_id', 8, 'pre')">上一步</button>
 			  <input  class="btn btn-windows git" type="button" onclick="addSubmitForm();" value="提交" />
 			 </div>
 			</div>

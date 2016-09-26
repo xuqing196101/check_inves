@@ -13,7 +13,7 @@ public class Expert {
 	/**主键*/
     private String id;
     /**是否提交*/
-    private String isSubmit = "0";
+    private String isSubmit;
     /**密码*/
     private String password;
     /**是否删除；0未删除，1已删除*/

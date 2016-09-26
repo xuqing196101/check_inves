@@ -117,7 +117,7 @@ public class LoginController {
 							out.print("scuesslogin_auditNotPass");
 							return;
 						}else if(isList.get(0).getStatus()==2){
-							logger.error("不好意思(先生/女士),您的企业信息不符合我们的相关规定,禁止注册.");
+							logger.error("不好意思(先生/女士),您的企业信息不符合我们的相关规定,注册无效.");
 							out.print("hemingdan");
 							return;
 						}else if(isList.get(0).getStatus()==3){
@@ -133,7 +133,7 @@ public class LoginController {
 							out.print("auditing");
 							return;
 						}
-					}else{
+					}else {
 						logger.error("请输入用户名密码或者验证码");
 						out.print("nullcontext");
 						return;

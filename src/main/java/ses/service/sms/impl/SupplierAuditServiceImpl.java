@@ -6,12 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ses.dao.sms.SupplierAuditMapper;
+import ses.dao.sms.SupplierCertProMapper;
 import ses.dao.sms.SupplierFinanceMapper;
 import ses.dao.sms.SupplierMapper;
 import ses.dao.sms.SupplierStockholderMapper;
 import ses.dao.sms.SupplierTypeMapper;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAudit;
+import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierType;
@@ -58,6 +60,8 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	 */
 	@Autowired
 	private SupplierTypeMapper supplierTypeMapper;
+	@Autowired
+	private SupplierCertProMapper supplierCertProMapper;
 	/**
 	 * @Title: supplierList
 	 * @author Xu Qing
@@ -191,6 +195,23 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		
 		return supplierTypeMapper.findSupplierType();
 	}
+	
+	/**
+     * @Title: findBySupplierId
+     * @author Xu Qing
+     * @date 2016-9-26 下午6:43:07  
+     * @Description: 资质证书信息
+     * @param @param supplierId
+     * @param @return      
+     * @return List<SupplierCertPro>
+     */
+	@Override
+	public List<SupplierCertPro> findBySupplierId(String supplierId) {
+		
+		return supplierCertProMapper.findBySupplierId(supplierId);
+	}
+
+
 
 
 }
