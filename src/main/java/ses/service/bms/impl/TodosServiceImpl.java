@@ -4,7 +4,9 @@
 package ses.service.bms.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -39,8 +41,7 @@ public class TodosServiceImpl implements TodosService {
 	 */
 	@Override
 	public void insert(Todos todos){
-		mapper.insert(todos);
-		
+		mapper.insertSelective(todos);
 	}
 
 	/**
@@ -53,11 +54,14 @@ public class TodosServiceImpl implements TodosService {
 	 * @return List<Todos>
 	 */
 	@Override
-	public List<List<Todos>>  listTodos(Todos todos){
+	public List<List<Todos>>  listTodos(Todos todos,String id){
+		Map<String, Object> map=new HashMap<String, Object>();
 		List<String> listStr=listUndoType();
 		List<List<Todos>> llTodos=new ArrayList<List<Todos>>();
 		for (String str : listStr) {
-			List<Todos> list=mapper.listTodos(new Todos(todos.getIsFinish(), new Short(str)));
+			map.put("todos", new Todos(todos.getIsFinish(), new Short(str)));
+			map.put("ids", id);
+			List<Todos> list=mapper.listTodos(map);
 			if(list!=null&&list.size()!=0){
 				llTodos.add(list);
 			}
