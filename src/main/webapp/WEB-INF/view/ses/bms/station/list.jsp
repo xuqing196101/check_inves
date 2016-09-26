@@ -192,7 +192,7 @@
 							<!-- 内容 -->
 							<td class="tc" onclick="show('${listsm.id}');">${listsm.content}</td>
 							<!-- 创建人-->
-							<td class="tc" onclick="show('${listsm.id}');">${llitsm.userName}</td>
+						      <td class="tc" onclick="show('${listsm.id}');">${listsm.userName}</td>
 							<!-- 是否发布 -->
 							<td class="tc"><c:choose>
 									<c:when test="${listsm.isPublish==0}">

@@ -54,6 +54,9 @@
 		<if test="id!=null and id!=''">
 			AND SE."ID"=#{id}
 		</if>
+		<if test="projectName != null and id != ''">
+		  AND SE.PROJECT_NAME=#{projectName}
+		</if>
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">

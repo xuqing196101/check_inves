@@ -55,6 +55,7 @@ public class SupplierExtractsController {
 	private AreaServiceI areaService;	
 	@Autowired
 	private UserServiceI userService;
+	
 	/**
 	 * @Description:分页获取记录集合
 	 *
@@ -67,7 +68,7 @@ public class SupplierExtractsController {
 	@RequestMapping("/listSupplierExtracts")
 	public String listSupplierExtracts(Model model, SupplierExtracts extracts){
 
-		List<SupplierExtracts> extractslist = supplierExtractsService.listExtracts(new SupplierExtracts());
+		List<SupplierExtracts> extractslist = supplierExtractsService.listExtracts(extracts);
 		model.addAttribute("extractslist",extractslist);
 
 		return "ses/sms/supplier_extracts/recordlist";
@@ -114,6 +115,7 @@ public class SupplierExtractsController {
 		model.addAttribute("id",id);
 		return "ses/sms/supplier_extracts/manual_extraction";
 	}
+	
 	/**
 	 * @Description: 获取市
 	 *
