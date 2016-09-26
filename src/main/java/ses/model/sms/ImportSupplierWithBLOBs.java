@@ -1,7 +1,12 @@
 package ses.model.sms;
 
 public class ImportSupplierWithBLOBs extends ImportSupplier {
-    private String civilAchievement;
+    /**
+	 * @Fields serialVersionUID : 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private String civilAchievement;
 
     private String remark;
 
