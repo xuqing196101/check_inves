@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import ses.model.bms.PreMenu;
+
 
 /**
  * 常见应用场景
@@ -39,6 +41,19 @@ public class MyInterceptor implements HandlerInterceptor {
 	 * 过滤拦截
 	 */
 	private String matches;
+
+   /** 
+	* 免登入 免检查地址 
+	*/ 
+	private List<String> uncheckUrls; 
+	
+	public List<String> getUncheckUrls() {
+		return uncheckUrls;
+	}
+	
+	public void setUncheckUrls(List<String> uncheckUrls) {
+		this.uncheckUrls = uncheckUrls;
+	}
 
 	public String getMatches() {
 		return matches;
@@ -84,15 +99,15 @@ public class MyInterceptor implements HandlerInterceptor {
 		HttpSession session = request.getSession();
 		response.setContentType("text/html;charset=utf-8");
 		String presentPath = request.getServletPath();
-
-		if (presentPath	
-				.matches(matches)) {
+		
+		if (uncheckUrls.contains(presentPath)) {
 			log.warn("匹配的路径：" + presentPath);
 			return true;
 		} else {
 			if (session.getAttribute("loginUser") == null) {
 				//系统的根url
-                String basePath = request.getContextPath();
+                String path = request.getContextPath();
+                String basePath =  request.getScheme()+"://"+ request.getServerName()+":"+ request.getServerPort()+path+"/";
 				PrintWriter out = response.getWriter();
 				StringBuilder builder = new StringBuilder();
 				builder.append("<HTML><HEAD>");
