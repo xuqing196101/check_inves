@@ -123,7 +123,7 @@ public class ImportSupplierController {
 		                String filename = myfile.getOriginalFilename();
 		                String uuid = WfUtil.createUUID();
 		                filename=uuid+filename;
-		                String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload");  
+		                String realPath = SupplierUpdateController.getRootPath(request);
 		                FileUtils.copyInputStreamToFile(myfile.getInputStream(), new File(realPath, filename)); 
 		                is.setRegList(realPath+"/"+filename); 
 		            }  
@@ -363,17 +363,19 @@ public class ImportSupplierController {
 		//初审后改变状态
 		ImportSupplierWithBLOBs importSupplierWithBLOBs = importSupplierService.selectByPrimaryKey(is);
 		importSupplierWithBLOBs.setStatus(is.getStatus());
-		importSupplierService.updateRegisterInfo(importSupplierWithBLOBs);
 		//给审核不通过的理由存到表里
 		isa.setImportSupplierId(importSupplierWithBLOBs.getId());
+		//
 		if(is.getStatus()==2&&importSupplierWithBLOBs.getStatus()==0){
 			importSupplierAudService.register(isa);
-		}else if(is.getStatus()==3){
-			importSupplierAudService.updateRegisterInfo(isa);
+		}else if(is.getStatus()==3&&importSupplierWithBLOBs.getStatus()==0){
+			importSupplierAudService.register(isa);
 		}else if(importSupplierWithBLOBs.getStatus()==1&&is.getStatus()==2){
 			importSupplierAudService.updateRegisterInfo(isa);
+		}else if(is.getStatus()==3){
+			importSupplierAudService.updateRegisterInfo(isa);
 		}
-		
+		importSupplierService.updateRegisterInfo(importSupplierWithBLOBs);
 		//初审复审需要判断
 		//初审通过的话就删除待办
 		if(is.getStatus()==1){
@@ -444,7 +446,7 @@ public class ImportSupplierController {
 		List<String> list=getAllProvince();
 		for(String str:list){
 			int count=1;
-			if("上海市浙江省江苏省安徽省".indexOf(str)!=-1){
+			if("上海市浙江省江苏省安徽省澳门特别行政区香港特别行政区".indexOf(str)!=-1){
 				if(map.get(str)==null){
 					map.put(myMap.get(str), count);
 				}else{
