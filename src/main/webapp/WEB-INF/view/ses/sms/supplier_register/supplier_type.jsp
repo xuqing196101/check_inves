@@ -116,9 +116,9 @@
 									<ul id="treeDemo" class="ztree"></ul>
 								</div>
 								<div class="mt40 tc mb50">
-									<button class="btn padding-left-20 padding-right-20 btn_back margin-15" onclick="checkedTree(-1)">上一步</button>
-									<button class="btn padding-left-20 padding-right-20 btn_back margin-15" onclick="checkedTree(0)">暂存</button>
-									<button class="btn padding-left-20 padding-right-20 btn_back margin-15" onclick="checkedTree(1)">下一步</button>
+									<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-15" onclick="checkedTree(-1)">上一步</button>
+									<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-15" onclick="checkedTree(0)">暂存</button>
+									<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-15" onclick="checkedTree(1)">下一步</button>
 								</div>
 							</div>
 						</div>
@@ -131,7 +131,7 @@
 	<form id="supplier_type_form_id" method="post">
 		<input name="id" type="hidden" value="${currSupplier.id}" />
 		<input name="sign" type="hidden" value="3" />
-		<input id="supplier_type_input_id" name="ids" type="hidden" />
+		<input id="supplier_type_input_id" name="supplierTypeIds" type="hidden" />
 	</form>
 	
 	<!-- footer -->

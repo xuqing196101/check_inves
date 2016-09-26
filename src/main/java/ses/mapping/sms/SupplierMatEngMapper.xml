@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.sms.SupplierMatEngMapper">
+	<resultMap id="BaseResultMap" type="ses.model.sms.SupplierMatEng">
+		<id column="ID" property="id" />
+		<result column="SUPPLIER_ID" property="supplierId" />
+		<result column="ORG_NAME" property="orgName" />
+		<result column="TOTAL_TECH" property="totalTech" />
+		<result column="TOTAL_GL_NORMAL" property="totalGlNormal" />
+		<result column="TOTAL_MANGE" property="totalMange" />
+		<result column="TOTAL_TECH_WORKER" property="totalTechWorker" />
+		<result column="CREATED_AT" property="createdAt" />
+		<result column="UPDATED_AT" property="updatedAt" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, SUPPLIER_ID, ORG_NAME, TOTAL_TECH, TOTAL_GL_NORMAL, TOTAL_MANGE, TOTAL_TECH_WORKER,
+		CREATED_AT, UPDATED_AT
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_SMS_SUPPLIER_MAT_ENG
+		where ID = #{id}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from T_SES_SMS_SUPPLIER_MAT_ENG
+		where ID = #{id}
+	</delete>
+	<insert id="insert" parameterType="ses.model.sms.SupplierMatEng">
+		insert into T_SES_SMS_SUPPLIER_MAT_ENG (ID, SUPPLIER_ID, ORG_NAME,
+		TOTAL_TECH, TOTAL_GL_NORMAL, TOTAL_MANGE,
+		TOTAL_TECH_WORKER, CREATED_AT, UPDATED_AT
+		)
+		values (#{id}, #{supplierId}, #{orgName},
+		#{totalTech}, #{totalGlNormal}, #{totalMange},
+		#{totalTechWorker}, #{createdAt}, #{updatedAt}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="ses.model.sms.SupplierMatEng">
+		insert into T_SES_SMS_SUPPLIER_MAT_ENG
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="supplierId != null">
+				SUPPLIER_ID,
+			</if>
+			<if test="orgName != null">
+				ORG_NAME,
+			</if>
+			<if test="totalTech != null">
+				TOTAL_TECH,
+			</if>
+			<if test="totalGlNormal != null">
+				TOTAL_GL_NORMAL,
+			</if>
+			<if test="totalMange != null">
+				TOTAL_MANGE,
+			</if>
+			<if test="totalTechWorker != null">
+				TOTAL_TECH_WORKER,
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT,
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="supplierId != null">
+				#{supplierId},
+			</if>
+			<if test="orgName != null">
+				#{orgName},
+			</if>
+			<if test="totalTech != null">
+				#{totalTech},
+			</if>
+			<if test="totalGlNormal != null">
+				#{totalGlNormal},
+			</if>
+			<if test="totalMange != null">
+				#{totalMange},
+			</if>
+			<if test="totalTechWorker != null">
+				#{totalTechWorker},
+			</if>
+			<if test="createdAt != null">
+				#{createdAt},
+			</if>
+			<if test="updatedAt != null">
+				#{updatedAt},
+			</if>
+		</trim>
+		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			select sys_guid() from dual
+		</selectKey>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierMatEng">
+		update T_SES_SMS_SUPPLIER_MAT_ENG
+		<set>
+			<if test="supplierId != null">
+				SUPPLIER_ID = #{supplierId},
+			</if>
+			<if test="orgName != null">
+				ORG_NAME = #{orgName},
+			</if>
+			<if test="totalTech != null">
+				TOTAL_TECH = #{totalTech},
+			</if>
+			<if test="totalGlNormal != null">
+				TOTAL_GL_NORMAL = #{totalGlNormal},
+			</if>
+			<if test="totalMange != null">
+				TOTAL_MANGE = #{totalMange},
+			</if>
+			<if test="totalTechWorker != null">
+				TOTAL_TECH_WORKER = #{totalTechWorker},
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT = #{createdAt},
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT = #{updatedAt},
+			</if>
+		</set>
+		where ID = #{id}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="ses.model.sms.SupplierMatEng">
+		update T_SES_SMS_SUPPLIER_MAT_ENG
+		set SUPPLIER_ID = #{supplierId},
+		ORG_NAME = #{orgName},
+		TOTAL_TECH = #{totalTech},
+		TOTAL_GL_NORMAL = #{totalGlNormal},
+		TOTAL_MANGE = #{totalMange},
+		TOTAL_TECH_WORKER = #{totalTechWorker},
+		CREATED_AT = #{createdAt},
+		UPDATED_AT = #{updatedAt}
+		where ID = #{id}
+	</update>
+	<select id="getMatEngBySupplierId" parameterType="java.lang.String" resultMap="MatEngMap">
+		select * from T_SES_SMS_SUPPLIER_MAT_ENG where SUPPLIER_ID = #{supplierId}
+	</select>
+	<resultMap type="ses.model.sms.SupplierMatEng" id="MatEngMap" extends="BaseResultMap">
+		<collection property="listSupplierCertEngs" select="ses.dao.sms.SupplierCertEngMapper.findCertEngByMatEngId" column="ID"></collection>
+		<collection property="listSupplierAptitutes" select="ses.dao.sms.SupplierAptituteMapper.findAptituteByMatEngId" column="ID"></collection>
+		<collection property="listSupplierRegPersons" select="ses.dao.sms.SupplierRegPersonMapper.findRegPersonByMatEngId" column="ID"></collection>
+	</resultMap>
+</mapper>

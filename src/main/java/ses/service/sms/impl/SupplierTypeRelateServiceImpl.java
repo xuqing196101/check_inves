@@ -24,9 +24,8 @@ public class SupplierTypeRelateServiceImpl implements SupplierTypeRelateService 
 	
 	@Override
 	public void saveSupplierTypeRelate(Supplier supplier) {
-		int deleteBySupplierId = supplierTypeRelateMapper.deleteBySupplierId(supplier.getId());
-		System.out.println(deleteBySupplierId);
-		String supplierTypeIds = supplier.getIds();
+		supplierTypeRelateMapper.deleteBySupplierId(supplier.getId());
+		String supplierTypeIds = supplier.getSupplierTypeIds();
 		for (String str : supplierTypeIds.split(",")) {
 			SupplierTypeRelate supplierTypeRelate = new SupplierTypeRelate();
 			supplierTypeRelate.setSupplierId(supplier.getId());

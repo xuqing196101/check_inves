@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.sms.SupplierAptituteMapper">
+	<resultMap id="BaseResultMap" type="ses.model.sms.SupplierAptitute">
+		<id column="ID" property="id" />
+		<result column="MAT_ENG_ID" property="matEngId" />
+		<result column="CERT_TYPE" property="certType" />
+		<result column="CERT_CODE" property="certCode" />
+		<result column="APTITUTE_SEQUENCE" property="aptituteSequence" />
+		<result column="PROFESS_TYPE" property="professType" />
+		<result column="APTITUTE_ LEVEL" property="aptituteLevel" />
+		<result column="IS_MAJOR_FUND" property="isMajorFund" />
+		<result column="APTITUTE_CONTENT" property="aptituteContent" />
+		<result column="APTITUTE_CODE" property="aptituteCode" />
+		<result column="APTITUTE_DATE" property="aptituteDate" />
+		<result column="APTITUTE_WAY" property="aptituteWay" />
+		<result column="APTITUTE_STATUS" property="aptituteStatus" />
+		<result column="APTITUTE_CHANGE_AT" property="aptituteChangeAt" />
+		<result column="APTITUTE_CHANGE_REASON" property="aptituteChangeReason" />
+		<result column="ATTACH_CERT" property="attachCert" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, MAT_ENG_ID, CERT_TYPE, CERT_CODE, APTITUTE_SEQUENCE, PROFESS_TYPE, "APTITUTE_ LEVEL",
+		IS_MAJOR_FUND, APTITUTE_CONTENT, APTITUTE_CODE, APTITUTE_DATE, APTITUTE_WAY, APTITUTE_STATUS,
+		APTITUTE_CHANGE_AT, APTITUTE_CHANGE_REASON, ATTACH_CERT
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_SMS_SUPPLIER_APTITUTE
+		where ID = #{id}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from T_SES_SMS_SUPPLIER_APTITUTE
+		where ID = #{id}
+	</delete>
+	<insert id="insert" parameterType="ses.model.sms.SupplierAptitute">
+		insert into T_SES_SMS_SUPPLIER_APTITUTE (ID, MAT_ENG_ID, CERT_TYPE,
+		CERT_CODE, APTITUTE_SEQUENCE, PROFESS_TYPE,
+		"APTITUTE_ LEVEL", IS_MAJOR_FUND, APTITUTE_CONTENT,
+		APTITUTE_CODE, APTITUTE_DATE, APTITUTE_WAY,
+		APTITUTE_STATUS, APTITUTE_CHANGE_AT, APTITUTE_CHANGE_REASON,
+		ATTACH_CERT)
+		values (#{id}, #{matEngId}, #{certType},
+		#{certCode}, #{aptituteSequence}, #{professType},
+		#{aptituteLevel}, #{isMajorFund}, #{aptituteContent},
+		#{aptituteCode}, #{aptituteDate}, #{aptituteWay},
+		#{aptituteStatus}, #{aptituteChangeAt}, #{aptituteChangeReason},
+		#{attachCert})
+	</insert>
+	<insert id="insertSelective" parameterType="ses.model.sms.SupplierAptitute">
+		insert into T_SES_SMS_SUPPLIER_APTITUTE
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="matEngId != null">
+				MAT_ENG_ID,
+			</if>
+			<if test="certType != null">
+				CERT_TYPE,
+			</if>
+			<if test="certCode != null">
+				CERT_CODE,
+			</if>
+			<if test="aptituteSequence != null">
+				APTITUTE_SEQUENCE,
+			</if>
+			<if test="professType != null">
+				PROFESS_TYPE,
+			</if>
+			<if test="aptituteLevel != null">
+				"APTITUTE_ LEVEL",
+			</if>
+			<if test="isMajorFund != null">
+				IS_MAJOR_FUND,
+			</if>
+			<if test="aptituteContent != null">
+				APTITUTE_CONTENT,
+			</if>
+			<if test="aptituteCode != null">
+				APTITUTE_CODE,
+			</if>
+			<if test="aptituteDate != null">
+				APTITUTE_DATE,
+			</if>
+			<if test="aptituteWay != null">
+				APTITUTE_WAY,
+			</if>
+			<if test="aptituteStatus != null">
+				APTITUTE_STATUS,
+			</if>
+			<if test="aptituteChangeAt != null">
+				APTITUTE_CHANGE_AT,
+			</if>
+			<if test="aptituteChangeReason != null">
+				APTITUTE_CHANGE_REASON,
+			</if>
+			<if test="attachCert != null">
+				ATTACH_CERT,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="matEngId != null">
+				#{matEngId},
+			</if>
+			<if test="certType != null">
+				#{certType},
+			</if>
+			<if test="certCode != null">
+				#{certCode},
+			</if>
+			<if test="aptituteSequence != null">
+				#{aptituteSequence},
+			</if>
+			<if test="professType != null">
+				#{professType},
+			</if>
+			<if test="aptituteLevel != null">
+				#{aptituteLevel},
+			</if>
+			<if test="isMajorFund != null">
+				#{isMajorFund},
+			</if>
+			<if test="aptituteContent != null">
+				#{aptituteContent},
+			</if>
+			<if test="aptituteCode != null">
+				#{aptituteCode},
+			</if>
+			<if test="aptituteDate != null">
+				#{aptituteDate},
+			</if>
+			<if test="aptituteWay != null">
+				#{aptituteWay},
+			</if>
+			<if test="aptituteStatus != null">
+				#{aptituteStatus},
+			</if>
+			<if test="aptituteChangeAt != null">
+				#{aptituteChangeAt},
+			</if>
+			<if test="aptituteChangeReason != null">
+				#{aptituteChangeReason},
+			</if>
+			<if test="attachCert != null">
+				#{attachCert},
+			</if>
+		</trim>
+		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			select sys_guid() from dual
+		</selectKey>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierAptitute">
+		update T_SES_SMS_SUPPLIER_APTITUTE
+		<set>
+			<if test="matEngId != null">
+				MAT_ENG_ID = #{matEngId},
+			</if>
+			<if test="certType != null">
+				CERT_TYPE = #{certType},
+			</if>
+			<if test="certCode != null">
+				CERT_CODE = #{certCode},
+			</if>
+			<if test="aptituteSequence != null">
+				APTITUTE_SEQUENCE = #{aptituteSequence},
+			</if>
+			<if test="professType != null">
+				PROFESS_TYPE = #{professType},
+			</if>
+			<if test="aptituteLevel != null">
+				"APTITUTE_ LEVEL" = #{aptituteLevel},
+			</if>
+			<if test="isMajorFund != null">
+				IS_MAJOR_FUND = #{isMajorFund},
+			</if>
+			<if test="aptituteContent != null">
+				APTITUTE_CONTENT = #{aptituteContent},
+			</if>
+			<if test="aptituteCode != null">
+				APTITUTE_CODE = #{aptituteCode},
+			</if>
+			<if test="aptituteDate != null">
+				APTITUTE_DATE = #{aptituteDate},
+			</if>
+			<if test="aptituteWay != null">
+				APTITUTE_WAY = #{aptituteWay},
+			</if>
+			<if test="aptituteStatus != null">
+				APTITUTE_STATUS = #{aptituteStatus},
+			</if>
+			<if test="aptituteChangeAt != null">
+				APTITUTE_CHANGE_AT = #{aptituteChangeAt},
+			</if>
+			<if test="aptituteChangeReason != null">
+				APTITUTE_CHANGE_REASON = #{aptituteChangeReason},
+			</if>
+			<if test="attachCert != null">
+				ATTACH_CERT = #{attachCert},
+			</if>
+		</set>
+		where ID = #{id}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="ses.model.sms.SupplierAptitute">
+		update T_SES_SMS_SUPPLIER_APTITUTE
+		set MAT_ENG_ID = #{matEngId},
+		CERT_TYPE = #{certType},
+		CERT_CODE = #{certCode},
+		APTITUTE_SEQUENCE = #{aptituteSequence},
+		PROFESS_TYPE = #{professType},
+		"APTITUTE_ LEVEL" = #{aptituteLevel},
+		IS_MAJOR_FUND = #{isMajorFund},
+		APTITUTE_CONTENT = #{aptituteContent},
+		APTITUTE_CODE = #{aptituteCode},
+		APTITUTE_DATE = #{aptituteDate},
+		APTITUTE_WAY = #{aptituteWay},
+		APTITUTE_STATUS = #{aptituteStatus},
+		APTITUTE_CHANGE_AT = #{aptituteChangeAt},
+		APTITUTE_CHANGE_REASON = #{aptituteChangeReason},
+		ATTACH_CERT = #{attachCert}
+		where ID = #{id}
+	</update>
+	<select id="findAptituteByMatEngId" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select * from T_SES_SMS_SUPPLIER_APTITUTE where MAT_ENG_ID = #{supplierMatEngId}
+	</select>
+	
+</mapper>

@@ -4,7 +4,7 @@
 <html>
 <head>
 
-<title>添加物资生产证书信息</title>
+<title>添加工程证书信息</title>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -31,14 +31,14 @@
 <script type="text/javascript">
 	
 	function saveOrBack(sign) {
-		var action = "${pageContext.request.contextPath}/supplier_cert_pro/";
+		var action = "${pageContext.request.contextPath}/supplier_cert_eng/";
 		if (sign) {
-			action += "save_or_update_cert_pro.html";
+			action += "save_or_update_cert_eng.html";
 		} else {
 			action += "back_to_professional.html";
 		}
-		$("#cert_pro_form_id").attr("action", action);
-		$("#cert_pro_form_id").submit();
+		$("#cert_eng_form_id").attr("action", action);
+		$("#cert_eng_form_id").submit();
 	}
 </script>
 
@@ -52,42 +52,77 @@
 			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10">
-						<form id="cert_pro_form_id" method="post" target="_parent"  enctype="multipart/form-data">
+						<form id="cert_eng_form_id" method="post" target="_parent"  enctype="multipart/form-data">
 							<input name="supplierId" value="${supplierId}" type="hidden" />
-							<input name="matProId" value="${matProId}" type="hidden" />
+							<input name="matEngId" value="${matEngId}" type="hidden" />
 							<div class="tab-content padding-top-20">
 								<!-- 详细信息 -->
 								<div class="tab-pane fade active in height-300" id="tab-1">
 									<div class=" margin-bottom-0">
 										<ul class="list-unstyled list-flow">
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 资质证书名称：</span>
+											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 资质资格类型：</span>
 												<div class="input-append">
-													<input class="span3" type="text" name="name" />
+													<input class="span3" type="text" name="certType" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 资质等级：</span>
+											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 证书编号：</span>
 												<div class="input-append">
-													<input class="span3" type="text" name="levelCert" />
+													<input class="span3" type="text" name="certCode" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 供发证机关：</span>
+											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 资质资格最高等级：</span>
+												<div class="input-append">
+													<input class="span3" type="text" name="certMaxLevel" />
+												</div>
+											</li>
+											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 技术负责人姓名：</span>
+												<div class="input-append">
+													<input class="span3" type="text" name="techName" />
+												</div>
+											</li>
+											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 技术负责人职称：</span>
+												<div class="input-append">
+													<input class="span3" type="text" name="techPt" />
+												</div>
+											</li>
+											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 技术负责人职务：</span>
+												<div class="input-append">
+													<input class="span3" type="text" name="techJop" />
+												</div>
+											</li>
+											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 单位负责人姓名：</span>
+												<div class="input-append">
+													<input class="span3" type="text" name="depName" />
+												</div>
+											</li>
+											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 单位负责人职称：</span>
+												<div class="input-append">
+													<input class="span3" type="text" name="depPt" />
+												</div>
+											</li>
+											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 单位负责人职务：</span>
+												<div class="input-append">
+													<input class="span3" type="text" name="depJop" />
+												</div>
+											</li>
+											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 发证机关：</span>
 												<div class="input-append">
 													<input class="span3" type="text" name="licenceAuthorith" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 有效开始时间 ：</span>
+											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 发证日期 ：</span>
 												<div class="input-append">
 													<input class="span3" type="text" name="expStartDate" readonly="readonly" onClick="WdatePicker()" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 有效结束时间 ：</span>
+											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 截止日期 ：</span>
 												<div class="input-append">
 													<input class="span3" type="text" name="expEndDate" readonly="readonly" onClick="WdatePicker()" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 是否年检：</span>
+											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 证书状态：</span>
 												<div class="input-append">
-													<input class="span3" type="text" name="mot" />
+													<input class="span3" type="text" name="certStatus" />
 												</div>
 											</li>
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 证书附件：</span>

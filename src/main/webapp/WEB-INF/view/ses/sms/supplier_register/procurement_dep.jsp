@@ -22,12 +22,31 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css" type="text/css" />
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.excheck.js"></script>
 <script type="text/javascript">
+
+	$(function() {
+		var procurementDepId = "${currSupplier.procurementDepId}";
+		$(":radio").each(function() {
+			var value = $(this).val();
+			if (value == procurementDepId) {
+				$(this).prop("checked", true);
+			}
+		});
+	});
+
 	/** 保存基本信息 */
-	function saveItems(sign) {
+	function saveProcurementDep(sign) {
+		var size = $(":radio:checked").size();
+		if (!size) {
+			layer.msg("请选择一个初审采购机构", {
+				offset : '300px',
+			});
+			return;
+		}
 		var action = "${pageContext.request.contextPath}/supplier/";
 		if (sign == 1) {
 			action += "next_step.html";
@@ -36,8 +55,8 @@
 		} else {
 			action += "stash_step.html";
 		}
-		$("#items_info_form_id").attr("action", action);
-		$("#items_info_form_id").submit();
+		$("#procurement_dep_form_id").attr("action", action);
+		$("#procurement_dep_form_id").submit();
 
 	}
 </script>
@@ -57,8 +76,8 @@
 				<span class="new_step current fl"><i class="">3</i><div class="line"></div> <span class="step_desc_01">供应商类型</span> </span>
 			 	<span class="new_step current fl"><i class="">4</i><div class="line"></div> <span class="step_desc_02">专业信息</span> </span>
 			 	<span class="new_step current fl"><i class="">5</i><div class="line"></div> <span class="step_desc_01">品目信息</span></span> 
-			 	<span class="new_step fl"><i class="">6</i><div class="line"></div> <span class="step_desc_02">产品信息</span> </span>
-			 	<span class="new_step fl"><i class="">7</i><div class="line"></div> <span class="step_desc_01">初审采购机构</span> </span>
+			 	<span class="new_step current fl"><i class="">6</i><div class="line"></div> <span class="step_desc_02">产品信息</span> </span>
+			 	<span class="new_step current fl"><i class="">7</i><div class="line"></div> <span class="step_desc_01">初审采购机构</span> </span>
 			 	<span class="new_step fl"><i class="">8</i><div class="line"></div> <span class="step_desc_02">打印申请表</span> </span>
 			 	<span class="new_step fl"><i class="">9</i> <span class="step_desc_01">申请表承诺书上传</span> </span>
 				<div class="clear"></div>
@@ -70,40 +89,77 @@
 			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10">
-						<ul class="nav nav-tabs bgdd">
-							<li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="s_news f18">物资生产型</a></li>
-							<li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="fujian f18">物资销售型</a></li>
-							<li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="fujian f18">生产</a></li>
-							<li class=""><a aria-expanded="false" href="#tab-4" data-toggle="tab" class="fujian f18">服务</a></li>
-						</ul>
-						<form id="items_info_form_id" method="post" enctype="multipart/form-data">
-							<input name="id" value="${currSupplier.id}" type="hidden" /> 
-							<input name="sign" value="5" type="hidden" />
+						<form id="procurement_dep_form_id" method="post" enctype="multipart/form-data">
+							<input name="id" value="${currSupplier.id}" type="hidden" />
+							<input name="sign" value="7" type="hidden" />
 							<div class="tab-content padding-top-20">
 								<!-- 物资生产型 -->
-								<div class="tab-pane fade active in height-450" id="tab-1">
-									
-								</div>
-								
-								<!-- 物资销售型 -->
-								<div class="tab-pane fade height-450" id="tab-2">
-									
-								</div>
-								
-								<!-- 生产 -->
-								<div class="tab-pane fade height-200" id="tab-3">
-									
-								</div>
-								
-								<!-- 服务 -->
-								<div class="tab-pane fade height-200" id="tab-4">
-									
+								<div class="tab-pane fade active in height-300" id="tab-1">
+									<div class="margin-bottom-0  categories">
+										<ul class="list-unstyled list-flow">
+											<li class="col-md-6 p0"><span class=""> 选择您所在的城市：</span>
+												<div class="input-append">
+													<select class="w200">
+														<option value="">请选择</option>
+														<option>保定</option>
+														<option>北京</option>
+														<option>杭州</option>
+													</select>
+													<button type="button" class="btn padding-left-20 padding-right-20 btn_back mt1">查询</button>
+												</div>
+											</li>
+										</ul><br />
+										<h2 class="f16 jbxx mt40">
+											<i>01</i>可选择采购机构
+										</h2>
+										<table class="table table-bordered table-condensed">
+											<thead>
+												<tr>
+													<th class="info">选择</th>
+													<th class="info">序号</th>
+													<th class="info">采购机构名称</th>
+													<th class="info">机构代称</th>
+													<th class="info">是否可审核</th>
+													<th class="info">所在城市</th>
+												</tr>
+											</thead>
+											<tbody id="stockholder_list_tbody_id">
+												<c:forEach items="${listPurchaseDeps}" var="purchaseDep" varStatus="vs">
+													<tr>
+														<td class="tc"><input type="radio" value="${purchaseDep.id}" name="procurementDepId" /></td>
+														<td class="tc">${vs.index + 1}</td>
+														<td class="tc">${purchaseDep.depName}</td>
+														<td class="tc"></td>
+														<td class="tc"></td>
+														<td class="tc">${purchaseDep.areaName}</td>
+													</tr>
+												</c:forEach>
+											</tbody>
+										</table>
+										<h2 class="f16 jbxx mt40">
+											<i>02</i>其他采购机构
+										</h2>
+										<table class="table table-bordered table-condensed">
+											<thead>
+												<tr>
+													<th class="info">选择</th>
+													<th class="info">序号</th>
+													<th class="info">采购机构名称</th>
+													<th class="info">机构代称</th>
+													<th class="info">是否可审核</th>
+													<th class="info">所在城市</th>
+												</tr>
+											</thead>
+											<tbody id="stockholder_list_tbody_id">
+											</tbody>
+										</table>
+									</div>
 								</div>
 							</div>
 							<div class="mt40 tc mb50">
-								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveItems(-1)">上一步</button>
-								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveItems(0)">暂存</button>
-								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveItems(1)">下一步</button>
+								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep(-1)">上一步</button>
+								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep(0)">暂存</button>
+								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep(1)">下一步</button>
 							</div>
 						</form>
 					</div>

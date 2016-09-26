@@ -16,8 +16,8 @@ public class SupplierMatSeServiceImpl implements SupplierMatSeService {
 	private SupplierMatSeMapper supplierMatSeMapper;
 
 	@Override
-	public void saveOrUpdateSupplierMatSell(Supplier supplier) {
-		String id = supplier.getSupplierMatSell().getId();
+	public void saveOrUpdateSupplierMatSe(Supplier supplier) {
+		String id = supplier.getSupplierMatSe().getId();
 		if (id != null && !"".equals(id)) {
 			supplier.getSupplierMatSell().setUpdatedAt(new Date());
 			supplierMatSeMapper.updateByPrimaryKeySelective(supplier.getSupplierMatSe());

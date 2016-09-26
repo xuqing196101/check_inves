@@ -19,7 +19,7 @@
 		<result column="SECURITY_CERT" property="securityCert" />
 		<result column="BREACH_CERT" property="breachCert" />
 		<result column="LEGAL_NAME" property="legalName" />
-		<result column="LEGA_ID_CARD" property="legaIdCard" />
+		<result column="LEGAL_ID_CARD" property="legalIdCard" />
 		<result column="LEGAL_TELEPHONE" property="legalTelephone" />
 		<result column="LEGAL_MOBILE" property="legalMobile" />
 		<result column="CONTACT_NAME" property="contactName" />
@@ -43,7 +43,7 @@
 		<result column="BRANCH_BUSINESS_SCOPE" property="branchBusinessScope" />
 		<result column="SUPPLIER_TYPE_ID" property="supplierTypeId" />
 		<result column="STATUS" property="status" />
-		<result column="PROCUREMENT_ID" property="procurementId" />
+		<result column="PROCUREMENT_DEP_ID" property="procurementDepId" />
 		<result column="SUPPLIER_LEVEL" property="supplierLevel" />
 		<result column="SUPPLIER_PLEDGE" property="supplierPledge" />
 		<result column="SUPPLIER_REG_LIST" property="supplierRegList" />
@@ -58,11 +58,11 @@
 	<sql id="Base_Column_List">
 		ID, LOGIN_NAME, MOBILE, PASSWORD, SUPPLIER_NAME, WEBSITE, FOUND_DATE, BUSINESS_TYPE,
 		ADDRESS, BANK_NAME, "BANK_ ACCOUNT", POST_CODE, TAX_CERT, BILL_CERT, SECURITY_CERT,
-		BREACH_CERT, LEGAL_NAME, LEGA_ID_CARD, LEGAL_TELEPHONE, LEGAL_MOBILE, CONTACT_NAME,
+		BREACH_CERT, LEGAL_NAME, LEGAL_ID_CARD, LEGAL_TELEPHONE, LEGAL_MOBILE, CONTACT_NAME,
 		CONTACT_TELEPHONE, CONTACT_FAX, CONTACT_MOBILE, CONTACT_EMAIL, CONTACT_ADDRESS, CREDIT_CODE,
 		REGIST_AUTHORITY, REGIST_FUND, BUSINESS_START_DATE, BUSINESS_END_DATE, BUSINESS_SCOPE,
 		BUSINESS_ADDRESS, BUSINESS_POST_CODE, OVERSEAS_BRANCH, BRANCH_COUNTRY, BRANCH_ADDRESS,
-		BRANCH_NAME, BRANCH_BUSINESS_SCOPE, SUPPLIER_TYPE_ID, STATUS, PROCUREMENT_ID, SUPPLIER_LEVEL,
+		BRANCH_NAME, BRANCH_BUSINESS_SCOPE, SUPPLIER_TYPE_ID, STATUS, PROCUREMENT_DEP_ID, SUPPLIER_LEVEL,
 		SUPPLIER_PLEDGE, SUPPLIER_REG_LIST, SUPPLIER_EXTRACTS_LIST, SUPPLIER_INSPECT_LIST,
 		SUPPLIER_REVIEW_LIST, SUPPLIER_CHANGE_LIST, SUPPLIER_EXIT_LIST, CREATED_AT, UPDATED_AT
 	</sql>
@@ -82,7 +82,7 @@
 		FOUND_DATE, BUSINESS_TYPE, ADDRESS,
 		BANK_NAME, "BANK_ ACCOUNT", POST_CODE,
 		TAX_CERT, BILL_CERT, SECURITY_CERT,
-		BREACH_CERT, LEGAL_NAME, LEGA_ID_CARD,
+		BREACH_CERT, LEGAL_NAME, LEGAL_ID_CARD,
 		LEGAL_TELEPHONE, LEGAL_MOBILE, CONTACT_NAME,
 		CONTACT_TELEPHONE, CONTACT_FAX, CONTACT_MOBILE,
 		CONTACT_EMAIL, CONTACT_ADDRESS, CREDIT_CODE,
@@ -90,7 +90,7 @@
 		BUSINESS_END_DATE, BUSINESS_SCOPE, BUSINESS_ADDRESS,
 		BUSINESS_POST_CODE, OVERSEAS_BRANCH, BRANCH_COUNTRY,
 		BRANCH_ADDRESS, BRANCH_NAME, BRANCH_BUSINESS_SCOPE,
-		SUPPLIER_TYPE_ID, STATUS, PROCUREMENT_ID,
+		SUPPLIER_TYPE_ID, STATUS, PROCUREMENT_DEP_ID,
 		SUPPLIER_LEVEL, SUPPLIER_PLEDGE, SUPPLIER_REG_LIST,
 		SUPPLIER_EXTRACTS_LIST, SUPPLIER_INSPECT_LIST,
 		SUPPLIER_REVIEW_LIST, SUPPLIER_CHANGE_LIST,
@@ -102,7 +102,7 @@
 		#{bankName}, #{bankAccount},
 		#{postCode},
 		#{taxCert}, #{billCert}, #{securityCert},
-		#{breachCert}, #{legalName}, #{legaIdCard},
+		#{breachCert}, #{legalName}, #{legalIdCard},
 		#{legalTelephone}, #{legalMobile}, #{contactName},
 		#{contactTelephone}, #{contactFax}, #{contactMobile},
 		#{contactEmail}, #{contactAddress}, #{creditCode},
@@ -110,7 +110,7 @@
 		#{businessEndDate}, #{businessScope}, #{businessAddress},
 		#{businessPostCode}, #{overseasBranch}, #{branchCountry},
 		#{branchAddress}, #{branchName}, #{branchBusinessScope},
-		#{supplierTypeId}, #{status}, #{procurementId},
+		#{supplierTypeId}, #{status}, #{procurementDepId},
 		#{supplierLevel}, #{supplierPledge}, #{supplierRegList},
 		#{supplierExtractsList}, #{supplierInspectList},
 		#{supplierReviewList}, #{supplierChangeList},
@@ -171,8 +171,8 @@
 			<if test="legalName != null">
 				LEGAL_NAME,
 			</if>
-			<if test="legaIdCard != null">
-				LEGA_ID_CARD,
+			<if test="legalIdCard != null">
+				LEGAL_ID_CARD,
 			</if>
 			<if test="legalTelephone != null">
 				LEGAL_TELEPHONE,
@@ -243,8 +243,8 @@
 			<if test="status != null">
 				STATUS,
 			</if>
-			<if test="procurementId != null">
-				PROCUREMENT_ID,
+			<if test="procurementDepId != null">
+				PROCUREMENT_DEP_ID,
 			</if>
 			<if test="supplierLevel != null">
 				SUPPLIER_LEVEL,
@@ -329,8 +329,8 @@
 			<if test="legalName != null">
 				#{legalName},
 			</if>
-			<if test="legaIdCard != null">
-				#{legaIdCard},
+			<if test="legalIdCard != null">
+				#{legalIdCard},
 			</if>
 			<if test="legalTelephone != null">
 				#{legalTelephone},
@@ -401,8 +401,8 @@
 			<if test="status != null">
 				#{status},
 			</if>
-			<if test="procurementId != null">
-				#{procurementId},
+			<if test="procurementDepId != null">
+				#{procurementDepId},
 			</if>
 			<if test="supplierLevel != null">
 				#{supplierLevel},
@@ -490,8 +490,8 @@
 			<if test="legalName != null">
 				LEGAL_NAME = #{legalName},
 			</if>
-			<if test="legaIdCard != null">
-				LEGA_ID_CARD = #{legaIdCard},
+			<if test="legalIdCard != null">
+				LEGAL_ID_CARD = #{legalIdCard},
 			</if>
 			<if test="legalTelephone != null">
 				LEGAL_TELEPHONE = #{legalTelephone},
@@ -562,8 +562,8 @@
 			<if test="status != null">
 				STATUS = #{status},
 			</if>
-			<if test="procurementId != null">
-				PROCUREMENT_ID = #{procurementId},
+			<if test="procurementDepId != null">
+				PROCUREMENT_DEP_ID = #{procurementDepId},
 			</if>
 			<if test="supplierLevel != null">
 				SUPPLIER_LEVEL = #{supplierLevel},
@@ -616,7 +616,7 @@
 		SECURITY_CERT = #{securityCert},
 		BREACH_CERT = #{breachCert},
 		LEGAL_NAME = #{legalName},
-		LEGA_ID_CARD = #{legaIdCard},
+		LEGAL_ID_CARD = #{legalIdCard},
 		LEGAL_TELEPHONE = #{legalTelephone},
 		LEGAL_MOBILE = #{legalMobile},
 		CONTACT_NAME = #{contactName},
@@ -641,7 +641,7 @@
 		BRANCH_BUSINESS_SCOPE = #{branchBusinessScope},
 		SUPPLIER_TYPE_ID = #{supplierTypeId},
 		STATUS = #{status},
-		PROCUREMENT_ID = #{procurementId},
+		PROCUREMENT_DEP_ID = #{procurementDepId},
 		SUPPLIER_LEVEL = #{supplierLevel},
 		SUPPLIER_PLEDGE = #{supplierPledge},
 		SUPPLIER_REG_LIST = #{supplierRegList},
@@ -664,6 +664,9 @@
 	<select id="getSupplier" parameterType="java.lang.String" resultMap="supplierMap">
 		select * from T_SES_SMS_SUPPLIER where ID = #{id}
 	</select>
+	<update id="updateSupplierProcurementDep" parameterType="ses.model.sms.Supplier">
+		update T_SES_SMS_SUPPLIER set PROCUREMENT_DEP_ID = #{procurementDepId} where ID = #{id}
+	</update>
 
 	<!-- 根据审核状态查询供应商及条件查询 -->
 	<select id="findSupplier" parameterType="ses.model.sms.Supplier" resultMap="BaseResultMap">
@@ -706,6 +709,7 @@
 
 
 	<resultMap type="ses.model.sms.Supplier" id="supplierMap" extends="BaseResultMap">
+		<association property="supplierMatEng" select="ses.dao.sms.SupplierMatEngMapper.getMatEngBySupplierId" column="ID" />
 		<association property="supplierMatSe" select="ses.dao.sms.SupplierMatSeMapper.getMatSeBySupplierId" column="ID" />
 		<association property="supplierMatPro" select="ses.dao.sms.SupplierMatProMapper.getMatProBySupplierId" column="ID" />
 		<association property="supplierMatSell" select="ses.dao.sms.SupplierMatSellMapper.getMatSellBySupplierId" column="ID" />

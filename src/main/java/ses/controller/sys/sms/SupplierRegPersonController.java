@@ -9,52 +9,50 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.model.sms.Supplier;
-import ses.model.sms.SupplierCertSe;
-import ses.service.sms.SupplierCertSeService;
+import ses.model.sms.SupplierRegPerson;
+import ses.service.sms.SupplierRegPersonService;
 import ses.service.sms.SupplierService;
-
 @Controller
 @Scope("prototype")
-@RequestMapping(value = "supplier_cert_se")
-public class SupplierCertSeController {
-	
+@RequestMapping(value = "supplier_reg_person")
+public class SupplierRegPersonController {
 	@Autowired
 	private SupplierService supplierService;// 供应商基本信息
 
 	@Autowired
-	private SupplierCertSeService supplierCertSeService;
+	private SupplierRegPersonService supplierRegPersonService;
 	
-	@RequestMapping(value = "add_cert_se")
-	public String addCertSell(Model model, String matSeId, String supplierId) {
-		model.addAttribute("matSeId", matSeId);
+	@RequestMapping(value = "add_reg_person")
+	public String addRegPerson(Model model, String matEngId, String supplierId) {
+		model.addAttribute("matEngId", matEngId);
 		model.addAttribute("supplierId", supplierId);
-		return "ses/sms/supplier_register/add_cert_se";
+		return "ses/sms/supplier_register/add_reg_person";
 	}
-	
-	@RequestMapping(value = "save_or_update_cert_se")
-	public String saveOrUpdateCertSell(HttpServletRequest request, SupplierCertSe supplierCertSe, String supplierId) {
-		supplierCertSeService.saveOrUpdateCertSe(supplierCertSe);
+
+	@RequestMapping(value = "save_or_update_reg_person")
+	public String saveOrUpdateRegPerson(HttpServletRequest request, SupplierRegPerson supplierRegPerson, String supplierId) {
+		supplierRegPersonService.saveOrUpdateRegPerson(supplierRegPerson);
 		Supplier supplier = supplierService.get(supplierId);
-		request.getSession().setAttribute("defaultPage", "tab-4");
+		request.getSession().setAttribute("defaultPage", "tab-3");
 		request.getSession().setAttribute("currSupplier", supplier);
 		request.getSession().setAttribute("jump.page", "professional_info");
 		return "redirect:../supplier/page_jump.html";
 	}
-	
+
 	@RequestMapping(value = "back_to_professional")
 	public String backToSellfessional(HttpServletRequest request, String supplierId) {
 		Supplier supplier = supplierService.get(supplierId);
-		request.getSession().setAttribute("defaultPage", "tab-4");
+		request.getSession().setAttribute("defaultPage", "tab-3");
 		request.getSession().setAttribute("currSupplier", supplier);
 		request.getSession().setAttribute("jump.page", "professional_info");
 		return "redirect:../supplier/page_jump.html";
 	}
-	
-	@RequestMapping(value = "delete_cert_se")
-	public String deleteCertSell(HttpServletRequest request, String certSeIds, String supplierId) {
-		supplierCertSeService.deleteCertSe(certSeIds);
+
+	@RequestMapping(value = "delete_reg_person")
+	public String deleteRegPerson(HttpServletRequest request, String regPersonIds, String supplierId) {
+		supplierRegPersonService.deleteRegPerson(regPersonIds);
 		Supplier supplier = supplierService.get(supplierId);
-		request.getSession().setAttribute("defaultPage", "tab-4");
+		request.getSession().setAttribute("defaultPage", "tab-3");
 		request.getSession().setAttribute("currSupplier", supplier);
 		request.getSession().setAttribute("jump.page", "professional_info");
 		return "redirect:../supplier/page_jump.html";

@@ -76,4 +76,9 @@ public class SupplierServiceImpl implements SupplierService {
 	public String selectLastInsertId() {
 		return supplierMapper.selectLastInsertId();
 	}
+
+	@Override
+	public void updateSupplierProcurementDep(Supplier supplier) {
+		supplierMapper.updateSupplierProcurementDep(supplier);
+	}
 }

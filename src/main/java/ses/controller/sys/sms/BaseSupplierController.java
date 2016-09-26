@@ -2,10 +2,13 @@ package ses.controller.sys.sms;
 
 import java.io.IOException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+
+import ses.util.PropUtil;
 
 import com.alibaba.fastjson.JSON;
 
@@ -23,5 +26,9 @@ public class BaseSupplierController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public String getRootPath(HttpServletRequest request) {
+		return request.getSession().getServletContext().getRealPath("/").split("\\\\")[0] + "/" + PropUtil.getProperty("file.upload.path.supplier");
 	}
 }

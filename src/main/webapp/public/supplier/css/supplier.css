@@ -2,6 +2,12 @@
 .mt10 {
 	margin-top: 10px;
 }
+.mt3 {
+	margin-top: 3px;
+}
+.mt1 {
+	margin-top: 1px;
+}
 .m0 {
 	margin: 0px !important;
 }
@@ -9,7 +15,18 @@
 ._mr20 {
 	margin-right: -20px !important;
 }
-
+.w245 {
+	width: 245px !important;
+}
+.w220 {
+	width: 220px !important;
+}
+.w200 {
+	width: 200px !important;
+}
+.w175 {
+	width: 175px !important;
+}
 .w100 {
 	width: 100px;
 }
@@ -34,6 +51,9 @@
 .maxw150 {
 	max-width: 150px;
 }
+.minw100 {
+	min-width: 100px; 
+}
 .tc {
 	text-align: center;
 }
@@ -48,4 +68,7 @@
 }
 .ztree ul {
 	border: 0px;
+}
+.color7171C6 {
+	color: #7171C6;
 }

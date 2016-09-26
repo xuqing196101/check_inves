@@ -33,7 +33,7 @@
 		)
 		values (#{id}, #{matSeId}, #{name},
 		#{levelCert}, #{licenceAuthorith}, #{expStartDate},
-		#{expEndDate}, #{motL}, #{attach}
+		#{expEndDate}, #{mot}, #{attach}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="ses.model.sms.SupplierCertSe">
@@ -90,7 +90,7 @@
 				#{expEndDate},
 			</if>
 			<if test="mot != null">
-				#{motL},
+				#{mot},
 			</if>
 			<if test="attach != null">
 				#{attach},
@@ -122,7 +122,7 @@
 				EXP_END_DATE = #{expEndDate},
 			</if>
 			<if test="mot != null">
-				MOT = #{motL},
+				MOT = #{mot},
 			</if>
 			<if test="attach != null">
 				ATTACH = #{attach},
@@ -138,7 +138,7 @@
 		LICENCE_AUTHORITH = #{licenceAuthorith},
 		EXP_START_DATE = #{expStartDate},
 		EXP_END_DATE = #{expEndDate},
-		MOT = #{motL},
+		MOT = #{mot},
 		ATTACH = #{attach}
 		where ID = #{id}
 	</update>

@@ -122,4 +122,8 @@
     <url-pattern>/InitIndexServlet</url-pattern>
   </servlet-mapping>
   
+  <listener>
+  	<listener-class>ses.util.FolderListener</listener-class>
+  </listener>
+  
 </web-app>

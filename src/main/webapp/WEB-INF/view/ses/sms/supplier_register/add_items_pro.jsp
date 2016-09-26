@@ -59,9 +59,6 @@
 								<!-- 详细信息 -->
 								<div class="tab-pane fade active in height-200" id="tab-1">
 									<div class=" margin-bottom-0">
-										<h2 class="f16 jbxx">
-											<i>01</i>供应商品目信息
-										</h2>
 										<ul class="list-unstyled list-flow">
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 品目类别：</span>
 												<div class="input-append">

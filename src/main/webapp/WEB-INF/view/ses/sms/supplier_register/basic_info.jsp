@@ -1,5 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -28,16 +29,30 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
 <script type="text/javascript">
 	$(function() {
-		document.getElementById("supplierName_input_id").focus();// 获取焦点
-
-		var id = "${currSupplier.id}";
-		if (id) {
-			layer.alert("恭喜您, 注册成功 ! 请完善相关信息 !", {
-				offset : '200px'
+		$("#page_ul_id").find("li").click(function() {
+			var id = $(this).attr("id");
+			var page = "tab-" + id.charAt(id.length - 1);
+			$("input[name='defaultPage']").val(page);
+		});
+		var defaultPage = "${defaultPage}";
+		if (defaultPage) {
+			var num = defaultPage.charAt(defaultPage.length - 1);
+			$("#page_ul_id").find("li").each(function(index) {
+				if (index == num - 1) {
+					$(this).attr("class", "active");
+				} else {
+					$(this).removeAttr("class");
+				}
+			});
+			$(".tab-pane").each(function() {
+				var id = $(this).attr("id");
+				if (id == defaultPage) {
+					$(this).attr("class", "tab-pane fade height-200 active in");
+				} else {
+					$(this).attr("class", "tab-pane fade height-200");
+				}
 			});
 		}
-
-		$(".ready_write_input").val(currYear);
 	});
 
 	/** 下拉框的内容写到 inpput 中 */
@@ -45,119 +60,11 @@
 		$("#" + id).val($(ele).text());
 	}
 
-	/** 动态获取年份 */
-	var date = new Date();
-	var currYear = date.getFullYear();
-	var sinceYear = 2010;
-
-	/** 创建财务信息表 */
-	var count1 = "${financeSize}";
-	function createFinance() {
-		if (!count1) {
-			count1 = 1;
-		}
-		var tr = "";
-		tr += "<tr id='tr_id_"+ count1 + "'>";
-		tr += "<td class='tc'><input type='checkbox' id='checkbox_input_id_" + count1 +"'><input type='hidden' name='listSupplierFinances[" + count1 + "].supplierId' value='${currSupplier.id}' /></td>";
-		tr += "<td class='tc'>";
-		tr += "<input id='curr_select_id_" + count1 + "' class='maxw100 mt10' type='text' readonly='readonly' onClick=WdatePicker({dateFmt:'yyyy'}) name='listSupplierFinances[" + count1 + "].year' onselect='changeYear(this)' /> ";
-		tr += "</td>";
-		tr += "<td class='tc'><input name='listSupplierFinances[" + count1 + "].name' class='maxw100 mt10' type='text'></td>";
-		tr += "<td class='tc'><input name='listSupplierFinances[" + count1 + "].telephone' class='maxw100 mt10' type='text'></td>";
-		tr += "<td class='tc'><input name='listSupplierFinances[" + count1 + "].auditors' class='maxw100 mt10' type='text'></td>";
-		tr += "<td class='tc'><input name='listSupplierFinances[" + count1 + "].quota' class='maxw100 mt10' type='text'></td>";
-		tr += "<td class='tc'><input name='listSupplierFinances[" + count1 + "].totalAssets' class='maxw100 mt10' type='text'></td>";
-		tr += "<td class='tc'><input name='listSupplierFinances[" + count1 + "].totalLiabilities' class='maxw100 mt10' type='text'></td>";
-		tr += "<td class='tc'><input name='listSupplierFinances[" + count1 + "].totalNetAssets' class='maxw100 mt10' type='text'></td>";
-		tr += "<td class='tc'><input name='listSupplierFinances[" + count1 + "].taking' class='maxw100 mt10' type='text'></td>";
-		tr += "</tr>";
-		$("#tbody_id_1").append(tr);
-
-		var html = "";
-		var upload = "";
-		upload += "<div class='uploader orange m0'>";
-		upload += "<input type='text' class='filename h32 m0 fz11' readonly='readonly' value='未选择任何文件...'/>";
-		upload += "<input type='button' class='button' value='选择文件...'/>";
-		upload += "<input type='file' size='30' accept='image/*'/>";
-		upload += "</div>";
-
-		html += "<h5 id='year_h_id_"+ count1 +"'>未选择年份</h5>";
-		html += "<ul class='list-unstyled list-flow' id='ul_id_"+ count1 + "'>";
-		html += "<li class='col-md-6 p0'><span class='zzzx'><i class='red'>＊</i> 财务审计报告的审计意见：</span>";
-		html += "<div class='input-append'>" + upload + "</div></li>";
-		html += "<li class='col-md-6 p0'><span class='zzzx'><i class='red'>＊</i> 资产负债表：</span>";
-		html += "<div class='input-append'>" + upload + "</div></li>";
-		html += "<li class='col-md-6 p0'><span class='zzzx'><i class='red'>＊</i> 利润表：</span>";
-		html += "<div class='input-append'>" + upload + "</div></li>";
-		html += "<li class='col-md-6 p0'><span class='zzzx'><i class='red'>＊</i> 现金流量表：</span>";
-		html += "<div class='input-append'>" + upload + "</div></li>";
-		html += "<li class='col-md-6 p0'><span class='zzzx'><i class='red'>＊</i> 所有者权益变动表：</span>";
-		html += "<div class='input-append'>" + upload + "</div></li>";
-		html += "<div class='clear'></div>";
-		html += "</ul>";
-		$("#list_div_id").append(html);
-		count1++;
-	}
-
-	/** 动态展示年份 */
-	function changeYear(ele) {
-		var value = $(ele).val();
-		var id = $(ele).attr("id");
-		var arr = id.split("_");
-		var index = arr[arr.length - 1];
-		$("#year_h_id_" + index).text(value + "年");
-	}
-
-	/** 移除财务信息表 */
-	function removeFinance() {
-		$("#tbody_id_1").find("input:checked").each(function(index) {
-			var id = $(this).attr("id");
-			if (id) {
-				var arr = id.split("_");
-				var index = arr[arr.length - 1];
-				$("tr").remove("#tr_id_" + index);
-				$("h5").remove("#year_h_id_" + index);
-				$("ul").remove("#ul_id_" + index);
-			}
-		});
-	}
-
 	/** 全选 */
 	function checkAll(ele, id) {
 		var checked = $(ele).prop("checked");
 		$("#" + id).find("input:checkbox").each(function(index) {
 			$(this).prop("checked", checked);
-		});
-	}
-
-	/** 创建股东信息表 */
-	var count2 = "${stockholderSize}";
-	function createShare() {
-		if (!count2) {
-			count2 = 1;
-		}
-		var tr = "";
-		tr += "<tr id='share_tr_id_" + count2 + "'>";
-		tr += "<td class='tc'><input type='checkbox' id='checkbox_input_id_" + count2 + "'><input type='hidden' name='listSupplierStockholders[" + count2 + "].supplierId' value='${currSupplier.id}' /></td>";
-		tr += "<td class='tc'><input name='listSupplierStockholders[" + count2 + "].name' class='maxw150 mt10' type='text'></td>";
-		tr += "<td class='tc'><input name='listSupplierStockholders[" + count2 + "].nature' class='maxw150 mt10' type='text'></td>";
-		tr += "<td class='tc'><input name='listSupplierStockholders[" + count2 + "].identity' class='maxw150 mt10' type='text'></td>";
-		tr += "<td class='tc'><input name='listSupplierStockholders[" + count2 + "].shares' class='maxw150 mt10' type='text'></td>";
-		tr += "<td class='tc'><input name='listSupplierStockholders[" + count2 + "].proportion' class='maxw150 mt10' type='text'></td>";
-		tr += "</tr>";
-		$("#tbody_id_2").append(tr);
-		count2++;
-	}
-
-	/** 移除股东信息表 */
-	function removeShare() {
-		$("#tbody_id_2").find("input:checked").each(function(index) {
-			var id = $(this).attr("id");
-			if (id) {
-				var arr = id.split("_");
-				var index = arr[arr.length - 1];
-				$("tr").remove("#share_tr_id_" + index);
-			}
 		});
 	}
 
@@ -172,6 +79,102 @@
 		$("#basic_info_form_id").attr("action", action);
 		$("#basic_info_form_id").submit();
 
+	}
+	
+	function openStockholder() {
+		var supplierId = $("input[name='id']").val();
+		if (!supplierId) {
+			layer.msg("请暂存供应商基本信息 !", {
+				offset : '300px',
+			});
+		} else {
+			layer.open({
+				type : 2,
+				title : '添加供应商股东信息',
+				skin : 'layui-layer-rim', //加上边框
+				area : [ '700px', '420px' ], //宽高
+				offset : '100px',
+				scrollbar : false,
+				content : '${pageContext.request.contextPath}/supplier_stockholder/add_stockholder.html?&supplierId=' + supplierId, //url
+				closeBtn : 1, //不显示关闭按钮
+			});
+		}
+	}
+	
+	function deleteStockholder() {
+		var checkboxs = $("#stockholder_list_tbody_id").find(":checkbox:checked");
+		var stockholderIds = "";
+		var supplierId = $("input[name='id']").val();
+		$(checkboxs).each(function(index) {
+			if (index > 0) {
+				stockholderIds += ",";
+			}
+			stockholderIds += $(this).val();
+		});
+		var size = checkboxs.length;
+		if (size > 0) {
+			layer.confirm("已勾选" + size + "条记录, 确定删除 !", {
+				offset : '200px',
+				scrollbar : false,
+			},function(index) {
+				window.location.href = "${pageContext.request.contextPath}/supplier_stockholder/delete_stockholder.html?stockholderIds=" + stockholderIds +"&supplierId=" + supplierId;
+				layer.close(index);
+				
+			});
+		} else {
+			layer.alert("请至少勾选一条记录 !", {
+				offset : '200px',
+				scrollbar : false,
+			});
+		}
+	}
+	
+	function openFinance() {
+		var supplierId = $("input[name='id']").val();
+		if (!supplierId) {
+			layer.msg("请暂存供应商基本信息 !", {
+				offset : '300px',
+			});
+		} else {
+			layer.open({
+				type : 2,
+				title : '添加供应商财务信息',
+				skin : 'layui-layer-rim', //加上边框
+				area : [ '700px', '420px' ], //宽高
+				offset : '100px',
+				scrollbar : false,
+				content : '${pageContext.request.contextPath}/supplier_finance/add_finance.html?&supplierId=' + supplierId, //url
+				closeBtn : 1, //不显示关闭按钮
+			});
+		}
+	}
+	
+	function deleteFinance() {
+		var checkboxs = $("#finance_list_tbody_id").find(":checkbox:checked");
+		var financeIds = "";
+		var supplierId = $("input[name='id']").val();
+		$(checkboxs).each(function(index) {
+			if (index > 0) {
+				financeIds += ",";
+			}
+			financeIds += $(this).val();
+		});
+		var size = checkboxs.length;
+		if (size > 0) {
+			layer.confirm("已勾选" + size + "条记录, 确定删除 !", {
+				offset : '200px',
+				scrollbar : false,
+			},function(index) {
+				window.location.href = "${pageContext.request.contextPath}/supplier_finance/delete_finance.html?financeIds=" + financeIds +"&supplierId=" + supplierId;
+				layer.close(index);
+				
+			});
+		} else {
+			layer.alert("请至少勾选一条记录 !", {
+				offset : '200px',
+				scrollbar : false,
+			});
+		}
 	}
 </script>
 
@@ -203,16 +206,14 @@
 			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10">
-						<ul class="nav nav-tabs bgdd">
-							<li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="s_news f18">详细信息</a>
-							</li>
-							<li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="fujian f18">财务信息</a>
-							</li>
-							<li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="fujian f18">股东信息</a>
-							</li>
+						<ul id="page_ul_id" class="nav nav-tabs bgdd">
+							<li id="li_id_1" class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="s_news f18">详细信息</a></li>
+							<li id="li_id_2" class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="fujian f18">财务信息</a></li>
+							<li id="li_id_3" class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="fujian f18">股东信息</a></li>
 						</ul>
 						<form id="basic_info_form_id" method="post" enctype="multipart/form-data">
 							<input name="id" value="${currSupplier.id}" type="hidden" /> 
+							<input name="defaultPage" value="${defaultPage}" type="hidden" /> 
 							<input name="sign" value="2" type="hidden" />
 							<div class="tab-content padding-top-20">
 								<!-- 详细信息 -->
@@ -224,19 +225,26 @@
 										<ul class="list-unstyled list-flow">
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 供应商名称：</span>
 												<div class="input-append">
-													<input class="span3" id="supplierName_input_id" type="text" name="supplierName" />
-												</div></li>
+													<input class="span3" id="supplierName_input_id" type="text" name="supplierName" value="${currSupplier.supplierName}" />
+												</div>
+											</li>
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 公司网址：</span>
 												<div class="input-append">
-													<input class="span3" type="text" name="website" />
-												</div></li>
+													<input class="span3" type="text" name="website" value="${currSupplier.website}" />
+												</div>
+											</li>
 											<li class="col-md-6  p0 "><span class=""><i class="red">＊</i>成立日期：</span>
 												<div class="input-append">
-													<input class="span2" type="text" readonly="readonly" onClick="WdatePicker()" name="foundDate" /> <span class="add-on"> <img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
-												</div></li>
+													<fmt:formatDate value="${currSupplier.foundDate}" pattern="yyyy-MM-dd" var="foundDate"/>
+													<input class="span2" type="text" readonly="readonly" onClick="WdatePicker()" name="foundDate" value="${foundDate}" /> 
+													<span class="add-on"> 
+														<img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> 
+													</span>
+												</div>
+											</li>
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i>营业执照登记类型：</span>
 												<div class="input-append">
-													<input class="span2" id="businessType_input_id" name="businessType" type="text" readonly="readonly" />
+													<input class="span2" id="businessType_input_id" name="businessType" type="text" readonly="readonly" value="${currSupplier.businessType}" />
 													<div class="btn-group">
 														<button class="btn dropdown-toggle add-on" data-toggle="dropdown">
 															<img src="${pageContext.request.contextPath}/public/ZHQ/images/down.png" class="margin-bottom-5" />
@@ -254,7 +262,7 @@
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i>公司地址：</span>
 												<div class="fl">
 													<div class="input-append mr18">
-														<input class="span4" id="address_input_id1" type="text" readonly="readonly" name="address" />
+														<input class="span4" id="address_input_id1" type="text" readonly="readonly" name="address" value="${currSupplier.address}" />
 														<div class="btn-group">
 															<button class="btn dropdown-toggle add-on" data-toggle="dropdown">
 																<img src="${pageContext.request.contextPath}/public/ZHQ/images/down.png" class="margin-bottom-5" />
@@ -265,7 +273,7 @@
 														</div>
 													</div>
 													<div class="input-append">
-														<input class="span4" id="address_input_id2" type="text" readonly="readonly">
+														<input class="span4" id="address_input_id2" type="text" readonly="readonly" value="${currSupplier.address}" />
 														<div class="btn-group">
 															<button class="btn dropdown-toggle add-on" data-toggle="dropdown">
 																<img src="${pageContext.request.contextPath}/public/ZHQ/images/down.png" class="margin-bottom-5" />
@@ -275,21 +283,23 @@
 															</ul>
 														</div>
 													</div>
-												</div></li>
+												</div>
+											</li>
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i>开户行名称：</span>
 												<div class="input-append">
-													<input class="span3" type="text" name="bankName" />
+													<input class="span3" type="text" name="bankName" value="${currSupplier.bankName}" />
 												</div></li>
 
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i>开户行账号：</span>
 												<div class="input-append">
-													<input class="span3" type="text" name="bankAccount" />
-												</div></li>
-
+													<input class="span3" type="text" name="bankAccount" value="${currSupplier.bankAccount}" />
+												</div>
+											</li>
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 邮编：</span>
 												<div class="input-append">
-													<input class="span3" type="text" name="postCode" />
-												</div></li>
+													<input class="span3" type="text" name="postCode" value="${currSupplier.postCode}" />
+												</div>
+											</li>
 											<div class="clear"></div>
 										</ul>
 
@@ -301,27 +311,39 @@
 											<li class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i> 近三个月完税凭证：</span>
 												<div class="input-append">
 													<div class="uploader orange m0">
-														<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..." /> <input type="button" class="button" value="选择文件..." /> <input type="file" size="30" accept="image/*" />
+														<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..." /> 
+														<input type="button" class="button" value="选择文件..." /> 
+														<input name="taxCertFile" type="file" size="30" accept="image/*" />
 													</div>
-												</div></li>
+												</div>
+											</li>
 											<li class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i>近三年银行基本账户年末对账单：</span>
 												<div class="input-append">
 													<div class="uploader orange m0">
-														<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..." /> <input type="button" class="button" value="选择文件..." /> <input type="file" size="30" accept="image/*" />
+														<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..." /> 
+														<input type="button" class="button" value="选择文件..." /> 
+														<input name="billCertFile" type="file" size="30" accept="image/*" />
 													</div>
-												</div></li>
+												</div>
+											</li>
 											<li class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i>近三个月缴纳社会保险金凭证：</span>
 												<div class="input-append">
 													<div class="uploader orange m0">
-														<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..." /> <input type="button" class="button" value="选择文件..." /> <input type="file" size="30" accept="image/*" />
+														<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..." /> 
+														<input type="button" class="button" value="选择文件..." /> 
+														<input name="securityCertFile" type="file" size="30" accept="image/*" />
 													</div>
-												</div></li>
+												</div>
+											</li>
 											<li class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i>近三年内无重大违法记录声明：</span>
 												<div class="input-append">
 													<div class="uploader orange m0">
-														<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..." /> <input type="button" class="button" value="选择文件..." /> <input type="file" size="30" accept="image/*" />
+														<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..." /> 
+														<input type="button" class="button" value="选择文件..." /> 
+														<input name="breachCertFile" type="file" size="30" accept="image/*" />
 													</div>
-												</div></li>
+												</div>
+											</li>
 											<div class="clear"></div>
 										</ul>
 
@@ -331,20 +353,24 @@
 										<ul class="list-unstyled list-flow">
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 姓名：</span>
 												<div class="input-append">
-													<input class="span3" type="text" name="legalName" />
-												</div></li>
+													<input class="span3" type="text" name="legalName" value="${currSupplier.legalName}" />
+												</div>
+											</li>
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 身份证号：</span>
 												<div class="input-append">
-													<input class="span3" type="text" name="legaIdCard" />
-												</div></li>
+													<input class="span3" type="text" name="legalIdCard" value="${currSupplier.legalIdCard}" />
+												</div>
+											</li>
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 固定电话：</span>
 												<div class="input-append">
-													<input class="span3" type="text" name="legalTelephone" />
-												</div></li>
+													<input class="span3" type="text" name="legalTelephone" value="${currSupplier.legalTelephone}" />
+												</div>
+											</li>
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 手机：</span>
 												<div class="input-append">
-													<input class="span3" type="text" name="legalMobile" />
-												</div></li>
+													<input class="span3" type="text" name="legalMobile" value="${currSupplier.legalMobile}" />
+												</div>
+											</li>
 											<div class="clear"></div>
 										</ul>
 										<h2 class="f16 jbxx mt40">
@@ -353,28 +379,34 @@
 										<ul class="list-unstyled list-flow">
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 姓名：</span>
 												<div class="input-append">
-													<input class="span3" type="text" name="contactName" />
-												</div></li>
+													<input class="span3" type="text" name="contactName" value="${currSupplier.contactName}" />
+												</div>
+											</li>
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 传真电话：</span>
 												<div class="input-append">
-													<input class="span3" type="text" name="contactFax" />
-												</div></li>
+													<input class="span3" type="text" name="contactFax" value="${currSupplier.contactFax}" />
+												</div>
+											</li>
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 固定电话：</span>
 												<div class="input-append">
-													<input class="span3" type="text" name="contactTelephone" />
-												</div></li>
+													<input class="span3" type="text" name="contactTelephone" value="${currSupplier.contactTelephone}" />
+												</div>
+											</li>
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 手机：</span>
 												<div class="input-append">
-													<input class="span3" type="text" name="contactMobile" />
-												</div></li>
+													<input class="span3" type="text" name="contactMobile" value="${currSupplier.contactMobile}" />
+												</div>
+											</li>
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 邮箱：</span>
 												<div class="input-append">
-													<input class="span3" type="text" name="contactEmail" />
-												</div></li>
+													<input class="span3" type="text" name="contactEmail" value="${currSupplier.contactEmail}" />
+												</div>
+											</li>
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 地址：</span>
 												<div class="input-append">
-													<input class="span3" type="text" name="contactAddress" />
-												</div></li>
+													<input class="span3" type="text" name="contactAddress" value="${currSupplier.contactAddress}" />
+												</div>
+											</li>
 											<div class="clear"></div>
 										</ul>
 										<h2 class="f16 jbxx mt40">
@@ -383,37 +415,44 @@
 										<ul class="list-unstyled list-flow">
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 统一社会信用代码：</span>
 												<div class="input-append">
-													<input class="span3" type="text" name="creditCode" />
-												</div></li>
+													<input class="span3" type="text" name="creditCode" value="${currSupplier.creditCode}" />
+												</div>
+											</li>
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 登记机关：</span>
 												<div class="input-append">
-													<input class="span3" type="text" name="registAuthority" />
-												</div></li>
+													<input class="span3" type="text" name="registAuthority" value="${currSupplier.registAuthority}" />
+												</div>
+											</li>
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 注册资本：</span>
 												<div class="input-append">
-													<input class="span3" type="text" name="registFund" />
-												</div></li>
+													<input class="span3" type="text" name="registFund" value="${currSupplier.registFund}" />
+												</div>
+											</li>
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i>营业开始时间：</span>
 												<div class="input-append">
-													<input class="span2" type="text" readonly="readonly" onClick="WdatePicker()" name="businessStartDate" /> <span class="add-on"><img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
-												</div></li>
+													<input class="span2" type="text" readonly="readonly" onClick="WdatePicker()" name="businessStartDate" value="${currSupplier.businessStartDate}" /> <span class="add-on"><img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
+												</div>
+											</li>
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i>营业截止时间：</span>
 												<div class="input-append">
-													<input class="span2" type="text" readonly="readonly" onClick="WdatePicker()" name="businessEndDate" /> <span class="add-on"><img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
-												</div></li>
+													<input class="span2" type="text" readonly="readonly" onClick="WdatePicker()" name="businessEndDate" value="${currSupplier.businessEndDate}" /> <span class="add-on"><img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
+												</div>
+											</li>
 
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 生产经营地址：</span>
 												<div class="input-append">
-													<input class="span3" type="text" name="businessAddress" />
-												</div></li>
+													<input class="span3" type="text" name="businessAddress" value="${currSupplier.businessAddress}" />
+												</div>
+											</li>
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 邮编：</span>
 												<div class="input-append">
-													<input class="span3" type="text" name="businessPostCode" />
-												</div></li>
+													<input class="span3" type="text" name="businessPostCode" value="${currSupplier.businessPostCode}" />
+												</div>
+											</li>
 											<li class="col-md-12 p0 mt10"><span class="fl"><i class="red">＊</i>经营范围：</span>
 												<div class="col-md-9 mt5">
 													<div class="row _mr20">
-														<textarea class="text_area col-md-12" title="不超过800个字" name="businessScope"></textarea>
+														<textarea class="text_area col-md-12" title="不超过800个字" name="businessScope">${currSupplier.bankName}</textarea>
 													</div>
 												</div>
 												<div class="clear"></div></li>
@@ -425,7 +464,7 @@
 										<ul class="list-unstyled list-flow">
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 境外分支结构：</span>
 												<div class="input-append">
-													<input class="span2" id="overseasBranch_input_id" name="overseasBranch" type="text" readonly="readonly" />
+													<input class="span2" id="overseasBranch_input_id" name="overseasBranch" type="text" readonly="readonly" value="${currSupplier.overseasBranch}" />
 													<div class="btn-group">
 														<button class="btn dropdown-toggle add-on" data-toggle="dropdown">
 															<img src="${pageContext.request.contextPath}/public/ZHQ/images/down.png" class="margin-bottom-5" />
@@ -435,23 +474,28 @@
 															<li class="hand tc" onclick="checkText(this, 'overseasBranch_input_id')">否</li>
 														</ul>
 													</div>
-												</div></li>
+												</div>
+											</li>
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 境外分支所在国家：</span>
 												<div class="input-append">
-													<input class="span3" type="text">
-												</div></li>
+													<input class="span3" name="branchCountry" type="text" value="${currSupplier.branchCountry}" />
+												</div>
+											</li>
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 分支地址：</span>
 												<div class="input-append">
-													<input class="span3" type="text" name="branchAddress" />
-												</div></li>
+													<input class="span3" type="text" name="branchAddress" value="${currSupplier.branchAddress}" />
+												</div>
+											</li>
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 机构名称：</span>
 												<div class="input-append">
-													<input class="span3" type="text" name="branchName" />
-												</div></li>
+													<input class="span3" type="text" name="branchName" value="${currSupplier.branchName}" />
+												</div>
+											</li>
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 分支生产经营范围：</span>
 												<div class="input-append">
-													<input class="span3" type="text" name="branchBusinessScope" />
-												</div></li>
+													<input class="span3" type="text" name="branchBusinessScope" value="${currSupplier.branchBusinessScope}" />
+												</div>
+											</li>
 											<div class="clear"></div>
 										</ul>
 
@@ -465,12 +509,12 @@
 										<h2 class="f16 jbxx mt40">
 											<i>01</i>财务状况登记表
 										</h2>
-										<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="removeFinance()">删除</button>
-										<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="createFinance()">新增</button>
+										<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteFinance()">删除</button>
+										<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="openFinance()">新增</button>
 										<table id="finance_table_id" class="table table-bordered table-condensed">
 											<thead>
 												<tr>
-													<th class="info"><input id="finance_checkbox_id" type="checkbox" onchange="checkAll(this, 'tbody_id_1')" /></th>
+													<th class="info"><input type="checkbox" onchange="checkAll(this, 'finance_list_tbody_id')" /></th>
 													<th class="info">年份</th>
 													<th class="info">会计实务所名称</th>
 													<th class="info">事务所联系电话</th>
@@ -482,138 +526,79 @@
 													<th class="info">营业收入</th>
 												</tr>
 											</thead>
-											<tbody id="tbody_id_1">
-												<c:if test="${currSupplier.listSupplierFinances != null}">
-													<c:forEach items="${currSupplier.listSupplierFinances}" var="finances" varStatus="vs">
-														<tr id="tr_id_${vs.index}">
-															<td class="tc"><input type="checkbox" id="checkbox_input_id_${vs.index}" /> <input type="hidden" name="listSupplierFinances[${vs.index}].supplierId" value="${currSupplier.id}" />
-															</td>
-															<td class="tc"><input id="curr_select_id_${vs.index}" class="maxw100 mt10" type="text" readonly="readonly" onClick="WdatePicker({dateFmt:'yyyy'})" name="listSupplierFinances[${vs.index}].year" value="${finances.year}" onselect="changeYear(this)" />
-															</td>
-															<td class="tc"><input style="border: 0" name="listSupplierFinances[${vs.index}].name" class="maxw100 mt10" type="text" value="${finances.name}"></td>
-															<td class="tc"><input name="listSupplierFinances[${vs.index}].telephone" class="maxw100 mt10" type="text" value="${finances.telephone}"></td>
-															<td class="tc"><input name="listSupplierFinances[${vs.index}].auditors" class="maxw100 mt10" type="text" value="${finances.auditors}"></td>
-															<td class="tc"><input name="listSupplierFinances[${vs.index}].quota" class="maxw100 mt10" type="text" value="${finances.quota}"></td>
-															<td class="tc"><input name="listSupplierFinances[${vs.index}].totalAssets" class="maxw100 mt10" type="text" value="${finances.totalAssets}"></td>
-															<td class="tc"><input name="listSupplierFinances[${vs.index}].totalLiabilities" class="maxw100 mt10" type="text" value="${finances.totalLiabilities}"></td>
-															<td class="tc"><input name="listSupplierFinances[${vs.index}].totalNetAssets" class="maxw100 mt10" type="text" value="${finances.totalNetAssets}"></td>
-															<td class="tc"><input name="listSupplierFinances[${vs.index}].taking" class="maxw100 mt10" type="text" value="${finances.taking}"></td>
-														</tr>
-													</c:forEach>
-												</c:if>
-												<c:if test="${currSupplier.listSupplierFinances == null}">
-													<tr id="tr_id_0">
-														<td class="tc"><input type="checkbox" id="checkbox_input_id_0" /> <input type="hidden" name="listSupplierFinances[0].supplierId" value="${currSupplier.id}" />
-														</td>
-														<td class="tc"><input id="curr_select_id_0" class="maxw100 mt10" type="text" readonly="readonly" onClick="WdatePicker({dateFmt:'yyyy'})" name="listSupplierFinances[0].year" onselect="changeYear(this)" />
-														</td>
-														<td class="tc"><input name="listSupplierFinances[0].name" class="maxw100 mt10" type="text"></td>
-														<td class="tc"><input name="listSupplierFinances[0].telephone" class="maxw100 mt10" type="text"></td>
-														<td class="tc"><input name="listSupplierFinances[0].auditors" class="maxw100 mt10" type="text"></td>
-														<td class="tc"><input name="listSupplierFinances[0].quota" class="maxw100 mt10" type="text"></td>
-														<td class="tc"><input name="listSupplierFinances[0].totalAssets" class="maxw100 mt10" type="text"></td>
-														<td class="tc"><input name="listSupplierFinances[0].totalLiabilities" class="maxw100 mt10" type="text"></td>
-														<td class="tc"><input name="listSupplierFinances[0].totalNetAssets" class="maxw100 mt10" type="text"></td>
-														<td class="tc"><input name="listSupplierFinances[0].taking" class="maxw100 mt10" type="text"></td>
+											<tbody id="finance_list_tbody_id">
+												<c:forEach items="${currSupplier.listSupplierFinances}" var="finance" varStatus="vs">
+													<tr>
+														<td class="tc"><input type="checkbox" value="${finance.id}" /></td>
+														<td class="tc">${finance.year}</td>
+														<td class="tc">${finance.name}</td>
+														<td class="tc">${finance.telephone}</td>
+														<td class="tc">${finance.auditors}</td>
+														<td class="tc">${finance.quota}</td>
+														<td class="tc">${finance.totalAssets}</td>
+														<td class="tc">${finance.totalLiabilities}</td>
+														<td class="tc">${finance.totalNetAssets}</td>
+														<td class="tc">${finance.taking}</td>
 													</tr>
-												</c:if>
+												</c:forEach>
 											</tbody>
 										</table>
-										<div id="list_div_id">
-											<c:if test="${currSupplier.listSupplierFinances != null}">
-												<c:forEach items="${currSupplier.listSupplierFinances}" var="finances" varStatus="vs">
-													<h5 id="year_h_id_${vs.index}">${finances.year}年</h5>
-													<ul class="list-unstyled list-flow" id="ul_id_${vs.index}">
-														<li class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i> 财务审计报告的审计意见：</span>
-															<div class="input-append">
-																<div class="uploader orange m0">
-																	<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..." /> <input type="button" class="button" value="选择文件..." /> <input type="file" size="30" accept="image/*" />
-																</div>
-															</div></li>
-														<li class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i>资产负债表：</span>
-															<div class="input-append">
-																<div class="uploader orange m0">
-																	<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..." /> <input type="button" class="button" value="选择文件..." /> <input type="file" size="30" accept="image/*" />
-																</div>
-															</div></li>
-														<li class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i>利润表：</span>
-															<div class="input-append">
-																<div class="uploader orange m0">
-																	<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..." /> <input type="button" class="button" value="选择文件..." /> <input type="file" size="30" accept="image/*" />
-																</div>
-															</div></li>
-														<li class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i>现金流量表：</span>
-															<div class="input-append">
-																<div class="uploader orange m0">
-																	<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..." /> <input type="button" class="button" value="选择文件..." /> <input type="file" size="30" accept="image/*" />
-																</div>
-															</div></li>
-														<li class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i>所有者权益变动表：</span>
-															<div class="input-append">
-																<div class="uploader orange m0">
-																	<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..." /> <input type="button" class="button" value="选择文件..." /> <input type="file" size="30" accept="image/*" />
-																</div>
-															</div></li>
-														<div class="clear"></div>
-													</ul>
-												</c:forEach>
-											</c:if>
-
-											<c:if test="${currSupplier.listSupplierFinances == null}">
-												<h5 id="year_h_id_0" class="ready_write_h5">未选择年份</h5>
-												<ul class="list-unstyled list-flow" id="ul_id_0">
+										<div>
+											<c:forEach items="${currSupplier.listSupplierFinances}" var="finance" varStatus="vs">
+												<h5>${finance.year}年</h5>
+												<ul class="list-unstyled list-flow" id="ul_id_${vs.index}">
 													<li class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i> 财务审计报告的审计意见：</span>
-														<div class="input-append">
-															<div class="uploader orange m0">
-																<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..." /> <input type="button" class="button" value="选择文件..." /> <input type="file" size="30" accept="image/*" />
-															</div>
-														</div></li>
+														 <div class="input-append">
+														 	 <a class="mt3 color7171C6" href="javascript:void(0)">下载附件</a>
+														 </div>
+													</li>
 													<li class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i>资产负债表：</span>
 														<div class="input-append">
-															<div class="uploader orange m0">
-																<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..." /> <input type="button" class="button" value="选择文件..." /> <input type="file" size="30" accept="image/*" />
-															</div>
-														</div></li>
+															<div class="input-append">
+														 	 	<a class="mt3 color7171C6" href="javascript:void(0)">下载附件</a>
+															 </div>
+														</div>
+													</li>
 													<li class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i>利润表：</span>
 														<div class="input-append">
-															<div class="uploader orange m0">
-																<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..." /> <input type="button" class="button" value="选择文件..." /> <input type="file" size="30" accept="image/*" />
-															</div>
-														</div></li>
+															<div class="input-append">
+														 	 	<a class="mt3 color7171C6" href="javascript:void(0)">下载附件</a>
+															 </div>
+														</div>
+													</li>
 													<li class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i>现金流量表：</span>
 														<div class="input-append">
-															<div class="uploader orange m0">
-																<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..." /> <input type="button" class="button" value="选择文件..." /> <input type="file" size="30" accept="image/*" />
-															</div>
-														</div></li>
+															<div class="input-append">
+														 	 	<a class="mt3 color7171C6" href="javascript:void(0)">下载附件</a>
+															 </div>
+														</div>
+													</li>
 													<li class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i>所有者权益变动表：</span>
 														<div class="input-append">
-															<div class="uploader orange m0">
-																<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..." /> <input type="button" class="button" value="选择文件..." /> <input type="file" size="30" accept="image/*" />
-															</div>
-														</div></li>
+															<div class="input-append">
+														 	 	<a class="mt3 color7171C6" href="javascript:void(0)">下载附件</a>
+															 </div>
+														</div>
+													</li>
 													<div class="clear"></div>
 												</ul>
-											</c:if>
+											</c:forEach>
 										</div>
-
 									</div>
 								</div>
 
 								<!-- 股东信息 -->
 								<div class="tab-pane fade height-200" id="tab-3">
 									<div class="margin-bottom-0  categories">
-
 										<h2 class="f16 jbxx mt40">
 											<i>01</i>股东信息表
 										</h2>
-										<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="removeShare()">删除</button>
-										<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="createShare()">新增</button>
+										<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteStockholder()">删除</button>
+										<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="openStockholder()">新增</button>
 										<table id="share_table_id" class="table table-bordered table-condensed">
 											<thead>
 												<tr>
-													<th class="info"><input id="share_checkbox_id" type="checkbox" onchange="checkAll(this, 'tbody_id_2')" />
-													</th>
+													<th class="info"><input type="checkbox" onchange="checkAll(this, 'stockholder_list_tbody_id')" /></th>
 													<th class="info">出资人名称或姓名</th>
 													<th class="info">出资人性质</th>
 													<th class="info">统一社会信用代码或身份证号码</th>
@@ -621,39 +606,17 @@
 													<th class="info">比例</th>
 												</tr>
 											</thead>
-											<tbody id="tbody_id_2">
-												<c:if test="${currSupplier.listSupplierStockholders != null}">
-													<c:forEach items="${currSupplier.listSupplierStockholders}" var="stockholder" varStatus="vs">
-														<tr id="share_tr_id_${vs.index}">
-															<td class="tc"><input type="checkbox" id="share_input_id_${vs.index}"> <input type="hidden" name="listSupplierStockholders[${vs.index}].supplierId" value="${currSupplier.id}"></td>
-															<td class="tc"><input name="listSupplierStockholders[${vs.index}].name" class="maxw150 mt10" type="text" value="${stockholder.name}">
-															</td>
-															<td class="tc"><input name="listSupplierStockholders[${vs.index}].nature" class="maxw150 mt10" type="text" value="${stockholder.nature}">
-															</td>
-															<td class="tc"><input name="listSupplierStockholders[${vs.index}].identity" class="maxw150 mt10" type="text" value="${stockholder.identity}">
-															</td>
-															<td class="tc"><input name="listSupplierStockholders[${vs.index}].shares" class="maxw150 mt10" type="text" value="${stockholder.shares}">
-															</td>
-															<td class="tc"><input name="listSupplierStockholders[${vs.index}].proportion" class="maxw150 mt10" type="text" value="${stockholder.proportion}">
-															</td>
-														</tr>
-													</c:forEach>
-												</c:if>
-												<c:if test="${currSupplier.listSupplierStockholders == null}">
-													<tr id="share_tr_id_0">
-														<td class="tc"><input type="checkbox" id="share_input_id_0"> <input type="hidden" name="listSupplierStockholders[0].supplierId" value="${currSupplier.id}"></td>
-														<td class="tc"><input name="listSupplierStockholders[0].name" class="maxw150 mt10" type="text">
-														</td>
-														<td class="tc"><input name="listSupplierStockholders[0].nature" class="maxw150 mt10" type="text">
-														</td>
-														<td class="tc"><input name="listSupplierStockholders[0].identity" class="maxw150 mt10" type="text">
-														</td>
-														<td class="tc"><input name="listSupplierStockholders[0].stockholder" class="maxw150 mt10" type="text">
-														</td>
-														<td class="tc"><input name="listSupplierStockholders[0].proportion" class="maxw150 mt10" type="text">
-														</td>
+											<tbody id="stockholder_list_tbody_id">
+												<c:forEach items="${currSupplier.listSupplierStockholders}" var="stockholder" varStatus="vs">
+													<tr>
+														<td class="tc"><input type="checkbox" value="${stockholder.id}" /></td>
+														<td class="tc">${stockholder.name}</td>
+														<td class="tc">${stockholder.nature}</td>
+														<td class="tc">${stockholder.identity}</td>
+														<td class="tc">${stockholder.shares}</td>
+														<td class="tc">${stockholder.proportion}</td>
 													</tr>
-												</c:if>
+												</c:forEach>
 											</tbody>
 										</table>
 									</div>

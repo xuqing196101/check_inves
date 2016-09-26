@@ -156,7 +156,7 @@ public class Supplier implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER.LEGA_ID_CARD
 	 * </pre>
 	 */
-	private String legaIdCard;
+	private String legalIdCard;
 
 	/**
 	 * <pre>
@@ -348,7 +348,7 @@ public class Supplier implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER.PROCUREMENT_ID
 	 * </pre>
 	 */
-	private String procurementId;
+	private String procurementDepId;
 
 	/**
 	 * <pre>
@@ -440,7 +440,9 @@ public class Supplier implements Serializable {
 
 	private SupplierMatSe supplierMatSe;
 
-	private String ids;
+	private SupplierMatEng supplierMatEng;
+
+	private String supplierTypeIds;
 
 	public String getId() {
 		return id;
@@ -578,12 +580,12 @@ public class Supplier implements Serializable {
 		this.legalName = legalName;
 	}
 
-	public String getLegaIdCard() {
-		return legaIdCard;
+	public String getLegalIdCard() {
+		return legalIdCard;
 	}
 
-	public void setLegaIdCard(String legaIdCard) {
-		this.legaIdCard = legaIdCard;
+	public void setLegalIdCard(String legalIdCard) {
+		this.legalIdCard = legalIdCard;
 	}
 
 	public String getLegalTelephone() {
@@ -770,12 +772,12 @@ public class Supplier implements Serializable {
 		this.status = status;
 	}
 
-	public String getProcurementId() {
-		return procurementId;
+	public String getProcurementDepId() {
+		return procurementDepId;
 	}
 
-	public void setProcurementId(String procurementId) {
-		this.procurementId = procurementId;
+	public void setProcurementDepId(String procurementDepId) {
+		this.procurementDepId = procurementDepId;
 	}
 
 	public String getSupplierLevel() {
@@ -874,12 +876,12 @@ public class Supplier implements Serializable {
 		this.listSupplierStockholders = listSupplierStockholders;
 	}
 
-	public String getIds() {
-		return ids;
+	public String getSupplierTypeIds() {
+		return supplierTypeIds;
 	}
 
-	public void setIds(String ids) {
-		this.ids = ids;
+	public void setSupplierTypeIds(String supplierTypeIds) {
+		this.supplierTypeIds = supplierTypeIds;
 	}
 
 	public SupplierMatPro getSupplierMatPro() {
@@ -904,5 +906,13 @@ public class Supplier implements Serializable {
 
 	public void setSupplierMatSe(SupplierMatSe supplierMatSe) {
 		this.supplierMatSe = supplierMatSe;
+	}
+
+	public SupplierMatEng getSupplierMatEng() {
+		return supplierMatEng;
+	}
+
+	public void setSupplierMatEng(SupplierMatEng supplierMatEng) {
+		this.supplierMatEng = supplierMatEng;
 	}
 }

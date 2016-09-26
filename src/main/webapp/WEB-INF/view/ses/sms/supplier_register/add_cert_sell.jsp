@@ -59,9 +59,6 @@
 								<!-- 详细信息 -->
 								<div class="tab-pane fade active in height-300" id="tab-1">
 									<div class=" margin-bottom-0">
-										<h2 class="f16 jbxx">
-											<i>01</i>供应商资质证书
-										</h2>
 										<ul class="list-unstyled list-flow">
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 资质证书名称：</span>
 												<div class="input-append">

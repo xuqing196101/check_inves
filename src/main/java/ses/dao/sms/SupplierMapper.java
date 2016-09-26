@@ -1,7 +1,6 @@
 package ses.dao.sms;
 
 import java.util.List;
-import java.util.Map;
 
 import ses.model.sms.Supplier;
 
@@ -122,4 +121,6 @@ public interface SupplierMapper {
 	 * @return Supplier
 	 */
 	void updateStatus(Supplier record);
+	
+	int updateSupplierProcurementDep(Supplier supplier);
 }

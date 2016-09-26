@@ -33,6 +33,8 @@ public interface SupplierService {
 	 */
 	public void perfectBasic(Supplier supplier);
 	
+	public void updateSupplierProcurementDep(Supplier supplier);
+	
 	/**
 	 * @Title: selectLastInsertId
 	 * @author: Wang Zhaohua

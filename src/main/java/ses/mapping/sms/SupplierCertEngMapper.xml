@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.sms.SupplierCertEngMapper">
+	<resultMap id="BaseResultMap" type="ses.model.sms.SupplierCertEng">
+		<id column="ID" property="id" />
+		<result column="MAT_ENG_ID" property="matEngId" />
+		<result column="CERT_TYPE" property="certType" />
+		<result column="CERT_CODE" property="certCode" />
+		<result column="CERT_MAX_LEVEL" property="certMaxLevel" />
+		<result column="TECH_NAME" property="techName" />
+		<result column="TECH_PT" property="techPt" />
+		<result column="TECH_JOP" property="techJop" />
+		<result column="DEP_NAME" property="depName" />
+		<result column="DEP_PT" property="depPt" />
+		<result column="DEP_JOP" property="depJop" />
+		<result column="LICENCE_AUTHORITH" property="licenceAuthorith" />
+		<result column="EXP_START_DATE" property="expStartDate" />
+		<result column="EXP_END_DATE" property="expEndDate" />
+		<result column="CERT_STATUS" property="certStatus" />
+		<result column="ATTACH_CERT" property="attachCert" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, MAT_ENG_ID, CERT_TYPE, CERT_CODE, CERT_MAX_LEVEL, TECH_NAME, TECH_PT, TECH_JOP,
+		DEP_NAME, DEP_PT, DEP_JOP, LICENCE_AUTHORITH, EXP_START_DATE, EXP_END_DATE, CERT_STATUS,
+		ATTACH_CERT
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_SMS_SUPPLIER_CERT_ENG
+		where ID = #{id}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from T_SES_SMS_SUPPLIER_CERT_ENG
+		where ID = #{id}
+	</delete>
+	<insert id="insert" parameterType="ses.model.sms.SupplierCertEng">
+		insert into T_SES_SMS_SUPPLIER_CERT_ENG (ID, MAT_ENG_ID, CERT_TYPE,
+		CERT_CODE, CERT_MAX_LEVEL, TECH_NAME,
+		TECH_PT, TECH_JOP, DEP_NAME,
+		DEP_PT, DEP_JOP, LICENCE_AUTHORITH,
+		EXP_START_DATE, EXP_END_DATE, CERT_STATUS,
+		ATTACH_CERT)
+		values (#{id}, #{matEngId}, #{certType},
+		#{certCode}, #{certMaxLevel}, #{techName},
+		#{techPt}, #{techJop}, #{depName},
+		#{depPt}, #{depJop}, #{licenceAuthorith},
+		#{expStartDate}, #{expEndDate}, #{certStatus},
+		#{attachCert})
+	</insert>
+	<insert id="insertSelective" parameterType="ses.model.sms.SupplierCertEng">
+		insert into T_SES_SMS_SUPPLIER_CERT_ENG
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="matEngId != null">
+				MAT_ENG_ID,
+			</if>
+			<if test="certType != null">
+				CERT_TYPE,
+			</if>
+			<if test="certCode != null">
+				CERT_CODE,
+			</if>
+			<if test="certMaxLevel != null">
+				CERT_MAX_LEVEL,
+			</if>
+			<if test="techName != null">
+				TECH_NAME,
+			</if>
+			<if test="techPt != null">
+				TECH_PT,
+			</if>
+			<if test="techJop != null">
+				TECH_JOP,
+			</if>
+			<if test="depName != null">
+				DEP_NAME,
+			</if>
+			<if test="depPt != null">
+				DEP_PT,
+			</if>
+			<if test="depJop != null">
+				DEP_JOP,
+			</if>
+			<if test="licenceAuthorith != null">
+				LICENCE_AUTHORITH,
+			</if>
+			<if test="expStartDate != null">
+				EXP_START_DATE,
+			</if>
+			<if test="expEndDate != null">
+				EXP_END_DATE,
+			</if>
+			<if test="certStatus != null">
+				CERT_STATUS,
+			</if>
+			<if test="attachCert != null">
+				ATTACH_CERT,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="matEngId != null">
+				#{matEngId},
+			</if>
+			<if test="certType != null">
+				#{certType},
+			</if>
+			<if test="certCode != null">
+				#{certCode},
+			</if>
+			<if test="certMaxLevel != null">
+				#{certMaxLevel},
+			</if>
+			<if test="techName != null">
+				#{techName},
+			</if>
+			<if test="techPt != null">
+				#{techPt},
+			</if>
+			<if test="techJop != null">
+				#{techJop},
+			</if>
+			<if test="depName != null">
+				#{depName},
+			</if>
+			<if test="depPt != null">
+				#{depPt},
+			</if>
+			<if test="depJop != null">
+				#{depJop},
+			</if>
+			<if test="licenceAuthorith != null">
+				#{licenceAuthorith},
+			</if>
+			<if test="expStartDate != null">
+				#{expStartDate},
+			</if>
+			<if test="expEndDate != null">
+				#{expEndDate},
+			</if>
+			<if test="certStatus != null">
+				#{certStatus},
+			</if>
+			<if test="attachCert != null">
+				#{attachCert},
+			</if>
+		</trim>
+		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			select sys_guid() from dual
+		</selectKey>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierCertEng">
+		update T_SES_SMS_SUPPLIER_CERT_ENG
+		<set>
+			<if test="matEngId != null">
+				MAT_ENG_ID = #{matEngId},
+			</if>
+			<if test="certType != null">
+				CERT_TYPE = #{certType},
+			</if>
+			<if test="certCode != null">
+				CERT_CODE = #{certCode},
+			</if>
+			<if test="certMaxLevel != null">
+				CERT_MAX_LEVEL = #{certMaxLevel},
+			</if>
+			<if test="techName != null">
+				TECH_NAME = #{techName},
+			</if>
+			<if test="techPt != null">
+				TECH_PT = #{techPt},
+			</if>
+			<if test="techJop != null">
+				TECH_JOP = #{techJop},
+			</if>
+			<if test="depName != null">
+				DEP_NAME = #{depName},
+			</if>
+			<if test="depPt != null">
+				DEP_PT = #{depPt},
+			</if>
+			<if test="depJop != null">
+				DEP_JOP = #{depJop},
+			</if>
+			<if test="licenceAuthorith != null">
+				LICENCE_AUTHORITH = #{licenceAuthorith},
+			</if>
+			<if test="expStartDate != null">
+				EXP_START_DATE = #{expStartDate},
+			</if>
+			<if test="expEndDate != null">
+				EXP_END_DATE = #{expEndDate},
+			</if>
+			<if test="certStatus != null">
+				CERT_STATUS = #{certStatus},
+			</if>
+			<if test="attachCert != null">
+				ATTACH_CERT = #{attachCert},
+			</if>
+		</set>
+		where ID = #{id}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="ses.model.sms.SupplierCertEng">
+		update T_SES_SMS_SUPPLIER_CERT_ENG
+		set MAT_ENG_ID = #{matEngId},
+		CERT_TYPE = #{certType},
+		CERT_CODE = #{certCode},
+		CERT_MAX_LEVEL = #{certMaxLevel},
+		TECH_NAME = #{techName},
+		TECH_PT = #{techPt},
+		TECH_JOP = #{techJop},
+		DEP_NAME = #{depName},
+		DEP_PT = #{depPt},
+		DEP_JOP = #{depJop},
+		LICENCE_AUTHORITH = #{licenceAuthorith},
+		EXP_START_DATE = #{expStartDate},
+		EXP_END_DATE = #{expEndDate},
+		CERT_STATUS = #{certStatus},
+		ATTACH_CERT = #{attachCert}
+		where ID = #{id}
+	</update>
+	<select id="findCertEngByMatEngId" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select * from T_SES_SMS_SUPPLIER_CERT_ENG where MAT_ENG_ID = #{supplierMatEngId}
+	</select>
+</mapper>
