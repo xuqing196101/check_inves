@@ -4,6 +4,8 @@ package ses.model.bms;
 import java.util.Date;
 import java.util.List;
 
+import ses.model.ppms.CategoryParam;
+
 public class Category {
 	/*
 	 * 目录id
@@ -63,25 +65,62 @@ public class Category {
      * 
      * */
     private Integer isDeleted;
-    
+    /*
+     * 是否公开
+     * 
+     * */
    private Integer isPubliced;
-   
+   /*
+    * 产品类型（销售型   生产型）
+    * 
+    * */
    private Integer type;
-   
+   /*
+    * 参数状态
+    * 
+    * */
    private Integer paramStatus;
-   
-   private Integer acceptenceRegulation;
-   
+   /*
+    * 验证规范
+    * 
+    * */
+   private String acceptenceRegulation;
+   /*
+    * 公开范围 （内网  外网）
+    * 
+    * 
+    * */
    private Integer scopePublic;
 
-	private List<CategoryAttchment> categoryAttchments;
+   private CategoryAttchment categoryAttchment;
+   
+   private CategoryAptitude categoryAptitude;
+	
+   private List<CategoryParam> categoryParams;
+   
+	public CategoryAptitude getCategoryAptitude() {
+	return categoryAptitude;
+}
+
+public void setCategoryAptitude(CategoryAptitude categoryAptitude) {
+	this.categoryAptitude = categoryAptitude;
+}
+
+	public CategoryAttchment getCategoryAttchment() {
+	return categoryAttchment;
+}
+
+public void setCategoryAttchment(CategoryAttchment categoryAttchment) {
+	this.categoryAttchment = categoryAttchment;
+}
+
     
-    public List<CategoryAttchment> getCategoryAttchments() {
-		return categoryAttchments;
+    public List<CategoryParam> getCategoryParams() {
+		return categoryParams;
 	}
 
-	public void setCategoryAttchments(List<CategoryAttchment> categoryAttchments) {
-		this.categoryAttchments = categoryAttchments;
+	public void setCategoryParams(List<CategoryParam> categoryParams) {
+		this.categoryParams = categoryParams;
 	}
 
 	public Integer getIsDeleted() {
@@ -209,11 +248,11 @@ public class Category {
 		this.paramStatus = paramStatus;
 	}
 
-	public Integer getAcceptenceRegulation() {
+	public String getAcceptenceRegulation() {
 		return acceptenceRegulation;
 	}
 
-	public void setAcceptenceRegulation(Integer acceptenceRegulation) {
+	public void setAcceptenceRegulation(String acceptenceRegulation) {
 		this.acceptenceRegulation = acceptenceRegulation;
 	}
 

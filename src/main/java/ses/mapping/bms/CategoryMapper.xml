@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<!-- <?xml version="1.0" encoding="UTF-8"?> -->
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ses.dao.bms.CategoryMapper">
   <resultMap id="CateMap" type="ses.model.bms.Category">
@@ -18,14 +18,19 @@
  	<result column="PARAM_STATUS"  property="paramStatus" />
  	<result column="ACCEPTENCE_REGULATION"  property="acceptenceRegulation" />
  	<result column="SCOPE_PUBLIC"  property="scopePublic" />
+ 	<association property="categoryAptitude" column="APTITUDE_ID" select="ses.dao.bms.CategoryAptitudeMapper.selectByPrimaryKey"/>
+ 	<association property="categoryAttchment" column="ATTCHMENT_ID" select="ses.dao.bms.CategoryAttchmentMapper.selectByPrimaryKey"/>
   </resultMap>
+    <resultMap type="ses.model.bms.Category" id="totalMap" extends="CateMap">
+	    <collection property="categoryParams" ofType="ses.model.ppms.CategoryParam" resultMap="ses.dao.ppms.CategoryParamMapper.CategoryParamMap" />
+    </resultMap>
   <sql id="Base_Column_List">
     ID, NAME, STATUS, PARENT_ID, CREATED_AT, UPDATED_AT, DESCRIPTION, IS_END, 
     CODE, POSITION,IS_DELETED,IS_PUBLICED,TYPE,PARAM_STATUS,ACCEPTENCE_REGULATION,SCOPE_PUBLIC
   </sql>
   
   <!-- 根据id查询 -->
-  <select id="selectByPrimaryKey" parameterType="Object" resultMap="CateMap">
+  <select id="selectByPrimaryKey" parameterType="Object" resultMap="totalMap">
     select 
     <include refid="Base_Column_List" />
     from T_SES_BMS_CATEGORY
@@ -33,33 +38,40 @@
   </select>
   
   <!-- 根据pid生成列表 -->
-   <select id="listByParent" parameterType="Object" resultMap="CateMap">
+   <!-- <select id="listByParent" parameterType="Object" resultMap="CateMap">
   	select
   	<include refid="Base_Column_List" />
   	from T_SES_BMS_CATEGORY
     where  PARENT_ID=#{pid}
-  </select>
+  </select> -->
   
   <!-- 根据pid查询生成树 -->
-  <select id="findTreeByPid" parameterType="Object" resultMap="CateMap">
+  <select id="findTreeByPid" parameterType="Object" resultMap="totalMap">
   select
   <include refid="Base_Column_List" />
   from T_SES_BMS_CATEGORY
   where PARENT_ID=#{id}
   </select>
   
-  <select id="selectAll" parameterType="object" resultMap="CateMap">
+  <select id="selectAll" parameterType="Object" resultMap="totalMap">
   select 
   <include refid="Base_Column_List"/>
   from T_SES_BMS_CATEGORY
   </select>
   
    <!-- 根据code查出已插入的数据-->
-  <select id="readExcel" parameterType="Object" >
+  <select id="readExcel" parameterType="Object" resultMap="totalMap">
   select
   <include refid="Base_Column_List" />
   from T_SES_BMS_CATEGORY
   where CODE=#{code}
+  </select>
+  
+  <!-- 根据关键字查出品目名称 -->
+  <select id="listByKeyword" parameterType="Map" resultMap="totalMap" >
+  select ID,NAME,PARENT_ID
+  from T_SES_BMS_CATEGORY 
+  where NAME like '%'||#{name}||'%'
   </select>
   
   <!-- 根据id删除 -->
@@ -135,6 +147,12 @@
       <if test="scopePublic != null">
         SCOPE_PUBLIC,
       </if>
+      <if test="categoryAttchment != null">
+        ATTCHMENT_ID,
+      </if>
+       <if test="categoryAptitude != null">
+        APTITUDE_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -155,7 +173,6 @@
       <if test="updatedAt != null">
         #{updatedAt},
       </if>
-     
       <if test="description != null">
         #{description},
       </if>
@@ -185,6 +202,12 @@
         </if>
         <if test="scopePublic != null">
         #{scopePublic},
+        </if>
+        <if test="categoryAttchment != null">
+        #{categoryAttchment.id},
+        </if>
+        <if test="categoryAptitude != null">
+        #{categoryAptitude.id},
         </if>
     </trim>
   </insert>
@@ -239,6 +262,12 @@
         </if>
         <if test="scopePublic != null">
          SCOPE_PUBLIC = #{scopePublic},
+        </if>
+        <if test="scopePublic != null">
+         ATTCHMENT_ID = #{categoryAttchment},
+        </if>
+        <if test="scopePublic != null">
+         APTITUDE_ID = #{categoryAptitude},
         </if>
     </set>
     where ID = #{id}

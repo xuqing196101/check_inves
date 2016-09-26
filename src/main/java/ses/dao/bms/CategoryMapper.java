@@ -2,28 +2,22 @@ package ses.dao.bms;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 import ses.model.bms.Category;
 
 
 
-/**
- * 
-* <p>Title:CategoryMapper</p>
-* <p>Description: 采购目录管理接口</p>
-* @author zhangxuefeng
-* @date 
- */
+    /**
+    * 
+    * <p>Title:CategoryMapper</p>
+    * <p>Description: 采购目录管理接口</p>
+    * @author zhangxuefeng
+    * @date 
+    */
 public interface CategoryMapper {
 
-	/**   
-	* @Title: listByParent
-	* @author zhangxuefeng
-	* @date 2016-7-27 下午4:52:29  
-	* @Description: 根据pid获取所有子栏目
-	* @param @param list<Category>
-	*/
-	public List<Category> listByParent(String pid);
+	
 	
 	/**   
 	* @Title: selectAll
@@ -62,7 +56,7 @@ public interface CategoryMapper {
 	* @param @param pager
 	* @param @return
 	 */
-	public List<Category> findTreeByPid(String pid);
+	public List<Category> findTreeByPid(String id);
 	
 	/**
 	 * 
@@ -124,5 +118,13 @@ public interface CategoryMapper {
 	 */
 	public int deleteByPrimaryKey(String id);
 	
-	
+	/**
+	 * 
+	* @Title: listByKeyword
+	* @author zhangxuefeng 
+	* @Description:根据关键字查询品目名称
+	* @param @param id
+	* @return int
+	 */
+	public List<Category> listByKeyword(Map map);
 }

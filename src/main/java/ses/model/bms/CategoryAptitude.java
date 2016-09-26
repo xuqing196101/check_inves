@@ -1,51 +1,42 @@
-package ses.model.ppms;
+package ses.model.bms;
 
 import java.util.Date;
 
-import ses.model.bms.Category;
-
-//产品参数实体类
-
-public class CategoryParam {
-	/**
-	 * id
+public class CategoryAptitude {
+	/*
+	 * 类型id
 	 * 
 	 * */
 	private String id;
-	/**
-	 * 参数名称
-	 * */
-	private String name;
-	/**
-	 * 参数类型
-	 * */
-	private Integer valueType;
-	
-	/**
-	 * 创建时间
-	 * */
-	private Date createdAt;
-	/**
-	 * 修改时间
-	 * 
-	 * */
-	private Date updatedAt;
-	/**
-	 * 是否删除
-	 * */
-	private Integer isDeleted;
-	/**
+	/*
+	 * 品目id
 	 * 
 	 * */
 	private Category category;
-	
-	
-
-	public Integer getValueType() {
-		return valueType;
+	/*
+	 * 品目类型
+	 * 
+	 * */
+	private Integer categoryType;
+	/*
+	 * 创建事件
+	 * */
+	private Date createdAt;
+	/*
+	 * 修改事件
+	 * 
+	 * */
+	private Date updatedAt;
+	/*
+	 * 是否删除
+	 * 
+	 * */
+	private Integer isDeleted;
+	public String getId() {
+		return id;
 	}
-	public void setValueType(Integer valueType) {
-		this.valueType = valueType;
+	public void setId(String id) {
+		this.id = id;
 	}
 	public Category getCategory() {
 		return category;
@@ -53,22 +44,12 @@ public class CategoryParam {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
-	public String getId() {
-		return id;
+	public Integer getCategoryType() {
+		return categoryType;
 	}
-	public CategoryParam() {
-		super();
+	public void setCategoryType(Integer categoryType) {
+		this.categoryType = categoryType;
 	}
-	public void setId(String id) {
-		this.id = id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	
 	public Date getCreatedAt() {
 		return createdAt;
 	}
@@ -88,5 +69,5 @@ public class CategoryParam {
 		this.isDeleted = isDeleted;
 	}
 	
-	
+
 }

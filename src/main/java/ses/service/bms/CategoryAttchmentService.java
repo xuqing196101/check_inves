@@ -5,13 +5,24 @@ import java.util.List;
 import ses.model.bms.CategoryAttchment;
 
 
-/*
+/**
  *@Title:CategoryAttchmentService
  *@Description:文章信息附件接口service
  *@author QuJie
  *@date 2016-9-7上午10:08:06
  */
 public interface CategoryAttchmentService {
+	/**
+     * 
+    * @Title: insertSelective
+    * @author QuJie 
+    * @date 2016-8-25 下午3:36:38  
+    * @Description: 根据条件新增一条信息 
+    * @param @param record
+    * @param @return      
+    * @return int
+     */
+    int insertSelective(CategoryAttchment attachment);
 	/**
 	 * 
 	* @Title: insert

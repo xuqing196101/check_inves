@@ -36,18 +36,8 @@
     delete from T_SES_BMS_CATEGORY_ATTCHMENT
     where ID = #{category.id}
   </delete>
+ 
   
-  <insert id="insert" parameterType="ses.model.bms.CategoryAttchment">
-  
-    insert into T_SES_BMS_CATEGORY_ATTCHMENT (ID, FILE_NAME, CONTENT_TYPE, 
-      FILE_SIZE, ATTCHMENT_PATH, CREATED_AT, 
-      UPDATED_AT, CATEGORY_ID, IS_DELETED
-      )
-    values (#{id}, #{fileName}, #{contentType}, 
-      #{fileSize}, #{attchmentPath}, #{createdAt}, 
-      #{updatedAt}, #{categoryId}, #{isDeleted}
-      )
-  </insert>
   
   <insert id="insertSelective" parameterType="ses.model.bms.CategoryAttchment">
   <selectKey keyProperty="id" resultType="String" order="BEFORE">

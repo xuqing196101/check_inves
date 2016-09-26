@@ -4,7 +4,7 @@ import java.util.List;
 
 
 import ses.model.bms.CategoryAttchment;
-/*
+/**
  *@Title:CategoryAttchmentMapper
  *@Description:采购目录附件功能Mapper接口
  *@author Zhang XueFeng

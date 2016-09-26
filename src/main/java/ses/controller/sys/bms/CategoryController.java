@@ -71,6 +71,8 @@ public class CategoryController extends  BaseSupplierController{
 	public void setListCategory(Map<String, Object> listCategory) {
 		this.listCategory = listCategory;
 	}
+	
+	
 	/**
 	 * 
 	* @Title: selectAll
@@ -95,7 +97,7 @@ public class CategoryController extends  BaseSupplierController{
 	
 	/**
 	 * 
-	* @Title: getCategoryAll
+	* @Title: createtree
 	* @author zhangxuefeng
 	* @date 2016-7-18 下午4:27:01  
 	* @Description:查询采购目的所有信息转换成json
@@ -128,10 +130,12 @@ public class CategoryController extends  BaseSupplierController{
 		return list;
 	}
 	/**
-	 * 
-	 *
-	 * 
-	 * */
+	* @Title: get
+	* @author zhangxuefeng
+	* @Description:创建新增页面
+	* @param @return    
+	* @return String
+     */  
 	@RequestMapping("/get")
 	public String get(HttpServletRequest request){
 		return "ses/bms/category/list";
@@ -152,12 +156,29 @@ public class CategoryController extends  BaseSupplierController{
 		
 		
 	}*/
+
+	/**
+	 * 
+	* @Title: search
+	* @author zhangxuefeng
+	* @Description:根据关键字展开树
+	* @param @return    
+	* @return String
+     */ 
+	@RequestMapping("/search")
+	public void search(HttpServletRequest request, HttpServletResponse response){
+		Map<String, Object> map = new HashMap<String, Object>();
+		String name = request.getParameter("name");
+		map.put("name",name);
+	    List<Category> nodeList = categoryService.listByKeyword(map);
+		super.writeJson(response, nodeList);
+	}
     /**
   	 * 
-  	* @Title: 保存新增目录信息 
+  	* @Title: save
   	* @author zhangxuefeng
   	* @date 
-  	* @Description:
+  	* @Description:保存新增目录信息 
   	* @param @return    
   	* @return String
     @   */ 
@@ -166,10 +187,12 @@ public class CategoryController extends  BaseSupplierController{
 	          HttpServletRequest request, HttpServletResponse response,Category category){
 	  category.setName(request.getParameter("name"));
 	  category.setPosition(Integer.parseInt(request.getParameter("position")));
+	  /*category.setParentId(parentId);*/
 	  category.setStatus(1);
 	  category.setCode(request.getParameter("code"));
-	  category.setCreatedAt(new Date());
 	  category.setDescription(request.getParameter("description"));
+	  category.setCreatedAt(new Date());
+	  
 //	  category.setIsEnd(request.getParameter("isEnd"));
 //	  if (category.getIsEnd().equals("0")) {
 //		  category.setIsEnd("true");
@@ -213,11 +236,10 @@ public class CategoryController extends  BaseSupplierController{
          		attachment.setCategory(new Category(category.getId()));
 				attachment.setFileName(fileName);
 				attachment.setCreatedAt(new Date());
-				attachment.setUpdatedAt(new Date());
 				attachment.setContentType(attaattach[i].getContentType());
 				attachment.setFileSize((float)attaattach[i].getSize());
 				attachment.setAttchmentPath(filePath);
-				categoryAttchmentService.insert(attachment);
+				categoryAttchmentService.insertSelective(attachment);
 			}
 		}
 		return "redirect:get.html";
@@ -248,21 +270,23 @@ public class CategoryController extends  BaseSupplierController{
        */  
    @RequestMapping("/edit")
    public String  edit(HttpServletRequest request,Category category){
+	      category.setCreatedAt(new Date());
+	      category.setUpdatedAt(new Date());
 	      category.setId(request.getParameter("id"));
   	      category.setName(request.getParameter("name"));
 		  category.setParentId(request.getParameter("parentId"));
 		  category.setPosition(Integer.parseInt(request.getParameter("position")));
-		  category.setUpdatedAt(new Date());
 		  category.setCode(request.getParameter("code"));
+		/*  category.setCategoryAttchment(request.getParameter("attaattach"));*/
 		  category.setDescription(request.getParameter("description"));
-		  category.setIsEnd(request.getParameter("isEnd"));
+		 /* category.setIsEnd(request.getParameter("isEnd"));
 		  if (category.getIsEnd().equals("0")) {
 			  category.setIsEnd("true");
 		}else if (category.getIsEnd().equals("1")) {
 			category.setIsEnd("false");
-		}
+		}*/
 	  categoryService.updateByPrimaryKey(category);
-	return "ses/bms/category/list";
+	return "redirect:get.html";
    }
    
    /**

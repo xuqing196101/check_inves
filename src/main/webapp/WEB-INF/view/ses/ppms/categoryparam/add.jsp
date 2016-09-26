@@ -1,25 +1,33 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ include file="../../../common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-<head>
-
-<title>My JSP 'category.jsp' starting page</title>
-
- <link rel="stylesheet" type="text/css" href="<%=basePath%>/public/ztree/css/zTreeStyle.css"> 
+  <head>
+    <base href="<%=basePath%>">
+    
+    <title>My JSP 'categoryparam.jsp' starting page</title>
+    
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+	<meta http-equiv="description" content="This is my page">
+	<!--
+	<link rel="stylesheet" type="text/css" href="styles.css">
+	-->
+	<link rel="stylesheet" type="text/css" href="<%=basePath%>/public/ztree/css/zTreeStyle.css"> 
 <%-- <link rel="stylesheet" type="text/css" href="<%=basePath%>/public/ztree/css/demo.css"> --%>
 
 <script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.core.js"></script>
 <script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.excheck.js"></script>
 <script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.exedit.js"></script>
-
-<script type="text/javascript">
-	var datas;
+    <script type="text/javascript">
+    var datas;
 	 var treeid=null;
- $(document).ready(function(){
+$(document).ready(function(){
 	 var setting={
 		async:{
 					autoParam:["id","name"],
@@ -33,9 +41,9 @@
 			    	beforeRemove: zTreeBeforeRemove,
 			    	beforeRename: zTreeBeforeRename, 
 					onRemove: zTreeOnRemove,
-       			    onRename: zTreeOnRename,
-       			  /*    onNodeCreated: zTreeOnNodeCreated, */
-       			   
+      			    onRename: zTreeOnRename,
+      			  /*    onNodeCreated: zTreeOnNodeCreated, */
+      			   
 			    }, 
 				data:{
 					keep:{
@@ -63,41 +71,41 @@
 					enable: true
 			   },
 			
-  };
+ };
 	 
-    $.fn.zTree.init($("#ztree"),setting,datas);
-    var lastValue ="", nodeList=[];
-    var value ="";
-    key.bind("propertychange",searchNode).bind("input",searchNode);
+   $.fn.zTree.init($("#ztree"),setting,datas);
+   var lastValue ="", nodeList=[];
+   var value ="";
+   key.bind("propertychange",searchNode).bind("input",searchNode);
 }) 
-    var ztree = $.fn.zTree.getZTreeObj("ztree");
-    var key =$("#key");
+   var ztree = $.fn.zTree.getZTreeObj("ztree");
+   var key =$("#key");
 	
-    function searchNode(e){
+   function searchNode(e){
 	     alert(4);
-    	value = $.trim(key.get(0).value);
-    	var keyType ="name";
-    	alert(3);
-    	if(lastValue== value){
-    		alert(1);
-    		return;
-    	}
-    	lastValue= value;
-    	updateNodes(false);
-    	if(value==""){
-    		alert(2);
-    		return;
-    	}
-    	nodeList = ztree.getNodesByParamFuzzy(keyType,value);
-    	console.info(nodeList);
-    	updateNodes(true);
-    	//遍历隐藏其他父节点
-    }	
-    function updateNodes(highlight){
-    	var pnodes= ztree.getNodes();
-    	for(var j=0;j<pnodes.length;j++){
-    		ztree.showNode(pnodes[j]);
-    		if(highlight){
+   	value = $.trim(key.get(0).value);
+   	var keyType ="name";
+   	alert(3);
+   	if(lastValue== value){
+   		alert(1);
+   		return;
+   	}
+   	lastValue= value;
+   	updateNodes(false);
+   	if(value==""){
+   		alert(2);
+   		return;
+   	}
+   	nodeList = ztree.getNodesByParamFuzzy(keyType,value);
+   	console.info(nodeList);
+   	updateNodes(true);
+   	//遍历隐藏其他父节点
+   }	
+   function updateNodes(highlight){
+   	var pnodes= ztree.getNodes();
+   	for(var j=0;j<pnodes.length;j++){
+   		ztree.showNode(pnodes[j]);
+   		if(highlight){
 				var have = false;
 				for(var i=0, l=nodeList.length; i<l; i++) {
 					if(pnodes[j].isParent && nodeList[i].pId == pnodes[j].id){
@@ -127,20 +135,20 @@
 			}else{
 				ztree.showNode(pnodes[j]);
 			}
-       	}
+      	}
 		for( var i=0, l=nodeList.length; i<l; i++) {
 			nodeList[i].highlight = highlight;
 			ztree.updateNode(nodeList[i]);
 		}
 	}
-    	
-    function filter(node) {
+   	
+   function filter(node) {
 		return !node.isParent && node.isFirstNode;
 	}
-    
+   
 	
-   /*删除图片*/
-    function deletepic(obj){
+  /*删除图片*/
+   function deletepic(obj){
 		layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 			layer.close(index);
 	       	layer.msg('删除成功',{offset: ['222px', '390px']});
@@ -154,12 +162,12 @@
 		});
 		
 	}
-    /*点击事件*/
-    function zTreeOnClick(event,treeId,treeNode){
+   /*点击事件*/
+   function zTreeOnClick(event,treeId,treeNode){
 		treeid=treeNode.id
-    }
-    /*添加采购目录*/
-    function news(){
+   }
+   /*添加采购目录*/
+   function news(){
 			if (treeid==null) {
 			alert("请选择一个节点");
 					return;		
@@ -182,7 +190,7 @@
 			
 		}
 	/*修改节点信息*/
-    function update(){
+   function update(){
 	 		if (treeid==null) {
 				alert("请选择一个节点");
 			}else{
@@ -207,10 +215,10 @@
 					}
 				})
 			}
- 		}
- 	/*休眠-激活*/
-    function ros(){
- 			var str="";
+		}
+	/*休眠-激活*/
+   function ros(){
+			var str="";
 	 		var treeObj = $.fn.zTree.getZTreeObj("ztree");
 			var nodes = treeObj.getCheckedNodes(true);
 			for ( var i = 0; i < nodes.length; i++) {
@@ -222,17 +230,17 @@
 				type:"POST",
 				url:"<%=basePath%>category/ros.do?ids="+str,
 			})
- 		}
- 		
- 	/*重命名和删除的回掉函数*/	
-    function zTreeOnRemove(event, treeId, treeNode,isCancel) {
 		}
-    function zTreeOnRename(event, treeId, treeNode, isCancel) {
+		
+	/*重命名和删除的回掉函数*/	
+   function zTreeOnRemove(event, treeId, treeNode,isCancel) {
+		}
+   function zTreeOnRename(event, treeId, treeNode, isCancel) {
 				 alert(treeNode.tId + ", " + treeNode.name); 
 				
 		}
 	/*删除目录信息*/
-    function zTreeBeforeRemove(treeId, treeNode){
+   function zTreeBeforeRemove(treeId, treeNode){
 	 		$.ajax({
 	 			type:"post",
 	 			url:"<%=basePath%>category/del.do?id="+treeNode.id,
@@ -240,13 +248,13 @@
 		}
 	 	
 	/*节点重命名*/
-    function zTreeBeforeRename(treeId,treeNode,newName,isCancel){
+   function zTreeBeforeRename(treeId,treeNode,newName,isCancel){
 			$.ajax({
 	 			type:"post",
 	 			url:"<%=basePath%>category/rename.do?id="+treeNode.id+"&name="+newName,
 	 		});
 		} 
-    /*新增提交*/		
+   /*新增提交*/		
 	function check(){
 		document.fm.action="<%=basePath%>category/save.do";
 		document.fm.submit();
@@ -256,64 +264,17 @@
 		document.fm.action="<%=basePath%>category/edit.do";
 		document.fm.submit();
 	}	
-    /*关键字查询*/
-  <%--    function searchM(){
-    	window.location.href="<%=basePath%>category/search.do?name="+name;
-    	var name = $("#keyword").val();
-    	$.ajax({
-    		type:"post",
-    		dataType:"json",
-    		url:"<%=basePath%>category/search.do?name="+name,
-    		success:function(nodeList){
-    			console.info(nodeList);
-    		
-    		if(nodeList!=null){
-    			for(i=0; i<nodeList.length;i++){
-    				
-    				var treeid = nodeList[i].id;
-    				alert(treeid);
-    			}
-    		}else{
-    			
-    		}
-    		}
-    	});
-    
-    } --%>
- /* function searchM() {
-    	  var param =$("#keyword").val();
-    	  
-    	  var treeObj = $.fn.zTree.getZTreeObj("ztree");
-    	  var node = treeObj.get
-    	 
-    	  if(param != ""){
-    	    param = encodeURI(encodeURI(param));
-    	    treeObj.setting.async.otherParam=["param", param];
-    	  }else {
-    	    //搜索参数为空时必须将参数数组设为空
-    	    treeObj.setting.async.otherParam=[];
-    	  }
-    	  treeObj.reAsyncChildNodes(node, "refresh");
-    	}
-
-    	function zTreeOnNodeCreated(event, treeId, treeNode) {
-    	  var param = $("#keyword").val();
-    	  var treeObj = $.fn.zTree.getZTreeObj("ztree");
-    	  //只有搜索参数不为空且该节点为父节点时才进行异步加载
-    	  if(param != ""){
-    	    treeObj.reAsyncChildNodes(treeNode, "refresh");
-    	  } 
-    	};
-    */
-   
-   
-   
+   /*关键字查询*/
+ 
+  
+  
 </script>
-</head>
+    </script>
 
-<body>
-
-<div class="wrapper">
+  </head>
+  
+  <body>
+ <div class="wrapper">
 
   <div class="header-v4 header-v5">
     <!-- Navbar -->
@@ -435,5 +396,6 @@
 <!--/footer--> 
     </div>
     </div>
-</body>
+  
+  </body>
 </html>

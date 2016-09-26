@@ -126,6 +126,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<!--搜索开始-->
             <div class="col-md-8 topbar-v1 col-md-12 padding-0">
               <ul class="top-v1-data padding-0">
+<<<<<<< Updated upstream
 			    <c:forEach items="${sessionScope.resource}" var="resource" varStatus="vs">
 					 <c:if test="${resource.menulevel == 2 }">
 						 <li class="dropdown">
@@ -155,6 +156,136 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</li>
 					</c:if>
 				</c:forEach>
+=======
+			    <li>
+				<a href="#">
+				  <div><img src="<%=basePath%>public/ZHH/images/top_01.png"/></div>
+				  <span>决策支持</span>
+				 </a>
+				</li>
+			    <li>
+				<a href="#">
+				  <div><img src="<%=basePath%>public/ZHH/images/top_02.png"/></div>
+				  <span>业务监管</span>
+				 </a>
+				</li>
+			    <li class="dropdown">
+
+				<a ria-expanded="false" data-toggle="dropdown" class="dropdown-toggle p0_30 " href="">
+				  <div><img src="<%=basePath%>public/ZHH/images/top_03.png"/></div>
+				  <span>障碍作业</span>
+				 </a>
+				 
+				 <ul class="dropdown-menu">
+                   		<li class="line-block">
+                   			<a href="" target="home" class="son-menu"><span class="mr5">◇</span>采购计划管理</a>
+                   			<ul class="dropdown-menuson dropdown-menu">
+                   				<li><a href="<%=basePath%>purchaser/list.html" target="home" class="son-menu"><span class="mr5">◇</span>采购需求管理</a></li>
+                   			</ul>
+                   		</li>
+                   		 
+               		</ul>
+               		
+				 	<ul class="dropdown-menu">
+                   		<li class="line-block">
+                   			<a href="" target="home" class="son-menu"><span class="mr5">◇</span>产品质量管理</a>
+                   			<ul class="dropdown-menuson dropdown-menu">
+                   				<li><a href="<%=basePath%>pqinfo/getAll.html" target="home" class="son-menu"><span class="mr5">◇</span>质量结果登记</a></li>
+                   			</ul>
+                   		</li>
+               		</ul>
+
+				</li>	
+				
+			    <li class="dropdown">
+			     	<a aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle p0_30 " href="">
+				  		<div><img src="<%=basePath%>public/ZHH/images/top_04.png"/></div>
+				  		<span>信息服务</span>
+				 	</a>				 					 	
+					<ul class="dropdown-menu">
+                   		<li class="line-block">
+                   			<a href="" target="home" class="son-menu"><span class="mr5">◇</span>论坛管理</a>
+                   			<ul class="dropdown-menuson dropdown-menu">
+                   				<li><a href="<%=basePath%>park/getlist.do" target="home" class="son-menu"><span class="mr5">◇</span>版块管理</a></li>
+                   				<li><a href="<%=basePath%>topic/getlist.do" target="home" class="son-menu"><span class="mr5">◇</span>主题管理</a></li>
+                   				<li><a href="<%=basePath%>post/getlist.do" target="home" class="son-menu"><span class="mr5">◇</span>帖子管理</a></li>
+                   				<li><a href="<%=basePath%>reply/getlist.do" target="home" class="son-menu"><span class="mr5">◇</span>回复管理</a></li>
+                   			</ul>
+                   		</li>
+                   		<li class="line-block">
+                   			<a href="<%=basePath%>articletype/getAll.do" target="home" class="son-menu"><span class="mr5">◇</span>栏目管理</a>
+                   		</li>
+               		</ul>
+				</li>
+				
+			   <li class="dropdown">
+			     	<a aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle p0_30 " href="">
+				  		<div><img src="<%=basePath%>public/ZHH/images/top_05.png"/></div>
+				  		<span>支撑环境</span>
+				 	</a>
+				 	
+					<ul class="dropdown-menu">
+                   		<li class="line-block">
+                   			<a href="#" target="home" class="son-menu"><span class="mr5">◇</span>后台管理</a>
+                   			<ul class="dropdown-menuson dropdown-menu">
+                   				<li><a href="<%=basePath%>user/list.html" target="home" class="son-menu"><span class="mr5">◇</span>用户管理</a></li>
+                   				<li><a href="<%=basePath%>role/list.html" target="home" class="son-menu"><span class="mr5">◇</span>角色管理</a></li>
+                   				<li><a href="<%=basePath%>preMenu/list.html" target="home" class="son-menu"><span class="mr5">◇</span>菜单管理</a></li>
+                   				<li><a href="<%=basePath%>templet/getAll.do" target="home" class="son-menu"><span class="mr5">◇</span>模板管理</a></li>
+                   				<li><a href="<%=basePath%>usertask/getmonth.html" target="home" class="son-menu"><span class="mr5">◇</span>用户任务管理</a></li>
+                   				<li><a href="<%=basePath%>article/getAll.do" target="home" class="son-menu"><span class="mr5">◇</span>信息管理</a></li>
+                   				<li><a href="<%=basePath%>category/get.do" target="home" class="son-menu"><span class="mr5">◇</span>采购目录管理</a></li>
+                   			</ul>
+                   		</li>
+                   		<li class="line-block">
+                   			<a href="#" target="home" class="son-menu"><span class="mr5">◇</span>题库管理</a>
+                   			<ul class="dropdown-menuson dropdown-menu">
+                   				<li><a href="<%=path%>/expertExam/searchTecExpPool.html" target="home" class="son-menu"><span class="mr5">◇</span>技术类专家题库管理</a></li>
+                   				<li><a href="<%=path%>/expertExam/searchComExpPool.html" target="home" class="son-menu"><span class="mr5">◇</span>商务类专家题库管理</a></li>
+                   				<li><a href="<%=path%>/expertExam/searchLawExpPool.html" target="home" class="son-menu"><span class="mr5">◇</span>法律类专家题库管理</a></li>
+                   				<li><a href="<%=path%>/purchaserExam/purchaserList.html" target="home" class="son-menu"><span class="mr5">◇</span>采购人题库管理</a></li>
+                   			</ul>
+                   		</li>
+                   		<li class="line-block">
+                   			<a href="#" target="home" class="son-menu"><span class="mr5">◇</span>考试规则管理</a>
+                   			<ul class="dropdown-menuson dropdown-menu">
+                   				<li><a href="<%=path%>/expertExam/createRule.html" target="home" class="son-menu"><span class="mr5">◇</span>考试规则设置</a></li>
+                   			</ul>
+                   		</li>
+                   		<li class="line-block">
+                   			<a href="#" target="home" class="son-menu"><span class="mr5">◇</span>考卷管理</a>
+                   			<ul class="dropdown-menuson dropdown-menu">
+                   				<li><a href="<%=path%>/purchaserExam/paperManage.html" target="home" class="son-menu"><span class="mr5">◇</span>历史考卷列表</a></li>
+                   			</ul>
+                   		</li>
+                   		<li class="line-block">
+                   			<a href="#" target="home" class="son-menu"><span class="mr5">◇</span>成绩管理</a>
+                   			<ul class="dropdown-menuson dropdown-menu">
+                   				<li><a href="<%=path%>/expertExam/result.html" target="home" class="son-menu"><span class="mr5">◇</span>专家成绩管理</a></li>
+                   				<li><a href="<%=path%>/purchaserExam/result.html" target="home" class="son-menu"><span class="mr5">◇</span>采购人成绩管理</a></li>
+                   			</ul>
+                   		</li>
+               		</ul>
+				</li>
+				<li>
+				<a href="#">
+				  <div><img src="<%=basePath%>public/ZHH/images/top_06.png"/></div>
+				  <span>配置配置</span>
+				 </a>
+				</li>
+			    <li>
+				<a href="<%=basePath%>login/home.do" target="home">
+				  <div><img src="<%=basePath%>public/ZHH/images/top_07.png"/></div>
+				  <span>后台首页</span>
+				 </a>
+				</li>
+			    <li>
+				<a href="<%=basePath%>login/loginOut.do">
+				  <div><img src="<%=basePath%>public/ZHH/images/top_08.png"/></div>
+				  <span>安全退出</span>
+				 </a>
+				</li>
+>>>>>>> Stashed changes
 			  </ul>
 			</div>
     </div>

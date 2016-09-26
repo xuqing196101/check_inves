@@ -1,17 +1,11 @@
-package ses.dao.ppms;
+package ses.service.ppms;
 
 import java.util.List;
 
 import ses.model.bms.Category;
 import ses.model.ppms.CategoryParam;
 
-    /**
-     * <p>Title:CategoryParamMapper</p>
-     * <p>Description: 产品参数接口</p>
-     * @author zhangxuefeng
-     * @date 
-     */
-public interface CategoryParamMapper {
+public interface CategoryParamService {
 	/**   
 	* @Title: selectAll
 	* @author zhangxuefeng

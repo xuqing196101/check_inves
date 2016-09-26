@@ -1,6 +1,7 @@
 package ses.service.bms;
 
 import java.util.List;
+import java.util.Map;
 
 import ses.model.bms.Category;
 
@@ -108,5 +109,13 @@ import ses.model.bms.Category;
 	* @return void
 	 */
 	public void updateByPrimaryKeySelective(Category category);
-	
+	/**
+	 * 
+	* @Title: listByKeyword
+	* @author zhangxuefeng 
+	* @Description:根据关键字查询品目名称
+	* @param @param id
+	* @return int
+	 */
+	public List<Category> listByKeyword(Map map);
 }

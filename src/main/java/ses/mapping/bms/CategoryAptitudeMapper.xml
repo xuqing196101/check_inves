@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.bms.CategoryAptitudeMapper">
+<resultMap id="CategoryAptitudeMap" type="ses.model.bms.CategoryAptitude">
+      <id column="ID" property="id" />
+    <result column="CATEGORY_TYPE"  property="categoryType" />
+    <result column="CREATED_AT"  property="createdAt" />
+    <result column="UPDATED_AT"  property="updatedAt" />
+    <result column="IS_DELETED"  property="isDeleted" />
+    <association property="category" column="CATEGORY_ID" select="ses.dao.bms.CategoryMapper.selectByPrimaryKey"/>
+    </resultMap>
+    
+   
+		   <!-- 表中所有列 --> 
+    <sql id="Base_Column_List">
+		    ID, CATEGORY_TYPE, CONTENT,USER_ID,CREATER_ID,CREATED_AT, UPDATED_AT	    
+		  </sql>
+		  
+  	
+    <select id="selectAll" parameterType="java.lang.String" resultMap="CategoryAptitudeMap">
+        select 
+    <include refid="Base_Column_List" />
+    from 
+        T_SES_BMS_CATEGORY_APTITUDE
+         
+    </select>
+    
+    <!-- 1.根据Id查询 -->
+		  <select id="selectByPrimaryKey" parameterType="Object" resultMap="CategoryAptitudeMap">
+			    select 
+			    <include refid="Base_Column_List" />
+			    from T_SES_BMS_CATEGORY_APTITUDE
+			    where ID = #{category.id}
+		  </select>
+    <!-- 删除 -->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete 
+        from 
+            T_SES_BMS_CATEGORY_APTITUDE
+                 where ID = #{category.id}
+    </delete>
+    
+    <!-- 新增 -->
+     <insert id="insertSelective" parameterType="ses.model.bms.CategoryAptitude">
+  <selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_SES_BMS_CATEGORY_APTITUDE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="categoryType != null">
+        CATEGIRT_TYPE,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="category != null">
+        CATEGORY_ID,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="categoryType != null">
+        #{categoryType},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt},
+      </if>
+      <if test="category != null">
+        #{category.id},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted},
+      </if>
+    </trim>
+  </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="ses.model.bms.CategoryAptitude">
+    update T_SES_BMS_CATEGORY_APTITUDE
+    <set>
+      <if test="fileName != null">
+        CATEGORY_TYPE = #{categoryType},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt},
+      </if>
+      
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted},
+      </if>
+    </set>
+    where ID = #{category.id}
+  </update>
+</mapper>

@@ -1,26 +1,14 @@
-package ses.dao.ppms;
+package ses.dao.bms;
 
-import java.util.List;
+import ses.model.bms.CategoryAptitude;
 
-import ses.model.bms.Category;
-import ses.model.ppms.CategoryParam;
 
-    /**
-     * <p>Title:CategoryParamMapper</p>
-     * <p>Description: 产品参数接口</p>
-     * @author zhangxuefeng
-     * @date 
-     */
-public interface CategoryParamMapper {
-	/**   
-	* @Title: selectAll
-	* @author zhangxuefeng
-	* @date 2016-7-27 下午4:52:29  
-	* @Description:获取所有数据
-	* @param @param list<Category>
-	*/
-	public List<CategoryParam> selectAll();
-	
+/**
+ *@Title:CategoryAptitudeMapper
+ *@Description:产品资质表Mapper接口
+ *@author Zhang XueFeng
+ */
+public interface CategoryAptitudeMapper {
 	/**
 	 * 
 	* @Title: deleteByPrimaryKey
@@ -34,6 +22,17 @@ public interface CategoryParamMapper {
     void deleteByPrimaryKey(String id);
     /**
      * 
+    * @Title: insertSelective
+    * @author Zhang XueFeng
+    * @date 2016-8-25 下午3:36:18  
+    * @Description: 新增
+    * @param @param record
+    * @param @return      
+    * @return int
+     */
+    int insertSelective(CategoryAptitude aptitude);
+    /**
+     * 
     * @Title: selectByPrimaryKey
     * @author Zhang XueFeng
     * @date 2016-8-25 下午3:36:18  
@@ -42,7 +41,7 @@ public interface CategoryParamMapper {
     * @param @return      
     * @return int
      */
-    CategoryParam selectByPrimaryKey(String id);
+    CategoryAptitude selectByPrimaryKey(String id);
     /**
      * 
     * @Title: updateByPrimaryKeySelective
@@ -54,12 +53,4 @@ public interface CategoryParamMapper {
     * @return int
      */
     int updateByPrimaryKeySelective(String id);
-    /**   
-	* @Title: listByParent
-	* @author zhangxuefeng
-	* @date 2016-7-27 下午4:52:29  
-	* @Description: 根据pid获取所有子栏目
-	* @param @param list<Category>
-	*/
-	public List<Category> listByParent(String pid);
 }

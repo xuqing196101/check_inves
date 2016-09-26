@@ -37,4 +37,10 @@ public class CategoryAttchmentServiceImpl implements CategoryAttchmentService{
 		return categoryAttchmentMapper.selectByPrimaryKey(id);
 	}
 
+	@Override
+	public int insertSelective(CategoryAttchment attachment) {
+		// TODO Auto-generated method stub
+		return categoryAttchmentMapper.insertSelective(attachment);
+	}
+
 }
