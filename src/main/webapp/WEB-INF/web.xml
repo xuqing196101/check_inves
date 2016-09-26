@@ -84,7 +84,7 @@
 		<!-- 字体大小 -->
 		<init-param>
 			<param-name>kaptcha.textproducer.font.size</param-name>
-			<param-value>20</param-value>
+			<param-value>27</param-value>
 		</init-param>
 		<!-- 干扰线的颜色 -->
 		<init-param>

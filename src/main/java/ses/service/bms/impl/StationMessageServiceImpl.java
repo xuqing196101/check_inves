@@ -55,7 +55,7 @@ public class StationMessageServiceImpl implements StationMessageService {
 		
 		if(stationMessage.getId()!=null&&!"".equals(stationMessage.getId())){
 			
-			stationMessageMapper.updateByPrimaryKey(stationMessage);
+			stationMessageMapper.updateByPrimaryKeySelective(stationMessage);
 			
 		}else{
 			stationMessageMapper.insert(stationMessage);

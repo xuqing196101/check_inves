@@ -166,16 +166,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  		<option value="3" <c:if test="${'3' eq expert.punishType}">selected</c:if>>取消资格</option>
 		      </select>
 				</li> 
-			  <li class="col-md-6  p0 ">
-				  <span class="">处罚理由：</span>
-				  <input class="span2"  id="reason" maxlength="10"  name="reason" type="text" value="${expert.reason }">
-				</li> 
+				<li class="col-md-12 p0 mt10"><span class="fl">处罚理由：</span>
+          <div class="col-md-9 mt5">
+            <div class="row">
+              <textarea class="text_area col-md-12" name="reason" title="不超过800个字" style="width:770px;">${expert.reason }</textarea>
+            </div>
+          </div>
+        </li> 
 			</ul>
-      <div  class="col-md-12">
-        <div class="fl padding-10">
-	       <button class="btn btn-windows save" type="submit">保存</button>
-	       <a class="btn btn-windows reset"  onclick="location.href='javascript:history.go(-1);'">返回</a>
-	      </div>
+      <div class="margin-bottom-0  categories">
+        <div class="col-md-12 add_regist tc">
+          <button class="btn btn-windows save" type="submit">保存</button>
+          <a class="btn btn-windows reset"  onclick="location.href='javascript:history.go(-1);'">返回</a>
+        </div>
       </div>
     </form>
   </div>

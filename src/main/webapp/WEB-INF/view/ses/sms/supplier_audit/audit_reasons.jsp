@@ -109,6 +109,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/jquery.easing.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/james.js"></script>
 
+<link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
+
 <script type="text/javascript">
 function tijiao(status){
   $("#status").val(status);
@@ -206,6 +209,19 @@ function shenhe(status){
 	                    </ul>
 	                  </c:forEach>
                 </div>
+                </div>
+                <div class="col-md-12 add_regist tc">
+                <ul class="list-unstyled list-flow">
+                  <li class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i>供应商考察表：</span>
+                    <div class="input-append">
+                      <div class="uploader orange m0">
+                        <input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..." /> 
+                        <input type="button" class="button" value="选择文件..." /> 
+                        <input name="taxCertFile" type="file" size="30" accept="image/*" />
+                      </div>
+                    </div>
+                   </li>
+                 </ul>
                 </div>
                 <div class="col-md-12 add_regist tc">
                 <form id="form_shen" action="${pageContext.request.contextPath}/supplierAudit/updateStatus.html"  enctype="multipart/form-data">

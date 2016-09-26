@@ -480,7 +480,7 @@ function loadCity(regionId){
 				</tr>
 			    <c:forEach items="${findPurchaseDepList }" var="fpd" varStatus="vs">
 					<tr>
-						<td><input value="${fpd.id }" type="checkbox" name="cbox" onclick="box(this)" /></td>
+						<td><input value="${fpd.id }" type="radio" name="cbox" onclick="box(this)" /></td>
 						<td>${vs.index+1}</td>
 						<td>${fpd.depName }</td>
 						<td></td>

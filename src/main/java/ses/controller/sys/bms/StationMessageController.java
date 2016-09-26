@@ -10,6 +10,10 @@ import java.util.List;
 
 
 
+
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.github.pagehelper.PageInfo;
 
 import ses.model.bms.StationMessage;
+import ses.model.bms.User;
 import ses.service.bms.StationMessageService;
 
 /**
@@ -46,8 +51,11 @@ public class StationMessageController {
 	 * @return void
 	 */
 	@RequestMapping("/insertStationMessage")
-	public void insertStationMessage(StationMessage stationMessage) {
-		
+	public void insertStationMessage(HttpServletRequest request,StationMessage stationMessage) {
+		User user=(User) request.getSession().getAttribute("loginUser");
+		if(user!=null){
+			stationMessage.setUserId(user.getId());
+		}
 		stationMessageService.insertStationMessage(stationMessage);
 		
 	}
@@ -61,7 +69,11 @@ public class StationMessageController {
 	 * @return void
 	 */
 	@RequestMapping("/updateStationMessage")
-	public String updateStationMessage(StationMessage stationMessage) {
+	public String updateStationMessage(HttpServletRequest request,StationMessage stationMessage) {
+		User user=(User) request.getSession().getAttribute("loginUser");
+		if(user!=null){
+			stationMessage.setUserId(user.getId());
+		}
 		stationMessageService.updateStationMessage(stationMessage);
 		return "redirect:listStationMessage.html";
 	}
@@ -99,7 +111,7 @@ public class StationMessageController {
 		if("view".equals(type)){
 			return "ses/bms/station/view";
 		}else{
-			model.addAttribute("operation", "修改");
+			model.addAttribute("operation", 2);
 			return "ses/bms/station/edit";
 		}
 	}
@@ -147,7 +159,7 @@ public class StationMessageController {
 	 */
 	@RequestMapping("/showInsertSM")
 	public String showInsertSM(Model model){
-		model.addAttribute("operation", "保存");
+		model.addAttribute("operation", 1);
 		return "ses/bms/station/edit";
 		
 	}

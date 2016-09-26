@@ -124,12 +124,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         subtitle : {
             text : ''
         },
-     /*    mapNavigation: {
+         mapNavigation: {
             enabled: true,
             buttonOptions: {
                 verticalAlign: 'bottom'
             }
-        }, */
+        }, 
         colorAxis: {
             min: 0
         },
@@ -249,15 +249,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		       		<tr>
 		       			<td style="text-align:right">公司名称：</td>
 		       			<td><input class="span2" name="supplierName" value="${supplierName }" type="text"></td>
-		       			<td>组织机构：</td>
-		       			<td><input class="span2" name="supName" value="${name }" type="text"></td>
-		       			<td>信息源：</td>
-		       			<td><input class="span2" name="supName" value="${name }" type="text"></td>
-		       		</tr>
-		       		<tr>
 		       			<td style="text-align:right">供应商类型：</td>
-		       			<td><input class="span2" name="supName" value="${name }" type="text"></td>
-		       			<td>主营产品：</td>
 		       			<td><input class="span2" name="supName" value="${name }" type="text"></td>
 		       			<td>联系人：</td>
 		       			<td><input class="span2" name="contactName" value="${contactName }" type="text"></td>
@@ -266,8 +258,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		       			<td style="text-align:right">产品分类目录：</td>
 		       			<td><input class="span2" name="supName" value="${name }" type="text"></td>
 		       			<td>注册时间：</td>
-		       			<td><input id="startDate" name="startDate" class="span2" type="text" onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})"/></td>
-		       			<td colspan="2"><input id="endDate" name="endDate" class="span2" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/></td>
+		       			<td colspan="3">
+		       			<div class="input-append mt5">
+		       			<input id="startDate" name="startDate" class="span2 fl" type="text" 
+		       			onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})"/>
+		       			<span class="add-on fl"><img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
+		       			<span class="fl">~</span>
+		       			<input id="endDate" name="endDate" class="span2 ml10" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
+		       			<span class="add-on fl"><img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
+		       			</div>
+		       			</td>
 		       		</tr>
 		       	</tbody>
 		       </table>

@@ -109,6 +109,11 @@ function tijiao(status){
 	form1.submit();
 }
 </script>
+<style type="text/css">
+	.pointer{
+		cursor: pointer;
+	}
+</style>
 </head>
 <body>
   <div class="wrapper">
@@ -212,17 +217,17 @@ function tijiao(status){
 	  <form id="form1" action="${pageContext.request.contextPath}/importSupplier/auditList.html" method="post">
 		   <input type="hidden" name="status" id="status" />
 		   <div class="col-md-4">
-		   		<span onclick="tijiao(0)">供应商未审核</span>（<a class="red b">${weishenhe }</a>）
+		   		<span onclick="tijiao(0)" class="pointer">供应商未审核</span>（<a class="red b">${weishenhe }</a>）
 		   </div>
 		   <div class="col-md-4"></div>
 		   <div class="col-md-4"></div>
 		   <div class="col-md-4">
-		   		<span onclick="tijiao(4)">供应商已审核</span>（<a class="red b">${yishenhe }</a>）
+		   		<span onclick="tijiao(4)"  class="pointer">供应商已审核</span>（<a class="red b">${yishenhe }</a>）
 		   </div>
 	   	   <div class="col-md-4"></div>
 	   	   <div class="col-md-4"></div>
 		   <div class="col-md-4">
-		   		<span onclick="tijiao(1)">供应商审核中</span>（<a class="red b">${shenhezhong }</a>）
+		   		<span onclick="tijiao(1)"  class="pointer">供应商审核中</span>（<a class="red b">${shenhezhong }</a>）
 		   </div>
 		   <div class="col-md-4"></div>
 		   <div class="col-md-4"></div>
