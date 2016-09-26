@@ -228,7 +228,6 @@
 																<th class="info">序号</th>
 																<th class="info">标题</th>
 																<th class="info">发送人</th>
-																<th class="info">接收人</th>
 															</tr>
 														</thead>
 														<c:forEach items="${agentslist }" var="agents"
@@ -237,7 +236,6 @@
 																<td class="tc">${s.index+1}</td>
 																<td class="tc">${agents.name}</td>
 																<td class="tc">${agents.senderName}</td>
-																<td class="tc">${agents.receiverName}</td>
 															</tr>
 														</c:forEach>
 													</table>
@@ -265,7 +263,6 @@
 																<th class="info">序号</th>
 																<th class="info">标题</th>
 																<th class="info">发送人</th>
-																<th class="info">接收人</th>
 															</tr>
 														</thead>
 														<c:forEach items="${agentslist }" var="agents"
@@ -274,7 +271,6 @@
 																<td class="tc">${s.index+1}</td>
 																<td class="tc">${agents.name}</td>
 																<td class="tc">${agents.senderName}</td>
-																<td class="tc">${agents.receiverName}</td>
 															</tr>
 														</c:forEach>
 													</table>

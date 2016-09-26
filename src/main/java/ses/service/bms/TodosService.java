@@ -4,6 +4,7 @@
 package ses.service.bms;
 
 import java.util.List;
+import java.util.Map;
 
 import ses.model.bms.Todos;
 
@@ -35,7 +36,7 @@ public interface TodosService {
 	 * @param @return      
 	 * @return List<Todos>
 	 */
-	List<List<Todos>>  listTodos(Todos todos);
+	List<List<Todos>>  listTodos(Todos todos,String id);
 
 	/**
 	 * @Description:是否完成

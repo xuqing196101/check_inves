@@ -161,12 +161,15 @@ public class LoginController {
 	 */
 	@RequestMapping("/index")
 	public String index(HttpServletRequest req,String type,String page,String id){
-		//代办事项
-		req.setAttribute("listTodos", todosService.listTodos(new Todos(new Short("0"))));
-		//已办事项
-		req.setAttribute("listTodosf",todosService.listTodos(new Todos(new Short("1"))));
-		//站内消息
-		req.setAttribute("stationMessage",stationMessageService.listStationMessage(new StationMessage(0,19)));
+		User user=(User) req.getSession().getAttribute("loginUser");
+		if(user!=null){
+			//代办事项
+			req.setAttribute("listTodos",todosService.listTodos(new Todos(new Short("0")),user.getOrg().getId()));
+			//已办事项
+			req.setAttribute("listTodosf",todosService.listTodos(new Todos(new Short("1")),user.getOrg().getId()));
+			//站内消息
+			req.setAttribute("stationMessage",stationMessageService.listStationMessage(new StationMessage(0,19)));
+		}
 		return "index";
 	}
 	/**   
@@ -178,12 +181,15 @@ public class LoginController {
 	 */
 	@RequestMapping("/home")
 	public String home(HttpServletRequest req,Model model,String type,String page,String id){
-		//代办事项
-		req.setAttribute("listTodos",todosService.listTodos(new Todos(new Short("0"))));
-		//已办事项
-		req.setAttribute("listTodosf",todosService.listTodos(new Todos(new Short("1"))));
-		//站内消息
-		req.setAttribute("stationMessage",stationMessageService.listStationMessage(new StationMessage(0,19)));
+		User user=(User) req.getSession().getAttribute("loginUser");
+		if(user!=null){
+			//代办事项
+			req.setAttribute("listTodos",todosService.listTodos(new Todos(new Short("0")),user.getOrg().getId()));
+			//已办事项
+			req.setAttribute("listTodosf",todosService.listTodos(new Todos(new Short("1")),user.getOrg().getId()));
+			//站内消息
+			req.setAttribute("stationMessage",stationMessageService.listStationMessage(new StationMessage(0,19)));
+		}
 		return "backend";
 	}
 	/**   

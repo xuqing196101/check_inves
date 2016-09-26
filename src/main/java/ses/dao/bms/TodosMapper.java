@@ -2,6 +2,7 @@ package ses.dao.bms;
 
 
 import java.util.List;
+import java.util.Map;
 
 import ses.model.bms.Todos;
 
@@ -51,7 +52,7 @@ public interface TodosMapper {
      *
      * @param record
      */
-    List<Todos> listTodos(Todos todos);
+    List<Todos> listTodos(Map map);
     
     /**
      * @Description:获取任务类型
