@@ -1,5 +1,6 @@
 package ses.controller.sys.sms;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,10 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAudit;
+import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierFinance;
+import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierType;
 import ses.service.sms.SupplierAuditService;
+import ses.service.sms.SupplierService;
 
 import com.github.pagehelper.PageInfo;
 
@@ -30,6 +34,12 @@ import com.github.pagehelper.PageInfo;
 public class SupplierAuditController {
 	@Autowired
 	private SupplierAuditService supplierAuditService;
+	
+	/**
+	 * 供应商
+	 */
+	@Autowired
+	private SupplierService supplierService;
 	
 	/**
 	 * @Title: daiBan
@@ -149,7 +159,11 @@ public class SupplierAuditController {
 	 * @return String
 	 */
 	@RequestMapping("materialProduction")
-	public String materialProduction() {
+	public String materialProduction(HttpServletRequest request,SupplierMatPro supplierMatPro) {
+		String supplierId = supplierMatPro.getSupplierId();
+		List<SupplierCertPro> materialProduction = supplierService.get(supplierId).getSupplierMatPro().getListSupplierCertPros();
+		request.setAttribute("materialProduction",materialProduction);
+		request.setAttribute("supplierId", supplierId);	
 		return "ses/sms/supplier_audit/material_production";
 	}
 	
@@ -189,6 +203,15 @@ public class SupplierAuditController {
 	 */
 	@RequestMapping("auditReasons")
 	public void auditReasons(SupplierAudit supplierAudit,HttpServletRequest request){
+		int status = (int) request.getSession().getAttribute("status");
+		supplierAudit.setStatus((short) status);
+		supplierAudit.setCreatedAt(new Date());
+		if(status==0){
+			supplierAudit.setAuditType("初审");
+		}
+		if(status==1){
+			supplierAudit.setAuditType("复审");
+		}
 		supplierAudit.setUserId("EDED66BAC3304F34B75EBCDB88AE427F");
 		supplierAuditService.auditReasons(supplierAudit);
 	}

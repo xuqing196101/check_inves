@@ -130,7 +130,7 @@ function tijiao(str){
   if(str=="materialProduction"){
     action = "${pageContext.request.contextPath}/supplierAudit/materialProduction.html";
   }
-  if(str=="materialProduction"){
+  if(str=="materialSales"){
     action = "${pageContext.request.contextPath}/supplierAudit/materialSales.html";
   }
   if(str=="engineering"){

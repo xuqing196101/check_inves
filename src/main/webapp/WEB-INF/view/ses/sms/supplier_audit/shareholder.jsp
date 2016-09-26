@@ -137,7 +137,7 @@ function tijiao(str){
   if(str=="materialProduction"){
     action = "<%=basePath%>supplierAudit/materialProduction.html";
   }
-  if(str=="materialProduction"){
+  if(str=="materialSales"){
     action = "<%=basePath%>supplierAudit/materialSales.html";
   }
   if(str=="engineering"){

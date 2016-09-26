@@ -149,7 +149,7 @@ function tijiao(str){
   if(str=="materialProduction"){
     action = "<%=basePath%>supplierAudit/materialProduction.html";
   }
-  if(str=="materialProduction"){
+  if(str=="materialSales"){
     action = "<%=basePath%>supplierAudit/materialSales.html";
   }
   if(str=="engineering"){
@@ -292,7 +292,7 @@ function tijiao(str){
                     </li>
                     <li class="col-md-6 p0 "><span class="" id="legaIdCard2"><i class="red">＊</i>身份证号：</span>
                       <div class="input-append">
-                        <input class="span3" id="legaIdCard3" value="${suppliers.legaIdCard } "  type="text">
+                        <input class="span3" id="legaIdCard3" value="${suppliers.legalIdCard } "  type="text">
                         <div id="legaIdCard1" class="b f18 fl ml10 red hand">√</div>
                         <div id="legaIdCard" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
                       </div>

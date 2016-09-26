@@ -138,7 +138,7 @@ function tijiao(str){
   if(str=="materialProduction"){
     action = "<%=basePath%>supplierAudit/materialProduction.html";
   }
-  if(str=="materialProduction"){
+  if(str=="materialSales"){
     action = "<%=basePath%>supplierAudit/materialSales.html";
   }
   if(str=="engineering"){
@@ -207,7 +207,7 @@ function tijiao(str){
                          <td class="tc">
                           <a id="reason1" class="b f18 fl ml10 red hand">√</a>
                           <a onclick="reason('${f.id}');" class="b f18 fl ml10 hand">×</a>
-                        </td>
+                         </td>
                        </tr>
                      </c:forEach>
                   </table>
