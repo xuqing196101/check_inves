@@ -4,6 +4,7 @@ import java.util.List;
 
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAudit;
+import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierType;
@@ -110,4 +111,15 @@ public interface SupplierAuditService {
      * @return List<SupplierType>
      */
     List<SupplierType> findSupplierType();
-}
+    
+    /**
+     * @Title: findBySupplierId
+     * @author Xu Qing
+     * @date 2016-9-26 下午6:43:07  
+     * @Description: 资质证书信息
+     * @param @param supplierId
+     * @param @return      
+     * @return List<SupplierCertPro>
+     */
+    List<SupplierCertPro> findBySupplierId (String supplierId);
+} 

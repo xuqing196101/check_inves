@@ -146,4 +146,14 @@
 	<select id="findCertProBySupplierMatProId" parameterType="java.lang.String" resultMap="BaseResultMap">
 		select * from T_SES_SMS_SUPPLIER_CERT_PRO where MAT_PRO_ID = #{supplierMatProId}
 	</select>
+	
+	<!-- 资质证书信息 -->
+	<select id="findBySupplierId" parameterType="java.lang.String" resultMap="BaseResultMap">
+      select 
+      *
+      from 
+      T_SES_SMS_SUPPLIER_CERT_PRO c,T_SES_SMS_SUPPLIER_MAT_PRO m
+      where   m.Id = c.MAT_PRO_ID 
+      AND m.SUPPLIER_ID=#{supplierId}
+  </select>
 </mapper>

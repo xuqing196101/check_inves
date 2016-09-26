@@ -161,7 +161,8 @@ public class SupplierAuditController {
 	@RequestMapping("materialProduction")
 	public String materialProduction(HttpServletRequest request,SupplierMatPro supplierMatPro) {
 		String supplierId = supplierMatPro.getSupplierId();
-		List<SupplierCertPro> materialProduction = supplierService.get(supplierId).getSupplierMatPro().getListSupplierCertPros();
+/*		List<SupplierCertPro> materialProduction = supplierService.get(supplierId).getSupplierMatPro().getListSupplierCertPros();*/
+		List<SupplierCertPro> materialProduction = supplierAuditService.findBySupplierId(supplierId);
 		request.setAttribute("materialProduction",materialProduction);
 		request.setAttribute("supplierId", supplierId);	
 		return "ses/sms/supplier_audit/material_production";
