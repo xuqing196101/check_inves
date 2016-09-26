@@ -24,9 +24,9 @@ function cheClick(id,name){
 $(function(){
 	var range="${article.range}";
 	if(range==2){
-		$("input[name='range']").attr("checked",true); 
+		$("input[name='ranges']").attr("checked",true); 
 	}else{
-		$("input[name='range'][value="+range+"]").attr("checked",true); 
+		$("input[name='ranges'][value="+range+"]").attr("checked",true); 
 	}
 	$("#articleTypeId").val("${article.articleType.id }");
 });
@@ -73,6 +73,7 @@ function deleteAtta(id,obj){
 	   <h2>修改信息</h2>
 	 </div>
 	  <input type="hidden" name="id" id="id" value="${article.id }">
+	  <input type="hidden" name="status" id="status" value="${article.status }">
 	  <input type="hidden" name="user.id" id="user.id" value="${article.user.id }">
 	   <ul class="list-unstyled list-flow p0_20">
      <li class="col-md-6 p0 mb0">
@@ -84,28 +85,12 @@ function deleteAtta(id,obj){
      <li class="col-md-6  p0 ">
 	   <span class="">发布范围：</span>
 	   <div class="input-append">
-        <label class="fl margin-bottom-0"><input type="checkbox" name="range" value="0">内网</label>
-        <label class="ml10 fl"><input type="checkbox" name="range" value="1">外网</label>
+        <label class="fl margin-bottom-0"><input type="checkbox" name="ranges" value="0">内网</label>
+        <label class="ml10 fl"><input type="checkbox" name="ranges" value="1">外网</label>
        </div>
 	 </li> 
      <li class="col-md-6  p0 ">
 	   <span class="">信息类型：</span>
-	    <%-- <div class="input-append">
-         <input class="span2" id="articleTypeId" name="articleType.id" type="hidden" value="${article.articleType.id }">
-		 <input class="span2" id="articleTypeName" name="articleTypeName" type="text" value="${article.articleType.name }">
-		 <div class="btn-group ">
-          <button class="btn dropdown-toggle add-on" data-toggle="dropdown">
-		  <img src="<%=basePath%>public/ZHH/images/down.png" class="margin-bottom-5"/>
-          </button>
-          <ul class="dropdown-menu list-unstyled">
-          	<c:forEach items="${list}" var="list" varStatus="vs">
-          		<li class="select_opt">
-          			<input type="radio" name="chkItem" value="${list.id }" onclick="cheClick(${list.id },'${list.name }');" class="select_input">${list.name }
-          		</li>
-		    </c:forEach>
-          </ul>
-       </div>
-      </div>  --%>
    		 <select id="articleTypeId" name="articleType.id" class="w220">
    		 	<option></option>
           	<c:forEach items="${list}" var="list" varStatus="vs">
@@ -113,7 +98,6 @@ function deleteAtta(id,obj){
 		    </c:forEach>
          </select>
 	 </li> 
-	 
 	 
      <li class="col-md-12 p0">
 	   <span class="fl">信息正文：</span>

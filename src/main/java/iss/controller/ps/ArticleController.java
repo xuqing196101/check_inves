@@ -96,14 +96,15 @@ public class ArticleController {
 	* @return String
 	 */
 	@RequestMapping("/save")
-	public String save(@RequestParam("attaattach") MultipartFile[] attaattach,
+	public String save(@RequestParam("attaattach") MultipartFile[] attaattach,String[] ranges,
             HttpServletRequest request, HttpServletResponse response,Article article){
-		String[] ranges = request.getParameterValues("range");
-		if(ranges.length>1){
-			article.setRange(2);
-		}else{
-			for(int i=0;i<ranges.length;i++){
-				article.setRange(Integer.valueOf(ranges[i]));
+		if(ranges!=null&&!ranges.equals("")){
+			if(ranges.length>1){
+				article.setRange(2);
+			}else{
+				for(int i=0;i<ranges.length;i++){
+					article.setRange(Integer.valueOf(ranges[i]));
+				}
 			}
 		}
 		User user = new User();
@@ -194,7 +195,7 @@ public class ArticleController {
 	* @return String
 	 */
 	@RequestMapping("/update")
-	public String update(@RequestParam("attaattach") MultipartFile[] attaattach,
+	public String update(@RequestParam("attaattach") MultipartFile[] attaattach,String[] ranges,
             HttpServletRequest request, HttpServletResponse response,Article article){
 		String ids = request.getParameter("ids");
 		if(ids!=null && ids!=""){
@@ -204,15 +205,16 @@ public class ArticleController {
 			}
 		}
 		uploadFile(article, request, attaattach);
-		String[] ranges = request.getParameterValues("range");
-		if(ranges.length>1){
-			article.setRange(2);
-		}else{
-			for(int i=0;i<ranges.length;i++){
-				article.setRange(Integer.valueOf(ranges[i]));
+		if(ranges!=null&&!ranges.equals("")){
+			if(ranges.length>1){
+				article.setRange(2);
+			}else{
+				for(int i=0;i<ranges.length;i++){
+					article.setRange(Integer.valueOf(ranges[i]));
+				}
 			}
 		}
-		if(article.getStatus()==2){
+		if(article.getStatus()!=null&&article.getStatus()==2){
 			article.setStatus(0);
 			solrNewsService.deleteIndex(article.getId());
 		}
@@ -360,11 +362,11 @@ public class ArticleController {
 	 * @throws Exception 
 	 */
 	@RequestMapping("/audit")
-	public  String audit(String id,Article article) throws Exception{
-		
+	public String audit(String id,Article article) throws Exception{
+		article.setUpdatedAt(new Date());
 		if(article.getStatus()==2){
 			article.setReason("");
-			solrNewsService.addIndex(article);
+		//	solrNewsService.addIndex(article);
 			articleService.update(article);
 		}else if(article.getStatus()==3){
 			String reason = new String((article.getReason()).getBytes("ISO-8859-1") , "UTF-8");

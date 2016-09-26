@@ -22,15 +22,17 @@
 $(function(){
 	var range="${article.range}";
 	if(range==2){
-		$("input[name='range']").attr("checked",true); 
+		$("input[name='ranges']").attr("checked",true); 
 	}else{
-		$("input[name='range'][value="+range+"]").attr("checked",true); 
+		$("input[name='ranges'][value="+range+"]").attr("checked",true); 
 	}
 	$("#articleTypeId").val("${article.articleType.id }");
 });
 
 function sub(){
 	var id = $("#id").val();
+	//var name = $("#name").val();
+	//var articleTypeId = $("#articleTypeId").val();
 	layer.confirm('您确定需要审核通过吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 		layer.close(index);
 		window.location.href="<%=basePath%>article/audit.html?id="+id+"&status=2";
@@ -71,39 +73,29 @@ function back(){
    </div>
    
    <div class="container">
+   <form action="<%=basePath%>article/audit.html?status=2" method="post">
      <div class="headline-v2">
 	   <h2>审核信息</h2>
 	 </div>
 	  <input type="hidden" name="id" id="id" value="${article.id }" disabled>
 	  <input type="hidden" name="user.id" id="user.id" value="${article.user.id }" disabled>
+	 
 	   <ul class="list-unstyled list-flow p0_20">
      <li class="col-md-6 p0 mb0">
 	   <span class="">信息标题：</span>
 	   <div class="input-append">
-        <input class="span2" type="text" value="${article.name }" disabled>
+        <input class="span2" type="text" name="name" value="${article.name }" disabled>
        </div>
 	 </li>
      <li class="col-md-6  p0 ">
 	   <span class="">发布范围：</span>
 	   <div class="input-append">
-        <label class="fl margin-bottom-0"><input type="checkbox" name="range" value="0" disabled>内网</label>
-        <label class="ml10 fl"><input type="checkbox" name="range" value="1" disabled>外网</label>
+        <label class="fl margin-bottom-0"><input type="checkbox" name="ranges" value="0" disabled>内网</label>
+        <label class="ml10 fl"><input type="checkbox" name="ranges" value="1" disabled>外网</label>
        </div>
 	 </li> 
      <li class="col-md-6  p0 ">
 	   <span class="">信息类型：</span>
-	   <%-- <div class="input-append">
-         <input class="span2" type="hidden" value="${article.articleType.id }" disabled>
-		 <input class="span2" type="text" value="${article.articleType.name }" disabled>
-		 <div class="btn-group ">
-          <button class="btn dropdown-toggle add-on" data-toggle="dropdown">
-		  <img src="<%=basePath%>public/ZHH/images/down.png" class="margin-bottom-5"/>
-          </button>
-          	<c:forEach items="${list}" var="list" varStatus="vs">
-		          	<input type="radio" name="chkItem" value="${list.name }"  disabled>${list.name }
-		    </c:forEach>
-       </div>
-      </div> --%>
       <select id="articleTypeId" name="articleType.id" class="w220" disabled>
    		 	<option></option>
           	<c:forEach items="${list}" var="list" varStatus="vs">
@@ -142,14 +134,15 @@ function back(){
 		   </ul>
 	  </div>
 	  
-	         
 	 <div  class="col-md-12">
 	   <div class="mt40 tc mb50">
 	    <button class="btn btn-windows check" type="button" onclick="sub()">审核</button>
 	    <button class="btn btn-windows withdraw" type="button" onclick="back()">驳回</button>
 	    <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
-	</div>
-  </div>
+	   </div>
+ 	 </div>
+  
+	 </form>
      
     </div>
     

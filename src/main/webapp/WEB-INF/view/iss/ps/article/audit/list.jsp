@@ -123,7 +123,7 @@
 	   <input type="hidden" id="depid" name="depid">
 	  	
 		<div class="container">	
-			<div class="col-md-8">
+			<div class="col-md-8 mt10">
 	   			<button class="btn btn-windows check" type="button" onclick="audit()">审核</button>
 			</div>
 			

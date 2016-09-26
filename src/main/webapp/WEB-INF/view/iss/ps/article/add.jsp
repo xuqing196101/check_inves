@@ -62,8 +62,8 @@
      <li class="col-md-6  p0 ">
 	   <span class=""><i class="red">＊</i>发布范围：</span>
 	   <div class="input-append">
-        <label class="fl margin-bottom-0"><input type="checkbox" name="range" value="0">内网</label>
-        <label class="ml10 fl"><input type="checkbox" name="range" value="1">外网</label>
+        <label class="fl margin-bottom-0"><input type="checkbox" name="ranges" value="0">内网</label>
+        <label class="ml10 fl"><input type="checkbox" name="ranges" value="1">外网</label>
        </div>
 	 </li> 
 	 
