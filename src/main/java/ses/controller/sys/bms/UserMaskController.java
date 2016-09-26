@@ -2,6 +2,7 @@ package ses.controller.sys.bms;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ses.formbean.UserTaskFormBean;
 import ses.model.bms.UserTask;
 import ses.service.bms.UserTaksService;
+
+
+
 
 
 
@@ -41,6 +45,7 @@ public class UserMaskController {
 	private UserTaksService userTaksService;
 	
 	/**
+	 * @throws ParseException 
 	 * 
 	* @Title: getMonth
 	* @Description: 查询当前月的数据
@@ -51,11 +56,37 @@ public class UserMaskController {
 	* @throws
 	 */
 	@RequestMapping("/getmonth")
-	public String getMonth(Model model){
-		Map<String,Object> map=new HashMap<String,Object>();
-		List<UserTaskFormBean> list = userTaksService.getAl(map);
-		String string = JSON.toJSONString(list);
-		model.addAttribute("data", string);
+	public String getMonth(Model model,String date) throws ParseException{
+		if(date!=null){
+			Date date2 = stingToDate(date);
+			SimpleDateFormat sdfs=new SimpleDateFormat("yyyy"); 
+			String year = sdfs.format(date2);
+			model.addAttribute("year", year);
+			model.addAttribute("month",date2.getMonth());
+			Map<String,Object> map=new HashMap<String,Object>();
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM"); 
+			String dates = sdf.format(date2);
+			map.put("date", dates);
+			List<UserTaskFormBean> list = userTaksService.getAl(map);
+			String string = JSON.toJSONString(list);
+			model.addAttribute("data", string);
+		}else{
+			Calendar c=Calendar.getInstance();
+			int year = c.get(Calendar.YEAR);
+			model.addAttribute("year", year);
+			model.addAttribute("month", new Date().getMonth());
+			Map<String,Object> map=new HashMap<String,Object>();
+			SimpleDateFormat sdfs=new SimpleDateFormat("yyyy-MM"); 
+			String dates = sdfs.format(new Date());
+			map.put("date", dates);
+			List<UserTaskFormBean> list = userTaksService.getAl(map);
+			String string = JSON.toJSONString(list);
+			model.addAttribute("data", string);
+		 
+			
+		}
+		
+		
 		return "ses/bms/user/usertask";
 	}
 	/**

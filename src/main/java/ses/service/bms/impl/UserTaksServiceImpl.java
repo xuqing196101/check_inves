@@ -66,9 +66,7 @@ public class UserTaksServiceImpl implements UserTaksService {
 	 */
 	@Override
 	public List<UserTaskFormBean> getAl(Map<String, Object> map) {
-		SimpleDateFormat sdfs=new SimpleDateFormat("yyyy-MM"); 
-		String date = sdfs.format(new Date());
-		map.put("date", date);
+	
 		List<UserTask> byMonth = userTaskMapper.getByMonth(map);
 		
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

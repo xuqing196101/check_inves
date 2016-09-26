@@ -122,8 +122,8 @@ scheduler.config.icons_select = ["icon_details","icon_delete"];
 				{name:"级别", height:20, type:"select", options: subject, map_to:"subject" },
 				{name:"time", height:72, type:"time", map_to:"auto" }
 			];
-
-			scheduler.init('scheduler_here', new Date(), "month");
+	 
+			scheduler.init('scheduler_here',new Date(${year},${month},1), "month");
  
 			var s=${data};
 			scheduler.parse(s, "json");
@@ -225,6 +225,16 @@ function dataTstring(date){
 	
 
 
+scheduler.attachEvent("onBeforeViewChange", function(old_mode,old_date,mode,date){
+    
+	if(old_date!=null){
+		window.location.href='<%=basePath%>usertask/getmonth.do?date='+date;
+	}
+ 
+    return true;
+ 
+});
+
 
 
 
@@ -244,8 +254,8 @@ function dataTstring(date){
    
 	<div id="scheduler_here" class="dhx_cal_container date"  >
 		<div class="dhx_cal_navline">
-		<!-- 	<div class="dhx_cal_prev_button">&nbsp;</div>
-			<div class="dhx_cal_next_button">&nbsp;</div> -->
+			<div class="dhx_cal_prev_button">&nbsp;</div>
+			<div class="dhx_cal_next_button">&nbsp;</div>
 			<div class="dhx_cal_date"></div>
 			
 		</div>
@@ -270,6 +280,7 @@ function dataTstring(date){
 	<input type="hidden" name="level" id="ulevel">
 	</form>
 	
+	<input type="hidden" id="hdate" value="${date }"> 
 </body>
 
 </html>
