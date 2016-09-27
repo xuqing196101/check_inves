@@ -85,19 +85,18 @@ public interface PostMapper {
 	* @Title: selectByPrimaryKey
 	* @author Peng Zhongjun
 	* @date 2016-8-22下午20:03:12
-	* @Description: 根据版块Id查询
+	* @Description: 根据版块Id查询5条记录
 	* @param id
 	* @return List<Post> 
 	*/
     List<Post> selectByParkID(String parkID);
     /**   
-	* @Title: selectByPrimaryKey
+	* @Title: queryHotPost
 	* @author Peng Zhongjun
-	* @date 2016-8-22下午20:03:12
-	* @Description: 根据版块Id查询
-	* @param id
+	* @date 2016-9-23下午20:03:12
+	* @Description: 查询热门帖子
+	* @param 
 	* @return List<Post> 
 	*/
-    List<Post> selectListByParkID(String parkID);
-
+    List<Post> queryHotPost();
 }

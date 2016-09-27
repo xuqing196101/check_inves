@@ -54,7 +54,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#">首页</a></li><li><a href="#">论坛管理</a></li><li class="active"><a href="#">帖子管理</a></li><li class="active"><a href="#">帖子修改</a></li>
+		   <li><a href="#">首页</a></li><li><a >论坛管理</a></li><li class="active"><a >帖子管理</a></li><li class="active"><a >帖子修改</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -80,7 +80,7 @@
 			 
 			 <li class="col-md-6  p0 ">
 			   <span class="fl">所属版块：</span>
-			    <select id ="parks"name ="parkId" class="w230" onchange="change(this.options[this.selectedIndex].value)">
+			    <select id ="parks"name ="parkId" class="w220" onchange="change(this.options[this.selectedIndex].value)">
 					<option></option>
 			  	  	<c:forEach items="${parks}" var="park">
 			  	  		<option  value="${park.id}">${park.name}</option>
@@ -89,7 +89,7 @@
 			 </li>
 			 <li class="col-md-6  p0 ">
 			   <span class="fl">所属主题：</span>				 	
-	        	<select id="topics" name="topicId" class="w230 ">
+	        	<select id="topics" name="topicId" class="w220 ">
 	        	<option></option>
 	        		<c:forEach items="${topics}" var="topic">
 			  	  		<option  value="${topic.id}">${topic.name}</option>
@@ -99,7 +99,7 @@
 			 
 			 <li class="col-md-6  p0 ">
 			   <span class="fl">置顶：</span>
-			   	<select id="isTop" name="isTop" class="w230 ">
+			   	<select id="isTop" name="isTop" class="w220 ">
 			   	<option></option>
 	        	<option value="0">不置顶</option>
 	        	<option value="1">置顶</option>
@@ -107,7 +107,7 @@
 			 </li>
 			 <li class="col-md-6  p0 ">
 			   <span class="fl">锁定：</span>
-			   	<select id="isLocking" name="isLocking" class="w230 ">
+			   	<select id="isLocking" name="isLocking" class="w220 ">
 			   	<option></option>
 	        	<option value="0">不锁定</option>
 	        	<option value="1">锁定 </option>
@@ -129,7 +129,7 @@
   <div  class="col-md-12 ml185">
    <div class="fl padding-10">
     <button class="btn btn-windows save" type="submit">更新</button>
-    <button class="btn btn-windows reset" onclick="history.go(-1)" type="button">返回</button>
+    <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
 	</div>
   </div>
      </form>

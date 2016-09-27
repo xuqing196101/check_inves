@@ -27,7 +27,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#">首页</a></li><li><a href="#">论坛管理</a></li><li class="active"><a href="#">评论管理</a></li><li class="active"><a href="#">评论修改</a></li>
+		   <li><a href="#">首页</a></li><li><a >论坛管理</a></li><li class="active"><a >评论管理</a></li><li class="active"><a >评论修改</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -41,9 +41,7 @@
 	   		<h2>修改回复</h2>
 	   </div>
 	    <input  name ="replyId" type="hidden" value = '${reply.id}'>
-	   <ul class="list-unstyled list-flow p0_20">
-	   		  
-			 
+	   <ul class="list-unstyled list-flow p0_20">			 
 			<li class="col-md-12  p0 ">	  	 			
 				<span class="fl"> 评论内容：</span>
 				<div class="col-md-12 mt5 fn pl200 pwr9">
@@ -56,7 +54,7 @@
   <div  class="col-md-12 ml185">
    <div class="fl padding-10">
     <button class="btn btn-windows save" type="submit">更新</button>
-    <button class="btn btn-windows reset" onclick="history.go(-1)" type="button">返回</button>
+    <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
 	</div>
   </div>
      </form>

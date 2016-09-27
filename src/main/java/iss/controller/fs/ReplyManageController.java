@@ -3,13 +3,17 @@
  */
 package iss.controller.fs;
 
+import iss.model.fs.Post;
 import iss.model.fs.Reply;
-import iss.model.fs.Topic;
+import iss.service.fs.PostService;
 import iss.service.fs.ReplyService;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,7 +22,12 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.model.bms.User;
+import ses.util.PropertiesUtil;
+
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 
@@ -35,6 +44,8 @@ import com.github.pagehelper.PageInfo;
 public class ReplyManageController {
 	@Autowired
 	private ReplyService replyService;
+	@Autowired
+	private PostService postService;
 	
 	/**   
 	* @Title: getList
@@ -46,9 +57,21 @@ public class ReplyManageController {
 	* @return String     
 	*/
 	@RequestMapping("/getlist")
-	public String getList(Model model,Reply reply,Integer page){
-		List<Reply> list = replyService.queryByList(reply,page==null?1:page);
+	public String getList(HttpServletRequest request,Model model,Integer page)throws Exception{
+		Map<String,Object> map = new HashMap<String, Object>();
+		String replyCon = request.getParameter("replyCon");
+		if(page==null){
+			page=1;
+		}
+		if(replyCon !=null && replyCon!=""){
+			map.put("replyCon", replyCon);
+		}
+		map.put("page",page.toString());
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		List<Reply> list = replyService.queryByList(map);
 		model.addAttribute("list", new PageInfo<Reply>(list));
+		model.addAttribute("replyCon", replyCon);
 		return "iss/forum/reply/list";
 	}
 	
@@ -67,20 +90,7 @@ public class ReplyManageController {
 		model.addAttribute("reply", p);
 		return "iss/forum/reply/view";
 	}
-	
-	/**   
-	* @Title: add
-	* @author Peng Zhongjun
-	* @date 2016-8-10 下午19:58:43   
-	* @Description: 跳转新增编辑页面
-	* @param @param request
-	* @return String     
-	*/
-	@RequestMapping("/add")
-	public String add(HttpServletRequest request){
-		return "iss/forum/reply/add";
-	}
-	
+		
 	/**   
 	* @Title: save
 	* @author Peng Zhongjun
@@ -91,9 +101,30 @@ public class ReplyManageController {
 	* @return String     
 	*/
 	@RequestMapping("/save")
-	public String save(HttpServletRequest request,Reply reply){
+	@ResponseBody
+	public void save(HttpServletRequest request,Reply reply){			
+		String postId = request.getParameter("postId");
+		String content = request.getParameter("content");
+		String replyId =request.getParameter("replyId");
+		Post post = postService.selectByPrimaryKey(postId);
+		if(replyId ==null || replyId == ""){			
+			BigDecimal replyCount =post.getReplycount();
+			BigDecimal haha = new BigDecimal(1);
+			post.setReplycount(replyCount.add(haha));
+			postService.updateByPrimaryKeySelective(post);			
+		}else{
+			Reply supReply = replyService.selectByPrimaryKey(replyId);
+			reply.setReply(supReply);		
+		}		
+		reply.setPost(post);
+		reply.setContent(content);
+		User user = (User) request.getSession().getAttribute("loginUser");
+		reply.setUser(user);
+		Timestamp tsp = new Timestamp(new Date().getTime());
+		Timestamp tsu = new Timestamp(new Date().getTime());
+		reply.setPublishedAt(tsp);
+		reply.setUpdatedAt(tsu);
 		replyService.insertSelective(reply);
-		return "redirect:getlist.html";
 	}
 	
 	

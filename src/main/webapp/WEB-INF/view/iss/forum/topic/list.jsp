@@ -152,7 +152,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">信息服务</a></li><li><a href="#">论坛管理</a></li><li class="active"><a href="#">主题管理</a></li>
+		   <li><a href="#"> 首页</a></li><li><a >信息服务</a></li><li><a >论坛管理</a></li><li class="active"><a >主题管理</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -175,7 +175,7 @@
        <li class="fl">
          <label class="fl mt10 ml10">所属版块：</label>
             <span>
-	        <select id ="parkId" class="w230 mt5" >
+	        <select id ="parkId" class="w220 mt5" >
              <option></option>
              <c:forEach items="${parks}" var="park">
                   <option  value="${park.id}">${park.name}</option>
@@ -233,7 +233,7 @@
 				<c:if test="${length>10}">
 					<td onclick="view('${topic.id}')" onmouseover="out('${topic.content}')" class="tc pointer ">${fn:substring(content,0,10)}...</td>
 				</c:if>
-				<c:if test="${length<10}">
+				<c:if test="${length<=10}">
 					<td onclick="view('${topic.id}')" onmouseover="out('${topic.content}')" class="tc pointer ">${content } </td>
 				</c:if>	
 				<td class="tc pointer" onclick="view('${topic.id}')"><fmt:formatDate value='${topic.createdAt}' pattern="yyyy-MM-dd  HH:mm:ss" /></td>

@@ -73,7 +73,7 @@
              
              <li class="col-md-6  p0 mt40">
                <span class="fl">所属版块：</span>
-                <select name ="parkId" class="w230" onchange="change(this.options[this.selectedIndex].value)">
+                <select name ="parkId" class="w220" onchange="change(this.options[this.selectedIndex].value)">
                     <option></option>
                     <c:forEach items="${parks}" var="park">
                         <option  value="${park.id}">${park.name}</option>
@@ -83,7 +83,7 @@
              
              <li class="col-md-6  p0 mt40">
                <span class="fl">所属主题：</span>                    
-                <select id="topics" name="topicId" class="w230">
+                <select id="topics" name="topicId" class="w220">
                 <option></option>
                 </select>
              </li>

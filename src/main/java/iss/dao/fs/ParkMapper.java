@@ -3,6 +3,7 @@ package iss.dao.fs;
 import iss.model.fs.Park;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -79,6 +80,16 @@ public interface ParkMapper {
 	* @param  park
 	*/
     void updateByPrimaryKeySelective(Park park);
-
-
+    
+    /**
+     * 
+    * @Title: selectParkListByUser
+    * @author Peng Zhongjun
+    * @date 2016-9-26 下午10:05:16  
+    * @Description: 根据UserId查询 
+    * @param @param map
+    * @param @return      
+    * @return List<Park>
+     */
+    List<Park> selectParkListByUser(Map<String,Object> map);
 }

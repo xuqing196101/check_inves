@@ -9,7 +9,7 @@
   <head>
     <base href="<%=basePath%>">
     
-    <title>评论管理</title>  
+    <title>回复管理</title>  
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -21,7 +21,7 @@
 	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
 	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
   <script type="text/javascript">
-  $(function(){
+  $(function(){  
 	  laypage({
 		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
 		    pages: "${list.pages}", //总页数
@@ -34,7 +34,8 @@
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		            location.href = '<%=basePath%>reply/getlist.do?page='+e.curr;
+		        	var replyCon ="${replyCon}";
+		            location.href = "<%=basePath%>reply/getlist.do?replyCon="+replyCon+"&page="+e.curr;
 		        }
 		    }
 		});
@@ -84,8 +85,7 @@
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
 		}); 
-		if(id.length==1){
-			
+		if(id.length==1){			
 			window.location.href="<%=basePath%>reply/edit.html?id="+id;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
@@ -126,6 +126,14 @@
 		layer.closeAll();//关闭消息框
 	}
 }
+    function search(){
+        var replyCon = $("#replyCon").val();
+        location.href = "<%=basePath%>reply/getlist.do?replyCon="+replyCon;
+     }
+     function reset(){
+         $("#replyCon").val("");
+     }	
+	
   </script>
   </head>
   
@@ -134,7 +142,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">信息服务</a></li><li><a href="#">论坛管理</a></li><li class="active"><a href="#">主题管理</a></li>
+		   <li><a href="#"> 首页</a></li><li><a >信息服务</a></li><li><a >论坛管理</a></li><li class="active">帖子管理</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -146,26 +154,18 @@
 
 <!-- 项目戳开始 -->
   <div class="container clear">
-   <h2 class="padding-10 border1 m0_30">
+   <div class="padding-10 border1 m0_30">
      <ul class="demand_list list-unstyled">
        <li class="fl">
        <label class="fl mt10">内容：</label>
-       <span><input type="text" id="condition" class="mb0 mt5"/></span>
+       <span><input type="text" id="replyCon" class="mb0 mt5" value="${replyCon }"/></span>
        </li>
         
-       <li class="fl">
-         <label class="fl mt10 ml10">所属板块：</label>
-           <span>
-           <select class="w220">
-               <option></option>
-           </select>
-           </span>
-       </li>
          <button class="btn btn_back fl ml10 mt8" onclick="search()">查询</button>
          <button class="btn btn_back fl ml10 mt8" onclick="reset()">重置</button>
      </ul>
      <div class="clear"></div>
-   </h2>
+   </div>
   </div>
 	   <div class="headline-v2">
 	   		<h2>回复管理</h2>
@@ -203,7 +203,7 @@
 				<c:if test="${length>10}">
 					<td onclick="view('${reply.id}')" onmouseover="out('${reply.content}')" class="tc pointer ">${fn:substring(content,0,10)}...</td>
 				</c:if>
-				<c:if test="${length<10}">
+				<c:if test="${length<=10}">
 					<td onclick="view('${reply.id}')" onmouseover="out('${reply.content}')" class="tc pointer ">${content } </td>
 				</c:if>	
 				
@@ -214,7 +214,7 @@
                 <c:if test="${length>8}">
                     <td onclick="view('${reply.id}')" class="tc pointer ">${fn:substring(postContent,0,8)}...</td>
                 </c:if>
-                <c:if test="${length<8}">
+                <c:if test="${length<=8}">
                     <td onclick="view('${reply.id}')" class="tc pointer ">${postContent } </td>
                 </c:if> 
           
@@ -223,7 +223,7 @@
                 <c:if test="${length>8}">
                     <td onclick="view('${reply.id}')" class="tc pointer ">${fn:substring(replyContent,0,8)}...</td>
                 </c:if>
-                <c:if test="${length<8}">
+                <c:if test="${length<=8}">
                     <td onclick="view('${reply.id}')" class="tc pointer ">${replyContent } </td>
                 </c:if> 
 				

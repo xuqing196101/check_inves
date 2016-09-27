@@ -1,9 +1,15 @@
 package ses.model.sms;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class ApplyEdit {
-    private String id;
+public class ApplyEdit implements Serializable {
+    /**
+	 * @Fields serialVersionUID : 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private String id;
 
     private String supplierName;
 

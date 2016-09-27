@@ -1,10 +1,16 @@
 package ses.model.sms;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 
-public class ImportSupplier {
-    private String id;
+public class ImportSupplier implements Serializable {
+    /**
+	 * @Fields serialVersionUID : 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private String id;
 
     private String loginName;
 

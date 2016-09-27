@@ -212,7 +212,9 @@ public class TopicManageController extends BaseSupplierController {
 			List<Post> posts = postService.selectByTopicID(str);
 			for (Post post : posts) {
 				postService.deleteByPrimaryKey(post.getId());
-				List<Reply> replies = replyService.selectByPostID(post.getId());
+				Map<String,Object> map = new HashMap<String, Object>();
+				map.put("postId", post.getId());
+				List<Reply> replies = replyService.selectByPostID(map);
 				for (Reply reply : replies) {
 					replyService.deleteByPrimaryKey(reply.getId());
 				}

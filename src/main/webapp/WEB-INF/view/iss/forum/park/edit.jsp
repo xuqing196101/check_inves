@@ -41,7 +41,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#">首页</a></li><li><a href="#">论坛管理</a></li><li class="active"><a href="#">版块管理</a></li><li class="active"><a href="#">版块修改</a></li>
+		   <li><a href="#">首页</a></li><li><a>论坛管理</a></li><li class="active"><a >版块管理</a></li><li class="active"><a >版块修改</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -84,7 +84,7 @@
                     </ul>
                    </div>
                  </div>--%>
-                 <select id="user" name ="userId" class="w230" >
+                 <select id="user" name ="userId" class="w220" >
 					<option></option>
 			  	  	<c:forEach items="${users}" var="user">
 			  	  		<option value="${user.id}">${user.relName}</option>
@@ -103,7 +103,7 @@
   <div  class="col-md-12 ml185">
    <div class="fl padding-10">
     <button class="btn btn-windows save" type="submit">更新</button>
-    <button class="btn btn-windows reset" onclick="history.go(-1)" type="button">返回</button>
+    <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
 	</div>
   </div>
      </form>

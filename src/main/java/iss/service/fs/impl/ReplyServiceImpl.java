@@ -9,13 +9,10 @@ import iss.service.fs.ReplyService;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import ses.util.PropertiesUtil;
-
-import com.github.pagehelper.PageHelper;
 
 
 
@@ -47,11 +44,9 @@ public class ReplyServiceImpl implements ReplyService{
 	}
 
 	@Override
-	public List<Reply> queryByList(Reply reply,Integer page) {
+	public List<Reply> queryByList(Map<String,Object> map) {
 		// TODO Auto-generated method stub
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-		return replyMapper.queryByList(reply,page);
+		return replyMapper.queryByList(map);
 	}
 
 
@@ -85,9 +80,15 @@ public class ReplyServiceImpl implements ReplyService{
 
 
 	@Override
-	public List<Reply> selectByPostID(String postID) {
+	public List<Reply> selectByPostID(Map<String,Object> map) {
 		// TODO Auto-generated method stub
-		return replyMapper.selectByPostID(postID);
+		return replyMapper.selectByPostID(map);
+	}
+
+	@Override
+	public List<Reply> selectByReplyId(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return replyMapper.selectByReplyId(map);
 	}
 	
 	

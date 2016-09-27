@@ -12,7 +12,9 @@ import iss.service.fs.TopicService;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,7 +26,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.model.bms.User;
 import ses.service.bms.UserServiceI;
+import ses.util.PropertiesUtil;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 
@@ -202,10 +206,14 @@ public class ParkManageController {
 			for (Topic topic : topics) {
 				topicService.deleteByPrimaryKey(topic.getId());
 			}
-			List<Post> posts = postService.selectListByParkID(str); 
+			Map<String,Object> map = new HashMap<String, Object>();
+			map.put("parkId", str);
+			List<Post> posts = postService.queryByList(map); 
 			for (Post post : posts) {
 				postService.deleteByPrimaryKey(post.getId());
-				List<Reply> replies = replyService.selectByPostID(post.getId());
+				Map<String,Object> map1 = new HashMap<String, Object>();
+				map1.put("postId", post.getId());
+				List<Reply> replies = replyService.selectByPostID(map1);
 				for (Reply reply : replies) {
 					replyService.deleteByPrimaryKey(reply.getId());
 				}
@@ -224,13 +232,36 @@ public class ParkManageController {
 	 * @return String
 	 */
 	@RequestMapping("/getIndex")
-	public String getPostIndex(Model model, Park park) {
-		List<Park> parklist = parkService.getAll(park);
-		for (Park park2 : parklist) {
-			List<Post> postlist = postService.selectByParkID(park2.getId());
-			park2.setPosts(postlist);
+	public String getPostIndex(Model model) {
+		Map<String, Object> forumIndexMapper = new HashMap<String, Object>();
+		List<Park> parklist = parkService.getAll(null);
+		for (Park park : parklist) {			
+			forumIndexMapper.put("select"+park.getId()+"Park", park);	
+			List<Post> posts = postService.selectByParkID(park.getId());
+			park.setPosts(posts);
 		}
+		List<Post> hotPostList = postService.queryHotPost();
+		//List<Topic> topicList = topicService.selectByParkID();
+		model.addAttribute("forumIndexMapper", forumIndexMapper);
+		model.addAttribute("hotPostList", hotPostList);
 		model.addAttribute("list", parklist);
 		return "iss/forum/forumIndex";
+	}
+	
+	@RequestMapping("/parkManager")
+	public String getFirst(Model model,HttpServletRequest request,Integer page)throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		User user = (User) request.getSession().getAttribute("loginUser");
+		String userId = user.getId();
+		map.put("userId", userId);
+		if(page==null){
+			page=1;
+		}
+		map.put("page",page.toString());
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		List<Park> list = parkService.selectParkListByUser(map);
+		model.addAttribute("list",  new PageInfo<Park>(list));
+		return "iss/forum/parkManager/manager";
 	}
 }
