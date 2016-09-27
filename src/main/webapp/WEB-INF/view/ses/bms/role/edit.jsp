@@ -64,6 +64,13 @@
 			        <span class="add-on">i</span>
 			       </div>
 				 </li>
+				 <li class="col-md-6 p0 ">
+				 	<span class="">状态：</span>
+					<select  name="status"  >
+					   	<option value="0" <c:if test="${'0' eq role.status}">selected</c:if>>可用</option>
+					   	<option value="1" <c:if test="${'1' eq role.status}">selected</c:if>>禁用</option>
+				    </select>
+				</li>
 			     <li class="col-md-12 p0">
 				   <span class="fl mt5">描述：</span>
 				   <div class="fn mt5">

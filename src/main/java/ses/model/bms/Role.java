@@ -1,5 +1,6 @@
 package ses.model.bms;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -10,9 +11,11 @@ import java.util.List;
  * @version 2016-9-13
  * @since JDK1.7
  */
-public class Role {
+public class Role implements Serializable{
 	
-    /** 主键 */
+	private static final long serialVersionUID = 1L;
+
+	/** 主键 */
     private String id;
 
     /** 名称 */
@@ -27,6 +30,14 @@ public class Role {
     /** 描述 */
     private String description;
 
+    
+    /** 
+     * 状态
+     * 0：可用
+     * 1：禁用 
+     * */
+    private Integer status;
+    
     /** 
      * 删除标识
      * 0：未删除
@@ -102,6 +113,14 @@ public class Role {
 
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
     
 }

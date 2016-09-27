@@ -137,21 +137,21 @@
 		   	   <input type="hidden" name="id" id="pid" value="${pmenu.id }">
 			   <ul class="list-unstyled mt10 p0_20">
 			     <li class="col-md-6 p0">
-				   <span class="fl mt5">上级菜单：</span>
+				   <span class="fl mt5">上级：</span>
 				   <div class="input-append">
 				   	<input id="citySel" class="span2" name="pname" type="text" readonly value="${pmenu.name }"  onclick="showMenu();" />
 			        <span class="add-on">i</span>
 			       </div>
 				 </li>
 			     <li class="col-md-6 p0">
-				   <span class="fl mt5">&nbsp;&nbsp;名称：</span>
+				   <span class="fl mt5">名称：</span>
 				   <div class="input-append">
 			        <input class="span2" name="name" maxlength="30" type="text">
 			        <span class="add-on">i</span>
 			       </div>
 				 </li>
 				 <li class="col-md-6 p0 ">
-				 	<span class=""> 菜单类型：</span>
+				 	<span class="">类型：</span>
 					<select name="type"  >
 					 	<option value="">-请选择-</option>
 					   	<option value="navigation">导航</option>
@@ -161,29 +161,28 @@
 					</select>
 				</li>
 				<li class="col-md-6 p0 ">
-				 	<span class="">&nbsp;&nbsp;状态：</span>
+				 	<span class="">状态：</span>
 					<select  name="status"  >
-					 	<option value="">-请选择-</option>
 					   	<option value="0">可用</option>
 					   	<option value="1">暂停</option>
 				    </select>
 				</li>
 				<li class="col-md-6 p0">
-				   <span class="fl mt5">&nbsp;&nbsp;路径：</span>
+				   <span class="fl mt5">路径：</span>
 				   <div class="input-append">
 			        <input class="span2" name="url" maxlength="300" type="text">
 			        <span class="add-on">i</span>
 			       </div>
 				 </li>
 			     <li class="col-md-6 p0">
-				   <span class="fl mt5">&nbsp;&nbsp;排序：</span>
+				   <span class="fl mt5">排序：</span>
 				   <div class="input-append">
 			        <input class="span2" name="position" maxlength="3" type="text">
 			        <span class="add-on">i</span>
 			       </div>
 				 </li>
 				<li class="col-md-6 p0">
-				   <span class="fl mt5">图标名称：</span>
+				   <span class="fl mt5">图标：</span>
 				   <div class="input-append">
 			        <input class="span2" name="icon" maxlength="200" type="text">
 			        <span class="add-on">i</span>

@@ -37,9 +37,6 @@
       <if test="type != null and type !=''">
         and MENU_TYPE = #{type},
       </if>
-      <if test="isDeleted != null">
-        and IS_DELETED = #{isDeleted},
-      </if>
       <if test="status != null">
         and STATUS = #{status},
       </if>

@@ -251,6 +251,7 @@
 	        	<option value="3" <c:if test="${'3' eq user.typeName}">selected</c:if>>其他人员</option>
 	        	<option value="4" <c:if test="${'4' eq user.typeName}">selected</c:if>>供应商</option>
 	        	<option value="5" <c:if test="${'5' eq user.typeName}">selected</c:if>>专家</option>
+	        	<option value="6" <c:if test="${'6' eq user.typeName}">selected</c:if>>进口供应商</option>
 	        </select>
 		 </li>
 		 <li class="col-md-6  p0 ">

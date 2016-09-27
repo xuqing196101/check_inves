@@ -8,6 +8,7 @@
     <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="DESCRIPTION" jdbcType="VARCHAR" property="description" />
     <result column="IS_DELETED" property="isDeleted" />
+    <result column="STATUS" property="status" />
   </resultMap>
   
   <resultMap type="ses.model.bms.Role" id="RoleResultMap" extends="RoleBaseMap">  
@@ -52,7 +53,7 @@
   
   <!-- 所有列 -->
   <sql id="Base_Column_List">
-    ID, NAME, CREATED_AT, DESCRIPTION, IS_DELETED, UPDATED_AT
+    ID, NAME, CREATED_AT, DESCRIPTION, IS_DELETED, UPDATED_AT, STATUS
   </sql>
   
   <!-- 查询条件 -->
@@ -71,9 +72,13 @@
       <if test="updatedAt != null">
         and UPDATED_AT = #{updatedAt}
       </if>
-      <if test="describe != null and describe != ''">
+      <if test="description != null and description != ''">
         and DESCRIPTION like concat(concat('%', '${description}'), '%')
       </if>
+      <if test="status != null">
+        and STATUS = #{status}
+      </if>
+      
     </trim>
   </sql>
   
@@ -97,8 +102,8 @@
         select sys_guid() from dual
     </selectKey>
     insert into T_SES_BMS_ROLE (ID, NAME, CREATED_AT, 
-      DESCRIPTION, IS_DELETED, UPDATED_AT)
-    values (#{id}, #{name}, #{createdAt,jdbcType=TIMESTAMP}, #{description}, #{isDeleted}, #{updatedAt,jdbcType=TIMESTAMP})
+      DESCRIPTION, IS_DELETED, UPDATED_AT, STATUS)
+    values (#{id}, #{name}, #{createdAt,jdbcType=TIMESTAMP}, #{description}, #{isDeleted}, #{updatedAt,jdbcType=TIMESTAMP}, #{status})
   </insert>
   
   <!-- 4.插入不为空数据 -->
@@ -126,6 +131,9 @@
       <if test="updatedAt != null">
         UPDATED_AT,
       </if>
+      <if test="status != null">
+        STATUS,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null and id != ''">
@@ -145,6 +153,9 @@
       </if>
       <if test="updatedAt != null">
         #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status},
       </if>
     </trim>
   </insert>
@@ -168,6 +179,9 @@
       <if test="updatedAt != null">
         UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
+      <if test="status != null">
+        STATUS = #{status},
+      </if>
     </set>
     where ID = #{id}
   </update>
@@ -179,7 +193,8 @@
       CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       DESCRIPTION = #{description,jdbcType=VARCHAR},
       IS_DELETED = #{isDeleted},
-      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP}
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      STATUS = #{status}
     where ID = #{id}
   </update>
   
@@ -201,6 +216,7 @@
 			r.DESCRIPTION AS DESCRIPTION,
 			r.IS_DELETED AS IS_DELETED,
 			r.UPDATED_AT AS UPDATED_AT,
+			r.STATUS AS STATUS,
 			U .ID AS userid,
 			U .LOGIN_NAME AS uloginName,
 			U .PASSWORD AS upassword,

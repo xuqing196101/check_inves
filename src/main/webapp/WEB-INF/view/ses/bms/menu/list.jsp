@@ -87,15 +87,13 @@
 	            		}else if(data[0].status == 1){
 	            			state = "暂停";
 	            		}
-	            		if(data[0].kind = 0){
+	            		if(data[0].kind == 0){
 	            			kind = "采购管理后台";
-	            		}else if(data[0].kind = 1){
+	            		}else if(data[0].kind == 1){
 	            			kind = "供应商后台";
-	            		}
-	            		else if(data[0].kind = 2){
+	            		}else if(data[0].kind == 2){
 	            			kind = "专家后台";
-	            		}
-	            		else if(data[0].kind = 3){
+	            		}else if(data[0].kind == 3){
 	            			kind = "进口供应商后台";
 	            		}
 	            		if(data[0].parentId == null){
@@ -104,7 +102,7 @@
 	            			pName = data[0].parentId.name;
 	            		}
 	            		
-	            		tabhtml +="<li class='col-md-6 p0 '><span >上级菜单：</span><div class='input-append'><input class='span2' id='appendedInput' readonly='readonly' value='"+pName+"' type='text'></div></li>";
+	            		tabhtml +="<li class='col-md-6 p0 '><span >&nbsp;&nbsp;上级：</span><div class='input-append'><input class='span2' id='appendedInput' readonly='readonly' value='"+pName+"' type='text'></div></li>";
 	            		tabhtml +="<li class='col-md-6 p0 '><span >&nbsp;&nbsp;名称：</span><div class='input-append'><input class='span2' id='appendedInput' readonly='readonly' value='"+data[0].name+"' type='text'></div></li>";
 	            		tabhtml +="<li class='col-md-6 p0 '><span >&nbsp;&nbsp;路径：</span><div class='input-append'><input class='span2' id='appendedInput' readonly='readonly' value='"+data[0].url+"' type='text'></div></li>";
 	            		tabhtml +="<li class='col-md-6 p0 '><span >&nbsp;&nbsp;类型：</span><div class='input-append'><input class='span2' id='appendedInput' readonly='readonly' value='"+data[0].type+"' type='text'></div></li>";
@@ -112,7 +110,7 @@
 	            		tabhtml +="<li class='col-md-6 p0 '><span >&nbsp;&nbsp;级别：</span><div class='input-append'><input class='span2' id='appendedInput' readonly='readonly' value='"+data[0].menulevel+"' type='text'></div></li>";
 	            		tabhtml +="<li class='col-md-6 p0 '><span >&nbsp;&nbsp;状态：</span><div class='input-append'><input class='span2' id='appendedInput' readonly='readonly' value='"+state+"' type='text'></div></li>";
 	            		tabhtml +="<li class='col-md-6 p0 '><span >&nbsp;&nbsp;图标：</span><div class='input-append'><input class='span2' id='appendedInput' readonly='readonly' value='"+data[0].icon+"' type='text'></div></li>";
-	            		tabhtml +="<li class='col-md-6 p0 '><span >所属后台：</span><div class='input-append'><input class='span2' id='appendedInput' readonly='readonly' value='"+kind+"' type='text'></div></li>";
+	            		//tabhtml +="<li class='col-md-6 p0 '><span >所属后台：</span><div class='input-append'><input class='span2' id='appendedInput' readonly='readonly' value='"+kind+"' type='text'></div></li>";
 	            		tabhtml +="<li class='col-md-6 p0 '><span >创建时间：</span><div class='input-append'><input class='span2' id='appendedInput' readonly='readonly' value='"+data[0].createdAt+"' type='text'></div></li>";
 	            		tabhtml +="<li class='col-md-6 p0 '><span >修改时间：</span><div class='input-append'><input class='span2' id='appendedInput' readonly='readonly' value='"+data[0].updatedAt+"' type='text'></div></li>";
 		            	$("#con").html("");
@@ -142,9 +140,10 @@
 			  content: '${pageContext.request.contextPath}/preMenu/edit.html?id='+mid
 			});
 		}else{
-			layer.alert("只能选择一个节点",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择一个节点",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
+    
     function del(){
     	var mid = $("#mid").val();
 		if(mid != null && mid != '' ){
@@ -156,6 +155,7 @@
 			layer.alert("请选择要删除的菜单",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
+    
     function add(){
     	var pid = $("#mid").val();
 		layer.open({
@@ -204,7 +204,7 @@
 					<div style="margin-bottom: 6px; ">
 						<button class="btn btn-windows add" type="button" onclick="add()">新增</button>
 						<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
-						<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>	
+						<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
 					</div>
 					<div class="tag-box tag-box-v4 col-md-9" id="show_content_div">
 						<input type="hidden" name="nodeId" id="mid">

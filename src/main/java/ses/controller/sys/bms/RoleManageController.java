@@ -94,7 +94,7 @@ public class RoleManageController {
 	 * @exception IOException
 	 */
 	@RequestMapping("/save")
-	public void save(HttpServletResponse response, Role r) {
+	public void save(HttpServletResponse response, Role r) throws IOException {
 		try {
 			if ("".equals(r.getName()) || r.getName() == null) {
 				String msg = "请填写角色名称";
@@ -112,8 +112,11 @@ public class RoleManageController {
 						.print("{\"success\": " + true + ", \"msg\": \"" + msg
 								+ "\"}");
 			}
-		} catch (IOException e) {
+			response.getWriter().flush();
+		} catch (Exception e) {
 			e.printStackTrace();
+		} finally{
+			response.getWriter().close();
 		}
 	}
 
@@ -144,7 +147,7 @@ public class RoleManageController {
 	 * @exception IOException
 	 */
 	@RequestMapping("/update")
-	public void update(HttpServletResponse response, Role r) {
+	public void update(HttpServletResponse response, Role r) throws IOException {
 		try {
 			if ("".equals(r.getName()) || r.getName() == null) {
 				String msg = "请填写角色名称";
@@ -163,13 +166,16 @@ public class RoleManageController {
 						.print("{\"success\": " + true + ", \"msg\": \"" + msg
 								+ "\"}");
 			}
-		} catch (IOException e) {
+			response.getWriter().flush();
+		} catch (Exception e) {
 			e.printStackTrace();
+		} finally{
+			response.getWriter().close();
 		}
 	}
 
 	/**
-	 * Description: 删除角色，逻辑删除
+	 * Description: 删除角色，物理删除
 	 * 
 	 * @author Ye MaoLin
 	 * @version 2016-9-18
@@ -178,7 +184,7 @@ public class RoleManageController {
 	 * @exception IOException
 	 */
 	@RequestMapping("/delete")
-	public String delete_soft(String ids) {
+	public String delete(String ids) {
 		String[] idstr = ids.split(",");
 		for (String id : idstr) {
 			Role r = roleService.get(id);
@@ -191,8 +197,7 @@ public class RoleManageController {
 			rm.setRole(r);
 			roleService.deleteRoelMenu(rm);
 			// 删除角色
-			r.setIsDeleted(1);
-			roleService.update(r);
+			roleService.delete(id);
 		}
 		return "redirect:list.html";
 	}
@@ -273,8 +278,11 @@ public class RoleManageController {
 			}
 			response.setContentType("text/html;charset=utf-8");
 			response.getWriter().print("权限配置完成");
+			response.getWriter().flush();
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally{
+			response.getWriter().close();
 		}
 
 	}
@@ -304,7 +312,9 @@ public class RoleManageController {
 		if(ulist.size() > 0 && ulist != null){
 			oldRoles = ulist.get(0).getRoles();
 		}
-		List<Role> list = roleService.find(null);
+		Role temp = new Role();
+		temp.setStatus(0);
+		List<Role> list = roleService.find(temp);
 		for (int i = 0; i < list.size(); i++) {
 			Role e = list.get(i);
 			Map<String, Object> map = new HashMap<String, Object>();
@@ -326,6 +336,45 @@ public class RoleManageController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally{
+			response.getWriter().close();
+		}
+	}
+	
+	/**
+	 * Description: 启用或禁用角色
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-27
+	 * @param response
+	 * @param ids
+	 * @throws IOException
+	 * @exception IOException
+	 */
+	@RequestMapping("/opera")
+	public void opera(HttpServletResponse response, String ids) throws IOException{
+		try {
+			String msg = "";
+			String[] idArray = ids.split(",");
+			for (String id : idArray) {
+				Role role = roleService.get(id);
+				if(role.getStatus() == 0){
+					role.setStatus(1);
+					roleService.update(role);
+					msg = "已禁用";
+					//解除用户-角色关系
+					
+				} else if(role.getStatus() == 1) {
+					role.setStatus(0);
+					roleService.update(role);
+					msg = "已启用";
+				}
+			}
+			response.setContentType("text/html;charset=utf-8");
+			response.getWriter().print("{\"success\": " + true + ", \"msg\": \"" + msg + "\"}");
+			response.getWriter().flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
 			response.getWriter().close();
 		}
 	}

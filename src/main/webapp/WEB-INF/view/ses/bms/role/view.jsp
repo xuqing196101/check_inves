@@ -28,7 +28,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <br/>
        创建时间：<fmt:formatDate value="${role.createdAt}"  pattern="yyyy年MM月dd日   HH:mm:ss"/>
     <br/>
-       描述：<textarea rows="3" cols="10" readonly="readonly">${role.describe }</textarea>
+       描述：<textarea rows="3" cols="10" readonly="readonly">${role.description }</textarea>
        <br/>
      <a  onclick="location.href='javascript:history.go(-1);'">返回</a>
   </body>

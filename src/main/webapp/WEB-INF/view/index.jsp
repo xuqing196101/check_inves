@@ -155,7 +155,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</li>
 					</c:if>
 				</c:forEach>
-			    
+			    <li class="dropdown">
+				    <a ria-expanded="false" data-toggle="dropdown" class="dropdown-toggle p0_30 " href="javascript:void(0);">
+					  <span>页面样式帮助</span>
+					</a>
+					<ul class="dropdown-menu">
+						<li class="line-block">
+					    	<a href="<%=basePath%>static/backbottom.jsp" target="home" class="son-menu"><span class="mr5">◇</span>后台主页</a>
+							<a href="<%=basePath%>static/backhead.jsp" target="home" class="son-menu"><span class="mr5">◇</span>后台头部</a>
+							<a href="<%=basePath%>static/detail.jsp" target="home" class="son-menu"><span class="mr5">◇</span>表单页面</a>
+							<a href="<%=basePath%>static/order.jsp" target="home" class="son-menu"><span class="mr5">◇</span>列表页面</a>
+							<a href="<%=basePath%>static/show_order.jsp" target="home" class="son-menu"><span class="mr5">◇</span>详情页面</a>
+							<a href="<%=basePath%>static/manage.jsp" target="home" class="son-menu"><span class="mr5">◇</span>左右布局页面</a>
+						</li>
+					</ul>
+				</li>
 			  </ul>
 			</div>
     </div>

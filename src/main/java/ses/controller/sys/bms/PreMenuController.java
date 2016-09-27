@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ses.model.bms.PreMenu;
 import ses.model.bms.Role;
 import ses.model.bms.RolePreMenu;
-import ses.model.bms.User;
 import ses.model.bms.UserPreMenu;
 import ses.service.bms.PreMenuServiceI;
 import ses.service.bms.RoleServiceI;
@@ -31,7 +30,6 @@ import ses.util.JsonDateValueProcessor;
 
 
 import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageInfo;
 
 /**
  * Description: 权限菜单控制类
@@ -79,15 +77,21 @@ public class PreMenuController {
 		List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
 		List<String> menuIds = new ArrayList<String>();
 		List<PreMenu> list = preMenuService.find(null);
-		
+		//状态为可用的权限菜单
+		PreMenu menu = new PreMenu();
+		menu.setStatus(0);
 		//如果是给角色配置权限
 		if(userId != null && !"".equals(userId)){
+			list = preMenuService.find(menu);
 			//给用户配置权限
 			String[] userIds = userId.split(",");
 			menuIds = preMenuService.findByUids(userIds);
-		}else if(r.getId() != null && !"".equals(r.getId())){
+		} else if (r.getId() != null && !"".equals(r.getId())){
+			list = preMenuService.find(menu);
 			String[] roleIds = {r.getId()};
 			menuIds = preMenuService.findByRids(roleIds);
+		} else {
+			list = preMenuService.find(null);
 		}
 		for (int i = 0; i < list.size(); i++) {
 			PreMenu e = list.get(i);
@@ -177,7 +181,7 @@ public class PreMenuController {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-		} finally{
+		} finally {
 			response.getWriter().close();
 		}
 	}
@@ -217,7 +221,7 @@ public class PreMenuController {
 	 * @version 2016-9-25
 	 * @param model
 	 * @param id
-	 * @return
+	 * @return String
 	 * @exception IOException
 	 */
 	@RequestMapping("/edit")
@@ -225,7 +229,7 @@ public class PreMenuController {
 		PreMenu menu = preMenuService.get(id);
 		model.addAttribute("menu",menu);
 		return "ses/bms/menu/edit";
-	}
+	}  
 	
 	/**
 	 * Description: 更新菜单
@@ -261,6 +265,15 @@ public class PreMenuController {
 				menu.setParentId(pmenu);
 				menu.setUpdatedAt(new Date());
 				preMenuService.update(menu);
+				//如果是将可用改为暂停,删除相应的关联关系
+				if(old.getStatus() == 0 && menu.getStatus() == 1){
+					UserPreMenu userPreMenu = new UserPreMenu(); 
+					userPreMenu.setPreMenu(menu);
+					userService.deleteUserMenu(userPreMenu);
+					RolePreMenu rolePreMenu = new RolePreMenu();
+					rolePreMenu.setPreMenu(menu);
+					roleService.deleteRoelMenu(rolePreMenu);
+				}
 				String msg = "更新成功";
 				response.setContentType("text/html;charset=utf-8");
 				response.getWriter().print("{\"success\": " + true + ", \"msg\": \"" + msg + "\"}");
@@ -294,6 +307,7 @@ public class PreMenuController {
 			userPreMenu.setPreMenu(menu);
 			userService.deleteUserMenu(userPreMenu);
 			RolePreMenu rolePreMenu = new RolePreMenu();
+			rolePreMenu.setPreMenu(menu);
 			roleService.deleteRoelMenu(rolePreMenu);
 		}
 		return "redirect:list.html";

@@ -127,7 +127,7 @@
 		if(id.length==1){
 			layer.open({
 			  type: 2, //page层
-			  area: ['450px', '350px'],
+			  area: ['450px', '390px'],
 			  title: '修改角色',
 			  closeBtn: 1,
 			  shade:0.01, //遮罩透明度
@@ -141,6 +141,33 @@
 			layer.alert("只能选择一个角色",{offset: ['222px', '390px'], shade:0.01});
 		}else{
 			layer.alert("请选择需要修改的角色",{offset: ['222px', '390px'], shade:0.01});
+		}
+    }
+    
+    function opera(){
+    	var ids =[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			ids.push($(this).val()); 
+		}); 
+		if(ids.length == 1){
+			$.ajax({  
+               type: "POST",  
+               url: "<%=basePath %>role/opera.html?ids="+ids,  
+               dataType: 'json',  
+               success:function(result){
+               		window.setTimeout(function(){
+                        window.location.href = "<%=basePath%>role/list.html";
+                    }, 1000);
+                    layer.msg(result.msg,{offset: ['222px', '390px']});
+                },
+                error: function(result){
+                    layer.msg("操作失败",{offset: ['222px', '390px']});
+                }
+            });
+		}else if(ids.length>1){
+			layer.alert("只能选择一个角色",{offset: ['222px', '390px'], shade:0.01});
+		}else{
+			layer.alert("请选择角色",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
     
@@ -162,7 +189,7 @@
     function add(){
     	layer.open({
 			  type: 2, //page层
-			  area: ['40%', '350px'],
+			  area: ['450px', '390px'],
 			  title: '新增角色',
 			  closeBtn: 1,
 			  shade:0.01, //遮罩透明度
@@ -198,8 +225,9 @@
 	   <div class="col-md-8">
 	    <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
 		<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
-		<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
+		<button class="btn btn-windows reset" type="button" onclick="opera();">激活/禁用</button>
 		<button class="btn btn-windows edit" type="button" onclick="openPreMenu()">设置权限</button>
+		<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
 	   </div>
        <div class="col-md-4 ">
          <div class="search-block-v2">
@@ -228,6 +256,7 @@
 				  <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 				  <th class="info w50">序号</th>
 				  <th class="info">名称</th>
+				  <th class="info">状态</th>
 				  <th class="info">描述</th>
 				</tr>
 			</thead>
@@ -237,6 +266,10 @@
 					  <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${role.id}" /></td>
 					  <td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 					  <td class="tc">${role.name}</td>
+					  <td class="tc">
+					  	<c:if test="${role.status == 0}">可用</c:if>
+					  	<c:if test="${role.status == 1}">禁用</c:if>
+					  </td>
 					  <td class="tc">${role.description}</td>
 				   </tr>
 				</c:forEach>

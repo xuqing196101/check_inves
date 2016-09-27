@@ -87,7 +87,7 @@ public class UserManageController {
 	 * @exception IOException
 	 */
 	@RequestMapping("/findByLoginName")
-	public void findByLoginName(String loginName, HttpServletResponse response) {
+	public void findByLoginName(String loginName, HttpServletResponse response) throws IOException {
 		try {
 			List<User> users = userService.findByLoginName(loginName);
 			String msg = "";
@@ -104,8 +104,11 @@ public class UserManageController {
 						.print("{\"success\": " + true + ", \"msg\": \"" + msg
 								+ "\"}");
 			}
+			response.getWriter().flush();
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally{
+			response.getWriter().close();
 		}
 
 	}
@@ -361,7 +364,7 @@ public class UserManageController {
 	}
 
 	/**
-	 * Description: 批量删除用户信息，逻辑删除
+	 * Description: 删除用户信息，逻辑删除
 	 * 
 	 * @author Ye MaoLin
 	 * @version 2016-9-13
@@ -373,11 +376,17 @@ public class UserManageController {
 	public String delete_soft(String ids) {
 		String[] id = ids.split(",");
 		for (String str : id) {
-			Userrole userrole = new Userrole();
 			User user = new User();
 			user.setId(str);
+			//删除用户-角色关联
+			Userrole userrole = new Userrole();
 			userrole.setUserId(user);
 			roleService.deleteRoelUser(userrole);
+			//删除用户-权限关联
+			UserPreMenu userPreMenu = new UserPreMenu();
+			userPreMenu.setUser(user);
+			userService.deleteUserMenu(userPreMenu);
+			//修改用户为删除状态
 			userService.deleteByLogic(str);
 		}
 		return "redirect:list.html";
@@ -397,7 +406,18 @@ public class UserManageController {
 	public String show(Model model, User user) {
 		List<User> ulist = userService.find(user);
 		if (ulist != null && ulist.size() > 0) {
-			model.addAttribute("user", ulist.get(0));
+			User u = ulist.get(0);
+			String roleName = "";
+			List<Role> list = u.getRoles();
+			for (int i = 0; i < list.size(); i++) {
+				if (i + 1 == list.size()) {
+					roleName += list.get(i).getName();
+				} else {
+					roleName += list.get(i).getName() + ",";
+				}
+			}
+			model.addAttribute("roleName", roleName);
+			model.addAttribute("user", u);
 		} else {
 
 		}
@@ -453,8 +473,11 @@ public class UserManageController {
 			}
 			response.setContentType("text/html;charset=utf-8");
 			response.getWriter().print("权限配置完成");
+			response.getWriter().flush();
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally{
+			response.getWriter().close();
 		}
 
 	}

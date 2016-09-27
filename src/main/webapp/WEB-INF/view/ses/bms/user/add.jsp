@@ -224,7 +224,7 @@
 	        <div class="b f18 ml10 red hand">${password2_msg}</div>
 	       </div>
 		 </li>
-		  <li class="col-md-6 p0">
+		 <li class="col-md-6 p0">
 		   <span class="">性别：</span>
 	        <select name="gender">
 	        	<option value="">-请选择-</option>
@@ -262,6 +262,7 @@
 	        	<option value="3">其他人员</option>
 	        	<option value="4">供应商</option>
 	        	<option value="5">专家</option>
+	        	<option value="6">进口供应商</option>
 	        </select>
 		 </li>
 		 <li class="col-md-6  p0 ">

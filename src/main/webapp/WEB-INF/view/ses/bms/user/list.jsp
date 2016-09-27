@@ -213,7 +213,7 @@
 			<tr>
 				  <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${user.id}" /></td>
 				  <td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-				  <td class="tc" onclick="view(${user.id});">${user.loginName}</td>
+				  <td class="tc" onclick="view('${user.id}');">${user.loginName}</td>
 				  <td class="tc">${user.relName}</td>
 				  <td class="tc">${user.org.name}</td>
 				  <td class="tc">${user.telephone}</td>

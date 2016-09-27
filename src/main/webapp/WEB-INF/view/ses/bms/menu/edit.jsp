@@ -140,21 +140,21 @@
 		   	   <input type="hidden" name="pid" id="pid" value="${menu.parentId.id }">
 			   <ul class="list-unstyled mt10 p0_20">
 			     <li class="col-md-6 p0">
-				   <span class="fl mt5">上级菜单：</span>
+				   <span class="fl mt5">上级：</span>
 				   <div class="input-append ">
 				   	<input id="citySel" class="span2" type="text" readonly value="${menu.parentId.name }"  onclick="showMenu();" />
 			        <span class="add-on">i</span>
 			       </div>
 				 </li>
 			     <li class="col-md-6 p0">
-				   <span class="fl mt5">&nbsp&nbsp名称：</span>
+				   <span class="fl mt5">名称：</span>
 				   <div class="input-append">
 			        <input class="span2" name="name" maxlength="30" value="${menu.name }" type="text">
 			        <span class="add-on">i</span>
 			       </div>
 				 </li>
 				 <li class="col-md-6 p0 ">
-				 	<span class=""> 菜单类型：</span>
+				 	<span class="">类型：</span>
 					<select name="type"  >
 					 	<option value="">-请选择-</option>
 					   	<option value="navigation" <c:if test="${'navigation' eq menu.type}">selected</c:if>>导航</option>
@@ -164,29 +164,28 @@
 					</select>
 				</li>
 				<li class="col-md-6 p0 ">
-				 	<span class="">&nbsp&nbsp状态：</span>
+				 	<span class="">状态：</span>
 					<select  name="status"  >
-					 	<option value="">-请选择-</option>
 					   	<option value="0" <c:if test="${'0' eq menu.status}">selected</c:if>>可用</option>
 					   	<option value="1" <c:if test="${'1' eq menu.status}">selected</c:if>>暂停</option>
 				    </select>
 				</li>
 				<li class="col-md-6 p0">
-				   <span class="fl mt5">&nbsp&nbsp路径：</span>
+				   <span class="fl mt5">路径：</span>
 				   <div class="input-append">
 			        <input class="span2" name="url" value="${menu.url }" maxlength="300" type="text">
 			        <span class="add-on">i</span>
 			       </div>
 				 </li>
 			     <li class="col-md-6 p0">
-				   <span class="fl mt5">&nbsp&nbsp排序：</span>
+				   <span class="fl mt5">排序：</span>
 				   <div class="input-append">
 			        <input class="span2" name="position" value="${menu.position }" maxlength="3" type="text">
 			        <span class="add-on">i</span>
 			       </div>
 				 </li>
 				<li class="col-md-6 p0">
-				   <span class="fl mt5">图标名称：</span>
+				   <span class="fl mt5">名称：</span>
 				   <div class="input-append">
 			        <input class="span2" name="icon" value="${menu.icon }" maxlength="200" type="text">
 			        <span class="add-on">i</span>
