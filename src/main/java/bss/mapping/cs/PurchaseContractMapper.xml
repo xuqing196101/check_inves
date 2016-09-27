@@ -135,7 +135,7 @@
     </trim>
   </insert>
   
-  <select id="selectContractByid" resultType="bss.model.cs.PurchaseContract">
+  <select id="selectContractByid" parameterType="java.lang.String" resultMap="PurchaseContractMap">
   	select
   	<include refid="PurchaseContract_Column_List"/>
   	from T_BSS_CS_PURCHASE_CONTRACT

@@ -57,4 +57,6 @@ public interface PurchaseContractService {
     * @return PurchaseContract
      */
     PurchaseContract selectByCode(String code);
+    
+    PurchaseContract selectById(String id);
 }

@@ -36,4 +36,9 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 		PurchaseContract purchaseContract = purchaseContractMapper.selectByCode(code);
 		return purchaseContract;
 	}
+
+	@Override
+	public PurchaseContract selectById(String id) {
+		return purchaseContractMapper.selectContractByid(id);
+	}
 }

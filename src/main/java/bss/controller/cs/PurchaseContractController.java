@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -31,8 +32,9 @@ public class PurchaseContractController {
 	private SupplierService supplierService;
 	
 	@RequestMapping("/selectAllPuCon")
-	public String selectAllPurchaseContract() throws Exception{
-		List<PurchaseContract> conList = purchaseContractService.selectAllPurchaseContract();
+	public String selectAllPurchaseContract(Model model) throws Exception{
+		
+		PurchaseContract pur = purchaseContractService.selectById("1");
 		return "bss/cs/purchaseContract/list";
 	}
 	
