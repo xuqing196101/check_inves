@@ -1,10 +1,16 @@
 package ses.model.oms;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class PurchaseRoom {
-    private String id;
+public class PurchaseRoom implements Serializable{
+    /**
+	 * @Fields serialVersionUID : 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private String id;
 
     private String purchaseDepId;
 

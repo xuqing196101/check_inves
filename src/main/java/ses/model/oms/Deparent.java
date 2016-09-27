@@ -1,9 +1,15 @@
 package ses.model.oms;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Deparent {
-    private String id;
+public class Deparent implements Serializable{
+    /**
+	 * @Fields serialVersionUID : 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private String id;
 
     private String name;
 

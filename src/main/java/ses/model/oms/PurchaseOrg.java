@@ -1,7 +1,14 @@
 package ses.model.oms;
 
-public class PurchaseOrg {
-    private String purchaseDepId;
+import java.io.Serializable;
+
+public class PurchaseOrg implements Serializable {
+    /**
+	 * @Fields serialVersionUID : 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private String purchaseDepId;
 
     private String orgId;
 
