@@ -148,7 +148,7 @@
   	from T_BSS_CS_PURCHASE_CONTRACT
   </select>
   
-  <select id="selectByCode" parameterType="java.lang.String" resultType="bss.model.cs.PurchaseContract">
+  <select id="selectByCode" parameterType="java.lang.String" resultMap="PurchaseContractMap">
   	select 
   	<include refid="PurchaseContract_Column_List"/>
   	from T_BSS_CS_PURCHASE_CONTRACT
