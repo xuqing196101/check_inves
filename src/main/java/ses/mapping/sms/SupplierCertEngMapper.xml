@@ -227,4 +227,16 @@
 	<select id="findCertEngByMatEngId" parameterType="java.lang.String" resultMap="BaseResultMap">
 		select * from T_SES_SMS_SUPPLIER_CERT_ENG where MAT_ENG_ID = #{supplierMatEngId}
 	</select>
+	
+	<!-- 资质资格证书信息 -->
+	<select id="findCertEngBySupplierId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+		c.*
+		FROM
+		T_SES_SMS_SUPPLIER_CERT_ENG c,T_SES_SMS_SUPPLIER_MAT_ENG  m
+		WHERE
+		c.MAT_ENG_ID=m.ID
+		AND
+		m.SUPPLIER_ID=#{supplierId}
+  </select>
 </mapper>

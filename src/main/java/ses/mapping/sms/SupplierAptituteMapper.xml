@@ -228,4 +228,15 @@
 		select * from T_SES_SMS_SUPPLIER_APTITUTE where MAT_ENG_ID = #{supplierMatEngId}
 	</select>
 	
+	<!-- 供应商资质资格信息 -->
+	<select id="findAptituteBySupplierId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+		a.*
+		FROM
+		T_SES_SMS_SUPPLIER_APTITUTE a,T_SES_SMS_SUPPLIER_MAT_ENG  m
+		WHERE
+		a.MAT_ENG_ID=m.ID
+		AND
+		m.SUPPLIER_ID=#{supplierId}
+  </select>
 </mapper>

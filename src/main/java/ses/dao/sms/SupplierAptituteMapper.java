@@ -46,4 +46,16 @@ public interface SupplierAptituteMapper {
     int updateByPrimaryKey(SupplierAptitute record);
     
     List<SupplierAptitute> findAptituteByMatEngId(String supplierMatEngId);
+    
+    /**
+     * @Title: findAptituteBySupplierId
+     * @author Xu Qing
+     * @date 2016-9-27 下午5:11:45  
+     * @Description: 供应商资质资格信息
+     * @param @param supplierId
+     * @param @return      
+     * @return List<SupplierAptitute>
+     */
+    List<SupplierAptitute> findAptituteBySupplierId(String supplierId);
+    
 }

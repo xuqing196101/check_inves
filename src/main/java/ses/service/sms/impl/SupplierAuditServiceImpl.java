@@ -5,16 +5,26 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.dao.sms.SupplierAptituteMapper;
 import ses.dao.sms.SupplierAuditMapper;
+import ses.dao.sms.SupplierCertEngMapper;
 import ses.dao.sms.SupplierCertProMapper;
+import ses.dao.sms.SupplierCertSellMapper;
 import ses.dao.sms.SupplierFinanceMapper;
 import ses.dao.sms.SupplierMapper;
+import ses.dao.sms.SupplierMatEngMapper;
+import ses.dao.sms.SupplierMatProMapper;
 import ses.dao.sms.SupplierStockholderMapper;
 import ses.dao.sms.SupplierTypeMapper;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
+import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
+import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierFinance;
+import ses.model.sms.SupplierMatEng;
+import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierType;
 import ses.service.sms.SupplierAuditService;
@@ -60,8 +70,42 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	 */
 	@Autowired
 	private SupplierTypeMapper supplierTypeMapper;
+	
+	/**
+	 * 物资生产型-资质证书信息
+	 */
 	@Autowired
 	private SupplierCertProMapper supplierCertProMapper;
+	
+	/**
+	 * 物资生产型专业信息
+	 */
+	@Autowired
+	private SupplierMatProMapper supplierMatProMapper;
+	
+	/**
+	 * 物资销售-资质证书信息
+	 */
+	@Autowired
+	private SupplierCertSellMapper supplierCertSellMapper;
+	
+	/**
+	 * 工程-资质证书信息
+	 */
+	@Autowired
+	private SupplierCertEngMapper supplierCertEngMapper;
+	
+	/**
+	 * 工程-资质资格信息
+	 */
+	@Autowired
+	private SupplierAptituteMapper supplierAptituteMapper;
+	
+	/**
+	 * 工程-组织结构和注册人员
+	 */
+	@Autowired
+	private SupplierMatEngMapper supplierMatEngMapper;
 	/**
 	 * @Title: supplierList
 	 * @author Xu Qing
@@ -210,7 +254,83 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		
 		return supplierCertProMapper.findBySupplierId(supplierId);
 	}
+	
+	/**
+     * @Title: findSupplierMatProBysupplierId
+     * @author Xu Qing
+     * @date 2016-9-26 下午8:09:19  
+     * @Description: 物资生产型专业信息 
+     * @param @param supplierId
+     * @param @return      
+     * @return List<SupplierMatPro>
+     */
+	@Override
+	public SupplierMatPro findSupplierMatProBysupplierId(String supplierId) {
+		
+		return supplierMatProMapper.getMatProBySupplierId(supplierId);
+	}
+	
+	/**
+     * @Title: findCertSellBySupplierId
+     * @author Xu Qing
+     * @date 2016-9-27 下午2:11:49  
+     * @Description: 物资销售-资质证书信息
+     * @param @param supplierId
+     * @param @return      
+     * @return List<SupplierCertSell>
+     */
+	@Override
+	public List<SupplierCertSell> findCertSellBySupplierId(String supplierId) {
 
+		return supplierCertSellMapper.findCertSellBySupplierId(supplierId);
+	}
+	
+	/**
+     * @Title: findCertEngBySupplierId
+     * @author Xu Qing
+     * @date 2016-9-27 下午4:11:02  
+     * @Description: 工程专业-资质资格证书信息
+     * @param @param supplierId
+     * @param @return      
+     * @return List<SupplierCertEng>
+     */
+	@Override
+	public List<SupplierCertEng> findCertEngBySupplierId(String supplierId) {
+		
+		return supplierCertEngMapper.findCertEngBySupplierId(supplierId);
+	}
+	
+	/**
+     * @Title: findAptituteBySupplierId
+     * @author Xu Qing
+     * @date 2016-9-27 下午5:11:45  
+     * @Description: 供应商资质资格信息
+     * @param @param supplierId
+     * @param @return      
+     * @return List<SupplierAptitute>
+     */
+	@Override
+	public List<SupplierAptitute> findAptituteBySupplierId(String supplierId) {
+		
+		return supplierAptituteMapper.findAptituteBySupplierId(supplierId);
+	}
+	
+	/**
+     * @Title: findMatEngBySupplierId
+     * @author Xu Qing
+     * @date 2016-9-27 下午7:36:02  
+     * @Description: 供应商组织机构和注册人员 
+     * @param @param supplierId
+     * @param @return      
+     * @return SupplierMatEng
+     */
+	@Override
+	public SupplierMatEng findMatEngBySupplierId(String supplierId) {
+		
+		return supplierMatEngMapper.getMatEngBySupplierId(supplierId);
+	}
+
+	
 
 
 

@@ -3,9 +3,14 @@ package ses.service.sms;
 import java.util.List;
 
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
+import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
+import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierFinance;
+import ses.model.sms.SupplierMatEng;
+import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierType;
 /**
@@ -116,10 +121,65 @@ public interface SupplierAuditService {
      * @Title: findBySupplierId
      * @author Xu Qing
      * @date 2016-9-26 下午6:43:07  
-     * @Description: 资质证书信息
+     * @Description: 物资生产型-资质证书信息
      * @param @param supplierId
      * @param @return      
      * @return List<SupplierCertPro>
      */
     List<SupplierCertPro> findBySupplierId (String supplierId);
+    
+    /**
+     * @Title: findSupplierMatProBysupplierId
+     * @author Xu Qing
+     * @date 2016-9-26 下午8:09:19  
+     * @Description: 物资生产型专业信息 
+     * @param @param supplierId
+     * @param @return      
+     * @return List<SupplierMatPro>
+     */
+    SupplierMatPro findSupplierMatProBysupplierId(String supplierId);
+    
+    /**
+     * @Title: findCertSellBySupplierId
+     * @author Xu Qing
+     * @date 2016-9-27 下午2:11:49  
+     * @Description: 物资销售-资质证书信息
+     * @param @param supplierId
+     * @param @return      
+     * @return List<SupplierCertSell>
+     */
+    List<SupplierCertSell> findCertSellBySupplierId(String supplierId);
+    
+    /**
+     * @Title: findCertEngBySupplierId
+     * @author Xu Qing
+     * @date 2016-9-27 下午4:11:02  
+     * @Description: 工程专业-资质资格证书信息
+     * @param @param supplierId
+     * @param @return      
+     * @return List<SupplierCertEng>
+     */
+    List<SupplierCertEng> findCertEngBySupplierId(String supplierId);
+    
+    /**
+     * @Title: findAptituteBySupplierId
+     * @author Xu Qing
+     * @date 2016-9-27 下午5:11:45  
+     * @Description: 供应商资质资格信息
+     * @param @param supplierId
+     * @param @return      
+     * @return List<SupplierAptitute>
+     */
+    List<SupplierAptitute> findAptituteBySupplierId(String supplierId);
+    
+    /**
+     * @Title: findMatEngBySupplierId
+     * @author Xu Qing
+     * @date 2016-9-27 下午7:36:02  
+     * @Description: 供应商组织机构和注册人员 
+     * @param @param supplierId
+     * @param @return      
+     * @return SupplierMatEng
+     */
+    SupplierMatEng findMatEngBySupplierId (String supplierId);
 } 
