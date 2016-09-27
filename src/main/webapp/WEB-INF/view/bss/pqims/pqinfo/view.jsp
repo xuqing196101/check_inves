@@ -7,7 +7,7 @@
   <head>
     <base href="<%=basePath%>">
     
-    <title>查看模板</title>
+    <title>查看质检信息</title>
     
 	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/ueditor.config.js"></script>
 	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/ueditor.all.min.js"> </script>
@@ -28,7 +28,7 @@
   <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">论坛管理</a></li><li class="active"><a href="#">版块管理</a></li><li class="active"><a href="#">版块详情</a></li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">保障作业</a></li><li class="active"><a href="#">产品质量管理</a></li><li class="active"><a href="#">质检信息详情</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -38,47 +38,99 @@
      <div class="content padding-left-25 padding-right-25 padding-top-5">
     	<div>
 	    	<div class="headline-v2">
-	   			<h2>模板详情</h2>
+	   			<h2>质检信息详情</h2>
 	   		</div>
+	   		
 	   		<ul class="list-unstyled list-flow p0_20">
-	   		   <li class="col-md-6  p0 ">
-			   <span class="fl">模板名称：</span>
+   			<input type="hidden" class="id" name="id">
+   			<input type="hidden" class="contract_id" name="contract_id">
+		     <li class="col-md-6  p0 ">
+			   <span class="">合同编号：</span>
 			   <div class="input-append">
-		        <input class="span2"  type="text" value = '${templet.name}' readonly="readonly">
-		        <%--<span class="add-on">i</span>--%>
+		        <input class="span2 contract_code" name="contract_code" id="contract_code" type="text" value = '${pqinfo.contract.code}' readonly="readonly">
 		       </div>
 			 </li>
-			 
-			 <li class="col-md-6  p0 ">
-			   <span class="fl">模板类型：</span>				 	
-	  			<div class="input-append">
-		        <input class="span2"  type="text" value = '${templet.temType}' readonly="readonly">
-		        <%--<span class="add-on">i</span>--%>
-		       </div>
-			 </li>
-			 <li class="col-md-6  p0 ">
-			   <span class="fl">创建时间：</span>				 	
-	  			<div class="input-append">
-		        <input class="span2"  type="text" value = '${templet.createdAt}' readonly="readonly">
-		        <%--<span class="add-on">i</span>--%>
-		       </div>
-			 </li>
-			 <li class="col-md-6  p0 ">
-			   <span class="fl">修改时间：</span>				 	
-	  			<div class="input-append">
-		        <input class="span2"  type="text" value = '${templet.updatedAt}' readonly="readonly">
-		        <%--<span class="add-on">i</span>--%>
-		       </div>
-			 </li>
-			 
-			<li class="col-md-12 p0">
-	   			<span class="fl">模板内容：</span>
-	  			<div class="col-md-12 pl200 fn mt5 pwr9">
-	  				 <script id="editor" name="content" type="text/plain" class="ml125 mt20 w900"></script>
-        			<!-- <textarea class="text_area col-md-12 " title="不超过800个字" placeholder="不超过800个字"></textarea> -->
+    		 <li class="col-md-6 p0">
+			   <span class="">合同名称：</span>
+		        <div class="input-append ">
+		        	<input class="span2 contract_name" name="contract_name" type="text" value = '${pqinfo.contract.name}' readonly="readonly">
        			</div>
-			 </li> 
-	  	 </ul>
+			 </li>
+    		 <li class="col-md-6 p0">
+			   <span class="">供应商组织机构代码：</span>
+		        <div class="input-append ">
+		        	<input class="span2" name="procurementId" type="text"  value = '${pqinfo.contract.supplier.procurementId}' readonly="readonly">
+       			</div>
+			 </li>
+		     <li class="col-md-6  p0 ">
+			   <span class="">供应商名称：</span>
+			   <div class="input-append">
+		        <input class="span2 supplier_name" name="supplier_name" type="text" value = '${pqinfo.contract.supplier.supplierName}' readonly="readonly">
+		       </div>
+			 </li>
+			 <li class="col-md-6  p0 ">
+			   <span class="fl">项目类别：</span>
+			   <div class="btn-group ">
+		        <input class="span2" name="projectType" type="text" value = '${pqinfo.projectType}' readonly="readonly">
+		       </div>
+			 </li>
+    		 <li class="col-md-6 p0">
+			   <span class="">质检单位：</span>
+		        <div class="input-append ">
+		        	<input class="span2" name="unit" type="text" value = '${pqinfo.unit}' readonly="readonly">
+       			</div>
+			 </li>
+		     <li class="col-md-6  p0 ">
+			   <span class="fl">质检类型：</span>
+			   <div class="btn-group ">
+		        	<input class="span2" name="type" type="text" value = '${pqinfo.type}' readonly="readonly">
+		       </div>
+			 </li>
+    		 <li class="col-md-6 p0">
+			   <span class="">质检地点：</span>
+		        <div class="input-append ">
+		        	<input class="span2" name="place" type="text" value = '${pqinfo.place}' readonly="readonly">
+       			</div>
+			 </li>
+			<li class="col-md-6  p0 ">
+			   <span class="">质检日期：</span>
+			   <div class="input-append">
+		        <input class="span2" name="date" type="text" value = '${pqinfo.date}' readonly="readonly">
+		       </div>
+			 </li>
+    		 <li class="col-md-6 p0">
+			   <span class="">质检人员：</span>
+		        <div class="input-append ">
+		        	<input class="span2" name="inspectors" type="text" value = '${pqinfo.inspectors}' readonly="readonly">
+       			</div>
+			 </li>
+			 <li class="col-md-6  p0 ">
+			   <span class="">质检情况：</span>
+			   <div class="input-append">
+		        <input class="span2" name="condition" type="text" value = '${pqinfo.condition}' readonly="readonly">
+		       </div>
+			 </li>
+    		 <li class="col-md-6 p0">
+			   <span class="fl">质检结论：</span>
+		        <div class="btn-group ">
+		         <input class="span2" name="conclusion" type="text" value = '${pqinfo.conclusion}' readonly="readonly">
+       			</div>
+			 </li>
+			 <li class="col-md-12  p0 ">
+			   <span class="fl">详细情况：</span>
+			   <div class="col-md-12 pl200 fn mt5 pwr9">
+		        <input class="span2" name="detail" type="text" value = '${pqinfo.detail}' readonly="readonly">
+		       </div>
+			 </li>
+   		</ul>
+   		<ul class="list-unstyled list-flow p0_20">
+		     <li class="col-md-6  p0 ">
+			   <span class="">质检报告：</span>
+			   <div class="input-append ">
+		        <input class="span2" name="report" type="text" value = '${pqinfo.detail}' readonly="readonly">
+		       </div>
+			 </li>
+		</ul>
 	<!-- 底部按钮 -->			          
   <div  class="col-md-12 ml185">
    <div class="fl padding-10">

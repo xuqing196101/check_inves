@@ -55,8 +55,10 @@
 		        <div class="btn-group ">
           			<select id="temType" name =temType class="w230" >
 						<option></option>
-			  	  		<option value="1">1</option>
-			  	  	 	<option value="2">2</option>
+			  	  		<option value="须知文档">须知文档</option>
+			  	  	 	<option value="采购公告">采购公告</option>
+			  	  	 	<option value="中标公告">中标公告</option>
+			  	  	 	<option value="合同公告">合同公告</option>
 	  				</select>
        			</div>
 			 </li>

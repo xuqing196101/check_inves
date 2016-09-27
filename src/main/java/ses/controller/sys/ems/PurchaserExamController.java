@@ -65,7 +65,10 @@ import ses.service.ems.ExamQuestionTypeServiceI;
 import ses.service.ems.ExamUserAnswerServiceI;
 import ses.service.ems.ExamUserScoreServiceI;
 import ses.service.oms.PurchaseServiceI;
+<<<<<<< Updated upstream
 import ses.util.PathUtil;
+=======
+>>>>>>> Stashed changes
 import ses.util.PropertiesUtil;
 
 
@@ -112,10 +115,17 @@ public class PurchaserExamController extends BaseSupplierController{
 		String topic = request.getParameter("topic");
 		if(questionTypeId !=null && questionTypeId!=""){
 			map.put("questionTypeId", Integer.parseInt(questionTypeId));
+<<<<<<< Updated upstream
 		}
 		if(topic != null && topic!=""){
 			map.put("topic", "%"+topic+"%");
 		}
+=======
+		}
+		if(topic != null && topic!=""){
+			map.put("topic", "%"+topic+"%");
+		}
+>>>>>>> Stashed changes
 		if(page==null){
 			page = 1;
 		}

@@ -26,6 +26,31 @@
 	
 	
   </head>
+    <script type="text/javascript">
+    function selectByCode(){
+    		var code= $(".contract_code").val();
+			$.ajax({
+				type:"POST",
+				dataType:"json",
+				url:"<%=basePath%>purchaseContract/selectByCode.do?code="+code,
+				success:function(json){
+  					 $(".contract_id").val(json.id);
+  					 $(".contract_name").val(json.name);
+  					 $(".supplier_name").val(json.supplier.name);			
+	       		}
+	       	});
+	}
+    
+    function addAttach(){
+		html="<input id='pic' type='file' class='toinline span2' name='report'/><a href='#' onclick='deleteattach(this)' class='toinline red redhover'>x</a><br/>";
+		$("#uploadAttach").append(html);
+	}
+    function deleteattach(obj){
+		$(obj).prev().remove();
+		$(obj).next().remove();
+		$(obj).remove();
+	}
+    </script>
 <body>
 <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
@@ -44,35 +69,37 @@
    			<h2>登记质检报告</h2>
    		</div>
    		<ul class="list-unstyled list-flow p0_20">
+   			<input type="hidden" class="id" name="id">
+   			<input type="hidden" class="contract_id" name="contract_id">
 		     <li class="col-md-6  p0 ">
 			   <span class="">合同编号：</span>
 			   <div class="input-append">
-		        <input class="span2" name="contractId" type="text">
+		        <input class="span2 contract_code" name="contract_code" id="contract_code" type="text" onblur="selectByCode()">
 		       </div>
 			 </li>
     		 <li class="col-md-6 p0">
 			   <span class="">合同名称：</span>
 		        <div class="input-append ">
-		        	<input class="span2" name="contract_name" type="text" >
+		        	<input class="span2 contract_name" name="contract_name" type="text" >
        			</div>
 			 </li>
     		 <li class="col-md-6 p0">
 			   <span class="">供应商组织机构代码：</span>
 		        <div class="input-append ">
-		        	<input class="span2" name="organization_code" type="text">
+		        	<input class="span2" name="" type="text">
        			</div>
 			 </li>
 		     <li class="col-md-6  p0 ">
 			   <span class="">供应商名称：</span>
 			   <div class="input-append">
-		        <input class="span2" name="supplier_name" type="text">
+		        <input class="span2 supplier_name" name="supplier_name" type="text">
 		       </div>
 			 </li>
 			 <li class="col-md-6  p0 ">
 			   <span class="fl">项目类别：</span>
 			   <div class="btn-group ">
 		        	<select id="temType" name ="projectType" class="w220" >
-						<option>请选择</option>
+						<option value="0">请选择</option>
 	  				</select> 
 		       </div>
 			 </li>
@@ -103,7 +130,7 @@
 			<li class="col-md-6  p0 ">
 			   <span class="">质检日期：</span>
 			   <div class="input-append">
-		        <input class="span2" name="date" type="text">
+		        <input class="span2 Wdate" name="date" type="text"  onfocus="WdatePicker({isShowWeek:true})">
 		       </div>
 			 </li>
     		 <li class="col-md-6 p0">
@@ -123,8 +150,8 @@
 		        <div class="btn-group ">
 		        	<select id="temType" name ="conclusion" class="w220" >
 						<option value="" >请选择</option>
-						<option value="1">合格</option>
-						<option value="0">不合格</option>
+						<option value="合格">合格</option>
+						<option value="不合格">不合格</option>
 	  				</select> 
        			</div>
 			 </li>
@@ -141,9 +168,8 @@
    		<ul class="list-unstyled list-flow p0_20">
 		     <li class="col-md-6  p0 ">
 			   <span class="">质检报告：</span>
-			   <div class="input-append ">
-		        <input class="span2" name="report" type="text">
-		        <button type="button" class="btn ml20 mt1">附件上传</button>
+			   <div class="fl " id="uploadAttach" >
+			  	 <input id="pic" type="file" class="toinline" name="attaattach"/>
 		       </div>
 			 </li>
 		</ul>

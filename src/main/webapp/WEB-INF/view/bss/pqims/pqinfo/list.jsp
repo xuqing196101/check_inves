@@ -102,10 +102,10 @@
 		if(ids.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>pqinfo/delete.thml?ids="+ids;
+				window.location.href="<%=basePath%>pqinfo/delete.html?ids="+ids;
 			});
 		}else{
-			layer.alert("请选择要删除的用户",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择要删除的质检报告",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
     function add(){
@@ -193,21 +193,21 @@
 		<c:forEach items="${list.list}" var="PqInfo" varStatus="vs">
 			<tr>
 				
-				<td class="tc opinter"><input onclick="check()" type="checkbox" name="chkItem" value="${pqinfo.id}" /></td>
+				<td class="tc opinter"><input onclick="check()" type="checkbox" name="chkItem" value="${PqInfo.id}" /></td>
 				
-				<td class="tc opinter" onclick="view('${pqinfo.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+				<td class="tc opinter" onclick="view('${PqInfo.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 				
-				<td class="tc opinter" onclick="view('${pqinfo.id}')">${pqinfo.contract.name}</td>
+				<td class="tc opinter" onclick="view('${PqInfo.id}')">${PqInfo.contract.name}</td>
 				
-				<td class="tc opinter" onclick="view('${pqinfo.id}')">${pqinfo.contract.code}</td>
+				<td class="tc opinter" onclick="view('${PqInfo.id}')">${PqInfo.contract.code}</td>
 			
-				<td class="tc opinter" onclick="view('${pqinfo.id}')">${pqinfo.contract.supplierName}</td>
+				<td class="tc opinter" onclick="view('${PqInfo.id}')">${PqInfo.contract.supplier.supplierName}</td>
 			
-				<td class="tc opinter" onclick="view('${pqinfo.id}')">${pqinfo.type}</td>
+				<td class="tc opinter" onclick="view('${PqInfo.id}')">${PqInfo.type}</td>
 				
-				<td class="tc opinter" onclick="view('${pqinfo.id}')">${pqinfo.conclusion}</td>
+				<td class="tc opinter" onclick="view('${PqInfo.id}')">${PqInfo.conclusion}</td>
 			
-				<td class="tc opinter" onclick="view('${pqinfo.id}')"><button type="button">质检报告</button></td>
+				<td class="tc opinter" onclick="view('${PqInfo.id}')"><button type="button">质检报告</button></td>
 			</tr>
 		</c:forEach>
         </table>
