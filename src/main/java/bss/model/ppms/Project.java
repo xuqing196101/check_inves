@@ -58,6 +58,12 @@ public class Project {
     private String bidAddress;
 
     private String requieredId;
+    
+    private String baleNo;
+    
+    private double amount;
+    
+    private String dealSupplier;
 
 	public String getId() {
 		return id;
@@ -282,6 +288,30 @@ public class Project {
 
 	public void setRequieredId(String requieredId) {
 		this.requieredId = requieredId;
+	}
+
+	public String getBaleNo() {
+		return baleNo;
+	}
+
+	public void setBaleNo(String baleNo) {
+		this.baleNo = baleNo;
+	}
+
+	public double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
+	public String getDealSupplier() {
+		return dealSupplier;
+	}
+
+	public void setDealSupplier(String dealSupplier) {
+		this.dealSupplier = dealSupplier;
 	}
 
  	 
