@@ -8,10 +8,11 @@
     <result column="CREATED_AT"  property="createdAt" />
     <result column="UPDATED_AT"  property="updatedAt" />
     <association column="CREATER_ID" property="creater" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>
+    <association column="PARENT_ID" property="parent" select="selectTypeByPrimaryKey"/>
   </resultMap>
   
   <sql id="ArticleType_Column_List">
-    ID, NAME, CREATED_AT,CREATER_ID, UPDATED_AT,DESCRIBE
+    ID, NAME, CREATED_AT,CREATER_ID, UPDATED_AT,DESCRIBE,PARENT_ID
   </sql>
   
   <!-- 根据id查询栏目类型 -->
@@ -30,11 +31,26 @@
     ORDER BY CREATED_AT ASC
   </select>
   
+    <!-- 查询所有栏目信息 -->
+  <select id="getAll" resultMap="ArticleTypeMapper">
+    select
+    <include refid="ArticleType_Column_List" />
+    from T_ISS_PS_ARTICLE_TYPE   
+  </select>
+  
   <!-- 为首页查询所有文章栏目 -->
   <select id="selectAllArticleTypeForSolr" resultMap="ArticleTypeMapper">
   	select
     <include refid="ArticleType_Column_List" />
     from T_ISS_PS_ARTICLE_TYPE
+  </select>
+  
+    <!-- 为首页查询所有文章栏目 -->
+  <select id="selectArticleTypesByParentId" resultMap="ArticleTypeMapper">
+    select
+    <include refid="ArticleType_Column_List" />
+    from T_ISS_PS_ARTICLE_TYPE
+    WHERE PARENT_ID=#{parentId}
   </select>
   
   <!-- 根据条件修改栏目信息 -->
@@ -49,6 +65,9 @@
       </if>
       <if test="updatedAt != null">
         UPDATED_AT = #{updatedAt},
+      </if>
+       <if test="parent != null">
+        PARENT_ID = #{parent.id},
       </if>
     </set>
     where ID = #{id}
