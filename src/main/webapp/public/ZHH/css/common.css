@@ -747,3 +747,9 @@ a.redhover:hover{
 .fw{
 	font-weight: 700;
 }
+.score_box{
+	width:300px;
+	margin:0 auto;
+	padding:20px 20px;
+	margin-top:20px;
+}

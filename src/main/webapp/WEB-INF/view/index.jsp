@@ -169,13 +169,13 @@ var ifm= document.getElementById("iframepage");
 var subWeb = document.frames ? document.frames["iframepage"].document : ifm.contentDocument;   
 if(ifm != null && subWeb != null) {
    ifm.height = subWeb.body.scrollHeight;
-   ifm.width = subWeb.body.scrollWidth;
+   /*ifm.width = subWeb.body.scrollWidth;*/
 }   
 }   
 </script>
 <!-- 后台管理内容开始-->
 <div >
-	<iframe  frameborder="0" name="home" id="iframepage" scrolling="no" marginheight="0"  width="100%" onLoad="iFrameHeight()" src="<%=basePath%>login/home.do"></iframe>
+	<iframe  frameborder="0" name="home" id="iframepage" scrolling="auto" marginheight="0"  width="100%" onLoad="iFrameHeight()" src="<%=basePath%>login/home.do"></iframe>
 </div>
 
 <!--底部代码开始-->
