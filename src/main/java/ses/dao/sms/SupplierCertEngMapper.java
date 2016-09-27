@@ -46,4 +46,15 @@ public interface SupplierCertEngMapper {
     int updateByPrimaryKey(SupplierCertEng record);
     
     List<SupplierCertEng> findCertEngByMatEngId(String supplierMatEngId);
+    
+    /**
+     * @Title: findCertEngBySupplierId
+     * @author Xu Qing
+     * @date 2016-9-27 下午4:11:02  
+     * @Description: 工程专业-资质资格证书信息
+     * @param @param supplierId
+     * @param @return      
+     * @return List<SupplierCertEng>
+     */
+    List<SupplierCertEng> findCertEngBySupplierId(String supplierId);
 }

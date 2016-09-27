@@ -143,7 +143,19 @@
 		where ID = #{id}
 	</update>
 	
+	
 	<select id="findCertSellBySuppliermatSellId" parameterType="java.lang.String" resultMap="BaseResultMap">
 		select * from T_SES_SMS_SUPPLIER_CERT_SELL where MAT_SELL_ID = #{supplierMatSellId}
 	</select>
+	
+	<!-- 物资销售资质证书信息 -->
+	<select id="findCertSellBySupplierId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+		c.*
+		FROM
+		T_SES_SMS_SUPPLIER_CERT_SELL c,T_SES_SMS_SUPPLIER_MAT_SELL m
+		WHERE c.MAT_SELL_ID = m.ID
+		AND m.SUPPLIER_ID=#{supplierId}
+  </select>
+	
 </mapper>

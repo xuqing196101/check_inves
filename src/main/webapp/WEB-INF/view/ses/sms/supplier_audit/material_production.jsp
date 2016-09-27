@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -119,7 +120,24 @@ function reason(id){
         type:"post",
         data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId,
       });
-  layer.msg("审核不通过的理由是："+text);
+        layer.msg("审核不通过的理由是："+text);
+    });
+}
+
+
+function reason1(id){
+  var supplierId=$("#supplierId").val();
+  var id2=id+"2";
+  var id1=id+"1";
+  var auditField=$("#"+id2+"").text().replaceAll("＊","").replaceAll("：",""); //审批的字段名字
+  layer.prompt({title: '请填写不通过理由', formType: 2}, function(text){
+    $.ajax({
+        url:"<%=basePath%>supplierAudit/auditReasons.html",
+        type:"post",
+        data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId,
+      });
+     layer.msg("审核不通过的理由是："+text);
+     $("#"+id1+"").hide();
     });
 }
 
@@ -173,16 +191,19 @@ function tijiao(str){
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >产品信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('reasonsList');">审核汇总</a></li>
             </ul>
-              <div class="tab-content padding-top-20" style="height:1400px;">
+              <div class="tab-content padding-top-20" style="height:1500px;">
                 <div class="tab-pane fade active in height-450" id="tab-1">
                   <form id="form_id" action="" method="post"  enctype="multipart/form-data">
                     <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
                   </form>
+                  <h2 class="f16 jbxx">
+                  <i>01</i>供应商资质证书
+                  </h2>
                   <table class="table table-bordered table-condensed">
 							      <thead>
 							        <tr>
 							          <th class="info">资质证书名称</th>
-							          <th class="info">资质登记</th>
+							          <th class="info">资质等级</th>
 							          <th class="info">发证机关</th>
 							          <th class="info">有效期(起止时间)</th>
 							          <th class="info">是否年检</th>
@@ -195,7 +216,10 @@ function tijiao(str){
 							            <td class="tc" id="${m.id}">${m.name }</td>
 							            <td class="tc">${m.levelCert}</td>
 							            <td class="tc">${m.licenceAuthorith }</td>
-							            <td class="tc">${m.expStartDate }至${m.expEndDate }</td>
+							            <td class="tc">
+								            <fmt:formatDate value="${m.expStartDate }" pattern='yyyy-MM-dd'/>  至  
+								            <fmt:formatDate value="${m.expEndDate }" pattern='yyyy-MM-dd'/>
+								          </td>
 							            <td class="tc">
 							             <c:if test="${m.mot==0 }">否</c:if>
 							             <c:if test="${m.mot==1 }">是</c:if>
@@ -208,8 +232,173 @@ function tijiao(str){
 							          </tr>
 							        </c:forEach>
 							    </table>
-                </div>
+							    
+							    <div class=" margin-bottom-0">
+							    <h2 class="f16 jbxx">
+                  <i>02</i>组织结构和人员
+                  </h2>
+                    <ul class="list-unstyled list-flow">
+                      <li class="col-md-6 p0"><span class="" id="orgName2"><i class="red">＊</i>组织机构：</span>
+                        <div class="input-append">
+                          <input class="span3" type="text" value="${supplierMatPros.orgName }" />
+                          <div id="orgName1"  class="b f18 fl ml10 red hand">√</div>
+                          <div id="orgName" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
+                        </div>
+                      </li>
+                      <li class="col-md-6 p0"><span class="" id="totalPerson2"><i class="red">＊</i>人员总数：</span>
+                        <div class="input-append">
+                          <input class="span3" type="text" value="${supplierMatPros.totalPerson }" />
+                          <div id="totalPerson1" class="b f18 fl ml10 red hand">√</div>
+                        <div id="totalPerson" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
+                        </div>
+                      </li>
+                      <li class="col-md-6 p0"><span class="" id="totalMange2"><i class="red">＊</i>管理人员：</span>
+                        <div class="input-append">
+                          <input class="span3" type="text"  value="${supplierMatPros.totalMange }"/>
+                          <div id="totalMange1" class="b f18 fl ml10 red hand">√</div>
+                        <div id="totalMange" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
+                        </div>
+                      </li>
+                      <li class="col-md-6 p0"><span class="" id="totalTech2"><i class="red">＊</i>技术人员：</span>
+                        <div class="input-append">
+                          <input class="span3" type="text"  value="${supplierMatPros.totalTech }"/>
+                          <div id="totalTech1" class="b f18 fl ml10 red hand">√</div>
+                        <div id="totalTech" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
+                        </div>
+                      </li>
+                      <li class="col-md-6 p0"><span class="" id="totalWorker2"><i class="red">＊</i>工人(职员)：</span>
+                        <div class="input-append">
+                          <input class="span3" type="text" value="${supplierMatPros.totalWorker }"/>
+                          <div id="totalWorker1" class="b f18 fl ml10 red hand">√</div>
+                        <div id="totalWorker" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  
+                  <div class=" margin-bottom-0 fl">
+                  <h2 class="f16 jbxx">
+                  <i>03</i>产品研发能力
+                  </h2>
+                    <ul class="list-unstyled list-flow">
+                      <li class="col-md-6 p0"><span class="" id="scaleTech2"><i class="red">＊</i>技术人员比例：</span>
+                        <div class="input-append">
+                          <input class="span3" type="text" value="${supplierMatPros.scaleTech }" />
+                          <div id="scaleTech1"  class="b f18 fl ml10 red hand">√</div>
+                          <div id="scaleTech" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
+                        </div>
+                      </li>
+                      <li class="col-md-6 p0"><span class="" id="scaleHeightTech2"><i class="red">＊</i>高级技术人员比例：</span>
+                        <div class="input-append">
+                          <input class="span3" type="text" value="${supplierMatPros.scaleHeightTech }" />
+                          <div id="scaleHeightTech1" class="b f18 fl ml10 red hand">√</div>
+                        <div id="scaleHeightTech" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
+                        </div>
+                      </li>
+                      <li class="col-md-6 p0"><span class="" id=researchName2><i class="red">＊</i>研发部门名称：</span>
+                        <div class="input-append">
+                          <input class="span3" type="text"  value="${supplierMatPros.researchName }"/>
+                          <div id="researchName1" class="b f18 fl ml10 red hand">√</div>
+                        <div id="researchName" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
+                        </div>
+                      </li>
+                      <li class="col-md-6 p0"><span class="" id="totalResearch2"><i class="red">＊</i>研发部门人数：</span>
+                        <div class="input-append">
+                          <input class="span3" type="text"  value="${supplierMatPros.totalResearch }"/>
+                          <div id="totalResearch1" class="b f18 fl ml10 red hand">√</div>
+                        <div id="totalResearch" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
+                        </div>
+                      </li>
+                      <li class="col-md-6 p0"><span class="" id="researchLead2"><i class="red">＊</i>研发部门负责人：</span>
+                        <div class="input-append">
+                          <input class="span3" type="text" value="${supplierMatPros.researchLead }"/>
+                          <div id="researchLead1" class="b f18 fl ml10 red hand">√</div>
+                        <div id="researchLead" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
+                        </div>
+                      </li>
+                      <li class="col-md-12 p0 mt10"><span class="fl" id="countryPro2"><i class="red">＊</i>承担国家军队科研项目：</span>
+	                      <div class="col-md-9 mt5">
+	                        <div class="row">
+	                          <textarea class="text_area col-md-12">${supplierMatPros.countryPro }</textarea>
+	                          <div id="countryPro1" class="b f18 fl ml10 red hand">√</div>
+	                          <div id="countryPro" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
+	                        </div>
+	                      </div>
+                      </li>
+                      <li class="col-md-12 p0 mt10"><span class="fl" id="countryReward2"><i class="red">＊</i>获得国家军队科技项目：</span>
+	                      <div class="col-md-9 mt5">
+	                        <div class="row">
+	                          <textarea class="text_area col-md-12">${supplierMatPros.countryReward }</textarea>
+	                          <div id="countryReward1" class="b f18 fl ml10 red hand">√</div>
+	                          <div id="countryReward" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
+	                        </div>
+	                      </div>
+                      </li>
+                    </ul>
+                  </div>
+                  
+                  <div class=" margin-bottom-0 fl">
+                  <h2 class="f16 jbxx">
+                  <i>04</i>供应商生产能力
+                  </h2>
+                    <ul class="list-unstyled list-flow">
+                      <li class="col-md-6 p0"><span class="" id="totalBeltline2"><i class="red">＊</i>生产线名称数量：</span>
+                        <div class="input-append">
+                          <input class="span3" type="text" value="${supplierMatPros.totalBeltline }" />
+                          <div id="totalBeltline1"  class="b f18 fl ml10 red hand">√</div>
+                          <div id="totalBeltline" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
+                        </div>
+                      </li>
+                      <li class="col-md-6 p0"><span class="" id="totalDevice2"><i class="red">＊</i>生产设备名称数量：</span>
+                        <div class="input-append">
+                          <input class="span3" type="text" value="${supplierMatPros.totalDevice }" />
+                          <div id="totalDevice1" class="b f18 fl ml10 red hand">√</div>
+                        <div id="totalDevice" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
+                        </div>
+                      </li>
+                    </ul>
+                    
+                  </div>
+                  <div class=" margin-bottom-0 fl">
+                  <h2 class="f16 jbxx">
+                  <i>04</i>物资生产型供应商质量检测登记
+                  </h2>
+                    <ul class="list-unstyled list-flow">
+                      <li class="col-md-6 p0"><span class="" id="qcName2"><i class="red">＊</i>质量检测部门：</span>
+                        <div class="input-append">
+                          <input class="span3" type="text" value="${supplierMatPros.qcName }" />
+                          <div id="qcName1"  class="b f18 fl ml10 red hand">√</div>
+                          <div id="qcName" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
+                        </div>
+                      </li>
+                      <li class="col-md-6 p0"><span class="" id="totalQc2"><i class="red">＊</i>质量检测人数：</span>
+                        <div class="input-append">
+                          <input class="span3" type="text" value="${supplierMatPros.totalQc }" />
+                          <div id="totalQc1" class="b f18 fl ml10 red hand">√</div>
+                        <div id="totalQc" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
+                        </div>
+                      </li>
+                      <li class="col-md-6 p0"><span class="" id="qcLead2"><i class="red">＊</i>质检部门负责人：</span>
+                        <div class="input-append">
+                          <input class="span3" type="text" value="${supplierMatPros.qcLead }" />
+                          <div id="qcLead1" class="b f18 fl ml10 red hand">√</div>
+                        <div id="qcLead" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
+                        </div>
+                      </li>
+                      <li class="col-md-12 p0 mt10"><span class="fl" id="qcDevice2"><i class="red">＊</i>质量检测设备名称：</span>
+                        <div class="col-md-9 mt5">
+                          <div class="row">
+                            <textarea class="text_area col-md-12">${supplierMatPros.qcDevice }</textarea>
+                            <div id="qcDevice1" class="b f18 fl ml10 red hand">√</div>
+                            <div id="qcDevice" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  
               </div>
+            </div>
           </div>
         </div>
       </div>

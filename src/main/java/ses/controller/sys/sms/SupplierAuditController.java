@@ -11,10 +11,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
+import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
+import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierFinance;
+import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
+import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierType;
 import ses.service.sms.SupplierAuditService;
@@ -161,10 +166,16 @@ public class SupplierAuditController {
 	@RequestMapping("materialProduction")
 	public String materialProduction(HttpServletRequest request,SupplierMatPro supplierMatPro) {
 		String supplierId = supplierMatPro.getSupplierId();
-/*		List<SupplierCertPro> materialProduction = supplierService.get(supplierId).getSupplierMatPro().getListSupplierCertPros();*/
+		/*List<SupplierCertPro> materialProduction = supplierService.get(supplierId).getSupplierMatPro().getListSupplierCertPros();*/
+		//资质资格证书信息
 		List<SupplierCertPro> materialProduction = supplierAuditService.findBySupplierId(supplierId);
-		request.setAttribute("materialProduction",materialProduction);
+		//供应商组织机构人员,产品研发能力,产品生产能里,质检测试登记信息
+		/*supplierMatPro = supplierAuditService.findSupplierMatProBysupplierId(supplierId);*/
+		supplierMatPro =supplierService.get(supplierId).getSupplierMatPro();
+		
 		request.setAttribute("supplierId", supplierId);	
+		request.setAttribute("materialProduction",materialProduction);
+		request.setAttribute("supplierMatPros", supplierMatPro);
 		return "ses/sms/supplier_audit/material_production";
 	}
 	
@@ -177,7 +188,15 @@ public class SupplierAuditController {
 	 * @return String
 	 */
 	@RequestMapping("materialSales")
-	public String materialSales(){
+	public String materialSales(HttpServletRequest request,SupplierMatSell supplierMatSell){
+		String supplierId = supplierMatSell.getSupplierId();
+		//资质资格证书
+		List<SupplierCertSell> supplierCertSell=supplierAuditService.findCertSellBySupplierId(supplierId);
+		//供应商组织机构和人员
+		supplierMatSell = supplierService.get(supplierId).getSupplierMatSell();
+		request.setAttribute("supplierCertSell", supplierCertSell);
+		request.setAttribute("supplierMatSells", supplierMatSell);
+		request.setAttribute("supplierId", supplierId);
 		return "ses/sms/supplier_audit/material_sales";
 	}
 	
@@ -190,7 +209,18 @@ public class SupplierAuditController {
 	 * @return String
 	 */
 	@RequestMapping("engineering")
-	public String engineeringInformation(){
+	public String engineeringInformation(HttpServletRequest request,SupplierMatEng supplierMatEng){
+		String supplierId = supplierMatEng.getSupplierId();
+		//资质资格证书信息
+		List<SupplierCertEng> supplierCertEng= supplierAuditService.findCertEngBySupplierId(supplierId);
+		//资质资格信息
+		List<SupplierAptitute> supplierAptitute = supplierAuditService.findAptituteBySupplierId(supplierId);
+		//组织结构和注册人人员
+		supplierMatEng = supplierAuditService.findMatEngBySupplierId(supplierId);
+		request.setAttribute("supplierCertEng", supplierCertEng);
+		request.setAttribute("supplierAptitutes", supplierAptitute);
+		request.setAttribute("supplierMatEngs",supplierMatEng);
+		request.setAttribute("supplierId", supplierId);
 		return "ses/sms/supplier_audit/engineering";
 	}
 	
@@ -252,5 +282,5 @@ public class SupplierAuditController {
 		return "redirect:supplierList.html";
 	}
 
-		
+	
 }

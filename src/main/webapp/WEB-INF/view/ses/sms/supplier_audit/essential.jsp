@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -210,7 +211,7 @@ function tijiao(str){
                     </li>
                     <li class="col-md-6 p0 "><span class="" id="foundDate2"><i class="red">＊</i>成立日期：</span>
                       <div class="input-append">
-                        <input class="span3" id="foundDate3" value="${suppliers.foundDate }" type="text">
+                        <input class="span3" id="foundDate3" value="<fmt:formatDate value='${suppliers.foundDate}' pattern='yyyy-MM-dd'/>" type="text">
                         <div id="foundDate1" class="b f18 fl ml10 red hand">√</div>
                         <div id="foundDate" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
                       </div>
@@ -278,7 +279,7 @@ function tijiao(str){
                   </ul>
                 </div>
                 
-                <div class=" margin-bottom-0">
+                <div class=" margin-bottom-0 fl">
                   <h2 class="f16 jbxx">
                   <i>02</i>法人代表人信息
                   </h2>
@@ -314,7 +315,7 @@ function tijiao(str){
                   </ul>
                 </div>
                 
-                <div class=" margin-bottom-0">
+                <div class=" margin-bottom-0 fl">
                   <h2 class="f16 jbxx">
                   <i>03</i>联系人信息
                   </h2>
@@ -364,7 +365,7 @@ function tijiao(str){
                   </ul>
                 </div>
                 
-                <div class=" margin-bottom-0">
+                <div class=" margin-bottom-0 fl">
                   <h2 class="f16 jbxx">
                   <i>04</i>营业执照
                   </h2>
@@ -392,7 +393,7 @@ function tijiao(str){
                     </li>
                     <li class="col-md-6 p0 "><span class="" id="businessEndDate2"><i class="red">＊</i>营业期限：</span>
                       <div class="input-append">
-                        <input class="span3" id="businessEndDate3" value="${suppliers.businessStartDate }至 ${suppliers.businessEndDate} " type="text">
+                        <input class="span3" id="businessEndDate3" value="${suppliers.businessStartDate} 至 ${suppliers.businessEndDate}" type="text"/>
                         <div id="businessEndDate1" class="b f18 fl ml10 red hand">√</div>
                         <div id="businessEndDate" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
                       </div>
@@ -400,7 +401,7 @@ function tijiao(str){
                     <li class="col-md-12 p0 mt10"><span class="fl" id="businessScope2"><i class="red">＊</i>经营范围：</span>
                       <div class="col-md-9 mt5">
                         <div class="row">
-                          <textarea class="text_area col-md-12" id="businessScope3"  title="不超过800个字" >${suppliers.businessScope }</textarea>
+                          <textarea class="text_area col-md-12" id="businessScope3">${suppliers.businessScope }</textarea>
                           <div id="businessScope1" class="b f18 fl ml10 red hand">√</div>
                           <div id="businessScope" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
                         </div>
@@ -451,7 +452,7 @@ function tijiao(str){
                     <li class="col-md-12 p0 mt10"><span class="fl" id="branchBusinessScope2"><i class="red">＊</i>生产经营范围：</span>
                       <div class="col-md-9 mt5">
                         <div class="row">
-                          <textarea class="text_area col-md-12" id="branchBusinessScope3" title="不超过800个字" >${suppliers.branchBusinessScope }</textarea>
+                          <textarea class="text_area col-md-12" id="branchBusinessScope3">${suppliers.branchBusinessScope }</textarea>
                           <div id="branchBusinessScope1" class="b f18 fl ml10 red hand">√</div>
                           <div id="branchBusinessScope" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
                         </div>
