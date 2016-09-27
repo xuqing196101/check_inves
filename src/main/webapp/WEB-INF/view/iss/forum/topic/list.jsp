@@ -233,7 +233,7 @@
 				<c:if test="${length>10}">
 					<td onclick="view('${topic.id}')" onmouseover="out('${topic.content}')" class="tc pointer ">${fn:substring(content,0,10)}...</td>
 				</c:if>
-				<c:if test="${length<10}">
+				<c:if test="${length<=10}">
 					<td onclick="view('${topic.id}')" onmouseover="out('${topic.content}')" class="tc pointer ">${content } </td>
 				</c:if>	
 				<td class="tc pointer" onclick="view('${topic.id}')"><fmt:formatDate value='${topic.createdAt}' pattern="yyyy-MM-dd  HH:mm:ss" /></td>
