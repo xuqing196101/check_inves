@@ -39,7 +39,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="${pageContext.request.contextPath}/public/ZHQ/js/expert/validate_expert_basic_info.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/expert/TestAddress.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/expert/TestChooseAddress.js"></script>
- <link rel="stylesheet" type="text/css" href="<%=basePath%>/public/ztree/css/zTreeStyle.css"> 
+<link rel="stylesheet" type="text/css" href="<%=basePath%>/public/ztree/css/zTreeStyle.css">
 <script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.core.js"></script>
 <script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.excheck.js"></script>
 <script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.exedit.js"></script>
@@ -48,6 +48,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		$("#kaptchaImage").hide().attr('src', '${pageContext.request.contextPath}/Kaptcha.jpg').fadeIn();
 	}
 	var datas;
+	var treeObj;
 	$(function() {
 		// 注册须知
 		$("#registration_input_id").change(function() {
@@ -80,8 +81,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							},
 							callback:{
 						    	onClick:zTreeOnClick,//点击节点触发的事件
-						    	 beforeRemove: zTreeBeforeRemove,
-						    	beforeRename: zTreeBeforeRename, 
+						    	 //beforeRemove: zTreeBeforeRemove,
+						    	//beforeRename: zTreeBeforeRename, 
 								//onRemove: zTreeOnRemove,
 			       			    //onRename: zTreeOnRename,
 						    }, 
@@ -96,46 +97,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									rootPId:0,
 								}
 						    },
-						    edit:{
-						    	enable:true,
-								 //editNameSelectAll:true,
-								//showRemoveBtn: true,
-								//showRenameBtn: true,
-								//removeTitle: "删除",
-								//renameTitle:"重命名",
-							},
 						   check:{
 								enable: true
 						   }
 			  };
-			  var treeObj=$.fn.zTree.init($("#ztree"),setting,datas);
+			  var expertsTypeId = $("#expertsTypeId").val();
+				 if(expertsTypeId==1 || expertsTypeId=="1"){
+				 treeObj=$.fn.zTree.init($("#ztree"),setting,datas);
+					 $("#ztree").show();
+				 }else{
+					 treeObj=$.fn.zTree.init($("#ztree"),setting,datas);
+					 $("#ztree").hide();
+				 }
 	});
 	var treeid=null;
     /*树点击事件*/
     function zTreeOnClick(event,treeId,treeNode){
 		treeid=treeNode.id
     }
-    function zTreeOnRemove(event, treeId, treeNode,isCancel) {
-	}
-	function zTreeOnRename(event, treeId, treeNode, isCancel) {
-				 alert(treeNode.tId + ", " + treeNode.name); 
-				
-		}
-		/*删除目录信息*/
-	function zTreeBeforeRemove(treeId, treeNode){
-	 		$.ajax({
-	 			type:"post",
-	 			url:"<%=basePath%>category/del.do?id="+treeNode.id,
-	 		});
-		}
-	 	
-	 	/*节点重命名*/
-	function zTreeBeforeRename(treeId,treeNode,newName,isCancel){
-			$.ajax({
-	 			type:"post",
-	 			url:"<%=basePath%>category/rename.do?id="+treeNode.id+"&name="+newName,
-	 		});
-		} 
 	function submitForm1(){
 		if(validateForm1()){
 			$("#zancun").val(1);
@@ -312,87 +291,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	$("#phone_2").text(phone);
 	supplierRegist('reg_box_id', 5, 'next'); 
 	}
-
+	//显示隐藏树
+	function typeShow(){
+		 var expertsTypeId = $("#expertsTypeId").val();
+		 if(expertsTypeId==1 || expertsTypeId=="1"){
+			 $("#ztree").show();
+		 }else{
+			 $("#ztree").hide();
+		 }
+		
+	}
 </script>
 
 </head>
 
 <body>
 	<div class="wrapper">
-		<div class="header-v4">
-			<!-- Navbar -->
-			<div class="navbar navbar-default mega-menu" role="navigation">
-				<div class="container">
-					<!-- logo和搜索 -->
-					<div class="navbar-header">
-						<div class="row container margin-bottom-10">
-							<div class="col-md-8">
-								<a href=""> <img alt="Logo" src="${pageContext.request.contextPath}/public/ZHQ/images/logo.png" id="logo-header"> </a>
-							</div>
-							<!--搜索开始-->
-							<div class="col-md-4 mt50">
-								<div class="search-block-v2">
-									<div class="">
-										<form accept-charset="UTF-8" action="" method="get">
-											<div style="display:none">
-												<input name="utf8" value="" type="hidden">
-											</div>
-											<input id="t" name="t" value="search_products" type="hidden">
-											<div class="col-md-12 pull-right">
-												<div class="input-group bround4">
-													<input class="form-control h38" id="k" name="k" placeholder="" type="text"> <span class="input-group-btn"> <input class="btn-u h38" name="commit" value="搜索" type="submit"> </span>
-												</div>
-											</div>
-										</form>
-									</div>
-								</div>
-							</div>
-							<!--搜索结束-->
-						</div>
-					</div>
-
-					<button data-target=".navbar-responsive-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
-						<span class="full-width-menu">全部商品分类</span> <span class="icon-toggle"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </span>
-					</button>
-				</div>
-
-				<div class="clearfix"></div>
-
-				<div style="height: 0px;" aria-expanded="false" class="navbar-collapse navbar-responsive-collapse collapse">
-					<div class="container">
-						<ul class="nav navbar-nav">
-							<!-- 通知 -->
-							<li class="active dropdown tongzhi_li"><a class=" dropdown-toggle p0_30" href=""><i class="tongzhi nav_icon"></i>通知</a></li>
-							<!-- End 通知 -->
-
-							<!-- 公告 -->
-							<li class="dropdown gonggao_li"><a class=" dropdown-toggle p0_30" href=""><i class="gonggao nav_icon"></i>公告</a></li>
-							<!-- End 公告 -->
-
-							<!-- 公示 -->
-							<li class="dropdown gongshi_li"><a data-toggle="dropdown" class="dropdown-toggle p0_30 " href=""><i class="gongshi nav_icon"></i>公示</a></li>
-							<!-- End 公示 -->
-
-							<!-- 专家 -->
-							<li class="dropdown zhuanjia_li"><a href="#" class="dropdown-toggle p0_30 " data-toggle="dropdown"><i class="zhuanjia nav_icon"></i>专家</a></li>
-							<!-- End 专家 -->
-
-							<!-- 投诉 -->
-							<li class="dropdown tousu_li"><a data-toggle="dropdown" class="dropdown-toggle p0_30" href=""><i class="tousu nav_icon"></i>投诉</a></li>
-							<!-- End 投诉 -->
-
-							<!-- 法规 -->
-							<li class="dropdown  fagui_li"><a href="" class="dropdown-toggle p0_30" data-toggle="dropdown"><i class="fagui nav_icon"></i>法规</a></li>
-							<!-- End 法规 -->
-
-							<li class="dropdown luntan_li"><a aria-expanded="false" href="" class="dropdown-toggle p0_30" data-toggle="dropdown"><i class="luntan nav_icon"></i>论坛</a></li>
-
-						</ul>
-					</div>
-				</div>
-				</div>
-				<!--/end container-->
-			</div>
 		</div>
 		<form id="form1" action="${pageContext.request.contextPath}/expert/add.html" method="post"  enctype="multipart/form-data" >
 		<input type="hidden" name="userId" value="${user.id }">
@@ -440,7 +354,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										</li>
 										<li class="col-md-6 p0 "><span class=""> 出生日期：</span>
 											<div class="input-append">
-       											 <input class="span3 Wdate w220"   readonly="readonly" value="" name="birthday" id="birthday" type="text" onclick='WdatePicker()'>
+       											 <input class="span3 Wdate"   readonly="readonly" value="" name="birthday" id="birthday" type="text" onclick='WdatePicker()'>
       										</div>
 										</li>
 										<li class="col-md-6 p0"><span class=""><i class="red">＊</i>专家来源：</span>
@@ -507,7 +421,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										</li>
 										<li class="col-md-6 p0 "><span class=""> 参加工作时间：</span>
 											<div class="input-append">
-											<input class="span3 Wdate w220"   readonly="readonly" value="" name="timeToWork" id="appendedInput" type="text" onclick='WdatePicker()'>
+											<input class="span3 Wdate"   readonly="readonly" value="" name="timeToWork" id="appendedInput" type="text" onclick='WdatePicker()'>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""> 最高学历：</span>
@@ -531,7 +445,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										</li>
 										<li class="col-md-6 p0 "><span class=""> 从事专业起始年度：</span>
 											<div class="input-append">
-											 <input class="span3 Wdate w220" value=""  readonly="readonly" name="timeStartWork" id="timeStartWork" type="text" onclick='WdatePicker()'>
+											 <input class="span3 Wdate" value=""  readonly="readonly" name="timeStartWork" id="timeStartWork" type="text" onclick='WdatePicker()'>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class="">工作单位：</span>
@@ -566,7 +480,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										</li>
 										<li class="col-md-6 p0 "><span class=""> 获得技术时间：</span>
 											<div class="input-append">
-											<input class="span3 Wdate w220" value=""  readonly="readonly" name="makeTechDate" id="makeTechDate" type="text" onclick='WdatePicker()'>
+											<input class="span3 Wdate" value=""  readonly="readonly" name="makeTechDate" id="makeTechDate" type="text" onclick='WdatePicker()'>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""> 学位：</span>
@@ -595,43 +509,34 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										  <div class="padding-left-40 padding-right-20 clear">
 										   <ul class="list-unstyled list-flow p0_20">
 										   <li class="col-md-6  p0 ">
-											   <span class=""><i class="red">＊</i>身份证：</span>
-											   <div class="uploader orange m0">
-													<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..."/>
-													<input type="button" class="button"  id="file10" value="选择文件..."/>
-													<input type="file" name="files" id ="file1" size="30" accept="image/*"/>
+											   <span class="" id="files1"><i class="red">＊</i>身份证：</span>
+											   <div class="input-append mt5" >
+													<a href="#"><i></i><input type="file" name="files" id ="file1" class="fl"/></a>
+												</div>
+											 </li>
+											 
+											 <li class="col-md-6  p0 ">
+											   <span class="" id="files2"><i class="red" >＊</i>学历证书：</span>
+											     <div class="input-append mt5">
+													<a href="#"><i></i><input type="file" name="files" id ="file2" class="fl"/></a>
 												</div>
 											 </li>
 											 <li class="col-md-6  p0 ">
-											   <span class=""><i class="red">＊</i>学历证书：</span>
-											    <div class="uploader orange m0">
-													<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..."/>
-													<input type="button" name="file" class="button"  id="file9" value="选择文件..."/>
-													<input  type="file" name="files" id ="file2" size="30" accept="image/*"/>
-												</div>
-											 </li>
-											 <li class="col-md-6  p0 ">
-											   <span class=""><i class="red">＊</i>职称证书：</span>
-											     <div class="uploader orange m0">
-													<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..."/>
-													<input type="button" name="file" class="button"  id="file8" value="选择文件..."/>
-													<input type="file" name="files" id ="file3" size="30" accept="image/*"/>
+											   <span class="" id="files3"><i class="red">＊</i>职称证书：</span>
+											      <div class="input-append mt5">
+													<a href="#"><i></i><input type="file" name="files" id ="file3" class="fl"/></a>
 												</div>
 											 </li>
 											  <li class="col-md-6  p0 ">
-											   <span class=""><i class="red">＊</i>学位证书：</span>
-											     <div class="uploader orange m0">
-													<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..."/>
-													<input type="button" name="file" class="button"  id="file7" value="选择文件..."/>
-													<input type="file" name="files" id ="file4" size="30" accept="image/*"/>
+											   <span class="" id="files4"><i class="red">＊</i>学位证书：</span>
+											      <div class="input-append mt5">
+													<a href="#"><i></i><input type="file" name="files" id ="file4" class="fl"/></a>
 												</div>
 											  </li>
 											  <li class="col-md-6  p0 ">
-											   <span class=""><i class="red">＊</i>本人照片：</span>
-											     <div class="uploader orange m0">
-													<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..."/>
-													<input type="button" name="file" class="button" id="file6" value="选择文件..."/>
-													<input type="file" name="files" id ="file5" size="30" accept="image/*"/>
+											   <span class="" id="files5"><i class="red">＊</i>本人照片：</span>
+											      <div class="input-append mt5">
+													<a href="#"><i></i><input type="file" name="files" id ="file5" class="fl"/></a>
 												</div>
 											 </li>
 										   </ul>
@@ -666,8 +571,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<ul class="list-unstyled list-flow" style="margin-left: 250px;">
      		<li class="p0">
 			   <span class="">专家类型：</span>
-			   <input type="hidden" id="expertsTypeIds" value="">
-			   <select name="expertsTypeId" id="expertsTypeId">
+			   <input type="hidden" id="expertsTypeIds" value="" >
+			   <select name="expertsTypeId" id="expertsTypeId" onchange="typeShow();">
 			   		<option value="">-请选择-</option>
 			   		<option value="1">技术</option>
 			   		<option value="2">法律</option>
@@ -675,7 +580,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			   </select>
 			 </li>
    			 </ul>
-   			 <div id="ztree" class="ztree"></div>
+   			
+   			   <div id="ztree" class="ztree"></div>
+   			
+   			 
 		    <div class="tc mt20 clear col-md-11">
 				<button class="btn btn-windows back"   type="button" onclick="supplierRegist('reg_box_id', 4, 'pre')">上一步</button>
 				<button class="btn btn-windows git"   type="button" onclick="fun1();">下一步</button>
@@ -961,18 +869,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<!-- 供应商申请书上传：<input type="file" name=""/>
 			供应商承诺书上传：<input type="file" name=""/> -->
 				   	<div class="input-append mt40" style="margin-left:280px;">
-						<div class="uploader orange m0">
-				   		<div class="fl mr20"><label class="regist_name">专家申请表上传：</label></div>
-							<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..."/>
-							<input type="button" name="file" class="button" id="regIdentity3" value="选择文件..."/>
-							<input id="regIdentity1" type="file" name="files" size="30" accept="image/*"/>
-						</div>
-						 <div class="uploader orange m0">
-						<div class="fl mr20"><label class="regist_name">专家承诺书上传：</label></div>
-							<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..."/>
-							<input type="button" name="file" class="button" id="regIdentity4" value="选择文件..."/>
-							<input id="regIdentity2" type="file" name="files" size="30" accept="image/*"/>
-						</div> 
+						<li class="col-md-6  p0 ">
+								<span class="" ><i class="red">＊</i>专家申请表上传：</span>
+									<div class="input-append mt5">
+										<a href="#"><i></i><input type="file" name="files" id ="regIdentitys1" class="fl"/></a>
+									</div>
+							</li>
+							 <li class="col-md-6  p0 ">
+								<span class="" ><i class="red">＊</i>专家合同书上传：</span>
+									<div class="input-append mt5">
+										<a href="#"><i></i><input type="file" name="files" id ="regIdentitys2" class="fl"/></a>
+									</div>
+							</li>
 					</div>
 			<div class="col-md-12 add_regist" style="margin-left:170px;">
 				 <div class="fl mr20"><label class="regist_name">采购机构名称：</label><span id="depName_" class="regist_desc"></span></div>
@@ -1011,15 +919,5 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		   </div>
 		 </div>
 		</form>
-		<!--底部代码开始-->
-		<div class="footer-v2 clear " id="footer-v2">
-			<div class="footer">
-				<!-- Address -->
-				<address class="">Copyright &#169 2016 版权所有：中央军委后勤保障部 京ICP备09055519号</address>
-				<div class="">浏览本网主页，建议将电脑显示屏的分辨率调为1024*768</div>
-				<!-- End Address -->
-				<!--/footer-->
-			</div>
-		</div>
 </body>
 </html>

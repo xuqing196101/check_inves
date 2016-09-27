@@ -156,14 +156,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							chkStyle:"checkbox"
 					   }
 		  };
-		  var expertsTypeId = $("#expertsTypeId").val();
-		 if(expertsTypeId==1 || expertsTypeId=="1"){
 		 treeObj=$.fn.zTree.init($("#ztree"),setting,datas);
-			 $("#ztree").show();
-		 }else{
-			 treeObj=$.fn.zTree.init($("#ztree"),setting,datas);
-			 $("#ztree").hide();
-		 }
+		  
 	});
 	var treeid=null;
 	/*树点击事件*/
@@ -174,7 +168,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         for(var i=0;i<checkedNodes.length;i++){
         v+=checkedNodes[i].name + ",";
         //alert(checkedNodes[i].id); //获取选中节点的值
-        
 	}
         alert(v);
 	}	
@@ -231,16 +224,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		if(regionId.substring(4,6)!="00") {$("#id_areaSelect").val(regionId);}
 	  }
 	}
-	//显示隐藏树
-	function typeShow(){
-		 var expertsTypeId = $("#expertsTypeId").val();
-		 if(expertsTypeId==1 || expertsTypeId=="1"){
-			 $("#ztree").show();
-		 }else{
-			 $("#ztree").hide();
-		 }
-		
-	}
 </script>
 </head>
 <body>
@@ -268,7 +251,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</ul>
 <!-- 修改订列表开始-->
    <div class="container">
-   <form action="<%=basePath %>expert/edit.html"  method="post" id="form1" enctype="multipart/form-data" class="registerform"> 
+   <form action="<%=basePath %>expert/editBasicInfo.html"  method="post" id="form1" enctype="multipart/form-data" class="registerform"> 
    		<%
 			session.setAttribute("tokenSession", tokenValue);
 		%>
@@ -281,29 +264,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!-- <i>01</i>评标专家基本信息 -->
    </div>
    <ul class="list-unstyled list-flow p0_20">
-   
+   <li class="col-md-6  p0 ">
+	   <span class="">联系电话（固话）（可修改）：</span>
+        <input class="span2" maxlength="15"   value="${expert.telephone }" name="telephone" id="telephone" type="text">
+	 </li>
+	 <li class="col-md-6  p0 ">
+	   <span class="">单位地址（可修改）：</span>
+        <input class="span2" maxlength="40"  value="${expert.unitAddress }" name="unitAddress" id="unitAddress" type="text">
+	 </li> 
 	 <li class="col-md-6 p0">
 	   <span class="">姓名：</span>
-        <input class="span2"  id="relName" maxlength="10" value="${expert.relName }"   name="relName" type="text" onblur="validataForm(this,'nameFont');">
+        <input class="span2"  id="relName" maxlength="10" value="${expert.relName }" disabled="disabled"  name="relName" type="text" onblur="validataForm(this,'nameFont');">
           
        <font id="nameFont"></font>
 	 </li>
-	 <li class="col-md-6 p0 "><span class="">手机：</span>
+	 <li class="col-md-6 p0 "><span class="">手机（可修改）：</span>
 		<div class="input-append">
 			<input class="span2" maxlength="15" value="${expert.mobile }"  name="mobile" id="mobile" type="text">
 		</div>
 	</li>
-     <li class="col-md-6  p0 ">
-	   <span class="">联系电话（固话）：</span>
-        <input class="span2" maxlength="15"   value="${expert.telephone }" name="telephone" id="telephone" type="text">
-	 </li>
-	 <li class="col-md-6  p0 ">
-	   <span class="">单位地址：</span>
-        <input class="span2" maxlength="40"  value="${expert.unitAddress }" name="unitAddress" id="unitAddress" type="text">
-	 </li> 
+     
      <li class="col-md-6  p0 ">
 	   <span class="">性别：</span>
-	   <select class="span2" name="gender" >
+	   <select class="span2" name="gender" disabled="disabled">
 	   	<option <c:if test="${expert.gender eq '男' }">selected="selected"</c:if> value="M">男</option>
 	   	<option <c:if test="${expert.gender eq '女' }">selected="selected"</c:if> value="F">女</option>
 	   	<option value="其他">其他</option>
@@ -312,12 +295,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 </li>
      <li class="col-md-6  p0 ">
 	   <span class="">出生日期：</span>
-        <input class="span2 Wdate w220" value="<fmt:formatDate type='date' value='${expert.birthday }' dateStyle="default" pattern="yyyy-MM-dd"/>"   readonly="readonly" name="birthday" id="appendedInput" type="text" >
+        <input class="span2 Wdate w220" value="<fmt:formatDate type='date' value='${expert.birthday }' dateStyle="default" pattern="yyyy-MM-dd"/>" disabled="disabled" onfocus="validataForm(this,'nameFont2');" onblur="validataForm(this,'nameFont2');" readonly="readonly" name="birthday" id="appendedInput" type="text" >
       <font id="nameFont2"></font>
 	 </li> 
-	 <li class="col-md-6  p0 ">
+     <li class="col-md-6  p0 ">
+	   <span class="">政治面貌：</span>
+	   <select class="span2" name="politicsStatus" disabled="disabled">
+	   	<option <c:if test="${expert.politicsStatus eq '党员' }">selected="selected"</c:if> value="党员">党员</option>
+	   	<option <c:if test="${expert.politicsStatus eq '团员' }">selected="selected"</c:if> value="团员">团员</option>
+	   	<option <c:if test="${expert.politicsStatus eq '群众' }">selected="selected"</c:if> value="群众">群众</option>
+	   	<option <c:if test="${expert.politicsStatus eq '其他' }">selected="selected"</c:if> value="其他">其他</option>
+	   </select>
+	 </li> 
+     <li class="col-md-6  p0 ">
 	   <span class="">证件类型：</span>
-	   <select class="span2" name="idType" >
+	   <select class="span2" name="idType" disabled="disabled">
 	   	<option <c:if test="${expert.idType eq '身份证' }">selected="selected"</c:if> value="身份证">身份证</option>
 	   	<option <c:if test="${expert.idType eq '士兵证' }">selected="selected"</c:if> value="士兵证">士兵证</option>
 	   	<option <c:if test="${expert.idType eq '驾驶证' }">selected="selected"</c:if> value="驾驶证">驾驶证</option>
@@ -326,65 +318,54 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	   	<option <c:if test="${expert.idType eq '其他' }">selected="selected"</c:if> value="其他">其他</option>
 	   </select>
 	 </li> 
-	 <li class="col-md-6  p0 ">
+     <li class="col-md-6  p0 ">
 	   <span class="">证件号码：</span>
-        <input class="span2"  maxlength="30"  value="${expert.idNumber }" name="idNumber" id="appendedInput" type="text">
+        <input class="span2" disabled="disabled" maxlength="30" onblur="validataForm(this,'nameFont3');" value="${expert.idNumber }" name="idNumber" id="appendedInput" type="text">
           
     <font id="nameFont3"></font>
 	 </li> 
-     <li class="col-md-6  p0 ">
-	   <span class="">政治面貌：</span>
-	   <select class="span2" name="politicsStatus" >
-	   	<option <c:if test="${expert.politicsStatus eq '党员' }">selected="selected"</c:if> value="党员">党员</option>
-	   	<option <c:if test="${expert.politicsStatus eq '团员' }">selected="selected"</c:if> value="团员">团员</option>
-	   	<option <c:if test="${expert.politicsStatus eq '群众' }">selected="selected"</c:if> value="群众">群众</option>
-	   	<option <c:if test="${expert.politicsStatus eq '其他' }">selected="selected"</c:if> value="其他">其他</option>
-	   </select>
-	 </li> 
-     
-     
 	
      <li class="col-md-6  p0 ">
 	   <span class="">专家来源：</span>
-	   <select class="span2" name="expertsFrom" >
+	   <select class="span2" name="expertsFrom" disabled="disabled">
 	   	<option <c:if test="${expert.expertsFrom eq '军队' }">selected="selected"</c:if> value="军队">军队</option>
 	   	<option <c:if test="${expert.expertsFrom eq '地方' }">selected="selected"</c:if> value="地方">地方</option>
 	   	<option <c:if test="${expert.expertsFrom eq '其他' }">selected="selected"</c:if> value="其他">其他</option>
 	   </select>
 	 </li>  
       <li class=""><span>所在地区：</span>
-			  <select id="id_provSelect" name="provSelect"  onChange="loadCity(this.value);"><option value=""></option></select>
-			  <select id="id_citySelect" name="citySelect"  onChange="loadArea(this.value);"><option value=""></option></select>
-			  <select id="id_areaSelect" name="address"  ><option value=""></option></select>
+			  <select id="id_provSelect" name="provSelect" disabled="disabled" onChange="loadCity(this.value);"><option value=""></option></select>
+			  <select id="id_citySelect" name="citySelect" disabled="disabled" onChange="loadArea(this.value);"><option value=""></option></select>
+			  <select id="id_areaSelect" name="address" disabled="disabled" ><option value=""></option></select>
 	 </li>  
 	  <SCRIPT LANGUAGE="JavaScript"> loadProvince('${expert.address }');</SCRIPT>
       
 	  <li class="col-md-6  p0 ">
 	   <span class="">民族：</span>
-        <input class="span2"  maxlength="10"   value="${expert.nation }" name="nation" id="appendedInput" type="text">
+        <input class="span2" disabled="disabled" maxlength="10" onblur="validataForm(this,'nameFont4');"  value="${expert.nation }" name="nation" id="appendedInput" type="text">
           
        <font id="nameFont4"></font>
 	 </li>  
      <li class="col-md-6  p0 ">
 	   <span class="">毕业院校：</span>
-        <input class="span2"  maxlength="40"  value="${expert.graduateSchool }" name="graduateSchool" id="appendedInput" type="text">
+        <input class="span2" disabled="disabled" maxlength="40" onblur="validataForm(this,'nameFont6');" value="${expert.graduateSchool }" name="graduateSchool" id="appendedInput" type="text">
           
        <font id="nameFont6"></font>
 	 </li> 
      <li class="col-md-6  p0 ">
 	   <span class="">专业技术职称：</span>
-        <input class="span2"  maxlength="20" value="${expert.professTechTitles }" name="professTechTitles" id="appendedInput" type="text">
+        <input class="span2" disabled="disabled" maxlength="20" onblur="validataForm(this,'nameFont7');" value="${expert.professTechTitles }" name="professTechTitles" id="appendedInput" type="text">
           
        <font id="nameFont7"></font>
 	 </li> 
      <li class="col-md-6  p0 ">
 	   <span class="">参加工作时间：</span>
-        <input class="span2 Wdate w220" value="<fmt:formatDate type='date' value='${expert.timeToWork }' dateStyle="default" pattern="yyyy-MM-dd"/>"   readonly="readonly" name="timeToWork" id="appendedInput" type="text" >
+        <input class="span2 Wdate w220" value="<fmt:formatDate type='date' value='${expert.timeToWork }' dateStyle="default" pattern="yyyy-MM-dd"/>" disabled="disabled" onfocus="validataForm(this,'nameFont8');" onblur="validataForm(this,'nameFont8');" readonly="readonly" name="timeToWork" id="appendedInput" type="text" >
        <font id="nameFont8"></font>
 	 </li> 
      <li class="col-md-6  p0 ">
 	   <span class="">最高学历：</span>
-	   <select class="span2" name="hightEducation" >
+	   <select class="span2" name="hightEducation" disabled="disabled">
 	   	<option <c:if test="${expert.hightEducation eq '博士' }">selected="selected"</c:if> value="博士">博士</option>
 	   	<option <c:if test="${expert.hightEducation eq '硕士' }">selected="selected"</c:if> value="硕士">硕士</option>
 	   	<option <c:if test="${expert.hightEducation eq '研究生' }">selected="selected"</c:if> value="研究生">研究生</option>
@@ -396,53 +377,53 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 </li> 
      <li class="col-md-6  p0 ">
 	   <span class="">专业：</span>
-        <input class="span2" value="${expert.major }"  maxlength="20"  name="major" id="appendedInput" type="text">
+        <input class="span2" value="${expert.major }" disabled="disabled" maxlength="20" onblur="validataForm(this,'nameFont9');" name="major" id="appendedInput" type="text">
           
        <font id="nameFont9"></font>
 	 </li> 
 	 <li class="col-md-6  p0 ">
 	   <span class="">从事专业起始年度：</span>
-        <input class="span2 Wdate w220" value="<fmt:formatDate type='date' value='${expert.timeStartWork }' dateStyle="default" pattern="yyyy-MM-dd"/>"   readonly="readonly" name="timeStartWork" id="appendedInput" type="text" >
+        <input class="span2 Wdate w220" value="<fmt:formatDate type='date' value='${expert.timeStartWork }' dateStyle="default" pattern="yyyy-MM-dd"/>" disabled="disabled" onfocus="validataForm(this,'nameFont10');" onblur="validataForm(this,'nameFont10');" readonly="readonly" name="timeStartWork" id="appendedInput" type="text" >
       <font id="nameFont10"></font>
 	 </li> 
 	  <li class="col-md-6  p0 ">
 	   <span class="">工作单位：</span>
-        <input class="span2"  maxlength="40" value="${expert.workUnit }" name="workUnit" id="appendedInput" type="text">
+        <input class="span2" disabled="disabled" maxlength="40" onblur="validataForm(this,'nameFont11');" value="${expert.workUnit }" name="workUnit" id="appendedInput" type="text">
           
        <font id="nameFont11"></font>
 	 </li> 
 	  <li class="col-md-6  p0 ">
 	   <span class="">传真：</span>
-        <input class="span2" maxlength="10"   value="${expert.fax }" name="fax" id="appendedInput" type="text">
+        <input class="span2" maxlength="10" disabled="disabled" onblur="validataForm(this,'nameFont14');" value="${expert.fax }" name="fax" id="appendedInput" type="text">
           
        <font id="nameFont14"></font>
 	 </li> 
 	  <li class="col-md-6  p0 ">
 	   <span class="">邮政编码：</span>
-        <input class="span2" maxlength="6"    value="${expert.postCode }" name="postCode" id="appendedInput" type="text">
+        <input class="span2" maxlength="6" disabled="disabled" onblur="validataForm(this,'nameFont15');"  value="${expert.postCode }" name="postCode" id="appendedInput" type="text">
           
        <font id="nameFont15"></font>
 	 </li> 
 	<li class="col-md-6  p0 ">
 	   <span class="">取得技术职称时间：</span>
-        <input class="span2 Wdate w220" value="<fmt:formatDate type='date' value='${expert.makeTechDate }' dateStyle="default" pattern="yyyy-MM-dd"/>"  onfocus="validataForm(this,'nameFont16');"  readonly="readonly" name="makeTechDate" id="appendedInput" type="text" onclick='WdatePicker()'>
+        <input class="span2 Wdate w220" value="<fmt:formatDate type='date' value='${expert.makeTechDate }' dateStyle="default" pattern="yyyy-MM-dd"/>" disabled="disabled" onfocus="validataForm(this,'nameFont16');" onblur="validataForm(this,'nameFont16');" readonly="readonly" name="makeTechDate" id="appendedInput" type="text" onclick='WdatePicker()'>
        <font id="nameFont16"></font>
 	 </li>  
 	  <li class="col-md-6  p0 ">
 	   <span class="">学位：</span>
-        <input class="span2"  value="${expert.degree }"  maxlength="10"  name="degree" id="appendedInput" type="text">
+        <input class="span2" disabled="disabled" value="${expert.degree }"  maxlength="10" onblur="validataForm(this,'nameFont17');" name="degree" id="appendedInput" type="text">
           
        <font id="nameFont17"></font>
 	 </li>
 	  <li class="col-md-6  p0 ">
 	   <span class="">健康状态：</span>
-        <input class="span2" maxlength="10" value="${expert.healthState }"   name="healthState" id="appendedInput" type="text">
+        <input class="span2" maxlength="10" value="${expert.healthState }" disabled="disabled" onblur="validataForm(this,'nameFont18');" name="healthState" id="appendedInput" type="text">
           
        <font id="nameFont18"></font>
 	 </li>  
 	 <li class="col-md-6  p0 ">
 	   <span class="">现任职务：</span>
-        <input class="span2" maxlength="10" value="${expert.atDuty }"   name="atDuty" id="appendedInput" type="text">
+        <input class="span2" maxlength="10" value="${expert.atDuty }" disabled="disabled" onblur="validataForm(this,'nameFont19');" name="atDuty" id="appendedInput" type="text">
         
        <font id="nameFont19"></font>
 	 </li>
@@ -473,7 +454,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      		<li class="p0">
 			   <span class="">专家类型：</span>
 			   <input type="hidden" id="expertsTypeIds" value="${expert.expertsTypeId }">
-			   <select name="expertsTypeId" id="expertsTypeId" onchange="typeShow();">
+			   <select name="expertsTypeId" id="expertsTypeId" disabled="disabled">
 			   		<option value="0">-请选择-</option>
 			   		<option <c:if test="${expert.expertsTypeId eq '1' }">selected="selected"</c:if> value="1">技术</option>
 			   		<option <c:if test="${expert.expertsTypeId eq '2' }">selected="selected"</c:if> value="2">法律</option>

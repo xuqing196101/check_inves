@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.ResponseEntity;
@@ -178,8 +179,11 @@ public class ExpertController {
 	@RequestMapping("/toEditBasicInfo")
 	public String toEditBasicInfo(@RequestParam("id")String id,HttpServletRequest request,HttpServletResponse response,  Model model){
 		Expert expert = service.selectByPrimaryKey(id);
-		List<PurchaseDep> purchaseDepList = purchaseOrgnizationService.findPurchaseDepList(null);
-		model.addAttribute("purchase", purchaseDepList);
+		List<PurchaseDep> depList = purchaseOrgnizationService.findPurchaseDepList(null);
+		if(depList!=null && depList.size()>0){
+			PurchaseDep purchaseDep = depList.get(0);
+			model.addAttribute("purchase", purchaseDep);
+		  }
 		model.addAttribute("expert", expert);
 		return "ses/ems/expert/edit_basic_info";
 	}
@@ -230,7 +234,35 @@ public class ExpertController {
 	}
 	/**
 	 * 
-	  * @Title: edit
+	  * @Title: toEditBasicInfo
+	  * @author lkzx 
+	  * @date 2016年9月1日 上午11:14:38  
+	  * @Description: TODO 跳到修改个人信息页面
+	  * @param @return      
+	  * @return String
+	 * @throws IOException 
+	 */
+	@RequestMapping("/toPersonInfo")
+	public String toPersonInfo(Model model,HttpSession session,HttpServletRequest request,HttpServletResponse response) throws IOException{
+		User user = (User)session.getAttribute("loginUser");
+		//判断用户的类型为专家类型
+		if(user!=null && user.getTypeName()==5){
+			Expert expert = service.selectByPrimaryKey(user.getTypeId());
+			HashMap<String, Object> map = new HashMap<>();
+			map .put("id", expert.getPurchaseDepId());
+			//采购机构
+			List<PurchaseDep> depList = purchaseOrgnizationService.findPurchaseDepList(map);
+			  if(depList!=null && depList.size()>0){
+				PurchaseDep purchaseDep = depList.get(0);
+				model.addAttribute("purchase", purchaseDep);
+			  }
+			model.addAttribute("expert", expert);
+		}
+		return "ses/ems/expert/person_info";
+	}
+	/**
+	 * 
+	  * @Title: editBasicInfo
 	  * @author lkzx 
 	  * @date 2016年9月1日 上午11:14:38  
 	  * @Description: TODO 修改个人信息
@@ -238,8 +270,25 @@ public class ExpertController {
 	  * @return String
 	 * @throws IOException 
 	 */
+	@RequestMapping("/editBasicInfo")
+	public String editBasicInfo(Expert expert,Model model,HttpSession session,@RequestParam("token2") String token2 ,HttpServletRequest request,HttpServletResponse response) throws IOException{
+		User user = (User)session.getAttribute("loginUser");
+		//修改个人信息
+		service.editBasicInfo(expert, user);
+		return "redirect:toPersonInfo.html";
+	}
+	/**
+	 * 
+	  * @Title: edit
+	  * @author lkzx 
+	  * @date 2016年9月1日 上午11:14:38  
+	  * @Description: TODO 修改个人全部信息
+	  * @param @return      
+	  * @return String
+	 * @throws IOException 
+	 */
 	@RequestMapping("/edit")
-	public String edit(@RequestParam("files")MultipartFile[] files,Expert expert,@RequestParam("userId")String userId,Model model,HttpSession session,@RequestParam("token2") String token2 ,HttpServletRequest request,HttpServletResponse response) throws IOException{
+	public String edit(Expert expert,Model model,HttpSession session,@RequestParam("token2") String token2 ,HttpServletRequest request,HttpServletResponse response) throws IOException{
 		Object tokenValue = session.getAttribute("tokenSession");
 		if (tokenValue != null && tokenValue.equals(token2)) {
 			// 正常提交
@@ -247,7 +296,7 @@ public class ExpertController {
 			//获取文件上传路径
 			String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
 			//文件上传到指定地址
-			service.uploadFile(files, realPath);
+			//service.uploadFile(files, realPath);
 			//修改状态为已提交
 			expert.setIsSubmit("1");
 			//修改时间

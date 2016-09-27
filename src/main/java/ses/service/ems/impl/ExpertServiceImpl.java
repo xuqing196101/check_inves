@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -177,4 +178,38 @@ public class ExpertServiceImpl implements ExpertService {
 			return null;
 		}
     }
+    
+    /**
+	 * 
+	  * @Title: editBasicInfo
+	  * @author ShaoYangYang
+	  * @date 2016年9月27日 下午1:51:24  
+	  * @Description: TODO 修改个人信息
+	  * @param @param expert
+	  * @param @param user      
+	  * @return void
+	 */
+    @Override
+	public void editBasicInfo(Expert expert,User user){
+    	//判断用户的类型为专家类型
+    	if(user!=null && user.getTypeName()==5){
+    		//Expert expert = service.selectByPrimaryKey(user.getTypeId());
+    		if(user.getTypeId()!=null && StringUtils.isNotEmpty(user.getTypeId())){
+    			//id不为空为修改个人信息
+    			Expert expert2 = mapper.selectByPrimaryKey(user.getTypeId());
+    			expert2.setTelephone(expert.getTelephone());
+    			expert2.setUnitAddress(expert.getUnitAddress());
+    			expert2.setMobile(expert.getMobile());
+    			mapper.updateByPrimaryKeySelective(expert2);
+    		}else{
+    			//否则为新增个人信息
+    			expert.setId(WfUtil.createUUID());
+    			user.setTypeId(expert.getId());
+    			//新增个人信息
+    			mapper.insertSelective(expert);
+    			//更新登录用户信息
+    			userMapper.updateByPrimaryKeySelective(user);
+    		}
+    	}
+	}
 }

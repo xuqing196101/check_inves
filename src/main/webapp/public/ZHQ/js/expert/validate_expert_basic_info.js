@@ -32,27 +32,27 @@ function validateForm1(){
 	}
 	var file1=$("#file1");
     if($.trim(file1.val())==''){
-    	layer.tips("请选择要上传的附件 !", "#file10");
+    	layer.tips("请选择要上传的附件 !", "#file1");
            return false;
      }
     var file2=$("#file2");
     if($.trim(file2.val())==''){
-    	layer.tips("请选择要上传的附件 !", "#file9");
+    	layer.tips("请选择要上传的附件 !", "#file2");
            return false;
      }
     var file3=$("#file3");
     if($.trim(file3.val())==''){
-    	layer.tips("请选择要上传的附件 !", "#file8");
+    	layer.tips("请选择要上传的附件 !", "#file3");
            return false;
      }
     var file4=$("#file4");
     if($.trim(file4.val())==''){
-    	layer.tips("请选择要上传的附件 !", "#file7");
+    	layer.tips("请选择要上传的附件 !", "#file4");
            return false;
      }
     var file5=$("#file5");
     if($.trim(file5.val())==''){
-    	layer.tips("请选择要上传的附件 !", "#file6");
+    	layer.tips("请选择要上传的附件 !", "#file5");
            return false;
      }
 	return true;
@@ -81,14 +81,14 @@ function validateJiGou(){
 //判断申请表  合同书
 function validateHeTong(){
 	
-	var regIdentity1=$("#regIdentity1");
+	var regIdentity1=$("#regIdentitys1");
     if($.trim(regIdentity1.val())==''){
-    	layer.tips("请选择要上传的附件 !", "#regIdentity3");
+    	layer.tips("请选择要上传的附件 !", "#regIdentitys1");
            return false;
      }
-    var regIdentity2=$("#regIdentity2");
+    var regIdentity2=$("#regIdentitys2");
     if($.trim(regIdentity2.val())==''){
-    	layer.tips("请选择要上传的附件 !", "#regIdentity4");
+    	layer.tips("请选择要上传的附件 !", "#regIdentitys2");
            return false;
      }
     return true;

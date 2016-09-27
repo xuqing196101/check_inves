@@ -125,5 +125,15 @@ public interface ExpertService {
 	      * @return ResponseEntity<byte[]>
 	     */
 		ResponseEntity<byte[]> downloadFile(String fileName, String filePath, String downFileName); 
-		
+		/**
+		 * 
+		  * @Title: editBasicInfo
+		  * @author ShaoYangYang
+		  * @date 2016年9月27日 下午1:51:24  
+		  * @Description: TODO 修改个人信息
+		  * @param @param expert
+		  * @param @param user      
+		  * @return void
+		 */
+		void editBasicInfo(Expert expert,User user);
 }
