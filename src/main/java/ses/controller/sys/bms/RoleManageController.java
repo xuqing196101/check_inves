@@ -21,6 +21,7 @@ import ses.model.bms.PreMenu;
 import ses.model.bms.Role;
 import ses.model.bms.RolePreMenu;
 import ses.model.bms.User;
+import ses.model.bms.UserPreMenu;
 import ses.model.bms.Userrole;
 import ses.service.bms.PreMenuServiceI;
 import ses.service.bms.RoleServiceI;
@@ -231,17 +232,44 @@ public class RoleManageController {
 
 		try {
 			Role role = roleService.get(roleId);
+			//先删除该角色下用户的用户-权限菜单关联
+			List<Role> rlist = roleService.selectRole(role, null);
+			if(rlist != null && rlist.size() > 0){
+				//该角色所有用户
+				List<User> ulist = rlist.get(0).getUsers();
+				//该角色所有权限菜单
+				List<PreMenu> mlist = rlist.get(0).getPreMenus();
+				for (User user : ulist) {
+					for (PreMenu preMenu : mlist) {
+						UserPreMenu userPreMenu = new UserPreMenu();
+						userPreMenu.setPreMenu(preMenu);
+						userPreMenu.setUser(user);
+						userService.deleteUserMenu(userPreMenu);
+					}
+				}
+			}
+			//删除该角色的角色-权限菜单关联
 			RolePreMenu rm = new RolePreMenu();
 			rm.setRole(role);
 			roleService.deleteRoelMenu(rm);
-
 			String[] pIds = ids.split(",");
 			for (String str : pIds) {
-				RolePreMenu rolePreMenu = new RolePreMenu();
 				PreMenu preMenu = preMenuService.get(str);
+				//保存角色-权限菜单关联
+				RolePreMenu rolePreMenu = new RolePreMenu();
 				rolePreMenu.setPreMenu(preMenu);
 				rolePreMenu.setRole(role);
 				roleService.saveRolePreMenu(rolePreMenu);
+				//保存该角色下用户的用户-权限菜单关联
+				if(rlist != null && rlist.size() > 0){
+					List<User> ulist = rlist.get(0).getUsers();
+					for (User user : ulist) {
+						UserPreMenu userPreMenu = new UserPreMenu();
+						userPreMenu.setPreMenu(preMenu);
+						userPreMenu.setUser(user);
+						userService.saveUserMenu(userPreMenu);
+					}
+				}
 			}
 			response.setContentType("text/html;charset=utf-8");
 			response.getWriter().print("权限配置完成");

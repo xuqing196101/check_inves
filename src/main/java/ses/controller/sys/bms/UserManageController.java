@@ -420,6 +420,18 @@ public class UserManageController {
 		return "ses/bms/user/addPreMenu";
 	}
 	
+	/**
+	 * Description: 保存用户-权限菜单关联
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-27
+	 * @param request
+	 * @param response
+	 * @param userId
+	 * @param ids
+	 * @throws IOException
+	 * @exception IOException
+	 */
 	@RequestMapping("/saveUserMenu")
 	public void saveUserMenu(HttpServletRequest request,
 			HttpServletResponse response, String userId, String ids)

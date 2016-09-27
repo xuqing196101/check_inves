@@ -15,7 +15,6 @@ import ses.model.oms.Orgnization;
  */
 public class User implements Serializable{
 	
-    /** todo */
 	private static final long serialVersionUID = 1L;
 
 	/** 主键 */
