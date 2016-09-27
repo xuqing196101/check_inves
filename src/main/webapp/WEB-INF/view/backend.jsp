@@ -221,12 +221,8 @@
 											varStatus="s">
 												<div class="AccordionPanel">
 													<div class="AccordionPanelTab">${agentslist[0].undoType }(${agentslist.size()})</div>
-<<<<<<< Updated upstream
-													<div class="">
-													<table  class=" table table-bordered table-condensed">
-=======
+
 													<table  class="table table-bordered table-condensed">
->>>>>>> Stashed changes
 														<thead>
 															<tr>
 																<th class="info">序号</th>

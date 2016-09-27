@@ -4,6 +4,7 @@
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
+	String url = (String)pageContext.getRequest().getAttribute("javax.servlet.forward.request_uri");
 %>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
@@ -36,10 +37,50 @@
 <script src="<%=basePath%>public/ZHQ/js/jquery_ujs.js"></script>
 <script src="<%=basePath%>public/ZHQ/js/bootstrap.min.js"></script>
 <script type="text/javascript">
+$(function(){
+	var url = "http://localhost:8080<%=url%>";
+	$("ul:eq(0) li").each(function(){
+		$(this).removeClass();
+		var classval = $(this).attr("class");
+		var val = classval.split(" ");
+		for(var i=0;i<val.length;i++){
+			if(val[i]==="active"){
+				var newval = classval.substring(6);
+				$(this).attr("class",newval);
+				break;
+			}
+		}
+		var al = $(this).find("a");
+		var alval = al.attr("href");
+		var trueAlvals = alval.split("?");
+		if(url==trueAlvals[0]){
+			var classval = "active "+(al.parent().attr("class"));
+			al.parent().attr("class",classval);
+		}
+	})
+});
+
 function solrSearch(){
 	var condition = $("#k").val();
 	window.location.href = "<%=basePath%>index/solrSearch.html?condition=" + condition;
-	}
+}
+
+function setTab(obj,title){
+	$("ul:eq(0) li").each(function(){
+		$(this).removeClass();
+		var classval = $(this).attr("class");
+		var val = classval.split(" ");
+		for(var i=0;i<val.length;i++){
+			if(val[i]==="active"){
+				var newval = classval.substring(6);
+				$(this).attr("class",newval);
+				break;
+			}
+		}
+	});
+	var classval = "active "+($(obj).parent().attr("class"));
+	$(obj).parent().attr("class",classval);
+}
 </script>
 </head>
 
@@ -88,30 +129,30 @@ function solrSearch(){
 					<div class="container">
 						<ul class="nav navbar-nav">
 							<!-- 通知 -->
-							<li class="active dropdown tongzhi_li"><a class=" dropdown-toggle p0_30" href=""><i class="tongzhi nav_icon"></i>通知</a></li>
+							<li class="active dropdown tongzhi_li"><a class=" dropdown-toggle p0_30" href="<%=basePath%>index/selectIndexNews.html" onclick="setTab(this,'通知')"><i class="tongzhi nav_icon"></i>通知</a></li>
 							<!-- End 通知 -->
 
 							<!-- 公告 -->
-							<li class="dropdown gonggao_li"><a class=" dropdown-toggle p0_30" href=""><i class="gonggao nav_icon"></i>公告</a></li>
+							<li class="dropdown gonggao_li"><a class=" dropdown-toggle p0_30" href="http://localhost:8080/zhbj/index/selectArticleNewsById.html?id=A88A958EBCB14DB6A3975BC38F2E001F" onclick="setTab(this,'公告')"><i class="gonggao nav_icon"></i>公告</a></li>
 							<!-- End 公告 -->
 
 							<!-- 公示 -->
-							<li class="dropdown gongshi_li"><a data-toggle="dropdown" class="dropdown-toggle p0_30 " href=""><i class="gongshi nav_icon"></i>公示</a></li>
+							<li class="dropdown gongshi_li"><a data-toggle="dropdown" class="dropdown-toggle p0_30 " href="javascript:void(0)" onclick="setTab(this,'公示')"><i class="gongshi nav_icon"></i>公示</a></li>
 							<!-- End 公示 -->
 
 							<!-- 专家 -->
-							<li class="dropdown zhuanjia_li"><a href="#" class="dropdown-toggle p0_30 " data-toggle="dropdown"><i class="zhuanjia nav_icon"></i>专家</a></li>
+							<li class="dropdown zhuanjia_li"><a href="javascript:void(0)" class="dropdown-toggle p0_30 " data-toggle="dropdown" onclick="setTab(this,'专家')"><i class="zhuanjia nav_icon"></i>专家</a></li>
 							<!-- End 专家 -->
 
 							<!-- 投诉 -->
-							<li class="dropdown tousu_li"><a data-toggle="dropdown" class="dropdown-toggle p0_30" href=""><i class="tousu nav_icon"></i>投诉</a></li>
+							<li class="dropdown tousu_li"><a data-toggle="dropdown" class="dropdown-toggle p0_30" href="javascript:void(0)" onclick="setTab(this,'投诉')"><i class="tousu nav_icon"></i>投诉</a></li>
 							<!-- End 投诉 -->
 
 							<!-- 法规 -->
-							<li class="dropdown  fagui_li"><a href="" class="dropdown-toggle p0_30" data-toggle="dropdown"><i class="fagui nav_icon"></i>法规</a></li>
+							<li class="dropdown  fagui_li"><a href="javascript:void(0)" class="dropdown-toggle p0_30" data-toggle="dropdown" onclick="setTab(this,'法规')"><i class="fagui nav_icon"></i>法规</a></li>
 							<!-- End 法规 -->
 
-							<li class="dropdown luntan_li"><a href="<%=basePath%>park/getIndex.do" class="dropdown-toggle p0_30"><i class="luntan nav_icon"></i>论坛</a></li>
+							<li class="dropdown luntan_li"><a href="javascript:void(0)" class="dropdown-toggle p0_30" onclick="setTab(this,'论坛')" data-toggle="dropdown"><i class="fagui nav_icon"></i>论坛</a></li>
 
 						</ul>
 					</div>

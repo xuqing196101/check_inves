@@ -129,6 +129,11 @@
     	window.location.href="<%=basePath%>article/auditlist.html?status=1";
     }
     
+    function dianji(){
+    	alert(1);
+    	window.location.href="<%=basePath%>purchaseContract/selectAllPuCon.html";
+    }
+    
 </script>
 
   </head>
@@ -241,6 +246,8 @@
 	  	</div>  
 	  	<div id="pagediv" align="right"></div>
   </div>
-  
+  <div>
+  	<input type="button" value="点击" onclick="dianji()"/>
+  </div>
   </body>
 </html>

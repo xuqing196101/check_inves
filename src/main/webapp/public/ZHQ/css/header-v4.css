@@ -993,47 +993,55 @@
    background-clip:border-box;
 }
 .tongzhi{
-	background-position:0px -13px;
+	background-position:0px -138px;
 }
-
+.active .tongzhi,.header-v4 .navbar-default .navbar-nav > li > a:focus .tongzhi,.navbar-nav .tongzhi_li:hover .tongzhi{
+   background-position:0px -13px;
+   color: #2c9fa6;
+}
 .gonggao{
     background-position: -142px -138px;
 }
-.header-v4 .navbar-default .navbar-nav > li > a:focus .gonggao,.navbar-nav .gonggao_li:hover .gonggao{
+.active .gonggao,.header-v4 .navbar-default .navbar-nav > li > a:focus .gonggao,.navbar-nav .gonggao_li:hover .gonggao{
    background-position:-142px -13px;
+   color: #2c9fa6;
 }
-
 .gongshi{
     background-position:-284px -138px;
 }
-.header-v4 .navbar-default .navbar-nav > li > a:focus .gongshi,.navbar-nav .gongshi_li:hover .gongshi{
+.active .gongshi,.header-v4 .navbar-default .navbar-nav > li > a:focus .gongshi,.navbar-nav .gongshi_li:hover .gongshi{
     background-position:-284px -14px;
+    color: #2c9fa6;
 }
 
 .zhuanjia{
     background-position:-418px -138px;
 }
-.header-v4 .navbar-default .navbar-nav > li > a:focus .zhuanjia,.navbar-nav .zhuanjia_li:hover .zhuanjia{
+.active .zhuanjia,.header-v4 .navbar-default .navbar-nav > li > a:focus .zhuanjia,.navbar-nav .zhuanjia_li:hover .zhuanjia{
    background-position:-418px -14px;
+   color: #2c9fa6;
 }
 
 .tousu{
    background-position:-572px -138px;
 }
-.header-v4 .navbar-default .navbar-nav > li > a:focus .tousu,.navbar-nav .tousu_li:hover .tousu{
+.active .tousu,.header-v4 .navbar-default .navbar-nav > li > a:focus .tousu,.navbar-nav .tousu_li:hover .tousu{
    background-position:-572px -14px;
+   color: #2c9fa6;
 }
 
 .fagui{
    background-position: -714px -138px;
 }
-.header-v4 .navbar-default .navbar-nav > li > a:focus .fagui,.navbar-nav .fagui_li:hover .fagui{
+.active .fagui,.header-v4 .navbar-default .navbar-nav > li > a:focus .fagui,.navbar-nav .fagui_li:hover .fagui{
    background-position: -714px -13px;
+   color: #2c9fa6;
 }
 
 .luntan{
     background-position:-860px -138px;
 }
-.header-v4 .navbar-default .navbar-nav > li > a:focus .luntan,.navbar-nav .luntan_li:hover .luntan{
+.active .luntan,.header-v4 .navbar-default .navbar-nav > li > a:focus .luntan,.navbar-nav .luntan_li:hover .luntan{
     background-position:-860px -13px;
+    color: #2c9fa6;
 }

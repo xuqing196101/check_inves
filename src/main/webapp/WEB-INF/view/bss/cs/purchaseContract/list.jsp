@@ -9,7 +9,7 @@
   <head>
     <base href="<%=basePath%>">
     
-    <title>下载人管理</title>  
+    <title>采购合同管理</title>  
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -108,7 +108,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">信息服务</a></li><li><a href="#">下载人管理</a></li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">采购合同管理</a></li><li><a href="#">采购合同列表</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -121,18 +121,23 @@
   <div class="container clear margin-top-30">
    <h2 class="padding-10 border1">
 	 <ul class="demand_list list-unstyled">
-	   <li class="fl"><label class="fl mt10">下载人姓名：</label><span><input type="text" value="${userName}" id="condition" class="mb0 mt5"/></span></li>
+	   <li class="fl ml8"><label class="fl mt10">采购项目名称：</label><span><input type="text" value="${userName}" id="condition" class="mb0 mt5"/></span></li>
+	   <li class="fl ml8"><label class="fl mt10">编号：</label><span><input type="text" value="${userName}" id="condition" class="mb0 mt5"/></span></li>
+	   <li class="fl ml8"><label class="fl mt10">采购机构：</label><span><input type="text" value="${userName}" id="condition" class="mb0 mt5"/></span></li>
 	   	 <button class="btn btn_back fl ml10 mt8" onclick="search()">查询</button>
 	 </ul>
 	 <div class="clear"></div>
    </h2>
   </div>
    <div class="headline-v2 fl">
-      <h2>下载人列表
+      <h2>采购合同列表
 	  </h2>
    </div> 
    	  <span class="fr option_btn margin-top-20">
-	    <button class="btn padding-left-10 padding-right-10 btn_back">删除</button>
+	    <button class="btn padding-left-10 padding-right-10 btn_back">生成合同</button>
+	    <button class="btn padding-left-10 padding-right-10 btn_back">报批合同</button>
+	    <button class="btn padding-left-10 padding-right-10 btn_back">编辑合同</button>
+	    <button class="btn padding-left-10 padding-right-10 btn_back">查看合同</button>
 	  </span>
    <div class="container clear margin-top-30">
    	<table class="table table-bordered table-condensed mt5">
@@ -140,23 +145,25 @@
 			<tr>
 				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 			    <th class="info w50">序号</th>
-				<th class="info">文章名</th>
-				<th class="info">创建时间</th>
-				<th class="info">更新时间</th>
-				<th class="info">下载人</th>
+				<th class="info">采购项目名称</th>
+				<th class="info">编号</th>
+				<th class="info">包号</th>
+				<th class="info">成交金额</th>
+				<th class="info">成交供应商</th>
+				<th class="info">采购机构</th>
 			</tr>
 		</thead>
-		<c:forEach items="${list}" var="downloadUser" varStatus="vs">
+		<%--<c:forEach items="${list}" var="downloadUser" varStatus="vs">
 			<tr>
-				<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${downloadUser.id}" /></td>
-				<td class="tc">${(vs.index+1)+(page-1)*(pageSize)}</td>
-				<td class="tc">${downloadUser.article.name}</td>
-				<td class="tc"><fmt:formatDate value='${downloadUser.createdAt}' pattern="yyyy年MM月dd日  HH:mm:ss" /></td>
-				<td class="tc"><fmt:formatDate value='${downloadUser.updatedAt}' pattern="yyyy年MM月dd日  HH:mm:ss" /></td>
-				<td class="tc">${downloadUser.userName}</td>
+				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${downloadUser.id}" /></td>
+				<td class="tc pointer">${(vs.index+1)+(page-1)*(pageSize)}</td>
+				<td class="tc pointer">${downloadUser.article.name}</td>
+				<td class="tc pointer"><fmt:formatDate value='${downloadUser.createdAt}' pattern="yyyy年MM月dd日  HH:mm:ss" /></td>
+				<td class="tc pointer"><fmt:formatDate value='${downloadUser.updatedAt}' pattern="yyyy年MM月dd日  HH:mm:ss" /></td>
+				<td class="tc pointer">${downloadUser.userName}</td>
 			</tr>
 		</c:forEach>
-	</table>
+	--%></table>
      </div>
    <div id="pagediv" align="right"></div>
    </div>

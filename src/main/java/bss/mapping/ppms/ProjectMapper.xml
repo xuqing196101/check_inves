@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="bss.model.ppms.Project">
     <id column="ID" jdbcType="VARCHAR" property="id" />
     <result column="NAME" jdbcType="VARCHAR" property="name" />
-    <result column="NUMBER" jdbcType="VARCHAR" property="number" />
+    <result column="PROJECT_NUMBER" jdbcType="VARCHAR" property="projectNumber" />
     <result column="STATUS" jdbcType="DECIMAL" property="status" />
     <result column="PRINCIPAL" jdbcType="VARCHAR" property="principal" />
     <result column="IPONE" jdbcType="VARCHAR" property="ipone" />
@@ -32,7 +32,7 @@
   	<collection property="requieredList" ofType="bss.model.pms.PurchaseRequired"/>
   </resultMap>
   <sql id="Base_Column_List">
-    ID, NAME, NUMBER, STATUS, PRINCIPAL, IPONE, LINKMAN, LINKMAN_IPONE, BID_UNIT, ADDRESS, 
+    ID, NAME, PROJECT_NUMBER, STATUS, PRINCIPAL, IPONE, LINKMAN, LINKMAN_IPONE, BID_UNIT, ADDRESS, 
     POSTCODE, SUPPLIER_NUMBER, OFFER_STANDARD, PR_INTRODUCE, BUDGET_AMOUNT, PASS_WORD, 
     SCORING_RUBRIC, OPERATOR, DIVISION_OF_WORK, PURCHASE_TYPE, MATERIALS_TYPE, SECTOR_OF_DEMAND, 
     PURCHASE_DEP_ID, DEADLINE, DATE_OF_ENTRUSTMENT, BID_DATE, BID_ADDRESS, REQUIERED_ID
@@ -48,7 +48,7 @@
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="bss.model.ppms.Project">
-    insert into T_BSS_PPMS_PROJECTS (ID, NAME, NUMBER, 
+    insert into T_BSS_PPMS_PROJECTS (ID, NAME, PROJECT_NUMBER, 
       STATUS, PRINCIPAL, IPONE, 
       LINKMAN, LINKMAN_IPONE, BID_UNIT, 
       ADDRESS, POSTCODE, SUPPLIER_NUMBER, 
@@ -58,7 +58,7 @@
       SECTOR_OF_DEMAND, PURCHASE_DEP_ID, DEADLINE, 
       DATE_OF_ENTRUSTMENT, BID_DATE, BID_ADDRESS, 
       REQUIERED_ID)
-    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{projectNumber,jdbcType=VARCHAR}, 
       #{status,jdbcType=DECIMAL}, #{principal,jdbcType=VARCHAR}, #{ipone,jdbcType=VARCHAR}, 
       #{linkman,jdbcType=VARCHAR}, #{linkmanIpone,jdbcType=VARCHAR}, #{bidUnit,jdbcType=VARCHAR}, 
       #{address,jdbcType=VARCHAR}, #{postcode,jdbcType=DECIMAL}, #{supplierNumber,jdbcType=DECIMAL}, 
@@ -78,8 +78,8 @@
       <if test="name != null">
         NAME,
       </if>
-      <if test="number != null">
-        NUMBER,
+      <if test="projectNumber != null">
+        PROJECT_NUMBER,
       </if>
       <if test="status != null">
         STATUS,
@@ -164,8 +164,8 @@
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="number != null">
-        #{number,jdbcType=VARCHAR},
+      <if test="projectNumber != null">
+        #{projectNumber,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         #{status,jdbcType=DECIMAL},
@@ -250,8 +250,8 @@
       <if test="name != null">
         NAME = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="number != null">
-        NUMBER = #{number,jdbcType=VARCHAR},
+      <if test="projectNumber != null">
+        PROJECT_NUMBER = #{projectNumber,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         STATUS = #{status,jdbcType=DECIMAL},
@@ -334,7 +334,7 @@
   <update id="updateByPrimaryKey" parameterType="bss.model.ppms.Project">
     update T_BSS_PPMS_PROJECTS
     set NAME = #{name,jdbcType=VARCHAR},
-      NUMBER = #{number,jdbcType=VARCHAR},
+      PROJECT_NUMBER = #{projectNumber,jdbcType=VARCHAR},
       STATUS = #{status,jdbcType=DECIMAL},
       PRINCIPAL = #{principal,jdbcType=VARCHAR},
       IPONE = #{ipone,jdbcType=VARCHAR},

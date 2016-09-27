@@ -15,7 +15,7 @@ public class Project {
 
     private String name;
 
-    private String number;
+    private String projectNumber;
 
     private Short status;
 
@@ -83,15 +83,15 @@ public class Project {
         this.name = name == null ? null : name.trim();
     }
 
-    public String getNumber() {
-        return number;
-    }
+    public String getProjectNumber() {
+		return projectNumber;
+	}
 
-    public void setNumber(String number) {
-        this.number = number == null ? null : number.trim();
-    }
+	public void setProjectNumber(String projectNumber) {
+		this.projectNumber = projectNumber;
+	}
 
-    public Short getStatus() {
+	public Short getStatus() {
         return status;
     }
 

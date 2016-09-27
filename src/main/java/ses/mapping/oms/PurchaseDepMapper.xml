@@ -173,8 +173,8 @@
 		  LEFT JOIN T_SES_BMS_AREA a on o.province_id=a.id
 		  LEFT JOIN T_SES_BMS_AREA b on o.city_id=b.id
 		 where nvl(d.is_deleted,0)=0
-		 <if test="id != null and id != ''">
-			and d.id= #{id}
-		</if> 
+		 <if test="_parameter != null and _parameter != ''">
+			and d.id= #{_parameter}
+		 </if> 
 	</select>
 </mapper>

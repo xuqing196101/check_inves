@@ -28,7 +28,7 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 	@Override
 	public List<PurchaseContract> selectAllPurchaseContract() {
 		List<PurchaseContract> contractList = purchaseContractMapper.selectAllPurchaseContract();
-		return null;
+		return contractList;
 	}
 
 	@Override

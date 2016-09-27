@@ -7,6 +7,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import ses.model.sms.Supplier;
+import ses.service.sms.SupplierService;
 import bss.model.cs.PurchaseContract;
 import bss.service.cs.PurchaseContractService;
 
@@ -24,11 +27,13 @@ public class PurchaseContractController {
 	@Autowired
 	private PurchaseContractService purchaseContractService;
 	
-	@SuppressWarnings("unused")
+	@Autowired
+	private SupplierService supplierService;
+	
 	@RequestMapping("/selectAllPuCon")
 	public String selectAllPurchaseContract() throws Exception{
 		List<PurchaseContract> conList = purchaseContractService.selectAllPurchaseContract();
-		return null;
+		return "bss/cs/purchaseContract/list";
 	}
 	
 	@ResponseBody

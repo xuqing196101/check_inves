@@ -44,4 +44,5 @@ public interface SupplierService {
 	 * @return: int
 	 */
 	public String selectLastInsertId();
+	
 }

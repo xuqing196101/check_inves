@@ -37,6 +37,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/layer/layer.js"></script>
 <script type="text/javascript">
 function login(){
+	alert(111);
 	if($("#inputEmail").val()==""){
 		layer.tips("请输入用户名","#inputEmail",{
 			tips : 1
@@ -86,12 +87,6 @@ function login(){
 function kaptcha(){
 	$("#kaptchaImage").hide().attr('src','Kaptcha.jpg?' + Math.floor(Math.random() * 100)).fadeIn();
 }
-
-function click(){
-	alert()
-	window.location.href="<%=basePath%>purchaseContract/selectAllPuCon.html";
-}
-
 </script>
 
 
@@ -297,21 +292,21 @@ function click(){
   <div class="col-md-3">
 
     <div class="tag-box-v6 margin-bottom-10 tag-box-v1">
-      <h2 class=""> 用户登录</h2>
+      <h2 class="">业务办理</h2>
 	  <div class="padding-top-13 padding-bottom-10">
 	  <ul class="list-inline blog-photostream ">
       <li class="fl margin-5"><a href="#" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow"><i class="icon-custom icon-sm qyzc"></i>企业注册</span></a></li>
 	  <li class="fl margin-5"><a href="<%=basePath %>expert/toRegisterNotice.html" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow"><i class="icon-custom icon-sm zjzc"></i>专家注册</span></a></li>
 	  <li class="fl margin-5"><a href="#" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow"><i class="icon-custom icon-sm qyml"></i>企业名录</span></a></li>
 	  <li class="fl margin-5"><a href="<%=basePath %>expert/findAllExpert.html?flag='0'" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow"><i class="icon-custom icon-sm zjmd"></i>专家名单</span></a></li>
-	  <li class="fl margin-5"><a href="<%=basePath %>expert/toBackLog.html" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow"><i class="icon-custom icon-sm zjmd"></i>专家审核信息</span></a></li>
-	  <li class="fl margin-5"><a href="#" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow"><i class="icon-custom icon-sm xzzq"></i>下载专区</span></a></li>
+	  <%--<li class="fl margin-5"><a href="<%=basePath %>expert/toBackLog.html" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow"><i class="icon-custom icon-sm zjmd"></i>专家审核信息</span></a></li>
+	  --%><li class="fl margin-5"><a href="#" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow"><i class="icon-custom icon-sm xzzq"></i>下载专区</span></a></li>
 	  <li class="fl margin-5"><a href="#" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow"><i class="icon-custom icon-sm gjfg"></i>国家法规</span></a></li>
 	  <li class="fl margin-5"><a href="#" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow"><i class="icon-custom icon-sm jgzs"></i>价格指数</span></a></li>
 	  <li class="fl margin-5"><a href="#" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow"><i class="icon-custom icon-sm cfmd"></i>处罚名单</span></a></li>
-	   <li class="fl margin-5"><a href="<%=basePath %>importSupplier/registerStart.html" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow" style="width:170px;"><i class="icon-custom icon-sm qyzc"></i>进口供应商注册</span></a></li>
+	   <%--<li class="fl margin-5"><a href="<%=basePath %>importSupplier/registerStart.html" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow" style="width:170px;"><i class="icon-custom icon-sm qyzc"></i>进口供应商注册</span></a></li>
 	  <li class="fl margin-5"><a href="<%=basePath %>importSupplier/daiban.html" class="content-boxes-v3"><span class="btn-u btn-u-lg btn-u-yellow" style="width:170px;"><i class="icon-custom icon-sm qyzc"></i>进口供应商审核</span></a></li>
-	  </ul>
+	  --%></ul>
 	  <div class="clear"></div>
 	  </div>
     </div>
@@ -342,7 +337,8 @@ function click(){
 				<c:forEach items="${indexMapper['select9List']}" begin="0" end="0" var="i">
            			${i.articleType.name }
            		</c:forEach>
-			</a></li>
+			</a>
+			</li>
           </ul>
           <div class="tab-content">
             <div class="tab-pane fade active in" id="tab-1">
