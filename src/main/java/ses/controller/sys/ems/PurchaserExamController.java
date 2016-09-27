@@ -65,10 +65,7 @@ import ses.service.ems.ExamQuestionTypeServiceI;
 import ses.service.ems.ExamUserAnswerServiceI;
 import ses.service.ems.ExamUserScoreServiceI;
 import ses.service.oms.PurchaseServiceI;
-<<<<<<< Updated upstream
 import ses.util.PathUtil;
-=======
->>>>>>> Stashed changes
 import ses.util.PropertiesUtil;
 
 
@@ -115,17 +112,10 @@ public class PurchaserExamController extends BaseSupplierController{
 		String topic = request.getParameter("topic");
 		if(questionTypeId !=null && questionTypeId!=""){
 			map.put("questionTypeId", Integer.parseInt(questionTypeId));
-<<<<<<< Updated upstream
 		}
 		if(topic != null && topic!=""){
 			map.put("topic", "%"+topic+"%");
 		}
-=======
-		}
-		if(topic != null && topic!=""){
-			map.put("topic", "%"+topic+"%");
-		}
->>>>>>> Stashed changes
 		if(page==null){
 			page = 1;
 		}
@@ -437,6 +427,7 @@ public class PurchaserExamController extends BaseSupplierController{
 		model.addAttribute("purQueId", sb_questionIds);
 		model.addAttribute("pageSize", pageNum.size());
 		model.addAttribute("examPaper", examPaper);
+		model.addAttribute("queCount", singleQue.size()+multipleQue.size()+judgeQue.size());
 		return "ses/ems/exam/purchaser/test";
 	}
 	
@@ -889,8 +880,6 @@ public class PurchaserExamController extends BaseSupplierController{
 		    }
 		}
 		
-		
-		
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		String relName = request.getParameter("relName");
 		String status = request.getParameter("status");
@@ -1006,6 +995,8 @@ public class PurchaserExamController extends BaseSupplierController{
 		//model.addAttribute("countDown", 1);
 		model.addAttribute("time",request.getParameter("time"));
 		model.addAttribute("pageSize", pageNum.size());
+		model.addAttribute("examPaper", examPaper);
+		model.addAttribute("queCount", singleQue.size()+multipleQue.size()+judgeQue.size());
 		return "ses/ems/exam/purchaser/test";
 	}
 	

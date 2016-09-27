@@ -89,9 +89,9 @@
 	  		</li>
 	  		
 	  		--%><li class="col-md-12 p0">
-	  			<span class="fl w450 mb5">首次考试不及格的是否允许30分钟内重考：</span>
-		  		<input class="mb5" type="checkbox" name="isAllow" id="isAllowTrue" value="是">是
-    			<input class="mb5" type="checkbox" name="isAllow" id="isAllowFalse" value="否"/>否
+	  			<span class="fl mb5">允许30分钟内重考：</span>
+		  		<input class="mt0" type="checkbox" name="isAllow" id="isAllowTrue" value="是">是
+    			<input class="mt0" type="checkbox" name="isAllow" id="isAllowFalse" value="否"/>否
 	  		</li>
 	  		
 	  		<li class="col-md-12 p0 mt10 red">

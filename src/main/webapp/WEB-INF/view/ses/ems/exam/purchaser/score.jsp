@@ -64,18 +64,18 @@
   
   <body onload="countTime()">
   
-  		<div class="container tc border1">
+  		<div class="container tc"> 
+  		  <div class="score_box border1">
   			<div id="isPass" class="f18"></div>
-  			<div><span class="f14">得分:</span><span class="f22">${score }</span><span class="f14">分</span></div>
-  			<div class="f18 mt10">感谢您的参与!</div>
-  			<input type="button" value="重考" class="btn" onclick="reTake()" id="reTake"/>
-  		</div>
-  		
-  		<div class="container tc" id="div_time">
-  			<div id="ready">
-  				重考剩余时间
-  			</div>
-  			<div id="time"></div>
+  			<div><span class="">得分:</span><span class="f22 red">${score }</span><span class="">分</span></div>
+  			<div class="f18">感谢您的参与!</div>
+  			<input type="button" value="重考" class="btn mt20" onclick="reTake()" id="reTake"/>
+  		    <div id="ready" class="ml40 mt5">
+  				<span class="fl">重考剩余时间:</span><span id="time" class="fl"></span>
+  				<div class="clear"></div>
+  		    </div>
+  		  
+  		  </div>
   		</div>
   </body>
 </html>

@@ -634,6 +634,7 @@ public class ExpertExamController {
 		model.addAttribute("examRule", examRule.get(0));
 		model.addAttribute("pageNum", pageNum);
 		model.addAttribute("pageSize", pageNum.size());
+		model.addAttribute("queCount", nlawQueRandom.size());
 		return "ses/ems/exam/expert/test";
 	}
 	

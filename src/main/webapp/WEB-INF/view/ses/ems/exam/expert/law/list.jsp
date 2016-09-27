@@ -173,7 +173,9 @@
 		    <div class="fr mt15">
 		      <button class="btn" type="button" onclick="download()">题目模板下载</button>
 		      <span class="">
-		        <input type="file" name="file" id="excelFile" style="display:inline"/>
+		      	<div class="input-append mt5">
+		        	<input type="file" name="file" id="excelFile" style="display:inline"/>
+		        </div>
 		        <button class="btn" type="button" onclick="poiExcel()">导入</button>
 		      </span>
 		    </div> 

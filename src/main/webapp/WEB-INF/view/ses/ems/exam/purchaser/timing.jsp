@@ -12,19 +12,19 @@
 	<meta http-equiv="description" content="This is my page">
 	<script type="text/javascript">
 		$(function(){
-			document.getElementById("time").innerHTML = 1 + "分钟" + 0 + "秒"; 
+			document.getElementById("time").innerHTML = 5+"分钟"+0+"秒"; 
 			$("#startExam").hide();
 		})
 		
 		//倒计时
-		var timeLeft = 5*60*1000-1000;//这里设定的时间是5分钟 
-		function countTime(){ 
+		var timeLeft = 20*1000-1000;//这里设定的时间是5分钟 
+		function countTime(){
 		    if(timeLeft==0){
 		    	$("#startExam").show();
 		    	$("#time").hide();
 		    	$("#ready").html("亲,可以开始考试了!");
 		        return; 
-		    } 
+		    }
 		    var startMinutes = parseInt(timeLeft / (60 * 1000), 10); 
 		    var startSec = parseInt((timeLeft - startMinutes * 60 * 1000)/1000); 
 		    document.getElementById("time").innerHTML = startMinutes + "分钟" + startSec + "秒"; 
@@ -35,28 +35,23 @@
   </head>
   
   <body onload="countTime()">
-  	<div class="container tc f22 fw">
+  	<div class="container tc f22 fw mt20">
   		考卷已生成完毕,距离考试还有5分钟,请您耐心等待,谢谢!
-  	</div>
-  	
-  	<div class="tc w200 container h80 border1">
-  		<div id="ready">
-  			倒计时
-  		</div>
-  		<div id="time"></div>
-  	</div>
-  	
-  	
-  	<form action="<%=path %>/purchaserExam/test.html" method="post">
-	  	<!-- 按钮 -->
-  		<div class="padding-top-10 clear" id="startExam">
-			<div class="col-md-12 pl200 ">
-				<div class="mt40 tc mb50">
-	  				<input type="submit" class="btn" value="开始考试"/>
-	  			</div>
+	  	<div class="score_box border1">
+	  		<div id="ready">
+	  			倒计时
 	  		</div>
+	  		<div id="time"></div>
+	  		<form action="<%=path %>/purchaserExam/test.html" method="post">
+				<div class="tc mt20" id="startExam">
+		  			<input type="submit" class="btn" value="开始考试"/>
+		  		</div>
+		  		<input type="hidden" name="paperId" value="${paperId }"/>
+	  		</form>
 	  	</div>
-	  	<input type="hidden" name="paperId" value="${paperId }"/>
-  	</form>
+  	</div>
+  	
+  	
+  	
   </body>
 </html>

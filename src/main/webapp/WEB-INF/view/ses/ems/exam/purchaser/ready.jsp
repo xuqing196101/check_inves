@@ -45,14 +45,11 @@
   </head>
   
   <body>
-    <div class="container tc">输入考试编号<input type="text" id="paperNo"/></div>
-    <!-- 按钮 -->
-  	<div class="padding-top-10 clear">
-		<div class="col-md-12 pl200 ">
-			<div class="mt40 tc mb50">
-    			<input type="button" class="btn" value="生成考卷" onclick="generatePaper()"/>
-    		</div>
-    	</div>
+    <div class="container tc">
+      <div class="border1 mt20 padding-bottom-20">
+        <div class="mt20"><span>输入考试编号：</span><input type="text" id="paperNo" class="mb0"/></div>
+        <div class="tc mt20"><input type="button" class="btn" value="生成考卷" onclick="generatePaper()"/></div>
+      </div>
     </div>
   </body>
 </html>

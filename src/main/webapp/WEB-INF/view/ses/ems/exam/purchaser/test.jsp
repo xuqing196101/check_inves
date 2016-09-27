@@ -11,6 +11,10 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
+	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/layer.js"></script>
+	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
+	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
+	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript">
 		var retake;
 		
@@ -73,12 +77,37 @@
         
         //提交方法
         function git(){
-        	if("${time}"){
-        		$("#form").attr("action","<%=path %>/purchaserExam/savePurchaserScore.do?time="+retake);
-        		$("#form").submit();
-        	}else{
-        		$("#form").submit();
-        	}
+        	var num = 0;
+			 var count = ${queCount};
+			 for(var i=1;i<=count;i++){
+				 for(var j=0;j<document.getElementsByName("que"+i).length;j++){
+					 if(document.getElementsByName("que"+i)[j].checked){
+						num++;
+						break;
+					 }else if(j==document.getElementsByName("que"+i).length-1){
+						layer.confirm('您还有题目未作答,确认要提交吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+							layer.close(index);
+							if("${time}"){
+				        		$("#form").attr("action","<%=path %>/purchaserExam/savePurchaserScore.do?time="+retake);
+				        		$("#form").submit();
+				        	}else{
+				        		$("#form").submit();
+				        	}	
+						});
+					 }
+				 }
+			 }
+			 if(num==count){
+				layer.confirm('您确认要提交吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+					layer.close(index);
+					if("${time}"){
+		        		$("#form").attr("action","<%=path %>/purchaserExam/savePurchaserScore.do?time="+retake);
+		        		$("#form").submit();
+		        	}else{
+		        		$("#form").submit();
+		        	}	
+				});
+			 }
         }
 	</script>
 	
@@ -86,11 +115,11 @@
   </head>
   
   <body onload="countTime()">
-   <div class="container">
-  <div class="col-md-12 mb10 border1 bggrey">
-  	<div class="fl f18 gary b">XXX考试进行中</div>
-  	<div class="fr red mt5" id="time">距离考试还有<span id="second"></span></div>
-  </div>
+   	<div class="container">
+  	<div class="col-md-12 mb10 border1 bggrey">
+	  	<div class="fl f18 gary b">XXX考试进行中</div>
+	  	<div class="fr red mt5" id="time">距离考试还有<span id="second"></span></div>
+  	</div>
   <form action="<%=path %>/purchaserExam/savePurchaserScore.html" method="post" id="form">
   <c:choose>
   	<c:when test="${pageSize==1 }">
@@ -103,20 +132,20 @@
 			        <div>${pur.topic }</div>
 			        <div class="mt10">
 		          	<c:if test="${pur.examQuestionType.name=='单选题' }">
-				    	<input type="radio" name="que${l.index+1 }" value="A" class="mt0"/>${fn:split(pur.items,';')[0]}
-				    	<input type="radio" name="que${l.index+1 }" value="B" class="mt0"/>${fn:split(pur.items,';')[1]}
-				    	<input type="radio" name="que${l.index+1 }" value="C" class="mt0"/>${fn:split(pur.items,';')[2]}
-				    	<input type="radio" name="que${l.index+1 }" value="D" class="mt0"/>${fn:split(pur.items,';')[3]}
+				    	<div class="fl"><input type="radio" name="que${l.index+1 }" value="A" class="mt0"/>${fn:split(pur.items,';')[0]}</div>
+				    	<div class="fl"><input type="radio" name="que${l.index+1 }" value="B" class="mt0"/>${fn:split(pur.items,';')[1]}</div>
+				    	<div class="fl"><input type="radio" name="que${l.index+1 }" value="C" class="mt0"/>${fn:split(pur.items,';')[2]}</div>
+				    	<div class="fl"><input type="radio" name="que${l.index+1 }" value="D" class="mt0"/>${fn:split(pur.items,';')[3]}</div>
 				  	</c:if>
 				 	<c:if test="${pur.examQuestionType.name=='多选题' }">
-				    	<input type="checkbox" name="que${l.index+1 }" value="A" class="mt0"/>${fn:split(pur.items,';')[0]}
-				    	<input type="checkbox" name="que${l.index+1 }" value="B" class="mt0"/>${fn:split(pur.items,';')[1]}
-				    	<input type="checkbox" name="que${l.index+1 }" value="C" class="mt0"/>${fn:split(pur.items,';')[2]}
-				    	<input type="checkbox" name="que${l.index+1 }" value="D" class="mt0"/>${fn:split(pur.items,';')[3]}
+				    	<div class="fl"><input type="checkbox" name="que${l.index+1 }" value="A" class="mt0"/>${fn:split(pur.items,';')[0]}</div>
+				    	<div class="fl"><input type="checkbox" name="que${l.index+1 }" value="B" class="mt0"/>${fn:split(pur.items,';')[1]}</div>
+				    	<div class="fl"><input type="checkbox" name="que${l.index+1 }" value="C" class="mt0"/>${fn:split(pur.items,';')[2]}</div>
+				    	<div class="fl"><input type="checkbox" name="que${l.index+1 }" value="D" class="mt0"/>${fn:split(pur.items,';')[3]}</div>
 				   	</c:if>
 				   	<c:if test="${pur.examQuestionType.name=='判断题' }">
-		    			<input type="radio" name="que${l.index+1 }" value="对" class="mt0"/>对
-		    			<input type="radio" name="que${l.index+1 }" value="错" class="mt0"/>错
+		    			<div class="fl"><input type="radio" name="que${l.index+1 }" value="对" class="mt0"/>对</div>
+		    			<div class="fl"><input type="radio" name="que${l.index+1 }" value="错" class="mt0"/>错</div>
 		    		</c:if>
 		          </div>
 		        </td>
@@ -142,20 +171,20 @@
 				          <div>${pur.topic }</div>
 				          <div class="mt10">
 				    			<c:if test="${pur.examQuestionType.name=='单选题' }">
-				    				<input type="radio" name="que${l.index+1 }" value="A" class="mt0"/>${fn:split(pur.items,';')[0]}
-				    				<input type="radio" name="que${l.index+1 }" value="B" class="mt0"/>${fn:split(pur.items,';')[1]}
-				    				<input type="radio" name="que${l.index+1 }" value="C" class="mt0"/>${fn:split(pur.items,';')[2]}
-				    				<input type="radio" name="que${l.index+1 }" value="D" class="mt0"/>${fn:split(pur.items,';')[3]}
+				    				<div class="fl mr10"><input type="radio" name="que${l.index+1 }" value="A" class="mt0"/>${fn:split(pur.items,';')[0]}</div>
+				    				<div class="fl mr10"><input type="radio" name="que${l.index+1 }" value="B" class="mt0"/>${fn:split(pur.items,';')[1]}</div>
+				    				<div class="fl mr10"><input type="radio" name="que${l.index+1 }" value="C" class="mt0"/>${fn:split(pur.items,';')[2]}</div>
+				    				<div class="fl"><input type="radio" name="que${l.index+1 }" value="D" class="mt0"/>${fn:split(pur.items,';')[3]}</div>
 				    			</c:if>
 				    			<c:if test="${pur.examQuestionType.name=='多选题' }">
-				    				<input type="checkbox" name="que${l.index+1 }" value="A" class="mt0"/>${fn:split(pur.items,';')[0]}
-				    				<input type="checkbox" name="que${l.index+1 }" value="B" class="mt0"/>${fn:split(pur.items,';')[1]}
-				    				<input type="checkbox" name="que${l.index+1 }" value="C" class="mt0"/>${fn:split(pur.items,';')[2]}
-				    				<input type="checkbox" name="que${l.index+1 }" value="D" class="mt0"/>${fn:split(pur.items,';')[3]}
+				    				<div class="fl mr10"><input type="checkbox" name="que${l.index+1 }" value="A" class="mt0"/>${fn:split(pur.items,';')[0]}</div>
+				    				<div class="fl mr10"><input type="checkbox" name="que${l.index+1 }" value="B" class="mt0"/>${fn:split(pur.items,';')[1]}</div>
+				    				<div class="fl mr10"><input type="checkbox" name="que${l.index+1 }" value="C" class="mt0"/>${fn:split(pur.items,';')[2]}</div>
+				    				<div class="fl"><input type="checkbox" name="que${l.index+1 }" value="D" class="mt0"/>${fn:split(pur.items,';')[3]}</div>
 				    			</c:if>
 				    			<c:if test="${pur.examQuestionType.name=='判断题' }">
-					    			<input type="radio" name="que${l.index+1 }" value="对" class="mt0"/>对
-					    			<input type="radio" name="que${l.index+1 }" value="错" class="mt0"/>错
+					    			<div class="fl mr10"><input type="radio" name="que${l.index+1 }" value="对" class="mt0"/>对</div>
+					    			<div class="fl"><input type="radio" name="que${l.index+1 }" value="错" class="mt0"/>错</div>
 		    					</c:if>
 				    		 </div>
 		        		</td>
