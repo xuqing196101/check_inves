@@ -36,6 +36,7 @@
 				success:function(json){
   					 $(".contract_id").val(json.id);
   					 $(".contract_name").val(json.name);
+  					 $(".supplier_id").val(json.supplier.id);	
   					 $(".supplier_name").val(json.supplier.name);			
 	       		}
 	       	});
@@ -64,35 +65,34 @@
    
 <!-- 新增模板开始-->
    <div class="container">
-   		<form action="<%=basePath %>pqinfo/save.html" method="post">
+   		<form action="<%=basePath %>pqinfo/save.html" method="post" enctype="multipart/form-data">
    		<div class="headline-v2">
    			<h2>登记质检报告</h2>
    		</div>
    		<ul class="list-unstyled list-flow p0_20">
-   			<input type="hidden" class="id" name="id">
    			<input type="hidden" class="contract_id" name="contract_id">
 		     <li class="col-md-6  p0 ">
 			   <span class="">合同编号：</span>
 			   <div class="input-append">
-		        <input class="span2 contract_code" name="contract_code" id="contract_code" type="text" onblur="selectByCode()">
+		        <input class="span2 contract_code" id="contract_code" type="text" onblur="selectByCode()">
 		       </div>
 			 </li>
     		 <li class="col-md-6 p0">
 			   <span class="">合同名称：</span>
 		        <div class="input-append ">
-		        	<input class="span2 contract_name" name="contract_name" type="text" >
+		        	<input class="span2 contract_name"type="text" >
        			</div>
 			 </li>
     		 <li class="col-md-6 p0">
 			   <span class="">供应商组织机构代码：</span>
 		        <div class="input-append ">
-		        	<input class="span2" name="" type="text">
+		        	<input class="span2 supplier_id" type="text">
        			</div>
 			 </li>
 		     <li class="col-md-6  p0 ">
 			   <span class="">供应商名称：</span>
 			   <div class="input-append">
-		        <input class="span2 supplier_name" name="supplier_name" type="text">
+		        <input class="span2 supplier_name" type="text">
 		       </div>
 			 </li>
 			 <li class="col-md-6  p0 ">
@@ -130,7 +130,7 @@
 			<li class="col-md-6  p0 ">
 			   <span class="">质检日期：</span>
 			   <div class="input-append">
-		        <input class="span2 Wdate" name="date" type="text"  onfocus="WdatePicker({isShowWeek:true})">
+		        <input class="span2 Wdate" name="dateString" type="text"  onfocus="WdatePicker({isShowWeek:true})">
 		       </div>
 			 </li>
     		 <li class="col-md-6 p0">
@@ -162,9 +162,6 @@
 		       </div>
 			 </li>
    		</ul>
-   		<div class="headline-v2">
-   			<h2附件上传</h2>
-   		</div>
    		<ul class="list-unstyled list-flow p0_20">
 		     <li class="col-md-6  p0 ">
 			   <span class="">质检报告：</span>

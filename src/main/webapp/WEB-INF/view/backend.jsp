@@ -221,7 +221,6 @@
 											varStatus="s">
 												<div class="AccordionPanel">
 													<div class="AccordionPanelTab">${agentslist[0].undoType }(${agentslist.size()})</div>
-
 													<table  class="table table-bordered table-condensed">
 														<thead>
 															<tr>
@@ -258,27 +257,7 @@
 											varStatus="s">
 											<div class="AccordionPanel">
 												<div class="AccordionPanelTab">${agentslist[0].undoType }(${agentslist.size()})</div>
-<<<<<<< Updated upstream
-													<div class="">
-													<table class="table table-bordered table-condensed">
-														<thead>
-															<tr>
-																<th class="info">序号</th>
-																<th class="info">标题</th>
-																<th class="info">发送人</th>
-															</tr>
-														</thead>
-														<c:forEach items="${agentslist }" var="agents"
-															varStatus="s">
-															<tr class="cursor" onclick="location.href='<%=basePath%>${agents.url}'">
-																<td class="tc">${s.index+1}</td>
-																<td class="tc">${agents.name}</td>
-																<td class="tc">${agents.senderName}</td>
-															</tr>
-														</c:forEach>
-													</table>
-												</div>
-=======
+
 												<table class="table table-bordered table-condensed">
 													<thead>
 														<tr>
@@ -300,7 +279,6 @@
 													</c:forEach>
 													</tbody>
 												</table>
->>>>>>> Stashed changes
 											</div>
 										</c:forEach>
 									</div>

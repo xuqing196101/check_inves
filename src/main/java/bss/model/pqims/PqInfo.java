@@ -1,6 +1,9 @@
 package bss.model.pqims;
 
+
 import java.sql.Timestamp;
+import java.util.Date;
+
 import bss.model.cs.PurchaseContract;
 
 /**
@@ -41,7 +44,7 @@ public class PqInfo {
     /*
      * 质检日期
      */
-    private Timestamp date;
+    private Date pqdate;
 
     /*
      * 质检人员
@@ -134,12 +137,12 @@ public class PqInfo {
         this.place = place == null ? null : place.trim();
     }
 
-    public Timestamp getDate() {
-        return date;
+    public Date getDate() {
+        return pqdate;
     }
 
-    public void setDate(Timestamp date) {
-        this.date = date;
+    public void setDate(Date pqdate) {
+        this.pqdate = pqdate;
     }
 
     public String getInspectors() {
