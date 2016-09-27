@@ -498,9 +498,6 @@ function click(){
 	 </div>
    </div>
   </div> 
-	<div>
-		<input type="button" value="点击" onclick="click()"/>
-	</div>
 <jsp:include page="/index_bottom.jsp"></jsp:include>
 <!--[if lt IE 9]>
     <script src="/assets/plugins/respond.js?body=1"></script>
