@@ -46,7 +46,7 @@ public class LoginController {
 
 	@Autowired
 	private UserServiceI userService;
-	
+
 	@Autowired
 	private ImportSupplierService importSupplierService;
 	/**
@@ -56,7 +56,7 @@ public class LoginController {
 	private StationMessageService stationMessageService;
 
 	private static Logger logger = Logger.getLogger(LoginController.class); 
-	
+
 	/**
 	 * Description: 用户登录
 	 * 
@@ -83,17 +83,17 @@ public class LoginController {
 			}
 			//根据随机码+密码加密
 			Md5PasswordEncoder md5 = new Md5PasswordEncoder();     
-	        // false 表示：生成32位的Hex版, 这也是encodeHashAsBase64的, Acegi 默认配置; true  表示：生成24位的Base64版     
-	        md5.setEncodeHashAsBase64(false);     
-	        String pwd = md5.encodePassword(user.getPassword(), randomCode);
-	        //根据用户名、密码验证用户登录
-	        user.setPassword(pwd);
-	        List<User> ulist = userService.find(user);
-	        User u = null;
-	        if(ulist.size() > 0){
-	        	u = ulist.get(0);
-	        }
-	        
+			// false 表示：生成32位的Hex版, 这也是encodeHashAsBase64的, Acegi 默认配置; true  表示：生成24位的Base64版     
+			md5.setEncodeHashAsBase64(false);     
+			String pwd = md5.encodePassword(user.getPassword(), randomCode);
+			//根据用户名、密码验证用户登录
+			user.setPassword(pwd);
+			List<User> ulist = userService.find(user);
+			User u = null;
+			if(ulist.size() > 0){
+				u = ulist.get(0);
+			}
+
 			//获取验证码
 			String code = (String) req.getSession().getAttribute(com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY);
 			if(!rqcode.toUpperCase().equals(code)){
@@ -162,16 +162,17 @@ public class LoginController {
 	@RequestMapping("/index")
 	public String index(HttpServletRequest req,String type,String page,String id){
 		User user=(User) req.getSession().getAttribute("loginUser");
-		if(user!=null){
+		if(user!=null&&user.getOrg()!=null&&user.getOrg().getId()!=null&&!"".equals(user.getOrg().getId())){
 			//代办事项
 			req.setAttribute("listTodos",todosService.listTodos(new Todos(new Short("0")),user.getOrg().getId()));
 			//已办事项
 			req.setAttribute("listTodosf",todosService.listTodos(new Todos(new Short("1")),user.getOrg().getId()));
-			//站内消息
-			req.setAttribute("stationMessage",stationMessageService.listStationMessage(new StationMessage(0,19)));
 		}
+		//站内消息
+		req.setAttribute("stationMessage",stationMessageService.listStationMessage(new StationMessage(0,19)));
 		return "index";
 	}
+	
 	/**   
 	 * @Title: home
 	 * @author yyyml
@@ -182,16 +183,17 @@ public class LoginController {
 	@RequestMapping("/home")
 	public String home(HttpServletRequest req,Model model,String type,String page,String id){
 		User user=(User) req.getSession().getAttribute("loginUser");
-		if(user!=null){
+		if(user!=null&&user.getOrg()!=null&&user.getOrg().getId()!=null&&!"".equals(user.getOrg().getId())){
 			//代办事项
 			req.setAttribute("listTodos",todosService.listTodos(new Todos(new Short("0")),user.getOrg().getId()));
 			//已办事项
 			req.setAttribute("listTodosf",todosService.listTodos(new Todos(new Short("1")),user.getOrg().getId()));
-			//站内消息
-			req.setAttribute("stationMessage",stationMessageService.listStationMessage(new StationMessage(0,19)));
 		}
+		//站内消息
+		req.setAttribute("stationMessage",stationMessageService.listStationMessage(new StationMessage(0,19)));
 		return "backend";
 	}
+	
 	/**   
 	 * @Title: loginOut
 	 * @author yyyml

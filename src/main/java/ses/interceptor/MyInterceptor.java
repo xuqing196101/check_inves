@@ -37,31 +37,6 @@ import ses.model.bms.PreMenu;
  *     改善，认为不管是覆盖父类的方法还是实现接口的方法，都属于方法的重写。
  */
 public class MyInterceptor implements HandlerInterceptor {
-	/**
-	 * 过滤拦截
-	 */
-	private String matches;
-
-   /** 
-	* 免登入 免检查地址 
-	*/ 
-	private List<String> uncheckUrls; 
-	
-	public List<String> getUncheckUrls() {
-		return uncheckUrls;
-	}
-	
-	public void setUncheckUrls(List<String> uncheckUrls) {
-		this.uncheckUrls = uncheckUrls;
-	}
-
-	public String getMatches() {
-		return matches;
-	}
-
-	public void setMatches(String matches) {
-		this.matches = matches;
-	}
 
 	private static Logger log = Logger.getLogger(MyInterceptor.class);
 
@@ -98,12 +73,6 @@ public class MyInterceptor implements HandlerInterceptor {
 			HttpServletResponse response, Object arg2) throws Exception {
 		HttpSession session = request.getSession();
 		response.setContentType("text/html;charset=utf-8");
-		String presentPath = request.getServletPath();
-		
-		if (uncheckUrls.contains(presentPath)) {
-			log.warn("匹配的路径：" + presentPath);
-			return true;
-		} else {
 			if (session.getAttribute("loginUser") == null) {
 				//系统的根url
                 String path = request.getContextPath();
@@ -132,6 +101,5 @@ public class MyInterceptor implements HandlerInterceptor {
 			} else {
 				return true;
 			}
-		}
 	}
 }
