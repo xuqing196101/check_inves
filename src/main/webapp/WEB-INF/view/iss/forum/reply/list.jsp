@@ -203,7 +203,7 @@
 				<c:if test="${length>10}">
 					<td onclick="view('${reply.id}')" onmouseover="out('${reply.content}')" class="tc pointer ">${fn:substring(content,0,10)}...</td>
 				</c:if>
-				<c:if test="${length<10}">
+				<c:if test="${length<=10}">
 					<td onclick="view('${reply.id}')" onmouseover="out('${reply.content}')" class="tc pointer ">${content } </td>
 				</c:if>	
 				
@@ -214,7 +214,7 @@
                 <c:if test="${length>8}">
                     <td onclick="view('${reply.id}')" class="tc pointer ">${fn:substring(postContent,0,8)}...</td>
                 </c:if>
-                <c:if test="${length<8}">
+                <c:if test="${length<=8}">
                     <td onclick="view('${reply.id}')" class="tc pointer ">${postContent } </td>
                 </c:if> 
           
@@ -223,7 +223,7 @@
                 <c:if test="${length>8}">
                     <td onclick="view('${reply.id}')" class="tc pointer ">${fn:substring(replyContent,0,8)}...</td>
                 </c:if>
-                <c:if test="${length<8}">
+                <c:if test="${length<=8}">
                     <td onclick="view('${reply.id}')" class="tc pointer ">${replyContent } </td>
                 </c:if> 
 				

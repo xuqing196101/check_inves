@@ -132,7 +132,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">信息服务</a></li><li><a href="#">论坛管理</a></li><li class="active"><a href="#">版块管理</a></li>
+		   <li><a href="#"> 首页</a></li><li><a>信息服务</a></li><li><a >论坛管理</a></li><li class="active"><a >版块管理</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -182,7 +182,7 @@
 				<c:if test="${length>10}">
 					<td onclick="view('${park.id}')" onmouseover="out('${park.content}')" class="tc pointer ">${fn:substring(content,0,10)}...</td>
 				</c:if>
-				<c:if test="${length<10}">
+				<c:if test="${length<=10}">
 					<td onclick="view('${park.id}')" onmouseover="out('${park.content}')" class="tc pointer ">${content } </td>
 				</c:if>	
 				<td class="tc pointer" onclick="view('${park.id}')">${park.user.relName}</td>
