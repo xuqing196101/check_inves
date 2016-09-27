@@ -57,7 +57,7 @@ public interface AreaServiceI {
 	 * @param @return
 	 * @return List<Area>
 	 */
-	List<Area> listByArea();
+	List<Area> listByArea(Area area);
 
 	/**
 	 * 
@@ -69,7 +69,7 @@ public interface AreaServiceI {
 	 * @param @return
 	 * @return List<Area>
 	 */
-	List<Area> findTreeByPid(String pid);
+	List<Area> findTreeByPid(String pid,String name);
 
 	/**
 	 * 

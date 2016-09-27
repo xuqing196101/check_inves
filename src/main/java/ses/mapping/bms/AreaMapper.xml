@@ -22,9 +22,9 @@
      <if test="id != null">
          and ID = #{id}
       </if>
-      <if test="name != null and name != ''">
-        and NAME = #{name}
-      </if>
+       <if test="name != null and name !=''">
+        and NAME like '%${name}%'
+      </if> 
      <if test="createdAt != null">
         and CREATED_AT = #{createdAt}
       </if>
@@ -56,14 +56,17 @@
   	<include refid="Base_Column_List" />
   	from T_SES_BMS_AREA
   	<include refid="Example_Where_Clause"/>
-  	ORDER BY PARENT_ID DESC
+  	ORDER BY CREATED_AT ASC
   	</select>
   	<!-- 根据父节点找出子节点-->
-  <select id="findTreeByPid" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="findTreeByPid"  resultMap="BaseResultMap">
   	select 
   	*
   	from T_SES_BMS_AREA
   	where AREA_TYPE = #{pid}
+  	 <if test="name != null and name !=''">
+        and NAME like '%${name}%'
+      </if> 
   	ORDER BY CREATED_AT ASC
   </select>
   <!-- 根据id删除 -->
@@ -73,6 +76,9 @@
   </delete>
   <!-- 新增 -->
   <insert id="save" parameterType="ses.model.bms.Area">
+    <selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
     insert into T_SES_BMS_AREA
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -102,25 +108,25 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=VARCHAR},
+        #{id},
       </if>
       <if test="createdAt != null">
-        #{createdAt,jdbcType=DATE},
+        #{createdAt},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt,jdbcType=DATE},
+        #{updatedAt},
       </if>
       <if test="isDeleted != null">
-        #{isDeleted,jdbcType=DECIMAL},
+        #{isDeleted},
       </if>
       <if test="position != null">
-        #{position,jdbcType=DECIMAL},
+        #{position},
       </if>
       <if test="areaType != null">
-        #{areaType,jdbcType=VARCHAR},
+        #{areaType},
       </if>
       <if test="parentId != null">
-        #{parentId,jdbcType=VARCHAR},
+        #{parentId},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},

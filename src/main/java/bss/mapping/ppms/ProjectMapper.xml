@@ -1,35 +1,35 @@
-<?xml version="1.0" encoding="UTF-8"?>
+        <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="bss.dao.ppms.ProjectMapper">
   <resultMap id="BaseResultMap" type="bss.model.ppms.Project">
-    <id column="ID" jdbcType="VARCHAR" property="id" />
-    <result column="NAME" jdbcType="VARCHAR" property="name" />
-    <result column="PROJECT_NUMBER" jdbcType="VARCHAR" property="projectNumber" />
-    <result column="STATUS" jdbcType="DECIMAL" property="status" />
-    <result column="PRINCIPAL" jdbcType="VARCHAR" property="principal" />
-    <result column="IPONE" jdbcType="VARCHAR" property="ipone" />
-    <result column="LINKMAN" jdbcType="VARCHAR" property="linkman" />
-    <result column="LINKMAN_IPONE" jdbcType="VARCHAR" property="linkmanIpone" />
-    <result column="BID_UNIT" jdbcType="VARCHAR" property="bidUnit" />
-    <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
-    <result column="POSTCODE" jdbcType="DECIMAL" property="postcode" />
-    <result column="SUPPLIER_NUMBER" jdbcType="DECIMAL" property="supplierNumber" />
-    <result column="OFFER_STANDARD" jdbcType="DECIMAL" property="offerStandard" />
-    <result column="PR_INTRODUCE" jdbcType="VARCHAR" property="prIntroduce" />
-    <result column="BUDGET_AMOUNT" jdbcType="DECIMAL" property="budgetAmount" />
-    <result column="PASS_WORD" jdbcType="VARCHAR" property="passWord" />
-    <result column="SCORING_RUBRIC" jdbcType="VARCHAR" property="scoringRubric" />
-    <result column="OPERATOR" jdbcType="VARCHAR" property="operator" />
-    <result column="DIVISION_OF_WORK" jdbcType="VARCHAR" property="divisionOfWork" />
-    <result column="PURCHASE_TYPE" jdbcType="VARCHAR" property="purchaseType" />
-    <result column="MATERIALS_TYPE" jdbcType="VARCHAR" property="materialsType" />
-    <result column="SECTOR_OF_DEMAND" jdbcType="VARCHAR" property="sectorOfDemand" />
-    <result column="DEADLINE" jdbcType="DATE" property="deadline" />
-    <result column="DATE_OF_ENTRUSTMENT" jdbcType="DATE" property="dateOfEntrustment" />
-    <result column="BID_DATE" jdbcType="DATE" property="bidDate" />
-    <result column="BID_ADDRESS" jdbcType="VARCHAR" property="bidAddress" />
+    <id column="ID"  property="id" />
+    <result column="NAME" property="name" />
+    <result column="PROJECT_NUMBER"  property="projectNumber" />
+    <result column="STATUS"  property="status" />
+    <result column="PRINCIPAL"  property="principal" />
+    <result column="IPONE"  property="ipone" />
+    <result column="LINKMAN"  property="linkman" />
+    <result column="LINKMAN_IPONE"  property="linkmanIpone" />
+    <result column="BID_UNIT"  property="bidUnit" />
+    <result column="ADDRESS"  property="address" />
+    <result column="POSTCODE"  property="postcode" />
+    <result column="SUPPLIER_NUMBER"  property="supplierNumber" />
+    <result column="OFFER_STANDARD"  property="offerStandard" />
+    <result column="PR_INTRODUCE" property="prIntroduce" />
+    <result column="BUDGET_AMOUNT" property="budgetAmount" />
+    <result column="PASS_WORD" property="passWord" />
+    <result column="SCORING_RUBRIC" property="scoringRubric" />
+    <result column="OPERATOR"  property="operator" />
+    <result column="DIVISION_OF_WORK" property="divisionOfWork" />
+    <result column="PURCHASE_TYPE"  property="purchaseType" />
+    <result column="MATERIALS_TYPE"  property="materialsType" />
+    <result column="SECTOR_OF_DEMAND" property="sectorOfDemand" />
+    <result column="DEADLINE"  property="deadline" />
+    <result column="DATE_OF_ENTRUSTMENT"  property="dateOfEntrustment" />
+    <result column="BID_DATE"  property="bidDate" />
+    <result column="BID_ADDRESS" property="bidAddress" />
+      <result column="REQUIERED_ID"  property="requieredId" />
     <association property="purchaseDep" column="PURCHASE_DEP_ID" select="ses.dao.oms.PurchaseDepMapper.selectPurchaseById"/>
-  	<collection property="requieredList" ofType="bss.model.pms.PurchaseRequired"/>
   </resultMap>
   <sql id="Base_Column_List">
     ID, NAME, PROJECT_NUMBER, STATUS, PRINCIPAL, IPONE, LINKMAN, LINKMAN_IPONE, BID_UNIT, ADDRESS, 
@@ -42,6 +42,22 @@
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_PROJECTS
     where ID = #{id,jdbcType=VARCHAR}
+  </select>
+   <select id="selectProjectByAll" parameterType="bss.model.ppms.Project" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PPMS_PROJECTS
+    where 1=1
+     <if test="name != null and name != ''">
+       and NAME like '%${name}%'
+      </if>
+       <if test="projectNumber != null and projectNumber != ''">
+       and PROJECT_NUMBER like '%${projectNumber}%'
+      </if>
+      <if test="status != null">
+       and STATUS like '%${status}%'
+      </if>
+      ORDER BY DATE_OF_ENTRUSTMENT DESC
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from T_BSS_PPMS_PROJECTS
@@ -67,7 +83,7 @@
       #{divisionOfWork,jdbcType=VARCHAR}, #{purchaseType,jdbcType=VARCHAR}, #{materialsType,jdbcType=VARCHAR}, 
       #{sectorOfDemand,jdbcType=VARCHAR}, #{purchaseDep.id,jdbcType=VARCHAR}, #{deadline,jdbcType=DATE}, 
       #{dateOfEntrustment,jdbcType=DATE}, #{bidDate,jdbcType=DATE}, #{bidAddress,jdbcType=VARCHAR}, 
-      #{requiered.id,jdbcType=VARCHAR})
+      #{requieredId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="bss.model.ppms.Project">
     insert into T_BSS_PPMS_PROJECTS
@@ -153,7 +169,7 @@
       <if test="bidAddress != null">
         BID_ADDRESS,
       </if>
-      <if test="requiered != null">
+      <if test="requieredId != null">
         REQUIERED_ID,
       </if>
     </trim>
@@ -239,8 +255,8 @@
       <if test="bidAddress != null">
         #{bidAddress,jdbcType=VARCHAR},
       </if>
-      <if test="requiered != null">
-        #{requiered.id,jdbcType=VARCHAR},
+      <if test="requieredId != null">
+        #{requieredId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -326,7 +342,7 @@
         BID_ADDRESS = #{bidAddress,jdbcType=VARCHAR},
       </if>
       <if test="requiered != null">
-        REQUIERED_ID = #{requiered.id,jdbcType=VARCHAR},
+        REQUIERED_ID = #{requieredId,jdbcType=VARCHAR},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
@@ -359,7 +375,7 @@
       DATE_OF_ENTRUSTMENT = #{dateOfEntrustment,jdbcType=DATE},
       BID_DATE = #{bidDate,jdbcType=DATE},
       BID_ADDRESS = #{bidAddress,jdbcType=VARCHAR},
-      REQUIERED_ID = #{requiered.id,jdbcType=VARCHAR}
+      REQUIERED_ID = #{requieredId,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

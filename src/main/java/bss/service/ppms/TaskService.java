@@ -1,0 +1,67 @@
+package bss.service.ppms;
+
+import java.util.List;
+
+import bss.model.ppms.Task;
+
+/**
+ * 
+* @Title:TaskService
+* @Description: 任务管理业务逻辑接口  
+* @author FengTian
+* @date 2016-9-18下午4:11:40
+ */
+public interface TaskService {
+	/**
+	 * 
+	* @Title: add
+	* @author FengTian
+	* @date 2016-9-18 下午3:52:53  
+	* @Description: 添加方法
+	* @param @param task      
+	* @return void
+	 */
+	 void add(Task task);
+	 /**
+	  * 
+	 * @Title: update
+	 * @author FengTian
+	 * @date 2016-9-18 下午4:01:11  
+	 * @Description: 修改方法
+	 * @param @param task      
+	 * @return void
+	  */
+	 void update(Task task);
+	 /**
+	  * 
+	 * @Title: selectById
+	 * @author FengTian
+	 * @date 2016-9-18 下午4:02:33  
+	 * @Description: 根据id查询
+	 * @param @param id
+	 * @param @return      
+	 * @return Task
+	  */
+	 Task selectById(String id);
+	 /**
+	  * 
+	 * @Title: listAll
+	 * @author FengTian
+	 * @date 2016-9-18 下午4:05:58  
+	 * @Description: 分页查询 
+	 * @param @param page
+	 * @param @return      
+	 * @return List<Task>
+	  */
+	 List<Task> listAll(Integer page,Task task);
+	 /**
+	  * 
+	 * @Title: softDelete
+	 * @author FengTian
+	 * @date 2016-9-22 上午10:34:19  
+	 * @Description: 假删除 
+	 * @param @param id      
+	 * @return void
+	  */
+	 void softDelete(String id);
+}

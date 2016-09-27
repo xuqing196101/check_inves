@@ -1,13 +1,5 @@
 package bss.model.ppms;
-
-import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Required;
-
-import bss.model.pms.PurchaseRequired;
-
 import ses.model.oms.PurchaseDep;
 
 public class Project {
@@ -17,7 +9,7 @@ public class Project {
 
     private String projectNumber;
 
-    private Short status;
+    private Integer status;
 
     private String principal;
 
@@ -31,15 +23,15 @@ public class Project {
 
     private String address;
 
-    private BigDecimal postcode;
+    private Integer postcode;
 
-    private BigDecimal supplierNumber;
+    private Integer supplierNumber;
 
-    private BigDecimal offerStandard;
+    private Integer offerStandard;
 
     private String prIntroduce;
 
-    private BigDecimal budgetAmount;
+    private Integer budgetAmount;
 
     private String passWord;
 
@@ -65,25 +57,25 @@ public class Project {
 
     private String bidAddress;
 
-    private List<PurchaseRequired> requieredList;
+    private String requieredId;
 
-    public String getId() {
-        return id;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getProjectNumber() {
+	public String getProjectNumber() {
 		return projectNumber;
 	}
 
@@ -91,189 +83,158 @@ public class Project {
 		this.projectNumber = projectNumber;
 	}
 
-	public Short getStatus() {
-        return status;
-    }
 
-    public void setStatus(Short status) {
-        this.status = status;
-    }
+	public Integer getStatus() {
+		return status;
+	}
 
-    public String getPrincipal() {
-        return principal;
-    }
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
 
-    public void setPrincipal(String principal) {
-        this.principal = principal == null ? null : principal.trim();
-    }
+	public String getPrincipal() {
+		return principal;
+	}
 
-    public String getIpone() {
-        return ipone;
-    }
+	public void setPrincipal(String principal) {
+		this.principal = principal;
+	}
 
-    public void setIpone(String ipone) {
-        this.ipone = ipone == null ? null : ipone.trim();
-    }
+	public String getIpone() {
+		return ipone;
+	}
 
-    public String getLinkman() {
-        return linkman;
-    }
+	public void setIpone(String ipone) {
+		this.ipone = ipone;
+	}
 
-    public void setLinkman(String linkman) {
-        this.linkman = linkman == null ? null : linkman.trim();
-    }
+	public String getLinkman() {
+		return linkman;
+	}
 
-    public String getLinkmanIpone() {
-        return linkmanIpone;
-    }
+	public void setLinkman(String linkman) {
+		this.linkman = linkman;
+	}
 
-    public void setLinkmanIpone(String linkmanIpone) {
-        this.linkmanIpone = linkmanIpone == null ? null : linkmanIpone.trim();
-    }
+	public String getLinkmanIpone() {
+		return linkmanIpone;
+	}
 
-    public String getBidUnit() {
-        return bidUnit;
-    }
+	public void setLinkmanIpone(String linkmanIpone) {
+		this.linkmanIpone = linkmanIpone;
+	}
 
-    public void setBidUnit(String bidUnit) {
-        this.bidUnit = bidUnit == null ? null : bidUnit.trim();
-    }
+	public String getBidUnit() {
+		return bidUnit;
+	}
 
-    public String getAddress() {
-        return address;
-    }
+	public void setBidUnit(String bidUnit) {
+		this.bidUnit = bidUnit;
+	}
 
-    public void setAddress(String address) {
-        this.address = address == null ? null : address.trim();
-    }
+	public String getAddress() {
+		return address;
+	}
 
-    public BigDecimal getPostcode() {
-        return postcode;
-    }
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
-    public void setPostcode(BigDecimal postcode) {
-        this.postcode = postcode;
-    }
+	public Integer getPostcode() {
+		return postcode;
+	}
 
-    public BigDecimal getSupplierNumber() {
-        return supplierNumber;
-    }
+	public void setPostcode(Integer postcode) {
+		this.postcode = postcode;
+	}
 
-    public void setSupplierNumber(BigDecimal supplierNumber) {
-        this.supplierNumber = supplierNumber;
-    }
+	public Integer getSupplierNumber() {
+		return supplierNumber;
+	}
 
-    public BigDecimal getOfferStandard() {
-        return offerStandard;
-    }
+	public void setSupplierNumber(Integer supplierNumber) {
+		this.supplierNumber = supplierNumber;
+	}
 
-    public void setOfferStandard(BigDecimal offerStandard) {
-        this.offerStandard = offerStandard;
-    }
+	public Integer getOfferStandard() {
+		return offerStandard;
+	}
 
-    public String getPrIntroduce() {
-        return prIntroduce;
-    }
+	public void setOfferStandard(Integer offerStandard) {
+		this.offerStandard = offerStandard;
+	}
 
-    public void setPrIntroduce(String prIntroduce) {
-        this.prIntroduce = prIntroduce == null ? null : prIntroduce.trim();
-    }
+	public Integer getBudgetAmount() {
+		return budgetAmount;
+	}
 
-    public BigDecimal getBudgetAmount() {
-        return budgetAmount;
-    }
+	public void setBudgetAmount(Integer budgetAmount) {
+		this.budgetAmount = budgetAmount;
+	}
 
-    public void setBudgetAmount(BigDecimal budgetAmount) {
-        this.budgetAmount = budgetAmount;
-    }
+	public String getPrIntroduce() {
+		return prIntroduce;
+	}
 
-    public String getPassWord() {
-        return passWord;
-    }
+	public void setPrIntroduce(String prIntroduce) {
+		this.prIntroduce = prIntroduce;
+	}
 
-    public void setPassWord(String passWord) {
-        this.passWord = passWord == null ? null : passWord.trim();
-    }
+	public String getPassWord() {
+		return passWord;
+	}
 
-    public String getScoringRubric() {
-        return scoringRubric;
-    }
+	public void setPassWord(String passWord) {
+		this.passWord = passWord;
+	}
 
-    public void setScoringRubric(String scoringRubric) {
-        this.scoringRubric = scoringRubric == null ? null : scoringRubric.trim();
-    }
+	public String getScoringRubric() {
+		return scoringRubric;
+	}
 
-    public String getOperator() {
-        return operator;
-    }
+	public void setScoringRubric(String scoringRubric) {
+		this.scoringRubric = scoringRubric;
+	}
 
-    public void setOperator(String operator) {
-        this.operator = operator == null ? null : operator.trim();
-    }
+	public String getOperator() {
+		return operator;
+	}
 
-    public String getDivisionOfWork() {
-        return divisionOfWork;
-    }
+	public void setOperator(String operator) {
+		this.operator = operator;
+	}
 
-    public void setDivisionOfWork(String divisionOfWork) {
-        this.divisionOfWork = divisionOfWork == null ? null : divisionOfWork.trim();
-    }
+	public String getDivisionOfWork() {
+		return divisionOfWork;
+	}
 
-    public String getPurchaseType() {
-        return purchaseType;
-    }
+	public void setDivisionOfWork(String divisionOfWork) {
+		this.divisionOfWork = divisionOfWork;
+	}
 
-    public void setPurchaseType(String purchaseType) {
-        this.purchaseType = purchaseType == null ? null : purchaseType.trim();
-    }
+	public String getPurchaseType() {
+		return purchaseType;
+	}
 
-    public String getMaterialsType() {
-        return materialsType;
-    }
+	public void setPurchaseType(String purchaseType) {
+		this.purchaseType = purchaseType;
+	}
 
-    public void setMaterialsType(String materialsType) {
-        this.materialsType = materialsType == null ? null : materialsType.trim();
-    }
+	public String getMaterialsType() {
+		return materialsType;
+	}
 
-    public String getSectorOfDemand() {
-        return sectorOfDemand;
-    }
+	public void setMaterialsType(String materialsType) {
+		this.materialsType = materialsType;
+	}
 
-    public void setSectorOfDemand(String sectorOfDemand) {
-        this.sectorOfDemand = sectorOfDemand == null ? null : sectorOfDemand.trim();
-    }
+	public String getSectorOfDemand() {
+		return sectorOfDemand;
+	}
 
-    public Date getDeadline() {
-        return deadline;
-    }
-
-    public void setDeadline(Date deadline) {
-        this.deadline = deadline;
-    }
-
-    public Date getDateOfEntrustment() {
-        return dateOfEntrustment;
-    }
-
-    public void setDateOfEntrustment(Date dateOfEntrustment) {
-        this.dateOfEntrustment = dateOfEntrustment;
-    }
-
-    public Date getBidDate() {
-        return bidDate;
-    }
-
-    public void setBidDate(Date bidDate) {
-        this.bidDate = bidDate;
-    }
-
-    public String getBidAddress() {
-        return bidAddress;
-    }
-
-    public void setBidAddress(String bidAddress) {
-        this.bidAddress = bidAddress == null ? null : bidAddress.trim();
-    }
+	public void setSectorOfDemand(String sectorOfDemand) {
+		this.sectorOfDemand = sectorOfDemand;
+	}
 
 	public PurchaseDep getPurchaseDep() {
 		return purchaseDep;
@@ -283,11 +244,47 @@ public class Project {
 		this.purchaseDep = purchaseDep;
 	}
 
-	public List<PurchaseRequired> getRequieredList() {
-		return requieredList;
+	public Date getDeadline() {
+		return deadline;
 	}
 
-	public void setRequieredList(List<PurchaseRequired> requieredList) {
-		this.requieredList = requieredList;
+	public void setDeadline(Date deadline) {
+		this.deadline = deadline;
 	}
+
+	public Date getDateOfEntrustment() {
+		return dateOfEntrustment;
+	}
+
+	public void setDateOfEntrustment(Date dateOfEntrustment) {
+		this.dateOfEntrustment = dateOfEntrustment;
+	}
+
+	public Date getBidDate() {
+		return bidDate;
+	}
+
+	public void setBidDate(Date bidDate) {
+		this.bidDate = bidDate;
+	}
+
+	public String getBidAddress() {
+		return bidAddress;
+	}
+
+	public void setBidAddress(String bidAddress) {
+		this.bidAddress = bidAddress;
+	}
+
+	public String getRequieredId() {
+		return requieredId;
+	}
+
+	public void setRequieredId(String requieredId) {
+		this.requieredId = requieredId;
+	}
+
+ 	 
+
+  
 }

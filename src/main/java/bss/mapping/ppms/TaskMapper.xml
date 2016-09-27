@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.ppms.TaskMapper">
+  <resultMap id="BaseResultMap" type="bss.model.ppms.Task">
+    <id column="ID" property="id" />
+    <result column="NAME" property="name" />
+    <result column="PURCHASE_ID"  property="purchaseId" />
+    <result column="DOCUMENT_NUMBER" property="documentNumber" />
+    <result column="GIVE_TIME" property="giveTime" />
+    <result column="STATUS"  property="status" />
+    <result column="PROCUREMENT_METHOD" property="procurementMethod" />
+    <result column="PURCHASE_REQUIRED_ID" property="purchaseRequiredId" />
+    <result column="IS_DELETED" property="isDeleted" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, NAME, PURCHASE_ID, DOCUMENT_NUMBER, GIVE_TIME,STATUS,PROCUREMENT_METHOD,PURCHASE_REQUIRED_ID,IS_DELETED
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PPMS_TASK
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="listByTask" parameterType="bss.model.ppms.Task" resultMap="BaseResultMap">
+    select 
+    *
+    from T_BSS_PPMS_TASK
+    where 1=1
+    ORDER BY GIVE_TIME DESC
+  </select>
+    <select id="likeByTask" parameterType="bss.model.ppms.Task" resultMap="BaseResultMap">
+    select 
+    *
+    from T_BSS_PPMS_TASK
+    where  IS_DELETED = 0
+      <if test="status != null">
+       and  STATUS like #{status}
+     </if>
+      <if test="procurementMethod != null">
+        and PROCUREMENT_METHOD like #{procurementMethod} 
+      </if>
+     
+      <if test="giveTime != null">
+        and GIVE_TIME like  #{giveTime}
+      </if>
+      <if test="purchaseId != null and purchaseId !=''">
+        and PURCHASE_ID like '%${purchaseId}%'
+      </if> 
+      <if test="documentNumber != null and documentNumber !=''">
+        and DOCUMENT_NUMBER like '%${documentNumber}%'
+      </if>
+       <if test="purchaseRequiredId != null">
+        and PURCHASE_REQUIRED_ID like #{purchaseRequiredId}
+      </if>
+     ORDER BY GIVE_TIME DESC
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BSS_PPMS_TASK
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+    <!-- 假删除 -->
+  <update id="softDelete" parameterType="java.lang.String">
+    update T_BSS_PPMS_TASK
+    set IS_DELETED = 1 where ID = #{id}
+  </update>
+  <insert id="insert" parameterType="bss.model.ppms.Task">
+    insert into T_BSS_PPMS_TASK (ID, NAME, 
+      PURCHASE_ID, DOCUMENT_NUMBER, GIVE_TIME, STATUS, PROCUREMENT_METHOD, PURCHASE_REQUIRED_ID,
+      )
+    values (#{id}, #{name}, 
+      #{purchaseId}, #{documentNumber}, #{giveTime}, #{status}, #{procurementMethod}, #{purchaseRequiredId},
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="bss.model.ppms.Task">
+    insert into T_BSS_PPMS_TASK
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="purchaseId != null">
+        PURCHASE_ID,
+      </if>
+      <if test="documentNumber != null">
+        DOCUMENT_NUMBER,
+      </if>
+      <if test="giveTime != null">
+        GIVE_TIME,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="procurementMethod != null">
+        PROCUREMENT_METHOD,
+      </if>
+      <if test="purchaseRequiredId != null">
+        PURCHASE_REQUIRED_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="name != null">
+        #{name},
+      </if>
+      <if test="purchaseId != null">
+        #{purchaseId},
+      </if>
+      <if test="documentNumber != null">
+        #{documentNumber},
+      </if>
+      <if test="giveTime != null">
+        #{giveTime},
+      </if>
+      <if test="status != null">
+        #{status},
+      </if>
+      <if test="procurementMethod != null">
+        #{procurementMethod},
+      </if>
+      <if test="purchaseRequiredId != null">
+        #{purchaseRequiredId},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="bss.model.ppms.Task">
+    update T_BSS_PPMS_TASK
+    <set>
+      <if test="name != null">
+        NAME = #{name},
+      </if>
+      <if test="purchaseId != null">
+        PURCHASE_ID = #{purchaseId},
+      </if>
+      <if test="documentNumber != null">
+        DOCUMENT_NUMBER = #{documentNumber},
+      </if>
+      <if test="giveTime != null">
+        GIVE_TIME = #{giveTime},
+      </if>
+      <if test="status != null">
+        STATUS = #{status},
+      </if>
+      <if test="procurementMethod != null">
+        PROCUREMENT_METHOD = #{procurementMethod},
+      </if>
+      <if test="purchaseRequiredId != null">
+        PURCHASE_REQUIRED_ID = #{purchaseRequiredId},
+      </if>
+    </set>
+    where ID = #{id}
+  </update>
+</mapper>

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.ppms.TaskAttachmentsMapper">
+  <resultMap id="TaskAttachMap" type="bss.model.ppms.TaskAttachments">
+    <id column="ID" property="id" />
+    <result column="FILE_NAME" property="fileName" />
+    <result column="CONTENT_TYPE" property="contentType" />
+    <result column="FILE_SIZE" property="fileSize" />
+    <result column="ATTACHMENT_PATH" property="attachmentPath" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="IS_DELETED" property="isDeleted"/>
+    <association property="task" column="TASK_ID" select="bss.dao.ppms.TaskMapper.selectByPrimaryKey"/>
+  </resultMap>
+  
+  <sql id="TaskAttach_Column_List">
+    ID, FILE_NAME, CONTENT_TYPE, FILE_SIZE, TASK_ID, ATTACHMENT_PATH, CREATED_AT, 
+    UPDATED_AT,IS_DELETED
+  </sql>
+  
+  <!-- 根据id查询 -->
+  <select id="selectTaskAttaByPrimaryKey" parameterType="Object" resultMap="TaskAttachMap">
+    select 
+    <include refid="TaskAttach_Column_List" />
+    from T_BSS_PPMS_TASK_ATTACHMENTS
+    where ID = #{id}
+  </select>
+  
+  <select id="selectAllTaskAttachments" parameterType="Object" resultMap="TaskAttachMap">
+    select
+    <include refid="TaskAttach_Column_List" />
+    from T_BSS_PPMS_TASK_ATTACHMENTS
+    where TASK_ID = #{task.id} and IS_DELETED = 0
+  </select>
+  
+  <!-- 根据id删除 -->
+  <delete id="deleteByPrimaryKey" parameterType="Object">
+    delete from T_BSS_PPMS_TASK_ATTACHMENTS
+    where ID = #{id}
+  </delete>
+  
+  <!-- 假删除 -->
+  <update id="softDeleteAtta" parameterType="Object">
+    update T_BSS_PPMS_TASK_ATTACHMENTS
+    set IS_DELETED = 1 where ID = #{id}
+  </update>
+  
+  <!-- 新增信息附件 -->
+  <insert id="insert" parameterType="bss.model.ppms.TaskAttachments">
+    insert into T_BSS_PPMS_TASK_ATTACHMENTS (ID, FILE_NAME, CONTENT_TYPE, 
+      FILE_SIZE, TASK_ID, ATTACHMENT_PATH, 
+      CREATED_AT, UPDATED_AT,IS_DELETED)
+    values (#{id,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, #{contentType,jdbcType=VARCHAR}, 
+      #{fileSize,jdbcType=FLOAT}, #{task.id,jdbcType=VARCHAR}, #{attachmentPath,jdbcType=VARCHAR}, 
+      #{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE},#{isDeleted,jdbcType=DECIMAL})
+  </insert>
+  
+  <!-- 根据条件新增信息附件 -->
+  <insert id="insertSelective" parameterType="bss.model.ppms.TaskAttachments">
+    <selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_BSS_PPMS_TASK_ATTACHMENTS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="fileName != null">
+        FILE_NAME,
+      </if>
+      <if test="contentType != null">
+        CONTENT_TYPE,
+      </if>
+      <if test="fileSize != null">
+        FILE_SIZE,
+      </if>
+      <if test="task != null">
+        TASK_ID,
+      </if>
+      <if test="attachmentPath != null">
+        ATTACHMENT_PATH,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="fileName != null">
+        #{fileName},
+      </if>
+      <if test="contentType != null">
+        #{contentType},
+      </if>
+      <if test="fileSize != null">
+        #{fileSize},
+      </if>
+      <if test="task != null">
+        #{task.id},
+      </if>
+      <if test="attachmentPath != null">
+        #{attachmentPath},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 根据条件修改信息附件 -->
+  <update id="updateByPrimaryKeySelective" parameterType="bss.model.ppms.TaskAttachments">
+    update T_BSS_PPMS_TASK_ATTACHMENTS
+    <set>
+      <if test="fileName != null">
+        FILE_NAME = #{fileName},
+      </if>
+      <if test="contentType != null">
+        CONTENT_TYPE = #{contentType},
+      </if>
+      <if test="fileSize != null">
+        FILE_SIZE = #{fileSize},
+      </if>
+      <if test="task != null">
+        TASK_ID = #{task.id},
+      </if>
+      <if test="attachmentPath != null">
+        ATTACHMENT_PATH = #{attachmentPath},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted},
+      </if>
+    </set>
+    where ID = #{id}
+  </update>
+  
+  <!-- 根据id修改 -->
+  <update id="updateByPrimaryKey" parameterType="bss.model.ppms.TaskAttachments">
+    update T_BSS_PPMS_TASK_ATTACHMENTS
+    set FILE_NAME = #{fileName},
+      CONTENT_TYPE = #{contentType},
+      FILE_SIZE = #{fileSize},
+      TASK_ID = #{task.id},
+      ATTACHMENT_PATH = #{attachmentPath},
+      CREATED_AT = #{createdAt},
+      UPDATED_AT = #{updatedAt},
+      IS_DELETED = #{isDeleted}
+    where ID = #{id}
+  </update>
+</mapper>

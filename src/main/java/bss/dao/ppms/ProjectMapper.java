@@ -1,5 +1,7 @@
 package bss.dao.ppms;
 
+import java.util.List;
+
 import bss.model.ppms.Project;
 
 public interface ProjectMapper {
@@ -14,4 +16,6 @@ public interface ProjectMapper {
     int updateByPrimaryKeySelective(Project record);
 
     int updateByPrimaryKey(Project record);
+    
+    List<Project> selectProjectByAll(Project project);
 }

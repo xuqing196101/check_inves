@@ -1,7 +1,9 @@
 package ses.service.bms.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -76,8 +78,8 @@ public class AreaServiceImpl implements AreaServiceI {
 	 * @return List<Area>
 	 */
 	@Override
-	public List<Area> listByArea() {
-		return areaMapper.listByArea();
+	public List<Area> listByArea(Area area) {
+		return areaMapper.listByArea(area);
 	}
 
 	/**
@@ -91,8 +93,11 @@ public class AreaServiceImpl implements AreaServiceI {
 	 * @return List<Area>
 	 */
 	@Override
-	public List<Area> findTreeByPid(String pid) {
-		List<Area> list = areaMapper.findTreeByPid(pid);
+	public List<Area> findTreeByPid(String pid, String name) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("pid", pid);
+		map.put("name", name);
+		List<Area> list = areaMapper.findTreeByPid(map);
 		List<Area> lists = new ArrayList<Area>();
 		if(list.isEmpty()){
 			return lists;

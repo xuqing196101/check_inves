@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.Area;
@@ -46,8 +47,8 @@ public class AreaController {
 	 * @param @return
 	 * @return String
 	 */
-	@RequestMapping("/createList")
-	public String createList() {
+	@RequestMapping("/list")
+	public String list() {
 		return "ses/bms/area/list";
 	}
 
@@ -64,15 +65,16 @@ public class AreaController {
 	 */
 	@ResponseBody
 	@RequestMapping("/listByOne")
-	public String listByOne(Area area) throws Exception {
+	public String listByOne(Area area,Model model)throws Exception {
 		if (area.getId() == null) {
 			area.setId("1");
 		}
-		List<Area> list = areaService.findTreeByPid(area.getId());
+		//List<Area> list1 = areaService.listByArea(area);
+		List<Area> list = areaService.findTreeByPid(area.getId(),area.getName());
 		List<AreaZtree> listTree = new ArrayList<AreaZtree>();
 		String ee = "";
 		for (Area a : list) {
-			List<Area> cList = areaService.findTreeByPid(a.getId());
+			List<Area> cList = areaService.findTreeByPid(a.getId(),area.getName());
 			AreaZtree az = new AreaZtree();
 			if (!cList.isEmpty()) {
 				az.setIsParent("true");
@@ -83,9 +85,23 @@ public class AreaController {
 			az.setName(a.getName());
 			az.setpId(a.getAreaType());
 			listTree.add(az);
-			ee = JSONObject.toJSONString(listTree);
 		}
+		ee = JSONObject.toJSONString(listTree);
+		//model.addAttribute("aa", list1);
 		return ee;
+	}
+	@RequestMapping("/add")
+	public String add(Area area,Model model){
+		model.addAttribute("id", area.getId());
+		return "ses/bms/area/add";
+	}
+	@RequestMapping("/save")
+	public String save(Area area,Model model){
+		area.setIsDeleted(0);
+		area.setCreatedAt(new Date());
+		
+		areaService.save(area);
+		return "redirect:list.html";
 	}
 
 }

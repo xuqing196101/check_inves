@@ -1,6 +1,7 @@
 package ses.dao.bms;
 
 import java.util.List;
+import java.util.Map;
 
 import ses.model.bms.Area;
 
@@ -45,7 +46,7 @@ public interface AreaMapper {
 	 * @param @return
 	 * @return List<Area>
 	 */
-	List<Area> listByArea();
+	List<Area> listByArea(Area area);
 
 	/**
 	 * 
@@ -57,7 +58,7 @@ public interface AreaMapper {
 	 * @param @return
 	 * @return List<Area>
 	 */
-	List<Area> findTreeByPid(String pid);
+	List<Area> findTreeByPid(Map<String, Object> map);
 
 	/**
 	 * 
