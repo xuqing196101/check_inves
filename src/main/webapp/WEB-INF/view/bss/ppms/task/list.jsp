@@ -131,6 +131,35 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             layer.alert("请选择需要修改的信息",{offset: ['222px', '390px'], shade:0.01});
         }
     }
+    
+    function start(){
+        var ids =[]; 
+        $('input[name="chkItem"]:checked').each(function(){ 
+            ids.push($(this).val()); 
+        }); 
+        if(ids.length>0){
+            layer.confirm('您确定要受领吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+                layer.close(index);
+                $.ajax({
+                    url:"<%=basePath%>task/startTask.do",
+                    data:"ids="+ids,
+                    type:"post",
+                    dateType:"json",
+                    success:function(){
+                        layer.msg("受领成功",{offset: ['222px', '390px']});
+                        window.setTimeout(function(){
+                            location.reload();
+                        }, 1000);
+                    },
+                    error: function(){
+                        layer.msg("受领失败",{offset: ['222px', '390px']});
+                    }
+                });
+            });
+        }else{
+            layer.alert("请选择要受领的任务",{offset: ['222px', '390px'], shade:0.01});
+        }
+    }
   </script>
   </head>
   
@@ -190,7 +219,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <button class="btn padding-left-10 padding-right-10 btn_back" onclick="add()">任务调整</button>
         <button class="btn padding-left-10 padding-right-10 btn_back"  onclick="see()">任务取消</button>
         <button class="btn padding-left-10 padding-right-10 btn_back">查看</button>
-        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="del()">受领</button>
+        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="start()">受领</button>
       </span>
    <div class="container clear margin-top-30">
         <table class="table table-bordered table-condensed mt5">
@@ -201,6 +230,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <th class="info">采购任务名称</th>
           <th class="info">采购管理部门</th>
           <th class="info">下达文件编号</th>
+          <th class="info">状态</th>
           <th class="info">下达时间</th>
         </tr>
         </thead>
@@ -211,6 +241,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <td class="tc" >${obj.name}</td>
               <td class="tc">${obj.purchaseId }</td>
               <td class="tc" >${obj.documentNumber }</td>
+              <td class="tc"><c:if test="${'1'==obj.status}">审核</c:if>
+                  <c:if test="${'0'==obj.status}">受领</c:if>
+              </td>
               <td class="tc" ><fmt:formatDate value="${obj.giveTime }"/></td>
             </tr>
      

@@ -64,4 +64,14 @@ public interface TaskService {
 	 * @return void
 	  */
 	 void softDelete(String id);
+	 /**
+	  * 
+	 * @Title: startTask
+	 * @author FengTian
+	 * @date 2016-9-27 下午5:33:07  
+	 * @Description: 启动 
+	 * @param @param id      
+	 * @return void
+	  */
+	 void startTask(String id);
 }

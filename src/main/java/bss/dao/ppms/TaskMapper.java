@@ -20,4 +20,6 @@ public interface TaskMapper {
     void updateByPrimaryKeySelective(Task record);
 
     void updateByPrimaryKey(Task record);
+    
+    void startTask(String id);
 }

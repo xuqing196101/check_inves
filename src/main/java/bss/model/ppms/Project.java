@@ -65,6 +65,8 @@ public class Project {
     private double amount;
     
     private Supplier dealSupplier;
+    
+    private Task task;
 
 	public String getId() {
 		return id;
@@ -314,4 +316,14 @@ public class Project {
 	public void setDealSupplier(Supplier dealSupplier) {
 		this.dealSupplier = dealSupplier;
 	}
+
+	public Task getTask() {
+		return task;
+	}
+
+	public void setTask(Task task) {
+		this.task = task;
+	}
+	
+	
 }

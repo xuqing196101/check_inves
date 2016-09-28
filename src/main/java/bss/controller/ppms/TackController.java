@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.PageInfo;
@@ -118,11 +119,32 @@ public class TackController extends BaseController{
 	
 		
 	}
-	
+	/**
+	 * 
+	* @Title: delTask
+	* @author FengTian
+	* @date 2016-9-27 下午6:15:00  
+	* @Description: 取消任务 
+	* @param @param attach
+	* @param @param task
+	* @param @param request
+	* @param @param id
+	* @param @return      
+	* @return String
+	 */
 	@RequestMapping("/delTask")
 	public String delTask(@RequestParam("attach") MultipartFile[] attach,Task task,HttpServletRequest request,String id){
     	taskservice.softDelete(id);
 		upfile(attach, request, task);
 		return "redirect:list.html";
+	}
+	
+	@RequestMapping("/startTask")
+	@ResponseBody
+	public void startTask(String ids){
+		String[] ide = ids.split(",");
+		for (int i = 0; i < ide.length; i++) {
+			taskservice.startTask(ide[i]);
+		}
 	}
 }

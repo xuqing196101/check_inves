@@ -54,4 +54,10 @@ public class TaskServiceImpl implements TaskService {
 		taskMapper.softDelete(id);
 	}
 
+	@Override
+	public void startTask(String id) {
+		taskMapper.startTask(id);
+		
+	}
+
 }
