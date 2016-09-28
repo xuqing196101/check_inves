@@ -1,6 +1,7 @@
 package bss.dao.pms;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -125,4 +126,15 @@ public interface PurchaseRequiredMapper {
     * @throws
      */
     void updateStatus(PurchaseRequired purchaseRequired);
+    /**
+     * 
+    * @Title: getByPurchaseRequired
+    * @Description: 根据map集合查询所有属性 
+    * author: Li Xiaoxiao 
+    * @param @param purchaseRequired
+    * @param @return     
+    * @return List<PurchaseRequired>     
+    * @throws
+     */
+    List<PurchaseRequired> getByMap(Map<String,Object> map);
 }

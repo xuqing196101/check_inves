@@ -106,123 +106,62 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				 }
 		   }
 	}
-	
-  	function view(no){
-  		
-  		window.location.href="<%=basePath%>purchaser/queryByNo.html?planNo="+no+"&&type=1";
-  	}
-  	
-    function edit(){
-    	var id=[]; 
+    
+	function down(){
+	  	var id=[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
 		}); 
-		if(id.length==1){
+		if(id.length==1){   
 			
-			window.location.href="<%=basePath%>purchaser/queryByNo.html?planNo="+id+"&&type=2";;
-		}else if(id.length>1){
+			window.location.href="<%=basePath%>set/excel.html?id="+id;
+ 	  	}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
-			layer.alert("请选择需要修改的版块",{offset: ['222px', '390px'], shade:0.01});
-		}
-    }
-    
-    function del(){
-    	var id =[]; 
+			layer.alert("请选中一条",{offset: ['222px', '390px'], shade:0.01});
+		}  
+		 
+	}
+	function print(){
+  	var id=[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
-			id.push($(this).val()); 
+			id.push($(this).val());
 		}); 
-		if(id.length>0){
-			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
-				layer.close(index);
-				 $.ajax({
-		 			 url:"<%=basePath%>purchaser/delete.html",
-		 			 type:"post",
-		 			 data:{
-		 				 planNo:$('input[name="chkItem"]:checked').val()
-		 				 },
-		 			 success:function(){
-		 				window.location.reload();
-		 				 
-		 			 },error:function(){
-		 				 
-		 			 }
-		 		 });
-			});
+		if(id.length==1){   
+		  window.location.href="<%=basePath%>look/print.html?id="+id;
+	  	}else if(id.length>1){
+			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
-			layer.alert("请选择要删除的版块",{offset: ['222px', '390px'], shade:0.01});
-		}
-    }
-    var index;
-    function add(){
-    	
-    	index=layer.open({
-			  type: 1, //page层
-			  area: ['300px', '200px'],
-			  title: '',
-			  closeBtn: 1,
-			  shade:0.01, //遮罩透明度
-			  moveType: 1, //拖拽风格，0是默认，1是传统拖动
-			  shift: 1, //0-6的动画形式，-1不开启
-			  offset: ['80px', '600px'],
-			  content: $('#content'),
-			});
-    	
-   
-    }
-    
-	//鼠标移动显示全部内容
-	function out(content){
-	if(content.length>10){
-	layer.msg(content, {
-			icon:6,
-			shade:false,
-			area: ['600px'],
-			time : 1000    //默认消息框不关闭
-		});//去掉msg图标
-	}else{
-		layer.closeAll();//关闭消息框
+			layer.alert("请选中一条",{offset: ['222px', '390px'], shade:0.01});
+		}  
+		 
 	}
-}
-	
-	function closeLayer(){
-		var val=$("input[name='goods']:checked").val();
 		
-		window.location.href="<%=basePath%>purchaser/add.html?type="+val;
-		layer.close(index);	
-	}
-	
-	function exports(){
+	function sets(){
 		var id=[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
 		}); 
-		if(id.length==1){
-			
-			window.location.href="<%=basePath%>purchaser/exports.html?planNo="+id+"&&type=2";
-		}else if(id.length>1){
+		if(id.length==1){   
+			window.location.href="<%=basePath%>set/list.html?id="+id;
+	  	}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
 			layer.alert("请选中一条",{offset: ['222px', '390px'], shade:0.01});
-		}
-		
+		}  
 	}
-	
-	function sub(){
-		var id=[]; 
-		$('input[name="chkItem"]:checked').each(function(){ 
-			id.push($(this).val());
-		}); 
-		if(id.length==1){
+	 function audit(){
+			var id=[]; 
+			$('input[name="chkItem"]:checked').each(function(){ 
+				id.push($(this).val());
+			}); 
+			if(id.length>1){
+
+			}else{
+				layer.alert("请选中一条",{offset: ['222px', '390px'], shade:0.01});
+			}  
 			
-			window.location.href="<%=basePath%>purchaser/submit.html?planNo="+id;
-		}else if(id.length>1){
-			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
-		}else{
-			layer.alert("请选中一条",{offset: ['222px', '390px'], shade:0.01});
-		}
-		
-	}
+	 }
   </script>
   </head>
   
@@ -242,32 +181,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <h2>查询条件</h2>
    </div>
 <!-- 项目戳开始 -->
-  <div class="border1 col-md-12 ml30">
-    <form id="add_form" action="<%=basePath%>purchaser/list.html" method="post" >
-   
+  <div class="container clear margin-top-30">
+    <form id="add_form" action="<%=basePath%>accept/list.html" method="post" >
+   <h2 class="padding-10 border1">
 
-	  
-	   需求部门： <input class="mt10" type="text" name="department" value="${inf.department }" /> 
-	   需求计划名称： <input class="mt10" type="text" name="planName" value="${inf.planName }"/> 
-	   需求计划编号： <input class="mt10" type="text" name="planNo" value="${inf.planNo }" /> 
-	    需求填报日期：  <input class="mt10" class="span2 Wdate w220"  value='<fmt:formatDate value="${inf.createdAt }"/>' name="createdAt" type="text" onclick='WdatePicker()'> 
-	   	 <input class="btn-u"   type="submit" name="" value="查询" /> 
-	 
+	 <ul class="demand_list" >
+	   <li class="fl"><label class="fl">采购计划名称：</label><span><input type="text" name="fileName" value=""/></span></li>
+	   <li class="fl"><label class="fl">采购方式：</label><span><input type="text" name="" value=""/></span></li>
+	   <li class="fl"><label class="fl">采购金额：</label><span><input type="text" name="budget" value=""/></span></li>
+	   	 <input class="btn padding-left-10 padding-right-10 btn_back"   type="submit" name="" value="查询" /> 
+	 </ul>
 
 	
- 
+   </h2>
    </form>
   </div>
    <div class="headline-v2 fl">
       <h2>需求计划列表
 	  </h2>
    </div> 
-   	  <span class="fr option_btn margin-top-10">
-	    <button class="btn padding-left-10 padding-right-10 btn_back" onclick="add()">需求计划录入</button>
-	    <button class="btn padding-left-10 padding-right-10 btn_back"  onclick="edit()">修改</button>
-		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="exports()">下载</button>
-	    <button class="btn padding-left-10 padding-right-10 btn_back" onclick="del()">删除</button>
-		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="sub()">提交</button>
+    <span class="fr option_btn margin-top-10">
+		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="sets()">审核设置</button>
+		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="audit()">审核</button>
+		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="down()">下载</button>
+		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="print()">打印</button>
 	  </span>
    <div class="container clear margin-top-30">
         <table class="table table-bordered table-condensed mt5">
@@ -275,35 +212,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<tr>
 		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
 		  <th class="info w50">序号</th>
-		  <th class="info">计划名称</th>
-		  <th class="info">编制单位名称</th>
-		  <th class="info">金额</th>
-		  <th class="info">编制时间</th>
-		  <th class="info">完成时间</th>
+		  <th class="info">采购计划名称</th>
+		  <th class="info">预算总金额</th>
+		  <th class="info">汇总时间</th>
 		  <th class="info">状态</th>
 		</tr>
 		</thead>
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
 			<tr style="cursor: pointer;">
-			  <td class="tc w30"><input type="checkbox" value="${obj.planNo }" name="chkItem" onclick="check()"  alt=""></td>
-			  <td class="tc w50" onclick="view('${obj.planNo }')" >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-			  <td class="tc" onclick="view('${obj.planNo }')">${obj.planName }</td>
-			  <td class="tc" onclick="view('${obj.planNo }')">${obj.department }</td>
-			  <td class="tc" onclick="view('${obj.planNo }')">${obj.budget }</td>
-			  <td class="tc" onclick="view('${obj.planNo }')"><fmt:formatDate value="${obj.createdAt }"/></td>
-			  <td class="tc" onclick="view('${obj.planNo }')"><fmt:formatDate value="${obj.auditDate }"/> </td>
-			  <td class="tc" onclick="view('${obj.planNo }')">
+			  <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
+			  <td class="tc w50"   >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+			  
+			  <td class="tc"  >${obj.fileName }</td>
+			
+			
+			  <td class="tc"  ><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
+			    <td class="tc"  ><fmt:formatDate value="${obj.createdAt }"/></td>
+			  <td class="tc"  >
 			  <c:if test="${obj.status=='1' }">
-			 	 已编制为采购计划
+			   未下达
 			  </c:if>
-			   <c:if test="${obj.status=='2' }">
-			 	已提交
-			  </c:if>
-			  <c:if test="${obj.status=='3' }">
-			 	提交受理
-			  </c:if>
-			    <c:if test="${obj.status=='4' }">
-			 	已受理
+			    <c:if test="${obj.status=='2' }">
+			   已下达
 			  </c:if>
 			  </td>
 			</tr>
@@ -318,18 +248,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  </div>
 
 
- <div id="content" class="div_show">
-	 <p align="center" class="type">
-	         请选择类别
-	<br>
-	
-	 <input type="radio" name="goods" value="1">:货物<br>
-	 <input type="radio" name="goods" value="2">:工程<br>
-	 <input type="radio" name="goods" value="3">:服务<br>
-	    </p>
-	     <button class="btn padding-left-10 padding-right-10 btn_back goods"  onclick="closeLayer()" >确定</button>
-	    
- </div>
+ 
  
 	 </body>
 </html>

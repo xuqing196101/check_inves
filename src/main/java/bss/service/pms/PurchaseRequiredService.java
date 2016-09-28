@@ -1,6 +1,7 @@
 package bss.service.pms;
 
 import java.util.List;
+import java.util.Map;
 
 import bss.model.pms.PurchaseRequired;
 
@@ -87,4 +88,15 @@ public interface PurchaseRequiredService {
 	* @throws
 	 */
 	void updateStatus(PurchaseRequired purchaseRequired);
+	/**
+	 * 
+	* @Title: getByMap
+	* @Description: 根据map集合查询 
+	* author: Li Xiaoxiao 
+	* @param @param map
+	* @param @return     
+	* @return List<PurchaseRequired>     
+	* @throws
+	 */
+	List<PurchaseRequired> getByMap(Map<String,Object> map);
 }

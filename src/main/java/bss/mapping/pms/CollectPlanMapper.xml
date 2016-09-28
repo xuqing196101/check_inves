@@ -182,6 +182,17 @@
   select 
   <include refid="Base_Column_List"/>
   from T_BSS_PMS_COLLECT_PLAN
+  	<where>
+  	<if test="budget">
+  	  <if test="budget != null">
+        BUDGET=#{budget}
+      </if>
+  	</if>
+  	</where>
+  
+  </select>
+  <select id="getMax" resultType="Integer">
+  	select max(POSITION) from T_BSS_PMS_COLLECT_PLAN
   </select>
   
 </mapper>

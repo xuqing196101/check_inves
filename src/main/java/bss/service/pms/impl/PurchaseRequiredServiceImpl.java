@@ -1,6 +1,7 @@
 package bss.service.pms.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -73,6 +74,12 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 	public void updateStatus(PurchaseRequired purchaseRequired) {
 		purchaseRequiredMapper.updateStatus(purchaseRequired);
 		
+	}
+
+	@Override
+	public List<PurchaseRequired> getByMap(Map<String, Object> map) {
+		List<PurchaseRequired> list = purchaseRequiredMapper.getByMap(map);	
+		return list;
 	}
 	
 	 

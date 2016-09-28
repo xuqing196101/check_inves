@@ -31,7 +31,7 @@ public class CollectPlan {
 
     private Date updatedAt;
 
-    private Long position;
+    private Integer position;
 
     private String planNo;
     
@@ -116,11 +116,11 @@ public class CollectPlan {
         this.updatedAt = updatedAt;
     }
 
-    public Long getPosition() {
+    public Integer getPosition() {
         return position;
     }
 
-    public void setPosition(Long position) {
+    public void setPosition(Integer position) {
         this.position = position;
     }
 

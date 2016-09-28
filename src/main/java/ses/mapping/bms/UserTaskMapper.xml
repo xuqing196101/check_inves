@@ -67,7 +67,7 @@
         LEV,
       </if>
       <if test="userId != null">
-        userId,
+        USER_ID,
       </if>
       
     </trim>

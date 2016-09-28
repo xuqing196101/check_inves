@@ -57,4 +57,14 @@ public interface CollectPlanService {
 	 */
 	void update(CollectPlan collectPlan);
 	
+	/**
+	 * 
+	* @Title: getMax
+	* @Description: 查询当前位置最大值 
+	* author: Li Xiaoxiao 
+	* @param @return     
+	* @return Integer     
+	* @throws
+	 */
+	Integer getMax();
 }

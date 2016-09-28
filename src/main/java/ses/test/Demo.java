@@ -3,7 +3,9 @@ package ses.test;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
@@ -19,7 +21,7 @@ import ses.service.bms.UserServiceI;
 import ses.service.bms.UserTaksService;
 
 
-public class Demo extends BaseTest {
+public class Demo {
 
 	@Autowired
 	private UserMapper userMapper;
@@ -35,7 +37,26 @@ public class Demo extends BaseTest {
 	
 	@Test
 	public void test1(){
-
+		List<String> test1=new LinkedList<String>();
+		List<String> list=new LinkedList<String>();
+		
+		
+		list.add("1");
+//		list.add("1");
+//		list.add("2");
+//		list.add("2");
+//		list.add("3");
+//		list.add("4");
+//		list.add("5");
+//		System.out.println(System.currentTimeMillis()+"---------------");
+//		test1.add(list.get(0));
+//		System.out.println(System.currentTimeMillis()+"---------------");
+		
+		System.out.println(System.currentTimeMillis()+"---------------");
+		test1.addAll(list);
+		System.out.println(System.currentTimeMillis()+"---------------");
+		
+		
 //		User user = userMapper.queryById("154");
 //		System.out.println(user.getLoginName()+"-----");
 	}
@@ -62,10 +83,13 @@ public class Demo extends BaseTest {
 	
 	@Test
 	public void test3(){
-		PurchaseRequired p=new PurchaseRequired();
-		p.setPlanNo("A01");
-		List<PurchaseRequired> list = purchaseRequiredMapper.query(p);
-		System.out.println(list.size());
+//		PurchaseRequired p=new PurchaseRequired();
+//		p.setPlanNo("A01");
+//		List<PurchaseRequired> list = purchaseRequiredMapper.query(p);
+		Calendar c=Calendar.getInstance();
+		int i = c.get(Calendar.YEAR);
+		int dayOfYear = Calendar.YEAR;
+		System.out.println(dayOfYear+"---"+i);
 //		List<PurchaseRequired> queryByNo = purchaseRequiredMapper.queryByNo("A01");
 	}
 }
