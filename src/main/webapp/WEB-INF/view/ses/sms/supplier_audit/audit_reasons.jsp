@@ -139,6 +139,9 @@ function tijiao(str){
   if(str=="engineering"){
     action = "${pageContext.request.contextPath}/supplierAudit/engineering.html";
   }
+  if(str=="service"){
+    action = "${pageContext.request.contextPath}/supplierAudit/serviceInformation.html";
+  }
   if(str=="reasonsList"){
     action = "${pageContext.request.contextPath}/supplierAudit/reasonsList.html";
   }
@@ -170,7 +173,7 @@ function shenhe(status){
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('materialProduction');">物资-生产型专业信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('materialSales');">物资-销售型专业信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('engineering');">工程-专业信息</a></li>
-              <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >服务-专业信息</a></li>
+              <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('service');">服务-专业信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" >品目信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >产品信息</a></li>
               <li class="active"><a aria-expanded="true" href="#tab-2" data-toggle="tab" onclick="tijiao('reasonsList');">审核汇总</a></li>
@@ -203,7 +206,7 @@ function shenhe(status){
 	                    <ul class="list-unstyled list-flow">
 		                    <li class="col-md-6 p0 "><span class="" id="bankAccount2">${list.auditField}：</span>
 		                      <div class="input-append">
-		                        <a class="span3" id="bankAccount3"  type="text">${list.suggest}</a>
+		                        <input class="span3" id="bankAccount3"  type="text" value="${list.suggest}"/>
 		                      </div>
 		                    </li>
 	                    </ul>

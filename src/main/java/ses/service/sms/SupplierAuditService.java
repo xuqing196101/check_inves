@@ -7,10 +7,12 @@ import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
+import ses.model.sms.SupplierCertSe;
 import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
+import ses.model.sms.SupplierMatSe;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierType;
 /**
@@ -176,10 +178,31 @@ public interface SupplierAuditService {
      * @Title: findMatEngBySupplierId
      * @author Xu Qing
      * @date 2016-9-27 下午7:36:02  
-     * @Description: 供应商组织机构和注册人员 
+     * @Description: 供应商组织机构和人员 
      * @param @param supplierId
      * @param @return      
      * @return SupplierMatEng
      */
     SupplierMatEng findMatEngBySupplierId (String supplierId);
+    
+    /**
+     * @Title: findCertSeBySupplierSupplierId
+     * @author Xu Qing
+     * @date 2016-9-28 上午10:55:54  
+     * @Description: 服务专业信息-资质证书 
+     * @param @return      
+     * @return List<SupplierCertSe>
+     */
+    List<SupplierCertSe> findCertSeBySupplierId(String supplierId);
+    
+    /**
+     * @Title: findMatSellBySupplierId
+     * @author Xu Qing
+     * @date 2016-9-28 上午11:32:26  
+     * @Description: 供应商组织机构和人员 
+     * @param @param supplierId
+     * @param @return      
+     * @return SupplierMatSell
+     */
+    SupplierMatSe findMatSeBySupplierId(String supplierId);
 } 

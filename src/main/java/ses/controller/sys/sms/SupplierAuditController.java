@@ -15,10 +15,12 @@ import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
+import ses.model.sms.SupplierCertSe;
 import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
+import ses.model.sms.SupplierMatSe;
 import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierType;
@@ -224,6 +226,28 @@ public class SupplierAuditController {
 		return "ses/sms/supplier_audit/engineering";
 	}
 	
+	/**
+	 * @Title: serviceInformation
+	 * @author Xu Qing
+	 * @date 2016-9-28 上午11:01:53  
+	 * @Description: 服务专业信息 
+	 * @param @param request
+	 * @param @param supplierMatEng
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping("serviceInformation")
+	public String serviceInformation(HttpServletRequest request,SupplierMatSe supplierMatSe){
+		String supplierId = supplierMatSe.getSupplierId();
+		//资质证书信息
+		List<SupplierCertSe> supplierCertSe = supplierAuditService.findCertSeBySupplierId(supplierId);
+		//组织结构和人员
+		supplierMatSe = supplierAuditService.findMatSeBySupplierId(supplierId);
+		request.setAttribute("supplierCertSes", supplierCertSe);
+		request.setAttribute("supplierMatSes", supplierMatSe);
+		request.setAttribute("supplierId", supplierId);
+		return "ses/sms/supplier_audit/service_information";
+	}
 	/**
 	 * @Title: auditReasons
 	 * @author Xu Qing

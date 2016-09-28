@@ -10,7 +10,7 @@ http://www.springframework.org/schema/mvc
 http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 
 	<!-- 自动扫描controller包下的所有类，使其认为spring mvc的控制器 -->
-	<context:component-scan base-package="ses.controller, iss.controller,bss.controller" />
+	 <context:component-scan base-package="ses.controller, iss.controller,bss.controller" />
 
 
 	<!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
@@ -23,19 +23,19 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 		</property>
 	</bean>
 	<!-- springMVC拦截器 -->
-	<mvc:interceptors>
+<!-- 	<mvc:interceptors>
 		<mvc:interceptor>
-			<!-- 需要拦截的地址 -->
+			需要拦截的地址
 			<mvc:mapping path="/*/*.do" />
 			<mvc:mapping path="/*/*.ajax" />
 			<mvc:mapping path="/*/*.html" />
-			<!-- 需要排除拦截的地址 -->
+			需要排除拦截的地址
 			<mvc:exclude-mapping path="/index/selectIndexNews.*"/>  
 			<mvc:exclude-mapping path="/login/login.*"/>  
 			<mvc:exclude-mapping path="/login/index.*"/>  
 			<bean class="ses.interceptor.MyInterceptor"></bean>
 		</mvc:interceptor>
-	</mvc:interceptors>
+	</mvc:interceptors> -->
 	<!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->
 	<bean
 		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">

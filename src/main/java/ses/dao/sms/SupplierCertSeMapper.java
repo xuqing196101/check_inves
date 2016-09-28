@@ -46,4 +46,15 @@ public interface SupplierCertSeMapper {
     int updateByPrimaryKey(SupplierCertSe record);
     
     List<SupplierCertSe> findCertSeBySupplierMatSeId(String supplierMatSeId);
+    
+    /**
+     * @Title: findCertSeBySupplierSupplierId
+     * @author Xu Qing
+     * @date 2016-9-28 上午10:53:26  
+     * @Description: 服务专业信息-资质证书
+     * @param @param supplierId
+     * @param @return      
+     * @return List<SupplierCertSe>
+     */
+    List<SupplierCertSe> findCertSeBySupplierId(String supplierId);
 }

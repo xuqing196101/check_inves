@@ -9,11 +9,13 @@ import ses.dao.sms.SupplierAptituteMapper;
 import ses.dao.sms.SupplierAuditMapper;
 import ses.dao.sms.SupplierCertEngMapper;
 import ses.dao.sms.SupplierCertProMapper;
+import ses.dao.sms.SupplierCertSeMapper;
 import ses.dao.sms.SupplierCertSellMapper;
 import ses.dao.sms.SupplierFinanceMapper;
 import ses.dao.sms.SupplierMapper;
 import ses.dao.sms.SupplierMatEngMapper;
 import ses.dao.sms.SupplierMatProMapper;
+import ses.dao.sms.SupplierMatSeMapper;
 import ses.dao.sms.SupplierStockholderMapper;
 import ses.dao.sms.SupplierTypeMapper;
 import ses.model.sms.Supplier;
@@ -21,10 +23,12 @@ import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
+import ses.model.sms.SupplierCertSe;
 import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
+import ses.model.sms.SupplierMatSe;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierType;
 import ses.service.sms.SupplierAuditService;
@@ -102,10 +106,22 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	private SupplierAptituteMapper supplierAptituteMapper;
 	
 	/**
-	 * 工程-组织结构和注册人员
+	 * 工程-组织结构和人员
 	 */
 	@Autowired
 	private SupplierMatEngMapper supplierMatEngMapper;
+	
+	/**
+	 * 服务-资质证书信息
+	 */
+	@Autowired
+	private SupplierCertSeMapper supplierCertSeMapper;
+	
+	/**
+	 * 服务-组织结构和人员
+	 */
+	@Autowired
+	private SupplierMatSeMapper supplierMatSeMapper;
 	/**
 	 * @Title: supplierList
 	 * @author Xu Qing
@@ -328,6 +344,35 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	public SupplierMatEng findMatEngBySupplierId(String supplierId) {
 		
 		return supplierMatEngMapper.getMatEngBySupplierId(supplierId);
+	}
+	
+	/**
+     * @Title: findCertSeBySupplierSupplierId
+     * @author Xu Qing
+     * @date 2016-9-28 上午10:55:54  
+     * @Description: 服务专业信息-资质证书 
+     * @param @return      
+     * @return List<SupplierCertSe>
+     */
+	@Override
+	public List<SupplierCertSe> findCertSeBySupplierId(String supplierId) {
+		
+		return supplierCertSeMapper.findCertSeBySupplierId(supplierId);
+	}
+	
+	/**
+     * @Title: findMatSellBySupplierId
+     * @author Xu Qing
+     * @date 2016-9-28 上午11:32:26  
+     * @Description: 供应商组织机构和人员 
+     * @param @param supplierId
+     * @param @return      
+     * @return SupplierMatSell
+     */
+	@Override
+	public SupplierMatSe findMatSeBySupplierId(String supplierId) {
+		
+		return supplierMatSeMapper.getMatSeBySupplierId(supplierId);
 	}
 
 	

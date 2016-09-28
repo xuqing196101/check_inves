@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]-->
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<title>物资-销售型专业信息</title>
+<title>服务-专业信息</title>
 <!-- Meta -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -113,7 +113,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript">
 function reason(id){
   var supplierId=$("#supplierId").val();
-  var auditField=$("#"+id).text()+"销售资质证书信息"; //审批的字段名字
+  var auditField=$("#"+id).text()+"服务资质证书信息"; //审批的字段名字
    layer.prompt({title: '请填写不通过理由', formType: 2}, function(text){
     $.ajax({
         url:"<%=basePath%>supplierAudit/auditReasons.html",
@@ -162,7 +162,7 @@ function tijiao(str){
     action = "<%=basePath%>supplierAudit/engineering.html";
   }
   if(str=="service"){
-    action = "${pageContext.request.contextPath}/supplierAudit/serviceInformation.html";
+    action = "<%=basePath%>supplierAudit/serviceInformation.html";
   }
   if(str=="reasonsList"){
     action = "<%=basePath%>supplierAudit/reasonsList.html";
@@ -186,9 +186,9 @@ function tijiao(str){
               <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" onclick="tijiao('financial');">财务信息</a></li>
               <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('shareholder');">股东信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('materialProduction');">物资-生产型专业信息</a></li>
-              <li class="active"><a aria-expanded="true" href="#tab-3" data-toggle="tab" onclick="tijiao('materialSales');">物资-销售型专业信息</a></li>
+              <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('materialSales');">物资-销售型专业信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('engineering');">工程-专业信息</a></li>
-              <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('service');">服务-专业信息</a></li>
+              <li class="active"><a aria-expanded="true" href="#tab-3" data-toggle="tab" onclick="tijiao('service');">服务-专业信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" >品目信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >产品信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('reasonsList');">审核汇总</a></li>
@@ -199,86 +199,86 @@ function tijiao(str){
                     <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
                   </form>
                   <div class=" margin-bottom-0">
-	                  <h2 class="f16 jbxx">
-	                  <i>01</i>供应商资质证书
-	                  </h2>
-	                  <table class="table table-bordered table-condensed">
-	                    <thead>
-	                      <tr>
-	                        <th class="info">资质证书名称</th>
-	                        <th class="info">资质等级</th>
-	                        <th class="info">发证机关</th>
-	                        <th class="info">有效期(起止时间)</th>
-	                        <th class="info">是否年检</th>
-	                        <th class="info">附件上传</th>
-	                        <th class="info">操作</th>
-	                      </tr>
-	                    </thead>
-	                    <c:forEach items="${supplierCertSell}" var="s" >
-	                      <tr>
-	                        <td class="tc" id="${s.id}">${s.name }</td>
-	                          <td class="tc">${s.levelCert}</td>
-	                          <td class="tc">${s.licenceAuthorith }</td>
-	                          <td class="tc">
-	                            <fmt:formatDate value="${s.expStartDate }" pattern='yyyy-MM-dd'/>  至  
-	                            <fmt:formatDate value="${s.expEndDate }" pattern='yyyy-MM-dd'/>
-	                          </td>
-	                          <td class="tc">
-	                           <c:if test="${s.mot==0 }">否</c:if>
-	                           <c:if test="${s.mot==1 }">是</c:if>
-	                          </td>
-	                          <td class="tc">${s.attach }</td>
-	                          <td class="tc">
-	                            <a id="reason1" class="b f18 fl ml10 red hand">√</a>
-	                            <a onclick="reason('${s.id}');" class="b f18 fl ml10 hand">×</a>
-	                          </td>
-	                      </tr>
-	                    </c:forEach>
-	                  </table>
-	                </div>
-	                
-	                <div class=" margin-bottom-0">
-	                  <h2 class="f16 jbxx">
-	                  <i>02</i>供应商组织结构和人员
-	                  </h2>
-	                    <ul class="list-unstyled list-flow">
-	                      <li class="col-md-6 p0"><span class="" id="orgName2"><i class="red">＊</i>组织机构：</span>
-	                        <div class="input-append">
-	                          <input class="span3" type="text" value="${supplierMatSells.orgName }" />
-	                          <div id="orgName1"  class="b f18 fl ml10 red hand">√</div>
-	                          <div id="orgName" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
-	                        </div>
-	                      </li>
-	                      <li class="col-md-6 p0"><span class="" id="totalPerson2"><i class="red">＊</i>人员总数：</span>
-	                        <div class="input-append">
-	                          <input class="span3" type="text" value="${supplierMatSells.totalPerson }" />
-	                          <div id="totalPerson1" class="b f18 fl ml10 red hand">√</div>
-	                        <div id="totalPerson" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
-	                        </div>
-	                      </li>
-	                      <li class="col-md-6 p0"><span class="" id="totalMange2"><i class="red">＊</i>管理人员：</span>
-	                        <div class="input-append">
-	                          <input class="span3" type="text"  value="${supplierMatSells.totalMange }"/>
-	                          <div id="totalMange1" class="b f18 fl ml10 red hand">√</div>
-	                        <div id="totalMange" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
-	                        </div>
-	                      </li>
-	                      <li class="col-md-6 p0"><span class="" id="totalTech2"><i class="red">＊</i>技术人员：</span>
-	                        <div class="input-append">
-	                          <input class="span3" type="text"  value="${supplierMatSells.totalTech }"/>
-	                          <div id="totalTech1" class="b f18 fl ml10 red hand">√</div>
-	                        <div id="totalTech" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
-	                        </div>
-	                      </li>
-	                      <li class="col-md-6 p0"><span class="" id="totalWorker2"><i class="red">＊</i>工人(职员)：</span>
-	                        <div class="input-append">
-	                          <input class="span3" type="text" value="${supplierMatSells.totalWorker }"/>
-	                          <div id="totalWorker1" class="b f18 fl ml10 red hand">√</div>
-	                        <div id="totalWorker" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
-	                        </div>
-	                      </li>
-	                    </ul>
-	                  </div>
+                    <h2 class="f16 jbxx">
+                    <i>01</i>供应商资质证书
+                    </h2>
+                    <table class="table table-bordered table-condensed">
+                      <thead>
+                        <tr>
+                          <th class="info">资质证书名称</th>
+                          <th class="info">资质等级</th>
+                          <th class="info">发证机关</th>
+                          <th class="info">有效期(起止时间)</th>
+                          <th class="info">是否年检</th>
+                          <th class="info">附件上传</th>
+                          <th class="info">操作</th>
+                        </tr>
+                      </thead>
+                      <c:forEach items="${supplierCertSes}" var="s" >
+                        <tr>
+                          <td class="tc" id="${s.id}">${s.name }</td>
+                            <td class="tc">${s.levelCert}</td>
+                            <td class="tc">${s.licenceAuthorith }</td>
+                            <td class="tc">
+                              <fmt:formatDate value="${s.expStartDate }" pattern='yyyy-MM-dd'/>  至  
+                              <fmt:formatDate value="${s.expEndDate }" pattern='yyyy-MM-dd'/>
+                            </td>
+                            <td class="tc">
+                             <c:if test="${s.mot==0 }">否</c:if>
+                             <c:if test="${s.mot==1 }">是</c:if>
+                            </td>
+                            <td class="tc">${s.attach }</td>
+                            <td class="tc">
+                              <a id="reason1" class="b f18 fl ml10 red hand">√</a>
+                              <a onclick="reason('${s.id}');" class="b f18 fl ml10 hand">×</a>
+                            </td>
+                        </tr>
+                      </c:forEach>
+                    </table>
+                  </div>
+                  
+                  <div class=" margin-bottom-0">
+                    <h2 class="f16 jbxx">
+                    <i>02</i>供应商组织结构和人员
+                    </h2>
+                      <ul class="list-unstyled list-flow">
+                        <li class="col-md-6 p0"><span class="" id="orgName2"><i class="red">＊</i>组织机构：</span>
+                          <div class="input-append">
+                            <input class="span3" type="text" value="${supplierMatSes.orgName }" />
+                            <div id="orgName1"  class="b f18 fl ml10 red hand">√</div>
+                            <div id="orgName" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
+                          </div>
+                        </li>
+                        <li class="col-md-6 p0"><span class="" id="totalPerson2"><i class="red">＊</i>人员总数：</span>
+                          <div class="input-append">
+                            <input class="span3" type="text" value="${supplierMatSes.totalPerson }" />
+                            <div id="totalPerson1" class="b f18 fl ml10 red hand">√</div>
+                          <div id="totalPerson" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
+                          </div>
+                        </li>
+                        <li class="col-md-6 p0"><span class="" id="totalMange2"><i class="red">＊</i>管理人员：</span>
+                          <div class="input-append">
+                            <input class="span3" type="text"  value="${supplierMatSes.totalMange }"/>
+                            <div id="totalMange1" class="b f18 fl ml10 red hand">√</div>
+                          <div id="totalMange" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
+                          </div>
+                        </li>
+                        <li class="col-md-6 p0"><span class="" id="totalTech2"><i class="red">＊</i>技术人员：</span>
+                          <div class="input-append">
+                            <input class="span3" type="text"  value="${supplierMatSes.totalTech }"/>
+                            <div id="totalTech1" class="b f18 fl ml10 red hand">√</div>
+                          <div id="totalTech" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
+                          </div>
+                        </li>
+                        <li class="col-md-6 p0"><span class="" id="totalWorker2"><i class="red">＊</i>工人(职员)：</span>
+                          <div class="input-append">
+                            <input class="span3" type="text" value="${supplierMatSes.totalWorker }"/>
+                            <div id="totalWorker1" class="b f18 fl ml10 red hand">√</div>
+                          <div id="totalWorker" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
                   
               </div>
             </div>   

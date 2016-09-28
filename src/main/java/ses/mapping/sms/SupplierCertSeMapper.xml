@@ -147,4 +147,15 @@
 		select * from T_SES_SMS_SUPPLIER_CERT_SE where MAT_SE_ID = #{supplierMatSeId}
 	</select>
 	
+	<!-- 服务资质证书信息 -->
+	<select id="findCertSeBySupplierId" parameterType="java.lang.String" resultMap="BaseResultMap">
+	  SELECT
+		  c.*
+		FROM
+		  T_SES_SMS_SUPPLIER_CERT_SE c
+		JOIN T_SES_SMS_SUPPLIER_MAT_SE m ON m.ID = c.MAT_SE_ID
+		WHERE
+		  m.SUPPLIER_ID =#{supplierId}
+	   
+	</select>
 </mapper>

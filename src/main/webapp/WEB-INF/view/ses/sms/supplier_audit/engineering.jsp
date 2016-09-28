@@ -114,7 +114,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 function reason(id){
   var supplierId=$("#supplierId").val();
   var auditField="证书编号是"+$("#"+id).text(); //审批的字段名字
-  alert(auditField);
    layer.prompt({title: '请填写不通过理由', formType: 2}, function(text){
     $.ajax({
         url:"<%=basePath%>supplierAudit/auditReasons.html",
@@ -162,6 +161,9 @@ function tijiao(str){
   if(str=="engineering"){
     action = "<%=basePath%>supplierAudit/engineering.html";
   }
+  if(str=="service"){
+    action = "${pageContext.request.contextPath}/supplierAudit/serviceInformation.html";
+  }
   if(str=="reasonsList"){
     action = "<%=basePath%>supplierAudit/reasonsList.html";
   }
@@ -186,7 +188,7 @@ function tijiao(str){
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('materialProduction');">物资-生产型专业信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('materialSales');">物资-销售型专业信息</a></li>
               <li class="active"><a aria-expanded="true" href="#tab-3" data-toggle="tab" onclick="tijiao('engineering');">工程-专业信息</a></li>
-              <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >服务-专业信息</a></li>
+              <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('service');">服务-专业信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" >品目信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >产品信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('reasonsList');">审核汇总</a></li>
