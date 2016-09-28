@@ -98,50 +98,50 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <div class="tab-pane fade active in height-450" id="tab-1">
               <div class=" margin-bottom-0">
                 <h2 class="f16 jbxx">基本信息</h2>
-				<table class="table table-condensed table-bordered">
+				<table class="table table-bordered">
 				 <tbody>
 				 <tr>
-				  <td class="bggrey">采购单位：</td>
+				  <td class="bggrey tr">采购单位：</td>
 				  <td>中国储备粮管理总公司</td>
-				  <td class="bggrey">发票抬头：</td>
+				  <td class="bggrey tr">发票抬头：</td>
 				  <td>中国储备粮管理总公司</td>
-				  <td class="bggrey">采购单位联系人：</td>
+				  <td class="bggrey tr">采购单位联系人：</td>
 				  <td>系统管理员</td>
 				 </tr> 
 				 <tr>
-				  <td class="bggrey">采购单位联系人座机：</td>
+				  <td class="bggrey tr">采购单位联系人座机：</td>
 				  <td> －</td>
-				  <td class="bggrey">采购单位联系人手机:</td>
+				  <td class="bggrey tr">采购单位联系人手机:</td>
 				  <td>－</td>
-				  <td class="bggrey">采购单位地址：</td>
+				  <td class="bggrey tr">采购单位地址：</td>
 				  <td>北京市西城区西直门外大街甲</td>
 				 </tr> 
 				 <tr>
-				  <td class="bggrey">供应商名称：</td>
+				  <td class="bggrey tr">供应商名称：</td>
 				  <td>商丘市庆源机械设备有限公司</td>
-				  <td class="bggrey">供应商单位联系人:</td>
+				  <td class="bggrey tr">供应商单位联系人:</td>
 				  <td>联系人</td>
-				  <td class="bggrey">供应商单位联系人座机：</td>
+				  <td class="bggrey tr">供应商单位联系人座机：</td>
 				  <td>56229828</td>
 				 </tr> 
 				 <tr>
-				  <td class="bggrey">供应商单位联系人手机：</td>
+				  <td class="bggrey tr">供应商单位联系人手机：</td>
 				  <td>13011111111</td>
-				  <td class="bggrey">供应商单位地址：</td>
+				  <td class="bggrey tr">供应商单位地址：</td>
 				  <td>商丘市庆源机械设备有限公司</td>
-				  <td class="bggrey">交付日期：</td>
+				  <td class="bggrey tr">交付日期：</td>
 				  <td>  2016-06-30 </td>
 				 </tr> 
 				 <tr>
-				  <td class="bggrey">预算金额：</td>
+				  <td class="bggrey tr">预算金额：</td>
 				  <td> 10000.0</td>
-				  <td class="bggrey">发票编号：</td>
+				  <td class="bggrey tr">发票编号：</td>
 				  <td></td>
-				  <td class="bggrey"></td>
+				  <td class="bggrey tr"></td>
 				  <td></td>
 				 </tr> 
 				 <tr>
-				  <td class="bggrey">备注：</td>
+				  <td class="bggrey tr">备注：</td>
 				  <td colspan="5"></td>
 				 </tr> 
 				 

@@ -109,33 +109,35 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           </ul>
           <div class="tab-content">
             <div class="tab-pane fade in active" id="dep_tab-0">
-			  <div class="show_obj"><table class="table table-striped table-bordered">
+			  <div class="show_obj"><table class="table table-bordered">
 			    <tbody>
 				  <tr>
-				    <td width="25%">单位名称：</td>
+				    <td width="25%" class="bggrey tr">单位名称：</td>
 				    <td width="25%">xxxx有限公司</td>
-				    <td width="25%">单位简称：</td>
+				    <td width="25%" class="bggrey tr">单位简称：</td>
 				    <td width="25%">服务公司</td>
 				  </tr>
 				  <tr>
-				    <td width="25%">曾用名：</td>
+				    <td width="25%" class="bggrey tr">曾用名：</td>
 				    <td width="25%">xxxx有限公司</td>
-				    <td width="25%">单位类型：</td>
+				    <td width="25%" class="bggrey tr">单位类型：</td>
 				    <td width="25%">独立核算单位</td>
 				  </tr>
 				  <tr>
-				    <td width="25%">邮政编码：</td>
-				    <td width="25%">100044</td><td width="25%">所在地区：</td>
-				    <td width="25%">北京</td></tr><tr><td width="25%">详细地址：</td>
+				    <td width="25%" class="bggrey tr">邮政编码：</td>
+				    <td width="25%">100044</td>
+				    <td width="25%" class="bggrey tr">所在地区：</td>
+				    <td width="25%">北京</td></tr><tr>
+				    <td width="25%" class="bggrey tr">详细地址：</td>
 				    <td width="25%">北京市西四环中路16号院8号楼</td>
-				    <td width="25%">电话（总机）：</td>
+				    <td width="25%" class="bggrey tr">电话（总机）：</td>
 				    <td width="25%">88016942</td>
 				  </tr>
 				  <tr>
-				    <td width="25%">传真：</td>
+				    <td width="25%" class="bggrey tr">传真：</td>
 				    <td width="25%">-</td>
-				    <td></td>
-				    <td></td>
+				    <td  width="25%" class="bggrey tr"></td>
+				    <td width="25%"></td>
 				  </tr>
 				 </tbody>
 			 </table>
