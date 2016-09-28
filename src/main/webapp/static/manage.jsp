@@ -36,78 +36,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </head>
 
 <body>
-  <div class="wrapper">
-   <div class="header-v4 header-v5">
-    <!-- Navbar -->
-    <div class="navbar navbar-default mega-menu" role="navigation">
-      <div class="container">
-        <!-- logo和搜索 -->
-        <div class="navbar-header">
-          <div class="row container">
-            <div class="col-md-4 padding-bottom-30">
-              <a href="">
-                 <img alt="Logo" src="images/logo_2.png" id="logo-header">
-              </a>
-            </div>
-			<!--菜单开始-->
-            <div class="col-md-8 topbar-v1 col-md-12 ">
-              <ul class="top-v1-data padding-0">
-			    <li>
-				<a href="#">
-				  <div><img src="images/top_01.png"/></div>
-				  <span>决策支持</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="images/top_02.png"/></div>
-				  <span>业务监管</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="images/top_03.png"/></div>
-				  <span>障碍作业</span>
-				 </a>
-				</li>	
-			    <li>
-				<a href="#">
-				  <div><img src="images/top_04.png"/></div>
-				  <span>信息服务</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="images/top_05.png"/></div>
-				  <span>支撑环境</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="images/top_06.png"/></div>
-				  <span>配置配置</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="images/top_07.png"/></div>
-				  <span>后台首页</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="images/top_08.png"/></div>
-				  <span>安全退出</span>
-				 </a>
-				</li>
-				
-			  </ul>
-			</div>
-          </div>
-	    </div>
-	 </div>
-   </div>
-   </div>
+  
 <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
@@ -412,35 +341,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <div class="margin-bottom-10"></div>
           <p>状态:<span class="label rounded-2x label-u">正常</span>&nbsp;&nbsp;姓名:许锡炎&nbsp;&nbsp;ID:146393&nbsp;&nbsp;单位:xxxx有限公司&nbsp;&nbsp;IP地址:172.16.25.12|局域网</p>
         </div>
-      </li></ul></div>
-      </div>
-    </div></div>
-		</div>
-	</div>
-</div>
-
-
-                </div>
-                <!-- End Content -->
-            </div>
-        </div><!--/container-->
-        <!--=== End Content Part ===-->
-<!--底部代码开始-->
-<div class="footer-v2" id="footer-v2">
-
-      <div class="footer">
-
-            <!-- Address -->
-              <address class="">
-			  Copyright  2016 版权所有：中央军委后勤保障部 京ICP备09055519号
-              </address>
-              <div class="">
-		       浏览本网主页，建议将电脑显示屏的分辨率调为1024*768
-              </div> 
-            <!-- End Address -->
-       </div>
-<!--/footer--> 
-</div>
+        </li>
+      </ul>
+     </div>
     </div>
+   </div>
+  </div>
+ </div>
+</div>
+</div>
+</div>
+</div>
+ </div><!--/container-->
+
+
 </body>
 </html>

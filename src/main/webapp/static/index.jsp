@@ -568,30 +568,8 @@ function kaptcha(){
    </div>
   </div> 
 
-<!--底部代码开始-->
-<div class="footer-v2" id="footer-v2">
-
-      <div class="footer">
-
-            <!-- Address -->
-              <address class="">
-			  Copyright © 2016 版权所有：中央军委后勤保障部 京ICP备09055519号
-              </address>
-              <div class="">
-		       浏览本网主页，建议将电脑显示屏的分辨率调为1024*768
-              </div> 
-            <!-- End Address -->
-
-<!--/footer--> 
-    </div>
 </div>
-<!--[if lt IE 9]>
-    <script src="/assets/plugins/respond.js?body=1"></script>
-<script src="/assets/plugins/html5shiv.js?body=1"></script>
-<script src="/assets/plugins/html5.js?body=1"></script>
-<script src="/assets/plugins/placeholder-IE-fixes.js?body=1"></script>
-<script src="/assets/ie_9.js?body=1"></script>
-<![endif]-->
+
 
 </body>
 </html>
