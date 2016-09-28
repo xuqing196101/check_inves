@@ -218,7 +218,7 @@
 	    		<button class="btn" type="button" onclick="download()">题目模板下载</button>
 	    		<span class="">
 		    	  	<input type="file" name="file" id="excelFile" style="display:inline;"/>
-		    	  	<input type="button" value="导入" class="btn " onclick="poiExcel()"/>
+		    	  	<input type="button" value="导入" class="btn" onclick="poiExcel()"/>
 	    	  	</span>
 	    	</div>
     	</div>
@@ -229,21 +229,31 @@
    		<table class="table table-bordered table-condensed">
 	    	<thead>
 		    	<th class="info"><input type="checkbox" id="selectAll" onclick="selectAll()"/></th>
-		    	<th class="info">序号</th>
-		    	<th class="info">题型</th>
+		    	<th class="info w50">序号</th>
+		    	<th class="info w60 tc">题型</th>
 		    	<th class="info">题干</th>
 		    	<th class="info">选项</th>
-		    	<th class="info">答案</th>
+		    	<th class="info w50">答案</th>
 	    	</thead>
 	    	<tbody>
 	    		<c:forEach items="${purchaserQuestionList.list }" var="purchaser" varStatus="vs">
-	    			<tr>
+	    			<tr class="pointer">
 	    				<td class="tc"><input type="checkbox" name="info" value="${purchaser.id }"/></td>
-	    				<td class="tc pointer" onclick="view('${purchaser.id }')">${(vs.index+1)+(purchaserQuestionList.pageNum-1)*(purchaserQuestionList.pageSize)}</td>
-	    				<td class="tc pointer" onclick="view('${purchaser.id }')">${purchaser.examQuestionType.name }</td>
-	    				<td class="tc pointer" onclick="view('${purchaser.id }')">${purchaser.topic }</td>
-	    				<td class="tc pointer" onclick="view('${purchaser.id }')">${purchaser.items }</td>
-	    				<td class="tc pointer" onclick="view('${purchaser.id }')">${purchaser.answer }</td>
+	    				<td class="tc w50" onclick="view('${purchaser.id }')">${(vs.index+1)+(purchaserQuestionList.pageNum-1)*(purchaserQuestionList.pageSize)}</td>
+	    				<td class="w60 tc" onclick="view('${purchaser.id }')">${purchaser.examQuestionType.name }</td>
+	    				<c:if test="${fn:length(purchaser.topic)>26}">
+	    					<td class="" onclick="view('${purchaser.id }')">${fn:substring(purchaser.topic,0,26)}...</td>
+	    				</c:if>
+	    				<c:if test="${fn:length(purchaser.topic)<=26}">
+	    					<td class="" onclick="view('${purchaser.id }')">${purchaser.topic }</td>
+	    				</c:if>
+	    				<c:if test="${fn:length(purchaser.items)>26}">
+	    					<td class="" onclick="view('${purchaser.id }')">${fn:substring(purchaser.items,0,26)}...</td>
+	    				</c:if>
+	    				<c:if test="${fn:length(purchaser.items)<=26}">
+	    					<td class="" onclick="view('${purchaser.id }')">${purchaser.items }</td>
+	    				</c:if>
+	    				<td class="tc w50" onclick="view('${purchaser.id }')">${purchaser.answer }</td>
 	    			</tr>
 	    		</c:forEach>
 	    	</tbody>

@@ -126,6 +126,8 @@
 					<th class="info">序号</th>
 					<th class="info">专家姓名</th>
 					<th class="info">专家类型</th>
+					<th class="info">证件类型</th>
+					<th class="info">证件号</th>
 					<th class="info">考试时间</th>
 					<th class="info">得分</th>
 					<th class="info">考试状态</th>
@@ -133,9 +135,11 @@
 				<tbody>
 					<c:forEach items="${expertResultList.list }" var="result" varStatus="vs">
 						<tr>
-							<td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-							<td class="tc">${result.user.relName }</td>
+							<td class="tc">${(vs.index+1)+(expertResultList.pageNum-1)*(expertResultList.pageSize)}</td>
+							<td class="tc">${result.relName }</td>
 							<td class="tc">${result.userDuty }</td>
+							<td class="tc">${result.idType }</td>
+							<td class="tc">${result.idNumber }</td>
 							<td class="tc">${result.formatDate }</td>
 							<td class="tc">${result.score }</td>
 							<td class="tc">${result.status }</td>

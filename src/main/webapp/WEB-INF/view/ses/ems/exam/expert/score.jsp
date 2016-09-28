@@ -40,11 +40,11 @@
   		<div class="container tc">
   		  <div class="score_box border1">
   			<div id="isPass" class="f18"></div>
-  			<div><span class="f18">得分:</span><span class="f22 red">${score }</span><span class="f18">分</span></div>
+  			<div><span class="f18">得分：</span><span class="f22 red">${score }</span><span class="f18">分</span></div>
   			<div class="f18 mt10">感谢您的参与!</div>
   			<div class="mt20">
   			  <button class="btn" type="button" onclick="isReDo()" id="isReDo">重考</button>
-  			  <button class="btn" type="button" onclick="isReDo()" id="isReDo">退出考试系统</button>
+  			  <button class="btn" type="button" onclick="exitExam()" id="exitExam">退出考试系统</button>
   		    </div>
   		    </div>
   		</div>

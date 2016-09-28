@@ -153,7 +153,7 @@
 
    <c:forEach items="${list }" var="park"> 
       <div class="home_suggest_topics panel panel-default">
-    <div class="panel-heading panel-title">${park.name }</div>
+    <div class="panel-heading panel-title">${park.name }<span class="fr"><a href="<%=basePath%>post/getIndexlist.html?parkId=${park.id}" class="f14 b">更多>></a></span></div>
     <div class="panel-body topics row">
       <!-- 帖子div -->
   <c:forEach items="${park.posts }" var="post">

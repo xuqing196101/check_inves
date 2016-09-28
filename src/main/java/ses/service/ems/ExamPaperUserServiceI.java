@@ -65,6 +65,18 @@ public interface ExamPaperUserServiceI {
 	
 	/**
 	 * 
+	* @Title: updateByPaperIdAndUserID
+	* @author ZhaoBo
+	* @date 2016-9-28 下午2:04:11  
+	* @Description: 根据考卷ID和用户ID更新参考人员考试状态 
+	* @param @param examPaperUser
+	* @param @return      
+	* @return int
+	 */
+	int updateByPaperIdAndUserID(ExamPaperUser examPaperUser);
+	
+	/**
+	 * 
 	* @Title: getAllByPaperId
 	* @author ZhaoBo
 	* @date 2016-9-21 上午10:59:57  
