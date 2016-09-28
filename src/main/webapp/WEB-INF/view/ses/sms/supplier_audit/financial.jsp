@@ -119,10 +119,25 @@ function reason(id){
         type:"post",
         data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId,
       });
-  layer.msg("审核不通过的理由是："+text);
+      $("#"+id+"_hide").hide();
+      layer.msg("审核不通过的理由是："+text);
     });
 }
 
+function reason1(year, ele){
+  var supplierId=$("#supplierId").val();
+  var value = $(ele).parents("li").find("span").text().replaceAll("＊","").replaceAll("：","");//审批的字段名字
+  var auditField=year+"年"+value;
+	  layer.prompt({title: '请填写不通过理由', formType: 2}, function(text){
+	    $.ajax({
+	        url:"<%=basePath%>supplierAudit/auditReasons.html",
+	        type:"post",
+	        data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId,
+	      });
+	      $(ele).parent("div").find("div").eq(0).hide(); //隐藏勾
+	      layer.msg("审核不通过的理由是："+text);
+	    });
+}
 
 function tijiao(str){
   var action;
@@ -208,48 +223,57 @@ function tijiao(str){
                          <td class="tc">${f.totalNetAssets}</td>
                          <td class="tc">${f.taking}</td>
                          <td class="tc">
-                          <a id="reason1" class="b f18 fl ml10 red hand">√</a>
+                          <a id="${f.id }_hide" class="b f18 fl ml10 red hand">√</a>
                           <a onclick="reason('${f.id}');" class="b f18 fl ml10 hand">×</a>
                          </td>
                        </tr>
                      </c:forEach>
                   </table>
                   
-                  <div class=" margin-bottom-0">
+                  <c:forEach items="${financial}" var="f" varStatus="vs">
+                  <div class=" margin-bottom-0 fl">
+	                  <h2 class="f16 jbxx">
+	                  <i>01</i>${f.year }年
+	                  </h2>
                     <ul class="list-unstyled list-flow">
-                      <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>近三年财务审计报告意见表：</span>
+                      <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>财务审计报告意见表：</span>
                         <div class="input-append">
                           <a class="span3">附件下载</a>
-                          <div class="b f18 fl ml10 red hand">√</div>
-                          <div onclick="reason()" class="b f18 fl ml10 hand">×</div>
+                          <div  class="b f18 fl ml10 red hand">√</div>
+                          <div onclick="reason1('${f.year }', this);" class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>资产负债表：</span>
                         <div class="input-append">
                           <a class="span3">附件下载</a>
-                          <div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
+                          <div class="b f18 fl ml10 red hand">√</div>
+                          <div onclick="reason1('${f.year }', this);" class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
-                      <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>近三年利润表：</span>
+                      <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>利润表：</span>
                         <div class="input-append">
                           <a class="span3">附件下载</a>
-                          <div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
+                          <div class="b f18 fl ml10 red hand">√</div>
+                          <div onclick="reason1('${f.year }', this);" class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
-                      <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>近三年现金流量表：</span>
+                      <li class="col-md-6 p0 "><span class="" ><i class="red">＊</i>现金流量表：</span>
                         <div class="input-append">
                           <a class="span3">附件下载</a>
-                          <div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
+                          <div class="b f18 fl ml10 red hand">√</div>
+                          <div onclick="reason1('${f.year }', this);" class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
-                      <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>所有者权益变动表：</span>
+                      <li class="col-md-6 p0 "><span class="" ><i class="red">＊</i>所有者权益变动表：</span>
                         <div class="input-append">
                           <a class="span3">附件下载</a>
-                          <div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
+                          <div class="b f18 fl ml10 red hand">√</div>
+                          <div onclick="reason1('${f.year }', this);" class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
                     </ul>
                   </div>
+                  </c:forEach>
                   
                 </div>
               </div>

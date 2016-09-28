@@ -120,6 +120,8 @@ function reason(id){
         type:"post",
         data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId,
       });
+        $("#"+id+"_hide").hide();
+        $("#"+id+"_hide1").hide();
         layer.msg("审核不通过的理由是："+text);
     });
 }
@@ -247,7 +249,7 @@ function tijiao(str){
 	                        </td>
 	                        <%-- <td class="tc">${s.attachCert }</td> --%>
 	                        <td class="tc">
-	                              <a id="reason1" class="b f18 fl ml10 red hand">√</a>
+	                              <a id="${s.id }_hide" class="b f18 fl ml10 red hand">√</a>
 	                              <a onclick="reason('${s.id}');" class="b f18 fl ml10 hand">×</a>
 	                        </td>
 	                       </tr>
@@ -305,7 +307,7 @@ function tijiao(str){
                         <td class="tc">${s.aptituteChangeReason }</td>
                         <%-- <td class="tc">${s.attachCert }</td> --%>
                         <td class="tc">
-                          <a id="reason1" class="b f18 fl ml10 red hand">√</a>
+                          <a id="${s.id }_hide1" class="b f18 fl ml10 red hand">√</a>
                           <a onclick="reason('${s.id}');" class="b f18 fl ml10 hand">×</a>
                         </td>
                       </tr>

@@ -103,6 +103,7 @@ public class SupplierAuditController {
 		
 		//所有供应商类型
 		List<SupplierType> supplierType= supplierAuditService.findSupplierType();
+		
 		request.setAttribute("supplierType", supplierType);
 		return "ses/sms/supplier_audit/supplier_list";
 	}
