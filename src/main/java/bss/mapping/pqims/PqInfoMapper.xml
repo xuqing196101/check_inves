@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.pqims.PqInfoMapper">
+  <resultMap id="PqInfoResultMap" type="bss.model.pqims.PqInfo">
+    <id column="ID" jdbcType="VARCHAR" property="id" />  
+    <result column="PROJECT_TYPE" jdbcType="VARCHAR" property="projectType" />
+    <result column="UNIT" jdbcType="VARCHAR" property="unit" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+    <result column="PLACE" jdbcType="VARCHAR" property="place" />
+    <result column="PQDATE" jdbcType="DATE" property="pqdate" />
+    <result column="INSPECTORS"  jdbcType="VARCHAR" property="inspectors" />
+    <result column="CONDITION"  jdbcType="VARCHAR" property="condition" />
+    <result column="CONCLUSION"  jdbcType="VARCHAR" property="conclusion" />
+    <result column="DETAIL"  jdbcType="VARCHAR" property="detail" />
+    <result column="REPORT"  jdbcType="VARCHAR" property="report" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+    <!-- 查询合同  -->
+    <association column="CONTRACT_ID"  property="contract" select="bss.dao.cs.PurchaseContractMapper.selectContractByid" />  
+  </resultMap>
+  
+  <!-- 表名 -->
+  <sql id="Tabel_Name">
+    T_BSS_PQIMS_PQINFO
+  </sql>
+  
+  <!-- 表中所有列 -->
+  <sql id="Base_Column_List">
+    ID, CONTRACT_ID, PROJECT_TYPE, UNIT, TYPE, PLACE, PQDATE, INSPECTORS, CONDITION, CONCLUSION, 
+    DETAIL, REPORT, CREATED_AT, UPDATED_AT
+  </sql>
+  
+  <!-- 查询条件 -->
+  <sql id="Example_Where_Clause">
+    <trim suffixOverrides=",">
+      <if test="id != null and id != ''">
+        and p.ID = #{id} 
+      </if>
+      <if test="contract != null">
+        and p.CONTRACT_ID = #{contract.id} 
+      </if>
+      <if test="projectType != null and projectType != ''">
+        and p.PROJECT_TYPE = #{projectType} 
+      </if>
+      <if test="createdAt != null">
+        and p.CREATED_AT = #{createdAt} 
+      </if>
+      <if test="unit != null and unit != ''">
+        and p.UNIT = #{unit} 
+      </if>
+      <if test="updatedAt != null">
+        and p.UPDATED_AT = #{updatedAt} 
+      </if>
+      <if test="type != null">
+        and p.TYPE = #{type}
+      </if> 
+      <if test="place != null and place != ''">
+        and p.PLACE = #{place}
+      </if>
+      <if test="pqdate != null">
+        and p.PQDATE = #{pqdate}
+      </if>
+      <if test="inspectors != null and inspectors != ''">
+        and p.INSPECTORS = #{inspectors}
+      </if>
+      <if test="condition != null and condition != ''">
+        and p.CONDITION= #{condition}
+      </if>
+      <if test="conclusion != null">
+        and p.CONCLUSION = #{conclusion} 
+      </if>
+      <if test="detail != null and detail != ''">
+        and p.DETAIL = #{detail} 
+      </if>
+      <if test="report != null">
+        and p.REPORT = #{report} 
+      </if>
+    </trim>
+  </sql>
+  
+   <!-- 1.根据id查询(不带关联集合) -->
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="PqInfoResultMap">
+    select 
+    *
+    from T_BSS_PQIMS_PQINFO
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 2.根据id删除 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BSS_PQIMS_PQINFO
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  
+  <!-- 3.插入数据 -->
+  <insert id="insert" parameterType="bss.model.pqims.PqInfo">
+ 	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_BSS_PQIMS_PQINFO (ID, CONTRACT_ID, PROJECT_TYPE, 
+      UNIT, TYPE, PLACE, 
+      PQDATE, INSPECTORS, CONDITION, 
+      CONCLUSION, DETAIL, REPORT, 
+      CREATED_AT, UPDATED_AT)
+    values (#{id}, #{contractId}, #{projectType}, 
+      #{unit}, #{type}, #{place}, 
+      #{pqdate}, #{inspectors}, #{condition}, 
+      #{conclusion}, #{detail}, #{report}, 
+      #{createdAt}, #{updatedAt})
+  </insert>
+  
+  <!-- 4.插入不为空数据 -->
+  <insert id="insertSelective" parameterType="bss.model.pqims.PqInfo">
+    <selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_BSS_PQIMS_PQINFO
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null and id != ''">
+        ID,
+      </if>
+      <if test="contract != null">
+        CONTRACT_ID,
+      </if>
+      <if test="projectType != null  and projectType !=''">
+        PROJECT_TYPE,
+      </if>
+      <if test="unit != null and unit !=''">
+        UNIT,
+      </if>
+      <if test="type != null and type !=''">
+        TYPE,
+      </if>
+      <if test="place != null and place !=''">
+        PLACE,
+      </if>
+      <if test="pqdate != null">
+        PQDATE,
+      </if>
+      <if test="inspectors != null  and inspectors !=''">
+        INSPECTORS,
+      </if>
+      <if test="condition != null  and condition !=''">
+        CONDITION,
+      </if>
+      <if test="conclusion != null  and conclusion != ''">
+        CONCLUSION,
+      </if>
+      <if test="detail != null and detail != ''">
+        DETAIL,
+      </if>
+      <if test="report != null and report != ''">
+        REPORT,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null ">
+        #{id},
+      </if>
+      <if test="contract != null">
+        #{contract.id},
+      </if>
+      <if test="projectType != null">
+        #{projectType},
+      </if>
+      <if test="unit != null">
+        #{unit},
+      </if>
+      <if test="type != null">
+        #{type},
+      </if>
+      <if test="place != null">
+        #{place},
+      </if>
+      <if test="pqdate != null">
+        #{pqdate},
+      </if>
+      <if test="inspectors != null">
+        #{inspectors},
+      </if>
+      <if test="condition != null ">
+        #{condition},
+      </if>
+      <if test="conclusion != null">
+        #{conclusion},
+      </if>
+      <if test="detail != null ">
+        #{detail},
+      </if>
+      <if test="report != null and report != ''">
+        #{report},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 5.根据更新不为空数据 -->
+  <update id="updateByPrimaryKeySelective" parameterType="bss.model.pqims.PqInfo">
+    update T_BSS_PQIMS_PQINFO
+    <set>
+      <if test="contract != null">
+        CONTRACT_ID = #{contract.id,jdbcType=VARCHAR},
+      </if>
+      <if test="projectType != null">
+        PROJECT_TYPE = #{projectType,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        UNIT = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="place != null">
+        PLACE = #{place,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null">
+        PQDATE = #{pqdate,jdbcType=DATE},
+      </if>
+      <if test="inspectors != null">
+        INSPECTORS = #{inspectors,jdbcType=VARCHAR},
+      </if>
+      <if test="condition != null">
+        CONDITION = #{condition,jdbcType=VARCHAR},
+      </if>
+      <if test="conclusion != null">
+        CONCLUSION = #{conclusion,jdbcType=VARCHAR},
+      </if>
+      <if test="detail != null">
+        DETAIL = #{detail,jdbcType=VARCHAR},
+      </if>
+      <if test="report != null">
+        REPORT = #{report,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 6.更新数据 -->
+  <update id="updateByPrimaryKey" parameterType="bss.model.pqims.PqInfo">
+    update T_BSS_PQIMS_PQINFO
+    set CONTRACT_ID = #{contract.id,jdbcType=VARCHAR},
+      PROJECT_TYPE = #{projectType,jdbcType=VARCHAR},
+      UNIT = #{unit,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=VARCHAR},
+      PLACE = #{place,jdbcType=VARCHAR},
+      PQDATE = #{pqdate,jdbcType=DATE},
+      INSPECTORS = #{inspectors,jdbcType=VARCHAR},
+      CONDITION = #{condition,jdbcType=VARCHAR},
+      CONCLUSION = #{conclusion,jdbcType=VARCHAR},
+      DETAIL = #{detail,jdbcType=VARCHAR},
+      REPORT = #{report,jdbcType=VARCHAR},
+      CREATED_AT = #{createdAt,jdbcType=DATE},
+      UPDATED_AT = #{updatedAt,jdbcType=DATE}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 7.列表总数 -->
+  <select id="queryByCount" resultType="java.lang.Integer" parameterType="Object">
+    select count(1) 
+    from T_BSS_PQIMS_PQINFO
+    <!-- where IS_DELETED = 0 -->
+  </select>
+  
+  <!-- 8.查询列表(查询不为空的字段，不带关联集合) -->
+  <select id="queryByList" resultMap="PqInfoResultMap" parameterType="Object">
+    select
+    *
+    from T_BSS_PQIMS_PQINFO p
+    ORDER BY p.CREATED_AT DESC
+  </select>
+  
+   <!-- 9.根据条件查询 -->
+  <select id="selectByCondition" parameterType="Object" resultMap="PqInfoResultMap">
+    select 
+    *
+    from T_BSS_PQIMS_PQINFO p LEFT JOIN T_BSS_CS_PURCHASE_CONTRACT c on p.CONTRACT_ID = c.id
+    where 
+	 <if test="conclusion != null and conclusion !='-请选择-'">
+        p.CONCLUSION=#{conclusion}
+     </if>
+     <if test="conclusion != null and type != null and conclusion !='-请选择-' and type !='-请选择-'">
+        AND
+     </if>
+     <if test="type != null and type !='-请选择-'">
+        p.TYPE=#{type}
+     </if>
+     <if test="type != null and type !='-请选择-' and contract.code != null and contract.code != ''">
+        AND
+     </if>
+     <if test="contract.code != null and contract.code != ''">
+        c.CODE LIKE '%'||#{contract.code}||'%'
+     </if>
+     <if test="contract.code != null and contract.name != null and  contract.code != '' and contract.name != ''">
+        AND
+     </if>
+     <if test="contract.name != null and contract.name != ''">
+        c.NAME LIKE '%'||#{contract.name}||'%'
+     </if>
+     
+  </select>
+  
+  
+  
+</mapper>

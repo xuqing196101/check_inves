@@ -26,7 +26,7 @@
  <script type="text/javascript">
   	/** 全选全不选 */
 	$(function(){
-		$("#temType").val(${templet.temType});
+		$("#temType").val('${templet.temType}');
 		
 	});
   </script>
@@ -71,19 +71,17 @@
 			 </li>
 		     <li class="col-md-12 p0">
 	   			<span class="fl">模板内容：</span>
-	  			<div class="col-md-12 pl200 fn mt5 pwr9">
-	  				 <script id="editor" name="content" type="text/plain" class="ml125 mt20 w900"></script>
+	  			<div class="col-md-9 p0">
+	  				 <script id="editor" name="content" type="text/plain" class=""></script>
         			<!-- <textarea class="text_area col-md-12 " title="不超过800个字" placeholder="不超过800个字"></textarea> -->
        			</div>
 			 </li> 
 	 		
 			 
    			</ul>
-  		<div  class="col-md-12 ml185">
-   			<div class="fl padding-10 ">
-    			<button class="btn btn-windows reset" type="submit">更新</button>
-    			<button class="btn btn-windows git" onclick="history.go(-1)" type="button">返回</button>
-			</div>
+  		<div  class="col-md-12 tc">
+    		<button class="btn btn-windows reset" type="submit">更新</button>
+    		<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
   		</div>
   		</form>
  	</div>

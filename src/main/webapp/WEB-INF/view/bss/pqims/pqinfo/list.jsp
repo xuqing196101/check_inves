@@ -1,25 +1,26 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="../../../common.jsp"%>
-
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html>
 <html>
   <head>
     <base href="<%=basePath%>">
     
-    <title>质检信息管理</title>
+    <title>查看质检信息</title>
+    
+	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/ueditor.config.js"></script>
+	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/ueditor.all.min.js"> </script>
+	<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+	<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/lang/zh-cn/zh-cn.js"></script>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
-	
-	
+
   </head>
   <script src="<%=basePath%>public/layer/layer.js"></script>
    <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
@@ -37,11 +38,11 @@
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		            location.href = '<%=basePath%>templet/getAll.do?page='+e.curr;
+		            location.href = '<%=basePath%>pqinfo/getAll.do?page='+e.curr;
 		        }
 		    }
 		});
-  });
+  })
   	/** 全选全不选 */
 	function selectAll(){
 		 var checklist = document.getElementsByName ("chkItem");
@@ -111,6 +112,17 @@
     function add(){
     	window.location.href="<%=basePath%>pqinfo/add.html";
     }
+    function showPic(url,name){
+		layer.open({
+			  type: 1,
+			  title: false,
+			  closeBtn: 0,
+			  area: '516px',
+			  skin: 'layui-layer-nobg', //没有背景色
+			  shadeClose: true,
+			  content: $("#photo")
+			});
+	}
   </script>
   <body>
 	<!--面包屑导航开始-->
@@ -132,33 +144,35 @@
    
    <div class="container clear margin-top-0">
    <div class="padding-10 border1 m0_30 tc">
+   	<form action="<%=basePath %>pqinfo/search.html" method="post" enctype="multipart/form-data">
 	 <ul class="demand_list">
-	   <li class="fl mr15"><label class="fl mt5">合同名称：</label><span><input type="text" class="mb0"/></span></li>
-	   <li class="fl mr15"><label class="fl mt5">合同编号：</label><span><input type="text" class="mb0"/></span></li>
+	   <li class="fl mr15"><label class="fl mt5">合同名称：</label><span><input type="text" name="contract.name" class="mb0"/></span></li>
+	   <li class="fl mr15"><label class="fl mt5">合同编号：</label><span><input type="text" name="contract.code" class="mb0"/></span></li>
 	   <li class="fl mr15"><label class="fl mt5">验收类型：</label>
 	   		<span>
-	   			<select id="temType" name =temType class="w150" >
+	   			<select id="temType" name =type class="w150" >
 					<option value="-请选择-">-请选择-</option>
-			  	  	<option value="1">首件检验</option>
-			  	 	<option value="2">生产验收</option>
-			  	 	<option value="3">出厂验收</option>
-			  	 	<option value="4">到货验收</option>
+			  	  	<option value="首件检验">首件检验</option>
+			  	 	<option value="生产验收">生产验收</option>
+			  	 	<option value="出厂验收">出厂验收</option>
+			  	 	<option value="到货验收">到货验收</option>
 	  			</select>
 	  		</span>
 	  </li>
 	   <li class="fl mr15"><label class="fl mt5">质检结论：</label>
 	   		<span>
-	   			<select id="temType" name =temType class="w150" >
+	   			<select id="temType" name =conclusion class="w150" >
 					<option value="-请选择-">-请选择-</option>
-			  	  	<option value="1">合格</option>
-			  	 	<option value="0">不合格</option>
+			  	  	<option value="合格">合格</option>
+			  	 	<option value="不合格">不合格</option>
 	  			</select>
 	   		</span>
 	   </li>
-	   	 <button class="btn fl ml20 mt1">查询</button>
+	   	 <button class="btn fl ml20 mt1" type="submit">查询</button>
 	 </ul>
 
 	 <div class="clear"></div>
+	 </form>
    </div>
   </div>
    
@@ -207,7 +221,8 @@
 				
 				<td class="tc opinter" onclick="view('${PqInfo.id}')">${PqInfo.conclusion}</td>
 			
-				<td class="tc opinter" onclick="view('${PqInfo.id}')"><button type="button">质检报告</button></td>
+				<td class="tc opinter"><button type="button" onclick="showPic('${PqInfo.report}','质检报告')">质检报告</button><img class="hide" id="photo" src="${PqInfo.report}"/></td>
+   				
 			</tr>
 		</c:forEach>
         </table>

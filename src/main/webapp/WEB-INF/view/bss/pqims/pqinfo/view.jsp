@@ -22,7 +22,21 @@
 	<meta http-equiv="description" content="This is my page">
 
   </head>
-  
+  <script src="<%=basePath%>public/layer/layer.js"></script>
+   <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+  <script type="text/javascript">
+  function showPic(url,name){
+		layer.open({
+			  type: 1,
+			  title: false,
+			  closeBtn: 0,
+			  area: '516px',
+			  skin: 'layui-layer-nobg', //没有背景色
+			  shadeClose: true,
+			  content: $("#photo")
+			});
+	}
+  </script>
   <body>
   
   <div class="margin-top-10 breadcrumbs ">
@@ -42,8 +56,6 @@
 	   		</div>
 	   		
 	   		<ul class="list-unstyled list-flow p0_20">
-   			<input type="hidden" class="id" name="id">
-   			<input type="hidden" class="contract_id" name="contract_id">
 		     <li class="col-md-6  p0 ">
 			   <span class="">合同编号：</span>
 			   <div class="input-append">
@@ -59,7 +71,7 @@
     		 <li class="col-md-6 p0">
 			   <span class="">供应商组织机构代码：</span>
 		        <div class="input-append ">
-		        	<input class="span2" name="procurementId" type="text"  value = '${pqinfo.contract.supplier.procurementId}' readonly="readonly">
+		        	<input class="span2" name="procurementId" type="text"  value = '${pqinfo.contract.supplier.id}' readonly="readonly">
        			</div>
 			 </li>
 		     <li class="col-md-6  p0 ">
@@ -95,7 +107,7 @@
 			<li class="col-md-6  p0 ">
 			   <span class="">质检日期：</span>
 			   <div class="input-append">
-		        <input class="span2" name="date" type="text" value = '${pqinfo.date}' readonly="readonly">
+		        <input class="span2" name="date" type="text"  value="<fmt:formatDate value='${pqinfo.date}' pattern='yyyy-MM-dd'/>"readonly="readonly">
 		       </div>
 			 </li>
     		 <li class="col-md-6 p0">
@@ -126,8 +138,8 @@
    		<ul class="list-unstyled list-flow p0_20">
 		     <li class="col-md-6  p0 ">
 			   <span class="">质检报告：</span>
-			   <div class="input-append ">
-		        <input class="span2" name="report" type="text" value = '${pqinfo.detail}' readonly="readonly">
+			   <div class="fl">
+		        <button type="button" onclick="showPic('${pqinfo.report}','质检报告')">质检报告</button><img class="hide" id="photo" src="${pqinfo.report}"/>
 		       </div>
 			 </li>
 		</ul>

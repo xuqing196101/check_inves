@@ -1,23 +1,42 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="../../../common.jsp"%>
 <!DOCTYPE html>
-<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
-<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
-<!--[if !IE]><!-->
-<html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<title></title>
+<html>
+  <head>
+    <base href="<%=basePath%>">
+    
+    <title>查看质检信息</title>
+    
+	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/ueditor.config.js"></script>
+	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/ueditor.all.min.js"> </script>
+	<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+	<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/lang/zh-cn/zh-cn.js"></script>
+    
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+	<meta http-equiv="description" content="This is my page">
 
-	<!-- Meta -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="">
-	<meta name="author" content="">
-</head>
-<script type="text/javascript">
-  	/** 全选全不选 */
+  </head>
+<script src="<%=basePath%>public/layer/layer.js"></script>
+   <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+  <script type="text/javascript">
+  function showPic(url,name){
+		layer.open({
+			  type: 1,
+			  title: false,
+			  closeBtn: 0,
+			  area: '516px',
+			  skin: 'layui-layer-nobg', //没有背景色
+			  shadeClose: true,
+			  content: $("#photo")
+			});
+	};
+	
 	$(function(){
 		$("#projectType").val('${pqinfo.projectType}');
 		$("#type").val('${pqinfo.type}');
@@ -33,12 +52,14 @@
 			success:function(json){
 					 $(".contract_id").val(json.id);
 					 $(".contract_name").val(json.name);
-					 $(".supplier_name").val(json.supplier.name);
-					 $(".procurementId").val(json.supplier.procurementId);
+					 $(".supplier_name").val(json.supplier.supplierName);
+					 $(".procurementId").val(json.supplier.id);
 					 
        		}
        	});
-}
+};
+
+	
   </script>
 <body>
  
@@ -54,13 +75,13 @@
    
 <!-- 修改订列表开始-->
    <div class="container">
-   		<form action="<%=basePath%>pqinfo/update.html" method="post">
+   		<form action="<%=basePath%>pqinfo/update.html" method="post"  enctype="multipart/form-data">
    		<div class="headline-v2">
    			<h2>修改质检报告</h2>
    		</div>
    		<ul class="list-unstyled list-flow p0_20">
    			<input type="hidden" class="id" name="id" value = '${pqinfo.id}'>
-   			<input type="hidden" class="contract_id" name="contract_id" value = '${pqinfo.contract.id}'>
+   			<input type="hidden" class="contract_id" name="contract.id" value = '${pqinfo.contract.id}'>
 		     <li class="col-md-6  p0 ">
 			   <span class="">合同编号：</span>
 			   <div class="input-append">
@@ -76,7 +97,7 @@
     		 <li class="col-md-6 p0">
 			   <span class="">供应商组织机构代码：</span>
 		        <div class="input-append ">
-		        	<input class="span2 procurementId" name="procurementId"  value = '${pqinfo.contract.supplier.procurementId}' type="text"  readonly="readonly">
+		        	<input class="span2 procurementId" name="procurementId"  value = '${pqinfo.contract.supplier.id}' type="text"  readonly="readonly">
        			</div>
 			 </li>
 		     <li class="col-md-6  p0 ">
@@ -120,7 +141,7 @@
 			<li class="col-md-6  p0 ">
 			   <span class="">质检日期：</span>
 			   <div class="input-append">
-		        <input class="span2" name="date" value = '${pqinfo.date}'  type="text">
+		        <input class="span2" name="date" value="<fmt:formatDate value='${pqinfo.date}' pattern='yyyy-MM-dd'/>"  type="text">
 		       </div>
 			 </li>
     		 <li class="col-md-6 p0">
@@ -155,9 +176,11 @@
    		<ul class="list-unstyled list-flow p0_20">
 		     <li class="col-md-6  p0 ">
 			   <span class="">质检报告：</span>
-			   <div class="input-append ">
-		        <input class="span2" name="report" type="text" value = '${pqinfo.report}' >
-		        <button type="button" class="btn ml20 mt1">附件上传</button>
+			   <div class="fl mt5">
+		        <button id="button" type="button" onclick="showPic('${pqinfo.report}','质检报告')">质检报告</button>
+		        <img class="hide" id="photo" src="${pqinfo.report}"/>
+		        <div class="mt5"><input type="file" name="attaattach" value="重新上传"/></div>
+		         
 		       </div>
 			 </li>
 		</ul>
