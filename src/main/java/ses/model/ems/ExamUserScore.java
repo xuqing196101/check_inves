@@ -96,7 +96,22 @@ public class ExamUserScore {
      *@Fields card : 身份证号
      */
     private String card;
-
+    
+    /**
+     *@Fields idType : 身份证号
+     */
+    private String idType;
+    
+    /**
+     *@Fields idNumber : 身份证号
+     */
+    private String idNumber;
+    
+    /**
+     *@Fields isMax : 是否是该用户的最高分数
+     */
+    private Integer isMax;
+    
 	public String getId() {
 		return id;
 	}
@@ -231,6 +246,30 @@ public class ExamUserScore {
 
 	public void setCard(String card) {
 		this.card = card;
+	}
+
+	public String getIdType() {
+		return idType;
+	}
+
+	public void setIdType(String idType) {
+		this.idType = idType;
+	}
+
+	public String getIdNumber() {
+		return idNumber;
+	}
+
+	public void setIdNumber(String idNumber) {
+		this.idNumber = idNumber;
+	}
+
+	public Integer getIsMax() {
+		return isMax;
+	}
+
+	public void setIsMax(Integer isMax) {
+		this.isMax = isMax;
 	}
 
 	

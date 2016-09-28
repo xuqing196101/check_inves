@@ -10,6 +10,10 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
+	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/layer.js"></script>
+	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
+	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
+	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript">
 		function test(){
 			$.ajax({
@@ -17,10 +21,14 @@
 				dataType:"json",
 				url:"<%=basePath%>expertExam/judgeQualy.html",
 				success:function(data){
-	       			if(data==1){
+	       			if(data==0){
+	       				layer.alert("很抱歉,考试周期已过",{offset: ['222px', '390px']});
+						$(".layui-layer-shade").remove();
+	       			}else if(data==1){
 	       				window.location.href = "<%=path %>/expertExam/test.html";
-	       			}else{
-	       				alert("您已被取消考试资格");
+	       			}else if(data==2){
+	       				layer.alert("对不起,您不是专家,无权参加考试",{offset: ['222px', '390px']});
+						$(".layui-layer-shade").remove();
 	       			}
 	       		}
 	       	});
@@ -32,7 +40,7 @@
   <body>
   <div class="container mt10">
   	<div class="col-md-12 f22">
-  		各位专家,本次考试需要在${testCycle }个月内完成所有题目,并且答题及格才生效.如果未在规定时间完成题目,一律取消专家资格!
+  		各位专家，本次考试需要在${testCycle }个月内完成所有题目，并且答题及格才生效。如果未在规定时间完成题目，一律取消专家资格！
   	</div>
   	<div class="col-md-12 p0 tc mt20">
   		<input type="button" value="开始考试" onclick="test()" class="btn"/>

@@ -128,6 +128,19 @@
     where ID = #{id}
   </update>
   
+  <!-- 根据考卷ID和用户ID更新参考人员考试状态 -->
+  <update id="updateByPaperIdAndUserID" parameterType="ses.model.ems.ExamPaperUser">
+    update T_SES_EMS_EXAM_PAPER_USER
+    <set>
+      <if test="isDo != null">
+        IS_DO = #{isDo},
+      </if>
+    </set>
+    where USER_ID = #{userId}
+    AND PAPER_ID = #{paperId}
+  </update>
+  
+  
   <!-- 根据考卷ID查找参考人员 -->
   <select id="getAllByPaperId" parameterType="java.util.Map" resultType="ses.model.ems.ExamPaperUser">
 	  	SELECT

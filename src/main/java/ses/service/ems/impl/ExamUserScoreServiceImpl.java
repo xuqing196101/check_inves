@@ -61,5 +61,26 @@ public class ExamUserScoreServiceImpl implements ExamUserScoreServiceI {
 
 
 	
+	@Override
+	public List<ExamUserScore> findByUserId(ExamUserScore examUserScore) {
+		return examUserScoreMapper.findByUserId(examUserScore);
+	}
+
+
+	
+	@Override
+	public int updateIsMaxById(ExamUserScore examUserScore) {
+		return examUserScoreMapper.updateIsMaxById(examUserScore);
+	}
+
+
+	
+	@Override
+	public int updateIsMaxByUserId(ExamUserScore examUserScore) {
+		return examUserScoreMapper.updateIsMaxByUserId(examUserScore);
+	}
+
+
+	
 	
 }

@@ -33,8 +33,8 @@ public class ExamQuestionServiceImpl implements ExamQuestionServiceI {
 	}
 	
 	@Override
-	public int insertSelective(ExamQuestion examPool) {
-		return examQuestionMapper.insertSelective(examPool);
+	public int insertSelective(ExamQuestion examQuestion) {
+		return examQuestionMapper.insertSelective(examQuestion);
 	}
 	
 	@Override
@@ -43,59 +43,59 @@ public class ExamQuestionServiceImpl implements ExamQuestionServiceI {
 	}
 	
 	@Override
-	public int updateByPrimaryKeySelective(ExamQuestion examPool) {
-		return examQuestionMapper.updateByPrimaryKeySelective(examPool);
+	public int updateByPrimaryKeySelective(ExamQuestion examQuestion) {
+		return examQuestionMapper.updateByPrimaryKeySelective(examQuestion);
 	}
 	
 	@Override
-	public List<ExamQuestion> searchTecExpPool(ExamQuestion examPool,Integer pageNum) {
+	public List<ExamQuestion> searchTecExpPool(ExamQuestion examQuestion,Integer pageNum) {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
-		return examQuestionMapper.searchTecExpPool(examPool,pageNum);
+		return examQuestionMapper.searchTecExpPool(examQuestion,pageNum);
 	}
 	
 	@Override
-	public List<ExamQuestion> searchComExpPool(ExamQuestion examPool,Integer pageNum) {
+	public List<ExamQuestion> searchComExpPool(ExamQuestion examQuestion,Integer pageNum) {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
-		return examQuestionMapper.searchComExpPool(examPool,pageNum);
+		return examQuestionMapper.searchComExpPool(examQuestion,pageNum);
 	}
 	
 	@Override
-	public List<ExamQuestion> searchLawExpPool(ExamQuestion examPool,Integer pageNum) {
+	public List<ExamQuestion> searchLawExpPool(ExamQuestion examQuestion,Integer pageNum) {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
-		return examQuestionMapper.searchLawExpPool(examPool, pageNum);
+		return examQuestionMapper.searchLawExpPool(examQuestion, pageNum);
 	}
 	
 	@Override
-	public List<ExamQuestion> selectLawRandom(ExamQuestion examPool) {
-		return examQuestionMapper.selectLawRandom(examPool);
+	public List<ExamQuestion> selectLawRandom(ExamQuestion examQuestion) {
+		return examQuestionMapper.selectLawRandom(examQuestion);
 	}
 	
 	@Override
-	public List<ExamQuestion> selectSingleRandom(ExamQuestion examPool) {
-		return examQuestionMapper.selectSingleRandom(examPool);
+	public List<ExamQuestion> selectSingleRandom(ExamQuestion examQuestion) {
+		return examQuestionMapper.selectSingleRandom(examQuestion);
 	}
 	
 	@Override
-	public List<ExamQuestion> selectMultipleRandom(ExamQuestion examPool) {
-		return examQuestionMapper.selectMultipleRandom(examPool);
+	public List<ExamQuestion> selectMultipleRandom(ExamQuestion examQuestion) {
+		return examQuestionMapper.selectMultipleRandom(examQuestion);
 	}
 	
 	@Override
-	public List<ExamQuestion> selectJudgeRandom(ExamQuestion examPool) {
-		return examQuestionMapper.selectJudgeRandom(examPool);
+	public List<ExamQuestion> selectJudgeRandom(ExamQuestion examQuestion) {
+		return examQuestionMapper.selectJudgeRandom(examQuestion);
 	}
 	
 	@Override
-	public List<ExamQuestion> selectTecRandom(ExamQuestion examPool) {
-		return examQuestionMapper.selectTecRandom(examPool);
+	public List<ExamQuestion> selectTecRandom(ExamQuestion examQuestion) {
+		return examQuestionMapper.selectTecRandom(examQuestion);
 	}
 	
 	@Override
-	public List<ExamQuestion> selectComRandom(ExamQuestion examPool) {
-		return examQuestionMapper.selectComRandom(examPool);
+	public List<ExamQuestion> selectComRandom(ExamQuestion examQuestion) {
+		return examQuestionMapper.selectComRandom(examQuestion);
 	}
 	
 	
