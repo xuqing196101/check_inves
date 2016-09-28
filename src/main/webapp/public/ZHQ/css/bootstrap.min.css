@@ -160,3 +160,18 @@ button, input, select, textarea {
 }
 .bround4{
   border-radius:4px!important;}
+.input_icon{
+	width:30px;
+	height:30px;
+	line-height:30px;
+	text_align:center;
+	background:#ffffff;
+	border:1px solid #ccc;
+    text-align: center;
+    text-shadow: 0 1px 0 #fff;
+    font-family: "americantypewritercondensed";
+    position:absolute;
+    right:0px;
+    top:0px;
+    display:inline_block;
+}

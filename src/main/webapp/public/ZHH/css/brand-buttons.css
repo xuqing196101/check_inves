@@ -742,3 +742,23 @@
    background-repeat:no-repeat;
    background-position:10px 11px;
 }
+.apply{
+   background-image:url(../images/apply.png);
+   background-repeat:no-repeat;
+   background-position:10px 11px;
+}
+.ht_add{
+   background-image:url(../images/ht_add.png);
+   background-repeat:no-repeat;
+   background-position:10px 11px;
+}
+.input{
+   background-image:url(../images/input.png);
+   background-repeat:no-repeat;
+   background-position:10px 11px;
+}
+.output{
+   background-image:url(../images/output.png);
+   background-repeat:no-repeat;
+   background-position:10px 11px;
+}
