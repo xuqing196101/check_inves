@@ -198,8 +198,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </script>
 </head>
 <body>
+   <div class="margin-top-10 breadcrumbs ">
+      <div class="container">
+		   <ul class="breadcrumb margin-left-0">
+		   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">进口供应商登记</a></li><li class="active"><a href="#">进口供应商列表</a></li>
+		   </ul>
+		<div class="clear"></div>
+	  </div>
+   </div>
 		<div class="container clear margin-top-30">
-		<h2>供应商列表</h2>
 		    <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
 			<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 			<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>

@@ -69,7 +69,14 @@ function loadCity(regionId){
 </SCRIPT>
 </head>
 <body>
-		<div id="reg_box_id_4" class="container clear margin-top-30">
+ <div class="margin-top-10 breadcrumbs ">
+      <div class="container">
+		   <ul class="breadcrumb margin-left-0">
+		   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">进口供应商登记</a></li><li class="active"><a href="#">查看进口供应商</a></li>
+		   </ul>
+		<div class="clear"></div>
+	  </div>
+   </div>
 		<div class="container content height-350">
 			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
@@ -197,6 +204,5 @@ function loadCity(regionId){
 					</div>
 				</div>
 			</div>
-		</div>				
 </body>
 </html>
