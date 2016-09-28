@@ -52,7 +52,7 @@
 		    select 
 		    <include refid="Base_Column_List" />
 		    from T_ISS_FS_PARK
-		   <!--  <include refid="Example_Where_Clause" /> -->
+
 		   WHERE IS_DELETED = 0
 		   ORDER BY CREATED_AT ASC 
 		  </select>	
@@ -154,9 +154,11 @@
             from T_ISS_FS_PARK
             where IS_DELETED = 0
              <trim suffixOverrides=",">
-                <if test="userId != null">
+             <if test="userId != '2521F623FA2F4399875433678F622F2D'">
+                <if test="userId != null ">
                     and USER_ID = #{userId}
-                </if>            
+                </if>    
+             </if>          
             </trim>
            ORDER BY CREATED_AT ASC
           </select> 

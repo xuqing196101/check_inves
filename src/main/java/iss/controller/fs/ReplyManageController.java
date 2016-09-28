@@ -60,12 +60,15 @@ public class ReplyManageController {
 	public String getList(HttpServletRequest request,Model model,Integer page)throws Exception{
 		Map<String,Object> map = new HashMap<String, Object>();
 		String replyCon = request.getParameter("replyCon");
+		User user = (User)request.getSession().getAttribute("loginUser");
+		String userId = user.getId();
 		if(page==null){
 			page=1;
 		}
 		if(replyCon !=null && replyCon!=""){
 			map.put("replyCon", replyCon);
 		}
+		map.put("userId", userId);
 		map.put("page",page.toString());
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));

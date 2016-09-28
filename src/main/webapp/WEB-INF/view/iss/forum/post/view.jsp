@@ -145,12 +145,13 @@
 	  	 
 	</div>  	
 	<!-- 底部按钮 -->			          
-  <div  class="col-md-12 ml185">
-   <div class="fl padding-10">
+    <div class="padding-top-10 clear">                
+      <div  class="col-md-12 pl185 ">
+       <div class="mt40 tc mb50">
     <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
 	</div>
   </div>
-     
+   </div>  
      </div>
      </div>
  <script type="text/javascript">

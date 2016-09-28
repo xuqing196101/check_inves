@@ -143,7 +143,7 @@
               type:"POST",   //请求方式           
               success : function(topics) {     
                   if (topics) {           
-                    $("#topicId").html("");                
+                    $("#topicId").html("<option></option>");                
                     $.each(topics, function(i, topic) {  
                         $("#topicId").append("<option  value="+topic.id+">"+topic.name+"</option>");                     
                     });                             

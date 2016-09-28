@@ -180,9 +180,6 @@
 
  </div>
  
-  <div class="park_manager f18">
-  <a href='<%=basePath %>park/parkManager.do'>我是版主</a>
-  </div>
   <div class="my_post f18">
   <a href='<%=basePath %>post/publish.html'>我要发帖</a>
   </div>

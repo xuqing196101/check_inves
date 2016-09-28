@@ -26,7 +26,7 @@
 <link href="<%=basePath%>public/ZHQ/css/img-hover.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHQ/css/page_job.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHQ/css/shop.style.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/forum/css/style.css" media="screen" rel="stylesheet">
+<link href="<%=basePath%>public/ZHQ/css/forum.css" media="screen" rel="stylesheet">
 <script src="<%=basePath%>public/ZHQ/js/hm.js"></script>
 <script src="<%=basePath%>public/ZHQ/js/jquery.min.js"></script>
 <!--导航js-->
@@ -37,6 +37,7 @@
   $(function(){
       $("#parkId").val("${parkId}");
       $("#topicId").val("${topicId}"); 
+      var searchType ="${searchType}";
       //$("#topicId").append("<option value = '"+${topicId}+"'>"+${topicName}+"</option>");
       laypage({
             cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
@@ -53,7 +54,8 @@
                     //var postName = "${postName}";
                     var parkId = "${parkId}";
                     var topicId = "${topicId}";
-                    location.href = "<%=basePath%>post/getIndexlist.do?parkId="+parkId+"&topicId="+topicId+"&page="+e.curr;
+                    var searchType ="${searchType}";
+                    location.href = "<%=basePath%>post/getIndexlist.do?parkId="+parkId+"&topicId="+topicId+"&searchForHot="+searchForHot+"&page="+e.curr;
                 }
             }
         });
@@ -62,6 +64,12 @@
   function search(topicId){
 	  var parkId = "${parkId}";
 	  location.href = "<%=basePath%>post/getIndexlist.do?parkId="+parkId+"&topicId="+topicId;
+  }
+  function searchType(type){
+	  var parkId = "${parkId}";
+      var topicId = "${topicId}";
+      var searchType = type;
+      location.href = "<%=basePath%>post/getIndexlist.do?parkId="+parkId+"&topicId="+topicId+"&searchType="+searchType;
   }
  </script>
   </head>
@@ -89,7 +97,8 @@
       </c:forEach> 
    </div>
    <div class="fr">
-    <Button class="btn">热帖排行</Button>
+   <Button class="btn" onclick="searchType('time')" value="time">最新发布</Button>
+   <Button class="btn" onclick="searchType('hot')" value ="hot">热帖排行</Button>
    </div>
    <div class="clear"></div>
  </div>
@@ -139,9 +148,6 @@
      <div id="pagediv" align="right"></div>    
     </div>
    </div>
-     <div class="park_manager f18">
-  <a href='<%=basePath %>park/parkManager.do'>我是版主</a>
-  </div>
   <div class="my_post f18">
   <a href='<%=basePath %>post/publish.html'>我要发帖</a>
   </div>  
