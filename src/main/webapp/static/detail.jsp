@@ -299,6 +299,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <input class=" span2 " id="appendedInput" type="text">
         <span class="add-on">i</span>
        </div>
+	 </li>
+     <li class="col-md-6 p0 ">
+      <div class="input-append"><a href="" class="upload">附件上传</a></div>
 	 </li> 
    </ul>
    <div class="clear padding-left-20 total"><span class="w200 block">总计：</span><span>¥10000</span></div>
