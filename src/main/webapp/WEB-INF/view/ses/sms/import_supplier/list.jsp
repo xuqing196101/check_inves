@@ -129,20 +129,85 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    }
 			});
 	  });
-	function submit(){
-		form1.submit();
+		function check(){
+		 var count=0;
+		 var checklist = document.getElementsByName ("chkItem");
+		 var checkAll = document.getElementById("checkAll");
+		 for(var i=0;i<checklist.length;i++){
+			   if(checklist[i].checked == false){
+				   checkAll.checked = false;
+				   break;
+			   }
+			   for(var j=0;j<checklist.length;j++){
+					 if(checklist[j].checked == true){
+						   checkAll.checked = true;
+						   count++;
+					   }
+				 }
+		   }
 	}
+		function selectAll(){
+		 var checklist = document.getElementsByName ("chkItem");
+		 var checkAll = document.getElementById("checkAll");
+		   if(checkAll.checked){
+			   for(var i=0;i<checklist.length;i++)
+			   {
+			      checklist[i].checked = true;
+			   } 
+			 }else{
+			  for(var j=0;j<checklist.length;j++)
+			  {
+			     checklist[j].checked = false;
+			  }
+		 	}
+		}
+  	function show(id){
+  		window.location.href="<%=basePath%>importSupplier/show.html?id="+id;
+  	}
+  	function add(){
+  		window.location.href="<%=basePath%>importSupplier/register.html";
+  	}
+    function edit(){
+    	var id=[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			id.push($(this).val());
+		}); 
+		if(id.length==1){
+			window.location.href="<%=basePath%>importSupplier/edit.html?id="+id;
+		}else if(id.length>1){
+			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+		}else{
+			layer.alert("请选择需要修改的用户",{offset: ['222px', '390px'], shade:0.01});
+		}
+    }
+    
+    function del(){
+    	var ids =[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			ids.push($(this).val()); 
+		}); 
+		if(ids.length>0){
+			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+				layer.close(index);
+				window.location.href="<%=basePath%>importSupplier/delete_soft.html?ids="+ids;
+			});
+		}else{
+			layer.alert("请选择要删除的用户",{offset: ['222px', '390px'], shade:0.01});
+		}
+    }
 </script>
 </head>
 <body>
 		<div class="container clear margin-top-30">
-		  <h2 class="f16 jbxx">供应商列表</h2>
-		     <form id="form1" action="${pageContext.request.contextPath}/importSupplier/auditList.html" method="post">
+		<h2>供应商列表</h2>
+		    <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
+			<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
+			<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
+		     <form id="form1" action="${pageContext.request.contextPath}/importSupplier/list.html" method="post">
 		       <input type="hidden" name="page" id="page">
 			   <span class="">进口供应商名称：</span>
 			   <div class="input-append">
 		        <input class="span2" name="supName" value="${name }" type="text">
-		        <!-- <span class="add-on">i</span> -->
 		       </div>
 		        <span class="">供应商类别：</span>
 			   <div class="input-append">
@@ -154,31 +219,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  <table id="tb1"  class="table table-bordered table-condensed tc">
 		      <thead>
 				<tr>
+				    <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
+					<th class="info w50">序号</th>
 					<th class="info">进口供应商名称</th>
 					<th class="info">企业类别</th>
 					<th class="info">法定代表人</th>
-					<th class="info">电话</th>
-					<th class="info">审核状态</th>
 				</tr>
 			  </thead>
 			  <tbody>
 				 <c:forEach items="${isList.list }" var="list" varStatus="vs">
 					<tr>
-						<td>${list.name }</td>
+					    <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${list.id}" /></td>
+					    <td>${vs.index+1 }</td>
+						<td><a onclick="show('${list.id}')" class="pointer">${list.name }</a></td>
 						<td>${list.supplierType }</td>
 						<td>${list.legalName }</td>
-						<td>${list.mobile }</td>
-						<td>
-							<c:if test="${list.status==0 }">
-								<input type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/importSupplier/audit.html?id=${list.id }'" value="初审" />
-							</c:if>
-							<c:if test="${list.status==1 }">
-								<input type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/importSupplier/audit.html?id=${list.id }'" value="复审" />
-							</c:if>
-							<c:if test="${list.status==4 }">
-								<input type="button" class="btn padding-left-20 padding-right-20 btn_back"  value="已审核" />
-							</c:if>
-						</td>
 					</tr>
 				</c:forEach> 
 			  </tbody>

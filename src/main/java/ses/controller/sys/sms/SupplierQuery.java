@@ -104,6 +104,21 @@ public class SupplierQuery {
 		return "ses/sms/supplier_query/basic_info";
 	}
 	
+	/**
+	 * @Title: selectByCategory
+	 * @author Song Biaowei
+	 * @date 2016-9-27 上午11:19:28  
+	 * @Description: 按照品目查询供应商 
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping("selectByCategory")
+	public String selectByCategory(Supplier supplier,Model model){
+		List<Supplier> listSupplier=supplierAuditService.supplierList(supplier, null);
+		model.addAttribute("listSupplier", listSupplier);
+		return "ses/sms/supplier_query/select_by_category";
+	}
+	
 	public static List<String> getAllProvince(){
 		List<String> list=new ArrayList<String>();
 		list.add("吉林省");

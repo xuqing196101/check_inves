@@ -154,7 +154,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				    <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >产品信息</a></li>
 				    <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="location='<%=basePath%>supplierAudit/reasonsList.html'">审核汇总</a></li>
           </ul>
-            <div class="tab-content padding-top-20" style="height:1500px;">
+            <div class="tab-content padding-top-20" style="height:1400px;">
               <div class="tab-pane fade active in height-450" id="tab-1">
                 <div class=" margin-bottom-0">
 					        <h2 class="f16 jbxx1">
@@ -236,7 +236,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					          </li>
 					          <li class="col-md-6 p0 "><span class="" id="legaIdCard2"><i class="red">＊</i>身份证号：</span>
 					            <div class="input-append">
-					              <input class="span3" id="legaIdCard3" value="${supplier.legaIdCard } "  type="text">
+					              <input class="span3" id="legaIdCard3" value="${supplier.legalIdCard } "  type="text">
 					            </div>
 					          </li>
 					          <li class="col-md-6 p0 "><span class="" id="legalTelephone2"><i class="red">＊</i>固定电话：</span>

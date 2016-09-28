@@ -1,26 +1,14 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
-<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
-<!--[if !IE]><!-->
-<html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<title></title>
-
-	<!-- Meta -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="">
-	<meta name="author" content="">
+<html>
+<head>
 <link href="${pageContext.request.contextPath}/public/ZHH/css/import_supplier.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" type="text/css"/>
 <link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/animate.css" media="screen" rel="stylesheet">
@@ -56,8 +44,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="<%=basePath%>public/ZHH/css/footer-v4.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/masterslider.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/james.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/layer/skin/layer.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/layer/skin/layer.ext.css" media="screen" rel="stylesheet" type="text/css">
 <link href="<%=basePath%>public/ZHH/css/WdatePicker(1).css" rel="stylesheet" type="text/css">
 <script src="<%=basePath%>public/ZHH/js/hm.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
@@ -80,10 +66,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/owl-carousel.js"></script>
 <script src="<%=basePath%>public/ZHH/js/owl-recent-works.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.mCustomScrollbar.concat.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/WdatePicker.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.form.min.js"></script>
-<script src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/layer/extend/layer.ext.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.validate.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.maskedinput.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery-ui.min.js"></script>
@@ -114,76 +97,75 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/masterslider.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.easing.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/james.js"></script>
-<script type="text/javascript">
-	function tijiao(status){
-		$("#status").val(status);
-		form1.submit();
-	}
-</script>
+<script src="<%=basePath%>public/layer/layer.js"></script>
+<script src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
+<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
+<title>My JSP 'index.jsp' starting page</title>>
 </head>
-<body>
-		<!-- 项目戳开始 -->
-		<form id="form1" action="${pageContext.request.contextPath}/supplierUpdate/audit.html" method="post">
-		<div class="container clear margin-top-30">
-		<!--详情开始-->
-		<div class="container content height-350">
-			<div class="row magazine-page">
-				<div class="col-md-12 tab-v2 job-content">
-					<div class="padding-top-10">
-							<div class="tab-content padding-top-20 h600">
-								<div class="tab-pane fade active in height-450" id="tab-1">
-									<div class=" margin-bottom-0 tc">
-										<h3>军队供应商注册信息变更申请表</h3>
-									<ul class="list-unstyled list-flow">
-										<li class="col-md-12 p0 "><span  class=""> 采购机构名称：</span>
-											<div class="col-md-9 mt5">
-											<input type="hidden" name="id" value="${ae.id }" />
-												<input type="hidden" name="auditStatus" id="status"/>
-												<input class="span3 mr30 nb" id="orgName" name="orgName" value="${ae.orgName }" type="text" readonly="readonly">
-											</div>
-										</li>
-										<li class="col-md-12 p0"><span  class=""><i class="red">＊</i> 供应商名称：</span>
-											<div class="col-md-9 mt5">
-												<input class="span3 mr30" id="" name="supplierName" value="${ae.supplierName }" type="text">
-												<span  class=""><i class="red">＊</i> 统一社会信用代码：</span>
-												<input class="span3" id="creditCode" name="creditCode" value="${ae.creditCode }"  type="text">
-											</div>
-										</li>
-										<li class="col-md-12 p0"><span  class="fl"><i class="red">＊</i>申请变更的原注册信息：</span>
-											<div class="col-md-9 mt5">
-												<div class="row">
-													<textarea class="text_area col-md-12" id="updateBeforeSupplierInfo" name="updateBeforeSupplierInfo"   title="不超过800个字" placeholder=""> ${ae.updateBeforeSupplierInfo }</textarea>
-												</div>
-											</div>
-										</li>
-										<li class="col-md-12 p0"><span class="fl"><i class="red">＊</i>变更后的注册信息：</span>
-											<div class="col-md-9 mt5">
-												<div class="row">
-													<textarea class="text_area col-md-12" id="updateAfterSupplierInfo" name="updateAfterSupplierInfo" title="不超过800个字" placeholder="">${ae.updateAfterSupplierInfo }</textarea>
-												</div>
-											</div>
-										</li>
-										<li class="col-md-12 p0"><span  class="fl"><i class="red">＊</i>变更原因：</span>
-											<div class="col-md-9 mt5">
-												<div class="row">
-													<textarea class="text_area col-md-12" id="updateReason" name="updateReason"  title="不超过800个字" placeholder=""> ${ae.updateReason }</textarea>
-												</div>
-											</div>
-										</li>
-									</ul>
-									</div>
-									 <div class="mt20 col-md-12 tc">
-									 	<input class="btn padding-left-20 padding-right-20 btn_back"  type="button" onclick="tijiao(1)" value="审核通过">
-										<input class="btn padding-left-20 padding-right-20 btn_back"  type="button" onclick="tijiao(2)" value="审核不通过">
-			  							<input class="btn padding-left-20 padding-right-20 btn_back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
-			 						</div>
-								</div>
-							</div>
-					</div>
-				</div>
-			</div>
-	</div>
-	</div>
-	</form>
-</body>
+  <body>
+  	<div class="container clear margin-top-30">
+  			<h2>供应商信息查询</h2>
+  			<form id="form1" action="" method="post">
+		       <input type="hidden" name="page" id="page">
+		       <table class="table table-bordered table-condensed tc">
+		       	<tbody>
+		       		<tr>
+		       			<td style="text-align:right">公司名称：</td>
+		       			<td><input class="span2" name="supplierName" value="${supplierName }" type="text"></td>
+		       			<td style="text-align:right">供应商类型：</td>
+		       			<td><input class="span2" name="supName" value="${name }" type="text"></td>
+		       			<td>联系人：</td>
+		       			<td><input class="span2" name="contactName" value="${contactName }" type="text"></td>
+		       		</tr>
+		       		<tr>
+		       			<td style="text-align:right">产品分类目录：</td>
+		       			<td><input class="span2" name="supName" value="${name }" type="text"></td>
+		       			<td>注册时间：</td>
+		       			<td colspan="3">
+		       			<div class="input-append mt5">
+		       			<input id="startDate" name="startDate" class="span2 fl" type="text" 
+		       			onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})"/>
+		       			<span class="add-on fl"><img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
+		       			<span class="fl">~</span>
+		       			<input id="endDate" name="endDate" class="span2 ml10" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
+		       			<span class="add-on fl"><img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
+		       			</div>
+		       			</td>
+		       		</tr>
+		       	</tbody>
+		       </table>
+		       <div class="tc">
+				  <input class="btn padding-left-20 padding-right-20 btn_back" onclick="submit()" type="button" value="查询">
+			      <input class="btn padding-left-20 padding-right-20 btn_back" onclick="reset()" type="reset" value="重置"> 
+		      </div>
+		     </form>
+		       <h2>供应商信息</h2>
+		      <table id="tb1"  class="table table-bordered table-condensed tc">
+		      <thead>
+				<tr>
+					<th class="info">序号</th>
+					<th class="info">供应商名称</th>
+					<th class="info">状态</th>
+					<th class="info">入库日期</th>
+					<th class="info">来源</th>
+					<th class="info">经济性质</th>
+				</tr>
+			  </thead>
+			  <tbody>
+				 <c:forEach items="${isList.list }" var="list" varStatus="vs">
+					<tr>
+						<td>${list.supplierName }</td>
+						<td>${list.supplierName }</td>
+						<td>${list.contactName}</td>
+						<td>${list.contactTelephone}</td>
+						<td>${list.supplierName }</td>
+						<td>${list.supplierName }</td>
+					</tr>
+				</c:forEach> 
+			  </tbody>
+		 </table>
+     </div>
+  <div id="container"></div>
+  </body>
 </html>

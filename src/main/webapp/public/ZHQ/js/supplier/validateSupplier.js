@@ -73,6 +73,20 @@ function validateRegSupplierInfo() {
 
 /** 校验工商注册信息 */
 function validateBusinessSupplierInfo() {
+	var loginName = $("#loginName").val();
+	if(!loginName) {
+		layer.tips("请输入用户名", "#loginName");
+		return false;
+	}
+	var password = $("#password").val();
+	if(!password) {
+		layer.tips("请输入密码", "#password");
+		return false;
+	} else if(!password.match(/^(?!(?:\d*$))[A-Za-z0-9_]{6,20}$/)) {
+		layer.tips("密码由6-20位字母 数字组成 !", "#password");
+		$("#password").val('');
+		return false;
+	}
 	var supplierName = $("#name").val();
 	if (!supplierName) {
 		layer.tips("请输入名称 !", "#name");

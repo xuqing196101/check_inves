@@ -30,6 +30,7 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/supplier/validateSupplier.js"></script>
 <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+<script src="${pageContext.request.contextPath}/public/lodop/LodopFuncs.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/expert/TestAddress1.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/expert/TestChooseAddress.js"></script>
 <SCRIPT LANGUAGE="JavaScript">
@@ -66,128 +67,8 @@ function loadCity(regionId){
   }
 }
 </SCRIPT>
-<script type="text/javascript">		
-    function tijiao(){
-    	if(!validateBusinessSupplierInfo()){
-    		return;
-    	}else{
-    		form1.submit();
-    	}
-    }
-	$(function() {
-	    $("#postCode").blur(function(){
-	    	var postCode=$(this).val();
-	    	var patt = new RegExp("^[0-9]{4,8}$");
-	    		if(!patt.test(postCode)){
-	    			$(this).val('');
-	    			layer.tips("请输入正确的邮政编码.", "#postCode");
-	    		}
-	    });
-	        $("#telephone").blur(function(){
-	    	var telephone=$(this).val();
-	    		if(!(/^1(3|4|5|7|8)\d{9}$/.test(telephone))){
-	    			$(this).val('');
-	    			layer.tips("请输入正确的电话号码.", "#telephone");
-	    		}
-	    });
-	/** 校验用户名是否存在 */
-		$("#loginName").blur(function() {
-			var loginName = $(this).val();
-			if(loginName) {
-				$.ajax({
-					url : "${pageContext.request.contextPath}/importSupplier/checkLoginName.do",
-					type : "post",
-					data : {
-						loginName : loginName
-					},
-					success : function(result) {
-						 if(result == false) {
-							layer.tips("用户名已存在，请重新填写.", "#loginName");
-							$("#loginName").val("");
-						}
-					},
-				});
-			}
-		});
-		
-			$("#name").blur(function() {
-			var name = $(this).val();
-			if(name) {
-				$.ajax({
-					url : "${pageContext.request.contextPath}/importSupplier/checkSupName.do",
-					type : "post",
-					data : {
-						name : name
-					},
-					success : function(result) {
-						 if(result == false) {
-							layer.tips("企业已存在，请重新填写.", "#name");
-							$("#name").val("");
-						}
-					},
-				});
-			}
-		}); 
-		
-		/** 校验手机号是否存在 */
-		$("#mobile").blur(function() {
-			var mobile = $(this).val();
-			if(mobile) {
-				$.ajax({
-					url : "${pageContext.request.contextPath}/importSupplier/checkMobile.do",
-					type : "post",
-					data : {
-						mobile : mobile
-					},
-					success : function(result) {
-						 if(result == false) {
-							layer.tips("手机号已注册，请重新填写.", "#mobile", {
-								tips : 1
-							});
-							$("#mobile").val();
-						}
-					},
-				});
-			}
-		});
-		
-		$("#password").change(function() {
-			var password = $("#password").val();
-			if(!password) {
-				layer.tips("请输入密码", "#password", {
-					tips : 1
-				});
-				return false;
-			} else if(!password.match(/^(?!(?:\d*$))[A-Za-z0-9_]{6,20}$/)) {
-				layer.tips("密码由6-20位字母 数字组成 !", "#password", {
-					tips : 1
-				});
-				return false;
-			}
-		});
-		
-		$("#confirmPassword").change(function() {
-			var confirmPassword = $("#confirmPassword").val();
-			var password = $("#password").val();
-			if (!confirmPassword) {
-				layer.tips("请输入确认密码 !", "#confirmPassword", {
-					tips : 1
-				});
-				return false;
-			} else if (confirmPassword != password) {
-				layer.tips("密码不一致 !", "#confirmPassword", {
-					tips : 1
-				});
-				return false;
-			}
-		});
-	});
-</script>
-
 </head>
-
 <body>
-		<form id="form1" action="${pageContext.request.contextPath}/importSupplier/registerEnd.html" method="post">
 		<div id="reg_box_id_4" class="container clear margin-top-30">
 		<div class="container content height-350">
 			<div class="row magazine-page">
@@ -200,99 +81,99 @@ function loadCity(regionId){
 										<i>01</i>企业基本信息
 									</h2>
 									<ul class="list-unstyled list-flow">
-									 <li class="col-md-6 p0">
+									<li class="col-md-6 p0">
 										   <span class=""><i class="red">＊</i> 用户名：</span>
 										   <div class="input-append">
-									         <input type="text" id="loginName"  class="span3" placeholder="用户名由字母、数字、－等字符组成" name="loginName" > 
+									         <input type="text" id="loginName"  class="span3" placeholder="用户名由字母、数字、－等字符组成" readonly="readonly" name="loginName" value="${is.loginName }"  > 
 									       </div>
 									</li>
-								<li class="col-md-6 p0">
+									<li class="col-md-6 p0">
 										   <span class=""><i class="red">＊</i> 登录密码：</span>
 										   <div class="input-append">
-									        <input type="text" id="password" class="span3"  placeholder="密码由6-20位，由字母、数字组成" name="password" > 
+									        <input type="text" id="password" class="span3"  placeholder="密码由6-20位，由字母、数字组成" readonly="readonly" name="password" value="${is.password }"  > 
 									       </div>
 									</li>
-										 	<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 企业名称：</span>
+										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 企业名称：</span>
 											<div class="input-append">
-												<input class="span3" id="name" name="name"  type="text">
+												<input class="span3" id="name" name="name" value="${is.name }" readonly="readonly" type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 企业类别：</span>
 											<div class="input-append">
-												<input class="span3" id="supplierType" name="supplierType"   type="text">
+												<input class="span3" id="supplierType" name="supplierType" readonly="readonly" value="${is.supplierType }"  type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 中文译名：</span>
 											<div class="input-append">
-												<input class="span3" id="chinesrName" name="chinesrName"  type="text">
+												<input class="span3" id="chinesrName" name="chinesrName" readonly="readonly" value="${is.chinesrName }" type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 法定代表人：</span>
 											<div class="input-append">
-												<input class="span3" id="legalName" name="legalName" type="text">
+												<input class="span3" id="legalName" name="legalName" readonly="readonly" value="${is.legalName }" type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0"><span class=""><i class="red">＊</i>企业注册地址：</span>
 											<div class="input-append">
-												<select id="id_provSelect" name="provSelect" onChange="loadCity(this.value);"><option value="">请选择省份</option></select>&nbsp;
-  												<select id="address" name="address"><option value="">请选择城市</option></select>&nbsp;
-  												<SCRIPT LANGUAGE="JavaScript">loadProvince();</SCRIPT>
+												<select id="id_provSelect" name="provSelect" disabled="disabled"><option value="">请选择省份</option></select>&nbsp;
+  												<select id="address" name="address" disabled="disabled"><option value="">请选择城市</option></select>&nbsp;
+  												<SCRIPT LANGUAGE="JavaScript">loadProvince('${is.address}');</SCRIPT>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>邮政编码：</span>
 											<div class="input-append">
-												<input class="span3" id="postCode" name="postCode"  type="text">
+												<input class="span3" id="postCode" name="postCode" readonly="readonly" value="${is.postCode }"  type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>经营产品大类：</span>
 											<div class="input-append">
-												<input class="span3" id="productType" name="productType"  type="text">
+												<input class="span3" id="productType" name="productType" readonly="readonly" value="${is.productType }" type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>主营产品：</span>
 											<div class="input-append">
-												<input class="span3" id="majorProduct" name="majorProduct"  type="text">
+												<input class="span3" id="majorProduct" name="majorProduct" readonly="readonly" value="${is.majorProduct }" type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>兼营产品：</span>
 											<div class="input-append">
-												<input class="span3" id="byproduct" name="byproduct"  type="text">
+												<input class="span3" id="byproduct" name="byproduct" readonly="readonly" value="${is.byproduct }" type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>生产商名称：</span>
 											<div class="input-append">
-												<input class="span3" id="producerName" name="producerName"   type="text">
+												<input class="span3" id="producerName" name="producerName" readonly="readonly" value="${is.producerName }"  type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 联系人：</span>
 											<div class="input-append">
-												<input class="span3" id="contactPerson" name="contactPerson"  type="text">
+												<input class="span3" id="contactPerson" name="contactPerson" readonly="readonly" value="${is.contactPerson }" type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 电话：</span>
 											<div class="input-append">
-												<input class="span3" id="telephone" name="telephone"  type="text">
+												<input class="span3" id="telephone" name="telephone"  readonly="readonly" value="${is.telephone }" type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 传真：</span>
 											<div class="input-append">
-												<input class="span3" id="fax" name="fax" type="text">
+												<input class="span3" id="fax" name="fax" readonly="readonly" value="${is.fax }" type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 电子邮件：</span>
 											<div class="input-append">
-												<input class="span3" id="email" name="email"  type="text">
+												<input class="span3" id="email" name="email" readonly="readonly" value="${is.email }" type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 企业网址：</span>
 											<div class="input-append">
-												<input class="span3" id="website" name="website"  type="text">
+												<input class="span3" id="website" name="website" readonly="readonly" value="${is.website }" type="text">
 											</div>
 										</li>
 										<li class="col-md-12 p0 mt10"><span class="fl"><i class="red">＊</i>国内供货业绩：</span>
 											<div class="col-md-9 mt5">
 												<div class="row">
-													<textarea class="text_area col-md-12" id="civilAchievement" name="civilAchievement"  title="不超过800个字" placeholder=""></textarea>
+													<textarea class="text_area col-md-12" id="civilAchievement" readonly="readonly" name="civilAchievement"  title="不超过800个字" placeholder=""> ${is.civilAchievement }</textarea>
 												</div>
 											</div>
 											<div class="clear"></div>
@@ -300,16 +181,15 @@ function loadCity(regionId){
 										<li class="col-md-12 p0 mt10"><span class="fl"><i class="red">＊</i>企业简介：</span>
 											<div class="col-md-9 mt5">
 												<div class="row">
-													<textarea class="text_area col-md-12" id="remark" name="remark" title="不超过800个字" placeholder=""></textarea>
+													<textarea class="text_area col-md-12" id="remark" readonly="readonly" name="remark" title="不超过800个字" placeholder="">${is.remark }</textarea>
 												</div>
 											</div>
 											<div class="clear"></div>
-										</li> 
+										</li>
 									</ul>
 									</div>
 									<div class="tc mt20 clear col-md-11">
-									        <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
-											<input class="btn btn-windows git"  style="width:52px;" onclick="tijiao()" readonly="readonly" value="提交" />
+											<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
 									</div>
 								</div>
 							</div>
@@ -318,6 +198,5 @@ function loadCity(regionId){
 				</div>
 			</div>
 		</div>				
-		</form>
 </body>
 </html>
