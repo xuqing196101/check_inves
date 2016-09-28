@@ -57,4 +57,8 @@ public class ProjectServiceImpl implements ProjectService {
 		return lists;
 	}
 
+	@Override
+	public List<Project> selectSuccessProject() {
+		return projectMapper.selectSuccessProject();
+	}
 }

@@ -1,6 +1,7 @@
 package bss.model.ppms;
 import java.util.Date;
 import ses.model.oms.PurchaseDep;
+import ses.model.sms.Supplier;
 
 public class Project {
     private String id;
@@ -63,7 +64,7 @@ public class Project {
     
     private double amount;
     
-    private String dealSupplier;
+    private Supplier dealSupplier;
 
 	public String getId() {
 		return id;
@@ -306,15 +307,11 @@ public class Project {
 		this.amount = amount;
 	}
 
-	public String getDealSupplier() {
+	public Supplier getDealSupplier() {
 		return dealSupplier;
 	}
 
-	public void setDealSupplier(String dealSupplier) {
+	public void setDealSupplier(Supplier dealSupplier) {
 		this.dealSupplier = dealSupplier;
 	}
-
- 	 
-
-  
 }

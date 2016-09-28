@@ -31,7 +31,7 @@
     <result column="REQUIERED_ID"  property="requieredId" />
     <result column="BALE_NO"  property="baleNo" />
     <result column="AMOUNT" property="amount" />
-    <result column="DEAL_SUPPLIER"  property="dealSupplier" />
+    <association property="dealSupplier" column="DEAL_SUPPLIER" select="ses.dao.sms.SupplierMapper.selectByPrimaryKey"/>
     <association property="purchaseDep" column="PURCHASE_DEP_ID" select="ses.dao.oms.PurchaseDepMapper.selectPurchaseById"/>
   </resultMap>
   <sql id="Base_Column_List">
@@ -47,6 +47,15 @@
     from T_BSS_PPMS_PROJECTS
     where ID = #{id,jdbcType=VARCHAR}
   </select>
+  
+  <!-- 查看成功的项目 -->
+  <select id="selectSuccessProject" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PPMS_PROJECTS
+    where STATUS = 2
+  </select>
+  
    <select id="selectProjectByAll" parameterType="bss.model.ppms.Project" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -87,7 +96,7 @@
       #{divisionOfWork,jdbcType=VARCHAR}, #{purchaseType,jdbcType=VARCHAR}, #{materialsType,jdbcType=VARCHAR}, 
       #{sectorOfDemand,jdbcType=VARCHAR}, #{purchaseDep.id,jdbcType=VARCHAR}, #{deadline,jdbcType=DATE}, 
       #{dateOfEntrustment,jdbcType=DATE}, #{bidDate,jdbcType=DATE}, #{bidAddress,jdbcType=VARCHAR}, 
-      #{requieredId,jdbcType=VARCHAR}),#{baleNo}, #{amount}, #{dealSupplier})
+      #{requieredId,jdbcType=VARCHAR}),#{baleNo}, #{amount}, #{dealSupplier.id})
   </insert>
   <insert id="insertSelective" parameterType="bss.model.ppms.Project">
     insert into T_BSS_PPMS_PROJECTS
@@ -278,7 +287,7 @@
         #{amount},
       </if>
       <if test="dealSupplier != null">
-        #{dealSupplier},
+        #{dealSupplier.id},
       </if>
     </trim>
   </insert>
@@ -373,7 +382,7 @@
         AMOUNT = #{amount},
       </if>
       <if test="dealSupplier != null">
-        DEAL_SUPPLIER = #{dealSupplier},
+        DEAL_SUPPLIER = #{dealSupplier.id},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
@@ -409,7 +418,7 @@
       REQUIERED_ID = #{requieredId,jdbcType=VARCHAR}
       BALE_NO = #{bidDate},
       AMOUNT = #{amount},
-      DEAL_SUPPLIER = #{dealSupplier}
+      DEAL_SUPPLIER = #{dealSupplier.id}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

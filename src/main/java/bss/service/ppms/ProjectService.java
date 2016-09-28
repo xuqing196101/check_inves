@@ -65,4 +65,6 @@ public interface ProjectService {
 	* @return List<Project>
 	 */
 	   List<Project> list(Integer page,Project project);
+	   
+	   List<Project> selectSuccessProject();
 }
