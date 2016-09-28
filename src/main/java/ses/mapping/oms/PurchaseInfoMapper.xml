@@ -65,39 +65,122 @@
 		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
 			select rawtohex(sys_guid()) as VALUE from dual
 		</selectKey>
-		insert into T_SES_OMS_PURCHASE_DEP
-		 (ID,LEVEL,SUBORDINATE_ORG_ID,
-		  SUBORDINATE_ORG__NAME,BUSINESS_DEP,BUSINESS_DEP_ID,
-		  BUSINESS_RANGE,QUA_CODE,QUA_LEVEL,
-		  QUA_EDNDATE,QUA_RANGE,QUA_CERT,
-		  LEADER_TELEPHONE,OFFICER_COUNTNUM,OFFICER_NOW_COUNTS,
-		  SOLDIER_NUM,SOLDIER_NOW_COUNTS,STAFF_NUM,
-		  STAFF_NOW_COUNTS,PURCHASERS_COUNT,JUNIOR_PUR_COUNT,
-		  SENIOR_PUR_COUNT,DEP_NAME,LEGAL,
-		  AGENT,CONTACT,CONTACT_TELEPHONE,
-		  CONTACT_ADDRESS,UNIT_POST_CODE,PAY_DEP,
-		  BANK,BANK_ACCOUNT,OFFICE_AREA,
-		  OFFICE_COUNT,METTING_ROOM_COUNT,INVITE_ROOM_COUNT,
-		  BID_ROOM_COUNT,CREATED_AT,ORG_ID,
-		  IS_AUDIT_SUPPLIER,DUTY_ROOM_PHONE,
-		  QUA_START_DATE,QUA_STATUS
+		insert into T_SES_OMS_PURCHASER
+		 (ID,NATION,PURCHASE_DEP_ID,
+		  POLITICAL,PURCAHSER_TYPE,BIRTH_AT,
+		  AREA,PROVINCE_ID,CITY_ID,
+		  TOWN_ID,DETAIL_ADDR,ID_CARD,
+		  PROFESSIONAL,TOP_STUDY,GRADUATE_SCHOOL,
+		  WORK_EXPERIENCE,TRAIN_EXPERIENCE,QUA_CODE,
+		  QUA_LEVEL,QUA_EDNDATE,QUA_CERT,
+		  QUA_RANK,FAX,POST_CODE,
+		  QUA_START_DATE,AGE,CREATED_AT
           )
 		values(
-	      #{id},#{level,jdbcType=VARCHAR},
-		  #{subordinateOrgId,jdbcType=VARCHAR},#{subordinateOrgName,jdbcType=VARCHAR},#{businessDep,jdbcType=VARCHAR},
-		  #{businessDepId,jdbcType=VARCHAR},#{businessRange,jdbcType=VARCHAR},#{quaCode,jdbcType=VARCHAR},
-		  #{quaLevel,jdbcType=VARCHAR},#{quaEdndate,jdbcType=TIMESTAMP },#{quaRange,jdbcType=NUMERIC},
-		  #{quaCert,jdbcType=VARCHAR},#{leaderTelephone,jdbcType=VARCHAR},#{officerCountnum,jdbcType=NUMERIC},
-		  #{officerNowCounts,jdbcType=NUMERIC},#{soldierNum,jdbcType=NUMERIC},#{soldierNowCounts,jdbcType=NUMERIC},
-		  #{staffNum,jdbcType=NUMERIC},#{staffNowCounts,jdbcType=NUMERIC},#{purchasersCount,jdbcType=NUMERIC},
-		  #{juniorPurCount,jdbcType=NUMERIC},#{seniorPurCount,jdbcType=NUMERIC},#{depName,jdbcType=VARCHAR},
-		  #{legal,jdbcType=VARCHAR},#{agent,jdbcType=VARCHAR},#{contact,jdbcType=VARCHAR},
-		  #{contactTelephone,jdbcType=VARCHAR},#{contactAddress,jdbcType=VARCHAR},#{unitPostCode,jdbcType=NUMERIC},
-		  #{payDep,jdbcType=VARCHAR},#{bank,jdbcType=VARCHAR},#{bankAccount,jdbcType=VARCHAR},
-		  #{officeArea,jdbcType=NUMERIC},#{officeCount,jdbcType=NUMERIC},#{mettingRoomCount,jdbcType=NUMERIC},
-		  #{inviteRoomCount,jdbcType=NUMERIC},#{bidRoomCount,jdbcType=NUMERIC},sysdate,
-		  #{orgId,jdbcType=VARCHAR},#{isAuditSupplier,jdbcType=NUMERIC},#{dutyRoomPhone,jdbcType=VARCHAR},
-		  #{quaStartDate,jdbcType=TIMESTAMP },1
+	      #{id},#{nation,jdbcType=VARCHAR},
+		  #{purchaseDepId,jdbcType=VARCHAR},#{political,jdbcType=VARCHAR},#{purcahserType,jdbcType=NUMERIC},
+		  #{birthAt,jdbcType=TIMESTAMP},#{area,jdbcType=VARCHAR},#{provinceId,jdbcType=VARCHAR},
+		  #{cityId,jdbcType=VARCHAR},#{townId,jdbcType=VARCHAR},#{detailAddr,jdbcType=VARCHAR},
+		  #{idCard,jdbcType=VARCHAR},#{professional,jdbcType=VARCHAR},#{topStudy,jdbcType=VARCHAR},
+		  #{graduateSchool,jdbcType=VARCHAR},#{workExperience,jdbcType=VARCHAR},#{trainExperience,jdbcType=VARCHAR},
+		  #{quaCode,jdbcType=VARCHAR},#{quaLevel,jdbcType=VARCHAR},#{quaEdndate,jdbcType=TIMESTAMP},
+		  #{quaCert,jdbcType=VARCHAR},#{quaRank,jdbcType=VARCHAR},#{fax,jdbcType=VARCHAR},
+		  #{postCode,jdbcType=VARCHAR},#{quaStartDate,jdbcType=TIMESTAMP},#{age,jdbcType=NUMERIC},
+		  sysdate
 		 )
 	</insert>
+		<!-- 更新人员-->
+	<update id="updatePurchase" parameterType="ses.model.oms.PurchaseInfo">
+			 update T_SES_OMS_PURCHASER s
+	     set 
+	         UPDATED_AT=sysdate
+	         <!-- -->
+	        <if test="nation != null and nation != ''">
+		 		,NATION=#{nation,jdbcType=VARCHAR}
+		 	</if>
+		 	<if test="purchaseDepId != null and purchaseDepId != ''">                
+		 		,PURCHASE_DEP_ID=#{purchaseDepId,jdbcType=VARCHAR}
+		 	</if>
+		 	<if test="political != null and political != ''">
+		 		,POLITICAL=#{political,jdbcType=VARCHAR}
+		 	</if>
+		 	<if test="purcahserType != null and purcahserType != ''">
+		 		,PURCAHSER_TYPE=#{purcahserType,jdbcType=NUMERIC}
+		 	</if>
+		 	 <if test="birthAt != null and birthAt != ''">
+		 		,BIRTH_AT=#{birthAt,jdbcType=TIMESTAMP}
+		 	</if>
+		 	 <if test="area != null and area != ''">
+		 		,AREA=#{area,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="provinceId != null and provinceId != ''">
+		 		,PROVINCE_ID=#{provinceId,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="cityId != null and cityId != ''">
+		 		,CITY_ID=#{cityId,jdbcType=VARCHAR}
+		 	</if>
+	        <if test="townId != null and townId != ''">
+		 		,TOWN_ID=#{townId,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="detailAddr != null and detailAddr != ''">
+		 		,DETAIL_ADDR=#{detailAddr,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="idCard != null and idCard != ''">
+		 		,ID_CARD=#{idCard,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="professional != null and professional != ''">
+		 		,PROFESSIONAL=#{professional,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="topStudy != null and topStudy != ''">
+		 		,TOP_STUDY=#{topStudy,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="graduateSchool != null and graduateSchool != ''">
+		 		,GRADUATE_SCHOOL=#{graduateSchool,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="workExperience != null and workExperience != ''">
+		 		,WORK_EXPERIENCE=#{workExperience,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="trainExperience != null and trainExperience != ''">
+		 		,TRAIN_EXPERIENCE=#{trainExperience,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="quaCode != null and quaCode != ''">
+		 		,QUA_CODE=#{quaCode,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="quaLevel != null and quaLevel != ''">
+		 		,QUA_LEVEL=#{quaLevel,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="quaEdndate != null and quaEdndate != ''">
+		 		,QUA_EDNDATE=#{quaEdndate,jdbcType=TIMESTAMP}
+		 	</if>
+		 	 <if test="quaCert != null and quaCert != ''">
+		 		,QUA_CERT=#{quaCert,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="is_deleted != null and is_deleted != ''">
+		 		,IS_DELETED=#{is_deleted,jdbcType=NUMERIC}
+		 	</if>
+		 	 <if test="quaRank != null and quaRank != ''">
+		 		,QUA_RANK=#{quaRank,jdbcType=VARCHAR}
+		 	</if>
+		 	
+		 	 <if test="fax != null and fax != ''">
+		 		,FAX=#{fax,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="postCode != null and postCode != ''">
+		 		,POST_CODE=#{postCode,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="quaStartDate != null and quaStartDate != ''">
+		 		,QUA_START_DATE=#{isroot,jdbcType=TIMESTAMP}
+		 	</if>
+		 	 <if test="age != null and age != ''">
+		 		,AGE=#{age,jdbcType=NUMERIC}
+		 	</if>
+	     where s.id=#{id}    
+	</update>
+	<!-- 删除人员-->
+	<delete id="delPurchaseByMap" parameterType="java.util.Map">
+		delete from T_SES_OMS_PURCHASER s where s.id in
+		<foreach collection="list" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
 </mapper>

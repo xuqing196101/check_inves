@@ -31,6 +31,84 @@
     <!--导航js-->
     <script src="${pageContext.request.contextPath}/public/ZHH/js/jquery_ujs.js"></script>
     <script src="${pageContext.request.contextPath}/public/ZHH/js/bootstrap.min.js"></script>
+    <script src="${pageContext.request.contextPath}/public/oms/js/select-tree.js"></script>
+	<script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+    <script type="text/javascript">
+    	function addUser(){
+    		var depid = $("#defaultid").val();
+    		var typeName = $("#typeName").val();
+    		//$("#hform").submit();
+    		parent.showiframe("添加机构人员",1000,600,"${pageContext.request.contextPath}/purchaseManage/addUser.do?typeName="+typeName+"&org.id="+depid,"-4");
+    	}
+    	function editUser(){
+    		var ids = getSelectIds();
+    		var len = ids.length;
+    		var titles="";
+    		if(len>1){
+    			titles="只能选择一条记录";
+    		}else if(len<=0){
+    			titles="至少选择一条记录";
+    		}
+    		if(len>1||len<=0){
+    			truealert(titles,5);
+    			return;
+		    };
+    		//console.dir(array[0].defaultValue);
+    		parent.showiframe("修改机构人员",1000,600,"${pageContext.request.contextPath}/purchaseManage/editUser.do?id="+ids[0],"-4");
+    	}
+    	function getSelectIds(){
+    		var array=[];
+    		var arrc = $("#user input[type=checkbox]:checked");
+    		for(var j=0;j<arrc.length;j++){
+    			if(arrc[j].defaultValue!=undefined && arrc[j].defaultValue!=""){
+    				array.push(arrc[j].defaultValue);
+    			}
+    		}
+    		return array;
+    		
+    	}
+    	function selectAll(){
+			if ($("#allId").prop("checked")) {  
+	            $("input[name=chkItem]").each(function() {  
+	                $(this).prop("checked", true);  
+	            });  
+	        } else {  
+	            $("input[name=chkItem]").each(function() {  
+	                $(this).prop("checked", false);  
+	            });  
+	        }   
+		}
+    	function showiframe(titles,width,height,url,top){
+			 if(top == null || top == "underfined"){
+			  top = 120;
+			 }
+			layer.open({
+		        type: 2,
+		        title: [titles,"background-color:#83b0f3;color:#fff;font-size:16px;text-align:center;"],
+		        maxmin: true,
+		        shade: [0.3, '#000'],
+		       	offset: top+"px",
+		        shadeClose: false, //点击遮罩关闭层 
+		        area : [width+"px" , height+"px"],
+		        content: url
+		    });
+		}
+		function truealert(text,iconindex){
+			if(top == null || top == "" || top == "underfined"){
+			  top = 120;
+			}
+			layer.open({
+			    content: text,
+			    icon: iconindex,
+			    offset: top+"px",
+			    shade: [0.3, '#000'],
+			    yes: function(index){
+			        //do something
+			    	 layer.closeAll();
+			    }
+			});
+		}
+    </script>
     </head>
 <div class="tab-content">
 	<div class="tab-pane fade active in" id="show_ztree_content">
@@ -61,7 +139,13 @@
 						<div class="show_obj">
 							<table class="table table-striped table-bordered">
 								<tbody>
-									<input type="hidden" id="defaultid" value="${orgnization.id }"/>
+									<!-- 伪表单 跳转编辑页面 post传参数-->
+									<form id="hform" action="${pageContext.request.contextPath}/purchaseManage/addUser.do" method="post">
+										<input type="hidden" id="defaultid" name="org.id" value="${orgnization.id }"/>
+										<input type="hidden" id="typeName" name="org.typeName" value="${orgnization.typeName }"/>
+									</form>
+									<!-- 伪表单-->
+									
 									<tr>
 										<td width="25%">名称：</td>
 										<td width="25%">${orgnization.name }</td>
@@ -85,9 +169,9 @@
 							</h2>
 							<div class="pull-right">
 								<a class="btn btn-sm btn-default" href="javascript:void(0)"
-									onClick=""><i class="fa fa-search-plus"></i> 添加人员</a> <a
+									onClick="addUser();"><i class="fa fa-search-plus"></i> 添加人员</a> <a
 									class="btn btn-sm btn-default" href="javascript:void(0)"
-									onClick=""><i class="fa fa-wrench"></i> 修改人员</a> <a
+									onClick="editUser();"><i class="fa fa-wrench"></i> 修改人员</a> <a
 									class="btn btn-sm btn-default" href="javascript:void(0)"
 									onClick=""><i class="fa fa-plus"></i> 删除人员</a> <a
 									class="btn btn-sm btn-default" data-toggle="modal" href=""><i
@@ -97,14 +181,14 @@
 						<div class="panel panel-grey clear mt5">
 							<div class="panel-heading">
 								<h3 class="panel-title">
-									<i class="fa fa-users"></i> 需求部门人员列表
+									<i class="fa fa-users"></i> 部门人员列表
 								</h3>
 							</div>
 							<div class="panel-body">
-								<table class="table table-bordered table-hover">
+								<table class="table table-bordered table-hover" id="user">
 									<thead>
 										<tr>
-											<th><input type="checkbox" /></th>
+											<th><input type="checkbox" onclick="selectAll();" id="allId" alt="全选"/></th>
 											<th>序号</th>
 											<th>姓名</th>
 											<th>手机</th>
@@ -118,23 +202,23 @@
 										<c:forEach items="${userlist}" var="u" varStatus="vs">
 											<tr class="cursor">
 												<!-- 选择框 -->
-												<td onclick="null" class="tc"><input onclick="check()"
+												<td class="tc"><input
 													type="checkbox" name="chkItem" value="${u.id}" />
 												</td>
 												<!-- 姓名 -->
-												<td class="tc" onclick="show('${u.id}');">${vs.index+1}</td>
+												<td class="tc">${vs.index+1}</td>
 												<!-- 标题 -->
-												<td class="tc" onclick="show('${u.id}');">${u.relName}</td>
+												<td class="tc">${u.relName}</td>
 												<!-- 内容 -->
-												<td class="tc" onclick="show('${u.id}');">${u.mobile}</td>
+												<td class="tc">${u.mobile}</td>
 												<!-- 创建人-->
-												<td class="tc" onclick="show('${u.id}');">${u.telephone}</td>
+												<td class="tc">${u.telephone}</td>
 												<!-- 是否发布 -->
 												<%-- <td class="tc" onclick="show('${u.id}');">${p.gender}</td> --%>
 												<!-- 是否发布 -->
-												<td class="tc" onclick="show('${u.id}');">${u.address}</td>
+												<td class="tc">${u.address}</td>
 												<!-- 是否发布 -->
-												<td class="tc" onclick="show('${u.id}');">${u.email}</td>
+												<td class="tc">${u.email}</td>
 											</tr>
 										</c:forEach>
 									</tbody>

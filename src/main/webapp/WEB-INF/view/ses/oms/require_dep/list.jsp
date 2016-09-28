@@ -195,7 +195,7 @@
 
 <body onload="pageOnLoad();">
   <div class="wrapper">
-   <div class="header-v4 header-v5">
+   <%-- <div class="header-v4 header-v5">
     <!-- Navbar -->
     <div class="navbar navbar-default mega-menu" role="navigation">
       <div class="container">
@@ -264,7 +264,7 @@
           </div>
 	    </div>
 	 </div>
-   </div>
+   </div> --%>
    </div>
 <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">

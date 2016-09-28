@@ -132,7 +132,7 @@
     });
     function dynamicadd(){
     	var typeName = $("#typeName").val();
-        	showiframe("需求部门新增",1000,600,"${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.do?typeName="+typeName,"-4");
+        showiframe("添加机构",1000,600,"${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.do?typeName="+typeName,"-4");
     }
     function deltr1(a){
     	//var str = a;
