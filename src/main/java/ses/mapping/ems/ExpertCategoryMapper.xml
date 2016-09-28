@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.ems.ExpertCategoryMapper">
+  <resultMap id="BaseResultMap" type="ses.model.ems.ExpertCategory">
+    <result column="EXPERT_ID" jdbcType="VARCHAR" property="expertId" />
+    <result column="CATEGORY_ID" jdbcType="VARCHAR" property="categoryId" />
+  </resultMap>
+  <!-- 根据专家id查询品目id集合 -->
+  <select id="selectListByExpertId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    *
+    from T_SES_EMS_EXPERT_CATEGORY
+    where EXPERT_ID = #{expertId,jdbcType=VARCHAR}
+  </select>
+  <!--根据专家id删除当前数据  -->
+  <delete id="deleteByExpertId" parameterType="java.lang.String">
+  		 delete from T_SES_EMS_EXPERT_CATEGORY
+   		 where EXPERT_ID = #{expertId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="ses.model.ems.ExpertCategory">
+    insert into T_SES_EMS_EXPERT_CATEGORY (EXPERT_ID, CATEGORY_ID)
+    values (#{expertId,jdbcType=VARCHAR}, #{categoryId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="ses.model.ems.ExpertCategory">
+    insert into T_SES_EMS_EXPERT_CATEGORY
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="expertId != null">
+        EXPERT_ID,
+      </if>
+      <if test="categoryId != null">
+        CATEGORY_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="expertId != null">
+        #{expertId,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null">
+        #{categoryId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

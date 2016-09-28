@@ -87,9 +87,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			       			    //onRename: zTreeOnRename,
 						    }, 
 							data:{
-								keep:{
-									parent:true,
-								},					
 								simpleData:{
 									enable:true,
 									idKey:"id",
@@ -98,9 +95,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								}
 						    },
 						   check:{
+							    chkboxType:{"Y" : "ps", "N" : "ps"},//勾选checkbox对于父子节点的关联关系  
+				        		chkStyle:"checkbox", 
 								enable: true
 						   }
 			  };
+		      //控制树的显示和隐藏
 			  var expertsTypeId = $("#expertsTypeId").val();
 				 if(expertsTypeId==1 || expertsTypeId=="1"){
 				 treeObj=$.fn.zTree.init($("#ztree"),setting,datas);
@@ -113,7 +113,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	var treeid=null;
     /*树点击事件*/
     function zTreeOnClick(event,treeId,treeNode){
-		treeid=treeNode.id
+		treeid=treeNode.id;
+		
     }
 	function submitForm1(){
 		if(validateForm1()){
@@ -121,7 +122,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			$("#form1").submit();
 		}
 	}
-		/** 供应商完善注册信息页面 */
+	//获取选中子节点id
+	function getChildren(){
+		var Obj=$.fn.zTree.getZTreeObj("ztree");  
+	     var nodes=Obj.getCheckedNodes(true);  
+	     var ids = new Array();  
+	     for(var i=0;i<nodes.length;i++){ 
+	    	 if(!nodes[i].isParent){
+	        //获取选中节点的值  
+	         ids.push(nodes[i].id); 
+	    	 }
+	     } 
+	     $("#categoryId").val(ids);
+		
+	}
+		/** 专家完善注册信息页面 */
 	function supplierRegist(name, i, position) {
 		 if(i==3){
 			if (!validateForm1()) {
@@ -252,6 +267,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		editTable();
 	}
 	function fun1(){
+		//选中的子节点
+		getChildren();
 		supplierRegist('reg_box_id', 4, 'next');
 		var expertsTypeId = $("#expertsTypeId").val();
 		if(expertsTypeId == "1"){
@@ -316,6 +333,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<%
 			session.setAttribute("tokenSession", tokenValue);
 		%>
+		<input type="hidden" id="categoryId" name="categoryId">
 		 <input type="hidden"  name="token2" value="<%=tokenValue%>">
 		<div id="reg_box_id_3" class="container clear margin-top-30 job-content">
 			<h2 class="padding-20 mt40">

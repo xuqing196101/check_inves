@@ -8,19 +8,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+""; 
 %>
 <!DOCTYPE html>
-<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
-<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
-<!--[if !IE]><!-->
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<title>专家个人信息</title>
-
-	<!-- Meta -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="">
-	<meta name="author" content="">
-	<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
+<title>专家个人信息</title>
+<!-- Meta -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
 <link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
 <link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
 <link href="<%=basePath%>public/ZHH/css/animate.css" media="screen" rel="stylesheet" type="text/css">
@@ -59,7 +55,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="<%=basePath%>public/layer/skin/layer.ext.css" media="screen" rel="stylesheet" type="text/css">
 
 
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/messages_cn.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/hm.js"></script><script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery-migrate-1.2.1.min.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
@@ -121,24 +116,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.excheck.js"></script>
 <script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.exedit.js"></script>
 <link rel="stylesheet" type="text/css" href="<%=basePath%>/public/ztree/css/zTreeStyle.css"> 
+ 
 <script type="text/javascript">
-    var treeObj;
+     var treeObj;
 	var datas;
-	$(function() {
+	
 	   var setting={
 				async:{
-							autoParam:["id"],
+							//autoParam:["id"],
 							enable:true,
 							url:"<%=basePath%>category/createtree.do",
+							autoParam:["id", "name=n", "level=lv"],  
+				            otherParam:{"otherParam":"zTreeAsyncTest"},  
+				            dataFilter: filter,  
 							dataType:"json",
 							type:"post",
 						},
 						callback:{
 					    	onClick:zTreeOnClick,//点击节点触发的事件
-					    	 //beforeRemove: zTreeBeforeRemove,
-					    	//beforeRename: zTreeBeforeRename, 
-							//onRemove: zTreeOnRemove,
-		       			    //onRename: zTreeOnRename,
+					    	//onAsyncSuccess: zTreeOnAsyncSuccess
+					    	beforeAsync: beforeAsync,  
+			                onAsyncSuccess: onAsyncSuccess  
 					    }, 
 						data:{
 							keep:{
@@ -156,27 +154,109 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							chkStyle:"checkbox"
 					   }
 		  };
+	   var listId;
+	   $(function(){
+		   var id="${expert.id}";
+		   
+			  $.ajax({
+				  url:"<%=basePath%>expert/getCategoryByExpertId.do?expertId="+id,
+				  success:function(result){
+					  listId=result;
+				  },
+				  error:function(result){
+					  alert("出错啦！");
+				  }
+			  }); 
 		  var expertsTypeId = $("#expertsTypeId").val();
 		 if(expertsTypeId==1 || expertsTypeId=="1"){
-		 treeObj=$.fn.zTree.init($("#ztree"),setting,datas);
+		 //treeObj=$.fn.zTree.init($("#ztree"),setting,datas);
+		treeObj = $.fn.zTree.init($("#ztree"), setting);  
+         setTimeout(function(){  
+             expandAll("ztree");  
+         },500);//延迟加载  
 			 $("#ztree").show();
 		 }else{
 			 treeObj=$.fn.zTree.init($("#ztree"),setting,datas);
 			 $("#ztree").hide();
 		 }
-	});
+	}); 
+	   
+	   function filter(treeId, parentNode, childNodes) {  
+           if (!childNodes) return null;  
+           for (var i=0, l=childNodes.length; i<l; i++) {  
+               childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.');  
+           }  
+           return childNodes;  
+       }  
+ 
+       function beforeAsync() {  
+           curAsyncCount++;  
+       }  
+         
+       function onAsyncSuccess(event, treeId, treeNode, msg) {  
+           curAsyncCount--;  
+           if (curStatus == "expand") {  
+               expandNodes(treeNode.children);  
+           } else if (curStatus == "async") {  
+               asyncNodes(treeNode.children);  
+           }  
+ 
+           if (curAsyncCount <= 0) {  
+               curStatus = "";  
+           }  
+       }  
+ 
+       var curStatus = "init", curAsyncCount = 0, goAsync = false;  
+       function expandAll() {  
+           if (!check()) {  
+               return;  
+           }  
+           var zTree = $.fn.zTree.getZTreeObj("ztree");  
+           expandNodes(zTree.getNodes());  
+           if (!goAsync) {  
+               curStatus = "";  
+           }  
+       }  
+       function expandNodes(nodes) {  
+           if (!nodes) return;  
+           curStatus = "expand";  
+           var zTree = $.fn.zTree.getZTreeObj("ztree");  
+           for (var i=0, l=nodes.length; i<l; i++) {
+        	   for(var a=0;a<listId.length;a++){
+        		   if(listId[a].categoryId==nodes[i].id){
+        			   zTree.checkNode(nodes[i], true, true); 
+        		   }
+        	   }
+               zTree.expandNode(nodes[i], true, false, false);//展开节点就会调用后台查询子节点 
+                if (nodes[i].isParent && nodes[i].zAsync) {  
+                   expandNodes(nodes[i].children);//递归  
+               } else {  
+                   goAsync = true;  
+               }  
+           }  
+       }  
+ 
+       function check() {  
+           if (curAsyncCount > 0) {  
+               return false;  
+           }  
+           return true;  
+       }  
+ 
+	function zTreeOnAsyncSuccess(event, treeId, treeNode, msg){
+        var nodes = treeNode.children;
+ 
+        for(var i=0;i<nodes.length;i++){
+            treeObj.expandNode(nodes[i],true,false,true,true);
+        }
+ 
+    }
+	
+
 	var treeid=null;
 	/*树点击事件*/
 	function zTreeOnClick(event,treeId,treeNode){
 		treeid=treeNode.id
-		var checkedNodes = treeObj.getCheckedNodes(true);
-		v="";
-        for(var i=0;i<checkedNodes.length;i++){
-        v+=checkedNodes[i].name + ",";
-        //alert(checkedNodes[i].id); //获取选中节点的值
-        
-	}
-        alert(v);
 	}	
 
 
@@ -241,6 +321,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 }
 		
 	}
+	//获取选中子节点id
+	function getChildren(){
+		var Obj=$.fn.zTree.getZTreeObj("ztree");  
+	     var nodes=Obj.getCheckedNodes(true);  
+	     var ids = new Array();  
+	     for(var i=0;i<nodes.length;i++){ 
+	    	 if(!nodes[i].isParent){
+	        //获取选中节点的值  
+	         ids.push(nodes[i].id); 
+	    	 }
+	     } 
+	     $("#categoryId").val(ids);
+		$("#form1").submit();
+	}
 </script>
 </head>
 <body>
@@ -272,6 +366,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    		<%
 			session.setAttribute("tokenSession", tokenValue);
 		%>
+   <input type="hidden" name="categoryId" id="categoryId">
    <input type="hidden"  name="token2" value="<%=tokenValue%>">
    <input type="hidden" name="id" value="${expert.id }">
    <input type="hidden" name="isPass" id="isPass"/>
@@ -361,25 +456,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       
 	  <li class="col-md-6  p0 ">
 	   <span class="">民族：</span>
-        <input class="span2"  maxlength="10"   value="${expert.nation }" name="nation" id="appendedInput" type="text">
+        <input class="span2"  maxlength="10"   value="${expert.nation }" name="nation" id="nation" type="text">
           
        <font id="nameFont4"></font>
 	 </li>  
      <li class="col-md-6  p0 ">
 	   <span class="">毕业院校：</span>
-        <input class="span2"  maxlength="40"  value="${expert.graduateSchool }" name="graduateSchool" id="appendedInput" type="text">
+        <input class="span2"  maxlength="40"  value="${expert.graduateSchool }" name="graduateSchool" id="graduateSchool" type="text">
           
        <font id="nameFont6"></font>
 	 </li> 
      <li class="col-md-6  p0 ">
 	   <span class="">专业技术职称：</span>
-        <input class="span2"  maxlength="20" value="${expert.professTechTitles }" name="professTechTitles" id="appendedInput" type="text">
+        <input class="span2"  maxlength="20" value="${expert.professTechTitles }" name="professTechTitles" id="professTechTitles" type="text">
           
        <font id="nameFont7"></font>
 	 </li> 
      <li class="col-md-6  p0 ">
 	   <span class="">参加工作时间：</span>
-        <input class="span2 Wdate w220" value="<fmt:formatDate type='date' value='${expert.timeToWork }' dateStyle="default" pattern="yyyy-MM-dd"/>"   readonly="readonly" name="timeToWork" id="appendedInput" type="text" >
+        <input class="span2 Wdate w220" value="<fmt:formatDate type='date' value='${expert.timeToWork }' dateStyle="default" pattern="yyyy-MM-dd"/>"   readonly="readonly" name="timeToWork" id="timeToWork" type="text" >
        <font id="nameFont8"></font>
 	 </li> 
      <li class="col-md-6  p0 ">
@@ -396,53 +491,53 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 </li> 
      <li class="col-md-6  p0 ">
 	   <span class="">专业：</span>
-        <input class="span2" value="${expert.major }"  maxlength="20"  name="major" id="appendedInput" type="text">
+        <input class="span2" value="${expert.major }"  maxlength="20"  name="major" id="major" type="text">
           
        <font id="nameFont9"></font>
 	 </li> 
 	 <li class="col-md-6  p0 ">
 	   <span class="">从事专业起始年度：</span>
-        <input class="span2 Wdate w220" value="<fmt:formatDate type='date' value='${expert.timeStartWork }' dateStyle="default" pattern="yyyy-MM-dd"/>"   readonly="readonly" name="timeStartWork" id="appendedInput" type="text" >
+        <input class="span2 Wdate w220" value="<fmt:formatDate type='date' value='${expert.timeStartWork }' dateStyle="default" pattern="yyyy-MM-dd"/>"   readonly="readonly" name="timeStartWork" id="timeStartWork" type="text" >
       <font id="nameFont10"></font>
 	 </li> 
 	  <li class="col-md-6  p0 ">
 	   <span class="">工作单位：</span>
-        <input class="span2"  maxlength="40" value="${expert.workUnit }" name="workUnit" id="appendedInput" type="text">
+        <input class="span2"  maxlength="40" value="${expert.workUnit }" name="workUnit" id="workUnit" type="text">
           
        <font id="nameFont11"></font>
 	 </li> 
 	  <li class="col-md-6  p0 ">
 	   <span class="">传真：</span>
-        <input class="span2" maxlength="10"   value="${expert.fax }" name="fax" id="appendedInput" type="text">
+        <input class="span2" maxlength="10"   value="${expert.fax }" name="fax" id="fax" type="text">
           
        <font id="nameFont14"></font>
 	 </li> 
 	  <li class="col-md-6  p0 ">
 	   <span class="">邮政编码：</span>
-        <input class="span2" maxlength="6"    value="${expert.postCode }" name="postCode" id="appendedInput" type="text">
+        <input class="span2" maxlength="6"    value="${expert.postCode }" name="postCode" id="postCode" type="text">
           
        <font id="nameFont15"></font>
 	 </li> 
 	<li class="col-md-6  p0 ">
 	   <span class="">取得技术职称时间：</span>
-        <input class="span2 Wdate w220" value="<fmt:formatDate type='date' value='${expert.makeTechDate }' dateStyle="default" pattern="yyyy-MM-dd"/>"  onfocus="validataForm(this,'nameFont16');"  readonly="readonly" name="makeTechDate" id="appendedInput" type="text" onclick='WdatePicker()'>
+        <input class="span2 Wdate w220" value="<fmt:formatDate type='date' value='${expert.makeTechDate }' dateStyle="default" pattern="yyyy-MM-dd"/>"  onfocus="validataForm(this,'nameFont16');"  readonly="readonly" name="makeTechDate" id="makeTechDate" type="text" onclick='WdatePicker()'>
        <font id="nameFont16"></font>
 	 </li>  
 	  <li class="col-md-6  p0 ">
 	   <span class="">学位：</span>
-        <input class="span2"  value="${expert.degree }"  maxlength="10"  name="degree" id="appendedInput" type="text">
+        <input class="span2"  value="${expert.degree }"  maxlength="10"  name="degree" id="degree" type="text">
           
        <font id="nameFont17"></font>
 	 </li>
 	  <li class="col-md-6  p0 ">
 	   <span class="">健康状态：</span>
-        <input class="span2" maxlength="10" value="${expert.healthState }"   name="healthState" id="appendedInput" type="text">
+        <input class="span2" maxlength="10" value="${expert.healthState }"   name="healthState" id="healthState" type="text">
           
        <font id="nameFont18"></font>
 	 </li>  
 	 <li class="col-md-6  p0 ">
 	   <span class="">现任职务：</span>
-        <input class="span2" maxlength="10" value="${expert.atDuty }"   name="atDuty" id="appendedInput" type="text">
+        <input class="span2" maxlength="10" value="${expert.atDuty }"   name="atDuty" id="atDuty" type="text">
         
        <font id="nameFont19"></font>
 	 </li>
@@ -526,7 +621,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </div> -->
   <div  class="col-md-12">
    <div class="fl padding-10">
-    <input class="btn btn-windows edit" type="submit" value="修改">
+    <input class="btn btn-windows edit" type="button" onclick="getChildren();" value="修改">
 	<a class="btn btn-windows reset"  onclick="location.href='javascript:history.go(-1);'">返回</a>
 	</div>
   </div>

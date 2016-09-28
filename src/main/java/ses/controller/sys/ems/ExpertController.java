@@ -20,6 +20,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,10 +33,12 @@ import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
+import ses.model.ems.ExpertCategory;
 import ses.model.oms.PurchaseDep;
 import ses.service.bms.TodosService;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertAuditService;
+import ses.service.ems.ExpertCategoryService;
 import ses.service.ems.ExpertService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.WfUtil;
@@ -55,6 +58,8 @@ public class ExpertController {
 	private TodosService toDosService;//待办管理
 	@Autowired
 	private ExpertAuditService expertAuditService;
+	@Autowired
+	private ExpertCategoryService expertCategoryService;
 	/**
 	 * 
 	  * @Title: toExpert
@@ -288,13 +293,13 @@ public class ExpertController {
 	 * @throws IOException 
 	 */
 	@RequestMapping("/edit")
-	public String edit(Expert expert,Model model,HttpSession session,@RequestParam("token2") String token2 ,HttpServletRequest request,HttpServletResponse response) throws IOException{
+	public String edit(@RequestParam("categoryId") String categoryId,Expert expert,Model model,HttpSession session,@RequestParam("token2") String token2 ,HttpServletRequest request,HttpServletResponse response) throws IOException{
 		Object tokenValue = session.getAttribute("tokenSession");
 		if (tokenValue != null && tokenValue.equals(token2)) {
 			// 正常提交
 			session.removeAttribute("tokenSession");
 			//获取文件上传路径
-			String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
+			//String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
 			//文件上传到指定地址
 			//service.uploadFile(files, realPath);
 			//修改状态为已提交
@@ -302,6 +307,10 @@ public class ExpertController {
 			//修改时间
 			expert.setUpdatedAt(new Date());
 			service.updateByPrimaryKeySelective(expert);
+			expertCategoryService.deleteByExpertId(expert.getId());
+			if(expert.getExpertsTypeId().equals("1")){
+				expertCategoryService.save(expert, categoryId);
+			}
 		return "redirect:findAllExpert.html";
 		}else{
 			//重复提交  这里未做重复提醒，只是不重复修改
@@ -319,7 +328,7 @@ public class ExpertController {
 	 * @throws IOException 
 	 */
 	@RequestMapping("/add")
-	public String add(@RequestParam("files")MultipartFile[] files,@RequestParam("zancun")String zancun,Expert expert,@RequestParam("userId")String userId,Model model,HttpSession session,@RequestParam String token2 ,HttpServletRequest request,HttpServletResponse response) throws IOException{
+	public String add(@RequestParam("categoryId")String categoryId,@RequestParam("files")MultipartFile[] files,@RequestParam("zancun")String zancun,Expert expert,@RequestParam("userId")String userId,Model model,HttpSession session,@RequestParam String token2 ,HttpServletRequest request,HttpServletResponse response) throws IOException{
 		Object tokenValue = session.getAttribute("tokenSession");
 		String expertId = UUID.randomUUID().toString();
 		if (tokenValue != null && tokenValue.equals(token2)) {
@@ -341,13 +350,13 @@ public class ExpertController {
 				userService.update(user);
 			}else{
 				//注册完账号  过段时间又填写个人信息
-				/*User user = (User)session.getAttribute("loginUser");
+				User user = (User)session.getAttribute("loginUser");
 				if(expert.getId()==null || expert.getId()=="" || expert.getId().length()==0){
 					user.setTypeId(expertId);
 				}else{
 					user.setTypeId(expert.getId());
 				}
-				userService.update(user);*/
+				userService.update(user);
 			}
 			if(zancun!=null && zancun.equals("1")){//说明为暂存否则为提交
 					expert.setId(expertId);
@@ -368,6 +377,8 @@ public class ExpertController {
 			expert.setUpdatedAt(new Date());
 			//执行保存
 			service.insertSelective(expert);
+			//保存品目
+			expertCategoryService.save(expert, categoryId);
 			//发送待办
 			Todos todos = new Todos();
 			todos.setCreatedAt(new Date());
@@ -384,6 +395,22 @@ public class ExpertController {
 			//重复提交  这里未做重复提醒，只是不重复增加
 		return "redirect:/";
 		}
+	}
+	/**
+	 * 
+	  * @Title: getCategoryByExpertId
+	  * @author ShaoYangYang
+	  * @date 2016年9月28日 下午5:14:00  
+	  * @Description: TODO 根据专家id查询该专家关联的品目id
+	  * @param @param id
+	  * @param @return      
+	  * @return List<ExpertCategory>
+	 */
+	@RequestMapping("/getCategoryByExpertId")
+	@ResponseBody
+	public List<ExpertCategory> getCategoryByExpertId(@RequestParam("expertId")String id){
+		List<ExpertCategory> list = expertCategoryService.getListByExpertId(id);
+		return list;
 	}
 	/**
 	 * 

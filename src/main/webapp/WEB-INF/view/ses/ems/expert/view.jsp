@@ -55,13 +55,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="<%=basePath%>public/ZHH/css/footer-v4.css" media="screen" rel="stylesheet" type="text/css">
 <link href="<%=basePath%>public/ZHH/css/masterslider.css" media="screen" rel="stylesheet" type="text/css">
 <link href="<%=basePath%>public/ZHH/css/james.css" media="screen" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="<%=basePath%>public/ZHQ/css/validForm/style.css" type="text/css" media="all" />
-<link href="<%=basePath%>public/ZHQ/css/validForm/demo.css" type="text/css" rel="stylesheet" />
 <link href="<%=basePath%>public/layer/skin/layer.css" media="screen" rel="stylesheet" type="text/css">
 <link href="<%=basePath%>public/layer/skin/layer.ext.css" media="screen" rel="stylesheet" type="text/css">
 
 
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/messages_cn.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/hm.js"></script><script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery-migrate-1.2.1.min.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
@@ -87,7 +84,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 
 
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.va.2.min.jsidate.min.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.maskedinput.min.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/masking.js"></script>
@@ -104,7 +100,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.fileupload-fp.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.fileupload-ui.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery-fileupload.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/form.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/select2.min.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/select2_locale_zh-CN.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/application.js"></script>
@@ -121,8 +116,153 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="<%=basePath%>public/layer/extend/layer.ext.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/expert/TestAddress.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/expert/TestChooseAddress.js"></script>
-
+<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.exedit.js"></script>
+<link rel="stylesheet" type="text/css" href="<%=basePath%>/public/ztree/css/zTreeStyle.css"> 
 <script type="text/javascript">
+var treeObj;
+var datas;
+
+   var setting={
+			async:{
+						//autoParam:["id"],
+						enable:true,
+						url:"<%=basePath%>category/createtree.do",
+						autoParam:["id", "name=n", "level=lv"],  
+			            otherParam:{"otherParam":"zTreeAsyncTest"},  
+			            dataFilter: filter,  
+						dataType:"json",
+						type:"post",
+					},
+					callback:{
+				    	onClick:zTreeOnClick,//点击节点触发的事件
+				    	//onAsyncSuccess: zTreeOnAsyncSuccess
+				    	beforeAsync: beforeAsync,  
+		                onAsyncSuccess: onAsyncSuccess,
+		                beforeCheck: zTreeBeforeCheck
+				    }, 
+					data:{
+						keep:{
+							parent:true,
+						},					
+						simpleData:{
+							enable:true,
+							idKey:"id",
+							pIdKey:"pId",
+							rootPId:0,
+						}
+				    },
+				   check:{
+						enable: true,
+						chkStyle:"checkbox"
+				   }
+	  };
+   var listId;
+   $(function(){
+	   var id="${expert.id}";
+	   
+		  $.ajax({
+			  url:"<%=basePath%>expert/getCategoryByExpertId.do?expertId="+id,
+			  success:function(result){
+				  listId=result;
+			  },
+			  error:function(result){
+				  alert("出错啦！");
+			  }
+		  }); 
+	  var expertsTypeId = $("#expertsTypeId").val();
+	 if(expertsTypeId==1 || expertsTypeId=="1"){
+	 //treeObj=$.fn.zTree.init($("#ztree"),setting,datas);
+	treeObj = $.fn.zTree.init($("#ztree"), setting);  
+     setTimeout(function(){  
+         expandAll("ztree");  
+     },500);//延迟加载  
+		 $("#ztree").show();
+	 }else{
+		 treeObj=$.fn.zTree.init($("#ztree"),setting,datas);
+		 $("#ztree").hide();
+	 }
+}); 
+   function zTreeBeforeCheck(treeId, treeNode) {
+	    return false;
+	};
+   
+   function filter(treeId, parentNode, childNodes) {  
+       if (!childNodes) return null;  
+       for (var i=0, l=childNodes.length; i<l; i++) {  
+           childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.');  
+       }  
+       return childNodes;  
+   }  
+
+   function beforeAsync() {  
+       curAsyncCount++;  
+   }  
+     
+   function onAsyncSuccess(event, treeId, treeNode, msg) {  
+       curAsyncCount--;  
+       if (curStatus == "expand") {  
+           expandNodes(treeNode.children);  
+       } else if (curStatus == "async") {  
+           asyncNodes(treeNode.children);  
+       }  
+
+       if (curAsyncCount <= 0) {  
+           curStatus = "";  
+       }  
+   }  
+
+   var curStatus = "init", curAsyncCount = 0, goAsync = false;  
+   function expandAll() {  
+       if (!check()) {  
+           return;  
+       }  
+       var zTree = $.fn.zTree.getZTreeObj("ztree");  
+       expandNodes(zTree.getNodes());  
+       if (!goAsync) {  
+           curStatus = "";  
+       }  
+   }  
+   function expandNodes(nodes) {  
+       if (!nodes) return;  
+       curStatus = "expand";  
+       var zTree = $.fn.zTree.getZTreeObj("ztree");  
+       for (var i=0, l=nodes.length; i<l; i++) {
+    	   for(var a=0;a<listId.length;a++){
+    		   if(listId[a].categoryId==nodes[i].id){
+    			   zTree.checkNode(nodes[i], true, true); 
+    		   }
+    	   }
+           zTree.expandNode(nodes[i], true, false, false);//展开节点就会调用后台查询子节点 
+            if (nodes[i].isParent && nodes[i].zAsync) {  
+               expandNodes(nodes[i].children);//递归  
+           } else {  
+               goAsync = true;  
+           }  
+       }  
+   }  
+
+   function check() {  
+       if (curAsyncCount > 0) {  
+           return false;  
+       }  
+       return true;  
+   }  
+
+function zTreeOnAsyncSuccess(event, treeId, treeNode, msg){
+    var nodes = treeNode.children;
+    for(var i=0;i<nodes.length;i++){
+        treeObj.expandNode(nodes[i],true,false,true,true);
+    }
+
+} 	
+
+function zTreeOnClick(event,treeId,treeNode){
+	treeid=treeNode.id
+}
+
+
 //地区联动js
 	function loadProvince(regionId){
 		  $("#id_provSelect").html("");
@@ -408,6 +548,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			   </select>
 			 </li>
         </ul>
+        <div id="ztree" class="ztree"></div>
 		</div>
 	</div>
 	
