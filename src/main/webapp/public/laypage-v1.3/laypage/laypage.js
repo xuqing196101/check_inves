@@ -69,11 +69,10 @@ Page.prototype.view = function(){
     conf.last = 'last' in conf ? conf.last : '&#x5C3E;&#x9875;';
     conf.prev = 'prev' in conf ? conf.prev : '&#x4E0A;&#x4E00;&#x9875;';
     conf.next = 'next' in conf ? conf.next : '&#x4E0B;&#x4E00;&#x9875;';
-    
 //    if(conf.pages <= 1){
 //        return '';
 //    }
-    
+    view.push('<span class="laypage_total"><label>显示'+conf.startRow+'-'+conf.endRow+','+conf.total+'条</label></span>');
     if(conf.groups > conf.pages){
         conf.groups = conf.pages;
     }
@@ -127,7 +126,7 @@ Page.prototype.view = function(){
         return /^#/.test(skin) ? 'molv' : skin;
     }(conf.skin)) : 'default') +'" id="laypage_'+ that.config.item +'">'+ view.join('') + function(){
         return conf.skip 
-        ? '<span class="laypage_total"><label>&#x5230;&#x7B2C;</label><input type="text" min="1" onkeyup="this.value=this.value.replace(/\\D/, \'\');" class="laypage_skip"><label>&#x9875;</label>'
+        ? '<span class="laypage_curr" style="background-color:'+ conf.skin +'">共'+ conf.pages +'页</span><span class="laypage_total"><label>&#x5230;&#x7B2C;</label><input type="text" min="1" onkeyup="this.value=this.value.replace(/\\D/, \'\');" class="laypage_skip"><label>&#x9875;</label>'
         + '<button type="button" class="laypage_btn">\&#x786e;&#x5b9a</button></span>' 
         : '';
     }() +'</div>';
