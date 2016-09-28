@@ -10,4 +10,6 @@ import ses.model.oms.PurchaseInfoWithBLOBs;
 public interface PurchaseInfoMapper {
 	List<PurchaseInfo> findPurchaseList(HashMap<String, Object> map);
 	int  savePurchase(PurchaseInfo purchaseInfo);
+	int updatePurchase(PurchaseInfo purchaseInfo);
+	int delPurchaseByMap(HashMap<String, Object> map);
 }

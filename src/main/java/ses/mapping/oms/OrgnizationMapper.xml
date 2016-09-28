@@ -70,7 +70,7 @@
 		       d.PRINCINPAL  as princinpal,
 		       d.PRINCINPAL_ID_CARD  as princinpalIdCard,
 		       d.NATURE  as nature
-		  from T_SES_OMS_ORG d  RIGHT JOIN (select * from T_SES_OMS_PURDEP_ORG po where po.org_id= #{orgId}) m  on d.id = m.org_id
+		  from T_SES_OMS_ORG d  RIGHT JOIN (select * from T_SES_OMS_PURDEP_ORG po where po.org_id= #{orgId}) m  on d.id = m.purchase_dep_id
 		  where nvl(d.IS_DELETED,0)=0
 		  ORDER BY d.CREATED_AT DESC
 	</select>

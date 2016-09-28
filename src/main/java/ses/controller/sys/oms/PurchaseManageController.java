@@ -1,6 +1,7 @@
 package ses.controller.sys.oms;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,6 +28,7 @@ import ses.model.bms.User;
 import ses.model.oms.Deparent;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
+import ses.model.oms.PurchaseInfo;
 import ses.model.oms.PurchaseOrg;
 import ses.model.oms.util.AjaxJsonData;
 import ses.model.oms.util.CommUtils;
@@ -37,6 +39,7 @@ import ses.service.oms.DepartmentServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurChaseDepOrgService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
+import ses.service.oms.PurchaseServiceI;
 
 
 /**
@@ -60,6 +63,8 @@ public class PurchaseManageController {
 	private UserServiceI userServiceI;
 	@Autowired
 	private PurChaseDepOrgService purChaseDepOrgService;
+	@Autowired
+	private PurchaseServiceI purchaseServiceI;
 	
 	private AjaxJsonData jsonData = new AjaxJsonData();
 	HashMap<String,Object> resultMap = new HashMap<String,Object>();
@@ -394,7 +399,7 @@ public class PurchaseManageController {
 		List<String> strlist = new ArrayList<String>();
 		if(list!=null && !list.equals("null") && list.size()>0){
 			for(int j=0;j<list.size();j++){
-				String string = list.get(j).getId()+","+list.get(j).getName();
+				String string = list.get(j)==null?",":list.get(j).getId()+","+list.get(j).getName();
 				strlist.add(string);
 			}
 		}
@@ -482,6 +487,113 @@ public class PurchaseManageController {
 		}*/
 		return json;
 	}
+	//-------------------------------------机构下人员增删改查      采购人在purchaseController----------------------------------------------------------------------
+	/**
+	 * 
+	 * @Title: addUser
+	 * @author: Tian Kunfeng
+	 * @date: 2016-9-27 下午4:24:41
+	 * @Description: 新增用户
+	 * @param: @param user
+	 * @param: @param model
+	 * @param: @return
+	 * @return: String
+	 */
+	@RequestMapping("addUser")
+	public String addUser(@ModelAttribute User user,Model model,HttpServletRequest request) {
+		model.addAttribute("typeName", user.getTypeName());
+		model.addAttribute("orgId", user.getOrg().getId());
+		//校验用户名   密码  
+		String loginNameTip = (String) request.getSession().getAttribute(
+				"userSaveTipMsg_loginName");
+		String passwordTip = (String) request.getSession().getAttribute(
+				"userSaveTipMsg_password");
+		String password2Tip = (String) request.getSession().getAttribute(
+				"userSaveTipMsg_password2");
+		if (loginNameTip != null && !"".equals(loginNameTip)) {
+			model.addAttribute("loginName_msg", loginNameTip);
+		}
+		if (passwordTip != null && !"".equals(passwordTip)) {
+			model.addAttribute("password_msg", passwordTip);
+		}
+		if (password2Tip != null && !"".equals(password2Tip)) {
+			model.addAttribute("password2_msg", password2Tip);
+		}
+		request.getSession().removeAttribute("userSaveTipMsg_loginName");
+		request.getSession().removeAttribute("userSaveTipMsg_password");
+		request.getSession().removeAttribute("userSaveTipMsg_password2");
+		return "ses/oms/require_dep/add-user";
+	}
+	/**
+	 * 
+	 * @Title: createUser
+	 * @author: Tian Kunfeng
+	 * @date: 2016-9-27 下午4:25:25
+	 * @Description: 保存用户
+	 * @param: @param user
+	 * @param: @param request
+	 * @param: @return
+	 * @return: AjaxJsonData
+	 */
+	@RequestMapping(value="createUser",method= RequestMethod.POST)
+	@ResponseBody
+	public AjaxJsonData createUser(@ModelAttribute User user,HttpServletRequest request){
+		User currUser = (User) request.getSession().getAttribute("loginUser");
+		//如果是采购机构增加人员 需要先建立主从关系
+		if (user.getTypeName()!=null && user.getTypeName().equals(1)) {
+			PurchaseInfo purchaseInfo = new PurchaseInfo();
+			//purchaseInfo.setBirthAt(new Date());
+			//purchaseInfo.setQuaEdndate(new Date());
+			//purchaseInfo.setQuaStartDate(new Date());
+			purchaseServiceI.savePurchase(purchaseInfo);
+			System.out.println(purchaseInfo.getId());
+			user.setTypeId(purchaseInfo.getId());
+		}
+		userServiceI.save(user, currUser);
+		jsonData.setSuccess(true);
+		jsonData.setMessage("保存成功");
+		return jsonData;
+		
+	}
+	/**
+	 * 
+	 * @Title: editUser
+	 * @author: Tian Kunfeng
+	 * @date: 2016-9-27 下午4:26:11
+	 * @Description: 编辑用户
+	 * @param: @param user
+	 * @param: @param model
+	 * @param: @return
+	 * @return: String
+	 */
+	@RequestMapping("editUser")
+	public String editUser(@ModelAttribute User user,Model model) {
+		user = userServiceI.queryByList(user).get(0);
+		model.addAttribute("user", user);
+		return "ses/oms/require_dep/edit-user";
+	}
+	/**
+	 * 
+	 * @Title: updateUser
+	 * @author: Tian Kunfeng
+	 * @date: 2016-9-27 下午4:26:16
+	 * @Description: 更新用户
+	 * @param: @param user
+	 * @param: @param request
+	 * @param: @return
+	 * @return: AjaxJsonData
+	 */
+	@RequestMapping(value="updateUser",method= RequestMethod.POST)
+	@ResponseBody
+	public AjaxJsonData updateUser(@ModelAttribute User user,HttpServletRequest request){
+		User currUser = (User) request.getSession().getAttribute("loginUser");
+		
+		userServiceI.update(user);
+		jsonData.setSuccess(true);
+		jsonData.setMessage("更新成功");
+		return jsonData;
+	}
+	//------------------------------------机构下人员增删改查-----------------------------------------------------------------------
 	//-------------------------------------------监管部门相关操作------------------------------------------------------------------
 	
 	@RequestMapping("monitorDeplist")
@@ -559,7 +671,7 @@ public class PurchaseManageController {
 				model.addAttribute("orgnization",orglist.get(0) );
 			}
 			
-			user.setTypeId(orgnization.getId());
+			user.setOrg(orgnization);
 			List<User> userlist= userServiceI.queryByList(user);
 			model.addAttribute("userlist", userlist);
 			map.clear();
@@ -573,7 +685,7 @@ public class PurchaseManageController {
 			if(orglist!=null && orglist.size()>0){
 				model.addAttribute("orgnization",orglist.get(0) );
 				String orgId = orglist.get(0).getId();
-				user.setTypeId(orgId);
+				user.setOrg(orglist.get(0));
 				List<User> userlist= userServiceI.queryByList(user);
 				model.addAttribute("userlist", userlist);
 				map.clear();

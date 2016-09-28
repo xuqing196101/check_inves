@@ -5,7 +5,12 @@ import java.util.Date;
 import ses.model.bms.User;
 
 public class PurchaseInfo extends User{
-    private String id;
+    /**
+	 * @Fields serialVersionUID : 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private String id;
 
    // private Integer gender;//父类继承
 
@@ -22,11 +27,11 @@ public class PurchaseInfo extends User{
 
     private String area;
 
-    private Integer provinceId;
+    private String provinceId;
 
-    private Integer cityId;
+    private String cityId;
 
-    private Integer townId;
+    private String townId;
 
     private String detailAddr;
 
@@ -50,7 +55,7 @@ public class PurchaseInfo extends User{
 
     private String fax;
 
-    private String address;
+    //private String address;
 
     private String postCode;
     private String workExperience;
@@ -113,31 +118,32 @@ public class PurchaseInfo extends User{
         this.area = area == null ? null : area.trim();
     }
 
-    public Integer getProvinceId() {
-        return provinceId;
-    }
+    
+    public String getProvinceId() {
+		return provinceId;
+	}
 
-    public void setProvinceId(Integer provinceId) {
-        this.provinceId = provinceId;
-    }
+	public void setProvinceId(String provinceId) {
+		this.provinceId = provinceId;
+	}
 
-    public Integer getCityId() {
-        return cityId;
-    }
+	public String getCityId() {
+		return cityId;
+	}
 
-    public void setCityId(Integer cityId) {
-        this.cityId = cityId;
-    }
+	public void setCityId(String cityId) {
+		this.cityId = cityId;
+	}
 
-    public Integer getTownId() {
-        return townId;
-    }
+	public String getTownId() {
+		return townId;
+	}
 
-    public void setTownId(Integer townId) {
-        this.townId = townId;
-    }
+	public void setTownId(String townId) {
+		this.townId = townId;
+	}
 
-    public String getDetailAddr() {
+	public String getDetailAddr() {
         return detailAddr;
     }
 
@@ -225,13 +231,7 @@ public class PurchaseInfo extends User{
         this.fax = fax == null ? null : fax.trim();
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address == null ? null : address.trim();
-    }
+    
 
     public String getPostCode() {
         return postCode;

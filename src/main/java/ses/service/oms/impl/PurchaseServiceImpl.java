@@ -25,5 +25,17 @@ public class PurchaseServiceImpl implements PurchaseServiceI{
 		// TODO Auto-generated method stub
 		return purchaseInfoMapper.savePurchase(purchaseInfo);
 	}
+
+	@Override
+	public int updatePurchase(PurchaseInfo purchaseInfo) {
+		// TODO Auto-generated method stub
+		return purchaseInfoMapper.updatePurchase(purchaseInfo);
+	}
+
+	@Override
+	public int delPurchaseByMap(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return purchaseInfoMapper.delPurchaseByMap(map);
+	}
 	
 }

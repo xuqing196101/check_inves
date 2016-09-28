@@ -123,9 +123,9 @@
 		//单选时间
 		if($("#"+id).prop("checked")){
 			arr.push(data);
-			console.dir(parent.array);
-			console.dir(data);
-			console.dir(parent.array.indexOf(data)==0);
+			//console.dir(parent.array);
+			//console.dir(data);
+			//console.dir(parent.array.indexOf(data)==0);
 			if(parent.array.indexOf(data)==-1){
 				parent.array.push(data);
 			}
