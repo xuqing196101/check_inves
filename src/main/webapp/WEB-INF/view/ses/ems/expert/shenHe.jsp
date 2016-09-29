@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -408,6 +409,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <div class="headline-v2 clear">
    <h2>附件信息</h2>
    </div>
+    <c:forEach items="${attachmentList }" var="att" varStatus="vs">
+   <h4>
+   <span>${vs.count }.</span>
+   <a href="<%=basePath %>expert/downLoadFile.do?attachmentId=${att.id }">${fn:substring(att.fileName, 32, -1)}</a>
+   </h4>
+   
+   </c:forEach>
   </div>
   
   </div> 

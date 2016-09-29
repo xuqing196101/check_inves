@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -341,7 +342,7 @@ function zTreeOnClick(event,treeId,treeNode){
 						</ul>
 <!-- 修改订列表开始-->
    <div class="container">
-   <form action="<%=basePath %>expert/shenhe.do"  method="post" id="form1" enctype="multipart/form-data" class="registerform"> 
+   <form action=""  method="post" id="form1" enctype="multipart/form-data" class="registerform"> 
    		<%
 			session.setAttribute("tokenSession", tokenValue);
 		%>
@@ -532,6 +533,13 @@ function zTreeOnClick(event,treeId,treeNode){
    <div class="headline-v2 clear">
    <h2>附件信息</h2>
    </div>
+   <c:forEach items="${attachmentList }" var="att" varStatus="vs">
+   <h4>
+   <span>${vs.count }.</span>
+   <a href="<%=basePath %>expert/downLoadFile.do?attachmentId=${att.id }">${fn:substring(att.fileName, 32, -1)}</a>
+   </h4>
+   
+   </c:forEach>
   </div>
   </div> 
    <div class="tab-pane fade height-450" id="tab-2">
@@ -557,40 +565,10 @@ function zTreeOnClick(event,treeId,treeNode){
 			</div>
 	</div> -->
   </div>
- <!--  <div class="padding-left-40 padding-right-20 clear">
-   <ul class="list-unstyled list-flow p0_20">
-   <li class="col-md-6  p0 ">
-	   <span class="">身份证：</span>
-	   <div >
-        <input class="span2" name="file" id="appendedInput" type="file" >
-       </div>
-	 </li>
-	 <li class="col-md-6  p0 ">
-	   <span class="">学历证书：</span>
-	   <div >
-        <input class="span2" name="file" id="appendedInput" type="file">
-       </div>
-	 </li>
-	 <li class="col-md-6  p0 ">
-	   <span class="">职称证书：</span>
-	   <div >
-        <input class="span2" name="file" id="appendedInput" type="file">
-       </div>
-	 </li>
-	  <li class="col-md-6  p0 ">
-	   <span class="">学位证书：</span>
-	   <div >
-        <input class="span2" name="file" id="appendedInput" type="file">
-       </div>
-	  </li>
-	  <li class="col-md-6  p0 ">
-	   <span class="">本人照片：</span>
-	   <div >
-        <input class="span2" name="file" id="appendedInput" type="file">
-       </div>
-	 </li>
-   </ul>
-  </div> -->
+   <div class="padding-left-40 padding-right-20 clear">
+   
+   
+  </div> 
   <div  class="col-md-12">
    <div class="fl padding-10">
 	<a class="btn btn-windows reset"  onclick="location.href='javascript:history.go(-1);'">返回</a>
