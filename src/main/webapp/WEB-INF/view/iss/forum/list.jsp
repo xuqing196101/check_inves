@@ -58,7 +58,7 @@
                     var parkId = "${parkId}";
                     var topicId = "${topicId}";
                     var searchType ="${searchType}";
-                    location.href = "<%=basePath%>post/getIndexlist.do?parkId="+parkId+"&topicId="+topicId+"&searchForHot="+searchForHot+"&page="+e.curr;
+                    location.href = "<%=basePath%>post/getIndexlist.do?parkId="+parkId+"&topicId="+topicId+"&searchType="+searchType+"&page="+e.curr;
                 }
             }
         });
