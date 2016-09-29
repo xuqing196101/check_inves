@@ -16,9 +16,9 @@ public class Task {
     
     private Integer status;
     
-    private Integer procurementMethod;
+    private String procurementMethod;
     
-    private Integer purchaseRequiredId;
+    private String purchaseRequiredId;
     
     private Integer isDeleted;
     
@@ -27,6 +27,8 @@ public class Task {
     private Date year;
     
     private Project project;
+    
+    private String collectId;
 
 	public Task(String id) {
 		super();
@@ -85,19 +87,19 @@ public class Task {
 		this.status = status;
 	}
 
-	public Integer getProcurementMethod() {
+	public String getProcurementMethod() {
 		return procurementMethod;
 	}
 
-	public void setProcurementMethod(Integer procurementMethod) {
+	public void setProcurementMethod(String procurementMethod) {
 		this.procurementMethod = procurementMethod;
 	}
 
-	public Integer getPurchaseRequiredId() {
+	public String getPurchaseRequiredId() {
 		return purchaseRequiredId;
 	}
 
-	public void setPurchaseRequiredId(Integer purchaseRequiredId) {
+	public void setPurchaseRequiredId(String purchaseRequiredId) {
 		this.purchaseRequiredId = purchaseRequiredId;
 	}
 
@@ -131,6 +133,14 @@ public class Task {
 
 	public void setYear(Date year) {
 		this.year = year;
+	}
+
+	public String getCollectId() {
+		return collectId;
+	}
+
+	public void setCollectId(String collectId) {
+		this.collectId = collectId;
 	}
 
 	
