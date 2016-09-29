@@ -69,7 +69,9 @@ public class ExpertServiceImpl implements ExpertService {
 		List<Expert> expertList = mapper.selectLoginNameList(loginName);
 		return expertList;
 	}*/
-
+/**
+ * 查询所有专家 带分页 可条件查询
+ */
 	@Override
 	public List<Expert> selectAllExpert(Integer pageNum,Expert expert) {
 		PropertiesUtil config = new PropertiesUtil("config.properties");

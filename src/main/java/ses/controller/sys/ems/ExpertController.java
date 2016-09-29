@@ -75,7 +75,7 @@ public class ExpertController {
 	 */
 	@RequestMapping(value="/toExpert")
 	public String toExpert(){
-		return "ses/ems/expert/expertRegister";
+		return "ses/ems/expert/expert_register";
 	}
 	/**
 	 * 
@@ -119,7 +119,7 @@ public class ExpertController {
 	 */
 	@RequestMapping(value="/toRegisterNotice")
 	public String toRegisterNotice(){
-		return "ses/ems/expert/registerNotice";
+		return "ses/ems/expert/register_notice";
 	}
 	
 	/**
@@ -151,10 +151,10 @@ public class ExpertController {
 			Matcher matcher2 = p2.matcher(password);
 			if(loginName.trim().length()<3 || m.find() || m2.find()){
 				model.addAttribute("message", "用户名不符合规则");
-				return "ems/expert/expertRegister";
+				return "ems/expert/expert_register";
 			}else if(password.trim().length()<6 || matcher.find() || matcher2.find()){
 				model.addAttribute("message", "密码不符合规则");
-				return "ems/expert/expertRegister";
+				return "ems/expert/expert_register";
 			}
 		expert.setId(UUID.randomUUID().toString());
 		request.setAttribute("user", expert);
@@ -238,7 +238,7 @@ public class ExpertController {
 		List<ExpertAttachment> attachmentList = attachmentService.selectListByExpertId(id);
 		model.addAttribute("attachmentList", attachmentList);
 		request.setAttribute("expert", expert);
-		return "ses/ems/expert/shenHe";
+		return "ses/ems/expert/audit";
 	}
 	/**
 	 * 
@@ -397,6 +397,9 @@ public class ExpertController {
 					expert.setId(expertId);
 					//已提交
 					expert.setIsSubmit("0");
+					expert.setIsDo("0");
+					//保存品目
+					expertCategoryService.save(expert, categoryId);
 					//修改时间
 					expert.setUpdatedAt(new Date());
 					//保存当前填写的信息 跳转到首页
@@ -404,6 +407,7 @@ public class ExpertController {
 					return "redirect:/";
 			}
 			expert.setId(expertId);
+			expert.setIsDo("0");
 			//已提交
 			expert.setIsSubmit("1");
 			//创建时间
@@ -496,7 +500,7 @@ public class ExpertController {
 		List<Expert> allExpert = service.selectAllExpert(page==null?1:page,expert);
 		request.setAttribute("result", new PageInfo<>(allExpert));
 		request.setAttribute("expert", expert);
-		return "ses/ems/expert/expertList";
+		return "ses/ems/expert/audit_list";
 	}
 	/**
 	 * 
@@ -513,7 +517,7 @@ public class ExpertController {
 		List<Expert> allExpert = service.selectAllExpert(page==null?1:page,expert);
 		request.setAttribute("result", new PageInfo<>(allExpert));
 		request.setAttribute("expert", expert);
-		return "ses/ems/expert/expertList";
+		return "ses/ems/expert/audit_list";
 	}
 	
 	/**
@@ -531,7 +535,7 @@ public class ExpertController {
 		List<Expert> allExpert = service.selectAllExpert(page==null?1:page,expert);
 		request.setAttribute("result", new PageInfo<>(allExpert));
 		request.setAttribute("expert", expert);
-		return "ses/ems/expert/expertList";
+		return "ses/ems/expert/audit_list";
 	}
 	/**
 	 * 
@@ -548,7 +552,7 @@ public class ExpertController {
 		List<Expert> allExpert = service.selectAllExpert(page==null?1:page,expert);
 		request.setAttribute("result", new PageInfo<>(allExpert));
 		request.setAttribute("expert", expert);
-		return "ses/ems/expert/expertList";
+		return "ses/ems/expert/audit_list";
 	}
 	 /**
 	  * 

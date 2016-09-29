@@ -1,4 +1,3 @@
-
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -119,6 +118,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	function submitForm1(){
 		if(validateForm1()){
 			$("#zancun").val(1);
+			getChildren();
 			$("#form1").submit();
 		}
 	}
@@ -529,32 +529,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										   <li class="col-md-6  p0 ">
 											   <span class="" id="files1"><i class="red">＊</i>身份证：</span>
 											   <div class="input-append mt5" >
-													<a href="#"><i></i><input type="file" name="files" id ="file1" class="fl"/></a>
+													<a href="javascript:void(0)"><i></i><input type="file" name="files" id ="file1" class="fl"/></a>
 												</div>
 											 </li>
 											 
 											 <li class="col-md-6  p0 ">
 											   <span class="" id="files2"><i class="red" >＊</i>学历证书：</span>
 											     <div class="input-append mt5">
-													<a href="#"><i></i><input type="file" name="files" id ="file2" class="fl"/></a>
+													<a href="javascript:void(0)"><i></i><input type="file" name="files" id ="file2" class="fl"/></a>
 												</div>
 											 </li>
 											 <li class="col-md-6  p0 ">
 											   <span class="" id="files3"><i class="red">＊</i>职称证书：</span>
 											      <div class="input-append mt5">
-													<a href="#"><i></i><input type="file" name="files" id ="file3" class="fl"/></a>
+													<a href="javascript:void(0)"><i></i><input type="file" name="files" id ="file3" class="fl"/></a>
 												</div>
 											 </li>
 											  <li class="col-md-6  p0 ">
 											   <span class="" id="files4"><i class="red">＊</i>学位证书：</span>
 											      <div class="input-append mt5">
-													<a href="#"><i></i><input type="file" name="files" id ="file4" class="fl"/></a>
+													<a href="javascript:void(0)"><i></i><input type="file" name="files" id ="file4" class="fl"/></a>
 												</div>
 											  </li>
 											  <li class="col-md-6  p0 ">
 											   <span class="" id="files5"><i class="red">＊</i>本人照片：</span>
 											      <div class="input-append mt5">
-													<a href="#"><i></i><input type="file" name="files" id ="file5" class="fl"/></a>
+													<a href="javascript:void(0)"><i></i><input type="file" name="files" id ="file5" class="fl"/></a>
 												</div>
 											 </li>
 										   </ul>
@@ -604,6 +604,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    			 
 		    <div class="tc mt20 clear col-md-11">
 				<button class="btn btn-windows back"   type="button" onclick="supplierRegist('reg_box_id', 4, 'pre')">上一步</button>
+				<button class="btn btn-windows git" onclick="submitForm1();"  type="button">暂存</button>
 				<button class="btn btn-windows git"   type="button" onclick="fun1();">下一步</button>
 			</div>
 		</div>
@@ -686,6 +687,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    </h6>
 		    <div class="tc mt20 clear col-md-11">
 				<button class="btn btn-windows back"   type="button" onclick="supplierRegist('reg_box_id', 5, 'pre')">上一步</button>
+				<button class="btn btn-windows git" onclick="submitForm1();"  type="button">暂存</button>
 				<button class="btn btn-windows git"   type="button" onclick="addPurList();">下一步</button>
 			</div>
 		</div>
@@ -867,6 +869,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		   		<button class="btn btn-windows back"   type="button" onclick="supplierRegist('reg_box_id', 6, 'pre')">上一步</button>
 				<button class="btn btn-windows git"   type="button" onclick="window.print()">打印</button>
 				<a class="btn btn-windows git" onclick="downloadTable();" href="javascript:void(0)">下载</a>
+				<button class="btn btn-windows git" onclick="submitForm1();"  type="button">暂存</button>
 				<button class="btn btn-windows git"   type="button" onclick="supplierRegist('reg_box_id', 6, 'next')">下一步</button>
 			</div>
 		</div>
@@ -890,13 +893,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<li class="col-md-6  p0 ">
 								<span class="" ><i class="red">＊</i>专家申请表上传：</span>
 									<div class="input-append mt5">
-										<a href="#"><i></i><input type="file" name="files" id ="regIdentitys1" class="fl"/></a>
+										<a href="javascript:void(0)"><i></i><input type="file" name="files" id ="regIdentitys1" class="fl"/></a>
 									</div>
 							</li>
 							 <li class="col-md-6  p0 ">
 								<span class="" ><i class="red">＊</i>专家合同书上传：</span>
 									<div class="input-append mt5">
-										<a href="#"><i></i><input type="file" name="files" id ="regIdentitys2" class="fl"/></a>
+										<a href="javascript:void(0)"><i></i><input type="file" name="files" id ="regIdentitys2" class="fl"/></a>
 									</div>
 							</li>
 					</div>

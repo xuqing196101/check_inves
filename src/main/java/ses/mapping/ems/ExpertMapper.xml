@@ -50,7 +50,7 @@
     <!-- <select id="selectisSubmitList" parameterType="java.lang.String" resultMap="BaseResultMap" >
   	select IS_SUBMIT from T_SES_EMS_EXPERT where IS_SUBMIT = #{isSubmit}
   	</select> -->
-  	<!-- 查询所有专家 -->
+  	<!-- 查询所有专家 可条件查询 -->
   	<select id="selectAllExpert"   resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
