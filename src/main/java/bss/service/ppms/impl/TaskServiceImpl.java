@@ -28,7 +28,7 @@ public class TaskServiceImpl implements TaskService {
 	
 	@Override
 	public void add(Task task) {
-		taskMapper.insert(task);
+		taskMapper.insertSelective(task);
 	}
 
 	@Override
