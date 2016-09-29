@@ -57,209 +57,76 @@
         treeObj.expandAll(false);
     });
      
-     /**
-     function InitialZtree(){
-        var treeObj=$.fn.zTree.init($("#tree"),setting,datas);
-        treeObj.expandAll(false);
-    }  
-
-    function zTreeOnClick(event,treeId,treeNode){
-        var zTree = $.fn.zTree.getZTreeObj("tree");
-            //获得选中的节点
-            var nodes = zTree.getSelectedNodes(),
-            v = "";
-            //根据id排序
-            nodes.sort(function compare(a, b) { return a.id - b.id; });
-            for (var i = 0, l = nodes.length; i < l; i++) {
-                v += nodes[i].name + ",";
-            }
-            //将选中节点的名称显示在文本框内
-            if (v.length > 0) v = v.substring(0, v.length - 1);
-            var cityObj = $("#search_condition");
-            cityObj.attr("value", v);
-            //隐藏zTree
-            hideMenu();
-            return false;
-    };
-    //显示树
-function showMenu() {
-            var cityObj = $("#search_condition");
-            var cityOffset = $("#search_condition").offset();
-            $("#menuContent").css({ left: cityOffset.left + "px", top: cityOffset.top + cityObj.outerHeight() + "px" }).slideDown("fast");
-}
-       
- //隐藏树
-function hideMenu() {
-            $("#menuContent").fadeOut("fast");
-            $("body").unbind("mousedown", onBodyDown);
-}
-
-   ///根据文本框的关键词输入情况自动匹配树内节点 进行模糊查找
-function AutoMatch(txtObj) {
-            if (txtObj.value.length > 0) {
-                InitialZtree();
-                var zTree = $.fn.zTree.getZTreeObj("tree");
-                var nodeList = zTree.getNodesByParamFuzzy("name", txtObj.value);
-                //将找到的nodelist节点更新至Ztree内
-                $.fn.zTree.init($("#tree"), setting, nodeList);
-                showMenu();
-            } else {
-                //隐藏树
-                hideMenu();
-                InitialZtree();                
-            }              
-} 
-   function search_ztree( treeId, searchCondition){
-        searchByFlag_ztree(treeId, searchCondition);
-    }
-     
-  
-    function searchByFlag_ztree(treeId, searchCondition){
-        //<1>.搜索条件
-        var searchCondition = $('#' + treeNode).val();
-        //<2>.得到模糊匹配搜索条件的节点数组集合
-        var highlightNodes = new Array();
-        if (searchCondition != "") {
-            var treeObj = $.fn.zTree.getZTreeObj(treeId);
-            highlightNodes = treeObj.getNodesByParamFuzzy("name", searchCondition);
-        }
-    } */
-    
     function selectTree() {
         var name = $("input[name='name']").val();
         loadTree(name);
     }
+    <%--  function add(){
+        var pid = $("#mid").val();
+        layer.open({
+          type: 2, //page层
+          area: ['430px', '400px'],
+          title: '添加地区',
+          closeBtn: 1,
+          shade:0.01, //遮罩透明度
+          moveType: 1, //拖拽风格，0是默认，1是传统拖动
+          shift: 1, //0-6的动画形式，-1不开启
+          offset: ['120px', '550px'],
+          shadeClose: false,
+          content: '<%=basePath%>area/add.html?pid='+pid
+        }); --%>
 </script>
 
 </head>
 
 <body>
-	<div class="wrapper">
-		<div class="header-v4 header-v5">
-			<!-- Navbar -->
-			<div class="navbar navbar-default mega-menu" role="navigation">
-				<div class="container">
-					<!-- logo和搜索 -->
-					<div class="navbar-header">
-						<div class="row container">
-							<div class="col-md-4 padding-bottom-30">
-								<a href=""> <img alt="Logo" src="images/logo_2.png"
-									id="logo-header"> </a>
-							</div>
-							<!--菜单开始-->
-							<div class="col-md-8 topbar-v1 col-md-12 ">
-								<ul class="top-v1-data padding-0">
-									<li><a href="#">
-											<div>
-												<img src="images/top_01.png" />
-											</div> <span>决策支持</span> </a>
-									</li>
-									<li><a href="#">
-											<div>
-												<img src="images/top_02.png" />
-											</div> <span>业务监管</span> </a>
-									</li>
-									<li><a href="#">
-											<div>
-												<img src="images/top_03.png" />
-											</div> <span>障碍作业</span> </a>
-									</li>
-									<li><a href="#">
-											<div>
-												<img src="images/top_04.png" />
-											</div> <span>信息服务</span> </a>
-									</li>
-									<li><a href="#">
-											<div>
-												<img src="images/top_05.png" />
-											</div> <span>支撑环境</span> </a>
-									</li>
-									<li><a href="#">
-											<div>
-												<img src="images/top_06.png" />
-											</div> <span>配置配置</span> </a>
-									</li>
-									<li><a href="#">
-											<div>
-												<img src="images/top_07.png" />
-											</div> <span>后台首页</span> </a>
-									</li>
-									<li><a href="#">
-											<div>
-												<img src="images/top_08.png" />
-											</div> <span>安全退出</span> </a>
-									</li>
-
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!--面包屑导航开始-->
-		<div class="margin-top-10 breadcrumbs ">
-			<div class="container">
-				<ul class="breadcrumb margin-left-0">
-					<li><a href="#">首页</a></li>
-					<li><a href="">单位及用户管理</a></li>
-					<li><a href="">组织机构管理</a></li>
-				</ul>
-			</div>
-		</div>
-		<!--=== End Breadcrumbs ===-->
-
-		<!--=== Content Part ===-->
-		<div class="container content height-350">
-			<div class="row">
-				<!-- Begin Content -->
-				<div class="col-md-12" style="min-height:400px;">
-					<div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
-					   <div class="tab-content">
-                            <%--   <form action="<%=basePath%>area/listByOne.do" method="post" id="form1"> --%>
-                            <label class="fl">地区名称：<input type="text"
+    <!--面包屑导航开始-->
+   <div class="margin-top-10 breadcrumbs ">
+      <div class="container">
+           <ul class="breadcrumb margin-left-0">
+           <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">后台管理</a></li><li class="active"><a href="#">菜单功能管理</a></li>
+           </ul>
+        <div class="clear"></div>
+      </div>
+   </div>
+   <div class="container">
+       <div class="headline-v2">
+            <h2>菜单功能管理</h2>
+       </div>
+   </div>
+   
+   
+   <div class="container content height-350">
+     <label class="fl">地区名称：<input type="text"
                                 id="search_condition" name="name" /> </label>
                             <button
                                 class="btn padding-left-10 padding-right-10 btn_back fl margin-top-5"
                                 onclick="selectTree();">查询</button>
-                            
-                            <!-- </form> -->
+       <div class="row">
+                <!-- Begin Content -->
+                <div class="col-md-12" style="min-height:400px;">
+                    <div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
+                        <div class="tag-box tag-box-v3">
+                            <ul id="ztree_show" class="ztree">
+                                <!-- 菜单树-->
+                                <div id="tree" class="ztree"></div>
+                            </ul>
                         </div>
-						<div id="menuContent" class="tag-box tag-box-v3">
-
-							<div id="tree" class="ztree"></div>
-
-						</div>
-
-
-					</div>
-					<div class="tag-box tag-box-v4 col-md-9" id="show_content_div">
-
-<span id="add"><a href="<%=basePath%>area/add.do"
-                                class="btn btn-window ">新增 </a> </span>
-					
-					</div>
-
-
-				</div>
-				<!-- End Content -->
-			</div>
-		</div>
-		<!--/container-->
-		<!--=== End Content Part ===-->
-		<!--底部代码开始-->
-		<div class="footer-v2" id="footer-v2">
-
-			<div class="footer">
-
-				<!-- Address -->
-				<address class="">Copyright 2016 版权所有：中央军委后勤保障部
-					京ICP备09055519号</address>
-				<div class="">浏览本网主页，建议将电脑显示屏的分辨率调为1024*768</div>
-				<!-- End Address -->
-			</div>
-			<!--/footer-->
-		</div>
-	</div>
-</body>
+                    </div>
+                    <div style="margin-bottom: 6px; ">
+                        <!-- <button class="btn btn-windows add" type="button" onclick="add()">新增</button> -->
+                       
+                    </div>
+                    <div class="tag-box tag-box-v4 col-md-9" id="show_content_div">
+                        <input type="hidden" name="nodeId" id="mid">
+                        <div class="tab-pane fade in" id="dep_tab-2">
+                           <ul class="timeline-v2" id="con">
+                           </ul>
+                       </div>
+                    </div>
+                </div>
+          </div>
+      </div>
+      <!--=== End Content Part ===-->
+  </body>
 </html>
