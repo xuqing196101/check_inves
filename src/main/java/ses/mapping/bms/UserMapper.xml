@@ -81,7 +81,7 @@
         and u.CREATED_AT = #{createdAt} 
       </if>
       <if test="relName != null and relName != ''">
-        and u.REL_NAME = #{relName} 
+        and u.REL_NAME like concat(concat('%', '${relName}'), '%')
       </if>
       <if test="updatedAt != null">
         and u.UPDATED_AT = #{updatedAt} 

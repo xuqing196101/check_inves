@@ -63,8 +63,8 @@ public class RoleManageController {
 	 * @exception IOException
 	 */
 	@RequestMapping("/list")
-	public String list(Model model, Integer page) {
-		List<Role> roles = roleService.list(null, page == null ? 1 : page);
+	public String list(Model model, Integer page, Role role) {
+		List<Role> roles = roleService.list(role, page == null ? 1 : page);
 		model.addAttribute("list", new PageInfo<Role>(roles));
 		logger.info(JSON.toJSONStringWithDateFormat(roles,
 				"yyyy-MM-dd HH:mm:ss"));

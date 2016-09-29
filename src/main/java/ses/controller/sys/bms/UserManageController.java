@@ -69,8 +69,8 @@ public class UserManageController {
 	 * @exception IOException
 	 */
 	@RequestMapping("/list")
-	public String list(Model model, Integer page) {
-		List<User> users = userService.list(null, page == null ? 1 : page);
+	public String list(Model model, Integer page, User user) {
+		List<User> users = userService.list(user, page == null ? 1 : page);
 		model.addAttribute("list", new PageInfo<User>(users));
 		logger.info(JSON.toJSONStringWithDateFormat(users,
 				"yyyy-MM-dd HH:mm:ss"));

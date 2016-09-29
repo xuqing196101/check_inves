@@ -60,7 +60,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    }(), 
 			    jump: function(e, first){ //触发分页后的回调
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
-			            location.href = '<%=basePath%>user/list.do?page='+e.curr;
+			            location.href = '<%=basePath%>user/list.html?page='+e.curr;
 			        }
 			    }
 			});
@@ -198,7 +198,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  </div>
 		  <div class="p10_25">
 		     <h2 class="padding-10 border1">
-		       	<form action="" id="form1" method="post" class="mb0">
+		       	<form action="<%=basePath %>user/list.html" id="form1" method="post" class="mb0">
 			    	<ul class="demand_list">
 			    	  <li class="fl">
 				    	<label class="fl">用户名：</label><span><input type="text" id="topic" name="loginName" class=""/></span>
@@ -257,7 +257,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<tr>
 					  <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${user.id}" /></td>
 					  <td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-					  <td class="tc" onclick="view('${user.id}');">${user.loginName}</td>
+					  <td class="tc" ><a href="#" onclick="view('${user.id}');">${user.loginName}</a></td>
 					  <td class="tc">${user.relName}</td>
 					  <td class="tc">${user.org.name}</td>
 					  <td class="tc">${user.telephone}</td>

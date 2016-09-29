@@ -101,20 +101,20 @@
 	            		}else{
 	            			pName = data[0].parentId.name;
 	            		}
-	            		
-	            		tabhtml +="<li class='col-md-6 p0 '><span >&nbsp;&nbsp;上级：</span><div class='input-append'><input class='span2' id='appendedInput' readonly='readonly' value='"+pName+"' type='text'></div></li>";
-	            		tabhtml +="<li class='col-md-6 p0 '><span >&nbsp;&nbsp;名称：</span><div class='input-append'><input class='span2' id='appendedInput' readonly='readonly' value='"+data[0].name+"' type='text'></div></li>";
-	            		tabhtml +="<li class='col-md-6 p0 '><span >&nbsp;&nbsp;路径：</span><div class='input-append'><input class='span2' id='appendedInput' readonly='readonly' value='"+data[0].url+"' type='text'></div></li>";
-	            		tabhtml +="<li class='col-md-6 p0 '><span >&nbsp;&nbsp;类型：</span><div class='input-append'><input class='span2' id='appendedInput' readonly='readonly' value='"+data[0].type+"' type='text'></div></li>";
-	            		tabhtml +="<li class='col-md-6 p0 '><span >&nbsp;&nbsp;序号：</span><div class='input-append'><input class='span2' id='appendedInput' readonly='readonly' value='"+data[0].position+"' type='text'></div></li>";
-	            		tabhtml +="<li class='col-md-6 p0 '><span >&nbsp;&nbsp;级别：</span><div class='input-append'><input class='span2' id='appendedInput' readonly='readonly' value='"+data[0].menulevel+"' type='text'></div></li>";
-	            		tabhtml +="<li class='col-md-6 p0 '><span >&nbsp;&nbsp;状态：</span><div class='input-append'><input class='span2' id='appendedInput' readonly='readonly' value='"+state+"' type='text'></div></li>";
-	            		tabhtml +="<li class='col-md-6 p0 '><span >&nbsp;&nbsp;图标：</span><div class='input-append'><input class='span2' id='appendedInput' readonly='readonly' value='"+data[0].icon+"' type='text'></div></li>";
-	            		//tabhtml +="<li class='col-md-6 p0 '><span >所属后台：</span><div class='input-append'><input class='span2' id='appendedInput' readonly='readonly' value='"+kind+"' type='text'></div></li>";
-	            		tabhtml +="<li class='col-md-6 p0 '><span >创建时间：</span><div class='input-append'><input class='span2' id='appendedInput' readonly='readonly' value='"+data[0].createdAt+"' type='text'></div></li>";
-	            		tabhtml +="<li class='col-md-6 p0 '><span >修改时间：</span><div class='input-append'><input class='span2' id='appendedInput' readonly='readonly' value='"+data[0].updatedAt+"' type='text'></div></li>";
-		            	$("#con").html("");
-		            	$("#con").append(tabhtml);
+	            		tabhtml +='<h2 class="f16 jbxx">菜单详情</h2><table class="table table-bordered"><tbody>';
+	            		tabhtml +='<tr><td class="bggrey tr">上级菜单：</td><td>'+pName+'</td>';
+						tabhtml +='<td class="bggrey tr">菜单名称：</td><td>'+data[0].name+'</td>';
+						tabhtml +='<td class="bggrey tr">请求路径：</td><td>'+data[0].url+'</td></tr>';
+						tabhtml +='<tr><td class="bggrey tr">菜单类型：</td><td>'+data[0].type+'</td>';
+						tabhtml +='<td class="bggrey tr">菜单序号：</td><td>'+data[0].position+'</td>';
+						tabhtml +='<td class="bggrey tr">菜单级别：</td><td>'+data[0].menulevel+'</td></tr>';
+						tabhtml +='<tr><td class="bggrey tr">菜单状态：</td><td>'+state+'</td>';
+						tabhtml +='<td class="bggrey tr">菜单图标：</td><td>'+data[0].icon+'</td>';
+						tabhtml +='<td class="bggrey tr">创建时间：</td><td>'+data[0].createdAt+'</td></tr>';
+						tabhtml +='<tr><td class="bggrey tr">修改时间：</td><td colspan="5">'+data[0].updatedAt+'</td></tr>';
+						tabhtml +='</tbody></table>';
+		            	$("#show_content_div").html("");
+		            	$("#show_content_div").append(tabhtml);
 	            	}
 	            }  
 	        });
@@ -172,7 +172,7 @@
 		});
     }
   </script>
-  <body>
+<body>
 	<!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
@@ -187,8 +187,6 @@
 	   		<h2>菜单功能管理</h2>
 	   </div>
    </div>
-   
-   
    <div class="container content height-350">
        <div class="row">
                 <!-- Begin Content -->
@@ -207,15 +205,10 @@
 						<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
 					</div>
 					<div class="tag-box tag-box-v4 col-md-9" id="show_content_div">
-						<input type="hidden" name="nodeId" id="mid">
-						<div class="tab-pane fade in" id="dep_tab-2">
-						   <ul class="timeline-v2" id="con">
-					       </ul>
-      				   </div>
-					</div>
-				</div>
-          </div>
-      </div>
-      <!--=== End Content Part ===-->
-  </body>
+		                
+			        </div>
+             	 </div>
+       </div>
+   </div>
+</body>
 </html>

@@ -1,10 +1,15 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ include file="../../../common.jsp"%>
-
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html class=" js cssanimations csstransitions" lang="en"><!--<![endif]-->
   <head>
     <base href="<%=basePath%>">
     
@@ -18,8 +23,29 @@
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-	<script src="<%=basePath%>public/layer/layer.js"></script>
-	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+	<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
+	
+	<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
+	<script type="text/javascript" src="<%=path %>/public/ZHH/js/ajaxfileupload.js"></script>
+	<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
+	<script type="text/javascript" src="<%=basePath%>public/lodop/LodopFuncs.js"></script>
+	<script type="text/javascript" src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
+  	<script src="<%=basePath%>public/layer/layer.js"></script>
+  	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
   </head>
   
   <script type="text/javascript">
@@ -39,7 +65,7 @@
 			    }(), 
 			    jump: function(e, first){ //触发分页后的回调
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
-			            location.href = '<%=basePath%>user/list.do?page='+e.curr;
+			            location.href = '<%=basePath%>user/list.html?page='+e.curr;
 			        }
 			    }
 			});
@@ -203,9 +229,13 @@
 			  content: '<%=basePath%>role/add.html'
 			});
     }
+    
+    function query(){
+		$("#form1").submit();
+	}
   </script>
-  <body>
-	<!--面包屑导航开始-->
+<body>
+   <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
@@ -217,6 +247,30 @@
    <div class="container">
 	   <div class="headline-v2">
 	   		<h2>角色管理</h2>
+	   </div>
+	   <div class="p10_25">
+		    <h2 class="padding-10 border1">
+		       	<form action="<%=basePath %>role/list.html" id="form1" method="post" class="mb0">
+			    	<ul class="demand_list">
+			    	  <li class="fl">
+				    	<label class="fl">名称：</label><span><input type="text" id="topic" name="name" class=""/></span>
+				      </li>
+			    	  <li class="fl">
+				    	<label class="fl">状态：</label>
+				    	<div class="select_common mb10">
+					        <select class="w180 " name="status">
+					        	<option value="">请选择</option>
+					        	<option value="0">可用</option>
+					        	<option value="1">禁用</option>
+					        </select>
+				        </div>
+				      </li> 
+				    	<button type="button" onclick="query()" class="btn">查询</button>
+				    	<button type="reset" class="btn">重置</button>  	
+			    	</ul>
+		    	  	<div class="clear"></div>
+		        </form>
+		     </h2>
 	   </div>
    </div>
    <!-- 菜单树-->
@@ -232,28 +286,11 @@
 		<button class="btn btn-windows edit" type="button" onclick="openPreMenu()">设置权限</button>
 		<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
 	   </div>
-       <div class="col-md-4 ">
-         <div class="search-block-v2">
-           <div class="">
-             <form accept-charset="UTF-8" action="" method="get"><div style="display:none"><input name="utf8" value="✓" type="hidden"></div>
-               <input id="t" name="t" value="search_products" type="hidden">
-               <div class="col-md-12 pull-right">
-                 <div class="input-group">
-                   <input class="form-control bgnone h37 p0_10" id="k" name="k" placeholder="" type="text">
-                   <span class="input-group-btn">
-                     <input class="btn-u" name="commit" value="搜索" type="submit">
-                   </span>
-                 </div>
-               </div>
-             </form>               
-			</div>
-         </div>
-       </div>	
-    </div>
+   </div>
    
    <div class="container margin-top-5">
      <div class="content padding-left-25 padding-right-25 padding-top-5">
-        <table class="table table-bordered table-condensed">
+        <table class="table table-striped table-bordered table-hover">
 			<thead>
 				<tr>
 				  <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
@@ -270,8 +307,8 @@
 					  <td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 					  <td class="tc">${role.name}</td>
 					  <td class="tc">
-					  	<c:if test="${role.status == 0}">可用</c:if>
-					  	<c:if test="${role.status == 1}">禁用</c:if>
+					  	<c:if test="${role.status == 0}"><span class="label rounded-2x label-u">正常</span></c:if>
+					  	<c:if test="${role.status == 1}"><span class="label rounded-2x label-dark">已禁用</span></c:if>
 					  </td>
 					  <td class="tc">${role.description}</td>
 				   </tr>

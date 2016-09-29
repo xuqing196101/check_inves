@@ -1,7 +1,10 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ include file="../../../common.jsp"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
@@ -15,8 +18,29 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="">
+	<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="<%=basePath%>public/ztree/css/demo.css" type="text/css">
 	<link rel="stylesheet" href="<%=basePath%>public/ztree/css/zTreeStyle.css" type="text/css">
+	
+	<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
+	<script type="text/javascript" src="<%=path %>/public/ZHH/js/ajaxfileupload.js"></script>
+	<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
+	<script type="text/javascript" src="<%=basePath%>public/lodop/LodopFuncs.js"></script>
+	<script type="text/javascript" src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
 	<script type="text/javascript" src="<%=basePath%>public/ztree/jquery.ztree.core.js"></script>
 	<script type="text/javascript" src="<%=basePath%>public/ztree/jquery.ztree.excheck.js"></script>
 	<script type="text/javascript">
@@ -170,7 +194,7 @@
 </head>
 <body>
 
-<!--面包屑导航开始-->
+   <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
@@ -180,7 +204,7 @@
 	  </div>
    </div>
    
-<!-- 修改订列表开始-->
+   <!-- 修改订列表开始-->
    <div class="container">
 	   <div id="orgContent" class="orgContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
 			<ul id="treeOrg" class="ztree"  style="width: 220px"></ul>
@@ -188,112 +212,113 @@
 	   <div id="roleContent" class="roleContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
 			<ul id="treeRole" class="ztree" style="margin-top:0; width:220px;"></ul>
 	   </div>
-   <form action="<%=basePath %>user/update.html" method="post">
-   <div>
-   <div class="headline-v2">
-   <h2>修改用户</h2>
-   </div>
-    <input class="span2" name="id" id="uId" type="hidden" value="${user.id}">
-   	<input class="span2" name="createdAt" type="hidden" value="<fmt:formatDate value='${user.createdAt}' pattern='yyyy-MM-dd  HH:mm:ss'/>">
-   	<input class="span2" name="isDeleted" type="hidden" value="${user.isDeleted}">
-   	<input class="span2" name="password" type="hidden" value="${user.password}">
-   	<input class="span2" name="randomCode" type="hidden" value="${user.randomCode}">
-   <ul class="list-unstyled list-flow p0_20">
-	   	<li class="col-md-6 p0">
-		   <span class="">用户名：</span>
-		   <div class="input-append">
-	        <input class="span2" name="loginName" type="text" readonly="readonly" value="${user.loginName}">
-	        <span class="add-on">i</span>
-	       </div>
-		 </li>
-	     <li class="col-md-6  p0 ">
-		   <span class="">真实姓名：</span>
-		   <div class="input-append">
-	        <input class="span2" name="relName" type="text" value="${user.relName}">
-	        <span class="add-on">i</span>
-	       </div>
-		 </li>
-		 <li class="col-md-6 p0">
-		   <span class="">性别：</span>
-	        <select name="gender">
-	        	<option value="">-请选择-</option> 
-	        	<option value="M" <c:if test="${'M' eq user.gender}">selected</c:if> >男</option>
-	        	<option value="F" <c:if test="${'F' eq user.gender}">selected</c:if>>女</option>
-	        </select>
-		 </li>
-	     <li class="col-md-6  p0 ">
-		   <span class="">手机：</span>
-		   <div class="input-append">
-	        <input class="span2" name="mobile" value="${user.mobile }" type="text">
-	        <span class="add-on">i</span>
-	       </div>
-		 </li>
-	     <li class="col-md-6 p0">
-		   <span class="">邮箱：</span>
-		   <div class="input-append">
-	        <input class="span2" name="email" value="${user.email }" type="text">
-	        <span class="add-on">i</span>
-	       </div>
-		 </li>
-	     <li class="col-md-6  p0 ">
-		   <span class="">职务：</span>
-		   <div class="input-append">
-	        <input class="span2" name="duties" value="${user.duties }" type="text">
-	        <span class="add-on">i</span>
-	       </div>
-		 </li>
-		 <li class="col-md-6 p0">
-		   <span class="">类型：</span>
-	        <select name="typeName">
-	        	<option value="2" <c:if test="${'2' eq user.typeName}">selected</c:if>>需求人员</option>
-	        	<option value="1" <c:if test="${'1' eq user.typeName}">selected</c:if>>采购人员</option>
-	        	<option value="0" <c:if test="${'0' eq user.typeName}">selected</c:if>>采购管理人员</option>
-	        	<option value="3" <c:if test="${'3' eq user.typeName}">selected</c:if>>其他人员</option>
-	        	<option value="4" <c:if test="${'4' eq user.typeName}">selected</c:if>>供应商</option>
-	        	<option value="5" <c:if test="${'5' eq user.typeName}">selected</c:if>>专家</option>
-	        	<option value="6" <c:if test="${'6' eq user.typeName}">selected</c:if>>进口供应商</option>
-	        </select>
-		 </li>
-		 <li class="col-md-6  p0 ">
-		   <span class="">所属机构：</span>
-		   <div class="input-append">
-		   	<input id="oId" name="orgId" type="hidden">
-	        <input id="orgSel" class="span2" type="text" readonly value="${user.org.name }"  onclick="showOrg();" />
-	        <span class="add-on">i</span>
-	       </div>
-		 </li>
-	     <li class="col-md-6  p0 ">
-		   <span class="">联系电话：</span>
-		   <div class="input-append">
-	        <input class="span2" name="telephone" type="text" value="${user.telephone}">
-	        <span class="add-on">i</span>
-	       </div>
-		 </li> 
-		 <li class="col-md-6 p0">
-		   <span class="">角色：</span>
-		   <div class="input-append">
-		   	<input id="rId" name="roleId" type="hidden" value="${roleId}">
-	        <input id="roleSel" class="span2" type="text" readonly value="${roleName}"  onclick="showRole();" />
-	        <span class="add-on">i</span>
-	       </div>
-		 </li>
-		 <li class="col-md-12 p0">
-		   <span class="fl">详细地址：</span>
-		   <div class="col-md-12 pl200 fn mt5 pwr9">
-	        <textarea class="text_area col-md-12 " address="address" maxlength="200" title="" placeholder="">${user.address}</textarea>
-	       </div>
-		 </li>
-			 
-   </ul>
-  </div> 
-   
-  <div  class="col-md-12">
-   	<div class="fl padding-10">
-    	<button class="btn btn-windows reset" type="submit">更新</button>
-    	<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
-	</div>
-  </div>
-  </form>
- </div>
+   	   <form action="<%=basePath %>user/update.html" method="post">
+	   	   <div>
+			    <div class="headline-v2">
+			   		<h2>修改用户</h2>
+			    </div>
+			    <input class="span2" name="id" id="uId" type="hidden" value="${user.id}">
+			   	<input class="span2" name="createdAt" type="hidden" value="<fmt:formatDate value='${user.createdAt}' pattern='yyyy-MM-dd  HH:mm:ss'/>">
+			   	<input class="span2" name="isDeleted" type="hidden" value="${user.isDeleted}">
+			   	<input class="span2" name="password" type="hidden" value="${user.password}">
+			   	<input class="span2" name="randomCode" type="hidden" value="${user.randomCode}">
+	   			<ul class="list-unstyled list-flow p0_20">
+			   	 	<li class="col-md-6 p0">
+					    <span class="">用户名：</span>
+					    <div class="input-append">
+					        <input class="span2" name="loginName" type="text" readonly="readonly" value="${user.loginName}">
+					        <span class="add-on">i</span>
+				        </div>
+				 	</li>
+		     		<li class="col-md-6  p0 ">
+					    <span class="">真实姓名：</span>
+					    <div class="input-append">
+					        <input class="span2" name="relName" type="text" value="${user.relName}">
+					        <span class="add-on">i</span>
+				        </div>
+			 		</li>
+			 		<li class="col-md-6 p0">
+					    <span class="">性别：</span>
+					    <div class="select_common mb10">
+					        <select name="gender" class="w250 ">
+					        	<option value="">-请选择-</option> 
+					        	<option value="M" <c:if test="${'M' eq user.gender}">selected</c:if> >男</option>
+					        	<option value="F" <c:if test="${'F' eq user.gender}">selected</c:if>>女</option>
+					        </select>
+				        </div>
+			 		</li>
+		     		<li class="col-md-6  p0 ">
+					    <span class="">手机：</span>
+					    <div class="input-append">
+					        <input class="span2" name="mobile" value="${user.mobile }" type="text">
+					        <span class="add-on">i</span>
+				        </div>
+			 		</li>
+		           	<li class="col-md-6 p0">
+					    <span class="">邮箱：</span>
+					    <div class="input-append">
+					        <input class="span2" name="email" value="${user.email }" type="text">
+					        <span class="add-on">i</span>
+				        </div>
+			 		</li>
+		     		<li class="col-md-6  p0 ">
+					    <span class="">职务：</span>
+					    <div class="input-append">
+					        <input class="span2" name="duties" value="${user.duties }" type="text">
+					        <span class="add-on">i</span>
+				        </div>
+			 		</li>
+			 		<li class="col-md-6 p0">
+					    <span class="">类型：</span>
+					    <div class="select_common mb10">
+					        <select name="typeName" class="w250 ">
+					        	<option value="2" <c:if test="${'2' eq user.typeName}">selected</c:if>>需求人员</option>
+					        	<option value="1" <c:if test="${'1' eq user.typeName}">selected</c:if>>采购人员</option>
+					        	<option value="0" <c:if test="${'0' eq user.typeName}">selected</c:if>>采购管理人员</option>
+					        	<option value="3" <c:if test="${'3' eq user.typeName}">selected</c:if>>其他人员</option>
+					        	<option value="4" <c:if test="${'4' eq user.typeName}">selected</c:if>>供应商</option>
+					        	<option value="5" <c:if test="${'5' eq user.typeName}">selected</c:if>>专家</option>
+					        	<option value="6" <c:if test="${'6' eq user.typeName}">selected</c:if>>进口供应商</option>
+					        </select>
+				        </div>
+			 		</li>
+			 		<li class="col-md-6  p0 ">
+					    <span class="">所属机构：</span>
+					    <div class="input-append">
+						   	<input id="oId" name="orgId" type="hidden">
+					        <input id="orgSel" class="span2" type="text" readonly value="${user.org.name }"  onclick="showOrg();" />
+					        <span class="add-on">i</span>
+				        </div>
+			 		</li>
+		     		<li class="col-md-6  p0 ">
+						    <span class="">联系电话：</span>
+						    <div class="input-append">
+						        <input class="span2" name="telephone" type="text" value="${user.telephone}">
+						        <span class="add-on">i</span>
+					        </div>
+					 </li> 
+					<li class="col-md-6 p0">
+						    <span class="">角色：</span>
+						    <div class="input-append">
+							   	<input id="rId" name="roleId" type="hidden" value="${roleId}">
+						        <input id="roleSel" class="span2" type="text" readonly value="${roleName}"  onclick="showRole();" />
+						        <span class="add-on">i</span>
+					        </div>
+					 </li>
+					<li class="col-md-12 p0">
+						    <span class="fl">详细地址：</span>
+						    <div class="col-md-12 pl200 fn mt5 pwr9">
+					       		<textarea class="text_area col-md-12 " address="address" maxlength="200" title="" placeholder="">${user.address}</textarea>
+					        </div>
+			 		</li>
+				 
+	   			</ul>
+	  	  </div> 
+	  	   <div class="col-md-12 tc mt20" >
+		    	<button class="btn btn-windows reset" type="submit">更新</button>
+		    	<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
+		   </div>
+  	   </form>
+ 	</div>
 </body>
 </html>

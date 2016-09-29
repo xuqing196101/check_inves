@@ -37,7 +37,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/layer/layer.js"></script>
 <script type="text/javascript">
 function login(){
-	alert(111);
 	if($("#inputEmail").val()==""){
 		layer.tips("请输入用户名","#inputEmail",{
 			tips : 1

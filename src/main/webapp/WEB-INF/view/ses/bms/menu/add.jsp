@@ -1,7 +1,11 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ include file="../../../common.jsp"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
@@ -17,8 +21,29 @@
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
+	<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="<%=basePath%>public/ztree/css/demo.css" type="text/css">
 	<link rel="stylesheet" href="<%=basePath%>public/ztree/css/zTreeStyle.css" type="text/css">
+	
+	<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
+	<script type="text/javascript" src="<%=path %>/public/ZHH/js/ajaxfileupload.js"></script>
+	<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
+	<script type="text/javascript" src="<%=basePath%>public/lodop/LodopFuncs.js"></script>
+	<script type="text/javascript" src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
 	<script type="text/javascript" src="<%=basePath%>public/ztree/jquery.ztree.core.js"></script>
 	<script type="text/javascript" src="<%=basePath%>public/ztree/jquery.ztree.excheck.js"></script>
 	<script src="<%=basePath%>public/layer/layer.js"></script>
@@ -151,8 +176,8 @@
 			       </div>
 				 </li>
 				 <li class="col-md-6 p0 ">
-				 	<span class="">类型：</span>
-					<select name="type"  >
+				 	<span class="fl mt5">类型：</span>
+					<select name="type"  class="w180 mt5">
 					 	<option value="">-请选择-</option>
 					   	<option value="navigation">导航</option>
 					   	<option value="accordion">折叠导航</option>
@@ -161,8 +186,8 @@
 					</select>
 				</li>
 				<li class="col-md-6 p0 ">
-				 	<span class="">状态：</span>
-					<select  name="status"  >
+				 	<span class="fl mt5">状态：</span>
+					<select  name="status" class="w180 mt5" >
 					   	<option value="0">可用</option>
 					   	<option value="1">暂停</option>
 				    </select>
@@ -170,8 +195,8 @@
 				<li class="col-md-6 p0">
 				   <span class="fl mt5">路径：</span>
 				   <div class="input-append">
-			        <input class="span2" name="url" maxlength="300" type="text">
-			        <span class="add-on">i</span>
+			        <input class="span2 mt5" name="url" maxlength="300" type="text">
+			        <span class="add-on mt5">i</span>
 			       </div>
 				 </li>
 			     <li class="col-md-6 p0">

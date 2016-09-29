@@ -328,9 +328,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			   	</ul>
 		   </div> 
 	       <div class="col-md-12 tc mt20" >
-		   <button class="btn btn-windows save"  type="submit">保存</button>
-		   <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
-       </div>
+			   <button class="btn btn-windows save"  type="submit">保存</button>
+			   <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
+       	   </div>
   	   </form>
    </div>
 </body>
