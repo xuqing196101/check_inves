@@ -1,11 +1,11 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!-->
@@ -20,7 +20,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta name="author" content="">
 <link href="${pageContext.request.contextPath}/public/ZHH/css/import_supplier.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" type="text/css"/>
 <link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/animate.css" media="screen" rel="stylesheet">
@@ -56,8 +55,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="<%=basePath%>public/ZHH/css/footer-v4.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/masterslider.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/james.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/layer/skin/layer.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/layer/skin/layer.ext.css" media="screen" rel="stylesheet" type="text/css">
 <link href="<%=basePath%>public/ZHH/css/WdatePicker(1).css" rel="stylesheet" type="text/css">
 <script src="<%=basePath%>public/ZHH/js/hm.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
@@ -82,8 +79,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/WdatePicker.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.form.min.js"></script>
-<script src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/layer/extend/layer.ext.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.validate.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.maskedinput.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery-ui.min.js"></script>
@@ -114,84 +109,134 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/masterslider.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.easing.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/james.js"></script>
+<script src="<%=basePath%>public/layer/layer.js"></script>
+<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
-	function tijiao(status){
-		$("#status").val(status);
-		form1.submit();
+   $(function(){
+		  laypage({
+			    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+			    pages: "${listAe.pages}", //总页数
+			    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+			    skip: true, //是否开启跳页
+			    groups: "${listAe.pages}">=3?3:"${listAe.pages}", //连续显示分页数
+			    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+					return "${listAe.pageNum}";
+			    }(), 
+			    jump: function(e, first){ //触发分页后的回调
+			        if(!first){ //一定要加此判断，否则初始时会无限刷新
+			        	$("#page").val(e.curr);
+			        	$("#form1").submit();
+			        }
+			    }
+			});
+	  });
+		function check(){
+		 var count=0;
+		 var checklist = document.getElementsByName ("chkItem");
+		 var checkAll = document.getElementById("checkAll");
+		 for(var i=0;i<checklist.length;i++){
+			   if(checklist[i].checked == false){
+				   checkAll.checked = false;
+				   break;
+			   }
+			   for(var j=0;j<checklist.length;j++){
+					 if(checklist[j].checked == true){
+						   checkAll.checked = true;
+						   count++;
+					   }
+				 }
+		   }
 	}
+		function selectAll(){
+		 var checklist = document.getElementsByName ("chkItem");
+		 var checkAll = document.getElementById("checkAll");
+		   if(checkAll.checked){
+			   for(var i=0;i<checklist.length;i++)
+			   {
+			      checklist[i].checked = true;
+			   } 
+			 }else{
+			  for(var j=0;j<checklist.length;j++)
+			  {
+			     checklist[j].checked = false;
+			  }
+		 	}
+		}
+  	function show(id){
+  		window.location.href="<%=basePath%>supplierUpdate/show.html?id="+id;
+  	}
+  	function add(){
+  		window.location.href="<%=basePath%>supplierUpdate/shenqing.html";
+  	}
+    
+ <%--    function del(){
+    	var ids =[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			ids.push($(this).val()); 
+		}); 
+		if(ids.length>0){
+			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+				layer.close(index);
+				window.location.href="<%=basePath%>supplierUpdate/delete_soft.html?ids="+ids;
+			});
+		}else{
+			layer.alert("请选择要删除的用户",{offset: ['222px', '390px'], shade:0.01});
+		}
+    } --%>
 </script>
 </head>
 <body>
- <div class="margin-top-10 breadcrumbs ">
+   <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">供应商变更申请审核</a></li><li class="active"><a href="#"></a></li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">供应商信息变更申请列表</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
    </div>
-		<!-- 项目戳开始 -->
-		<form id="form1" action="${pageContext.request.contextPath}/supplierUpdate/audit.html" method="post">
-		<div class="container clear">
-		<!--详情开始-->
-		<div class="container content height-350">
-			<div class="row magazine-page">
-				<div class="col-md-12 tab-v2 job-content">
-					<div class="padding-top-10">
-							<div class="tab-content padding-top-20 h600">
-								<div class="tab-pane fade active in height-450" id="tab-1">
-									<div class=" margin-bottom-0 tc">
-										<h3>军队供应商注册信息变更申请表</h3>
-									<ul class="list-unstyled list-flow">
-										<li class="col-md-12 p0 "><span  class=""> 采购机构名称：</span>
-											<div class="col-md-9 mt5">
-											<input type="hidden" name="id" value="${ae.id }" />
-												<input type="hidden" name="auditStatus" id="status"/>
-												<input class="span3 mr30 nb" id="orgName" name="orgName" readonly="readonly" value="${ae.orgName }" type="text" readonly="readonly">
-											</div>
-										</li>
-										<li class="col-md-12 p0"><span  class=""><i class="red">＊</i> 供应商名称：</span>
-											<div class="col-md-9 mt5">
-												<input class="span3 mr30" id="" name="supplierName" readonly="readonly" value="${ae.supplierName }" type="text">
-												<span  class=""><i class="red">＊</i> 统一社会信用代码：</span>
-												<input class="span3" id="creditCode" name="creditCode" readonly="readonly" value="${ae.creditCode }"  type="text">
-											</div>
-										</li>
-										<li class="col-md-12 p0"><span  class="fl"><i class="red">＊</i>申请变更的原注册信息：</span>
-											<div class="col-md-9 mt5">
-												<div class="row">
-													<textarea class="text_area col-md-12" readonly="readonly" id="updateBeforeSupplierInfo" name="updateBeforeSupplierInfo"   title="不超过800个字" placeholder=""> ${ae.updateBeforeSupplierInfo }</textarea>
-												</div>
-											</div>
-										</li>
-										<li class="col-md-12 p0"><span class="fl"><i class="red">＊</i>变更后的注册信息：</span>
-											<div class="col-md-9 mt5">
-												<div class="row">
-													<textarea class="text_area col-md-12" readonly="readonly" id="updateAfterSupplierInfo" name="updateAfterSupplierInfo" title="不超过800个字" placeholder="">${ae.updateAfterSupplierInfo }</textarea>
-												</div>
-											</div>
-										</li>
-										<li class="col-md-12 p0"><span  class="fl"><i class="red">＊</i>变更原因：</span>
-											<div class="col-md-9 mt5">
-												<div class="row">
-													<textarea class="text_area col-md-12" readonly="readonly" id="updateReason" name="updateReason"  title="不超过800个字" placeholder=""> ${ae.updateReason }</textarea>
-												</div>
-											</div>
-										</li>
-									</ul>
-									</div>
-									 <div class="col-md-12 tc">
-									 	<input class="btn padding-left-20 padding-right-20 btn_back"  type="button" onclick="tijiao(2)" value="审核通过">
-										<input class="btn padding-left-20 padding-right-20 btn_back"  type="button" onclick="tijiao(3)" value="审核不通过">
-			  							<input class="btn padding-left-20 padding-right-20 btn_back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
-			 						</div>
-								</div>
-							</div>
-					</div>
-				</div>
-			</div>
-	</div>
-	</div>
-	</form>
+		<div class="container clear margin-top-30">
+		    <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
+		     <form id="form1" action="${pageContext.request.contextPath}/supplierUpdate/list.html" method="post">
+		       <input type="hidden" name="page" id="page">
+			   <span class="">供应商名称：</span>
+			   <div class="input-append">
+		        <input class="span2" name="supplierName" value="${name }" type="text">
+		       </div>
+		       <input class="btn padding-left-20 padding-right-20 btn_back" onclick="submit()" type="button" value="查询">
+		     </form>
+		  <table id="tb1"  class="table table-bordered table-condensed tc">
+		      <thead>
+				<tr>
+				   <!--  <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th> -->
+					<th class="info w50">序号</th>
+					<th class="info">供应商名称</th>
+					<th class="info">变更时间</th>
+					<th class="info">变更状态</th>
+				</tr>
+			  </thead>
+			  <tbody>
+				 <c:forEach items="${listAe.list }" var="ae" varStatus="vs">
+					<tr>
+					   <%--  <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${ae.id}" /></td> --%>
+					    <td>${vs.index+1 }</td>
+						<td><a onclick="show('${ae.id}')" class="pointer">${ae.supplierName }</a></td>
+						<td><fmt:formatDate value="${ae.createdAt }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+						<td>
+							<c:if test="${ae.auditStatus==0 }">
+								未审核
+							</c:if>
+							<c:if test="${ae.auditStatus==2 }">
+								审核通过
+							</c:if>
+							<c:if test="${ae.auditStatus==3 }">
+								审核退回
+							</c:if>
+						</td>
+					</tr>
+				</c:forEach> 
+			  </tbody>
+		 </table>
+			<div id="pagediv" align="right"></div>
+		 </div>		 
 </body>
 </html>

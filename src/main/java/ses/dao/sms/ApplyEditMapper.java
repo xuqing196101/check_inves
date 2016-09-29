@@ -1,5 +1,7 @@
 package ses.dao.sms;
 
+import java.util.List;
+
 import ses.model.sms.ApplyEdit;
 
 public interface ApplyEditMapper {
@@ -14,4 +16,6 @@ public interface ApplyEditMapper {
     int updateByPrimaryKeySelective(ApplyEdit record);
 
     int updateByPrimaryKey(ApplyEdit record);
+    
+    List<ApplyEdit> selectByApplyEdit(ApplyEdit record);
 }

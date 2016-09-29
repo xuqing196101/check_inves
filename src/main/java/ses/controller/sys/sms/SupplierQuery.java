@@ -1,17 +1,23 @@
 package ses.controller.sys.sms;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.codec.Decoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.github.pagehelper.PageInfo;
+
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierAudit;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierService;
 
@@ -33,11 +39,16 @@ public class SupplierQuery {
 	 * @return String
 	 */
 	@RequestMapping("highmaps")
-	public String highmaps(Model model){
+	public String highmaps(Model model,Integer status){
 		StringBuffer sb = new StringBuffer("");
 		Map<String,String> myMap=getMap();
 		//调用供应商查询方法 List<Supplier>
-		List<Supplier> listSupplier=supplierAuditService.supplierList(null, null);
+		Supplier sup=new Supplier();
+		if(status!=null){
+			sup.setStatus(status);
+		}
+		
+		List<Supplier> listSupplier=supplierAuditService.supplierList(sup, null);
 		//开始循环 判断地址是否
 		Map<String,Integer> map= new HashMap<String,Integer>(40);
 		List<String> list=getAllProvince();
@@ -45,10 +56,10 @@ public class SupplierQuery {
 			for(String str:list){
 				int count=1;
 				if(supplier.getAddress().indexOf(str)!=-1){
-					if(map.get(str)==null){
+					if(map.get(myMap.get(str))==null){
 						map.put(myMap.get(str), count);
 					}else{
-						map.put(str,map.get(str)+1);
+						map.put(myMap.get(str),map.get(myMap.get(str))+1);
 					}
 				}
 			}
@@ -78,11 +89,21 @@ public class SupplierQuery {
 	 * @param @param model
 	 * @param @return      
 	 * @return String
+	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping("findSupplierByPriovince")
-	public String findSupplierByPriovince(Supplier supplier,Model model){
-		List<Supplier> listSupplier=supplierAuditService.supplierList(supplier, null);
-		model.addAttribute("listSupplier", listSupplier);
+	public String findSupplierByPriovince(Supplier supplier,Integer page,Model model) throws UnsupportedEncodingException{
+		supplier.setAddress(URLDecoder.decode(supplier.getAddress(),"UTF-8"));
+		List<Supplier> listSupplier=supplierAuditService.supplierList(supplier, page==null?1:page);
+		for(Supplier sup:listSupplier){
+			List<SupplierAudit> listAudit=supplierAuditService.selectByPrimaryKey(sup.getId());
+			for(SupplierAudit sa:listAudit){
+				if(sa.getStatus()==3){
+					sup.setPassDate(sa.getCreatedAt());
+				}
+			}
+		}
+		model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
 		return "ses/sms/supplier_query/select_supplier_by_province";
 	}
 	
@@ -113,9 +134,9 @@ public class SupplierQuery {
 	 * @return String
 	 */
 	@RequestMapping("selectByCategory")
-	public String selectByCategory(Supplier supplier,Model model){
-		List<Supplier> listSupplier=supplierAuditService.supplierList(supplier, null);
-		model.addAttribute("listSupplier", listSupplier);
+	public String selectByCategory(Supplier supplier,Integer page,Model model){
+		List<Supplier> listSupplier=supplierAuditService.supplierList(supplier, page==null?1:page);
+		model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
 		return "ses/sms/supplier_query/select_by_category";
 	}
 	
@@ -136,7 +157,7 @@ public class SupplierQuery {
 		list.add("贵州省");
 		list.add("重庆市");
 		list.add("江苏省");
-		list.add("湖北省");
+		
 		list.add("内蒙古自治区");
 		list.add("广西壮族自治区");
 		list.add("黑龙江省");
@@ -158,6 +179,7 @@ public class SupplierQuery {
 		list.add("青海省");
 		list.add("江西省");
 		list.add("台湾省");
+		list.add("湖北省");
 		return list;
 	}
 	
@@ -176,7 +198,7 @@ public class SupplierQuery {
 		myMap.put("福建省","cn-fj");        
 		myMap.put("贵州省","cn-gz");        
 		myMap.put("重庆市","cn-cq");        
-		myMap.put("江苏省","cn-js");        
+		myMap.put("江苏省","cn-js");       
 		myMap.put("湖北省","cn-hu");        
 		myMap.put("内蒙古自治区","cn-nm");  
 		myMap.put("广西壮族自治区","cn-gx"); 

@@ -150,8 +150,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             point: {
                events: {
                    click: function () { 
-                   var adress=this.name;
-                      window.location.href="<%=basePath%>supplierQuery/findSupplierByPriovince.html?supplierName="+adress;
+                   var address=this.name;
+                   address=encodeURI(address);
+                   address=encodeURI(address);
+                      window.location.href="<%=basePath%>supplierQuery/findSupplierByPriovince.html?address="+address;
                     }
                   }
            }

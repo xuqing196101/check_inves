@@ -113,12 +113,34 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/masterslider.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.easing.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/james.js"></script>
+<script type="text/javascript">
+	 function tijiao(){
+    	var supplierName=$("#supplierName").val();
+    	var creditCode=$("#creditCode").val();
+    	var updateBeforeSupplierInfo=$("#updateBeforeSupplierInfo").val();
+    	var updateAfterSupplierInfo=$("#updateAfterSupplierInfo").val();
+    	var updateReason=$("#updateReason").val();
+    	if(!supplierName||!creditCode||!updateBeforeSupplierInfo||!updateAfterSupplierInfo||!updateReason){
+    		layer.alert("表单未填写完整,请填写完整",{offset: ['222px', '40%'], shade:0.01});
+    		return;
+    	}
+    form1.submit();
+    }
+</script>
 </head>
   
 <body>
+ <div class="margin-top-10 breadcrumbs ">
+      <div class="container">
+		   <ul class="breadcrumb margin-left-0">
+		   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">供应商变更申请</a>
+		   </ul>
+		<div class="clear"></div>
+	  </div>
+   </div>
 		<!-- 项目戳开始 -->
 		<form id="form1" action="${pageContext.request.contextPath}/supplierUpdate/save.html" method="post">
-		<div class="container clear margin-top-30">
+		<div class="container clear">
 		<!--详情开始-->
 		<div class="container content height-350">
 			<div class="row magazine-page">
@@ -130,43 +152,43 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										<h3>军队供应商注册信息变更申请表</h3>
 									<ul class="list-unstyled list-flow">
 										<li class="col-md-12 p0 "><span  class=""> 采购机构名称：</span>
-											<div class="col-md-9 mt5">
-												<input class="span3 mr30 nb" id="orgName" name="orgName" value="fdfgdfsg" type="text" readonly="readonly">
+											<div class="col-md-9">
+												<input class="span3 mr30 nb" id="orgName" name="orgName" value="${orgName }" type="text" readonly="readonly">
 											</div>
 										</li>
 										<li class="col-md-12 p0"><span  class=""><i class="red">＊</i> 供应商名称：</span>
-											<div class="col-md-9 mt5">
-												<input class="span3 mr30" id="" name="supplierName" type="text">
+											<div class="col-md-9">
+												<input class="span3 mr30" id="supplierName" name="supplierName" type="text">
 												<span  class=""><i class="red">＊</i> 统一社会信用代码：</span>
 												<input class="span3" id="creditCode" name="creditCode"  type="text">
 											</div>
 										</li>
 										<li class="col-md-12 p0"><span  class="fl"><i class="red">＊</i>申请变更的原注册信息：</span>
-											<div class="col-md-9 mt5">
+											<div class="col-md-9">
 												<div class="row">
 													<textarea class="text_area col-md-12" id="updateBeforeSupplierInfo" name="updateBeforeSupplierInfo"  title="不超过800个字" placeholder=""></textarea>
 												</div>
 											</div>
 										</li>
 										<li class="col-md-12 p0"><span class="fl"><i class="red">＊</i>变更后的注册信息：</span>
-											<div class="col-md-9 mt5">
+											<div class="col-md-9">
 												<div class="row">
 													<textarea class="text_area col-md-12" id="updateAfterSupplierInfo" name="updateAfterSupplierInfo" title="不超过800个字" placeholder=""></textarea>
 												</div>
 											</div>
 										</li>
 										<li class="col-md-12 p0"><span  class="fl"><i class="red">＊</i>变更原因：</span>
-											<div class="col-md-9 mt5">
+											<div class="col-md-9">
 												<div class="row">
-													<textarea class="text_area col-md-12" id="updateReason" name="updateReason"  title="不超过800个字" placeholder=""> </textarea>
+													<textarea class="text_area col-md-12" id="updateReason" name="updateReason"  title="不超过800个字" placeholder=""></textarea>
 												</div>
 											</div>
 										</li>
 									</ul>
 									</div>
-									 <div class="mt20 col-md-12 tc">
+									 <div class=" col-md-12 tc">
 			  							<input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
-			  							<input  class="btn btn-windows git" type="submit" value="提交" />
+			  							<input id="save"  class="btn btn-windows git" type="button" onclick="tijiao()" value="提交" />
 			 						</div>
 								</div>
 							</div>

@@ -101,7 +101,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
 <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
-<title>My JSP 'index.jsp' starting page</title>>
+<title>My JSP 'index.jsp' starting page</title>
+<script type="text/javascript">
+	   $(function(){
+		  laypage({
+			    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+			    pages: "${listSupplier.pages}", //总页数
+			    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+			    skip: true, //是否开启跳页
+			    groups: "${listSupplier.pages}">=3?3:"${listSupplier.pages}", //连续显示分页数
+			    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+					return "${listSupplier.pageNum}";
+			    }(), 
+			    jump: function(e, first){ //触发分页后的回调
+			        if(!first){ //一定要加此判断，否则初始时会无限刷新
+			        	$("#page").val(e.curr);
+			        	$("#form1").submit();
+			        }
+			    }
+			});
+	  });
+</script>
 </head>
   <body>
   	<div class="container clear margin-top-30">
@@ -146,26 +166,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<tr>
 					<th class="info">序号</th>
 					<th class="info">供应商名称</th>
-					<th class="info">状态</th>
 					<th class="info">入库日期</th>
-					<th class="info">来源</th>
 					<th class="info">经济性质</th>
 				</tr>
 			  </thead>
 			  <tbody>
-				 <c:forEach items="${isList.list }" var="list" varStatus="vs">
+				 <c:forEach items="${listSupplier.list }" var="list" varStatus="vs">
 					<tr>
+						<td>${vs.index+1 }</td>
 						<td>${list.supplierName }</td>
-						<td>${list.supplierName }</td>
-						<td>${list.contactName}</td>
-						<td>${list.contactTelephone}</td>
-						<td>${list.supplierName }</td>
-						<td>${list.supplierName }</td>
+						<td></td>
+						<td>${list.businessType }</td>
 					</tr>
 				</c:forEach> 
 			  </tbody>
 		 </table>
+		 <div id="pagediv" align="right"></div>
      </div>
-  <div id="container"></div>
   </body>
 </html>
