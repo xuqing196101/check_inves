@@ -27,11 +27,14 @@
 	  $("#topicId").val("${topicId}"); 
 	  //$("#topicId").append("<option value = '"+${topicId}+"'>"+${topicName}+"</option>");
 	  laypage({
-		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
-		    pages: "${list.pages}", //总页数
-		    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
-		    skip: true, //是否开启跳页
-		    groups: "${list.pages}">=3?3:"${list.pages}", //连续显示分页数
+          cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+          pages: "${list.pages}", //总页数
+          skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+          skip: true, //是否开启跳页
+          total: "${list.total}",
+          startRow: "${list.startRow}",
+          endRow: "${list.endRow}",
+          groups: "${list.pages}">=5?5:"${list.pages}", //连续显示分页数
 		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
 		        var page = location.search.match(/page=(\d+)/);
 		        return page ? page[1] : 1;
@@ -196,7 +199,7 @@
        <li class="fl">
          <label class="fl mt10 ml10">所属版块：</label>
             <span>
-            <select id ="parkId" class="w220 mt5" onchange="change(this.options[this.selectedIndex].value)">
+            <select id ="parkId" class="w200 mt5" onchange="change(this.options[this.selectedIndex].value)">
              <option></option>
              <c:forEach items="${parks}" var="park">
                   <option  value="${park.id}">${park.name}</option>
@@ -207,7 +210,7 @@
         <li class="fl">
          <label class="fl mt10 ml10">所属主题：</label>
             <span>
-            <select id ="topicId" class="w220 mt5" >
+            <select id ="topicId" class="w200 mt5" >
              <option></option>
              </select>
             </span>
