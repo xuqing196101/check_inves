@@ -31,7 +31,10 @@
 		    pages: "${list.pages}", //总页数
 		    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
 		    skip: true, //是否开启跳页
-		    groups: "${list.pages}">=3?3:"${list.pages}", //连续显示分页数
+		    total:"${list.total}",
+		    startRow:"${list.startRow}",
+		    endRow:"${list.endRow}",
+		    groups: "${list.pages}">=5?5:"${list.pages}", //连续显示分页数
 		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
 		        var page = location.search.match(/page=(\d+)/);
 		        return page ? page[1] : 1;
@@ -113,6 +116,7 @@
     	window.location.href="<%=basePath%>pqinfo/add.html";
     }
     function showPic(url,name){
+    	var pic = $("#"+url.toString());
 		layer.open({
 			  type: 1,
 			  title: false,
@@ -120,7 +124,7 @@
 			  area: '516px',
 			  skin: 'layui-layer-nobg', //没有背景色
 			  shadeClose: true,
-			  content: $("#photo")
+			  content: pic
 			});
 	}
   </script>
@@ -221,7 +225,7 @@
 				
 				<td class="tc opinter" onclick="view('${PqInfo.id}')">${PqInfo.conclusion}</td>
 			
-				<td class="tc opinter"><button type="button" onclick="showPic('${PqInfo.report}','质检报告')">质检报告</button><img class="hide" id="photo" src="${PqInfo.report}"/></td>
+				<td class="tc opinter"><button type="button" onclick="showPic('${PqInfo.id}')">质检报告</button><img class="hide" id="${PqInfo.id}" src="${PqInfo.report}"/></td>
    				
 			</tr>
 		</c:forEach>
