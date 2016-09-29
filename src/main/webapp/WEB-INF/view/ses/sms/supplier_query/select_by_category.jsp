@@ -15,8 +15,8 @@
 <script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.core.js"></script>
 <script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.excheck.js"></script>
 <script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.exedit.js"></script>
-
 <script type="text/javascript">
+
 	var datas;
 	 var treeid=null;
  $(document).ready(function(){
@@ -51,14 +51,14 @@
 						rootPId:"a",
 					}
 			    },
-			    edit:{
+			   /*  edit:{
 			    	enable:true,
 					editNameSelectAll:true,
 					showRemoveBtn: true,
 					showRenameBtn: true,
 					removeTitle: "删除",
 					renameTitle:"重命名",
-				},
+				}, */
 			   check:{
 					enable: true
 			   },
@@ -256,58 +256,42 @@
 		document.fm.action="<%=basePath%>category/edit.do";
 		document.fm.submit();
 	}	
-    /*关键字查询*/
-  <%--    function searchM(){
-    	window.location.href="<%=basePath%>category/search.do?name="+name;
-    	var name = $("#keyword").val();
-    	$.ajax({
-    		type:"post",
-    		dataType:"json",
-    		url:"<%=basePath%>category/search.do?name="+name,
-    		success:function(nodeList){
-    			console.info(nodeList);
-    		
-    		if(nodeList!=null){
-    			for(i=0; i<nodeList.length;i++){
-    				
-    				var treeid = nodeList[i].id;
-    				alert(treeid);
-    			}
-    		}else{
-    			
-    		}
-    		}
-    	});
-    
-    } --%>
- /* function searchM() {
-    	  var param =$("#keyword").val();
-    	  
-    	  var treeObj = $.fn.zTree.getZTreeObj("ztree");
-    	  var node = treeObj.get
-    	 
-    	  if(param != ""){
-    	    param = encodeURI(encodeURI(param));
-    	    treeObj.setting.async.otherParam=["param", param];
-    	  }else {
-    	    //搜索参数为空时必须将参数数组设为空
-    	    treeObj.setting.async.otherParam=[];
-    	  }
-    	  treeObj.reAsyncChildNodes(node, "refresh");
-    	}
+	function getChildren(){
+		var Obj=$.fn.zTree.getZTreeObj("ztree");  
+	     var nodes=Obj.getCheckedNodes(true);  
+	     var ids = new Array();  
+	     for(var i=0;i<nodes.length;i++){ 
+	    	 if(!nodes[i].isParent){
+	        //获取选中节点的值  
+	         ids.push(nodes[i].id); 
+	    	 }
+	     } 
+	     $("#categoryIds").val(ids);
+	}	
 
-    	function zTreeOnNodeCreated(event, treeId, treeNode) {
-    	  var param = $("#keyword").val();
-    	  var treeObj = $.fn.zTree.getZTreeObj("ztree");
-    	  //只有搜索参数不为空且该节点为父节点时才进行异步加载
-    	  if(param != ""){
-    	    treeObj.reAsyncChildNodes(treeNode, "refresh");
-    	  } 
-    	};
-    */
-   
-   
-   
+    /*关键字查询*/
+	   $(function(){
+		  laypage({
+			    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+			    pages: "${listSupplier.pages}", //总页数
+			    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+			    skip: true, //是否开启跳页
+			    groups: "${listSupplier.pages}">=3?3:"${listSupplier.pages}", //连续显示分页数
+			    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+					return "${listSupplier.pageNum}";
+			    }(), 
+			    jump: function(e, first){ //触发分页后的回调
+			        if(!first){ //一定要加此判断，否则初始时会无限刷新
+			        	$("#page").val(e.curr);
+			        	$("#form1").submit();
+			        }
+			    }
+			});
+	  });
+	  
+	  function submit(){
+	  	form1.submit();
+	  }
 </script>
 </head>
 
@@ -328,6 +312,7 @@
 		<div class="mt10 col-md-9">
 			  <form id="form1" action="${pageContext.request.contextPath}/importSupplier/auditList.html" method="post">
 		       <input type="hidden" name="page" id="page">
+		       <input type="hidden" id="categoryIds" name="categoryIds"/>
 			   <span class="">供应商名称：</span>
 			   <div class="input-append">
 		        <input class="span2" name="supName" value="${name }" type="text">
@@ -344,16 +329,17 @@
 				</tr>
 			  </thead>
 			  <tbody>
-				 <c:forEach items="${isList.list }" var="list" varStatus="vs">
+				 <c:forEach items="${listSupplier.list }" var="list" varStatus="vs">
 					<tr>
 						<td>${list.supplierName }</td>
 						<td>${list.contactName}</td>
 						<td>${list.contactTelephone}</td>
-						<td>${list. }</td>
+						<td></td>
 					</tr>
 				</c:forEach> 
 			  </tbody>
 		 </table>
+		 <div id="pagediv" align="right"></div>
     <form  id="form" action="" name="fm" method="post"  enctype="multipart/form-data">
 	    <input type="hidden"  onclick="check()" value="submit"/>
 	    <input type="hidden"  onclick="mysubmit()" value="submit"/>

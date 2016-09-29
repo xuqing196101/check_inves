@@ -39,7 +39,7 @@
   
   <body> 
 <jsp:include page="/index_head.jsp"></jsp:include>
-<div class="container">   
+<div class="container mt10">   
 <!-- 4个常用版块 -->
 <div class="row home-icons hidden-sm hidden-xs mt20">
   

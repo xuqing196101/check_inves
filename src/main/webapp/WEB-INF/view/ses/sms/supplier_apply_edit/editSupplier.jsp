@@ -143,6 +143,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </head>
   
 <body>
+ <div class="margin-top-10 breadcrumbs ">
+      <div class="container">
+		   <ul class="breadcrumb margin-left-0">
+		   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">供应商变更</a></li><li class="active"><a href="#"></a></li>
+		   </ul>
+		<div class="clear"></div>
+	  </div>
+   </div>
   <!-- 项目戳开始 -->
   <div class="container clear margin-top-30">
   <!--详情开始-->
@@ -334,12 +342,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											</li>
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i>营业开始时间：</span>
 												<div class="input-append">
-													<input class="span2" type="text" readonly="readonly" onClick="WdatePicker()" name="businessStartDate" value="<fmt:formatDate value="${supplier.businessStartDate }" pattern="yyyy-MM-dd HH:mm:ss" />" /> <span class="add-on"><img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
+													<input class="span2" type="text" readonly="readonly" onClick="WdatePicker()" name="businessStartDate" value="<fmt:formatDate value="${supplier.businessStartDate }" pattern="yyyy-MM-dd" />" /> <span class="add-on"><img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
 												</div>
 											</li>
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i>营业截止时间：</span>
 												<div class="input-append">
-													<input class="span2" type="text" readonly="readonly" onClick="WdatePicker()" name="businessEndDate" value="<fmt:formatDate value="${supplier.businessEndDate }" pattern="yyyy-MM-dd HH:mm:ss" />" /> <span class="add-on"><img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
+													<input class="span2" type="text" readonly="readonly" onClick="WdatePicker()" name="businessEndDate" value="<fmt:formatDate value="${supplier.businessEndDate }" pattern="yyyy-MM-dd" />" /> <span class="add-on"><img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
 												</div>
 											</li>
 
@@ -356,7 +364,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<li class="col-md-12 p0 mt10"><span class="fl"><i class="red">＊</i>经营范围：</span>
 												<div class="col-md-9 mt5">
 													<div class="row _mr20">
-														<textarea class="text_area col-md-12" title="不超过800个字" name="businessScope">${supplier.bankName}</textarea>
+														<textarea class="text_area col-md-12" title="不超过800个字" name="businessScope">${supplier.businessScope}</textarea>
 													</div>
 												</div>
 												<div class="clear"></div></li>
@@ -403,7 +411,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<div class="clear"></div>
 										</ul>
 
-					        <div class="mt10 col-md-12 tc">
+					        <div class="col-md-12 tc">
 			  							<input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 			  							<input  class="btn btn-windows git" type="submit" value="提交" />
 			 						</div>

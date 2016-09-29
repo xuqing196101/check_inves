@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+
+import com.github.pagehelper.PageInfo;
 
 import ses.model.bms.Todos;
 import ses.model.bms.User;
@@ -43,10 +46,57 @@ public class SupplierUpdateController {
 	@Autowired
 	private SupplierService supplierService;
 	
+	/**
+	 * @Title: shenqing
+	 * @author Song Biaowei
+	 * @date 2016-9-28 上午11:25:18  
+	 * @Description: 填写变更申请
+	 * @param @param model
+	 * @param @return      
+	 * @return String
+	 */
 	@RequestMapping("shenqing")
-	public String shenqing(Model model){
+	public String shenqing(Model model,HttpServletRequest req){
+		User user=(User) req.getSession().getAttribute("loginUser");
+		model.addAttribute("orgName", user.getOrg().getName());
 		return "ses/sms/supplier_apply_edit/add";
 	}
+	
+	/**
+	 * @Title: shenqing
+	 * @author Song Biaowei
+	 * @date 2016-9-28 上午11:25:33  
+	 * @Description: 变更申请列表
+	 * @param @param model
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping("list")
+	public String list(ApplyEdit ae,Integer page,Model model){
+		ae.setAuditStatus((short)1);
+		List<ApplyEdit> listAe=supplierUpdateService.findAll(ae,page==null?1:page);
+		model.addAttribute("listAe", new PageInfo<>(listAe));
+		model.addAttribute("name", ae.getSupplierName());
+		return "ses/sms/supplier_apply_edit/list";
+	}
+	
+	/**
+	 * @Title: deleteSoft
+	 * @author Song Biaowei
+	 * @date 2016-9-28 上午11:38:59  
+	 * @Description: TODO 
+	 * @param @param ae
+	 * @param @param model
+	 * @param @return      
+	 * @return String
+	 */
+	/*@RequestMapping("delete_soft")
+	public String deleteSoft(ApplyEdit ae,Model model){
+		ae=supplierUpdateService.selectByPrimaryKey(ae.getId());
+		ae.setAuditStatus((short)1);
+		supplierUpdateService.updateByPrimaryKey(ae);
+		return "redirect:list.html";
+	}*/
 	
 	/**
 	 * @Title: save
@@ -65,6 +115,7 @@ public class SupplierUpdateController {
 		Supplier supplier=supplierService.get(user.getTypeId());
 		ae.setSupplierId(user.getTypeId());
 		ae.setCreatedAt(new Timestamp(new Date().getTime()));
+		ae.setAuditStatus((short)0);
 		supplierUpdateService.insertSelective(ae);
 		Todos todo=new Todos();
 		//自己的id
@@ -78,9 +129,9 @@ public class SupplierUpdateController {
 		//逻辑删除 0未删除 1已删除
 		todo.setIsDeleted((short)0);
 		todo.setCreatedAt(new Date());
-		todo.setUrl("supplierUpdate/show.html?id="+user.getTypeId());
+		todo.setUrl("supplierUpdate/auditShow.html?id="+user.getTypeId());
 		todosService.insert(todo);
-		return "redirect:../login/index.html";
+		return "redirect:list.html";
 	}
 	
 	/**
@@ -96,6 +147,24 @@ public class SupplierUpdateController {
 	 */
 	@RequestMapping("show")
 	public String show(String id,Model model,HttpServletRequest req){
+		ApplyEdit ae=supplierUpdateService.selectByPrimaryKey(id);
+		model.addAttribute("ae", ae);
+		return "ses/sms/supplier_apply_edit/view";
+	}
+	
+	/**
+	 * @Title: audit
+	 * @author Song Biaowei
+	 * @date 2016-9-28 下午4:05:00  
+	 * @Description: 审核页面
+	 * @param @param id
+	 * @param @param model
+	 * @param @param req
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping("auditShow")
+	public String auditShow(String id,Model model,HttpServletRequest req){
 		ApplyEdit ae=supplierUpdateService.selectByPrimaryKey(id);
 		model.addAttribute("ae", ae);
 		return "ses/sms/supplier_apply_edit/audit";
@@ -115,13 +184,12 @@ public class SupplierUpdateController {
 	@RequestMapping("audit")
 	public String audit(ApplyEdit ae,Model model,HttpServletRequest req){
 		//通过的话就跳转到变更 页面
-		if(ae.getAuditStatus()==1){
-			supplierUpdateService.updateByPrimaryKey(ae);
-			todosService.updateIsFinish(ae.getId());
+		if(ae.getAuditStatus()==2){
+			req.getSession().setAttribute("aeId", ae.getId());
 			return "redirect:edit.html";
 		}else{
 			supplierUpdateService.updateByPrimaryKey(ae);
-			return "redirect:../login/index.html";
+			return "redirect:list.html";
 		}
 		
 	}
@@ -157,6 +225,11 @@ public class SupplierUpdateController {
 	@RequestMapping("saveSupplier")
 	public String saveSupplier(Supplier supplier,Model model,HttpServletRequest request) throws IOException{
 		this.setSupplierUpload(request, supplier);
+		String id=(String) request.getSession().getAttribute("aeId");
+		ApplyEdit ae=supplierUpdateService.selectByPrimaryKey(id);
+		ae.setAuditStatus((short)2);
+		supplierUpdateService.updateByPrimaryKey(ae);
+		todosService.updateIsFinish(ae.getId());
 		supplierService.perfectBasic(supplier);
 		return "redirect:../login/index.html";
 	}

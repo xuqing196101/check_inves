@@ -23,6 +23,19 @@
     from T_SES_SMS_SUPPLIER_APPLY_EDIT
     where ID = #{id,jdbcType=VARCHAR}
   </select>
+  <select id="selectByApplyEdit" parameterType="ses.model.sms.ApplyEdit" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_SUPPLIER_APPLY_EDIT
+    where 1=1
+     <if test="supplierName!=null">
+    	and SUPPLIER_NAME like '%${supplierName}%'
+    </if>
+     <if test="auditStatus!=null">
+    	and AUDIT_STATUS != ${auditStatus}
+    </if>
+    order by CREATED_AT desc
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from T_SES_SMS_SUPPLIER_APPLY_EDIT
     where ID = #{id,jdbcType=VARCHAR}

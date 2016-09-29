@@ -443,6 +443,16 @@ public class Supplier implements Serializable {
 	private SupplierMatEng supplierMatEng;
 
 	private String supplierTypeIds;
+	
+	private Date passDate;
+
+	public Date getPassDate() {
+		return passDate;
+	}
+
+	public void setPassDate(Date passDate) {
+		this.passDate = passDate;
+	}
 
 	public String getId() {
 		return id;

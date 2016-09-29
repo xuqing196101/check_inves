@@ -125,7 +125,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">供应商变更申请审核</a></li><li class="active"><a href="#"></a></li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">供应商变更申请查看</a></li><li class="active"><a href="#"></a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -181,8 +181,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									</ul>
 									</div>
 									 <div class="col-md-12 tc">
-									 	<input class="btn padding-left-20 padding-right-20 btn_back"  type="button" onclick="tijiao(2)" value="审核通过">
-										<input class="btn padding-left-20 padding-right-20 btn_back"  type="button" onclick="tijiao(3)" value="审核不通过">
 			  							<input class="btn padding-left-20 padding-right-20 btn_back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 			 						</div>
 								</div>
