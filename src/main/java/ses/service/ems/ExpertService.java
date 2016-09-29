@@ -112,7 +112,7 @@ public interface ExpertService {
 	      * @param @param realPath      
 	      * @return void
 	     */
-	    public void uploadFile(MultipartFile[] files, String realPath);
+	    public void uploadFile(MultipartFile[] files, String realPath,String expertId);
 	    /**
 	     * 
 	      * @Title: downloadFile

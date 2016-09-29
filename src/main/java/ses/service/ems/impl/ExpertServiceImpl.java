@@ -3,6 +3,7 @@ package ses.service.ems.impl;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,9 +21,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.github.pagehelper.PageHelper;
 
 import ses.dao.bms.UserMapper;
+import ses.dao.ems.ExpertAttachmentMapper;
 import ses.dao.ems.ExpertMapper;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
+import ses.model.ems.ExpertAttachment;
 import ses.service.ems.ExpertService;
 import ses.util.PropertiesUtil;
 import ses.util.WfUtil;
@@ -35,6 +38,8 @@ public class ExpertServiceImpl implements ExpertService {
 	private ExpertMapper mapper;
 	@Autowired
 	private UserMapper userMapper;
+	@Autowired
+	private ExpertAttachmentMapper attachmentMapper;
 	
 	@Override
 	public void deleteByPrimaryKey(String id) {
@@ -129,8 +134,9 @@ public class ExpertServiceImpl implements ExpertService {
       * @return void
      */
 	@Override
-    public void uploadFile(MultipartFile[] files, String realPath){
+    public void uploadFile(MultipartFile[] files, String realPath,String expertId){
 		try {
+			ExpertAttachment attachment;
 			if(files!=null && files.length>0){
 				 for(MultipartFile myfile : files){  
 			            if(myfile.isEmpty()){  
@@ -142,7 +148,19 @@ public class ExpertServiceImpl implements ExpertService {
 			                //如果用的是Tomcat服务器，则文件会上传到\\%TOMCAT_HOME%\\webapps\\YourWebProject\\WEB-INF\\upload_file\\文件夹中  
 			                //String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");  
 			                //这里不必处理IO流关闭的问题，因为FileUtils.copyInputStreamToFile()方法内部会自动把用到的IO流关掉，我是看它的源码才知道的  
-			                FileUtils.copyInputStreamToFile(myfile.getInputStream(), new File(realPath, filename));  
+			                FileUtils.copyInputStreamToFile(myfile.getInputStream(), new File(realPath, filename));
+			                //存附件信息到数据库
+			                attachment = new ExpertAttachment();
+			                attachment.setContentType(myfile.getContentType());
+			                attachment.setCreateAt(new Date());
+			                attachment.setExpertId(expertId);
+			                attachment.setFileName(filename);
+			                attachment.setFilePath(realPath);
+			                attachment.setFileSize((double)myfile.getSize());
+			                attachment.setId(WfUtil.createUUID());
+			                attachment.setIsDelete((short)0);
+			                attachment.setIsHistory((short)0);
+			                attachmentMapper.insert(attachment);
 			            }  
 			        }  
 				}

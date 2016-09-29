@@ -337,7 +337,7 @@ public class ExpertController {
 			//获取文件上传路径
 			String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
 			//文件上传
-			service.uploadFile(files, realPath);
+			service.uploadFile(files, realPath,expertId);
 			//个人信息关联用户
 			if(userId!=null && userId.length()>0){
 				//直接注册完之后填写个人信息
@@ -551,12 +551,12 @@ public class ExpertController {
 	   * @param @throws IOException      
 	   * @return String
 	  */
-	 @RequestMapping("/upLoadExpertTable")
+	/* @RequestMapping("/upLoadExpertTable")
 	 public String upLoadExpertTable(@RequestParam("id") String id,@RequestParam("files") MultipartFile[] files,HttpServletRequest request) throws IOException{
 		 String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file");  
          service.uploadFile(files, realPath);
 		 return "redirect:/";
-	 }
+	 }*/
 	 
 	 /**
 	  * 
