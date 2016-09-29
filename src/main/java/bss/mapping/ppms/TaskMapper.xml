@@ -13,11 +13,12 @@
     <result column="IS_DELETED" property="isDeleted" />
     <result column="MATERIALS_TYPE" property="materialsType" />
     <result column="YEAR" property="year" />
+    <result column="COLLECT_ID" property="collectId" />
     <association property="project" column="PROJECT_ID" select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey"/>
   </resultMap>
   <sql id="Base_Column_List">
     ID, NAME, PURCHASE_ID, DOCUMENT_NUMBER, GIVE_TIME,STATUS,PROCUREMENT_METHOD,PURCHASE_REQUIRED_ID,IS_DELETED,
-    MATERIALS_TYPE,YEAR,PROJECT_ID
+    MATERIALS_TYPE,YEAR,PROJECT_ID,COLLECT_ID
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -121,6 +122,9 @@
       <if test="project != null">
         PROJECT_ID,
       </if>
+      <if test="collectId != null">
+        COLLECT_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -156,6 +160,9 @@
       <if test="project != null">
         #{project.id},
       </if>
+      <if test="collectId != null">
+        #{collectId},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="bss.model.ppms.Task">
@@ -190,6 +197,9 @@
       </if>
       <if test="project != null">
         PROJECT_ID = #{project.id},
+      </if>
+      <if test="collectId != null">
+        COLLECT_ID = #{collectId},
       </if>
     </set>
     where ID = #{id}
