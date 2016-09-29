@@ -110,6 +110,7 @@ public class ReplyManageController {
 		String content = request.getParameter("content");
 		String replyId =request.getParameter("replyId");
 		Post post = postService.selectByPrimaryKey(postId);
+		System.out.println(postId+"asdasdsad"+replyId);
 		if(replyId ==null || replyId == ""){			
 			BigDecimal replyCount =post.getReplycount();
 			BigDecimal haha = new BigDecimal(1);

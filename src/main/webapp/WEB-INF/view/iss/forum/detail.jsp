@@ -78,27 +78,26 @@
 	  var pu = $("#"+id);
 	  var html = $("#publish").html();	  
 	  alert(pu.next().has('div').length);
-	  if(pu.next().has('div').length == 1){
+	  if(pu.next().has('div').length != 0 ){
 		  pu.after(html);  
-	      $("#publishButton").attr("onclick","publishForReply("+id+")");
+	      $("#publishButton").attr("onclick","publishForReply('"+id+"')");
 	 }
 	   
 	  	   
   }
-  function publishForReply(id){
+  function publishForReply(replyId){
 	 var ue = UE.getEditor('editor');
 	 var text = ue.getContentTxt();
 	 var postId = "${post.id}";
-
-	 $.ajax({
-	   url:"<%=basePath%>reply/save.html?postId="+postId+"&content="+text+"&replyId="+id,   
-	   contentType: "application/json;charset=UTF-8", 
-	   type:"POST",   //请求方式           
-	   success : function() {   
-	       var postId = "${post.id}";
-	       location.href = "<%=basePath%>post/getIndexDetail.do?postId="+postId;
-	       }
-	 });
+	   $.ajax({
+       url:"<%=basePath%>replyve.html?postId="+postId+"&content="+text+"&replyId="+replyId,   
+       contentType: "application/json;charset=UTF-8", 
+       type:"POST",   //请求方式           
+       success : function() {   
+           var postId = "${post.id}";
+           location.href = "<%=basePath%>post/getIndexDetail.do?postId="+postId;
+           }
+     });
   }
  </script>
   </head>
@@ -162,9 +161,9 @@
             </div>
             </div> 
             
-            
         </c:forEach>
      </div>
+     <div></div>
      <!-- 分页Div -->
      <div id="pagediv" align="right"></div>  
       <!-- 我要评论Div -->
