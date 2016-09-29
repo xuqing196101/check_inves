@@ -14,6 +14,7 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ses.model.ems.Expert;
 import ses.model.ems.ExpertBlackList;
 import ses.service.ems.ExpertBlackListService;
 
@@ -40,7 +41,10 @@ public class ExpertBlackListController {
 	 * @return String
 	 */
 	@RequestMapping("/addBlacklist")
-	public String add(ExpertBlackList expertBlackList){
+	public String add(ExpertBlackList expertBlackList,Model model){
+		//所有专家
+		List<Expert> expertList = service.findExpertList();
+		model.addAttribute("expertList", expertList);
 		return "ses/ems/expertBlackList/add";
 	}
 	/**
@@ -69,6 +73,9 @@ public class ExpertBlackListController {
 	@RequestMapping("/blacklist")
 	public String fnidAll(HttpServletRequest request,Model model,Integer page,ExpertBlackList expert){
 		List<ExpertBlackList> expertList = service.findAll(expert,page==null?1:page);
+		//所有专家
+		List<Expert> expertName = service.findExpertList();
+		model.addAttribute("expertName", expertName);
 		request.setAttribute("result", new PageInfo<>(expertList));
 		model.addAttribute("expertList", expertList);
 		return "ses/ems/expertBlackList/list";
@@ -85,6 +92,9 @@ public class ExpertBlackListController {
 	public String edit(HttpServletRequest request, Model model){
 		String id = request.getParameter("id");
 		ExpertBlackList expertBlackList = service.findById(id);
+		//所有专家
+		List<Expert> expertList = service.findExpertList();
+		model.addAttribute("expertList", expertList);
 		model.addAttribute("expert", expertBlackList);
 		return "ses/ems/expertBlackList/edit";
 	}

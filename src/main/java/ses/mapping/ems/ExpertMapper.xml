@@ -501,4 +501,8 @@
       REL_NAME = #{relName,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <select id="findExpertList" parameterType="java.lang.String" resultMap="BaseResultMap">
+  select * from T_SES_EMS_EXPERT
+  </select>
 </mapper>

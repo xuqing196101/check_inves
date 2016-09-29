@@ -114,7 +114,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/layer/extend/layer.ext.js"></script>
 <script type="text/javascript">
-
+  /** 初始化下拉框*/
+  $(function(id) {
+    var optionNodes = $("option");
+    for(var i = 0; i < optionNodes.length; i++) {
+      if("${expert.relName}" == $(optionNodes[i]).val()) {
+        optionNodes[i].selected = true;
+      }
+    }
+  });
 </script>
 </head>
 <body>
@@ -132,9 +140,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <input type="hidden" name="id" value="${expert.id}">
       <ul class="list-unstyled list-flow p0_20">
         <li class="col-md-6 p0">
-          <span class="">专家姓名：</span>
-          <input class="span2" maxlength="10" name="relName" type="text" value="${expert.relName }">
-          <font id="nameFont"></font>
+          <span>专家姓名：</span>
+            <select name="relName" class="span2">
+              <option value="">请选择</option>
+              <c:forEach var="expert"  items="${expertList}">
+              <option value="${expert.relName}">${expert.relName}</option>
+              </c:forEach>
+            </select> 
         </li>
         <li class="col-md-6  p0 ">
           <span class="">入库时间：</span>

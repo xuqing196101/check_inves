@@ -232,10 +232,16 @@ $(function(){
 	    <table>
 	      <tr>
 	        <td>
-	          <span>姓名：</span><input type="text" name="relName">
+            <span>专家姓名：</span>
+              <select name="relName">
+	              <option value="">请选择</option>
+	              <c:forEach var="expert"  items="${expertName}">
+	              <option value="${expert.relName}">${expert.relName}</option>
+	              </c:forEach>
+              </select> 
 	        </td>
 				  <td>
-	          <span>处罚方式:</span>
+	          <span>处罚方式：</span>
 	          <select name="punishDate">
 	            <option value="">请选择</option>
 								<option value="三个月">三个月</option>

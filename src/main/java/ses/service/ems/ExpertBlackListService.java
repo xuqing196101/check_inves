@@ -2,6 +2,7 @@ package ses.service.ems;
 
 import java.util.List;
 
+import ses.model.ems.Expert;
 import ses.model.ems.ExpertBlackList;
 
 
@@ -12,6 +13,7 @@ import ses.model.ems.ExpertBlackList;
  * @date 2016-9-8下午2:29:02
  */
 public interface ExpertBlackListService {
+	
 	/**
 	 * @Title: insert
 	 * @author Xu Qing
@@ -21,6 +23,7 @@ public interface ExpertBlackListService {
 	 * @return void
 	 */
 	void insert(ExpertBlackList expertBlackList);
+	
 	/**
 	 * @Title: update
 	 * @author Xu Qing
@@ -30,6 +33,7 @@ public interface ExpertBlackListService {
 	 * @return void
 	 */
 	void update(ExpertBlackList expertBlackList);
+	
 	/**
 	 * @Title: findList
 	 * @author Xu Qing
@@ -39,6 +43,7 @@ public interface ExpertBlackListService {
 	 * @return List<ExpertBlackList>
 	 */
 	List<ExpertBlackList> findAll(ExpertBlackList expertBlackList,Integer page);
+	
 	/**
 	 * @Title: findById
 	 * @author Xu Qing
@@ -49,6 +54,7 @@ public interface ExpertBlackListService {
 	 * @return ExpertBlackList
 	 */
 	ExpertBlackList findById(String id);
+	
 	/**
 	 * @Title: delete
 	 * @author Xu Qing
@@ -58,4 +64,15 @@ public interface ExpertBlackListService {
 	 * @return void
 	 */
 	void delete(String id);
+	
+	/**
+	 * @Title: findExpertList
+	 * @author Xu Qing
+	 * @date 2016-9-29 上午9:28:26  
+	 * @Description: 查询所有专家
+	 * @param @return      
+	 * @return List<Expert>
+	 */
+	List<Expert> findExpertList();
+
 }

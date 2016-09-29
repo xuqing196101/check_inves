@@ -130,11 +130,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="container">
     <form action="<%=basePath %>expert/saveBlacklist.do" method="post" id="form1" enctype="multipart/form-data" class="registerform">
       <ul class="list-unstyled list-flow p0_20">
-        <li class="col-md-6 p0">
-		      <span class=""><i class="red">＊</i>专家姓名：</span>
-	        <input class="span2" maxlength="10" name="relName" type="text">
-	        <font id="nameFont"></font>
-		    </li>
+		    <li class="col-md-6 p0">
+          <span>专家姓名：</span>
+            <select name="relName" class="span2">
+              <option value="">请选择</option>
+              <c:forEach var="expert"  items="${expertList}">
+              <option value="${expert.relName}">${expert.relName}</option>
+              </c:forEach>
+            </select> 
+        </li>
 	      <li class="col-md-6  p0 ">
 		      <span class=""><i class="red">＊</i>入库时间：</span>
 	        <input class="span2 Wdate w220"  readonly="readonly" name="storageTime"  type="text" onclick='WdatePicker()'>
