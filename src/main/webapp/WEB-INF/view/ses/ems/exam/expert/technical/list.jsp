@@ -24,6 +24,9 @@
 			    pages: "${technicalList.pages}", //总页数
 			    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
 			    skip: true, //是否开启跳页
+			    total: "${technicalList.total}",
+			    startRow: "${technicalList.startRow}",
+			    endRow: "${technicalList.endRow}",
 			    groups: "${technicalList.pages}">=3?3:"${technicalList.pages}", //连续显示分页数
 			    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
 			        var page = location.search.match(/page=(\d+)/);
@@ -170,11 +173,11 @@
 		    <button class="btn btn-windows add" type="button" onclick="addTechnical()">新增</button>
 		    <button class="btn btn-windows edit" type="button" onclick="editTechnical()">修改</button>
 			<button class="btn btn-windows delete" type="button" onclick="deleteById()">删除</button>
-		    <div class="fr mt15">
+		    <div class="fr">
 		      <button class="btn" type="button" onclick="download()">题目模板下载</button>
 		      <span class="">
 		        <input type="file" name="file" id="excelFile" style="display:inline"/>
-		        <button class="btn" type="button" onclick="poiExcel()">导入</button>
+		        <button class="btn btn-windows input" type="button" onclick="poiExcel()">导入</button>
 		      </span>
 		    </div> 
 		</div>

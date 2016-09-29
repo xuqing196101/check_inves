@@ -22,6 +22,9 @@
 			    pages: "${paperUserList.pages}", //总页数
 			    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
 			    skip: true, //是否开启跳页
+			    total: "${paperUserList.total}",
+			    startRow: "${paperUserList.startRow}",
+			    endRow: "${paperUserList.endRow}",
 			    groups: "${paperUserList.pages}">=3?3:"${paperUserList.pages}", //连续显示分页数
 			    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
 			        var page = location.search.match(/page=(\d+)/);
@@ -180,31 +183,38 @@
 	   </div>
 	   
   
-  	<div class="container mt10">
-  		<div class="col-md-12 mb10 border1 bggrey">
-  			<div class="fl f18 gary b">参考人员信息</div>
-  		</div>
-  	</div>
+  	<div class="container">
+	   <div class="headline-v2">
+	   		<h2>添加参考人员</h2>
+	   </div>
+   	</div>
   	
   	<div class="container">
-    	<div class="border1 col-md-12">
+    	<div class="col-md-12 padding-left-25">
 	    	姓名:<input type="text" id="userName" name="userName" class="mt10 w80"/>
 	    	身份证号:<input type="text" id="card" name="card" class="mt10 w230"/>
 	    	<button class="btn btn-windows add" type="button" onclick="add()">添加</button>
 	    	<button class="btn btn-windows delete" type="button" onclick="deleteByPaperUserId()">删除</button>
-	    	<div class="fr mt15">
-	    		<button class="btn" type="button" onclick="download()">人员模板下载</button>
-	    		<span class="">
-		    	  	<input type="file" name="file" id="excelFile" style="display:inline;"/>
-		    	  	<input type="button" value="导入" class="btn " onclick="poiExcel()"/>
-	    	  	</span>
-	    	</div>
     	</div>
     </div>
     
+    <div class="container">
+	   <div class="headline-v2">
+	   		<h2>参考人员列表</h2>
+	   </div>
+   	</div>
+   	
     <!-- 表格开始 -->
     <div class="container">
-  		<div class="content">
+	    	<div class="fr padding-right-25">
+	    		<button class="btn" type="button" onclick="download()">人员模板下载</button>
+	    		<span class="">
+		    	  	<input type="file" name="file" id="excelFile" style="display:inline;"/>
+		    	  	<input type="button" value="导入" class="btn btn-windows input" onclick="poiExcel()"/>
+	    	  	</span>
+	    	</div>
+    
+  		<div class="content padding-left-25 padding-right-25">
 	  		<table class="table table-bordered table-condensed">
 				<thead>
 					<tr>
@@ -230,16 +240,12 @@
 				</tbody>
 			</table>
 		</div>
-		<div id="pageDiv" align="right"></div>
+		<div id="pageDiv" align="right" class="mr10"></div>
   	</div>
   	
   		<!-- 返回按钮 -->
-  		<div class="padding-top-10 clear">
-			<div class="col-md-12 pl200 ">
-				<div class="mt40 tc mb50">
-	    			<input class="btn btn-windows back" value="返回考卷列表" type="button" onclick="location.href='<%=path%>/purchaserExam/paperManage.html'">
-				</div>
-	  		</div>
+  		<div class="mt20 clear tc">
+	      <input class="btn btn-windows back" value="返回考卷列表" type="button" onclick="location.href='<%=path%>/purchaserExam/paperManage.html'">
 	  	</div>
 	  	
 	  	<input type="hidden" value="${examPaper.id }" name="paperId" id="paperId"/>
