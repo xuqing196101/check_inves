@@ -13,20 +13,22 @@
     <result column="CODE"  property="code" />
     <result column="POSITION"  property="position" />
  	<result column="IS_DELETED"  property="isDeleted" />
- 	<result column="IS_PUBLICED"  property="isPubliced" />
- 	<result column="TYPE"  property="type" />
+ 	<result column="IS_PUBLISH"  property="isPublish" />
+ 	<result column="KIND"  property="kind" />
  	<result column="PARAM_STATUS"  property="paramStatus" />
- 	<result column="ACCEPTENCE_REGULATION"  property="acceptenceRegulation" />
- 	<result column="SCOPE_PUBLIC"  property="scopePublic" />
- 	<association property="categoryAptitude" column="APTITUDE_ID" select="ses.dao.bms.CategoryAptitudeMapper.selectByPrimaryKey"/>
+ 	<result column="ACCEPT_RANGE"  property="acceptRange" />
+ 	<result column="PARAM_PUBLISH_RANG"  property="paramPublishRange" />
+ <!-- 	<association property="categoryAptitude" column="APTITUDE_ID" select="ses.dao.bms.CategoryAptitudeMapper.selectByPrimaryKey"/> -->
  	<association property="categoryAttchment" column="ATTCHMENT_ID" select="ses.dao.bms.CategoryAttchmentMapper.selectByPrimaryKey"/>
   </resultMap>
     <resultMap type="ses.model.bms.Category" id="totalMap" extends="CateMap">
 	    <collection property="categoryParams" ofType="ses.model.ppms.CategoryParam" resultMap="ses.dao.ppms.CategoryParamMapper.CategoryParamMap" />
+	    <collection property="categoryAptitudes" ofType="ses.model.bms.CategoryAptitude" resultMap="ses.dao.bms.CategoryAptitudeMapper.CategoryAptitudeMap" />
+	     <collection property="supplierTypes" ofType="ses.model.sms.SupplierType" resultMap="ses.dao.sms.SupplierTypeMapper.BaseResultMap" />
     </resultMap>
   <sql id="Base_Column_List">
     ID, NAME, STATUS, PARENT_ID, CREATED_AT, UPDATED_AT, DESCRIPTION, IS_END, 
-    CODE, POSITION,IS_DELETED,IS_PUBLICED,TYPE,PARAM_STATUS,ACCEPTENCE_REGULATION,SCOPE_PUBLIC
+    CODE, POSITION,IS_DELETED,IS_PUBLISH,KIND,PARAM_STATUS,ACCEPT_RANGE,PARAM_PUBLISH_RANG,APTITUDE_ID,ATTCHMENT_ID
   </sql>
   
   <!-- 根据id查询 -->
@@ -85,11 +87,11 @@
     insert into T_SES_BMS_CATEGORY (ID, NAME, STATUS, 
       PARENT_ID, CREATED_AT, UPDATED_AT, 
       ATTCHMENT, DESCRIPTION, IS_END, 
-      CODE, POSITION,IS_DELETED,IS_PUBLICED,TYPE,PARAM_STATUS,ACCEPTENCE_REGULATION,SCOPE_PUBLIC)
+      CODE, POSITION,IS_DELETED,IS_PUBLISH,KIND,PARAM_STATUS,ACCEPT_RANGE,PARAM_PUBLISH_RANGE)
     values (#{id}, #{name}, #{status}, 
       #{parentId}, #{createdAt}, #{updatedAt}, 
      #{description}, #{isEnd}, 
-      #{code}, #{position},#{is_deleted},#{isPubliced},#{type},#{paramStatus},#{acceptenceRegulation},#{scopePublic})
+      #{code}, #{position},#{is_deleted},#{isPublish},#{kind},#{paramStatus},#{acceptRange},#{paramPublishRange})
   </insert>
   
   <insert id="insertSelective" parameterType="ses.model.bms.Category">
@@ -116,7 +118,6 @@
       <if test="updatedAt != null">
         UPDATED_AT,
       </if>
-      
       <if test="description != null">
         DESCRIPTION,
       </if>
@@ -132,20 +133,20 @@
       <if test="isDeleted != null">
         IS_DELETED,
       </if>
-      <if test="isPubliced != null">
-        IS_PUBLICED,
+      <if test="isPublish != null">
+        IS_PUBLISH,
       </if>
-      <if test="type != null">
-        TYPE,
+      <if test="kind != null">
+        KIND,
       </if>
       <if test="paramStatus != null">
         PARAM_STATUS,
       </if>
-      <if test="acceptenceRegulation != null">
-        ACCEPTENCE_REGULATION,
+      <if test="acceptRange != null">
+        ACCEPT_RANGE,
       </if>
-      <if test="scopePublic != null">
-        SCOPE_PUBLIC,
+      <if test="paramPublishRange">
+        PARAM_PUBLISH_RANGE,
       </if>
       <if test="categoryAttchment != null">
         ATTCHMENT_ID,
@@ -188,20 +189,20 @@
       <if test="isDeleted != null">
         #{isDeleted},
         </if>
-        <if test="isPubliced != null">
-        #{isPubliced},
+        <if test="isPublish != null">
+        #{isPublish},
         </if>
-        <if test="type != null">
-        #{type},
+        <if test="kind != null">
+        #{kind},
         </if>
         <if test="paramStatus != null">
         #{paramStatus},
         </if>
-        <if test="acceptenceRegulation != null">
-        #{acceptenceRegulation},
+        <if test="acceptRange != null">
+        #{acceptRange},
         </if>
-        <if test="scopePublic != null">
-        #{scopePublic},
+        <if test="paramPublishRange != null">
+        #{paramPublishRange},
         </if>
         <if test="categoryAttchment != null">
         #{categoryAttchment.id},
@@ -244,24 +245,23 @@
       <if test="position != null">
         POSITION = #{position},
       </if>
-
       <if test="isDeleted != null">
         IS_DELETED = #{isDeleted},
       </if>
       <if test="isPubliced != null">
-         IS_PUBLICED = #{isPubliced},
+         IS_PUBLISH = #{isPublish},
         </if>
         <if test="type != null">
-        TYPE = #{type},
+       KIND = #{kind},
         </if>
         <if test="paramStatus != null">
         PARAM_STATUS = #{paramStatus},
         </if>
         <if test="acceptenceRegulation != null">
-        ACCEPTENCE_REGULATION = #{acceptenceRegulation},
+        ACCEPT_RANGE= #{acceptRange},
         </if>
         <if test="scopePublic != null">
-         SCOPE_PUBLIC = #{scopePublic},
+         PARAM_PUBLISH_RANGE = #{paramPublishRange},
         </if>
         <if test="scopePublic != null">
          ATTCHMENT_ID = #{categoryAttchment},
@@ -273,26 +273,6 @@
     where ID = #{id}
   </update>
   
-  <!-- 根据id修改 -->
-  <update id="updateByPrimaryKey" parameterType="ses.model.bms.Category">
-    update T_SES_BMS_CATEGORY
-    set NAME = #{name},
-      STATUS = #{status},
-      PARENT_ID = #{parentId},
-      CREATED_AT = #{createdAt},
-      UPDATED_AT = #{updatedAt},
-      DESCRIPTION = #{description},
-      IS_END = #{isEnd},
-      CODE = #{code},
-      IS_DELETED=#{isDeleted},
-      position = #{position},
-      IS_PUBLICED = #{isPubliced},
-      TYPE = #{type},
-      PARAM_STATUS = #{paramStatus},
-      ACCEPTENCE_REGULATION = #{acceptenceRegulation},
-      SCOPE_PUBLIC = #{scopePublic}
-    where ID = #{id}
-  </update>
   
   <!-- 根据id修改 名称 -->
  	<update id="updateNameById" parameterType="Object">

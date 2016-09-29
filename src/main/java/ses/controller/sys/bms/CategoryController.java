@@ -44,6 +44,7 @@ import ses.model.bms.CategoryAttchment;
 import ses.model.bms.CategoryTree;
 import ses.service.bms.CategoryAttchmentService;
 import ses.service.bms.CategoryService;
+import ses.util.PathUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
@@ -61,8 +62,10 @@ import com.google.gson.Gson;
 public class CategoryController extends  BaseSupplierController{
 	@Autowired
 	private CategoryService categoryService;
+	
 	@Autowired
 	private CategoryAttchmentService categoryAttchmentService;
+	
 	private  Map<String, Object> listCategory=new  HashMap<String, Object>();
 	
 	public Map<String, Object> getListCategory() {
@@ -187,7 +190,7 @@ public class CategoryController extends  BaseSupplierController{
 	          HttpServletRequest request, HttpServletResponse response,Category category){
 	  category.setName(request.getParameter("name"));
 	  category.setPosition(Integer.parseInt(request.getParameter("position")));
-	  /*category.setParentId(parentId);*/
+	  category.setParentId(request.getParameter("parentId"));
 	  category.setStatus(1);
 	  category.setCode(request.getParameter("code"));
 	  category.setDescription(request.getParameter("description"));
@@ -217,7 +220,7 @@ public class CategoryController extends  BaseSupplierController{
 		
 		if(attaattach!=null){
 			for(int i=0;i<attaattach.length;i++){
-		        String rootpath = (request.getSession().getServletContext().getRealPath("/")+"upload/").replace("\\", "/");
+		        String rootpath = (PathUtil.getWebRoot()+"picupload/").replace("\\", "/");
 		        /** 创建文件夹 */
 				File rootfile = new File(rootpath);
 				if (!rootfile.exists()) {
@@ -239,6 +242,7 @@ public class CategoryController extends  BaseSupplierController{
 				attachment.setContentType(attaattach[i].getContentType());
 				attachment.setFileSize((float)attaattach[i].getSize());
 				attachment.setAttchmentPath(filePath);
+				
 				categoryAttchmentService.insertSelective(attachment);
 			}
 		}
@@ -256,8 +260,10 @@ public class CategoryController extends  BaseSupplierController{
      */
    
    @RequestMapping("/update")
-   public void update(Category category,HttpServletResponse response){
-	   Category cate=categoryService.selectByPrimaryKey(category.getId());
+   public void update(HttpServletResponse response ,String id){
+	   Category cate=categoryService.selectByPrimaryKey(id);
+	   CategoryAttchment attchment=categoryAttchmentService.selectByCategoryId(cate.getId());
+	   cate.setCategoryAttchment(attchment);
 	   super.writeJson(response, cate);
    }
    /**
@@ -268,27 +274,28 @@ public class CategoryController extends  BaseSupplierController{
   	* @param @return 
   	* @return String
        */  
+   @ResponseBody
    @RequestMapping("/edit")
-   public String  edit(HttpServletRequest request,Category category){
-	      category.setCreatedAt(new Date());
-	      category.setUpdatedAt(new Date());
-	      category.setId(request.getParameter("id"));
-  	      category.setName(request.getParameter("name"));
+   public String  edit(@RequestParam("attaattach") MultipartFile[] attaattach,
+	          HttpServletRequest request, HttpServletResponse response,Category category){
+  	    category.setName(request.getParameter("name"));
 		  category.setParentId(request.getParameter("parentId"));
 		  category.setPosition(Integer.parseInt(request.getParameter("position")));
 		  category.setCode(request.getParameter("code"));
-		/*  category.setCategoryAttchment(request.getParameter("attaattach"));*/
 		  category.setDescription(request.getParameter("description"));
-		 /* category.setIsEnd(request.getParameter("isEnd"));
-		  if (category.getIsEnd().equals("0")) {
+		  category.setUpdatedAt(new Date());
+		/*category.setIsEnd(request.getParameter("isEnd"));*/
+		  /*if (category.getIsEnd().equals("0")) {
 			  category.setIsEnd("true");
 		}else if (category.getIsEnd().equals("1")) {
 			category.setIsEnd("false");
 		}*/
-	  categoryService.updateByPrimaryKey(category);
+	  categoryService.updateByPrimaryKeySelective(category);
+	  upload(request,attaattach,category);
 	return "redirect:get.html";
    }
-   
+ 
+ 
    /**
  	 * 
  	* @Title: rename
@@ -306,15 +313,12 @@ public class CategoryController extends  BaseSupplierController{
 	 * 
 	 * @Title: delete
 	 * @author Zhang XueFeng/	
-	 * 
      * @Description:删除目录节点
 	 * @param @return 	* @return String
      */ 
    @RequestMapping("/del")
    public void delete(Category  category){
-	
 	   categoryService.deleteByPrimaryKey(category.getId());
-	
    }
    
    /**

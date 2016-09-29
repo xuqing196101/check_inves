@@ -3,7 +3,8 @@
 <mapper namespace="ses.dao.bms.CategoryAptitudeMapper">
 <resultMap id="CategoryAptitudeMap" type="ses.model.bms.CategoryAptitude">
       <id column="ID" property="id" />
-    <result column="CATEGORY_TYPE"  property="categoryType" />
+    <result column="PRODUCT_NAME"  property="productName" />
+    <result column="SALE_NAME"  property="saleName" />
     <result column="CREATED_AT"  property="createdAt" />
     <result column="UPDATED_AT"  property="updatedAt" />
     <result column="IS_DELETED"  property="isDeleted" />
@@ -13,7 +14,7 @@
    
 		   <!-- 表中所有列 --> 
     <sql id="Base_Column_List">
-		    ID, CATEGORY_TYPE, CONTENT,USER_ID,CREATER_ID,CREATED_AT, UPDATED_AT	    
+		    ID, PRODUCT_NAME,SALE_NAME, CONTENT,USER_ID,CREATER_ID,CREATED_AT, UPDATED_AT	    
 		  </sql>
 		  
   	
@@ -50,8 +51,11 @@
       <if test="id != null">
         ID,
       </if>
-      <if test="categoryType != null">
-        CATEGIRT_TYPE,
+      <if test="productName != null">
+        PRODUCT_NAME,
+      </if>
+       <if test="saleName != null">
+        SALE_NAME,
       </if>
       <if test="createdAt != null">
         CREATED_AT,
@@ -70,8 +74,11 @@
       <if test="id != null">
         #{id},
       </if>
-      <if test="categoryType != null">
-        #{categoryType},
+      <if test="productName != null">
+        #{productName},
+      </if>
+      <if test="saleName != null">
+        #{saleName},
       </if>
       <if test="createdAt != null">
         #{createdAt},
@@ -90,8 +97,11 @@
     <update id="updateByPrimaryKeySelective" parameterType="ses.model.bms.CategoryAptitude">
     update T_SES_BMS_CATEGORY_APTITUDE
     <set>
-      <if test="fileName != null">
-        CATEGORY_TYPE = #{categoryType},
+      <if test="productName != null">
+        PRODUCT_NAME = #{productName},
+      </if>
+       <if test="saleName != null">
+        SALE_NAME = #{saleName},
       </if>
       <if test="createdAt != null">
         CREATED_AT = #{createdAt},

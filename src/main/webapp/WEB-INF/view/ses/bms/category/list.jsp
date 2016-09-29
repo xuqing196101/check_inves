@@ -140,20 +140,13 @@
     
 	
    /*删除图片*/
-    function deletepic(obj){
-		layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
-			layer.close(index);
-	       	layer.msg('删除成功',{offset: ['222px', '390px']});
-		    window.setTimeout(function(){
-		    	$(obj).prev().hide();
-				$(obj).next().remove();
-				$(obj).hide();
-				$("#showid").val(0);
-				$(".order").val("");
-		    }, 1000);
-		});
-		
-	}
+   function deleteAtta(id,obj){
+	/* ids+=id+",";
+	$("#ids").val(ids);
+	alert(ids); */
+	$(obj).prev().remove();
+	$(obj).remove();
+}
     /*点击事件*/
     function zTreeOnClick(event,treeId,treeNode){
 		treeid=treeNode.id
@@ -168,13 +161,14 @@
 					success:function(){
 						var html = "";
 						html = html+"<tr><td>目录名称</td>"+"<td><input name='name'/></td></tr>" ;
-				/* 		html = html+"<tr><td>父节点</td>"+"<td><input name='parentId'/></td></tr>"; */
+				        html = html+"<input type='hidden' value='"+treeid+"' name='parentId'/>";
 						html = html+"<tr><td>排序</td>"+"<td><input name='position'/></td></tr>";
 						html = html+"<tr><td>编码</td>"+"<td><input name='code'/></td></tr>";
 						html = html+"<tr><td>图片</td>"+"<td id='uploadAttach'><input id='pic'type='file' class='toinline' name='attaattach' /></td></tr>";
-						html = html+"<tr><td>描述</td>"+"<td><textarea name='descrption'/></td></tr>";
+						html = html+"<tr><td>描述</td>"+"<td><textarea name='description'/></td></tr>";
 						html = html+"<tr><td colspan='2'><input type='submit' value='提交' onclick='check()' class='btn btn-window'/></td></tr>";
 						$("#result").append(html);
+				
 					}
 				
 				})
@@ -191,23 +185,32 @@
 					dataType:"json",
 					type:"post",
 					success:function(cate){
-						alert(cate.name);
+	                   console.info(cate.id);				
+						var fileName = cate.categoryAttchment.fileName;
+						if(fileName!=null){
+						var fileNameTrue = fileName.split("_");
 						var html = "";
-						html = html+"<tr><td>目录名称</td><td><input value='"+cate.name+"'/></td></tr>";
-						/* html = html+"<tr><td>父节点</td>"+"<td></td></tr>"; */
-						html = html+"<tr><td>父节点</td><td><input value='"+cate.parentId+"'/></td></tr>";
-						html = html+"<tr><td>排序</td><td><input value='"+cate.position+"'/></td></tr>";
-						html = html+"<tr><td>编码</td><td><input value='"+cate.code+"'/></td></tr>";
-						html = html+"<tr><td>附件</td><td id='uploadAttach'><input id='pic' type='file' value='"+cate.attchment+"'/>"
-						+"<input onclick='deletepic(this)'  id='close_pic' class='close' type='button' value='×'/>"
+						html = html+"<tr><td>目录名称</td><td><input value='"+cate.name+"' name='name'/>";
+						html = html+"<tr><td>上级目录</td><td><input value='"+cate.parentId+"' name='parentId'/></td></tr>";
+						 html = html+"<input type='hidden' name='id' value='"+cate.id+"'/>";
+						html = html+"<tr><td>排序</td><td><input value='"+cate.position+"' name='position'/></td></tr>";
+						html = html+"<tr><td>编码</td><td><input value='"+cate.code+"' name='code'/></td></tr>";
+						html = html+"<tr ><td>已上传的图片</td><td id='uploadAttach'><a href=''>"+fileNameTrue[1]+"</a>"
+						+"<button tyep='button' class='ml10 mb10 btn ' onclick='deletepic()'>X</button><br/>"
+						+"<input type='file' id='pic' class='toinline' name='attaattach' />"
 						+"</td></tr>";
-						html = html+"<tr><td>描述</td><td><input value='"+cate.description+"'/></td></tr>";
-						html = html+"<tr><td colspan='2'><input type='submit' onclick='mysubmit()' value='更新' class='btn btn-window '/></td></tr>"
+					
+						html = html+"<tr><td>描述</td><td><input value='"+cate.description+"' name='description'/></td></tr>";
+						html = html+"<tr><td colspan='2'><input type='submit' onclick='mysubmit()' value='更新' class='btn btn-window '/></td></tr>";
 						$("#result").append(html);
 					}
-				})
+					}
+				});
 			}
  		}
+  
+    
+    
  	/*休眠-激活*/
     function ros(){
  			var str="";
@@ -252,7 +255,7 @@
 		document.fm.submit();
 	}
 	/*更新数据*/
-	function mysubmit(){
+	function mysubmit(id){
 		document.fm.action="<%=basePath%>category/edit.do";
 		document.fm.submit();
 	}	
@@ -402,7 +405,7 @@
 	   <input id="key" type="text" class="mt10"  placeholder="请输入..."  value=""/>
  	 <!--   <button onclick="searchM()" class="btn  btn-window mr10"  type="button">sou</button> -->
  	 </div>
-	 <div id="ztree" class="ztree"></div>
+	 <div><ul id="ztree" class="ztree"></ul></div>
 	</div>
 		<div class="mt10 col-md-9">
 			<span id="add"><a href="javascript:void(0);" onclick="news()" class="btn btn-window ">新增 </a></span> 

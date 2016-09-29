@@ -61,5 +61,14 @@ public interface CategoryParamMapper {
 	* @Description: 根据pid获取所有子栏目
 	* @param @param list<Category>
 	*/
-	public List<Category> listByParent(String pid);
+	 List<Category> listByParent(String pid);
+	
+	/**   
+	* @Title: listByParent
+	* @author zhangxuefeng
+	* @date 2016-7-27 下午4:52:29  
+	* @Description: 根据id新增
+	* @param @param CategoryParam
+	*/
+	 CategoryParam insertSelective(CategoryParam categoryParam);
 }

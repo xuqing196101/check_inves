@@ -1,6 +1,6 @@
 package ses.dao.bms;
 
-import java.util.List;
+
 
 
 import ses.model.bms.CategoryAttchment;
@@ -84,13 +84,13 @@ public interface CategoryAttchmentMapper {
     
     /**
      * 
-    * @Title: selectAllArticleAttachments
+    * @Title: selectByCategoryId
     * @author QuJie 
     * @date 2016-9-8 上午8:45:03  
-    * @Description: 根据articleId查询信息附件 
+    * @Description: 根据品目id查询附件
     * @param @param id
     * @param @return      
     * @return List<ArticleAttachments>
      */
-    List<CategoryAttchment> selectAllCategoryAttchment(String id);
+    CategoryAttchment selectByCategoryId(String id);
 }

@@ -71,6 +71,7 @@ public class MyInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object arg2) throws Exception {
+<<<<<<< Updated upstream
 		HttpSession session = request.getSession();
 		response.setContentType("text/html;charset=utf-8");
 			if (session.getAttribute("loginUser") == null) {
@@ -101,5 +102,44 @@ public class MyInterceptor implements HandlerInterceptor {
 			} else {
 				return true;
 			}
+=======
+//		HttpSession session = request.getSession();
+//		response.setContentType("text/html;charset=utf-8");
+//		String presentPath = request.getServletPath();
+//
+//		if (presentPath	
+//				.matches(matches)) {
+//			log.warn("匹配的路径：" + presentPath);
+//			return true;
+//		} else {
+//			if (session.getAttribute("loginUser") == null) {
+//				//系统的根url
+//                String basePath = request.getContextPath();
+//				PrintWriter out = response.getWriter();
+//				StringBuilder builder = new StringBuilder();
+//				builder.append("<HTML><HEAD>");
+//				builder.append("<script language='javascript' type='text/javascript' src='"+basePath+"/public/ZHQ/js/jquery.min.js'></script>");
+//				builder.append("<script language='javascript' type='text/javascript' src='"+basePath+"/public/layer/layer.js'></script>");
+//				builder.append("<link href='"+basePath+"/public/ZHQ/css/style.css' media='screen' rel='stylesheet'>");
+//				builder.append("</HEAD>");
+//				builder.append("<script type=\"text/javascript\">"); 
+//				builder.append("$(function() {");
+//				builder.append("layer.confirm('登录超时，请重新登录！',{ btn: ['确定'],title:'提示',offset: ['50px','30%'],shade:0.01 },function(){");  
+//				builder.append("window.top.location.href='"); 
+//				builder.append(basePath);  
+//				builder.append("';"); 
+//				builder.append("});");
+//				builder.append("});");
+//				builder.append("</script>");  
+//				builder.append("<BODY><div style='width:1000px; height: 1000px;'></div></BODY></HTML>");
+//				out.print(builder.toString());
+//				out.flush();  
+//				out.close(); 
+//				return false;
+//			} else {
+				return true;
+//			}
+//		}
+>>>>>>> Stashed changes
 	}
 }
