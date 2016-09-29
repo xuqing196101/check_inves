@@ -32,11 +32,13 @@ import com.github.pagehelper.PageInfo;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
+import ses.model.ems.ExpertAttachment;
 import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertCategory;
 import ses.model.oms.PurchaseDep;
 import ses.service.bms.TodosService;
 import ses.service.bms.UserServiceI;
+import ses.service.ems.ExpertAttachmentService;
 import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertCategoryService;
 import ses.service.ems.ExpertService;
@@ -57,9 +59,11 @@ public class ExpertController {
 	@Autowired
 	private TodosService toDosService;//待办管理
 	@Autowired
-	private ExpertAuditService expertAuditService;
+	private ExpertAuditService expertAuditService; //审核信息管理
 	@Autowired
-	private ExpertCategoryService expertCategoryService;
+	private ExpertCategoryService expertCategoryService;//专家类别中间表
+	@Autowired
+	private ExpertAttachmentService attachmentService;//附件管理
 	/**
 	 * 
 	  * @Title: toExpert
@@ -73,7 +77,17 @@ public class ExpertController {
 	public String toExpert(){
 		return "ses/ems/expert/expertRegister";
 	}
-	
+	/**
+	 * 
+	  * @Title: view
+	  * @author ShaoYangYang
+	  * @date 2016年9月29日 上午11:03:50  
+	  * @Description: TODO 查看专家信息
+	  * @param @param id
+	  * @param @param model
+	  * @param @return      
+	  * @return String
+	 */
 	@RequestMapping("/view")
 	public String view(@RequestParam("id")String id,Model model){
 		//查询出专家
@@ -86,6 +100,9 @@ public class ExpertController {
 			PurchaseDep purchaseDep = depList.get(0);
 			model.addAttribute("purchase", purchaseDep);
 		}
+		//附件信息
+		List<ExpertAttachment> attachmentList = attachmentService.selectListByExpertId(id);
+		model.addAttribute("attachmentList", attachmentList);
 		model.addAttribute("expert", expert);
 		
 		return "ses/ems/expert/view";
@@ -142,6 +159,7 @@ public class ExpertController {
 		expert.setId(UUID.randomUUID().toString());
 		request.setAttribute("user", expert);
 		//model.addAttribute("expert", expert);
+		expert.setTypeName(5);
 		userService.save(expert, null);
 		attr.addAttribute("userId", expert.getId());
 		return "redirect:toAddBasicInfo.html";
@@ -189,6 +207,9 @@ public class ExpertController {
 			PurchaseDep purchaseDep = depList.get(0);
 			model.addAttribute("purchase", purchaseDep);
 		  }
+		//附件信息
+		List<ExpertAttachment> attachmentList = attachmentService.selectListByExpertId(id);
+		model.addAttribute("attachmentList", attachmentList);
 		model.addAttribute("expert", expert);
 		return "ses/ems/expert/edit_basic_info";
 	}
@@ -213,6 +234,9 @@ public class ExpertController {
 			PurchaseDep purchaseDep = depList.get(0);
 			model.addAttribute("purchase", purchaseDep);
 		  }
+		//附件信息
+		List<ExpertAttachment> attachmentList = attachmentService.selectListByExpertId(id);
+		model.addAttribute("attachmentList", attachmentList);
 		request.setAttribute("expert", expert);
 		return "ses/ems/expert/shenHe";
 	}
@@ -252,16 +276,27 @@ public class ExpertController {
 		User user = (User)session.getAttribute("loginUser");
 		//判断用户的类型为专家类型
 		if(user!=null && user.getTypeName()==5){
-			Expert expert = service.selectByPrimaryKey(user.getTypeId());
+			String typeId = user.getTypeId();
+			if(typeId!=null && StringUtils.isNotEmpty(typeId)){
+			Expert expert = service.selectByPrimaryKey(typeId);
 			HashMap<String, Object> map = new HashMap<>();
-			map .put("id", expert.getPurchaseDepId());
-			//采购机构
-			List<PurchaseDep> depList = purchaseOrgnizationService.findPurchaseDepList(map);
-			  if(depList!=null && depList.size()>0){
-				PurchaseDep purchaseDep = depList.get(0);
-				model.addAttribute("purchase", purchaseDep);
-			  }
-			model.addAttribute("expert", expert);
+				 if(expert!=null){
+				 String purchaseDepId = expert.getPurchaseDepId();
+				 	if(purchaseDepId!=null && StringUtils.isNotEmpty(purchaseDepId)){
+				      map .put("id", purchaseDepId);
+				      //采购机构
+				      List<PurchaseDep> depList = purchaseOrgnizationService.findPurchaseDepList(map);
+				      if(depList!=null && depList.size()>0){
+					   PurchaseDep purchaseDep = depList.get(0);
+					   model.addAttribute("purchase", purchaseDep);
+				      }
+				    }
+				model.addAttribute("expert", expert);
+			    }
+				 //附件信息
+				 List<ExpertAttachment> attachmentList = attachmentService.selectListByExpertId(typeId);
+				 model.addAttribute("attachmentList", attachmentList);
+		    }
 		}
 		return "ses/ems/expert/person_info";
 	}
@@ -578,7 +613,20 @@ public class ExpertController {
 			}
 			return "2";
 		}
-	 
+		/**
+		 * 
+		  * @Title: downLoadFile
+		  * @author ShaoYangYang
+		  * @date 2016年9月29日 下午1:52:19  
+		  * @Description: TODO 根据附件id下载附件
+		  * @param @param attachmentId
+		  * @param @return      
+		  * @return ResponseEntity<byte[]>
+		 */
+	  @RequestMapping("/downLoadFile")
+	  public ResponseEntity<byte[]> downLoadFile(@RequestParam("attachmentId")String attachmentId){
+		 return  attachmentService.downloadFile(attachmentId);
+	  }
 	 /**
 	  * 
 	   * @Title: download

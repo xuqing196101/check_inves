@@ -220,11 +220,15 @@ public class ExpertServiceImpl implements ExpertService {
     			expert2.setMobile(expert.getMobile());
     			mapper.updateByPrimaryKeySelective(expert2);
     		}else{
+    			Expert expert3 = new Expert();
     			//否则为新增个人信息
-    			expert.setId(WfUtil.createUUID());
-    			user.setTypeId(expert.getId());
+    			expert3.setId(WfUtil.createUUID());
+    			expert3.setTelephone(expert.getTelephone());
+    			expert3.setUnitAddress(expert.getUnitAddress());
+    			expert3.setMobile(expert.getMobile());
+    			user.setTypeId(expert3.getId());
     			//新增个人信息
-    			mapper.insertSelective(expert);
+    			mapper.insertSelective(expert3);
     			//更新登录用户信息
     			userMapper.updateByPrimaryKeySelective(user);
     		}

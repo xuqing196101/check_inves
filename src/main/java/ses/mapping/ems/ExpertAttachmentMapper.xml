@@ -17,6 +17,13 @@
     ID, CONTENT_TYPE, FILE_NAME, FILE_SIZE, CREATE_AT, UPDATE_AT, EXPERT_ID, FILE_PATH, 
     IS_DELETE, IS_HISTORY
   </sql>
+  <!--根据专家id查询附件集合  -->
+  <select id="selectListByExpertId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_EMS_EXPERT_ATTACHMENT
+    where EXPERT_ID = #{expertId,jdbcType=VARCHAR} and IS_DELETE != 1 and IS_HISTORY != 1
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
