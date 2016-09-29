@@ -61,7 +61,8 @@
         var name = $("input[name='name']").val();
         loadTree(name);
     }
-    <%--  function add(){
+    
+      function add(){
         var pid = $("#mid").val();
         layer.open({
           type: 2, //page层
@@ -74,7 +75,8 @@
           offset: ['120px', '550px'],
           shadeClose: false,
           content: '<%=basePath%>area/add.html?pid='+pid
-        }); --%>
+        }); 
+        }
 </script>
 
 </head>
@@ -114,7 +116,8 @@
                         </div>
                     </div>
                     <div style="margin-bottom: 6px; ">
-                        <!-- <button class="btn btn-windows add" type="button" onclick="add()">新增</button> -->
+                        <button class="btn btn-windows add" type="button" onclick="add()">新增</button> 
+                        <input type="hidden" name="nodeId" id="mid">
                        
                     </div>
                     <div class="tag-box tag-box-v4 col-md-9" id="show_content_div">

@@ -1,5 +1,6 @@
 package ses.controller.sys.bms;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.Area;
 import ses.model.bms.AreaZtree;
+import ses.model.bms.PreMenu;
 import ses.service.bms.AreaServiceI;
 
 import com.alibaba.fastjson.JSONObject;
@@ -90,18 +93,46 @@ public class AreaController {
 		//model.addAttribute("aa", list1);
 		return ee;
 	}
+	/**
+	 * 
+	* @Title: add
+	* @author FengTian
+	* @date 2016-9-29 下午3:47:27  
+	* @Description: 跳转添加页面 
+	* @param @param request
+	* @param @param model
+	* @param @return      
+	* @return String
+	 */
 	@RequestMapping("/add")
-	public String add(Area area,Model model){
-		model.addAttribute("id", area.getId());
+	public String add(HttpServletRequest request, Model model){
+		String pid = request.getParameter("pid");
+		Area area = areaService.listById(pid);
+		model.addAttribute("area", area);
 		return "ses/bms/area/add";
 	}
+	/**
+	 * 
+	* @Title: save
+	* @author FengTian
+	* @date 2016-9-29 下午3:47:40  
+	* @Description: 添加地区 
+	* @param @param area
+	* @param @return      
+	* @return String
+	 */
 	@RequestMapping("/save")
-	public String save(Area area,Model model){
+	@ResponseBody
+	public String save(Area area){
+		Area aa = null;
+		if(area.getId() != null && !"".equals(area.getId())){
+			aa = areaService.listById(area.getId());
+		}
+		area.setAreaType(aa.getId());
 		area.setIsDeleted(0);
 		area.setCreatedAt(new Date());
-		
 		areaService.save(area);
-		return "redirect:list.html";
+		String msg = "{\"msg\":\"success\"}";
+		return msg;
 	}
-
 }
