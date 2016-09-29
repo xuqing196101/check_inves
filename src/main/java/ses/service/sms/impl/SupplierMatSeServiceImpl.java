@@ -19,7 +19,7 @@ public class SupplierMatSeServiceImpl implements SupplierMatSeService {
 	public void saveOrUpdateSupplierMatSe(Supplier supplier) {
 		String id = supplier.getSupplierMatSe().getId();
 		if (id != null && !"".equals(id)) {
-			supplier.getSupplierMatSell().setUpdatedAt(new Date());
+			supplier.getSupplierMatSe().setUpdatedAt(new Date());
 			supplierMatSeMapper.updateByPrimaryKeySelective(supplier.getSupplierMatSe());
 		} else {
 			supplier.getSupplierMatPro().setCreatedAt(new Date());

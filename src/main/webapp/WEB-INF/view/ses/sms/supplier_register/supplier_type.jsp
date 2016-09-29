@@ -76,7 +76,7 @@
 			}
 			ids += $(nodes[i]).attr("id");
 		}
-		$("#supplier_type_input_id").val(ids);
+		$("input[name='supplierTypeIds']").val(ids);
 		$("#supplier_type_form_id").attr("action", action);
 		$("#supplier_type_form_id").submit();
 	}
@@ -131,7 +131,7 @@
 	<form id="supplier_type_form_id" method="post">
 		<input name="id" type="hidden" value="${currSupplier.id}" />
 		<input name="sign" type="hidden" value="3" />
-		<input id="supplier_type_input_id" name="supplierTypeIds" type="hidden" />
+		<input name="supplierTypeIds" type="hidden" />
 	</form>
 	
 	<!-- footer -->

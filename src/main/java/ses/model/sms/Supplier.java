@@ -454,6 +454,10 @@ public class Supplier implements Serializable {
 		this.passDate = passDate;
 	}
 
+	private String supplierTypeNames;
+
+	private List<String> listSupplierTypeNames = new ArrayList<String>();
+
 	public String getId() {
 		return id;
 	}
@@ -886,14 +890,6 @@ public class Supplier implements Serializable {
 		this.listSupplierStockholders = listSupplierStockholders;
 	}
 
-	public String getSupplierTypeIds() {
-		return supplierTypeIds;
-	}
-
-	public void setSupplierTypeIds(String supplierTypeIds) {
-		this.supplierTypeIds = supplierTypeIds;
-	}
-
 	public SupplierMatPro getSupplierMatPro() {
 		return supplierMatPro;
 	}
@@ -924,5 +920,29 @@ public class Supplier implements Serializable {
 
 	public void setSupplierMatEng(SupplierMatEng supplierMatEng) {
 		this.supplierMatEng = supplierMatEng;
+	}
+
+	public String getSupplierTypeNames() {
+		return supplierTypeNames;
+	}
+
+	public void setSupplierTypeNames(String supplierTypeNames) {
+		this.supplierTypeNames = supplierTypeNames;
+	}
+
+	public List<String> getListSupplierTypeNames() {
+		return listSupplierTypeNames;
+	}
+
+	public void setListSupplierTypeNames(List<String> listSupplierTypeNames) {
+		this.listSupplierTypeNames = listSupplierTypeNames;
+	}
+
+	public String getSupplierTypeIds() {
+		return supplierTypeIds;
+	}
+
+	public void setSupplierTypeIds(String supplierTypeIds) {
+		this.supplierTypeIds = supplierTypeIds;
 	}
 }

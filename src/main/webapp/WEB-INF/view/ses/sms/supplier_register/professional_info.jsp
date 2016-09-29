@@ -1,6 +1,7 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -39,7 +40,9 @@
 		if (defaultPage) {
 			var num = defaultPage.charAt(defaultPage.length - 1);
 			$("#page_ul_id").find("li").each(function(index) {
-				if (index == num - 1) {
+				var liId = $(this).attr("id");
+				var liNum = liId.charAt(liId.length - 1);
+				if (liNum == num) {
 					$(this).attr("class", "active");
 				} else {
 					$(this).removeAttr("class");
@@ -48,6 +51,21 @@
 			$(".tab-pane").each(function() {
 				var id = $(this).attr("id");
 				if (id == defaultPage) {
+					$(this).attr("class", "tab-pane fade height-300 active in");
+				} else {
+					$(this).attr("class", "tab-pane fade height-300");
+				}
+			});
+		} else {
+			$("#page_ul_id").find("li").each(function(index) {
+				if (index == 0) {
+					$(this).attr("class", "active");
+				} else {
+					$(this).removeAttr("class");
+				}
+			});
+			$(".tab-pane").each(function(index) {
+				if (index == 0) {
 					$(this).attr("class", "tab-pane fade height-300 active in");
 				} else {
 					$(this).attr("class", "tab-pane fade height-300");
@@ -421,6 +439,11 @@
 			});
 		}
 	}
+	
+	function downloadFile(fileName) {
+		$("input[name='fileName']").val(fileName);
+		$("#download_form_id").submit();
+	}
 </script>
 
 </head>
@@ -452,503 +475,556 @@
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10">
 						<ul id="page_ul_id" class="nav nav-tabs bgdd">
-							<li id="li_id_1" class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="s_news f18">物资-生产型专业信息</a></li>
-							<li id="li_id_2" class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="fujian f18">物资-销售型专业信息</a></li>
-							<li id="li_id_3" class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="fujian f18">工程专业信息</a></li>
-							<li id="li_id_4" class=""><a aria-expanded="false" href="#tab-4" data-toggle="tab" class="fujian f18">服务专业信息</a></li>
+							<c:if test="${fn:contains(currSupplier.supplierTypeNames, '生产型')}">
+								<li id="li_id_1" class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="s_news f18">物资-生产型专业信息</a></li>
+							</c:if>
+							<c:if test="${fn:contains(currSupplier.supplierTypeNames, '销售型')}">
+								<li id="li_id_2" class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="fujian f18">物资-销售型专业信息</a></li>
+							</c:if>
+							<c:if test="${fn:contains(currSupplier.supplierTypeNames, '工程')}">
+								<li id="li_id_3" class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="fujian f18">工程专业信息</a></li>
+							</c:if>
+							<c:if test="${fn:contains(currSupplier.supplierTypeNames, '服务')}">
+								<li id="li_id_4" class=""><a aria-expanded="false" href="#tab-4" data-toggle="tab" class="fujian f18">服务专业信息</a></li>
+							</c:if>
 						</ul>
 						<form id="save_pro_form_id" method="post">
 							<input type="hidden" name="id" value="${currSupplier.id}" />
-							<input type="hidden" name="supplierMatPro.id" value="${currSupplier.supplierMatPro.id}" />
 							<input type="hidden" name="sign" value="4" />
-							<input type="hidden" name="supplierMatPro.supplierId" value="${currSupplier.id}" />
 							<input type="hidden" name="defaultPage" value="${defaultPage}" />
 							<div class="tab-content padding-top-20">
+							
 								<!-- 物资生产型专业信息 -->
-								<div class="tab-pane fade active in height-450" id="tab-1">
-									<div class=" margin-bottom-0">
-										<h2 class="f16 jbxx">
-											<i>01</i>供应商组织机构和人员
-										</h2>
-										<ul class="list-unstyled list-flow">
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 组织机构：</span>
-												<div class="input-append">
-													<input class="span3" id="supplierName_input_id" type="text" name="supplierMatPro.orgName" value="${currSupplier.supplierMatPro.orgName}" />
-												</div>
-											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 人员总数：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="supplierMatPro.totalPerson" value="${currSupplier.supplierMatPro.totalPerson}" />
-												</div>
-											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 管理人员：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="supplierMatPro.totalMange" />
-												</div>
-											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i>技术人员：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="supplierMatPro.totalTech" />
-												</div>
-											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i>工人：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="supplierMatPro.totalWorker" />
-												</div>
-											</li>
-											<div class="clear"></div>
-										</ul>
-
-
-										<h2 class="f16 jbxx mt40">
-											<i>02</i>产品研发能力
-										</h2>
-										<ul class="list-unstyled list-flow">
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i>技术人员比例(%)：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="supplierMatPro.scaleTech" />
-												</div>
-											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i>高级技术人员比例：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="supplierMatPro.scaleHeightTech" />
-												</div>
-											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i>研发部门名称：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="supplierMatPro.researchName" />
-												</div>
-											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i>研发部门人数：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="supplierMatPro.totalResearch" />
-												</div>
-											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i>研发部门负责人：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="supplierMatPro.researchLead" />
-												</div>
-											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i>国家军队科研项目：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="supplierMatPro.countryPro" />
-												</div>
-											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i>国家军队科技奖项：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="supplierMatPro.countryReward" />
-												</div>
-											</li>
-											<div class="clear"></div>
-										</ul>
-
-										<h2 class="f16 jbxx mt40">
-											<i>03</i>供应商生产能力
-										</h2>
-										<ul class="list-unstyled list-flow">
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 生产线名称数量：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="supplierMatPro.totalBeltline" />
-												</div>
-											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 生产设备名称数量：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="supplierMatPro.totalDevice" />
-												</div>
-											</li>
-											<div class="clear"></div>
-										</ul>
-										<h2 class="f16 jbxx mt40">
-											<i>04</i>物资生产型供应商质量检测能力登记
-										</h2>
-										<ul class="list-unstyled list-flow">
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 质量检测部门：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="supplierMatPro.qcName" />
-												</div>
-											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 质量部门人数：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="supplierMatPro.totalQc" />
-												</div>
-											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 质监部门负责人：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="supplierMatPro.qcLead" />
-												</div>
-											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 质量检测设备名称：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="supplierMatPro.qcDevice" />
-												</div>
-											</li>
-											<div class="clear"></div>
-										</ul>
-										<h2 class="f16 jbxx mt40">
-											<i>05</i>供应商资质证书
-										</h2>
-										<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteCertPro()">删除</button>
-										<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="openCertPro()">新增</button>
-										<table class="table table-bordered table-condensed">
-											<thead>
-												<tr>
-													<th class="info"><input type="checkbox" onchange="checkAll(this, 'cert_pro_list_tbody_id')"/></th>
-													<th class="info">资质证书名称</th>
-													<th class="info">资质等级</th>
-													<th class="info">发证机关</th>
-													<th class="info">有效期（起止时间）</th>
-													<th class="info">有效期（结束时间）</th>
-													<th class="info">是否年检</th>
-													<th class="info">附件</th>
-												</tr>
-											</thead>
-											<tbody id="cert_pro_list_tbody_id">
-												<c:forEach items="${currSupplier.supplierMatPro.listSupplierCertPros}" var="certPro" varStatus="vs">
+								<c:if test="${fn:contains(currSupplier.supplierTypeNames, '生产型')}">
+									<input type="hidden" name="supplierMatPro.id" value="${currSupplier.supplierMatPro.id}" />
+									<input type="hidden" name="supplierMatPro.supplierId" value="${currSupplier.id}" />
+									<div class="tab-pane fade active in height-450" id="tab-1">
+										<div class=" margin-bottom-0">
+											<h2 class="f16 jbxx">
+												<i>01</i>供应商组织机构和人员
+											</h2>
+											<ul class="list-unstyled list-flow">
+												<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 组织机构：</span>
+													<div class="input-append">
+														<input class="span3" id="supplierName_input_id" type="text" name="supplierMatPro.orgName" value="${currSupplier.supplierMatPro.orgName}" />
+													</div>
+												</li>
+												<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 人员总数：</span>
+													<div class="input-append">
+														<input class="span3" type="text" name="supplierMatPro.totalPerson" value="${currSupplier.supplierMatPro.totalPerson}" />
+													</div>
+												</li>
+												<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 管理人员：</span>
+													<div class="input-append">
+														<input class="span3" type="text" name="supplierMatPro.totalMange" />
+													</div>
+												</li>
+												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>技术人员：</span>
+													<div class="input-append">
+														<input class="span3" type="text" name="supplierMatPro.totalTech" />
+													</div>
+												</li>
+												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>工人：</span>
+													<div class="input-append">
+														<input class="span3" type="text" name="supplierMatPro.totalWorker" />
+													</div>
+												</li>
+												<div class="clear"></div>
+											</ul>
+	
+	
+											<h2 class="f16 jbxx mt40">
+												<i>02</i>产品研发能力
+											</h2>
+											<ul class="list-unstyled list-flow">
+												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>技术人员比例(%)：</span>
+													<div class="input-append">
+														<input class="span3" type="text" name="supplierMatPro.scaleTech" />
+													</div>
+												</li>
+												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>高级技术人员比例：</span>
+													<div class="input-append">
+														<input class="span3" type="text" name="supplierMatPro.scaleHeightTech" />
+													</div>
+												</li>
+												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>研发部门名称：</span>
+													<div class="input-append">
+														<input class="span3" type="text" name="supplierMatPro.researchName" />
+													</div>
+												</li>
+												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>研发部门人数：</span>
+													<div class="input-append">
+														<input class="span3" type="text" name="supplierMatPro.totalResearch" />
+													</div>
+												</li>
+												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>研发部门负责人：</span>
+													<div class="input-append">
+														<input class="span3" type="text" name="supplierMatPro.researchLead" />
+													</div>
+												</li>
+												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>国家军队科研项目：</span>
+													<div class="input-append">
+														<input class="span3" type="text" name="supplierMatPro.countryPro" />
+													</div>
+												</li>
+												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>国家军队科技奖项：</span>
+													<div class="input-append">
+														<input class="span3" type="text" name="supplierMatPro.countryReward" />
+													</div>
+												</li>
+												<div class="clear"></div>
+											</ul>
+	
+											<h2 class="f16 jbxx mt40">
+												<i>03</i>供应商生产能力
+											</h2>
+											<ul class="list-unstyled list-flow">
+												<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 生产线名称数量：</span>
+													<div class="input-append">
+														<input class="span3" type="text" name="supplierMatPro.totalBeltline" />
+													</div>
+												</li>
+												<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 生产设备名称数量：</span>
+													<div class="input-append">
+														<input class="span3" type="text" name="supplierMatPro.totalDevice" />
+													</div>
+												</li>
+												<div class="clear"></div>
+											</ul>
+											<h2 class="f16 jbxx mt40">
+												<i>04</i>物资生产型供应商质量检测能力登记
+											</h2>
+											<ul class="list-unstyled list-flow">
+												<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 质量检测部门：</span>
+													<div class="input-append">
+														<input class="span3" type="text" name="supplierMatPro.qcName" />
+													</div>
+												</li>
+												<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 质量部门人数：</span>
+													<div class="input-append">
+														<input class="span3" type="text" name="supplierMatPro.totalQc" />
+													</div>
+												</li>
+												<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 质监部门负责人：</span>
+													<div class="input-append">
+														<input class="span3" type="text" name="supplierMatPro.qcLead" />
+													</div>
+												</li>
+												<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 质量检测设备名称：</span>
+													<div class="input-append">
+														<input class="span3" type="text" name="supplierMatPro.qcDevice" />
+													</div>
+												</li>
+												<div class="clear"></div>
+											</ul>
+											<h2 class="f16 jbxx mt40">
+												<i>05</i>供应商资质证书
+											</h2>
+											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteCertPro()">删除</button>
+											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="openCertPro()">新增</button>
+											<table class="table table-bordered table-condensed">
+												<thead>
 													<tr>
-														<td class="tc"><input type="checkbox" value="${certPro.id}" /></td>
-														<td class="tc">${certPro.name}</td>
-														<td class="tc">${certPro.levelCert}</td>
-														<td class="tc">${certPro.licenceAuthorith}</td>
-														<td class="tc"><fmt:formatDate value="${certPro.expStartDate}" pattern="yyyy-MM-dd" /></td>
-														<td class="tc"><fmt:formatDate value="${certPro.expEndDate}" pattern="yyyy-MM-dd" /></td>
-														<td class="tc">${certPro.mot}</td>
-														<td class="tc">${certPro.attach}</td>
+														<th class="info"><input type="checkbox" onchange="checkAll(this, 'cert_pro_list_tbody_id')"/></th>
+														<th class="info">资质证书名称</th>
+														<th class="info">资质等级</th>
+														<th class="info">发证机关</th>
+														<th class="info">有效期（起止时间）</th>
+														<th class="info">有效期（结束时间）</th>
+														<th class="info">是否年检</th>
+														<th class="info">附件</th>
 													</tr>
-												</c:forEach>
-											</tbody>
-										</table>
-										<h2 class="f16 jbxx mt40">
-											<i>06</i>可提供品目类别
-										</h2>
-										<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteItemsPro()">删除</button>
-										<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="openItemsPro()">新增</button>
-										<table class="table table-bordered table-condensed">
-											<thead>
-												<tr>
-													<th class="info"><input type="checkbox"/></th>
-													<th class="info">品目类别</th>
-													<th class="info">大类名称</th>
-													<th class="info">中类名称</th>
-													<th class="info">小类名称</th>
-													<th class="info">品种名称</th>
-												</tr>
-											</thead>
-											<tbody id="items_sell_list_tbody_id">
-												<c:forEach items="${currSupplier.supplierMatPro.listSupplierItemsPros}" var="itemsPro" varStatus="vs">
+												</thead>
+												<tbody id="cert_pro_list_tbody_id">
+													<c:forEach items="${currSupplier.supplierMatPro.listSupplierCertPros}" var="certPro" varStatus="vs">
+														<tr>
+															<td class="tc"><input type="checkbox" value="${certPro.id}" /></td>
+															<td class="tc">${certPro.name}</td>
+															<td class="tc">${certPro.levelCert}</td>
+															<td class="tc">${certPro.licenceAuthorith}</td>
+															<td class="tc"><fmt:formatDate value="${certPro.expStartDate}" pattern="yyyy-MM-dd" /></td>
+															<td class="tc"><fmt:formatDate value="${certPro.expEndDate}" pattern="yyyy-MM-dd" /></td>
+															<td class="tc">${certPro.mot}</td>
+															<td class="tc">
+																<c:if test="${certPro.attach != null}">
+																	<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${certPro.attach}')">下载附件</a>
+																</c:if>
+																<c:if test="${certPro.attach == null}">
+																	<span class="fz11">无附件下载</span>
+																</c:if>
+															</td>
+														</tr>
+													</c:forEach>
+												</tbody>
+											</table>
+											<h2 class="f16 jbxx mt40">
+												<i>06</i>可提供品目类别
+											</h2>
+											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteItemsPro()">删除</button>
+											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="openItemsPro()">新增</button>
+											<table class="table table-bordered table-condensed">
+												<thead>
 													<tr>
-														<td class="tc"><input type="checkbox" value="${itemsPro.id}" /></td>
-														<td class="tc">${itemsPro.itemsId}</td>
-														<td class="tc">${itemsPro.bigKindName}</td>
-														<td class="tc">${itemsPro.normalKindName}</td>
-														<td class="tc">${itemsPro.smallKingName}</td>
-														<td class="tc">${itemsPro.kindName}</td>
+														<th class="info"><input type="checkbox"/></th>
+														<th class="info">品目类别</th>
+														<th class="info">大类名称</th>
+														<th class="info">中类名称</th>
+														<th class="info">小类名称</th>
+														<th class="info">品种名称</th>
 													</tr>
-												</c:forEach>
-											</tbody>
-										</table>
-										
+												</thead>
+												<tbody id="items_sell_list_tbody_id">
+													<c:forEach items="${currSupplier.supplierMatPro.listSupplierItemsPros}" var="itemsPro" varStatus="vs">
+														<tr>
+															<td class="tc"><input type="checkbox" value="${itemsPro.id}" /></td>
+															<td class="tc">${itemsPro.itemsId}</td>
+															<td class="tc">${itemsPro.bigKindName}</td>
+															<td class="tc">${itemsPro.normalKindName}</td>
+															<td class="tc">${itemsPro.smallKingName}</td>
+															<td class="tc">${itemsPro.kindName}</td>
+														</tr>
+													</c:forEach>
+												</tbody>
+											</table>
+										</div>
 									</div>
-								</div>
+								</c:if>
 								
 								<!-- 物资销售型专业信息 -->
-								<div class="tab-pane fade height-300" id="tab-2">
-									<input type="hidden" name="supplierMatSell.id" value="${currSupplier.supplierMatSell.id}" />
-									<input type="hidden" name="supplierMatSell.supplierId" value="${currSupplier.id}" />
-									<div class=" margin-bottom-0">
-										<h2 class="f16 jbxx">
-											<i>01</i>供应商组织机构和人员
-										</h2>
-										<ul class="list-unstyled list-flow">
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 组织机构：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="supplierMatSell.orgName" value="${currSupplier.supplierMatSell.orgName}" />
-												</div>
-											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 人员总数：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="supplierMatSell.totalPerson" value="${currSupplier.supplierMatSell.totalPerson}" />
-												</div>
-											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 管理人员：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="supplierMatSell.totalMange" value="${currSupplier.supplierMatSell.totalMange}" />
-												</div>
-											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i>技术人员：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="supplierMatSell.totalTech" value="${currSupplier.supplierMatSell.totalTech}" />
-												</div>
-											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i>工人（职员）：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="supplierMatSell.totalWorker" value="${currSupplier.supplierMatSell.totalWorker}" />
-												</div>
-											</li>
-											<div class="clear"></div>
-										</ul>
-										<h2 class="f16 jbxx mt40">
-											<i>02</i>供应商资质证书
-										</h2>
-										<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteCertSell()">删除</button>
-										<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="openCertSell()">新增</button>
-										<table class="table table-bordered table-condensed">
-											<thead>
-												<tr>
-													<th class="info"><input type="checkbox" onchange="checkAll(this, 'cert_sell_list_tbody_id')" /></th>
-													<th class="info">资质证书名称</th>
-													<th class="info">资质等级</th>
-													<th class="info">发证机关</th>
-													<th class="info">有效期（起止时间）</th>
-													<th class="info">有效期（结束时间）</th>
-													<th class="info">是否年检</th>
-													<th class="info">附件</th>
-												</tr>
-											</thead>
-											<tbody id="cert_sell_list_tbody_id">
-												<c:forEach items="${currSupplier.supplierMatSell.listSupplierCertSells}" var="certSell" varStatus="vs">
+								<c:if test="${fn:contains(currSupplier.supplierTypeNames, '销售型')}">
+									<div class="tab-pane fade height-300" id="tab-2">
+										<input type="hidden" name="supplierMatSell.id" value="${currSupplier.supplierMatSell.id}" />
+										<input type="hidden" name="supplierMatSell.supplierId" value="${currSupplier.id}" />
+										<div class=" margin-bottom-0">
+											<h2 class="f16 jbxx">
+												<i>01</i>供应商组织机构和人员
+											</h2>
+											<ul class="list-unstyled list-flow">
+												<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 组织机构：</span>
+													<div class="input-append">
+														<input class="span3" type="text" name="supplierMatSell.orgName" value="${currSupplier.supplierMatSell.orgName}" />
+													</div>
+												</li>
+												<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 人员总数：</span>
+													<div class="input-append">
+														<input class="span3" type="text" name="supplierMatSell.totalPerson" value="${currSupplier.supplierMatSell.totalPerson}" />
+													</div>
+												</li>
+												<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 管理人员：</span>
+													<div class="input-append">
+														<input class="span3" type="text" name="supplierMatSell.totalMange" value="${currSupplier.supplierMatSell.totalMange}" />
+													</div>
+												</li>
+												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>技术人员：</span>
+													<div class="input-append">
+														<input class="span3" type="text" name="supplierMatSell.totalTech" value="${currSupplier.supplierMatSell.totalTech}" />
+													</div>
+												</li>
+												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>工人（职员）：</span>
+													<div class="input-append">
+														<input class="span3" type="text" name="supplierMatSell.totalWorker" value="${currSupplier.supplierMatSell.totalWorker}" />
+													</div>
+												</li>
+												<div class="clear"></div>
+											</ul>
+											<h2 class="f16 jbxx mt40">
+												<i>02</i>供应商资质证书
+											</h2>
+											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteCertSell()">删除</button>
+											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="openCertSell()">新增</button>
+											<table class="table table-bordered table-condensed">
+												<thead>
 													<tr>
-														<td class="tc"><input type="checkbox" value="${certSell.id}" /></td>
-														<td class="tc">${certSell.name}</td>
-														<td class="tc">${certSell.levelCert}</td>
-														<td class="tc">${certSell.licenceAuthorith}</td>
-														<td class="tc"><fmt:formatDate value="${certSell.expStartDate}" pattern="yyyy-MM-dd" /></td>
-														<td class="tc"><fmt:formatDate value="${certSell.expEndDate}" pattern="yyyy-MM-dd" /></td>
-														<td class="tc">${certSell.mot}</td>
-														<td class="tc">${certSell.attach}</td>
+														<th class="info"><input type="checkbox" onchange="checkAll(this, 'cert_sell_list_tbody_id')" /></th>
+														<th class="info">资质证书名称</th>
+														<th class="info">资质等级</th>
+														<th class="info">发证机关</th>
+														<th class="info">有效期（起止时间）</th>
+														<th class="info">有效期（结束时间）</th>
+														<th class="info">是否年检</th>
+														<th class="info">附件</th>
 													</tr>
-												</c:forEach>
-											</tbody>
-										</table>
+												</thead>
+												<tbody id="cert_sell_list_tbody_id">
+													<c:forEach items="${currSupplier.supplierMatSell.listSupplierCertSells}" var="certSell" varStatus="vs">
+														<tr>
+															<td class="tc"><input type="checkbox" value="${certSell.id}" /></td>
+															<td class="tc">${certSell.name}</td>
+															<td class="tc">${certSell.levelCert}</td>
+															<td class="tc">${certSell.licenceAuthorith}</td>
+															<td class="tc"><fmt:formatDate value="${certSell.expStartDate}" pattern="yyyy-MM-dd" /></td>
+															<td class="tc"><fmt:formatDate value="${certSell.expEndDate}" pattern="yyyy-MM-dd" /></td>
+															<td class="tc">${certSell.mot}</td>
+															<td class="tc">
+																<c:if test="${certSell.attach != null}">
+																	<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${certSell.attach}')">下载附件</a>
+																</c:if>
+																<c:if test="${certSell.attach == null}">
+																	<span class="fz11">无附件下载</span>
+																</c:if>
+															</td>
+														</tr>
+													</c:forEach>
+												</tbody>
+											</table>
+										</div>
 									</div>
-								</div>
+								</c:if>
+								
+								
 								
 								<!-- 工程专业信息 -->
-								<div class="tab-pane fade height-200" id="tab-3">
-									<input type="hidden" name="supplierMatEng.id" value="${currSupplier.supplierMatEng.id}" />
-									<input type="hidden" name="supplierMatEng.supplierId" value="${currSupplier.id}" />
-									<div class=" margin-bottom-0">
-										<h2 class="f16 jbxx">
-											<i>01</i>供应商组织机构和人员
-										</h2>
-										<ul class="list-unstyled list-flow">
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 组织机构：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="supplierMatEng.orgName" value="${currSupplier.supplierMatEng.orgName}" />
-												</div>
-											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 技术负责人：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="supplierMatEng.totalTech" value="${currSupplier.supplierMatEng.totalTech}" />
-												</div>
-											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 中级以上职称人员：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="supplierMatEng.totalGlNormal" value="${currSupplier.supplierMatEng.totalGlNormal}" />
-												</div>
-											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i>现场管理人员：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="supplierMatEng.totalMange" value="${currSupplier.supplierMatEng.totalMange}" />
-												</div>
-											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i>技术和工人：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="supplierMatEng.totalTechWorker" value="${currSupplier.supplierMatEng.totalTechWorker}" />
-												</div>
-											</li>
-											<div class="clear"></div>
-										</ul>
-										<h2 class="f16 jbxx mt40">
-											<i>02</i>供应商注册人员登记
-										</h2>
-										<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteRegPerson()">删除</button>
-										<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="openRegPerson()">新增</button>
-										<table class="table table-bordered table-condensed">
-											<thead>
-												<tr>
-													<th class="info"><input type="checkbox"  onchange="checkAll(this, 'reg_person_list_tbody_id')"/></th>
-													<th class="info">注册名称</th>
-													<th class="info">注册人数</th>
-												</tr>
-											</thead>
-											<tbody id="reg_person_list_tbody_id">
-												<c:forEach items="${currSupplier.supplierMatEng.listSupplierRegPersons}" var="regPerson" varStatus="vs">
+								<c:if test="${fn:contains(currSupplier.supplierTypeNames, '工程')}">
+									<div class="tab-pane fade height-200" id="tab-3">
+										<input type="hidden" name="supplierMatEng.id" value="${currSupplier.supplierMatEng.id}" />
+										<input type="hidden" name="supplierMatEng.supplierId" value="${currSupplier.id}" />
+										<div class=" margin-bottom-0">
+											<h2 class="f16 jbxx">
+												<i>01</i>供应商组织机构和人员
+											</h2>
+											<ul class="list-unstyled list-flow">
+												<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 组织机构：</span>
+													<div class="input-append">
+														<input class="span3" type="text" name="supplierMatEng.orgName" value="${currSupplier.supplierMatEng.orgName}" />
+													</div>
+												</li>
+												<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 技术负责人：</span>
+													<div class="input-append">
+														<input class="span3" type="text" name="supplierMatEng.totalTech" value="${currSupplier.supplierMatEng.totalTech}" />
+													</div>
+												</li>
+												<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 中级以上职称人员：</span>
+													<div class="input-append">
+														<input class="span3" type="text" name="supplierMatEng.totalGlNormal" value="${currSupplier.supplierMatEng.totalGlNormal}" />
+													</div>
+												</li>
+												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>现场管理人员：</span>
+													<div class="input-append">
+														<input class="span3" type="text" name="supplierMatEng.totalMange" value="${currSupplier.supplierMatEng.totalMange}" />
+													</div>
+												</li>
+												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>技术和工人：</span>
+													<div class="input-append">
+														<input class="span3" type="text" name="supplierMatEng.totalTechWorker" value="${currSupplier.supplierMatEng.totalTechWorker}" />
+													</div>
+												</li>
+												<div class="clear"></div>
+											</ul>
+											<h2 class="f16 jbxx mt40">
+												<i>02</i>供应商注册人员登记
+											</h2>
+											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteRegPerson()">删除</button>
+											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="openRegPerson()">新增</button>
+											<table class="table table-bordered table-condensed">
+												<thead>
 													<tr>
-														<td class="tc"><input type="checkbox" value="${regPerson.id}" /></td>
-														<td class="tc">${regPerson.regType}</td>
-														<td class="tc">${regPerson.regNumber}</td>
+														<th class="info"><input type="checkbox"  onchange="checkAll(this, 'reg_person_list_tbody_id')"/></th>
+														<th class="info">注册名称</th>
+														<th class="info">注册人数</th>
 													</tr>
-												</c:forEach>
-											</tbody>
-										</table>
-										<h2 class="f16 jbxx mt40">
-											<i>03</i>供应商资质资格证书信息
-										</h2>
-										<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteCertEng()">删除</button>
-										<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="openCertEng()">新增</button>
-										<table class="table table-bordered table-condensed">
-											<thead>
-												<tr>
-													<th class="info"><input type="checkbox" onchange="checkAll(this, 'cert_eng_list_tbody_id')"/></th>
-													<th class="info">资质资格类型</th>
-													<th class="info">证书编号</th>
-													<th class="info">资质资格最高等级</th>
-													<th class="info">技术负责人姓名</th>
-													<th class="info">技术负责人职称</th>
-													<th class="info">技术负责人职务</th>
-													<th class="info">单位负责人姓名</th>
-													<th class="info">单位负责人职称</th>
-													<th class="info">单位负责人职务</th>
-													<th class="info">发证机关</th>
-													<th class="info minw100">发证日期</th>
-													<th class="info minw100">证书有效期截止日期</th>
-													<th class="info">证书状态</th>
-													<th class="info">附件</th>
-												</tr>
-											</thead>
-											<tbody id="cert_eng_list_tbody_id">
-												<c:forEach items="${currSupplier.supplierMatEng.listSupplierCertEngs}" var="certEng" varStatus="vs">
+												</thead>
+												<tbody id="reg_person_list_tbody_id">
+													<c:forEach items="${currSupplier.supplierMatEng.listSupplierRegPersons}" var="regPerson" varStatus="vs">
+														<tr>
+															<td class="tc"><input type="checkbox" value="${regPerson.id}" /></td>
+															<td class="tc">${regPerson.regType}</td>
+															<td class="tc">${regPerson.regNumber}</td>
+														</tr>
+													</c:forEach>
+												</tbody>
+											</table>
+											<h2 class="f16 jbxx mt40">
+												<i>03</i>供应商资质资格证书信息
+											</h2>
+											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteCertEng()">删除</button>
+											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="openCertEng()">新增</button>
+											<table class="table table-bordered table-condensed">
+												<thead>
 													<tr>
-														<td class="tc"><input type="checkbox" value="${certEng.id}" /></td>
-														<td class="tc">${certEng.certType}</td>
-														<td class="tc">${certEng.certCode}</td>
-														<td class="tc">${certEng.certMaxLevel}</td>
-														<td class="tc">${certEng.techName}</td>
-														<td class="tc">${certEng.techPt}</td>
-														<td class="tc">${certEng.techJop}</td>
-														<td class="tc">${certEng.depName}</td>
-														<td class="tc">${certEng.depPt}</td>
-														<td class="tc">${certEng.depJop}</td>
-														<td class="tc">${certEng.licenceAuthorith}</td>
-														<td class="tc"><fmt:formatDate value="${certEng.expStartDate}" pattern="yyyy-MM-dd" /></td>
-														<td class="tc"><fmt:formatDate value="${certEng.expEndDate}" pattern="yyyy-MM-dd" /></td>
-														<td class="tc">${certEng.certStatus}</td>
-														<td class="tc">${certEng.attachCert}</td>
+														<th class="info"><input type="checkbox" onchange="checkAll(this, 'cert_eng_list_tbody_id')"/></th>
+														<th class="info">资质资格类型</th>
+														<th class="info">证书编号</th>
+														<th class="info">资质资格最高等级</th>
+														<th class="info">技术负责人姓名</th>
+														<th class="info">技术负责人职称</th>
+														<th class="info">技术负责人职务</th>
+														<th class="info">单位负责人姓名</th>
+														<th class="info">单位负责人职称</th>
+														<th class="info">单位负责人职务</th>
+														<th class="info">发证机关</th>
+														<th class="info minw100">发证日期</th>
+														<th class="info minw100">证书有效期截止日期</th>
+														<th class="info">证书状态</th>
+														<th class="info">附件</th>
 													</tr>
-												</c:forEach>
-											</tbody>
-										</table>
-										<h2 class="f16 jbxx mt40">
-											<i>04</i>供应商资质资格信息
-										</h2>
-										<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteAptitute()">删除</button>
-										<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="openAptitute()">新增</button>
-										<table class="table table-bordered table-condensed">
-											<thead>
-												<tr>
-													<th class="info"><input type="checkbox" onchange="checkAll(this, 'aptitute_list_tbody_id')"/></th>
-													<th class="info">资质资格类型</th>
-													<th class="info">证书编号</th>
-													<th class="info">资质资格序列</th>
-													<th class="info">专业类别</th>
-													<th class="info">资质资格等级</th>
-													<th class="info">是否主项资质</th>
-													<th class="info">批准资质资格内容</th>
-													<th class="info">首次批准资质资格文号</th>
-													<th class="info">首次批准资质资格日期</th>
-													<th class="info">资质资格取得方式</th>
-													<th class="info">资质资格状态</th>
-													<th class="info">资质资格状态变更时间</th>
-													<th class="info">资质资格状态变更原因</th>
-													<th class="info">附件</th>
-												</tr>
-											</thead>
-											<tbody id="aptitute_list_tbody_id">
-												<c:forEach items="${currSupplier.supplierMatEng.listSupplierAptitutes}" var="aptitute" varStatus="vs">
+												</thead>
+												<tbody id="cert_eng_list_tbody_id">
+													<c:forEach items="${currSupplier.supplierMatEng.listSupplierCertEngs}" var="certEng" varStatus="vs">
+														<tr>
+															<td class="tc"><input type="checkbox" value="${certEng.id}" /></td>
+															<td class="tc">${certEng.certType}</td>
+															<td class="tc">${certEng.certCode}</td>
+															<td class="tc">${certEng.certMaxLevel}</td>
+															<td class="tc">${certEng.techName}</td>
+															<td class="tc">${certEng.techPt}</td>
+															<td class="tc">${certEng.techJop}</td>
+															<td class="tc">${certEng.depName}</td>
+															<td class="tc">${certEng.depPt}</td>
+															<td class="tc">${certEng.depJop}</td>
+															<td class="tc">${certEng.licenceAuthorith}</td>
+															<td class="tc"><fmt:formatDate value="${certEng.expStartDate}" pattern="yyyy-MM-dd" /></td>
+															<td class="tc"><fmt:formatDate value="${certEng.expEndDate}" pattern="yyyy-MM-dd" /></td>
+															<td class="tc">${certEng.certStatus}</td>
+															<td class="tc">
+																<c:if test="${certEng.attachCert != null}">
+																	<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${certEng.attachCert}')">下载附件</a>
+																</c:if>
+																<c:if test="${certEng.attachCert == null}">
+																	<span class="fz11">无附件下载</span>
+																</c:if>
+															</td>
+														</tr>
+													</c:forEach>
+												</tbody>
+											</table>
+											<h2 class="f16 jbxx mt40">
+												<i>04</i>供应商资质资格信息
+											</h2>
+											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteAptitute()">删除</button>
+											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="openAptitute()">新增</button>
+											<table class="table table-bordered table-condensed">
+												<thead>
 													<tr>
-														<td class="tc"><input type="checkbox" value="${aptitute.id}" /></td>
-														<td class="tc">${aptitute.certType}</td>
-														<td class="tc">${aptitute.certCode}</td>
-														<td class="tc">${aptitute.aptituteSequence}</td>
-														<td class="tc">${aptitute.professType}</td>
-														<td class="tc">${aptitute.aptituteLevel}</td>
-														<td class="tc">${aptitute.isMajorFund}</td>
-														<td class="tc">${aptitute.aptituteContent}</td>
-														<td class="tc">${aptitute.aptituteCode}</td>
-														<td class="tc"><fmt:formatDate value="${aptitute.aptituteDate}" pattern="yyyy-MM-dd" /></td>
-														<td class="tc">${aptitute.aptituteWay}</td>
-														<td class="tc">${aptitute.aptituteStatus}</td>
-														<td class="tc"><fmt:formatDate value="${aptitute.aptituteChangeAt}" pattern="yyyy-MM-dd" /></td>
-														<td class="tc">${aptitute.aptituteChangeReason}</td>
-														<td class="tc">${aptitute.attachCert}</td>
+														<th class="info"><input type="checkbox" onchange="checkAll(this, 'aptitute_list_tbody_id')"/></th>
+														<th class="info">资质资格类型</th>
+														<th class="info">证书编号</th>
+														<th class="info">资质资格序列</th>
+														<th class="info">专业类别</th>
+														<th class="info">资质资格等级</th>
+														<th class="info">是否主项资质</th>
+														<th class="info">批准资质资格内容</th>
+														<th class="info">首次批准资质资格文号</th>
+														<th class="info">首次批准资质资格日期</th>
+														<th class="info">资质资格取得方式</th>
+														<th class="info">资质资格状态</th>
+														<th class="info">资质资格状态变更时间</th>
+														<th class="info">资质资格状态变更原因</th>
+														<th class="info">附件</th>
 													</tr>
-												</c:forEach>
-											</tbody>
-										</table>
+												</thead>
+												<tbody id="aptitute_list_tbody_id">
+													<c:forEach items="${currSupplier.supplierMatEng.listSupplierAptitutes}" var="aptitute" varStatus="vs">
+														<tr>
+															<td class="tc"><input type="checkbox" value="${aptitute.id}" /></td>
+															<td class="tc">${aptitute.certType}</td>
+															<td class="tc">${aptitute.certCode}</td>
+															<td class="tc">${aptitute.aptituteSequence}</td>
+															<td class="tc">${aptitute.professType}</td>
+															<td class="tc">${aptitute.aptituteLevel}</td>
+															<td class="tc">${aptitute.isMajorFund}</td>
+															<td class="tc">${aptitute.aptituteContent}</td>
+															<td class="tc">${aptitute.aptituteCode}</td>
+															<td class="tc"><fmt:formatDate value="${aptitute.aptituteDate}" pattern="yyyy-MM-dd" /></td>
+															<td class="tc">${aptitute.aptituteWay}</td>
+															<td class="tc">${aptitute.aptituteStatus}</td>
+															<td class="tc"><fmt:formatDate value="${aptitute.aptituteChangeAt}" pattern="yyyy-MM-dd" /></td>
+															<td class="tc">${aptitute.aptituteChangeReason}</td>
+															<td class="tc">
+																<c:if test="${aptitute.attachCert != null}">
+																	<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${aptitute.attachCert}')">下载附件</a>
+																</c:if>
+																<c:if test="${aptitute.attachCert == null}">
+																	<span class="fz11">无附件下载</span>
+																</c:if>
+															</td>
+														</tr>
+													</c:forEach>
+												</tbody>
+											</table>
+										</div>
 									</div>
-								</div>
+								</c:if>
 								
 								<!-- 服务专业信息 -->
-								<div class="tab-pane fade height-200" id="tab-4">
-									<input type="hidden" name="supplierMatSe.id" value="${currSupplier.supplierMatSe.id}" />
-									<input type="hidden" name="supplierMatSe.supplierId" value="${currSupplier.id}" />
-									<div class=" margin-bottom-0">
-										<h2 class="f16 jbxx">
-											<i>01</i>供应商组织机构和人员
-										</h2>
-										<ul class="list-unstyled list-flow">
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 组织机构：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="supplierMatSe.orgName" value="${currSupplier.supplierMatSe.orgName}" />
-												</div>
-											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 人员总数：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="supplierMatSe.totalPerson" value="${currSupplier.supplierMatSe.totalPerson}" />
-												</div>
-											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 管理人员：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="supplierMatSe.totalMange" value="${currSupplier.supplierMatSe.totalMange}" />
-												</div>
-											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i>技术人员：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="supplierMatSe.totalTech" value="${currSupplier.supplierMatSe.totalTech}" />
-												</div>
-											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i>工人（职员）：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="supplierMatSe.totalWorker" value="${currSupplier.supplierMatSe.totalWorker}" />
-												</div>
-											</li>
-											<div class="clear"></div>
-										</ul>
-										<h2 class="f16 jbxx mt40">
-											<i>02</i>供应商资质证书
-										</h2>
-										<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteCertSe()">删除</button>
-										<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="openCertSe()">新增</button>
-										<table class="table table-bordered table-condensed">
-											<thead>
-												<tr>
-													<th class="info"><input type="checkbox" onchange="checkAll(this, 'cert_se_list_tbody_id')" /></th>
-													<th class="info">资质证书名称</th>
-													<th class="info">资质等级</th>
-													<th class="info">发证机关</th>
-													<th class="info">有效期（起始时间）</th>
-													<th class="info">有效期（结束时间）</th>
-													<th class="info">是否年检</th>
-													<th class="info">附件</th>
-												</tr>
-											</thead>
-											<tbody id="cert_se_list_tbody_id">
-												<c:forEach items="${currSupplier.supplierMatSe.listSupplierCertSes}" var="certSe" varStatus="vs">
+								<c:if test="${fn:contains(currSupplier.supplierTypeNames, '服务')}">
+									<div class="tab-pane fade height-200" id="tab-4">
+										<input type="hidden" name="supplierMatSe.id" value="${currSupplier.supplierMatSe.id}" />
+										<input type="hidden" name="supplierMatSe.supplierId" value="${currSupplier.id}" />
+										<div class=" margin-bottom-0">
+											<h2 class="f16 jbxx">
+												<i>01</i>供应商组织机构和人员
+											</h2>
+											<ul class="list-unstyled list-flow">
+												<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 组织机构：</span>
+													<div class="input-append">
+														<input class="span3" type="text" name="supplierMatSe.orgName" value="${currSupplier.supplierMatSe.orgName}" />
+													</div>
+												</li>
+												<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 人员总数：</span>
+													<div class="input-append">
+														<input class="span3" type="text" name="supplierMatSe.totalPerson" value="${currSupplier.supplierMatSe.totalPerson}" />
+													</div>
+												</li>
+												<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 管理人员：</span>
+													<div class="input-append">
+														<input class="span3" type="text" name="supplierMatSe.totalMange" value="${currSupplier.supplierMatSe.totalMange}" />
+													</div>
+												</li>
+												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>技术人员：</span>
+													<div class="input-append">
+														<input class="span3" type="text" name="supplierMatSe.totalTech" value="${currSupplier.supplierMatSe.totalTech}" />
+													</div>
+												</li>
+												<li class="col-md-6 p0"><span class=""><i class="red">＊</i>工人（职员）：</span>
+													<div class="input-append">
+														<input class="span3" type="text" name="supplierMatSe.totalWorker" value="${currSupplier.supplierMatSe.totalWorker}" />
+													</div>
+												</li>
+												<div class="clear"></div>
+											</ul>
+											<h2 class="f16 jbxx mt40">
+												<i>02</i>供应商资质证书
+											</h2>
+											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteCertSe()">删除</button>
+											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="openCertSe()">新增</button>
+											<table class="table table-bordered table-condensed">
+												<thead>
 													<tr>
-														<td class="tc"><input type="checkbox" value="${certSe.id}" /></td>
-														<td class="tc">${certSe.name}</td>
-														<td class="tc">${certSe.levelCert}</td>
-														<td class="tc">${certSe.licenceAuthorith}</td>
-														<td class="tc"><fmt:formatDate value="${certSe.expStartDate}" pattern="yyyy-MM-dd" /></td>
-														<td class="tc"><fmt:formatDate value="${certSe.expEndDate}" pattern="yyyy-MM-dd" /></td>
-														<td class="tc">${certSe.mot}</td>
-														<td class="tc">${certSe.attach}</td>
+														<th class="info"><input type="checkbox" onchange="checkAll(this, 'cert_se_list_tbody_id')" /></th>
+														<th class="info">资质证书名称</th>
+														<th class="info">资质等级</th>
+														<th class="info">发证机关</th>
+														<th class="info">有效期（起始时间）</th>
+														<th class="info">有效期（结束时间）</th>
+														<th class="info">是否年检</th>
+														<th class="info">附件</th>
 													</tr>
-												</c:forEach>
-											</tbody>
-										</table>
+												</thead>
+												<tbody id="cert_se_list_tbody_id">
+													<c:forEach items="${currSupplier.supplierMatSe.listSupplierCertSes}" var="certSe" varStatus="vs">
+														<tr>
+															<td class="tc"><input type="checkbox" value="${certSe.id}" /></td>
+															<td class="tc">${certSe.name}</td>
+															<td class="tc">${certSe.levelCert}</td>
+															<td class="tc">${certSe.licenceAuthorith}</td>
+															<td class="tc"><fmt:formatDate value="${certSe.expStartDate}" pattern="yyyy-MM-dd" /></td>
+															<td class="tc"><fmt:formatDate value="${certSe.expEndDate}" pattern="yyyy-MM-dd" /></td>
+															<td class="tc">${certSe.mot}</td>
+															<td class="tc">
+																<c:if test="${certSe.attach != null}">
+																	<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${certSe.attach}')">下载附件</a>
+																</c:if>
+																<c:if test="${certSe.attach == null}">
+																	<span class="fz11">无附件下载</span>
+																</c:if>
+															</td>
+														</tr>
+													</c:forEach>
+												</tbody>
+											</table>
+										</div>
 									</div>
-								</div>
+								</c:if>
 							</div>
 							<div class="mt40 tc mb50">
 								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5"  onclick="savePro(-1)">上一步</button>
@@ -961,6 +1037,11 @@
 			</div>
 		</div>
 	</div>
+	
+	<form target="_blank" id="download_form_id" action="${pageContext.request.contextPath}/supplier/download.html" method="post">
+		<input type="hidden" name="fileName" />
+	</form>
+	
 	<!-- footer -->
 	<jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
 </body>

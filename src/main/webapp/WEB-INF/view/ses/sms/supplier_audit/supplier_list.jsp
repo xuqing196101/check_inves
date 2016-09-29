@@ -151,9 +151,15 @@
             <td class="tc w30"><input type="checkbox" name="check" id="checked" alt="" value="${list.id }"></td>
             <td class="tc w50">${page.count}</td>
             <td class="tc">${list.supplierName }</td>
-            <td class="tc">${list.supplierTypeId }</td>
+            <td class="tc">
+            	<c:forEach items="${list.listSupplierTypeNames}" var="str">
+            		${str}
+            	</c:forEach>
+            </td>
             <td class="tc">${list.businessType }</td>
-            <td class="tc"></td>
+            <td class="tc">
+            	
+            </td>
             <td class="tc">
 	             <c:if test="${list.status==0 }">待初审</c:if>
 	             <c:if test="${list.status==1 }">待复审</c:if>

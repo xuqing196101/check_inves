@@ -669,26 +669,36 @@
 	</update>
 
 	<!-- 根据审核状态查询供应商及条件查询 -->
-	<select id="findSupplier" parameterType="ses.model.sms.Supplier" resultMap="BaseResultMap">
+	<select id="findSupplier" parameterType="ses.model.sms.Supplier" resultMap="findSupplierMap">
 		select
-		*
-		from T_SES_SMS_SUPPLIER
+			t1.*,
+			t3. NAME as SUPPLIER_TYPE_NAME
+		from
+			T_SES_SMS_SUPPLIER t1
+			left join T_SES_SMS_SUPPLIER_TYPE_RELATE t2 on t1. ID = t2.SUPPLIER_ID
+			left join T_SES_SMS_SUPPLIER_TYPE t3 on t2.SUPPLIER_TYPE_ID = t3. ID
 		where
-		1=1
+			1=1
 		<if test="supplierName != null and supplierName !=''">
-			AND SUPPLIER_NAME like '%${supplierName}%'
+			and SUPPLIER_NAME like '%${supplierName}%'
 		</if>
 		<if test="supplierTypeId != null and supplierTypeId !=''">
-			AND SUPPLIER_TYPE_ID = '${supplierTypeId}'
+			and SUPPLIER_TYPE_ID = '${supplierTypeId}'
 		</if>
 		<if test="status != null">
-			AND STATUS = #{status}
+			and STATUS = #{status}
 		</if>
         <if test="address != null and address !=''">  
-        AND ADDRESS like '%${address}%'   
+       		and ADDRESS like '%${address}%'   
        </if> 
 		ORDER BY FOUND_DATE DESC
 	</select>
+	
+	<resultMap type="ses.model.sms.Supplier" id="findSupplierMap" extends="BaseResultMap">
+		<collection property="listSupplierTypeNames" ofType="java.lang.String">
+			<result column="SUPPLIER_TYPE_NAME" javaType="java.lang.String"/>
+		</collection>
+	</resultMap>
 
 	<!-- 根据审核状态获取条数 -->
 	<select id="getCount" parameterType="ses.model.sms.Supplier" resultType="java.lang.Integer">

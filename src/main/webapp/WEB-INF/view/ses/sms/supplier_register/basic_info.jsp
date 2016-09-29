@@ -1,6 +1,7 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -176,6 +177,34 @@
 			});
 		}
 	}
+	
+	function uploadNew(id) {
+		$("#" + id).find("div").remove();
+		var name = "";
+		if (id == "tax_li_id") {
+			name = "taxCertFile";
+		} else if (id == "bill_li_id") {
+			name = "billCertFile";
+		} else if (id == "security_li_id") {
+			name = "securityCertFile";
+		} else if (id == "breach_li_id") {
+			name = "breachCertFile";
+		}
+		var html = "<div class='input-append'>";
+		html += "<div class='uploader orange h32 m0'>";
+		html += "<input type='text' class='filename fz11 h32' readonly='readonly'/>";
+		html += "<input type='button' name='file' class='button' value='选择...'/>";
+		html += "<input name='"+ name +"' type='file' size='30'/>";
+		html += "</div>";
+		html += "</div>";
+		$("#" + id).append(html);
+		loadFilePlug();
+	}
+	
+	function downloadFile(fileName) {
+		$("input[name='fileName']").val(fileName);
+		$("#download_form_id").submit();
+	}
 </script>
 
 </head>
@@ -308,41 +337,73 @@
 											<i>02</i>资质资信
 										</h2>
 										<ul class="list-unstyled list-flow">
-											<li class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i> 近三个月完税凭证：</span>
-												<div class="input-append">
-													<div class="uploader orange m0">
-														<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..." /> 
-														<input type="button" class="button" value="选择文件..." /> 
-														<input name="taxCertFile" type="file" size="30" accept="image/*" />
+											<li id="tax_li_id" class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i> 近三个月完税凭证：</span>
+												<c:if test="${currSupplier.taxCert != null}">
+													<div>
+														<a class="color7171C6" href="javascript:void(0)" onclick="downloadFile('${currSupplier.taxCert}')">下载附件</a>
+														<a title="重新上传" class="ml10 red fz17" href="javascript:void(0)" onclick="uploadNew('tax_li_id')">☓</a>
 													</div>
-												</div>
+												</c:if>
+												<c:if test="${currSupplier.taxCert == null}">
+													<div class="input-append">
+														<div class="uploader orange h32 m0">
+															<input type="text" class="filename fz11 h32" readonly="readonly"/>
+															<input type="button" name="file" class="button" value="选择..."/>
+															<input name="taxCertFile" type="file" size="30"/>
+														</div>
+													</div>
+												</c:if>
 											</li>
-											<li class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i>近三年银行基本账户年末对账单：</span>
-												<div class="input-append">
-													<div class="uploader orange m0">
-														<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..." /> 
-														<input type="button" class="button" value="选择文件..." /> 
-														<input name="billCertFile" type="file" size="30" accept="image/*" />
+											<li id="bill_li_id" class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i>近三年银行基本账户年末对账单：</span>
+												<c:if test="${currSupplier.billCert != null}">
+													<div>
+														<a class="color7171C6" href="javascript:void(0)" onclick="downloadFile('${currSupplier.billCert}')">下载附件</a>
+														<a title="重新上传" class="ml10 red fz17" href="javascript:void(0)" onclick="uploadNew('bill_li_id')">☓</a>
 													</div>
-												</div>
+												</c:if>
+												<c:if test="${currSupplier.billCert == null}">
+													<div class="input-append">
+														<div class="uploader orange h32 m0">
+															<input type="text" class="filename fz11 h32" readonly="readonly"/>
+															<input type="button" name="file" class="button" value="选择..."/>
+															<input name="billCertFile" type="file" size="30"/>
+														</div>
+													</div>
+												</c:if>
 											</li>
-											<li class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i>近三个月缴纳社会保险金凭证：</span>
-												<div class="input-append">
-													<div class="uploader orange m0">
-														<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..." /> 
-														<input type="button" class="button" value="选择文件..." /> 
-														<input name="securityCertFile" type="file" size="30" accept="image/*" />
+											<li id="security_li_id" class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i>近三个月缴纳社会保险金凭证：</span>
+												<c:if test="${currSupplier.securityCert != null}">
+													<div>
+														<a class="color7171C6" href="javascript:void(0)" onclick="downloadFile('${currSupplier.securityCert}')">下载附件</a>
+														<a title="重新上传" class="ml10 red fz17" href="javascript:void(0)" onclick="uploadNew('security_li_id')">☓</a>
 													</div>
-												</div>
+												</c:if>
+												<c:if test="${currSupplier.securityCert == null}">
+													<div class="input-append">
+														<div class="uploader orange h32 m0">
+															<input type="text" class="filename fz11 h32" readonly="readonly"/>
+															<input type="button" name="file" class="button" value="选择..."/>
+															<input name="securityCertFile" type="file" size="30"/>
+														</div>
+													</div>
+												</c:if>
 											</li>
-											<li class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i>近三年内无重大违法记录声明：</span>
-												<div class="input-append">
-													<div class="uploader orange m0">
-														<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..." /> 
-														<input type="button" class="button" value="选择文件..." /> 
-														<input name="breachCertFile" type="file" size="30" accept="image/*" />
+											<li id="breach_li_id" class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i>近三年内无重大违法记录声明：</span>
+												<c:if test="${currSupplier.breachCert != null}">
+													<div>
+														<a class="color7171C6" href="javascript:void(0)" onclick="downloadFile('${currSupplier.breachCert}')">下载附件</a>
+														<a title="重新上传" class="ml10 red fz17" href="javascript:void(0)" onclick="uploadNew('breach_li_id')">☓</a>
 													</div>
-												</div>
+												</c:if>
+												<c:if test="${currSupplier.breachCert == null}">
+													<div class="input-append">
+														<div class="uploader orange h32 m0">
+															<input type="text" class="filename fz11 h32" readonly="readonly"/>
+															<input type="button" name="file" class="button" value="选择..."/>
+															<input name="breachCertFile" type="file" size="30"/>
+														</div>
+													</div>
+												</c:if>
 											</li>
 											<div class="clear"></div>
 										</ul>
@@ -430,12 +491,16 @@
 											</li>
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i>营业开始时间：</span>
 												<div class="input-append">
-													<input class="span2" type="text" readonly="readonly" onClick="WdatePicker()" name="businessStartDate" value="${currSupplier.businessStartDate}" /> <span class="add-on"><img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
+													<fmt:formatDate value="${currSupplier.businessStartDate}" pattern="yyyy-MM-dd" var="businessStartDate"/>
+													<input class="span2" type="text" readonly="readonly" onClick="WdatePicker()" name="businessStartDate" value="${businessStartDate}" /> 
+													<span class="add-on"><img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
 												</div>
 											</li>
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i>营业截止时间：</span>
 												<div class="input-append">
-													<input class="span2" type="text" readonly="readonly" onClick="WdatePicker()" name="businessEndDate" value="${currSupplier.businessEndDate}" /> <span class="add-on"><img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
+													<fmt:formatDate value="${currSupplier.businessEndDate}" pattern="yyyy-MM-dd" var="businessEndDate"/>
+													<input class="span2" type="text" readonly="readonly" onClick="WdatePicker()" name="businessEndDate" value="${businessEndDate}" /> 
+													<span class="add-on"><img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
 												</div>
 											</li>
 
@@ -547,36 +612,61 @@
 											<c:forEach items="${currSupplier.listSupplierFinances}" var="finance" varStatus="vs">
 												<h5>${finance.year}年</h5>
 												<ul class="list-unstyled list-flow" id="ul_id_${vs.index}">
-													<li class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i> 财务审计报告的审计意见：</span>
+													<li class="col-md-6 p0"><span class="zzzx">财务审计报告的审计意见：</span>
 														 <div class="input-append">
-														 	 <a class="mt3 color7171C6" href="javascript:void(0)">下载附件</a>
+														 	<c:if test="${finance.auditOpinion != null}">
+														 		<a class="mt3 color7171C6" href="javascript:void(0)" onclick="downloadFile('${finance.auditOpinion}')">下载附件</a>
+														 	</c:if>
+													 		<c:if test="${finance.auditOpinion == null}">
+														 	 	<span class="w70 fz11">无附件下载</span>
+														 	</c:if>
 														 </div>
 													</li>
-													<li class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i>资产负债表：</span>
+													<li class="col-md-6 p0"><span class="zzzx">资产负债表：</span>
 														<div class="input-append">
 															<div class="input-append">
-														 	 	<a class="mt3 color7171C6" href="javascript:void(0)">下载附件</a>
+														 	 	<c:if test="${finance.liabilitiesList != null}">
+														 			<a class="mt3 color7171C6" href="javascript:void(0)" onclick="downloadFile('${finance.liabilitiesList}')">下载附件</a>
+														 		</c:if>
+													 			<c:if test="${finance.liabilitiesList == null}">
+														 	 		<span class="w70 fz11">无附件下载</span>
+														 		</c:if>
 															 </div>
 														</div>
 													</li>
-													<li class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i>利润表：</span>
+													<li class="col-md-6 p0"><span class="zzzx">利润表：</span>
 														<div class="input-append">
 															<div class="input-append">
-														 	 	<a class="mt3 color7171C6" href="javascript:void(0)">下载附件</a>
+														 	 	<c:if test="${finance.profitList != null}">
+														 			<a class="mt3 color7171C6" href="javascript:void(0)" onclick="downloadFile('${finance.profitList}')">下载附件</a>
+														 		</c:if>
+													 			<c:if test="${finance.profitList == null}">
+														 	 		<span class="w70 fz11">无附件下载</span>
+														 		</c:if>
 															 </div>
 														</div>
 													</li>
-													<li class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i>现金流量表：</span>
+													<li class="col-md-6 p0"><span class="zzzx">现金流量表：</span>
 														<div class="input-append">
 															<div class="input-append">
-														 	 	<a class="mt3 color7171C6" href="javascript:void(0)">下载附件</a>
+														 	 	<c:if test="${finance.cashFlowStatement != null}">
+														 			<a class="mt3 color7171C6" href="javascript:void(0)" onclick="downloadFile('${finance.cashFlowStatement}')">下载附件</a>
+														 		</c:if>
+													 			<c:if test="${finance.cashFlowStatement == null}">
+														 	 		<span class="w70 fz11">无附件下载</span>
+														 		</c:if>
 															 </div>
 														</div>
 													</li>
-													<li class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i>所有者权益变动表：</span>
+													<li class="col-md-6 p0"><span class="zzzx">所有者权益变动表：</span>
 														<div class="input-append">
 															<div class="input-append">
-														 	 	<a class="mt3 color7171C6" href="javascript:void(0)">下载附件</a>
+														 	 	<c:if test="${finance.changeList != null}">
+														 			<a class="mt3 color7171C6" href="javascript:void(0)" onclick="downloadFile('${finance.changeList}')">下载附件</a>
+														 		</c:if>
+													 			<c:if test="${finance.changeList == null}">
+														 	 		<span class="w70 fz11">无附件下载</span>
+														 		</c:if>
 															 </div>
 														</div>
 													</li>
@@ -632,6 +722,11 @@
 			</div>
 		</div>
 	</div>
+	
+	<form target="_blank" id="download_form_id" action="${pageContext.request.contextPath}/supplier/download.html" method="post">
+		<input type="hidden" name="fileName" />
+	</form>
+	
 	<!-- footer -->
 	<jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
 </body>

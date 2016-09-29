@@ -2,6 +2,9 @@
 .mt10 {
 	margin-top: 10px;
 }
+.mt5 {
+	margin-top: 5px;
+}
 .mt3 {
 	margin-top: 3px;
 }
@@ -29,6 +32,12 @@
 }
 .w100 {
 	width: 100px;
+}
+.w70 {
+	width: 70px !important;
+}
+.wa {
+	width: auto !importan;
 }
 .h300 {
 	height: 300px !important;
@@ -63,6 +72,12 @@
 .fr {
 	float: right;
 }
+.fz15 {
+	font-size: 15px !important;
+}
+.fz17 {
+	font-size: 17px !important;
+}
 .fz11 {
 	font-size: 11px !important;
 }
@@ -72,3 +87,4 @@
 .color7171C6 {
 	color: #7171C6;
 }
+

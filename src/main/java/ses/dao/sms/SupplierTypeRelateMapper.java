@@ -80,4 +80,6 @@ public interface SupplierTypeRelateMapper {
     List<String> findSupplierTypeIdBySupplierId(String supplierId);
     
     int deleteBySupplierId(String supplierId);
+    
+    List<String> findSupplierTypeNameBySupplierId(String supplierId);
 }
