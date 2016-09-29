@@ -22,7 +22,11 @@ public class Task {
     
     private Integer isDeleted;
     
-    private List<TaskAttachments> taskAttachment;
+    private String materialsType;
+    
+    private Date year;
+    
+    private Project project;
 
 	public Task(String id) {
 		super();
@@ -97,12 +101,12 @@ public class Task {
 		this.purchaseRequiredId = purchaseRequiredId;
 	}
 
-	public List<TaskAttachments> getTaskAttachment() {
-		return taskAttachment;
+	public Project getProject() {
+		return project;
 	}
 
-	public void setTaskAttachment(List<TaskAttachments> taskAttachment) {
-		this.taskAttachment = taskAttachment;
+	public void setProject(Project project) {
+		this.project = project;
 	}
 
 	public Integer getIsDeleted() {
@@ -113,7 +117,23 @@ public class Task {
 		this.isDeleted = isDeleted;
 	}
 
+	public String getMaterialsType() {
+		return materialsType;
+	}
+
+	public void setMaterialsType(String materialsType) {
+		this.materialsType = materialsType;
+	}
+
+	public Date getYear() {
+		return year;
+	}
+
+	public void setYear(Date year) {
+		this.year = year;
+	}
+
 	
-  
+
    
 }

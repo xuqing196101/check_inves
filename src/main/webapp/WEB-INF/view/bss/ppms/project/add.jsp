@@ -112,7 +112,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         $('input[name="chkItem"]:checked').each(function(){ 
             id.push($(this).val()); 
         }); 
-        if(id.length==1){
+        if(id.length>0){
            layer.open({
           type: 2, //page层
           area: ['500px', '300px'],
@@ -125,8 +125,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           content: '<%=basePath%>project/create.html?id='+id
         });
             
-        }else if(id.length>1){
-            layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
         }else{
             layer.alert("请选择需要修改的信息",{offset: ['222px', '390px'], shade:0.01});
         }

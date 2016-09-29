@@ -33,14 +33,32 @@
     <result column="AMOUNT" property="amount" />
     <association property="dealSupplier" column="DEAL_SUPPLIER" select="ses.dao.sms.SupplierMapper.selectByPrimaryKey"/>
     <association property="purchaseDep" column="PURCHASE_DEP_ID" select="ses.dao.oms.PurchaseDepMapper.selectPurchaseById"/>
-    <association property="task" column="TASK_ID" select="bss.dao.ppms.TaskMapper.selectByPrimaryKey"/>
   </resultMap>
+  
+  <resultMap type="bss.model.ppms.Project" id="RoleResultMap" extends="BaseResultMap">  
+    <collection property="list" ofType="bss.model.ppms.Task">  
+        <result column="tid" property="id" />
+        <result column="tname" property="name" />
+        <result column="tpurchaseId" property="purchaseId" />
+        <result column="tdocumentNumber" property="documentNumber" />
+        <result column="tgiveTime" jdbcType="TIMESTAMP" property="giveTime" />
+        <result column="tstatus" property="status" />
+        <result column="tprocurementMethod" property="procurementMethod" />
+        <result column="tpurchaseRequiredId" property="purchaseRequiredId" />
+        <result column="tisDeleted" property="isDeleted" />
+        <result column="tmaterialsType" property="materialsType" />
+        <result column="tyear" jdbcType="TIMESTAMP" property="year" />
+        <!--查询上级菜单   -->
+        <association column="parentId"  property="parentId" select="bss.dao.ppms.TaskMapper.selectByPrimaryKey" />  
+    </collection>
+  </resultMap> 
+  
   <sql id="Base_Column_List">
     ID, NAME, PROJECT_NUMBER, STATUS, PRINCIPAL, IPONE, LINKMAN, LINKMAN_IPONE, BID_UNIT, ADDRESS, 
     POSTCODE, SUPPLIER_NUMBER, OFFER_STANDARD, PR_INTRODUCE, BUDGET_AMOUNT, PASS_WORD, 
     SCORING_RUBRIC, OPERATOR, DIVISION_OF_WORK, PURCHASE_TYPE, MATERIALS_TYPE, SECTOR_OF_DEMAND, 
     PURCHASE_DEP_ID, DEADLINE, DATE_OF_ENTRUSTMENT, BID_DATE, BID_ADDRESS, REQUIERED_ID,BALE_NO,
-    AMOUNT,DEAL_SUPPLIER,TASK_ID
+    AMOUNT,DEAL_SUPPLIER
   </sql>
   <select id="selectProjectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -55,6 +73,14 @@
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_PROJECTS
     where STATUS = 2
+  </select>
+   <!-- 查看任务 -->
+  <select id="selectByTask" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    p.NAME,p.PROJECT_NUMBER,
+    t.NAME,t.MATERIALS_TYPE,t.YEAR,t.PURCHASE_REQUIRED_ID,t.PROCUREMENT_METHOD,t.PURCHASE_ID
+    from T_BSS_PPMS_PROJECTS p left join T_BSS_PPMS_TASK t
+    on p.ID = t.PROJECT_ID where p.ID = #{id}   
   </select>
   
    <select id="selectProjectByAll" parameterType="bss.model.ppms.Project" resultMap="BaseResultMap">
@@ -87,7 +113,7 @@
       DIVISION_OF_WORK, PURCHASE_TYPE, MATERIALS_TYPE, 
       SECTOR_OF_DEMAND, PURCHASE_DEP_ID, DEADLINE, 
       DATE_OF_ENTRUSTMENT, BID_DATE, BID_ADDRESS, 
-      REQUIERED_ID,BALE_NO,AMOUNT,DEAL_SUPPLIER,TASK_ID)
+      REQUIERED_ID,BALE_NO,AMOUNT,DEAL_SUPPLIER)
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{projectNumber,jdbcType=VARCHAR}, 
       #{status,jdbcType=DECIMAL}, #{principal,jdbcType=VARCHAR}, #{ipone,jdbcType=VARCHAR}, 
       #{linkman,jdbcType=VARCHAR}, #{linkmanIpone,jdbcType=VARCHAR}, #{bidUnit,jdbcType=VARCHAR}, 
@@ -97,9 +123,12 @@
       #{divisionOfWork,jdbcType=VARCHAR}, #{purchaseType,jdbcType=VARCHAR}, #{materialsType,jdbcType=VARCHAR}, 
       #{sectorOfDemand,jdbcType=VARCHAR}, #{purchaseDep.id,jdbcType=VARCHAR}, #{deadline,jdbcType=DATE}, 
       #{dateOfEntrustment,jdbcType=DATE}, #{bidDate,jdbcType=DATE}, #{bidAddress,jdbcType=VARCHAR}, 
-      #{requieredId,jdbcType=VARCHAR}),#{baleNo}, #{amount}, #{dealSupplier.id}, #{task.id})
+      #{requieredId,jdbcType=VARCHAR}),#{baleNo}, #{amount}, #{dealSupplier.id})
   </insert>
   <insert id="insertSelective" parameterType="bss.model.ppms.Project">
+     <selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
     insert into T_BSS_PPMS_PROJECTS
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -194,9 +223,6 @@
       </if>
       <if test="dealSupplier != null">
         DEAL_SUPPLIER,
-      </if>
-      <if test="task != null">
-        TASK_ID,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -293,9 +319,6 @@
       <if test="dealSupplier != null">
         #{dealSupplier.id},
       </if>
-      <if test="task != null">
-        #{task.id},
-      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="bss.model.ppms.Project">
@@ -391,9 +414,6 @@
       <if test="dealSupplier != null">
         DEAL_SUPPLIER = #{dealSupplier.id},
       </if>
-      <if test="task != null">
-        TASK_ID = #{task.id},
-      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -429,7 +449,6 @@
       BALE_NO = #{bidDate},
       AMOUNT = #{amount},
       DEAL_SUPPLIER = #{dealSupplier.id}
-      TASK_ID = #{task.id}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

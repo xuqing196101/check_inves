@@ -61,4 +61,9 @@ public class ProjectServiceImpl implements ProjectService {
 	public List<Project> selectSuccessProject() {
 		return projectMapper.selectSuccessProject();
 	}
+
+	@Override
+	public List<Project> selectByTask(String id) {
+		return projectMapper.selectByTask(id);
+	}
 }

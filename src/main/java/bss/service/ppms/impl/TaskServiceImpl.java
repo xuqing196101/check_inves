@@ -33,7 +33,7 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public void update(Task task) {
-		taskMapper.updateByPrimaryKey(task);
+		taskMapper.updateByPrimaryKeySelective(task);
 	}
 
 	@Override

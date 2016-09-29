@@ -106,15 +106,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                  }
            }
     }
-    
-     function aa(){
-       var id =[]; 
-        $('input[name="chkItem"]:checked').each(function(){ 
-            id.push($(this).val()); 
-        }); 
-    window.location.href="<%=basePath%>project/view.html?id="+id;
-  }
-    
   </script>
   </head>
   
@@ -153,36 +144,33 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      
   
       <span class="fr option_btn margin-top-10">
-        <button class="btn padding-left-10 padding-right-10 btn_back">分包</button>
-        <button class="btn padding-left-10 padding-right-10 btn_back" >打印报批文件</button>
-        <button class="btn padding-left-10 padding-right-10 btn_back">启动</button>
-        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="aa();">查看</button>
-         <button class="btn padding-left-10 padding-right-10 btn_back">修改</button>
-        <button class="btn padding-left-10 padding-right-10 btn_back">进入</button>
+        <button class="btn padding-left-10 padding-right-10 btn_back">查看</button>
+         <button class="btn padding-left-10 padding-right-10 btn_back">返回</button>
       </span>
    <div class="container clear margin-top-30">
-    <a class="btn padding-left-10 padding-right-10 btn_back" href="<%=basePath%>project/add.html">新建采购项目</a>
+    <%--  <span>项目名称：${list.name}</span>
+     <span>项目编号：${list.projectNumber}</span>  --%>
         <table class="table table-bordered table-condensed mt5">
         <thead>
         <tr>
           <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
           <th class="info w50">序号</th>
-          <th class="info">项目名称</th>
-          <th class="info">项目编号</th>
-          <th class="info">项目状态</th>
+          <th class="info">物资类别</th>
+          <th class="info">年度</th>
+          <th class="info">需求部门</th>
+          <th class="info">采购方式</th>
+          <th class="info">采购机构</th>
         </tr>
         </thead>
-         <c:forEach items="${info.list}" var="obj" varStatus="vs">
+         <c:forEach items="${proList.list}" var="obj" varStatus="vs">
             <tr style="cursor: pointer;">
               <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
               <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-              <td class="tc" onclick="see(${obj.id});">${obj.name}</td>
-              <td class="tc" onclick="see(${obj.id});">${obj.projectNumber }</td>
-              <td class="tc" onclick="see(${obj.id});">
-              <c:if test="${'1'==obj.status}">已启动</c:if>
-              <c:if test="${'2'==obj.status}">已成交</c:if>
-              <c:if test="${'3'==obj.status}">新建报批</c:if>
-              </td>
+              <td class="tc">${obj.task.materialsType}</td>
+              <td class="tc">${obj.task.year }</td>
+              <td class="tc">${obj.task.purchaseRequiredId }</td>
+              <td class="tc">${obj.task.procurementMethod }</td>
+              <td class="tc">${obj.task.purchaseId }</td>
             </tr>
      
          </c:forEach> 
@@ -195,17 +183,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  </div>
 
 
- <div id="content" class="div_show">
-     <p align="center" class="type">
-             请选择类别
-    <br>
-    
-     <input type="radio" name="goods" value="1">:物资<br>
-     <input type="radio" name="goods" value="2">:工程<br>
-     <input type="radio" name="goods" value="3">:服务<br>
-        </p>
-        
- </div>
  
      </body>
 </html>

@@ -11,9 +11,13 @@
     <result column="PROCUREMENT_METHOD" property="procurementMethod" />
     <result column="PURCHASE_REQUIRED_ID" property="purchaseRequiredId" />
     <result column="IS_DELETED" property="isDeleted" />
+    <result column="MATERIALS_TYPE" property="materialsType" />
+    <result column="YEAR" property="year" />
+    <association property="project" column="PROJECT_ID" select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey"/>
   </resultMap>
   <sql id="Base_Column_List">
-    ID, NAME, PURCHASE_ID, DOCUMENT_NUMBER, GIVE_TIME,STATUS,PROCUREMENT_METHOD,PURCHASE_REQUIRED_ID,IS_DELETED
+    ID, NAME, PURCHASE_ID, DOCUMENT_NUMBER, GIVE_TIME,STATUS,PROCUREMENT_METHOD,PURCHASE_REQUIRED_ID,IS_DELETED,
+    MATERIALS_TYPE,YEAR,PROJECT_ID
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -39,7 +43,9 @@
       <if test="procurementMethod != null">
         and PROCUREMENT_METHOD like #{procurementMethod} 
       </if>
-     
+      <if test="year != null">
+        and YEAR like '%${year}%'
+      </if>
       <if test="giveTime != null">
         and GIVE_TIME like  #{giveTime}
       </if>
@@ -51,6 +57,9 @@
       </if>
        <if test="purchaseRequiredId != null">
         and PURCHASE_REQUIRED_ID like #{purchaseRequiredId}
+      </if>
+      <if test="materialsType != null">
+        and MATERIALS_TYPE like #{materialsType}
       </if>
      ORDER BY GIVE_TIME DESC
   </select>
@@ -103,6 +112,15 @@
       <if test="purchaseRequiredId != null">
         PURCHASE_REQUIRED_ID,
       </if>
+      <if test="materialsType != null">
+        MATERIALS_TYPE,
+      </if>
+      <if test="year != null">
+        YEAR,
+      </if>
+      <if test="project != null">
+        PROJECT_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -126,8 +144,17 @@
       <if test="procurementMethod != null">
         #{procurementMethod},
       </if>
-      <if test="purchaseRequiredId != null">
+      <if test="materialsType != null">
+        #{materialsType},
+      </if>
+       <if test="year != null">
+        #{year},
+      </if>
+       <if test="purchaseRequiredId != null">
         #{purchaseRequiredId},
+      </if>
+      <if test="project != null">
+        #{project.id},
       </if>
     </trim>
   </insert>
@@ -154,6 +181,15 @@
       </if>
       <if test="purchaseRequiredId != null">
         PURCHASE_REQUIRED_ID = #{purchaseRequiredId},
+      </if>
+      <if test="materialsType != null">
+        MATERIALS_TYPE = #{materialsType},
+      </if>
+      <if test="year != null">
+        YEAR = #{year},
+      </if>
+      <if test="project != null">
+        PROJECT_ID = #{project.id},
       </if>
     </set>
     where ID = #{id}
