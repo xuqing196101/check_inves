@@ -152,4 +152,19 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 			}
 		mapper.insertSelective(audit);
     }
+	/**
+     * 
+      * @Title: getListByExpertId
+      * @author ShaoYangYang
+      * @date 2016年9月30日 下午4:16:36  
+      * @Description: TODO 根据专家id 查询出该专家的审核信息
+      * @param @param expertId
+      * @param @return      
+      * @return List<ExpertAudit>
+     */
+	@Override
+    public List<ExpertAudit> getListByExpertId(String expertId){
+		List<ExpertAudit> list = mapper.selectByExpertId(expertId);
+		return list;
+	}
 }

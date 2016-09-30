@@ -1,5 +1,7 @@
 package ses.service.ems;
 
+import java.util.List;
+
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
@@ -90,4 +92,15 @@ public interface ExpertAuditService {
       * @return void
      */
     void auditExpert(Expert expert,String remark,User user);
+    /**
+     * 
+      * @Title: getListByExpertId
+      * @author ShaoYangYang
+      * @date 2016年9月30日 下午4:16:36  
+      * @Description: TODO 根据专家id 查询出该专家的审核信息
+      * @param @param expertId
+      * @param @return      
+      * @return List<ExpertAudit>
+     */
+    List<ExpertAudit> getListByExpertId(String expertId);
 }
