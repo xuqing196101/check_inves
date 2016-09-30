@@ -29,5 +29,16 @@ public interface UpdateFiledMapper {
     * @return void     
     * @throws
      */
-    void update(@Param("isUpdate")Integer isUpdate,@Param("list")List<String> list);
+    void update(@Param("isUpdate")Integer isUpdate,@Param("list")List<String> list,@Param("collectId")String collectId);
+    /**
+     * 
+    * @Title: query
+    * @Description: 根据实体查询 
+    * author: Li Xiaoxiao 
+    * @param @param record
+    * @param @return     
+    * @return List<UpdateFiled>     
+    * @throws
+     */
+    List<UpdateFiled> query(@Param("collectId")String collectId,@Param("list")List<String> list);
 }

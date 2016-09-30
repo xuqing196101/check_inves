@@ -119,15 +119,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     });
     
     function save(){
-    	var id1=[]; 
+    	var id1=[];
+    	var name=[];
 		$('#select1 option').each(function(){ 
-			id1.push($(this).val());
+			var val=$(this).val().split(",");
+			id1.push(val[0]);
+			name.push(val[1]);
 		}); 
 	
 		var id2=[]; 
+		var name2=[];
 		$('#select2 option').each(function(){ 
-			id2.push($(this).val());
-		}); 
+			var val=$(this).val().split(",");
+			id2.push(val[0]);
+			name2.push(val[1]);
+		});
+		$("#fname").val(name);
+		$("#fname2").val(name2);
 		$("#val1").val(id1);
 		$("#val2").val(id2);
 		$("#set_form").submit();
@@ -210,17 +218,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <h2>查询条件</h2>
    </div> -->
 <!-- 项目戳开始 -->
-  <div class="container clear margin-top-30">
+  <div class="border1 col-md-12 ml30">
     <form id="add_form" >
-   <h2 class="padding-10 border1">
-
-	 <ul class="demand_list" >
-	   <li class="fl"><label class="fl">审核人员设置：</label><span><input type="text" name="planName" value="${inf.planName }"/></span></li>
+  		审核人员设置： <input type="text" class="mt10" name="planName" value="${inf.planName }"/>
 <!-- 	   	 <input class="btn padding-left-10 padding-right-10 btn_back"   type="submit" name="" value="查询" /> 
- -->	 </ul>
+ -->	 
 
 	
-   </h2>
+    
    </form>
   </div>
    <div class="headline-v2 fl">
@@ -276,9 +281,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="selectbox" style="float: left;">
 		<div class="select-bar">
 		    <select multiple="multiple" id="select1">
-		        <c:forEach items="${listy }" var="obj">
-		      		 <option value="${obj.filed}"> ${obj.filedName }</option>
+		    <c:if test="${list!=null}">
+		      <c:forEach items="${list }" var="obj">
+		      		 <option value="${obj.code},${obj.desc}"> ${obj.desc }</option>
 		       </c:forEach>
+		      </c:if>
+		      
+		      <c:if test="${listy!=null}">
+		      <c:forEach items="${listy }" var="obj">
+		      		 <option value="${obj.filed},${obj.filedName}"> ${obj.filedName }</option>
+		       </c:forEach>
+		      </c:if>
 		    </select>
 		</div>
 		<div class="btn-bar">
@@ -289,8 +302,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div class="select-bar">
 		    <select multiple="multiple" id="select2">
+		   
 		     <c:forEach items="${listn }" var="obj">
-		      		 <option value="${obj.filed}"> ${obj.filedName }</option>
+		      		 <option value="${obj.filed},${obj.filedName}"> ${obj.filedName }</option>
 		       </c:forEach>
 		    </select>
 		</div>	
@@ -330,9 +344,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  </div>
 
 
-	<form id="set_form" action="<%=basePath%>set/update.html" method="post" style="display: none;;">
+	<form id="set_form" action="<%=basePath%>set/update.html" method="post" style="display: none;">
 		 <input type="hidden" name="val1" value="" id="val1" >
-	 	<input type="hidden" name="val2" value="" id="val2" >	
+	 	<input type="hidden" name="val2" value="" id="val2" >
+	 	<input type="hidden" name="fname" value="" id="fname" >
+	 	<input type="hidden" name="fname2" value="" id="fname2" >
+	 	<input type="hidden" name="collectId" value="${id }">	
 	 </form>
 	 </body>
 	 

@@ -10,7 +10,7 @@ package bss.model.pms;
 public class UpdateFiled {
     private String id;
 
-    private String planNo;
+    private String collectId;
 
     private String filed;
 
@@ -26,12 +26,12 @@ public class UpdateFiled {
         this.id = id == null ? null : id.trim();
     }
 
-    public String getPlanNo() {
-		return planNo;
+	public String getCollectId() {
+		return collectId;
 	}
 
-	public void setPlanNo(String planNo) {
-		this.planNo = planNo;
+	public void setCollectId(String collectId) {
+		 this.collectId = collectId == null ? null : collectId.trim();
 	}
 
 	public String getFiled() {

@@ -1,19 +1,25 @@
 package bss.controller.pms;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.github.pagehelper.PageInfo;
-
+import ses.model.oms.Orgnization;
+import ses.service.oms.OrgnizationServiceI;
 import bss.dao.pms.PurchaseRequiredMapper;
+import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseRequired;
 import bss.service.pms.CollectPlanService;
+import bss.service.pms.PurchaseRequiredService;
+
+import com.github.pagehelper.PageInfo;
 /**
  * 
  * @Title: PlanLookController
@@ -31,6 +37,12 @@ public class PlanLookController {
 	
 	@Autowired
 	private PurchaseRequiredMapper purchaseRequiredMapper;
+	
+	@Autowired
+	private OrgnizationServiceI orgnizationServiceI;
+	
+	@Autowired
+	private PurchaseRequiredService purchaseRequiredService;
 	
 	/**
 	 * 
@@ -65,9 +77,7 @@ public class PlanLookController {
 	 */
 	@RequestMapping("/print")
 	public String print(String id,Model model){
-//		CollectPlan collectPlan = collectPlanService.queryById(id);
-		CollectPlan collectPlan=new CollectPlan();
-		collectPlan.setPlanNo("001");
+		CollectPlan collectPlan = collectPlanService.queryById(id);
 		List<PurchaseRequired> list=new LinkedList<PurchaseRequired>();
 		if(collectPlan.getPlanNo()!=null){
 			String[] str = collectPlan.getPlanNo().split(",");
@@ -78,6 +88,65 @@ public class PlanLookController {
 		}
 		model.addAttribute("list", list);
 		return "bss/pms/collect/print";
+	}
+	
+	/**
+	 * 
+	* @Title: queryOne
+	* @Description: 审核页面 
+	* author: Li Xiaoxiao 
+	* @param @param id
+	* @param @param model
+	* @param @return     
+	* @return String     
+	* @throws
+	 */
+	@RequestMapping("/auditlook")
+	public String auditlook(String id,Model model){
+		HashMap<String,Object> map=new HashMap<String,Object>();
+		map.put("typeName", 1);
+		List<Orgnization> org = orgnizationServiceI.findOrgnizationList(map);
+		
+		CollectPlan plan = collectPlanService.queryById(id);
+		
+		List<PurchaseRequired> list=new LinkedList<PurchaseRequired>();
+		if(plan.getPlanNo()!=null){
+			String[] str = plan.getPlanNo().split(",");
+			for(String s:str){
+				List<PurchaseRequired> pur = purchaseRequiredMapper.queryByNo(s);
+				list.addAll(pur);
+			}
+		}
+		model.addAttribute("list", list);
+		model.addAttribute("org",org);
+		model.addAttribute("id", id);
+		return "bss/pms/collect/audit";
+	}
+	
+	/**
+	 * 
+	* @Title: audit
+	* @Description: 审核
+	* author: Li Xiaoxiao 
+	* @param @param list
+	* @param @param id
+	* @param @return     
+	* @return String     
+	* @throws
+	 */
+	@RequestMapping("/audit")
+	public String audit(PurchaseRequiredFormBean list,CollectPlan collectPlan){
+		if(list!=null){
+			if(list.getList()!=null){
+				for(PurchaseRequired p:list.getList()){
+					p.setStatus("6");
+					purchaseRequiredService.update(p);
+				}
+			}
+		}
+//		collectPlan.setStatus(2);
+//		collectPlanService.update(collectPlan);
+		return "redirect:list.html";
 	}
 	
 }

@@ -53,6 +53,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    pages: "${info.pages}", //总页数
 		    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
 		    skip: true, //是否开启跳页
+		    total: "${info.total}",
+		    startRow: "${info.startRow}",
+		    endRow: "${info.endRow}",
 		    groups: "${info.pages}">=3?3:"${info.pages}", //连续显示分页数
 		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
 //			        var page = location.search.match(/page=(\d+)/);
@@ -106,64 +109,42 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				 }
 		   }
 	}
-    
-	function down(){
-	  	var id=[]; 
-		$('input[name="chkItem"]:checked').each(function(){ 
-			id.push($(this).val());
-		}); 
-		if(id.length==1){   
-			
-			window.location.href="<%=basePath%>set/excel.html?id="+id;
- 	  	}else if(id.length>1){
-			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
-		}else{
-			layer.alert("请选中一条",{offset: ['222px', '390px'], shade:0.01});
-		}  
-		 
-	}
-	function print(){
-  	var id=[]; 
-		$('input[name="chkItem"]:checked').each(function(){ 
-			id.push($(this).val());
-		}); 
-		if(id.length==1){   
-		  window.location.href="<%=basePath%>look/print.html?id="+id;
-	  	}else if(id.length>1){
-			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
-		}else{
-			layer.alert("请选中一条",{offset: ['222px', '390px'], shade:0.01});
-		}  
-		 
-	}
+	function up(obj,id,position){
+		var tr=$(obj).parent().parent().prev();
+
+		 var val= $(tr).children(":last").children().val();
+		 if(val!=null){
+			  window.location.href="<%=basePath%>view/update.html?sid="+val+"&&xid="+id+"&&postion="+position;
+		 }else{
+			 alert("已经是最高的");
+		 }
 		
-	function sets(){
+		 }
+	function down(obj,id){
+		var tr=$(obj).parent().parent().next();
+
+		 var val= $(tr).children(":last").children().val();
+		 if(val!=null){
+			  window.location.href="<%=basePath%>view/update.html?xid="+val+"&&sid="+id;
+		 }else{
+			 alert("已经是最下面的");
+		 }
+	}
+	
+	function det(){
 		var id=[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
 		}); 
-		if(id.length==1){   
-			window.location.href="<%=basePath%>set/list.html?id="+id;
-	  	}else if(id.length>1){
-			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+		if(id.length>=1){ 
+			window.location.href="<%=basePath%>view/detail.html?id="+id;
 		}else{
-			layer.alert("请选中一条",{offset: ['222px', '390px'], shade:0.01});
-		}  
+			layer.alert("至少选中一条",{offset: ['222px', '390px'], shade:0.01});
+		}
 	}
-	 function audit(){
-			var id=[]; 
-			$('input[name="chkItem"]:checked').each(function(){ 
-				id.push($(this).val());
-			}); 
-			if(id.length==1){   
-				window.location.href="<%=basePath%>look/auditlook.html?id="+id;
-		  	}else if(id.length>1){
-				layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
-			}else{
-				layer.alert("请选中一条",{offset: ['222px', '390px'], shade:0.01});
-			}  
-			
-	 }
+	function qb(){
+		 
+	}
   </script>
   </head>
   
@@ -172,49 +153,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">障碍作业系统</a></li><li><a href="#">采购计划管理</a></li><li class="active"><a href="#">采购需求管理</a></li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">障碍作业系统</a></li><li><a href="#">采购计划管理</a></li><li class="active"><a href="#">采购计划查看</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
    </div>
 <!-- 录入采购计划开始-->
  <div class="container">
-   <div class="headline-v2">
-      <h2>查询条件</h2>
-   </div>
-<!-- 项目戳开始 -->
-  <div class="border1 col-md-12 ml30">
-    <form id="add_form" action="<%=basePath%>accept/list.html" method="post" >
   
-
+ 
+		<button style="margin-top: 30px;margin-left: 30px;" class="btn padding-left-10 padding-right-10 btn_back" onclick="qb()">需求单位</button>
+		<button style="margin-top: 30px;" class="btn padding-left-10 padding-right-10 btn_back" onclick="det()">全部明细</button>
+		<button style="margin-top: 30px;" class="btn padding-left-10 padding-right-10 btn_back" >历史记录</button>
 	 
-	    采购计划名称： <input type="text" class="mt10" name="fileName" value=""/> 
-	   采购方式： <input type="text" class="mt10"name="" value=""/>
-	   采购金额： <input type="text" class="mt10" name="budget" value=""/> 
-	   	 <input class="btn padding-left-10 padding-right-10 btn_back"   type="submit" name="" value="查询" /> 
-	 
-   </form>
-  </div>
-   <div class="headline-v2 fl">
-      <h2>需求计划列表
-	  </h2>
-   </div> 
-    <span class="fr option_btn margin-top-10">
-		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="sets()">审核设置</button>
-		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="audit()">审核</button>
-		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="down()">下载</button>
-		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="print()">打印</button>
-	  </span>
    <div class="container clear margin-top-30">
         <table class="table table-bordered table-condensed mt5">
 		<thead>
 		<tr>
 		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
 		  <th class="info w50">序号</th>
-		  <th class="info">采购计划名称</th>
-		  <th class="info">预算总金额</th>
+		  <th class="info">编制单位</th>
+		  <th class="info">采购总金额</th>
 		  <th class="info">汇总时间</th>
 		  <th class="info">状态</th>
+		    <th class="info">操作</th>
 		</tr>
 		</thead>
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
@@ -222,7 +184,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
 			  <td class="tc w50"   >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 			  
-			  <td class="tc"  >${obj.fileName }</td>
+			  <td class="tc"  >${obj.department }</td>
 			
 			
 			  <td class="tc"  ><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
@@ -234,6 +196,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    <c:if test="${obj.status=='2' }">
 			   已下达
 			  </c:if>
+			  </td>
+			  
+			  <td>
+			  <input type="hidden" value="${obj.id}"/>
+			  <a onclick="up(this,'${obj.id}','${obj.position}')">  上移</a><a onclick="down(this,'${obj.id}')">下移</a> 
+			  
 			  </td>
 			</tr>
 	 

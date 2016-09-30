@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import bss.controller.base.BaseController;
 import bss.model.pms.CollectPlan;
+import bss.model.pms.CollectPurchase;
 import bss.model.pms.PurchaseRequired;
 import bss.service.pms.CollectPlanService;
+import bss.service.pms.CollectPurchaseService;
 import bss.service.pms.PurchaseRequiredService;
 
 import com.github.pagehelper.PageInfo;
@@ -39,6 +41,10 @@ public class CollectPlanController extends BaseController {
 	
 	@Autowired
 	private PurchaseRequiredService purchaseRequiredService;
+	
+	@Autowired
+	private CollectPurchaseService collectPurchaseService;
+	
 		/**
 		 * 
 		* @Title: queryPlan
@@ -131,6 +137,13 @@ public class CollectPlanController extends BaseController {
 					}else{
 						collectPlan.setPosition(1);
 						
+					}
+					String[] plano = collectPlan.getPlanNo().split(",");
+					CollectPurchase c=new CollectPurchase();
+					for(String no:plano){
+						c.setCollectPlanId(id);
+						c.setPlanNo(no);
+						collectPurchaseService.add(c);
 					}
 					collectPlanService.add(collectPlan);
 				}

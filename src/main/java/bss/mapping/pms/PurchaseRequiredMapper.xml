@@ -553,8 +553,10 @@
 		<include refid="Base_Column_List" />
 		from T_BSS_PMS_PURCHASE_REQUIRED
 		<where>
+		HISTORY_STATUS='0'  and IS_DELETE='0'
+		
 			<if test="planNo !=null and planNo!='' ">
-			 PLAN_NO = #{planNo} ORDER BY CREATED_AT  
+			and PLAN_NO = #{planNo} ORDER BY CREATED_AT  
 			</if>
 		</where>
 	</select>

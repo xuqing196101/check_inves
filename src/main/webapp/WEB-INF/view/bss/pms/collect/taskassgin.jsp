@@ -53,6 +53,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    pages: "${info.pages}", //总页数
 		    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
 		    skip: true, //是否开启跳页
+		    total: "${info.total}",
+		    startRow: "${info.startRow}",
+		    endRow: "${info.endRow}",
 		    groups: "${info.pages}">=3?3:"${info.pages}", //连续显示分页数
 		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
 //			        var page = location.search.match(/page=(\d+)/);
@@ -106,64 +109,46 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				 }
 		   }
 	}
-    
-	function down(){
-	  	var id=[]; 
-		$('input[name="chkItem"]:checked').each(function(){ 
-			id.push($(this).val());
-		}); 
-		if(id.length==1){   
-			
-			window.location.href="<%=basePath%>set/excel.html?id="+id;
- 	  	}else if(id.length>1){
-			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
-		}else{
-			layer.alert("请选中一条",{offset: ['222px', '390px'], shade:0.01});
-		}  
-		 
-	}
-	function print(){
-  	var id=[]; 
-		$('input[name="chkItem"]:checked').each(function(){ 
-			id.push($(this).val());
-		}); 
-		if(id.length==1){   
-		  window.location.href="<%=basePath%>look/print.html?id="+id;
-	  	}else if(id.length>1){
-			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
-		}else{
-			layer.alert("请选中一条",{offset: ['222px', '390px'], shade:0.01});
-		}  
-		 
-	}
-		
-	function sets(){
+ 
+	var index;
+	function audit(){
 		var id=[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
 		}); 
-		if(id.length==1){   
-			window.location.href="<%=basePath%>set/list.html?id="+id;
+		if(id.length==1){  
+			
+			index=layer.open({
+				  type: 1, //page层
+				  area: ['500px', '300px'],
+				  title: '采购任务下达',
+				  closeBtn: 1,
+				  shade:0.01, //遮罩透明度
+				  moveType: 1, //拖拽风格，0是默认，1是传统拖动
+				  shift: 1, //0-6的动画形式，-1不开启
+				  offset: ['80px', '600px'],
+				  content: $('#content'),
+				});
+			
+			
 	  	}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
 			layer.alert("请选中一条",{offset: ['222px', '390px'], shade:0.01});
 		}  
 	}
-	 function audit(){
-			var id=[]; 
-			$('input[name="chkItem"]:checked').each(function(){ 
-				id.push($(this).val());
-			}); 
-			if(id.length==1){   
-				window.location.href="<%=basePath%>look/auditlook.html?id="+id;
-		  	}else if(id.length>1){
-				layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
-			}else{
-				layer.alert("请选中一条",{offset: ['222px', '390px'], shade:0.01});
-			}  
-			
-	 }
+ 
+	
+
+	function closeLayer(){
+	     var id =[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			id.push($(this).val()); 
+		}); 
+	  	$("#cid").val(id);
+	    $("#collect_form").submit();
+		  layer.close(index);	
+	}
   </script>
   </head>
   
@@ -184,26 +169,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
 <!-- 项目戳开始 -->
   <div class="border1 col-md-12 ml30">
-    <form id="add_form" action="<%=basePath%>accept/list.html" method="post" >
+    <form id="add_form" action="<%=basePath%>taskassgin/list.html" method="post" >
   
 
-	 
-	    采购计划名称： <input type="text" class="mt10" name="fileName" value=""/> 
-	   采购方式： <input type="text" class="mt10"name="" value=""/>
-	   采购金额： <input type="text" class="mt10" name="budget" value=""/> 
-	   	 <input class="btn padding-left-10 padding-right-10 btn_back"   type="submit" name="" value="查询" /> 
+		 
+		  计划名称： <input type="text" class="mt10" name="fileName" value=""/> 
+		   计划编号： <input type="text" class="mt10"name="" value=""/>
+		   计划类型： <input type="text" class="mt10" name="planNo" value=""/> 
+	   	 <input class="btn padding-left-10 padding-right-10 btn_back"   type="submit" name="" value="查询" />
 	 
    </form>
   </div>
    <div class="headline-v2 fl">
-      <h2>需求计划列表
+      <h2>采购计划列表
 	  </h2>
    </div> 
     <span class="fr option_btn margin-top-10">
-		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="sets()">审核设置</button>
-		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="audit()">审核</button>
-		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="down()">下载</button>
-		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="print()">打印</button>
+		 
+		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="audit()">下达</button>
+ 
 	  </span>
    <div class="container clear margin-top-30">
         <table class="table table-bordered table-condensed mt5">
@@ -246,6 +230,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
  </div>
 
+ <div id="content" class="div_show">
+	 
+	<form id="collect_form" action="http://localhost:6666/zhbj/taskassgin/add.html" method="post" style="margin-top: 20px;">
+	
+	  	   <div style="text-align: center;"><span>采购任务名称:</span><input  type="text" name="name" value=""></div>
+	       <div  style="text-align: center;margin-top: 20px;"><span>采购任务编号:</span><input  type="text" name="documentNumber" value=""></div>
+	       
+	       
+		<!--  文件名称：<input type="text" name="fileName" value=""><br>
+		 密码:<input type="password" name="password" value=""><br> -->
+		 <div  style="text-align: center;margin-top: 20px;"><span>采购机构:</span>	<select name="purchaseId">
+							<c:forEach items="${org }" var="obj">
+							<option value="${obj.id }">${obj.name }</option>
+							</c:forEach>
+							</select></div>
+		 
+		 <input type="hidden" name="cid" id="cid" value="">
+		
+	   	<button class="btn padding-left-10 padding-right-10 btn_back"  style="margin-top: 20px;margin-left: 180px;" onclick="closeLayer()" >确认</button>
+	   	<button class="btn padding-left-10 padding-right-10 btn_back"  style="margin-top: 20px;margin-left: 30px" onclick="cancels()" >取消</button>
+	   
+	 </form>   
+ </div>
+ 
 
  
  

@@ -14,10 +14,12 @@
     <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
     <result column="POSITION" jdbcType="DECIMAL" property="position" />
     <result column="PLAN_NO" jdbcType="VARCHAR" property="planNo" />
+    <result column="GOODS_TYPE" jdbcType="VARCHAR" property="goodsType" />
+    <result column="PURCHASE_TYPE" jdbcType="VARCHAR" property="purchaseType" />
   </resultMap>
   <sql id="Base_Column_List">
     ID, FILE_NAME, PASSWORD, DEPARTMENT, BUDGET, STATUS, PURCHASE_ID, CREATED_AT, ORDER_AT, 
-    UPDATED_AT, POSITION,PLAN_NO
+    UPDATED_AT, POSITION,PLAN_NO,GOODS_TYPE,PURCHASE_TYPE
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="CollectPlan_Map">
     select 
@@ -32,12 +34,12 @@
   <insert id="insert" parameterType="bss.model.pms.CollectPlan">
     insert into T_BSS_PMS_COLLECT_PLAN (ID, FILE_NAME, PASSWORD, 
       DEPARTMENT, BUDGET, STATUS, 
-      PURCHASE_ID, CREATED_AT, ORDER_AT, 
+      PURCHASE_ID, CREATED_AT, ORDER_AT,GOODS_TYPE,PURCHASE_TYPE 
       UPDATED_AT, POSITION,PLAN_NO)
     values (#{id,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{department,jdbcType=VARCHAR}, #{budget,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}, 
       #{purchaseId,jdbcType=VARCHAR}, #{createdAt,jdbcType=DATE}, #{orderAt,jdbcType=DATE}, 
-      #{updatedAt,jdbcType=DATE}, #{position,jdbcType=DECIMAL}, #{PLAN_NO,jdbcType=VARCHAR})
+      #{updatedAt,jdbcType=DATE}, #{position,jdbcType=DECIMAL}, #{PLAN_NO,jdbcType=VARCHAR}, #{goodsType,jdbcType=VARCHAR}, #{purchaseType,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="bss.model.pms.CollectPlan">
     insert into T_BSS_PMS_COLLECT_PLAN
@@ -78,6 +80,12 @@
        <if test="planNo != null">
         PLAN_NO,
       </if>
+       <if test="goodsType != null">
+        GOODS_TYPE,
+      </if>
+       <if test="purchaseType != null">
+        PURCHASE_TYPE,
+      </if>
       
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -117,7 +125,12 @@
       <if test="planNo != null">
         #{planNo,jdbcType=VARCHAR},
       </if>
-      
+       <if test="goodsType != null">
+        #{goodsType,jdbcType=VARCHAR},
+      </if>
+       <if test="purchaseType != null">
+        #{purchaseType,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="bss.model.pms.CollectPlan">
@@ -153,11 +166,15 @@
       <if test="position != null">
         POSITION = #{position,jdbcType=DECIMAL},
       </if>
-      
        <if test="planNo != null">
         PLAN_NO = #{planNo,jdbcType=VARCHAR},
       </if>
-      
+       <if test="goodsType != null">
+        GOODS_TYPE = #{goodsType,jdbcType=VARCHAR},
+      </if>
+       <if test="purchaseType != null">
+        PURCHASE_TYPE = #{purchaseType,jdbcType=VARCHAR},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -173,7 +190,9 @@
       ORDER_AT = #{orderAt,jdbcType=DATE},
       UPDATED_AT = #{updatedAt,jdbcType=DATE},
       POSITION = #{position,jdbcType=DECIMAL},
-      PLAN_NO = #{planNo,jdbcType=VARCHAR}
+      PLAN_NO = #{planNo,jdbcType=VARCHAR},
+      GOODS_TYPE = #{goodsType,jdbcType=VARCHAR},
+      PURCHASE_TYPE = #{purchaseType,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   
@@ -189,7 +208,7 @@
       </if>
   	</if>
   	</where>
-  
+  order by POSITION desc
   </select>
   <select id="getMax" resultType="Integer">
   	select max(POSITION) from T_BSS_PMS_COLLECT_PLAN

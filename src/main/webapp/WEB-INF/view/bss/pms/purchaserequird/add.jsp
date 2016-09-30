@@ -60,6 +60,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/ajaxfileupload.js"></script>
 
+<link rel="stylesheet" type="text/css" href="<%=basePath%>/public/ztree/css/zTreeStyle.css">
+<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.exedit.js"></script>
+
 <script type="text/javascript">
  	//跳转到增加页面
     function add(){
@@ -218,6 +223,71 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  		  var tr = $("input[name=delt]").parent().parent();
  	        $(tr).prev().remove();   
  	 }
+ 	var datas;
+	var treeObj;
+	$(function() {
+		
+		   
+		   var setting={
+					async:{
+								autoParam:["id"],
+								enable:true,
+								url:"<%=basePath%>category/createtree.do",
+								dataType:"json",
+								type:"post",
+							},
+							callback:{
+						    	onClick:zTreeOnClick,//点击节点触发的事件
+						    	 //beforeRemove: zTreeBeforeRemove,
+						    	//beforeRename: zTreeBeforeRename, 
+								//onRemove: zTreeOnRemove,
+			       			    //onRename: zTreeOnRename,
+						    }, 
+							data:{
+								simpleData:{
+									enable:true,
+									idKey:"id",
+									pIdKey:"pId",
+									rootPId:0,
+								}
+						    },
+						   check:{
+							    chkboxType:{"Y" : "ps", "N" : "ps"},//勾选checkbox对于父子节点的关联关系  
+				        		chkStyle:"checkbox", 
+								enable: true
+						   }
+			  };
+		      //控制树的显示和隐藏
+			  var expertsTypeId = $("#expertsTypeId").val();
+				 if(expertsTypeId==1 || expertsTypeId=="1"){
+				 treeObj=$.fn.zTree.init($("#ztree"),setting,datas);
+					 $("#ztree").show();
+				 }else{
+					 treeObj=$.fn.zTree.init($("#ztree"),setting,datas);
+					 $("#ztree").hide();
+				 }
+	});
+	
+	function typeShow(){
+	/* 	 var expertsTypeId = $("#expertsTypeId").val();
+		 if(expertsTypeId==1 || expertsTypeId=="1"){ */
+			 $("#ztree").show();
+		 	$("#bt").show();
+		/*  }else{
+			 $("#ztree").hide();
+		 } */
+		
+	}
+	var treeid=null;
+    /*树点击事件*/
+    function zTreeOnClick(event,treeId,treeNode){
+		treeid=treeNode.id;
+		
+    }
+    function typehide(){
+    	 $("#ztree").hide();
+    	 $("#bt").hide();
+    }
 </script>
 </head>
 
@@ -251,7 +321,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 
 			<button style="float: left;"  class="btn padding-right-10 btn_back" onclick="upload()">导入</button><span style="margin-left: 200px"></span>
 				<button class="btn padding-left-10 padding-right-10 btn_back" onclick="down()">下载Excel模板</button>
-				<button class="btn padding-left-10 padding-right-10 btn_back">查看产品分类目录</button>
+				<button class="btn padding-left-10 padding-right-10 btn_back" onclick="typeShow()">查看产品分类目录</button>
 				<button class="btn padding-left-10 padding-right-10 btn_back"
 					onclick="chakan()">查看编制说明</button> <!-- 	 <button class="btn padding-left-10 padding-right-10 btn_back">导入</button>
  -->
@@ -445,5 +515,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 	<input type="hidden" id="goodsType" value="${type }">
 	<input type="hidden" id="count" value="5">
+	<div  style="margin-left: 600px;">
+	   <div id="ztree" class="ztree"></div>
+	   <button id="bt" style="display: none;" class="btn padding-left-10 padding-right-10 btn_back" onclick="typehide()">取消</button>
+	  </div> 
 </body>
 </html>

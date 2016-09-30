@@ -3,13 +3,13 @@
 <mapper namespace="bss.dao.pms.UpdateFiledMapper">
   <resultMap id="UpdateFiled_Map" type="bss.model.pms.UpdateFiled">
     <id column="ID" jdbcType="VARCHAR" property="id" />
-    <result column="PLAN_NO" jdbcType="VARCHAR" property="planNo" />
+    <result column="COLLECT_ID" jdbcType="VARCHAR" property="collectId" />
     <result column="FILED" jdbcType="VARCHAR" property="filed" />
     <result column="IS_UPDATE" jdbcType="DECIMAL" property="isUpdate" />
     <result column="FILED_NAME" jdbcType="VARCHAR" property="filedName" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, PLAN_NO, FILED, IS_UPDATE,FILED_NAME
+    ID, COLLECT_ID, FILED, IS_UPDATE,FILED_NAME
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="UpdateFiled_Map">
     select 
@@ -22,9 +22,9 @@
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="bss.model.pms.UpdateFiled">
-    insert into T_BBS_PMS_UPDATE_FILED (ID, PLAN_NO, FILED, 
+    insert into T_BBS_PMS_UPDATE_FILED (ID, COLLECT_ID, FILED, 
       IS_UPDATE,FILED_NAME)
-    values (#{id,jdbcType=VARCHAR}, #{planNo,jdbcType=VARCHAR}, #{filed,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR}, #{collectId,jdbcType=VARCHAR}, #{filed,jdbcType=VARCHAR}, 
       #{isUpdate,jdbcType=DECIMAL},#{filedName,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="bss.model.pms.UpdateFiled">
@@ -33,8 +33,8 @@
       <if test="id != null">
         ID,
       </if>
-      <if test="planNo != null">
-        PLAN_NO,
+      <if test="collectId != null">
+        COLLECT_ID,
       </if>
       <if test="filed != null">
         FILED,
@@ -51,8 +51,8 @@
       <if test="id != null">
         #{id,jdbcType=VARCHAR},
       </if>
-      <if test="planNo != null">
-        #{planNo,jdbcType=VARCHAR},
+      <if test="collectId != null">
+        #{collectId,jdbcType=VARCHAR},
       </if>
       <if test="filed != null">
         #{filed,jdbcType=VARCHAR},
@@ -69,8 +69,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="bss.model.pms.UpdateFiled">
     update T_BBS_PMS_UPDATE_FILED
     <set>
-      <if test="planNo != null">
-        PLAN_NO = #{planNo,jdbcType=VARCHAR},
+      <if test="collectId != null">
+        COLLECT_ID = #{collectId,jdbcType=VARCHAR},
       </if>
       <if test="filed != null">
         FILED = #{filed,jdbcType=VARCHAR},
@@ -86,7 +86,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="bss.model.pms.UpdateFiled">
     update T_BBS_PMS_UPDATE_FILED
-    set PLAN_NO = #{planNo,jdbcType=VARCHAR},
+    set COLLECT_ID = #{collectId,jdbcType=VARCHAR},
       FILED = #{filed,jdbcType=VARCHAR},
       IS_UPDATE = #{isUpdate,jdbcType=DECIMAL},
       FILED_NAME = #{filedName,jdbcType=VARCHAR},
@@ -110,8 +110,11 @@
   </set>
   
   <where>
+  <if test="collectId != null">
+  COLLECT_ID = #{collectId}
+  </if>
   <if test="list != null">
-      FILED in  <foreach item="item" index="index" collection="list" open="("  
+     and  FILED in  <foreach item="item" index="index" collection="list" open="("  
             separator="," close=")">  
             #{item}  
         </foreach> 
@@ -119,5 +122,22 @@
   
   </where>
   </update>
+  
+   <select id="query" parameterType="bss.model.pms.UpdateFiled" resultMap="UpdateFiled_Map">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BBS_PMS_UPDATE_FILED
+    <where>
+    <if test="collectId !=null">
+    COLLECT_ID = #{collectId}
+    </if>
+    <if test="list != null ">
+     and  FILED in  <foreach item="item" index="index" collection="list" open="("  
+            separator="," close=")">  
+            #{item}  
+        </foreach> 
+      </if>
+    </where>
+  </select>
   
 </mapper>
