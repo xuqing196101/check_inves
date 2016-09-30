@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -133,7 +134,15 @@ function kaptcha(){
                 <ul class="list-unstyled categories">
                  <c:forEach items="${indexMapper['select2List']}" var="i">
                  <li>
-           			<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${i.name }</a>
+                 	<c:set value="${i.name}" var="name"></c:set>
+					<c:set value="${fn:length(name)}" var="length"></c:set>
+					<c:if test="${length>55}">
+						<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${fn:substring(name,0,10)}...</a>
+					</c:if>
+					<c:if test="${length<=55}">
+						<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${name }</a>
+					</c:if>	
+           			
                     <span class="hex pull-right"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
                  </li>
            		 </c:forEach>
@@ -160,12 +169,20 @@ function kaptcha(){
              <div class="clear">
           </h2>
           <ul class="list-unstyled categories tab-content margin-0">
-	             <c:forEach items="${indexMapper['select3List']}" var="i">
-	             <li>
-	       			<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${i.name }</a>
-	                <span class="hex pull-right"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
-	             </li>
-	       		 </c:forEach>
+	         <c:forEach items="${indexMapper['select3List']}" var="i">
+		             <li>
+	                 	<c:set value="${i.name}" var="name"></c:set>
+						<c:set value="${fn:length(name)}" var="length"></c:set>
+						<c:if test="${length>55}">
+							<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${fn:substring(name,0,10)}...</a>
+						</c:if>
+						<c:if test="${length<=55}">
+							<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${name }</a>
+						</c:if>	
+	           			
+	                    <span class="hex pull-right"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
+	                 </li>
+	       	</c:forEach>
           </ul>
         </div>
       </div>
@@ -180,12 +197,20 @@ function kaptcha(){
           <div class="clear">
           </h2>
           <ul class="list-unstyled categories tab-content">
-	             <c:forEach items="${indexMapper['select4List']}" var="i">
+	        <c:forEach items="${indexMapper['select4List']}" var="i">
 	             <li>
-	       			<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${i.name }</a>
-	                <span class="hex pull-right"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
-	             </li>
-	       		 </c:forEach>
+                 	<c:set value="${i.name}" var="name"></c:set>
+					<c:set value="${fn:length(name)}" var="length"></c:set>
+					<c:if test="${length>55}">
+						<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${fn:substring(name,0,10)}...</a>
+					</c:if>
+					<c:if test="${length<=55}">
+						<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${name }</a>
+					</c:if>	
+           			
+                    <span class="hex pull-right"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
+                 </li>
+	       	</c:forEach>
           </ul>
         </div>
       </div>
@@ -253,9 +278,17 @@ function kaptcha(){
           <ul class="list-unstyled categories tab-content">
              <c:forEach items="${indexMapper['select5List']}" var="i">
 	             <li>
-	       			<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${i.name }</a>
-	                <span class="hex pull-right"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
-	             </li>
+                 	<c:set value="${i.name}" var="name"></c:set>
+					<c:set value="${fn:length(name)}" var="length"></c:set>
+					<c:if test="${length>55}">
+						<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${fn:substring(name,0,10)}...</a>
+					</c:if>
+					<c:if test="${length<=55}">
+						<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${name }</a>
+					</c:if>	
+           			
+                    <span class="hex pull-right"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
+                 </li>
        		 </c:forEach>
           </ul>
         </div>
@@ -273,7 +306,15 @@ function kaptcha(){
           <ul class="list-unstyled categories tab-content">
             <c:forEach items="${indexMapper['select6List']}" var="i">
                  <li>
-           			<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${i.name }</a>
+                 	<c:set value="${i.name}" var="name"></c:set>
+					<c:set value="${fn:length(name)}" var="length"></c:set>
+					<c:if test="${length>55}">
+						<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${fn:substring(name,0,10)}...</a>
+					</c:if>
+					<c:if test="${length<=55}">
+						<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${name }</a>
+					</c:if>	
+           			
                     <span class="hex pull-right"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
                  </li>
            	</c:forEach>
@@ -314,7 +355,7 @@ function kaptcha(){
 
 <div class="container content height-350">
  <div class="row magazine-page">
-   <div class="col-md-6 tab-v2 job-content margin-bottom-10">
+   <div class="col-md-6 tab-v2 job-content margin-bottom-10  tab_change">
         <div class="">
           <ul class="nav nav-tabs">
             <li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" style="font-size:18px;">
@@ -354,9 +395,17 @@ function kaptcha(){
                 <ul class="list-unstyled categories">
 	                 <c:forEach items="${indexMapper['select8List']}" var="i">
 	                 <li>
-	           			<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${i.name }</a>
+	                 	<c:set value="${i.name}" var="name"></c:set>
+						<c:set value="${fn:length(name)}" var="length"></c:set>
+						<c:if test="${length>55}">
+							<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${fn:substring(name,0,10)}...</a>
+						</c:if>
+						<c:if test="${length<=55}">
+							<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${name }</a>
+						</c:if>	
+	           			
 	                    <span class="hex pull-right"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
-	                 </li>   
+                 	</li> 
 	           		 </c:forEach>
 	           		 <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.html?id=8" target="_self">更多>></a></span>
 			      <div class="clear"></div>
@@ -369,9 +418,17 @@ function kaptcha(){
                 <ul class="list-unstyled categories">              
 	                 <c:forEach items="${indexMapper['select9List']}" var="i">
 	                 <li>
-	           			<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${i.name }</a>
+	                 	<c:set value="${i.name}" var="name"></c:set>
+						<c:set value="${fn:length(name)}" var="length"></c:set>
+						<c:if test="${length>55}">
+							<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${fn:substring(name,0,10)}...</a>
+						</c:if>
+						<c:if test="${length<=55}">
+							<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${name }</a>
+						</c:if>	
+	           			
 	                    <span class="hex pull-right"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
-	                 </li>
+                 	 </li>
 	           		 </c:forEach>
 	           		 <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.html?id=9" target="_self">更多>></a></span>
 	           		 <div class="clear"></div>
@@ -381,7 +438,7 @@ function kaptcha(){
           </div> 
 		</div> 
   </div>
-    <div class="col-md-6 job-content tab-v2">
+    <div class="col-md-6 job-content tab-v2 tab_change">
         <div class="">
           <ul class="nav nav-tabs">
             <li class="active"><a aria-expanded="true" href="#tab-4" data-toggle="tab" style="font-size:18px;">
@@ -406,9 +463,17 @@ function kaptcha(){
                 <ul class="list-unstyled categories">
 	                 <c:forEach items="${indexMapper['select10List']}" var="i">
 	                 <li>
-	           			<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${i.name }</a>
-	                    <span class="hex pull-right"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
-	                 </li>
+                 	<c:set value="${i.name}" var="name"></c:set>
+					<c:set value="${fn:length(name)}" var="length"></c:set>
+					<c:if test="${length>55}">
+						<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${fn:substring(name,0,10)}...</a>
+					</c:if>
+					<c:if test="${length<=55}">
+						<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${name }</a>
+					</c:if>	
+           			
+                    <span class="hex pull-right"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
+                 </li>
 	           		 </c:forEach>
 	           		 <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.html?id=10" target="_self">更多>></a></span>
 	           		 <div class="clear"></div>
@@ -420,9 +485,17 @@ function kaptcha(){
                 <ul class="list-unstyled categories">
 	                 <c:forEach items="${indexMapper['select11List']}" var="i">
 	                 <li>
-	           			<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${i.name }</a>
-	                    <span class="hex pull-right"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
-	                 </li>
+                 	<c:set value="${i.name}" var="name"></c:set>
+					<c:set value="${fn:length(name)}" var="length"></c:set>
+					<c:if test="${length>55}">
+						<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${fn:substring(name,0,10)}...</a>
+					</c:if>
+					<c:if test="${length<=55}">
+						<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${name }</a>
+					</c:if>	
+           			
+                    <span class="hex pull-right"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
+                 </li>
 	           		 </c:forEach>
 	           		 <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.html?id=11" target="_self">更多>></a></span>
 	           		 <div class="clear"></div>
@@ -434,9 +507,17 @@ function kaptcha(){
                 <ul class="list-unstyled categories">
 	                 <c:forEach items="${indexMapper['select12List']}" var="i">
 	                 <li>
-	           			<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${i.name }</a>
-	                    <span class="hex pull-right"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
-	                 </li>
+                 	<c:set value="${i.name}" var="name"></c:set>
+					<c:set value="${fn:length(name)}" var="length"></c:set>
+					<c:if test="${length>55}">
+						<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${fn:substring(name,0,10)}...</a>
+					</c:if>
+					<c:if test="${length<=55}">
+						<a href="<%=basePath%>index/selectArticleNewsById.html?id=${i.id}" title="${i.name }" target="_self">${name }</a>
+					</c:if>	
+           			
+                    <span class="hex pull-right"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
+                 </li>
 	           		 </c:forEach>
 	           		 <span class="pull-right"><a href="<%=basePath%>index/selectIndexNewsByTypeId.html?id=12" target="_self">更多>></a></span>
 	           		 <div class="clear"></div>

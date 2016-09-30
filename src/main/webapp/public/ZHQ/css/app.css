@@ -3711,3 +3711,8 @@ img.img-center,
   -khtml-opacity: 0.8;
   opacity: 0.8;
 }
+.tab_change .nav-tabs li.active a{
+	background:#ffffff;
+	color:#555;
+	border-top:2px solid #2c9fa6;
+}
