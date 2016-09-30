@@ -30,7 +30,7 @@
 			   for(var i=0;i<checklist.length;i++)
 			   {
 			      checklist[i].checked = true;
-			   } 
+			    } 
 			 }else{
 			  for(var j=0;j<checklist.length;j++)
 			  {
@@ -59,7 +59,7 @@
 	}
 	
   	function show(id){
-  		window.location.href="<%=basePath%>SupplierExtracts/showSupplierExtracts.do?id="+id;
+  		window.location.href="<%=basePath%>ExpExtract/showRecord.do?id="+id;
   	}
     function edit(){
     	var id=[]; 
@@ -138,14 +138,14 @@
 				<li><a href="#"> 首页</a></li>
 				<li><a href="#">支撑系统</a></li>
 				<li><a href="#">后台管理</a></li>
-				<li class="active"><a href="#">抽取供应商记录</a></li>
+				<li class="active"><a href="#">抽取专家记录</a></li>
 			</ul>
 			<div class="clear"></div>
 		</div>
 	</div>
 	<div class="container">
 		<div class="headline-v2">
-			<h2>抽取供应商记录</h2>
+			<h2>抽取专家记录</h2>
 		</div>
 	</div>
 	
@@ -174,23 +174,21 @@
 							onclick="selectAll()" /></th>
 						<th class="info w50">序号</th>
 						<th class="info">采购项目名称</th>
-						<th class="info">采购机构</th>
 						<th class="info">抽取时间</th>
 						<th class="info">抽取地点</th>
 						<th class="info">抽取方式</th>
 					</tr>
 				</thead>
-				<c:forEach items="${extractslist}" var="extract" varStatus="vs">
+				<c:forEach items="${listExtractRecord}" var="extract" varStatus="vs">
 					<tr onclick="show('${extract.id}');">
 						<td class="tc"><input onclick="check()" type="checkbox"
 							name="chkItem" value="${user.id}" /></td>
 						<td class="tc">${(vs.index+1)}</td>
 						<td class="tc">${extract.projectName}sdds</td>
-						<td class="tc">${extract.procurementDepId}</td>
-						<td class="tc"><fmt:formatDate
-								value="${extract.extractionTime}"
-								pattern="yyyy年MM月dd日   HH:mm:ss" /></td>
-						<td class="tc">${extract.extractionSites }</td>
+ 						<td class="tc"><fmt:formatDate 
+ 								value="${extract.extractionTime}" 
+ 								pattern="yyyy年MM月dd日   HH:mm:ss" /></td> 
+						<td class="tc">${extract.extractionSites }</td> 
 						<td class="tc">
 							<c:if test="${extract.extractTheWay==0}">
 				             	             人工抽取

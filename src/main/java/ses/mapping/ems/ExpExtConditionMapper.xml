@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.ems.ExpExtConditionMapper">
+	<resultMap id="BaseResultMap" type="ses.model.ems.ExpExtCondition">
+		<!-- @mbggenerated -->
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
+		<result column="STATUS" jdbcType="DECIMAL" property="status" />
+		<result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+		<result column="EXPERTS_TYPE_ID" jdbcType="VARCHAR" property="expertsTypeId" />
+		<result column="TENDER_TIME" jdbcType="DATE" property="tenderTime" />
+		<result column="RESPONSE TIME" jdbcType="VARCHAR" property="responseTime" />
+		<result column="AGE" jdbcType="VARCHAR" property="age" />
+		<result column="SATISFY_CONDITION" jdbcType="DECIMAL" property="satisfyCondition" />
+		<result column="CATEGORY_ID" jdbcType="VARCHAR" property="categoryId" />
+		<result column="EXPERT_COUNT" jdbcType="DECIMAL" property="expertCount" />
+		<result column="EXPERT_ID" jdbcType="VARCHAR" property="expertId" />
+		<result column="EXPERTS_FROM" jdbcType="VARCHAR" property="expertsFrom" />
+	</resultMap>
+	<resultMap type="ses.model.ems.ExpExtCondition" id="BaseResultListMap"
+		extends="BaseResultMap">
+		<collection property="conTypes" column="ID"
+			ofType="ses.model.ems.ExtConType">
+			<id column="ctid" jdbcType="VARCHAR" property="id" />
+			<result column="cttypeid" jdbcType="DECIMAL" property="expertsTypeId" />
+			<result column="EXPERTS_COUNT" jdbcType="DECIMAL" property="expertsCount" />
+			<result column="EXPERTS_QUALIFICATION" jdbcType="VARCHAR"
+				property="expertsQualification" />
+			<result column="CATEGORY_ID" jdbcType="VARCHAR" property="categoryId" />
+			<result column="CATEGORY_NAME" jdbcType="VARCHAR" property="categoryName" />
+		</collection>
+	</resultMap>
+	<sql id="Base_Column_List">
+		<!-- @mbggenerated -->
+		ID, PROJECT_ID, STATUS, ADDRESS, EXPERTS_TYPE_ID, TENDER_TIME,
+		"RESPONSE TIME", AGE,
+		SATISFY_CONDITION, CATEGORY_ID, EXPERT_COUNT,
+		EXPERT_ID, EXPERTS_FROM
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		<!-- @mbggenerated -->
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_EMS_EXP_EXT_CONDITION
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		<!-- @mbggenerated -->
+		delete from T_SES_EMS_EXP_EXT_CONDITION
+		where ID =
+		#{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="ses.model.ems.ExpExtCondition">
+		<!-- @mbggenerated -->
+		insert into T_SES_EMS_EXP_EXT_CONDITION (ID, PROJECT_ID, STATUS,
+		ADDRESS, EXPERTS_TYPE_ID, TENDER_TIME,
+		"RESPONSE TIME", AGE,
+		SATISFY_CONDITION,
+		CATEGORY_ID, EXPERT_COUNT, EXPERT_ID,
+		EXPERTS_FROM)
+		values (#{id,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR},
+		#{status,jdbcType=DECIMAL},
+		#{address,jdbcType=VARCHAR},
+		#{expertsTypeId,jdbcType=VARCHAR}, #{tenderTime,jdbcType=DATE},
+		#{responseTime,jdbcType=VARCHAR}, #{age,jdbcType=VARCHAR},
+		#{satisfyCondition,jdbcType=DECIMAL},
+		#{categoryId,jdbcType=VARCHAR},
+		#{expertCount,jdbcType=DECIMAL}, #{expertId,jdbcType=VARCHAR},
+		#{expertsFrom,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="ses.model.ems.ExpExtCondition">
+		<!-- @mbggenerated -->
+		insert into T_SES_EMS_EXP_EXT_CONDITION
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="projectId != null">
+				PROJECT_ID,
+			</if>
+			<if test="status != null">
+				STATUS,
+			</if>
+			<if test="address != null">
+				ADDRESS,
+			</if>
+			<if test="expertsTypeId != null">
+				EXPERTS_TYPE_ID,
+			</if>
+			<if test="tenderTime != null">
+				TENDER_TIME,
+			</if>
+			<if test="responseTime != null">
+				"RESPONSE TIME",
+			</if>
+			<if test="age != null">
+				AGE,
+			</if>
+			<if test="satisfyCondition != null">
+				SATISFY_CONDITION,
+			</if>
+			<if test="categoryId != null">
+				CATEGORY_ID,
+			</if>
+			<if test="expertCount != null">
+				EXPERT_COUNT,
+			</if>
+			<if test="expertId != null">
+				EXPERT_ID,
+			</if>
+			<if test="expertsFrom != null">
+				EXPERTS_FROM,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="projectId != null">
+				#{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=DECIMAL},
+			</if>
+			<if test="address != null">
+				#{address,jdbcType=VARCHAR},
+			</if>
+			<if test="expertsTypeId != null">
+				#{expertsTypeId,jdbcType=VARCHAR},
+			</if>
+			<if test="tenderTime != null">
+				#{tenderTime,jdbcType=DATE},
+			</if>
+			<if test="responseTime != null">
+				#{responseTime,jdbcType=VARCHAR},
+			</if>
+			<if test="age != null">
+				#{age,jdbcType=VARCHAR},
+			</if>
+			<if test="satisfyCondition != null">
+				#{satisfyCondition,jdbcType=DECIMAL},
+			</if>
+			<if test="categoryId != null">
+				#{categoryId,jdbcType=VARCHAR},
+			</if>
+			<if test="expertCount != null">
+				#{expertCount,jdbcType=DECIMAL},
+			</if>
+			<if test="expertId != null">
+				#{expertId,jdbcType=VARCHAR},
+			</if>
+			<if test="expertsFrom != null">
+				#{expertsFrom,jdbcType=VARCHAR},
+			</if>
+		</trim>
+		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			select sys_guid() from dual
+		</selectKey>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="ses.model.ems.ExpExtCondition">
+		<!-- @mbggenerated -->
+		update T_SES_EMS_EXP_EXT_CONDITION
+		<set>
+			<if test="projectId != null">
+				PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				STATUS = #{status,jdbcType=DECIMAL},
+			</if>
+			<if test="address != null">
+				ADDRESS = #{address,jdbcType=VARCHAR},
+			</if>
+			<if test="expertsTypeId != null">
+				EXPERTS_TYPE_ID = #{expertsTypeId,jdbcType=VARCHAR},
+			</if>
+			<if test="tenderTime != null">
+				TENDER_TIME = #{tenderTime,jdbcType=DATE},
+			</if>
+			<if test="responseTime != null">
+				"RESPONSE TIME" = #{responseTime,jdbcType=VARCHAR},
+			</if>
+			<if test="age != null">
+				AGE = #{age,jdbcType=VARCHAR},
+			</if>
+			<if test="satisfyCondition != null">
+				SATISFY_CONDITION = #{satisfyCondition,jdbcType=DECIMAL},
+			</if>
+			<if test="categoryId != null">
+				CATEGORY_ID = #{categoryId,jdbcType=VARCHAR},
+			</if>
+			<if test="expertCount != null">
+				EXPERT_COUNT = #{expertCount,jdbcType=DECIMAL},
+			</if>
+			<if test="expertId != null">
+				EXPERT_ID = #{expertId,jdbcType=VARCHAR},
+			</if>
+			<if test="expertsFrom != null">
+				EXPERTS_FROM = #{expertsFrom,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="ses.model.ems.ExpExtCondition">
+		<!-- @mbggenerated -->
+		update T_SES_EMS_EXP_EXT_CONDITION
+		set PROJECT_ID =
+		#{projectId,jdbcType=VARCHAR},
+		STATUS = #{status,jdbcType=DECIMAL},
+		ADDRESS = #{address,jdbcType=VARCHAR},
+		EXPERTS_TYPE_ID =
+		#{expertsTypeId,jdbcType=VARCHAR},
+		TENDER_TIME =
+		#{tenderTime,jdbcType=DATE},
+		"RESPONSE TIME" =
+		#{responseTime,jdbcType=VARCHAR},
+		AGE = #{age,jdbcType=VARCHAR},
+		SATISFY_CONDITION = #{satisfyCondition,jdbcType=DECIMAL},
+		CATEGORY_ID =
+		#{categoryId,jdbcType=VARCHAR},
+		EXPERT_COUNT =
+		#{expertCount,jdbcType=DECIMAL},
+		EXPERT_ID =
+		#{expertId,jdbcType=VARCHAR},
+		EXPERTS_FROM =
+		#{expertsFrom,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<sql id="condition">
+		where 1 = 1
+		<trim suffixOverrides=",">
+			<if test="projectId != null and projectId != '' ">
+				AND EC.PROJECT_ID=#{projectId}
+			</if>
+			<if test="id != null and id !='' ">
+				AND EC."ID"=#{id}
+			</if>
+		</trim>
+	</sql>
+	<select id="list" parameterType="ses.model.ems.ExpExtCondition"
+		resultMap="BaseResultListMap">
+		SELECT
+		EC.*, CT."ID" AS ctid,
+		CT.CATEGORY_NAME,CT.EXPERTS_COUNT,CT.EXPERTS_QUALIFICATION,CT.EXPERTS_TYPE_ID
+		as cttypeid
+		FROM
+		T_SES_EMS_EXP_EXT_CONDITION ec LEFT JOIN
+		T_SES_EMS_EXP_EXT_CON_TYPE ct ON
+		EC."ID"=CT.CONDITION_ID
+		
+		<include refid="condition" />
+	</select>
+</mapper>

@@ -1,13 +1,22 @@
 @charset "UTF-8";
+
 .cursor {
-	cursor:pointer;
+	cursor: pointer;
 }
+
 .ww100 {
 	height: 500px;
 }
-.h100{
-	height: 100px!important;
+
+.h100 {
+	height: 100px !important;
 }
-.w350{
-	width: 350px!important; 
+
+.w350 {
+	width: 350px !important;
+}
+
+.hide {
+	border: 0px;
+	text-align: center;
 }
