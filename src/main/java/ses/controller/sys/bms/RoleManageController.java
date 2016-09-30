@@ -215,7 +215,7 @@ public class RoleManageController {
 	@RequestMapping("/openPreMenu")
 	public String openPreMenu(Model model, String id) {
 		model.addAttribute("rid", id);
-		return "ses/bms/role/addPreMenu";
+		return "ses/bms/role/add_menu";
 	}
 
 	/**

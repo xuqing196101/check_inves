@@ -83,9 +83,9 @@
 	            		var kind;
 	            		var pName;
 	            		if(data[0].status == 0){
-	            			state = "可用";
+	            			state = "<span class='label rounded-2x label-u'>可用</span>";
 	            		}else if(data[0].status == 1){
-	            			state = "暂停";
+	            			state = "<span class='label rounded-2x label-dark'>暂停</span>";
 	            		}
 	            		if(data[0].kind == 0){
 	            			kind = "采购管理后台";

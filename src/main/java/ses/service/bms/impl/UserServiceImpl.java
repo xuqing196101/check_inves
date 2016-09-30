@@ -143,8 +143,8 @@ public class UserServiceImpl implements UserServiceI {
 	}
 
 	public List<User> queryByList(User user) {
-		// TODO Auto-generated method stub
 		return userMapper.queryByList(user);
 	}
+	
 }
 
