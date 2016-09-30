@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -181,12 +182,20 @@ function tijiao(str){
         <div class="padding-top-10">
           <ul class="nav nav-tabs bgdd">
             <li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" onclick="tijiao('essential');">基本信息</a></li>
-          <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('financial');">财务信息</a></li>
+            <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('financial');">财务信息</a></li>
             <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('shareholder');">股东信息</a></li>
-          <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" onclick="tijiao('materialProduction');">物资-生产型专业信息</a></li>
+            <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
+            <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" onclick="tijiao('materialProduction');">物资-生产型专业信息</a></li>
+            </c:if>
+            <c:if test="${fn:contains(supplierTypeNames, '销售型')}">
             <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('materialSales');">物资-销售型专业信息</a></li>
+            </c:if>
+            <c:if test="${fn:contains(supplierTypeNames, '工程')}">
             <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('engineering');">工程-专业信息</a></li>
+            </c:if>
+            <c:if test="${fn:contains(supplierTypeNames, '服务')}">
             <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('service');">服务-专业信息</a></li>
+            </c:if>
             <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" >品目信息</a></li>
             <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >产品信息</a></li>
             <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('applicationFrom');">申请表</a></li>
@@ -400,7 +409,8 @@ function tijiao(str){
                     </li>
                     <li class="col-md-6 p0 "><span class="" id="businessEndDate2"><i class="red">＊</i>营业期限：</span>
                       <div class="input-append">
-                        <input class="span3" id="businessEndDate3" value="${suppliers.businessStartDate} 至 ${suppliers.businessEndDate}" type="text"/>
+                        <input class="span3" id="businessEndDate3"  style="width:140px;" value="<fmt:formatDate value='${suppliers.businessStartDate}' pattern='yyyy-MM-dd'/>"type="text"/>
+                        <input class="span3" id="businessEndDate3"  style="width:140px;" value="<fmt:formatDate value='${suppliers.businessEndDate}' pattern='yyyy-MM-dd'/>"type="text"/>
                         <div id="businessEndDate1" class="b f18 fl ml10 red hand">√</div>
                         <div id="businessEndDate" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
                       </div>

@@ -216,6 +216,6 @@ public interface SupplierAuditService {
      */
     void updateBySupplierId (SupplierAudit supplierAudit);
     
-    List<String> findSupplierTypeNameBySupplierId(String supplierId);
+    String findSupplierTypeNameBySupplierId(String supplierId);
 
 } 

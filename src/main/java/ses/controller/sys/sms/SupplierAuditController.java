@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -45,7 +46,7 @@ import com.github.pagehelper.PageInfo;
 @Controller
 @Scope("prototype")
 @RequestMapping("/supplierAudit")
-public class SupplierAuditController {
+public class SupplierAuditController extends BaseSupplierController{
 	@Autowired
 	private SupplierAuditService supplierAuditService;
 	
@@ -126,6 +127,9 @@ public class SupplierAuditController {
 	@RequestMapping("essential")
 	public String essentialInformation(HttpServletRequest request,Supplier supplier,String supplierId) {
 		supplier = supplierAuditService.supplierById(supplierId);
+		//勾选的供应商类型
+		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
+		request.setAttribute("supplierTypeNames", supplierTypeName);
 		request.setAttribute("suppliers", supplier);
 		return "ses/sms/supplier_audit/essential";
 	}
@@ -142,6 +146,9 @@ public class SupplierAuditController {
 	public String financialInformation(HttpServletRequest request,SupplierFinance supplierFinance,Supplier supplier) {
 		String supplierId = supplierFinance.getSupplierId();
 		List<SupplierFinance> list = supplierAuditService.supplierFinanceBySupplierId(supplierId);
+		//勾选的供应商类型
+		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
+		request.setAttribute("supplierTypeNames", supplierTypeName);
 		request.setAttribute("supplierId", supplierId);
 		request.setAttribute("financial", list);
 
@@ -160,6 +167,9 @@ public class SupplierAuditController {
 	public String shareholderInformation(HttpServletRequest request,SupplierStockholder supplierStockholder) {
 		String supplierId = supplierStockholder.getSupplierId();
 		List<SupplierStockholder> list = supplierAuditService.ShareholderBySupplierId(supplierId);
+		//勾选的供应商类型
+		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
+		request.setAttribute("supplierTypeNames", supplierTypeName);
 		request.setAttribute("supplierId", supplierId);
 		request.setAttribute("shareholder", list);
 		return "ses/sms/supplier_audit/shareholder";
@@ -182,10 +192,9 @@ public class SupplierAuditController {
 		//供应商组织机构人员,产品研发能力,产品生产能里,质检测试登记信息
 		/*supplierMatPro = supplierAuditService.findSupplierMatProBysupplierId(supplierId);*/
 		supplierMatPro =supplierService.get(supplierId).getSupplierMatPro();
-		
-		List<String> list= supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
-		
-		
+		//勾选的供应商类型
+		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
+		request.setAttribute("supplierTypeNames", supplierTypeName);
 		request.setAttribute("supplierId", supplierId);	
 		request.setAttribute("materialProduction",materialProduction);
 		request.setAttribute("supplierMatPros", supplierMatPro);
@@ -207,6 +216,9 @@ public class SupplierAuditController {
 		List<SupplierCertSell> supplierCertSell=supplierAuditService.findCertSellBySupplierId(supplierId);
 		//供应商组织机构和人员
 		supplierMatSell = supplierService.get(supplierId).getSupplierMatSell();
+		//勾选的供应商类型
+		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
+		request.setAttribute("supplierTypeNames", supplierTypeName);
 		request.setAttribute("supplierCertSell", supplierCertSell);
 		request.setAttribute("supplierMatSells", supplierMatSell);
 		request.setAttribute("supplierId", supplierId);
@@ -230,6 +242,9 @@ public class SupplierAuditController {
 		List<SupplierAptitute> supplierAptitute = supplierAuditService.findAptituteBySupplierId(supplierId);
 		//组织结构和注册人人员
 		supplierMatEng = supplierAuditService.findMatEngBySupplierId(supplierId);
+		//勾选的供应商类型
+		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
+		request.setAttribute("supplierTypeNames", supplierTypeName);
 		request.setAttribute("supplierCertEng", supplierCertEng);
 		request.setAttribute("supplierAptitutes", supplierAptitute);
 		request.setAttribute("supplierMatEngs",supplierMatEng);
@@ -254,6 +269,9 @@ public class SupplierAuditController {
 		List<SupplierCertSe> supplierCertSe = supplierAuditService.findCertSeBySupplierId(supplierId);
 		//组织结构和人员
 		supplierMatSe = supplierAuditService.findMatSeBySupplierId(supplierId);
+		//勾选的供应商类型
+		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
+		request.setAttribute("supplierTypeNames", supplierTypeName);
 		request.setAttribute("supplierCertSes", supplierCertSe);
 		request.setAttribute("supplierMatSes", supplierMatSe);
 		request.setAttribute("supplierId", supplierId);
@@ -298,6 +316,9 @@ public class SupplierAuditController {
 			supplierId = (String) request.getSession().getAttribute("supplierId");
 		}
 		List<SupplierAudit> reasonsList = supplierAuditService.selectByPrimaryKey(supplierId);
+		//勾选的供应商类型
+		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
+		request.setAttribute("supplierTypeNames", supplierTypeName);
 		request.getSession().getAttribute("status");
 		request.setAttribute("supplierId", supplierId);
 		request.setAttribute("reasonsList", reasonsList);
@@ -392,8 +413,20 @@ public class SupplierAuditController {
 	public String applicationForm(HttpServletRequest request, SupplierAudit supplierAudit,Supplier supplier) throws IOException {
 		String supplierId = supplierAudit.getSupplierId();
 		supplier = supplierAuditService.supplierById(supplierId);
+		//勾选的供应商类型
+		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
+		request.setAttribute("supplierTypeNames", supplierTypeName);
 		request.setAttribute("applicationForm", supplier);
 		request.setAttribute("supplierId", supplierId);
 		return "ses/sms/supplier_audit/application_form";
+	}
+	
+	@RequestMapping(value = "download")
+	public void download(HttpServletRequest request, HttpServletResponse response, String fileName) {
+		if (fileName != null && !"".equals(fileName)) {
+			super.download(request, response, fileName);
+		} else {
+			super.alert(request, response, "无附件下载 !");
+		}
 	}
 }

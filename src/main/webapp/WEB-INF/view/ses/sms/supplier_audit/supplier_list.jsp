@@ -159,8 +159,8 @@
             <td class="tc w50">${page.count}</td>
             <td class="tc">${list.supplierName }</td>
             <td class="tc">
-            	<c:forEach items="${list.listSupplierTypeNames}" var="str">
-            		${str}
+            	<c:forEach items="${list.listSupplierTypeRelates}" var="str">
+            		${str.supplierTypeName}
             	</c:forEach>
             </td>
             <td class="tc">${list.businessType }</td>

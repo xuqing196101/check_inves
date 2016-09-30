@@ -390,7 +390,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	}
 
 	@Override
-	public List<String> findSupplierTypeNameBySupplierId(String supplierId) {
+	public String findSupplierTypeNameBySupplierId(String supplierId) {
 		
 		Supplier supplier = supplierMapper.getSupplier(supplierId);
 		List<SupplierTypeRelate> listSupplierTypeRelates = supplier.getListSupplierTypeRelates();
@@ -402,7 +402,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			supplierTypeNames += listSupplierTypeRelates.get(i).getSupplierTypeName();
 		}
 		//return supplierTypeRelateMapper.findSupplierTypeNameBySupplierId(supplierId);
-		return null;
+		return supplierTypeNames;
 	}
 
 
