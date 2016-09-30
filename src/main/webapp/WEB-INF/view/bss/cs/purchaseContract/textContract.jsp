@@ -79,7 +79,11 @@
    	}
    	/*点击事件*/
     function zTreeOnClick(event,treeId,treeNode){
-   		treeid=treeNode.id
+    	 if (treeNode) {
+            $("#citySel4").val(treeNode.name);
+            $("#categorieId4").val(treeNode.id);
+            hideMenu();
+    	 }
     }
    	
     function showMenu() {
@@ -97,6 +101,24 @@
 		if (!(event.target.id == "menuBtn" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length>0)) {
 			hideMenu();
 		}
+	}
+	
+	function bynSub(){
+		var html = "";
+		var tabl = $("#detailtable");
+		html += "<tr><td class='info w30'><input onclick='check()' type='checkbox' name='chkItem' value='' /></td>";
+		html += "<td class='tc'></td>";
+		html += "<td class='tc'>"+$('#planNo').val()+"</td>";
+		html += "<td class='tc'>"+$('#citySel4').val()+"</td>";
+		html += "<td class='tc'>"+$('#bra').val()+"</td>"
+		html += "<td class='tc'>"+$('#model').val()+"</td>"
+		html += "<td class='tc'>"+$('#unit').val()+"</td>"
+		html += "<td class='tc'>"+$('#purNum').val()+"</td>"
+		html += "<td class='tc'>"+$('#univalent').val()+"</td>"
+		html += "<td class='tc'>"+$('#purBudgetSum').val()+"</td>"
+		html += "<td class='tc'>"+$('#givetime').val()+"</td>"
+		html += "<td class='tc'>"+$('#remarks').val()+"</td>"
+		tabl.append(html);
 	}
 	
 	var index;
@@ -127,8 +149,8 @@
    
 <!-- 新增模板开始-->
    <div class="container">
-   		<%--<form action="<%=basePath %>pqinfo/save.html" method="post">
-   		--%><div class="headline-v2">
+   		<form action="<%=basePath %>pqinfo/save.html" method="post">
+   		<div class="headline-v2">
    			<h2>基本信息</h2>
    		</div>
    		<ul class="list-unstyled list-flow p0_20">
@@ -136,7 +158,7 @@
 		     <li class="col-md-6  p0 ">
 			   <span class="">合同名称：</span>
 			   <div class="input-append">
-		        <input class="span2 contract_code" value="${project.name}" id="contract_code" type="text">
+		        <input class="span2 contract_code" id="contract_code" value="${project.name}" type="text">
 		       </div>
 			 </li>
     		 <li class="col-md-6 p0">
@@ -312,7 +334,7 @@
 			<button class="btn btn-windows add" onclick="openDetail()">添加</button>
 			<button class="btn btn-windows delete" onclick="delDetail()">删除</button>
 		</div>
-    	<table class="table table-bordered table-condensed mt5">
+    	<table id="detailtable" class="table table-bordered table-condensed mt5">
 		 <thead>
 			<tr>
 				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
@@ -331,18 +353,18 @@
 		</thead>
 		<c:forEach items="${requList}" var="reque" varStatus="vs">
 			<tr>
-				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
-				<td class="tc">${(vs.index+1)}</td>
+				<td class="info w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
+				<td class="info w50">${(vs.index+1)}</td>
 				<td class="tc">${reque.planNo}</td>
 				<td class="tc">${reque.goodsName}</td>
 				<td class="tc"></td>
-				<td class="tc">${stand}</td>
-				<td class="tc">${item}</td>
-				<td class="tc">${purchaseCount}</td>
-				<td class="tc">${price}</td>
-				<td class="tc">${budget}</td>
-				<td class="tc">${deliverDate}</td>
-				<td class="tc">${memo}</td>
+				<td class="tc">${reque.stand}</td>
+				<td class="tc">${reque.item}</td>
+				<td class="tc">${reque.purchaseCount}</td>
+				<td class="tc">${reque.price}</td>
+				<td class="tc">${reque.budget}</td>
+				<td class="tc">${reque.deliverDate}</td>
+				<td class="tc">${reque.memo}</td>
 			</tr>
    		</c:forEach>
 	</table>
@@ -354,8 +376,8 @@
    			<button class="btn btn-windows save" onclick="next()">打印</button>
    			<button class="btn btn-windows cancel" onclick="history.go(-1)" type="button">取消</button>
   		</div>
-  	<%--</form>
- --%></div>
+  	</form>
+ </div>
  	<div id="openDiv" class="dnone">
 	<div id="menuContent" class="menuContent dw188">
 		<ul id="treeDemo" class="ztree"></ul>
@@ -363,7 +385,7 @@
 			<div align="center">
 			<table>
 			<tr align="left">
-				<th><span class="spredm">*</span>品目划分:</th>
+				<th><span class="spredm">*</span>物资名称:</th>
 				<td>
 				<input type="hidden" id="categorieId4" name="categoryId" value="">
 				<input id="citySel4" type="text"  readonly name="categoryName"  value=""  class="title" onclick=" showMenu(); return false;"/>&nbsp;&nbsp;&nbsp;
@@ -371,10 +393,14 @@
 				</td>
 				</tr>
 				<tr align="left">
+				<th><span class="spredm">*</span>编号:</th>
+				 <td><input maxlength="11" id="planNo" name="planNo" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"   type="text" id="num" >&nbsp;&nbsp;&nbsp;</td>
+				</tr>
+				<tr align="left">
 				<th><span class="spredm">*</span>数量:</th>
 				 <td><input maxlength="11" id="purNum" name="purNum" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"   type="text" id="num" >&nbsp;&nbsp;&nbsp;</td>
 				</tr>
-				<tr align="left">
+				<%--<tr align="left">
 				<th><span class="spredm">*</span>财政预算:</th>
 				<td><input maxlength="11" id="purBudget" name="purBudget" onblur="sum1();"  type="text"  >&nbsp;&nbsp;&nbsp;</td>
 				 </tr>
@@ -382,17 +408,37 @@
 				 <th><span class="spredm">*</span>非财政预算 :</th>
 				 <td><input maxlength="11" id="purOtherBudget" name="purOtherBudget"  onblur="sum2();"  type="text"   >&nbsp;&nbsp;&nbsp;</td>
 				</tr>
+				--%>
 				<tr align="left">
-				<th><span class="spredm">*</span>预算合计:</th>
-				 <td><input maxlength="11" id="purBudgetSum" name="purBudgetSum"  value="0" readonly="readonly" type="text" >&nbsp;&nbsp;&nbsp;</td>
-			
-				</tr >
+				<th><span class="spredm">*</span>品牌商标:</th>
+				 <td><input maxlength="11" id="bra" name="bra"  value="" type="text" >&nbsp;&nbsp;&nbsp;</td>
+				</tr>
+				<tr align="left">
+				<th><span class="spredm">*</span>规格型号:</th>
+				 <td><input maxlength="11" id="model" name="model"  value="" type="text" >&nbsp;&nbsp;&nbsp;</td>
+				</tr>
+				<tr align="left">
+				<th><span class="spredm">*</span>计量单位:</th>
+				 <td><input maxlength="11" id="unit" name="unit"  value="" type="text" >&nbsp;&nbsp;&nbsp;</td>
+				</tr>
+				<tr align="left">
+				<th><span class="spredm">*</span>单价:</th>
+				 <td><input maxlength="11" id="univalent" name="univalent"  value="" type="text" >&nbsp;&nbsp;&nbsp;</td>
+				</tr>
+				<tr align="left">
+				<th><span class="spredm">*</span>交付时间:</th>
+				 <td><input maxlength="11" id="givetime" name="givetime"  value="" type="text" >&nbsp;&nbsp;&nbsp;</td>
+				</tr>
 			<tr align="left" >
 			<th>备注(200字以内):</th>
 				<td align="left">
-					<textarea class="textAreaSize" rows="5" cols="1"></textarea>
+					<textarea id="remarks" name="remarks" class="textAreaSize" rows="5" cols="1"></textarea>
 				</td>
 			</tr>
+			<tr align="left">
+				<th><span class="spredm">*</span>合计:</th>
+				 <td><input maxlength="11" id="purBudgetSum" name="purBudgetSum"  value="0" readonly="readonly" type="text" >&nbsp;&nbsp;&nbsp;</td>
+				</tr>
 			<tr align="left">
 			
 				<td colspan="6" align="center">

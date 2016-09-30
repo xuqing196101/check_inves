@@ -71,13 +71,13 @@
 				<td class="tc">${reque.planNo}</td>
 				<td class="tc">${reque.goodsName}</td>
 				<td class="tc"></td>
-				<td class="tc">${stand}</td>
-				<td class="tc">${item}</td>
-				<td class="tc">${purchaseCount}</td>
-				<td class="tc">${price}</td>
-				<td class="tc">${budget}</td>
-				<td class="tc">${deliverDate}</td>
-				<td class="tc">${memo}</td>
+				<td class="tc">${reque.stand}</td>
+				<td class="tc">${reque.item}</td>
+				<td class="tc">${reque.purchaseCount}</td>
+				<td class="tc">${reque.price}</td>
+				<td class="tc">${reque.budget}</td>
+				<td class="tc">${reque.deliverDate}</td>
+				<td class="tc">${reque.memo}</td>
 			</tr>
    		</c:forEach>
 	</table>
