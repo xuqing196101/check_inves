@@ -97,7 +97,7 @@ public class SupplierQuery {
 		if(status!=null){
 			return "ses/sms/supplier_query/all_ruku_supplier";
 		}else{
-			return "ses/sms/supplier_query/purchasedep_map_list";
+			return "ses/sms/supplier_query/all_supplier";
 		}
 		
 	}
@@ -125,6 +125,7 @@ public class SupplierQuery {
 				}
 			}
 		}
+		model.addAttribute("address", supplier.getAddress());
 		model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
 		return "ses/sms/supplier_query/select_supplier_by_province";
 	}

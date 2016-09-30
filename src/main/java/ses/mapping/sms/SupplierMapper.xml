@@ -694,10 +694,10 @@
 		<if test="endDate != null">
 			AND t1.CREATED_AT &lt;= #{endDate}
 		</if>
-		<if test="contactName != null">
+		<if test="contactName != null and contactName != ''">
 			AND CONTACT_NAME = #{contactName}
 		</if>
-	 	<if test="supplierType != null">
+	 	<if test="supplierType != null and supplierType != ''">
 			AND t3.NAME like #{supplierType}
 		</if>
         <if test="address != null and address !=''">  
