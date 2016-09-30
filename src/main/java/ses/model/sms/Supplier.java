@@ -1,6 +1,7 @@
 package ses.model.sms;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -244,7 +245,7 @@ public class Supplier implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER.REGIST_FUND
 	 * </pre>
 	 */
-	private Long registFund;
+	private BigDecimal registFund;
 
 	/**
 	 * <pre>
@@ -443,24 +444,18 @@ public class Supplier implements Serializable {
 	private SupplierMatEng supplierMatEng;
 
 	private String supplierTypeIds;
-	
-	private Date passDate;
-	private Date startDate;
-	
-	private Date endDate;
-	
-	private String supplierType;
-	public Date getPassDate() {
-		return passDate;
-	}
-
-	public void setPassDate(Date passDate) {
-		this.passDate = passDate;
-	}
 
 	private String supplierTypeNames;
 
-	private List<String> listSupplierTypeNames = new ArrayList<String>();
+	private List<SupplierTypeRelate> listSupplierTypeRelates = new ArrayList<SupplierTypeRelate>();
+
+	private Date passDate;
+
+	private Date startDate;
+
+	private Date endDate;
+
+	private String supplierType;
 
 	public String getId() {
 		return id;
@@ -686,11 +681,11 @@ public class Supplier implements Serializable {
 		this.registAuthority = registAuthority;
 	}
 
-	public Long getRegistFund() {
+	public BigDecimal getRegistFund() {
 		return registFund;
 	}
 
-	public void setRegistFund(Long registFund) {
+	public void setRegistFund(BigDecimal registFund) {
 		this.registFund = registFund;
 	}
 
@@ -934,14 +929,6 @@ public class Supplier implements Serializable {
 		this.supplierTypeNames = supplierTypeNames;
 	}
 
-	public List<String> getListSupplierTypeNames() {
-		return listSupplierTypeNames;
-	}
-
-	public void setListSupplierTypeNames(List<String> listSupplierTypeNames) {
-		this.listSupplierTypeNames = listSupplierTypeNames;
-	}
-
 	public String getSupplierTypeIds() {
 		return supplierTypeIds;
 	}
@@ -973,5 +960,21 @@ public class Supplier implements Serializable {
 	public void setSupplierType(String supplierType) {
 		this.supplierType = supplierType;
 	}
-	
+
+	public Date getPassDate() {
+		return passDate;
+	}
+
+	public void setPassDate(Date passDate) {
+		this.passDate = passDate;
+	}
+
+	public List<SupplierTypeRelate> getListSupplierTypeRelates() {
+		return listSupplierTypeRelates;
+	}
+
+	public void setListSupplierTypeRelates(List<SupplierTypeRelate> listSupplierTypeRelates) {
+		this.listSupplierTypeRelates = listSupplierTypeRelates;
+	}
+
 }

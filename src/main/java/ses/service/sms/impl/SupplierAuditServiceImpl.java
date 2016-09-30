@@ -32,6 +32,7 @@ import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSe;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierType;
+import ses.model.sms.SupplierTypeRelate;
 import ses.service.sms.SupplierAuditService;
 import ses.util.PropertiesUtil;
 
@@ -391,7 +392,17 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	@Override
 	public List<String> findSupplierTypeNameBySupplierId(String supplierId) {
 		
-		return supplierTypeRelateMapper.findSupplierTypeNameBySupplierId(supplierId);
+		Supplier supplier = supplierMapper.getSupplier(supplierId);
+		List<SupplierTypeRelate> listSupplierTypeRelates = supplier.getListSupplierTypeRelates();
+		String supplierTypeNames = "";
+		for (int i = 0; i < listSupplierTypeRelates.size(); i++) {
+			if (i > 0) {
+				supplierTypeNames += ",";
+			}
+			supplierTypeNames += listSupplierTypeRelates.get(i).getSupplierTypeName();
+		}
+		//return supplierTypeRelateMapper.findSupplierTypeNameBySupplierId(supplierId);
+		return null;
 	}
 
 

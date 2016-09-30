@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import ses.dao.sms.SupplierMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierTypeRelate;
 import ses.service.sms.SupplierService;
 import ses.util.Encrypt;
 
@@ -26,19 +27,17 @@ public class SupplierServiceImpl implements SupplierService {
 	@Autowired
 	private SupplierMapper supplierMapper;
 	
-	@Autowired
-	private SupplierTypeRelateMapper supplierTypeRelateMapper;
 	
 	@Override
 	public Supplier get(String id) {
 		Supplier supplier = supplierMapper.getSupplier(id);
-		List<String> listNames = supplierTypeRelateMapper.findSupplierTypeNameBySupplierId(id);
+		List<SupplierTypeRelate> listSupplierTypeRelates = supplier.getListSupplierTypeRelates();
 		String supplierTypeNames = "";
-		for (int i = 0; i < listNames.size(); i++) {
+		for(int i = 0; i < listSupplierTypeRelates.size(); i++) {
 			if (i > 0) {
 				supplierTypeNames += ",";
 			}
-			supplierTypeNames += listNames.get(i);
+			supplierTypeNames += listSupplierTypeRelates.get(i).getSupplierTypeName();
 		}
 		supplier.setSupplierTypeNames(supplierTypeNames);
 		return supplier;

@@ -672,7 +672,12 @@
 	<select id="findSupplier" parameterType="ses.model.sms.Supplier" resultMap="findSupplierMap">
 		select
 			t1.*,
-			t3. NAME as SUPPLIER_TYPE_NAME
+			t2.ID as SUPPLIER_RELATE_ID,
+			t2.SUPPLIER_ID,
+			t2.SUPPLIER_TYPE_ID as SUPPLIER_TYPE_ID_,
+			t2.CREATED_AT as CREATED_AT_,
+			t2.UPDATED_AT as UPDATED_AT_,
+			t3.NAME as SUPPLIER_TYPE_NAME
 		from
 			T_SES_SMS_SUPPLIER t1
 			left join T_SES_SMS_SUPPLIER_TYPE_RELATE t2 on t1. ID = t2.SUPPLIER_ID
@@ -707,8 +712,13 @@
 	</select>
 	
 	<resultMap type="ses.model.sms.Supplier" id="findSupplierMap" extends="BaseResultMap">
-		<collection property="listSupplierTypeNames" ofType="java.lang.String">
-			<result column="SUPPLIER_TYPE_NAME" javaType="java.lang.String"/>
+		<collection property="listSupplierTypeRelates" ofType="ses.model.sms.SupplierTypeRelate">
+			<result column="SUPPLIER_RELATE_ID" property="id"/>
+			<result column="SUPPLIER_ID" property="supplierId"/>
+			<result column="SUPPLIER_TYPE_ID_" property="supplierTypeId"/>
+			<result column="CREATED_AT_" property="createdAt"/>
+			<result column="UPDATED_AT_" property="updatedAt"/>
+			<result column="SUPPLIER_TYPE_NAME" property="supplierTypeName"/>
 		</collection>
 	</resultMap>
 
@@ -717,7 +727,7 @@
 		select count(*) from T_SES_SMS_SUPPLIER
 		where 1=1
 		<if test="status!=null">
-			and status= #{status,jdbcType=DECIMAL}
+			and status= #{status}
 		</if>
 	</select>
 
@@ -737,5 +747,6 @@
 		<association property="supplierMatSell" select="ses.dao.sms.SupplierMatSellMapper.getMatSellBySupplierId" column="ID" />
 		<collection property="listSupplierFinances" select="ses.dao.sms.SupplierFinanceMapper.findFinanceBySupplierId" column="ID" />
 		<collection property="listSupplierStockholders" select="ses.dao.sms.SupplierStockholderMapper.findStockholderBySupplierId" column="ID" />
+		<collection property="listSupplierTypeRelates" select="ses.dao.sms.SupplierTypeRelateMapper.findSupplierTypeBySupplierId" column="ID" />
 	</resultMap>
 </mapper>
