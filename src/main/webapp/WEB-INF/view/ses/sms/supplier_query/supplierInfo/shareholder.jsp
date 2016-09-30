@@ -1,13 +1,21 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
+<!DOCTYPE html>
+<html class=" js cssanimations csstransitions" lang="en"><!--<![endif]-->
 <head>
-<link href="${pageContext.request.contextPath}/public/ZHH/css/import_supplier.css" media="screen" rel="stylesheet">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>股东信息</title>
+<!-- Meta -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
 <link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" type="text/css"/>
 <link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/animate.css" media="screen" rel="stylesheet">
@@ -43,6 +51,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="<%=basePath%>public/ZHH/css/footer-v4.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/masterslider.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/james.css" media="screen" rel="stylesheet">
+<link href="<%=basePath%>public/layer/skin/layer.css" media="screen" rel="stylesheet" type="text/css">
+<link href="<%=basePath%>public/layer/skin/layer.ext.css" media="screen" rel="stylesheet" type="text/css">
 <link href="<%=basePath%>public/ZHH/css/WdatePicker(1).css" rel="stylesheet" type="text/css">
 <script src="<%=basePath%>public/ZHH/js/hm.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
@@ -65,7 +75,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/owl-carousel.js"></script>
 <script src="<%=basePath%>public/ZHH/js/owl-recent-works.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="<%=basePath%>public/ZHH/js/WdatePicker.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.form.min.js"></script>
+<script src="<%=basePath%>public/layer/layer.js"></script>
+<script src="<%=basePath%>public/layer/extend/layer.ext.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.validate.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.maskedinput.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery-ui.min.js"></script>
@@ -96,110 +109,112 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/masterslider.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.easing.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/james.js"></script>
-<script src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
-<script src="${pageContext.request.contextPath}/public/highmap/js/highmaps.js"></script>
-<script src="${pageContext.request.contextPath}/public/highmap/js/modules/exporting.js"></script>
-<script src="${pageContext.request.contextPath}/public/highmap/js/china-data.js"></script>
-<title>My JSP 'index.jsp' starting page</title>
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">    
-<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-<meta http-equiv="description" content="This is my page">
-<style type="text/css">
-</style>
 <script type="text/javascript">
-	$(function () {
-    var data = [
-        ${data}
-    ];
-
-    $('#container').highcharts('Map', {
-        title : {
-            text : ''
-        },
-        subtitle : {
-            text : ''
-        },
-         mapNavigation: {
-            enabled: true,
-            buttonOptions: {
-                verticalAlign: 'bottom'
-            }
-        }, 
-        colorAxis: {
-            min: 0
-        },
-        series : [{
-            data : data,
-            mapData: Highcharts.maps['countries/china'],
-            joinBy: 'hc-key',
-            name: '供应商数量统计',
-            states: {
-                hover: {
-                    color: '#BADA55'
-                }
-            },
-            dataLabels: {
-                enabled: true,
-                format: '{point.name}'
-            },
-            point: {
-               events: {
-                   click: function () { 
-                   var address=this.name;
-                   address=encodeURI(address);
-                   address=encodeURI(address);
-                       window.location.href="<%=basePath%>supplierQuery/findSupplierByPriovince.html?address="+address;
-                    }
-                  }
-           }
-        }]
+function reason(id){
+  var supplierId=$("#supplierId").val();
+  var auditField=$("#"+id).text()+"股东信息"; //审批的字段名字
+   layer.prompt({title: '请填写不通过理由', formType: 2}, function(text){
+    $.ajax({
+        url:"<%=basePath%>supplierAudit/auditReasons.html",
+        type:"post",
+        data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId,
+      });
+      $("#"+id+"_hide").hide();
+      layer.msg("审核不通过的理由是："+text);
     });
-});
-function submit(){
-	form1.submit();
+}
+
+function tijiao(str){
+  var action;
+  if(str=="essential"){
+     action ="<%=basePath%>supplierQuery/essential.html";
+  }
+  if(str=="financial"){
+    action = "<%=basePath%>supplierQuery/financial.html";
+  }
+  if(str=="shareholder"){
+    action = "<%=basePath%>supplierQuery/shareholder.html";
+  }
+  if(str=="materialProduction"){
+    action = "<%=basePath%>supplierQuery/materialProduction.html";
+  }
+  if(str=="materialSales"){
+    action = "<%=basePath%>supplierQuery/materialSales.html";
+  }
+  if(str=="engineering"){
+    action = "<%=basePath%>supplierQuery/engineering.html";
+  }
+  if(str=="service"){
+    action = "${pageContext.request.contextPath}/supplierQuery/serviceInformation.html";
+  }
+  if(str=="reasonsList"){
+    action = "<%=basePath%>supplierQuery/reasonsList.html";
+  }
+  $("#form_id").attr("action",action);
+  $("#form_id").submit();
 }
 </script>
 </head>
-  <body>
-  	<div class="container clear margin-top-30">
-  			<form id="form1" action="<%=basePath %>findSupplierByPriovince.html" method="post">
-		       <input type="hidden" name="page" id="page">
-		       <table class="table table-bordered table-condensed tc">
-		       	<tbody>
-		       		<tr>
-		       			<td style="text-align:right">供应商名称：</td>
-		       			<td style="text-align:right"><input class="span2" name="supplierName" value="${supplierName }" type="text"></td>
-		       			<td style="text-align:right">注册时间：</td>
-		       			<td>
-		       			<div class="mt5">
-		       			<input id="startDate" name="startDate" class="span2 fl" type="text" 
-		       			onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})"/>
-		       			<span class="add-on fl"><img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
-		       			<span class="fl mt5">至</span>
-		       			<input id="endDate" name="endDate" class="span2 ml10" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
-		       			<span class="add-on fl"><img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
-		       			</div>
-		       			</td>
-		       		</tr>
-		       		<tr>
-		       			<td style="text-align:right">联系人：</td>
-		       			<td><input class="span2" name="contactName" value="${contactName }" type="text"></td>
-		       			<td style="text-align:right">供应商类型：</td>
-		       			<td><input class="span2" name="supName" value="${name }" type="text">
-		       				 <input class="btn padding-left-20 padding-right-20 btn_back" onclick="submit()" type="button" value="查询">
-		     				 <input class="btn padding-left-20 padding-right-20 btn_back" onclick="reset()" type="reset" value="重置"> 
-		     				 <input class="btn padding-left-20 padding-right-20 btn_back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
-		       			</td>
-		       		</tr>
-		       	</tbody>
-		       </table>
-		     </form>
-     </div>
-  <div id="container"></div>
-  </body>
+  
+<body>
+ <div class="margin-top-10 breadcrumbs ">
+      <div class="container">
+		   <ul class="breadcrumb margin-left-0">
+		   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">供应商查看</a></li>
+		   </ul>
+		<div class="clear"></div>
+	  </div>
+   </div>
+  <!-- 项目戳开始 -->
+  <div class="container clear margin-top-30">
+    <!--详情开始-->
+    <div class="container content height-350">
+      <div class="row magazine-page">
+        <div class="col-md-12 tab-v2 job-content">
+          <div class="padding-top-10">
+            <ul class="nav nav-tabs bgdd">
+              <li class=""><a aria-expanded="fale" href="#tab-1" data-toggle="tab" onclick="tijiao('essential');">基本信息</a></li>
+              <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" onclick="tijiao('financial');">财务信息</a></li>
+              <li class="active"><a aria-expanded="true" href="#tab-3" data-toggle="tab" onclick="tijiao('shareholder');">股东信息</a></li>
+              <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" onclick="tijiao('materialProduction');">物资-生产型专业信息</a></li>
+              <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('materialSales');">物资-销售型专业信息</a></li>
+              <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('engineering');">工程-专业信息</a></li>
+              <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('service');">服务-专业信息</a></li>
+              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" >品目信息</a></li>
+              <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >产品信息</a></li>
+              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('reasonsList');">诚信记录</a></li>
+            </ul>
+              <div class="tab-content padding-top-20" style="height:1400px;">
+                <div class="tab-pane fade active in height-450" id="tab-1">
+                  <form id="form_id" action="" method="post"  enctype="multipart/form-data">
+                      <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
+                  </form>
+                  <table class="table table-bordered table-condensed">
+                    <thead>
+                      <tr>
+                        <th class="info">出资人</th>
+                        <th class="info">出资人性质</th>
+                        <th class="info">统一社会信用代码或身份证</th>
+                        <th class="info">出资金额或股份(万元/份)</th>
+                        <th class="info">比例</th>
+                      </tr>
+                    </thead>
+                    <c:forEach items="${shareholder}" var="s" >
+                      <tr>
+                        <td class="tc" id="${s.id }">${s.name}</td>
+                        <td class="tc">${s.nature}</td>
+                        <td class="tc">${s.identity}</td>
+                        <td class="tc">${s.shares}</td>
+                        <td class="tc">${s.proportion}</td>
+                      </tr>
+                    </c:forEach>
+                  </table>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
 </html>

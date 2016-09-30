@@ -688,6 +688,18 @@
 		<if test="status != null">
 			and STATUS = #{status}
 		</if>
+		<if test="startDate != null">
+			AND t1.CREATED_AT &gt;= #{startDate}
+		</if>
+		<if test="endDate != null">
+			AND t1.CREATED_AT &lt;= #{endDate}
+		</if>
+		<if test="contactName != null">
+			AND CONTACT_NAME = #{contactName}
+		</if>
+	 	<if test="supplierType != null">
+			AND t3.NAME like #{supplierType}
+		</if>
         <if test="address != null and address !=''">  
        		and ADDRESS like '%${address}%'   
        </if> 

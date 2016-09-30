@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.codec.Decoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -17,7 +19,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.github.pagehelper.PageInfo;
 
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
+import ses.model.sms.SupplierCertEng;
+import ses.model.sms.SupplierCertPro;
+import ses.model.sms.SupplierCertSe;
+import ses.model.sms.SupplierCertSell;
+import ses.model.sms.SupplierFinance;
+import ses.model.sms.SupplierMatEng;
+import ses.model.sms.SupplierMatPro;
+import ses.model.sms.SupplierMatSe;
+import ses.model.sms.SupplierMatSell;
+import ses.model.sms.SupplierStockholder;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierService;
 
@@ -28,6 +41,9 @@ public class SupplierQuery {
 	
 	@Autowired
 	private SupplierAuditService supplierAuditService;
+	
+	@Autowired
+	private SupplierService supplierService;
 
 	/**
 	 * @Title: highmaps
@@ -39,11 +55,10 @@ public class SupplierQuery {
 	 * @return String
 	 */
 	@RequestMapping("highmaps")
-	public String highmaps(Model model,Integer status){
+	public String highmaps(Supplier sup,Model model,Integer status){
 		StringBuffer sb = new StringBuffer("");
 		Map<String,String> myMap=getMap();
 		//调用供应商查询方法 List<Supplier>
-		Supplier sup=new Supplier();
 		if(status!=null){
 			sup.setStatus(status);
 		}
@@ -61,10 +76,12 @@ public class SupplierQuery {
 					}else{
 						map.put(myMap.get(str),map.get(myMap.get(str))+1);
 					}
+				}else{
+					map.put(myMap.get(str), 0);
 				}
 			}
 		}
-		for (Object o : map.keySet()) { 
+		/*for (Object o : map.keySet()) { 
 			sb.append("{'hc-key':'").
 			append(o).
 			append("','value':").
@@ -75,9 +92,14 @@ public class SupplierQuery {
 		String highMapStr=null;
 		if(sb.length()>0){
 			highMapStr=sb.deleteCharAt(sb.length()-1).toString();
+		}*/
+		model.addAttribute("data", map);
+		if(status!=null){
+			return "ses/sms/supplier_query/all_ruku_supplier";
+		}else{
+			return "ses/sms/supplier_query/purchasedep_map_list";
 		}
-		model.addAttribute("data", highMapStr);
-		return "ses/sms/supplier_query/all_supplier";
+		
 	}
 	
 	/**
@@ -138,6 +160,162 @@ public class SupplierQuery {
 		List<Supplier> listSupplier=supplierAuditService.supplierList(supplier, page==null?1:page);
 		model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
 		return "ses/sms/supplier_query/select_by_category";
+	}
+	
+	/**
+	 * @Title: essentialInformation
+	 * @author Song Biaowei
+	 * @date 2016-9-29 上午11:36:49  
+	 * @Description: 基本信息 
+	 * @param @param request
+	 * @param @param supplier
+	 * @param @param supplierId
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping("essential")
+	public String essentialInformation(HttpServletRequest request,Supplier supplier,String supplierId) {
+		supplier = supplierAuditService.supplierById(supplierId);
+		request.setAttribute("suppliers", supplier);
+		return "ses/sms/supplier_query/supplierInfo/essential";
+	}
+	
+	/**
+	 * @Title: financialInformation
+	 * @author Song Biaowei
+	 * @date 2016-9-29 上午11:37:15  
+	 * @Description: 财务信息 
+	 * @param @param request
+	 * @param @param supplierFinance
+	 * @param @param supplier
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping("financial")
+	public String financialInformation(HttpServletRequest request,SupplierFinance supplierFinance,Supplier supplier) {
+		String supplierId = supplierFinance.getSupplierId();
+		List<SupplierFinance> list = supplierAuditService.supplierFinanceBySupplierId(supplierId);
+		request.setAttribute("supplierId", supplierId);
+		request.setAttribute("financial", list);
+
+		return "ses/sms/supplier_query/supplierInfo/financial";
+	}
+
+	/**
+	 * @Title: shareholderInformation
+	 * @author Song Biaowei
+	 * @date 2016-9-29 上午11:37:50  
+	 * @Description: 股东信息
+	 * @param @param request
+	 * @param @param supplierStockholder
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping("shareholder")
+	public String shareholderInformation(HttpServletRequest request,SupplierStockholder supplierStockholder) {
+		String supplierId = supplierStockholder.getSupplierId();
+		List<SupplierStockholder> list = supplierAuditService.ShareholderBySupplierId(supplierId);
+		request.setAttribute("supplierId", supplierId);
+		request.setAttribute("shareholder", list);
+		return "ses/sms/supplier_query/supplierInfo/shareholder";
+	}
+	
+	/**
+	 * @Title: materialProduction
+	 * @author Song Biaowei
+	 * @date 2016-9-29 上午11:38:07  
+	 * @Description: 物资生产型专业信息  
+	 * @param @param request
+	 * @param @param supplierMatPro
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping("materialProduction")
+	public String materialProduction(HttpServletRequest request,SupplierMatPro supplierMatPro) {
+		String supplierId = supplierMatPro.getSupplierId();
+		/*List<SupplierCertPro> materialProduction = supplierService.get(supplierId).getSupplierMatPro().getListSupplierCertPros();*/
+		//资质资格证书信息
+		List<SupplierCertPro> materialProduction = supplierAuditService.findBySupplierId(supplierId);
+		//供应商组织机构人员,产品研发能力,产品生产能里,质检测试登记信息
+		/*supplierMatPro = supplierAuditService.findSupplierMatProBysupplierId(supplierId);*/
+		supplierMatPro =supplierService.get(supplierId).getSupplierMatPro();
+		
+		request.setAttribute("supplierId", supplierId);	
+		request.setAttribute("materialProduction",materialProduction);
+		request.setAttribute("supplierMatPros", supplierMatPro);
+		return "ses/sms/supplier_query/supplierInfo/material_production";
+	}
+	
+	/**
+	 * @Title: materialSales
+	 * @author Song Biaowei
+	 * @date 2016-9-29 上午11:39:08  
+	 * @Description: 物资销售专业信息 
+	 * @param @param request
+	 * @param @param supplierMatSell
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping("materialSales")
+	public String materialSales(HttpServletRequest request,SupplierMatSell supplierMatSell){
+		String supplierId = supplierMatSell.getSupplierId();
+		//资质资格证书
+		List<SupplierCertSell> supplierCertSell=supplierAuditService.findCertSellBySupplierId(supplierId);
+		//供应商组织机构和人员
+		supplierMatSell = supplierService.get(supplierId).getSupplierMatSell();
+		request.setAttribute("supplierCertSell", supplierCertSell);
+		request.setAttribute("supplierMatSells", supplierMatSell);
+		request.setAttribute("supplierId", supplierId);
+		return "ses/sms/supplier_query/supplierInfo/material_sales";
+	}
+	
+	/**
+	 * @Title: engineeringInformation
+	 * @author Song Biaowei
+	 * @date 2016-9-29 上午11:39:22  
+	 * @Description: 工程专业信息  
+	 * @param @param request
+	 * @param @param supplierMatEng
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping("engineering")
+	public String engineeringInformation(HttpServletRequest request,SupplierMatEng supplierMatEng){
+		String supplierId = supplierMatEng.getSupplierId();
+		//资质资格证书信息
+		List<SupplierCertEng> supplierCertEng= supplierAuditService.findCertEngBySupplierId(supplierId);
+		//资质资格信息
+		List<SupplierAptitute> supplierAptitute = supplierAuditService.findAptituteBySupplierId(supplierId);
+		//组织结构和注册人人员
+		supplierMatEng = supplierAuditService.findMatEngBySupplierId(supplierId);
+		request.setAttribute("supplierCertEng", supplierCertEng);
+		request.setAttribute("supplierAptitutes", supplierAptitute);
+		request.setAttribute("supplierMatEngs",supplierMatEng);
+		request.setAttribute("supplierId", supplierId);
+		return "ses/sms/supplier_query/supplierInfo/engineering";
+	}
+	
+	/**
+	 * @Title: serviceInformation
+	 * @author Song Biaowei
+	 * @date 2016-9-29 上午11:39:43  
+	 * @Description: 服务专业信息  
+	 * @param @param request
+	 * @param @param supplierMatSe
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping("serviceInformation")
+	public String serviceInformation(HttpServletRequest request,SupplierMatSe supplierMatSe){
+		String supplierId = supplierMatSe.getSupplierId();
+		//资质证书信息
+		List<SupplierCertSe> supplierCertSe = supplierAuditService.findCertSeBySupplierId(supplierId);
+		//组织结构和人员
+		supplierMatSe = supplierAuditService.findMatSeBySupplierId(supplierId);
+		request.setAttribute("supplierCertSes", supplierCertSe);
+		request.setAttribute("supplierMatSes", supplierMatSe);
+		request.setAttribute("supplierId", supplierId);
+		return "ses/sms/supplier_query/supplierInfo/service_information";
 	}
 	
 	public static List<String> getAllProvince(){

@@ -122,8 +122,8 @@ public class SupplierUpdateController {
 		todo.setSenderId(user.getTypeId());
 		//代办人id
 		todo.setReceiverId(supplier.getProcurementDepId());
-		//待办类型0 未审核 1 已审核 2 审核中
-		todo.setUndoType((short)0);
+		//待办类型 供应商
+		todo.setUndoType((short)1);
 		//标题
 		todo.setName("供应商信息变更申请表");
 		//逻辑删除 0未删除 1已删除
@@ -208,7 +208,7 @@ public class SupplierUpdateController {
 	public String edit(String id,Model model){
 		Supplier supplier=supplierService.get("83398A4D748E43CCA1007FDCF5007009");
 		model.addAttribute("supplier", supplier);
-		return "ses/sms/supplier_apply_edit/editSupplier";
+		return "ses/sms/supplier_apply_edit/edit_supplier";
 	}
 	
 	/**

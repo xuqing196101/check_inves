@@ -304,9 +304,7 @@ function loadCity(regionId){
 										<li class="col-md-12 p0 mt10"><span class="fl"><i class="red">＊</i>国内供货业绩：</span>
 											<div class="col-md-9 mt5">
 												<div class="row">
-													<textarea class="text_area col-md-12"  id="civilAchievement" name="civilAchievement"  title="不超过800个字" placeholder="">
-													${is.civilAchievement }
-													</textarea>
+													<textarea class="text_area col-md-12"  id="civilAchievement" name="civilAchievement"  title="不超过800个字" placeholder="">${is.civilAchievement }</textarea>
 												</div>
 											</div>
 											<div class="clear"></div>
@@ -314,9 +312,7 @@ function loadCity(regionId){
 										<li class="col-md-12 p0 mt10"><span class="fl"><i class="red">＊</i>企业简介：</span>
 											<div class="col-md-9 mt5">
 												<div class="row">
-													<textarea class="text_area col-md-12" id="remark" name="remark" title="不超过800个字" placeholder="">
-													${is.remark }
-													</textarea>
+													<textarea class="text_area col-md-12" id="remark" name="remark" title="不超过800个字" placeholder="">${is.remark }</textarea>
 												</div>
 											</div>
 											<div class="clear"></div>

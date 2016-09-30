@@ -1,4 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -100,74 +102,53 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
 <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
-<script src="${pageContext.request.contextPath}/public/highmap/js/highmaps.js"></script>
-<script src="${pageContext.request.contextPath}/public/highmap/js/modules/exporting.js"></script>
-<script src="${pageContext.request.contextPath}/public/highmap/js/china-data.js"></script>
 <title>My JSP 'index.jsp' starting page</title>
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">    
-<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-<meta http-equiv="description" content="This is my page">
-<style type="text/css">
-</style>
 <script type="text/javascript">
-	$(function () {
-    var data = [
-        ${data}
-    ];
-
-    $('#container').highcharts('Map', {
-        title : {
-            text : ''
-        },
-        subtitle : {
-            text : ''
-        },
-         mapNavigation: {
-            enabled: true,
-            buttonOptions: {
-                verticalAlign: 'bottom'
-            }
-        }, 
-        colorAxis: {
-            min: 0
-        },
-        series : [{
-            data : data,
-            mapData: Highcharts.maps['countries/china'],
-            joinBy: 'hc-key',
-            name: '供应商数量统计',
-            states: {
-                hover: {
-                    color: '#BADA55'
-                }
-            },
-            dataLabels: {
-                enabled: true,
-                format: '{point.name}'
-            },
-            point: {
-               events: {
-                   click: function () { 
-                   var address=this.name;
-                   address=encodeURI(address);
-                   address=encodeURI(address);
-                       window.location.href="<%=basePath%>supplierQuery/findSupplierByPriovince.html?address="+address;
-                    }
-                  }
-           }
-        }]
-    });
-});
-function submit(){
-	form1.submit();
-}
+	   $(function(){
+		  laypage({
+			    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+			    pages: "${listSupplier.pages}", //总页数
+			    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+			    skip: true, //是否开启跳页
+			    groups: "${listSupplier.pages}">=3?3:"${listSupplier.pages}", //连续显示分页数
+			    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+					return "${listSupplier.pageNum}";
+			    }(), 
+			    jump: function(e, first){ //触发分页后的回调
+			        if(!first){ //一定要加此判断，否则初始时会无限刷新
+			        	$("#page").val(e.curr);
+			        	$("#form1").submit();
+			        }
+			    }
+			});
+	  });
+	  	  $(function(){
+		  laypage({
+			    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+			    pages: "${listSupplier.pages}", //总页数
+			    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+			    skip: true, //是否开启跳页
+			    total: "${listSupplier.total}",
+			    startRow: "${listSupplier.startRow}",
+			    endRow: "${listSupplier.endRow}",
+			    groups: "${listSupplier.pages}">=5?5:"${listSupplier.pages}", //连续显示分页数
+			    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+			        var page = location.search.match(/page=(\d+)/);
+			        return page ? page[1] : 1;
+			    }(), 
+			    jump: function(e, first){ //触发分页后的回调
+			        if(!first){ //一定要加此判断，否则初始时会无限刷新
+			             location.href = '<%=basePath%>supplierUpdate/list.do?page='+e.curr;
+			        }
+			    }
+			});
+	  });
 </script>
 </head>
   <body>
   	<div class="container clear margin-top-30">
-  			<form id="form1" action="<%=basePath %>findSupplierByPriovince.html" method="post">
+  			<h2>供应商信息查询</h2>
+  				<form id="form1" action="" method="post">
 		       <input type="hidden" name="page" id="page">
 		       <table class="table table-bordered table-condensed tc">
 		       	<tbody>
@@ -199,7 +180,30 @@ function submit(){
 		       	</tbody>
 		       </table>
 		     </form>
+		       <h2>供应商信息</h2>
+		      <table id="tb1"  class="table table-striped table-bordered table-hover">
+		      <thead>
+				<tr>
+					<th class="info w50">序号</th>
+					<th class="info">供应商名称</th>
+					<th class="info">联系人</th>
+					<th class="info">入库日期</th>
+					<th class="info">经济性质</th>
+				</tr>
+			  </thead>
+			  <tbody>
+				 <c:forEach items="${listSupplier.list }" var="list" varStatus="vs">
+					<tr>
+						<td>${vs.index+1 }</td>
+						<td><a href="<%=basePath%>supplierQuery/essential.html?supplierId=${list.id}">${list.supplierName }</a></td>
+						<td>${list.contactName }</td>
+						<td><fmt:formatDate value="${list.passDate }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+						<td>${list.businessType }</td>
+					</tr>
+				</c:forEach> 
+			  </tbody>
+		 </table>
+		 <div id="pagediv" align="right"></div>
      </div>
-  <div id="container"></div>
   </body>
 </html>

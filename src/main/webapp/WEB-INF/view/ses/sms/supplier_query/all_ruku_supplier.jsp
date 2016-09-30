@@ -153,34 +153,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                    var address=this.name;
                    address=encodeURI(address);
                    address=encodeURI(address);
-                       window.location.href="<%=basePath%>supplierQuery/findSupplierByPriovince.html?address="+address;
+                       window.location.href="<%=basePath%>supplierQuery/findSupplierByPriovince.html?address="+address+"&status=3";
                     }
                   }
            }
         }]
     });
 });
-function submit(){
-	form1.submit();
-}
 </script>
 </head>
   <body>
   	<div class="container clear margin-top-30">
-  			<form id="form1" action="<%=basePath %>findSupplierByPriovince.html" method="post">
+  			<form id="form1" action="" method="post">
 		       <input type="hidden" name="page" id="page">
 		       <table class="table table-bordered table-condensed tc">
 		       	<tbody>
 		       		<tr>
 		       			<td style="text-align:right">供应商名称：</td>
-		       			<td style="text-align:right"><input class="span2" name="supplierName" value="${supplierName }" type="text"></td>
+		       			<td><input class="span2" name="supplierName" value="${supplierName }" type="text"></td>
 		       			<td style="text-align:right">注册时间：</td>
 		       			<td>
 		       			<div class="mt5">
 		       			<input id="startDate" name="startDate" class="span2 fl" type="text" 
 		       			onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})"/>
 		       			<span class="add-on fl"><img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
-		       			<span class="fl mt5">至</span>
+		       			<span class="fl mt10">~</span>
 		       			<input id="endDate" name="endDate" class="span2 ml10" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
 		       			<span class="add-on fl"><img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
 		       			</div>
