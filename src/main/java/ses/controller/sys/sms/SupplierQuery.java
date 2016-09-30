@@ -72,28 +72,23 @@ public class SupplierQuery {
 				int count=1;
 				if(supplier.getAddress().indexOf(str)!=-1){
 					if(map.get(myMap.get(str))==null){
-						map.put(myMap.get(str), count);
+						map.put(str, count);
 					}else{
-						map.put(myMap.get(str),map.get(myMap.get(str))+1);
+						map.put(str,map.get(myMap.get(str))+1);
 					}
 				}else{
-					map.put(myMap.get(str), 0);
+					map.put(str, 0);
 				}
 			}
 		}
-		/*for (Object o : map.keySet()) { 
-			sb.append("{'hc-key':'").
-			append(o).
-			append("','value':").
-			append(map.get(o)).
-			append("},").append("\n");
-			;
+		for (Object o : map.keySet()) { 
+			sb.append(o).append(map.get(o));
 		}
 		String highMapStr=null;
 		if(sb.length()>0){
-			highMapStr=sb.deleteCharAt(sb.length()-1).toString();
-		}*/
-		model.addAttribute("data", map);
+			highMapStr=sb.toString();
+		}
+		model.addAttribute("data", highMapStr);
 		if(status!=null){
 			return "ses/sms/supplier_query/all_ruku_supplier";
 		}else{
@@ -321,83 +316,83 @@ public class SupplierQuery {
 	
 	public static List<String> getAllProvince(){
 		List<String> list=new ArrayList<String>();
-		list.add("吉林省");
-		list.add("天津市");
-		list.add("安徽省");
-		list.add("山东省");
-		list.add("山西省");
-		list.add("新疆维吾尔自治区");
-		list.add("河北省");
-		list.add("河南省");
-		list.add("湖南省");
-		list.add("甘肃省");
+		list.add("吉林");
+		list.add("天津");
+		list.add("安徽");
+		list.add("山东");
+		list.add("山西");
+		list.add("新疆");
+		list.add("河北");
+		list.add("河南");
+		list.add("湖南");
+		list.add("甘肃");
 		
-		list.add("福建省");
-		list.add("贵州省");
-		list.add("重庆市");
-		list.add("江苏省");
+		list.add("福建");
+		list.add("贵州");
+		list.add("重庆");
+		list.add("江苏");
 		
-		list.add("内蒙古自治区");
-		list.add("广西壮族自治区");
-		list.add("黑龙江省");
-		list.add("云南省");
-		list.add("辽宁省");
+		list.add("内蒙古");
+		list.add("广西");
+		list.add("黑龙江");
+		list.add("云南");
+		list.add("辽宁");
 		
-		list.add("香港特别行政区");
-		list.add("浙江省");
-		list.add("上海市");
-		list.add("北京市");
-		list.add("广东省");
-		list.add("澳门特别行政区");
-		list.add("西藏自治区");
-		list.add("陕西省");
-		list.add("四川省");
-		list.add("海南省");
+		list.add("香港");
+		list.add("浙江");
+		list.add("上海");
+		list.add("北京");
+		list.add("广东");
+		list.add("澳门");
+		list.add("西藏");
+		list.add("陕西");
+		list.add("四川");
+		list.add("海南");
 		
-		list.add("宁夏回族自治区");
-		list.add("青海省");
-		list.add("江西省");
-		list.add("台湾省");
-		list.add("湖北省");
+		list.add("宁夏");
+		list.add("青海");
+		list.add("江西");
+		list.add("台湾");
+		list.add("湖北");
 		return list;
 	}
 	
 	public static Map<String,String> getMap(){
 		Map<String,String> myMap= new HashMap<String,String>(40);
-		myMap.put("吉林省","cn-jl");        
-		myMap.put("天津市","cn-tj");        
-		myMap.put("安徽省","cn-ah");        
-		myMap.put("山东省","cn-sd");        
-		myMap.put("山西省","cn-sx");        
-		myMap.put("新疆维吾尔自治区","cn-xj");
-		myMap.put("河北省","cn-hb");        
-		myMap.put("河南省","cn-he");        
-		myMap.put("湖南省","cn-hn");        
-		myMap.put("甘肃省","cn-gs");        
-		myMap.put("福建省","cn-fj");        
-		myMap.put("贵州省","cn-gz");        
-		myMap.put("重庆市","cn-cq");        
-		myMap.put("江苏省","cn-js");       
-		myMap.put("湖北省","cn-hu");        
-		myMap.put("内蒙古自治区","cn-nm");  
-		myMap.put("广西壮族自治区","cn-gx"); 
-		myMap.put("黑龙江省","cn-hl");      
-		myMap.put("云南省","cn-yn");        
-		myMap.put("辽宁省","cn-ln");        
-		myMap.put("香港特别行政区","cn-6668"); 
-		myMap.put("浙江省","cn-zj");        
-		myMap.put("上海市","cn-sh");        
-		myMap.put("北京市","cn-bj");        
-		myMap.put("广东省","cn-gd");        
-		myMap.put("澳门特别行政区","cn-3681"); 
-		myMap.put("西藏自治区","cn-xz");    
-		myMap.put("陕西省","cn-sa");        
-		myMap.put("四川省","cn-sc");        
-		myMap.put("海南省","cn-ha");        
-		myMap.put("宁夏回族自治区","cn-nx"); 
-		myMap.put("青海省","cn-qh");        
-		myMap.put("江西省","cn-jx");        
-		myMap.put("台湾省","tw-tw");    
+		myMap.put("吉林","cn-jl");        
+		myMap.put("天津","cn-tj");        
+		myMap.put("安徽","cn-ah");        
+		myMap.put("山东","cn-sd");        
+		myMap.put("山西","cn-sx");        
+		myMap.put("新疆","cn-xj");
+		myMap.put("河北","cn-hb");        
+		myMap.put("河南","cn-he");        
+		myMap.put("湖南","cn-hn");        
+		myMap.put("甘肃","cn-gs");        
+		myMap.put("福建","cn-fj");        
+		myMap.put("贵州","cn-gz");        
+		myMap.put("重庆","cn-cq");        
+		myMap.put("江苏","cn-js");       
+		myMap.put("湖北","cn-hu");        
+		myMap.put("内蒙古","cn-nm");  
+		myMap.put("广西","cn-gx"); 
+		myMap.put("黑龙江","cn-hl");      
+		myMap.put("云南","cn-yn");        
+		myMap.put("辽宁","cn-ln");        
+		myMap.put("香港","cn-6668"); 
+		myMap.put("浙江","cn-zj");        
+		myMap.put("上海","cn-sh");        
+		myMap.put("北京","cn-bj");        
+		myMap.put("广东","guang_dong");        
+		myMap.put("澳门","cn-3681"); 
+		myMap.put("西藏","cn-xz");    
+		myMap.put("陕西","cn-sa");        
+		myMap.put("四川","cn-sc");        
+		myMap.put("海南","cn-ha");        
+		myMap.put("宁夏","cn-nx"); 
+		myMap.put("青海","cn-qh");        
+		myMap.put("江西","cn-jx");        
+		myMap.put("台湾","tw-tw");    
 		return myMap;
 	}
 }

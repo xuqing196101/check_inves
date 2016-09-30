@@ -130,7 +130,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
   	<div class="container clear margin-top-30">
   			<h2>供应商信息查询</h2>
-  				<form id="form1" action="<%=basePath %>findSupplierByPriovince.html" method="post">
+  				<form id="form1" action="<%=basePath %>supplierQuery/findSupplierByPriovince.html" method="post">
 		       <input type="hidden" name="page" id="page">
 		       <table class="table table-bordered table-condensed tc">
 		       	<tbody>

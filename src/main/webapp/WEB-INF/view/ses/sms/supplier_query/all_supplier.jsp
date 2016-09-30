@@ -138,7 +138,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     });
 
     var data = Highcharts.geojson(Highcharts.maps['countries/cn/custom/cn-all-china']),small = $('#container').width() < 400;
-
     // 给城市设置随机数据
     $.each(data, function (i) {
         this.drilldown = this.properties['drill-key'];
@@ -163,27 +162,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         },
 			tooltip: { 
 				formatter:function(){
-					
-					var htm="你为什么这么犀利？<br/>";
-					 
+					var htm="";
 					if(this.point.drilldown){
 					    htm+=this.point.properties["cn-name"];
 					}else{
-						 htm=this.point.name;
+						 htm+=this.point.name;
 					}
-					//alert("-"+htm+"-"+"西藏");
-					 if(htm="西藏"){
-						htm+=":"+100;
-					} 
-					address="湖北";
-					//htm+=":"+this.point.value;
-					 return htm;
-					 
+					address=htm;
+					 var data='${data}';
+				    if(data==''){
+				     	htm+=":"+0; 
+				    }else{
+					   var index=data.indexOf(htm);
+					   var indexStart=index+htm.length;
+					   var indexEnd=indexStart+2;
+					   var supplierNum=data.substring(indexStart,indexEnd );
+					   if("0123456789".indexOf(supplierNum.substring(supplierNum.length-1, supplierNum.length))==-1){
+					   		supplierNum=supplierNum.substring(0,1);
+					   }
+					   htm+=":"+supplierNum; 
+					 }
+					return htm;
 				}
 					},
         credits:{
 					href:"javascript:goHome()",
-            text:"www.peng8.net"
+            text:""
         },
         title : {
             text : '供应商数量统计'
@@ -337,13 +341,12 @@ function base64decode(str) {
 function goHome(){
 	window.open("http://www.peng8.net/");
 }
-function getGithub()
+/* function getGithub()
 	{
 		$.getJSON("https://api.github.com/repos/peng8/GeoMap/contents/json/bei_jing.geo.json", function(data){
 		console.log(base64decode(data.content));
-});
-		
-	}
+		}); 
+	}*/
 function submit(){
 	form1.submit();
 }

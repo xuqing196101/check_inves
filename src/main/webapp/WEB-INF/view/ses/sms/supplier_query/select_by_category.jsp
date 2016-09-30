@@ -15,8 +15,8 @@
 <script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.core.js"></script>
 <script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.excheck.js"></script>
 <script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.exedit.js"></script>
+<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
-
 	var datas;
 	 var treeid=null;
  $(document).ready(function(){
@@ -268,27 +268,7 @@
 	     } 
 	     $("#categoryIds").val(ids);
 	}	
-
-    /*关键字查询*/
-	   $(function(){
-		  laypage({
-			    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
-			    pages: "${listSupplier.pages}", //总页数
-			    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
-			    skip: true, //是否开启跳页
-			    groups: "${listSupplier.pages}">=3?3:"${listSupplier.pages}", //连续显示分页数
-			    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
-					return "${listSupplier.pageNum}";
-			    }(), 
-			    jump: function(e, first){ //触发分页后的回调
-			        if(!first){ //一定要加此判断，否则初始时会无限刷新
-			        	$("#page").val(e.curr);
-			        	$("#form1").submit();
-			        }
-			    }
-			});
-	  });
-	  	  	  $(function(){
+	  	  $(function(){
 		  laypage({
 			    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
 			    pages: "${listSupplier.pages}", //总页数
@@ -326,23 +306,22 @@
    </div>
    <div class="container">
    <div class="col-md-3">
-     
 	 <div id="ztree" class="ztree"></div>
 	</div>
 		<div class="mt10 col-md-9">
-			  <form id="form1" action="${pageContext.request.contextPath}/importSupplier/auditList.html" method="post">
+			  <form id="form1" action="${pageContext.request.contextPath}/supplierQuery/selectByCategory.html" method="post">
 		       <input type="hidden" name="page" id="page">
 		       <input type="hidden" id="categoryIds" name="categoryIds"/>
 			   <span class="">供应商名称：</span>
 			   <div class="input-append">
-		        <input class="span2" name="supName" value="${name }" type="text">
+		        <input class="span2" name="supplierName"  type="text">
 		       </div>
 		       <input class="btn padding-left-20 padding-right-20 btn_back" onclick="submit()" type="button" value="查询">
 		     </form>
    		<table id="tb1"  class="table table-striped table-bordered table-hover">
 		      <thead>
 				<tr>
-					<th class="info w50">供应商名称</th>
+					<th class="info">供应商名称</th>
 					<th class="info">联系人</th>
 					<th class="info">电话</th>
 					<th class="info">级别</th>
@@ -351,7 +330,7 @@
 			  <tbody>
 				 <c:forEach items="${listSupplier.list }" var="list" varStatus="vs">
 					<tr>
-						<td>${list.supplierName }</td>
+						<td><a href="<%=basePath%>supplierQuery/essential.html?supplierId=${list.id}">${list.supplierName }</a></td>
 						<td>${list.contactName}</td>
 						<td>${list.contactTelephone}</td>
 						<td></td>
@@ -360,12 +339,12 @@
 			  </tbody>
 		 </table>
 		 <div id="pagediv" align="right"></div>
+		 </div>
     <form  id="form" action="" name="fm" method="post"  enctype="multipart/form-data">
 	    <input type="hidden"  onclick="check()" value="submit"/>
 	    <input type="hidden"  onclick="mysubmit()" value="submit"/>
     <table id="result"  class="table table-bordered table-condensedb mt15" ></table>
     </form>
-        </div>
 	</div>
 </body>
 </html>
