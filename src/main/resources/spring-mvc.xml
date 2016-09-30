@@ -33,6 +33,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 			<mvc:exclude-mapping path="/index/selectIndexNews.*"/>  
 			<mvc:exclude-mapping path="/index/selectArticleNewsById.*"/>
 			<mvc:exclude-mapping path="/index/selectIndexNewsByTypeId.*"/>
+			<mvc:exclude-mapping path="/park/getIndex.*"/> 
 			<mvc:exclude-mapping path="/post/indexsave.*"/> 
 			<mvc:exclude-mapping path="/reply/save.*"/>     
 			<mvc:exclude-mapping path="/login/login.*"/>  
