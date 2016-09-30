@@ -41,8 +41,9 @@ $(function(){
 	var url = "http://localhost:8080<%=url%>";
 	var flag = false;
 	$("ul:eq(0) li").each(function(){
-		$(this).removeClass();
 		var classval = $(this).attr("class");
+		var newClass = classval.split(6);
+		$(this).attr("class",newClass);
 		var val = classval.split(" ");
 		for(var i=0;i<val.length;i++){
 			if(val[i]==="active"){
@@ -58,6 +59,8 @@ $(function(){
 			var classval = "active "+(al.parent().attr("class"));
 			al.parent().attr("class",classval);
 			flag = true;
+		}else{
+			
 		}
 	})
 	if(flag==false){
