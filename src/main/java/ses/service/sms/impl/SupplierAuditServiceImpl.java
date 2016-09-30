@@ -375,6 +375,12 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		return supplierMatSeMapper.getMatSeBySupplierId(supplierId);
 	}
 
+	@Override
+	public void updateBySupplierId(SupplierAudit supplierAudit) {
+		supplierAuditMapper.updateBySupplierId(supplierAudit);
+		
+	}
+
 	
 
 

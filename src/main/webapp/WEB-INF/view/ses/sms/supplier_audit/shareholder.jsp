@@ -147,6 +147,9 @@ function tijiao(str){
   if(str=="service"){
     action = "${pageContext.request.contextPath}/supplierAudit/serviceInformation.html";
   }
+  if(str=="applicationFrom"){
+    action = "${pageContext.request.contextPath}/supplierAudit/applicationForm.html";
+  }
   if(str=="reasonsList"){
     action = "<%=basePath%>supplierAudit/reasonsList.html";
   }
@@ -174,6 +177,7 @@ function tijiao(str){
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('service');">服务-专业信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" >品目信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >产品信息</a></li>
+              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('applicationFrom');">申请表</a></li>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('reasonsList');">审核汇总</a></li>
             </ul>
               <div class="tab-content padding-top-20" style="height:1400px;">

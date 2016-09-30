@@ -1,7 +1,10 @@
 package ses.controller.sys.ems;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,10 +16,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertBlackList;
 import ses.service.ems.ExpertBlackListService;
+import ses.util.PropUtil;
 
 import com.github.pagehelper.PageInfo;
 
@@ -55,10 +62,13 @@ public class ExpertBlackListController {
 	 * @param @param expertBlackList
 	 * @param @return      
 	 * @return String
+	 * @throws IOException 
 	 */
 	@RequestMapping("/saveBlacklist")
-	public String save(ExpertBlackList expertBlackList){
+	public String save(HttpServletRequest request,ExpertBlackList expertBlackList) throws IOException{
 		expertBlackList.setCreatedAt(new Date());
+		//保存文件
+		this.setExpertBlackListUpload(request, expertBlackList);
 		service.insert(expertBlackList);
 		return "redirect:blacklist.html";
 	}
@@ -106,10 +116,13 @@ public class ExpertBlackListController {
 	 * @param @param expertBlackList
 	 * @param @return      
 	 * @return String
+	 * @throws IOException 
 	 */
 	@RequestMapping("/updateBlacklist")
-	public String update(ExpertBlackList expertBlackList){
+	public String update(HttpServletRequest request,ExpertBlackList expertBlackList) throws IOException{
 		expertBlackList.setCreatedAt(new Date());
+		//保存文件
+		this.setExpertBlackListUpload(request, expertBlackList);
 		service.update(expertBlackList);
 		return "redirect:blacklist.html";
 	}
@@ -130,6 +143,40 @@ public class ExpertBlackListController {
 		}
 		return "redirect:blacklist.html";
 	}
+	
+	/**
+	 * @Title: setExpertBlackListUpload
+	 * @author Xu Qing
+	 * @date 2016-9-29 下午2:03:31  
+	 * @Description: 文件上传
+	 * @param @param request
+	 * @param @param expertBlackList
+	 * @param @throws IOException      
+	 * @return void
+	 */
+	public void setExpertBlackListUpload(HttpServletRequest request, ExpertBlackList expertBlackList) throws IOException {
+		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
+		// 检查form中是否有enctype="multipart/form-data"
+		if (multipartResolver.isMultipart(request)) {
+			// 将request变成多部分request
+			MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+			// 获取multiRequest 中所有的文件名
+			Iterator<String> its = multiRequest.getFileNames();
+			String getRootPath= request.getSession().getServletContext().getRealPath("/").split("\\\\")[0] + "/" + PropUtil.getProperty("file.upload.path.expertBlackList");
+			while (its.hasNext()) {
+				String str = its.next();
+				MultipartFile file = multiRequest.getFile(str);
+				if (file != null && file.getSize() > 0) {
+					String path = getRootPath + file.getOriginalFilename();
+					file.transferTo(new File(path));
+					if (str.equals("attachmentCertFile")) {
+						expertBlackList.setAttachmentCert(path);
+					} 
+				}
+			}
+		}
+	}
+	
 	
 	@InitBinder
 	public void initBinder(ServletRequestDataBinder binder) {

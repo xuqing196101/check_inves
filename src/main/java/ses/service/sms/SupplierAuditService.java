@@ -205,4 +205,14 @@ public interface SupplierAuditService {
      * @return SupplierMatSell
      */
     SupplierMatSe findMatSeBySupplierId(String supplierId);
+    
+    /**
+     * @Title: updateBySupplierId
+     * @author 插入文件
+     * @date 2016-9-29 下午4:50:17  
+     * @Description: TODO 
+     * @param @param supplierId      
+     * @return void
+     */
+    void updateBySupplierId (SupplierAudit supplierAudit);
 } 

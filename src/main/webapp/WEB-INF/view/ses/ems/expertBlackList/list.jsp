@@ -110,20 +110,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="<%=basePath%>public/layer/extend/layer.ext.js"></script>
 <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
-$(function(){
+     $(function(){
       laypage({
           cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
           pages: "${result.pages}", //总页数
           skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
           skip: true, //是否开启跳页
-          groups: "${isList.pages}">=3?3:"${isList.pages}", //连续显示分页数
+          groups: "${result.pages}">=3?3:"${result.pages}", //连续显示分页数
           curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
-          return "${isList.pageNum}";
+//              var page = location.search.match(/page=(\d+)/);
+//              return page ? page[1] : 1;
+          return "${result.pageNum}";
           }(), 
           jump: function(e, first){ //触发分页后的回调
               if(!first){ //一定要加此判断，否则初始时会无限刷新
                 $("#page").val(e.curr);
                 $("#form1").submit();
+                
+                //location.href = '<%=basePath%>expert/findAllExpert.do?page='+e.curr;
               }
           }
       });
@@ -289,7 +293,7 @@ $(function(){
 					  <th class="info">处罚日期</th>
 					  <th class="info">处罚时限</th>
 					  <th class="info">处罚方式</th>
-					  <th class="ino">处罚理由</th>
+					  <th class="info">处罚理由</th>
           </tr>
         </thead>
          <c:forEach items="${expertList }" var="e" varStatus="s">

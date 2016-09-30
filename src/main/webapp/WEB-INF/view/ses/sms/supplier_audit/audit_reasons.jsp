@@ -6,13 +6,15 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <!DOCTYPE html>
-<html class=" js cssanimations csstransitions" lang="en">
+<html class=" js cssanimations csstransitions" lang="en"><!--<![endif]-->
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <title>审核问题汇总</title>
 <!-- Meta -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
 <link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" type="text/css"/>
 <link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
@@ -108,6 +110,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/masterslider.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.easing.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/james.js"></script>
+<script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
+<script type="text/javascript" src="<%=basePath%>public/layer/extend/layer.ext.js"></script>
+<style type="text/css">
+.jbxx1{
+  background:url(../images/down_icon.png) no-repeat 5px !important;
+  padding-left:40px !important;
+}
+.jbxx1 i{
+    width: 24px;
+    height: 30px;
+    background: url(../../../../../zhbj/public/ZHQ/images/round.png) no-repeat center;
+    color: #ffffff;
+    font-size: 12px;
+    text-align: center;
+    display: block;
+    float: left;
+    line-height: 30px;
+    font-style: normal;
+    margin-right: 10px;
+}
+</style>
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
@@ -142,6 +165,9 @@ function tijiao(str){
   if(str=="service"){
     action = "${pageContext.request.contextPath}/supplierAudit/serviceInformation.html";
   }
+  if(str=="applicationFrom"){
+    action = "${pageContext.request.contextPath}/supplierAudit/applicationForm.html";
+  }
   if(str=="reasonsList"){
     action = "${pageContext.request.contextPath}/supplierAudit/reasonsList.html";
   }
@@ -155,6 +181,24 @@ function shenhe(status){
   $("#status").val(status);
   $("#form_shen").submit();
 }
+
+<%-- function file(){
+var supplierInspectListFile = $("#supplierInspectListFile").val();
+alert(supplierInspectListFile);
+  $.ajax({
+        url:"<%=basePath%>supplierAudit/supplierFile.html",
+        type:"post",
+        data:"supplierInspectListFile="+supplierInspectListFile,
+        success:function(){
+          layer.msg("上传成功");
+        },
+         error: function(message){
+            layer.msg("上传失败");
+          }
+      }
+      );
+       
+} --%>
 </script>
 </head>
   
@@ -176,6 +220,7 @@ function shenhe(status){
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('service');">服务-专业信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" >品目信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >产品信息</a></li>
+              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('applicationFrom');">申请表</a></li>
               <li class="active"><a aria-expanded="true" href="#tab-2" data-toggle="tab" onclick="tijiao('reasonsList');">审核汇总</a></li>
             </ul>
                   <form id="form_id" action="" method="post"  enctype="multipart/form-data">
@@ -201,6 +246,9 @@ function shenhe(status){
                        </tr>
                      </c:forEach>
                   </table> --%>
+                  <h2 class="f16 jbxx1">
+                    <i>01</i>问题汇总
+                  </h2>
                 <div class=" margin-bottom-0">
 	                  <c:forEach items="${reasonsList }" var="list" >
 	                    <ul class="list-unstyled list-flow">
@@ -213,7 +261,24 @@ function shenhe(status){
 	                  </c:forEach>
                 </div>
                 </div>
-                <div class="col-md-12 add_regist tc">
+                <div class=" margin-bottom-0 fl">
+						       <h2 class="f16 jbxx1">
+						        <i>02</i>供应商考察表
+						       </h2>
+						      <form id="form_id" action="${pageContext.request.contextPath}/supplierAudit/supplierFile.html" method="post"  enctype="multipart/form-data">
+                    <ul class="list-unstyled list-flow p0_20">
+                      <li >
+                      <span class="" ><i class="red">＊</i>上传考察表:</span>
+                      <input name="supplierId" value="${supplierId}" type="hidden">
+                      <input class="span3" type="file" name="supplierInspectListFile"/>
+                      <button type="submit" class="btn padding-left-20 padding-right-20 btn_back">上传</button>
+                      <!-- <a onclick="file();" class="btn padding-left-20 padding-right-20 btn_back">上传</a> -->
+                    </li>
+                   </ul>
+                 </form>
+						    </div>
+                
+                <!-- <div class="col-md-12 add_regist tc">
                 <ul class="list-unstyled list-flow">
                   <li class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i>供应商考察表：</span>
                     <div class="input-append">
@@ -225,7 +290,7 @@ function shenhe(status){
                     </div>
                    </li>
                  </ul>
-                </div>
+                </div> -->
                 <div class="col-md-12 add_regist tc">
                 <form id="form_shen" action="${pageContext.request.contextPath}/supplierAudit/updateStatus.html"  enctype="multipart/form-data">
                   <input name="supplierId" value="${supplierId}" type="hidden">

@@ -1,6 +1,9 @@
 package ses.controller.sys.sms;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
@@ -26,6 +32,7 @@ import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierType;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierService;
+import ses.util.PropUtil;
 
 import com.github.pagehelper.PageInfo;
 
@@ -256,9 +263,10 @@ public class SupplierAuditController {
 	 * @Description: 记录审核原因
 	 * @param @param supplierAudit      
 	 * @return void
+	 * @throws IOException 
 	 */
 	@RequestMapping("auditReasons")
-	public void auditReasons(SupplierAudit supplierAudit,HttpServletRequest request){
+	public void auditReasons(SupplierAudit supplierAudit,HttpServletRequest request) throws IOException{
 		int status = (int) request.getSession().getAttribute("status");
 		supplierAudit.setStatus((short) status);
 		supplierAudit.setCreatedAt(new Date());
@@ -283,10 +291,14 @@ public class SupplierAuditController {
 	@RequestMapping("reasonsList")
 	public String reasonsList(HttpServletRequest request,SupplierAudit supplierAudit){
 		String supplierId = supplierAudit.getSupplierId();
+		if(supplierId==null){
+			supplierId = (String) request.getSession().getAttribute("supplierId");
+		}
 		List<SupplierAudit> reasonsList = supplierAuditService.selectByPrimaryKey(supplierId);
 		request.getSession().getAttribute("status");
 		request.setAttribute("supplierId", supplierId);
 		request.setAttribute("reasonsList", reasonsList);
+		request.getSession().removeAttribute("supplierId");
 		return "ses/sms/supplier_audit/audit_reasons";
 	}
 	
@@ -298,14 +310,87 @@ public class SupplierAuditController {
 	 * @param @param request
 	 * @param @return      
 	 * @return String
+	 * @throws IOException 
 	 */
 	@RequestMapping("updateStatus")
-	public String updateStatus(HttpServletRequest request,Supplier supplier,SupplierAudit supplierAudit){
+	public String updateStatus(HttpServletRequest request,Supplier supplier,SupplierAudit supplierAudit) throws IOException{
 		String supplierId= supplierAudit.getSupplierId();
 		supplier.setId(supplierId);
 		supplierAuditService.updateStatus(supplier);
 		return "redirect:supplierList.html";
 	}
-
 	
+	/**
+	 * @Title: setExpertBlackListUpload
+	 * @author Xu Qing
+	 * @date 2016-9-29 下午3:22:13  
+	 * @Description:附件上传
+	 * @param @param request
+	 * @param @param expertBlackList
+	 * @param @throws IOException      
+	 * @return void
+	 */
+	public void setSuppliertUpload(HttpServletRequest request, SupplierAudit supplierAudit) throws IOException {
+		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
+		// 检查form中是否有enctype="multipart/form-data"
+		if (multipartResolver.isMultipart(request)) {
+			// 将request变成多部分request
+			MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+			// 获取multiRequest 中所有的文件名
+			Iterator<String> its = multiRequest.getFileNames();
+			String getRootPath= request.getSession().getServletContext().getRealPath("/").split("\\\\")[0] + "/" + PropUtil.getProperty("file.upload.path.supplier");
+			while (its.hasNext()) {
+				String str = its.next();
+				MultipartFile file = multiRequest.getFile(str);
+				if (file != null && file.getSize() > 0) {
+					String path = getRootPath + file.getOriginalFilename();
+					file.transferTo(new File(path));
+					if (str.equals("supplierInspectListFile")) {
+						supplierAudit.setSupplierInspectList(path);
+						supplierAuditService.updateBySupplierId(supplierAudit);
+						/*supplierAudit.setSupplierInspectList(path);*/
+					} 
+				}
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @Title: supplierInspectListFile
+	 * @author Xu Qing
+	 * @date 2016-9-29 下午3:30:01  
+	 * @Description: 供应商考察附件上传
+	 * @param @param request
+	 * @param @param supplierAudit
+	 * @param @throws IOException      
+	 * @return void
+	 */
+	@RequestMapping("supplierFile")
+	public String supplierInspectListFile(HttpServletRequest request, SupplierAudit supplierAudit) throws IOException {
+		String supplierId = supplierAudit.getSupplierId();
+		request.getSession().setAttribute("supplierId", supplierId);
+		this.setSuppliertUpload(request, supplierAudit);
+		return "redirect:reasonsList.html?";
+	}
+	
+	/**
+	 * @Title: applicationForm
+	 * @author Xu Qing
+	 * @date 2016-9-29 下午7:12:37  
+	 * @Description: 申请表
+	 * @param @param request
+	 * @param @param supplierAudit
+	 * @param @return
+	 * @param @throws IOException      
+	 * @return String
+	 */
+	@RequestMapping("applicationForm")
+	public String applicationForm(HttpServletRequest request, SupplierAudit supplierAudit,Supplier supplier) throws IOException {
+		String supplierId = supplierAudit.getSupplierId();
+		supplier = supplierAuditService.supplierById(supplierId);
+		request.setAttribute("applicationForm", supplier);
+		request.setAttribute("supplierId", supplierId);
+		return "ses/sms/supplier_audit/application_form";
+	}
 }
