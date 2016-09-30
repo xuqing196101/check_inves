@@ -107,7 +107,7 @@ public class ArticleController {
 				}
 			}
 		}
-		User user = new User();
+		User user = (User) request.getSession().getAttribute("loginUser");
 		user.setId("be9bf4e9-6fa3-4fe6-ad4a-cc67272816a2");   //死数据
 		article.setUser(user);
 		article.setCreatedAt(new Date());
