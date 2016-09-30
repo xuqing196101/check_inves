@@ -90,7 +90,7 @@
 	 var text = ue.getContentTxt();
 	 var postId = "${post.id}";
 	   $.ajax({
-       url:"<%=basePath%>replyve.html?postId="+postId+"&content="+text+"&replyId="+replyId,   
+       url:"<%=basePath%>reply/save.html?postId="+postId+"&content="+text+"&replyId="+replyId,   
        contentType: "application/json;charset=UTF-8", 
        type:"POST",   //请求方式           
        success : function() {   
