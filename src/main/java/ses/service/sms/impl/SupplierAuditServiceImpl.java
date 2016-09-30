@@ -18,6 +18,7 @@ import ses.dao.sms.SupplierMatProMapper;
 import ses.dao.sms.SupplierMatSeMapper;
 import ses.dao.sms.SupplierStockholderMapper;
 import ses.dao.sms.SupplierTypeMapper;
+import ses.dao.sms.SupplierTypeRelateMapper;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
@@ -70,7 +71,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	private SupplierStockholderMapper supplierStockholderMapper;
 	
 	/**
-	 * 供应商类型
+	 * 所有供应商类型
 	 */
 	@Autowired
 	private SupplierTypeMapper supplierTypeMapper;
@@ -122,6 +123,12 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	 */
 	@Autowired
 	private SupplierMatSeMapper supplierMatSeMapper;
+	
+	/**
+	 * 勾选的供应商类型
+	 */
+	@Autowired
+	SupplierTypeRelateMapper supplierTypeRelateMapper;
 	/**
 	 * @Title: supplierList
 	 * @author Xu Qing
@@ -381,7 +388,12 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		
 	}
 
-	
+	@Override
+	public List<String> findSupplierTypeNameBySupplierId(String supplierId) {
+		
+		return supplierTypeRelateMapper.findSupplierTypeNameBySupplierId(supplierId);
+	}
+
 
 
 

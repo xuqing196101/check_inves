@@ -183,6 +183,9 @@ public class SupplierAuditController {
 		/*supplierMatPro = supplierAuditService.findSupplierMatProBysupplierId(supplierId);*/
 		supplierMatPro =supplierService.get(supplierId).getSupplierMatPro();
 		
+		List<String> list= supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
+		
+		
 		request.setAttribute("supplierId", supplierId);	
 		request.setAttribute("materialProduction",materialProduction);
 		request.setAttribute("supplierMatPros", supplierMatPro);

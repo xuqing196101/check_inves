@@ -108,6 +108,16 @@
 		where t1.ID = #{supplierId}
 	</select>
 
+<select id="findSupplierTypeName" parameterType="java.lang.String" resultType="java.lang.String">
+    select
+      t3. NAME
+    from
+    T_SES_SMS_SUPPLIER t1
+    join T_SES_SMS_SUPPLIER_TYPE_RELATE t2 on t1. ID = t2.SUPPLIER_ID
+    join T_SES_SMS_SUPPLIER_TYPE t3 on t2.SUPPLIER_TYPE_ID = t3. ID
+    where t1.ID = #{supplierId}
+  </select>
+  
 	<delete id="deleteBySupplierId" parameterType="java.lang.String">
 		delete from T_SES_SMS_SUPPLIER_TYPE_RELATE where SUPPLIER_ID = #{supplierId}
 	</delete>

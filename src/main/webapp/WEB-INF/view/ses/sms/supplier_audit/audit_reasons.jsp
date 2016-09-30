@@ -298,14 +298,14 @@ alert(supplierInspectListFile);
                   <div class="margin-bottom-0  categories">
                     <div class="col-md-12 add_regist tc">
                     <c:if test="${status==0 }">
-                      <input class="btn padding-left-20 padding-right-20 btn_back"  type="button" onclick="shenhe(1)" value="初审通过 ">
-                      <input class="btn padding-left-20 padding-right-20 btn_back"  type="button" onclick="shenhe(2)" value="初审不通过">
+                      <input class="btn btn-windows git"  type="button" onclick="shenhe(1)" value="初审通过 ">
+                      <input class="btn btn-windows reset"  type="button" onclick="shenhe(2)" value="初审不通过">
                     </c:if>
                     <c:if test="${status==1 }">
-                      <input class="btn padding-left-20 padding-right-20 btn_back"  type="button" onclick="shenhe(3)" value="复审通过 ">
-                      <input class="btn padding-left-20 padding-right-20 btn_back"  type="button" onclick="shenhe(4)" value="复审不通过"> 
+                      <input class="btn btn-windows git"  type="button" onclick="shenhe(3)" value="复审通过 ">
+                      <input class="btn btn-windows edit"  type="button" onclick="shenhe(4)" value="复审不通过"> 
                     </c:if>
-                    <input class="btn padding-left-20 padding-right-20 btn_back" onclick="location='<%=basePath%>supplierAudit/daiban.html'" type="button"  value="完成">
+                    <input class="btn btn-windows git" onclick="location='<%=basePath%>supplierAudit/daiban.html'" type="button"  value="完成">
                     </div>
                   </div>
                 </form>
