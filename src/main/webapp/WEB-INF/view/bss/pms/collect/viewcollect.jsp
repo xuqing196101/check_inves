@@ -41,13 +41,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
 <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 
  
   <script type="text/javascript">
-
-
   
   /*分页  */
   $(function(){
@@ -55,10 +52,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
 		    pages: "${info.pages}", //总页数
 		    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+		    skip: true, //是否开启跳页
 		    total: "${info.total}",
 		    startRow: "${info.startRow}",
 		    endRow: "${info.endRow}",
-		    skip: true, //是否开启跳页
 		    groups: "${info.pages}">=3?3:"${info.pages}", //连续显示分页数
 		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
 //			        var page = location.search.match(/page=(\d+)/);
@@ -77,114 +74,135 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   });
   
   
-  
-    
-
-	
-	function closede(){
-		var id  = $('input[name="chkItem"]:checked').val(); 
-		var index = parent.layer.getFrameIndex(window.name); 
-
-		if(id==""||id==null){
-			layer.alert("请选择要汇总的计划",{offset: ['100px', '100px'], shade:0.01});
-		}else{
-		 
-		$("#aid").val(id);
-			$.ajax({
-			url: "${pageContext.request.contextPath}/set/add.html",
-			type: "post",
-			data:$("#collected_form").serialize(),
-			success: function(result) {
-				parent.location.reload(); // 父页面刷新
-				parent.layer.close(index);
-			
-		
-			},
-			error: function(message){
-				layer.msg("删除失败",{offset: ['222px', '390px']});
-				parent.layer.close(index);
-			}
-			
-			
-		});
-		
+	/** 全选全不选 */
+	function selectAll(){
+		 var checklist = document.getElementsByName ("chkItem");
+		 var checkAll = document.getElementById("checkAll");
+		 if(checkAll.checked){
+			   for(var i=0;i<checklist.length;i++)
+			   {
+			      checklist[i].checked = true;
+			   } 
+			 }else{
+			  for(var j=0;j<checklist.length;j++)
+			  {
+			     checklist[j].checked = false;
+			  }
+		 	}
 		}
-			
-			
- 	
-		 
-		 
-			
-		 
+	
+	/** 单选 */
+	function check(){
+		 var count=0;
+		 var checklist = document.getElementsByName ("chkItem");
+		 var checkAll = document.getElementById("checkAll");
+		 for(var i=0;i<checklist.length;i++){
+			   if(checklist[i].checked == false){
+				   checkAll.checked = false;
+				   break;
+			   }
+			   for(var j=0;j<checklist.length;j++){
+					 if(checklist[j].checked == true){
+						   checkAll.checked = true;
+						   count++;
+					   }
+				 }
+		   }
+	}
+	function up(obj,id,position){
+		var tr=$(obj).parent().parent().prev();
+
+		 var val= $(tr).children(":last").children().val();
+		 if(val!=null){
+			  window.location.href="<%=basePath%>view/update.html?sid="+val+"&&xid="+id+"&&postion="+position;
+		 }else{
+			 alert("已经是最高的");
+		 }
+		
+		 }
+	function down(obj,id){
+		var tr=$(obj).parent().parent().next();
+
+		 var val= $(tr).children(":last").children().val();
+		 if(val!=null){
+			  window.location.href="<%=basePath%>view/update.html?xid="+val+"&&sid="+id;
+		 }else{
+			 alert("已经是最下面的");
+		 }
 	}
 	
- 	function cancels(){
- 		 var index = parent.layer.getFrameIndex(window.name); 
- 		 
-		 parent.layer.close(index);  
- 	}
-	
- 	function ss(){
- 		
- 	}
+	function det(){
+		var id=[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			id.push($(this).val());
+		}); 
+		if(id.length>=1){ 
+			window.location.href="<%=basePath%>view/detail.html?id="+id;
+		}else{
+			layer.alert("至少选中一条",{offset: ['222px', '390px'], shade:0.01});
+		}
+	}
+	function qb(){
+		 
+	}
   </script>
   </head>
   
   <body>
-
+<!--面包屑导航开始-->
+ <div class="margin-top-10 breadcrumbs ">
+      <div class="container">
+		   <ul class="breadcrumb margin-left-0">
+		   <li><a href="#"> 首页</a></li><li><a href="#">障碍作业系统</a></li><li><a href="#">采购计划管理</a></li><li class="active"><a href="#">采购计划查看</a></li>
+		   </ul>
+		<div class="clear"></div>
+	  </div>
+   </div>
 <!-- 录入采购计划开始-->
-<!--  <div class="container">
-   <div class="headline-v2">
-      <h2>查询条件</h2>
-   </div> -->
-<!-- 项目戳开始 -->
-  <div>
-<!--     <form id="add_form" action="" method="post" > -->
-   <h2 class="padding-10 border1">
-
-	 <ul class="demand_list" >
-	   <li class="fl"><label class="fl">姓名：</label><span><input type="text" name="planName" value=""/></span></li>
-<!-- 	   	 <input class="btn padding-left-10 padding-right-10 btn_back"   type="submit" name="" value="查询" /> 
- -->	   	  <button class="btn padding-left-10 padding-right-10 btn_back goods" style="margin-bottom: 30px" onclick="closede()" >确定添加</button>
-      		<button class="btn padding-left-10 padding-right-10 btn_back goods" style="margin-bottom: 30px" onclick="cancels()" >取消</button> 
-	 </ul>
-
-	
-   </h2>
- <!--   </form> -->
-  </div>
+ <div class="container">
+  
  
-      	<span style="margin-left: 30px;">专家列表</span>	
-	   
-    
- 
-  <!--   <span class="fr option_btn margin-top-10">
-		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="sub()">受理</button>
-	  </span> -->
-   <div class="container clear">
+		<button style="margin-top: 30px;margin-left: 30px;" class="btn padding-left-10 padding-right-10 btn_back" onclick="qb()">需求单位</button>
+		<button style="margin-top: 30px;" class="btn padding-left-10 padding-right-10 btn_back" onclick="det()">全部明细</button>
+		<button style="margin-top: 30px;" class="btn padding-left-10 padding-right-10 btn_back" >历史记录</button>
+	 
+   <div class="container clear margin-top-30">
         <table class="table table-bordered table-condensed mt5">
 		<thead>
 		<tr>
-		  <th class="info w30"></th>
+		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
 		  <th class="info w50">序号</th>
-		  <th class="info">姓名</th>
-		  <th class="info">电话</th>
-		  <th class="info">身份证号</th>
-	<!-- 	  <th class="info">编报人</th>
-		  <th class="info">提交日期</th>
-		  <th class="info">预算总金额</th>
-		  <th class="info">状态</th> -->
+		  <th class="info">编制单位</th>
+		  <th class="info">采购总金额</th>
+		  <th class="info">汇总时间</th>
+		  <th class="info">状态</th>
+		    <th class="info">操作</th>
 		</tr>
 		</thead>
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
 			<tr style="cursor: pointer;">
-			  <td class="tc w30"><input type="radio" value="${obj.id }" name="chkItem"></td>
+			  <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
 			  <td class="tc w50"   >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-			    <td class="tc"  >
-			  			${obj.relName}
-			    </td>
-			    <td class="tc"  >${obj.mobile }</td>
-			 	<td class="tc"  >${obj.idNumber }</td>
+			  
+			  <td class="tc"  >${obj.department }</td>
+			
+			
+			  <td class="tc"  ><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
+			    <td class="tc"  ><fmt:formatDate value="${obj.createdAt }"/></td>
+			  <td class="tc"  >
+			  <c:if test="${obj.status=='1' }">
+			   未下达
+			  </c:if>
+			    <c:if test="${obj.status=='2' }">
+			   已下达
+			  </c:if>
+			  </td>
+			  
+			  <td>
+			  <input type="hidden" value="${obj.id}"/>
+			  <a onclick="up(this,'${obj.id}','${obj.position}')">  上移</a><a onclick="down(this,'${obj.id}')">下移</a> 
+			  
+			  </td>
 			</tr>
 	 
 		 </c:forEach>
@@ -194,16 +212,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       
       <div id="pagediv" align="right"></div>
    </div>
-<!--  </div> -->
+ </div>
 
-<!-- 
- <button class="btn padding-left-10 padding-right-10 btn_back goods" style="margin-bottom: 30px" onclick="closed()" >确定</button>
-      		<button class="btn padding-left-10 padding-right-10 btn_back goods" style="margin-bottom: 30px" onclick="cancel()" >取消</button> -->
+
+ 
  
 	 </body>
-	<form id="collected_form" action="" method="post" style="margin-top: 20px;display: none;">
-	 <input type="hidden" value="" name="id" id="aid">
-	 <input type="hidden" value="1"  name="type" >
-	 </form>
-	 
 </html>

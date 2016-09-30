@@ -3,8 +3,10 @@ package bss.controller.pms;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -28,12 +30,14 @@ import ses.model.ems.Expert;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertService;
 import bss.dao.pms.PurchaseRequiredMapper;
+import bss.formbean.FiledNameEnum;
 import bss.model.pms.AuditPerson;
 import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseRequired;
 import bss.model.pms.UpdateFiled;
 import bss.service.pms.AuditPersonService;
 import bss.service.pms.CollectPlanService;
+import bss.service.pms.CollectPurchaseService;
 import bss.service.pms.UpdateFiledService;
 
 import com.github.pagehelper.PageInfo;
@@ -68,6 +72,9 @@ public class AuditSetController {
 	
 	@Autowired
 	private PurchaseRequiredMapper purchaseRequiredMapper;
+	
+	@Autowired
+	private CollectPurchaseService collectPurchaseService;
 	/**
 	 * 
 	* @Title: set
@@ -81,24 +88,28 @@ public class AuditSetController {
 	 */
 	@RequestMapping("/list")
 	public String set(Model model,Integer page,String id){
-		List<UpdateFiled> list = updateFiledService.getAll();
+		List<FiledNameEnum> list = updateFiledService.getAllFiled();
+		List<UpdateFiled> list2 = updateFiledService.query(id,null);
 		List<UpdateFiled> listy=new LinkedList<UpdateFiled>();
 		List<UpdateFiled> listn=new LinkedList<UpdateFiled>();
-		for(UpdateFiled u:list){
-			if(u.getIsUpdate().equals(1)){
-				listy.add(u);
-			}else{
-				listn.add(u);
+		if(list2!=null&&list2.size()>0){
+			for(UpdateFiled u:list2){
+				if(u.getIsUpdate()==1){
+					listy.add(u);
+				}else{
+					listn.add(u);
+				}
 			}
+		}else{
+			model.addAttribute("list", list);
 		}
-		
 		List<AuditPerson> listAudit = auditPersonService.query(new AuditPerson(), page==null?1:page);
 		PageInfo<AuditPerson> info = new PageInfo<>(listAudit);
 		model.addAttribute("info", info);
-		
 		model.addAttribute("listy", listy);
 		model.addAttribute("listn", listn);
 		model.addAttribute("id", id);
+		
 		return "bss/pms/collect/auditset";
 	}
 	/**
@@ -112,21 +123,71 @@ public class AuditSetController {
 	* @throws
 	 */
 	@RequestMapping("/update")
-	public String save(String val1, String val2){
-		String[] field1 = val1.split(",");
+	public String save(String val1, String val2,String collectId,String fname2,String fname){
+		String[] field1 = val1.trim().split(",");
 		List<String> list=new LinkedList<String>();
 		
 		for(int i=0;i<field1.length;i++){
-			list.add(field1[i]);
+			if(field1[i].trim().length()!=0){
+				list.add(field1[i]);
+			}
+			
 		}
-		updateFiledService.update(1, list);
 		List<String> list2=new LinkedList<String>();
-		String[] field2 = val2.split(",");
+		String[] field2 = val2.trim().split(",");
 		for(int i=0;i<field2.length;i++){
-			list2.add(field2[i]);
+			if(field2[i].trim().length()!=0){
+				list2.add(field2[i]);
+			}
 		}
-		updateFiledService.update(2, list2);
-		return "redirect:list.html";
+		List<UpdateFiled> filedList=new ArrayList<UpdateFiled>();
+		List<UpdateFiled> filedList2=new ArrayList<UpdateFiled>();
+		if(list.size()>0){
+			filedList = updateFiledService.query(collectId, list);
+		}
+		 if(list2.size()>0){
+			 updateFiledService.query(collectId, list2); 
+		 }
+		 
+		if((filedList!=null&&filedList.size()>0)||(filedList2!=null&&filedList2.size()>0)){
+			
+			updateFiledService.update(1, list,collectId);
+			updateFiledService.update(2, list2,collectId);
+			
+		}else{
+			UpdateFiled u=new UpdateFiled();
+			if(list!=null&&list.size()>0){
+				String[] str = fname.split(",");
+				for(int i=0;i<str.length;i++){
+					
+				
+					String id = UUID.randomUUID().toString().replaceAll("-", "");
+					u.setId(id);
+					u.setCollectId(collectId);
+					u.setFiled(field1[i]);
+					u.setFiledName(str[i]);
+					u.setFiledName("");
+					u.setIsUpdate(1);
+					updateFiledService.add(u);
+				}
+			}
+		if(list2!=null&&list2.size()>0){
+			String[] str = fname2.split(",");
+			for(int i=0;i<str.length;i++){
+				String id = UUID.randomUUID().toString().replaceAll("-", "");
+				u.setId(id);
+				u.setCollectId(collectId);
+				u.setFiled(field2[i]);
+				u.setFiledName(str[i]);
+				u.setIsUpdate(2);
+				updateFiledService.add(u);
+			}
+		}
+			
+		}
+		
+		
+		return "redirect:list.html?id="+collectId;
 	}
 	
 	/**
@@ -218,7 +279,7 @@ public class AuditSetController {
 //		collectPlan.setPlanNo("001");
 		List<PurchaseRequired> list=new LinkedList<PurchaseRequired>();
 		if(plan.getPlanNo()!=null){
-			String[] str = collectPlan.getPlanNo().split(",");
+			String[] str = plan.getPlanNo().split(",");
 			for(String s:str){
 				List<PurchaseRequired> pur = purchaseRequiredMapper.queryByNo(s);
 				list.addAll(pur);

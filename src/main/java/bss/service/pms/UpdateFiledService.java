@@ -2,6 +2,7 @@ package bss.service.pms;
 
 import java.util.List;
 
+import bss.formbean.FiledNameEnum;
 import bss.model.pms.UpdateFiled;
 /**
  * 
@@ -33,5 +34,28 @@ public interface UpdateFiledService {
 	* @return void     
 	* @throws
 	 */
-	void update(Integer isUpdate,List<String> list);
+	void update(Integer isUpdate,List<String> list,String collectId);
+	
+	/**
+	 * 
+	* @Title: getAll
+	* @Description: 得到所有的字段属性集合 
+	* author: Li Xiaoxiao 
+	* @param @return     
+	* @return List<FiledNameEnum>     
+	* @throws
+	 */
+	List<FiledNameEnum> getAllFiled();
+	/**
+	 * 
+	* @Title: query
+	* @Description: 根据实体查询
+	* author: Li Xiaoxiao 
+	* @param @param updateFiled
+	* @param @return     
+	* @return List<UpdateFiled>     
+	* @throws
+	 */
+	List<UpdateFiled> query(String collectId,List<String> list);
+	
 }

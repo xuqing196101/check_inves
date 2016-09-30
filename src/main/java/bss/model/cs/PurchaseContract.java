@@ -1,6 +1,7 @@
 package bss.model.cs;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class PurchaseContract {
     private String id;
@@ -11,11 +12,7 @@ public class PurchaseContract {
 
     private BigDecimal money;
 
-    private String supplierId;
-
     private String demandSector;
-
-    private String planFileName;
 
     private BigDecimal budget;
 
@@ -30,8 +27,6 @@ public class PurchaseContract {
     private String quaCode;
 
     private Short status;
-
-    private String contractRequiredId;
 
     private String purchaseDepName;
 
@@ -72,6 +67,8 @@ public class PurchaseContract {
     private BigDecimal supplierBankAccount;
 
     private String supplierBankName;
+    
+    private List<ContractRequired> contractReList;
 
     public String getId() {
         return id;
@@ -105,28 +102,12 @@ public class PurchaseContract {
         this.money = money;
     }
 
-    public String getSupplierId() {
-        return supplierId;
-    }
-
-    public void setSupplierId(String supplierId) {
-        this.supplierId = supplierId == null ? null : supplierId.trim();
-    }
-
     public String getDemandSector() {
         return demandSector;
     }
 
     public void setDemandSector(String demandSector) {
         this.demandSector = demandSector == null ? null : demandSector.trim();
-    }
-
-    public String getPlanFileName() {
-        return planFileName;
-    }
-
-    public void setPlanFileName(String planFileName) {
-        this.planFileName = planFileName == null ? null : planFileName.trim();
     }
 
     public BigDecimal getBudget() {
@@ -183,14 +164,6 @@ public class PurchaseContract {
 
     public void setStatus(Short status) {
         this.status = status;
-    }
-
-    public String getContractRequiredId() {
-        return contractRequiredId;
-    }
-
-    public void setContractRequiredId(String contractRequiredId) {
-        this.contractRequiredId = contractRequiredId == null ? null : contractRequiredId.trim();
     }
 
     public String getPurchaseDepName() {
@@ -352,4 +325,12 @@ public class PurchaseContract {
     public void setSupplierBankName(String supplierBankName) {
         this.supplierBankName = supplierBankName == null ? null : supplierBankName.trim();
     }
+
+	public List<ContractRequired> getContractReList() {
+		return contractReList;
+	}
+
+	public void setContractReList(List<ContractRequired> contractReList) {
+		this.contractReList = contractReList;
+	}
 }
