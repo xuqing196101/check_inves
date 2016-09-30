@@ -94,6 +94,7 @@ public class PurchaseRequired {
     
     private String threeAdvice;
     
+    private String brand;
     
     public String getId() {
         return id;
@@ -421,6 +422,14 @@ public class PurchaseRequired {
 
 	public void setThreeAdvice(String threeAdvice) {
 		  this.threeAdvice = threeAdvice == null ? null : threeAdvice.trim();
+	}
+
+	public String getBrand() {
+		return brand;
+	}
+
+	public void setBrand(String brand) {
+		  this.brand = brand == null ? null : brand.trim();
 	}
 
 	
