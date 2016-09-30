@@ -51,6 +51,7 @@ import ses.model.ems.ExamRule;
 import ses.model.ems.ExamUserAnswer;
 import ses.model.ems.ExamUserScore;
 import ses.model.ems.Expert;
+import ses.service.bms.UserServiceI;
 import ses.service.ems.ExamQuestionServiceI;
 import ses.service.ems.ExamQuestionTypeServiceI;
 import ses.service.ems.ExamRuleServiceI;
@@ -82,6 +83,8 @@ public class ExpertExamController {
 	private ExamUserAnswerServiceI examUserAnswerService;
 	@Autowired
 	private ExpertService expertService;
+	@Autowired
+	private UserServiceI userService;
 	
 	/**
 	 * 
@@ -542,8 +545,8 @@ public class ExpertExamController {
 		}
 		List<ExamRule> examRule = examRuleService.select();
 		String passStandard = examRule.get(0).getPassStandard();
-		ExamUserScore userId = new ExamUserScore();
-		userId.setUserId(user.getId());
+		HashMap<String,Object> userId = new HashMap<String,Object>();
+		userId.put("userId", user.getId());
 		List<ExamUserScore> userScores = examUserScoreService.findByUserId(userId);
 		if(userScores.size()==0){
 			ExamUserScore examUserScore = new ExamUserScore();
@@ -624,8 +627,12 @@ public class ExpertExamController {
 				}
 			}
 		}
-		
-		
+		if(expert.getIsDo()==null){
+			Expert personal = new Expert();
+			personal.setId(user.getTypeId());
+			personal.setIsDo("1");
+			expertService.updateByPrimaryKeySelective(personal);
+		}
 		model.addAttribute("score", score);
 		return "ses/ems/exam/expert/score";
 	}
@@ -906,6 +913,36 @@ public class ExpertExamController {
 	 */
 	@RequestMapping("/result")
 	public String result(Model model,HttpServletRequest request,Integer page){
+		List<ExamRule> examRule = examRuleService.select();
+		if(examRule.get(0).getTestLong().getTime()<new Date().getTime()){
+			List<Expert> expertList = examUserScoreService.findAllExpert();
+			for(int i=0;i<expertList.size();i++){
+				if(expertList.get(i).getIsDo()==null){
+					ExamUserScore examUserScore = new ExamUserScore();
+					User user = new User();
+					user.setTypeId(expertList.get(i).getId());
+					List<User> userList = userService.queryByList(user);
+					examUserScore.setUserId(userList.get(0).getId());
+					examUserScore.setCreatedAt(new Date());
+					examUserScore.setIsMax(1);
+					examUserScore.setUserType(1);
+					examUserScore.setScore("0");
+					examUserScore.setStatus("不及格");
+					if(expertList.get(i).getExpertsTypeId().equals("1")){
+						examUserScore.setUserDuty("技术");
+					}else if(expertList.get(i).getExpertsTypeId().equals("2")){
+						examUserScore.setUserDuty("法律");
+					}else if(expertList.get(i).getExpertsTypeId().equals("3")){
+						examUserScore.setUserDuty("商务");
+					}
+					examUserScoreService.insertSelective(examUserScore);
+					Expert personalExpert = new Expert();
+					personalExpert.setId(expertList.get(i).getId());
+					personalExpert.setIsDo("2");
+					expertService.updateByPrimaryKeySelective(personalExpert);
+				}
+			}
+		}
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		String userName = request.getParameter("userName");
 		String userType = request.getParameter("userType");
@@ -942,6 +979,63 @@ public class ExpertExamController {
 		model.addAttribute("status", status);
 		return "ses/ems/exam/expert/result";
 	}
+	
+	/**
+	 * 
+	* @Title: personalResult
+	* @author ZhaoBo
+	* @date 2016-9-29 下午4:51:13  
+	* @Description: 专家后台各专家查询自己的成绩 
+	* @param @param model
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/personalResult")
+	public String personalResult(Integer page,Model model,HttpServletRequest request,ExamUserScore examUserScore){
+		User user = (User) request.getSession().getAttribute("loginUser");
+		Expert expert = expertService.selectByPrimaryKey(user.getTypeId());
+		List<ExamRule> examRule = examRuleService.select();
+		if(examRule.get(0).getTestLong().getTime()<new Date().getTime()){
+			if(expert.getIsDo()==null){
+				ExamUserScore score = new ExamUserScore();
+				score.setUserId(user.getId());
+				score.setCreatedAt(new Date());
+				score.setIsMax(1);
+				score.setUserType(1);
+				score.setScore("0");
+				score.setStatus("不及格");
+				if(expert.getExpertsTypeId().equals("1")){
+					score.setUserDuty("技术");
+				}else if(expert.getExpertsTypeId().equals("2")){
+					score.setUserDuty("法律");
+				}else if(expert.getExpertsTypeId().equals("3")){
+					score.setUserDuty("商务");
+				}
+				examUserScoreService.insertSelective(score);
+				Expert personal = new Expert();
+				personal.setId(user.getTypeId());
+				personal.setIsDo("2");
+				expertService.updateByPrimaryKeySelective(personal);
+			}
+		}
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("userId", user.getId());
+		if(page==null){
+			page = 1;
+		}
+		map.put("page", page.toString());
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		List<ExamUserScore> scores = examUserScoreService.findByUserId(map);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		for(int i=0;i<scores.size();i++){
+			scores.get(i).setRelName(user.getRelName());
+			scores.get(i).setFormatDate(sdf.format(scores.get(i).getTestDate()));
+		}
+		model.addAttribute("list", new PageInfo<ExamUserScore>(scores));
+		return "ses/ems/exam/expert/personal_result";
+	}
+	
 	
 	/**
 	 * 

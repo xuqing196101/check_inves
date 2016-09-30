@@ -828,8 +828,8 @@ public class PurchaserExamController extends BaseSupplierController{
 				}
 			}
 		}
-		ExamUserScore userId = new ExamUserScore();
-		userId.setUserId(user.getId());
+		HashMap<String,Object> userId = new HashMap<String,Object>();
+		userId.put("userId", user.getId());
 		List<ExamUserScore> userScores = examUserScoreService.findByUserId(userId);
 		if(userScores.size()==0){
 			ExamUserScore examUserScore = new ExamUserScore();
@@ -1234,11 +1234,7 @@ public class PurchaserExamController extends BaseSupplierController{
 			if(relNames.size()==0){
 				str = "0";
 			}else{
-				if(relNames.get(0).getIdCard().equals(card)){
-					
-				}else{
-					str = "4";
-				}
+				str = "4";
 			}
 		}else{
 			ExamPaperUser userId = new ExamPaperUser();

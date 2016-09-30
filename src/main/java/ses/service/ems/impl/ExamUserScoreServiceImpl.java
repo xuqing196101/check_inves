@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ses.dao.ems.ExamUserScoreMapper;
+import ses.dao.ems.ExpertMapper;
 import ses.model.ems.ExamUserScore;
+import ses.model.ems.Expert;
 import ses.service.ems.ExamUserScoreServiceI;
 
 /**
@@ -23,6 +25,8 @@ import ses.service.ems.ExamUserScoreServiceI;
 public class ExamUserScoreServiceImpl implements ExamUserScoreServiceI {
 	@Autowired
 	private ExamUserScoreMapper examUserScoreMapper;
+	@Autowired
+	private ExpertMapper expertMapper;
 	
 	@Override
 	public int deleteByPrimaryKey(String id) {
@@ -62,8 +66,8 @@ public class ExamUserScoreServiceImpl implements ExamUserScoreServiceI {
 
 	
 	@Override
-	public List<ExamUserScore> findByUserId(ExamUserScore examUserScore) {
-		return examUserScoreMapper.findByUserId(examUserScore);
+	public List<ExamUserScore> findByUserId(HashMap<String,Object> map) {
+		return examUserScoreMapper.findByUserId(map);
 	}
 
 
@@ -78,6 +82,13 @@ public class ExamUserScoreServiceImpl implements ExamUserScoreServiceI {
 	@Override
 	public int updateIsMaxByUserId(ExamUserScore examUserScore) {
 		return examUserScoreMapper.updateIsMaxByUserId(examUserScore);
+	}
+
+
+	
+	@Override
+	public List<Expert> findAllExpert() {
+		return expertMapper.selectAllExpert(null);
 	}
 
 

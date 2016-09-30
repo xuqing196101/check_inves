@@ -118,5 +118,5 @@ public interface ExamUserScoreMapper {
     * @param @return      
     * @return List<ExamUserScore>
      */
-    List<ExamUserScore> findByUserId(ExamUserScore examUserScore);
+    List<ExamUserScore> findByUserId(HashMap<String,Object> map);
 }

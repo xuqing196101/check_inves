@@ -39,7 +39,7 @@
 			    total: "${expertResultList.total}",
 			    startRow: "${expertResultList.startRow}",
 			    endRow: "${expertResultList.endRow}",
-			    groups: "${expertResultList.pages}">=3?3:"${expertResultList.pages}", //连续显示分页数
+			    groups: "${expertResultList.pages}">=5?5:"${expertResultList.pages}", //连续显示分页数
 			    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
 			        var page = location.search.match(/page=(\d+)/);
 			        return page ? page[1] : 1;
@@ -124,7 +124,7 @@
   	
   	<div class="container">
   		<div class="content padding-left-25 padding-right-25 padding-top-5">
-	  		<table class="table table-bordered table-condensed">
+	  		<table class="table table-bordered table-condensed table-hover">
 				<thead>
 					<th class="info">序号</th>
 					<th class="info">专家姓名</th>

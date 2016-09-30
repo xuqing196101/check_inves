@@ -249,7 +249,7 @@
 	           <![CDATA[
 	           	AND s.STATUS = #{status}
 	           ]]>
-	        </if> 
+	        </if>
 	        <if test="code != null and '' != code">
 	           <![CDATA[
 	           	AND P.CODE = #{code} 
@@ -260,10 +260,12 @@
   </select>
   
   <!-- 根据userId查找属于用户的成绩 -->
-  <select id="findByUserId" parameterType="Object" resultMap="BaseResultMap">
+  <select id="findByUserId" parameterType="java.util.Map" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from T_SES_EMS_EXAM_USER_SCORE
     where USER_ID = #{userId}
+    ORDER BY
+    CREATED_AT DESC
   </select>
 </mapper>

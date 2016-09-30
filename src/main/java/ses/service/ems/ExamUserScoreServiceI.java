@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import ses.model.ems.ExamUserScore;
+import ses.model.ems.Expert;
 
 
 /**
@@ -123,5 +124,16 @@ public interface ExamUserScoreServiceI {
     * @param @return      
     * @return List<ExamUserScore>
      */
-    List<ExamUserScore> findByUserId(ExamUserScore examUserScore);
+    List<ExamUserScore> findByUserId(HashMap<String,Object> map);
+    
+    /**
+     * 
+    * @Title: findAllExpert
+    * @author ZhaoBo
+    * @date 2016-9-29 下午5:21:46  
+    * @Description: 查询所有的专家 
+    * @param @return      
+    * @return List<Expert>
+     */
+    List<Expert> findAllExpert();
 }
