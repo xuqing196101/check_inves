@@ -39,6 +39,7 @@
 <script type="text/javascript">
 $(function(){
 	var url = "http://localhost:8080<%=url%>";
+	var flag = false;
 	$("ul:eq(0) li").each(function(){
 		$(this).removeClass();
 		var classval = $(this).attr("class");
@@ -56,8 +57,12 @@ $(function(){
 		if(url==trueAlvals[0]){
 			var classval = "active "+(al.parent().attr("class"));
 			al.parent().attr("class",classval);
+			flag = true;
 		}
 	})
+	if(flag==false){
+		$("ul:eq(0)").children(":first").attr("class","active active dropdown tongzhi_li");
+	}
 });
 
 function solrSearch(){

@@ -132,7 +132,7 @@
 	  </h2>
    </div> 
    	  <span class="fr option_btn margin-top-20">
-	    <button class="btn padding-left-10 padding-right-10 btn_back">删除</button>
+	    <button onclick="del()" class="btn padding-left-10 padding-right-10 btn_back">删除</button>
 	  </span>
    <div class="container clear margin-top-30">
    	<table class="table table-bordered table-condensed mt5">

@@ -762,3 +762,8 @@
    background-repeat:no-repeat;
    background-position:10px 11px;
 }
+.cancel{
+   background-image:url(../images/cancel.png);
+   background-repeat:no-repeat;
+   background-position:10px 10px;
+}

@@ -99,6 +99,22 @@
   		var articleId = "${articleId}";
   		window.location.href="<%=basePath%>downloadUser/selectDownloadUserByArticleId.html?userName="+condition+"&articleId="+articleId;
   	}
+  	
+  	function createContract(){
+  		var ids =[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			ids.push($(this).val()); 
+		}); 
+		if(ids.length>0){
+			if(ids.length>1){
+				layer.alert("只可选择一条项目生成",{offset: ['222px', '390px'], shade:0.01});
+			}else{
+				window.location.href="<%=basePath%>purchaseContract/createCommonContract.html?ids="+ids;
+			}
+		}else{
+			layer.alert("请选择要生成的项目",{offset: ['222px', '390px'], shade:0.01});
+		}
+  	}
   </script>
   </head>
   
@@ -118,28 +134,30 @@
       <h2>查询条件</h2>
    </div>
 <!-- 项目戳开始 -->
-  <div class="container clear margin-top-30">
-   <h2 class="padding-10 border1">
-	 <ul class="demand_list list-unstyled">
-	   <li class="fl ml8"><label class="fl mt10">采购项目名称：</label><span><input type="text" value="${userName}" id="condition" class="mb0 mt5"/></span></li>
-	   <li class="fl ml8"><label class="fl mt10">编号：</label><span><input type="text" value="${userName}" id="condition" class="mb0 mt5"/></span></li>
-	   <li class="fl ml8"><label class="fl mt10">采购机构：</label><span><input type="text" value="${userName}" id="condition" class="mb0 mt5"/></span></li>
-	   	 <button class="btn btn_back fl ml10 mt8" onclick="search()">查询</button>
-	 </ul>
-	 <div class="clear"></div>
+  <div class="container clear">
+  <div class="p10_25">
+     <h2 class="padding-10 border1">
+    	<ul class="demand_list">
+          <li class="fl ml8"><label class="fl mt10">采购项目名称：</label><span><input type="text" value="${userName}" id="condition" class="mb0 mt5"/></span></li>
+	      <li class="fl ml8"><label class="fl mt10">编号：</label><span><input type="text" value="${userName}" id="condition" class="mb0 mt5"/></span></li>
+	      <li class="fl ml8"><label class="fl mt10">采购机构：</label><span><input type="text" value="${userName}" id="condition" class="mb0 mt5"/></span></li>
+	    	<button type="button" onclick="query()" class="btn">查询</button>
+	    	<button type="reset" class="btn">重置</button>  	
+    	</ul>
+    	  <div class="clear"></div>
+     </h2>
+   </div>
    </h2>
   </div>
    <div class="headline-v2 fl">
-      <h2>采购合同列表
+      <h2>成交项目列表
 	  </h2>
    </div> 
-   	  <span class="fr option_btn margin-top-20">
-	    <button class="btn padding-left-10 padding-right-10 btn_back">生成合同</button>
-	    <button class="btn padding-left-10 padding-right-10 btn_back">报批合同</button>
-	    <button class="btn padding-left-10 padding-right-10 btn_back">编辑合同</button>
-	    <button class="btn padding-left-10 padding-right-10 btn_back">查看合同</button>
+   	  <span class="fr option_btn margin-top-20 mr10">
+	    <button class="btn padding-left-10 padding-right-10 btn_back" onclick="createContract()">生成合同</button>
 	  </span>
-   <div class="container clear margin-top-30">
+   <div class="container clear">
+    <div class="p10_25">
    	<table class="table table-bordered table-condensed mt5">
 		<thead>
 			<tr>
@@ -153,18 +171,21 @@
 				<th class="info">采购机构</th>
 			</tr>
 		</thead>
-		<%--<c:forEach items="${list}" var="downloadUser" varStatus="vs">
+		<c:forEach items="${projectList}" var="contract" varStatus="vs">
 			<tr>
-				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${downloadUser.id}" /></td>
-				<td class="tc pointer">${(vs.index+1)+(page-1)*(pageSize)}</td>
-				<td class="tc pointer">${downloadUser.article.name}</td>
-				<td class="tc pointer"><fmt:formatDate value='${downloadUser.createdAt}' pattern="yyyy年MM月dd日  HH:mm:ss" /></td>
-				<td class="tc pointer"><fmt:formatDate value='${downloadUser.updatedAt}' pattern="yyyy年MM月dd日  HH:mm:ss" /></td>
-				<td class="tc pointer">${downloadUser.userName}</td>
+				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${contract.id}" /></td>
+				<td class="tc pointer">${(vs.index+1)}</td>
+				<td class="tc pointer">${contract.name}</td>
+				<td class="tc pointer">${contract.projectNumber}</td>
+				<td class="tc pointer">${contract.baleNo}</td>
+				<td class="tc pointer">${contract.amount}</td>
+				<td class="tc pointer">${contract.dealSupplier.supplierName}</td>
+				<td class="tc pointer">${contract.purchaseDep.depName}</td>
 			</tr>
 		</c:forEach>
-	--%></table>
+	</table>
      </div>
+    </div>
    <div id="pagediv" align="right"></div>
    </div>
 </body>

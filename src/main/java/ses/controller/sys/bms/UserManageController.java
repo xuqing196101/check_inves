@@ -462,7 +462,6 @@ public class UserManageController {
 			UserPreMenu um = new UserPreMenu();
 			um.setUser(user);
 			userService.deleteUserMenu(um);
-
 			String[] mIds = ids.split(",");
 			for (String str : mIds) {
 				UserPreMenu up = new UserPreMenu();

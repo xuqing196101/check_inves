@@ -1737,3 +1737,22 @@ img.img-mouse {
 .timeline-v2 li{
 	margin-bottom:15px;
 }
+.dnone{
+	display: none;
+	z-index: 10;
+}
+.spredm{
+	color:red;
+}
+.textAreaSize{
+	width:400px;
+	height:80px;
+}
+.dw188 {
+	display:none;
+	position: absolute;
+	z-index: 100;
+	margin:0px;
+	padding:0px;
+	list-style:none; 
+}
