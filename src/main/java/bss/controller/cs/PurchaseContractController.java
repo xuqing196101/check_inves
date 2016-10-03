@@ -103,4 +103,10 @@ public class PurchaseContractController {
 		model.addAttribute("planNos", planNos);
 		return "bss/cs/purchaseContract/textContract";
 	}
+	
+	@RequestMapping("/addPurchaseContract")
+	public String addPurchaseContract(HttpServletRequest request,PurchaseContract purCon,List<PurchaseRequired> proList){
+		System.out.println(111);
+		return null;
+	}
 }

@@ -70,7 +70,7 @@
 				<td class="tc">${(vs.index+1)}</td>
 				<td class="tc">${reque.planNo}</td>
 				<td class="tc">${reque.goodsName}</td>
-				<td class="tc"></td>
+				<td class="tc">${reque.brand}</td>
 				<td class="tc">${reque.stand}</td>
 				<td class="tc">${reque.item}</td>
 				<td class="tc">${reque.purchaseCount}</td>

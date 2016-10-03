@@ -69,6 +69,8 @@ public class PurchaseContract {
     private String supplierBankName;
     
     private List<ContractRequired> contractReList;
+    
+    private String supplierPurId;
 
     public String getId() {
         return id;
@@ -332,5 +334,13 @@ public class PurchaseContract {
 
 	public void setContractReList(List<ContractRequired> contractReList) {
 		this.contractReList = contractReList;
+	}
+
+	public String getSupplierPurId() {
+		return supplierPurId;
+	}
+
+	public void setSupplierPurId(String supplierPurId) {
+		this.supplierPurId = supplierPurId;
 	}
 }
