@@ -168,6 +168,11 @@ function tijiao(str){
   $("#form_id").attr("action",action);
   $("#form_id").submit();
 }
+function downloadFile(fileName){
+	  fileName=encodeURI(fileName);
+      fileName=encodeURI(fileName);
+	  window.location.href="<%=basePath %>supplierQuery/downLoadFile.html?fileName="+fileName;
+}
 </script>
 <style type="text/css">
 .jbxx1{
@@ -260,27 +265,27 @@ function tijiao(str){
                     <ul class="list-unstyled list-flow">
                       <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>财务审计报告意见表：</span>
                         <div class="input-append">
-                          <a class="span3">附件下载</a>
+                          <a class="span3" onclick="downloadFile('${f.auditOpinion}')">附件下载</a>
                         </div>
                       </li>
                       <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>资产负债表：</span>
                         <div class="input-append">
-                          <a class="span3">附件下载</a>
+                          <a class="span3" onclick="downloadFile('${f.liabilitiesList}')">附件下载</a>
                         </div>
                       </li>
                       <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>利润表：</span>
                         <div class="input-append">
-                          <a class="span3">附件下载</a>
+                          <a class="span3" onclick="downloadFile('${f.profitList}')">附件下载</a>
                         </div>
                       </li>
                       <li class="col-md-6 p0 "><span class="" ><i class="red">＊</i>现金流量表：</span>
                         <div class="input-append">
-                          <a class="span3">附件下载</a>
+                          <a class="span3" onclick="downloadFile('${f.cashFlowStatement}')">附件下载</a>
                         </div>
                       </li>
                       <li class="col-md-6 p0 "><span class="" ><i class="red">＊</i>所有者权益变动表：</span>
                         <div class="input-append">
-                          <a class="span3">附件下载</a>
+                          <a class="span3" onclick="downloadFile('${f.changeList}')">附件下载</a>
                         </div>
                       </li>
                     </ul>

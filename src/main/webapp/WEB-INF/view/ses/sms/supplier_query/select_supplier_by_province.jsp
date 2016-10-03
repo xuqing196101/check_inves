@@ -168,7 +168,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		       </table>
 		     </form>
 		       <h2>供应商信息</h2>
-		      <table id="tb1"  class="table table-striped table-bordered table-hover">
+		      <table id="tb1"  class="table table-striped table-bordered table-hover tc">
 		      <thead>
 				<tr>
 					<th class="info w50">序号</th>

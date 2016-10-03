@@ -256,19 +256,7 @@
 		document.fm.action="<%=basePath%>category/edit.do";
 		document.fm.submit();
 	}	
-	function getChildren(){
-		var Obj=$.fn.zTree.getZTreeObj("ztree");  
-	     var nodes=Obj.getCheckedNodes(true);  
-	     var ids = new Array();  
-	     for(var i=0;i<nodes.length;i++){ 
-	    	 if(!nodes[i].isParent){
-	        //获取选中节点的值  
-	         ids.push(nodes[i].id); 
-	    	 }
-	     } 
-	     $("#categoryIds").val(ids);
-	}	
-	  	  $(function(){
+	  $(function(){
 		  laypage({
 			    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
 			    pages: "${listSupplier.pages}", //总页数
@@ -289,8 +277,18 @@
 			    }
 			});
 	  });
-	  function submit(){
-	  	form1.submit();
+	  function tijiao(){
+	    var Obj=$.fn.zTree.getZTreeObj("ztree");  
+	     var nodes=Obj.getCheckedNodes(true);  
+	     var ids = new Array();  
+	     for(var i=0;i<nodes.length;i++){ 
+	    	 if(!nodes[i].isParent){
+	        //获取选中节点的值  
+	         ids.push(nodes[i].id); 
+	    	 }
+	     } 
+	      $("#categoryIds").val(ids);
+	  	  form1.submit();
 	  }
 </script>
 </head>
@@ -299,7 +297,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a><li><a href="#">按照品目查询供应商</a><li>
+		    <li><a href="#"> 首页</a></li><li><a href="#">供应商管理</a></li><li><a href="#">按照品目查询供应商</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -316,11 +314,12 @@
 			   <div class="input-append">
 		        <input class="span2" name="supplierName"  type="text">
 		       </div>
-		       <input class="btn padding-left-20 padding-right-20 btn_back" onclick="submit()" type="button" value="查询">
+		       <input class="btn padding-left-20 padding-right-20 btn_back" onclick="tijiao()" type="button" value="查询">
 		     </form>
-   		<table id="tb1"  class="table table-striped table-bordered table-hover">
+   		<table id="tb1"  class="table table-striped table-bordered table-hover tc">
 		      <thead>
 				<tr>
+				    <th class="info w50">序号</th>
 					<th class="info">供应商名称</th>
 					<th class="info">联系人</th>
 					<th class="info">电话</th>
@@ -330,6 +329,7 @@
 			  <tbody>
 				 <c:forEach items="${listSupplier.list }" var="list" varStatus="vs">
 					<tr>
+					    <td>${va.index+1 }</td>
 						<td><a href="<%=basePath%>supplierQuery/essential.html?supplierId=${list.id}">${list.supplierName }</a></td>
 						<td>${list.contactName}</td>
 						<td>${list.contactTelephone}</td>

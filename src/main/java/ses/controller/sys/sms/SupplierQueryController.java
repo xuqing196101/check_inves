@@ -12,9 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.codec.Decoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.github.pagehelper.PageInfo;
 
@@ -37,7 +39,7 @@ import ses.service.sms.SupplierService;
 @Controller
 @Scope("prototype")
 @RequestMapping("/supplierQuery")
-public class SupplierQuery {
+public class SupplierQueryController extends BaseSupplierController{
 	
 	@Autowired
 	private SupplierAuditService supplierAuditService;
@@ -57,12 +59,10 @@ public class SupplierQuery {
 	@RequestMapping("highmaps")
 	public String highmaps(Supplier sup,Model model,Integer status){
 		StringBuffer sb = new StringBuffer("");
-		Map<String,String> myMap=getMap();
 		//调用供应商查询方法 List<Supplier>
 		if(status!=null){
 			sup.setStatus(status);
 		}
-		
 		List<Supplier> listSupplier=supplierAuditService.supplierList(sup, null);
 		//开始循环 判断地址是否
 		Map<String,Integer> map= new HashMap<String,Integer>(40);
@@ -71,10 +71,10 @@ public class SupplierQuery {
 			for(String str:list){
 				int count=1;
 				if(supplier.getAddress().indexOf(str)!=-1){
-					if(map.get(myMap.get(str))==null){
+					if(map.get(str)==null){
 						map.put(str, count);
 					}else{
-						map.put(str,map.get(myMap.get(str))+1);
+						map.put(str,map.get(str)+1);
 					}
 				}else{
 					map.put(str, 0);
@@ -123,24 +123,6 @@ public class SupplierQuery {
 		model.addAttribute("address", supplier.getAddress());
 		model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
 		return "ses/sms/supplier_query/select_supplier_by_province";
-	}
-	
-	/**
-	 * @Title: showSupplierInfo
-	 * @author Song Biaowei
-	 * @date 2016-9-22 上午10:21:45  
-	 * @Description: 供应商查询 
-	 * @param @param supplier
-	 * @param @param model
-	 * @param @return      
-	 * @return String
-	 */
-	@RequestMapping("showSupplierInfo")
-	public String showSupplierInfo(Supplier supplier,Model model){
-		supplier.setId("83398A4D748E43CCA1007FDCF5007009");
-		List<Supplier> listSupplier=supplierAuditService.supplierList(supplier, 1);
-		model.addAttribute("supplier", listSupplier.get(0));
-		return "ses/sms/supplier_query/basic_info";
 	}
 	
 	/**
@@ -314,6 +296,13 @@ public class SupplierQuery {
 		return "ses/sms/supplier_query/supplierInfo/service_information";
 	}
 	
+	 @RequestMapping("/downLoadFile")
+	  public ResponseEntity<byte[]> downLoadFile(String fileName,HttpServletRequest request) throws UnsupportedEncodingException{
+		  fileName=URLDecoder.decode(fileName,"UTF-8");
+		 String filePath=getFilePath(request);
+		 return  supplierAuditService.downloadFile(filePath,fileName);
+	  }
+	  
 	public static List<String> getAllProvince(){
 		List<String> list=new ArrayList<String>();
 		list.add("吉林");
@@ -355,44 +344,5 @@ public class SupplierQuery {
 		list.add("台湾");
 		list.add("湖北");
 		return list;
-	}
-	
-	public static Map<String,String> getMap(){
-		Map<String,String> myMap= new HashMap<String,String>(40);
-		myMap.put("吉林","cn-jl");        
-		myMap.put("天津","cn-tj");        
-		myMap.put("安徽","cn-ah");        
-		myMap.put("山东","cn-sd");        
-		myMap.put("山西","cn-sx");        
-		myMap.put("新疆","cn-xj");
-		myMap.put("河北","cn-hb");        
-		myMap.put("河南","cn-he");        
-		myMap.put("湖南","cn-hn");        
-		myMap.put("甘肃","cn-gs");        
-		myMap.put("福建","cn-fj");        
-		myMap.put("贵州","cn-gz");        
-		myMap.put("重庆","cn-cq");        
-		myMap.put("江苏","cn-js");       
-		myMap.put("湖北","cn-hu");        
-		myMap.put("内蒙古","cn-nm");  
-		myMap.put("广西","cn-gx"); 
-		myMap.put("黑龙江","cn-hl");      
-		myMap.put("云南","cn-yn");        
-		myMap.put("辽宁","cn-ln");        
-		myMap.put("香港","cn-6668"); 
-		myMap.put("浙江","cn-zj");        
-		myMap.put("上海","cn-sh");        
-		myMap.put("北京","cn-bj");        
-		myMap.put("广东","guang_dong");        
-		myMap.put("澳门","cn-3681"); 
-		myMap.put("西藏","cn-xz");    
-		myMap.put("陕西","cn-sa");        
-		myMap.put("四川","cn-sc");        
-		myMap.put("海南","cn-ha");        
-		myMap.put("宁夏","cn-nx"); 
-		myMap.put("青海","cn-qh");        
-		myMap.put("江西","cn-jx");        
-		myMap.put("台湾","tw-tw");    
-		return myMap;
 	}
 }

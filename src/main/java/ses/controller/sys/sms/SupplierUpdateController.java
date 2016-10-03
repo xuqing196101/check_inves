@@ -206,7 +206,7 @@ public class SupplierUpdateController {
 	 */
 	@RequestMapping("edit")
 	public String edit(String id,Model model){
-		Supplier supplier=supplierService.get("83398A4D748E43CCA1007FDCF5007009");
+		Supplier supplier=supplierService.get(id);
 		model.addAttribute("supplier", supplier);
 		return "ses/sms/supplier_apply_edit/edit_supplier";
 	}

@@ -2,6 +2,8 @@ package ses.service.sms;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
+
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
@@ -217,5 +219,15 @@ public interface SupplierAuditService {
     void updateBySupplierId (SupplierAudit supplierAudit);
     
     String findSupplierTypeNameBySupplierId(String supplierId);
-
+   
+    /**
+     * @Title: downloadFile
+     * @author Song Biaowei
+     * @date 2016-9-30 下午6:53:02  
+     * @Description: 文件下载 
+     * @param @param attachmentId
+     * @param @return      
+     * @return ResponseEntity<byte[]>
+     */
+    ResponseEntity<byte[]> downloadFile(String filePath,String fileName);
 } 

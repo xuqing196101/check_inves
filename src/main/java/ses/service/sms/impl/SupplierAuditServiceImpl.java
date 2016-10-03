@@ -1,8 +1,14 @@
 package ses.service.sms.impl;
 
+import java.io.File;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import ses.dao.sms.SupplierAptituteMapper;
@@ -404,8 +410,19 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		//return supplierTypeRelateMapper.findSupplierTypeNameBySupplierId(supplierId);
 		return supplierTypeNames;
 	}
-
-
-
-
+	
+	public ResponseEntity<byte[]> downloadFile(String filePath,String fileName){
+	   	 try {
+				File file=new File(filePath+fileName);  
+				    HttpHeaders headers = new HttpHeaders(); 
+				   String downFileName=new String(fileName.getBytes("UTF-8"),"iso-8859-1");//为了解决中文名称乱码问题  
+				    headers.setContentDispositionFormData("attachment",downFileName );   
+				    headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);   
+				    ResponseEntity<byte[]> entity = new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),headers, HttpStatus.CREATED); 
+				    return entity;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+	}
 }

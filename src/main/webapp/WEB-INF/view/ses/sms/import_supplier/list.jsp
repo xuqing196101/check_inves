@@ -111,20 +111,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/layer/layer.js"></script>
 <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
-   $(function(){
+	  	 $(function(){
 		  laypage({
 			    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
 			    pages: "${isList.pages}", //总页数
 			    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
 			    skip: true, //是否开启跳页
-			    groups: "${isList.pages}">=3?3:"${isList.pages}", //连续显示分页数
+			    total: "${isList.total}",
+			    startRow: "${isList.startRow}",
+			    endRow: "${isList.endRow}",
+			    groups: "${isList.pages}">=5?5:"${isList.pages}", //连续显示分页数
 			    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
-					return "${isList.pageNum}";
+			        var page = location.search.match(/page=(\d+)/);
+			        return page ? page[1] : 1;
 			    }(), 
 			    jump: function(e, first){ //触发分页后的回调
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
-			        	$("#page").val(e.curr);
-			        	$("#form1").submit();
+			             location.href = '<%=basePath%>importSupplier/list.do?page='+e.curr;
 			        }
 			    }
 			});
@@ -237,7 +240,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	  <div class="clear"></div>
        </form>
      </h2>
-		  <table id="tb1"  class="table table-striped table-bordered table-hover">
+		  <table id="tb1"  class="table table-striped table-bordered table-hover tc">
 		      <thead>
 				<tr>
 				    <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>

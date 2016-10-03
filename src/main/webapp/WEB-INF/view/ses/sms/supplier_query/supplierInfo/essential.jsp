@@ -165,6 +165,12 @@ function tijiao(str){
   $("#form_id").attr("action",action);
   $("#form_id").submit();
 }
+
+function downloadFile(fileName){
+	  fileName=encodeURI(fileName);
+      fileName=encodeURI(fileName);
+	  window.location.href="<%=basePath %>supplierQuery/downLoadFile.html?fileName="+fileName;
+}
 </script>
 <style type="text/css">
 .jbxx1{
@@ -267,22 +273,22 @@ function tijiao(str){
                     </li>
                     <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>近三个月完税凭证：</span>
                       <div class="input-append">
-                        <a class="span3">附件下载</a>
+                        <a class="span3" onclick="downloadFile('${suppliers.taxCert}')" >附件下载</a>
                       </div>
                     </li>
                     <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>近三年银行账单：</span>
                       <div class="input-append">
-                        <a class="span3">附件下载</a>
+                        <a class="span3" onclick="downloadFile('${suppliers.billCert}')" >附件下载</a>
                       </div>
                     </li>
                     <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>近三个月保险凭证：</span>
                       <div class="input-append">
-                        <a class="span3">附件下载</a>
+                        <a class="span3" onclick="downloadFile('${suppliers.securityCert}')" >附件下载</a>
                       </div>
                     </li>
                     <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>近三年违法记录：</span>
                       <div class="input-append">
-                        <a class="span3">附件下载</a>
+                        <a class="span3" onclick="downloadFile('${suppliers.breachCert}')" >附件下载</a>
                       </div>
                     </li>
                   </ul>
@@ -376,8 +382,7 @@ function tijiao(str){
                     </li>
                     <li class="col-md-6 p0 "><span class="" id="businessEndDate2"><i class="red">＊</i>营业期限：</span>
                       <div class="input-append">
-                        <input class="span3" id="businessEndDate3" value="<fmt:formatDate value="${supplier.businessStartDate }" pattern="yyyy-MM-dd" /> 
-                        至 <fmt:formatDate value="${suppliers.businessEndDate}" pattern="yyyy-MM-dd" />" type="text"/>
+                        <input class="span3" id="businessEndDate3" value="<fmt:formatDate value="${suppliers.businessStartDate}" pattern="yyyy-MM-dd" />至 <fmt:formatDate value="${suppliers.businessEndDate}" pattern="yyyy-MM-dd" />" type="text"/>
                       </div>
                     </li>
                     <li class="col-md-12 p0 mt10"><span class="fl" id="businessScope2"><i class="red">＊</i>经营范围：</span>
