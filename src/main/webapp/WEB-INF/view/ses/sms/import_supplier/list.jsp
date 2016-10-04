@@ -254,7 +254,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				 <c:forEach items="${isList.list }" var="list" varStatus="vs">
 					<tr>
 					    <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${list.id}" /></td>
-					    <td>${vs.index+1 }</td>
+					    <td>${(vs.index+1)+(isList.pageNum-1)*(isList.pageSize)}</td>
 						<td><a onclick="show('${list.id}')" class="pointer">${list.name }</a></td>
 						<td>${list.supplierType }</td>
 						<td>${list.legalName }</td>

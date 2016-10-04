@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 
@@ -138,6 +139,14 @@ public class SupplierQueryController extends BaseSupplierController{
 		List<Supplier> listSupplier=supplierAuditService.supplierList(supplier, page==null?1:page);
 		model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
 		return "ses/sms/supplier_query/select_by_category";
+	}
+	
+	@RequestMapping("selectByCategoryByAjax")
+	@ResponseBody
+	public PageInfo<Supplier>  selectByCategoryByAjax(Supplier supplier,Integer page,Model model){
+		List<Supplier> listSupplier=supplierAuditService.supplierList(supplier, page==null?1:page);
+		PageInfo<Supplier>  pager=new PageInfo<>(listSupplier);
+		return pager;
 	}
 	
 	/**

@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.sms.ImportRecommendMapper">
+  <resultMap id="BaseResultMap" type="ses.model.sms.ImportRecommend">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+    <result column="LEGAL_NAME" jdbcType="VARCHAR" property="legalName" />
+    <result column="RECOMMEND_DEP" jdbcType="VARCHAR" property="recommendDep" />
+    <result column="TYPE" jdbcType="DECIMAL" property="type" />
+    <result column="USE_COUNT" jdbcType="DECIMAL" property="useCount" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="LOGIN_NAME" jdbcType="VARCHAR" property="loginName" />
+    <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+    <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+    <result column="ATTACHMENT" jdbcType="VARCHAR" property="attachment" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, NAME, ADDRESS, LEGAL_NAME, RECOMMEND_DEP, TYPE, USE_COUNT, STATUS, LOGIN_NAME, 
+    PASSWORD, CREATED_AT, UPDATED_AT, CREATOR, ATTACHMENT
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_IMPORT_RECOMMEND
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+    <select id="selectByRecommend" parameterType="ses.model.sms.ImportRecommend" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_IMPORT_RECOMMEND
+    where 1=1 and STATUS != 2
+   <if test="name!=null and name!= ''">
+   	 and NAME = #{name,jdbcType=VARCHAR}
+   </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_SES_SMS_IMPORT_RECOMMEND
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="ses.model.sms.ImportRecommend">
+    insert into T_SES_SMS_IMPORT_RECOMMEND (ID, NAME, ADDRESS, 
+      LEGAL_NAME, RECOMMEND_DEP, TYPE, 
+      USE_COUNT, STATUS, LOGIN_NAME, 
+      PASSWORD, CREATED_AT, UPDATED_AT, 
+      CREATOR, ATTACHMENT)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{legalName,jdbcType=VARCHAR}, #{recommendDep,jdbcType=VARCHAR}, #{type,jdbcType=DECIMAL}, 
+      #{useCount,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}, #{loginName,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE}, 
+      #{creator,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="ses.model.sms.ImportRecommend">
+    insert into T_SES_SMS_IMPORT_RECOMMEND
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="address != null">
+        ADDRESS,
+      </if>
+      <if test="legalName != null">
+        LEGAL_NAME,
+      </if>
+      <if test="recommendDep != null">
+        RECOMMEND_DEP,
+      </if>
+      <if test="type != null">
+        TYPE,
+      </if>
+      <if test="useCount != null">
+        USE_COUNT,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="loginName != null">
+        LOGIN_NAME,
+      </if>
+      <if test="password != null">
+        PASSWORD,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="creator != null">
+        CREATOR,
+      </if>
+      <if test="attachment != null">
+        ATTACHMENT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="legalName != null">
+        #{legalName,jdbcType=VARCHAR},
+      </if>
+      <if test="recommendDep != null">
+        #{recommendDep,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="useCount != null">
+        #{useCount,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="loginName != null">
+        #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=DATE},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null">
+        #{attachment,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.ImportRecommend">
+    update T_SES_SMS_IMPORT_RECOMMEND
+    <set>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="legalName != null">
+        LEGAL_NAME = #{legalName,jdbcType=VARCHAR},
+      </if>
+      <if test="recommendDep != null">
+        RECOMMEND_DEP = #{recommendDep,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        TYPE = #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="useCount != null">
+        USE_COUNT = #{useCount,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="loginName != null">
+        LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        PASSWORD = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      </if>
+      <if test="creator != null">
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null">
+        ATTACHMENT = #{attachment,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="ses.model.sms.ImportRecommend">
+    update T_SES_SMS_IMPORT_RECOMMEND
+    set NAME = #{name,jdbcType=VARCHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      LEGAL_NAME = #{legalName,jdbcType=VARCHAR},
+      RECOMMEND_DEP = #{recommendDep,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=DECIMAL},
+      USE_COUNT = #{useCount,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=DECIMAL},
+      LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
+      PASSWORD = #{password,jdbcType=VARCHAR},
+      CREATED_AT = #{createdAt,jdbcType=DATE},
+      UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      CREATOR = #{creator,jdbcType=VARCHAR},
+      ATTACHMENT = #{attachment,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

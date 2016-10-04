@@ -219,7 +219,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  <tbody>
 				 <c:forEach items="${listAe.list }" var="ae" varStatus="vs">
 					<tr>
-					    <td>${vs.index+1 }</td>
+					    <td>${(vs.index+1)+(listAe.pageNum-1)*(listAe.pageSize)}</td>
 						<td><a onclick="show('${ae.id}')" class="pointer">${ae.supplierName }</a></td>
 						<td><fmt:formatDate value="${ae.createdAt }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 						<td>
