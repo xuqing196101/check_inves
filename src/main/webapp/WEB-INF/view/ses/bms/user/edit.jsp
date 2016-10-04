@@ -279,6 +279,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					        	<option value="4" <c:if test="${'4' eq user.typeName}">selected</c:if>>供应商</option>
 					        	<option value="5" <c:if test="${'5' eq user.typeName}">selected</c:if>>专家</option>
 					        	<option value="6" <c:if test="${'6' eq user.typeName}">selected</c:if>>进口供应商</option>
+					        	<option value="7" <c:if test="${'7' eq user.typeName}">selected</c:if>>进口代理商</option>
 					        </select>
 				        </div>
 			 		</li>

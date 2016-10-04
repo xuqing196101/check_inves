@@ -204,6 +204,7 @@
 						<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 						<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
 					</div>
+					<input type="hidden" id="mid">
 					<div class="tag-box tag-box-v4 col-md-9" id="show_content_div">
 		                
 			        </div>
