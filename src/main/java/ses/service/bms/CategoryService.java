@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import ses.model.bms.Category;
+import ses.model.sms.SupplierTypeTree;
 
 
 
@@ -118,4 +119,15 @@ import ses.model.bms.Category;
 	* @return int
 	 */
 	public List<Category> listByKeyword(Map map);
+	
+	/**
+	 * @Title: findCategoryByType
+	 * @author: Wang Zhaohua
+	 * @date: 2016-10-3 下午4:12:18
+	 * @Description: 根据类型查询
+	 * @param: @param category
+	 * @param: @return
+	 * @return: List<Category>
+	 */
+	public List<SupplierTypeTree> findCategoryByType(Category category, String supplierId);
 }

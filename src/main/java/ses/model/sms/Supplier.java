@@ -445,6 +445,8 @@ public class Supplier implements Serializable {
 
 	private String supplierTypeIds;
 
+	private String supplierItemIds;
+
 	private String supplierTypeNames;
 
 	private List<SupplierTypeRelate> listSupplierTypeRelates = new ArrayList<SupplierTypeRelate>();
@@ -977,4 +979,11 @@ public class Supplier implements Serializable {
 		this.listSupplierTypeRelates = listSupplierTypeRelates;
 	}
 
+	public String getSupplierItemIds() {
+		return supplierItemIds;
+	}
+
+	public void setSupplierItemIds(String supplierItemIds) {
+		this.supplierItemIds = supplierItemIds;
+	}
 }

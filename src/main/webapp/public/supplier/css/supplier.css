@@ -1,4 +1,7 @@
 @charset "UTF-8";
+.mt30 {
+	margin-top: 30px !important;
+}
 .mt10 {
 	margin-top: 10px;
 }
@@ -14,10 +17,16 @@
 .m0 {
 	margin: 0px !important;
 }
-
 ._mr20 {
 	margin-right: -20px !important;
 }
+.lr0_tbauto {
+	margin: 0 auto !important;
+}
+.lh {
+	
+}
+
 .w245 {
 	width: 245px !important;
 }
@@ -29,6 +38,9 @@
 }
 .w175 {
 	width: 175px !important;
+}
+.w150 {
+	width: 150px !important;
 }
 .w100 {
 	width: 100px;

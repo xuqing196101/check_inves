@@ -63,16 +63,12 @@ public class BaseSupplierController {
 			response.setContentType("application/octet-stream");
 			output = new BufferedOutputStream(response.getOutputStream());
 			IOUtils.copy(input, output);
+			output.flush();
 		} catch (Exception e) {
 			logger.error(e);
 			logger.error("<" + fileName + ">下载失败 !");
 		} finally {
 			if (output != null) {
-				try {
-					output.flush();
-				} catch (IOException e) {
-					logger.error(e);
-				}
 				try {
 					output.close();
 				} catch (IOException e) {

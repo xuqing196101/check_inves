@@ -1,8 +1,10 @@
 package ses.dao.sms;
 
-import ses.model.sms.SupplierItems;
+import java.util.List;
 
-public interface SupplierItemsMapper {
+import ses.model.sms.SupplierItem;
+
+public interface SupplierItemMapper {
     /**
      * 根据主键删除数据库的记录
      *
@@ -15,31 +17,35 @@ public interface SupplierItemsMapper {
      *
      * @param record
      */
-    int insert(SupplierItems record);
+    int insert(SupplierItem record);
 
     /**
      *
      * @param record
      */
-    int insertSelective(SupplierItems record);
+    int insertSelective(SupplierItem record);
 
     /**
      * 根据主键获取一条数据库记录
      *
      * @param id
      */
-    SupplierItems selectByPrimaryKey(String id);
+    SupplierItem selectByPrimaryKey(String id);
 
     /**
      *
      * @param record
      */
-    int updateByPrimaryKeySelective(SupplierItems record);
+    int updateByPrimaryKeySelective(SupplierItem record);
 
     /**
      * 根据主键来更新数据库记录
      *
      * @param record
      */
-    int updateByPrimaryKey(SupplierItems record);
+    int updateByPrimaryKey(SupplierItem record);
+    
+    List<SupplierItem> findSupplierItemBySupplierId(String supplierId);
+    
+    int deleteBySupplierId(String supplierId);
 }

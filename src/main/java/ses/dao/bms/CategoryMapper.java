@@ -127,4 +127,6 @@ public interface CategoryMapper {
 	* @return int
 	 */
 	public List<Category> listByKeyword(Map map);
+	
+	List<Category> findCategoryByType(Category category);
 }

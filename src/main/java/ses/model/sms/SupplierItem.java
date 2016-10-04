@@ -3,7 +3,7 @@ package ses.model.sms;
 import java.io.Serializable;
 import java.util.Date;
 
-public class SupplierItems implements Serializable {
+public class SupplierItem implements Serializable {
 	private static final long serialVersionUID = -6757464247201483546L;
 
 	/**
@@ -62,6 +62,8 @@ public class SupplierItems implements Serializable {
 	 */
 	private Date updatedAt;
 
+	private String categoryName;
+
 	public String getId() {
 		return id;
 	}
@@ -116,5 +118,13 @@ public class SupplierItems implements Serializable {
 
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
 	}
 }

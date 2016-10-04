@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ses.dao.sms.SupplierMapper;
-import ses.dao.sms.SupplierTypeRelateMapper;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierTypeRelate;
 import ses.service.sms.SupplierService;

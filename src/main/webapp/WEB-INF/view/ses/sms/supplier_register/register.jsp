@@ -20,6 +20,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/img-hover.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/page_job.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/shop.style.css" type="text/css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
 
@@ -27,8 +28,10 @@
 	$(function() {
 		document.getElementById("login_input_id").focus();// 用户名自动获取焦点
 	});
-	function kaptcha() {
-		$("#kaptchaImage").hide().attr('src', '${pageContext.request.contextPath}/Kaptcha.jpg').fadeIn();
+	var count = 0;
+	function getIdentityCode() {
+		var random = Math.random();
+		$("#identity_code_img_id").hide().attr("src", "${pageContext.request.contextPath}/supplier/get_identity.html?random" + random).fadeIn();
 	}
 </script>
 
@@ -84,9 +87,9 @@
 								<label class="col-md-3 p0"><i class="red mr5">*</i>验证码：</label> <input type="text" name="identifyCode" class="fl input-yzm">
 								<div class="fl">
 									<div class="yzm fl">
-										<img src="${pageContext.request.contextPath}/Kaptcha.jpg" onclick="kaptcha();" id="kaptchaImage" />
+										<img id="identity_code_img_id" class="hand" src="${pageContext.request.contextPath}/supplier/get_identity.html" onclick="getIdentityCode()"/>
 									</div>
-									<button class="btn padding-left-10 padding-right-10 btn_back ml10 fl" onclick="kaptcha();">换一张</button>
+									<button type="button" class="btn padding-left-10 padding-right-10 btn_back ml10 fl" onclick="getIdentityCode()">换一张</button>
 								</div>
 								<div class="clear"></div>
 							</div>
