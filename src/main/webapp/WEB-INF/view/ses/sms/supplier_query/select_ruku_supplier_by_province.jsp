@@ -120,11 +120,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    }(), 
 			    jump: function(e, first){ //触发分页后的回调
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
-			             location.href = '<%=basePath%>supplierUpdate/list.do?page='+e.curr;
+			             location.href = '<%=basePath%>supplierQuery/findSupplierByPriovince.do?page='+e.curr+"&address=${address}";
 			        }
 			    }
 			});
 	  });
+	    function fanhui(){
+	  	window.location.href="<%=basePath%>supplierQuery/highmaps.html"
+	  }
 </script>
 </head>
   <body>
@@ -132,6 +135,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   			<h2>供应商信息查询</h2>
   				<form id="form1" action="<%=basePath %>supplierQuery/findSupplierByPriovince.html" method="post">
 		       <input type="hidden" name="page" id="page">
+		       <input type="hidden" name="address" value="${address }">
 		       <table class="table table-bordered table-condensed tc">
 		       	<tbody>
 		       		<tr>
@@ -153,10 +157,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		       			<td style="text-align:right">联系人：</td>
 		       			<td><input class="span2" name="contactName" value="${contactName }" type="text"></td>
 		       			<td style="text-align:right">供应商类型：</td>
-		       			<td><input class="span2" name="supName" value="${name }" type="text">
+		       			<td><select name="supplierType" class="fl" >
+							   		<option selected="selected" value=''>-请选择-</option>
+							   		<option  value="生产型">生产型</option>
+							   		<option  value="销售型">销售型</option>
+							   </select>
 		       				 <input class="btn padding-left-20 padding-right-20 btn_back" onclick="submit()" type="button" value="查询">
 		     				 <input class="btn padding-left-20 padding-right-20 btn_back" onclick="reset()" type="reset" value="重置"> 
-		     				 <input class="btn padding-left-20 padding-right-20 btn_back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+		     				 <input class="btn padding-left-20 padding-right-20 btn_back" value="返回" type="button" onclick="fanhui()">
 		       			</td>
 		       		</tr>
 		       	</tbody>
@@ -169,7 +177,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<th class="info w50">序号</th>
 					<th class="info">供应商名称</th>
 					<th class="info">联系人</th>
-					<th class="info">入库日期</th>
+					<th class="info">创建日期</th>
 					<th class="info">经济性质</th>
 				</tr>
 			  </thead>
@@ -177,9 +185,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				 <c:forEach items="${listSupplier.list }" var="list" varStatus="vs">
 					<tr>
 						<td>${vs.index+1 }</td>
-						<td><a href="<%=basePath%>supplierQuery/essential.html?supplierId=${list.id}">${list.supplierName }</a></td>
+						<td><a href="<%=basePath%>supplierQuery/essential.html?isRuku=1&supplierId=${list.id}">${list.supplierName }</a></td>
 						<td>${list.contactName }</td>
-						<td><fmt:formatDate value="${list.passDate }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+						<td><fmt:formatDate value="${list.createdAt }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 						<td>${list.businessType }</td>
 					</tr>
 				</c:forEach> 

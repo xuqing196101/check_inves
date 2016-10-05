@@ -711,6 +711,30 @@
 		ORDER BY FOUND_DATE DESC
 	</select>
 	
+	<select id="querySupplier" parameterType="ses.model.sms.Supplier" resultMap="findSupplierMap">
+		select * from T_SES_SMS_SUPPLIER where  1=1
+		<if test="supplierName != null and supplierName !=''">
+			and SUPPLIER_NAME like '%${supplierName}%'
+		</if>
+		<if test="startDate != null">
+			AND CREATED_AT &gt;= #{startDate}
+		</if>
+		<if test="endDate != null">
+			AND CREATED_AT &lt;= #{endDate}
+		</if>
+		<if test="contactName != null and contactName != ''">
+			AND CONTACT_NAME = #{contactName}
+		</if>
+		<if test="status != null">
+			and STATUS = #{status}
+		</if>
+		<if test="address != null and address !=''">  
+       		and ADDRESS like '%${address}%'   
+        </if> 
+		ORDER BY FOUND_DATE DESC
+	</select>
+	
+	
 	<resultMap type="ses.model.sms.Supplier" id="findSupplierMap" extends="BaseResultMap">
 		<collection property="listSupplierTypeRelates" ofType="ses.model.sms.SupplierTypeRelate">
 			<result column="SUPPLIER_RELATE_ID" property="id"/>

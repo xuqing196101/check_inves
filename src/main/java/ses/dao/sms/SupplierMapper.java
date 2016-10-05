@@ -101,6 +101,17 @@ public interface SupplierMapper {
 	List<Supplier> findSupplier(Supplier record);
 	
 	/**
+	 * @Title: querySupplier
+	 * @author Song Biaowei
+	 * @date 2016-10-5 上午10:22:27  
+	 * @Description: 查询一张表，不关联 
+	 * @param @param record
+	 * @param @return      
+	 * @return List<Supplier>
+	 */
+	List<Supplier> querySupplier(Supplier record);
+	
+	/**
 	 * @Title: getCount
 	 * @author Xu Qing
 	 * @date 2016-9-21 上午10:11:43  

@@ -250,7 +250,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             point: {
                events: {
                    click: function () { 
-                   /* var address=this.name; */
                    address=encodeURI(address);
                    address=encodeURI(address);
                        window.location.href="<%=basePath%>supplierQuery/findSupplierByPriovince.html?address="+address+"&status=3";

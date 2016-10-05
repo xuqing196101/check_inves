@@ -120,11 +120,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    }(), 
 			    jump: function(e, first){ //触发分页后的回调
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
-			             location.href = '<%=basePath%>supplierUpdate/list.do?page='+e.curr;
+			             location.href = '<%=basePath%>supplierQuery/findSupplierByPriovince.do?page='+e.curr+"&address=${address}";
 			        }
 			    }
 			});
 	  });
+	  function fanhui(){
+	  	window.location.href="<%=basePath%>supplierQuery/highmaps.html"
+	  }
 </script>
 </head>
   <body>
@@ -161,7 +164,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							   </select>
 		       				 <input class="btn padding-left-20 padding-right-20 btn_back" onclick="submit()" type="button" value="查询">
 		     				 <input class="btn padding-left-20 padding-right-20 btn_back" onclick="reset()" type="reset" value="重置"> 
-		     				 <input class="btn padding-left-20 padding-right-20 btn_back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+		     				 <input class="btn padding-left-20 padding-right-20 btn_back" value="返回" type="button" onclick="fanhui()">
 		       			</td>
 		       		</tr>
 		       	</tbody>

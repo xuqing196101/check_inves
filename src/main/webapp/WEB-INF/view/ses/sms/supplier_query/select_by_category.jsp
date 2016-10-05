@@ -65,7 +65,7 @@
 			
   };
 	 
-    $.fn.zTree.init($("#ztree"),setting,datas);
+    tree = $.fn.zTree.init($("#ztree"),setting,datas);
     var lastValue ="", nodeList=[];
     var value ="";
     key.bind("propertychange",searchNode).bind("input",searchNode);
@@ -137,8 +137,6 @@
     function filter(node) {
 		return !node.isParent && node.isFirstNode;
 	}
-    
-	
    /*删除图片*/
     function deletepic(obj){
 		layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
@@ -272,7 +270,8 @@
 			    }(), 
 			    jump: function(e, first){ //触发分页后的回调
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
-			              $.ajax({
+			            location.href = '<%=basePath%>supplierQuery/selectByCategory.do?page='+e.curr;
+			            <%--   $.ajax({
 								url:"<%=basePath%>supplierQuery/selectByCategoryByAjax.do?page="+e.curr,
 								dataType:"json",
 								type:"post",
@@ -291,31 +290,12 @@
 							        }  
 									$("#tb1").append(htmlTr);
 								}
-						 })
+						 }) --%>
 			        }
 			    }
 			});
 	  }); 
 	  function tijiao(){
-	     laypage({
-			    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
-			    pages: "${listSupplier.pages}", //总页数
-			    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
-			    skip: true, //是否开启跳页
-			    total: "${listSupplier.total}",
-			    startRow: 1,
-			    endRow: "${listSupplier.endRow}",
-			    groups: "${listSupplier.pages}">=5?5:"${listSupplier.pages}", //连续显示分页数
-			    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
-			        var page = location.search.match(/page=(\d+)/);
-			        return page ? page[1] : 1;
-			    }(), 
-			    jump: function(e, first){ //触发分页后的回调
-			        if(!first){ //一定要加此判断，否则初始时会无限刷新
-			             
-			        }
-			    }
-			});
 	    var Obj=$.fn.zTree.getZTreeObj("ztree");  
 	     var nodes=Obj.getCheckedNodes(true);  
 	     var ids = new Array();  
@@ -326,9 +306,9 @@
 	    	 }
 	     } 
 	      $("#categoryIds").val(ids);
-	  	  //form1.submit();
-	  	  $.ajax({
-					url:"<%=basePath%>supplierQuery/selectByCategoryByAjax.do",
+	  	  form1.submit();
+	  	 <%--  $.ajax({
+					url:"<%=basePath%>supplierQuery/selectByCategoryByAjax.do?supplierName="+supplierName,
 					dataType:"json",
 					type:"post",
 					success:function(pager){
@@ -346,7 +326,7 @@
 				        }  
 						$("#tb1").append(htmlTr);
 					}
-				})
+				}) --%>
 	  }
 </script>
 </head>
@@ -370,7 +350,7 @@
 		       <input type="hidden" id="categoryIds" name="categoryIds"/>
 			   <span class="">供应商名称：</span>
 			   <div class="input-append">
-		        <input class="span2" name="supplierName"  type="text">
+		        <input class="span2" name="supplierName" id="supplierName"  type="text">
 		       </div>
 		       <input class="btn padding-left-20 padding-right-20 btn_back" onclick="tijiao()" type="button" value="查询">
 		     </form>

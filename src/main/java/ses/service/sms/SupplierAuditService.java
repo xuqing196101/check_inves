@@ -35,6 +35,18 @@ public interface SupplierAuditService {
 	 * @return List<Supplier>
 	 */
 	 List<Supplier> supplierList(Supplier supplier,Integer page);
+	 
+    /**
+     * @Title: querysupplier
+     * @author Song Biaowei
+     * @date 2016-10-5 上午10:23:29  
+     * @Description: 单一查询表，没有关联
+     * @param @param supplier
+     * @param @param page
+     * @param @return      
+     * @return List<Supplier>
+     */
+	 List<Supplier> querySupplier(Supplier supplier,Integer page);
 	
 	/**
 	 * @Title: supplierById

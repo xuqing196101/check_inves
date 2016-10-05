@@ -171,6 +171,9 @@ function downloadFile(fileName){
       fileName=encodeURI(fileName);
 	  window.location.href="<%=basePath %>supplierQuery/downLoadFile.html?fileName="+fileName;
 }
+function fanhui(){
+	  window.location.href="<%=basePath%>supplierQuery/findSupplierByPriovince.html?address="+encodeURI(encodeURI('${suppliers.address}'))+"&status=${status}";
+}
 </script>
 <style type="text/css">
 .jbxx1{
@@ -204,6 +207,11 @@ function downloadFile(fileName){
    </div>
   <!-- 项目戳开始 -->
   <div class="container clear margin-top-30">
+   <div class="container">
+   <div class="col-md-12">
+	<button class="btn btn-windows back" onclick="fanhui()">返回</button>	
+	</div>
+    </div>
   <!--详情开始-->
   <div class="container content height-350">
     <div class="row magazine-page">
