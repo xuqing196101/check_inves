@@ -55,6 +55,13 @@
 		$("input[name='supplierName']").val("");
 	}
 	function checkSupplier() {
+		var size = $(":radio:checked").size();
+		if (!size) {
+			layer.msg("请勾选一条记录 !", {
+				offset : '150px',
+			});
+			return;
+		}
 		$("#check_form_id").submit();		
 	}
 </script>

@@ -37,9 +37,10 @@ public class SupplierBlacklistController {
 
 	@RequestMapping(value = "list_blacklist")
 	public String listBlacklist(Model model, SupplierBlacklist supplierBlacklist, Integer page) {
+		String supplierName = supplierBlacklist.getSupplierName();
 		List<SupplierBlacklist> listSupplierBlacklists = supplierBlacklistService.findSupplierBlacklist(supplierBlacklist, page == null ? 1 : page);
 		model.addAttribute("listSupplierBlacklists", new PageInfo<SupplierBlacklist>(listSupplierBlacklists));
-		model.addAttribute("supplierName", supplierBlacklist.getSupplierName());
+		model.addAttribute("supplierName", supplierName);
 		if (supplierBlacklist.getStartTime() != null) {
 			model.addAttribute("startTime", new SimpleDateFormat("yyyy-MM-dd").format(supplierBlacklist.getStartTime()));
 		}

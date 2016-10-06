@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.sms.SupplierStarsMapper">
+	<resultMap id="BaseResultMap" type="ses.model.sms.SupplierStars">
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="ONE_STARS" property="oneStars" />
+		<result column="TWO_STARS" property="twoStars" />
+		<result column="THREE_STARS" property="threeStars" />
+		<result column="FOUR_STARS" property="fourStars" />
+		<result column="FIVE_STARS" property="fiveStars" />
+		<result column="STATUS" property="status" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, ONE_STARS, TWO_STARS, THREE_STARS, FOUR_STARS, FIVE_STARS, STATUS
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_SMS_SUPPLIER_STARS
+		where ID = #{id}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from T_SES_SMS_SUPPLIER_STARS
+		where ID = #{id}
+	</delete>
+	<insert id="insert" parameterType="ses.model.sms.SupplierStars">
+		insert into T_SES_SMS_SUPPLIER_STARS (ID, ONE_STARS, TWO_STARS,
+		THREE_STARS, FOUR_STARS, FIVE_STARS,
+		STATUS)
+		values (#{id}, #{oneStars}, #{twoStars},
+		#{threeStars}, #{fourStars}, #{fiveStars},
+		#{status})
+	</insert>
+	<insert id="insertSelective" parameterType="ses.model.sms.SupplierStars">
+		insert into T_SES_SMS_SUPPLIER_STARS
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="oneStars != null">
+				ONE_STARS,
+			</if>
+			<if test="twoStars != null">
+				TWO_STARS,
+			</if>
+			<if test="threeStars != null">
+				THREE_STARS,
+			</if>
+			<if test="fourStars != null">
+				FOUR_STARS,
+			</if>
+			<if test="fiveStars != null">
+				FIVE_STARS,
+			</if>
+			<if test="status != null">
+				STATUS,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="oneStars != null">
+				#{oneStars},
+			</if>
+			<if test="twoStars != null">
+				#{twoStars},
+			</if>
+			<if test="threeStars != null">
+				#{threeStars},
+			</if>
+			<if test="fourStars != null">
+				#{fourStars},
+			</if>
+			<if test="fiveStars != null">
+				#{fiveStars},
+			</if>
+			<if test="status != null">
+				#{status},
+			</if>
+		</trim>
+		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			select sys_guid() from dual
+		</selectKey>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierStars">
+		update T_SES_SMS_SUPPLIER_STARS
+		<set>
+			<if test="oneStars != null">
+				ONE_STARS = #{oneStars},
+			</if>
+			<if test="twoStars != null">
+				TWO_STARS = #{twoStars},
+			</if>
+			<if test="threeStars != null">
+				THREE_STARS = #{threeStars},
+			</if>
+			<if test="fourStars != null">
+				FOUR_STARS = #{fourStars},
+			</if>
+			<if test="fiveStars != null">
+				FIVE_STARS = #{fiveStars},
+			</if>
+		</set>
+		where ID = #{id}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="ses.model.sms.SupplierStars">
+		update T_SES_SMS_SUPPLIER_STARS
+		set ONE_STARS = #{oneStars},
+		TWO_STARS = #{twoStars},
+		THREE_STARS = #{threeStars},
+		FOUR_STARS = #{fourStars},
+		FIVE_STARS = #{fiveStars},
+		STATUS = #{status}
+		where ID = #{id}
+	</update>
+	
+	<select id="findSupplierStars" resultMap="BaseResultMap">
+		select * from T_SES_SMS_SUPPLIER_STARS order by STATUS desc
+	</select>
+	
+	<update id="updateStatus" parameterType="ses.model.sms.SupplierStars">
+		update T_SES_SMS_SUPPLIER_STARS set STATUS = #{status} where ID = #{id}
+	</update>
+	
+</mapper>
