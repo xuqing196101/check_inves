@@ -37,7 +37,6 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 			<mvc:exclude-mapping path="/post/indexsave.*"/> 
 			<mvc:exclude-mapping path="/reply/save.*"/>     
 			<mvc:exclude-mapping path="/login/login.*"/>  
-			<mvc:exclude-mapping path="/login/index.*"/>  
 			<bean class="ses.interceptor.MyInterceptor"></bean>
 		</mvc:interceptor>
 	</mvc:interceptors> -->
