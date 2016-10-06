@@ -65,7 +65,7 @@
 			
   };
 	 
-    $.fn.zTree.init($("#ztree"),setting,datas);
+    tree = $.fn.zTree.init($("#ztree"),setting,datas);
     var lastValue ="", nodeList=[];
     var value ="";
     key.bind("propertychange",searchNode).bind("input",searchNode);
@@ -137,8 +137,6 @@
     function filter(node) {
 		return !node.isParent && node.isFirstNode;
 	}
-    
-	
    /*删除图片*/
     function deletepic(obj){
 		layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
@@ -256,7 +254,7 @@
 		document.fm.action="<%=basePath%>category/edit.do";
 		document.fm.submit();
 	}	
-	  $(function(){
+	 $(function(){
 		  laypage({
 			    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
 			    pages: "${listSupplier.pages}", //总页数
@@ -272,11 +270,31 @@
 			    }(), 
 			    jump: function(e, first){ //触发分页后的回调
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
-			             location.href = '<%=basePath%>supplierUpdate/list.do?page='+e.curr;
+			            location.href = '<%=basePath%>supplierQuery/selectByCategory.do?page='+e.curr;
+			            <%--   $.ajax({
+								url:"<%=basePath%>supplierQuery/selectByCategoryByAjax.do?page="+e.curr,
+								dataType:"json",
+								type:"post",
+								success:function(pager){
+								    var table = document.getElementById('tb1');
+					    			var tbodies= table.getElementsByTagName("tbody");
+					    			table.removeChild(tbodies[0]);
+									var htmlTd = "";
+									var htmlTr = "";
+									var url='<%=basePath%>supplierQuery/essential.html?supplierId=';
+									var dataObj=eval(pager.list);  
+							        for(var i=0;i<dataObj.length;i++){      
+							            htmlTd="<td>"+(i+1)+"</td><td><a href="+url+""+dataObj[i].id+">"+dataObj[i].supplierName+"</a></td><td>"
+							            +dataObj[i].contactName+"</td><td>"+dataObj[i].contactTelephone+"</td><td></td> "; 
+							        	htmlTr+="<tr>"+htmlTd+"</tr>";
+							        }  
+									$("#tb1").append(htmlTr);
+								}
+						 }) --%>
 			        }
 			    }
 			});
-	  });
+	  }); 
 	  function tijiao(){
 	    var Obj=$.fn.zTree.getZTreeObj("ztree");  
 	     var nodes=Obj.getCheckedNodes(true);  
@@ -289,6 +307,26 @@
 	     } 
 	      $("#categoryIds").val(ids);
 	  	  form1.submit();
+	  	 <%--  $.ajax({
+					url:"<%=basePath%>supplierQuery/selectByCategoryByAjax.do?supplierName="+supplierName,
+					dataType:"json",
+					type:"post",
+					success:function(pager){
+					 	var table = document.getElementById('tb1');
+					    var tbodies= table.getElementsByTagName("tbody");
+					    table.removeChild(tbodies[0]); 
+						var htmlTd = "";
+						var htmlTr = "";
+						var dataObj=eval(pager.list);  
+						var url='<%=basePath%>supplierQuery/essential.html?supplierId=';
+				        for(var i=0;i<dataObj.length;i++){      
+				            htmlTd="<td>"+(i+1)+"</td><td><a href="+url+""+dataObj[i].id+">"+dataObj[i].supplierName+"</a></td><td>"
+				            +dataObj[i].contactName+"</td><td>"+dataObj[i].contactTelephone+"</td><td></td> "; 
+				        	htmlTr+="<tr>"+htmlTd+"</tr>";
+				        }  
+						$("#tb1").append(htmlTr);
+					}
+				}) --%>
 	  }
 </script>
 </head>
@@ -312,7 +350,7 @@
 		       <input type="hidden" id="categoryIds" name="categoryIds"/>
 			   <span class="">供应商名称：</span>
 			   <div class="input-append">
-		        <input class="span2" name="supplierName"  type="text">
+		        <input class="span2" name="supplierName" id="supplierName"  type="text">
 		       </div>
 		       <input class="btn padding-left-20 padding-right-20 btn_back" onclick="tijiao()" type="button" value="查询">
 		     </form>
@@ -329,7 +367,7 @@
 			  <tbody>
 				 <c:forEach items="${listSupplier.list }" var="list" varStatus="vs">
 					<tr>
-					    <td>${va.index+1 }</td>
+					    <td>${(vs.index+1)+(listSupplier.pageNum-1)*(listSupplier.pageSize)}</td>
 						<td><a href="<%=basePath%>supplierQuery/essential.html?supplierId=${list.id}">${list.supplierName }</a></td>
 						<td>${list.contactName}</td>
 						<td>${list.contactTelephone}</td>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.sms.SupplierCreditMapper">
+	<resultMap id="BaseResultMap" type="ses.model.sms.SupplierCredit">
+		<id column="ID" property="id" />
+		<result column="NAME" property="name" />
+		<result column="STATUS" property="status" />
+		<result column="CREATED_AT" property="createdAt" />
+		<result column="UPDATED_AT" property="updatedAt" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, NAME, STATUS, CREATED_AT, UPDATED_AT
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_SMS_SUPPLIER_CREDIT
+		where ID = #{id}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from T_SES_SMS_SUPPLIER_CREDIT
+		where ID = #{id}
+	</delete>
+	<insert id="insert" parameterType="ses.model.sms.SupplierCredit">
+		insert into T_SES_SMS_SUPPLIER_CREDIT (ID, NAME, STATUS,
+		CREATED_AT, UPDATED_AT)
+		values (#{id}, #{name}, #{status},
+		#{createdAt}, #{updatedAt})
+	</insert>
+	<insert id="insertSelective" parameterType="ses.model.sms.SupplierCredit">
+		insert into T_SES_SMS_SUPPLIER_CREDIT
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="name != null">
+				NAME,
+			</if>
+			<if test="status != null">
+				STATUS,
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT,
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="name != null">
+				#{name},
+			</if>
+			<if test="status != null">
+				#{status},
+			</if>
+			<if test="createdAt != null">
+				#{createdAt},
+			</if>
+			<if test="updatedAt != null">
+				#{updatedAt},
+			</if>
+		</trim>
+		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			select sys_guid() from dual
+		</selectKey>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierCredit">
+		update T_SES_SMS_SUPPLIER_CREDIT
+		<set>
+			<if test="name != null">
+				NAME = #{name},
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT = #{createdAt},
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT = #{updatedAt},
+			</if>
+		</set>
+		where ID = #{id}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="ses.model.sms.SupplierCredit">
+		update T_SES_SMS_SUPPLIER_CREDIT
+		set NAME = #{name},
+		STATUS = #{status},
+		CREATED_AT = #{createdAt},
+		UPDATED_AT = #{updatedAt}
+		where ID = #{id}
+	</update>
+	
+	<select id="findSupplierCredit" parameterType="ses.model.sms.SupplierCredit" resultMap="BaseResultMap">
+		select 
+			* 
+		from 
+			T_SES_SMS_SUPPLIER_CREDIT
+		<where>
+			<if test="name != null and name != ''">
+				and NAME like #{name}
+			</if>
+		</where>
+		 order by CREATED_AT desc
+	</select>
+	
+	<select id="getSupplierCredit" parameterType="java.lang.String" resultMap="SupplierCreditMap">
+		select * from T_SES_SMS_SUPPLIER_CREDIT where ID = #{id}
+	</select>
+	<resultMap type="ses.model.sms.SupplierCredit" id="SupplierCreditMap" extends="BaseResultMap">
+		<collection property="listSupplierCreditCtnts" select="ses.dao.sms.SupplierCreditCtntMapper.findCreditCtntByCreditId" column="ID" />
+	</resultMap>
+	
+	<update id="updateStatus" parameterType="ses.model.sms.SupplierCredit">
+		update T_SES_SMS_SUPPLIER_CREDIT set STATUS = #{status} where ID = #{id}
+		
+	</update>
+</mapper>

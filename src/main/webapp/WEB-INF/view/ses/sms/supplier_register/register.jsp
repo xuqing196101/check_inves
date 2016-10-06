@@ -76,7 +76,7 @@
 							</div>
 							<div class="login_item margin-top-10">
 								<label class="col-md-3 p0"><i class="red mr5">*</i>手机号码：</label> <input type="text" name="mobile" class="fl">
-								<button class="btn padding-left-10 padding-right-10 btn_back ml10">发送验证码</button>
+								<button type="button" class="btn padding-left-10 padding-right-10 btn_back ml10">发送验证码</button>
 								<div class="clear"></div>
 							</div>
 							<div class="login_item margin-top-10">

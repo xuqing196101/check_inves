@@ -19,6 +19,14 @@
 		<include refid="Base_Column_List" />
 		from T_SES_SMS_SUPPLIER_ITEM
 		where ID = #{id}
+	</select>  
+	<!--获取所有的供应商id  -->
+   <select id="getSupplierId"  resultType="java.lang.String">
+		SELECT SUPPLIER_ID FROM T_SES_SMS_SUPPLIER_ITEM GROUP BY SUPPLIER_ID
+	</select>
+	<!--获取所有的品目和供应商id  -->
+	<select id="getItemBySupplierId"  resultType="java.lang.String">
+		SELECT wmsys.wm_concat(CATEGORY_ID) FROM T_SES_SMS_SUPPLIER_ITEM GROUP BY SUPPLIER_ID
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
 		delete from T_SES_SMS_SUPPLIER_ITEM

@@ -34,12 +34,17 @@
 					//location.href = '${pageContext.request.contextPath}/supplier_blacklist/list_supplier.html?page=' + e.curr;
 					//alert(e.curr);
 					$("input[name='page']").val(e.curr);
-					searchSupplier(0);
+					searchSupplierBlacklist(0);
 				}
 			}
 		});	
 	});
-	
+	function searchSupplierBlacklist(sign) {
+		if (sign) {
+			$("input[name='page']").val(1);
+		}
+		$("#search_form_id").submit();
+	}
 	function resetForm() {
 		$("input[name='supplierName']").val("");
 		$("input[name='startTime']").val("");
@@ -83,7 +88,7 @@
 		<!-- 我的订单页面开始-->
 		<div class="container">
 			<div class="headline-v2">
-				<h2>我的协议供货订单</h2>
+				<h2>供应商黑名单列表</h2>
 			</div>
 		</div>
 
@@ -96,32 +101,33 @@
 			</div>
 		</div>
 		<div class="container">
-			<div style="padding-left: 20px;">
-				<form id="search_form_id" action="${pageContext.request.contextPath}/supplier_blacklist/list_blacklist.html" method="post">
-					<ul class="demand_list list-unstyled">
-						<li>
-							<label class="fl mt10">供应商名称：</label> 
-							<span><input name="supplierName" type="text" class="mb0 mt5" value="${supplierName}" /> </span>
+			<div class="p10_25">
+				<form id="search_form_id" class="padding-10 border1 mb0" action="${pageContext.request.contextPath}/supplier_blacklist/list_blacklist.html" method="post">
+					<ul class="demand_list">
+						<li class="fl">
+							<label class="fl">供应商名称：</label>
+							<span><input name="supplierName" type="text" value="${supplierName}" /></span>
 						</li>
-						<li>
-							<label class="fl mt10 ml10">起始宿舍日期：</label> 
-							<input name="startTime" type="text" readonly="readonly" onClick="WdatePicker()" class="mt5" value="${startTime}" />
+						<li class="fl">
+							<label class="fl">起始时间：</label>
+							<span><input type="text" name="startTime" readonly="readonly" onClick="WdatePicker()" value="${startTime}" /></span>
 						</li>
-						<li>
-							<label class="fl mt10 ml10">终止日期：</label> 
-							<input name="endTime" type="text" readonly="readonly" onClick="WdatePicker()" class="mt5" value="${endTime}" />
+						<li class="fl">
+							<label class="fl">终止时间：</label>
+							<span><input name="endTime" type="text" readonly="readonly" onClick="WdatePicker()" value="${endTime}" /></span>
 						</li>
-						<li>
-							<input type="submit" class="btn btn_back fl ml10 mt6" value="查询" />
-							<input type="button" class="btn btn_back fl ml10 mt6" value="重置" onclick="resetForm()">
+						<li class="fl">
+							<button type="button" onclick="searchSupplierBlacklist(1)" class="btn">查询</button>
+							<button onclick="resetForm()" class="btn" type="button">重置</button>
 						</li>
 					</ul>
+					<div class="clear"></div>
 				</form>
-				<div class="clear"></div>
 			</div>
 		</div>
+		
 
-		<div class="container margin-top-5">
+		<div class="container">
 			<div class="content padding-left-25 padding-right-25 padding-top-5">
 				<table class="table table-bordered table-condensed">
 					<thead>
@@ -181,8 +187,5 @@
 	<form id="edit_form_id" action="${pageContext.request.contextPath}/supplier_blacklist/add_supplier.html" method="post">
 		<input name="supplierBlacklistId" type="hidden" />
 	</form>
-	
-	<!-- footer -->
-	<jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
 </body>
 </html>

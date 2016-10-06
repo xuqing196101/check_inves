@@ -615,7 +615,7 @@
 													<li class="col-md-6 p0"><span class="zzzx">财务审计报告的审计意见：</span>
 														 <div class="input-append">
 														 	<c:if test="${finance.auditOpinion != null}">
-														 		<a class="mt3 color7171C6" href="javascript:void(0)" onclick="downloadFile('${finance.auditOpinion}')">下载附件</a>
+														 		<span class="w70 fz11"><a class="mt3 color7171C6" href="javascript:void(0)" onclick="downloadFile('${finance.auditOpinion}')">下载附件</a></span>
 														 	</c:if>
 													 		<c:if test="${finance.auditOpinion == null}">
 														 	 	<span class="w70 fz11">无附件下载</span>
@@ -626,7 +626,7 @@
 														<div class="input-append">
 															<div class="input-append">
 														 	 	<c:if test="${finance.liabilitiesList != null}">
-														 			<a class="mt3 color7171C6" href="javascript:void(0)" onclick="downloadFile('${finance.liabilitiesList}')">下载附件</a>
+														 			<span class="w70 fz11"><a class="mt3 color7171C6" href="javascript:void(0)" onclick="downloadFile('${finance.liabilitiesList}')">下载附件</a></span>
 														 		</c:if>
 													 			<c:if test="${finance.liabilitiesList == null}">
 														 	 		<span class="w70 fz11">无附件下载</span>
@@ -638,7 +638,7 @@
 														<div class="input-append">
 															<div class="input-append">
 														 	 	<c:if test="${finance.profitList != null}">
-														 			<a class="mt3 color7171C6" href="javascript:void(0)" onclick="downloadFile('${finance.profitList}')">下载附件</a>
+														 			<span class="w70 fz11"><a class="mt3 color7171C6" href="javascript:void(0)" onclick="downloadFile('${finance.profitList}')">下载附件</a></span>
 														 		</c:if>
 													 			<c:if test="${finance.profitList == null}">
 														 	 		<span class="w70 fz11">无附件下载</span>
@@ -650,7 +650,7 @@
 														<div class="input-append">
 															<div class="input-append">
 														 	 	<c:if test="${finance.cashFlowStatement != null}">
-														 			<a class="mt3 color7171C6" href="javascript:void(0)" onclick="downloadFile('${finance.cashFlowStatement}')">下载附件</a>
+														 			<span class="w70 fz11"><a class="mt3 color7171C6" href="javascript:void(0)" onclick="downloadFile('${finance.cashFlowStatement}')">下载附件</a></span>
 														 		</c:if>
 													 			<c:if test="${finance.cashFlowStatement == null}">
 														 	 		<span class="w70 fz11">无附件下载</span>
@@ -662,7 +662,7 @@
 														<div class="input-append">
 															<div class="input-append">
 														 	 	<c:if test="${finance.changeList != null}">
-														 			<a class="mt3 color7171C6" href="javascript:void(0)" onclick="downloadFile('${finance.changeList}')">下载附件</a>
+														 			<span class="w70 fz11"><a class="mt3 color7171C6" href="javascript:void(0)" onclick="downloadFile('${finance.changeList}')">下载附件</a></span>
 														 		</c:if>
 													 			<c:if test="${finance.changeList == null}">
 														 	 		<span class="w70 fz11">无附件下载</span>

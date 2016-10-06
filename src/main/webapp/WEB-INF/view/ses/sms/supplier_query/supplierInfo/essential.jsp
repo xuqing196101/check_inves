@@ -162,6 +162,9 @@ function tijiao(str){
   if(str=="reasonsList"){
     action = "<%=basePath%>supplierQuery/reasonsList.html";
   }
+  if(str=="item"){
+     action = "<%=basePath%>supplierQuery/item.html";
+  }
   $("#form_id").attr("action",action);
   $("#form_id").submit();
 }
@@ -170,6 +173,9 @@ function downloadFile(fileName){
 	  fileName=encodeURI(fileName);
       fileName=encodeURI(fileName);
 	  window.location.href="<%=basePath %>supplierQuery/downLoadFile.html?fileName="+fileName;
+}
+function fanhui(){
+	  window.location.href="<%=basePath%>supplierQuery/findSupplierByPriovince.html?address="+encodeURI(encodeURI('${suppliers.address}'))+"&status=${status}";
 }
 </script>
 <style type="text/css">
@@ -204,6 +210,11 @@ function downloadFile(fileName){
    </div>
   <!-- 项目戳开始 -->
   <div class="container clear margin-top-30">
+   <div class="container">
+   <div class="col-md-12">
+	<button class="btn btn-windows back" onclick="fanhui()">返回</button>	
+	</div>
+    </div>
   <!--详情开始-->
   <div class="container content height-350">
     <div class="row magazine-page">
@@ -217,7 +228,7 @@ function downloadFile(fileName){
             <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('materialSales');">物资-销售型专业信息</a></li>
             <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('engineering');">工程-专业信息</a></li>
             <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('service');">服务-专业信息</a></li>
-            <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" >品目信息</a></li>
+            <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('item');">品目信息</a></li>
             <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >产品信息</a></li>
             <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('reasonsList');">诚信记录</a></li>
           </ul>

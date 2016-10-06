@@ -1,6 +1,7 @@
 package ses.service.sms.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,5 +29,15 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 			supplierItem.setCreatedAt(new Date());
 			supplierItemMapper.insertSelective(supplierItem);
 		}
+	}
+	
+	@Override
+	public List<String> getSupplierId() {
+		return supplierItemMapper.getSupplierId();
+	}
+
+	@Override
+	public List<String> getItemSupplierId() {
+		return supplierItemMapper.getItemBySupplierId();
 	}
 }

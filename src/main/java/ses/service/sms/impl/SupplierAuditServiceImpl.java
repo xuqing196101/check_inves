@@ -152,6 +152,24 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		}
 		return supplierMapper.findSupplier(supplier);
 	}
+	
+	@Override
+	public List<Supplier> querySupplier(Supplier supplier,Integer page) {
+		if(page!=null){
+			PropertiesUtil config = new PropertiesUtil("config.properties");
+			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		}
+		return supplierMapper.querySupplier(supplier);
+	}
+	
+	@Override
+	public List<Supplier> getAllSupplier(Supplier supplier,Integer page) {
+		if(page!=null){
+			PropertiesUtil config = new PropertiesUtil("config.properties");
+			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		}
+		return supplierMapper.getAllSupplier(supplier);
+	}
 
 	/**
 	 * @Title: supplierById
@@ -424,5 +442,15 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 				e.printStackTrace();
 				return null;
 			}
+	}
+
+	@Override
+	public List<Supplier> querySupplierbyCategory(Supplier supplier,
+			Integer page) {
+		if(page!=null){
+			PropertiesUtil config = new PropertiesUtil("config.properties");
+			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		}
+		return supplierMapper.querySupplierbyCategory(supplier);
 	}
 }

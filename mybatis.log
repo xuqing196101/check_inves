@@ -1,0 +1,2 @@
+[ERROR][2016-10-06 18:14:33,295][ses.util.FtpUtil]java.lang.NullPointerException
+[ERROR][2016-10-06 18:14:33,296][ses.util.FtpUtil]下载过程中出现异常

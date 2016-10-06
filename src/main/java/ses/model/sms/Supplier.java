@@ -458,6 +458,27 @@ public class Supplier implements Serializable {
 	private Date endDate;
 
 	private String supplierType;
+	
+	private List<String> item;
+	
+	private Integer count;
+	
+
+	public Integer getCount() {
+		return count;
+	}
+
+	public void setCount(Integer count) {
+		this.count = count;
+	}
+
+	public List<String> getItem() {
+		return item;
+	}
+
+	public void setItem(List<String> item) {
+		this.item = item;
+	}
 
 	public String getId() {
 		return id;

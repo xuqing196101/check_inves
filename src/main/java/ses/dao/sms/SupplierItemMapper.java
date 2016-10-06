@@ -48,4 +48,7 @@ public interface SupplierItemMapper {
     List<SupplierItem> findSupplierItemBySupplierId(String supplierId);
     
     int deleteBySupplierId(String supplierId);
+    
+    List<String> getSupplierId();
+    List<String> getItemBySupplierId();
 }
