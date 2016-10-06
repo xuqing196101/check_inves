@@ -198,6 +198,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			layer.alert("请选择要删除的用户",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
+    
+    function chongzhi(){
+	$("#supName").val('');
+	$("#supType").val('');
+}
 </script>
 </head>
 <body>
@@ -229,13 +234,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <form id="form1" action="${pageContext.request.contextPath}/importSupplier/list.html" method="post" class="mb0" > 
     	<ul class="demand_list">
     	  <li class="fl">
-	    	<label class="fl">进口供应商名称：</label><span><input class="span2" name="supName" value="${name }" type="text"></span>
+	    	<label class="fl">进口供应商名称：</label><span><input class="span2" id="supName" name="supName" value="${name }" type="text"></span>
 	      </li>
     	  <li class="fl">
-	    	<label class="fl">供应商类别：</label><span><input class="span2" name="supType"  value="${supplierType }" type="text"></span>
+	    	<label class="fl">供应商类别：</label><span><input class="span2" id="supType" name="supType"  value="${supplierType }" type="text"></span>
 	      </li>
 	    	<button type="button" onclick="submit()" class="btn">查询</button>
-	    	<button type="reset" class="btn">重置</button>  	
+	    	<button type="button" onclick="chongzhi()" class="btn">重置</button>  	
     	</ul>
     	  <div class="clear"></div>
        </form>

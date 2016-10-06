@@ -1,15 +1,22 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
+<!DOCTYPE html>
+<html class=" js cssanimations csstransitions" lang="en"><!--<![endif]-->
 <head>
-<link href="${pageContext.request.contextPath}/public/ZHH/css/import_supplier.css" media="screen" rel="stylesheet">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>基本信息</title>
+<!-- Meta -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
 <link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" type="text/css"/>
 <link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/animate.css" media="screen" rel="stylesheet">
@@ -45,6 +52,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="<%=basePath%>public/ZHH/css/footer-v4.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/masterslider.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/james.css" media="screen" rel="stylesheet">
+<link href="<%=basePath%>public/layer/skin/layer.css" media="screen" rel="stylesheet" type="text/css">
+<link href="<%=basePath%>public/layer/skin/layer.ext.css" media="screen" rel="stylesheet" type="text/css">
 <link href="<%=basePath%>public/ZHH/css/WdatePicker(1).css" rel="stylesheet" type="text/css">
 <script src="<%=basePath%>public/ZHH/js/hm.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
@@ -67,7 +76,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/owl-carousel.js"></script>
 <script src="<%=basePath%>public/ZHH/js/owl-recent-works.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="<%=basePath%>public/ZHH/js/WdatePicker.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.form.min.js"></script>
+<script src="<%=basePath%>public/layer/layer.js"></script>
+<script src="<%=basePath%>public/layer/extend/layer.ext.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.validate.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.maskedinput.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery-ui.min.js"></script>
@@ -98,117 +110,135 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/masterslider.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.easing.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/james.js"></script>
-<script src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
-<title>My JSP 'index.jsp' starting page</title>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript">
-	  	  $(function(){
-		  laypage({
-			    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
-			    pages: "${listSupplier.pages}", //总页数
-			    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
-			    skip: true, //是否开启跳页
-			    total: "${listSupplier.total}",
-			    startRow: "${listSupplier.startRow}",
-			    endRow: "${listSupplier.endRow}",
-			    groups: "${listSupplier.pages}">=5?5:"${listSupplier.pages}", //连续显示分页数
-			    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
-			        var page = location.search.match(/page=(\d+)/);
-			        return page ? page[1] : 1;
-			    }(), 
-			    jump: function(e, first){ //触发分页后的回调
-			        if(!first){ //一定要加此判断，否则初始时会无限刷新
-			             location.href = '<%=basePath%>supplierQuery/findSupplierByPriovince.do?page='+e.curr+"&address=${address}";
-			        }
-			    }
-			});
-	  });
-	  function fanhui(){
-	  	window.location.href="<%=basePath%>supplierQuery/highmaps.html"
-	  }
-function chongzhi(){
-	$("#supplierName").val('');
-	$("#startDate").val('');
-	$("#endDate").val('');
-	$("#contactName").val('');
-	$("option")[0].selected = true;
+function reason(id){
+  var supplierId=$("#id").val();
+  var id1=id+"1";
+  var id2=id+"2";
+  var id3=id+"3";
+  var auditField=$("#"+id2+"").text().replaceAll("＊","").replaceAll("：",""); //审批的字段名字
+  var  auditContent= document.getElementById(""+id3+"").value; //审批的字段内容
+  var auditType=$("#essential").text(); //审核类型
+  layer.prompt({title: '请填写不通过理由', formType: 2}, function(text){
+    $.ajax({
+        url:"<%=basePath%>supplierAudit/auditReasons.html",
+        type:"post",
+        data:"auditType="+auditType+"&auditField="+auditField+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId,
+      });
+  $("#"+id1+"").hide();
+  layer.msg("审核不通过的理由是："+text);    
+    });
 }
-$(function() {
-		var optionNodes = $("option");
-		for ( var i = 1; i < optionNodes.length; i++) {
-			if ("${supplier.supplierType}" == $(optionNodes[i]).val()) {
-				optionNodes[i].selected = true;
-			}
-		}
-	});
+function tijiao(str){
+  var action;
+  if(str=="essential"){
+     action ="<%=basePath%>supplierQuery/essential.html";
+  }
+  if(str=="financial"){
+    action = "<%=basePath%>supplierQuery/financial.html";
+  }
+  if(str=="shareholder"){
+    action = "<%=basePath%>supplierQuery/shareholder.html";
+  }
+  if(str=="materialProduction"){
+    action = "<%=basePath%>supplierQuery/materialProduction.html";
+  }
+  if(str=="materialSales"){
+    action = "<%=basePath%>supplierQuery/materialSales.html";
+  }
+  if(str=="engineering"){
+    action = "<%=basePath%>supplierQuery/engineering.html";
+  }
+  if(str=="service"){
+    action = "${pageContext.request.contextPath}/supplierQuery/serviceInformation.html";
+  }
+  if(str=="reasonsList"){
+    action = "<%=basePath%>supplierQuery/reasonsList.html";
+  }
+  if(str=="item"){
+     action = "<%=basePath%>supplierQuery/item.html";
+  }
+  $("#form_id").attr("action",action);
+  $("#form_id").submit();
+}
+
+function downloadFile(fileName){
+	  fileName=encodeURI(fileName);
+      fileName=encodeURI(fileName);
+	  window.location.href="<%=basePath %>supplierQuery/downLoadFile.html?fileName="+fileName;
+}
+function fanhui(){
+	  window.location.href="<%=basePath%>supplierQuery/findSupplierByPriovince.html?address="+encodeURI(encodeURI('${suppliers.address}'))+"&status=${status}";
+}
 </script>
+<style type="text/css">
+.jbxx1{
+  background:url(../images/down_icon.png) no-repeat 5px !important;
+  padding-left:40px !important;
+}
+.jbxx1 i{
+    width: 24px;
+    height: 30px;
+    background: url(../../../../../zhbj/public/ZHQ/images/round.png) no-repeat center;
+    color: #ffffff;
+    font-size: 12px;
+    text-align: center;
+    display: block;
+    float: left;
+    line-height: 30px;
+    font-style: normal;
+    margin-right: 10px;
+}
+</style>
 </head>
-  <body>
-  	<div class="container clear margin-top-30">
-  			<h2>供应商信息查询</h2>
-  				<form id="form1" action="<%=basePath %>supplierQuery/findSupplierByPriovince.html" method="post">
-		       <input type="hidden" name="page" id="page">
-		       <input type="hidden" name="address" value="${address }">
-		       <table class="table table-bordered table-condensed tc">
-		       	<tbody>
-		       		<tr>
-		       			<td style="text-align:right">供应商名称：</td>
-		       			<td style="text-align:right"><input id="supplierName" class="span2" name="supplierName" value="${supplier.supplierName }" type="text"></td>
-		       			<td style="text-align:right">注册时间：</td>
-		       			<td>
-		       			<div class="mt5">
-		       			<input id="startDate" name="startDate" class="span2 fl" type="text" value='<fmt:formatDate value="${supplier.startDate }" pattern="YYYY-MM-dd"/>'
-		       			onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})"/>
-		       			<span class="add-on fl"><img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
-		       			<span class="fl mt5">至</span>
-		       			<input id="endDate" name="endDate" value='<fmt:formatDate value="${supplier.endDate }" pattern="YYYY-MM-dd"/>' class="span2 ml10" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
-		       			<span class="add-on fl"><img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
-		       			</div>
-		       			</td>
-		       		</tr>
-		       		<tr>
-		       			<td style="text-align:right">联系人：</td>
-		       			<td><input class="span2" id="contactName" name="contactName" value="${supplier.contactName }" type="text"></td>
-		       			<td style="text-align:right">供应商类型：</td>
-		       			<td><select name="supplierType" class="fl" >
-							   		<option selected="selected" value=''>-请选择-</option>
-							   		<option  value="生产型">生产型</option>
-							   		<option  value="销售型">销售型</option>
-							   </select>
-		       				 <input class="btn padding-left-20 padding-right-20 btn_back" onclick="submit()" type="button" value="查询">
-		     				 <input class="btn padding-left-20 padding-right-20 btn_back" onclick="chongzhi()" type="button" value="重置"> 
-		     				 <input class="btn padding-left-20 padding-right-20 btn_back" value="返回" type="button" onclick="fanhui()">
-		       			</td>
-		       		</tr>
-		       	</tbody>
-		       </table>
-		     </form>
-		       <h2>供应商信息</h2>
-		      <table id="tb1"  class="table table-striped table-bordered table-hover tc">
-		      <thead>
-				<tr>
-					<th class="info w50">序号</th>
-					<th class="info">供应商名称</th>
-					<th class="info">联系人</th>
-					<th class="info">创建日期</th>
-					<th class="info">经济性质</th>
-				</tr>
-			  </thead>
-			  <tbody>
-				 <c:forEach items="${listSupplier.list }" var="list" varStatus="vs">
-					<tr>
-						<td>${vs.index+1 }</td>
-						<td><a href="<%=basePath%>supplierQuery/essential.html?supplierId=${list.id}">${list.supplierName }</a></td>
-						<td>${list.contactName }</td>
-						<td><fmt:formatDate value="${list.createdAt }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-						<td>${list.businessType }</td>
-					</tr>
-				</c:forEach> 
-			  </tbody>
-		 </table>
-		 <div id="pagediv" align="right"></div>
-     </div>
-  </body>
+  
+<body>
+ <div class="margin-top-10 breadcrumbs ">
+      <div class="container">
+		   <ul class="breadcrumb margin-left-0">
+		   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">供应商查看</a></li>
+		   </ul>
+		<div class="clear"></div>
+	  </div>
+   </div>
+  <!-- 项目戳开始 -->
+  <div class="container clear margin-top-30">
+   <div class="container">
+   <div class="col-md-12">
+	<button class="btn btn-windows back" onclick="fanhui()">返回</button>	
+	</div>
+    </div>
+  <!--详情开始-->
+  <div class="container content height-350">
+    <div class="row magazine-page">
+      <div class="col-md-12 tab-v2 job-content">
+        <div class="padding-top-10">
+          <ul class="nav nav-tabs bgdd">
+            <li class=""><a aria-expanded="true" href="#tab-1" data-toggle="tab" onclick="tijiao('essential');">基本信息</a></li>
+          <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('financial');">财务信息</a></li>
+            <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('shareholder');">股东信息</a></li>
+          <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" onclick="tijiao('materialProduction');">物资-生产型专业信息</a></li>
+            <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('materialSales');">物资-销售型专业信息</a></li>
+            <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('engineering');">工程-专业信息</a></li>
+            <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('service');">服务-专业信息</a></li>
+            <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('item');">品目信息</a></li>
+            <li class="active"><a aria-expanded="false" href="#tab-3" data-toggle="tab" >产品信息</a></li>
+            <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('reasonsList');">诚信记录</a></li>
+          </ul>
+            <div class="tab-content padding-top-20" style="height:1500px;">
+              <div class="tab-pane fade active in height-450" id="tab-1">
+                <div class=" margin-bottom-0">
+                  <form id="form_id" action="" method="post"  enctype="multipart/form-data">
+                    <input name="supplierId" id="id" value="${suppliers.id }" type="hidden">
+                  </form>                 
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
 </html>

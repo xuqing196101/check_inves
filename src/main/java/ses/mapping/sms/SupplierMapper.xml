@@ -11,6 +11,7 @@
 		<result column="FOUND_DATE" property="foundDate" />
 		<result column="BUSINESS_TYPE" property="businessType" />
 		<result column="ADDRESS" property="address" />
+		<result column="COUNT" property="count" />
 		<result column="BANK_NAME" property="bankName" />
 		<result column="BANK_ ACCOUNT" property="bankAccount" />
 		<result column="POST_CODE" property="postCode" />
@@ -664,6 +665,9 @@
 	<select id="getSupplier" parameterType="java.lang.String" resultMap="supplierMap">
 		select * from T_SES_SMS_SUPPLIER where ID = #{id}
 	</select>
+	<select id="getAllSupplier" parameterType="java.lang.String" resultMap="supplierMap">
+		select * from T_SES_SMS_SUPPLIER 
+	</select>
 	<update id="updateSupplierProcurementDep" parameterType="ses.model.sms.Supplier">
 		update T_SES_SMS_SUPPLIER set PROCUREMENT_DEP_ID = #{procurementDepId} where ID = #{id}
 	</update>
@@ -712,28 +716,107 @@
 	</select>
 	
 	<select id="querySupplier" parameterType="ses.model.sms.Supplier" resultMap="findSupplierMap">
-		select * from T_SES_SMS_SUPPLIER where  1=1
+		select * from(
+			select
+			t1.*,
+			t2.ID as SUPPLIER_RELATE_ID,
+			t2.SUPPLIER_ID,
+			t2.SUPPLIER_TYPE_ID as SUPPLIER_TYPE_ID_,
+			t2.CREATED_AT as CREATED_AT_,
+			t2.UPDATED_AT as UPDATED_AT_,
+			t3.NAME as SUPPLIER_TYPE_NAME
+		from
+			T_SES_SMS_SUPPLIER t1
+			left join T_SES_SMS_SUPPLIER_TYPE_RELATE t2 on t1. ID = t2.SUPPLIER_ID
+			left join T_SES_SMS_SUPPLIER_TYPE t3 on t2.SUPPLIER_TYPE_ID = t3. ID
+		) t4 where 1=1
 		<if test="supplierName != null and supplierName !=''">
-			and SUPPLIER_NAME like '%${supplierName}%'
+			and t4.SUPPLIER_NAME like '%${supplierName}%'
 		</if>
 		<if test="startDate != null">
-			AND CREATED_AT &gt;= #{startDate}
+			AND t4.CREATED_AT &gt;= #{startDate}
 		</if>
 		<if test="endDate != null">
-			AND CREATED_AT &lt;= #{endDate}
+			AND t4.CREATED_AT &lt;= #{endDate}
 		</if>
 		<if test="contactName != null and contactName != ''">
-			AND CONTACT_NAME = #{contactName}
+			AND t4.CONTACT_NAME = #{contactName}
 		</if>
 		<if test="status != null">
-			and STATUS = #{status}
+			and t4.STATUS = #{status}
 		</if>
 		<if test="address != null and address !=''">  
-       		and ADDRESS like '%${address}%'   
+       		and t4.ADDRESS like '%${address}%'   
         </if> 
+      <if test="supplierType != null and supplierType != ''">
+			AND t4.SUPPLIER_TYPE_NAME like #{supplierType}
+		</if>
 		ORDER BY FOUND_DATE DESC
 	</select>
-	
+	<select id="querySupplierbyCategory" parameterType="ses.model.sms.Supplier" resultMap="findSupplierMap">
+	SELECT
+	*
+	FROM
+		(
+			SELECT
+				t6.*, T5."COUNT" AS COUNT
+			FROM
+				(
+					SELECT
+						T4. ID,
+						t4. COUNT
+					FROM
+						(
+							SELECT
+								T3. ID,
+								COUNT (T3. ID) AS COUNT
+							FROM
+								(
+									SELECT
+										T1. ID,
+										CATEGORY_ID
+									FROM
+										"JDCG"."T_SES_SMS_SUPPLIER" t1
+									RIGHT JOIN T_SES_SMS_SUPPLIER_ITEM t2 ON T1. ID = T2.SUPPLIER_ID
+									AND CATEGORY_ID IN 
+									 <foreach item="item" index="index" collection="item"   
+	                         		open="(" separator="," close=")">  
+	                       			 #{item}  
+	                				</foreach>  
+								) t3
+							GROUP BY
+								T3. ID
+							HAVING
+								t3. ID IS NOT NULL
+						) t4
+					RIGHT JOIN (
+						SELECT
+							T3."ID"
+						FROM
+							(
+								SELECT
+									T1. ID,
+									CATEGORY_ID
+								FROM
+									"JDCG"."T_SES_SMS_SUPPLIER" t1
+								RIGHT JOIN T_SES_SMS_SUPPLIER_ITEM t2 ON T1. ID = T2.SUPPLIER_ID
+							) t3
+						GROUP BY
+							T3. ID
+					) tt1 ON t4. ID = TT1."ID"
+				) t5
+			LEFT JOIN T_SES_SMS_SUPPLIER t6 ON t5. ID = t6. ID
+		) t7
+	WHERE
+	1=1
+		<if test="supplierName != null and supplierName !=''">
+			and t7.SUPPLIER_NAME like '%${supplierName}%'
+		</if>
+		<if test="count != null and count !=''">
+			and t7.COUNT =  #{count}
+		</if>
+		ORDER BY FOUND_DATE DESC
+	</select>
 	
 	<resultMap type="ses.model.sms.Supplier" id="findSupplierMap" extends="BaseResultMap">
 		<collection property="listSupplierTypeRelates" ofType="ses.model.sms.SupplierTypeRelate">

@@ -57,6 +57,7 @@ public class ImportRecommendController {
 	public String registerStart(ImportRecommend ir,HttpServletRequest request,Integer page,Model model){
 		List<ImportRecommend> irList=importRecommendService.selectByRecommend(ir,page==null?1:page);
 		request.setAttribute("irList", new PageInfo<>(irList));
+		request.setAttribute("ir", ir);
 		return "ses/sms/import_recommend/list";
 	}
 	

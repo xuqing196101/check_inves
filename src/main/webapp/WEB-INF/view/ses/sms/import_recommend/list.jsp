@@ -164,6 +164,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			layer.alert("请选择需要修改的代理商",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
+    function query(){
+    	form1.submit();
+    }
 </script>
 </head>
 <body>
@@ -181,10 +184,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <div class="container">
      <div class="p10_25">
      <h2 class="padding-10 border1">
-       <form action="<%=basePath %>importRecommend/list.html" method="post" class="mb0">
+       <form id="form1" action="<%=basePath %>importRecommend/list.html" method="post" class="mb0">
     	<ul class="demand_list">
     	  <li class="fl">
-	    	<label class="fl">代理商名称：</label><span><input type="text" id="name" name="name" class=""/></span>
+	    	<label class="fl">代理商名称：</label><span><input type="text" id="name" name="name" value="${ir.name }" class=""/></span>
 	      </li>
 	    	<button type="button" onclick="query()" class="btn">查询</button>
 	    	<button type="reset" class="btn">重置</button>  	

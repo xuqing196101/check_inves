@@ -1,6 +1,8 @@
 package ses.controller.sys.sms;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Array;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -18,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.model.bms.Category;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierCertEng;
@@ -30,10 +34,13 @@ import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSe;
 import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierStockholder;
+import ses.model.sms.SupplierTypeTree;
+import ses.service.bms.CategoryService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierService;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
 @Controller
@@ -43,11 +50,12 @@ public class SupplierQueryController extends BaseSupplierController{
 	
 	@Autowired
 	private SupplierAuditService supplierAuditService;
-	
 	@Autowired
 	private SupplierService supplierService;
 	@Autowired
 	private SupplierItemService supplierItemService;
+	@Autowired
+	private CategoryService categoryService;
 
 	/**
 	 * @Title: highmaps
@@ -90,6 +98,7 @@ public class SupplierQueryController extends BaseSupplierController{
 			highMapStr=sb.toString();
 		}
 		model.addAttribute("data", highMapStr);
+		model.addAttribute("sup",sup);
 		if(status!=null){
 			return "ses/sms/supplier_query/all_ruku_supplier";
 		}else{
@@ -123,6 +132,7 @@ public class SupplierQueryController extends BaseSupplierController{
 			}
 		}*/
 		model.addAttribute("address", supplier.getAddress());
+		model.addAttribute("supplier", supplier);
 		model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
 		//等于3说明是入库供应商
 		if(supplier.getStatus()!=null&&supplier.getStatus()==3){
@@ -142,11 +152,23 @@ public class SupplierQueryController extends BaseSupplierController{
 	 */
 	@RequestMapping("selectByCategory")
 	public String selectByCategory(Supplier supplier,Integer page,String categoryIds,Model model){
-		List<String> list1=supplierItemService.getSupplierId();
+		/*List<String> list1=supplierItemService.getSupplierId();
 		List<String> list2=supplierItemService.getItemSupplierId();
-		String[] categoryStr=getCategoryStr(list2,list1,categoryIds);
-		List<Supplier> listSupplier1=supplierAuditService.querySupplier(supplier, page==null?1:page);
-		List<Supplier> listSupplier2=new ArrayList<Supplier>();
+		String[] categoryStr=getCategoryStr(list2,list1,categoryIds);*/
+		if(categoryIds!=null&&!categoryIds.equals("")){
+			List<String> list=Arrays.asList(categoryIds);
+			supplier.setItem(list);
+			supplier.setCount(list.size());
+		}
+		if(categoryIds==null||categoryIds.equals("")){
+			List<Supplier> listSupplier=supplierAuditService.getAllSupplier(supplier, page==null?1:page);
+			model.addAttribute("listSupplier",  new PageInfo<>(listSupplier));
+		}else{
+			List<Supplier> listSupplier=supplierAuditService.querySupplierbyCategory(supplier, page==null?1:page);
+			model.addAttribute("listSupplier",  new PageInfo<>(listSupplier));
+		}
+		
+		/*List<Supplier> listSupplier2=new ArrayList<Supplier>();
 		if(categoryStr!=null){
 			for(Supplier sup :listSupplier1){
 				for(String str:categoryStr){
@@ -156,7 +178,12 @@ public class SupplierQueryController extends BaseSupplierController{
 				}
 			}
 		}
-		if(categoryStr==null){
+		//条件查询 没有结果
+		if(categoryIds!=null&&!categoryIds.equals("")&&categoryStr==null){
+			PageInfo<Supplier> pager=new PageInfo<Supplier>(listSupplier2);
+			model.addAttribute("listSupplier",pager );
+			//点击菜单进来的时候 
+		}else if(categoryIds==null&&categoryStr==null){
 			PageInfo<Supplier> pager=new PageInfo<Supplier>(listSupplier1);
 			model.addAttribute("listSupplier",pager );
 		}else{
@@ -165,7 +192,7 @@ public class SupplierQueryController extends BaseSupplierController{
 			pager.setStartRow(1);
 			pager.setEndRow(listSupplier2.size()%10==0?10:listSupplier2.size());
 			model.addAttribute("listSupplier",pager );
-		}
+		}*/
 		return "ses/sms/supplier_query/select_by_category";
 	}
 	
@@ -358,6 +385,22 @@ public class SupplierQueryController extends BaseSupplierController{
 		return "ses/sms/supplier_query/supplierInfo/service_information";
 	}
 	
+	@RequestMapping("item")
+	public String item(){
+		return "ses/sms/supplier_query/supplierInfo/item";
+	}	
+	
+	/**
+	 * @Title: downLoadFile
+	 * @author Song Biaowei
+	 * @date 2016-10-6 上午11:23:53  
+	 * @Description: 附件下载查看
+	 * @param @param fileName
+	 * @param @param request
+	 * @param @return
+	 * @param @throws UnsupportedEncodingException      
+	 * @return ResponseEntity<byte[]>
+	 */
 	 @RequestMapping("/downLoadFile")
 	  public ResponseEntity<byte[]> downLoadFile(String fileName,HttpServletRequest request) throws UnsupportedEncodingException{
 		  fileName=URLDecoder.decode(fileName,"UTF-8");

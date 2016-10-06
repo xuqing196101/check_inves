@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -349,6 +350,21 @@ function goHome(){
 function submit(){
 	form1.submit();
 }
+function chongzhi(){
+	$("#supplierName").val('');
+	$("#startDate").val('');
+	$("#endDate").val('');
+	$("#contactName").val('');
+	$("option")[0].selected = true;
+}
+$(function() {
+		var optionNodes = $("option");
+		for ( var i = 1; i < optionNodes.length; i++) {
+			if ("${sup.supplierType}" == $(optionNodes[i]).val()) {
+				optionNodes[i].selected = true;
+			}
+		}
+	});
 </script>
 </head>
   <body>
@@ -359,22 +375,22 @@ function submit(){
 		       	<tbody>
 		       		<tr>
 		       			<td style="text-align:right">供应商名称：</td>
-		       			<td style="text-align:right"><input class="span2" name="supplierName" value="${supplierName }" type="text"></td>
+		       			<td style="text-align:right"><input class="span2" id="supplierName" name="supplierName" value="${sup.supplierName }" type="text"></td>
 		       			<td style="text-align:right">注册时间：</td>
 		       			<td>
 		       			<div class="mt5">
-		       			<input id="startDate" name="startDate" class="span2 fl" type="text" 
+		       			<input id="startDate" name="startDate" class="span2 fl" type="text"  value='<fmt:formatDate value="${sup.startDate }" pattern="YYYY-MM-dd"/>'
 		       			onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})"/>
 		       			<span class="add-on fl"><img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
 		       			<span class="fl mt5">至</span>
-		       			<input id="endDate" name="endDate" class="span2 ml10" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
+		       			<input id="endDate" name="endDate" value='<fmt:formatDate value="${sup.endDate }" pattern="YYYY-MM-dd"/>' class="span2 ml10" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
 		       			<span class="add-on fl"><img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
 		       			</div>
 		       			</td>
 		       		</tr>
 		       		<tr>
 		       			<td style="text-align:right">联系人：</td>
-		       			<td><input class="span2" name="contactName" value="${contactName }" type="text"></td>
+		       			<td><input class="span2" id="contactName" name="contactName" value="${sup.contactName }" type="text"></td>
 		       			<td style="text-align:right">供应商类型：</td>
 		       			<td>
 		       			      <select name="supplierType" class="fl" >
@@ -383,7 +399,7 @@ function submit(){
 							   		<option  value="销售型">销售型</option>
 							   </select>
 		       				 <input class="btn padding-left-20 padding-right-20 btn_back" onclick="submit()" type="button" value="查询">
-		     				 <input class="btn padding-left-20 padding-right-20 btn_back" onclick="reset()" type="reset" value="重置"> 
+		     				 <input class="btn padding-left-20 padding-right-20 btn_back" onclick="chongzhi()" type="button" value="重置"> 
 		     				 <input class="btn padding-left-20 padding-right-20 btn_back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 		       			</td>
 		       		</tr>

@@ -66,7 +66,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		  <li><a href="#"> 首页</a></li><li><a href="#">进口代理商</a></li><li><a href="#">进口代理商管理</a></li><li class="active"><a href="#">进口代理商增加</a></li>
+		  <li><a href="#"> 首页</a></li><li><a href="#">进口代理商</a></li><li><a href="#">进口代理商管理</a></li><li class="active"><a href="#">进口代理商查看</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -76,7 +76,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <div class="container">
    <div>
    <div class="headline-v2">
-   <h2>进口代理商新增</h2>
+   <h2>进口代理商查看</h2>
    </div>
    <ul class="list-unstyled list-flow p0_20">
      <li class="col-md-6 p0">
