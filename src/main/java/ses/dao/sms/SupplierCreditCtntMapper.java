@@ -45,5 +45,10 @@ public interface SupplierCreditCtntMapper {
      */
     int updateByPrimaryKey(SupplierCreditCtnt record);
     
-    List<SupplierCreditCtnt> findCreditCtntByCreditId(String supplierCreditId);
+    List<SupplierCreditCtnt> findCreditCtnt(SupplierCreditCtnt supplierCreditCtnt);
+    
+    List<SupplierCreditCtnt> findCreditCtntByCreditId(SupplierCreditCtnt supplierCreditCtnt);
+    
+    
+    
 }

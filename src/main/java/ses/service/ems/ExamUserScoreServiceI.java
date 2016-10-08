@@ -136,4 +136,6 @@ public interface ExamUserScoreServiceI {
     * @return List<Expert>
      */
     List<Expert> findAllExpert();
+    
+    List<ExamUserScore> findByUserIdAndCode(HashMap<String,Object> map);
 }

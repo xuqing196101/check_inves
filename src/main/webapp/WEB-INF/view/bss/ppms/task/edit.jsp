@@ -98,7 +98,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
   }
     
-       function start(){
+       function edit(){
          var id =[]; 
         $('input[name="chkItem"]:checked').each(function(){ 
             id.push($(this).val()); 
@@ -126,6 +126,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
+   <form id="att" action="<%=basePath%>task/editDetail.html" id="myForm"
+        method="post" name="form1" class="simple" target="_parent" enctype="multipart/form-data">
 <!--面包屑导航开始-->
  <div class="margin-top-10 breadcrumbs ">
       <div class="container">
@@ -135,6 +137,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <div class="clear"></div>
       </div>
    </div>
+  
 <!-- 录入采购计划开始-->
  <div class="container">
    <div class="headline-v2">
@@ -159,8 +162,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      
   
       <span class="fr option_btn margin-top-10">
-        <button class="btn padding-left-10 padding-right-10 btn_back" >变更</button>
-        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="start();">取消</button>
+        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="edit();">变更</button>
+        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="location.href='javascript:history.go(-1);'">取消</button>
         <button class="btn padding-left-10 padding-right-10 btn_back" onclick="view();">查看变更记录</button>
       </span>
    <div class="container clear margin-top-30">
@@ -183,13 +186,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <th class="info">是否申请办理免税</th>
           <th class="info">物资用途（进口）</th>
           <th class="info">使用单位（进口）</th>
-          
         </tr>
         </thead>
           <c:forEach items="${lists}" var="obj" varStatus="vs">
             <tr style="cursor: pointer;">
               <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
-              <td class="tc w50">${(vs.index+1)}</td>
+              <td class="tc w50">${obj.seq}</td>
               <td class="tc">${obj.department}</td>
               <td class="tc">${obj.goodsName}</td>
               <td class="tc">${obj.stand}</td>
@@ -227,6 +229,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </p>
         
  </div>
- 
+ </form>
      </body>
 </html>

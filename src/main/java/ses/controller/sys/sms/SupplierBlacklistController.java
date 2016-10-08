@@ -17,7 +17,7 @@ import com.github.pagehelper.PageInfo;
 
 @Controller
 @Scope("prototype")
-@RequestMapping(value = "supplier_blacklist")
+@RequestMapping(value = "/supplier_blacklist")
 public class SupplierBlacklistController {
 
 	@Autowired

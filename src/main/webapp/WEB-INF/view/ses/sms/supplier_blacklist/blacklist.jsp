@@ -73,14 +73,10 @@
 		<div class="margin-top-10 breadcrumbs ">
 			<div class="container">
 				<ul class="breadcrumb margin-left-0">
-					<li><a href="#"> 首页</a>
-					</li>
-					<li><a href="#">业务管理</a>
-					</li>
-					<li><a href="#">供应商</a>
-					</li>
-					<li class="active"><a href="#">供应商黑名单</a>
-					</li>
+					<li><a href="#"> 首页</a></li>
+					<li><a href="#">业务管理</a></li>
+					<li><a href="#">供应商</a></li>
+					<li class="active"><a href="#">供应商黑名单</a></li>
 				</ul>
 				<div class="clear"></div>
 			</div>
@@ -103,20 +99,21 @@
 		<div class="container">
 			<div class="p10_25">
 				<form id="search_form_id" class="padding-10 border1 mb0" action="${pageContext.request.contextPath}/supplier_blacklist/list_blacklist.html" method="post">
+					<input name="page" type="hidden" />
 					<ul class="demand_list">
 						<li class="fl">
-							<label class="fl">供应商名称：</label>
+							<label class="fl mt5">供应商名称：</label>
 							<span><input name="supplierName" type="text" value="${supplierName}" /></span>
 						</li>
 						<li class="fl">
-							<label class="fl">起始时间：</label>
+							<label class="fl mt5">起始时间：</label>
 							<span><input type="text" name="startTime" readonly="readonly" onClick="WdatePicker()" value="${startTime}" /></span>
 						</li>
 						<li class="fl">
-							<label class="fl">终止时间：</label>
+							<label class="fl mt5">终止时间：</label>
 							<span><input name="endTime" type="text" readonly="readonly" onClick="WdatePicker()" value="${endTime}" /></span>
 						</li>
-						<li class="fl">
+						<li class="fl mt1">
 							<button type="button" onclick="searchSupplierBlacklist(1)" class="btn">查询</button>
 							<button onclick="resetForm()" class="btn" type="button">重置</button>
 						</li>

@@ -165,6 +165,9 @@ function tijiao(str){
   if(str=="reasonsList"){
     action = "<%=basePath%>supplierQuery/reasonsList.html";
   }
+  if(str=="item"){
+     action = "<%=basePath%>supplierQuery/item.html";
+  }
   $("#form_id").attr("action",action);
   $("#form_id").submit();
 }
@@ -219,7 +222,7 @@ function downloadFile(fileName){
               <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('materialSales');">物资-销售型专业信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('engineering');">工程-专业信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('service');">服务-专业信息</a></li>
-              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" >品目信息</a></li>
+              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('item');">品目信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >产品信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('reasonsList');">诚信记录</a></li>
             </ul>

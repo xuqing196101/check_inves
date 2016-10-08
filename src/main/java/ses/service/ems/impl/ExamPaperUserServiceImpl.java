@@ -83,4 +83,10 @@ public class ExamPaperUserServiceImpl implements ExamPaperUserServiceI {
 		return examPaperUserMapper.updateByPaperIdAndUserID(examPaperUser);
 	}
 
+	
+	@Override
+	public List<ExamPaperUser> findIsExamByCondition(HashMap<String, Object> map) {
+		return examPaperUserMapper.findIsExamByCondition(map);
+	}
+
 }

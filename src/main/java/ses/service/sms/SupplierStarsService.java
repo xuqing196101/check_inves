@@ -12,4 +12,6 @@ public interface SupplierStarsService {
 	public SupplierStars get(String id);
 	
 	public void updateStatus(SupplierStars supplierStars);
+	
+	public void delete(String ids);
 }

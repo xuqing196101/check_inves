@@ -100,6 +100,9 @@
 			<if test="name != null and name != ''">
 				and NAME like #{name}
 			</if>
+			<if test="status != null and status != ''">
+				and STATUS like #{status}
+			</if>
 		</where>
 		 order by CREATED_AT desc
 	</select>

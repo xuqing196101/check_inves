@@ -70,41 +70,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         });
   });
   
-  
-    /** 全选全不选 */
-    function selectAll(){
-         var checklist = document.getElementsByName ("chkItem");
-         var checkAll = document.getElementById("checkAll");
-         if(checkAll.checked){
-               for(var i=0;i<checklist.length;i++)
-               {
-                  checklist[i].checked = true;
-               } 
-             }else{
-              for(var j=0;j<checklist.length;j++)
-              {
-                 checklist[j].checked = false;
-              }
-            }
-        }
     
     /** 单选 */
     function check(){
-         var count=0;
-         var checklist = document.getElementsByName ("chkItem");
-         var checkAll = document.getElementById("checkAll");
-         for(var i=0;i<checklist.length;i++){
-               if(checklist[i].checked == false){
-                   checkAll.checked = false;
-                   break;
-               }
-               for(var j=0;j<checklist.length;j++){
-                     if(checklist[j].checked == true){
-                           checkAll.checked = true;
-                           count++;
-                       }
-                 }
-           }
+        var id =[]; 
+        $('input[name="chkItem"]:checked').each(function(){ 
+            id.push($(this).val()); 
+        }); 
+        if(id.length>0){
+           layer.open({
+          type: 2, //page层
+          area: ['900px', '700px'],
+         // title: '您是要取消任务吗？',
+          shade:0.01, //遮罩透明度
+          moveType: 1, //拖拽风格，0是默认，1是传统拖动
+          shift: 1, //0-6的动画形式，-1不开启
+          offset: ['220px', '630px'],
+          shadeClose: true,
+          content: '<%=basePath%>project/viewDetail.html?id='+id
+        });
+            
+        }
     }
     
         function add(){
@@ -199,22 +185,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <th class="info">下达文件编号</th>
           <th class="info">状态</th>
           <th class="info">下达时间</th>
-          <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
+          <th class="info">操作</th>
         </tr>
         </thead>
          <c:forEach items="${info.list}" var="obj" varStatus="vs">
+          <c:if test="${'0'==obj.status}">
             <tr style="cursor: pointer;">
               <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
               <td class="tc" >${obj.name}</td>
               <td class="tc">${obj.purchaseId }</td>
               <td class="tc" >${obj.documentNumber }</td>
-              <td class="tc"><c:if test="${'1'==obj.status}">审核</c:if>
+              <td class="tc">
                   <c:if test="${'0'==obj.status}">受领</c:if>
               </td>
               <td class="tc" ><fmt:formatDate value="${obj.giveTime }"/></td>
               <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
             </tr>
-     
+          </c:if>
          </c:forEach> 
          
 

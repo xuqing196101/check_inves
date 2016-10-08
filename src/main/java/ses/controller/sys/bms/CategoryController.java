@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -352,6 +353,28 @@ public class CategoryController extends BaseSupplierController {
 	@RequestMapping(value = "find_category")
 	public void findCategory(HttpServletResponse response, Category category, String supplierId) throws IOException {
 		List<SupplierTypeTree> listSupplierTypeTrees = categoryService.findCategoryByType(category, supplierId);
+		String json = JSON.toJSONStringWithDateFormat(listSupplierTypeTrees, "yyyy-MM-dd HH:mm:ss");
+		response.setContentType("text/html;charset=utf-8");
+		response.getWriter().write(json);
+		response.getWriter().flush();
+		response.getWriter().close();
+	}
+	
+	/**
+	 * @Title: queryCategory
+	 * @author Song Biaowei
+	 * @date 2016-10-8 下午2:24:48  
+	 * @Description: 按照品目查询供应商 
+	 * @param @param response
+	 * @param @param category
+	 * @param @param categoryIds
+	 * @param @throws IOException      
+	 * @return void
+	 */
+	@RequestMapping(value = "query_category")
+	public void queryCategory(HttpServletResponse response, Category category, String categoryIds) throws IOException {
+		List<String> list=Arrays.asList(categoryIds.split(","));
+		List<SupplierTypeTree> listSupplierTypeTrees = categoryService.queryCategory(category, list);
 		String json = JSON.toJSONStringWithDateFormat(listSupplierTypeTrees, "yyyy-MM-dd HH:mm:ss");
 		response.setContentType("text/html;charset=utf-8");
 		response.getWriter().write(json);

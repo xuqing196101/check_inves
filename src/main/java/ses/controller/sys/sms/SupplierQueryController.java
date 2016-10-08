@@ -1,8 +1,6 @@
 package ses.controller.sys.sms;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Array;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -19,9 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import ses.model.bms.Category;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierCertEng;
@@ -34,13 +29,11 @@ import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSe;
 import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierStockholder;
-import ses.model.sms.SupplierTypeTree;
 import ses.service.bms.CategoryService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierService;
 
-import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
 @Controller
@@ -52,10 +45,6 @@ public class SupplierQueryController extends BaseSupplierController{
 	private SupplierAuditService supplierAuditService;
 	@Autowired
 	private SupplierService supplierService;
-	@Autowired
-	private SupplierItemService supplierItemService;
-	@Autowired
-	private CategoryService categoryService;
 
 	/**
 	 * @Title: highmaps
@@ -121,7 +110,13 @@ public class SupplierQueryController extends BaseSupplierController{
 	@RequestMapping("/findSupplierByPriovince")
 	public String findSupplierByPriovince(Supplier supplier,Integer page,Model model) throws UnsupportedEncodingException{
 		supplier.setAddress(URLDecoder.decode(supplier.getAddress(),"UTF-8"));
-		List<Supplier> listSupplier=supplierAuditService.querySupplier(supplier, page==null?1:page);
+		if(supplier.getSupplierType()==null||supplier.getSupplierType().equals("")){
+			List<Supplier> listSupplier=supplierAuditService.getAllSupplier(supplier, page==null?1:page);	
+			model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
+		}else{
+			List<Supplier> listSupplier=supplierAuditService.querySupplier(supplier, page==null?1:page);
+			model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
+		}
 		//入库时间
 		/*for(Supplier sup:listSupplier){
 			List<SupplierAudit> listAudit=supplierAuditService.selectByPrimaryKey(sup.getId());
@@ -133,7 +128,6 @@ public class SupplierQueryController extends BaseSupplierController{
 		}*/
 		model.addAttribute("address", supplier.getAddress());
 		model.addAttribute("supplier", supplier);
-		model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
 		//等于3说明是入库供应商
 		if(supplier.getStatus()!=null&&supplier.getStatus()==3){
 			return "ses/sms/supplier_query/select_ruku_supplier_by_province";
@@ -152,11 +146,9 @@ public class SupplierQueryController extends BaseSupplierController{
 	 */
 	@RequestMapping("/selectByCategory")
 	public String selectByCategory(Supplier supplier,Integer page,String categoryIds,Model model){
-		/*List<String> list1=supplierItemService.getSupplierId();
-		List<String> list2=supplierItemService.getItemSupplierId();
-		String[] categoryStr=getCategoryStr(list2,list1,categoryIds);*/
+		List<String> list=null;
 		if(categoryIds!=null&&!categoryIds.equals("")){
-			List<String> list=Arrays.asList(categoryIds);
+			list=Arrays.asList(categoryIds.split(","));
 			supplier.setItem(list);
 			supplier.setCount(list.size());
 		}
@@ -167,36 +159,12 @@ public class SupplierQueryController extends BaseSupplierController{
 			List<Supplier> listSupplier=supplierAuditService.querySupplierbyCategory(supplier, page==null?1:page);
 			model.addAttribute("listSupplier",  new PageInfo<>(listSupplier));
 		}
-		
-		/*List<Supplier> listSupplier2=new ArrayList<Supplier>();
-		if(categoryStr!=null){
-			for(Supplier sup :listSupplier1){
-				for(String str:categoryStr){
-					if(categoryStr!=null&&str.equals(sup.getId())){
-						listSupplier2.add(sup);
-					}
-				}
-			}
-		}
-		//条件查询 没有结果
-		if(categoryIds!=null&&!categoryIds.equals("")&&categoryStr==null){
-			PageInfo<Supplier> pager=new PageInfo<Supplier>(listSupplier2);
-			model.addAttribute("listSupplier",pager );
-			//点击菜单进来的时候 
-		}else if(categoryIds==null&&categoryStr==null){
-			PageInfo<Supplier> pager=new PageInfo<Supplier>(listSupplier1);
-			model.addAttribute("listSupplier",pager );
-		}else{
-			PageInfo<Supplier> pager=new PageInfo<Supplier>(listSupplier2);
-			pager.setPages(listSupplier2.size()/10+1);
-			pager.setStartRow(1);
-			pager.setEndRow(listSupplier2.size()%10==0?10:listSupplier2.size());
-			model.addAttribute("listSupplier",pager );
-		}*/
 		model.addAttribute("supplier", supplier);
+		model.addAttribute("categoryIds", categoryIds);
 		return "ses/sms/supplier_query/select_by_category";
 	}
 	
+<<<<<<< HEAD
 	public static String[] getCategoryStr(List<String> list,List<String> supplierIds,String materialId){
 		List<String> searchCategory=null;
 		if(materialId!=null&&!materialId.isEmpty()){
@@ -227,6 +195,8 @@ public class SupplierQueryController extends BaseSupplierController{
 		return pager;
 	}
 	
+=======
+>>>>>>> c3264764792ef553197480a8a7af143f7138133a
 	/**
 	 * @Title: essentialInformation
 	 * @author Song Biaowei
@@ -389,8 +359,24 @@ public class SupplierQueryController extends BaseSupplierController{
 		return "ses/sms/supplier_query/supplierInfo/service_information";
 	}
 	
+<<<<<<< HEAD
 	@RequestMapping("/item")
 	public String item(){
+=======
+	/**
+	 * @Title: item
+	 * @author Song Biaowei
+	 * @date 2016-10-8 下午3:11:30  
+	 * @Description: 品目信息 
+	 * @param @param supplierId
+	 * @param @param model
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping("/item")
+	public String item(String supplierId,Model model){
+		model.addAttribute("id", supplierId);
+>>>>>>> c3264764792ef553197480a8a7af143f7138133a
 		return "ses/sms/supplier_query/supplierInfo/item";
 	}	
 	

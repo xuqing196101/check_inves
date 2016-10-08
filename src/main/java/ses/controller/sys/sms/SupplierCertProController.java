@@ -23,7 +23,7 @@ import ses.service.sms.SupplierService;
 
 @Controller
 @Scope("prototype")
-@RequestMapping(value = "supplier_cert_pro")
+@RequestMapping(value = "/supplier_cert_pro")
 public class SupplierCertProController extends BaseSupplierController {
 	
 	@Autowired

@@ -148,6 +148,9 @@ function tijiao(str){
   if(str=="service"){
     action = "${pageContext.request.contextPath}/supplierAudit/serviceInformation.html";
   }
+  if(str=="items"){
+  action = "${pageContext.request.contextPath}/supplierAudit/items.html";
+  }
   if(str=="applicationFrom"){
     action = "${pageContext.request.contextPath}/supplierAudit/applicationForm.html";
   }
@@ -184,7 +187,7 @@ function tijiao(str){
               <c:if test="${fn:contains(supplierTypeNames, '服务')}">
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('service');">服务-专业信息</a></li>
               </c:if>
-              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" >品目信息</a></li>
+              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('items');">品目信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >产品信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('applicationFrom');">申请表</a></li>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('reasonsList');">审核汇总</a></li>
@@ -226,5 +229,6 @@ function tijiao(str){
       </div>
     </div>
   </div>
+  <jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
 </body>
 </html>

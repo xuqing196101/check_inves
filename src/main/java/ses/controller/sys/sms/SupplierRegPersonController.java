@@ -14,7 +14,7 @@ import ses.service.sms.SupplierRegPersonService;
 import ses.service.sms.SupplierService;
 @Controller
 @Scope("prototype")
-@RequestMapping(value = "supplier_reg_person")
+@RequestMapping(value = "/supplier_reg_person")
 public class SupplierRegPersonController {
 	@Autowired
 	private SupplierService supplierService;// 供应商基本信息

@@ -341,7 +341,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		String supplierId= supplierAudit.getSupplierId();
 		supplier.setId(supplierId);
 		supplierAuditService.updateStatus(supplier);
-		return "redirect:supplierList.html";
+		return "redirect:daiban.html";
 	}
 	
 	/**
@@ -413,14 +413,62 @@ public class SupplierAuditController extends BaseSupplierController{
 	public String applicationForm(HttpServletRequest request, SupplierAudit supplierAudit,Supplier supplier) throws IOException {
 		String supplierId = supplierAudit.getSupplierId();
 		supplier = supplierAuditService.supplierById(supplierId);
+		request.setAttribute("applicationForm", supplier);
 		//勾选的供应商类型
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
 		request.setAttribute("supplierTypeNames", supplierTypeName);
-		request.setAttribute("applicationForm", supplier);
 		request.setAttribute("supplierId", supplierId);
 		return "ses/sms/supplier_audit/application_form";
 	}
 	
+	/**
+	 * @Title: itemInformation
+	 * @author Xu Qing
+	 * @date 2016-10-8 上午10:34:24  
+	 * @Description:品目信息
+	 * @param @param request
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping("items")
+	public String itemInformation(HttpServletRequest request, SupplierAudit supplierAudit, Supplier supplier){
+		String supplierId = supplierAudit.getSupplierId();
+		//勾选的供应商类型
+		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
+		request.setAttribute("supplierTypeNames", supplierTypeName);
+		//查询品目
+		supplier = supplierService.get(supplierId);
+		request.getSession().setAttribute("currSupplier", supplier);
+		request.setAttribute("supplierId", supplierId);
+		return "ses/sms/supplier_audit/items";
+	}
+	
+	/**
+	 * @Title: productInformation
+	 * @author Xu Qing
+	 * @date 2016-10-8 下午1:53:27  
+	 * @Description:产品信息
+	 * @param @param request
+	 * @param @param supplierAudit
+	 * @param @param supplier
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping("product")
+	public String productInformation(HttpServletRequest request, SupplierAudit supplierAudit, Supplier supplier){
+		String supplierId = supplierAudit.getSupplierId();
+
+		request.setAttribute("supplierId", supplierId);
+		return "ses/sms/supplier_audit/product";
+	}
+	
+	/**
+	 * @Title: download
+	 * @author Xu Qing
+	 * @date 2016-10-8 下午14:57:27  
+	 * @Description:文件下載  
+	 * @return String
+	 */
 	@RequestMapping(value = "download")
 	public void download(HttpServletRequest request, HttpServletResponse response, String fileName) {
 		if (fileName != null && !"".equals(fileName)) {

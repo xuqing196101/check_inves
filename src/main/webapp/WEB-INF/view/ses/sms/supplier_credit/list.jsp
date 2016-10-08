@@ -45,7 +45,7 @@
 			type : 2,
 			title : '添加形式名称',
 			skin : 'layui-layer-rim', //加上边框
-			area : [ '630px', '270px' ], //宽高
+			area : [ '550px', '230px' ], //宽高
 			offset : '100px',
 			scrollbar : false,
 			content : '${pageContext.request.contextPath}/supplier_credit/add_credit.html', //url
@@ -57,18 +57,18 @@
 		var checkbox = $("input[name='checkbox']:checked");
 		if (checkbox.size() != 1) {
 			layer.msg("请勾选一条记录 !", {
-				offset : '200px',
+				offset : '300px',
 			});
 			return;
 		}
-		var id = $(checkbox).val();
-		var name = $(checkbox).parents("tr").find("td").eq(2).text();
+		var id = checkbox.val();
+		var name = checkbox.parents("tr").find("td").eq(2).text();
 		name = $.trim(name);
 		layer.open({
 			type : 2,
 			title : '添加形式名称',
 			skin : 'layui-layer-rim', //加上边框
-			area : [ '630px', '270px' ], //宽高
+			area : [ '550px', '230px' ], //宽高
 			offset : '100px',
 			scrollbar : false,
 			content : '${pageContext.request.contextPath}/supplier_credit/add_credit.html?id=' + id + '&name=' + name, //url
@@ -93,12 +93,12 @@
 		var checkbox = $("input[name='checkbox']:checked");
 		if (checkbox.size() != 1) {
 			layer.msg("请勾选一条记录 !", {
-				offset : '200px',
+				offset : '300px',
 			});
 			return;
 		}
-		var id = $(checkbox).val();
-		var text = $(checkbox).parents("tr").find("td").eq(5).text();
+		var id = checkbox.val();
+		var text = checkbox.parents("tr").find("td").eq(5).text();
 		text = $.trim(text);
 		var status = null;
 		if (text == "已启用") {
@@ -118,15 +118,27 @@
 			return;
 		}
 		var ids = "";
-		$(checkbox).each(function(index) {
+		var count = 0;
+		checkbox.each(function(index) {
 			var value = $(this).val();
 			if (index > 0) {
 				ids += ",";
 			}
 			ids += value;
+			count ++;
 		});
-		window.location.href = "${pageContext.request.contextPath}/supplier_credit/delete.html?ids=" + ids;
+		layer.confirm('已勾选' + count + '条, 确认删除 ？', {
+			offset : '200px',
+		},function(index) {
+			window.location.href = "${pageContext.request.contextPath}/supplier_credit/delete.html?ids=" + ids;
+			layer.close(index);
+		});
 	}
+	
+	function resetForm() {
+		$("input[name='name']").val("");
+	}
+	
 </script>
 
 </head>
@@ -160,27 +172,28 @@
 				<button class="btn btn-windows edit" type="button" onclick="editSupplierCredit()">修改</button>
 				<button class="btn btn-windows apply" type="button" onclick="changeStatus()">启/停用</button>
 				<button class="btn btn-windows delete" type="button" onclick="deleteCredit()">删除</button>
-				<button class="btn btn-windows ht_add" type="button" onclick="addCreditCtnt()">添加形式内容</button>
 			</div>
 		</div>
+		
 		<div class="container">
-			<div style="padding-left: 20px;">
-				<form id="search_form_id" action="${pageContext.request.contextPath}/supplier_credit/list.html" method="post">
+			<div class="p10_25">
+				<form id="search_form_id" class="padding-10 border1 mb0" action="${pageContext.request.contextPath}/supplier_credit/list.html" method="post">
 					<input name="page" type="hidden" />
-					<ul class="demand_list list-unstyled">
-						<li>
-							<label class="fl mt10">形式名称：</label> 
-							<span><input name="name" type="text" class="mb0 mt5" value="${name}" /> </span>
+					<ul class="demand_list">
+						<li class="fl">
+							<label class="fl mt5">形式名称：</label>
+							<span><input name="name" type="text" value="${name}" /></span>
 						</li>
-						<li>
-							<input type="button" class="btn btn_back fl ml10 mt6" value="查询" onclick="searchSupplierCredit(1)" />
-							<input type="button" class="btn btn_back fl ml10 mt6" value="重置" onclick="resetForm()">
+						<li class="fl mt1">
+							<button type="button" onclick="searchSupplierCredit(1)" class="btn">查询</button>
+							<button onclick="resetForm()" class="btn" type="button">重置</button>
 						</li>
 					</ul>
+					<div class="clear"></div>
 				</form>
-				<div class="clear"></div>
 			</div>
 		</div>
+		
 		<div class="container margin-top-5">
 			<div class="content padding-left-25 padding-right-25 padding-top-5">
 				<table class="table table-bordered table-condensed">
@@ -203,8 +216,8 @@
 								<td class="tc"><fmt:formatDate value="${credit.createdAt}" pattern="yyyy-MM-dd"/></td>
 								<td class="tc"><fmt:formatDate value="${credit.updatedAt}" pattern="yyyy-MM-dd"/></td>
 								<td class="tc status">
-									<c:if test="${credit.status == 0}">已停用</c:if>
-									<c:if test="${credit.status == 1}">已启用</c:if>
+									<c:if test="${credit.status == 0}"><span class="label rounded-2x label-dark">已停用</span></c:if>
+									<c:if test="${credit.status == 1}"><span class="label rounded-2x label-u">已启用</span></c:if>
 								</td>
 							</tr>
 						</c:forEach>

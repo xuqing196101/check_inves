@@ -1,7 +1,5 @@
 package bss.controller.ppms;
 
-import iss.model.ps.Article;
-import iss.model.ps.ArticleAttachments;
 
 import java.io.File;
 import java.io.IOException;
@@ -171,11 +169,28 @@ public class TackController extends BaseController{
 	public String edit(String id,Model model){
 		Task task = taskservice.selectById(id);
 		CollectPlan queryById = collectPlanService.queryById(task.getCollectId());
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.get(queryById);
-		List<PurchaseRequired> list = purchaseRequiredService.getByMap(map);
-		model.addAttribute("queryById", queryById);
-		model.addAttribute("lists", list);
+		if(queryById != null){
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.get(queryById);
+			List<PurchaseRequired> list = purchaseRequiredService.getByMap(map);
+			model.addAttribute("queryById", queryById);
+			model.addAttribute("lists", list);
+		}
+	
 		return "bss/ppms/task/edit";
+	}
+
+	@RequestMapping("/view")
+	public String view(String id,Model model){
+		Task task = taskservice.selectById(id);
+		CollectPlan queryById = collectPlanService.queryById(task.getCollectId());
+		if(queryById != null){
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.get(queryById);
+			List<PurchaseRequired> list = purchaseRequiredService.getByMap(map);
+			model.addAttribute("queryById", queryById);
+			model.addAttribute("lists", list);
+		}
+		return "bss/ppms/task/view";
 	}
 }

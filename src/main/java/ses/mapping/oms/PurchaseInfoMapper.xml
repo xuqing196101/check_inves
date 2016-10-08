@@ -4,7 +4,7 @@
 	 <!-- 根据条件查部 采购机构-->
 	<select id="findPurchaseList" parameterType="java.util.Map" resultType="ses.model.oms.PurchaseInfo">
 			   select d.id  as id,
-		       d.GENDER       as gender,
+		       u.GENDER       as gender,
 		       d.NATION       as nation,
 		       d.PURCHASE_DEP_ID     as purchaseDepId,
 		       d.POLITICAL         as political,
@@ -27,7 +27,7 @@
 		       d.QUA_CERT   as quaCert,
 		       d.QUA_RANK   as quaRank,
 		       d.FAX   as fax,
-		       d.ADDRESS   as address,
+		       u.ADDRESS   as address,
 		       d.POST_CODE   as postCode,
 		       d.QUA_START_DATE   as quaStartDate,
 		       o.name    as  purchaseDepName,
@@ -39,7 +39,7 @@
 		  from T_SES_OMS_PURCHASER     d
 		  LEFT JOIN T_SES_OMS_PURCHASE_DEP p on d.PURCHASE_DEP_ID = p.id
 		  LEFT JOIN T_SES_OMS_ORG o on o.id = p.ORG_ID
-		  LEFT JOIN	T_SES_BMS_USER u on d.user_id = u.id
+		  LEFT JOIN	T_SES_BMS_USER u on d.id=u.TYPE_ID
 		 where nvl(d.is_deleted,0)=0
 		 <if test="id != null and id != ''">
 			and d.id= #{id}

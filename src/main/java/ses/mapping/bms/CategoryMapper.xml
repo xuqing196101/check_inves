@@ -282,7 +282,10 @@
  	</update>
  	
  	<select id="findCategoryByType" parameterType="ses.model.bms.Category" resultMap="CateMap">
- 		select * from T_SES_BMS_CATEGORY where KIND = #{kind}
+ 		select * from T_SES_BMS_CATEGORY where 1=1
+ 		<if test="kind!=null and kind != ''">
+ 			and KIND = #{kind}
+ 		</if>
  	</select>
  	
 </mapper>

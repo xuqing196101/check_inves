@@ -126,7 +126,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			});
 	  });
 	    function fanhui(){
-	  	window.location.href="<%=basePath%>supplierQuery/highmaps.html"
+	  	window.location.href="<%=basePath%>supplierQuery/highmaps.html?status=3";
 	  }
 function chongzhi(){
 	$("#supplierName").val('');

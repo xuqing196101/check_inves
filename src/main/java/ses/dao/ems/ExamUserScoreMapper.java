@@ -119,4 +119,6 @@ public interface ExamUserScoreMapper {
     * @return List<ExamUserScore>
      */
     List<ExamUserScore> findByUserId(HashMap<String,Object> map);
+    
+    List<ExamUserScore> findByUserIdAndCode(HashMap<String,Object> map);
 }

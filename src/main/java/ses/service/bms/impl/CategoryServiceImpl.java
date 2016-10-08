@@ -112,4 +112,23 @@ public class CategoryServiceImpl implements CategoryService {
 		}
 		return listSupplierTypeTrees;
 	}
+	
+	@Override
+	public List<SupplierTypeTree> queryCategory(Category category,List<String> listCategoryIds) {
+		List<Category> listCategorys = categoryMapper.findCategoryByType(category);
+		List<SupplierTypeTree> listSupplierTypeTrees = new ArrayList<SupplierTypeTree>();
+		for (Category c : listCategorys) {
+			SupplierTypeTree supplierTypeTree = new SupplierTypeTree();
+			supplierTypeTree.setId(c.getId());
+			supplierTypeTree.setParentId(c.getParentId());
+			supplierTypeTree.setName(c.getName());
+			if (listCategoryIds.contains(c.getId())) {
+				supplierTypeTree.setChecked(true);
+			}
+			listSupplierTypeTrees.add(supplierTypeTree);
+		}
+		return listSupplierTypeTrees;
+	}
+	
+	
 }

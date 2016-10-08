@@ -23,7 +23,7 @@ import ses.service.sms.SupplierService;
 
 @Controller
 @Scope("prototype")
-@RequestMapping(value = "supplier_finance")
+@RequestMapping(value = "/supplier_finance")
 public class SupplierFinanceController extends BaseSupplierController {
 	
 	@Autowired

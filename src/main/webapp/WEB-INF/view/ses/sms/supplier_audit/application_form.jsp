@@ -168,12 +168,24 @@ function tijiao(str){
   if(str=="service"){
     action = "${pageContext.request.contextPath}/supplierAudit/serviceInformation.html";
   }
+  if(str=="items"){
+  action = "${pageContext.request.contextPath}/supplierAudit/items.html";
+  }
+  if(str=="applicationFrom"){
+    action = "${pageContext.request.contextPath}/supplierAudit/applicationForm.html";
+  }
   if(str=="reasonsList"){
     action = "<%=basePath%>supplierAudit/reasonsList.html";
   }
   $("#form_id").attr("action",action);
   $("#form_id").submit();
 }
+
+//文件下載
+  function downloadFile(fileName) {
+    $("input[name='fileName']").val(fileName);
+    $("#download_form_id").submit();
+  }
 </script>
 </head>
   
@@ -201,7 +213,7 @@ function tijiao(str){
 	            <c:if test="${fn:contains(supplierTypeNames, '服务')}">
 	            <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('service');">服务-专业信息</a></li>
 	            </c:if>
-              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" >品目信息</a></li>
+              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('items');">品目信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >产品信息</a></li>
               <li class="active"><a aria-expanded="ture" href="#tab-2" data-toggle="tab" onclick="tijiao('applicationFrom');">申请表</a></li>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('reasonsList');">审核汇总</a></li>
@@ -228,27 +240,92 @@ function tijiao(str){
                      <a class="b f18 ml10 hand" onclick="reason('${applicationForm.id }'_1);">×</a>
 	                  </h2>  
                 </div> --%>
-                
-
-                    <ul class="list-unstyled list-flow">
-                      <li class="col-md-6 p0 "><span class="">申请表：</span>
-                        <div class="input-append">
-                          <a class="span3">附件下载</a>
-                          <div  class="b f18 ml10 red fl hand">√</div>
-                          <div onclick="reason1(this);" class="b f18 ml10 fl hand">×</div>
-                        </div>
-                      </li>
-                     </ul>
-                     <ul class="list-unstyled list-flow">
-                      <li class="col-md-6 p0 "><span class="">供应商承若书：</span>
-                        <div class="input-append">
-                          <a class="span3">附件下载</a>
-                          <div class="b f18 ml10 red fl hand">√</div>
-                          <div onclick="reason1( this);" class="b f18 ml10 fl hand">×</div>
-                        </div>
-                      </li>
-                    </ul>
-
+                <ul class="list-unstyled list-flow">
+                  <li class="col-md-6 p0 "><span class="">军队供应商分级方法：</span>
+                    <div class="input-append">
+                      <c:if test="${applicationForm.supplierLevel != null}">
+                      <a class="span3" href="javascript:void(0)" onclick="downloadFile('${applicationForm.supplierLevel}')">下载附件</a>
+                      </c:if>
+                      <c:if test="${applicationForm.supplierLevel == null}">
+                        <a class="span3">无附件下载</a>
+                      </c:if>
+                      <div  class="b f18 ml10 red fl hand">√</div>
+                      <div onclick="reason1(this);" class="b f18 ml10 fl hand">×</div>
+                    </div>
+                  </li>
+                  <li class="col-md-6 p0 "><span class="">军队供应商承诺书：</span>
+                    <div class="input-append">
+                      <c:if test="${applicationForm.supplierPledge !=null}">
+                        <a class="span3" href="javascript:void(0)" onclick="downloadFile('${applicationForm.supplierPledge}')">下载附件</a>
+                      </c:if>
+                      <c:if test="${applicationForm.supplierPledge == null}">
+                        <a class="span3">无附件下载</a>
+                      </c:if>
+                      <div  class="b f18 ml10 red fl hand">√</div>
+                      <div onclick="reason1(this);" class="b f18 ml10 fl hand">×</div>
+                    </div>
+                  </li>
+                  <li class="col-md-6 p0 "><span class="">军队供应商入库申请表：</span>
+                    <div class="input-append">
+                      <c:if test="${applicationForm.supplierRegList !=null}">
+                        <a class="span3" href="javascript:void(0)" onclick="downloadFile('${applicationForm.supplierRegList}')">下载附件</a>
+                      </c:if>
+                      <c:if test="${applicationForm.supplierRegList == null}">
+                        <a class="span3">无附件下载</a>
+                      </c:if>
+                      <div  class="b f18 ml10 red fl hand">√</div>
+                      <div onclick="reason1(this);" class="b f18 ml10 fl hand">×</div>
+                    </div>
+                  </li>
+                  <li class="col-md-6 p0 "><span class="">军队供应商实地考察记录表：</span>
+                    <div class="input-append">
+                      <c:if test="${applicationForm.supplierReviewList !=null}">
+                        <a class="span3" href="javascript:void(0)" onclick="downloadFile('${applicationForm.supplierReviewList}')">下载附件</a>
+                      </c:if>
+                      <c:if test="${applicationForm.supplierReviewList == null}">
+                        <a class="span3">无附件下载</a>
+                      </c:if>
+                      <div  class="b f18 ml10 red fl hand">√</div>
+                      <div onclick="reason1(this);" class="b f18 ml10 fl hand">×</div>
+                    </div>
+                  </li>
+                  <li class="col-md-6 p0 "><span class="">军队供应商实地考察廉政意见函：</span>
+                    <div class="input-append">
+                      <c:if test="${applicationForm.supplierInspectList !=null}">
+                        <a class="span3" href="javascript:void(0)" onclick="downloadFile('${applicationForm.supplierInspectList}')">下载附件</a>
+                      </c:if>
+                      <c:if test="${applicationForm.supplierInspectList == null}">
+                        <a class="span3">无附件下载</a>
+                      </c:if>
+                      <div  class="b f18 ml10 red fl hand">√</div>
+                      <div onclick="reason1(this);" class="b f18 ml10 fl hand">×</div>
+                    </div>
+                  </li>
+                  <li class="col-md-6 p0 "><span class="">军队供应商注册变更申请表：</span>
+                    <div class="input-append">
+                      <c:if test="${applicationForm.supplierChangeList != null}">
+                        <a class="span3" href="javascript:void(0)" onclick="downloadFile('${applicationForm.supplierChangeList}')">下载附件</a>
+                      </c:if>
+                      <c:if test="${applicationForm.supplierChangeList == null}">
+                        <a class="span3">无附件下载</a>
+                      </c:if>
+                      <div  class="b f18 ml10 red fl hand">√</div>
+                      <div onclick="reason1(this);" class="b f18 ml10 fl hand">×</div>
+                    </div>
+                  </li>
+                  <li class="col-md-6 p0 "><span class="">军队供应商退库申请表：</span>
+                    <div class="input-append">
+                      <c:if test="${applicationForm.supplierExitList != null}">
+                        <a class="span3" href="javascript:void(0)" onclick="downloadFile('${applicationForm.supplierExitList}')">下载附件</a>
+                      </c:if>
+                      <c:if test="${applicationForm.supplierExitList == null}">
+                        <a class="span3">无附件下载</a>
+                      </c:if>
+                      <div  class="b f18 ml10 red fl hand">√</div>
+                      <div onclick="reason1(this);" class="b f18 ml10 fl hand">×</div>
+                    </div>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
@@ -256,5 +333,9 @@ function tijiao(str){
       </div>
     </div>
   </div>
+  <form target="_blank" id="download_form_id" action="${pageContext.request.contextPath}/supplierAudit/download.html" method="post">
+   <input type="hidden" name="fileName" />
+  </form>
+  <jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
 </body>
 </html>

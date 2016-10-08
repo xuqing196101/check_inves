@@ -458,11 +458,14 @@ public class Supplier implements Serializable {
 	private Date endDate;
 
 	private String supplierType;
-	
+
 	private List<String> item;
-	
+
 	private Integer count;
-	
+
+	private Integer score = 0;
+
+	private List<SupplierItem> listSupplierItems = new ArrayList<SupplierItem>();
 
 	public Integer getCount() {
 		return count;
@@ -1006,5 +1009,21 @@ public class Supplier implements Serializable {
 
 	public void setSupplierItemIds(String supplierItemIds) {
 		this.supplierItemIds = supplierItemIds;
+	}
+
+	public Integer getScore() {
+		return score;
+	}
+
+	public void setScore(Integer score) {
+		this.score = score;
+	}
+
+	public List<SupplierItem> getListSupplierItems() {
+		return listSupplierItems;
+	}
+
+	public void setListSupplierItems(List<SupplierItem> listSupplierItems) {
+		this.listSupplierItems = listSupplierItems;
 	}
 }

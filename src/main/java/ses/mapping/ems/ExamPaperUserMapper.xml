@@ -166,6 +166,7 @@
   			ID as id,
   			USER_ID as userId,
   			PAPER_ID as paperId,
+  			IS_DO as isDo,
   			UNIT_NAME as unitName,
   			CARD as card
   		FROM
@@ -225,5 +226,20 @@
   <!-- 查出所有的考卷的参考人员 -->
   <select id="findAll" resultMap="BaseResultMap">
   		SELECT * FROM T_SES_EMS_EXAM_PAPER_USER
+  </select>
+  
+  <!-- 根据userId和paperId判断用户可不可以再次登录 -->
+  <select id="findIsExamByCondition" parameterType="java.util.Map" resultType="ses.model.ems.ExamPaperUser">
+  		SELECT 
+  			ID as id,
+  			USER_ID as userId,
+  			PAPER_ID as paperId,
+  			IS_DO as isDo
+  		FROM
+  			T_SES_EMS_EXAM_PAPER_USER
+  		WHERE
+  			USER_ID = #{userId}
+  		AND 
+  			PAPER_ID = #{paperId} 	
   </select>
 </mapper>

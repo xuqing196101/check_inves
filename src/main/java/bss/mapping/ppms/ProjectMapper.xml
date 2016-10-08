@@ -44,11 +44,124 @@
     PURCHASE_DEP_ID, DEADLINE, DATE_OF_ENTRUSTMENT, BID_DATE, BID_ADDRESS, REQUIERED_ID,BALE_NO,
     AMOUNT,DEAL_SUPPLIER,PURCHASE_DEP_NAME,EXECUTE_STATUS
   </sql>
+  
+  <sql id="Example_Where_Clause">
+    where 
+    <trim suffixOverrides=",">
+      <if test="id != null and id != ''">
+         p.ID = #{id} 
+      </if>
+      <if test="name != null and name != ''">
+        and p.NAME = #{name} 
+      </if>
+      <if test="projectNumber != null and projectNumber != ''">
+        and p.PROJECT_NUMBER = #{projectNumber} 
+      </if>
+      <if test="status != null">
+        and p.STATUS = #{status} 
+      </if>
+      <if test="principal != null and principal != ''">
+        and p.PRINCIPAL = #{principal}
+      </if>
+      <if test="ipone != null and ipone != ''">
+        and p.IPONE = #{ipone} 
+      </if>
+      <if test="linkman != null and linkman != ''">
+        and p.LINKMAN = #{linkman}
+      </if> 
+      <if test="linkmanIpone != null and linkmanIpone != ''">
+        and p.LINKMAN_IPONE = #{linkmanIpone}
+      </if>
+      <if test="bidUnit != null and bidUnit != ''">
+        and p.BID_UNIT = #{bidUnit}
+      </if>
+      <if test="address != null and address != ''">
+        and p.ADDRESS = #{address}
+      </if>
+      <if test="postcode != null">
+        and p.POSTCODE= #{postcode}
+      </if>
+      <if test="supplierNumber != null">
+        and p.SUPPLIER_NUMBER = #{supplierNumber} 
+      </if>
+      <if test="offerStandard != null">
+        and p.OFFER_STANDARD = #{offerStandard} 
+      </if>
+      <if test="prIntroduce != null and prIntroduce != ''">
+        and p.PR_INTRODUCE = #{prIntroduce} 
+      </if>
+      <if test="budgetAmount != null and budgetAmount != ''">
+        and p.BUDGET_AMOUNT = #{budgetAmount}
+      </if>
+      <if test="passWord != null and passWord != ''">
+        and p.PASS_WORD = #{passWord}
+      </if>
+      <if test="scoringRubric != null and scoringRubric != ''">
+        and p.SCORING_RUBRIC = #{scoringRubric}
+      </if>
+      <if test="operator != null and operator != ''">
+        and p.OPERATOR= #{operator}
+      </if>
+      <if test="divisionOfWork != null and divisionOfWork != ''">
+        and p.DIVISION_OF_WORK = #{divisionOfWork} 
+      </if>
+      <if test="purchaseType != null and purchaseType != ''">
+        and p.PURCHASE_TYPE = #{purchaseType} 
+      </if>
+      <if test="materialsType != null and materialsType != ''">
+        and p.MATERIALS_TYPE = #{materialsType} 
+      </if>
+      <if test="sectorOfDemand != null and sectorOfDemand != ''">
+        and p.SECTOR_OF_DEMAND = #{sectorOfDemand}
+      </if>
+      <if test="purchaseDep != null and purchaseDep != ''">
+        and p.PURCHASE_DEP_ID = #{purchaseDep.id}
+      </if>
+      <if test="deadline != null">
+        and p.DEADLINE = #{deadline} 
+      </if>
+      <if test="dateOfEntrustment != null">
+        and p.DATE_OF_ENTRUSTMENT = #{dateOfEntrustment} 
+      </if>
+      <if test="bidDate != null">
+        and p.BID_DATE = #{bidDate} 
+      </if>
+      <if test="bidAddress != null and bidAddress != ''">
+        and p.BID_ADDRESS = #{bidAddress}
+      </if>
+      <if test="requieredId != null and requieredId != ''">
+        and p.REQUIERED_ID = #{requieredId}
+      </if>
+      <if test="baleNo != null and baleNo != ''">
+        and p.BALE_NO = #{baleNo} 
+      </if>
+      <if test="amount != null">
+        and p.AMOUNT = #{amount} 
+      </if>
+      <if test="purchaseDepName != null and purchaseDepName != ''">
+        and p.DEAL_SUPPLIER = #{purchaseDepName} 
+      </if>
+      <if test="dealSupplier != null and dealSupplier != ''">
+        and p.PURCHASE_DEP_NAME = #{dealSupplier.id}
+      </if>
+      <if test="executeStatus != null and executeStatus != ''">
+        and p.EXECUTE_STATUS = #{executeStatus}
+      </if>
+    </trim>
+  </sql>
+  
   <select id="selectProjectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_PROJECTS
     where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByList" parameterType="Object" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PPMS_PROJECTS p
+    <include refid="Example_Where_Clause"/>
   </select>
   
   <!-- 查看成功的项目 -->

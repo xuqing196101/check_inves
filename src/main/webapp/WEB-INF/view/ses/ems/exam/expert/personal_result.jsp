@@ -4,8 +4,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <title>成绩查询</title>
-
+    <title>专家个人成绩信息</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -50,8 +49,8 @@
    			<table class="table table-bordered table-condensed table-hover">
 				<thead>
 					<tr class="info">
-						<th>序号</th>
-					    <th width="50">专家姓名</th>
+						<th width="50">序号</th>
+					    <th width="150">专家姓名</th>
 						<th width="100">得分</th>
 						<th>考试状态</th>
 					    <th>考试时间</th>

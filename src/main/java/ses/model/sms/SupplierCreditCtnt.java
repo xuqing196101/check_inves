@@ -37,6 +37,8 @@ public class SupplierCreditCtnt implements Serializable {
 	 */
 	private Integer score;
 
+	private String supplierCreditName;
+
 	public String getId() {
 		return id;
 	}
@@ -67,5 +69,13 @@ public class SupplierCreditCtnt implements Serializable {
 
 	public void setScore(Integer score) {
 		this.score = score;
+	}
+
+	public String getSupplierCreditName() {
+		return supplierCreditName;
+	}
+
+	public void setSupplierCreditName(String supplierCreditName) {
+		this.supplierCreditName = supplierCreditName;
 	}
 }

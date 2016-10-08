@@ -88,7 +88,8 @@
 		  		<input class="w50 mt5" type="text" name="expirySecond" id="expirySecond"/>分钟
 	  		</li>
 	  		
-	  		--%><li class="col-md-12 p0">
+	  		--%>
+	  		<li class="col-md-12 p0">
 	  			<span class="fl mb5">允许30分钟内重考：</span>
 		  		<input class="mt0" type="checkbox" name="isAllow" id="isAllowTrue" value="是">是
     			<input class="mt0" type="checkbox" name="isAllow" id="isAllowFalse" value="否"/>否
