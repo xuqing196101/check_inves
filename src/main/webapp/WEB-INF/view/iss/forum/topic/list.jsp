@@ -125,13 +125,13 @@
     
 	//鼠标移动显示全部内容
 	function out(content){
-	if(content.length>10){
-	layer.msg(content, {
-			icon:6,
-			shade:false,
-			area: ['600px'],
-			time : 1000    //默认消息框不关闭
-		});//去掉msg图标
+	if(content.length >= 10){
+	    layer.msg(content, {
+            skin: 'demo-class',
+            shade:false,
+            area: ['600px'],
+            time : 0    //默认消息框不关闭
+        });//去掉msg图标
 	}else{
 		layer.closeAll();//关闭消息框
 	}

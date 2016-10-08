@@ -36,8 +36,6 @@
   <script type="text/javascript">
   $(function(){
       $("#parkId").val("${parkId}");
-      $("#topicId").val("${topicId}"); 
-      var searchType ="${searchType}";
       //$("#topicId").append("<option value = '"+${topicId}+"'>"+${topicName}+"</option>");
       laypage({
           cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
@@ -56,24 +54,12 @@
                 if(!first){ //一定要加此判断，否则初始时会无限刷新
                     //var postName = "${postName}";
                     var parkId = "${parkId}";
-                    var topicId = "${topicId}";
-                    var searchType ="${searchType}";
-                    location.href = "<%=basePath%>post/getIndexlist.do?parkId="+parkId+"&topicId="+topicId+"&searchType="+searchType+"&page="+e.curr;
+                    location.href = "<%=basePath%>post/getHotlist.do?parkId="+parkId+"&page="+e.curr;
                 }
             }
         });
   });
   
-  function search(topicId){
-	  var parkId = "${parkId}";
-	  location.href = "<%=basePath%>post/getIndexlist.do?parkId="+parkId+"&topicId="+topicId;
-  }
-  function searchType(type){
-	  var parkId = "${parkId}";
-      var topicId = "${topicId}";
-      var searchType = type;
-      location.href = "<%=basePath%>post/getIndexlist.do?parkId="+parkId+"&topicId="+topicId+"&searchType="+searchType;
-  }
  </script>
   </head>
     
@@ -83,7 +69,7 @@
      <div class="margin-top-10 breadcrumbs ">
       <div class="container">
            <ul class="breadcrumb margin-left-0">
-           <li><a href="<%=basePath %>park/getIndex.do"> 论坛首页</a></li><li><a href="<%=basePath %>post/getIndexlist.html?parkId=${park.id }">${park.name}</a></li>
+           <li><a href="<%=basePath %>park/getIndex.do"> 论坛首页</a></li><li><a href="<%=basePath%>post/getHotlist.do">社区精华帖</a></li>
            </ul>
         <div class="clear"></div>
       </div>
@@ -91,19 +77,6 @@
     <div class="container content height-350 job-content ">
 
 <div class="home_suggest_topics panel panel-default">
-  <div class="panel-heading panel-title">  
-   <div class="fl">
-      <c:forEach items="${topics}" var="topic">
-          <Button  value="${topic.id}" onclick="search('${topic.id}')" class="btn">${topic.name}</Button>
-      </c:forEach> 
-   </div>
-   <div class="fr">
-   <Button class="btn" onclick="searchType('retime')" value="time">最新回复</Button>
-   <Button class="btn" onclick="searchType('pubtime')" value="time">最新发布</Button>
-   <Button class="btn" onclick="searchType('hot')" value ="hot">热帖排行</Button>
-   </div>
-   <div class="clear"></div>
- </div>
 
   <div class="panel-body topics row">
   

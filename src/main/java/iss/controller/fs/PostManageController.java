@@ -254,12 +254,14 @@ public class PostManageController {
 		if(topicId != null && topicId!=""){
 			map.put("topicId", topicId);
 		}
-		if(searchType == null || searchType=="" ||searchType.equals("time")){
-			map.put("searchType", "time");
-		}else {
+		if(searchType == null || searchType=="" ||searchType.equals("pubtime")){
+			map.put("searchType", "pubtime");
+		}else if (searchType.equals("retime")) {
+			map.put("searchType", "retime");
+		}else if(searchType.equals("hot")){
 			map.put("searchType", "hot");
 		}
-		System.out.println(map.get("searchType"));
+
 		map.put("page",page.toString());
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
@@ -274,6 +276,31 @@ public class PostManageController {
 		model.addAttribute("searchType", searchType);
 		return "iss/forum/list";
 	}
+	
+	/**
+	* @Title: getHotList
+	* @author Peng Zhongjun
+	* @date 2016-10-4 上午10:05:43  
+	* @Description: 查询所有热门帖子表 
+	* @param @param model
+	* @param @param request
+	* @param @param page
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
+	@RequestMapping("/getHotlist")
+	public String getHotList(Model model,HttpServletRequest request, Integer page) throws Exception{	
+		if(page==null){
+			page=1;
+		}
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		List<Post> list = postService.queryAllHotPost();
+		model.addAttribute("list", new PageInfo<Post>(list));
+		return "iss/forum/hot_post_list";
+	}
+	
 	/**   
 	* @Title: getIndexDetail
 	* @author Peng Zhongjun
@@ -323,7 +350,7 @@ public class PostManageController {
 
 		model.addAttribute("parks", parks);
 
-		return "iss/forum/publishpost";
+		return "iss/forum/publish_post";
 	}
 	/**   
 	* @Title: indexsave

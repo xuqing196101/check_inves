@@ -88,7 +88,7 @@ public class ParkManageController {
 			park2.setReplycount(replycount);
 		}	
 		model.addAttribute("list", new PageInfo<Park>(parklist));
-		return "iss/forum/park/parklist";
+		return "iss/forum/park/list";
 	}
 
 	/**
@@ -293,7 +293,7 @@ public class ParkManageController {
 		model.addAttribute("forumIndexMapper", forumIndexMapper);
 		model.addAttribute("hotPostList", hotPostList);
 		model.addAttribute("list", parklist);
-		return "iss/forum/forumIndex";
+		return "iss/forum/forum_Index";
 	}
 	
 }
