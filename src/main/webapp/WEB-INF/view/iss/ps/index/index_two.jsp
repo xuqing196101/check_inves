@@ -24,6 +24,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="<%=basePath%>public/ZHQ/css/line-icons.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHQ/css/app.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHQ/css/application.css" media="screen" rel="stylesheet">
+<link href="<%=basePath%>public/ZHQ/css/blocks.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHQ/css/header-v4.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHQ/css/footer-v2.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHQ/css/img-hover.css" media="screen" rel="stylesheet">
@@ -43,6 +44,9 @@ $(function(){
 		    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
 		    skip: true, //是否开启跳页
 		    groups: "${pages}">=3?3:"${pages}", //连续显示分页数
+    		total: "${total}",
+		    startRow: "${startRow}",
+		    endRow : "${endRow}",
 		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
 		        var page = location.search.match(/page=(\d+)/);
 		        return page ? page[1] : 1;

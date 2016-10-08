@@ -1,22 +1,30 @@
 package bss.controller.cs;
 
+import iss.model.ps.ArticleType;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import ses.model.sms.Supplier;
-import ses.service.sms.SupplierService;
+import com.github.pagehelper.PageInfo;
+
+import bss.model.cs.ContractRequired;
 import bss.model.cs.PurchaseContract;
 import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.Project;
+import bss.service.cs.ContractRequiredService;
 import bss.service.cs.PurchaseContractService;
 import bss.service.pms.PurchaseRequiredService;
 import bss.service.ppms.ProjectService;
@@ -36,17 +44,18 @@ public class PurchaseContractController {
 	private PurchaseContractService purchaseContractService;
 	
 	@Autowired
-	private SupplierService supplierService;
-	
-	@Autowired
 	private ProjectService projectService;
 	
 	@Autowired
 	private PurchaseRequiredService purchaseRequiredService;
 	
+	@Autowired
+	private ContractRequiredService contractRequiredService;
+	
 	@RequestMapping("/selectAllPuCon")
-	public String selectAllPurchaseContract(Model model) throws Exception{
-		List<Project> projectList = projectService.selectSuccessProject();
+	public String selectAllPurchaseContract(Integer page,Model model,Project project) throws Exception{
+		List<Project> projectList = projectService.selectSuccessProject(page==null?1:page,project);
+		model.addAttribute("list", new PageInfo<Project>(projectList));
 		model.addAttribute("projectList", projectList);
 		return "bss/cs/purchaseContract/list";
 	}
@@ -103,10 +112,23 @@ public class PurchaseContractController {
 		model.addAttribute("planNos", planNos);
 		return "bss/cs/purchaseContract/textContract";
 	}
-	
+
 	@RequestMapping("/addPurchaseContract")
-	public String addPurchaseContract(HttpServletRequest request,PurchaseContract purCon,List<PurchaseRequired> proList){
-		System.out.println(111);
-		return null;
+	public String addPurchaseContract(@Valid PurchaseContract purCon,BindingResult result,ProList proList,HttpServletRequest request,Model model){
+		if(result.hasErrors()){
+			List<FieldError> errors = result.getFieldErrors();
+			for(FieldError fieldError:errors){
+				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
+			}
+		}
+		purCon.setStatus(1);
+		purchaseContractService.insertSelective(purCon);
+		String id = purCon.getId();
+		List<ContractRequired> requList = proList.getProList();
+		for(ContractRequired conRequ:requList){
+			conRequ.setContractId(id);
+			contractRequiredService.insertSelective(conRequ);
+		}
+		return "redirect:selectAllPuCon.html";
 	}
 }

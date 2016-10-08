@@ -35,6 +35,7 @@
     <result column="SUPPLIER_BANK_ACCOUNT" jdbcType="DECIMAL" property="supplierBankAccount" />
     <result column="SUPPLIER_BANK_NAME" jdbcType="VARCHAR" property="supplierBankName" />
     <result column="SUPPLIER_PUR_ID" jdbcType="VARCHAR" property="supplierPurId"/>
+    <result column="CONTENT" jdbcType="VARCHAR" property="content"/>
   </resultMap>
   <sql id="Base_Column_List">
     ID, CODE, NAME, MONEY, DEMAND_SECTOR, BUDGET, YEAR, BUDGET_SUBJECT_ITEM, APPROVAL_NUMBER, 
@@ -42,7 +43,8 @@
     PURCHASE_CONTACT, PURCHASE_CONTACT_TELEPHONE, PURCHASE_CONTACT_ADDRESS, PURCHASE_UNITPOST_CODE, 
     PURCHASE_PAY_DEP, PURCHASE_BANK, PURCHASE_BANK_ACCOUNT, SUPPLIER_DEP_NAME, SUPPLIER_LEGAL, 
     SUPPLIER_AGENT, SUPPLIER_CONTACT, SUOPPLIER_CONTACT_TELEPHONE, SUPPLIER_CONTACT_ADDRESS, 
-    SUPPLIER_UNITPOST_CODE, SUPPLIER_BANK, SUPPLIER_BANK_ACCOUNT, SUPPLIER_BANK_NAME,SUPPLIER_PUR_ID
+    SUPPLIER_UNITPOST_CODE, SUPPLIER_BANK, SUPPLIER_BANK_ACCOUNT, SUPPLIER_BANK_NAME,SUPPLIER_PUR_ID,
+    CONTENT
   </sql>
   <select id="selectContractByid" parameterType="java.lang.String" resultMap="purContractMap">
     select 
@@ -79,7 +81,8 @@
       SUPPLIER_DEP_NAME, SUPPLIER_LEGAL, SUPPLIER_AGENT, 
       SUPPLIER_CONTACT, SUOPPLIER_CONTACT_TELEPHONE, 
       SUPPLIER_CONTACT_ADDRESS, SUPPLIER_UNITPOST_CODE, 
-      SUPPLIER_BANK, SUPPLIER_BANK_ACCOUNT, SUPPLIER_BANK_NAME,SUPPLIER_PUR_ID
+      SUPPLIER_BANK, SUPPLIER_BANK_ACCOUNT, SUPPLIER_BANK_NAME,SUPPLIER_PUR_ID,
+      CONTENT
       )
     values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{money,jdbcType=DECIMAL}, #{demandSector,jdbcType=VARCHAR}, #{budget,jdbcType=DECIMAL}, 
@@ -93,10 +96,13 @@
       #{supplierContact,jdbcType=VARCHAR}, #{suopplierContactTelephone,jdbcType=VARCHAR}, 
       #{supplierContactAddress,jdbcType=VARCHAR}, #{supplierUnitpostCode,jdbcType=VARCHAR}, 
       #{supplierBank,jdbcType=VARCHAR}, #{supplierBankAccount,jdbcType=DECIMAL}, #{supplierBankName,jdbcType=VARCHAR},
-      #{supplierPurId,jdbcType=VARCHAR}
+      #{supplierPurId,jdbcType=VARCHAR},#{content,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="bss.model.cs.PurchaseContract">
+  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
     insert into T_BSS_CS_PURCHASE_CONTRACT
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -197,6 +203,9 @@
       </if>
       <if test="supplierBankName != null">
         SUPPLIER_PUR_ID,
+      </if>
+      <if test="content != null">
+        CONTENT,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -299,6 +308,9 @@
       <if test="supplierPurId != null">
         #{supplierPurId,jdbcType=VARCHAR},
       </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="bss.model.cs.PurchaseContract">
@@ -400,6 +412,9 @@
       <if test="supplierPurId != null">
         SUPPLIER_PUR_ID = #{supplierPurId,jdbcType=VARCHAR},
       </if>
+      <if test="content != null">
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -436,7 +451,8 @@
       SUPPLIER_BANK = #{supplierBank,jdbcType=VARCHAR},
       SUPPLIER_BANK_ACCOUNT = #{supplierBankAccount,jdbcType=DECIMAL},
       SUPPLIER_BANK_NAME = #{supplierBankName,jdbcType=VARCHAR},
-      SUPPLIER_PUR_ID = #{supplierPurId,jdbcType=VARCHAR}
+      SUPPLIER_PUR_ID = #{supplierPurId,jdbcType=VARCHAR},
+      CONTENT = #{content,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

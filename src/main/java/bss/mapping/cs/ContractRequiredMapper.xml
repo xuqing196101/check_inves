@@ -13,7 +13,7 @@
     <result column="AMOUNT" jdbcType="DECIMAL" property="amount" />
     <result column="DELIVER_DATE" jdbcType="VARCHAR" property="deliverDate" />
     <result column="MEMO" jdbcType="VARCHAR" property="memo" />
-    <association property="purchaseContract" column="CONTRACT_ID" select="bss.dao.PurchaseContractMapper.selectContractByid"/>
+    <result column="CONTRACT_ID" jdbcType="VARCHAR" property="contractId" />
   </resultMap>
   <sql id="Base_Column_List">
     ID, PLAN_NO, GOODS_NAME, BRAND, STAND, ITEM, PURCHASE_COUNT, PRICE, AMOUNT, DELIVER_DATE, 
@@ -42,6 +42,9 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="bss.model.cs.ContractRequired">
+    <selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
     insert into T_BSS_CS_CONTRACT_REQUIRED
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -77,7 +80,7 @@
       <if test="memo != null">
         MEMO,
       </if>
-      <if test="purchaseContract != null">
+      <if test="contractId != null">
         CONTRACT_ID,
       </if>
     </trim>
@@ -115,8 +118,8 @@
       <if test="memo != null">
         #{memo,jdbcType=VARCHAR},
       </if>
-      <if test="purchaseContract != null">
-        #{purchaseContract.id,jdbcType=VARCHAR},
+      <if test="contractId != null">
+        #{contractId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -153,8 +156,8 @@
       <if test="memo != null">
         MEMO = #{memo,jdbcType=VARCHAR},
       </if>
-      <if test="purchaseContract != null">
-        CONTRACT_ID = #{purchaseContract.id,jdbcType=VARCHAR},
+      <if test="contractId != null">
+        CONTRACT_ID = #{contractId,jdbcType=VARCHAR},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
@@ -171,7 +174,7 @@
       AMOUNT = #{amount,jdbcType=DECIMAL},
       DELIVER_DATE = #{deliverDate,jdbcType=VARCHAR},
       MEMO = #{memo,jdbcType=VARCHAR},
-      CONTRACT_ID = #{purchaseContract.id,jdbcType=VARCHAR}
+      CONTRACT_ID = #{contractId,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

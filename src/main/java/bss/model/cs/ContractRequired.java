@@ -26,7 +26,7 @@ public class ContractRequired {
 
     private String memo;
 
-    private PurchaseContract purchaseContract;
+    private String contractId;
 
     public String getId() {
         return id;
@@ -116,11 +116,11 @@ public class ContractRequired {
         this.memo = memo == null ? null : memo.trim();
     }
 
-	public PurchaseContract getPurchaseContract() {
-		return purchaseContract;
+	public String getContractId() {
+		return contractId;
 	}
 
-	public void setPurchaseContract(PurchaseContract purchaseContract) {
-		this.purchaseContract = purchaseContract;
+	public void setContractId(String contractId) {
+		this.contractId = contractId;
 	}
 }

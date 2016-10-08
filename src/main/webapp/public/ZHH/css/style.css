@@ -1756,3 +1756,20 @@ img.img-mouse {
 	padding:0px;
 	list-style:none; 
 }
+.list-flow li{
+	position:relative;
+}
+.validate{
+	font-size:12px;
+	position:absolute;
+	left:430px;
+	top:5px;
+	color:#ef0000;
+}
+/*非空提示星号*/
+.star_red{
+	width: 10px;
+    height: 30px;
+    margin-right: 5px;
+    display: inline-block;
+}

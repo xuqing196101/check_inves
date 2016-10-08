@@ -3,74 +3,117 @@ package bss.model.cs;
 import java.math.BigDecimal;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.NotBlank;
+
 public class PurchaseContract {
     private String id;
-
+    
+    @NotBlank(message = "合同编号不能为空")
     private String code;
-
+    
+    @NotBlank(message = "合同名称不能为空")
     private String name;
-
+    
+    @NotNull(message = "合同金额不能为空")
+    @Pattern(regexp = "/^([1-9][\\d]{0,7}|0)(\\.[\\d]{1,2})?$/",message="请输入正确的合同金额")
     private BigDecimal money;
-
+    
+    @NotBlank(message = "需求部门不能为空")
     private String demandSector;
-
+    
+    @Pattern(regexp = "/^([1-9][\\d]{0,7}|0)(\\.[\\d]{1,2})?$/",message="请输入正确的预算金额")
     private BigDecimal budget;
-
-    private Short year;
+    
+    @Pattern(regexp = "/^(19|20)\\d{2}$/",message="请输入正确的年份")
+    private BigDecimal year;
 
     private String budgetSubjectItem;
-
+    
     private String approvalNumber;
-
+    
+    @NotBlank(message = "计划任务文号不能为空")
     private String documentNumber;
-
+    
+    @NotBlank(message = "采购机构文号不能为空")
     private String quaCode;
-
-    private Short status;
-
+    
+    private Integer status;
+    
+    @NotBlank(message = "甲方单位不能为空")
     private String purchaseDepName;
-
+    
+    @NotBlank(message = "甲方法人不能为空")
     private String purchaseLegal;
-
+    
+    @NotBlank(message = "甲方委托代理人不能为空")
     private String purchaseAgent;
-
+    
+    @NotBlank(message = "甲方联系人不能为空")
     private String purchaseContact;
-
+    
+    @NotBlank(message = "甲方联系电话不能为空")
+    @Pattern(regexp = "/^((0\\d{2,3}-\\d{7,8})|(1[3584]\\d{9}))$/",message = "请输入正确的联系电话")
     private String purchaseContactTelephone;
-
+    
+    @NotBlank(message = "甲方地址不能为空")
     private String purchaseContactAddress;
-
+    
+    @NotBlank(message = "甲方邮编不能为空")
+    @Pattern(regexp = "[1-9]\\d{5}(?!\\d)",message = "请输入正确的邮编")
     private String purchaseUnitpostCode;
-
+    
+    @NotBlank(message = "甲方付款单位不能为空")
     private String purchasePayDep;
-
+    
+    @NotBlank(message = "甲方开户银行不能为空")
     private String purchaseBank;
-
+    
+    @NotNull(message = "甲方银行账号不能为空")
+    @Pattern(regexp = " /^(\\d{16}|\\d{19})$/",message = "请输入正确的银行账号")
     private BigDecimal purchaseBankAccount;
-
+    
+    @NotBlank(message = "乙方单位不能为空")
     private String supplierDepName;
-
+    
+    @NotBlank(message = "乙方法人不能为空")
     private String supplierLegal;
-
+    
+    @NotBlank(message = "乙方委托代理人不能为空")
     private String supplierAgent;
-
+    
+    @NotBlank(message = "乙方联系人不能为空")
     private String supplierContact;
-
+    
+    @NotBlank(message = "乙方联系电话不能为空")
+    @Pattern(regexp = "/^((0\\d{2,3}-\\d{7,8})|(1[3584]\\d{9}))$/",message = "请输入正确的联系电话")
     private String suopplierContactTelephone;
 
+    @NotBlank(message = "乙方地址不能为空")
     private String supplierContactAddress;
-
+    
+    @NotBlank(message = "乙方邮编不能为空")
+    @Pattern(regexp = "[1-9]\\d{5}(?!\\d)",message = "请输入正确的邮编")
     private String supplierUnitpostCode;
-
+    
+    @NotBlank(message = "乙方开户银行不能为空")
     private String supplierBank;
-
+    
+    @NotNull(message = "乙方银行账号不能为空")
+    @Pattern(regexp = " /^(\\d{16}|\\d{19})$/",message = "请输入正确的银行账号")
     private BigDecimal supplierBankAccount;
-
+    
+    @NotBlank(message = "乙方开户名称不能为空")
     private String supplierBankName;
     
     private List<ContractRequired> contractReList;
     
     private String supplierPurId;
+    
+    @NotBlank(message = "合同正文不能为空")
+    private String content;
 
     public String getId() {
         return id;
@@ -120,15 +163,15 @@ public class PurchaseContract {
         this.budget = budget;
     }
 
-    public Short getYear() {
-        return year;
-    }
+    public BigDecimal getYear() {
+		return year;
+	}
 
-    public void setYear(Short year) {
-        this.year = year;
-    }
+	public void setYear(BigDecimal year) {
+		this.year = year;
+	}
 
-    public String getBudgetSubjectItem() {
+	public String getBudgetSubjectItem() {
         return budgetSubjectItem;
     }
 
@@ -160,15 +203,15 @@ public class PurchaseContract {
         this.quaCode = quaCode == null ? null : quaCode.trim();
     }
 
-    public Short getStatus() {
-        return status;
-    }
+    public Integer getStatus() {
+		return status;
+	}
 
-    public void setStatus(Short status) {
-        this.status = status;
-    }
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
 
-    public String getPurchaseDepName() {
+	public String getPurchaseDepName() {
         return purchaseDepName;
     }
 
@@ -342,5 +385,13 @@ public class PurchaseContract {
 
 	public void setSupplierPurId(String supplierPurId) {
 		this.supplierPurId = supplierPurId;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
 	}
 }

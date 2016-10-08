@@ -9,11 +9,14 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.github.pagehelper.PageInfo;
@@ -81,8 +84,6 @@ public class ArticleTypeController {
 			articletypes.remove(child);
 		}
 		Boolean b = articletypes.remove(articletype);
-		System.out.println(b);
-		System.out.println(articletypes.size());
 		model.addAttribute("articletype", articletype);
 		model.addAttribute("list", articletypes);
 		return "iss/ps/articletype/edit";
@@ -97,16 +98,31 @@ public class ArticleTypeController {
 	 * @return String
 	 */
 	@RequestMapping("/update")
-	public String update(HttpServletRequest request, ArticleType articleType) {
-		Timestamp ts = new Timestamp(new Date().getTime());
-		articleType.setUpdatedAt(ts);
+	public String update(@Valid ArticleType articleType,BindingResult result,HttpServletRequest request,Model model) {
+		List<ArticleType> articletypes = articleTypeService.getAll();
 		String id = request.getParameter("articletypeId");
-		articleType.setId(id);
-		System.out.println(articleType);
-		ArticleType parentArticleType = articleTypeService.selectTypeByPrimaryKey(request.getParameter("parentId")) ;
-		articleType.setParent(parentArticleType);
-		articleTypeService.updateByPrimaryKey(articleType);	
-		return "redirect:getAll.html";
+		if(result.hasErrors()){
+			List<FieldError> errors = result.getFieldErrors();
+			for(FieldError fieldError:errors){
+				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
+			}
+			List<ArticleType> children = articleTypeService.selectArticleTypesByParentId(id);
+			for (ArticleType child : children) {
+				articletypes.remove(child);
+			}
+			ArticleType articletype = articleTypeService.selectTypeByPrimaryKey(id);
+			model.addAttribute("articletype", articleType);
+			model.addAttribute("list", articletypes);
+			return "iss/ps/articletype/edit";
+		}else{
+			Timestamp ts = new Timestamp(new Date().getTime());
+			articleType.setUpdatedAt(ts);
+			articleType.setId(id);
+			ArticleType parentArticleType = articleTypeService.selectTypeByPrimaryKey(articleType.getParent().getId()) ;
+			articleType.setParent(parentArticleType);
+			articleTypeService.updateByPrimaryKey(articleType);	
+			return "redirect:getAll.html";
+		}
 	}
 	
 }

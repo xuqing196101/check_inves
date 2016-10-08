@@ -230,12 +230,13 @@
 <!-- 新增模板开始-->
    <div class="container">
    		<form id="contractForm" action="<%=basePath%>purchaseContract/addPurchaseContract.html" method="post">
+   		<input type="hidden" name="supplierPurId" value="${project.dealSupplier.procurementDepId}"/>
    		<div class="headline-v2">
    			<h2>基本信息</h2>
    		</div>
    		<ul class="list-unstyled list-flow p0_20">
    			<input type="hidden" class="contract_id" name="contract_id">
-		     <li class="col-md-6  p0 ">
+		     <li class="col-md-6 p0 ">
 			   <span class="">合同名称：</span>
 			   <div class="input-append">
 		        <input class="span2 contract_code" id="contract_code" value="${project.name}" name="name" type="text">
@@ -414,7 +415,7 @@
 			<input type="button" class="btn btn-windows add" onclick="openDetail()" value="添加"/>
 			<input type="button" class="btn btn-windows delete" onclick="delDetail()" value="删除"/>
 		</div>
-    	<table id="detailtable" name="" class="table table-bordered table-condensed mt5">
+    	<table id="detailtable" name="" class="table table-bordered table-condensed mb0">
 		 <thead>
 			<tr>
 				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
@@ -435,16 +436,16 @@
 			<tr>
 				<td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
 				<td class="tc w50">${(vs.index+1)}</td>
-				<td class="tc"><input type="text" name="proList[${(vs.index+1)}].planNo" value="${reque.planNo}"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index+1)}].goodsName" value="${reque.goodsName}"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index+1)}].brand" value="${reque.brand}"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index+1)}].stand" value="${reque.stand}"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index+1)}].item" value="${reque.item}"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index+1)}].purchaseCount" value="${reque.purchaseCount}"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index+1)}].price" value="${reque.price}"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index+1)}].amount" value="${reque.budget}"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index+1)}].deliverDate" value="${reque.deliverDate}"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index+1)}].memo" value="${reque.memo}"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].planNo" value="${reque.planNo}"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].goodsName" value="${reque.goodsName}"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].brand" value="${reque.brand}"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].stand" value="${reque.stand}"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].item" value="${reque.item}"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].purchaseCount" value="${reque.purchaseCount}"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].price" value="${reque.price}"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].amount" value="${reque.budget}"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].deliverDate" value="${reque.deliverDate}"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].memo" value="${reque.memo}"/></td>
 			</tr>
    		</c:forEach>
 	</table>
@@ -453,8 +454,10 @@
     <div class="headline-v2">
    		<h2>合同正文</h2>
    	</div>
-   	<div class="fl mt5 col-md-9 p0">
+   	<div class="container">
+   	  <div class="p10_25 col-md-11">
        <script id="editor" name="content" type="text/plain" class= ""></script>
+      </div>
     </div>
   		<div  class="col-md-12 tc mt20">
    			<input type="button" class="btn btn-windows save" onclick="staging()" value="暂存"/>

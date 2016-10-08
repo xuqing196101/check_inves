@@ -37,6 +37,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHQ/js/bootstrap.min.js"></script>
 <script src="<%=basePath%>public/layer/layer.js"></script>
 <script type="text/javascript">
+$(function(){
+	$(document).keyup(function(event){
+	  if(event.keyCode ==13){
+	    login();
+	  }
+	});
+})
+
 function login(){
 	if($("#inputEmail").val()==""){
 		layer.tips("请输入用户名","#inputEmail",{

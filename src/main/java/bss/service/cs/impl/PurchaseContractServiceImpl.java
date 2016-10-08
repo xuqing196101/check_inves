@@ -22,6 +22,7 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 
 	@Override
 	public int insertSelective(PurchaseContract record) {
+		purchaseContractMapper.insertSelective(record);
 		return 0;
 	}
 	

@@ -21,5 +21,5 @@ public interface ProjectMapper {
     
     List<Project> selectByTask(String id);
     
-    List<Project> selectSuccessProject();
+    List<Project> selectSuccessProject(Project project);
 }

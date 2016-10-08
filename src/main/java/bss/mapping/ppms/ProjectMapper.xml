@@ -31,6 +31,7 @@
     <result column="REQUIERED_ID"  property="requieredId" />
     <result column="BALE_NO"  property="baleNo" />
     <result column="AMOUNT" property="amount" />
+    <result column="PURCHASE_DEP_NAME" property="purchaseDepName"/>
     <association property="dealSupplier" column="DEAL_SUPPLIER" select="ses.dao.sms.SupplierMapper.selectByPrimaryKey"/>
     <association property="purchaseDep" column="PURCHASE_DEP_ID" select="ses.dao.oms.PurchaseDepMapper.selectPurchaseById"/>
   </resultMap>
@@ -58,7 +59,7 @@
     POSTCODE, SUPPLIER_NUMBER, OFFER_STANDARD, PR_INTRODUCE, BUDGET_AMOUNT, PASS_WORD, 
     SCORING_RUBRIC, OPERATOR, DIVISION_OF_WORK, PURCHASE_TYPE, MATERIALS_TYPE, SECTOR_OF_DEMAND, 
     PURCHASE_DEP_ID, DEADLINE, DATE_OF_ENTRUSTMENT, BID_DATE, BID_ADDRESS, REQUIERED_ID,BALE_NO,
-    AMOUNT,DEAL_SUPPLIER
+    AMOUNT,DEAL_SUPPLIER,PURCHASE_DEP_NAME
   </sql>
   <select id="selectProjectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -68,11 +69,23 @@
   </select>
   
   <!-- 查看成功的项目 -->
-  <select id="selectSuccessProject" resultMap="BaseResultMap">
+  <select id="selectSuccessProject" parameterType="Map" resultMap="BaseResultMap">
   	select 
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_PROJECTS
     where STATUS = 2
+    <if test="name != null and name != ''">
+       and NAME like '%'||${name}||'%'
+      </if>
+       <if test="projectNumber != null and projectNumber != ''">
+       and PROJECT_NUMBER like '%'||${projectNumber}||'%'
+      </if>
+      <!-- 
+      <if test="purchaseDep != null">
+       and STATUS like '%${status}%'
+      </if>
+      -->
+    ORDER BY DATE_OF_ENTRUSTMENT DESC
   </select>
    <!-- 查看任务 -->
   <select id="selectByTask" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -113,7 +126,7 @@
       DIVISION_OF_WORK, PURCHASE_TYPE, MATERIALS_TYPE, 
       SECTOR_OF_DEMAND, PURCHASE_DEP_ID, DEADLINE, 
       DATE_OF_ENTRUSTMENT, BID_DATE, BID_ADDRESS, 
-      REQUIERED_ID,BALE_NO,AMOUNT,DEAL_SUPPLIER)
+      REQUIERED_ID,BALE_NO,AMOUNT,DEAL_SUPPLIER,PURCHASE_DEP_NAME)
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{projectNumber,jdbcType=VARCHAR}, 
       #{status,jdbcType=DECIMAL}, #{principal,jdbcType=VARCHAR}, #{ipone,jdbcType=VARCHAR}, 
       #{linkman,jdbcType=VARCHAR}, #{linkmanIpone,jdbcType=VARCHAR}, #{bidUnit,jdbcType=VARCHAR}, 
@@ -123,7 +136,7 @@
       #{divisionOfWork,jdbcType=VARCHAR}, #{purchaseType,jdbcType=VARCHAR}, #{materialsType,jdbcType=VARCHAR}, 
       #{sectorOfDemand,jdbcType=VARCHAR}, #{purchaseDep.id,jdbcType=VARCHAR}, #{deadline,jdbcType=DATE}, 
       #{dateOfEntrustment,jdbcType=DATE}, #{bidDate,jdbcType=DATE}, #{bidAddress,jdbcType=VARCHAR}, 
-      #{requieredId,jdbcType=VARCHAR}),#{baleNo}, #{amount}, #{dealSupplier.id})
+      #{requieredId,jdbcType=VARCHAR}),#{baleNo}, #{amount}, #{dealSupplier.id},#{purchaseDepName})
   </insert>
   <insert id="insertSelective" parameterType="bss.model.ppms.Project">
      <selectKey keyProperty="id" resultType="String" order="BEFORE">
@@ -224,6 +237,9 @@
       <if test="dealSupplier != null">
         DEAL_SUPPLIER,
       </if>
+      <if test="purchaseDepName != null">
+        PURCHASE_DEP_NAME,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -318,6 +334,9 @@
       </if>
       <if test="dealSupplier != null">
         #{dealSupplier.id},
+      </if>
+      <if test="purchaseDepName != null">
+        #{purchaseDepName},
       </if>
     </trim>
   </insert>
@@ -414,6 +433,9 @@
       <if test="dealSupplier != null">
         DEAL_SUPPLIER = #{dealSupplier.id},
       </if>
+      <if test="purchaseDepName != null">
+        PURCHASE_DEP_NAME = #{purchaseDepName},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -448,7 +470,8 @@
       REQUIERED_ID = #{requieredId,jdbcType=VARCHAR}
       BALE_NO = #{bidDate},
       AMOUNT = #{amount},
-      DEAL_SUPPLIER = #{dealSupplier.id}
+      DEAL_SUPPLIER = #{dealSupplier.id},
+      PURCHASE_DEP_NAME = #{purchaseDepName}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>
