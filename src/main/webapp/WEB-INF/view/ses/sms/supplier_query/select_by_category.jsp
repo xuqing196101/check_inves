@@ -17,243 +17,39 @@
 <script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.exedit.js"></script>
 <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
-	var datas;
-	 var treeid=null;
- $(document).ready(function(){
-	 var setting={
-		async:{
-					autoParam:["id","name"],
-					enable:true,
-					url:"<%=basePath%>category/createtree.do",
-					dataType:"json",
-					type:"post",
+ $(function() {
+    var zTreeObj;
+	var zNodes;
+	loadZtree();
+	function loadZtree() {
+		var setting = {
+			async : {
+				enable : true,
+				url : "${pageContext.request.contextPath}/category/query_category.do",
+				otherParam : {
+					categoryIds : "${categoryIds}",
 				},
-				callback:{
-			    	onClick:zTreeOnClick,//点击节点触发的事件
-			    	beforeRemove: zTreeBeforeRemove,
-			    	beforeRename: zTreeBeforeRename, 
-					onRemove: zTreeOnRemove,
-       			    onRename: zTreeOnRename,
-       			  /*    onNodeCreated: zTreeOnNodeCreated, */
-       			   
-			    }, 
-				data:{
-					keep:{
-						parent:true
-					},
-					key:{
-						title:"title"
-					},
-					simpleData:{
-						enable:true,
-						idKey:"id",
-						pIdKey:"pId",
-						rootPId:"a",
-					}
-			    },
-			   /*  edit:{
-			    	enable:true,
-					editNameSelectAll:true,
-					showRemoveBtn: true,
-					showRenameBtn: true,
-					removeTitle: "删除",
-					renameTitle:"重命名",
-				}, */
-			   check:{
-					enable: true
-			   },
-			
-  };
-	 
-    tree = $.fn.zTree.init($("#ztree"),setting,datas);
-    var lastValue ="", nodeList=[];
-    var value ="";
-    key.bind("propertychange",searchNode).bind("input",searchNode);
-}) 
-    var ztree = $.fn.zTree.getZTreeObj("ztree");
-    var key =$("#key");
-	
-    function searchNode(e){
-	     alert(4);
-    	value = $.trim(key.get(0).value);
-    	var keyType ="name";
-    	alert(3);
-    	if(lastValue== value){
-    		alert(1);
-    		return;
-    	}
-    	lastValue= value;
-    	updateNodes(false);
-    	if(value==""){
-    		alert(2);
-    		return;
-    	}
-    	nodeList = ztree.getNodesByParamFuzzy(keyType,value);
-    	console.info(nodeList);
-    	updateNodes(true);
-    	//遍历隐藏其他父节点
-    }	
-    function updateNodes(highlight){
-    	var pnodes= ztree.getNodes();
-    	for(var j=0;j<pnodes.length;j++){
-    		ztree.showNode(pnodes[j]);
-    		if(highlight){
-				var have = false;
-				for(var i=0, l=nodeList.length; i<l; i++) {
-					if(pnodes[j].isParent && nodeList[i].pId == pnodes[j].id){
-						have = true;
-					}
+				dataType : "json",
+				type : "post",
+			},
+			check : {
+				enable : true,
+				chkboxType : {
+					"Y" : "s",
+					"N" : "s"
 				}
-				if(have){
-					for(var q = 0;q<pnodes[j].children.length;q++){
-						for(var k = 0;k<nodeList.length;k++){
-							if(pnodes[j].children[q].name==nodeList[k].name){
-								ztree.showNode(pnodes[j].children[q]);
-								break;
-							}else if(k == nodeList.length-1){
-								if(value.length == 1){
-									ztree.showNode(pnodes[j].children[q]);
-								}else{ 
-									ztree.hideNode(pnodes[j].children[q]);
-								}
-								
-							}
-						}  
-					}
+			},
+			data : {
+				simpleData : {
+					enable : true,
+					idKey : "id",
+					pIdKey : "parentId"
 				}
-				if(!have){
-					ztree.hideNode(pnodes[j]);
-				}
-			}else{
-				ztree.showNode(pnodes[j]);
-			}
-       	}
-		for( var i=0, l=nodeList.length; i<l; i++) {
-			nodeList[i].highlight = highlight;
-			ztree.updateNode(nodeList[i]);
-		}
+			},
+		};
+		zTreeObj = $.fn.zTree.init($("#ztree"), setting, zNodes);
 	}
-    	
-    function filter(node) {
-		return !node.isParent && node.isFirstNode;
-	}
-   /*删除图片*/
-    function deletepic(obj){
-		layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
-			layer.close(index);
-	       	layer.msg('删除成功',{offset: ['222px', '390px']});
-		    window.setTimeout(function(){
-		    	$(obj).prev().hide();
-				$(obj).next().remove();
-				$(obj).hide();
-				$("#showid").val(0);
-				$(".order").val("");
-		    }, 1000);
-		});
-		
-	}
-    /*点击事件*/
-    function zTreeOnClick(event,treeId,treeNode){
-		treeid=treeNode.id
-    }
-    /*添加采购目录*/
-    function news(){
-			if (treeid==null) {
-			alert("请选择一个节点");
-					return;		
-			}else{
-				$.ajax({
-					success:function(){
-						var html = "";
-						html = html+"<tr><td>目录名称</td>"+"<td><input name='name'/></td></tr>" ;
-				/* 		html = html+"<tr><td>父节点</td>"+"<td><input name='parentId'/></td></tr>"; */
-						html = html+"<tr><td>排序</td>"+"<td><input name='position'/></td></tr>";
-						html = html+"<tr><td>编码</td>"+"<td><input name='code'/></td></tr>";
-						html = html+"<tr><td>图片</td>"+"<td id='uploadAttach'><input id='pic'type='file' class='toinline' name='attaattach' /></td></tr>";
-						html = html+"<tr><td>描述</td>"+"<td><textarea name='descrption'/></td></tr>";
-						html = html+"<tr><td colspan='2'><input type='submit' value='提交' onclick='check()' class='btn btn-window'/></td></tr>";
-						$("#result").append(html);
-					}
-				
-				})
-			}
-			
-		}
-	/*修改节点信息*/
-    function update(){
-	 		if (treeid==null) {
-				alert("请选择一个节点");
-			}else{
-				$.ajax({
-					url:"<%=basePath%>category/update.do?id="+treeid,
-					dataType:"json",
-					type:"post",
-					success:function(cate){
-						alert(cate.name);
-						var html = "";
-						html = html+"<tr><td>目录名称</td><td><input value='"+cate.name+"'/></td></tr>";
-						/* html = html+"<tr><td>父节点</td>"+"<td></td></tr>"; */
-						html = html+"<tr><td>父节点</td><td><input value='"+cate.parentId+"'/></td></tr>";
-						html = html+"<tr><td>排序</td><td><input value='"+cate.position+"'/></td></tr>";
-						html = html+"<tr><td>编码</td><td><input value='"+cate.code+"'/></td></tr>";
-						html = html+"<tr><td>附件</td><td id='uploadAttach'><input id='pic' type='file' value='"+cate.attchment+"'/>"
-						+"<input onclick='deletepic(this)'  id='close_pic' class='close' type='button' value='×'/>"
-						+"</td></tr>";
-						html = html+"<tr><td>描述</td><td><input value='"+cate.description+"'/></td></tr>";
-						html = html+"<tr><td colspan='2'><input type='submit' onclick='mysubmit()' value='更新' class='btn btn-window '/></td></tr>"
-						$("#result").append(html);
-					}
-				})
-			}
- 		}
- 	/*休眠-激活*/
-    function ros(){
- 			var str="";
-	 		var treeObj = $.fn.zTree.getZTreeObj("ztree");
-			var nodes = treeObj.getCheckedNodes(true);
-			for ( var i = 0; i < nodes.length; i++) {
-				str+=nodes[i].id+",";
-				alert(str);
-			}
-			alert(str);
-			$.ajax({
-				type:"POST",
-				url:"<%=basePath%>category/ros.do?ids="+str,
-			})
- 		}
- 		
- 	/*重命名和删除的回掉函数*/	
-    function zTreeOnRemove(event, treeId, treeNode,isCancel) {
-		}
-    function zTreeOnRename(event, treeId, treeNode, isCancel) {
-				 alert(treeNode.tId + ", " + treeNode.name); 
-				
-		}
-	/*删除目录信息*/
-    function zTreeBeforeRemove(treeId, treeNode){
-	 		$.ajax({
-	 			type:"post",
-	 			url:"<%=basePath%>category/del.do?id="+treeNode.id,
-	 		});
-		}
-	 	
-	/*节点重命名*/
-    function zTreeBeforeRename(treeId,treeNode,newName,isCancel){
-			$.ajax({
-	 			type:"post",
-	 			url:"<%=basePath%>category/rename.do?id="+treeNode.id+"&name="+newName,
-	 		});
-		} 
-    /*新增提交*/		
-	function check(){
-		document.fm.action="<%=basePath%>category/save.do";
-		document.fm.submit();
-	}
-	/*更新数据*/
-	function mysubmit(){
-		document.fm.action="<%=basePath%>category/edit.do";
-		document.fm.submit();
-	}	
+	});	
 	 $(function(){
 		  laypage({
 			    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
@@ -271,26 +67,6 @@
 			    jump: function(e, first){ //触发分页后的回调
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
 			            location.href = '<%=basePath%>supplierQuery/selectByCategory.do?page='+e.curr;
-			            <%--   $.ajax({
-								url:"<%=basePath%>supplierQuery/selectByCategoryByAjax.do?page="+e.curr,
-								dataType:"json",
-								type:"post",
-								success:function(pager){
-								    var table = document.getElementById('tb1');
-					    			var tbodies= table.getElementsByTagName("tbody");
-					    			table.removeChild(tbodies[0]);
-									var htmlTd = "";
-									var htmlTr = "";
-									var url='<%=basePath%>supplierQuery/essential.html?supplierId=';
-									var dataObj=eval(pager.list);  
-							        for(var i=0;i<dataObj.length;i++){      
-							            htmlTd="<td>"+(i+1)+"</td><td><a href="+url+""+dataObj[i].id+">"+dataObj[i].supplierName+"</a></td><td>"
-							            +dataObj[i].contactName+"</td><td>"+dataObj[i].contactTelephone+"</td><td></td> "; 
-							        	htmlTr+="<tr>"+htmlTd+"</tr>";
-							        }  
-									$("#tb1").append(htmlTr);
-								}
-						 }) --%>
 			        }
 			    }
 			});
@@ -307,26 +83,6 @@
 	     } 
 	      $("#categoryIds").val(ids);
 	  	  form1.submit();
-	  	 <%--  $.ajax({
-					url:"<%=basePath%>supplierQuery/selectByCategoryByAjax.do?supplierName="+supplierName,
-					dataType:"json",
-					type:"post",
-					success:function(pager){
-					 	var table = document.getElementById('tb1');
-					    var tbodies= table.getElementsByTagName("tbody");
-					    table.removeChild(tbodies[0]); 
-						var htmlTd = "";
-						var htmlTr = "";
-						var dataObj=eval(pager.list);  
-						var url='<%=basePath%>supplierQuery/essential.html?supplierId=';
-				        for(var i=0;i<dataObj.length;i++){      
-				            htmlTd="<td>"+(i+1)+"</td><td><a href="+url+""+dataObj[i].id+">"+dataObj[i].supplierName+"</a></td><td>"
-				            +dataObj[i].contactName+"</td><td>"+dataObj[i].contactTelephone+"</td><td></td> "; 
-				        	htmlTr+="<tr>"+htmlTd+"</tr>";
-				        }  
-						$("#tb1").append(htmlTr);
-					}
-				}) --%>
 	  }
 </script>
 </head>

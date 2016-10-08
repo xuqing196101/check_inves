@@ -130,4 +130,16 @@ import ses.model.sms.SupplierTypeTree;
 	 * @return: List<Category>
 	 */
 	public List<SupplierTypeTree> findCategoryByType(Category category, String supplierId);
+	
+	/**
+	 * @Title: queryCategory
+	 * @author Song Biaowei
+	 * @date 2016-10-8 下午2:22:28  
+	 * @Description: 按照品目查询供应商 
+	 * @param @param category
+	 * @param @param listCategoryIds
+	 * @param @return      
+	 * @return List<SupplierTypeTree>
+	 */
+	public List<SupplierTypeTree> queryCategory(Category category, List<String> listCategoryIds);
 }

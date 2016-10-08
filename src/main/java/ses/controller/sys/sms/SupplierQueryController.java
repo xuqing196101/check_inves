@@ -1,8 +1,6 @@
 package ses.controller.sys.sms;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Array;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -19,9 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import ses.model.bms.Category;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierCertEng;
@@ -34,13 +29,11 @@ import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSe;
 import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierStockholder;
-import ses.model.sms.SupplierTypeTree;
 import ses.service.bms.CategoryService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierService;
 
-import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
 @Controller
@@ -52,10 +45,6 @@ public class SupplierQueryController extends BaseSupplierController{
 	private SupplierAuditService supplierAuditService;
 	@Autowired
 	private SupplierService supplierService;
-	@Autowired
-	private SupplierItemService supplierItemService;
-	@Autowired
-	private CategoryService categoryService;
 
 	/**
 	 * @Title: highmaps
@@ -66,7 +55,7 @@ public class SupplierQueryController extends BaseSupplierController{
 	 * @param @return      
 	 * @return String
 	 */
-	@RequestMapping("highmaps")
+	@RequestMapping("/highmaps")
 	public String highmaps(Supplier sup,Model model,Integer status){
 		StringBuffer sb = new StringBuffer("");
 		//调用供应商查询方法 List<Supplier>
@@ -118,7 +107,7 @@ public class SupplierQueryController extends BaseSupplierController{
 	 * @return String
 	 * @throws UnsupportedEncodingException 
 	 */
-	@RequestMapping("findSupplierByPriovince")
+	@RequestMapping("/findSupplierByPriovince")
 	public String findSupplierByPriovince(Supplier supplier,Integer page,Model model) throws UnsupportedEncodingException{
 		supplier.setAddress(URLDecoder.decode(supplier.getAddress(),"UTF-8"));
 		if(supplier.getSupplierType()==null||supplier.getSupplierType().equals("")){
@@ -155,10 +144,11 @@ public class SupplierQueryController extends BaseSupplierController{
 	 * @param @return      
 	 * @return String
 	 */
-	@RequestMapping("selectByCategory")
+	@RequestMapping("/selectByCategory")
 	public String selectByCategory(Supplier supplier,Integer page,String categoryIds,Model model){
+		List<String> list=null;
 		if(categoryIds!=null&&!categoryIds.equals("")){
-			List<String> list=Arrays.asList(categoryIds);
+			list=Arrays.asList(categoryIds.split(","));
 			supplier.setItem(list);
 			supplier.setCount(list.size());
 		}
@@ -170,6 +160,7 @@ public class SupplierQueryController extends BaseSupplierController{
 			model.addAttribute("listSupplier",  new PageInfo<>(listSupplier));
 		}
 		model.addAttribute("supplier", supplier);
+		model.addAttribute("categoryIds", categoryIds);
 		return "ses/sms/supplier_query/select_by_category";
 	}
 	
@@ -184,7 +175,7 @@ public class SupplierQueryController extends BaseSupplierController{
 	 * @param @return      
 	 * @return String
 	 */
-	@RequestMapping("essential")
+	@RequestMapping("/essential")
 	public String essentialInformation(HttpServletRequest request,Integer isRuku,Supplier supplier,String supplierId,Model model) {
 		supplier = supplierAuditService.supplierById(supplierId);
 		model.addAttribute("suppliers", supplier);
@@ -208,7 +199,7 @@ public class SupplierQueryController extends BaseSupplierController{
 	 * @param @return      
 	 * @return String
 	 */
-	@RequestMapping("financial")
+	@RequestMapping("/financial")
 	public String financialInformation(HttpServletRequest request,SupplierFinance supplierFinance,Supplier supplier) {
 		String supplierId = supplierFinance.getSupplierId();
 		List<SupplierFinance> list = supplierAuditService.supplierFinanceBySupplierId(supplierId);
@@ -228,7 +219,7 @@ public class SupplierQueryController extends BaseSupplierController{
 	 * @param @return      
 	 * @return String
 	 */
-	@RequestMapping("shareholder")
+	@RequestMapping("/shareholder")
 	public String shareholderInformation(HttpServletRequest request,SupplierStockholder supplierStockholder) {
 		String supplierId = supplierStockholder.getSupplierId();
 		List<SupplierStockholder> list = supplierAuditService.ShareholderBySupplierId(supplierId);
@@ -247,7 +238,7 @@ public class SupplierQueryController extends BaseSupplierController{
 	 * @param @return      
 	 * @return String
 	 */
-	@RequestMapping("materialProduction")
+	@RequestMapping("/materialProduction")
 	public String materialProduction(HttpServletRequest request,SupplierMatPro supplierMatPro) {
 		String supplierId = supplierMatPro.getSupplierId();
 		/*List<SupplierCertPro> materialProduction = supplierService.get(supplierId).getSupplierMatPro().getListSupplierCertPros();*/
@@ -273,7 +264,7 @@ public class SupplierQueryController extends BaseSupplierController{
 	 * @param @return      
 	 * @return String
 	 */
-	@RequestMapping("materialSales")
+	@RequestMapping("/materialSales")
 	public String materialSales(HttpServletRequest request,SupplierMatSell supplierMatSell){
 		String supplierId = supplierMatSell.getSupplierId();
 		//资质资格证书
@@ -296,7 +287,7 @@ public class SupplierQueryController extends BaseSupplierController{
 	 * @param @return      
 	 * @return String
 	 */
-	@RequestMapping("engineering")
+	@RequestMapping("/engineering")
 	public String engineeringInformation(HttpServletRequest request,SupplierMatEng supplierMatEng){
 		String supplierId = supplierMatEng.getSupplierId();
 		//资质资格证书信息
@@ -322,7 +313,7 @@ public class SupplierQueryController extends BaseSupplierController{
 	 * @param @return      
 	 * @return String
 	 */
-	@RequestMapping("serviceInformation")
+	@RequestMapping("/serviceInformation")
 	public String serviceInformation(HttpServletRequest request,SupplierMatSe supplierMatSe){
 		String supplierId = supplierMatSe.getSupplierId();
 		//资质证书信息
@@ -335,7 +326,17 @@ public class SupplierQueryController extends BaseSupplierController{
 		return "ses/sms/supplier_query/supplierInfo/service_information";
 	}
 	
-	@RequestMapping("item")
+	/**
+	 * @Title: item
+	 * @author Song Biaowei
+	 * @date 2016-10-8 下午3:11:30  
+	 * @Description: 品目信息 
+	 * @param @param supplierId
+	 * @param @param model
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping("/item")
 	public String item(String supplierId,Model model){
 		model.addAttribute("id", supplierId);
 		return "ses/sms/supplier_query/supplierInfo/item";
