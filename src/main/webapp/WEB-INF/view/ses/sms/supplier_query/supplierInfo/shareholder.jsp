@@ -147,8 +147,8 @@ function tijiao(str){
   if(str=="service"){
     action = "${pageContext.request.contextPath}/supplierQuery/serviceInformation.html";
   }
-  if(str=="reasonsList"){
-    action = "<%=basePath%>supplierQuery/reasonsList.html";
+  if(str=="chengxin"){
+    action = "<%=basePath%>supplierQuery/list.html";
   }
   if(str=="item"){
      action = "<%=basePath%>supplierQuery/item.html";
@@ -185,7 +185,7 @@ function tijiao(str){
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('service');">服务-专业信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('item');">品目信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >产品信息</a></li>
-              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('reasonsList');">诚信记录</a></li>
+              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('chengxin');">诚信记录</a></li>
             </ul>
               <div class="tab-content padding-top-20" style="height:1400px;">
                 <div class="tab-pane fade active in height-450" id="tab-1">

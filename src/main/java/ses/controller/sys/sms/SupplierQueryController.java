@@ -32,6 +32,7 @@ import ses.model.sms.SupplierStockholder;
 import ses.service.bms.CategoryService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierItemService;
+import ses.service.sms.SupplierLevelService;
 import ses.service.sms.SupplierService;
 
 import com.github.pagehelper.PageInfo;
@@ -45,6 +46,8 @@ public class SupplierQueryController extends BaseSupplierController{
 	private SupplierAuditService supplierAuditService;
 	@Autowired
 	private SupplierService supplierService;
+	@Autowired
+	private SupplierLevelService supplierLevelService;
 
 	/**
 	 * @Title: highmaps
@@ -164,39 +167,6 @@ public class SupplierQueryController extends BaseSupplierController{
 		return "ses/sms/supplier_query/select_by_category";
 	}
 	
-<<<<<<< HEAD
-	public static String[] getCategoryStr(List<String> list,List<String> supplierIds,String materialId){
-		List<String> searchCategory=null;
-		if(materialId!=null&&!materialId.isEmpty()){
-			searchCategory=Arrays.asList(materialId.split(","));
-		}
-		StringBuffer sb=new StringBuffer("");
-		for(int i=0;i<list.size();i++){
-			//materialId要为空就不进这个判断。---materialId不为空的时候 ,就过滤掉list中为空的字段
-			if(list.get(i)!=null&!list.get(i).isEmpty()&&searchCategory!=null&&!materialId.isEmpty()){
-				if(Arrays.asList(list.get(i).split(",")).containsAll(searchCategory)==true){
-					sb.append(supplierIds.get(i)+",");
-				}
-			}
-		}
-		String[] categoryStr=null;
-		if(sb.toString().trim().length()>0){
-			// categoryStr=sb.toString().substring(0,sb.toString().length()-1);
-			   categoryStr= sb.toString().split(",");
-		}
-		return categoryStr;
-	}
-	
-	@RequestMapping("/selectByCategoryByAjax")
-	@ResponseBody
-	public PageInfo<Supplier>  selectByCategoryByAjax(Supplier supplier,Integer page,Model model){
-		List<Supplier> listSupplier=supplierAuditService.querySupplier(supplier, page==null?1:page);
-		PageInfo<Supplier>  pager=new PageInfo<>(listSupplier);
-		return pager;
-	}
-	
-=======
->>>>>>> c3264764792ef553197480a8a7af143f7138133a
 	/**
 	 * @Title: essentialInformation
 	 * @author Song Biaowei
@@ -210,6 +180,19 @@ public class SupplierQueryController extends BaseSupplierController{
 	 */
 	@RequestMapping("/essential")
 	public String essentialInformation(HttpServletRequest request,Integer isRuku,Supplier supplier,String supplierId,Model model) {
+		String supId=(String)request.getSession().getAttribute("supplierId");
+	    //第一次进来的时候有值,session为null。
+		if(supId==null&&!supplierId.equals("")){
+			request.getSession().setAttribute("supplierId", supplierId);
+		}
+		//第二次进来的时候,都有值
+		if(supId!=null&&!supplierId.equals("")){
+			request.getSession().removeAttribute("supplierId");
+			request.getSession().setAttribute("supplierId", supplierId);
+		}
+		if(supId!=null&&supplierId.equals("")){
+			supplierId=supId;
+		}
 		supplier = supplierAuditService.supplierById(supplierId);
 		model.addAttribute("suppliers", supplier);
 		if(isRuku!=null&&isRuku==1){
@@ -359,10 +342,25 @@ public class SupplierQueryController extends BaseSupplierController{
 		return "ses/sms/supplier_query/supplierInfo/service_information";
 	}
 	
-<<<<<<< HEAD
-	@RequestMapping("/item")
-	public String item(){
-=======
+	/**
+	 * @Title: list
+	 * @author Song Biaowei
+	 * @date 2016-10-8 下午5:41:13  
+	 * @Description: 诚信信息
+	 * @param @param model
+	 * @param @param supplier
+	 * @param @param page
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping(value = "list")
+	public String list(Model model, Supplier supplier, Integer page) {
+		List<Supplier> listSuppliers = supplierLevelService.findSupplier(supplier, page == null ? 1 : page);
+		model.addAttribute("listSuppliers", new PageInfo<Supplier>(listSuppliers));
+		model.addAttribute("supplierName", supplier.getSupplierName());
+		return "ses/sms/supplier_query/supplierInfo/cheng_xin";
+	}
+	
 	/**
 	 * @Title: item
 	 * @author Song Biaowei
@@ -376,7 +374,6 @@ public class SupplierQueryController extends BaseSupplierController{
 	@RequestMapping("/item")
 	public String item(String supplierId,Model model){
 		model.addAttribute("id", supplierId);
->>>>>>> c3264764792ef553197480a8a7af143f7138133a
 		return "ses/sms/supplier_query/supplierInfo/item";
 	}	
 	
