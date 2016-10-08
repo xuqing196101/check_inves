@@ -165,6 +165,9 @@ function tijiao(str){
   if(str=="reasonsList"){
     action = "<%=basePath%>supplierQuery/reasonsList.html";
   }
+  if(str=="item"){
+     action = "<%=basePath%>supplierQuery/item.html";
+  }
   $("#form_id").attr("action",action);
   $("#form_id").submit();
 }

@@ -121,7 +121,13 @@ public class SupplierQueryController extends BaseSupplierController{
 	@RequestMapping("findSupplierByPriovince")
 	public String findSupplierByPriovince(Supplier supplier,Integer page,Model model) throws UnsupportedEncodingException{
 		supplier.setAddress(URLDecoder.decode(supplier.getAddress(),"UTF-8"));
-		List<Supplier> listSupplier=supplierAuditService.querySupplier(supplier, page==null?1:page);
+		if(supplier.getSupplierType()==null||supplier.getSupplierType().equals("")){
+			List<Supplier> listSupplier=supplierAuditService.getAllSupplier(supplier, page==null?1:page);	
+			model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
+		}else{
+			List<Supplier> listSupplier=supplierAuditService.querySupplier(supplier, page==null?1:page);
+			model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
+		}
 		//入库时间
 		/*for(Supplier sup:listSupplier){
 			List<SupplierAudit> listAudit=supplierAuditService.selectByPrimaryKey(sup.getId());
@@ -133,7 +139,6 @@ public class SupplierQueryController extends BaseSupplierController{
 		}*/
 		model.addAttribute("address", supplier.getAddress());
 		model.addAttribute("supplier", supplier);
-		model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
 		//等于3说明是入库供应商
 		if(supplier.getStatus()!=null&&supplier.getStatus()==3){
 			return "ses/sms/supplier_query/select_ruku_supplier_by_province";
@@ -152,9 +157,6 @@ public class SupplierQueryController extends BaseSupplierController{
 	 */
 	@RequestMapping("selectByCategory")
 	public String selectByCategory(Supplier supplier,Integer page,String categoryIds,Model model){
-		/*List<String> list1=supplierItemService.getSupplierId();
-		List<String> list2=supplierItemService.getItemSupplierId();
-		String[] categoryStr=getCategoryStr(list2,list1,categoryIds);*/
 		if(categoryIds!=null&&!categoryIds.equals("")){
 			List<String> list=Arrays.asList(categoryIds);
 			supplier.setItem(list);
@@ -167,64 +169,8 @@ public class SupplierQueryController extends BaseSupplierController{
 			List<Supplier> listSupplier=supplierAuditService.querySupplierbyCategory(supplier, page==null?1:page);
 			model.addAttribute("listSupplier",  new PageInfo<>(listSupplier));
 		}
-		
-		/*List<Supplier> listSupplier2=new ArrayList<Supplier>();
-		if(categoryStr!=null){
-			for(Supplier sup :listSupplier1){
-				for(String str:categoryStr){
-					if(categoryStr!=null&&str.equals(sup.getId())){
-						listSupplier2.add(sup);
-					}
-				}
-			}
-		}
-		//条件查询 没有结果
-		if(categoryIds!=null&&!categoryIds.equals("")&&categoryStr==null){
-			PageInfo<Supplier> pager=new PageInfo<Supplier>(listSupplier2);
-			model.addAttribute("listSupplier",pager );
-			//点击菜单进来的时候 
-		}else if(categoryIds==null&&categoryStr==null){
-			PageInfo<Supplier> pager=new PageInfo<Supplier>(listSupplier1);
-			model.addAttribute("listSupplier",pager );
-		}else{
-			PageInfo<Supplier> pager=new PageInfo<Supplier>(listSupplier2);
-			pager.setPages(listSupplier2.size()/10+1);
-			pager.setStartRow(1);
-			pager.setEndRow(listSupplier2.size()%10==0?10:listSupplier2.size());
-			model.addAttribute("listSupplier",pager );
-		}*/
 		model.addAttribute("supplier", supplier);
 		return "ses/sms/supplier_query/select_by_category";
-	}
-	
-	public static String[] getCategoryStr(List<String> list,List<String> supplierIds,String materialId){
-		List<String> searchCategory=null;
-		if(materialId!=null&&!materialId.isEmpty()){
-			searchCategory=Arrays.asList(materialId.split(","));
-		}
-		StringBuffer sb=new StringBuffer("");
-		for(int i=0;i<list.size();i++){
-			//materialId要为空就不进这个判断。---materialId不为空的时候 ,就过滤掉list中为空的字段
-			if(list.get(i)!=null&!list.get(i).isEmpty()&&searchCategory!=null&&!materialId.isEmpty()){
-				if(Arrays.asList(list.get(i).split(",")).containsAll(searchCategory)==true){
-					sb.append(supplierIds.get(i)+",");
-				}
-			}
-		}
-		String[] categoryStr=null;
-		if(sb.toString().trim().length()>0){
-			// categoryStr=sb.toString().substring(0,sb.toString().length()-1);
-			   categoryStr= sb.toString().split(",");
-		}
-		return categoryStr;
-	}
-	
-	@RequestMapping("selectByCategoryByAjax")
-	@ResponseBody
-	public PageInfo<Supplier>  selectByCategoryByAjax(Supplier supplier,Integer page,Model model){
-		List<Supplier> listSupplier=supplierAuditService.querySupplier(supplier, page==null?1:page);
-		PageInfo<Supplier>  pager=new PageInfo<>(listSupplier);
-		return pager;
 	}
 	
 	/**
@@ -390,7 +336,8 @@ public class SupplierQueryController extends BaseSupplierController{
 	}
 	
 	@RequestMapping("item")
-	public String item(){
+	public String item(String supplierId,Model model){
+		model.addAttribute("id", supplierId);
 		return "ses/sms/supplier_query/supplierInfo/item";
 	}	
 	

@@ -670,6 +670,22 @@
 		<if test="supplierName != null and supplierName !=''">
 			and SUPPLIER_NAME like '%${supplierName}%'
 		</if>
+		<if test="startDate != null">
+			AND CREATED_AT &gt;= #{startDate}
+		</if>
+		<if test="endDate != null">
+			AND CREATED_AT &lt;= #{endDate}
+		</if>
+		<if test="contactName != null and contactName != ''">
+			AND CONTACT_NAME = #{contactName}
+		</if>
+		<if test="status != null">
+			and STATUS = #{status}
+		</if>
+		<if test="address != null and address !=''">  
+       		and ADDRESS like '%${address}%'   
+        </if> 
+		ORDER BY FOUND_DATE DESC
 	</select>
 	<update id="updateSupplierProcurementDep" parameterType="ses.model.sms.Supplier">
 		update T_SES_SMS_SUPPLIER set PROCUREMENT_DEP_ID = #{procurementDepId} where ID = #{id}

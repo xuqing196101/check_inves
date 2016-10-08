@@ -111,6 +111,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/jquery.easing.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/james.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css" type="text/css" />
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.excheck.js"></script>
 <script type="text/javascript">
 function reason(id){
   var supplierId=$("#id").val();
@@ -171,7 +176,41 @@ function downloadFile(fileName){
 function fanhui(){
 	  window.location.href="<%=basePath%>supplierQuery/findSupplierByPriovince.html?address="+encodeURI(encodeURI('${suppliers.address}'))+"&status=${status}";
 }
+   $(function() {
+    var zTreeObj;
+	var zNodes;
+	loadZtree();
+	function loadZtree() {
+		var setting = {
+			async : {
+				enable : true,
+				url : "${pageContext.request.contextPath}/category/find_category.do",
+				otherParam : {
+					supplierId : "${id}",
+				},
+				dataType : "json",
+				type : "post",
+			},
+			check : {
+				enable : true,
+				chkboxType : {
+					"Y" : "s",
+					"N" : "s"
+				}
+			},
+			data : {
+				simpleData : {
+					enable : true,
+					idKey : "id",
+					pIdKey : "parentId"
+				}
+			},
+		};
+		zTreeObj = $.fn.zTree.init($("#ztree"), setting, zNodes);
+	}
+	});
 </script>
+
 <style type="text/css">
 .jbxx1{
   background:url(../images/down_icon.png) no-repeat 5px !important;
@@ -189,6 +228,9 @@ function fanhui(){
     line-height: 30px;
     font-style: normal;
     margin-right: 10px;
+}
+.line{
+	border: 4px solid #fff0;
 }
 </style>
 </head>
@@ -213,7 +255,6 @@ function fanhui(){
   <div class="container content height-350">
     <div class="row magazine-page">
       <div class="col-md-12 tab-v2 job-content">
-        <div class="padding-top-10">
           <ul class="nav nav-tabs bgdd">
             <li class=""><a aria-expanded="true" href="#tab-1" data-toggle="tab" onclick="tijiao('essential');">基本信息</a></li>
           <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('financial');">财务信息</a></li>
@@ -228,14 +269,14 @@ function fanhui(){
           </ul>
             <div class="tab-content padding-top-20" style="height:1500px;">
               <div class="tab-pane fade active in height-450" id="tab-1">
-                <div class=" margin-bottom-0">
-                  <form id="form_id" action="" method="post"  enctype="multipart/form-data">
+                <form id="form_id" action="" method="post">
                     <input name="supplierId" id="id" value="${suppliers.id }" type="hidden">
-                  </form>                 
+                  </form> 
+                  <div class="col-md-3">
+	 					<div id="ztree" class="ztree"></div>
+					</div>                
               </div>
-            </div>
           </div>
-        </div>
       </div>
     </div>
   </div>
