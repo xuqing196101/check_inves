@@ -193,6 +193,7 @@ public class SupplierQueryController extends BaseSupplierController{
 			pager.setEndRow(listSupplier2.size()%10==0?10:listSupplier2.size());
 			model.addAttribute("listSupplier",pager );
 		}*/
+		model.addAttribute("supplier", supplier);
 		return "ses/sms/supplier_query/select_by_category";
 	}
 	
@@ -243,6 +244,9 @@ public class SupplierQueryController extends BaseSupplierController{
 		model.addAttribute("suppliers", supplier);
 		if(isRuku!=null&&isRuku==1){
 			model.addAttribute("status", supplier.getStatus());
+		}
+		if(isRuku!=null&&isRuku==2){
+			model.addAttribute("category", 1);
 		}
 		return "ses/sms/supplier_query/supplierInfo/essential";
 	}
