@@ -210,7 +210,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	   <div id="roleContent" class="roleContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
 			<ul id="treeRole" class="ztree" style="margin-top:0; width:220px;"></ul>
 	   </div>
-   	   <form action="<%=basePath %>user/save.html" method="post">
+   	   <form action="<%=basePath %>user/save.html" method="post" enctype="multipart/form-data">
 		   <div>
 			   <div class="headline-v2">
 			   		<h2>新增用户</h2>
@@ -326,6 +326,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				        	<textarea class="text_area col-md-12 " name="address" maxlength="400" title="" placeholder=""></textarea>
 				       	</div>
 				 	</li>
+				 	<input type="file" name="file">
 			   	</ul>
 		   </div> 
 	       <div class="col-md-12 tc mt20" >

@@ -66,7 +66,7 @@ public class SupplierQueryController extends BaseSupplierController{
 	 * @param @return      
 	 * @return String
 	 */
-	@RequestMapping("highmaps")
+	@RequestMapping("/highmaps")
 	public String highmaps(Supplier sup,Model model,Integer status){
 		StringBuffer sb = new StringBuffer("");
 		//调用供应商查询方法 List<Supplier>
@@ -118,7 +118,7 @@ public class SupplierQueryController extends BaseSupplierController{
 	 * @return String
 	 * @throws UnsupportedEncodingException 
 	 */
-	@RequestMapping("findSupplierByPriovince")
+	@RequestMapping("/findSupplierByPriovince")
 	public String findSupplierByPriovince(Supplier supplier,Integer page,Model model) throws UnsupportedEncodingException{
 		supplier.setAddress(URLDecoder.decode(supplier.getAddress(),"UTF-8"));
 		List<Supplier> listSupplier=supplierAuditService.querySupplier(supplier, page==null?1:page);
@@ -150,7 +150,7 @@ public class SupplierQueryController extends BaseSupplierController{
 	 * @param @return      
 	 * @return String
 	 */
-	@RequestMapping("selectByCategory")
+	@RequestMapping("/selectByCategory")
 	public String selectByCategory(Supplier supplier,Integer page,String categoryIds,Model model){
 		/*List<String> list1=supplierItemService.getSupplierId();
 		List<String> list2=supplierItemService.getItemSupplierId();
@@ -219,7 +219,7 @@ public class SupplierQueryController extends BaseSupplierController{
 		return categoryStr;
 	}
 	
-	@RequestMapping("selectByCategoryByAjax")
+	@RequestMapping("/selectByCategoryByAjax")
 	@ResponseBody
 	public PageInfo<Supplier>  selectByCategoryByAjax(Supplier supplier,Integer page,Model model){
 		List<Supplier> listSupplier=supplierAuditService.querySupplier(supplier, page==null?1:page);
@@ -238,7 +238,7 @@ public class SupplierQueryController extends BaseSupplierController{
 	 * @param @return      
 	 * @return String
 	 */
-	@RequestMapping("essential")
+	@RequestMapping("/essential")
 	public String essentialInformation(HttpServletRequest request,Integer isRuku,Supplier supplier,String supplierId,Model model) {
 		supplier = supplierAuditService.supplierById(supplierId);
 		model.addAttribute("suppliers", supplier);
@@ -262,7 +262,7 @@ public class SupplierQueryController extends BaseSupplierController{
 	 * @param @return      
 	 * @return String
 	 */
-	@RequestMapping("financial")
+	@RequestMapping("/financial")
 	public String financialInformation(HttpServletRequest request,SupplierFinance supplierFinance,Supplier supplier) {
 		String supplierId = supplierFinance.getSupplierId();
 		List<SupplierFinance> list = supplierAuditService.supplierFinanceBySupplierId(supplierId);
@@ -282,7 +282,7 @@ public class SupplierQueryController extends BaseSupplierController{
 	 * @param @return      
 	 * @return String
 	 */
-	@RequestMapping("shareholder")
+	@RequestMapping("/shareholder")
 	public String shareholderInformation(HttpServletRequest request,SupplierStockholder supplierStockholder) {
 		String supplierId = supplierStockholder.getSupplierId();
 		List<SupplierStockholder> list = supplierAuditService.ShareholderBySupplierId(supplierId);
@@ -301,7 +301,7 @@ public class SupplierQueryController extends BaseSupplierController{
 	 * @param @return      
 	 * @return String
 	 */
-	@RequestMapping("materialProduction")
+	@RequestMapping("/materialProduction")
 	public String materialProduction(HttpServletRequest request,SupplierMatPro supplierMatPro) {
 		String supplierId = supplierMatPro.getSupplierId();
 		/*List<SupplierCertPro> materialProduction = supplierService.get(supplierId).getSupplierMatPro().getListSupplierCertPros();*/
@@ -327,7 +327,7 @@ public class SupplierQueryController extends BaseSupplierController{
 	 * @param @return      
 	 * @return String
 	 */
-	@RequestMapping("materialSales")
+	@RequestMapping("/materialSales")
 	public String materialSales(HttpServletRequest request,SupplierMatSell supplierMatSell){
 		String supplierId = supplierMatSell.getSupplierId();
 		//资质资格证书
@@ -350,7 +350,7 @@ public class SupplierQueryController extends BaseSupplierController{
 	 * @param @return      
 	 * @return String
 	 */
-	@RequestMapping("engineering")
+	@RequestMapping("/engineering")
 	public String engineeringInformation(HttpServletRequest request,SupplierMatEng supplierMatEng){
 		String supplierId = supplierMatEng.getSupplierId();
 		//资质资格证书信息
@@ -376,7 +376,7 @@ public class SupplierQueryController extends BaseSupplierController{
 	 * @param @return      
 	 * @return String
 	 */
-	@RequestMapping("serviceInformation")
+	@RequestMapping("/serviceInformation")
 	public String serviceInformation(HttpServletRequest request,SupplierMatSe supplierMatSe){
 		String supplierId = supplierMatSe.getSupplierId();
 		//资质证书信息
@@ -389,7 +389,7 @@ public class SupplierQueryController extends BaseSupplierController{
 		return "ses/sms/supplier_query/supplierInfo/service_information";
 	}
 	
-	@RequestMapping("item")
+	@RequestMapping("/item")
 	public String item(){
 		return "ses/sms/supplier_query/supplierInfo/item";
 	}	

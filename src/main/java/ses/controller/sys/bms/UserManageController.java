@@ -1,5 +1,6 @@
 package ses.controller.sys.bms;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,6 +17,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import ses.model.bms.PreMenu;
 import ses.model.bms.Role;
@@ -28,6 +31,7 @@ import ses.service.bms.PreMenuServiceI;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
+import ses.util.FtpUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;

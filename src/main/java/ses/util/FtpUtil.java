@@ -6,6 +6,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.UUID;
 
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
@@ -25,7 +29,12 @@ public class FtpUtil {
 	private static Logger logger = Logger.getLogger(FtpUtil.class);
 
 	private static FTPClient ftp;
-
+	
+	//得到long类型当前时间
+	private static long l = System.currentTimeMillis();
+	//转换提日期输出格式
+	private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH时mm分ss.sss秒");
+	
 	/**
 	 * @Title: connectFtp
 	 * @author: Poppet_Brook
@@ -118,9 +127,10 @@ public class FtpUtil {
 			} else {
 				File file2 = new File(file.getPath());
 				FileInputStream input = new FileInputStream(file2);
-				boolean flag = ftp.storeFile(new String(file2.getName().getBytes("GBK"), "ISO-8859-1"), input);
+				String fileName = dateFormat.format(new Date(l)) + "_" +file2.getName();
+				boolean flag = ftp.storeFile(new String(fileName.getBytes("GBK"), "ISO-8859-1"), input);
 				input.close();
-				String url = PropUtil.getProperty("ftp.root") + ftp.printWorkingDirectory() + "/" + file2.getName();
+				String url = PropUtil.getProperty("ftp.root") + ftp.printWorkingDirectory() + "/" + fileName;
 				return url;
 			}
 		} catch (Exception e) {
@@ -313,10 +323,9 @@ public class FtpUtil {
 	 * @param uploadFile
 	 * @exception IOException
 	 */
-	public static void upload2(MultipartFile uploadFile){
+	public static String upload2(MultipartFile uploadFile){
 		try{
-			String fileName = new String(uploadFile.getOriginalFilename().getBytes("utf-8"),"iso-8859-1");
-			
+			String fileName = new String((dateFormat.format(new Date(l)) + "_" + uploadFile.getOriginalFilename()).getBytes("utf-8"),"iso-8859-1");
 			//判断是否存在该文件
 			FTPFile[] fs = ftp.listFiles();  
 			if (fs!=null && fs.length>0) {
@@ -339,6 +348,8 @@ public class FtpUtil {
 			os.flush();
 			is.close();
 			os.close();
+			String url = new String((PropUtil.getProperty("ftp.root") + ftp.printWorkingDirectory() + "/" + fileName).getBytes("ISO-8859-1"),"utf-8");
+			return url;
 		} catch (IOException e) { 
 			e.printStackTrace(); 
 		} finally { 
@@ -349,16 +360,17 @@ public class FtpUtil {
 				e.printStackTrace(); 
 			} 
 		}
+		return null;
 	}
 	
 	public static void main(String[] args) throws Exception {
 
-//		FtpUtil.connectFtp("test3");
-//		File file = new File("D:\\log4j.log");
-//		FtpUtil.upload(file);
-//		FtpUtil.closeFtp();
+		FtpUtil.connectFtp("test5");
+		File file = new File("e:\\广东商城接口对接实施方案1.2.doc");
+		FtpUtil.upload(file);
+		FtpUtil.closeFtp();
 		// FtpUtil.startDownFolder("E:\\ftpCopy", "zxcvb");
-		FtpUtil.startDownFile("E:/ftpCopy", "test", "test.txt");
+		//FtpUtil.startDownFile("E:/ftpCopy", "test5", "2016-10-08_18时07分03.003秒_log4j.log");
 	}
 
 }
