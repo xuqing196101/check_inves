@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ include file="/WEB-INF/view/common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -188,28 +189,38 @@
    		<table class="table table-bordered table-condensed table-hover">
     
 		<thead>
-			<tr>
-				<th class="info w50"><input type="checkbox" id="selectAll" onclick="selectAll()"/></th>
-				<th class="info">序号</th>
-			    <th class="info" width="50">题型</th>
-				<th class="info" width="100">题干</th>
-				<th class="info">选项</th>
-			    <th class="info">答案</th>
-				<th class="info">分值</th>
-				<th class="info">创建时间</th>
+			<tr class="info">
+				<th class="w50"><input type="checkbox" id="selectAll" onclick="selectAll()"/></th>
+				<th class="w50">序号</th>
+			    <th class="w60">题型</th>
+				<th>题干</th>
+				<th>选项</th>
+			    <th>答案</th>
+				<th>分值</th>
+				<th>创建时间</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach items="${technicalList.list }" var="t" varStatus="vs">
-				<tr>
-					<td class="tc pointer"><input type="checkbox" name="info" value="${t.id }"/></td>
-					<td class="tc pointer" onclick="view('${t.id }')">${(vs.index+1)+(technicalList.pageNum-1)*(technicalList.pageSize)}</td>
-					<td class="tc pointer" onclick="view('${t.id }')">${t.examQuestionType.name }</td>
-					<td class="tc pointer" onclick="view('${t.id }')">${t.topic }</td>
-					<td class="tc pointer" onclick="view('${t.id }')">${t.items }</td>
-					<td class="tc pointer" onclick="view('${t.id }')">${t.answer}</td>
-					<td class="tc pointer" onclick="view('${t.id }')">${t.point }</td>
-					<td class="tc pointer" onclick="view('${t.id }')"><fmt:formatDate value="${t.createdAt}" pattern="yyyy年MM月dd日   HH:mm:ss"/> </td
+				<tr class="pointer">
+					<td class="tc"><input type="checkbox" name="info" value="${t.id }"/></td>
+					<td class="tc" onclick="view('${t.id }')">${(vs.index+1)+(technicalList.pageNum-1)*(technicalList.pageSize)}</td>
+					<td class="tc" onclick="view('${t.id }')">${t.examQuestionType.name }</td>
+					<c:if test="${fn:length(t.topic)>20}">
+						<td onclick="view('${t.id }')">${fn:substring(t.topic,0,20)}...</td>
+					</c:if>
+					<c:if test="${fn:length(t.topic)<=20}">
+						<td onclick="view('${t.id }')">${t.topic }</td>
+					</c:if>
+					<c:if test="${fn:length(t.items)>20}">
+						<td onclick="view('${t.id }')">${fn:substring(t.items,0,20)}...</td>
+					</c:if>
+					<c:if test="${fn:length(t.items)<=20}">
+						<td onclick="view('${t.id }')">${t.items }</td>
+					</c:if>
+					<td class="tc" onclick="view('${t.id }')">${t.answer}</td>
+					<td class="tc" onclick="view('${t.id }')">${t.point }</td>
+					<td class="tc" onclick="view('${t.id }')"><fmt:formatDate value="${t.createdAt}" pattern="yyyy/MM/dd"/> </td
 				</tr>
 			</c:forEach>
 		</tbody>

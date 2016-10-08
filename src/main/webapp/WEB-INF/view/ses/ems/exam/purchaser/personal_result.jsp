@@ -4,7 +4,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <title>专家个人成绩信息</title>
+    <title>采购人成绩信息</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -13,6 +13,8 @@
 	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js" type="text/javascript"></script>
 	<script type="text/javascript">
 		$(function(){
+			$("#code").val("${code}");
+			
 			laypage({
 			    cont: $("#pageDiv"), //容器。值支持id名、原生dom对象，jquery对象,
 			    pages: "${list.pages}", //总页数
@@ -28,17 +30,47 @@
 			    }(), 
 			    jump: function(e, first){ //触发分页后的回调
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
-			            location.href = '<%=basePath%>expertExam/personalResult.do?page='+e.curr;
+			        	var code = "${code}";
+			            location.href = "<%=basePath%>purchaserExam/personalResult.do?code="+code+"&page="+e.curr;
 			        }
 			    }
 			});
 		})	
+		
+		//查询
+		function query(){
+			var code = $("#code").val();
+			if(code==""||code==null){
+				window.location.href = "<%=basePath%>purchaserExam/personalResult.do";
+			}else{
+				window.location.href = "<%=basePath%>purchaserExam/personalResult.do?code="+code;
+			}
+			
+		}
+		
+		//重置
+		function reset(){
+			$("#code").val(" ");
+		}
 	</script>
 
   </head>
   
   <body>
   	<div class="container">
+	   <div class="headline-v2">
+	   		<h2>查询条件</h2>
+	   </div>
+   	</div>
+    <div class="container">
+    	<div class="border1 col-md-12 ml30">
+	    	考试编号:<input type="text" id="code" class="mt10"/>
+	    	<button type="button" onclick="query()" class="btn">查询</button>
+	    	<button type="button" onclick="reset()" class="btn">重置</button>
+    	</div>
+    </div>
+  	
+    <div class="container">
 	   <div class="headline-v2">
 	   		<h2>成绩信息</h2>
 	   </div>
@@ -50,7 +82,8 @@
 				<thead>
 					<tr class="info">
 						<th width="50">序号</th>
-					    <th width="150">专家姓名</th>
+					    <th width="150">采购人姓名</th>
+					    <th>考试编号</th>
 						<th width="100">得分</th>
 						<th>考试状态</th>
 					    <th>考试时间</th>
@@ -61,6 +94,7 @@
 						<tr class="tc">
 							<td>${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 							<td>${l.relName }</td>
+							<td>${l.code }</td>
 							<td>${l.score }</td>
 							<td>${l.status }</td>
 							<td>${l.formatDate}</td>

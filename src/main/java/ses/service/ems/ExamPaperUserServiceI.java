@@ -133,4 +133,16 @@ public interface ExamPaperUserServiceI {
 	* @return List<ExamPaperUser>
 	 */
 	List<ExamPaperUser> findAll();
+	
+	/**
+	 * 
+	* @Title: findIsExamByCondition
+	* @author ZhaoBo
+	* @date 2016-10-8 上午9:27:17  
+	* @Description: 根据userId和paperId判断用户可不可以再次登录 
+	* @param @param map
+	* @param @return      
+	* @return List<ExamPaperUser>
+	 */
+	List<ExamPaperUser> findIsExamByCondition(HashMap<String,Object> map);
 }

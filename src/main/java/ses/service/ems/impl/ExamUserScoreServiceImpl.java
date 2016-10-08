@@ -93,5 +93,12 @@ public class ExamUserScoreServiceImpl implements ExamUserScoreServiceI {
 
 
 	
+	@Override
+	public List<ExamUserScore> findByUserIdAndCode(HashMap<String, Object> map) {
+		return examUserScoreMapper.findByUserIdAndCode(map);
+	}
+
+
+	
 	
 }

@@ -17,12 +17,12 @@
 		})
 		
 		//倒计时
-		var timeLeft = 20*1000-1000;//这里设定的时间是5分钟 
+		var timeLeft = 5*60*1000-1000;//这里设定的时间是5分钟 
 		function countTime(){
 		    if(timeLeft==0){
 		    	$("#startExam").show();
 		    	$("#time").hide();
-		    	$("#ready").html("亲,可以开始考试了!");
+		    	$("#ready").html(" ");
 		        return; 
 		    }
 		    var startMinutes = parseInt(timeLeft / (60 * 1000), 10); 
