@@ -2,6 +2,7 @@ package bss.controller.ppms;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -63,7 +64,7 @@ public class ProjectController extends BaseController{
 	@RequestMapping("/list")
 	public String list(Integer page,Model model,Project project){
 		List<Project> list = projectService.list(page==null?1:page, project);
-		PageInfo<Project> info = new PageInfo<>(list);
+		PageInfo<Project> info = new PageInfo<Project>(list);
 		model.addAttribute("info", info);
 		model.addAttribute("projects", project);
 		return "bss/ppms/project/list";
@@ -80,7 +81,7 @@ public class ProjectController extends BaseController{
 	@RequestMapping("/add")
 	public String add(Integer page,Model model,Task task){
 		List<Task> list = taskservice.listAll(page==null?1:page, task);
-		PageInfo<Task> info = new PageInfo<>(list);
+		PageInfo<Task> info = new PageInfo<Task>(list);
 		model.addAttribute("info", info);
 		model.addAttribute("task", task);
 		return "bss/ppms/project/add";
@@ -147,7 +148,7 @@ public class ProjectController extends BaseController{
 	public String view(String id,Model model,Integer page){
 		List<Task> list = taskservice.selectByProject(id, page==null?1:page);
 		Project ject = projectService.selectById(id);
-		PageInfo<Task> info = new PageInfo<>(list);
+		PageInfo<Task> info = new PageInfo<Task>(list);
 		model.addAttribute("info", info);
 		model.addAttribute("ject", ject);
 		return "bss/ppms/project/view";
@@ -157,7 +158,7 @@ public class ProjectController extends BaseController{
 	public String edit(String id,Model model,Integer page){
 		List<Task> list = taskservice.selectByProject(id, page==null?1:page);
 		Project ject = projectService.selectById(id);
-		PageInfo<Task> info = new PageInfo<>(list);
+		PageInfo<Task> info = new PageInfo<Task>(list);
 		model.addAttribute("info", info);
 		model.addAttribute("ject", ject);
 		return "bss/ppms/project/edit";
@@ -202,6 +203,38 @@ public class ProjectController extends BaseController{
 			model.addAttribute("lists", list);
 		}
 		return "bss/ppms/project/viewDetail";
+	}
+	
+	/**
+	 * 
+	* @Title: subPackage
+	* @author ZhaoBo
+	* @date 2016-10-8 下午4:08:11  
+	* @Description: 项目分包页面 
+	* @param @param request
+	* @param @param model
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/subPackage")
+	public String subPackage(HttpServletRequest request,Model model){
+		String id = request.getParameter("id");
+		List<Task> task = taskservice.selectByProjectId(id);
+		List<PurchaseRequired> list = new ArrayList<PurchaseRequired>();
+		for(int i=0;i<task.size();i++){
+			CollectPlan queryById = collectPlanService.queryById(task.get(i).getCollectId());
+			if(queryById != null){
+				Map<String,Object> map = new HashMap<String,Object>();
+				map.get(queryById);
+				List<PurchaseRequired> PurchaseRequired = purchaseRequiredService.getByMap(map);
+				list.addAll(PurchaseRequired);
+			}
+		}
+		System.out.println(list.size());
+		model.addAttribute("list", list);
+		Project project = projectService.selectById(id);
+		model.addAttribute("project", project);
+		return "bss/ppms/project/sub_package";
 	}
 	
 	/**

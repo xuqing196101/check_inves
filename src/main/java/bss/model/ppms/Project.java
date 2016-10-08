@@ -71,6 +71,8 @@ public class Project {
     
     private Integer executeStatus;
     
+    private Integer isEntrance;
+    
     private Supplier dealSupplier;
     
     private List<Task> list;
@@ -356,6 +358,14 @@ public class Project {
 
 	public void setExecuteStatus(Integer executeStatus) {
 		this.executeStatus = executeStatus;
+	}
+
+	public Integer getIsEntrance() {
+		return isEntrance;
+	}
+
+	public void setIsEntrance(Integer isEntrance) {
+		this.isEntrance = isEntrance;
 	}
 
 	

@@ -33,6 +33,7 @@
     <result column="AMOUNT" property="amount" />
     <result column="PURCHASE_DEP_NAME" property="purchaseDepName"/>
     <result column="EXECUTE_STATUS" property="executeStatus"/>
+    <result column="IS_ENTRANCE" property="isEntrance"/>
     <association property="dealSupplier" column="DEAL_SUPPLIER" select="ses.dao.sms.SupplierMapper.selectByPrimaryKey"/>
     <association property="purchaseDep" column="PURCHASE_DEP_ID" select="ses.dao.oms.PurchaseDepMapper.selectPurchaseById"/>
   </resultMap>
@@ -42,7 +43,7 @@
     POSTCODE, SUPPLIER_NUMBER, OFFER_STANDARD, PR_INTRODUCE, BUDGET_AMOUNT, PASS_WORD, 
     SCORING_RUBRIC, OPERATOR, DIVISION_OF_WORK, PURCHASE_TYPE, MATERIALS_TYPE, SECTOR_OF_DEMAND, 
     PURCHASE_DEP_ID, DEADLINE, DATE_OF_ENTRUSTMENT, BID_DATE, BID_ADDRESS, REQUIERED_ID,BALE_NO,
-    AMOUNT,DEAL_SUPPLIER,PURCHASE_DEP_NAME,EXECUTE_STATUS
+    AMOUNT,DEAL_SUPPLIER,PURCHASE_DEP_NAME,EXECUTE_STATUS,IS_ENTRANCE
   </sql>
   
   <sql id="Example_Where_Clause">
@@ -146,6 +147,9 @@
       </if>
       <if test="executeStatus != null and executeStatus != ''">
         and p.EXECUTE_STATUS = #{executeStatus}
+      </if>
+      <if test="isEntrance != null and isEntrance != ''">
+        and p.IS_ENTRANCE = #{isEntrance}
       </if>
     </trim>
   </sql>
@@ -331,6 +335,9 @@
       <if test="executeStatus != null">
         EXECUTE_STATUS,
       </if>
+      <if test="isEntrance != null">
+        IS_ENTRANCE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -432,6 +439,9 @@
       <if test="executeStatus != null">
         #{executeStatus},
       </if>
+      <if test="isEntrance != null">
+        #{isEntrance},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="bss.model.ppms.Project">
@@ -532,6 +542,9 @@
       </if>
       <if test="executeStatus != null">
         EXECUTE_STATUS = #{executeStatus},
+      </if>
+      <if test="isEntrance != null">
+        IS_ENTRANCE = #{isEntrance},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}

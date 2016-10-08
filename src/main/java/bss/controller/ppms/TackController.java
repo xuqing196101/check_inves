@@ -67,7 +67,7 @@ public class TackController extends BaseController{
 	@RequestMapping("/list")
 	public String list(Integer page,Model model,Task task){
 		List<Task> list = taskservice.listAll(page==null?1:page, task);
-		PageInfo<Task> info = new PageInfo<>(list);
+		PageInfo<Task> info = new PageInfo<Task>(list);
 		model.addAttribute("info", info);
 		model.addAttribute("task", task);
 		return "bss/ppms/task/list";

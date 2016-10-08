@@ -68,5 +68,12 @@ public class TaskServiceImpl implements TaskService {
 		return list;
 	}
 
+	
+	@Override
+	public List<Task> selectByProjectId(String id) {
+		List<Task> list = taskMapper.selectByProject(id);
+		return list;
+	}
+
 
 }

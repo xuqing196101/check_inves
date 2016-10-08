@@ -85,4 +85,6 @@ public interface TaskService {
 	 * @return List<Task>
 	  */
 	 List<Task> selectByProject(String id,Integer page);
+	 
+	 List<Task> selectByProjectId(String id);
 }
