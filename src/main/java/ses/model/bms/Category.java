@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import ses.model.ppms.CategoryParam;
+import ses.model.sms.SupplierType;
 
 public class Category {
 	/*
@@ -69,12 +70,12 @@ public class Category {
      * 是否公开
      * 
      * */
-   private Integer isPubliced;
+   private Integer isPublish;
    /*
     * 产品类型（销售型   生产型）
     * 
     * */
-   private Integer type;
+   private Integer kind;
    /*
     * 参数状态
     * 
@@ -84,26 +85,38 @@ public class Category {
     * 验证规范
     * 
     * */
-   private String acceptenceRegulation;
+   private String acceptRange;
    /*
     * 公开范围 （内网  外网）
     * 
     * 
     * */
-   private Integer scopePublic;
+   private Integer paramPublishRange;
 
    private CategoryAttchment categoryAttchment;
    
-   private CategoryAptitude categoryAptitude;
+   private List<CategoryAptitude> categoryAptitudes;
 	
    private List<CategoryParam> categoryParams;
    
-	public CategoryAptitude getCategoryAptitude() {
-	return categoryAptitude;
+   private List<SupplierType> supplierTypes;
+   
+
+
+	public List<SupplierType> getSupplierTypes() {
+	return supplierTypes;
 }
 
-public void setCategoryAptitude(CategoryAptitude categoryAptitude) {
-	this.categoryAptitude = categoryAptitude;
+public void setSupplierTypes(List<SupplierType> supplierTypes) {
+	this.supplierTypes = supplierTypes;
+}
+
+	public List<CategoryAptitude> getCategoryAptitudes() {
+	return categoryAptitudes;
+}
+
+public void setCategoryAptitudes(List<CategoryAptitude> categoryAptitudes) {
+	this.categoryAptitudes = categoryAptitudes;
 }
 
 	public CategoryAttchment getCategoryAttchment() {
@@ -207,13 +220,13 @@ public void setCategoryAttchment(CategoryAttchment categoryAttchment) {
         this.code = code == null ? null : code.trim();
     }
 
-    public Integer getPosition() {
-        return position;
-    }
+	public Integer getPosition() {
+		return position;
+	}
 
-    public void setPosition(Integer position) {
-        this.position = position;
-    }
+	public void setPosition(Integer position) {
+		this.position = position;
+	}
 
 	public Category(String id) {
 	
@@ -224,21 +237,7 @@ public void setCategoryAttchment(CategoryAttchment categoryAttchment) {
 		super();
 	}
 
-	public Integer getIsPubliced() {
-		return isPubliced;
-	}
 
-	public void setIsPubliced(Integer isPubliced) {
-		this.isPubliced = isPubliced;
-	}
-
-	public Integer getType() {
-		return type;
-	}
-
-	public void setType(Integer type) {
-		this.type = type;
-	}
 
 	public Integer getParamStatus() {
 		return paramStatus;
@@ -248,21 +247,39 @@ public void setCategoryAttchment(CategoryAttchment categoryAttchment) {
 		this.paramStatus = paramStatus;
 	}
 
-	public String getAcceptenceRegulation() {
-		return acceptenceRegulation;
+	public Integer getIsPublish() {
+		return isPublish;
 	}
 
-	public void setAcceptenceRegulation(String acceptenceRegulation) {
-		this.acceptenceRegulation = acceptenceRegulation;
+	public void setIsPublish(Integer isPublish) {
+		this.isPublish = isPublish;
 	}
 
-	public Integer getScopePublic() {
-		return scopePublic;
+	public Integer getKind() {
+		return kind;
 	}
 
-	public void setScopePublic(Integer scopePublic) {
-		this.scopePublic = scopePublic;
+	public void setKind(Integer kind) {
+		this.kind = kind;
 	}
+
+	public String getAcceptRange() {
+		return acceptRange;
+	}
+
+	public void setAcceptRange(String acceptRange) {
+		this.acceptRange = acceptRange;
+	}
+
+	public Integer getParamPublishRange() {
+		return paramPublishRange;
+	}
+
+	public void setParamPublishRange(Integer paramPublishRange) {
+		this.paramPublishRange = paramPublishRange;
+	}
+
+	
 
 	
     

@@ -1740,7 +1740,7 @@ img.img-mouse {
  
 .yzm{
   width:98px;
-  height:32px;
+  height:28px;
   border:1px solid #e5e5e5;
   line-height:32px;
   float:left;
@@ -2057,15 +2057,15 @@ span.zyxx{
 	border:1px solid #eeeeee;
 	float:left;
 	padding:5px;
+	border-radius:200px!important;
+	padding:15px;
+	overflow:hidden;
 }
 .comment_pic img{
     width:100%;
     height:100%;
 }
-.comment_desc .comment_cont{
-	min-height:60px;
-	overflow: hidden;
-}
+
 .comment_main{
 	padding:10px!important;
 	border:1px dashed #eeeeee;

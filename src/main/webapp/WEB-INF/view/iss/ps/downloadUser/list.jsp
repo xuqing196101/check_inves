@@ -25,6 +25,9 @@
 		    pages: "${pages}", //总页数
 		    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
 		    skip: true, //是否开启跳页
+		    total: "${total}",
+		    startRow: "${startRow}",
+		    endRow : "${endRow}",
 		    groups: "${pages}">=3?3:"${pages}", //连续显示分页数
 		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
 		        var page = location.search.match(/page=(\d+)/);
@@ -132,7 +135,7 @@
 	  </h2>
    </div> 
    	  <span class="fr option_btn margin-top-20">
-	    <button class="btn padding-left-10 padding-right-10 btn_back">删除</button>
+	    <button onclick="del()" class="btn padding-left-10 padding-right-10 btn_back">删除</button>
 	  </span>
    <div class="container clear margin-top-30">
    	<table class="table table-bordered table-condensed mt5">

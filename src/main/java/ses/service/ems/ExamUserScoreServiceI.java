@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import ses.model.ems.ExamUserScore;
+import ses.model.ems.Expert;
 
 
 /**
@@ -67,6 +68,30 @@ public interface ExamUserScoreServiceI {
     
     /**
      * 
+    * @Title: updateIsMaxById
+    * @author ZhaoBo
+    * @date 2016-9-28 下午2:42:33  
+    * @Description: 根据用户ID和考卷ID更新采购人成绩的ISMAx状态 
+    * @param @param examUserScore
+    * @param @return      
+    * @return int
+     */
+    int updateIsMaxById(ExamUserScore examUserScore);
+    
+    /**
+     * 
+    * @Title: updateIsMaxByUserId
+    * @author ZhaoBo
+    * @date 2016-9-28 下午3:17:40  
+    * @Description: 根据用户ID和考卷ID更新专家考试成绩的ISMAx状态 
+    * @param @param examUserScore
+    * @param @return      
+    * @return int
+     */
+    int updateIsMaxByUserId(ExamUserScore examUserScore);
+    
+    /**
+     * 
     * @Title: selectExpertResultByCondition
     * @author ZhaoBo
     * @date 2016-9-23 下午4:08:52  
@@ -88,4 +113,27 @@ public interface ExamUserScoreServiceI {
     * @return List<ExamUserScore>
      */
     List<ExamUserScore> selectPurchaserResultByCondition(HashMap<String,Object> map);
+    
+    /**
+     * 
+    * @Title: findByUserId
+    * @author ZhaoBo
+    * @date 2016-9-28 上午11:31:17  
+    * @Description: 根据userId查找属于用户的成绩
+    * @param @param examUserScore
+    * @param @return      
+    * @return List<ExamUserScore>
+     */
+    List<ExamUserScore> findByUserId(HashMap<String,Object> map);
+    
+    /**
+     * 
+    * @Title: findAllExpert
+    * @author ZhaoBo
+    * @date 2016-9-29 下午5:21:46  
+    * @Description: 查询所有的专家 
+    * @param @return      
+    * @return List<Expert>
+     */
+    List<Expert> findAllExpert();
 }

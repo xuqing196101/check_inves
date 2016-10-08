@@ -19,6 +19,9 @@
           pages: "${result.pages}", //总页数
           skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
           skip: true, //是否开启跳页
+          total: "${result.total}",
+          startRow: "${result.startRow}",
+          endRow: "${result.endRow}",
           groups: "${result.pages}">=3?3:"${result.pages}", //连续显示分页数
           curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
           return "${result.pageNum}";
@@ -102,25 +105,29 @@
   </div>
 <!-- 搜索 -->
   <div class="container">
-    <form action="${pageContext.request.contextPath}/supplierAudit/supplierList.html"  method="post" id="form1" enctype="multipart/form-data" class="registerform"> 
-     <input type="hidden" name="page" id="page">
-     <ul class="list-unstyled list-flow p0_20">
-        <li class="col-md-6 p0">
-          <span>供应商名称：</span>
-            <input class="span2" maxlength="10" name="supplierName" type="text">
-        </li>
-        <li class="col-md-6 p0">
-          <span>企业类型：</span>
-	          <select name="punishDate" class="span2">
-	          <option value="">全部</option>
-	            <c:forEach var="type" varStatus="vs" items="${supplierType}">
-	              <option value="${type.name}">${type.name}</option>
-	            </c:forEach>
-	          </select> 
-            &nbsp;&nbsp;&nbsp;<input class="btn-u" name="commit" value="搜索" type="submit">
-        </li>
+      <div style="padding-left: 20px;">
+        <form action="${pageContext.request.contextPath}/supplierAudit/supplierList.html"  method="post" id="form1" enctype="multipart/form-data" class="registerform"> 
+        <input type="hidden" name="page" id="page">
+          <ul class="demand_list list-unstyled">
+            <li>
+              <label class="fl mt10">供应商名称：</label> 
+                <input class="mb0 mt5" name="supplierName" type="text">
+            </li>
+            <li>
+              <label class="fl mt10">企业类型：</label> 
+	              <select name="punishDate" class="mb0 mt5">
+	                <option value="">全部</option>
+	                <c:forEach var="type" varStatus="vs" items="${supplierType}">
+	                  <option value="${type.name}">${type.name}</option>
+	                </c:forEach>
+	             </select> 
+           </li>
+           <li>
+            <input type="submit" class="btn btn_back fl ml10 mt6" value="查询" />
+           </li>
       </ul>
     </form>
+  </div>
   </div>
   <div class="container">
     <div class="col-md-8">
@@ -151,9 +158,15 @@
             <td class="tc w30"><input type="checkbox" name="check" id="checked" alt="" value="${list.id }"></td>
             <td class="tc w50">${page.count}</td>
             <td class="tc">${list.supplierName }</td>
-            <td class="tc">${list.supplierTypeId }</td>
+            <td class="tc">
+            	<c:forEach items="${list.listSupplierTypeRelates}" var="str">
+            		${str.supplierTypeName}
+            	</c:forEach>
+            </td>
             <td class="tc">${list.businessType }</td>
-            <td class="tc"></td>
+            <td class="tc">
+            	
+            </td>
             <td class="tc">
 	             <c:if test="${list.status==0 }">待初审</c:if>
 	             <c:if test="${list.status==1 }">待复审</c:if>

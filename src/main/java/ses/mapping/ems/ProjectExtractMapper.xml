@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.ems.ProjectExtractMapper">
+	<resultMap id="BaseResultMap" type="ses.model.ems.ProjectExtract">
+		<!-- @mbggenerated -->
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
+		<result column="EXPERT_EXTRACT_RECORD_ID" jdbcType="VARCHAR"
+			property="expertExtractRecordId" />
+		<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+		<result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+		<result column="OPERATING_TYPE" jdbcType="DECIMAL" property="operatingType" />
+		<result column="REASON" jdbcType="VARCHAR" property="reason" />
+		<result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
+	<!--       专家-->
+        <association column="EXPERT_ID" property="expert"
+            select="ses.dao.ems.ExpertMapper.selectByPrimaryKey" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		<!-- @mbggenerated -->
+		ID, PROJECT_ID, EXPERT_EXTRACT_RECORD_ID, EXPERT_ID, CREATED_AT,
+		UPDATED_AT, OPERATING_TYPE,
+		REASON, IS_DELETED
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		<!-- @mbggenerated -->
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_EMS_PROJECT_EXTRACT
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		<!-- @mbggenerated -->
+		delete from T_SES_EMS_PROJECT_EXTRACT
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="ses.model.ems.ProjectExtract">
+		<!-- @mbggenerated -->
+		insert into T_SES_EMS_PROJECT_EXTRACT (ID, PROJECT_ID,
+		EXPERT_EXTRACT_RECORD_ID,
+		EXPERT_ID, CREATED_AT, UPDATED_AT,
+		OPERATING_TYPE, REASON, IS_DELETED
+		)
+		values (#{id,jdbcType=VARCHAR},
+		#{projectId,jdbcType=VARCHAR},
+		#{expertExtractRecordId,jdbcType=VARCHAR},
+		#{expertId,jdbcType=VARCHAR}, #{createdAt,jdbcType=DATE},
+		#{updatedAt,jdbcType=DATE},
+		#{operatingType,jdbcType=DECIMAL},
+		#{reason,jdbcType=VARCHAR}, #{isDeleted,jdbcType=DECIMAL}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="ses.model.ems.ProjectExtract">
+		<!-- @mbggenerated -->
+		insert into T_SES_EMS_PROJECT_EXTRACT
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="projectId != null">
+				PROJECT_ID,
+			</if>
+			<if test="expertExtractRecordId != null">
+				EXPERT_EXTRACT_RECORD_ID,
+			</if>
+			<if test="expertId != null">
+				EXPERT_ID,
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT,
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT,
+			</if>
+			<if test="operatingType != null">
+				OPERATING_TYPE,
+			</if>
+			<if test="reason != null">
+				REASON,
+			</if>
+			<if test="isDeleted != null">
+				IS_DELETED,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="projectId != null">
+				#{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="expertExtractRecordId != null">
+				#{expertExtractRecordId,jdbcType=VARCHAR},
+			</if>
+			<if test="expertId != null">
+				#{expertId,jdbcType=VARCHAR},
+			</if>
+			<if test="createdAt != null">
+				#{createdAt,jdbcType=DATE},
+			</if>
+			<if test="updatedAt != null">
+				#{updatedAt,jdbcType=DATE},
+			</if>
+			<if test="operatingType != null">
+				#{operatingType,jdbcType=DECIMAL},
+			</if>
+			<if test="reason != null">
+				#{reason,jdbcType=VARCHAR},
+			</if>
+			<if test="isDeleted != null">
+				#{isDeleted,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="ses.model.ems.ProjectExtract">
+		<!-- @mbggenerated -->
+		update T_SES_EMS_PROJECT_EXTRACT
+		<set>
+			<if test="projectId != null">
+				PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="expertExtractRecordId != null">
+				EXPERT_EXTRACT_RECORD_ID =
+				#{expertExtractRecordId,jdbcType=VARCHAR},
+			</if>
+			<if test="expertId != null">
+				EXPERT_ID = #{expertId,jdbcType=VARCHAR},
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT = #{createdAt,jdbcType=DATE},
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT = #{updatedAt,jdbcType=DATE},
+			</if>
+			<if test="operatingType != null">
+				OPERATING_TYPE = #{operatingType,jdbcType=DECIMAL},
+			</if>
+			<if test="reason != null">
+				REASON = #{reason,jdbcType=VARCHAR},
+			</if>
+			<if test="isDeleted != null">
+				IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="ses.model.ems.ProjectExtract">
+		<!-- @mbggenerated -->
+		update T_SES_EMS_PROJECT_EXTRACT
+		set PROJECT_ID =
+		#{projectId,jdbcType=VARCHAR},
+		EXPERT_EXTRACT_RECORD_ID =
+		#{expertExtractRecordId,jdbcType=VARCHAR},
+		EXPERT_ID =
+		#{expertId,jdbcType=VARCHAR},
+		CREATED_AT = #{createdAt,jdbcType=DATE},
+		UPDATED_AT = #{updatedAt,jdbcType=DATE},
+		OPERATING_TYPE =
+		#{operatingType,jdbcType=DECIMAL},
+		REASON = #{reason,jdbcType=VARCHAR},
+		IS_DELETED = #{isDeleted,jdbcType=DECIMAL}
+		where ID =
+		#{id,jdbcType=VARCHAR}
+	</update>
+
+	<select id="list" parameterType="ses.model.ems.ProjectExtract"
+		resultMap="BaseResultMap">
+		SELECT
+		pe.*
+		FROM
+		T_SES_EMS_PROJECT_EXTRACT pe
+		Where pe.EXPERT_EXTRACT_RECORD_ID =#{expertExtractRecordId}
+	</select>
+
+</mapper>

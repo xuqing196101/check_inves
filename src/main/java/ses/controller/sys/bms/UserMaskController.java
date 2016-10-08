@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,8 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.formbean.UserTaskFormBean;
+import ses.model.bms.User;
 import ses.model.bms.UserTask;
 import ses.service.bms.UserTaksService;
+
+
 
 
 
@@ -56,7 +61,8 @@ public class UserMaskController {
 	* @throws
 	 */
 	@RequestMapping("/getmonth")
-	public String getMonth(Model model,String date) throws ParseException{
+	public String getMonth(Model model,String date,HttpServletRequest request) throws ParseException{
+		User user = (User) request.getSession().getAttribute("loginUser");
 		if(date!=null){
 			Date date2 = stingToDate(date);
 			SimpleDateFormat sdfs=new SimpleDateFormat("yyyy"); 
@@ -67,6 +73,7 @@ public class UserMaskController {
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM"); 
 			String dates = sdf.format(date2);
 			map.put("date", dates);
+			map.put("userId", user.getId());
 			List<UserTaskFormBean> list = userTaksService.getAl(map);
 			String string = JSON.toJSONString(list);
 			model.addAttribute("data", string);
@@ -79,10 +86,10 @@ public class UserMaskController {
 			SimpleDateFormat sdfs=new SimpleDateFormat("yyyy-MM"); 
 			String dates = sdfs.format(new Date());
 			map.put("date", dates);
+			map.put("userId", user.getId());
 			List<UserTaskFormBean> list = userTaksService.getAl(map);
 			String string = JSON.toJSONString(list);
 			model.addAttribute("data", string);
-		 
 			
 		}
 		
@@ -102,7 +109,9 @@ public class UserMaskController {
 	 */
 	@RequestMapping("/add")
 	@ResponseBody
-	public String addTask(UserTask userTask,String startDate,String endDate) throws ParseException{
+	public String addTask(UserTask userTask,String startDate,String endDate,HttpServletRequest request) throws ParseException{
+		User user = (User) request.getSession().getAttribute("loginUser");
+
 		Date date = stingToDate(startDate);
 		Date date2 = stingToDate(endDate);
 		userTask.setStartDate(date);
@@ -110,6 +119,7 @@ public class UserMaskController {
 		userTask.setStatus("1");
 		userTask.setCreatedAt(new Date());
 		userTask.setUpdatedAt(new Date());
+		userTask.setUserId(user.getId());
 		userTaksService.add(userTask);
 	return null;	
 	}

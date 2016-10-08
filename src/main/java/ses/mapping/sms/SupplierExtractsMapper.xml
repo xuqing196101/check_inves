@@ -22,7 +22,7 @@
 	</resultMap>
 	<resultMap type="ses.model.sms.SupplierExtracts" id="BaseResultListMap"
 		extends="BaseResultMap">
-		<collection property="SupplierExtRelate" ofType="ses.model.sms.SupplierExtRelate">
+		<collection  property="SupplierExtRelate" ofType="ses.model.sms.SupplierExtRelate">
 			<id column="erid" jdbcType="VARCHAR" property="id" />
 			<result column="EXTRACTS_ID" jdbcType="VARCHAR" property="extractsId" />
 			<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />

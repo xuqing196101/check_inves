@@ -56,4 +56,13 @@ public interface CategoryParamService {
 	* @param @param list<Category>
 	*/
 	public List<Category> listByParent(String pid);
+	
+	/**   
+	* @Title: listByParent
+	* @author zhangxuefeng
+	* @date 2016-7-27 下午4:52:29  
+	* @Description: 根据id新增
+	* @param @param CategoryParam
+	*/
+	 CategoryParam insertSelective(CategoryParam categoryParam);
 }

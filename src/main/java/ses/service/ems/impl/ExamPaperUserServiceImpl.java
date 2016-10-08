@@ -77,4 +77,10 @@ public class ExamPaperUserServiceImpl implements ExamPaperUserServiceI {
 		return examPaperUserMapper.findAll();
 	}
 
+	
+	@Override
+	public int updateByPaperIdAndUserID(ExamPaperUser examPaperUser) {
+		return examPaperUserMapper.updateByPaperIdAndUserID(examPaperUser);
+	}
+
 }

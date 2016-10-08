@@ -33,8 +33,6 @@ public class SupplierTypeRelateServiceImpl implements SupplierTypeRelateService 
 			supplierTypeRelate.setCreatedAt(new Date());
 			supplierTypeRelateMapper.insertSelective(supplierTypeRelate);
 		}
-		
-
 	}
 
 }

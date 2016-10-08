@@ -1,7 +1,10 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ include file="../../../common.jsp"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -18,6 +21,27 @@
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
+	<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
+	
+	<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
+	<script type="text/javascript" src="<%=path %>/public/ZHH/js/ajaxfileupload.js"></script>
+	<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
+	<script type="text/javascript" src="<%=basePath%>public/lodop/LodopFuncs.js"></script>
+	<script type="text/javascript" src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
 	<script src="<%=basePath%>public/layer/layer.js"></script>
   </head>
   <script type="text/javascript">
@@ -60,13 +84,13 @@
 			     <li class="col-md-6 p0">
 				   <span class="fl mt5">名称：</span>
 				   <div class="input-append">
-			        <input class="span2" name="name" value=${role.name } maxlength="30" type="text">
+			        <input class="w140" name="name" value=${role.name } maxlength="30" type="text">
 			        <span class="add-on">i</span>
 			       </div>
 				 </li>
 				 <li class="col-md-6 p0 ">
-				 	<span class="">状态：</span>
-					<select  name="status"  >
+				 	<span class="fl">状态：</span>
+					<select  name="status"  class="w180 ">
 					   	<option value="0" <c:if test="${'0' eq role.status}">selected</c:if>>可用</option>
 					   	<option value="1" <c:if test="${'1' eq role.status}">selected</c:if>>禁用</option>
 				    </select>

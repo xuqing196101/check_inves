@@ -9,4 +9,5 @@ public interface PurchaseDepMapper {
 	List<PurchaseDep> findPurchaseDepList(HashMap<String, Object> map);
 	int  savePurchaseDep(PurchaseDep purchaseDep);
 	PurchaseDep selectPurchaseById(String id);
+	int update(PurchaseDep purchaseDep);
 }

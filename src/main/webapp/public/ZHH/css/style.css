@@ -1684,3 +1684,92 @@ img.img-mouse {
   margin-top:0!important;
   margin-right:5px!important;
  }
+ 
+ 
+ 
+ /*搜索框样式*/
+ 
+ .demand_list{
+ padding:0px;
+ margin:0px;
+ float:left;
+ list-style:none; 
+}
+.demand_list li{
+  float:left;
+  margin-right:10px;
+}
+.demand_list li label{
+  margin-bottom:0px!important;
+  margin-top:7px;
+  min-width:100px;
+  text-align:right;
+ }
+.demand_list li input{
+  margin-bottom:0px!important;
+ }
+ .option_btn .btn{
+  margin:0px 5px 5px 5px;
+ }
+.demand_list select{
+  font-size:14px;
+  font-weight:normal;
+  border: 1px solid #ccc;
+  background:#ffffff;
+  color:#555;
+ }
+ a.upload{
+  padding-left:24px;
+  background:url(../images/upload.png) no-repeat 0px;
+  font-size:16px;
+  height:30px;
+  line-height:30px;
+  margin-left:5px;
+  display:block;
+  float:left;
+ }
+.minheight370{
+ min-height:370px;
+}
+.cbp_tmlabel h4{
+  margin:0!important;
+}
+.timeline-v2 li{
+	margin-bottom:15px;
+}
+.dnone{
+	display: none;
+	z-index: 10;
+}
+.spredm{
+	color:red;
+}
+.textAreaSize{
+	width:400px;
+	height:80px;
+}
+.dw188 {
+	display:none;
+	position: absolute;
+	z-index: 100;
+	margin:0px;
+	padding:0px;
+	list-style:none; 
+}
+.list-flow li{
+	position:relative;
+}
+.validate{
+	font-size:12px;
+	position:absolute;
+	left:430px;
+	top:5px;
+	color:#ef0000;
+}
+/*非空提示星号*/
+.star_red{
+	width: 10px;
+    height: 30px;
+    margin-right: 5px;
+    display: inline-block;
+}

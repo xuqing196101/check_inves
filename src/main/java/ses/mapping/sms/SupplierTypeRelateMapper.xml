@@ -7,6 +7,7 @@
 		<result column="SUPPLIER_TYPE_ID" property="supplierTypeId" />
 		<result column="CREATED_AT" property="createdAt" />
 		<result column="UPDATED_AT" property="updatedAt" />
+		<result column="SUPPLIER_TYPE_NAME" property="supplierTypeName" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		ID, SUPPLIER_ID, SUPPLIER_TYPE_ID, CREATED_AT, UPDATED_AT
@@ -96,6 +97,17 @@
 
 	<select id="findSupplierTypeIdBySupplierId" parameterType="java.lang.String" resultType="java.lang.String">
 		select SUPPLIER_TYPE_ID from T_SES_SMS_SUPPLIER_TYPE_RELATE where SUPPLIER_ID = #{supplierId}
+	</select>
+
+	<select id="findSupplierTypeBySupplierId" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		t2.*,
+		t3.NAME as SUPPLIER_TYPE_NAME
+		from
+		T_SES_SMS_SUPPLIER t1
+		join T_SES_SMS_SUPPLIER_TYPE_RELATE t2 on t1. ID = t2.SUPPLIER_ID
+		join T_SES_SMS_SUPPLIER_TYPE t3 on t2.SUPPLIER_TYPE_ID = t3. ID
+		where t1.ID = #{supplierId}
 	</select>
 
 	<delete id="deleteBySupplierId" parameterType="java.lang.String">

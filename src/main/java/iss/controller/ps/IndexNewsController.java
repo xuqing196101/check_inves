@@ -4,6 +4,7 @@ import iss.model.ps.Article;
 import iss.model.ps.ArticleAttachments;
 import iss.model.ps.ArticleType;
 import iss.model.ps.DownloadUser;
+import iss.model.ps.IndexEntity;
 import iss.service.ps.ArticleAttachmentsService;
 import iss.service.ps.ArticleService;
 import iss.service.ps.ArticleTypeService;
@@ -124,6 +125,11 @@ public class IndexNewsController {
 		List<Article> indexNewsList = indexNewsService.selectNewsByArticleTypeId(map);
 		ArticleType articleTypeOne = articleTypeService.selectTypeByPrimaryKey(articleTypeId);
 		Integer pages = indexNewsService.selectCount(countMap);
+		Integer startRow = (page-1)*Integer.parseInt(pageSize)+1;
+		Integer endRow = (page-1)+indexNewsList.size();
+		model.addAttribute("total", pages);
+		model.addAttribute("startRow", startRow);
+		model.addAttribute("endRow", endRow);
 		model.addAttribute("pages", Math.ceil((double)pages/Integer.parseInt(pageSize)));
 		model.addAttribute("indexList", indexNewsList);
 		model.addAttribute("typeName", articleTypeOne.getName());
@@ -177,6 +183,11 @@ public class IndexNewsController {
 		}
 		Map<String, Object> map = solrNewsService.findByIndex(condition,page,Integer.parseInt(pageSize));
 		Integer pages = (Integer)map.get("tdsTotal");
+		Integer startRow = (page-1)*Integer.parseInt(pageSize)+1;
+		Integer endRow = (page-1)+((List<IndexEntity>)map.get("indexList")).size();
+		model.addAttribute("total", pages);
+		model.addAttribute("startRow", startRow);
+		model.addAttribute("endRow", endRow);
 		model.addAttribute("solrMap",map);
 		model.addAttribute("oldCondition", condition);
 		model.addAttribute("pages", Math.ceil((double)pages/Integer.parseInt(pageSize)));
@@ -195,31 +206,31 @@ public class IndexNewsController {
 	@RequestMapping("/downloadArticleAtta")
 	public void downloadArticleAtta(ArticleAttachments articleAttachments,HttpServletResponse response) throws Exception{
 		ArticleAttachments articleAtta = articleAttachmentsService.selectArticleAttaById(articleAttachments.getId());
-//		String filePath = articleAtta.getAttachmentPath();
-//		File file = new File(filePath);
-//		if(file == null || !file.exists()){
-//			return;
-//		}
+		String filePath = articleAtta.getAttachmentPath();
+		File file = new File(filePath);
+		if(file == null || !file.exists()){
+			return;
+		}
 		Article article = articleService.selectArticleById(articleAtta.getArticle().getId());
-//		String fileName = (articleAtta.getFileName().split("_"))[1];
-//		response.reset();
-//		response.setContentType(articleAtta.getContentType()+"; charset=utf-8");
-//		response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
-//		OutputStream out = response.getOutputStream();
-//		out.write(FileUtils.readFileToByteArray(file));
-//		out.flush();
+		String fileName = (articleAtta.getFileName().split("_"))[1];
+		response.reset();
+		response.setContentType(articleAtta.getContentType()+"; charset=utf-8");
+		response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+		OutputStream out = response.getOutputStream();
+		out.write(FileUtils.readFileToByteArray(file));
+		out.flush();
 		DownloadUser downloadUser = new DownloadUser();
 		downloadUser.setCreatedAt(new Date());
 		downloadUser.setArticle(article);
 		downloadUser.setIsDeleted(0);
 		downloadUser.setUpdatedAt(new Date());
-		downloadUser.setUserName("qqq");
+		downloadUser.setUserName("ttt");
 //		downloadUser.setUser("1231231");//死数据
 		downloadUserService.addDownloadUser(downloadUser);
 		article.setDownloadCount(article.getDownloadCount()+1);
 		articleService.update(article);
-//		if(out !=  null){
-//			out.close();
-//		}
+		if(out !=  null){
+			out.close();
+		}
 	}
 }

@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 
 import ses.dao.ems.ExpertBlackListMapper;
+import ses.dao.ems.ExpertMapper;
+import ses.model.ems.Expert;
 import ses.model.ems.ExpertBlackList;
 import ses.service.ems.ExpertBlackListService;
 import ses.util.PropertiesUtil;
@@ -26,6 +28,12 @@ public class ExpertBlackListServiceImpl implements ExpertBlackListService{
 	private ExpertBlackListMapper mapper;
 	
 	/**
+	 * 专家
+	 */
+	@Autowired
+	private ExpertMapper expertMapper;
+	
+	/**
 	 * @Title: insert
 	 * @author Xu Qing
 	 * @date 2016-9-8 下午2:38:48  
@@ -38,6 +46,7 @@ public class ExpertBlackListServiceImpl implements ExpertBlackListService{
 		mapper.insertSelective(expertBlackList);
 		
 	}
+	
 	/**
 	 * @Title: update
 	 * @author Xu Qing
@@ -51,6 +60,7 @@ public class ExpertBlackListServiceImpl implements ExpertBlackListService{
 		mapper.updateByPrimaryKeySelective(expertBlackList);
 		
 	}
+	
 	/**
 	 * @Title: findList
 	 * @author Xu Qing
@@ -75,6 +85,7 @@ public class ExpertBlackListServiceImpl implements ExpertBlackListService{
 		}
 		return mapper.findList(map);
 	}
+	
 	/**
 	 * @Title: findById
 	 * @author Xu Qing
@@ -89,6 +100,7 @@ public class ExpertBlackListServiceImpl implements ExpertBlackListService{
 		
 		return mapper.selectByPrimaryKey(id);
 	}
+	
 	/**
 	 * @Title: delete
 	 * @author Xu Qing
@@ -102,6 +114,19 @@ public class ExpertBlackListServiceImpl implements ExpertBlackListService{
 		mapper.deleteByPrimaryKey(id);
 		
 	}
-
+	
+	/**
+	 * @Title: findExpertList
+	 * @author Xu Qing
+	 * @date 2016-9-29 上午9:28:26  
+	 * @Description: 查询所有专家
+	 * @param @return      
+	 * @return List<Expert>
+	 */
+	@Override
+	public List<Expert> findExpertList() {
+		
+		return expertMapper.findExpertList();
+	}
 
 }

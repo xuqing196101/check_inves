@@ -40,7 +40,7 @@
 			    type:"POST",   //请求方式		    
 		        success : function(topics) {     
 		            if (topics) {          	
-		              $("#topics").html("");                
+		            	$("#topicId").html("<option></option>");               
 		              $.each(topics, function(i, topic) {  
 		            	  $("#topics").append("<option  value="+topic.id+">"+topic.name+"</option>");	            	  
 		              });  	                          

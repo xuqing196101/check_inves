@@ -14,8 +14,8 @@ public class Expert {
     private String id;
     /**是否提交*/
     private String isSubmit;
-    /**密码*/
-    private String password;
+    /**是否考试，1已考，2过期  其他值或null是未考*/
+    private String isDo;
     /**是否删除；0未删除，1已删除*/
     private Short isDelete = 0;
     /**创建时间*/
@@ -98,15 +98,16 @@ public class Expert {
         this.isSubmit = isSubmit == null ? null : isSubmit.trim();
     }
 
-    public String getPassword() {
-        return password;
-    }
 
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
-    }
+    public String getIsDo() {
+		return isDo;
+	}
 
-    public Short getIsDelete() {
+	public void setIsDo(String isDo) {
+		this.isDo = isDo;
+	}
+
+	public Short getIsDelete() {
         return isDelete;
     }
 

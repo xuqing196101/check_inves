@@ -36,7 +36,10 @@
 			    pages: "${expertResultList.pages}", //总页数
 			    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
 			    skip: true, //是否开启跳页
-			    groups: "${expertResultList.pages}">=3?3:"${expertResultList.pages}", //连续显示分页数
+			    total: "${expertResultList.total}",
+			    startRow: "${expertResultList.startRow}",
+			    endRow: "${expertResultList.endRow}",
+			    groups: "${expertResultList.pages}">=5?5:"${expertResultList.pages}", //连续显示分页数
 			    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
 			        var page = location.search.match(/page=(\d+)/);
 			        return page ? page[1] : 1;
@@ -121,11 +124,13 @@
   	
   	<div class="container">
   		<div class="content padding-left-25 padding-right-25 padding-top-5">
-	  		<table class="table table-bordered table-condensed">
+	  		<table class="table table-bordered table-condensed table-hover">
 				<thead>
 					<th class="info">序号</th>
 					<th class="info">专家姓名</th>
 					<th class="info">专家类型</th>
+					<th class="info">证件类型</th>
+					<th class="info">证件号</th>
 					<th class="info">考试时间</th>
 					<th class="info">得分</th>
 					<th class="info">考试状态</th>
@@ -133,9 +138,11 @@
 				<tbody>
 					<c:forEach items="${expertResultList.list }" var="result" varStatus="vs">
 						<tr>
-							<td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-							<td class="tc">${result.user.relName }</td>
+							<td class="tc">${(vs.index+1)+(expertResultList.pageNum-1)*(expertResultList.pageSize)}</td>
+							<td class="tc">${result.relName }</td>
 							<td class="tc">${result.userDuty }</td>
+							<td class="tc">${result.idType }</td>
+							<td class="tc">${result.idNumber }</td>
 							<td class="tc">${result.formatDate }</td>
 							<td class="tc">${result.score }</td>
 							<td class="tc">${result.status }</td>

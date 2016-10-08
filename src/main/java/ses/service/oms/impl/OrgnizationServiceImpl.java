@@ -45,4 +45,10 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
 		return orgniztionMapper.delOrgnizationByid(map);
 	}
 
+	@Override
+	public int updateOrgnizationById(Orgnization orgnization) {
+		// TODO Auto-generated method stub
+		return orgniztionMapper.updateOrgnizationById(orgnization);
+	}
+
 }

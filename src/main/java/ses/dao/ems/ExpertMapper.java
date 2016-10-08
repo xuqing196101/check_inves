@@ -41,4 +41,6 @@ public interface ExpertMapper {
       * @return List<Expert>
      */
     List<Expert> selectAllExpert(Map paramMap);
+    
+    List<Expert> findExpertList();
 }

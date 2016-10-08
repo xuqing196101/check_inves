@@ -74,4 +74,15 @@ public interface TaskService {
 	 * @return void
 	  */
 	 void startTask(String id);
+	 /**
+	  * 
+	 * @Title: selectByProject
+	 * @author FengTian
+	 * @date 2016-9-30 上午9:31:10  
+	 * @Description: 根据项目id查询任务 
+	 * @param @param id
+	 * @param @return      
+	 * @return List<Task>
+	  */
+	 List<Task> selectByProject(String id,Integer page);
 }

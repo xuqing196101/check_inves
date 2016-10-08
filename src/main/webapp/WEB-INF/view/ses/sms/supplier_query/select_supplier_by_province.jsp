@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -101,71 +102,113 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
 <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
-<title>My JSP 'index.jsp' starting page</title>>
+<title>My JSP 'index.jsp' starting page</title>
+<script type="text/javascript">
+	  	  $(function(){
+		  laypage({
+			    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+			    pages: "${listSupplier.pages}", //总页数
+			    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+			    skip: true, //是否开启跳页
+			    total: "${listSupplier.total}",
+			    startRow: "${listSupplier.startRow}",
+			    endRow: "${listSupplier.endRow}",
+			    groups: "${listSupplier.pages}">=5?5:"${listSupplier.pages}", //连续显示分页数
+			    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+			        var page = location.search.match(/page=(\d+)/);
+			        return page ? page[1] : 1;
+			    }(), 
+			    jump: function(e, first){ //触发分页后的回调
+			        if(!first){ //一定要加此判断，否则初始时会无限刷新
+			             location.href = '<%=basePath%>supplierQuery/findSupplierByPriovince.do?page='+e.curr+"&address=${address}";
+			        }
+			    }
+			});
+	  });
+	  function fanhui(){
+	  	window.location.href="<%=basePath%>supplierQuery/highmaps.html"
+	  }
+function chongzhi(){
+	$("#supplierName").val('');
+	$("#startDate").val('');
+	$("#endDate").val('');
+	$("#contactName").val('');
+	$("option")[0].selected = true;
+}
+$(function() {
+		var optionNodes = $("option");
+		for ( var i = 1; i < optionNodes.length; i++) {
+			if ("${supplier.supplierType}" == $(optionNodes[i]).val()) {
+				optionNodes[i].selected = true;
+			}
+		}
+	});
+</script>
 </head>
   <body>
   	<div class="container clear margin-top-30">
   			<h2>供应商信息查询</h2>
-  			<form id="form1" action="" method="post">
+  				<form id="form1" action="<%=basePath %>supplierQuery/findSupplierByPriovince.html" method="post">
 		       <input type="hidden" name="page" id="page">
+		       <input type="hidden" name="address" value="${address }">
 		       <table class="table table-bordered table-condensed tc">
 		       	<tbody>
 		       		<tr>
-		       			<td style="text-align:right">公司名称：</td>
-		       			<td><input class="span2" name="supplierName" value="${supplierName }" type="text"></td>
-		       			<td style="text-align:right">供应商类型：</td>
-		       			<td><input class="span2" name="supName" value="${name }" type="text"></td>
-		       			<td>联系人：</td>
-		       			<td><input class="span2" name="contactName" value="${contactName }" type="text"></td>
-		       		</tr>
-		       		<tr>
-		       			<td style="text-align:right">产品分类目录：</td>
-		       			<td><input class="span2" name="supName" value="${name }" type="text"></td>
-		       			<td>注册时间：</td>
-		       			<td colspan="3">
-		       			<div class="input-append mt5">
-		       			<input id="startDate" name="startDate" class="span2 fl" type="text" 
+		       			<td style="text-align:right">供应商名称：</td>
+		       			<td style="text-align:right"><input id="supplierName" class="span2" name="supplierName" value="${supplier.supplierName }" type="text"></td>
+		       			<td style="text-align:right">注册时间：</td>
+		       			<td>
+		       			<div class="mt5">
+		       			<input id="startDate" name="startDate" class="span2 fl" type="text" value='<fmt:formatDate value="${supplier.startDate }" pattern="YYYY-MM-dd"/>'
 		       			onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})"/>
 		       			<span class="add-on fl"><img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
-		       			<span class="fl">~</span>
-		       			<input id="endDate" name="endDate" class="span2 ml10" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
+		       			<span class="fl mt5">至</span>
+		       			<input id="endDate" name="endDate" value='<fmt:formatDate value="${supplier.endDate }" pattern="YYYY-MM-dd"/>' class="span2 ml10" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
 		       			<span class="add-on fl"><img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
 		       			</div>
 		       			</td>
 		       		</tr>
+		       		<tr>
+		       			<td style="text-align:right">联系人：</td>
+		       			<td><input class="span2" id="contactName" name="contactName" value="${supplier.contactName }" type="text"></td>
+		       			<td style="text-align:right">供应商类型：</td>
+		       			<td><select name="supplierType" class="fl" >
+							   		<option selected="selected" value=''>-请选择-</option>
+							   		<option  value="生产型">生产型</option>
+							   		<option  value="销售型">销售型</option>
+							   </select>
+		       				 <input class="btn padding-left-20 padding-right-20 btn_back" onclick="submit()" type="button" value="查询">
+		     				 <input class="btn padding-left-20 padding-right-20 btn_back" onclick="chongzhi()" type="button" value="重置"> 
+		     				 <input class="btn padding-left-20 padding-right-20 btn_back" value="返回" type="button" onclick="fanhui()">
+		       			</td>
+		       		</tr>
 		       	</tbody>
 		       </table>
-		       <div class="tc">
-				  <input class="btn padding-left-20 padding-right-20 btn_back" onclick="submit()" type="button" value="查询">
-			      <input class="btn padding-left-20 padding-right-20 btn_back" onclick="reset()" type="reset" value="重置"> 
-		      </div>
 		     </form>
 		       <h2>供应商信息</h2>
-		      <table id="tb1"  class="table table-bordered table-condensed tc">
+		      <table id="tb1"  class="table table-striped table-bordered table-hover tc">
 		      <thead>
 				<tr>
-					<th class="info">序号</th>
+					<th class="info w50">序号</th>
 					<th class="info">供应商名称</th>
-					<th class="info">状态</th>
-					<th class="info">入库日期</th>
-					<th class="info">来源</th>
+					<th class="info">联系人</th>
+					<th class="info">创建日期</th>
 					<th class="info">经济性质</th>
 				</tr>
 			  </thead>
 			  <tbody>
-				 <c:forEach items="${isList.list }" var="list" varStatus="vs">
+				 <c:forEach items="${listSupplier.list }" var="list" varStatus="vs">
 					<tr>
-						<td>${list.supplierName }</td>
-						<td>${list.supplierName }</td>
-						<td>${list.contactName}</td>
-						<td>${list.contactTelephone}</td>
-						<td>${list.supplierName }</td>
-						<td>${list.supplierName }</td>
+						<td>${vs.index+1 }</td>
+						<td><a href="<%=basePath%>supplierQuery/essential.html?supplierId=${list.id}">${list.supplierName }</a></td>
+						<td>${list.contactName }</td>
+						<td><fmt:formatDate value="${list.createdAt }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+						<td>${list.businessType }</td>
 					</tr>
 				</c:forEach> 
 			  </tbody>
 		 </table>
+		 <div id="pagediv" align="right"></div>
      </div>
-  <div id="container"></div>
   </body>
 </html>

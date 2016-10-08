@@ -16,7 +16,6 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,17 +27,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.pagehelper.PageInfo;
 
-import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
-import ses.model.ems.ExpertAudit;
+import ses.model.ems.ExpertAttachment;
+import ses.model.ems.ExpertCategory;
 import ses.model.oms.PurchaseDep;
-import ses.service.bms.TodosService;
 import ses.service.bms.UserServiceI;
+import ses.service.ems.ExpertAttachmentService;
 import ses.service.ems.ExpertAuditService;
+import ses.service.ems.ExpertCategoryService;
 import ses.service.ems.ExpertService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
-import ses.util.WfUtil;
 import ses.util.WordUtil;
 
 
@@ -52,9 +51,11 @@ public class ExpertController {
 	@Autowired
 	private PurchaseOrgnizationServiceI purchaseOrgnizationService;//采购机构管理
 	@Autowired
-	private TodosService toDosService;//待办管理
+	private ExpertAuditService expertAuditService; //审核信息管理
 	@Autowired
-	private ExpertAuditService expertAuditService;
+	private ExpertCategoryService expertCategoryService;//专家类别中间表
+	@Autowired
+	private ExpertAttachmentService attachmentService;//附件管理
 	/**
 	 * 
 	  * @Title: toExpert
@@ -66,9 +67,19 @@ public class ExpertController {
 	 */
 	@RequestMapping(value="/toExpert")
 	public String toExpert(){
-		return "ses/ems/expert/expertRegister";
+		return "ses/ems/expert/expert_register";
 	}
-	
+	/**
+	 * 
+	  * @Title: view
+	  * @author ShaoYangYang
+	  * @date 2016年9月29日 上午11:03:50  
+	  * @Description: TODO 查看专家信息
+	  * @param @param id
+	  * @param @param model
+	  * @param @return      
+	  * @return String
+	 */
 	@RequestMapping("/view")
 	public String view(@RequestParam("id")String id,Model model){
 		//查询出专家
@@ -81,6 +92,9 @@ public class ExpertController {
 			PurchaseDep purchaseDep = depList.get(0);
 			model.addAttribute("purchase", purchaseDep);
 		}
+		//附件信息
+		List<ExpertAttachment> attachmentList = attachmentService.selectListByExpertId(id);
+		model.addAttribute("attachmentList", attachmentList);
 		model.addAttribute("expert", expert);
 		
 		return "ses/ems/expert/view";
@@ -97,7 +111,7 @@ public class ExpertController {
 	 */
 	@RequestMapping(value="/toRegisterNotice")
 	public String toRegisterNotice(){
-		return "ses/ems/expert/registerNotice";
+		return "ses/ems/expert/register_notice";
 	}
 	
 	/**
@@ -129,14 +143,15 @@ public class ExpertController {
 			Matcher matcher2 = p2.matcher(password);
 			if(loginName.trim().length()<3 || m.find() || m2.find()){
 				model.addAttribute("message", "用户名不符合规则");
-				return "ems/expert/expertRegister";
+				return "ems/expert/expert_register";
 			}else if(password.trim().length()<6 || matcher.find() || matcher2.find()){
 				model.addAttribute("message", "密码不符合规则");
-				return "ems/expert/expertRegister";
+				return "ems/expert/expert_register";
 			}
 		expert.setId(UUID.randomUUID().toString());
 		request.setAttribute("user", expert);
 		//model.addAttribute("expert", expert);
+		expert.setTypeName(5);
 		userService.save(expert, null);
 		attr.addAttribute("userId", expert.getId());
 		return "redirect:toAddBasicInfo.html";
@@ -184,6 +199,9 @@ public class ExpertController {
 			PurchaseDep purchaseDep = depList.get(0);
 			model.addAttribute("purchase", purchaseDep);
 		  }
+		//附件信息
+		List<ExpertAttachment> attachmentList = attachmentService.selectListByExpertId(id);
+		model.addAttribute("attachmentList", attachmentList);
 		model.addAttribute("expert", expert);
 		return "ses/ems/expert/edit_basic_info";
 	}
@@ -208,8 +226,11 @@ public class ExpertController {
 			PurchaseDep purchaseDep = depList.get(0);
 			model.addAttribute("purchase", purchaseDep);
 		  }
+		//附件信息
+		List<ExpertAttachment> attachmentList = attachmentService.selectListByExpertId(id);
+		model.addAttribute("attachmentList", attachmentList);
 		request.setAttribute("expert", expert);
-		return "ses/ems/expert/shenHe";
+		return "ses/ems/expert/audit";
 	}
 	/**
 	 * 
@@ -247,16 +268,27 @@ public class ExpertController {
 		User user = (User)session.getAttribute("loginUser");
 		//判断用户的类型为专家类型
 		if(user!=null && user.getTypeName()==5){
-			Expert expert = service.selectByPrimaryKey(user.getTypeId());
+			String typeId = user.getTypeId();
+			if(typeId!=null && StringUtils.isNotEmpty(typeId)){
+			Expert expert = service.selectByPrimaryKey(typeId);
 			HashMap<String, Object> map = new HashMap<>();
-			map .put("id", expert.getPurchaseDepId());
-			//采购机构
-			List<PurchaseDep> depList = purchaseOrgnizationService.findPurchaseDepList(map);
-			  if(depList!=null && depList.size()>0){
-				PurchaseDep purchaseDep = depList.get(0);
-				model.addAttribute("purchase", purchaseDep);
-			  }
-			model.addAttribute("expert", expert);
+				 if(expert!=null){
+				 String purchaseDepId = expert.getPurchaseDepId();
+				 	if(purchaseDepId!=null && StringUtils.isNotEmpty(purchaseDepId)){
+				      map .put("id", purchaseDepId);
+				      //采购机构
+				      List<PurchaseDep> depList = purchaseOrgnizationService.findPurchaseDepList(map);
+				      if(depList!=null && depList.size()>0){
+					   PurchaseDep purchaseDep = depList.get(0);
+					   model.addAttribute("purchase", purchaseDep);
+				      }
+				    }
+				model.addAttribute("expert", expert);
+			    }
+				 //附件信息
+				 List<ExpertAttachment> attachmentList = attachmentService.selectListByExpertId(typeId);
+				 model.addAttribute("attachmentList", attachmentList);
+		    }
 		}
 		return "ses/ems/expert/person_info";
 	}
@@ -288,13 +320,13 @@ public class ExpertController {
 	 * @throws IOException 
 	 */
 	@RequestMapping("/edit")
-	public String edit(Expert expert,Model model,HttpSession session,@RequestParam("token2") String token2 ,HttpServletRequest request,HttpServletResponse response) throws IOException{
+	public String edit(@RequestParam("categoryId") String categoryId,Expert expert,Model model,HttpSession session,@RequestParam("token2") String token2 ,HttpServletRequest request,HttpServletResponse response) throws IOException{
 		Object tokenValue = session.getAttribute("tokenSession");
 		if (tokenValue != null && tokenValue.equals(token2)) {
 			// 正常提交
 			session.removeAttribute("tokenSession");
 			//获取文件上传路径
-			String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
+			//String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
 			//文件上传到指定地址
 			//service.uploadFile(files, realPath);
 			//修改状态为已提交
@@ -302,6 +334,10 @@ public class ExpertController {
 			//修改时间
 			expert.setUpdatedAt(new Date());
 			service.updateByPrimaryKeySelective(expert);
+			expertCategoryService.deleteByExpertId(expert.getId());
+			if(expert.getExpertsTypeId().equals("1")){
+				expertCategoryService.save(expert, categoryId);
+			}
 		return "redirect:findAllExpert.html";
 		}else{
 			//重复提交  这里未做重复提醒，只是不重复修改
@@ -319,71 +355,52 @@ public class ExpertController {
 	 * @throws IOException 
 	 */
 	@RequestMapping("/add")
-	public String add(@RequestParam("files")MultipartFile[] files,@RequestParam("zancun")String zancun,Expert expert,@RequestParam("userId")String userId,Model model,HttpSession session,@RequestParam String token2 ,HttpServletRequest request,HttpServletResponse response) throws IOException{
-		Object tokenValue = session.getAttribute("tokenSession");
-		String expertId = UUID.randomUUID().toString();
-		if (tokenValue != null && tokenValue.equals(token2)) {
-			// 正常提交
-			session.removeAttribute("tokenSession");
+	public String add(@RequestParam("categoryId")String categoryId,@RequestParam("files")MultipartFile[] files,@RequestParam("zancun")String zancun,Expert expert,@RequestParam("userId")String userId,Model model,HttpSession session,@RequestParam String token2 ,HttpServletRequest request,HttpServletResponse response){
+		try {
+			Object tokenValue = session.getAttribute("tokenSession");
+			String expertId = UUID.randomUUID().toString();
 			//获取文件上传路径
 			String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
-			//文件上传
-			service.uploadFile(files, realPath);
-			//个人信息关联用户
-			if(userId!=null && userId.length()>0){
-				//直接注册完之后填写个人信息
-				User user = service.getUserById(userId);
-				if(user==null){
-					throw new RuntimeException("该用户不存在！");
+			if (tokenValue != null && tokenValue.equals(token2)) {
+				// 正常提交
+				session.removeAttribute("tokenSession");
+				User user = (User)session.getAttribute("loginUser");
+				//用户信息处理
+				service.userManager(user, userId, expert, expertId);
+				if(zancun!=null && zancun.equals("1")){//说明为暂存否则为提交
+					    //调用service逻辑 实现暂存
+						service.zanCunInsert(expert, expertId,files,realPath,categoryId);
+						//保存当前填写的信息 跳转到首页
+						return "redirect:/";
 				}
-				user.setTypeName(5);
-				user.setTypeId(expertId);
-				userService.update(user);
+				//调用service逻辑代码
+				service.saveOrUpdate(expert, expertId, files, realPath, categoryId);
+			return "redirect:/";
 			}else{
-				//注册完账号  过段时间又填写个人信息
-				/*User user = (User)session.getAttribute("loginUser");
-				if(expert.getId()==null || expert.getId()=="" || expert.getId().length()==0){
-					user.setTypeId(expertId);
-				}else{
-					user.setTypeId(expert.getId());
-				}
-				userService.update(user);*/
+				//重复提交  这里未做重复提醒，只是不重复增加
+			return "redirect:/";
 			}
-			if(zancun!=null && zancun.equals("1")){//说明为暂存否则为提交
-					expert.setId(expertId);
-					//已提交
-					expert.setIsSubmit("0");
-					//修改时间
-					expert.setUpdatedAt(new Date());
-					//保存当前填写的信息 跳转到首页
-					service.insertSelective(expert);
-					return "redirect:/";
-			}
-			expert.setId(expertId);
-			//已提交
-			expert.setIsSubmit("1");
-			//创建时间
-			expert.setCreatedAt(new Date());
-			//修改时间
-			expert.setUpdatedAt(new Date());
-			//执行保存
-			service.insertSelective(expert);
-			//发送待办
-			Todos todos = new Todos();
-			todos.setCreatedAt(new Date());
-			todos.setIsDeleted((short)0);
-			todos.setIsFinish((short)0);
-			todos.setName("评审专家注册");
-			todos.setReceiverId(expert.getPurchaseDepId());
-			todos.setSenderId(expert.getId());
-			todos.setUndoType((short)2);
-			todos.setUrl("expert/toShenHe?id="+expert.getId());
-			toDosService.insert(todos );
-		return "redirect:/";
-		}else{
-			//重复提交  这里未做重复提醒，只是不重复增加
-		return "redirect:/";
+		} catch (Exception e) {
+			e.printStackTrace();
+			//未做异常处理
+			return "redirect:/";
 		}
+	}
+	/**
+	 * 
+	  * @Title: getCategoryByExpertId
+	  * @author ShaoYangYang
+	  * @date 2016年9月28日 下午5:14:00  
+	  * @Description: TODO 根据专家id查询该专家关联的品目id
+	  * @param @param id
+	  * @param @return      
+	  * @return List<ExpertCategory>
+	 */
+	@RequestMapping("/getCategoryByExpertId")
+	@ResponseBody
+	public List<ExpertCategory> getCategoryByExpertId(@RequestParam("expertId")String id){
+		List<ExpertCategory> list = expertCategoryService.getListByExpertId(id);
+		return list;
 	}
 	/**
 	 * 
@@ -434,7 +451,7 @@ public class ExpertController {
 		List<Expert> allExpert = service.selectAllExpert(page==null?1:page,expert);
 		request.setAttribute("result", new PageInfo<>(allExpert));
 		request.setAttribute("expert", expert);
-		return "ses/ems/expert/expertList";
+		return "ses/ems/expert/audit_list";
 	}
 	/**
 	 * 
@@ -451,7 +468,7 @@ public class ExpertController {
 		List<Expert> allExpert = service.selectAllExpert(page==null?1:page,expert);
 		request.setAttribute("result", new PageInfo<>(allExpert));
 		request.setAttribute("expert", expert);
-		return "ses/ems/expert/expertList";
+		return "ses/ems/expert/audit_list";
 	}
 	
 	/**
@@ -469,7 +486,7 @@ public class ExpertController {
 		List<Expert> allExpert = service.selectAllExpert(page==null?1:page,expert);
 		request.setAttribute("result", new PageInfo<>(allExpert));
 		request.setAttribute("expert", expert);
-		return "ses/ems/expert/expertList";
+		return "ses/ems/expert/audit_list";
 	}
 	/**
 	 * 
@@ -486,7 +503,7 @@ public class ExpertController {
 		List<Expert> allExpert = service.selectAllExpert(page==null?1:page,expert);
 		request.setAttribute("result", new PageInfo<>(allExpert));
 		request.setAttribute("expert", expert);
-		return "ses/ems/expert/expertList";
+		return "ses/ems/expert/audit_list";
 	}
 	 /**
 	  * 
@@ -524,12 +541,12 @@ public class ExpertController {
 	   * @param @throws IOException      
 	   * @return String
 	  */
-	 @RequestMapping("/upLoadExpertTable")
+	/* @RequestMapping("/upLoadExpertTable")
 	 public String upLoadExpertTable(@RequestParam("id") String id,@RequestParam("files") MultipartFile[] files,HttpServletRequest request) throws IOException{
 		 String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file");  
          service.uploadFile(files, realPath);
 		 return "redirect:/";
-	 }
+	 }*/
 	 
 	 /**
 	  * 
@@ -551,7 +568,20 @@ public class ExpertController {
 			}
 			return "2";
 		}
-	 
+		/**
+		 * 
+		  * @Title: downLoadFile
+		  * @author ShaoYangYang
+		  * @date 2016年9月29日 下午1:52:19  
+		  * @Description: TODO 根据附件id下载附件
+		  * @param @param attachmentId
+		  * @param @return      
+		  * @return ResponseEntity<byte[]>
+		 */
+	  @RequestMapping("/downLoadFile")
+	  public ResponseEntity<byte[]> downLoadFile(@RequestParam("attachmentId")String attachmentId){
+		 return  attachmentService.downloadFile(attachmentId);
+	  }
 	 /**
 	  * 
 	   * @Title: download

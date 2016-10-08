@@ -60,8 +60,13 @@ function validateForm1(){
 //判断专家类型
 function validateType(){
 	var expertsTypeId = $("#expertsTypeId").val();
+	var categoryId = $("#categoryId").val();
 	if(!expertsTypeId){
 		layer.tips("请选择专家类型 !", "#expertsTypeId");
+		return false;
+	}
+	if(expertsTypeId==1 && categoryId==""){
+		layer.tips("请选择品目类别或子类目!", "#ztree");
 		return false;
 	}
 	return true;

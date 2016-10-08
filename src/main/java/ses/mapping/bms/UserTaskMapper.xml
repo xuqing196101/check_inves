@@ -67,7 +67,7 @@
         LEV,
       </if>
       <if test="userId != null">
-        userId,
+        USER_ID,
       </if>
       
     </trim>
@@ -160,7 +160,9 @@
   <![CDATA[
     to_char(START_DATE,'yyyy-mm')=#{date}
     ]]>
-   
+   <if test="userId!=null">
+   and USER_ID = #{userId}
+   </if>
  
   </select>
   

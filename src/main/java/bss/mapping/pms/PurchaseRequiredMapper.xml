@@ -34,13 +34,24 @@
 		<result column="IS_MASTER" jdbcType="VARCHAR" property="isMaster" />
 		<result column="IS_DELETE" jdbcType="INTEGER"  property="isDelete" />
 		<result column="IS_COLLECT" jdbcType="INTEGER"  property="isCollect"/>
+		<result column="CODE" jdbcType="VARCHAR"  property="code"/>
+		<result column="ONE_PURCHASETYPE" jdbcType="VARCHAR"  property="onePurchaseType"/>
+		<result column="ONE_ORGANIZA" jdbcType="VARCHAR"  property="oneOrganiza"/>
+		<result column="ONE_ADVICE" jdbcType="VARCHAR"  property="oneAdvice"/>
+		<result column="TWO_TECHADVICE" jdbcType="VARCHAR"  property="twoTechAdvice"/>
+		<result column="TWO_ADVICE" jdbcType="VARCHAR"  property="twoAdvice"/>
+		<result column="THREE_PURCHASETYPE" jdbcType="VARCHAR"  property="threePurchaseType"/>
+		<result column="THREE_ORGANIZA" jdbcType="VARCHAR"  property="threeOrganiza"/>
+		<result column="THREE_ADVICE" jdbcType="VARCHAR"  property="threeAdvice"/>
+		<result column="BRAND" jdbcType="VARCHAR"  property="brand"/>
 	</resultMap>
 	<sql id="Base_Column_List">
 		ID, PLAN_NAME, PLAN_NO, PLAN_TYPE, DEPARTMENT, GOODS_NAME, STAND,
 		QUALIT_STAND, ITEM,
 		PURCHASE_COUNT, PRICE, BUDGET, DELIVER_DATE, PURCHASE_TYPE, SUPPLIER, IS_FREE_TAX,
 		GOODS_USE, USE_UNIT, CREATED_AT, USER_ID, PARENT_ID, REQ_LEVEL,
-		STARUS, MEMO,SEQ,HISTORY_STATUS,GOODS_TYPE,AUDIT_DATE,ORGANIZATION,IS_MASTER,IS_DELETE,IS_COLLECT
+		STARUS, MEMO,SEQ,HISTORY_STATUS,GOODS_TYPE,AUDIT_DATE,ORGANIZATION,IS_MASTER,IS_DELETE,IS_COLLECT,CODE,ONE_PURCHASETYPE,
+		ONE_ORGANIZA,ONE_ADVICE,TWO_TECHADVICE,TWO_ADVICE,THREE_PURCHASETYPE,THREE_ORGANIZA,THREE_ADVICE,BRAND
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="PurchaseRequired_Map">
@@ -61,7 +72,8 @@
 		DELIVER_DATE, PURCHASE_TYPE, SUPPLIER,
 		IS_FREE_TAX, GOODS_USE, USE_UNIT,
 		CREATED_AT, USER_ID, PARENT_ID,
-		REQ_LEVEL, STARUS, MEMO,SEQ,HISTORY_STATUS,GOODS_TYPE,AUDIT_DATE,ORGANIZATION,IS_MASTER,IS_DELETE,IS_COLLECT
+		REQ_LEVEL, STARUS, MEMO,SEQ,HISTORY_STATUS,GOODS_TYPE,AUDIT_DATE,ORGANIZATION,IS_MASTER,IS_DELETE,IS_COLLECT,CODE,ONE_PURCHASETYPE,
+		ONE_ORGANIZA,ONE_ADVICE,TWO_TECHADVICE,TWO_ADVICE,THREE_PURCHASETYPE,THREE_ORGANIZA,THREE_ADVICE,BRAND
 		)
 		values (#{id,jdbcType=VARCHAR}, #{planName,jdbcType=VARCHAR},
 		#{planNo,jdbcType=VARCHAR},
@@ -76,7 +88,10 @@
 		#{parentId,jdbcType=VARCHAR},
 		#{reqLevel,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},
 		#{memo,jdbcType=VARCHAR},#{seq,jdbcType=VARCHAR},#{historyStatus,jdbcType=VARCHAR},#{goodsType,jdbcType=VARCHAR},
-		#{auditDate,jdbcType=DATE},#{organization,jdbcType=VARCHAR},#{isMaster,jdbcType=VARCHAR},#{isDelete,jdbcType=INTEGER},#{isCollect,jdbcType=INTEGER}
+		#{auditDate,jdbcType=DATE},#{organization,jdbcType=VARCHAR},#{isMaster,jdbcType=VARCHAR},#{isDelete,jdbcType=INTEGER},
+		#{isCollect,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{onePurchaseType,jdbcType=VARCHAR}, #{oneOrganiza,jdbcType=VARCHAR}, #{oneAdvice,jdbcType=VARCHAR},
+		#{twoTechAdvice,jdbcType=VARCHAR}, #{twoAdvice,jdbcType=VARCHAR},  
+		#{threePurchaseType,jdbcType=VARCHAR}, #{threeOrganiza,jdbcType=VARCHAR}, #{threeAdvice,jdbcType=VARCHAR}, #{brand,jdbcType=VARCHAR},
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="bss.model.pms.PurchaseRequired">
@@ -178,7 +193,36 @@
 			<if test="isCollect != null">
 				IS_COLLECT,
 			</if>
-			
+			<if test="code != null">
+				CODE,
+			</if>
+			<if test="onePurchaseType != null">
+				ONE_PURCHASETYPE,
+			</if>
+			<if test="oneOrganiza != null">
+				ONE_ORGANIZA,
+			</if>
+			<if test="oneAdvice != null">
+				ONE_ADVICE,
+			</if>
+			<if test="twoTechAdvice != null">
+				TWO_TECHADVICE,
+			</if>
+			<if test="twoAdvice != null">
+				TWO_ADVICE,
+			</if>
+			<if test="threePurchaseType != null">
+				THREE_PURCHASETYPE,
+			</if>
+			<if test="threeOrganiza != null">
+				THREE_ORGANIZA,
+			</if>
+			<if test="threeAdvice != null">
+				THREE_ADVICE,
+			</if>
+			<if test="brand != null">
+				BRAND,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -276,6 +320,36 @@
 			</if>
 			<if test="isCollect != null">
 				#{isCollect,jdbcType=INTEGER},
+			</if>
+			<if test="code != null">
+				#{code,jdbcType=VARCHAR},
+			</if>
+			<if test="onePurchaseType != null">
+				#{onePurchaseType,jdbcType=VARCHAR},
+			</if>
+			<if test="oneOrganiza != null">
+				#{oneOrganiza,jdbcType=VARCHAR},
+			</if>
+			<if test="oneAdvice != null">
+				#{oneAdvice,jdbcType=VARCHAR},
+			</if>
+			<if test="twoTechAdvice != null">
+				#{twoTechAdvice,jdbcType=VARCHAR},
+			</if>
+			<if test="twoAdvice != null">
+				#{twoAdvice,jdbcType=VARCHAR},
+			</if>
+			<if test="threePurchaseType != null">
+				#{threePurchaseType,jdbcType=VARCHAR},
+			</if>
+				<if test="threeOrganiza != null">
+				#{threeOrganiza,jdbcType=VARCHAR},
+			</if>
+			<if test="threeAdvice != null">
+				#{threeAdvice,jdbcType=VARCHAR},
+			</if>
+			<if test="brand != null">
+				#{brand,jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>
@@ -375,6 +449,36 @@
 			<if test="isCollect != null">
 				IS_COLLECT = #{isCollect,jdbcType=INTEGER},
 			</if>
+			<if test="code != null">
+				code = #{isCollect,jdbcType=VARCHAR},
+			</if>
+			<if test="onePurchaseType != null">
+				ONE_PURCHASETYPE=#{onePurchaseType,jdbcType=VARCHAR},
+			</if>
+			<if test="oneOrganiza != null">
+				ONE_ORGANIZA=#{oneOrganiza,jdbcType=VARCHAR},
+			</if>
+			<if test="oneAdvice != null">
+				ONE_ADVICE=#{oneAdvice,jdbcType=VARCHAR},
+			</if>
+			<if test="twoTechAdvice != null">
+				TWO_TECHADVICE=#{twoTechAdvice,jdbcType=VARCHAR},
+			</if>
+			<if test="twoAdvice != null">
+				TWO_ADVICE=#{twoAdvice,jdbcType=VARCHAR},
+			</if>
+			<if test="threePurchaseType != null">
+				THREE_PURCHASETYPE=#{threePurchaseType,jdbcType=VARCHAR},
+			</if>
+				<if test="threeOrganiza != null">
+				THREE_ORGANIZA=#{threeOrganiza,jdbcType=VARCHAR},
+			</if>
+			<if test="threeAdvice != null">
+				THREE_ADVICE=#{threeAdvice,jdbcType=VARCHAR},
+			</if>
+			<if test="brand != null">
+				BRAND=#{brand,jdbcType=VARCHAR},
+			</if>
 			
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
@@ -411,7 +515,17 @@
 		ORGANIZATION = #{organization,jdbcType=VARCHAR},
 		IS_MASTER = #{isMaster,jdbcType=VARCHAR},
 		IS_DELETE = #{isDelete,jdbcType=INTEGER},
-		IS_COLLECT = #{isCollect,jdbcType=INTEGER}
+		IS_COLLECT = #{isCollect,jdbcType=INTEGER},
+		code = #{code,jdbcType=INTEGER},
+		ONE_PURCHASETYPE=#{onePurchaseType,jdbcType=VARCHAR},
+		ONE_ORGANIZA=#{oneOrganiza,jdbcType=VARCHAR},
+	    ONE_ADVICE=#{oneAdvice,jdbcType=VARCHAR},
+	    TWO_TECHADVICE=#{twoTechAdvice,jdbcType=VARCHAR},
+	    TWO_ADVICE=#{twoAdvice,jdbcType=VARCHAR},
+		THREE_PURCHASETYPE=#{threePurchaseType,jdbcType=VARCHAR},
+		THREE_ORGANIZA=#{threeOrganiza,jdbcType=VARCHAR},
+		THREE_ADVICE=#{threeAdvice,jdbcType=VARCHAR},
+		BRAND=#{brand,jdbcType=VARCHAR}
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
 	<select id="query" parameterType="bss.model.pms.PurchaseRequired"
@@ -442,25 +556,27 @@
 			</if>
 		</where>
 		
-		order by CREATED_AT 
+		ORDER BY CREATED_AT ASC
 	</select>
 
-<select id="queryByNo" parameterType="String"  resultMap="PurchaseRequired_Map">
+	<select id="queryByNo" parameterType="String"  resultMap="PurchaseRequired_Map">
 		select
 		<include refid="Base_Column_List" />
 		from T_BSS_PMS_PURCHASE_REQUIRED
 		<where>
+		HISTORY_STATUS='0'  and IS_DELETE='0'
+		
 			<if test="planNo !=null and planNo!='' ">
-			 PLAN_NO = #{planNo} ORDER BY HISTORY_STATUS  
+			and PLAN_NO = #{planNo} ORDER BY CREATED_AT  
 			</if>
 		</where>
 	</select>
 	
 	<update id="delete" parameterType="String" >
 	
-	update T_BSS_PMS_PURCHASE_REQUIRED
-		set IS_DELETE='1'
-		where HISTORY_STATUS='0' and PLAN_NO=#{planNo}
+		update T_BSS_PMS_PURCHASE_REQUIRED
+			set IS_DELETE='1'
+			where HISTORY_STATUS='0' and PLAN_NO=#{planNo}
 		
 	</update>
 	<update id="updateStatus" parameterType="bss.model.pms.PurchaseRequired" >
@@ -478,5 +594,23 @@
 		
 	</update>
 	
+	
+	<select id="getByMap" parameterType="Map" resultMap="PurchaseRequired_Map" >
+		select
+		<include refid="Base_Column_List" />
+		from T_BSS_PMS_PURCHASE_REQUIRED
+		<where>
+		HISTORY_STATUS='0'  and IS_DELETE='0'
+			<if test="planNo !=null">
+				and PLAN_NO=#{planNo}
+			</if>
+			<if test="isMaster != null">
+				and IS_MASTER = #{isMaster}
+			</if>
+			<if test="status != null">
+				and STARUS = #{status}
+			</if>
+		</where>
+	</select>
 	
 </mapper>

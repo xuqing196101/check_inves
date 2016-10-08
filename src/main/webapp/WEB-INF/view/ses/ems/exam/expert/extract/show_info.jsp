@@ -52,19 +52,19 @@
 	<div class="container">
 		<div>
 			<div class="headline-v2">
-				<h2>供应商抽取表</h2>
+				<h2>专家抽取表</h2>
 			</div>
 			<div>
 				<table style="width: 70%"
 					class="table table-bordered table-condensed">
 					<tr>
 						<td align="center" width="100px">项目名称</td>
-						<td colspan="7" width="150px" id="tName">${extracts.projectName}</td>
+						<td colspan="7" width="150px" id="tName">${ExpExtractRecord.projectName}</td>
 					</tr>
 					<tr>
 						<td align="center">抽取时间</td>
 						<td colspan="3" align="center"><fmt:formatDate
-								value="${extracts.extractionTime}"
+								value="${ExpExtractRecord.extractionTime}"
 								pattern="yyyy年MM月dd日   HH:mm:ss" /></td>
 						<td align="center">抽取地点</td>
 						<td colspan="3" align="center">${extracts.extractionSites}</td>
@@ -96,13 +96,13 @@
 						<td align="center">能否参加</td>
 						<td align="center">不参加理由</td>
 					</tr>
-					<c:forEach items="${extRelate}" var="ext" varStatus="vs">
+					<c:forEach items="${ProjectExtract}" var="ext" varStatus="vs">
 						<tr>
 							<td align="center">${vs.index+1 }</td>
-							<td align="center">${ext.suppliers.supplierName}</td>
-							<td align="center">${ext.suppliers.contactName}</td>
-							<td align="center">${ext.suppliers.contactMobile}</td>
-							<td align="center">${ext.suppliers.contactFax}</td>
+							<td align="center">${ext.expert.relName}</td>
+							<td align="center">${ext.expert.relName}</td>
+							<td align="center">${ext.expert.relName}</td>
+							<td align="center">${ext.expert.relName}</td>
 							<td align="center"><c:if test="${ext.operatingType==1 }">
                                                                                          参加
                             </c:if> <c:if test="${ext.operatingType==3 }">

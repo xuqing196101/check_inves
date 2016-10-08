@@ -1,6 +1,7 @@
 package ses.model.sms;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -244,7 +245,7 @@ public class Supplier implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER.REGIST_FUND
 	 * </pre>
 	 */
-	private Long registFund;
+	private BigDecimal registFund;
 
 	/**
 	 * <pre>
@@ -443,6 +444,41 @@ public class Supplier implements Serializable {
 	private SupplierMatEng supplierMatEng;
 
 	private String supplierTypeIds;
+
+	private String supplierItemIds;
+
+	private String supplierTypeNames;
+
+	private List<SupplierTypeRelate> listSupplierTypeRelates = new ArrayList<SupplierTypeRelate>();
+
+	private Date passDate;
+
+	private Date startDate;
+
+	private Date endDate;
+
+	private String supplierType;
+	
+	private List<String> item;
+	
+	private Integer count;
+	
+
+	public Integer getCount() {
+		return count;
+	}
+
+	public void setCount(Integer count) {
+		this.count = count;
+	}
+
+	public List<String> getItem() {
+		return item;
+	}
+
+	public void setItem(List<String> item) {
+		this.item = item;
+	}
 
 	public String getId() {
 		return id;
@@ -668,11 +704,11 @@ public class Supplier implements Serializable {
 		this.registAuthority = registAuthority;
 	}
 
-	public Long getRegistFund() {
+	public BigDecimal getRegistFund() {
 		return registFund;
 	}
 
-	public void setRegistFund(Long registFund) {
+	public void setRegistFund(BigDecimal registFund) {
 		this.registFund = registFund;
 	}
 
@@ -876,14 +912,6 @@ public class Supplier implements Serializable {
 		this.listSupplierStockholders = listSupplierStockholders;
 	}
 
-	public String getSupplierTypeIds() {
-		return supplierTypeIds;
-	}
-
-	public void setSupplierTypeIds(String supplierTypeIds) {
-		this.supplierTypeIds = supplierTypeIds;
-	}
-
 	public SupplierMatPro getSupplierMatPro() {
 		return supplierMatPro;
 	}
@@ -914,5 +942,69 @@ public class Supplier implements Serializable {
 
 	public void setSupplierMatEng(SupplierMatEng supplierMatEng) {
 		this.supplierMatEng = supplierMatEng;
+	}
+
+	public String getSupplierTypeNames() {
+		return supplierTypeNames;
+	}
+
+	public void setSupplierTypeNames(String supplierTypeNames) {
+		this.supplierTypeNames = supplierTypeNames;
+	}
+
+	public String getSupplierTypeIds() {
+		return supplierTypeIds;
+	}
+
+	public void setSupplierTypeIds(String supplierTypeIds) {
+		this.supplierTypeIds = supplierTypeIds;
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+	public String getSupplierType() {
+		return supplierType;
+	}
+
+	public void setSupplierType(String supplierType) {
+		this.supplierType = supplierType;
+	}
+
+	public Date getPassDate() {
+		return passDate;
+	}
+
+	public void setPassDate(Date passDate) {
+		this.passDate = passDate;
+	}
+
+	public List<SupplierTypeRelate> getListSupplierTypeRelates() {
+		return listSupplierTypeRelates;
+	}
+
+	public void setListSupplierTypeRelates(List<SupplierTypeRelate> listSupplierTypeRelates) {
+		this.listSupplierTypeRelates = listSupplierTypeRelates;
+	}
+
+	public String getSupplierItemIds() {
+		return supplierItemIds;
+	}
+
+	public void setSupplierItemIds(String supplierItemIds) {
+		this.supplierItemIds = supplierItemIds;
 	}
 }

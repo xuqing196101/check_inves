@@ -111,20 +111,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/layer/layer.js"></script>
 <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
-   $(function(){
+	  	 $(function(){
 		  laypage({
 			    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
 			    pages: "${isList.pages}", //总页数
 			    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
 			    skip: true, //是否开启跳页
-			    groups: "${isList.pages}">=3?3:"${isList.pages}", //连续显示分页数
+			    total: "${isList.total}",
+			    startRow: "${isList.startRow}",
+			    endRow: "${isList.endRow}",
+			    groups: "${isList.pages}">=5?5:"${isList.pages}", //连续显示分页数
 			    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
-					return "${isList.pageNum}";
+			        var page = location.search.match(/page=(\d+)/);
+			        return page ? page[1] : 1;
 			    }(), 
 			    jump: function(e, first){ //触发分页后的回调
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
-			        	$("#page").val(e.curr);
-			        	$("#form1").submit();
+			             location.href = '<%=basePath%>importSupplier/list.do?page='+e.curr;
 			        }
 			    }
 			});
@@ -195,6 +198,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			layer.alert("请选择要删除的用户",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
+    
+    function chongzhi(){
+	$("#supName").val('');
+	$("#supType").val('');
+}
 </script>
 </head>
 <body>
@@ -210,7 +218,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
 			<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 			<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
-		     <form id="form1" action="${pageContext.request.contextPath}/importSupplier/list.html" method="post">
+	<%-- 	     <form id="form1" action="${pageContext.request.contextPath}/importSupplier/list.html" method="post">
 		       <input type="hidden" name="page" id="page">
 			   <span class="">进口供应商名称：</span>
 			   <div class="input-append">
@@ -219,11 +227,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        <span class="">供应商类别：</span>
 			   <div class="input-append">
 		        <input class="span2" name="supType"  value="${supplierType }" type="text">
-		       <!--  <span class="add-on">i</span> -->
 		       </div>
 		       <input class="btn padding-left-20 padding-right-20 btn_back" onclick="submit()" type="button" value="查询">
-		     </form>
-		  <table id="tb1"  class="table table-bordered table-condensed tc">
+		     </form> --%>
+	<h2 class="padding-10 border1">
+      <form id="form1" action="${pageContext.request.contextPath}/importSupplier/list.html" method="post" class="mb0" > 
+    	<ul class="demand_list">
+    	  <li class="fl">
+	    	<label class="fl">进口供应商名称：</label><span><input class="span2" id="supName" name="supName" value="${name }" type="text"></span>
+	      </li>
+    	  <li class="fl">
+	    	<label class="fl">供应商类别：</label><span><input class="span2" id="supType" name="supType"  value="${supplierType }" type="text"></span>
+	      </li>
+	    	<button type="button" onclick="submit()" class="btn">查询</button>
+	    	<button type="button" onclick="chongzhi()" class="btn">重置</button>  	
+    	</ul>
+    	  <div class="clear"></div>
+       </form>
+     </h2>
+		  <table id="tb1"  class="table table-striped table-bordered table-hover tc">
 		      <thead>
 				<tr>
 				    <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
@@ -237,7 +259,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				 <c:forEach items="${isList.list }" var="list" varStatus="vs">
 					<tr>
 					    <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${list.id}" /></td>
-					    <td>${vs.index+1 }</td>
+					    <td>${(vs.index+1)+(isList.pageNum-1)*(isList.pageSize)}</td>
 						<td><a onclick="show('${list.id}')" class="pointer">${list.name }</a></td>
 						<td>${list.supplierType }</td>
 						<td>${list.legalName }</td>

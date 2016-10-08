@@ -12,11 +12,13 @@
     <result column="CREATED_AT" property="createdAt" />
     <result column="UPDATED_AT" property="updatedAt" />
     <result column="USER_DUTY" property="userDuty" />
+    <result column="TEST_DATE" property="testDate" />
+    <result column="IS_MAX" property="isMax" />
   </resultMap>
   
   <sql id="Base_Column_List">
     ID, USER_ID, USER_TYPE, SCORE, STATUS, PAPER_ID, TARGET_DATE, CREATED_AT, 
-    UPDATED_AT,USER_DUTY
+    UPDATED_AT,USER_DUTY,TEST_DATE,IS_MAX
   </sql>
   
   <!-- 根据主键ID查找用户成绩 -->
@@ -73,6 +75,9 @@
       <if test="testDate != null">
         TEST_DATE,
       </if>
+      <if test="isMax != null">
+        IS_MAX,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -108,6 +113,9 @@
       <if test="testDate != null">
         #{testDate},
       </if>
+      <if test="isMax != null">
+        #{isMax},
+      </if>
     </trim>
   </insert>
   
@@ -142,26 +150,58 @@
       <if test="userDuty != null">
         USER_DUTY = #{userDuty},
       </if>
+      <if test="testDate != null">
+        TEST_DATE = #{testDate},
+      </if>
+      <if test="isMax != null">
+        IS_MAX = #{isMax},
+      </if>
     </set>
     where ID = #{id}
   </update>
   
+  <!-- 根据用户ID和考卷ID更新采购人考试成绩的ISMAx状态 -->
+  <update id="updateIsMaxById" parameterType="ses.model.ems.ExamUserScore">
+    update T_SES_EMS_EXAM_USER_SCORE
+    <set>
+      <if test="isMax != null">
+        IS_MAX = #{isMax},
+      </if>
+    </set>
+    where USER_ID = #{userId}
+    AND PAPER_ID = #{paperId}
+  </update>
+  
+  <!-- 根据用户ID和考卷ID更新专家考试成绩的ISMAx状态 -->
+  <update id="updateIsMaxByUserId" parameterType="ses.model.ems.ExamUserScore">
+    update T_SES_EMS_EXAM_USER_SCORE
+    <set>
+      <if test="isMax != null">
+        IS_MAX = #{isMax},
+      </if>
+    </set>
+    where USER_ID = #{userId}
+  </update>
+  
   <!-- 专家成绩按条件查询 -->
-  <select id="selectExpertResultByCondition" parameterType="java.util.Map" resultMap="BaseExpertCondition">
+  <select id="selectExpertResultByCondition" parameterType="java.util.Map" resultType="ses.model.ems.ExamUserScore">
   	SELECT
-		U.ID,
-		U.REL_NAME,
-		s.USER_DUTY,
-		s.TEST_DATE,
-		s.SCORE,
-		s.STATUS
+		U.ID AS userId,
+		U.REL_NAME AS relName,
+		s.USER_DUTY AS userDuty,
+		s.TEST_DATE AS testDate,
+		s.SCORE AS score,
+		s.STATUS AS status,
+		E.ID_TYPE AS idType,
+		E.ID_NUMBER AS idNumber
 	FROM
 		T_SES_EMS_EXAM_USER_SCORE s
 	LEFT JOIN T_SES_BMS_USER U ON s.USER_ID = U.ID
 	LEFT JOIN T_SES_EMS_EXPERT E ON U.type_id = E.ID
-	<where>
+	WHERE
 		U.TYPE_NAME = 5
 		AND s.USER_TYPE = 1
+    	AND s.IS_MAX=1  
         <if test="relName != null and '' != relName">
            <![CDATA[
            AND U.REL_NAME LIKE #{relName}
@@ -177,37 +217,18 @@
            AND s.USER_DUTY = #{userDuty} 
            ]]>
         </if>
-    </where>
+        ORDER BY
+			testDate nulls last
   </select>
-  
-  <resultMap id="BaseExpertCondition" type="ses.model.ems.ExamUserScore">
-  		<id column="ID"  property="id" />
-  		<result column="USER_ID" property="userId" />
-  		<result column="USER_TYPE" property="userType" />
-  		<result column="SCORE" property="score" />
-	    <result column="STATUS" property="status" />
-	    <result column="TARGET_DATE" property="targetDate" />
-	    <result column="CREATED_AT" property="createdAt" />
-	    <result column="UPDATED_AT" property="updatedAt" />
-	    <result column="TEST_DATE" property="testDate" />
-	    <result column="USER_DUTY" property="userDuty" />
-	    <association property="expert" javaType="ses.model.ems.Expert">
-    		<result column="EXPERTS_TYPE_ID" property="expertsTypeId"/>
-   		</association>
-   		<association property="user" javaType="ses.model.bms.User">
-	    	<id column="ID"  property="id" />
-    		<result column="REL_NAME" property="relName"/>
-   		</association>
-  </resultMap>
   
   <!-- 采购人考试成绩查询(包括按条件查询) -->
   <select id="selectPurchaserResultByCondition" parameterType="java.util.Map" resultType="ses.model.ems.ExamUserScore">
   		SELECT
 			s.USER_ID AS userId,
-			s.SCORE AS score,
-			s.STATUS AS status,
+			s.score AS score,
 			d.CODE AS code,
 			d.CARD as card,
+			s.STATUS as status,
 			s.TEST_DATE AS testDate,
 			U.REL_NAME AS relName
 		FROM
@@ -217,26 +238,34 @@
 		WHERE
 			s.PAPER_ID = d.PAPER_ID
 			AND s.USER_ID = U.ID
-			and d.USER_ID = U.id
-		<trim suffixOverrides=",">
+			AND d.USER_ID = U.ID
+			AND s.IS_MAX = 1
 			<if test="relName != null and '' != relName">
 	           <![CDATA[
 	           	AND U.REL_NAME LIKE #{relName}
 	           ]]>  
-	        </if> 
+	        </if>
 	        <if test="status != null and '' != status">
 	           <![CDATA[
 	           	AND s.STATUS = #{status}
 	           ]]>
-	        </if> 
+	        </if>
 	        <if test="code != null and '' != code">
 	           <![CDATA[
 	           	AND P.CODE = #{code} 
 	           ]]>
 	        </if>
-		</trim>
-		
-		
+			ORDER BY
+				testDate nulls last
   </select>
   
+  <!-- 根据userId查找属于用户的成绩 -->
+  <select id="findByUserId" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_EMS_EXAM_USER_SCORE
+    where USER_ID = #{userId}
+    ORDER BY
+    CREATED_AT DESC
+  </select>
 </mapper>

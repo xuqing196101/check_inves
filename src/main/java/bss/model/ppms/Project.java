@@ -1,5 +1,8 @@
 package bss.model.ppms;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
 
@@ -64,9 +67,29 @@ public class Project {
     
     private double amount;
     
+    private String purchaseDepName;
+    
     private Supplier dealSupplier;
     
-    private Task task;
+    private List<Task> list;
+    
+
+	public Project(String id) {
+		super();
+		this.id = id;
+	}
+	
+	public Project(){
+		super();
+	}
+	
+	public String getPurchaseDepName() {
+		return purchaseDepName;
+	}
+
+	public void setPurchaseDepName(String purchaseDepName) {
+		this.purchaseDepName = purchaseDepName;
+	}
 
 	public String getId() {
 		return id;
@@ -317,13 +340,15 @@ public class Project {
 		this.dealSupplier = dealSupplier;
 	}
 
-	public Task getTask() {
-		return task;
+	public List<Task> getList() {
+		return list;
 	}
 
-	public void setTask(Task task) {
-		this.task = task;
+	public void setList(List<Task> list) {
+		this.list = list;
 	}
+
+	
 	
 	
 }

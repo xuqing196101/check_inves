@@ -1,5 +1,6 @@
 package ses.service.bms.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -7,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ses.dao.bms.CategoryMapper;
+import ses.dao.sms.SupplierItemMapper;
 import ses.model.bms.Category;
+import ses.model.sms.SupplierItem;
+import ses.model.sms.SupplierTypeTree;
 import ses.service.bms.CategoryService;
 
    /**
@@ -23,7 +27,9 @@ public class CategoryServiceImpl implements CategoryService {
 	
 	@Autowired
 	private CategoryMapper categoryMapper;
-
+	
+	@Autowired
+	private SupplierItemMapper supplierItemMapper;
 	
 
 	public void insertSelective(Category category) {
@@ -72,7 +78,38 @@ public class CategoryServiceImpl implements CategoryService {
 		// TODO Auto-generated method stub
 		return categoryMapper.findTreeByPid(pid);
 	}
-
 	
-
+	/**
+	 * @Title: findCategoryByType
+	 * @author: Wang Zhaohua
+	 * @date: 2016-10-3 下午4:12:18
+	 * @Description: 根据类型查询
+	 * @param: @param category
+	 * @param: @return
+	 * @return: List<Category>
+	 */
+	@Override
+	public List<SupplierTypeTree> findCategoryByType(Category category, String supplierId) {
+		List<Category> listCategorys = categoryMapper.findCategoryByType(category);
+		
+		// 查询供应商勾选品目类型
+		List<SupplierItem> listSupplierItems = supplierItemMapper.findSupplierItemBySupplierId(supplierId);
+		List<String> listCategoryIds = new ArrayList<String>();
+		for(SupplierItem supplierItem : listSupplierItems) {
+			listCategoryIds.add(supplierItem.getCategoryId());
+		}
+		
+		List<SupplierTypeTree> listSupplierTypeTrees = new ArrayList<SupplierTypeTree>();
+		for (Category c : listCategorys) {
+			SupplierTypeTree supplierTypeTree = new SupplierTypeTree();
+			supplierTypeTree.setId(c.getId());
+			supplierTypeTree.setParentId(c.getParentId());
+			supplierTypeTree.setName(c.getName());
+			if (listCategoryIds.contains(c.getId())) {
+				supplierTypeTree.setChecked(true);
+			}
+			listSupplierTypeTrees.add(supplierTypeTree);
+		}
+		return listSupplierTypeTrees;
+	}
 }

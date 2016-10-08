@@ -109,33 +109,35 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           </ul>
           <div class="tab-content">
             <div class="tab-pane fade in active" id="dep_tab-0">
-			  <div class="show_obj"><table class="table table-striped table-bordered">
+			  <div class="show_obj"><table class="table table-bordered">
 			    <tbody>
 				  <tr>
-				    <td width="25%">单位名称：</td>
+				    <td width="25%" class="bggrey tr">单位名称：</td>
 				    <td width="25%">xxxx有限公司</td>
-				    <td width="25%">单位简称：</td>
+				    <td width="25%" class="bggrey tr">单位简称：</td>
 				    <td width="25%">服务公司</td>
 				  </tr>
 				  <tr>
-				    <td width="25%">曾用名：</td>
+				    <td width="25%" class="bggrey tr">曾用名：</td>
 				    <td width="25%">xxxx有限公司</td>
-				    <td width="25%">单位类型：</td>
+				    <td width="25%" class="bggrey tr">单位类型：</td>
 				    <td width="25%">独立核算单位</td>
 				  </tr>
 				  <tr>
-				    <td width="25%">邮政编码：</td>
-				    <td width="25%">100044</td><td width="25%">所在地区：</td>
-				    <td width="25%">北京</td></tr><tr><td width="25%">详细地址：</td>
+				    <td width="25%" class="bggrey tr">邮政编码：</td>
+				    <td width="25%">100044</td>
+				    <td width="25%" class="bggrey tr">所在地区：</td>
+				    <td width="25%">北京</td></tr><tr>
+				    <td width="25%" class="bggrey tr">详细地址：</td>
 				    <td width="25%">北京市西四环中路16号院8号楼</td>
-				    <td width="25%">电话（总机）：</td>
+				    <td width="25%" class="bggrey tr">电话（总机）：</td>
 				    <td width="25%">88016942</td>
 				  </tr>
 				  <tr>
-				    <td width="25%">传真：</td>
+				    <td width="25%" class="bggrey tr">传真：</td>
 				    <td width="25%">-</td>
-				    <td></td>
-				    <td></td>
+				    <td  width="25%" class="bggrey tr"></td>
+				    <td width="25%"></td>
 				  </tr>
 				 </tbody>
 			 </table>
@@ -282,66 +284,37 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 <ul class="timeline-v2">
       <li>
         <time class="cbp_tmtime" datetime=""><span>14:27:16</span> <span>2016-08-01</span></time>
-        <i class="cbp_tmicon rounded-x hidden-xs"></i>
         <div class="cbp_tmlabel">
-          <h4><i class="fa fa-chevron-circle-down"></i> 修改数据 <i class="fa fa-wrench"></i></h4>
-          <div class="margin-bottom-10"><div class="headline"><h3 class="heading-sm">修改详细信息</h3></div><table class="table table-bordered"><thead><tr><th>参数名称</th><th>修改前</th><th>修改后</th></tr></thead><tbody><tr><td>详细地址</td><td>北京市西四环中路16号院8号楼（金沟河桥东南角）</td><td>北京市西四环中路16号院8号楼</td></tr></tbody></table></div>
+          <h4>修改数据 </h4>
+          <div class="margin-bottom-10"><div class="headline"><h3 class="heading-sm">修改详细信息</h3></div><table class="table table-bordered mb0"><thead><tr><th>参数名称</th><th>修改前</th><th>修改后</th></tr></thead><tbody><tr><td>详细地址</td><td>北京市西四环中路16号院8号楼（金沟河桥东南角）</td><td>北京市西四环中路16号院8号楼</td></tr></tbody></table></div>
           <p>状态:<span class="label rounded-2x label-u">正常</span>&nbsp;&nbsp;姓名:许锡炎&nbsp;&nbsp;ID:151234&nbsp;&nbsp;单位:xxxxx有限公司&nbsp;&nbsp;IP地址:61.135.234.125|北京市</p>
         </div>
       </li>
       <li>
-        <time class="cbp_tmtime" datetime=""><span>10:17:11</span> <span>2016-01-26</span></time>
-        <i class="cbp_tmicon rounded-x hidden-xs"></i>
+        <time class="cbp_tmtime" datetime=""><span>14:27:16</span> <span>2016-08-01</span></time>
         <div class="cbp_tmlabel">
-          <h4><i class="fa fa-chevron-circle-down"></i> 修改单位信息 <i class="fa fa-wrench"></i></h4>
-          <div class="margin-bottom-10"><font class="view_logs_detail">修改痕迹</font><div class="logs_detail">
-		  <table class="table table-bordered">
-		    <tbody>
-			  <tr><td>参数名</td><td>修改前</td><td>修改后</td></tr>
-			  <tr><td>详细地址</td><td>北京市西四环中路16号生物技术中心8号楼（金沟河桥东南角）</td><td>北京市西四环中路16号院8号楼（金沟河桥东南角）</td></tr>
-			</tbody>
-		 </table>
-		 </div>
-		</div>
-        <p>状态:<span class="label rounded-2x label-u">正常</span>姓名:许锡炎&nbsp;&nbsp;ID:151234&nbsp;&nbsp;单位:xxx有限公司&nbsp;&nbsp;IP地址:61.135.234.125|北京市</p>
+          <h4>修改数据 </h4>
+          <div class="margin-bottom-10"><div class="headline"><h3 class="heading-sm">修改详细信息</h3></div><table class="table table-bordered mb0"><thead><tr><th>参数名称</th><th>修改前</th><th>修改后</th></tr></thead><tbody><tr><td>详细地址</td><td>北京市西四环中路16号院8号楼（金沟河桥东南角）</td><td>北京市西四环中路16号院8号楼</td></tr></tbody></table></div>
+          <p>状态:<span class="label rounded-2x label-u">正常</span>&nbsp;&nbsp;姓名:许锡炎&nbsp;&nbsp;ID:151234&nbsp;&nbsp;单位:xxxxx有限公司&nbsp;&nbsp;IP地址:61.135.234.125|北京市</p>
         </div>
       </li>
       <li>
-        <time class="cbp_tmtime" datetime=""><span>14:57:41</span> <span>2015-11-02</span></time>
-        <i class="cbp_tmicon rounded-x hidden-xs"></i>
+        <time class="cbp_tmtime" datetime=""><span>14:27:16</span> <span>2016-08-01</span></time>
         <div class="cbp_tmlabel">
-          <h4><i class="fa fa-chevron-circle-down"></i> 修改单位信息 <i class="fa fa-wrench"></i></h4>
-          <div class="margin-bottom-10"><font class="view_logs_detail">修改痕迹</font><div class="logs_detail"><table class="table table-bordered"><tbody><tr><td>参数名</td><td>修改前</td><td>修改后</td></tr><tr><td>详细地址</td><td>西直门外大街甲143号凯旋大厦A座</td><td>北京市西四环中路16号生物技术中心8号楼（金沟河桥东南角）</td></tr></tbody></table></div></div>
-          <p>状态:<span class="label rounded-2x label-u">正常</span>&nbsp;&nbsp;姓名:彭威&nbsp;&nbsp;ID:151234&nbsp;&nbsp;单位:xxx有限公司&nbsp;&nbsp;IP地址:111.198.187.189|欧洲</p>
+          <h4>修改数据 </h4>
+          <div class="margin-bottom-10"><div class="headline"><h3 class="heading-sm">修改详细信息</h3></div><table class="table table-bordered mb0"><thead><tr><th>参数名称</th><th>修改前</th><th>修改后</th></tr></thead><tbody><tr><td>详细地址</td><td>北京市西四环中路16号院8号楼（金沟河桥东南角）</td><td>北京市西四环中路16号院8号楼</td></tr></tbody></table></div>
+          <p>状态:<span class="label rounded-2x label-u">正常</span>&nbsp;&nbsp;姓名:许锡炎&nbsp;&nbsp;ID:151234&nbsp;&nbsp;单位:xxxxx有限公司&nbsp;&nbsp;IP地址:61.135.234.125|北京市</p>
         </div>
       </li>
       <li>
         <time class="cbp_tmtime" datetime=""><span>14:41:56</span> <span>2013-04-18</span></time>
-        <i class="cbp_tmicon rounded-x hidden-xs"></i>
         <div class="cbp_tmlabel">
-          <h4><i class="fa fa-chevron-circle-down"></i> 修改采购单位信息 <i class="fa fa-wrench"></i></h4>
-          <div class="margin-bottom-10"></div>
+          <h4>修改采购单位信息</h4>
           <p>状态:<span class="label rounded-2x label-u">正常</span>&nbsp;&nbsp;姓名:许锡炎&nbsp;&nbsp;ID:146393&nbsp;&nbsp;单位:xxxx有限公司&nbsp;&nbsp;IP地址:172.16.25.117|局域网</p>
         </div>
       </li>
-      <li>
-        <time class="cbp_tmtime" datetime=""><span>19:12:33</span> <span>2013-04-06</span></time>
-        <i class="cbp_tmicon rounded-x hidden-xs"></i>
-        <div class="cbp_tmlabel">
-          <h4><i class="fa fa-chevron-circle-down"></i> 修改采购单位信息 <i class="fa fa-wrench"></i></h4>
-          <div class="margin-bottom-10"></div>
-          <p>状态:<span class="label rounded-2x label-u">正常</span>&nbsp;&nbsp;姓名:许锡炎&nbsp;&nbsp;ID:146393&nbsp;&nbsp;单位:xxxx有限公司&nbsp;&nbsp;IP地址:172.16.25.12|局域网</p>
-        </div>
-      </li>
-      <li>
-        <time class="cbp_tmtime" datetime=""><span>19:01:00</span> <span>2013-04-06</span></time>
-        <i class="cbp_tmicon rounded-x hidden-xs"></i>
-        <div class="cbp_tmlabel">
-          <h4><i class="fa fa-chevron-circle-down"></i> 修改采购单位信息 <i class="fa fa-wrench"></i></h4>
-          <div class="margin-bottom-10"></div>
-          <p>状态:<span class="label rounded-2x label-u">正常</span>&nbsp;&nbsp;姓名:许锡炎&nbsp;&nbsp;ID:146393&nbsp;&nbsp;单位:xxxx有限公司&nbsp;&nbsp;IP地址:172.16.25.12|局域网</p>
-        </div>
-        </li>
+
+
       </ul>
      </div>
     </div>

@@ -17,6 +17,11 @@
 		//生成考卷方法
 		function generatePaper(){
 			var paperNo = $("#paperNo").val().trim();
+			if(paperNo==null||paperNo==""){
+				layer.alert("请输入考试编号",{offset: ['222px', '390px']});
+				$(".layui-layer-shade").remove();
+				return;
+			}
 			$.ajax({
 				type:"POST",
 				dataType:"json",

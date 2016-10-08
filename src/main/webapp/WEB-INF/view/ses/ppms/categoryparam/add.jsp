@@ -26,10 +26,10 @@
 <script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.exedit.js"></script>
     <script type="text/javascript">
     var datas;
-	 var treeid=null;
-$(document).ready(function(){
-	 var setting={
-		async:{
+	var treeid=null;
+    $(document).ready(function(){
+	     var setting={
+		    async:{
 					autoParam:["id","name"],
 					enable:true,
 					url:"<%=basePath%>category/createtree.do",
@@ -74,122 +74,36 @@ $(document).ready(function(){
  };
 	 
    $.fn.zTree.init($("#ztree"),setting,datas);
-   var lastValue ="", nodeList=[];
-   var value ="";
-   key.bind("propertychange",searchNode).bind("input",searchNode);
-}) 
-   var ztree = $.fn.zTree.getZTreeObj("ztree");
-   var key =$("#key");
-	
-   function searchNode(e){
-	     alert(4);
-   	value = $.trim(key.get(0).value);
-   	var keyType ="name";
-   	alert(3);
-   	if(lastValue== value){
-   		alert(1);
-   		return;
-   	}
-   	lastValue= value;
-   	updateNodes(false);
-   	if(value==""){
-   		alert(2);
-   		return;
-   	}
-   	nodeList = ztree.getNodesByParamFuzzy(keyType,value);
-   	console.info(nodeList);
-   	updateNodes(true);
-   	//遍历隐藏其他父节点
-   }	
-   function updateNodes(highlight){
-   	var pnodes= ztree.getNodes();
-   	for(var j=0;j<pnodes.length;j++){
-   		ztree.showNode(pnodes[j]);
-   		if(highlight){
-				var have = false;
-				for(var i=0, l=nodeList.length; i<l; i++) {
-					if(pnodes[j].isParent && nodeList[i].pId == pnodes[j].id){
-						have = true;
-					}
-				}
-				if(have){
-					for(var q = 0;q<pnodes[j].children.length;q++){
-						for(var k = 0;k<nodeList.length;k++){
-							if(pnodes[j].children[q].name==nodeList[k].name){
-								ztree.showNode(pnodes[j].children[q]);
-								break;
-							}else if(k == nodeList.length-1){
-								if(value.length == 1){
-									ztree.showNode(pnodes[j].children[q]);
-								}else{ 
-									ztree.hideNode(pnodes[j].children[q]);
-								}
-								
-							}
-						}  
-					}
-				}
-				if(!have){
-					ztree.hideNode(pnodes[j]);
-				}
-			}else{
-				ztree.showNode(pnodes[j]);
-			}
-      	}
-		for( var i=0, l=nodeList.length; i<l; i++) {
-			nodeList[i].highlight = highlight;
-			ztree.updateNode(nodeList[i]);
-		}
-	}
-   	
-   function filter(node) {
-		return !node.isParent && node.isFirstNode;
-	}
    
-	
-  /*删除图片*/
-   function deletepic(obj){
-		layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
-			layer.close(index);
-	       	layer.msg('删除成功',{offset: ['222px', '390px']});
-		    window.setTimeout(function(){
-		    	$(obj).prev().hide();
-				$(obj).next().remove();
-				$(obj).hide();
-				$("#showid").val(0);
-				$(".order").val("");
-		    }, 1000);
-		});
-		
-	}
-   /*点击事件*/
+}) 
+   
+   /**点击事件*/
    function zTreeOnClick(event,treeId,treeNode){
-		treeid=treeNode.id
+		treeid=treeNode.id;
+		$("#cateid").val(treeid);
    }
-   /*添加采购目录*/
+   /**添加采购参数*/
    function news(){
 			if (treeid==null) {
 			alert("请选择一个节点");
 					return;		
 			}else{
-				$.ajax({
-					success:function(){
+			alert(treeid)
 						var html = "";
-						html = html+"<tr><td>目录名称</td>"+"<td><input name='name'/></td></tr>" ;
-				/* 		html = html+"<tr><td>父节点</td>"+"<td><input name='parentId'/></td></tr>"; */
-						html = html+"<tr><td>排序</td>"+"<td><input name='position'/></td></tr>";
-						html = html+"<tr><td>编码</td>"+"<td><input name='code'/></td></tr>";
-						html = html+"<tr><td>图片</td>"+"<td id='uploadAttach'><input id='pic'type='file' class='toinline' name='attaattach' /></td></tr>";
-						html = html+"<tr><td>描述</td>"+"<td><textarea name='descrption'/></td></tr>";
-						html = html+"<tr><td colspan='2'><input type='submit' value='提交' onclick='check()' class='btn btn-window'/></td></tr>";
-						$("#result").append(html);
-					}
+						html = html+"<tr><td><input name='name'/></td>"
+						+"<td><select>"
+						    +"<option name='valueType' value='a'>字符型</option>"
+						    +"<option name='valueType' value='b'>数字型</option>"
+						    +"<option name='valueType' value='c'>日期</option>"
+						    +"</select</td></tr>";
+						/* html = html+"<tr><td colspan='2'><input type='submit' value='提交'/></td></tr>"; */
+						$("#result").prepend(html);
+					   
 				
-				})
 			}
 			
 		}
-	/*修改节点信息*/
+	/**修改节点信息*/
    function update(){
 	 		if (treeid==null) {
 				alert("请选择一个节点");
@@ -201,45 +115,22 @@ $(document).ready(function(){
 					success:function(cate){
 						alert(cate.name);
 						var html = "";
-						html = html+"<tr><td>目录名称</td><td><input value='"+cate.name+"'/></td></tr>";
-						/* html = html+"<tr><td>父节点</td>"+"<td></td></tr>"; */
-						html = html+"<tr><td>父节点</td><td><input value='"+cate.parentId+"'/></td></tr>";
-						html = html+"<tr><td>排序</td><td><input value='"+cate.position+"'/></td></tr>";
-						html = html+"<tr><td>编码</td><td><input value='"+cate.code+"'/></td></tr>";
-						html = html+"<tr><td>附件</td><td id='uploadAttach'><input id='pic' type='file' value='"+cate.attchment+"'/>"
-						+"<input onclick='deletepic(this)'  id='close_pic' class='close' type='button' value='×'/>"
-						+"</td></tr>";
-						html = html+"<tr><td>描述</td><td><input value='"+cate.description+"'/></td></tr>";
-						html = html+"<tr><td colspan='2'><input type='submit' onclick='mysubmit()' value='更新' class='btn btn-window '/></td></tr>"
+						html = html+"<tr><td></td><td><input value='"+cate.name+"'/></td></tr>";
+					
 						$("#result").append(html);
 					}
 				})
 			}
 		}
-	/*休眠-激活*/
-   function ros(){
-			var str="";
-	 		var treeObj = $.fn.zTree.getZTreeObj("ztree");
-			var nodes = treeObj.getCheckedNodes(true);
-			for ( var i = 0; i < nodes.length; i++) {
-				str+=nodes[i].id+",";
-				alert(str);
-			}
-			alert(str);
-			$.ajax({
-				type:"POST",
-				url:"<%=basePath%>category/ros.do?ids="+str,
-			})
-		}
 		
-	/*重命名和删除的回掉函数*/	
+	/**重命名和删除的回掉函数*/	
    function zTreeOnRemove(event, treeId, treeNode,isCancel) {
 		}
    function zTreeOnRename(event, treeId, treeNode, isCancel) {
 				 alert(treeNode.tId + ", " + treeNode.name); 
 				
 		}
-	/*删除目录信息*/
+	/**删除目录信息*/
    function zTreeBeforeRemove(treeId, treeNode){
 	 		$.ajax({
 	 			type:"post",
@@ -247,27 +138,46 @@ $(document).ready(function(){
 	 		});
 		}
 	 	
-	/*节点重命名*/
+	/**节点重命名*/
    function zTreeBeforeRename(treeId,treeNode,newName,isCancel){
 			$.ajax({
 	 			type:"post",
 	 			url:"<%=basePath%>category/rename.do?id="+treeNode.id+"&name="+newName,
 	 		});
 		} 
-   /*新增提交*/		
+    /**导入excel*/
+    function imports(){
+     window.location.href="<%=basePath%>categoryparam/import.do";
+    }
+    /**导出excel*/
+    function exports(){
+    window.location.href="<%=basePath%>categoryparam/exports.do";
+    }
+    function addAttach(){
+		html="<input type='text' class='mt10' name='productName'/><a class=' btn mb15' onclick='deleteattach(this)'>X</a><br/>";
+		$("#addinput").append(html);
+	}
+	 function addAtt(){
+		html="<input type='text'  name='saleName'/><a class='ml30' onclick='deleteattach(this)'>X</a><br/>";
+		$("#addnews").append(html);
+	}
+	function deleteattach(obj){
+		$(obj).prev().remove();
+		$(obj).next().remove();
+		$(obj).remove();
+	}
+	
+   <%--    /**新增提交*/		
 	function check(){
 		document.fm.action="<%=basePath%>category/save.do";
 		document.fm.submit();
-	}
-	/*更新数据*/
+	} --%>
+	<%-- /**更新数据*/
 	function mysubmit(){
 		document.fm.action="<%=basePath%>category/edit.do";
 		document.fm.submit();
 	}	
-   /*关键字查询*/
- 
-  
-  
+   --%>
 </script>
     </script>
 
@@ -351,7 +261,7 @@ $(document).ready(function(){
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a><><li><a href="#">采购目录管理</a><><li>
+		   <li><a href="#"> 首页</a><><li><a href="#">产品参数管理</a><><li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -359,28 +269,51 @@ $(document).ready(function(){
    <div class="container">
    <div class="col-md-3">
      
-	 <div>
-	   <input id="key" type="text" class="mt10"  placeholder="请输入..."  value=""/>
- 	 <!--   <button onclick="searchM()" class="btn  btn-window mr10"  type="button">sou</button> -->
- 	 </div>
-	 <div id="ztree" class="ztree"></div>
+
+	 <div><ul id="ztree" class="ztree"></ul></div>
 	</div>
 		<div class="mt10 col-md-9">
-			<span id="add"><a href="javascript:void(0);" onclick="news()" class="btn btn-window ">新增 </a></span> 
-			<span><a href="javascript:void(0);" onclick="update()"  class="btn btn-window ">修改</a></span> 
-			<span><a href="javascript:void(0);" onclick="ros()"  class="btn btn-window ">激活/休眠</a></span>
-  <%--  <form action="<%=basePath%>category/save.do" method="post" name="temp" enctype="multipart/form-data">
-        
-        <table id="result"  class="table table-bordered table-condensedb mt15" ></table>
-    </form>
-    < --%>
-    <form  id="form" action="" name="fm" method="post"  enctype="multipart/form-data">
-    <input type="hidden"  onclick="check()" value="submit"/>
-    <input type="hidden"  onclick="mysubmit()" value="submit"/>
-    <table id="result"  class="table table-bordered table-condensedb mt15" ></table>
-    </form>
+			<span id="add"><a href="javascript:void(0);" onclick="news()" class="btn btn-window ">添加参数 </a></span> 
+			<span ><a href="javascript:void(0);" onclick="imports()" class="btn btn-window ">导入Excel</a></span>
+			<span><a href="javascript:void(0);" onclick="exports()" class="btn btn-window ">导出Excel</a></span>
+    <form action="<%=basePath%>categoryparam/save.do"  method="post" >
+                     <input id="cateid" type="hidden" name="id" value=""/>
+                <table id="result"  class="table table-bordered table-condensedb mt15" >
+					 <tr><td >是否公开</td>
+					 <td>
+					 <span class="ml30"><input type="radio" value="0" name="ispublish" />是</span>
+					 <span class="ml60"><input type="radio" value="1" name="ispublish"/>否</span>
+					 </td></tr>
+					 <!-- <tr><td>公布范围</td>
+					 <td>
+					 <span><input type="checkbox" value="true" name="scopePublic"/>外网</span>
+					 <span><input type="checkbox" value="false" name="scopePublic"/>内网</span>
+					 </td></tr> -->
+					 <tr><td >产品类型</td>
+					 <td>
+					 <span class="ml30"><input type="checkbox" value="a" name="type"/>生产型</span>
+					 <span class="ml30"><input type="checkbox" value="b" name="type"/>销售型</span>
+					 <span class="ml30"><input type="checkbox" value="c" name="type"/>服务型</span>
+					 <span class="ml30"><input type="checkbox" value="d" name="type"/>工程型</span>
+					 </td></tr>
+					 <tr><td>验证规范</td><td><textarea name="acceptRange"></textarea></td></tr>
+					 <tr><td>生产型资质文件</td>
+					 <td ><span id="addinput"></span><input type="text" name="productName"/></span>
+					 <input  type="button" value="添加" onclick="addAttach()"/><br/>
+					 </td></tr>
+					 <tr><td>销售型资质文件</td>
+					 <td><span id="addnews"></span><input type="text" name="saleName"/></span>
+					 <input  type="button" value="添加" onclick="addAtt()"/><br/>
+					 </td></tr>
+					 <tr><td colspan="2"  >
+					 <input type="submit" class="btn mr30"/>
+					 <input type="button"class="btn" value="返回"/></td>
+					 </tr>
+				   
+                </table>
+            </form>
         </div>
-	</div>
+    </div>
 	
 	<!--底部代码开始-->
     <div class="footer-v2 clear" id="footer-v2">

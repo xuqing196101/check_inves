@@ -76,6 +76,26 @@ public class PurchaseRequired {
     
     private Integer isCollect;
     
+    private String code;
+    
+    private String onePurchaseType;
+    
+    private String oneOrganiza;
+    
+    private String oneAdvice;
+    
+    private String twoTechAdvice;
+    
+    private String twoAdvice;
+    
+    private String threePurchaseType;
+    
+    private String threeOrganiza;
+    
+    private String threeAdvice;
+    
+    private String brand;
+    
     public String getId() {
         return id;
     }
@@ -332,7 +352,87 @@ public class PurchaseRequired {
 		this.isCollect = isCollect;
 	}
 
-	 
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		  this.code = code == null ? null : code.trim();
+	}
+
+	public String getOnePurchaseType() {
+		return onePurchaseType;
+	}
+
+	public void setOnePurchaseType(String onePurchaseType) {
+		  this.onePurchaseType = onePurchaseType == null ? null : onePurchaseType.trim();
+	}
+
+	public String getOneOrganiza() {
+		return oneOrganiza;
+	}
+
+	public void setOneOrganiza(String oneOrganiza) {
+		  this.oneOrganiza = oneOrganiza == null ? null : oneOrganiza.trim();
+	}
+
+	public String getOneAdvice() {
+		return oneAdvice;
+	}
+
+	public void setOneAdvice(String oneAdvice) {
+		  this.oneAdvice = oneAdvice == null ? null : oneAdvice.trim();
+	}
+
+	public String getTwoTechAdvice() {
+		return twoTechAdvice;
+	}
+
+	public void setTwoTechAdvice(String twoTechAdvice) {
+		  this.twoTechAdvice = twoTechAdvice == null ? null : twoTechAdvice.trim();
+	}
+
+	public String getTwoAdvice() {
+		return twoAdvice;
+	}
+
+	public void setTwoAdvice(String twoAdvice) {
+		  this.twoAdvice = twoAdvice == null ? null : twoAdvice.trim();
+	}
+
+	public String getThreePurchaseType() {
+		return threePurchaseType;
+	}
+
+	public void setThreePurchaseType(String threePurchaseType) {
+		  this.threePurchaseType = threePurchaseType == null ? null : threePurchaseType.trim();
+	}
+
+	public String getThreeOrganiza() {
+		return threeOrganiza;
+	}
+
+	public void setThreeOrganiza(String threeOrganiza) {
+		  this.threeOrganiza = threeOrganiza == null ? null : threeOrganiza.trim();
+	}
+
+	public String getThreeAdvice() {
+		return threeAdvice;
+	}
+
+	public void setThreeAdvice(String threeAdvice) {
+		  this.threeAdvice = threeAdvice == null ? null : threeAdvice.trim();
+	}
+
+	public String getBrand() {
+		return brand;
+	}
+
+	public void setBrand(String brand) {
+		  this.brand = brand == null ? null : brand.trim();
+	}
+
+	
 
 	
     

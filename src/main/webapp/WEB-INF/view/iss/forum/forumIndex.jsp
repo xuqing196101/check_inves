@@ -25,7 +25,7 @@
 <link href="<%=basePath%>public/ZHQ/css/footer-v2.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHQ/css/img-hover.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHQ/css/page_job.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/forum/css/style.css" media="screen" rel="stylesheet">
+<link href="<%=basePath%>public/ZHQ/css/forum.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHQ/css/shop.style.css" media="screen" rel="stylesheet">
 <script src="<%=basePath%>public/ZHQ/js/hm.js"></script>
 <script src="<%=basePath%>public/ZHQ/js/jquery.min.js"></script>
@@ -39,16 +39,17 @@
   
   <body> 
 <jsp:include page="/index_head.jsp"></jsp:include>
-<div class="container">   
+<div class="container mt10">   
 <!-- 4个常用版块 -->
 <div class="row home-icons hidden-sm hidden-xs mt20">
   
   <div class="col-md-3">
     <div class="item item1">
-    <img src="<%=basePath%>public/ZHQ/images/icon_02.png"/>
+    
       <div class="icon">
         <a href="<%=basePath%>post/getIndexlist.html?parkId=1">
         <i class="fa fa-comments-o">
+        <img src="<%=basePath%>public/ZHQ/images/icon_02.png"/>
         </i></a>
       </div>
       <div class="text">
@@ -61,9 +62,9 @@
   
   <div class="col-md-3">
     <div class="item item2">
-    <img src="<%=basePath%>public/ZHQ/images/icon_04.png"/>
+    
       <div class="icon">
-        <a href="<%=basePath%>post/getIndexlist.html?parkId=2"><i class="fa fa-support"></i></a>
+        <a href="<%=basePath%>post/getIndexlist.html?parkId=2"><i class="fa fa-support"><img src="<%=basePath%>public/ZHQ/images/icon_04.png"/></i></a>
       </div>
       <div class="text">
         <a href="<%=basePath%>post/getIndexlist.html?parkId=2">      
@@ -75,9 +76,9 @@
   
   <div class="col-md-3">
     <div class="item item3">
-    <img src="<%=basePath%>public/ZHQ/images/icon_03.png"/>
+    
       <div class="icon">
-        <a href="<%=basePath%>post/getIndexlist.html?parkId=3"><i class="fa fa-users"></i></a>
+        <a href="<%=basePath%>post/getIndexlist.html?parkId=3"><i class="fa fa-users"><img src="<%=basePath%>public/ZHQ/images/icon_03.png"/></i></a>
       </div>
       <div class="text">
         <a href="<%=basePath%>post/getIndexlist.html?parkId=3" >          
@@ -88,9 +89,9 @@
   </div>
   <div class="col-md-3">
     <div class="item item4">
-    <img src="<%=basePath%>public/ZHQ/images/icon_08.png"/>
+   
       <div class="icon">
-        <a href="<%=basePath%>post/getIndexlist.html?parkId=4"><i class="fa fa-diamond"></i></a>
+        <a href="<%=basePath%>post/getIndexlist.html?parkId=4"><i class="fa fa-diamond"> <img src="<%=basePath%>public/ZHQ/images/icon_08.png"/></i></a>
       </div>
       <div class="text">
         <a href="<%=basePath%>post/getIndexlist.html?parkId=4">
@@ -152,7 +153,7 @@
 
    <c:forEach items="${list }" var="park"> 
       <div class="home_suggest_topics panel panel-default">
-    <div class="panel-heading panel-title">${park.name }</div>
+    <div class="panel-heading panel-title">${park.name }<span class="fr"><a href="<%=basePath%>post/getIndexlist.html?parkId=${park.id}" class="f14 b">更多>></a></span></div>
     <div class="panel-body topics row">
       <!-- 帖子div -->
   <c:forEach items="${park.posts }" var="post">
@@ -200,9 +201,6 @@
   </c:forEach>  
   </div>
   </body>
-    <div class="park_manager f18">
-  <a href='<%=basePath %>park/parkManager.do'>我是版主</a>
-  </div>
   <div class="my_post f18">
   <a href='<%=basePath %>post/publish.html'>我要发帖</a>
   </div>

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.sms.SupplierItemMapper">
+	<resultMap id="BaseResultMap" type="ses.model.sms.SupplierItem">
+		<id column="ID" property="id" />
+		<result column="SUPPLIER_ID" property="supplierId" />
+		<result column="CATEGORY_ID" property="categoryId" />
+		<result column="SUPPLIER_TYPE_RELATE_ID" property="supplierTypeRelateId" />
+		<result column="STATUS" property="status" />
+		<result column="CREATED_AT" property="createdAt" />
+		<result column="UPDATED_AT" property="updatedAt" />
+		<result column="CATEGORY_NAME" property="categoryName" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, SUPPLIER_ID, CATEGORY_ID, SUPPLIER_TYPE_RELATE_ID, STATUS, CREATED_AT, UPDATED_AT
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_SMS_SUPPLIER_ITEM
+		where ID = #{id}
+	</select>  
+	<!--获取所有的供应商id  -->
+   <select id="getSupplierId"  resultType="java.lang.String">
+		SELECT SUPPLIER_ID FROM T_SES_SMS_SUPPLIER_ITEM GROUP BY SUPPLIER_ID
+	</select>
+	<!--获取所有的品目和供应商id  -->
+	<select id="getItemBySupplierId"  resultType="java.lang.String">
+		SELECT wmsys.wm_concat(CATEGORY_ID) FROM T_SES_SMS_SUPPLIER_ITEM GROUP BY SUPPLIER_ID
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from T_SES_SMS_SUPPLIER_ITEM
+		where ID = #{id}
+	</delete>
+	<insert id="insert" parameterType="ses.model.sms.SupplierItem">
+		insert into T_SES_SMS_SUPPLIER_ITEM (ID, SUPPLIER_ID, CATEGORY_ID,
+		SUPPLIER_TYPE_RELATE_ID, STATUS, CREATED_AT,
+		UPDATED_AT)
+		values (#{id}, #{supplierId}, #{categoryId},
+		#{supplierTypeRelateId}, #{status}, #{createdAt},
+		#{updatedAt})
+	</insert>
+	<insert id="insertSelective" parameterType="ses.model.sms.SupplierItem">
+		insert into T_SES_SMS_SUPPLIER_ITEM
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="supplierId != null">
+				SUPPLIER_ID,
+			</if>
+			<if test="categoryId != null">
+				CATEGORY_ID,
+			</if>
+			<if test="supplierTypeRelateId != null">
+				SUPPLIER_TYPE_RELATE_ID,
+			</if>
+			<if test="status != null">
+				STATUS,
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT,
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="supplierId != null">
+				#{supplierId},
+			</if>
+			<if test="categoryId != null">
+				#{categoryId},
+			</if>
+			<if test="supplierTypeRelateId != null">
+				#{supplierTypeRelateId},
+			</if>
+			<if test="status != null">
+				#{status},
+			</if>
+			<if test="createdAt != null">
+				#{createdAt},
+			</if>
+			<if test="updatedAt != null">
+				#{updatedAt},
+			</if>
+		</trim>
+		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			select sys_guid() from dual
+		</selectKey>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierItem">
+		update T_SES_SMS_SUPPLIER_ITEM
+		<set>
+			<if test="supplierId != null">
+				SUPPLIER_ID = #{supplierId},
+			</if>
+			<if test="categoryId != null">
+				CATEGORY_ID = #{categoryId},
+			</if>
+			<if test="supplierTypeRelateId != null">
+				SUPPLIER_TYPE_RELATE_ID = #{supplierTypeRelateId},
+			</if>
+			<if test="status != null">
+				STATUS = #{status},
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT = #{createdAt},
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT = #{updatedAt},
+			</if>
+		</set>
+		where ID = #{id}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="ses.model.sms.SupplierItem">
+		update T_SES_SMS_SUPPLIER_ITEM
+		set SUPPLIER_ID = #{supplierId},
+		CATEGORY_ID = #{categoryId},
+		SUPPLIER_TYPE_RELATE_ID = #{supplierTypeRelateId},
+		STATUS = #{status},
+		CREATED_AT = #{createdAt},
+		UPDATED_AT = #{updatedAt}
+		where ID = #{id}
+	</update>
+	
+	<select id="findSupplierItemBySupplierId" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+			t1.*,
+			t2.NAME as CATEGORY_NAME
+		from
+			T_SES_SMS_SUPPLIER_ITEM t1
+			join T_SES_BMS_CATEGORY t2
+			on t1.CATEGORY_ID = t2.ID
+		where t1.SUPPLIER_ID = #{supplierId}
+	</select>
+	
+	<delete id="deleteBySupplierId" parameterType="java.lang.String">
+		delete from T_SES_SMS_SUPPLIER_ITEM where SUPPLIER_ID = #{supplierId}
+	</delete>
+	
+</mapper>

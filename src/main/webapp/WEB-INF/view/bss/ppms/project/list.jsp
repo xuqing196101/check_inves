@@ -53,11 +53,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             pages: "${info.pages}", //总页数
             skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
             skip: true, //是否开启跳页
+            total:"${info.total}",
+            startRow:"${info.startRow}",
+            endRow:"${info.endRow}",
             groups: "${info.pages}">=3?3:"${info.pages}", //连续显示分页数
             curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
-//                  var page = location.search.match(/page=(\d+)/);
-//                  return page ? page[1] : 1;
-                return "${info.pageNum}";
+               var page = location.search.match(/page=(\d+)/);
+                  return page ? page[1] : 1;
+               // return "${info.pageNum}";
             }(), 
             jump: function(e, first){ //触发分页后的回调
                     if(!first){ //一定要加此判断，否则初始时会无限刷新
@@ -107,7 +110,45 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
            }
     }
     
+     function view(){
+       var id =[]; 
+        $('input[name="chkItem"]:checked').each(function(){ 
+            id.push($(this).val()); 
+        }); 
+        if(id.length==1){
+        window.location.href="<%=basePath%>project/view.html?id="+id;
+        }else if(id.length>1){
+            layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+        }else{
+            layer.alert("请选择需要查看的项目",{offset: ['222px', '390px'], shade:0.01});
+        }
     
+  }
+    
+       function start(){
+         var id =[]; 
+        $('input[name="chkItem"]:checked').each(function(){ 
+            id.push($(this).val()); 
+        }); 
+        if(id.length==1){
+           layer.open({
+          type: 2, //page层
+          area: ['500px', '300px'],
+          title: '您是要启动项目吗？',
+          shade:0.01, //遮罩透明度
+          moveType: 1, //拖拽风格，0是默认，1是传统拖动
+          shift: 1, //0-6的动画形式，-1不开启
+          offset: ['220px', '630px'],
+          shadeClose: true,
+          content: '<%=basePath%>project/startProject.html?id='+id
+        });
+            
+        }else if(id.length>1){
+            layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+        }else{
+            layer.alert("请选择需要启动的项目",{offset: ['222px', '390px'], shade:0.01});
+        }
+    }
   </script>
   </head>
   
@@ -148,8 +189,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <span class="fr option_btn margin-top-10">
         <button class="btn padding-left-10 padding-right-10 btn_back">分包</button>
         <button class="btn padding-left-10 padding-right-10 btn_back" >打印报批文件</button>
-        <button class="btn padding-left-10 padding-right-10 btn_back">启动</button>
-        <button class="btn padding-left-10 padding-right-10 btn_back">查看</button>
+        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="start();">启动</button>
+        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="view();">查看</button>
          <button class="btn padding-left-10 padding-right-10 btn_back">修改</button>
         <button class="btn padding-left-10 padding-right-10 btn_back">进入</button>
       </span>
@@ -169,9 +210,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <tr style="cursor: pointer;">
               <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
               <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-              <td class="tc" >${obj.name}</td>
-              <td class="tc">${obj.projectNumber }</td>
-              <td class="tc" >${obj.status }</td>
+              <td class="tc" onclick="see(${obj.id});">${obj.name}</td>
+              <td class="tc" onclick="see(${obj.id});">${obj.projectNumber }</td>
+              <td class="tc" onclick="see(${obj.id});">
+              <c:if test="${'1'==obj.status}">已启动</c:if>
+              <c:if test="${'2'==obj.status}">已成交</c:if>
+              <c:if test="${'3'==obj.status}">新建报批</c:if>
+              </td>
             </tr>
      
          </c:forEach> 
@@ -193,7 +238,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      <input type="radio" name="goods" value="2">:工程<br>
      <input type="radio" name="goods" value="3">:服务<br>
         </p>
-         <button class="btn padding-left-10 padding-right-10 btn_back goods"  onclick="closeLayer()" >确定</button>
         
  </div>
  

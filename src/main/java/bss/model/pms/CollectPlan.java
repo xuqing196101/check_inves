@@ -31,11 +31,14 @@ public class CollectPlan {
 
     private Date updatedAt;
 
-    private Long position;
+    private Integer position;
 
     private String planNo;
     
+    private String goodsType;
     
+    private String purchaseType;
+     
     public String getId() {
         return id;
     }
@@ -116,11 +119,11 @@ public class CollectPlan {
         this.updatedAt = updatedAt;
     }
 
-    public Long getPosition() {
+    public Integer getPosition() {
         return position;
     }
 
-    public void setPosition(Long position) {
+    public void setPosition(Integer position) {
         this.position = position;
     }
 
@@ -131,5 +134,22 @@ public class CollectPlan {
 	public void setPlanNo(String planNo) {
 		 this.planNo = planNo == null ? null : planNo.trim();
 	}
-    
+
+	public String getGoodsType() {
+		return goodsType;
+	}
+
+	public void setGoodsType(String goodsType) {
+		this.goodsType = goodsType == null ? null : goodsType.trim();
+	}
+
+	public String getPurchaseType() {
+		return purchaseType;
+	}
+
+	public void setPurchaseType(String purchaseType) {
+		this.purchaseType = purchaseType == null ? null : purchaseType.trim();
+	}
+   
+	
 }

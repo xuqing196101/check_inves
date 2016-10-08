@@ -45,4 +45,11 @@ public class CategoryParamServiceImpl implements CategoryParamService{
 		return categoryParamMapper.listByParent(pid);
 	}
 
+
+	@Override
+	public CategoryParam insertSelective(CategoryParam categoryParam) {
+		// TODO Auto-generated method stub
+		return categoryParamMapper.insertSelective(categoryParam);
+	}
+
 }

@@ -29,7 +29,18 @@
        			}
        			
        		}
-          	
+       		document.onkeydown = function (e) {
+                var ev = window.event || e;
+                var code = ev.keyCode || ev.which;
+                if (code == 116) {
+                    ev.keyCode ? ev.keyCode = 0 : ev.which = 0;
+                    cancelBubble = true;
+                    return false;
+                }
+            } //禁止f5刷新
+   			document.oncontextmenu=function(){return false};//禁止右键刷新
+   			
+   			
         });
 		
 		//答题时上一页下一页切换
@@ -89,7 +100,7 @@
   <body>
   <div class="container">
   <div class="col-md-12 mb10 border1 bggrey">
-  	<div class="fl f18 gary b">XXX考试进行中</div>
+  	<div class="fl f18 gary b">${user.relName }考试进行中</div>
   	<%--<div class="fr red mt5" id="time">距离考试还有<span id="second"></span></div>
   --%></div>
   <form action="<%=path %>/expertExam/saveScore.html" method="post" id="form">

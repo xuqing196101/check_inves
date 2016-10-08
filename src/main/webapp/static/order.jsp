@@ -55,15 +55,53 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <h2>我的协议供货订单</h2>
    </div>
    </div>
+   
+    <div class="container">
+	   <div class="headline-v2">
+	   		<h2>查询条件</h2>
+	   </div>
+   </div>
+    <div class="container">
+     <div class="p10_25">
+     <h2 class="padding-10 border1">
+       <form action="" method="post" class="mb0">
+    	<ul class="demand_list">
+    	  <li class="fl">
+	    	<label class="fl">合同名称：</label><span><input type="text" id="topic" class=""/></span>
+	      </li>
+    	  <li class="fl">
+	    	<label class="fl">合同编号：</label><span><input type="text" id="topic" class=""/></span>
+	      </li>
+    	  <li class="fl">
+	    	<label class="fl">供应商名称：</label><span><input type="text" id="topic" class=""/></span>
+	      </li> 
+	    	<button type="button" onclick="query()" class="btn">查询</button>
+	    	<button type="reset" class="btn">重置</button>  	
+    	</ul>
+    	  <div class="clear"></div>
+       </form>
+     </h2>
+   </div>
+</div>
 <!-- 表格开始-->
    <div class="container">
-   <div class="col-md-8">
+   <div class="col-md-12">
     <button class="btn btn-windows add" type="submit">新增</button>
+     <button class="btn btn-windows withdraw" type="submit">撤回</button>
 	<button class="btn btn-windows edit" type="submit">修改</button>
 	<button class="btn btn-windows git" type="submit">提交</button>
 	<button class="btn btn-windows delete" type="submit">删除</button>
+	<button class="btn btn-windows back" type="submit">返回</button>
+	<button class="btn btn-windows check" type="submit">审核</button>
+	<button class="btn btn-windows apply" type="submit">发布</button>
+	<button class="btn" type="submit">分配</button>
+	<button class="btn btn-windows input" type="submit">导入</button>
+	<button class="btn btn-windows output" type="submit">导出</button>
+	<button class="btn btn-windows ht_add" type="submit">新增合同</button>
+	<button class="btn btn-windows cancel" type="submit">取消</button>
+	
 	</div>
-            <div class="col-md-4 ">
+   <!-- <div class="col-md-4 ">
               <div class="search-block-v2">
                 <div class="">
                   <form accept-charset="UTF-8" action="" method="get"><div style="display:none"><input name="utf8" value="✓" type="hidden"></div>
@@ -79,16 +117,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                   </form>               
 			   </div>
               </div>
-            </div>	
+            </div> -->
     </div>
    
    <div class="container margin-top-5">
      <div class="content padding-left-25 padding-right-25 padding-top-5">
-        <table class="table table-bordered table-condensed">
+        <table class="table table-striped table-bordered table-hover">
 		<thead>
 		<tr>
-		  <th class="info w30"><input type="checkbox" alt=""></th>
-		  <th class="info w50">序号</th>
+		  <th class="w30 info"><input type="checkbox" alt=""></th>
+		  <th class="w50 info">序号</th>
 		  <th class="info">凭证编号</th>
 		  <th class="info">名称</th>
 		  <th class="info">总金额（元）</th>

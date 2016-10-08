@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.cs.ContractRequiredMapper">
+  <resultMap id="ConRequ" type="bss.model.cs.ContractRequired">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="PLAN_NO" jdbcType="VARCHAR" property="planNo" />
+    <result column="GOODS_NAME" jdbcType="VARCHAR" property="goodsName" />
+    <result column="BRAND" jdbcType="VARCHAR" property="brand" />
+    <result column="STAND" jdbcType="VARCHAR" property="stand" />
+    <result column="ITEM" jdbcType="VARCHAR" property="item" />
+    <result column="PURCHASE_COUNT" jdbcType="DECIMAL" property="purchaseCount" />
+    <result column="PRICE" jdbcType="DECIMAL" property="price" />
+    <result column="AMOUNT" jdbcType="DECIMAL" property="amount" />
+    <result column="DELIVER_DATE" jdbcType="VARCHAR" property="deliverDate" />
+    <result column="MEMO" jdbcType="VARCHAR" property="memo" />
+    <result column="CONTRACT_ID" jdbcType="VARCHAR" property="contractId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, PLAN_NO, GOODS_NAME, BRAND, STAND, ITEM, PURCHASE_COUNT, PRICE, AMOUNT, DELIVER_DATE, 
+    MEMO, CONTRACT_ID
+  </sql>
+  <select id="selectConRequByPrimaryKey" parameterType="java.lang.String" resultMap="ConRequ">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_CS_CONTRACT_REQUIRED
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BSS_CS_CONTRACT_REQUIRED
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="bss.model.cs.ContractRequired">
+    insert into T_BSS_CS_CONTRACT_REQUIRED (ID, PLAN_NO, GOODS_NAME, 
+      BRAND, STAND, ITEM, 
+      PURCHASE_COUNT, PRICE, AMOUNT, 
+      DELIVER_DATE, MEMO, CONTRACT_ID
+      )
+    values (#{id,jdbcType=VARCHAR}, #{planNo,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, 
+      #{brand,jdbcType=VARCHAR}, #{stand,jdbcType=VARCHAR}, #{item,jdbcType=VARCHAR}, 
+      #{purchaseCount,jdbcType=DECIMAL}, #{price,jdbcType=DECIMAL}, #{amount,jdbcType=DECIMAL}, 
+      #{deliverDate,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR}, #{purchaseContract.id,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="bss.model.cs.ContractRequired">
+    <selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_BSS_CS_CONTRACT_REQUIRED
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="planNo != null">
+        PLAN_NO,
+      </if>
+      <if test="goodsName != null">
+        GOODS_NAME,
+      </if>
+      <if test="brand != null">
+        BRAND,
+      </if>
+      <if test="stand != null">
+        STAND,
+      </if>
+      <if test="item != null">
+        ITEM,
+      </if>
+      <if test="purchaseCount != null">
+        PURCHASE_COUNT,
+      </if>
+      <if test="price != null">
+        PRICE,
+      </if>
+      <if test="amount != null">
+        AMOUNT,
+      </if>
+      <if test="deliverDate != null">
+        DELIVER_DATE,
+      </if>
+      <if test="memo != null">
+        MEMO,
+      </if>
+      <if test="contractId != null">
+        CONTRACT_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="planNo != null">
+        #{planNo,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null">
+        #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="stand != null">
+        #{stand,jdbcType=VARCHAR},
+      </if>
+      <if test="item != null">
+        #{item,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseCount != null">
+        #{purchaseCount,jdbcType=DECIMAL},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="deliverDate != null">
+        #{deliverDate,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null">
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="contractId != null">
+        #{contractId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="bss.model.cs.ContractRequired">
+    update T_BSS_CS_CONTRACT_REQUIRED
+    <set>
+      <if test="planNo != null">
+        PLAN_NO = #{planNo,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        GOODS_NAME = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null">
+        BRAND = #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="stand != null">
+        STAND = #{stand,jdbcType=VARCHAR},
+      </if>
+      <if test="item != null">
+        ITEM = #{item,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseCount != null">
+        PURCHASE_COUNT = #{purchaseCount,jdbcType=DECIMAL},
+      </if>
+      <if test="price != null">
+        PRICE = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null">
+        AMOUNT = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="deliverDate != null">
+        DELIVER_DATE = #{deliverDate,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null">
+        MEMO = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="contractId != null">
+        CONTRACT_ID = #{contractId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="bss.model.cs.ContractRequired">
+    update T_BSS_CS_CONTRACT_REQUIRED
+    set PLAN_NO = #{planNo,jdbcType=VARCHAR},
+      GOODS_NAME = #{goodsName,jdbcType=VARCHAR},
+      BRAND = #{brand,jdbcType=VARCHAR},
+      STAND = #{stand,jdbcType=VARCHAR},
+      ITEM = #{item,jdbcType=VARCHAR},
+      PURCHASE_COUNT = #{purchaseCount,jdbcType=DECIMAL},
+      PRICE = #{price,jdbcType=DECIMAL},
+      AMOUNT = #{amount,jdbcType=DECIMAL},
+      DELIVER_DATE = #{deliverDate,jdbcType=VARCHAR},
+      MEMO = #{memo,jdbcType=VARCHAR},
+      CONTRACT_ID = #{contractId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

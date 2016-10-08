@@ -59,15 +59,34 @@
                  <trim suffixOverrides=",">
                   <if test="postName!= null">
                     and NAME Like concat(concat('%', '${postName}'), '%')
-                  </if> 
+                  </if>                  
                   <if test="parkId!= null">
                     and PARK_ID = #{parkId}
                   </if> 
                     <if test="topicId!= null">
                     and TOPIC_ID = #{topicId}
-                  </if>         
+                  </if>
+                  <if test="userId != null ">
+                    and PARK_ID IN (
+                            SELECT ID FROM T_ISS_FS_PARK 
+	                            <if test="userId != '2521F623FA2F4399875433678F622F2D'">
+	                            WHERE USER_ID = #{userId} 
+	                            </if>
+                            )                         
+                  </if> 
+                 <if test="searchType == 'pubtime' ">
+                ORDER BY PUBLISHED_At DESC
+                </if>
+                <if test="searchType == 'hot' ">
+                ORDER BY REPLY_COUNT DESC
+                </if>
+                <if test="searchType == 'retime' ">
+                ORDER BY LAST_RE_At DESC
+                </if>
+                                            
                 </trim>
-		    ORDER BY PUBLISHED_At DESC
+               
+		    
 		  </select>
 		  
 		  <!-- 3.根据ID查询 -->
@@ -77,12 +96,19 @@
 		    from T_ISS_FS_POST
 		    where ID = #{id}
 		  </select>
-		  <!-- 根据回复量查询热门帖子 -->
+		  <!-- 根据回复量查询10条热门帖子 -->
           <select id="queryHotPost"  resultMap="PostReplyMap">
                 select 
                 <include refid="Base_Column_List" />
                 from T_ISS_FS_POST
                 where ROWNUM &lt;= 10
+                ORDER BY REPLY_COUNT DESC
+          </select>
+           <!-- 根据回复量查询所有热门帖子 -->
+          <select id="queryAllHotPost"  resultMap="PostReplyMap">
+                select 
+                <include refid="Base_Column_List" />
+                from T_ISS_FS_POST
                 ORDER BY REPLY_COUNT DESC
           </select>
 		  	  

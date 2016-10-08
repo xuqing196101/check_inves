@@ -36,10 +36,15 @@ private static Properties prop = new Properties();
 	/** 创建文件夹 */
 	public void contextInitialized(ServletContextEvent sce) {
 		ServletContext ac = sce.getServletContext();
-		String path = ac.getRealPath("/").split("\\\\")[0] + "/" + FolderListener.getProperty("file.upload.path.supplier");
-		File file1 = new File(path);
+		String path1 = ac.getRealPath("/").split("\\\\")[0] + "/" + FolderListener.getProperty("file.upload.path.supplier");
+		String expertBlackListPath = ac.getRealPath("/").split("\\\\")[0] + "/" + FolderListener.getProperty("file.upload.path.expertBlackList");
+		File file1 = new File(path1);
+		File expertBlackListPath1 = new File(expertBlackListPath);
 		if(!file1.exists()) {
 			file1.mkdirs();
+		}
+		if(!expertBlackListPath1.exists()) {
+			expertBlackListPath1.mkdirs();
 		}
 	}
 }

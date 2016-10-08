@@ -1,6 +1,7 @@
 package ses.service.ems;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
@@ -112,7 +113,7 @@ public interface ExpertService {
 	      * @param @param realPath      
 	      * @return void
 	     */
-	    public void uploadFile(MultipartFile[] files, String realPath);
+	    public void uploadFile(MultipartFile[] files, String realPath,String expertId);
 	    /**
 	     * 
 	      * @Title: downloadFile
@@ -136,4 +137,50 @@ public interface ExpertService {
 		  * @return void
 		 */
 		void editBasicInfo(Expert expert,User user);
+		/**
+		 * 
+		  * @Title: loginRedirect
+		  * @author ShaoYangYang
+		  * @date 2016年9月30日 下午2:47:43  
+		  * @Description: TODO 登录判断跳转
+		  * @param @param user
+		  * @param @throws Exception      
+		  * @return Map<String,Object>
+		 */
+		Map<String,Object> loginRedirect(User user) throws Exception;
+		/**
+		 * 
+		  * @Title: zanCunInsert
+		  * @author ShaoYangYang
+		  * @date 2016年9月30日 下午5:11:37  
+		  * @Description: TODO 暂存方法提取
+		  * @param @param expert
+		  * @param @throws Exception      
+		  * @return void
+		 */
+		void zanCunInsert(Expert expert,String expertId,MultipartFile[] files,String realPath,String categoryIds) throws Exception;
+		/**
+		 * 
+		  * @Title: saveOrUpdate
+		  * @author ShaoYangYang
+		  * @date 2016年9月30日 下午5:46:47  
+		  * @Description: TODO controller调用 逻辑
+		  * @param @param expert
+		  * @param @param expertId
+		  * @param @param files
+		  * @param @param realPath
+		  * @param @throws Exception      
+		  * @return void
+		 */
+		void saveOrUpdate(Expert expert,String expertId,MultipartFile[] files,String realPath,String categoryIds) throws Exception;
+		/**
+		 * 
+		  * @Title: userManager
+		  * @author ShaoYangYang
+		  * @date 2016年9月30日 下午6:04:36  
+		  * @Description: TODO 处理用户信息
+		  * @param @throws Exception      
+		  * @return void
+		 */
+		void userManager(User user,String userId,Expert expert,String expertId) throws Exception;
 }

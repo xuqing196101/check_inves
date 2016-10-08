@@ -14,10 +14,15 @@ public class CategoryAptitude {
 	 * */
 	private Category category;
 	/*
-	 * 品目类型
+	 *生产型资质名称
 	 * 
 	 * */
-	private Integer categoryType;
+	private String productName;
+	/*
+	 *销售型资质名称
+	 * 
+	 * */
+	private String saleName;
 	/*
 	 * 创建事件
 	 * */
@@ -44,11 +49,19 @@ public class CategoryAptitude {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
-	public Integer getCategoryType() {
-		return categoryType;
+	
+	
+	public String getProductName() {
+		return productName;
 	}
-	public void setCategoryType(Integer categoryType) {
-		this.categoryType = categoryType;
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+	public String getSaleName() {
+		return saleName;
+	}
+	public void setSaleName(String saleName) {
+		this.saleName = saleName;
 	}
 	public Date getCreatedAt() {
 		return createdAt;

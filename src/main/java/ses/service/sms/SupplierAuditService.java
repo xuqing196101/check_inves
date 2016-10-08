@@ -2,15 +2,19 @@ package ses.service.sms;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
+
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
+import ses.model.sms.SupplierCertSe;
 import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
+import ses.model.sms.SupplierMatSe;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierType;
 /**
@@ -31,6 +35,41 @@ public interface SupplierAuditService {
 	 * @return List<Supplier>
 	 */
 	 List<Supplier> supplierList(Supplier supplier,Integer page);
+	 
+    /**
+     * @Title: querysupplier
+     * @author Song Biaowei
+     * @date 2016-10-5 上午10:23:29  
+     * @Description: 查询表
+     * @param @param supplier
+     * @param @param page
+     * @param @return      
+     * @return List<Supplier>
+     */
+	 List<Supplier> querySupplier(Supplier supplier,Integer page);
+	 
+	 /**
+	  * @Title: getAllSupplier
+	  * @author Song Biaowei
+	  * @date 2016-10-6 下午6:03:50  
+	  * @Description: 获取所有的供应商 
+	  * @param @param supplier
+	  * @param @param page
+	  * @param @return      
+	  * @return List<Supplier>
+	  */
+	 List<Supplier> getAllSupplier(Supplier supplier,Integer page);
+	 /**
+	  * @Title: querySupplierbyCategory
+	  * @author Song Biaowei
+	  * @date 2016-10-6 下午5:22:49  
+	  * @Description: 品目查询
+	  * @param @param supplier
+	  * @param @param page
+	  * @param @return      
+	  * @return List<Supplier>
+	  */
+	 List<Supplier> querySupplierbyCategory(Supplier supplier,Integer page);
 	
 	/**
 	 * @Title: supplierById
@@ -176,10 +215,55 @@ public interface SupplierAuditService {
      * @Title: findMatEngBySupplierId
      * @author Xu Qing
      * @date 2016-9-27 下午7:36:02  
-     * @Description: 供应商组织机构和注册人员 
+     * @Description: 供应商组织机构和人员 
      * @param @param supplierId
      * @param @return      
      * @return SupplierMatEng
      */
     SupplierMatEng findMatEngBySupplierId (String supplierId);
+    
+    /**
+     * @Title: findCertSeBySupplierSupplierId
+     * @author Xu Qing
+     * @date 2016-9-28 上午10:55:54  
+     * @Description: 服务专业信息-资质证书 
+     * @param @return      
+     * @return List<SupplierCertSe>
+     */
+    List<SupplierCertSe> findCertSeBySupplierId(String supplierId);
+    
+    /**
+     * @Title: findMatSellBySupplierId
+     * @author Xu Qing
+     * @date 2016-9-28 上午11:32:26  
+     * @Description: 供应商组织机构和人员 
+     * @param @param supplierId
+     * @param @return      
+     * @return SupplierMatSell
+     */
+    SupplierMatSe findMatSeBySupplierId(String supplierId);
+    
+    /**
+     * @Title: updateBySupplierId
+     * @author 插入文件
+     * @date 2016-9-29 下午4:50:17  
+     * @Description: TODO 
+     * @param @param supplierId      
+     * @return void
+     */
+    void updateBySupplierId (SupplierAudit supplierAudit);
+    
+    
+    String findSupplierTypeNameBySupplierId(String supplierId);
+   
+    /**
+     * @Title: downloadFile
+     * @author Song Biaowei
+     * @date 2016-9-30 下午6:53:02  
+     * @Description: 文件下载 
+     * @param @param attachmentId
+     * @param @return      
+     * @return ResponseEntity<byte[]>
+     */
+    ResponseEntity<byte[]> downloadFile(String filePath,String fileName);
 } 

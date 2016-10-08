@@ -1,0 +1,85 @@
+@CHARSET "UTF-8";
+.home-icons .item {
+    text-align: center;
+    margin-bottom: 15px;
+    border-radius: 3px!important;
+    border:1px solid #e5e6e9;
+}
+.home-icons .item .icon a {
+    display: block;
+    padding: 20px 15px;
+}
+.home-icons .item .text {
+    display: block;
+    text-align: center;
+    background: #F5F5F5;
+    border-top: 1px solid #E9E9E9;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 0 0 3px 3px;
+}
+.home-icons .item .text a {
+    display: block;
+    color: #666;
+    padding: 6px 15px;
+}
+.fa {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.panel {
+    border: 0px;
+    border-radius: 3px;
+    border: 1px;
+    border-color: #e5e6e9 #dfe0e4 #d0d1d5;
+    margin-bottom: 15px;
+    color:#333;
+}
+.panel .panel-title{
+    color:#333!important;
+}
+.topics .topic {
+    min-height: 68px;
+    border-bottom: 1px solid #F0F0F0;
+    padding: 10px 15px;
+    margin: 0 -15px;
+    vertical-align: top;
+}
+.avatar-48 {
+    width: 48px;
+    height: 48px;
+    border-radius: 120px!important;
+}
+.topics .topic .info {
+    color: #ABA8A6;
+    font-size: 12px;
+    margin-top: 0;
+}
+.topics .topic .title a:link, .topics .topic .title a:visited {
+    color: #222;
+    font-weight: 400;
+    line-height: 30px;
+}
+.topics .topic .count {
+    width: 100px;
+    text-align: right;
+    padding-top: 15px;
+    padding-left: 10px;
+    display: table-cell;
+    vertical-align: top;
+}
+.topics .topic .count span.state-false{
+    line-height: 11px;
+    color: #fff;
+    min-width: 32px;
+    text-align: center;
+    border-radius: 80px!important;
+    padding: 3px 8px 3px 8px;
+    display: inline-block;
+    text-decoration: none;
+    background: #CFD3E6;
+}

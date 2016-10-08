@@ -110,15 +110,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="<%=basePath%>public/layer/extend/layer.ext.js"></script>
 <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
-$(function(){
+    $(function(){
       laypage({
           cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
           pages: "${result.pages}", //总页数
           skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
           skip: true, //是否开启跳页
-          groups: "${isList.pages}">=3?3:"${isList.pages}", //连续显示分页数
+          total: "${result.total}",
+          startRow: "${result.startRow}",
+          endRow: "${result.endRow}",
+          groups: "${result.pages}">=3?3:"${result.pages}", //连续显示分页数
           curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
-          return "${isList.pageNum}";
+          return "${result.pageNum}";
           }(), 
           jump: function(e, first){ //触发分页后的回调
               if(!first){ //一定要加此判断，否则初始时会无限刷新
@@ -128,6 +131,8 @@ $(function(){
           }
       });
     });
+
+  
 </script>
 <script type="text/javascript">
 		/** 全选全不选 */
@@ -226,43 +231,50 @@ $(function(){
 	  </div>
 	</div>
 	<!-- 搜索 -->
-	<form action="<%=basePath %>expert/blacklist.html"  method="post" id="form1" enctype="multipart/form-data" class="registerform"> 
-	  <input type="hidden" name="page" id="page">
-	  <div align="center">
-	    <table>
-	      <tr>
-	        <td>
-	          <span>姓名：</span><input type="text" name="relName">
-	        </td>
-				  <td>
-	          <span>处罚方式:</span>
-	          <select name="punishDate">
-	            <option value="">请选择</option>
-								<option value="三个月">三个月</option>
-								<option value="半年">半年</option>
-								<option value="一年">一年</option>
-								<option value="两年">两年</option>
-								<option value="三年">三年</option>
-						</select>
-	        </td>
-	        <td> 	
-	          <span >处罚时限：</span>
-						<select name="punishType">
-	            <option value=''>-请选择-</option>
-						  <option value="1">警告</option>
-						  <option value="2">严重警告</option>
-						  <option value="3">取消资格</option>
-						</select>
-				  </td>
-				  <td>
-	          <span class="input-group-btn">
-	          <input class="btn-u" name="commit" value="搜索" type="submit">
-	          </span>
-	        </td>
-	      </tr>
-	    </table>
+	<div class="container">
+    <div style="padding-left: 20px;">
+	    <form action="<%=basePath %>expert/blacklist.html"  method="post" id="form1" enctype="multipart/form-data" class="registerform"> 
+	      <input type="hidden" name="page" id="page">
+	        <div align="center">
+	          <ul class="demand_list list-unstyled">
+	            <li>
+                <label class="fl mt10">专家姓名：</label>
+                  <select name="relName" class="mb0 mt5" >
+			              <option value="">请选择</option>
+			              <c:forEach var="expert"  items="${expertName}">
+			              <option value="${expert.relName}">${expert.relName}</option>
+			              </c:forEach>
+                  </select> 
+	           </li>
+	           <li>
+               <label class="fl mt10">处罚方式：</label>
+	               <select name="punishDate" class="mb0 mt5" >
+			            <option value="">请选择</option>
+										<option value="3个月">3月</option>
+										<option value="6个月">6个月</option>
+										<option value="一年">一年</option>
+										<option value="两年">两年</option>
+										<option value="三年">三年</option>
+								</select>
+	          </li>
+	          <li>
+              <label class="fl mt10" >处罚时限：</label>
+						    <select name="punishType" class="mb0 mt5" >
+		            <option value=''>-请选择-</option>
+							  <option value="1">警告</option>
+							  <option value="2">严重警告</option>
+							  <option value="3">取消资格</option>
+							</select>
+				   </li>
+           <li>
+             <input type="submit" class="btn btn_back fl ml10 mt6" value="查询" />
+             <!-- <input type="button" class="btn btn_back fl ml10 mt6" value="重置" onclick="resetForm()"> -->
+          </li>
+	    </ul>
 	  </div>
 	</form>
+	</div>
+	</div>
 	<!-- 表格开始-->
 	<div class="container">
 	  <div class="col-md-8">
@@ -283,7 +295,7 @@ $(function(){
 					  <th class="info">处罚日期</th>
 					  <th class="info">处罚时限</th>
 					  <th class="info">处罚方式</th>
-					  <th class="ino">处罚理由</th>
+					  <th class="info">处罚理由</th>
           </tr>
         </thead>
          <c:forEach items="${expertList }" var="e" varStatus="s">

@@ -12,6 +12,7 @@
     <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
     <result column="AUDIT_FIELD" jdbcType="VARCHAR" property="auditField" />
     <result column="AUDIT_CONTENT" jdbcType="VARCHAR" property="auditContent" />
+    <result column="SUPPLIER_INSPECT_LIST" jdbcType="VARCHAR" property="supplierInspectList" />
   </resultMap>
   <sql id="Base_Column_List">
     ID, SUGGEST, AUDIT_TYPE, USER_ID, SUPPLIER_ID, STATUS, CREATED_AT, UPDATED_AT, AUDIT_FIELD, 
@@ -75,6 +76,9 @@
       <if test="auditContent != null">
         AUDIT_CONTENT,
       </if>
+      <if test="supplierInspectList != null">
+        SUPPLIER_INSPECT_LIST,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -106,6 +110,9 @@
       </if>
       <if test="auditContent != null">
         #{auditContent,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierInspectList != null">
+        #{supplierInspectList,jdbcType=VARCHAR},
       </if>
     </trim>
     <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
@@ -142,6 +149,9 @@
       <if test="auditContent != null">
         AUDIT_CONTENT = #{auditContent,jdbcType=VARCHAR},
       </if>
+       <if test="auditContent != null">
+        SUPPLIER_INSPECT_LIST = #{supplierInspectList,jdbcType=VARCHAR},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -157,5 +167,12 @@
       AUDIT_FIELD = #{auditField,jdbcType=VARCHAR},
       AUDIT_CONTENT = #{auditContent,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateBySupplierId" parameterType="ses.model.sms.SupplierAudit">
+    update T_SES_SMS_SUPPLIER_AUDIT
+     set
+      SUPPLIER_INSPECT_LIST = #{supplierInspectList,jdbcType=VARCHAR}
+    where SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR}
   </update>
 </mapper>

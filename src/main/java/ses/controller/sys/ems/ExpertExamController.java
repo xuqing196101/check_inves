@@ -43,16 +43,21 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+
+import ses.model.bms.User;
 import ses.model.ems.ExamQuestion;
 import ses.model.ems.ExamQuestionType;
 import ses.model.ems.ExamRule;
 import ses.model.ems.ExamUserAnswer;
 import ses.model.ems.ExamUserScore;
+import ses.model.ems.Expert;
+import ses.service.bms.UserServiceI;
 import ses.service.ems.ExamQuestionServiceI;
 import ses.service.ems.ExamQuestionTypeServiceI;
 import ses.service.ems.ExamRuleServiceI;
 import ses.service.ems.ExamUserAnswerServiceI;
 import ses.service.ems.ExamUserScoreServiceI;
+import ses.service.ems.ExpertService;
 import ses.util.PathUtil;
 import ses.util.PropertiesUtil;
 
@@ -76,6 +81,10 @@ public class ExpertExamController {
 	private ExamRuleServiceI examRuleService;
 	@Autowired
 	private ExamUserAnswerServiceI examUserAnswerService;
+	@Autowired
+	private ExpertService expertService;
+	@Autowired
+	private UserServiceI userService;
 	
 	/**
 	 * 
@@ -499,7 +508,9 @@ public class ExpertExamController {
 	* @return String
 	 */
 	@RequestMapping(value="/saveScore",method =RequestMethod.POST)
-	public String saveScore(Model model,HttpServletRequest request,ExamUserScore examUserScore){
+	public String saveScore(Model model,HttpServletRequest request){
+		User user = (User) request.getSession().getAttribute("loginUser");
+		Expert expert = expertService.selectByPrimaryKey(user.getTypeId());
 		String[] queAnswer = request.getParameter("lawAnswer").split(",");
 		String[] quePoint = request.getParameter("lawPoint").split(",");
 		String[] queId = request.getParameter("lawId").split(",");
@@ -512,6 +523,7 @@ public class ExpertExamController {
 				examUserAnswer.setCreatedAt(new Date());
 				examUserAnswer.setQuestionId(queId[i]);
 				examUserAnswer.setUserType(1);
+				examUserAnswer.setUserId(user.getId());
 				examUserAnswerService.insertSelective(examUserAnswer);
 				continue;
 			}else{
@@ -524,24 +536,104 @@ public class ExpertExamController {
 				examUserAnswer.setCreatedAt(new Date());
 				examUserAnswer.setQuestionId(queId[i]);
 				examUserAnswer.setUserType(1);
+				examUserAnswer.setUserId(user.getId());
 				examUserAnswerService.insertSelective(examUserAnswer);
 				if(queAnswer[i].equals(sb.toString())){
 					score = Integer.parseInt(quePoint[i])+score;
 				}
 			}
 		}
-		model.addAttribute("score", score);
 		List<ExamRule> examRule = examRuleService.select();
 		String passStandard = examRule.get(0).getPassStandard();
-		if(score>=Integer.parseInt(passStandard)){
-			examUserScore.setStatus("及格");
-			examUserScore.setTargetDate(new Date());
+		HashMap<String,Object> userId = new HashMap<String,Object>();
+		userId.put("userId", user.getId());
+		List<ExamUserScore> userScores = examUserScoreService.findByUserId(userId);
+		if(userScores.size()==0){
+			ExamUserScore examUserScore = new ExamUserScore();
+			if(score>=Integer.parseInt(passStandard)){
+				examUserScore.setStatus("及格");
+				examUserScore.setTargetDate(new Date());
+			}else{
+				examUserScore.setStatus("不及格");
+			}
+			if(expert.getExpertsTypeId().equals("1")){
+				examUserScore.setUserDuty("技术");
+			}else if(expert.getExpertsTypeId().equals("2")){
+				examUserScore.setUserDuty("法律");
+			}else if(expert.getExpertsTypeId().equals("3")){
+				examUserScore.setUserDuty("商务");
+			}
+			examUserScore.setUserType(1);
+			examUserScore.setIsMax(1);
+			examUserScore.setUserId(user.getId());
+			examUserScore.setCreatedAt(new Date());
+			examUserScore.setTestDate(new Date());
+			examUserScore.setScore(String.valueOf(score));
+			examUserScoreService.insertSelective(examUserScore);
 		}else{
-			examUserScore.setStatus("不及格");
+			for(int i=0;i<userScores.size();i++){
+				Integer currentUserScore = Integer.parseInt(userScores.get(i).getScore());
+				if(score<currentUserScore){
+					ExamUserScore examUserScore = new ExamUserScore();
+					if(score>=Integer.parseInt(passStandard)){
+						examUserScore.setStatus("及格");
+						examUserScore.setTargetDate(new Date());
+					}else{
+						examUserScore.setStatus("不及格");
+					}
+					if(expert.getExpertsTypeId().equals("1")){
+						examUserScore.setUserDuty("技术");
+					}else if(expert.getExpertsTypeId().equals("2")){
+						examUserScore.setUserDuty("法律");
+					}else if(expert.getExpertsTypeId().equals("3")){
+						examUserScore.setUserDuty("商务");
+					}
+					examUserScore.setUserType(1);
+					examUserScore.setIsMax(0);
+					examUserScore.setUserId(user.getId());
+					examUserScore.setCreatedAt(new Date());
+					examUserScore.setTestDate(new Date());
+					examUserScore.setScore(String.valueOf(score));
+					examUserScoreService.insertSelective(examUserScore);
+					break;
+				}else if(i==userScores.size()-1){
+					for(int j=0;j<userScores.size();j++){
+						ExamUserScore examUserScoreTwo = new ExamUserScore();
+						examUserScoreTwo.setUserId(user.getId());
+						examUserScoreTwo.setIsMax(0);
+						examUserScoreService.updateIsMaxByUserId(examUserScoreTwo);
+					}
+					ExamUserScore examUserScore = new ExamUserScore();
+					if(score>=Integer.parseInt(passStandard)){
+						examUserScore.setStatus("及格");
+						examUserScore.setTargetDate(new Date());
+					}else{
+						examUserScore.setStatus("不及格");
+					}
+					if(expert.getExpertsTypeId().equals("1")){
+						examUserScore.setUserDuty("技术");
+					}else if(expert.getExpertsTypeId().equals("2")){
+						examUserScore.setUserDuty("法律");
+					}else if(expert.getExpertsTypeId().equals("3")){
+						examUserScore.setUserDuty("商务");
+					}
+					examUserScore.setUserType(1);
+					examUserScore.setIsMax(1);
+					examUserScore.setUserId(user.getId());
+					examUserScore.setCreatedAt(new Date());
+					examUserScore.setTestDate(new Date());
+					examUserScore.setScore(String.valueOf(score));
+					examUserScoreService.insertSelective(examUserScore);
+				}
+			}
 		}
-		examUserScore.setTestDate(new Date());
-		examUserScore.setScore(String.valueOf(score));
-		examUserScoreService.insertSelective(examUserScore);
+		if(expert.getIsDo()==null){
+			Expert personal = new Expert();
+			personal.setId(user.getTypeId());
+			personal.setIsDo("1");
+			expertService.updateByPrimaryKeySelective(personal);
+		}
+		model.addAttribute("score", score);
 		return "ses/ems/exam/expert/score";
 	}
 	
@@ -593,11 +685,21 @@ public class ExpertExamController {
 	* @return String
 	 */
 	@RequestMapping(value="/test")
-	public String test(Model model,HttpServletRequest request,ExamQuestion examPool){
+	public String test(Model model,HttpServletRequest request,ExamQuestion examQuestion){
+		User user=(User) request.getSession().getAttribute("loginUser");
+		String typeId = user.getTypeId();
+		Expert expert = expertService.selectByPrimaryKey(typeId);
+		List<ExamQuestion> questionList = new ArrayList<ExamQuestion>();
 		List<ExamRule> examRule = examRuleService.select();
-		examPool.setQueNum(examRule.get(0).getQuestionCount());
-		List<ExamQuestion> lawQueRandom = examQuestionService.selectLawRandom(examPool);
-		Integer queNum = lawQueRandom.size();
+		examQuestion.setQueNum(examRule.get(0).getQuestionCount());
+		if(expert.getExpertsTypeId().equals("1")){
+			questionList = examQuestionService.selectTecRandom(examQuestion);
+		}else if(expert.getExpertsTypeId().equals("2")){
+			questionList = examQuestionService.selectLawRandom(examQuestion);
+		}else if(expert.getExpertsTypeId().equals("3")){
+			questionList = examQuestionService.selectComRandom(examQuestion);
+		}
+		Integer queNum = questionList.size();
 		List<Integer> pageNum = new ArrayList<Integer>();
 		if(queNum%5==0){
 			for(int i=0;i<queNum/5;i++){
@@ -608,33 +710,34 @@ public class ExpertExamController {
 				pageNum.add(i);
 			}
 		}
-		List<ExamQuestion> nlawQueRandom = new ArrayList<ExamQuestion>();
-		for(int i=0;i<lawQueRandom.size();i++){
-			if(lawQueRandom.get(i).getExamQuestionType().getName().equals("单选题")){
-				nlawQueRandom.add(lawQueRandom.get(i));
+		List<ExamQuestion> nQuestionList = new ArrayList<ExamQuestion>();
+		for(int i=0;i<questionList.size();i++){
+			if(questionList.get(i).getExamQuestionType().getName().equals("单选题")){
+				nQuestionList.add(questionList.get(i));
 			}
 		}
-		for(int i=0;i<lawQueRandom.size();i++){
-			if(lawQueRandom.get(i).getExamQuestionType().getName().equals("多选题")){
-				nlawQueRandom.add(lawQueRandom.get(i));
+		for(int i=0;i<questionList.size();i++){
+			if(questionList.get(i).getExamQuestionType().getName().equals("多选题")){
+				nQuestionList.add(questionList.get(i));
 			}
 		}
 		StringBuffer sb_answer = new StringBuffer();
 		StringBuffer sb_point = new StringBuffer();
 		StringBuffer sb_id = new StringBuffer();
-		for(int i=0;i<nlawQueRandom.size();i++){
-			sb_answer.append(nlawQueRandom.get(i).getAnswer()+",");
-			sb_point.append(nlawQueRandom.get(i).getPoint()+",");
-			sb_id.append(nlawQueRandom.get(i).getId()+",");
+		for(int i=0;i<nQuestionList.size();i++){
+			sb_answer.append(nQuestionList.get(i).getAnswer()+",");
+			sb_point.append(nQuestionList.get(i).getPoint()+",");
+			sb_id.append(nQuestionList.get(i).getId()+",");
 		}
 		model.addAttribute("queAnswer", sb_answer.toString());
 		model.addAttribute("quePoint", sb_point.toString());
 		model.addAttribute("queId", sb_id.toString());
-		model.addAttribute("queRandom",nlawQueRandom);
+		model.addAttribute("queRandom",nQuestionList);
 		model.addAttribute("examRule", examRule.get(0));
 		model.addAttribute("pageNum", pageNum);
 		model.addAttribute("pageSize", pageNum.size());
-		model.addAttribute("queCount", nlawQueRandom.size());
+		model.addAttribute("queCount", nQuestionList.size());
+		model.addAttribute("user", user);
 		return "ses/ems/exam/expert/test";
 	}
 	
@@ -810,14 +913,44 @@ public class ExpertExamController {
 	 */
 	@RequestMapping("/result")
 	public String result(Model model,HttpServletRequest request,Integer page){
+		List<ExamRule> examRule = examRuleService.select();
+		if(examRule.get(0).getTestLong().getTime()<new Date().getTime()){
+			List<Expert> expertList = examUserScoreService.findAllExpert();
+			for(int i=0;i<expertList.size();i++){
+				if(expertList.get(i).getIsDo()==null){
+					ExamUserScore examUserScore = new ExamUserScore();
+					User user = new User();
+					user.setTypeId(expertList.get(i).getId());
+					List<User> userList = userService.queryByList(user);
+					examUserScore.setUserId(userList.get(0).getId());
+					examUserScore.setCreatedAt(new Date());
+					examUserScore.setIsMax(1);
+					examUserScore.setUserType(1);
+					examUserScore.setScore("0");
+					examUserScore.setStatus("不及格");
+					if(expertList.get(i).getExpertsTypeId().equals("1")){
+						examUserScore.setUserDuty("技术");
+					}else if(expertList.get(i).getExpertsTypeId().equals("2")){
+						examUserScore.setUserDuty("法律");
+					}else if(expertList.get(i).getExpertsTypeId().equals("3")){
+						examUserScore.setUserDuty("商务");
+					}
+					examUserScoreService.insertSelective(examUserScore);
+					Expert personalExpert = new Expert();
+					personalExpert.setId(expertList.get(i).getId());
+					personalExpert.setIsDo("2");
+					expertService.updateByPrimaryKeySelective(personalExpert);
+				}
+			}
+		}
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		String userName = request.getParameter("userName");
 		String userType = request.getParameter("userType");
 		String status = request.getParameter("status");
-		if(userName !=null && userName!=""){
+		if(userName!=null && userName!=""){
 			map.put("relName", "%"+userName+"%");
 		}
-		if(userType != null && userType!=""){
+		if(userType!=null && userType!=""){
 			if(userType.equals("1")){
 				map.put("userDuty", "技术");
 			}else if(userType.equals("2")){
@@ -826,7 +959,7 @@ public class ExpertExamController {
 				map.put("userDuty", "商务");
 			}
 		}
-		if(status !=null && status!=""){
+		if(status!=null && status!=""){
 			map.put("status", status);
 		}
 		if(page==null){
@@ -849,23 +982,88 @@ public class ExpertExamController {
 	
 	/**
 	 * 
+	* @Title: personalResult
+	* @author ZhaoBo
+	* @date 2016-9-29 下午4:51:13  
+	* @Description: 专家后台各专家查询自己的成绩 
+	* @param @param model
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/personalResult")
+	public String personalResult(Integer page,Model model,HttpServletRequest request,ExamUserScore examUserScore){
+		User user = (User) request.getSession().getAttribute("loginUser");
+		Expert expert = expertService.selectByPrimaryKey(user.getTypeId());
+		List<ExamRule> examRule = examRuleService.select();
+		if(examRule.get(0).getTestLong().getTime()<new Date().getTime()){
+			if(expert.getIsDo()==null){
+				ExamUserScore score = new ExamUserScore();
+				score.setUserId(user.getId());
+				score.setCreatedAt(new Date());
+				score.setIsMax(1);
+				score.setUserType(1);
+				score.setScore("0");
+				score.setStatus("不及格");
+				if(expert.getExpertsTypeId().equals("1")){
+					score.setUserDuty("技术");
+				}else if(expert.getExpertsTypeId().equals("2")){
+					score.setUserDuty("法律");
+				}else if(expert.getExpertsTypeId().equals("3")){
+					score.setUserDuty("商务");
+				}
+				examUserScoreService.insertSelective(score);
+				Expert personal = new Expert();
+				personal.setId(user.getTypeId());
+				personal.setIsDo("2");
+				expertService.updateByPrimaryKeySelective(personal);
+			}
+		}
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("userId", user.getId());
+		if(page==null){
+			page = 1;
+		}
+		map.put("page", page.toString());
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		List<ExamUserScore> scores = examUserScoreService.findByUserId(map);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		for(int i=0;i<scores.size();i++){
+			scores.get(i).setRelName(user.getRelName());
+			scores.get(i).setFormatDate(sdf.format(scores.get(i).getTestDate()));
+		}
+		model.addAttribute("list", new PageInfo<ExamUserScore>(scores));
+		return "ses/ems/exam/expert/personal_result";
+	}
+	
+	
+	/**
+	 * 
 	* @Title: judgeQualy
 	* @author ZhaoBo
 	* @date 2016-9-9 下午2:46:36  
-	* @Description: 判断当前时间是否过了考试周期 
+	* @Description: 判断当前时间是否过了考试周期,并且判断当前用户是不是专家 
 	* @param @return      
 	* @return String
 	 */
 	@RequestMapping("/judgeQualy")
 	@ResponseBody
-	public String judgeQualy(){
-		List<ExamRule> examRule = examRuleService.select();
-		Date ruleDate = examRule.get(0).getTestLong();
-		if(ruleDate.getTime()>new Date().getTime()){
-			return "1";
+	public String judgeQualy(HttpServletRequest request){
+		User user = (User) request.getSession().getAttribute("loginUser");
+		Integer type = user.getTypeName();
+		String str = null;
+		if(type==5){
+			List<ExamRule> examRule = examRuleService.select();
+			Date ruleDate = examRule.get(0).getTestLong();
+			if(ruleDate.getTime()>=new Date().getTime()){
+				str = "1";
+			}else{
+				str = "0";
+			}
 		}else{
-			return "0";
+			str = "2";
 		}
+		return str;
 	}
 	
 	/**

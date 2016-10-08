@@ -42,6 +42,42 @@
 		$("#template_upload_form_id").submit();
 
 	}
+	
+	function uploadNew(id) {
+		$("#" + id).find("div").remove();
+		var name = "";
+		if (id == "level_li_id") {
+			name = "supplierLevelFile";
+		} else if (id == "pledge_li_id") {
+			name = "supplierPledgeFile";
+		} else if (id == "reglist_li_id") {
+			name = "supplierRegListFile";
+		} else if (id == "extracts_li_id") {
+			name = "supplierExtractsListFile";
+		} else if (id == "inspectlist_li_id") {
+			name = "supplierInspectListFile";
+		} else if (id == "reviewlist_li_id") {
+			name = "supplierReviewListFile";
+		} else if (id == "changelist_li_id") {
+			name = "supplierChangeListFile";
+		} else if (id == "exitlist_li_id") {
+			name = "supplierExitListFile";
+		}
+		var html = "<div class='input-append'>";
+		html += "<div class='uploader orange h32 m0'>";
+		html += "<input type='text' class='filename fz11 h32' readonly='readonly'/>";
+		html += "<input type='button' name='file' class='button' value='选择...'/>";
+		html += "<input name='"+ name +"' type='file' size='30'/>";
+		html += "</div>";
+		html += "</div>";
+		$("#" + id).append(html);
+		loadFilePlug();
+	}
+	
+	function downloadFile(fileName) {
+		$("input[name='fileName']").val(fileName);
+		$("#download_form_id").submit();
+	}
 </script>
 
 </head>
@@ -83,77 +119,141 @@
 											<i>01</i>申请表和承诺书上传
 										</h2>
 										<ul class="list-unstyled list-flow">
-											<li class="col-md-6 p0"><span class="w245"><i class="red">＊</i> 军队供应商分级方法：</span>
-												<div class="input-append">
-													<div class="uploader orange m0">
-														<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..." /> 
-														<input type="button" class="button" value="选择文件..." /> 
-														<input type="file" size="30" accept="image/*" />
+											<li id="level_li_id" class="col-md-6 p0"><span class="w245"><i class="red">＊</i> 军队供应商分级方法：</span>
+												<c:if test="${currSupplier.supplierLevel != null}">
+													<div>
+														<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${currSupplier.supplierLevel}')">下载附件</a>
+														<a title="重新上传" class="ml10 red fz17" href="javascript:void(0)" onclick="uploadNew('level_li_id')">☓</a>
 													</div>
-												</div>
+												</c:if>
+												<c:if test="${currSupplier.supplierLevel == null}">
+													<div class="input-append">
+														<div class="uploader orange h32 m0">
+															<input type="text" class="filename fz11 h32" readonly="readonly"/>
+															<input type="button" name="file" class="button" value="选择..."/>
+															<input name="supplierLevelFile" type="file" size="30"/>
+														</div>
+													</div>
+												</c:if>
 											</li>
-											<li class="col-md-6 p0"><span class="w245"><i class="red">＊</i>军队供应商承诺书：</span>
-												<div class="input-append">
-													<div class="uploader orange m0">
-														<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..." /> 
-														<input type="button" class="button" value="选择文件..." /> 
-														<input type="file" size="30" accept="image/*" />
+											<li id="pledge_li_id" class="col-md-6 p0"><span class="w245"><i class="red">＊</i>军队供应商承诺书：</span>
+												<c:if test="${currSupplier.supplierPledge != null}">
+													<div>
+														<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${currSupplier.supplierPledge}')">下载附件</a>
+														<a title="重新上传" class="ml10 red fz17" href="javascript:void(0)" onclick="uploadNew('pledge_li_id')">☓</a>
 													</div>
-												</div>
+												</c:if>
+												<c:if test="${currSupplier.supplierPledge == null}">
+													<div class="input-append">
+														<div class="uploader orange h32 m0">
+															<input type="text" class="filename fz11 h32" readonly="readonly"/>
+															<input type="button" name="file" class="button" value="选择..."/>
+															<input name="supplierPledgeFile" type="file" size="30"/>
+														</div>
+													</div>
+												</c:if>
 											</li>
-											<li class="col-md-6 p0"><span class="w245"><i class="red">＊</i>军队供应商入库申请表：</span>
-												<div class="input-append">
-													<div class="uploader orange m0">
-														<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..." /> 
-														<input type="button" class="button" value="选择文件..." /> 
-														<input type="file" size="30" accept="image/*" />
+											<li id="reglist_li_id" class="col-md-6 p0"><span class="w245"><i class="red">＊</i>军队供应商入库申请表：</span>
+												<c:if test="${currSupplier.supplierRegList != null}">
+													<div>
+														<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${currSupplier.supplierRegList}')">下载附件</a>
+														<a title="重新上传" class="ml10 red fz17" href="javascript:void(0)" onclick="uploadNew('reglist_li_id')">☓</a>
 													</div>
-												</div>
+												</c:if>
+												<c:if test="${currSupplier.supplierRegList == null}">
+													<div class="input-append">
+														<div class="uploader orange h32 m0">
+															<input type="text" class="filename fz11 h32" readonly="readonly"/>
+															<input type="button" name="file" class="button" value="选择..."/>
+															<input name="supplierRegListFile" type="file" size="30"/>
+														</div>
+													</div>
+												</c:if>
 											</li>
-											<li class="col-md-6 p0"><span class="w245"><i class="red">＊</i>军队供应商抽取记录表：</span>
-												<div class="input-append">
-													<div class="uploader orange m0">
-														<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..." /> 
-														<input type="button" class="button" value="选择文件..." /> 
-														<input type="file" size="30" accept="image/*" />
+											<li id="extracts_li_id" class="col-md-6 p0"><span class="w245"><i class="red">＊</i>军队供应商抽取记录表：</span>
+												<c:if test="${currSupplier.supplierExtractsList != null}">
+													<div>
+														<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${currSupplier.supplierExtractsList}')">下载附件</a>
+														<a title="重新上传" class="ml10 red fz17" href="javascript:void(0)" onclick="uploadNew('extracts_li_id')">☓</a>
 													</div>
-												</div>
+												</c:if>
+												<c:if test="${currSupplier.supplierExtractsList == null}">
+													<div class="input-append">
+														<div class="uploader orange h32 m0">
+															<input type="text" class="filename fz11 h32" readonly="readonly"/>
+															<input type="button" name="file" class="button" value="选择..."/>
+															<input name="supplierExtractsListFile" type="file" size="30"/>
+														</div>
+													</div>
+												</c:if>
 											</li>
-											<li class="col-md-6 p0"><span class="w245"><i class="red">＊</i>军队供应商实地考察记录表：</span>
-												<div class="input-append">
-													<div class="uploader orange m0">
-														<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..." /> 
-														<input type="button" class="button" value="选择文件..." /> 
-														<input type="file" size="30" accept="image/*" />
+											<li id="inspectlist_li_id" class="col-md-6 p0"><span class="w245"><i class="red">＊</i>军队供应商实地考察记录表：</span>
+												<c:if test="${currSupplier.supplierInspectList != null}">
+													<div>
+														<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${currSupplier.supplierInspectList}')">下载附件</a>
+														<a title="重新上传" class="ml10 red fz17" href="javascript:void(0)" onclick="uploadNew('inspectlist_li_id')">☓</a>
 													</div>
-												</div>
+												</c:if>
+												<c:if test="${currSupplier.supplierInspectList == null}">
+													<div class="input-append">
+														<div class="uploader orange h32 m0">
+															<input type="text" class="filename fz11 h32" readonly="readonly"/>
+															<input type="button" name="file" class="button" value="选择..."/>
+															<input name="supplierInspectListFile" type="file" size="30"/>
+														</div>
+													</div>
+												</c:if>
 											</li>
-											<li class="col-md-6 p0"><span class="w245"><i class="red">＊</i>军队供应商实地考察廉政意见函：</span>
-												<div class="input-append">
-													<div class="uploader orange m0">
-														<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..." /> 
-														<input type="button" class="button" value="选择文件..." /> 
-														<input type="file" size="30" accept="image/*" />
+											<li id="reviewlist_li_id" class="col-md-6 p0"><span class="w245"><i class="red">＊</i>军队供应商实地考察廉政意见函：</span>
+												<c:if test="${currSupplier.supplierReviewList != null}">
+													<div>
+														<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${currSupplier.supplierReviewList}')">下载附件</a>
+														<a title="重新上传" class="ml10 red fz17" href="javascript:void(0)" onclick="uploadNew('reviewlist_li_id')">☓</a>
 													</div>
-												</div>
+												</c:if>
+												<c:if test="${currSupplier.supplierReviewList == null}">
+													<div class="input-append">
+														<div class="uploader orange h32 m0">
+															<input type="text" class="filename fz11 h32" readonly="readonly"/>
+															<input type="button" name="file" class="button" value="选择..."/>
+															<input name="supplierReviewListFile" type="file" size="30"/>
+														</div>
+													</div>
+												</c:if>
 											</li>
-											<li class="col-md-6 p0"><span class="w245"><i class="red">＊</i>军队供应商注册信息变更申请表：</span>
-												<div class="input-append">
-													<div class="uploader orange m0">
-														<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..." /> 
-														<input type="button" class="button" value="选择文件..." /> 
-														<input type="file" size="30" accept="image/*" />
+											<li id="changelist_li_id" class="col-md-6 p0"><span class="w245"><i class="red">＊</i>军队供应商注册信息变更申请表：</span>
+												<c:if test="${currSupplier.supplierChangeList != null}">
+													<div>
+														<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${currSupplier.supplierChangeList}')">下载附件</a>
+														<a title="重新上传" class="ml10 red fz17" href="javascript:void(0)" onclick="uploadNew('changelist_li_id')">☓</a>
 													</div>
-												</div>
+												</c:if>
+												<c:if test="${currSupplier.supplierChangeList == null}">
+													<div class="input-append">
+														<div class="uploader orange h32 m0">
+															<input type="text" class="filename fz11 h32" readonly="readonly"/>
+															<input type="button" name="file" class="button" value="选择..."/>
+															<input name="supplierChangeListFile" type="file" size="30"/>
+														</div>
+													</div>
+												</c:if>
 											</li>
-											<li class="col-md-6 p0"><span class="w245"><i class="red">＊</i>军队供应商退库申请表：</span>
-												<div class="input-append">
-													<div class="uploader orange m0">
-														<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..." /> 
-														<input type="button" class="button" value="选择文件..." /> 
-														<input type="file" size="30" accept="image/*" />
+											<li id="exitlist_li_id" class="col-md-6 p0"><span class="w245"><i class="red">＊</i>军队供应商退库申请表：</span>
+												<c:if test="${currSupplier.supplierExitList != null}">
+													<div>
+														<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${currSupplier.supplierExitList}')">下载附件</a>
+														<a title="重新上传" class="ml10 red fz17" href="javascript:void(0)" onclick="uploadNew('exitlist_li_id')">☓</a>
 													</div>
-												</div>
+												</c:if>
+												<c:if test="${currSupplier.supplierExitList == null}">
+													<div class="input-append">
+														<div class="uploader orange h32 m0">
+															<input type="text" class="filename fz11 h32" readonly="readonly"/>
+															<input type="button" name="file" class="button" value="选择..."/>
+															<input name="supplierExitListFile" type="file" size="30"/>
+														</div>
+													</div>
+												</c:if>
 											</li>
 											<div class="clear"></div>
 										</ul>
@@ -171,6 +271,11 @@
 			</div>
 		</div>
 	</div>
+	
+	<form target="_blank" id="download_form_id" action="${pageContext.request.contextPath}/supplier/download.html" method="post">
+		<input type="hidden" name="fileName" />
+	</form>
+	
 	<!-- footer -->
 	<jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
 </body>

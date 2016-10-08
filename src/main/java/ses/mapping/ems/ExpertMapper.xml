@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="ses.model.ems.Expert">
     <id column="ID" jdbcType="VARCHAR" property="id" />
     <result column="IS_SUBMIT" jdbcType="VARCHAR" property="isSubmit" />
-    <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+    <result column="IS_DO" jdbcType="VARCHAR" property="isDo" />
     <result column="IS_DELETE" jdbcType="DECIMAL" property="isDelete" />
     <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
     <result column="GENDER" jdbcType="CHAR" property="gender" />
@@ -40,7 +40,7 @@
     <result column="REL_NAME" jdbcType="VARCHAR" property="relName" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, IS_SUBMIT, PASSWORD, IS_DELETE, CREATED_AT, GENDER, UPDATED_AT, MOBILE, BIRTHDAY, 
+    ID, IS_SUBMIT, IS_DO, IS_DELETE, CREATED_AT, GENDER, UPDATED_AT, MOBILE, BIRTHDAY, 
     ID_NUMBER, ID_TYPE, EXPERTS_FROM, POLITICS_STATUS, NATION, GRADUATE_SCHOOL, HIGHT_EDUCATION, 
     MAJOR, WORK_UNIT, TELEPHONE, FAX, MAKE_TECH_DATE, HEALTH_STATE, ADDRESS, PROFESS_TECH_TITLES, 
     TIME_TO_WORK, TIME_START_WORK, UNIT_ADDRESS, POST_CODE, DEGREE, AT_DUTY, EXPERTS_TYPE_ID, 
@@ -50,7 +50,7 @@
     <!-- <select id="selectisSubmitList" parameterType="java.lang.String" resultMap="BaseResultMap" >
   	select IS_SUBMIT from T_SES_EMS_EXPERT where IS_SUBMIT = #{isSubmit}
   	</select> -->
-  	<!-- 查询所有专家 -->
+  	<!-- 查询所有专家 可条件查询 -->
   	<select id="selectAllExpert"   resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -78,7 +78,7 @@
     select 
 	count(*)
     from T_SES_EMS_EXPERT
-    where 1=1 and IS_SUBMIT ！= '0' and IS_DELETE != 1
+    where 1=1 and IS_SUBMIT != '0' and IS_DELETE != 1
     <if test="relName!=null">
     	and REL_NAME= #{relName,jdbcType=VARCHAR}
     </if>
@@ -101,7 +101,7 @@
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="ses.model.ems.Expert">
-    insert into T_SES_EMS_EXPERT (ID, IS_SUBMIT, PASSWORD, 
+    insert into T_SES_EMS_EXPERT (ID, IS_SUBMIT, IS_DO, 
       IS_DELETE, CREATED_AT, GENDER, 
       UPDATED_AT, MOBILE, BIRTHDAY, 
       ID_NUMBER, ID_TYPE, EXPERTS_FROM, 
@@ -114,7 +114,7 @@
       EXPERTS_TYPE_ID, PURCHASE_DEP_ID, STATUS, 
       IS_BLACK, HONESTY_SCORE, REL_NAME
       )
-    values (#{id,jdbcType=VARCHAR}, #{isSubmit,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR}, #{isSubmit,jdbcType=VARCHAR}, #{isDo,jdbcType=VARCHAR}, 
       #{isDelete,jdbcType=DECIMAL}, #{createdAt,jdbcType=DATE}, #{gender,jdbcType=CHAR}, 
       #{updatedAt,jdbcType=DATE}, #{mobile,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, 
       #{idNumber,jdbcType=VARCHAR}, #{idType,jdbcType=VARCHAR}, #{expertsFrom,jdbcType=VARCHAR}, 
@@ -137,8 +137,8 @@
       <if test="isSubmit != null">
         IS_SUBMIT,
       </if>
-      <if test="password != null">
-        PASSWORD,
+      <if test="isDo != null">
+        IS_DO,
       </if>
       <if test="isDelete != null">
         IS_DELETE,
@@ -247,8 +247,8 @@
       <if test="isSubmit != null">
         #{isSubmit,jdbcType=VARCHAR},
       </if>
-      <if test="password != null">
-        #{password,jdbcType=VARCHAR},
+      <if test="isDo != null">
+        #{isDo,jdbcType=VARCHAR},
       </if>
       <if test="isDelete != null">
         #{isDelete,jdbcType=DECIMAL},
@@ -357,8 +357,8 @@
       <if test="isSubmit != null">
         IS_SUBMIT = #{isSubmit,jdbcType=VARCHAR},
       </if>
-      <if test="password != null">
-        PASSWORD = #{password,jdbcType=VARCHAR},
+      <if test="isDo != null">
+        IS_DO = #{isDo,jdbcType=VARCHAR},
       </if>
       <if test="isDelete != null">
         IS_DELETE = #{isDelete,jdbcType=DECIMAL},
@@ -465,7 +465,7 @@
   <update id="updateByPrimaryKey" parameterType="ses.model.ems.Expert">
     update T_SES_EMS_EXPERT
     set IS_SUBMIT = #{isSubmit,jdbcType=VARCHAR},
-      PASSWORD = #{password,jdbcType=VARCHAR},
+      IS_DO = #{isDo,jdbcType=VARCHAR},
       IS_DELETE = #{isDelete,jdbcType=DECIMAL},
       CREATED_AT = #{createdAt,jdbcType=DATE},
       GENDER = #{gender,jdbcType=CHAR},
@@ -501,4 +501,8 @@
       REL_NAME = #{relName,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <select id="findExpertList" parameterType="java.lang.String" resultMap="BaseResultMap">
+  select * from T_SES_EMS_EXPERT
+  </select>
 </mapper>

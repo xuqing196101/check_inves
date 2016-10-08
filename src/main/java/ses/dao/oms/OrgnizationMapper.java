@@ -10,6 +10,7 @@ public interface OrgnizationMapper {
 	int updateOrgnization(HashMap<String, Object> map);
 	List<Orgnization> findPurchaseOrgList(HashMap<String, Object> map);
 	int delOrgnizationByid(HashMap<String, Object> map);
+	int updateOrgnizationById(Orgnization orgnization);
 	
 	
 	

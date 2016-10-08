@@ -30,7 +30,10 @@
 			    pages: "${purchaserQuestionList.pages}", //总页数
 			    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
 			    skip: true, //是否开启跳页
-			    groups: "${purchaserQuestionList.pages}">=3?3:"${purchaserQuestionList.pages}", //连续显示分页数
+			    total: "${purchaserQuestionList.total}",
+			    startRow: "${purchaserQuestionList.startRow}",
+			    endRow: "${purchaserQuestionList.endRow}",
+			    groups: "${purchaserQuestionList.pages}">=5?5:"${purchaserQuestionList.pages}", //连续显示分页数
 			    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
 			        var page = location.search.match(/page=(\d+)/);
 			        return page ? page[1] : 1;
@@ -214,11 +217,11 @@
 	    	<input type="button" class="btn btn-windows add" value="新增" onclick="add()"/>
 	    	<input type="button" class="btn btn-windows edit" value="修改" onclick="edit()"/>
 	    	<input type="button" class="btn btn-windows delete" value="删除" onclick="deleteById()"/>
-	    	<div class="fr mt15">
+	    	<div class="fr">
 	    		<button class="btn" type="button" onclick="download()">题目模板下载</button>
 	    		<span class="">
 		    	  	<input type="file" name="file" id="excelFile" style="display:inline;"/>
-		    	  	<input type="button" value="导入" class="btn " onclick="poiExcel()"/>
+		    	  	<input type="button" value="导入" class="btn btn-windows input" onclick="poiExcel()"/>
 	    	  	</span>
 	    	</div>
     	</div>
@@ -226,24 +229,34 @@
     
     <div class="container">
      	<div class="content padding-left-25 padding-right-25 padding-top-5">
-   		<table class="table table-bordered table-condensed">
+   		<table class="table table-bordered table-condensed table-hover">
 	    	<thead>
 		    	<th class="info"><input type="checkbox" id="selectAll" onclick="selectAll()"/></th>
-		    	<th class="info">序号</th>
-		    	<th class="info">题型</th>
+		    	<th class="info w50">序号</th>
+		    	<th class="info w60 tc">题型</th>
 		    	<th class="info">题干</th>
 		    	<th class="info">选项</th>
-		    	<th class="info">答案</th>
+		    	<th class="info w50">答案</th>
 	    	</thead>
 	    	<tbody>
 	    		<c:forEach items="${purchaserQuestionList.list }" var="purchaser" varStatus="vs">
-	    			<tr>
+	    			<tr class="pointer">
 	    				<td class="tc"><input type="checkbox" name="info" value="${purchaser.id }"/></td>
-	    				<td class="tc pointer" onclick="view('${purchaser.id }')">${(vs.index+1)+(purchaserQuestionList.pageNum-1)*(purchaserQuestionList.pageSize)}</td>
-	    				<td class="tc pointer" onclick="view('${purchaser.id }')">${purchaser.examQuestionType.name }</td>
-	    				<td class="tc pointer" onclick="view('${purchaser.id }')">${purchaser.topic }</td>
-	    				<td class="tc pointer" onclick="view('${purchaser.id }')">${purchaser.items }</td>
-	    				<td class="tc pointer" onclick="view('${purchaser.id }')">${purchaser.answer }</td>
+	    				<td class="tc w50" onclick="view('${purchaser.id }')">${(vs.index+1)+(purchaserQuestionList.pageNum-1)*(purchaserQuestionList.pageSize)}</td>
+	    				<td class="w60 tc" onclick="view('${purchaser.id }')">${purchaser.examQuestionType.name }</td>
+	    				<c:if test="${fn:length(purchaser.topic)>26}">
+	    					<td class="" onclick="view('${purchaser.id }')">${fn:substring(purchaser.topic,0,26)}...</td>
+	    				</c:if>
+	    				<c:if test="${fn:length(purchaser.topic)<=26}">
+	    					<td class="" onclick="view('${purchaser.id }')">${purchaser.topic }</td>
+	    				</c:if>
+	    				<c:if test="${fn:length(purchaser.items)>26}">
+	    					<td class="" onclick="view('${purchaser.id }')">${fn:substring(purchaser.items,0,26)}...</td>
+	    				</c:if>
+	    				<c:if test="${fn:length(purchaser.items)<=26}">
+	    					<td class="" onclick="view('${purchaser.id }')">${purchaser.items }</td>
+	    				</c:if>
+	    				<td class="tc w50" onclick="view('${purchaser.id }')">${purchaser.answer }</td>
 	    			</tr>
 	    		</c:forEach>
 	    	</tbody>

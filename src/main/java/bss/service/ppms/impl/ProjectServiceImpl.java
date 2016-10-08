@@ -58,7 +58,11 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public List<Project> selectSuccessProject() {
-		return projectMapper.selectSuccessProject();
+	public List<Project> selectSuccessProject(Integer page,Project project) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		List<Project> lists = projectMapper.selectSuccessProject(project);
+		return lists;
 	}
+
 }

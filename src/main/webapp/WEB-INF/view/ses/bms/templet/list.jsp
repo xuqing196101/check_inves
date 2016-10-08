@@ -30,7 +30,10 @@
 		    pages: "${list.pages}", //总页数
 		    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
 		    skip: true, //是否开启跳页
-		    groups: "${list.pages}">=3?3:"${list.pages}", //连续显示分页数
+		    total:"${list.total}",
+		    startRow:"${list.startRow}",
+		    endRow:"${list.endRow}",
+		    groups: "${list.pages}">=5?5:"${list.pages}", //连续显示分页数
 		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
 		        var page = location.search.match(/page=(\d+)/);
 		        return page ? page[1] : 1;
@@ -129,32 +132,18 @@
    </div>
 <!-- 表格开始-->
    <div class="container">
+   <div class="padding-left-25 padding-right-25">
    <div class="col-md-8">
     <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
 	<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 	<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
-	</div>
-            <div class="col-md-4 ">
-              <div class="search-block-v2">
-                <div class="">
-                  <form accept-charset="UTF-8" action="" method="get"><div style="display:none"><input name="utf8" value="✓" type="hidden"></div>
-                    <input id="t" name="t" value="search_products" type="hidden">
-                    <div class="col-md-12 pull-right">
-                      <div class="input-group">
-                        <input class="form-control bgnone h37 p0_10" id="k" name="k" placeholder="" type="text">
-                        <span class="input-group-btn">
-                          <input class="btn-u" name="commit" value="搜索" type="submit">
-                        </span>
-                      </div>
-                    </div>
-                  </form>               
-			   </div>
-              </div>
-            </div>	
+	</div>	
+       </div>
     </div>
    
-   <div class="container margin-top-5">
-     <div class="content padding-left-25 padding-right-25 padding-top-5">
+   <div class="container">
+     <div class="content padding-left-25 padding-right-25 padding-top-0">
+       <div class="col-md-12">
         <table class="table table-bordered table-condensed">
 		<thead>
 		<tr>

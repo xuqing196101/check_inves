@@ -41,11 +41,14 @@
   <script type="text/javascript">
   $(function(){
       laypage({
-            cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
-            pages: "${list.pages}", //总页数
-            skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
-            skip: true, //是否开启跳页
-            groups: "${list.pages}">=3?3:"${list.pages}", //连续显示分页数
+          cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+          pages: "${list.pages}", //总页数
+          skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+          skip: true, //是否开启跳页
+          total: "${list.total}",
+          startRow: "${list.startRow}",
+          endRow: "${list.endRow}",
+          groups: "${list.pages}">=5?5:"${list.pages}", //连续显示分页数
             curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
                 var page = location.search.match(/page=(\d+)/);
                 return page ? page[1] : 1;
@@ -75,27 +78,26 @@
 	  var pu = $("#"+id);
 	  var html = $("#publish").html();	  
 	  alert(pu.next().has('div').length);
-	  if(pu.next().has('div').length == 1){
+	  if(pu.next().has('div').length != 0 ){
 		  pu.after(html);  
-	      $("#publishButton").attr("onclick","publishForReply("+id+")");
+	      $("#publishButton").attr("onclick","publishForReply('"+id+"')");
 	 }
 	   
 	  	   
   }
-  function publishForReply(id){
+  function publishForReply(replyId){
 	 var ue = UE.getEditor('editor');
 	 var text = ue.getContentTxt();
 	 var postId = "${post.id}";
-
-	 $.ajax({
-	   url:"<%=basePath%>reply/save.html?postId="+postId+"&content="+text+"&replyId="+id,   
-	   contentType: "application/json;charset=UTF-8", 
-	   type:"POST",   //请求方式           
-	   success : function() {   
-	       var postId = "${post.id}";
-	       location.href = "<%=basePath%>post/getIndexDetail.do?postId="+postId;
-	       }
-	 });
+	   $.ajax({
+       url:"<%=basePath%>reply/save.html?postId="+postId+"&content="+text+"&replyId="+replyId,   
+       contentType: "application/json;charset=UTF-8", 
+       type:"POST",   //请求方式           
+       success : function() {   
+           var postId = "${post.id}";
+           location.href = "<%=basePath%>post/getIndexDetail.do?postId="+postId;
+           }
+     });
   }
  </script>
   </head>
@@ -142,26 +144,24 @@
             <div class="comment_desc col-md-10 p0">
               <div class="col-md-12 p0">
                           
-                <span class="comment_name">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}楼  ${reply.user.relName }</span>
-                <span class="grey">[<fmt:formatDate value='${reply.publishedAt}' pattern="yyyy年MM月dd日" />]</span>
+                <span class="comment_name">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}楼  </span>
+                <span>@ ${reply.user.relName }</span>
+                <span class="grey">[<fmt:formatDate value='${reply.publishedAt}' pattern="yyyy年MM月dd日" />]：${reply.content }</span>
+                <c:forEach items="${reply.replies }" var="replytoreply">
+                    <span>@ ${replytoreply.user.relName } [<fmt:formatDate value='${replytoreply.publishedAt}' pattern="yyyy年MM月dd日" />]：${replytoreply.content }</span>:                 
+                </c:forEach>
+                
                 <span class="fr blue pointer" onclick="writeHtml('${reply.id}')">回复</span>
                 
               </div>
-              <div class="col-md-12 comment_cont p0">${reply.content }</div>
-              <!--回复的回复-->
-              <div>
-                <c:forEach items="${reply.replies }" var="replytoreply">
-                    <span>${replytoreply.user.relName } [<fmt:formatDate value='${replytoreply.publishedAt}' pattern="yyyy年MM月dd日" />]</span>:                 
-                    <span>${replytoreply.content }</span>
-                </c:forEach>
-              </div>
+
               
             </div>
             </div> 
             
-            
         </c:forEach>
      </div>
+     <div></div>
      <!-- 分页Div -->
      <div id="pagediv" align="right"></div>  
       <!-- 我要评论Div -->
@@ -180,20 +180,27 @@
 
  </div>
  
-  <div class="park_manager f18">
-  <a href='<%=basePath %>park/parkManager.do'>我是版主</a>
-  </div>
   <div class="my_post f18">
   <a href='<%=basePath %>post/publish.html'>我要发帖</a>
   </div>
 <!--底部代码开始-->
 <jsp:include page="/index_bottom.jsp"></jsp:include>
    <script type="text/javascript">
-    //实例化编辑器
+    //自定义实例化编辑器
     //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
-    var ue = UE.getEditor('editor');
+        var option ={
+        toolbars: [[
+                'undo', 'redo', '|',
+                'bold', 'italic', 'underline',  'formatmatch', 'autotypeset', '|', 'forecolor', 'backcolor',                
+                 'fontfamily', 'fontsize', '|',
+                 'indent', '|',
+                'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 
+            ]]
+
+    };
+    UE.getEditor('editor',option);
     </script>
-</body>
+</body>3
 </html>
 
 

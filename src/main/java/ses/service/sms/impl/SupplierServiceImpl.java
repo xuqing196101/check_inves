@@ -1,6 +1,7 @@
 package ses.service.sms.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import ses.dao.sms.SupplierMapper;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierTypeRelate;
 import ses.service.sms.SupplierService;
 import ses.util.Encrypt;
 
@@ -24,9 +26,19 @@ public class SupplierServiceImpl implements SupplierService {
 	@Autowired
 	private SupplierMapper supplierMapper;
 	
+	
 	@Override
 	public Supplier get(String id) {
 		Supplier supplier = supplierMapper.getSupplier(id);
+		List<SupplierTypeRelate> listSupplierTypeRelates = supplier.getListSupplierTypeRelates();
+		String supplierTypeNames = "";
+		for(int i = 0; i < listSupplierTypeRelates.size(); i++) {
+			if (i > 0) {
+				supplierTypeNames += ",";
+			}
+			supplierTypeNames += listSupplierTypeRelates.get(i).getSupplierTypeName();
+		}
+		supplier.setSupplierTypeNames(supplierTypeNames);
 		return supplier;
 	}
 	

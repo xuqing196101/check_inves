@@ -1,6 +1,12 @@
 @charset "UTF-8";
+.mt30 {
+	margin-top: 30px !important;
+}
 .mt10 {
 	margin-top: 10px;
+}
+.mt5 {
+	margin-top: 5px;
 }
 .mt3 {
 	margin-top: 3px;
@@ -11,10 +17,16 @@
 .m0 {
 	margin: 0px !important;
 }
-
 ._mr20 {
 	margin-right: -20px !important;
 }
+.lr0_tbauto {
+	margin: 0 auto !important;
+}
+.lh {
+	
+}
+
 .w245 {
 	width: 245px !important;
 }
@@ -27,8 +39,17 @@
 .w175 {
 	width: 175px !important;
 }
+.w150 {
+	width: 150px !important;
+}
 .w100 {
 	width: 100px;
+}
+.w70 {
+	width: 70px !important;
+}
+.wa {
+	width: auto !importan;
 }
 .h300 {
 	height: 300px !important;
@@ -63,6 +84,12 @@
 .fr {
 	float: right;
 }
+.fz15 {
+	font-size: 15px !important;
+}
+.fz17 {
+	font-size: 17px !important;
+}
 .fz11 {
 	font-size: 11px !important;
 }
@@ -72,3 +99,4 @@
 .color7171C6 {
 	color: #7171C6;
 }
+

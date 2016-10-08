@@ -50,6 +50,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import ses.controller.sys.sms.BaseSupplierController;
+import ses.model.bms.User;
 import ses.model.ems.ExamPaper;
 import ses.model.ems.ExamPaperReference;
 import ses.model.ems.ExamPaperUser;
@@ -778,12 +779,13 @@ public class PurchaserExamController extends BaseSupplierController{
 	 */
 	@RequestMapping("/savePurchaserScore")
 	public String savePurchaserScore(Model model,HttpServletRequest request){
+		User user = (User) request.getSession().getAttribute("loginUser");
 		String[] purQueAnswer = request.getParameter("purQueAnswer").split(",");
 		String[] purQueType = request.getParameter("purQueType").split(",");
 		String[] purQueId = request.getParameter("purQueId").split(",");
 		String paperId = request.getParameter("paperId");
-		ExamPaper userExamPaper = examPaperService.selectByPrimaryKey(paperId);
-		String typeDistribution = userExamPaper.getTypeDistribution();
+		ExamPaper paper = examPaperService.selectByPrimaryKey(paperId);
+		String typeDistribution = paper.getTypeDistribution();
 		JSONObject obj = JSONObject.fromObject(typeDistribution);
 		String singleP = (String) obj.get("singlePoint");
 		Integer singlePoint = Integer.parseInt(singleP);
@@ -826,7 +828,74 @@ public class PurchaserExamController extends BaseSupplierController{
 				}
 			}
 		}
-		model.addAttribute("isAllowRetake", userExamPaper.getIsAllowRetake());
+		HashMap<String,Object> userId = new HashMap<String,Object>();
+		userId.put("userId", user.getId());
+		List<ExamUserScore> userScores = examUserScoreService.findByUserId(userId);
+		if(userScores.size()==0){
+			ExamUserScore examUserScore = new ExamUserScore();
+			examUserScore.setCreatedAt(new Date());
+			examUserScore.setTestDate(new Date());
+			examUserScore.setIsMax(1);
+			examUserScore.setUserId(user.getId());
+			examUserScore.setUserType(2);
+			examUserScore.setScore(String.valueOf(score));
+			examUserScore.setPaperId(paperId);
+			if(score<60){
+				examUserScore.setStatus("不及格");
+			}else{
+				examUserScore.setStatus("及格");
+			}
+			examUserScoreService.insertSelective(examUserScore);
+			ExamPaperUser examPaperUser = new ExamPaperUser();
+			examPaperUser.setUserId(user.getId());
+			examPaperUser.setPaperId(paperId);
+			examPaperUser.setIsDo(1);
+			examPaperUserService.updateByPaperIdAndUserID(examPaperUser);
+		}else{
+			for(int i=0;i<userScores.size();i++){
+				Integer currentUserScore = Integer.parseInt(userScores.get(i).getScore());
+				if(score<currentUserScore){
+					ExamUserScore examUserScore = new ExamUserScore();
+					examUserScore.setCreatedAt(new Date());
+					examUserScore.setTestDate(new Date());
+					examUserScore.setIsMax(0);
+					examUserScore.setUserId(user.getId());
+					examUserScore.setUserType(2);
+					examUserScore.setScore(String.valueOf(score));
+					examUserScore.setPaperId(paperId);
+					if(score<60){
+						examUserScore.setStatus("不及格");
+					}else{
+						examUserScore.setStatus("及格");
+					}
+					examUserScoreService.insertSelective(examUserScore);
+					break;
+				}else if(i==userScores.size()-1){
+					for(int j=0;j<userScores.size();j++){
+						ExamUserScore examUserScoreTwo = new ExamUserScore();
+						examUserScoreTwo.setUserId(user.getId());
+						examUserScoreTwo.setPaperId(paperId);
+						examUserScoreTwo.setIsMax(0);
+						examUserScoreService.updateIsMaxById(examUserScoreTwo);
+					}
+					ExamUserScore examUserScore = new ExamUserScore();
+					examUserScore.setCreatedAt(new Date());
+					examUserScore.setTestDate(new Date());
+					examUserScore.setIsMax(1);
+					examUserScore.setUserId(user.getId());
+					examUserScore.setUserType(2);
+					examUserScore.setScore(String.valueOf(score));
+					examUserScore.setPaperId(paperId);
+					if(score<60){
+						examUserScore.setStatus("不及格");
+					}else{
+						examUserScore.setStatus("及格");
+					}
+					examUserScoreService.insertSelective(examUserScore);
+				}
+			}
+		}
+		model.addAttribute("isAllowRetake", paper.getIsAllowRetake());
 		model.addAttribute("score", score);
 		model.addAttribute("paperId", paperId);
 		String time = request.getParameter("time");
@@ -868,6 +937,7 @@ public class PurchaserExamController extends BaseSupplierController{
 					examUserScore.setUserType(2);
 					examUserScore.setUserId(paperUser.getUserId());
 					examUserScore.setScore("0");
+					examUserScore.setIsMax(1);
 					examUserScore.setPaperId(paperUser.getPaperId());
 					examUserScore.setStatus("不及格");
 					examUserScoreService.insertSelective(examUserScore);
@@ -876,10 +946,8 @@ public class PurchaserExamController extends BaseSupplierController{
 					paperOfUser.setIsDo(2);
 					examPaperUserService.updateByPrimaryKeySelective(paperOfUser);
 		    	}
-		    	
 		    }
 		}
-		
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		String relName = request.getParameter("relName");
 		String status = request.getParameter("status");
@@ -1117,6 +1185,7 @@ public class PurchaserExamController extends BaseSupplierController{
 					userScore.setUserType(2);
 					userScore.setUserId(paperUserList.get(i).getUserId());
 					userScore.setScore("0");
+					userScore.setIsMax(1);
 					userScore.setPaperId(id[0]);
 					userScore.setStatus("不及格");
 					examUserScoreService.insertSelective(userScore);
@@ -1143,7 +1212,7 @@ public class PurchaserExamController extends BaseSupplierController{
 	* @Description: 添加考卷的参考人员  
 	* @param @param request
 	* @param @param examPaperUser
-	* @param @return      
+	* @param @return
 	* @return String
 	 */
 	@RequestMapping("/addReferenceById")
@@ -1165,11 +1234,7 @@ public class PurchaserExamController extends BaseSupplierController{
 			if(relNames.size()==0){
 				str = "0";
 			}else{
-				if(relNames.get(0).getIdCard().equals(card)){
-					
-				}else{
-					str = "4";
-				}
+				str = "4";
 			}
 		}else{
 			ExamPaperUser userId = new ExamPaperUser();

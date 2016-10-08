@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.pms.CollectPurchaseMapper">
+  <resultMap id="BaseResultMap" type="bss.model.pms.CollectPurchase">
+    <result column="COLLECT_PLAN_ID" jdbcType="VARCHAR" property="collectPlanId" />
+    <result column="PLAN_NO" jdbcType="VARCHAR" property="planNo" />
+  </resultMap>
+  <insert id="insert" parameterType="bss.model.pms.CollectPurchase">
+    insert into T_BSS_PMS_COLLECT_PURCHASE (COLLECT_PLAN_ID, PLAN_NO)
+    values (#{collectPlanId,jdbcType=VARCHAR}, #{planNo,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="bss.model.pms.CollectPurchase">
+    insert into T_BSS_PMS_COLLECT_PURCHASE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="collectPlanId != null">
+        COLLECT_PLAN_ID,
+      </if>
+      <if test="planNo != null">
+        PLAN_NO,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="collectPlanId != null">
+        #{collectPlanId,jdbcType=VARCHAR},
+      </if>
+      <if test="planNo != null">
+        #{planNo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="queryByNo" parameterType="String" resultMap="BaseResultMap">
+  select * from T_BSS_PMS_COLLECT_PURCHASE where PLAN_NO=#{planNo}
+  </select>
+  
+  <select id="getNo" parameterType="String"  resultType="String">
+  select PLAN_NO from T_BSS_PMS_COLLECT_PURCHASE where COLLECT_PLAN_ID=#{collectId}
+  </select>
+   <select id="getId" parameterType="String"  resultType="String">
+	  select COLLECT_PLAN_ID from T_BSS_PMS_COLLECT_PURCHASE where PLAN_NO=#{planNo}
+	  </select>
+</mapper>

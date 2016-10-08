@@ -80,7 +80,7 @@
 			    type:"POST",   //请求方式		    
 		        success : function(topics) {     
 		            if (topics) {          	
-		              $("#topics").html("");                
+		            	$("#topicId").html("<option></option>");                
 		              $.each(topics, function(i, topic) {  
 		            	  $("#topics").append("<option  value="+topic.id+">"+topic.name+"</option>");	            	  
 		              });  	                          
@@ -115,7 +115,7 @@
 	   		  <li class="col-md-12  p0 ">
 			   <span class="fl">帖子名称：</span>
 			   <div class="input-append">
-		        <input class="span2 w775"  type="text" name = "name" >
+		        <input class="span2"  type="text" name = "name" >
 		        <%--<span class="add-on">i</span>--%>
 		       </div>
 			 </li>
@@ -162,11 +162,13 @@
 	  	 </ul>
 	</div>  	
 	<!-- 底部按钮 -->			          
-  <div  class="col-md-12 ml185">
-   <div class="fl padding-10">
+    <div class="padding-top-10 clear">                
+      <div  class="col-md-12 pl185 ">
+       <div class="mt40 tc mb50">
     <button class="btn btn-windows save" type="submit">保存</button>
     <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
 	</div>
+  </div>
   </div>
      </form>
      </div>

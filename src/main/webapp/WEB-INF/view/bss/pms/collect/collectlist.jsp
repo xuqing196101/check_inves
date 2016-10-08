@@ -52,6 +52,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
 		    pages: "${info.pages}", //总页数
 		    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+		    total: "${info.total}",
+		    startRow: "${info.startRow}",
+		    endRow: "${info.endRow}",
 		    skip: true, //是否开启跳页
 		    groups: "${info.pages}">=3?3:"${info.pages}", //连续显示分页数
 		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
@@ -194,19 +197,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 }
 	
 	function closeLayer(){
-		var id =[]; 
+	 
+		 var id =[]; 
+		 var de=[];
 		$('input[name="chkItem"]:checked').each(function(){ 
+			var dep=$(this).next().val();
+			de.push(dep);
+		
 			id.push($(this).val()); 
 		}); 
-		
-		$("#plannos").val(id);
-		$("#collect_form").submit();
+	 
+	  	$("#plannos").val(id);
+	  	$("#dep").val(de);
+	  	alert(id+"---"+de);
+	    $("#collect_form").submit();
 		
  
-		layer.close(index);	
+		  layer.close(index);	
 	}
 	
-	function cancel(){
+	function cancels(){
 		layer.close(index);	
 	}
 	var ids=[]; 
@@ -253,28 +263,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <h2>查询条件</h2>
    </div>
 <!-- 项目戳开始 -->
-  <div class="container clear margin-top-30">
+  <div class="border1 col-md-12 ml30">
     <form id="add_form" action="<%=basePath%>collect/list.html" method="post" >
-   <h2 class="padding-10 border1">
+  
 
-	 <ul class="demand_list" >
-	   <li class="fl"><label class="fl">需求计划名称：</label><span><input type="text" name="planName" value="${inf.planName }"/></span></li>
-	   <li class="fl"><label class="fl">需求计划编号：</label><span><input type="text" name="planNo" value="${inf.planNo }"/></span></li>
+	  
+ 		 需求计划名称：<input class="mt10"  type="text" name="planName" value="${inf.planName }"/>
+		 需求计划编号：<input class="mt10"  type="text" name="planNo" value="${inf.planNo }"/>
 	   
-	   	  <label class="fl">状态：</label><span>  
-	   	   <select name="status" class="form-control input-lg">
+	   状态 :
+	   	   <select name="status" class="mt10" class="form-control input-lg">
 			<option value="" selected="selected"> 请选项状态</option>
 	   	   <option value="1"> 	 已编制为采购计划</option>
 	   	   <option value="2"> 	提交未受理</option>
 	   	   <option value="3"> 	 受理</option>
  	   	   </select>
-	   	   </span> 
+	   	  
 	   
 	   	 <input class="btn padding-left-10 padding-right-10 btn_back"   type="submit" name="" value="查询" /> 
-	 </ul>
+ 
 
 	
-   </h2>
+   
    </form>
   </div>
    <div class="headline-v2 fl">
@@ -301,7 +311,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</thead>
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
 			<tr style="cursor: pointer;">
-			  <td class="tc w30"><input type="checkbox" value="${obj.planNo }" name="chkItem" onclick="check()"  alt=""></td>
+			  <td class="tc w30"><input type="checkbox" value="${obj.planNo }" name="chkItem" onclick="check()"  alt=""> <input type="hidden" name="department" value="${obj.department }"> </td>
 			  <td class="tc w50"   >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 			  
 			    <td class="tc"  >${obj.department }</td>
@@ -313,7 +323,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  <td class="tc"  ><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
 			  <td class="tc"  >
 			  <c:if test="${obj.status=='1' }">
-			 	 已编制为采购计划
+			 	 已编制为需求计划
 			  </c:if>
 			  
 			  </td>
@@ -340,8 +350,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<!--  文件名称：<input type="text" name="fileName" value=""><br>
 		 密码:<input type="password" name="password" value=""><br> -->
 		 <input type="hidden" name="planNo" id="plannos" value="">
+		  <input type="hidden" name="department" id="dep" value="">
 	   	<button class="btn padding-left-10 padding-right-10 btn_back"  style="margin-top: 20px;margin-left: 180px;" onclick="closeLayer()" >生成采购计划</button>
-	   	<button class="btn padding-left-10 padding-right-10 btn_back"  style="margin-top: 20px;margin-left: 30px" onclick="cancel()" >取消</button>
+	   	<button class="btn padding-left-10 padding-right-10 btn_back"  style="margin-top: 20px;margin-left: 30px" onclick="cancels()" >取消</button>
 	   
 	 </form>   
  </div>

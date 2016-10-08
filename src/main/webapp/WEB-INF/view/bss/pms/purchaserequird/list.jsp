@@ -52,6 +52,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
 		    pages: "${info.pages}", //总页数
 		    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+		    total: "${info.total}",
+		    startRow: "${info.startRow}",
+		    endRow: "${info.endRow}",
 		    skip: true, //是否开启跳页
 		    groups: "${info.pages}">=3?3:"${info.pages}", //连续显示分页数
 		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
@@ -242,20 +245,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <h2>查询条件</h2>
    </div>
 <!-- 项目戳开始 -->
-  <div class="container clear margin-top-30">
+  <div class="border1 col-md-12 ml30">
     <form id="add_form" action="<%=basePath%>purchaser/list.html" method="post" >
-   <h2 class="padding-10 border1">
+   
 
-	 <ul class="demand_list">
-	   <li class="fl" ><label class="fl">需求部门：</label><span><input type="text" name="department" value="${inf.department }" /></span></li>
-	   <li class="fl"><label class="fl">需求计划名称：</label><span><input type="text" name="planName" value="${inf.planName }"/></span></li>
-	   <li class="fl"><label class="fl">需求计划编号：</label><span><input type="text" name="planNo" value="${inf.planNo }" /></span></li>
-	   <li class="fl"><label class="fl">需求填报日期：</label><span> <input class="span2 Wdate w220"  value='<fmt:formatDate value="${inf.createdAt }"/>' name="createdAt" type="text" onclick='WdatePicker()'></span></li>
+	  
+	   需求部门： <input class="mt10" type="text" name="department" value="${inf.department }" /> 
+	   需求计划名称： <input class="mt10" type="text" name="planName" value="${inf.planName }"/> 
+	   需求计划编号： <input class="mt10" type="text" name="planNo" value="${inf.planNo }" /> 
+	    需求填报日期：  <input class="mt10" class="span2 Wdate w220"  value='<fmt:formatDate value="${inf.createdAt }"/>' name="createdAt" type="text" onclick='WdatePicker()'> 
 	   	 <input class="btn-u"   type="submit" name="" value="查询" /> 
-	 </ul>
+	 
 
 	
-   </h2>
+ 
    </form>
   </div>
    <div class="headline-v2 fl">
@@ -323,7 +326,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	         请选择类别
 	<br>
 	
-	 <input type="radio" name="goods" value="1">:物资<br>
+	 <input type="radio" name="goods" value="1">:货物<br>
 	 <input type="radio" name="goods" value="2">:工程<br>
 	 <input type="radio" name="goods" value="3">:服务<br>
 	    </p>

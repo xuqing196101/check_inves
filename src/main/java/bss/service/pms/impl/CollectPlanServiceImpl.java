@@ -47,5 +47,10 @@ public class CollectPlanServiceImpl implements CollectPlanService{
 		// TODO Auto-generated method stub
 		collectPlanMapper.updateByPrimaryKeySelective(collectPlan);
 	}
+	@Override
+	public Integer getMax() {
+		 
+		return collectPlanMapper.getMax();
+	}
 
 }

@@ -7,8 +7,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -25,12 +27,14 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
 import ses.service.oms.PurchaseOrgnizationServiceI;
+import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierMatEngService;
 import ses.service.sms.SupplierMatProService;
 import ses.service.sms.SupplierMatSeService;
 import ses.service.sms.SupplierMatSellService;
 import ses.service.sms.SupplierService;
 import ses.service.sms.SupplierTypeRelateService;
+import ses.util.IdentityCode;
 
 /**
  * @Title: supplierController
@@ -62,11 +66,21 @@ public class SupplierController extends BaseSupplierController {
 	private SupplierMatEngService supplierMatEngService;// 供应商工程专业信息
 
 	@Autowired
-	private PurchaseOrgnizationServiceI poService;
+	private PurchaseOrgnizationServiceI poService;// 采购机构
+	
+	@Autowired
+	private SupplierItemService supplierItemService;
 
+	
+	@RequestMapping(value = "get_identity")
+	public void getIdentity(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		IdentityCode identityCode = new IdentityCode(96, 28, 4, 5);
+		identityCode.write(request, response);
+	}
+	
 	@RequestMapping("login")
 	public String login(HttpServletRequest request, Model model) {
-		Supplier supplier = supplierService.get("53BF9E64B38B46228914807B92BAE812");
+		Supplier supplier = supplierService.get("8BE39E5BF23846EC93EED74F57ACF1F4");
 		model.addAttribute("currSupplier", supplier);
 		if (supplier.getListSupplierFinances() != null) {
 			model.addAttribute("financeSize", supplier.getListSupplierFinances().size());
@@ -137,9 +151,10 @@ public class SupplierController extends BaseSupplierController {
 	 * @param: @param sign
 	 * @param: @return
 	 * @return: String
+	 * @throws IOException 
 	 */
 	@RequestMapping(value = "prev_step")
-	public String prevStep(HttpServletRequest request, String page, Integer sign, Supplier supplier) {
+	public String prevStep(HttpServletRequest request, String page, Integer sign, Supplier supplier) throws IOException {
 		request.getSession().removeAttribute("defaultPage");
 		if (sign == 3) {
 			// 保存供应商类型
@@ -154,10 +169,18 @@ public class SupplierController extends BaseSupplierController {
 			return "redirect:page_jump.html";
 		} else if (sign == 4) {
 			// 保存供应商专业信息
-			supplierMatProService.saveOrUpdateSupplierMatPro(supplier);
-			supplierMatSellService.saveOrUpdateSupplierMatSell(supplier);
-			supplierMatSeService.saveOrUpdateSupplierMatSe(supplier);
-			supplierMatEngService.saveOrUpdateSupplierMatPro(supplier);
+			if (supplier.getSupplierMatPro() != null) {
+				supplierMatProService.saveOrUpdateSupplierMatPro(supplier);
+			}
+			if (supplier.getSupplierMatSell() != null) {
+				supplierMatSellService.saveOrUpdateSupplierMatSell(supplier);
+			}
+			if (supplier.getSupplierMatEng() != null) {
+				supplierMatEngService.saveOrUpdateSupplierMatPro(supplier);
+			}
+			if (supplier.getSupplierMatSe() != null) {
+				supplierMatSeService.saveOrUpdateSupplierMatSe(supplier);
+			}
 
 			// ajax 查询供应商类型树
 
@@ -178,7 +201,7 @@ public class SupplierController extends BaseSupplierController {
 		} else if (sign == 6) {
 			// 保存供应商产品信息
 
-			// 查询产品信息
+			// ajax查询品目树信息
 			supplier = supplierService.get(supplier.getId());
 
 			// 页面跳转
@@ -211,7 +234,7 @@ public class SupplierController extends BaseSupplierController {
 			return "redirect:page_jump.html";
 		} else if (sign == 9) {
 			// 保存供应商附件
-
+			this.setSupplierUpload(request, supplier);
 			// 查询供应商申请表
 
 			// 页面跳转
@@ -256,11 +279,19 @@ public class SupplierController extends BaseSupplierController {
 			request.getSession().setAttribute("jump.page", "supplier_type");
 			return "redirect:page_jump.html";
 		} else if (sign == 4) {
-			// 保存供应商物资生产专业信息
-			supplierMatProService.saveOrUpdateSupplierMatPro(supplier);
-			supplierMatSellService.saveOrUpdateSupplierMatSell(supplier);
-			supplierMatSeService.saveOrUpdateSupplierMatSe(supplier);
-			supplierMatEngService.saveOrUpdateSupplierMatPro(supplier);
+			// 保存供应商专业信息
+			if (supplier.getSupplierMatPro() != null) {
+				supplierMatProService.saveOrUpdateSupplierMatPro(supplier);
+			}
+			if (supplier.getSupplierMatSell() != null) {
+				supplierMatSellService.saveOrUpdateSupplierMatSell(supplier);
+			}
+			if (supplier.getSupplierMatEng() != null) {
+				supplierMatEngService.saveOrUpdateSupplierMatPro(supplier);
+			}
+			if (supplier.getSupplierMatSe() != null) {
+				supplierMatSeService.saveOrUpdateSupplierMatSe(supplier);
+			}
 
 			// 查询供应商信息
 			supplier = supplierService.get(supplier.getId());
@@ -271,8 +302,10 @@ public class SupplierController extends BaseSupplierController {
 			return "redirect:page_jump.html";
 		} else if (sign == 5) {
 			// 保存供应商品目信息
+			supplierItemService.saveSupplierItem(supplier);
 
 			// ajax 查询采购品目
+			supplier = supplierService.get(supplier.getId());
 
 			// 页面跳转
 			request.getSession().setAttribute("currSupplier", supplier);
@@ -280,6 +313,7 @@ public class SupplierController extends BaseSupplierController {
 			return "redirect:page_jump.html";
 		} else if (sign == 6) {
 			// 保存供应商产品信息
+			
 
 			// 查询产品信息
 			supplier = supplierService.get(supplier.getId());
@@ -304,6 +338,8 @@ public class SupplierController extends BaseSupplierController {
 			return "redirect:page_jump.html";
 		} else if (sign == 9) {
 			// 保存供应商附件
+			this.setSupplierUpload(request, supplier);
+			supplierService.perfectBasic(supplier);
 
 			// 查询供应商信息
 			supplier = supplierService.get(supplier.getId());
@@ -325,9 +361,10 @@ public class SupplierController extends BaseSupplierController {
 	 * @param: @param sign
 	 * @param: @return
 	 * @return: String
+	 * @throws IOException 
 	 */
 	@RequestMapping(value = "next_step")
-	public String nextStep(HttpServletRequest request, String page, Integer sign, Supplier supplier) {
+	public String nextStep(HttpServletRequest request, String page, Integer sign, Supplier supplier) throws IOException {
 		String realPath = request.getServletContext().getRealPath("/");
 		System.out.println(realPath);
 		request.getSession().removeAttribute("defaultPage");
@@ -352,12 +389,21 @@ public class SupplierController extends BaseSupplierController {
 			return "redirect:page_jump.html";
 		} else if (sign == 4) {
 			// 保存供应商专业信息
-			supplierMatProService.saveOrUpdateSupplierMatPro(supplier);
-			supplierMatSellService.saveOrUpdateSupplierMatSell(supplier);
-			supplierMatSeService.saveOrUpdateSupplierMatSe(supplier);
-			supplierMatEngService.saveOrUpdateSupplierMatPro(supplier);
-
+			if (supplier.getSupplierMatPro() != null) {
+				supplierMatProService.saveOrUpdateSupplierMatPro(supplier);
+			}
+			if (supplier.getSupplierMatSell() != null) {
+				supplierMatSellService.saveOrUpdateSupplierMatSell(supplier);
+			}
+			if (supplier.getSupplierMatEng() != null) {
+				supplierMatEngService.saveOrUpdateSupplierMatPro(supplier);
+			}
+			if (supplier.getSupplierMatSe() != null) {
+				supplierMatSeService.saveOrUpdateSupplierMatSe(supplier);
+			}
+			
 			// Ajax 查询品目树, 这里不用写了
+			supplier = supplierService.get(supplier.getId());
 
 			// 页面跳转
 			request.getSession().setAttribute("currSupplier", supplier);
@@ -407,11 +453,21 @@ public class SupplierController extends BaseSupplierController {
 			request.getSession().setAttribute("jump.page", "template_upload");
 			return "redirect:page_jump.html";
 		} else if (sign == 9) {
+			this.setSupplierUpload(request, supplier);
 
 		}
 		return null;
 	}
-
+	
+	@RequestMapping(value = "download")
+	public void download(HttpServletRequest request, HttpServletResponse response, String fileName) {
+		if (fileName != null && !"".equals(fileName)) {
+			super.download(request, response, fileName);
+		} else {
+			super.alert(request, response, "无附件下载 !");
+		}
+	}
+	
 	/**
 	 * @Title: basic
 	 * @author: Wang Zhaohua
@@ -485,17 +541,35 @@ public class SupplierController extends BaseSupplierController {
 			while (its.hasNext()) {
 				String str = its.next();
 				MultipartFile file = multiRequest.getFile(str);
+				String fileName = file.getOriginalFilename();
+				fileName = UUID.randomUUID().toString().replace("-", "").toUpperCase().toString() + "_" + fileName;
 				if (file != null && file.getSize() > 0) {
-					String path = super.getRootPath(request) + file.getOriginalFilename();
+					String path = super.getFilePath(request) + fileName;
 					file.transferTo(new File(path));
 					if (str.equals("taxCertFile")) {
-						supplier.setTaxCert(path);
+						supplier.setTaxCert(fileName);
 					} else if (str.equals("billCertFile")) {
-						supplier.setBillCert(path);
+						supplier.setBillCert(fileName);
 					} else if (str.equals("securityCertFile")) {
-						supplier.setSecurityCert(path);
+						supplier.setSecurityCert(fileName);
 					} else if (str.equals("breachCertFile")) {
-						supplier.setBreachCert(path);
+						supplier.setBreachCert(fileName);
+					} else if (str.equals("supplierLevelFile")) {
+						supplier.setSupplierLevel(fileName);
+					} else if (str.equals("supplierPledgeFile")) {
+						supplier.setSupplierPledge(fileName);
+					} else if (str.equals("supplierRegListFile")) {
+						supplier.setSupplierRegList(fileName);
+					} else if (str.equals("supplierExtractsListFile")) {
+						supplier.setSupplierExtractsList(fileName);
+					} else if (str.equals("supplierInspectListFile")) {
+						supplier.setSupplierInspectList(fileName);
+					} else if (str.equals("supplierReviewListFile")) {
+						supplier.setSupplierReviewList(fileName);
+					} else if (str.equals("supplierChangeListFile")) {
+						supplier.setSupplierChangeList(fileName);
+					} else if (str.equals("supplierExitListFile")) {
+						supplier.setSupplierExitList(fileName);
 					}
 				}
 			}

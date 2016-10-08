@@ -1,4 +1,4 @@
-/**
+ /**
  * 
  */
 package ses.controller.sys.sms;
@@ -108,7 +108,7 @@ public class SupplierExtractsController {
 	 */
 	@RequestMapping("/conditions")
 	public String conditions(Model model,String area,String id){
-		List<Area> listArea = areaService.findTreeByPid(area==null?"1":area);
+		List<Area> listArea = areaService.findTreeByPid(area==null?"1":area,null);
 		List<SupplierType> listType=supplierTypeService.findSupplierType();
 		model.addAttribute("listArea", listArea);
 		model.addAttribute("listType", listType);
@@ -128,7 +128,7 @@ public class SupplierExtractsController {
 	@RequestMapping("/city")
 	public Object city(Model model,String area){
 
-		List<Area> listArea = areaService.findTreeByPid(area==null?"1":area);
+		List<Area> listArea = areaService.findTreeByPid(area==null?"1":area,null);
 
 		return listArea;
 	}

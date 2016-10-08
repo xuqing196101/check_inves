@@ -36,8 +36,8 @@
 				success:function(json){
   					 $(".contract_id").val(json.id);
   					 $(".contract_name").val(json.name);
-  					 $(".supplier_id").val(json.supplier.id);	
-  					 $(".supplier_name").val(json.supplier.name);			
+  					 $(".supplier_id").val(json.supplierPurId);	
+  					 $(".supplier_name").val(json.supplierDepName);			
 	       		}
 	       	});
 	}
@@ -70,29 +70,29 @@
    			<h2>登记质检报告</h2>
    		</div>
    		<ul class="list-unstyled list-flow p0_20">
-   			<input type="hidden" class="contract_id" name="contract_id">
+   			<input type="hidden" class="contract_id" name="contract.id">
 		     <li class="col-md-6  p0 ">
 			   <span class="">合同编号：</span>
 			   <div class="input-append">
-		        <input class="span2 contract_code" id="contract_code" type="text" onblur="selectByCode()">
+		        <input class="span2 contract_code" name="contract_code" id="contract_code" type="text" onblur="selectByCode()">
 		       </div>
 			 </li>
     		 <li class="col-md-6 p0">
 			   <span class="">合同名称：</span>
 		        <div class="input-append ">
-		        	<input class="span2 contract_name"type="text" >
+		        	<input class="span2 contract_name"type="text"  readonly="readonly" >
        			</div>
 			 </li>
     		 <li class="col-md-6 p0">
 			   <span class="">供应商组织机构代码：</span>
 		        <div class="input-append ">
-		        	<input class="span2 supplier_id" type="text">
+		        	<input class="span2 supplier_id" type="text"  readonly="readonly">
        			</div>
 			 </li>
 		     <li class="col-md-6  p0 ">
 			   <span class="">供应商名称：</span>
 			   <div class="input-append">
-		        <input class="span2 supplier_name" type="text">
+		        <input class="span2 supplier_name" type="text"  readonly="readonly">
 		       </div>
 			 </li>
 			 <li class="col-md-6  p0 ">

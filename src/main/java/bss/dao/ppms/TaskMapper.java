@@ -22,4 +22,7 @@ public interface TaskMapper {
     void updateByPrimaryKey(Task record);
     
     void startTask(String id);
+    
+    List<Task> selectByProject(String id);
+    
 }

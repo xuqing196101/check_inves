@@ -1,24 +1,22 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
-<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
-<!--[if !IE]><!-->
-<html>
+<!DOCTYPE html>
+<html class=" js cssanimations csstransitions" lang="en"><!--<![endif]-->
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<title></title>
-	<!-- Meta -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="">
-	<meta name="author" content="">
-	<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet">
+<title></title>
+<!-- Meta -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" type="text/css"/>
 <link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/animate.css" media="screen" rel="stylesheet">
@@ -52,13 +50,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/footer-v4.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/style(1).css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/masterslider.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/james.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/layer/skin/layer.css" media="screen" rel="stylesheet" type="text/css">
 <link href="<%=basePath%>public/layer/skin/layer.ext.css" media="screen" rel="stylesheet" type="text/css">
-
-<script src="<%=basePath%>public/ZHH/js/hm.js"></script><script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
+<link href="<%=basePath%>public/ZHH/css/WdatePicker(1).css" rel="stylesheet" type="text/css">
+<script src="<%=basePath%>public/ZHH/js/hm.js"></script>
+<script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery-migrate-1.2.1.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
 <script src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
@@ -78,9 +76,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/owl-carousel.js"></script>
 <script src="<%=basePath%>public/ZHH/js/owl-recent-works.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.mCustomScrollbar.concat.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
+<script src="<%=basePath%>public/ZHH/js/WdatePicker.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.form.min.js"></script>
-
+<script src="<%=basePath%>public/layer/layer.js"></script>
+<script src="<%=basePath%>public/layer/extend/layer.ext.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.validate.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.maskedinput.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery-ui.min.js"></script>
@@ -113,8 +112,35 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/james.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/layer/extend/layer.ext.js"></script>
+<style type="text/css">
+.jbxx1{
+  background:url(../images/down_icon.png) no-repeat 5px !important;
+  padding-left:40px !important;
+}
+.jbxx1 i{
+    width: 24px;
+    height: 30px;
+    background: url(../../../../../zhbj/public/ZHQ/images/round.png) no-repeat center;
+    color: #ffffff;
+    font-size: 12px;
+    text-align: center;
+    display: block;
+    float: left;
+    line-height: 30px;
+    font-style: normal;
+    margin-right: 10px;
+}
+</style>
 <script type="text/javascript">
-
+  /** 初始化下拉框*/
+  $(function(id) {
+    var optionNodes = $("option");
+    for(var i = 0; i < optionNodes.length; i++) {
+      if("${expert.relName}" == $(optionNodes[i]).val()) {
+        optionNodes[i].selected = true;
+      }
+    }
+  });
 </script>
 </head>
 <body>
@@ -130,11 +156,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="container">
     <form action="<%=basePath %>expert/updateBlacklist.html" method="post" id="form1" enctype="multipart/form-data" class="registerform">
       <input type="hidden" name="id" value="${expert.id}">
+      <h2 class="f16 jbxx1">
+         <i>01</i>基本信息
+      </h2>
       <ul class="list-unstyled list-flow p0_20">
         <li class="col-md-6 p0">
-          <span class="">专家姓名：</span>
-          <input class="span2" maxlength="10" name="relName" type="text" value="${expert.relName }">
-          <font id="nameFont"></font>
+          <span>专家姓名：</span>
+            <select name="relName" class="span2">
+              <option value="">请选择</option>
+              <c:forEach var="expert"  items="${expertList}">
+              <option value="${expert.relName}">${expert.relName}</option>
+              </c:forEach>
+            </select> 
         </li>
         <li class="col-md-6  p0 ">
           <span class="">入库时间：</span>
@@ -150,8 +183,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        <span class="">处罚时限：</span>
 	        <select class="span2" name="punishDate">
 			  		<option value="">请选择</option>
-			  		<option value="三个月" <c:if test="${'三个月' eq expert.punishDate}">selected</c:if>>三个月</option>
-			  		<option value="半年" <c:if test="${'半年' eq expert.punishDate}">selected</c:if>>半年</option>
+			  		<option value="3个月" <c:if test="${'3个月' eq expert.punishDate}">selected</c:if>>三个月</option>
+			  		<option value="6个月" <c:if test="${'6个月' eq expert.punishDate}">selected</c:if>>半年</option>
 			  		<option value="一年" <c:if test="${'一年' eq expert.punishDate}">selected</c:if>>一年</option>
 			  		<option value="两年" <c:if test="${'两年' eq expert.punishDate}">selected</c:if>>两年</option>
 			  		<option value="三年" <c:if test="${'三年' eq expert.punishDate}">selected</c:if>>三年</option>
@@ -174,6 +207,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           </div>
         </li> 
 			</ul>
+			<div class=" margin-bottom-0 fl">
+       <h2 class="f16 jbxx1">
+        <i>02</i>附件上传
+       </h2>
+       <ul class="list-unstyled list-flow p0_20">
+        <li >
+          <span class="" ><i class="red">＊</i>批准文件:</span>
+            <input class="span3" type="file" name="attachmentCertFile"/>
+         </li>
+       </ul>
+     </div>
       <div class="margin-bottom-0  categories">
         <div class="col-md-12 add_regist tc">
           <button class="btn btn-windows save" type="submit">保存</button>

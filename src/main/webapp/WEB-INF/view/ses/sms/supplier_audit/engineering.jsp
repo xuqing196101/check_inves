@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -114,13 +115,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 function reason(id){
   var supplierId=$("#supplierId").val();
   var auditField="证书编号是"+$("#"+id).text(); //审批的字段名字
-  alert(auditField);
    layer.prompt({title: '请填写不通过理由', formType: 2}, function(text){
     $.ajax({
         url:"<%=basePath%>supplierAudit/auditReasons.html",
         type:"post",
         data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId,
       });
+        $("#"+id+"_hide").hide();
+        $("#"+id+"_hide1").hide();
         layer.msg("审核不通过的理由是："+text);
     });
 }
@@ -162,6 +164,12 @@ function tijiao(str){
   if(str=="engineering"){
     action = "<%=basePath%>supplierAudit/engineering.html";
   }
+  if(str=="service"){
+    action = "${pageContext.request.contextPath}/supplierAudit/serviceInformation.html";
+  }
+  if(str=="applicationFrom"){
+    action = "${pageContext.request.contextPath}/supplierAudit/applicationForm.html";
+  }
   if(str=="reasonsList"){
     action = "<%=basePath%>supplierAudit/reasonsList.html";
   }
@@ -183,12 +191,21 @@ function tijiao(str){
               <li class=""><a aria-expanded="fale" href="#tab-1" data-toggle="tab" onclick="tijiao('essential');">基本信息</a></li>
               <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" onclick="tijiao('financial');">财务信息</a></li>
               <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('shareholder');">股东信息</a></li>
-              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('materialProduction');">物资-生产型专业信息</a></li>
-              <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('materialSales');">物资-销售型专业信息</a></li>
-              <li class="active"><a aria-expanded="true" href="#tab-3" data-toggle="tab" onclick="tijiao('engineering');">工程-专业信息</a></li>
-              <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >服务-专业信息</a></li>
+              <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
+	            <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" onclick="tijiao('materialProduction');">物资-生产型专业信息</a></li>
+	            </c:if>
+	            <c:if test="${fn:contains(supplierTypeNames, '销售型')}">
+	            <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('materialSales');">物资-销售型专业信息</a></li>
+	            </c:if>
+	            <c:if test="${fn:contains(supplierTypeNames, '工程')}">
+	            <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('engineering');">工程-专业信息</a></li>
+	            </c:if>
+	            <c:if test="${fn:contains(supplierTypeNames, '服务')}">
+              <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('service');">服务-专业信息</a></li>
+              </c:if>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" >品目信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >产品信息</a></li>
+              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('applicationFrom');">申请表</a></li>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('reasonsList');">审核汇总</a></li>
             </ul>
               <div class="tab-content padding-top-20" style="height:1400px;">
@@ -245,7 +262,7 @@ function tijiao(str){
 	                        </td>
 	                        <%-- <td class="tc">${s.attachCert }</td> --%>
 	                        <td class="tc">
-	                              <a id="reason1" class="b f18 fl ml10 red hand">√</a>
+	                              <a id="${s.id }_hide" class="b f18 fl ml10 red hand">√</a>
 	                              <a onclick="reason('${s.id}');" class="b f18 fl ml10 hand">×</a>
 	                        </td>
 	                       </tr>
@@ -303,7 +320,7 @@ function tijiao(str){
                         <td class="tc">${s.aptituteChangeReason }</td>
                         <%-- <td class="tc">${s.attachCert }</td> --%>
                         <td class="tc">
-                          <a id="reason1" class="b f18 fl ml10 red hand">√</a>
+                          <a id="${s.id }_hide1" class="b f18 fl ml10 red hand">√</a>
                           <a onclick="reason('${s.id}');" class="b f18 fl ml10 hand">×</a>
                         </td>
                       </tr>

@@ -69,8 +69,8 @@ public class UserManageController {
 	 * @exception IOException
 	 */
 	@RequestMapping("/list")
-	public String list(Model model, Integer page) {
-		List<User> users = userService.list(null, page == null ? 1 : page);
+	public String list(Model model, Integer page, User user) {
+		List<User> users = userService.list(user, page == null ? 1 : page);
 		model.addAttribute("list", new PageInfo<User>(users));
 		logger.info(JSON.toJSONStringWithDateFormat(users,
 				"yyyy-MM-dd HH:mm:ss"));
@@ -437,7 +437,7 @@ public class UserManageController {
 	@RequestMapping("/openPreMenu")
 	public String openPreMenu(Model model,String id){
 		model.addAttribute("uid", id);
-		return "ses/bms/user/addPreMenu";
+		return "ses/bms/user/add_menu";
 	}
 	
 	/**
@@ -462,7 +462,6 @@ public class UserManageController {
 			UserPreMenu um = new UserPreMenu();
 			um.setUser(user);
 			userService.deleteUserMenu(um);
-
 			String[] mIds = ids.split(",");
 			for (String str : mIds) {
 				UserPreMenu up = new UserPreMenu();

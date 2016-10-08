@@ -245,6 +245,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <span class="add-on">i</span>
        </div>
 	 </li> 
+	 <li class="col-md-6 p0 ">
+	   <span class=" ">下拉选项：</span>
+         <div class="select_common mb10">
+         <select class="w250 ">
+           <option>选项1</option>
+           <option>选项2</option>
+           <option>选项3</option>
+         </select>
+         </div>
+	 </li>
+	 <li class="col-md-6 p0 ">
+	   <span class=" ">右侧下箭头：</span>
+         <div class="select_common">
+         <input class="w250" id="appendedInput" type="text">
+	      <i class="input_icon ">
+		  <img src="<%=basePath%>public/ZHH/images/down.png" class="margin-bottom-5"/>
+          </i>
+         </div>
+	 </li>
+	 
+
      <li class="col-md-12 p0">
 	   <span class="fl">备注：</span>
 	   <div class="col-md-12 pl200 fn mt5 pwr9">
@@ -278,6 +299,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <input class=" span2 " id="appendedInput" type="text">
         <span class="add-on">i</span>
        </div>
+	 </li>
+     <li class="col-md-6 p0 ">
+      <div class="input-append"><a href="" class="upload">附件上传</a></div>
 	 </li> 
    </ul>
    <div class="clear padding-left-20 total"><span class="w200 block">总计：</span><span>¥10000</span></div>

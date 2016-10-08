@@ -38,7 +38,7 @@
 			    type:"POST",   //请求方式		    
 		        success : function(topics) {     
 		            if (topics) {          	
-		              $("#topics").html("");                
+		            	$("#topicId").html("<option></option>");              
 		              $.each(topics, function(i, topic) {  
 		            	  $("#topics").append("<option  value="+topic.id+">"+topic.name+"</option>");	            	  
 		              });  	                          
@@ -126,11 +126,13 @@
 	  	 </ul>
 	</div>  	
 	<!-- 底部按钮 -->			          
-  <div  class="col-md-12 ml185">
-   <div class="fl padding-10">
+    <div class="padding-top-10 clear">                
+      <div  class="col-md-12 pl185 ">
+       <div class="mt40 tc mb50">
     <button class="btn btn-windows save" type="submit">更新</button>
     <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
 	</div>
+  </div>
   </div>
      </form>
      </div>

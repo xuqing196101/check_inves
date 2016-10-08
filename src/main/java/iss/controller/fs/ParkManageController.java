@@ -11,6 +11,7 @@ import iss.service.fs.TopicService;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -24,11 +25,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ses.model.bms.PreMenu;
+import ses.model.bms.Role;
 import ses.model.bms.User;
+import ses.model.bms.UserPreMenu;
+import ses.service.bms.PreMenuServiceI;
+import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
-import ses.util.PropertiesUtil;
 
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 
@@ -53,6 +57,11 @@ public class ParkManageController {
 	private ReplyService replyService;
 	@Autowired
 	private UserServiceI userService;
+	@Autowired
+	private RoleServiceI roleService;
+	@Autowired
+	private PreMenuServiceI preMenuService;
+	
 
 	/**
 	 * @Title: getParkList
@@ -79,7 +88,7 @@ public class ParkManageController {
 			park2.setReplycount(replycount);
 		}	
 		model.addAttribute("list", new PageInfo<Park>(parklist));
-		return "iss/forum/park/parklist";
+		return "iss/forum/park/list";
 	}
 
 	/**
@@ -136,7 +145,25 @@ public class ParkManageController {
 	public String save(HttpServletRequest request, Park park) {
 		User user = new User();
 		user = userService.getUserById(request.getParameter("userId"));
+		//设置权限
+		Role role = roleService.get("018375864F3C403CAC7698C2549763F0");
+		List<Role> roles = new ArrayList<Role>();
+		roles.add(role);
+		user.setRoles(roles);
+		UserPreMenu um = new UserPreMenu();
+		um.setUser(user);
+		userService.deleteUserMenu(um);
+		String ids ="C58C30A33C4A4AB49B125589267BE64B,0298F628AB6C4018A0B43561993A43DE,DDA573A2CCA54DF29E4B8BCCDFAF80DA,8715A14AB3F74D77AF85C443386023F3,3DFF3C15462047A185B6173348BE7839,4AE68DC483454C298D9330A9976159F3";
+		String[] mIds = ids.split(",");
+		for (String str : mIds) {
+			UserPreMenu up = new UserPreMenu();
+			PreMenu preMenu = preMenuService.get(str);
+			up.setPreMenu(preMenu);
+			up.setUser(user);
+			userService.saveUserMenu(up);
+		}
 		park.setUser(user);
+		
 		User creater = (User) request.getSession().getAttribute("loginUser");
 		park.setCreater(creater);
 		Timestamp ts = new Timestamp(new Date().getTime());
@@ -159,6 +186,7 @@ public class ParkManageController {
 	@RequestMapping("/edit")
 	public String edit(String id, Model model) {
 		Park p = parkService.selectByPrimaryKey(id);
+		System.out.println(p.getUser());
 		model.addAttribute("park", p);
 		List<User> users = userService.find(null);
 		model.addAttribute("users", users);
@@ -175,14 +203,34 @@ public class ParkManageController {
 	 * @return String
 	 */
 	@RequestMapping("/update")
-	public String update(HttpServletRequest request, Park park) {
-
-		User user = new User();
-	
-		user = userService.getUserById(request.getParameter("userId"));
+	public String update(HttpServletRequest request, Park park) {	
+		String oldUserId = request.getParameter("oldUserId");
+		if( oldUserId != null && oldUserId !=""){
+			User oldUser = userService.getUserById(oldUserId);
+			UserPreMenu um = new UserPreMenu();
+			um.setUser(oldUser);
+			userService.deleteUserMenu(um);
+		}
+		User user = userService.getUserById(request.getParameter("userId"));
+		//菜单
+		String ids ="C58C30A33C4A4AB49B125589267BE64B,0298F628AB6C4018A0B43561993A43DE,DDA573A2CCA54DF29E4B8BCCDFAF80DA,8715A14AB3F74D77AF85C443386023F3,3DFF3C15462047A185B6173348BE7839,4AE68DC483454C298D9330A9976159F3";
+		String[] mIds = ids.split(",");
+		for (String str : mIds) {
+			UserPreMenu up = new UserPreMenu();
+			PreMenu preMenu = preMenuService.get(str);
+			up.setPreMenu(preMenu);
+			up.setUser(user);
+			userService.saveUserMenu(up);
+		}			
+		//角色
+		Role role = roleService.get("018375864F3C403CAC7698C2549763F0");
+		List<Role> roles = new ArrayList<Role>();
+		roles.add(role);
+		user.setRoles(roles);	
 		park.setUser(user);
+		
 		Timestamp ts = new Timestamp(new Date().getTime());
-		park.setUpdatedAt(ts);
+		park.setUpdatedAt(ts);		
 		String parkId = request.getParameter("parkId");
 		park.setId(parkId);
 		parkService.updateByPrimaryKeySelective(park);
@@ -245,23 +293,7 @@ public class ParkManageController {
 		model.addAttribute("forumIndexMapper", forumIndexMapper);
 		model.addAttribute("hotPostList", hotPostList);
 		model.addAttribute("list", parklist);
-		return "iss/forum/forumIndex";
+		return "iss/forum/forum_Index";
 	}
 	
-	@RequestMapping("/parkManager")
-	public String getFirst(Model model,HttpServletRequest request,Integer page)throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();
-		User user = (User) request.getSession().getAttribute("loginUser");
-		String userId = user.getId();
-		map.put("userId", userId);
-		if(page==null){
-			page=1;
-		}
-		map.put("page",page.toString());
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-		List<Park> list = parkService.selectParkListByUser(map);
-		model.addAttribute("list",  new PageInfo<Park>(list));
-		return "iss/forum/parkManager/manager";
-	}
 }

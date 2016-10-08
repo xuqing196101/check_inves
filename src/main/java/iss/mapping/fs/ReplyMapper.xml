@@ -75,7 +75,19 @@
                  <trim suffixOverrides=","> 
                   <if test="replyCon!= null">
                     and CONTENT Like concat(concat('%', '${replyCon}'), '%')
-                  </if>      
+                  </if> 
+                  <if test="userId != null ">
+                    and POST_ID IN (
+                            SELECT ID FROM T_ISS_FS_POST    
+	                        WHERE PARK_ID IN (
+	                            SELECT ID FROM T_ISS_FS_PARK 		                                                           
+                                <if test="userId != '2521F623FA2F4399875433678F622F2D'">
+                                WHERE USER_ID = #{userId} 
+                                </if>	 	                                                           
+	                                         )                                     
+                                 )                         
+                  </if> 
+                       
                 </trim>
 			    ORDER BY PUBLISHED_AT DESC			    
 			  </select>

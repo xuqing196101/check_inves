@@ -4,14 +4,14 @@ import java.util.List;
 
 import bss.model.cs.PurchaseContract;
 
-/*
- *@Title:PurchaseContractMapper
- *@Description:采购合同管理
- *@author QuJie
- *@date 2016-9-22下午2:47:17
- */
 public interface PurchaseContractMapper {
-	/**
+    int deleteByPrimaryKey(String id);
+
+    int updateByPrimaryKeySelective(PurchaseContract record);
+
+    int updateByPrimaryKey(PurchaseContract record);
+    
+    /**
 	 * 
 	* @Title: insert
 	* @author QuJie 

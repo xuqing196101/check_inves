@@ -87,4 +87,8 @@ public class PostServiceImpl implements PostService{
 		// TODO Auto-generated method stub
 		return postMapper.queryHotPost();
 	}
+
+     public List<Post> queryAllHotPost(){
+    	 return postMapper.queryAllHotPost();
+     }
 }

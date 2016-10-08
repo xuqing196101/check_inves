@@ -22,7 +22,10 @@
 			    pages: "${paperUserList.pages}", //总页数
 			    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
 			    skip: true, //是否开启跳页
-			    groups: "${paperUserList.pages}">=3?3:"${paperUserList.pages}", //连续显示分页数
+			    total: "${paperUserList.total}",
+			    startRow: "${paperUserList.startRow}",
+			    endRow: "${paperUserList.endRow}",
+			    groups: "${paperUserList.pages}">=5?5:"${paperUserList.pages}", //连续显示分页数
 			    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
 			        var page = location.search.match(/page=(\d+)/);
 			        return page ? page[1] : 1;
@@ -40,25 +43,25 @@
   
   <body>
   	<!--面包屑导航开始-->
-	   <div class="margin-top-10 breadcrumbs ">
-	      <div class="container">
-			   <ul class="breadcrumb margin-left-0">
+	<div class="margin-top-10 breadcrumbs ">
+	    <div class="container">
+			<ul class="breadcrumb margin-left-0">
 			   <li><a href="#">首页</a></li><li><a href="#">支撑环境</a></li><li><a href="#">考卷管理</a></li>
-			   </ul>
+			</ul>
 			<div class="clear"></div>
-		  </div>
-	   </div>
+		</div>
+	</div>
   	
-  	<div class="container mt10">
-  		<div class="col-md-12 mb10 border1 bggrey">
-  			<div class="fl f18 gary b">参考人员信息</div>
-  		</div>
-  	</div>
+  	<div class="container">
+	   <div class="headline-v2">
+	   		<h2>参考人员列表</h2>
+	   </div>
+   	</div>
   	
   	<!-- 表格开始 -->
     <div class="container">
   		<div class="content">
-	  		<table class="table table-bordered table-condensed">
+	  		<table class="table table-bordered table-condensed table-hover">
 				<thead>
 					<tr>
 						<th class="info w50">序号</th>

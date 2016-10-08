@@ -122,9 +122,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </script>
 </head>
 <body>
+ <div class="margin-top-10 breadcrumbs ">
+      <div class="container">
+		   <ul class="breadcrumb margin-left-0">
+		   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">供应商变更申请审核</a></li>
+		   </ul>
+		<div class="clear"></div>
+	  </div>
+   </div>
 		<!-- 项目戳开始 -->
 		<form id="form1" action="${pageContext.request.contextPath}/supplierUpdate/audit.html" method="post">
-		<div class="container clear margin-top-30">
+		<div class="container clear">
 		<!--详情开始-->
 		<div class="container content height-350">
 			<div class="row magazine-page">
@@ -139,42 +147,42 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<div class="col-md-9 mt5">
 											<input type="hidden" name="id" value="${ae.id }" />
 												<input type="hidden" name="auditStatus" id="status"/>
-												<input class="span3 mr30 nb" id="orgName" name="orgName" value="${ae.orgName }" type="text" readonly="readonly">
+												<input class="span3 mr30 nb" id="orgName" name="orgName" readonly="readonly" value="${ae.orgName }" type="text" readonly="readonly">
 											</div>
 										</li>
 										<li class="col-md-12 p0"><span  class=""><i class="red">＊</i> 供应商名称：</span>
 											<div class="col-md-9 mt5">
-												<input class="span3 mr30" id="" name="supplierName" value="${ae.supplierName }" type="text">
+												<input class="span3 mr30" id="" name="supplierName" readonly="readonly" value="${ae.supplierName }" type="text">
 												<span  class=""><i class="red">＊</i> 统一社会信用代码：</span>
-												<input class="span3" id="creditCode" name="creditCode" value="${ae.creditCode }"  type="text">
+												<input class="span3" id="creditCode" name="creditCode" readonly="readonly" value="${ae.creditCode }"  type="text">
 											</div>
 										</li>
 										<li class="col-md-12 p0"><span  class="fl"><i class="red">＊</i>申请变更的原注册信息：</span>
 											<div class="col-md-9 mt5">
 												<div class="row">
-													<textarea class="text_area col-md-12" id="updateBeforeSupplierInfo" name="updateBeforeSupplierInfo"   title="不超过800个字" placeholder=""> ${ae.updateBeforeSupplierInfo }</textarea>
+													<textarea class="text_area col-md-12" readonly="readonly" id="updateBeforeSupplierInfo" name="updateBeforeSupplierInfo"   title="不超过800个字" placeholder=""> ${ae.updateBeforeSupplierInfo }</textarea>
 												</div>
 											</div>
 										</li>
 										<li class="col-md-12 p0"><span class="fl"><i class="red">＊</i>变更后的注册信息：</span>
 											<div class="col-md-9 mt5">
 												<div class="row">
-													<textarea class="text_area col-md-12" id="updateAfterSupplierInfo" name="updateAfterSupplierInfo" title="不超过800个字" placeholder="">${ae.updateAfterSupplierInfo }</textarea>
+													<textarea class="text_area col-md-12" readonly="readonly" id="updateAfterSupplierInfo" name="updateAfterSupplierInfo" title="不超过800个字" placeholder="">${ae.updateAfterSupplierInfo }</textarea>
 												</div>
 											</div>
 										</li>
 										<li class="col-md-12 p0"><span  class="fl"><i class="red">＊</i>变更原因：</span>
 											<div class="col-md-9 mt5">
 												<div class="row">
-													<textarea class="text_area col-md-12" id="updateReason" name="updateReason"  title="不超过800个字" placeholder=""> ${ae.updateReason }</textarea>
+													<textarea class="text_area col-md-12" readonly="readonly" id="updateReason" name="updateReason"  title="不超过800个字" placeholder=""> ${ae.updateReason }</textarea>
 												</div>
 											</div>
 										</li>
 									</ul>
 									</div>
-									 <div class="mt20 col-md-12 tc">
-									 	<input class="btn padding-left-20 padding-right-20 btn_back"  type="button" onclick="tijiao(1)" value="审核通过">
-										<input class="btn padding-left-20 padding-right-20 btn_back"  type="button" onclick="tijiao(2)" value="审核不通过">
+									 <div class="col-md-12 tc">
+									 	<input class="btn padding-left-20 padding-right-20 btn_back"  type="button" onclick="tijiao(2)" value="审核通过">
+										<input class="btn padding-left-20 padding-right-20 btn_back"  type="button" onclick="tijiao(3)" value="审核不通过">
 			  							<input class="btn padding-left-20 padding-right-20 btn_back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 			 						</div>
 								</div>

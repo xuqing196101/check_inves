@@ -65,6 +65,8 @@ public class PostManageController {
 		String postName = request.getParameter("postName");
 		String parkId = request.getParameter("parkId");	
 		String topicId = request.getParameter("topicId");	
+		User user = (User)request.getSession().getAttribute("loginUser");
+		String userId = user.getId();
 		
 		if(page==null){
 			page=1;
@@ -80,6 +82,7 @@ public class PostManageController {
 			String topicName = topicService.selectByPrimaryKey(topicId).getName();
 			model.addAttribute("topicName", topicName);
 		}
+		map.put("userId", userId);
 		map.put("page",page.toString());
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
@@ -90,7 +93,8 @@ public class PostManageController {
 			BigDecimal replycount = replyService.queryByCount(reply);
 			post2.setReplycount(replycount);
 		}
-		List<Park> parks = parkService.getAll(null);
+		
+		List<Park> parks = parkService.selectParkListByUser(map);
 		model.addAttribute("parks", parks);
 		model.addAttribute("list", new PageInfo<Post>(list));
 		model.addAttribute("postName", postName);
@@ -238,7 +242,8 @@ public class PostManageController {
 	public String getIndexList(Model model,HttpServletRequest request, Integer page) throws Exception{	
 		Map<String,Object> map = new HashMap<String, Object>();
 		String parkId = request.getParameter("parkId");	
-		String topicId = request.getParameter("topicId");			
+		String topicId = request.getParameter("topicId");
+		String searchType = request.getParameter("searchType");
 		if(page==null){
 			page=1;
 		}
@@ -249,6 +254,14 @@ public class PostManageController {
 		if(topicId != null && topicId!=""){
 			map.put("topicId", topicId);
 		}
+		if(searchType == null || searchType=="" ||searchType.equals("pubtime")){
+			map.put("searchType", "pubtime");
+		}else if (searchType.equals("retime")) {
+			map.put("searchType", "retime");
+		}else if(searchType.equals("hot")){
+			map.put("searchType", "hot");
+		}
+
 		map.put("page",page.toString());
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
@@ -260,8 +273,34 @@ public class PostManageController {
 		model.addAttribute("list", new PageInfo<Post>(list));
 		model.addAttribute("parkId", parkId);
 		model.addAttribute("topicId", topicId);
+		model.addAttribute("searchType", searchType);
 		return "iss/forum/list";
 	}
+	
+	/**
+	* @Title: getHotList
+	* @author Peng Zhongjun
+	* @date 2016-10-4 上午10:05:43  
+	* @Description: 查询所有热门帖子表 
+	* @param @param model
+	* @param @param request
+	* @param @param page
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
+	@RequestMapping("/getHotlist")
+	public String getHotList(Model model,HttpServletRequest request, Integer page) throws Exception{	
+		if(page==null){
+			page=1;
+		}
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		List<Post> list = postService.queryAllHotPost();
+		model.addAttribute("list", new PageInfo<Post>(list));
+		return "iss/forum/hot_post_list";
+	}
+	
 	/**   
 	* @Title: getIndexDetail
 	* @author Peng Zhongjun
@@ -311,7 +350,7 @@ public class PostManageController {
 
 		model.addAttribute("parks", parks);
 
-		return "iss/forum/publishpost";
+		return "iss/forum/publish_post";
 	}
 	/**   
 	* @Title: indexsave

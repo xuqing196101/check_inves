@@ -34,4 +34,14 @@ public interface CollectPlanMapper {
     * @throws
      */
     List<CollectPlan> query(CollectPlan collectPlan);
+    /**
+     * 
+    * @Title: getMax
+    * @Description: 查询最大当前位置 
+    * author: Li Xiaoxiao 
+    * @param @return     
+    * @return Long     
+    * @throws
+     */
+    Integer getMax();
 }

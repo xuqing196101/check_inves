@@ -11,9 +11,23 @@
     <result column="PROCUREMENT_METHOD" property="procurementMethod" />
     <result column="PURCHASE_REQUIRED_ID" property="purchaseRequiredId" />
     <result column="IS_DELETED" property="isDeleted" />
+    <result column="MATERIALS_TYPE" property="materialsType" />
+    <result column="YEAR" property="year" />
+    <result column="COLLECT_ID" property="collectId" />
+    <association property="project" column="PROJECT_ID" select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey"/>
   </resultMap>
+  
+  <resultMap type="bss.model.ppms.Task" id="ProjectResultMap" extends="BaseResultMap">  
+    <collection property="project" ofType="bss.model.ppms.Project">  
+        <result column="tid" property="id" />
+        <result column="tname" property="name" />
+         <result column="tprojectNumber" property="projectNumber" />
+    </collection>
+  </resultMap> 
+  
   <sql id="Base_Column_List">
-    ID, NAME, PURCHASE_ID, DOCUMENT_NUMBER, GIVE_TIME,STATUS,PROCUREMENT_METHOD,PURCHASE_REQUIRED_ID,IS_DELETED
+    ID, NAME, PURCHASE_ID, DOCUMENT_NUMBER, GIVE_TIME,STATUS,PROCUREMENT_METHOD,PURCHASE_REQUIRED_ID,IS_DELETED,
+    MATERIALS_TYPE,YEAR,PROJECT_ID,COLLECT_ID
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -39,7 +53,9 @@
       <if test="procurementMethod != null">
         and PROCUREMENT_METHOD like #{procurementMethod} 
       </if>
-     
+      <if test="year != null">
+        and YEAR like '%${year}%'
+      </if>
       <if test="giveTime != null">
         and GIVE_TIME like  #{giveTime}
       </if>
@@ -52,7 +68,18 @@
        <if test="purchaseRequiredId != null">
         and PURCHASE_REQUIRED_ID like #{purchaseRequiredId}
       </if>
+      <if test="materialsType != null">
+        and MATERIALS_TYPE like #{materialsType}
+      </if>
      ORDER BY GIVE_TIME DESC
+  </select>
+  <select id="selectByProject" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    p.NAME AS tname,p.PROJECT_NUMBER AS tprojectNumber,
+    t.NAME AS NAME,t.MATERIALS_TYPE AS MATERIALS_TYPE,t.YEAR AS YEAR,t.PROJECT_ID AS PROJECT_ID,
+    t.PURCHASE_REQUIRED_ID AS PURCHASE_REQUIRED_ID,t.PROCUREMENT_METHOD AS PROCUREMENT_METHOD,t.PURCHASE_ID AS PURCHASE_ID
+    from T_BSS_PPMS_TASK t left join T_BSS_PPMS_PROJECTS p
+    on p.ID = t.PROJECT_ID where t.PROJECT_ID = #{id}   
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from T_BSS_PPMS_TASK
@@ -103,6 +130,18 @@
       <if test="purchaseRequiredId != null">
         PURCHASE_REQUIRED_ID,
       </if>
+      <if test="materialsType != null">
+        MATERIALS_TYPE,
+      </if>
+      <if test="year != null">
+        YEAR,
+      </if>
+      <if test="project != null">
+        PROJECT_ID,
+      </if>
+      <if test="collectId != null">
+        COLLECT_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -126,8 +165,20 @@
       <if test="procurementMethod != null">
         #{procurementMethod},
       </if>
-      <if test="purchaseRequiredId != null">
+      <if test="materialsType != null">
+        #{materialsType},
+      </if>
+       <if test="year != null">
+        #{year},
+      </if>
+       <if test="purchaseRequiredId != null">
         #{purchaseRequiredId},
+      </if>
+      <if test="project != null">
+        #{project.id},
+      </if>
+      <if test="collectId != null">
+        #{collectId},
       </if>
     </trim>
   </insert>
@@ -154,6 +205,18 @@
       </if>
       <if test="purchaseRequiredId != null">
         PURCHASE_REQUIRED_ID = #{purchaseRequiredId},
+      </if>
+      <if test="materialsType != null">
+        MATERIALS_TYPE = #{materialsType},
+      </if>
+      <if test="year != null">
+        YEAR = #{year},
+      </if>
+      <if test="project != null">
+        PROJECT_ID = #{project.id},
+      </if>
+      <if test="collectId != null">
+        COLLECT_ID = #{collectId},
       </if>
     </set>
     where ID = #{id}

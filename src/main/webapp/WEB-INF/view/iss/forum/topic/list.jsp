@@ -26,11 +26,14 @@
       $("#parkId").val("${parkId}");
 	  
 	  laypage({
-		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
-		    pages: "${list.pages}", //总页数
-		    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
-		    skip: true, //是否开启跳页
-		    groups: "${list.pages}">=3?3:"${list.pages}", //连续显示分页数
+          cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+          pages: "${list.pages}", //总页数
+          skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+          skip: true, //是否开启跳页
+          total: "${list.total}",
+          startRow: "${list.startRow}",
+          endRow: "${list.endRow}",
+          groups: "${list.pages}">=5?5:"${list.pages}", //连续显示分页数
 		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
 		        var page = location.search.match(/page=(\d+)/);
 		        return page ? page[1] : 1;
@@ -122,13 +125,13 @@
     
 	//鼠标移动显示全部内容
 	function out(content){
-	if(content.length>10){
-	layer.msg(content, {
-			icon:6,
-			shade:false,
-			area: ['600px'],
-			time : 1000    //默认消息框不关闭
-		});//去掉msg图标
+	if(content.length >= 10){
+	    layer.msg(content, {
+            skin: 'demo-class',
+            shade:false,
+            area: ['600px'],
+            time : 0    //默认消息框不关闭
+        });//去掉msg图标
 	}else{
 		layer.closeAll();//关闭消息框
 	}
@@ -205,7 +208,7 @@
    
    <div class="container margin-top-5">
      <div class="content padding-left-25 padding-right-25 padding-top-5">
-   	<table class="table table-bordered table-condensed">
+   	<table class="table table-striped table-bordered table-hover">
     
 		<thead>
 			<tr>

@@ -39,9 +39,11 @@
 <script type="text/javascript">
 $(function(){
 	var url = "http://localhost:8080<%=url%>";
+	var flag = false;
 	$("ul:eq(0) li").each(function(){
-		$(this).removeClass();
 		var classval = $(this).attr("class");
+		var newClass = classval.split(6);
+		$(this).attr("class",newClass);
 		var val = classval.split(" ");
 		for(var i=0;i<val.length;i++){
 			if(val[i]==="active"){
@@ -56,8 +58,14 @@ $(function(){
 		if(url==trueAlvals[0]){
 			var classval = "active "+(al.parent().attr("class"));
 			al.parent().attr("class",classval);
+			flag = true;
+		}else{
+			
 		}
 	})
+	if(flag==false){
+		$("ul:eq(0)").children(":first").attr("class","active active dropdown tongzhi_li");
+	}
 });
 
 function solrSearch(){
@@ -125,6 +133,7 @@ function setTab(obj,title){
 
 				<div class="clearfix"></div>
 
+
 				<div style="height: 0px;" aria-expanded="false" class="navbar-collapse navbar-responsive-collapse collapse">
 					<div class="container">
 						<ul class="nav navbar-nav">
@@ -152,7 +161,7 @@ function setTab(obj,title){
 							<li class="dropdown  fagui_li"><a href="javascript:void(0)" class="dropdown-toggle p0_30" data-toggle="dropdown" onclick="setTab(this,'法规')"><i class="fagui nav_icon"></i>法规</a></li>
 							<!-- End 法规 -->
 
-							<li class="dropdown luntan_li"><a href="javascript:void(0)" class="dropdown-toggle p0_30" onclick="setTab(this,'论坛')" data-toggle="dropdown"><i class="fagui nav_icon"></i>论坛</a></li>
+							<li class="dropdown luntan_li"><a class=" dropdown-toggle p0_30" href="<%=basePath%>park/getIndex.html" onclick="setTab(this,'论坛')"><i class="luntan nav_icon"></i>论坛</a></li>
 
 						</ul>
 					</div>

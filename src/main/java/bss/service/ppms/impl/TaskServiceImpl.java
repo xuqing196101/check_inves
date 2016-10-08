@@ -28,12 +28,12 @@ public class TaskServiceImpl implements TaskService {
 	
 	@Override
 	public void add(Task task) {
-		taskMapper.insert(task);
+		taskMapper.insertSelective(task);
 	}
 
 	@Override
 	public void update(Task task) {
-		taskMapper.updateByPrimaryKey(task);
+		taskMapper.updateByPrimaryKeySelective(task);
 	}
 
 	@Override
@@ -59,5 +59,14 @@ public class TaskServiceImpl implements TaskService {
 		taskMapper.startTask(id);
 		
 	}
+
+	@Override
+	public List<Task> selectByProject(String id,Integer page) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		List<Task> list = taskMapper.selectByProject(id);
+		return list;
+	}
+
 
 }

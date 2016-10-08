@@ -132,19 +132,19 @@
 			        <div>${pur.topic }</div>
 			        <div class="mt10">
 		          	<c:if test="${pur.examQuestionType.name=='单选题' }">
-				    	<div class="fl"><input type="radio" name="que${l.index+1 }" value="A" class="mt0"/>${fn:split(pur.items,';')[0]}</div>
-				    	<div class="fl"><input type="radio" name="que${l.index+1 }" value="B" class="mt0"/>${fn:split(pur.items,';')[1]}</div>
-				    	<div class="fl"><input type="radio" name="que${l.index+1 }" value="C" class="mt0"/>${fn:split(pur.items,';')[2]}</div>
+				    	<div class="fl mr10"><input type="radio" name="que${l.index+1 }" value="A" class="mt0"/>${fn:split(pur.items,';')[0]}</div>
+				    	<div class="fl mr10"><input type="radio" name="que${l.index+1 }" value="B" class="mt0"/>${fn:split(pur.items,';')[1]}</div>
+				    	<div class="fl mr10"><input type="radio" name="que${l.index+1 }" value="C" class="mt0"/>${fn:split(pur.items,';')[2]}</div>
 				    	<div class="fl"><input type="radio" name="que${l.index+1 }" value="D" class="mt0"/>${fn:split(pur.items,';')[3]}</div>
 				  	</c:if>
 				 	<c:if test="${pur.examQuestionType.name=='多选题' }">
-				    	<div class="fl"><input type="checkbox" name="que${l.index+1 }" value="A" class="mt0"/>${fn:split(pur.items,';')[0]}</div>
-				    	<div class="fl"><input type="checkbox" name="que${l.index+1 }" value="B" class="mt0"/>${fn:split(pur.items,';')[1]}</div>
-				    	<div class="fl"><input type="checkbox" name="que${l.index+1 }" value="C" class="mt0"/>${fn:split(pur.items,';')[2]}</div>
+				    	<div class="fl mr10"><input type="checkbox" name="que${l.index+1 }" value="A" class="mt0"/>${fn:split(pur.items,';')[0]}</div>
+				    	<div class="fl mr10"><input type="checkbox" name="que${l.index+1 }" value="B" class="mt0"/>${fn:split(pur.items,';')[1]}</div>
+				    	<div class="fl mr10"><input type="checkbox" name="que${l.index+1 }" value="C" class="mt0"/>${fn:split(pur.items,';')[2]}</div>
 				    	<div class="fl"><input type="checkbox" name="que${l.index+1 }" value="D" class="mt0"/>${fn:split(pur.items,';')[3]}</div>
 				   	</c:if>
 				   	<c:if test="${pur.examQuestionType.name=='判断题' }">
-		    			<div class="fl"><input type="radio" name="que${l.index+1 }" value="对" class="mt0"/>对</div>
+		    			<div class="fl mr10"><input type="radio" name="que${l.index+1 }" value="对" class="mt0"/>对</div>
 		    			<div class="fl"><input type="radio" name="que${l.index+1 }" value="错" class="mt0"/>错</div>
 		    		</c:if>
 		          </div>
@@ -209,20 +209,20 @@
 				          <div>${pur.topic }</div>
 				          <div class="mt10">
 				    			<c:if test="${pur.examQuestionType.name=='单选题' }">
-				    				<input type="radio" name="que${l.index+1 }" value="A" class="mt0"/>${fn:split(pur.items,';')[0]}
-				    				<input type="radio" name="que${l.index+1 }" value="B" class="mt0"/>${fn:split(pur.items,';')[1]}
-				    				<input type="radio" name="que${l.index+1 }" value="C" class="mt0"/>${fn:split(pur.items,';')[2]}
-				    				<input type="radio" name="que${l.index+1 }" value="D" class="mt0"/>${fn:split(pur.items,';')[3]}
+				    				<div class="fl mr10"><input type="radio" name="que${l.index+1 }" value="A" class="mt0"/>${fn:split(pur.items,';')[0]}</div>
+				    				<div class="fl mr10"><input type="radio" name="que${l.index+1 }" value="B" class="mt0"/>${fn:split(pur.items,';')[1]}</div>
+				    				<div class="fl mr10"><input type="radio" name="que${l.index+1 }" value="C" class="mt0"/>${fn:split(pur.items,';')[2]}</div>
+				    				<div class="fl"><input type="radio" name="que${l.index+1 }" value="D" class="mt0"/>${fn:split(pur.items,';')[3]}</div>
 				    			</c:if>
 				    			<c:if test="${pur.examQuestionType.name=='多选题' }">
-				    				<input type="checkbox" name="que${l.index+1 }" value="A" class="mt0"/>${fn:split(pur.items,';')[0]}
-				    				<input type="checkbox" name="que${l.index+1 }" value="B" class="mt0"/>${fn:split(pur.items,';')[1]}
-				    				<input type="checkbox" name="que${l.index+1 }" value="C" class="mt0"/>${fn:split(pur.items,';')[2]}
-				    				<input type="checkbox" name="que${l.index+1 }" value="D" class="mt0"/>${fn:split(pur.items,';')[3]}
+				    				<div class="fl mr10"><input type="checkbox" name="que${l.index+1 }" value="A" class="mt0"/>${fn:split(pur.items,';')[0]}</div>
+				    				<div class="fl mr10"><input type="checkbox" name="que${l.index+1 }" value="B" class="mt0"/>${fn:split(pur.items,';')[1]}</div>
+				    				<div class="fl mr10"><input type="checkbox" name="que${l.index+1 }" value="C" class="mt0"/>${fn:split(pur.items,';')[2]}</div>
+				    				<div class="fl"><input type="checkbox" name="que${l.index+1 }" value="D" class="mt0"/>${fn:split(pur.items,';')[3]}</div>
 				    			</c:if>
 				    			<c:if test="${pur.examQuestionType.name=='判断题' }">
-					    			<input type="radio" name="que${l.index+1 }" value="对" class="mt0"/>对
-					    			<input type="radio" name="que${l.index+1 }" value="错" class="mt0"/>错
+					    			<div class="fl mr10"><input type="radio" name="que${l.index+1 }" value="对" class="mt0"/>对</div>
+					    			<div class="fl"><input type="radio" name="que${l.index+1 }" value="错" class="mt0"/>错</div>
 		    					</c:if>
 				    		</div>
 		        		</td>
@@ -248,20 +248,20 @@
 				          <div>${pur.topic }</div>
 				          <div class="mt10">
 				    			<c:if test="${pur.examQuestionType.name=='单选题' }">
-				    				<input type="radio" name="que${l.index+1 }" value="A" class="mt0"/>${fn:split(pur.items,';')[0]}
-				    				<input type="radio" name="que${l.index+1 }" value="B" class="mt0"/>${fn:split(pur.items,';')[1]}
-				    				<input type="radio" name="que${l.index+1 }" value="C" class="mt0"/>${fn:split(pur.items,';')[2]}
-				    				<input type="radio" name="que${l.index+1 }" value="D" class="mt0"/>${fn:split(pur.items,';')[3]}
+				    				<div class="fl mr10"><input type="radio" name="que${l.index+1 }" value="A" class="mt0"/>${fn:split(pur.items,';')[0]}</div>
+				    				<div class="fl mr10"><input type="radio" name="que${l.index+1 }" value="B" class="mt0"/>${fn:split(pur.items,';')[1]}</div>
+				    				<div class="fl mr10"><input type="radio" name="que${l.index+1 }" value="C" class="mt0"/>${fn:split(pur.items,';')[2]}</div>
+				    				<div class="fl"><input type="radio" name="que${l.index+1 }" value="D" class="mt0"/>${fn:split(pur.items,';')[3]}</div>
 				    			</c:if>
 				    			<c:if test="${pur.examQuestionType.name=='多选题' }">
-				    				<input type="checkbox" name="que${l.index+1 }" value="A" class="mt0"/>${fn:split(pur.items,';')[0]}
-				    				<input type="checkbox" name="que${l.index+1 }" value="B" class="mt0"/>${fn:split(pur.items,';')[1]}
-				    				<input type="checkbox" name="que${l.index+1 }" value="C" class="mt0"/>${fn:split(pur.items,';')[2]}
-				    				<input type="checkbox" name="que${l.index+1 }" value="D" class="mt0"/>${fn:split(pur.items,';')[3]}
+				    				<div class="fl mr10"><input type="checkbox" name="que${l.index+1 }" value="A" class="mt0"/>${fn:split(pur.items,';')[0]}</div>
+				    				<div class="fl mr10"><input type="checkbox" name="que${l.index+1 }" value="B" class="mt0"/>${fn:split(pur.items,';')[1]}</div>
+				    				<div class="fl mr10"><input type="checkbox" name="que${l.index+1 }" value="C" class="mt0"/>${fn:split(pur.items,';')[2]}</div>
+				    				<div class="fl"><input type="checkbox" name="que${l.index+1 }" value="D" class="mt0"/>${fn:split(pur.items,';')[3]}</div>
 				    			</c:if>
 				    			<c:if test="${pur.examQuestionType.name=='判断题' }">
-					    			<input type="radio" name="que${l.index+1 }" value="对" class="mt0"/>对
-					    			<input type="radio" name="que${l.index+1 }" value="错" class="mt0"/>错
+					    			<div class="fl mr10"><input type="radio" name="que${l.index+1 }" value="对" class="mt0"/>对</div>
+					    			<div class="fl"><input type="radio" name="que${l.index+1 }" value="错" class="mt0"/>错</div>
 		    					</c:if>
 				    		</div>
 		        		</td>
