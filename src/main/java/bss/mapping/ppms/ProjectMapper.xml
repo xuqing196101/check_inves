@@ -36,24 +36,6 @@
     <association property="purchaseDep" column="PURCHASE_DEP_ID" select="ses.dao.oms.PurchaseDepMapper.selectPurchaseById"/>
   </resultMap>
   
-  <resultMap type="bss.model.ppms.Project" id="RoleResultMap" extends="BaseResultMap">  
-    <collection property="list" ofType="bss.model.ppms.Task">  
-        <result column="tid" property="id" />
-        <result column="tname" property="name" />
-        <result column="tpurchaseId" property="purchaseId" />
-        <result column="tdocumentNumber" property="documentNumber" />
-        <result column="tgiveTime" jdbcType="TIMESTAMP" property="giveTime" />
-        <result column="tstatus" property="status" />
-        <result column="tprocurementMethod" property="procurementMethod" />
-        <result column="tpurchaseRequiredId" property="purchaseRequiredId" />
-        <result column="tisDeleted" property="isDeleted" />
-        <result column="tmaterialsType" property="materialsType" />
-        <result column="tyear" jdbcType="TIMESTAMP" property="year" />
-        <!--查询上级菜单   -->
-        <association column="parentId"  property="parentId" select="bss.dao.ppms.TaskMapper.selectByPrimaryKey" />  
-    </collection>
-  </resultMap> 
-  
   <sql id="Base_Column_List">
     ID, NAME, PROJECT_NUMBER, STATUS, PRINCIPAL, IPONE, LINKMAN, LINKMAN_IPONE, BID_UNIT, ADDRESS, 
     POSTCODE, SUPPLIER_NUMBER, OFFER_STANDARD, PR_INTRODUCE, BUDGET_AMOUNT, PASS_WORD, 
@@ -86,14 +68,6 @@
       </if>
       -->
     ORDER BY DATE_OF_ENTRUSTMENT DESC
-  </select>
-   <!-- 查看任务 -->
-  <select id="selectByTask" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    p.NAME,p.PROJECT_NUMBER,
-    t.NAME,t.MATERIALS_TYPE,t.YEAR,t.PURCHASE_REQUIRED_ID,t.PROCUREMENT_METHOD,t.PURCHASE_ID
-    from T_BSS_PPMS_PROJECTS p left join T_BSS_PPMS_TASK t
-    on p.ID = t.PROJECT_ID where p.ID = #{id}   
   </select>
   
    <select id="selectProjectByAll" parameterType="bss.model.ppms.Project" resultMap="BaseResultMap">

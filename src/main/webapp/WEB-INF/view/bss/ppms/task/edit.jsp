@@ -46,33 +46,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  
   <script type="text/javascript">
   
-  /*分页  */
-  $(function(){
-      laypage({
-            cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
-            pages: "${info.pages}", //总页数
-            skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
-            skip: true, //是否开启跳页
-            total:"${info.total}",
-            startRow:"${info.startRow}",
-            endRow:"${info.endRow}",
-            groups: "${info.pages}">=3?3:"${info.pages}", //连续显示分页数
-            curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
-               var page = location.search.match(/page=(\d+)/);
-                  return page ? page[1] : 1;
-               // return "${info.pageNum}";
-            }(), 
-            jump: function(e, first){ //触发分页后的回调
-                    if(!first){ //一定要加此判断，否则初始时会无限刷新
-                //  $("#page").val(e.curr);
-                    // $("#form1").submit();
-                    
-                 location.href = '<%=basePath%>project/list.do?page='+e.curr;
-                }  
-            }
-        });
-  });
-  
   
     /** 全选全不选 */
     function selectAll(){
@@ -157,7 +130,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  <div class="margin-top-10 breadcrumbs ">
       <div class="container">
            <ul class="breadcrumb margin-left-0">
-           <li><a href="#"> 首页</a></li><li><a href="#">保障作业系统</a></li><li><a href="#">采购项目管理</a></li><li class="active"><a href="#">立项管理</a></li>
+           <li><a href="#"> 首页</a></li><li><a href="#">保障作业系统</a></li><li><a href="#">采购任务管理</a></li><li class="active"><a href="#">采购计划调整</a></li>
            </ul>
         <div class="clear"></div>
       </div>
@@ -165,61 +138,75 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- 录入采购计划开始-->
  <div class="container">
    <div class="headline-v2">
-      <h2>查询条件</h2>
+      <h2>采购计划调整</h2>
    </div>
 <!-- 项目戳开始 -->
  
    
-     <form id="add_form" action="<%=basePath%>project/list.html" method="post" >
-       <label class="fl">项目名称：<input type="text" name="name" /></label>
-      <label class="fl">项目编号：<input type="text" name="projectNumber" /> </label> 
-       
-         <button class="btn padding-left-10 padding-right-10 btn_back fl margin-top-5" type="submit">查询</button>
+    
+                         计划名称：${queryById.fileName}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                计划编号： ${queryById.planNo}
+       <%-- <label class="fl">计划类型：${collectPlan.fileName} </label>  --%>
      
-    </form>
+   
      <div class="clear"></div>
 
  
    <div class="headline-v2 fl">
-      <h2>立项列表
+      <h2>需求明细调整
       </h2>
        </div> 
      
   
       <span class="fr option_btn margin-top-10">
-        <button class="btn padding-left-10 padding-right-10 btn_back">分包</button>
-        <button class="btn padding-left-10 padding-right-10 btn_back" >打印报批文件</button>
-        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="start();">启动</button>
-        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="view();">查看</button>
-         <button class="btn padding-left-10 padding-right-10 btn_back">修改</button>
-        <button class="btn padding-left-10 padding-right-10 btn_back">进入</button>
+        <button class="btn padding-left-10 padding-right-10 btn_back" >变更</button>
+        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="start();">取消</button>
+        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="view();">查看变更记录</button>
       </span>
    <div class="container clear margin-top-30">
-    <a class="btn padding-left-10 padding-right-10 btn_back" href="<%=basePath%>project/add.html">新建采购项目</a>
         <table class="table table-bordered table-condensed mt5">
         <thead>
         <tr>
           <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
           <th class="info w50">序号</th>
-          <th class="info">项目名称</th>
-          <th class="info">项目编号</th>
-          <th class="info">项目状态</th>
+          <th class="info">需求部门</th>
+          <th class="info">物资名称</th>
+          <th class="info">规格型号</th>
+          <th class="info">质量技术标准</th>
+          <th class="info">计量单位</th>
+          <th class="info">采购数量</th>
+          <th class="info">单价（元）</th>
+          <th class="info">预算金额（万元）</th>
+          <th class="info">交货期限</th>
+          <th class="info">采购方式建议</th>
+          <th class="info">供应商名称</th>
+          <th class="info">是否申请办理免税</th>
+          <th class="info">物资用途（进口）</th>
+          <th class="info">使用单位（进口）</th>
+          
         </tr>
         </thead>
-         <c:forEach items="${info.list}" var="obj" varStatus="vs">
+          <c:forEach items="${lists}" var="obj" varStatus="vs">
             <tr style="cursor: pointer;">
               <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
-              <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-              <td class="tc" onclick="see(${obj.id});">${obj.name}</td>
-              <td class="tc" onclick="see(${obj.id});">${obj.projectNumber }</td>
-              <td class="tc" onclick="see(${obj.id});">
-              <c:if test="${'1'==obj.status}">已启动</c:if>
-              <c:if test="${'2'==obj.status}">已成交</c:if>
-              <c:if test="${'3'==obj.status}">新建报批</c:if>
-              </td>
+              <td class="tc w50">${(vs.index+1)}</td>
+              <td class="tc">${obj.department}</td>
+              <td class="tc">${obj.goodsName}</td>
+              <td class="tc">${obj.stand}</td>
+              <td class="tc"><input name="qualitStand" style="width:50%;"  value="${obj.qualitStand}"/></td>
+              <td class="tc"><input name="item" style="width:50%;"  value="${obj.item}"/></td>
+              <td class="tc"><input name="purchaseCount" style="width:50%;"  value="${obj.purchaseCount}"/></td>
+              <td class="tc"><input name="purchaseCount" style="width:50%;"  value="${obj.price}"/></td>
+              <td class="tc">${obj.budget}</td>
+              <td class="tc">${obj.deliverDate}</td>
+              <td class="tc">${obj.purchaseType}</td>
+              <td class="tc">${obj.supplier}</td>
+              <td class="tc">${obj.isFreeTax}</td>
+              <td class="tc">${obj.goodsUse}</td>
+              <td class="tc">${obj.useUnit}</td>
             </tr>
      
-         </c:forEach> 
+         </c:forEach>  
          
 
       </table>

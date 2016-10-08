@@ -45,7 +45,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
  
   <script type="text/javascript">
-  
   /*分页  */
   $(function(){
       laypage({
@@ -53,24 +52,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             pages: "${info.pages}", //总页数
             skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
             skip: true, //是否开启跳页
+            total:"${info.total}",
+            startRow:"${info.startRow}",
+            endRow:"${info.endRow}",
             groups: "${info.pages}">=3?3:"${info.pages}", //连续显示分页数
             curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
-//                  var page = location.search.match(/page=(\d+)/);
-//                  return page ? page[1] : 1;
-                return "${info.pageNum}";
+               var page = location.search.match(/page=(\d+)/);
+                  return page ? page[1] : 1;
+               // return "${info.pageNum}";
             }(), 
             jump: function(e, first){ //触发分页后的回调
                     if(!first){ //一定要加此判断，否则初始时会无限刷新
                 //  $("#page").val(e.curr);
                     // $("#form1").submit();
                     
-                 location.href = '<%=basePath%>project/list.do?page='+e.curr;
+                 location.href = '<%=basePath%>project/view.do?page='+e.curr;
                 }  
             }
         });
   });
-  
-  
     /** 全选全不选 */
     function selectAll(){
          var checklist = document.getElementsByName ("chkItem");
@@ -121,35 +121,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
 <!-- 录入采购计划开始-->
  <div class="container">
-   <div class="headline-v2">
-      <h2>查询条件</h2>
-   </div>
 <!-- 项目戳开始 -->
  
    
-     <form id="add_form" action="<%=basePath%>project/list.html" method="post" >
-       <label class="fl">项目名称：<input type="text" name="name" /></label>
-      <label class="fl">项目编号：<input type="text" name="projectNumber" /> </label> 
-       
-         <button class="btn padding-left-10 padding-right-10 btn_back fl margin-top-5" type="submit">查询</button>
-     
-    </form>
      <div class="clear"></div>
 
  
    <div class="headline-v2 fl">
-      <h2>立项列表
+      <h2>查看采购任务
       </h2>
        </div> 
      
   
       <span class="fr option_btn margin-top-10">
         <button class="btn padding-left-10 padding-right-10 btn_back">查看</button>
-         <button class="btn padding-left-10 padding-right-10 btn_back">返回</button>
+         <button class="btn padding-left-10 padding-right-10 btn_back" onclick="location.href='javascript:history.go(-1);'">返回</button>
       </span>
    <div class="container clear margin-top-30">
-    <%--  <span>项目名称：${list.name}</span>
-     <span>项目编号：${list.projectNumber}</span>  --%>
+   <span>项目名称：${ject.name}</span>
+     <span>项目编号：${ject.projectNumber}</span>  
         <table class="table table-bordered table-condensed mt5">
         <thead>
         <tr>
@@ -162,19 +152,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <th class="info">采购机构</th>
         </tr>
         </thead>
-         <c:forEach items="${proList.list}" var="obj" varStatus="vs">
+         <%-- <c:forEach items="${info.list}" var="obj" varStatus="vs">
+            <tr style="cursor: pointer;">
+              <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
+              <td class="tc w50">${(vs.index+1)}</td>
+              <td class="tc">${obj.materialsType}</td>
+              <td class="tc">${obj.year }</td>
+              <td class="tc">${obj.purchaseRequiredId }</td>
+              <td class="tc">${obj.procurementMethod }</td>
+              <td class="tc">${obj.purchaseId }</td>
+            </tr>
+     
+         </c:forEach>  --%>
+         <c:forEach items="${info.list}" var="obj" varStatus="vs">
             <tr style="cursor: pointer;">
               <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
               <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-              <td class="tc">${obj.task.materialsType}</td>
-              <td class="tc">${obj.task.year }</td>
-              <td class="tc">${obj.task.purchaseRequiredId }</td>
-              <td class="tc">${obj.task.procurementMethod }</td>
-              <td class="tc">${obj.task.purchaseId }</td>
+              <td class="tc">${obj.materialsType}</td>
+              <td class="tc">${obj.year }</td>
+              <td class="tc">${obj.purchaseRequiredId }</td>
+              <td class="tc">${obj.procurementMethod }</td>
+              <td class="tc">${obj.purchaseId }</td>
             </tr>
      
          </c:forEach> 
-         
 
       </table>
       

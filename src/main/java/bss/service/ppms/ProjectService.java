@@ -67,15 +67,4 @@ public interface ProjectService {
 	   List<Project> list(Integer page,Project project);
 	   
 	   List<Project> selectSuccessProject(Integer page,Project project);
-	   /**
-	    * 
-	   * @Title: selectByTask
-	   * @author FengTian
-	   * @date 2016-9-28 下午1:53:41  
-	   * @Description: 查询任务 
-	   * @param @param id
-	   * @param @return      
-	   * @return List<Project>
-	    */
-	   List<Project> selectByTask(String id);
 }

@@ -65,8 +65,4 @@ public class ProjectServiceImpl implements ProjectService {
 		return lists;
 	}
 
-	@Override
-	public List<Project> selectByTask(String id) {
-		return projectMapper.selectByTask(id);
-	}
 }
