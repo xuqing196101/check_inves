@@ -175,6 +175,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         }
     }
     
+    function view(){
+     var id =[]; 
+        $('input[name="chkItem"]:checked').each(function(){ 
+            id.push($(this).val()); 
+        }); 
+         if(id.length==1){
+           window.location.href="<%=basePath%>task/view.html?id="+id;
+        }else if(id.length>1){
+            layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+        }else{
+            layer.alert("请选择需要查看的任务",{offset: ['222px', '390px'], shade:0.01});
+        }
+    }
+    
   </script>
   </head>
   
@@ -233,7 +247,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <span class="fr option_btn margin-top-10">
         <button class="btn padding-left-10 padding-right-10 btn_back" onclick="edit()">任务调整</button>
         <button class="btn padding-left-10 padding-right-10 btn_back"  onclick="see()">任务取消</button>
-        <button class="btn padding-left-10 padding-right-10 btn_back">查看</button>
+        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="view()">查看</button>
         <button class="btn padding-left-10 padding-right-10 btn_back" onclick="start()">受领</button>
       </span>
    <div class="container clear margin-top-30">

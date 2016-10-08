@@ -20,4 +20,6 @@ public interface ProjectMapper {
     List<Project> selectProjectByAll(Project project);
     
     List<Project> selectSuccessProject(Project project);
+    
+    List<Project> selectByList(Project project);
 }
