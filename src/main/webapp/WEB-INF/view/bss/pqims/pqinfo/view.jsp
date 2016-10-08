@@ -71,13 +71,13 @@
     		 <li class="col-md-6 p0">
 			   <span class="">供应商组织机构代码：</span>
 		        <div class="input-append ">
-		        	<input class="span2" name="procurementId" type="text"  value = '${pqinfo.contract.supplier.id}' readonly="readonly">
+		        	<input class="span2" name="procurementId" type="text"  value = '${pqinfo.contract.supplierPurId}' readonly="readonly">
        			</div>
 			 </li>
 		     <li class="col-md-6  p0 ">
 			   <span class="">供应商名称：</span>
 			   <div class="input-append">
-		        <input class="span2 supplier_name" name="supplier_name" type="text" value = '${pqinfo.contract.supplier.supplierName}' readonly="readonly">
+		        <input class="span2 supplier_name" name="supplier_name" type="text" value = '${pqinfo.contract.supplierDepName}' readonly="readonly">
 		       </div>
 			 </li>
 			 <li class="col-md-6  p0 ">

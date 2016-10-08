@@ -148,7 +148,7 @@
    
    <div class="container clear margin-top-0">
    <div class="padding-10 border1 m0_30 tc">
-   	<form action="<%=basePath %>pqinfo/search.html" method="post" enctype="multipart/form-data">
+   	<form action="<%=basePath %>pqinfo/searchResult.html" method="post" enctype="multipart/form-data">
 	 <ul class="demand_list">
 	   <li class="fl mr15"><label class="fl mt5">合同名称：</label><span><input type="text" name="contract.name" class="mb0"/></span></li>
 	   <li class="fl mr15"><label class="fl mt5">合同编号：</label><span><input type="text" name="contract.code" class="mb0"/></span></li>
@@ -186,13 +186,6 @@
       		<h2>质检情况列表</h2>
   		</div> 
     </div>
-    <div class="container">
-   		<div class="col-md-8">
-    		<button class="btn btn-windows add" type="button" onclick="add()">登记质检报告</button>
-			<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
-			<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
-		</div>        
-   </div>
    <div class="container margin-top-5">
      <div class="content padding-left-25 padding-right-25 padding-top-5">
         <table class="table table-bordered table-condensed">
@@ -202,6 +195,7 @@
 		  <th class="info w50">序号</th>
 		  <th class="info">合同名称</th>
 		  <th class="info">合同编号</th>
+		  <th class="info">采购机构</th>
 		  <th class="info">供应商名称</th>
 		  <th class="info">验收类型</th>
 		  <th class="info">质检结论</th>
@@ -219,7 +213,9 @@
 				
 				<td class="tc opinter" onclick="view('${PqInfo.id}')">${PqInfo.contract.code}</td>
 			
-				<td class="tc opinter" onclick="view('${PqInfo.id}')">${PqInfo.contract.supplierDepName}</td>
+				<td class="tc opinter" onclick="view('${PqInfo.id}')"></td>
+			
+				<td class="tc opinter" onclick="view('${PqInfo.id}')">${PqInfo.contract.supplier.supplierName}</td>
 			
 				<td class="tc opinter" onclick="view('${PqInfo.id}')">${PqInfo.type}</td>
 				

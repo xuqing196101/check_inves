@@ -202,12 +202,66 @@ public class PqInfoController {
 		return "bss/pqims/pqinfo/view";
 	}
 	
-	
+	/**
+	 * 
+	 * @Title: search
+	 * @author Liyi 
+	 * @date 2016-9-29 下午1:33:07  
+	 * @Description:
+	 * @param:     
+	 * @return:
+	 */
 	@RequestMapping("/search")
 	public String search(Model model,HttpServletRequest request,PqInfo pqInfo,Integer page){
-		System.out.println(pqInfo.getType());
-		System.out.println(pqInfo.getConclusion());
 		List<PqInfo> pqInfos = pqInfoService.selectByCondition(pqInfo,page==null?1:page);
+		model.addAttribute("list",new PageInfo<PqInfo>(pqInfos));
+		return "bss/pqims/pqinfo/list";
+	}
+	
+	/**
+	 * 
+	 * @Title: getAllInfo
+	 * @author Liyi 
+	 * @date 2016-9-29 下午1:33:12  
+	 * @Description:
+	 * @param:     
+	 * @return:
+	 */
+	@RequestMapping("/getAllResult")
+	public String getAllResult(Model model,Integer page){
+		List<PqInfo> pqInfos = pqInfoService.getAll(page==null?1:page);
+		model.addAttribute("list",new PageInfo<PqInfo>(pqInfos));
+		return "bss/pqims/pqinfo/resultList";
+	}
+	
+	/**
+	 * 
+	 * @Title: searchResult
+	 * @author Liyi 
+	 * @date 2016-9-29 下午1:33:07  
+	 * @Description:
+	 * @param:     
+	 * @return:
+	 */
+	@RequestMapping("/searchResult")
+	public String searchResult(Model model,HttpServletRequest request,PqInfo pqInfo,Integer page){
+		List<PqInfo> pqInfos = pqInfoService.selectByCondition(pqInfo,page==null?1:page);
+		model.addAttribute("list",new PageInfo<PqInfo>(pqInfos));
+		return "bss/pqims/pqinfo/resultList";
+	}
+	
+	/**
+	 * 
+	 * @Title: getAllSupplierPqInfo
+	 * @author Liyi 
+	 * @date 2016-9-29 下午2:19:08  
+	 * @Description:
+	 * @param:     
+	 * @return:
+	 */
+	@RequestMapping("/getAllSupplierPqInfo")
+	public String getAllSupplierPqInfo(Model model,Integer page){
+		List<PqInfo> pqInfos = pqInfoService.getAll(page==null?1:page);
 		model.addAttribute("list",new PageInfo<PqInfo>(pqInfos));
 		return "bss/pqims/pqinfo/list";
 	}
