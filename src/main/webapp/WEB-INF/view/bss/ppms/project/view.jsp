@@ -106,6 +106,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                  }
            }
     }
+    
+     function view(){
+         var id =[]; 
+        $('input[name="chkItem"]:checked').each(function(){ 
+            id.push($(this).val()); 
+        }); 
+        if(id.length==1){
+           layer.open({
+          type: 2, //page层
+          area: ['700px', '700px'],
+          title: '查看采购任务',
+          shade:0.01, //遮罩透明度
+          moveType: 1, //拖拽风格，0是默认，1是传统拖动
+          shift: 1, //0-6的动画形式，-1不开启
+          offset: ['220px', '630px'],
+          shadeClose: true,
+          content: '<%=basePath%>project/viewDetail.html?id='+id
+        });
+            
+        }else if(id.length>1){
+            layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+        }else{
+            layer.alert("请选择需要查看的任务",{offset: ['222px', '390px'], shade:0.01});
+        }
+    }
   </script>
   </head>
   
@@ -134,7 +159,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      
   
       <span class="fr option_btn margin-top-10">
-        <button class="btn padding-left-10 padding-right-10 btn_back">查看</button>
+        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="view();">查看</button>
          <button class="btn padding-left-10 padding-right-10 btn_back" onclick="location.href='javascript:history.go(-1);'">返回</button>
       </span>
    <div class="container clear margin-top-30">
@@ -152,18 +177,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <th class="info">采购机构</th>
         </tr>
         </thead>
-         <%-- <c:forEach items="${info.list}" var="obj" varStatus="vs">
-            <tr style="cursor: pointer;">
-              <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
-              <td class="tc w50">${(vs.index+1)}</td>
-              <td class="tc">${obj.materialsType}</td>
-              <td class="tc">${obj.year }</td>
-              <td class="tc">${obj.purchaseRequiredId }</td>
-              <td class="tc">${obj.procurementMethod }</td>
-              <td class="tc">${obj.purchaseId }</td>
-            </tr>
-     
-         </c:forEach>  --%>
          <c:forEach items="${info.list}" var="obj" varStatus="vs">
             <tr style="cursor: pointer;">
               <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>

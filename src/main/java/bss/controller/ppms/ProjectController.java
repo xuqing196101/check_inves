@@ -194,11 +194,13 @@ public class ProjectController extends BaseController{
 	public String viewDetail(String id,Model model){
 		Task task = taskservice.selectById(id);
 		CollectPlan queryById = collectPlanService.queryById(task.getCollectId());
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.get(queryById);
-		List<PurchaseRequired> list = purchaseRequiredService.getByMap(map);
-		model.addAttribute("queryById", queryById);
-		model.addAttribute("lists", list);
+		if(queryById != null){
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.get(queryById);
+			List<PurchaseRequired> list = purchaseRequiredService.getByMap(map);
+			model.addAttribute("queryById", queryById);
+			model.addAttribute("lists", list);
+		}
 		return "bss/ppms/project/viewDetail";
 	}
 	

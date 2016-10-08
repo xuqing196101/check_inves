@@ -118,7 +118,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
  
    <div class="headline-v2 fl">
-      <h2>选择采购明细
+      <h2>查看采购明细
       </h2>
        </div> 
        <span class="fr option_btn margin-top-10">
