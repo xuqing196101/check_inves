@@ -71,7 +71,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        </div>
 	 </li>
       <li class="col-md-6 p0 "><span class=""><i class="red"></i>激活证明：</span>
-          <div class="input-append"><input name="attachment" type="file"  class="upload fl"/><a href="" class="upload">附件上传</a></div>
+          <div class=""><a href="" class="upload">附件上传</a><input name="attachment" type="file"  /></div>
 	  </li>
    </ul>
    </div>
