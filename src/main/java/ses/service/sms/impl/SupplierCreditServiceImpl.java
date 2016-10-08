@@ -27,6 +27,7 @@ public class SupplierCreditServiceImpl implements SupplierCreditService {
 		if (name != null && !"".equals(name)) {
 			supplierCredit.setName("%" + name + "%");
 		}
+		supplierCredit.setStatus(null);
 		List<SupplierCredit> listSupplierCredit = supplierCreditMapper.findSupplierCredit(supplierCredit);
 		return listSupplierCredit;
 	}
@@ -53,5 +54,10 @@ public class SupplierCreditServiceImpl implements SupplierCreditService {
 		for(String id : ids.split(",")) {
 			supplierCreditMapper.deleteByPrimaryKey(id);
 		}
+	}
+
+	@Override
+	public List<SupplierCredit> findSupplierCredit(SupplierCredit supplierCredit) {
+		return supplierCreditMapper.findSupplierCredit(supplierCredit);
 	}
 }

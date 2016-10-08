@@ -6,6 +6,7 @@
 		<result column="SUPPLIER_CREDIT_ID" property="supplierCreditId" />
 		<result column="NAME" property="name" />
 		<result column="SCORE" property="score" />
+		<result column="SUPPLIER_CREDIT_NAME" property="supplierCreditName" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		ID, SUPPLIER_CREDIT_ID, NAME, SCORE
@@ -83,8 +84,32 @@
 		where ID = #{id}
 	</update>
 	
-	<select id="findCreditCtntByCreditId" parameterType="java.lang.String" resultMap="BaseResultMap">
-		select * from T_SES_SMS_SUPPLIER_CREDIT_CTNT where SUPPLIER_CREDIT_ID = #{supplierCreditId}
+	<select id="findCreditCtnt" parameterType="ses.model.sms.SupplierCreditCtnt" resultMap="BaseResultMap">
+		select 
+			t1.*,
+			t2.NAME as SUPPLIER_CREDIT_NAME
+		from
+			T_SES_SMS_SUPPLIER_CREDIT_CTNT t1
+			left join T_SES_SMS_SUPPLIER_CREDIT t2
+			on t1.SUPPLIER_CREDIT_ID = t2.ID
+		<where>
+			<if test="name != null and name != ''">
+				and t1.NAME like #{name}
+			</if>
+		</where>
+		order by t2.NAME asc, t1.SCORE asc
+	</select>
+	
+	<select id="findCreditCtntByCreditId" parameterType="ses.model.sms.SupplierCreditCtnt" resultMap="BaseResultMap">
+		select 
+			t1.*,
+			t2.NAME as SUPPLIER_CREDIT_NAME
+		from
+			T_SES_SMS_SUPPLIER_CREDIT_CTNT t1
+			left join T_SES_SMS_SUPPLIER_CREDIT t2
+			on t1.SUPPLIER_CREDIT_ID = t2.ID
+		where t1.SUPPLIER_CREDIT_ID = #{supplierCreditId}
+		order by t2.NAME asc, t1.SCORE asc
 	</select>
 	
 </mapper>

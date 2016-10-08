@@ -6,7 +6,7 @@
 <html>
 <head>
 
-<title>供应商诚信形式列表</title>
+<title>供应商诚信内容列表</title>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -18,13 +18,13 @@
 	$(function() {
 		laypage({
 			cont : $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
-			pages : "${listSupplierCredits.pages}", //总页数
+			pages : "${listSupplierCreditCtnts.pages}", //总页数
 			skin : '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
 			skip : true, //是否开启跳页
-			total : "${listSupplierCredits.total}",
-			startRow : "${listSupplierCredits.startRow}",
-			endRow : "${listSupplierCredits.endRow}",
-			groups : "${listSupplierCredits.pages}" >= 5 ? 5 : "${listSupplierCredits.pages}", //连续显示分页数
+			total : "${listSupplierCreditCtnts.total}",
+			startRow : "${listSupplierCreditCtnts.startRow}",
+			endRow : "${listSupplierCreditCtnts.endRow}",
+			groups : "${listSupplierCreditCtnts.pages}" >= 5 ? 5 : "${listSupplierCreditCtnts.pages}", //连续显示分页数
 			curr : function() { //通过url获取当前页，也可以同上（pages）方式获取
 				var page = location.search.match(/page=(\d+)/);
 				return page ? page[1] : 1;
@@ -40,20 +40,20 @@
 		});
 	});
 
-	function addCredit() {
+	function addCreditCtnt() {
 		layer.open({
 			type : 2,
-			title : '添加形式名称',
+			title : '添加诚信形式内容',
 			skin : 'layui-layer-rim', //加上边框
-			area : [ '550px', '230px' ], //宽高
+			area : [ '700px', '370px' ], //宽高
 			offset : '100px',
 			scrollbar : false,
-			content : '${pageContext.request.contextPath}/supplier_credit/add_credit.html', //url
+			content : '${pageContext.request.contextPath}/supplier_credit_ctnt/add_credit_ctnt.html', //url
 			closeBtn : 1, //不显示关闭按钮
 		});
 	}
 
-	function editSupplierCredit() {
+	function editSupplierCreditCtnt() {
 		var checkbox = $("input[name='checkbox']:checked");
 		if (checkbox.size() != 1) {
 			layer.msg("请勾选一条记录 !", {
@@ -64,14 +64,17 @@
 		var id = checkbox.val();
 		var name = checkbox.parents("tr").find("td").eq(2).text();
 		name = $.trim(name);
+		var score = checkbox.parents("tr").find("td").eq(3).text();
+		score = $.trim(score);
+		var supplierCreditId = checkbox.parents("tr").find("td").eq(4).attr("id");
 		layer.open({
 			type : 2,
 			title : '添加形式名称',
 			skin : 'layui-layer-rim', //加上边框
-			area : [ '550px', '230px' ], //宽高
+			area : [ '700px', '370px' ], //宽高
 			offset : '100px',
 			scrollbar : false,
-			content : '${pageContext.request.contextPath}/supplier_credit/add_credit.html?id=' + id + '&name=' + name, //url
+			content : '${pageContext.request.contextPath}/supplier_credit_ctnt/add_credit_ctnt.html?id=' + id + '&name=' + name + '&score=' + score + '&supplierCreditId=' + supplierCreditId, //url
 			closeBtn : 1, //不显示关闭按钮
 		});
 	}
@@ -89,27 +92,8 @@
 		$("#search_form_id").submit();
 	}
 	
-	function changeStatus() {
-		var checkbox = $("input[name='checkbox']:checked");
-		if (checkbox.size() != 1) {
-			layer.msg("请勾选一条记录 !", {
-				offset : '300px',
-			});
-			return;
-		}
-		var id = checkbox.val();
-		var text = checkbox.parents("tr").find("td").eq(5).text();
-		text = $.trim(text);
-		var status = null;
-		if (text == "已启用") {
-			status = 0;
-		} else if (text == "已停用") {
-			status = 1;
-		}
-		window.location.href = "${pageContext.request.contextPath}/supplier_credit/update_status.html?id=" + id + "&status=" + status;
-	}
 	
-	function deleteCredit() {
+	function deleteCreditCtnt() {
 		var checkbox = $("input[name='checkbox']:checked");
 		if (checkbox.size() == 0) {
 			layer.msg("请至少勾选一条记录 !", {
@@ -130,7 +114,7 @@
 		layer.confirm('已勾选' + count + '条, 确认删除 ？', {
 			offset : '200px',
 		},function(index) {
-			window.location.href = "${pageContext.request.contextPath}/supplier_credit/delete.html?ids=" + ids;
+			window.location.href = "${pageContext.request.contextPath}/supplier_credit_ctnt/delete.html?ids=" + ids;
 			layer.close(index);
 		});
 	}
@@ -168,20 +152,19 @@
 		<!-- 表格开始-->
 		<div class="container">
 			<div class="col-md-8">
-				<button class="btn btn-windows add" type="button" onclick="addCredit()">新增</button>
-				<button class="btn btn-windows edit" type="button" onclick="editSupplierCredit()">修改</button>
-				<button class="btn btn-windows apply" type="button" onclick="changeStatus()">启/停用</button>
-				<button class="btn btn-windows delete" type="button" onclick="deleteCredit()">删除</button>
+				<button class="btn btn-windows add" type="button" onclick="addCreditCtnt()">新增</button>
+				<button class="btn btn-windows edit" type="button" onclick="editSupplierCreditCtnt()">修改</button>
+				<button class="btn btn-windows delete" type="button" onclick="deleteCreditCtnt()">删除</button>
 			</div>
 		</div>
 		
 		<div class="container">
 			<div class="p10_25">
-				<form id="search_form_id" class="padding-10 border1 mb0" action="${pageContext.request.contextPath}/supplier_credit/list.html" method="post">
+				<form id="search_form_id" class="padding-10 border1 mb0" action="${pageContext.request.contextPath}/supplier_credit_ctnt/list.html" method="post">
 					<input name="page" type="hidden" />
 					<ul class="demand_list">
 						<li class="fl">
-							<label class="fl mt5">形式名称：</label>
+							<label class="fl mt5">诚信形式内容名称：</label>
 							<span><input name="name" type="text" value="${name}" /></span>
 						</li>
 						<li class="fl mt1">
@@ -201,24 +184,19 @@
 						<tr>
 							<th class="info w50"><input type="checkbox" onchange="checkAll(this)"></th>
 							<th class="info w50">序号</th>
-							<th class="info">形式名称</th>
-							<th class="info">创建时间</th>
-							<th class="info">修改时间</th>
-							<th class="info">状态</th>
+							<th class="info">诚信内容名称</th>
+							<th class="info">分数</th>
+							<th class="info">诚信形式</th>
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach items="${listSupplierCredits.list}" var="credit" varStatus="vs">
+						<c:forEach items="${listSupplierCreditCtnts.list}" var="ctnt" varStatus="vs">
 							<tr>
-								<td class="tc"><input name="checkbox" type="checkbox" value="${credit.id}"></td>
+								<td class="tc"><input name="checkbox" type="checkbox" value="${ctnt.id}"></td>
 								<td class="tc">${vs.index + 1}</td>
-								<td class="tc">${credit.name}</td>
-								<td class="tc"><fmt:formatDate value="${credit.createdAt}" pattern="yyyy-MM-dd"/></td>
-								<td class="tc"><fmt:formatDate value="${credit.updatedAt}" pattern="yyyy-MM-dd"/></td>
-								<td class="tc status">
-									<c:if test="${credit.status == 0}"><span class="label rounded-2x label-dark">已停用</span></c:if>
-									<c:if test="${credit.status == 1}"><span class="label rounded-2x label-u">已启用</span></c:if>
-								</td>
+								<td class="tc">${ctnt.name}</td>
+								<td class="tc">${ctnt.score}</td>
+								<td class="tc" id="${ctnt.supplierCreditId}">${ctnt.supplierCreditName}</td>
 							</tr>
 						</c:forEach>
 					</tbody>

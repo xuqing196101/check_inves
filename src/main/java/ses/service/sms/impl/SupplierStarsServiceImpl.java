@@ -43,4 +43,12 @@ public class SupplierStarsServiceImpl implements SupplierStarsService {
 	public void updateStatus(SupplierStars supplierStars) {
 		supplierStarsMapper.updateStatus(supplierStars);
 	}
+
+
+	@Override
+	public void delete(String ids) {
+		for (String id : ids.split(",")) {
+			supplierStarsMapper.deleteByPrimaryKey(id);
+		}
+	}
 }

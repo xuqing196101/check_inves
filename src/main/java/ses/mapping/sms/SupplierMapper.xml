@@ -55,6 +55,7 @@
 		<result column="SUPPLIER_EXIT_LIST" property="supplierExitList" />
 		<result column="CREATED_AT" property="createdAt" />
 		<result column="UPDATED_AT" property="updatedAt" />
+		<result column="SCORE" property="score" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		ID, LOGIN_NAME, MOBILE, PASSWORD, SUPPLIER_NAME, WEBSITE, FOUND_DATE, BUSINESS_TYPE,
@@ -95,7 +96,7 @@
 		SUPPLIER_LEVEL, SUPPLIER_PLEDGE, SUPPLIER_REG_LIST,
 		SUPPLIER_EXTRACTS_LIST, SUPPLIER_INSPECT_LIST,
 		SUPPLIER_REVIEW_LIST, SUPPLIER_CHANGE_LIST,
-		SUPPLIER_EXIT_LIST, CREATED_AT, UPDATED_AT
+		SUPPLIER_EXIT_LIST, CREATED_AT, UPDATED_AT, SCORE
 		)
 		values (#{id}, #{loginName}, #{mobile},
 		#{password}, #{supplierName}, #{website},
@@ -115,7 +116,7 @@
 		#{supplierLevel}, #{supplierPledge}, #{supplierRegList},
 		#{supplierExtractsList}, #{supplierInspectList},
 		#{supplierReviewList}, #{supplierChangeList},
-		#{supplierExitList}, #{createdAt}, #{updatedAt}
+		#{supplierExitList}, #{createdAt}, #{updatedAt}, #{score}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="ses.model.sms.Supplier">
@@ -277,6 +278,9 @@
 			<if test="updatedAt != null">
 				UPDATED_AT,
 			</if>
+			<if test="score != null">
+				SCORE,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -435,6 +439,9 @@
 			<if test="updatedAt != null">
 				#{updatedAt},
 			</if>
+			<if test="score != null">
+				#{score},
+			</if>
 		</trim>
 		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
 			select sys_guid() from dual
@@ -559,9 +566,6 @@
 			</if>
 			<if test="supplierTypeId != null">
 				SUPPLIER_TYPE_ID = #{supplierTypeId},
-			</if>
-			<if test="status != null">
-				STATUS = #{status},
 			</if>
 			<if test="procurementDepId != null">
 				PROCUREMENT_DEP_ID = #{procurementDepId},
@@ -767,7 +771,7 @@
 		<if test="address != null and address !=''">  
        		and t4.ADDRESS like '%${address}%'   
         </if> 
-      <if test="supplierType != null and supplierType != ''">
+      	<if test="supplierType != null and supplierType != ''">
 			AND t4.SUPPLIER_TYPE_NAME like #{supplierType}
 		</if>
 		ORDER BY FOUND_DATE DESC
@@ -874,5 +878,6 @@
 		<collection property="listSupplierFinances" select="ses.dao.sms.SupplierFinanceMapper.findFinanceBySupplierId" column="ID" />
 		<collection property="listSupplierStockholders" select="ses.dao.sms.SupplierStockholderMapper.findStockholderBySupplierId" column="ID" />
 		<collection property="listSupplierTypeRelates" select="ses.dao.sms.SupplierTypeRelateMapper.findSupplierTypeBySupplierId" column="ID" />
+		<collection property="listSupplierItems" select="ses.dao.sms.SupplierItemMapper.findSupplierItemBySupplierId" column="ID" />
 	</resultMap>
 </mapper>

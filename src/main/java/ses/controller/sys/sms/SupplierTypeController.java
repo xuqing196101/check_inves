@@ -15,7 +15,7 @@ import ses.service.sms.SupplierTypeService;
 
 @Controller
 @Scope("prototype")
-@RequestMapping(value = "supplier_type")
+@RequestMapping(value = "/supplier_type")
 public class SupplierTypeController extends BaseSupplierController{
 	
 	@Autowired

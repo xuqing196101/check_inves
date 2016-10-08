@@ -13,7 +13,7 @@ import ses.service.sms.SupplierStarsService;
 
 @Controller
 @Scope("prototype")
-@RequestMapping(value = "supplier_stars")
+@RequestMapping(value = "/supplier_stars")
 public class SupplierStarsController {
 
 	@Autowired
@@ -34,7 +34,7 @@ public class SupplierStarsController {
 		}
 		
 		model.addAttribute("list", list);
-		return "ses/sms/supplier_level/list";
+		return "ses/sms/supplier_stars/list";
 	}
 	
 	@RequestMapping(value = "add")
@@ -44,7 +44,7 @@ public class SupplierStarsController {
 			supplierStars = supplierStarsService.get(id);
 			model.addAttribute("supplierStars", supplierStars);
 		}
-		return "ses/sms/supplier_level/add_stars";
+		return "ses/sms/supplier_stars/add_stars";
 	}
 	
 	@RequestMapping(value = "save_or_update_supplier_stars")
@@ -56,6 +56,12 @@ public class SupplierStarsController {
 	@RequestMapping(value = "update_status")
 	public String updateStatus(SupplierStars supplierStars) {
 		supplierStarsService.updateStatus(supplierStars);
+		return "redirect:list.html";
+	}
+	
+	@RequestMapping(value = "delete")
+	public String delete(String ids) {
+		supplierStarsService.delete(ids);
 		return "redirect:list.html";
 	}
 
