@@ -69,6 +69,8 @@ public class Project {
     
     private String purchaseDepName;
     
+    private Integer executeStatus;
+    
     private Supplier dealSupplier;
     
     private List<Task> list;
@@ -346,6 +348,14 @@ public class Project {
 
 	public void setList(List<Task> list) {
 		this.list = list;
+	}
+
+	public Integer getExecuteStatus() {
+		return executeStatus;
+	}
+
+	public void setExecuteStatus(Integer executeStatus) {
+		this.executeStatus = executeStatus;
 	}
 
 	
