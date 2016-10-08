@@ -666,7 +666,10 @@
 		select * from T_SES_SMS_SUPPLIER where ID = #{id}
 	</select>
 	<select id="getAllSupplier" parameterType="java.lang.String" resultMap="supplierMap">
-		select * from T_SES_SMS_SUPPLIER 
+		select * from T_SES_SMS_SUPPLIER where 1=1 
+		<if test="supplierName != null and supplierName !=''">
+			and SUPPLIER_NAME like '%${supplierName}%'
+		</if>
 	</select>
 	<update id="updateSupplierProcurementDep" parameterType="ses.model.sms.Supplier">
 		update T_SES_SMS_SUPPLIER set PROCUREMENT_DEP_ID = #{procurementDepId} where ID = #{id}

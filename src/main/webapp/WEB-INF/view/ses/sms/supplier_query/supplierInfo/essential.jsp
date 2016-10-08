@@ -175,7 +175,11 @@ function downloadFile(fileName){
 	  window.location.href="<%=basePath %>supplierQuery/downLoadFile.html?fileName="+fileName;
 }
 function fanhui(){
+      if('${category}'==1){
+      window.location.href="<%=basePath%>supplierQuery/selectByCategory.html";
+      }else{
 	  window.location.href="<%=basePath%>supplierQuery/findSupplierByPriovince.html?address="+encodeURI(encodeURI('${suppliers.address}'))+"&status=${status}";
+      }
 }
 </script>
 <style type="text/css">

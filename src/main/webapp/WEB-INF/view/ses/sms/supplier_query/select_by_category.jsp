@@ -350,7 +350,7 @@
 		       <input type="hidden" id="categoryIds" name="categoryIds"/>
 			   <span class="">供应商名称：</span>
 			   <div class="input-append">
-		        <input class="span2" name="supplierName" id="supplierName"  type="text">
+		        <input class="span2" name="supplierName" value="${supplier.supplierName }" id="supplierName"  type="text">
 		       </div>
 		       <input class="btn padding-left-20 padding-right-20 btn_back" onclick="tijiao()" type="button" value="查询">
 		     </form>
@@ -368,7 +368,7 @@
 				 <c:forEach items="${listSupplier.list }" var="list" varStatus="vs">
 					<tr>
 					    <td>${(vs.index+1)+(listSupplier.pageNum-1)*(listSupplier.pageSize)}</td>
-						<td><a href="<%=basePath%>supplierQuery/essential.html?supplierId=${list.id}">${list.supplierName }</a></td>
+						<td><a href="<%=basePath%>supplierQuery/essential.html?isRuku=2&supplierId=${list.id}">${list.supplierName }</a></td>
 						<td>${list.contactName}</td>
 						<td>${list.contactTelephone}</td>
 						<td></td>
