@@ -137,6 +137,22 @@ function reason(id){
    $("#save_reaeon").submit(); */
     });
 }
+
+function reason1(ele){
+  var supplierId=$("#id").val();
+  var auditField = $(ele).parents("li").find("span").text().replaceAll("：","");//审批的字段名字
+    layer.prompt({title: '请填写不通过理由', formType: 2}, function(text){
+      $.ajax({
+          url:"<%=basePath%>supplierAudit/auditReasons.html",
+          type:"post",
+          data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId,
+        });
+        $(ele).parent("div").find("div").eq(0).hide(); //隐藏勾
+        layer.msg("审核不通过的理由是："+text);
+      });
+}
+
+
 function tijiao(str){
   var action;
   if(str=="essential"){
@@ -163,12 +179,22 @@ function tijiao(str){
   if(str=="service"){
     action = "${pageContext.request.contextPath}/supplierAudit/serviceInformation.html";
   }
+  if(str=="items"){
+  action = "${pageContext.request.contextPath}/supplierAudit/items.html";
+  }
   if(str=="reasonsList"){
     action = "<%=basePath%>supplierAudit/reasonsList.html";
   }
   $("#form_id").attr("action",action);
   $("#form_id").submit();
 }
+
+
+//文件下載
+  function downloadFile(fileName) {
+    $("input[name='fileName']").val(fileName);
+    $("#download_form_id").submit();
+  }
 </script>
 </head>
   
@@ -196,7 +222,7 @@ function tijiao(str){
             <c:if test="${fn:contains(supplierTypeNames, '服务')}">
             <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('service');">服务-专业信息</a></li>
             </c:if>
-            <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" >品目信息</a></li>
+            <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('items');">品目信息</a></li>
             <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >产品信息</a></li>
             <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('applicationFrom');">申请表</a></li>
             <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('reasonsList');">审核汇总</a></li>
@@ -246,6 +272,7 @@ function tijiao(str){
                         <div id="address" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
                       </div>
                     </li>
+
                     <li class="col-md-6 p0 "><span class="" id="bankName2"><i class="red">＊</i>开户行名称：</span>
                       <div class="input-append">
                         <input class="span3" id="bankName3" value="${suppliers.bankName } "  type="text">
@@ -267,29 +294,33 @@ function tijiao(str){
                         <div id="postCode" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
                       </div>
                     </li>
-                    <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>近三个月完税凭证：</span>
+
+                    <li class="col-md-6 p0 "><span class="">近三个月完税凭证：</span>
+	                    <div class="input-append">
+	                      <a class="span3" href="javascript:void(0)" onclick="downloadFile('${suppliers.taxCert}')" >下载附件</a>
+	                      <div  class="b f18 ml10 red fl hand">√</div>
+	                      <div onclick="reason1(this);" class="b f18 ml10 fl hand">×</div>
+	                    </div>
+                    </li>
+                    <li class="col-md-6 p0 "><span class="">近三年银行基本账户年末对账单：</span>
                       <div class="input-append">
-                        <a class="span3">附件下载</a>
-                        <div class="b f18 fl ml10 red hand">√</div>
-                        <div onclick="reason()" class="b f18 fl ml10 hand">×</div>
+                        <a class="span3" href="javascript:void(0)" onclick="downloadFile('${suppliers.billCert}')">下载附件</a>
+                        <div  class="b f18 ml10 red fl hand">√</div>
+                        <div onclick="reason1(this);" class="b f18 ml10 fl hand">×</div>
                       </div>
                     </li>
-                    <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>近三年银行账单：</span>
+                    <li class="col-md-6 p0 "><span class="">近三个月缴纳社会保险金凭证：</span>
                       <div class="input-append">
-                        <a class="span3">附件下载</a>
-                        <div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
+                        <a class="span3" href="javascript:void(0)" onclick="downloadFile('${suppliers.securityCert}')">下载附件</a>
+                        <div  class="b f18 ml10 red fl hand">√</div>
+                        <div onclick="reason1(this);" class="b f18 ml10 fl hand">×</div>
                       </div>
                     </li>
-                    <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>近三个月保险凭证：</span>
+                    <li class="col-md-6 p0 "><span class="">近三年内无重大违法记录声明：</span>
                       <div class="input-append">
-                        <a class="span3">附件下载</a>
-                        <div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
-                      </div>
-                    </li>
-                    <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>近三年违法记录：</span>
-                      <div class="input-append">
-                        <a class="span3">附件下载</a>
-                        <div class="b f18 fl ml10 red hand">√</div><div onclick="reason()" class="b f18 fl ml10 hand">×</div>
+                        <a class="span3" href="javascript:void(0)" onclick="downloadFile('${suppliers.breachCert}')">下载附件</a>
+                        <div  class="b f18 ml10 red fl hand">√</div>
+                        <div onclick="reason1(this);" class="b f18 ml10 fl hand">×</div>
                       </div>
                     </li>
                   </ul>
@@ -475,7 +506,8 @@ function tijiao(str){
                         </div>
                       </div>
                     </li>
-                 </ul>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
@@ -483,22 +515,9 @@ function tijiao(str){
       </div>
     </div>
   </div>
-</div>
-<%-- <form action="<%=basePath%>supplierAudit/auditReasons.html" id="save_reaeon" method="post">
-  <input name="auditType">
-  <input name="auditField">
-  <input name="auditContent">
-  <input name="suggest">
-</form> --%>
-  <!--底部代码开始-->
-  <div class="footer-v2" id="footer-v2">
-    <div class="footer">
-      <!-- Address -->
-      <address class="">Copyright &#38;#169 2016 版权所有：中央军委后勤保障部 京ICP备09055519号</address>
-      <div class="">浏览本网主页，建议将电脑显示屏的分辨率调为1024*768</div>
-      <!-- End Address -->
-      <!--/footer-->
-    </div>
-  </div>
+	<form target="_blank" id="download_form_id" action="${pageContext.request.contextPath}/supplierAudit/download.html" method="post">
+	 <input type="hidden" name="fileName" />
+	</form>
+	<jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
 </body>
 </html>

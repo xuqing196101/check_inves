@@ -163,6 +163,9 @@ function tijiao(str){
   if(str=="service"){
     action = "${pageContext.request.contextPath}/supplierAudit/serviceInformation.html";
   }
+  if(str=="items"){
+  action = "${pageContext.request.contextPath}/supplierAudit/items.html";
+  }
   if(str=="applicationFrom"){
     action = "${pageContext.request.contextPath}/supplierAudit/applicationForm.html";
   }
@@ -172,6 +175,12 @@ function tijiao(str){
   $("#form_id").attr("action",action);
   $("#form_id").submit();
 }
+
+//文件下載
+  function downloadFile(fileName) {
+    $("input[name='fileName']").val(fileName);
+    $("#download_form_id").submit();
+  }
 </script>
 </head>
   
@@ -199,7 +208,7 @@ function tijiao(str){
 	            <c:if test="${fn:contains(supplierTypeNames, '服务')}">
 	            <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('service');">服务-专业信息</a></li>
 	            </c:if>
-              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" >品目信息</a></li>
+              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('items');">品目信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >产品信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('applicationFrom');">申请表</a></li>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('reasonsList');">审核汇总</a></li>
@@ -251,35 +260,35 @@ function tijiao(str){
                     <ul class="list-unstyled list-flow">
                       <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>财务审计报告意见表：</span>
                         <div class="input-append">
-                          <a class="span3">附件下载</a>
+                          <a class="span3" href="javascript:void(0)" onclick="downloadFile('${f.auditOpinion}')">附件下载</a>
                           <div  class="b f18 fl ml10 red hand">√</div>
                           <div onclick="reason1('${f.year }', this);" class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>资产负债表：</span>
                         <div class="input-append">
-                          <a class="span3">附件下载</a>
+                          <a class="span3" href="javascript:void(0)" onclick="downloadFile('${f.liabilitiesList}')">附件下载</a>
                           <div class="b f18 fl ml10 red hand">√</div>
                           <div onclick="reason1('${f.year }', this);" class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>利润表：</span>
                         <div class="input-append">
-                          <a class="span3">附件下载</a>
+                          <a class="span3" href="javascript:void(0)" onclick="downloadFile('${f.profitList}')">附件下载</a>
                           <div class="b f18 fl ml10 red hand">√</div>
                           <div onclick="reason1('${f.year }', this);" class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0 "><span class="" ><i class="red">＊</i>现金流量表：</span>
                         <div class="input-append">
-                          <a class="span3">附件下载</a>
+                          <a class="span3" href="javascript:void(0)" onclick="downloadFile('${f.cashFlowStatement}')">附件下载</a>
                           <div class="b f18 fl ml10 red hand">√</div>
                           <div onclick="reason1('${f.year }', this);" class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0 "><span class="" ><i class="red">＊</i>所有者权益变动表：</span>
                         <div class="input-append">
-                          <a class="span3">附件下载</a>
+                          <a class="span3" href="javascript:void(0)" onclick="downloadFile('${f.changeList}')">附件下载</a>
                           <div class="b f18 fl ml10 red hand">√</div>
                           <div onclick="reason1('${f.year }', this);" class="b f18 fl ml10 hand">×</div>
                         </div>
@@ -295,5 +304,9 @@ function tijiao(str){
       </div>
     </div>
   </div>
+  <form target="_blank" id="download_form_id" action="${pageContext.request.contextPath}/supplierAudit/download.html" method="post">
+   <input type="hidden" name="fileName" />
+  </form>
+  <jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
 </body>
 </html>

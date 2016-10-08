@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%
 String path = request.getContextPath();
@@ -9,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]-->
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<title>股东信息</title>
+<title>审核问题汇总</title>
 <!-- Meta -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -110,40 +111,56 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/masterslider.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.easing.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/james.js"></script>
+<script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
+<script type="text/javascript" src="<%=basePath%>public/layer/extend/layer.ext.js"></script>
+<style type="text/css">
+.jbxx1{
+  background:url(../images/down_icon.png) no-repeat 5px !important;
+  padding-left:40px !important;
+}
+.jbxx1 i{
+    width: 24px;
+    height: 30px;
+    background: url(../../../../../zhbj/public/ZHQ/images/round.png) no-repeat center;
+    color: #ffffff;
+    font-size: 12px;
+    text-align: center;
+    display: block;
+    float: left;
+    line-height: 30px;
+    font-style: normal;
+    margin-right: 10px;
+}
+</style>
+
+<link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
+
 <script type="text/javascript">
-function reason(id){
-  var supplierId=$("#supplierId").val();
-  var auditField=$("#"+id).text()+"股东信息"; //审批的字段名字
-   layer.prompt({title: '请填写不通过理由', formType: 2}, function(text){
-    $.ajax({
-        url:"<%=basePath%>supplierAudit/auditReasons.html",
-        type:"post",
-        data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId,
-      });
-      $("#"+id+"_hide").hide();
-      layer.msg("审核不通过的理由是："+text);
-    });
+function tijiao(status){
+  $("#status").val(status);
+  form1.submit();
 }
 
 function tijiao(str){
   var action;
   if(str=="essential"){
-     action ="<%=basePath%>supplierAudit/essential.html";
+     action ="${pageContext.request.contextPath}/supplierAudit/essential.html";
   }
   if(str=="financial"){
-    action = "<%=basePath%>supplierAudit/financial.html";
+    action = "${pageContext.request.contextPath}/supplierAudit/financial.html";
   }
   if(str=="shareholder"){
-    action = "<%=basePath%>supplierAudit/shareholder.html";
+    action = "${pageContext.request.contextPath}/supplierAudit/shareholder.html";
   }
   if(str=="materialProduction"){
-    action = "<%=basePath%>supplierAudit/materialProduction.html";
+    action = "${pageContext.request.contextPath}/supplierAudit/materialProduction.html";
   }
   if(str=="materialSales"){
-    action = "<%=basePath%>supplierAudit/materialSales.html";
+    action = "${pageContext.request.contextPath}/supplierAudit/materialSales.html";
   }
   if(str=="engineering"){
-    action = "<%=basePath%>supplierAudit/engineering.html";
+    action = "${pageContext.request.contextPath}/supplierAudit/engineering.html";
   }
   if(str=="service"){
     action = "${pageContext.request.contextPath}/supplierAudit/serviceInformation.html";
@@ -155,11 +172,171 @@ function tijiao(str){
     action = "${pageContext.request.contextPath}/supplierAudit/applicationForm.html";
   }
   if(str=="reasonsList"){
-    action = "<%=basePath%>supplierAudit/reasonsList.html";
+    action = "${pageContext.request.contextPath}/supplierAudit/reasonsList.html";
   }
   $("#form_id").attr("action",action);
   $("#form_id").submit();
 }
+
+
+//审核
+function shenhe(status){
+  $("#status").val(status);
+  $("#form_shen").submit();
+}
+</script>
+<script type="text/javascript">
+  var zTreeObj;
+  var zNodes;
+  $(function() {
+    $("#page_ul_id").find("li").click(function() {
+      var id = $(this).attr("id");
+      var page = "tab-" + id.charAt(id.length - 1);
+      $("input[name='defaultPage']").val(page);
+    });
+    var defaultPage = "${defaultPage}";
+    if (defaultPage) {
+      var num = defaultPage.charAt(defaultPage.length - 1);
+      $("#page_ul_id").find("li").each(function(index) {
+        var liId = $(this).attr("id");
+        var liNum = liId.charAt(liId.length - 1);
+        if (liNum == num) {
+          $(this).attr("class", "active");
+        } else {
+          $(this).removeAttr("class");
+        }
+      });
+      $(".tab-pane").each(function() {
+        var id = $(this).attr("id");
+        if (id == defaultPage) {
+          $(this).attr("class", "tab-pane fade height-300 active in");
+        } else {
+          $(this).attr("class", "tab-pane fade height-300");
+        }
+      });
+    } else {
+      $("#page_ul_id").find("li").each(function(index) {
+        if (index == 0) {
+          $(this).attr("class", "active");
+        } else {
+          $(this).removeAttr("class");
+        }
+      });
+      $(".tab-pane").each(function(index) {
+        if (index == 0) {
+          $(this).attr("class", "tab-pane fade height-300 active in");
+        } else {
+          $(this).attr("class", "tab-pane fade height-300");
+        }
+      });
+    }
+    
+    // ztree
+    $(".tab-pane").each(function(index) {
+      var id = $(this).attr("id");
+      loadZtree(id, index);
+    });
+    
+  });
+  
+  function loadZtree(id, kind) {
+    var setting = {
+      async : {
+        enable : true,
+        url : "${pageContext.request.contextPath}/category/find_category.do",
+        otherParam : {
+          supplierId : "${currSupplier.id}",
+          kind : kind
+        },
+        dataType : "json",
+        type : "post",
+      },
+      check : {
+        enable : true,
+        chkboxType : {
+          "Y" : "s",
+          "N" : "s"
+        }
+      },
+      data : {
+        simpleData : {
+          enable : true,
+          idKey : "id",
+          pIdKey : "parentId"
+        }
+      },
+    };
+    kind++;
+    zTreeObj = $.fn.zTree.init($("#tree_ul_id_" + kind), setting, zNodes);
+  }
+
+  /** 保存品目树信息 */
+  function saveItems(sign) {
+    var action = "${pageContext.request.contextPath}/supplier/";
+    if (sign == 1) {
+      action += "next_step.html";
+    } else if (sign == -1) {
+      action += "prev_step.html";
+    } else {
+      action += "stash_step.html";
+    }
+    
+    var ids = "";
+    var treeObj1 = $.fn.zTree.getZTreeObj("tree_ul_id_1");
+    var treeObj2 = $.fn.zTree.getZTreeObj("tree_ul_id_2");
+    var treeObj3 = $.fn.zTree.getZTreeObj("tree_ul_id_3");
+    var treeObj4 = $.fn.zTree.getZTreeObj("tree_ul_id_4");
+    if (treeObj1) {
+      var nodes1 = treeObj1.getCheckedNodes(true);
+      for ( var i = 0; i < nodes1.length; i++) {
+        if (!nodes1[i].isParent) {
+          if (ids) {
+            ids += ",";
+          }
+          ids += $(nodes1[i]).attr("id");
+        }
+      }
+    }
+    if (treeObj2) {
+      var nodes2 = treeObj2.getCheckedNodes(true);
+      for ( var i = 0; i < nodes2.length; i++) {
+        if (!nodes2[i].isParent) {
+          if (ids) {
+            ids += ",";
+          }
+          ids += $(nodes2[i]).attr("id");
+        }
+      }
+    }
+    if (treeObj3) {
+      var nodes3 = treeObj3.getCheckedNodes(true);
+      for ( var i = 0; i < nodes3.length; i++) {
+        if (!nodes3[i].isParent) {
+          if (ids) {
+            ids += ",";
+          }
+          ids += $(nodes3[i]).attr("id");
+        }
+        
+      }
+    }
+    if (treeObj4) {
+      var nodes4 = treeObj4.getCheckedNodes(true);
+      for ( var i = 0; i < nodes4.length; i++) {
+        if (!nodes4[i].isParent) {
+          if (ids) {
+            ids += ",";
+          }
+          ids += $(nodes4[i]).attr("id");
+        }
+        
+      }
+    }
+    $("input[name='supplierItemIds']").val(ids);
+    $("#items_info_form_id").attr("action", action);
+    $("#items_info_form_id").submit();
+
+  }
 </script>
 </head>
   
@@ -173,8 +350,8 @@ function tijiao(str){
           <div class="padding-top-10">
             <ul class="nav nav-tabs bgdd">
               <li class=""><a aria-expanded="fale" href="#tab-1" data-toggle="tab" onclick="tijiao('essential');">基本信息</a></li>
-              <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" onclick="tijiao('financial');">财务信息</a></li>
-              <li class="active"><a aria-expanded="true" href="#tab-3" data-toggle="tab" onclick="tijiao('shareholder');">股东信息</a></li>
+              <li class=""><a aria-expanded="" href="#tab-2" data-toggle="tab" onclick="tijiao('financial');">财务信息</a></li>
+              <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('shareholder');">股东信息</a></li>
               <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
               <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" onclick="tijiao('materialProduction');">物资-生产型专业信息</a></li>
               </c:if>
@@ -187,44 +364,66 @@ function tijiao(str){
               <c:if test="${fn:contains(supplierTypeNames, '服务')}">
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('service');">服务-专业信息</a></li>
               </c:if>
-              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('items');">品目信息</a></li>
+              <li class="active"><a aria-expanded="ture" href="#tab-2" data-toggle="tab" onclick="tijiao('items');">品目信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >产品信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('applicationFrom');">申请表</a></li>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('reasonsList');">审核汇总</a></li>
             </ul>
-              <div class="tab-content padding-top-20" style="height:1400px;">
-                <div class="tab-pane fade active in height-450" id="tab-1">
+            <div class="padding-top-10">
+	            <ul id="page_ul_id" class="nav nav-tabs bgdd">
+	              <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
+	                <li id="li_id_1" class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab">物资-生产型品目信息</a></li>
+	              </c:if>
+	              <c:if test="${fn:contains(supplierTypeNames, '销售型')}">
+	                <li id="li_id_2" class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab">物资-销售型品目信息</a></li>
+	              </c:if>
+	              <c:if test="${fn:contains(supplierTypeNames, '工程')}">
+	                <li id="li_id_3" class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab">工程品目信息</a></li>
+	              </c:if>
+	              <c:if test="${fn:contains(supplierTypeNames, '服务')}">
+	                <li id="li_id_4" class=""><a aria-expanded="false" href="#tab-4" data-toggle="tab">服务品目信息</a></li>
+	              </c:if>
+	             </ul>
+            </div>
                   <form id="form_id" action="" method="post"  enctype="multipart/form-data">
-                      <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
+                      <input name="supplierId" value="${supplierId}" type="hidden">
                   </form>
-                  <table class="table table-bordered table-condensed">
-                    <thead>
-                      <tr>
-                        <th class="info">出资人</th>
-                        <th class="info">出资人性质</th>
-                        <th class="info">统一社会信用代码或身份证</th>
-                        <th class="info">出资金额或股份(万元/份)</th>
-                        <th class="info">比例</th>
-                        <th class="info">操作</th>
-                      </tr>
-                    </thead>
-                    <c:forEach items="${shareholder}" var="s" >
-                      <tr>
-                        <td class="tc" id="${s.id }">${s.name}</td>
-                        <td class="tc">${s.nature}</td>
-                        <td class="tc">${s.identity}</td>
-                        <td class="tc">${s.shares}</td>
-                        <td class="tc">${s.proportion}</td>
-                        <td class="tc">
-                          <a id="${s.id }_hide" class="b f18 fl ml10 red hand">√</a>
-                          <a onclick="reason('${s.id}');" class="b f18 fl ml10 hand">×</a>
-                        </td>
-                      </tr>
-                    </c:forEach>
-                  </table>
-                </div>
-              </div>
-          </div>
+                  
+                  <div class="tab-content padding-top-20">
+		              <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
+		                <!-- 物资生产型 -->
+		                <div class="tab-pane fade active in height-300" id="tab-1">
+		                  <div class="lr0_tbauto w200">
+		                    <ul id="tree_ul_id_1" class="ztree mt30"></ul>
+		                  </div>
+		                </div>
+		              </c:if>
+		              <c:if test="${fn:contains(supplierTypeNames, '销售型')}">
+		                <!-- 物资销售型 -->
+		                <div class="tab-pane fade height-300" id="tab-2">
+		                  <div class="lr0_tbauto w200">
+		                    <ul id="tree_ul_id_2" class="ztree mt30"></ul>
+		                  </div>
+		                </div>
+		              </c:if>
+		              <c:if test="${fn:contains(supplierTypeNames, '工程')}">
+		              <!-- 服务 -->
+		                <div class="tab-pane fade height-200" id="tab-3">
+		                  <div class="lr0_tbauto w200">
+		                    <ul id="tree_ul_id_3" class="ztree mt30"></ul>
+		                  </div>
+		                </div>
+		              </c:if>
+		              <c:if test="${fn:contains(supplierTypeNames, '服务')}">
+		                <!-- 生产 -->
+		                <div class="tab-pane fade height-200" id="tab-4">
+		                  <div class="lr0_tbauto w200">
+		                    <ul id="tree_ul_id_4" class="ztree mt30"></ul>
+		                  </div>
+		                </div>
+		              </c:if>
+		        </div> 
+          </div>     
         </div>
       </div>
     </div>
