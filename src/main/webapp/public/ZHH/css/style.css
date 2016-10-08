@@ -1773,3 +1773,9 @@ img.img-mouse {
     margin-right: 5px;
     display: inline-block;
 }
+/*下拉树背景框*/
+.tree_drop{
+	background:#e5e5e5;
+	min-width:178px;
+	height:auto;
+}
