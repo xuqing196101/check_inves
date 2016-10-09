@@ -11,7 +11,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     
     
-    <title></title>  
+    <title>任务管理</title>  
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="cache-control" content="no-cache">
     <meta http-equiv="expires" content="0">    
@@ -46,8 +46,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  
   <script type="text/javascript">
   
-  
-    /** 全选全不选 */
+   /** 全选全不选 */
     function selectAll(){
          var checklist = document.getElementsByName ("chkItem");
          var checkAll = document.getElementById("checkAll");
@@ -82,24 +81,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                  }
            }
     }
-     function save(){
+    
+    function save(){
         var id =[]; 
         $('input[name="chkItem"]:checked').each(function(){ 
             id.push($(this).val()); 
-        }); 
-       if(id.length>0){
-            window.location.href="<%=basePath%>project/save.html?id="+id;
-        }else{
-            layer.alert("请选择明细",{offset: ['222px', '390px'], shade:0.01});
-        }
+        });
+         window.location.href = "<%=basePath%>project/saveDetail.html?id="+id;
+            
     }
-    
     function cancel(){
      var index=parent.layer.getFrameIndex(window.name);
      parent.layer.close(index);
      
 }
-    
   </script>
   </head>
   
@@ -108,29 +103,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  <div class="margin-top-10 breadcrumbs ">
       <div class="container">
            <ul class="breadcrumb margin-left-0">
+           <li><a href="#"> 首页</a></li><li><a href="#">保障作业系统</a></li><li><a href="#">采购任务管理</a></li><li class="active"><a href="#">采购计划调整</a></li>
            </ul>
         <div class="clear"></div>
       </div>
    </div>
+  
 <!-- 录入采购计划开始-->
  <div class="container">
 <!-- 项目戳开始 -->
- 
-   
-    
-     
-   
      <div class="clear"></div>
 
  
    <div class="headline-v2 fl">
-      <h2>查看采购明细
+      <h2>选择采购明细
       </h2>
        </div> 
-       <span class="fr option_btn margin-top-10">
-        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="cancel();">确定</button>
-      </span>
      
+  
+      <span class="fr option_btn margin-top-10">
+        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="save();">确定</button>
+        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="cancel();">返回</button>
+      </span>
    <div class="container clear margin-top-30">
         <table class="table table-bordered table-condensed mt5">
         <thead>
@@ -150,10 +144,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <th class="info">是否申请办理免税</th>
           <th class="info">物资用途（进口）</th>
           <th class="info">使用单位（进口）</th>
+          <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
         </tr>
         </thead>
           <c:forEach items="${lists}" var="obj" varStatus="vs">
             <tr style="cursor: pointer;">
+              <input type="hidden" value="${obj.id }" name="id"/>
               <td class="tc w50">${obj.seq}</td>
               <td class="tc">${obj.department}</td>
               <td class="tc">${obj.goodsName}</td>
@@ -164,11 +160,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <td class="tc">${obj.price}</td>
               <td class="tc">${obj.budget}</td>
               <td class="tc">${obj.deliverDate}</td>
-              <td class="tc">${obj.purchaseType}</td>
+              <td class="tc"> ${obj.purchaseType}</td>
               <td class="tc">${obj.supplier}</td>
               <td class="tc">${obj.isFreeTax}</td>
               <td class="tc">${obj.goodsUse}</td>
               <td class="tc">${obj.useUnit}</td>
+              <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
             </tr>
      
          </c:forEach>  
@@ -176,7 +173,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
       </table>
       
+      <div id="pagediv" align="right"></div>
    </div>
  </div>
+
+
+ <div id="content" class="div_show">
+     <p align="center" class="type">
+             请选择类别
+    <br>
+    
+     <input type="radio" name="goods" value="1">:物资<br>
+     <input type="radio" name="goods" value="2">:工程<br>
+     <input type="radio" name="goods" value="3">:服务<br>
+        </p>
+        
+ </div>
+ 
      </body>
 </html>

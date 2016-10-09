@@ -11,7 +11,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     
     
-    <title>任务管理</title>  
+    <title>项目管理</title>  
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="cache-control" content="no-cache">
     <meta http-equiv="expires" content="0">    
@@ -45,44 +45,79 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
  
   <script type="text/javascript">
-  
-  
-    /** 全选全不选 */
-    function selectAll(){
-         var checklist = document.getElementsByName ("chkItem");
-         var checkAll = document.getElementById("checkAll");
-         if(checkAll.checked){
-               for(var i=0;i<checklist.length;i++)
-               {
-                  checklist[i].checked = true;
-               } 
-             }else{
-              for(var j=0;j<checklist.length;j++)
-              {
-                 checklist[j].checked = false;
-              }
+  /*分页  */
+  $(function(){
+      laypage({
+            cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+            pages: "${info.pages}", //总页数
+            skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+            skip: true, //是否开启跳页
+            total:"${info.total}",
+            startRow:"${info.startRow}",
+            endRow:"${info.endRow}",
+            groups: "${info.pages}">=3?3:"${info.pages}", //连续显示分页数
+            curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+               var page = location.search.match(/page=(\d+)/);
+                  return page ? page[1] : 1;
+               // return "${info.pageNum}";
+            }(), 
+            jump: function(e, first){ //触发分页后的回调
+                    if(!first){ //一定要加此判断，否则初始时会无限刷新
+                //  $("#page").val(e.curr);
+                    // $("#form1").submit();
+                    
+                 location.href = '<%=basePath%>project/edit.do?page='+e.curr;
+                }  
             }
-        }
+        });
+  });
     
     /** 单选 */
     function check(){
-         var count=0;
-         var checklist = document.getElementsByName ("chkItem");
-         var checkAll = document.getElementById("checkAll");
-         for(var i=0;i<checklist.length;i++){
-               if(checklist[i].checked == false){
-                   checkAll.checked = false;
-                   break;
-               }
-               for(var j=0;j<checklist.length;j++){
-                     if(checklist[j].checked == true){
-                           checkAll.checked = true;
-                           count++;
-                       }
-                 }
-           }
+        var id =[]; 
+        $('input[name="chkItem"]:checked').each(function(){ 
+            id.push($(this).val()); 
+        }); 
+        if(id.length>0){
+           layer.open({
+          type: 2, //page层
+          area: ['1000px', '500px'],
+         // title: '您是要取消任务吗？',
+          shade:0.01, //遮罩透明度
+          moveType: 1, //拖拽风格，0是默认，1是传统拖动
+          shift: 1, //0-6的动画形式，-1不开启
+          offset: ['100px', '250px'],
+          shadeClose: true,
+          content: '<%=basePath%>project/editDet.html?id='+id
+        });
+            
+        }
     }
     
+     function view(){
+         var id =[]; 
+        $('input[name="chkItem"]:checked').each(function(){ 
+            id.push($(this).val()); 
+        }); 
+        if(id.length==1){
+           layer.open({
+          type: 2, //page层
+          area: ['700px', '700px'],
+          title: '查看采购任务',
+          shade:0.01, //遮罩透明度
+          moveType: 1, //拖拽风格，0是默认，1是传统拖动
+          shift: 1, //0-6的动画形式，-1不开启
+          offset: ['220px', '630px'],
+          shadeClose: true,
+          content: '<%=basePath%>project/viewDetail.html?id='+id
+        });
+            
+        }else if(id.length>1){
+            layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+        }else{
+            layer.alert("请选择需要查看的任务",{offset: ['222px', '390px'], shade:0.01});
+        }
+    }
   </script>
   </head>
   
@@ -91,80 +126,55 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  <div class="margin-top-10 breadcrumbs ">
       <div class="container">
            <ul class="breadcrumb margin-left-0">
-           <li><a href="#"> 首页</a></li><li><a href="#">保障作业系统</a></li><li><a href="#">采购任务管理</a></li><li class="active"><a href="#">查看采购计划</a></li>
+           <li><a href="#"> 首页</a></li><li><a href="#">保障作业系统</a></li><li><a href="#">采购项目管理</a></li><li class="active"><a href="#">立项管理</a></li>
            </ul>
         <div class="clear"></div>
       </div>
    </div>
 <!-- 录入采购计划开始-->
  <div class="container">
-   <div class="headline-v2">
-      <h2>查看采购计划</h2>
-   </div>
 <!-- 项目戳开始 -->
  
-   
-    
-                         计划名称：${queryById.fileName}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                计划编号： ${queryById.planNo}
-       <%-- <label class="fl">计划类型：${collectPlan.fileName} </label>  --%>
-     
    
      <div class="clear"></div>
 
  
    <div class="headline-v2 fl">
-      <h2>需求明细查看
+      <h2>修改采购任务
       </h2>
        </div> 
-     <span class="fr option_btn margin-top-10">
-        <button class="btn padding-left-10 padding-right-10 btn_back"  onclick="location.href='javascript:history.go(-1);'">返回</button>
+     
+  
+      <span class="fr option_btn margin-top-10">
+        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="view();">确定</button>
       </span>
    <div class="container clear margin-top-30">
+   <span>项目名称：${ject.name}</span>
+     <span>项目编号：${ject.projectNumber}</span>  
         <table class="table table-bordered table-condensed mt5">
         <thead>
         <tr>
-          <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
           <th class="info w50">序号</th>
+          <th class="info">物资类别</th>
+          <th class="info">年度</th>
           <th class="info">需求部门</th>
-          <th class="info">物资名称</th>
-          <th class="info">规格型号</th>
-          <th class="info">质量技术标准</th>
-          <th class="info">计量单位</th>
-          <th class="info">采购数量</th>
-          <th class="info">单价（元）</th>
-          <th class="info">预算金额（万元）</th>
-          <th class="info">交货期限</th>
-          <th class="info">采购方式建议</th>
-          <th class="info">供应商名称</th>
-          <th class="info">是否申请办理免税</th>
-          <th class="info">物资用途（进口）</th>
-          <th class="info">使用单位（进口）</th>
-          
+          <th class="info">采购方式</th>
+          <th class="info">采购机构</th>
+          <th class="info">操作</th>
         </tr>
         </thead>
-          <c:forEach items="${lists}" var="obj" varStatus="vs">
+         <c:forEach items="${info.list}" var="obj" varStatus="vs">
             <tr style="cursor: pointer;">
+              <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+              <td class="tc">${obj.materialsType}</td>
+              <td class="tc">${obj.year }</td>
+              <td class="tc">${obj.purchaseRequiredId }</td>
+              <td class="tc">${obj.procurementMethod }</td>
+              <td class="tc">${obj.purchaseId }</td>
               <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
-              <td class="tc w50">${obj.seq}</td>
-              <td class="tc">${obj.department}</td>
-              <td class="tc">${obj.goodsName}</td>
-              <td class="tc">${obj.stand}</td>
-              <td class="tc">${obj.qualitStand}</td>
-              <td class="tc">${obj.item}</td>
-              <td class="tc">${obj.purchaseCount}</td>
-              <td class="tc">${obj.price}</td>
-              <td class="tc">${obj.budget}</td>
-              <td class="tc">${obj.deliverDate}</td>
-              <td class="tc">${obj.purchaseType}</td>
-              <td class="tc">${obj.supplier}</td>
-              <td class="tc">${obj.isFreeTax}</td>
-              <td class="tc">${obj.goodsUse}</td>
-              <td class="tc">${obj.useUnit}</td>
             </tr>
      
-         </c:forEach>  
-         
+         </c:forEach> 
 
       </table>
       
@@ -173,17 +183,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  </div>
 
 
- <div id="content" class="div_show">
-     <p align="center" class="type">
-             请选择类别
-    <br>
-    
-     <input type="radio" name="goods" value="1">:物资<br>
-     <input type="radio" name="goods" value="2">:工程<br>
-     <input type="radio" name="goods" value="3">:服务<br>
-        </p>
-        
- </div>
  
      </body>
 </html>

@@ -11,7 +11,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     
     
-    <title></title>  
+    <title>任务管理</title>  
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="cache-control" content="no-cache">
     <meta http-equiv="expires" content="0">    
@@ -47,59 +47,56 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <script type="text/javascript">
   
   
-    /** 全选全不选 */
-    function selectAll(){
-         var checklist = document.getElementsByName ("chkItem");
-         var checkAll = document.getElementById("checkAll");
-         if(checkAll.checked){
-               for(var i=0;i<checklist.length;i++)
-               {
-                  checklist[i].checked = true;
-               } 
-             }else{
-              for(var j=0;j<checklist.length;j++)
-              {
-                 checklist[j].checked = false;
-              }
-            }
-        }
     
-    /** 单选 */
-    function check(){
-         var count=0;
-         var checklist = document.getElementsByName ("chkItem");
-         var checkAll = document.getElementById("checkAll");
-         for(var i=0;i<checklist.length;i++){
-               if(checklist[i].checked == false){
-                   checkAll.checked = false;
-                   break;
-               }
-               for(var j=0;j<checklist.length;j++){
-                     if(checklist[j].checked == true){
-                           checkAll.checked = true;
-                           count++;
-                       }
-                 }
-           }
-    }
-     function save(){
-        var id =[]; 
-        $('input[name="chkItem"]:checked').each(function(){ 
-            id.push($(this).val()); 
+       function edit(){
+        var purchaseCount =[]; 
+        $('input[name="purchaseCount"]').each(function(){ 
+            purchaseCount.push($(this).val()); 
         }); 
-       if(id.length>0){
-            window.location.href="<%=basePath%>project/save.html?id="+id;
-        }else{
-            layer.alert("请选择明细",{offset: ['222px', '390px'], shade:0.01});
-        }
+        var price =[]; 
+        $('input[name="price"]').each(function(){ 
+            price.push($(this).val()); 
+        }); 
+        var id =[]; 
+        $('input[name="id"]').each(function(){ 
+            id.push($(this).val()); 
+        });
+        var purchaseType =[]; 
+        
+        var v = "";
+        $(".advice").each(function() {
+            var select = $(this).find("select[name='purchaseType']");
+            if (!select.size()) {
+                v = "";
+            } else {
+                v = select.val();
+            }
+             purchaseType.push(v); 
+        });  
+         layer.confirm('您确定要修改吗?',{
+                offset: ['50px','90px'],
+                shade:0.01,
+                btn:['是','否'],
+                },function(){
+                window.location.href = '<%=basePath%>project/editDetail.html?purchaseCount='+purchaseCount+'&price='+price+'&id='+id+'&purchaseType='+purchaseType;
+                window.setTimeout(function(){
+                            location.reload();
+                        }, 1000);
+                    /*  var index=parent.layer.getFrameIndex(window.name);
+                     parent.layer.close(index); */ 
+                },function(){
+                    var index=parent.layer.getFrameIndex(window.name);
+                     parent.layer.close(index);
+                }
+                    
+            ); 
+            
     }
-    
     function cancel(){
      var index=parent.layer.getFrameIndex(window.name);
      parent.layer.close(index);
      
 }
-    
   </script>
   </head>
   
@@ -108,29 +105,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  <div class="margin-top-10 breadcrumbs ">
       <div class="container">
            <ul class="breadcrumb margin-left-0">
+           <li><a href="#"> 首页</a></li><li><a href="#">保障作业系统</a></li><li><a href="#">采购任务管理</a></li><li class="active"><a href="#">采购计划调整</a></li>
            </ul>
         <div class="clear"></div>
       </div>
    </div>
+  
 <!-- 录入采购计划开始-->
  <div class="container">
+   <div class="headline-v2">
+      <h2>采购计划调整</h2>
+   </div>
 <!-- 项目戳开始 -->
- 
-   
-    
-     
-   
      <div class="clear"></div>
 
  
    <div class="headline-v2 fl">
-      <h2>查看采购明细
+      <h2>修改采购明细
       </h2>
        </div> 
-       <span class="fr option_btn margin-top-10">
-        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="cancel();">确定</button>
-      </span>
      
+  
+      <span class="fr option_btn margin-top-10">
+        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="edit();">确定</button>
+        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="cancel();">返回</button>
+      </span>
    <div class="container clear margin-top-30">
         <table class="table table-bordered table-condensed mt5">
         <thead>
@@ -154,17 +153,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </thead>
           <c:forEach items="${lists}" var="obj" varStatus="vs">
             <tr style="cursor: pointer;">
+              <input type="hidden" value="${obj.id }" name="id"/>
               <td class="tc w50">${obj.seq}</td>
               <td class="tc">${obj.department}</td>
               <td class="tc">${obj.goodsName}</td>
               <td class="tc">${obj.stand}</td>
               <td class="tc">${obj.qualitStand}</td>
               <td class="tc">${obj.item}</td>
-              <td class="tc">${obj.purchaseCount}</td>
-              <td class="tc">${obj.price}</td>
+              <td class="tc"><input name="purchaseCount" style="width:50%;"  value="${obj.purchaseCount}"/></td>
+              <td class="tc"><input name="price" style="width:50%;"  value="${obj.price}"/></td>
               <td class="tc">${obj.budget}</td>
               <td class="tc">${obj.deliverDate}</td>
-              <td class="tc">${obj.purchaseType}</td>
+              <td class="tc advice">
+              <c:if test="${null!=obj.purchaseType && obj.purchaseType != ''}">
+              <select name="purchaseType" style="width:100px" id="select">
+              
+                            <option value="公开招标" <c:if test="${'公开招标'==obj.purchaseType}">selected="selected"</c:if>>公开招标</option>
+                            <option value="邀请招标" <c:if test="${'邀请招标'==obj.purchaseType}">selected="selected"</c:if>>邀请招标</option>
+                            <option value="竞争性谈判" <c:if test="${'竞争性谈判'==obj.purchaseType}">selected="selected"</c:if>>竞争性谈判</option>
+                            <option value="询价采购" <c:if test="${'询价采购'==obj.purchaseType}">selected="selected"</c:if>>询价采购</option>
+                            <option value="单一来源" <c:if test="${'单一来源'==obj.purchaseType}">selected="selected"</c:if>>单一来源</option>
+                </select></c:if>
+               <%-- <c:if test="${null==obj.purchaseType}">
+                            <input name="purchaseType" style="width:50%;"  value="${obj.purchaseType}"/>
+               </c:if> --%>
+              </td>
               <td class="tc">${obj.supplier}</td>
               <td class="tc">${obj.isFreeTax}</td>
               <td class="tc">${obj.goodsUse}</td>
@@ -176,7 +189,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
       </table>
       
+      <div id="pagediv" align="right"></div>
    </div>
  </div>
+
+
+ <div id="content" class="div_show">
+     <p align="center" class="type">
+             请选择类别
+    <br>
+    
+     <input type="radio" name="goods" value="1">:物资<br>
+     <input type="radio" name="goods" value="2">:工程<br>
+     <input type="radio" name="goods" value="3">:服务<br>
+        </p>
+        
+ </div>
+ 
      </body>
 </html>
