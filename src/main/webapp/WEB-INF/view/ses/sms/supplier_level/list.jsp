@@ -148,7 +148,7 @@
 		
 		<div class="container margin-top-5">
 			<div class="content padding-left-25 padding-right-25 padding-top-5">
-				<table class="table table-bordered table-condensed">
+				<table class="table table-striped table-bordered table-hover">
 					<thead>
 						<tr>
 							<th class="info w50"><input type="checkbox" onchange="checkAll(this)"></th>

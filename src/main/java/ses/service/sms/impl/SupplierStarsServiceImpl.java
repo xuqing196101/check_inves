@@ -16,7 +16,7 @@ public class SupplierStarsServiceImpl implements SupplierStarsService {
 	@Autowired
 	private SupplierStarsMapper supplierStarsMapper;
 	
-	@Autowired
+	@Override
 	public List<SupplierStars> findSupplierStars() {
 		return supplierStarsMapper.findSupplierStars(null);
 	}

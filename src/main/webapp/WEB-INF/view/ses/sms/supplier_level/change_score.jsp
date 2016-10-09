@@ -95,7 +95,7 @@
 							<span><input type="text" readonly="readonly" name="supplierName" value="${supplier.supplierName}"/></span>
 						</li>
 						<li class="fl">
-							<label class="fl mt5">等级：</label>
+							<label class="fl mt5">诚信形式：</label>
 							<span>
 								<select onchange="loadCreditCtnt(this)">
 									<option selected="selected" value="">请选择</option>
@@ -113,7 +113,7 @@
 		
 		<div class="container margin-top-5">
 			<div class="content padding-left-25 padding-right-25 padding-top-5">
-				<table class="table table-bordered table-condensed">
+				<table class="table table-striped table-bordered table-hover">
 					<thead>
 						<tr>
 							<th class="info w50"><input type="checkbox" onchange="checkAll(this)"></th>

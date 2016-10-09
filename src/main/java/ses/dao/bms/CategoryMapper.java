@@ -140,5 +140,5 @@ public interface CategoryMapper {
 	 */
 	void delete(String id);
 	
-
+	List<Category> findCategoryByType(Category category);
 }
