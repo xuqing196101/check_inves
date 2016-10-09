@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.ppms.BidDocumentMapper">
+  <resultMap id="BidDocumentResultMap" type="bss.model.ppms.BidDocument">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="SALE_START_AT" jdbcType="DATE" property="saleStartAt" />
+    <result column="SALE_END_AT" jdbcType="DATE" property="saleEndAt" />
+    <result column="SALE_ADDRESS" jdbcType="VARCHAR" property="saleAddress" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+    <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
+    <result column="CONTENT" jdbcType="CLOB" property="content" />
+    <association column="PROJECT_ID"  property="project" select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey"></association>
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    ID, PROJECT_ID, SALE_START_AT, SALE_END_AT, SALE_ADDRESS, STATUS, CREATED_AT, UPDATED_AT, 
+    IS_DELETED, CONTENT
+  </sql>
+  <!-- 根据ID查询 -->
+  <select id="selectBidDocumentById" parameterType="object" resultMap="BidDocumentResultMap">
+        select 
+        <include refid="Base_Column_List" />
+        from T_BSS_PPMS_BID_DOCUMENT
+        WHERE ID =#{id}
+    </select>
+</mapper>
