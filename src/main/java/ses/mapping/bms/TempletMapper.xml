@@ -154,7 +154,8 @@
     from T_SES_BMS_Templet where IS_DELETED !=1 
     ORDER BY CREATED_AT DESC
   </select>
-  <!-- 9.根据模板类型查询 -->
+  
+  <!-- <!-- 9.根据模板类型查询 -->
    <select id="selectByType" parameterType="Object" resultMap="Object">
     select 
     *
@@ -165,5 +166,5 @@
      
      IS_DELETED !=1 
      
-  </select>
+  </select> -->
 </mapper>
