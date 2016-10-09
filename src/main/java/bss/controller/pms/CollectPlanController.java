@@ -2,7 +2,10 @@ package bss.controller.pms;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import bss.controller.base.BaseController;
 import bss.model.pms.CollectPlan;
+import bss.model.pms.CollectPurchase;
 import bss.model.pms.PurchaseRequired;
 import bss.service.pms.CollectPlanService;
+import bss.service.pms.CollectPurchaseService;
 import bss.service.pms.PurchaseRequiredService;
 
 import com.github.pagehelper.PageInfo;
@@ -36,6 +41,10 @@ public class CollectPlanController extends BaseController {
 	
 	@Autowired
 	private PurchaseRequiredService purchaseRequiredService;
+	
+	@Autowired
+	private CollectPurchaseService collectPurchaseService;
+	
 		/**
 		 * 
 		* @Title: queryPlan
@@ -87,29 +96,61 @@ public class CollectPlanController extends BaseController {
 		  */
 		@RequestMapping("/add")
 		public String queryCollect(CollectPlan collectPlan){
-	 
-			String planNo = collectPlan.getPlanNo();
 			PurchaseRequired p=new PurchaseRequired();
-			p.setPlanNo(planNo);
-			p.setIsMaster("1");
-	
-			List<PurchaseRequired> list = purchaseRequiredService.query(p, 10);
-			BigDecimal budget=BigDecimal.ZERO;
-			for(PurchaseRequired pr:list){
-				
-				budget=budget.add(pr.getBudget());
+			List<PurchaseRequired> list=new LinkedList<PurchaseRequired>();
+			Set<String> set=new HashSet<String>();
+			if(collectPlan.getPlanNo()!=null){
+				String[] plano = collectPlan.getPlanNo().split(",");
+				for(String no:plano){
+					p.setPlanNo(no);
+					p.setIsMaster("1");
+					List<PurchaseRequired> one = purchaseRequiredService.query(p, 1);
+					p.setIsCollect(2);//修改
+					p.setStatus("5");//修改
+					p.setIsMaster(null);
+					purchaseRequiredService.updateStatus(p);
+					list.addAll(one);
+				}
 			}
-			String id = UUID.randomUUID().toString().replaceAll("-", "");
-			collectPlan.setId(id);
-			collectPlan.setStatus(1);
-			collectPlan.setBudget(budget);
-			collectPlan.setCreatedAt(new Date());
-			collectPlan.setPosition(Long.valueOf(1));
-			collectPlanService.add(collectPlan);
+			if(collectPlan.getDepartment()!=null){
+				String[] department = collectPlan.getDepartment().split(",");
+				for(String dep:department){
+						set.add(dep);
+				}
+			}
+			if(set!=null&&set.size()>0){
+				for(String dep:set){
+					BigDecimal budget=BigDecimal.ZERO;
+					for(PurchaseRequired pr:list){
+						budget=budget.add(pr.getBudget());
+					}
+					String id = UUID.randomUUID().toString().replaceAll("-", "");
+					collectPlan.setId(id);
+					collectPlan.setStatus(1);
+					collectPlan.setBudget(budget);
+					collectPlan.setCreatedAt(new Date());
+					collectPlan.setDepartment(dep);
+					Integer max = collectPlanService.getMax();
+					if(max!=null){
+						max+=1;
+						collectPlan.setPosition(max);
+					}else{
+						collectPlan.setPosition(1);
+						
+					}
+					String[] plano = collectPlan.getPlanNo().split(",");
+					CollectPurchase c=new CollectPurchase();
+					for(String no:plano){
+						c.setCollectPlanId(id);
+						c.setPlanNo(no);
+						collectPurchaseService.add(c);
+					}
+					collectPlanService.add(collectPlan);
+				}
+			}
 			
-			p.setIsCollect(2);//修改
-			p.setStatus("5");//修改
-			purchaseRequiredService.updateStatus(p);
+			
+			
 			
 			return "redirect:list.html";
 		}

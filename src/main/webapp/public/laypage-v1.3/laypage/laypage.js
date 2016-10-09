@@ -72,7 +72,11 @@ Page.prototype.view = function(){
 //    if(conf.pages <= 1){
 //        return '';
 //    }
-    view.push('<span class="laypage_total"><label>显示'+conf.startRow+'-'+conf.endRow+','+conf.total+'条</label></span>');
+    if(conf.total == 0){
+    	view.push('<span class="laypage_total"><label>显示0条，</label></span>');
+    } else if(conf.total > 0){
+    	view.push('<span class="laypage_total"><label>显示'+conf.startRow+'-'+conf.endRow+','+conf.total+'条</label></span>');
+    }
     if(conf.groups > conf.pages){
         conf.groups = conf.pages;
     }
@@ -115,7 +119,7 @@ Page.prototype.view = function(){
     
     //当前页不为尾页时，输出下一页
     dict.flow = !conf.prev && conf.groups === 0;
-    if(conf.curr !== conf.pages && conf.next || dict.flow){
+    if(conf.pages !==0 && conf.curr !== conf.pages && conf.next || dict.flow){
         view.push((function(){
             return (dict.flow && conf.curr === conf.pages) 
             ? '<span class="page_nomore" title="&#x5DF2;&#x6CA1;&#x6709;&#x66F4;&#x591A;">'+ conf.next +'</span>'

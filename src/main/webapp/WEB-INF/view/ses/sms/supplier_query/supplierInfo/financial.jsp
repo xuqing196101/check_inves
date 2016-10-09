@@ -168,6 +168,9 @@ function tijiao(str){
   if(str=="item"){
      action = "<%=basePath%>supplierQuery/item.html";
   }
+  if(str=="item"){
+     action = "<%=basePath%>supplierQuery/item.html";
+  }
   $("#form_id").attr("action",action);
   $("#form_id").submit();
 }
