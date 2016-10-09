@@ -14,6 +14,13 @@ import bss.model.ppms.Project;
 import bss.service.ppms.ProjectService;
 
 
+/**
+ * Description: 公开招标
+ *
+ * @author Ye MaoLin
+ * @version 2016-10-9
+ * @since JDK1.7
+ */
 @Controller
 @Scope("prototype")
 @RequestMapping("/open_bidding")
@@ -27,7 +34,7 @@ public class OpenBiddingController {
 		PageInfo<Project> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
 		model.addAttribute("projects", project);
-		return "bss/ppms/excution/list";
+		return "bss/ppms/open_bidding/list";
 	}
 	
 }
