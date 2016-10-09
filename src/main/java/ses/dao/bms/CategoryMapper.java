@@ -140,6 +140,14 @@ public interface CategoryMapper {
 	 */
 	void delete(String id);
 
-
+	/**
+	 * 
+	* @Title: findCategoryByType
+	* @author zhangxuefeng 
+	* @Description:根据类型查询品目名称
+	* @param @param id
+	* @return int
+	 */
+	public List<Category> findCategoryByType(Category category);
 
 }
