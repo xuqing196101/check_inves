@@ -1,12 +1,21 @@
 package ses.controller.sys.ppms;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.print.DocFlavor.STRING;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.http.HttpRequest;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.zookeeper.server.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -15,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.google.gson.Gson;
 
+import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryAptitude;
 import ses.model.bms.CategoryTree;
@@ -26,15 +36,15 @@ import ses.service.ppms.CategoryParamService;
 @Controller
 @Scope("prototype")
 @RequestMapping("/categoryparam")
-public class CategoryParamContrller {
+public class CategoryParamContrller extends BaseSupplierController{
 	@Autowired
-	private CategoryParamService categoryParamService;
+	private CategoryParamService categoryParamService;//品目参数
 	@Autowired
-	private CategoryService categoryService;
+	private CategoryService categoryService;//品目
 	@Autowired
-	private CategoryAptitudeService categoryAptitudeService;
+	private CategoryAptitudeService categoryAptitudeService;//品目资质
 	
-	private List<CategoryParam> list;
+	
 	
 	/**
 	 * 
@@ -46,34 +56,35 @@ public class CategoryParamContrller {
 	* @return String
 	 */
 	@RequestMapping("/createtree")
-	public String createtree(Category category){
+	public String getAll(Category category){
 		if(category.getId()==null){
-			category.setId("a");
-	}	Gson gson = new Gson();
-	    String list="";
-		List<CategoryTree> jList=new ArrayList<CategoryTree>(); 
-		List<Category> cateList=categoryService.findTreeByPid(category.getId());
-		for(Category cate:cateList){
-			List<Category> cList=categoryService.findTreeByPid(cate.getId());
-			CategoryTree ct=new CategoryTree();
-			if(!cList.isEmpty()){
-				ct.setIsParent("true");
-			}else{
-				ct.setIsParent("false");
-			}
-			ct.setId(cate.getId());
-			ct.setName(cate.getName());
-			ct.setpId(cate.getParentId());
-			jList.add(ct);
-			list=gson.toJson(jList);
-	}
-		return list;
-		
-	}
+				category.setId("0");
+		}	Gson gson = new Gson();
+		    String list="";
+			List<CategoryTree> jList=new ArrayList<CategoryTree>(); 
+			List<Category> cateList=categoryService.findTreeByPid(category.getId());
+			for(Category cate:cateList){
+				List<Category> cList=categoryService.findTreeByPid(cate.getId());
+				CategoryTree ct=new CategoryTree();
+				if(!cList.isEmpty()){
+					ct.setIsParent("true");
+					cate.setIsEnd(1);
+				}else{
+					ct.setIsParent("false");
+					
+				}
+				ct.setId(cate.getId());
+				ct.setName(cate.getName());
+				ct.setpId(cate.getParentId());
+				jList.add(ct);
+				list=gson.toJson(jList);
+		}
+			return list;
+		}
 	/**
-	* @Title: get
+	* @Title: getAll
 	* @author zhangxuefeng
-	* @Description:创建新增页面
+	* @Description:进入参数页面
 	* @param @return    
 	* @return String
      */  
@@ -91,61 +102,56 @@ public class CategoryParamContrller {
 	* @return String
 	 */
 	@RequestMapping("/save")
-	public String save(HttpServletRequest request,Category category,CategoryParam categoryParam,CategoryAptitude categoryAptitude){
-		category.setId(request.getParameter("id"));
+	public String save(HttpServletRequest request,CategoryParam categoryParam ,CategoryAptitude categoryAptitude){
+		Category category=categoryService.selectByPrimaryKey(request.getParameter("categoryId"));
+		category.setCreatedAt(new Date());
+		categoryParam.setCategory(category);
+		categoryAptitude.setCategory(category);
 		category.setIsPublish(Integer.parseInt(request.getParameter("ispublish")));
-		if (category.getIsPublish().equals("a")) {
+		if (category.getIsPublish().equals("0")) {
 		category.setIsPublish(0);
-	}else if (category.getIsPublish().equals("b")) {
+	    }else if (category.getIsPublish().equals("1")) {
 		category.setIsPublish(1);
-	}
-		
-		categoryService.insertSelective(category);
+	    }
+		String[] kinds=request.getParameterValues("type");
+		for (int i = 0; i < kinds.length; i++) {
+			category.setKind(kinds[i]);
+		}
 		category.setAcceptRange(request.getParameter("acceptRange"));
-	category.setParamStatus(0);
-		/*categoryParam.setName(request.getParameter("name"));
-		categoryParam.setValueType(Integer.parseInt(request.getParameter("valueType")));*/
-		StringBuffer sb = new StringBuffer();
-		String[] name=request.getParameterValues("name");
-		for (int i = 0; i < name.length; i++) {
-			sb.append(name[i]);
-		}
-		categoryParam.setName(sb.toString());
-	
-		String[] valueType=(request.getParameterValues("valueType"));
-		for (int i = 0; i < valueType.length; i++) {
-			if (valueType[i].equals("a")) {
-			categoryParam.setValueType(0);
-		}else if (valueType[i].equals("b")) {
-				categoryParam.setValueType(1);
-			}else if (valueType[i].equals("c")) {
-				categoryParam.setValueType(2);
+	    category.setParamStatus(0);
+	    categoryService.updateByPrimaryKeySelective(category);
+	    String[] names= request.getParameterValues("name");
+		String[] values=request.getParameterValues("valueType");
+		for (int i = 0; i < names.length; i++) {
+			categoryParam.setName(names[i]);
+			for (int j = 0; j < values.length; j++) {
+				if (values[j].equals(0)) {
+					categoryParam.setValueType(0);
+				}else if (values[j].equals(1)) {
+					categoryParam.setValueType(1);
+				}else if (values[j].equals(2)) {
+					categoryParam.setValueType(2);
+				}
 			}
+			categoryParam.setCreatedAt(new Date());
+			categoryParamService.insertSelective(categoryParam);
 		}
-		/*String[] productName= request.getParameterValues("productName");
-		for (int i = 0; i < productName.length; i++) {
-			sb.append(productName[i]);
+     
+		String[] productNames= request.getParameterValues("productName");
+		for (int i = 0; i < productNames.length; i++) {
+			categoryAptitude.setProductName(productNames[i]);
+			categoryAptitudeService.insertSelective(categoryAptitude);
 		}
-		categoryAptitude.setProductName(sb.toString());
-		String[] saleName = request.getParameterValues("saleName");
-		for (int i = 0; i < saleName.length; i++) {
-			sb.append(saleName[i]);
-			
+		String[] saleNames = request.getParameterValues("saleName");
+	   	for (int i = 0; i < saleNames.length; i++) {
+			categoryAptitude.setSaleName(saleNames[i]);
+			categoryAptitude.setCreatedAt(new Date());
+			categoryAptitudeService.insertSelective(categoryAptitude);
 		}
-	    categoryAptitude.setSaleName(sb.toString());
-	     String[] type=request.getParameterValues("type");
-	     for (int i = 0; i < type.length; i++) {
-		    if (type[i].equals("a")) {		
-		category.setKind(0);
-			}else if (type[i].equals("b")) {
-				category.setKind(1);
-		}else if (type[i].equals("c")) {
-				category.setKind(2);
-			}else if (type[i].equals("d")) {
-				category.setKind(3);			}
-		}	*/
-		String proName=request.getParameter("productName");
-		return "redirect:getAll.html";
+		 
+		
+		
+		return "ses/ppms/categoryparam/add";
 		
 	}
 	 /**
@@ -159,7 +165,7 @@ public class CategoryParamContrller {
    @RequestMapping("/rename")
    public String updateName(HttpServletRequest request,Category category){
 	   categoryService.updateByPrimaryKeySelective(category);
-	return "ses/ppms/categoryparam/list";
+	return "ses/ppms/categoryparam/add";
    }
    
    /**
@@ -173,6 +179,97 @@ public class CategoryParamContrller {
      @RequestMapping("/del")
      public void delete(Category  category){
   	   categoryService.deleteByPrimaryKey(category.getId());
-  	
+     }
+     
+     /**
+   	 * 
+   	 * @Title: findOne
+   	 * @author Zhang XueFeng/	
+     * @Description:根据品目id查询参数信息
+   	 * @param @return 	
+   	 * @return void
+     */ 
+    @RequestMapping("/findOne")
+    public void findOne(HttpServletRequest request,HttpServletResponse response,String id){
+   List<CategoryParam> cateList=categoryParamService.findListByCategoryId(id);
+  
+      
+     }
+    /**
+   	 * 
+   	 * @Title: findOne
+   	 * @author Zhang XueFeng/	
+     * @Description：更新参数信息
+   	 * @param @return 	
+   	 * @return void
+     */ 
+    public void edit(CategoryParam cateparam,HttpServletRequest request){
+    	
+    	
+    }
+     /**
+  	* 
+  	* @Title: 导入excel中的内容
+  	* @author Zhang XueFeng
+  	* @Description:
+  	* @param @return 
+  	* @return String
+     * @throws IOException 
+     * @throws FileNotFoundException 
+     */
+     /*  @RequestMapping("/read")
+ 	public void read(Integer length) throws IOException {
+ 		   Workbook workbook;
+ 		   InputStream is = new FileInputStream(new File("D:\\add\\基础数据字典.xlsx"));
+ 			try {
+ 				workbook = new XSSFWorkbook(is);
+ 			} catch (FileNotFoundException e) {
+ 				workbook = new HSSFWorkbook(is);
+ 			}
+ 			Sheet sheet = workbook.getSheetAt(4);
+ 			for(int i=0;i<sheet.getPhysicalNumberOfRows();i++){
+ 				Row row = sheet.getRow(i);
+ 				if(row==null){
+ 					continue;
+ 				}
+ 				
+ 				Cell queType = row.getCell(0);
+ 				Cell name = row.getCell(1);
+ 				if(length==null){
+ 					length=1;
+ 				}
+ 				if(queType.toString().length()==length){
+ 					if(length!=1){
+ 						Category category = new Category();
+ 					List<Category> list=categoryService.selectAll();  
+ 					for(int k=0;k<list.size();k++){
+ 						//这个数据库的数据和queType的length-2的截取字符串对比 //查询语句lenngth-2;select  from category by
+ 						if((list.get(k).getCode()).equals(queType.toString().substring(0, length-2))){
+ 								category.setParentId(list.get(k).getId());
+ 								category.setName(name.toString());
+ 								category.setCode(queType.toString());
+ 								categoryService.insertSelective(category);
+ 						}
+ 					}
+ 			}else{
+ 				    Category category = new Category();
+ 				    category.setCode(queType.toString());
+ 				    category.setName(name.toString());
+ 				    category.setParentId("a");
+ 					categoryService.insertSelective(category);//插入语句
+ 					}
+ 				}
+ 			}
+      read(length+=2);
+     
+     	
+ 	   }*/
+     @RequestMapping("/import")
+     public void imports() throws FileNotFoundException{
+    	 Workbook workbook;
+    	 InputStream is = new FileInputStream(new File("D:\\"));
+	
+    	 
+    	 
      }
 }

@@ -1,12 +1,13 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ include file="../../../common.jsp"%>
+<%@ include file="/WEB-INF/view/common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-
+ <base href="<%=basePath%>">
+    
 <title>My JSP 'category.jsp' starting page</title>
 
  <link rel="stylesheet" type="text/css" href="<%=basePath%>/public/ztree/css/zTreeStyle.css"> 
@@ -15,10 +16,11 @@
 <script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.core.js"></script>
 <script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.excheck.js"></script>
 <script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.exedit.js"></script>
-
+<script src="<%=basePath%>public/layer/layer.js"></script>
+<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
 	var datas;
-	 var treeid=null;
+	var treeid=null;
  $(document).ready(function(){
 	 var setting={
 		async:{
@@ -48,7 +50,7 @@
 						enable:true,
 						idKey:"id",
 						pIdKey:"pId",
-						rootPId:"a",
+						rootPId:"0",
 					}
 			    },
 			    edit:{
@@ -66,12 +68,13 @@
   };
 	 
     $.fn.zTree.init($("#ztree"),setting,datas);
-    var lastValue ="", nodeList=[];
-    var value ="";
-    key.bind("propertychange",searchNode).bind("input",searchNode);
+    /* var lastValue ="", nodeList=[]; */
+    /* var value ="";
+    key.bind("propertychange",searchNode).bind("input",searchNode); */
 }) 
-    var ztree = $.fn.zTree.getZTreeObj("ztree");
-    var key =$("#key");
+    var treeObj = $.fn.zTree.getZTreeObj("ztree");
+
+   /*  var key =$("#key");
 	
     function searchNode(e){
 	     alert(4);
@@ -137,21 +140,20 @@
     function filter(node) {
 		return !node.isParent && node.isFirstNode;
 	}
-    
+     */
 	
-   /*删除图片*/
-   function deleteAtta(id,obj){
-	/* ids+=id+",";
-	$("#ids").val(ids);
-	alert(ids); */
-	$(obj).prev().remove();
-	$(obj).remove();
-}
-    /*点击事件*/
+   /**删除图片*/
+   function deletepic(treeid,obj){
+		$(obj).prev().remove();
+		$(obj).next().remove();
+		$(obj).remove();
+	}
+
+    /**点击事件*/
     function zTreeOnClick(event,treeId,treeNode){
 		treeid=treeNode.id
     }
-    /*添加采购目录*/
+    /**添加采购目录*/
     function news(){
 			if (treeid==null) {
 			alert("请选择一个节点");
@@ -164,7 +166,7 @@
 				        html = html+"<input type='hidden' value='"+treeid+"' name='parentId'/>";
 						html = html+"<tr><td>排序</td>"+"<td><input name='position'/></td></tr>";
 						html = html+"<tr><td>编码</td>"+"<td><input name='code'/></td></tr>";
-						html = html+"<tr><td>图片</td>"+"<td id='uploadAttach'><input id='pic'type='file' class='toinline' name='attaattach' /></td></tr>";
+						html = html+"<tr><td>图片</td>"+"<td id='uploadAttach'><input type='file' class='toinline' name='attaattach' value='上传图片'/></td></tr>";
 						html = html+"<tr><td>描述</td>"+"<td><textarea name='description'/></td></tr>";
 						html = html+"<tr><td colspan='2'><input type='submit' value='提交' onclick='check()' class='btn btn-window'/></td></tr>";
 						$("#result").append(html);
@@ -175,7 +177,7 @@
 			}
 			
 		}
-	/*修改节点信息*/
+	/**修改节点信息*/
     function update(){
 	 		if (treeid==null) {
 				alert("请选择一个节点");
@@ -183,24 +185,25 @@
 				$.ajax({
 					url:"<%=basePath%>category/update.do?id="+treeid,
 					dataType:"json",
-					type:"post",
+					type:"get",
 					success:function(cate){
-	                   console.info(cate.id);				
-						var fileName = cate.categoryAttchment.fileName;
+	                 	
+						var fileName = cate.categoryAttchment.attchmentPath;
+						alert(fileName);
 						if(fileName!=null){
-						var fileNameTrue = fileName.split("_");
+						var fileNameTrue = fileName.split("/");
+						
 						var html = "";
-						html = html+"<tr><td>目录名称</td><td><input value='"+cate.name+"' name='name'/>";
+						
+						html = html+"<tr><td>目录名称</td><td><input value='"+cate.name+"' name='name'/></td></tr>";
 						html = html+"<tr><td>上级目录</td><td><input value='"+cate.parentId+"' name='parentId'/></td></tr>";
-						 html = html+"<input type='hidden' name='id' value='"+cate.id+"'/>";
+						html = html+"<input type='hidden' name='id' value='"+cate.id+"'/>";
 						html = html+"<tr><td>排序</td><td><input value='"+cate.position+"' name='position'/></td></tr>";
 						html = html+"<tr><td>编码</td><td><input value='"+cate.code+"' name='code'/></td></tr>";
-						html = html+"<tr ><td>已上传的图片</td><td id='uploadAttach'><a href=''>"+fileNameTrue[1]+"</a>"
-						+"<button tyep='button' class='ml10 mb10 btn ' onclick='deletepic()'>X</button><br/>"
-						+"<input type='file' id='pic' class='toinline' name='attaattach' />"
-						+"</td></tr>";
-					
-						html = html+"<tr><td>描述</td><td><input value='"+cate.description+"' name='description'/></td></tr>";
+						html = html+"<tr><td>已上传的图片</td><td><button type='button' onclick='showPic('"+fileName+"')'>相关图片</button>"
+						+"<img type='hide' id='photo' src='"+fileName+"'/>"
+						+"<input type='file' name='attaattach' value='重新上传'/></td></tr>";
+						html = html+"<tr><td>描述</td><td><textarea value='"+cate.description+"' name='description'/></td></tr>";
 						html = html+"<tr><td colspan='2'><input type='submit' onclick='mysubmit()' value='更新' class='btn btn-window '/></td></tr>";
 						$("#result").append(html);
 					}
@@ -209,9 +212,19 @@
 			}
  		}
   
+    function showPic(url,name){
+		layer.open({
+			  type: 1,
+			  title: false,
+			  closeBtn: 0,
+			  area: '50px',
+			  skin: 'layui-layer-nobg', //没有背景色
+			  shadeClose: true,
+			  content: $("#photo")
+			});
+	};
     
-    
- 	/*休眠-激活*/
+ 	/**休眠-激活*/
     function ros(){
  			var str="";
 	 		var treeObj = $.fn.zTree.getZTreeObj("ztree");
@@ -227,14 +240,14 @@
 			})
  		}
  		
- 	/*重命名和删除的回掉函数*/	
+ 	/**重命名和删除的回调函数*/	
     function zTreeOnRemove(event, treeId, treeNode,isCancel) {
 		}
     function zTreeOnRename(event, treeId, treeNode, isCancel) {
 				 alert(treeNode.tId + ", " + treeNode.name); 
 				
 		}
-	/*删除目录信息*/
+	/**删除目录信息*/
     function zTreeBeforeRemove(treeId, treeNode){
 	 		$.ajax({
 	 			type:"post",
@@ -242,24 +255,28 @@
 	 		});
 		}
 	 	
-	/*节点重命名*/
+	/**节点重命名*/
     function zTreeBeforeRename(treeId,treeNode,newName,isCancel){
 			$.ajax({
 	 			type:"post",
 	 			url:"<%=basePath%>category/rename.do?id="+treeNode.id+"&name="+newName,
 	 		});
 		} 
-    /*新增提交*/		
-	function check(){
+    /**新增提交*/		
+	function add(){
 		document.fm.action="<%=basePath%>category/save.do";
 		document.fm.submit();
 	}
-	/*更新数据*/
-	function mysubmit(id){
+	/**更新数据*/
+	function renew(id){
 		document.fm.action="<%=basePath%>category/edit.do";
 		document.fm.submit();
+	}
+	/**删除附件*/
+	function del(){
+	     window.location.href="<%=basePath%>category/deleted.do";
 	}	
-    /*关键字查询*/
+    /**关键字查询*/
   <%--    function searchM(){
     	window.location.href="<%=basePath%>category/search.do?name="+name;
     	var name = $("#keyword").val();
@@ -417,8 +434,9 @@
     </form>
     < --%>
     <form  id="form" action="" name="fm" method="post"  enctype="multipart/form-data">
-    <input type="hidden"  onclick="check()" value="submit"/>
-    <input type="hidden"  onclick="mysubmit()" value="submit"/>
+    <input type="hidden"  onclick="add()" value="submit"/>
+    <input type="hidden"  onclick="renew()" value="submit"/>
+    <input type="hidden" name="attchmentId" value=""/>
     <table id="result"  class="table table-bordered table-condensedb mt15" ></table>
     </form>
         </div>

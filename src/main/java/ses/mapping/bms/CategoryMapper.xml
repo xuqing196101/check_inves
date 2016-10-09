@@ -19,7 +19,7 @@
  	<result column="ACCEPT_RANGE"  property="acceptRange" />
  	<result column="PARAM_PUBLISH_RANG"  property="paramPublishRange" />
  <!-- 	<association property="categoryAptitude" column="APTITUDE_ID" select="ses.dao.bms.CategoryAptitudeMapper.selectByPrimaryKey"/> -->
- 	<association property="categoryAttchment" column="ATTCHMENT_ID" select="ses.dao.bms.CategoryAttchmentMapper.selectByPrimaryKey"/>
+ 	<association property="categoryAttchment" column="ATTCHMENT_ID" select="ses.dao.bms.CategoryAttachmentMapper.selectByPrimaryKey"/>
   </resultMap>
     <resultMap type="ses.model.bms.Category" id="totalMap" extends="CateMap">
 	    <collection property="categoryParams" ofType="ses.model.ppms.CategoryParam" resultMap="ses.dao.ppms.CategoryParamMapper.CategoryParamMap" />
@@ -28,7 +28,7 @@
     </resultMap>
   <sql id="Base_Column_List">
     ID, NAME, STATUS, PARENT_ID, CREATED_AT, UPDATED_AT, DESCRIPTION, IS_END, 
-    CODE, POSITION,IS_DELETED,IS_PUBLISH,KIND,PARAM_STATUS,ACCEPT_RANGE,PARAM_PUBLISH_RANG,APTITUDE_ID,ATTCHMENT_ID
+    CODE, POSITION,IS_DELETED,IS_PUBLISH,KIND,PARAM_STATUS,ACCEPT_RANGE,PARAM_PUBLISH_RANG,ATTCHMENT_ID
   </sql>
   
   <!-- 根据id查询 -->
@@ -151,9 +151,6 @@
       <if test="categoryAttchment != null">
         ATTCHMENT_ID,
       </if>
-       <if test="categoryAptitude != null">
-        APTITUDE_ID,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -207,9 +204,7 @@
         <if test="categoryAttchment != null">
         #{categoryAttchment.id},
         </if>
-        <if test="categoryAptitude != null">
-        #{categoryAptitude.id},
-        </if>
+     
     </trim>
   </insert>
   
@@ -248,26 +243,23 @@
       <if test="isDeleted != null">
         IS_DELETED = #{isDeleted},
       </if>
-      <if test="isPubliced != null">
+      <if test="isPublish != null">
          IS_PUBLISH = #{isPublish},
         </if>
-        <if test="type != null">
+        <if test="kind != null">
        KIND = #{kind},
         </if>
         <if test="paramStatus != null">
         PARAM_STATUS = #{paramStatus},
         </if>
-        <if test="acceptenceRegulation != null">
+        <if test="acceptRange != null">
         ACCEPT_RANGE= #{acceptRange},
         </if>
-        <if test="scopePublic != null">
+        <if test="paramPublishRange != null">
          PARAM_PUBLISH_RANGE = #{paramPublishRange},
         </if>
-        <if test="scopePublic != null">
+        <if test="categoryAttchment != null">
          ATTCHMENT_ID = #{categoryAttchment},
-        </if>
-        <if test="scopePublic != null">
-         APTITUDE_ID = #{categoryAptitude},
         </if>
     </set>
     where ID = #{id}
@@ -280,6 +272,7 @@
     set NAME = #{name},
  	where ID=#{id}
  	</update>
+<<<<<<< Updated upstream
  	
  	<select id="findCategoryByType" parameterType="ses.model.bms.Category" resultMap="CateMap">
  		select * from T_SES_BMS_CATEGORY where 1=1
@@ -288,4 +281,7 @@
  		</if>
  	</select>
  	
+=======
+ 
+>>>>>>> Stashed changes
 </mapper>

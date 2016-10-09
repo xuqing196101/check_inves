@@ -14,11 +14,11 @@
    
 		   <!-- 表中所有列 --> 
     <sql id="Base_Column_List">
-		    ID, PRODUCT_NAME,SALE_NAME, CONTENT,USER_ID,CREATER_ID,CREATED_AT, UPDATED_AT	    
+		    ID, PRODUCT_NAME,SALE_NAME,CATEGORY_ID,CREATED_AT, UPDATED_AT,IS_DELETED	    
 		  </sql>
 		  
   	
-    <select id="selectAll" parameterType="java.lang.String" resultMap="CategoryAptitudeMap">
+    <select id="selectAll" parameterType="Object" resultMap="CategoryAptitudeMap">
         select 
     <include refid="Base_Column_List" />
     from 
@@ -27,18 +27,26 @@
     </select>
     
     <!-- 1.根据Id查询 -->
-		  <select id="selectByPrimaryKey" parameterType="Object" resultMap="CategoryAptitudeMap">
+    <select id="selectByPrimaryKey" parameterType="Object" resultMap="CategoryAptitudeMap">
 			    select 
 			    <include refid="Base_Column_List" />
 			    from T_SES_BMS_CATEGORY_APTITUDE
-			    where ID = #{category.id}
+			    where ID = #{id}
 		  </select>
+    <!-- 根据品目id查询资质信息 -->
+    <select id="queryListByCategoryId" parameterType="Object" resultMap="CategoryAptitudeMap">
+             select 
+              <include refid="Base_Column_List" />
+              from T_SES_BMS_CATEGORY_APTITUDE
+              where CATEGORY_ID = #{categoryId}
+         </select>
+    
     <!-- 删除 -->
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
         delete 
         from 
-            T_SES_BMS_CATEGORY_APTITUDE
-                 where ID = #{category.id}
+        T_SES_BMS_CATEGORY_APTITUDE
+        where CATEGORY_ID = #{categoryId}
     </delete>
     
     <!-- 新增 -->
@@ -109,11 +117,13 @@
       <if test="updatedAt != null">
         UPDATED_AT = #{updatedAt},
       </if>
-      
+      <if test="category != null">
+        category = #{category.id},
+      </if>
       <if test="isDeleted != null">
         IS_DELETED = #{isDeleted},
       </if>
     </set>
-    where ID = #{category.id}
+    where ID = #{id}
   </update>
 </mapper>

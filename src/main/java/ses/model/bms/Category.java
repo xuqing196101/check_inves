@@ -50,7 +50,7 @@ public class Category {
      * 是否为末级
      * 
      * */
-    private String isEnd;
+    private Integer isEnd;
     /*
      * 前台展示优先级
      * 
@@ -75,7 +75,7 @@ public class Category {
     * 产品类型（销售型   生产型）
     * 
     * */
-   private Integer kind;
+   private String kind;
    /*
     * 参数状态
     * 
@@ -93,7 +93,7 @@ public class Category {
     * */
    private Integer paramPublishRange;
 
-   private CategoryAttchment categoryAttchment;
+   private CategoryAttachment categoryAttchment;
    
    private List<CategoryAptitude> categoryAptitudes;
 	
@@ -119,11 +119,11 @@ public void setCategoryAptitudes(List<CategoryAptitude> categoryAptitudes) {
 	this.categoryAptitudes = categoryAptitudes;
 }
 
-	public CategoryAttchment getCategoryAttchment() {
+	public CategoryAttachment getCategoryAttchment() {
 	return categoryAttchment;
 }
 
-public void setCategoryAttchment(CategoryAttchment categoryAttchment) {
+public void setCategoryAttchment(CategoryAttachment categoryAttchment) {
 	this.categoryAttchment = categoryAttchment;
 }
 
@@ -204,15 +204,15 @@ public void setCategoryAttchment(CategoryAttchment categoryAttchment) {
         this.description = description == null ? null : description.trim();
     }
 
-    public String getIsEnd() {
-        return isEnd;
-    }
+    public Integer getIsEnd() {
+		return isEnd;
+	}
 
-    public void setIsEnd(String isEnd) {
-        this.isEnd = isEnd == null ? null : isEnd.trim();
-    }
+	public void setIsEnd(Integer isEnd) {
+		this.isEnd = isEnd;
+	}
 
-    public String getCode() {
+	public String getCode() {
         return code;
     }
 
@@ -255,16 +255,25 @@ public void setCategoryAttchment(CategoryAttchment categoryAttchment) {
 		this.isPublish = isPublish;
 	}
 
-	public Integer getKind() {
+	/*public Integer getKind() {
 		return kind;
 	}
 
 	public void setKind(Integer kind) {
 		this.kind = kind;
-	}
+	}*/
+	
 
 	public String getAcceptRange() {
 		return acceptRange;
+	}
+
+	public String getKind() {
+		return kind;
+	}
+
+	public void setKind(String kind) {
+		this.kind = kind;
 	}
 
 	public void setAcceptRange(String acceptRange) {

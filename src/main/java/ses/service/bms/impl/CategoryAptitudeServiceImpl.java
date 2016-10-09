@@ -1,5 +1,7 @@
 package ses.service.bms.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,9 +21,9 @@ public class CategoryAptitudeServiceImpl implements CategoryAptitudeService{
 	}
 
 	@Override
-	public int insertSelective(CategoryAptitude aptitude) {
+	public void insertSelective(CategoryAptitude aptitude) {
 		// TODO Auto-generated method stub
-		return categoryAptitudeMapper.insertSelective(aptitude);
+		 categoryAptitudeMapper.insertSelective(aptitude);
 	}
 
 	@Override
@@ -34,6 +36,12 @@ public class CategoryAptitudeServiceImpl implements CategoryAptitudeService{
 	public int updateByPrimaryKeySelective(String id) {
 		// TODO Auto-generated method stub
 		return categoryAptitudeMapper.updateByPrimaryKeySelective(id);
+	}
+
+	@Override
+	public List<CategoryAptitude> queryListByCategoryId(String id) {
+		// TODO Auto-generated method stub
+		return categoryAptitudeMapper.queryListByCategoryId(id);
 	}
 
 }

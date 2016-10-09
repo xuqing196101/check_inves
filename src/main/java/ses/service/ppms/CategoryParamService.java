@@ -14,7 +14,14 @@ public interface CategoryParamService {
 	* @param @param list<Category>
 	*/
 	public List<CategoryParam> selectAll();
-	
+	/**   
+	* @Title: findListByCategoryId
+	* @author zhangxuefeng
+	* @date 2016-7-27 下午4:52:29  
+	* @Description: 根据品目id查询参数信息
+	* @param @param CategoryParam
+	*/
+	 List<CategoryParam> findListByCategoryId(String id);
 	/**
 	 * 
 	* @Title: deleteByPrimaryKey
@@ -58,11 +65,11 @@ public interface CategoryParamService {
 	public List<Category> listByParent(String pid);
 	
 	/**   
-	* @Title: listByParent
+	* @Title: insertSelective
 	* @author zhangxuefeng
 	* @date 2016-7-27 下午4:52:29  
 	* @Description: 根据id新增
 	* @param @param CategoryParam
 	*/
-	 CategoryParam insertSelective(CategoryParam categoryParam);
+	 void insertSelective(CategoryParam categoryParam);
 }

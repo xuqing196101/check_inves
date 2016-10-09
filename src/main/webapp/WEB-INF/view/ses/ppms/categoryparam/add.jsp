@@ -24,7 +24,7 @@
 <script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.core.js"></script>
 <script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.excheck.js"></script>
 <script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.exedit.js"></script>
-    <script type="text/javascript">
+<script type="text/javascript">
     var datas;
 	var treeid=null;
     $(document).ready(function(){
@@ -56,7 +56,7 @@
 						enable:true,
 						idKey:"id",
 						pIdKey:"pId",
-						rootPId:"a",
+						rootPId:"0",
 					}
 			    },
 			    edit:{
@@ -70,11 +70,10 @@
 			   check:{
 					enable: true
 			   },
-			
  };
-	 
-   $.fn.zTree.init($("#ztree"),setting,datas);
-   
+ $.fn.zTree.init($("#ztree"),setting,datas); 
+ 
+    
 }) 
    
    /**点击事件*/
@@ -88,40 +87,27 @@
 			alert("请选择一个节点");
 					return;		
 			}else{
-			alert(treeid)
-						var html = "";
-						html = html+"<tr><td><input name='name'/></td>"
-						+"<td><select>"
-						    +"<option name='valueType' value='a'>字符型</option>"
-						    +"<option name='valueType' value='b'>数字型</option>"
-						    +"<option name='valueType' value='c'>日期</option>"
-						    +"</select</td></tr>";
-						/* html = html+"<tr><td colspan='2'><input type='submit' value='提交'/></td></tr>"; */
-						$("#result").prepend(html);
-					   
-				
-			}
-			
-		}
-	/**修改节点信息*/
-   function update(){
-	 		if (treeid==null) {
-				alert("请选择一个节点");
-			}else{
-				$.ajax({
-					url:"<%=basePath%>category/update.do?id="+treeid,
-					dataType:"json",
-					type:"post",
-					success:function(cate){
-						alert(cate.name);
-						var html = "";
-						html = html+"<tr><td></td><td><input value='"+cate.name+"'/></td></tr>";
-					
-						$("#result").append(html);
-					}
-				})
+				var html = "";
+					html = html+"<tr><td><laber>参数名称：</label><input name='name'/></td>"
+					+"<td><span>参数类型：</span><select name='valueType'calss='w200'>"
+					+"<option>请选择</option>"
+					+"<option name='valueType' value='0'>字符型</option>"
+					+"<option name='valueType' value='1'>数字型</option>"
+				    +"<option name='valueType' value='2'>日期</option>"
+				    +"</select</td></tr>";
+					$("#result").prepend(html);
 			}
 		}
+    /**修改参数*/
+    function update(){
+        if(treeid==null){
+        alert("请选择一个节点");
+            return;
+        }else{
+          window.location.href="<%=basePath%>categoryparam/findOne.do?id="+treeid;
+        }
+    }
+   
 		
 	/**重命名和删除的回掉函数*/	
    function zTreeOnRemove(event, treeId, treeNode,isCancel) {
@@ -154,11 +140,11 @@
     window.location.href="<%=basePath%>categoryparam/exports.do";
     }
     function addAttach(){
-		html="<input type='text' class='mt10' name='productName'/><a class=' btn mb15' onclick='deleteattach(this)'>X</a><br/>";
+		html="<input type='text'  name='productName'/><a class='ml10 btn ' onclick='deleteattach(this)'>X</a><br/>";
 		$("#addinput").append(html);
 	}
 	 function addAtt(){
-		html="<input type='text'  name='saleName'/><a class='ml30' onclick='deleteattach(this)'>X</a><br/>";
+		html="<input type='text'  name='saleName'/><a class='ml10 btn' onclick='deleteattach(this)'>X</a><br/>";
 		$("#addnews").append(html);
 	}
 	function deleteattach(obj){
@@ -167,25 +153,46 @@
 		$(obj).remove();
 	}
 	
-   <%--    /**新增提交*/		
-	function check(){
-		document.fm.action="<%=basePath%>category/save.do";
-		document.fm.submit();
-	} --%>
-	<%-- /**更新数据*/
-	function mysubmit(){
-		document.fm.action="<%=basePath%>category/edit.do";
-		document.fm.submit();
-	}	
-   --%>
+       /**新增提交*/		
+	function fun(){
+	    var name="";
+    	var value="";
+    	var str="";
+    	var sts="";
+    	var type="";
+    	/**根据name获取各项数据的值*/
+        obj = document.getElementsByName("name");
+        abj = document.getElementsByName("valueType");
+		cbj=document.getElementsByName("productName");
+		dbj=document.getElementsByName("saleName");
+		ebj=document.getElementsByName("type");
+        for ( var i = 0; i < obj.length; i++) {
+			name+=$(obj[i]).val()+",";
+		}
+        for ( var j = 0; j < abj.length; j++) {
+			value+=$(abj[j]).val()+",";
+		}
+		for ( var k= 0; k < cbj.length; k++) {
+			str+=$(cbj[k]).val()+",";
+		}
+        for ( var n = 0; n < dbj.length; n++) {
+			sts+=$(dbj[n]).val()+",";
+		}
+		for ( var m = 0; m < ebj.length; m++) {
+			type+=$(ebj[m]).val()+",";
+		}
+		$("#sss").val(name);
+		$("#bbb").val(value);
+		$("#ddd").val(str);
+		$("#ccc").val(sts);
+		$("#eee").val(type);
+		$("#form").submit();
+	} 
+	
 </script>
-    </script>
-
-  </head>
-  
-  <body>
+     </head>
+ <body>
  <div class="wrapper">
-
   <div class="header-v4 header-v5">
     <!-- Navbar -->
     <div class="navbar navbar-default mega-menu" role="navigation">
@@ -269,17 +276,25 @@
    <div class="container">
    <div class="col-md-3">
      
-
-	 <div><ul id="ztree" class="ztree"></ul></div>
-	</div>
-		<div class="mt10 col-md-9">
-			<span id="add"><a href="javascript:void(0);" onclick="news()" class="btn btn-window ">添加参数 </a></span> 
-			<span ><a href="javascript:void(0);" onclick="imports()" class="btn btn-window ">导入Excel</a></span>
+	 <div class="tag-box tag-box-v3 mt10">
+	 <div><ul id="ztree" class="ztree "></ul></div>
+	 </div>
+	</div >
+		<div class=" tag-box tag-box-v4 mt10 col-md-9">
+			<span id="add"><a href="javascript:void(0);" onclick="news()" class="btn btn-window ">添加参数 </a></span>
+			<span><a href="javascript:void(0);" onclick="update()" class="btn btn-window ">修改参数 </a></span>
+			<span><a href="javascript:void(0);" onclick="imports()" class="btn btn-window ">导入Excel</a></span>
 			<span><a href="javascript:void(0);" onclick="exports()" class="btn btn-window ">导出Excel</a></span>
-    <form action="<%=basePath%>categoryparam/save.do"  method="post" >
-                     <input id="cateid" type="hidden" name="id" value=""/>
+			<div class=" tag-box tag-box-v4 mt10 col-md-9">
+                 <form id="form" action="<%=basePath%>categoryparam/save.do" method="post">
+                     <input id="cateid" type="hidden" name="categoryId" value=""/>
+                     <input type="hidden" id="sss" value="" />
+                     <input type="hidden" id="bbb" value=""/>
+                     <input type="hidden" id="ddd" value=""/>
+                     <input type="hidden" id="ccc" value=""/>
+                     <input type="hidden" id="eee" value=""/>
                 <table id="result"  class="table table-bordered table-condensedb mt15" >
-					 <tr><td >是否公开</td>
+				     <tr><td >是否公开</td>
 					 <td>
 					 <span class="ml30"><input type="radio" value="0" name="ispublish" />是</span>
 					 <span class="ml60"><input type="radio" value="1" name="ispublish"/>否</span>
@@ -291,27 +306,24 @@
 					 </td></tr> -->
 					 <tr><td >产品类型</td>
 					 <td>
-					 <span class="ml30"><input type="checkbox" value="a" name="type"/>生产型</span>
-					 <span class="ml30"><input type="checkbox" value="b" name="type"/>销售型</span>
-					 <span class="ml30"><input type="checkbox" value="c" name="type"/>服务型</span>
-					 <span class="ml30"><input type="checkbox" value="d" name="type"/>工程型</span>
+					 <span class="ml30"><input type="checkbox" value="生产型" name="type" id="box"/>生产型</span>
+					 <span class="ml30"><input type="checkbox" value="销售型" name="type" id="box"/>销售型</span>
 					 </td></tr>
 					 <tr><td>验证规范</td><td><textarea name="acceptRange"></textarea></td></tr>
-					 <tr><td>生产型资质文件</td>
-					 <td ><span id="addinput"></span><input type="text" name="productName"/></span>
-					 <input  type="button" value="添加" onclick="addAttach()"/><br/>
+					 <tr><td>生产型资质</td>
+					 <td ><span id="addinput"></span><input type="text" value="" name="productName"/></span>
+					 <input  type="button" value="添加" onclick="addAttach()" class="mb10"/><br/>
 					 </td></tr>
-					 <tr><td>销售型资质文件</td>
+					 <tr><td>销售型资质</td>
 					 <td><span id="addnews"></span><input type="text" name="saleName"/></span>
-					 <input  type="button" value="添加" onclick="addAtt()"/><br/>
+					 <input  type="button" value="添加" onclick="addAtt()" class="mb10"/><br/>
 					 </td></tr>
-					 <tr><td colspan="2"  >
-					 <input type="submit" class="btn mr30"/>
-					 <input type="button"class="btn" value="返回"/></td>
-					 </tr>
-				   
+				     <tr><td colspan="2"  >
+					<input  type="button" class="btn mr30" onclick="fun()" value="提交"/>
+					 </td></tr> 
                 </table>
             </form>
+        </div>
         </div>
     </div>
 	

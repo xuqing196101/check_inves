@@ -1,5 +1,7 @@
 package ses.service.bms;
 
+import java.util.List;
+
 import ses.model.bms.CategoryAptitude;
 
 
@@ -31,7 +33,18 @@ public interface CategoryAptitudeService {
     * @param @return      
     * @return int
      */
-    int insertSelective(CategoryAptitude aptitude);
+    void insertSelective(CategoryAptitude aptitude);
+    /**
+     * 
+    * @Title: queryListByCategoryId
+    * @author Zhang XueFeng
+    * @date 2016-8-25 下午3:36:18  
+    * @Description: 根据id查
+    * @param @param record
+    * @param @return      
+    * @return int
+     */
+    List<CategoryAptitude> queryListByCategoryId(String id);
     /**
      * 
     * @Title: selectByPrimaryKey

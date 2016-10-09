@@ -8,18 +8,18 @@
     <result column="CREATED_AT" property="createdAt" />
     <result column="UPDATED_AT"  property="updatedAt" />
     <result column="IS_DELETED"  property="isDeleted" />
-    <association  column="CATEGORY_ID"  property="category"  select="ses.model.bms.CategoryMapper.selectByPrimaryKey"/>  
+    <association  column="CATEGORY_ID"  property="category"  select="ses.dao.bms.CategoryMapper.selectByPrimaryKey"/>  
  </resultMap>
  
  <!-- 表中所有列 -->
     <sql id="Base_Column_List">
-		    ID, NAME,VALUE_TYPE,CREATED_AT, UPDATED_AT,IS_DELETED    
+		    ID, NAME,VALUE_TYPE,CREATED_AT, UPDATED_AT,CATEGORY_ID,IS_DELETED    
     </sql>
  <!-- 查询所有 -->
     <select id="selectAll" parameterType="Object" resultMap="CategoryParamMap">
      select 
      <include refid="Base_Column_List"/>
-     from T_SES_PPMS_CATEGORYPARAM
+     from T_SES_PPMS_CATEGORY_PARAM
     </select>
     
     <!-- 根据pid查询生成树 -->
@@ -29,11 +29,19 @@
   from T_SES_BMS_CATEGORY
   where PARENT_ID=#{category.id}
   </select>
+  
+    <!-- 根据品目id查询参数列表 -->
+        <select id="findListByCategoryId" parameterType="Object" resultMap="CategoryParamMap">
+            select 
+                <include refid="Base_Column_List" />
+                    from T_SES_PPMS_CATEGORY_PARAM  
+            where CATEGORY_ID=#{category.id}
+        </select>
     <!-- 1.根据Id查询 -->
-		  <select id="selectByPrimaryKey" parameterType="Object" resultMap="CategoryParamMap">
+		<select id="selectByPrimaryKey" parameterType="Object" resultMap="CategoryParamMap">
 			    select 
 			    <include refid="Base_Column_List" />
-			    from T_SES_PPMS_CATEGORYPARAM
+			    from T_SES_PPMS_CATEGORY_PARAM
 			    where ID = #{category.id}
 		  </select>
     <!-- 新增参数 -->
@@ -41,7 +49,7 @@
 		    <selectKey keyProperty="id" resultType="String" order="BEFORE">
 		        select sys_guid() from dual
 		    </selectKey>
-		    insert into T_SES_PPMS_CATEGORYPARAM
+		    insert into T_SES_PPMS_CATEGORY_PARAM
 		    <trim prefix="(" suffix=")" suffixOverrides=",">
 		      <if test="id != null">
 		        ID,
@@ -60,6 +68,9 @@
 		      </if>
 		      <if test="category != null">
 		        CATEGORY_ID,
+		      </if>
+		      <if test="isDeleted != null">
+		        IS_DELETED,
 		      </if>
 		    </trim>
 		    <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -81,16 +92,19 @@
 		       <if test="category != null">
 		        #{category.id},
 		      </if>
+		      <if test="isDeleted != null">
+		        #{isDeleted},
+		      </if>
 		    </trim>
 		  </insert>
     <!-- 4根据ID删除 -->
 		  <delete id="deleteByPrimaryKey" parameterType="Object">
-			    delete from T_SES_PPMS_CATEGORYPARAM
-			    where ID = #{id}
+			    delete from T_SES_PPMS_CATEGORY_PARAM
+			    where ID = #{category.id}
 		  </delete>
 	<!-- 6根据ID更新数据 -->
 		  <update id="updateByPrimaryKeySelective" parameterType="ses.model.ppms.CategoryParam">
-		    update T_SES_PPMS_CATEGORYPARAM
+		    update T_SES_PPMS_CATEGORY_PARAM
 		    <set>
 		      <if test="name != null">
 		        NAME = #{name},
@@ -101,7 +115,7 @@
 		      <if test="content != null">
 		       VALUE_TYPE = #{valueType},
 		      </if>
-		      <if test="park != null">
+		      <if test="category != null">
 		        CATEGORY_ID = #{category.id},
 		      </if>		      
 		    </set>

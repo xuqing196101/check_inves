@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.bms.CategoryAttachmentMapper">
+  <resultMap id="CategoryAttachmentMap" type="ses.model.bms.CategoryAttachment">
+    <id column="ID"  property="id" />
+    <result column="FILE_NAME"  property="fileName" />
+    <result column="CONTENT_TYPE" property="contentType" />
+    <result column="FILE_SIZE"  property="fileSize" />
+    <result column="ATTCHMENT_PATH"  property="attchmentPath" />
+    <result column="CREATED_AT" property="createdAt" />
+    <result column="UPDATED_AT"  property="updatedAt" />
+    <result column="IS_DELETED"  property="isDeleted" />
+    <association property="category" column="CATEGORY_ID" select="ses.dao.bms.CategoryMapper.selectByPrimaryKey"/>
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    ID, FILE_NAME, CONTENT_TYPE, FILE_SIZE, ATTCHMENT_PATH, CREATED_AT, UPDATED_AT, CATEGORY_ID, 
+    IS_DELETED
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="CategoryAttachmentMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_BMS_CATEGORY_ATTACHMENT
+    where ID = #{id}
+  </select>
+  
+  <select id="selectByCategoryId" parameterType="java.lang.String" resultMap="CategoryAttachmentMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_BMS_CATEGORY_ATTACHMENT
+    where CATEGORY_ID= #{category.id}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="Object">
+    delete from T_SES_BMS_CATEGORY_ATTACHMENT
+    where ID = #{category.id}
+  </delete>
+ 
+  
+  
+  <insert id="insertSelective" parameterType="ses.model.bms.CategoryAttachment">
+  <selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_SES_BMS_CATEGORY_ATTACHMENT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="fileName != null">
+        FILE_NAME,
+      </if>
+      <if test="contentType != null">
+        CONTENT_TYPE,
+      </if>
+      <if test="fileSize != null">
+        FILE_SIZE,
+      </if>
+      <if test="attchmentPath != null">
+        ATTCHMENT_PATH,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="category != null">
+        CATEGORY_ID,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="fileName != null">
+        #{fileName},
+      </if>
+      <if test="contentType != null">
+        #{contentType},
+      </if>
+      <if test="fileSize != null">
+        #{fileSize},
+      </if>
+      <if test="attchmentPath != null">
+        #{attchmentPath},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt},
+      </if>
+      <if test="category != null">
+        #{category.id},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="ses.model.bms.CategoryAttachment">
+    update T_SES_BMS_CATEGORY_ATTACHMENT
+    <set>
+      <if test="fileName != null">
+        FILE_NAME = #{fileName},
+      </if>
+      <if test="contentType != null">
+        CONTENT_TYPE = #{contentType},
+      </if>
+      <if test="fileSize != null">
+        FILE_SIZE = #{fileSize},
+      </if>
+      <if test="attchmentPath != null">
+        ATTCHMENT_PATH = #{attchmentPath},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt},
+      </if>
+      <if test="categoryId != null">
+        CATEGORY_ID = #{category.id},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted},
+      </if>
+    </set>
+    where ID = #{id}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="ses.model.bms.CategoryAttachment">
+    update T_SES_BMS_CATEGORY_ATTACHMENT
+    set FILE_NAME = #{fileName},
+      CONTENT_TYPE = #{contentType},
+      FILE_SIZE = #{fileSize},
+      ATTCHMENT_PATH = #{attchmentPath},
+      CREATED_AT = #{createdAt},
+      UPDATED_AT = #{updatedAt},
+      CATEGORY_ID = #{category.id},
+      IS_DELETED = #{isDeleted}
+    where ID = #{id}
+  </update>
+
+</mapper>

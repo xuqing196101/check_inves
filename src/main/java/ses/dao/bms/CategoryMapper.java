@@ -127,6 +127,19 @@ public interface CategoryMapper {
 	* @return int
 	 */
 	public List<Category> listByKeyword(Map map);
+<<<<<<< Updated upstream
 	
 	List<Category> findCategoryByType(Category category);
+=======
+	/**
+	 * 
+	* @Title: listByKeyword
+	* @author zhangxuefeng 
+	* @Description:根据关键字查询品目名称
+	* @param @param id
+	* @return int
+	 */
+	void delete(String id);
+	
+>>>>>>> Stashed changes
 }

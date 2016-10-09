@@ -1,5 +1,7 @@
 package ses.dao.bms;
 
+import java.util.List;
+
 import ses.model.bms.CategoryAptitude;
 
 
@@ -30,7 +32,7 @@ public interface CategoryAptitudeMapper {
     * @param @return      
     * @return int
      */
-    int insertSelective(CategoryAptitude aptitude);
+    void insertSelective(CategoryAptitude aptitude);
     /**
      * 
     * @Title: selectByPrimaryKey
@@ -42,6 +44,17 @@ public interface CategoryAptitudeMapper {
     * @return int
      */
     CategoryAptitude selectByPrimaryKey(String id);
+    /**
+     * 
+    * @Title: queryListByCategoryId
+    * @author Zhang XueFeng
+    * @date 2016-8-25 下午3:36:18  
+    * @Description: 根据id查
+    * @param @param record
+    * @param @return      
+    * @return int
+     */
+    List<CategoryAptitude> queryListByCategoryId(String id);
     /**
      * 
     * @Title: updateByPrimaryKeySelective

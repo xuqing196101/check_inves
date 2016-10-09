@@ -47,9 +47,16 @@ public class CategoryParamServiceImpl implements CategoryParamService{
 
 
 	@Override
-	public CategoryParam insertSelective(CategoryParam categoryParam) {
+	public void insertSelective(CategoryParam categoryParam) {
 		// TODO Auto-generated method stub
-		return categoryParamMapper.insertSelective(categoryParam);
+		 categoryParamMapper.insertSelective(categoryParam);
+	}
+
+
+	@Override
+	public List<CategoryParam> findListByCategoryId(String id) {
+		// TODO Auto-generated method stub
+		return categoryParamMapper.findListByCategoryId(id);
 	}
 
 }

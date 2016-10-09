@@ -2,6 +2,8 @@ package ses.dao.ppms;
 
 import java.util.List;
 
+import javax.print.DocFlavor.STRING;
+
 import ses.model.bms.Category;
 import ses.model.ppms.CategoryParam;
 
@@ -40,7 +42,7 @@ public interface CategoryParamMapper {
     * @Description: 根据id查
     * @param @param record
     * @param @return      
-    * @return int
+    * @return CategoryParam
      */
     CategoryParam selectByPrimaryKey(String id);
     /**
@@ -64,11 +66,19 @@ public interface CategoryParamMapper {
 	 List<Category> listByParent(String pid);
 	
 	/**   
-	* @Title: listByParent
+	* @Title: insertSelective
 	* @author zhangxuefeng
 	* @date 2016-7-27 下午4:52:29  
 	* @Description: 根据id新增
-	* @param @param CategoryParam
+	* @param @param void
 	*/
-	 CategoryParam insertSelective(CategoryParam categoryParam);
+	 void insertSelective(CategoryParam categoryParam);
+	 /**   
+		* @Title: findListByCategoryId
+		* @author zhangxuefeng
+		* @date 2016-7-27 下午4:52:29  
+		* @Description: 根据品目id查询参数信息
+		* @param @param CategoryParam
+		*/
+	List<CategoryParam> findListByCategoryId(String id);
 }
