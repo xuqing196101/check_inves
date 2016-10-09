@@ -155,16 +155,5 @@
     ORDER BY CREATED_AT DESC
   </select>
   
-  <!-- <!-- 9.根据模板类型查询 -->
-   <select id="selectByType" parameterType="Object" resultMap="Object">
-    select 
-    *
-    from T_SES_BMS_Templet where
-    <if test="temType != null and temType !=''">
-        TEM_TYPE=#{temType} and 
-     </if>
-     
-     IS_DELETED !=1 
-     
-  </select> -->
+  
 </mapper>
