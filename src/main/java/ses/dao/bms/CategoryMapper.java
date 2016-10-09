@@ -139,19 +139,7 @@ public interface CategoryMapper {
 	* @return int
 	 */
 	void delete(String id);
-<<<<<<< Updated upstream
-	
-	List<Category> findCategoryByType(Category category);
-=======
-	/**
-	 * 
-	* @Title: findCategoryByType
-	* @author Wang ZhaoHua 
-	* @Description:根据关键字查询品目名称
-	* @param @param id
-	* @return int
-	 */
-	List<Category> findCategoryByType(Category category);
 
->>>>>>> Stashed changes
+
+
 }
