@@ -119,13 +119,14 @@
 	  		</li>
 	  		
 	  		
-	  		--%><li class="col-md-12 p0">
-	  			<span class="fl w450 mb5">首次考试不及格的是否允许30分钟内重考：</span>
-		  		<input type="checkbox" name="isAllowTrue" id="isAllowTrue" disabled="disabled">是
-    			<input type="checkbox" name="isAllowFalse" id="isAllowFalse" disabled="disabled"/>否
+	  		--%>
+	  		<li class="col-md-12 p0">
+	  			<span class="fl mb5">允许30分钟内重考：</span>
+		  		<input class="mt0" type="checkbox" id="isAllowTrue" value="是">是
+    			<input class="mt0" type="checkbox" id="isAllowFalse" value="否"/>否
 	  		</li>
 	  		
-	  		<li class="col-md-12 p0 red mt10">
+	  		<li class="col-md-12 p0 mt10 red">
 	  			*注意:每份考卷的登录有效期为15分钟,如:考卷开始时间上午9点,请相关参考人员于上午9点至上午9点15分内登录考试系统考试,否则视为弃考,计0分。
 	  		</li>
     	</ul>

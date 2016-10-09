@@ -16,6 +16,15 @@
     <result column="COLLECT_ID" property="collectId" />
     <association property="project" column="PROJECT_ID" select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey"/>
   </resultMap>
+  
+  <resultMap type="bss.model.ppms.Task" id="ProjectResultMap" extends="BaseResultMap">  
+    <collection property="project" ofType="bss.model.ppms.Project">  
+        <result column="tid" property="id" />
+        <result column="tname" property="name" />
+         <result column="tprojectNumber" property="projectNumber" />
+    </collection>
+  </resultMap> 
+  
   <sql id="Base_Column_List">
     ID, NAME, PURCHASE_ID, DOCUMENT_NUMBER, GIVE_TIME,STATUS,PROCUREMENT_METHOD,PURCHASE_REQUIRED_ID,IS_DELETED,
     MATERIALS_TYPE,YEAR,PROJECT_ID,COLLECT_ID
@@ -63,6 +72,14 @@
         and MATERIALS_TYPE like #{materialsType}
       </if>
      ORDER BY GIVE_TIME DESC
+  </select>
+  <select id="selectByProject" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    p.NAME AS tname,p.PROJECT_NUMBER AS tprojectNumber,
+    t.NAME AS NAME,t.MATERIALS_TYPE AS MATERIALS_TYPE,t.YEAR AS YEAR,t.PROJECT_ID AS PROJECT_ID,
+    t.PURCHASE_REQUIRED_ID AS PURCHASE_REQUIRED_ID,t.PROCUREMENT_METHOD AS PROCUREMENT_METHOD,t.PURCHASE_ID AS PURCHASE_ID
+    from T_BSS_PPMS_TASK t left join T_BSS_PPMS_PROJECTS p
+    on p.ID = t.PROJECT_ID where t.PROJECT_ID = #{id}   
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from T_BSS_PPMS_TASK

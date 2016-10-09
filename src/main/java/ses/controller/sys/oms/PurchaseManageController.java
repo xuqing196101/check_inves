@@ -1,9 +1,11 @@
 package ses.controller.sys.oms;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,10 +13,15 @@ import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
 
+import org.apache.zookeeper.proto.GetACLRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,8 +29,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 
+import ses.model.bms.Area;
 import ses.model.bms.User;
 import ses.model.oms.Deparent;
 import ses.model.oms.Orgnization;
@@ -34,6 +43,7 @@ import ses.model.oms.util.AjaxJsonData;
 import ses.model.oms.util.CommUtils;
 import ses.model.oms.util.CommonConstant;
 import ses.model.oms.util.Ztree;
+import ses.service.bms.AreaServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.DepartmentServiceI;
 import ses.service.oms.OrgnizationServiceI;
@@ -65,9 +75,27 @@ public class PurchaseManageController {
 	private PurChaseDepOrgService purChaseDepOrgService;
 	@Autowired
 	private PurchaseServiceI purchaseServiceI;
+	@Autowired
+	private AreaServiceI areaServiceI;
 	
 	private AjaxJsonData jsonData = new AjaxJsonData();
+	
+	private List<Area> privinceList = new ArrayList<Area>();
+	private List<Area> cityList = new ArrayList<Area>();
 	HashMap<String,Object> resultMap = new HashMap<String,Object>();
+	
+	
+	/*@InitBinder    
+	   protected void initBinder(WebDataBinder binder) {    
+	       binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"), true));    
+	       binder.registerCustomEditor(int.class, new CustomNumberEditor(int.class, true));    
+	      // binder.registerCustomEditor(int.class, new IntegerEditor());    
+	        binder.registerCustomEditor(long.class, new CustomNumberEditor(long.class, true)); 
+	        binder.registerCustomEditor(double.class, new CustomNumberEditor(double.class, true));
+	       //binder.registerCustomEditor(long.class, new LongEditor());    
+	       //binder.registerCustomEditor(double.class, new DoubleEditor());    
+	      // binder.registerCustomEditor(float.class, new FloatEditor());    
+	   }   */
 	
 	@RequestMapping("list")
 	public String list() {
@@ -644,10 +672,46 @@ public class PurchaseManageController {
 		return "ses/oms/purchase_dep/list";
 	}
 	/**
+	 * 新增采购机构  王赛说不要
 	 */
 	@RequestMapping("addPurchaseDep")
 	public String addPurchaseDep() {
 		return "ses/oms/purchase_dep/add";
+	}
+	/**
+	 * 
+	 * @Title: editPurchaseDep
+	 * @author: Tian Kunfeng
+	 * @date: 2016-9-28 上午11:26:20
+	 * @Description: 修改采购机构
+	 * @param: @return
+	 * @return: String
+	 */
+	@RequestMapping("editPurchaseDep")
+	public String editPurchaseDep(@ModelAttribute PurchaseDep purchaseDep,HttpServletRequest request,Model model) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("id", purchaseDep.getId());
+		List<PurchaseDep> list = purchaseOrgnizationServiceI.findPurchaseDepList(map);
+		if(list!=null && list.size()>0){
+			purchaseDep = list.get(0);
+		}
+		model.addAttribute("purchaseDep", purchaseDep);
+		return "ses/oms/purchase_dep/edit";
+	}
+	@RequestMapping(value="updatePurchaseDep",method= RequestMethod.POST)
+	@ResponseBody
+	public AjaxJsonData updatePurchaseDep(@ModelAttribute PurchaseDep purchaseDep,HttpServletRequest request){
+		@SuppressWarnings("unused")
+		User currUser = (User) request.getSession().getAttribute("loginUser");
+		
+		HashMap<String, Object> delmap = new HashMap<String, Object>();//机构对多对map
+		HashMap<String, Object> deporgmap = new HashMap<String, Object>();//机构对多对map
+		String depIds= request.getParameter("depIds");
+		orgnizationServiceI.updateOrgnizationById(purchaseDep.getOrgnization());
+		purchaseOrgnizationServiceI.update(purchaseDep);
+		jsonData.setSuccess(true);
+		jsonData.setMessage("更新成功");
+		return jsonData;
 	}
 	/**
 	 * 
@@ -698,7 +762,27 @@ public class PurchaseManageController {
 		
 		return "ses/oms/require_dep/treebody";
 	}
-	
+	/**
+	 * 
+	 * @Title: getProvinceList
+	 * @author: Tian Kunfeng
+	 * @date: 2016-9-29 下午5:07:12
+	 * @Description: 省市联动
+	 * @param: @param request
+	 * @param: @return
+	 * @return: List<Area>
+	 */
+	@RequestMapping("getProvinceList")
+	@ResponseBody
+	public List<Area> getProvinceList(HttpServletRequest request){
+		String pid = request.getParameter("pid");//areaType
+		privinceList =  areaServiceI.findTreeByPid(pid,null);
+		return  privinceList;
+	}
+	@RequestMapping("purchaseDepMapList")
+	public String PurchaseDepMapList(){
+		return "ses/oms/purchase_dep/purchasedep_map_list";
+	}
 	//-----------------------------------------------------基本get()/set()--------------------------------------------------
 	public AjaxJsonData getJsonData() {
 		return jsonData;
@@ -711,6 +795,18 @@ public class PurchaseManageController {
 	}
 	public void setResultMap(HashMap<String, Object> resultMap) {
 		this.resultMap = resultMap;
+	}
+	public List<Area> getPrivinceList() {
+		return privinceList;
+	}
+	public void setPrivinceList(List<Area> privinceList) {
+		this.privinceList = privinceList;
+	}
+	public List<Area> getCityList() {
+		return cityList;
+	}
+	public void setCityList(List<Area> cityList) {
+		this.cityList = cityList;
 	}
 	
 }

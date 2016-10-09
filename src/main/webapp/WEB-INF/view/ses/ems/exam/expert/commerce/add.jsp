@@ -5,7 +5,6 @@
 <html>
   <head>
     <title>新增商务类专家题库</title>
-
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -14,17 +13,8 @@
 	<script type="text/javascript">
 		$(function(){
 			var que = document.getElementsByName("que");
-			var queType = $("#queType").val();
-			if(queType){
-				for(var i=0;i<que.length;i++){
-					$(que[i]).click(function(){
-						$("#queSelect").html(" ");
-					})
-				}
-			}else{
-				for(var i=0;i<que.length;i++){
-					que[i].setAttribute("disabled",true);
-				}
+			for(var i=0;i<que.length;i++){
+				que[i].setAttribute("disabled",true);
 			}
 			$("#form").validate({
 				errorElement: "span",
@@ -33,13 +23,11 @@
 				rules:{
 					queType:"required",
 					queTopic:"required",
-					//queOption:"required",
 					quePoint:"required"
 				},
 				messages:{
 					queType:"题型不能为空",
 					queTopic:"题干不能为空",
-					//queOption:"选项不能为空",
 					quePoint:"请选择分值"
 				}
 			});
@@ -48,44 +36,11 @@
 		
 		//保存到法律题库
 		function save(){
-			var ques = "";
-			var judges = "";
-			var queType = $("#queType").val();
-			var que = document.getElementsByName("que");
-			var quePoint = $("#quePoint").val();
-			if(queType){
-				if(queType==1){
-					for(var i=0;i < que.length;i++){ 
-						if(que[i].checked){
-							ques += que[i].value+',';
-						}
-					}
-					if(ques==null||ques==""){
-						$("#queSelect").html("请选择答案");
-						$("#queJudge").html(" ");
-						return;
-					}
-				}else if(queType==2){
-					for(var i=0;i < que.length;i++){
-						if(que[i].checked){
-							ques += que[i].value+',';
-						}
-					}
-					if(ques==null||ques==""){
-						$("#queSelect").html("请选择答案");
-						$("#queJudge").html(" ");
-						return;
-					}
-				}
-			}else{
-				$("#queSelect").html(" ");
-			}
 			$("#form").submit();
 		}
 		
 		//切换题型
 		function changeType(){
-			$("#queSelect").html(" ");
 			var queType = $("#queType").val();
 			var que = document.getElementsByName("que");
 			var all_options = document.getElementById("quePoint").options;
@@ -150,75 +105,74 @@
 		   		<h2>新增商务类题目</h2>
 		   </div>
 	   
-  	<form action="<%=path %>/expertExam/saveToCom.html" method="post" id="form">
-  		<ul class="list-unstyled list-flow p0_20">
-		     <li class="col-md-12 p0">
-	  			<span class="fl">请选择题型：</span>
-		  		<select id="queType" name="queType" onchange="changeType()">
-		  			<option value="">请选择</option>
-		  			<option value="1">单选题</option>
-		  			<option value="2">多选题</option>
-		  		</select>
-	  		</li>
-  		
-		    <li class="col-md-12 p0">
-			   <span class="fl">题干：</span>
-			   <div class="">
-		        	<textarea class="text_area col-md-8" name="queTopic" id="queTopic"></textarea>
-		       </div>
-			</li> 
+	  	<form action="<%=path %>/expertExam/saveToCom.html" method="post" id="form">
+	  		<ul class="list-unstyled list-flow p0_20">
+			    <li class="col-md-12 p0">
+		  			<span class="fl">请选择题型：</span>
+			  		<select id="queType" name="queType" onchange="changeType()">
+			  			<option value="">请选择</option>
+			  			<option value="1">单选题</option>
+			  			<option value="2">多选题</option>
+			  		</select>
+		  		</li>
+	  		
+			    <li class="col-md-12 p0">
+				   <span class="fl">题干：</span>
+				   <div class="">
+			        	<textarea class="text_area col-md-8" name="queTopic" id="queTopic"></textarea>
+			       </div>
+				</li> 
 		   
 
 		
 				<li class="col-md-12 p0">
-				<span class="fl">选项：</span>
-				<div class="col-md-9">
-				<div>
-			  		<div class="fl mt5">A</div><textarea name="option" id="optionA" class="ml5 col-md-8"></textarea>
-			  		<div class="clear"></div>
-			  	</div>
-			  	<div class="clear mt10">
-					<div class="fl mt5">B</div><textarea name="option" id="optionB" class="ml5 col-md-8"></textarea>
-				    <div class="clear"></div>
-				</div>
-				<div class="clear mt10">
-					<div class="fl mt5">C</div><textarea name="option" id="optionC" class="ml5 col-md-8"></textarea>
-				    <div class="clear"></div>
-				</div>
-				<div class="clear mt10">
-					<div class="fl mt5">D</div><textarea name="option" id="optionD" class="ml5 col-md-8"></textarea>
-				    <div class="clear"></div>
-				</div>
-		       </div>
-			 </li> 
+					<span class="fl">选项：</span>
+					<div class="col-md-9">
+						<div>
+					  		<div class="fl mt5">A</div><textarea name="option" id="optionA" class="ml5 col-md-8"></textarea>
+					  		<div class="clear"></div>
+					  	</div>
+					  	<div class="clear mt10">
+							<div class="fl mt5">B</div><textarea name="option" id="optionB" class="ml5 col-md-8"></textarea>
+						    <div class="clear"></div>
+						</div>
+						<div class="clear mt10">
+							<div class="fl mt5">C</div><textarea name="option" id="optionC" class="ml5 col-md-8"></textarea>
+						    <div class="clear"></div>
+						</div>
+						<div class="clear mt10">
+							<div class="fl mt5">D</div><textarea name="option" id="optionD" class="ml5 col-md-8"></textarea>
+						    <div class="clear"></div>
+						</div>
+			       	</div>
+			 	</li> 
 			
 
 		
 				<li class="col-md-12 p0">
 					<span class="fl">答案：</span>	
 					<div class="fl ml5 mt5">
-			        A <input type="radio" id="A" name="que" value="A" class="mt0"/> 
-		  			B <input type="radio" id="B" name="que" value="B" class="mt0"/> 
-		  			C <input type="radio" id="C" name="que" value="C" class="mt0"/> 
-		  			D <input type="radio" id="D" name="que" value="D" class="mt0"/>
+				        <input type="radio" id="A" name="que" value="A" class="mt0"/>A 
+			  			<input type="radio" id="B" name="que" value="B" class="mt0"/>B 
+			  			<input type="radio" id="C" name="que" value="C" class="mt0"/>C 
+			  			<input type="radio" id="D" name="que" value="D" class="mt0"/>D
 			       </div>
-					<span id="queSelect"></span>
 				</li>
 			
 
-			<li class="col-md-12 p0">
-	  			<span class="fl">分值：</span>
-	  			<select name="quePoint" id="quePoint">
-	  				<option value="1">1</option>
-	  				<option value="2">2</option>
-	  				<option value="3">3</option>
-	  				<option value="4">4</option>
-	  				<option value="5">5</option>
-	  			</select>
-  			</li>
-  		</ul>
-  	</div>
-  			<!-- 按钮 -->
+				<li class="col-md-12 p0">
+		  			<span class="fl">分值：</span>
+		  			<select name="quePoint" id="quePoint">
+		  				<option value="1">1</option>
+		  				<option value="2">2</option>
+		  				<option value="3">3</option>
+		  				<option value="4">4</option>
+		  				<option value="5">5</option>
+		  			</select>
+	  			</li>
+  			</ul>
+  		</div>
+  		<!-- 按钮 -->
   		<div class="padding-top-10 clear">
 			<div class="col-md-12 pl200 ">
 				<div class="mt40 tc mb50">

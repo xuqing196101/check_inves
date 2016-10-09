@@ -219,7 +219,7 @@
 				
 				<td class="tc opinter" onclick="view('${PqInfo.id}')">${PqInfo.contract.code}</td>
 			
-				<td class="tc opinter" onclick="view('${PqInfo.id}')">${PqInfo.contract.supplier.supplierName}</td>
+				<td class="tc opinter" onclick="view('${PqInfo.id}')">${PqInfo.contract.supplierDepName}</td>
 			
 				<td class="tc opinter" onclick="view('${PqInfo.id}')">${PqInfo.type}</td>
 				

@@ -47,6 +47,8 @@ public class SupplierTypeRelate implements Serializable {
 	 */
 	private Date updatedAt;
 
+	private String supplierTypeName;
+
 	public String getId() {
 		return id;
 	}
@@ -85,5 +87,13 @@ public class SupplierTypeRelate implements Serializable {
 
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+
+	public String getSupplierTypeName() {
+		return supplierTypeName;
+	}
+
+	public void setSupplierTypeName(String supplierTypeName) {
+		this.supplierTypeName = supplierTypeName;
 	}
 }

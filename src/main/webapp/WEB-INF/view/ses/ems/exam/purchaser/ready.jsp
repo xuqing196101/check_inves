@@ -41,6 +41,15 @@
 			    	}else if(data==4){
 			    		layer.alert("该考卷登录有效期已过",{offset: ['222px', '390px']});
 						$(".layui-layer-shade").remove();
+			    	}else if(data==5){
+			    		layer.alert("对不起,您不是该考卷的参考人员",{offset: ['222px', '390px']});
+						$(".layui-layer-shade").remove();
+			    	}else if(data==6){
+			    		layer.alert("对不起,该考卷还没有设置参考人员",{offset: ['222px', '390px']});
+						$(".layui-layer-shade").remove();
+			    	}else if(data==7){
+			    		layer.alert("您已参加本场考试,无法再登录",{offset: ['222px', '390px']});
+						$(".layui-layer-shade").remove();
 			    	}
 		       	}
 		    });
@@ -51,9 +60,11 @@
   
   <body>
     <div class="container tc">
-      <div class="border1 mt20 padding-bottom-20">
-        <div class="mt20"><span>输入考试编号：</span><input type="text" id="paperNo" class="mb0"/></div>
-        <div class="tc mt20"><input type="button" class="btn" value="生成考卷" onclick="generatePaper()"/></div>
+      <div class="border1 mt20 center p15_10 w350">
+        <div class="mt20"><span class="fl mt5">输入考试编号：</span><input type="text" id="paperNo" class="mb0 fl"/>
+        <div class="clear"></div>
+        </div>
+        <div class="tc mt20 clear"><input type="button" class="btn" value="生成考卷" onclick="generatePaper()"/></div>
       </div>
     </div>
   </body>

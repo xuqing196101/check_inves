@@ -36,8 +36,8 @@
 				success:function(json){
   					 $(".contract_id").val(json.id);
   					 $(".contract_name").val(json.name);
-  					 $(".supplier_id").val(json.supplier.id);	
-  					 $(".supplier_name").val(json.supplier.supplierName);			
+  					 $(".supplier_id").val(json.supplierPurId);	
+  					 $(".supplier_name").val(json.supplierDepName);			
 	       		}
 	       	});
 	}

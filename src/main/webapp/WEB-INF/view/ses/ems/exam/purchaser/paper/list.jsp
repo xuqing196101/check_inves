@@ -91,7 +91,7 @@
 		}
 		
 		//查看参考人员
-		function viewReference(){
+		function setReference(){
 			var count = 0;
 			var info = document.getElementsByName("info");
 			var str = "";
@@ -142,7 +142,8 @@
    		<div class="col-md-10">
 	    	<input type="button" class="btn btn-windows add" value="新建考卷" onclick="addPaper()"/>
 	    	<input type="button" class="btn btn-windows edit" value="编辑" onclick="editPaper()"/>
-	    	<input type="button" class="btn btn-windows pl13" value="查看参考人员" onclick="viewReference()"/>
+	    	<input type="button" class="btn btn-windows pl13" value="设置参考人员" onclick="setReference()"/>
+    		<input type="button" class="btn btn-windows pl13" value="查看成绩" onclick="viewScore()"/>
     	</div>
     </div>
     

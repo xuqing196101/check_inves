@@ -14,4 +14,5 @@ import ses.model.oms.PurchaseDep;
 public interface PurchaseOrgnizationServiceI {
 	List<PurchaseDep> findPurchaseDepList(HashMap<String, Object> map);
 	int  savePurchaseDep(PurchaseDep purchaseDep);
+	int update(PurchaseDep purchaseDep);
 }

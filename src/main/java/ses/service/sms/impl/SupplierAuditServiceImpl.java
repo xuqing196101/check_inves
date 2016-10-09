@@ -1,8 +1,14 @@
 package ses.service.sms.impl;
 
+import java.io.File;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import ses.dao.sms.SupplierAptituteMapper;
@@ -18,6 +24,7 @@ import ses.dao.sms.SupplierMatProMapper;
 import ses.dao.sms.SupplierMatSeMapper;
 import ses.dao.sms.SupplierStockholderMapper;
 import ses.dao.sms.SupplierTypeMapper;
+import ses.dao.sms.SupplierTypeRelateMapper;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
@@ -31,6 +38,7 @@ import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSe;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierType;
+import ses.model.sms.SupplierTypeRelate;
 import ses.service.sms.SupplierAuditService;
 import ses.util.PropertiesUtil;
 
@@ -70,7 +78,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	private SupplierStockholderMapper supplierStockholderMapper;
 	
 	/**
-	 * 供应商类型
+	 * 所有供应商类型
 	 */
 	@Autowired
 	private SupplierTypeMapper supplierTypeMapper;
@@ -122,6 +130,12 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	 */
 	@Autowired
 	private SupplierMatSeMapper supplierMatSeMapper;
+	
+	/**
+	 * 勾选的供应商类型
+	 */
+	@Autowired
+	SupplierTypeRelateMapper supplierTypeRelateMapper;
 	/**
 	 * @Title: supplierList
 	 * @author Xu Qing
@@ -137,6 +151,24 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 		}
 		return supplierMapper.findSupplier(supplier);
+	}
+	
+	@Override
+	public List<Supplier> querySupplier(Supplier supplier,Integer page) {
+		if(page!=null){
+			PropertiesUtil config = new PropertiesUtil("config.properties");
+			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		}
+		return supplierMapper.querySupplier(supplier);
+	}
+	
+	@Override
+	public List<Supplier> getAllSupplier(Supplier supplier,Integer page) {
+		if(page!=null){
+			PropertiesUtil config = new PropertiesUtil("config.properties");
+			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		}
+		return supplierMapper.getAllSupplier(supplier);
 	}
 
 	/**
@@ -381,8 +413,44 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		
 	}
 
+	@Override
+	public String findSupplierTypeNameBySupplierId(String supplierId) {
+		
+		Supplier supplier = supplierMapper.getSupplier(supplierId);
+		List<SupplierTypeRelate> listSupplierTypeRelates = supplier.getListSupplierTypeRelates();
+		String supplierTypeNames = "";
+		for (int i = 0; i < listSupplierTypeRelates.size(); i++) {
+			if (i > 0) {
+				supplierTypeNames += ",";
+			}
+			supplierTypeNames += listSupplierTypeRelates.get(i).getSupplierTypeName();
+		}
+		//return supplierTypeRelateMapper.findSupplierTypeNameBySupplierId(supplierId);
+		return supplierTypeNames;
+	}
 	
+	public ResponseEntity<byte[]> downloadFile(String filePath,String fileName){
+	   	 try {
+				File file=new File(filePath+fileName);  
+				    HttpHeaders headers = new HttpHeaders(); 
+				   String downFileName=new String(fileName.getBytes("UTF-8"),"iso-8859-1");//为了解决中文名称乱码问题  
+				    headers.setContentDispositionFormData("attachment",downFileName );   
+				    headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);   
+				    ResponseEntity<byte[]> entity = new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),headers, HttpStatus.CREATED); 
+				    return entity;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+	}
 
-
-
+	@Override
+	public List<Supplier> querySupplierbyCategory(Supplier supplier,
+			Integer page) {
+		if(page!=null){
+			PropertiesUtil config = new PropertiesUtil("config.properties");
+			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		}
+		return supplierMapper.querySupplierbyCategory(supplier);
+	}
 }

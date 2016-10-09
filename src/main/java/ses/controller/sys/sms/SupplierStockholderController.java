@@ -15,7 +15,7 @@ import ses.service.sms.SupplierStockholderService;
 
 @Controller
 @Scope("prototype")
-@RequestMapping(value = "supplier_stockholder")
+@RequestMapping(value = "/supplier_stockholder")
 public class SupplierStockholderController {
 	
 	@Autowired

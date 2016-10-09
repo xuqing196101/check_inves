@@ -1,7 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%
 String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+String basePath = request.getScheme()+"：//"+request.getServerName()+"："+request.getServerPort()+path+"/";
 %>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
@@ -111,7 +111,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				 <tr>
 				  <td class="bggrey tr">采购单位联系人座机：</td>
 				  <td> －</td>
-				  <td class="bggrey tr">采购单位联系人手机:</td>
+				  <td class="bggrey tr">采购单位联系人手机：</td>
 				  <td>－</td>
 				  <td class="bggrey tr">采购单位地址：</td>
 				  <td>北京市西城区西直门外大街甲</td>
@@ -119,7 +119,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				 <tr>
 				  <td class="bggrey tr">供应商名称：</td>
 				  <td>商丘市庆源机械设备有限公司</td>
-				  <td class="bggrey tr">供应商单位联系人:</td>
+				  <td class="bggrey tr">供应商单位联系人：</td>
 				  <td>联系人</td>
 				  <td class="bggrey tr">供应商单位联系人座机：</td>
 				  <td>56229828</td>
@@ -165,7 +165,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				 <tr>
 				  <td class="bggrey">市场单价（元）：</td>
 				  <td>1200.0</td>
-				  <td class="bggrey">成交单价（元）:</td>
+				  <td class="bggrey">成交单价（元）：</td>
 				  <td>1000.0</td>
 				  <td class="bggrey">数量：</td>
 				  <td>1000.0</td>
@@ -175,7 +175,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				 <tr>
 				  <td class="bggrey">小计（元）：</td>
 				  <td>10000.0</td>
-				  <td class="bggrey">供应商单位联系人:</td>
+				  <td class="bggrey">供应商单位联系人：</td>
 				  <td>联系人</td>
 				  <td class="bggrey">供应商单位联系人座机：</td>
 				  <td>56229828</td>
@@ -197,13 +197,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               </div>
             </div>
 			
-            <div class="tab-pane fade height-450" id="tab-3" style="position:relative">
+            <div class="tab-pane fade height-450" id="tab-3" style="position：relative">
               <div class=" margin-bottom-0">
                 <div class="tml_container padding-top-0">
 				  <div class="dingwei">
 				  <div class="tml_spine">
 					<span class="tml_spine_bg"></span>
-					<i id="add_event_plus" class="spine_plus" style="top: -6px; display: none;"></i>
+					<i id="add_event_plus" class="spine_plus" style="top： -6px; display： none;"></i>
 					<span id="timeline_start_point" class="start_point"></span>
 				  </div>
 				  <div class="tml_poster" id="post_area" ><div class="poster" id="poster_1">
@@ -221,7 +221,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					    </div>
                      </div>
 				  </div>
-				  <div class="period_header"><span>11:17:41 2015-11-18</span></div>
+				  <div class="period_header"><span>11：17：41 2015-11-18</span></div>
 				  <span class="ui_left_arrow">
 				    <span class="ui_arrow"></span>
 				  </span>
@@ -236,7 +236,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				 <div class="dingwei">
 				  <div class="tml_spine">
 					<span class="tml_spine_bg"></span>
-					<i id="add_event_plus" class="spine_plus" style="top: -6px; display: none;"></i>
+					<i id="add_event_plus" class="spine_plus" style="top： -6px; display： none;"></i>
 					<span id="timeline_start_point" class="start_point"></span>
 				  </div>
 				  <div class="tml_poster" id="post_area" style=""><div class="poster" id="poster_1">
@@ -254,7 +254,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					    </div>
                    </div>
 				  </div>
-				  <div class="period_header"><span>11:17:41 2015-11-18</span></div>
+				  <div class="period_header"><span>11：17：41 2015-11-18</span></div>
 				  <span class="ui_left_arrow">
 				    <span class="ui_arrow"></span>
 				  </span>
@@ -269,7 +269,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				  <div class="dingwei">
 				  <div class="tml_spine">
 					<span class="tml_spine_bg"></span>
-					<i id="add_event_plus" class="spine_plus" style="top: -6px; display: none;"></i>
+					<i id="add_event_plus" class="spine_plus" style="top： -6px; display： none;"></i>
 					<span id="timeline_start_point" class="start_point"></span>
 				  </div>
 				  <div class="tml_poster" id="post_area" ><div class="poster" id="poster_1">
@@ -287,7 +287,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					    </div>
                      </div>
 				  </div>
-				  <div class="period_header"><span>11:17:41 2015-11-18</span></div>
+				  <div class="period_header"><span>11：17：41 2015-11-18</span></div>
 				  <span class="ui_left_arrow">
 				    <span class="ui_arrow"></span>
 				  </span>

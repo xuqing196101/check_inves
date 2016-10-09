@@ -55,6 +55,10 @@ public class SupplierBlacklistServiceImpl implements SupplierBlacklistService {
 	public List<SupplierBlacklist> findSupplierBlacklist(SupplierBlacklist supplierBlacklist, int page) {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		String supplierName = supplierBlacklist.getSupplierName();
+		if (supplierName != null && !"".equals(supplierName)) {
+			supplierBlacklist.setSupplierName("%" + supplierName + "%");
+		}
 		List<SupplierBlacklist> listSupplierBlacklists = supplierBlacklistMapper.findSupplierBlacklist(supplierBlacklist);
 		for(SupplierBlacklist supplierBlack : listSupplierBlacklists) {
 			Date endTime = supplierBlack.getEndTime();

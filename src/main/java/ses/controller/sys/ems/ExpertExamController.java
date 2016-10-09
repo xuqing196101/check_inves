@@ -18,6 +18,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 
 import org.apache.commons.io.FileUtils;
@@ -35,6 +36,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -60,6 +63,7 @@ import ses.service.ems.ExamUserScoreServiceI;
 import ses.service.ems.ExpertService;
 import ses.util.PathUtil;
 import ses.util.PropertiesUtil;
+import ses.util.ValidateUtils;
 
 
 /**
@@ -235,38 +239,41 @@ public class ExpertExamController {
 	 * 
 	* @Title: saveToTec
 	* @author ZhaoBo
-	* @date 2016-9-7 上午11:06:40  
-	* @Description: 增加技术类的题库 
+	* @date 2016-10-6 下午4:34:17  
+	* @Description: 增加技术类的题库  
+	* @param @param question
+	* @param @param result
 	* @param @param request
-	* @param @param examPool
+	* @param @param model
 	* @param @return      
 	* @return String
 	 */
 	@RequestMapping("/saveToTec")
-	public String saveToTec(HttpServletRequest request,ExamQuestion examQuestion){
-		examQuestion.setQuestionTypeId(Integer.parseInt(request.getParameter("queType")));
-		examQuestion.setTopic(request.getParameter("queTopic"));
-		String[] queOption = request.getParameterValues("option");
-		StringBuffer sb_option = new StringBuffer();
-		sb_option.append("A."+queOption[0].trim()+";");
-		sb_option.append("B."+queOption[1].trim()+";");
-		sb_option.append("C."+queOption[2].trim()+";");
-		sb_option.append("D."+queOption[3].trim()+";");
-		examQuestion.setItems(sb_option.toString());
-		examQuestion.setPersonType(1);
-		examQuestion.setKind(0);
-		examQuestion.setCreatedAt(new Date());
-		StringBuffer sb = new StringBuffer();
-		if(request.getParameter("que")!=null){
-			String[] queSelect = request.getParameterValues("que");
-			for(int i = 0;i<queSelect.length;i++){
-				sb.append(queSelect[i]);
+	public String saveToTec(HttpServletRequest request,Model model){
+			ExamQuestion examQuestion = new ExamQuestion();
+			examQuestion.setQuestionTypeId(Integer.parseInt(request.getParameter("queType")));
+			examQuestion.setTopic(request.getParameter("topic"));
+			String[] queOption = request.getParameterValues("option");
+			StringBuffer sb_option = new StringBuffer();
+			sb_option.append("A."+queOption[0].trim()+";");
+			sb_option.append("B."+queOption[1].trim()+";");
+			sb_option.append("C."+queOption[2].trim()+";");
+			sb_option.append("D."+queOption[3].trim()+";");
+			examQuestion.setItems(sb_option.toString());
+			examQuestion.setPersonType(1);
+			examQuestion.setKind(0);
+			examQuestion.setCreatedAt(new Date());
+			StringBuffer sb_answer = new StringBuffer();
+			if(request.getParameter("que")!=null){
+				String[] queSelect = request.getParameterValues("que");
+				for(int i = 0;i<queSelect.length;i++){
+					sb_answer.append(queSelect[i]);
+				}
 			}
-		}
-		examQuestion.setAnswer(sb.toString());
-		examQuestion.setPoint(Integer.parseInt(request.getParameter("quePoint")));
-		examQuestionService.insertSelective(examQuestion);
-		return "redirect:searchTecExpPool.html";
+			examQuestion.setAnswer(sb_answer.toString());
+			examQuestion.setPoint(Integer.parseInt(request.getParameter("quePoint")));
+			examQuestionService.insertSelective(examQuestion);
+			return "redirect:searchTecExpPool.html";
 	}
 	
 	/**
@@ -1030,7 +1037,9 @@ public class ExpertExamController {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		for(int i=0;i<scores.size();i++){
 			scores.get(i).setRelName(user.getRelName());
-			scores.get(i).setFormatDate(sdf.format(scores.get(i).getTestDate()));
+			if(scores.get(i).getTestDate()!=null){
+				scores.get(i).setFormatDate(sdf.format(scores.get(i).getTestDate()));
+			}
 		}
 		model.addAttribute("list", new PageInfo<ExamUserScore>(scores));
 		return "ses/ems/exam/expert/personal_result";
@@ -1308,5 +1317,19 @@ public class ExpertExamController {
 			}
 		}
 		return "1";
+	}
+	
+	/**
+	 * 
+	* @Title: exitExam
+	* @author ZhaoBo
+	* @date 2016-10-8 上午8:56:19  
+	* @Description: 退出考试 
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/exitExam")
+	public String exitExam(){
+		return "redirect:/login/home.html";
 	}
 }

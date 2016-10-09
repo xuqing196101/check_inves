@@ -13,17 +13,14 @@
 	<script type="text/javascript">
 		$(function(){
 			var que = document.getElementsByName("que");
-			var queType = $("#queType").val();
-			if(queType){
-				for(var i=0;i<que.length;i++){
-					$(que[i]).click(function(){
-						$("#queSelect").html(" ");
-					})
-				}
-			}else{
-				for(var i=0;i<que.length;i++){
-					que[i].setAttribute("disabled",true);
-				}
+			var option = document.getElementsByName("option");
+			document.getElementById("queTopic").setAttribute("disabled",true);
+			document.getElementById("quePoint").setAttribute("disabled",true);
+			for(var i=0;i<option.length;i++){
+				option[i].setAttribute("disabled",true);
+			}
+			for(var i=0;i<que.length;i++){
+				que[i].setAttribute("disabled",true);
 			}
 			$("#form").validate({
 				errorElement: "span",
@@ -32,13 +29,11 @@
 				rules:{
 					queType:"required",
 					queTopic:"required",
-					//queOption:"required",
 					quePoint:"required"
 				},
 				messages:{
 					queType:"题型不能为空",
 					queTopic:"题干不能为空",
-					//queOption:"选项不能为空",
 					quePoint:"请选择分值"
 				}
 			});
@@ -47,46 +42,14 @@
 		
 		//保存到法律题库
 		function save(){
-			var ques = "";
-			var judges = "";
-			var queType = $("#queType").val();
-			var que = document.getElementsByName("que");
-			var quePoint = $("#quePoint").val();
-			if(queType){
-				if(queType==1){
-					for(var i=0;i < que.length;i++){ 
-						if(que[i].checked){
-							ques += que[i].value+',';
-						}
-					}
-					if(ques==null||ques==""){
-						$("#queSelect").html("请选择答案");
-						$("#queJudge").html(" ");
-						return;
-					}
-				}else if(queType==2){
-					for(var i=0;i < que.length;i++){
-						if(que[i].checked){
-							ques += que[i].value+',';
-						}
-					}
-					if(ques==null||ques==""){
-						$("#queSelect").html("请选择答案");
-						$("#queJudge").html(" ");
-						return;
-					}
-				}
-			}else{
-				$("#queSelect").html(" ");
-			}
 			$("#form").submit();
 		}
 		
 		//切换题型
 		function changeType(){
-			$("#queSelect").html(" ");
 			var queType = $("#queType").val();
 			var que = document.getElementsByName("que");
+			var option = document.getElementsByName("option");
 			var all_options = document.getElementById("quePoint").options;
 			for(var i=0;i<que.length;i++){
 				$(que[i]).removeAttr("checked");
@@ -96,6 +59,11 @@
 					for(var i=0;i<que.length;i++){
 						$(que[i]).attr("type","radio");
 						$(que[i]).attr("disabled",false);
+					}
+					$("#queTopic").attr("disabled",false);
+					$("#quePoint").attr("disabled",false);
+					for(var i=0;i<option.length;i++){
+						$(option[i]).attr("disabled",false);
 					}
 					$("#queTopic").val(" ");
 					$("#optionA").val(" ");
@@ -108,6 +76,11 @@
 						$(que[i]).attr("type","checkbox");
 						$(que[i]).attr("disabled",false);
 					}
+					$("#queTopic").attr("disabled",false);
+					$("#quePoint").attr("disabled",false);
+					for(var i=0;i<option.length;i++){
+						$(option[i]).attr("disabled",false);
+					}
 					$("#queTopic").val(" ");
 					$("#optionA").val(" ");
 					$("#optionB").val(" ");
@@ -117,7 +90,12 @@
 				}
 			}else{
 				for(var i=0;i<que.length;i++){
-					que[i].setAttribute("disabled",true);
+					$(que[i]).attr("disabled",true);
+				}
+				document.getElementById("queTopic").setAttribute("disabled",true);
+				document.getElementById("quePoint").setAttribute("disabled",true);
+				for(var i=0;i<option.length;i++){
+					$(option[i]).attr("disabled",true);
 				}
 				$("#queTopic").val(" ");
 				$("#optionA").val(" ");
@@ -170,38 +148,37 @@
 
 		
 				<li class="col-md-12 p0">
-				<span class="fl">选项：</span>
-				<div class="col-md-9">
-				<div>
-			  		<div class="fl mt5">A</div><textarea name="option" id="optionA" class="ml5 col-md-8"></textarea>
-			  		<div class="clear"></div>
-			  	</div>
-			  	<div class="clear mt10">
-					<div class="fl mt5">B</div><textarea name="option" id="optionB" class="ml5 col-md-8"></textarea>
-				    <div class="clear"></div>
-				</div>
-				<div class="clear mt10">
-					<div class="fl mt5">C</div><textarea name="option" id="optionC" class="ml5 col-md-8"></textarea>
-				    <div class="clear"></div>
-				</div>
-				<div class="clear mt10">
-					<div class="fl mt5">D</div><textarea name="option" id="optionD" class="ml5 col-md-8"></textarea>
-				    <div class="clear"></div>
-				</div>
-		       </div>
-			 </li> 
+					<span class="fl">选项：</span>
+					<div class="col-md-9">
+						<div>
+					  		<div class="fl mt5">A</div><textarea name="option" id="optionA" class="ml5 col-md-8"></textarea>
+					  		<div class="clear"></div>
+					  	</div>
+					  	<div class="clear mt10">
+							<div class="fl mt5">B</div><textarea name="option" id="optionB" class="ml5 col-md-8"></textarea>
+						    <div class="clear"></div>
+						</div>
+						<div class="clear mt10">
+							<div class="fl mt5">C</div><textarea name="option" id="optionC" class="ml5 col-md-8"></textarea>
+						    <div class="clear"></div>
+						</div>
+						<div class="clear mt10">
+							<div class="fl mt5">D</div><textarea name="option" id="optionD" class="ml5 col-md-8"></textarea>
+						    <div class="clear"></div>
+						</div>
+			       	</div>
+				 </li> 
 			
 
 		
 				<li class="col-md-12 p0">
 					<span class="fl">答案：</span>	
 					<div class="fl ml5 mt5">
-			        A <input type="radio" id="A" name="que" value="A" class="mt0"/> 
-		  			B <input type="radio" id="B" name="que" value="B" class="mt0"/> 
-		  			C <input type="radio" id="C" name="que" value="C" class="mt0"/> 
-		  			D <input type="radio" id="D" name="que" value="D" class="mt0"/>
+				        <input type="radio" id="A" name="que" value="A" class="mt0"/>A 
+			  			<input type="radio" id="B" name="que" value="B" class="mt0"/>B 
+			  			<input type="radio" id="C" name="que" value="C" class="mt0"/>C 
+			  			<input type="radio" id="D" name="que" value="D" class="mt0"/>D
 			       </div>
-					<span id="queSelect"></span>
 				</li>
 			
 

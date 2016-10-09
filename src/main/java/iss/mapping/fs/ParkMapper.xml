@@ -139,6 +139,7 @@
 		    </set>
 		    where ID = #{id}
 		  </update>	
+		  
 		  <!-- 7.查询所有版块列表 -->
 		    <select id="getAll" parameterType="Object" resultMap="ParkTopicPostMap">
 		    select 

@@ -67,6 +67,10 @@ public class Project {
     
     private double amount;
     
+    private String purchaseDepName;
+    
+    private Integer executeStatus;
+    
     private Supplier dealSupplier;
     
     private List<Task> list;
@@ -79,6 +83,14 @@ public class Project {
 	
 	public Project(){
 		super();
+	}
+	
+	public String getPurchaseDepName() {
+		return purchaseDepName;
+	}
+
+	public void setPurchaseDepName(String purchaseDepName) {
+		this.purchaseDepName = purchaseDepName;
 	}
 
 	public String getId() {
@@ -336,6 +348,14 @@ public class Project {
 
 	public void setList(List<Task> list) {
 		this.list = list;
+	}
+
+	public Integer getExecuteStatus() {
+		return executeStatus;
+	}
+
+	public void setExecuteStatus(Integer executeStatus) {
+		this.executeStatus = executeStatus;
 	}
 
 	

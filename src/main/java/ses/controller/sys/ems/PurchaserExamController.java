@@ -334,7 +334,6 @@ public class PurchaserExamController extends BaseSupplierController{
 				ExamQuestion examQuestion = new ExamQuestion();
 				Cell queTopic = row.getCell(1);
 				Cell queAnswer = row.getCell(3);
-				Cell quePoint = row.getCell(4);
 				examQuestion.setPersonType(2);
 				examQuestion.setItems(" ");
 				examQuestion.setTopic(queTopic.toString());
@@ -379,6 +378,7 @@ public class PurchaserExamController extends BaseSupplierController{
 	 */
 	@RequestMapping("/test")
 	public String test(Model model,HttpServletRequest request){
+		User user = (User) request.getSession().getAttribute("loginUser");
 		String paperId = request.getParameter("paperId");
 		ExamPaper examPaper = examPaperService.selectByPrimaryKey(paperId);
 		String typeDistribution = examPaper.getTypeDistribution();
@@ -420,6 +420,7 @@ public class PurchaserExamController extends BaseSupplierController{
 			sb_queTypes.append(purchaserQue.get(i).getExamQuestionType().getName()+",");
 			sb_questionIds.append(purchaserQue.get(i).getId()+",");
 		}
+		model.addAttribute("user", user);
 		model.addAttribute("purQueType",sb_queTypes);
 		model.addAttribute("purQueAnswer", sb_answers);
 		model.addAttribute("pageNum", pageNum);
@@ -456,7 +457,7 @@ public class PurchaserExamController extends BaseSupplierController{
 			Date startTime = paperList.get(i).getStartTime();
 		    Calendar calendar = new GregorianCalendar(); 
 		    calendar.setTime(startTime); 
-		    calendar.add(calendar.MINUTE,45+Integer.parseInt(testTime));
+		    calendar.add(calendar.MINUTE,50+Integer.parseInt(testTime));
 		    Date endTime = calendar.getTime();
 		    if(new Date().getTime()>=startTime.getTime()&&new Date().getTime()<=endTime.getTime()){
 		    	paperList.get(i).setStatus("正在考试中");
@@ -588,7 +589,7 @@ public class PurchaserExamController extends BaseSupplierController{
 		Date startTime = examPaper.getStartTime();
 	    Calendar calendar = new GregorianCalendar(); 
 	    calendar.setTime(startTime); 
-	    calendar.add(calendar.MINUTE,45+Integer.parseInt(testTime));
+	    calendar.add(calendar.MINUTE,50+Integer.parseInt(testTime));
 	    Date endTime = calendar.getTime();
 		if(new Date().getTime()>=startTime.getTime()&&new Date().getTime()<=endTime.getTime()){
 			str = "1";
@@ -717,37 +718,57 @@ public class PurchaserExamController extends BaseSupplierController{
 	@RequestMapping("/entryPaperNumber")
 	@ResponseBody
 	public String entryPaperNumber(HttpServletRequest request){
+		User user = (User) request.getSession().getAttribute("loginUser");
+		String str = null;
 		String paperNo = request.getParameter("paperNo");
 		ExamPaper examPaper = examPaperService.selectByPaperNo(paperNo);
-		String str = null;
 		if(examPaper==null){
-			str = "0";
+			str = "0";//没有该考卷
 		}else if(examPaper!=null){
+			
 			String testTime = examPaper.getTestTime();
-//			Integer hour = Integer.parseInt(expiryDate[0]);
-//			Integer second = Integer.parseInt(expiryDate[1]);
 			Date startTime = examPaper.getStartTime();
-		    Calendar calendar = new GregorianCalendar(); 
-		    calendar.setTime(startTime); 
-		    calendar.add(calendar.MINUTE,15);
-		    Date endTime = calendar.getTime();
-		    
-		    Calendar endcalendar = new GregorianCalendar(); 
-		    endcalendar.setTime(startTime); 
-		    endcalendar.add(calendar.MINUTE,15+Integer.parseInt(testTime));
-		    Date relEndTime = endcalendar.getTime();
-		    
+			Calendar calendar = new GregorianCalendar(); 
+			calendar.setTime(startTime); 
+			calendar.add(calendar.MINUTE,15);
+			Date endTime = calendar.getTime();
+			Calendar endcalendar = new GregorianCalendar(); 
+			endcalendar.setTime(startTime); 
+			endcalendar.add(endcalendar.MINUTE,50+Integer.parseInt(testTime));
+			Date relEndTime = endcalendar.getTime();
 			if(new Date().getTime()>=startTime.getTime()&&new Date().getTime()<=endTime.getTime()){
-				str = "1";
+				HashMap<String,Object> map = new HashMap<String,Object>();
+				map.put("paperId", examPaper.getId());
+				List<ExamPaperUser> examPaperUsers = examPaperUserService.getAllByPaperId(map);
+				if(examPaperUsers.size()==0){
+					str = "6";//该考卷没有设置参考人员
+				}else{
+					HashMap<String,Object> next = new HashMap<String,Object>();
+					next.put("userId", user.getId());
+					next.put("paperId", examPaper.getId());
+					List<ExamPaperUser> userDo = examPaperUserService.findIsExamByCondition(next);
+					if(userDo.get(0).getIsDo()!=0){
+						str = "7";//判断用户有没有登录过
+					}else{
+						for(int i=0;i<examPaperUsers.size();i++){
+							if(user.getId().equals(examPaperUsers.get(i).getUserId())){
+								str = "1";//可以开始考试
+								break;
+							}else if(i==examPaperUsers.size()-1){
+								str = "5";//不是该考卷的参考人员
+							}
+						}
+					}
+				}
 			}else if(new Date().getTime()<startTime.getTime()){
-				str = "2";
+				str = "2";//输入的考卷考试时间未开始
 			}else if(new Date().getTime()>endTime.getTime()){
 				if(new Date().getTime()>relEndTime.getTime()){
-					str = "3";
+					str = "3";//考试时间已结束
 				}else{
-					str = "4";
+					str = "4";//考卷登录有效期已过
 				}
-			}
+			}	
 		}
 		return str;
 	}
@@ -830,6 +851,7 @@ public class PurchaserExamController extends BaseSupplierController{
 		}
 		HashMap<String,Object> userId = new HashMap<String,Object>();
 		userId.put("userId", user.getId());
+		userId.put("paperId", paperId);
 		List<ExamUserScore> userScores = examUserScoreService.findByUserId(userId);
 		if(userScores.size()==0){
 			ExamUserScore examUserScore = new ExamUserScore();
@@ -928,7 +950,7 @@ public class PurchaserExamController extends BaseSupplierController{
 			Date startTime = examPaper.getStartTime();
 		    Calendar calendar = new GregorianCalendar(); 
 		    calendar.setTime(startTime); 
-		    calendar.add(calendar.MINUTE,45+Integer.parseInt(testTime));
+		    calendar.add(calendar.MINUTE,50+Integer.parseInt(testTime));
 		    Date endTime = calendar.getTime();
 		    if(new Date().getTime()>endTime.getTime()){
 		    	if(paperUser.getIsDo()==0){
@@ -1013,6 +1035,7 @@ public class PurchaserExamController extends BaseSupplierController{
 	 */
 	@RequestMapping("/reTake")
 	public String reTake(Model model,HttpServletRequest request){
+		User user = (User) request.getSession().getAttribute("loginUser");
 		String paperId = request.getParameter("paperId");
 		ExamPaper examPaper = examPaperService.selectByPrimaryKey(paperId);
 		String typeDistribution = examPaper.getTypeDistribution();
@@ -1054,13 +1077,13 @@ public class PurchaserExamController extends BaseSupplierController{
 			sb_queTypes.append(purchaserQue.get(i).getExamQuestionType().getName()+",");
 			sb_questionIds.append(purchaserQue.get(i).getId()+",");
 		}
+		model.addAttribute("user", user);
 		model.addAttribute("purQueType",sb_queTypes);
 		model.addAttribute("purQueAnswer", sb_answers);
 		model.addAttribute("pageNum", pageNum);
 		model.addAttribute("purchaserQue",purchaserQue);
 		model.addAttribute("paperId", paperId);
 		model.addAttribute("purQueId", sb_questionIds);
-		//model.addAttribute("countDown", 1);
 		model.addAttribute("time",request.getParameter("time"));
 		model.addAttribute("pageSize", pageNum.size());
 		model.addAttribute("examPaper", examPaper);
@@ -1154,7 +1177,7 @@ public class PurchaserExamController extends BaseSupplierController{
 		Date startTime = examPaper.getStartTime();
 	    Calendar calendar = new GregorianCalendar(); 
 	    calendar.setTime(startTime); 
-	    calendar.add(calendar.MINUTE,45+Integer.parseInt(testTime));
+	    calendar.add(calendar.MINUTE,50+Integer.parseInt(testTime));
 	    Date endTime = calendar.getTime();
 	    map.put("paperId", id[0]);
 	    if(page==null){
@@ -1256,16 +1279,14 @@ public class PurchaserExamController extends BaseSupplierController{
 					Date startTime = paper.getStartTime();
 				    Calendar calendar = new GregorianCalendar(); 
 				    calendar.setTime(startTime); 
-				    calendar.add(calendar.MINUTE,45+Integer.parseInt(paper.getTestTime()));
+				    calendar.add(calendar.MINUTE,50+Integer.parseInt(paper.getTestTime()));
 				    Date endTime = calendar.getTime();
 				    ExamPaper selectedPaper = examPaperService.selectByPrimaryKey(paperId);
-//				    String[] newExpiryDate = selectedPaper.getExpiryDate().split(",");
-//					Integer newHour = Integer.parseInt(newExpiryDate[0]);
-//					Integer newSecond = Integer.parseInt(newExpiryDate[1]);
+				    
 					Date newStartTime = selectedPaper.getStartTime();
 				    Calendar newCalendar = new GregorianCalendar(); 
 				    newCalendar.setTime(newStartTime); 
-				    newCalendar.add(newCalendar.MINUTE,45+Integer.parseInt(selectedPaper.getTestTime()));
+				    newCalendar.add(newCalendar.MINUTE,50+Integer.parseInt(selectedPaper.getTestTime()));
 				    Date newEndTime = newCalendar.getTime();
 				    if((startTime.getTime()>=newStartTime.getTime()&&startTime.getTime()<=newEndTime.getTime())
 				    		||(newStartTime.getTime()>=startTime.getTime()&&newStartTime.getTime()<=endTime.getTime())){
@@ -1295,16 +1316,14 @@ public class PurchaserExamController extends BaseSupplierController{
 								Date startTime = paper.getStartTime();
 							    Calendar calendar = new GregorianCalendar(); 
 							    calendar.setTime(startTime); 
-							    calendar.add(calendar.MINUTE,45+Integer.parseInt(paper.getTestTime()));
+							    calendar.add(calendar.MINUTE,50+Integer.parseInt(paper.getTestTime()));
 							    Date endTime = calendar.getTime();
 							    ExamPaper selectedPaper = examPaperService.selectByPrimaryKey(paperId);
-//							    String[] newExpiryDate = selectedPaper.getExpiryDate().split(",");
-//								Integer newHour = Integer.parseInt(newExpiryDate[0]);
-//								Integer newSecond = Integer.parseInt(newExpiryDate[1]);
+							   
 								Date newStartTime = selectedPaper.getStartTime();
 							    Calendar newCalendar = new GregorianCalendar(); 
 							    newCalendar.setTime(newStartTime); 
-							    newCalendar.add(newCalendar.MINUTE,45+Integer.parseInt(selectedPaper.getTestTime()));
+							    newCalendar.add(newCalendar.MINUTE,50+Integer.parseInt(selectedPaper.getTestTime()));
 							    Date newEndTime = newCalendar.getTime();
 							    if((startTime.getTime()>=newStartTime.getTime()&&startTime.getTime()<=newEndTime.getTime())
 							    		||(newStartTime.getTime()>=startTime.getTime()&&newStartTime.getTime()<=endTime.getTime())){
@@ -1419,7 +1438,7 @@ public class PurchaserExamController extends BaseSupplierController{
 						Date startTime = paper.getStartTime();
 					    Calendar calendar = new GregorianCalendar(); 
 					    calendar.setTime(startTime); 
-					    calendar.add(calendar.MINUTE,45+Integer.parseInt(paper.getTestTime()));
+					    calendar.add(calendar.MINUTE,50+Integer.parseInt(paper.getTestTime()));
 					    Date endTime = calendar.getTime();
 					    ExamPaper selectedPaper = examPaperService.selectByPrimaryKey(paperId);
 //					    String[] newExpiryDate = selectedPaper.getExpiryDate().split(",");
@@ -1428,7 +1447,7 @@ public class PurchaserExamController extends BaseSupplierController{
 						Date newStartTime = selectedPaper.getStartTime();
 					    Calendar newCalendar = new GregorianCalendar(); 
 					    newCalendar.setTime(newStartTime); 
-					    newCalendar.add(newCalendar.MINUTE,45+Integer.parseInt(selectedPaper.getTestTime()));
+					    newCalendar.add(newCalendar.MINUTE,50+Integer.parseInt(selectedPaper.getTestTime()));
 					    Date newEndTime = newCalendar.getTime();
 					    if((startTime.getTime()>=newStartTime.getTime()&&startTime.getTime()<=newEndTime.getTime())
 					    		||(newStartTime.getTime()>=startTime.getTime()&&newStartTime.getTime()<=endTime.getTime())){
@@ -1464,7 +1483,7 @@ public class PurchaserExamController extends BaseSupplierController{
 									Date startTime = paper.getStartTime();
 								    Calendar calendar = new GregorianCalendar(); 
 								    calendar.setTime(startTime); 
-								    calendar.add(calendar.MINUTE,45+Integer.parseInt(paper.getTestTime()));
+								    calendar.add(calendar.MINUTE,50+Integer.parseInt(paper.getTestTime()));
 								    Date endTime = calendar.getTime();
 								    ExamPaper selectedPaper = examPaperService.selectByPrimaryKey(paperId);
 //								    String[] newExpiryDate = selectedPaper.getExpiryDate().split(",");
@@ -1473,7 +1492,7 @@ public class PurchaserExamController extends BaseSupplierController{
 									Date newStartTime = selectedPaper.getStartTime();
 								    Calendar newCalendar = new GregorianCalendar(); 
 								    newCalendar.setTime(newStartTime); 
-								    newCalendar.add(newCalendar.MINUTE,45+Integer.parseInt(selectedPaper.getTestTime()));
+								    newCalendar.add(newCalendar.MINUTE,50+Integer.parseInt(selectedPaper.getTestTime()));
 								    Date newEndTime = newCalendar.getTime();
 								    if((startTime.getTime()>=newStartTime.getTime()&&startTime.getTime()<=newEndTime.getTime())
 								    		||(newStartTime.getTime()>=startTime.getTime()&&newStartTime.getTime()<=endTime.getTime())){
@@ -1598,5 +1617,101 @@ public class PurchaserExamController extends BaseSupplierController{
 		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);  
 		headers.setContentDispositionFormData("attachment", new String("参考人员模板.xls".getBytes("UTF-8"), "iso-8859-1"));  
 		return (new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(new File(path)), headers, HttpStatus.CREATED));  
+	}
+	
+	/**
+	 * 
+	* @Title: personalResult
+	* @author ZhaoBo
+	* @date 2016-9-30 下午5:06:37  
+	* @Description: 采购人查询自己的成绩 
+	* @param @param model
+	* @param @param request
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/personalResult")
+	public String personalResult(Integer page,Model model,HttpServletRequest request,ExamPaperUser examPaperUser){
+		User user = (User) request.getSession().getAttribute("loginUser");
+		String code = request.getParameter("code");
+		examPaperUser.setUserId(user.getId());
+		List<ExamPaperUser> userPapers = examPaperUserService.getAllPaperByUserId(examPaperUser);
+		List<ExamUserScore> userScores = new ArrayList<ExamUserScore>();
+		if(userPapers.size()==0){
+			HashMap<String,Object> map = new HashMap<String,Object>();
+			map.put("userId", user.getId());
+			if(code!=null&&code!=""){
+				map.put("code", code);
+			}
+			if(page==null){
+				page = 1;
+			}
+			map.put("page", page.toString());
+			PropertiesUtil config = new PropertiesUtil("config.properties");
+			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+			userScores = examUserScoreService.findByUserIdAndCode(map);
+		}else{
+			for(int i=0;i<userPapers.size();i++){
+				ExamPaper examPaper = examPaperService.selectByPrimaryKey(userPapers.get(i).getPaperId());
+				Date startTime = examPaper.getStartTime();
+			    Calendar calendar = new GregorianCalendar(); 
+			    calendar.setTime(startTime);
+			    calendar.add(calendar.MINUTE,50+Integer.parseInt(examPaper.getTestTime()));
+			    Date endTime = calendar.getTime();
+			    if(new Date().getTime()>endTime.getTime()){
+			    	if(userPapers.get(i).getIsDo()==0){
+			    		ExamUserScore examUserScore = new ExamUserScore();
+			    		examUserScore.setCreatedAt(new Date());
+						examUserScore.setUserType(2);
+						examUserScore.setUserId(user.getId());
+						examUserScore.setScore("0");
+						examUserScore.setIsMax(1);
+						examUserScore.setPaperId(userPapers.get(i).getPaperId());
+						examUserScore.setStatus("不及格");
+						examUserScoreService.insertSelective(examUserScore);
+						ExamPaperUser paperOfUser = new ExamPaperUser();
+						paperOfUser.setId(userPapers.get(i).getId());
+						paperOfUser.setIsDo(2);
+						examPaperUserService.updateByPrimaryKeySelective(paperOfUser);
+			    	}
+			    }
+			}
+			HashMap<String,Object> map = new HashMap<String,Object>();
+			map.put("userId", user.getId());
+			if(code!=null&&code!=""){
+				map.put("code", code);
+			}
+			if(page==null){
+				page = 1;
+			}
+			map.put("page", page.toString());
+			PropertiesUtil config = new PropertiesUtil("config.properties");
+			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+			userScores = examUserScoreService.findByUserIdAndCode(map);
+		}
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		for(int i=0;i<userScores.size();i++){
+			userScores.get(i).setRelName(user.getRelName());
+			if(userScores.get(i).getTestDate()!=null){
+				userScores.get(i).setFormatDate(sdf.format(userScores.get(i).getTestDate()));
+			}
+		}
+		model.addAttribute("list", new PageInfo<ExamUserScore>(userScores));
+		model.addAttribute("code", code);
+		return "ses/ems/exam/purchaser/personal_result";
+	}
+	
+	/**
+	 * 
+	* @Title: exitExam
+	* @author ZhaoBo
+	* @date 2016-10-8 上午8:33:57  
+	* @Description: 退出考试 
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/exitExam")
+	public String exitExam(){
+		return "redirect:/login/home.html";
 	}
 }

@@ -120,6 +120,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	function checkText(ele, id) {
 		$("#" + id).val($(ele).text());
 	}
+	function downloadFile(fileName){
+	  fileName=encodeURI(fileName);
+      fileName=encodeURI(fileName);
+	  window.location.href="<%=basePath %>supplierQuery/downLoadFile.html?fileName="+fileName;
+	}
 </script>
 <style type="text/css">
 .jbxx1{
@@ -212,7 +217,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					          </li>
 					          <li class="col-md-6 p0 "><span class=""><i class="red"></i>近三个月完税凭证：</span>
 					            <div class="input-append">
-					              <a >附件下载(已上传的文件)</a>
+					              <a onclick="downloadFile('${supplier.taxCertFile}')" >附件下载(已上传的文件)</a>
 					            </div>
 					          </li>
 					           <li class="col-md-6 p0 "><span class=""><i class="red"></i>近三个月完税凭证：</span>
@@ -222,7 +227,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					          </li>
 					          <li class="col-md-6 p0 "><span class=""><i class="red"></i>近三年银行基本账户年末对账单：</span>
 					            <div class="input-append">
-					              <a>附件下载(已上传的文件)</a>
+					              <a onclick="downloadFile('${supplier.billCertFile}')" >附件下载(已上传的文件)</a>
 					            </div>
 					          </li>
 					          <li class="col-md-6 p0 "><span class=""><i class="red"></i>近三年银行基本账户年末对账单：</span>
@@ -232,7 +237,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					          </li>
 					          <li class="col-md-6 p0 "><span class=""><i class="red"></i>近三个月缴纳社会保险金凭证：</span>
 					            <div class="input-append">
-					              <a>附件下载(已上传的文件)</a>
+					              <a onclick="downloadFile('${supplier.securityCertFile}')" >附件下载(已上传的文件)</a>
 					            </div>
 					          </li>
 					          <li class="col-md-6 p0 "><span class=""><i class="red"></i>近三个月缴纳社会保险金凭证：</span>
@@ -242,7 +247,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					          </li>
 					          <li class="col-md-6 p0 "><span class=""><i class="red"></i>近三年内无重大违法记录声明：</span>
 					            <div class="input-append">
-					              <a>附件下载(已上传的文件)</a>
+					              <a onclick="downloadFile('${supplier.breachCertFile}')" >附件下载(已上传的文件)</a>
 					            </div>
 					          </li>
 							  <li class="col-md-6 p0 "><span class=""><i class="red"></i>近三年内无重大违法记录声明：</span>

@@ -250,7 +250,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				 	<li class="col-md-6 p0">
 					    <span class="">性别：</span>
 					    <div class="select_common mb10">
-					        <select class="w250 " name="gender">
+					        <select class="w250 " id="gender" name="gender">
 					        	<option value="">-请选择-</option>
 					        	<option value="M">男</option>
 					        	<option value="F">女</option>
@@ -289,6 +289,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					        	<option value="4">供应商</option>
 					        	<option value="5">专家</option>
 					        	<option value="6">进口供应商</option>
+					        	<option value="7">进口代理商</option>
 					        </select>
 				        </div>
 					 </li>

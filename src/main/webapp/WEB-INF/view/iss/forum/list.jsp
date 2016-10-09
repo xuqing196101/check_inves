@@ -80,19 +80,16 @@
   <body>
   <div class="wrapper">
   <jsp:include page="/index_head.jsp"></jsp:include>
-    <div class="container content height-350 job-content ">
-      <!--面包屑导航开始-->
-      
-   <div class="margin-top-10 breadcrumbs ">
+     <div class="margin-top-10 breadcrumbs ">
       <div class="container">
            <ul class="breadcrumb margin-left-0">
-           <li><a href="<%=basePath %>park/getIndex.do">论坛首页</a></li><li><a href="<%=basePath %>post/getIndexlist.html?parkId=${park.id }">${park.name}</a></li>
+           <li><a href="<%=basePath %>park/getIndex.do"> 论坛首页</a></li><li><a href="<%=basePath %>post/getIndexlist.html?parkId=${park.id }">${park.name}</a></li>
            </ul>
         <div class="clear"></div>
       </div>
    </div>
-   
-    <!-- -->
+    <div class="container content height-350 job-content ">
+
 <div class="home_suggest_topics panel panel-default">
   <div class="panel-heading panel-title">  
    <div class="fl">
@@ -101,7 +98,8 @@
       </c:forEach> 
    </div>
    <div class="fr">
-   <Button class="btn" onclick="searchType('time')" value="time">最新发布</Button>
+   <Button class="btn" onclick="searchType('retime')" value="time">最新回复</Button>
+   <Button class="btn" onclick="searchType('pubtime')" value="time">最新发布</Button>
    <Button class="btn" onclick="searchType('hot')" value ="hot">热帖排行</Button>
    </div>
    <div class="clear"></div>

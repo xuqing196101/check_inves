@@ -25,4 +25,10 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
 		return purchaseDepMapper.savePurchaseDep(purchaseDep);
 	}
 
+	@Override
+	public int update(PurchaseDep purchaseDep) {
+		// TODO Auto-generated method stub
+		return purchaseDepMapper.update(purchaseDep);
+	}
+
 }

@@ -158,7 +158,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	   var listId;
 	   $(function(){
 		   var id="${expert.id}";
-		   
 			  $.ajax({
 				  url:"<%=basePath%>expert/getCategoryByExpertId.do?expertId="+id,
 				  success:function(result){
@@ -174,10 +173,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		treeObj = $.fn.zTree.init($("#ztree"), setting);  
          setTimeout(function(){  
              expandAll("ztree");  
-         },500);//延迟加载  
+         },1000);//延迟加载  
 			 $("#ztree").show();
 		 }else{
-			 treeObj=$.fn.zTree.init($("#ztree"),setting,datas);
+			 treeObj=$.fn.zTree.init($("#ztree"),setting);
 			 $("#ztree").hide();
 		 }
 	}); 
@@ -223,11 +222,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
            curStatus = "expand";  
            var zTree = $.fn.zTree.getZTreeObj("ztree");  
            for (var i=0, l=nodes.length; i<l; i++) {
+        	  if(listId.length>0){
         	   for(var a=0;a<listId.length;a++){
         		   if(listId[a].categoryId==nodes[i].id){
         			   zTree.checkNode(nodes[i], true, true); 
         		   }
-        	   }
+        	    }
+               }
                zTree.expandNode(nodes[i], true, false, false);//展开节点就会调用后台查询子节点 
                 if (nodes[i].isParent && nodes[i].zAsync) {  
                    expandNodes(nodes[i].children);//递归  
@@ -400,9 +401,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      <li class="col-md-6  p0 ">
 	   <span class="">性别：</span>
 	   <select class="span2" name="gender" >
-	   	<option <c:if test="${expert.gender eq '男' }">selected="selected"</c:if> value="M">男</option>
-	   	<option <c:if test="${expert.gender eq '女' }">selected="selected"</c:if> value="F">女</option>
-	   	<option value="其他">其他</option>
+	    <option selected="selected" value="">-请选择-</option>
+	   	<option <c:if test="${expert.gender eq 'M' }">selected="selected"</c:if> value="M">男</option>
+	   	<option <c:if test="${expert.gender eq 'F' }">selected="selected"</c:if> value="F">女</option>
 	   </select>
 	   
 	 </li>
@@ -414,6 +415,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 <li class="col-md-6  p0 ">
 	   <span class="">证件类型：</span>
 	   <select class="span2" name="idType" >
+	    <option selected="selected" value="">-请选择-</option>
 	   	<option <c:if test="${expert.idType eq '身份证' }">selected="selected"</c:if> value="身份证">身份证</option>
 	   	<option <c:if test="${expert.idType eq '士兵证' }">selected="selected"</c:if> value="士兵证">士兵证</option>
 	   	<option <c:if test="${expert.idType eq '驾驶证' }">selected="selected"</c:if> value="驾驶证">驾驶证</option>
@@ -431,6 +433,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      <li class="col-md-6  p0 ">
 	   <span class="">政治面貌：</span>
 	   <select class="span2" name="politicsStatus" >
+	    <option selected="selected" value="">-请选择-</option>
 	   	<option <c:if test="${expert.politicsStatus eq '党员' }">selected="selected"</c:if> value="党员">党员</option>
 	   	<option <c:if test="${expert.politicsStatus eq '团员' }">selected="selected"</c:if> value="团员">团员</option>
 	   	<option <c:if test="${expert.politicsStatus eq '群众' }">selected="selected"</c:if> value="群众">群众</option>
@@ -443,6 +446,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      <li class="col-md-6  p0 ">
 	   <span class="">专家来源：</span>
 	   <select class="span2" name="expertsFrom" >
+	    <option selected="selected" value="">-请选择-</option>
 	   	<option <c:if test="${expert.expertsFrom eq '军队' }">selected="selected"</c:if> value="军队">军队</option>
 	   	<option <c:if test="${expert.expertsFrom eq '地方' }">selected="selected"</c:if> value="地方">地方</option>
 	   	<option <c:if test="${expert.expertsFrom eq '其他' }">selected="selected"</c:if> value="其他">其他</option>
@@ -481,6 +485,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      <li class="col-md-6  p0 ">
 	   <span class="">最高学历：</span>
 	   <select class="span2" name="hightEducation" >
+	    <option selected="selected" value="">-请选择-</option>
 	   	<option <c:if test="${expert.hightEducation eq '博士' }">selected="selected"</c:if> value="博士">博士</option>
 	   	<option <c:if test="${expert.hightEducation eq '硕士' }">selected="selected"</c:if> value="硕士">硕士</option>
 	   	<option <c:if test="${expert.hightEducation eq '研究生' }">selected="selected"</c:if> value="研究生">研究生</option>

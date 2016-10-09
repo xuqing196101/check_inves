@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -146,31 +147,34 @@ function reason1(id){
 function tijiao(str){
   var action;
   if(str=="essential"){
-     action ="<%=basePath%>supplierAudit/essential.html";
+     action ="${pageContext.request.contextPath}/supplierAudit/essential.html";
   }
   if(str=="financial"){
-    action = "<%=basePath%>supplierAudit/financial.html";
+    action = "${pageContext.request.contextPath}/supplierAudit/financial.html";
   }
   if(str=="shareholder"){
-    action = "<%=basePath%>supplierAudit/shareholder.html";
+    action = "${pageContext.request.contextPath}/supplierAudit/shareholder.html";
   }
   if(str=="materialProduction"){
-    action = "<%=basePath%>supplierAudit/materialProduction.html";
+    action = "${pageContext.request.contextPath}/supplierAudit/materialProduction.html";
   }
   if(str=="materialSales"){
-    action = "<%=basePath%>supplierAudit/materialSales.html";
+    action = "${pageContext.request.contextPath}/supplierAudit/materialSales.html";
   }
   if(str=="engineering"){
-    action = "<%=basePath%>supplierAudit/engineering.html";
+    action = "${pageContext.request.contextPath}/supplierAudit/engineering.html";
   }
   if(str=="service"){
     action = "${pageContext.request.contextPath}/supplierAudit/serviceInformation.html";
+  }
+  if(str=="items"){
+  action = "${pageContext.request.contextPath}/supplierAudit/items.html";
   }
   if(str=="applicationFrom"){
     action = "${pageContext.request.contextPath}/supplierAudit/applicationForm.html";
   }
   if(str=="reasonsList"){
-    action = "<%=basePath%>supplierAudit/reasonsList.html";
+    action = "${pageContext.request.contextPath}/supplierAudit/reasonsList.html";
   }
   $("#form_id").attr("action",action);
   $("#form_id").submit();
@@ -190,11 +194,19 @@ function tijiao(str){
               <li class=""><a aria-expanded="fale" href="#tab-1" data-toggle="tab" onclick="tijiao('essential');">基本信息</a></li>
               <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" onclick="tijiao('financial');">财务信息</a></li>
               <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('shareholder');">股东信息</a></li>
-              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('materialProduction');">物资-生产型专业信息</a></li>
-              <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('materialSales');">物资-销售型专业信息</a></li>
-              <li class="active"><a aria-expanded="true" href="#tab-3" data-toggle="tab" onclick="tijiao('engineering');">工程-专业信息</a></li>
+              <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
+	            <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" onclick="tijiao('materialProduction');">物资-生产型专业信息</a></li>
+	            </c:if>
+	            <c:if test="${fn:contains(supplierTypeNames, '销售型')}">
+	            <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('materialSales');">物资-销售型专业信息</a></li>
+	            </c:if>
+	            <c:if test="${fn:contains(supplierTypeNames, '工程')}">
+	            <li class="active"><a aria-expanded="ture" href="#tab-3" data-toggle="tab" onclick="tijiao('engineering');">工程-专业信息</a></li>
+	            </c:if>
+	            <c:if test="${fn:contains(supplierTypeNames, '服务')}">
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('service');">服务-专业信息</a></li>
-              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" >品目信息</a></li>
+              </c:if>
+              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('items');">品目信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >产品信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('applicationFrom');">申请表</a></li>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('reasonsList');">审核汇总</a></li>
@@ -370,5 +382,6 @@ function tijiao(str){
       </div>
     </div>
   </div>
+  <jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
 </body>
 </html>

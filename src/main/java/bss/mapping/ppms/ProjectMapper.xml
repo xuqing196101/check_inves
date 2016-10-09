@@ -31,35 +31,125 @@
     <result column="REQUIERED_ID"  property="requieredId" />
     <result column="BALE_NO"  property="baleNo" />
     <result column="AMOUNT" property="amount" />
+    <result column="PURCHASE_DEP_NAME" property="purchaseDepName"/>
+    <result column="EXECUTE_STATUS" property="executeStatus"/>
     <association property="dealSupplier" column="DEAL_SUPPLIER" select="ses.dao.sms.SupplierMapper.selectByPrimaryKey"/>
     <association property="purchaseDep" column="PURCHASE_DEP_ID" select="ses.dao.oms.PurchaseDepMapper.selectPurchaseById"/>
   </resultMap>
-  
-  <resultMap type="bss.model.ppms.Project" id="RoleResultMap" extends="BaseResultMap">  
-    <collection property="list" ofType="bss.model.ppms.Task">  
-        <result column="tid" property="id" />
-        <result column="tname" property="name" />
-        <result column="tpurchaseId" property="purchaseId" />
-        <result column="tdocumentNumber" property="documentNumber" />
-        <result column="tgiveTime" jdbcType="TIMESTAMP" property="giveTime" />
-        <result column="tstatus" property="status" />
-        <result column="tprocurementMethod" property="procurementMethod" />
-        <result column="tpurchaseRequiredId" property="purchaseRequiredId" />
-        <result column="tisDeleted" property="isDeleted" />
-        <result column="tmaterialsType" property="materialsType" />
-        <result column="tyear" jdbcType="TIMESTAMP" property="year" />
-        <!--查询上级菜单   -->
-        <association column="parentId"  property="parentId" select="bss.dao.ppms.TaskMapper.selectByPrimaryKey" />  
-    </collection>
-  </resultMap> 
   
   <sql id="Base_Column_List">
     ID, NAME, PROJECT_NUMBER, STATUS, PRINCIPAL, IPONE, LINKMAN, LINKMAN_IPONE, BID_UNIT, ADDRESS, 
     POSTCODE, SUPPLIER_NUMBER, OFFER_STANDARD, PR_INTRODUCE, BUDGET_AMOUNT, PASS_WORD, 
     SCORING_RUBRIC, OPERATOR, DIVISION_OF_WORK, PURCHASE_TYPE, MATERIALS_TYPE, SECTOR_OF_DEMAND, 
     PURCHASE_DEP_ID, DEADLINE, DATE_OF_ENTRUSTMENT, BID_DATE, BID_ADDRESS, REQUIERED_ID,BALE_NO,
-    AMOUNT,DEAL_SUPPLIER
+    AMOUNT,DEAL_SUPPLIER,PURCHASE_DEP_NAME,EXECUTE_STATUS
   </sql>
+  
+  <sql id="Example_Where_Clause">
+    where 
+    <trim suffixOverrides=",">
+      <if test="id != null and id != ''">
+         p.ID = #{id} 
+      </if>
+      <if test="name != null and name != ''">
+        and p.NAME = #{name} 
+      </if>
+      <if test="projectNumber != null and projectNumber != ''">
+        and p.PROJECT_NUMBER = #{projectNumber} 
+      </if>
+      <if test="status != null">
+        and p.STATUS = #{status} 
+      </if>
+      <if test="principal != null and principal != ''">
+        and p.PRINCIPAL = #{principal}
+      </if>
+      <if test="ipone != null and ipone != ''">
+        and p.IPONE = #{ipone} 
+      </if>
+      <if test="linkman != null and linkman != ''">
+        and p.LINKMAN = #{linkman}
+      </if> 
+      <if test="linkmanIpone != null and linkmanIpone != ''">
+        and p.LINKMAN_IPONE = #{linkmanIpone}
+      </if>
+      <if test="bidUnit != null and bidUnit != ''">
+        and p.BID_UNIT = #{bidUnit}
+      </if>
+      <if test="address != null and address != ''">
+        and p.ADDRESS = #{address}
+      </if>
+      <if test="postcode != null">
+        and p.POSTCODE= #{postcode}
+      </if>
+      <if test="supplierNumber != null">
+        and p.SUPPLIER_NUMBER = #{supplierNumber} 
+      </if>
+      <if test="offerStandard != null">
+        and p.OFFER_STANDARD = #{offerStandard} 
+      </if>
+      <if test="prIntroduce != null and prIntroduce != ''">
+        and p.PR_INTRODUCE = #{prIntroduce} 
+      </if>
+      <if test="budgetAmount != null and budgetAmount != ''">
+        and p.BUDGET_AMOUNT = #{budgetAmount}
+      </if>
+      <if test="passWord != null and passWord != ''">
+        and p.PASS_WORD = #{passWord}
+      </if>
+      <if test="scoringRubric != null and scoringRubric != ''">
+        and p.SCORING_RUBRIC = #{scoringRubric}
+      </if>
+      <if test="operator != null and operator != ''">
+        and p.OPERATOR= #{operator}
+      </if>
+      <if test="divisionOfWork != null and divisionOfWork != ''">
+        and p.DIVISION_OF_WORK = #{divisionOfWork} 
+      </if>
+      <if test="purchaseType != null and purchaseType != ''">
+        and p.PURCHASE_TYPE = #{purchaseType} 
+      </if>
+      <if test="materialsType != null and materialsType != ''">
+        and p.MATERIALS_TYPE = #{materialsType} 
+      </if>
+      <if test="sectorOfDemand != null and sectorOfDemand != ''">
+        and p.SECTOR_OF_DEMAND = #{sectorOfDemand}
+      </if>
+      <if test="purchaseDep != null and purchaseDep != ''">
+        and p.PURCHASE_DEP_ID = #{purchaseDep.id}
+      </if>
+      <if test="deadline != null">
+        and p.DEADLINE = #{deadline} 
+      </if>
+      <if test="dateOfEntrustment != null">
+        and p.DATE_OF_ENTRUSTMENT = #{dateOfEntrustment} 
+      </if>
+      <if test="bidDate != null">
+        and p.BID_DATE = #{bidDate} 
+      </if>
+      <if test="bidAddress != null and bidAddress != ''">
+        and p.BID_ADDRESS = #{bidAddress}
+      </if>
+      <if test="requieredId != null and requieredId != ''">
+        and p.REQUIERED_ID = #{requieredId}
+      </if>
+      <if test="baleNo != null and baleNo != ''">
+        and p.BALE_NO = #{baleNo} 
+      </if>
+      <if test="amount != null">
+        and p.AMOUNT = #{amount} 
+      </if>
+      <if test="purchaseDepName != null and purchaseDepName != ''">
+        and p.DEAL_SUPPLIER = #{purchaseDepName} 
+      </if>
+      <if test="dealSupplier != null and dealSupplier != ''">
+        and p.PURCHASE_DEP_NAME = #{dealSupplier.id}
+      </if>
+      <if test="executeStatus != null and executeStatus != ''">
+        and p.EXECUTE_STATUS = #{executeStatus}
+      </if>
+    </trim>
+  </sql>
+  
   <select id="selectProjectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -67,20 +157,31 @@
     where ID = #{id,jdbcType=VARCHAR}
   </select>
   
+  <select id="selectByList" parameterType="Object" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PPMS_PROJECTS p
+    <include refid="Example_Where_Clause"/>
+  </select>
+  
   <!-- 查看成功的项目 -->
-  <select id="selectSuccessProject" resultMap="BaseResultMap">
+  <select id="selectSuccessProject" parameterType="Map" resultMap="BaseResultMap">
   	select 
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_PROJECTS
     where STATUS = 2
-  </select>
-   <!-- 查看任务 -->
-  <select id="selectByTask" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    p.NAME,p.PROJECT_NUMBER,
-    t.NAME,t.MATERIALS_TYPE,t.YEAR,t.PURCHASE_REQUIRED_ID,t.PROCUREMENT_METHOD,t.PURCHASE_ID
-    from T_BSS_PPMS_PROJECTS p left join T_BSS_PPMS_TASK t
-    on p.ID = t.PROJECT_ID where p.ID = #{id}   
+    <if test="name != null and name != ''">
+       and NAME like '%'||${name}||'%'
+      </if>
+       <if test="projectNumber != null and projectNumber != ''">
+       and PROJECT_NUMBER like '%'||${projectNumber}||'%'
+      </if>
+      <!-- 
+      <if test="purchaseDep != null">
+       and STATUS like '%${status}%'
+      </if>
+      -->
+    ORDER BY DATE_OF_ENTRUSTMENT DESC
   </select>
   
    <select id="selectProjectByAll" parameterType="bss.model.ppms.Project" resultMap="BaseResultMap">
@@ -113,7 +214,7 @@
       DIVISION_OF_WORK, PURCHASE_TYPE, MATERIALS_TYPE, 
       SECTOR_OF_DEMAND, PURCHASE_DEP_ID, DEADLINE, 
       DATE_OF_ENTRUSTMENT, BID_DATE, BID_ADDRESS, 
-      REQUIERED_ID,BALE_NO,AMOUNT,DEAL_SUPPLIER)
+      REQUIERED_ID,BALE_NO,AMOUNT,DEAL_SUPPLIER,PURCHASE_DEP_NAME)
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{projectNumber,jdbcType=VARCHAR}, 
       #{status,jdbcType=DECIMAL}, #{principal,jdbcType=VARCHAR}, #{ipone,jdbcType=VARCHAR}, 
       #{linkman,jdbcType=VARCHAR}, #{linkmanIpone,jdbcType=VARCHAR}, #{bidUnit,jdbcType=VARCHAR}, 
@@ -123,7 +224,7 @@
       #{divisionOfWork,jdbcType=VARCHAR}, #{purchaseType,jdbcType=VARCHAR}, #{materialsType,jdbcType=VARCHAR}, 
       #{sectorOfDemand,jdbcType=VARCHAR}, #{purchaseDep.id,jdbcType=VARCHAR}, #{deadline,jdbcType=DATE}, 
       #{dateOfEntrustment,jdbcType=DATE}, #{bidDate,jdbcType=DATE}, #{bidAddress,jdbcType=VARCHAR}, 
-      #{requieredId,jdbcType=VARCHAR}),#{baleNo}, #{amount}, #{dealSupplier.id})
+      #{requieredId,jdbcType=VARCHAR}),#{baleNo}, #{amount}, #{dealSupplier.id},#{purchaseDepName})
   </insert>
   <insert id="insertSelective" parameterType="bss.model.ppms.Project">
      <selectKey keyProperty="id" resultType="String" order="BEFORE">
@@ -224,6 +325,12 @@
       <if test="dealSupplier != null">
         DEAL_SUPPLIER,
       </if>
+      <if test="purchaseDepName != null">
+        PURCHASE_DEP_NAME,
+      </if>
+      <if test="executeStatus != null">
+        EXECUTE_STATUS,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -318,6 +425,12 @@
       </if>
       <if test="dealSupplier != null">
         #{dealSupplier.id},
+      </if>
+      <if test="purchaseDepName != null">
+        #{purchaseDepName},
+      </if>
+      <if test="executeStatus != null">
+        #{executeStatus},
       </if>
     </trim>
   </insert>
@@ -414,6 +527,12 @@
       <if test="dealSupplier != null">
         DEAL_SUPPLIER = #{dealSupplier.id},
       </if>
+      <if test="purchaseDepName != null">
+        PURCHASE_DEP_NAME = #{purchaseDepName},
+      </if>
+      <if test="executeStatus != null">
+        EXECUTE_STATUS = #{executeStatus},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -448,7 +567,8 @@
       REQUIERED_ID = #{requieredId,jdbcType=VARCHAR}
       BALE_NO = #{bidDate},
       AMOUNT = #{amount},
-      DEAL_SUPPLIER = #{dealSupplier.id}
+      DEAL_SUPPLIER = #{dealSupplier.id},
+      PURCHASE_DEP_NAME = #{purchaseDepName}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

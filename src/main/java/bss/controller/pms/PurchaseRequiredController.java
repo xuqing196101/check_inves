@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import ses.model.bms.User;
-import ses.util.PathUtil;
 import bss.controller.base.BaseController;
 import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.pms.PurchaseRequired;
@@ -210,8 +209,8 @@ public class PurchaseRequiredController extends BaseController{
 					p.setIsDelete(0);
 					p.setIsMaster("1");
 					p.setCreatedAt(new Date());
-					p.setUserId(user.getId());
-					p.setOrganization(user.getOrg().getName());
+//					p.setUserId(user.getId());
+//					p.setOrganization(user.getOrg().getName());
 					purchaseRequiredService.add(p);	
 			}else{
 					PurchaseRequired p = list.get(i);
@@ -225,8 +224,8 @@ public class PurchaseRequiredController extends BaseController{
 					p.setIsDelete(0);
 					p.setIsMaster("2");
 					p.setCreatedAt(new Date());
-					p.setUserId(user.getId());
-					p.setOrganization(user.getOrg().getName());
+//					p.setUserId(user.getId());
+//					p.setOrganization(user.getOrg().getName());
 					purchaseRequiredService.add(p);	
 			}
 		}
@@ -377,11 +376,11 @@ public class PurchaseRequiredController extends BaseController{
 	* @return String     
 	* @throws
 	 */
-	  @RequestMapping("/download")    
+	  @RequestMapping("download")    
 	    public ResponseEntity<byte[]> download(HttpServletRequest request,String filename) throws IOException {
 	    	filename = new String(filename.getBytes("iso8859-1"),"UTF-8");
-	    	String path = PathUtil.getWebRoot() + "excel/模板.xls"; 
-	        File file=new File(path);
+	    	String path = request.getSession().getServletContext().getRealPath("/WEB-INF/upload");  
+	        File file=new File(path,filename);
 	        
 	        HttpHeaders headers = new HttpHeaders();    
 	        String fileName=new String("模板.xlsx".getBytes("UTF-8"),"iso-8859-1");//为了解决中文名称乱码问题  

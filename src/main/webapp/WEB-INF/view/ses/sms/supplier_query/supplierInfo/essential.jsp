@@ -162,8 +162,24 @@ function tijiao(str){
   if(str=="reasonsList"){
     action = "<%=basePath%>supplierQuery/reasonsList.html";
   }
+  if(str=="item"){
+     action = "<%=basePath%>supplierQuery/item.html";
+  }
   $("#form_id").attr("action",action);
   $("#form_id").submit();
+}
+
+function downloadFile(fileName){
+	  fileName=encodeURI(fileName);
+      fileName=encodeURI(fileName);
+	  window.location.href="<%=basePath %>supplierQuery/downLoadFile.html?fileName="+fileName;
+}
+function fanhui(){
+      if('${category}'==1){
+      window.location.href="<%=basePath%>supplierQuery/selectByCategory.html";
+      }else{
+	  window.location.href="<%=basePath%>supplierQuery/findSupplierByPriovince.html?address="+encodeURI(encodeURI('${suppliers.address}'))+"&status=${status}";
+      }
 }
 </script>
 <style type="text/css">
@@ -198,6 +214,11 @@ function tijiao(str){
    </div>
   <!-- 项目戳开始 -->
   <div class="container clear margin-top-30">
+   <div class="container">
+   <div class="col-md-12">
+	<button class="btn btn-windows back" onclick="fanhui()">返回</button>	
+	</div>
+    </div>
   <!--详情开始-->
   <div class="container content height-350">
     <div class="row magazine-page">
@@ -211,7 +232,7 @@ function tijiao(str){
             <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('materialSales');">物资-销售型专业信息</a></li>
             <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('engineering');">工程-专业信息</a></li>
             <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('service');">服务-专业信息</a></li>
-            <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" >品目信息</a></li>
+            <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('item');">品目信息</a></li>
             <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >产品信息</a></li>
             <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('reasonsList');">诚信记录</a></li>
           </ul>
@@ -267,22 +288,22 @@ function tijiao(str){
                     </li>
                     <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>近三个月完税凭证：</span>
                       <div class="input-append">
-                        <a class="span3">附件下载</a>
+                        <a class="span3" onclick="downloadFile('${suppliers.taxCert}')" >附件下载</a>
                       </div>
                     </li>
                     <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>近三年银行账单：</span>
                       <div class="input-append">
-                        <a class="span3">附件下载</a>
+                        <a class="span3" onclick="downloadFile('${suppliers.billCert}')" >附件下载</a>
                       </div>
                     </li>
                     <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>近三个月保险凭证：</span>
                       <div class="input-append">
-                        <a class="span3">附件下载</a>
+                        <a class="span3" onclick="downloadFile('${suppliers.securityCert}')" >附件下载</a>
                       </div>
                     </li>
                     <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>近三年违法记录：</span>
                       <div class="input-append">
-                        <a class="span3">附件下载</a>
+                        <a class="span3" onclick="downloadFile('${suppliers.breachCert}')" >附件下载</a>
                       </div>
                     </li>
                   </ul>
@@ -376,8 +397,7 @@ function tijiao(str){
                     </li>
                     <li class="col-md-6 p0 "><span class="" id="businessEndDate2"><i class="red">＊</i>营业期限：</span>
                       <div class="input-append">
-                        <input class="span3" id="businessEndDate3" value="<fmt:formatDate value="${supplier.businessStartDate }" pattern="yyyy-MM-dd" /> 
-                        至 <fmt:formatDate value="${suppliers.businessEndDate}" pattern="yyyy-MM-dd" />" type="text"/>
+                        <input class="span3" id="businessEndDate3" value="<fmt:formatDate value="${suppliers.businessStartDate}" pattern="yyyy-MM-dd" />至 <fmt:formatDate value="${suppliers.businessEndDate}" pattern="yyyy-MM-dd" />" type="text"/>
                       </div>
                     </li>
                     <li class="col-md-12 p0 mt10"><span class="fl" id="businessScope2"><i class="red">＊</i>经营范围：</span>

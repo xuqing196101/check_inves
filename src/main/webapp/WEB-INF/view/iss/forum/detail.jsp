@@ -144,19 +144,17 @@
             <div class="comment_desc col-md-10 p0">
               <div class="col-md-12 p0">
                           
-                <span class="comment_name">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}楼  ${reply.user.relName }</span>
-                <span class="grey">[<fmt:formatDate value='${reply.publishedAt}' pattern="yyyy年MM月dd日" />]</span>
+                <span class="comment_name">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}楼  </span>
+                <span>@ ${reply.user.relName }</span>
+                <span class="grey">[<fmt:formatDate value='${reply.publishedAt}' pattern="yyyy年MM月dd日" />]：${reply.content }</span>
+                <c:forEach items="${reply.replies }" var="replytoreply">
+                    <span>@ ${replytoreply.user.relName } [<fmt:formatDate value='${replytoreply.publishedAt}' pattern="yyyy年MM月dd日" />]：${replytoreply.content }</span>:                 
+                </c:forEach>
+                
                 <span class="fr blue pointer" onclick="writeHtml('${reply.id}')">回复</span>
                 
               </div>
-              <div class="col-md-12 comment_cont p0">${reply.content }</div>
-              <!--回复的回复-->
-              <div>
-                <c:forEach items="${reply.replies }" var="replytoreply">
-                    <span>${replytoreply.user.relName } [<fmt:formatDate value='${replytoreply.publishedAt}' pattern="yyyy年MM月dd日" />]</span>:                 
-                    <span>${replytoreply.content }</span>
-                </c:forEach>
-              </div>
+
               
             </div>
             </div> 
@@ -188,11 +186,21 @@
 <!--底部代码开始-->
 <jsp:include page="/index_bottom.jsp"></jsp:include>
    <script type="text/javascript">
-    //实例化编辑器
+    //自定义实例化编辑器
     //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
-    var ue = UE.getEditor('editor');
+        var option ={
+        toolbars: [[
+                'undo', 'redo', '|',
+                'bold', 'italic', 'underline',  'formatmatch', 'autotypeset', '|', 'forecolor', 'backcolor',                
+                 'fontfamily', 'fontsize', '|',
+                 'indent', '|',
+                'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 
+            ]]
+
+    };
+    UE.getEditor('editor',option);
     </script>
-</body>
+</body>3
 </html>
 
 

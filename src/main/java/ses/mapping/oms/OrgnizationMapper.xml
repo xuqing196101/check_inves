@@ -220,6 +220,87 @@
 		 	</if>
 	     where s.id=#{id}    
 	</update>
+	<!-- 更新人员-->
+	<update id="updateOrgnizationById" parameterType="ses.model.oms.Orgnization">
+			  update T_SES_OMS_ORG s
+	     set 
+	         UPDATED_AT=sysdate
+	         <!-- -->
+	        <if test="name != null and name != ''">
+		 		,NAME=#{name,jdbcType=VARCHAR}
+		 	</if>
+		 	<if test="typeName != null and typeName != ''">
+		 		,TYPE_NAME=#{typeName,jdbcType=VARCHAR}
+		 	</if>
+		 	<if test="parentId != null and parentId != ''">
+		 		,PARENT_ID=#{parentId,jdbcType=VARCHAR}
+		 	</if>
+		 	<if test="parentName != null and parentName != ''">
+		 		,PARENT_NAME=#{parentName,jdbcType=VARCHAR}
+		 	</if>
+		 	<if test="describtion != null and describtion != ''">
+		 		,DESCRIBTION=#{describtion,jdbcType=VARCHAR}
+		 	</if>
+		 	
+		 	 <if test="address != null and address != ''">
+		 		,ADDRESS=#{address,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="mobile != null and mobile != ''">
+		 		,MOBILE=#{mobile,jdbcType=NUMERIC}
+		 	</if>
+		 	 <if test="postCode != null and postCode != ''">
+		 		,POST_CODE=#{postCode,jdbcType=NUMERIC}
+		 	</if>
+		 	 <if test="orgCode != null and orgCode != ''">
+		 		,ORG_CODE=#{orgCode,jdbcType=VARCHAR}
+		 	</if>
+	        <if test="shortName != null and shortName != ''">
+		 		,SHORT_NAME=#{shortName,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="telephone != null and telephone != ''">
+		 		,TELEPHONE=#{telephone,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="areaId != null and areaId != ''">
+		 		,AREA_ID=#{areaId,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="detailAddr != null and detailAddr != ''">
+		 		,DETAIL_ADDR=#{detailAddr,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="fax != null and fax != ''">
+		 		,FAX=#{fax,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="website != null and website != ''">
+		 		,WEBSITE=#{website,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="princinpal != null and princinpal != ''">
+		 		,PRINCINPAL=#{princinpal,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="princinpalIdCard != null and princinpalIdCard != ''">
+		 		,PRINCINPAL_ID_CARD=#{princinpalIdCard,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="nature != null and nature != ''">
+		 		,NATURE=#{nature,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="orgLevel != null and orgLevel != ''">
+		 		,ORG_LEVEL=#{orgLevel,jdbcType=INTEGER}
+		 	</if>
+		 	 <if test="position != null and position != ''">
+		 		,POSITION=#{position,jdbcType=INTEGER}
+		 	</if>
+		 	 <if test="isRoot != null and isRoot != ''">
+		 		,IS_ROOT=#{isRoot,jdbcType=NUMERIC}
+		 	</if>
+		 	 <if test="provinceId != null and provinceId != ''">
+		 		,PROVINCE_ID=#{provinceId,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="cityId != null and cityId != ''">
+		 		,CITY_ID=#{cityId,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="isDeleted != null and isDeleted != ''">
+		 		,IS_DELETED=#{isDeleted,jdbcType=NUMERIC}
+		 	</if>
+	     where s.id=#{id}     
+	</update>
 	<!-- 删除需求部门-->
 	<delete id="delOrgnizationByid" parameterType="java.util.Map">
 		delete from T_SES_OMS_ORG s where s.id in

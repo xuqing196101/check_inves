@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.ems.ExpExtractRecordMapper">
+	<resultMap id="BaseResultMap" type="ses.model.ems.ExpExtractRecord">
+		<!-- @mbggenerated -->
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="PROJECT_NAME" jdbcType="VARCHAR" property="projectName" />
+		<result column="PROJECT_CODE" jdbcType="VARCHAR" property="projectCode" />
+		<result column="PROCUREMENT_DEP_ID" jdbcType="VARCHAR"
+			property="procurementDepId" />
+		<result column="EXTRACTION_TIME" jdbcType="DATE" property="extractionTime" />
+		<result column="EXTRACTION_SITES" jdbcType="VARCHAR" property="extractionSites" />
+		<result column="EXTRACT_THE_WAY" jdbcType="DECIMAL" property="extractTheWay" />
+		<result column="EXTRACTS_THE_NUMBER" jdbcType="VARCHAR"
+			property="extractsTheNumber" />
+		<result column="EXTRACTING_CONDITIONS" jdbcType="VARCHAR"
+			property="extractingConditions" />
+		<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+		<result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+		<result column="EXTRACTS_PEOPLE" jdbcType="VARCHAR" property="extractsPeople" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		<!-- @mbggenerated -->
+		ID, PROJECT_NAME, PROJECT_CODE, PROCUREMENT_DEP_ID, EXTRACTION_TIME,
+		EXTRACTION_SITES,
+		EXTRACT_THE_WAY, EXTRACTS_THE_NUMBER, EXTRACTING_CONDITIONS, CREATED_AT, UPDATED_AT,
+		EXTRACTS_PEOPLE
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		<!-- @mbggenerated -->
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_EMS_EXP_EXTRACT_RECORD
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		<!-- @mbggenerated -->
+		delete from T_SES_EMS_EXP_EXTRACT_RECORD
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="ses.model.ems.ExpExtractRecord">
+		<!-- @mbggenerated -->
+		insert into T_SES_EMS_EXP_EXTRACT_RECORD (ID, PROJECT_NAME,
+		PROJECT_CODE,
+		PROCUREMENT_DEP_ID, EXTRACTION_TIME, EXTRACTION_SITES,
+		EXTRACT_THE_WAY, EXTRACTS_THE_NUMBER, EXTRACTING_CONDITIONS,
+		CREATED_AT, UPDATED_AT, EXTRACTS_PEOPLE
+		)
+		values (#{id,jdbcType=VARCHAR}, #{projectName,jdbcType=VARCHAR},
+		#{projectCode,jdbcType=VARCHAR},
+		#{procurementDepId,jdbcType=VARCHAR}, #{extractionTime,jdbcType=DATE}, #{extractionSites,jdbcType=VARCHAR},
+		#{extractTheWay,jdbcType=DECIMAL},
+		#{extractsTheNumber,jdbcType=VARCHAR},
+		#{extractingConditions,jdbcType=VARCHAR},
+		#{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE}, #{extractsPeople,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="ses.model.ems.ExpExtractRecord">
+		<!-- @mbggenerated -->
+		insert into T_SES_EMS_EXP_EXTRACT_RECORD
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="projectName != null">
+				PROJECT_NAME,
+			</if>
+			<if test="projectCode != null">
+				PROJECT_CODE,
+			</if>
+			<if test="procurementDepId != null">
+				PROCUREMENT_DEP_ID,
+			</if>
+			<if test="extractionTime != null">
+				EXTRACTION_TIME,
+			</if>
+			<if test="extractionSites != null">
+				EXTRACTION_SITES,
+			</if>
+			<if test="extractTheWay != null">
+				EXTRACT_THE_WAY,
+			</if>
+			<if test="extractsTheNumber != null">
+				EXTRACTS_THE_NUMBER,
+			</if>
+			<if test="extractingConditions != null">
+				EXTRACTING_CONDITIONS,
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT,
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT,
+			</if>
+			<if test="extractsPeople != null">
+				EXTRACTS_PEOPLE,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="projectName != null">
+				#{projectName,jdbcType=VARCHAR},
+			</if>
+			<if test="projectCode != null">
+				#{projectCode,jdbcType=VARCHAR},
+			</if>
+			<if test="procurementDepId != null">
+				#{procurementDepId,jdbcType=VARCHAR},
+			</if>
+			<if test="extractionTime != null">
+				#{extractionTime,jdbcType=DATE},
+			</if>
+			<if test="extractionSites != null">
+				#{extractionSites,jdbcType=VARCHAR},
+			</if>
+			<if test="extractTheWay != null">
+				#{extractTheWay,jdbcType=DECIMAL},
+			</if>
+			<if test="extractsTheNumber != null">
+				#{extractsTheNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="extractingConditions != null">
+				#{extractingConditions,jdbcType=VARCHAR},
+			</if>
+			<if test="createdAt != null">
+				#{createdAt,jdbcType=DATE},
+			</if>
+			<if test="updatedAt != null">
+				#{updatedAt,jdbcType=DATE},
+			</if>
+			<if test="extractsPeople != null">
+				#{extractsPeople,jdbcType=VARCHAR},
+			</if>
+		</trim>
+		  <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+            select sys_guid() from dual
+        </selectKey>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="ses.model.ems.ExpExtractRecord">
+		<!-- @mbggenerated -->
+		update T_SES_EMS_EXP_EXTRACT_RECORD
+		<set>
+			<if test="projectName != null">
+				PROJECT_NAME = #{projectName,jdbcType=VARCHAR},
+			</if>
+			<if test="projectCode != null">
+				PROJECT_CODE = #{projectCode,jdbcType=VARCHAR},
+			</if>
+			<if test="procurementDepId != null">
+				PROCUREMENT_DEP_ID = #{procurementDepId,jdbcType=VARCHAR},
+			</if>
+			<if test="extractionTime != null">
+				EXTRACTION_TIME = #{extractionTime,jdbcType=DATE},
+			</if>
+			<if test="extractionSites != null">
+				EXTRACTION_SITES = #{extractionSites,jdbcType=VARCHAR},
+			</if>
+			<if test="extractTheWay != null">
+				EXTRACT_THE_WAY = #{extractTheWay,jdbcType=DECIMAL},
+			</if>
+			<if test="extractsTheNumber != null">
+				EXTRACTS_THE_NUMBER = #{extractsTheNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="extractingConditions != null">
+				EXTRACTING_CONDITIONS = #{extractingConditions,jdbcType=VARCHAR},
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT = #{createdAt,jdbcType=DATE},
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT = #{updatedAt,jdbcType=DATE},
+			</if>
+			<if test="extractsPeople != null">
+				EXTRACTS_PEOPLE = #{extractsPeople,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="ses.model.ems.ExpExtractRecord">
+		<!-- @mbggenerated -->
+		update T_SES_EMS_EXP_EXTRACT_RECORD
+		set PROJECT_NAME = #{projectName,jdbcType=VARCHAR},
+		PROJECT_CODE = #{projectCode,jdbcType=VARCHAR},
+		PROCUREMENT_DEP_ID = #{procurementDepId,jdbcType=VARCHAR},
+		EXTRACTION_TIME = #{extractionTime,jdbcType=DATE},
+		EXTRACTION_SITES = #{extractionSites,jdbcType=VARCHAR},
+		EXTRACT_THE_WAY = #{extractTheWay,jdbcType=DECIMAL},
+		EXTRACTS_THE_NUMBER = #{extractsTheNumber,jdbcType=VARCHAR},
+		EXTRACTING_CONDITIONS = #{extractingConditions,jdbcType=VARCHAR},
+		CREATED_AT = #{createdAt,jdbcType=DATE},
+		UPDATED_AT = #{updatedAt,jdbcType=DATE},
+		EXTRACTS_PEOPLE = #{extractsPeople,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<select id="list" parameterType="ses.model.ems.ExpExtractRecord"
+		resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM T_SES_EMS_EXP_EXTRACT_RECORD
+	</select>
+</mapper>

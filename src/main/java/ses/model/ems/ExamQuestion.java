@@ -1,13 +1,25 @@
 package ses.model.ems;
 
+import java.io.Serializable;
 import java.util.Date;
+
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import com.sun.istack.internal.NotNull;
 /**
 * @Title:ExamQuestion 
 * @Description:题目表
 * @author ZhaoBo
 * @date 2016-9-7上午9:30:55
  */
-public class ExamQuestion {
+public class ExamQuestion implements Serializable{
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * @Fields id : 主键ID
 	 */
@@ -82,6 +94,9 @@ public class ExamQuestion {
      * @Fields queNum :专家考试题目数量
      */
     private Integer queNum;
+    
+    
+    private String type;
 
 	public String getId() {
 		return id;
@@ -201,6 +216,14 @@ public class ExamQuestion {
 
 	public void setQueNum(Integer queNum) {
 		this.queNum = queNum;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
     
     

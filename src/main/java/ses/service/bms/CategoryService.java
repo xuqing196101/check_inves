@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import ses.model.bms.Category;
+import ses.model.sms.SupplierTypeTree;
 
 
 
@@ -118,4 +119,27 @@ import ses.model.bms.Category;
 	* @return int
 	 */
 	public List<Category> listByKeyword(Map map);
+	
+	/**
+	 * @Title: findCategoryByType
+	 * @author: Wang Zhaohua
+	 * @date: 2016-10-3 下午4:12:18
+	 * @Description: 根据类型查询
+	 * @param: @param category
+	 * @param: @return
+	 * @return: List<Category>
+	 */
+	public List<SupplierTypeTree> findCategoryByType(Category category, String supplierId);
+	
+	/**
+	 * @Title: queryCategory
+	 * @author Song Biaowei
+	 * @date 2016-10-8 下午2:22:28  
+	 * @Description: 按照品目查询供应商 
+	 * @param @param category
+	 * @param @param listCategoryIds
+	 * @param @return      
+	 * @return List<SupplierTypeTree>
+	 */
+	public List<SupplierTypeTree> queryCategory(Category category, List<String> listCategoryIds);
 }

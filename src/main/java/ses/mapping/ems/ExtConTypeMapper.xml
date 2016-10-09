@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.ems.ExtConTypeMapper">
+  <resultMap id="BaseResultMap" type="ses.model.ems.ExtConType">
+    <!--
+    @mbggenerated
+    -->
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="EXPERTS_TYPE_ID" jdbcType="DECIMAL" property="expertsTypeId" />
+    <result column="EXPERTS_COUNT" jdbcType="DECIMAL" property="expertsCount" />
+    <result column="EXPERTS_QUALIFICATION" jdbcType="VARCHAR" property="expertsQualification" />
+    <result column="CATEGORY_ID" jdbcType="VARCHAR" property="categoryId" />
+    <result column="CATEGORY_NAME" jdbcType="VARCHAR" property="categoryName" />
+    <result column="CONDITION_ID" jdbcType="VARCHAR" property="conditionId" />
+    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="IS_DELETE" jdbcType="DECIMAL" property="isDelete" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+    @mbggenerated
+    -->
+    ID, EXPERTS_TYPE_ID, EXPERTS_COUNT, EXPERTS_QUALIFICATION, CATEGORY_ID, CATEGORY_NAME, 
+    CONDITION_ID, CREATED_AT, IS_DELETE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--
+    @mbggenerated
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_EMS_EXP_EXT_CON_TYPE
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <!--
+    @mbggenerated
+    -->
+    delete from T_SES_EMS_EXP_EXT_CON_TYPE
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="ses.model.ems.ExtConType">
+    <!--
+    @mbggenerated
+    -->
+    insert into T_SES_EMS_EXP_EXT_CON_TYPE (ID, EXPERTS_TYPE_ID, EXPERTS_COUNT, 
+      EXPERTS_QUALIFICATION, CATEGORY_ID, CATEGORY_NAME, 
+      CONDITION_ID, CREATED_AT, IS_DELETE
+      )
+    values (#{id,jdbcType=VARCHAR}, #{expertsTypeId,jdbcType=DECIMAL}, #{expertsCount,jdbcType=DECIMAL}, 
+      #{expertsQualification,jdbcType=VARCHAR}, #{categoryId,jdbcType=VARCHAR}, #{categoryName,jdbcType=VARCHAR}, 
+      #{conditionId,jdbcType=VARCHAR}, #{createdAt,jdbcType=DATE}, #{isDelete,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="ses.model.ems.ExtConType">
+    <!--
+    @mbggenerated
+    -->
+    insert into T_SES_EMS_EXP_EXT_CON_TYPE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+     
+      <if test="expertsTypeId != null">
+        EXPERTS_TYPE_ID,
+      </if>
+      <if test="expertsCount != null">
+        EXPERTS_COUNT,
+      </if>
+      <if test="expertsQualification != null">
+        EXPERTS_QUALIFICATION,
+      </if>
+      <if test="categoryId != null">
+        CATEGORY_ID,
+      </if>
+      <if test="categoryName != null">
+        CATEGORY_NAME,
+      </if>
+      <if test="conditionId != null">
+        CONDITION_ID,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="isDelete != null">
+        IS_DELETE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="expertsTypeId != null">
+        #{expertsTypeId,jdbcType=DECIMAL},
+      </if>
+      <if test="expertsCount != null">
+        #{expertsCount,jdbcType=DECIMAL},
+      </if>
+      <if test="expertsQualification != null">
+        #{expertsQualification,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null">
+        #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryName != null">
+        #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="conditionId != null">
+        #{conditionId,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="ses.model.ems.ExtConType">
+    <!--
+    @mbggenerated
+    -->
+    update T_SES_EMS_EXP_EXT_CON_TYPE
+    <set>
+      <if test="expertsTypeId != null">
+        EXPERTS_TYPE_ID = #{expertsTypeId,jdbcType=DECIMAL},
+      </if>
+      <if test="expertsCount != null">
+        EXPERTS_COUNT = #{expertsCount,jdbcType=DECIMAL},
+      </if>
+      <if test="expertsQualification != null">
+        EXPERTS_QUALIFICATION = #{expertsQualification,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null">
+        CATEGORY_ID = #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryName != null">
+        CATEGORY_NAME = #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="conditionId != null">
+        CONDITION_ID = #{conditionId,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="isDelete != null">
+        IS_DELETE = #{isDelete,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="ses.model.ems.ExtConType">
+    <!--
+    @mbggenerated
+    -->
+    update T_SES_EMS_EXP_EXT_CON_TYPE
+    set EXPERTS_TYPE_ID = #{expertsTypeId,jdbcType=DECIMAL},
+      EXPERTS_COUNT = #{expertsCount,jdbcType=DECIMAL},
+      EXPERTS_QUALIFICATION = #{expertsQualification,jdbcType=VARCHAR},
+      CATEGORY_ID = #{categoryId,jdbcType=VARCHAR},
+      CATEGORY_NAME = #{categoryName,jdbcType=VARCHAR},
+      CONDITION_ID = #{conditionId,jdbcType=VARCHAR},
+      CREATED_AT = #{createdAt,jdbcType=DATE},
+      IS_DELETE = #{isDelete,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

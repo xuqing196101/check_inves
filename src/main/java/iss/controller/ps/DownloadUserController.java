@@ -73,7 +73,12 @@ public class DownloadUserController {
 		countMap.put("userName", userName);
 		List<DownloadUser> downloadUserList = downloadUserService.selectByArticleId(map);
 		Integer pages = downloadUserService.selectDownloadUserCount(countMap);
+		Integer startRow = (page-1)*Integer.parseInt(pageSize)+1;
+		Integer endRow = (page-1)+downloadUserList.size();
 		model.addAttribute("pages", Math.ceil((double)pages/Integer.parseInt(pageSize)));
+		model.addAttribute("total", pages);
+		model.addAttribute("startRow", startRow);
+		model.addAttribute("endRow", endRow);
 		model.addAttribute("list", downloadUserList);
 		model.addAttribute("articleId", articleId);
 		model.addAttribute("pageSize", pageSize);
@@ -102,8 +107,8 @@ public class DownloadUserController {
 			downloadUserService.deleteDownloadUserById(ids[i]);
 		}
 		Article article = downloadUser.getArticle();
-		article.setDownloadCount(article.getDownloadCount()-1);
+		article.setDownloadCount(article.getDownloadCount()-ids.length);
 		articleService.update(article);
-		return "redirect:selectDownloadUserByArticleId.html?id="+id;
+		return "redirect:selectDownloadUserByArticleId.html?articleId="+id;
 	};
 }

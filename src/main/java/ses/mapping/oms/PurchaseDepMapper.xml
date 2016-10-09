@@ -47,6 +47,9 @@
 		       o.NAME         as name,
 		       o.SHORT_NAME   as shortName,
 		       o.ORG_CODE     as orgCode,
+		       o.type_name    as typeName,
+		       o.address      as address,
+		       o.post_code    as postCode,
 		       CONCAT(a.name, b.name) as areaName,
 		       d.DUTY_ROOM_PHONE  as dutyRoomPhone,
 		       a.id               as provinceId,
@@ -80,7 +83,7 @@
 			select rawtohex(sys_guid()) as VALUE from dual
 		</selectKey>
 		insert into T_SES_OMS_PURCHASE_DEP
-		 (ID,LEVEL,SUBORDINATE_ORG_ID,
+		 (ID,LEVEL_DEP,SUBORDINATE_ORG_ID,
 		  SUBORDINATE_ORG__NAME,BUSINESS_DEP,BUSINESS_DEP_ID,
 		  BUSINESS_RANGE,QUA_CODE,QUA_LEVEL,
 		  QUA_EDNDATE,QUA_RANGE,QUA_CERT,
@@ -97,7 +100,7 @@
 		  QUA_START_DATE,QUA_STATUS
           )
 		values(
-	      #{id},#{level,jdbcType=VARCHAR},
+	      #{id},#{levelDep,jdbcType=VARCHAR},
 		  #{subordinateOrgId,jdbcType=VARCHAR},#{subordinateOrgName,jdbcType=VARCHAR},#{businessDep,jdbcType=VARCHAR},
 		  #{businessDepId,jdbcType=VARCHAR},#{businessRange,jdbcType=VARCHAR},#{quaCode,jdbcType=VARCHAR},
 		  #{quaLevel,jdbcType=VARCHAR},#{quaEdndate,jdbcType=TIMESTAMP },#{quaRange,jdbcType=NUMERIC},
@@ -114,6 +117,137 @@
 		  #{quaStartDate,jdbcType=TIMESTAMP },1
 		 )
 	</insert>
+	<!-- 更新采购机构 -->
+	<update id="update" parameterType="ses.model.oms.PurchaseDep">
+		update T_SES_OMS_PURCHASE_DEP s
+	     set 
+	         UPDATED_AT=sysdate
+	         <if test="levelDep != null and levelDep != ''">
+		 		,LEVEL_DEP=#{levelDep,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="subordinateOrgId != null and subordinateOrgId != ''">
+		 		,SUBORDINATE_ORG_ID=#{subordinateOrgId,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="subordinateOrgName != null and subordinateOrgName != ''">
+		 		,SUBORDINATE_ORG__NAME=#{subordinateOrgName,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="businessDep != null and businessDep != ''">
+		 		,BUSINESS_DEP=#{businessDep,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="businessDepId != null and businessDepId != ''">
+		 		,BUSINESS_DEP_ID=#{businessDepId,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="businessRange != null and businessRange != ''">
+		 		,BUSINESS_RANGE=#{businessRange,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="quaCode != null and quaCode != ''">
+		 		,QUA_CODE=#{quaCode,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="quaLevel != null and quaLevel != ''">
+		 		,QUA_LEVEL=#{quaLevel,jdbcType=VARCHAR}
+		 	</if>
+		 	<if test="quaEdndate != null and quaEdndate != ''">
+		 		,QUA_EDNDATE=#{quaEdndate,jdbcType=TIMESTAMP}
+		 	</if>
+		 	 <if test="quaRange != null and quaRange != ''">
+		 		,QUA_RANGE=#{quaRange,jdbcType=NUMERIC}
+		 	</if>
+		 	 <if test="quaCert != null and quaCert != ''">
+		 		,QUA_CERT=#{quaCert,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="leaderTelephone != null and leaderTelephone != ''">
+		 		,LEADER_TELEPHONE=#{leaderTelephone,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="officerCountnum != null and officerCountnum != ''">
+		 		,OFFICER_COUNTNUM=#{officerCountnum,jdbcType=NUMERIC}
+		 	</if>
+		 	 <if test="officerNowCounts != null and officerNowCounts != ''">
+		 		,OFFICER_NOW_COUNTS=#{officerNowCounts,jdbcType=NUMERIC}
+		 	</if>
+		 	 <if test="soldierNum != null and soldierNum != ''">
+		 		,SOLDIER_NUM=#{soldierNum,jdbcType=NUMERIC}
+		 	</if>
+		 	<if test="soldierNowCounts != null and soldierNowCounts != ''">
+		 		,SOLDIER_NOW_COUNTS=#{soldierNowCounts,jdbcType=NUMERIC}
+		 	</if>
+		 	 <if test="staffNum != null and staffNum != ''">
+		 		,STAFF_NUM=#{staffNum,jdbcType=NUMERIC}
+		 	</if>
+		 	 <if test="staffNowCounts != null and staffNowCounts != ''">
+		 		,STAFF_NOW_COUNTS=#{staffNowCounts,jdbcType=NUMERIC}
+		 	</if>
+		 	 <if test="purchasersCount != null and purchasersCount != ''">
+		 		,PURCHASERS_COUNT=#{purchasersCount,jdbcType=NUMERIC}
+		 	</if>
+		 	 <if test="juniorPurCount != null and juniorPurCount != ''">
+		 		,JUNIOR_PUR_COUNT=#{juniorPurCount,jdbcType=NUMERIC}
+		 	</if>
+		 	 <if test="seniorPurCount != null and seniorPurCount != ''">
+		 		,SENIOR_PUR_COUNT=#{seniorPurCount,jdbcType=NUMERIC}
+		 	</if>
+		 	 <if test="depName != null and depName != ''">
+		 		,DEP_NAME=#{depName,jdbcType=VARCHAR}
+		 	</if>
+		 	<if test="legal != null and legal != ''">
+		 		,LEGAL=#{legal,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="agent != null and agent != ''">
+		 		,AGENT=#{agent,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="contact != null and contact != ''">
+		 		,CONTACT=#{contact,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="contactTelephone != null and contactTelephone != ''">
+		 		,CONTACT_TELEPHONE=#{contactTelephone,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="contactAddress != null and contactAddress != ''">
+		 		,CONTACT_ADDRESS=#{contactAddress,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="unitPostCode != null and unitPostCode != ''">
+		 		,UNIT_POST_CODE=#{unitPostCode,jdbcType=NUMERIC}
+		 	</if>
+		 	 <if test="payDep != null and payDep != ''">
+		 		,PAY_DEP=#{payDep,jdbcType=VARCHAR}
+		 	</if>
+		 	
+		 	<if test="bank != null and bank != ''">
+		 		,BANK=#{bank,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="bankAccount != null and bankAccount != ''">
+		 		,BANK_ACCOUNT=#{bankAccount,jdbcType=NUMERIC}
+		 	</if>
+		 	 <if test="officeArea != null and officeArea != ''">
+		 		,OFFICE_AREA=#{officeArea,jdbcType=NUMERIC}
+		 	</if>
+		 	 <if test="officeCount != null and officeCount != ''">
+		 		,OFFICE_COUNT=#{officeCount,jdbcType=NUMERIC}
+		 	</if>
+		 	<if test="mettingRoomCount != null and mettingRoomCount != ''">
+		 		,METTING_ROOM_COUNT=#{mettingRoomCount,jdbcType=NUMERIC}
+		 	</if>
+		 	 <if test="inviteRoomCount != null and inviteRoomCount != ''">
+		 		,INVITE_ROOM_COUNT=#{inviteRoomCount,jdbcType=NUMERIC}
+		 	</if>
+		 	 <if test="bidRoomCount != null and bidRoomCount != ''">
+		 		,BID_ROOM_COUNT=#{bidRoomCount,jdbcType=NUMERIC}
+		 	</if>
+		 	 <if test="isDeleted != null and isDeleted != ''">
+		 		,IS_DELETED=#{isDeleted,jdbcType=NUMERIC}
+		 	</if>
+		 	 <if test="dutyRoomPhone != null and dutyRoomPhone != ''">
+		 		,DUTY_ROOM_PHONE=#{dutyRoomPhone,jdbcType=VARCHAR}
+		 	</if>
+		 	 <if test="isAuditSupplier != null and isAuditSupplier != ''">
+		 		,IS_AUDIT_SUPPLIER=#{isAuditSupplier,jdbcType=NUMERIC}
+		 	</if>
+		 	 <if test="quaStatus != null and quaStatus != ''">
+		 		,QUA_STATUS=#{quaStatus,jdbcType=NUMERIC}
+		 	</if>
+		 	 <if test="quaStartDate != null and quaStartDate != ''">
+		 		,QUA_START_DATE=#{quaStartDate,jdbcType=TIMESTAMP}
+		 	</if>
+		 	 where s.id=#{id}  
+	</update>
 	<select id="selectPurchaseById" parameterType="java.lang.String" resultType="ses.model.oms.PurchaseDep">
 		select d.id  as id,
 		       d.LEVEL_DEP       as levelDep,

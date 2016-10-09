@@ -27,12 +27,14 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
 import ses.service.oms.PurchaseOrgnizationServiceI;
+import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierMatEngService;
 import ses.service.sms.SupplierMatProService;
 import ses.service.sms.SupplierMatSeService;
 import ses.service.sms.SupplierMatSellService;
 import ses.service.sms.SupplierService;
 import ses.service.sms.SupplierTypeRelateService;
+import ses.util.IdentityCode;
 
 /**
  * @Title: supplierController
@@ -64,11 +66,21 @@ public class SupplierController extends BaseSupplierController {
 	private SupplierMatEngService supplierMatEngService;// 供应商工程专业信息
 
 	@Autowired
-	private PurchaseOrgnizationServiceI poService;
+	private PurchaseOrgnizationServiceI poService;// 采购机构
+	
+	@Autowired
+	private SupplierItemService supplierItemService;
 
+	
+	@RequestMapping(value = "get_identity")
+	public void getIdentity(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		IdentityCode identityCode = new IdentityCode(96, 28, 4, 5);
+		identityCode.write(request, response);
+	}
+	
 	@RequestMapping("login")
 	public String login(HttpServletRequest request, Model model) {
-		Supplier supplier = supplierService.get("53BF9E64B38B46228914807B92BAE812");
+		Supplier supplier = supplierService.get("8BE39E5BF23846EC93EED74F57ACF1F4");
 		model.addAttribute("currSupplier", supplier);
 		if (supplier.getListSupplierFinances() != null) {
 			model.addAttribute("financeSize", supplier.getListSupplierFinances().size());
@@ -290,6 +302,7 @@ public class SupplierController extends BaseSupplierController {
 			return "redirect:page_jump.html";
 		} else if (sign == 5) {
 			// 保存供应商品目信息
+			supplierItemService.saveSupplierItem(supplier);
 
 			// ajax 查询采购品目
 			supplier = supplierService.get(supplier.getId());
@@ -300,6 +313,7 @@ public class SupplierController extends BaseSupplierController {
 			return "redirect:page_jump.html";
 		} else if (sign == 6) {
 			// 保存供应商产品信息
+			
 
 			// 查询产品信息
 			supplier = supplierService.get(supplier.getId());

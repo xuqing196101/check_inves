@@ -58,7 +58,7 @@
 					<li><a href="#"> 首页</a></li>
 					<li><a href="#">业务管理</a></li>
 					<li><a href="#">供应商黑名单</a></li>
-					<li class="active"><a href="#">增加供应商</a></li>
+					<li class="active"><a href="#">添加供应商</a></li>
 				</ul>
 				<div class="clear"></div>
 			</div>
@@ -67,21 +67,20 @@
 			<div class="container">
 				<div>
 					<div class="headline-v2">
-						<h2>修改订单</h2>
+						<h2>添加供应商</h2>
 					</div>
 					<ul class="list-unstyled list-flow p0_20">
 						<li class="col-md-6 p0"><span class="">供应商名称：</span>
 							<div class="input-append">
-								<input name="id" type="hidden" value="${supplierBlacklist.id}">
-								<input name="supplierId" type="hidden" value="${supplier.id}">
-								<input class="span2" name="supplierName" readonly="readonly" id="suppllier_name_input_id" type="text" value="${supplier.supplierName}"> <span class="add-on">i</span>
-							</div></li>
+								<input name="id" type="hidden" value="${supplierBlacklist.id}"> <input name="supplierId" type="hidden" value="${supplier.id}"> <input class="span2" name="supplierName" readonly="readonly" id="suppllier_name_input_id" type="text" value="${supplier.supplierName}"> <span class="add-on">i</span>
+							</div>
+						</li>
 						<li class="col-md-6 p0"><span class="">起始时间：</span>
 							<div class="input-append">
-								<fmt:formatDate value="${supplierBlacklist.startTime}" pattern="yyyy-MM-dd" var="startTime"/>
-								<input class="span2" name="startTime" readonly="readonly" onClick="WdatePicker()" type="text" value="${startTime}"> 
-								<span class="add-on">i</span>
-							</div></li>
+								<fmt:formatDate value="${supplierBlacklist.startTime}" pattern="yyyy-MM-dd" var="startTime" />
+								<input class="span2" name="startTime" readonly="readonly" onClick="WdatePicker()" type="text" value="${startTime}"> <span class="add-on">i</span>
+							</div>
+						</li>
 						<li class="col-md-6 p0"><span class="">期限：</span>
 							<div class="input-append">
 								<select id="term_select_id" class="span2 fz15" name="term">
@@ -92,14 +91,16 @@
 									<option value="36">3年</option>
 									<option value="0">永久</option>
 								</select> <span class="add-on">i</span>
-							</div></li>
+							</div>
+						</li>
 						<li class="col-md-6  p0 "><span class="">处罚形式：</span>
 							<div class="input-append">
 								<select id="punish_type_select_id" class="span2 fz15" name="punishType">
 									<option selected="selected" value="0">警告</option>
 									<option value="1">不得参加采购活动</option>
 								</select> <span class="add-on">i</span>
-							</div></li>
+							</div>
+						</li>
 						<li class="col-md-6  p0 "><span class="">发布范围：</span>
 							<div class="input-append">
 								<select id="release_type_select_id" class="span2 fz15" name="releaseType">
@@ -107,25 +108,21 @@
 									<option value="1">内网发布</option>
 									<option value="2">外网发布</option>
 								</select> <span class="add-on">i</span>
-							</div></li>
+							</div>
+						</li>
 						<li class="col-md-12 p0"><span class="fl">理由：</span>
 							<div class="col-md-12 pl200 fn mt5 pwr9">
 								<textarea class="text_area col-md-12" name="reason" title="不超过800个字" placeholder="不超过800个字">${supplierBlacklist.reason}</textarea>
-							</div></li>
+							</div>
+						</li>
 					</ul>
 				</div>
-
-				<div class="col-md-12 ml185">
-					<div class="fl padding-15">
-						<input class="btn btn-windows save" type="submit" value="保存" />
-						<input class="btn btn-windows reset" onclick="history.go(-1)" type="button" value="返回">
-					</div>
+				<div class="col-md-12 tc">
+					<input class="btn btn-windows save" type="submit" value="保存" />
+					<input class="btn btn-windows reset" onclick="history.go(-1)" type="button" value="返回">
 				</div>
-
 			</div>
 		</form>
-		<!-- footer -->
-		<jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
 	</div>
 </body>
 </html>

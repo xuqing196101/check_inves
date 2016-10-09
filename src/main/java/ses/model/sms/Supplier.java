@@ -1,6 +1,7 @@
 package ses.model.sms;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -244,7 +245,7 @@ public class Supplier implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER.REGIST_FUND
 	 * </pre>
 	 */
-	private Long registFund;
+	private BigDecimal registFund;
 
 	/**
 	 * <pre>
@@ -443,24 +444,44 @@ public class Supplier implements Serializable {
 	private SupplierMatEng supplierMatEng;
 
 	private String supplierTypeIds;
-	
-	private Date passDate;
-	private Date startDate;
-	
-	private Date endDate;
-	
-	private String supplierType;
-	public Date getPassDate() {
-		return passDate;
-	}
 
-	public void setPassDate(Date passDate) {
-		this.passDate = passDate;
-	}
+	private String supplierItemIds;
 
 	private String supplierTypeNames;
 
-	private List<String> listSupplierTypeNames = new ArrayList<String>();
+	private List<SupplierTypeRelate> listSupplierTypeRelates = new ArrayList<SupplierTypeRelate>();
+
+	private Date passDate;
+
+	private Date startDate;
+
+	private Date endDate;
+
+	private String supplierType;
+
+	private List<String> item;
+
+	private Integer count;
+
+	private Integer score = 0;
+
+	private List<SupplierItem> listSupplierItems = new ArrayList<SupplierItem>();
+
+	public Integer getCount() {
+		return count;
+	}
+
+	public void setCount(Integer count) {
+		this.count = count;
+	}
+
+	public List<String> getItem() {
+		return item;
+	}
+
+	public void setItem(List<String> item) {
+		this.item = item;
+	}
 
 	public String getId() {
 		return id;
@@ -686,11 +707,11 @@ public class Supplier implements Serializable {
 		this.registAuthority = registAuthority;
 	}
 
-	public Long getRegistFund() {
+	public BigDecimal getRegistFund() {
 		return registFund;
 	}
 
-	public void setRegistFund(Long registFund) {
+	public void setRegistFund(BigDecimal registFund) {
 		this.registFund = registFund;
 	}
 
@@ -934,14 +955,6 @@ public class Supplier implements Serializable {
 		this.supplierTypeNames = supplierTypeNames;
 	}
 
-	public List<String> getListSupplierTypeNames() {
-		return listSupplierTypeNames;
-	}
-
-	public void setListSupplierTypeNames(List<String> listSupplierTypeNames) {
-		this.listSupplierTypeNames = listSupplierTypeNames;
-	}
-
 	public String getSupplierTypeIds() {
 		return supplierTypeIds;
 	}
@@ -973,5 +986,44 @@ public class Supplier implements Serializable {
 	public void setSupplierType(String supplierType) {
 		this.supplierType = supplierType;
 	}
-	
+
+	public Date getPassDate() {
+		return passDate;
+	}
+
+	public void setPassDate(Date passDate) {
+		this.passDate = passDate;
+	}
+
+	public List<SupplierTypeRelate> getListSupplierTypeRelates() {
+		return listSupplierTypeRelates;
+	}
+
+	public void setListSupplierTypeRelates(List<SupplierTypeRelate> listSupplierTypeRelates) {
+		this.listSupplierTypeRelates = listSupplierTypeRelates;
+	}
+
+	public String getSupplierItemIds() {
+		return supplierItemIds;
+	}
+
+	public void setSupplierItemIds(String supplierItemIds) {
+		this.supplierItemIds = supplierItemIds;
+	}
+
+	public Integer getScore() {
+		return score;
+	}
+
+	public void setScore(Integer score) {
+		this.score = score;
+	}
+
+	public List<SupplierItem> getListSupplierItems() {
+		return listSupplierItems;
+	}
+
+	public void setListSupplierItems(List<SupplierItem> listSupplierItems) {
+		this.listSupplierItems = listSupplierItems;
+	}
 }

@@ -24,6 +24,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <link href="<%=basePath%>public/ZHQ/css/style.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHQ/css/line-icons.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHQ/css/app.css" media="screen" rel="stylesheet">
+<link href="<%=basePath%>public/ZHH/css/blocks.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHQ/css/application.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHQ/css/header-v4.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHQ/css/footer-v2.css" media="screen" rel="stylesheet">
@@ -39,7 +40,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body>
   <div class="wrapper">
   <jsp:include page="/index_head.jsp"></jsp:include>
-<div class="container content height-350 job-content ">
+  
   <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
@@ -49,6 +50,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="clear"></div>
 	  </div>
    </div>
+<div class="container content height-350 job-content ">
+
    
    <div class="col-md-12 p30_40 border1 margin-top-20">
      <h3 class="tc f30">

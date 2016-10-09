@@ -3,8 +3,18 @@ package ses.model.oms;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.NumberFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class PurchaseDep extends Orgnization{
-    private String id;
+    /**
+	 * @Fields serialVersionUID : 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private String id;
 
     private String levelDep;//采购机构级别
 
@@ -23,9 +33,10 @@ public class PurchaseDep extends Orgnization{
     private String quaCode;//采购资质编号
 
     private String quaLevel;//采购资质等级 一级----九级
-    
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date quaStartDate;//采购资质开始日期
-
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date quaEdndate;//采购资质截止日期
 
     private Integer quaRange;//采购资质范围,1：综合2：物资3：工程 4：服务 
@@ -73,8 +84,7 @@ public class PurchaseDep extends Orgnization{
     private String bank;//开户银行
 
     private BigDecimal bankAccount;//银行账号
-
-    private Integer officeArea;//办公场地总面积
+    private String officeArea;//办公场地总面积
 
     private Integer officeCount;//办公司数量
 
@@ -89,6 +99,7 @@ public class PurchaseDep extends Orgnization{
     private Date createdAt;
     
     private String orgId;
+    private Orgnization orgnization;
     
     private String areaName;//采购机构归属地  组合  省市
     
@@ -168,7 +179,7 @@ public class PurchaseDep extends Orgnization{
     public void setQuaLevel(String quaLevel) {
         this.quaLevel = quaLevel == null ? null : quaLevel.trim();
     }
-
+    
     public Date getQuaEdndate() {
         return quaEdndate;
     }
@@ -353,11 +364,11 @@ public class PurchaseDep extends Orgnization{
         this.bankAccount = bankAccount;
     }
 
-    public Integer getOfficeArea() {
+    public String getOfficeArea() {
         return officeArea;
     }
 
-    public void setOfficeArea(Integer officeArea) {
+    public void setOfficeArea(String officeArea) {
         this.officeArea = officeArea;
     }
 
@@ -443,7 +454,7 @@ public class PurchaseDep extends Orgnization{
 	public void setIsAuditSupplier(Integer isAuditSupplier) {
 		this.isAuditSupplier = isAuditSupplier;
 	}
-
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
 	public Date getQuaStartDate() {
 		return quaStartDate;
 	}
@@ -458,6 +469,14 @@ public class PurchaseDep extends Orgnization{
 
 	public void setQuaStatus(Integer quaStatus) {
 		this.quaStatus = quaStatus;
+	}
+
+	public Orgnization getOrgnization() {
+		return orgnization;
+	}
+
+	public void setOrgnization(Orgnization orgnization) {
+		this.orgnization = orgnization;
 	}
     
 }

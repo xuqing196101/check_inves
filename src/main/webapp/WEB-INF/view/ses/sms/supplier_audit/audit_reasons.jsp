@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -165,6 +166,9 @@ function tijiao(str){
   if(str=="service"){
     action = "${pageContext.request.contextPath}/supplierAudit/serviceInformation.html";
   }
+  if(str=="items"){
+  action = "${pageContext.request.contextPath}/supplierAudit/items.html";
+  }
   if(str=="applicationFrom"){
     action = "${pageContext.request.contextPath}/supplierAudit/applicationForm.html";
   }
@@ -214,11 +218,19 @@ alert(supplierInspectListFile);
               <li class=""><a aria-expanded="fale" href="#tab-1" data-toggle="tab" onclick="tijiao('essential');">基本信息</a></li>
               <li class=""><a aria-expanded="" href="#tab-2" data-toggle="tab" onclick="tijiao('financial');">财务信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('shareholder');">股东信息</a></li>
-              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('materialProduction');">物资-生产型专业信息</a></li>
-              <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('materialSales');">物资-销售型专业信息</a></li>
-              <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('engineering');">工程-专业信息</a></li>
-              <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('service');">服务-专业信息</a></li>
-              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" >品目信息</a></li>
+              <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
+	            <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" onclick="tijiao('materialProduction');">物资-生产型专业信息</a></li>
+	            </c:if>
+	            <c:if test="${fn:contains(supplierTypeNames, '销售型')}">
+	            <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('materialSales');">物资-销售型专业信息</a></li>
+	            </c:if>
+	            <c:if test="${fn:contains(supplierTypeNames, '工程')}">
+	            <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('engineering');">工程-专业信息</a></li>
+	            </c:if>
+	            <c:if test="${fn:contains(supplierTypeNames, '服务')}">
+	            <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('service');">服务-专业信息</a></li>
+	            </c:if>
+              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('items');">品目信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >产品信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('applicationFrom');">申请表</a></li>
               <li class="active"><a aria-expanded="true" href="#tab-2" data-toggle="tab" onclick="tijiao('reasonsList');">审核汇总</a></li>
@@ -298,21 +310,22 @@ alert(supplierInspectListFile);
                   <div class="margin-bottom-0  categories">
                     <div class="col-md-12 add_regist tc">
                     <c:if test="${status==0 }">
-                      <input class="btn padding-left-20 padding-right-20 btn_back"  type="button" onclick="shenhe(1)" value="初审通过 ">
-                      <input class="btn padding-left-20 padding-right-20 btn_back"  type="button" onclick="shenhe(2)" value="初审不通过">
+                      <input class="btn btn-windows git"  type="button" onclick="shenhe(1)" value="初审通过 ">
+                      <input class="btn btn-windows reset"  type="button" onclick="shenhe(2)" value="初审不通过">
                     </c:if>
                     <c:if test="${status==1 }">
-                      <input class="btn padding-left-20 padding-right-20 btn_back"  type="button" onclick="shenhe(3)" value="复审通过 ">
-                      <input class="btn padding-left-20 padding-right-20 btn_back"  type="button" onclick="shenhe(4)" value="复审不通过"> 
+                      <input class="btn btn-windows git"  type="button" onclick="shenhe(3)" value="复审通过 ">
+                      <input class="btn btn-windows edit"  type="button" onclick="shenhe(4)" value="复审不通过"> 
                     </c:if>
-                    <input class="btn padding-left-20 padding-right-20 btn_back" onclick="location='<%=basePath%>supplierAudit/daiban.html'" type="button"  value="完成">
+                    <input class="btn btn-windows git" onclick="location='<%=basePath%>supplierAudit/daiban.html'" type="button"  value="返回">
                     </div>
                   </div>
                 </form>
-                </div>     
-             </div>
-          </div>
+          </div>     
         </div>
       </div>
+    </div>
+  </div>
+  <jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
 </body>
 </html>

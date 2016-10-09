@@ -79,7 +79,7 @@
 		   }
 	}
   	function view(id){
-  		window.location.href="<%=basePath%>StationMessage/showStationMessage.do?id="+id+"&&type='view'";
+  		window.location.href="${pageContext.request.contextPath}/purchaseManage/showStationMessage.do?id="+id+"&&type='view'";
   	}
     function edit(){
     	var id=[]; 
@@ -87,7 +87,7 @@
 			id.push($(this).val());
 		}); 
 		if(id.length==1){
-			window.location.href="<%=basePath%>StationMessage/showStationMessage.do?id="+id+"&&type='edit'";
+			window.location.href="${pageContext.request.contextPath}/purchaseManage/editPurchaseDep.do?id="+id+"&&type='edit'";
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -109,10 +109,10 @@
 		}
     }
     function add(){
-    	window.location.href="<%=basePath%>purchaseManage/addPurchaseDep.do";
+    	window.location.href="${pageContext.request.contextPath}/purchaseManage/addPurchaseDep.do";
     }
     function show(id){
-    	window.location.href="<%=basePath%>StationMessage/showStationMessage.do?id="+id+"&&type=view";
+    	window.location.href="${pageContext.request.contextPath}/purchaseManage/showStationMessage.do?id="+id+"&&type=view";
     }
   </script>
 <body>
@@ -170,13 +170,12 @@
 			<!-- 表格开始-->
 			<div class="container">
 				<div class="col-md-8">
-					<button class="btn btn-windows edit" type="button"
-						onclick="edit();">新增</button>
+					<!-- <button class="btn btn-windows edit" type="button"
+						onclick="edit();">新增</button> -->
 					<button class="btn btn-windows edit" type="button"
 						onclick="edit();">修改</button>
 					<button class="btn btn-windows delete" type="button"
 						onclick="dell();">删除</button>
-					<button class="btn btn-windows git" type="button" onclick="show()">查看</button>
 					<button class="btn btn-windows add" type="button" onclick="purchaseManage()">采购人员管理</button>
 					<button class="btn btn-windows edit" type="button" onclick="stash()">资质暂停</button>
 					<button class="btn btn-windows edit" type="button" onclick="over()">资质终止</button>
@@ -205,7 +204,7 @@
 								<c:forEach items="${purchaseDepList}" var="p" varStatus="vs">
 									<tr class="cursor">
 										<!-- 选择框 -->
-										<td onclick="null" class="tc"><input onclick="check()"
+										<td class="tc"><input
 											type="checkbox" name="chkItem" value="${p.id}" />
 										</td>
 										<!-- 序号 -->

@@ -123,7 +123,6 @@
 			var questionTypeId = $("#questionTypeId").val();
 			if((topic==""||topic==null)&&(questionTypeId==""||questionTypeId==null)){
 				window.location.href = "<%=basePath%>purchaserExam/purchaserList.do";
-				return;
 			}else{
 				window.location.href = "<%=basePath%>purchaserExam/purchaserList.do?topic="+topic+"&questionTypeId="+questionTypeId;
 			}
@@ -245,16 +244,16 @@
 	    				<td class="tc w50" onclick="view('${purchaser.id }')">${(vs.index+1)+(purchaserQuestionList.pageNum-1)*(purchaserQuestionList.pageSize)}</td>
 	    				<td class="w60 tc" onclick="view('${purchaser.id }')">${purchaser.examQuestionType.name }</td>
 	    				<c:if test="${fn:length(purchaser.topic)>26}">
-	    					<td class="" onclick="view('${purchaser.id }')">${fn:substring(purchaser.topic,0,26)}...</td>
+	    					<td onclick="view('${purchaser.id }')">${fn:substring(purchaser.topic,0,26)}...</td>
 	    				</c:if>
 	    				<c:if test="${fn:length(purchaser.topic)<=26}">
-	    					<td class="" onclick="view('${purchaser.id }')">${purchaser.topic }</td>
+	    					<td onclick="view('${purchaser.id }')">${purchaser.topic }</td>
 	    				</c:if>
 	    				<c:if test="${fn:length(purchaser.items)>26}">
-	    					<td class="" onclick="view('${purchaser.id }')">${fn:substring(purchaser.items,0,26)}...</td>
+	    					<td onclick="view('${purchaser.id }')">${fn:substring(purchaser.items,0,26)}...</td>
 	    				</c:if>
 	    				<c:if test="${fn:length(purchaser.items)<=26}">
-	    					<td class="" onclick="view('${purchaser.id }')">${purchaser.items }</td>
+	    					<td onclick="view('${purchaser.id }')">${purchaser.items }</td>
 	    				</c:if>
 	    				<td class="tc w50" onclick="view('${purchaser.id }')">${purchaser.answer }</td>
 	    			</tr>

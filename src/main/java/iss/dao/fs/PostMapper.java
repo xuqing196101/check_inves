@@ -99,4 +99,14 @@ public interface PostMapper {
 	* @return List<Post> 
 	*/
     List<Post> queryHotPost();
+    /**
+     * 
+    * @Title: queryAllHotPost
+    * @author Peng Zhongjun
+    * @date 2016-10-4 上午9:51:05  
+    * @Description: 查询所有热门帖子 
+    * @param @return      
+    * @return List<Post>
+     */
+    List<Post> queryAllHotPost();
 }

@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="bss.dao.cs.PurchaseContractMapper">
-  <resultMap id="BaseResultMap" type="bss.model.cs.PurchaseContract">
+  <resultMap id="purContractMap" type="bss.model.cs.PurchaseContract">
     <id column="ID" jdbcType="VARCHAR" property="id" />
     <result column="CODE" jdbcType="VARCHAR" property="code" />
     <result column="NAME" jdbcType="VARCHAR" property="name" />
     <result column="MONEY" jdbcType="DECIMAL" property="money" />
-    <result column="SUPPLIER_ID" jdbcType="VARCHAR" property="supplierId" />
     <result column="DEMAND_SECTOR" jdbcType="VARCHAR" property="demandSector" />
-    <result column="PLAN_FILE_NAME" jdbcType="VARCHAR" property="planFileName" />
     <result column="BUDGET" jdbcType="DECIMAL" property="budget" />
     <result column="YEAR" jdbcType="DECIMAL" property="year" />
     <result column="BUDGET_SUBJECT_ITEM" jdbcType="VARCHAR" property="budgetSubjectItem" />
@@ -36,32 +34,46 @@
     <result column="SUPPLIER_BANK" jdbcType="VARCHAR" property="supplierBank" />
     <result column="SUPPLIER_BANK_ACCOUNT" jdbcType="DECIMAL" property="supplierBankAccount" />
     <result column="SUPPLIER_BANK_NAME" jdbcType="VARCHAR" property="supplierBankName" />
+    <result column="SUPPLIER_PUR_ID" jdbcType="VARCHAR" property="supplierPurId"/>
+    <result column="CONTENT" jdbcType="VARCHAR" property="content"/>
   </resultMap>
   <sql id="Base_Column_List">
-    ID, CODE, NAME, MONEY, SUPPLIER_ID, DEMAND_SECTOR, PLAN_FILE_NAME, BUDGET, YEAR, 
-    BUDGET_SUBJECT_ITEM, APPROVAL_NUMBER, DOCUMENT_NUMBER, QUA_CODE, STATUS, 
-    PURCHASE_DEP_NAME, PURCHASE_LEGAL, PURCHASE_AGENT, PURCHASE_CONTACT, PURCHASE_CONTACT_TELEPHONE, 
-    PURCHASE_CONTACT_ADDRESS, PURCHASE_UNITPOST_CODE, PURCHASE_PAY_DEP, PURCHASE_BANK, 
-    PURCHASE_BANK_ACCOUNT, SUPPLIER_DEP_NAME, SUPPLIER_LEGAL, SUPPLIER_AGENT, SUPPLIER_CONTACT, 
-    SUOPPLIER_CONTACT_TELEPHONE, SUPPLIER_CONTACT_ADDRESS, SUPPLIER_UNITPOST_CODE, SUPPLIER_BANK, 
-    SUPPLIER_BANK_ACCOUNT, SUPPLIER_BANK_NAME
+    ID, CODE, NAME, MONEY, DEMAND_SECTOR, BUDGET, YEAR, BUDGET_SUBJECT_ITEM, APPROVAL_NUMBER, 
+    DOCUMENT_NUMBER, QUA_CODE, STATUS, PURCHASE_DEP_NAME, PURCHASE_LEGAL, PURCHASE_AGENT, 
+    PURCHASE_CONTACT, PURCHASE_CONTACT_TELEPHONE, PURCHASE_CONTACT_ADDRESS, PURCHASE_UNITPOST_CODE, 
+    PURCHASE_PAY_DEP, PURCHASE_BANK, PURCHASE_BANK_ACCOUNT, SUPPLIER_DEP_NAME, SUPPLIER_LEGAL, 
+    SUPPLIER_AGENT, SUPPLIER_CONTACT, SUOPPLIER_CONTACT_TELEPHONE, SUPPLIER_CONTACT_ADDRESS, 
+    SUPPLIER_UNITPOST_CODE, SUPPLIER_BANK, SUPPLIER_BANK_ACCOUNT, SUPPLIER_BANK_NAME,SUPPLIER_PUR_ID,
+    CONTENT
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectContractByid" parameterType="java.lang.String" resultMap="purContractMap">
     select 
     <include refid="Base_Column_List" />
     from T_BSS_CS_PURCHASE_CONTRACT
     where ID = #{id,jdbcType=VARCHAR}
   </select>
+  <select id="selectAllPurchaseContract" resultMap="purContractMap">
+  	select 
+  	<include refid="Base_Column_List"/>
+  	from T_BSS_CS_PURCHASE_CONTRACT
+  </select>
+  
+  <select id="selectByCode" parameterType="java.lang.String" resultMap="purContractMap">
+  	select 
+  	<include refid="Base_Column_List"/>
+  	from T_BSS_CS_PURCHASE_CONTRACT
+  	where CODE = #{code}
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from T_BSS_CS_PURCHASE_CONTRACT
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="bss.model.cs.PurchaseContract">
     insert into T_BSS_CS_PURCHASE_CONTRACT (ID, CODE, NAME, 
-      MONEY, SUPPLIER_ID, DEMAND_SECTOR, 
-      PLAN_FILE_NAME, BUDGET, YEAR, 
-      BUDGET_SUBJECT_ITEM, APPROVAL_NUMBER, DOCUMENT_NUMBER, 
-      QUA_CODE, STATUS, CONTRACT_REQUIRED_ID, 
+      MONEY, DEMAND_SECTOR, BUDGET, 
+      YEAR, BUDGET_SUBJECT_ITEM, APPROVAL_NUMBER, 
+      DOCUMENT_NUMBER, QUA_CODE, STATUS, 
       PURCHASE_DEP_NAME, PURCHASE_LEGAL, PURCHASE_AGENT, 
       PURCHASE_CONTACT, PURCHASE_CONTACT_TELEPHONE, 
       PURCHASE_CONTACT_ADDRESS, PURCHASE_UNITPOST_CODE, 
@@ -69,13 +81,13 @@
       SUPPLIER_DEP_NAME, SUPPLIER_LEGAL, SUPPLIER_AGENT, 
       SUPPLIER_CONTACT, SUOPPLIER_CONTACT_TELEPHONE, 
       SUPPLIER_CONTACT_ADDRESS, SUPPLIER_UNITPOST_CODE, 
-      SUPPLIER_BANK, SUPPLIER_BANK_ACCOUNT, SUPPLIER_BANK_NAME
+      SUPPLIER_BANK, SUPPLIER_BANK_ACCOUNT, SUPPLIER_BANK_NAME,SUPPLIER_PUR_ID,
+      CONTENT
       )
     values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{money,jdbcType=DECIMAL}, #{supplierId,jdbcType=VARCHAR}, #{demandSector,jdbcType=VARCHAR}, 
-      #{planFileName,jdbcType=VARCHAR}, #{budget,jdbcType=DECIMAL}, #{year,jdbcType=DECIMAL}, 
-      #{budgetSubjectItem,jdbcType=VARCHAR}, #{approvalNumber,jdbcType=VARCHAR}, #{documentNumber,jdbcType=VARCHAR}, 
-      #{quaCode,jdbcType=VARCHAR}, #{status,jdbcType=DECIMAL}, #{contractRequiredId,jdbcType=VARCHAR}, 
+      #{money,jdbcType=DECIMAL}, #{demandSector,jdbcType=VARCHAR}, #{budget,jdbcType=DECIMAL}, 
+      #{year,jdbcType=DECIMAL}, #{budgetSubjectItem,jdbcType=VARCHAR}, #{approvalNumber,jdbcType=VARCHAR}, 
+      #{documentNumber,jdbcType=VARCHAR}, #{quaCode,jdbcType=VARCHAR}, #{status,jdbcType=DECIMAL}, 
       #{purchaseDepName,jdbcType=VARCHAR}, #{purchaseLegal,jdbcType=VARCHAR}, #{purchaseAgent,jdbcType=VARCHAR}, 
       #{purchaseContact,jdbcType=VARCHAR}, #{purchaseContactTelephone,jdbcType=VARCHAR}, 
       #{purchaseContactAddress,jdbcType=VARCHAR}, #{purchaseUnitpostCode,jdbcType=VARCHAR}, 
@@ -83,10 +95,14 @@
       #{supplierDepName,jdbcType=VARCHAR}, #{supplierLegal,jdbcType=VARCHAR}, #{supplierAgent,jdbcType=VARCHAR}, 
       #{supplierContact,jdbcType=VARCHAR}, #{suopplierContactTelephone,jdbcType=VARCHAR}, 
       #{supplierContactAddress,jdbcType=VARCHAR}, #{supplierUnitpostCode,jdbcType=VARCHAR}, 
-      #{supplierBank,jdbcType=VARCHAR}, #{supplierBankAccount,jdbcType=DECIMAL}, #{supplierBankName,jdbcType=VARCHAR}
+      #{supplierBank,jdbcType=VARCHAR}, #{supplierBankAccount,jdbcType=DECIMAL}, #{supplierBankName,jdbcType=VARCHAR},
+      #{supplierPurId,jdbcType=VARCHAR},#{content,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="bss.model.cs.PurchaseContract">
+  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
     insert into T_BSS_CS_PURCHASE_CONTRACT
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -101,14 +117,8 @@
       <if test="money != null">
         MONEY,
       </if>
-      <if test="supplierId != null">
-        SUPPLIER_ID,
-      </if>
       <if test="demandSector != null">
         DEMAND_SECTOR,
-      </if>
-      <if test="planFileName != null">
-        PLAN_FILE_NAME,
       </if>
       <if test="budget != null">
         BUDGET,
@@ -130,9 +140,6 @@
       </if>
       <if test="status != null">
         STATUS,
-      </if>
-      <if test="contractRequiredId != null">
-        CONTRACT_REQUIRED_ID,
       </if>
       <if test="purchaseDepName != null">
         PURCHASE_DEP_NAME,
@@ -194,6 +201,12 @@
       <if test="supplierBankName != null">
         SUPPLIER_BANK_NAME,
       </if>
+      <if test="supplierBankName != null">
+        SUPPLIER_PUR_ID,
+      </if>
+      <if test="content != null">
+        CONTENT,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -208,14 +221,8 @@
       <if test="money != null">
         #{money,jdbcType=DECIMAL},
       </if>
-      <if test="supplierId != null">
-        #{supplierId,jdbcType=VARCHAR},
-      </if>
       <if test="demandSector != null">
         #{demandSector,jdbcType=VARCHAR},
-      </if>
-      <if test="planFileName != null">
-        #{planFileName,jdbcType=VARCHAR},
       </if>
       <if test="budget != null">
         #{budget,jdbcType=DECIMAL},
@@ -237,9 +244,6 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=DECIMAL},
-      </if>
-      <if test="contractRequiredId != null">
-        #{contractRequiredId,jdbcType=VARCHAR},
       </if>
       <if test="purchaseDepName != null">
         #{purchaseDepName,jdbcType=VARCHAR},
@@ -301,6 +305,12 @@
       <if test="supplierBankName != null">
         #{supplierBankName,jdbcType=VARCHAR},
       </if>
+      <if test="supplierPurId != null">
+        #{supplierPurId,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="bss.model.cs.PurchaseContract">
@@ -315,14 +325,8 @@
       <if test="money != null">
         MONEY = #{money,jdbcType=DECIMAL},
       </if>
-      <if test="supplierId != null">
-        SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
-      </if>
       <if test="demandSector != null">
         DEMAND_SECTOR = #{demandSector,jdbcType=VARCHAR},
-      </if>
-      <if test="planFileName != null">
-        PLAN_FILE_NAME = #{planFileName,jdbcType=VARCHAR},
       </if>
       <if test="budget != null">
         BUDGET = #{budget,jdbcType=DECIMAL},
@@ -344,9 +348,6 @@
       </if>
       <if test="status != null">
         STATUS = #{status,jdbcType=DECIMAL},
-      </if>
-      <if test="contractRequiredId != null">
-        CONTRACT_REQUIRED_ID = #{contractRequiredId,jdbcType=VARCHAR},
       </if>
       <if test="purchaseDepName != null">
         PURCHASE_DEP_NAME = #{purchaseDepName,jdbcType=VARCHAR},
@@ -408,6 +409,12 @@
       <if test="supplierBankName != null">
         SUPPLIER_BANK_NAME = #{supplierBankName,jdbcType=VARCHAR},
       </if>
+      <if test="supplierPurId != null">
+        SUPPLIER_PUR_ID = #{supplierPurId,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -416,9 +423,7 @@
     set CODE = #{code,jdbcType=VARCHAR},
       NAME = #{name,jdbcType=VARCHAR},
       MONEY = #{money,jdbcType=DECIMAL},
-      SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
       DEMAND_SECTOR = #{demandSector,jdbcType=VARCHAR},
-      PLAN_FILE_NAME = #{planFileName,jdbcType=VARCHAR},
       BUDGET = #{budget,jdbcType=DECIMAL},
       YEAR = #{year,jdbcType=DECIMAL},
       BUDGET_SUBJECT_ITEM = #{budgetSubjectItem,jdbcType=VARCHAR},
@@ -426,7 +431,6 @@
       DOCUMENT_NUMBER = #{documentNumber,jdbcType=VARCHAR},
       QUA_CODE = #{quaCode,jdbcType=VARCHAR},
       STATUS = #{status,jdbcType=DECIMAL},
-      CONTRACT_REQUIRED_ID = #{contractRequiredId,jdbcType=VARCHAR},
       PURCHASE_DEP_NAME = #{purchaseDepName,jdbcType=VARCHAR},
       PURCHASE_LEGAL = #{purchaseLegal,jdbcType=VARCHAR},
       PURCHASE_AGENT = #{purchaseAgent,jdbcType=VARCHAR},
@@ -446,7 +450,9 @@
       SUPPLIER_UNITPOST_CODE = #{supplierUnitpostCode,jdbcType=VARCHAR},
       SUPPLIER_BANK = #{supplierBank,jdbcType=VARCHAR},
       SUPPLIER_BANK_ACCOUNT = #{supplierBankAccount,jdbcType=DECIMAL},
-      SUPPLIER_BANK_NAME = #{supplierBankName,jdbcType=VARCHAR}
+      SUPPLIER_BANK_NAME = #{supplierBankName,jdbcType=VARCHAR},
+      SUPPLIER_PUR_ID = #{supplierPurId,jdbcType=VARCHAR},
+      CONTENT = #{content,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

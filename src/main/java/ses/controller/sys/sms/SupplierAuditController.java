@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -45,7 +46,7 @@ import com.github.pagehelper.PageInfo;
 @Controller
 @Scope("prototype")
 @RequestMapping("/supplierAudit")
-public class SupplierAuditController {
+public class SupplierAuditController extends BaseSupplierController{
 	@Autowired
 	private SupplierAuditService supplierAuditService;
 	
@@ -126,6 +127,9 @@ public class SupplierAuditController {
 	@RequestMapping("essential")
 	public String essentialInformation(HttpServletRequest request,Supplier supplier,String supplierId) {
 		supplier = supplierAuditService.supplierById(supplierId);
+		//勾选的供应商类型
+		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
+		request.setAttribute("supplierTypeNames", supplierTypeName);
 		request.setAttribute("suppliers", supplier);
 		return "ses/sms/supplier_audit/essential";
 	}
@@ -142,6 +146,9 @@ public class SupplierAuditController {
 	public String financialInformation(HttpServletRequest request,SupplierFinance supplierFinance,Supplier supplier) {
 		String supplierId = supplierFinance.getSupplierId();
 		List<SupplierFinance> list = supplierAuditService.supplierFinanceBySupplierId(supplierId);
+		//勾选的供应商类型
+		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
+		request.setAttribute("supplierTypeNames", supplierTypeName);
 		request.setAttribute("supplierId", supplierId);
 		request.setAttribute("financial", list);
 
@@ -160,6 +167,9 @@ public class SupplierAuditController {
 	public String shareholderInformation(HttpServletRequest request,SupplierStockholder supplierStockholder) {
 		String supplierId = supplierStockholder.getSupplierId();
 		List<SupplierStockholder> list = supplierAuditService.ShareholderBySupplierId(supplierId);
+		//勾选的供应商类型
+		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
+		request.setAttribute("supplierTypeNames", supplierTypeName);
 		request.setAttribute("supplierId", supplierId);
 		request.setAttribute("shareholder", list);
 		return "ses/sms/supplier_audit/shareholder";
@@ -182,7 +192,9 @@ public class SupplierAuditController {
 		//供应商组织机构人员,产品研发能力,产品生产能里,质检测试登记信息
 		/*supplierMatPro = supplierAuditService.findSupplierMatProBysupplierId(supplierId);*/
 		supplierMatPro =supplierService.get(supplierId).getSupplierMatPro();
-		
+		//勾选的供应商类型
+		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
+		request.setAttribute("supplierTypeNames", supplierTypeName);
 		request.setAttribute("supplierId", supplierId);	
 		request.setAttribute("materialProduction",materialProduction);
 		request.setAttribute("supplierMatPros", supplierMatPro);
@@ -204,6 +216,9 @@ public class SupplierAuditController {
 		List<SupplierCertSell> supplierCertSell=supplierAuditService.findCertSellBySupplierId(supplierId);
 		//供应商组织机构和人员
 		supplierMatSell = supplierService.get(supplierId).getSupplierMatSell();
+		//勾选的供应商类型
+		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
+		request.setAttribute("supplierTypeNames", supplierTypeName);
 		request.setAttribute("supplierCertSell", supplierCertSell);
 		request.setAttribute("supplierMatSells", supplierMatSell);
 		request.setAttribute("supplierId", supplierId);
@@ -227,6 +242,9 @@ public class SupplierAuditController {
 		List<SupplierAptitute> supplierAptitute = supplierAuditService.findAptituteBySupplierId(supplierId);
 		//组织结构和注册人人员
 		supplierMatEng = supplierAuditService.findMatEngBySupplierId(supplierId);
+		//勾选的供应商类型
+		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
+		request.setAttribute("supplierTypeNames", supplierTypeName);
 		request.setAttribute("supplierCertEng", supplierCertEng);
 		request.setAttribute("supplierAptitutes", supplierAptitute);
 		request.setAttribute("supplierMatEngs",supplierMatEng);
@@ -251,6 +269,9 @@ public class SupplierAuditController {
 		List<SupplierCertSe> supplierCertSe = supplierAuditService.findCertSeBySupplierId(supplierId);
 		//组织结构和人员
 		supplierMatSe = supplierAuditService.findMatSeBySupplierId(supplierId);
+		//勾选的供应商类型
+		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
+		request.setAttribute("supplierTypeNames", supplierTypeName);
 		request.setAttribute("supplierCertSes", supplierCertSe);
 		request.setAttribute("supplierMatSes", supplierMatSe);
 		request.setAttribute("supplierId", supplierId);
@@ -295,6 +316,9 @@ public class SupplierAuditController {
 			supplierId = (String) request.getSession().getAttribute("supplierId");
 		}
 		List<SupplierAudit> reasonsList = supplierAuditService.selectByPrimaryKey(supplierId);
+		//勾选的供应商类型
+		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
+		request.setAttribute("supplierTypeNames", supplierTypeName);
 		request.getSession().getAttribute("status");
 		request.setAttribute("supplierId", supplierId);
 		request.setAttribute("reasonsList", reasonsList);
@@ -317,7 +341,7 @@ public class SupplierAuditController {
 		String supplierId= supplierAudit.getSupplierId();
 		supplier.setId(supplierId);
 		supplierAuditService.updateStatus(supplier);
-		return "redirect:supplierList.html";
+		return "redirect:daiban.html";
 	}
 	
 	/**
@@ -390,7 +414,67 @@ public class SupplierAuditController {
 		String supplierId = supplierAudit.getSupplierId();
 		supplier = supplierAuditService.supplierById(supplierId);
 		request.setAttribute("applicationForm", supplier);
+		//勾选的供应商类型
+		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
+		request.setAttribute("supplierTypeNames", supplierTypeName);
 		request.setAttribute("supplierId", supplierId);
 		return "ses/sms/supplier_audit/application_form";
+	}
+	
+	/**
+	 * @Title: itemInformation
+	 * @author Xu Qing
+	 * @date 2016-10-8 上午10:34:24  
+	 * @Description:品目信息
+	 * @param @param request
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping("items")
+	public String itemInformation(HttpServletRequest request, SupplierAudit supplierAudit, Supplier supplier){
+		String supplierId = supplierAudit.getSupplierId();
+		//勾选的供应商类型
+		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
+		request.setAttribute("supplierTypeNames", supplierTypeName);
+		//查询品目
+		supplier = supplierService.get(supplierId);
+		request.getSession().setAttribute("currSupplier", supplier);
+		request.setAttribute("supplierId", supplierId);
+		return "ses/sms/supplier_audit/items";
+	}
+	
+	/**
+	 * @Title: productInformation
+	 * @author Xu Qing
+	 * @date 2016-10-8 下午1:53:27  
+	 * @Description:产品信息
+	 * @param @param request
+	 * @param @param supplierAudit
+	 * @param @param supplier
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping("product")
+	public String productInformation(HttpServletRequest request, SupplierAudit supplierAudit, Supplier supplier){
+		String supplierId = supplierAudit.getSupplierId();
+
+		request.setAttribute("supplierId", supplierId);
+		return "ses/sms/supplier_audit/product";
+	}
+	
+	/**
+	 * @Title: download
+	 * @author Xu Qing
+	 * @date 2016-10-8 下午14:57:27  
+	 * @Description:文件下載  
+	 * @return String
+	 */
+	@RequestMapping(value = "download")
+	public void download(HttpServletRequest request, HttpServletResponse response, String fileName) {
+		if (fileName != null && !"".equals(fileName)) {
+			super.download(request, response, fileName);
+		} else {
+			super.alert(request, response, "无附件下载 !");
+		}
 	}
 }

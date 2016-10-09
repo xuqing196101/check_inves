@@ -28,37 +28,34 @@
 <script type="text/javascript">
 	var zTreeObj;
 	var zNodes;
-	var setting = {
-		check : {
-			enable : true,
-			chkboxType: { "Y": "ps", "N": "ps" }
-		},
-		data : {
-			simpleData : {
-				enable : true,
-				idKey : "id",
-				pIdKey : "parentId"
-			}
-		},
-	};
 	$(function() {
-		$.ajax({
-			url : "${pageContext.request.contextPath}/supplier_type/find_supplier_type.do",
-			type : "post",
-			dataType : "json",
+		var setting = {
+			async : {
+				enable : true,
+				url : "${pageContext.request.contextPath}/supplier_type/find_supplier_type.do",
+				otherParam : {supplierId : "${currSupplier.id}"},
+				dataType : "json",
+				type : "post",
+			},
+			check : {
+				enable : true,
+				chkboxType : {
+					"Y" : "ps",
+					"N" : "ps"
+				}
+			},
 			data : {
-				supplierId : "${currSupplier.id}"
+				simpleData : {
+					enable : true,
+					idKey : "id",
+					pIdKey : "parentId"
+				}
 			},
-			success : function(result) {
-				zNodes = result;
-				zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
-				
-			},
-		});
-		
-
-	});
+		};
 	
+		zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+	});
+
 	function checkedTree(sign) {
 		var action = "${pageContext.request.contextPath}/supplier/";
 		if (sign == 1) {
@@ -67,10 +64,10 @@
 			action += "prev_step.html";
 		} else {
 			action += "stash_step.html";
-		}		
+		}
 		var nodes = zTreeObj.getCheckedNodes(true);
 		var ids = "";
-		for (var i = 0; i < nodes.length; i++) {
+		for ( var i = 0; i < nodes.length; i++) {
 			if (i != 0) {
 				ids += ",";
 			}
@@ -112,7 +109,7 @@
 					<div class="padding-top-10">
 						<div class="padding-top-20">
 							<div class="margin-bottom-0 tc">
-								<div style="width: 110px; margin: 0 auto; border: 0;">
+								<div class="w150 lr0_tbauto">
 									<ul id="treeDemo" class="ztree"></ul>
 								</div>
 								<div class="mt40 tc mb50">

@@ -15,27 +15,17 @@
 	$(function(){
 		var que = document.getElementsByName("que");
 		var judge = document.getElementsByName("judge");
-		var queType = $("#queType").val();
-		if(queType){
-			for(var i=0;i<que.length;i++){
-				$(que[i]).click(function(){
-					$("#queSelect").html(" ");
-				})
-			}
-			for(var i=0;i<judge.length;i++){
-				$(judge[i]).click(function(){
-					$("#queJudge").html(" ");
-				})
-			}
-		}else{
-			for(var i=0;i<que.length;i++){
-				que[i].setAttribute("disabled",true);
-			}
-			for(var i=0;i<judge.length;i++){
-				judge[i].setAttribute("disabled",true);
-			}
+		var option = document.getElementsByName("option");
+		document.getElementById("queTopic").setAttribute("disabled",true);
+		for(var i=0;i<option.length;i++){
+			option[i].setAttribute("disabled",true);
 		}
-		
+		for(var i=0;i<que.length;i++){
+			que[i].setAttribute("disabled",true);
+		}
+		for(var i=0;i<judge.length;i++){
+			judge[i].setAttribute("disabled",true);
+		}
 		$("#form").validate({
 			errorElement: "span",
 			focusInvalid : false, //当为false时，验证无效时，没有焦点响应  
@@ -67,21 +57,11 @@
 						ques += que[i].value+',';
 					}
 				}
-				if(ques==null||ques==""){
-					$("#queSelect").html("请选择答案");
-					$("#queJudge").html(" ");
-					return;
-				}
 			}else if(queType==2){
 				for(var i=0;i<que.length;i++){
 					if(que[i].checked){
 						ques += que[i].value+',';
 					}
-				}
-				if(ques==null||ques==""){
-					$("#queSelect").html("请选择答案");
-					$("#queJudge").html(" ");
-					return;
 				}
 			}else if(queType==3){
 				for(var i=0;i<judge.length;i++){
@@ -89,15 +69,7 @@
 						judges += judge[i].value+',';
 					}
 				}
-				if(judges==null||judges==""){
-					$("#queSelect").html(" ");
-					$("#queJudge").html("请选择答案");
-					return;
-				}
 			}
-		}else{
-			$("#queSelect").html(" ");
-			$("#queJudge").html(" ");
 		}
 		$("#form").submit();
 	}
@@ -105,11 +77,11 @@
 	//切换题型
 	function changeType(){
 		$("span.invalid").remove();
-		$("#queSelect").html(" ");
 		$("#queJudge").html(" ");
 		var queType = $("#queType").val();
 		var que = document.getElementsByName("que");
 		var judge = document.getElementsByName("judge");
+		var option = document.getElementsByName("option");
 		for(var i=0;i<que.length;i++){
 			$(que[i]).removeAttr("checked");
 		}
@@ -118,76 +90,79 @@
 		}
 		if(queType){
 			if(queType==1){
+				$("#queTopic").attr("disabled",false);
+				for(var i=0;i<option.length;i++){
+					$(option[i]).attr("disabled",false);
+				}
 				for(var i=0;i<que.length;i++){
 					$(que[i]).attr("type","radio");
 					$(que[i]).attr("disabled",false);
 				}
-				for(var i=0;i<judge.length;i++){
-					$(judge[i]).attr("disabled",true);
-				}
 				$("#optionA").attr("disabled",false);
 				$("#optionB").attr("disabled",false);
 				$("#optionC").attr("disabled",false);
 				$("#optionD").attr("disabled",false);
-				$("#queTopic").val(" ");
 				$("#optionA").val(" ");
 				$("#optionB").val(" ");
 				$("#optionC").val(" ");
 				$("#optionD").val(" ");
+				$("#queTopic").val(" ");
+				$("#items").show();
+				$("#selects").show();
+				$("#judge").hide();
 			}else if(queType==2){
+				$("#queTopic").attr("disabled",false);
+				for(var i=0;i<option.length;i++){
+					$(option[i]).attr("disabled",false);
+				}
 				for(var i=0;i<que.length;i++){
 					$(que[i]).attr("type","checkbox");
 					$(que[i]).attr("disabled",false);
 				}
-				for(var i=0;i<judge.length;i++){
-					$(judge[i]).attr("disabled",true);
-				}
 				$("#optionA").attr("disabled",false);
 				$("#optionB").attr("disabled",false);
 				$("#optionC").attr("disabled",false);
 				$("#optionD").attr("disabled",false);
-				$("#queTopic").val(" ");
 				$("#optionA").val(" ");
 				$("#optionB").val(" ");
 				$("#optionC").val(" ");
 				$("#optionD").val(" ");
+				$("#queTopic").val(" ");
+				$("#items").show();
+				$("#judge").hide();
+				$("#selects").show();
 			}else if(queType==3){
-				for(var i=0;i<que.length;i++){
-					$(que[i]).attr("disabled",true);
-				}
+				$("#queTopic").attr("disabled",false);
 				for(var i=0;i<judge.length;i++){
 					$(judge[i]).attr("disabled",false);
 				}
-				document.getElementById("optionA").setAttribute("disabled",true);
-				document.getElementById("optionB").setAttribute("disabled",true);
-				document.getElementById("optionC").setAttribute("disabled",true);
-				document.getElementById("optionD").setAttribute("disabled",true);
-				$("#queTopic").val(" ");
 				$("#optionA").val(" ");
 				$("#optionB").val(" ");
 				$("#optionC").val(" ");
 				$("#optionD").val(" ");
+				$("#queTopic").val(" ");
+				$("#items").hide();
+				$("#judge").show();
+				$("#selects").hide();
 			}
 		}else{
+			document.getElementById("queTopic").setAttribute("disabled",true);
+			for(var i=0;i<option.length;i++){
+				option[i].setAttribute("disabled",true);
+			}
 			for(var i=0;i<que.length;i++){
 				que[i].setAttribute("disabled",true);
+			}
+			for(var i=0;i<judge.length;i++){
+				judge[i].setAttribute("disabled",true);
 			}
 			$("#queTopic").val(" ");
 			$("#optionA").val(" ");
 			$("#optionB").val(" ");
 			$("#optionC").val(" ");
 			$("#optionD").val(" ");
-			all_options[0].selected = true;
 		}
 		
-	}
-	
-	function queDis(){
-		$("#queSelect").html(" ");
-	}
-	
-	function judgeDis(){
-		$("#queJudge").html(" ");
 	}
 	</script>
 
@@ -232,9 +207,9 @@
 			</li> 
 			
 			
-  		<li class="col-md-12 p0">
+  		<li class="col-md-12 p0" id="items">
 				<span class="fl">选项：</span>
-				<div class="col-md-9">
+				<div class="col-md-9 p0">
 				<div>
 			  		<div class="fl mt5">A</div><textarea name="option" id="optionA" class="ml5 col-md-8"></textarea>
 			  		<div class="clear"></div>
@@ -254,21 +229,20 @@
 		       </div>
 			 </li> 
   		
-  				<li class="col-md-12 p0">
-					<span class="fl">答案：</span>	
-					<div class="fl ml5 mt5">
-			        A <input type="radio" id="A" name="que" onclick="queDis()" value="A" class="mt0"/> 
-		  			B <input type="radio" id="B" name="que" onclick="queDis()" value="B" class="mt0"/> 
-		  			C <input type="radio" id="C" name="que" onclick="queDis()" value="C" class="mt0"/> 
-		  			D <input type="radio" id="D" name="que" onclick="queDis()" value="D" class="mt0"/>
-		  			
+  				`<li class="col-md-12 p0">
+					<span class="fl">答案：</span>
+				<div class="fl">	
+					<div class="fl mt5" id="selects">
+			         <input type="radio" id="A" name="que" value="A" class="mt0"/>A 
+		  			 <input type="radio" id="B" name="que" value="B" class="mt0"/>B
+		  			 <input type="radio" id="C" name="que" value="C" class="mt0"/>C
+		  			 <input type="radio" id="D" name="que" value="D" class="mt0"/>D
 			       </div>
-					<span id="queSelect" class="fl"></span>
-					<div class="clear ml5 mt5">
-					        对<input type="radio" onclick="judgeDis()" name="judge" value="对" onclick="judgeDis()"/>
-					        错<input type="radio" onclick="judgeDis()" name="judge" value="错" onclick="judgeDis()"/>
-			        <span id="queJudge"></span>
+				   <div class="clear fl mt5" id="judge">
+					 <input type="radio" name="judge" value="对" class="mt0"/>对
+					 <input type="radio" name="judge" value="错" class="mt0"/>错
 			       </div>
+			     </div>
 				</li>
   		
   		<%--<div>

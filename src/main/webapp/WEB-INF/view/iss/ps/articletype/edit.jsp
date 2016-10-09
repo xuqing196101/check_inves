@@ -47,15 +47,16 @@
 	   <ul class="list-unstyled list-flow p0_20">
 	   		  
 	   		   <li class="col-md-6  p0 ">
-			   <span class="fl">栏目名称：</span>
+			   <span class="fl"><div class="red star_red">*</div>栏目名称：</span>
 			   <div class="input-append">
 		        <input class="span2"  type="text" name="name" value = '${articletype.name}'>
+		        <div class="validate">${ERR_name}</div>
 		        <%--<span class="add-on">i</span>--%>
 		       </div>
 			 </li>
-			 <li class="col-md-6  p0 ">
+			 <li class="col-md-6  p0">
                <span class="fl">上级栏目：</span>
-                 <select id="parent" name ="parentId" class="w230" >
+                 <select id="parent" name ="parent.id" class="w230" >
                     <option></option>
                     <c:forEach items="${list}" var="articletype">
                         <option value="${articletype.id}">${articletype.name}</option>

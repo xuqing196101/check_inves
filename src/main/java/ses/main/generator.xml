@@ -4,7 +4,7 @@
 	<!-- 数据库驱动包位置 -->
 	<!--  <classPathEntry location="D:\AAS-V9.0.SP4\lib\mysql-connector-java-5.1.38-bin.jar" /> -->
 	<!-- <classPathEntry location="G:\repository\com\oracle\ojdbc14\10.2.0.4.0\ojdbc14-10.2.0.4.0.jar" /> -->
-	<classPathEntry location="F:\repository\com\oracle\ojdbc14\10.2.0.4.0\ojdbc14-10.2.0.4.0.jar" />
+	<classPathEntry location="D:\maven\repo\com\oracle\ojdbc14\10.2.0.4.0\ojdbc14-10.2.0.4.0.jar" />
 	<context id="DB2Tables" targetRuntime="MyBatis3">
 	<!-- <context id="MySqlTables" targetRuntime="Ibatis2Java5">
 	<context id="OracleTables" targetRuntime="MyBatis3"> -->
@@ -19,30 +19,21 @@
 			<property name="forceBigDecimals" value="false" />
 		</javaTypeResolver>
 		<!-- 生成模型的包名和位置 -->
-		<!-- <javaModelGenerator targetPackage="ses.model.ems" targetProject="D:\WORKproject\jdcg\jdcg\src\main\java"> -->
-		<javaModelGenerator targetPackage="ses.model.ems" targetProject="D:\WORKproject\jdcg\jdcg\src\main\java">
+		<javaModelGenerator targetPackage="ses.model.bms" targetProject="E:\workspace_zh\zhbj\src\main\java">
 			<property name="enableSubPackages" value="true" />
 			<property name="trimStrings" value="true" />
-		</javaModelGenerator>
-		<!-- 生成的映射文件包名和位置 -->
-		<!-- <sqlMapGenerator targetPackage="ses.mapping.ems" targetProject="E:\work4MyEclipse\jdcg\zhbj\src\main\java">
-			<property name="enableSubPackages" value="true" />
-		</sqlMapGenerator> -->
-		<!-- 生成DAO的包名和位置 -->
-		<!-- <javaClientGenerator type="XMLMAPPER" targetPackage="ses.dao.ems" targetProject="D:\WORKproject\jdcg\jdcg\src\main\java"> -->
-		<sqlMapGenerator targetPackage="ses.mapping.ems" targetProject="D:\WORKproject\jdcg\jdcg\src\main\java">
+		</javaModelGenerator> 
+		<!-- 生成xml的位置 -->
+		<sqlMapGenerator targetPackage="ses.mapping.bms" targetProject="E:\workspace_zh\zhbj\src\main\java">
 			<property name="enableSubPackages" value="true" />
 		</sqlMapGenerator>
 		<!-- 生成DAO的包名和位置 -->
-		<javaClientGenerator type="XMLMAPPER" targetPackage="ses.dao.ems" targetProject="D:\WORKproject\jdcg\jdcg\src\main\java">
+		<!-- <javaClientGenerator type="XMLMAPPER" targetPackage="ses.dao.bms" targetProject="E:\workspace_zh\zhbj\src\main\java">
 			<property name="enableSubPackages" value="true" />
-		</javaClientGenerator>
+		</javaClientGenerator> --> 
 		<!-- 要生成那些表(更改tableName和domainObjectName就可以) -->
-		
-		<table tableName="T_SES_EMS_EXPERT_CATEGORY" domainObjectName="ExpertCategory" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />
-		<table tableName="T_SES_EMS_EXPERT_ATTACHMENT" domainObjectName="ExpertAttachment" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />
-		
-		
+		<!-- 评审专家信息表 -->
+		<table tableName="T_SES_BMS_PERMISSION" domainObjectName="PreMenu" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />
 		
 	</context>
 </generatorConfiguration>

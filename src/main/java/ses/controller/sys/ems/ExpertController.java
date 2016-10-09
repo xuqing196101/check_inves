@@ -16,11 +16,9 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,21 +27,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.pagehelper.PageInfo;
 
-import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAttachment;
-import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertCategory;
 import ses.model.oms.PurchaseDep;
-import ses.service.bms.TodosService;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertAttachmentService;
 import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertCategoryService;
 import ses.service.ems.ExpertService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
-import ses.util.WfUtil;
 import ses.util.WordUtil;
 
 
@@ -56,8 +50,6 @@ public class ExpertController {
 	private ExpertService service;//专家管理
 	@Autowired
 	private PurchaseOrgnizationServiceI purchaseOrgnizationService;//采购机构管理
-	@Autowired
-	private TodosService toDosService;//待办管理
 	@Autowired
 	private ExpertAuditService expertAuditService; //审核信息管理
 	@Autowired
@@ -363,76 +355,35 @@ public class ExpertController {
 	 * @throws IOException 
 	 */
 	@RequestMapping("/add")
-	public String add(@RequestParam("categoryId")String categoryId,@RequestParam("files")MultipartFile[] files,@RequestParam("zancun")String zancun,Expert expert,@RequestParam("userId")String userId,Model model,HttpSession session,@RequestParam String token2 ,HttpServletRequest request,HttpServletResponse response) throws IOException{
-		Object tokenValue = session.getAttribute("tokenSession");
-		String expertId = UUID.randomUUID().toString();
-		if (tokenValue != null && tokenValue.equals(token2)) {
-			// 正常提交
-			session.removeAttribute("tokenSession");
+	public String add(@RequestParam("categoryId")String categoryId,@RequestParam("files")MultipartFile[] files,@RequestParam("zancun")String zancun,Expert expert,@RequestParam("userId")String userId,Model model,HttpSession session,@RequestParam String token2 ,HttpServletRequest request,HttpServletResponse response){
+		try {
+			Object tokenValue = session.getAttribute("tokenSession");
+			String expertId = UUID.randomUUID().toString();
 			//获取文件上传路径
 			String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
-			//文件上传
-			service.uploadFile(files, realPath,expertId);
-			//个人信息关联用户
-			if(userId!=null && userId.length()>0){
-				//直接注册完之后填写个人信息
-				User user = service.getUserById(userId);
-				if(user==null){
-					throw new RuntimeException("该用户不存在！");
-				}
-				user.setTypeName(5);
-				user.setTypeId(expertId);
-				userService.update(user);
-			}else{
-				//注册完账号  过段时间又填写个人信息
+			if (tokenValue != null && tokenValue.equals(token2)) {
+				// 正常提交
+				session.removeAttribute("tokenSession");
 				User user = (User)session.getAttribute("loginUser");
-				if(expert.getId()==null || expert.getId()=="" || expert.getId().length()==0){
-					user.setTypeId(expertId);
-				}else{
-					user.setTypeId(expert.getId());
+				//用户信息处理
+				service.userManager(user, userId, expert, expertId);
+				if(zancun!=null && zancun.equals("1")){//说明为暂存否则为提交
+					    //调用service逻辑 实现暂存
+						service.zanCunInsert(expert, expertId,files,realPath,categoryId);
+						//保存当前填写的信息 跳转到首页
+						return "redirect:/";
 				}
-				userService.update(user);
+				//调用service逻辑代码
+				service.saveOrUpdate(expert, expertId, files, realPath, categoryId);
+			return "redirect:/";
+			}else{
+				//重复提交  这里未做重复提醒，只是不重复增加
+			return "redirect:/";
 			}
-			if(zancun!=null && zancun.equals("1")){//说明为暂存否则为提交
-					expert.setId(expertId);
-					//已提交
-					expert.setIsSubmit("0");
-					expert.setIsDo("0");
-					//保存品目
-					expertCategoryService.save(expert, categoryId);
-					//修改时间
-					expert.setUpdatedAt(new Date());
-					//保存当前填写的信息 跳转到首页
-					service.insertSelective(expert);
-					return "redirect:/";
-			}
-			expert.setId(expertId);
-			expert.setIsDo("0");
-			//已提交
-			expert.setIsSubmit("1");
-			//创建时间
-			expert.setCreatedAt(new Date());
-			//修改时间
-			expert.setUpdatedAt(new Date());
-			//执行保存
-			service.insertSelective(expert);
-			//保存品目
-			expertCategoryService.save(expert, categoryId);
-			//发送待办
-			Todos todos = new Todos();
-			todos.setCreatedAt(new Date());
-			todos.setIsDeleted((short)0);
-			todos.setIsFinish((short)0);
-			todos.setName("评审专家注册");
-			todos.setReceiverId(expert.getPurchaseDepId());
-			todos.setSenderId(expert.getId());
-			todos.setUndoType((short)2);
-			todos.setUrl("expert/toShenHe?id="+expert.getId());
-			toDosService.insert(todos );
-		return "redirect:/";
-		}else{
-			//重复提交  这里未做重复提醒，只是不重复增加
-		return "redirect:/";
+		} catch (Exception e) {
+			e.printStackTrace();
+			//未做异常处理
+			return "redirect:/";
 		}
 	}
 	/**

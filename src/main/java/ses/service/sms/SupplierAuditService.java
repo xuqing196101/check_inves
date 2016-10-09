@@ -2,6 +2,8 @@ package ses.service.sms;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
+
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
@@ -33,6 +35,41 @@ public interface SupplierAuditService {
 	 * @return List<Supplier>
 	 */
 	 List<Supplier> supplierList(Supplier supplier,Integer page);
+	 
+    /**
+     * @Title: querysupplier
+     * @author Song Biaowei
+     * @date 2016-10-5 上午10:23:29  
+     * @Description: 查询表
+     * @param @param supplier
+     * @param @param page
+     * @param @return      
+     * @return List<Supplier>
+     */
+	 List<Supplier> querySupplier(Supplier supplier,Integer page);
+	 
+	 /**
+	  * @Title: getAllSupplier
+	  * @author Song Biaowei
+	  * @date 2016-10-6 下午6:03:50  
+	  * @Description: 获取所有的供应商 
+	  * @param @param supplier
+	  * @param @param page
+	  * @param @return      
+	  * @return List<Supplier>
+	  */
+	 List<Supplier> getAllSupplier(Supplier supplier,Integer page);
+	 /**
+	  * @Title: querySupplierbyCategory
+	  * @author Song Biaowei
+	  * @date 2016-10-6 下午5:22:49  
+	  * @Description: 品目查询
+	  * @param @param supplier
+	  * @param @param page
+	  * @param @return      
+	  * @return List<Supplier>
+	  */
+	 List<Supplier> querySupplierbyCategory(Supplier supplier,Integer page);
 	
 	/**
 	 * @Title: supplierById
@@ -215,4 +252,18 @@ public interface SupplierAuditService {
      * @return void
      */
     void updateBySupplierId (SupplierAudit supplierAudit);
+    
+    
+    String findSupplierTypeNameBySupplierId(String supplierId);
+   
+    /**
+     * @Title: downloadFile
+     * @author Song Biaowei
+     * @date 2016-9-30 下午6:53:02  
+     * @Description: 文件下载 
+     * @param @param attachmentId
+     * @param @return      
+     * @return ResponseEntity<byte[]>
+     */
+    ResponseEntity<byte[]> downloadFile(String filePath,String fileName);
 } 

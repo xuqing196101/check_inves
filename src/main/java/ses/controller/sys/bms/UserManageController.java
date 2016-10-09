@@ -437,7 +437,7 @@ public class UserManageController {
 	@RequestMapping("/openPreMenu")
 	public String openPreMenu(Model model,String id){
 		model.addAttribute("uid", id);
-		return "ses/bms/user/addPreMenu";
+		return "ses/bms/user/add_menu";
 	}
 	
 	/**

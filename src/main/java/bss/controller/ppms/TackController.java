@@ -1,12 +1,12 @@
 package bss.controller.ppms;
 
-import iss.model.ps.Article;
-import iss.model.ps.ArticleAttachments;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,8 +23,12 @@ import org.springframework.web.multipart.MultipartFile;
 import com.github.pagehelper.PageInfo;
 
 import bss.controller.base.BaseController;
+import bss.model.pms.CollectPlan;
+import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.Task;
 import bss.model.ppms.TaskAttachments;
+import bss.service.pms.CollectPlanService;
+import bss.service.pms.PurchaseRequiredService;
 import bss.service.ppms.TaskAttachmentsService;
 import bss.service.ppms.TaskService;
 
@@ -43,6 +47,11 @@ public class TackController extends BaseController{
 	private TaskService taskservice;
 	@Autowired
 	private TaskAttachmentsService taskAttachmentsService;
+	@Autowired
+	private CollectPlanService collectPlanService; 
+	@Autowired
+	private PurchaseRequiredService purchaseRequiredService;
+	
 	
 	/**
 	 * 
@@ -138,7 +147,15 @@ public class TackController extends BaseController{
 		upfile(attach, request, task);
 		return "redirect:list.html";
 	}
-	
+	/**
+	 * 
+	* @Title: startTask
+	* @author FengTian
+	* @date 2016-9-30 上午10:47:12  
+	* @Description: 启动任务 
+	* @param @param ids      
+	* @return void
+	 */
 	@RequestMapping("/startTask")
 	@ResponseBody
 	public void startTask(String ids){
@@ -146,5 +163,34 @@ public class TackController extends BaseController{
 		for (int i = 0; i < ide.length; i++) {
 			taskservice.startTask(ide[i]);
 		}
+	}
+	
+	@RequestMapping("/edit")
+	public String edit(String id,Model model){
+		Task task = taskservice.selectById(id);
+		CollectPlan queryById = collectPlanService.queryById(task.getCollectId());
+		if(queryById != null){
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.get(queryById);
+			List<PurchaseRequired> list = purchaseRequiredService.getByMap(map);
+			model.addAttribute("queryById", queryById);
+			model.addAttribute("lists", list);
+		}
+	
+		return "bss/ppms/task/edit";
+	}
+
+	@RequestMapping("/view")
+	public String view(String id,Model model){
+		Task task = taskservice.selectById(id);
+		CollectPlan queryById = collectPlanService.queryById(task.getCollectId());
+		if(queryById != null){
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.get(queryById);
+			List<PurchaseRequired> list = purchaseRequiredService.getByMap(map);
+			model.addAttribute("queryById", queryById);
+			model.addAttribute("lists", list);
+		}
+		return "bss/ppms/task/view";
 	}
 }

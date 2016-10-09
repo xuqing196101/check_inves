@@ -112,7 +112,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/layer/layer.js"></script>
 <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
-	  	 $(function(){
+	 $(function(){
 		  laypage({
 			    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
 			    pages: "${listAe.pages}", //总页数
@@ -128,7 +128,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    }(), 
 			    jump: function(e, first){ //触发分页后的回调
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
-			           location.href = '<%=basePath%>supplierUpdate/list.do?page='+e.curr;
+			             location.href = '<%=basePath%>supplierUpdate/list.do?page='+e.curr;
 			        }
 			    }
 			});
@@ -207,11 +207,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		       </div>
 		       <input class="btn padding-left-20 padding-right-20 btn_back" onclick="submit()" type="button" value="查询">
 		     </form>
-		  <table id="tb1"  class="table table-bordered table-condensed tc">
+		  <table id="tb1"  class="table table-striped table-bordered table-hover tc">
 		      <thead>
 				<tr>
-				   <!--  <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th> -->
-					<th class="info w50">序号</th>
+					<th class="info w50 tc">序号</th>
 					<th class="info">供应商名称</th>
 					<th class="info">变更时间</th>
 					<th class="info">变更状态</th>
@@ -220,8 +219,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  <tbody>
 				 <c:forEach items="${listAe.list }" var="ae" varStatus="vs">
 					<tr>
-					   <%--  <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${ae.id}" /></td> --%>
-					    <td>${vs.index+1 }</td>
+					    <td>${(vs.index+1)+(listAe.pageNum-1)*(listAe.pageSize)}</td>
 						<td><a onclick="show('${ae.id}')" class="pointer">${ae.supplierName }</a></td>
 						<td><fmt:formatDate value="${ae.createdAt }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 						<td>

@@ -20,12 +20,18 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.PageHelper;
 
+import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
 import ses.dao.ems.ExpertAttachmentMapper;
+import ses.dao.ems.ExpertAuditMapper;
+import ses.dao.ems.ExpertCategoryMapper;
 import ses.dao.ems.ExpertMapper;
+import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAttachment;
+import ses.model.ems.ExpertAudit;
+import ses.model.ems.ExpertCategory;
 import ses.service.ems.ExpertService;
 import ses.util.PropertiesUtil;
 import ses.util.WfUtil;
@@ -40,7 +46,12 @@ public class ExpertServiceImpl implements ExpertService {
 	private UserMapper userMapper;
 	@Autowired
 	private ExpertAttachmentMapper attachmentMapper;
-	
+	@Autowired
+	private ExpertAuditMapper expertAuditMapper;
+	@Autowired
+	private ExpertCategoryMapper categoryMapper;
+	@Autowired
+	private TodosMapper todosMapper;
 	@Override
 	public void deleteByPrimaryKey(String id) {
 		mapper.deleteByPrimaryKey(id);
@@ -235,5 +246,239 @@ public class ExpertServiceImpl implements ExpertService {
     			userMapper.updateByPrimaryKeySelective(user);
     		}
     	}
+	}
+    /**
+	 * 
+	  * @Title: loginRedirect
+	  * @author ShaoYangYang
+	  * @date 2016年9月30日 下午2:47:43  
+	  * @Description: TODO 登录判断跳转
+	  * @param @param user
+	  * @param @throws Exception      
+	  * @return Map<String,Object>
+	 */
+	@Override
+	public Map<String,Object> loginRedirect(User user) throws Exception {
+		String typeId = user.getTypeId();
+		Integer typeName = user.getTypeName();
+		Map<String,Object> map =  new HashMap<>();
+		if(StringUtils.isNotEmpty(typeId) && typeName==5){
+			//查出当前登录的用户个人信息
+			Expert expert = mapper.selectByPrimaryKey(typeId);
+			if(expert!=null){
+				if(expert.getIsSubmit().equals("0") || expert.getStatus().equals("3")){
+						//如果专家信息不为null 并且状态为暂存  或者为退回修改 就证明该专家填写过个人信息 需要重新填写 并注册提交审核
+						//放入专家信息   用于前台回显数据
+						map.put("expert", expert);
+				} else if(expert.getStatus().equals("2")){
+					//如果审核未通过 则根据此状态阻止登录
+					map.put("flag", false);
+				}
+			}
+		}
+		return map;
+	}
+    
+	/**
+	 * 
+	  * @Title: zanCunInsert
+	  * @author ShaoYangYang
+	  * @date 2016年9月30日 下午5:11:37  
+	  * @Description: TODO 暂存方法提取
+	  * @param @param expert
+	  * @param @throws Exception      
+	  * @return void
+	 */
+	@Override
+	public void zanCunInsert(Expert expert ,String expertId,MultipartFile[] files,String realPath,String categoryIds) throws Exception{
+		if(StringUtils.isEmpty(expert.getId())){//id为空就新增 否则就修改
+			expert.setId(expertId);
+			//已提交
+			expert.setIsSubmit("0");
+			//未考试
+			expert.setIsDo("0");
+			//未审核
+			expert.setStatus("0");
+			//修改时间
+			expert.setUpdatedAt(new Date());
+			mapper.insertSelective(expert);
+			//附件上传
+			uploadFile(files, realPath, expertId);
+			//保存品目
+			saveCategory(expert,categoryIds);
+		}else{
+			//已提交
+			expert.setIsSubmit("0");
+			//未考试
+			expert.setIsDo("0");
+			//未审核
+			expert.setStatus("0");
+			//修改时间
+			expert.setUpdatedAt(new Date());
+			//获取之前的附件
+			List<ExpertAttachment> attachList = attachmentMapper.selectListByExpertId(expert.getId());
+			//删除之前的附件
+			if(attachList!=null && attachList.size()>0){
+				for (ExpertAttachment expertAttachment : attachList) {
+					//修改之前的附件信息为删除状态 和历史状态
+					expertAttachment.setIsDelete((short)1);
+					expertAttachment.setIsHistory((short)1);
+					attachmentMapper.updateByPrimaryKeySelective(expertAttachment);
+				}
+			}
+			mapper.updateByPrimaryKeySelective(expert);
+			//重新上传新的附件
+			uploadFile(files, realPath, expert.getId());
+			//保存品目
+			saveCategory(expert,categoryIds);
+		}
+	}
+	
+	/**
+	 * 
+	  * @Title: saveOrUpdate
+	  * @author ShaoYangYang
+	  * @date 2016年9月30日 下午5:46:47  
+	  * @Description: TODO controller调用 逻辑 抽取
+	  * @param @param expert
+	  * @param @param expertId
+	  * @param @param files
+	  * @param @param realPath
+	  * @param @throws Exception      
+	  * @return void
+	 */
+	@Override
+	public void saveOrUpdate(Expert expert,String expertId,MultipartFile[] files,String realPath,String categoryIds) throws Exception{
+		//如果id不为空 则为专家 暂存  或专家退回重新修改提交
+		if(StringUtils.isNotEmpty(expert.getId())){
+			expert.setIsDo("0");
+			//已提交
+			expert.setIsSubmit("1");
+			//未审核
+			expert.setStatus("0");
+			//修改时间
+			expert.setUpdatedAt(new Date());
+			//执行修改
+			mapper.updateByPrimaryKeySelective(expert);
+			//获取之前的附件
+			List<ExpertAttachment> attachList = attachmentMapper.selectListByExpertId(expert.getId());
+			//删除之前的附件
+			if(attachList!=null && attachList.size()>0){
+				for (ExpertAttachment expertAttachment : attachList) {
+					//修改之前的附件信息为删除状态 和历史状态
+					expertAttachment.setIsDelete((short)1);
+					expertAttachment.setIsHistory((short)1);
+					attachmentMapper.updateByPrimaryKeySelective(expertAttachment);
+				}
+			}
+			//获取之前的审核信息
+			List<ExpertAudit> auditList = expertAuditMapper.selectByExpertId(expert.getId());
+			if(auditList!=null && auditList.size()>0){
+				for (ExpertAudit expertAudit : auditList) {
+					//修改之前的审核信息为删除 和历史状态
+					expertAudit.setIsDelete((long) 1);
+					expertAudit.setIsHistory("1");
+					expertAuditMapper.updateByPrimaryKeySelective(expertAudit);
+				}
+			}
+			//附件上传
+			uploadFile(files, realPath,expert.getId());
+			if(expert.getPurchaseDepId()=="1"){
+			//保存品目
+				saveCategory(expert, categoryIds);
+			}else{
+				//不是技术专家就删除品目关联信息
+				categoryMapper.deleteByExpertId(expert.getId());
+			}
+		}else{
+		expert.setId(expertId);
+		//未考试
+		expert.setIsDo("0");
+		//已提交
+		expert.setIsSubmit("1");
+		//未审核
+		expert.setStatus("0");
+		//创建时间
+		expert.setCreatedAt(new Date());
+		//修改时间
+		expert.setUpdatedAt(new Date());
+		//执行保存
+		mapper.insertSelective(expert);
+		//文件上传
+		uploadFile(files, realPath,expertId);
+		//保存品目
+		saveCategory(expert, categoryIds);
+		}
+		//发送待办
+		Todos todos = new Todos();
+		todos.setCreatedAt(new Date());
+		todos.setIsDeleted((short)0);
+		todos.setIsFinish((short)0);
+		todos.setName("评审专家注册");
+		todos.setReceiverId(expert.getPurchaseDepId());
+		todos.setSenderId(expert.getId());
+		todos.setUndoType((short)2);
+		todos.setUrl("expert/toShenHe?id="+expert.getId());
+		todosMapper.insert(todos );
+	}
+	
+	/**
+	 * 
+	  * @Title: userManager
+	  * @author ShaoYangYang
+	  * @date 2016年9月30日 下午6:04:36  
+	  * @Description: TODO 处理用户信息
+	  * @param @throws Exception      
+	  * @return void
+	 */
+	@Override
+	public void userManager(User user,String userId,Expert expert,String expertId) throws Exception{
+		//个人信息关联用户
+		if(userId!=null && userId.length()>0){
+			//直接注册完之后填写个人信息
+			User u = getUserById(userId);
+			if(u==null){
+				throw new RuntimeException("该用户不存在！");
+			}
+			u.setTypeName(5);
+			if(expert.getId()==null || expert.getId()=="" || expert.getId().length()==0){
+				u.setTypeId(expertId);
+			}else{
+				u.setTypeId(expert.getId());
+			}
+			userMapper.updateByPrimaryKeySelective(u);
+		}else{
+			//注册完账号  过段时间又填写个人信息
+			if(expert.getId()==null || expert.getId()=="" || expert.getId().length()==0){
+				user.setTypeId(expertId);
+			}else{
+				user.setTypeId(expert.getId());
+			}
+			userMapper.updateByPrimaryKeySelective(user);
+		}
+	}
+	/**
+	 * 
+	  * @Title: saveCategory
+	  * @author ShaoYangYang
+	  * @date 2016年9月30日 下午5:54:05  
+	  * @Description: TODO 品目代码提取 保存品目
+	  * @param @param expert
+	  * @param @param ids      
+	  * @return void
+	 */
+	private void saveCategory(Expert expert,String ids) {
+		if(ids!=null && StringUtils.isNotEmpty(ids)){
+			String[] idArray = ids.split(",");
+			ExpertCategory expertCategory = new ExpertCategory();
+			//循环品目id集合
+			for (String string : idArray) {
+				expertCategory.setCategoryId(string);
+				expertCategory.setExpertId(expert.getId());
+				//逐条保存
+				categoryMapper.insert(expertCategory);
+			}
+		}
+		
 	}
 }

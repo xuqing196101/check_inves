@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ include file="/WEB-INF/view/common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -176,9 +177,7 @@
 		    <div class="fr">
 		      <button class="btn" type="button" onclick="download()">题目模板下载</button>
 		      <span class="">
-		      	<div class="input-append mt5">
-		        	<input type="file" name="file" id="excelFile" style="display:inline"/>
-		        </div>
+		        <input type="file" name="file" id="excelFile" style="display:inline"/>
 		        <button class="btn btn-windows input" type="button" onclick="poiExcel()">导入</button>
 		      </span>
 		    </div> 
@@ -190,28 +189,38 @@
    		<table class="table table-bordered table-condensed table-hover">
     
 		<thead>
-			<tr>
-				<th class="info w50"><input type="checkbox" id="selectAll" onclick="selectAll()"/></th>
-				<th class="info">序号</th>
-			    <th class="info" width="50">题型</th>
-				<th class="info" width="100">题干</th>
-				<th class="info">选项</th>
-			    <th class="info">答案</th>
-				<th class="info">分值</th>
-				<th class="info">创建时间</th>
+			<tr class="info">
+				<th class="w50"><input type="checkbox" id="selectAll" onclick="selectAll()"/></th>
+				<th class="w50">序号</th>
+			    <th class="w60">题型</th>
+				<th>题干</th>
+				<th>选项</th>
+			    <th>答案</th>
+				<th>分值</th>
+				<th>创建时间</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach items="${list.list }" var="l" varStatus="vs">
-				<tr>
-					<td class="tc pointer"><input type="checkbox" name="info" value="${l.id }"/></td>
-					<td class="tc pointer" onclick="view('${l.id }')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-					<td class="tc pointer" onclick="view('${l.id }')">${l.examQuestionType.name }</td>
-					<td class="tc pointer" onclick="view('${l.id }')">${l.topic }</td>
-					<td class="tc pointer" onclick="view('${l.id }')">${l.items }</td>
-					<td class="tc pointer" onclick="view('${l.id }')">${l.answer}</td>
-					<td class="tc pointer" onclick="view('${l.id }')">${l.point }</td>
-					<td class="tc pointer" onclick="view('${l.id }')"><fmt:formatDate value="${l.createdAt}" pattern="yyyy年MM月dd日   HH:mm:ss"/> </td
+				<tr class="pointer">
+					<td class="tc"><input type="checkbox" name="info" value="${l.id }"/></td>
+					<td class="tc" onclick="view('${l.id }')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+					<td class="tc" onclick="view('${l.id }')">${l.examQuestionType.name }</td>
+					<c:if test="${fn:length(l.topic)>20}">
+						<td onclick="view('${l.id }')">${fn:substring(l.topic,0,20)}...</td>
+					</c:if>
+					<c:if test="${fn:length(l.topic)<=20}">
+						<td onclick="view('${l.id }')">${l.topic }</td>
+					</c:if>
+					<c:if test="${fn:length(l.items)>20}">
+						<td onclick="view('${l.id }')">${fn:substring(l.items,0,20)}...</td>
+					</c:if>
+					<c:if test="${fn:length(l.items)<=20}">
+						<td onclick="view('${l.id }')">${l.items }</td>
+					</c:if>
+					<td class="tc" onclick="view('${l.id }')">${l.answer}</td>
+					<td class="tc" onclick="view('${l.id }')">${l.point }</td>
+					<td class="tc" onclick="view('${l.id }')"><fmt:formatDate value="${l.createdAt}" pattern="yyyy/MM/dd"/> </td
 				</tr>
 			</c:forEach>
 		</tbody>

@@ -1,6 +1,10 @@
 package bss.model.pms;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class AuditPerson {
+	
+	@NotEmpty
     private String id;
 
     private String name;
