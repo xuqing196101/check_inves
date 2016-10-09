@@ -186,6 +186,13 @@ function tijiao(str){
     $("input[name='fileName']").val(fileName);
     $("#download_form_id").submit();
   }
+  
+  //只读
+  $(function() {
+    $(":input").each(function() {
+      $(this).attr("readonly", "readonly");
+    });
+  });
 </script>
 </head>
   

@@ -147,6 +147,13 @@ function reason1(id){
     $("input[name='fileName']").val(fileName);
     $("#download_form_id").submit();
   }
+  
+  //只读
+  $(function() {
+    $(":input").each(function() {
+      $(this).attr("readonly", "readonly");
+    });
+  });
 
 function tijiao(str){
   var action;

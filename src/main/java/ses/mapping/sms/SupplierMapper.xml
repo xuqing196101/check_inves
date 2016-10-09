@@ -717,9 +717,6 @@
 		<if test="supplierName != null and supplierName !=''">
 			and SUPPLIER_NAME like '%${supplierName}%'
 		</if>
-		<if test="supplierTypeId != null and supplierTypeId !=''">
-			and SUPPLIER_TYPE_ID = '${supplierTypeId}'
-		</if>
 		<if test="status != null">
 			and STATUS = #{status}
 		</if>

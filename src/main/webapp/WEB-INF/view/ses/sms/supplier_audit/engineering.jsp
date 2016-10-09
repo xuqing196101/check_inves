@@ -143,7 +143,14 @@ function reason1(id){
     });
 }
 
-
+//只读
+$(function() {
+    $(":input").each(function() {
+      $(this).attr("readonly", "readonly");
+    });
+  });
+  
+  
 function tijiao(str){
   var action;
   if(str=="essential"){

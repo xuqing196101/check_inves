@@ -115,7 +115,7 @@
             </li>
             <li>
               <label class="fl mt10">企业类型：</label> 
-	              <select name="punishDate" class="mb0 mt5">
+	              <select name="supplierType" class="mb0 mt5">
 	                <option value="">全部</option>
 	                <c:forEach var="type" varStatus="vs" items="${supplierType}">
 	                  <option value="${type.name}">${type.name}</option>
