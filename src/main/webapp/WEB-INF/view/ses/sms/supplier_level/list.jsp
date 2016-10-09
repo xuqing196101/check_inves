@@ -126,13 +126,13 @@
 						<li class="fl">
 							<label class="fl mt5">等级：</label>
 							<span>
-								<select>
+								<select name="level">
 									<option selected="selected" value="">全部</option>
-									<option>一星级</option>
-									<option>二星级</option>
-									<option>三星级</option>
-									<option>四星级</option>
-									<option>五星级</option>
+									<option value="1">一星级</option>
+									<option value="2">二星级</option>
+									<option value="3">三星级</option>
+									<option value="4">四星级</option>
+									<option value="5">五星级</option>
 								</select>
 							</span>
 						</li>
@@ -166,7 +166,7 @@
 								<td class="tc"><input name="checkbox" type="checkbox" value="${supplier.id}"></td>
 								<td class="tc">${vs.index + 1}</td>
 								<td class="tc">${supplier.supplierName}</td>
-								<td class="tc"></td>
+								<td class="tc">${supplier.level}</td>
 								<td class="tc">${supplier.score}</td>
 								<td class="tc">
 									<c:forEach items="${supplier.listSupplierTypeRelates}" var="relate">

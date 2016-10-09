@@ -465,7 +465,13 @@ public class Supplier implements Serializable {
 
 	private Integer score = 0;
 
+	private Integer startScore = 0;
+
+	private Integer endScore = 0;
+
 	private List<SupplierItem> listSupplierItems = new ArrayList<SupplierItem>();
+
+	private String level;
 
 	public Integer getCount() {
 		return count;
@@ -1025,5 +1031,29 @@ public class Supplier implements Serializable {
 
 	public void setListSupplierItems(List<SupplierItem> listSupplierItems) {
 		this.listSupplierItems = listSupplierItems;
+	}
+
+	public String getLevel() {
+		return level;
+	}
+
+	public void setLevel(String level) {
+		this.level = level;
+	}
+
+	public Integer getStartScore() {
+		return startScore;
+	}
+
+	public void setStartScore(Integer startScore) {
+		this.startScore = startScore;
+	}
+
+	public Integer getEndScore() {
+		return endScore;
+	}
+
+	public void setEndScore(Integer endScore) {
+		this.endScore = endScore;
 	}
 }

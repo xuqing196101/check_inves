@@ -3,24 +3,22 @@ package ses.controller.sys.sms;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.codec.Decoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.github.pagehelper.PageInfo;
-
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
-import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierCertSe;
@@ -31,17 +29,20 @@ import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSe;
 import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierStockholder;
+import ses.service.bms.CategoryService;
 import ses.service.sms.SupplierAuditService;
+import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierService;
+
+import com.github.pagehelper.PageInfo;
 
 @Controller
 @Scope("prototype")
 @RequestMapping("/supplierQuery")
-public class SupplierQuery {
+public class SupplierQueryController extends BaseSupplierController{
 	
 	@Autowired
 	private SupplierAuditService supplierAuditService;
-	
 	@Autowired
 	private SupplierService supplierService;
 
@@ -54,46 +55,39 @@ public class SupplierQuery {
 	 * @param @return      
 	 * @return String
 	 */
-	@RequestMapping("highmaps")
+	@RequestMapping("/highmaps")
 	public String highmaps(Supplier sup,Model model,Integer status){
 		StringBuffer sb = new StringBuffer("");
-		Map<String,String> myMap=getMap();
 		//调用供应商查询方法 List<Supplier>
 		if(status!=null){
 			sup.setStatus(status);
 		}
-		
-		List<Supplier> listSupplier=supplierAuditService.supplierList(sup, null);
+		List<Supplier> listSupplier=supplierAuditService.querySupplier(sup, null);
 		//开始循环 判断地址是否
 		Map<String,Integer> map= new HashMap<String,Integer>(40);
+		map=getMap();
 		List<String> list=getAllProvince();
 		for(Supplier supplier:listSupplier){
 			for(String str:list){
 				int count=1;
 				if(supplier.getAddress().indexOf(str)!=-1){
-					if(map.get(myMap.get(str))==null){
-						map.put(myMap.get(str), count);
+					if(map.get(str)==null){
+						map.put(str, count);
 					}else{
-						map.put(myMap.get(str),map.get(myMap.get(str))+1);
+						map.put(str,map.get(str)+1);
 					}
-				}else{
-					map.put(myMap.get(str), 0);
 				}
 			}
 		}
-		/*for (Object o : map.keySet()) { 
-			sb.append("{'hc-key':'").
-			append(o).
-			append("','value':").
-			append(map.get(o)).
-			append("},").append("\n");
-			;
+		for (Object o : map.keySet()) { 
+			sb.append(o).append(map.get(o));
 		}
 		String highMapStr=null;
 		if(sb.length()>0){
-			highMapStr=sb.deleteCharAt(sb.length()-1).toString();
-		}*/
-		model.addAttribute("data", map);
+			highMapStr=sb.toString();
+		}
+		model.addAttribute("data", highMapStr);
+		model.addAttribute("sup",sup);
 		if(status!=null){
 			return "ses/sms/supplier_query/all_ruku_supplier";
 		}else{
@@ -113,39 +107,33 @@ public class SupplierQuery {
 	 * @return String
 	 * @throws UnsupportedEncodingException 
 	 */
-	@RequestMapping("findSupplierByPriovince")
+	@RequestMapping("/findSupplierByPriovince")
 	public String findSupplierByPriovince(Supplier supplier,Integer page,Model model) throws UnsupportedEncodingException{
 		supplier.setAddress(URLDecoder.decode(supplier.getAddress(),"UTF-8"));
-		List<Supplier> listSupplier=supplierAuditService.supplierList(supplier, page==null?1:page);
-		for(Supplier sup:listSupplier){
+		if(supplier.getSupplierType()==null||supplier.getSupplierType().equals("")){
+			List<Supplier> listSupplier=supplierAuditService.getAllSupplier(supplier, page==null?1:page);	
+			model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
+		}else{
+			List<Supplier> listSupplier=supplierAuditService.querySupplier(supplier, page==null?1:page);
+			model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
+		}
+		//入库时间
+		/*for(Supplier sup:listSupplier){
 			List<SupplierAudit> listAudit=supplierAuditService.selectByPrimaryKey(sup.getId());
 			for(SupplierAudit sa:listAudit){
 				if(sa.getStatus()==3){
 					sup.setPassDate(sa.getCreatedAt());
 				}
 			}
-		}
+		}*/
 		model.addAttribute("address", supplier.getAddress());
-		model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
-		return "ses/sms/supplier_query/select_supplier_by_province";
-	}
-	
-	/**
-	 * @Title: showSupplierInfo
-	 * @author Song Biaowei
-	 * @date 2016-9-22 上午10:21:45  
-	 * @Description: 供应商查询 
-	 * @param @param supplier
-	 * @param @param model
-	 * @param @return      
-	 * @return String
-	 */
-	@RequestMapping("showSupplierInfo")
-	public String showSupplierInfo(Supplier supplier,Model model){
-		supplier.setId("83398A4D748E43CCA1007FDCF5007009");
-		List<Supplier> listSupplier=supplierAuditService.supplierList(supplier, 1);
-		model.addAttribute("supplier", listSupplier.get(0));
-		return "ses/sms/supplier_query/basic_info";
+		model.addAttribute("supplier", supplier);
+		//等于3说明是入库供应商
+		if(supplier.getStatus()!=null&&supplier.getStatus()==3){
+			return "ses/sms/supplier_query/select_ruku_supplier_by_province";
+		}else{
+			return "ses/sms/supplier_query/select_supplier_by_province";
+		}
 	}
 	
 	/**
@@ -156,10 +144,23 @@ public class SupplierQuery {
 	 * @param @return      
 	 * @return String
 	 */
-	@RequestMapping("selectByCategory")
-	public String selectByCategory(Supplier supplier,Integer page,Model model){
-		List<Supplier> listSupplier=supplierAuditService.supplierList(supplier, page==null?1:page);
-		model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
+	@RequestMapping("/selectByCategory")
+	public String selectByCategory(Supplier supplier,Integer page,String categoryIds,Model model){
+		List<String> list=null;
+		if(categoryIds!=null&&!categoryIds.equals("")){
+			list=Arrays.asList(categoryIds.split(","));
+			supplier.setItem(list);
+			supplier.setCount(list.size());
+		}
+		if(categoryIds==null||categoryIds.equals("")){
+			List<Supplier> listSupplier=supplierAuditService.getAllSupplier(supplier, page==null?1:page);
+			model.addAttribute("listSupplier",  new PageInfo<>(listSupplier));
+		}else{
+			List<Supplier> listSupplier=supplierAuditService.querySupplierbyCategory(supplier, page==null?1:page);
+			model.addAttribute("listSupplier",  new PageInfo<>(listSupplier));
+		}
+		model.addAttribute("supplier", supplier);
+		model.addAttribute("categoryIds", categoryIds);
 		return "ses/sms/supplier_query/select_by_category";
 	}
 	
@@ -174,10 +175,16 @@ public class SupplierQuery {
 	 * @param @return      
 	 * @return String
 	 */
-	@RequestMapping("essential")
-	public String essentialInformation(HttpServletRequest request,Supplier supplier,String supplierId) {
+	@RequestMapping("/essential")
+	public String essentialInformation(HttpServletRequest request,Integer isRuku,Supplier supplier,String supplierId,Model model) {
 		supplier = supplierAuditService.supplierById(supplierId);
-		request.setAttribute("suppliers", supplier);
+		model.addAttribute("suppliers", supplier);
+		if(isRuku!=null&&isRuku==1){
+			model.addAttribute("status", supplier.getStatus());
+		}
+		if(isRuku!=null&&isRuku==2){
+			model.addAttribute("category", 1);
+		}
 		return "ses/sms/supplier_query/supplierInfo/essential";
 	}
 	
@@ -192,7 +199,7 @@ public class SupplierQuery {
 	 * @param @return      
 	 * @return String
 	 */
-	@RequestMapping("financial")
+	@RequestMapping("/financial")
 	public String financialInformation(HttpServletRequest request,SupplierFinance supplierFinance,Supplier supplier) {
 		String supplierId = supplierFinance.getSupplierId();
 		List<SupplierFinance> list = supplierAuditService.supplierFinanceBySupplierId(supplierId);
@@ -212,7 +219,7 @@ public class SupplierQuery {
 	 * @param @return      
 	 * @return String
 	 */
-	@RequestMapping("shareholder")
+	@RequestMapping("/shareholder")
 	public String shareholderInformation(HttpServletRequest request,SupplierStockholder supplierStockholder) {
 		String supplierId = supplierStockholder.getSupplierId();
 		List<SupplierStockholder> list = supplierAuditService.ShareholderBySupplierId(supplierId);
@@ -231,7 +238,7 @@ public class SupplierQuery {
 	 * @param @return      
 	 * @return String
 	 */
-	@RequestMapping("materialProduction")
+	@RequestMapping("/materialProduction")
 	public String materialProduction(HttpServletRequest request,SupplierMatPro supplierMatPro) {
 		String supplierId = supplierMatPro.getSupplierId();
 		/*List<SupplierCertPro> materialProduction = supplierService.get(supplierId).getSupplierMatPro().getListSupplierCertPros();*/
@@ -257,7 +264,7 @@ public class SupplierQuery {
 	 * @param @return      
 	 * @return String
 	 */
-	@RequestMapping("materialSales")
+	@RequestMapping("/materialSales")
 	public String materialSales(HttpServletRequest request,SupplierMatSell supplierMatSell){
 		String supplierId = supplierMatSell.getSupplierId();
 		//资质资格证书
@@ -280,7 +287,7 @@ public class SupplierQuery {
 	 * @param @return      
 	 * @return String
 	 */
-	@RequestMapping("engineering")
+	@RequestMapping("/engineering")
 	public String engineeringInformation(HttpServletRequest request,SupplierMatEng supplierMatEng){
 		String supplierId = supplierMatEng.getSupplierId();
 		//资质资格证书信息
@@ -306,7 +313,7 @@ public class SupplierQuery {
 	 * @param @return      
 	 * @return String
 	 */
-	@RequestMapping("serviceInformation")
+	@RequestMapping("/serviceInformation")
 	public String serviceInformation(HttpServletRequest request,SupplierMatSe supplierMatSe){
 		String supplierId = supplierMatSe.getSupplierId();
 		//资质证书信息
@@ -319,85 +326,120 @@ public class SupplierQuery {
 		return "ses/sms/supplier_query/supplierInfo/service_information";
 	}
 	
+	/**
+	 * @Title: item
+	 * @author Song Biaowei
+	 * @date 2016-10-8 下午3:11:30  
+	 * @Description: 品目信息 
+	 * @param @param supplierId
+	 * @param @param model
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping("/item")
+	public String item(String supplierId,Model model){
+		model.addAttribute("id", supplierId);
+		return "ses/sms/supplier_query/supplierInfo/item";
+	}	
+	
+	/**
+	 * @Title: downLoadFile
+	 * @author Song Biaowei
+	 * @date 2016-10-6 上午11:23:53  
+	 * @Description: 附件下载查看
+	 * @param @param fileName
+	 * @param @param request
+	 * @param @return
+	 * @param @throws UnsupportedEncodingException      
+	 * @return ResponseEntity<byte[]>
+	 */
+	 @RequestMapping("/downLoadFile")
+	  public ResponseEntity<byte[]> downLoadFile(String fileName,HttpServletRequest request) throws UnsupportedEncodingException{
+		  fileName=URLDecoder.decode(fileName,"UTF-8");
+		 String filePath=getFilePath(request);
+		 return  supplierAuditService.downloadFile(filePath,fileName);
+	  }
+	  
 	public static List<String> getAllProvince(){
 		List<String> list=new ArrayList<String>();
-		list.add("吉林省");
-		list.add("天津市");
-		list.add("安徽省");
-		list.add("山东省");
-		list.add("山西省");
-		list.add("新疆维吾尔自治区");
-		list.add("河北省");
-		list.add("河南省");
-		list.add("湖南省");
-		list.add("甘肃省");
+		list.add("吉林");
+		list.add("天津");
+		list.add("山东");
+		list.add("山西");
+		list.add("新疆");
+		list.add("河北");
+		list.add("河南");
+		list.add("甘肃");
 		
-		list.add("福建省");
-		list.add("贵州省");
-		list.add("重庆市");
-		list.add("江苏省");
+		list.add("福建");
+		list.add("贵州");
+		list.add("重庆");
+		list.add("江苏");
 		
-		list.add("内蒙古自治区");
-		list.add("广西壮族自治区");
-		list.add("黑龙江省");
-		list.add("云南省");
-		list.add("辽宁省");
+		list.add("内蒙古");
+		list.add("广西");
+		list.add("黑龙江");
+		list.add("云南");
+		list.add("辽宁");
 		
-		list.add("香港特别行政区");
-		list.add("浙江省");
-		list.add("上海市");
-		list.add("北京市");
-		list.add("广东省");
-		list.add("澳门特别行政区");
-		list.add("西藏自治区");
-		list.add("陕西省");
-		list.add("四川省");
-		list.add("海南省");
-		
-		list.add("宁夏回族自治区");
-		list.add("青海省");
-		list.add("江西省");
-		list.add("台湾省");
-		list.add("湖北省");
+		list.add("香港");
+		list.add("浙江");
+		list.add("上海");
+		list.add("北京");
+		list.add("广东");
+		list.add("澳门");
+		list.add("西藏");
+		list.add("陕西");
+		list.add("四川");
+		list.add("海南");
+		list.add("台湾");
+		list.add("宁夏");
+		list.add("青海");
+		list.add("江西");
+		list.add("湖北");
+		list.add("湖南");
+		list.add("安徽");
 		return list;
 	}
-	
-	public static Map<String,String> getMap(){
-		Map<String,String> myMap= new HashMap<String,String>(40);
-		myMap.put("吉林省","cn-jl");        
-		myMap.put("天津市","cn-tj");        
-		myMap.put("安徽省","cn-ah");        
-		myMap.put("山东省","cn-sd");        
-		myMap.put("山西省","cn-sx");        
-		myMap.put("新疆维吾尔自治区","cn-xj");
-		myMap.put("河北省","cn-hb");        
-		myMap.put("河南省","cn-he");        
-		myMap.put("湖南省","cn-hn");        
-		myMap.put("甘肃省","cn-gs");        
-		myMap.put("福建省","cn-fj");        
-		myMap.put("贵州省","cn-gz");        
-		myMap.put("重庆市","cn-cq");        
-		myMap.put("江苏省","cn-js");       
-		myMap.put("湖北省","cn-hu");        
-		myMap.put("内蒙古自治区","cn-nm");  
-		myMap.put("广西壮族自治区","cn-gx"); 
-		myMap.put("黑龙江省","cn-hl");      
-		myMap.put("云南省","cn-yn");        
-		myMap.put("辽宁省","cn-ln");        
-		myMap.put("香港特别行政区","cn-6668"); 
-		myMap.put("浙江省","cn-zj");        
-		myMap.put("上海市","cn-sh");        
-		myMap.put("北京市","cn-bj");        
-		myMap.put("广东省","cn-gd");        
-		myMap.put("澳门特别行政区","cn-3681"); 
-		myMap.put("西藏自治区","cn-xz");    
-		myMap.put("陕西省","cn-sa");        
-		myMap.put("四川省","cn-sc");        
-		myMap.put("海南省","cn-ha");        
-		myMap.put("宁夏回族自治区","cn-nx"); 
-		myMap.put("青海省","cn-qh");        
-		myMap.put("江西省","cn-jx");        
-		myMap.put("台湾省","tw-tw");    
-		return myMap;
+	public static Map<String ,Integer> getMap(){
+		Map<String,Integer> map= new HashMap<String,Integer>(40);
+		map.put("安徽", 0);
+		map.put("湖南", 0);
+		map.put("湖北", 0);
+		map.put("江西", 0);
+		map.put("青海", 0);
+		map.put("宁夏", 0);
+		map.put("台湾", 0);
+		map.put("海南", 0);
+		map.put("四川", 0);
+		map.put("陕西", 0);
+		
+		map.put("西藏", 0);
+		map.put("澳门", 0);
+		map.put("广东", 0);
+		map.put("北京", 0);
+		map.put("上海", 0);
+		map.put("浙江", 0);
+		map.put("香港", 0);
+		map.put("辽宁", 0);
+		map.put("云南", 0);
+		map.put("黑龙江", 0);
+		
+		map.put("广西", 0);
+		map.put("内蒙古", 0);
+		map.put("江苏", 0);
+		map.put("重庆", 0);
+		map.put("贵州", 0);
+		map.put("福建", 0);
+		map.put("甘肃", 0);
+		map.put("河南", 0);
+		map.put("河北", 0);
+		map.put("新疆", 0);
+		
+		map.put("山西", 0);
+		map.put("山东", 0);
+		map.put("天津", 0);
+		map.put("吉林", 0);
+		return map;
 	}
 }

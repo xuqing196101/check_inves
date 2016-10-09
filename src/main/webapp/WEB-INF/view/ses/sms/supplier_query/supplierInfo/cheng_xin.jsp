@@ -1,6 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -9,7 +8,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]-->
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<title>服务-专业信息</title>
+<title>财务信息</title>
 <!-- Meta -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -113,34 +112,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript">
 function reason(id){
   var supplierId=$("#supplierId").val();
-  var auditField=$("#"+id).text()+"服务资质证书信息"; //审批的字段名字
+  var auditField=$("#"+id).text()+"年财务信息"; //审批的字段名字
    layer.prompt({title: '请填写不通过理由', formType: 2}, function(text){
     $.ajax({
         url:"<%=basePath%>supplierAudit/auditReasons.html",
         type:"post",
         data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId,
       });
-        $("#"+id+"_hide").hide();
-        layer.msg("审核不通过的理由是："+text);
+      $("#"+id+"_hide").hide();
+      layer.msg("审核不通过的理由是："+text);
     });
 }
 
-function reason1(id){
+function reason1(year, ele){
   var supplierId=$("#supplierId").val();
-  var id2=id+"2";
-  var id1=id+"1";
-  var auditField=$("#"+id2+"").text().replaceAll("＊","").replaceAll("：",""); //审批的字段名字
-  layer.prompt({title: '请填写不通过理由', formType: 2}, function(text){
-    $.ajax({
-        url:"<%=basePath%>supplierAudit/auditReasons.html",
-        type:"post",
-        data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId,
-      });
-     layer.msg("审核不通过的理由是："+text);
-     $("#"+id1+"").hide();
-    });
+  var value = $(ele).parents("li").find("span").text().replaceAll("＊","").replaceAll("：","");//审批的字段名字
+  var auditField=year+"年"+value;
+	  layer.prompt({title: '请填写不通过理由', formType: 2}, function(text){
+	    $.ajax({
+	        url:"<%=basePath%>supplierAudit/auditReasons.html",
+	        type:"post",
+	        data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId,
+	      });
+	      $(ele).parent("div").find("div").eq(0).hide(); //隐藏勾
+	      layer.msg("审核不通过的理由是："+text);
+	    });
 }
-
 
 function tijiao(str){
   var action;
@@ -163,7 +160,7 @@ function tijiao(str){
     action = "<%=basePath%>supplierQuery/engineering.html";
   }
   if(str=="service"){
-    action = "<%=basePath%>supplierQuery/serviceInformation.html";
+    action = "${pageContext.request.contextPath}/supplierQuery/serviceInformation.html";
   }
   if(str=="chengxin"){
     action = "<%=basePath%>supplierQuery/list.html";
@@ -171,11 +168,13 @@ function tijiao(str){
   if(str=="item"){
      action = "<%=basePath%>supplierQuery/item.html";
   }
-  if(str=="item"){
-     action = "<%=basePath%>supplierQuery/item.html";
-  }
   $("#form_id").attr("action",action);
   $("#form_id").submit();
+}
+function downloadFile(fileName){
+	  fileName=encodeURI(fileName);
+      fileName=encodeURI(fileName);
+	  window.location.href="<%=basePath %>supplierQuery/downLoadFile.html?fileName="+fileName;
 }
 </script>
 <style type="text/css">
@@ -217,89 +216,51 @@ function tijiao(str){
           <div class="padding-top-10">
             <ul class="nav nav-tabs bgdd">
               <li class=""><a aria-expanded="fale" href="#tab-1" data-toggle="tab" onclick="tijiao('essential');">基本信息</a></li>
-              <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" onclick="tijiao('financial');">财务信息</a></li>
+              <li class=""><a aria-expanded="true" href="#tab-2" data-toggle="tab" onclick="tijiao('financial');">财务信息</a></li>
               <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('shareholder');">股东信息</a></li>
-              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('materialProduction');">物资-生产型专业信息</a></li>
-              <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('materialSales');">物资-销售型专业信息</a></li>
+              <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" onclick="tijiao('materialProduction');">物资-生产型专业信息</a></li>
+              <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('materialSales');">物资-销售型专业信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('engineering');">工程-专业信息</a></li>
-              <li class="active"><a aria-expanded="true" href="#tab-3" data-toggle="tab" onclick="tijiao('service');">服务-专业信息</a></li>
+              <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('service');">服务-专业信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('item');">品目信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >产品信息</a></li>
-              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('chengxin');">诚信记录</a></li>
+              <li class="active"><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('chengxin');">诚信记录</a></li>
             </ul>
               <div class="tab-content padding-top-20" style="height:1400px;">
                 <div class="tab-pane fade active in height-450" id="tab-1">
                   <form id="form_id" action="" method="post"  enctype="multipart/form-data">
-                    <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
+                      <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
                   </form>
-                  <div class=" margin-bottom-0">
-                    <h2 class="f16 jbxx1">
-                    <i>01</i>供应商资质证书
-                    </h2>
-                    <table class="table table-bordered table-condensed">
-                      <thead>
-                        <tr>
-                          <th class="info">资质证书名称</th>
-                          <th class="info">资质等级</th>
-                          <th class="info">发证机关</th>
-                          <th class="info">有效期(起止时间)</th>
-                          <th class="info">是否年检</th>
-                          <th class="info">附件上传</th>
-                        </tr>
-                      </thead>
-                      <c:forEach items="${supplierCertSes}" var="s" >
-                        <tr>
-                          <td class="tc" id="${s.id}">${s.name }</td>
-                            <td class="tc">${s.levelCert}</td>
-                            <td class="tc">${s.licenceAuthorith }</td>
-                            <td class="tc">
-                              <fmt:formatDate value="${s.expStartDate }" pattern='yyyy-MM-dd'/>  至  
-                              <fmt:formatDate value="${s.expEndDate }" pattern='yyyy-MM-dd'/>
-                            </td>
-                            <td class="tc">
-                             <c:if test="${s.mot==0 }">否</c:if>
-                             <c:if test="${s.mot==1 }">是</c:if>
-                            </td>
-                            <td class="tc">${s.attach }</td>
-                        </tr>
-                      </c:forEach>
-                    </table>
-                  </div>
-                  
-                  <div class=" margin-bottom-0">
-                    <h2 class="f16 jbxx1">
-                    <i>02</i>供应商组织结构和人员
-                    </h2>
-                      <ul class="list-unstyled list-flow">
-                        <li class="col-md-6 p0"><span class="" id="orgName2"><i class="red">＊</i>组织机构：</span>
-                          <div class="input-append">
-                            <input class="span3" type="text" readonly="readonly" value="${supplierMatSes.orgName }" />
-                          </div>
-                        </li>
-                        <li class="col-md-6 p0"><span class="" id="totalPerson2"><i class="red">＊</i>人员总数：</span>
-                          <div class="input-append">
-                            <input class="span3" type="text" readonly="readonly" value="${supplierMatSes.totalPerson }" />
-                          </div>
-                        </li>
-                        <li class="col-md-6 p0"><span class="" id="totalMange2"><i class="red">＊</i>管理人员：</span>
-                          <div class="input-append">
-                            <input class="span3" type="text" readonly="readonly"  value="${supplierMatSes.totalMange }"/>
-                          </div>
-                        </li>
-                        <li class="col-md-6 p0"><span class="" id="totalTech2"><i class="red">＊</i>技术人员：</span>
-                          <div class="input-append">
-                            <input class="span3" type="text" readonly="readonly"  value="${supplierMatSes.totalTech }"/>
-                          </div>
-                        </li>
-                        <li class="col-md-6 p0"><span class=""  id="totalWorker2"><i class="red">＊</i>工人(职员)：</span>
-                          <div class="input-append">
-                            <input class="span3" type="text" readonly="readonly" value="${supplierMatSes.totalWorker }"/>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
+                  <table class="table table-bordered table-condensed">
+                 <thead>
+						<tr>
+							<th class="info w50">序号</th>
+							<th class="info">供应商名称</th>
+							<th class="info">企业等级</th>
+							<th class="info">分数</th>
+							<th class="info">企业类型</th>
+							<th class="info">企业性质</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach items="${listSuppliers.list}" var="supplier" varStatus="vs">
+							<tr>
+								<td class="tc">${vs.index + 1}</td>
+								<td class="tc">${supplier.supplierName}</td>
+								<td class="tc"></td>
+								<td class="tc">${supplier.score}</td>
+								<td class="tc">
+									<c:forEach items="${supplier.listSupplierTypeRelates}" var="relate">
+										${relate.supplierTypeName}
+									</c:forEach>
+								</td>
+								<td class="tc">${supplier.businessType}</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+                  </table>
+                </div>
               </div>
-            </div>   
           </div>
         </div>
       </div>

@@ -209,7 +209,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			       </div>
 				 </li>
 				<li class="col-md-6 p0">
-				   <span class="fl mt5">名称：</span>
+				   <span class="fl mt5">图标：</span>
 				   <div class="input-append">
 			        <input class="span2" name="icon" value="${menu.icon }" maxlength="200" type="text">
 			        <span class="add-on">i</span>

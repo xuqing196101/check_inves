@@ -213,10 +213,10 @@ String basePath = request.getScheme()+"：//"+request.getServerName()+"："+requ
 				 		  <span>确认并结束审核流程，理由是：同意采购。</span>
 						   <ul class="list-unstyled margin-bottom-0">
 						   <li class="fl margin-left-0">状态：<span>暂存</span></li>
-						   <li class="fl">姓名：<span>韩扬</span></li>
+						   <li class="fl">姓名：<span>张洋</span></li>
 						   <li class="fl">ID：<span>152260</span></li>
 						   <li class="fl">单位：<span>军队采购网</span></li>
-						   <li class="">IP地址：<span>124.65.46.14｜北京市</span></li>
+						   <li class="">IP地址：<span>124.65.26.100｜北京市</span></li>
 						   </ul>
 					    </div>
                      </div>
@@ -246,10 +246,10 @@ String basePath = request.getScheme()+"：//"+request.getServerName()+"："+requ
 				 		  <span>选择中标人成功！请等待分公司审核。选择［湖南嘉利塑业有限公司］为中标单位</span>
 						   <ul class="list-unstyled margin-bottom-0">
 						   <li class="fl margin-left-0">状态：<span>暂存</span></li>
-						   <li class="fl">姓名：<span>韩扬</span></li>
+						   <li class="fl">姓名：<span>张洋</span></li>
 						   <li class="fl">ID：<span>152260</span></li>
 						   <li class="fl">单位：<span>军队采购网</span></li>
-						   <li class="">IP地址：<span>124.65.46.14｜北京市</span></li>
+						   <li class="">IP地址：<span>124.65.26.100｜北京市</span></li>
 						   </ul>
 					    </div>
                    </div>
@@ -279,10 +279,10 @@ String basePath = request.getScheme()+"：//"+request.getServerName()+"："+requ
 				 		  <span>［广西华塑集团有限公司］报价成功！</span>
 						   <ul class="list-unstyled margin-bottom-0">
 						   <li class="fl margin-left-0">状态：<span>暂存</span></li>
-						   <li class="fl">姓名：<span>韩扬</span></li>
+						   <li class="fl">姓名：<span>张洋</span></li>
 						   <li class="fl">ID：<span>152260</span></li>
 						   <li class="fl">单位：<span>军队采购网</span></li>
-						   <li class="">IP地址：<span>124.65.46.14｜北京市</span></li>
+						   <li class="">IP地址：<span>124.65.26.100｜北京市</span></li>
 						   </ul>
 					    </div>
                      </div>

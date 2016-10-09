@@ -149,6 +149,34 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             layer.alert("请选择需要启动的项目",{offset: ['222px', '390px'], shade:0.01});
         }
     }
+       
+       //项目分包
+       function subPackage(){
+    	   var count = 0;
+			var chkItem = document.getElementsByName("chkItem");
+			var str = "";
+			for(var i = 0;i<chkItem.length;i++){
+				if(chkItem[i].checked == true){
+					count++;
+				}
+			}
+			if(count > 1){
+				layer.alert("只能选择一项",{offset: ['222px', '390px']});
+				$(".layui-layer-shade").remove();
+				return;
+			}else if(count == 0){
+				layer.alert("请先选择一项",{offset: ['222px', '390px']});
+				$(".layui-layer-shade").remove();
+				return;
+			}else{
+				for(var i = 0;i<chkItem.length;i++){
+					if(chkItem[i].checked == true){
+						str = chkItem[i].value;
+					}
+				}
+				window.location.href = "<%=path%>/project/subPackage.html?id="+str;
+			}
+       }
   </script>
   </head>
   
@@ -187,7 +215,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      
   
       <span class="fr option_btn margin-top-10">
-        <button class="btn padding-left-10 padding-right-10 btn_back">分包</button>
+        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="subPackage()">分包</button>
         <button class="btn padding-left-10 padding-right-10 btn_back" >打印报批文件</button>
         <button class="btn padding-left-10 padding-right-10 btn_back" onclick="start();">启动</button>
         <button class="btn padding-left-10 padding-right-10 btn_back" onclick="view();">查看</button>

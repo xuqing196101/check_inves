@@ -32,6 +32,7 @@ import ses.model.sms.SupplierStockholder;
 import ses.service.bms.CategoryService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierItemService;
+import ses.service.sms.SupplierLevelService;
 import ses.service.sms.SupplierService;
 
 import com.github.pagehelper.PageInfo;
@@ -45,6 +46,8 @@ public class SupplierQueryController extends BaseSupplierController{
 	private SupplierAuditService supplierAuditService;
 	@Autowired
 	private SupplierService supplierService;
+	@Autowired
+	private SupplierLevelService supplierLevelService;
 
 	/**
 	 * @Title: highmaps
@@ -177,6 +180,19 @@ public class SupplierQueryController extends BaseSupplierController{
 	 */
 	@RequestMapping("/essential")
 	public String essentialInformation(HttpServletRequest request,Integer isRuku,Supplier supplier,String supplierId,Model model) {
+		String supId=(String)request.getSession().getAttribute("supplierId");
+	    //第一次进来的时候有值,session为null。
+		if(supId==null&&!supplierId.equals("")){
+			request.getSession().setAttribute("supplierId", supplierId);
+		}
+		//第二次进来的时候,都有值
+		if(supId!=null&&!supplierId.equals("")){
+			request.getSession().removeAttribute("supplierId");
+			request.getSession().setAttribute("supplierId", supplierId);
+		}
+		if(supId!=null&&supplierId.equals("")){
+			supplierId=supId;
+		}
 		supplier = supplierAuditService.supplierById(supplierId);
 		model.addAttribute("suppliers", supplier);
 		if(isRuku!=null&&isRuku==1){
@@ -324,6 +340,25 @@ public class SupplierQueryController extends BaseSupplierController{
 		request.setAttribute("supplierMatSes", supplierMatSe);
 		request.setAttribute("supplierId", supplierId);
 		return "ses/sms/supplier_query/supplierInfo/service_information";
+	}
+	
+	/**
+	 * @Title: list
+	 * @author Song Biaowei
+	 * @date 2016-10-8 下午5:41:13  
+	 * @Description: 诚信信息
+	 * @param @param model
+	 * @param @param supplier
+	 * @param @param page
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping(value = "list")
+	public String list(Model model, Supplier supplier, Integer page) {
+		List<Supplier> listSuppliers = supplierLevelService.findSupplier(supplier, page == null ? 1 : page);
+		model.addAttribute("listSuppliers", new PageInfo<Supplier>(listSuppliers));
+		model.addAttribute("supplierName", supplier.getSupplierName());
+		return "ses/sms/supplier_query/supplierInfo/cheng_xin";
 	}
 	
 	/**

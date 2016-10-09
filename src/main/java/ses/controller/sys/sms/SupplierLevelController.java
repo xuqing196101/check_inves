@@ -54,5 +54,11 @@ public class SupplierLevelController extends BaseSupplierController {
 		List<SupplierCreditCtnt> listSupplierCreditCtnts = supplierCreditCtntService.findCreditCtnt(supplierCreditCtnt);
 		super.writeJson(response, listSupplierCreditCtnts);
 	}
+	
+	@RequestMapping(value = "update_score")
+	public String updateScore(Supplier supplier, String scores) {
+		supplierLevelService.updateScore(supplier, scores);
+		return "redirect:list.html";
+	}
 
 }

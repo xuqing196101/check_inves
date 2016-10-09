@@ -45,7 +45,7 @@ public interface SupplierStarsMapper {
      */
     int updateByPrimaryKey(SupplierStars record);
     
-    List<SupplierStars> findSupplierStars();
+    List<SupplierStars> findSupplierStars(SupplierStars supplierStars);
     
     int updateStatus(SupplierStars supplierStars);
 }

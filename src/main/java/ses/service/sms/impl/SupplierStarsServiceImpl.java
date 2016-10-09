@@ -18,7 +18,11 @@ public class SupplierStarsServiceImpl implements SupplierStarsService {
 	
 	@Autowired
 	public List<SupplierStars> findSupplierStars() {
+<<<<<<< HEAD
 		return supplierStarsMapper.findSupplierStars();
+=======
+		return supplierStarsMapper.findSupplierStars(null);
+>>>>>>> 86663f9259af7ae5cf0c28c23b496c80d05cadf9
 	}
 
 

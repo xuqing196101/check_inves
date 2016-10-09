@@ -115,8 +115,14 @@
 		where ID = #{id}
 	</update>
 	
-	<select id="findSupplierStars" resultMap="BaseResultMap">
-		select * from T_SES_SMS_SUPPLIER_STARS order by STATUS desc
+	<select id="findSupplierStars" parameterType="ses.model.sms.SupplierStars" resultMap="BaseResultMap">
+		select * from T_SES_SMS_SUPPLIER_STARS 
+		<where>
+			<if test="status != null and status != ''">
+				and STATUS = #{status}
+			</if>
+		</where>
+		order by STATUS desc
 	</select>
 	
 	<update id="updateStatus" parameterType="ses.model.sms.SupplierStars">
