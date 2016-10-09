@@ -151,7 +151,7 @@
 					</li>
 					<li class="col-md-6  p0 "><span class="">上级：</span>
 						<div class="input-append">
-							<input id="proSec" type="text" readonly value="${orgnization.parentName }" name="parentName" style="width:120px;" onclick="showMenu(); return false;"/>
+							<input id="proSec" type="text" readonly value="${orgnization.parentName }" name="parentName" style="width:120px;" onclick="showMenu(); "/>
 							<input type="hidden"  id="treeId" name="parentId" value="${orgnization.parentId }"  class="text"/>
 						</div></li>
 					</li>

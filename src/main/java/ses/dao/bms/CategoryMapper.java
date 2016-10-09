@@ -127,10 +127,9 @@ public interface CategoryMapper {
 	* @return int
 	 */
 	public List<Category> listByKeyword(Map map);
-<<<<<<< Updated upstream
+
 	
-	List<Category> findCategoryByType(Category category);
-=======
+
 	/**
 	 * 
 	* @Title: listByKeyword
@@ -141,5 +140,5 @@ public interface CategoryMapper {
 	 */
 	void delete(String id);
 	
->>>>>>> Stashed changes
+
 }

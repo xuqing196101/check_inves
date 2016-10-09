@@ -120,7 +120,7 @@ import ses.model.sms.SupplierTypeTree;
 	 */
 	public List<Category> listByKeyword(Map map);
 	
-<<<<<<< Updated upstream
+
 	/**
 	 * @Title: findCategoryByType
 	 * @author: Wang Zhaohua
@@ -143,6 +143,5 @@ import ses.model.sms.SupplierTypeTree;
 	 * @return List<SupplierTypeTree>
 	 */
 	public List<SupplierTypeTree> queryCategory(Category category, List<String> listCategoryIds);
-=======
->>>>>>> Stashed changes
+
 }

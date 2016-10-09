@@ -272,7 +272,7 @@
     set NAME = #{name},
  	where ID=#{id}
  	</update>
-<<<<<<< Updated upstream
+
  	
  	<select id="findCategoryByType" parameterType="ses.model.bms.Category" resultMap="CateMap">
  		select * from T_SES_BMS_CATEGORY where 1=1
@@ -281,7 +281,7 @@
  		</if>
  	</select>
  	
-=======
+
  
->>>>>>> Stashed changes
+
 </mapper>
