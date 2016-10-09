@@ -142,6 +142,11 @@ function reason1(id){
     });
 }
 
+//文件下載
+  function downloadFile(fileName) {
+    $("input[name='fileName']").val(fileName);
+    $("#download_form_id").submit();
+  }
 
 function tijiao(str){
   var action;
@@ -227,7 +232,7 @@ function tijiao(str){
 	                        <th class="info">发证机关</th>
 	                        <th class="info">有效期(起止时间)</th>
 	                        <th class="info">是否年检</th>
-	                        <th class="info">附件上传</th>
+	                        <th class="info">附件</th>
 	                        <th class="info">操作</th>
 	                      </tr>
 	                    </thead>
@@ -244,7 +249,7 @@ function tijiao(str){
 	                           <c:if test="${s.mot==0 }">否</c:if>
 	                           <c:if test="${s.mot==1 }">是</c:if>
 	                          </td>
-	                          <td class="tc">${s.attach }</td>
+	                          <td class="tc" style="cursor: pointer;" onclick="downloadFile('${s.attach}')">${s.attach }</td>
 	                          <td class="tc">
 	                            <a id="${s.id }_hide" class="b f18 fl ml10 red hand">√</a>
 	                            <a onclick="reason('${s.id}');" class="b f18 fl ml10 hand">×</a>
@@ -304,5 +309,8 @@ function tijiao(str){
       </div>
     </div>
   </div>
+  <form target="_blank" id="download_form_id" action="${pageContext.request.contextPath}/supplierAudit/download.html" method="post">
+   <input type="hidden" name="fileName" />
+  </form>
 </body>
 </html>

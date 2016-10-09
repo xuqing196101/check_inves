@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import ses.model.bms.Category;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
@@ -31,6 +32,7 @@ import ses.model.sms.SupplierMatSe;
 import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierType;
+import ses.service.bms.CategoryService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierService;
 import ses.util.PropUtil;
@@ -56,6 +58,12 @@ public class SupplierAuditController extends BaseSupplierController{
 	@Autowired
 	private SupplierService supplierService;
 	
+	/**
+	 * 品目
+	 */
+	@Autowired
+	private CategoryService categoryService;
+	 
 	/**
 	 * @Title: daiBan
 	 * @author Xu Qing
@@ -395,7 +403,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		String supplierId = supplierAudit.getSupplierId();
 		request.getSession().setAttribute("supplierId", supplierId);
 		this.setSuppliertUpload(request, supplierAudit);
-		return "redirect:reasonsList.html?";
+		return "redirect:reasonsList.html";
 	}
 	
 	/**
@@ -429,16 +437,22 @@ public class SupplierAuditController extends BaseSupplierController{
 	 * @param @param request
 	 * @param @return      
 	 * @return String
+	 * @throws IOException 
 	 */
 	@RequestMapping("items")
-	public String itemInformation(HttpServletRequest request, SupplierAudit supplierAudit, Supplier supplier){
+	public String itemInformation(HttpServletResponse response,HttpServletRequest request, Category category,SupplierAudit supplierAudit, Supplier supplier) throws IOException{
 		String supplierId = supplierAudit.getSupplierId();
 		//勾选的供应商类型
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
 		request.setAttribute("supplierTypeNames", supplierTypeName);
 		//查询品目
-		supplier = supplierService.get(supplierId);
-		request.getSession().setAttribute("currSupplier", supplier);
+		/*List<SupplierTypeTree> listSupplierTypeTrees = categoryService.findCategoryByType(category, supplierId);
+		String json = JSON.toJSONStringWithDateFormat(listSupplierTypeTrees, "yyyy-MM-dd HH:mm:ss");
+		response.setContentType("text/html;charset=utf-8");
+		response.getWriter().write(json);
+		response.getWriter().flush();
+		response.getWriter().close();
+		*/
 		request.setAttribute("supplierId", supplierId);
 		return "ses/sms/supplier_audit/items";
 	}
