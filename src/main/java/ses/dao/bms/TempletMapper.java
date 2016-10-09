@@ -70,25 +70,4 @@ public interface TempletMapper {
      */
     List<Templet> queryByList();
     
-    /**
-     * 
-     * @Title: queryByCount
-     * @author Liyi 
-     * @date 2016-8-31 下午5:58:22  
-     * @Description: 查询列表数
-     * @param:     
-     * @return:
-     */
-    Integer queryByCount(); 
-    
-    /**
-     * 
-     * @Title: selectByType
-     * @author Liyi 
-     * @date 2016-10-9 上午11:18:21  
-     * @Description:根据模板类型查询
-     * @param:     
-     * @return:
-     */
-    List<Templet>selectByType();
 }

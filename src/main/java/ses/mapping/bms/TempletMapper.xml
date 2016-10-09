@@ -155,5 +155,4 @@
     ORDER BY CREATED_AT DESC
   </select>
   
-  
 </mapper>
