@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.prms.FirstAuditMapper">
+  <resultMap id="BaseResultMap" type="bss.model.prms.FirstAudit">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="KIND" jdbcType="VARCHAR" property="kind" />
+    <result column="CREATED_AT" jdbcType="VARCHAR" property="createdAt" />
+    <result column="CREATER" jdbcType="VARCHAR" property="creater" />
+    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+    <result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, NAME, KIND, CREATED_AT, CREATER, UPDATED_AT, PROJECT_ID
+  </sql>
+  <!-- 根据项目id 查询初审项集合 -->
+   <select id="selectListByProjectId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PRMS_FIRST_AUDIT
+    where PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PRMS_FIRST_AUDIT
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BSS_PRMS_FIRST_AUDIT
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="bss.model.prms.FirstAudit">
+    insert into T_BSS_PRMS_FIRST_AUDIT (ID, NAME, KIND, 
+      CREATED_AT, CREATER, UPDATED_AT, 
+      PROJECT_ID)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{kind,jdbcType=VARCHAR}, 
+      #{createdAt,jdbcType=VARCHAR}, #{creater,jdbcType=VARCHAR}, #{updatedAt,jdbcType=DATE}, 
+      #{projectId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="bss.model.prms.FirstAudit">
+    insert into T_BSS_PRMS_FIRST_AUDIT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="kind != null">
+        KIND,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="creater != null">
+        CREATER,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="kind != null">
+        #{kind,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=VARCHAR},
+      </if>
+      <if test="creater != null">
+        #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=DATE},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="bss.model.prms.FirstAudit">
+    update T_BSS_PRMS_FIRST_AUDIT
+    <set>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="kind != null">
+        KIND = #{kind,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=VARCHAR},
+      </if>
+      <if test="creater != null">
+        CREATER = #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="bss.model.prms.FirstAudit">
+    update T_BSS_PRMS_FIRST_AUDIT
+    set NAME = #{name,jdbcType=VARCHAR},
+      KIND = #{kind,jdbcType=VARCHAR},
+      CREATED_AT = #{createdAt,jdbcType=VARCHAR},
+      CREATER = #{creater,jdbcType=VARCHAR},
+      UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
