@@ -34,9 +34,43 @@
 			},
 			dataType : "json",
 			success : function(result) {
-				alert(result.length);
+				var html = "";
+				for(var i = 0; i < result.length; i++) {
+					html += "<tr>";
+					html += "<td class='tc'><input name='checkbox' type='checkbox' value='"+ result[i].id +"'></td>";
+					html += "<td class='tc'>"+ (i + 1) +"</td>";
+					html += "<td class='tc'>"+ result[i].name +"</td>";
+					html += "<td class='tc'>"+ result[i].score +"</td>";
+					html += "<td class='tc'>"+ result[i].supplierCreditName +"</td>";
+					html += "</tr>";
+				}
+				$("#tbody_id").empty();
+				$("#tbody_id").append(html);
 			},
 		});
+	}
+	
+	function changeScore() {
+		var checkbox = $("input[name='checkbox']:checked");
+		if (!checkbox.size()) {
+			layer.msg("请勾选一条记录 !", {
+				offset : '100px',
+			});
+			return;
+		}
+		var id = $("input[name='id']").val();
+		var scores = "";
+		checkbox.each(function(index) {
+			var currScore = $(this).parents("tr").find("td").eq(3).text();
+			currScore = $.trim(currScore);
+			if (index > 0) {
+				scores += ",";
+			}
+			scores += currScore;
+		});
+		$("#supplier_input_id").val(id);
+		$("#scores_input_id").val(scores);
+		$("#change_score_form_id").submit();
 	}
 </script>
 
@@ -64,7 +98,7 @@
 							<label class="fl mt5">等级：</label>
 							<span>
 								<select onchange="loadCreditCtnt(this)">
-									<option selected="selected" value="">全部</option>
+									<option selected="selected" value="">请选择</option>
 									<c:forEach items="${listSupplierCredits}" var="credit">
 										<option value="${credit.id}">${credit.name}</option>
 									</c:forEach>
@@ -89,24 +123,20 @@
 							<th class="info">诚信形式</th>
 						</tr>
 					</thead>
-					<tbody>
-						<c:forEach items="${listSuppliers.list}" var="supplier" varStatus="vs">
-							<tr>
-								<td class="tc"><input name="checkbox" type="checkbox" value="${supplier.id}"></td>
-								<td class="tc">${vs.index + 1}</td>
-								<td class="tc">${supplier.supplierName}</td>
-								<td class="tc"></td>
-								<td class="tc">${supplier.score}</td>
-							</tr>
-						</c:forEach>
+					<tbody id="tbody_id">
+						
 					</tbody>
 				</table>
 			</div>
 		</div>
 		<div class="col-md-12 tc">
-			<input class="btn btn-windows save" type="submit" value="保存" />
+			<a class="btn btn-windows reset" target="_parent" href="javascript:void(0)" onclick="changeScore()">保存</a>
 			<a class="btn btn-windows reset" target="_parent" href="${pageContext.request.contextPath}/supplier_level/list.html">返回</a>
 		</div>
 	</div>
+	<form id="change_score_form_id" action="${pageContext.request.contextPath}/supplier_level/update_score.html" target="_parent" method="post">
+		<input id="supplier_input_id" type="hidden" name="id" />
+		<input id="scores_input_id" type="hidden" name="scores" />
+	</form>
 </body>
 </html>

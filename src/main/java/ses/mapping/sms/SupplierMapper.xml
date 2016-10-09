@@ -721,21 +721,27 @@
 			and STATUS = #{status}
 		</if>
 		<if test="startDate != null">
-			AND t1.CREATED_AT &gt;= #{startDate}
+			and t1.CREATED_AT &gt;= #{startDate}
 		</if>
 		<if test="endDate != null">
-			AND t1.CREATED_AT &lt;= #{endDate}
+			and t1.CREATED_AT &lt;= #{endDate}
 		</if>
 		<if test="contactName != null and contactName != ''">
-			AND CONTACT_NAME = #{contactName}
+			and CONTACT_NAME = #{contactName}
 		</if>
 	 	<if test="supplierType != null and supplierType != ''">
-			AND t3.NAME like #{supplierType}
+			and t3.NAME like #{supplierType}
 		</if>
         <if test="address != null and address !=''">  
        		and ADDRESS like '%${address}%'   
-       </if> 
-		ORDER BY FOUND_DATE DESC
+       </if>
+       <if test="startScore != null and startScore !=''">
+       		and SCORE &gt; #{startScore}
+       </if>
+       <if test="endScore != null and endScore !=''">
+       		and SCORE &lt; #{endScore}
+       </if>
+		ORDER BY FOUND_DATE DESC, t1.SCORE DESC
 	</select>
 	
 	<select id="querySupplier" parameterType="ses.model.sms.Supplier" resultMap="findSupplierMap">
@@ -880,4 +886,8 @@
 		<collection property="listSupplierTypeRelates" select="ses.dao.sms.SupplierTypeRelateMapper.findSupplierTypeBySupplierId" column="ID" />
 		<collection property="listSupplierItems" select="ses.dao.sms.SupplierItemMapper.findSupplierItemBySupplierId" column="ID" />
 	</resultMap>
+	
+	<update id="updateScore" parameterType="ses.model.sms.Supplier">
+		update T_SES_SMS_SUPPLIER set SCORE = #{score} where ID = #{id}
+	</update>
 </mapper>

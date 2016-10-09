@@ -18,7 +18,7 @@ public class SupplierStarsServiceImpl implements SupplierStarsService {
 	
 	@Autowired
 	public List<SupplierStars> findSupplierStars() {
-		return supplierStarsMapper.findSupplierStars();
+		return supplierStarsMapper.findSupplierStars(null);
 	}
 
 
