@@ -247,7 +247,7 @@ function downloadFile(fileName){
 							<tr>
 								<td class="tc">${vs.index + 1}</td>
 								<td class="tc">${supplier.supplierName}</td>
-								<td class="tc"></td>
+								<td class="tc">${supplier.level}</td>
 								<td class="tc">${supplier.score}</td>
 								<td class="tc">
 									<c:forEach items="${supplier.listSupplierTypeRelates}" var="relate">

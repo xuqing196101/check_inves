@@ -22,6 +22,7 @@ import ses.dao.sms.SupplierMapper;
 import ses.dao.sms.SupplierMatEngMapper;
 import ses.dao.sms.SupplierMatProMapper;
 import ses.dao.sms.SupplierMatSeMapper;
+import ses.dao.sms.SupplierStarsMapper;
 import ses.dao.sms.SupplierStockholderMapper;
 import ses.dao.sms.SupplierTypeMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
@@ -36,6 +37,7 @@ import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSe;
+import ses.model.sms.SupplierStars;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierType;
 import ses.model.sms.SupplierTypeRelate;
@@ -58,6 +60,9 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	 */
 	@Autowired
 	private SupplierMapper supplierMapper;
+	
+	@Autowired
+	private SupplierStarsMapper supplierStarsMapper;
 	
 	/**
 	 * 供应商审核记录
@@ -168,7 +173,34 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			PropertiesUtil config = new PropertiesUtil("config.properties");
 			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 		}
-		return supplierMapper.getAllSupplier(supplier);
+		List<Supplier> listSupplier=supplierMapper.getAllSupplier(supplier);
+		SupplierStars supplierStars = new SupplierStars();
+		supplierStars.setStatus(1);
+		List<SupplierStars> listSupplierStars = supplierStarsMapper.findSupplierStars(supplierStars);
+		for (SupplierStars ss : listSupplierStars) {
+			for (Supplier s : listSupplier) {
+				Integer score = s.getScore();
+				Integer oneStars = ss.getOneStars();
+				Integer twoStars = ss.getTwoStars();
+				Integer threeStars = ss.getThreeStars();
+				Integer fourStars = ss.getFourStars();
+				Integer fiveStars = ss.getFiveStars();
+				if (score < oneStars) {
+					s.setLevel("无级别");
+				} else if (score < twoStars) {
+					s.setLevel("一级");
+				} else if (score < threeStars) {
+					s.setLevel("二级");
+				} else if (score < fourStars) {
+					s.setLevel("三级");
+				} else if (score < fiveStars) {
+					s.setLevel("四级");
+				} else {
+					s.setLevel("五级");
+				}
+			}
+		}
+		return listSupplier;
 	}
 
 	/**
@@ -451,6 +483,33 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 			PropertiesUtil config = new PropertiesUtil("config.properties");
 			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 		}
-		return supplierMapper.querySupplierbyCategory(supplier);
+		List<Supplier> listSupplier=supplierMapper.querySupplierbyCategory(supplier);
+		SupplierStars supplierStars = new SupplierStars();
+		supplierStars.setStatus(1);
+		List<SupplierStars> listSupplierStars = supplierStarsMapper.findSupplierStars(supplierStars);
+		for (SupplierStars ss : listSupplierStars) {
+			for (Supplier s : listSupplier) {
+				Integer score = s.getScore();
+				Integer oneStars = ss.getOneStars();
+				Integer twoStars = ss.getTwoStars();
+				Integer threeStars = ss.getThreeStars();
+				Integer fourStars = ss.getFourStars();
+				Integer fiveStars = ss.getFiveStars();
+				if (score < oneStars) {
+					s.setLevel("无级别");
+				} else if (score < twoStars) {
+					s.setLevel("一级");
+				} else if (score < threeStars) {
+					s.setLevel("二级");
+				} else if (score < fourStars) {
+					s.setLevel("三级");
+				} else if (score < fiveStars) {
+					s.setLevel("四级");
+				} else {
+					s.setLevel("五级");
+				}
+			}
+		}
+		return listSupplier;
 	}
 }

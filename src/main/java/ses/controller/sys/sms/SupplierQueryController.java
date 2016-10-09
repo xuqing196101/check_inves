@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ses.dao.sms.SupplierStarsMapper;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierCertEng;
@@ -28,6 +29,7 @@ import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSe;
 import ses.model.sms.SupplierMatSell;
+import ses.model.sms.SupplierStars;
 import ses.model.sms.SupplierStockholder;
 import ses.service.bms.CategoryService;
 import ses.service.sms.SupplierAuditService;
@@ -354,10 +356,12 @@ public class SupplierQueryController extends BaseSupplierController{
 	 * @return String
 	 */
 	@RequestMapping(value = "list")
-	public String list(Model model, Supplier supplier, Integer page) {
+	public String list(Model model, Supplier supplier,String supplierId, Integer page) {
+		supplier.setId(supplierId);
 		List<Supplier> listSuppliers = supplierLevelService.findSupplier(supplier, page == null ? 1 : page);
 		model.addAttribute("listSuppliers", new PageInfo<Supplier>(listSuppliers));
 		model.addAttribute("supplierName", supplier.getSupplierName());
+		model.addAttribute("supplierId", supplier.getId());
 		return "ses/sms/supplier_query/supplierInfo/cheng_xin";
 	}
 	

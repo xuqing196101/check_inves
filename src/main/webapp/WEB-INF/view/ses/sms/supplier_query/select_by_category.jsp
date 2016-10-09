@@ -127,7 +127,7 @@
 						<td><a href="<%=basePath%>supplierQuery/essential.html?isRuku=2&supplierId=${list.id}">${list.supplierName }</a></td>
 						<td>${list.contactName}</td>
 						<td>${list.contactTelephone}</td>
-						<td></td>
+						<td>${list.level}</td>
 					</tr>
 				</c:forEach> 
 			  </tbody>

@@ -711,6 +711,9 @@
 			left join T_SES_SMS_SUPPLIER_TYPE t3 on t2.SUPPLIER_TYPE_ID = t3. ID
 		where
 			1=1
+		<if test="id != null and id!=''">
+			and t1.ID = #{id}
+		</if>
 		<if test="supplierName != null and supplierName !=''">
 			and SUPPLIER_NAME like '%${supplierName}%'
 		</if>

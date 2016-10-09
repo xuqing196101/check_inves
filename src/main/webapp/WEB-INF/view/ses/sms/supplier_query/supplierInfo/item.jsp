@@ -263,14 +263,14 @@ function fanhui(){
             <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('materialSales');">物资-销售型专业信息</a></li>
             <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('engineering');">工程-专业信息</a></li>
             <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('service');">服务-专业信息</a></li>
-            <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('item');">品目信息</a></li>
-            <li class="active"><a aria-expanded="false" href="#tab-3" data-toggle="tab" >产品信息</a></li>
+            <li class="active"><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('item');">品目信息</a></li>
+            <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >产品信息</a></li>
             <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('chengxin');">诚信记录</a></li>
           </ul>
             <div class="tab-content padding-top-20" style="height:1500px;">
               <div class="tab-pane fade active in height-450" id="tab-1">
                 <form id="form_id" action="" method="post">
-                    <input name="supplierId" id="id" value="${suppliers.id }" type="hidden">
+                    <input name="supplierId" id="id" value="${id }" type="hidden">
                   </form> 
                   <div class="col-md-3">
 	 					<div id="ztree" class="ztree"></div>
