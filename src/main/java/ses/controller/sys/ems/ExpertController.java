@@ -373,7 +373,7 @@ public class ExpertController {
 						//保存当前填写的信息 跳转到首页
 						return "redirect:/";
 				}
-				//调用service逻辑代码
+				//调用service逻辑代码 实现提交
 				service.saveOrUpdate(expert, expertId, files, realPath, categoryId);
 			return "redirect:/";
 			}else{

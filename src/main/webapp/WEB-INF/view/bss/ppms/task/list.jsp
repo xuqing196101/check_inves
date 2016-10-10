@@ -229,8 +229,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        <label class="fl">状态：<select name="status" style="width:70px" id="select">
         <option selected="selected" value="">请选择</option>
                             <option value="1" <c:if test="${'1'==task.status}">selected="selected"</c:if>>审核</option>
-                            <option value="2" <c:if test="${'2'==task.status}">selected="selected"</c:if>>下达</option>
-                            <option value="3" <c:if test="${'3'==task.status}">selected="selected"</c:if>>启动</option>
+                            <option value="0" <c:if test="${'0'==task.status}">selected="selected"</c:if>>受领</option>
   </select></label>
    <br/><br/><br/> 
        <label class="fl">文件编号：<input type="text" name="documentNumber"/></label>

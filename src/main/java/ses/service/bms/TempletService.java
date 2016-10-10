@@ -44,4 +44,9 @@ public interface TempletService {
 	 * 6.查询模板条数
 	 */
 	Integer queryByCount(); 
+	
+	/**
+	 * 7.条件搜索
+	 */
+	List<Templet> search(Integer pageNum,Templet t);
 }

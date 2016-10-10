@@ -1,0 +1,87 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ include file="/WEB-INF/view/common.jsp"%>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>考试安排</title>
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+	<meta http-equiv="description" content="This is my page">
+	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		$(function(){
+			laypage({
+			    cont: $("#pageDiv"), //容器。值支持id名、原生dom对象，jquery对象,
+			    pages: "${testSchedule.pages}", //总页数
+			    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+			    skip: true, //是否开启跳页
+			    total: "${testSchedule.total}",
+			    startRow: "${testSchedule.startRow}",
+			    endRow: "${testSchedule.endRow}",
+			    groups: "${testSchedule.pages}">=5?5:"${testSchedule.pages}", //连续显示分页数
+			    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+			        var page = location.search.match(/page=(\d+)/);
+			        return page ? page[1] : 1;
+			    }(), 
+			    jump: function(e, first){ //触发分页后的回调
+			        if(!first){ //一定要加此判断，否则初始时会无限刷新
+			            location.href = "<%=path%>/purchaserExam/testSchedule.do?page="+e.curr;
+			        }
+			    }
+			});	
+		})
+		
+	</script>	
+
+  </head>
+  
+  <body>
+    <div class="container">
+	   <div class="headline-v2">
+	   		<h2>考试安排</h2>
+	   </div>
+   </div>
+   
+   <div class="container margin-top-5" id="div_print">
+     	<div class="content padding-left-25 padding-right-25 padding-top-5">
+	   		<table class="table table-bordered table-condensed table-hover">
+		    	<thead>
+		    		<tr class="info">
+			    		<th>序号</th>
+			    		<th>考卷名称</th>
+			    		<th>考卷编号</th>
+			    		<th>考试开始时间</th>
+			    		<th>考试用时</th>
+			    		<th>是否可以重考</th>
+		    		</tr>
+		    	</thead>
+		    	<tbody>
+		    		<c:forEach items="${testSchedule.list }" var="test" varStatus="vs">
+		    			<tr class="tc">
+		    				<td>${(vs.index+1)+(testSchedule.pageNum-1)*(testSchedule.pageSize)}</td>
+		    				<td>${test.name }</td>
+		    				<td>${test.code }</td>
+		    				<td>${test.formatDate }</td>
+		    				<td>${test.testTime }分钟</td>
+		    				<c:if test="${test.isAllowRetake==1 }">
+		    					<td>是</td>
+		    				</c:if>
+		    				<c:if test="${test.isAllowRetake==0 }">
+		    					<td>否</td>
+		    				</c:if>
+		    			</tr>
+		    		</c:forEach>
+		    	</tbody>
+		    </table>
+   		</div>
+   		<div id="pageDiv" align="right"></div>
+    </div>
+    
+    <div class="container red center tc mt20">
+	   *注意:请您在每份考卷开始后15分钟内登录考试系统考试,否则视为弃考,请您准时参加考试。如果该考卷允许重考,重考时间为30分钟。
+   </div>
+  </body>
+</html>

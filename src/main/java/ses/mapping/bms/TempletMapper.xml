@@ -148,12 +148,24 @@
   <!-- 8.查询列表 -->
   <select id="queryByList" resultMap="TempletResultMap" parameterType="Object">
     select
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
+    *
     from T_SES_BMS_Templet where IS_DELETED !=1 
     ORDER BY CREATED_AT DESC
   </select>
   
- 
+
+  <!-- 9.根据模板类型查询 -->
+   <select id="selectByType" parameterType="Object" resultMap="TempletResultMap">
+    select 
+    *
+    from T_SES_BMS_Templet where
+    <if test="temType != null and temType !='-请选择-'">
+        TEM_TYPE=#{temType} AND 
+    </if>
+    <if test="name != null and name != ''">
+        NAME LIKE '%'||#{name}||'%' AND
+     </if> 
+    IS_DELETED !=1 
+     
+  </select>
 </mapper>

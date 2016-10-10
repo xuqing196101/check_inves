@@ -11,7 +11,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     
     
-    <title>任务管理</title>  
+    <title>项目管理</title>  
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="cache-control" content="no-cache">
     <meta http-equiv="expires" content="0">    
@@ -177,6 +177,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				window.location.href = "<%=path%>/project/subPackage.html?id="+str;
 			}
        }
+       
+       function edit(){
+        var id =[]; 
+        $('input[name="chkItem"]:checked').each(function(){ 
+            id.push($(this).val()); 
+        }); 
+        if(id.length==1){
+           window.location.href = '<%=basePath%>project/edit.html?id='+id;
+       
+            
+        }else if(id.length>1){
+            layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+        }else{
+            layer.alert("请选择需要修改的任务",{offset: ['222px', '390px'], shade:0.01});
+        }
+       
+       }
   </script>
   </head>
   
@@ -219,7 +236,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <button class="btn padding-left-10 padding-right-10 btn_back" >打印报批文件</button>
         <button class="btn padding-left-10 padding-right-10 btn_back" onclick="start();">启动</button>
         <button class="btn padding-left-10 padding-right-10 btn_back" onclick="view();">查看</button>
-         <button class="btn padding-left-10 padding-right-10 btn_back">修改</button>
+         <button class="btn padding-left-10 padding-right-10 btn_back" onclick="edit();">修改</button>
         <button class="btn padding-left-10 padding-right-10 btn_back">进入</button>
       </span>
    <div class="container clear margin-top-30">

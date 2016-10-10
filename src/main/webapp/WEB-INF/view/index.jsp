@@ -118,7 +118,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <!-- logo和搜索 -->
         <div class="navbar-header">
           <div class="row container">
-            <div class="col-md-4 padding-bottom-30">
+            <div class="col-md-4 padding-bottom-30 mt10">
               <a href="">
                  <img alt="Logo" src="<%=basePath%>public/ZHH/images/logo_2.png" id="logo-header">
               </a>
@@ -128,7 +128,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <ul class="top-v1-data padding-0">
 			    <c:forEach items="${sessionScope.resource}" var="resource" varStatus="vs">
 					 <c:if test="${resource.menulevel == 2 }">
-						 <li class="dropdown">
+						 <li class="dropdown ">
 							<a <c:if test='${resource.url == null}'>ria-expanded="false" data-toggle="dropdown" class="dropdown-toggle p0_30 " href="javascript:void(0);"</c:if>
 							<c:if test='${resource.url != null && resource.name != "安全退出"}'>href="<%=basePath%>${resource.url}"  target="home"</c:if>
 							<c:if test='${resource.url != null && resource.name == "安全退出"}'>href="<%=basePath%>${resource.url}" </c:if> >

@@ -11,7 +11,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     
     
-    <title>任务管理</title>  
+    <title>项目管理</title>  
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="cache-control" content="no-cache">
     <meta http-equiv="expires" content="0">    
@@ -77,7 +77,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         $('input[name="chkItem"]:checked').each(function(){ 
             id.push($(this).val()); 
         }); 
-        if(id.length>0){
+        if(id.length==1){
            layer.open({
           type: 2, //page层
           area: ['900px', '700px'],
@@ -87,9 +87,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           shift: 1, //0-6的动画形式，-1不开启
           offset: ['220px', '630px'],
           shadeClose: true,
-          content: '<%=basePath%>project/viewDetail.html?id='+id
+          content: '<%=basePath%>project/viewDet.html?id='+id
         });
             
+        }else if(id.length>1){
+            layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
         }
     }
     
@@ -149,8 +151,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </select> </label>--%>
       <label class="fl">采购方式：<select name="procurementMethod" style="width:100px" id="select">
        <option selected="selected" value="">请选择</option>
-                            <option value="1" <c:if test="${'1'==task.procurementMethod}">selected="selected"</c:if>>公开招标</option>
-                            <option value="2" <c:if test="${'2'==task.procurementMethod}">selected="selected"</c:if>>邀请招标</option>
+                            <option value="公开招标" <c:if test="${'公开招标'==obj.purchaseType}">selected="selected"</c:if>>公开招标</option>
+                            <option value="邀请招标" <c:if test="${'邀请招标'==obj.purchaseType}">selected="selected"</c:if>>邀请招标</option>
+                            <option value="竞争性谈判" <c:if test="${'竞争性谈判'==obj.purchaseType}">selected="selected"</c:if>>竞争性谈判</option>
+                            <option value="询价采购" <c:if test="${'询价采购'==obj.purchaseType}">selected="selected"</c:if>>询价采购</option>
+                            <option value="单一来源" <c:if test="${'单一来源'==obj.purchaseType}">selected="selected"</c:if>>单一来源</option>
   </select> </label> 
        <label class="fl">采购机构：<input type="text" name="purchaseId"/></label>
        <label class="fl">状态：<select name="status" style="width:70px" id="select">

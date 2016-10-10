@@ -120,6 +120,10 @@ public class SupplierAuditController extends BaseSupplierController{
 		//所有供应商类型
 		List<SupplierType> supplierType= supplierAuditService.findSupplierType();
 		
+		//回显名字
+		String supplierName = supplier.getSupplierName();
+		request.setAttribute("supplierName", supplierName);
+		
 		request.setAttribute("supplierType", supplierType);
 		return "ses/sms/supplier_audit/supplier_list";
 	}

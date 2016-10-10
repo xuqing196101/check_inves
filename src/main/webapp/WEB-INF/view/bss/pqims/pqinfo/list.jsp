@@ -133,7 +133,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">保障作业</a></li><li><a href="#">产品质量管理</a></li><li class="active"><a href="#">产品质量结果列表</a></li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">保障作业</a></li><li><a href="#">产品质量管理</a></li><li class="active"><a href="#">产品质量结果登记  </a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -148,13 +148,13 @@
    
    <div class="container clear margin-top-0">
    <div class="padding-10 border1 m0_30 tc">
-   	<form action="<%=basePath %>pqinfo/search.html" method="post" enctype="multipart/form-data">
+   	<form action="<%=basePath %>pqinfo/search.html" method="post" enctype="multipart/form-data" class="mb0" >
 	 <ul class="demand_list">
-	   <li class="fl mr15"><label class="fl mt5">合同名称：</label><span><input type="text" name="contract.name" class="mb0"/></span></li>
-	   <li class="fl mr15"><label class="fl mt5">合同编号：</label><span><input type="text" name="contract.code" class="mb0"/></span></li>
+	   <li class="fl mr15"><label class="fl mt5">合同名称：</label><span><input type="text" name="contract.name" class="mb0" value="${pqinfo.contract.name}"/></span></li>
+	   <li class="fl mr15"><label class="fl mt5">合同编号：</label><span><input type="text" name="contract.code" class="mb0" value="${pqinfo.contract.code}"/></span></li>
 	   <li class="fl mr15"><label class="fl mt5">验收类型：</label>
 	   		<span>
-	   			<select id="temType" name =type class="w150" >
+	   			<select id="search_type" name =type class="w150" >
 					<option value="-请选择-">-请选择-</option>
 			  	  	<option value="首件检验">首件检验</option>
 			  	 	<option value="生产验收">生产验收</option>
@@ -165,7 +165,7 @@
 	  </li>
 	   <li class="fl mr15"><label class="fl mt5">质检结论：</label>
 	   		<span>
-	   			<select id="temType" name =conclusion class="w150" >
+	   			<select id="search_conclusion" name =conclusion class="w150" >
 					<option value="-请选择-">-请选择-</option>
 			  	  	<option value="合格">合格</option>
 			  	 	<option value="不合格">不合格</option>

@@ -1170,9 +1170,6 @@ public class PurchaserExamController extends BaseSupplierController{
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		String[] id = request.getParameter("id").split(",");
 		ExamPaper examPaper = examPaperService.selectByPrimaryKey(id[0]);
-//		String[] expiryDate = examPaper.getExpiryDate().split(",");
-//		Integer hour = Integer.parseInt(expiryDate[0]);
-//		Integer second = Integer.parseInt(expiryDate[1]);
 		String testTime = examPaper.getTestTime();
 		Date startTime = examPaper.getStartTime();
 	    Calendar calendar = new GregorianCalendar(); 
@@ -1225,6 +1222,38 @@ public class PurchaserExamController extends BaseSupplierController{
 			path = "ses/ems/exam/purchaser/paper/view_yes_reference";
 		}
 		return path;
+	}
+	
+	/**
+	 * 
+	* @Title: setReference
+	* @author ZhaoBo
+	* @date 2016-10-10 下午12:14:40  
+	* @Description: 判断当前考卷是否可设置参考人员 
+	* @param @param request
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/setReference")
+	@ResponseBody
+	public String setReference(HttpServletRequest request){
+		String str = null;
+		String id = request.getParameter("id");
+		ExamPaper examPaper = examPaperService.selectByPrimaryKey(id);
+		String testTime = examPaper.getTestTime();
+		Date startTime = examPaper.getStartTime();
+	    Calendar calendar = new GregorianCalendar(); 
+	    calendar.setTime(startTime); 
+	    calendar.add(calendar.MINUTE,50+Integer.parseInt(testTime));
+	    Date endTime = calendar.getTime();
+	    if(new Date().getTime()>=startTime.getTime()&&new Date().getTime()<=endTime.getTime()){
+			str = "1";
+		}else if(new Date().getTime()<startTime.getTime()){
+			str = "2";
+		}else if(new Date().getTime()>endTime.getTime()){
+			str = "3";
+		}
+		return str;
 	}
 	
 	/**
@@ -1713,5 +1742,25 @@ public class PurchaserExamController extends BaseSupplierController{
 	@RequestMapping("/exitExam")
 	public String exitExam(){
 		return "redirect:/login/home.html";
+	}
+	
+	@RequestMapping("/testSchedule")
+	public String testSchedule(HttpServletRequest request,Model model,Integer page){
+		User user = (User) request.getSession().getAttribute("loginUser");
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("userId", user.getId());
+		if(page==null){
+			page = 1;
+		}
+		map.put("page", page.toString());
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		List<ExamPaperUser> schedule = examPaperUserService.findCurrentUserSchedule(map);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		for(int i=0;i<schedule.size();i++){
+			schedule.get(i).setFormatDate(sdf.format(schedule.get(i).getStartTime()));
+		}
+		model.addAttribute("testSchedule", new PageInfo<ExamPaperUser>(schedule));
+		return "ses/ems/exam/purchaser/test_schedule";
 	}
 }

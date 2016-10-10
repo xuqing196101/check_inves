@@ -33,6 +33,7 @@ import ses.model.ems.ExpertAttachment;
 import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertCategory;
 import ses.service.ems.ExpertService;
+import ses.util.FtpUtil;
 import ses.util.PropertiesUtil;
 import ses.util.WfUtil;
 
@@ -151,6 +152,8 @@ public class ExpertServiceImpl implements ExpertService {
 		try {
 			ExpertAttachment attachment;
 			if(files!=null && files.length>0){
+				//打开连接
+				FtpUtil.connectFtp("expertFile");
 				 for(MultipartFile myfile : files){  
 			            if(myfile.isEmpty()){  
 			            }else{  
@@ -161,7 +164,9 @@ public class ExpertServiceImpl implements ExpertService {
 			                //如果用的是Tomcat服务器，则文件会上传到\\%TOMCAT_HOME%\\webapps\\YourWebProject\\WEB-INF\\upload_file\\文件夹中  
 			                //String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");  
 			                //这里不必处理IO流关闭的问题，因为FileUtils.copyInputStreamToFile()方法内部会自动把用到的IO流关掉，我是看它的源码才知道的  
-			                FileUtils.copyInputStreamToFile(myfile.getInputStream(), new File(realPath, filename));
+			                //FileUtils.copyInputStreamToFile(myfile.getInputStream(), new File(realPath, filename));
+			                /*Ftp文件上传*/
+			                FtpUtil.upload2(myfile);
 			                //存附件信息到数据库
 			                attachment = new ExpertAttachment();
 			                attachment.setContentType(myfile.getContentType());
@@ -175,9 +180,10 @@ public class ExpertServiceImpl implements ExpertService {
 			                attachment.setIsHistory((short)0);
 			                attachmentMapper.insert(attachment);
 			            }  
-			        }  
+			        }
+				 FtpUtil.closeFtp();
 				}
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
     }
@@ -274,7 +280,13 @@ public class ExpertServiceImpl implements ExpertService {
 					//如果审核未通过 则根据此状态阻止登录
 					map.put("flag", false);
 				}
+			}else{
+				//如果专家信息为空 证明还没有填写过个人信息
+				map.put("flag", false);
 			}
+		}else{
+			//如果用户关联的专家id为空 证明还没有填写过个人信息
+			map.put("flag", false);
 		}
 		return map;
 	}

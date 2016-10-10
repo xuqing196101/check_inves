@@ -89,4 +89,10 @@ public class ExamPaperUserServiceImpl implements ExamPaperUserServiceI {
 		return examPaperUserMapper.findIsExamByCondition(map);
 	}
 
+	
+	@Override
+	public List<ExamPaperUser> findCurrentUserSchedule(HashMap<String, Object> map) {
+		return examPaperUserMapper.findCurrentUserSchedule(map);
+	}
+
 }

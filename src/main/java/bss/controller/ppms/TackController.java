@@ -3,6 +3,7 @@ package bss.controller.ppms;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -89,11 +90,38 @@ public class TackController extends BaseController{
 		model.addAttribute("task", task);
 		return "bss/ppms/task/delTask";
 	}
+	/**
+	 * 
+	* @Title: addFile
+	* @author FengTian
+	* @date 2016-10-9 上午11:15:23  
+	* @Description: 获取修改的内容 
+	* @param @param qualitStand
+	* @param @param purchaseCount
+	* @param @param item
+	* @param @param price
+	* @param @param request
+	* @param @param id
+	* @param @param model
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/addFile")
+	public String addFile(String qualitStand,String purchaseCount,String item,String price,HttpServletRequest request,String id,Model model){
+		request.getSession().setAttribute("qualitStand", qualitStand);
+		request.getSession().setAttribute("purchaseCount", purchaseCount);
+		request.getSession().setAttribute("item", item);
+		request.getSession().setAttribute("price", price);
+		request.getSession().setAttribute("id", id);
+		String ids = (String) request.getSession().getAttribute("ids");
+		request.getSession().removeAttribute("ids");
+		Task task = taskservice.selectById(ids);
+		model.addAttribute("task", task);
+		return "bss/ppms/task/addFile";
+	}
 	
 	public void upfile( MultipartFile[] attach,
             HttpServletRequest request,Task task){
-	/*	String ids = request.getParameter("id");
-		request.getSession().setAttribute("ids", ids);*/
 		if(attach!=null){
 			for(int i=0;i<attach.length;i++){
 				if(attach[i].getOriginalFilename()!=null && attach[i].getOriginalFilename()!=""){
@@ -149,6 +177,48 @@ public class TackController extends BaseController{
 	}
 	/**
 	 * 
+	* @Title: editDetail
+	* @author FengTian
+	* @date 2016-10-9 上午11:14:54  
+	* @Description: 需求明细调整 
+	* @param @param attach
+	* @param @param task
+	* @param @param purchaseRequired
+	* @param @param request
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/editDetail")
+	public String editDetail(@RequestParam("attach") MultipartFile[] attach,Task task,PurchaseRequired purchaseRequired,HttpServletRequest request){
+		String qualitStand = (String) request.getSession().getAttribute("qualitStand");
+		String item = (String) request.getSession().getAttribute("item");
+		String purchaseCount = (String) request.getSession().getAttribute("purchaseCount");
+		String price = (String) request.getSession().getAttribute("price");
+		String id = (String) request.getSession().getAttribute("id");
+		request.getSession().removeAttribute("qualitStand");
+		request.getSession().removeAttribute("item");
+		request.getSession().removeAttribute("purchaseCount");
+		request.getSession().removeAttribute("price");
+		request.getSession().removeAttribute("id");
+		upfile(attach, request, task);
+		String[] idc = id.split(",");
+		String[] ids = qualitStand.split(",");
+		String[] ide = item.split(",");
+		String[] ida = purchaseCount.split(",");
+		String[] idb = price.split(",");
+		for (int i = 0; i < idc.length; i++) {
+			PurchaseRequired qq = purchaseRequiredService.queryById(idc[i]);
+			qq.setQualitStand(ids[i]);
+			qq.setItem(ide[i]);
+			qq.setPurchaseCount(Long.valueOf(ida[i]));
+			qq.setPrice(new BigDecimal(idb[i]));
+			qq.setBudget(new BigDecimal(Long.valueOf(ida[i])).multiply(new BigDecimal(idb[i])));
+			purchaseRequiredService.update(qq);
+		}
+		return "redirect:list.html";
+	}
+	/**
+	 * 
 	* @Title: startTask
 	* @author FengTian
 	* @date 2016-9-30 上午10:47:12  
@@ -161,12 +231,14 @@ public class TackController extends BaseController{
 	public void startTask(String ids){
 		String[] ide = ids.split(",");
 		for (int i = 0; i < ide.length; i++) {
-			taskservice.startTask(ide[i]);
+			 taskservice.startTask(ide[i]);
 		}
+		
 	}
 	
 	@RequestMapping("/edit")
-	public String edit(String id,Model model){
+	public String edit(String id,Model model,HttpServletRequest request){
+		request.getSession().setAttribute("ids", id);
 		Task task = taskservice.selectById(id);
 		CollectPlan queryById = collectPlanService.queryById(task.getCollectId());
 		if(queryById != null){

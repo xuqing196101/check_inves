@@ -90,7 +90,7 @@
 			window.location.href = "<%=path%>/purchaserExam/viewPaper.html?id="+obj;
 		}
 		
-		//查看参考人员
+		//设置参考人员
 		function setReference(){
 			var count = 0;
 			var info = document.getElementsByName("info");
@@ -114,7 +114,66 @@
 						str = info[i].value;
 					}
 				}
-				window.location.href = "<%=path%>/purchaserExam/viewReference.do?id="+str;
+				$.ajax({
+					type:"POST",
+					dataType:"json",
+					url:"<%=path%>/purchaserExam/setReference.do?id="+str,
+			       	success:function(data){
+				    	if(data==1){
+				    		layer.alert("当前考卷正在考试中,请选择其它考卷",{offset: ['222px', '390px']});
+							$(".layui-layer-shade").remove();
+				    	}else if(data==2){
+				    		window.location.href = "<%=path%>/purchaserExam/viewReference.do?id="+str;
+				    	}else if(data==3){
+				    		layer.alert("当前考卷考试时间已结束,请选择其它考卷",{offset: ['222px', '390px']});
+							$(".layui-layer-shade").remove();
+				    	}
+			       	}
+			    });
+				
+			}
+		}
+		
+		//查看成绩
+		function viewScore(){
+			var count = 0;
+			var info = document.getElementsByName("info");
+			var str = "";
+			for(var i = 0;i<info.length;i++){
+				if(info[i].checked == true){
+					count++;
+				}
+			}
+			if(count > 1){
+				layer.alert("只能选择一项",{offset: ['222px', '390px']});
+				$(".layui-layer-shade").remove();
+				return;
+			}else if(count == 0){
+				layer.alert("请先选择一项",{offset: ['222px', '390px']});
+				$(".layui-layer-shade").remove();
+				return;
+			}else{
+				for(var i = 0;i<info.length;i++){
+					if(info[i].checked == true){
+						str = info[i].value;
+					}
+				}
+				$.ajax({
+					type:"POST",
+					dataType:"json",
+					url:"<%=path%>/purchaserExam/setReference.do?id="+str,
+			       	success:function(data){
+				    	if(data==1){
+				    		layer.alert("当前考卷正在考试中,请选择其它考卷",{offset: ['222px', '390px']});
+							$(".layui-layer-shade").remove();
+				    	}else if(data==2){
+				    		layer.alert("当前考卷考试时间未结束,请选择其它考卷",{offset: ['222px', '390px']});
+							$(".layui-layer-shade").remove();
+				    	}else if(data==3){
+				    		window.location.href = "<%=path%>/purchaserExam/viewReference.do?id="+str;
+				    	}
+			       	}
+			    });
 			}
 		}
 	</script>

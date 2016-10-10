@@ -117,7 +117,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <!-- logo和搜索 -->
         <div class="navbar-header">
           <div class="row container">
-            <div class="col-md-4 padding-bottom-30">
+            <div class="col-md-4 padding-bottom-30 mt10">
               <a href="">
                  <img alt="Logo" src="<%=basePath%>public/ZHH/images/logo_2.png" id="logo-header">
               </a>

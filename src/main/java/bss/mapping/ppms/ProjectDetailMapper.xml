@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.ppms.ProjectDetailMapper">
+  <resultMap id="BaseResultMap" type="bss.model.ppms.ProjectDetail">
+    <id column="ID"  property="id" />
+    <result column="SERIAL_NUMBER"  property="serialNumber" />
+    <result column="DEPARTMENT"  property="department" />
+    <result column="GOODS_NAME"  property="goodsName" />
+    <result column="STAND"  property="stand" />
+    <result column="QUALIT_STAND"  property="qualitStand" />
+    <result column="ITEM"  property="item" />
+    <result column="PURCHASE_COUNT"  property="purchaseCount" />
+    <result column="PRICE"  property="price" />
+    <result column="BUDGET"  property="budget" />
+    <result column="DELIVER_DATE"  property="deliverDate" />
+    <result column="PURCHASE_TYPE"  property="purchaseType" />
+    <result column="SUPPLIER"  property="supplier" />
+    <result column="IS_FREE_TAX"  property="isFreeTax" />
+    <result column="GOODS_USE"  property="goodsUse" />
+    <result column="USE_UNIT"  property="useUnit" />
+    <result column="STATUS"  property="status" />
+    <association property="project" column="PROJECT_ID" select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey"/>
+    <association property="purchaseDep" column="PURCHASE_ID" select="ses.dao.oms.PurchaseDepMapper.selectPurchaseById"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, SERIAL_NUMBER, DEPARTMENT, GOODS_NAME, STAND, QUALIT_STAND, ITEM, PURCHASE_COUNT, 
+    PRICE, BUDGET, DELIVER_DATE, PURCHASE_TYPE, SUPPLIER, IS_FREE_TAX, GOODS_USE, USE_UNIT, 
+    PROJECT_ID, STATUS, PURCHASE_ID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PPMS_PROJECTS_DETAIL
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="listByAll" parameterType="bss.model.ppms.ProjectDetail" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from T_BSS_PPMS_PROJECTS_DETAIL
+    where 1=1
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BSS_PPMS_PROJECTS_DETAIL
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="bss.model.ppms.ProjectDetail">
+    insert into T_BSS_PPMS_PROJECTS_DETAIL (ID, SERIAL_NUMBER, DEPARTMENT, 
+      GOODS_NAME, STAND, QUALIT_STAND, 
+      ITEM, PURCHASE_COUNT, PRICE, 
+      BUDGET, DELIVER_DATE, PURCHASE_TYPE, 
+      SUPPLIER, IS_FREE_TAX, GOODS_USE, 
+      USE_UNIT, PROJECT_ID, STATUS, 
+      PURCHASE_ID)
+    values (#{id,jdbcType=VARCHAR}, #{serialNumber,jdbcType=VARCHAR}, #{department,jdbcType=VARCHAR}, 
+      #{goodsName,jdbcType=VARCHAR}, #{stand,jdbcType=VARCHAR}, #{qualitStand,jdbcType=VARCHAR}, 
+      #{item,jdbcType=VARCHAR}, #{purchaseCount,jdbcType=DECIMAL}, #{price,jdbcType=DECIMAL}, 
+      #{budget,jdbcType=DECIMAL}, #{deliverDate,jdbcType=DATE}, #{purchaseType,jdbcType=VARCHAR}, 
+      #{supplier,jdbcType=VARCHAR}, #{isFreeTax,jdbcType=VARCHAR}, #{goodsUse,jdbcType=VARCHAR}, 
+      #{useUnit,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{purchaseId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="bss.model.ppms.ProjectDetail">
+    insert into T_BSS_PPMS_PROJECTS_DETAIL
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="serialNumber != null">
+        SERIAL_NUMBER,
+      </if>
+      <if test="department != null">
+        DEPARTMENT,
+      </if>
+      <if test="goodsName != null">
+        GOODS_NAME,
+      </if>
+      <if test="stand != null">
+        STAND,
+      </if>
+      <if test="qualitStand != null">
+        QUALIT_STAND,
+      </if>
+      <if test="item != null">
+        ITEM,
+      </if>
+      <if test="purchaseCount != null">
+        PURCHASE_COUNT,
+      </if>
+      <if test="price != null">
+        PRICE,
+      </if>
+      <if test="budget != null">
+        BUDGET,
+      </if>
+      <if test="deliverDate != null">
+        DELIVER_DATE,
+      </if>
+      <if test="purchaseType != null">
+        PURCHASE_TYPE,
+      </if>
+      <if test="supplier != null">
+        SUPPLIER,
+      </if>
+      <if test="isFreeTax != null">
+        IS_FREE_TAX,
+      </if>
+      <if test="goodsUse != null">
+        GOODS_USE,
+      </if>
+      <if test="useUnit != null">
+        USE_UNIT,
+      </if>
+      <if test="project != null">
+        PROJECT_ID,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="purchaseDep != null">
+        PURCHASE_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="serialNumber != null">
+        #{serialNumber},
+      </if>
+      <if test="department != null">
+        #{department},
+      </if>
+      <if test="goodsName != null">
+        #{goodsName},
+      </if>
+      <if test="stand != null">
+        #{stand},
+      </if>
+      <if test="qualitStand != null">
+        #{qualitStand},
+      </if>
+      <if test="item != null">
+        #{item},
+      </if>
+      <if test="purchaseCount != null">
+        #{purchaseCount},
+      </if>
+      <if test="price != null">
+        #{price},
+      </if>
+      <if test="budget != null">
+        #{budget},
+      </if>
+      <if test="deliverDate != null">
+        #{deliverDate},
+      </if>
+      <if test="purchaseType != null">
+        #{purchaseType},
+      </if>
+      <if test="supplier != null">
+        #{supplier},
+      </if>
+      <if test="isFreeTax != null">
+        #{isFreeTax},
+      </if>
+      <if test="goodsUse != null">
+        #{goodsUse},
+      </if>
+      <if test="useUnit != null">
+        #{useUnit},
+      </if>
+      <if test="project != null">
+        #{project.id},
+      </if>
+      <if test="status != null">
+        #{status},
+      </if>
+      <if test="purchaseDep != null">
+        #{purchaseDep.id},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="bss.model.ppms.ProjectDetail">
+    update T_BSS_PPMS_PROJECTS_DETAIL
+    <set>
+      <if test="serialNumber != null">
+        SERIAL_NUMBER = #{serialNumber},
+      </if>
+      <if test="department != null">
+        DEPARTMENT = #{department},
+      </if>
+      <if test="goodsName != null">
+        GOODS_NAME = #{goodsName},
+      </if>
+      <if test="stand != null">
+        STAND = #{stand},
+      </if>
+      <if test="qualitStand != null">
+        QUALIT_STAND = #{qualitStand},
+      </if>
+      <if test="item != null">
+        ITEM = #{item},
+      </if>
+      <if test="purchaseCount != null">
+        PURCHASE_COUNT = #{purchaseCount},
+      </if>
+      <if test="price != null">
+        PRICE = #{price},
+      </if>
+      <if test="budget != null">
+        BUDGET = #{budget},
+      </if>
+      <if test="deliverDate != null">
+        DELIVER_DATE = #{deliverDate},
+      </if>
+      <if test="purchaseType != null">
+        PURCHASE_TYPE = #{purchaseType},
+      </if>
+      <if test="supplier != null">
+        SUPPLIER = #{supplier},
+      </if>
+      <if test="isFreeTax != null">
+        IS_FREE_TAX = #{isFreeTax},
+      </if>
+      <if test="goodsUse != null">
+        GOODS_USE = #{goodsUse},
+      </if>
+      <if test="useUnit != null">
+        USE_UNIT = #{useUnit},
+      </if>
+      <if test="project != null">
+        PROJECT_ID = #{project.id},
+      </if>
+      <if test="status != null">
+        STATUS = #{status},
+      </if>
+      <if test="purchaseDep != null">
+        PURCHASE_ID = #{purchaseDep.id},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="bss.model.ppms.ProjectDetail">
+    update T_BSS_PPMS_PROJECTS_DETAIL
+    set SERIAL_NUMBER = #{serialNumber,jdbcType=VARCHAR},
+      DEPARTMENT = #{department,jdbcType=VARCHAR},
+      GOODS_NAME = #{goodsName,jdbcType=VARCHAR},
+      STAND = #{stand,jdbcType=VARCHAR},
+      QUALIT_STAND = #{qualitStand,jdbcType=VARCHAR},
+      ITEM = #{item,jdbcType=VARCHAR},
+      PURCHASE_COUNT = #{purchaseCount,jdbcType=DECIMAL},
+      PRICE = #{price,jdbcType=DECIMAL},
+      BUDGET = #{budget,jdbcType=DECIMAL},
+      DELIVER_DATE = #{deliverDate,jdbcType=DATE},
+      PURCHASE_TYPE = #{purchaseType,jdbcType=VARCHAR},
+      SUPPLIER = #{supplier,jdbcType=VARCHAR},
+      IS_FREE_TAX = #{isFreeTax,jdbcType=VARCHAR},
+      GOODS_USE = #{goodsUse,jdbcType=VARCHAR},
+      USE_UNIT = #{useUnit,jdbcType=VARCHAR},
+      PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      PURCHASE_ID = #{purchaseId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

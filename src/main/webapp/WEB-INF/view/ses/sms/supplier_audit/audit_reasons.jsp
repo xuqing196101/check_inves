@@ -186,6 +186,13 @@ function shenhe(status){
   $("#form_shen").submit();
 }
 
+//只读
+$(function() {
+    $(":input").each(function() {
+      $(this).attr("readonly", "readonly");
+    });
+  });
+
 <%-- function file(){
 var supplierInspectListFile = $("#supplierInspectListFile").val();
 alert(supplierInspectListFile);

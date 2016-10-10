@@ -68,6 +68,31 @@ public class ExamPaperUser {
 	 */
 	private String card;
 	
+	/**
+	 * @Fields name : 试卷名称
+	 */
+	private String name;
+	
+	/**
+	 * @Fields testTime : 考试用时
+	 */
+	private String testTime;
+	
+	/**
+	 * @Fields startTime : 考试开始时间
+	 */
+	private Date startTime;
+	
+	/**
+	 * @Fields isAllowRetake : 是否允许重考
+	 */
+	private Integer isAllowRetake;
+	
+	/**
+	 * @Fields formatDate : 备用时间字段
+	 */
+	private String formatDate;
+	
 	public String getId() {
 		return id;
 	}
@@ -154,6 +179,46 @@ public class ExamPaperUser {
 
 	public void setCard(String card) {
 		this.card = card;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getTestTime() {
+		return testTime;
+	}
+
+	public void setTestTime(String testTime) {
+		this.testTime = testTime;
+	}
+
+	public Date getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+
+	public Integer getIsAllowRetake() {
+		return isAllowRetake;
+	}
+
+	public void setIsAllowRetake(Integer isAllowRetake) {
+		this.isAllowRetake = isAllowRetake;
+	}
+
+	public String getFormatDate() {
+		return formatDate;
+	}
+
+	public void setFormatDate(String formatDate) {
+		this.formatDate = formatDate;
 	}
 
 	

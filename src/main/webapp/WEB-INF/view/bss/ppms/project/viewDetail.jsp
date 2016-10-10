@@ -94,6 +94,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         }
     }
     
+    function cancel(){
+     var index=parent.layer.getFrameIndex(window.name);
+     parent.layer.close(index);
+     
+}
+    
   </script>
   </head>
   
@@ -122,7 +128,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       </h2>
        </div> 
        <span class="fr option_btn margin-top-10">
-        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="save();">确定</button>
+        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="cancel();">确定</button>
       </span>
      
    <div class="container clear margin-top-30">
@@ -144,7 +150,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <th class="info">是否申请办理免税</th>
           <th class="info">物资用途（进口）</th>
           <th class="info">使用单位（进口）</th>
-          <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
         </tr>
         </thead>
           <c:forEach items="${lists}" var="obj" varStatus="vs">
@@ -164,7 +169,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <td class="tc">${obj.isFreeTax}</td>
               <td class="tc">${obj.goodsUse}</td>
               <td class="tc">${obj.useUnit}</td>
-              <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
             </tr>
      
          </c:forEach>  

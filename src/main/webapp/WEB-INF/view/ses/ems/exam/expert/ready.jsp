@@ -38,13 +38,22 @@
   </head>
   
   <body>
-  <div class="container mt10">
-  	<div class="col-md-12 f22">
-  		各位专家，本次考试需要在${testCycle }个月内完成所有题目，并且答题及格才生效。如果未在规定时间完成题目，一律取消专家资格！
-  	</div>
-  	<div class="col-md-12 p0 tc mt20">
-  		<input type="button" value="开始考试" onclick="test()" class="btn"/>
-  	</div>
-   </div>
+  	<c:if test="${message!=null }">
+  		<div class="container mt10">
+		  	<div class="col-md-12 f22 tc">
+		  		${message }
+		  	</div>
+   		</div>
+  	</c:if>
+  	<c:if test="${testCycle!=null }">
+  		<div class="container mt10">
+		  	<div class="col-md-12 f22">
+		  		各位专家，本次考试需要在${testCycle }个月内完成所有题目，并且答题及格才生效。如果未在规定时间完成题目，一律取消专家资格！
+		  	</div>
+		  	<div class="col-md-12 p0 tc mt20">
+		  		<input type="button" value="开始考试" onclick="test()" class="btn"/>
+		  	</div>
+   		</div>
+  	</c:if>
   </body>
 </html>

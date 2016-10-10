@@ -84,50 +84,58 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     }
     
      function view(){
-       var id =[]; 
-        $('input[name="chkItem"]:checked').each(function(){ 
-            id.push($(this).val()); 
-        }); 
-        if(id.length==1){
-        window.location.href="<%=basePath%>project/view.html?id="+id;
-        }else if(id.length>1){
-            layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
-        }else{
-            layer.alert("请选择需要查看的项目",{offset: ['222px', '390px'], shade:0.01});
-        }
-    
-  }
-    
-       function edit(){
-         var id =[]; 
-        $('input[name="chkItem"]:checked').each(function(){ 
-            id.push($(this).val()); 
-        }); 
-        if(id.length==1){
-           layer.open({
+       layer.open({
           type: 2, //page层
           area: ['500px', '300px'],
-          title: '您是要启动项目吗？',
+          title: '查看变更记录',
           shade:0.01, //遮罩透明度
           moveType: 1, //拖拽风格，0是默认，1是传统拖动
           shift: 1, //0-6的动画形式，-1不开启
           offset: ['220px', '630px'],
           shadeClose: true,
-          content: '<%=basePath%>project/startProject.html?id='+id
+          content: '<%=basePath%>task/history.html'
+        });
+    
+  }
+    
+       function edit(){
+       var qualitStand =[]; 
+        $('input[name="qualitStand"]').each(function(){ 
+            qualitStand.push($(this).val()); 
+        }); 
+        var item =[]; 
+        $('input[name="item"]').each(function(){ 
+            item.push($(this).val()); 
+        }); 
+        var purchaseCount =[]; 
+        $('input[name="purchaseCount"]').each(function(){ 
+            purchaseCount.push($(this).val()); 
+        }); 
+        var price =[]; 
+        $('input[name="price"]').each(function(){ 
+            price.push($(this).val()); 
+        }); 
+        var id =[]; 
+        $('input[name="id"]').each(function(){ 
+            id.push($(this).val()); 
+        });
+           layer.open({
+          type: 2, //page层
+          area: ['500px', '300px'],
+          title: '您是要变更明细吗？',
+          shade:0.01, //遮罩透明度
+          moveType: 1, //拖拽风格，0是默认，1是传统拖动
+          shift: 1, //0-6的动画形式，-1不开启
+          offset: ['220px', '630px'],
+          shadeClose: true,
+          content: '<%=basePath%>task/addFile.html?qualitStand='+qualitStand+'&item='+item+'&purchaseCount='+purchaseCount+'&price='+price+'&id='+id
         });
             
-        }else if(id.length>1){
-            layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
-        }else{
-            layer.alert("请选择需要启动的项目",{offset: ['222px', '390px'], shade:0.01});
-        }
     }
   </script>
   </head>
   
   <body>
-   <form id="att" action="<%=basePath%>task/editDetail.html" id="myForm"
-        method="post" name="form1" class="simple" target="_parent" enctype="multipart/form-data">
 <!--面包屑导航开始-->
  <div class="margin-top-10 breadcrumbs ">
       <div class="container">
@@ -164,7 +172,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <span class="fr option_btn margin-top-10">
         <button class="btn padding-left-10 padding-right-10 btn_back" onclick="edit();">变更</button>
         <button class="btn padding-left-10 padding-right-10 btn_back" onclick="location.href='javascript:history.go(-1);'">取消</button>
-        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="view();">查看变更记录</button>
+        <!-- <button class="btn padding-left-10 padding-right-10 btn_back" onclick="view();">查看变更记录</button> -->
       </span>
    <div class="container clear margin-top-30">
         <table class="table table-bordered table-condensed mt5">
@@ -191,6 +199,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <c:forEach items="${lists}" var="obj" varStatus="vs">
             <tr style="cursor: pointer;">
               <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
+              <input type="hidden" value="${obj.id }" name="id"/>
               <td class="tc w50">${obj.seq}</td>
               <td class="tc">${obj.department}</td>
               <td class="tc">${obj.goodsName}</td>
@@ -198,7 +207,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <td class="tc"><input name="qualitStand" style="width:50%;"  value="${obj.qualitStand}"/></td>
               <td class="tc"><input name="item" style="width:50%;"  value="${obj.item}"/></td>
               <td class="tc"><input name="purchaseCount" style="width:50%;"  value="${obj.purchaseCount}"/></td>
-              <td class="tc"><input name="purchaseCount" style="width:50%;"  value="${obj.price}"/></td>
+              <td class="tc"><input name="price" style="width:50%;"  value="${obj.price}"/></td>
               <td class="tc">${obj.budget}</td>
               <td class="tc">${obj.deliverDate}</td>
               <td class="tc">${obj.purchaseType}</td>
@@ -229,6 +238,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </p>
         
  </div>
- </form>
+ 
      </body>
 </html>

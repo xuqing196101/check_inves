@@ -40,7 +40,11 @@
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		            location.href = '<%=basePath%>templet/getAll.do?page='+e.curr;
+		        	if("${templet.name}"!=null && "${templet.name}"!="" || ("${templet.temType}"!="-请选择-" && "${templet.temType}"!="")){
+		        		location.href = '<%=basePath%>templet/search.html?page='+e.curr+'&name='+"${templet.name}"+'&temType='+ "${templet.temType}";
+		        	}else{
+		            	location.href = '<%=basePath%>templet/getAll.do?page='+e.curr;
+		        	}
 		        }
 		    }
 		});
@@ -125,6 +129,40 @@
 		<div class="clear"></div>
 	  </div>
    </div>
+   
+   <div class="container">
+	   <div class="headline-v2">
+	   		<h2>模板查询</h2>
+	   </div>
+   </div>
+    <!-- 查询 -->
+   
+   <div class="container clear margin-top-0">
+   <div class="padding-10 border1 m0_30 tc">
+   	<form action="<%=basePath %>templet/search.html" method="post" enctype="multipart/form-data" class="mb0" >
+	 <ul class="demand_list">
+	  
+	   <li class="fl mr15"><label class="fl mt5">模板名称：</label><span><input type="text" name="name" class="mb0"/></span></li>
+	   <li class="fl mr15"><label class="fl mt5">模板类型：</label>
+	   		<span>
+	   			<select id="search_type" name =temType class="w150" >
+					<option value="-请选择-">-请选择-</option>
+			  	  	<option value="须知文档">须知文档</option>
+			  	 	<option value="采购公告">采购公告</option>
+			  	 	<option value="中标公告">中标公告</option>
+			  	 	<option value="合同公告">合同公告</option>
+	  			</select>
+	  		</span>
+	  </li>
+	  
+	   	 <button class="btn fl ml20 mt1" type="submit">查询</button>
+	 </ul>
+
+	 <div class="clear"></div>
+	 </form>
+   </div>
+  </div>
+   
    <div class="container">
 	   <div class="headline-v2">
 	   		<h2>模版管理</h2>

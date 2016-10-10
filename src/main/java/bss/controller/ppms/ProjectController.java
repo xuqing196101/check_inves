@@ -2,6 +2,7 @@ package bss.controller.ppms;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,6 +17,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.PageInfo;
@@ -154,7 +156,7 @@ public class ProjectController extends BaseController{
 		return "bss/ppms/project/view";
 	}
 	
-	@RequestMapping("edit")
+	@RequestMapping("/edit")
 	public String edit(String id,Model model,Integer page){
 		List<Task> list = taskservice.selectByProject(id, page==null?1:page);
 		Project ject = projectService.selectById(id);
@@ -195,15 +197,68 @@ public class ProjectController extends BaseController{
 	public String viewDetail(String id,Model model){
 		Task task = taskservice.selectById(id);
 		CollectPlan queryById = collectPlanService.queryById(task.getCollectId());
- 
 		if(queryById != null){
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.get(queryById);
+		List<PurchaseRequired> list = purchaseRequiredService.getByMap(map);
+		model.addAttribute("queryById", queryById);
+		model.addAttribute("lists", list);
+		
+		}
+		return "bss/ppms/project/viewDetail";
+	}
+	
+	@RequestMapping("/viewDet")
+	public String viewDet(String id,Model model){
+		Task task = taskservice.selectById(id);
+		CollectPlan queryById = collectPlanService.queryById(task.getCollectId());
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.get(queryById);
+		List<PurchaseRequired> list = purchaseRequiredService.getByMap(map);
+		model.addAttribute("queryById", queryById);
+		model.addAttribute("lists", list);
+		return "bss/ppms/project/saveDetail";
+	}
+	
+	@RequestMapping("/saveDetail")
+	public String saveDetail(String id,Model model){
+		String[] ids = id.split(",");
+		for (int i = 0; i < ids.length; i++) {
+			PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(ids[i]);
+			
+			
+		}
+		 
+		return "bss/ppms/project/saveDetail";
+	}
+	
+	@RequestMapping("/editDet")
+	public String editDet(String id,Model model){
+		Task task = taskservice.selectById(id);
+		CollectPlan queryById = collectPlanService.queryById(task.getCollectId());
 			Map<String,Object> map = new HashMap<String,Object>();
 			map.get(queryById);
 			List<PurchaseRequired> list = purchaseRequiredService.getByMap(map);
 			model.addAttribute("queryById", queryById);
 			model.addAttribute("lists", list);
+		return "bss/ppms/project/eidtDetail";
+	}
+	
+	@RequestMapping("/editDetail")
+	public void editDetail(String id,String purchaseCount,String price,String purchaseType,Model model){
+		String[] idc = id.split(",");
+		String[] ida = purchaseCount.split(",");
+		String[] idb = price.split(",");
+		String[] ide = purchaseType.split(",");
+		for (int i = 0; i < idc.length; i++) {
+			PurchaseRequired qq = purchaseRequiredService.queryById(idc[i]);
+			qq.setPurchaseCount(Long.valueOf(ida[i]));
+			qq.setPrice(new BigDecimal(idb[i]));
+			qq.setPurchaseType(ide[i]);
+			qq.setBudget(new BigDecimal(Long.valueOf(ida[i])).multiply(new BigDecimal(idb[i])));
+			purchaseRequiredService.update(qq);
 		}
-		return "bss/ppms/project/viewDetail";
+		
 	}
 	
 	/**
