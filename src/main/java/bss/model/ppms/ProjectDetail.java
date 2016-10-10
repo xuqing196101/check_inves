@@ -25,7 +25,7 @@ public class ProjectDetail {
 
 	private Double budget;
 
-	private Date deliverDate;
+	private String deliverDate;
 
 	private String purchaseType;
 
@@ -123,11 +123,11 @@ public class ProjectDetail {
 		this.budget = budget;
 	}
 
-	public Date getDeliverDate() {
+	public String getDeliverDate() {
 		return deliverDate;
 	}
 
-	public void setDeliverDate(Date deliverDate) {
+	public void setDeliverDate(String deliverDate) {
 		this.deliverDate = deliverDate;
 	}
 

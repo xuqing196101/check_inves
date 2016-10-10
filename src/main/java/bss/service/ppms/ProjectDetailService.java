@@ -7,6 +7,8 @@ import bss.model.ppms.ProjectDetail;
 public interface ProjectDetailService {
 	
     ProjectDetail selectByPrimaryKey(String id);
+    
+    ProjectDetail selectById(String id);
 	
 	void insert(ProjectDetail projectDetail);
 	

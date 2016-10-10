@@ -34,6 +34,13 @@
     where ID = #{id,jdbcType=VARCHAR}
   </select>
   
+  <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PPMS_PROJECTS_DETAIL
+    where PROJECT_ID = #{id}
+  </select>
+  
   <select id="listByAll" parameterType="bss.model.ppms.ProjectDetail" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
@@ -62,6 +69,9 @@
       #{purchaseId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="bss.model.ppms.ProjectDetail">
+  <selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
     insert into T_BSS_PPMS_PROJECTS_DETAIL
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

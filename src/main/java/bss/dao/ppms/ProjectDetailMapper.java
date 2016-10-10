@@ -8,6 +8,8 @@ public interface ProjectDetailMapper {
 	
 	ProjectDetail selectByPrimaryKey(String id);
 	
+	ProjectDetail selectById(String id);
+	
 	void insertSelective(ProjectDetail projectDetail);
 	
 	void deleteByPrimaryKey(String id);

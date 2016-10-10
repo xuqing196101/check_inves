@@ -27,11 +27,13 @@ import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectAttachments;
+import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.Task;
 import bss.model.ppms.TaskAttachments;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.PurchaseRequiredService;
 import bss.service.ppms.ProjectAttachmentsService;
+import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.TaskService;
 
@@ -50,6 +52,8 @@ public class ProjectController extends BaseController{
 	private CollectPlanService collectPlanService; 
 	@Autowired
 	private PurchaseRequiredService purchaseRequiredService;
+	@Autowired
+	private ProjectDetailService detailService;
 	
 	/**
 	 * 
@@ -124,13 +128,21 @@ public class ProjectController extends BaseController{
 			project.setProjectNumber(projectNumber);
 			project.setStatus(3);
 			projectService.add(project);
-			String id = (String) request.getSession().getAttribute("ids");
-			request.getSession().removeAttribute("ids");
+			String id = (String) request.getSession().getAttribute("idss");
+			String ide = (String) request.getSession().getAttribute("idr");
+			request.getSession().removeAttribute("idss");
+			request.getSession().removeAttribute("idr");
 			String[] ids = id.split(",");
 			for (int i = 0; i < ids.length; i++) {
 				Task task = taskservice.selectById(ids[i]);
 				task.setProject(new Project(project.getId()));
 				taskservice.update(task);
+			}
+			String[] projectId = ide.split(",");
+			for (int i = 0; i < projectId.length; i++) {
+				ProjectDetail detail = detailService.selectByPrimaryKey(projectId[i]);
+				detail.setProject(new Project(project.getId()));
+				detailService.update(detail);
 			}
 		}
 		return "redirect:list.html";
@@ -209,27 +221,62 @@ public class ProjectController extends BaseController{
 	}
 	
 	@RequestMapping("/viewDet")
-	public String viewDet(String id,Model model){
+	public String viewDet(String id,Model model,HttpServletRequest request){
+		String idss = (String) request.getSession().getAttribute("idss");
+		if (idss != null) {
+			idss = idss + "," + id;
+			request.getSession().setAttribute("idss", idss);
+		} else {
+			request.getSession().setAttribute("idss",
+					id);
+		}
 		Task task = taskservice.selectById(id);
 		CollectPlan queryById = collectPlanService.queryById(task.getCollectId());
+		if(queryById != null){
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.get(queryById);
 		List<PurchaseRequired> list = purchaseRequiredService.getByMap(map);
 		model.addAttribute("queryById", queryById);
 		model.addAttribute("lists", list);
+		}
 		return "bss/ppms/project/saveDetail";
 	}
 	
 	@RequestMapping("/saveDetail")
-	public String saveDetail(String id,Model model){
+	@ResponseBody
+	public void saveDetail(String id,Model model,HttpServletRequest request){
 		String[] ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(ids[i]);
-			
-			
+			ProjectDetail projectDetail = new ProjectDetail();
+			projectDetail.setSerialNumber(purchaseRequired.getSeq());
+			projectDetail.setDepartment(purchaseRequired.getDepartment());
+			projectDetail.setGoodsName(purchaseRequired.getGoodsName());
+			projectDetail.setStand(purchaseRequired.getStand());
+			projectDetail.setQualitStand(purchaseRequired.getQualitStand());
+			projectDetail.setItem(purchaseRequired.getItem());
+			String purchaseCount = purchaseRequired.getPurchaseCount().toString();
+			projectDetail.setPurchaseCount(Integer.valueOf(purchaseCount));
+			projectDetail.setPrice(purchaseRequired.getPrice().doubleValue());
+			projectDetail.setBudget(purchaseRequired.getBudget().doubleValue());
+			projectDetail.setDeliverDate(purchaseRequired.getDeliverDate());
+			projectDetail.setPurchaseType(purchaseRequired.getPurchaseType());
+			projectDetail.setSupplier(purchaseRequired.getSupplier());
+			projectDetail.setIsFreeTax(purchaseRequired.getIsFreeTax());
+			projectDetail.setGoodsUse(purchaseRequired.getGoodsUse());
+			projectDetail.setUseUnit(purchaseRequired.getUseUnit());
+			detailService.insert(projectDetail);
+			String ide = projectDetail.getId();
+			String idr = (String) request.getSession().getAttribute("idr");
+			if (idr != null) {
+				idr = idr + "," + ide;
+				request.getSession().setAttribute("idr", idr);
+			} else {
+				request.getSession().setAttribute("idr",
+						ide);
+			}
 		}
 		 
-		return "bss/ppms/project/saveDetail";
 	}
 	
 	@RequestMapping("/editDet")

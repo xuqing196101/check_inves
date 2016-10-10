@@ -39,4 +39,9 @@ public class ProjectDetailServiceImpl implements ProjectDetailService {
 		return projectDetailMapper.listByAll(projectDetail);
 	}
 
+	@Override
+	public ProjectDetail selectById(String id) {
+		return projectDetailMapper.selectById(id);
+	}
+
 }
