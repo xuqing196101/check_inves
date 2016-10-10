@@ -18,7 +18,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet">
+<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/animate.css" media="screen" rel="stylesheet">
@@ -74,7 +74,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/owl-carousel.js"></script>
 <script src="<%=basePath%>public/ZHH/js/owl-recent-works.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.mCustomScrollbar.concat.min.js"></script>
-<script src="<%=basePath%>public/ZHH/js/WdatePicker.js"></script>
+<script src="<%=basePath%>public/ZHH/js/WdatePicker.js"></script><link href="<%=basePath%>public/ZHH/css/WdatePicker(1).css" rel="stylesheet" type="text/css">
 <script src="<%=basePath%>public/ZHH/js/jquery.form.min.js"></script>
 
 
@@ -128,11 +128,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <ul class="top-v1-data padding-0">
 			    <c:forEach items="${sessionScope.resource}" var="resource" varStatus="vs">
 					 <c:if test="${resource.menulevel == 2 }">
-						 <li class="dropdown ">
+						 <li class="dropdown ${resource.icon}">
 							<a <c:if test='${resource.url == null}'>ria-expanded="false" data-toggle="dropdown" class="dropdown-toggle p0_30 " href="javascript:void(0);"</c:if>
 							<c:if test='${resource.url != null && resource.name != "安全退出"}'>href="<%=basePath%>${resource.url}"  target="home"</c:if>
 							<c:if test='${resource.url != null && resource.name == "安全退出"}'>href="<%=basePath%>${resource.url}" </c:if> >
-							  <div><img src="<%=basePath%>public/ZHH/images/${resource.icon}"/></div>
+							  <div class="top_icon ${resource.icon}_icon"><%-- <img src="<%=basePath%>public/ZHH/images/${resource.icon}"/> --%></div>
 							  <span>${resource.name }</span>
 							</a>
 					 		
