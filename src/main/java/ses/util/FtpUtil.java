@@ -8,6 +8,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
@@ -27,11 +30,6 @@ public class FtpUtil {
 	private static Logger logger = Logger.getLogger(FtpUtil.class);
 
 	private static FTPClient ftp;
-	
-	//得到long类型当前时间
-	private static long l = System.currentTimeMillis();
-	//转换提日期输出格式
-	private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH时mm分ss.sss秒");
 	
 	/**
 	 * @Title: connectFtp
@@ -125,7 +123,7 @@ public class FtpUtil {
 			} else {
 				File file2 = new File(file.getPath());
 				FileInputStream input = new FileInputStream(file2);
-				String fileName = dateFormat.format(new Date(l)) + "_" +file2.getName();
+				String fileName = UUID.randomUUID().toString().replace("-", "").toUpperCase().toString() + "_" +file2.getName();
 				boolean flag = ftp.storeFile(new String(fileName.getBytes("GBK"), "ISO-8859-1"), input);
 				input.close();
 				String url = PropUtil.getProperty("ftp.root") + ftp.printWorkingDirectory() + "/" + fileName;
@@ -321,52 +319,92 @@ public class FtpUtil {
 	 * @param uploadFile
 	 * @exception IOException
 	 */
-	public static String upload2(MultipartFile uploadFile){
-		try{
-			String fileName = new String((dateFormat.format(new Date(l)) + "_" + uploadFile.getOriginalFilename()).getBytes("utf-8"),"iso-8859-1");
-			//判断是否存在该文件
-			FTPFile[] fs = ftp.listFiles();  
-			if (fs!=null && fs.length>0) {
-				for(int i=0;i<fs.length;i++){
-					if (fs[i].getName().equals(fileName)) {
-						ftp.deleteFile(fs[i].getName());
-						break;
+	public static String upload2(String path, MultipartFile uploadFile){
+		if (FtpUtil.connectFtp(path)){
+			try{
+				String fileName = new String((UUID.randomUUID().toString().replace("-", "").toUpperCase().toString() + "_" + uploadFile.getOriginalFilename()).getBytes("utf-8"),"iso-8859-1");
+				//判断是否存在该文件
+				FTPFile[] fs = ftp.listFiles();  
+				if (fs!=null && fs.length>0) {
+					for(int i=0;i<fs.length;i++){
+						if (fs[i].getName().equals(fileName)) {
+							ftp.deleteFile(fs[i].getName());
+							break;
+						}
 					}
 				}
-			}
-			OutputStream os = ftp.appendFileStream(fileName);
-			byte[] bytes = new byte[1024];
-			InputStream is = uploadFile.getInputStream();
-			// 开始复制 其实net已经提供了上传的函数，但是我想可能是我这个版本有点问题 
-			int c;
-			// 暂未考虑中途终止的情况
-			while ((c = is.read(bytes)) != -1) {
-				os.write(bytes, 0, c);
-			}
-			os.flush();
-			is.close();
-			os.close();
-			String url = new String((PropUtil.getProperty("ftp.root") + ftp.printWorkingDirectory() + "/" + fileName).getBytes("ISO-8859-1"),"utf-8");
-			return url;
-		} catch (IOException e) { 
-			e.printStackTrace(); 
-		} finally { 
-			try { 
+				OutputStream os = ftp.appendFileStream(fileName);
+				byte[] bytes = new byte[1024];
+				InputStream is = uploadFile.getInputStream();
+				// 开始复制 其实net已经提供了上传的函数，但是我想可能是我这个版本有点问题 
+				int c;
+				// 暂未考虑中途终止的情况
+				while ((c = is.read(bytes)) != -1) {
+					os.write(bytes, 0, c);
+				}
+				os.flush();
+				is.close();
+				os.close();
 				ftp.logout();
-				ftp.disconnect(); 
+				String url = new String((PropUtil.getProperty("ftp.root")+ "/" + path + "/" + fileName).getBytes("ISO-8859-1"),"utf-8");
+				return url;
 			} catch (IOException e) { 
 				e.printStackTrace(); 
-			} 
+			} finally { 
+				if (ftp.isConnected()) {  
+					try {  
+						ftp.disconnect();  
+					} catch (IOException ioe) {  
+					}  
+				}
+			}
+		} else {
+			logger.error("链接失败！");
 		}
 		return null;
 	}
 	
+	
+	public static void download2(HttpServletResponse response,String path, String fileName){
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("multipart/form-data;charset=UTF-8");
+		if (FtpUtil.connectFtp(path)) {
+			try {
+				 FTPFile[] fs = ftp.listFiles();  
+			        for(int i=0;i<fs.length;i++){  
+			        	String tempFileName =  new String(fs[i].getName().getBytes("ISO8859-1"), "UTF-8");
+			            if(tempFileName.equals(fileName)){
+			            	String saveAsFileName = tempFileName.substring(tempFileName.lastIndexOf("_"));
+			    			response.setHeader("Content-Disposition", "attachment;fileName="+saveAsFileName);
+			    			OutputStream os = response.getOutputStream();
+			    			ftp.retrieveFile(fs[i].getName(), os);
+			                os.flush();
+			                os.close();
+			                break;
+			            }
+			        }
+			        ftp.logout(); 
+			} catch (Exception e) {
+				logger.error(e);
+				logger.error("下载过程中出现异常");
+			} finally {  
+		        if (ftp.isConnected()) {  
+		            try {  
+		            	ftp.disconnect();  
+		            } catch (IOException ioe) {  
+		            }  
+		        }  
+		    }  
+		} else {
+			logger.error("链接失败！");
+		}
+	}
+	
 	public static void main(String[] args) throws Exception {
-
-		FtpUtil.connectFtp("test5");
-		File file = new File("e:\\广东商城接口对接实施方案1.2.doc");
-		FtpUtil.upload(file);
-		FtpUtil.closeFtp();
+//		FtpUtil.connectFtp("E:/ftp/test5");
+//		File file = new File("e:\\广东商城接口对接实施方案1.2.doc");
+//		FtpUtil.upload(file);
+//		FtpUtil.closeFtp();
 		// FtpUtil.startDownFolder("E:\\ftpCopy", "zxcvb");
 		//FtpUtil.startDownFile("E:/ftpCopy", "test5", "2016-10-08_18时07分03.003秒_log4j.log");
 	}
