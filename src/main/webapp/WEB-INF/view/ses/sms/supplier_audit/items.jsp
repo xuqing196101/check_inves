@@ -37,7 +37,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/blocks.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/datepicker.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/WdatePicker.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/select2.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet">
@@ -55,7 +54,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="<%=basePath%>public/ZHH/css/james.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/layer/skin/layer.css" media="screen" rel="stylesheet" type="text/css">
 <link href="<%=basePath%>public/layer/skin/layer.ext.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/WdatePicker(1).css" rel="stylesheet" type="text/css">
 <script src="<%=basePath%>public/ZHH/js/hm.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery-migrate-1.2.1.min.js"></script>

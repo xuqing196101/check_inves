@@ -127,7 +127,7 @@ function reason(id){
 
 function reason1(year, ele){
   var supplierId=$("#supplierId").val();
-  var value = $(ele).parents("li").find("span").text().replaceAll("＊","").replaceAll("：","");//审批的字段名字
+  var value = $(ele).parents("li").find("span").text().replaceAll("：","");//审批的字段名字
   var auditField=year+"年"+value;
 	  layer.prompt({title: '请填写不通过理由', formType: 2}, function(text){
 	    $.ajax({
@@ -258,37 +258,37 @@ function tijiao(str){
 	                  <i>01</i>${f.year }年
 	                  </h2>
                     <ul class="list-unstyled list-flow">
-                      <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>财务审计报告意见表：</span>
+                      <li class="col-md-6 p0 "><span class="">财务审计报告意见表：</span>
                         <div class="input-append">
-                          <a class="span3" href="javascript:void(0)" onclick="downloadFile('${f.auditOpinion}')">附件下载</a>
+                          <a class="span3 red" href="javascript:void(0)" onclick="downloadFile('${f.auditOpinion}')">附件下载</a>
                           <div  class="b f18 fl ml10 red hand">√</div>
                           <div onclick="reason1('${f.year }', this);" class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
-                      <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>资产负债表：</span>
+                      <li class="col-md-6 p0 "><span class="">资产负债表：</span>
                         <div class="input-append">
-                          <a class="span3" href="javascript:void(0)" onclick="downloadFile('${f.liabilitiesList}')">附件下载</a>
+                          <a class="span3 red" href="javascript:void(0)" onclick="downloadFile('${f.liabilitiesList}')">附件下载</a>
                           <div class="b f18 fl ml10 red hand">√</div>
                           <div onclick="reason1('${f.year }', this);" class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
-                      <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>利润表：</span>
+                      <li class="col-md-6 p0 "><span class="">利润表：</span>
                         <div class="input-append">
-                          <a class="span3" href="javascript:void(0)" onclick="downloadFile('${f.profitList}')">附件下载</a>
+                          <a class="span3 red" href="javascript:void(0)" onclick="downloadFile('${f.profitList}')">附件下载</a>
                           <div class="b f18 fl ml10 red hand">√</div>
                           <div onclick="reason1('${f.year }', this);" class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
-                      <li class="col-md-6 p0 "><span class="" ><i class="red">＊</i>现金流量表：</span>
+                      <li class="col-md-6 p0 "><span class="" >现金流量表：</span>
                         <div class="input-append">
-                          <a class="span3" href="javascript:void(0)" onclick="downloadFile('${f.cashFlowStatement}')">附件下载</a>
+                          <a class="span3 red" href="javascript:void(0)" onclick="downloadFile('${f.cashFlowStatement}')">附件下载</a>
                           <div class="b f18 fl ml10 red hand">√</div>
                           <div onclick="reason1('${f.year }', this);" class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
-                      <li class="col-md-6 p0 "><span class="" ><i class="red">＊</i>所有者权益变动表：</span>
+                      <li class="col-md-6 p0 "><span class="" >所有者权益变动表：</span>
                         <div class="input-append">
-                          <a class="span3" href="javascript:void(0)" onclick="downloadFile('${f.changeList}')">附件下载</a>
+                          <a class="span3 red" href="javascript:void(0)" onclick="downloadFile('${f.changeList}')">附件下载</a>
                           <div class="b f18 fl ml10 red hand">√</div>
                           <div onclick="reason1('${f.year }', this);" class="b f18 fl ml10 hand">×</div>
                         </div>

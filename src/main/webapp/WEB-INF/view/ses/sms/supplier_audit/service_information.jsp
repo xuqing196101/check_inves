@@ -130,7 +130,7 @@ function reason1(id){
   var supplierId=$("#supplierId").val();
   var id2=id+"2";
   var id1=id+"1";
-  var auditField=$("#"+id2+"").text().replaceAll("＊","").replaceAll("：",""); //审批的字段名字
+  var auditField=$("#"+id2+"").text().replaceAll("：",""); //审批的字段名字
   layer.prompt({title: '请填写不通过理由', formType: 2}, function(text){
     $.ajax({
         url:"<%=basePath%>supplierAudit/auditReasons.html",
@@ -271,35 +271,35 @@ function tijiao(str){
                     <i>02</i>供应商组织结构和人员
                     </h2>
                       <ul class="list-unstyled list-flow">
-                        <li class="col-md-6 p0"><span class="" id="orgName2"><i class="red">＊</i>组织机构：</span>
+                        <li class="col-md-6 p0"><span class="" id="orgName2">组织机构：</span>
                           <div class="input-append">
                             <input class="span3" type="text" value="${supplierMatSes.orgName }" />
                             <div id="orgName1"  class="b f18 fl ml10 red hand">√</div>
                             <div id="orgName" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
                           </div>
                         </li>
-                        <li class="col-md-6 p0"><span class="" id="totalPerson2"><i class="red">＊</i>人员总数：</span>
+                        <li class="col-md-6 p0"><span class="" id="totalPerson2">人员总数：</span>
                           <div class="input-append">
                             <input class="span3" type="text" value="${supplierMatSes.totalPerson }" />
                             <div id="totalPerson1" class="b f18 fl ml10 red hand">√</div>
                           <div id="totalPerson" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
                           </div>
                         </li>
-                        <li class="col-md-6 p0"><span class="" id="totalMange2"><i class="red">＊</i>管理人员：</span>
+                        <li class="col-md-6 p0"><span class="" id="totalMange2">管理人员：</span>
                           <div class="input-append">
                             <input class="span3" type="text"  value="${supplierMatSes.totalMange }"/>
                             <div id="totalMange1" class="b f18 fl ml10 red hand">√</div>
                           <div id="totalMange" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
                           </div>
                         </li>
-                        <li class="col-md-6 p0"><span class="" id="totalTech2"><i class="red">＊</i>技术人员：</span>
+                        <li class="col-md-6 p0"><span class="" id="totalTech2">技术人员：</span>
                           <div class="input-append">
                             <input class="span3" type="text"  value="${supplierMatSes.totalTech }"/>
                             <div id="totalTech1" class="b f18 fl ml10 red hand">√</div>
                           <div id="totalTech" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
                           </div>
                         </li>
-                        <li class="col-md-6 p0"><span class="" id="totalWorker2"><i class="red">＊</i>工人(职员)：</span>
+                        <li class="col-md-6 p0"><span class="" id="totalWorker2">工人(职员)：</span>
                           <div class="input-append">
                             <input class="span3" type="text" value="${supplierMatSes.totalWorker }"/>
                             <div id="totalWorker1" class="b f18 fl ml10 red hand">√</div>

@@ -92,6 +92,12 @@
       
         }
     }
+    
+    //重置搜索栏
+  function resetForm() {
+   var a = $("input[name='supplierName']").val("");
+
+  }
 </script>
 </head>
 <body>
@@ -111,7 +117,7 @@
           <ul class="demand_list list-unstyled">
             <li>
               <label class="fl mt10">供应商名称：</label> 
-                <input class="mb0 mt5" name="supplierName" type="text">
+                <input class="mb0 mt5" name="supplierName" type="text" value="${supplierName }">
             </li>
             <li>
               <label class="fl mt10">企业类型：</label> 
@@ -124,6 +130,7 @@
            </li>
            <li>
             <input type="submit" class="btn btn_back fl ml10 mt6" value="查询" />
+            <button onclick="resetForm();" class="btn btn_back fl ml10 mt6" type="button">重置</button>
            </li>
       </ul>
     </form>
