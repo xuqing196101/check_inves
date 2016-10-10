@@ -124,7 +124,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
  
    <div class="headline-v2 fl">
-      <h2>查看采购明细
+      <h2>查看项目明细
       </h2>
        </div> 
        <span class="fr option_btn margin-top-10">
@@ -154,7 +154,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </thead>
           <c:forEach items="${lists}" var="obj" varStatus="vs">
             <tr style="cursor: pointer;">
-              <td class="tc w50">${obj.seq}</td>
+              <td class="tc w50">${obj.serialNumber}</td>
               <td class="tc">${obj.department}</td>
               <td class="tc">${obj.goodsName}</td>
               <td class="tc">${obj.stand}</td>

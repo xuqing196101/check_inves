@@ -115,12 +115,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         if(id.length==1){
            layer.open({
           type: 2, //page层
-          area: ['700px', '700px'],
+          area: ['1000px', '700px'],
           title: '查看采购任务',
           shade:0.01, //遮罩透明度
           moveType: 1, //拖拽风格，0是默认，1是传统拖动
           shift: 1, //0-6的动画形式，-1不开启
-          offset: ['220px', '630px'],
+          offset: ['22px', '630px'],
           shadeClose: true,
           content: '<%=basePath%>project/viewDetail.html?id='+id
         });

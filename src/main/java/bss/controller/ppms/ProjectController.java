@@ -146,8 +146,10 @@ public class ProjectController extends BaseController{
 			for (int i = 0; i < projectId.length; i++) {
 				ProjectDetail detail = detailService.selectByPrimaryKey(projectId[i]);
 				detail.setProject(new Project(project.getId()));
+				detail.setStatus(ids[i]);
 				detailService.update(detail);
-			}
+			
+		}
 		}
 		return "redirect:list.html";
 	}
@@ -211,16 +213,10 @@ public class ProjectController extends BaseController{
 	 */
 	@RequestMapping("/viewDetail")
 	public String viewDetail(String id,Model model){
-		Task task = taskservice.selectById(id);
-		CollectPlan queryById = collectPlanService.queryById(task.getCollectId());
-		if(queryById != null){
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.get(queryById);
-		List<PurchaseRequired> list = purchaseRequiredService.getByMap(map);
-		model.addAttribute("queryById", queryById);
-		model.addAttribute("lists", list);
-		
-		}
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("status", id);
+		List<ProjectDetail> detailList = detailService.selectById(map);
+		model.addAttribute("lists", detailList);
 		return "bss/ppms/project/viewDetail";
 	}
 	
@@ -250,6 +246,8 @@ public class ProjectController extends BaseController{
 	@ResponseBody
 	public void saveDetail(String id,Model model,HttpServletRequest request){
 		String[] ids = id.split(",");
+		String ida = (String) request.getSession().getAttribute("idss");
+		//String[] ids = ida.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(ids[i]);
 			ProjectDetail projectDetail = new ProjectDetail();
@@ -269,6 +267,7 @@ public class ProjectController extends BaseController{
 			projectDetail.setIsFreeTax(purchaseRequired.getIsFreeTax());
 			projectDetail.setGoodsUse(purchaseRequired.getGoodsUse());
 			projectDetail.setUseUnit(purchaseRequired.getUseUnit());
+			projectDetail.setStatus(ida);
 			detailService.insert(projectDetail);
 			String ide = projectDetail.getId();
 			String idr = (String) request.getSession().getAttribute("idr");

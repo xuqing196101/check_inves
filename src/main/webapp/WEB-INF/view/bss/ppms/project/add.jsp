@@ -113,8 +113,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           content: '<%=basePath%>project/create.html?id='+id
         });
             
-        }else{
-            layer.alert("请选择需要修改的信息",{offset: ['222px', '390px'], shade:0.01});
         }
     }
     

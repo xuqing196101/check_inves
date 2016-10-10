@@ -46,6 +46,9 @@
     <if test="packageId != null and packageId !=''">
         AND PACKAGE_ID = #{packageId}
      </if> 
+     <if test="status != null and status !=''">
+        AND STATUS = #{status}
+     </if>
   </select>
   
   <select id="listByAll" parameterType="bss.model.ppms.ProjectDetail" resultMap="BaseResultMap">
