@@ -42,6 +42,8 @@ public class ProjectDetail {
 	private String status;
 
 	private PurchaseDep purchaseDep;
+	
+	private String packageId;
 
 	public String getId() {
 		return id;
@@ -193,6 +195,14 @@ public class ProjectDetail {
 
 	public void setPurchaseDep(PurchaseDep purchaseDep) {
 		this.purchaseDep = purchaseDep;
+	}
+
+	public String getPackageId() {
+		return packageId;
+	}
+
+	public void setPackageId(String packageId) {
+		this.packageId = packageId;
 	}
 
 	

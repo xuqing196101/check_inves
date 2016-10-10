@@ -19,13 +19,14 @@
     <result column="GOODS_USE"  property="goodsUse" />
     <result column="USE_UNIT"  property="useUnit" />
     <result column="STATUS"  property="status" />
+    <result column="PACKAGE_ID"  property="packageId" />
     <association property="project" column="PROJECT_ID" select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey"/>
     <association property="purchaseDep" column="PURCHASE_ID" select="ses.dao.oms.PurchaseDepMapper.selectPurchaseById"/>
   </resultMap>
   <sql id="Base_Column_List">
     ID, SERIAL_NUMBER, DEPARTMENT, GOODS_NAME, STAND, QUALIT_STAND, ITEM, PURCHASE_COUNT, 
     PRICE, BUDGET, DELIVER_DATE, PURCHASE_TYPE, SUPPLIER, IS_FREE_TAX, GOODS_USE, USE_UNIT, 
-    PROJECT_ID, STATUS, PURCHASE_ID
+    PROJECT_ID, STATUS, PURCHASE_ID,PACKAGE_ID
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -34,11 +35,17 @@
     where ID = #{id,jdbcType=VARCHAR}
   </select>
   
-  <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectById" parameterType="java.util.Map" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_PROJECTS_DETAIL
-    where PROJECT_ID = #{id}
+    where 1=1 
+    <if test="id != null and id !=''">
+        AND PROJECT_ID = #{id}
+    </if> 
+    <if test="packageId != null and packageId !=''">
+        AND PACKAGE_ID = #{packageId}
+     </if> 
   </select>
   
   <select id="listByAll" parameterType="bss.model.ppms.ProjectDetail" resultMap="BaseResultMap">
@@ -131,6 +138,9 @@
       <if test="purchaseDep != null">
         PURCHASE_ID,
       </if>
+      <if test="packageId != null">
+        PACKAGE_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -190,6 +200,9 @@
       <if test="purchaseDep != null">
         #{purchaseDep.id},
       </if>
+      <if test="packageId != null">
+        #{packageId},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="bss.model.ppms.ProjectDetail">
@@ -248,6 +261,9 @@
       </if>
       <if test="purchaseDep != null">
         PURCHASE_ID = #{purchaseDep.id},
+      </if>
+      <if test="packageId != null">
+        PACKAGE_ID = #{packageId},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}

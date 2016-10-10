@@ -25,6 +25,7 @@ import com.github.pagehelper.PageInfo;
 import bss.controller.base.BaseController;
 import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseRequired;
+import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectAttachments;
 import bss.model.ppms.ProjectDetail;
@@ -32,6 +33,7 @@ import bss.model.ppms.Task;
 import bss.model.ppms.TaskAttachments;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.PurchaseRequiredService;
+import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectAttachmentsService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
@@ -54,6 +56,8 @@ public class ProjectController extends BaseController{
 	private PurchaseRequiredService purchaseRequiredService;
 	@Autowired
 	private ProjectDetailService detailService;
+	@Autowired
+	private PackageService packageService;
 	
 	/**
 	 * 
@@ -322,22 +326,106 @@ public class ProjectController extends BaseController{
 	@RequestMapping("/subPackage")
 	public String subPackage(HttpServletRequest request,Model model){
 		String id = request.getParameter("id");
-		List<Task> task = taskservice.selectByProjectId(id);
-		List<PurchaseRequired> list = new ArrayList<PurchaseRequired>();
-		for(int i=0;i<task.size();i++){
-			CollectPlan queryById = collectPlanService.queryById(task.get(i).getCollectId());
-			if(queryById != null){
-				Map<String,Object> map = new HashMap<String,Object>();
-				map.get(queryById);
-				List<PurchaseRequired> PurchaseRequired = purchaseRequiredService.getByMap(map);
-				list.addAll(PurchaseRequired);
+		HashMap<String,Object> pack = new HashMap<String,Object>();
+		pack.put("projectId", id);
+		List<Packages> packList = packageService.findPackageById(pack);
+		if(packList.size()==0){
+			Packages pg = new Packages();
+			pg.setName("第一包");
+			pg.setProjectId(id);
+			packageService.insertSelective(pg);
+			List<ProjectDetail> list = new ArrayList<ProjectDetail>();
+			List<Packages> pk = packageService.findPackageById(pack);
+			for(int i=0;i<list.size();i++){
+				ProjectDetail pd = new ProjectDetail();
+				pd.setId(list.get(i).getId());
+				pd.setPackageId(pk.get(0).getId());
+				detailService.update(pd);
 			}
 		}
-		System.out.println(list.size());
-		model.addAttribute("list", list);
+		List<Packages> packages = packageService.findPackageById(pack);
+		Map<String,Object> list = new HashMap<String,Object>();
+		for(Packages ps:packages){
+			list.put("pack"+ps.getId(),ps);
+			HashMap<String,Object> map = new HashMap<String,Object>();
+			map.put("packageId", ps.getId());
+			List<ProjectDetail> detailList = detailService.selectById(map);
+			ps.setProjectDetails(detailList);
+		}
+		model.addAttribute("packageList", packages);
 		Project project = projectService.selectById(id);
 		model.addAttribute("project", project);
 		return "bss/ppms/project/sub_package";
+	}
+	
+	public List<PurchaseRequired> purList; 
+	public String pId;
+	
+	/**
+	 * 
+	* @Title: select
+	* @author ZhaoBo
+	* @date 2016-10-9 下午6:42:25  
+	* @Description: 选中效果 
+	* @param @param request
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/select")
+	@ResponseBody
+	public List<PurchaseRequired> select(HttpServletRequest request){
+		String id = request.getParameter("id");
+		recursion(id);
+		List<PurchaseRequired> list = new ArrayList<PurchaseRequired>();
+		list.addAll(purList);
+		return list;
+	}
+	
+	
+	
+	/**
+	 * 
+	* @Title: recursion
+	* @author ZhaoBo
+	* @date 2016-10-9 下午8:03:24  
+	* @Description: 递归选中 
+	* @param       
+	* @return void
+	 */
+	public void recursion(String id){
+		System.out.println(id);
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("parentId", id);
+		List<PurchaseRequired> purchaseRequired = purchaseRequiredService.getByMap(map);
+		purList.addAll(purchaseRequired);
+		if(purchaseRequired.size()!=0){
+			for(int i=0;i<purchaseRequired.size();i++){
+				pId = purchaseRequired.get(i).getId();
+				recursion(pId);
+			}
+		}
+	}
+	
+	/**
+	 * 
+	* @Title: addPackage
+	* @author ZhaoBo
+	* @date 2016-10-10 上午9:05:18  
+	* @Description: 添加分包 
+	* @param @param request
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/addPackage")
+	@ResponseBody
+	public List<PurchaseRequired> addPackage(HttpServletRequest request){
+		List<PurchaseRequired> purchaseRequired = new ArrayList<PurchaseRequired>();
+		String[] id = request.getParameter("id").split(",");
+		for(int i=0;i<id.length;i++){
+			PurchaseRequired pr = purchaseRequiredService.queryById(id[i]);
+			purchaseRequired.add(pr);
+		}
+		return purchaseRequired;
 	}
 	
 	/**
