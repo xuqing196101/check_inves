@@ -64,4 +64,14 @@ public interface TodosMapper {
      */
     List<String> listUndoType();
     
+    /**
+     * @Description:修改状态
+     *
+     * @author Wang Wenshuai
+     * @version 2016年10月10日 下午8:17:37  
+     * @param @return      
+     * @return int
+     */
+    int updateIsFinish(Todos record);
+    
 }

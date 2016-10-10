@@ -401,14 +401,13 @@ public class Todos {
 		super();
 		this.isFinish = isFinish;
 	}
-	/**
-	 * id
-	 * @param id
-	 */
-	public Todos(String id) {
+	
+	
+	public Todos(String url) {
 		super();
-		this.id = id;
+		this.url = url;
 	}
+
     /**
      * 根据类型获取待办集合
      * @param isFinish

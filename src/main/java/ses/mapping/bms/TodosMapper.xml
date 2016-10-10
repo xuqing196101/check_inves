@@ -184,18 +184,20 @@
 	</update>
 
 	<!-- 获取所有的待办已办信息 -->
-	<select id="listTodos" parameterType="Map"
-		resultMap="BaseResultMap">
+	<select id="listTodos" parameterType="Map" resultMap="BaseResultMap">
 		SELECT
 		bt.*, BU.REL_NAME AS SENDER_NAME
 		FROM
 		T_SES_BMS_USER bu
-		LEFT JOIN T_SES_BMS_TODOS bt ON BT.SENDER_ID = BU."ID"
+		LEFT JOIN
+		T_SES_BMS_TODOS bt ON BT.SENDER_ID = BU."ID"
 		WHERE
-	    bt.RECEIVER_ID IN #{ids,jdbcType=DECIMAL}
+		bt.RECEIVER_ID IN #{ids,jdbcType=DECIMAL}
 		AND BT.IS_DELETED = 0
-		AND BT.IS_FINISH =#{todos.isFinish,jdbcType=DECIMAL}
-		AND BT.UNDO_TYPE = #{todos.undoType,jdbcType=DECIMAL}
+		AND BT.IS_FINISH
+		=#{todos.isFinish,jdbcType=DECIMAL}
+		AND BT.UNDO_TYPE =
+		#{todos.undoType,jdbcType=DECIMAL}
 		ORDER BY UNDO_TYPE
 	</select>
 	<!-- 查询出任务类型 -->
@@ -203,4 +205,9 @@
 		SELECT UNDO_TYPE FROM
 		T_SES_BMS_TODOS GROUP BY UNDO_TYPE ORDER BY UNDO_TYPE
 	</select>
+	<update id="updateIsFinish" parameterType="ses.model.bms.Todos">
+		update T_SES_BMS_TODOS
+		set IS_FINISH = 1
+		where URL = #{url,jdbcType=VARCHAR}
+	</update>
 </mapper>

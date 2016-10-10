@@ -46,7 +46,7 @@ public interface TodosService {
 	 * @param       
 	 * @return void
 	 */
-	void updateIsFinish(String id);
+	void updateIsFinish(String url);
 
 	/**
 	 * @Description:获取任务类型

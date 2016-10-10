@@ -76,8 +76,8 @@ public class TodosServiceImpl implements TodosService {
 	 * @return void
 	 */
 	@Override
-	public void updateIsFinish(String id){
-		mapper.updateByPrimaryKey(new Todos(id));
+	public void updateIsFinish(String url){
+		mapper.updateIsFinish(new Todos(url));
 	}
 	/* (non-Javadoc)
 	 * @see ses.service.bms.TodosService#listUndoType()
