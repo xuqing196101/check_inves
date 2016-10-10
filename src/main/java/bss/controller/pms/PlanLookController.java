@@ -149,4 +149,20 @@ public class PlanLookController {
 		return "redirect:list.html";
 	}
 	
+	/**
+	 * 
+	* @Title: report
+	* @Description:生成评审报告页面 
+	* author: Li Xiaoxiao 
+	* @param @param id
+	* @param @return     
+	* @return String     
+	* @throws
+	 */
+	@RequestMapping("/report")
+	public String report(String id,Model model){
+		CollectPlan plan = collectPlanService.queryById(id);
+		model.addAttribute("plan", plan);
+		return "bss/pms/collect/pdf";
+	}
 }

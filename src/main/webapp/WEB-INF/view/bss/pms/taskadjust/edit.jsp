@@ -121,7 +121,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        +"<tr/>");
 	  }
   	 
-  	 
+  	var flag=true;
 	function checks(obj){
 		  var name=$(obj).attr("name");
 		  var planNo=$("#pNo").val();
@@ -137,7 +137,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					},
 					success: function(data){
 						 if(data=='exit'){
-							 alert("该字段不允许修改");
+							 flag=false;
+							 layer.tips("该字段不允许修改",obj);
 						 }
 					 },
 					error:function(data){
@@ -146,6 +147,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					 
 				});
 			} 
+	}
+	
+	function sub(){
+		if(flag==true){
+			$("#adjust").submit();
+		}
 	}
 </script>
 </head>
@@ -169,7 +176,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div class="container clear margin-top-30">
 
-			<form action="<%=basePath%>adjust/update.html" method="post" enctype="multipart/form-data">
+			<form id="adjust" action="<%=basePath%>adjust/update.html" method="post" enctype="multipart/form-data">
 				<table class="table table-bordered table-condensed mt5">
 					<thead>
 						<tr>
@@ -265,7 +272,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				
 				</table>
 				<div class=""><a class="upload">上传附件</a><input type="file" name="file"> </div>
-				<input class="btn btn-windows save" type="submit" value="提交">
+				<input class="btn btn-windows save" type="button" value="提交" onclick="sub()">
 				<input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 			</form>
 		</div>

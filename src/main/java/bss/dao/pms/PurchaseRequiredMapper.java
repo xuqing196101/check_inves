@@ -137,4 +137,18 @@ public interface PurchaseRequiredMapper {
     * @throws
      */
     List<PurchaseRequired> getByMap(Map<String,Object> map);
+    
+    /**
+     * 
+    * @Title: statisticDepartment
+    * @Description: 按需求部门统计
+    * author: Li Xiaoxiao 
+    * @param @param purchaseRequired
+    * @param @return     
+    * @return List<PurchaseRequired>     
+    * @throws
+     */
+    List<Map<String,Object>> statisticDepartment(Map<String,Object> map);
+    
+    
 }

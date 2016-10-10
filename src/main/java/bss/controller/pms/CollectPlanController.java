@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -95,7 +97,7 @@ public class CollectPlanController extends BaseController {
 		 * @throws
 		  */
 		@RequestMapping("/add")
-		public String queryCollect(CollectPlan collectPlan){
+		public String queryCollect(@Valid CollectPlan collectPlan){
 			PurchaseRequired p=new PurchaseRequired();
 			List<PurchaseRequired> list=new LinkedList<PurchaseRequired>();
 			Set<String> set=new HashSet<String>();

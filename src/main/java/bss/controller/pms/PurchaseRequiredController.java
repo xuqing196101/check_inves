@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import ses.model.bms.User;
+import ses.util.PathUtil;
 import bss.controller.base.BaseController;
 import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.pms.PurchaseRequired;
@@ -112,14 +113,16 @@ public class PurchaseRequiredController extends BaseController{
 			if(list.getList()!=null&&list.getList().size()>0){
 				for( PurchaseRequired p:list.getList()){
 					if( p.getId()!=null){
-						purchaseRequiredService.update(p);
+						PurchaseRequired queryById = purchaseRequiredService.queryById(p.getId());
+						Integer s=Integer.valueOf(purchaseRequiredService.queryByNo(p.getPlanNo()))+1;
+						queryById.setHistoryStatus(String.valueOf(s));
+						purchaseRequiredService.update(queryById);
 						if(p.getParentId()!=null){
 							p.setParentId(p.getParentId());
 						}
 						String id = UUID.randomUUID().toString().replaceAll("-", "");
 						p.setId(id);
-						Integer s=Integer.valueOf(purchaseRequiredService.queryByNo(p.getPlanNo()))+1;
-						p.setHistoryStatus(String.valueOf(s));
+						p.setHistoryStatus("0");
 						purchaseRequiredService.add(p);	
 					}else{
 						String id = UUID.randomUUID().toString().replaceAll("-", "");
@@ -209,7 +212,7 @@ public class PurchaseRequiredController extends BaseController{
 					p.setIsDelete(0);
 					p.setIsMaster("1");
 					p.setCreatedAt(new Date());
-//					p.setUserId(user.getId());
+					p.setUserId(user.getId());
 //					p.setOrganization(user.getOrg().getName());
 					purchaseRequiredService.add(p);	
 			}else{
@@ -224,7 +227,7 @@ public class PurchaseRequiredController extends BaseController{
 					p.setIsDelete(0);
 					p.setIsMaster("2");
 					p.setCreatedAt(new Date());
-//					p.setUserId(user.getId());
+					p.setUserId(user.getId());
 //					p.setOrganization(user.getOrg().getName());
 					purchaseRequiredService.add(p);	
 			}
@@ -264,7 +267,7 @@ public class PurchaseRequiredController extends BaseController{
 							p.setIsMaster("1");
 							p.setStatus("1");
 							p.setCreatedAt(new Date());
-//							p.setUserId(user.getId());
+							p.setUserId(user.getId());
 //							p.setOrganization(user.getOrg().getName());
 							purchaseRequiredService.add(p);	
 					}else{
@@ -280,7 +283,7 @@ public class PurchaseRequiredController extends BaseController{
 							p.setIsMaster("2");
 							p.setStatus("1");
 							p.setCreatedAt(new Date());
-//							p.setUserId(user.getId());
+							p.setUserId(user.getId());
 //							p.setOrganization(user.getOrg().getName());
 							purchaseRequiredService.add(p);	
 					}
@@ -378,12 +381,12 @@ public class PurchaseRequiredController extends BaseController{
 	 */
 	  @RequestMapping("download")    
 	    public ResponseEntity<byte[]> download(HttpServletRequest request,String filename) throws IOException {
-	    	filename = new String(filename.getBytes("iso8859-1"),"UTF-8");
-	    	String path = request.getSession().getServletContext().getRealPath("/WEB-INF/upload");  
-	        File file=new File(path,filename);
+//	    	filename = new String(filename.getBytes("iso8859-1"),"UTF-8");
+	    	String path = PathUtil.getWebRoot() + "excel/模板.xls";;  
+	        File file=new File(path);
 	        
 	        HttpHeaders headers = new HttpHeaders();    
-	        String fileName=new String("模板.xlsx".getBytes("UTF-8"),"iso-8859-1");//为了解决中文名称乱码问题  
+	        String fileName=new String("模板.xls".getBytes("UTF-8"),"iso-8859-1");//为了解决中文名称乱码问题  
 	        headers.setContentDispositionFormData("attachment", fileName);   
 	        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);   
 	        return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),    

@@ -2,6 +2,11 @@ package bss.model.pms;
 
 import java.math.BigDecimal;
 import java.util.Date;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Email;
 /**
  * 
  * @Title: CollectPlan
@@ -14,7 +19,7 @@ public class CollectPlan {
     private String id;
 
     private String fileName;
-
+    
     private String password;
 
     private String department;

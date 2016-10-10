@@ -96,6 +96,8 @@ public class PurchaseRequired {
     
     private String brand;
     
+    private String userUnit;
+    
     public String getId() {
         return id;
     }
@@ -430,6 +432,14 @@ public class PurchaseRequired {
 
 	public void setBrand(String brand) {
 		  this.brand = brand == null ? null : brand.trim();
+	}
+
+	public String getUserUnit() {
+		return userUnit;
+	}
+
+	public void setUserUnit(String userUnit) {
+		this.userUnit = userUnit;
 	}
 
 	

@@ -152,7 +152,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div class="container clear margin-top-30">
 	<button class="btn padding-left-10 padding-right-10 btn_back" onclick="sets()">调整审核人员</button>
-		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="">生成评审报告页面pdf</button>
+		<a class="btn padding-left-10 padding-right-10 btn_back" href="<%=basePath%>look/report.html?id=${id}">生成评审报告页面pdf</a>
 		
 			<form action="<%=basePath%>look/audit.html" method="post">
 				<table class="table table-bordered table-condensed mt5">
@@ -214,6 +214,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<option value="单一来源">单一来源</option>
 							<option value="竞争性谈判">竞争性谈判</option>
 							<option value="单一来源">询价</option>
+							</select>
+							</td>
+							
+							<td class="tc">
+							<select name="list[${vs.count }].oneOrganiza">
+							<c:forEach items="${org }" var="ss">
+							<option value="${ss.id }">${ss.name}</option>
+							</c:forEach>
+							</select>
+							</td>
+							<td class="tc">
+							<select name="list[${vs.count }].organization">
+							<c:forEach items="${org }" var="ss">
+							<option value="${ss.id }">${ss.name}</option>
+							</c:forEach>
 							</select>
 							</td>
 							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.count }].supplier" value="${obj.supplier }"></td>

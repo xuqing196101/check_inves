@@ -99,4 +99,16 @@ public interface PurchaseRequiredService {
 	* @throws
 	 */
 	List<PurchaseRequired> getByMap(Map<String,Object> map);
+	
+	/**
+	 * 
+	* @Title: statisticDepartment
+	* @Description: 按需求部门统计 
+	* author: Li Xiaoxiao 
+	* @param @param map
+	* @param @return     
+	* @return List<Map<String,Object>>     
+	* @throws
+	 */
+	List<Map<String,Object>> statisticDepartment(Map<String,Object> map);
 }

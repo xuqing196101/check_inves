@@ -14,21 +14,21 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="UpdateFiled_Map">
     select 
     <include refid="Base_Column_List" />
-    from T_BBS_PMS_UPDATE_FILED
+    from T_BSS_PMS_UPDATE_FILED
     where ID = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from T_BBS_PMS_UPDATE_FILED
+    delete from T_BSS_PMS_UPDATE_FILED
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="bss.model.pms.UpdateFiled">
-    insert into T_BBS_PMS_UPDATE_FILED (ID, COLLECT_ID, FILED, 
+    insert into T_BSS_PMS_UPDATE_FILED (ID, COLLECT_ID, FILED, 
       IS_UPDATE,FILED_NAME)
     values (#{id,jdbcType=VARCHAR}, #{collectId,jdbcType=VARCHAR}, #{filed,jdbcType=VARCHAR}, 
       #{isUpdate,jdbcType=DECIMAL},#{filedName,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="bss.model.pms.UpdateFiled">
-    insert into T_BBS_PMS_UPDATE_FILED
+    insert into T_BSS_PMS_UPDATE_FILED
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         ID,
@@ -67,7 +67,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="bss.model.pms.UpdateFiled">
-    update T_BBS_PMS_UPDATE_FILED
+    update T_BSS_PMS_UPDATE_FILED
     <set>
       <if test="collectId != null">
         COLLECT_ID = #{collectId,jdbcType=VARCHAR},
@@ -85,7 +85,7 @@
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="bss.model.pms.UpdateFiled">
-    update T_BBS_PMS_UPDATE_FILED
+    update T_BSS_PMS_UPDATE_FILED
     set COLLECT_ID = #{collectId,jdbcType=VARCHAR},
       FILED = #{filed,jdbcType=VARCHAR},
       IS_UPDATE = #{isUpdate,jdbcType=DECIMAL},
@@ -96,13 +96,13 @@
   <select id="getAll" resultMap="UpdateFiled_Map" >
   select
   	  <include refid="Base_Column_List" />
-    from T_BBS_PMS_UPDATE_FILED
+    from T_BSS_PMS_UPDATE_FILED
   
   </select>
   
   
   <update id="update" >
-  update  T_BBS_PMS_UPDATE_FILED
+  update  T_BSS_PMS_UPDATE_FILED
   <set>
     <if test="isUpdate != null">
          IS_UPDATE = #{isUpdate}
@@ -123,10 +123,10 @@
   </where>
   </update>
   
-   <select id="query" parameterType="bss.model.pms.UpdateFiled" resultMap="UpdateFiled_Map">
+   <select id="query"  resultMap="UpdateFiled_Map">
     select 
     <include refid="Base_Column_List" />
-    from T_BBS_PMS_UPDATE_FILED
+    from T_BSS_PMS_UPDATE_FILED
     <where>
     <if test="collectId !=null">
     COLLECT_ID = #{collectId}

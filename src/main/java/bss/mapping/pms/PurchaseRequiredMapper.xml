@@ -44,6 +44,7 @@
 		<result column="THREE_ORGANIZA" jdbcType="VARCHAR"  property="threeOrganiza"/>
 		<result column="THREE_ADVICE" jdbcType="VARCHAR"  property="threeAdvice"/>
 		<result column="BRAND" jdbcType="VARCHAR"  property="brand"/>
+		<result column="USER_UNIT" jdbcType="VARCHAR"  property="userUnit"/>
 	</resultMap>
 	<sql id="Base_Column_List">
 		ID, PLAN_NAME, PLAN_NO, PLAN_TYPE, DEPARTMENT, GOODS_NAME, STAND,
@@ -51,7 +52,7 @@
 		PURCHASE_COUNT, PRICE, BUDGET, DELIVER_DATE, PURCHASE_TYPE, SUPPLIER, IS_FREE_TAX,
 		GOODS_USE, USE_UNIT, CREATED_AT, USER_ID, PARENT_ID, REQ_LEVEL,
 		STARUS, MEMO,SEQ,HISTORY_STATUS,GOODS_TYPE,AUDIT_DATE,ORGANIZATION,IS_MASTER,IS_DELETE,IS_COLLECT,CODE,ONE_PURCHASETYPE,
-		ONE_ORGANIZA,ONE_ADVICE,TWO_TECHADVICE,TWO_ADVICE,THREE_PURCHASETYPE,THREE_ORGANIZA,THREE_ADVICE,BRAND
+		ONE_ORGANIZA,ONE_ADVICE,TWO_TECHADVICE,TWO_ADVICE,THREE_PURCHASETYPE,THREE_ORGANIZA,THREE_ADVICE,BRAND,USER_UNIT
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="PurchaseRequired_Map">
@@ -73,7 +74,7 @@
 		IS_FREE_TAX, GOODS_USE, USE_UNIT,
 		CREATED_AT, USER_ID, PARENT_ID,
 		REQ_LEVEL, STARUS, MEMO,SEQ,HISTORY_STATUS,GOODS_TYPE,AUDIT_DATE,ORGANIZATION,IS_MASTER,IS_DELETE,IS_COLLECT,CODE,ONE_PURCHASETYPE,
-		ONE_ORGANIZA,ONE_ADVICE,TWO_TECHADVICE,TWO_ADVICE,THREE_PURCHASETYPE,THREE_ORGANIZA,THREE_ADVICE,BRAND
+		ONE_ORGANIZA,ONE_ADVICE,TWO_TECHADVICE,TWO_ADVICE,THREE_PURCHASETYPE,THREE_ORGANIZA,THREE_ADVICE,BRAND,USER_UNIT
 		)
 		values (#{id,jdbcType=VARCHAR}, #{planName,jdbcType=VARCHAR},
 		#{planNo,jdbcType=VARCHAR},
@@ -91,7 +92,7 @@
 		#{auditDate,jdbcType=DATE},#{organization,jdbcType=VARCHAR},#{isMaster,jdbcType=VARCHAR},#{isDelete,jdbcType=INTEGER},
 		#{isCollect,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{onePurchaseType,jdbcType=VARCHAR}, #{oneOrganiza,jdbcType=VARCHAR}, #{oneAdvice,jdbcType=VARCHAR},
 		#{twoTechAdvice,jdbcType=VARCHAR}, #{twoAdvice,jdbcType=VARCHAR},  
-		#{threePurchaseType,jdbcType=VARCHAR}, #{threeOrganiza,jdbcType=VARCHAR}, #{threeAdvice,jdbcType=VARCHAR}, #{brand,jdbcType=VARCHAR},
+		#{threePurchaseType,jdbcType=VARCHAR}, #{threeOrganiza,jdbcType=VARCHAR}, #{threeAdvice,jdbcType=VARCHAR}, #{brand,jdbcType=VARCHAR},#{userUnit,jdbcType=VARCHAR}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="bss.model.pms.PurchaseRequired">
@@ -223,6 +224,9 @@
 			<if test="brand != null">
 				BRAND,
 			</if>
+			<if test="userUnit != null">
+				USER_UNIT,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -350,6 +354,9 @@
 			</if>
 			<if test="brand != null">
 				#{brand,jdbcType=VARCHAR},
+			</if>
+			<if test="userUnit != null">
+				#{userUnit,jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>
@@ -479,7 +486,9 @@
 			<if test="brand != null">
 				BRAND=#{brand,jdbcType=VARCHAR},
 			</if>
-			
+			<if test="userUnit != null">
+				USER_UNIT=#{userUnit,jdbcType=VARCHAR},
+			</if>
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
@@ -525,7 +534,8 @@
 		THREE_PURCHASETYPE=#{threePurchaseType,jdbcType=VARCHAR},
 		THREE_ORGANIZA=#{threeOrganiza,jdbcType=VARCHAR},
 		THREE_ADVICE=#{threeAdvice,jdbcType=VARCHAR},
-		BRAND=#{brand,jdbcType=VARCHAR}
+		BRAND=#{brand,jdbcType=VARCHAR},
+		USER_UNIT=#{userUnit,jdbcType=VARCHAR}
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
 	<select id="query" parameterType="bss.model.pms.PurchaseRequired"
@@ -612,5 +622,34 @@
 			</if>
 		</where>
 	</select>
+	
+	
+	
+	<select id="statisticDepartment" parameterType="Map" resultType="Map" >
+		select
+		 sum(BUDGET) as amount,DEPARTMENT as department
+		 from T_BSS_PMS_PURCHASE_REQUIRED
+	 	<include refid="param"/>
+		 group by DEPARTMENT
+	 
+	</select>
+	
+	
+	<sql id="param">
+	 <where>
+	 IS_DELETE!='1' and ORGANIZATION is not null
+	 and IS_MASTER!='1'
+	 	<!-- <if test="status != null">
+	 		and STARUS=#{status}
+	 	</if> -->
+	 	<if test="year!=null">
+	 	and to_char(CREATED_AT,'yyyy')=#{year}
+	 	</if>
+	 	<if test="organization !=null">
+	 	ORGANIZATION=#{organization}
+	 	</if>
+	 </where>	
+	
+	</sql>
 	
 </mapper>

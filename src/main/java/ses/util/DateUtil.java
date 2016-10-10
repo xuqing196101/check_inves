@@ -15,7 +15,6 @@ public class DateUtil implements Converter<String, Date> {
 	        try {      
 	            return dateFormat.parse(source);      
 	        } catch (Exception e) {      
-	            e.printStackTrace();      
 	        }   
 	        
 		return null;

@@ -81,6 +81,12 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 		List<PurchaseRequired> list = purchaseRequiredMapper.getByMap(map);	
 		return list;
 	}
+
+	@Override
+	public List<Map<String, Object>> statisticDepartment(Map<String, Object> map) {
+		 
+		return purchaseRequiredMapper.statisticDepartment(map);
+	}
 	
 	 
 
