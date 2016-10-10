@@ -190,9 +190,9 @@
 		bt.*, BU.REL_NAME AS SENDER_NAME
 		FROM
 		T_SES_BMS_USER bu
-		INNER JOIN T_SES_BMS_TODOS bt ON BT.SENDER_ID = BU."ID"
+		LEFT JOIN T_SES_BMS_TODOS bt ON BT.SENDER_ID = BU."ID"
 		WHERE
-	    BU.ORG_ID IN #{ids,jdbcType=DECIMAL}
+	    bt.RECEIVER_ID IN #{ids,jdbcType=DECIMAL}
 		AND BT.IS_DELETED = 0
 		AND BT.IS_FINISH =#{todos.isFinish,jdbcType=DECIMAL}
 		AND BT.UNDO_TYPE = #{todos.undoType,jdbcType=DECIMAL}

@@ -166,7 +166,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<!-- 项目戳开始 -->
 
 
-		<form id="add_form" action="<%=basePath%>project/list.html"
+		<form id="add_form" action="<%=basePath%>ExpExtract/projectlist.html"
 			method="post">
 			<label class="fl">项目名称：<input type="text" name="name" /></label> <label
 				class="fl">项目编号：<input type="text" name="projectNumber" />
@@ -203,17 +203,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<th class="info">项目状态</th>
 					</tr>
 				</thead>
-				<c:forEach items="${info.list}" var="obj" varStatus="vs">
-					<tr style="cursor: pointer;">
-						<td class="tc w30"><input type="checkbox" value="${obj.id }"
-							name="chkItem" onclick="check()" alt=""></td>
-						<td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-						<td class="tc">${obj.name}</td>
-						<td class="tc">${obj.projectNumber }</td>
-						<td class="tc">${obj.status }</td>
-					</tr>
-				</c:forEach>
-
+			    <c:forEach items="${info.list}" var="obj" varStatus="vs">
+            <tr style="cursor: pointer;">
+              <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
+              <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+              <td class="tc" onclick="see(${obj.id});">${obj.name}</td>
+              <td class="tc" onclick="see(${obj.id});">${obj.projectNumber }</td>
+              <td class="tc" onclick="see(${obj.id});">
+              <c:if test="${'1'==obj.status}">已启动</c:if>
+              <c:if test="${'2'==obj.status}">已成交</c:if>
+              <c:if test="${'3'==obj.status}">新建报批</c:if>
+              </td>
+            </tr>
+     
+         </c:forEach> 
 
 			</table>
 
