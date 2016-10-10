@@ -287,7 +287,6 @@ return true;
 						<tr>
 							<th class="info w30"><input type="checkbox" id="checkAll"
 								onclick="selectAll()" alt=""></th>
-							<th class="info w50">序号</th>
 							<th class="info">专家类型</th>
 							<th class="info">专家数量</th>
 							<th class="info">执业资格</th>
@@ -299,7 +298,6 @@ return true;
 							<tr>
 								<td class='tc w30'><input type="checkbox"
 									value="${conTypes.id}" name="chkItem" onclick="check()"></td>
-								<td>${conTypes.expertsTypeId }</td>
 								<td>${conTypes.expertsTypeId }</td>
 								<td>${conTypes.expertsCount }</td>
 								<td>${conTypes.expertsQualification }</td>

@@ -221,7 +221,16 @@
                                         <c:forEach items="${listTodos }" var="agentslist"
                                             varStatus="s">
                                             <div class="AccordionPanel">
-                                                <div class="AccordionPanelTab">${agentslist[0].undoType }（${agentslist.size()}）</div>
+                                                  <div class="AccordionPanelTab">
+                                                      <c:if test="${agentslist[0].undoType==1}">
+                                                                                                                                                                  供应商待办
+                                                    </c:if>
+                                                      <c:if test="${agentslist[0].undoType==2}">
+                                                                                                                                                               专家待办
+                                                    </c:if>
+                                                      (${agentslist.size()})
+                                                
+                                                </div>
                                                 <div class="">
                                                     <table class=" table table-bordered table-condensed">
                                                         <thead>
@@ -259,7 +268,16 @@
                                     <div id="Accordion1" class="Accordion" tabindex="0">
                                         <c:forEach items="${listTodosf }" var="agentslist" varStatus="s">
                                             <div class="AccordionPanel">
-                                                <div class="AccordionPanelTab">${agentslist[0].undoType }(${agentslist.size()})</div>
+                                                 <div class="AccordionPanelTab">
+                                                      <c:if test="${agentslist[0].undoType==1}">
+                                                                                                                                                                  供应商待办
+                                                    </c:if>
+                                                      <c:if test="${agentslist[0].undoType==2}">
+                                                                                                                                                               专家待办
+                                                    </c:if>
+                                                      (${agentslist.size()})
+                                                
+                                                </div>
                                                 <table class="table table-bordered table-condensed">
                                                     <thead>
                                                         <tr>
