@@ -246,11 +246,6 @@ function fanhui(){
    </div>
   <!-- 项目戳开始 -->
   <div class="container clear margin-top-30">
-   <div class="container">
-   <div class="col-md-12">
-	<button class="btn btn-windows back" onclick="fanhui()">返回</button>	
-	</div>
-    </div>
   <!--详情开始-->
   <div class="container content height-350">
     <div class="row magazine-page">

@@ -105,4 +105,10 @@
 .color7171C6 {
 	color: #7171C6;
 }
-
+.breadcrumbs{
+	overflow: hidden;
+	padding: 0px 0 0px;
+	border-bottom: solid 2px #eee;
+	border-top: solid 2px #eee;
+	background: #fafafa; 
+}

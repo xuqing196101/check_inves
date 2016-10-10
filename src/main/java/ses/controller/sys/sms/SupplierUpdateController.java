@@ -119,7 +119,7 @@ public class SupplierUpdateController {
 		supplierUpdateService.insertSelective(ae);
 		Todos todo=new Todos();
 		//自己的id
-		todo.setSenderId(user.getTypeId());
+		todo.setSenderId(user.getId());
 		//代办人id
 		todo.setReceiverId(supplier.getProcurementDepId());
 		//待办类型 供应商

@@ -7,11 +7,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -40,7 +42,7 @@ public class ImportRecommendController {
 	private ImportRecommendService importRecommendService;
 	@Autowired
 	private UserServiceI userService;
-	
+
 	/**
 	 * @Title: registerStart
 	 * @author Song Biaowei
@@ -69,7 +71,7 @@ public class ImportRecommendController {
 	 * @param @return      
 	 * @return String
 	 */
-	@RequestMapping("add")
+	@RequestMapping("/add")
 	public String add(){
 		return "ses/sms/import_recommend/add";
 	}
@@ -86,8 +88,15 @@ public class ImportRecommendController {
 	 * @param @throws IOException      
 	 * @return String
 	 */
-	@RequestMapping("save")
-	public String save(ImportRecommend ir,Model model,HttpServletRequest request) throws IOException{
+	@RequestMapping("/save")
+	public String save(@Valid ImportRecommend ir,Model model,BindingResult result,HttpServletRequest request) throws IOException{
+		/*if(result.hasErrors()){
+			List<FieldError> errors = result.getFieldErrors();
+			for(FieldError fieldError:errors){
+				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
+			}
+			return "ses/sms/import_recommend/add";
+		}*/
 		User user1=(User) request.getSession().getAttribute("loginUser");
 		ir.setCreatedAt(new Date());
 		ir.setCreator(user1.getRelName());
@@ -112,7 +121,7 @@ public class ImportRecommendController {
 	 * @param @return      
 	 * @return String
 	 */
-	@RequestMapping("edit")
+	@RequestMapping("/edit")
 	public String edit(String id,Model model){
 		ImportRecommend ir=importRecommendService.findById(id);
 		model.addAttribute("ir", ir);
@@ -131,7 +140,7 @@ public class ImportRecommendController {
 	 * @param @throws IOException      
 	 * @return String
 	 */
-	@RequestMapping("update")
+	@RequestMapping("/update")
 	public String update(ImportRecommend ir,Model model,HttpServletRequest request) throws IOException{
 		ir.setUpdatedAt(new Date());
 		importRecommendService.update(ir);
@@ -147,7 +156,7 @@ public class ImportRecommendController {
 	 * @param @return      
 	 * @return String
 	 */
-	@RequestMapping("delete_soft")
+	@RequestMapping("/delete_soft")
 	public String delete_soft(String ids) {
 		String[] id = ids.split(",");
 		for (String str : id) {
@@ -167,7 +176,7 @@ public class ImportRecommendController {
 	 * @param @return      
 	 * @return String
 	 */
-	@RequestMapping("show")
+	@RequestMapping("/show")
 	public String show(String id,Model model){
 		ImportRecommend ir=importRecommendService.findById(id);
 		model.addAttribute("ir", ir);
@@ -184,7 +193,7 @@ public class ImportRecommendController {
 	 * @param @return      
 	 * @return String
 	 */
-	@RequestMapping("zanting")
+	@RequestMapping("/zanting")
 	public String zanting(String id,Model model){
 		ImportRecommend ir=importRecommendService.findById(id);
 		ir.setStatus((short)3);
@@ -201,7 +210,7 @@ public class ImportRecommendController {
 	 * @param @throws IOException      
 	 * @return String
 	 */
-	@RequestMapping("jihuo_add")
+	@RequestMapping("/jihuo_add")
 	public String jihuo(String id,Model model) throws IOException{
 		model.addAttribute("id", id);
 		return "ses/sms/import_recommend/jihuo";
@@ -219,7 +228,7 @@ public class ImportRecommendController {
 	 * @return String
 	 * @throws IOException 
 	 */
-	@RequestMapping("jihuo_save")
+	@RequestMapping("/jihuo_save")
 	public String jihuoSave(ImportRecommend ir,String id,Model model,HttpServletRequest request) throws IOException{
 		this.setSupplierUpload(request,ir);
 		ImportRecommend ir1=importRecommendService.findById(id);
