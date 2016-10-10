@@ -147,4 +147,16 @@ public interface ExamPaperUserMapper {
 	* @return List<ExamPaperUser>
 	 */
 	List<ExamPaperUser> findIsExamByCondition(HashMap<String,Object> map);
+	
+	/**
+	 * 
+	* @Title: findCurrentUserSchedule
+	* @author ZhaoBo
+	* @date 2016-10-10 下午1:55:00  
+	* @Description: 查看当前采购人的考试安排 
+	* @param @param map
+	* @param @return      
+	* @return List<ExamPaperUser>
+	 */
+	List<ExamPaperUser> findCurrentUserSchedule(HashMap<String,Object> map);
 }

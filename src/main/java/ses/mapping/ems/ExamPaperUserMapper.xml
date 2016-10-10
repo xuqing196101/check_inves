@@ -242,4 +242,21 @@
   		AND 
   			PAPER_ID = #{paperId} 	
   </select>
+  
+  <!-- 查看当前采购人的考试安排 -->
+  <select id="findCurrentUserSchedule" parameterType="java.util.Map" resultType="ses.model.ems.ExamPaperUser">
+  		SELECT
+			p.name AS name,
+			p.code AS code,
+			p.TEST_TIME AS testTime,
+			p.START_TIME AS startTime,
+			p.IS_ALLOW_RETAKE AS isAllowRetake
+		FROM
+			T_SES_EMS_EXAM_PAPER P,
+			T_SES_EMS_EXAM_PAPER_USER U
+		WHERE
+			P.ID = U.PAPER_ID
+		AND U.USER_ID = #{userId}
+		ORDER BY P.START_TIME DESC
+  </select>
 </mapper>

@@ -676,7 +676,11 @@ public class ExpertExamController {
 	@RequestMapping("/ready")
 	public String ready(Model model){
 		List<ExamRule> examRule = examRuleService.select();
-		model.addAttribute("testCycle", examRule.get(0).getTestCycle());
+		if(examRule.size()==0){
+			model.addAttribute("message", "暂无考试安排");
+		}else{
+			model.addAttribute("testCycle", examRule.get(0).getTestCycle());
+		}
 		return "ses/ems/exam/expert/ready";
 	}
 	
@@ -883,7 +887,6 @@ public class ExpertExamController {
 			examRule.setPassStandard(passStandard);
 			examRule.setQuestionCount(Integer.parseInt(queNum));
 			examRule.setTestCycle(testCycle);
-//			examRule.setTestTime(testTime);
 			examRule.setPaperScore(paperScore);
 			examRule.setCreatedAt(new Date());
 			examRule.setTestLong(dNow);
@@ -898,12 +901,11 @@ public class ExpertExamController {
 			examRule.setPassStandard(passStandard);
 			examRule.setQuestionCount(Integer.parseInt(queNum));
 			examRule.setTestCycle(testCycle);
-//			examRule.setTestTime(testTime);
 			examRule.setPaperScore(paperScore);
 			examRule.setTestLong(dNow);
 			examRuleService.updateByPrimaryKeySelective(examRule);
 		}
-		return "redirect:/login/index.html";
+		return "redirect:/login/home.html";
 	}
 	
 	/**
@@ -1002,46 +1004,49 @@ public class ExpertExamController {
 		User user = (User) request.getSession().getAttribute("loginUser");
 		Expert expert = expertService.selectByPrimaryKey(user.getTypeId());
 		List<ExamRule> examRule = examRuleService.select();
-		if(examRule.get(0).getTestLong().getTime()<new Date().getTime()){
-			if(expert.getIsDo()==null){
-				ExamUserScore score = new ExamUserScore();
-				score.setUserId(user.getId());
-				score.setCreatedAt(new Date());
-				score.setIsMax(1);
-				score.setUserType(1);
-				score.setScore("0");
-				score.setStatus("不及格");
-				if(expert.getExpertsTypeId().equals("1")){
-					score.setUserDuty("技术");
-				}else if(expert.getExpertsTypeId().equals("2")){
-					score.setUserDuty("法律");
-				}else if(expert.getExpertsTypeId().equals("3")){
-					score.setUserDuty("商务");
+		if(examRule.size()!=0){
+			if(examRule.get(0).getTestLong().getTime()<new Date().getTime()){
+				if(expert.getIsDo()==null){
+					ExamUserScore score = new ExamUserScore();
+					score.setUserId(user.getId());
+					score.setCreatedAt(new Date());
+					score.setIsMax(1);
+					score.setUserType(1);
+					score.setScore("0");
+					score.setStatus("不及格");
+					if(expert.getExpertsTypeId().equals("1")){
+						score.setUserDuty("技术");
+					}else if(expert.getExpertsTypeId().equals("2")){
+						score.setUserDuty("法律");
+					}else if(expert.getExpertsTypeId().equals("3")){
+						score.setUserDuty("商务");
+					}
+					examUserScoreService.insertSelective(score);
+					Expert personal = new Expert();
+					personal.setId(user.getTypeId());
+					personal.setIsDo("2");
+					expertService.updateByPrimaryKeySelective(personal);
 				}
-				examUserScoreService.insertSelective(score);
-				Expert personal = new Expert();
-				personal.setId(user.getTypeId());
-				personal.setIsDo("2");
-				expertService.updateByPrimaryKeySelective(personal);
 			}
-		}
-		HashMap<String,Object> map = new HashMap<String,Object>();
-		map.put("userId", user.getId());
-		if(page==null){
-			page = 1;
-		}
-		map.put("page", page.toString());
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-		List<ExamUserScore> scores = examUserScoreService.findByUserId(map);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		for(int i=0;i<scores.size();i++){
-			scores.get(i).setRelName(user.getRelName());
-			if(scores.get(i).getTestDate()!=null){
-				scores.get(i).setFormatDate(sdf.format(scores.get(i).getTestDate()));
+			HashMap<String,Object> map = new HashMap<String,Object>();
+			map.put("userId", user.getId());
+			if(page==null){
+				page = 1;
 			}
+			map.put("page", page.toString());
+			PropertiesUtil config = new PropertiesUtil("config.properties");
+			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+			List<ExamUserScore> scores = examUserScoreService.findByUserId(map);
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			for(int i=0;i<scores.size();i++){
+				scores.get(i).setRelName(user.getRelName());
+				if(scores.get(i).getTestDate()!=null){
+					scores.get(i).setFormatDate(sdf.format(scores.get(i).getTestDate()));
+				}
+			}
+			model.addAttribute("list", new PageInfo<ExamUserScore>(scores));
 		}
-		model.addAttribute("list", new PageInfo<ExamUserScore>(scores));
+		
 		return "ses/ems/exam/expert/personal_result";
 	}
 	
@@ -1331,5 +1336,28 @@ public class ExpertExamController {
 	@RequestMapping("/exitExam")
 	public String exitExam(){
 		return "redirect:/login/home.html";
+	}
+	
+	/**
+	 * 
+	* @Title: testSchedule
+	* @author ZhaoBo
+	* @date 2016-10-10 下午1:06:02  
+	* @Description: 查看考试安排 
+	* @param @param request
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/testSchedule")
+	public String testSchedule(HttpServletRequest request,Model model){
+		List<ExamRule> examRule = examRuleService.select();
+		if(examRule.size()==0){
+			model.addAttribute("message", "暂无考试安排");
+		}else{
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			examRule.get(0).setFormatDate(sdf.format(examRule.get(0).getTestLong()));
+			model.addAttribute("rule", examRule.get(0));
+		}
+		return "ses/ems/exam/expert/test_schedule";
 	}
 }

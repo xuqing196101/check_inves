@@ -56,6 +56,11 @@ public class ExamRule {
 	 * @Fields testLong : 备用字段
 	 */
 	private Date testLong;
+	
+	/**
+	 * @Fields formatDate : 时间备用字段
+	 */
+	private String formatDate;
 
 	public String getId() {
 		return id;
@@ -127,6 +132,14 @@ public class ExamRule {
 
 	public void setTestLong(Date testLong) {
 		this.testLong = testLong;
+	}
+
+	public String getFormatDate() {
+		return formatDate;
+	}
+
+	public void setFormatDate(String formatDate) {
+		this.formatDate = formatDate;
 	}
 	
 	
