@@ -104,41 +104,61 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </script>
 </head>
 <body>
-<h1>01、项目分包信息</h1>
-<table class="table table-bordered table-condensed">
-<thead>
-  <tr>
-    <th colspan="5" align="left">第一包</th>
-  </tr>
-  <tr>
-    <th>序号</th>
-    <th>采购品目</th>
-    <th>名称</th>
-    <th>单位</th>
-    <th>数量</th>
-  </tr>
-  </thead>
-</table>
-<table class="table table-bordered table-condensed">
-<thead>
-  <tr>
-    <th colspan="5" align="left">第二包</th>
-  </tr>
-  <tr>
-    <th>序号</th>
-    <th>采购品目</th>
-    <th>名称</th>
-    <th>单位</th>
-    <th>数量</th>
-  </tr>
-</thead>
-</table>
-<h1>02、初审项定义</h1>
-<div>
+ <div class="container clear margin-top-30" id="package">
+   <h1>01、项目分包信息</h1>
+	   <c:forEach items="${packageList }" var="pack" varStatus="p">
+	   		<span>包名:<span>${pack.name }</span>
+	   		<input type="hidden" value="${pack.id }"/>
+	   		</span>
+	   		
+	   		<table class="table table-bordered table-condensed mt5">
+        	<thead>
+        		<tr class="info">
+          			<th class="w50">序号</th>
+         			<th>需求部门</th>
+			        <th>物资名称</th>
+			        <th>规格型号</th>
+			        <th>质量技术标准</th>
+			        <th>计量单位</th>
+			        <th>采购数量</th>
+			        <th>单价（元）</th>
+			        <th>预算金额（万元）</th>
+			        <th>交货期限</th>
+			        <th>采购方式建议</th>
+			        <th>供应商名称</th>
+			        <th>是否申请办理免税</th>
+				    <th>物资用途（进口）</th>
+				    <th>使用单位（进口）</th>
+        		</tr>
+        	</thead>
+          <c:forEach items="${pack.projectDetails}" var="obj">
+            <tr class="tc">
+	            <td class="w50">${obj.serialNumber }</td>
+	            <td>${obj.department}</td>
+	            <td>${obj.goodsName}</td>
+	            <td>${obj.stand}</td>
+	            <td>${obj.qualitStand}</td>
+	            <td>${obj.item}</td>
+	            <td>${obj.purchaseCount}</td>
+	            <td>${obj.price}</td>
+	            <td>${obj.budget}</td>
+	            <td>${obj.deliverDate}</td>
+	            <td>${obj.purchaseType}</td>
+	            <td>${obj.supplier}</td>
+	            <td>${obj.isFreeTax}</td>
+		        <td>${obj.goodsUse}</td>
+		        <td>${obj.useUnit}</td>
+            </tr>
+         </c:forEach> 
+      </table>
+	   </c:forEach>
+   </div>
+<div class="container clear margin-top-30" id="package">
+ <h1>02、初审项定义</h1>
   <form action="">
   <input type="button" value="选择初审项模板" class="btn btn-windows"/>
   <input type="button" value="手动添加初审项" onclick="openWindow();" class="btn btn-windows"/>
-    <table class="table table-bordered table-condensed">
+    <table class="table table-bordered table-condensed mt5">
     <thead>
       <tr>
         <th>初审项名称</th>
@@ -161,7 +181,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </table>
   </form>
 </div>
-<div id="openWindow" style="display: none;">
+<!-- 按钮 -->
+  	<div class="padding-top-10 clear">
+		<div class="col-md-12 pl200 ">
+			<div class="mt40 tc mb50">
+	    		<input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+			</div>
+	  	</div>
+	 </div>	
+<div id="openWindow"  style="display: none;">
 	<form action="<%=basePath %>firstAudit/add.html" method="post" id="form1">
      <table class="table table-bordered table-condensed">
      <thead>

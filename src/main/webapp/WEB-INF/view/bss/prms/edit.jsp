@@ -70,11 +70,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <tr>
       <input type="hidden" name="projectId" value="${firstAudit.projectId }">
       <input type="hidden" name="id" value="${firstAudit.id }">
-      <input type="button"  value="修改" onclick="submit1();"  class="btn btn-windows add"/>
-      <input type="button"  value="取消"  class="btn btn-windows add" onclick="cancel();"/>
       </tr>
      <thead>
     </table>
+      <input type="button"  value="修改" onclick="submit1();"  class="btn btn-windows add"/>
+      <input type="button"  value="取消"  class="btn btn-windows add" onclick="cancel();"/>
   </form>
 </div>
 </body>
