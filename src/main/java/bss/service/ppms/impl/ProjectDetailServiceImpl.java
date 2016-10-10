@@ -40,7 +40,7 @@ public class ProjectDetailServiceImpl implements ProjectDetailService {
 	}
 
 	@Override
-	public ProjectDetail selectById(String id) {
+	public List<ProjectDetail> selectById(String id) {
 		return projectDetailMapper.selectById(id);
 	}
 

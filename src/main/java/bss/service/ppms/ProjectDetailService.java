@@ -8,7 +8,7 @@ public interface ProjectDetailService {
 	
     ProjectDetail selectByPrimaryKey(String id);
     
-    ProjectDetail selectById(String id);
+    List<ProjectDetail> selectById(String id);
 	
 	void insert(ProjectDetail projectDetail);
 	

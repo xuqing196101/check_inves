@@ -8,7 +8,7 @@ public interface ProjectDetailMapper {
 	
 	ProjectDetail selectByPrimaryKey(String id);
 	
-	ProjectDetail selectById(String id);
+	List<ProjectDetail> selectById(String id);
 	
 	void insertSelective(ProjectDetail projectDetail);
 	
