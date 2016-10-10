@@ -226,6 +226,7 @@ public class ProjectController extends BaseController{
 		for (int i = 0; i < ids.length; i++) {
 			PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(ids[i]);
 			
+			
 		}
 		 
 		return "bss/ppms/project/saveDetail";

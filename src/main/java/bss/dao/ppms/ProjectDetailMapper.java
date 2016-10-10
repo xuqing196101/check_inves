@@ -1,5 +1,7 @@
 package bss.dao.ppms;
 
+import java.util.List;
+
 import bss.model.ppms.ProjectDetail;
 
 public interface ProjectDetailMapper {
@@ -11,5 +13,7 @@ public interface ProjectDetailMapper {
 	void deleteByPrimaryKey(String id);
 	
 	void updateByPrimaryKeySelective(ProjectDetail projectDetail);
+	
+	List<ProjectDetail> listByAll(ProjectDetail projectDetail);
 
 }

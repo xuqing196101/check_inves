@@ -45,7 +45,7 @@
     delete from T_BSS_PPMS_PROJECTS_DETAIL
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="bss.model.ppms.PreMenu">
+  <insert id="insert" parameterType="bss.model.ppms.ProjectDetail">
     insert into T_BSS_PPMS_PROJECTS_DETAIL (ID, SERIAL_NUMBER, DEPARTMENT, 
       GOODS_NAME, STAND, QUALIT_STAND, 
       ITEM, PURCHASE_COUNT, PRICE, 
@@ -61,7 +61,7 @@
       #{useUnit,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
       #{purchaseId,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="bss.model.ppms.PreMenu">
+  <insert id="insertSelective" parameterType="bss.model.ppms.ProjectDetail">
     insert into T_BSS_PPMS_PROJECTS_DETAIL
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -182,7 +182,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="bss.model.ppms.PreMenu">
+  <update id="updateByPrimaryKeySelective" parameterType="bss.model.ppms.ProjectDetail">
     update T_BSS_PPMS_PROJECTS_DETAIL
     <set>
       <if test="serialNumber != null">
@@ -242,7 +242,7 @@
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="bss.model.ppms.PreMenu">
+  <update id="updateByPrimaryKey" parameterType="bss.model.ppms.ProjectDetail">
     update T_BSS_PPMS_PROJECTS_DETAIL
     set SERIAL_NUMBER = #{serialNumber,jdbcType=VARCHAR},
       DEPARTMENT = #{department,jdbcType=VARCHAR},
