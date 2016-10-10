@@ -167,9 +167,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                    		</li>
                		</ul>
 				</li>
-			    <li class="jczc">
+			    <li class="pzpz">
 				<a href="#">
-				  <div class="top_icon jczc_icon"><%--<img src="<%=basePath%>public/ZHH/images/top_06.png"/>--%></div>
+				  <div class="top_icon pzpz_icon"><%--<img src="<%=basePath%>public/ZHH/images/top_06.png"/>--%></div>
 				  <span>配置配置</span>
 				 </a>
 				</li>
