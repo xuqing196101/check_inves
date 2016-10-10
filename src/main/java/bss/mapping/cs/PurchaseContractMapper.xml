@@ -35,27 +35,53 @@
     <result column="SUPPLIER_BANK_ACCOUNT" jdbcType="DECIMAL" property="supplierBankAccount" />
     <result column="SUPPLIER_BANK_NAME" jdbcType="VARCHAR" property="supplierBankName" />
     <result column="SUPPLIER_PUR_ID" jdbcType="VARCHAR" property="supplierPurId"/>
-    <result column="CONTENT" jdbcType="VARCHAR" property="content"/>
+    <result column="PROJECT_NAME" jdbcType="VARCHAR" property="projectName"/>
   </resultMap>
+  
+  <resultMap extends="purContractMap" id="purContractBlob" type="bss.model.cs.PurchaseContract">
+    <result column="CONTENT" jdbcType="CLOB" property="content"/>
+  </resultMap>
+  
   <sql id="Base_Column_List">
     ID, CODE, NAME, MONEY, DEMAND_SECTOR, BUDGET, YEAR, BUDGET_SUBJECT_ITEM, APPROVAL_NUMBER, 
     DOCUMENT_NUMBER, QUA_CODE, STATUS, PURCHASE_DEP_NAME, PURCHASE_LEGAL, PURCHASE_AGENT, 
     PURCHASE_CONTACT, PURCHASE_CONTACT_TELEPHONE, PURCHASE_CONTACT_ADDRESS, PURCHASE_UNITPOST_CODE, 
     PURCHASE_PAY_DEP, PURCHASE_BANK, PURCHASE_BANK_ACCOUNT, SUPPLIER_DEP_NAME, SUPPLIER_LEGAL, 
     SUPPLIER_AGENT, SUPPLIER_CONTACT, SUOPPLIER_CONTACT_TELEPHONE, SUPPLIER_CONTACT_ADDRESS, 
-    SUPPLIER_UNITPOST_CODE, SUPPLIER_BANK, SUPPLIER_BANK_ACCOUNT, SUPPLIER_BANK_NAME,SUPPLIER_PUR_ID,
-    CONTENT
+    SUPPLIER_UNITPOST_CODE, SUPPLIER_BANK, SUPPLIER_BANK_ACCOUNT, SUPPLIER_BANK_NAME,SUPPLIER_PUR_ID,PROJECT_NAME
   </sql>
+  <sql id="PurCon_BlOB_Column_List">
+  	CONTENT
+  </sql>
+  
   <select id="selectContractByid" parameterType="java.lang.String" resultMap="purContractMap">
     select 
     <include refid="Base_Column_List" />
     from T_BSS_CS_PURCHASE_CONTRACT
     where ID = #{id,jdbcType=VARCHAR}
   </select>
+  
+  <select id="selectDraftById" parameterType="java.lang.String" resultMap="purContractBlob">
+  	select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="PurCon_BlOB_Column_List" />
+    from T_BSS_CS_PURCHASE_CONTRACT
+    where ID = #{id,jdbcType=VARCHAR}
+    and status = '1'
+  </select>
+  
   <select id="selectAllPurchaseContract" resultMap="purContractMap">
   	select 
   	<include refid="Base_Column_List"/>
   	from T_BSS_CS_PURCHASE_CONTRACT
+  </select>
+  
+  <select id="selectDraftContract" resultMap="purContractMap">
+  	select 
+  	<include refid="Base_Column_List"/>
+  	from T_BSS_CS_PURCHASE_CONTRACT
+  	where STATUS = '1'
   </select>
   
   <select id="selectByCode" parameterType="java.lang.String" resultMap="purContractMap">
@@ -82,7 +108,7 @@
       SUPPLIER_CONTACT, SUOPPLIER_CONTACT_TELEPHONE, 
       SUPPLIER_CONTACT_ADDRESS, SUPPLIER_UNITPOST_CODE, 
       SUPPLIER_BANK, SUPPLIER_BANK_ACCOUNT, SUPPLIER_BANK_NAME,SUPPLIER_PUR_ID,
-      CONTENT
+      CONTENT,PROJECT_NAME
       )
     values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{money,jdbcType=DECIMAL}, #{demandSector,jdbcType=VARCHAR}, #{budget,jdbcType=DECIMAL}, 
@@ -96,7 +122,7 @@
       #{supplierContact,jdbcType=VARCHAR}, #{suopplierContactTelephone,jdbcType=VARCHAR}, 
       #{supplierContactAddress,jdbcType=VARCHAR}, #{supplierUnitpostCode,jdbcType=VARCHAR}, 
       #{supplierBank,jdbcType=VARCHAR}, #{supplierBankAccount,jdbcType=DECIMAL}, #{supplierBankName,jdbcType=VARCHAR},
-      #{supplierPurId,jdbcType=VARCHAR},#{content,jdbcType=VARCHAR}
+      #{supplierPurId,jdbcType=VARCHAR},#{content},#{projectName}
       )
   </insert>
   <insert id="insertSelective" parameterType="bss.model.cs.PurchaseContract">
@@ -207,6 +233,9 @@
       <if test="content != null">
         CONTENT,
       </if>
+      <if test="projectName != null">
+        PROJECT_NAME,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -309,7 +338,10 @@
         #{supplierPurId,jdbcType=VARCHAR},
       </if>
       <if test="content != null">
-        #{content,jdbcType=VARCHAR},
+        #{content},
+      </if>
+      <if test="projectName != null">
+        #{projectName},
       </if>
     </trim>
   </insert>
@@ -413,7 +445,10 @@
         SUPPLIER_PUR_ID = #{supplierPurId,jdbcType=VARCHAR},
       </if>
       <if test="content != null">
-        CONTENT = #{content,jdbcType=VARCHAR},
+        CONTENT = #{content},
+      </if>
+      <if test="projectName != null">
+        PROJECT_NAME = #{projectName},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
@@ -452,7 +487,8 @@
       SUPPLIER_BANK_ACCOUNT = #{supplierBankAccount,jdbcType=DECIMAL},
       SUPPLIER_BANK_NAME = #{supplierBankName,jdbcType=VARCHAR},
       SUPPLIER_PUR_ID = #{supplierPurId,jdbcType=VARCHAR},
-      CONTENT = #{content,jdbcType=VARCHAR}
+      CONTENT = #{content},
+      PROJECT_NAME = #{projectName}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

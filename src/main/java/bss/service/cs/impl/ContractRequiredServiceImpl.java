@@ -1,5 +1,7 @@
 package bss.service.cs.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,4 +51,8 @@ public class ContractRequiredServiceImpl implements ContractRequiredService {
 		return 0;
 	}
 
+	@Override
+	public List<ContractRequired> selectConRequeByContractId(String conId) {
+		return contractRequiredMapper.selectConRequeByContractId(conId);
+	}
 }

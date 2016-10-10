@@ -1,5 +1,6 @@
 package ses.util;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -17,6 +18,15 @@ import org.apache.commons.lang.StringUtils;
 public class ValidateUtils {
 	 /** 整数  */  
     private static final String  V_INTEGER = "^-?[1-9]\\d*$";  
+    
+    /** 两位小数金额  */
+    private static final String V_MONEY = "^([1-9][\\d]{0,7}|0)(\\.[\\d]{1,2})?$";
+    
+    /** 年份  */
+    private static final String V_YEAR = "^(19|20)\\d{2}$";
+    
+    /** 银行账号  */
+    private static final String V_BANKACCOUNT = "^(\\d{16}|\\d{19})$";
   
     /**  正整数 */  
     private static final String V_Z_INDEX = "^[1-9]\\d*$";  
@@ -130,6 +140,11 @@ public class ValidateUtils {
     public final static boolean isNull(Integer integer){
         if(integer == null) return true;
         return false;
+    }
+    
+    public final static boolean isNull(BigDecimal bigdecimal){
+    	if(bigdecimal == null) return true;
+    	return false;
     }
     
     public final static boolean isNull(Collection collection){
@@ -487,6 +502,33 @@ public class ValidateUtils {
     public static boolean Zipcode(String value){  
         return match(V_ZIPCODE,value);  
     }  
+    
+    /** 
+     * 验证金额 
+     * @param value 要验证的字符串 
+     * @return 如果是符合格式的字符串,返回 <b>true </b>,否则为 <b>false </b> 
+     */
+    public static boolean Money(String value){
+    	return match(V_MONEY,value);
+    }
+    
+    /** 
+     * 验证年份
+     * @param value 要验证的字符串 
+     * @return 如果是符合格式的字符串,返回 <b>true </b>,否则为 <b>false </b> 
+     */
+    public static boolean Year(String value){
+    	return match(V_YEAR,value);
+    }
+    
+    /** 
+     * 验证银行账号
+     * @param value 要验证的字符串 
+     * @return 如果是符合格式的字符串,返回 <b>true </b>,否则为 <b>false </b> 
+     */
+    public static boolean BANK_ACCOUNT(String value){
+    	return match(V_BANKACCOUNT,value);
+    }
     
     /**
      * Description: 是否包含中英文特殊字符，除英文"-_"字符外

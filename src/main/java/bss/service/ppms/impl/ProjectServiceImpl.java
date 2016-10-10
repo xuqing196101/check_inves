@@ -1,6 +1,7 @@
 package bss.service.ppms.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,10 +59,10 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public List<Project> selectSuccessProject(Integer page,Project project) {
+	public List<Project> selectSuccessProject(Map<String,Object> map) {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-		List<Project> lists = projectMapper.selectSuccessProject(project);
+		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
+		List<Project> lists = projectMapper.selectSuccessProject(map);
 		return lists;
 	}
 

@@ -25,6 +25,14 @@
     from T_BSS_CS_CONTRACT_REQUIRED
     where ID = #{id,jdbcType=VARCHAR}
   </select>
+  
+  <select id="selectConRequeByContractId" parameterType="java.lang.String" resultMap="ConRequ">
+  	select
+  	<include refid="Base_Column_List" />
+  	from T_BSS_CS_CONTRACT_REQUIRED
+  	where CONTRACT_ID = #{contractId,jdbcType=VARCHAR}
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from T_BSS_CS_CONTRACT_REQUIRED
     where ID = #{id,jdbcType=VARCHAR}

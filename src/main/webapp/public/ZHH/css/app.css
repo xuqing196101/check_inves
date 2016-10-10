@@ -3752,3 +3752,6 @@ img.img-center,
   background:url(../images/list_icon.png) no-repeat 5px;
   padding-left:40px !important;
  }
+.cbp_detail span{
+	margin-right:20px;
+}

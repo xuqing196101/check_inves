@@ -53,7 +53,7 @@
  * you can safely remove those properties without affecting the functionality of the widget.
  */
 .AccordionPanelTab {
-	background-color: #CCCCCC;
+	background-color: #e5e5e5;
 	border-top: solid 1px #eeeeee;
 	border-bottom: solid 1px #eeeeee;
 	margin: 0px;
@@ -87,7 +87,8 @@
  * from panels as the user clicks on the tabs within the Accordion.
  */
 .AccordionPanelOpen .AccordionPanelTab {
-	background-color: #FAFAFA;
+	background-color: #47b2b8;
+	color:#ffffff;
 }
 
 /* This is an example of how to change the appearance of the panel tab as the
@@ -98,7 +99,7 @@
 	color: #555555;
 }
 .AccordionPanelOpen .AccordionPanelTabHover {
-	color: #555555;
+	color: #ffffff;
 }
 
 /* This is an example of how to change the appearance of all the panel tabs when the
@@ -106,14 +107,15 @@
  * whenever the Accordion gains or loses keyboard focus.
  */
 .AccordionFocused .AccordionPanelTab {
-	background-color: #CCCCCC;
+	background-color: #e5e5e5;
 }
 
 /* This is an example of how to change the appearance of the panel tab that is
  * currently open when the Accordion has focus.
  */
 .AccordionFocused .AccordionPanelOpen .AccordionPanelTab {
-	background-color: #FAFAFA;
+	background-color: #47b2b8;
+	color:#ffffff;
 }
 /* Rules for Printing */
 

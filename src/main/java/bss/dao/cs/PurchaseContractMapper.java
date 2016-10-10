@@ -69,4 +69,27 @@ public interface PurchaseContractMapper {
     * @return PurchaseContract
      */
     PurchaseContract selectByCode(String code);
+    
+    /**
+     * 
+    * @Title: selectDraftContract
+    * @author QuJie 
+    * @date 2016-10-9 下午1:10:54  
+    * @Description: 查询所有合同草稿 
+    * @param @return      
+    * @return PurchaseContract
+     */
+    List<PurchaseContract> selectDraftContract();
+    
+    /**
+     * 
+    * @Title: selectDraftById
+    * @author QuJie 
+    * @date 2016-10-10 上午10:13:58  
+    * @Description: 根据id查询合同草稿
+    * @param @param id
+    * @param @return      
+    * @return List<PurchaseContract>
+     */
+    PurchaseContract selectDraftById(String id);
 }

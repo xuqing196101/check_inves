@@ -102,6 +102,10 @@
   		var articleId = "${articleId}";
   		window.location.href="<%=basePath%>downloadUser/selectDownloadUserByArticleId.html?userName="+condition+"&articleId="+articleId;
   	}
+  	
+  	function reset(){
+  		$("#condition").val("");
+  	}
   </script>
   </head>
   
@@ -126,6 +130,7 @@
 	 <ul class="demand_list list-unstyled">
 	   <li class="fl"><label class="fl mt10">下载人姓名：</label><span><input type="text" value="${userName}" id="condition" class="mb0 mt5"/></span></li>
 	   	 <button class="btn btn_back fl ml10 mt8" onclick="search()">查询</button>
+	   	 <button class="btn btn_back fl ml10 mt8" onclick="reset()">重置</button>
 	 </ul>
 	 <div class="clear"></div>
    </h2>

@@ -110,19 +110,19 @@
   		$("#purchaseDep").val("");
   	}
   	
-  	function createContract(){
+  	function updateDraft(){
   		var ids =[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			ids.push($(this).val()); 
 		}); 
 		if(ids.length>0){
 			if(ids.length>1){
-				layer.alert("只可选择一条项目生成",{offset: ['222px', '390px'], shade:0.01});
+				layer.alert("只可选择一条修改",{offset: ['222px', '390px'], shade:0.01});
 			}else{
-				window.location.href="<%=basePath%>purchaseContract/createCommonContract.html?ids="+ids;
+				window.location.href="<%=basePath%>purchaseContract/createDraftContract.html?ids="+ids;
 			}
 		}else{
-			layer.alert("请选择要生成的项目",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择要修改的草稿",{offset: ['222px', '390px'], shade:0.01});
 		}
   	}
   </script>
@@ -134,7 +134,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">采购合同管理</a></li><li><a href="#">采购合同列表</a></li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">采购合同管理</a></li><li><a href="#">合同草稿管理</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -148,23 +148,33 @@
   <div class="p10_25">
      <h2 class="padding-10 border1">
     	<ul class="demand_list">
-          <li class="fl ml8"><label class="fl mt10">采购项目名称：</label><span><input type="text" value="" id="projectName" class="mb0 mt5"/></span></li>
-	      <li class="fl ml8"><label class="fl mt10">编号：</label><span><input type="text" value="" id="projectCode" class="mb0 mt5"/></span></li>
+          <li class="fl ml8"><label class="fl mt10">采购项目：</label><span><input type="text" value="" id="projectName" class="mb0 mt5"/></span></li>
+	      <li class="fl ml8"><label class="fl mt10">合同编号：</label><span><input type="text" value="" id="projectCode" class="mb0 mt5"/></span></li>
+	      <li class="fl ml8"><label class="fl mt10">供应商：</label><span><input type="text" value="" id="purchaseDep" class="mb0 mt5"/></span></li>
 	      <li class="fl ml8"><label class="fl mt10">采购机构：</label><span><input type="text" value="" id="purchaseDep" class="mb0 mt5"/></span></li>
-	    	<button type="button" onclick="query()" class="btn">查询</button>
-	    	<button type="reset" onclick="reset()" class="btn">重置</button>  	
+	      <li class="fl ml8"><label class="fl mt10">需求部门：</label><span><input type="text" value="" id="purchaseDep" class="mb0 mt5"/></span></li>
+	      <li class="fl ml8"><label class="fl mt10">计划文件号：</label><span><input type="text" value="" id="purchaseDep" class="mb0 mt5"/></span></li>
+	      <li class="fl ml8"><label class="fl mt10">年度：</label><span><input type="text" value="" id="purchaseDep" class="mb0 mt5"/></span></li>
+	      <li class="fl ml8"><label class="fl mt10">项级预算科目：</label><span><input type="text" value="" id="purchaseDep" class="mb0 mt5"/></span></li>
+    	  <div class="fl col-md-4 tc">
+    	    <button type="button" onclick="query()" class="btn">查询</button>
+    	    <button type="reset" onclick="reset()" class="btn">重置</button>
+    	  </div>
     	</ul>
+
     	  <div class="clear"></div>
      </h2>
    </div>
    </h2>
   </div>
    <div class="headline-v2 fl">
-      <h2>成交项目列表
+      <h2>合同草稿列表
 	  </h2>
    </div> 
    	  <span class="fr option_btn margin-top-20 mr10">
-	    <button class="btn padding-left-10 padding-right-10 btn_back" onclick="createContract()">生成合同</button>
+   	  	<button class="btn padding-left-10 padding-right-10 btn_back" onclick="updateDraft()">修改</button>
+   	  	<button class="btn padding-left-10 padding-right-10 btn_back" onclick="delDraft()">删除</button>
+	    <button class="btn padding-left-10 padding-right-10 btn_back" onclick="createContract()">生成正式合同</button>
 	  </span>
    <div class="container clear">
     <div class="p10_25">
@@ -173,24 +183,34 @@
 			<tr>
 				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 			    <th class="info w50">序号</th>
-				<th class="info">采购项目名称</th>
-				<th class="info">编号</th>
-				<th class="info">包号</th>
-				<th class="info">成交金额</th>
-				<th class="info">成交供应商</th>
+				<th class="info">合同名称</th>
+				<th class="info">合同编号</th>
+				<th class="info">合同金额</th>
+				<th class="info">项目名称</th>
+				<th class="info">供应商名称</th>
 				<th class="info">采购机构</th>
+				<th class="info">需求部门</th>
+				<th class="info">计划文件号</th>
+				<th class="info">预算</th>
+				<th class="info">年度</th>
+				<th class="info">项级预算科目</th>
 			</tr>
 		</thead>
-		<c:forEach items="${projectList}" var="contract" varStatus="vs">
+		<c:forEach items="${draftConList}" var="draftCon" varStatus="vs">
 			<tr>
-				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${contract.id}" /></td>
+				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${draftCon.id}" /></td>
 				<td class="tc pointer">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-				<td class="tc pointer">${contract.name}</td>
-				<td class="tc pointer">${contract.projectNumber}</td>
-				<td class="tc pointer">${contract.baleNo}</td>
-				<td class="tc pointer">${contract.amount}</td>
-				<td class="tc pointer">${contract.dealSupplier.supplierName}</td>
-				<td class="tc pointer">${contract.purchaseDep.depName}</td>
+				<td class="tc pointer">${draftCon.name}</td>
+				<td class="tc pointer">${draftCon.code}</td>
+				<td class="tc pointer">${draftCon.money}</td>
+				<td class="tc pointer">${draftCon.projectName}</td>
+				<td class="tc pointer">${draftCon.purchaseDepName}</td>
+				<td class="tc pointer">${draftCon.supplierDepName}</td>
+				<td class="tc pointer">${draftCon.demandSector}</td>
+				<td class="tc pointer">${draftCon.documentNumber}</td>
+				<td class="tc pointer">${draftCon.budget}</td>
+				<td class="tc pointer">${draftCon.year}</td>
+				<td class="tc pointer">${draftCon.budgetSubjectItem}</td>
 			</tr>
 		</c:forEach>
 	</table>

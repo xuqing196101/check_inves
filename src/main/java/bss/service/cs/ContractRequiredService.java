@@ -1,5 +1,7 @@
 package bss.service.cs;
 
+import java.util.List;
+
 import bss.model.cs.ContractRequired;
 
 public interface ContractRequiredService {
@@ -14,4 +16,6 @@ public interface ContractRequiredService {
     int updateByPrimaryKeySelective(ContractRequired record);
 
     int updateByPrimaryKey(ContractRequired record);
+    
+    List<ContractRequired> selectConRequeByContractId(String conId);
 }

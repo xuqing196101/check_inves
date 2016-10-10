@@ -221,7 +221,7 @@
                                         <c:forEach items="${listTodos }" var="agentslist"
                                             varStatus="s">
                                             <div class="AccordionPanel">
-                                                <div class="AccordionPanelTab">${agentslist[0].undoType }(${agentslist.size()})</div>
+                                                <div class="AccordionPanelTab">${agentslist[0].undoType }（${agentslist.size()}）</div>
                                                 <div class="">
                                                     <table class=" table table-bordered table-condensed">
                                                         <thead>
