@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
 String path = request.getContextPath();
@@ -100,268 +101,64 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/layer/layer.js"></script>
 <script src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
 <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/highmap/js/themes/jquery-1.8.2.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
-<script src="${pageContext.request.contextPath}/public/highmap/js/highcharts.js"></script>
-<script src="${pageContext.request.contextPath}/public/highmap/js/modules/map.js"></script>
-<script src="${pageContext.request.contextPath}/public/highmap/js/modules/data.js"></script>
-<script src="${pageContext.request.contextPath}/public/highmap/js/modules/drilldown.js"></script>
-<script src="${pageContext.request.contextPath}/public/highmap/js/modules/exporting.js"></script>
-<script src="${pageContext.request.contextPath}/public/highmap/js/cn-china-by-peng8.js"></script>
-<link href="<%=basePath%>public/highmap/js/font-awesome.css" media="screen" rel="stylesheet">
-<title>My JSP 'index.jsp' starting page</title>
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">    
-<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-<meta http-equiv="description" content="This is my page">
-<style type="text/css">
-#container {
-	height: 700px;
-	min-width: 310px;
-	max-width: 800px;
-	margin: 0 auto;
-}
-
-.loading {
-	margin-top: 10em;
-	text-align: center;
-	color: gray;
-}
-</style>
+<title>采购机构查询</title>
 <script type="text/javascript">
-	$(function () {
-	var address;
-    Highcharts.setOptions({
-        lang:{
-            drillUpText:"返回 > {series.name}"
-        }
-    });
-
-    var data = Highcharts.geojson(Highcharts.maps['countries/cn/custom/cn-all-china']),small = $('#container').width() < 400;
-    // 给城市设置随机数据
-    $.each(data, function (i) {
-        this.drilldown = this.properties['drill-key'];
-		 
-        this.value = i;
-    });
-		function getPoint(e){
-			console.log(e.point.name);
-		}
-	function getShow(e){
-		alert(1);
-	}
-    //初始化地图
-    $('#container').highcharts('Map', {
-
-        chart : {
-					spacingBottom:30,
-				 
-            events: {
-               
-            }
-        },
-			tooltip: { 
-				formatter:function(){
-					var htm="";
-					if(this.point.drilldown){
-					    htm+=this.point.properties["cn-name"];
-					}else{
-						 htm+=this.point.name;
-					}
-					address=htm;
-					 var data='${data}';
-				    if(data==''){
-				     	htm+=":"+0; 
-				    }else{
-					   var index=data.indexOf(htm);
-					   var indexStart=index+htm.length;
-					   var indexEnd=indexStart+2;
-					   var supplierNum=data.substring(indexStart,indexEnd );
-					   if("0123456789".indexOf(supplierNum.substring(supplierNum.length-1, supplierNum.length))==-1){
-					   		supplierNum=supplierNum.substring(0,1);
-					   }
-					   htm+=":"+supplierNum; 
-					 }
-					return htm;
-				}
-					},
-        credits:{
-					href:"javascript:goHome()",
-            text:""
-        },
-        title : {
-            text : '供应商数量统计'
-        },
-
-        subtitle: {
-            text: '中国',
-            floating: true,
-            align: 'right',
-            y: 50,
-            style: {
-                fontSize: '16px'
-            }
-        },
-
-        legend: small ? {} : {
-					 // enabled: false,
-            layout: 'vertical',
-            align: 'right',
-            verticalAlign: 'middle'
-        },
-        //tooltip:{
-        //pointFormat:"{point.properties.cn-name}:{point.value}"
-        //},
-        colorAxis: {
-            min: 0,
-            minColor: '#E6E7E8',
-            maxColor: '#005645',
-					labels:{
-						style:{
-								"color":"red","fontWeight":"bold"
-						}
-					}
-        },
-
-        mapNavigation: {
-            enabled: true,
-            buttonOptions: {
-                verticalAlign: 'bottom'
-            }
-        },
-
-        plotOptions: {
-            map: {
-                states: {
-                    hover: {
-                        color: '#EEDD66'
-                    }
-                }
-            }
-        },
-
-        series : [{
-            data : data,
-            name: '中国',
-            dataLabels: {
-                enabled: true,
-                format: '{point.properties.cn-name}'
-            },
-            point: {
-               events: {
-                   click: function () { 
-                   address=encodeURI(address);
-                   address=encodeURI(address);
-                       window.location.href="<%=basePath%>purchaseManage/purchaseDepdetailList.html?parentName="+address;
-                    }
-                  }
-           }
-        }],
-
-        drilldown: {
-					
-            activeDataLabelStyle: {
-                color: '#FFFFFF',
-                textDecoration: 'none',
-                textShadow: '0 0 3px #000000'
-            },
-            drillUpButton: {
-                relativeTo: 'spacingBox',
-                position: {
-                    x: 0,
-                    y: 60
-                }
-            }
-        }
-    });
-});
-
-var base64EncodeChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";  
-var base64DecodeChars = new Array(  
-    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  
-    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  
-    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 62, -1, -1, -1, 63,  
-    52, 53, 54, 55, 56, 57, 58, 59, 60, 61, -1, -1, -1, -1, -1, -1,  
-    -1,  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14,  
-    15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, -1, -1, -1, -1, -1,  
-    -1, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,  
-    41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, -1, -1, -1, -1, -1);  
-
-
-function base64decode(str) {  
-    var c1, c2, c3, c4;  
-    var i, len, out;  
-  
-    len = str.length;  
-    i = 0;  
-    out = "";  
-    while(i < len) {  
-    /* c1 */  
-    do {  
-        c1 = base64DecodeChars[str.charCodeAt(i++) & 0xff];  
-    } while(i < len && c1 == -1);  
-    if(c1 == -1)  
-        break;  
-  
-    /* c2 */  
-    do {  
-        c2 = base64DecodeChars[str.charCodeAt(i++) & 0xff];  
-    } while(i < len && c2 == -1);  
-    if(c2 == -1)  
-        break;  
-  
-    out += String.fromCharCode((c1 << 2) | ((c2 & 0x30) >> 4));  
-  
-    /* c3 */  
-    do {  
-        c3 = str.charCodeAt(i++) & 0xff;  
-        if(c3 == 61)  
-        return out;  
-        c3 = base64DecodeChars[c3];  
-    } while(i < len && c3 == -1);  
-    if(c3 == -1)  
-        break;  
-  
-    out += String.fromCharCode(((c2 & 0XF) << 4) | ((c3 & 0x3C) >> 2));  
-  
-    /* c4 */  
-    do {  
-        c4 = str.charCodeAt(i++) & 0xff;  
-        if(c4 == 61)  
-        return out;  
-        c4 = base64DecodeChars[c4];  
-    } while(i < len && c4 == -1);  
-    if(c4 == -1)  
-        break;  
-    out += String.fromCharCode(((c3 & 0x03) << 6) | c4);  
-    }  
-    return out;  
-}  
-function goHome(){
-	window.open("http://www.peng8.net/");
-}
-/* function getGithub()
-	{
-		$.getJSON("https://api.github.com/repos/peng8/GeoMap/contents/json/bei_jing.geo.json", function(data){
-		console.log(base64decode(data.content));
-		}); 
-	}*/
-function submit(){
-	form1.submit();
-}
+	  	  $(function(){
+		  laypage({
+			    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+			    pages: "${list.pages}", //总页数
+			    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+			    skip: true, //是否开启跳页
+			    total: "${list.total}",
+			    startRow: "${list.startRow}",
+			    endRow: "${list.endRow}",
+			    groups: "${list.pages}">=5?5:"${list.pages}", //连续显示分页数
+			    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+			        var page = location.search.match(/page=(\d+)/);
+			        return page ? page[1] : 1;
+			    }(), 
+			    jump: function(e, first){ //触发分页后的回调
+			        if(!first){ //一定要加此判断，否则初始时会无限刷新
+			             location.href = '<%=basePath %>purchaseManage/purchaseDepdetailList.html?page='+e.curr+"&address=${address}";
+			        }
+			    }
+			});
+	  });
+	  function fanhui(){
+	  	window.location.href="<%=basePath%>purchaseManage/purchaseDepMapList.html"
+	  }
 function chongzhi(){
-	$("#name").val('');
-	$("#quaStartDate").val('');
-	$("#quaEdndate").val('');
+	$("#supplierName").val('');
+	$("#startDate").val('');
+	$("#endDate").val('');
+	$("#contactName").val('');
 	$("option")[0].selected = true;
 }
+$(function() {
+		/* var optionNodes = $("option");
+		for ( var i = 1; i < optionNodes.length; i++) {
+			if ("${supplier.supplierType}" == $(optionNodes[i]).val()) {
+				optionNodes[i].selected = true;
+			}
+		} */
+	});
 </script>
 </head>
   <body>
+  	<div class="margin-top-10 breadcrumbs ">
+	      <div class="container">
+			   <ul class="breadcrumb margin-left-0">
+			   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">机构管理</a></li><li class="active"><a href="#">采购机构查询管理</a></li>
+			   </ul>
+			<div class="clear"></div>
+		  </div>
+	   </div>
   	<div class="container clear margin-top-30">
-  			<form id="form1" action="<%=basePath %>purchaseManage/purchaseDepMapList.html" method="post">
+  			<h2>采购机构信息查询</h2>
+  				<form id="form1" action="<%=basePath %>purchaseManage/purchaseDepdetailList.html" method="post">
 		       <input type="hidden" name="page" id="page">
+		       <input type="hidden" name="parentName" value="${parentName }">
 		       <table class="table table-bordered table-condensed tc">
 		       	<tbody>
 		       		<tr>
@@ -395,7 +192,37 @@ function chongzhi(){
 		       	</tbody>
 		       </table>
 		     </form>
+		       <h2>采购机构信息</h2>
+		      <table id="tb1"  class="table table-striped table-bordered table-hover tc">
+		      <thead>
+				<tr>
+					<th class="info w50">序号</th>
+					<th class="info">采购机构名称</th>
+					<th class="info">采购资质编号</th>
+					<th class="info">等级</th>
+					<th class="info">地址</th>
+					<th class="info">采购资质开始日期</th>
+					<th class="info">采购资质截止日期</th>
+					<th class="info">上级监管部门</th>
+				</tr>
+			  </thead>
+			  <tbody>
+				 <c:forEach items="${list.list }" var="list" varStatus="vs">
+					<tr>
+						<td>${vs.index+1 }</td>
+						<td><a href="<%=basePath%>purchaseManage/purchaseDepMapShow.html?orgId=${list.orgId}">${list.name }</a></td>
+						<td>${list.quaCode }</td>
+						<td>${list.levelDep }</td>
+						<%-- <td><fmt:formatDate value="${list.createdAt }" pattern="yyyy-MM-dd HH:mm:ss" /></td> --%>
+						<td>${list.address }</td>
+						<td><fmt:formatDate value="${list.quaStartDate }" pattern="yyyy-MM-dd" /></td>
+						<td><fmt:formatDate value="${list.quaEdndate }" pattern="yyyy-MM-dd" /></td>
+						<td>军区采购</td>
+					</tr>
+				</c:forEach> 
+			  </tbody>
+		 </table>
+		 <div id="pagediv" align="right"></div>
      </div>
-  <div id="container"></div>
   </body>
 </html>

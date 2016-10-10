@@ -112,6 +112,8 @@
 	//需求部门、采购机构、监管部门切换注册页面   0  是监管部门
 	function show(){
 		 var typeName = $("#typeName").val();
+		 $("#tab tr:gt(0)").remove();
+		 array=[];
 		 console.dir(typeName);
 		 if(typeName!=null && typeName!="" && typeName=="0"){
 		 	$(".monitor").show();

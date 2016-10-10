@@ -2,6 +2,8 @@ package ses.model.oms;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import ses.model.bms.User;
 
 public class PurchaseInfo extends User{
@@ -16,14 +18,14 @@ public class PurchaseInfo extends User{
 
     private String nation;
 
-    private String purchaseDepId;//采购机构id
+    private String purchaseDepId;//采购机构id  save  orgId
     private String purchaseDepName;//采购机构名称
 
-    private String political;
+    private String political;//政治面貌
 
-    private Integer purcahserType;
-
-    private Date birthAt;
+    private String purcahserType;//类型0.军人1.文职2.职工3.战士
+    
+    private String birthAt;
 
     private String area;
 
@@ -46,8 +48,7 @@ public class PurchaseInfo extends User{
     private String quaCode;
 
     private String quaLevel;//采购资格等级
-
-    private Date quaEdndate;
+    private String quaEdndate;
 
     private String quaCert;
 
@@ -61,8 +62,7 @@ public class PurchaseInfo extends User{
     private String workExperience;
 
     private String trainExperience;
-    
-    private Date quaStartDate;
+    private String quaStartDate;
     private Integer isDeleted; 
     private String userId;//用户id
     
@@ -94,19 +94,19 @@ public class PurchaseInfo extends User{
         this.political = political == null ? null : political.trim();
     }
 
-    public Integer getPurcahserType() {
+    public String getPurcahserType() {
         return purcahserType;
     }
 
-    public void setPurcahserType(Integer purcahserType) {
+    public void setPurcahserType(String purcahserType) {
         this.purcahserType = purcahserType;
     }
 
-    public Date getBirthAt() {
+    public String getBirthAt() {
         return birthAt;
     }
 
-    public void setBirthAt(Date birthAt) {
+    public void setBirthAt(String birthAt) {
         this.birthAt = birthAt;
     }
 
@@ -199,11 +199,11 @@ public class PurchaseInfo extends User{
         this.quaLevel = quaLevel == null ? null : quaLevel.trim();
     }
 
-    public Date getQuaEdndate() {
+    public String getQuaEdndate() {
         return quaEdndate;
     }
 
-    public void setQuaEdndate(Date quaEdndate) {
+    public void setQuaEdndate(String quaEdndate) {
         this.quaEdndate = quaEdndate;
     }
 
@@ -267,11 +267,11 @@ public class PurchaseInfo extends User{
 		this.nation = nation;
 	}
 
-	public Date getQuaStartDate() {
+	public String getQuaStartDate() {
 		return quaStartDate;
 	}
 
-	public void setQuaStartDate(Date quaStartDate) {
+	public void setQuaStartDate(String quaStartDate) {
 		this.quaStartDate = quaStartDate;
 	}
 

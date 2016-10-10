@@ -6,10 +6,11 @@
 			   select d.id  as id,
 		       u.GENDER       as gender,
 		       d.NATION       as nation,
-		       d.PURCHASE_DEP_ID     as purchaseDepId,
+		       o.id     as purchaseDepId,
+		       o.name   as purchaseDepName,
 		       d.POLITICAL         as political,
 		       d.PURCAHSER_TYPE       as purcahserType,
-		       d.BIRTH_AT       as birthAt,
+		       to_char(d.BIRTH_AT, 'yyyy-MM-dd')       as birthAt,
 		       d.AREA         as area,
 		       d.PROVINCE_ID      as provinceId,
 		       d.CITY_ID    as cityId,
@@ -23,40 +24,39 @@
 		       d.TRAIN_EXPERIENCE   as trainExperience,
 		       d.QUA_CODE   as quaCode,
 		       d.QUA_LEVEL   as quaLevel,
-		       d.QUA_EDNDATE   as quaEdndate,
+		       to_char(d.QUA_EDNDATE, 'yyyy-MM-dd')   as quaEdndate,
 		       d.QUA_CERT   as quaCert,
 		       d.QUA_RANK   as quaRank,
 		       d.FAX   as fax,
 		       u.ADDRESS   as address,
 		       d.POST_CODE   as postCode,
-		       d.QUA_START_DATE   as quaStartDate,
-		       o.name    as  purchaseDepName,
+		       to_char(d.QUA_START_DATE, 'yyyy-MM-dd')   as quaStartDate,
 		       u.id      as  userId,
 		       u.REL_NAME as relName,
 		       d.AGE      as age,
 		       u.DUTIES         as duties,
 		       u.TELEPHONE           as telephone
 		  from T_SES_OMS_PURCHASER     d
-		  LEFT JOIN T_SES_OMS_PURCHASE_DEP p on d.PURCHASE_DEP_ID = p.id
-		  LEFT JOIN T_SES_OMS_ORG o on o.id = p.ORG_ID
-		  LEFT JOIN	T_SES_BMS_USER u on d.id=u.TYPE_ID
+		  LEFT JOIN	T_SES_BMS_USER u on d.id = u.type_id
+		  LEFT JOIN T_SES_OMS_ORG o on o.id = d.purchase_dep_id
 		 where nvl(d.is_deleted,0)=0
-		 <if test="id != null and id != ''">
+		 <if test="id != null">
 			and d.id= #{id}
 		</if>
-		 <if test="pid != null and pid != ''">
-			and d.PARENT_ID= #{pid}
-		</if>
+		 
 		<!-- 根据采购机构名称id查询 -->
-		<if test="purchaseDepId != null and purchaseDepId != ''">
-			and p.ID= #{purchaseDepId}
+		<if test="purchaseDepId != null">
+			and o.ID= #{purchaseDepId}
+		</if>
+		<if test="purchaseDepName != null">
+			and o.name like '%'||#{purchaseDepName}||'%' 
 		</if>
 		<!-- 根据用户表真实姓名查询 -->
-		<if test="relName != null and relName != ''">
-			and u.REL_NAME= #{relName}
+		<if test="relName != null">
+			and u.REL_NAME like '%'||#{relName}||'%' 
 		</if>
 		<!-- 根据用户身份证号查询 -->
-		<if test="idCard != null and idCard != ''">
+		<if test="idCard != null">
 			and d.ID_CARD= #{idCard}
 		</if>  
 	</select>
@@ -79,13 +79,13 @@
 		values(
 	      #{id},#{nation,jdbcType=VARCHAR},
 		  #{purchaseDepId,jdbcType=VARCHAR},#{political,jdbcType=VARCHAR},#{purcahserType,jdbcType=NUMERIC},
-		  #{birthAt,jdbcType=TIMESTAMP},#{area,jdbcType=VARCHAR},#{provinceId,jdbcType=VARCHAR},
+		  to_date(#{birthAt},'yyyy-mm-dd hh24:mi:ss'),#{area,jdbcType=VARCHAR},#{provinceId,jdbcType=VARCHAR},
 		  #{cityId,jdbcType=VARCHAR},#{townId,jdbcType=VARCHAR},#{detailAddr,jdbcType=VARCHAR},
 		  #{idCard,jdbcType=VARCHAR},#{professional,jdbcType=VARCHAR},#{topStudy,jdbcType=VARCHAR},
 		  #{graduateSchool,jdbcType=VARCHAR},#{workExperience,jdbcType=VARCHAR},#{trainExperience,jdbcType=VARCHAR},
-		  #{quaCode,jdbcType=VARCHAR},#{quaLevel,jdbcType=VARCHAR},#{quaEdndate,jdbcType=TIMESTAMP},
+		  #{quaCode,jdbcType=VARCHAR},#{quaLevel,jdbcType=VARCHAR},to_date(#{quaEdndate},'yyyy-mm-dd hh24:mi:ss'),
 		  #{quaCert,jdbcType=VARCHAR},#{quaRank,jdbcType=VARCHAR},#{fax,jdbcType=VARCHAR},
-		  #{postCode,jdbcType=VARCHAR},#{quaStartDate,jdbcType=TIMESTAMP},#{age,jdbcType=NUMERIC},
+		  #{postCode,jdbcType=VARCHAR},to_date(#{quaStartDate},'yyyy-mm-dd hh24:mi:ss'),#{age,jdbcType=NUMERIC},
 		  sysdate
 		 )
 	</insert>
@@ -95,83 +95,83 @@
 	     set 
 	         UPDATED_AT=sysdate
 	         <!-- -->
-	        <if test="nation != null and nation != ''">
+	        <if test="nation != null">
 		 		,NATION=#{nation,jdbcType=VARCHAR}
 		 	</if>
-		 	<if test="purchaseDepId != null and purchaseDepId != ''">                
+		 	<if test="purchaseDepId != null">                
 		 		,PURCHASE_DEP_ID=#{purchaseDepId,jdbcType=VARCHAR}
 		 	</if>
-		 	<if test="political != null and political != ''">
+		 	<if test="political != null">
 		 		,POLITICAL=#{political,jdbcType=VARCHAR}
 		 	</if>
-		 	<if test="purcahserType != null and purcahserType != ''">
+		 	<if test="purcahserType != null">
 		 		,PURCAHSER_TYPE=#{purcahserType,jdbcType=NUMERIC}
 		 	</if>
-		 	 <if test="birthAt != null and birthAt != ''">
-		 		,BIRTH_AT=#{birthAt,jdbcType=TIMESTAMP}
+		 	 <if test="birthAt != null">
+		 		,BIRTH_AT=to_date(#{birthAt},'yyyy-mm-dd hh24:mi:ss')  
 		 	</if>
-		 	 <if test="area != null and area != ''">
+		 	 <if test="area != null">
 		 		,AREA=#{area,jdbcType=VARCHAR}
 		 	</if>
-		 	 <if test="provinceId != null and provinceId != ''">
+		 	 <if test="provinceId != null">
 		 		,PROVINCE_ID=#{provinceId,jdbcType=VARCHAR}
 		 	</if>
-		 	 <if test="cityId != null and cityId != ''">
+		 	 <if test="cityId != null">
 		 		,CITY_ID=#{cityId,jdbcType=VARCHAR}
 		 	</if>
-	        <if test="townId != null and townId != ''">
+	        <if test="townId != null">
 		 		,TOWN_ID=#{townId,jdbcType=VARCHAR}
 		 	</if>
-		 	 <if test="detailAddr != null and detailAddr != ''">
+		 	 <if test="detailAddr != null">
 		 		,DETAIL_ADDR=#{detailAddr,jdbcType=VARCHAR}
 		 	</if>
-		 	 <if test="idCard != null and idCard != ''">
+		 	 <if test="idCard != null">
 		 		,ID_CARD=#{idCard,jdbcType=VARCHAR}
 		 	</if>
-		 	 <if test="professional != null and professional != ''">
+		 	 <if test="professional != null">
 		 		,PROFESSIONAL=#{professional,jdbcType=VARCHAR}
 		 	</if>
-		 	 <if test="topStudy != null and topStudy != ''">
+		 	 <if test="topStudy != null">
 		 		,TOP_STUDY=#{topStudy,jdbcType=VARCHAR}
 		 	</if>
-		 	 <if test="graduateSchool != null and graduateSchool != ''">
+		 	 <if test="graduateSchool != null">
 		 		,GRADUATE_SCHOOL=#{graduateSchool,jdbcType=VARCHAR}
 		 	</if>
-		 	 <if test="workExperience != null and workExperience != ''">
+		 	 <if test="workExperience != null">
 		 		,WORK_EXPERIENCE=#{workExperience,jdbcType=VARCHAR}
 		 	</if>
-		 	 <if test="trainExperience != null and trainExperience != ''">
+		 	 <if test="trainExperience != null">
 		 		,TRAIN_EXPERIENCE=#{trainExperience,jdbcType=VARCHAR}
 		 	</if>
-		 	 <if test="quaCode != null and quaCode != ''">
+		 	 <if test="quaCode != null">
 		 		,QUA_CODE=#{quaCode,jdbcType=VARCHAR}
 		 	</if>
-		 	 <if test="quaLevel != null and quaLevel != ''">
+		 	 <if test="quaLevel != null">
 		 		,QUA_LEVEL=#{quaLevel,jdbcType=VARCHAR}
 		 	</if>
-		 	 <if test="quaEdndate != null and quaEdndate != ''">
-		 		,QUA_EDNDATE=#{quaEdndate,jdbcType=TIMESTAMP}
+		 	 <if test="quaEdndate != null">
+		 		,QUA_EDNDATE= to_date(#{quaEdndate},'yyyy-mm-dd hh24:mi:ss')  
 		 	</if>
-		 	 <if test="quaCert != null and quaCert != ''">
+		 	 <if test="quaCert != null">
 		 		,QUA_CERT=#{quaCert,jdbcType=VARCHAR}
 		 	</if>
-		 	 <if test="is_deleted != null and is_deleted != ''">
-		 		,IS_DELETED=#{is_deleted,jdbcType=NUMERIC}
+		 	 <if test="isDeleted != null">
+		 		,IS_DELETED=#{isDeleted,jdbcType=NUMERIC}
 		 	</if>
-		 	 <if test="quaRank != null and quaRank != ''">
+		 	 <if test="quaRank != null">
 		 		,QUA_RANK=#{quaRank,jdbcType=VARCHAR}
 		 	</if>
 		 	
-		 	 <if test="fax != null and fax != ''">
+		 	 <if test="fax != null">
 		 		,FAX=#{fax,jdbcType=VARCHAR}
 		 	</if>
-		 	 <if test="postCode != null and postCode != ''">
+		 	 <if test="postCode != null">
 		 		,POST_CODE=#{postCode,jdbcType=VARCHAR}
 		 	</if>
-		 	 <if test="quaStartDate != null and quaStartDate != ''">
-		 		,QUA_START_DATE=#{isroot,jdbcType=TIMESTAMP}
+		 	 <if test="quaStartDate != null">
+		 		,QUA_START_DATE= to_date(#{quaStartDate},'yyyy-mm-dd hh24:mi:ss')  
 		 	</if>
-		 	 <if test="age != null and age != ''">
+		 	 <if test="age != null">
 		 		,AGE=#{age,jdbcType=NUMERIC}
 		 	</if>
 	     where s.id=#{id}    

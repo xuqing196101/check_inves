@@ -25,8 +25,9 @@
     <link href="${pageContext.request.contextPath}/public/ZHH/css/img-hover.css" media="screen" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/public/ZHH/css/page_job.css" media="screen" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
-	 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
+	
 <style type="text/css">
 .panel-title>a {
 	color: #333
@@ -148,17 +149,20 @@
     function loadTown(pid){
     	$("#cid").val(pid);
     }
-	function create(){
+	function update(){
 		$.ajax({
 		    type: 'post',
-		    url: "${pageContext.request.contextPath}/purchase/createAjax.do?",
-		    data : $('#formID').serialize(),
+		    url: "${pageContext.request.contextPath}/purchase/updateAjax.do?",
+		    data : $("#formID").serialize(),
 		    //data: {'pid':pid,$("#formID").serialize()},
 		    success: function(data) {
 		        truealert(data.message,data.success == false ? 5:1);
 		    }
 		});
 		
+	}
+	function submit(){
+		$("#formID").submit();
 	}
 	function truealert(text,iconindex){
 		layer.open({
@@ -175,16 +179,18 @@
 		});
 	}
 	function pageOnload(){
-		var proviceId = $("#pid").val();
-		console.dir(proviceId);
-		var cityId = $("#cid").val();
-		var isAudit = $("#cid").val();
-		$("#province").val('A4CCB12438AD4E49AADE355B3B02910C');
-		$("#province").get(0).selectedIndex=proviceId;
-		$("#province option[value ='"+proviceId+"']").attr("selected", true);//val(2);
-		$("#city").val(cityId);
-		//$("#provinceId").val(proviceId);
-		
+		var gender = $("#gender-select").val();
+		var purcahserType = $("#purcahserType-select").val();
+		var quaLevel  = $("#quaLevel-select").val();
+		if(gender!=null && gender!=""&&gender!="null" && gender!=undefined){
+			$("#gender").val(gender);
+		}
+		if(purcahserType!=null && purcahserType!=""&&purcahserType!="null" && purcahserType!=undefined){
+			$("#purcahserType").val(purcahserType);
+		}
+		if(quaLevel!=null && quaLevel!=""&&quaLevel!="null" && quaLevel!=undefined){
+			$("#quaLevel").val(quaLevel);
+		}
 	}
 </script>
 </head>
@@ -200,7 +206,7 @@
 				</li>
 				<li><a href="#">采购机构管理</a>
 				</li>
-				<li class="active"><a href="#">修改采购机构</a>
+				<li class="active"><a href="#">修改采购人</a>
 				</li>
 			</ul>
 			<div class="clear"></div>
@@ -212,7 +218,7 @@
 		<div id="menuContent" class="menuContent divpopups menutree">
 			<ul id="treeDemo" class="ztree"></ul>
 		</div>
-		<form action="${pageContext.request.contextPath}/purchase/create.do" method="post" id="formID">
+		<form action="${pageContext.request.contextPath}/purchase/update.do" method="post" id="formID" enctype="multipart/form-data">
 			<!-- <input type="hidden" value="1" name="typeName"/> -->
 			<div>
 				<div class="headline-v2">
@@ -229,6 +235,8 @@
 								</a>
 							</h4>
 						</div>
+						<input class="hide"  name="id" type="hidden" value="${purchaseInfo.id }">
+						<input class="hide" name="userId" type="hidden" value="${purchaseInfo.userId }">
 						<div id="collapseOne" class="panel-collapse collapse in">
 							<div class="panel-body">
 								<ul class="list-unstyled list-flow p0_20">
@@ -241,7 +249,8 @@
 									</li>
 									<li class="col-md-6  p0 "><span class="">性别：</span>
 										<div class="select_common mb10">
-											<select class="span2 w250" name="gender">
+											<input type="hidden" id="gender-select" value="${purchaseInfo.gender }"/>
+											<select class="span2 w250" name="gender" id="gender"> 
 												<option value="">-请选择-</option>
 												<option value="M">男</option>
 												<option value="F">女</option>
@@ -264,31 +273,32 @@
 									</li>
 									<li class="col-md-6  p0 "><span class="">民族：</span>
 										<div class="input-append">
-											<input class="span2" name="nation" value="${purchaseInfo.subordinateOrgName }"
+											<input class="span2" name="nation" value="${purchaseInfo.nation }"
 												type="text"> <span class="add-on">i</span>
 										</div>
 									</li>
 									<li class="col-md-6  p0 "><span class="">政治面貌：</span>
 										<div class="input-append">
-											<input class="span2" name="political" value="${purchaseInfo.businessRange }"
+											<input class="span2" name="political" value="${purchaseInfo.political }"
 												type="text"> <span class="add-on">i</span>
 										</div>
 									</li>
 									<li class="col-md-6  p0 "><span class=""><i class="red">＊</i>出生年月：</span>
 										<div class="input-append">
-											<input class="span2" type="text" readonly="readonly" onClick="WdatePicker()" name="birthAt" value="<fmt:formatDate value="${purchaseInfo.quaStartDate}" pattern="yyyy-MM-dd" />" /> 
+											<input class="span2" type="text" readonly="readonly" onClick="WdatePicker()" name="birthAt" value="${purchaseInfo.birthAt}" />" /> 
 											<span class="add-on"> <img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
 										</div>
 									</li>
 									<li class="col-md-6  p0 "><span class="">身份证号：</span>
 										<div class="input-append">
-											<input class="span2" name="idCard" value="${ purchaseInfo.postCode}"
+											<input class="span2" name="idCard" value="${ purchaseInfo.idCard}"
 												type="text"> <span class="add-on">i</span>
 										</div>
 									</li>
 									<li class="col-md-6  p0 "><span class="">人员类别：</span>
 										<div class="select_common mb10">
-											<select class="span2 w250" name="purcahserType">
+											<input type="hidden" id="purcahserType-select" value="${purchaseInfo.purcahserType }"/>
+											<select class="span2 w250" name="purcahserType" id="purcahserType"> 
 												<option value="">-请选择-</option>
 												<option value="0">军人</option>
 												<option value="1">文职</option>
@@ -305,7 +315,7 @@
 									</li>
 									<li class="col-md-6  p0 "><span class="">所属采购机构：</span>
 										<div class="select_common">
-											<input id="proSec" class="w250" type="text" readonly value="${purchaseInfo.purchaseDepName }" name="purchaseDepName" style="width:120px;" onclick="showMenu(); return false;"/>
+											<input id="proSec" type="text" class="w250" readonly value="${purchaseInfo.purchaseDepName }" name="purchaseDepName" style="width:120px;" onclick="showMenu(); return false;"/>
 											<input type="hidden"  id="treeId" name="purchaseDepId" value="${purchaseInfo.purchaseDepId }"  class="text"/>
 											 <i class="input_icon "
 												onclick="showMenu();"> <img
@@ -345,13 +355,13 @@
 									
 									<li class="col-md-6  p0 "><span class="">学历：</span>
 										<div class="input-append">
-											<input class="span2" name="topStudy" type="text"> <span
+											<input class="span2" name="topStudy" type="text" value="${ purchaseInfo.topStudy}"> <span
 												class="add-on">i</span>
 										</div>
 									</li>
 									<li class="col-md-6  p0 "><span class="">毕业院校：</span>
 										<div class="input-append">
-											<input class="span2" name="graduateSchool" type="text"> <span
+											<input class="span2" name="graduateSchool" type="text" value="${ purchaseInfo.graduateSchool}"> <span
 												class="add-on">i</span>
 										</div>
 									</li>
@@ -363,13 +373,13 @@
 									</li> -->
 									<li class="col-md-12 p0"><span class="fl">工作经历：</span>
 										<div class="col-md-12 pl200 fn mt5 pwr9">
-											<textarea class="text_area col-md-12 " name="workExperience"
+											<textarea class="text_area col-md-12 " name="workExperience" value="${ purchaseInfo.workExperience}"
 												maxlength="400" title="" placeholder=""></textarea>
 										</div>
 									</li>
 									<li class="col-md-12 p0"><span class="fl">培训经历：</span>
 										<div class="col-md-12 pl200 fn mt5 pwr9">
-											<textarea class="text_area col-md-12 " name="trainExperience"
+											<textarea class="text_area col-md-12 " name="trainExperience" value="${ purchaseInfo.trainExperience}"
 												maxlength="400" title="" placeholder=""></textarea>
 										</div>
 									</li>
@@ -391,32 +401,33 @@
 								<ul class="list-unstyled list-flow p0_20">
 									<li class="col-md-6  p0 "><span class="">资质编号：</span>
 										<div class="input-append">
-											<input class="span2" name="quaCode" type="text"> <span
+											<input class="span2" name="quaCode" type="text" value="${ purchaseInfo.quaCode}"> <span
 												class="add-on">i</span>
 										</div>
 									</li>
 									<li class="col-md-6  p0 "><span class="">采购资质范围：</span>
 										<div class="input-append">
-											<input class="span2" name="quaRank" type="text"> <span
+											<input class="span2" name="quaRank" type="text" value="${ purchaseInfo.quaRank}"> <span
 												class="add-on">i</span>
 										</div>
 									</li>
 									<li class="col-md-6  p0 "><span class=""><i class="red">＊</i>采购资质开始日期：</span>
 										<div class="input-append">
-											<input class="span2" type="text" readonly="readonly" onClick="WdatePicker()" name="quaStartDate" /> 
+											<input class="span2" type="text" readonly="readonly" onClick="WdatePicker()" name="quaStartDate"  value="${purchaseInfo.quaStartDate}"/> 
 											<span class="add-on"> <img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
 										</div>
 									</li>
 									<li class="col-md-6  p0 "><span class=""><i class="red">＊</i>采购资质截止日期：</span>
 										<div class="input-append">
-											<input class="span2" type="text" readonly="readonly" onClick="WdatePicker()" name="quaEdndate" /> 
+											<input class="span2" type="text" readonly="readonly" onClick="WdatePicker()" name="quaEdndate" value="${purchaseInfo.quaEdndate}"/> 
 											<span class="add-on"> <img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
 										</div>
 									</li>
 									
 									<li class="col-md-6  p0 "><span class="">采购资质等级：</span>
 										<div class="select_common mb10">
-											<select class="span2 w250" name="quaLevel">
+											<input type="hidden" id="quaLevel-select" value="${purchaseInfo.quaLevel }"/>
+											<select class="span2 w250" name="quaLevel" id="quaLevel">
 												<option value="">-请选择-</option>
 												<option value="0">初</option>
 												<option value="1">中</option>
@@ -424,14 +435,24 @@
 											</select> 
 										</div>
 									</li>
-									<li class="col-md-6 p0"><span class=""><i class="red">＊</i>采购资格证书图片：</span>
-										<div class="uploader orange m0">
-											<input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..." /> 
-											<input type="button" class="button" value="选择文件..." /> 
-											<input type="file" size="30" accept="image/*" />
-										</div>
+									<li id="tax_li_id" class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i> 采购资格证书图片：</span>
+										<c:if test="${purchaseInfo.quaCert != null}">
+											<div>
+												<a class="color7171C6" href="javascript:void(0)"
+													onclick="downloadFile('${purchaseInfo.quaCert}')">下载附件</a>
+												<a title="重新上传" class="ml10 red fz17"
+													href="javascript:void(0)" onclick="uploadNew('tax_li_id')">☓</a>
+											</div>
+										</c:if>
+										 <c:if test="${purchaseInfo.quaCert == null}">
+												<div class="uploader orange h32 m0">
+													<input type="text" class="filename fz11 h32 m0"
+														readonly="readonly" /> <input type="button" name="file"
+														class="button" value="选择..." /> <input name="quaCert"
+														type="file" size="30" />
+												</div>
+										</c:if>
 									</li>
-									
 								</ul>
 							</div>
 						</div>
@@ -450,31 +471,31 @@
 								<ul class="list-unstyled list-flow p0_20">
 									<li class="col-md-6  p0 "><span class="">手机号码：</span>
 										<div class="input-append">
-											<input class="span2" name="mobile" type="text"> <span
+											<input class="span2" name="mobile" type="text" value="${ purchaseInfo.mobile}"> <span
 												class="add-on">i</span>
 										</div>
 									</li>
 									<li class="col-md-6  p0 "><span class="">办公号码：</span>
 										<div class="input-append">
-											<input class="span2" name="telephone" type="text"> <span
+											<input class="span2" name="telephone" type="text" value="${ purchaseInfo.telephone}"> <span
 												class="add-on">i</span>
 										</div>
 									</li>
 									<li class="col-md-6  p0 "><span class="">传真号码：</span>
 										<div class="input-append">
-											<input class="span2" name="fax" type="text"> <span
+											<input class="span2" name="fax" type="text" value="${ purchaseInfo.fax}"> <span
 												class="add-on">i</span>
 										</div>
 									</li>
 									<li class="col-md-6  p0 "><span class="">邮政编码：</span>
 										<div class="input-append">
-											<input class="span2" name="postCode" type="text"> <span
+											<input class="span2" name="postCode" type="text" value="${ purchaseInfo.postCode}"> <span
 												class="add-on">i</span>
 										</div>
 									</li>
 									<li class="col-md-12 p0"><span class="fl">联系地址：</span>
 										<div class="col-md-12 pl200 fn mt5 pwr9">
-											<textarea class="text_area col-md-12 " name="address"
+											<textarea class="text_area col-md-12 " name="address" value="${ purchaseInfo.address}"
 												maxlength="400" title="" placeholder=""></textarea>
 										</div>
 									</li>
@@ -488,7 +509,8 @@
 
 			<div class="col-md-12">
 				<div class="mt40 tc  mb50 ">
-					<button type="button" class="btn  padding-right-20 btn_back margin-5" onclick="create();">确认</button>
+					<!-- <button type="button" class="btn  padding-right-20 btn_back margin-5" onclick="submit();">确认</button> -->
+					<button type="button" class="btn  padding-right-20 btn_back margin-5" onclick="update();">确认</button> 
 					<!-- <button type="button" class="btn  padding-right-20 btn_back margin-5" onclick="stash();">暂存</button> -->
 					<button type="button" class="btn  padding-right-20 btn_back margin-5" onclick="history.go(-1)">取消</button>
 				</div>
