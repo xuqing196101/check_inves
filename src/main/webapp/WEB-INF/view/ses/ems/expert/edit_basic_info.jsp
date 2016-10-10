@@ -488,11 +488,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    <option selected="selected" value="">-请选择-</option>
 	   	<option <c:if test="${expert.hightEducation eq '博士' }">selected="selected"</c:if> value="博士">博士</option>
 	   	<option <c:if test="${expert.hightEducation eq '硕士' }">selected="selected"</c:if> value="硕士">硕士</option>
-	   	<option <c:if test="${expert.hightEducation eq '研究生' }">selected="selected"</c:if> value="研究生">研究生</option>
-	   	<option <c:if test="${expert.hightEducation eq '本科' }">selected="selected"</c:if> value="本科">本科</option>
-	   	<option <c:if test="${expert.hightEducation eq '专科' }">selected="selected"</c:if> value="专科">专科</option>
-	   	<option <c:if test="${expert.hightEducation eq '高中' }">selected="selected"</c:if> value="高中">高中</option>
-	   	<option <c:if test="${expert.hightEducation eq '其他' }">selected="selected"</c:if> value="其他">其他</option>
+	   	<option <c:if test="${expert.hightEducation eq '学生' }">selected="selected"</c:if> value="研究生">学生</option>
 	   </select>
 	 </li> 
      <li class="col-md-6  p0 ">
@@ -569,7 +565,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <c:forEach items="${attachmentList }" var="att" varStatus="vs">
    <h4>
    <span>${vs.count }.</span>
-   <a href="<%=basePath %>expert/downLoadFile.do?attachmentId=${att.id }">${fn:substring(att.fileName, 32, -1)}</a>
+   <a href="<%=basePath %>expert/downLoadFile.do?attachmentId=${att.id }">${fn:substringAfter(att.fileName, "_")}</a>
    </h4>
    </c:forEach>
   </div>

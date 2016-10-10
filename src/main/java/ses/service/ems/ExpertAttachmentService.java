@@ -2,6 +2,8 @@ package ses.service.ems;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.http.ResponseEntity;
 
 import ses.model.ems.ExpertAttachment;
@@ -95,4 +97,15 @@ public interface ExpertAttachmentService {
 	      * @return ResponseEntity<byte[]>
 	     */
 	    ResponseEntity<byte[]> downloadFile(String attachmentId);
+	    /**
+	     * 
+	      * @Title: ftpDownLoadFile
+	      * @author ShaoYangYang
+	      * @date 2016年10月10日 上午9:41:13  
+	      * @Description: TODO ftp文件下载
+	      * @param @param dir
+	      * @param @param fileName      
+	      * @return void
+	     */
+	    void ftpDownLoadFile(String attachmentId,HttpServletResponse response);
 }

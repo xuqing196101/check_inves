@@ -579,18 +579,20 @@ public class ExpertController {
 		  * @return ResponseEntity<byte[]>
 		 */
 	  @RequestMapping("/downLoadFile")
-	  public ResponseEntity<byte[]> downLoadFile(@RequestParam("attachmentId")String attachmentId){
-		 return  attachmentService.downloadFile(attachmentId);
+	  @ResponseBody
+	  public ResponseEntity<byte[]> downLoadFile(@RequestParam("attachmentId")String attachmentId,HttpServletRequest request,HttpServletResponse response){
+		  //String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
+		  attachmentService.ftpDownLoadFile(attachmentId,response);
+		  return null;
 	  }
 	 /**
 	  * 
 	   * @Title: download
 	   * @author ShaoYangYang
-	   * @date 2016年9月7日 下午6:53:12  
+	   * @date 2016年9月7日 下午6:53:12   
 	   * @Description: TODO 下载申请表
-	   * @param @param id
+	   * @param @param expert
 	   * @param @param request
-	   * @param @return
 	   * @param @throws Exception      
 	   * @return ResponseEntity<byte[]>
 	  */

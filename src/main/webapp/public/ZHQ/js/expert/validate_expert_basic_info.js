@@ -15,6 +15,52 @@ function validateForm1(){
 		layer.tips("请选择来源 !", "#expertsFrom");
 		return false;
 	}
+	
+	var nation = $("#nation").val();
+	if(!nation){
+		layer.tips("请填写民族 !", "#nation");
+		return false;
+	}
+	var graduateSchool = $("#graduateSchool").val();
+	if(!graduateSchool){
+		layer.tips("请填写毕业院校 !", "#graduateSchool");
+		return false;
+	}
+	var hightEducation = $("#hightEducation").val();
+	if(!hightEducation){
+		layer.tips("请选择最高学历!", "#hightEducation");
+		return false;
+	}
+	
+	var major = $("#major").val();
+	if(!major){
+		layer.tips("请填写专业!", "#major");
+		return false;
+	}
+	
+	var unitAddress = $("#unitAddress").val();
+	if(!unitAddress){
+		layer.tips("请填写单位地址!", "#unitAddress");
+		return false;
+	}
+	var telephone = $("#telephone").val();
+	if(!telephone){
+		layer.tips("请填写联系电话!", "#telephone");
+		return false;
+	}
+	
+	var mobile = $("#mobile").val();
+	if(!mobile){
+		layer.tips("请填写手机号!", "#mobile");
+		return false;
+	}
+	
+	var healthState = $("#healthState").val();
+	if(!healthState){
+		layer.tips("请填写健康状态!", "#healthState");
+		return false;
+	}
+	
 	var idType = $("#idType").val();
 	if(!idType){
 		layer.tips("请选择证件类型 !", "#idType");

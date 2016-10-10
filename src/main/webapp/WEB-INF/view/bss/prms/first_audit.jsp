@@ -34,8 +34,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>初审项定义</title>
 <script type="text/javascript">
+	function submit1(){
+		
+		<%-- $.ajax({
+			url:"<%=basePath %>firstAudit/add.html",
+			data:$("#form1").serialize(),
+			type:"post",
+			success:function(){
+				window.location.reload();
+			},
+			error:function(){
+				layer.msg("添加失败",{offset: ['222px', '390px']});
+			}
+		}); --%>
+		$("#form1").submit();
+		//$("#form1").reset();
+	}
+	 var index;
+	function cancel(){
+	   layer.close(index);
+	}
 	function openWindow(){
-		 layer.open({
+		index = layer.open({
 	          type: 1, //page层
 	          area: ['700px', '300px'],
 	          title: '手动添加初审项',
@@ -51,9 +71,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 	 			layer.close(index);
 	 			$.ajax({
-	 				url:"<%=basePath%>expert/remove.html",
-	 				data:{"id":id},
-	 				type:"post",
+	 				url:"<%=basePath%>firstAudit/remove.html?id="+id,
+	 				//data:{"id":id},
+	 				//type:"post",
 	 	       		success:function(){
 	 	       			layer.msg('删除成功',{offset: ['222px', '390px']});
 	 		       		window.setTimeout(function(){
@@ -68,7 +88,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
 	}
 	function edit(id){
-		 layer.open({
+		  layer.open({
 	          type: 2, //page层
 	          area: ['700px', '300px'],
 	          title: '修改初审项',
@@ -76,7 +96,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	          moveType: 1, //拖拽风格，0是默认，1是传统拖动
 	          shift: 1, //0-6的动画形式，-1不开启
 	          offset: ['220px', '250px'],
-	          shadeClose: true,
+	          closeBtn: 1,
 	          content:'<%=basePath %>firstAudit/toEdit.html?id='+id
 	        		  //数组第二项即吸附元素选择器或者DOM $('#openWindow')
 		 });
@@ -86,8 +106,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body>
 <h1>01、项目分包信息</h1>
 <table class="table table-bordered table-condensed">
+<thead>
   <tr>
-    <th>第一包</th>
+    <th colspan="5" align="left">第一包</th>
   </tr>
   <tr>
     <th>序号</th>
@@ -96,10 +117,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <th>单位</th>
     <th>数量</th>
   </tr>
+  </thead>
 </table>
 <table class="table table-bordered table-condensed">
+<thead>
   <tr>
-    <th>第二包</th>
+    <th colspan="5" align="left">第二包</th>
   </tr>
   <tr>
     <th>序号</th>
@@ -108,27 +131,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <th>单位</th>
     <th>数量</th>
   </tr>
+</thead>
 </table>
 <h1>02、初审项定义</h1>
 <div>
   <form action="">
-  <input type="button" value="关联初审项模板"/>
-  <input type="button" value="手动添加初审项" onclick="openWindow();"/>
+  <input type="button" value="选择初审项模板" class="btn btn-windows"/>
+  <input type="button" value="手动添加初审项" onclick="openWindow();" class="btn btn-windows"/>
     <table class="table table-bordered table-condensed">
+    <thead>
       <tr>
         <th>初审项名称</th>
         <th>要求类型</th>
         <th>操作</th>
       </tr>
+     </thead>
       <c:forEach items="${list }" var="l" varStatus="vs">
+      <thead>
        <tr>
         <td align="center">${l.name }</td>
         <td align="center">${l.kind }</td>
         <td align="center" width="200px;">
           <input type="button" value="修改" class="btn btn-windows edit" onclick="edit('${l.id}');">
-          <input type="button" value="删除" class="btn btn-windows delete" onclick="remove'${l.id}');">
+          <input type="button" value="删除" class="btn btn-windows delete" onclick="remove('${l.id}');">
         </td>
       </tr>
+      </thead>
       </c:forEach>
     </table>
   </form>
@@ -136,16 +164,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div id="openWindow" style="display: none;">
 	<form action="<%=basePath %>firstAudit/add.html" method="post" id="form1">
      <table class="table table-bordered table-condensed">
+     <thead>
       <tr>
-        <th>初审项名称:</th><td><input type="text" name="name" ></td>
+        <th>初审项名称:</th><td><input type="text" required="true" maxlength="30" name="name" ></td>
         <th>要求类型:</th><td><input type="checkbox" name="kind" value="商务" >商务&nbsp;<input type="checkbox" name="kind" value="技术" >技术</td>
-        <th>创建人:</th><td><input name="creater" type="text" ></td>
+        <th>创建人:</th><td><input name="creater" required="true" maxlength="10" type="text" ></td>
       </tr>
-      <tr>
-      <input type="hidden" name="projectId" value="">
-      <input type="submit"  value="添加"  class="btn btn-windows add"/>
-      </tr>
+      <input type="hidden" name="projectId" value="${projectId }">
+     </thead>
     </table>
+    <input type="button"  value="添加" onclick="submit1();"  class="btn btn-windows add"/>
+    <input type="button"  value="取消" onclick="cancel();"  class="btn btn-windows"/>
   </form>
 </div>
 </body>

@@ -374,7 +374,7 @@ public class FtpUtil {
 			        for(int i=0;i<fs.length;i++){  
 			        	String tempFileName =  new String(fs[i].getName().getBytes("ISO8859-1"), "UTF-8");
 			            if(tempFileName.equals(fileName)){
-			            	String saveAsFileName = tempFileName.substring(tempFileName.lastIndexOf("_"));
+			            	String saveAsFileName = tempFileName.substring(tempFileName.lastIndexOf("_")+1);
 			    			response.setHeader("Content-Disposition", "attachment;fileName="+saveAsFileName);
 			    			OutputStream os = response.getOutputStream();
 			    			ftp.retrieveFile(fs[i].getName(), os);

@@ -35,8 +35,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <title>初审项定义</title>
 <script type="text/javascript">
 
-	function close(){
-		parent.layer.close(index);
+	function cancel(){
+	    var index=parent.layer.getFrameIndex(window.name);
+	    parent.layer.close(index);
+	    
+	}
+	function submit1(){
+		var index=parent.layer.getFrameIndex(window.name);
+		$.ajax({
+			url:"<%=basePath %>firstAudit/edit.html",
+			data:$("#form1").serialize(),
+			type:"post",
+			success:function(){
+				parent.location.reload();
+			},
+			error:function(){
+				layer.msg("更新失败",{offset: ['222px', '390px']});
+			}
+		});
+		
 	}
 </script>
 </head>
@@ -44,18 +61,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div>
 	<form action="<%=basePath %>firstAudit/edit.html" method="post" id="form1">
      <table class="table table-bordered table-condensed">
+     <thead>
       <tr>
         <th>初审项名称:</th><td><input type="text" name="name" value="${firstAudit.name }"></td>
-        <th>要求类型:</th><td><input type="checkbox" name="kind" <c:if test="${fn:contains(firstAudit.name,'商务')}">selected</c:if> value="商务" >商务&nbsp;<input type="checkbox" name="kind"<c:if test="${fn:contains(firstAudit.name,'技术')}">selected</c:if> value="技术" >技术</td>
-        <th>创建人:</th><td><input name="creater" type="text" value="${firstAudit.kind }"></td>
+        <th>要求类型:</th><td><input type="checkbox" name="kind" <c:if test="${fn:contains(firstAudit.kind,'商务')}">checked="true"</c:if> value="商务" >商务&nbsp;<input type="checkbox" name="kind"<c:if test="${fn:contains(firstAudit.kind,'技术')}">checked="true"</c:if> value="技术" >技术</td>
+        <th>创建人:</th><td><input name="creater" type="text" value="${firstAudit.creater }"></td>
       </tr>
       <tr>
       <input type="hidden" name="projectId" value="${firstAudit.projectId }">
       <input type="hidden" name="id" value="${firstAudit.id }">
-      <input type="submit"  value="修改"  class="btn btn-windows add"/>
-      <input type="button"  value="取消"  class="btn btn-windows add" onclick="close();"/>
-      <a class="btn btn-windows reset"  onclick="location.href='javascript:history.go(-1);'">返回</a>
+      <input type="button"  value="修改" onclick="submit1();"  class="btn btn-windows add"/>
+      <input type="button"  value="取消"  class="btn btn-windows add" onclick="cancel();"/>
       </tr>
+     <thead>
     </table>
   </form>
 </div>

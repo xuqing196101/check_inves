@@ -193,11 +193,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
     }
 	function submitForm1(){
-		if(validateForm1()){
+		//if(validateForm1()){
 			$("#zancun").val(1);
 			getChildren();
 			$("#form1").submit();
-		}
+		//}
 	}
 	//获取选中子节点id
 	function getChildren(){
@@ -236,6 +236,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			}
 		}
 		
+		var t = null;
+		var l = null;
+		if (position == "pre") {
+			t = name + "_" + i;
+			l = name + "_" + (i - 1);
+		}
+		if (position == "next") {
+			t = name + "_" + i;
+			l = name + "_" + (i + 1);
+		}
+		$("#zancun").val(0);
+		$("#" + t).hide();
+		$("#" + l).show();
+	}
+	function pre(name, i, position) {
 		var t = null;
 		var l = null;
 		if (position == "pre") {
@@ -491,9 +506,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											   	<option <c:if test="${expert.politicsStatus eq '其他' }">selected="selected"</c:if> value="其他">其他</option>
 											   </select></div>
 										</li>
-										<li class="col-md-6 p0 "><span class="">民族：</span>
+										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>民族：</span>
 											<div class="input-append">
-											<input class="span3" maxlength="10" value="${expert.nation }"  name="nation" id="appendedInput" type="text">
+											<input class="span3" maxlength="10" value="${expert.nation }"  name="nation" id="nation" type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>所在地区：</span>
@@ -504,7 +519,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											 <SCRIPT LANGUAGE="JavaScript"> loadProvince('${expert.address }');</SCRIPT> 
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class="">毕业院校：</span>
+										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>毕业院校：</span>
 											<div class="input-append">
 											<input class="span3" maxlength="40" value="${expert.graduateSchool }"  name="graduateSchool" id="graduateSchool" type="text">
 											</div>
@@ -519,23 +534,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<input class="span3 Wdate"   readonly="readonly" value="<fmt:formatDate type='date' value='${expert.timeToWork }' dateStyle="default" pattern="yyyy-MM-dd"/>" name="timeToWork" id="appendedInput" type="text" onclick='WdatePicker()'>
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""> 最高学历：</span>
+										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>最高学历：</span>
 											<div class="input-append">
 											 <select class="span3" name="hightEducation" id="hightEducation" >
 											 	<option selected="selected" value="">-请选择-</option>
 											   	<option <c:if test="${expert.hightEducation eq '博士' }">selected="selected"</c:if> value="博士">博士</option>
 											   	<option <c:if test="${expert.hightEducation eq '硕士' }">selected="selected"</c:if> value="硕士">硕士</option>
-											   	<option <c:if test="${expert.hightEducation eq '研究生' }">selected="selected"</c:if> value="研究生">研究生</option>
-											   	<option <c:if test="${expert.hightEducation eq '本科' }">selected="selected"</c:if> value="本科">本科</option>
-											   	<option <c:if test="${expert.hightEducation eq '专科' }">selected="selected"</c:if> value="专科">专科</option>
-											   	<option <c:if test="${expert.hightEducation eq '高中' }">selected="selected"</c:if> value="高中">高中</option>
-											   	<option <c:if test="${expert.hightEducation eq '其他' }">selected="selected"</c:if> value="其他">其他</option>
+											   	<option <c:if test="${expert.hightEducation eq '学生' }">selected="selected"</c:if> value="研究生">学生</option>
 											  </select>
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""> 专业：</span>
+										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>专业：</span>
 											<div class="input-append">
-											<input class="span3" maxlength="20" value="${expert.major }"  name="major" id="appendedInput" type="text">
+											<input class="span3" maxlength="20" value="${expert.major }"  name="major" id="major" type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""> 从事专业起始年度：</span>
@@ -548,17 +559,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<input class="span3" maxlength="40" value="${expert.workUnit }"  name="workUnit" id="workUnit" type="text">
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""> 单位地址：</span>
+										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>单位地址：</span>
 											<div class="input-append">
 											 <input class="span3" maxlength="40" value="${expert.unitAddress }"  name="unitAddress" id="unitAddress" type="text">
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""> 联系电话（固话）：</span>
+										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>联系电话（固话）：</span>
 											<div class="input-append">
 											<input class="span3" maxlength="15" value="${expert.telephone }"  name="telephone" id="telephone" type="text">
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class="">手机：</span>
+										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>手机：</span>
 											<div class="input-append">
 											<input class="span3" maxlength="15" value="${expert.mobile }"  name="mobile" id="mobile" type="text">
 											</div>
@@ -583,9 +594,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<input class="span3" maxlength="10" value="${expert.degree }"  name="degree" id="degree" type="text">
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""> 健康状态：</span>
+										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>健康状态：</span>
 											<div class="input-append">
-											<input class="span3" maxlength="10" value="${expert.healthState }"  name="healthState" id="appendedInput" type="text">
+											<input class="span3" maxlength="10" value="${expert.healthState }"  name="healthState" id="healthState" type="text">
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""> 现任职务：</span>
@@ -680,7 +691,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    			
    			 
 		    <div class="tc mt20 clear col-md-11">
-				<button class="btn btn-windows back"   type="button" onclick="supplierRegist('reg_box_id', 4, 'pre')">上一步</button>
+				<button class="btn btn-windows back"   type="button" onclick="pre('reg_box_id', 4, 'pre')">上一步</button>
 				<button class="btn btn-windows git" onclick="submitForm1();"  type="button">暂存</button>
 				<button class="btn btn-windows git"   type="button" onclick="fun1();">下一步</button>
 			</div>
@@ -763,7 +774,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		               友情提示：请专家记录好初审采购机构的相关信息，以便进行及时沟通
 		    </h6>
 		    <div class="tc mt20 clear col-md-11">
-				<button class="btn btn-windows back"   type="button" onclick="supplierRegist('reg_box_id', 5, 'pre')">上一步</button>
+				<button class="btn btn-windows back"   type="button" onclick="pre('reg_box_id', 5, 'pre')">上一步</button>
 				<button class="btn btn-windows git" onclick="submitForm1();"  type="button">暂存</button>
 				<button class="btn btn-windows git"   type="button" onclick="addPurList();">下一步</button>
 			</div>
@@ -943,7 +954,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </tr>
    </table>
 		    <div class="tc mt20 clear col-md-11">
-		   		<button class="btn btn-windows back"   type="button" onclick="supplierRegist('reg_box_id', 6, 'pre')">上一步</button>
+		   		<button class="btn btn-windows back"   type="button" onclick="pre('reg_box_id', 6, 'pre')">上一步</button>
 				<button class="btn btn-windows git"   type="button" onclick="window.print()">打印</button>
 				<a class="btn btn-windows git" onclick="downloadTable();" href="javascript:void(0)">下载</a>
 				<button class="btn btn-windows git" onclick="submitForm1();"  type="button">暂存</button>
@@ -968,15 +979,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			供应商承诺书上传：<input type="file" name=""/> -->
 				   	<div class="input-append mt40" style="margin-left:280px;">
 						<li class="col-md-6  p0 ">
-								<span class="" ><i class="red">＊</i>专家申请表上传：</span>
+								<i class="red">＊</i><span class="" >专家申请表上传：</span>
 									<div class="input-append mt5">
-										<a href="javascript:void(0)"><i></i><input type="file" name="files" id ="regIdentitys1" class="fl"/></a>
+										<a href="javascript:void(0)"><input type="file" name="files" id ="regIdentitys1" class="fl"/></a>
 									</div>
 							</li>
 							 <li class="col-md-6  p0 ">
-								<span class="" ><i class="red">＊</i>专家合同书上传：</span>
+								<i class="red">＊</i><span>专家合同书上传：</span>
 									<div class="input-append mt5">
-										<a href="javascript:void(0)"><i></i><input type="file" name="files" id ="regIdentitys2" class="fl"/></a>
+										<a href="javascript:void(0)"><input type="file" name="files" id ="regIdentitys2" class="fl"/></a>
 									</div>
 							</li>
 					</div>
@@ -987,7 +998,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				 <div class="fl mr20"><label class="regist_name">联系电话：</label><span id="phone_" class="regist_desc"></span></div>
 			 </div>
 		    <div class="tc mt20 clear col-md-11">
-		   		<button class="btn btn-windows back"   type="button" onclick="supplierRegist('reg_box_id', 7, 'pre')">上一步</button>
+		   		<button class="btn btn-windows back"   type="button" onclick="pre('reg_box_id', 7, 'pre')">上一步</button>
 				<button class="btn btn-windows git"   type="button" onclick="supplierRegist('reg_box_id', 7, 'next')">下一步</button>
 			</div>
 		</div>

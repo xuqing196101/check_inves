@@ -152,36 +152,40 @@ public class ExpertServiceImpl implements ExpertService {
 		try {
 			ExpertAttachment attachment;
 			if(files!=null && files.length>0){
-				//打开连接
-				FtpUtil.connectFtp("expertFile");
 				 for(MultipartFile myfile : files){  
 			            if(myfile.isEmpty()){  
 			            }else{  
-			                String filename = myfile.getOriginalFilename();
-			                String uuid = WfUtil.createUUID();
+			                //String filename = myfile.getOriginalFilename();
+			               // String uuid = WfUtil.createUUID();
 			                //文件名处理
-			                filename=uuid+filename;
+			               // filename=uuid+filename;
 			                //如果用的是Tomcat服务器，则文件会上传到\\%TOMCAT_HOME%\\webapps\\YourWebProject\\WEB-INF\\upload_file\\文件夹中  
 			                //String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");  
 			                //这里不必处理IO流关闭的问题，因为FileUtils.copyInputStreamToFile()方法内部会自动把用到的IO流关掉，我是看它的源码才知道的  
 			                //FileUtils.copyInputStreamToFile(myfile.getInputStream(), new File(realPath, filename));
 			                /*Ftp文件上传*/
-			                FtpUtil.upload2(myfile);
+			                String filepath = FtpUtil.upload2("expertFile",myfile);
+			                //截取文件名
+			                String filename=filepath.substring(filepath.lastIndexOf("/")+1);
+			                //截取文件路径
+			                String path = filepath.substring(0,filepath.lastIndexOf("/")+1);
+			                String path2 = path.replace("\\", "/");
 			                //存附件信息到数据库
 			                attachment = new ExpertAttachment();
 			                attachment.setContentType(myfile.getContentType());
 			                attachment.setCreateAt(new Date());
 			                attachment.setExpertId(expertId);
 			                attachment.setFileName(filename);
-			                attachment.setFilePath(realPath);
+			                attachment.setFilePath(path2);
 			                attachment.setFileSize((double)myfile.getSize());
 			                attachment.setId(WfUtil.createUUID());
 			                attachment.setIsDelete((short)0);
 			                attachment.setIsHistory((short)0);
 			                attachmentMapper.insert(attachment);
+			                FtpUtil.closeFtp();
 			            }  
 			        }
-				 FtpUtil.closeFtp();
+				
 				}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -312,7 +316,7 @@ public class ExpertServiceImpl implements ExpertService {
 			//未审核
 			expert.setStatus("0");
 			//修改时间
-			expert.setUpdatedAt(new Date());
+			//expert.setUpdatedAt(new Date());
 			mapper.insertSelective(expert);
 			//附件上传
 			uploadFile(files, realPath, expertId);
@@ -338,7 +342,7 @@ public class ExpertServiceImpl implements ExpertService {
 					attachmentMapper.updateByPrimaryKeySelective(expertAttachment);
 				}
 			}
-			mapper.updateByPrimaryKeySelective(expert);
+			mapper.updateByPrimaryKey(expert);
 			//重新上传新的附件
 			uploadFile(files, realPath, expert.getId());
 			//保存品目
