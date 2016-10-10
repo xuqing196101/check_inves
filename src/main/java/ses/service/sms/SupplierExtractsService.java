@@ -29,7 +29,7 @@ public interface SupplierExtractsService {
 	String insert(Supplier supplier,SupplierCondition condition,String id,String sids);
 	
 	/**
-	 * @Description: 分页获取记录集合
+	 * @Description: 获取记录集合
 	 *
 	 * @author Wang Wenshuai
 	 * @date 2016年9月18日 下午2:25:09  
@@ -39,13 +39,13 @@ public interface SupplierExtractsService {
 	List<SupplierExtracts> listExtracts(SupplierExtracts supplierExtracts);
 	
 	/**
-	 * @Description: 查看抽取记录
+	 * @Description: 分页获取记录集合
 	 *
 	 * @author Wang Wenshuai
-	 * @date 2016年9月18日 下午2:44:14  
+	 * @date 2016年9月18日 下午2:25:09  
 	 * @param @return      
-	 * @return SupplierExtracts
+	 * @return List<SupplierExtracts>
 	 */
-	SupplierExtracts showExtracts(); 
+	List<SupplierExtracts> pageExtracts(SupplierExtracts supplierExtracts,Integer pageNum);
 	
 }

@@ -11,12 +11,13 @@
     <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
     <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
     <result column="CONTENT" jdbcType="CLOB" property="content" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
     <association column="PROJECT_ID"  property="project" select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey"></association>
   </resultMap>
 
   <sql id="Base_Column_List">
     ID, PROJECT_ID, SALE_START_AT, SALE_END_AT, SALE_ADDRESS, STATUS, CREATED_AT, UPDATED_AT, 
-    IS_DELETED, CONTENT
+    IS_DELETED, CONTENT,NAME
   </sql>
   <!-- 根据ID查询 -->
   <select id="selectBidDocumentById" parameterType="object" resultMap="BidDocumentResultMap">

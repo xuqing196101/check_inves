@@ -3,6 +3,8 @@ package ses.service.ems.impl;
 import java.io.File;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import ses.dao.ems.ExpertAttachmentMapper;
 import ses.model.ems.ExpertAttachment;
 import ses.service.ems.ExpertAttachmentService;
+import ses.util.FtpUtil;
 @Service("expertAttachmentService")
 public class ExpertAttachmentServiceImpl implements ExpertAttachmentService {
 	@Autowired private ExpertAttachmentMapper mapper;
@@ -150,5 +153,19 @@ public class ExpertAttachmentServiceImpl implements ExpertAttachmentService {
  			e.printStackTrace();
  			return null;
  		}
+    }
+	 /**
+     * 
+      * @Title: ftpDownLoadFile
+      * @author ShaoYangYang
+      * @date 2016年10月10日 上午9:41:13  
+      * @Description: TODO ftp文件下载
+      * @param @param dir
+      * @param @param fileName      
+      * @return void
+     */
+    public void ftpDownLoadFile(String attachmentId,HttpServletResponse response){
+    	 ExpertAttachment attachment = mapper.selectByPrimaryKey(attachmentId);
+    	FtpUtil.download2(response, "expertFile", attachment.getFileName());
     }
 }

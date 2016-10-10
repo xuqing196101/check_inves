@@ -1,6 +1,7 @@
 package bss.dao.ppms;
 
 import java.util.List;
+import java.util.Map;
 
 import bss.model.ppms.Project;
 
@@ -19,7 +20,7 @@ public interface ProjectMapper {
     
     List<Project> selectProjectByAll(Project project);
     
-    List<Project> selectSuccessProject(Project project);
-    
     List<Project> selectByList(Project project);
+    
+    List<Project> selectSuccessProject(Map<String,Object> map);
 }

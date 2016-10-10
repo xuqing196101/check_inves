@@ -50,19 +50,19 @@
    		<ul class="list-unstyled list-flow p0_20">
    			<input type="hidden" class="contract_id" name="contract_id">
 		     <li class="col-md-6  p0 ">
-			   <span class="">合同名称：</span>
+			   <span class="">项目名称：</span>
 			   <div class="input-append">
 		        <input class="span2 contract_code" value="${project.name}" id="contract_code" type="text" readonly="readonly">
 		       </div>
 			 </li>
     		 <li class="col-md-6 p0">
-			   <span class="">合同编号：</span>
+			   <span class="">项目编号：</span>
 		        <div class="input-append ">
 		        	<input class="span2 contract_name" value="${project.projectNumber}" type="text" readonly="readonly">
        			</div>
 			 </li>
 			 <li class="col-md-6 p0">
-			   <span class="">合同金额：</span>
+			   <span class="">项目金额：</span>
 		        <div class="input-append ">
 		        	<input class="span2 contract_name" value="${project.amount}" type="text" readonly="readonly">
        			</div>

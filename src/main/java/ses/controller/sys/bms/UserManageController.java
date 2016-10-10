@@ -1,7 +1,10 @@
 package ses.controller.sys.bms;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -9,7 +12,13 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import net.sf.json.JSONArray;
+
+import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPFile;
+import org.apache.commons.net.ftp.FTPReply;
 import org.apache.log4j.Logger;
 import org.aspectj.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +27,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import ses.model.bms.PreMenu;
@@ -27,10 +37,12 @@ import ses.model.bms.User;
 import ses.model.bms.UserPreMenu;
 import ses.model.bms.Userrole;
 import ses.model.oms.Orgnization;
+import ses.model.oms.util.Ztree;
 import ses.service.bms.PreMenuServiceI;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
+import ses.service.oms.PurchaseServiceI;
 import ses.util.FtpUtil;
 
 import com.alibaba.fastjson.JSON;
@@ -249,7 +261,7 @@ public class UserManageController {
 	 * @exception IOException
 	 */
 	@RequestMapping("/edit")
-	public String edit(User u, Model model) {
+	public String edit(User u, Integer page, Model model) {
 		List<User> users = userService.find(u);
 		if (users != null && users.size() > 0) {
 			User user = users.get(0);
@@ -274,6 +286,7 @@ public class UserManageController {
 			model.addAttribute("roleId", roleId);
 			model.addAttribute("roles", roles);
 			model.addAttribute("user", user);
+			model.addAttribute("currPage", page);
 		} else {
 
 		}
@@ -363,8 +376,8 @@ public class UserManageController {
 		} else {
 
 		}
-
-		return "redirect:list.html";
+		String currpage = request.getParameter("currpage");
+		return "redirect:list.html?page="+currpage;
 	}
 
 	/**
@@ -460,7 +473,6 @@ public class UserManageController {
 	public void saveUserMenu(HttpServletRequest request,
 			HttpServletResponse response, String userId, String ids)
 			throws IOException {
-
 		try {
 			User user = userService.getUserById(userId);
 			UserPreMenu um = new UserPreMenu();
@@ -483,5 +495,89 @@ public class UserManageController {
 			response.getWriter().close();
 		}
 
+	}
+	
+	/**
+	 * Description: 获取机构树
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-10-9
+	 * @param request
+	 * @param session
+	 * @return
+	 * @exception IOException
+	 */
+	@RequestMapping(value = "getOrgTree",produces={"application/json;charset=UTF-8"})
+	@ResponseBody    
+	public String getOrgTree(HttpServletRequest request,HttpSession session){
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		List<Orgnization> oList = orgnizationService.findOrgnizationList(map);
+		List<Ztree> treeList = new ArrayList<Ztree>();  
+		for(Orgnization o:oList){
+			Ztree z = new Ztree();
+			z.setId(o.getId());
+			z.setName(o.getName());
+			z.setpId(o.getParentId()==null?"-1":o.getParentId());
+			z.setLevel(o.getOrgLevel()+"");
+			HashMap<String,Object> chimap = new HashMap<String,Object>();
+			chimap.put("pid", o.getId());
+			List<Orgnization> chiildList = orgnizationService.findOrgnizationList(chimap);
+			if(chiildList!=null && chiildList.size()>0){
+				z.setIsParent("true");
+			}else {
+				z.setIsParent("false");
+			}
+			//z.setIsParent(o.getParentId()==null?"true":"false");
+			treeList.add(z);
+		}
+		JSONArray jObject = JSONArray.fromObject(treeList);
+		return jObject.toString();
+	}
+	
+	@RequestMapping(value = "/downloadtest")
+	public void downloadConfigFile(HttpServletResponse response, String fileName) {
+		
+//		String path = FtpUtil.upload2("test7",uploadFile);
+//		String filName = path.substring(path.lastIndexOf("/")+1);
+		FtpUtil.downloadFtpFile(response, "test7", "2CC39D3BA36D423DBAC5C4C4A9626ED3_全国人大采购电子办公业务系统项目数据库设计说明书20160628(20点46)--汇总.doc");
+		FtpUtil.downloadFtpFile(response, "test7", "开发规范.txt");
+		FtpUtil.downloadFtpFile(response, "test7", "E2B3FCF57CF74D8EBC8B66BD4A8825F8_J2EE+企业应用实战：Struts+Spring+Hibernate+整合开发.pdf");
+		FtpUtil.downloadFtpFile(response, "test7", "开发规范1.txt");
+		//		fileName = "E2B3FCF57CF74D8EBC8B66BD4A85F8_J2EE+企业应用实战：Struts+Spring+Hibernate+整合开发.pdf";
+//		response.setCharacterEncoding("UTF-8");
+//		response.setContentType("multipart/form-data;charset=UTF-8");
+//		
+//			FTPClient ftpClient = new FTPClient(); 
+//		    try {  
+//		        int reply;  
+//		        ftpClient.connect("127.0.0.1",21); 
+//	            ftpClient.login("test", "123456");
+//		        reply = ftpClient.getReplyCode();  
+//		        if (!FTPReply.isPositiveCompletion(reply)) {  
+//		        	ftpClient.disconnect();
+//		            return;  
+//		        }
+//		        ftpClient.changeWorkingDirectory("test7");//转移到FTP服务器目录  
+//		        ftpClient.setControlEncoding("GBK");
+//				FTPFile ftpFile = ftpClient.mlistFile(new String(fileName.getBytes("GBK"), "ISO-8859-1"));
+//				OutputStream outputStream = null;
+//				response.setHeader("Content-Disposition", "attachment;fileName="+new String( fileName.getBytes("GBK"), "ISO8859-1" ) );
+//				outputStream = response.getOutputStream();
+//				ftpClient.retrieveFile(ftpFile.getName(), outputStream);
+//				outputStream.flush();
+//				outputStream.close();
+//		        FTPFile[] fs = ftpClient.listFiles();  
+//		        for(int i=0;i<fs.length;i++){  
+//		        	String tempFileName =  new String(fs[i].getName().getBytes("ISO8859-1"), "UTF-8");
+//		            if(tempFileName.equals(fileName)){
+//		            	String saveAsFileName = tempFileName.substring(tempFileName.indexOf("_")+1);  
+//		    			response.setHeader("Content-Disposition", "attachment;fileName="+saveAsFileName);
+//		    			OutputStream os = response.getOutputStream();
+//		                ftpClient.retrieveFile(new String(fileName.getBytes("GBK"), "ISO-8859-1"), os);
+//		                os.flush();
+//		                os.close();
+//		                break;
+//		            }
+//		        }
 	}
 }

@@ -120,9 +120,10 @@ function supervise(){
                       <div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
                       <input type="hidden" name="eid" value="${id }">
                       <input type="hidden" name="sids" id="sids" />
+                      <input type="hidden" name="categoryId" id="itemsId" > 
                         <div class="tag-box tag-box-v3">
                             <ul class=" list-unstyled ">
-                             <li class=" col-md-12 p0"><label class="">产品目录:</label><span><input onclick="opens();" readonly    class="title" 
+                             <li class=" col-md-12 p0"><label class="">产品目录:</label><span><input name="categoryName" onclick="opens();" readonly id="items"   class="title" 
 					                  /> </span></li>
 					                             <li class=" col-md-12 p0"><label class="">地区：</label>
                                          <span class="clear">
@@ -175,7 +176,7 @@ function supervise(){
                       <div class="tag-box tag-box-v4 col-md-9">
                         <ul class="demand_list">
                           <li class="fl mr8"><label class="fl mt0">项目名称：</label><input name="projectName" type="text"></li>
-                          <li class="fl mr8"><label class="fl mt0">采购编号：</label><input type="text"></li>
+<!--                           <li class="fl mr8"><label class="fl mt0">采购编号：</label><input type="text"></li> -->
                           <li class="fl mr8"><label class="fl mt0">采购方式：</label><span>邀请招标</span></li>
                          </ul>
                          <div class="clear"></div>

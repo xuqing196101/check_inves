@@ -20,7 +20,7 @@
 	<script type="text/javascript">    
     $(function(){ 
         $("#parent").val("${articletype.parent.id}");
-        }); 
+    }); 
 	</script>
   </head>
   <body>

@@ -167,8 +167,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               shadeClose: false,
               content: '<%=basePath%>ExtCondition/showExtCondition.html?Id='+id
             });
-   
-      
   }
     
 

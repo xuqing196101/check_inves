@@ -1,0 +1,138 @@
+
+.divpopups {
+		display: block;
+		z-index: 101;
+		position: absolute;
+		background-color: #FFFFFF;
+	}
+	
+input.btns{
+			margin: 20px;
+		}
+a.btns{
+			margin: 20px;
+			background-color: darkgoldenrod;
+		}
+.ml30{
+			margin-left: 50px;
+		}
+#form1 label.error{
+		color: #e70000;
+		font-size: 14px;
+		}
+.custor {
+			cursor:pointer
+		}
+.ml518{
+			margin-left: 518px;
+		}
+.mid{
+		text-align: center;
+		margin: 10px;
+	}
+	.mi{
+		margin-bottom: 10px;
+	}
+	/*padding属性 设置ztree 图标重叠问题*/
+	.button{
+	    display: inline-block;
+	    zoom: 1;
+	    vertical-align: baseline;
+	    margin: 0 2px;
+	    outline: none;
+	    cursor: pointer;
+	    text-align: center;
+	    text-decoration: none;
+	    font: 16px/100% Arial, Helvetica, sans-serif;
+	    padding: .1em em .55em;
+	    text-shadow: 0 1px 1px rgba(0,0,0,.3);
+	    -webkit-border-radius: .5em;
+	    -moz-border-radius: em;
+	    border-radius: .5em;
+	    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	    box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	}
+	.blue{
+	    color: #d9eef7;
+	    border: solid 1px #0076a3;
+	    background: #0095cd;
+	    background: -webkit-gradient(linear, left top, left bottom, from(#00adee), to(#0078a5));
+	    background: -moz-linear-gradient(top, #00adee, #0078a5);
+	    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00adee', endColorstr='#0078a5');
+	}
+	 a.blueC{
+   		color: blue;
+   		
+   }
+	.write{
+	    color: #FF0000;
+	    border: solid 1px #0076a3;
+	     font: 18px/100% Arial, Helvetica, sans-serif;
+	    background: #fff;
+	    background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#fff));
+	    background: -moz-linear-gradient(top, #fff, #fff);
+	    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff', endColorstr='#fff');
+	}
+	 .input-text{
+	    width: 49%;
+	    margin-left: 2%;
+	    height:44px; line-height:44px;
+	    border: solid 1px #0076a3;
+	    border-radius: 0.5em;
+	  }	
+	 /*border 设置ztree boder信息*/
+	 .menutree{
+	 display:none;
+	 position: absolute;
+	 border: solid 0px #617775
+	 }
+	 .treeweizhi{
+	 margin-top:0; 
+	 width:760px;
+	 }
+	 .jml430{
+	 margin-left:430px;
+	 }
+	 .wenjian{
+	 margin: 60px;
+	 }
+	 .auditPerson{
+	 width:240px;
+	 }
+	 .dareson{
+	 width:1000px;
+	 }
+	 .time{
+	 width:200px;
+	 }
+	 .anniu{
+	  margin-left:430px;
+	 }
+	 .mp{
+	  margin: 10px;
+	  padding: 0px;'
+	 }
+	 .w240{
+	 width:240px;
+	 }
+	 .wp60{
+	 width:60px;
+	 }
+	 .m60{
+	 margin: 60px;
+	 }
+	 .ybutton{
+	 width:25%;
+	 }
+	 .jkredio{
+	 margin-top: 7px;
+	 }
+	 .purchselect{
+	margin-left: -2px;
+    width: 196px;
+    height: 30px
+	 }
+	 .b15{
+	 width: 15%;
+	 }

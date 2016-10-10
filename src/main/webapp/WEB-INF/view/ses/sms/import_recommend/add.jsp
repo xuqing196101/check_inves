@@ -76,7 +76,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      <li class="col-md-6  p0 ">
 	   <span class="">企业名称：</span>
 	   <div class="input-append">
-        <input class="span2" id="name" name="name" type="text">
+        <input class="span2" id="name" name="name" type="text"><%-- <div class="validate">${ERR_name}</div> --%>
         <span class="add-on">i</span>
        </div>
 	 </li> 
@@ -105,7 +105,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	   <span class=" ">进口代理商类型：</span>
          <div class="select_common mb10">
          <select id="type" class="w250" name="type">
-           <option>请选择</option>
+           <option value="">请选择</option>
            <option value="1">正式代理商</option>
            <option value="2">临时代理商</option>
            <option value="3">通用代理商</option>

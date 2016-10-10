@@ -196,7 +196,7 @@ function loadCity(regionId){
 									</ul>
 									</div>
 									<div class="tc mt20 clear col-md-11">
-											<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
+											<button class="btn btn-windows reset" onclick="history.go(-1)" type="button">返回</button>
 									</div>
 								</div>
 							</div>

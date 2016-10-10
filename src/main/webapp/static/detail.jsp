@@ -52,13 +52,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
    
 <!-- 修改订列表开始-->
-   <div class="container">
+   <div class="container bggrey border1 mt20">
    <form>
    <div>
-   <div class="headline-v2">
+   <div class="headline-v2 bggrey">
    <h2>修改订单</h2>
    </div>
-   <ul class="list-unstyled list-flow p0_20">
+   <ul class="list-unstyled list-flow ul_list">
      <li class="col-md-6 p0">
 	   <span class="">采购单位：</span>
 	   <div class="input-append">
@@ -171,10 +171,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    
   <!-- 产品明细开始-->
   <div class="padding-top-10 clear">
-   <div class="headline-v2">
+   <div class="headline-v2 bggrey">
    <h2>产品明细</h2>
    </div>
-   <ul class="list-unstyled list-flow p0_20 ">
+   <ul class="list-unstyled list-flow ul_list ">
 
      <li class="col-md-6 p0">
 	   <span class="">品目：</span>
@@ -275,10 +275,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 </ul>
 	 
 	 <div class="tab-v1 clear col-md-12 margin-20 padding-right-40">
-      <h2 class="nav nav-tabs">
-	  </h2>
     </div>
-	 <ul class="list-unstyled list-flow p0_20">
+	 <ul class="list-unstyled list-flow p0_20 ul_list">
      <li class="col-md-6 p0 ">
 	   <span class=" ">运费（元）：</span>
 	   <div class="input-append">
@@ -304,8 +302,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <div class="input-append"><a href="" class="upload">附件上传</a></div>
 	 </li> 
    </ul>
-   <div class="clear padding-left-20 total"><span class="w200 block">总计：</span><span>¥10000</span></div>
-   <div class="headline-v2 clear">
+   <div class="clear padding-left-20 total f22"><span class="fl block">总计：</span><span>¥10000</span></div>
+   <div class="headline-v2 clear bggrey">
    <h2>上传附件</h2>
    </div>
   </div>
@@ -318,7 +316,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </div>
   
   <div  class="col-md-12">
-   <div class="fl padding-10">
+   <div class="fl padding-left-20">
     <button class="btn btn-windows add" type="submit">新增</button>
 	<button class="btn btn-windows delete" type="submit">删除</button>
 	<button class="btn btn-windows save" type="submit">保存</button>
@@ -328,13 +326,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </div>
   </form>
   <div class="padding-left-40 padding-right-20 clear  ">
-   <ul class="list-unstyled bgdd padding-10">
-	<li class="padding-10"> 
+   <ul class="list-unstyled bgdd">
+	<li> 
     <div class="col-md-4 padding-10 fl">
 	 <div class="col-md-3 tc h60 fl"><input type="checkbox"/></div>
 	 <div class="col-md-9 padding-0 fl">
 	   <div class="fl suolue"> 
-        <a href="#" class="thumbnail margin-0 suolue">
+        <a href="#" class="thumbnail mb0 suolue">
+         <img src="<%=basePath%>public/ZHH/images/suolue.jpg" class="suolue"/>
+        </a>
+	   </div>
+	 </div>
+	</div>
+	<div class="col-md-8 padding-10 h60 fl">
+	 <div class="col-md-9 fl">1oa－1000乘370.jpg</div>
+	 <div class="col-md-3 fl">614.82KB</div>
+	</div>
+	<div class="clear"></div>
+  </li>
+<li> 
+    <div class="col-md-4 padding-10 fl">
+	 <div class="col-md-3 tc h60 fl"><input type="checkbox"/></div>
+	 <div class="col-md-9 padding-0 fl">
+	   <div class="fl suolue"> 
+        <a href="#" class="thumbnail mb0 suolue">
          <img src="<%=basePath%>public/ZHH/images/suolue.jpg" class="suolue"/>
         </a>
 	   </div>

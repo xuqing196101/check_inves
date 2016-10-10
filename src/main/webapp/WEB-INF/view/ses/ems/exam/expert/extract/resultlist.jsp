@@ -146,18 +146,18 @@
                                        "<select id='select' onchange='operation(this);'>";
                                        
                                         if(list[i].operatingType==1){
-                                        	tex+="<option value='"+list[i].id+","+list[i].id+",1' selected='selected' disabled='disabled'>能参加</option>";
+                                        	tex+="<option value='"+list[i].id+","+list[i].expertExtractRecordId+",1' selected='selected' disabled='disabled'>能参加</option>";
                                         }else if(list[i].operatingType==2){
-                                        	tex+="<option value='"+list[i].id+","+list[i].id+",1'>能参加</option>"+
-                                            "<option value='"+list[i].id+","+list[i].id+",3'>不能参加</option>"+
-                                            "<option selected='selected' value='"+list[i].id+","+list[i].id+",2'>待定</option>";
+                                        	tex+="<option value='"+list[i].expert.id+","+list[i].expertExtractRecordId+",1'>能参加</option>"+
+                                            "<option value='"+list[i].expert.id+","+list[i].expertExtractRecordId+",3'>不能参加</option>"+
+                                            "<option selected='selected' value='"+list[i].id+","+list[i].expertExtractRecordId+",2'>待定</option>";
                                         }else if(list[i].operatingType==3){
-                                        	tex+="<option value='"+list[i].id+","+list[i].id+",1' selected='selected' disabled='disabled'>不能参加</option>";
+                                        	tex+="<option value='"+list[i].id+","+list[i].expertExtractRecordId+",1' selected='selected' disabled='disabled'>不能参加</option>";
                                         }else{
                                         	tex+= "<option >请选择</option>"+
-                                        		"<option value='"+list[i].id+","+list[i].id+",1'>能参加</option>"+
-                                            "<option value='"+list[i].id+","+list[i].id+",3'>不能参加</option>"+
-                                            "<option  value='"+list[i].id+","+list[i].id+",2'>待定</option>";
+                                        		"<option value='"+list[i].id+","+list[i].expertExtractRecordId+",1'>能参加</option>"+
+                                            "<option value='"+list[i].id+","+list[i].expertExtractRecordId+",3'>不能参加</option>"+
+                                            "<option  value='"+list[i].id+","+list[i].expertExtractRecordId+",2'>待定</option>";
                                         }
                                         tex+="</select>"+
                                       "</td>"+
@@ -217,19 +217,19 @@
 										onchange='operation(this);'>
 										<c:choose>
 										  <c:when test="${listyes.operatingType==1}">
-										       <option selected="selected" disabled="disabled" value='${listyes.id},${listyes.expert.id},1'>能参加</option>
+										       <option selected="selected" disabled="disabled" value='${listyes.id},${listyes.expertExtractRecordId},1'>能参加</option>
 										  </c:when>
 										  <c:when test="${listyes.operatingType==3}">
-									       <option selected="selected" disabled="disabled"  value='${listyes.id},${listyes.expert.id},2'>待定</option>
+									       <option selected="selected" disabled="disabled"  value='${listyes.id},${listyes.expertExtractRecordId},2'>待定</option>
 										  </c:when>
 										  <c:when test="${listyes.operatingType==2}">
-										         <option selected="selected" disabled="disabled"  value='${listyes.id},${listyes.expert.id},3'>不能参加</option>
+										         <option selected="selected" disabled="disabled"  value='${listyes.id},${listyes.expertExtractRecordId},3'>不能参加</option>
 										  </c:when>
 										  <c:otherwise>
 										     <option>请选择</option>
-										     <option value='${listyes.id},${listyes.expert.id},1'>能参加</option>
-                                             <option value='${listyes.id},${listyes.expert.id},3'>不能参加</option>
-                                             <option value='${listyes.id},${listyes.expert.id},2'>待定</option>
+										     <option value='${listyes.id},${listyes.expertExtractRecordId},1'>能参加</option>
+                                             <option value='${listyes.id},${listyes.expertExtractRecordId},3'>不能参加</option>
+                                             <option value='${listyes.id},${listyes.expertExtractRecordId},2'>待定</option>
 										  </c:otherwise>
 										</c:choose>
 									</select></td>

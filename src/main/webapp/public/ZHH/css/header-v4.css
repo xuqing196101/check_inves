@@ -36,7 +36,11 @@
 	border-right: solid 1px #eee;
 }
 .header-v4 .topbar-v1 .top-v1-data li:hover{
-	background:#16888f;
+	background:#ffffff;
+	color:#16888f;
+}
+.header-v4 .topbar-v1 .top-v1-data li:hover a{
+	color:#16888f;
 }
 .header-v4 .topbar-v1 .top-v1-data li:first-child {
 	margin-left: 0;
@@ -1042,5 +1046,55 @@ li.dropdown ul.dropdown-menu > li > .dropdown-menuson{
     min-width: 100px;
     z-index: 9999 !important;
 }
-
-.dropdown-menu > .line-block 
+.top_icon{
+	width:50px;
+	height:50px;
+}
+.jczc .top_icon{
+	background:url(../images/top_01.png) no-repeat center;
+}
+.jczc:hover .jczc_icon{
+	background:url(../images/top-1-2.png) no-repeat center;
+}
+.ywjc .top_icon{
+	background:url(../images/top_02.png) no-repeat center;
+}
+.ywjc:hover .ywjc_icon{
+	background:url(../images/top-2-2.png) no-repeat center;
+}
+.bzzy .top_icon{
+	background:url(../images/top_03.png) no-repeat center;
+}
+.bzzy:hover .bzzy_icon{
+	background:url(../images/top-3-2.png) no-repeat center;
+}
+.xxfw .top_icon{
+	background:url(../images/top_04.png) no-repeat center;
+}
+.xxfw:hover .xxfw_icon{
+	background:url(../images/top-4-2.png) no-repeat center;
+}
+.zchj .top_icon{
+	background:url(../images/top_05.png) no-repeat center;
+}
+.zchj:hover .zchj_icon{
+	background:url(../images/top-5-2.png) no-repeat center;
+}
+.pzpz .top_icon{
+	background:url(../images/top_06.png) no-repeat center;
+}
+.pzpz:hover .pzpz_icon{
+	background:url(../images/top-6-2.png) no-repeat center;
+}
+.htsy .top_icon{
+	background:url(../images/top_07.png) no-repeat center;
+}
+.htsy:hover .htsy_icon{
+	background:url(../images/top-7-2.png) no-repeat center;
+}
+.aqtc .top_icon{
+	background:url(../images/top_08.png) no-repeat center;
+}
+.aqtc:hover .aqtc_icon{
+	background:url(../images/top-8-2.png) no-repeat center;
+}

@@ -139,6 +139,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			cityObj.attr("value", v);
 			$("#rId").val(rid);
 		}
+		
 		function showRole() {
 			var userId = $("#uId").val();
 			var setting = {
@@ -181,15 +182,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			$("#roleContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
 			$("body").bind("mousedown", onBodyDownOrg);
 		}
+		
 		function hideRole() {
 			$("#roleContent").fadeOut("fast");
 			$("body").unbind("mousedown", onBodyDownOrg);
 		}
+		
 		function onBodyDownOrg(event) {
 			if (!(event.target.id == "menuBtn" || event.target.id == "roleSel" || event.target.id == "roleContent" || $(event.target).parents("#roleContent").length>0)) {
 				hideRole();
 			}
 		}
+		
 	</script>
 </head>
 <body>
@@ -217,6 +221,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    <div class="headline-v2">
 			   		<h2>修改用户</h2>
 			    </div>
+			    <input type="hidden" name="currpage" value="${currPage}">
 			    <input class="span2" name="id" id="uId" type="hidden" value="${user.id}">
 			   	<input class="span2" name="createdAt" type="hidden" value="<fmt:formatDate value='${user.createdAt}' pattern='yyyy-MM-dd  HH:mm:ss'/>">
 			   	<input class="span2" name="isDeleted" type="hidden" value="${user.isDeleted}">

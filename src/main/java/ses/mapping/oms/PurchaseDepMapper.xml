@@ -59,13 +59,16 @@
 		       nvl(d.IS_AUDIT_SUPPLIER,0) as isAuditSupplier,
 		       d.QUA_START_DATE    as quaStartDate,
 		       d.QUA_STATUS        as quaStatus
-		  from T_SES_OMS_PURCHASE_DEP     d
-		  LEFT JOIN T_SES_OMS_ORG o on d.ORG_ID = o.id
+		  from T_SES_OMS_ORG o 
+		  LEFT JOIN T_SES_OMS_PURCHASE_DEP     d on d.ORG_ID = o.id
 		  LEFT JOIN T_SES_BMS_AREA a on o.province_id=a.id
 		  LEFT JOIN T_SES_BMS_AREA b on o.city_id=b.id
 		 where nvl(d.is_deleted,0)=0
 		 <if test="id != null and id != ''">
 			and d.id= #{id}
+		</if>
+		 <if test="orgId != null">
+			and o.id= #{orgId}
 		</if>
 		 <if test="pid != null and pid != ''">
 			and d.PARENT_ID= #{pid}
@@ -75,6 +78,12 @@
 		</if>
 		<if test="type != null and type != ''">
 			and d.type= #{type}
+		</if> 
+		<if test="typeName != null">
+			and o.type_name= #{typeName}
+		</if> 
+		<if test="parentName != null">
+			and a.name like '%'||#{parentName}||'%' 
 		</if> 
 	</select>
 	<!-- 保存采购机构 -->

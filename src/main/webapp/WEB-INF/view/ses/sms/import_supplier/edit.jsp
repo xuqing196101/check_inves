@@ -320,8 +320,8 @@ function loadCity(regionId){
 									</ul>
 									</div>
 									<div class="tc mt20 clear col-md-11">
-									        <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
-										<input class="btn btn-windows git"  style="width:52px;" readonly="readonly"  onclick="tijiao()" value="提交" />
+									        <button class="btn btn-windows reset" onclick="history.go(-1)" type="button">返回</button>
+										<button class="btn btn-windows git"   onclick="tijiao()"  >保存</button>
 									</div>
 								</div>
 							</div>

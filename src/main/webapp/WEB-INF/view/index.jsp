@@ -189,7 +189,7 @@ if(ifm != null && subWeb != null) {
 </script>
 <!-- 后台管理内容开始-->
 <div >
-	<iframe  frameborder="0" name="home" id="iframepage" scrolling="auto" marginheight="0"  width="100%" onLoad="iFrameHeight()" src="<%=basePath%>login/home.do"></iframe>
+	<iframe  frameborder="0" name="home" id="iframepage" scrolling="no" marginheight="0"  width="100%" onLoad="iFrameHeight()" src="<%=basePath%>login/home.do"></iframe>
 </div>
 
 <!--底部代码开始-->

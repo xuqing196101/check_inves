@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="">
+  <resultMap id="AttachmentMap" type="bss.model.ppms.Attachment">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+    <result column="SIZE" jdbcType="FLOAT" property="size" />
+    <result column="PATH" jdbcType="VARCHAR" property="path" />
+    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+    <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
+    <association column="ARTICLE_ID" property="article" select="iss.dao.ps.ArticleMapper.selectById"></association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, ARTICLE_ID, NAME, TYPE, SIZE, PATH, CREATED_AT, 
+    UPDATED_AT, IS_DELETED
+  </sql>
+  
+</mapper>

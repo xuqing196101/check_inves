@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.ppms.PackageMapper">
+  <resultMap id="BaseResultMap" type="bss.model.ppms.Packages">
+    <id column="ID"  property="id" />
+    <result column="NAME" property="name"/>
+   	<result column="PROJECT_ID" property="projectId"/>
+   	<result column="IS_DELETED" property="isDeleted"/>
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    ID, NAME, PROJECT_ID,IS_DELETED
+  </sql>
+     
+  <insert id="insertSelective" parameterType="bss.model.ppms.Packages">
+     <selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_BSS_PPMS_PACKAGE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="name != null">
+        #{name},
+      </if>
+      <if test="projectId != null">
+        #{projectId},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="bss.model.ppms.Packages">
+    update T_BSS_PPMS_PACKAGE
+    <set>
+      <if test="name != null">
+        NAME = #{name},
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID = #{projectId},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted},
+      </if>
+    </set>
+    where ID = #{id}
+  </update>
+  
+   <select id="findPackageById" parameterType="java.util.Map" resultType="bss.model.ppms.Packages">
+   		SELECT
+   			ID AS id,
+   			NAME AS name,
+   			PROJECT_ID AS projectId
+   		FROM
+   			T_BSS_PPMS_PACKAGE
+   		WHERE 
+   		<if test="projectId != null">
+        	PROJECT_ID = #{projectId}
+      	</if>	
+   </select>   
+</mapper>

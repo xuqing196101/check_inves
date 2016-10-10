@@ -87,8 +87,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         $('input[name="chkItem"]:checked').each(function(){ 
             id.push($(this).val()); 
         });
-         window.location.href = "<%=basePath%>project/saveDetail.html?id="+id;
-            
+         if(id.length>0){
+          $.ajax({
+                    url:"<%=basePath%>project/saveDetail.html",
+                    data:"id="+id,
+                    type:"post",
+                    dateType:"json",
+                    success:function(){
+                        var index=parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                    },
+                    error: function(){
+                    }
+                });
+                }
     }
     function cancel(){
      var index=parent.layer.getFrameIndex(window.name);

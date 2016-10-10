@@ -97,10 +97,17 @@
 		}
     }
   	
-  	function search(){
-  		var condition = $("#condition").val();
-  		var articleId = "${articleId}";
-  		window.location.href="<%=basePath%>downloadUser/selectDownloadUserByArticleId.html?userName="+condition+"&articleId="+articleId;
+  	function query(){
+  		var projectName = $("#projectName").val();
+  		var projectCode = $("#projectCode").val();
+  		var purchaseDep = $("#purchaseDep").val();
+  		window.location.href="<%=basePath%>purchaseContract/selectAllPuCon.html?projectName="+projectName+"&projectCode="+projectCode+"&purchaseDep="+purchaseDep;
+  	}
+  	
+  	function reset(){
+  		$("#projectName").val("");
+  		$("#projectCode").val("");
+  		$("#purchaseDep").val("");
   	}
   	
   	function createContract(){
@@ -141,11 +148,11 @@
   <div class="p10_25">
      <h2 class="padding-10 border1">
     	<ul class="demand_list">
-          <li class="fl ml8"><label class="fl mt10">采购项目名称：</label><span><input type="text" value="${userName}" id="condition" class="mb0 mt5"/></span></li>
-	      <li class="fl ml8"><label class="fl mt10">编号：</label><span><input type="text" value="${userName}" id="condition" class="mb0 mt5"/></span></li>
-	      <li class="fl ml8"><label class="fl mt10">采购机构：</label><span><input type="text" value="${userName}" id="condition" class="mb0 mt5"/></span></li>
+          <li class="fl ml8"><label class="fl mt10">采购项目名称：</label><span><input type="text" value="" id="projectName" class="mb0 mt5"/></span></li>
+	      <li class="fl ml8"><label class="fl mt10">编号：</label><span><input type="text" value="" id="projectCode" class="mb0 mt5"/></span></li>
+	      <li class="fl ml8"><label class="fl mt10">采购机构：</label><span><input type="text" value="" id="purchaseDep" class="mb0 mt5"/></span></li>
 	    	<button type="button" onclick="query()" class="btn">查询</button>
-	    	<button type="reset" class="btn">重置</button>  	
+	    	<button type="reset" onclick="reset()" class="btn">重置</button>  	
     	</ul>
     	  <div class="clear"></div>
      </h2>
@@ -177,7 +184,7 @@
 		<c:forEach items="${projectList}" var="contract" varStatus="vs">
 			<tr>
 				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${contract.id}" /></td>
-				<td class="tc pointer">${(vs.index+1)}</td>
+				<td class="tc pointer">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 				<td class="tc pointer">${contract.name}</td>
 				<td class="tc pointer">${contract.projectNumber}</td>
 				<td class="tc pointer">${contract.baleNo}</td>

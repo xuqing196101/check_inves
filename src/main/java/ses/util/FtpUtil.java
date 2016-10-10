@@ -404,7 +404,7 @@ public class FtpUtil {
 //		FtpUtil.upload(file);
 //		FtpUtil.closeFtp();
 		// FtpUtil.startDownFolder("E:\\ftpCopy", "zxcvb");
-		FtpUtil.startDownFile("E:/ftpCopy", "test7", "E2B3FCF57CF74D8EBC8B66BD4A8825F8_J2EE+企业应用实战：Struts+Spring+Hibernate+整合开发.pdf");
+	//	FtpUtil.startDownFile("E:/ftpCopy", "test7", "E2B3FCF57CF74D8EBC8B66BD4A8825F8_J2EE+企业应用实战：Struts+Spring+Hibernate+整合开发.pdf");
 	}
 
 }

@@ -30,7 +30,7 @@ public interface ExpExtractRecordService {
 	 * @param @return      
 	 * @return List<ExpExtractRecord>
 	 */
-	List<ExpExtractRecord> listExtractRecord(ExpExtractRecord expExtractRecord);
+	List<ExpExtractRecord> listExtractRecord(ExpExtractRecord expExtractRecord,Integer pageNum);
 	
 	/**
 	 * @Description:单个记录

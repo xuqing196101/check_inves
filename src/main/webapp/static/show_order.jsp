@@ -102,9 +102,9 @@ String basePath = request.getScheme()+"：//"+request.getServerName()+"："+requ
 				 <tbody>
 				 <tr>
 				  <td class="bggrey tr">采购单位：</td>
-				  <td>中国储备粮管理总公司</td>
+				  <td>****管理总公司</td>
 				  <td class="bggrey tr">发票抬头：</td>
-				  <td>中国储备粮管理总公司</td>
+				  <td>****管理总公司</td>
 				  <td class="bggrey tr">采购单位联系人：</td>
 				  <td>系统管理员</td>
 				 </tr> 
@@ -118,7 +118,7 @@ String basePath = request.getScheme()+"：//"+request.getServerName()+"："+requ
 				 </tr> 
 				 <tr>
 				  <td class="bggrey tr">供应商名称：</td>
-				  <td>商丘市庆源机械设备有限公司</td>
+				  <td>****有限公司</td>
 				  <td class="bggrey tr">供应商单位联系人：</td>
 				  <td>联系人</td>
 				  <td class="bggrey tr">供应商单位联系人座机：</td>
@@ -128,7 +128,7 @@ String basePath = request.getScheme()+"：//"+request.getServerName()+"："+requ
 				  <td class="bggrey tr">供应商单位联系人手机：</td>
 				  <td>13011111111</td>
 				  <td class="bggrey tr">供应商单位地址：</td>
-				  <td>商丘市庆源机械设备有限公司</td>
+				  <td>****有限公司</td>
 				  <td class="bggrey tr">交付日期：</td>
 				  <td>  2016-06-30 </td>
 				 </tr> 
@@ -243,7 +243,7 @@ String basePath = request.getScheme()+"：//"+request.getServerName()+"："+requ
                    <div class=" margin-bottom-0">
                        <h2 class="f16 history_icon">选择中标人</h2>
 				        <div class="padding-left-40">
-				 		  <span>选择中标人成功！请等待分公司审核。选择［湖南嘉利塑业有限公司］为中标单位</span>
+				 		  <span>选择中标人成功！请等待分公司审核。选择［****有限公司］为中标单位</span>
 						   <ul class="list-unstyled margin-bottom-0">
 						   <li class="fl margin-left-0">状态：<span>暂存</span></li>
 						   <li class="fl">姓名：<span>张洋</span></li>
@@ -276,7 +276,7 @@ String basePath = request.getScheme()+"：//"+request.getServerName()+"："+requ
                    <div class=" margin-bottom-0">
                        <h2 class="f16 history_icon">报价</h2>
 				        <div class="padding-left-40">
-				 		  <span>［广西华塑集团有限公司］报价成功！</span>
+				 		  <span>［****有限公司］报价成功！</span>
 						   <ul class="list-unstyled margin-bottom-0">
 						   <li class="fl margin-left-0">状态：<span>暂存</span></li>
 						   <li class="fl">姓名：<span>张洋</span></li>

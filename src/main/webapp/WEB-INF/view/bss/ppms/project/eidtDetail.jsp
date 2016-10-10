@@ -79,9 +79,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 btn:['是','否'],
                 },function(){
                 window.location.href = '<%=basePath%>project/editDetail.html?purchaseCount='+purchaseCount+'&price='+price+'&id='+id+'&purchaseType='+purchaseType;
-                window.setTimeout(function(){
-                            location.reload();
-                        }, 1000);
                     /*  var index=parent.layer.getFrameIndex(window.name);
                      parent.layer.close(index); */ 
                 },function(){

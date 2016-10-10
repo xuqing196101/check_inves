@@ -25,7 +25,7 @@ public class ProjectDetail {
 
 	private Double budget;
 
-	private Date deliverDate;
+	private String deliverDate;
 
 	private String purchaseType;
 
@@ -42,6 +42,8 @@ public class ProjectDetail {
 	private String status;
 
 	private PurchaseDep purchaseDep;
+	
+	private String packageId;
 
 	public String getId() {
 		return id;
@@ -123,11 +125,11 @@ public class ProjectDetail {
 		this.budget = budget;
 	}
 
-	public Date getDeliverDate() {
+	public String getDeliverDate() {
 		return deliverDate;
 	}
 
-	public void setDeliverDate(Date deliverDate) {
+	public void setDeliverDate(String deliverDate) {
 		this.deliverDate = deliverDate;
 	}
 
@@ -193,6 +195,14 @@ public class ProjectDetail {
 
 	public void setPurchaseDep(PurchaseDep purchaseDep) {
 		this.purchaseDep = purchaseDep;
+	}
+
+	public String getPackageId() {
+		return packageId;
+	}
+
+	public void setPackageId(String packageId) {
+		this.packageId = packageId;
 	}
 
 	

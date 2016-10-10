@@ -214,15 +214,17 @@ public class ExpExtractRecordController extends BaseController {
 	 * @return String
 	 */
 	@RequestMapping("/resuleRecordlist")
-	public String resuleRecord(Model model){
-		List<ExpExtractRecord> listExtractRecord = expExtractRecordService.listExtractRecord(new ExpExtractRecord());
-		model.addAttribute("listExtractRecord", listExtractRecord);
+	public String resuleRecord(Model model,ExpExtractRecord expExtractRecord,String page){
+		List<ExpExtractRecord> listExtractRecord = expExtractRecordService.listExtractRecord(expExtractRecord,page!=null&&!page.equals("")?Integer.parseInt(page):1);
+		model.addAttribute("listExtractRecord", new PageInfo<ExpExtractRecord>(listExtractRecord));
+		model.addAttribute("expExtractRecord", expExtractRecord);
 		return "ses/ems/exam/expert/extract/recordlist";
 	}
+	
 	@RequestMapping("/showRecord")
 	public String showRecord(Model model,String id){
 		//获取抽取记录
-		ExpExtractRecord showExpExtractRecord = expExtractRecordService.listExtractRecord(new ExpExtractRecord(id)).get(0);
+		ExpExtractRecord showExpExtractRecord = expExtractRecordService.listExtractRecord(new ExpExtractRecord(id),0).get(0);
 		//获取专家人数
 		List<ProjectExtract> ProjectExtract = extractService.list(new ProjectExtract(showExpExtractRecord.getId())); 
 		model.addAttribute("ExpExtractRecord", showExpExtractRecord);

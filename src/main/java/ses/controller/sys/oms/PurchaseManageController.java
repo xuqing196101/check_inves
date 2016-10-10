@@ -1,8 +1,8 @@
 package ses.controller.sys.oms;
 
-import java.text.SimpleDateFormat;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,15 +13,10 @@ import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
 
-import org.apache.zookeeper.proto.GetACLRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,7 +24,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.sun.org.apache.bcel.internal.generic.NEW;
 
 
 import ses.model.bms.Area;
@@ -50,6 +44,8 @@ import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurChaseDepOrgService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.oms.PurchaseServiceI;
+import ses.service.sms.SupplierAuditService;
+import ses.util.PropertiesUtil;
 
 
 /**
@@ -77,6 +73,8 @@ public class PurchaseManageController {
 	private PurchaseServiceI purchaseServiceI;
 	@Autowired
 	private AreaServiceI areaServiceI;
+	@Autowired
+	private SupplierAuditService supplierAuditService;
 	
 	private AjaxJsonData jsonData = new AjaxJsonData();
 	
@@ -156,16 +154,20 @@ public class PurchaseManageController {
 		//每页显示十条
 		PageHelper.startPage(page.getPageNum(),CommonConstant.PAGE_SIZE);
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("typeName", orgnization.getTypeName());
+		if(orgnization.getTypeName()!=null && orgnization.getTypeName().equals("0")){
+			map.put("typeName", "1");
+		}else if (orgnization.getTypeName().equals("1")||orgnization.getTypeName().equals("2")) {
+			map.put("typeName", "0");
+		}
 		map.put("name", orgnization.getName());
 		model.addAttribute("orgnization", orgnization);
 		List<Orgnization> orgnizationList = orgnizationServiceI.findOrgnizationList(map);
-		page = new PageInfo(orgnizationList);
+		//page = new PageInfo(orgnizationList);
 		model.addAttribute("orgnizationList",orgnizationList);
-
+		model.addAttribute("list", new PageInfo<Orgnization>(orgnizationList));
 		//分页标签
-		String pagesales = CommUtils.getTranslation(page,"purchaseManage/addPurchaseOrg.do");
-		model.addAttribute("pagesql", pagesales);
+		//String pagesales = CommUtils.getTranslation(page,"purchaseManage/addPurchaseOrg.do");
+		//model.addAttribute("pagesql", pagesales);
 		return "ses/oms/require_dep/add_purchase_org";
 	}
 	/**
@@ -229,8 +231,10 @@ public class PurchaseManageController {
 			purchaseOrgList.add(new PurchaseOrg());
 			
 		}
-		deporgmap.put("purchaseOrgList", purchaseOrgList);
-		purChaseDepOrgService.saveByMap(deporgmap);
+		if(depIds!=null && !depIds.equals("")){
+			deporgmap.put("purchaseOrgList", purchaseOrgList);
+			purChaseDepOrgService.saveByMap(deporgmap);
+		}
 		return "redirect:list.do";
 	}
 	/**
@@ -298,8 +302,11 @@ public class PurchaseManageController {
 			purchaseOrgList.add(new PurchaseOrg());
 			
 		}
-		deporgmap.put("purchaseOrgList", purchaseOrgList);
-		purChaseDepOrgService.saveByMap(deporgmap);
+		if(depIds!=null && !depIds.equals("")){
+			deporgmap.put("purchaseOrgList", purchaseOrgList);
+			purChaseDepOrgService.saveByMap(deporgmap);
+		}
+		
 		return "redirect:list.do";
 	}
 	/**
@@ -570,9 +577,9 @@ public class PurchaseManageController {
 		//如果是采购机构增加人员 需要先建立主从关系
 		if (user.getTypeName()!=null && user.getTypeName().equals(1)) {
 			PurchaseInfo purchaseInfo = new PurchaseInfo();
-			//purchaseInfo.setBirthAt(new Date());
-			//purchaseInfo.setQuaEdndate(new Date());
-			//purchaseInfo.setQuaStartDate(new Date());
+			purchaseInfo.setBirthAt("");
+			purchaseInfo.setQuaEdndate("");
+			purchaseInfo.setQuaStartDate("");
 			purchaseServiceI.savePurchase(purchaseInfo);
 			System.out.println(purchaseInfo.getId());
 			user.setTypeId(purchaseInfo.getId());
@@ -619,6 +626,21 @@ public class PurchaseManageController {
 		userServiceI.update(user);
 		jsonData.setSuccess(true);
 		jsonData.setMessage("更新成功");
+		return jsonData;
+	}
+	@RequestMapping(value="deleteUser",method= RequestMethod.POST)
+	@ResponseBody
+	public AjaxJsonData deleteUser(@ModelAttribute User user,HttpServletRequest request){
+		User currUser = (User) request.getSession().getAttribute("loginUser");
+		String idsString = request.getParameter("ids");
+		String[] ids = idsString.split(",");
+		if(ids!=null && !ids.equals("")){
+			for(int i=0;i<ids.length;i++){
+				userServiceI.deleteByLogic(ids[i]);
+			}
+		}
+		jsonData.setSuccess(true);
+		jsonData.setMessage("删除成功");
 		return jsonData;
 	}
 	//------------------------------------机构下人员增删改查-----------------------------------------------------------------------
@@ -779,9 +801,179 @@ public class PurchaseManageController {
 		privinceList =  areaServiceI.findTreeByPid(pid,null);
 		return  privinceList;
 	}
+	/**
+	 * 
+	 * @Title: PurchaseDepMapList
+	 * @author: Tian Kunfeng
+	 * @date: 2016-10-8 下午4:22:28
+	 * @Description: 采购机构地图查询
+	 * @param: @param model
+	 * @param: @param purchaseDep
+	 * @param: @return
+	 * @return: String
+	 */
 	@RequestMapping("purchaseDepMapList")
-	public String PurchaseDepMapList(){
+	public String PurchaseDepMapList(Model model,@ModelAttribute PurchaseDep purchaseDep){
+		HashMap<String, Object> condtionmap = new HashMap<String, Object>();
+		condtionmap.put("typeName", 0);
+		StringBuffer sb = new StringBuffer("");
+		List<PurchaseDep> oList = purchaseOrgnizationServiceI.findPurchaseDepList(condtionmap);
+		//开始循环 判断地址是否
+		Map<String,Integer> map= new HashMap<String,Integer>(40);
+		map=getMap();
+		List<String> list=getAllProvince();
+		for(PurchaseDep pDep:oList){
+			for(String str:list){
+				int count=1;
+				if(pDep.getProvinceName()!=null &&pDep.getProvinceName().indexOf(str)!=-1){
+					if(map.get(str)==null){
+						map.put(str, count);
+					}else{
+						map.put(str,map.get(str)+1);
+					}
+				}else {
+					//map.put(str, 0);
+				}
+			}
+		}
+		for (Object o : map.keySet()) { 
+			sb.append(o).append(map.get(o));
+		}
+		String highMapStr=null;
+		if(sb.length()>0){
+			highMapStr=sb.toString();
+		}
+		//model.addAttribute("data1", map);
+		model.addAttribute("data", highMapStr);
+		model.addAttribute("purchaseDep",purchaseDep);
 		return "ses/oms/purchase_dep/purchasedep_map_list";
+	}
+	/**
+	 * 
+	 * @Title: PurchaseDepdetailList
+	 * @author: Tian Kunfeng
+	 * @date: 2016-10-8 下午7:57:47
+	 * @Description: 根据地图查询明细列表
+	 * @param: @param model
+	 * @param: @param page
+	 * @param: @param purchaseDep
+	 * @param: @return
+	 * @return: String
+	 */
+	@RequestMapping("/purchaseDepdetailList")
+	public String PurchaseDepdetailList(Model model, Integer page, PurchaseDep purchaseDep) {
+		model.addAttribute("parentName",purchaseDep.getParentName());
+		try {
+			purchaseDep.setParentName(URLDecoder.decode(purchaseDep.getParentName(),"UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		HashMap<String, Object> condtionmap = new HashMap<String, Object>();
+		condtionmap.put("typeName", 0);
+		condtionmap.put("parentName", purchaseDep.getParentName());
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page == null ? 1 : page,Integer.parseInt(config.getString("pageSize")));
+		List<PurchaseDep> oList = purchaseOrgnizationServiceI.findPurchaseDepList(condtionmap);
+		model.addAttribute("list", new PageInfo<PurchaseDep>(oList));
+		model.addAttribute("purchaseDep", purchaseDep);
+		//logger.info(JSON.toJSONStringWithDateFormat(oList,"yyyy-MM-dd HH:mm:ss"));
+		return "ses/oms/purchase_dep/purchasedep_map_detail_list";
+	}
+	@RequestMapping("/purchaseDepMapShow")
+	public String PurchaseDepMapShow(Model model, Integer page, PurchaseDep purchaseDep) {
+		HashMap<String, Object> condtionmap = new HashMap<String, Object>();
+		condtionmap.put("typeName", 0);
+		condtionmap.put("orgId", purchaseDep.getOrgId());
+		List<PurchaseDep> oList = purchaseOrgnizationServiceI.findPurchaseDepList(condtionmap);
+		model.addAttribute("list", new PageInfo<PurchaseDep>(oList));
+		if(oList!=null && oList.size()>0){
+			model.addAttribute("purchaseDep", oList.get(0));
+		}
+		//logger.info(JSON.toJSONStringWithDateFormat(oList,"yyyy-MM-dd HH:mm:ss"));
+		return "ses/oms/purchase_dep/purchasedep_map_show_list";
+	}
+	public static List<String> getAllProvince(){
+		List<String> list=new ArrayList<String>();
+		list.add("吉林");
+		list.add("天津");
+		list.add("山东");
+		list.add("山西");
+		list.add("新疆");
+		list.add("河北");
+		list.add("河南");
+		list.add("甘肃");
+		
+		list.add("福建");
+		list.add("贵州");
+		list.add("重庆");
+		list.add("江苏");
+		
+		list.add("内蒙古");
+		list.add("广西");
+		list.add("黑龙江");
+		list.add("云南");
+		list.add("辽宁");
+		
+		list.add("香港");
+		list.add("浙江");
+		list.add("上海");
+		list.add("北京");
+		list.add("广东");
+		list.add("澳门");
+		list.add("西藏");
+		list.add("陕西");
+		list.add("四川");
+		list.add("海南");
+		list.add("台湾");
+		list.add("宁夏");
+		list.add("青海");
+		list.add("江西");
+		list.add("湖北");
+		list.add("湖南");
+		list.add("安徽");
+		return list;
+	}
+	public static Map<String ,Integer> getMap(){
+		Map<String,Integer> map= new HashMap<String,Integer>(40);
+		map.put("安徽", 0);
+		map.put("湖南", 0);
+		map.put("湖北", 0);
+		map.put("江西", 0);
+		map.put("青海", 0);
+		map.put("宁夏", 0);
+		map.put("台湾", 0);
+		map.put("海南", 0);
+		map.put("四川", 0);
+		map.put("陕西", 0);
+		
+		map.put("西藏", 0);
+		map.put("澳门", 0);
+		map.put("广东", 0);
+		map.put("北京", 0);
+		map.put("上海", 0);
+		map.put("浙江", 0);
+		map.put("香港", 0);
+		map.put("辽宁", 0);
+		map.put("云南", 0);
+		map.put("黑龙江", 0);
+		
+		map.put("广西", 0);
+		map.put("内蒙古", 0);
+		map.put("江苏", 0);
+		map.put("重庆", 0);
+		map.put("贵州", 0);
+		map.put("福建", 0);
+		map.put("甘肃", 0);
+		map.put("河南", 0);
+		map.put("河北", 0);
+		map.put("新疆", 0);
+		
+		map.put("山西", 0);
+		map.put("山东", 0);
+		map.put("天津", 0);
+		map.put("吉林", 0);
+		return map;
 	}
 	//-----------------------------------------------------基本get()/set()--------------------------------------------------
 	public AjaxJsonData getJsonData() {

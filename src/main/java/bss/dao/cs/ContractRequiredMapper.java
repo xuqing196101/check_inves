@@ -1,5 +1,7 @@
 package bss.dao.cs;
 
+import java.util.List;
+
 import bss.model.cs.ContractRequired;
 
 public interface ContractRequiredMapper {
@@ -14,4 +16,6 @@ public interface ContractRequiredMapper {
     int updateByPrimaryKeySelective(ContractRequired record);
 
     int updateByPrimaryKey(ContractRequired record);
+    
+    List<ContractRequired> selectConRequeByContractId(String conId);
 }

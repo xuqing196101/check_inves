@@ -1,39 +1,158 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ include file="../../../common.jsp"%>
 <!DOCTYPE html>
 <html class=" js cssanimations csstransitions" lang="en">
 <!--<![endif]-->
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<title></title>
-<!-- Meta -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
-<meta name="author" content="">
-<link href="<%=basePath%>public/oms/css/consume.css"  rel="stylesheet">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
+	<title></title>
+
+	<!-- Meta -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/public/ZHH/css/common.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/style.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/line-icons.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/app.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/application.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/header-v4.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/header-v5.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/img-hover.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/page_job.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
+	 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
 <style type="text/css">
-.panel-title>a
-{
+.panel-title>a {
 	color: #333
 }
-	
 </style>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
-<script src="<%=basePath%>public/layer/layer.js"></script>
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css">
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/public/oms/css/consume.css">
+    <script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/public/ztree/jquery.ztree.core.js"></script>
+    <!--导航js-->
+    <script src="${pageContext.request.contextPath}/public/ZHH/js/jquery_ujs.js"></script>
+    <script src="${pageContext.request.contextPath}/public/ZHH/js/bootstrap.min.js"></script>
+    <script src="${pageContext.request.contextPath}/public/oms/js/select-tree.js"></script>
+<script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
 <script type="text/javascript">
-	function save(){
-		var index = parent.layer.getFrameIndex(window.name); 
-		var pid = parent.$("#parentid").val();
-		console.dir(pid);
+	var setting = {
+		view : {
+			dblClickExpand : false
+		},
+		async : {
+			autoParam : [ "id" ],
+			enable : true,
+			url : "${pageContext.request.contextPath}/purchaseManage/gettree.do",
+			dataType : "json",
+			type : "post",
+		},
+		data : {
+			simpleData : {
+				enable : true,
+				idKey : "id",
+				pId : "pId",
+				rootPId : -1,
+			}
+		},
+		callback : {
+			beforeClick : beforeClick,
+			onClick : onClick
+		}
+	};
+	$(document).ready(function() {
+		$.fn.zTree.init($("#treeDemo"), setting, datas);
+	});
+</script>
+<script type="text/javascript">
+	 $(document).ready(function(){
+	 	var proviceId = $("#pid").val();
+		//console.dir(proviceId);
+		
+	 	$.ajax({
+		    type: 'post',
+		    url: "${pageContext.request.contextPath}/purchaseManage/getProvinceList.do?",
+		    data : {pid:1},
+		    success: function(data) {
+		    	$("#city").append("<option value='-1'>请选择</option>");
+		    	$("#province").append("<option value='-1'>请选择</option>");
+			    $.each(data, function(idx, item) {
+					if(item.id==proviceId){
+						var html = "<option value='" + item.id + "' selected>" + item.name
+						+ "</option>";
+						$("#province").append(html);
+						loadCities(proviceId);
+					}else{
+						var html = "<option value='" + item.id + "'>" + item.name
+						+ "</option>";
+						$("#province").append(html);
+					}
+				});
+				if(proviceId!=null && proviceId!="" && proviceId!=undefined){
+					//loadCities(proviceId);
+				}
+            	/*  var optionHTML="<select name=\"province\" onchange=\"loadCities(this.value)\">";
+	             var optionHTML="";
+				  optionHTML+="<option value=\""+"-1"+"\">"+"清选择"+"</option>"; 
+				  for(var i=0;i<data.length;i++){
+			       // console.dir(data[i].id);
+			        optionHTML+="<option value=\""+data[i].id+"\">"+data[i].name+"</option>"; 
+				  }
+				  optionHTML+="</select>";
+				  $("#province").html(optionHTML);//将数据填充到省份的下拉列表中
+				  console.dir(optionHTML); */
+		    }
+		});
+		
+    });
+    function loadCities(pid){
+    	$("#pid").val(pid);
+    	var cityId = $("#cid").val();
+    	$.ajax({
+		    type: 'post',
+		    url: "${pageContext.request.contextPath}/purchaseManage/getProvinceList.do?",
+		    data : {pid:pid},
+		    success: function(data) {
+		    	$.each(data, function(idx, item) {
+					if(item.id==cityId){
+						var html = "<option value='" + item.id + "' selected>" + item.name
+						+ "</option>";
+						$("#city").append(html);
+					}else{
+						var html = "<option value='" + item.id + "'>" + item.name
+						+ "</option>";
+						$("#city").append(html);
+					}
+					
+				});
+             /* var optionHTML="";
+			  optionHTML+="<option value=\""+"-1"+"\">"+"清选择"+"</option>"; 
+			  for(var i=0;i<data.length;i++){
+		       // console.dir(data[i].id);
+		        optionHTML+="<option value=\""+data[i].id+"\">"+data[i].name+"</option>"; 
+			  }
+			  optionHTML+="</select>";
+			  $("#city").html(optionHTML);//将数据填充到省份的下拉列表中
+			  //console.dir(optionHTML); */
+		    }
+		});
+    }
+    function loadTown(pid){
+    	$("#cid").val(pid);
+    }
+	function create(){
 		$.ajax({
 		    type: 'post',
-		    url: "${pageContext.request.contextPath}/purchaseManage/saveOrg.do?",
-		    data : $.param({'parentId':pid}) + '&' + $('#formID').serialize(),
+		    url: "${pageContext.request.contextPath}/purchase/createAjax.do?",
+		    data : $('#formID').serialize(),
 		    //data: {'pid':pid,$("#formID").serialize()},
 		    success: function(data) {
 		        truealert(data.message,data.success == false ? 5:1);
@@ -48,16 +167,28 @@
 		    shade: [0.3, '#000'],
 		    yes: function(index){
 		        //do something
-		         parent.location.reload();
+		         //parent.location.reload();
 		    	 layer.closeAll();
-		    	 parent.layer.close(index); //执行关闭
-		    	 //parent.location.href="${pageContext.request.contextPath}/purchaseManage/list.do";
+		    	 //parent.layer.close(index); //执行关闭
+		    	 parent.location.href="${pageContext.request.contextPath}/purchase/list.do";
 		    }
 		});
 	}
+	function pageOnload(){
+		var proviceId = $("#pid").val();
+		console.dir(proviceId);
+		var cityId = $("#cid").val();
+		var isAudit = $("#cid").val();
+		$("#province").val('A4CCB12438AD4E49AADE355B3B02910C');
+		$("#province").get(0).selectedIndex=proviceId;
+		$("#province option[value ='"+proviceId+"']").attr("selected", true);//val(2);
+		$("#city").val(cityId);
+		//$("#provinceId").val(proviceId);
+		
+	}
 </script>
 </head>
-<body>
+<body onload="pageOnload();">
 
 	<!--面包屑导航开始-->
 	<div class="margin-top-10 breadcrumbs ">
@@ -67,9 +198,9 @@
 				</li>
 				<li><a href="#">支撑系统</a>
 				</li>
-				<li><a href="#">后台管理</a>
+				<li><a href="#">采购机构管理</a>
 				</li>
-				<li class="active"><a href="#">需求部门管理</a>
+				<li class="active"><a href="#">修改采购机构</a>
 				</li>
 			</ul>
 			<div class="clear"></div>
@@ -78,11 +209,14 @@
 
 	<!-- 修改订列表开始-->
 	<div class="container">
-		<form action="<%=basePath%>purchaseManage/createPurchaseDep.do" method="post" id="formID">
-			<input type="hidden" value="2" name="typeName"/>
+		<div id="menuContent" class="menuContent divpopups menutree">
+			<ul id="treeDemo" class="ztree"></ul>
+		</div>
+		<form action="${pageContext.request.contextPath}/purchase/create.do" method="post" id="formID">
+			<!-- <input type="hidden" value="1" name="typeName"/> -->
 			<div>
 				<div class="headline-v2">
-					<h2>新增采购机构</h2>
+					<h2>修改采购人信息</h2>
 				</div>
 				<!-- 伸缩层 -->
 				<div class="panel-group" id="accordion">
@@ -98,70 +232,98 @@
 						<div id="collapseOne" class="panel-collapse collapse in">
 							<div class="panel-body">
 								<ul class="list-unstyled list-flow p0_20">
-									<li class="col-md-6 p0"><span class="">采购机构名称：</span>
+									<li class="col-md-6 p0"><span class="">姓名：</span>
 										<div class="input-append">
-											<input class="span2" name="name" type="text"> <span
+											<input class="span2" name="relName" type="text" value="${purchaseInfo.relName }"> <span
 												class="add-on">i</span>
+											<div class="b f18 ml10 red hand">${name_msg}</div>
 										</div>
 									</li>
-									<li class="col-md-6  p0 "><span class="">采购机构单位级别：</span>
-										<div class="input-append">
-											<input class="span2" name="subordinateOrgName" type="text"> <span
-												class="add-on">i</span>
-										</div>
-									</li>
-									<li class="col-md-6  p0 "><span class="">行政隶属单位：</span>
-										<div class="input-append">
-											<input class="span2" name="mobile" 
-												type="text"> <span class="add-on">i</span>
-										</div>
-									</li>
-									<li class="col-md-6  p0 "><span class="">采购业务范围：</span>
-										<div class="input-append">
-											<input class="span2" name="businessRange" 
-												type="text"> <span class="add-on">i</span>
-										</div>
-									</li>
-									<li class="col-md-6  p0 "><span class="">单位地址：</span>
-										<div class="input-append">
-											<input class="span2" name="address" type="text"> <span
-												class="add-on">i</span>
-										</div>
-									</li>
-									<li class="col-md-6  p0 "><span class="">邮编：</span>
-										<div class="input-append">
-											<input class="span2" name="postCode" 
-												type="text"> <span class="add-on">i</span>
-										</div>
-									</li>
-									<li class="col-md-6  p0 "><span class="">传真号：</span>
-										<div class="input-append">
-											<input class="span2" name="fax" type="text"> <span
-												class="add-on">i</span>
-										</div>
-									</li>
-									<li class="col-md-6  p0 "><span class="">值班室电话：</span>
-										<div class="input-append">
-											<input class="span2" name="dutyRoomPhone" type="text"> <span
-												class="add-on">i</span>
+									<li class="col-md-6  p0 "><span class="">性别：</span>
+										<div class="select_common mb10">
+											<select class="span2 w250" name="gender">
+												<option value="">-请选择-</option>
+												<option value="M">男</option>
+												<option value="F">女</option>
+											</select> 
 										</div>
 									</li>
 									<li class="col-md-6  p0 "><span class="">省：</span>
-										<select class="span2" name="provinceId"> 
-											<option value="">-请选择-</option>
-										</select>
+										<div class="select_common mb10">
+											<select class="span2 w250" name="provinceId" id="province" onchange="loadCities(this.value);"> 
+											</select>
+											<input type="hidden" name="purchaseInfo.provinceId" id="pid" value="${purchaseInfo.provinceId }">
+										</div>
 									</li>
 									<li class="col-md-6  p0 "><span class="">市：</span>
-										<select class="span2" name="cityId">
-											<option value="">-请选择-</option>
-										</select> 
+										<div class="select_common mb10">
+											<select class="span2 w250" name="cityId" id="city" onchange="loadTown(this.value);">
+											</select> 
+											<input type="hidden" name="purchaseInfo.cityId" id="cid" value="${purchaseInfo.cityId }">
+										</div>
 									</li>
-									<li class="col-md-6  p0 "><span class="">是否具有审核供应商：</span>
-										<select class="span2" name="isAuditSupplier">
-											<option value="">-请选择-</option>
-											<option value="1">是</option>
-											<option value="0">否</option>
-										</select> 
+									<li class="col-md-6  p0 "><span class="">民族：</span>
+										<div class="input-append">
+											<input class="span2" name="nation" value="${purchaseInfo.subordinateOrgName }"
+												type="text"> <span class="add-on">i</span>
+										</div>
+									</li>
+									<li class="col-md-6  p0 "><span class="">政治面貌：</span>
+										<div class="input-append">
+											<input class="span2" name="political" value="${purchaseInfo.businessRange }"
+												type="text"> <span class="add-on">i</span>
+										</div>
+									</li>
+									<li class="col-md-6  p0 "><span class=""><i class="red">＊</i>出生年月：</span>
+										<div class="input-append">
+											<input class="span2" type="text" readonly="readonly" onClick="WdatePicker()" name="birthAt" value="<fmt:formatDate value="${purchaseInfo.quaStartDate}" pattern="yyyy-MM-dd" />" /> 
+											<span class="add-on"> <img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
+										</div>
+									</li>
+									<li class="col-md-6  p0 "><span class="">身份证号：</span>
+										<div class="input-append">
+											<input class="span2" name="idCard" value="${ purchaseInfo.postCode}"
+												type="text"> <span class="add-on">i</span>
+										</div>
+									</li>
+									<li class="col-md-6  p0 "><span class="">人员类别：</span>
+										<div class="select_common mb10">
+											<select class="span2 w250" name="purcahserType">
+												<option value="">-请选择-</option>
+												<option value="0">军人</option>
+												<option value="1">文职</option>
+												<option value="2">职工</option>
+												<option value="3">战士</option>
+											</select>
+										</div> 
+									</li>
+									<li class="col-md-6  p0 "><span class="">职称：</span>
+										<div class="input-append">
+											<input class="span2" name="professional" type="text" value="${ purchaseInfo.professional}"> <span
+												class="add-on">i</span>
+										</div>
+									</li>
+									<li class="col-md-6  p0 "><span class="">所属采购机构：</span>
+										<div class="select_common">
+											<input id="proSec" class="w250" type="text" readonly value="${purchaseInfo.purchaseDepName }" name="purchaseDepName" style="width:120px;" onclick="showMenu(); return false;"/>
+											<input type="hidden"  id="treeId" name="purchaseDepId" value="${purchaseInfo.purchaseDepId }"  class="text"/>
+											 <i class="input_icon "
+												onclick="showMenu();"> <img
+												src="${pageContext.request.contextPath}/public/ZHH/images/down.png"
+												class="margin-bottom-5" /> </i>
+										</div>
+									</li>
+									<li class="col-md-6  p0 "><span class="">职务：</span>
+										<div class="input-append">
+											<input class="span2" name="duties" type="text" value="${ purchaseInfo.duties}"> <span
+												class="add-on">i</span>
+										</div>
+									</li>
+									<li class="col-md-6  p0 "><span class="">年龄：</span>
+										<div class="input-append">
+											<input class="span2" name="age" type="text" value="${ purchaseInfo.age}"> <span
+												class="add-on">i</span>
+										</div>
 									</li>
 								</ul>
 							</div>
@@ -173,35 +335,71 @@
 							<h4 class="panel-title">
 								<a data-toggle="collapse" data-parent="#accordion" 
 								   href="#collapseTwo">
-									2、资质信息
+									2、专业信息
 								</a>
 							</h4>
 						</div>
 						<div id="collapseTwo" class="panel-collapse collapse">
 							<div class="panel-body">
 								<ul class="list-unstyled list-flow p0_20">
-									<li class="col-md-6 p0"><span class="">采购资质等级：</span>
-										<select class="span2" name="quaLevel" type="text"> 
-											<option value="">-请选择-</option>
-											<option value="1">一级</option>
-											<option value="2">二级</option>
-											<option value="3">三级</option>
-											<option value="4">四级</option>
-											<option value="5">五级</option>
-											<option value="6">六级</option>
-											<option value="7">七级</option>
-											<option value="8">八级</option>
-											<option value="9">九级</option>
-										</select>
+									
+									<li class="col-md-6  p0 "><span class="">学历：</span>
+										<div class="input-append">
+											<input class="span2" name="topStudy" type="text"> <span
+												class="add-on">i</span>
+										</div>
+									</li>
+									<li class="col-md-6  p0 "><span class="">毕业院校：</span>
+										<div class="input-append">
+											<input class="span2" name="graduateSchool" type="text"> <span
+												class="add-on">i</span>
+										</div>
+									</li>
+									<!-- <li class="col-md-6  p0 "><span class="">专业：</span>
+										<div class="input-append">
+											<input class="span2" name="quaCode" type="text"> <span
+												class="add-on">i</span>
+										</div>
+									</li> -->
+									<li class="col-md-12 p0"><span class="fl">工作经历：</span>
+										<div class="col-md-12 pl200 fn mt5 pwr9">
+											<textarea class="text_area col-md-12 " name="workExperience"
+												maxlength="400" title="" placeholder=""></textarea>
+										</div>
+									</li>
+									<li class="col-md-12 p0"><span class="fl">培训经历：</span>
+										<div class="col-md-12 pl200 fn mt5 pwr9">
+											<textarea class="text_area col-md-12 " name="trainExperience"
+												maxlength="400" title="" placeholder=""></textarea>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a data-toggle="collapse" data-parent="#accordion" 
+								   href="#collapseThree">
+									3、资质信息
+								</a>
+							</h4>
+						</div>
+						<div id="collapseThree" class="panel-collapse collapse">
+							<div class="panel-body">
+								<ul class="list-unstyled list-flow p0_20">
+									<li class="col-md-6  p0 "><span class="">资质编号：</span>
+										<div class="input-append">
+											<input class="span2" name="quaCode" type="text"> <span
+												class="add-on">i</span>
+										</div>
 									</li>
 									<li class="col-md-6  p0 "><span class="">采购资质范围：</span>
-										<select class="span2" name="quaRange" type="text">
-											<option value="">-请选择-</option>
-											<option value="1">综合</option>
-											<option value="1">物资</option>
-											<option value="1">工程</option>
-											<option value="1">服务</option>
-										</select>
+										<div class="input-append">
+											<input class="span2" name="quaRank" type="text"> <span
+												class="add-on">i</span>
+										</div>
 									</li>
 									<li class="col-md-6  p0 "><span class=""><i class="red">＊</i>采购资质开始日期：</span>
 										<div class="input-append">
@@ -215,16 +413,15 @@
 											<span class="add-on"> <img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
 										</div>
 									</li>
-									<%-- <li>
-										<div>
-											<input id="d12" type="text"/>
-											<img onclick="WdatePicker({el:'d12'})" src="${pageContext.request.contextPath}/public/My97DatePicker/skin/datePicker.gif" width="16" height="22" align="absmiddle">
-										</div>
-									</li> --%>
-									<li class="col-md-6  p0 "><span class="">采购资质编号：</span>
-										<div class="input-append">
-											<input class="span2" name="quaCode" type="text"> <span
-												class="add-on">i</span>
+									
+									<li class="col-md-6  p0 "><span class="">采购资质等级：</span>
+										<div class="select_common mb10">
+											<select class="span2 w250" name="quaLevel">
+												<option value="">-请选择-</option>
+												<option value="0">初</option>
+												<option value="1">中</option>
+												<option value="2">高</option>
+											</select> 
 										</div>
 									</li>
 									<li class="col-md-6 p0"><span class=""><i class="red">＊</i>采购资格证书图片：</span>
@@ -234,30 +431,8 @@
 											<input type="file" size="30" accept="image/*" />
 										</div>
 									</li>
+									
 								</ul>
-							</div>
-						</div>
-					</div>
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h4 class="panel-title">
-								<a data-toggle="collapse" data-parent="#accordion" 
-								   href="#collapseThree">
-									3、机构信息
-								</a>
-							</h4>
-						</div>
-						<div id="collapseThree" class="panel-collapse collapse">
-							<div class="panel-body">
-								<div class="mt40  mb50 ">
-									<button type="button" class="btn  padding-right-20 btn_back margin-5">添加</button>
-									<button type="button" class="btn  padding-right-20 btn_back margin-5">删除</button>
-								</div>
-								<div>
-									<table>
-										<tr><td>2</td><td>3</td><td>4</td></tr>
-									</table>
-								</div>
 							</div>
 						</div>
 					</div>
@@ -273,215 +448,37 @@
 						<div id="collapseFour" class="panel-collapse collapse">
 							<div class="panel-body">
 								<ul class="list-unstyled list-flow p0_20">
-									<li class="col-md-6 p0"><span class="">单位主要领导姓名及电话：</span>
+									<li class="col-md-6  p0 "><span class="">手机号码：</span>
 										<div class="input-append">
-											<input class="span2" name="leaderTelephone" type="text"> <span
+											<input class="span2" name="mobile" type="text"> <span
 												class="add-on">i</span>
 										</div>
 									</li>
-									<li class="col-md-6  p0 "><span class="">军官编制人数：</span>
+									<li class="col-md-6  p0 "><span class="">办公号码：</span>
 										<div class="input-append">
-											<input class="span2" name="officerCountnum" type="text"> <span
+											<input class="span2" name="telephone" type="text"> <span
 												class="add-on">i</span>
 										</div>
 									</li>
-									<li class="col-md-6  p0 "><span class="">军官现有人数：</span>
+									<li class="col-md-6  p0 "><span class="">传真号码：</span>
 										<div class="input-append">
-											<input class="span2" name="officerNowCounts" 
-												type="text"> <span class="add-on">i</span>
-										</div>
-									</li>
-									<li class="col-md-6  p0 "><span class="">士兵现有人数：</span>
-										<div class="input-append">
-											<input class="span2" name="soldierNowCounts" type="text"> <span
+											<input class="span2" name="fax" type="text"> <span
 												class="add-on">i</span>
-										</div>
-									</li>
-									<li class="col-md-6 p0"><span class="">士兵编制人数：</span>
-										<div class="input-append">
-											<input class="span2" name="soldierNum" type="text"> <span
-												class="add-on">i</span>
-										</div>
-									</li>
-									<li class="col-md-6  p0 "><span class="">职工编制人数：</span>
-										<div class="input-append">
-											<input class="span2" name="staffNum" type="text"> <span
-												class="add-on">i</span>
-										</div>
-									</li>
-									<li class="col-md-6  p0 "><span class="">职工现有人数：</span>
-										<div class="input-append">
-											<input class="span2" name="staffNowCounts" 
-												type="text"> <span class="add-on">i</span>
-										</div>
-									</li>
-									<li class="col-md-6  p0 "><span class="">具备采购资格人员数量：</span>
-										<div class="input-append">
-											<input class="span2" name="purchasersCount" type="text"> <span
-												class="add-on">i</span>
-										</div>
-									</li>
-									<li class="col-md-6  p0 "><span class="">初级采购师人数：</span>
-										<div class="input-append">
-											<input class="span2" name="juniorPurCount" 
-												type="text"> <span class="add-on">i</span>
-										</div>
-									</li>
-									<li class="col-md-6  p0 "><span class="">高级采购师人数：</span>
-										<div class="input-append">
-											<input class="span2" name="seniorPurCount" type="text"> <span
-												class="add-on">i</span>
-										</div>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h4 class="panel-title">
-								<a data-toggle="collapse" data-parent="#accordion" 
-								   href="#collapseFive">
-									5、甲方信息
-								</a>
-							</h4>
-						</div>
-						<div id="collapseFive" class="panel-collapse collapse">
-							<div class="panel-body">
-								<ul class="list-unstyled list-flow p0_20">
-									<li class="col-md-6 p0"><span class="">单位名称：</span>
-										<div class="input-append">
-											<input class="span2" name="depName" type="text"> <span
-												class="add-on">i</span>
-										</div>
-									</li>
-									<li class="col-md-6  p0 "><span class="">法定代表人：</span>
-										<div class="input-append">
-											<input class="span2" name="legal" type="text"> <span
-												class="add-on">i</span>
-										</div>
-									</li>
-									<li class="col-md-6  p0 "><span class="">委托代理人：</span>
-										<div class="input-append">
-											<input class="span2" name="agent" 
-												type="text"> <span class="add-on">i</span>
-										</div>
-									</li>
-									<li class="col-md-6  p0 "><span class="">联系人：</span>
-										<div class="input-append">
-											<input class="span2" name="contact" type="text"> <span
-												class="add-on">i</span>
-										</div>
-									</li>
-										<li class="col-md-6  p0 "><span class="">联系电话：</span>
-										<div class="input-append">
-											<input class="span2" name="contactTelephone" type="text"> <span
-												class="add-on">i</span>
-										</div>
-									</li>
-									<li class="col-md-6  p0 "><span class="">通讯地址：</span>
-										<div class="input-append">
-											<input class="span2" name="contactAddress" 
-												type="text"> <span class="add-on">i</span>
 										</div>
 									</li>
 									<li class="col-md-6  p0 "><span class="">邮政编码：</span>
 										<div class="input-append">
-											<input class="span2" name="unitPostCode" type="text"> <span
+											<input class="span2" name="postCode" type="text"> <span
 												class="add-on">i</span>
 										</div>
 									</li>
-										<li class="col-md-6  p0 "><span class="">付款单位：</span>
-										<div class="input-append">
-											<input class="span2" name="payDep" type="text"> <span
-												class="add-on">i</span>
-										</div>
-									</li>
-									<li class="col-md-6  p0 "><span class="">开户银行：</span>
-										<div class="input-append">
-											<input class="span2" name="bank" 
-												type="text"> <span class="add-on">i</span>
-										</div>
-									</li>
-									<li class="col-md-6  p0 "><span class="">银行账号：</span>
-										<div class="input-append">
-											<input class="span2" name="bankAccount" type="text"> <span
-												class="add-on">i</span>
+									<li class="col-md-12 p0"><span class="fl">联系地址：</span>
+										<div class="col-md-12 pl200 fn mt5 pwr9">
+											<textarea class="text_area col-md-12 " name="address"
+												maxlength="400" title="" placeholder=""></textarea>
 										</div>
 									</li>
 								</ul>
-							</div>
-						</div>
-					</div>
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h4 class="panel-title">
-								<a data-toggle="collapse" data-parent="#accordion" 
-								   href="#collapseSix">
-									6、场所信息
-								</a>
-							</h4>
-						</div>
-						<div id="collapseSix" class="panel-collapse collapse">
-							<div class="panel-body">
-								<ul class="list-unstyled list-flow p0_20">
-									<li class="col-md-6 p0"><span class="">办公场地总面积：</span>
-										<div class="input-append">
-											<input class="span2" name="officeArea" type="text"> <span
-												class="add-on">i</span>
-										</div>
-									</li>
-									<li class="col-md-6  p0 "><span class="">办公司数量：</span>
-										<div class="input-append">
-											<input class="span2" name="officeCount" type="text"> <span
-												class="add-on">i</span>
-										</div>
-									</li>
-									<li class="col-md-6  p0 "><span class="">会议室数量：</span>
-										<div class="input-append">
-											<input class="span2" name="mettingRoomCount" 
-												type="text"> <span class="add-on">i</span>
-										</div>
-									</li>
-									<li class="col-md-6  p0 "><span class="">招标室数量：</span>
-										<div class="input-append">
-											<input class="span2" name="inviteRoomCount" type="text"> <span
-												class="add-on">i</span>
-										</div>
-									</li>
-									<li class="col-md-6  p0 "><span class="">评标室数量：</span>
-										<div class="input-append">
-											<input class="span2" name="bidRoomCount" 
-												type="text"> <span class="add-on">i</span>
-										</div>
-									</li>
-								</ul>
-								<div class="uploader orange m0 fr">
-									<input type="button" class="button" value="添加" /> 
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h4 class="panel-title">
-								<a data-toggle="collapse" data-parent="#accordion" 
-								   href="#collapseSeven">
-									7、选择采购管理部门
-								</a>
-							</h4>
-						</div>
-						<div id="collapseSeven" class="panel-collapse collapse">
-							<div class="panel-body">
-								<div class="mt40  mb50 ">
-									<button type="button" class="btn  padding-right-20 btn_back margin-5">添加</button>
-									<button type="button" class="btn  padding-right-20 btn_back margin-5">删除</button>
-								</div>
-								<div>
-									<table>
-										<tr><td>2</td><td>3</td><td>4</td></tr>
-									</table>
-								</div>
 							</div>
 						</div>
 					</div>
@@ -491,9 +488,9 @@
 
 			<div class="col-md-12">
 				<div class="mt40 tc  mb50 ">
-					<button type="button" class="btn  padding-right-20 btn_back margin-5">确认</button>
-					<button type="button" class="btn  padding-right-20 btn_back margin-5">暂存</button>
-					<button type="button" class="btn  padding-right-20 btn_back margin-5">取消</button>
+					<button type="button" class="btn  padding-right-20 btn_back margin-5" onclick="create();">确认</button>
+					<!-- <button type="button" class="btn  padding-right-20 btn_back margin-5" onclick="stash();">暂存</button> -->
+					<button type="button" class="btn  padding-right-20 btn_back margin-5" onclick="history.go(-1)">取消</button>
 				</div>
 			</div>
 		</form>

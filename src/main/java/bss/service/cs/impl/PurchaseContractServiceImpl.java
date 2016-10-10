@@ -42,4 +42,14 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 	public PurchaseContract selectById(String id) {
 		return purchaseContractMapper.selectContractByid(id);
 	}
+
+	@Override
+	public List<PurchaseContract> selectDraftContract() {
+		return purchaseContractMapper.selectDraftContract();
+	}
+
+	@Override
+	public PurchaseContract selectDraftById(String id) {
+		return purchaseContractMapper.selectDraftById(id);
+	}
 }

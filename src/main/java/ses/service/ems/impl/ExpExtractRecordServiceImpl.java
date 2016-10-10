@@ -8,6 +8,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+
 import ses.dao.ems.ExpExtractRecordMapper;
 import ses.model.ems.ExpExtractRecord;
 import ses.service.sms.ExpExtractRecordService;
@@ -47,7 +49,10 @@ public class ExpExtractRecordServiceImpl implements ExpExtractRecordService {
 	 */
 	@Override
 	public List<ExpExtractRecord> listExtractRecord(
-			ExpExtractRecord expExtractRecord) {
+			ExpExtractRecord expExtractRecord,Integer pageNum) {
+		if(pageNum!=0){
+			PageHelper.startPage(pageNum, 10);
+		}
 		return expExtractRecordMapper.list(expExtractRecord);
 	}
 

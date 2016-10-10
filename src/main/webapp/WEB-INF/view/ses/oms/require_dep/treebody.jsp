@@ -56,6 +56,31 @@
     		//console.dir(array[0].defaultValue);
     		parent.showiframe("修改机构人员",1000,600,"${pageContext.request.contextPath}/purchaseManage/editUser.do?id="+ids[0],"-4");
     	}
+    	function delUser(id){
+    		var ids = getSelectIds();
+    		var len = ids.length;
+    		var titles="至少选择一条记录";;
+    		//console.dir(ids);
+    		if(len<=0){
+    			truealert(titles,5);
+    			return;
+		    }
+		    var idstr="";
+		    for(var i=0;i<len;i++){
+		    	idstr += ids[i];
+		    	idstr += ",";
+		    }
+		    idstr = idstr.substr(0,idstr.length-1);
+			$.ajax({
+				type : 'post',
+				url : "${pageContext.request.contextPath}/purchaseManage/deleteUser.do?",
+				data : {ids:idstr},
+				//data: {'pid':pid,$("#formID").serialize()},
+				success : function(data) {
+					truealertReload(data.message, data.success == false ? 5 : 1);
+				}
+			});
+    	}
     	function getSelectIds(){
     		var array=[];
     		var arrc = $("#user input[type=checkbox]:checked");
@@ -104,6 +129,21 @@
 			    shade: [0.3, '#000'],
 			    yes: function(index){
 			        //do something
+			    	 layer.closeAll();
+			    }
+			});
+		}
+		function truealertReload(text,iconindex){
+			if(top == null || top == "" || top == "underfined"){
+			  top = 120;
+			}
+			layer.open({
+			    content: text,
+			    icon: iconindex,
+			    offset: top+"px",
+			    shade: [0.3, '#000'],
+			    yes: function(index){
+			         parent.location.reload();
 			    	 layer.closeAll();
 			    }
 			});
@@ -173,7 +213,7 @@
 									class="btn btn-sm btn-default" href="javascript:void(0)"
 									onClick="editUser();"><i class="fa fa-wrench"></i> 修改人员</a> <a
 									class="btn btn-sm btn-default" href="javascript:void(0)"
-									onClick=""><i class="fa fa-plus"></i> 删除人员</a> <a
+									onClick="delUser();"><i class="fa fa-plus"></i> 删除人员</a> <a
 									class="btn btn-sm btn-default" data-toggle="modal" href=""><i
 									class="fa fa-plus"></i> 人员授权</a>
 							</div>

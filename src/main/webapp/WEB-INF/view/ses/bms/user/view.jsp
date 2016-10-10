@@ -148,6 +148,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<c:if test="${6 eq user.typeName}">
 				<input class="span2" class="span2" type="text" readonly value="进口供应商">
 			</c:if>
+			<c:if test="${7 eq user.typeName}">
+				<input class="span2" class="span2" type="text" readonly value="进口代理商">
+			</c:if>
 			<c:if test="${'' eq user.typeName || user.typeName == null}">
 				<input class="span2" class="span2" type="text" readonly value="">
 			</c:if>

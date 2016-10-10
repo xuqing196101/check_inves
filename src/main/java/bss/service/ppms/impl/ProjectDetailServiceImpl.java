@@ -1,5 +1,6 @@
 package bss.service.ppms.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,11 @@ public class ProjectDetailServiceImpl implements ProjectDetailService {
 	@Override
 	public List<ProjectDetail> listByAll(ProjectDetail projectDetail) {
 		return projectDetailMapper.listByAll(projectDetail);
+	}
+
+	@Override
+	public List<ProjectDetail> selectById(HashMap<String,Object> map) {
+		return projectDetailMapper.selectById(map);
 	}
 
 }

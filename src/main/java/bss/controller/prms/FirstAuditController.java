@@ -30,6 +30,7 @@ public class FirstAuditController {
 		try {
 			List<FirstAudit> list = service.getListByProjectId(projectId);
 			model.addAttribute("list", list);
+			model.addAttribute("projectId", projectId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -97,7 +98,7 @@ public class FirstAuditController {
 	 */
 	@RequestMapping("edit")
 	public String edit(FirstAudit firstAudit,RedirectAttributes attr){
-		service.update(firstAudit);
+		service.updateAll(firstAudit);
 		attr.addAttribute("projectId", firstAudit.getProjectId());
 		return "redirect:toAdd.html";
 	}

@@ -45,5 +45,14 @@ public interface ExpExtractRecordMapper {
      */
     int updateByPrimaryKey(ExpExtractRecord record);
     
+    /**
+     * @Description:获取集合信息
+     *
+     * @author Wang Wenshuai
+     * @version 2016年10月9日 下午4:59:51  
+     * @param @param record
+     * @param @return      
+     * @return List<ExpExtractRecord>
+     */
     List<ExpExtractRecord> list(ExpExtractRecord record);
 }

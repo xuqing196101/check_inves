@@ -79,7 +79,8 @@
 				}
 				  parent.$('#sids').val(id);
 				  parent.$('#supervises').val(nams);
-				  parent.layer.close(indexs);
+			         var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+				  parent.layer.close(index);
 			});
 		}else{
 			layer.alert("请选择要添加的用户",{offset: ['222px', '390px'], shade:0.01});

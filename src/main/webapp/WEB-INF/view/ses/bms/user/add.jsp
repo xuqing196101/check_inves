@@ -88,7 +88,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			$.ajax({
              type: "GET",
              async: false, 
-             url: "<%=basePath%>purchaseManage/gettree.do?",
+             url: "<%=basePath%>user/getOrgTree.do?",
              dataType: "json",
              success: function(zNodes){
                      for (var i = 0; i < zNodes.length; i++) { 
@@ -189,6 +189,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			if (!(event.target.id == "menuBtn" || event.target.id == "roleSel" || event.target.id == "roleContent" || $(event.target).parents("#roleContent").length>0)) {
 				hideRole();
 			}
+		}
+		
+		function back(){
+			location.href = '<%=basePath%>user/list.html?page=1';
 		}
 	</script>
 </head>
@@ -330,7 +334,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		   </div> 
 	       <div class="col-md-12 tc mt20" >
 			   <button class="btn btn-windows save"  type="submit">保存</button>
-			   <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
+			   <button class="btn btn-windows back" onclick="back()" type="button">返回</button>
        	   </div>
   	   </form>
    </div>

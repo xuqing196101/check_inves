@@ -1,6 +1,7 @@
 package bss.service.ppms;
 
 import java.util.List;
+import java.util.Map;
 
 import bss.model.ppms.Project;
 
@@ -66,5 +67,5 @@ public interface ProjectService {
 	 */
 	   List<Project> list(Integer page,Project project);
 	   
-	   List<Project> selectSuccessProject(Integer page,Project project);
+	   List<Project> selectSuccessProject(Map<String,Object> map);
 }

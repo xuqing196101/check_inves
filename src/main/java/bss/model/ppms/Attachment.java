@@ -1,5 +1,7 @@
 package bss.model.ppms;
 
+import iss.model.ps.Article;
+
 import java.util.Date;
 /**
 
@@ -8,7 +10,7 @@ import java.util.Date;
 * @author Peng Zhongjun
 * @date 2016-10-8下午8:46:19
  */
-public class BidAnnouncementAttach {
+public class Attachment {
 	/**
      * @Fields id : 主键
      */
@@ -16,23 +18,23 @@ public class BidAnnouncementAttach {
     /**
      * @Fields bidAnnouncement : 所属招标公告
      */
-    private BidAnnouncement bidAnnouncement;
+    private Article article;
     /**
-     * @Fields fileName : 文件名
+     * @Fields name : 文件名
      */
-    private String fileName;
+    private String name;
     /**
-     * @Fields contentType : 文件类型
+     * @Fields type : 文件类型
      */
-    private String contentType;
+    private String type;
     /**
-     * @Fields fileSize : 文件大小
+     * @Fields size : 文件大小
      */
-    private Float fileSize;
+    private Float size;
     /**
-     * @Fields attachmentPath : 文件路径
+     * @Fields path : 文件路径
      */
-    private String attachmentPath;
+    private String path;
     /**
      * @Fields createdAt : 创建时间
      */
@@ -51,35 +53,36 @@ public class BidAnnouncementAttach {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public BidAnnouncement getBidAnnouncement() {
-		return bidAnnouncement;
+	public Article getArticle() {
+		return article;
 	}
-	public void setBidAnnouncement(BidAnnouncement bidAnnouncement) {
-		this.bidAnnouncement = bidAnnouncement;
+	public void setArticle(Article article) {
+		this.article = article;
 	}
-	public String getFileName() {
-		return fileName;
+
+	public String getName() {
+		return name;
 	}
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public String getContentType() {
-		return contentType;
+	public String getType() {
+		return type;
 	}
-	public void setContentType(String contentType) {
-		this.contentType = contentType;
+	public void setType(String type) {
+		this.type = type;
 	}
-	public Float getFileSize() {
-		return fileSize;
+	public Float getSize() {
+		return size;
 	}
-	public void setFileSize(Float fileSize) {
-		this.fileSize = fileSize;
+	public void setSize(Float size) {
+		this.size = size;
 	}
-	public String getAttachmentPath() {
-		return attachmentPath;
+	public String getPath() {
+		return path;
 	}
-	public void setAttachmentPath(String attachmentPath) {
-		this.attachmentPath = attachmentPath;
+	public void setPath(String path) {
+		this.path = path;
 	}
 	public Date getCreatedAt() {
 		return createdAt;
@@ -99,6 +102,6 @@ public class BidAnnouncementAttach {
 	public void setIsDeleted(Integer isDeleted) {
 		this.isDeleted = isDeleted;
 	}
-
+	
    
 }

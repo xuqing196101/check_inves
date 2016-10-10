@@ -2,9 +2,11 @@ package ses.model.sms;
 
 import java.util.Date;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 public class ImportRecommend {
     private String id;
-
+    /*@NotBlank(message="jdfaskjaldas")*/
     private String name;
 
     private String address;

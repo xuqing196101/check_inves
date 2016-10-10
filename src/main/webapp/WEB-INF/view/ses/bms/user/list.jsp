@@ -113,8 +113,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			id.push($(this).val());
 		}); 
 		if(id.length==1){
-			
-			window.location.href="<%=basePath%>user/edit.html?id="+id;
+			var currPage = ${list.pageNum};
+			window.location.href="<%=basePath%>user/edit.html?id="+id+"&page="+currPage;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -283,6 +283,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</c:if>
 						<c:if test="${user.typeName == 6}">
 							进口供应商
+						</c:if>
+						<c:if test="${user.typeName == 7}">
+							进口代理商
 						</c:if>
 					  </td>
 					</tr>

@@ -65,7 +65,7 @@
 						<td align="center">抽取时间</td>
 						<td colspan="3" align="center"><fmt:formatDate
 								value="${ExpExtractRecord.extractionTime}"
-								pattern="yyyy年MM月dd日   HH:mm:ss" /></td>
+								pattern="yyyy年MM月dd日   " /></td>
 						<td align="center">抽取地点</td>
 						<td colspan="3" align="center">${extracts.extractionSites}</td>
 					</tr>

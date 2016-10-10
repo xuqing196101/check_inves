@@ -206,10 +206,9 @@
 				<div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
 					<div class="tag-box tag-box-v3">
 						<ul class=" list-unstyled ">
-							<li class=" col-md-12 p0"><label class="">计划名称：</label><span><input
-									type="text"></span></li>
+							<li class=" col-md-12 p0"><label class="">计划名称：</label><span>${condition.categoryName }</span></li>
 							<li class=" col-md-12 p0"><label class="">地区：</label> <span
-								class="clear">${sextractslist.extractionSites }</span></li>
+								class="clear">${condition.locality }</span></li>
 							<li class="mt10 col-md-12 p0"><label class="">类型：</label> <span
 								class="clear">${condition.salesType}</span>
 								<div class="clear"></div></li>
@@ -235,7 +234,7 @@
 				<div class="tag-box tag-box-v4 col-md-9">
 					<ul class="demand_list">
 						<li class="fl mr8"><label class="fl mt0">项目名称：</label>${sextractslist.projectName }</li>
-						<li class="fl mr8"><label class="fl mt0">采购编号：</label>123-002</li>
+<!-- 						<li class="fl mr8"><label class="fl mt0">采购编号：</label>123-002</li> -->
 						<li class="fl mr8"><label class="fl mt0">采购方式：</label><span>邀请招标</span></li>
 					</ul>
 					<div class="clear"></div>
