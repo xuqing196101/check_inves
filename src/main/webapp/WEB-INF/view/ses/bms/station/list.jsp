@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ include file="../../../common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -188,9 +189,27 @@
 							<!-- 序号 -->
 							<td class="tc" onclick="show('${listsm.id}');">${vs.index+1}</td>
 							<!-- 标题 -->
-							<td class="tc" onclick="show('${listsm.id}');">${listsm.title}</td>
+							<td class="tc w300" onclick="show('${listsm.id}');" title="${listsm.title}">
+							<c:choose>
+                                            <c:when test="${fn:length(listsm.title) > 20}">  
+                                                      ${fn:substring(listsm.title, 0, 20)}......
+                                        </c:when>
+                                            <c:otherwise>  
+                                          ${listsm.title }
+                                        </c:otherwise>
+                                        </c:choose>
+							</td>
 							<!-- 内容 -->
-							<td class="tc" onclick="show('${listsm.id}');">${listsm.content}</td>
+							<td class="tc w500" onclick="show('${listsm.id}');" title="${listsm.content}">
+							 <c:choose>
+                                            <c:when test="${fn:length(listsm.content) > 20}">  
+                                                      ${fn:substring(listsm.content, 0, 30)}......
+                                        </c:when>
+                                            <c:otherwise>  
+                                          ${listsm.content }
+                                        </c:otherwise>
+                                        </c:choose>
+							</td>
 							<!-- 创建人-->
 						      <td class="tc" onclick="show('${listsm.id}');">${listsm.userName}</td>
 							<!-- 是否发布 -->

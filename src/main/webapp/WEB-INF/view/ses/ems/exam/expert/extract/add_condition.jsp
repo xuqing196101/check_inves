@@ -241,17 +241,18 @@ return true;
 		<form action="<%=basePath%>ExtCondition/saveExtCondition.html"
 			id="form1" method="post" target="_parent">
 			<div>
+			 <!--         专家所在地区 -->
+                <input type="hidden" name="id" id="id" value="${ExpExtCondition.id}">
 				<!--         专家所在地区 -->
 				<input type="hidden" name="address" id="address" value="">
 				<!--         专家所在地区id-->
 				<input type="hidden" name="expertId" id="expertId" value="">
-			   <input type="hidden"
-					name="projectId" id="pid" value="${projectId}">
+				<input type="hidden" name="projectId" id="pid" value="${projectId}">
 				<ul class="list-unstyled mt10 p0_20">
 					<li class="col-md-6 p0"><span class="fl mt5">专家所在地区：</span>
 						<div class="input-append">
-							 <select
-								class="form-control input-lg mr15" id="area" onchange="areas();">
+							<select class="form-control input-lg mr15" id="area"
+								onchange="areas();">
 								<c:forEach items="${listArea }" var="area" varStatus="index">
 									<option value="${area.id }">${area.name }</option>
 								</c:forEach>
@@ -261,19 +262,41 @@ return true;
 					<li class="col-md-6 p0"><span class="fl mt5">专家来源：</span>
 						<div class="select_common mb10">
 							<select class="w250" name="expertsFrom">
-								<option value="军队">军内</option>
-								<option value="地方">地方</option>
-								<option value="其他">不限</option>
+								<c:choose>
+									<c:when test="${ExpExtCondition.expertsFrom eq '军队'}">
+										<option selected="selected" value="军队">军内</option>
+										<option value="地方">地方</option>
+										<option value="其他">不限</option>
+									</c:when>
+									<c:when test="${ExpExtCondition.expertsFrom eq '地方'}">
+										<option value="军队">军内</option>
+										<option selected="selected" value="地方">地方</option>
+										<option value="其他">不限</option>
+									</c:when>
+									<c:when test="${ExpExtCondition.expertsFrom eq '其他'}">
+										<option value="军队">军内</option>
+										<option value="地方">地方</option>
+										<option selected="selected" value="其他">不限</option>
+									</c:when>
+									<c:otherwise>
+										<option value="军队">军内</option>
+										<option value="地方">地方</option>
+										<option value="其他">不限</option>
+									</c:otherwise>
+								</c:choose>
 							</select>
 						</div></li>
 					<li class="col-md-6 p0 "><span class=""> 开标时间：</span>
 						<div class="input-append">
-							<input class="span2  Wdate w250" name="tenderTime" maxlength="30"
-								onclick="WdatePicker();" type="text">
+							<input class="span2  Wdate w250" name="tenderTime"
+								value="<fmt:formatDate value='${ExpExtCondition.tenderTime}'
+                                pattern='yyyy-MM-dd' />"
+								maxlength="30" onclick="WdatePicker();" type="text">
 						</div></li>
 					<li class="col-md-6 p0 "><span class="">专家响应时限</span>
 						<div class="input-append">
-							<input class="span2 " name="responseTime" maxlength="30"
+							<input class="span2 " name="responseTime"
+								value="${ExpExtCondition.responseTime }" maxlength="30"
 								type="text"> <span class="add-on">i</span>
 						</div></li>
 			</div>
@@ -298,7 +321,15 @@ return true;
 							<tr>
 								<td class='tc w30'><input type="checkbox"
 									value="${conTypes.id}" name="chkItem" onclick="check()"></td>
-								<td>${conTypes.expertsTypeId }</td>
+								<td><c:if test="${conTypes.expertsTypeId==1 }">
+                                                                                                          技术
+                                    </c:if> <c:if
+										test="${conTypes.expertsTypeId==2}">
+                                                                                                                    法律
+                                    </c:if> <c:if
+										test="${conTypes.expertsTypeId==3 }">
+                                                                                                                            商务          
+                                    </c:if></td>
 								<td>${conTypes.expertsCount }</td>
 								<td>${conTypes.expertsQualification }</td>
 								<td>${conTypes.categoryName }</td>
@@ -309,7 +340,8 @@ return true;
 				</table>
 			</div>
 			<div align="right" class=" padding-10">
-				<button class="btn btn-windows save" id="save" onclick="cityt();" type="submit">保存抽取条件</button>
+				<button class="btn btn-windows save" id="save" onclick="cityt();"
+					type="submit">保存抽取条件</button>
 			</div>
 		</form>
 	</div>

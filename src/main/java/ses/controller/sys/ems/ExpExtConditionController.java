@@ -48,21 +48,27 @@ public class ExpExtConditionController {
 	 */
 	@RequestMapping("/saveExtCondition")
 	public String saveExtCondition(ExpExtCondition condition,ExtConTypeArray extConTypeArray){
-		conditionService.insert(condition);
+		if(condition.getId()!=null&&!"".equals(condition.getId())){
+			conditionService.update(condition);	
+		}else{
+			conditionService.insert(condition);
+		}
 		ExtConType conType=null;
-		for (int i = 0; i < extConTypeArray.getCategoryId().length; i++) {
-			conType=new ExtConType();
-			conType.setCategoryId(extConTypeArray.getCategoryId()[i]);
-			conType.setExpertsCount(Integer.parseInt(extConTypeArray.getExtCount()[i]));
-			conType.setExpertsQualification(extConTypeArray.getExtQualifications()[i]);
-			conType.setExpertsTypeId(new Short(extConTypeArray.getExpertsTypeId()[i]));
-			conType.setCategoryName(extConTypeArray.getCategoryName()[i]);
-			conType.setConditionId(condition.getId());
-			conTypeService.insert(conType);
+		if(extConTypeArray!=null&&extConTypeArray.getCategoryId()!=null){
+			for (int i = 0; i < extConTypeArray.getCategoryId().length; i++) {
+				conType=new ExtConType();
+				conType.setCategoryId(extConTypeArray.getCategoryId()[i]);
+				conType.setExpertsCount(Integer.parseInt(extConTypeArray.getExtCount()[i]));
+				conType.setExpertsQualification(extConTypeArray.getExtQualifications()[i]);
+				conType.setExpertsTypeId(new Short(extConTypeArray.getExpertsTypeId()[i]));
+				conType.setCategoryName(extConTypeArray.getCategoryName()[i]);
+				conType.setConditionId(condition.getId());
+				conTypeService.insert(conType);
+			}
 		}
 		return "redirect:/ExpExtract/Extraction.do?id="+condition.getProjectId();
 	}
-	
+
 	/**
 	 * @Description:查询单个
 	 *
@@ -75,14 +81,14 @@ public class ExpExtConditionController {
 	public String showExtCondition(ExpExtCondition condition,Model model,String cId){
 		List<Area> listArea = areaService.findTreeByPid("1",null);
 		model.addAttribute("listArea", listArea);
-	
+
 		List<ExpExtCondition> list = conditionService.list(condition);
 		if(list!=null&&list.size()!=0){
 			model.addAttribute("ExpExtCondition", list.get(0));
 		}
 		return "ses/ems/exam/expert/extract/add_condition";
 	}
-	
+
 	/**
 	 * @Description:修改
 	 *
@@ -93,8 +99,8 @@ public class ExpExtConditionController {
 	 */
 	@RequestMapping("/updateCondition")
 	public String updateCondition(){
-		
-		
+
+
 		return null;
 	}
 	/**

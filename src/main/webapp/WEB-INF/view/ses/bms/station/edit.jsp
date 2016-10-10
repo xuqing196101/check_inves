@@ -208,15 +208,15 @@
 					<h2>修改站内消息</h2>
 				</div>
 				<ul class="list-unstyled list-flow p0_20">
-					<input class="span2" name="id" type="hidden"
+					<input class="span2" name="id" type="hidden" 
 						value="${StationMessage.id}">
 					<li class="col-md-6 p0 "><span class="">标题：</span>
 						<div class="input-append">
-							<input class="span2 w350 " name="title" type="text"
+							<input class="span2 w350 " maxlength="40"  name="title" type="text"
 								value="${StationMessage.title}">
 						</div></li>
 					<li class="col-md-12  p0 "><span class="">内容：</span> <textarea
-							class="w350 h100" cols="3" rows="100" name="content">${StationMessage.content}</textarea>
+							class="w350 h100" cols="3" maxlength="100"  rows="100" name="content">${StationMessage.content}</textarea>
 					</li>
 				</ul>
 			</div>

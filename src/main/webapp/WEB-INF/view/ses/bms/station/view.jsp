@@ -52,12 +52,12 @@
     		 <li class="col-md-6 p0 " >
 			   <span class="">标题：</span>
 			   <div class="input-append">
-		        <input class="span2 w350" name="title" type="text" value="${StationMessage.title}">
+		        <input class="span2 w350" disabled="disabled" name="title" type="text" value="${StationMessage.title}">
 		       </div>
 			 </li>
 		     <li class="col-md-12  p0 " >
 			   <span class="">内容：</span>
-		        <textarea class="w350 h100"  cols="3" rows="100" name="context" >${StationMessage.content}</textarea>
+		        <textarea class="w350 h100"  disabled="disabled"  cols="3" rows="100" name="context" >${StationMessage.content}</textarea>
 			 </li> 
    </ul>
   </div> 

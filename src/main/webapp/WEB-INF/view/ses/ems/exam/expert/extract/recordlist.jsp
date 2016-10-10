@@ -183,7 +183,6 @@ $(function(){
    <input type="hidden" id="page" name="page">
 	 <ul class="demand_list">
 	   <li class="fl mr15"><label class="fl mt5">项目名称：</label><span><input name="projectName" value="${expExtractRecord.projectName }" type="text" class="mb0"/></span></li>
-<!-- 	   <li class="fl mr15"><label class="fl mt5">采购机构：</label><span><input type="text" class="mb0"/></span></li> -->
 	  <li class="fl mr15"><label class="fl mt5">抽取时间：</label><span><input
                             onclick='WdatePicker()' value="<fmt:formatDate value='${expExtractRecord.extractionTime}'
                                 pattern='yyyy-MM-dd' />" name="extractionTime" type="text"

@@ -99,11 +99,18 @@
           html+="<tr>"+
              "<input class='hide' name='categoryId'  type='hidden' value='"+ids+"'>"+
              "<input class='hide' name='isSatisfy'  type='hidden' value='"+issatisfy+"'>"+
-  
+             "<input class='hide' name='expertsTypeId' readonly='readonly' type='hidden' value='"+expertstypeid+"'>"+
 	              "<td class='tc w30'><input type='checkbox' value=''"+
 	                  "name='chkItem' onclick='check()'></td>"+
-	              "<td class='tc w50'></td>"+
-	              "<td class='tc'><input class='hide' name='expertsTypeId' readonly='readonly' type='text' value='"+expertstypeid+"'></td>"+
+	              "<td class='tc'>";
+	              if(expertstypeid==1){
+	            	   html+="<input class='hide' name='expertsTypeId' readonly='readonly' type='text' value='技术'>";
+	              }else if(expertstypeid==2){
+	            	    html+="<input class='hide' name='expertsTypeId' readonly='readonly' type='text' value='法律'>";
+	              }else if(expertstypeid==3){
+	            	    html+="<input class='hide' name='expertsTypeId' readonly='readonly' type='text' value='商务'>";
+	              }
+                  html+="</td>"+
 	              "<td class='tc'><input class='hide' name='extCount' readonly='readonly' type='text' value='"+$('#extcount').val()+"'></td>"+
 	              "<td class='tc'><input class='hide' name='extQualifications' readonly='readonly' type='text' value='"+$('#extqualifications').val()+"'></td>"+
 	              "<td class='tc'><input class='hide' name='categoryName' readonly='readonly' type='text' value='"+names+"'></td>"+
@@ -124,11 +131,11 @@
 				<ul class="list-unstyled list-flow p0_20">
 					<input class="span2" name="id" type="hidden">
 					<li class="col-md-6 p0 ">专家类型
-						<div class="input-append">
-							<input name="expertstypeid" type="radio" value="1"> <input
-								name="expertstypeid" type="radio" value="2"> <input
-								name="expertstypeid" type="radio" value="3">
-						</div>
+ 					
+							<input name="expertstypeid" type="radio" value="1">技术<input
+								name="expertstypeid" type="radio" value="2">商务<input
+								name="expertstypeid" type="radio" value="3">法律
+ 					
 					</li>
 					<li class="col-md-6 p0 ">专家数量：
 						<div class="input-append">
