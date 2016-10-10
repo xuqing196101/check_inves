@@ -18,6 +18,10 @@ public class BidDocument {
      */
     private Project project;
     /**
+     * @Fields name : 招标文件名称
+     */
+    private String name;
+    /**
      * @Fields saleStartAt : 发售开始时间
      */
     private Date saleStartAt;
@@ -57,6 +61,12 @@ public class BidDocument {
 	}
 	public Project getProject() {
 		return project;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 	public void setProject(Project project) {
 		this.project = project;

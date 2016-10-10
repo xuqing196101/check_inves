@@ -3,9 +3,12 @@
  */
 package bss.controller.ppms;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
+import iss.model.ps.Article;
+import iss.model.ps.ArticleType;
+import iss.service.ps.ArticleService;
+import iss.service.ps.ArticleTypeService;
+
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -16,14 +19,16 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.controller.sys.sms.BaseSupplierController;
-import bss.model.ppms.BidAnnouncement;
 import bss.model.ppms.Project;
-import bss.service.ppms.BidAnnouncementService;
 
 /**
  * @Title:PreBiddingDocController 
@@ -37,7 +42,9 @@ import bss.service.ppms.BidAnnouncementService;
 public class BidAnnouncementController extends BaseSupplierController{
 	
 	@Autowired
-	private BidAnnouncementService bidAnnouncementService;
+	private ArticleService articelService;
+	@Autowired
+	private ArticleTypeService articelTypeService;
 	/**
 	 * 
 	* @Title: addBidAnnouncement
@@ -119,34 +126,52 @@ public class BidAnnouncementController extends BaseSupplierController{
 	* @return void
 	 */
 	@RequestMapping("/outputBidAnnouncement")
-	public String creatWorkLocal(HttpServletRequest request){
+	public ResponseEntity<byte[]> loadExpertTemplet(HttpServletRequest request) throws IOException{
 		String content = request.getParameter("content");
-		FileOutputStream fout = null;
-		PrintStream ps = null;
-		try {
-		
-			fout = new FileOutputStream("F:/test.doc");
-			ps = new PrintStream(fout);	
-			ps.println(content);
-		
-		} catch (FileNotFoundException e) {
-		e.printStackTrace();
-		} finally {
-		// 为了方便的打印数据,ps在打印,关闭的时候,不需要处理异常
-		if (ps != null) {
-			ps.close();
-		}
-		}
+		byte[] bs = content.getBytes();
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);  
+		headers.setContentDispositionFormData("content", new String("招标公告.docx".getBytes("UTF-8"), "iso-8859-1"));  
+		return (new ResponseEntity<byte[]>(bs, headers, HttpStatus.CREATED));  
+	}
+	/**	 
+	* @Title: save
+	* @author Peng Zhongjun
+	* @date 2016-10-10 下午4:30:05  
+	* @Description: 保存到数据库 
+	* @param @param request
+	* @param @param article
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/saveBidAnnouncement")
+	public String save(HttpServletRequest request,Article article){
+		Timestamp ts = new Timestamp(new Date().getTime());
+		article.setCreatedAt(ts);
+		Timestamp ts1 = new Timestamp(new Date().getTime());
+		article.setUpdatedAt(ts1);
+		ArticleType at = articelTypeService.selectTypeByPrimaryKey("7");
+		article.setArticleType(at);
+		String name = request.getParameter("name");
+		article.setName(name);
+		article.setStatus(0);//保存
+		articelService.addArticle(article);
 		return "redirect:bidAnnouncementAdd.do";
 	}
 	
-	@RequestMapping("/saveBidAnnouncement")
-	public String save(BidAnnouncement bidAnnouncement){
-		Timestamp ts = new Timestamp(new Date().getTime());
-		bidAnnouncement.setCreatedAt(ts);
-		Timestamp ts1 = new Timestamp(new Date().getTime());
-		bidAnnouncement.setUpdatedAt(ts1);
-		bidAnnouncementService.insertSelective(bidAnnouncement);
+	/**	 
+	* @Title: save
+	* @author Peng Zhongjun
+	* @date 2016-10-10 下午4:30:05  
+	* @Description: 保存到数据库 
+	* @param @param request
+	* @param @param article
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/publishBidAnnouncement")
+	public String publish(HttpServletRequest request,Article article){
+
 		return "redirect:bidAnnouncementAdd.do";
 	}
 }

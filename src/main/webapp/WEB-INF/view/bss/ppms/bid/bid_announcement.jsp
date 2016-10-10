@@ -41,7 +41,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/ueditor.all.min.js"> </script>
     <script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/lang/zh-cn/zh-cn.js"></script>
      <script src="<%=basePath%>public/layer/layer.js"></script>
-    
+    <script src="<%=basePath%>public/layer/extend/layer.ext.js"></script>
     <script type="text/javascript">
        
         //导入模板
@@ -50,7 +50,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             layer.open({
               type: 2, //page层
               area: ['800px', '500px'],
-              title: '配置权限',
+              title: '导入模板',
               closeBtn: 1,
               shade:0.01, //遮罩透明度
               shift: 1, //0-6的动画形式，-1不开启
@@ -71,7 +71,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         }
         //导出
         function outputAnnouncement(){
-            alert("导出");
             $("#form").attr("action",'<%=basePath%>bidAnnouncement/outputBidAnnouncement.do');   
             $("#form").submit();
         }
@@ -84,16 +83,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         //发布
         function publish(){
             alert("发布");
+            
         }
         //保存
-        function save(){
-            alert("保存");
-            $("#form").attr("action",'<%=basePath%>bidAnnouncement/saveBidAnnouncement.do');   
-            $("#form").submit();
-        }
-        //提交
-        function submitAn(){
-            alert("提交");
+        function save(){                  
+            layer.prompt({title: '请输入招标公告名称', formType: 2}, function(text){
+            	$("#form").attr("action",'<%=basePath%>bidAnnouncement/saveBidAnnouncement.do?name='+text);   
+                $("#form").submit();               
+             });
         }
         
     </script>
@@ -126,7 +123,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				       <form  method="post" id="form"> 
 				      <div class="row">				        
 				        <!-- 按钮 -->
-				          <div class="col-md-12">				          
+				          <div class="col-md-12">		
+				           		          
 				          <input type="button" class="btn btn-windows input" onclick="inputTemplete()" value="模板导入"></input>
 				          <input type="button" class="btn btn-windows output" onclick="outputAnnouncement()" value="导出"></input>
 				          <input type="button" class="btn btn-windows git" onclick="preview()" value="预览"></input>  
@@ -139,8 +137,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		                
                         <div class="tc mt20 clear col-md-12">     
                                                                                                                                        
-                          <input type="button" class="btn btn-windows save" onclick="save()" value="保存"></input>
-                          <input type="button" class="btn btn-windows git" onclick="submitAn()" value="提交"></input>                         
+                          <input type="button" class="btn btn-windows save" onclick="save()" value="保存"></input>                                              
                           <input type="button" class="btn btn-windows back" onclick="history.go(-1)" value = "返回"></input>
                         </div>
 				      </div>
