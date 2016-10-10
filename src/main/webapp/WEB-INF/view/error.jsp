@@ -23,6 +23,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-    失败页面. <br>
+    失败页面. ${ex}<br>
   </body>
 </html>

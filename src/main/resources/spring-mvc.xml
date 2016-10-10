@@ -69,6 +69,9 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 		</property>
 	</bean>
 
+	<!-- 自定义异常 -->
+	<bean id="exceptionHandler" class="ses.util.MyException"/>
+
 	<!-- 日期全局转换器 -->
 	<bean
 		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
