@@ -354,7 +354,7 @@
     margin: 0;
 }
 .header-v5 .navbar-header {
-    margin: 10px 0 0 0;
+    margin:0px 0 0 0;
 }
 @media (max-width: 991px) {
     .header-v5 .navbar {
@@ -868,6 +868,7 @@
 .header-v5 .mega-menu .dropdown-menu > li {
     display: block;
     position:relative;
+    padding:5px 11px!important;
 }
 
 .header-v5 .mega-menu .dropdown-submenu .dropdown-menu {

@@ -41,7 +41,7 @@
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		            location.href = '<%=basePath%>pqinfo/getAllReasult.do?page='+e.curr;
+		            location.href = '<%=basePath%>pqinfo/getAll.do?page='+e.curr;
 		        }
 		    }
 		});
@@ -63,10 +63,58 @@
 		 	}
 		}
 	
+	/** 单选 */
+	function check(){
+		 var count=0;
+		 var checklist = document.getElementsByName ("chkItem");
+		 var checkAll = document.getElementById("checkAll");
+		 for(var i=0;i<checklist.length;i++){
+			   if(checklist[i].checked == false){
+				   checkAll.checked = false;
+				   break;
+			   }
+			   for(var j=0;j<checklist.length;j++){
+					 if(checklist[j].checked == true){
+						   checkAll.checked = true;
+						   count++;
+					   }
+				 }
+		   }
+	}
   	function view(id){
   		window.location.href="<%=basePath%>pqinfo/view.html?id="+id;
   	}
-    
+    function edit(){
+    	var id=[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			id.push($(this).val());
+		}); 
+		if(id.length==1){
+			
+			window.location.href="<%=basePath%>pqinfo/edit.html?id="+id;
+		}else if(id.length>1){
+			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+		}else{
+			layer.alert("请选择需要修改的质检报告",{offset: ['222px', '390px'], shade:0.01});
+		}
+    }
+    function del(){
+    	var ids =[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			ids.push($(this).val()); 
+		}); 
+		if(ids.length>0){
+			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+				layer.close(index);
+				window.location.href="<%=basePath%>pqinfo/delete.html?ids="+ids;
+			});
+		}else{
+			layer.alert("请选择要删除的质检报告",{offset: ['222px', '390px'], shade:0.01});
+		}
+    }
+    function add(){
+    	window.location.href="<%=basePath%>pqinfo/add.html";
+    }
     function showPic(url,name){
     	var pic = $("#"+url.toString());
 		layer.open({
@@ -85,7 +133,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">保障作业</a></li><li><a href="#">产品质量管理</a></li><li class="active"><a href="#">产品质量结果查询</a></li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">保障作业</a></li><li><a href="#">产品质量管理</a></li><li class="active"><a href="#">产品质量结果列表</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -95,47 +143,12 @@
 	   		<h2>质量结果查询</h2>
 	   </div>
    </div>
-   
-   <!-- 查询 -->
-   
-   <div class="container clear margin-top-0">
-   <div class="padding-10 border1 m0_30 tc">
-   	<form action="<%=basePath %>pqinfo/searchReasult.html" method="post" enctype="multipart/form-data" class="mb0">
-	 <ul class="demand_list">
-	   <li class="fl mr15"><label class="fl mt5">合同名称：</label><span><input type="text" name="contract.name" class="mb0"  value="${pqinfo.contract.name}"/></span></li>
-	   <li class="fl mr15"><label class="fl mt5">合同编号：</label><span><input type="text" name="contract.code" class="mb0"  value="${pqinfo.contract.code}"/></span></li>
-	   <li class="fl mr15"><label class="fl mt5">验收类型：</label>
-	   		<span>
-	   			<select id="search_type" name =type class="w150" >
-					<option value="-请选择-">-请选择-</option>
-			  	  	<option value="首件检验">首件检验</option>
-			  	 	<option value="生产验收">生产验收</option>
-			  	 	<option value="出厂验收">出厂验收</option>
-			  	 	<option value="到货验收">到货验收</option>
-	  			</select>
-	  		</span>
-	  </li>
-	   <li class="fl mr15"><label class="fl mt5">质检结论：</label>
-	   		<span>
-	   			<select id="search_conclusion" name =conclusion class="w150" >
-					<option value="-请选择-">-请选择-</option>
-			  	  	<option value="合格">合格</option>
-			  	 	<option value="不合格">不合格</option>
-	  			</select>
-	   		</span>
-	   </li>
-	   	 <button class="btn fl ml20 mt1" type="submit">查询</button>
-	 </ul>
 
-	 <div class="clear"></div>
-	 </form>
-   </div>
-  </div>
    
 <!-- 表格开始-->
    <div class="container">
    		<div class="headline-v2 fl">
-      		<h2>质检情况列表</h2>
+      		<h2>供应商质检情况列表</h2>
   		</div> 
     </div>
    <div class="container margin-top-5">
@@ -144,36 +157,23 @@
 		<thead>
 		<tr>
 		  <th class="info w50">序号</th>
-		  <th class="info">合同名称</th>
-		  <th class="info">合同编号</th>
-		  <th class="info">采购机构</th>
 		  <th class="info">供应商名称</th>
-		  <th class="info">验收类型</th>
-		  <th class="info">质检日期</th>
-		  <th class="info">质检结论</th>
-		  <th class="info">查看</th>
+		  <th class="info">质检合格次数</th>
+		  <th class="info">质检不合格次数</th>
+		  <th class="info">质检合格百分比</th>
 		</tr>
 		</thead>
 		<c:forEach items="${list.list}" var="PqInfo" varStatus="vs">
 			<tr>
-				
-				<td class="tc opinter" onclick="view('${PqInfo.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-				
-				<td class="tc opinter" onclick="view('${PqInfo.id}')">${PqInfo.contract.name}</td>
-				
-				<td class="tc opinter" onclick="view('${PqInfo.id}')">${PqInfo.contract.code}</td>
+				<td class="tc opinter">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 			
-				<td class="tc opinter" onclick="view('${PqInfo.id}')">${PqInfo.contract.purchaseDepName}</td>
+				<td class="tc opinter">${PqInfo.contract.supplierDepName}</td>
 			
-				<td class="tc opinter" onclick="view('${PqInfo.id}')">${PqInfo.contract.supplierDepName}</td>
-			
-				<td class="tc opinter" onclick="view('${PqInfo.id}')">${PqInfo.type}</td>
+				<td class="tc opinter">${PqInfo.type}</td>
 				
-				<td class="tc opinter" onclick="view('${PqInfo.id}')"><fmt:formatDate value='${PqInfo.date}' pattern='yyyy-MM-dd'/></td>
-				
-				<td class="tc opinter" onclick="view('${PqInfo.id}')">${PqInfo.conclusion}</td>
+				<td class="tc opinter">${PqInfo.conclusion}</td>
 			
-				<td class="tc opinter"><button type="button" onclick="showPic('${PqInfo.id}')">质检报告</button><img class="hide" id="${PqInfo.id}" src="${PqInfo.report}"/></td>
+				<td class="tc opinter"><button type="button">质检报告</button><img class="hide" id="${PqInfo.id}" src="${PqInfo.report}"/></td>
    				
 			</tr>
 		</c:forEach>

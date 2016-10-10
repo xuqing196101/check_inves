@@ -215,6 +215,7 @@ public class PqInfoController {
 	public String search(Model model,HttpServletRequest request,PqInfo pqInfo,Integer page){
 		List<PqInfo> pqInfos = pqInfoService.selectByCondition(pqInfo,page==null?1:page);
 		model.addAttribute("list",new PageInfo<PqInfo>(pqInfos));
+		model.addAttribute("pqinfo",pqInfo);
 		return "bss/pqims/pqinfo/list";
 	}
 	
@@ -227,7 +228,7 @@ public class PqInfoController {
 	 * @param:     
 	 * @return:
 	 */
-	@RequestMapping("/getAllResult")
+	@RequestMapping("/getAllReasult")
 	public String getAllResult(Model model,Integer page){
 		List<PqInfo> pqInfos = pqInfoService.getAll(page==null?1:page);
 		model.addAttribute("list",new PageInfo<PqInfo>(pqInfos));
@@ -243,10 +244,11 @@ public class PqInfoController {
 	 * @param:     
 	 * @return:
 	 */
-	@RequestMapping("/searchResult")
+	@RequestMapping("/searchReasult")
 	public String searchResult(Model model,HttpServletRequest request,PqInfo pqInfo,Integer page){
 		List<PqInfo> pqInfos = pqInfoService.selectByCondition(pqInfo,page==null?1:page);
 		model.addAttribute("list",new PageInfo<PqInfo>(pqInfos));
+		model.addAttribute("pqinfo",pqInfo);
 		return "bss/pqims/pqinfo/resultList";
 	}
 	
@@ -263,6 +265,6 @@ public class PqInfoController {
 	public String getAllSupplierPqInfo(Model model,Integer page){
 		List<PqInfo> pqInfos = pqInfoService.getAll(page==null?1:page);
 		model.addAttribute("list",new PageInfo<PqInfo>(pqInfos));
-		return "bss/pqims/pqinfo/list";
+		return "bss/pqims/pqinfo/supplier_pqinfo_list";
 	}
 }

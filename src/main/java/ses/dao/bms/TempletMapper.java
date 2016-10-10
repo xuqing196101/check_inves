@@ -81,6 +81,15 @@ public interface TempletMapper {
      */
     Integer queryByCount(); 
     
-    
+    /**
+     * 
+     * @Title: selectByType
+     * @author Liyi 
+     * @date 2016-10-9 上午11:18:21  
+     * @Description:根据模板类型查询
+     * @param:     
+     * @return:
+     */
+    List<Templet> selectByType(Templet record);
 
 }

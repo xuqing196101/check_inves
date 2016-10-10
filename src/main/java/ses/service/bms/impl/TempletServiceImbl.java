@@ -90,5 +90,15 @@ public class TempletServiceImbl implements TempletService{
 	public Integer queryByCount() {
 		return templetMapper.queryByCount();
 	}
+
+	/**
+	 * 7.条件查询
+	 */
+	@Override
+	public List<Templet> search(Integer pageNum, Templet t) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
+		return templetMapper.selectByType(t);
+	}
 	
 }

@@ -10,12 +10,11 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+
 import com.github.pagehelper.PageInfo;
 
 import ses.model.bms.Templet;
-import ses.model.bms.User;
 import ses.service.bms.TempletService;
-import ses.service.bms.impl.TempletServiceImbl;
 
 
 /**
@@ -140,5 +139,22 @@ public class TempletController {
 	public String view(Model model,String id){
 		model.addAttribute("templet",templetService.get(id));
 		return "ses/bms/templet/view";
+	}
+	
+	/**
+	 * 
+	 * @Title: search
+	 * @author Liyi 
+	 * @date 2016-10-9 下午5:27:51  
+	 * @Description:条件查询
+	 * @param:     
+	 * @return:
+	 */
+	@RequestMapping("/search")
+	public String search(Model model,HttpServletRequest request,Templet templet,Integer page){
+		List<Templet> templets = templetService.search(page==null?1:page,templet);
+		model.addAttribute("list",new PageInfo<Templet>(templets));
+		model.addAttribute("templet",templet);
+		return "ses/bms/templet/list";
 	}
 }

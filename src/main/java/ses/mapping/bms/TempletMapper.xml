@@ -154,5 +154,18 @@
   </select>
   
 
- 
+  <!-- 9.根据模板类型查询 -->
+   <select id="selectByType" parameterType="Object" resultMap="TempletResultMap">
+    select 
+    *
+    from T_SES_BMS_Templet where
+    <if test="temType != null and temType !='-请选择-'">
+        TEM_TYPE=#{temType} AND 
+    </if>
+    <if test="name != null and name != ''">
+        NAME LIKE '%'||#{name}||'%' AND
+     </if> 
+    IS_DELETED !=1 
+     
+  </select>
 </mapper>
