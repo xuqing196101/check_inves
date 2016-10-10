@@ -15,6 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import bss.controller.base.BaseController;
+
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
@@ -42,7 +44,7 @@ import ses.service.sms.SupplierTypeService;
 @Controller
 @Scope("prototype")
 @RequestMapping("/SupplierExtracts")
-public class SupplierExtractsController {
+public class SupplierExtractsController extends BaseController {
 	@Autowired
 	private SupplierAuditService supplierAuditServlice;
 	@Autowired
@@ -66,11 +68,11 @@ public class SupplierExtractsController {
 	 * @return String
 	 */
 	@RequestMapping("/listSupplierExtracts")
-	public String listSupplierExtracts(Model model, SupplierExtracts extracts){
+	public String listSupplierExtracts(Model model, SupplierExtracts extracts,String page){
 
-		List<SupplierExtracts> extractslist = supplierExtractsService.listExtracts(extracts);
-		model.addAttribute("extractslist",extractslist);
-
+		List<SupplierExtracts> extractslist = supplierExtractsService.pageExtracts(extracts, page!=null&&!page.equals("")?Integer.parseInt(page):1);
+		model.addAttribute("extractslist",new PageInfo<SupplierExtracts>(extractslist));
+		model.addAttribute("extracts", extracts);
 		return "ses/sms/supplier_extracts/recordlist";
 	}
 
@@ -190,9 +192,9 @@ public class SupplierExtractsController {
 		String id= supplierExtractsService.insert(supplier,condition,eid,sids);
 		//查询数据
 		List<SupplierExtracts> sextractslist = supplierExtractsService.listExtracts(new SupplierExtracts(id));
+		model.addAttribute("condition", condition);
 		if(sextractslist!=null&&sextractslist.size()!=0){
 			model.addAttribute("sextractslist",sextractslist.get(0));
-			model.addAttribute("condition", condition);
 			//存放已操作
 			List<SupplierExtRelate> extRelateListYes=new ArrayList<SupplierExtRelate>();
 			//未操作

@@ -16,13 +16,13 @@
 		<result column="SUPERINTENDENT" jdbcType="VARCHAR" property="superintendent" />
 		<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
 		<result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
-<!-- 		抽取人员 -->
+		<!-- 抽取人员 -->
 		<association column="EXTRACTS_PEOPLE" property="extractsPeopleUser"
 			select="ses.dao.bms.UserMapper.selectByPrimaryKey" />
 	</resultMap>
 	<resultMap type="ses.model.sms.SupplierExtracts" id="BaseResultListMap"
 		extends="BaseResultMap">
-		<collection  property="SupplierExtRelate" ofType="ses.model.sms.SupplierExtRelate">
+		<collection property="SupplierExtRelate" ofType="ses.model.sms.SupplierExtRelate">
 			<id column="erid" jdbcType="VARCHAR" property="id" />
 			<result column="EXTRACTS_ID" jdbcType="VARCHAR" property="extractsId" />
 			<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
@@ -54,8 +54,8 @@
 		<if test="id!=null and id!=''">
 			AND SE."ID"=#{id}
 		</if>
-		<if test="projectName != null and id != ''">
-		  AND SE.PROJECT_NAME=#{projectName}
+		<if test="projectName != null and projectName != ''">
+			AND SE.PROJECT_NAME=#{projectName}
 		</if>
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
@@ -260,13 +260,33 @@
 		FROM
 		T_SES_SMS_SUPPLIER_EXTRACTS se
 
-		INNER JOIN T_SES_SMS_SUPPLIER_EXT_USER
-		eu ON eu.EXTRACTS_ID=se."ID"
+		LEFT JOIN T_SES_SMS_SUPPLIER_EXT_USER
+		eu
+		ON eu.EXTRACTS_ID=se."ID"
 
-		INNER
+		LEFT
 		JOIN T_SES_SMS_SUPPLIER_EXT_RELATE er
-		ON SE."ID" = ER.EXTRACTS_ID
+		ON
+		SE."ID" = ER.EXTRACTS_ID
 
 		<include refid="Example_Where_Clause" />
+	</select>
+
+	<select id="pageExtracts" resultMap="BaseResultMap">
+		SELECT
+		SE.*
+		FROM
+		T_SES_SMS_SUPPLIER_EXTRACTS se
+
+		where 1 = 1
+		<if test="id!=null and id!=''">
+			AND SE."ID"=#{id}
+		</if>
+		<if test="projectName != null and projectName != ''">
+			AND SE.PROJECT_NAME LIKE '%${projectName}%'
+		</if>
+		<if test="extractionTime != null and extractionTime != ''">
+		      AND SE.EXTRACTION_TIME=#{extractionTime}
+		</if>
 	</select>
 </mapper>

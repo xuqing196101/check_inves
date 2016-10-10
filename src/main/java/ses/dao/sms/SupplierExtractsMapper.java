@@ -55,4 +55,15 @@ public interface SupplierExtractsMapper {
      */
     List<SupplierExtracts> listExtracts(SupplierExtracts record);
     
+    /**
+     * @Description: 分页获取记录
+     *
+     * @author Wang Wenshuai
+     * @version 2016年10月9日 下午3:23:32  
+     * @param @param record
+     * @param @return      
+     * @return List<SupplierExtracts>
+     */
+    List<SupplierExtracts> pageExtracts(SupplierExtracts record);
+    
 }

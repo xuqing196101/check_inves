@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+
+import com.github.pagehelper.PageHelper;
+
 import ses.dao.sms.SupplierAuditMapper;
 import ses.dao.sms.SupplierExtRelateMapper;
 import ses.dao.sms.SupplierExtUserMapper;
@@ -100,15 +103,13 @@ public class SupplierExtractsServiceImpl implements SupplierExtractsService {
 	public List<SupplierExtracts> listExtracts(SupplierExtracts supplierExtracts){
 		return supplierExtractsMapper.listExtracts(supplierExtracts);
 	}
-	/**
-	 * @Description: 查看抽取记录
-	 *
-	 * @author Wang Wenshuai
-	 * @date 2016年9月18日 下午2:44:14  
-	 * @param @return      
-	 * @return SupplierExtracts
+
+	/* (non-Javadoc)
+	 * @see ses.service.sms.SupplierExtractsService#pageExtracts(ses.model.sms.SupplierExtracts)
 	 */
-	public SupplierExtracts showExtracts(){
-		return null;
+	@Override
+	public List<SupplierExtracts> pageExtracts(SupplierExtracts supplierExtracts,Integer pageNum) {
+		PageHelper.startPage(pageNum, 10);
+		return supplierExtractsMapper.pageExtracts(supplierExtracts);
 	}
 }

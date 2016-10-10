@@ -72,6 +72,9 @@
     function zTreeOnClick(event,treeId,treeNode){
         treeid=treeNode.id
     }
+    
+    
+
          /*添加采购目录*/
     function news(){
             if (treeid==null) {
@@ -160,8 +163,25 @@
                 url:"<%=basePath%>category/rename.do?id="+treeNode.id+"&name="+newName,
             });
         } 
-        
-    
+    //获取选中子节点id
+    function getChildren(){
+        var Obj=$.fn.zTree.getZTreeObj("ztree");  
+         var nodes=Obj.getCheckedNodes(true);  
+         var ids = new Array();
+         var names=new Array();
+         for(var i=0;i<nodes.length;i++){ 
+             if(!nodes[i].isParent){
+            //获取选中节点的值  
+             ids+=nodes[i].id+"^"; 
+             names+=nodes[i].name+"^";
+             }
+         } 
+         parent.$("#items").val(names);
+         parent.$("#itemsId").val(ids);
+         var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+         parent.layer.close(index);
+         return true;
+    }
 </script>
 </head>
 <body>
@@ -190,7 +210,7 @@
       <div id="ztree" class="ztree"></div>
   <div  class="col-md-12">
     <div class="fl padding-10">
-        <button class="btn btn-windows reset" type="submit">确定</button>
+        <button class="btn btn-windows reset" onclick="return getChildren();" type="submit">确定</button>
         <button class="btn btn-windows git"  type="reset">清空</button>
     </div>
   </div>

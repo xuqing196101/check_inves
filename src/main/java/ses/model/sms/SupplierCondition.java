@@ -35,13 +35,24 @@ public class SupplierCondition {
 	 */
 	private String salesType;
 	/**
-	 * 产品目录关系
+	 * 目录关系
 	 */
 	private String nexus;
 	/**
 	 * 抽取项目
 	 */
 	private String projectName;
+	
+	/**
+	 * 目录名称
+	 */
+	private  String  categoryName;
+	
+	/**
+	 * 品目id
+	 */
+	private String  categoryId;
+	
 	
 	
 	
@@ -88,9 +99,24 @@ public class SupplierCondition {
 	public void setProjectName(String projectName) {
 		this.projectName = projectName;
 	}
+	
+	
+	public String getCategoryName() {
+		return categoryName;
+	}
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+	public String getCategoryId() {
+		return categoryId;
+	}
+	public void setCategoryId(String categoryId) {
+		this.categoryId = categoryId;
+	}
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
 		return JSON.toJSONString(this);
 	}
+	
 }

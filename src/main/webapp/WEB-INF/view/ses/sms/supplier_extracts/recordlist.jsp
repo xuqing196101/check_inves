@@ -22,6 +22,31 @@
 <script src="<%=basePath%>public/layer/layer.js"></script>
 <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
+			   $(function(){
+			          laypage({
+			                cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+			                pages: "${extractslist.pages}", //总页数
+			                skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+			                skip: true, //是否开启跳页
+			                total: "${extractslist.total}",
+			                startRow: "${extractslist.startRow}",
+			                endRow: "${extractslist.endRow}",
+			                groups: "${extractslist.pages}">=5?5:"${list.pages}", //连续显示分页数
+			                curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+			                
+			                    return "${extractslist.pageNum}";
+			                }(), 
+			                jump: function(e, first){ //触发分页后的回调
+			                    if(!first){ //一定要加此判断，否则初始时会无限刷新
+			                    	$("#page").val(e.curr);
+			                    	$("form:first").submit();
+			                    }
+			                }
+			            });
+			      });
+			
+
+
   	/** 全选全不选 */
 	function selectAll(){
 		 var checklist = document.getElementsByName ("chkItem");
@@ -148,22 +173,29 @@
 			<h2>抽取供应商记录</h2>
 		</div>
 	</div>
-	
-	  <!-- 查询 -->
-   
-   <div class="container clear margin-top-0">
-   <div class="padding-10 border1 m0_30 tc">
-   <form action="<%=basePath%>SupplierExtracts/listSupplierExtracts.do" method="post">
-	 <ul class="demand_list">
-	   <li class="fl mr15"><label class="fl mt5">项目名称：</label><span><input name="projectName" type="text" class="mb0"/></span></li>
-<!-- 	   <li class="fl mr15"><label class="fl mt5">采购机构：</label><span><input type="text" class="mb0"/></span></li> -->
-	  <li class="fl mr15"><label class="fl mt5">抽取时间：</label><span><input onclick='WdatePicker()' name="extractionTime" type="text" class="mb0"/></span></li>
-	   	 <button class="btn fl ml20 mt1">查询</button>
-	 </ul>
-   </form>
-	 <div class="clear"></div>
-   </div>
-  </div>
+
+	<!-- 查询 -->
+
+	<div class="container clear margin-top-0">
+		<div class="padding-10 border1 m0_30 tc">
+			<form action="<%=basePath%>SupplierExtracts/listSupplierExtracts.do"
+				method="post">
+				<input type="hidden" id="page" name="page">
+				<ul class="demand_list">
+				
+					<li class="fl mr15"><label class="fl mt5">项目名称：</label><span><input
+							name="projectName" value="${extracts.projectName }" type="text" class="mb0" /></span></li>
+					<!-- 	   <li class="fl mr15"><label class="fl mt5">采购机构：</label><span><input type="text" class="mb0"/></span></li> -->
+					<li class="fl mr15"><label class="fl mt5" >抽取时间：</label><span><input
+							onclick='WdatePicker()' value="<fmt:formatDate value='${extracts.extractionTime}'
+                                pattern='yyyy-MM-dd' />" name="extractionTime" type="text"
+							class="mb0" /></span></li>
+					<button class="btn fl ml20 mt1">查询</button>
+				</ul>
+			</form>
+			<div class="clear"></div>
+		</div>
+	</div>
 	<!-- 表格开始-->
 	<div class="container margin-top-5">
 		<div class="content padding-left-25 padding-right-25 padding-top-5">
@@ -180,25 +212,24 @@
 						<th class="info">抽取方式</th>
 					</tr>
 				</thead>
-				<c:forEach items="${extractslist}" var="extract" varStatus="vs">
+				<c:forEach items="${extractslist.list}" var="extract" varStatus="vs">
 					<tr onclick="show('${extract.id}');">
 						<td class="tc"><input onclick="check()" type="checkbox"
 							name="chkItem" value="${user.id}" /></td>
-						<td class="tc">${(vs.index+1)}</td>
+						<td class="tc">${(vs.index+1)+(extractslist.pageNum-1)*(extractslist.pageSize)}</td>
 						<td class="tc">${extract.projectName}sdds</td>
 						<td class="tc">${extract.procurementDepId}</td>
-						<td class="tc"><fmt:formatDate
-								value="${extract.extractionTime}"
-								pattern="yyyy年MM月dd日   HH:mm:ss" /></td>
-						<td class="tc">${extract.extractionSites }</td>
 						<td class="tc">
-							<c:if test="${extract.extractTheWay==0}">
+						<fmt:formatDate
+								value="${extract.extractionTime}"
+								pattern="yyyy年MM月dd日  " />
+								</td>
+						<td class="tc">${extract.extractionSites }</td>
+						<td class="tc"><c:if test="${extract.extractTheWay==0}">
 				             	             人工抽取
-					        </c:if> 
-					        <c:if test="${extract.extractTheWay==1}">
+					        </c:if> <c:if test="${extract.extractTheWay==1}">
 	                                  		    语音抽取                                          			   
-	           		             </c:if>
-                         </td>
+	           		             </c:if></td>
 					</tr>
 				</c:forEach>
 			</table>
