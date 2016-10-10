@@ -85,7 +85,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </div>
 <!-- 表格开始-->
    <div class="container">
-   <div class="col-md-12">
+   <div class="col-md-12 pl20">
     <button class="btn btn-windows add" type="submit">新增</button>
      <button class="btn btn-windows withdraw" type="submit">撤回</button>
 	<button class="btn btn-windows edit" type="submit">修改</button>

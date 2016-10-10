@@ -337,8 +337,8 @@
   background-color: #2c9fa6;
   border-color: #2c9fa6;
   color: #ffffff; 
-  padding:4px 10px 4px 30px;
-  font-size:18px;
+  padding:4px 8px 4px 28px;
+  font-size:14px;
   margin:5px;
   }
   .btn-windows:hover {
@@ -700,17 +700,17 @@
 .add{
    background-image:url(../images/add.png);
    background-repeat:no-repeat;
-   background-position:10px 8px;
+   background-position:12px 8px;
 }
 .delete{
    background-image:url(../images/delete.png);
    background-repeat:no-repeat;
-   background-position:10px 6px;
+   background-position:12px 6px;
 }
 .check{
    background-image:url(../images/check.png);
    background-repeat:no-repeat;
-   background-position:10px 6px;
+   background-position:8px 6px;
 }
 .withdraw{
    background-image:url(../images/withdraw.png);
@@ -750,7 +750,7 @@
 .ht_add{
    background-image:url(../images/ht_add.png);
    background-repeat:no-repeat;
-   background-position:10px 6px;
+   background-position:8px 6px;
 }
 .input{
    background-image:url(../images/input.png);

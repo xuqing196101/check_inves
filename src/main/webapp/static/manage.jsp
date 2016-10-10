@@ -129,7 +129,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				    <td width="25%" class="bggrey tr">所在地区：</td>
 				    <td width="25%">北京</td></tr><tr>
 				    <td width="25%" class="bggrey tr">详细地址：</td>
-				    <td width="25%">北京市西四环中路16号院8号楼</td>
+				    <td width="25%">北京市西四环中路343号院23号楼</td>
 				    <td width="25%" class="bggrey tr">电话（总机）：</td>
 				    <td width="25%">88016942</td>
 				  </tr>
@@ -143,8 +143,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			 </table>
 		</div>
 		  <div class="">
-			<a class="btn btn-sm btn-default" href="javascript:void(0)" onClick=""> 新增</a> 
-			<a class="btn btn-sm btn-default" href="javascript:void(0)" onClick="">修改</a> 
+			<a class="btn btn-windows add" href="javascript:void(0)" onClick=""> 新增</a> 
+			<a class="btn btn-windows edit" href="javascript:void(0)" onClick="">修改</a> 
           </div>
        <div class="panel panel-grey clear mt5">
 	    <div class="panel-heading">
@@ -165,64 +165,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<tr>
 					<td align="center"><input type="checkbox"/></td>
 					<td><a href="#">zclfwgs</a></td>
-					<td>张三</td>
-					<td>18610028857 / 88016942</td>
-					<td align="center"><span class="label rounded-2x label-u">正常</span></td>
-				</tr>
-				<tr>
-					<td align="center"><input type="checkbox"/></i></td>
-					<td><a href="#">zclfwgs</a></td>
-					<td>零零一</td>
-					<td>- / 88016617</td>
-					<td align="center"><span class="label rounded-2x label-u">正常</span></td>
-				</tr>
-				<tr>
-					<td align="center"><input type="checkbox"/></td>
-					<td><a href="#">zclfwgs</a></td>
-					<td>王五</td>
-					<td></td>
-					<td align="center"><span class="label rounded-2x label-u">正常</span></td>
-				</tr>
-				<tr>
-					<td align="center"><input type="checkbox"/></td>
-					<td><a href="#">zclfwgs</a></td>
-					<td>李四</td>
-					<td>88016862</td>
-					<td align="center"><span class="label rounded-2x label-u">正常</span></td>
-				</tr>
-				<tr>
-					<td align="center"><input type="checkbox"/></td>
-					<td><a href="#">zclfwgs</a></td>
-					<td>郑王</td>
-					<td>15010992543 / 88016801</td>
-					<td align="center"><span class="label rounded-2x label-u">正常</span></td>
-				</tr>
-				<tr>
-					<td align="center"><input type="checkbox"/></td>
-					<td><a href="#">zclfwgs</a></td>
-					<td>测试账号</td>
-					<td>- / -</td>
-					<td align="center"><span class="label rounded-2x label-dark">已冻结</span></td>
-				</tr>
-				<tr>
-					<td align="center"><input type="checkbox"/></td>
-					<td><a href="#">zclfwgs</a></td>
-					<td>大帝</td>
-					<td>18631539699 / 88016802</td>
-					<td align="center"><span class="label rounded-2x label-u">正常</span></td>
-				</tr>
-				<tr>
-					<td align="center"><input type="checkbox"/></td>
-					<td><a href="#">zclfwgs</a></td>
-					<td>周立波</td>
-					<td>13910223096 / 88016732</td>
-					<td align="center"><span class="label rounded-2x label-u">正常</span></td>
-				</tr>
-				<tr>
-					<td align="center"><input type="checkbox"/></td>
-					<td><a href="#">zclfwgs</a></td>
-					<td>赵四</td>
-					<td>- / 88016927</td>
+					<td>张飒飒</td>
+					<td>18610023457 / 88012322</td>
+
 					<td align="center"><span class="label rounded-2x label-u">正常</span></td>
 				</tr>
 				<tr>
@@ -235,38 +180,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<tr>
 					<td align="center"><input type="checkbox"/></td>
 					<td><a href="#">zclfwgs</a></td>
-					<td>夏雨</td>
+					<td>阳溯溯</td>
 					<td>- / -</td>
 					<td align="center"><span class="label rounded-2x label-u">正常</span></td>
 				</tr>
-				<tr>
-					<td align="center"><input type="checkbox"/></td>
-					<td><a href="#">zclfwgs</a></td>
-					<td>宋彪伟</td>
-					<td>- / 68776617</td>
-					<td align="center"><span class="label rounded-2x label-u">正常</span></td>
-				</tr>
-				<tr>
-					<td align="center"><input type="checkbox"/></td>
-					<td><a href="#">zclfwgs</a></td>
-					<td>王刚</td>
-					<td>- / -</td>
-					<td align="center"><span class="label rounded-2x label-u">正常</span></td>
-				</tr>
-				<tr>
-					<td align="center"><input type="checkbox"/></td>
-					<td><a href="#">zclfwgs</a></td>
-					<td>李伟</td>
-					<td>- / -</td>
-					<td align="center"><span class="label rounded-2x label-u">正常</span></td>
-				</tr>
-				<tr>
-					<td align="center"><input type="checkbox"/></td>
-					<td><a href="#">zclfwgs</a></td>
-					<td>1111</td>
-					<td>1 / 1</td>
-					<td align="center"><span class="label rounded-2x label-u">正常</span></td>
-				</tr>
+
+
 			</tbody>
 		</table>
 	</div>
@@ -283,34 +202,43 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="tab-pane fade in" id="dep_tab-2">
 	 <ul class="timeline-v2">
       <li>
-        <time class="cbp_tmtime" datetime=""><span>14:27:16</span> <span>2016-08-01</span></time>
+
         <div class="cbp_tmlabel">
-          <h4>修改数据 </h4>
-          <div class="margin-bottom-10"><div class="headline"><h3 class="heading-sm">修改详细信息</h3></div><table class="table table-bordered mb0"><thead><tr><th>参数名称</th><th>修改前</th><th>修改后</th></tr></thead><tbody><tr><td>详细地址</td><td>北京市西四环中路16号院8号楼（金沟河桥东南角）</td><td>北京市西四环中路16号院8号楼</td></tr></tbody></table></div>
-          <p>状态:<span class="label rounded-2x label-u">正常</span>&nbsp;&nbsp;姓名:李伟&nbsp;&nbsp;ID:151234&nbsp;&nbsp;单位:xxxxx有限公司&nbsp;&nbsp;IP地址:61.135.234.125|北京市</p>
+          <h4 class="f14 b">修改数据</h4>
+          <div class="margin-bottom-10">
+            <div class="headline">
+              <h3 class="heading-sm">修改详细信息</h3>
+              <div class="f14 fr"><span>14:27:16</span> <span>2016-08-01</span></div>
+            </div>
+            <table class="table table-bordered mb0">
+            <thead>
+              <tr>
+                <th>参数名称</th>
+                <th>修改前</th>
+                <th>修改后</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+               <td>详细地址</td>
+               <td>北京市西四环中路16号院8号楼（金沟河桥东南角）</td>
+               <td>北京市西四环中路16号院8号楼</td>
+              </tr>
+             </tbody>
+            </table>
+           </div>
+          <div class="cbp_detail"><div class="mr15 fl">状态:<span class="label rounded-2x label-u">正常</span></div><span>姓名:李四</span><span>ID:154234</span><span>单位:xxxxx有限公司</span><span>IP地址:61.136.254.125|北京市</span></div>
         </div>
       </li>
       <li>
-        <time class="cbp_tmtime" datetime=""><span>14:27:16</span> <span>2016-08-01</span></time>
         <div class="cbp_tmlabel">
-          <h4>修改数据 </h4>
-          <div class="margin-bottom-10"><div class="headline"><h3 class="heading-sm">修改详细信息</h3></div><table class="table table-bordered mb0"><thead><tr><th>参数名称</th><th>修改前</th><th>修改后</th></tr></thead><tbody><tr><td>详细地址</td><td>北京市西四环中路16号院8号楼（金沟河桥东南角）</td><td>北京市西四环中路16号院8号楼</td></tr></tbody></table></div>
-          <p>状态:<span class="label rounded-2x label-u">正常</span>&nbsp;&nbsp;姓名:李伟&nbsp;&nbsp;ID:151234&nbsp;&nbsp;单位:xxxxx有限公司&nbsp;&nbsp;IP地址:61.135.234.125|北京市</p>
-        </div>
-      </li>
-      <li>
-        <time class="cbp_tmtime" datetime=""><span>14:27:16</span> <span>2016-08-01</span></time>
-        <div class="cbp_tmlabel">
-          <h4>修改数据 </h4>
-          <div class="margin-bottom-10"><div class="headline"><h3 class="heading-sm">修改详细信息</h3></div><table class="table table-bordered mb0"><thead><tr><th>参数名称</th><th>修改前</th><th>修改后</th></tr></thead><tbody><tr><td>详细地址</td><td>北京市西四环中路16号院8号楼（金沟河桥东南角）</td><td>北京市西四环中路16号院8号楼</td></tr></tbody></table></div>
-          <p>状态:<span class="label rounded-2x label-u">正常</span>&nbsp;&nbsp;姓名:李伟&nbsp;&nbsp;ID:151234&nbsp;&nbsp;单位:xxxxx有限公司&nbsp;&nbsp;IP地址:61.135.234.125|北京市</p>
-        </div>
-      </li>
-      <li>
-        <time class="cbp_tmtime" datetime=""><span>14:41:56</span> <span>2013-04-18</span></time>
-        <div class="cbp_tmlabel">
-          <h4>修改采购单位信息</h4>
-          <p>状态:<span class="label rounded-2x label-u">正常</span>&nbsp;&nbsp;姓名:李伟&nbsp;&nbsp;ID:146393&nbsp;&nbsp;单位:xxxx有限公司&nbsp;&nbsp;IP地址:172.16.25.117|局域网</p>
+         <h4 class="f14 b">修改数据 </h4>
+          <div class="margin-bottom-10"><div class="headline">
+            <h3 class="heading-sm">修改详细信息</h3>
+            <div class="f14 fr"><span>14:27:16</span> <span>2016-08-01</span></div>
+          </div>
+          <table class="table table-bordered mb0"><thead><tr><th>参数名称</th><th>修改前</th><th>修改后</th></tr></thead><tbody><tr><td>详细地址</td><td>北京市西四环中路156号院845号楼（金沟河桥东南角）</td><td>北京市西四环中路123号院34号楼</td></tr></tbody></table></div>
+          <div class="cbp_detail"><div class="mr15 fl">状态:<span class="label rounded-2x label-u">正常</span></div><span>姓名:张三</span><span>ID:151234</span><span>单位:xxxxx有限公司</span><span>IP地址:61.135.234.125|北京市</span></div>
         </div>
       </li>
 
