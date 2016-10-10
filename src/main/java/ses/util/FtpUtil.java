@@ -365,25 +365,23 @@ public class FtpUtil {
 	}
 	
 	
-	public static void download2(HttpServletResponse response,String path, String fileName){
+	public static void downloadFtpFile(HttpServletResponse response,String path, String fileName){
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("multipart/form-data;charset=UTF-8");
+		OutputStream outputStream = null;
 		if (FtpUtil.connectFtp(path)) {
 			try {
-				 FTPFile[] fs = ftp.listFiles();  
-			        for(int i=0;i<fs.length;i++){  
-			        	String tempFileName =  new String(fs[i].getName().getBytes("ISO8859-1"), "UTF-8");
-			            if(tempFileName.equals(fileName)){
-			            	String saveAsFileName = tempFileName.substring(tempFileName.lastIndexOf("_"));
-			    			response.setHeader("Content-Disposition", "attachment;fileName="+saveAsFileName);
-			    			OutputStream os = response.getOutputStream();
-			    			ftp.retrieveFile(fs[i].getName(), os);
-			                os.flush();
-			                os.close();
-			                break;
-			            }
-			        }
-			        ftp.logout(); 
+				ftp.setControlEncoding("UTF-8");
+				FTPFile ftpFile = ftp.mlistFile(new String(fileName.getBytes("UTF-8"), "ISO-8859-1"));
+				if(ftpFile != null && ftpFile.isFile()){
+					String saveAsFileName = fileName.substring(fileName.indexOf("_")+1);
+					response.setHeader("Content-Disposition", "attachment;fileName="+new String( saveAsFileName.getBytes("UTF-8"), "ISO8859-1" ) );
+					outputStream = response.getOutputStream();
+					ftp.retrieveFile(ftpFile.getName(), outputStream);
+				} else {
+					logger.error("找不到文件");
+				}
+		        ftp.logout(); 
 			} catch (Exception e) {
 				logger.error(e);
 				logger.error("下载过程中出现异常");
@@ -406,7 +404,7 @@ public class FtpUtil {
 //		FtpUtil.upload(file);
 //		FtpUtil.closeFtp();
 		// FtpUtil.startDownFolder("E:\\ftpCopy", "zxcvb");
-		//FtpUtil.startDownFile("E:/ftpCopy", "test5", "2016-10-08_18时07分03.003秒_log4j.log");
+		FtpUtil.startDownFile("E:/ftpCopy", "test7", "E2B3FCF57CF74D8EBC8B66BD4A8825F8_J2EE+企业应用实战：Struts+Spring+Hibernate+整合开发.pdf");
 	}
 
 }
