@@ -114,14 +114,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 function reason(id){
   var supplierId=$("#supplierId").val();
   var auditField=$("#"+id).text()+"股东信息"; //审批的字段名字
-   layer.prompt({title: '请填写不通过理由', formType: 2}, function(text){
+   layer.prompt({title: '请填写不通过理由', formType: 2,offset:'200px'}, function(text){
     $.ajax({
         url:"<%=basePath%>supplierAudit/auditReasons.html",
         type:"post",
         data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId,
       });
       $("#"+id+"_hide").hide();
-      layer.msg("审核不通过的理由是："+text);
+      layer.msg("审核不通过的理由是："+text,{offset:'200px'});
     });
 }
 
@@ -204,7 +204,7 @@ function tijiao(str){
                         <th class="info">出资人性质</th>
                         <th class="info">统一社会信用代码或身份证</th>
                         <th class="info">出资金额或股份(万元/份)</th>
-                        <th class="info">比例</th>
+                        <th class="info">比例(%)</th>
                         <th class="info">操作</th>
                       </tr>
                     </thead>
@@ -214,7 +214,7 @@ function tijiao(str){
                         <td class="tc">${s.nature}</td>
                         <td class="tc">${s.identity}</td>
                         <td class="tc">${s.shares}</td>
-                        <td class="tc">${s.proportion}</td>
+                        <td class="tc">${s.proportion}%</td>
                         <td class="tc">
                           <a id="${s.id }_hide" class="b f18 fl ml10 red hand">√</a>
                           <a onclick="reason('${s.id}');" class="b f18 fl ml10 hand">×</a>
@@ -229,6 +229,5 @@ function tijiao(str){
       </div>
     </div>
   </div>
-  <jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
 </body>
 </html>

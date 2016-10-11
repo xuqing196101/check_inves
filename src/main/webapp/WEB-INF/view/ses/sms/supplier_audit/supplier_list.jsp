@@ -73,7 +73,7 @@
   }
   
     //审核
-    function shenhe(){
+<%--     function shenhe(){
       var count = 0;
       var ids = document.getElementsByName("check");
    
@@ -91,7 +91,20 @@
           window.location.href="<%=basePath%>supplierAudit/essential.html?supplierId="+id;
       
         }
+    } --%>
+    //审核
+    function shenhe(){
+    var size = $(":radio:checked").size();
+    if (!size) {
+      layer.msg("请选择一条记录 !", {
+        offset : '300px',
+      });
+      return;
     }
+    var id = $(":radio:checked").val();
+    $("input[name='supplierId']").val(id);
+    $("#shenhe_form_id").submit();}
+    
     
     //重置搜索栏
   function resetForm() {
@@ -151,7 +164,7 @@
       <table class="table table-bordered table-condensed">
         <thead>
           <tr>
-            <th class="info w30"><input type="checkbox" onclick="selectAll();"  id="allId" alt="" value="选择"></th>
+            <th class="info w50">选择</th>
             <th class="info w50">序号</th>
             <th class="info">供应商名称</th>
             <th class="info">企业类型</th>
@@ -162,7 +175,7 @@
         </thead>
         <c:forEach items="${supplierList }" var="list" varStatus="page">
           <tr>
-            <td class="tc w30"><input type="checkbox" name="check" id="checked" alt="" value="${list.id }"></td>
+            <td class="tc w30"><input name="id" type="radio" value="${list.id}"></td>
             <td class="tc w50">${page.count}</td>
             <td class="tc">${list.supplierName }</td>
             <td class="tc">
@@ -187,5 +200,8 @@
         <div id="pagediv" align="right"></div>
      </div>
    </div>
+   <form id="shenhe_form_id" action="${pageContext.request.contextPath}/supplierAudit/essential.html" method="post">
+    <input name="supplierId" type="hidden" />
+  </form>
 </body>
 </html>
