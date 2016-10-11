@@ -816,6 +816,7 @@ public class PurchaseManageController {
 	public String PurchaseDepMapList(Model model,@ModelAttribute PurchaseDep purchaseDep){
 		HashMap<String, Object> condtionmap = new HashMap<String, Object>();
 		condtionmap.put("typeName", 0);
+		condtionmap.put("name", purchaseDep.getName());
 		StringBuffer sb = new StringBuffer("");
 		List<PurchaseDep> oList = purchaseOrgnizationServiceI.findPurchaseDepList(condtionmap);
 		//开始循环 判断地址是否
@@ -871,6 +872,9 @@ public class PurchaseManageController {
 		}
 		HashMap<String, Object> condtionmap = new HashMap<String, Object>();
 		condtionmap.put("typeName", 0);
+		condtionmap.put("name", purchaseDep.getName());
+		condtionmap.put("quaStartDate", purchaseDep.getQuaStartDate());
+		condtionmap.put("quaEdndate", purchaseDep.getQuaEdndate());
 		condtionmap.put("parentName", purchaseDep.getParentName());
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page == null ? 1 : page,Integer.parseInt(config.getString("pageSize")));
@@ -890,6 +894,10 @@ public class PurchaseManageController {
 		if(oList!=null && oList.size()>0){
 			model.addAttribute("purchaseDep", oList.get(0));
 		}
+		condtionmap.clear();
+		condtionmap.put("purchaseDepId", purchaseDep.getOrgId());
+		List<PurchaseInfo> purchaselist = purchaseServiceI.findPurchaseList(condtionmap);
+		model.addAttribute("purchaselist", purchaselist);
 		//logger.info(JSON.toJSONStringWithDateFormat(oList,"yyyy-MM-dd HH:mm:ss"));
 		return "ses/oms/purchase_dep/purchasedep_map_show_list";
 	}

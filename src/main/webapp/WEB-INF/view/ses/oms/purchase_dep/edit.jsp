@@ -26,6 +26,36 @@
 <script src="<%=basePath%>public/layer/layer.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
 <script type="text/javascript">
+	 Array.prototype.indexOf = function(val) {
+		for (var i = 0; i < this.length; i++) {
+			if (this[i] == val) return i;
+		}
+		return -1;
+	};
+	Array.prototype.remove = function(val) {
+		var index = this.indexOf(val);
+			if (index > -1) {
+				this.splice(index, 1);
+			}
+	};
+	var array =[];
+	 var deltr =function(index,name)
+    {
+        //var _len = $("#tab tr").length;
+        //console.dir(index);
+        //console.dir(index.id);
+        //console.dir($("tr[id='" + index.id + "']"));
+        var deldata = index+","+name;
+        array.remove(deldata);
+        $("tr[id='" + index + "']").remove();//删除当前行   
+		var num = $("#tab tbody tr").length;
+		var trs = $("#tab tbody tr");
+		for (i = 0; i < num; i++) {
+			trs.find("td:eq(1)").each(function(i) {
+				$(this).text(i + 1);
+			});
+		}
+	};
 	 $(document).ready(function(){
 	 	var proviceId = $("#pid").val();
 		//console.dir(proviceId);
@@ -138,6 +168,25 @@
 		//$("#provinceId").val(proviceId);
 		
 	}
+	function dynamicaddThree(){
+    	var typeName = $("#typeName").val();
+        showiframe("添加机构",1000,600,"${pageContext.request.contextPath}/purchaseManage/addPurchaseOrg.do?typeName="+typeName,"-4");
+    }
+    function showiframe(titles,width,height,url,top){
+		 if(top == null || top == "underfined"){
+		  top = 120;
+		 }
+		layer.open({
+	        type: 2,
+	        title: [titles,"background-color:#83b0f3;color:#fff;font-size:16px;text-align:center;"],
+	        maxmin: true,
+	        shade: [0.3, '#000'],
+	       	offset: top+"px",
+	        shadeClose: false, //点击遮罩关闭层 
+	        area : [width+"px" , height+"px"],
+	        content: url
+	    });
+	}
 </script>
 </head>
 <body onload="pageOnload();">
@@ -178,8 +227,8 @@
 								</a>
 							</h4>
 						</div>
-						<input class="hide" name="orgnization.id" type="text" value="${purchaseDep.orgId }">
-						<input class="hide" name="id" type="text" value="${purchaseDep.id }">
+						<input class="hide"  name="orgnization.id" type="hidden" value="${purchaseDep.orgId }">
+						<input class="hide" name="id" type="hidden" value="${purchaseDep.id }">
 						<div id="collapseOne" class="panel-collapse collapse in">
 							<div class="panel-body">
 								<ul class="list-unstyled list-flow p0_20">
@@ -344,14 +393,10 @@
 						</div>
 						<div id="collapseThree" class="panel-collapse collapse">
 							<div class="panel-body">
-								<div class="mt40  mb50 ">
-									<button type="button" class="btn  padding-right-20 btn_back margin-5">添加</button>
-									<button type="button" class="btn  padding-right-20 btn_back margin-5">删除</button>
-								</div>
-								<div>
-									<table>
-										<tr><td>2</td><td>3</td><td>4</td></tr>
-									</table>
+								<div class="mt40 mb50">
+									<button type="button"
+										class="btn  padding-right-20 btn_back margin-5"
+										id="dynamicAdd" onclick="dynamicaddOne();">添加</button>
 								</div>
 							</div>
 						</div>
@@ -568,13 +613,28 @@
 						</div>
 						<div id="collapseSeven" class="panel-collapse collapse">
 							<div class="panel-body">
-								<div class="mt40  mb50 ">
-									<button type="button" class="btn  padding-right-20 btn_back margin-5">添加</button>
-									<button type="button" class="btn  padding-right-20 btn_back margin-5">删除</button>
+								<div class="mt40 mb50">
+									<button type="button"
+										class="btn  padding-right-20 btn_back margin-5"
+										id="dynamicAdd" onclick="dynamicaddThree();">添加</button>
 								</div>
-								<div>
-									<table>
-										<tr><td>2</td><td>3</td><td>4</td></tr>
+								<div
+									class="content padding-left-25 padding-right-25 padding-top-5">
+									<table class="table table-bordered table-condensed" id="tab">
+										<thead>
+											<tr>
+												<th class="info w30"><input id="checkAll"
+													type="checkbox" onclick="selectAll()" />
+												</th>
+												<th class="info w50">序号</th>
+												<th class="info">机构名称</th>
+												<th class="hide">机构id</th>
+												<th class="info">操作</th>
+											</tr>
+										</thead>
+										<tbody>
+
+										</tbody>
 									</table>
 								</div>
 							</div>

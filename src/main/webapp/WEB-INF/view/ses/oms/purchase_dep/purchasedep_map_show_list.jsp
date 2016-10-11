@@ -163,37 +163,96 @@
 								<thead>
 									<tr>
 										<th class="info w50">序号</th>
+										<th class="info">姓名</th>
 										<th class="info">所属采购机构</th>
 										<th class="info">类型</th>
 										<th class="info">性别</th>
 										<th class="info">年龄</th>
 										<th class="info">职务</th>
-										<th class="info">等级</th>
+										<th class="info">职称</th>
+										<th class="info">采购资格等级</th>
 										<th class="info">学历</th>
 										<th class="info">电话</th>
-										<th class="info">资质证书类型</th>
+										<!-- <th class="info">资质证书类型</th> -->
 										<th class="info">证书编号</th>
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach items="${list.list }" var="list" varStatus="vs">
+									<c:forEach items="${purchaselist }" var="p" varStatus="vs">
 										<tr>
-											<td>${vs.index+1 }</td>
-											<td><a
-												href="<%=basePath%>purchaseManage/purchaseDepdetailList.html?orgId=${list.orgId}">${list.name
-													}</a></td>
-											<td>${list.quaCode }</td>
-											<td>${list.levelDep }</td>
-											<%-- <td><fmt:formatDate value="${list.createdAt }" pattern="yyyy-MM-dd HH:mm:ss" /></td> --%>
-											<td>${list.address }</td>
-											<td><fmt:formatDate value="${list.quaStartDate }"
-													pattern="yyyy-MM-dd" /></td>
-											<td><fmt:formatDate value="${list.quaEdndate }"
-													pattern="yyyy-MM-dd" /></td>
-											<td>军区采购</td>
-											<td>军区采购</td>
-											<td>军区采购</td>
-											<td>军区采购</td>
+											<td class="tc" onclick="show('${p.id}');">${vs.index+1}</td>
+								<!-- 标题 -->
+								<td class="tc" onclick="show('${p.id}');">${p.relName}</td>
+								<!-- 内容 -->
+								<td class="tc" onclick="show('${p.id}');">${p.purchaseDepName}</td>
+								<!-- 创建人-->
+								<td class="tc" onclick="show('${p.id}');">
+									<c:choose>
+										<c:when test="${p.purcahserType==0}">
+											军人
+										</c:when>
+										<c:when test="${p.purcahserType==1}">
+											文职
+										</c:when>
+										<c:when test="${p.purcahserType==2}">
+											职工
+										</c:when>
+										<c:when test="${p.purcahserType==3}">
+											战士
+										</c:when>
+										<c:otherwise>
+											
+										</c:otherwise>
+									</c:choose>
+								</td>
+								<!-- 是否发布 -->
+								<td class="tc" onclick="show('${p.id}');"> 
+									<c:choose>
+										<c:when test="${p.gender=='M'}">
+											男
+										</c:when>
+										<c:when test="${p.gender=='F'}">
+											女
+										</c:when>
+										<c:otherwise>
+											男
+										</c:otherwise>
+									</c:choose>
+								</td>
+								<!-- 是否发布 -->
+								<td class="tc" onclick="show('${p.id}');">${p.age}</td>
+								<!-- 是否发布 -->
+								<td class="tc" onclick="show('${p.id}');">${p.duties}</td>
+								<!-- 是否发布 -->
+								<td class="tc" onclick="show('${p.id}');">${p.professional}</td>
+								<!-- 是否发布 -->
+								<td class="tc" onclick="show('${p.id}');">
+									<c:choose>
+										<c:when test="${p.quaLevel==0}">
+											初
+										</c:when>
+										<c:when test="${p.quaLevel==1}">
+											中
+										</c:when>
+										<c:when test="${p.quaLevel==2}">
+											高
+										</c:when>
+										<c:when test="${p.quaLevel==3}">
+											
+										</c:when>
+										<c:otherwise>
+											
+										</c:otherwise>
+									</c:choose>
+								</td>
+								<!-- 创建人-->
+								<td class="tc" onclick="show('${p.id}');">${p.topStudy}</td>
+								<!-- 是否发布 -->
+								<td class="tc" onclick="show('${p.id}');">${p.telephone}</td>
+								<!-- 是否发布 -->
+								<%-- <td class="tc" onclick="show('${p.id}');">${p.quaCode}</td> --%>
+								<!-- 是否发布 -->
+								<td class="tc" onclick="show('${p.id}');">${p.quaCode}</td>
 										</tr>
 									</c:forEach>
 								</tbody>

@@ -114,6 +114,9 @@
     function show(id){
     	window.location.href="${pageContext.request.contextPath}/purchaseManage/showStationMessage.do?id="+id+"&&type=view";
     }
+    function addPurchase(){
+    	window.location.href="${pageContext.request.contextPath}/purchase/add.do";
+    }
   </script>
 <body>
 	<div class="wrapper">
@@ -132,6 +135,7 @@
 				</ul>
 			</div>
 		</div>
+		
 		<div class="container">
 			<div class="headline-v2">
 				<h2>采购机构列表</h2>
@@ -146,22 +150,8 @@
 						<td><span>名称：</span><input type="text" name="name"
 							value="${purchaseDep.name }">
 						</td>
-						<td><span>上级监管部门：</span> <select name="purchaseDepName"
-							id="purchaseDepName">
-								<option value=''>-请选择-</option>
-								<option
-									<c:if test="${purchaseInfo.purchaseDepName =='军队' }">selected = "true"</c:if>
-									value="军队">军队</option>
-								<option
-									<c:if test="${purchaseInfo.purchaseDepName =='地方' }">selected = "true"</c:if>
-									value="地方">地方</option>
-								<option
-									<c:if test="${purchaseInfo.purchaseDepName =='其他' }">selected = "true"</c:if>
-									value="其他">其他</option>
-						</select>
-						</td>
 						<td><span class="input-group-btn"> <input
-								class="btn-u" name="commit" value="搜索" type="submit"> </span>
+								class="btn-u" name="commit" value="搜索" type="button"> </span>
 						</td>
 					</tr>
 				</table>
@@ -176,7 +166,7 @@
 						onclick="edit();">修改</button>
 					<button class="btn btn-windows delete" type="button"
 						onclick="dell();">删除</button>
-					<button class="btn btn-windows add" type="button" onclick="purchaseManage()">采购人员管理</button>
+					<button class="btn btn-windows add" type="button" onclick="addPurchase();">采购人员管理</button>
 					<button class="btn btn-windows edit" type="button" onclick="stash()">资质暂停</button>
 					<button class="btn btn-windows edit" type="button" onclick="over()">资质终止</button>
 				</div>

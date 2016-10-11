@@ -155,7 +155,7 @@ $(function() {
 		  </div>
 	   </div>
   	<div class="container clear margin-top-30">
-  			<h2>采购机构信息查询</h2>
+  			<h2>查询条件</h2>
   				<form id="form1" action="<%=basePath %>purchaseManage/purchaseDepdetailList.html" method="post">
 		       <input type="hidden" name="page" id="page">
 		       <input type="hidden" name="parentName" value="${parentName }">
