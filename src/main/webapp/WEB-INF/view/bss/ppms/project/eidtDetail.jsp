@@ -73,20 +73,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             }
              purchaseType.push(v); 
         });  
-         layer.confirm('您确定要修改吗?',{
-                offset: ['50px','90px'],
-                shade:0.01,
-                btn:['是','否'],
-                },function(){
-                window.location.href = '<%=basePath%>project/editDetail.html?purchaseCount='+purchaseCount+'&price='+price+'&id='+id+'&purchaseType='+purchaseType;
-                    /*  var index=parent.layer.getFrameIndex(window.name);
-                     parent.layer.close(index); */ 
-                },function(){
-                    var index=parent.layer.getFrameIndex(window.name);
+            layer.confirm('您确定要修改吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+                $.ajax({
+                    url:"<%=basePath%>project/editDetail.html",
+                    data:"purchaseCount="+purchaseCount+"&price="+price+"&id="+id+"&purchaseType="+purchaseType,
+                    type:"post",
+                    dateType:"json",
+                    success:function(){
+                        var index=parent.layer.getFrameIndex(window.name);
                      parent.layer.close(index);
-                }
-                    
-            ); 
+                    },
+                    error: function(){
+                        layer.msg("受领失败",{offset: ['222px', '390px']});
+                    }
+                });
+            });
             
     }
     function cancel(){
@@ -102,7 +103,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  <div class="margin-top-10 breadcrumbs ">
       <div class="container">
            <ul class="breadcrumb margin-left-0">
-           <li><a href="#"> 首页</a></li><li><a href="#">保障作业系统</a></li><li><a href="#">采购任务管理</a></li><li class="active"><a href="#">采购计划调整</a></li>
+           <li><a href="#"> 首页</a></li><li><a href="#">保障作业系统</a></li><li><a href="#">项目管理</a></li><li class="active"><a href="#">项目调整</a></li>
            </ul>
         <div class="clear"></div>
       </div>
@@ -110,15 +111,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
 <!-- 录入采购计划开始-->
  <div class="container">
-   <div class="headline-v2">
-      <h2>采购计划调整</h2>
-   </div>
 <!-- 项目戳开始 -->
      <div class="clear"></div>
 
  
    <div class="headline-v2 fl">
-      <h2>修改采购明细
+      <h2>修改项目明细
       </h2>
        </div> 
      
@@ -151,7 +149,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <c:forEach items="${lists}" var="obj" varStatus="vs">
             <tr style="cursor: pointer;">
               <input type="hidden" value="${obj.id }" name="id"/>
-              <td class="tc w50">${obj.seq}</td>
+              <td class="tc w50">${obj.serialNumber}</td>
               <td class="tc">${obj.department}</td>
               <td class="tc">${obj.goodsName}</td>
               <td class="tc">${obj.stand}</td>

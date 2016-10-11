@@ -88,19 +88,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             id.push($(this).val()); 
         });
          if(id.length>0){
-          $.ajax({
-                    url:"<%=basePath%>project/saveDetail.html",
-                    data:"id="+id,
-                    type:"post",
-                    dateType:"json",
-                    success:function(){
-                        var index=parent.layer.getFrameIndex(window.name);
-                        parent.layer.close(index);
-                    },
-                    error: function(){
-                    }
-                });
-                }
+              $("#detail_id").val(id);
+              $("#save_form_id").submit();
+         }
     }
     function cancel(){
      var index=parent.layer.getFrameIndex(window.name);
@@ -134,8 +124,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      
   
       <span class="fr option_btn margin-top-10">
-        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="save();">确定</button>
-        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="cancel();">返回</button>
+        <button class="btn btn-windows save" onclick="save();">确定</button>
+        <button class="btn btn-windows back" onclick="cancel();">返回</button>
       </span>
    <div class="container clear margin-top-30">
         <table class="table table-bordered table-condensed mt5">
@@ -190,17 +180,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  </div>
 
 
- <div id="content" class="div_show">
-     <p align="center" class="type">
-             请选择类别
-    <br>
-    
-     <input type="radio" name="goods" value="1">:物资<br>
-     <input type="radio" name="goods" value="2">:工程<br>
-     <input type="radio" name="goods" value="3">:服务<br>
-        </p>
-        
- </div>
- 
+ <form id="save_form_id" action="<%=basePath%>project/saveDetail.html" method="post" target="_parent">
+    <input id="detail_id" name="id" type="hidden" />
+ </form>
      </body>
 </html>

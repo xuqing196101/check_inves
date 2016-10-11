@@ -68,6 +68,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 }  
             }
         });
+        var idr = $("#idr").val();
+        if(idr==null || idr == ''){
+            $("#qwe").hide();
+        }
+        
   });
   
     
@@ -89,19 +94,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           shadeClose: true,
           content: '<%=basePath%>project/viewDet.html?id='+id
         });
-            
         }else if(id.length>1){
             layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
         }
+        
     }
     
         function add(){
-        var id =[]; 
-        $('input[name="chkItem"]:checked').each(function(){ 
-            id.push($(this).val()); 
-        }); 
-        if(id.length>0){
-           layer.open({
+        var idss = $("input[name='idss']").val();
+        if(!idss){
+           layer.alert("请选择",{offset: ['222px', '390px'], shade:0.01});
+            
+        }else{
+            
+            layer.open({
           type: 2, //page层
           area: ['500px', '300px'],
          // title: '您是要取消任务吗？',
@@ -110,12 +116,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           shift: 1, //0-6的动画形式，-1不开启
           offset: ['220px', '630px'],
           shadeClose: true,
-          content: '<%=basePath%>project/create.html?id='+id
+          content: '<%=basePath%>project/create.html'
         });
-            
         }
     }
     
+    function bask(){
+       window.location.href="<%=basePath%>project/list.html";
+    }
   </script>
   </head>
   
@@ -136,9 +144,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
 <!-- 项目戳开始 -->
  
-   
-     <form id="add_form" action="<%=basePath%>task/list.html" method="post" >
+   <div class="p10_25">
+    <h2 class="padding-10 border1">
+     <form id="add_form" action="<%=basePath%>project/add.html" method="post" >
+     <ul class="demand_list">
+     <li class="fl">
        <label class="fl">需求部门：<input type="text" name="purchaseRequiredId" /></label>
+       </li>
      <%--  <label class="fl">年度：<select name="giveTime" style="width:70px" id="select">
     <option selected="selected" value="">请选择</option>
        <c:forEach items="${task}" var="task">
@@ -147,6 +159,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                          
        </c:forEach>  
   </select> </label>--%>
+  <li class="fl">
       <label class="fl">采购方式：<select name="procurementMethod" style="width:100px" id="select">
        <option selected="selected" value="">请选择</option>
                             <option value="公开招标" <c:if test="${'公开招标'==obj.purchaseType}">selected="selected"</c:if>>公开招标</option>
@@ -155,31 +168,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                             <option value="询价采购" <c:if test="${'询价采购'==obj.purchaseType}">selected="selected"</c:if>>询价采购</option>
                             <option value="单一来源" <c:if test="${'单一来源'==obj.purchaseType}">selected="selected"</c:if>>单一来源</option>
   </select> </label> 
+  </li>
+       <li class="fl">
        <label class="fl">采购机构：<input type="text" name="purchaseId"/></label>
-       <label class="fl">状态：<select name="status" style="width:70px" id="select">
-        <option selected="selected" value="">请选择</option>
-                            <option value="1" <c:if test="${'1'==task.status}">selected="selected"</c:if>>审核</option>
-                            <option value="2" <c:if test="${'2'==task.status}">selected="selected"</c:if>>下达</option>
-                            <option value="3" <c:if test="${'3'==task.status}">selected="selected"</c:if>>启动</option>
-  </select></label>
-   <br/><br/><br/> 
-       <label class="fl">文件编号：<input type="text" name="documentNumber"/></label>
-         <button class="btn padding-left-10 padding-right-10 btn_back fl margin-top-5" type="submit">查询</button>
-     
+       </li>
+         <button class="btn" type="submit">查询</button>
+         <button type="reset" class="btn">重置</button> 
+     </ul>
+     <div class="clear"></div>
     </form>
+    </h2>
+    </div>
      <div class="clear"></div>
 
- 
+ <input type="hidden" name="idss" value="${idss }">
+ <input type="hidden" name="idr" id="idr" value="${sessionScope.idr }">
    <div class="headline-v2 fl">
       <h2>选择采购任务
       </h2>
    </div> 
    <span class="fr option_btn margin-top-10">
-        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="add()">确认</button>
-        <button class="btn padding-left-10 padding-right-10 btn_back"  onclick="location.href='javascript:history.go(-1);'">返回</button>
+        <button class="btn btn-windows save" onclick="add()">确认</button>
+        <button class="btn btn-windows back"  onclick="bask();">返回</button>
       </span>
-   <div class="container clear margin-top-30">
-        <table class="table table-bordered table-condensed mt5">
+   <div class="container margin-top-5">
+    <table class="table table-striped table-bordered table-hover">
         <thead>
         <tr>
           <th class="info w50">序号</th>
@@ -199,7 +212,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <td class="tc">${obj.purchaseId }</td>
               <td class="tc" >${obj.documentNumber }</td>
               <td class="tc">
-                  <c:if test="${'0'==obj.status}">受领</c:if>
+                  <c:if test="${'0'==obj.status}"><span class="label rounded-2x label-u">受领</span></c:if>
               </td>
               <td class="tc" ><fmt:formatDate value="${obj.giveTime }"/></td>
               <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
@@ -213,8 +226,54 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <div id="pagediv" align="right"></div>
    </div>
  </div>
+    
+    <div id= "qwe">
+        <table class="table table-bordered table-condensed mt5">
+        <thead>
+        <tr>
+          <th class="info w50">序号</th>
+          <th class="info">需求部门</th>
+          <th class="info">物资名称</th>
+          <th class="info">规格型号</th>
+          <th class="info">质量技术标准</th>
+          <th class="info">计量单位</th>
+          <th class="info">采购数量</th>
+          <th class="info">单价（元）</th>
+          <th class="info">预算金额（万元）</th>
+          <th class="info">交货期限</th>
+          <th class="info">采购方式建议</th>
+          <th class="info">供应商名称</th>
+          <th class="info">是否申请办理免税</th>
+          <th class="info">物资用途（进口）</th>
+          <th class="info">使用单位（进口）</th>
+          <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
+        </tr>
+        </thead>
+          <c:forEach items="${lists}" var="obj" varStatus="vs">
+            <tr style="cursor: pointer;">
+              <td class="tc w50">${obj.serialNumber}</td>
+              <td class="tc">${obj.department}</td>
+              <td class="tc">${obj.goodsName}</td>
+              <td class="tc">${obj.stand}</td>
+              <td class="tc">${obj.qualitStand}</td>
+              <td class="tc">${obj.item}</td>
+              <td class="tc">${obj.purchaseCount}</td>
+              <td class="tc">${obj.price}</td>
+              <td class="tc">${obj.budget}</td>
+              <td class="tc">${obj.deliverDate}</td>
+              <td class="tc"> ${obj.purchaseType}</td>
+              <td class="tc">${obj.supplier}</td>
+              <td class="tc">${obj.isFreeTax}</td>
+              <td class="tc">${obj.goodsUse}</td>
+              <td class="tc">${obj.useUnit}</td>
+              <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
+            </tr>
+     
+         </c:forEach>  
+         
 
-
+      </table>
+    </div>
  
      </body>
 </html>

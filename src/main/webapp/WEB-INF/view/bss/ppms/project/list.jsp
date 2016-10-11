@@ -240,15 +240,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <h2>查询条件</h2>
    </div>
 <!-- 项目戳开始 -->
- 
-   
-     <form id="add_form" action="<%=basePath%>project/list.html" method="post" >
-       <label class="fl">项目名称：<input type="text" name="name" /></label>
+    <div class="p10_25">
+     <h2 class="padding-10 border1">
+     <form id="add_form" action="<%=basePath%>project/list.html" method="post" class="mb0">
+     <ul class="demand_list">
+     <li class="fl">
+       <label class="fl">项目名称：<span><input type="text" name="name" /></span></label>
+       </li>
+       <li class="fl">
       <label class="fl">项目编号：<input type="text" name="projectNumber" /> </label> 
-       
-         <button class="btn padding-left-10 padding-right-10 btn_back fl margin-top-5" type="submit">查询</button>
-     
+       </li>
+         <button class="btn" type="submit">查询</button>
+         <button type="reset" class="btn">重置</button> 
+     </ul>
+     <div class="clear"></div>
     </form>
+    </h2>
+    </div>
      <div class="clear"></div>
 
  
@@ -258,18 +266,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        </div> 
      
   
-      <span class="fr option_btn margin-top-10">
+      
+   <div class="container clear margin-top-30">
+   <span class="fr option_btn margin-top-10">
       <button class="btn padding-left-10 padding-right-10 btn_back" onclick="firstAudit()">初审项定义</button>
         <button class="btn padding-left-10 padding-right-10 btn_back" onclick="subPackage()">分包</button>
         <button class="btn padding-left-10 padding-right-10 btn_back" >打印报批文件</button>
         <button class="btn padding-left-10 padding-right-10 btn_back" onclick="start();">启动</button>
         <button class="btn padding-left-10 padding-right-10 btn_back" onclick="view();">查看</button>
-         <button class="btn padding-left-10 padding-right-10 btn_back" onclick="edit();">修改</button>
+         <button class="btn btn-windows edit" onclick="edit();">修改</button>
         <button class="btn padding-left-10 padding-right-10 btn_back">进入</button>
       </span>
-   <div class="container clear margin-top-30">
-    <a class="btn padding-left-10 padding-right-10 btn_back" href="<%=basePath%>project/add.html">新建采购项目</a>
-        <table class="table table-bordered table-condensed mt5">
+    <a class="btn btn-windows add" href="<%=basePath%>project/add.html">新建采购项目</a>
+    <div class="container margin-top-5">
+               <table class="table table-striped table-bordered table-hover">
         <thead>
         <tr>
           <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
@@ -296,6 +306,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
          
 
       </table>
+      </div>
       
       <div id="pagediv" align="right"></div>
    </div>

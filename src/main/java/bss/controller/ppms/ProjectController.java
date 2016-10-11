@@ -29,6 +29,7 @@ import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectAttachments;
 import bss.model.ppms.ProjectDetail;
+import bss.model.ppms.ProjectTask;
 import bss.model.ppms.Task;
 import bss.model.ppms.TaskAttachments;
 import bss.service.pms.CollectPlanService;
@@ -37,6 +38,7 @@ import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectAttachmentsService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
+import bss.service.ppms.ProjectTaskService;
 import bss.service.ppms.TaskService;
 
 @Controller
@@ -58,6 +60,8 @@ public class ProjectController extends BaseController{
 	private ProjectDetailService detailService;
 	@Autowired
 	private PackageService packageService;
+	@Autowired
+	private ProjectTaskService projectTaskService;
 	
 	/**
 	 * 
@@ -89,11 +93,26 @@ public class ProjectController extends BaseController{
 	* @return String
 	 */
 	@RequestMapping("/add")
-	public String add(Integer page,Model model,Task task){
+	public String add(Integer page,Model model,Task task,HttpServletRequest request){
 		List<Task> list = taskservice.listAll(page==null?1:page, task);
 		PageInfo<Task> info = new PageInfo<Task>(list);
 		model.addAttribute("info", info);
 		model.addAttribute("task", task);
+		//显示项目明细
+		String idr = (String) request.getSession().getAttribute("idr");
+		List<ProjectDetail> list2 = new ArrayList<>();
+		if(idr != null){
+			String[] ids = idr.split(",");
+			for (int i = 0; i < ids.length; i++) {
+				ProjectDetail detail = detailService.selectByPrimaryKey(ids[i]);
+				list2.add(detail);
+			}
+			model.addAttribute("lists", list2);
+			model.addAttribute("idr", idr);
+			
+		}
+		
+		
 		return "bss/ppms/project/add";
 	}
 	/**
@@ -109,7 +128,6 @@ public class ProjectController extends BaseController{
 	 */
 	@RequestMapping("/create")
 	public String create(String id,HttpServletRequest request){
-		request.getSession().setAttribute("ids", id);
 		return "bss/ppms/project/addProject";
 	}
 	/**
@@ -128,6 +146,7 @@ public class ProjectController extends BaseController{
 	public String createProject(String name,String projectNumber,HttpServletRequest request){
 		if(name != null && projectNumber != null){
 			Project project = new Project();
+			ProjectTask projectTask = new ProjectTask();
 			project.setName(name);
 			project.setProjectNumber(projectNumber);
 			project.setStatus(3);
@@ -138,17 +157,15 @@ public class ProjectController extends BaseController{
 			request.getSession().removeAttribute("idr");
 			String[] ids = id.split(",");
 			for (int i = 0; i < ids.length; i++) {
-				Task task = taskservice.selectById(ids[i]);
-				task.setProject(new Project(project.getId()));
-				taskservice.update(task);
+				projectTask.setTaskId(ids[i]);
+				projectTask.setProjectId(project.getId());
+				projectTaskService.insertSelective(projectTask);
 			}
 			String[] projectId = ide.split(",");
 			for (int i = 0; i < projectId.length; i++) {
 				ProjectDetail detail = detailService.selectByPrimaryKey(projectId[i]);
 				detail.setProject(new Project(project.getId()));
-				detail.setStatus(ids[i]);
 				detailService.update(detail);
-			
 		}
 		}
 		return "redirect:list.html";
@@ -158,29 +175,45 @@ public class ProjectController extends BaseController{
 	* @Title: view
 	* @author FengTian
 	* @date 2016-9-29 下午5:11:38  
-	* @Description: 查看项目 
+	* @Description: 查看项目下的任务
 	* @param @param id
 	* @param @param model
 	* @param @return      
 	* @return String
 	 */
 	@RequestMapping("/view")
-	public String view(String id,Model model,Integer page){
-		List<Task> list = taskservice.selectByProject(id, page==null?1:page);
-		Project ject = projectService.selectById(id);
-		PageInfo<Task> info = new PageInfo<Task>(list);
+	public String view(String id,Model model,Integer page,HttpServletRequest request){
+		request.getSession().setAttribute("tt", id);
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("projectId", id);
+		List<Task> lists = taskservice.listBy(null, page==null?1:page);
+		List<ProjectTask> list = projectTaskService.queryByNo(map);
+		for (ProjectTask projectTask : list) {
+			Task task = taskservice.selectById(projectTask.getTaskId());
+			lists.add(task);
+		}
+		PageInfo<Task> info = new PageInfo<Task>(lists);
+		Project project = projectService.selectById(id);
 		model.addAttribute("info", info);
-		model.addAttribute("ject", ject);
+		model.addAttribute("ject", project);
 		return "bss/ppms/project/view";
 	}
 	
 	@RequestMapping("/edit")
-	public String edit(String id,Model model,Integer page){
-		List<Task> list = taskservice.selectByProject(id, page==null?1:page);
-		Project ject = projectService.selectById(id);
-		PageInfo<Task> info = new PageInfo<Task>(list);
+	public String edit(String id,Model model,Integer page,HttpServletRequest request){
+		request.getSession().setAttribute("rre", id);
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("projectId", id);
+		List<Task> lists = taskservice.listBy(null, page==null?1:page);
+		List<ProjectTask> list = projectTaskService.queryByNo(map);
+		for (ProjectTask projectTask : list) {
+			Task task = taskservice.selectById(projectTask.getTaskId());
+			lists.add(task);
+		}
+		PageInfo<Task> info = new PageInfo<Task>(lists);
+		Project project = projectService.selectById(id);
 		model.addAttribute("info", info);
-		model.addAttribute("ject", ject);
+		model.addAttribute("ject", project);
 		return "bss/ppms/project/edit";
 	}
 	/**
@@ -212,9 +245,11 @@ public class ProjectController extends BaseController{
 	* @return String
 	 */
 	@RequestMapping("/viewDetail")
-	public String viewDetail(String id,Model model){
+	public String viewDetail(String id,Model model,HttpServletRequest request){
 		HashMap<String,Object> map = new HashMap<String,Object>();
+		String tt = (String) request.getSession().getAttribute("tt");
 		map.put("status", id);
+		map.put("id", tt);
 		List<ProjectDetail> detailList = detailService.selectById(map);
 		model.addAttribute("lists", detailList);
 		return "bss/ppms/project/viewDetail";
@@ -222,6 +257,7 @@ public class ProjectController extends BaseController{
 	
 	@RequestMapping("/viewDet")
 	public String viewDet(String id,Model model,HttpServletRequest request){
+		request.getSession().setAttribute("qq",id);
 		String idss = (String) request.getSession().getAttribute("idss");
 		if (idss != null) {
 			idss = idss + "," + id;
@@ -243,11 +279,9 @@ public class ProjectController extends BaseController{
 	}
 	
 	@RequestMapping("/saveDetail")
-	@ResponseBody
-	public void saveDetail(String id,Model model,HttpServletRequest request){
+	public String saveDetail(String id,Model model,HttpServletRequest request){
 		String[] ids = id.split(",");
-		String ida = (String) request.getSession().getAttribute("idss");
-		//String[] ids = ida.split(",");
+		String ida = (String) request.getSession().getAttribute("qq");
 		for (int i = 0; i < ids.length; i++) {
 			PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(ids[i]);
 			ProjectDetail projectDetail = new ProjectDetail();
@@ -279,34 +313,38 @@ public class ProjectController extends BaseController{
 						ide);
 			}
 		}
+		return "redirect:add.html";
 		 
 	}
 	
 	@RequestMapping("/editDet")
-	public String editDet(String id,Model model){
-		Task task = taskservice.selectById(id);
-		CollectPlan queryById = collectPlanService.queryById(task.getCollectId());
-			Map<String,Object> map = new HashMap<String,Object>();
-			map.get(queryById);
-			List<PurchaseRequired> list = purchaseRequiredService.getByMap(map);
-			model.addAttribute("queryById", queryById);
-			model.addAttribute("lists", list);
+	public String editDet(String id,Model model,HttpServletRequest request){
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		String tt = (String) request.getSession().getAttribute("rre");
+		request.getSession().removeAttribute("tt");
+		map.put("status", id);
+		map.put("id", tt);
+		List<ProjectDetail> detailList = detailService.selectById(map);
+		Project project = projectService.selectById(tt);
+		model.addAttribute("lists", detailList);
+		model.addAttribute("ject", project);
 		return "bss/ppms/project/eidtDetail";
 	}
 	
 	@RequestMapping("/editDetail")
+	@ResponseBody
 	public void editDetail(String id,String purchaseCount,String price,String purchaseType,Model model){
 		String[] idc = id.split(",");
 		String[] ida = purchaseCount.split(",");
 		String[] idb = price.split(",");
 		String[] ide = purchaseType.split(",");
 		for (int i = 0; i < idc.length; i++) {
-			PurchaseRequired qq = purchaseRequiredService.queryById(idc[i]);
-			qq.setPurchaseCount(Long.valueOf(ida[i]));
-			qq.setPrice(new BigDecimal(idb[i]));
+			ProjectDetail qq = detailService.selectByPrimaryKey(idc[i]);
+			qq.setPurchaseCount(Integer.valueOf(ida[i]));
+			qq.setPrice(Double.valueOf(idb[i]));
 			qq.setPurchaseType(ide[i]);
-			qq.setBudget(new BigDecimal(Long.valueOf(ida[i])).multiply(new BigDecimal(idb[i])));
-			purchaseRequiredService.update(qq);
+			qq.setBudget(Double.valueOf(idb[i])+Double.valueOf(ida[i]));
+			detailService.update(qq);
 		}
 		
 	}

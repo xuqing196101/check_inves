@@ -11,7 +11,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     
     
-    <title>任务管理</title>  
+    <title>项目管理</title>  
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="cache-control" content="no-cache">
     <meta http-equiv="expires" content="0">    
@@ -156,16 +156,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <h2>查看采购任务
       </h2>
        </div> 
-     
-  
       <span class="fr option_btn margin-top-10">
         <button class="btn padding-left-10 padding-right-10 btn_back" onclick="view();">查看</button>
-         <button class="btn padding-left-10 padding-right-10 btn_back" onclick="location.href='javascript:history.go(-1);'">返回</button>
+         <button class="btn btn-windows back" onclick="location.href='javascript:history.go(-1);'">返回</button>
       </span>
    <div class="container clear margin-top-30">
    <span>项目名称：${ject.name}</span>
      <span>项目编号：${ject.projectNumber}</span>  
-        <table class="table table-bordered table-condensed mt5">
+     <div class="container margin-top-5">
+    <table class="table table-striped table-bordered table-hover">
         <thead>
         <tr>
           <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
@@ -191,7 +190,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
          </c:forEach> 
 
       </table>
-      
+      </div>
       <div id="pagediv" align="right"></div>
    </div>
  </div>

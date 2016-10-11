@@ -35,11 +35,11 @@
     from T_BSS_PPMS_TASK
     where ID = #{id,jdbcType=VARCHAR}
   </select>
-  <select id="listByTask" parameterType="bss.model.ppms.Task" resultMap="BaseResultMap">
+  <select id="listByTask" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     *
     from T_BSS_PPMS_TASK
-    where 1=1
+    where  ID = #{id,jdbcType=VARCHAR}
     ORDER BY GIVE_TIME DESC
   </select>
     <select id="likeByTask" parameterType="bss.model.ppms.Task" resultMap="BaseResultMap">
@@ -47,6 +47,9 @@
     *
     from T_BSS_PPMS_TASK
     where  IS_DELETED = 0 
+    <if test="id != null">
+       and  ID like #{id}
+     </if>
       <if test="status != null">
        and  STATUS like #{status}
      </if>
