@@ -44,31 +44,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script src="<%=basePath%>public/layer/extend/layer.ext.js"></script>
     <script type="text/javascript">
        
-        //导入模板
-        function inputTemplete(){
-        	var iframeWin;
-            layer.open({
-              type: 2, //page层
-              area: ['800px', '500px'],
-              title: '导入模板',
-              closeBtn: 1,
-              shade:0.01, //遮罩透明度
-              shift: 1, //0-6的动画形式，-1不开启
-              offset: ['180px', '550px'],
-              shadeClose: false,
-              content: '<%=basePath%>templet/getAll.html',
-              success: function(layero, index){
-                iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
-              },
-              btn: ['引用', '关闭'] 
-              ,yes: function(){
-                
-              }
-              ,btn2: function(){
-                layer.closeAll();
-              }
-            });
-        }
+  //导入模板
+    function inputTemplete(){
+        var iframeWin;
+        layer.open({
+          type: 2, //page层
+          area: ['800px', '500px'],
+          title: '配置权限',
+          closeBtn: 1,
+          shade:0.01, //遮罩透明度
+          shift: 1, //0-6的动画形式，-1不开启
+          offset: ['180px', '550px'],
+          shadeClose: false,
+          content: '<%=basePath%>resultAnnouncement/getAll.html',
+          success: function(layero, index){
+            iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+          }
+        });
+    }
         //导出
         function outputAnnouncement(){
             $("#form").attr("action",'<%=basePath%>bidAnnouncement/outputBidAnnouncement.do');   
@@ -76,14 +69,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         }
         //预览
         function preview(){
-             alert("预览");
              $("#form").attr("action",'<%=basePath%>bidAnnouncement/preViewBidAnnouncement.do');   
              $("#form").submit();
         }
         //发布
         function publish(){
-            alert("发布");
+        	var content = UE.getEditor('editor').getContent();
+            alert(content);
+            //${pageContext.request.contextPath}.getSession.setAttribute("BidAnnouncement", content);
+        	var iframeWin;
+            layer.open({
+              type: 2, //page层
+              area: ['800px', '500px'],
+              title: '发布招标公告',
+              closeBtn: 1,
+              shade:0.01, //遮罩透明度
+              shift: 1, //0-6的动画形式，-1不开启
+              offset: ['180px', '550px'],
+              shadeClose: false,
+              content: '<%=basePath%>bidAnnouncement/publish.do?content='+content,
+              success: function(layero, index){
             
+                iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+              }
+            });
         }
         //保存
         function save(){                  
@@ -149,6 +158,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </div>
     <script type="text/javascript">
     var ue = UE.getEditor('editor'); 
+    ue.ready(function(){
+        //需要ready后执行，否则可能报错
+        ue.setContent("<h1>欢迎使用UEditor！</h1>");
+        ue.setHeight(500);
+    })
     </script>
 </body>
 </html>

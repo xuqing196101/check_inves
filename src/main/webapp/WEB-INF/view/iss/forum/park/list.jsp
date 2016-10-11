@@ -147,14 +147,14 @@
 
 <!-- 表格开始-->
    <div class="container">
-   <div class="col-md-8">
+   <div class="col-md-12 pl20">
     <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
 	<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 	<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
 	</div>
     </div>
    
-   <div class="container margin-top-5">
+   <div class="container">
      <div class="content padding-left-25 padding-right-25 padding-top-5">
    	<table class=" table table-striped table-bordered table-hover">
     
