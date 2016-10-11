@@ -152,6 +152,7 @@
     /**点击事件*/
     function zTreeOnClick(event,treeId,treeNode){
 		treeid=treeNode.id
+		treename=treeNode.name
     }
     /**添加采购目录*/
     function news(){
@@ -162,6 +163,7 @@
 				$.ajax({
 					success:function(){
 						var html = "";
+						html = html+"<tr><td>排序</td>"+"<td><input value='"+treename+"'/></td></tr>";
 						html = html+"<tr><td>目录名称</td>"+"<td><input name='name'/></td></tr>" ;
 				        html = html+"<input type='hidden' value='"+treeid+"' name='parentId'/>";
 						html = html+"<tr><td>排序</td>"+"<td><input name='position'/></td></tr>";
