@@ -151,7 +151,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">供应商变更</a></li><li class="active"><a href="#"></a></li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">供应商管理</a></li><li class="active"><a href="#">供应商变更</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -167,7 +167,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <ul class="nav nav-tabs bgdd">
 				    <li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" id="essential" onclick="location='<%=basePath%>supplierAudit/essential.html'">基本信息</a></li>
           </ul>
-            <div class="tab-content padding-top-20" style="height:1500px;">
+            <div class="tab-content padding-top-20" style="height:1380px;">
               <div class="tab-pane fade active in height-450" id="tab-1">
                 <div class=" margin-bottom-0">
 					        <h2 class="f16 jbxx1">
@@ -177,37 +177,37 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					          <li class="col-md-6 p0 "><span class="" id="supplierName2"><i class="red">＊</i>供应商名称：</span>
 					            <div class="input-append">
 					              <input type="hidden" name="id" value="${supplier.id }" >
-					              <input class="span3" id="supplierName3" name="supplierName" value="${supplier.supplierName } " type="text">
+					              <input class="span3" id="supplierName3" name="supplierName" value="${supplier.supplierName }" type="text">
 					            </div>
 					          </li>
 					          <li class="col-md-6 p0 "><span class="" id="website2"><i class="red">＊</i>公司网址：</span>
 					            <div class="input-append">
-					              <input class="span3" id="website3" name="website" value="${supplier.website } "  type="text">
+					              <input class="span3" id="website3" name="website" value="${supplier.website }"  type="text">
 					            </div>
 					          </li>
 					          <li class="col-md-6 p0 "><span class="" id="foundDate2"><i class="red">＊</i>成立日期：</span>
 					            <div class="input-append">
-					              <input class="span3" id="foundDate3" name="foundDate" value='<fmt:formatDate value="${supplier.foundDate }" pattern="yyyy-MM-dd HH:mm:ss" />' type="text">
+					              <input class="span3" id="foundDate3" name="foundDate" value='<fmt:formatDate value="${supplier.foundDate }" pattern="yyyy-MM-dd" />' type="text">
 					            </div>
 					          </li>
 					          <li class="col-md-6 p0 "><span class="" id="businessType2"><i class="red">＊</i>营业执照登记类型：</span>
 					            <div class="input-append">
-					              <input class="span3" id="businessType3" name="businessType" value="${supplier.businessType } " type="text">
+					              <input class="span3" id="businessType3" name="businessType" value="${supplier.businessType }" type="text">
 					            </div>
 					          </li>
 					          <li class="col-md-6 p0"><span class="" id="address2"><i class="red">＊</i>地址：</span>
 					            <div class="input-append">
-					              <input class="span3" id="address3" name="address" value="${supplier.address } " type="text">
+					              <input class="span3" id="address3" name="address" value="${supplier.address }" type="text">
 					            </div>
 					          </li>
 					          <li class="col-md-6 p0 "><span class="" id="bankName2"><i class="red">＊</i>开户行名称：</span>
 					            <div class="input-append">
-					              <input class="span3" id="bankName3" name="bankName" value="${supplier.bankName } "  type="text">
+					              <input class="span3" id="bankName3" name="bankName" value="${supplier.bankName }"  type="text">
 					            </div>
 					          </li>
 					          <li class="col-md-6 p0 "><span class="" id="bankAccount2"><i class="red">＊</i>开户行账户：</span>
 					            <div class="input-append">
-					              <input class="span3" id="bankAccount3" name="bankAccount" value="${supplier.bankAccount } " type="text">
+					              <input class="span3" id="bankAccount3" name="bankAccount" value="${supplier.bankAccount }" type="text">
 					            </div>
 					          </li>
 					          <li class="col-md-6 p0 "><span class="" id="postCode2"><i class="red">＊</i>邮编：</span>
@@ -217,7 +217,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					          </li>
 					          <li class="col-md-6 p0 "><span class=""><i class="red"></i>近三个月完税凭证：</span>
 					            <div class="input-append">
-					              <a onclick="downloadFile('${supplier.taxCertFile}')" >附件下载(已上传的文件)</a>
+					              <a onclick="downloadFile('${supplier.taxCert}')" >附件下载(已上传的文件)</a>
 					            </div>
 					          </li>
 					           <li class="col-md-6 p0 "><span class=""><i class="red"></i>近三个月完税凭证：</span>
@@ -227,7 +227,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					          </li>
 					          <li class="col-md-6 p0 "><span class=""><i class="red"></i>近三年银行基本账户年末对账单：</span>
 					            <div class="input-append">
-					              <a onclick="downloadFile('${supplier.billCertFile}')" >附件下载(已上传的文件)</a>
+					              <a onclick="downloadFile('${supplier.billCert}')" >附件下载(已上传的文件)</a>
 					            </div>
 					          </li>
 					          <li class="col-md-6 p0 "><span class=""><i class="red"></i>近三年银行基本账户年末对账单：</span>
@@ -237,7 +237,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					          </li>
 					          <li class="col-md-6 p0 "><span class=""><i class="red"></i>近三个月缴纳社会保险金凭证：</span>
 					            <div class="input-append">
-					              <a onclick="downloadFile('${supplier.securityCertFile}')" >附件下载(已上传的文件)</a>
+					              <a onclick="downloadFile('${supplier.securityCert}')" >附件下载(已上传的文件)</a>
 					            </div>
 					          </li>
 					          <li class="col-md-6 p0 "><span class=""><i class="red"></i>近三个月缴纳社会保险金凭证：</span>
@@ -247,7 +247,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					          </li>
 					          <li class="col-md-6 p0 "><span class=""><i class="red"></i>近三年内无重大违法记录声明：</span>
 					            <div class="input-append">
-					              <a onclick="downloadFile('${supplier.breachCertFile}')" >附件下载(已上传的文件)</a>
+					              <a onclick="downloadFile('${supplier.breachCert}')" >附件下载(已上传的文件)</a>
 					            </div>
 					          </li>
 							  <li class="col-md-6 p0 "><span class=""><i class="red"></i>近三年内无重大违法记录声明：</span>
@@ -294,32 +294,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					        <ul class="list-unstyled list-flow">
 					          <li class="col-md-6 p0 "><span class="" id="contactName2"><i class="red">＊</i>姓名：</span>
 					            <div class="input-append">
-					              <input class="span3" id="contactName3" name="contactName" value="${supplier.contactName } " type="text">
+					              <input class="span3" id="contactName3" name="contactName" value="${supplier.contactName }" type="text">
 					            </div>
 					          </li>
 					          <li class="col-md-6 p0 "><span class="" id="contactFax2"><i class="red">＊</i>传真：</span>
 					            <div class="input-append">
-					              <input class="span3" id="contactFax3" name="contactFax" value="${supplier.contactFax } "  type="text">
+					              <input class="span3" id="contactFax3" name="contactFax" value="${supplier.contactFax }"  type="text">
 					            </div>
 					          </li>
 					          <li class="col-md-6 p0 "><span class="" id="contactTelephone1"><i class="red">＊</i>固定电话：</span>
 					            <div class="input-append">
-					              <input class="span3" id="contactTelephone3" name="contactTelephone" value="${supplier.contactTelephone } " type="text">
+					              <input class="span3" id="contactTelephone3" name="contactTelephone" value="${supplier.contactTelephone }" type="text">
 					            </div>
 					          </li>
 					          <li class="col-md-6 p0 "><span class="" id="contactMobile2"><i class="red">＊</i>手机：</span>
 					            <div class="input-append">
-					              <input class="span3" id="contactMobile3" name="contactMobile" value="${supplier.contactMobile } " type="text">
+					              <input class="span3" id="contactMobile3" name="contactMobile" value="${supplier.contactMobile }" type="text">
 					            </div>
 					          </li>
 					          <li class="col-md-6 p0 "><span class="" id="contactEmail2"><i class="red">＊</i>邮箱：</span>
 					            <div class="input-append">
-					              <input class="span3" id="contactEmail3" name="contactEmail" value="${supplier.contactEmail } " type="text">
+					              <input class="span3" id="contactEmail3" name="contactEmail" value="${supplier.contactEmail }" type="text">
 					            </div>
 					          </li>
 					          <li class="col-md-6 p0 "><span class="" id="contactAddress2"><i class="red">＊</i>地址：</span>
 					            <div class="input-append">
-					              <input class="span3" id="contactAddress3" name="contactAddress" value="${supplier.contactAddress } " type="text">
+					              <input class="span3" id="contactAddress3" name="contactAddress" value="${supplier.contactAddress }" type="text">
 					            </div>
 					          </li>
 					        </ul>

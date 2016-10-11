@@ -147,7 +147,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<div class="col-md-9 mt5">
 											<input type="hidden" name="id" value="${ae.id }" />
 												<input type="hidden" name="auditStatus" id="status"/>
-												<input class="span3 mr30 nb" id="orgName" name="orgName" readonly="readonly" value="${ae.orgName }" type="text" readonly="readonly">
+												<input class="span3 mr30 nb" id="orgName" name="orgName" readonly="readonly" value="${orgName }" type="text" readonly="readonly">
 											</div>
 										</li>
 										<li class="col-md-12 p0"><span  class=""><i class="red">＊</i> 供应商名称：</span>

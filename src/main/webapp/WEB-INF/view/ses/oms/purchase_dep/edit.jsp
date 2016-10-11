@@ -26,6 +26,7 @@
 <script src="<%=basePath%>public/layer/layer.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
 <script type="text/javascript">
+	var num =1;
 	 Array.prototype.indexOf = function(val) {
 		for (var i = 0; i < this.length; i++) {
 			if (this[i] == val) return i;
@@ -186,6 +187,28 @@
 	        area : [width+"px" , height+"px"],
 	        content: url
 	    });
+	}
+	function addOffice(){
+		$("#tab-position").append("<tr id="+num+" align='center'>"
+            					+"<td>1</td>"     
+                                +"<td><select> <option value='-1'>请选择<option><option value='0'>办公室<option><option value='1'>会议室<option><option value='2'>招标室<option><option value='3'>评标室<option></select></td>"
+                                //+"<td><input type='text' name='desc"+_len+"' id='name"+_len+"' value='"+_len+"' /></td>"
+                                +"<td><input/></td>"
+                                 +"<td><input/></td>"
+                                  +"<td><input/></td>"
+                                   +"<td><input/></td>"
+                                    +"<td><select> <option value='-1'>请选择<option><option value='0'>是<option><option value='1'>否<option></select></td>"
+                                    +"<td><select> <option value='-1'>请选择<option><option value='0'>是<option><option value='1'>否<option></select></td>"
+                                +"<td><a href=\'#\' onclick=\'deltr("+"\""+num+"\""+")\'>删除</a></td>"
+                            +"</tr>"); 
+	}
+	function addOrg(){
+		$("#tab-position").append("<tr id="+num2+" align='center'>"
+            					+"<td>1</td>"     
+                                +"<td><input/></td>"
+                                 +"<td><input/></td>"
+                                +"<td><a href=\'#\' onclick=\'deltr("+"\""+num2+"\""+")\'>删除</a></td>"
+                            +"</tr>"); 
 	}
 </script>
 </head>
@@ -392,12 +415,26 @@
 							</h4>
 						</div>
 						<div id="collapseThree" class="panel-collapse collapse">
-							<div class="panel-body">
 								<div class="mt40 mb50">
 									<button type="button"
 										class="btn  padding-right-20 btn_back margin-5"
-										id="dynamicAdd" onclick="dynamicaddOne();">添加</button>
+										id="dynamicAdd" onclick="addOrg();">添加场所</button>
 								</div>
+								<div
+									class="content padding-left-25 padding-right-25 padding-top-5">
+									<table class="table table-bordered table-condensed" id="tab-orgnization">
+										<thead>
+											<tr>
+												<th class="info">序号</th>
+												<th class="info">部门名称</th>
+												<th class="hide">主要职责</th>
+												<th class="info">操作</th>
+											</tr>
+										</thead>
+										<tbody>
+											
+										</tbody>
+									</table
 							</div>
 						</div>
 					</div>
@@ -596,9 +633,32 @@
 										</div>
 									</li>
 								</ul>
-								<div class="uploader orange m0 fr">
-									<input type="button" class="button" value="添加" /> 
+								<div class="mt40 mb50">
+									<button type="button"
+										class="btn  padding-right-20 btn_back margin-5"
+										id="dynamicAdd" onclick="addOffice();">添加场所</button>
 								</div>
+								<div
+									class="content padding-left-25 padding-right-25 padding-top-5">
+									<table class="table table-bordered table-condensed" id="tab-position">
+										<thead>
+											<tr>
+												<th class="info">序号</th>
+												<th class="info">类型</th>
+												<th class="hide">编号</th>
+												<th class="info">位置</th>
+												<th class="info">面积</th>
+												<th class="info">位置</th>
+												<th class="info">容纳人员数量</th>
+												<th class="info">是否介入网络</th>
+												<th class="info">是否具备监控系统</th>
+												<th class="info">操作</th>
+											</tr>
+										</thead>
+										<tbody>
+											
+										</tbody>
+									</table
 							</div>
 						</div>
 					</div>
@@ -647,7 +707,7 @@
 			<div class="col-md-12">
 				<div class="mt40 tc  mb50 ">
 					<button type="button" class="btn  padding-right-20 btn_back margin-5" onclick="update();">确认</button>
-					<button type="button" class="btn  padding-right-20 btn_back margin-5" onclick="stash();">暂存</button>
+					<!-- <button type="button" class="btn  padding-right-20 btn_back margin-5" onclick="stash();">暂存</button> -->
 					<button type="button" class="btn  padding-right-20 btn_back margin-5" onclick="history.go(-1)">取消</button>
 				</div>
 			</div>
