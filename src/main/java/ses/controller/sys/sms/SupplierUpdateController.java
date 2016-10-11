@@ -112,7 +112,6 @@ public class SupplierUpdateController {
 	@RequestMapping("save")
 	public String save(ApplyEdit ae,Model model,HttpServletRequest req){
 		User user=(User) req.getSession().getAttribute("loginUser");
-		Supplier supplier=supplierService.get(user.getTypeId());
 		ae.setSupplierId(user.getTypeId());
 		ae.setCreatedAt(new Timestamp(new Date().getTime()));
 		ae.setAuditStatus((short)0);
@@ -121,7 +120,7 @@ public class SupplierUpdateController {
 		//自己的id
 		todo.setSenderId(user.getId());
 		//代办人id
-		todo.setReceiverId(supplier.getProcurementDepId());
+		todo.setReceiverId(user.getOrg().getId());
 		//待办类型 供应商
 		todo.setUndoType((short)1);
 		//标题
@@ -129,7 +128,7 @@ public class SupplierUpdateController {
 		//逻辑删除 0未删除 1已删除
 		todo.setIsDeleted((short)0);
 		todo.setCreatedAt(new Date());
-		todo.setUrl("supplierUpdate/auditShow.html?id="+user.getTypeId());
+		todo.setUrl("supplierUpdate/auditShow.html?id="+ae.getId());
 		todosService.insert(todo);
 		return "redirect:list.html";
 	}
@@ -149,6 +148,8 @@ public class SupplierUpdateController {
 	public String show(String id,Model model,HttpServletRequest req){
 		ApplyEdit ae=supplierUpdateService.selectByPrimaryKey(id);
 		model.addAttribute("ae", ae);
+		User user=(User) req.getSession().getAttribute("loginUser");
+		model.addAttribute("orgName", user.getOrg().getName());
 		return "ses/sms/supplier_apply_edit/view";
 	}
 	
@@ -165,6 +166,8 @@ public class SupplierUpdateController {
 	 */
 	@RequestMapping("auditShow")
 	public String auditShow(String id,Model model,HttpServletRequest req){
+		User user=(User) req.getSession().getAttribute("loginUser");
+		model.addAttribute("orgName", user.getOrg().getName());
 		ApplyEdit ae=supplierUpdateService.selectByPrimaryKey(id);
 		model.addAttribute("ae", ae);
 		return "ses/sms/supplier_apply_edit/audit";
@@ -183,13 +186,16 @@ public class SupplierUpdateController {
 	 */
 	@RequestMapping("audit")
 	public String audit(ApplyEdit ae,Model model,HttpServletRequest req){
+		User user=(User) req.getSession().getAttribute("loginUser");
+		model.addAttribute("orgName", user.getOrg().getName());
 		//通过的话就跳转到变更 页面
 		if(ae.getAuditStatus()==2){
-			req.getSession().setAttribute("aeId", ae.getId());
+			req.getSession().setAttribute("aeId",ae.getId() );
 			return "redirect:edit.html";
 		}else{
 			supplierUpdateService.updateByPrimaryKey(ae);
-			return "redirect:list.html";
+			todosService.updateIsFinish("supplierUpdate/auditShow.html?id="+ae.getId());
+			return "redirect:/login/home.html";
 		}
 		
 	}
@@ -205,8 +211,9 @@ public class SupplierUpdateController {
 	 * @return String
 	 */
 	@RequestMapping("edit")
-	public String edit(String id,Model model){
-		Supplier supplier=supplierService.get(id);
+	public String edit(Model model,HttpServletRequest req){
+		User user=(User) req.getSession().getAttribute("loginUser");
+		Supplier supplier=supplierService.get(user.getTypeId());
 		model.addAttribute("supplier", supplier);
 		return "ses/sms/supplier_apply_edit/edit_supplier";
 	}
@@ -222,16 +229,16 @@ public class SupplierUpdateController {
 	 * @return String
 	 * @throws IOException 
 	 */
-	@RequestMapping("saveSupplier")
+	@RequestMapping("/saveSupplier")
 	public String saveSupplier(Supplier supplier,Model model,HttpServletRequest request) throws IOException{
 		this.setSupplierUpload(request, supplier);
 		String id=(String) request.getSession().getAttribute("aeId");
 		ApplyEdit ae=supplierUpdateService.selectByPrimaryKey(id);
 		ae.setAuditStatus((short)2);
 		supplierUpdateService.updateByPrimaryKey(ae);
-		todosService.updateIsFinish(ae.getId());
+		todosService.updateIsFinish("supplierUpdate/auditShow.html?id="+ae.getId());
 		supplierService.perfectBasic(supplier);
-		return "redirect:../login/index.html";
+		return "redirect:/login/home.html";
 	}
 	
 	public void setSupplierUpload(HttpServletRequest request, Supplier supplier) throws IOException {
