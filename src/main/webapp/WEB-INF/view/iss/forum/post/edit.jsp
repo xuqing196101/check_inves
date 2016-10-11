@@ -38,7 +38,7 @@
 			    type:"POST",   //请求方式		    
 		        success : function(topics) {     
 		            if (topics) {          	
-		            	$("#topicId").html("<option></option>");              
+		            	$("#topics").html("");              
 		              $.each(topics, function(i, topic) {  
 		            	  $("#topics").append("<option  value="+topic.id+">"+topic.name+"</option>");	            	  
 		              });  	                          
