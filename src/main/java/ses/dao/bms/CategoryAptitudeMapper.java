@@ -2,6 +2,7 @@ package ses.dao.bms;
 
 import java.util.List;
 
+import ses.model.bms.Category;
 import ses.model.bms.CategoryAptitude;
 
 
@@ -43,7 +44,7 @@ public interface CategoryAptitudeMapper {
     * @param @return      
     * @return int
      */
-    CategoryAptitude selectByPrimaryKey(String id);
+   /* CategoryAptitude selectByPrimaryKey(String id);*/
     /**
      * 
     * @Title: queryListByCategoryId
@@ -52,9 +53,9 @@ public interface CategoryAptitudeMapper {
     * @Description: 根据id查
     * @param @param record
     * @param @return      
-    * @return int
+    * @return CategoryAptitude
      */
-    List<CategoryAptitude> queryListByCategoryId(String id);
+    CategoryAptitude queryByCategoryId(String id);
     /**
      * 
     * @Title: updateByPrimaryKeySelective
@@ -65,5 +66,27 @@ public interface CategoryAptitudeMapper {
     * @param @return      
     * @return int
      */
-    int updateByPrimaryKeySelective(String id);
+    void updateByPrimaryKeySelective(CategoryAptitude categoryAptitude);
+    /**
+     * 
+    * @Title: findProductByCategoryId
+    * @author Zhang XueFeng
+    * @date 2016-8-25 下午3:37:21  
+    * @Description: -根据品目id查询生产资质
+    * @param @param record
+    * @param @return      
+    * @return CategoryAptitude
+     */
+    List<CategoryAptitude> findProductByCategoryId(String id);
+    /**
+     * 
+    * @Title: findSaleByCategoryId
+    * @author Zhang XueFeng
+    * @date 2016-8-25 下午3:37:21  
+    * @Description: 根据品目id查询销售资质
+    * @param @param record
+    * @param @return      
+    * @return list
+     */
+    List<CategoryAptitude> findSaleByCategoryId(String id);
 }

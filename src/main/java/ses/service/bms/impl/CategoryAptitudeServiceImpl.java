@@ -26,22 +26,30 @@ public class CategoryAptitudeServiceImpl implements CategoryAptitudeService{
 		 categoryAptitudeMapper.insertSelective(aptitude);
 	}
 
+	
+
 	@Override
-	public CategoryAptitude selectByPrimaryKey(String id) {
+	public void updateByPrimaryKeySelective(CategoryAptitude categoryAptitude) {
 		// TODO Auto-generated method stub
-		return categoryAptitudeMapper.selectByPrimaryKey(id);
+		categoryAptitudeMapper.updateByPrimaryKeySelective(categoryAptitude);
 	}
 
 	@Override
-	public int updateByPrimaryKeySelective(String id) {
+	public CategoryAptitude queryByCategoryId(String id) {
 		// TODO Auto-generated method stub
-		return categoryAptitudeMapper.updateByPrimaryKeySelective(id);
+		return categoryAptitudeMapper.queryByCategoryId(id);
 	}
 
 	@Override
-	public List<CategoryAptitude> queryListByCategoryId(String id) {
+	public List<CategoryAptitude> findProductByCategoryId(String id) {
 		// TODO Auto-generated method stub
-		return categoryAptitudeMapper.queryListByCategoryId(id);
+		return categoryAptitudeMapper.findProductByCategoryId(id);
+	}
+
+	@Override
+	public List<CategoryAptitude> findSaleByCategoryId(String id) {
+		// TODO Auto-generated method stub
+		return categoryAptitudeMapper.findSaleByCategoryId(id);
 	}
 
 }

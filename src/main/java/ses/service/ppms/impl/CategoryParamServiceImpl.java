@@ -33,9 +33,9 @@ public class CategoryParamServiceImpl implements CategoryParamService{
 	}
 
 
-	public int updateByPrimaryKeySelective(String id) {
+	public void updateByPrimaryKeySelective(CategoryParam categoryParam) {
 		// TODO Auto-generated method stub
-		return categoryParamMapper.updateByPrimaryKeySelective(id);
+		 categoryParamMapper.updateByPrimaryKeySelective(categoryParam);
 	}
 
 

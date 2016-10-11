@@ -19,7 +19,7 @@ public class CategoryParam {
 	/**
 	 * 参数类型
 	 * */
-	private Integer valueType;
+	private String valueType;
 	
 	/**
 	 * 创建时间
@@ -41,10 +41,11 @@ public class CategoryParam {
 	
 	
 
-	public Integer getValueType() {
+	
+	public String getValueType() {
 		return valueType;
 	}
-	public void setValueType(Integer valueType) {
+	public void setValueType(String valueType) {
 		this.valueType = valueType;
 	}
 	public Category getCategory() {

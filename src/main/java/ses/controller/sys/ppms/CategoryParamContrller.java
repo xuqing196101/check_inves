@@ -14,12 +14,13 @@ import javax.print.DocFlavor.STRING;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.http.HttpRequest;
+
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.zookeeper.server.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.google.gson.Gson;
@@ -113,10 +114,12 @@ public class CategoryParamContrller extends BaseSupplierController{
 	    }else if (category.getIsPublish().equals("1")) {
 		category.setIsPublish(1);
 	    }
-		String[] kinds=request.getParameterValues("type");
+		String kinds=request.getParameter("kinds");
+		/*String kind = "";
 		for (int i = 0; i < kinds.length; i++) {
-			category.setKind(kinds[i]);
-		}
+			kind+= kinds[i]+",";
+		}*/
+		category.setKind(kinds);
 		category.setAcceptRange(request.getParameter("acceptRange"));
 	    category.setParamStatus(0);
 	    categoryService.updateByPrimaryKeySelective(category);
@@ -125,34 +128,26 @@ public class CategoryParamContrller extends BaseSupplierController{
 		for (int i = 0; i < names.length; i++) {
 			categoryParam.setName(names[i]);
 			for (int j = 0; j < values.length; j++) {
-				if (values[j].equals(0)) {
-					categoryParam.setValueType(0);
-				}else if (values[j].equals(1)) {
-					categoryParam.setValueType(1);
-				}else if (values[j].equals(2)) {
-					categoryParam.setValueType(2);
-				}
+				categoryParam.setValueType(values[j]);
 			}
 			categoryParam.setCreatedAt(new Date());
 			categoryParamService.insertSelective(categoryParam);
 		}
-     
-		String[] productNames= request.getParameterValues("productName");
+		String productNames= request.getParameter("products");
+	/*	String productName="";
 		for (int i = 0; i < productNames.length; i++) {
-			categoryAptitude.setProductName(productNames[i]);
-			categoryAptitudeService.insertSelective(categoryAptitude);
-		}
-		String[] saleNames = request.getParameterValues("saleName");
+			productName+=productNames[i]+",";
+		}*/
+		categoryAptitude.setProductName(productNames);
+		String saleNames = request.getParameter("sales");
+		/*String saleName="";
 	   	for (int i = 0; i < saleNames.length; i++) {
-			categoryAptitude.setSaleName(saleNames[i]);
-			categoryAptitude.setCreatedAt(new Date());
-			categoryAptitudeService.insertSelective(categoryAptitude);
-		}
-		 
-		
-		
+	   		saleName+=saleNames[i]+"";
+		}*/
+	   	categoryAptitude.setCreatedAt(new Date());
+	   	categoryAptitude.setSaleName(saleNames);
+	   	categoryAptitudeService.insertSelective(categoryAptitude);
 		return "ses/ppms/categoryparam/add";
-		
 	}
 	 /**
  	 * 
@@ -190,22 +185,68 @@ public class CategoryParamContrller extends BaseSupplierController{
    	 * @return void
      */ 
     @RequestMapping("/findOne")
-    public void findOne(HttpServletRequest request,HttpServletResponse response,String id){
-   List<CategoryParam> cateList=categoryParamService.findListByCategoryId(id);
-  
-      
+    public String findOne(HttpServletResponse response,String id,Model model){
+   List<CategoryParam> caList=categoryParamService.findListByCategoryId(id);
+   Category category=categoryService.selectByPrimaryKey(id);
+  CategoryAptitude caAptitude=categoryAptitudeService.queryByCategoryId(id);
+    model.addAttribute("caList",caList);
+    model.addAttribute("category",category);
+    model.addAttribute("caAptitude",caAptitude);
+    return "ses/ppms/categoryparam/edit";
      }
     /**
    	 * 
-   	 * @Title: findOne
+   	 * @Title: edit
    	 * @author Zhang XueFeng/	
      * @Description：更新参数信息
    	 * @param @return 	
    	 * @return void
      */ 
-    public void edit(CategoryParam cateparam,HttpServletRequest request){
-    	
-    	
+    @RequestMapping("/edit")
+    public String edit(CategoryParam cateparam, CategoryAptitude cateAptitude,  HttpServletRequest request){
+    	Category category = categoryService.selectByPrimaryKey(request.getParameter("categoryId"));
+    	category.setUpdatedAt(new Date());
+    	cateparam.setCategory(category);
+    	cateAptitude.setCategory(category);
+    	category.setIsPublish(Integer.parseInt(request.getParameter("ispublish")));
+		if (category.getIsPublish().equals("0")) {
+		category.setIsPublish(0);
+	    }else if (category.getIsPublish().equals("1")) {
+		category.setIsPublish(1);
+	    }
+		String kinds=request.getParameter("kinds");
+		/*String kind = "";
+		for (int i = 0; i < kinds.length; i++) {
+			kind+= kinds[i]+",";
+		}*/
+		category.setKind(kinds);
+		category.setAcceptRange(request.getParameter("acceptRange"));
+	    categoryService.updateByPrimaryKeySelective(category);
+	    String[] names= request.getParameterValues("name");
+		String[] values=request.getParameterValues("valueType");
+		for (int i = 0; i < names.length; i++) {
+			cateparam.setName(names[i]);
+			for (int j = 0; j < values.length; j++) {
+				cateparam.setValueType(values[j]);
+			}
+			cateparam.setUpdatedAt(new Date());
+			categoryParamService.updateByPrimaryKeySelective(cateparam);
+		}
+		String productNames= request.getParameter("products");
+		/*String productName="";
+		for (int i = 0; i < productNames.length; i++) {
+			productName+=productNames[i]+",";
+		}*/
+		cateAptitude.setProductName(productNames);
+		String saleNames = request.getParameter("sales");
+	/*	String saleName="";
+	   	for (int i = 0; i < saleNames.length; i++) {
+	   		saleName+=saleNames[i]+"";
+		}*/
+		cateAptitude.setUpdatedAt(new Date());
+		cateAptitude.setSaleName(saleNames);
+	   	categoryAptitudeService.updateByPrimaryKeySelective(cateAptitude);
+		return "redirect:getAll.html";
     }
      /**
   	* 

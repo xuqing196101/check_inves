@@ -89,11 +89,11 @@
 			}else{
 				var html = "";
 					html = html+"<tr><td><laber>参数名称：</label><input name='name'/></td>"
-					+"<td><span>参数类型：</span><select name='valueType'calss='w200'>"
+					+"<td><span>参数类型：</span><select name='valueType' calss='w200'>"
 					+"<option>请选择</option>"
-					+"<option name='valueType' value='0'>字符型</option>"
-					+"<option name='valueType' value='1'>数字型</option>"
-				    +"<option name='valueType' value='2'>日期</option>"
+					+"<option value='字符型'>字符型</option>"
+					+"<option value='数字型'>数字型</option>"
+				    +"<option  value='日期'>日期</option>"
 				    +"</select</td></tr>";
 					$("#result").prepend(html);
 			}
@@ -140,11 +140,11 @@
     window.location.href="<%=basePath%>categoryparam/exports.do";
     }
     function addAttach(){
-		html="<input type='text'  name='productName'/><a class='ml10 btn ' onclick='deleteattach(this)'>X</a><br/>";
+		html="<input class='mt10' type='text'  name='productName'/><a class='ml10 btn ' onclick='deleteattach(this)'>X</a><br/>";
 		$("#addinput").append(html);
 	}
 	 function addAtt(){
-		html="<input type='text'  name='saleName'/><a class='ml10 btn' onclick='deleteattach(this)'>X</a><br/>";
+		html="<input class='mt10' type='text'  name='saleName'/><a class='ml10  btn' onclick='deleteattach(this)'>X</a><br/>";
 		$("#addnews").append(html);
 	}
 	function deleteattach(obj){
@@ -162,10 +162,17 @@
     	var type="";
     	/**根据name获取各项数据的值*/
         obj = document.getElementsByName("name");
+        alert(obj);
+        console.info(obj);
         abj = document.getElementsByName("valueType");
+        alert(abj);
 		cbj=document.getElementsByName("productName");
+		alert(cbj);
 		dbj=document.getElementsByName("saleName");
+		alert(dbj);
 		ebj=document.getElementsByName("type");
+		
+		alert(ebj);
         for ( var i = 0; i < obj.length; i++) {
 			name+=$(obj[i]).val()+",";
 		}
@@ -193,82 +200,12 @@
      </head>
  <body>
  <div class="wrapper">
-  <div class="header-v4 header-v5">
-    <!-- Navbar -->
-    <div class="navbar navbar-default mega-menu" role="navigation">
-      <div class="container">
-        <!-- logo和搜索 -->
-        <div class="navbar-header">
-          <div class="row container">
-            <div class="col-md-4 padding-bottom-30">
-              <a href="">
-                 <img alt="Logo" src="<%=basePath%>public/ZHH/images/logo_2.png" id="logo-header">
-              </a>
-            </div>
-			<!--搜索开始-->
-            <div class="col-md-8 topbar-v1 col-md-12 padding-0">
-              <ul class="top-v1-data padding-0">
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_01.png"/></div>
-				  <span>决策支持</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_02.png"/></div>
-				  <span>业务监管</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_03.png"/></div>
-				  <span>障碍作业</span>
-				 </a>
-				</li>	
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_04.png"/></div>
-				  <span>信息服务</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_05.png"/></div>
-				  <span>支撑环境</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_06.png"/></div>
-				  <span>配置配置</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_07.png"/></div>
-				  <span>后台首页</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="<%=basePath%>public/ZHH/images/top_08.png"/></div>
-				  <span>安全退出</span>
-				 </a>
-				</li>
-				
-			  </ul>
-			</div>
-          </div>
-	     </div>
-	    </div>
-       </div>
-    </div>
+  
 	<!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a><><li><a href="#">产品参数管理</a><><li>
+		   <li><a href="#"> 首页</a><li><a href="#">产品参数管理</a><li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -285,14 +222,14 @@
 			<span><a href="javascript:void(0);" onclick="update()" class="btn btn-window ">修改参数 </a></span>
 			<span><a href="javascript:void(0);" onclick="imports()" class="btn btn-window ">导入Excel</a></span>
 			<span><a href="javascript:void(0);" onclick="exports()" class="btn btn-window ">导出Excel</a></span>
-			<div class=" tag-box tag-box-v4 mt10 col-md-9">
+			
                  <form id="form" action="<%=basePath%>categoryparam/save.do" method="post">
                      <input id="cateid" type="hidden" name="categoryId" value=""/>
-                     <input type="hidden" id="sss" value="" />
-                     <input type="hidden" id="bbb" value=""/>
-                     <input type="hidden" id="ddd" value=""/>
-                     <input type="hidden" id="ccc" value=""/>
-                     <input type="hidden" id="eee" value=""/>
+                     <input type="hidden" id="sss" name="names" value="" />
+                     <input type="hidden" id="bbb" name="values" value=" "/>
+                     <input type="hidden" id="ddd" name="products" value=""/>
+                     <input type="hidden" id="ccc" name="sales" value=""/>
+                     <input type="hidden" id="eee" name="kinds" value=""/>
                 <table id="result"  class="table table-bordered table-condensedb mt15" >
 				     <tr><td >是否公开</td>
 					 <td>
@@ -306,24 +243,25 @@
 					 </td></tr> -->
 					 <tr><td >产品类型</td>
 					 <td>
-					 <span class="ml30"><input type="checkbox" value="生产型" name="type" id="box"/>生产型</span>
-					 <span class="ml30"><input type="checkbox" value="销售型" name="type" id="box"/>销售型</span>
+					 <span class="ml30"><input type="checkbox" value="E73923CC68A44E2981D5EA6077580372" name="type" id="box"/>生产型</span>
+					 <span class="ml30"><input type="checkbox" value="18A966C6FF17462AA0C015549F9EAD79" name="type" id="box"/>销售型</span>
 					 </td></tr>
 					 <tr><td>验证规范</td><td><textarea name="acceptRange"></textarea></td></tr>
 					 <tr><td>生产型资质</td>
-					 <td ><span id="addinput"></span><input type="text" value="" name="productName"/></span>
-					 <input  type="button" value="添加" onclick="addAttach()" class="mb10"/><br/>
+					 <td><div id="addinput"><input  type="text" value="" name="productName"/>
+					 <input  type="button" value="添加" onclick="addAttach()" class="mb10"/><br/></div>
 					 </td></tr>
 					 <tr><td>销售型资质</td>
-					 <td><span id="addnews"></span><input type="text" name="saleName"/></span>
-					 <input  type="button" value="添加" onclick="addAtt()" class="mb10"/><br/>
+					 <td><div id="addnews"><input  type="text" name="saleName" value=""/>
+					 <input  type="button" value="添加" onclick="addAtt()" class="mb10"/><br/></div>
 					 </td></tr>
 				     <tr><td colspan="2"  >
 					<input  type="button" class="btn mr30" onclick="fun()" value="提交"/>
+					<input type="button"class="btn" value="返回" onclick="location.href='javascript:history.go(-1);'"/>
 					 </td></tr> 
                 </table>
             </form>
-        </div>
+       
         </div>
     </div>
 	

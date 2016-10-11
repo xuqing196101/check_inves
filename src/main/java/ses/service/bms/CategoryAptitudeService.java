@@ -40,22 +40,13 @@ public interface CategoryAptitudeService {
     * @author Zhang XueFeng
     * @date 2016-8-25 下午3:36:18  
     * @Description: 根据id查
-    * @param @param record
+    * @param @param id
     * @param @return      
-    * @return int
+    * @return CategoryAptitude
      */
-    List<CategoryAptitude> queryListByCategoryId(String id);
-    /**
-     * 
-    * @Title: selectByPrimaryKey
-    * @author Zhang XueFeng
-    * @date 2016-8-25 下午3:36:18  
-    * @Description: 根据id查
-    * @param @param record
-    * @param @return      
-    * @return int
-     */
-    CategoryAptitude selectByPrimaryKey(String id);
+    CategoryAptitude queryByCategoryId(String id);
+   
+    
     /**
      * 
     * @Title: updateByPrimaryKeySelective
@@ -66,6 +57,27 @@ public interface CategoryAptitudeService {
     * @param @return      
     * @return int
      */
-  
-	int updateByPrimaryKeySelective(String id);
+	void updateByPrimaryKeySelective(CategoryAptitude categoryAptitude);
+	/**
+     * 
+    * @Title: findProductByCategoryId
+    * @author Zhang XueFeng
+    * @date 2016-8-25 下午3:37:21  
+    * @Description: -根据品目id查询生产资质
+    * @param @param record
+    * @param @return      
+    * @return list
+     */
+    List<CategoryAptitude> findProductByCategoryId(String id);
+    /**
+     * 
+    * @Title: findSaleByCategoryId
+    * @author Zhang XueFeng
+    * @date 2016-8-25 下午3:37:21  
+    * @Description: 根据品目id查询销售资质
+    * @param @param record
+    * @param @return      
+    * @return list
+     */
+    List<CategoryAptitude> findSaleByCategoryId(String id);
 }

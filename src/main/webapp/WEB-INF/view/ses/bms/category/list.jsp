@@ -410,7 +410,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a><><li><a href="#">采购目录管理</a><><li>
+		   <li><a href="#"> 首页</a><li><a href="#">采购目录管理</a><li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -422,9 +422,11 @@
 	   <input id="key" type="text" class="mt10"  placeholder="请输入..."  value=""/>
  	 <!--   <button onclick="searchM()" class="btn  btn-window mr10"  type="button">sou</button> -->
  	 </div>
+ 	  <div class="tag-box tag-box-v3">
 	 <div><ul id="ztree" class="ztree"></ul></div>
 	</div>
-		<div class="mt10 col-md-9">
+	</div>
+		<div class=" tag-box tag-box-v4 mt50 col-md-9">
 			<span id="add"><a href="javascript:void(0);" onclick="news()" class="btn btn-window ">新增 </a></span> 
 			<span><a href="javascript:void(0);" onclick="update()"  class="btn btn-window ">修改</a></span> 
 			<span><a href="javascript:void(0);" onclick="ros()"  class="btn btn-window ">激活/休眠</a></span>

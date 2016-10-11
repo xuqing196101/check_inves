@@ -55,7 +55,7 @@ public interface CategoryParamMapper {
     * @param @return      
     * @return int
      */
-    int updateByPrimaryKeySelective(String id);
+    void updateByPrimaryKeySelective(CategoryParam categoryParam);
     /**   
 	* @Title: listByParent
 	* @author zhangxuefeng

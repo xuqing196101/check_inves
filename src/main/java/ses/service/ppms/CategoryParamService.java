@@ -54,7 +54,7 @@ public interface CategoryParamService {
     * @param @return      
     * @return int
      */
-    int updateByPrimaryKeySelective(String id);
+    void updateByPrimaryKeySelective(CategoryParam categoryParam);
     /**   
 	* @Title: listByParent
 	* @author zhangxuefeng

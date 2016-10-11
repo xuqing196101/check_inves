@@ -27,26 +27,40 @@
     </select>
     
     <!-- 1.根据Id查询 -->
-    <select id="selectByPrimaryKey" parameterType="Object" resultMap="CategoryAptitudeMap">
+    <!-- <select id="selectByPrimaryKey" parameterType="Object" resultMap="CategoryAptitudeMap">
 			    select 
 			    <include refid="Base_Column_List" />
 			    from T_SES_BMS_CATEGORY_APTITUDE
 			    where ID = #{id}
-		  </select>
+		  </select> -->
     <!-- 根据品目id查询资质信息 -->
-    <select id="queryListByCategoryId" parameterType="Object" resultMap="CategoryAptitudeMap">
+    <select id="queryByCategoryId" parameterType="Object" resultMap="CategoryAptitudeMap">
              select 
               <include refid="Base_Column_List" />
               from T_SES_BMS_CATEGORY_APTITUDE
-              where CATEGORY_ID = #{categoryId}
+              where CATEGORY_ID = #{category.id}
          </select>
+    <!--根据品目id查询生产资质  -->
+    <select id="findProductByCategoryId" parameterType="Object" resultMap="CategoryAptitudeMap">
+        select PRODUCT_NAME
+         <include refid="Base_Column_List" />
+         from T_SES_BMS_CATEGORY_APTITUDE
+         where CATEGORY_ID =#{category.id}
+    </select>
     
+    <!--根据品目id查询销售资质  -->
+    <select id="findSaleByCategoryId" parameterType="Object" resultMap="CategoryAptitudeMap">
+        select SALE_NAME
+         <include refid="Base_Column_List" />
+         from T_SES_BMS_CATEGORY_APTITUDE
+         where CATEGORY_ID =#{category.id}
+    </select>
     <!-- 删除 -->
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
         delete 
         from 
         T_SES_BMS_CATEGORY_APTITUDE
-        where CATEGORY_ID = #{categoryId}
+        where CATEGORY_ID = #{category.id}
     </delete>
     
     <!-- 新增 -->
@@ -117,13 +131,13 @@
       <if test="updatedAt != null">
         UPDATED_AT = #{updatedAt},
       </if>
-      <if test="category != null">
-        category = #{category.id},
-      </if>
+     <!--  <if test="category != null">
+        CATEGORY_ID = #{category.id},
+      </if> -->
       <if test="isDeleted != null">
         IS_DELETED = #{isDeleted},
       </if>
     </set>
-    where ID = #{id}
+    where CATEGORY_ID = #{category.id}
   </update>
 </mapper>
