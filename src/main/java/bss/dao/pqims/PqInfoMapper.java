@@ -1,5 +1,6 @@
 package bss.dao.pqims;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import bss.model.pqims.PqInfo;
@@ -112,4 +113,37 @@ public interface PqInfoMapper {
      * @return:
      */
     List<PqInfo> selectByCondition (PqInfo pqInfo);
+    
+    /**
+     * 
+     * @Title: queryByCountSuccess
+     * @author Liyi 
+     * @date 2016-10-10 下午4:34:01  
+     * @Description:查询供应商质检成功的次数
+     * @param:     
+     * @return:
+     */
+    BigDecimal queryByCountSuccess(String supplierName);
+    
+    /**
+     * 
+     * @Title: queryByCountFail
+     * @author Liyi 
+     * @date 2016-10-10 下午4:34:52  
+     * @Description:查询供应商质检失败的次数
+     * @param:     
+     * @return:
+     */
+    BigDecimal queryByCountFail(String supplierName);
+    
+    /**
+     * 
+     * @Title: queryDepName
+     * @author Liyi 
+     * @date 2016-10-10 下午4:35:04  
+     * @Description:查询供应商
+     * @param:     
+     * @return:
+     */
+    List<String> queryDepName();
 }

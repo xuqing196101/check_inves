@@ -4,8 +4,11 @@ package bss.controller.pqims;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -26,6 +29,7 @@ import ses.util.PathUtil;
 import com.github.pagehelper.PageInfo;
 
 import bss.model.pqims.PqInfo;
+import bss.model.pqims.Supplier_pqinfo;
 import bss.service.pqims.PqInfoService;
 
 /**
@@ -213,8 +217,13 @@ public class PqInfoController {
 	 */
 	@RequestMapping("/search")
 	public String search(Model model,HttpServletRequest request,PqInfo pqInfo,Integer page){
-		List<PqInfo> pqInfos = pqInfoService.selectByCondition(pqInfo,page==null?1:page);
-		model.addAttribute("list",new PageInfo<PqInfo>(pqInfos));
+		if(pqInfo!=null){
+			List<PqInfo> pqInfos = pqInfoService.selectByCondition(pqInfo,page==null?1:page);
+			model.addAttribute("list",new PageInfo<PqInfo>(pqInfos));
+		}else{
+			List<PqInfo> pqInfos = pqInfoService.getAll(page==null?1:page);
+			model.addAttribute("list",new PageInfo<PqInfo>(pqInfos));
+		}
 		model.addAttribute("pqinfo",pqInfo);
 		return "bss/pqims/pqinfo/list";
 	}
@@ -246,8 +255,13 @@ public class PqInfoController {
 	 */
 	@RequestMapping("/searchReasult")
 	public String searchResult(Model model,HttpServletRequest request,PqInfo pqInfo,Integer page){
-		List<PqInfo> pqInfos = pqInfoService.selectByCondition(pqInfo,page==null?1:page);
-		model.addAttribute("list",new PageInfo<PqInfo>(pqInfos));
+		if(pqInfo!=null){
+			List<PqInfo> pqInfos = pqInfoService.selectByCondition(pqInfo,page==null?1:page);
+			model.addAttribute("list",new PageInfo<PqInfo>(pqInfos));
+		}else{
+			List<PqInfo> pqInfos = pqInfoService.getAll(page==null?1:page);
+			model.addAttribute("list",new PageInfo<PqInfo>(pqInfos));
+		}
 		model.addAttribute("pqinfo",pqInfo);
 		return "bss/pqims/pqinfo/resultList";
 	}
@@ -262,9 +276,43 @@ public class PqInfoController {
 	 * @return:
 	 */
 	@RequestMapping("/getAllSupplierPqInfo")
-	public String getAllSupplierPqInfo(Model model,Integer page){
-		List<PqInfo> pqInfos = pqInfoService.getAll(page==null?1:page);
-		model.addAttribute("list",new PageInfo<PqInfo>(pqInfos));
+	public String getAllSupplierPqInfo(Model model,Integer page,HttpServletRequest request){
+		List<String> supplierNames = pqInfoService.queryDepName(page==null?1:page);
+		List<Supplier_pqinfo> supplier_pqinfos= new ArrayList<Supplier_pqinfo>();
+		for (int i = 0; i < supplierNames.size(); i++) {
+			Supplier_pqinfo sPqinfo =new Supplier_pqinfo();
+			String supplierName = supplierNames.get(i);
+			
+			BigDecimal countSuccess = pqInfoService.queryByCountSuccess(supplierName);
+			if (countSuccess==null) {
+				countSuccess=new BigDecimal(0);
+			}
+			BigDecimal countFail =pqInfoService.queryByCountFail(supplierName);
+			if (countFail==null) {
+				countFail=new BigDecimal(0);
+			}
+			
+			sPqinfo.setSupplierName(supplierName);
+			sPqinfo.setSuccessCount(countSuccess);
+			sPqinfo.setFailCount(countFail);
+			sPqinfo.setAvg(myPercent(countSuccess.doubleValue(),(countSuccess.doubleValue()+countFail.doubleValue())));
+			supplier_pqinfos.add(sPqinfo);
+		}
+		model.addAttribute("list",new PageInfo<Supplier_pqinfo>(supplier_pqinfos));
 		return "bss/pqims/pqinfo/supplier_pqinfo_list";
 	}
+	
+	  public static String myPercent(double y, double z) {  
+	        String baifenbi = "";// 接受百分比的值  
+	      /*  double baiy = y * 1.0;  
+	        double baiz = z * 1.0;  */
+	        double fen = y / z;  
+	        // NumberFormat nf = NumberFormat.getPercentInstance(); 注释掉的也是一种方法  
+	        // nf.setMinimumFractionDigits( 2 ); 保留到小数点后几位  
+	        DecimalFormat df1 = new DecimalFormat("##.00%"); // ##.00%  
+	                                                            // 百分比格式，后面不足2位的用0补齐  
+	        // baifenbi=nf.format(fen);  
+	        baifenbi = df1.format(fen);   
+	        return baifenbi;  
+	    }  
 }

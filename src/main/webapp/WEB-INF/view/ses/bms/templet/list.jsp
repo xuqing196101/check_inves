@@ -118,6 +118,14 @@
     function add(){
     	window.location.href="<%=basePath%>templet/add.do";
     }
+    $(function(){
+		if("${templet.temType}"!=null&&"${templet.temType}"!=""){
+			$("#searchType").val('${templet.temType}');			
+		}else{
+			$("#searchType").val('-请选择-');	
+		}
+		$("#tname").val('${templet.name}');
+	});
   </script>
   <body>
 	<!--面包屑导航开始-->
@@ -142,20 +150,22 @@
    	<form action="<%=basePath %>templet/search.html" method="post" enctype="multipart/form-data" class="mb0" >
 	 <ul class="demand_list">
 	  
-	   <li class="fl mr15"><label class="fl mt5">模板名称：</label><span><input type="text" name="name" class="mb0"/></span></li>
+	   <li class="fl mr15"><label class="fl mt5">模板名称：</label><span><input type="text" name="name" id="tname" class="mb0"/></span></li>
 	   <li class="fl mr15"><label class="fl mt5">模板类型：</label>
 	   		<span>
-	   			<select id="search_type" name =temType class="w150" >
+	   			<select id="searchType" name =temType class="w150" >
 					<option value="-请选择-">-请选择-</option>
 			  	  	<option value="须知文档">须知文档</option>
 			  	 	<option value="采购公告">采购公告</option>
 			  	 	<option value="中标公告">中标公告</option>
 			  	 	<option value="合同公告">合同公告</option>
+			  	 	<option value="招标公告">招标公告</option>
 	  			</select>
 	  		</span>
 	  </li>
 	  
-	   	 <button class="btn fl ml20 mt1" type="submit">查询</button>
+	   	 <button class="btn fl ml5 mt1" type="submit">查询</button>
+	   	 <button type="reset" class="btn ml5 mt1">重置</button> 
 	 </ul>
 
 	 <div class="clear"></div>

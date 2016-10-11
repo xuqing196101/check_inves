@@ -59,6 +59,7 @@
 			  	  	 	<option value="采购公告">采购公告</option>
 			  	  	 	<option value="中标公告">中标公告</option>
 			  	  	 	<option value="合同公告">合同公告</option>
+			  	  	 	<option value="招标公告">招标公告</option>
 	  				</select>
        			</div>
 			 </li>

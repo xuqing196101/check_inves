@@ -3,6 +3,7 @@
  */
 package bss.service.pqims;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import bss.model.pqims.PqInfo;
@@ -50,4 +51,20 @@ public interface PqInfoService {
 	 * 7.根据条件查询
 	 */
 	List<PqInfo> selectByCondition(PqInfo pqInfo,Integer pageNum);
+	
+	/**
+	 * 8.查询供应商质检合格的次数
+	 */
+	BigDecimal queryByCountSuccess(String supplierName);
+	
+	/**
+	 * 9.查询供应商质检不合格的次数
+	 */
+	BigDecimal queryByCountFail(String supplierName);
+	
+	/**
+	 * 10.查询所有供应商
+	 */
+	List<String> queryDepName(Integer pageNum);
+	
 }

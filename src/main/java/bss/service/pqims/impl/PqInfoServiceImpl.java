@@ -3,6 +3,7 @@
  */
 package bss.service.pqims.impl;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -96,6 +97,26 @@ public class PqInfoServiceImpl implements PqInfoService {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
 		return pqInfoMapper.selectByCondition(pqInfo);
+	}
+
+	
+	@Override
+	public BigDecimal queryByCountSuccess(String supplierName) {
+		return pqInfoMapper.queryByCountSuccess(supplierName);
+	}
+
+	
+	@Override
+	public BigDecimal queryByCountFail(String supplierName) {
+		return pqInfoMapper.queryByCountFail(supplierName);
+	}
+
+	
+	@Override
+	public List<String> queryDepName(Integer pageNum) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
+		return pqInfoMapper.queryDepName();
 	}
 
 }

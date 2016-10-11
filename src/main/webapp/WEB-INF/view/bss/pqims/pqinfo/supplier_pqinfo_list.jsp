@@ -46,87 +46,7 @@
 		    }
 		});
   })
-  	/** 全选全不选 */
-	function selectAll(){
-		 var checklist = document.getElementsByName ("chkItem");
-		 var checkAll = document.getElementById("checkAll");
-		   if(checkAll.checked){
-			   for(var i=0;i<checklist.length;i++)
-			   {
-			      checklist[i].checked = true;
-			   } 
-			 }else{
-			  for(var j=0;j<checklist.length;j++)
-			  {
-			     checklist[j].checked = false;
-			  }
-		 	}
-		}
-	
-	/** 单选 */
-	function check(){
-		 var count=0;
-		 var checklist = document.getElementsByName ("chkItem");
-		 var checkAll = document.getElementById("checkAll");
-		 for(var i=0;i<checklist.length;i++){
-			   if(checklist[i].checked == false){
-				   checkAll.checked = false;
-				   break;
-			   }
-			   for(var j=0;j<checklist.length;j++){
-					 if(checklist[j].checked == true){
-						   checkAll.checked = true;
-						   count++;
-					   }
-				 }
-		   }
-	}
-  	function view(id){
-  		window.location.href="<%=basePath%>pqinfo/view.html?id="+id;
-  	}
-    function edit(){
-    	var id=[]; 
-		$('input[name="chkItem"]:checked').each(function(){ 
-			id.push($(this).val());
-		}); 
-		if(id.length==1){
-			
-			window.location.href="<%=basePath%>pqinfo/edit.html?id="+id;
-		}else if(id.length>1){
-			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
-		}else{
-			layer.alert("请选择需要修改的质检报告",{offset: ['222px', '390px'], shade:0.01});
-		}
-    }
-    function del(){
-    	var ids =[]; 
-		$('input[name="chkItem"]:checked').each(function(){ 
-			ids.push($(this).val()); 
-		}); 
-		if(ids.length>0){
-			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
-				layer.close(index);
-				window.location.href="<%=basePath%>pqinfo/delete.html?ids="+ids;
-			});
-		}else{
-			layer.alert("请选择要删除的质检报告",{offset: ['222px', '390px'], shade:0.01});
-		}
-    }
-    function add(){
-    	window.location.href="<%=basePath%>pqinfo/add.html";
-    }
-    function showPic(url,name){
-    	var pic = $("#"+url.toString());
-		layer.open({
-			  type: 1,
-			  title: false,
-			  closeBtn: 0,
-			  area: '516px',
-			  skin: 'layui-layer-nobg', //没有背景色
-			  shadeClose: true,
-			  content: pic
-			});
-	}
+ 
   </script>
   <body>
 	<!--面包屑导航开始-->
@@ -137,11 +57,6 @@
 		   </ul>
 		<div class="clear"></div>
 	  </div>
-   </div>
-   <div class="container">
-	   <div class="headline-v2">
-	   		<h2>质量结果查询</h2>
-	   </div>
    </div>
 
    
@@ -167,13 +82,13 @@
 			<tr>
 				<td class="tc opinter">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 			
-				<td class="tc opinter">${PqInfo.contract.supplierDepName}</td>
+				<td class="tc opinter">${PqInfo.supplierName}</td>
 			
-				<td class="tc opinter">${PqInfo.type}</td>
+				<td class="tc opinter">${PqInfo.successCount}</td>
 				
-				<td class="tc opinter">${PqInfo.conclusion}</td>
+				<td class="tc opinter">${PqInfo.failCount}</td>
 			
-				<td class="tc opinter"><button type="button">质检报告</button><img class="hide" id="${PqInfo.id}" src="${PqInfo.report}"/></td>
+				<td class="tc opinter">${PqInfo.avg}</td>
    				
 			</tr>
 		</c:forEach>

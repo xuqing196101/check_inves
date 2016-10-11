@@ -41,7 +41,14 @@
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		            location.href = '<%=basePath%>pqinfo/getAll.do?page='+e.curr;
+		        	if(("${pqinfo.contract.name}"!=null && "${pqinfo.contract.name}"!="") ||
+		        		("${pqinfo.contract.code}"!=null && "${pqinfo.contract.code}"!="") ||
+		        		("${pqinfo.type}"!="" && "${pqinfo.type}"!="-请选择-" && "${pqinfo.type}"!=null) ||
+		        		("${pqinfo.conclusion}"!="-请选择-" &&"${pqinfo.conclusion}"!="" &&"${pqinfo.conclusion}"!=null  )){
+		        		location.href = '<%=basePath%>pqinfo/search.do?page='+e.curr+'&contract.name='+"${pqinfo.contract.name}"+'&contract.code='+ "${pqinfo.contract.code}"+'&type='+ "${pqinfo.type}"+'&conclusion='+ "${pqinfo.conclusion}";
+		        	}else{
+		            	location.href = '<%=basePath%>pqinfo/getAll.do?page='+e.curr;
+		        	}
 		        }
 		    }
 		});
@@ -126,7 +133,21 @@
 			  shadeClose: true,
 			  content: pic
 			});
-	}
+	};
+	$(function(){
+		if("${pqinfo.type}"!=null&&"${pqinfo.type}"!=""){
+			$("#searchType").val('${pqinfo.type}');			
+		}else{
+			$("#searchType").val('-请选择-');	
+		}
+		if("${pqinfo.conclusion}"!=null&&"${pqinfo.conclusion}"!=""){
+			$("#searchConclusion").val('${pqinfo.conclusion}');			
+		}else{
+			$("#searchConclusion").val('-请选择-');	
+		}
+		$("#contractName").val('${pqinfo.contract.name}');
+		$("#contractCode").val('${pqinfo.contract.code}');
+	});
   </script>
   <body>
 	<!--面包屑导航开始-->
@@ -150,11 +171,11 @@
    <div class="padding-10 border1 m0_30 tc">
    	<form action="<%=basePath %>pqinfo/search.html" method="post" enctype="multipart/form-data" class="mb0" >
 	 <ul class="demand_list">
-	   <li class="fl mr15"><label class="fl mt5">合同名称：</label><span><input type="text" name="contract.name" class="mb0" value="${pqinfo.contract.name}"/></span></li>
-	   <li class="fl mr15"><label class="fl mt5">合同编号：</label><span><input type="text" name="contract.code" class="mb0" value="${pqinfo.contract.code}"/></span></li>
+	   <li class="fl mr15"><label class="fl mt5">合同名称：</label><span><input type="text" name="contract.name" id="contractName" class="mb0" /></span></li>
+	   <li class="fl mr15"><label class="fl mt5">合同编号：</label><span><input type="text" name="contract.code" id="contractCode" class="mb0" /></span></li>
 	   <li class="fl mr15"><label class="fl mt5">验收类型：</label>
 	   		<span>
-	   			<select id="search_type" name =type class="w150" >
+	   			<select id="searchType" name =type class="w150" >
 					<option value="-请选择-">-请选择-</option>
 			  	  	<option value="首件检验">首件检验</option>
 			  	 	<option value="生产验收">生产验收</option>
@@ -165,14 +186,15 @@
 	  </li>
 	   <li class="fl mr15"><label class="fl mt5">质检结论：</label>
 	   		<span>
-	   			<select id="search_conclusion" name =conclusion class="w150" >
+	   			<select id="searchConclusion" name =conclusion class="w150" >
 					<option value="-请选择-">-请选择-</option>
 			  	  	<option value="合格">合格</option>
 			  	 	<option value="不合格">不合格</option>
 	  			</select>
 	   		</span>
 	   </li>
-	   	 <button class="btn fl ml20 mt1" type="submit">查询</button>
+	   	 <button class="btn fl ml5 mt1" type="submit">查询</button>
+	   	 <button type="reset" class="btn ml5 mt1">重置</button> 
 	 </ul>
 
 	 <div class="clear"></div>
