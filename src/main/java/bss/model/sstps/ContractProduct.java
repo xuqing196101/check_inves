@@ -1,0 +1,62 @@
+package bss.model.sstps;
+
+import java.util.Date;
+
+/**
+* @Title:ContractProduct 
+* @Description: 审价产品表
+* @author Shen Zhenfei
+* @date 2016-10-10上午9:57:59
+ */
+public class ContractProduct {
+	
+    private String id;
+
+    private AppraisalContract appraisalContract;
+
+    private String name;
+
+    private Date createdAt;
+
+    private Date updatedAt;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id == null ? null : id.trim();
+    }
+
+    public AppraisalContract getAppraisalContract() {
+		return appraisalContract;
+	}
+
+	public void setAppraisalContract(AppraisalContract appraisalContract) {
+		this.appraisalContract = appraisalContract;
+	}
+
+	public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+}

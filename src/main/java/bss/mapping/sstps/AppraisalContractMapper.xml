@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.sstps.AppraisalContractMapper">
+  <resultMap id="AppraisalContractResultMap" type="bss.model.sstps.AppraisalContract">
+    <id column="ID" property="id" />
+    <result column="APPRAISAL" property="appraisal" />
+    <result column="DISTRIBUTION" property="distribution" />
+    
+    <result column="NAME" property="name" />
+    <result column="CODE" property="code" />
+    <result column="MONEY" property="money" />
+    <result column="SUPPLIER_NAME" property="supplierName" />
+    <result column="TYPE" property="type" />
+    <result column="PURCHASE_DEP_NAME" property="purchaseDepName" />
+    <result column="APPRAISAL_TASK" property="appraisalTask" />
+    
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+    
+    <association property="contract" column="CONTRACT_ID" select="bss.dao.sstps.ContractsMapper.selectById"/>
+    <association property="purchaseContract" column="PURCHASE_ID" select="bss.dao.cs.PurchaseContractMapper.selectContractByid"/>
+    <association property="user" column="USER_ID" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    ID, CONTRACT_ID, APPRAISAL,DISTRIBUTION,USER_ID,PURCHASE_ID,NAME,CODE,MONEY,
+    SUPPLIER_NAME,CREATED_AT,UPDATED_AT,TYPE,PURCHASE_DEP_NAME,APPRAISAL_TASK
+  </sql>
+  
+  <!--1 查询全部数据 -->
+  <select id="select" parameterType="Object" resultMap="AppraisalContractResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_SSTPS_APPRAISAL_CONTRACT
+    ORDER BY UPDATED_AT DESC
+  </select>
+  
+  <!--2 根据id查询审价合同列表 -->
+  <select id="selectById" parameterType="Object" resultMap="AppraisalContractResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_SSTPS_APPRAISAL_CONTRACT
+    where ID = #{id}
+  </select>
+  
+  <!--3 根据条件查询 -->
+  <select id="selectByObject" parameterType="Object" resultMap="AppraisalContractResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_SSTPS_APPRAISAL_CONTRACT
+    where APPRAISAL = 1
+    ORDER BY UPDATED_AT DESC
+  </select>
+  
+  <!-- 7 根据条件模糊查询 -->
+  <select id="selectByObjectLike" parameterType="Object" resultMap="AppraisalContractResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+  	from T_BSS_SSTPS_APPRAISAL_CONTRACT
+  	where 1=1
+      <if test="name != null and name != ''">
+        AND NAME LIKE #{name} 
+      </if>
+      <if test="code != null and code != ''">
+        AND CODE LIKE #{code} 
+      </if>
+      <if test="supplierName != null and supplierName != ''">
+        AND SUPPLIER_NAME LIKE #{supplierName} 
+      </if>
+      <if test="appraisal != null and appraisal != ''">
+        AND APPRAISAL LIKE #{appraisal} 
+      </if>
+  </select>
+  
+  <!-- 8根据合同获取审价id -->
+  <select id="selectContractId" parameterType="Object" resultMap="AppraisalContractResultMap">
+  	select ID
+  	from T_BSS_SSTPS_APPRAISAL_CONTRACT
+  	where
+  	  <if test="contract != null and contract != ''">
+        CONTRACT_ID = #{contract.id} 
+      </if>
+      <if test="purchaseContract != null and purchaseContract != ''">
+        PURCHASE_ID = #{purchaseContract.id} 
+      </if>
+  </select>
+  
+  <!--4 根据ID删除 -->
+  <delete id="deleteById" parameterType="Object">
+    delete from T_BSS_SSTPS_APPRAISAL_CONTRACT
+    where ID = #{id}
+  </delete>
+  
+  <!--5 新增 -->
+  <insert id="insert" parameterType="bss.model.sstps.AppraisalContract">
+  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_BSS_SSTPS_APPRAISAL_CONTRACT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="contract != null">
+        CONTRACT_ID,
+      </if>
+      <if test="appraisal != null">
+        APPRAISAL,
+      </if>
+       <if test="distribution != null">
+        DISTRIBUTION,
+      </if>
+       <if test="purchaseContract != null">
+        PURCHASE_ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+       <if test="code != null">
+        CODE,
+      </if>
+      <if test="money != null">
+        MONEY,
+      </if>
+       <if test="supplierName != null">
+        SUPPLIER_NAME,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="type != null">
+        TYPE,
+      </if>
+      <if test="purchaseDepName != null">
+        PURCHASE_DEP_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="contract != null">
+        #{contract.id},
+      </if>
+      <if test="appraisal != null">
+        #{appraisal},
+      </if>
+      <if test="distribution != null">
+        #{distribution},
+      </if>
+       <if test="purchaseContract != null">
+        #{purchaseContract.id},
+      </if>
+      <if test="name != null">
+        #{name},
+      </if>
+       <if test="code != null">
+        #{code},
+      </if>
+      <if test="money != null">
+        #{money},
+      </if>
+       <if test="supplierName != null">
+        #{supplierName},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt},
+      </if>
+      <if test="type != null">
+        #{type},
+      </if>
+      <if test="purchaseDepName != null">
+        #{purchaseDepName},
+      </if>
+    </trim>
+  </insert>
+  
+  <!--6 修改 -->
+  <update id="update" parameterType="bss.model.sstps.AppraisalContract">
+    update T_BSS_SSTPS_APPRAISAL_CONTRACT
+    <set>
+      <if test="contract != null">
+        CONTRACT_ID = #{contract.id},
+      </if>
+      <if test="appraisal != null">
+        APPRAISAL = #{appraisal},
+      </if>
+      <if test="distribution != null">
+        DISTRIBUTION = #{distribution},
+      </if>
+      <if test="user != null">
+        USER_ID = #{user.id},
+      </if>
+      <if test="purchaseContract != null">
+        PURCHASE_ID = #{purchaseContract.id},
+      </if>
+      <if test="name != null">
+        NAME = #{name},
+      </if>
+      <if test="code != null">
+        CODE = #{code},
+      </if>
+      <if test="money != null">
+        MONEY = #{money},
+      </if>
+      <if test="supplierName != null">
+        SUPPLIER_NAME = #{supplierName},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt},
+      </if>
+      <if test="appraisalTask != null">
+        APPRAISAL_TASK = #{appraisalTask},
+      </if>
+    </set>
+    where ID = #{id}
+  </update>
+  
+</mapper>

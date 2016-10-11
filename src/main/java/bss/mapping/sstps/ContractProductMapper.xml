@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.sstps.ContractProductMapper">
+  <resultMap id="ContractProductResultMap" type="bss.model.sstps.ContractProduct">
+    <id column="ID" property="id" />
+    <result column="NAME" property="name" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+    
+    <association property="appraisalContract" column="CONTRACT_ID" select="bss.dao.sstps.AppraisalContractMapper.selectById"/>
+    
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    ID, CONTRACT_ID, NAME, CREATED_AT, UPDATED_AT
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ContractProductResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_SSTPS_CONTRACT_PRODUCT
+    where ID = #{id}
+  </select>
+  
+  <insert id="insertSelective" parameterType="bss.model.sstps.ContractProduct">
+    insert into T_BSS_SSTPS_CONTRACT_PRODUCT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="appraisalContract != null">
+        CONTRACT_ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="appraisalContract != null">
+        #{appraisalContract.id},
+      </if>
+      <if test="name != null">
+        #{name},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt},
+      </if>
+    </trim>
+  </insert>
+  
+</mapper>
