@@ -77,14 +77,14 @@ function back(){
      <div class="headline-v2">
 	   <h2>审核信息</h2>
 	 </div>
-	  <input type="hidden" name="id" id="id" value="${article.id }" disabled>
-	  <input type="hidden" name="user.id" id="user.id" value="${article.user.id }" disabled>
+	  <input type="hidden" name="id" id="id" value="${article.id }" readonly>
+	  <input type="hidden" name="user.id" id="user.id" value="${article.user.id }" readonly>
 	 
 	   <ul class="list-unstyled list-flow p0_20">
      <li class="col-md-6 p0 mb0">
 	   <span class="">信息标题：</span>
 	   <div class="input-append">
-        <input class="span2" type="text" name="name" value="${article.name }" disabled>
+        <input class="span2" type="text" name="name" value="${article.name }" readonly>
        </div>
 	 </li>
      <li class="col-md-6  p0 ">
@@ -96,7 +96,7 @@ function back(){
 	 </li> 
      <li class="col-md-6  p0 ">
 	   <span class="">信息类型：</span>
-      <select id="articleTypeId" name="articleType.id" class="w220" disabled>
+      <select id="articleTypeId" name="articleType.id" class="w220" readonly>
    		 	<option></option>
           	<c:forEach items="${list}" var="list" varStatus="vs">
           		<option value="${list.id }" >${list.name }</option>
