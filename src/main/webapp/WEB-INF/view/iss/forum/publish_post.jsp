@@ -66,7 +66,7 @@
               <li class="col-md-12  p0  mb10">
                <span class="fl">帖子名称：</span>
                
-                <textarea class="col-md-9" ></textarea>
+                <textarea class="col-md-9"  name="name"></textarea>
                 <%--<span class="add-on">i</span>--%>
                
              </li>

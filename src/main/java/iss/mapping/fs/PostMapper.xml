@@ -151,7 +151,9 @@
 		      </if>
 		      <if test="topic != null">
 		        TOPIC_ID,
-		      </if>
+		      </if>		     
+                REPLY_COUNT,
+    		      
 		    </trim>
 		    <trim prefix="values (" suffix=")" suffixOverrides=",">
 		      <if test="id != null">
@@ -182,6 +184,7 @@
 		      <if test="topic != null">
 		        #{topic.id},
 		      </if>
+		      0,
 		    </trim>
 		  </insert>
 	  
