@@ -1,5 +1,7 @@
 package ses.dao.sms;
 
+import java.util.List;
+
 import ses.model.sms.SupplierProducts;
 
 public interface SupplierProductsMapper {
@@ -42,4 +44,8 @@ public interface SupplierProductsMapper {
      * @param record
      */
     int updateByPrimaryKey(SupplierProducts record);
+    
+    List<SupplierProducts> findSupplierProductsBySupplierId(String supplierId);
+    
+    int deleteBySupplierId(String supplierId);
 }

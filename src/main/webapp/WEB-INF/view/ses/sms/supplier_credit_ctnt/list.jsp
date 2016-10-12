@@ -41,16 +41,8 @@
 	});
 
 	function addCreditCtnt() {
-		layer.open({
-			type : 2,
-			title : '添加诚信形式内容',
-			skin : 'layui-layer-rim', //加上边框
-			area : [ '700px', '370px' ], //宽高
-			offset : '100px',
-			scrollbar : false,
-			content : '${pageContext.request.contextPath}/supplier_credit_ctnt/add_credit_ctnt.html', //url
-			closeBtn : 1, //不显示关闭按钮
-		});
+		var supplierCreditId = $("input[name='supplierCreditId']").val();
+		window.location.href = "${pageContext.request.contextPath}/supplier_credit_ctnt/add_credit_ctnt.html?supplierCreditId=" + supplierCreditId;
 	}
 
 	function editSupplierCreditCtnt() {
@@ -66,17 +58,8 @@
 		name = $.trim(name);
 		var score = checkbox.parents("tr").find("td").eq(3).text();
 		score = $.trim(score);
-		var supplierCreditId = checkbox.parents("tr").find("td").eq(4).attr("id");
-		layer.open({
-			type : 2,
-			title : '添加形式名称',
-			skin : 'layui-layer-rim', //加上边框
-			area : [ '700px', '370px' ], //宽高
-			offset : '100px',
-			scrollbar : false,
-			content : '${pageContext.request.contextPath}/supplier_credit_ctnt/add_credit_ctnt.html?id=' + id + '&name=' + name + '&score=' + score + '&supplierCreditId=' + supplierCreditId, //url
-			closeBtn : 1, //不显示关闭按钮
-		});
+		var supplierCreditId = $("input[name='supplierCreditId']").val();
+		window.location.href = "${pageContext.request.contextPath}/supplier_credit_ctnt/add_credit_ctnt.html?id=" + id + "&name=" + name + "&score=" + score + "&supplierCreditId=" + supplierCreditId;
 	}
 
 	function checkAll(ele) {
@@ -95,6 +78,7 @@
 	
 	function deleteCreditCtnt() {
 		var checkbox = $("input[name='checkbox']:checked");
+		var supplierCreditId = $("input[name='supplierCreditId']").val();
 		if (checkbox.size() == 0) {
 			layer.msg("请至少勾选一条记录 !", {
 				offset : '200px',
@@ -112,9 +96,9 @@
 			count ++;
 		});
 		layer.confirm('已勾选' + count + '条, 确认删除 ？', {
-			offset : '200px',
+			offset : '50px',
 		},function(index) {
-			window.location.href = "${pageContext.request.contextPath}/supplier_credit_ctnt/delete.html?ids=" + ids;
+			window.location.href = "${pageContext.request.contextPath}/supplier_credit_ctnt/delete.html?ids=" + ids + "&supplierCreditId=" + supplierCreditId;
 			layer.close(index);
 		});
 	}
@@ -128,52 +112,14 @@
 </head>
 
 <body>
-	<div class="wrapper">
-		<!--面包屑导航开始-->
-		<div class="margin-top-10 breadcrumbs ">
-			<div class="container">
-				<ul class="breadcrumb margin-left-0">
-					<li><a href="#"> 首页</a></li>
-					<li><a href="#">业务管理</a></li>
-					<li><a href="#">供应商诚信形式</a></li>
-					<li class="active"><a href="#">供应商诚信形式列表</a></li>
-				</ul>
-				<div class="clear"></div>
-			</div>
-		</div>
-		<!-- 我的订单页面开始-->
-		<div class="container">
-			<div class="headline-v2">
-				<h2>供应商诚信形式列表</h2>
-			</div>
-		</div>
-
-
+	<div class="wrapper mt30">
+		<input type="hidden" name="supplierCreditId" value="${supplierCreditId}">
 		<!-- 表格开始-->
 		<div class="container">
 			<div class="col-md-8">
 				<button class="btn btn-windows add" type="button" onclick="addCreditCtnt()">新增</button>
 				<button class="btn btn-windows edit" type="button" onclick="editSupplierCreditCtnt()">修改</button>
 				<button class="btn btn-windows delete" type="button" onclick="deleteCreditCtnt()">删除</button>
-			</div>
-		</div>
-		
-		<div class="container">
-			<div class="p10_25">
-				<form id="search_form_id" class="padding-10 border1 mb0" action="${pageContext.request.contextPath}/supplier_credit_ctnt/list.html" method="post">
-					<input name="page" type="hidden" />
-					<ul class="demand_list">
-						<li class="fl">
-							<label class="fl mt5">诚信形式内容名称：</label>
-							<span><input name="name" type="text" value="${name}" /></span>
-						</li>
-						<li class="fl mt1">
-							<button type="button" onclick="searchSupplierCredit(1)" class="btn">查询</button>
-							<button onclick="resetForm()" class="btn" type="button">重置</button>
-						</li>
-					</ul>
-					<div class="clear"></div>
-				</form>
 			</div>
 		</div>
 		
@@ -196,7 +142,7 @@
 								<td class="tc">${vs.index + 1}</td>
 								<td class="tc">${ctnt.name}</td>
 								<td class="tc">${ctnt.score}</td>
-								<td class="tc" id="${ctnt.supplierCreditId}">${ctnt.supplierCreditName}</td>
+								<td class="tc">${ctnt.supplierCreditName}</td>
 							</tr>
 						</c:forEach>
 					</tbody>

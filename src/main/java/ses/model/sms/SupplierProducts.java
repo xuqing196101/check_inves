@@ -1,7 +1,9 @@
 package ses.model.sms;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class SupplierProducts implements Serializable {
 	private static final long serialVersionUID = 1701778954157245386L;
@@ -60,7 +62,7 @@ public class SupplierProducts implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER_PRODUCTS.SIZE
 	 * </pre>
 	 */
-	private String size;
+	private String proSize;
 
 	/**
 	 * <pre>
@@ -126,6 +128,10 @@ public class SupplierProducts implements Serializable {
 	 */
 	private Date updatedAt;
 
+	private List<ProductParam> listProductParams = new ArrayList<>();
+	
+	private String categoryName;
+
 	public String getId() {
 		return id;
 	}
@@ -174,12 +180,12 @@ public class SupplierProducts implements Serializable {
 		this.models = models;
 	}
 
-	public String getSize() {
-		return size;
+	public String getProSize() {
+		return proSize;
 	}
 
-	public void setSize(String size) {
-		this.size = size;
+	public void setProSize(String proSize) {
+		this.proSize = proSize;
 	}
 
 	public String getOrgin() {
@@ -244,5 +250,21 @@ public class SupplierProducts implements Serializable {
 
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+
+	public List<ProductParam> getListProductParams() {
+		return listProductParams;
+	}
+
+	public void setListProductParams(List<ProductParam> listProductParams) {
+		this.listProductParams = listProductParams;
+	}
+
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
 	}
 }

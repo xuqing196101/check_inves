@@ -1,5 +1,7 @@
 package ses.dao.sms;
 
+import java.util.List;
+
 import ses.model.sms.ProductParam;
 
 public interface ProductParamMapper {
@@ -42,4 +44,6 @@ public interface ProductParamMapper {
      * @param record
      */
     int updateByPrimaryKey(ProductParam record);
+    
+    List<ProductParam> findProductParamByProductId(String supplierProductsId);
 }

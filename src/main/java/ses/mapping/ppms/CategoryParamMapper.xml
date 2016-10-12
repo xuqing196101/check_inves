@@ -8,6 +8,7 @@
     <result column="CREATED_AT" property="createdAt" />
     <result column="UPDATED_AT"  property="updatedAt" />
     <result column="IS_DELETED"  property="isDeleted" />
+    <result column="PARAM_VALUE"  property="paramValue" />
     <association  column="CATEGORY_ID"  property="category"  select="ses.dao.bms.CategoryMapper.selectByPrimaryKey"/>  
  </resultMap>
  
@@ -127,4 +128,14 @@
 		    </set>
 		    where CATEGORY_ID = #{category.id}
 		  </update>
+		  
+	<select id="findParamByCategoryId" parameterType="java.lang.String" resultMap="CategoryParamMap">
+		select 
+			t1.*,
+			t2.PARAM_VALUE 
+		from T_SES_PPMS_CATEGORY_PARAM t1
+		left join T_SES_SMS_PRODUCT_PARAM t2
+		on t1.ID = t2.CATEGORY_PARAM_ID 
+		where t1.CATEGORY_ID = #{categoryId}
+	</select>			
 </mapper>

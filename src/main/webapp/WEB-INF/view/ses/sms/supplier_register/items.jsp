@@ -71,16 +71,25 @@
 				}
 			});
 		}
-		
 		// ztree
 		$(".tab-pane").each(function(index) {
+			var kind = "";
 			var id = $(this).attr("id");
-			loadZtree(id, index);
+			if (id == "tab-1") kind = "E73923CC68A44E2981D5EA6077580372";
+			if (id == "tab-2") kind = "18A966C6FF17462AA0C015549F9EAD79";
+			if (id == "tab-3") kind = "80E7B015FDF543F6A4A053A57C3C6908";
+			if (id == "tab-4") kind = "3801E8F39B4C485CA59C3C531E86541E";
+			loadZtree(id, kind);
 		});
 		
 	});
 	
 	function loadZtree(id, kind) {
+		var id = "";
+		if (kind == "E73923CC68A44E2981D5EA6077580372") id = "tree_ul_id_1";
+		if (kind == "18A966C6FF17462AA0C015549F9EAD79") id = "tree_ul_id_2";
+		if (kind == "80E7B015FDF543F6A4A053A57C3C6908") id = "tree_ul_id_3";
+		if (kind == "3801E8F39B4C485CA59C3C531E86541E") id = "tree_ul_id_4";
 		var setting = {
 			async : {
 				enable : true,
@@ -107,8 +116,7 @@
 				}
 			},
 		};
-		kind++;
-		zTreeObj = $.fn.zTree.init($("#tree_ul_id_" + kind), setting, zNodes);
+		zTreeObj = $.fn.zTree.init($("#" + id), setting, zNodes);
 	}
 
 	/** 保存品目树信息 */

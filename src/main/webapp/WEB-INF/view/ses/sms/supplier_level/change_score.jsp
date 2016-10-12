@@ -27,7 +27,7 @@
 	function loadCreditCtnt(ele) {
 		var supplierCreditId = $(ele).val();
 		$.ajax({
-			url : "${pageContext.request.contextPath}/supplier_level/find_supplier_credit_ctnt.do",
+			url : "${pageContext.request.contextPath}/supplier_level/find_credit_ctnt_by_credit_id.do",
 			type : "post",
 			data : {
 				supplierCreditId : supplierCreditId

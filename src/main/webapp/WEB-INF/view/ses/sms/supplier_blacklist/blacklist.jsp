@@ -98,7 +98,7 @@
 		</div>
 		<div class="container">
 			<div class="p10_25">
-				<form id="search_form_id" class="padding-10 border1 mb0" action="${pageContext.request.contextPath}/supplier_blacklist/list_blacklist.html" method="post">
+				<form id="search_form_id" class="padding-10 border1 mb0" action="${pageContext.request.contextPath}/supplier_blacklist/list_blacklist.html" method="get">
 					<input name="page" type="hidden" />
 					<ul class="demand_list">
 						<li class="fl">

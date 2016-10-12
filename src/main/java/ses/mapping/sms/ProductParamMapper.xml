@@ -9,6 +9,7 @@
 		<result column="IS_DELETED" property="isDeleted" />
 		<result column="CREATED_AT" property="createdAt" />
 		<result column="UPDATED_AT" property="updatedAt" />
+		<result column="PARAM_NAME" property="paramName" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		ID, SUPPLIER_PRODUCTS_ID, CATEGORY_PARAM_ID, PARAM_VALUE, IS_DELETED, CREATED_AT,
@@ -80,6 +81,9 @@
 				#{updatedAt},
 			</if>
 		</trim>
+		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			select sys_guid() from dual
+		</selectKey>
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.ProductParam">
 		update T_SES_SMS_PRODUCT_PARAM
@@ -115,4 +119,16 @@
 		UPDATED_AT = #{updatedAt}
 		where ID = #{id}
 	</update>
+	
+	<select id="findProductParamByProductId" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select 
+			t1.*,
+			T2.NAME as PARAM_NAME
+		from 
+			T_SES_SMS_PRODUCT_PARAM t1 
+			join T_SES_PPMS_CATEGORY_PARAM t2 
+			on t1.CATEGORY_PARAM_ID = t2.ID
+		where t1.SUPPLIER_PRODUCTS_ID = #{supplierProductsId}
+	</select>
+	
 </mapper>

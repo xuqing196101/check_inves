@@ -32,6 +32,7 @@ import ses.service.sms.SupplierMatEngService;
 import ses.service.sms.SupplierMatProService;
 import ses.service.sms.SupplierMatSeService;
 import ses.service.sms.SupplierMatSellService;
+import ses.service.sms.SupplierProductsService;
 import ses.service.sms.SupplierService;
 import ses.service.sms.SupplierTypeRelateService;
 import ses.util.IdentityCode;
@@ -69,9 +70,21 @@ public class SupplierController extends BaseSupplierController {
 	private PurchaseOrgnizationServiceI poService;// 采购机构
 	
 	@Autowired
-	private SupplierItemService supplierItemService;
-
+	private SupplierItemService supplierItemService;// 供应商品目
 	
+	@Autowired
+	private SupplierProductsService supplierProductsService;// 供应商产品
+	
+	/**
+	 * @Title: getIdentity
+	 * @author: Wang Zhaohua
+	 * @date: 2016-10-11 下午4:59:01
+	 * @Description: 获取验证码
+	 * @param: @param request
+	 * @param: @param response
+	 * @param: @throws IOException
+	 * @return: void
+	 */
 	@RequestMapping(value = "get_identity")
 	public void getIdentity(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		IdentityCode identityCode = new IdentityCode(96, 28, 4, 5);
@@ -190,6 +203,7 @@ public class SupplierController extends BaseSupplierController {
 			return "redirect:page_jump.html";
 		} else if (sign == 5) {
 			// 保存供应商品目信息
+			supplierItemService.saveSupplierItem(supplier);
 
 			// 查询供应商信息
 			supplier = supplierService.get(supplier.getId());
@@ -411,7 +425,9 @@ public class SupplierController extends BaseSupplierController {
 			return "redirect:page_jump.html";
 		} else if (sign == 5) {
 			// 保存供应商品目信息
-
+			supplierItemService.saveSupplierItem(supplier);
+			supplierProductsService.checkProducts(supplier);
+			
 			// 查询产品信息
 			supplier = supplierService.get(supplier.getId());
 
@@ -459,6 +475,17 @@ public class SupplierController extends BaseSupplierController {
 		return null;
 	}
 	
+	
+	/**
+	 * @Title: download
+	 * @author: Wang Zhaohua
+	 * @date: 2016-10-11 下午5:01:10
+	 * @Description: 文件下载
+	 * @param: @param request
+	 * @param: @param response
+	 * @param: @param fileName
+	 * @return: void
+	 */
 	@RequestMapping(value = "download")
 	public void download(HttpServletRequest request, HttpServletResponse response, String fileName) {
 		if (fileName != null && !"".equals(fileName)) {
@@ -529,7 +556,17 @@ public class SupplierController extends BaseSupplierController {
 		}
 		return false;
 	}
-
+	
+	/**
+	 * @Title: setSupplierUpload
+	 * @author: Wang Zhaohua
+	 * @date: 2016-10-11 下午5:01:10
+	 * @Description: 设置文件上传
+	 * @param: @param request
+	 * @param: @param supplier
+	 * @param: @throws IOException
+	 * @return: void
+	 */
 	public void setSupplierUpload(HttpServletRequest request, Supplier supplier) throws IOException {
 		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
 		// 检查form中是否有enctype="multipart/form-data"

@@ -8,7 +8,7 @@
 		<result column="NAME" property="name" />
 		<result column="BRAND" property="brand" />
 		<result column="MODELS" property="models" />
-		<result column="SIZE" property="size" />
+		<result column="PRO_SIZE" property="proSize" />
 		<result column="ORGIN" property="orgin" />
 		<result column="EXPIRATION_DATE" property="expirationDate" />
 		<result column="PRODUCER" property="producer" />
@@ -17,15 +17,17 @@
 		<result column="QR_CODE" property="qrCode" />
 		<result column="CREATED_AT" property="createdAt" />
 		<result column="UPDATED_AT" property="updatedAt" />
+		<result column="CATEGORY_NAME" property="categoryName" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		ID, CATEGORY_ID, SUPPLIER_ID, NAME, BRAND, MODELS, SIZE, ORGIN, EXPIRATION_DATE,
+		ID, CATEGORY_ID, SUPPLIER_ID, NAME, BRAND, MODELS, PRO_SIZE, ORGIN, EXPIRATION_DATE,
 		PRODUCER, REFERENCE_PRICE, PRODUCT_PIC, QR_CODE, CREATED_AT, UPDATED_AT
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
 		select
-		<include refid="Base_Column_List" />
-		from T_SES_SMS_SUPPLIER_PRODUCTS
+			*
+		from 
+			T_SES_SMS_SUPPLIER_PRODUCTS
 		where ID = #{id}
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
@@ -35,13 +37,13 @@
 	<insert id="insert" parameterType="ses.model.sms.SupplierProducts">
 		insert into T_SES_SMS_SUPPLIER_PRODUCTS (ID, CATEGORY_ID, SUPPLIER_ID,
 		NAME, BRAND, MODELS,
-		SIZE, ORGIN, EXPIRATION_DATE,
+		PRO_SIZE, ORGIN, EXPIRATION_DATE,
 		PRODUCER, REFERENCE_PRICE, PRODUCT_PIC,
 		QR_CODE, CREATED_AT, UPDATED_AT
 		)
 		values (#{id}, #{categoryId}, #{supplierId},
 		#{name}, #{brand}, #{models},
-		#{size}, #{orgin}, #{expirationDate},
+		#{proSize}, #{orgin}, #{expirationDate},
 		#{producer}, #{referencePrice}, #{productPic},
 		#{qrCode}, #{createdAt}, #{updatedAt}
 		)
@@ -67,8 +69,8 @@
 			<if test="models != null">
 				MODELS,
 			</if>
-			<if test="size != null">
-				SIZE,
+			<if test="proSize != null">
+				PRO_SIZE,
 			</if>
 			<if test="orgin != null">
 				ORGIN,
@@ -114,8 +116,8 @@
 			<if test="models != null">
 				#{models},
 			</if>
-			<if test="size != null">
-				#{size},
+			<if test="proSize != null">
+				#{proSize},
 			</if>
 			<if test="orgin != null">
 				#{orgin},
@@ -142,6 +144,9 @@
 				#{updatedAt},
 			</if>
 		</trim>
+		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			select sys_guid() from dual
+		</selectKey>
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierProducts">
 		update T_SES_SMS_SUPPLIER_PRODUCTS
@@ -161,8 +166,8 @@
 			<if test="models != null">
 				MODELS = #{models},
 			</if>
-			<if test="size != null">
-				SIZE = #{size},
+			<if test="proSize != null">
+				PRO_SIZE = #{proSize},
 			</if>
 			<if test="orgin != null">
 				ORGIN = #{orgin},
@@ -198,7 +203,7 @@
 		NAME = #{name},
 		BRAND = #{brand},
 		MODELS = #{models},
-		SIZE = #{size},
+		PRO_SIZE = #{proSize},
 		ORGIN = #{orgin},
 		EXPIRATION_DATE = #{expirationDate},
 		PRODUCER = #{producer},
@@ -209,4 +214,20 @@
 		UPDATED_AT = #{updatedAt}
 		where ID = #{id}
 	</update>
+	
+	<select id="findSupplierProductsBySupplierId" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select 
+			t1.*,
+			T2.NAME as CATEGORY_NAME
+		from 
+			T_SES_SMS_SUPPLIER_PRODUCTS t1
+			join T_SES_BMS_CATEGORY t2
+			on t1.CATEGORY_ID = t2.id
+		 where t1.SUPPLIER_ID = #{supplierId}
+	</select>
+	
+	<delete id="deleteBySupplierId" parameterType="java.lang.String">
+		delete from T_SES_SMS_SUPPLIER_PRODUCTS where SUPPLIER_ID = #{supplierId}
+		
+	</delete>
 </mapper>

@@ -8,10 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import ses.model.sms.SupplierCredit;
 import ses.model.sms.SupplierCreditCtnt;
 import ses.service.sms.SupplierCreditCtntService;
-import ses.service.sms.SupplierCreditService;
 
 import com.github.pagehelper.PageInfo;
 
@@ -23,37 +21,32 @@ public class SupplierCreditCtntController {
 	@Autowired
 	private SupplierCreditCtntService supplierCreditCtntService;
 	
-	@Autowired
-	private SupplierCreditService supplierCreditService;
 	
-	@RequestMapping(value = "list")
-	public String list(Model model, SupplierCreditCtnt supplierCreditCtnt, Integer page) {
-		List<SupplierCreditCtnt> listSupplierCreditCtnts = supplierCreditCtntService.findCreditCtnt(supplierCreditCtnt,  page == null ? 1 : page);
+	@RequestMapping(value = "list_by_credit_id")
+	public String listByCreditId(Model model, SupplierCreditCtnt supplierCreditCtnt, Integer page) {
+		List<SupplierCreditCtnt> listSupplierCreditCtnts = supplierCreditCtntService.findCreditCtntByCreditId(supplierCreditCtnt,  page == null ? 1 : page);
 		model.addAttribute("listSupplierCreditCtnts", new PageInfo<SupplierCreditCtnt>(listSupplierCreditCtnts));
-		model.addAttribute("name", supplierCreditCtnt.getName());
+		model.addAttribute("supplierCreditId", supplierCreditCtnt.getSupplierCreditId());
 		return "ses/sms/supplier_credit_ctnt/list";
 	}
 	
 	@RequestMapping(value = "add_credit_ctnt")
 	public String addCreditCtnt(Model model, SupplierCreditCtnt supplierCreditCtnt) {
-		if (supplierCreditCtnt.getId() != null && !"".equals(supplierCreditCtnt.getId())) {
-			model.addAttribute("supplierCreditCtnt", supplierCreditCtnt);
-		}
-		List<SupplierCredit> listSupplierCredits = supplierCreditService.findSupplierCredit(new SupplierCredit());
-		model.addAttribute("listSupplierCredits", listSupplierCredits);
+		model.addAttribute("supplierCreditCtnt", supplierCreditCtnt);
+		
 		return "ses/sms/supplier_credit_ctnt/add_credit_ctnt";
 	}
 	
 	@RequestMapping(value = "save_or_update_supplier_credit_ctnt")
 	public String saveOrUpdateSupplierCredit(SupplierCreditCtnt supplierCreditCtnt) {
 		supplierCreditCtntService.saveOrUpdateSupplierCreditCtnt(supplierCreditCtnt);
-		return "redirect:list.html";
+		return "redirect:list_by_credit_id.html?supplierCreditId=" + supplierCreditCtnt.getSupplierCreditId();
 	}
 	
 	@RequestMapping(value = "delete")
-	public String delete(String ids) {
+	public String delete(String ids, String supplierCreditId) {
 		supplierCreditCtntService.delete(ids);
-		return "redirect:list.html";
+		return "redirect:list_by_credit_id.html?supplierCreditId=" + supplierCreditId;
 	}
 	
 }

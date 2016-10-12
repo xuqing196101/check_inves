@@ -55,6 +55,8 @@ public class SupplierServiceImpl implements SupplierService {
 	public Supplier register(Supplier supplier) {
 		supplier.setPassword(Encrypt.e(supplier.getPassword()));// 密码 md5 加密
 		supplier.setCreatedAt(new Date());
+		supplier.setStatus(-1);
+		supplier.setScore(0);
 		supplierMapper.insertSelective(supplier);
 		//System.out.println(1/0);
 		return supplier;

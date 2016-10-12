@@ -59,4 +59,10 @@ public class CategoryParamServiceImpl implements CategoryParamService{
 		return categoryParamMapper.findListByCategoryId(id);
 	}
 
+
+	@Override
+	public List<CategoryParam> findParamByCategoryId(String categoryId) {
+		return categoryParamMapper.findParamByCategoryId(categoryId);
+	}
+
 }

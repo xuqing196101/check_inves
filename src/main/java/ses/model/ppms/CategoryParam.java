@@ -39,7 +39,7 @@ public class CategoryParam {
 	 * */
 	private Category category;
 	
-	
+	private String paramValue;
 
 	
 	public String getValueType() {
@@ -87,6 +87,12 @@ public class CategoryParam {
 	}
 	public void setIsDeleted(Integer isDeleted) {
 		this.isDeleted = isDeleted;
+	}
+	public String getParamValue() {
+		return paramValue;
+	}
+	public void setParamValue(String paramValue) {
+		this.paramValue = paramValue;
 	}
 	
 	

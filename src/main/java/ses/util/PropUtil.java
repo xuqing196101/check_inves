@@ -81,4 +81,20 @@ public class PropUtil {
 		String property = properties.getProperty(key);
 		return property;
 	}
+	
+	/**
+	 * @Title: getIntergerProperty
+	 * @author: Wang Zhaohua
+	 * @date: 2016-10-10 上午10:04:38
+	 * @Description: 获取指定文件下的属性 Integer 值
+	 * @param: @param file
+	 * @param: @param key
+	 * @param: @return
+	 * @return: Integer
+	 */
+	public static Integer getIntergerProperty(String file, String key) {
+		Properties properties = getProperties(file);
+		String property = properties.getProperty(key);
+		return Integer.valueOf(property);
+	}
 }

@@ -49,9 +49,9 @@ public class SupplierLevelController extends BaseSupplierController {
 		return "ses/sms/supplier_level/change_score";
 	}
 	
-	@RequestMapping(value = "find_supplier_credit_ctnt")
-	public void findSupplierCreditCtnt(HttpServletResponse response, SupplierCreditCtnt supplierCreditCtnt) {
-		List<SupplierCreditCtnt> listSupplierCreditCtnts = supplierCreditCtntService.findCreditCtnt(supplierCreditCtnt);
+	@RequestMapping(value = "find_credit_ctnt_by_credit_id")
+	public void findCreditCtntByCreditId(HttpServletResponse response, SupplierCreditCtnt supplierCreditCtnt) {
+		List<SupplierCreditCtnt> listSupplierCreditCtnts = supplierCreditCtntService.findCreditCtntByCreditId(supplierCreditCtnt);
 		super.writeJson(response, listSupplierCreditCtnts);
 	}
 	
@@ -60,5 +60,4 @@ public class SupplierLevelController extends BaseSupplierController {
 		supplierLevelService.updateScore(supplier, scores);
 		return "redirect:list.html";
 	}
-
 }

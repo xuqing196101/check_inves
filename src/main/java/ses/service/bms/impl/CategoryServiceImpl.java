@@ -90,6 +90,10 @@ public class CategoryServiceImpl implements CategoryService {
 	 */
 	@Override
 	public List<SupplierTypeTree> findCategoryByType(Category category, String supplierId) {
+		String kind = category.getKind();
+		if (kind != null && !"".equals(kind)) {
+			category.setKind("%" + kind + "%");
+		}
 		List<Category> listCategorys = categoryMapper.findCategoryByType(category);
 		
 		// 查询供应商勾选品目类型

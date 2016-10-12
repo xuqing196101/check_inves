@@ -1,5 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -22,6 +23,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css" type="text/css" />
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.excheck.js"></script>
@@ -39,6 +41,63 @@
 		$("#products_form_id").attr("action", action);
 		$("#products_form_id").submit();
 
+	}
+	
+	
+	function addProductsMsg() {
+		var checkbox = $("input[name='checkbox']:checked");
+		if (checkbox.size() != 1) {
+			layer.msg("请勾选一条记录 !", {
+				offset : '300px',
+			});
+			return;
+		}
+		var id = checkbox.val();
+		layer.open({
+			type : 2,
+			title : '添加产品信息',
+			skin : 'layui-layer-rim', //加上边框
+			area : [ '600px', '500px' ], //宽高
+			offset : '100px',
+			scrollbar : false,
+			content : '${pageContext.request.contextPath}/supplier_products/add_products.html?id=' + id, //url
+			closeBtn : 1, //不显示关闭按钮
+		});
+	}
+	
+	function checkAll(ele, id) {
+		var flag = $(ele).prop("checked");
+		$("#" + id).find("input:checkbox").each(function() {
+			$(this).prop("checked", flag);
+		});
+
+	}
+	
+	function downloadFile(fileName) {
+		$("input[name='fileName']").val(fileName);
+		$("#download_form_id").submit();
+	}
+	
+	function addParam() {
+		var checkbox = $("input[name='checkbox']:checked");
+		if (checkbox.size() != 1) {
+			layer.msg("请勾选一条记录 !", {
+				offset : '300px',
+			});
+			return;
+		}
+		var productsId = checkbox.val();
+		var categoryId = checkbox.parents("tr").find("td").eq(1).attr("id");
+		layer.open({
+			type : 2,
+			title : '添加技术参数',
+			skin : 'layui-layer-rim', //加上边框
+			area : [ '600px', '450px' ], //宽高
+			offset : '100px',
+			scrollbar : false,
+			content : '${pageContext.request.contextPath}/categoryparam/list_by_category_id.html?categoryId=' + categoryId + '&productsId=' + productsId, //url
+			closeBtn : 1, //不显示关闭按钮
+		});
 	}
 </script>
 
@@ -74,9 +133,64 @@
 							<input name="id" value="${currSupplier.id}" type="hidden" /> 
 							<input name="sign" value="6" type="hidden" />
 							<div class="tab-content padding-top-20">
-								<!-- 物资生产型 -->
-								<div class="tab-pane fade active in height-450" id="tab-1">
-									
+								<div class="tab-pane fade active in height-300" id="tab-1">
+									<div class="margin-bottom-0  categories">
+										<h2 class="f16 jbxx mt40">
+											<i>01</i>产品信息表
+										</h2>
+										<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="addParam()">添加技术参数</button>
+										<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="addProductsMsg()">添加产品信息</button>
+										<table id="share_table_id" class="table table-bordered table-condensed">
+											<thead>
+												<tr>
+													<th class="info"><input type="checkbox" onchange="checkAll(this, 'products_tbody_id')" /></th>
+													<th class="info">所属类别</th>
+													<th class="info">产品名称</th>
+													<th class="info">品牌</th>
+													<th class="info">规格型号</th>
+													<th class="info">尺寸</th>
+													<th class="info">生产产地</th>
+													<th class="info">保质期</th>
+													<th class="info">生产商</th>
+													<th class="info">参考价格</th>
+													<th class="info">产品图片</th>
+													<th class="info">商品二维码</th>
+												</tr>
+											</thead>
+											<tbody id="products_tbody_id">
+												<c:forEach items="${currSupplier.listSupplierProducts}" var="products" varStatus="vs">
+													<tr>
+														<td class="tc"><input name="checkbox" type="checkbox" value="${products.id}" /></td>
+														<td id="${products.categoryId}" class="tc">${products.categoryName}</td>
+														<td class="tc">${products.name}</td>
+														<td class="tc">${products.brand}</td>
+														<td class="tc">${products.models}</td>
+														<td class="tc">${products.proSize}</td>
+														<td class="tc">${products.orgin}</td>
+														<td class="tc"><fmt:formatDate value="${products.expirationDate }" pattern="yyyy-MM-dd"/></td>
+														<td class="tc">${products.producer}</td>
+														<td class="tc">${products.referencePrice}</td>
+														<td class="tc">
+															<c:if test="${products.productPic != null}">
+																<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${products.productPic}')">下载附件</a>
+															</c:if>
+															<c:if test="${products.productPic == null}">
+																<span class="fz11">无附件下载</span>
+															</c:if>
+														</td>
+														<td class="tc">
+															<c:if test="${products.qrCode != null}">
+																<a class="color7171C6 fz11" href="javascript:void(0)"  onclick="downloadFile('${products.qrCode}')">下载附件</a>
+															</c:if>
+															<c:if test="${products.qrCode == null}">
+																<span class="fz11">无附件下载</span>
+															</c:if>
+														</td>
+													</tr>
+												</c:forEach>
+											</tbody>
+										</table>
+									</div>
 								</div>
 							</div>
 							<div class="mt40 tc mb50">
@@ -90,6 +204,9 @@
 			</div>
 		</div>
 	</div>
+	<form target="_blank" id="download_form_id" action="${pageContext.request.contextPath}/supplier/download.html" method="post">
+		<input type="hidden" name="fileName" />
+	</form>
 	<!-- footer -->
 	<jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
 </body>

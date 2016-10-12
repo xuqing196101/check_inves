@@ -62,6 +62,8 @@ public class ProductParam implements Serializable {
 	 */
 	private Date updatedAt;
 
+	private String paramName;
+
 	public String getId() {
 		return id;
 	}
@@ -116,5 +118,13 @@ public class ProductParam implements Serializable {
 
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+
+	public String getParamName() {
+		return paramName;
+	}
+
+	public void setParamName(String paramName) {
+		this.paramName = paramName;
 	}
 }

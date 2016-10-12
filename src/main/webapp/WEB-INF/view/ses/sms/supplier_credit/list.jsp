@@ -139,6 +139,19 @@
 		$("input[name='name']").val("");
 	}
 	
+	function viewCtnt(id) {
+		layer.open({
+			type : 2,
+			title : '诚信形式内容',
+			skin : 'layui-layer-rim', //加上边框
+			area : [ '670px', '350px' ], //宽高
+			offset : '100px',
+			scrollbar : false,
+			content : '${pageContext.request.contextPath}/supplier_credit_ctnt/list_by_credit_id.html?supplierCreditId=' + id, //url
+			closeBtn : 1, //不显示关闭按钮
+		});
+	}
+	
 </script>
 
 </head>
@@ -202,20 +215,16 @@
 							<th class="info w50"><input type="checkbox" onchange="checkAll(this)"></th>
 							<th class="info w50">序号</th>
 							<th class="info">形式名称</th>
-							<th class="info">创建时间</th>
-							<th class="info">修改时间</th>
-							<th class="info">状态</th>
+							<th class="info w100">状态</th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach items="${listSupplierCredits.list}" var="credit" varStatus="vs">
-							<tr>
+							<tr class="hand">
 								<td class="tc"><input name="checkbox" type="checkbox" value="${credit.id}"></td>
-								<td class="tc">${vs.index + 1}</td>
-								<td class="tc">${credit.name}</td>
-								<td class="tc"><fmt:formatDate value="${credit.createdAt}" pattern="yyyy-MM-dd"/></td>
-								<td class="tc"><fmt:formatDate value="${credit.updatedAt}" pattern="yyyy-MM-dd"/></td>
-								<td class="tc status">
+								<td class="tc" onclick="viewCtnt('${credit.id}')">${vs.index + 1}</td>
+								<td class="tc" onclick="viewCtnt('${credit.id}')">${credit.name}</td>
+								<td class="tc status" onclick="viewCtnt('${credit.id}')">
 									<c:if test="${credit.status == 0}"><span class="label rounded-2x label-dark">已停用</span></c:if>
 									<c:if test="${credit.status == 1}"><span class="label rounded-2x label-u">已启用</span></c:if>
 								</td>

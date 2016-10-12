@@ -100,11 +100,8 @@
 			<if test="name != null and name != ''">
 				and NAME like #{name}
 			</if>
-			<if test="status != null and status != ''">
-				and STATUS like #{status}
-			</if>
 		</where>
-		 order by CREATED_AT desc
+		 order by STATUS desc, CREATED_AT desc
 	</select>
 	
 	<select id="getSupplierCredit" parameterType="java.lang.String" resultMap="SupplierCreditMap">
@@ -116,6 +113,5 @@
 	
 	<update id="updateStatus" parameterType="ses.model.sms.SupplierCredit">
 		update T_SES_SMS_SUPPLIER_CREDIT set STATUS = #{status} where ID = #{id}
-		
 	</update>
 </mapper>

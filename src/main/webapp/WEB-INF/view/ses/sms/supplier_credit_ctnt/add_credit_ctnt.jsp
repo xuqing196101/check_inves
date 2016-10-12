@@ -14,27 +14,12 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 <script type="text/javascript">
-	$(function() {
-		autoSelected("supplier_credit_select_id", "${supplierCreditCtnt.supplierCreditId}");
-	});
-	function autoSelected(id, v) {
-		if (v) {
-			$("#" + id).find("option").each(function() {
-				var value = $(this).val();
-				if (value == v) {
-					$(this).prop("selected", true);
-				} else {
-					$(this).prop("selected", false);
-				}
-			});
-		}
-	}
 </script>
 </head>
 
 <body>
-	<div class="wrapper">
-		<form target="_parent" action="${pageContext.request.contextPath}/supplier_credit_ctnt/save_or_update_supplier_credit_ctnt.html" method="post">
+	<div class="wrapper mt30">
+		<form action="${pageContext.request.contextPath}/supplier_credit_ctnt/save_or_update_supplier_credit_ctnt.html" method="post">
 			<div class="container">
 				<div>
 					<div class="headline-v2">
@@ -43,6 +28,7 @@
 					<ul class="list-unstyled list-flow p0_20">
 						<li class="col-md-6 p0"><span class="">诚信内容名称：</span>
 							<div class="input-append">
+								<input name="supplierCreditId" type="hidden" value="${supplierCreditCtnt.supplierCreditId}" />
 								<input name="id" type="hidden" value="${supplierCreditCtnt.id}" />
 								<input name="name" class="span2" type="text" value="${supplierCreditCtnt.name}"> 
 								<span class="add-on">i</span>
@@ -51,16 +37,6 @@
 						<li class="col-md-6 p0"><span class="">诚信内容分数：</span>
 							<div class="input-append">
 								<input name="score" class="span2" type="text" value="${supplierCreditCtnt.score}"> 
-								<span class="add-on">i</span>
-							</div>
-						</li>
-						<li class="col-md-6 p0"><span class="">诚信形式：</span>
-							<div class="input-append">
-								<select id="supplier_credit_select_id" class="span2 fz15" name="supplierCreditId">
-									<c:forEach items="${listSupplierCredits}" var="supplierCredit">
-										<option value="${supplierCredit.id}">${supplierCredit.name}</option>
-									</c:forEach>
-								</select> 
 								<span class="add-on">i</span>
 							</div>
 						</li>

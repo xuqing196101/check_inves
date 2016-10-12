@@ -463,16 +463,18 @@ public class Supplier implements Serializable {
 
 	private Integer count;
 
-	private Integer score = 0;
+	private Integer score;
 
-	private Integer startScore = 0;
+	private Integer startScore;
 
-	private Integer endScore = 0;
+	private Integer endScore;
 
 	private List<SupplierItem> listSupplierItems = new ArrayList<SupplierItem>();
 
 	private String level;
-
+	
+	private List<SupplierProducts> listSupplierProducts = new ArrayList<SupplierProducts>();
+	
 	public Integer getCount() {
 		return count;
 	}
@@ -1055,5 +1057,13 @@ public class Supplier implements Serializable {
 
 	public void setEndScore(Integer endScore) {
 		this.endScore = endScore;
+	}
+
+	public List<SupplierProducts> getListSupplierProducts() {
+		return listSupplierProducts;
+	}
+
+	public void setListSupplierProducts(List<SupplierProducts> listSupplierProducts) {
+		this.listSupplierProducts = listSupplierProducts;
 	}
 }

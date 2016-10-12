@@ -885,6 +885,7 @@
 		<collection property="listSupplierStockholders" select="ses.dao.sms.SupplierStockholderMapper.findStockholderBySupplierId" column="ID" />
 		<collection property="listSupplierTypeRelates" select="ses.dao.sms.SupplierTypeRelateMapper.findSupplierTypeBySupplierId" column="ID" />
 		<collection property="listSupplierItems" select="ses.dao.sms.SupplierItemMapper.findSupplierItemBySupplierId" column="ID" />
+		<collection property="listSupplierProducts" select="ses.dao.sms.SupplierProductsMapper.findSupplierProductsBySupplierId" column="ID" />
 	</resultMap>
 	
 	<update id="updateScore" parameterType="ses.model.sms.Supplier">

@@ -6,24 +6,18 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import javax.print.DocFlavor.STRING;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.zookeeper.server.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.google.gson.Gson;
 
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.Category;
@@ -33,6 +27,8 @@ import ses.model.ppms.CategoryParam;
 import ses.service.bms.CategoryAptitudeService;
 import ses.service.bms.CategoryService;
 import ses.service.ppms.CategoryParamService;
+
+import com.google.gson.Gson;
 
 @Controller
 @Scope("prototype")
@@ -312,5 +308,24 @@ public class CategoryParamContrller extends BaseSupplierController{
 	
     	 
     	 
+     }
+     
+     /**
+      * @Title: listByCategoryId
+      * @author: Wang Zhaohua
+      * @date: 2016-10-10 下午8:23:29
+      * @Description: 根据品目 ID 查找技术参数
+      * @param: @param model
+      * @param: @param categoryId
+      * @param: @return
+      * @return: String
+      */
+     @RequestMapping(value = "list_by_category_id")
+     public String listByCategoryId(Model model, String categoryId, String productsId) {
+    	 List<CategoryParam> list = categoryParamService.findParamByCategoryId(categoryId);
+    	 model.addAttribute("list", list);
+    	 model.addAttribute("categoryId", categoryId);
+    	 model.addAttribute("productsId", productsId);
+    	 return "ses/sms/supplier_register/add_param";
      }
 }

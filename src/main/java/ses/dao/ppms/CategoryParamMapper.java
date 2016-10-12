@@ -2,8 +2,6 @@ package ses.dao.ppms;
 
 import java.util.List;
 
-import javax.print.DocFlavor.STRING;
-
 import ses.model.bms.Category;
 import ses.model.ppms.CategoryParam;
 
@@ -81,4 +79,6 @@ public interface CategoryParamMapper {
 		* @param @param CategoryParam
 		*/
 	List<CategoryParam> findListByCategoryId(String id);
+	
+	List<CategoryParam> findParamByCategoryId(String categoryId);
 }

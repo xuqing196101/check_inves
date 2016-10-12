@@ -72,4 +72,6 @@ public interface CategoryParamService {
 	* @param @param CategoryParam
 	*/
 	 void insertSelective(CategoryParam categoryParam);
+	 
+	 List<CategoryParam> findParamByCategoryId(String categoryId);
 }

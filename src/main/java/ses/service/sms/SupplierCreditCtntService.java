@@ -8,7 +8,9 @@ public interface SupplierCreditCtntService {
 	
 	public List<SupplierCreditCtnt> findCreditCtnt(SupplierCreditCtnt supplierCreditCtnt, int page);
 	
-	public List<SupplierCreditCtnt> findCreditCtnt(SupplierCreditCtnt supplierCreditCtnt);
+	public List<SupplierCreditCtnt> findCreditCtntByCreditId(SupplierCreditCtnt supplierCreditCtnt, int page);
+	
+	public List<SupplierCreditCtnt> findCreditCtntByCreditId(SupplierCreditCtnt supplierCreditCtnt);
 	
 	public void saveOrUpdateSupplierCreditCtnt(SupplierCreditCtnt supplierCreditCtnt);
 	

@@ -53,7 +53,15 @@ public class SupplierCreditCtntServiceImpl implements SupplierCreditCtntService 
 	}
 
 	@Override
-	public List<SupplierCreditCtnt> findCreditCtnt(SupplierCreditCtnt supplierCreditCtnt) {
+	public List<SupplierCreditCtnt> findCreditCtntByCreditId(SupplierCreditCtnt supplierCreditCtnt) {
+		return supplierCreditCtntMapper.findCreditCtntByCreditId(supplierCreditCtnt);
+	}
+
+
+	@Override
+	public List<SupplierCreditCtnt> findCreditCtntByCreditId(SupplierCreditCtnt supplierCreditCtnt, int page) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 		return supplierCreditCtntMapper.findCreditCtntByCreditId(supplierCreditCtnt);
 	}
 }

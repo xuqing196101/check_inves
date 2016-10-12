@@ -55,4 +55,5 @@ public class SupplierCreditController {
 		supplierCreditService.delete(ids);
 		return "redirect:list.html";
 	}
+	
 }
