@@ -60,7 +60,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    }(), 
 			    jump: function(e, first){ //触发分页后的回调
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
-			            location.href = '<%=basePath%>user/list.html?page='+e.curr;
+			        	var loginName = $("#loginName").val();
+			        	var relName = $("#relName").val();
+			        	var typeName = $("#typeName").val();
+			            location.href = '<%=basePath%>user/list.html?loginName='+loginName+'&relName='+relName+'&typeName='+typeName+'&page='+e.curr;
 			        }
 			    }
 			});
@@ -116,9 +119,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			var currPage = ${list.pageNum};
 			window.location.href="<%=basePath%>user/edit.html?id="+id+"&page="+currPage;
 		}else if(id.length>1){
-			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("只能选择一个",{offset: '222px', shade:0.01});
 		}else{
-			layer.alert("请选择需要修改的用户",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择需要修改的用户",{offset: '222px', shade:0.01});
 		}
     }
     
@@ -128,12 +131,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			ids.push($(this).val()); 
 		}); 
 		if(ids.length>0){
-			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+			layer.confirm('您确定要删除吗?', {title:'提示',offset: '222px',shade:0.01}, function(index){
 				layer.close(index);
 				window.location.href="<%=basePath%>user/delete_soft.html?ids="+ids;
 			});
 		}else{
-			layer.alert("请选择要删除的用户",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择要删除的用户",{offset: '222px', shade:0.01});
 		}
     }
     
@@ -156,7 +159,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  shade:0.01, //遮罩透明度
 			  moveType: 1, //拖拽风格，0是默认，1是传统拖动
 			  shift: 1, //0-6的动画形式，-1不开启
-			  offset: ['180px', '550px'],
+			  offset: '110px',
 			  shadeClose: false,
 			  content: '<%=basePath%>user/openPreMenu.html?id='+ids,
 			  success: function(layero, index){
@@ -171,15 +174,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  }
 			});
 		}else if(ids.length>1){
-			layer.alert("只能同时选择一个用户",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("只能同时选择一个用户",{offset: '222px', shade:0.01});
 		}else{
-			layer.alert("请选择一个用户",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择一个用户",{offset: '222px', shade:0.01});
 		}
 	
 	}
 	
 	function query(){
 		$("#form1").submit();
+	}
+	function resetQuery(){
+		$("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
 	}
   </script>
   <body>
@@ -201,29 +207,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		       	<form action="<%=basePath %>user/list.html" id="form1" method="post" class="mb0">
 			    	<ul class="demand_list">
 			    	  <li class="fl">
-				    	<label class="fl">用户名：</label><span><input type="text" id="topic" name="loginName" class=""/></span>
+				    	<label class="fl">用户名：</label><span><input type="text" id="loginName" value="${user.loginName }" name="loginName" class=""/></span>
 				      </li>
 			    	  <li class="fl">
-				    	<label class="fl">姓名：</label><span><input type="text" id="topic" name="relName" class=""/></span>
+				    	<label class="fl">姓名：</label><span><input type="text" id="relName" value="${user.relName }" name="relName" class=""/></span>
 				      </li>
 			    	  <li class="fl">
 				    	<label class="fl">用户类型：</label>
 				    	<div class="select_common mb10">
-					        <select class="w180 " name="typeName">
+					        <select class="w180 " id="typeName" name="typeName">
 					        	<option value="">请选择</option>
-					        	<option value="2">需求人员</option>
-					        	<option value="1">采购人员</option>
-					        	<option value="0">采购管理人员</option>
-					        	<option value="3">其他人员</option>
-					        	<option value="4">供应商</option>
-					        	<option value="5">专家</option>
-					        	<option value="6">进口供应商</option>
-					        	<option value="7">进口代理商</option>
+					        	<option value="2" <c:if test="${'2' eq user.typeName}">selected</c:if>>需求人员</option>
+					        	<option value="1" <c:if test="${'1' eq user.typeName}">selected</c:if>>采购人员</option>
+					        	<option value="0" <c:if test="${'0' eq user.typeName}">selected</c:if>>采购管理人员</option>
+					        	<option value="3" <c:if test="${'3' eq user.typeName}">selected</c:if>>其他人员</option>
+					        	<option value="4" <c:if test="${'4' eq user.typeName}">selected</c:if>>供应商</option>
+					        	<option value="5" <c:if test="${'5' eq user.typeName}">selected</c:if>>专家</option>
+					        	<option value="6" <c:if test="${'6' eq user.typeName}">selected</c:if>>进口供应商</option>
+					        	<option value="7" <c:if test="${'7' eq user.typeName}">selected</c:if>>进口代理商</option>
 					        </select>
 				        </div>
 				      </li> 
 				    	<button type="button" onclick="query()" class="btn">查询</button>
-				    	<button type="reset" class="btn">重置</button>  	
+				    	<button type="button" onclick="resetQuery()" class="btn">重置</button>  	
 			    	</ul>
 		    	  	<div class="clear"></div>
 		        </form>

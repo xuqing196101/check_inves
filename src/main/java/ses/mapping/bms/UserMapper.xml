@@ -72,7 +72,7 @@
         and u.ID = #{id} 
       </if>
       <if test="loginName != null and loginName != ''">
-        and u.LOGIN_NAME = #{loginName} 
+        and u.LOGIN_NAME like CONCAT(CONCAT('%', #{loginName}), '%')
       </if>
       <if test="password != null and password != ''">
         and u.PASSWORD = #{password} 
@@ -81,7 +81,7 @@
         and u.CREATED_AT = #{createdAt} 
       </if>
       <if test="relName != null and relName != ''">
-        and u.REL_NAME like concat(concat('%', '${relName}'), '%')
+        and u.REL_NAME like CONCAT(CONCAT('%', #{relName}), '%')
       </if>
       <if test="updatedAt != null">
         and u.UPDATED_AT = #{updatedAt} 
@@ -440,5 +440,51 @@
           <if test="preMenu != null">and "PERMENU_ID" = #{preMenu.id}</if>  
       </where>  
   </delete>  
+  
+  <!-- 13.根据用户名查询 -->
+  <select id="queryByLoginName" resultMap="UserBaseMap" parameterType="Object">
+    select
+    <include refid="Base_Column_List" />
+    from T_SES_BMS_USER u
+    where
+    u.LOGIN_NAME = #{loginName}
+  </select>
+  
+  <!-- 14.用户名、密码登录查询（包含角色等关联信息） -->  
+  <select id="queryByLogin" parameterType="Object" resultMap="UserResultMap">  
+      SELECT
+			U .*,
+			r. ID AS roleId,
+			r. NAME AS roleName,
+			r.CREATED_AT AS roleCreatedAt,
+			r.DESCRIPTION AS description,
+			r.IS_DELETED AS roleIsDeleted,
+			r.UPDATED_AT AS roleUpdatedAt,
+			r.STATUS AS roleStatus,
+			pm. ID AS mid,
+			pm. NAME AS mname,
+			pm.MENU_TYPE AS mtype,
+			pm.IS_DELETED AS misDeleted,
+			pm.STATUS AS mstatus,
+			pm.URL AS murl,
+			pm.CREATED_AT AS mcreatedAt,
+			pm.UPDATED_AT AS mupdatedAt,
+			pm.POSITION AS mposition,
+			pm.MENU_LEVEL AS menulevel,
+			pm.PARENT_ID AS mparent,
+			pm.KIND AS mkind,
+			pm.ICON AS micon
+		FROM
+			T_SES_BMS_USER U
+		LEFT JOIN T_SES_BMS_USER_ROLE ur ON U . ID = ur."USER_ID"
+		LEFT JOIN T_SES_BMS_ROLE r ON ur."ROLE_ID" = r. ID
+		LEFT JOIN T_SES_BMS_USER_PERMISSION up ON U . ID = up.USER_ID
+		LEFT JOIN T_SES_BMS_PERMISSION pm ON up.PERMENU_ID = pm. ID
+      	where
+      		U .IS_DELETED = 0
+			AND U .LOGIN_NAME = #{loginName}
+			AND U . PASSWORD = #{password}
+		ORDER BY pm.MENU_LEVEL ,pm.POSITION ASC
+  </select>
   
 </mapper>

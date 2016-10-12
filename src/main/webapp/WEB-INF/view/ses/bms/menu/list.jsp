@@ -135,24 +135,24 @@
 			  shade:0.01, //遮罩透明度
 			  moveType: 1, //拖拽风格，0是默认，1是传统拖动
 			  shift: 1, //0-6的动画形式，-1不开启
-			  offset: ['120px', '550px'],
+			  offset: '120px',
 			  shadeClose: false,
 			  content: '${pageContext.request.contextPath}/preMenu/edit.html?id='+mid
 			});
 		}else{
-			layer.alert("请选择一个节点",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择一个节点",{offset: '222px', shade:0.01});
 		}
     }
     
     function del(){
     	var mid = $("#mid").val();
 		if(mid != null && mid != '' ){
-			layer.confirm('您确定要删除该菜单吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+			layer.confirm('您确定要删除该菜单吗?', {title:'提示',offset: '222px',shade:0.01}, function(index){
 				layer.close(index);
 				window.location.href="${pageContext.request.contextPath}/preMenu/delete.html?ids="+mid;
 			});
 		}else{
-			layer.alert("请选择要删除的菜单",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择要删除的菜单",{offset: '222px', shade:0.01});
 		}
     }
     
@@ -166,7 +166,7 @@
 		  shade:0.01, //遮罩透明度
 		  moveType: 1, //拖拽风格，0是默认，1是传统拖动
 		  shift: 1, //0-6的动画形式，-1不开启
-		  offset: ['120px', '550px'],
+		  offset: '120px',
 		  shadeClose: false,
 		  content: '${pageContext.request.contextPath}/preMenu/add.html?pid='+pid
 		});

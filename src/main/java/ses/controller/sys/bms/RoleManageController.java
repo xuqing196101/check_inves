@@ -66,6 +66,7 @@ public class RoleManageController {
 	public String list(Model model, Integer page, Role role) {
 		List<Role> roles = roleService.list(role, page == null ? 1 : page);
 		model.addAttribute("list", new PageInfo<Role>(roles));
+		model.addAttribute("role", role);
 		logger.info(JSON.toJSONStringWithDateFormat(roles,
 				"yyyy-MM-dd HH:mm:ss"));
 		return "ses/bms/role/list";
@@ -321,9 +322,11 @@ public class RoleManageController {
 			map.put("id", e.getId());
 			map.put("pId",0);
 			map.put("name", e.getName());
-			for (Role r : oldRoles) {
-				if (r.getId().equals(e.getId())) {
-					map.put("checked", true);
+			if(oldRoles != null && oldRoles.size() > 0){
+				for (Role r : oldRoles) {
+					if (r.getId().equals(e.getId())) {
+						map.put("checked", true);
+					}
 				}
 			}
 			mapList.add(map);

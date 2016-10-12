@@ -82,6 +82,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			   <input name="id" value=${role.id } type="hidden">
 			  <ul class="list-unstyled mt10">
 			     <li class="col-md-6 p0">
+			       <span class="fl mt5 red">*</span>
 				   <span class="fl mt5">名称：</span>
 				   <div class="input-append">
 			        <input class="w140" name="name" value=${role.name } maxlength="30" type="text">
@@ -89,16 +90,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			       </div>
 				 </li>
 				 <li class="col-md-6 p0 ">
+				 	<span class="fl  red">*</span>
 				 	<span class="fl">状态：</span>
-					<select  name="status"  class="w180 ">
+					<select  name="status"  class="w180 mb10">
 					   	<option value="0" <c:if test="${'0' eq role.status}">selected</c:if>>可用</option>
 					   	<option value="1" <c:if test="${'1' eq role.status}">selected</c:if>>禁用</option>
 				    </select>
 				</li>
-			     <li class="col-md-12 p0">
+			     <li class="col-md-12 p0 ml6">
 				   <span class="fl mt5">描述：</span>
 				   <div class="fn mt5">
-			        <textarea class="text_area2 " name="description"  maxlength="200" title="" placeholder="">${role.description }</textarea>
+			        <textarea class="text_area1 mt6" name="description"  maxlength="200" title="" placeholder="">${role.description }</textarea>
 			       </div>
 				 </li> 
 			   </ul>

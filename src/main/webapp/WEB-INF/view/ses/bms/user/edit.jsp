@@ -1,6 +1,8 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -66,6 +68,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			hideOrg();
 		}
 		function showOrg() {
+			var userId = $("#uId").val();
 			var setting = {
 				check: {
 					enable: true,
@@ -88,7 +91,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			$.ajax({
              type: "GET",
              async: false, 
-             url: "<%=basePath%>purchaseManage/gettree.do?",
+             url: "<%=basePath%>user/getOrgTree.do?userId="+userId,
              dataType: "json",
              success: function(zNodes){
                      for (var i = 0; i < zNodes.length; i++) { 
@@ -194,6 +197,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			}
 		}
 		
+		function goback(){
+			var currpage = $("#currpage").val();
+			location.href = '<%=basePath%>user/list.html?page='+currpage;
+		}
 	</script>
 </head>
 <body>
@@ -209,61 +216,66 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
    
    <!-- 修改订列表开始-->
-   <div class="container">
+   <div class="container bggrey border1 mt20">
 	   <div id="orgContent" class="orgContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
-			<ul id="treeOrg" class="ztree"  style="width: 220px"></ul>
+			<ul id="treeOrg" class="ztree"></ul>
 	   </div>
 	   <div id="roleContent" class="roleContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
-			<ul id="treeRole" class="ztree" style="margin-top:0; width:220px;"></ul>
+			<ul id="treeRole" class="ztree mt0"></ul>
 	   </div>
-   	   <form action="<%=basePath %>user/update.html" method="post">
+	   <sf:form action="${pageContext.request.contextPath}/user/update.html" method="post" modelAttribute="user">
 	   	   <div>
-			    <div class="headline-v2">
+			    <div class="headline-v2 bggrey">
 			   		<h2>修改用户</h2>
 			    </div>
-			    <input type="hidden" name="currpage" value="${currPage}">
+			    <input type="hidden" id="currpage" name="currpage" value="${currPage}">
 			    <input class="span2" name="id" id="uId" type="hidden" value="${user.id}">
 			   	<input class="span2" name="createdAt" type="hidden" value="<fmt:formatDate value='${user.createdAt}' pattern='yyyy-MM-dd  HH:mm:ss'/>">
 			   	<input class="span2" name="isDeleted" type="hidden" value="${user.isDeleted}">
 			   	<input class="span2" name="password" type="hidden" value="${user.password}">
+			   	<input class="span2" name="password2" type="hidden" value="${user.password}">
 			   	<input class="span2" name="randomCode" type="hidden" value="${user.randomCode}">
-	   			<ul class="list-unstyled list-flow p0_20">
+	   			<ul class="list-unstyled list-flow ul_list">
 			   	 	<li class="col-md-6 p0">
-					    <span class="">用户名：</span>
+					    <span class=""><div class="fr">用户名：</div><div class="red">*</div></span>
 					    <div class="input-append">
 					        <input class="span2" name="loginName" type="text" readonly="readonly" value="${user.loginName}">
 					        <span class="add-on">i</span>
 				        </div>
 				 	</li>
 		     		<li class="col-md-6  p0 ">
-					    <span class="">真实姓名：</span>
-					    <div class="input-append">
+					    <span class=""><div class="fr">真实姓名：</div><div class="red">*</div></span>
+					    <div class="input-append pr">
 					        <input class="span2" name="relName" type="text" value="${user.relName}">
 					        <span class="add-on">i</span>
+					        <div class="b f14 red tip pa l260"><sf:errors path="relName"/></div>
 				        </div>
 			 		</li>
 			 		<li class="col-md-6 p0">
-					    <span class="">性别：</span>
-					    <div class="select_common mb10">
+					    <span class=""><div class="fr">性别：</div><div class="red">*</div></span>
+					    <div class="select_common mb10 pr">
 					        <select name="gender" class="w250 ">
 					        	<option value="">-请选择-</option> 
 					        	<option value="M" <c:if test="${'M' eq user.gender}">selected</c:if> >男</option>
 					        	<option value="F" <c:if test="${'F' eq user.gender}">selected</c:if>>女</option>
 					        </select>
+					        <div class="b f14 red tip pa l260 t0"><sf:errors path="gender"/></div>
 				        </div>
 			 		</li>
 		     		<li class="col-md-6  p0 ">
-					    <span class="">手机：</span>
-					    <div class="input-append">
+					    <span class=""><div class="fr">手机：</div><div class="red">*</div></span>
+					    <div class="input-append pr">
 					        <input class="span2" name="mobile" value="${user.mobile }" type="text">
 					        <span class="add-on">i</span>
+					        <div class="b f14 red tip pa l260"><sf:errors path="mobile"/></div>
 				        </div>
 			 		</li>
 		           	<li class="col-md-6 p0">
 					    <span class="">邮箱：</span>
-					    <div class="input-append">
+					    <div class="input-append pr">
 					        <input class="span2" name="email" value="${user.email }" type="text">
 					        <span class="add-on">i</span>
+					        <div class="b f14 red tip pa l260"><sf:errors path="email"/></div>
 				        </div>
 			 		</li>
 		     		<li class="col-md-6  p0 ">
@@ -274,8 +286,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				        </div>
 			 		</li>
 			 		<li class="col-md-6 p0">
-					    <span class="">类型：</span>
-					    <div class="select_common mb10">
+					    <span class=""><div class="fr">类型：</div><div class="red">*</div></span>
+					    <div class="select_common mb10 pr">
 					        <select name="typeName" class="w250 ">
 					        	<option value="2" <c:if test="${'2' eq user.typeName}">selected</c:if>>需求人员</option>
 					        	<option value="1" <c:if test="${'1' eq user.typeName}">selected</c:if>>采购人员</option>
@@ -289,27 +301,33 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				        </div>
 			 		</li>
 			 		<li class="col-md-6  p0 ">
-					    <span class="">所属机构：</span>
-					    <div class="input-append">
-						   	<input id="oId" name="orgId" type="hidden">
-					        <input id="orgSel" class="span2" type="text" readonly value="${user.org.name }"  onclick="showOrg();" />
-					        <span class="add-on">i</span>
+					    <span class=""><div class="fr">所属机构：</div><div class="red">*</div></span>
+					    <div class="select_common pr">
+						   	<input id="oId" name="orgId" type="hidden" value="${orgId }">
+					        <input id="orgSel" class="w250" name="orgName" type="text" readonly value="${orgName }"  onclick="showOrg();" />
+					        <i class="input_icon " onclick="showOrg();">
+								<img src="<%=basePath%>public/ZHH/images/down.png" class="margin-bottom-5" />
+					        </i>
 				        </div>
+				        <div class="b f14 red tip pa l462"><sf:errors path="orgId"/></div>
 			 		</li>
 		     		<li class="col-md-6  p0 ">
-						    <span class="">联系电话：</span>
+						    <span class="">座机电话：</span>
 						    <div class="input-append">
 						        <input class="span2" name="telephone" type="text" value="${user.telephone}">
 						        <span class="add-on">i</span>
 					        </div>
 					 </li> 
 					<li class="col-md-6 p0">
-						    <span class="">角色：</span>
-						    <div class="input-append">
+						    <span class=""><div class="fr">角色：</div><div class="red">*</div></span>
+						    <div class="select_common pr">
 							   	<input id="rId" name="roleId" type="hidden" value="${roleId}">
-						        <input id="roleSel" class="span2" type="text" readonly value="${roleName}"  onclick="showRole();" />
-						        <span class="add-on">i</span>
+						        <input id="roleSel" class="w250" name="roleName" type="text" readonly value="${roleName}"  onclick="showRole();" />
+						        <i class="input_icon " onclick="showRole();">
+									<img src="<%=basePath%>public/ZHH/images/down.png" class="margin-bottom-5" />
+						        </i>
 					        </div>
+					        <div class="b f14 red tip pa l462"><sf:errors path="roleId"/></div>
 					 </li>
 					<li class="col-md-12 p0">
 						    <span class="fl">详细地址：</span>
@@ -322,9 +340,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  	  </div> 
 	  	   <div class="col-md-12 tc mt20" >
 		    	<button class="btn btn-windows reset" type="submit">更新</button>
-		    	<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
+		    	<button class="btn btn-windows back" onclick="goback()" type="button">返回</button>
 		   </div>
-  	   </form>
+  	   </sf:form>
  	</div>
 </body>
 </html>

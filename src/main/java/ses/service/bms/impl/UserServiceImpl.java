@@ -100,9 +100,7 @@ public class UserServiceImpl implements UserServiceI {
 
 	@Override
 	public List<User> findByLoginName(String loginName) {
-		User user=new User();
-		user.setLoginName(loginName);
-		List<User> users = userMapper.queryByList(user);
+		List<User> users = userMapper.queryByLoginName(loginName);
 		return users;
 	} 
     
@@ -144,6 +142,11 @@ public class UserServiceImpl implements UserServiceI {
 
 	public List<User> queryByList(User user) {
 		return userMapper.queryByList(user);
+	}
+
+	@Override
+	public List<User> queryByLogin(User user) {
+		return userMapper.queryByLogin(user);
 	}
 	
 }

@@ -121,7 +121,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  shade:0.01, //遮罩透明度
 			  moveType: 1, //拖拽风格，0是默认，1是传统拖动
 			  shift: 1, //0-6的动画形式，-1不开启
-			  offset: ['180px', '550px'],
+			  offset: '110px',
 			  shadeClose: false,
 			  //content: menucon,
 			  content: '<%=basePath%>role/openPreMenu.html?id='+ids,
@@ -137,9 +137,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  }
 			});
 		}else if(ids.length>1){
-			layer.alert("只能同时选择一个角色",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("只能同时选择一个角色",{offset: '222px', shade:0.01});
 		}else{
-			layer.alert("请选择一个角色",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择一个角色",{offset: '222px', shade:0.01});
 		}
 	
 	}
@@ -156,20 +156,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		if(id.length==1){
 			layer.open({
 			  type: 2, //page层
-			  area: ['450px', '390px'],
+			  area: ['450px', '360px'],
 			  title: '修改角色',
 			  closeBtn: 1,
 			  shade:0.01, //遮罩透明度
 			  moveType: 1, //拖拽风格，0是默认，1是传统拖动
 			  shift: 1, //0-6的动画形式，-1不开启
-			  offset: ['80px', '400px'],
+			  offset : '180px',
 			  shadeClose: false,
 			  content: '<%=basePath%>role/edit.html?id='+id
 			});
 		}else if(id.length>1){
-			layer.alert("只能选择一个角色",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("只能选择一个角色",{offset: '222px', shade:0.01});
 		}else{
-			layer.alert("请选择需要修改的角色",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择需要修改的角色",{offset: '222px', shade:0.01});
 		}
     }
     
@@ -187,16 +187,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                		window.setTimeout(function(){
                         window.location.href = "<%=basePath%>role/list.html";
                     }, 1000);
-                    layer.msg(result.msg,{offset: ['222px', '390px']});
+                    layer.msg(result.msg,{offset: '222px'});
                 },
                 error: function(result){
-                    layer.msg("操作失败",{offset: ['222px', '390px']});
+                    layer.msg("操作失败",{offset: '222px'});
                 }
             });
 		}else if(ids.length>1){
-			layer.alert("只能选择一个角色",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("只能选择一个角色",{offset: '222px', shade:0.01});
 		}else{
-			layer.alert("请选择角色",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择角色",{offset: '222px', shade:0.01});
 		}
     }
     
@@ -206,25 +206,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			ids.push($(this).val()); 
 		}); 
 		if(ids.length>0){
-			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+			layer.confirm('您确定要删除吗?', {title:'提示',offset: '222px',shade:0.01}, function(index){
 				layer.close(index);
 				window.location.href="<%=basePath%>role/delete.html?ids="+ids;
 			});
 		}else{
-			layer.alert("请选择要删除的角色",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择要删除的角色",{offset: '222px', shade:0.01});
 		}
     }
     
     function add(){
     	layer.open({
 			  type: 2, //page层
-			  area: ['450px', '390px'],
+			  area: ['450px', '350px'],
 			  title: '新增角色',
 			  closeBtn: 1,
 			  shade:0.01, //遮罩透明度
 			  moveType: 1, //拖拽风格，0是默认，1是传统拖动
 			  shift: 1, //0-6的动画形式，-1不开启
-			  offset: ['80px', '400px'],
+			  offset: '180px',
 			  shadeClose: false,
 			  content: '<%=basePath%>role/add.html'
 			});
@@ -232,6 +232,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
     function query(){
 		$("#form1").submit();
+	}
+	
+	function resetQuery(){
+		$('#form1')[0].reset();
 	}
   </script>
 <body>
@@ -253,20 +257,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		       	<form action="<%=basePath %>role/list.html" id="form1" method="post" class="mb0">
 			    	<ul class="demand_list">
 			    	  <li class="fl">
-				    	<label class="fl">名称：</label><span><input type="text" id="topic" name="name" class=""/></span>
+				    	<label class="fl">名称：</label><span><input type="text" value="${role.name }" id="topic" name="name" class=""/></span>
 				      </li>
 			    	  <li class="fl">
 				    	<label class="fl">状态：</label>
 				    	<div class="select_common mb10">
 					        <select class="w180 " name="status">
 					        	<option value="">请选择</option>
-					        	<option value="0">可用</option>
-					        	<option value="1">禁用</option>
+					        	<option value="0" <c:if test="${'0' eq role.status}">selected</c:if>>启用</option>
+					        	<option value="1" <c:if test="${'1' eq role.status}">selected</c:if>>禁用</option>
 					        </select>
 				        </div>
 				      </li> 
 				    	<button type="button" onclick="query()" class="btn">查询</button>
-				    	<button type="reset" class="btn">重置</button>  	
+				    	<button type="reset" onclick="resetQuery()" class="btn">重置</button>  	
 			    	</ul>
 		    	  	<div class="clear"></div>
 		        </form>
@@ -307,8 +311,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					  <td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 					  <td class="tc">${role.name}</td>
 					  <td class="tc">
-					  	<c:if test="${role.status == 0}"><span class="label rounded-2x label-u">正常</span></c:if>
-					  	<c:if test="${role.status == 1}"><span class="label rounded-2x label-dark">已禁用</span></c:if>
+					  	<c:if test="${role.status == 0}"><span class="label rounded-2x label-u">启用</span></c:if>
+					  	<c:if test="${role.status == 1}"><span class="label rounded-2x label-dark">暂停</span></c:if>
 					  </td>
 					  <td class="tc">${role.description}</td>
 				   </tr>

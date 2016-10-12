@@ -1,38 +1,29 @@
 package ses.controller.sys.bms;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import net.sf.json.JSONArray;
 
-import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPFile;
-import org.apache.commons.net.ftp.FTPReply;
 import org.apache.log4j.Logger;
-import org.aspectj.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import ses.model.bms.PreMenu;
 import ses.model.bms.Role;
-import ses.model.bms.RolePreMenu;
 import ses.model.bms.User;
 import ses.model.bms.UserPreMenu;
 import ses.model.bms.Userrole;
@@ -42,8 +33,8 @@ import ses.service.bms.PreMenuServiceI;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
-import ses.service.oms.PurchaseServiceI;
-import ses.util.FtpUtil;
+
+import bss.controller.base.BaseController;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
@@ -58,7 +49,7 @@ import com.github.pagehelper.PageInfo;
 @Controller
 @Scope("prototype")
 @RequestMapping("/user")
-public class UserManageController {
+public class UserManageController extends BaseController{
 
 	@Autowired
 	private UserServiceI userService;
@@ -88,6 +79,7 @@ public class UserManageController {
 	public String list(Model model, Integer page, User user) {
 		List<User> users = userService.list(user, page == null ? 1 : page);
 		model.addAttribute("list", new PageInfo<User>(users));
+		model.addAttribute("user", user);
 		logger.info(JSON.toJSONStringWithDateFormat(users,
 				"yyyy-MM-dd HH:mm:ss"));
 		return "ses/bms/user/list";
@@ -141,26 +133,6 @@ public class UserManageController {
 	 */
 	@RequestMapping("/add")
 	public String add(HttpServletRequest request, Model model) {
-		List<Role> roles = roleService.find(null);
-		model.addAttribute("roles", roles);
-		String loginNameTip = (String) request.getSession().getAttribute(
-				"userSaveTipMsg_loginName");
-		String passwordTip = (String) request.getSession().getAttribute(
-				"userSaveTipMsg_password");
-		String password2Tip = (String) request.getSession().getAttribute(
-				"userSaveTipMsg_password2");
-		if (loginNameTip != null && !"".equals(loginNameTip)) {
-			model.addAttribute("loginName_msg", loginNameTip);
-		}
-		if (passwordTip != null && !"".equals(passwordTip)) {
-			model.addAttribute("password_msg", passwordTip);
-		}
-		if (password2Tip != null && !"".equals(password2Tip)) {
-			model.addAttribute("password2_msg", password2Tip);
-		}
-		request.getSession().removeAttribute("userSaveTipMsg_loginName");
-		request.getSession().removeAttribute("userSaveTipMsg_password");
-		request.getSession().removeAttribute("userSaveTipMsg_password2");
 		return "ses/bms/user/add";
 	}
 
@@ -177,77 +149,64 @@ public class UserManageController {
 	 * @exception IOException
 	 */
 	@RequestMapping("/save")
-	public String save(HttpServletRequest request, Model model, User user,
-			String roleId, String orgId) {
-		String loginName = user.getLoginName();
-		List<User> users = userService.findByLoginName(user.getLoginName());
-		String password2 = request.getParameter("password2");
-		if (loginName == null || "".equals(loginName)) {
-			request.getSession().setAttribute("userSaveTipMsg_loginName",
-					"请输入用户名");
-			if (user.getPassword() == null || "".equals(user.getPassword())) {
-				request.getSession().setAttribute("userSaveTipMsg_password",
-						"请输入密码");
-			} else if (!user.getPassword().equals(password2)) {
-				request.getSession().setAttribute("userSaveTipMsg_password2",
-						"两次密码输入不一致");
-			}
-			return "redirect:add.html";
-		} else if (users.size() > 0) {
-			request.getSession().setAttribute("userSaveTipMsg_loginName",
-					"用户名已存在");
-			if (user.getPassword() == null || "".equals(user.getPassword())) {
-				request.getSession().setAttribute("userSaveTipMsg_password",
-						"请输入密码");
-			} else if (!user.getPassword().equals(password2)) {
-				request.getSession().setAttribute("userSaveTipMsg_password2",
-						"两次密码输入不一致");
-			}
-			return "redirect:add.html";
-		} else if (user.getPassword() == null || "".equals(user.getPassword())) {
-			request.getSession().setAttribute("userSaveTipMsg_password",
-					"请输入密码");
-			return "redirect:add.html";
-		} else if (!user.getPassword().equals(password2)) {
-			request.getSession().setAttribute("userSaveTipMsg_password2",
-					"两次密码输入不一致");
-			return "redirect:add.html";
-		} else {
-			User currUser = (User) request.getSession().getAttribute(
-					"loginUser");
-			//机构
-			if(orgId != null && !"".equals(orgId)){
-				HashMap<String, Object> orgMap = new HashMap<String, Object>();
-				orgMap.put("id", orgId);
-				List<Orgnization> olist = orgnizationService.findOrgnizationList(orgMap);
-				user.setOrg(olist.get(0));
-			}else{
-				user.setOrg(null);
-			}
-			userService.save(user, currUser);
-
-			if(roleId != null && !"".equals(roleId)){
-				String[] roleIds = roleId.split(",");
-				for (int i = 0; i < roleIds.length; i++) {
-					Userrole userrole = new Userrole();
-					Role role = roleService.get(roleIds[i]);
-					userrole.setRoleId(role);
-					userrole.setUserId(user);
-					//保存角色-用户关联信息
-					userService.saveRelativity(userrole);
-				}
-				//保存用户与角色多对应权限的关联id
-				List<String> mids = preMenuService.findByRids(roleIds);
-				for (String mid : mids) {
-					UserPreMenu userPreMenu = new UserPreMenu();
-					PreMenu menu = preMenuService.get(mid);
-					userPreMenu.setPreMenu(menu);
-					userPreMenu.setUser(user);
-					userService.saveUserMenu(userPreMenu);
-				}
-			}
-			return "redirect:list.html";
+	public String save(@Valid User user, BindingResult result, String roleName, String orgName, HttpServletRequest request, Model model) throws NoSuchFieldException, SecurityException {
+		//校验字段
+		if(result.hasErrors()){
+			model.addAttribute("user", user);
+			model.addAttribute("roleName", roleName);
+			model.addAttribute("orgName", orgName);
+			return "ses/bms/user/add";
 		}
+		//校验用户名是否存在
+		List<User> users = userService.findByLoginName(user.getLoginName());
+		if(users.size() > 0){
+			model.addAttribute("user", user);
+			model.addAttribute("exist", "用户名已存在");
+			model.addAttribute("roleName", roleName);
+			model.addAttribute("orgName", orgName);
+			return "ses/bms/user/add";
+		}
+		//校验确认密码
+		if (!user.getPassword().equals(user.getPassword2())){
+			model.addAttribute("user", user);
+			model.addAttribute("password2_msg", "两次输入密码不一致");
+			model.addAttribute("roleName", roleName);
+			model.addAttribute("orgName", orgName);
+			return "ses/bms/user/add";
+		}
+		User currUser = (User) request.getSession().getAttribute("loginUser");
+		//机构
+		if(user.getOrgId() != null && !"".equals(user.getOrgId())){
+			HashMap<String, Object> orgMap = new HashMap<String, Object>();
+			orgMap.put("id", user.getOrgId());
+			List<Orgnization> olist = orgnizationService.findOrgnizationList(orgMap);
+			user.setOrg(olist.get(0));
+		}else{
+			user.setOrg(null);
+		}
+		userService.save(user, currUser);
+
+		if(user.getRoleId() != null && !"".equals(user.getRoleId())){
+			String[] roleIds = user.getRoleId().split(",");
+			for (int i = 0; i < roleIds.length; i++) {
+				Userrole userrole = new Userrole();
+				Role role = roleService.get(roleIds[i]);
+				userrole.setRoleId(role);
+				userrole.setUserId(user);
+				//保存角色-用户关联信息
+				userService.saveRelativity(userrole);
+			}
+			//保存用户与角色多对应权限的关联id
+			List<String> mids = preMenuService.findByRids(roleIds);
+			for (String mid : mids) {
+				UserPreMenu userPreMenu = new UserPreMenu();
+				PreMenu menu = preMenuService.get(mid);
+				userPreMenu.setPreMenu(menu);
+				userPreMenu.setUser(user);
+				userService.saveUserMenu(userPreMenu);
+			}
+		}
+		return "redirect:list.html";
 	}
 	
 	/**
@@ -273,18 +232,24 @@ public class UserManageController {
 			String roleId = "";
 			String roleName = "";
 			List<Role> list = user.getRoles();
-			for (int i = 0; i < list.size(); i++) {
-				if (i + 1 == list.size()) {
-					roleId += list.get(i).getId();
-					roleName += list.get(i).getName();
-				} else {
-					roleId += list.get(i).getId() + ",";
-					roleName += list.get(i).getName() + ",";
+			if(list != null && list.size() > 0){
+				for (int i = 0; i < list.size(); i++) {
+					if (i + 1 == list.size()) {
+						roleId += list.get(i).getId();
+						roleName += list.get(i).getName();
+					} else {
+						roleId += list.get(i).getId() + ",";
+						roleName += list.get(i).getName() + ",";
+					}
 				}
 			}
 			model.addAttribute("roleName", roleName);
 			model.addAttribute("roleId", roleId);
 			model.addAttribute("roles", roles);
+			if(user.getOrg() != null){
+				model.addAttribute("orgId", user.getOrg().getId());
+				model.addAttribute("orgName", user.getOrg().getName());
+			}
 			model.addAttribute("user", user);
 			model.addAttribute("currPage", page);
 		} else {
@@ -305,8 +270,19 @@ public class UserManageController {
 	 * @exception IOException
 	 */
 	@RequestMapping("/update")
-	public String update(HttpServletRequest request, User u, String roleId, String orgId) {
-
+	public String update(HttpServletRequest request, @Valid User u, BindingResult result, String roleId, String orgId, Model model) {
+		
+		//校验字段
+		if(result.hasErrors()){
+			model.addAttribute("user", u);
+			model.addAttribute("orgId", u.getOrgId());
+			model.addAttribute("orgName", request.getParameter("orgName"));
+			model.addAttribute("roleId", u.getRoleId());
+			model.addAttribute("roleName", request.getParameter("roleName"));
+			model.addAttribute("currPage",request.getParameter("currpage"));
+			return "ses/bms/user/edit";
+		}
+	
 		User temp = new User();
 		temp.setId(u.getId());
 		// 查询旧数据的关联关系
@@ -314,16 +290,18 @@ public class UserManageController {
 		if (users != null && users.size() > 0) {
 			User olduser = users.get(0);
 
-			// 先删除之前的与角色的关联关系
+			
 			List<Role> oldRole = olduser.getRoles();
-			for (Role role : oldRole) {
-				Userrole userrole = new Userrole();
-				userrole.setUserId(olduser);
-				userrole.setRoleId(role);
-				roleService.deleteRoelUser(userrole);
-			}
-			//删除用户之前的与角色下权限菜单的关联关系
-			if(oldRole.size() > 0){
+			if(oldRole != null && oldRole.size() > 0){
+				// 先删除之前的与角色的关联关系
+				for (Role role : oldRole) {
+					Userrole userrole = new Userrole();
+					userrole.setUserId(olduser);
+					userrole.setRoleId(role);
+					roleService.deleteRoelUser(userrole);
+				}
+				
+				//删除用户之前的与角色下权限菜单的关联关系
 				String[] oldrIds = new String[oldRole.size()];
 				for (int i = 0; i < oldRole.size(); i++) {
 					oldrIds[i] = oldRole.get(i).getId();
@@ -509,24 +487,36 @@ public class UserManageController {
 	 */
 	@RequestMapping(value = "getOrgTree",produces={"application/json;charset=UTF-8"})
 	@ResponseBody    
-	public String getOrgTree(HttpServletRequest request,HttpSession session){
+	public String getOrgTree(HttpServletRequest request, HttpSession session, String userId){
+		User user =null;
+		if(userId != null && !"".equals(userId) ){
+			user = userService.getUserById(userId);
+		}
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		List<Orgnization> oList = orgnizationService.findOrgnizationList(map);
 		List<Ztree> treeList = new ArrayList<Ztree>();  
-		for(Orgnization o:oList){
+		for(Orgnization o : oList){
 			Ztree z = new Ztree();
 			z.setId(o.getId());
 			z.setName(o.getName());
-			z.setpId(o.getParentId()==null?"-1":o.getParentId());
-			z.setLevel(o.getOrgLevel()+"");
+			z.setpId(o.getParentId() == null ? "-1":o.getParentId());
+			z.setLevel(o.getOrgLevel() + "");
 			HashMap<String,Object> chimap = new HashMap<String,Object>();
 			chimap.put("pid", o.getId());
 			List<Orgnization> chiildList = orgnizationService.findOrgnizationList(chimap);
-			if(chiildList!=null && chiildList.size()>0){
+			if(chiildList != null && chiildList.size() > 0){
 				z.setIsParent("true");
-			}else {
+			} else {
 				z.setIsParent("false");
 			}
+			if(user != null ){
+				Orgnization orgnization = user.getOrg();
+				if(orgnization != null){
+					if(o.getId().equals(orgnization.getId())){
+						z.setChecked(true);
+					}
+				}
+			} 
 			//z.setIsParent(o.getParentId()==null?"true":"false");
 			treeList.add(z);
 		}
@@ -535,14 +525,22 @@ public class UserManageController {
 	}
 	
 	@RequestMapping(value = "/downloadtest")
-	public void downloadConfigFile(HttpServletResponse response, String fileName) {
-		
+	public void downloadConfigFile(HttpServletResponse response, String fileName) throws Exception {
+
+		//		try {
+//			User user=null;
+//			String id =user.getId();
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			throw new Exception(e);
+//		}
 //		String path = FtpUtil.upload2("test7",uploadFile);
 //		String filName = path.substring(path.lastIndexOf("/")+1);
-		FtpUtil.downloadFtpFile(response, "test7", "2CC39D3BA36D423DBAC5C4C4A9626ED3_全国人大采购电子办公业务系统项目数据库设计说明书20160628(20点46)--汇总.doc");
-		FtpUtil.downloadFtpFile(response, "test7", "开发规范.txt");
-		FtpUtil.downloadFtpFile(response, "test7", "E2B3FCF57CF74D8EBC8B66BD4A8825F8_J2EE+企业应用实战：Struts+Spring+Hibernate+整合开发.pdf");
-		FtpUtil.downloadFtpFile(response, "test7", "开发规范1.txt");
+//		FtpUtil.downloadFtpFile(response, "test7", "2CC39D3BA36D423DBAC5C4C4A9626ED3_全国人大采购电子办公业务系统项目数据库设计说明书20160628(20点46)--汇总.doc");
+//		FtpUtil.downloadFtpFile(response, "test7", "开发规范.txt");
+//		FtpUtil.downloadFtpFile(response, "test7", "E2B3FCF57CF74D8EBC8B66BD4A8825F8_J2EE+企业应用实战：Struts+Spring+Hibernate+整合开发.pdf");
+//		FtpUtil.downloadFtpFile(response, "test7", "开发规范1.txt");
 		//		fileName = "E2B3FCF57CF74D8EBC8B66BD4A85F8_J2EE+企业应用实战：Struts+Spring+Hibernate+整合开发.pdf";
 //		response.setCharacterEncoding("UTF-8");
 //		response.setContentType("multipart/form-data;charset=UTF-8");
@@ -580,4 +578,5 @@ public class UserManageController {
 //		            }
 //		        }
 	}
+
 }

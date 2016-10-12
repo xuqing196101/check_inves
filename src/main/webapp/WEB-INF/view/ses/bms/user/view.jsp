@@ -52,140 +52,46 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  </div>
    </div>
    
-<!-- 修改订列表开始-->
-   <div class="container">
+   <div class="container bggrey border1 mt20">
    <form action="" method="post">
    <div>
-   <div class="headline-v2">
+   <div class="headline-v2 bggrey">
    <h2>查看用户</h2>
    </div>
-   <ul class="list-unstyled list-flow p0_20">
-	   	<li class="col-md-6 p0">
-		   <span class="">用户名：</span>
-		   <div class="input-append">
-	        <input class="span2" name="loginName" readonly type="text" readonly="readonly" value="${user.loginName}">
-	        <span class="add-on">i</span>
-	       </div>
-		 </li>
-	     <li class="col-md-6  p0 ">
-		   <span class="">真实姓名：</span>
-		   <div class="input-append">
-	        <input class="span2" name="relName" readonly type="text" value="${user.relName}">
-	        <span class="add-on">i</span>
-	       </div>
-		 </li>
-		 <li class="col-md-6 p0">
-		   <span class="">性别：</span>
-		   <div class="input-append">
-		   	<c:if test="${'M' eq user.gender}">
-		   		<input class="span2" class="span2" type="text" readonly value="男">
-		   	</c:if>
-		   	<c:if test="${'F' eq user.gender}">
-				<input class="span2" class="span2" type="text" readonly value="女">
-			</c:if>
-			<c:if test="${'' eq user.gender || user.gender == null}">
-				<input class="span2" class="span2" type="text" readonly value="">
-			</c:if>
-	        <span class="add-on">i</span>
-	       </div>
-		 </li>
-		 <li class="col-md-6  p0 ">
-		   <span class="">创建日期：</span>
-		   <div class="input-append">
-	        <input class="span2" name="mobile" readonly value="<fmt:formatDate value='${user.createdAt}' pattern='yyyy-MM-dd  HH:mm:ss'/>" type="text">
-	        <span class="add-on">i</span>
-	       </div>
-		 </li>
-		 <li class="col-md-6  p0 ">
-		   <span class="">修改日期：</span>
-		   <div class="input-append">
-	        <input class="span2" name="mobile" readonly value="<fmt:formatDate value='${user.updatedAt}' pattern='yyyy-MM-dd  HH:mm:ss'/>" type="text">
-	        <span class="add-on">i</span>
-	       </div>
-		 </li>
-	     <li class="col-md-6  p0 ">
-		   <span class="">手机：</span>
-		   <div class="input-append">
-	        <input class="span2" name="mobile" readonly value="${user.mobile }" type="text">
-	        <span class="add-on">i</span>
-	       </div>
-		 </li>
-	     <li class="col-md-6 p0">
-		   <span class="">邮箱：</span>
-		   <div class="input-append">
-	        <input class="span2" name="email" readonly value="${user.email }" type="text">
-	        <span class="add-on">i</span>
-	       </div>
-		 </li>
-	     <li class="col-md-6  p0 ">
-		   <span class="">职务：</span>
-		   <div class="input-append">
-	        <input class="span2" name="duties" readonly value="${user.duties }" type="text">
-	        <span class="add-on">i</span>
-	       </div>
-		 </li>
-		 <li class="col-md-6 p0">
-		   <span class="">类型：</span>
-		   <div class="input-append">
-	        <c:if test="${0 eq user.typeName}">
-		   		<input class="span2" class="span2" type="text" readonly value="采购管理人员">
-		   	</c:if>
-		   	<c:if test="${1 eq user.typeName}">
-				<input class="span2" class="span2" type="text" readonly value="采购机构人员">
-			</c:if>
-			<c:if test="${2 eq user.typeName}">
-		   		<input class="span2" class="span2" type="text" readonly value="需求人员">
-		   	</c:if>
-		   	<c:if test="${3 eq user.typeName}">
-				<input class="span2" class="span2" type="text" readonly value="其他人员">
-			</c:if>
-			<c:if test="${4 eq user.typeName}">
-		   		<input class="span2" class="span2" type="text" readonly value="供应商">
-		   	</c:if>
-		   	<c:if test="${5 eq user.typeName}">
-				<input class="span2" class="span2" type="text" readonly value="专家">
-			</c:if>
-			<c:if test="${6 eq user.typeName}">
-				<input class="span2" class="span2" type="text" readonly value="进口供应商">
-			</c:if>
-			<c:if test="${7 eq user.typeName}">
-				<input class="span2" class="span2" type="text" readonly value="进口代理商">
-			</c:if>
-			<c:if test="${'' eq user.typeName || user.typeName == null}">
-				<input class="span2" class="span2" type="text" readonly value="">
-			</c:if>
-	        <span class="add-on">i</span>
-	       </div>
-		 </li>
-		 <li class="col-md-6  p0 ">
-		   <span class="">所属机构：</span>
-		   <div class="input-append">
-		   	<input class="span2" type="text" readonly value="${user.org.name }">
-	        <span class="add-on">i</span>
-	       </div>
-		 </li>
-	     <li class="col-md-6  p0 ">
-		   <span class="">联系电话：</span>
-		   <div class="input-append">
-	        <input class="span2" name="telephone" readonly="readonly" type="text" value="${user.telephone}">
-	        <span class="add-on">i</span>
-	       </div>
-		 </li> 
-		 <li class="col-md-6 p0">
-		   <span class="">角色：</span>
-		   <div class="input-append">
-		   	<input class="span2"  type="text" readonly="readonly" value="${roleName}">
-	        <span class="add-on">i</span>
-	       </div>
-		 </li>
-		 <li class="col-md-12 p0">
-		   <span class="fl">详细地址：</span>
-		   <div class="col-md-12 pl200 fn mt5 pwr9">
-	        <textarea class="text_area col-md-12 " address="address" readonly="readonly" title="" placeholder="">${user.address}</textarea>
-	       </div>
-		 </li>
-			 
-   </ul>
+   <div class="tag-box tag-box-v4 col-md-9">
+	 	<table class="table table-bordered">
+		 	<tbody>
+		 		<tr>
+		 			<td class="bggrey tr">用户名：</td><td>${user.loginName}</td>
+		 			<td class="bggrey tr">真实姓名：</td><td>${user.relName}</td>
+		 		</tr>
+		 		<tr>
+		 			<td class="bggrey tr">性别：</td>
+		 			<td><c:if test="${user.gender == 'F'}">女</c:if><c:if test="${user.gender == 'M'}">男</c:if></td>
+		 			<td class="bggrey tr">手机：</td><td>${user.mobile }</td>
+		 		</tr>
+		 		<tr>
+		 			<td class="bggrey tr">邮箱：</td><td>${user.email }</td>
+		 			<td class="bggrey tr">职务：</td><td>${user.duties }</td>
+		 		</tr>
+		 		<tr>
+		 			<td class="bggrey tr">类型：</td><td>${user.typeName}</td>
+		 			<td class="bggrey tr">所属机构：</td><td>${user.org.name }</td>
+		 		</tr>
+		 		<tr>
+		 			<td class="bggrey tr">创建日期：</td><td><fmt:formatDate value='${user.createdAt}' pattern='yyyy-MM-dd  HH:mm:ss'/></td>
+		 			<td class="bggrey tr">修改日期：</td><td><fmt:formatDate value='${user.updatedAt}' pattern='yyyy-MM-dd  HH:mm:ss'/></td>
+		 		</tr>
+		 		<tr>
+		 			<td class="bggrey tr">联系电话：</td><td>${user.telephone}</td>
+		 			<td class="bggrey tr">角色：</td><td colspan="5">${roleName}</td>
+		 		</tr>
+		 		<tr>
+		 			<td class="bggrey tr">详细地址：</td><td colspan="3">${user.address}</td>
+		 		</tr>
+		 	</tbody>
+	 	</table>
+   </div>
   </div> 
    
   <div class="col-md-12 tc mt20" >

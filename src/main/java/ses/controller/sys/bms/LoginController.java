@@ -85,9 +85,9 @@ public class LoginController {
 			// false 表示：生成32位的Hex版, 这也是encodeHashAsBase64的, Acegi 默认配置; true  表示：生成24位的Base64版     
 			md5.setEncodeHashAsBase64(false);     
 			String pwd = md5.encodePassword(user.getPassword(), randomCode);
-			//根据用户名、密码验证用户登录
 			user.setPassword(pwd);
-			List<User> ulist = userService.find(user);
+			//根据用户名、密码验证用户登录
+			List<User> ulist = userService.queryByLogin(user);
 			User u = null;
 			if(ulist.size() > 0){
 				u = ulist.get(0);
@@ -102,12 +102,12 @@ public class LoginController {
 				req.getSession().setAttribute("loginUser", u);
 				req.getSession().setAttribute("resource", u.getMenus());
 				//等于6说明是进口供应商登录
-				if(u.getTypeName()!=null&&u.getTypeName()==6){
-					ImportSupplierWithBLOBs is=new ImportSupplierWithBLOBs();
+				if(u.getTypeName() != null && u.getTypeName() == 6){
+					ImportSupplierWithBLOBs is = new ImportSupplierWithBLOBs();
 					is.setLoginName(user.getLoginName());
-					List<ImportSupplierWithBLOBs> isList=importSupplierService.selectByFsInfo(is,1);
-					if(isList.size()==1){
-						if(isList.get(0).getStatus()==0){
+					List<ImportSupplierWithBLOBs> isList = importSupplierService.selectByFsInfo(is,1);
+					if(isList.size() == 1){
+						if(isList.get(0).getStatus() == 0){
 							out.print("scuesslogin");
 						}else{
 							out.print("deleteLogin");

@@ -69,7 +69,7 @@ public interface UserServiceI {
 	void deleteByLogic(String id);
 
 	/**
-	 * Description: 查询用户，不分页
+	 * Description: 查询用户（含关联数据）
 	 * 
 	 * @author Ye MaoLin
 	 * @version 2016-9-14
@@ -78,6 +78,7 @@ public interface UserServiceI {
 	 * @exception IOException
 	 */
 	List<User> find(User user);
+	
 	/**
 	 * Description: 根据查询用户
 	 * 
@@ -120,6 +121,15 @@ public interface UserServiceI {
 	 */
 	void deleteUserMenu(UserPreMenu userPreMenu);
 	
+	/**
+	 * Description: 查询列表不分页
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-10-12
+	 * @param user
+	 * @return List<User>
+	 * @exception IOException
+	 */
 	List<User> queryByList(User user);
 
 	/**
@@ -133,5 +143,16 @@ public interface UserServiceI {
 	 * @exception IOException
 	 */
 	List<User> list(User user, int i);
+
+	/**
+	 * Description: 根据用户名、密码查询
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-10-12
+	 * @param user
+	 * @return List<User>
+	 * @exception IOException
+	 */
+	List<User> queryByLogin(User user);
 
 }

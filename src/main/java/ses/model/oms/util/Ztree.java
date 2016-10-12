@@ -42,6 +42,8 @@ public class Ztree implements Serializable {
 	private String menuurl;
 	private List<String> priList;
 	
+	private boolean checked = false;
+	
 	private boolean open;
 	
 	
@@ -106,6 +108,11 @@ public class Ztree implements Serializable {
 	public void setOpen(boolean open) {
 		this.open = open;
 	}
+	public boolean isChecked() {
+		return checked;
+	}
+	public void setChecked(boolean checked) {
+		this.checked = checked;
+	}
 	
-
 }

@@ -137,4 +137,26 @@ public interface UserMapper {
 	 */
 	void deleteUserMenu(UserPreMenu userPreMenu);
 
+	/**
+	 * Description: 根据用户名查询
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-10-12
+	 * @param loginName
+	 * @return List<User>
+	 * @exception IOException
+	 */
+	List<User> queryByLoginName(String loginName);
+	
+	/**
+	 * Description: 用户名，密码登录查询
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-10-12
+	 * @param user
+	 * @return List<User>
+	 * @exception IOException
+	 */
+	List<User> queryByLogin(User user);
+	
 }

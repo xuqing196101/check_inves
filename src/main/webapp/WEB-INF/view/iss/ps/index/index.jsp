@@ -80,6 +80,7 @@ function login(){
 					window.location.href="<%=basePath%>login/index.html";
 				}else if(data="deleteLogin"){
 					layer.msg("账号不存在!");
+					layer.close(index);
 				}
 				kaptcha();
 			}
