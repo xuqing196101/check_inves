@@ -20,29 +20,19 @@
 				for(var i=0;i<que.length;i++){
 					$(que[i]).attr("type","radio");
 				}
-				for(var i=0;i<judge.length;i++){
-					judge[i].setAttribute("disabled",true);
-				}
+				$("#judge").hide();
 			}else if(queType==2){
 				for(var i=0;i<que.length;i++){
 					$(que[i]).attr("type","checkbox");
 					
 				}
-				for(var i=0;i<judge.length;i++){
-					judge[i].setAttribute("disabled",true);
-				}
+				$("#judge").hide();
 			}else if(queType==3){
 				for(var i=0;i<que.length;i++){
 					que[i].setAttribute("disabled",true);
 				}
-				document.getElementById("queOption").setAttribute("disabled",true);
-			}
-		}else{
-			for(var i=0;i<que.length;i++){
-				que[i].setAttribute("disabled",true);
-			}
-			for(var i=0;i<judge.length;i++){
-				judge[i].setAttribute("disabled",true);
+				$("#selects").hide();
+				$("#items").hide();
 			}
 		}
 		var queAnswer = "${purchaserAnswer}";
@@ -70,8 +60,6 @@
 			var judgeFalse=document.getElementById("judgeFalse");
 			judgeFalse.setAttribute("checked",true);
 		}
-		
-		
 	})
 	
 	</script>
@@ -122,7 +110,7 @@
   		</li>
   		
   		
-  		<li class="col-md-12 p0">
+  		<li class="col-md-12 p0" id="items">
 				<span class="fl">选项：</span>
 				<div class="col-md-9">
 				<div>
@@ -146,21 +134,21 @@
   		
   		
   		
-  		<li class="col-md-12 p0">
-			<span class="fl">答案：</span>	
-			<div class="fl ml5 mt5">
-			  	A <input type="radio" id="A" name="que" value="A" disabled="disabled"/> 
-			  	B <input type="radio" id="B" name="que" value="B" disabled="disabled"/> 
-			  	C <input type="radio" id="C" name="que" value="C" disabled="disabled"/> 
-			  	D <input type="radio" id="D" name="que" value="D" disabled="disabled"/>
-  			</div>
-  			<span id="queSelect" class="fl"></span>
-  			<div class="clear ml5 mt5">
-	  			对 <input type="radio" value="对" name="judge" id="judgeTrue" disabled="disabled"/>
-	  			错 <input type="radio" value="错" name="judge" id="judgeFalse" disabled="disabled"/>
-  				<span id="queJudge"></span>
-  			</div>
-  		</li>
+	  			<li class="col-md-12 p0">
+					<span class="fl">答案：</span>
+					<div class="fl">		
+						<div class="fl ml5 mt5" id="selects">
+						  	<input type="radio" id="A" name="que" value="A" disabled="disabled"/>A  
+						  	<input type="radio" id="B" name="que" value="B" disabled="disabled"/>B 
+						  	<input type="radio" id="C" name="que" value="C" disabled="disabled"/>C 
+						  	<input type="radio" id="D" name="que" value="D" disabled="disabled"/>D
+			  			</div>
+			  			<div class="clear ml5 mt5" id="judge">
+				  			<input type="radio" value="对" name="judge" id="judgeTrue" disabled="disabled"/>对
+				  			<input type="radio" value="错" name="judge" id="judgeFalse" disabled="disabled"/>错
+			  			</div>
+	  				</div>
+	  			</li>
   		</ul>
   		
   		<!-- 底部按钮 -->

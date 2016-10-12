@@ -99,7 +99,7 @@
   
   <body>
   <div class="container">
-  <div class="col-md-12 mb10 border1 bggrey">
+  <div class="col-md-12 mb10 border1 bggrey mt10">
   	<div class="fl f18 gary b">${user.relName }考试进行中</div>
   	<%--<div class="fr red mt5" id="time">距离考试还有<span id="second"></span></div>
   --%></div>

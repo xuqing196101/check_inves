@@ -36,32 +36,35 @@
     <form action="<%=path %>/purchaserExam/saveToExamPaper.html" method="post">
     	<ul class="list-unstyled list-flow p0_20">
 		     <li class="col-md-12 p0">
-	  			<span class="fl">试卷名称：</span>
-		  		<input type="text" name="paperName"/>
+	  			<span class="fl"><div class="red star_red">*</div>试卷名称：</span>
+		  		<input type="text" name="name"/>
+		  		<div class="validate">${ERR_name }</div>
 	  		</li>
     		
     		<li class="col-md-12 p0">
-	  			<span class="fl">试卷编号：</span>
-		  		<input type="text" name="paperNo"/>
+	  			<span class="fl"><div class="red star_red">*</div>试卷编号：</span>
+		  		<input type="text" name="code"/>
+		  		<div class="validate">${ERR_code }</div>
 	  		</li>
     		
     		<li class="col-md-12 p0">
-	  			<span class="fl">题型分布：</span>
+	  			<span class="fl"><div class="red star_red">*</div>题型分布：</span>
 	  			<div class="fl">
 	  			   <label class="fl mt5">单选题：</label><input type="text" name="singleNum" id="singleNum" class="ml10 w50"/>条<input type="text" name="singlePoint" id="singlePoint" class="ml10 w50"/>分/条<br/>
 		    	   <label class="fl mt5">多选题：</label><input type="text" name="multipleNum" id="multipleNum" class="ml10 w50"/>条<input type="text" name="multiplePoint" id="multiplePoint" class="ml10 w50"/>分/条<br/>
 		    	   <label class="fl mt5">判断题：</label> <input type="text" name="judgeNum" id="judgeNum" class="ml10 w50"/>条<input type="text" name="judgePoint" id="judgePoint" class="ml10 w50"/>分/条<br/>
 	  		    </div>
-	  		    <div class="clear"></div>
+	  		    <div class="clear red"></div>
 	  		</li>
     		
     		<li class="col-md-12 p0">
-	  			<span class="fl mt5">总分值：</span>
+	  			<span class="fl mt5"><div class="red star_red">*</div>总分值：</span>
 		  		<input class="w50 mt5" type="text" name="totalPoint" id="totalPoint"/>分
+		  		<div class="validate"></div>
 	  		</li>
     		
     		<li class="col-md-12 p0">
-	  			<span class="fl mt5">考试开始时间：</span>
+	  			<span class="fl mt5"><div class="red star_red">*</div>考试开始时间：</span>
 		  		<input type="text" name="startTime" id="startTime" class="Wdate mt5" onfocus="WdatePicker({isShowWeek:true})"/>
 	  			<select id="hour" name="hour" class="mb8 mt5">
 	  				<option value="">请选择</option>
@@ -78,7 +81,7 @@
 	  		</li>
 	  		
 	  		<li class="col-md-12 p0">
-	  			<span class="fl mt5">考试用时：</span>
+	  			<span class="fl mt5"><div class="red star_red">*</div>考试用时：</span>
 		  		<input class="w50 mt5" type="text" name="useTime" id="useTime"/>分钟
 	  		</li>
 	  		
@@ -90,7 +93,7 @@
 	  		
 	  		--%>
 	  		<li class="col-md-12 p0">
-	  			<span class="fl mb5">允许30分钟内重考：</span>
+	  			<span class="fl mb5"><div class="red star_red">*</div>允许30分钟内重考：</span>
 		  		<input class="mt0" type="checkbox" name="isAllow" id="isAllowTrue" value="是">是
     			<input class="mt0" type="checkbox" name="isAllow" id="isAllowFalse" value="否"/>否
 	  		</li>

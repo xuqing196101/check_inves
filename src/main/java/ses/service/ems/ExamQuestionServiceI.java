@@ -191,4 +191,27 @@ public interface ExamQuestionServiceI {
     * @return List<ExamQuestion>
      */
     List<ExamQuestion> searchExpertPool();
+    
+    /**
+     * 
+    * @Title: selectByTopic
+    * @author ZhaoBo
+    * @date 2016-10-11 下午4:42:14  
+    * @Description: 根据题干查询题目 
+    * @param @return      
+    * @return List<ExamQuestion>
+     */
+    List<ExamQuestion> selectByTopic(HashMap<String,Object> map);
+    
+    /**
+     * 
+    * @Title: queryQuestionCount
+    * @author ZhaoBo
+    * @date 2016-10-12 上午10:55:42  
+    * @Description: 查询各专家题库的数量 
+    * @param @param map
+    * @param @return      
+    * @return int
+     */
+    int queryQuestionCount(HashMap<String,Object> map); 
 }
