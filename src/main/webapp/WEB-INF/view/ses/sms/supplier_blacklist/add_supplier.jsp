@@ -20,7 +20,7 @@
 			layer.open({
 				type : 2,
 				title : '选择供应商',
-				skin : 'layui-layer-rim', //加上边框
+				// skin : 'layui-layer-rim', //加上边框
 				area : [ '1000px', '420px' ], //宽高
 				offset : '100px',
 				scrollbar : false,
@@ -119,7 +119,7 @@
 				</div>
 				<div class="col-md-12 tc">
 					<input class="btn btn-windows save" type="submit" value="保存" />
-					<input class="btn btn-windows reset" onclick="history.go(-1)" type="button" value="返回">
+					<input class="btn btn-windows reset" onclick="location='${pageContext.request.contextPath}/supplier_blacklist/list_blacklist.html'" type="button" value="返回">
 				</div>
 			</div>
 		</form>

@@ -92,7 +92,7 @@
 			layer.open({
 				type : 2,
 				title : '添加供应商股东信息',
-				skin : 'layui-layer-rim', //加上边框
+				// skin : 'layui-layer-rim', //加上边框
 				area : [ '700px', '420px' ], //宽高
 				offset : '100px',
 				scrollbar : false,
@@ -140,7 +140,7 @@
 			layer.open({
 				type : 2,
 				title : '添加供应商财务信息',
-				skin : 'layui-layer-rim', //加上边框
+				// skin : 'layui-layer-rim', //加上边框
 				area : [ '700px', '420px' ], //宽高
 				offset : '100px',
 				scrollbar : false,

@@ -56,7 +56,7 @@
 		layer.open({
 			type : 2,
 			title : '添加产品信息',
-			skin : 'layui-layer-rim', //加上边框
+			// skin : 'layui-layer-rim', //加上边框
 			area : [ '600px', '500px' ], //宽高
 			offset : '100px',
 			scrollbar : false,
@@ -91,7 +91,7 @@
 		layer.open({
 			type : 2,
 			title : '添加技术参数',
-			skin : 'layui-layer-rim', //加上边框
+			// skin : 'layui-layer-rim', //加上边框
 			area : [ '600px', '450px' ], //宽高
 			offset : '100px',
 			scrollbar : false,

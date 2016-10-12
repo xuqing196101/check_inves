@@ -86,7 +86,7 @@
 			layer.open({
 				type : 2,
 				title : '添加物资生产证书信息',
-				skin : 'layui-layer-rim', //加上边框
+				// skin : 'layui-layer-rim', //加上边框
 				area : [ '600px', '500px' ], //宽高
 				offset : '100px',
 				scrollbar : false,
@@ -146,55 +146,6 @@
 		}
 	}
 	
-	function openItemsPro() {
-		var matProId = $("input[name='supplierMatPro.id']").val();
-		var supplierId = $("input[name='id']").val();
-		if (!matProId) {
-			layer.msg("请暂存物资生产专业信息 !", {
-				offset : '300px',
-			});
-		} else {
-			layer.open({
-				type : 2,
-				title : '添加物资生产品目信息',
-				skin : 'layui-layer-rim', //加上边框
-				area : [ '600px', '500px' ], //宽高
-				offset : '100px',
-				scrollbar : false,
-				content : '${pageContext.request.contextPath}/supplier_items_pro/add_items_pro.html?matProId=' + matProId + '&supplierId=' + supplierId, //url
-				closeBtn : 1, //不显示关闭按钮
-			});
-		}
-	}
-	
-	function deleteItemsPro() {
-		var checkboxs = $("#items_pro_list_tbody_id").find(":checkbox:checked");
-		var itemsProIds="";
-		var supplierId = $("input[name='id']").val();
-		$(checkboxs).each(function(index) {
-			if (index > 0) {
-				itemsProIds += ",";
-			}
-			itemsProIds += $(this).val();
-		});
-		var size = checkboxs.length;
-		if (size > 0) {
-			layer.confirm("已勾选" + size + "条记录, 确定删除 !", {
-				offset : '200px',
-				scrollbar : false,
-			},function(index) {
-				window.location.href = "${pageContext.request.contextPath}/supplier_items_pro/delete_items_pro.html?itemsProIds=" + itemsProIds +"&supplierId=" + supplierId;
-				layer.close(index);
-				
-			});
-		} else {
-			layer.alert("请至少勾选一条记录 !", {
-				offset : '200px',
-				scrollbar : false,
-			});
-		}
-	}
-	
 	function openCertSell() {
 		var matSellId = $("input[name='supplierMatSell.id']").val();
 		var supplierId = $("input[name='id']").val();
@@ -206,7 +157,7 @@
 			layer.open({
 				type : 2,
 				title : '添加物资生产证书信息',
-				skin : 'layui-layer-rim', //加上边框
+				// skin : 'layui-layer-rim', //加上边框
 				area : [ '600px', '500px' ], //宽高
 				offset : '100px',
 				scrollbar : false,
@@ -255,7 +206,7 @@
 			layer.open({
 				type : 2,
 				title : '添加物资生产证书信息',
-				skin : 'layui-layer-rim', //加上边框
+				// skin : 'layui-layer-rim', //加上边框
 				area : [ '600px', '500px' ], //宽高
 				offset : '100px',
 				scrollbar : false,
@@ -304,7 +255,7 @@
 			layer.open({
 				type : 2,
 				title : '添加工程证书信息',
-				skin : 'layui-layer-rim', //加上边框
+				// skin : 'layui-layer-rim', //加上边框
 				area : [ '600px', '500px' ], //宽高
 				offset : '100px',
 				scrollbar : false,
@@ -353,8 +304,8 @@
 			layer.open({
 				type : 2,
 				title : '添加注册类型和人数',
-				skin : 'layui-layer-rim', //加上边框
-				area : [ '600px', '350px' ], //宽高
+				// skin : 'layui-layer-rim', //加上边框
+				area : [ '600px', '280px' ], //宽高
 				offset : '100px',
 				scrollbar : false,
 				content : '${pageContext.request.contextPath}/supplier_reg_person/add_reg_person.html?matEngId=' + matEngId + '&supplierId=' + supplierId, //url
@@ -402,7 +353,7 @@
 			layer.open({
 				type : 2,
 				title : '添加资质资格信息',
-				skin : 'layui-layer-rim', //加上边框
+				// skin : 'layui-layer-rim', //加上边框
 				area : [ '600px', '500px' ], //宽高
 				offset : '100px',
 				scrollbar : false,
@@ -653,35 +604,6 @@
 																	<span class="fz11">无附件下载</span>
 																</c:if>
 															</td>
-														</tr>
-													</c:forEach>
-												</tbody>
-											</table>
-											<h2 class="f16 jbxx mt40">
-												<i>06</i>可提供品目类别
-											</h2>
-											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteItemsPro()">删除</button>
-											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="openItemsPro()">新增</button>
-											<table class="table table-bordered table-condensed">
-												<thead>
-													<tr>
-														<th class="info"><input type="checkbox"/></th>
-														<th class="info">品目类别</th>
-														<th class="info">大类名称</th>
-														<th class="info">中类名称</th>
-														<th class="info">小类名称</th>
-														<th class="info">品种名称</th>
-													</tr>
-												</thead>
-												<tbody id="items_sell_list_tbody_id">
-													<c:forEach items="${currSupplier.supplierMatPro.listSupplierItemsPros}" var="itemsPro" varStatus="vs">
-														<tr>
-															<td class="tc"><input type="checkbox" value="${itemsPro.id}" /></td>
-															<td class="tc">${itemsPro.itemsId}</td>
-															<td class="tc">${itemsPro.bigKindName}</td>
-															<td class="tc">${itemsPro.normalKindName}</td>
-															<td class="tc">${itemsPro.smallKingName}</td>
-															<td class="tc">${itemsPro.kindName}</td>
 														</tr>
 													</c:forEach>
 												</tbody>

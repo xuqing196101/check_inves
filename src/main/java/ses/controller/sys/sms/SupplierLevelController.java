@@ -38,6 +38,7 @@ public class SupplierLevelController extends BaseSupplierController {
 		List<Supplier> listSuppliers = supplierLevelService.findSupplier(supplier, page == null ? 1 : page);
 		model.addAttribute("listSuppliers", new PageInfo<Supplier>(listSuppliers));
 		model.addAttribute("supplierName", supplier.getSupplierName());
+		model.addAttribute("level", supplier.getLevel());
 		return "ses/sms/supplier_level/list";
 	}
 	

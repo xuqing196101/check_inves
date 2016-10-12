@@ -70,19 +70,23 @@
 
 <body>
 	<div class="wrapper">
+		<!-- 查询条件 -->
 		<div class="container">
-			<div style="padding-left: 20px;">
-				<ul class="demand_list list-unstyled">
-					<li class="fl"><label class="fl mt10">供应商名称：</label> 
-						<form id="search_form_id" class="w500" action="${pageContext.request.contextPath}/supplier_blacklist/list_supplier.html" method="get">
-							<span><input type="text" class="mb0 mt5" name="supplierName" value="${supplierName}" /></span>
-							<input type="hidden" name="page" />
-							<input type="button" class="btn btn_back ml10 mt6" value="查询" onclick="searchSupplier(1)" />
-							<input type="button" class="btn btn_back ml10 mt6" value="重置" onclick="resetForm()" />
-						</form>					
-					</li>
-				</ul>
-				<div class="clear"></div>
+			<div class="p10_25">
+				<form id="search_form_id" class="padding-10 border1 mb0" action="${pageContext.request.contextPath}/supplier_blacklist/list_supplier.html" method="get">
+					<input name="page" type="hidden" />
+					<ul class="demand_list">
+						<li class="fl">
+							<label class="fl mt5">供应商名称：</label>
+							<span><input name="supplierName" type="text" value="${supplierName}" /></span>
+						</li>
+						<li class="fl mt1">
+							<input type="button" onclick="searchSupplier(1)" class="btn" value="查询" />
+							<input onclick="resetForm()" class="btn" type="button" value="重置" />
+						</li>
+					</ul>
+					<div class="clear"></div>
+				</form>
 			</div>
 		</div>
 

@@ -170,7 +170,7 @@
 													</div>
 												</c:if>
 											</li>
-											<li id="extracts_li_id" class="col-md-6 p0"><span class="w245"><i class="red">＊</i>军队供应商抽取记录表：</span>
+											<li id="extracts_li_id" class="col-md-6 p0"><span class="w245">军队供应商抽取记录表：</span>
 												<c:if test="${currSupplier.supplierExtractsList != null}">
 													<div>
 														<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${currSupplier.supplierExtractsList}')">下载附件</a>
@@ -187,7 +187,7 @@
 													</div>
 												</c:if>
 											</li>
-											<li id="inspectlist_li_id" class="col-md-6 p0"><span class="w245"><i class="red">＊</i>军队供应商实地考察记录表：</span>
+											<li id="inspectlist_li_id" class="col-md-6 p0"><span class="w245">军队供应商实地考察记录表：</span>
 												<c:if test="${currSupplier.supplierInspectList != null}">
 													<div>
 														<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${currSupplier.supplierInspectList}')">下载附件</a>
@@ -204,7 +204,7 @@
 													</div>
 												</c:if>
 											</li>
-											<li id="reviewlist_li_id" class="col-md-6 p0"><span class="w245"><i class="red">＊</i>军队供应商实地考察廉政意见函：</span>
+											<li id="reviewlist_li_id" class="col-md-6 p0"><span class="w245">军队供应商实地考察廉政意见函：</span>
 												<c:if test="${currSupplier.supplierReviewList != null}">
 													<div>
 														<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${currSupplier.supplierReviewList}')">下载附件</a>
@@ -221,7 +221,7 @@
 													</div>
 												</c:if>
 											</li>
-											<li id="changelist_li_id" class="col-md-6 p0"><span class="w245"><i class="red">＊</i>军队供应商注册信息变更申请表：</span>
+											<li id="changelist_li_id" class="col-md-6 p0"><span class="w245">军队供应商注册信息变更申请表：</span>
 												<c:if test="${currSupplier.supplierChangeList != null}">
 													<div>
 														<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${currSupplier.supplierChangeList}')">下载附件</a>
@@ -238,7 +238,7 @@
 													</div>
 												</c:if>
 											</li>
-											<li id="exitlist_li_id" class="col-md-6 p0"><span class="w245"><i class="red">＊</i>军队供应商退库申请表：</span>
+											<li id="exitlist_li_id" class="col-md-6 p0"><span class="w245">军队供应商退库申请表：</span>
 												<c:if test="${currSupplier.supplierExitList != null}">
 													<div>
 														<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${currSupplier.supplierExitList}')">下载附件</a>

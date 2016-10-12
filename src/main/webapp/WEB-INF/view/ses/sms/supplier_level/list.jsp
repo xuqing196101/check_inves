@@ -38,6 +38,7 @@
 				}
 			}
 		});
+		autoSelected("level_select_id", "${level}");
 	});
 
 	function changeScore() {
@@ -54,7 +55,7 @@
 		layer.open({
 			type : 2,
 			title : '添加形式名称',
-			skin : 'layui-layer-rim', //加上边框
+			// skin : 'layui-layer-rim', //加上边框
 			area : [ '700px', '370px' ], //宽高
 			offset : '100px',
 			scrollbar : false,
@@ -79,8 +80,21 @@
 	
 	function resetForm() {
 		$("input[name='supplierName']").val("");
+		$("#level_select_id").find("option").eq(0).prop("selected", true);
 	}
 	
+	function autoSelected(id, v) {
+		if (v) {
+			$("#" + id).find("option").each(function() {
+				var value = $(this).val();
+				if(value == v) {
+					$(this).prop("selected", true);
+				} else {
+					$(this).prop("selected", false);
+				}
+			});
+		}
+	}
 </script>
 
 </head>
@@ -126,7 +140,7 @@
 						<li class="fl">
 							<label class="fl mt5">等级：</label>
 							<span>
-								<select name="level">
+								<select id="level_select_id" class="w150" name="level">
 									<option selected="selected" value="">全部</option>
 									<option value="1">一星级</option>
 									<option value="2">二星级</option>

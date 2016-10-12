@@ -579,9 +579,8 @@ public class SupplierController extends BaseSupplierController {
 				String str = its.next();
 				MultipartFile file = multiRequest.getFile(str);
 				String fileName = file.getOriginalFilename();
-				fileName = UUID.randomUUID().toString().replace("-", "").toUpperCase().toString() + "_" + fileName;
 				if (file != null && file.getSize() > 0) {
-					String path = super.getFilePath(request) + fileName;
+					String path = super.getStashPath(request) + fileName;
 					file.transferTo(new File(path));
 					if (str.equals("taxCertFile")) {
 						supplier.setTaxCert(fileName);

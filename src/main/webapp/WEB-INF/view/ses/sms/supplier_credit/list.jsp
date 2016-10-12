@@ -44,7 +44,7 @@
 		layer.open({
 			type : 2,
 			title : '添加形式名称',
-			skin : 'layui-layer-rim', //加上边框
+			// skin : 'layui-layer-rim', //加上边框
 			area : [ '550px', '230px' ], //宽高
 			offset : '100px',
 			scrollbar : false,
@@ -67,7 +67,7 @@
 		layer.open({
 			type : 2,
 			title : '添加形式名称',
-			skin : 'layui-layer-rim', //加上边框
+			// skin : 'layui-layer-rim', //加上边框
 			area : [ '550px', '230px' ], //宽高
 			offset : '100px',
 			scrollbar : false,
@@ -143,7 +143,7 @@
 		layer.open({
 			type : 2,
 			title : '诚信形式内容',
-			skin : 'layui-layer-rim', //加上边框
+			// skin : 'layui-layer-rim', //加上边框
 			area : [ '670px', '350px' ], //宽高
 			offset : '100px',
 			scrollbar : false,

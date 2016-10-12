@@ -41,6 +41,11 @@ public class BaseSupplierController {
 	public String getFilePath(HttpServletRequest request) {
 		return request.getSession().getServletContext().getRealPath("/").split("\\\\")[0] + "/" + PropUtil.getProperty("file.upload.path.supplier");
 	}
+	
+	public static String getStashPath(HttpServletRequest request) {
+		String path = request.getSession().getServletContext().getRealPath("/") + PropUtil.getProperty("file.stashPath") + "/";
+		return path.replace("\\", "/");
+	}
 
 	@RequestMapping(value = "download")
 	public void download(HttpServletRequest request, HttpServletResponse response, String fileName) {
