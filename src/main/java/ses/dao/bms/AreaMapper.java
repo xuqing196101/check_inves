@@ -81,5 +81,5 @@ public interface AreaMapper {
 	 * @return void
 	 */
 	void update(Area record);
-
+	
 }

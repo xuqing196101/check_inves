@@ -1,26 +1,20 @@
 package ses.controller.sys.bms;
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.Area;
 import ses.model.bms.AreaZtree;
-import ses.model.bms.PreMenu;
 import ses.service.bms.AreaServiceI;
 
 import com.alibaba.fastjson.JSONObject;
@@ -72,7 +66,6 @@ public class AreaController {
 		if (area.getId() == null) {
 			area.setId("1");
 		}
-		//List<Area> list1 = areaService.listByArea(area);
 		List<Area> list = areaService.findTreeByPid(area.getId(),area.getName());
 		List<AreaZtree> listTree = new ArrayList<AreaZtree>();
 		String ee = "";
@@ -113,6 +106,26 @@ public class AreaController {
 	}
 	/**
 	 * 
+	* @Title: edit
+	* @author FengTian
+	* @date 2016-10-12 下午4:23:43  
+	* @Description: 跳转修改页面 
+	* @param @param request
+	* @param @param model
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/edit")
+	public String edit(String pid, Model model){
+		Area area = areaService.listById(pid);
+		String ids = area.getAreaType();
+		Area area1 = areaService.listById(ids);
+		model.addAttribute("area", area);
+		model.addAttribute("area1", area1);
+		return "ses/bms/area/edit";
+	}
+	/**
+	 * 
 	* @Title: save
 	* @author FengTian
 	* @date 2016-9-29 下午3:47:40  
@@ -134,5 +147,39 @@ public class AreaController {
 		areaService.save(area);
 		String msg = "{\"msg\":\"success\"}";
 		return msg;
+	}
+	/**
+	 * 
+	* @Title: update
+	* @author FengTian
+	* @date 2016-10-12 下午7:05:25  
+	* @Description: 修改 
+	* @param @param area
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/update")
+	@ResponseBody
+	public String update(Area area){
+		Area aa = null;
+		if(area.getId() != null && !"".equals(area.getId())){
+			aa = areaService.listById(area.getId());
+		}
+		area.setIsDeleted(0);
+		area.setCreatedAt(new Date());
+		areaService.update(area);
+		String msg = "{\"msg\":\"success\"}";
+		return msg;
+	}
+	
+	@RequestMapping("/delete")
+	public String delete(String id){
+		String[] ids = id.split(",");
+		for (int i = 0; i < ids.length; i++) {
+			Area area = areaService.listById(ids[i]);
+			area.setIsDeleted(1);
+			areaService.update(area);
+		}
+		return "redirect:list.html";
 	}
 }

@@ -2,7 +2,6 @@ package bss.controller.ppms;
 
 import java.io.File;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -17,8 +16,14 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import ses.model.oms.PurchaseDep;
+import ses.model.oms.PurchaseInfo;
+import ses.service.oms.PurchaseOrgnizationServiceI;
+import ses.service.oms.PurchaseServiceI;
 
 import com.github.pagehelper.PageInfo;
 
@@ -31,7 +36,6 @@ import bss.model.ppms.ProjectAttachments;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.ProjectTask;
 import bss.model.ppms.Task;
-import bss.model.ppms.TaskAttachments;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.PurchaseRequiredService;
 import bss.service.ppms.PackageService;
@@ -62,6 +66,10 @@ public class ProjectController extends BaseController{
 	private PackageService packageService;
 	@Autowired
 	private ProjectTaskService projectTaskService;
+	@Autowired
+	private PurchaseServiceI purchaseService;
+	@Autowired
+	private PurchaseOrgnizationServiceI orgnizationService;
 	
 	/**
 	 * 
@@ -127,7 +135,12 @@ public class ProjectController extends BaseController{
 	* @return String
 	 */
 	@RequestMapping("/create")
-	public String create(String id,HttpServletRequest request){
+	public String create(String id,Model model){
+		String[] ids = id.split(",");
+		for (int i = 0; i < ids.length; i++) {
+			Task task = taskservice.selectById(ids[i]);
+			model.addAttribute("task", task);
+		}
 		return "bss/ppms/project/addProject";
 	}
 	/**
@@ -143,14 +156,21 @@ public class ProjectController extends BaseController{
 	* @return String
 	 */
 	@RequestMapping("/createProject")
-	public String createProject(String name,String projectNumber,HttpServletRequest request){
+	public String createProject(String name,String projectNumber,String purchaseId,HttpServletRequest request){
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("orgId", purchaseId);
+		ProjectTask projectTask = new ProjectTask();
 		if(name != null && projectNumber != null){
 			Project project = new Project();
-			ProjectTask projectTask = new ProjectTask();
+			List<PurchaseDep> purchaseDeps = orgnizationService.findPurchaseDepList(map);
+			for (PurchaseDep purchaseDep : purchaseDeps) {
 			project.setName(name);
 			project.setProjectNumber(projectNumber);
+			project.setPurchaseDep(new PurchaseDep(purchaseId));
+			project.setPurchaseDepName(purchaseDep.getName());
 			project.setStatus(3);
 			projectService.add(project);
+			}
 			String id = (String) request.getSession().getAttribute("idss");
 			String ide = (String) request.getSession().getAttribute("idr");
 			request.getSession().removeAttribute("idss");
@@ -198,7 +218,19 @@ public class ProjectController extends BaseController{
 		model.addAttribute("ject", project);
 		return "bss/ppms/project/view";
 	}
-	
+	/**
+	 * 
+	* @Title: edit
+	* @author FengTian
+	* @date 2016-10-12 上午9:12:00  
+	* @Description: 根据项目id查询任务跳转修改页面 
+	* @param @param id
+	* @param @param model
+	* @param @param page
+	* @param @param request
+	* @param @return      
+	* @return String
+	 */
 	@RequestMapping("/edit")
 	public String edit(String id,Model model,Integer page,HttpServletRequest request){
 		request.getSession().setAttribute("rre", id);
@@ -229,9 +261,34 @@ public class ProjectController extends BaseController{
 	 */
 	@RequestMapping("/startProject")
 	public String startProject(String id,Model model){
+		HashMap<String,Object> map = new HashMap<String,Object>();
 		Project project = projectService.selectById(id);
+		map.put("purchaseDepName", project.getPurchaseDepName());
+		List<PurchaseInfo> purchaseInfo = purchaseService.findPurchaseList(map);
+		model.addAttribute("purchaseInfo", purchaseInfo);
 		model.addAttribute("project", project);
 		return "bss/ppms/project/upload";
+	}
+	/**
+	 * 
+	* @Title: start
+	* @author FengTian
+	* @date 2016-10-12 下午2:08:10  
+	* @Description: 进入实施页面 
+	* @param @param attach
+	* @param @param project
+	* @param @param principal
+	* @param @param request
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/start")
+	public String start(@RequestParam("attach") MultipartFile[] attach,Project project,String principal,HttpServletRequest request){
+		project.setPrincipal(principal);
+		project.setStatus(1);
+		projectService.update(project);
+		upfile(attach, request, project);
+		return "bss/ppms/project/project_implement";
 	}
 	/**
 	 * 
@@ -254,7 +311,18 @@ public class ProjectController extends BaseController{
 		model.addAttribute("lists", detailList);
 		return "bss/ppms/project/viewDetail";
 	}
-	
+	/**
+	 * 
+	* @Title: viewDet
+	* @author FengTian
+	* @date 2016-10-12 上午9:13:15  
+	* @Description: 新增查询采购明细 
+	* @param @param id
+	* @param @param model
+	* @param @param request
+	* @param @return      
+	* @return String
+	 */
 	@RequestMapping("/viewDet")
 	public String viewDet(String id,Model model,HttpServletRequest request){
 		request.getSession().setAttribute("qq",id);
@@ -277,7 +345,18 @@ public class ProjectController extends BaseController{
 		}
 		return "bss/ppms/project/saveDetail";
 	}
-	
+	/**
+	 * 
+	* @Title: saveDetail
+	* @author FengTian
+	* @date 2016-10-12 上午9:13:40  
+	* @Description: 新增项目明细 
+	* @param @param id
+	* @param @param model
+	* @param @param request
+	* @param @return      
+	* @return String
+	 */
 	@RequestMapping("/saveDetail")
 	public String saveDetail(String id,Model model,HttpServletRequest request){
 		String[] ids = id.split(",");
@@ -316,7 +395,18 @@ public class ProjectController extends BaseController{
 		return "redirect:add.html";
 		 
 	}
-	
+	/**
+	 * 
+	* @Title: editDet
+	* @author FengTian
+	* @date 2016-10-12 上午9:14:01  
+	* @Description: 根据项目id查询任务跳转修改明细页面 
+	* @param @param id
+	* @param @param model
+	* @param @param request
+	* @param @return      
+	* @return String
+	 */
 	@RequestMapping("/editDet")
 	public String editDet(String id,Model model,HttpServletRequest request){
 		HashMap<String,Object> map = new HashMap<String,Object>();
@@ -330,7 +420,19 @@ public class ProjectController extends BaseController{
 		model.addAttribute("ject", project);
 		return "bss/ppms/project/eidtDetail";
 	}
-	
+	/**
+	 * 
+	* @Title: editDetail
+	* @author FengTian
+	* @date 2016-10-12 上午9:15:08  
+	* @Description: 修改项目明细 
+	* @param @param id
+	* @param @param purchaseCount
+	* @param @param price
+	* @param @param purchaseType
+	* @param @param model      
+	* @return void
+	 */
 	@RequestMapping("/editDetail")
 	@ResponseBody
 	public void editDetail(String id,String purchaseCount,String price,String purchaseType,Model model){

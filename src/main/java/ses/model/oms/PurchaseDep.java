@@ -106,7 +106,15 @@ public class PurchaseDep extends Orgnization{
     
     private Integer isAuditSupplier;//是否具有进口供应商审核权限，0没有1有
 
-    public String getId() {
+    public PurchaseDep(String id) {
+    	super();
+		this.id = id;
+	}
+    public PurchaseDep() {
+    	super();
+	}
+
+	public String getId() {
         return id;
     }
 

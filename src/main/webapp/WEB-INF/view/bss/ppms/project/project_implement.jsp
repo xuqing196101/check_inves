@@ -157,58 +157,58 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        
        //项目分包
        function subPackage(){
-    	   var count = 0;
-			var chkItem = document.getElementsByName("chkItem");
-			var str = "";
-			for(var i = 0;i<chkItem.length;i++){
-				if(chkItem[i].checked == true){
-					count++;
-				}
-			}
-			if(count > 1){
-				layer.alert("只能选择一项",{offset: ['222px', '390px']});
-				$(".layui-layer-shade").remove();
-				return;
-			}else if(count == 0){
-				layer.alert("请先选择一项",{offset: ['222px', '390px']});
-				$(".layui-layer-shade").remove();
-				return;
-			}else{
-				for(var i = 0;i<chkItem.length;i++){
-					if(chkItem[i].checked == true){
-						str = chkItem[i].value;
-					}
-				}
-				window.location.href = "<%=path%>/project/subPackage.html?id="+str;
-			}
+           var count = 0;
+            var chkItem = document.getElementsByName("chkItem");
+            var str = "";
+            for(var i = 0;i<chkItem.length;i++){
+                if(chkItem[i].checked == true){
+                    count++;
+                }
+            }
+            if(count > 1){
+                layer.alert("只能选择一项",{offset: ['222px', '390px']});
+                $(".layui-layer-shade").remove();
+                return;
+            }else if(count == 0){
+                layer.alert("请先选择一项",{offset: ['222px', '390px']});
+                $(".layui-layer-shade").remove();
+                return;
+            }else{
+                for(var i = 0;i<chkItem.length;i++){
+                    if(chkItem[i].checked == true){
+                        str = chkItem[i].value;
+                    }
+                }
+                window.location.href = "<%=path%>/project/subPackage.html?id="+str;
+            }
        }
        //初审项定义
        function firstAudit(){
-    	   var count = 0;
-			var chkItem = document.getElementsByName("chkItem");
-			var str = "";
-			for(var i = 0;i<chkItem.length;i++){
-				if(chkItem[i].checked == true){
-					count++;
-				}
-			}
-			if(count > 1){
-				layer.alert("只能选择一项",{offset: ['222px', '390px']});
-				$(".layui-layer-shade").remove();
-				return;
-			}else if(count == 0){
-				layer.alert("请先选择一项",{offset: ['222px', '390px']});
-				$(".layui-layer-shade").remove();
-				return;
-			}else{
-				for(var i = 0;i<chkItem.length;i++){
-					if(chkItem[i].checked == true){
-						str = chkItem[i].value;
-					}
-				}
-				window.location.href = "<%=path%>/firstAudit/toAdd.html?projectId="+str;
-			}
-    	   
+           var count = 0;
+            var chkItem = document.getElementsByName("chkItem");
+            var str = "";
+            for(var i = 0;i<chkItem.length;i++){
+                if(chkItem[i].checked == true){
+                    count++;
+                }
+            }
+            if(count > 1){
+                layer.alert("只能选择一项",{offset: ['222px', '390px']});
+                $(".layui-layer-shade").remove();
+                return;
+            }else if(count == 0){
+                layer.alert("请先选择一项",{offset: ['222px', '390px']});
+                $(".layui-layer-shade").remove();
+                return;
+            }else{
+                for(var i = 0;i<chkItem.length;i++){
+                    if(chkItem[i].checked == true){
+                        str = chkItem[i].value;
+                    }
+                }
+                window.location.href = "<%=path%>/firstAudit/toAdd.html?projectId="+str;
+            }
+           
        }
        function edit(){
         var id =[]; 
@@ -274,15 +274,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       
    <div class="container clear margin-top-30">
    <span class="fr option_btn margin-top-10">
-      <button class="btn padding-left-10 padding-right-10 btn_back" onclick="firstAudit()">初审项定义</button>
-        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="subPackage()">分包</button>
-        <button class="btn padding-left-10 padding-right-10 btn_back" >打印报批文件</button>
-        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="start();">启动</button>
-        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="view();">查看</button>
-         <button class="btn btn-windows edit" onclick="edit();">修改</button>
         <button class="btn padding-left-10 padding-right-10 btn_back">进入</button>
       </span>
-    <a class="btn btn-windows add" href="<%=basePath%>project/add.html">新建采购项目</a>
     <div class="container margin-top-5">
                <table class="table table-striped table-bordered table-hover">
         <thead>
@@ -302,8 +295,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <td class="tc" onclick="see(${obj.id});">${obj.projectNumber }</td>
               <td class="tc" onclick="see(${obj.id});">
               <c:if test="${'1'==obj.status}">已报批</c:if>
-              <c:if test="${'2'==obj.status}">已成交</c:if>
-              <c:if test="${'3'==obj.status}">新建报批</c:if>
               </td>
             </tr>
      
@@ -317,18 +308,5 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
  </div>
 
-
- <div id="content" class="div_show">
-     <p align="center" class="type">
-             请选择类别
-    <br>
-    
-     <input type="radio" name="goods" value="1">:物资<br>
-     <input type="radio" name="goods" value="2">:工程<br>
-     <input type="radio" name="goods" value="3">:服务<br>
-        </p>
-        
- </div>
- 
      </body>
 </html>

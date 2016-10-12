@@ -44,11 +44,16 @@
 	                }
 	            },
 	            callback:{
-	               
+	               onClick:zTreeOnClick
 	            }
 	        };
 	         var treeObj=$.fn.zTree.init($("#tree"),setting,datas);
         }
+        
+        function zTreeOnClick(event,treeId,treeNode){
+            $("#mid").val(treeNode.id);
+        };
+        
         
      $(function(){
       
@@ -77,6 +82,36 @@
           content: '<%=basePath%>area/add.html?pid='+pid
         }); 
         }
+        function edit(){
+        var pid = $("#mid").val();
+        if(pid != null && pid != '' ){
+        layer.open({
+          type: 2, //page层
+          area: ['430px', '400px'],
+          title: '添加地区',
+          closeBtn: 1,
+          shade:0.01, //遮罩透明度
+          moveType: 1, //拖拽风格，0是默认，1是传统拖动
+          shift: 1, //0-6的动画形式，-1不开启
+          offset: ['120px', '550px'],
+          shadeClose: false,
+          content: '<%=basePath%>area/edit.html?pid='+pid
+        }); 
+        }else{
+            layer.alert("请选择一个节点",{offset: ['222px', '390px'], shade:0.01});
+        }
+        }
+        function del(){
+        var mid = $("#mid").val();
+        if(mid != null && mid != '' ){
+            layer.confirm('您确定要删除该地区吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+                layer.close(index);
+                window.location.href="<%=basePath%>area/delete.html?id="+mid;
+            });
+        }else{
+            layer.alert("请选择要删除的地区",{offset: ['222px', '390px'], shade:0.01});
+        }
+    }
 </script>
 
 </head>
@@ -116,7 +151,9 @@
                         </div>
                     </div>
                     <div style="margin-bottom: 6px; ">
-                        <button class="btn btn-windows add" type="button" onclick="add()">新增</button> 
+                        <button class="btn btn-windows add" type="button" onclick="add();">新增</button> 
+                        <button class="btn btn-windows edit" type="button" onclick="edit();">修改</button> 
+                        <button class="btn btn-windows delete" type="button" onclick="del();">删除</button> 
                         <input type="hidden" name="nodeId" id="mid">
                        
                     </div>

@@ -26,7 +26,7 @@
 <body>
     <form id="att" action="<%=basePath%>project/createProject.html" id="myForm"
         method="post" name="form1" class="simple" target="_parent">
-       <%--  <input type="hidden" name="id" value="${task.id}"/> --%>
+        <input type="hidden" name="purchaseId" value="${task.purchaseId}"/> 
         <span class="f14 fl">项目名称：</span>
         <div class="fl" >
           <input id="pic" type="text" class="toinline" name="name"/>

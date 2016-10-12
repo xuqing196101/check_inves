@@ -48,7 +48,7 @@
     select 
     *
     from T_SES_BMS_AREA
-    where ID =#{id}
+    where ID =#{id} and IS_DELETED=0
   </select>
   <!-- 查询全部 -->
   <select id="listByArea" parameterType="ses.model.bms.Area" resultMap="BaseResultMap">
@@ -63,7 +63,7 @@
   	select 
   	*
   	from T_SES_BMS_AREA
-  	where AREA_TYPE = #{pid}
+  	where AREA_TYPE = #{pid} and  IS_DELETED=0
   	 <if test="name != null and name !=''">
         and NAME like '%${name}%'
       </if> 

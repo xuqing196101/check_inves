@@ -59,11 +59,11 @@ function cancel(){
         <br/><br/><br/>
         <span class="f14 fl">项目负责人：</span>
         <div class="fl" id="name" >
-          <select name="procurementMethod" style="width:100px" id="select">
+          <select name="principal" style="width:100px" id="select">
        <option selected="selected" value="">-请选择-</option>
-         <%--    <c:forEach items="${principal}" var="process">
-                            <option value="${process.id}">${process.processName}</option>
-            </c:forEach> --%>
+            <c:forEach items="${purchaseInfo}" var="info">
+                            <option value="${info.relName}">${info.relName}</option>
+            </c:forEach> 
          </select> 
         </div>
         <br/><br/><br/>
