@@ -4,6 +4,8 @@ package iss.model.ps;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import ses.model.bms.User;
 
 
@@ -24,6 +26,7 @@ public class Article{
 	/**
 	 * @Fields name : 标题
 	 */
+	@NotBlank(message = "标题不能为空")
     private String name;
 
     /**

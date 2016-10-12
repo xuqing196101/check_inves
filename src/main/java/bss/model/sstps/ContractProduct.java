@@ -19,6 +19,10 @@ public class ContractProduct {
     private Date createdAt;
 
     private Date updatedAt;
+    
+    private Integer offer;
+    
+    private Integer auditOffer;
 
     public String getId() {
         return id;
@@ -59,4 +63,21 @@ public class ContractProduct {
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+	public Integer getOffer() {
+		return offer;
+	}
+
+	public void setOffer(Integer offer) {
+		this.offer = offer;
+	}
+
+	public Integer getAuditOffer() {
+		return auditOffer;
+	}
+
+	public void setAuditOffer(Integer auditOffer) {
+		this.auditOffer = auditOffer;
+	}
+    
 }

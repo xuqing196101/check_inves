@@ -81,6 +81,7 @@ function deleteAtta(id,obj){
 	   <div class="input-append">
         <input class="span2" id="name" name="name" type="text" value="${article.name }">
        </div>
+       <div class="validate">${ERR_name}</div>
 	 </li>
      <li class="col-md-6  p0 ">
 	   <span class="">发布范围：</span>
@@ -88,6 +89,7 @@ function deleteAtta(id,obj){
         <label class="fl margin-bottom-0"><input type="checkbox" name="ranges" value="0">内网</label>
         <label class="ml10 fl"><input type="checkbox" name="ranges" value="1">外网</label>
        </div>
+       <div class="validate">${ERR_range}</div>
 	 </li> 
      <li class="col-md-6  p0 ">
 	   <span class="">信息类型：</span>

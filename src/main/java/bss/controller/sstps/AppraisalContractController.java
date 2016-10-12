@@ -25,10 +25,12 @@ import ses.service.bms.UserServiceI;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
+import bss.model.cs.ContractRequired;
 import bss.model.cs.PurchaseContract;
 import bss.model.sstps.ContractProduct;
 import bss.model.sstps.Contracts;
 import bss.model.sstps.AppraisalContract;
+import bss.service.cs.ContractRequiredService;
 import bss.service.cs.PurchaseContractService;
 import bss.service.sstps.AppraisalContractService;
 import bss.service.sstps.ContractProductService;
@@ -56,6 +58,9 @@ public class AppraisalContractController extends BaseSupplierController{
 	
 	@Autowired
 	private PurchaseContractService purchaseContractService;
+	
+	@Autowired
+	private ContractRequiredService contractRequiredService;
 	
 	private Logger logger = Logger.getLogger(LoginController.class); 
 	
@@ -162,13 +167,29 @@ public class AppraisalContractController extends BaseSupplierController{
 			appraisalContract.setPurchaseContract(purchaseContract);
 			appraisalContractService.insert(appraisalContract);
 			
-//			ContractProduct ContractProduct = new ContractProduct();
-//			AppraisalContract app= appraisalContractService.selectContractId(appraisalContract);
-//			
-//			ContractProduct.setAppraisalContract(app);
-//			contractProductService.insert(ContractProduct);
+			//审价产品
+			ContractProduct contractProduct = new ContractProduct();
+			//根据合同编号，获取审价ID
+			AppraisalContract app = new AppraisalContract();
+			app.setId(contractId);
+			app.setPurchaseContract(purchaseContract);
+			AppraisalContract appc= appraisalContractService.selectContractId(app);
+			
+			//ContractRequired contractRequired = new ContractRequired();
+			List<ContractRequired> list = contractRequiredService.selectConRequeByContractId(contractId);
+			for(int i=0;i<list.size();i++){
+			//	ContractProduct.setId(app.getId());
+				//关联审价编号
+				contractProduct.setAppraisalContract(appc);
+				//获取合同产品
+				contractProduct.setName(list.get(i).getGoodsName());
+				contractProduct.setCreatedAt(new Date());
+				contractProduct.setUpdatedAt(new Date());
+				contractProduct.setOffer(0);
+				contractProduct.setAuditOffer(0);
+				contractProductService.insert(contractProduct);
+			}
 		}
-		
 		return "redirect:select.html";
 	}
 	

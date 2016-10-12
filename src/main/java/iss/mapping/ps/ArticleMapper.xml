@@ -123,10 +123,12 @@
   <!-- 校验信息标题-->
   <select id="checkName" parameterType="Object" resultMap="ArticleMapper">
   	select NAME
-  	where NAME = #{name}
-	  	<if test="id != null">
-	  	  AND ID = #{id}
-	  	</if>
+  	<include refid="Article_Column_List"/>
+  	,
+    <include refid="Article_BlOB_Column_List" />
+     from T_ISS_PS_ARTICLE
+  	where IS_DELETED = 0
+  	AND ID != #{id}
   </select>
   
   

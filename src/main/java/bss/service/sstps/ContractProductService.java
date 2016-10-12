@@ -1,5 +1,7 @@
 package bss.service.sstps;
 
+import java.util.List;
+
 import bss.model.sstps.ContractProduct;
 
 /**
@@ -14,5 +16,6 @@ public interface ContractProductService {
 	
 	public void insert(ContractProduct contractProduct);
 	
+	public List<ContractProduct> select(ContractProduct contractProduct,Integer page);
 
 }
