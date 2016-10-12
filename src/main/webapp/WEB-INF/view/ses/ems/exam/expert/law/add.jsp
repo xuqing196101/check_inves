@@ -12,32 +12,16 @@
 	<meta http-equiv="description" content="This is my page">
 	<script type="text/javascript">
 		$(function(){
-			var que = document.getElementsByName("que");
-			var option = document.getElementsByName("option");
+			var que = document.getElementsByName("answer");
 			document.getElementById("queTopic").setAttribute("disabled",true);
 			document.getElementById("quePoint").setAttribute("disabled",true);
-			for(var i=0;i<option.length;i++){
-				option[i].setAttribute("disabled",true);
-			}
+			document.getElementById("optionA").setAttribute("disabled",true);
+			document.getElementById("optionB").setAttribute("disabled",true);
+			document.getElementById("optionC").setAttribute("disabled",true);
+			document.getElementById("optionD").setAttribute("disabled",true);
 			for(var i=0;i<que.length;i++){
 				que[i].setAttribute("disabled",true);
 			}
-			$("#form").validate({
-				errorElement: "span",
-				focusInvalid : false, //当为false时，验证无效时，没有焦点响应  
-				onkeyup : false,
-				rules:{
-					queType:"required",
-					queTopic:"required",
-					quePoint:"required"
-				},
-				messages:{
-					queType:"题型不能为空",
-					queTopic:"题干不能为空",
-					quePoint:"请选择分值"
-				}
-			});
-			
 		})
 		
 		//保存到法律题库
@@ -48,8 +32,7 @@
 		//切换题型
 		function changeType(){
 			var queType = $("#queType").val();
-			var que = document.getElementsByName("que");
-			var option = document.getElementsByName("option");
+			var que = document.getElementsByName("answer");
 			var all_options = document.getElementById("quePoint").options;
 			for(var i=0;i<que.length;i++){
 				$(que[i]).removeAttr("checked");
@@ -62,9 +45,10 @@
 					}
 					$("#queTopic").attr("disabled",false);
 					$("#quePoint").attr("disabled",false);
-					for(var i=0;i<option.length;i++){
-						$(option[i]).attr("disabled",false);
-					}
+					$("#optionA").attr("disabled",false);
+					$("#optionB").attr("disabled",false);
+					$("#optionC").attr("disabled",false);
+					$("#optionD").attr("disabled",false);
 					$("#queTopic").val(" ");
 					$("#optionA").val(" ");
 					$("#optionB").val(" ");
@@ -78,9 +62,10 @@
 					}
 					$("#queTopic").attr("disabled",false);
 					$("#quePoint").attr("disabled",false);
-					for(var i=0;i<option.length;i++){
-						$(option[i]).attr("disabled",false);
-					}
+					$("#optionA").attr("disabled",false);
+					$("#optionB").attr("disabled",false);
+					$("#optionC").attr("disabled",false);
+					$("#optionD").attr("disabled",false);
 					$("#queTopic").val(" ");
 					$("#optionA").val(" ");
 					$("#optionB").val(" ");
@@ -94,9 +79,10 @@
 				}
 				document.getElementById("queTopic").setAttribute("disabled",true);
 				document.getElementById("quePoint").setAttribute("disabled",true);
-				for(var i=0;i<option.length;i++){
-					$(option[i]).attr("disabled",true);
-				}
+				document.getElementById("optionA").setAttribute("disabled",true);
+				document.getElementById("optionB").setAttribute("disabled",true);
+				document.getElementById("optionC").setAttribute("disabled",true);
+				document.getElementById("optionD").setAttribute("disabled",true);
 				$("#queTopic").val(" ");
 				$("#optionA").val(" ");
 				$("#optionB").val(" ");
@@ -130,41 +116,43 @@
   	<form action="<%=path %>/expertExam/saveToLaw.html" method="post" id="form">
   		<ul class="list-unstyled list-flow p0_20">
 		     <li class="col-md-12 p0">
-	  			<span class="fl">请选择题型：</span>
+	  			<span class="fl"><div class="red star_red">*</div>请选择题型：</span>
 		  		<select id="queType" name="queType" onchange="changeType()">
 		  			<option value="">请选择</option>
 		  			<option value="1">单选题</option>
 		  			<option value="2">多选题</option>
 		  		</select>
+		  		<div class="validate">${ERR_type}</div>
 	  		</li>
   		
 		    <li class="col-md-12 p0">
-			   <span class="fl">题干：</span>
-			   <div class="">
-		        	<textarea class="text_area col-md-8" name="queTopic" id="queTopic"></textarea>
+			   <span class="fl"><div class="red star_red">*</div>题干：</span>
+			   <div class="red">
+		        	<textarea class="text_area col-md-8" name="topic" id="queTopic"></textarea>
+		       		${ERR_topic}
 		       </div>
 			</li> 
 		   
 
 		
 				<li class="col-md-12 p0">
-					<span class="fl">选项：</span>
+					<span class="fl"><div class="red star_red">*</div>选项：</span>
 					<div class="col-md-9">
 						<div>
-					  		<div class="fl mt5">A</div><textarea name="option" id="optionA" class="ml5 col-md-8"></textarea>
-					  		<div class="clear"></div>
+					  		<div class="fl mt5">A</div><textarea name="optionA" id="optionA" class="ml5 col-md-8"></textarea>
+					  		<div class="clear red">${ERR_optionA }</div>
 					  	</div>
 					  	<div class="clear mt10">
-							<div class="fl mt5">B</div><textarea name="option" id="optionB" class="ml5 col-md-8"></textarea>
-						    <div class="clear"></div>
+							<div class="fl mt5">B</div><textarea name="optionB" id="optionB" class="ml5 col-md-8"></textarea>
+						    <div class="clear red">${ERR_optionB }</div>
 						</div>
 						<div class="clear mt10">
-							<div class="fl mt5">C</div><textarea name="option" id="optionC" class="ml5 col-md-8"></textarea>
-						    <div class="clear"></div>
+							<div class="fl mt5">C</div><textarea name="optionC" id="optionC" class="ml5 col-md-8"></textarea>
+						    <div class="clear red">${ERR_optionC }</div>
 						</div>
 						<div class="clear mt10">
-							<div class="fl mt5">D</div><textarea name="option" id="optionD" class="ml5 col-md-8"></textarea>
-						    <div class="clear"></div>
+							<div class="fl mt5">D</div><textarea name="optionD" id="optionD" class="ml5 col-md-8"></textarea>
+						    <div class="clear red">${ERR_optionD }</div>
 						</div>
 			       	</div>
 				 </li> 
@@ -172,18 +160,19 @@
 
 		
 				<li class="col-md-12 p0">
-					<span class="fl">答案：</span>	
+					<span class="fl"><div class="red star_red">*</div>答案：</span>	
 					<div class="fl ml5 mt5">
-				        <input type="radio" id="A" name="que" value="A" class="mt0"/>A 
-			  			<input type="radio" id="B" name="que" value="B" class="mt0"/>B 
-			  			<input type="radio" id="C" name="que" value="C" class="mt0"/>C 
-			  			<input type="radio" id="D" name="que" value="D" class="mt0"/>D
+				        <input type="radio" id="A" name="answer" value="A" class="mt0"/>A 
+			  			<input type="radio" id="B" name="answer" value="B" class="mt0"/>B 
+			  			<input type="radio" id="C" name="answer" value="C" class="mt0"/>C 
+			  			<input type="radio" id="D" name="answer" value="D" class="mt0"/>D
+			  			<div class="clear red">${ERR_answer }</div>
 			       </div>
 				</li>
 			
 
 			<li class="col-md-12 p0">
-	  			<span class="fl">分值：</span>
+	  			<span class="fl"><div class="red star_red">*</div>分值：</span>
 	  			<select name="quePoint" id="quePoint">
 	  				<option value="1">1</option>
 	  				<option value="2">2</option>

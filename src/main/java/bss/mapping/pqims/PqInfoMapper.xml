@@ -327,8 +327,8 @@
     select COUNT(1)
     from T_BSS_PQIMS_PQINFO p inner JOIN T_BSS_CS_PURCHASE_CONTRACT c on p.CONTRACT_ID = c.id
 	WHERE p.CONCLUSION = '合格'
-	AND c.PURCHASE_DEP_NAME=#{supplierName,jdbcType=VARCHAR}
-	GROUP BY c.PURCHASE_DEP_NAME ORDER BY c.PURCHASE_DEP_NAME 
+	AND c.SUPPLIER_DEP_NAME=#{supplierName,jdbcType=VARCHAR}
+	GROUP BY c.SUPPLIER_DEP_NAME ORDER BY c.SUPPLIER_DEP_NAME 
   </select>
   
     <!-- 9.供应商质检不合格总次数 -->
@@ -336,14 +336,14 @@
     select COUNT(1)
     from T_BSS_PQIMS_PQINFO p inner JOIN T_BSS_CS_PURCHASE_CONTRACT c on p.CONTRACT_ID = c.id
 	WHERE p.CONCLUSION = '不合格'
-	AND c.PURCHASE_DEP_NAME=#{supplierName,jdbcType=VARCHAR}
-	GROUP BY c.PURCHASE_DEP_NAME ORDER BY c.PURCHASE_DEP_NAME 
+	AND c.SUPPLIER_DEP_NAME=#{supplierName,jdbcType=VARCHAR}
+	GROUP BY c.SUPPLIER_DEP_NAME ORDER BY c.SUPPLIER_DEP_NAME 
   </select>
   
    <!-- 10.供应商列表查询 -->
   <select id="queryDepName" resultType="Object" parameterType="Object">
-    select c.PURCHASE_DEP_NAME
+    select c.SUPPLIER_DEP_NAME
     from T_BSS_PQIMS_PQINFO p inner JOIN T_BSS_CS_PURCHASE_CONTRACT c on p.CONTRACT_ID = c.id
-    GROUP BY c.PURCHASE_DEP_NAME ORDER BY c.PURCHASE_DEP_NAME 
+    GROUP BY c.SUPPLIER_DEP_NAME ORDER BY c.SUPPLIER_DEP_NAME 
   </select>
 </mapper>

@@ -299,6 +299,7 @@ public class PqInfoController {
 			supplier_pqinfos.add(sPqinfo);
 		}
 		model.addAttribute("list",new PageInfo<Supplier_pqinfo>(supplier_pqinfos));
+		model.addAttribute("page",new PageInfo<String>(supplierNames));
 		return "bss/pqims/pqinfo/supplier_pqinfo_list";
 	}
 	

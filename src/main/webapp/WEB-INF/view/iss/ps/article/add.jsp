@@ -57,6 +57,8 @@
 	   <span class=""><i class="red">＊</i> 信息标题：</span>
 	   <div class="input-append">
         <input class="span2" id="name" name="name" type="text">
+         <div class="validate">${ERR_name}</div>
+         
        </div>
 	 </li>
      <li class="col-md-6  p0 ">
@@ -64,6 +66,7 @@
 	   <div class="input-append">
         <label class="fl margin-bottom-0"><input type="checkbox" name="ranges" value="0">内网</label>
         <label class="ml10 fl"><input type="checkbox" name="ranges" value="1">外网</label>
+        <div class="validate">${ERR_range}</div>
        </div>
 	 </li> 
 	 
@@ -91,6 +94,15 @@
           		<option value="${list.id }" >${list.name }</option>
 		    </c:forEach>
           </select>
+          <div class="validate">${ERR_typeId}</div>
+	 </li> 
+	 
+	 <li class="col-md-6  p0 ">
+	   <span class=""><i class="red">＊</i>文章来源：</span>
+       <div class="input-append">
+        <input class="span2" id="source" name="source" type="text">
+         <div class="validate">${ERR_source}</div>
+       </div>
 	 </li> 
 	 
      <li class="col-md-12 p0">

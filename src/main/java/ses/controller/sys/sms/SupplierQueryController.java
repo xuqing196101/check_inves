@@ -75,7 +75,7 @@ public class SupplierQueryController extends BaseSupplierController{
 		for(Supplier supplier:listSupplier){
 			for(String str:list){
 				int count=1;
-				if(supplier.getAddress().indexOf(str)!=-1){
+				if(supplier.getAddress()!=null&&supplier.getAddress().indexOf(str)!=-1){
 					if(map.get(str)==null){
 						map.put(str, count);
 					}else{

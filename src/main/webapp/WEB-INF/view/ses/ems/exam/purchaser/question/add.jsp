@@ -11,7 +11,6 @@
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	<script type="text/javascript">
-	
 	$(function(){
 		var que = document.getElementsByName("que");
 		var judge = document.getElementsByName("judge");
@@ -26,58 +25,15 @@
 		for(var i=0;i<judge.length;i++){
 			judge[i].setAttribute("disabled",true);
 		}
-		$("#form").validate({
-			errorElement: "span",
-			focusInvalid : false, //当为false时，验证无效时，没有焦点响应  
-			onkeyup : false,
-			rules:{
-				queType:"required",
-				queTopic:"required"
-			},
-			messages:{
-				queType:"题型不能为空",
-				queTopic:"题干不能为空"
-			}
-		});
-		
 	})
 	
 	//保存到法律题库
 	function save(){
-		var ques = "";
-		var judges = "";
-		var queType = $("#queType").val();
-		var que = document.getElementsByName("que");
-		var judge = document.getElementsByName("judge");
-		var quePoint = $("#quePoint").val();
-		if(queType){
-			if(queType==1){
-				for(var i=0;i<que.length;i++){ 
-					if(que[i].checked){
-						ques += que[i].value+',';
-					}
-				}
-			}else if(queType==2){
-				for(var i=0;i<que.length;i++){
-					if(que[i].checked){
-						ques += que[i].value+',';
-					}
-				}
-			}else if(queType==3){
-				for(var i=0;i<judge.length;i++){
-					if(judge[i].checked){
-						judges += judge[i].value+',';
-					}
-				}
-			}
-		}
 		$("#form").submit();
 	}
 	
 	//切换题型
 	function changeType(){
-		$("span.invalid").remove();
-		$("#queJudge").html(" ");
 		var queType = $("#queType").val();
 		var que = document.getElementsByName("que");
 		var judge = document.getElementsByName("judge");
@@ -162,7 +118,6 @@
 			$("#optionC").val(" ");
 			$("#optionD").val(" ");
 		}
-		
 	}
 	</script>
 
@@ -231,18 +186,18 @@
   		
   				`<li class="col-md-12 p0">
 					<span class="fl">答案：</span>
-				<div class="fl">	
-					<div class="fl mt5" id="selects">
-			         <input type="radio" id="A" name="que" value="A" class="mt0"/>A 
-		  			 <input type="radio" id="B" name="que" value="B" class="mt0"/>B
-		  			 <input type="radio" id="C" name="que" value="C" class="mt0"/>C
-		  			 <input type="radio" id="D" name="que" value="D" class="mt0"/>D
-			       </div>
-				   <div class="clear fl mt5" id="judge">
-					 <input type="radio" name="judge" value="对" class="mt0"/>对
-					 <input type="radio" name="judge" value="错" class="mt0"/>错
-			       </div>
-			     </div>
+					<div class="fl">	
+						<div class="fl mt5" id="selects">
+					         <input type="radio" id="A" name="que" value="A" class="mt0"/>A 
+				  			 <input type="radio" id="B" name="que" value="B" class="mt0"/>B
+				  			 <input type="radio" id="C" name="que" value="C" class="mt0"/>C
+				  			 <input type="radio" id="D" name="que" value="D" class="mt0"/>D
+				       	</div>
+					   	<div class="clear fl mt5" id="judge">
+							 <input type="radio" name="judge" value="对" class="mt0"/>对
+							 <input type="radio" name="judge" value="错" class="mt0"/>错
+				       	</div>
+			     	</div>
 				</li>
   		
   		<%--<div>

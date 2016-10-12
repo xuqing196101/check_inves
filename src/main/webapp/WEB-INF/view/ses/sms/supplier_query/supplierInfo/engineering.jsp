@@ -227,15 +227,15 @@ function tijiao(str){
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >产品信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('chengxin');">诚信记录</a></li>
             </ul>
-              <div class="tab-content padding-top-20" style="height:1400px;">
+              <div class="tab-content padding-top-20">
                 <div class="tab-pane fade active in height-450" id="tab-1">
                   <form id="form_id" action="" method="post"  enctype="multipart/form-data">
                     <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
                   </form>
                   <div class=" margin-bottom-0 fl">
-                    <h2 class="f16 jbxx1">
-                    <i>01</i>供应商资质证书信息
-                    </h2>
+                     <h5>
+                  <i>一、</i>供应商资质证书信息
+                  </h5>
 	                  <table class="table table-bordered table-condensed">
 	                    <thead>
 	                      <tr>
@@ -285,9 +285,9 @@ function tijiao(str){
 	                 </div>
 	                 
 	                 <div class=" margin-bottom-0 fl" >
-	                   <h2 class="f16 jbxx1">
-	                   <i>02</i>供应商资质资格信息
-	                   </h2>
+	                       <h5>
+                  			<i>二、</i>供应商资质证书信息
+                 		 </h5>
                    <table class="table table-bordered table-condensed">
                     <thead>
                       <tr>
@@ -339,37 +339,26 @@ function tijiao(str){
                   </table>
                 </div>
                 
-                <div class=" margin-bottom-0 fl">
-                    <h2 class="f16 jbxx1">
-                    <i>03</i>供应商组织机构
-                    </h2>
-                      <ul class="list-unstyled list-flow">
-                        <li class="col-md-6 p0"><span class="" id="orgName2"><i class="red">＊</i>组织机构：</span>
-                          <div class="input-append">
-                            <input class="span3" type="text" value="${supplierMatEngs.orgName }" />
-                          </div>
-                        </li>
-                        <li class="col-md-6 p0"><span class="" id="totalTech2"><i class="red">＊</i>技术负责人：</span>
-                          <div class="input-append">
-                            <input class="span3" type="text" value="${supplierMatEngs.totalTech }" />
-                          </div>
-                        </li>
-                        <li class="col-md-6 p0"><span class="" id="totalGlNormal2"><i class="red">＊</i>中级及以上职称人员：</span>
-                          <div class="input-append">
-                            <input class="span3" type="text"  value="${supplierMatEngs.totalGlNormal }"/>
-                          </div>
-                        </li>
-                        <li class="col-md-6 p0"><span class="" id="totalMange2"><i class="red">＊</i>管理人员：</span>
-                          <div class="input-append">
-                            <input class="span3" type="text"  value="${supplierMatEngs.totalMange }"/>
-                          </div>
-                        </li>
-                        <li class="col-md-6 p0"><span class="" id="totalTechWorker2"><i class="red">＊</i>技术工人：</span>
-                          <div class="input-append">
-                            <input class="span3" type="text" value="${supplierMatEngs.totalTechWorker }"/>
-                          </div>
-                        </li>
-                      </ul>
+                <div class=" margin-bottom-0">
+                <table class="table table-bordered">
+						<tbody>
+						<tr><td colspan="6" class="bggrey tl">三、供应商组织机构</td></tr>
+	                        <tr>
+								<td class="bggrey tr" style="width:17%">组织机构：</td>
+								<td style="width:16%" onmouseover="out('${supplierMatEngs.orgName}')">${supplierMatEngs.orgName}</td>
+								<td class="bggrey tr" style="width:17%">技术负责人：</td>
+								<td style="width:17%">${supplierMatEngs.totalTech }</td>
+								<td style="width:17%" class="bggrey tr">中级及以上职称人员：</td>
+								<td style="width:17%">${supplierMatEngs.totalGlNormal }</td>
+							</tr>
+							 <tr>
+								<td class="bggrey tr">管理人员：</td>
+								<td onmouseover="out('${supplierMatEngs.totalMange}')">${supplierMatEngs.totalMange}</td>
+								<td class="bggrey tr">技术工人：</td>
+								<td colspan="3">${supplierMatEngs.totalTechWorker }</td>
+							</tr>
+							</tbody>
+							</table>
                     </div>
               </div>
             </div>

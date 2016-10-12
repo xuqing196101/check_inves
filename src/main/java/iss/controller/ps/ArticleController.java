@@ -14,11 +14,15 @@ import java.io.IOException;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -97,7 +101,34 @@ public class ArticleController {
 	 */
 	@RequestMapping("/save")
 	public String save(@RequestParam("attaattach") MultipartFile[] attaattach,String[] ranges,
-            HttpServletRequest request, HttpServletResponse response,Article article){
+            HttpServletRequest request, HttpServletResponse response,@Valid Article article,BindingResult result,Model model){
+		
+		List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
+		model.addAttribute("list", list);
+		
+		if(result.hasErrors()){
+			List<FieldError> errors = result.getFieldErrors();
+			for(FieldError fieldError:errors){
+				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
+			}
+			return "iss/ps/article/add";
+		}
+		
+		List<Article> art = articleService.selectAllArticle(null,1);
+		if(art!=null){
+			for(Article ar:art){
+				if(ar.getName().equals(article.getName())){
+					model.addAttribute("ERR_name", "标题名称不能重复");
+					return "iss/ps/article/add";
+				}
+			}
+		}
+		
+		String contype = request.getParameter("articleType.id");
+		if(contype.equals("")){
+			model.addAttribute("ERR_typeId", "信息类型不能为空");
+			return "iss/ps/article/add";
+		}
 		if(ranges!=null&&!ranges.equals("")){
 			if(ranges.length>1){
 				article.setRange(2);
@@ -106,9 +137,13 @@ public class ArticleController {
 					article.setRange(Integer.valueOf(ranges[i]));
 				}
 			}
+		}else{
+			model.addAttribute("ERR_range", "复选框不能为空");
+			return "iss/ps/article/add";
 		}
+		
 		User user = (User) request.getSession().getAttribute("loginUser");
-		user.setId("be9bf4e9-6fa3-4fe6-ad4a-cc67272816a2");   //死数据
+		//user.setId("be9bf4e9-6fa3-4fe6-ad4a-cc67272816a2");   //死数据
 		article.setUser(user);
 		article.setCreatedAt(new Date());
 		article.setUpdatedAt(new Date());
@@ -196,7 +231,10 @@ public class ArticleController {
 	 */
 	@RequestMapping("/update")
 	public String update(@RequestParam("attaattach") MultipartFile[] attaattach,String[] ranges,
-            HttpServletRequest request, HttpServletResponse response,Article article){
+            HttpServletRequest request, HttpServletResponse response,@Valid Article article,BindingResult result,Model model){
+		
+		String name = request.getParameter("name");
+		
 		String ids = request.getParameter("ids");
 		if(ids!=null && ids!=""){
 			String[] attaids = ids.split(",");
@@ -205,6 +243,52 @@ public class ArticleController {
 			}
 		}
 		uploadFile(article, request, attaattach);
+		
+		if(result.hasErrors()){
+			List<FieldError> errors = result.getFieldErrors();
+			for(FieldError fieldError:errors){
+				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
+			}
+			model.addAttribute("article.id", article.getId());
+			Article artc = articleService.selectArticleById(article.getId());
+			List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(artc.getId());
+			artc.setArticleAttachments(articleAttaList);
+			model.addAttribute("article",artc);
+			List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
+			model.addAttribute("list", list);
+			return "iss/ps/article/edit";
+		}
+		
+		if(name.equals("")){
+			model.addAttribute("ERR_name", "标题名称不能为空");
+			model.addAttribute("article.id", article.getId());
+			Article artc = articleService.selectArticleById(article.getId());
+			List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(artc.getId());
+			artc.setArticleAttachments(articleAttaList);
+			model.addAttribute("article",artc);
+			List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
+			model.addAttribute("list", list);
+			return "iss/ps/article/edit";
+		}
+		
+		List<Article> art = articleService.selectAllArticle(null,1);
+		
+		List<Article> check = articleService.checkName(article);
+		for(Article ar:check){
+			if(ar.getName().equals(name)){
+				model.addAttribute("ERR_name", "标题名称不能重复");
+				model.addAttribute("article.id", article.getId());
+				model.addAttribute("article.name", name);
+				Article artc = articleService.selectArticleById(article.getId());
+				List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(artc.getId());
+				artc.setArticleAttachments(articleAttaList);
+				model.addAttribute("article",artc);
+				List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
+				model.addAttribute("list", list);
+				return "iss/ps/article/edit";
+			}
+		}
+		
 		if(ranges!=null&&!ranges.equals("")){
 			if(ranges.length>1){
 				article.setRange(2);
@@ -213,6 +297,16 @@ public class ArticleController {
 					article.setRange(Integer.valueOf(ranges[i]));
 				}
 			}
+		}else{
+			model.addAttribute("ERR_range", "复选框不能为空");
+			model.addAttribute("article.id", article.getId());
+			Article artc = articleService.selectArticleById(article.getId());
+			List<ArticleAttachments> articleAttaList = articleAttachmentsService.selectAllArticleAttachments(artc.getId());
+			artc.setArticleAttachments(articleAttaList);
+			model.addAttribute("article",artc);
+			List<ArticleType> list = articleTypeService.selectAllArticleTypeForSolr();
+			model.addAttribute("list", list);
+			return "iss/ps/article/edit";
 		}
 		if(article.getStatus()!=null&&article.getStatus()==2){
 			article.setStatus(0);

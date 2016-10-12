@@ -384,6 +384,27 @@ public class CategoryController extends BaseSupplierController {
 		response.getWriter().flush();
 		response.getWriter().close();
 	}
+	
+	/**
+	 * @Title: findCategoryAndDisabled
+	 * @author Song Biaowei
+	 * @date 2016-10-12 下午5:09:31  
+	 * @Description: 展示品目，不可编辑
+	 * @param @param response
+	 * @param @param category
+	 * @param @param supplierId
+	 * @param @throws IOException      
+	 * @return void
+	 */
+	@RequestMapping(value = "find_category_and_disabled")
+	public void findCategoryAndDisabled(HttpServletResponse response, Category category, String supplierId) throws IOException {
+		List<SupplierTypeTree> listSupplierTypeTrees = categoryService.findCategoryByTypeAndDisabled(category, supplierId);
+		String json = JSON.toJSONStringWithDateFormat(listSupplierTypeTrees, "yyyy-MM-dd HH:mm:ss");
+		response.setContentType("text/html;charset=utf-8");
+		response.getWriter().write(json);
+		response.getWriter().flush();
+		response.getWriter().close();
+	}
 
 	
 	/**

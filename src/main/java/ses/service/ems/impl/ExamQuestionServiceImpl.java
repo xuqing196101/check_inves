@@ -111,4 +111,16 @@ public class ExamQuestionServiceImpl implements ExamQuestionServiceI {
 	}
 
 	
+	@Override
+	public List<ExamQuestion> selectByTopic(HashMap<String, Object> map) {
+		return examQuestionMapper.selectByTopic(map);
+	}
+
+	
+	@Override
+	public int queryQuestionCount(HashMap<String, Object> map) {
+		return examQuestionMapper.queryQuestionCount(map);
+	}
+
+	
 }

@@ -15,6 +15,16 @@ public class SupplierTypeTree implements Serializable {
 	private String parentId;
 	private boolean checked = false;
 	private boolean open = true;
+	private boolean chkDisabled = false;
+	
+
+	public boolean isChkDisabled() {
+		return chkDisabled;
+	}
+
+	public void setChkDisabled(boolean chkDisabled) {
+		this.chkDisabled = chkDisabled;
+	}
 
 	public String getId() {
 		return id;

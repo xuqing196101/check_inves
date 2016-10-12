@@ -227,14 +227,14 @@ function tijiao(str){
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >产品信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('chengxin');">诚信记录</a></li>
             </ul>
-              <div class="tab-content padding-top-20" style="height:1500px;">
+              <div class="tab-content padding-top-20">
                 <div class="tab-pane fade active in height-450" id="tab-1">
                   <form id="form_id" action="" method="post"  enctype="multipart/form-data">
                     <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
                   </form>
-                  <h2 class="f16 jbxx1">
-                  <i>01</i>供应商资质证书
-                  </h2>
+                  <h5>
+                  <i>一、</i>供应商资质证书
+                  </h5>
                   <table class="table table-bordered table-condensed">
 							      <thead>
 							        <tr>
@@ -265,131 +265,67 @@ function tijiao(str){
 							    </table>
 							    
 							    <div class=" margin-bottom-0">
-							    <h2 class="f16 jbxx1">
-                  <i>02</i>组织结构和人员
-                  </h2>
-                    <ul class="list-unstyled list-flow">
-                      <li class="col-md-6 p0"><span class="" id="orgName2"><i class="red">＊</i>组织机构：</span>
-                        <div class="input-append">
-                          <input class="span3" type="text" value="${supplierMatPros.orgName }" />
-                        </div>
-                      </li>
-                      <li class="col-md-6 p0"><span class="" id="totalPerson2"><i class="red">＊</i>人员总数：</span>
-                        <div class="input-append">
-                          <input class="span3" type="text" value="${supplierMatPros.totalPerson }" />
-                        </div>
-                      </li>
-                      <li class="col-md-6 p0"><span class="" id="totalMange2"><i class="red">＊</i>管理人员：</span>
-                        <div class="input-append">
-                          <input class="span3" type="text"  value="${supplierMatPros.totalMange }"/>
-                        </div>
-                      </li>
-                      <li class="col-md-6 p0"><span class="" id="totalTech2"><i class="red">＊</i>技术人员：</span>
-                        <div class="input-append">
-                          <input class="span3" type="text"  value="${supplierMatPros.totalTech }"/>
-                        </div>
-                      </li>
-                      <li class="col-md-6 p0"><span class="" id="totalWorker2"><i class="red">＊</i>工人(职员)：</span>
-                        <div class="input-append">
-                          <input class="span3" type="text" value="${supplierMatPros.totalWorker }"/>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                  
-                  <div class=" margin-bottom-0 fl">
-                  <h2 class="f16 jbxx1">
-                  <i>03</i>产品研发能力
-                  </h2>
-                    <ul class="list-unstyled list-flow">
-                      <li class="col-md-6 p0"><span class="" id="scaleTech2"><i class="red">＊</i>技术人员比例：</span>
-                        <div class="input-append">
-                          <input class="span3" type="text" value="${supplierMatPros.scaleTech }" />
-                        </div>
-                      </li>
-                      <li class="col-md-6 p0"><span class="" id="scaleHeightTech2"><i class="red">＊</i>高级技术人员比例：</span>
-                        <div class="input-append">
-                          <input class="span3" type="text" value="${supplierMatPros.scaleHeightTech }" />
-                        </div>
-                      </li>
-                      <li class="col-md-6 p0"><span class="" id=researchName2><i class="red">＊</i>研发部门名称：</span>
-                        <div class="input-append">
-                          <input class="span3" type="text"  value="${supplierMatPros.researchName }"/>
-                        </div>
-                      </li>
-                      <li class="col-md-6 p0"><span class="" id="totalResearch2"><i class="red">＊</i>研发部门人数：</span>
-                        <div class="input-append">
-                          <input class="span3" type="text"  value="${supplierMatPros.totalResearch }"/>
-                        </div>
-                      </li>
-                      <li class="col-md-6 p0"><span class="" id="researchLead2"><i class="red">＊</i>研发部门负责人：</span>
-                        <div class="input-append">
-                          <input class="span3" type="text" value="${supplierMatPros.researchLead }"/>
-                        </div>
-                      </li>
-                      <li class="col-md-12 p0 mt10"><span class="fl" id="countryPro2"><i class="red">＊</i>承担国家军队科研项目：</span>
-	                      <div class="col-md-9 mt5">
-	                        <div class="row">
-	                          <textarea class="text_area col-md-12">${supplierMatPros.countryPro }</textarea>
-	                        </div>
-	                      </div>
-                      </li>
-                      <li class="col-md-12 p0 mt10"><span class="fl" id="countryReward2"><i class="red">＊</i>获得国家军队科技项目：</span>
-	                      <div class="col-md-9 mt5">
-	                        <div class="row">
-	                          <textarea class="text_area col-md-12">${supplierMatPros.countryReward }</textarea>
-	                        </div>
-	                      </div>
-                      </li>
-                    </ul>
-                  </div>
-                  
-                  <div class=" margin-bottom-0 fl">
-                  <h2 class="f16 jbxx1">
-                  <i>04</i>供应商生产能力
-                  </h2>
-                    <ul class="list-unstyled list-flow">
-                      <li class="col-md-6 p0"><span class="" id="totalBeltline2"><i class="red">＊</i>生产线名称数量：</span>
-                        <div class="input-append">
-                          <input class="span3" type="text" value="${supplierMatPros.totalBeltline }" />
-                        </div>
-                      </li>
-                      <li class="col-md-6 p0"><span class="" id="totalDevice2"><i class="red">＊</i>生产设备名称数量：</span>
-                        <div class="input-append">
-                          <input class="span3" type="text" value="${supplierMatPros.totalDevice }" />
-                        </div>
-                      </li>
-                    </ul>
-                    
-                  </div>
-                  <div class=" margin-bottom-0 fl">
-                  <h2 class="f16 jbxx1">
-                  <i>05</i>物资生产型供应商质量检测登记
-                  </h2>
-                    <ul class="list-unstyled list-flow">
-                      <li class="col-md-6 p0"><span class="" id="qcName2"><i class="red">＊</i>质量检测部门：</span>
-                        <div class="input-append">
-                          <input class="span3" type="text" value="${supplierMatPros.qcName }" />
-                        </div>
-                      </li>
-                      <li class="col-md-6 p0"><span class="" id="totalQc2"><i class="red">＊</i>质量检测人数：</span>
-                        <div class="input-append">
-                          <input class="span3" type="text" value="${supplierMatPros.totalQc }" />
-                        </div>
-                      </li>
-                      <li class="col-md-6 p0"><span class="" id="qcLead2"><i class="red">＊</i>质检部门负责人：</span>
-                        <div class="input-append">
-                          <input class="span3" type="text" value="${supplierMatPros.qcLead }" />
-                        </div>
-                      </li>
-                      <li class="col-md-12 p0 mt10"><span class="fl" id="qcDevice2"><i class="red">＊</i>质量检测设备名称：</span>
-                        <div class="col-md-9 mt5">
-                          <div class="row">
-                            <textarea class="text_area col-md-12">${supplierMatPros.qcDevice }</textarea>
-                          </div>
-                        </div>
-                      </li>
-                    </ul>
+					<table class="table table-bordered">
+					<tbody>
+					<tr><td colspan="6" class="bggrey tl">二、组织结构和人员：</td></tr>
+                        <tr>
+							<td class="bggrey tr" style="width:17%">组织机构：</td>
+							<td style="width:16%" onmouseover="out('${supplierMatPros.orgName}')">${supplierMatPros.orgName}</td>
+							<td class="bggrey tr" style="width:17%">人员总数：</td>
+							<td style="width:17%">${supplierMatPros.totalMange }</td>
+							<td style="width:17%" class="bggrey tr">管理人员：</td>
+							<td style="width:17%">${supplierMatPros.totalMange }</td>
+						</tr>
+						
+						 <tr>
+							<td class="bggrey tr">技术人员：</td>
+							<td onmouseover="out('${supplierMatPros.orgName}')">${supplierMatPros.totalTech}</td>
+							<td class="bggrey tr">工人(职员)：</td>
+							<td colspan="3">${supplierMatPros.totalWorker }</td>
+						</tr>
+						    <tr><td colspan="6" class="bggrey tl">三、产品研发能力：</td></tr>
+                       <tr>
+							<td class="bggrey tr">技术人员比例：</td>
+							<td onmouseover="out('${supplierMatPros.scaleTech}')">${supplierMatPros.scaleTech}</td>
+							<td class="bggrey tr">高级技术人员比例：</td>
+							<td>${supplierMatPros.scaleHeightTech }</td>
+							<td class="bggrey tr">研发部门名称：</td>
+							<td>${supplierMatPros.researchName }</td>
+						</tr>
+						 <tr>
+							<td class="bggrey tr">研发部门人数：</td>
+							<td onmouseover="out('${supplierMatPros.totalResearch}')">${supplierMatPros.totalResearch}</td>
+							<td class="bggrey tr">研发部门负责人：</td>
+							<td>${supplierMatPros.researchLead }</td>
+							<td class="bggrey tr">承担国家军队科研项目：</td>
+							<td>${supplierMatPros.countryPro }</td>
+						</tr>
+						 <tr>
+							<td class="bggrey tr">获得国家军队科技项目：</td>
+							<td colspan="5" onmouseover="out('${supplierMatPros.totalResearch}')">${supplierMatPros.countryReward}</td>
+						</tr>
+						        <tr><td colspan="6" class="bggrey tl">四、供应商生产能力：</td></tr>
+                       <tr>
+							<td class="bggrey tr">生产线名称数量：</td>
+							<td onmouseover="out('${supplierMatPros.totalBeltline}')">${supplierMatPros.totalBeltline}</td>
+							<td class="bggrey tr">生产设备名称数量：</td>
+							<td colspan="3">${supplierMatPros.totalDevice }</td>
+						</tr>
+						  <tr><td colspan="6" class="bggrey tl">五、物资生产型供应商质量检测登记</td></tr>
+                       <tr>
+							<td class="bggrey tr">质量检测部门：</td>
+							<td onmouseover="out('${supplierMatPros.qcName}')">${supplierMatPros.qcName}</td>
+							<td class="bggrey tr">质量检测人数：</td>
+							<td>${supplierMatPros.totalQc }</td>
+							<td class="bggrey tr">质检部门负责人：</td>
+							<td>${supplierMatPros.qcLead }</td>
+						</tr>
+						 <tr>
+							<td class="bggrey tr">质量检测设备名称：</td>
+							<td colspan="5" onmouseover="out('${supplierMatPros.qcDevice}')">${supplierMatPros.qcDevice}</td>
+						</tr>
+					 </tbody>
+					</table>
                   </div>
               </div>
             </div>

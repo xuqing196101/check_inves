@@ -7,14 +7,18 @@
     <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     
+    <result column="OFFER" property="offer" />
+    <result column="AUDIT_OFFER" property="auditOffer" />
+    
     <association property="appraisalContract" column="CONTRACT_ID" select="bss.dao.sstps.AppraisalContractMapper.selectById"/>
     
   </resultMap>
   
   <sql id="Base_Column_List">
-    ID, CONTRACT_ID, NAME, CREATED_AT, UPDATED_AT
+    ID, CONTRACT_ID, NAME, CREATED_AT, UPDATED_AT,OFFER,AUDIT_OFFER
   </sql>
   
+  <!-- 根据ID查询 -->
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ContractProductResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -22,7 +26,17 @@
     where ID = #{id}
   </select>
   
-  <insert id="insertSelective" parameterType="bss.model.sstps.ContractProduct">
+  <select id="select" parameterType="Object" resultMap="ContractProductResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_SSTPS_CONTRACT_PRODUCT
+  </select>
+  
+  <!-- 新增 -->
+  <insert id="insert" parameterType="bss.model.sstps.ContractProduct">
+  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
     insert into T_BSS_SSTPS_CONTRACT_PRODUCT
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -40,6 +54,12 @@
       <if test="updatedAt != null">
         UPDATED_AT,
       </if>
+      <if test="offer != null">
+        OFFER,
+      </if>
+      <if test="auditOffer != null">
+        AUDIT_OFFER,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -56,6 +76,12 @@
       </if>
       <if test="updatedAt != null">
         #{updatedAt},
+      </if>
+      <if test="offer != null">
+        #{offer},
+      </if>
+      <if test="auditOffer != null">
+       #{auditOffer},
       </if>
     </trim>
   </insert>

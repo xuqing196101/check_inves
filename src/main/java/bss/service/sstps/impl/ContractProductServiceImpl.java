@@ -1,7 +1,13 @@
 package bss.service.sstps.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import ses.util.PropertiesUtil;
+
+import com.github.pagehelper.PageHelper;
 
 import bss.dao.sstps.ContractProductMapper;
 import bss.dao.sstps.ContractsMapper;
@@ -35,6 +41,17 @@ public class ContractProductServiceImpl implements ContractProductService {
 	@Override
 	public void insert(ContractProduct contractProduct) {
 		contractProductMapper.insert(contractProduct);
+	}
+
+
+	/**
+	 * 查询
+	 */
+	@Override
+	public List<ContractProduct> select(ContractProduct contractProduct,Integer page) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		return contractProductMapper.select(contractProduct);
 	}
 
 }

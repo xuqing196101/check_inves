@@ -198,7 +198,7 @@
 	  				<th class="info">录入时间</th>
 	  				<th class="info">信息类型</th>
 	  				<th class="info">是否发布</th>
-	  				<th class="info">上传量</th>
+	  				<th class="info">浏览量</th>
 	  				<th class="info">下载量</th>
 	  			</tr>
 	  		</thead>

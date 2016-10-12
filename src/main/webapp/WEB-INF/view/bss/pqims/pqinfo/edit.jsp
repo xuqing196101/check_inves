@@ -169,7 +169,8 @@
 			 <li class="col-md-12  p0 ">
 			   <span class="fl">详细情况：</span>
 			   <div class="col-md-12 pl200 fn mt5 pwr9">
-		        <input class="span2" name="detail" value = '${pqinfo.detail}'  type="text">
+		        
+		         <textarea class="text_area col-md-12 " name="detail" title="不超过800个字" placeholder="不超过800个字" value = '${pqinfo.detail}' ></textarea>
 		       </div>
 			 </li>
    		</ul>

@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -184,6 +185,20 @@ function fanhui(){
 	  window.location.href="<%=basePath%>supplierQuery/findSupplierByPriovince.html?address="+encodeURI(encodeURI('${suppliers.address}'))+"&status=${status}";
       }
 }
+	//鼠标移动显示全部内容
+	function out(content){
+	if(content.length >= 10){
+	layer.msg(content, {
+	        offset:'200px',
+		    skin: 'demo-class',
+			shade:false,
+			area: ['600px'],
+			time : 0    //默认消息框不关闭
+		});//去掉msg图标
+	}else{
+		layer.closeAll();//关闭消息框
+	}
+}
 </script>
 <style type="text/css">
 .jbxx1{
@@ -223,9 +238,6 @@ function fanhui(){
 	</div>
     </div>
   <!--详情开始-->
-  <div class="container content height-350">
-    <div class="row magazine-page">
-      <div class="col-md-12 tab-v2 job-content">
         <div class="padding-top-10">
           <ul class="nav nav-tabs bgdd">
             <li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" onclick="tijiao('essential');">基本信息</a></li>
@@ -239,223 +251,246 @@ function fanhui(){
             <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >产品信息</a></li>
             <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('chengxin');">诚信记录</a></li>
           </ul>
-            <div class="tab-content padding-top-20" style="height:1500px;">
-              <div class="tab-pane fade active in height-450" id="tab-1">
-                <div class=" margin-bottom-0">
                   <form id="form_id" action="" method="post"  enctype="multipart/form-data">
                     <input name="supplierId" id="id" value="${suppliers.id }" type="hidden">
                   </form>                 
-                  <h2 class="f16 jbxx1">
-                  <i>01</i>企业基本信息
-                  </h2>
-                  <ul class="list-unstyled list-flow">
-                    <li class="col-md-6 p0 "><span class="" id="supplierName2"><i class="red">＊</i>供应商名称：</span>
-                      <div class="input-append">
-                        <input class="span3" id="supplierName3" readonly="readonly" value="${suppliers.supplierName } " type="text">
-                      </div>
-                    </li>
-                    <li class="col-md-6 p0 "><span class="" id="website2"><i class="red">＊</i>公司网址：</span>
-                      <div class="input-append">
-                        <input class="span3" id="website3" value="${suppliers.website } "  type="text">
-                      </div>
-                    </li>
-                    <li class="col-md-6 p0 "><span class="" id="foundDate2"><i class="red">＊</i>成立日期：</span>
-                      <div class="input-append">
-                        <input class="span3" id="foundDate3" readonly="readonly" value="<fmt:formatDate value='${suppliers.foundDate}' pattern='yyyy-MM-dd'/>" type="text">
-                      </div>
-                    </li>
-                    <li class="col-md-6 p0 "><span class="" id="businessType2"><i class="red">＊</i>营业执照登记类型：</span>
-                      <div class="input-append">
-                        <input class="span3" id="businessType3" readonly="readonly" value="${suppliers.businessType } " type="text">
-                      </div>
-                    </li>
-                    <li class="col-md-6 p0"><span class="" id="address2"><i class="red">＊</i>地址：</span>
-                      <div class="input-append">
-                        <input class="span3" id="address3" readonly="readonly" value="${suppliers.address } " type="text">
-                      </div>
-                    </li>
-                    <li class="col-md-6 p0 "><span class="" id="bankName2"><i class="red">＊</i>开户行名称：</span>
-                      <div class="input-append">
-                        <input class="span3" id="bankName3" readonly="readonly" value="${suppliers.bankName } "  type="text">
-                      </div>
-                    </li>
-                    <li class="col-md-6 p0 "><span class="" id="bankAccount2"><i class="red">＊</i>开户行账户：</span>
-                      <div class="input-append">
-                        <input class="span3" id="bankAccount3" readonly="readonly" value="${suppliers.bankAccount } " type="text">
-                      </div>
-                    </li>
-                    <li class="col-md-6 p0 "><span class="" id="postCode2"><i class="red">＊</i>邮编：</span>
-                      <div class="input-append">
-                        <input class="span3" id="postCode3" readonly="readonly" value="${suppliers.postCode }" type="text">
-                      </div>
-                    </li>
-                    <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>近三个月完税凭证：</span>
-                      <div class="input-append">
-                        <a class="span3" onclick="downloadFile('${suppliers.taxCert}')" >附件下载</a>
-                      </div>
-                    </li>
-                    <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>近三年银行账单：</span>
-                      <div class="input-append">
-                        <a class="span3" onclick="downloadFile('${suppliers.billCert}')" >附件下载</a>
-                      </div>
-                    </li>
-                    <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>近三个月保险凭证：</span>
-                      <div class="input-append">
-                        <a class="span3" onclick="downloadFile('${suppliers.securityCert}')" >附件下载</a>
-                      </div>
-                    </li>
-                    <li class="col-md-6 p0 "><span class=""><i class="red">＊</i>近三年违法记录：</span>
-                      <div class="input-append">
-                        <a class="span3" onclick="downloadFile('${suppliers.breachCert}')" >附件下载</a>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-                
-                <div class=" margin-bottom-0 fl">
-                  <h2 class="f16 jbxx1">
-                  <i>02</i>法人代表人信息
-                  </h2>
-                  <ul class="list-unstyled list-flow">
-                    <li class="col-md-6 p0 "><span class="" id="legalName2"><i class="red">＊</i>姓名：</span>
-                      <div class="input-append">
-                        <input class="span3" id="legalName3" readonly="readonly" value="${suppliers.legalName } " type="text">
-                      </div>
-                    </li>
-                    <li class="col-md-6 p0 "><span class="" id="legaIdCard2"><i class="red">＊</i>身份证号：</span>
-                      <div class="input-append">
-                        <input class="span3" id="legaIdCard3" readonly="readonly" value="${suppliers.legalIdCard } "  type="text">
-                      </div>
-                    </li>
-                    <li class="col-md-6 p0 "><span class="" id="legalTelephone2"><i class="red">＊</i>固定电话：</span>
-                      <div class="input-append">
-                        <input class="span3" id="legalTelephone3" readonly="readonly" value="${suppliers.legalTelephone } " type="text">
-                      </div>
-                    </li>
-                    <li class="col-md-6 p0 "><span class="" id="legalMobile2"><i class="red">＊</i>手机：</span>
-                      <div class="input-append">
-                        <input class="span3" id="legalMobile3" readonly="readonly" value="${suppliers.legalMobile } " type="text">
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-                
-                <div class=" margin-bottom-0 fl">
-                  <h2 class="f16 jbxx1">
-                  <i>03</i>联系人信息
-                  </h2>
-                  <ul class="list-unstyled list-flow">
-                    <li class="col-md-6 p0 "><span class="" id="contactName2"><i class="red">＊</i>姓名：</span>
-                      <div class="input-append">
-                        <input class="span3" id="contactName3" readonly="readonly" value="${suppliers.contactName } " type="text">
-                      </div>
-                    </li>
-                    <li class="col-md-6 p0 "><span class="" id="contactFax2"><i class="red">＊</i>传真：</span>
-                      <div class="input-append">
-                        <input class="span3" id="contactFax3" readonly="readonly" value="${suppliers.contactFax } "  type="text">
-                      </div>
-                    </li>
-                    <li class="col-md-6 p0 "><span class="" id="contactTelephone1"><i class="red">＊</i>固定电话：</span>
-                      <div class="input-append">
-                        <input class="span3" id="contactTelephone3" readonly="readonly" value="${suppliers.contactTelephone } " type="text">
-                      </div>
-                    </li>
-                    <li class="col-md-6 p0 "><span class="" id="contactMobile2"><i class="red">＊</i>手机：</span>
-                      <div class="input-append">
-                        <input class="span3" id="contactMobile3" readonly="readonly" value="${suppliers.contactMobile } " type="text">
-                      </div>
-                    </li>
-                    <li class="col-md-6 p0 "><span class="" id="contactEmail2"><i class="red">＊</i>邮箱：</span>
-                      <div class="input-append">
-                        <input class="span3" id="contactEmail3" readonly="readonly" value="${suppliers.contactEmail } " type="text">
-                      </div>
-                    </li>
-                    <li class="col-md-6 p0 "><span class="" id="contactAddress2"><i class="red">＊</i>地址：</span>
-                      <div class="input-append">
-                        <input class="span3" id="contactAddress3" readonly="readonly" value="${suppliers.contactAddress } " type="text">
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-                
-                <div class=" margin-bottom-0 fl">
-                  <h2 class="f16 jbxx1">
-                  <i>04</i>营业执照
-                  </h2>
-                  <ul class="list-unstyled list-flow">
-                    <li class="col-md-6 p0 "><span class="" id="creditCode2"><i class="red">＊</i>统一社会信用代码：</span>
-                      <div class="input-append">
-                        <input class="span3" id="creditCode3" readonly="readonly" value="${suppliers.creditCode } " type="text">
-                      </div>
-                    </li>
-                    <li class="col-md-6 p0 "><span class="" id="registAuthority2"><i class="red">＊</i>登记机关：</span>
-                      <div class="input-append">
-                        <input class="span3" id="registAuthority3" readonly="readonly" value="${suppliers.registAuthority } "  type="text">
-                      </div>
-                    </li>
-                    <li class="col-md-6 p0 "><span class="" id="registFund2"><i class="red">＊</i>注册资本：</span>
-                      <div class="input-append">
-                        <input class="span3" id="registFund3" readonly="readonly" value="${suppliers.registFund } " type="text">
-                      </div>
-                    </li>
-                    <li class="col-md-6 p0 "><span class="" id="businessEndDate2"><i class="red">＊</i>营业期限：</span>
-                      <div class="input-append">
-                        <input class="span3" id="businessEndDate3" value="<fmt:formatDate value="${suppliers.businessStartDate}" pattern="yyyy-MM-dd" />至 <fmt:formatDate value="${suppliers.businessEndDate}" pattern="yyyy-MM-dd" />" type="text"/>
-                      </div>
-                    </li>
-                    <li class="col-md-12 p0 mt10"><span class="fl" id="businessScope2"><i class="red">＊</i>经营范围：</span>
-                      <div class="col-md-9 mt5">
-                        <div class="row">
-                          <textarea class="text_area col-md-12" readonly="readonly" id="businessScope3">${suppliers.businessScope }</textarea>
-                        </div>
-                      </div>
-                    </li>
-                    <li class="col-md-6 p0 "><span class="fl" id="businessAddress2"><i class="red">＊</i>生产或经营地址：</span>
-                      <div class="input-append">
-                        <input class="span3" id="businessAddress3" readonly="readonly" value="${suppliers.businessAddress } " type="text">
-                      </div>
-                    </li>
-                    <li class="col-md-6 p0 "><span class="" id="businessPostCode2"><i class="red">＊</i>邮编：</span>
-                      <div class="input-append">
-                        <input class="span3" id="businessPostCode3" readonly="readonly" value="${suppliers.businessPostCode } " type="text">
-                      </div>
-                    </li>
-                    <li class="col-md-6 p0 "><span class="" id="overseasBranch2"><i class="red">＊</i>境外分支机构：</span>
-                      <div class="input-append">
-                        <input class="span3" id="overseasBranch3" readonly="readonly" value="${suppliers.overseasBranch } " type="text">
-                      </div>
-                    </li>
-                    <li class="col-md-6 p0 "><span class="" id="branchCountry2"><i class="red">＊</i>国家：</span>
-                      <div class="input-append">
-                        <input class="span3" id="branchCountry3" readonly="readonly" value="${suppliers.branchCountry } " type="text">
-                      </div>
-                    </li>
-                    <li class="col-md-6 p0 "><span class="" id="branchAddress2"><i class="red">＊</i>详细地址：</span>
-                      <div class="input-append">
-                        <input class="span3" id="branchAddress3" readonly="readonly" value="${suppliers.branchAddress } " type="text">
-                      </div>
-                    </li>
-                    <li class="col-md-6 p0 "><span class="" id="branchName2"><i class="red">＊</i>机构名称：</span>
-                      <div class="input-append">
-                        <input class="span3" id="branchName3" readonly="readonly" value="${suppliers.branchName } " type="text">
-                      </div>
-                    </li>
-                    <li class="col-md-12 p0 mt10"><span class="fl" id="branchBusinessScope2"><i class="red">＊</i>生产经营范围：</span>
-                      <div class="col-md-9 mt5">
-                        <div class="row">
-                          <textarea class="text_area col-md-12" readonly="readonly" id="branchBusinessScope3">${suppliers.branchBusinessScope }</textarea>
-                        </div>
-                      </div>
-                    </li>
-                 </ul>
-              </div>
-              
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+               <table class="table table-bordered">
+					<tbody>
+						<tr><td colspan="6" class="bggrey tl">一、企业基本信息：</td></tr>
+						
+						<tr>
+							<td class="bggrey tr" style="width:17%">供应商名称：</td>
+							<td style="width:16%" onmouseover="out('${suppliers.supplierName }')">
+								<c:choose>
+									<c:when test="${fn:length(suppliers.supplierName)>10}">
+									${fn:substring(suppliers.supplierName,0,10)}...
+									</c:when>
+									<c:otherwise>
+									${suppliers.supplierName}
+									</c:otherwise>
+								</c:choose>
+							</td>
+							<td class="bggrey tr" style="width:17%">公司网址：</td>
+							<td style="width:17%">
+								<c:choose>
+									<c:when test="${fn:length(suppliers.website)>10}">
+									${fn:substring(suppliers.website,0,10)}...
+									</c:when>
+									<c:otherwise>
+									${suppliers.website}
+									</c:otherwise>
+								</c:choose>
+							</td>
+							<td style="width:17%" class="bggrey tr">成立日期：</td>
+							<td style="width:17%"><fmt:formatDate value='${suppliers.foundDate}' pattern='yyyy-MM-dd'/></td>
+						</tr>
+						
+						<tr>
+							<td class="bggrey tr">营业执照登记类型：</td>
+							<td onmouseover="out('${suppliers.businessType }')">${suppliers.businessType}</td>
+							<td class="bggrey tr">地址：</td>
+							<td>
+								<c:choose>
+									<c:when test="${fn:length(suppliers.address)>10}">
+									${fn:substring(suppliers.address,0,10)}...
+									</c:when>
+									<c:otherwise>
+									${suppliers.address}
+									</c:otherwise>
+								</c:choose>
+							</td>
+							<td class="bggrey tr">开户行名称：</td>
+							<td onmouseover="out('${suppliers.bankName }')">
+								<c:choose>
+									<c:when test="${fn:length(suppliers.bankName)>10}">
+									${fn:substring(suppliers.bankName,0,10)}...
+									</c:when>
+									<c:otherwise>
+									${suppliers.bankName}
+									</c:otherwise>
+								</c:choose>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="bggrey tr">开户行账户：</td>
+							<td onmouseover="out('${suppliers.bankAccount }')">
+								<c:choose>
+									<c:when test="${fn:length(suppliers.bankAccount)>10}">
+									${fn:substring(suppliers.bankAccount,0,10)}...
+									</c:when>
+									<c:otherwise>
+									${suppliers.bankAccount}
+									</c:otherwise>
+								</c:choose>
+							</td>
+							<td class="bggrey tr">邮编：</td>
+							<td>${suppliers.postCode }</td>
+							<td class="bggrey tr">近三个月完税凭证：</td>
+							<td class="pointer" onmouseover="out('${suppliers.taxCert }')"
+							 onclick="downloadFile('${suppliers.taxCert}')">${fn:substring(suppliers.taxCert,0,10)}...</td>
+						</tr> 
+						
+						<tr>
+							<td class="bggrey tr">近三年银行账单：</td>
+							<td class="pointer" onmouseover="out('${suppliers.billCert }')"
+							 onclick="downloadFile('${suppliers.billCert}')">${fn:substring(suppliers.billCert,0,10)}...</td>
+							<td class="bggrey tr">近三个月保险凭证：</td>
+							<td class="pointer" onmouseover="out('${suppliers.securityCert }')"
+							onclick="downloadFile('${suppliers.securityCert}')">${fn:substring(suppliers.securityCert,0,10)}...</td>
+							<td class="bggrey tr">近三年违法记录：</td>
+							<td class="pointer" onmouseover="out('${suppliers.breachCert }')"
+							onclick="downloadFile('${suppliers.breachCert}')">${fn:substring(suppliers.breachCert,0,10)}...</td>
+						</tr>
+						
+						<tr><td colspan="6" class="bggrey tl">二、法定代表人信息：</td></tr>
+						
+						<tr>
+							<td class="bggrey tr">法定代表人姓名：</td>
+							<td>${suppliers.legalName}</td>
+							<td class="bggrey tr">身份证号：</td>
+							<td onmouseover="out('${suppliers.legalIdCard }')">
+								<c:choose>
+									<c:when test="${fn:length(suppliers.legalIdCard)>10}">
+									${fn:substring(suppliers.legalIdCard,0,10)}...
+									</c:when>
+									<c:otherwise>
+									${suppliers.legalIdCard}
+									</c:otherwise>
+								</c:choose>
+							</td>
+							<td class="bggrey tr">固定电话：</td>
+							<td>${suppliers.legalTelephone}</td>
+						</tr>
+						
+						<tr>
+							<td class="bggrey tr">手机：</td>
+							<td colspan="5">${suppliers.legalMobile }</td>
+						</tr>
+						
+						<tr><td colspan="6" class="bggrey tl">三、联系人信息：</td></tr>
+						
+						<tr>
+							<td class="bggrey tr">姓名：</td><td>${suppliers.contactName } </td>
+							<td class="bggrey tr">传真：</td><td>${suppliers.contactFax }</td>
+							<td class="bggrey tr">地址：</td>
+							<td onmouseover="out('${suppliers.contactAddress }')">
+								<c:choose>
+									<c:when test="${fn:length(suppliers.contactAddress)>10}">
+									${fn:substring(suppliers.contactAddress,0,10)}...
+									</c:when>
+									<c:otherwise>
+									${suppliers.contactAddress}
+									</c:otherwise>
+								</c:choose>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="bggrey tr">固定电话：</td><td>${suppliers.contactTelephone }</td>
+							<td class="bggrey tr">手机：</td><td>${suppliers.contactMobile } </td>
+							<td class="bggrey tr">邮箱：</td><td>${suppliers.contactEmail }</td>
+						</tr>
+						
+						<tr><td colspan="6" class="bggrey tl">四、营业执照：</td></tr>
+						
+						<tr>
+							<td class="bggrey tr">统一社会信用代码：</td><td>${suppliers.creditCode } </td>
+							<td class="bggrey tr">登记机关：</td>
+							<td onmouseover="out('${suppliers.registAuthority }')">
+								<c:choose>
+									<c:when test="${fn:length(suppliers.registAuthority)>10}">
+									${fn:substring(suppliers.registAuthority,0,10)}...
+									</c:when>
+									<c:otherwise>
+									${suppliers.registAuthority}
+									</c:otherwise>
+								</c:choose>
+							</td>
+							<td class="bggrey tr">注册资本：</td><td>${suppliers.registFund }</td>
+						</tr>
+						
+						<tr>
+							<td class="bggrey tr">营业期限：</td>
+							<td><fmt:formatDate value="${suppliers.businessStartDate}" pattern="yyyy-MM-dd" />至 <fmt:formatDate value="${suppliers.businessEndDate}" pattern="yyyy-MM-dd" /> </td>
+							<td class="bggrey tr">经营范围：</td>
+							<td onmouseover="out('${suppliers.businessScope }')">
+								<c:choose>
+									<c:when test="${fn:length(suppliers.businessScope)>10}">
+									${fn:substring(suppliers.businessScope,0,10)}...
+									</c:when>
+									<c:otherwise>
+									${suppliers.businessScope}
+									</c:otherwise>
+								</c:choose>
+							</td>
+							<td class="bggrey tr">生产或经营地址：</td>
+							<td onmouseover="out('${suppliers.businessAddress }')">
+								<c:choose>
+									<c:when test="${fn:length(suppliers.businessAddress)>10}">
+									${fn:substring(suppliers.businessAddress,0,10)}...
+									</c:when>
+									<c:otherwise>
+									${suppliers.businessAddress}
+									</c:otherwise>
+								</c:choose>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="bggrey tr">邮编：</td><td> ${suppliers.businessPostCode } </td>
+							<td class="bggrey tr">境外分支机构：</td><td>${suppliers.overseasBranch }</td>
+							<td class="bggrey tr">国家：</td>
+							<td onmouseover="out('${suppliers.branchCountry }')">
+								<c:choose>
+									<c:when test="${fn:length(suppliers.branchCountry)>10}">
+											${fn:substring(suppliers.branchCountry,0,10)}...
+									</c:when>
+									<c:otherwise>
+										${suppliers.branchCountry}
+									</c:otherwise>
+								</c:choose>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="bggrey tr">详细地址：</td>
+							<td onmouseover="out('${suppliers.branchAddress }')">
+								<c:choose>
+									<c:when test="${fn:length(suppliers.branchAddress)>10}">
+									${fn:substring(suppliers.branchAddress,0,10)}...
+									</c:when>
+									<c:otherwise>
+									${suppliers.branchAddress}
+									</c:otherwise>
+								</c:choose>
+							 </td>
+							<td class="bggrey tr">机构名称：</td>
+							<td onmouseover="out('${suppliers.branchName }')">
+								<c:choose>
+									<c:when test="${fn:length(suppliers.branchName)>10}">
+									${fn:substring(suppliers.branchName,0,10)}...
+									</c:when>
+									<c:otherwise>
+									${suppliers.branchName}
+									</c:otherwise>
+								</c:choose>
+							</td>
+							<td class="bggrey tr">生产经营范围：</td>
+							<td onmouseover="out('${suppliers.branchBusinessScope }')">
+								<c:choose>
+									<c:when test="${fn:length(suppliers.branchBusinessScope)>10}">
+										${fn:substring(suppliers.branchBusinessScope,0,10)}...
+									</c:when>
+									<c:otherwise>
+										${suppliers.branchBusinessScope}
+									</c:otherwise>
+								</c:choose>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+</div>
 </div>
 </body>
 </html>

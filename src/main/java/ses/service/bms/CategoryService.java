@@ -133,6 +133,18 @@ import ses.model.sms.SupplierTypeTree;
 	public List<SupplierTypeTree> findCategoryByType(Category category, String supplierId);
 	
 	/**
+	 * @Title: findCategoryByTypeAndDisabled
+	 * @author Song Biaowei
+	 * @date 2016-10-12 下午5:07:25  
+	 * @Description: 查询供应商展示品目,不可选择状态
+	 * @param @param category
+	 * @param @param supplierId
+	 * @param @return      
+	 * @return List<SupplierTypeTree>
+	 */
+	public List<SupplierTypeTree> findCategoryByTypeAndDisabled(Category category, String supplierId);
+	
+	/**
 	 * @Title: queryCategory
 	 * @author Song Biaowei
 	 * @date 2016-10-8 下午2:22:28  

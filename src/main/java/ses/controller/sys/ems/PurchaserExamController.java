@@ -21,6 +21,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
@@ -40,6 +41,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -152,7 +155,7 @@ public class PurchaserExamController extends BaseSupplierController{
 	* @Description: 采购人新增题库方法 
 	* @param @param model
 	* @param @param request
-	* @param @param examPool
+	* @param @param examQuestion
 	* @param @return      
 	* @return String
 	 */
@@ -160,13 +163,17 @@ public class PurchaserExamController extends BaseSupplierController{
 	public String saveToPurPool(Model model,HttpServletRequest request,ExamQuestion examQuestion){
 		examQuestion.setQuestionTypeId(Integer.parseInt(request.getParameter("queType")));
 		examQuestion.setTopic(request.getParameter("queTopic"));
-		String[] queOption = request.getParameterValues("option");
-		StringBuffer sb_option = new StringBuffer();
-		sb_option.append("A."+queOption[0].trim()+";");
-		sb_option.append("B."+queOption[1].trim()+";");
-		sb_option.append("C."+queOption[2].trim()+";");
-		sb_option.append("D."+queOption[3].trim()+";");
-		examQuestion.setItems(sb_option.toString());
+		if(request.getParameter("option")!=null){
+			String[] queOption = request.getParameterValues("option");
+			StringBuffer sb_option = new StringBuffer();
+			sb_option.append("A."+queOption[0].trim()+";");
+			sb_option.append("B."+queOption[1].trim()+";");
+			sb_option.append("C."+queOption[2].trim()+";");
+			sb_option.append("D."+queOption[3].trim()+";");
+			examQuestion.setItems(sb_option.toString());
+		}else{
+			examQuestion.setItems(" ");
+		}
 		examQuestion.setPersonType(2);
 		examQuestion.setCreatedAt(new Date());
 		StringBuffer sb = new StringBuffer();
@@ -206,11 +213,13 @@ public class PurchaserExamController extends BaseSupplierController{
 		model.addAttribute("purchaserAnswer",queAnswer);
 		List<ExamQuestionType> examPoolType = examQuestionTypeService.selectPurchaserAll();
 		model.addAttribute("examPoolType",examPoolType);
-		String[] queOption = examQuestion.getItems().split(";");
-		model.addAttribute("optionA", queOption[0].substring(2));
-		model.addAttribute("optionB", queOption[1].substring(2));
-		model.addAttribute("optionC", queOption[2].substring(2));
-		model.addAttribute("optionD", queOption[3].substring(2));
+		if(!examQuestion.getItems().equals(" ")){
+			String[] queOption = examQuestion.getItems().split(";");
+			model.addAttribute("optionA", queOption[0].substring(2));
+			model.addAttribute("optionB", queOption[1].substring(2));
+			model.addAttribute("optionC", queOption[2].substring(2));
+			model.addAttribute("optionD", queOption[3].substring(2));
+		}
 		return "ses/ems/exam/purchaser/question/edit";
 	}
 	
@@ -482,6 +491,20 @@ public class PurchaserExamController extends BaseSupplierController{
 	 */
 	@RequestMapping("/addPaper")
 	public String addPaper(Model model){
+		testTime(model);
+		return "ses/ems/exam/purchaser/paper/add";
+	}
+	
+	/**
+	 * 
+	* @Title: testTime
+	* @author ZhaoBo
+	* @date 2016-10-12 下午1:38:30  
+	* @Description: 考试时间时和分
+	* @param @param model      
+	* @return void
+	 */
+	public void testTime(Model model){
 		List<Integer> hour = new ArrayList<Integer>();
 		List<Integer> second = new ArrayList<Integer>();
 		for(int i=0;i<24;i++){
@@ -492,7 +515,6 @@ public class PurchaserExamController extends BaseSupplierController{
 		}
 		model.addAttribute("hour", hour);
 		model.addAttribute("second", second);
-		return "ses/ems/exam/purchaser/paper/add";
 	}
 	
 	/**
@@ -509,10 +531,18 @@ public class PurchaserExamController extends BaseSupplierController{
 	 * @throws ParseException 
 	 */
 	@RequestMapping("/saveToExamPaper")
-	public String saveToExamPaper(HttpServletRequest request,Model model,ExamPaper examPaper) throws ParseException{
+	public String saveToExamPaper(@Valid ExamPaper paper,BindingResult result,HttpServletRequest request,Model model,ExamPaper examPaper) throws ParseException{
+		if(result.hasErrors()){
+			List<FieldError> errors = result.getFieldErrors();
+			for(FieldError fieldError:errors){
+				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
+			}
+			testTime(model);
+			return "ses/ems/exam/purchaser/paper/add";
+		}
 		examPaper.setCreatedAt(new Date());
-		examPaper.setName(request.getParameter("paperName"));
-		examPaper.setCode(request.getParameter("paperNo"));
+		examPaper.setName(request.getParameter("name"));
+		examPaper.setCode(request.getParameter("code"));
 		examPaper.setScore(request.getParameter("totalPoint"));
 		examPaper.setTestTime(request.getParameter("useTime"));
 		String startTime = request.getParameter("startTime");
@@ -540,9 +570,6 @@ public class PurchaserExamController extends BaseSupplierController{
 			examPaper.setIsAllowRetake(0);
 		}
 		examPaper.setYear(startTime.substring(0, 4));
-//		String expiryHour = request.getParameter("expiryHour");
-//		String expirySecond = request.getParameter("expirySecond");
-//		examPaper.setExpiryDate(expiryHour+","+expirySecond);
 		String singleNum = request.getParameter("singleNum");
 		String singlePoint = request.getParameter("singlePoint");
 		String multipleNum = request.getParameter("multipleNum");
@@ -1104,17 +1131,19 @@ public class PurchaserExamController extends BaseSupplierController{
 	 */
 	@RequestMapping("/view")
 	public String view(HttpServletRequest request,Model model){
-		ExamQuestion examPool = examQuestionService.selectByPrimaryKey(request.getParameter("id"));
-		model.addAttribute("purchaserQue",examPool);
-		String queAnswer = examPool.getAnswer();
+		ExamQuestion examQuestion = examQuestionService.selectByPrimaryKey(request.getParameter("id"));
+		model.addAttribute("purchaserQue",examQuestion);
+		String queAnswer = examQuestion.getAnswer();
 		model.addAttribute("purchaserAnswer",queAnswer);
 		List<ExamQuestionType> examPoolType = examQuestionTypeService.selectPurchaserAll();
 		model.addAttribute("examPoolType",examPoolType);
-		String[] queOption = examPool.getItems().split(";");
-		model.addAttribute("optionA", queOption[0].substring(2));
-		model.addAttribute("optionB", queOption[1].substring(2));
-		model.addAttribute("optionC", queOption[2].substring(2));
-		model.addAttribute("optionD", queOption[3].substring(2));
+		if(!examQuestion.getItems().equals(" ")){
+			String[] queOption = examQuestion.getItems().split(";");
+			model.addAttribute("optionA", queOption[0].substring(2));
+			model.addAttribute("optionB", queOption[1].substring(2));
+			model.addAttribute("optionC", queOption[2].substring(2));
+			model.addAttribute("optionD", queOption[3].substring(2));
+		}
 		return "ses/ems/exam/purchaser/question/view";
 	}
 	

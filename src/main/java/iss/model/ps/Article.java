@@ -4,6 +4,8 @@ package iss.model.ps;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import ses.model.bms.User;
 
 
@@ -24,6 +26,7 @@ public class Article{
 	/**
 	 * @Fields name : 标题
 	 */
+	@NotBlank(message = "标题不能为空")
     private String name;
 
     /**
@@ -120,6 +123,11 @@ public class Article{
      * @Fields reason : 退回内容
      */
     private String reason;
+    
+    /**
+     * @Fields source : 文章来源
+     */
+    private String source;
     
     private List<ArticleAttachments> articleAttachments;
         
@@ -307,4 +315,13 @@ public class Article{
 	public Article() {
 		super();
 	}
+
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
+	}
+	
 }

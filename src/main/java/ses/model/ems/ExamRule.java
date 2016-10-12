@@ -5,6 +5,10 @@ package ses.model.ems;
 
 import java.util.Date;
 
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * @Title:ExamRule
  * @Description: 专家考试规则类
@@ -20,21 +24,29 @@ public class ExamRule {
 	/**
 	 * @Fields passStandard : 及格标准
 	 */
+	@NotBlank(message="请输入及格标准分")
+	@Pattern(regexp="^-?[1-9]\\d*$",message="请输入数字")
 	private String passStandard;
 	
 	/**
 	 * @Fields questionCount : 题目数量
 	 */
-	private Integer questionCount;
+	@NotBlank(message="请输入题目数量")
+	@Pattern(regexp="^-?[1-9]\\d*$",message="请输入数字")
+	private String questionCount;
 	
 	/**
 	 * @Fields paperScore : 试卷分值
 	 */
+	@NotBlank(message="请输入试卷分值")
+	@Pattern(regexp="^-?[1-9]\\d*$",message="请输入数字")
 	private String paperScore;
 	
 	/**
 	 * @Fields testCycle : 考试周期
 	 */
+	@NotBlank(message="请输入考试周期")
+	@Pattern(regexp="^-?[1-9]\\d*$",message="请输入数字")
 	private String testCycle;
 	
 	/**
@@ -78,11 +90,11 @@ public class ExamRule {
 		this.passStandard = passStandard;
 	}
 
-	public Integer getQuestionCount() {
+	public String getQuestionCount() {
 		return questionCount;
 	}
 
-	public void setQuestionCount(Integer questionCount) {
+	public void setQuestionCount(String questionCount) {
 		this.questionCount = questionCount;
 	}
 

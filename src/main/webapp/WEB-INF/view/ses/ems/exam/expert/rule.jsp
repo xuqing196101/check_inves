@@ -35,18 +35,7 @@
   	<form action="<%=path %>/expertExam/saveExamRule.html" method="post">
   	  <div class="container mt20">
 	  	<ul class="list-unstyled list-flow p0_20">
-		     <%--<li class="col-md-12 p0">
-	  			<span class="fl">考试用时:</span>
-	  			<c:choose>
-	  				<c:when test="${rule.testTime!=null }">
-	  					<input type="text" name="testTime" value="${rule.testTime }"/>分钟
-	  				</c:when>
-	  				<c:otherwise>
-	  					<input type="text" name="testTime"/>分钟
-	  				</c:otherwise>
-	  			</c:choose>
-	    	</li>
-	    	--%><li class="col-md-6 p0_15">
+		     <li class="col-md-6 p0_15">
 	  			<span class="fl">及格标准：</span>
 	  			<c:choose>
 	  				<c:when test="${rule.passStandard!=null }">
@@ -56,17 +45,19 @@
 	  					<input type="text" name="passStandard"/>分
 	  				</c:otherwise>
 	  			</c:choose>
+	  			<div class="validate">${ERR_passStandard }</div>
 	    	</li>
 	    	<li class="col-md-6">
 	  			<span class="fl">考试题目数量：</span>
 	  			<c:choose>
 	  				<c:when test="${rule.questionCount!=null }">
-	  					<input type="text" name="queNum" value="${rule.questionCount}"/>条
+	  					<input type="text" name="questionCount" value="${rule.questionCount}"/>条
 	  				</c:when>
 	  				<c:otherwise>
-	  					<input type="text" name="queNum" value="50"/>条
+	  					<input type="text" name="questionCount" value="50"/>条
 	  				</c:otherwise>
 	  			</c:choose>
+	  			<div class="validate">${ERR_questionCount }</div>
 	    	</li>
 	    	<li class="col-md-6">
 	  			<span class="fl">试卷分值：</span>
@@ -78,6 +69,7 @@
 	  					<input type="text" name="paperScore" value="100"/>分
 	  				</c:otherwise>
 	  			</c:choose>
+	  			<div class="validate">${ERR_paperScore }</div>
 	    	</li>
 	    	<li class="col-md-6">
 	  			<span class="fl">考试周期：</span>
@@ -89,6 +81,7 @@
 	  					<input type="text" name="testCycle"/>月
 	  				</c:otherwise>
 	  			</c:choose>
+	  			<div class="validate">${ERR_testCycle }</div>
 	    	</li>
 	    </ul>
 	    

@@ -1,6 +1,10 @@
 package ses.model.ems;
 
 import java.util.Date;
+
+import javax.validation.constraints.Past;
+
+import org.hibernate.validator.constraints.NotBlank;
 /**
 * @Title:ExamPaper 
 * @Description:考卷表
@@ -16,11 +20,13 @@ public class ExamPaper {
     /**
      * @Fields name : 考卷名称
      */
+    @NotBlank(message="考卷名称不能为空")
     private String name;
     
     /**
      * @Fields code : 考卷编号
      */
+    @NotBlank(message="考卷编号不能为空")
     private String code;
     
     /**
@@ -32,6 +38,11 @@ public class ExamPaper {
      * @Fields startTime :考试开始日期
      */
     private Date startTime;
+    
+    /**
+     * @Fields time :考试开始日期
+     */
+    private String time;
     
     /**
      * @Fields startTrueDate :备用日期
@@ -188,6 +199,14 @@ public class ExamPaper {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
 	}
 
 	
