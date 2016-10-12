@@ -112,14 +112,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/jquery.easing.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/james.js"></script>
 <script type="text/javascript">
-function reason(id){
+function reason(id,auditField){
   var supplierId=$("#supplierId").val();
-  var auditField=$("#"+id).text()+"服务资质证书信息"; //审批的字段名字
+  var auditContent="服务资质证书为："+$("#"+id).text()+"的信息"; //审批的字段内容
+  var auditType=$("#service").text();//审核类型
    layer.prompt({title: '请填写不通过理由', formType: 2,offset:'200px'}, function(text){
     $.ajax({
         url:"<%=basePath%>supplierAudit/auditReasons.html",
         type:"post",
-        data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId,
+       data:"auditType="+auditType+"&auditField="+auditField+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId,
       });
         $("#"+id+"_hide").hide();
         layer.msg("审核不通过的理由是："+text,{offset:'200px'});
@@ -130,12 +131,15 @@ function reason1(id){
   var supplierId=$("#supplierId").val();
   var id2=id+"2";
   var id1=id+"1";
+  var id3=id+"3";
   var auditField=$("#"+id2+"").text().replaceAll("：",""); //审批的字段名字
+  var auditContent= document.getElementById(""+id3+"").value; //审批的字段内容
+  var auditType=$("#service").text();//审核类型
   layer.prompt({title: '请填写不通过理由', formType: 2,offset:'200px'}, function(text){
     $.ajax({
         url:"<%=basePath%>supplierAudit/auditReasons.html",
         type:"post",
-        data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId,
+        data:"auditType="+auditType+"&auditField="+auditField+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId,
       });
      layer.msg("审核不通过的理由是："+text,{offset:'200px'});
      $("#"+id1+"").hide();
@@ -215,7 +219,7 @@ function tijiao(str){
 	            <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('engineering');">工程-专业信息</a></li>
 	            </c:if>
 	            <c:if test="${fn:contains(supplierTypeNames, '服务')}">
-	            <li class="active"><a aria-expanded="ture" href="#tab-3" data-toggle="tab" onclick="tijiao('service');">服务-专业信息</a></li>
+	            <li class="active"><a aria-expanded="ture" href="#tab-3" data-toggle="tab" onclick="tijiao('service');" id="service">服务-专业信息</a></li>
 	            </c:if>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('items');">品目信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >产品信息</a></li>
@@ -259,7 +263,7 @@ function tijiao(str){
                             <td class="tc" style="cursor: pointer;" onclick="downloadFile('${m.attach}')">${s.attach }</td>
                             <td class="tc">
                               <a id="${s.id}_hide" class="b f18 fl ml10 red hand">√</a>
-                              <a onclick="reason('${s.id}');" class="b f18 fl ml10 hand">×</a>
+                              <a onclick="reason('${s.id}','供应商资质证书');" class="b f18 fl ml10 hand">×</a>
                             </td>
                         </tr>
                       </c:forEach>
@@ -273,35 +277,35 @@ function tijiao(str){
                       <ul class="list-unstyled list-flow">
                         <li class="col-md-6 p0"><span class="" id="orgName2">组织机构：</span>
                           <div class="input-append">
-                            <input class="span3" type="text" value="${supplierMatSes.orgName }" />
+                            <input id="orgName3" class="span3" type="text" value="${supplierMatSes.orgName }" />
                             <div id="orgName1"  class="b f18 fl ml10 red hand">√</div>
                             <div id="orgName" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
                           </div>
                         </li>
                         <li class="col-md-6 p0"><span class="" id="totalPerson2">人员总数：</span>
                           <div class="input-append">
-                            <input class="span3" type="text" value="${supplierMatSes.totalPerson }" />
+                            <input id="totalPerson3" class="span3" type="text" value="${supplierMatSes.totalPerson }" />
                             <div id="totalPerson1" class="b f18 fl ml10 red hand">√</div>
                           <div id="totalPerson" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
                           </div>
                         </li>
                         <li class="col-md-6 p0"><span class="" id="totalMange2">管理人员：</span>
                           <div class="input-append">
-                            <input class="span3" type="text"  value="${supplierMatSes.totalMange }"/>
+                            <input id="totalMange3" class="span3" type="text"  value="${supplierMatSes.totalMange }"/>
                             <div id="totalMange1" class="b f18 fl ml10 red hand">√</div>
                           <div id="totalMange" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
                           </div>
                         </li>
                         <li class="col-md-6 p0"><span class="" id="totalTech2">技术人员：</span>
                           <div class="input-append">
-                            <input class="span3" type="text"  value="${supplierMatSes.totalTech }"/>
+                            <input id="totalTech3" class="span3" type="text"  value="${supplierMatSes.totalTech }"/>
                             <div id="totalTech1" class="b f18 fl ml10 red hand">√</div>
                           <div id="totalTech" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
                           </div>
                         </li>
                         <li class="col-md-6 p0"><span class="" id="totalWorker2">工人(职员)：</span>
                           <div class="input-append">
-                            <input class="span3" type="text" value="${supplierMatSes.totalWorker }"/>
+                            <input id="totalWorker3" class="span3" type="text" value="${supplierMatSes.totalWorker }"/>
                             <div id="totalWorker1" class="b f18 fl ml10 red hand">√</div>
                           <div id="totalWorker" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
                           </div>

@@ -245,7 +245,12 @@ alert(supplierInspectListFile);
                   <form id="form_id" action="" method="post"  enctype="multipart/form-data">
                       <input name="supplierId" value="${supplierId}" type="hidden">
                   </form>
-                  <%-- <table class="table table-bordered table-condensed">
+                  <c:if test="${status==1 }">
+                  <h2 class="f16 jbxx1">
+                    <i>01</i>问题汇总
+                  </h2>
+                  </c:if>
+                  <table class="table table-bordered table-condensed">
                    <thead>
                      <tr>
                        <th class="info w50">序号</th>
@@ -255,17 +260,17 @@ alert(supplierInspectListFile);
                        <th class="info">不通过理由</th>
                      </tr>
                    </thead>
-                     <c:forEach items="${reasonsList }" var="list" >
+                     <c:forEach items="${reasonsList }" var="list" varStatus="vs">
                        <tr>
-                         <td class="tc w50"></td>
+                         <td class="tc">${vs.index + 1}</td>
                          <td class="tc">${list.auditType }</td>
                          <td class="tc">${list.auditField }</td>
                          <td class="tc">${list.auditContent}</td>
                          <td class="tc">${list.suggest}</td>
                        </tr>
                      </c:forEach>
-                  </table> --%>
-                  <h2 class="f16 jbxx1">
+                  </table>
+                  <%-- <h2 class="f16 jbxx1">
                     <i>01</i>问题汇总
                   </h2>
                 <div class=" margin-bottom-0">
@@ -278,8 +283,9 @@ alert(supplierInspectListFile);
 		                    </li>
 	                    </ul>
 	                  </c:forEach>
+                </div> --%>
                 </div>
-                </div>
+                <c:if test="${status==1 }">
                 <div class=" margin-bottom-0 fl">
 						       <h2 class="f16 jbxx1">
 						        <i>02</i>供应商考察表
@@ -296,7 +302,7 @@ alert(supplierInspectListFile);
                    </ul>
                  </form>
 						    </div>
-                
+                </c:if>
                 <!-- <div class="col-md-12 add_regist tc">
                 <ul class="list-unstyled list-flow">
                   <li class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i>供应商考察表：</span>

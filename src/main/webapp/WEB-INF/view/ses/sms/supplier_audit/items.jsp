@@ -185,13 +185,14 @@ function tijiao(str){
 function reason(id){
   var supplierId=$("#supplierId").val();
   var id1=id+"1";
-  var id2=id+"2"; 
+  var id2=id+"2";
+  var auditType=$("#items").text();//审核类型 
   var auditField = $("#"+id2+"").text().replaceAll("：","");//审批的字段名字
     layer.prompt({title: '请填写不通过理由', formType: 2,offset:'200px'}, function(text){
       $.ajax({
           url:"<%=basePath%>supplierAudit/auditReasons.html",
           type:"post",
-          data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId,
+          data:"auditType="+auditType+"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId,
         });
         $("#"+id1+"").hide();
         layer.msg("审核不通过的理由是："+text,{offset:'200px'});
@@ -322,7 +323,7 @@ function reason(id){
               <c:if test="${fn:contains(supplierTypeNames, '服务')}">
               <li class=""><a aria-expanded="false" data-toggle="tab" onclick="tijiao('service');">服务-专业信息</a></li>
               </c:if>
-              <li class="active"><a aria-expanded="ture" data-toggle="tab" onclick="tijiao('items');">品目信息</a></li>
+              <li class="active"><a aria-expanded="ture" data-toggle="tab" onclick="tijiao('items');" id="items">品目信息</a></li>
               <li class=""><a aria-expanded="false"  data-toggle="tab" >产品信息</a></li>
               <li class=""><a aria-expanded="false"  data-toggle="tab" onclick="tijiao('applicationFrom');">申请表</a></li>
               <li class=""><a aria-expanded="false"  data-toggle="tab" onclick="tijiao('reasonsList');">审核汇总</a></li>

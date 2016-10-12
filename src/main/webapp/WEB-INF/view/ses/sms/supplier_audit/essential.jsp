@@ -140,12 +140,13 @@ function reason(id){
 
 function reason1(ele){
   var supplierId=$("#id").val();
+  var auditType=$("#essential").text(); //审核类型
   var auditField = $(ele).parents("li").find("span").text().replaceAll("：","");//审批的字段名字
     layer.prompt({title: '请填写不通过理由', formType: 2,offset:'200px'}, function(text){
       $.ajax({
           url:"<%=basePath%>supplierAudit/auditReasons.html",
           type:"post",
-          data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId,
+          data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId+"&auditType="+auditType+"&auditContent=附件",
         });
         $(ele).parent("div").find("div").eq(0).hide(); //隐藏勾
         layer.msg("审核不通过的理由是："+text,{offset:'200px'});
@@ -214,7 +215,7 @@ function tijiao(str){
       <div class="col-md-12 tab-v2 job-content">
         <div class="padding-top-10">
           <ul class="nav nav-tabs bgdd">
-            <li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" onclick="tijiao('essential');">基本信息</a></li>
+            <li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" onclick="tijiao('essential');" id="essential">基本信息</a></li>
             <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('financial');">财务信息</a></li>
             <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('shareholder');">股东信息</a></li>
             <c:if test="${fn:contains(supplierTypeNames, '生产型')}">

@@ -113,12 +113,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript">
 function reason(id){
   var supplierId=$("#supplierId").val();
-  var auditField=$("#"+id).text()+"年财务信息"; //审批的字段名字
+  var auditField=$("#"+id).text()+"年财务"; //审批的字段名字
+  var auditType=$("#financial").text();//审核类型
+  var auditContent=$("#"+id).text()+"年财务信息";//审批的字段内容
    layer.prompt({title: '请填写不通过理由', formType: 2,offset:'200px'}, function(text){
     $.ajax({
         url:"<%=basePath%>supplierAudit/auditReasons.html",
         type:"post",
-        data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId,
+        data:"auditType="+auditType+"&auditField="+auditField+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId,
       });
       $("#"+id+"_hide").hide();
       layer.msg("审核不通过的理由是："+text,{offset:'200px'});
@@ -128,12 +130,14 @@ function reason(id){
 function reason1(year, ele){
   var supplierId=$("#supplierId").val();
   var value = $(ele).parents("li").find("span").text().replaceAll("：","");//审批的字段名字
-  var auditField=year+"年"+value;
+  var auditField=year+"年"+value;//审批的字段名字
+  var auditType=$("#financial").text();//审核类型
 	  layer.prompt({title: '请填写不通过理由', formType: 2,offset:'200px'}, function(text){
 	    $.ajax({
 	        url:"<%=basePath%>supplierAudit/auditReasons.html",
 	        type:"post",
-	        data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId,
+	        /* data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId, */
+	        data:"auditType="+auditType+"&auditField="+auditField+"&auditContent=附件"+"&suggest="+text+"&supplierId="+supplierId,
 	      });
 	      $(ele).parent("div").find("div").eq(0).hide(); //隐藏勾
 	      layer.msg("审核不通过的理由是："+text,{offset:'200px'});
@@ -194,7 +198,7 @@ function tijiao(str){
           <div class="padding-top-10">
             <ul class="nav nav-tabs bgdd">
               <li class=""><a aria-expanded="fale" href="#tab-1" data-toggle="tab" onclick="tijiao('essential');">基本信息</a></li>
-              <li class="active"><a aria-expanded="true" href="#tab-2" data-toggle="tab" onclick="tijiao('financial');">财务信息</a></li>
+              <li class="active"><a aria-expanded="true" href="#tab-2" data-toggle="tab" onclick="tijiao('financial');" id="financial">财务信息</a></li>
               <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('shareholder');">股东信息</a></li>
               <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
 	            <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" onclick="tijiao('materialProduction');">物资-生产型专业信息</a></li>
@@ -221,6 +225,7 @@ function tijiao(str){
                   <table class="table table-bordered table-condensed">
                    <thead>
                      <tr>
+                       <th class="info w50">序号</th>
                        <th class="info">年份</th>
                        <th class="info">会计事务所名称</th>
                        <th class="info">事务所联系电话</th>
@@ -233,8 +238,9 @@ function tijiao(str){
                        <th class="info">操作</th>
                      </tr>
                    </thead>
-                     <c:forEach items="${financial}" var="f" >
+                     <c:forEach items="${financial}" var="f" varStatus="vs">
                        <tr>
+                         <td class="tc">${vs.index + 1}</td>
                          <td class="tc" id="${f.id }">${f.year }</td>
                          <td class="tc">${f.name }</td>
                          <td class="tc">${f.telephone }</td>

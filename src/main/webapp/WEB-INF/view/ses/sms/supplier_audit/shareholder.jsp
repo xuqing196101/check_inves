@@ -113,12 +113,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript">
 function reason(id){
   var supplierId=$("#supplierId").val();
-  var auditField=$("#"+id).text()+"股东信息"; //审批的字段名字
+  var auditField=$("#"+id).text()+"股东"; //审批的字段名字
+  var auditContent=$("#"+id).text()+"股东信息"; //审批的字段内容
+  var auditType=$("#shareholder").text();//审核类型
    layer.prompt({title: '请填写不通过理由', formType: 2,offset:'200px'}, function(text){
     $.ajax({
         url:"<%=basePath%>supplierAudit/auditReasons.html",
         type:"post",
-        data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId,
+        /* data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId, */
+        data:"auditType="+auditType+"&auditField="+auditField+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId,
       });
       $("#"+id+"_hide").hide();
       layer.msg("审核不通过的理由是："+text,{offset:'200px'});
@@ -174,7 +177,7 @@ function tijiao(str){
             <ul class="nav nav-tabs bgdd">
               <li class=""><a aria-expanded="fale" href="#tab-1" data-toggle="tab" onclick="tijiao('essential');">基本信息</a></li>
               <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" onclick="tijiao('financial');">财务信息</a></li>
-              <li class="active"><a aria-expanded="true" href="#tab-3" data-toggle="tab" onclick="tijiao('shareholder');">股东信息</a></li>
+              <li class="active"><a aria-expanded="true" href="#tab-3" data-toggle="tab" onclick="tijiao('shareholder');" id="shareholder">股东信息</a></li>
               <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
               <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" onclick="tijiao('materialProduction');">物资-生产型专业信息</a></li>
               </c:if>
@@ -200,6 +203,7 @@ function tijiao(str){
                   <table class="table table-bordered table-condensed">
                     <thead>
                       <tr>
+                        <th class="info w50">序号</th>
                         <th class="info">出资人</th>
                         <th class="info">出资人性质</th>
                         <th class="info">统一社会信用代码或身份证</th>
@@ -208,8 +212,9 @@ function tijiao(str){
                         <th class="info">操作</th>
                       </tr>
                     </thead>
-                    <c:forEach items="${shareholder}" var="s" >
+                    <c:forEach items="${shareholder}" var="s" varStatus="vs">
                       <tr>
+                        <td class="tc">${vs.index + 1}</td>
                         <td class="tc" id="${s.id }">${s.name}</td>
                         <td class="tc">${s.nature}</td>
                         <td class="tc">${s.identity}</td>

@@ -303,12 +303,6 @@ public class SupplierAuditController extends BaseSupplierController{
 		int status = (int) request.getSession().getAttribute("status");
 		supplierAudit.setStatus((short) status);
 		supplierAudit.setCreatedAt(new Date());
-		if(status==0){
-			supplierAudit.setAuditType("初审");
-		}
-		if(status==1){
-			supplierAudit.setAuditType("复审");
-		}
 		supplierAudit.setUserId("EDED66BAC3304F34B75EBCDB88AE427F");
 		supplierAuditService.auditReasons(supplierAudit);
 	}
@@ -324,16 +318,17 @@ public class SupplierAuditController extends BaseSupplierController{
 	@RequestMapping("reasonsList")
 	public String reasonsList(HttpServletRequest request,SupplierAudit supplierAudit){
 		String supplierId = supplierAudit.getSupplierId();
-		if(supplierId==null){
+		/*if(supplierId==null){
 			supplierId = (String) request.getSession().getAttribute("supplierId");
-		}
+		}*/
 		List<SupplierAudit> reasonsList = supplierAuditService.selectByPrimaryKey(supplierId);
+		request.setAttribute("reasonsList", reasonsList);
 		//勾选的供应商类型
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
 		request.setAttribute("supplierTypeNames", supplierTypeName);
+
 		request.getSession().getAttribute("status");
-		request.setAttribute("supplierId", supplierId);
-		request.setAttribute("reasonsList", reasonsList);
+		request.setAttribute("supplierId", supplierId);	
 		request.getSession().removeAttribute("supplierId");
 		return "ses/sms/supplier_audit/audit_reasons";
 	}

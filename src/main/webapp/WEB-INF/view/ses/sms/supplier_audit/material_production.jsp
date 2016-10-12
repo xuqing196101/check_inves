@@ -112,14 +112,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/jquery.easing.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/james.js"></script>
 <script type="text/javascript">
-function reason(id){
+function reason(id,auditField){
   var supplierId=$("#supplierId").val();
-  var auditField=$("#"+id).text()+"生产资质证书信息"; //审批的字段名字
+  var auditContent="生产资质证书为："+$("#"+id).text()+"的信息"; //审批的字段内容
+  var auditType=$("#materialProduction").text();//审核类型
    layer.prompt({title: '请填写不通过理由', formType: 2,offset:'200px'}, function(text){
     $.ajax({
         url:"<%=basePath%>supplierAudit/auditReasons.html",
         type:"post",
-        data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId,
+        data:"auditType="+auditType+"&auditField="+auditField+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId,
       });
         $("#"+id+"_hide").hide();
         layer.msg("审核不通过的理由是："+text,{offset:'200px'});
@@ -131,12 +132,15 @@ function reason1(id){
   var supplierId=$("#supplierId").val();
   var id2=id+"2";
   var id1=id+"1";
+  var id3=id+"3";
   var auditField=$("#"+id2+"").text().replaceAll("：",""); //审批的字段名字
+  var auditContent= document.getElementById(""+id3+"").value; //审批的字段内容
+  var auditType=$("#materialProduction").text();//审核类型
   layer.prompt({title: '请填写不通过理由', formType: 2,offset:'200px'}, function(text){
     $.ajax({
         url:"<%=basePath%>supplierAudit/auditReasons.html",
         type:"post",
-        data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId,
+        data:"auditType="+auditType+"&auditField="+auditField+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId,
       });
      layer.msg("审核不通过的理由是："+text,{offset:'200px'});
      $("#"+id1+"").hide();
@@ -209,7 +213,7 @@ function tijiao(str){
               <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" onclick="tijiao('financial');">财务信息</a></li>
               <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('shareholder');">股东信息</a></li>
               <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
-	            <li class="active"><a aria-expanded="ture" href="#tab-2" data-toggle="tab" onclick="tijiao('materialProduction');">物资-生产型专业信息</a></li>
+	            <li class="active"><a aria-expanded="ture" href="#tab-2" data-toggle="tab" onclick="tijiao('materialProduction');" id="materialProduction">物资-生产型专业信息</a></li>
 	            </c:if>
 	            <c:if test="${fn:contains(supplierTypeNames, '销售型')}">
 	            <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('materialSales');">物资-销售型专业信息</a></li>
@@ -261,7 +265,7 @@ function tijiao(str){
 							            <td class="tc" style="cursor: pointer;" onclick="downloadFile('${m.attach}')">${m.attach }</td>
 							            <td class="tc">
 	                          <a id="${m.id }_hide" class="b f18 fl ml10 red hand">√</a>
-	                          <a onclick="reason('${m.id}');" class="b f18 fl ml10 hand">×</a>
+	                          <a onclick="reason('${m.id}','供应商资质证书');" class="b f18 fl ml10 hand">×</a>
                           </td>
 							          </tr>
 							        </c:forEach>
@@ -274,35 +278,35 @@ function tijiao(str){
                     <ul class="list-unstyled list-flow">
                       <li class="col-md-6 p0"><span class="" id="orgName2">组织机构：</span>
                         <div class="input-append">
-                          <input class="span3" type="text" value="${supplierMatPros.orgName }" />
+                          <input id="orgName3" class="span3" type="text" value="${supplierMatPros.orgName }" />
                           <div id="orgName1"  class="b f18 fl ml10 red hand">√</div>
                           <div id="orgName" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0"><span class="" id="totalPerson2">人员总数：</span>
                         <div class="input-append">
-                          <input class="span3" type="text" value="${supplierMatPros.totalPerson }" />
+                          <input id="totalPerson3" class="span3" type="text" value="${supplierMatPros.totalPerson }" />
                           <div id="totalPerson1" class="b f18 fl ml10 red hand">√</div>
                         <div id="totalPerson" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0"><span class="" id="totalMange2">管理人员：</span>
                         <div class="input-append">
-                          <input class="span3" type="text"  value="${supplierMatPros.totalMange }"/>
+                          <input id="totalMange3" class="span3" type="text"  value="${supplierMatPros.totalMange }"/>
                           <div id="totalMange1" class="b f18 fl ml10 red hand">√</div>
                         <div id="totalMange" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0"><span class="" id="totalTech2">技术人员：</span>
                         <div class="input-append">
-                          <input class="span3" type="text"  value="${supplierMatPros.totalTech }"/>
+                          <input id="totalTech3" class="span3" type="text"  value="${supplierMatPros.totalTech }"/>
                           <div id="totalTech1" class="b f18 fl ml10 red hand">√</div>
                         <div id="totalTech" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0"><span class="" id="totalWorker2">工人(职员)：</span>
                         <div class="input-append">
-                          <input class="span3" type="text" value="${supplierMatPros.totalWorker }"/>
+                          <input id="totalWorker3" class="span3" type="text" value="${supplierMatPros.totalWorker }"/>
                           <div id="totalWorker1" class="b f18 fl ml10 red hand">√</div>
                         <div id="totalWorker" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
                         </div>
@@ -317,35 +321,35 @@ function tijiao(str){
                     <ul class="list-unstyled list-flow">
                       <li class="col-md-6 p0"><span class="" id="scaleTech2">技术人员比例：</span>
                         <div class="input-append">
-                          <input class="span3" type="text" value="${supplierMatPros.scaleTech }" />
+                          <input id="scaleTech3" class="span3" type="text" value="${supplierMatPros.scaleTech }" />
                           <div id="scaleTech1"  class="b f18 fl ml10 red hand">√</div>
                           <div id="scaleTech" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0"><span class="" id="scaleHeightTech2">高级技术人员比例：</span>
                         <div class="input-append">
-                          <input class="span3" type="text" value="${supplierMatPros.scaleHeightTech }" />
+                          <input id="scaleHeightTech3" class="span3" type="text" value="${supplierMatPros.scaleHeightTech }" />
                           <div id="scaleHeightTech1" class="b f18 fl ml10 red hand">√</div>
                         <div id="scaleHeightTech" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0"><span class="" id=researchName2>研发部门名称：</span>
                         <div class="input-append">
-                          <input class="span3" type="text"  value="${supplierMatPros.researchName }"/>
+                          <input id="researchName3" class="span3" type="text"  value="${supplierMatPros.researchName }"/>
                           <div id="researchName1" class="b f18 fl ml10 red hand">√</div>
                         <div id="researchName" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0"><span class="" id="totalResearch2">研发部门人数：</span>
                         <div class="input-append">
-                          <input class="span3" type="text"  value="${supplierMatPros.totalResearch }"/>
+                          <input id="totalResearch3" class="span3" type="text"  value="${supplierMatPros.totalResearch }"/>
                           <div id="totalResearch1" class="b f18 fl ml10 red hand">√</div>
                         <div id="totalResearch" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0"><span class="" id="researchLead2">研发部门负责人：</span>
                         <div class="input-append">
-                          <input class="span3" type="text" value="${supplierMatPros.researchLead }"/>
+                          <input id="researchLead3" class="span3" type="text" value="${supplierMatPros.researchLead }"/>
                           <div id="researchLead1" class="b f18 fl ml10 red hand">√</div>
                         <div id="researchLead" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
                         </div>
@@ -353,7 +357,7 @@ function tijiao(str){
                       <li class="col-md-12 p0 mt10"><span class="fl" id="countryPro2">承担国家军队科研项目：</span>
 	                      <div class="col-md-9 mt5">
 	                        <div class="row">
-	                          <textarea class="text_area col-md-12">${supplierMatPros.countryPro }</textarea>
+	                          <textarea id="countryPro3" class="text_area col-md-12">${supplierMatPros.countryPro }</textarea>
 	                          <div id="countryPro1" class="b f18 fl ml10 red hand">√</div>
 	                          <div id="countryPro" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
 	                        </div>
@@ -362,7 +366,7 @@ function tijiao(str){
                       <li class="col-md-12 p0 mt10"><span class="fl" id="countryReward2">获得国家军队科技项目：</span>
 	                      <div class="col-md-9 mt5">
 	                        <div class="row">
-	                          <textarea class="text_area col-md-12">${supplierMatPros.countryReward }</textarea>
+	                          <textarea id="countryReward3" class="text_area col-md-12">${supplierMatPros.countryReward }</textarea>
 	                          <div id="countryReward1" class="b f18 fl ml10 red hand">√</div>
 	                          <div id="countryReward" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
 	                        </div>
@@ -378,14 +382,14 @@ function tijiao(str){
                     <ul class="list-unstyled list-flow">
                       <li class="col-md-6 p0"><span class="" id="totalBeltline2">生产线名称数量：</span>
                         <div class="input-append">
-                          <input class="span3" type="text" value="${supplierMatPros.totalBeltline }" />
+                          <input id="totalBeltline3" class="span3" type="text" value="${supplierMatPros.totalBeltline }" />
                           <div id="totalBeltline1"  class="b f18 fl ml10 red hand">√</div>
                           <div id="totalBeltline" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0"><span class="" id="totalDevice2">生产设备名称数量：</span>
                         <div class="input-append">
-                          <input class="span3" type="text" value="${supplierMatPros.totalDevice }" />
+                          <input id="totalDevice3" class="span3" type="text" value="${supplierMatPros.totalDevice }" />
                           <div id="totalDevice1" class="b f18 fl ml10 red hand">√</div>
                         <div id="totalDevice" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
                         </div>
@@ -400,21 +404,21 @@ function tijiao(str){
                     <ul class="list-unstyled list-flow">
                       <li class="col-md-6 p0"><span class="" id="qcName2">质量检测部门：</span>
                         <div class="input-append">
-                          <input class="span3" type="text" value="${supplierMatPros.qcName }" />
+                          <input id="qcName3" class="span3" type="text" value="${supplierMatPros.qcName }" />
                           <div id="qcName1"  class="b f18 fl ml10 red hand">√</div>
                           <div id="qcName" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0"><span class="" id="totalQc2">质量检测人数：</span>
                         <div class="input-append">
-                          <input class="span3" type="text" value="${supplierMatPros.totalQc }" />
+                          <input id="totalQc3"  class="span3" type="text" value="${supplierMatPros.totalQc }" />
                           <div id="totalQc1" class="b f18 fl ml10 red hand">√</div>
                         <div id="totalQc" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0"><span class="" id="qcLead2">质检部门负责人：</span>
                         <div class="input-append">
-                          <input class="span3" type="text" value="${supplierMatPros.qcLead }" />
+                          <input id="qcLead3" class="span3" type="text" value="${supplierMatPros.qcLead }" />
                           <div id="qcLead1" class="b f18 fl ml10 red hand">√</div>
                         <div id="qcLead" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
                         </div>
@@ -422,7 +426,7 @@ function tijiao(str){
                       <li class="col-md-12 p0 mt10"><span class="fl" id="qcDevice2">质量检测设备名称：</span>
                         <div class="col-md-9 mt5">
                           <div class="row">
-                            <textarea class="text_area col-md-12">${supplierMatPros.qcDevice }</textarea>
+                            <textarea id="qcDevice3" class="text_area col-md-12">${supplierMatPros.qcDevice }</textarea>
                             <div id="qcDevice1" class="b f18 fl ml10 red hand">√</div>
                             <div id="qcDevice" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
                           </div>
