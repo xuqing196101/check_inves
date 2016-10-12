@@ -131,7 +131,7 @@
 			 <li class="col-md-12  p0 ">
 			   <span class="fl">详细情况：</span>
 			   <div class="col-md-12 pl200 fn mt5 pwr9">
-		        <input class="span2" name="detail" type="text" value = '${pqinfo.detail}' readonly="readonly">
+		         <textarea class="text_area col-md-12 " name="detail"  readonly="readonly" >${pqinfo.detail}</textarea>
 		       </div>
 			 </li>
    		</ul>
