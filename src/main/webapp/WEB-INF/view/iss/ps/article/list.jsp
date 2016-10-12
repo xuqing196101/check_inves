@@ -124,12 +124,24 @@
 		}
     }
     
-    function sub(){
-    	window.location.href="<%=basePath%>article/sublist.html?status=0";
-    }
     
     function audit(){
     	window.location.href="<%=basePath%>article/auditlist.html?status=1";
+    }
+    
+    function sub(){
+    	var ids =[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			ids.push($(this).val()); 
+		}); 
+		if(ids.length>0){
+			layer.confirm('您确定要提交吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+				layer.close(index);
+				window.location.href="<%=basePath%>article/sumbit.html?ids="+ids;
+			});
+		}else{
+			layer.alert("请选择要提交的信息",{offset: ['222px', '390px'], shade:0.01});
+		}
     }
     
 </script>
@@ -149,7 +161,7 @@
    
    <div class="container">
 	   <div class="headline-v2">
-	   		<h2>信息列表</h2>
+	   		<h2>信息发布</h2>
 	   </div>
 	   <%--<div class="col-md-12 padding-left-20">
 		   <button class="btn " type="button" onclick="sub()">提交信息列表 </button>
@@ -160,12 +172,12 @@
 	   <input type="hidden" id="depid" name="depid">
 	  	
 		<div class="container">	
-			<div class="col-md-8 mt10">
+			<div class="col-md-8 mt10 pl20">
 	   			<button class="btn btn-windows add" type="button" onclick="add()">新增</button>
 				<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
-				<button class="btn btn-windows delete" type="button" onclick="del()">删除</button><%--
-				<button class="btn btn-windows delete" type="button" onclick="find()">查看信息</button>
-			--%></div>
+				<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
+				<button class="btn btn-windows git" type="button" onclick="sub()">提交</button>
+			</div>
 			
 			<div class="col-md-4 ">
               <div class="search-block-v2">
@@ -195,7 +207,7 @@
 	  				<th class="info">序号</th>
 	  				<th class="info">信息标题</th>
 	  				<th class="info">发布范围</th>
-	  				<th class="info">录入时间</th>
+	  				<th class="info">发布时间</th>
 	  				<th class="info">信息类型</th>
 	  				<th class="info">是否发布</th>
 	  				<th class="info">浏览量</th>
@@ -219,7 +231,7 @@
 		  				</c:if>
 		  			</td>
 		  			<td class="tc" onclick="view('${article.id }')">
-		  				<fmt:formatDate value='${article.createdAt }' pattern="yyyy年MM月dd日   HH:mm:ss" />
+		  				<fmt:formatDate value='${article.publishedAt }' pattern="yyyy年MM月dd日   HH:mm:ss" />
 		  			</td>
 		  			<td class="tc" onclick="view('${article.id }')">${article.articleType.name }</td>
 		  			<td class="tc">

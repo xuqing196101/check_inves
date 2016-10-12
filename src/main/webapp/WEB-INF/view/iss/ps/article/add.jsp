@@ -53,25 +53,18 @@
 	   <h2>新增信息</h2>
 	 </div>
 	   <ul class="list-unstyled list-flow p0_20">
-     <li class="col-md-6 p0 mb0">
-	   <span class=""><i class="red">＊</i> 信息标题：</span>
-	   <div class="input-append">
-        <input class="span2" id="name" name="name" type="text">
+     <li class="col-md-12 p0 mb0">
+	   <span class=""><i class="red">＊</i>信息标题：</span>
+	   <div class="w70p fl">
+        <input class="col-md-12" id="name" name="name" type="text">
          <div class="validate">${ERR_name}</div>
          
        </div>
 	 </li>
-     <li class="col-md-6  p0 ">
-	   <span class=""><i class="red">＊</i>发布范围：</span>
-	   <div class="input-append">
-        <label class="fl margin-bottom-0"><input type="checkbox" name="ranges" value="0">内网</label>
-        <label class="ml10 fl"><input type="checkbox" name="ranges" value="1">外网</label>
-        <div class="validate">${ERR_range}</div>
-       </div>
-	 </li> 
+
 	 
      <li class="col-md-6  p0 ">
-	   <span class=""><i class="red">＊</i> 信息类型：</span>
+	   <span class=""><i class="red">＊</i>信息类型：</span>
 	   <%-- <div class="input-append">
          <input class="span2" id="articleTypeId" name="articleType.id" type="hidden">
 		 <input class="span2" id="articleTypeName" name="articleTypeName" type="text">
@@ -96,7 +89,14 @@
           </select>
           <div class="validate">${ERR_typeId}</div>
 	 </li> 
-	 
+     <li class="col-md-6  p0 ">
+	   <span class=""><i class="red">＊</i>发布范围：</span>
+	   <div class="input-append">
+        <label class="fl margin-bottom-0"><input type="checkbox" name="ranges" value="0" class="mt0">内网</label>
+        <label class="ml10 fl"><input type="checkbox" name="ranges" value="1" class="mt0">外网</label>
+        <div class="validate">${ERR_range}</div>
+       </div>
+	 </li> 
 	 <li class="col-md-6  p0 ">
 	   <span class=""><i class="red">＊</i>文章来源：</span>
        <div class="input-append">
@@ -104,9 +104,15 @@
          <div class="validate">${ERR_source}</div>
        </div>
 	 </li> 
+	 <li class="col-md-6  p0 ">
+	   <span class=""><i class="red">＊</i>链接来源：</span>
+       <div class="input-append">
+        <input class="span2" id="sourceLink" name="sourceLink" type="text">
+       </div>
+	 </li>
 	 
      <li class="col-md-12 p0">
-	   <span class="fl"><i class="red">＊</i> 信息正文：</span>
+	   <span class="fl"><i class="red">＊</i>信息正文：</span>
 	   <div class="col-md-9 fl p0">
 	   <script id="editor" name="content" type="text/plain" class="col-md-12 p0"></script>
        </div>

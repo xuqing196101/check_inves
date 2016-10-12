@@ -456,10 +456,13 @@ public class ArticleController {
 	 * @throws Exception 
 	 */
 	@RequestMapping("/audit")
-	public String audit(String id,Article article) throws Exception{
+	public String audit(String id,Article article,HttpServletRequest request) throws Exception{
 		article.setUpdatedAt(new Date());
 		if(article.getStatus()==2){
 			article.setReason("");
+			User user = (User) request.getSession().getAttribute("loginUser");
+			article.setPublishedName(user.getRelName());
+			article.setPublishedAt(new Date());
 		//	solrNewsService.addIndex(article);
 			articleService.update(article);
 		}else if(article.getStatus()==3){

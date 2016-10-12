@@ -21,6 +21,7 @@
     <result column="IS_DELETED" property="isDeleted" />
     <result column="REASON" property="reason" />
     <result column="SOURCE" property="source" />
+    <result column="SOURCE_LINK" property="sourceLink" />
     
     <association property="user" column="USER_ID" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>
     <association property="articleType" column="ARTICLE_TYPE_ID" select="iss.dao.ps.ArticleTypeMapper.selectTypeByPrimaryKey"/>
@@ -36,7 +37,7 @@
   
   <sql id="Article_Column_List">
     ID, NAME, ARTICLE_TYPE_ID, PUBLISHED_AT, IS_PIC_SHOW, POSITION, USER_ID, SHOW_COUNT, DOWNLOAD_COUNT,
-    STATUS, PIC, PUBLISHED_NAME, IS_INDEX, TYPE, PROJECT_ID, CREATED_AT, UPDATED_AT,RANGE,IS_DELETED,REASON,SOURCE
+    STATUS, PIC, PUBLISHED_NAME, IS_INDEX, TYPE, PROJECT_ID, CREATED_AT, UPDATED_AT,RANGE,IS_DELETED,REASON,SOURCE,SOURCE_LINK
   </sql>
   
   <sql id="Article_BlOB_Column_List">
@@ -220,6 +221,9 @@
       <if test="source != null">
         SOURCE,
       </if>
+      <if test="sourceLink != null">
+        SOURCE_LINK,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -287,6 +291,9 @@
       </if>
       <if test="source != null">
         #{source},
+      </if>
+      <if test="sourceLink != null">
+        #{sourceLink},
       </if>
     </trim>
   </insert>
@@ -357,6 +364,9 @@
       </if>
       <if test="source != null">
      	 SOURCE = #{source},
+      </if>
+      <if test="sourceLink != null">
+     	 SOURCE_LINK = #{sourceLink},
       </if>
     </set>
     where ID = #{id}

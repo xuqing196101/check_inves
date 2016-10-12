@@ -48,9 +48,7 @@ public class ContractProductServiceImpl implements ContractProductService {
 	 * 查询
 	 */
 	@Override
-	public List<ContractProduct> select(ContractProduct contractProduct,Integer page) {
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+	public List<ContractProduct> select(ContractProduct contractProduct) {
 		return contractProductMapper.select(contractProduct);
 	}
 

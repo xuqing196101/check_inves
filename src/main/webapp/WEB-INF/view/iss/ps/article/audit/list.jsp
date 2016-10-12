@@ -159,7 +159,7 @@
 	  				<th class="info">序号</th>
 	  				<th class="info">信息标题</th>
 	  				<th class="info">发布范围</th>
-	  				<th class="info">录入时间</th>
+	  				<th class="info">发布时间</th>
 	  				<th class="info">信息类型</th>
 	  			</tr>
 	  		</thead>
@@ -180,7 +180,7 @@
 		  				</c:if>
 		  			</td>
 		  			<td class="tc" onclick="view('${article.id }')">
-		  				<fmt:formatDate value='${article.createdAt }' pattern="yyyy年MM月dd日   HH:mm:ss" />
+		  				<fmt:formatDate value='${article.publishedAt }' pattern="yyyy年MM月dd日   HH:mm:ss" />
 		  			</td>
 		  			<td class="tc" onclick="view('${article.id }')">${article.articleType.name }</td>
 		  		</tr>

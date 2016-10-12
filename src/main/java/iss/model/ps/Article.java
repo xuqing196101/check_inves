@@ -129,6 +129,11 @@ public class Article{
      */
     private String source;
     
+    /**
+     * @Fields source : 来源链接
+     */
+    private String sourceLink;
+    
     private List<ArticleAttachments> articleAttachments;
         
 	public Integer getDownloadCount() {
@@ -323,5 +328,15 @@ public class Article{
 	public void setSource(String source) {
 		this.source = source;
 	}
+
+	public String getSourceLink() {
+		return sourceLink;
+	}
+
+	public void setSourceLink(String sourceLink) {
+		this.sourceLink = sourceLink;
+	}
+	
+	
 	
 }

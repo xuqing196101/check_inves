@@ -26,10 +26,15 @@
     where ID = #{id}
   </select>
   
+  <!-- 查询合同产品 -->
   <select id="select" parameterType="Object" resultMap="ContractProductResultMap">
     select 
     <include refid="Base_Column_List" />
     from T_BSS_SSTPS_CONTRACT_PRODUCT
+    WHERE CONTRACT_ID = #{appraisalContract.id}
+    <if test="name != null">
+    AND NAME = #{name}
+    </if>
   </select>
   
   <!-- 新增 -->

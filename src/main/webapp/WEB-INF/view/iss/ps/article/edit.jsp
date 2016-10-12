@@ -76,22 +76,15 @@ function deleteAtta(id,obj){
 	  <input type="hidden" name="status" id="status" value="${article.status }">
 	  <input type="hidden" name="user.id" id="user.id" value="${article.user.id }">
 	   <ul class="list-unstyled list-flow p0_20">
-     <li class="col-md-6 p0 mb0">
+     <li class="col-md-12 p0 mb0">
 	   <span class="">信息标题：</span>
-	   <div class="input-append">
-        <input class="span2" id="name" name="name" type="text" value="${article.name }">
+	   <div class="w70p fl">
+        <input class="col-md-12" id="name" name="name" type="text" value="${article.name }">
        </div>
        <div class="validate">${ERR_name}</div>
 	 </li>
-     <li class="col-md-6  p0 ">
-	   <span class="">发布范围：</span>
-	   <div class="input-append">
-        <label class="fl margin-bottom-0"><input type="checkbox" name="ranges" value="0">内网</label>
-        <label class="ml10 fl"><input type="checkbox" name="ranges" value="1">外网</label>
-       </div>
-       <div class="validate">${ERR_range}</div>
-	 </li> 
-     <li class="col-md-6  p0 ">
+	 
+	 <li class="col-md-6  p0 ">
 	   <span class="">信息类型：</span>
    		 <select id="articleTypeId" name="articleType.id" class="w220">
    		 	<option></option>
@@ -100,12 +93,26 @@ function deleteAtta(id,obj){
 		    </c:forEach>
          </select>
 	 </li> 
+     <li class="col-md-6  p0 ">
+	   <span class="">发布范围：</span>
+	   <div class="input-append">
+        <label class="fl margin-bottom-0"><input type="checkbox" name="ranges" value="0" class="mt0">内网</label>
+        <label class="ml10 fl"><input type="checkbox" name="ranges" value="1" class="mt0">外网</label>
+       </div>
+       <div class="validate">${ERR_range}</div>
+	 </li> 
 	 <li class="col-md-6  p0 ">
 	   <span class="">文章来源：</span>
        <div class="input-append">
         <input class="span2" id="source" name="source" value="${article.source }"  type="text">
        </div>
 	 </li> 
+	 <li class="col-md-6  p0 ">
+	   <span class=""><i class="red">＊</i>链接来源：</span>
+       <div class="input-append">
+        <input class="span2" id="sourceLink" name="sourceLink" value="${article.sourceLink }" type="text">
+       </div>
+	 </li>
      <li class="col-md-12 p0">
 	   <span class="fl">信息正文：</span>
 	   <div class="col-md-9 fl p0">

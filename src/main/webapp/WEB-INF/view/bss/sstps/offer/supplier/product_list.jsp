@@ -1,14 +1,14 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ include file="../../../common.jsp"%>
+<%@ include file="../../../../common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
     <script type="text/javascript" src="<%=request.getContextPath()%>/public/layer/layer.js"></script>
     <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
-    <title>申请合同审价</title>
+    <title>申请合同分配</title>
     
 <script type="text/javascript">
 
@@ -28,19 +28,12 @@ $(function(){
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		            location.href = '<%=basePath%>appraisalContract/select.html?page='+e.curr;
+		        	var id = "${id}";
+		            location.href = '<%=basePath%>offer/selectProduct.html?id=+"id"&page='+e.curr;
 		        }
 		    }
 		});
 });
-
-function add(){
-	window.location.href="<%=basePath %>appraisalContract/add.html";
-}
-
-function appraisal(id){
-	window.location.href="<%=basePath %>appraisalContract/selectContractInfo.html?id="+id;
-}
 
 </script>    
     
@@ -57,7 +50,7 @@ function appraisal(id){
 	  </div>
    </div>
     
-   <div class="container">
+    <div class="container">
 	   <div class="headline-v2">
 	   		<h2>查询条件</h2>
 	   </div>
@@ -65,19 +58,12 @@ function appraisal(id){
     <div class="container">
      <div class="p10_25">
      <h2 class="padding-10 border1">
-       <form action="<%=basePath %>appraisalContract/serch.html" method="post" class="mb0">
+       <form action="" method="post" class="mb0">
     	<ul class="demand_list">
     	  <li class="fl">
-	    	<label class="fl">合同名称：</label><span><input type="text" id="topic" name="name" class=""/></span>
+	    	<label class="fl">产品名称：</label><span><input type="text" id="topic" class=""/></span>
 	      </li>
-    	  <li class="fl">
-	    	<label class="fl">合同编号：</label><span><input type="text" id="topic" name="code" class=""/></span>
-	      </li>
-    	  <li class="fl">
-	    	<label class="fl">供应商名称：</label><span><input type="text" id="topic" name="supplierName" class=""/></span>
-	      </li> 
-	      	<input type="hidden" name="like" value="1">
-	    	<button type="submit" onclick="query()" class="btn">查询</button>
+	    	<button type="button" onclick="query()" class="btn">查询</button>
 	    	<button type="reset" class="btn">重置</button>  	
     	</ul>
     	  <div class="clear"></div>
@@ -85,11 +71,9 @@ function appraisal(id){
      </h2>
    </div>
 </div>
-	
 	<div class="container">	
-		<div class="col-md-12 mt10 ml5">
-	   		<button class="btn btn-windows add" type="button" onclick="add()">添加合同</button>
-	   		<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
+		<div class="col-md-8 mt10 ml5">
+	   		<button class="btn btn-windows ht_add" type="button" onclick="add()">产品报价</button>
 		</div>
 	</div>
 	
@@ -100,41 +84,14 @@ function appraisal(id){
 	  			<tr>
 	  				<th class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 	  				<th class="info">序号</th>
-	  				<th class="info">合同名称</th>
-	  				<th class="info">合同编号</th>
-	  				<th class="info">合同金额(万元)</th>
-	  				<th class="info">供应商名称</th>
-	  				<th class="info">合同状态</th>
-	  				<th class="info">操作</th>
+	  				<th class="info">产品名称</th>
 	  			</tr>
 	  		</thead>
-	  		<c:forEach items="${list.list}" var="contract" varStatus="vs">
-	  			<tr>
-	  				<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${contract.id }" /></td>
+	  		<c:forEach items="${list.list}" var="product" varStatus="vs">
+	  			<tr class="pointer">
+	  				<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${product.id }" /></td>
 	  				<td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-	  				<td class="tc">${contract.name }</td>
-	  				<td class="tc">${contract.code }</td>
-	  				<td class="tc">${contract.money }</td>
-	  				<td class="tc">${contract.supplierName }</td>
-	  				<td class="tc">
-	  				<c:if test="${contract.contract.given=='0' }">
-	  					未签订
-	  				</c:if>
-	  				<c:if test="${contract.contract.given=='1' }">
-	  					已签订
-	  				</c:if>
-	  				</td>
-	  				<td class="tc">
-	  				<c:if test="${contract.appraisal=='0' }">
-	  					<input type="button" value="申请审价" onclick="appraisal('${contract.id }')">
-	  				</c:if>
-	  				<c:if test="${contract.appraisal=='1' }">
-	  					审价中
-	  				</c:if>
-	  				<c:if test="${contract.appraisal=='2' }">
-	  					已审价
-	  				</c:if>
-	  				</td>
+	  				<td class="tc">${product.name }</td>
 	  			</tr>
 	  		</c:forEach>
 		  </table>
@@ -142,7 +99,5 @@ function appraisal(id){
 	  	<div id="pagediv" align="right"></div>
   </div>
 	
-    
-    
   </body>
 </html>

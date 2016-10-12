@@ -45,7 +45,7 @@
   width: 86px; }
 
 .w100 {
-  width: 100px; }
+  width: 100px!important; }
 
 .w120 {
   width: 120px; }
@@ -142,6 +142,9 @@
 .w90p {
   width: 90%; }
 
+.w70p {
+  width: 70%!important; }
+  
 .w140 {
   width: 140px; }
 

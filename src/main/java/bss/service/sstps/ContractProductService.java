@@ -16,6 +16,6 @@ public interface ContractProductService {
 	
 	public void insert(ContractProduct contractProduct);
 	
-	public List<ContractProduct> select(ContractProduct contractProduct,Integer page);
+	public List<ContractProduct> select(ContractProduct contractProduct);
 
 }
