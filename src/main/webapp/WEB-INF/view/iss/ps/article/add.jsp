@@ -97,6 +97,14 @@
           <div class="validate">${ERR_typeId}</div>
 	 </li> 
 	 
+	 <li class="col-md-6  p0 ">
+	   <span class=""><i class="red">＊</i>文章来源：</span>
+       <div class="input-append">
+        <input class="span2" id="source" name="source" type="text">
+         <div class="validate">${ERR_source}</div>
+       </div>
+	 </li> 
+	 
      <li class="col-md-12 p0">
 	   <span class="fl"><i class="red">＊</i> 信息正文：</span>
 	   <div class="col-md-9 fl p0">

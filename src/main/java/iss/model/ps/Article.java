@@ -124,6 +124,11 @@ public class Article{
      */
     private String reason;
     
+    /**
+     * @Fields source : 文章来源
+     */
+    private String source;
+    
     private List<ArticleAttachments> articleAttachments;
         
 	public Integer getDownloadCount() {
@@ -310,4 +315,13 @@ public class Article{
 	public Article() {
 		super();
 	}
+
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
+	}
+	
 }
