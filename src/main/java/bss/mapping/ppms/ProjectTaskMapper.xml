@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.ppms.ProjectTaskMapper">
+  <resultMap id="ProjectTask_Map" type="bss.model.ppms.ProjectTask">
+    <result column="TASK_ID"  property="taskId" />
+    <result column="PROJECT_ID"  property="projectId" />
+  </resultMap>
+  
+    <insert id="insert" parameterType="bss.model.ppms.ProjectTask">
+    insert into T_BSS_PPMS_PROJECT_TASK (TASK_ID, PROJECT_ID)
+    values (#{taskId,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="bss.model.ppms.ProjectTask">
+    insert into T_BSS_PPMS_PROJECT_TASK
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="taskId != null">
+        TASK_ID,
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="taskId != null">
+        #{taskId},
+      </if>
+      <if test="projectId != null">
+        #{projectId},
+      </if>
+    </trim>
+  </insert>
+  <select id="queryByNo" parameterType="String" resultMap="ProjectTask_Map">
+  select * from T_BSS_PPMS_PROJECT_TASK
+   where 1=1
+    <if test="taskId != null and taskId != ''">
+        AND TASK_ID = #{taskId}
+    </if>
+    <if test="projectId != null and projectId !=''">
+        AND PROJECT_ID = #{projectId}
+    </if>
+  </select>
+</mapper>

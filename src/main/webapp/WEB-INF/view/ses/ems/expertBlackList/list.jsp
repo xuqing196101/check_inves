@@ -90,9 +90,9 @@
 		if(id.length==1){
 			window.location.href="<%=basePath%>expert/editBlacklist.html?id="+id;
 		}else if(id.length>1){
-			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("只能选择一个",{offset:'200px'});
 		}else{
-			layer.alert("请选择需要修改的信息",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择需要修改的信息",{offset:'200px'});
 		}
     }
     
@@ -109,18 +109,18 @@
 		       		url:"<%=basePath%>expert/deleteBlacklist.html",
 		       		data:"ids="+ids,
 		       		success:function(){
-		       			layer.msg("删除成功",{offset: ['222px', '390px']});
+		       			layer.msg("删除成功",{offset:'200px'});
 			       		window.setTimeout(function(){
 			       			location.href = "<%=basePath%>expert/blacklist.html";
 			       		}, 1000);
 		       		},
 		       		error: function(message){
-						layer.msg("删除失败",{offset: ['222px', '390px']});
+						layer.msg("删除失败",{offset:'200px'});
 					}
 		       	});
 			});
 		}else{
-			layer.alert("请选择要删除的信息",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择需要删除的信息",{offset:'200px'});
 		}
     }
 </script>

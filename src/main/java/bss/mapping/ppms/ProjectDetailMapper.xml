@@ -40,6 +40,9 @@
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_PROJECTS_DETAIL
     where 1=1 
+    <if test="ids != null and ids !=''">
+        AND ID = #{ids}
+    </if> 
     <if test="id != null and id !=''">
         AND PROJECT_ID = #{id}
     </if> 

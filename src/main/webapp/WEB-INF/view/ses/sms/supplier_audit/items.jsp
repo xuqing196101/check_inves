@@ -187,14 +187,14 @@ function reason(id){
   var id1=id+"1";
   var id2=id+"2"; 
   var auditField = $("#"+id2+"").text().replaceAll("：","");//审批的字段名字
-    layer.prompt({title: '请填写不通过理由', formType: 2}, function(text){
+    layer.prompt({title: '请填写不通过理由', formType: 2,offset:'200px'}, function(text){
       $.ajax({
           url:"<%=basePath%>supplierAudit/auditReasons.html",
           type:"post",
           data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId,
         });
         $("#"+id1+"").hide();
-        layer.msg("审核不通过的理由是："+text);
+        layer.msg("审核不通过的理由是："+text,{offset:'200px'});
       });
 }
 
@@ -394,6 +394,5 @@ function reason(id){
       </div>
     </div>
   </div>
-  <jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
 </body>
 </html>

@@ -153,12 +153,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
 <!-- 项目戳开始 -->
  
-   
-    
-                         计划名称：${queryById.fileName}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+   <ul class="demand_list">
+    <li class="fl">
+    <label class="fl">
+                         计划名称：${queryById.fileName}
+     </label>
+     </li>
+     <li class="fl">
+     <label class="fl">
                                 计划编号： ${queryById.planNo}
+     </label>
+      </li>
        <%-- <label class="fl">计划类型：${collectPlan.fileName} </label>  --%>
-     
+     </ul>
    
      <div class="clear"></div>
 
@@ -170,8 +177,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      
   
       <span class="fr option_btn margin-top-10">
-        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="edit();">变更</button>
-        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="location.href='javascript:history.go(-1);'">取消</button>
+        <button class="btn btn-windows save" onclick="edit();">变更</button>
+        <button class="btn btn-windows back" onclick="location.href='javascript:history.go(-1);'">取消</button>
         <!-- <button class="btn padding-left-10 padding-right-10 btn_back" onclick="view();">查看变更记录</button> -->
       </span>
    <div class="container clear margin-top-30">

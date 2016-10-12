@@ -75,5 +75,13 @@ public class TaskServiceImpl implements TaskService {
 		return list;
 	}
 
+	@Override
+	public List<Task> listBy(String id,Integer page) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		List<Task> list = taskMapper.listByTask(id);
+		return list;
+	}
+
 
 }

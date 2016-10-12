@@ -12,36 +12,33 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
     
     <title>任务管理</title>  
-    <meta http-equiv="pragma" content="no-cache">
-    <meta http-equiv="cache-control" content="no-cache">
-    <meta http-equiv="expires" content="0">    
-    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-    <meta http-equiv="description" content="This is my page">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
     
-    
-
-
-<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/purchase/css/purchase.css" media="screen" rel="stylesheet" type="text/css" >
-
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+    <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
+    <script type="text/javascript" src="<%=path %>/public/ZHH/js/ajaxfileupload.js"></script>
+    <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
+    <script type="text/javascript" src="<%=basePath%>public/lodop/LodopFuncs.js"></script>
+    <script type="text/javascript" src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
+    <script src="<%=basePath%>public/layer/layer.js"></script>
+    <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 
  
   <script type="text/javascript">
@@ -209,9 +206,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
 <!-- 项目戳开始 -->
  
-   
+   <div class="p10_25">
+     <h2 class="padding-10 border1">
      <form id="add_form" action="<%=basePath%>task/list.html" method="post" >
+     <ul class="demand_list">
+     <li class="fl">
        <label class="fl">需求部门：<input type="text" name="purchaseRequiredId" /></label>
+       </li>
      <%--  <label class="fl">年度：<select name="giveTime" style="width:70px" id="select">
     <option selected="selected" value="">请选择</option>
        <c:forEach items="${task}" var="task">
@@ -220,37 +221,48 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                          
        </c:forEach>  
   </select> </label>--%>
+  <li class="fl">
       <label class="fl">采购方式：<select name="procurementMethod" style="width:100px" id="select">
        <option selected="selected" value="">请选择</option>
                             <option value="1" <c:if test="${'1'==task.procurementMethod}">selected="selected"</c:if>>公开招标</option>
                             <option value="2" <c:if test="${'2'==task.procurementMethod}">selected="selected"</c:if>>邀请招标</option>
   </select> </label> 
+  </li>
+  <li class="fl">
        <label class="fl">采购机构：<input type="text" name="purchaseId"/></label>
+       </li>
+       <li class="fl">
        <label class="fl">状态：<select name="status" style="width:70px" id="select">
         <option selected="selected" value="">请选择</option>
                             <option value="1" <c:if test="${'1'==task.status}">selected="selected"</c:if>>审核</option>
                             <option value="0" <c:if test="${'0'==task.status}">selected="selected"</c:if>>受领</option>
   </select></label>
-   <br/><br/><br/> 
+  </li>
+  <br/> <br/>
+   <li class="fl">
        <label class="fl">文件编号：<input type="text" name="documentNumber"/></label>
-         <button class="btn padding-left-10 padding-right-10 btn_back fl margin-top-5" type="submit">查询</button>
-     
-    </form>
+       </li>
+         <button class="btn" type="submit">查询</button>
+         <button type="reset" class="btn">重置</button> 
+     </ul>
      <div class="clear"></div>
-
- 
+    </form>
+    </h2>
+    </div>
    <div class="headline-v2 fl">
+   
       <h2>任务受领列表
       </h2>
    </div> 
       <span class="fr option_btn margin-top-10">
-        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="edit()">任务调整</button>
-        <button class="btn padding-left-10 padding-right-10 btn_back"  onclick="see()">任务取消</button>
+        <button class="btn btn-windows edit" onclick="edit()">任务调整</button>
+        <button class="btn btn-windows delete"  onclick="see()">任务取消</button>
         <button class="btn padding-left-10 padding-right-10 btn_back" onclick="view()">查看</button>
-        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="start()">受领</button>
+        <button class="btn btn-windows git" onclick="start()">受领</button>
       </span>
-   <div class="container clear margin-top-30">
-        <table class="table table-bordered table-condensed mt5">
+   <div class="container margin-top-5">
+          <div class="content padding-left-25 padding-right-25 padding-top-5">
+               <table class="table table-striped table-bordered table-hover">
         <thead>
         <tr>
           <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
@@ -269,8 +281,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <td class="tc" >${obj.name}</td>
               <td class="tc">${obj.purchaseId }</td>
               <td class="tc" >${obj.documentNumber }</td>
-              <td class="tc"><c:if test="${'1'==obj.status}">审核</c:if>
-                  <c:if test="${'0'==obj.status}">受领</c:if>
+              <td class="tc">
+              <c:if test="${'1'==obj.status}"><span class="label rounded-2x label-dark">审核</span></c:if>
+               <c:if test="${'0'==obj.status}"><span class="label rounded-2x label-u">受领</span></c:if>
               </td>
               <td class="tc" ><fmt:formatDate value="${obj.giveTime }"/></td>
             </tr>
@@ -279,24 +292,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
          
 
       </table>
-      
+      </div>
       <div id="pagediv" align="right"></div>
    </div>
  </div>
 
 
- <div id="content" class="div_show">
-     <p align="center" class="type">
-             请选择类别
-    <br>
-    
-     <input type="radio" name="goods" value="1">:物资<br>
-     <input type="radio" name="goods" value="2">:工程<br>
-     <input type="radio" name="goods" value="3">:服务<br>
-        </p>
-         <button class="btn padding-left-10 padding-right-10 btn_back goods"  onclick="closeLayer()" >确定</button>
-        
- </div>
  
      </body>
 </html>

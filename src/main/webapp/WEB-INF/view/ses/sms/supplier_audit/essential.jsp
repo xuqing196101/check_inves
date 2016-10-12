@@ -121,14 +121,14 @@ function reason(id){
   var auditField=$("#"+id2+"").text().replaceAll("：",""); //审批的字段名字
   var  auditContent= document.getElementById(""+id3+"").value; //审批的字段内容
   var auditType=$("#essential").text(); //审核类型
-  layer.prompt({title: '请填写不通过理由', formType: 2}, function(text){
+  layer.prompt({title: '请填写不通过理由', formType: 2,offset:'200px'}, function(text){
     $.ajax({
         url:"<%=basePath%>supplierAudit/auditReasons.html",
         type:"post",
         data:"auditType="+auditType+"&auditField="+auditField+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId,
       });
   $("#"+id1+"").hide();
-  layer.msg("审核不通过的理由是："+text);    
+  layer.msg("审核不通过的理由是："+text,{offset:'200px'});    
 /*    $("input[name='auditType']").val(auditType);
    $("input[name='auditField']").val(auditField);
    $("input[name='auditContent']").val(auditContent);
@@ -141,14 +141,14 @@ function reason(id){
 function reason1(ele){
   var supplierId=$("#id").val();
   var auditField = $(ele).parents("li").find("span").text().replaceAll("：","");//审批的字段名字
-    layer.prompt({title: '请填写不通过理由', formType: 2}, function(text){
+    layer.prompt({title: '请填写不通过理由', formType: 2,offset:'200px'}, function(text){
       $.ajax({
           url:"<%=basePath%>supplierAudit/auditReasons.html",
           type:"post",
           data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId,
         });
         $(ele).parent("div").find("div").eq(0).hide(); //隐藏勾
-        layer.msg("审核不通过的理由是："+text);
+        layer.msg("审核不通过的理由是："+text,{offset:'200px'});
       });
 }
 
@@ -545,6 +545,5 @@ function tijiao(str){
 	<form target="_blank" id="download_form_id" action="${pageContext.request.contextPath}/supplierAudit/download.html" method="post">
 	 <input type="hidden" name="fileName" />
 	</form>
-	<jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
 </body>
 </html>
