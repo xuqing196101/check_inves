@@ -5,20 +5,28 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.github.pagehelper.PageInfo;
 
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
 import bss.model.prms.FirstAudit;
+import bss.model.prms.FirstAuditTemplat;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.prms.FirstAuditService;
+import bss.service.prms.FirstAuditTemplatService;
+import ses.model.bms.User;
 
 @Controller
 @RequestMapping("/firstAudit")
@@ -31,6 +39,8 @@ public class FirstAuditController {
 	private PackageService packageService;
 	@Autowired
 	private ProjectService projectService;
+	@Autowired
+	private FirstAuditTemplatService templatService;
 	/**
 	 * 
 	  * @Title: toAdd
@@ -147,5 +157,39 @@ public class FirstAuditController {
 		service.updateAll(firstAudit);
 		attr.addAttribute("projectId", firstAudit.getProjectId());
 		return "redirect:toAdd.html";
+	}
+	/**
+	 * 
+	  * @Title: list
+	  * @author ShaoYangYang
+	  * @date 2016年10月12日 上午10:17:21  
+	  * @Description: TODO 打开模板列表
+	  * @param @return      
+	  * @return String
+	 */
+	@RequestMapping("toTemplatList")
+	public String toTemplatList(String name,Integer page,Model model,HttpServletRequest request){
+		User user = (User) request.getSession().getAttribute("loginUser");
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("name", name);
+		map.put("userId", user.getId());
+		List<FirstAuditTemplat> list = templatService.selectAllTemplat(map,page==null?1:page);
+		model.addAttribute("list", new PageInfo<>(list));
+		model.addAttribute("name", name);
+		return "bss/prms/templat/window_list";
+	}
+	/**
+	 * 
+	  * @Title: relate
+	  * @author ShaoYangYang
+	  * @date 2016年10月12日 下午5:32:26  
+	  * @Description: TODO 关联模板
+	  * @param       
+	  * @return void
+	 */
+	@RequestMapping("relate")
+	@ResponseBody
+	public void relate(String id,String projectId){
+		templatService.relate(id, projectId);
 	}
 }

@@ -166,6 +166,6 @@ public class ExpertAttachmentServiceImpl implements ExpertAttachmentService {
      */
     public void ftpDownLoadFile(String attachmentId,HttpServletResponse response){
     	 ExpertAttachment attachment = mapper.selectByPrimaryKey(attachmentId);
-    	FtpUtil.download2(response, "expertFile", attachment.getFileName());
+    	FtpUtil.downloadFtpFile(response, "expertFile", attachment.getFileName());
     }
 }

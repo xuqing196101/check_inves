@@ -47,6 +47,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				layer.msg("添加失败",{offset: ['222px', '390px']});
 			}
 		}); --%>
+		var name = $("#name").val();
+		if(!name){
+			layer.tips("请填写名称", "#name");
+			return ;
+		}
+		var id=[]; 
+		$('input[name="kind"]:checked').each(function(){ 
+			id.push($(this).val());
+		}); 
+		if(id.length==0){
+			layer.tips("请选择类型", "#kind");
+			return ;
+		}
+		
+		var creater = $("#creater").val();
+		if(!creater){
+			layer.tips("请填写名称", "#creater");
+			return ;
+		}
 		$("#form1").submit();
 		//$("#form1").reset();
 	}
@@ -78,7 +97,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 	       			layer.msg('删除成功',{offset: ['222px', '390px']});
 	 		       		window.setTimeout(function(){
 	 		       			window.location.reload();
-	 		       		}, 1000);
+	 		       		}, 500);
 	 	       		},
 	 	       		error: function(){
 	 					layer.msg("删除失败",{offset: ['222px', '390px']});
@@ -100,6 +119,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	          content:'<%=basePath %>firstAudit/toEdit.html?id='+id
 	        		  //数组第二项即吸附元素选择器或者DOM $('#openWindow')
 		 });
+	}
+	//打开模板窗口列表
+	function openTemplat(){
+		layer.open({
+	          type: 2, //page层
+	          area: ['1000px', '500px'],
+	          title: '选择模板',
+	          shade:0.01, //遮罩透明度
+	          moveType: 1, //拖拽风格，0是默认，1是传统拖动
+	          shift: 1, //0-6的动画形式，-1不开启
+	          offset: ['100px', '200px'],
+	          closeBtn: 1,
+	          content:'<%=basePath %>firstAudit/toTemplatList.html'
+	        		  //数组第二项即吸附元素选择器或者DOM $('#openWindow')
+		 });
+		
 	}
 </script>
 </head>
@@ -156,7 +191,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div class="container clear margin-top-30" id="package">
  <h1>02、初审项定义</h1>
   <form action="">
-  <input type="button" value="选择初审项模板" class="btn btn-windows"/>
+  <input type="button" value="选择初审项模板" onclick="openTemplat();" class="btn btn-windows"/>
   <input type="button" value="手动添加初审项" onclick="openWindow();" class="btn btn-windows"/>
     <table class="table table-bordered table-condensed mt5">
     <thead>
@@ -194,14 +229,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      <table class="table table-bordered table-condensed">
      <thead>
       <tr>
-        <th>初审项名称:</th><td><input type="text" required="true" maxlength="30" name="name" ></td>
-        <th>要求类型:</th><td><input type="checkbox" name="kind" value="商务" >商务&nbsp;<input type="checkbox" name="kind" value="技术" >技术</td>
-        <th>创建人:</th><td><input name="creater" required="true" maxlength="10" type="text" ></td>
+        <th>初审项名称:</th><td><input type="text" required="true" maxlength="30" name="name" id="name"></td>
+        <th>要求类型:</th><td><input type="checkbox"  name="kind" value="商务" >商务&nbsp;<input type="checkbox" name="kind" id="kind" value="技术" >技术</td>
+        <th>创建人:</th><td><input name="creater" required="true" maxlength="10" id="creater" type="text" value="${sessionScope.loginUser.relName}"></td>
       </tr>
-      <input type="hidden" name="projectId" value="${projectId }">
+      <input type="hidden" name="projectId" id="projectId" value="${projectId }">
      </thead>
     </table>
-    <input type="button"  value="添加" onclick="submit1();"  class="btn btn-windows add"/>
+    <input type="button"  value="添加" onclick="submit1();" class="btn btn-windows add"/>
     <input type="button"  value="取消" onclick="cancel();"  class="btn btn-windows"/>
   </form>
 </div>

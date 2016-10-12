@@ -3,6 +3,7 @@ package ses.test;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
@@ -91,5 +92,17 @@ public class Demo {
 		int dayOfYear = Calendar.YEAR;
 		System.out.println(dayOfYear+"---"+i);
 //		List<PurchaseRequired> queryByNo = purchaseRequiredMapper.queryByNo("A01");
+	}
+	@Test
+	public void test4(){
+		
+		List<String> list1 = new ArrayList();
+		List<String> list2 = new ArrayList();
+		List<String> list3 = new ArrayList();
+		list1.add("aaa");
+		list2.add("bbb");
+		list3.addAll(list1);
+		list3.addAll(list2);
+		System.out.println(list3.toString());
 	}
 }

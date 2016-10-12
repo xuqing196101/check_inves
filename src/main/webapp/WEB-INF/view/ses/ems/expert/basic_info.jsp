@@ -540,7 +540,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											 	<option selected="selected" value="">-请选择-</option>
 											   	<option <c:if test="${expert.hightEducation eq '博士' }">selected="selected"</c:if> value="博士">博士</option>
 											   	<option <c:if test="${expert.hightEducation eq '硕士' }">selected="selected"</c:if> value="硕士">硕士</option>
-											   	<option <c:if test="${expert.hightEducation eq '学生' }">selected="selected"</c:if> value="研究生">学生</option>
+											   	<option <c:if test="${expert.hightEducation eq '本科' }">selected="selected"</c:if> value="研究生">本科</option>
 											  </select>
 											</div>
 										</li>
@@ -955,7 +955,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </table>
 		    <div class="tc mt20 clear col-md-11">
 		   		<button class="btn btn-windows back"   type="button" onclick="pre('reg_box_id', 6, 'pre')">上一步</button>
-				<button class="btn btn-windows git"   type="button" onclick="window.print()">打印</button>
+				<!-- <button class="btn btn-windows git"   type="button" onclick="window.print()">打印</button> -->
 				<a class="btn btn-windows git" onclick="downloadTable();" href="javascript:void(0)">下载</a>
 				<button class="btn btn-windows git" onclick="submitForm1();"  type="button">暂存</button>
 				<button class="btn btn-windows git"   type="button" onclick="supplierRegist('reg_box_id', 6, 'next')">下一步</button>

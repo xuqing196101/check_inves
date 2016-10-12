@@ -227,7 +227,7 @@ var datas;
        }  
    }  
    function expandNodes(nodes) {  
-       if (!nodes) return;  
+       if (!nodes) return;  id="tab-1"
        curStatus = "expand";  
        var zTree = $.fn.zTree.getZTreeObj("ztree");  
        for (var i=0, l=nodes.length; i<l; i++) {
@@ -358,23 +358,22 @@ function zTreeOnClick(event,treeId,treeNode){
    <ul class="list-unstyled list-flow p0_20">
    <li class="col-md-6  p0 ">
 	   <span class="">联系电话（固话）（可修改）：</span>
-        <input class="span2" maxlength="15"   value="${expert.telephone }" name="telephone" id="telephone" type="text">
+        <input class="span2" maxlength="15" value="${expert.telephone }" name="telephone" id="telephone" type="text">
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">单位地址（可修改）：</span>
-        <input class="span2" maxlength="40"  value="${expert.unitAddress }" name="unitAddress" id="unitAddress" type="text">
+        <input class="span2" maxlength="40" value="${expert.unitAddress }" name="unitAddress" id="unitAddress" type="text">
 	 </li> 
+	 <li class="col-md-6 p0 ">
+	 <span class="">手机（可修改）：</span>
+			<input class="span2" maxlength="15" value="${expert.mobile }"  name="mobile" id="mobile" type="text">
+	</li>
 	 <li class="col-md-6 p0">
 	   <span class="">姓名：</span>
         <input class="span2"  id="relName" maxlength="10" value="${expert.relName }" disabled="disabled"  name="relName" type="text" onblur="validataForm(this,'nameFont');">
-          
        <font id="nameFont"></font>
 	 </li>
-	 <li class="col-md-6 p0 "><span class="">手机（可修改）：</span>
-		<div class="input-append">
-			<input class="span2" maxlength="15" value="${expert.mobile }"  name="mobile" id="mobile" type="text">
-		</div>
-	</li>
+	 
      
      <li class="col-md-6  p0 ">
 	   <span class="">性别：</span>
@@ -429,7 +428,7 @@ function zTreeOnClick(event,treeId,treeNode){
 	   	<option <c:if test="${expert.expertsFrom eq '其他' }">selected="selected"</c:if> value="其他">其他</option>
 	   </select>
 	 </li>  
-      <li class=""><span>所在地区：</span>
+      <li class="col-md-6 p0 " style="width: 800px;"><span>所在地区：</span>
 			  <select id="id_provSelect" name="provSelect" disabled="disabled" onChange="loadCity(this.value);"><option value=""></option></select>
 			  <select id="id_citySelect" name="citySelect" disabled="disabled" onChange="loadArea(this.value);"><option value=""></option></select>
 			  <select id="id_areaSelect" name="address" disabled="disabled" ><option value=""></option></select>
@@ -465,7 +464,7 @@ function zTreeOnClick(event,treeId,treeNode){
 	    <option selected="selected" value="">-请选择-</option>
 	   	<option <c:if test="${expert.hightEducation eq '博士' }">selected="selected"</c:if> value="博士">博士</option>
 	   	<option <c:if test="${expert.hightEducation eq '硕士' }">selected="selected"</c:if> value="硕士">硕士</option>
-	   	<option <c:if test="${expert.hightEducation eq '学生' }">selected="selected"</c:if> value="研究生">学生</option>
+	   	<option <c:if test="${expert.hightEducation eq '本科' }">selected="selected"</c:if> value="研究生">本科</option>
 	   </select>
 	 </li> 
      <li class="col-md-6  p0 ">

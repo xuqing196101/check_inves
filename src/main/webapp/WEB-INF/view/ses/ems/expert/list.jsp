@@ -137,6 +137,30 @@
    	function view(id){
    		window.location.href="<%=basePath%>expert/view.html?id="+id;
    	}
+   	function shenhe(){
+    	  var count = 0;
+    	  var ids = document.getElementsByName("check");
+     
+         for(i=0;i<ids.length;i++) {
+       		 if(document.getElementsByName("check")[i].checked){
+       		 var id = document.getElementsByName("check")[i].value;
+       		 var value = id.split(",");
+       		 count++;
+        }
+      }   
+      		if(count>1){
+      			layer.alert("只能选择一条记录",{offset: ['222px', '390px'],shade:0.01});
+      		}else if(count<1){
+      			layer.alert("请选择一条记录",{offset: ['222px', '390px'],shade:0.01});
+      		}else if(count==1){
+      			if(value[1]==0){
+      			window.location.href="<%=basePath%>expert/toShenHe.do?id="+value[0];
+      			}else{
+      				layer.alert("请选择未审核的",{offset: ['222px', '390px'],shade:0.01});
+      			}
+        
+         	}
+      }
 </script>
 </head>
 <body>
@@ -145,7 +169,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">业务管理</a></li><li><a href="#">协议采购</a></li><li class="active"><a href="#">我的订单</a></li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">业务管理</a></li><li><a href="#">专家列表</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -210,6 +234,7 @@
 	<button class="btn btn-windows delete" type="submit">删除</button> -->
 	<button class="btn btn-windows edit" type="button" onclick="edit();">修改</button>
 	<button class="btn btn-windows delete" type="button" onclick="dell();">删除</button>
+	<button class="btn btn-windows git" type="button" onclick="shenhe();">审核</button>
 	</div>
     </div>
    
@@ -231,7 +256,7 @@
 		</thead>
 		<c:forEach items="${result.list }" var="e" varStatus="vs">
 		<tr>
-		  <td class="tc w30"><input type="checkbox" name="check" id="checked" alt="" value="${e.id }"></td>
+		  <td class="tc w30"><input type="checkbox" name="check" id="checked" alt="" value="${e.id },${e.status}"></td>
 		  <td onclick="view('${e.id}');" class="tc w50">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</td>
 		  <td onclick="view('${e.id}');" class="tc">${e.relName}</td>
 		  <c:choose>

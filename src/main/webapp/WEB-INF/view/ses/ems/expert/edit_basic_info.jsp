@@ -64,7 +64,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.query.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/dialog-plus-min.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.fancybox.pack.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/smoothScroll.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.parallax.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/app.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/common.js"></script>
@@ -78,8 +77,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.mCustomScrollbar.concat.min.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.form.min.js"></script>
-
-
 
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.maskedinput.min.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery-ui.min.js"></script>
@@ -381,22 +378,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    
 	 <li class="col-md-6 p0">
 	   <span class="">姓名：</span>
-        <input class="span2"  id="relName" maxlength="10" value="${expert.relName }"   name="relName" type="text" onblur="validataForm(this,'nameFont');">
-          
-       <font id="nameFont"></font>
+        <input class="span2"  id="relName" maxlength="10" value="${expert.relName }"   name="relName" type="text"/>
 	 </li>
 	 <li class="col-md-6 p0 "><span class="">手机：</span>
 		<div class="input-append">
-			<input class="span2" maxlength="15" value="${expert.mobile }"  name="mobile" id="mobile" type="text">
+			<input class="span2" maxlength="15" value="${expert.mobile }"  name="mobile" id="mobile" type="text"/>
 		</div>
 	</li>
      <li class="col-md-6  p0 ">
 	   <span class="">联系电话（固话）：</span>
-        <input class="span2" maxlength="15"   value="${expert.telephone }" name="telephone" id="telephone" type="text">
+        <input class="span2" maxlength="15"   value="${expert.telephone }" name="telephone" id="telephone" type="text"/>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">单位地址：</span>
-        <input class="span2" maxlength="40"  value="${expert.unitAddress }" name="unitAddress" id="unitAddress" type="text">
+        <input class="span2" maxlength="40"  value="${expert.unitAddress }" name="unitAddress" id="unitAddress" type="text"/>
 	 </li> 
      <li class="col-md-6  p0 ">
 	   <span class="">性别：</span>
@@ -409,8 +404,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 </li>
      <li class="col-md-6  p0 ">
 	   <span class="">出生日期：</span>
-        <input class="span2 Wdate w220" value="<fmt:formatDate type='date' value='${expert.birthday }' dateStyle="default" pattern="yyyy-MM-dd"/>"   readonly="readonly" name="birthday" id="appendedInput" type="text" >
-      <font id="nameFont2"></font>
+        <input class="span2 Wdate w220" value="<fmt:formatDate type='date' value='${expert.birthday }' dateStyle="default" pattern="yyyy-MM-dd"/>"   readonly="readonly" name="birthday" id="birthday" type="text" onclick='WdatePicker()' />
 	 </li> 
 	 <li class="col-md-6  p0 ">
 	   <span class="">证件类型：</span>
@@ -426,7 +420,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 </li> 
 	 <li class="col-md-6  p0 ">
 	   <span class="">证件号码：</span>
-        <input class="span2"  maxlength="30"  value="${expert.idNumber }" name="idNumber" id="appendedInput" type="text">
+        <input class="span2"  maxlength="30"  value="${expert.idNumber }" name="idNumber" id=" " type="text"/>
           
     <font id="nameFont3"></font>
 	 </li> 
@@ -452,7 +446,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	   	<option <c:if test="${expert.expertsFrom eq '其他' }">selected="selected"</c:if> value="其他">其他</option>
 	   </select>
 	 </li>  
-      <li class=""><span>所在地区：</span>
+      <li class="col-md-6 p0 " style="width: 800px;"><span>所在地区：</span>
 			  <select id="id_provSelect" name="provSelect"  onChange="loadCity(this.value);"><option value=""></option></select>
 			  <select id="id_citySelect" name="citySelect"  onChange="loadArea(this.value);"><option value=""></option></select>
 			  <select id="id_areaSelect" name="address"  ><option value=""></option></select>
@@ -461,26 +455,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       
 	  <li class="col-md-6  p0 ">
 	   <span class="">民族：</span>
-        <input class="span2"  maxlength="10"   value="${expert.nation }" name="nation" id="nation" type="text">
-          
-       <font id="nameFont4"></font>
+        <input class="span2"  maxlength="10"   value="${expert.nation }" name="nation" id="nation" type="text"/>
 	 </li>  
      <li class="col-md-6  p0 ">
 	   <span class="">毕业院校：</span>
-        <input class="span2"  maxlength="40"  value="${expert.graduateSchool }" name="graduateSchool" id="graduateSchool" type="text">
-          
-       <font id="nameFont6"></font>
+        <input class="span2"  maxlength="40"  value="${expert.graduateSchool }" name="graduateSchool" id="graduateSchool" type="text"/>
 	 </li> 
      <li class="col-md-6  p0 ">
 	   <span class="">专业技术职称：</span>
-        <input class="span2"  maxlength="20" value="${expert.professTechTitles }" name="professTechTitles" id="professTechTitles" type="text">
-          
-       <font id="nameFont7"></font>
+        <input class="span2"  maxlength="20" value="${expert.professTechTitles }" name="professTechTitles" id="professTechTitles" type="text" onclick='WdatePicker()'/>
 	 </li> 
      <li class="col-md-6  p0 ">
 	   <span class="">参加工作时间：</span>
-        <input class="span2 Wdate w220" value="<fmt:formatDate type='date' value='${expert.timeToWork }' dateStyle="default" pattern="yyyy-MM-dd"/>"   readonly="readonly" name="timeToWork" id="timeToWork" type="text" >
-       <font id="nameFont8"></font>
+        <input class="span2 Wdate w220" value="<fmt:formatDate type='date' value='${expert.timeToWork }' dateStyle="default" pattern="yyyy-MM-dd"/>"   readonly="readonly" name="timeToWork" id="timeToWork" type="text" onclick='WdatePicker()'/>
 	 </li> 
      <li class="col-md-6  p0 ">
 	   <span class="">最高学历：</span>
@@ -488,60 +475,44 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    <option selected="selected" value="">-请选择-</option>
 	   	<option <c:if test="${expert.hightEducation eq '博士' }">selected="selected"</c:if> value="博士">博士</option>
 	   	<option <c:if test="${expert.hightEducation eq '硕士' }">selected="selected"</c:if> value="硕士">硕士</option>
-	   	<option <c:if test="${expert.hightEducation eq '学生' }">selected="selected"</c:if> value="研究生">学生</option>
+	   	<option <c:if test="${expert.hightEducation eq '本科' }">selected="selected"</c:if> value="研究生">本科</option>
 	   </select>
 	 </li> 
      <li class="col-md-6  p0 ">
 	   <span class="">专业：</span>
-        <input class="span2" value="${expert.major }"  maxlength="20"  name="major" id="major" type="text">
-          
-       <font id="nameFont9"></font>
+        <input class="span2" value="${expert.major }"  maxlength="20"  name="major" id="major" type="text"/>
 	 </li> 
 	 <li class="col-md-6  p0 ">
 	   <span class="">从事专业起始年度：</span>
-        <input class="span2 Wdate w220" value="<fmt:formatDate type='date' value='${expert.timeStartWork }' dateStyle="default" pattern="yyyy-MM-dd"/>"   readonly="readonly" name="timeStartWork" id="timeStartWork" type="text" >
-      <font id="nameFont10"></font>
+        <input class="span2 Wdate w220" value="<fmt:formatDate type='date' value='${expert.timeStartWork }' dateStyle="default" pattern="yyyy-MM-dd"/>"   readonly="readonly" name="timeStartWork" id="timeStartWork" type="text" onclick='WdatePicker()'/>
 	 </li> 
 	  <li class="col-md-6  p0 ">
 	   <span class="">工作单位：</span>
-        <input class="span2"  maxlength="40" value="${expert.workUnit }" name="workUnit" id="workUnit" type="text">
-          
-       <font id="nameFont11"></font>
+        <input class="span2"  maxlength="40" value="${expert.workUnit }" name="workUnit" id="workUnit" type="text"/>
 	 </li> 
 	  <li class="col-md-6  p0 ">
 	   <span class="">传真：</span>
-        <input class="span2" maxlength="10"   value="${expert.fax }" name="fax" id="fax" type="text">
-          
-       <font id="nameFont14"></font>
+        <input class="span2" maxlength="10"   value="${expert.fax }" name="fax" id="fax" type="text"/>
 	 </li> 
 	  <li class="col-md-6  p0 ">
 	   <span class="">邮政编码：</span>
-        <input class="span2" maxlength="6"    value="${expert.postCode }" name="postCode" id="postCode" type="text">
-          
-       <font id="nameFont15"></font>
+        <input class="span2" maxlength="6"    value="${expert.postCode }" name="postCode" id="postCode" type="text"/>
 	 </li> 
 	<li class="col-md-6  p0 ">
 	   <span class="">取得技术职称时间：</span>
-        <input class="span2 Wdate w220" value="<fmt:formatDate type='date' value='${expert.makeTechDate }' dateStyle="default" pattern="yyyy-MM-dd"/>"  onfocus="validataForm(this,'nameFont16');"  readonly="readonly" name="makeTechDate" id="makeTechDate" type="text" onclick='WdatePicker()'>
-       <font id="nameFont16"></font>
+        <input class="span2 Wdate w220" value="<fmt:formatDate type='date' value='${expert.makeTechDate }' dateStyle="default" pattern="yyyy-MM-dd"/>"  onfocus="validataForm(this,'nameFont16');"  readonly="readonly" name="makeTechDate" id="makeTechDate" type="text" onclick='WdatePicker()'/>
 	 </li>  
 	  <li class="col-md-6  p0 ">
 	   <span class="">学位：</span>
-        <input class="span2"  value="${expert.degree }"  maxlength="10"  name="degree" id="degree" type="text">
-          
-       <font id="nameFont17"></font>
+        <input class="span2"  value="${expert.degree }"  maxlength="10"  name="degree" id="degree" type="text"/>
 	 </li>
 	  <li class="col-md-6  p0 ">
 	   <span class="">健康状态：</span>
-        <input class="span2" maxlength="10" value="${expert.healthState }"   name="healthState" id="healthState" type="text">
-          
-       <font id="nameFont18"></font>
+        <input class="span2" maxlength="10" value="${expert.healthState }"   name="healthState" id="healthState" type="text"/>
 	 </li>  
 	 <li class="col-md-6  p0 ">
 	   <span class="">现任职务：</span>
-        <input class="span2" maxlength="10" value="${expert.atDuty }"   name="atDuty" id="atDuty" type="text">
-        
-       <font id="nameFont19"></font>
+        <input class="span2" maxlength="10" value="${expert.atDuty }"   name="atDuty" id="atDuty" type="text"/>
 	 </li>
    </ul>
   	<div class="padding-top-10 clear">
@@ -598,31 +569,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <li class="col-md-6  p0 ">
 	   <span class="">身份证：</span>
 	   <div >
-        <input class="span2" name="file" id="appendedInput" type="file" >
+        <input class="span2" name="file" id=" " type="file" >
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">学历证书：</span>
 	   <div >
-        <input class="span2" name="file" id="appendedInput" type="file">
+        <input class="span2" name="file" id=" " type="file">
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">职称证书：</span>
 	   <div >
-        <input class="span2" name="file" id="appendedInput" type="file">
+        <input class="span2" name="file" id=" " type="file">
        </div>
 	 </li>
 	  <li class="col-md-6  p0 ">
 	   <span class="">学位证书：</span>
 	   <div >
-        <input class="span2" name="file" id="appendedInput" type="file">
+        <input class="span2" name="file" id=" " type="file">
        </div>
 	  </li>
 	  <li class="col-md-6  p0 ">
 	   <span class="">本人照片：</span>
 	   <div >
-        <input class="span2" name="file" id="appendedInput" type="file">
+        <input class="span2" name="file" id=" " type="file">
        </div>
 	 </li>
    </ul>

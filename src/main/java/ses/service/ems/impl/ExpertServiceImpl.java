@@ -280,10 +280,10 @@ public class ExpertServiceImpl implements ExpertService {
 						//如果专家信息不为null 并且状态为暂存  或者为退回修改 就证明该专家填写过个人信息 需要重新填写 并注册提交审核
 						//放入专家信息   用于前台回显数据
 						map.put("expert", expert);
-				} else if(expert.getStatus().equals("2")){
-					//如果审核未通过 则根据此状态阻止登录
+				} else if(expert.getStatus().equals("2") || expert.getIsBlack().equals("1")){
+					//如果审核未通过 或者已拉黑 则根据此状态阻止登录
 					map.put("flag", false);
-				}
+				} 
 			}else{
 				//如果专家信息为空 证明还没有填写过个人信息
 				map.put("flag", false);

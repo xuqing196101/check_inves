@@ -443,7 +443,7 @@ function zTreeOnClick(event,treeId,treeNode){
 	   <select class="span2" name="hightEducation" disabled="disabled">
 	   	<option <c:if test="${expert.hightEducation eq '博士' }">selected="selected"</c:if> value="博士">博士</option>
 	   	<option <c:if test="${expert.hightEducation eq '硕士' }">selected="selected"</c:if> value="硕士">硕士</option>
-	   	<option <c:if test="${expert.hightEducation eq '学生' }">selected="selected"</c:if> value="研究生">学生</option>
+	   	<option <c:if test="${expert.hightEducation eq '本科' }">selected="selected"</c:if> value="研究生">本科</option>
 	   </select>
 	 </li> 
      <li class="col-md-6  p0 ">

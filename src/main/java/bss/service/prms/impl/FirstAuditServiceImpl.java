@@ -111,6 +111,7 @@ public class FirstAuditServiceImpl implements FirstAuditService {
 	@Override
 	public int updateAll(FirstAudit record) {
 		// TODO Auto-generated method stub
+		record.setUpdatedAt(new Date());
 		return mapper.updateByPrimaryKey(record);
 	}
 
