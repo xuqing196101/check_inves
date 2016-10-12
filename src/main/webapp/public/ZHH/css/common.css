@@ -252,6 +252,13 @@
 
 .l208 {
   left: 208px; }
+ 
+.l260 {
+  left: 260px; }
+  
+.l462 {
+  left: 462px; }
+  
 .mt0 {
   margin-top: 0px!important; }
  
@@ -299,10 +306,12 @@
 
 .mt120 {
   margin-top: 120px; }
+  
  .m0_30{
   margin:0px 30px;}
- .m0_25{
+  .m0_25{
   margin:0px 25px;}
+  
 .mb8 {
   margin-bottom: 8px; }
 
@@ -405,6 +414,9 @@
 .ml8 {
   margin-left: 8px; }
 
+.ml6 {
+  margin-left: 6px; }
+  
 .ml10 {
   margin-left: 10px; }
 
@@ -742,6 +754,11 @@ a.redhover:hover{
 	min-width:130px;
 }
 
+.text_area1{
+	width:80%;
+	height:130px;
+}
+
 .text_area2{
 	width:80%;
 	height:180px;
@@ -761,4 +778,11 @@ ul.ul_list{
 	background:#ffffff!important;
 	border:1px dashed #d6cccc!important;
 	padding:20px 0px 10px 0px!important;
+}
+.tip span{
+	min-width:100px!important;
+	text-align: left!important;
+}
+.t0{
+	top: 0px;
 }
