@@ -112,6 +112,31 @@ public class CategoryServiceImpl implements CategoryService {
 		}
 		return listSupplierTypeTrees;
 	}
+	@Override
+	public List<SupplierTypeTree> findCategoryByTypeAndDisabled(Category category, String supplierId) {
+		List<Category> listCategorys = categoryMapper.findCategoryByType(category);
+		
+		// 查询供应商勾选品目类型
+		List<SupplierItem> listSupplierItems = supplierItemMapper.findSupplierItemBySupplierId(supplierId);
+		List<String> listCategoryIds = new ArrayList<String>();
+		for(SupplierItem supplierItem : listSupplierItems) {
+			listCategoryIds.add(supplierItem.getCategoryId());
+		}
+		
+		List<SupplierTypeTree> listSupplierTypeTrees = new ArrayList<SupplierTypeTree>();
+		for (Category c : listCategorys) {
+			SupplierTypeTree supplierTypeTree = new SupplierTypeTree();
+			supplierTypeTree.setId(c.getId());
+			supplierTypeTree.setParentId(c.getParentId());
+			supplierTypeTree.setName(c.getName());
+			supplierTypeTree.setChkDisabled(true);
+			if (listCategoryIds.contains(c.getId())) {
+				supplierTypeTree.setChecked(true);
+			}
+			listSupplierTypeTrees.add(supplierTypeTree);
+		}
+		return listSupplierTypeTrees;
+	}
 	
 	@Override
 	public List<SupplierTypeTree> queryCategory(Category category,List<String> listCategoryIds) {

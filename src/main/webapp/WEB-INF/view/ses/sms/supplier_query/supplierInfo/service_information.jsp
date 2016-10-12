@@ -227,15 +227,15 @@ function tijiao(str){
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >产品信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('chengxin');">诚信记录</a></li>
             </ul>
-              <div class="tab-content padding-top-20" style="height:1400px;">
+              <div class="tab-content padding-top-20">
                 <div class="tab-pane fade active in height-450" id="tab-1">
                   <form id="form_id" action="" method="post"  enctype="multipart/form-data">
                     <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
                   </form>
                   <div class=" margin-bottom-0">
-                    <h2 class="f16 jbxx1">
-                    <i>01</i>供应商资质证书
-                    </h2>
+                     <h5>
+                  <i>一、</i>供应商资质证书
+                  </h5>
                     <table class="table table-bordered table-condensed">
                       <thead>
                         <tr>
@@ -267,36 +267,25 @@ function tijiao(str){
                   </div>
                   
                   <div class=" margin-bottom-0">
-                    <h2 class="f16 jbxx1">
-                    <i>02</i>供应商组织结构和人员
-                    </h2>
-                      <ul class="list-unstyled list-flow">
-                        <li class="col-md-6 p0"><span class="" id="orgName2"><i class="red">＊</i>组织机构：</span>
-                          <div class="input-append">
-                            <input class="span3" type="text" readonly="readonly" value="${supplierMatSes.orgName }" />
-                          </div>
-                        </li>
-                        <li class="col-md-6 p0"><span class="" id="totalPerson2"><i class="red">＊</i>人员总数：</span>
-                          <div class="input-append">
-                            <input class="span3" type="text" readonly="readonly" value="${supplierMatSes.totalPerson }" />
-                          </div>
-                        </li>
-                        <li class="col-md-6 p0"><span class="" id="totalMange2"><i class="red">＊</i>管理人员：</span>
-                          <div class="input-append">
-                            <input class="span3" type="text" readonly="readonly"  value="${supplierMatSes.totalMange }"/>
-                          </div>
-                        </li>
-                        <li class="col-md-6 p0"><span class="" id="totalTech2"><i class="red">＊</i>技术人员：</span>
-                          <div class="input-append">
-                            <input class="span3" type="text" readonly="readonly"  value="${supplierMatSes.totalTech }"/>
-                          </div>
-                        </li>
-                        <li class="col-md-6 p0"><span class=""  id="totalWorker2"><i class="red">＊</i>工人(职员)：</span>
-                          <div class="input-append">
-                            <input class="span3" type="text" readonly="readonly" value="${supplierMatSes.totalWorker }"/>
-                          </div>
-                        </li>
-                      </ul>
+                     <table class="table table-bordered">
+						<tbody>
+						<tr><td colspan="6" class="bggrey tl">二、供应商组织结构和人员</td></tr>
+	                        <tr>
+								<td class="bggrey tr" style="width:17%">组织机构：</td>
+								<td style="width:16%" onmouseover="out('${supplierMatSes.orgName}')">${supplierMatSes.orgName}</td>
+								<td class="bggrey tr" style="width:17%">人员总数：</td>
+								<td style="width:17%">${supplierMatSes.totalPerson }</td>
+								<td style="width:17%" class="bggrey tr">管理人员：</td>
+								<td style="width:17%">${supplierMatSes.totalMange }</td>
+							</tr>
+							 <tr>
+								<td class="bggrey tr">技术人员：</td>
+								<td onmouseover="out('${supplierMatSes.totalTech}')">${supplierMatSes.totalTech}</td>
+								<td class="bggrey tr">工人(职员)：</td>
+								<td colspan="3">${supplierMatSes.totalWorker }</td>
+							</tr>
+							</tbody>
+				</table>
                     </div>
               </div>
             </div>   
