@@ -617,32 +617,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										   <li class="col-md-6  p0 ">
 											   <span class="" id="files1"><i class="red">＊</i>身份证：</span>
 											   <div class="input-append mt5" >
-													<a href="javascript:void(0)"><i></i><input type="file" name="files" id ="file1" class="fl"/></a>
+													<a href="javascript:void(0)"><i></i><input accept="image/*" type="file" name="files" id ="file1" class="fl"/></a>
 												</div>
 											 </li>
 											 
 											 <li class="col-md-6  p0 ">
 											   <span class="" id="files2"><i class="red" >＊</i>学历证书：</span>
 											     <div class="input-append mt5">
-													<a href="javascript:void(0)"><i></i><input type="file" name="files" id ="file2" class="fl"/></a>
+													<a href="javascript:void(0)"><i></i><input accept="image/*" type="file" name="files" id ="file2" class="fl"/></a>
 												</div>
 											 </li>
 											 <li class="col-md-6  p0 ">
 											   <span class="" id="files3"><i class="red">＊</i>职称证书：</span>
 											      <div class="input-append mt5">
-													<a href="javascript:void(0)"><i></i><input type="file" name="files" id ="file3" class="fl"/></a>
+													<a href="javascript:void(0)"><i></i><input accept="image/*" type="file" name="files" id ="file3" class="fl"/></a>
 												</div>
 											 </li>
 											  <li class="col-md-6  p0 ">
 											   <span class="" id="files4"><i class="red">＊</i>学位证书：</span>
 											      <div class="input-append mt5">
-													<a href="javascript:void(0)"><i></i><input type="file" name="files" id ="file4" class="fl"/></a>
+													<a href="javascript:void(0)"><i></i><input accept="image/*"  type="file" name="files" id ="file4" class="fl"/></a>
 												</div>
 											  </li>
 											  <li class="col-md-6  p0 ">
 											   <span class="" id="files5"><i class="red">＊</i>本人照片：</span>
 											      <div class="input-append mt5">
-													<a href="javascript:void(0)"><i></i><input type="file" name="files" id ="file5" class="fl"/></a>
+													<a href="javascript:void(0)"><i></i><input accept="image/*" type="file" name="files" id ="file5" class="fl"/></a>
 												</div>
 											 </li>
 										   </ul>
@@ -981,13 +981,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<li class="col-md-6  p0 ">
 								<i class="red">＊</i><span class="" >专家申请表上传：</span>
 									<div class="input-append mt5">
-										<a href="javascript:void(0)"><input type="file" name="files" id ="regIdentitys1" class="fl"/></a>
+										<a href="javascript:void(0)"><input type="file" accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" name="files" id ="regIdentitys1" class="fl"/></a>
 									</div>
 							</li>
 							 <li class="col-md-6  p0 ">
 								<i class="red">＊</i><span>专家合同书上传：</span>
 									<div class="input-append mt5">
-										<a href="javascript:void(0)"><input type="file" name="files" id ="regIdentitys2" class="fl"/></a>
+										<a href="javascript:void(0)"><input type="file"  name="files" id ="regIdentitys2" class="fl" accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" /></a>
 									</div>
 							</li>
 					</div>

@@ -153,8 +153,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
 			        	$("#page").val(e.curr);
 			        	$("#form1").submit();
-			        	
-			          //location.href = '<%=basePath%>expert/findAllExpert.do?page='+e.curr;
 			        }
 			    }
 			});
@@ -175,18 +173,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  }
 		 	}
 		}
-  /*  	function shenhe(){
-   	 var spCodesTemp = "";
-     $('input:checkbox[name=check]:checked').each(function(i){
-      if(0==i){
-       spCodesTemp = $(this).val();
-      }else{
-       spCodesTemp += (","+$(this).val());
-      }
-     });
-     //$("#txt_spCodes").val(spCodesTemp);
-   		alert(spCodesTemp);
-   	} */
    	//审核
    	function shenhe(){
   	  var count = 0;

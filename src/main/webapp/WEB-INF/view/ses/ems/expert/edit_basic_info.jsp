@@ -165,6 +165,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				  }
 			  }); 
 		  var expertsTypeId = $("#expertsTypeId").val();
+		 // alert(expertsTypeId);
 		 if(expertsTypeId==1 || expertsTypeId=="1"){
 		 //treeObj=$.fn.zTree.init($("#ztree"),setting,datas);
 		treeObj = $.fn.zTree.init($("#ztree"), setting);  
@@ -361,6 +362,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</ul>
 <!-- 修改订列表开始-->
    <div class="container">
+     	<div style="margin-left: 1000px;">
+   		  <img style="width: 80px; height: 100px;" alt="个人照片" src="ftp://jdcg:jdcg$810@192.168.1.200:21/expertFile/${filename }">
+        </div>
    <form action="<%=basePath %>expert/edit.html"  method="post" id="form1" enctype="multipart/form-data" class="registerform"> 
    		<%
 			session.setAttribute("tokenSession", tokenValue);
@@ -369,7 +373,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <input type="hidden"  name="token2" value="<%=tokenValue%>">
    <input type="hidden" name="id" value="${expert.id }">
    <input type="hidden" name="isPass" id="isPass"/>
-  <div class="tab-content padding-top-20" >
+  <div class="tab-content padding-top-20" style="height: 850px;">
 	<div class="tab-pane fade active in height-450" id="tab-1">
 	<div class=" margin-bottom-0">
 	<!-- <i>01</i>评标专家基本信息 -->
@@ -533,12 +537,82 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <div class="headline-v2 clear">
    <h2>附件信息</h2>
    </div>
-   <c:forEach items="${attachmentList }" var="att" varStatus="vs">
-   <h4>
-   <span>${vs.count }.</span>
-   <a href="<%=basePath %>expert/downLoadFile.do?attachmentId=${att.id }">${fn:substringAfter(att.fileName, "_")}</a>
-   </h4>
+  <ul class="list-unstyled list-flow p0_20">
+    <c:forEach items="${attachmentList }" var="att" varStatus="vs">
+       <c:choose>
+       		<c:when test="${att.fileType == 0 }">
+       			<li class="col-md-6  p0 ">
+		   			<span class="">身份证：</span>
+				   <div >
+				     <h4>
+			         <a href="<%=basePath %>expert/downLoadFile.do?attachmentId=${att.id }">${fn:substringAfter(att.fileName, "_")}</a>
+			         </h4>
+			       </div>
+				 </li>
+       		</c:when>
+       		<c:when test="${att.fileType == 1 }">
+       			<li class="col-md-6  p0 ">
+		   			<span class="">学历证书：</span>
+				   <div >
+				     <h4>
+			         <a href="<%=basePath %>expert/downLoadFile.do?attachmentId=${att.id }">${fn:substringAfter(att.fileName, "_")}</a>
+			         </h4>
+			       </div>
+				 </li>
+       		</c:when>
+       		<c:when test="${att.fileType == 2 }">
+       			<li class="col-md-6  p0 ">
+		   			<span class="">职称证书：</span>
+				   <div >
+				     <h4>
+			         <a href="<%=basePath %>expert/downLoadFile.do?attachmentId=${att.id }">${fn:substringAfter(att.fileName, "_")}</a>
+			         </h4>
+			       </div>
+				 </li>
+       		</c:when>
+       		<c:when test="${att.fileType == 3 }">
+       			<li class="col-md-6  p0 ">
+		   			<span class="">学位证书：</span>
+				   <div >
+				     <h4>
+			         <a href="<%=basePath %>expert/downLoadFile.do?attachmentId=${att.id }">${fn:substringAfter(att.fileName, "_")}</a>
+			         </h4>
+			       </div>
+				 </li>
+       		</c:when>
+       		<c:when test="${att.fileType == 4}">
+       			<li class="col-md-6  p0 ">
+		   			<span class="">本人照片：</span>
+				   <div>
+				     <h4>
+			         <a href="<%=basePath %>expert/downLoadFile.do?attachmentId=${att.id }">${fn:substringAfter(att.fileName, "_")}</a>
+			         </h4>
+			       </div>
+				 </li>
+       		</c:when>
+       		<c:when test="${att.fileType == 5 }">
+       			<li class="col-md-6  p0 ">
+		   			<span class="">专家申请表：</span>
+				   <div >
+				     <h4>
+			         <a href="<%=basePath %>expert/downLoadFile.do?attachmentId=${att.id }">${fn:substringAfter(att.fileName, "_")}</a>
+			         </h4>
+			       </div>
+				 </li>
+       		</c:when>
+       		<c:when test="${att.fileType == 6 }">
+       			<li class="col-md-6  p0 ">
+		   			<span class="">专家合同书：</span>
+				   <div >
+				     <h4>
+			         <a href="<%=basePath %>expert/downLoadFile.do?attachmentId=${att.id }">${fn:substringAfter(att.fileName, "_")}</a>
+			         </h4>
+			       </div>
+				 </li>
+       		</c:when>
+       </c:choose>
    </c:forEach>
+   </ul>
   </div>
   </div> 
    <div class="tab-pane fade height-450" id="tab-2">
@@ -548,10 +622,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			   <span class="">专家类型：</span>
 			   <input type="hidden" id="expertsTypeIds" value="${expert.expertsTypeId }">
 			   <select name="expertsTypeId" id="expertsTypeId" onchange="typeShow();">
-			   		<option value="0">-请选择-</option>
-			   		<option <c:if test="${expert.expertsTypeId eq '1' }">selected="selected"</c:if> value="1">技术</option>
-			   		<option <c:if test="${expert.expertsTypeId eq '2' }">selected="selected"</c:if> value="2">法律</option>
-			   		<option <c:if test="${expert.expertsTypeId eq '3' }">selected="selected"</c:if> value="3">商务</option>
+			   		<option value="">-请选择-</option>
+			   		<option <c:if test="${expert.expertsTypeId == '1' }">selected="true"</c:if> value="1">技术</option>
+			   		<option <c:if test="${expert.expertsTypeId == '2' }">selected="true"</c:if> value="2">法律</option>
+			   		<option <c:if test="${expert.expertsTypeId == '3' }">selected="true"</c:if> value="3">商务</option>
 			   </select>
 			 </li>
         </ul>

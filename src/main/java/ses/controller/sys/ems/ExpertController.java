@@ -94,6 +94,12 @@ public class ExpertController {
 		}
 		//附件信息
 		List<ExpertAttachment> attachmentList = attachmentService.selectListByExpertId(id);
+		//照片名称
+		for (ExpertAttachment expertAttachment : attachmentList) {
+			if(expertAttachment.getFileType()!= null && expertAttachment.getFileType()==4){
+				model.addAttribute("filename", expertAttachment.getFileName());
+			}
+		}
 		model.addAttribute("attachmentList", attachmentList);
 		model.addAttribute("expert", expert);
 		
@@ -201,6 +207,12 @@ public class ExpertController {
 		  }
 		//附件信息
 		List<ExpertAttachment> attachmentList = attachmentService.selectListByExpertId(id);
+		//照片名称
+		for (ExpertAttachment expertAttachment : attachmentList) {
+			if(expertAttachment.getFileType()!= null && expertAttachment.getFileType()==4){
+				model.addAttribute("filename", expertAttachment.getFileName());
+			}
+		}
 		model.addAttribute("attachmentList", attachmentList);
 		model.addAttribute("expert", expert);
 		return "ses/ems/expert/edit_basic_info";
@@ -228,6 +240,12 @@ public class ExpertController {
 		  }
 		//附件信息
 		List<ExpertAttachment> attachmentList = attachmentService.selectListByExpertId(id);
+		//照片名称
+		for (ExpertAttachment expertAttachment : attachmentList) {
+			if(expertAttachment.getFileType()!= null && expertAttachment.getFileType()==4){
+				model.addAttribute("filename", expertAttachment.getFileName());
+			}
+		}
 		model.addAttribute("attachmentList", attachmentList);
 		request.setAttribute("expert", expert);
 		return "ses/ems/expert/audit";
@@ -287,6 +305,12 @@ public class ExpertController {
 			    }
 				 //附件信息
 				 List<ExpertAttachment> attachmentList = attachmentService.selectListByExpertId(typeId);
+					//照片名称
+					for (ExpertAttachment expertAttachment : attachmentList) {
+						if(expertAttachment.getFileType()!= null && expertAttachment.getFileType()==4){
+							model.addAttribute("filename", expertAttachment.getFileName());
+						}
+					}
 				 model.addAttribute("attachmentList", attachmentList);
 		    }
 		}

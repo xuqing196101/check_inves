@@ -54,18 +54,7 @@
 			  }
 		 	}
 		}
-  /*  	function shenhe(){
-   	 var spCodesTemp = "";
-     $('input:checkbox[name=check]:checked').each(function(i){
-      if(0==i){
-       spCodesTemp = $(this).val();
-      }else{
-       spCodesTemp += (","+$(this).val());
-      }
-     });
-     //$("#txt_spCodes").val(spCodesTemp);
-   		alert(spCodesTemp);
-   	} */
+ 
    	//修改
    	function edit(){
   	  var count = 0;
@@ -74,6 +63,7 @@
        for(i=0;i<ids.length;i++) {
      		 if(document.getElementsByName("check")[i].checked){
      		 var id = document.getElementsByName("check")[i].value;
+     		var value = id.split(",");
      		 count++;
       }
     }   
@@ -82,7 +72,7 @@
     		}else if(count<1){
     			layer.alert("请选择一条记录",{offset: ['222px', '390px'],shade:0.01});
     		}else if(count==1){
-    			window.location.href="<%=basePath%>expert/toEditBasicInfo.html?id="+id;
+    			window.location.href="<%=basePath%>expert/toEditBasicInfo.html?id="+value[0];
        	}
     }
    	//删除

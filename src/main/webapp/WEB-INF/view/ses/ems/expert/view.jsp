@@ -83,8 +83,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.form.min.js"></script>
 
-
-
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.maskedinput.min.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/masking.js"></script>
@@ -117,10 +115,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="<%=basePath%>public/layer/extend/layer.ext.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/expert/TestAddress.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/expert/TestChooseAddress.js"></script>
-<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.core.js"></script>
-<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.excheck.js"></script>
-<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.exedit.js"></script>
-<link rel="stylesheet" type="text/css" href="<%=basePath%>/public/ztree/css/zTreeStyle.css"> 
+<script type="text/javascript" src="<%=basePath%>public/ztree/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="<%=basePath%>public/ztree/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="<%=basePath%>public/ztree/jquery.ztree.exedit.js"></script>
+<link rel="stylesheet" type="text/css" href="<%=basePath%>public/ztree/css/zTreeStyle.css"> 
 <script type="text/javascript">
 var treeObj;
 var datas;
@@ -328,6 +326,7 @@ function zTreeOnClick(event,treeId,treeNode){
 		<div class="clear"></div>
 	  </div>
    </div>
+   
    <!-- 项目戳开始 -->
 		<div class="container clear margin-top-30">
 		<!--详情开始-->
@@ -342,6 +341,9 @@ function zTreeOnClick(event,treeId,treeNode){
 						</ul>
 <!-- 修改订列表开始-->
    <div class="container">
+   	<div style="margin-left: 1000px;">
+   		<img style="width: 80px; height: 100px;" alt="个人照片" src="ftp://jdcg:jdcg$810@192.168.1.200:21/expertFile/${filename }">
+    </div>
    <form action=""  method="post" id="form1" enctype="multipart/form-data" class="registerform"> 
    		<%
 			session.setAttribute("tokenSession", tokenValue);
@@ -349,7 +351,7 @@ function zTreeOnClick(event,treeId,treeNode){
    <input type="hidden"  name="token2" value="<%=tokenValue%>">
    <input type="hidden" name="id" value="${expert.id }">
    <input type="hidden" name="isPass" id="isPass"/>
-  <div class="tab-content padding-top-20" >
+  <div class="tab-content padding-top-20" style="height: 850px;">
 	<div class="tab-pane fade active in height-450" id="tab-1">
 	<div class=" margin-bottom-0">
 	<!-- <i>01</i>评标专家基本信息 -->
@@ -529,13 +531,82 @@ function zTreeOnClick(event,treeId,treeNode){
    <div class="headline-v2 clear">
    <h2>附件信息</h2>
    </div>
-   <c:forEach items="${attachmentList }" var="att" varStatus="vs">
-   <h4>
-   <span>${vs.count }.</span>
-   <a href="<%=basePath %>expert/downLoadFile.do?attachmentId=${att.id }">${fn:substringAfter(att.fileName, "_")}</a>
-   </h4>
-   
+   <ul class="list-unstyled list-flow p0_20">
+    <c:forEach items="${attachmentList }" var="att" varStatus="vs">
+       <c:choose>
+       		<c:when test="${att.fileType == 0 }">
+       			<li class="col-md-6  p0 ">
+		   			<span class="">身份证：</span>
+				   <div >
+				     <h4>
+			         <a href="<%=basePath %>expert/downLoadFile.do?attachmentId=${att.id }">${fn:substringAfter(att.fileName, "_")}</a>
+			         </h4>
+			       </div>
+				 </li>
+       		</c:when>
+       		<c:when test="${att.fileType == 1 }">
+       			<li class="col-md-6  p0 ">
+		   			<span class="">学历证书：</span>
+				   <div >
+				     <h4>
+			         <a href="<%=basePath %>expert/downLoadFile.do?attachmentId=${att.id }">${fn:substringAfter(att.fileName, "_")}</a>
+			         </h4>
+			       </div>
+				 </li>
+       		</c:when>
+       		<c:when test="${att.fileType == 2 }">
+       			<li class="col-md-6  p0 ">
+		   			<span class="">职称证书：</span>
+				   <div >
+				     <h4>
+			         <a href="<%=basePath %>expert/downLoadFile.do?attachmentId=${att.id }">${fn:substringAfter(att.fileName, "_")}</a>
+			         </h4>
+			       </div>
+				 </li>
+       		</c:when>
+       		<c:when test="${att.fileType == 3 }">
+       			<li class="col-md-6  p0 ">
+		   			<span class="">学位证书：</span>
+				   <div >
+				     <h4>
+			         <a href="<%=basePath %>expert/downLoadFile.do?attachmentId=${att.id }">${fn:substringAfter(att.fileName, "_")}</a>
+			         </h4>
+			       </div>
+				 </li>
+       		</c:when>
+       		<c:when test="${att.fileType == 4}">
+       			<li class="col-md-6  p0 ">
+		   			<span class="">本人照片：</span>
+				   <div>
+				     <h4>
+			         <a href="<%=basePath %>expert/downLoadFile.do?attachmentId=${att.id }">${fn:substringAfter(att.fileName, "_")}</a>
+			         </h4>
+			       </div>
+				 </li>
+       		</c:when>
+       		<c:when test="${att.fileType == 5 }">
+       			<li class="col-md-6  p0 ">
+		   			<span class="">专家申请表：</span>
+				   <div >
+				     <h4>
+			         <a href="<%=basePath %>expert/downLoadFile.do?attachmentId=${att.id }">${fn:substringAfter(att.fileName, "_")}</a>
+			         </h4>
+			       </div>
+				 </li>
+       		</c:when>
+       		<c:when test="${att.fileType == 6 }">
+       			<li class="col-md-6  p0 ">
+		   			<span class="">专家合同书：</span>
+				   <div >
+				     <h4>
+			         <a href="<%=basePath %>expert/downLoadFile.do?attachmentId=${att.id }">${fn:substringAfter(att.fileName, "_")}</a>
+			         </h4>
+			       </div>
+				 </li>
+       		</c:when>
+       </c:choose>
    </c:forEach>
+   </ul>
   </div>
   </div> 
    <div class="tab-pane fade height-450" id="tab-2">

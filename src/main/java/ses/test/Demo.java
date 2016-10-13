@@ -105,4 +105,13 @@ public class Demo {
 		list3.addAll(list2);
 		System.out.println(list3.toString());
 	}
+	@Test
+	public void test5(){
+		short i = 0;
+		for(int a = 0;a<10;a++){
+			
+			System.out.println(i);
+			i++;
+		}
+	}
 }

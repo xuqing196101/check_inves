@@ -12,10 +12,11 @@
     <result column="FILE_PATH" jdbcType="VARCHAR" property="filePath" />
     <result column="IS_DELETE" jdbcType="DECIMAL" property="isDelete" />
     <result column="IS_HISTORY" jdbcType="DECIMAL" property="isHistory" />
+    <result column="FILE_TYPE" jdbcType="DECIMAL" property="fileType" />
   </resultMap>
   <sql id="Base_Column_List">
     ID, CONTENT_TYPE, FILE_NAME, FILE_SIZE, CREATE_AT, UPDATE_AT, EXPERT_ID, FILE_PATH, 
-    IS_DELETE, IS_HISTORY
+    IS_DELETE, IS_HISTORY, FILE_TYPE
   </sql>
   <!--根据专家id查询附件集合  -->
   <select id="selectListByExpertId" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -38,11 +39,11 @@
     insert into T_SES_EMS_EXPERT_ATTACHMENT (ID, CONTENT_TYPE, FILE_NAME, 
       FILE_SIZE, CREATE_AT, UPDATE_AT, 
       EXPERT_ID, FILE_PATH, IS_DELETE, 
-      IS_HISTORY)
+      IS_HISTORY, FILE_TYPE)
     values (#{id,jdbcType=VARCHAR}, #{contentType,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, 
       #{fileSize,jdbcType=FLOAT}, #{createAt,jdbcType=DATE}, #{updateAt,jdbcType=DATE}, 
       #{expertId,jdbcType=VARCHAR}, #{filePath,jdbcType=VARCHAR}, #{isDelete,jdbcType=DECIMAL}, 
-      #{isHistory,jdbcType=DECIMAL})
+      #{isHistory,jdbcType=DECIMAL}, #{fileType,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="ses.model.ems.ExpertAttachment">
     insert into T_SES_EMS_EXPERT_ATTACHMENT
@@ -77,6 +78,9 @@
       <if test="isHistory != null">
         IS_HISTORY,
       </if>
+      <if test="fileType != null">
+        FILE_TYPE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -108,6 +112,9 @@
       </if>
       <if test="isHistory != null">
         #{isHistory,jdbcType=DECIMAL},
+      </if>
+      <if test="fileType != null">
+        #{fileType,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -141,6 +148,9 @@
       <if test="isHistory != null">
         IS_HISTORY = #{isHistory,jdbcType=DECIMAL},
       </if>
+      <if test="fileType != null">
+        FILE_TYPE = #{fileType,jdbcType=DECIMAL},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -154,7 +164,8 @@
       EXPERT_ID = #{expertId,jdbcType=VARCHAR},
       FILE_PATH = #{filePath,jdbcType=VARCHAR},
       IS_DELETE = #{isDelete,jdbcType=DECIMAL},
-      IS_HISTORY = #{isHistory,jdbcType=DECIMAL}
+      IS_HISTORY = #{isHistory,jdbcType=DECIMAL},
+      FILE_TYPE = #{fileType,jdbcType=DECIMAL}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

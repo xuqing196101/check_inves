@@ -152,6 +152,7 @@ public class ExpertServiceImpl implements ExpertService {
 		try {
 			ExpertAttachment attachment;
 			if(files!=null && files.length>0){
+				short fileType=0;
 				 for(MultipartFile myfile : files){  
 			            if(myfile.isEmpty()){  
 			            }else{  
@@ -181,8 +182,9 @@ public class ExpertServiceImpl implements ExpertService {
 			                attachment.setId(WfUtil.createUUID());
 			                attachment.setIsDelete((short)0);
 			                attachment.setIsHistory((short)0);
+			                attachment.setFileType(fileType);
 			                attachmentMapper.insert(attachment);
-			                FtpUtil.closeFtp();
+			                fileType++;
 			            }  
 			        }
 				

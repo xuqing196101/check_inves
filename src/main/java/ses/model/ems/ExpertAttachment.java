@@ -4,24 +4,26 @@ import java.util.Date;
 
 public class ExpertAttachment {
     private String id;
-    //文件类型
+
     private String contentType;
-    //文件名
+
     private String fileName;
-    //文件大小
+
     private Double fileSize;
-    //创建时间
+
     private Date createAt;
-    //修改时间
+
     private Date updateAt;
-    //专家id
+
     private String expertId;
-    //文件全路径
+
     private String filePath;
-    //是否删除 0否 1是
+
     private Short isDelete;
-    //是否为历史数据 0否 1是
+
     private Short isHistory;
+
+    private Short fileType;
 
     public String getId() {
         return id;
@@ -101,5 +103,13 @@ public class ExpertAttachment {
 
     public void setIsHistory(Short isHistory) {
         this.isHistory = isHistory;
+    }
+
+    public Short getFileType() {
+        return fileType;
+    }
+
+    public void setFileType(Short fileType) {
+        this.fileType = fileType;
     }
 }

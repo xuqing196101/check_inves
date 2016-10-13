@@ -117,8 +117,7 @@ function submit1(){
    </div>
    <!-- 新增窗口 -->
 <div class="container clear margin-top-30" id="package" >
-	<form action="" method="post" id="form1">
-	<input type="button" value="添加初审项" onclick="openWindow();" class="btn btn-windows"/>
+	<form action="" method="post" >
      <table class="table table-bordered table-condensed">
      <thead>
       <tr>
@@ -137,6 +136,7 @@ function submit1(){
    </div>
    <div class="container clear margin-top-30" id="package">
   <form action="">
+  <input type="button" value="添加初审项" onclick="openWindow();" class="btn btn-windows"/>
     <table class="table table-bordered table-condensed">
     <thead>
       <tr>
