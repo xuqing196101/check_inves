@@ -50,7 +50,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         layer.open({
           type: 2, //page层
           area: ['800px', '500px'],
-          title: '配置权限',
+          title: '导入模板',
           closeBtn: 1,
           shade:0.01, //遮罩透明度
           shift: 1, //0-6的动画形式，-1不开启
@@ -75,7 +75,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         //发布
         function publish(){
         	var content = UE.getEditor('editor').getContent();
-            alert(content);
+            //alert(content);
             //${pageContext.request.contextPath}.getSession.setAttribute("BidAnnouncement", content);
         	var iframeWin;
             layer.open({

@@ -10,6 +10,7 @@
 				    <result column="PUBLISHED_At"  property="publishedAt" />
 				    <result column="LAST_RE_At"  property="lastReplyedAt" />	
 				    <result column="REPLY_COUNT"  property="replycount" />	
+				    <result column="IS_DELETED"  property="isDeleted" />  
 				    <association column="LAST_RE_ID"  property="lastReplyer" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>						    	    
 				    <association column="USER_ID"  property="user" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>
 				    <association column="TOPIC_ID"  property="topic" select="iss.dao.fs.TopicMapper.selectByPrimaryKey"/>	
@@ -28,12 +29,12 @@
 			  <!-- 所有列 -->
 			  <sql id="Base_Column_List">
 			    ID, NAME,CONTENT, IS_TOP, IS_LOCKING, USER_ID, TOPIC_ID,PARK_ID,
-			    PUBLISHED_At, LAST_RE_At,LAST_RE_ID,REPLY_COUNT			    
+			    PUBLISHED_At, LAST_RE_At,LAST_RE_ID,REPLY_COUNT,IS_DELETED			    
 			  </sql>
 	  	
 			  <!-- 查询条件 -->
 			  <sql id="Example_Where_Clause">
-				 where 1 = 1
+				 where IS_DELETED = 0
 				 <trim suffixOverrides=",">
 			      <if test="park!= null">
 			        and PARK_ID = #{park.id}
@@ -55,7 +56,7 @@
 		    select 
 		    <include refid="Base_Column_List" />
 		    from T_ISS_FS_POST
-		    where 1 = 1
+		    where IS_DELETED = 0
                  <trim suffixOverrides=",">
                   <if test="postName!= null">
                     and NAME Like concat(concat('%', '${postName}'), '%')
@@ -111,12 +112,13 @@
                 from T_ISS_FS_POST
                 ORDER BY REPLY_COUNT DESC
           </select>
-		  	  
-		  <!-- 4.删除一条记录 -->
-		  <delete id="deleteByPrimaryKey" parameterType="Object">
-		    delete from T_ISS_FS_POST
-		    where ID = #{id}
-		  </delete>
+		  	  	
+		   <!-- 4.根据ID删除 逻辑删除-->
+          <update id="deleteByPrimaryKey" parameterType="Object">
+            update T_ISS_FS_POST
+            set is_deleted = 1
+            where ID = #{id}
+          </update>
 	  
 		   <!-- 5.新增一条记录 -->
 		  <insert id="insertSelective" parameterType="iss.model.fs.Post">
@@ -153,6 +155,7 @@
 		        TOPIC_ID,
 		      </if>		     
                 REPLY_COUNT,
+                IS_DELETED,
     		      
 		    </trim>
 		    <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -184,6 +187,7 @@
 		      <if test="topic != null">
 		        #{topic.id},
 		      </if>
+		      0,
 		      0,
 		    </trim>
 		  </insert>

@@ -56,13 +56,14 @@
 	   </div>
 	    <input class="span2" name ="parkId" type="hidden" value = '${park.id}'>
 	    <input class="span2" name ="oldUserId" type="hidden" value = '${park.user.id }'>
-	    
+	    <input class="span2" name ="oldParkName" type="hidden" value = '${park.name }'>
 	   <ul class="list-unstyled list-flow p0_20">
 	   		  
 	   		   <li class="col-md-6  p0 ">
-			   <span class="fl">版块名称：</span>
+			   <span class="fl"><div class="red star_red">*</div>版块名称：</span>
 			   <div class="input-append">
 		        <input class="span2"  type="text" name="name" value = '${park.name}'>
+		        <div class="validate">${ERR_name}</div>
 		        <%--<span class="add-on">i</span>--%>
 		       </div>
 			 </li>

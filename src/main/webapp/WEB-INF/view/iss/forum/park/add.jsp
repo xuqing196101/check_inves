@@ -50,31 +50,16 @@
 	   <ul class="list-unstyled list-flow p0_20">
 	   		  
 	   		   <li class="col-md-6  p0 ">
-			   <span class="fl"> 版块名称：</span>
+			   <span class="fl"><div class="red star_red">*</div> 版块名称：</span>
 			   <div class="input-append">
 		        <input class="span2" name="name" type="text">
+		        <div class="validate">${ERR_name}</div>
 		        <%--<span class="add-on">i</span>--%>
 		       </div>
 			 </li>
 			 
 			 <li class="col-md-6  p0 ">
 			   <span class="fl"> 版主：</span>
-			   <%--<div class="input-append">
-	  			   <input class="span2" name ="userId" id="userId" type="hidden">
-                   <input class="span2" name ="userName" id="userName" type="text">
-		           <div class="btn-group">
-                    <button aria-expanded="false" class="btn dropdown-toggle add-on" data-toggle="dropdown">
-		              <img src="<%=basePath%>public/ZHH/images/down.png" >
-                    </button>
-                    <ul class="dropdown-menu list-unstyled" >
-				  	  	<c:forEach items="${users}" var="user">
-							<li class="select_opt">
-		          				<input type="radio" name="item" class="fl mt10" value="${user.id }" onclick="cheClick();" ><div  class="ml10 fl">${user.relName}</div>		          				
-		          			</li>
-				  	  	</c:forEach> 
-                    </ul>
-                   </div>
-                 </div>--%>
                  <select name ="userId" class="w220" >
 					<option></option>
 			  	  	<c:forEach items="${users}" var="user">

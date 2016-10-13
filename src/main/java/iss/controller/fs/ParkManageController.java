@@ -18,11 +18,14 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.model.bms.PreMenu;
@@ -142,36 +145,61 @@ public class ParkManageController {
 	 * @return String
 	 */
 	@RequestMapping("/save")
-	public String save(HttpServletRequest request, Park park) {
-		User user = new User();
-		user = userService.getUserById(request.getParameter("userId"));
-		//设置权限
-		Role role = roleService.get("018375864F3C403CAC7698C2549763F0");
-		List<Role> roles = new ArrayList<Role>();
-		roles.add(role);
-		user.setRoles(roles);
-		UserPreMenu um = new UserPreMenu();
-		um.setUser(user);
-		userService.deleteUserMenu(um);
-		String ids ="C58C30A33C4A4AB49B125589267BE64B,0298F628AB6C4018A0B43561993A43DE,DDA573A2CCA54DF29E4B8BCCDFAF80DA,8715A14AB3F74D77AF85C443386023F3,3DFF3C15462047A185B6173348BE7839,4AE68DC483454C298D9330A9976159F3";
-		String[] mIds = ids.split(",");
-		for (String str : mIds) {
-			UserPreMenu up = new UserPreMenu();
-			PreMenu preMenu = preMenuService.get(str);
-			up.setPreMenu(preMenu);
-			up.setUser(user);
-			userService.saveUserMenu(up);
+	public String save(@Valid Park park, BindingResult result,HttpServletRequest request, Model model) {
+		BigDecimal i = parkService.checkParkName(park.getName());
+		Boolean flag = true;
+		String url = "";
+		BigDecimal j = new BigDecimal(0);
+		if(i.compareTo(j) != 0){
+			flag = false;
+			model.addAttribute("ERR_name", "版块名称不能重复");
 		}
-		park.setUser(user);
-		
-		User creater = (User) request.getSession().getAttribute("loginUser");
-		park.setCreater(creater);
-		Timestamp ts = new Timestamp(new Date().getTime());
-		park.setCreatedAt(ts);
-		Timestamp ts1 = new Timestamp(new Date().getTime());
-		park.setUpdatedAt(ts1);
-		parkService.insertSelective(park);
-		return "redirect:getlist.html";
+		if(result.hasErrors()){
+			List<FieldError> errors = result.getFieldErrors();
+			for(FieldError fieldError:errors){
+				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
+			}
+			flag = false;
+		}
+		if(flag == false){
+			List<User> users = userService.find(null);
+			model.addAttribute("users", users);
+			
+			url = "iss/forum/park/add";
+			
+		}else{		
+			String userId = request.getParameter("userId");
+			if(userId !=null &&userId != ""){
+				 User user = userService.getUserById(userId);
+				//设置权限
+				Role role = roleService.get("018375864F3C403CAC7698C2549763F0");
+				List<Role> roles = new ArrayList<Role>();
+				roles.add(role);
+				user.setRoles(roles);
+				UserPreMenu um = new UserPreMenu();
+				um.setUser(user);
+				userService.deleteUserMenu(um);
+				String ids ="C58C30A33C4A4AB49B125589267BE64B,0298F628AB6C4018A0B43561993A43DE,DDA573A2CCA54DF29E4B8BCCDFAF80DA,8715A14AB3F74D77AF85C443386023F3,3DFF3C15462047A185B6173348BE7839,4AE68DC483454C298D9330A9976159F3";
+				String[] mIds = ids.split(",");
+				for (String str : mIds) {
+					UserPreMenu up = new UserPreMenu();
+					PreMenu preMenu = preMenuService.get(str);
+					up.setPreMenu(preMenu);
+					up.setUser(user);
+					userService.saveUserMenu(up);
+				}
+				park.setUser(user);
+			}
+			User creater = (User) request.getSession().getAttribute("loginUser");
+			park.setCreater(creater);
+			Timestamp ts = new Timestamp(new Date().getTime());
+			park.setCreatedAt(ts);
+			Timestamp ts1 = new Timestamp(new Date().getTime());
+			park.setUpdatedAt(ts1);
+			parkService.insertSelective(park);
+			url = "redirect:getlist.html";
+		}
+		return url;
 	}
 
 	/**
@@ -186,7 +214,6 @@ public class ParkManageController {
 	@RequestMapping("/edit")
 	public String edit(String id, Model model) {
 		Park p = parkService.selectByPrimaryKey(id);
-		System.out.println(p.getUser());
 		model.addAttribute("park", p);
 		List<User> users = userService.find(null);
 		model.addAttribute("users", users);
@@ -203,38 +230,72 @@ public class ParkManageController {
 	 * @return String
 	 */
 	@RequestMapping("/update")
-	public String update(HttpServletRequest request, Park park) {	
-		String oldUserId = request.getParameter("oldUserId");
-		if( oldUserId != null && oldUserId !=""){
-			User oldUser = userService.getUserById(oldUserId);
-			UserPreMenu um = new UserPreMenu();
-			um.setUser(oldUser);
-			userService.deleteUserMenu(um);
+	public String update(@Valid Park park, BindingResult result,HttpServletRequest request, Model model) {	
+		BigDecimal i = parkService.checkParkName(park.getName());
+		Boolean flag = true;
+		String url = "";
+		BigDecimal j = new BigDecimal(0);
+		System.out.println(i==j);
+		String oldParkName =request.getParameter("oldParkName");
+		if(!oldParkName.equals(park.getName())&& i.compareTo(j) != 0){			
+			flag = false;
+			model.addAttribute("ERR_name", "版块名称不能重复");			
 		}
-		User user = userService.getUserById(request.getParameter("userId"));
-		//菜单
-		String ids ="C58C30A33C4A4AB49B125589267BE64B,0298F628AB6C4018A0B43561993A43DE,DDA573A2CCA54DF29E4B8BCCDFAF80DA,8715A14AB3F74D77AF85C443386023F3,3DFF3C15462047A185B6173348BE7839,4AE68DC483454C298D9330A9976159F3";
-		String[] mIds = ids.split(",");
-		for (String str : mIds) {
-			UserPreMenu up = new UserPreMenu();
-			PreMenu preMenu = preMenuService.get(str);
-			up.setPreMenu(preMenu);
-			up.setUser(user);
-			userService.saveUserMenu(up);
-		}			
-		//角色
-		Role role = roleService.get("018375864F3C403CAC7698C2549763F0");
-		List<Role> roles = new ArrayList<Role>();
-		roles.add(role);
-		user.setRoles(roles);	
-		park.setUser(user);
+				
+		if(result.hasErrors()){
+			List<FieldError> errors = result.getFieldErrors();
+			for(FieldError fieldError:errors){
+				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
+			}
+			flag = false;
+		}
+		if(flag == false){
+			String parkId = request.getParameter("parkId");
+			Park p = parkService.selectByPrimaryKey(parkId);
+			model.addAttribute("park", p);
+			List<User> users = userService.find(null);
+			model.addAttribute("users", users);
+			
+			url = "iss/forum/park/edit";
+			
+		}else{
+			String oldUserId = request.getParameter("oldUserId");
+			if( oldUserId != null && oldUserId !=""){
+				User oldUser = userService.getUserById(oldUserId);
+				UserPreMenu um = new UserPreMenu();
+				um.setUser(oldUser);
+				userService.deleteUserMenu(um);
+			}
+			String userId = request.getParameter("userId");
+			
+			if(userId != null && userId != ""){
+				User user = userService.getUserById(userId);
+				//菜单
+				String ids ="C58C30A33C4A4AB49B125589267BE64B,0298F628AB6C4018A0B43561993A43DE,DDA573A2CCA54DF29E4B8BCCDFAF80DA,8715A14AB3F74D77AF85C443386023F3,3DFF3C15462047A185B6173348BE7839,4AE68DC483454C298D9330A9976159F3";
+				String[] mIds = ids.split(",");
+				for (String str : mIds) {
+					UserPreMenu up = new UserPreMenu();
+					PreMenu preMenu = preMenuService.get(str);
+					up.setPreMenu(preMenu);
+					up.setUser(user);
+					userService.saveUserMenu(up);
+				}			
+				//角色
+				Role role = roleService.get("018375864F3C403CAC7698C2549763F0");
+				List<Role> roles = new ArrayList<Role>();
+				roles.add(role);
+				user.setRoles(roles);	
+				park.setUser(user);
+			}
+			Timestamp ts = new Timestamp(new Date().getTime());
+			park.setUpdatedAt(ts);		
+			String parkId = request.getParameter("parkId");
+			park.setId(parkId);
+			parkService.updateByPrimaryKeySelective(park);
+			url="redirect:getlist.html";
+		}
 		
-		Timestamp ts = new Timestamp(new Date().getTime());
-		park.setUpdatedAt(ts);		
-		String parkId = request.getParameter("parkId");
-		park.setId(parkId);
-		parkService.updateByPrimaryKeySelective(park);
-		return "redirect:getlist.html";
+		return url;
 	}
 
 	/**

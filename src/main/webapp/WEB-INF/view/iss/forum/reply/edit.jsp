@@ -43,9 +43,10 @@
 	    <input  name ="replyId" type="hidden" value = '${reply.id}'>
 	   <ul class="list-unstyled list-flow p0_20">			 
 			<li class="col-md-12  p0 ">	  	 			
-				<span class="fl"> 评论内容：</span>
+				<span class="fl"> <div class="red star_red">*</div>评论内容：</span>
 				<div class="col-md-12 mt5 fn pl200 pwr9">
 				<textarea  class="text_area col-md-12" name="content">${reply.content}</textarea>		
+				<div class="validate">${ERR_content}</div>
 				</div>			
 	  	 	</li>
 	  	 </ul>

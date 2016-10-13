@@ -3,6 +3,8 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import ses.model.bms.User;
 
 /**
@@ -19,10 +21,12 @@ public class Post {
     /**
      * @Fields name : 帖子名称
      */
+    @NotBlank(message = "帖子名称不能为空")
     private String name;
     /**
      * @Fields content : 帖子内容
      */
+    @NotBlank(message = "帖子内容不能为空")
     private String content;
     /**
      * @Fields isTop : 是否置顶
@@ -66,6 +70,10 @@ public class Post {
      * @Fields replycount : 回复数
      */
     private BigDecimal replycount;
+    /**
+     * @Fields isDeleted : 是否删除标识
+     */
+    private Integer isDeleted;
 
 
     public String getId() {
@@ -169,6 +177,14 @@ public class Post {
 
 	public void setReplycount(BigDecimal replycount) {
 		this.replycount = replycount;
+	}
+
+	public Integer getIsDeleted() {
+		return isDeleted;
+	}
+
+	public void setIsDeleted(Integer isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 	   
 }

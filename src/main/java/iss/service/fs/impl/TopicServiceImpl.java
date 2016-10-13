@@ -83,4 +83,10 @@ public class TopicServiceImpl implements TopicService{
 		return topicMapper.getAll(topic);
 	}
 
+	@Override
+	public BigDecimal checkTopicName(Map<String,Object> map) {
+		// TODO Auto-generated method stub
+		return topicMapper.checkTopicName(map);
+	}
+
 }

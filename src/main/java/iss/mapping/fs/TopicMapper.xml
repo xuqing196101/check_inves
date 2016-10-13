@@ -163,5 +163,10 @@
 			    where PARK_ID = #{parkID}
 			    ORDER BY CREATED_AT DESC
 		  </select>
-
+           <!-- 校验 -->
+           <select id="checkTopicName" parameterType="Map" resultType="Object">
+              SELECT count(1) FROM T_ISS_FS_TOPIC
+              WHERE NAME = #{name}
+              AND PARK_ID = #{parkId}
+          </select> 
 </mapper>

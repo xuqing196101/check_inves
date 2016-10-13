@@ -91,7 +91,16 @@ public interface TopicMapper {
 	* @return List<Topic> 
 	*/
     List<Topic> selectByParkID(String parkID);
-    
-    
+    /**
+     * 
+    * @Title: checkTopicName
+    * @author Peng Zhongjun
+    * @date 2016-10-11 下午6:16:54  
+    * @Description: 校验防重复 
+    * @param @param name
+    * @param @return      
+    * @return int
+     */
+    BigDecimal checkTopicName(Map<String,Object> map);
 
 }

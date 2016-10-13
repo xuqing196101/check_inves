@@ -3,6 +3,8 @@ package iss.model.fs;
 import java.sql.Timestamp;
 import java.util.List;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import ses.model.bms.User;
 
 /**
@@ -23,8 +25,8 @@ public class Reply {
     /**
      * @Fields content : 内容
      */
+    @NotBlank(message = "内容不能为空")
     private String content;
-
     /**
      * @Fields publishedTime : 发表时间
      */
@@ -50,6 +52,10 @@ public class Reply {
      * @Fields user : 发布人
      */
     private User user;
+    /**
+     * @Fields isDeleted : 是否删除标识
+     */
+    private Integer isDeleted;
     
  
     public String getId() {
@@ -121,6 +127,14 @@ public class Reply {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public Integer getIsDeleted() {
+		return isDeleted;
+	}
+
+	public void setIsDeleted(Integer isDeleted) {
+		this.isDeleted = isDeleted;
 	}
  
 }

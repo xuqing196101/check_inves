@@ -18,11 +18,14 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.controller.sys.sms.BaseSupplierController;
@@ -143,17 +146,49 @@ public class TopicManageController extends BaseSupplierController {
 	* @return String     
 	*/
 	@RequestMapping("/save")
-	public String save(HttpServletRequest request,Topic topic){
+	public String save(@Valid Topic topic,BindingResult result,HttpServletRequest request, Model model){		
+		Boolean flag = true;
+		String url = "";
+		String parkId = request.getParameter("parkId");
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("name", topic.getName());
+		map.put("parkId", parkId);
+		BigDecimal i = topicService.checkTopicName(map);
+		BigDecimal j = new BigDecimal(0);
+		if( !i .equals(j)){
+			flag = false;
+			model.addAttribute("ERR_name", "主题名称不能重复");
+		}
 		Park park = parkService.selectByPrimaryKey(request.getParameter("parkId"));
-		topic.setPark(park);
-		User user = (User)request.getSession().getAttribute("loginUser");
-		topic.setUser(user);
-		Timestamp ts = new Timestamp(new Date().getTime());
-		topic.setCreatedAt(ts);
-		Timestamp ts1 = new Timestamp(new Date().getTime());
-		topic.setUpdatedAt(ts1);
-		topicService.insertSelective(topic);
-		return "redirect:getlist.html";
+		if(park==null){
+			flag = false;
+			model.addAttribute("ERR_park", "所属版块不能为空");
+		}	
+		if(result.hasErrors()){
+			List<FieldError> errors = result.getFieldErrors();
+			for(FieldError fieldError:errors){
+				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
+			}
+			flag = false;
+		}
+		
+		if(flag == false){
+			List<Park> parks = parkService.getAll(null);
+			model.addAttribute("parks", parks);
+			url="iss/forum/topic/add";
+		}else{
+			topic.setPark(park);
+			User user = (User)request.getSession().getAttribute("loginUser");
+			topic.setUser(user);
+			Timestamp ts = new Timestamp(new Date().getTime());
+			topic.setCreatedAt(ts);
+			Timestamp ts1 = new Timestamp(new Date().getTime());
+			topic.setUpdatedAt(ts1);
+			topicService.insertSelective(topic);
+			url = "redirect:getlist.html";
+		}
+		
+		return url;
 	}
 	
 	
@@ -185,15 +220,52 @@ public class TopicManageController extends BaseSupplierController {
 	* @return String     
 	*/
 	@RequestMapping("/update")
-	public String update(HttpServletRequest request,Topic topic){
-		Park park = parkService.selectByPrimaryKey(request.getParameter("parkId"));
-		topic.setPark(park);
-		Timestamp ts = new Timestamp(new Date().getTime());
-		topic.setUpdatedAt(ts);
+	public String update(@Valid Topic topic,BindingResult result,HttpServletRequest request, Model model){
+		Boolean flag = true;
+		String url = "";
+		String parkId = request.getParameter("parkId");
 		String topicId = request.getParameter("topicId");
-		topic.setId(topicId);
-		topicService.updateByPrimaryKeySelective(topic);
-		return "redirect:getlist.html";
+		String oldTopicName = topicService.selectByPrimaryKey(topicId).getName();
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("name", topic.getName());
+		map.put("parkId", parkId);
+		BigDecimal i = topicService.checkTopicName(map);
+		BigDecimal j = new BigDecimal(0);
+		if( !oldTopicName.equals(topic.getName())&&!i .equals(j)){
+			flag = false;
+			model.addAttribute("ERR_name", "主题名称不能重复");
+		}
+	
+		Park park = parkService.selectByPrimaryKey(parkId);
+		if(park==null){
+			flag = false;
+			model.addAttribute("ERR_park", "所属版块不能为空");
+		}
+		if(result.hasErrors()){
+			List<FieldError> errors = result.getFieldErrors();
+			for(FieldError fieldError:errors){
+				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
+			}
+			flag = false;
+		}
+		if(flag == false){
+			Topic p = topicService.selectByPrimaryKey(topicId);
+			model.addAttribute("topic", p);
+			List<Park> parks = parkService.getAll(null);
+			model.addAttribute("parks", parks);
+			url="iss/forum/topic/edit";
+			
+		}else{
+			topic.setPark(park);
+			Timestamp ts = new Timestamp(new Date().getTime());
+			topic.setUpdatedAt(ts);			
+			topic.setId(topicId);
+			topicService.updateByPrimaryKeySelective(topic);
+			url="redirect:getlist.html";
+		}
+		
+		return url;
 	}
 	
 	/**   

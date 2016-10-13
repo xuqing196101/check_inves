@@ -6,6 +6,7 @@
 			     <result column="CONTENT"  property="content" />
 			     <result column="PUBLISHED_AT"  property="publishedAt" />
 			     <result column="UPDATED_AT"  property="updatedAt" />
+			     <result column="IS_DELETED"  property="isDeleted" />  
 			      <association column="REPLY_ID"  property="reply" select="selectByPrimaryKey"/>
 			     <association column="POST_ID"  property="post" select="iss.dao.fs.PostMapper.selectByPrimaryKey"/>		
 			    <association column="USER_ID"  property="user" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>			    			    
@@ -22,12 +23,12 @@
 				
 		  	  <!-- 所有列 -->
 			  <sql id="Base_Column_List">
-			    ID,  CONTENT,POST_ID, REPLY_ID, USER_ID, PUBLISHED_AT,UPDATED_AT
+			    ID,  CONTENT,POST_ID, REPLY_ID, USER_ID, PUBLISHED_AT,UPDATED_AT,IS_DELETED  
 			  </sql>
 			  
 	  			  <!-- 查询条件 -->
 			  <sql id="Example_Where_Clause">
-			  	where 1 = 1
+			  	where IS_DELETED = 0
 				 <trim suffixOverrides=",">	
 				 	<if test="post!= null">
 			        and POST_ID = #{post.id}
@@ -71,7 +72,7 @@
 			    select 
 			    <include refid="Base_Column_List" />
 			    from T_ISS_FS_REPLY
-			     where 1 = 1
+			     where IS_DELETED = 0
                  <trim suffixOverrides=","> 
                   <if test="replyCon!= null">
                     and CONTENT Like concat(concat('%', '${replyCon}'), '%')
@@ -93,10 +94,11 @@
 			  </select>
   
               <!-- 4.删除一条记录 -->
-			  <delete id="deleteByPrimaryKey" parameterType="Object">
-			    delete from T_ISS_FS_REPLY
-			    where ID = #{id}
-			  </delete>
+	          <update id="deleteByPrimaryKey" parameterType="Object">
+	            update T_ISS_FS_REPLY
+	            set is_deleted = 1
+	            where ID = #{id}
+	          </update>
   
 
 			  <!--5.插入一条记录  -->
@@ -127,6 +129,7 @@
 			      <if test="reply != null">
 			        REPLY_ID,
 			      </if>
+			      IS_DELETED,
 			    </trim>
 			    <trim prefix="values (" suffix=")" suffixOverrides=",">
 	              <if test="id != null">
@@ -150,6 +153,7 @@
 			      <if test="reply != null">
 			        #{reply.id},
 			      </if>
+			      0,
 			    </trim>
 			  </insert>
 			  <!-- 更新一条记录 -->
@@ -171,7 +175,7 @@
 			    select 
 			    <include refid="Base_Column_List" />
 			    from T_ISS_FS_REPLY
-			    where 1=1
+			    where IS_DELETED=0
 			    <trim suffixOverrides=","> 
                   <if test="postId != null">
                     and POST_ID = #{postId}
@@ -185,7 +189,7 @@
 		        select 
                 <include refid="Base_Column_List" />
                 from T_ISS_FS_REPLY
-                where 1=1
+                where IS_DELETED=0
                 <trim suffixOverrides=","> 
                   <if test="replyId != null">
                     and REPLY_ID = #{replyId}

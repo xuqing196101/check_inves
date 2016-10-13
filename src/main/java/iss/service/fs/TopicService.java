@@ -94,4 +94,14 @@ public interface TopicService {
 	* @return List<Topic> 
 	*/
     List<Topic> selectByParkID(String parkID);
+    /**
+     * @Title: checkParkName
+     * @author Peng Zhongjun
+     * @date 2016-10-11 下午6:15:26  
+     * @Description: 校验防重复 
+     * @param @param name
+     * @param @return      
+     * @return int
+      */
+    BigDecimal checkTopicName(Map<String,Object> map);
 }

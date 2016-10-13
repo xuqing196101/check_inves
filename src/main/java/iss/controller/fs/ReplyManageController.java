@@ -16,11 +16,14 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -110,7 +113,6 @@ public class ReplyManageController {
 		String content = request.getParameter("content");
 		String replyId =request.getParameter("replyId");
 		Post post = postService.selectByPrimaryKey(postId);
-		System.out.println(postId+"asdasdsad"+replyId);
 		if(replyId ==null || replyId == ""){			
 			BigDecimal replyCount =post.getReplycount();
 			BigDecimal haha = new BigDecimal(1);
@@ -158,13 +160,31 @@ public class ReplyManageController {
 	* @return String     
 	*/
 	@RequestMapping("/update")
-	public String update(HttpServletRequest request,Reply reply){
-		Timestamp ts = new Timestamp(new Date().getTime());
-		reply.setUpdatedAt(ts);
+	public String update(@Valid Reply reply,BindingResult result,HttpServletRequest request, Model model){
+		Boolean flag = true;
+		String url = "";
 		String id = request.getParameter("replyId");
-		reply.setId(id);
-		replyService.updateByPrimaryKeySelective(reply);
-		return "redirect:getlist.html";
+		if(result.hasErrors()){
+			List<FieldError> errors = result.getFieldErrors();
+			for(FieldError fieldError:errors){
+				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
+			}
+			flag = false;
+		}
+		if(flag == false){
+			Reply p = replyService.selectByPrimaryKey(id);
+			model.addAttribute("reply", p);
+			url = "iss/forum/reply/edit";
+		}else{
+			Timestamp ts = new Timestamp(new Date().getTime());
+			reply.setUpdatedAt(ts);		
+			reply.setId(id);
+			replyService.updateByPrimaryKeySelective(reply);
+			url="redirect:getlist.html";
+		}
+		
+		return url;
+		
 	}
 	
 	/**   

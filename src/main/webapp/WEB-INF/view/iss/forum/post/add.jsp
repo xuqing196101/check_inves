@@ -22,55 +22,7 @@
 	<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
 	<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
 	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/lang/zh-cn/zh-cn.js"></script>
-	<script type="text/javascript"><%--
-	function cheClick(){
-		//所属版块
-		var parkId =$('input:radio[name="item"]:checked').val();
-		var parkName=$('input:radio[name="item"]:checked').next().html();
-		$("#parkId").val(parkId);
-		$("#parkName").val(parkName);
-		$.ajax({
-		    url:"<%=basePath %>topic/getListForSelect.do?parkId="+parkId,   
-		    contentType: "application/json;charset=UTF-8", 
-		    dataType:"json",   //返回格式为json
-		    type:"POST",   //请求方式		    
-	        success : function(data) {     
-	            if (data) {          	
-	              $("#topics").html("");                
-	              $.each(data.topics, function(i, topic) {  
-	            	  $("#topics").append("<li class='select_opt'><input type='radio' name='topicitem' class='fl mt10' value="+topic.id+" onclick='cheClick();' ><div  class='ml10 fl'>"+topic.name+"</div></li>");	            	  
-	              });  	                          
-	            }
-	        }
-		});
-		//主题
-		var topicId =$('input:radio[name="topicitem"]:checked').val();
-		var topicName=$('input:radio[name="topicitem"]:checked').next().html();
-		$("#topicId").val(topicId);
-		$("#topicName").val(topicName);
-		//置顶
-		var top =$('input:radio[name="topitem"]:checked').val();
-		var topName=$('input:radio[name="topitem"]:checked').next().html();
-		$("#isTop").val(top);
-		$("#topName").val(topName);
-		//锁定
-		var locking =$('input:radio[name="lockingitem"]:checked').val();
-		var lockingName=$('input:radio[name="lockingitem"]:checked').next().html();
-		$("#isLocking").val(locking);
-		$("#lockingName").val(lockingName);
-		//精华
-		var essence =$('input:radio[name="essenceitem"]:checked').val();
-		var essenceName=$('input:radio[name="essenceitem"]:checked').next().html();
-		$("#isEssence").val(essence);
-		$("#essenceName").val(essenceName);
-		//可回复
-		var canReply =$('input:radio[name="canReplyitem"]:checked').val();
-		var canReplyName=$('input:radio[name="canReplyitem"]:checked').next().html();
-		$("#isCanReply").val(canReply);
-		$("#canReplyName").val(canReplyName);
-	}
-	
-	--%>
+	<script type="text/javascript">
 	  //2级联动
 	  function change(id){
 			$.ajax({
@@ -88,6 +40,7 @@
 		        }
 			});
 	  }
+
 	</script>
   </head>
   
@@ -113,50 +66,55 @@
 	   <ul class="list-unstyled list-flow p0_20">
 	   
 	   		  <li class="col-md-12  p0 ">
-			   <span class="fl">帖子名称：</span>
+			   <span class="fl"><div class="red star_red">*</div>帖子名称：</span>
 			   <div class="input-append">
 		        <input class="span2"  type="text" name = "name" >
+		        <div class="validate">${ERR_name}</div>
 		        <%--<span class="add-on">i</span>--%>
 		       </div>
 			 </li>
 			 
 			 <li class="col-md-6  p0 ">
-			   <span class="fl">所属版块：</span>
-			    <select name ="parkId" class="select w220" onchange="change(this.options[this.selectedIndex].value)">
+			   <span class="fl"><div class="red star_red">*</div>所属版块：</span>
+			    <select id ="park" name ="parkId" class="select w220" onchange="change(this.options[this.selectedIndex].value)">
 					<option></option>
 			  	  	<c:forEach items="${parks}" var="park">
 			  	  		<option  value="${park.id}">${park.name}</option>
 			  	  	</c:forEach> 
 	  			</select>
+	  			<div class="validate">${ERR_park}</div>
 			 </li>
 			 <li class="col-md-6  p0 ">
-			   <span class="fl">所属主题：</span>				 	
+			 
+			   <span class="fl"><div class="red star_red">*</div>所属主题：</span>				 	
 	        	<select id="topics" name="topicId" class="w220 ">
 	        	<option></option>
 	  			</select>
+	  			<div class="validate">${ERR_topic}</div>
 			 </li>
 			 
 			 <li class="col-md-6  p0 ">
 			   <span class="fl">置顶：</span>
 			   	<select name="isTop" class="w220 ">
-	        	<option value="0">不置顶</option>
+	        	<option value="0" selected="selected">不置顶</option>
 	        	<option value="1">置顶</option>
 	  			</select>				 	
 			 </li>
 			 <li class="col-md-6  p0 ">
 			   <span class="fl">锁定：</span>
 			   	<select name="isLocking" class="w220 ">
-	        	<option value="0">不锁定</option>
+	        	<option value="0" selected="selected">不锁定</option>
 	        	<option value="1">锁定 </option>
 	  			</select>	 	
 			 </li>
 
 			 
 			<li class="col-md-12 p0">
-	   			<span class="fl">帖子内容：</span>
+	   			<span class="fl"><div class="red star_red">*</div> 帖子内容：</span>
 	  			<div class="col-md-12 pl200 fn mt5 pwr9">
 	  				 <script id="editor" name="content" type="text/plain" class="ml125 mt20 w900"></script>
        			</div>
+       			<div class="validate">${ERR_content}</div>
 			 </li>  
 	   		   
 	  	 </ul>

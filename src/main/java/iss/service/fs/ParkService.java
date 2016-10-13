@@ -5,6 +5,7 @@ package iss.service.fs;
 
 import iss.model.fs.Park;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -96,4 +97,14 @@ public interface ParkService {
     * @return List<Park>
      */
     List<Park> selectParkListByUser(Map<String,Object> map);
+    /**
+     * @Title: checkParkName
+     * @author Peng Zhongjun
+     * @date 2016-10-11 下午6:15:26  
+     * @Description: 校验防重复 
+     * @param @param name
+     * @param @return      
+     * @return int
+      */
+     BigDecimal checkParkName(String name);
 }

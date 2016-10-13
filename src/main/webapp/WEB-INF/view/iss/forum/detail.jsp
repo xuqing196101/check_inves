@@ -63,6 +63,7 @@
 
   });
   function publishForPost(postId){
+	  
 	  var ue = UE.getEditor('editor');
 	  var text = ue.getContentTxt();
       $.ajax({
@@ -170,7 +171,9 @@
           <span class="f18 b">我要回复</span> 
          </div>
          <div class="clear col-md-12 p0 mt10">
-          <span>评论内容：</span>  <script id="editor" name="content" type="text/plain" class= ""></script>
+          <span><div class="red star_red">*</div>回复内容：</span> 
+           <script id="editor" name="content" type="text/plain" class= ""></script>
+            <div class="validate">${ERR_content}</div>
          </div>
          <div class="clear col-md-12 p0">
            <button class="btn btn-windows fr " id ="publishButton" onclick="publishForPost('${post.id}')">发布</button>
@@ -194,13 +197,13 @@
                 'bold', 'italic', 'underline',  'formatmatch', 'autotypeset', '|', 'forecolor', 'backcolor',                
                  'fontfamily', 'fontsize', '|',
                  'indent', '|',
-                'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 
+                'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'simpleupload','emotion',
             ]]
 
     };
     UE.getEditor('editor',option);
     </script>
-</body>3
+</body>
 </html>
 
 

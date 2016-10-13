@@ -24,6 +24,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/img-hover.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/page_job.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/shop.style.css" type="text/css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/forum.css" media="screen" >
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
 	<script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/ueditor.config.js"></script>
 	<script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/ueditor.all.min.js"> </script>
@@ -64,35 +65,39 @@
        <ul class="list-unstyled list-flow p0_20 f18">   
         
               <li class="col-md-12  p0  mb10">
-               <span class="fl">帖子名称：</span>
+               <span class="fl"><div class="red star_red">*</div>帖子名称：</span>
                
                 <textarea class="col-md-9"  name="name"></textarea>
+                <div class="validate">${ERR_name}</div>
                 <%--<span class="add-on">i</span>--%>
                
              </li>
              
              <li class="col-md-6 p0">
-               <span class="fl">所属版块：</span>
+               <span class="fl"><div class="red star_red">*</div>所属版块：</span>
                 <select name ="parkId" class="w250 mb10" onchange="change(this.options[this.selectedIndex].value)">
                     <option></option>
                     <c:forEach items="${parks}" var="park">
                         <option  value="${park.id}">${park.name}</option>
                     </c:forEach> 
                 </select>
+                <div class="validate">${ERR_park}</div>
              </li>
              
              <li class="col-md-6  p0">
-               <span class="fl">所属主题：</span>                    
+               <span class="fl"><div class="red star_red">*</div>所属主题：</span>                    
                 <select id="topics" name="topicId" class="w250 mb10">
                 <option></option>
                 </select>
+                <div class="validate">${ERR_topic}</div>
              </li>
                         
             <li class="col-md-12 p0">
-                <span class="fl">帖子内容：</span>
+                <span class="fl"><div class="red star_red">*</div>帖子内容：</span>
                 <div class="fl mt5 col-md-9 p0">
                      <script id="editor" name="content" type="text/plain" class= ""></script>
                 </div>
+                <div class="validate">${ERR_content}</div>
              </li>                
          </ul>
          <div class="clear"></div>
@@ -118,7 +123,7 @@
                 'directionalityltr', 'directionalityrtl', 'indent', '|',
                 'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
                 'link', 'unlink', 'anchor', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
-                'simpleupload', 'insertimage', /*'emotion', 'scrawl',*/ /*'insertvideo', 'music',*/ 'attachment', /* 'map', 'gmap',*/ 'insertframe', /*'insertcode', 'webapp',*/ 'pagebreak', 'template', 'background', '|',
+                'simpleupload', 'insertimage', 'emotion', /*'scrawl',*/ /*'insertvideo', 'music',*/ 'attachment', /* 'map', 'gmap',*/ 'insertframe', /*'insertcode', 'webapp',*/ 'pagebreak', 'template', 'background', '|',
                 'horizontal', 'date', 'time', 'spechars', 'snapscreen', 'wordimage', '|',
                 'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts', '|',
                 'print', 'preview', 'searchreplace', 'help', 'drafts'

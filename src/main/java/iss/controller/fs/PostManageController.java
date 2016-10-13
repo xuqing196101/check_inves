@@ -17,11 +17,14 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.model.bms.User;
@@ -149,19 +152,46 @@ public class PostManageController {
 	* @return String     
 	*/
 	@RequestMapping("/save")
-	public String save(HttpServletRequest request,Post post){
-		Timestamp ts = new Timestamp(new Date().getTime());
-		post.setPublishedAt(ts);
+	public String save(@Valid Post post,BindingResult result,HttpServletRequest request, Model model){
+		Boolean flag = true;
+		String url = "";
 		String parkId = request.getParameter("parkId");
-		Park park = parkService.selectByPrimaryKey(parkId);
-		post.setPark(park);
 		String topicId = request.getParameter("topicId");
-		Topic topic = topicService.selectByPrimaryKey(topicId);
-		post.setTopic(topic);
-		User user = (User)request.getSession().getAttribute("loginUser");
-		post.setUser(user);
-		postService.insertSelective(post);
-		return "redirect:getlist.html";
+
+		if(parkId == null ||parkId=="" ){
+			flag = false;
+			model.addAttribute("ERR_park", "版块不能为空");			
+		}
+		if(topicId == null ||topicId=="" ){
+			model.addAttribute("ERR_topic", "主题不能为空");
+		}
+				
+		if(result.hasErrors()){
+			List<FieldError> errors = result.getFieldErrors();
+			for(FieldError fieldError:errors){
+				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
+			}
+			flag = false;
+		}
+		if(flag == false){
+			List<Park> parks = parkService.getAll(null);
+			model.addAttribute("parks", parks);
+			url ="iss/forum/post/add";
+		}else{
+			Park park = parkService.selectByPrimaryKey(parkId);
+			Topic topic = topicService.selectByPrimaryKey(topicId);
+			Timestamp ts = new Timestamp(new Date().getTime());
+			post.setPublishedAt(ts);		
+			post.setPark(park);		
+			post.setTopic(topic);
+			User user = (User)request.getSession().getAttribute("loginUser");
+			post.setUser(user);
+			postService.insertSelective(post);
+			url = "redirect:getlist.html";
+		}
+				
+		return url;
+		
 	}
 	
 	/**   
@@ -194,17 +224,47 @@ public class PostManageController {
 	* @return String     
 	*/
 	@RequestMapping("/update")
-	public String update(HttpServletRequest request,Post post){
+	public String update(@Valid Post post,BindingResult result,HttpServletRequest request, Model model){
+		Boolean flag = true;
+		String url = "";
 		String parkId = request.getParameter("parkId");
-		Park park = parkService.selectByPrimaryKey(parkId);
-		post.setPark(park);
 		String topicId = request.getParameter("topicId");
-		Topic topic = topicService.selectByPrimaryKey(topicId);
-		post.setTopic(topic);
-		String postId= request.getParameter("postId");
-		post.setId(postId);
-		postService.updateByPrimaryKeySelective(post);
-		return "redirect:getlist.html";
+
+		if(parkId == null ||parkId=="" ){
+			flag = false;
+			model.addAttribute("ERR_park", "版块不能为空");			
+		}
+		if(topicId == null ||topicId=="" ){
+			model.addAttribute("ERR_topic", "主题不能为空");
+		}
+		if(result.hasErrors()){
+			List<FieldError> errors = result.getFieldErrors();
+			for(FieldError fieldError:errors){
+				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
+			}
+			flag = false;
+		}
+		if(flag == false){
+			Post p = postService.selectByPrimaryKey(parkId);
+			model.addAttribute("post", p);
+			List<Park> parks = parkService.getAll(null);
+			model.addAttribute("parks", parks);
+			List<Topic> topics = topicService.selectByParkID(p.getPark().getId());
+			model.addAttribute("topics", topics);
+			url="iss/forum/post/edit";
+			
+		}else{
+			Park park = parkService.selectByPrimaryKey(parkId);
+			Topic topic = topicService.selectByPrimaryKey(topicId);
+			post.setPark(park);		
+			post.setTopic(topic);
+			String postId= request.getParameter("postId");
+			post.setId(postId);
+			postService.updateByPrimaryKeySelective(post);
+			url="redirect:getlist.html";
+		}
+				
+		return url;
 	}
 	
 	/**   
@@ -361,15 +421,45 @@ public class PostManageController {
 	* @return String     
 	*/
 	@RequestMapping("/indexsave")
-	public String indexsave(HttpServletRequest request,Post post){
-		Timestamp ts = new Timestamp(new Date().getTime());
-		post.setPublishedAt(ts);
-		Park park= parkService.selectByPrimaryKey(request.getParameter("parkId"));
-		Topic topic =topicService.selectByPrimaryKey(request.getParameter("topicId"));
-		post.setPark(park);
-		post.setTopic(topic);
-		postService.insertSelective(post);	
-		return "redirect:/park/getIndex.html";
+	public String indexsave(@Valid Post post,BindingResult result,HttpServletRequest request, Model model){
+		Boolean flag = true;
+		String url = "";
+		String parkId = request.getParameter("parkId");
+		String topicId = request.getParameter("topicId");
+
+		if(parkId == null ||parkId=="" ){
+			flag = false;
+			model.addAttribute("ERR_park", "版块不能为空");			
+		}
+		if(topicId == null ||topicId=="" ){
+			model.addAttribute("ERR_topic", "主题不能为空");
+		}
+				
+		if(result.hasErrors()){
+			List<FieldError> errors = result.getFieldErrors();
+			for(FieldError fieldError:errors){
+				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
+			}
+			flag = false;
+		}
+		if(flag == false){
+			List<Park> parks = parkService.getAll(null);
+
+			model.addAttribute("parks", parks);
+
+			url ="iss/forum/publish_post";
+		}else{
+			Timestamp ts = new Timestamp(new Date().getTime());
+			post.setPublishedAt(ts);
+			Park park= parkService.selectByPrimaryKey(parkId);
+			Topic topic =topicService.selectByPrimaryKey(topicId);
+			post.setPark(park);
+			post.setTopic(topic);
+			postService.insertSelective(post);	
+			
+			url ="redirect:/park/getIndex.html";
+		}
+		return url;
 	}
 	
 	

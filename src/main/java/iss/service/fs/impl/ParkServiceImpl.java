@@ -7,6 +7,7 @@ import iss.dao.fs.ParkMapper;
 import iss.model.fs.Park;
 import iss.service.fs.ParkService;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -84,6 +85,12 @@ public class ParkServiceImpl implements ParkService{
 	public List<Park> selectParkListByUser(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		return parkMapper.selectParkListByUser(map);
+	}
+
+	@Override
+	public BigDecimal checkParkName(String name) {
+		// TODO Auto-generated method stub
+		return parkMapper.checkParkName(name);
 	}
 
 }

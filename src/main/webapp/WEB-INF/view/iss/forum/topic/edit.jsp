@@ -59,15 +59,16 @@
 	   <ul class="list-unstyled list-flow p0_20">
 	   		  
 	   		   <li class="col-md-6  p0 ">
-			   <span class="fl">主题名称：</span>
+			   <span class="fl"><div class="red star_red">*</div>主题名称：</span>
 			   <div class="input-append">
 		        <input class="span2"  type="text" name="name" value = '${topic.name}'>
+		        <div class="validate">${ERR_name}</div>
 		        <%--<span class="add-on">i</span>--%>
 		       </div>
 			 </li>
 			 
 			 <li class="col-md-6  p0 ">
-			   <span class="fl">所属版块：</span>
+			   <span class="fl"> <div class="red star_red">*</div>所属版块：</span>
 
 	  			<select  id ="park" name ="parkId" class="w220" >
 					<option></option>
@@ -75,6 +76,7 @@
 			  	  		<option  value="${park.id}">${park.name}</option>
 			  	  	</c:forEach> 
 	  			</select>
+	  			<div class="validate">${ERR_park}</div>
 			 </li>
 			<li class="col-md-12  p0 ">	  	 			
 				<span class="fl"> 主题介绍：</span>
