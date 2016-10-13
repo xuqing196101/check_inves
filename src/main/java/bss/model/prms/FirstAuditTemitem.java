@@ -1,9 +1,15 @@
 package bss.model.prms;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class FirstAuditTemitem {
-    private String id;
+public class FirstAuditTemitem implements Serializable{
+    /**
+	 * @Fields serialVersionUID : 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private String id;
 
     private String name;
 

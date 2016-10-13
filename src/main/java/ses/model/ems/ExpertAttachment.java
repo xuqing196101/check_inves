@@ -1,9 +1,15 @@
 package ses.model.ems;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class ExpertAttachment {
-    private String id;
+public class ExpertAttachment implements Serializable{
+    /**
+	 * @Fields serialVersionUID : 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private String id;
 
     private String contentType;
 

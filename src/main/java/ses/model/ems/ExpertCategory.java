@@ -1,6 +1,12 @@
 package ses.model.ems;
 
-public class ExpertCategory {
+import java.io.Serializable;
+
+public class ExpertCategory implements Serializable{
+	/**
+	 * @Fields serialVersionUID : 
+	 */
+	private static final long serialVersionUID = 1L;
 	//专家id
     private String expertId;
     //品目id

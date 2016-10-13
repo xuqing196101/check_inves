@@ -730,10 +730,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<tr align="center">
 						<td><input type="radio" name="purchaseDepId"  value="${p.id }" /></td>
 						<td>${vs.count}</td>
-						<td><input border="0" disabled="disabled" value="${p.depName }"></td>
-						<td><input border="0" disabled="disabled" value="${p.contact }"></td>
-						<td><input border="0" disabled="disabled" value="${p.contactAddress }"></td>
-						<td><input border="0" disabled="disabled" value="${p.contactTelephone }"></td>
+						<td><input border="0" disabled="disabled" value="${p.name }"></td>
+						<td><input border="0" disabled="disabled" value="${p.princinpal }"></td>
+						<td><input border="0" disabled="disabled" value="${p.detailAddr }"></td>
+						<td><input border="0" disabled="disabled" value="${p.mobile }"></td>
 					</tr>
 				</c:forEach> 
 			</table>

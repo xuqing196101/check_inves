@@ -173,11 +173,12 @@ public class FirstAuditTemplatServiceImpl implements FirstAuditTemplatService {
 		//复制属性 到初审项定义表中
 	   for (FirstAuditTemitem firstAuditTemitem : list) {
 		   audit = new FirstAudit();
-		   audit.setId(firstAuditTemitem.getId());
+		   audit.setId(WfUtil.createUUID());
 		   audit.setCreater(firstAuditTemitem.getCreater());
 		   audit.setName(firstAuditTemitem.getName());
 		   audit.setKind(firstAuditTemitem.getKind());
 		   audit.setProjectId(projectId);
+		   
 		   auditMapper.insertSelective(audit);
 	}
    }

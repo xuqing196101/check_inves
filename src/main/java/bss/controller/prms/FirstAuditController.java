@@ -54,7 +54,7 @@ public class FirstAuditController {
 	public String toAdd(String projectId,Model model ){
 		try {
 			//项目分包信息
-			HashMap<String,Object> pack = new HashMap<String,Object>();
+			/*HashMap<String,Object> pack = new HashMap<String,Object>();
 			pack.put("projectId", projectId);
 			List<Packages> packList = packageService.findPackageById(pack);
 			if(packList.size()==0){
@@ -82,7 +82,7 @@ public class FirstAuditController {
 			}
 			model.addAttribute("packageList", packages);
 			Project project = projectService.selectById(projectId);
-			model.addAttribute("project", project);
+			model.addAttribute("project", project);*/
 			//初审项信息
 			List<FirstAudit> list2 = service.getListByProjectId(projectId);
 			model.addAttribute("list", list2);

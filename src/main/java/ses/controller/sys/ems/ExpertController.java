@@ -37,6 +37,7 @@ import ses.service.ems.ExpertAttachmentService;
 import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertCategoryService;
 import ses.service.ems.ExpertService;
+import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.WordUtil;
 
@@ -86,6 +87,7 @@ public class ExpertController {
 		Expert expert = service.selectByPrimaryKey(id);
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("id", expert.getPurchaseDepId());
+		map.put("typeName", "0");
 		//查询出采购机构
 		List<PurchaseDep> depList = purchaseOrgnizationService.findPurchaseDepList(map);
 		if(depList!=null && depList.size()>0){
@@ -182,6 +184,7 @@ public class ExpertController {
 	public String toAddBasicInfo(@RequestParam("userId")String userId,HttpServletRequest request,HttpServletResponse response,  Model model){
 		User user  = userService.getUserById(userId);
 		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("typeName", "0");
 		List<PurchaseDep> purchaseDepList = purchaseOrgnizationService.findPurchaseDepList(map);
 		model.addAttribute("purchase", purchaseDepList);
 		model.addAttribute("user", user);
@@ -200,6 +203,8 @@ public class ExpertController {
 	@RequestMapping("/toEditBasicInfo")
 	public String toEditBasicInfo(@RequestParam("id")String id,HttpServletRequest request,HttpServletResponse response,  Model model){
 		Expert expert = service.selectByPrimaryKey(id);
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("typeName", "0");
 		List<PurchaseDep> depList = purchaseOrgnizationService.findPurchaseDepList(null);
 		if(depList!=null && depList.size()>0){
 			PurchaseDep purchaseDep = depList.get(0);
@@ -233,6 +238,7 @@ public class ExpertController {
 		//查询出采购机构
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("id", expert.getPurchaseDepId());
+		map.put("typeName", "0");
 		List<PurchaseDep> depList = purchaseOrgnizationService.findPurchaseDepList(map);
 		  if(depList!=null && depList.size()>0){
 			PurchaseDep purchaseDep = depList.get(0);
@@ -294,6 +300,7 @@ public class ExpertController {
 				 String purchaseDepId = expert.getPurchaseDepId();
 				 	if(purchaseDepId!=null && StringUtils.isNotEmpty(purchaseDepId)){
 				      map .put("id", purchaseDepId);
+					  map.put("typeName", "0");
 				      //采购机构
 				      List<PurchaseDep> depList = purchaseOrgnizationService.findPurchaseDepList(map);
 				      if(depList!=null && depList.size()>0){

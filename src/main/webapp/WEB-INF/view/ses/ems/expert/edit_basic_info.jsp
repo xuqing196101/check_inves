@@ -525,10 +525,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
    <table class="table table-condensed" >
   	<tr>
-		<th>采购机构名称：</th><td>${purchase.depName }</td>
-		<th>采购机构联系人：</th><td>${purchase.contact }</td>
-		<th>采购机构地址：</th><td>${purchase.contactAddress }</td>
-		<th>联系电话：</th><td>${purchase.contactTelephone }</td>
+		<th>采购机构名称：</th><td>${purchase.name }</td>
+		<th>采购机构联系人：</th><td>${purchase.princinpal }</td>
+		<th>采购机构地址：</th><td>${purchase.detailAddr }</td>
+		<th>联系电话：</th><td>${purchase.mobile }</td>
 	</tr>
 	</table>
   </div>

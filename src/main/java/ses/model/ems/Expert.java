@@ -1,5 +1,6 @@
 package ses.model.ems;
 
+import java.io.Serializable;
 import java.util.Date;
 /**
  * 
@@ -9,7 +10,11 @@ import java.util.Date;
   * @author ShaoYangYang
   * @date 2016年9月8日上午9:26:23
  */
-public class Expert {
+public class Expert implements Serializable{
+	/**
+	 * @Fields serialVersionUID : 
+	 */
+	private static final long serialVersionUID = 1L;
 	/**主键*/
     private String id;
     /**是否提交*/
@@ -80,7 +85,7 @@ public class Expert {
     private String isBlack = "0";
     /**诚信积分；默认100，根据不诚信指标扣分*/
     private Integer honestyScore = 100;
-    /**真是姓名*/
+    /**真实姓名*/
     private String relName;
     public String getId() {
         return id;
