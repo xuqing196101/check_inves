@@ -128,5 +128,21 @@ public class ExpertBlackListServiceImpl implements ExpertBlackListService{
 		
 		return expertMapper.findExpertList();
 	}
+	
+	/**
+     * @Title: findExpertAll
+     * @author Xu Qing
+     * @date 2016-10-12 下午7:42:52  
+     * @Description: 查询专家 ,可条件查询
+     * @param @return      
+     * @return List<Expert>
+     */
+	@Override
+	public List<Expert> findExpertAll(Expert expert, Integer page) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		
+		return expertMapper.findExpertAll(expert);
+	}
 
 }

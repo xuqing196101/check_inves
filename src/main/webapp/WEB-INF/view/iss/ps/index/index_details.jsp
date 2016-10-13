@@ -56,13 +56,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <div class="col-md-12 p30_40 border1 margin-top-20">
      <h3 class="tc f30">
 	   <div class="title bbgrey ">${articleDetail.name}</div>
-	   <div class="new_time bbgrey mt10">(2016-KJBJ-1008-2)</div>
 	 </h3>
 	 <div class="p15_0" ><div class="fr"><span>文章来源：${articleDetail.user.loginName }</span><span class="ml15"><i class="mr5"><img src="<%=basePath%>public/ZHQ/images/block.png"/></i><fmt:formatDate value='${articleDetail.createdAt}' pattern="yyyy.MM.dd" /></span></div></div>
 	 <div class="clear margin-top-20 new_content">
 	    ${articleDetail.content }
 	 </div>
-	 <div>
+	 <div class="extra_file">
 	 	<span class="f14 fl">附件：</span>
 	 	<div class="">
 		 	<c:forEach items="${articleDetail.articleAttachments}" var="a">

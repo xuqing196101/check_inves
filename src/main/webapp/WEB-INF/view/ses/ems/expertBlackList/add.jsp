@@ -5,7 +5,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-
 <title>专家黑名单添加</title>
 
 <meta http-equiv="pragma" content="no-cache">
@@ -28,6 +27,24 @@
     margin-right: 10px;
 }
 </style>
+<script type="text/javascript">
+  $(function() {
+    $("#expert_name").click(function() {
+      layer.open({
+        type : 2,
+        title : '选择专家',
+        // skin : 'layui-layer-rim', //加上边框
+        area : [ '1000px', '420px' ], //宽高
+        offset : '100px',
+        scrollbar : false,
+        content : '${pageContext.request.contextPath}/expert/expert_list.html', //url
+        closeBtn : 1, //不显示关闭按钮
+      });
+    });
+
+  });
+
+</script>
 </head>
 <body>
 	<!--面包屑导航开始-->
@@ -47,12 +64,7 @@
       <ul class="list-unstyled list-flow p0_20">
 		    <li class="col-md-6 p0">
           <span><i class="red">＊</i>专家姓名：</span>
-            <select name="relName" class="span2">
-              <option value="">请选择</option>
-              <c:forEach var="expert"  items="${expertList}">
-              <option value="${expert.relName}">${expert.relName}</option>
-              </c:forEach>
-            </select> 
+            <input class="span2"  name="relName"  type="text" id="expert_name" readonly="readonly" value="${relName }">
         </li>
 	      <li class="col-md-6  p0 ">
 		      <span class=""><i class="red">＊</i>入库时间：</span>

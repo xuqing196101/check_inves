@@ -156,6 +156,9 @@ button, input, select, textarea {
 	float:left;
 	margin-bottom:0px!important;
 }
+.list-flow{
+	overflow:hidden;
+}
 .list-flow span{
     width:200px;
 	float:left;

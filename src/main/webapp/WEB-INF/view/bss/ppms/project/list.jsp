@@ -126,16 +126,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   }
     
        function start(){
-         var id =[]; 
+       var id =[]; 
         $('input[name="chkItem"]:checked').each(function(){ 
             id.push($(this).val()); 
         }); 
-        if(status==1){
-            layer.alert("该项目以报批",{offset: ['222px', '390px'], shade:0.01});
-        }else{
         
+          var id =[]; 
+        $('input[name="chkItem"]:checked').each(function(){ 
+            id.push($(this).val()); 
+        }); 
+        
+            
           if(id.length==1){
-           layer.open({
+           <%-- layer.open({
             type: 2, //page层
             area: ['500px', '300px'],
             title: '您是要启动项目吗？',
@@ -145,14 +148,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             offset: ['220px', '630px'],
             shadeClose: true,
             content: '<%=basePath%>project/startProject.html?id='+id
-           });
+           }); --%>
+           window.location.href="<%=basePath%>project/excute.html?id="+id;
             
         }else if(id.length>1){
             layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
         }else{
             layer.alert("请选择需要启动的项目",{offset: ['222px', '390px'], shade:0.01});
         }
-        }
+        
     }
        
        //项目分包
@@ -277,10 +281,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <button class="btn padding-left-10 padding-right-10 btn_back" onclick="firstAudit()">初审项定义</button>
         <button class="btn padding-left-10 padding-right-10 btn_back" onclick="subPackage()">分包</button>
         <button class="btn padding-left-10 padding-right-10 btn_back" >打印报批文件</button>
-        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="start();">启动</button>
+        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="start();">实施</button>
         <button class="btn padding-left-10 padding-right-10 btn_back" onclick="view();">查看</button>
          <button class="btn btn-windows edit" onclick="edit();">修改</button>
-        <button class="btn padding-left-10 padding-right-10 btn_back">进入</button>
       </span>
     <a class="btn btn-windows add" href="<%=basePath%>project/add.html">新建采购项目</a>
     <div class="container margin-top-5">
@@ -291,6 +294,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <th class="info w50">序号</th>
           <th class="info">项目名称</th>
           <th class="info">项目编号</th>
+          <th class="info">采购方式</th>
           <th class="info">项目状态</th>
         </tr>
         </thead>
@@ -300,10 +304,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
               <td class="tc" onclick="see(${obj.id});">${obj.name}</td>
               <td class="tc" onclick="see(${obj.id});">${obj.projectNumber }</td>
+              <td class="tc" onclick="see(${obj.id});">${obj.purchaseType }</td>
               <td class="tc" onclick="see(${obj.id});">
-              <c:if test="${'1'==obj.status}">已报批</c:if>
+              <c:if test="${'1'==obj.status}">实施中</c:if>
               <c:if test="${'2'==obj.status}">已成交</c:if>
-              <c:if test="${'3'==obj.status}">新建报批</c:if>
+              <c:if test="${'3'==obj.status}">已立项</c:if>
               </td>
             </tr>
      

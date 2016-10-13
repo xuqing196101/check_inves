@@ -187,6 +187,9 @@ function tijiao(str){
   if(str=="reasonsList"){
     action = "${pageContext.request.contextPath}/supplierAudit/reasonsList.html";
   }
+  if(str=="product"){
+    action = "${pageContext.request.contextPath}/supplierAudit/product.html";
+  }
   $("#form_id").attr("action",action);
   $("#form_id").submit();
 }
@@ -218,7 +221,7 @@ function tijiao(str){
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('service');">服务-专业信息</a></li>
               </c:if>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('items');">品目信息</a></li>
-              <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >产品信息</a></li>
+              <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('product');" id="product">产品信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('applicationFrom');">申请表</a></li>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('reasonsList');">审核汇总</a></li>
             </ul>
@@ -248,7 +251,7 @@ function tijiao(str){
 	                        <th class="info">证书有效期截止日期</th>
 	                        <th class="info">证书状态</th>
 	                       <!--  <th class="info">附件上传</th> -->
-	                       <th class="info">操作</th>
+	                       <th class="info w80">操作</th>
 	                      </tr>
 	                    </thead>
 	                    <c:forEach items="${supplierCertEng}" var="s" >
@@ -305,7 +308,7 @@ function tijiao(str){
                         <th class="info">资质资格状态变更时间</th>
                         <th class="info">资质资格状态变更原因</th>
                        <!--  <th class="info">附件上传</th> -->
-                       <th class="info">操作</th>
+                       <th class="info w80">操作</th>
                       </tr>
                     </thead>
                     <c:forEach items="${supplierAptitutes}" var="s" >

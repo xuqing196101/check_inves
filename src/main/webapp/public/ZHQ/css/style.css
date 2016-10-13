@@ -2071,3 +2071,9 @@ span.zyxx{
 	border:1px dashed #eeeeee;
 	margin-bottom:15px;
 }
+/*详情页附件样式*/
+.extra_file{
+	border-top:2px solid #2c9fa6;
+	overflow: hidden;
+	padding:10px;
+}

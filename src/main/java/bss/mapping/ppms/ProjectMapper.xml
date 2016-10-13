@@ -34,6 +34,21 @@
     <result column="PURCHASE_DEP_NAME" property="purchaseDepName"/>
     <result column="EXECUTE_STATUS" property="executeStatus"/>
     <result column="IS_ENTRANCE" property="isEntrance"/>
+    <result column="APPROVAL_TIME" property="approvalTime"/>
+    <result column="REPLY_TIME" property="replyTime"/>
+    <result column="DEMAND_FROM_TIME" property="demandFromTime"/>
+    <result column="TASK_GIVE_TIME" property="taskGiveTime"/>
+    <result column="CREATED_AT" property="createAt"/>
+    <result column="START_TIME" property="startTime"/>
+    <result column="NOTICE_NEWS_TIME" property="noticeNewsTime"/>
+    <result column="APP_TIME" property="appTime"/>
+    <result column="SIGN_UP_TIME" property="signUpTime"/>
+    <result column="APPLY_DEADLINE" property="applyDeanline"/>
+    <result column="NOTICE_TIME" property="noticeTime"/>
+    <result column="END_TIME" property="endTime"/>
+    <result column="SIGNING_TIME" property="signingTime"/>
+    <result column="ACCEPTANCE_TIME" property="acceptanceTime"/>
+    <result column="MAINTENANCE_TIME" property="maintenanceTime"/>
     <association property="dealSupplier" column="DEAL_SUPPLIER" select="ses.dao.sms.SupplierMapper.selectByPrimaryKey"/>
     <association property="purchaseDep" column="PURCHASE_DEP_ID" select="ses.dao.oms.PurchaseDepMapper.selectPurchaseById"/>
   </resultMap>
@@ -43,7 +58,9 @@
     POSTCODE, SUPPLIER_NUMBER, OFFER_STANDARD, PR_INTRODUCE, BUDGET_AMOUNT, PASS_WORD, 
     SCORING_RUBRIC, OPERATOR, DIVISION_OF_WORK, PURCHASE_TYPE, MATERIALS_TYPE, SECTOR_OF_DEMAND, 
     PURCHASE_DEP_ID, DEADLINE, DATE_OF_ENTRUSTMENT, BID_DATE, BID_ADDRESS, REQUIERED_ID,BALE_NO,
-    AMOUNT,DEAL_SUPPLIER,PURCHASE_DEP_NAME,EXECUTE_STATUS,IS_ENTRANCE
+    AMOUNT,DEAL_SUPPLIER,PURCHASE_DEP_NAME,EXECUTE_STATUS,IS_ENTRANCE,APPROVAL_TIME,REPLY_TIME,
+    DEMAND_FROM_TIME,TASK_GIVE_TIME,CREATED_AT,START_TIME,NOTICE_NEWS_TIME,APP_TIME,SIGN_UP_TIME,
+    APPLY_DEADLINE,NOTICE_TIME,END_TIME,SIGNING_TIME,ACCEPTANCE_TIME,MAINTENANCE_TIME
   </sql>
   
   <sql id="Example_Where_Clause">
@@ -336,6 +353,51 @@
       <if test="isEntrance != null">
         IS_ENTRANCE,
       </if>
+      <if test="approvalTime != null">
+        APPROVAL_TIME,
+      </if>
+      <if test="replyTime != null">
+        REPLY_TIME,
+      </if>
+      <if test="demandFromTime != null">
+        DEMAND_FROM_TIME,
+      </if>
+      <if test="taskGiveTime != null">
+        TASK_GIVE_TIME,
+      </if>
+      <if test="createAt != null">
+        CREATE_AT,
+      </if>
+      <if test="startTime != null">
+        START_TIME,
+      </if>
+      <if test="noticeNewsTime != null">
+        NOTICE_NEWS_TIME,
+      </if>
+      <if test="appTime != null">
+        APP_TIME,
+      </if>
+      <if test="signUpTime != null">
+        SIGN_UP_TIME,
+      </if>
+      <if test="applyDeanline != null">
+        APPLY_DEADLINE,
+      </if>
+      <if test="noticeTime != null">
+        NOTICE_TIME,
+      </if>
+      <if test="endTime != null">
+        END_TIME,
+      </if>
+      <if test="signingTime != null">
+        SIGNING_TIME,
+      </if>
+      <if test="acceptanceTime != null">
+        ACCEPTANCE_TIME,
+      </if>
+      <if test="maintenanceTime != null">
+        MAINTENANCE_TIME,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -440,6 +502,51 @@
       <if test="isEntrance != null">
         #{isEntrance},
       </if>
+      <if test="approvalTime != null">
+        #{approvalTime},
+      </if>
+      <if test="replyTime != null">
+        #{replyTime},
+      </if>
+      <if test="demandFromTime != null">
+        #{demandFromTime},
+      </if>
+      <if test="taskGiveTime != null">
+        #{taskGiveTime},
+      </if>
+      <if test="createAt != null">
+        #{createAt},
+      </if>
+      <if test="startTime != null">
+        #{startTime},
+      </if>
+      <if test="noticeNewsTime != null">
+        #{noticeNewsTime},
+      </if>
+      <if test="appTime != null">
+        #{appTime},
+      </if>
+      <if test="signUpTime != null">
+        #{signUpTime},
+      </if>
+      <if test="applyDeanline != null">
+        #{applyDeanline},
+      </if>
+      <if test="noticeTime != null">
+        #{noticeTime},
+      </if>
+      <if test="endTime != null">
+        #{endTime},
+      </if>
+      <if test="signingTime != null">
+        #{signingTime},
+      </if>
+      <if test="acceptanceTime != null">
+        #{acceptanceTime},
+      </if>
+      <if test="maintenanceTime != null">
+        #{maintenanceTime},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="bss.model.ppms.Project">
@@ -523,7 +630,7 @@
       <if test="bidAddress != null">
         BID_ADDRESS = #{bidAddress,jdbcType=VARCHAR},
       </if>
-      <if test="requiered != null">
+      <if test="requieredId != null">
         REQUIERED_ID = #{requieredId,jdbcType=VARCHAR},
       </if>
       <if test="baleNo != null">
@@ -543,6 +650,51 @@
       </if>
       <if test="isEntrance != null">
         IS_ENTRANCE = #{isEntrance},
+      </if>
+      <if test="approvalTime != null">
+        APPROVAL_TIME = #{approvalTime},
+      </if>
+      <if test="replyTime != null">
+        REPLY_TIME = #{replyTime},
+      </if>
+      <if test="demandFromTime != null">
+        DEMAND_FROM_TIME = #{demandFromTime},
+      </if>
+      <if test="taskGiveTime != null">
+        TASK_GIVE_TIME = #{taskGiveTime},
+      </if>
+      <if test="createAt != null">
+        CREATED_AT = #{createAt},
+      </if>
+      <if test="startTime != null">
+        START_TIME = #{startTime},
+      </if>
+      <if test="noticeNewsTime != null">
+        NOTICE_NEWS_TIME = #{noticeNewsTime},
+      </if>
+      <if test="appTime != null">
+        APP_TIME = #{appTime},
+      </if>
+      <if test="signUpTime != null">
+        SIGN_UP_TIME = #{signUpTime},
+      </if>
+      <if test="applyDeanline != null">
+        APPLY_DEADLINE = #{applyDeanline},
+      </if>
+      <if test="noticeTime != null">
+        NOTICE_TIME = #{noticeTime},
+      </if>
+      <if test="endTime != null">
+        END_TIME = #{endTime},
+      </if>
+      <if test="signingTime != null">
+        SIGNING_TIME = #{signingTime},
+      </if>
+      <if test="acceptanceTime != null">
+        ACCEPTANCE_TIME = #{acceptanceTime},
+      </if>
+      <if test="maintenanceTime != null">
+        MAINTENANCE_TIME = #{maintenanceTime},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}

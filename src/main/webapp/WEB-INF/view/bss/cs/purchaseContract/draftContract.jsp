@@ -79,10 +79,7 @@
    	    $.fn.zTree.init($("#treeDemo"),setting,datas);
    	   // $("#treeDemo").hide();
    	});
-   	function next(){
-   		var ids = "${ids}";
-   		window.location.href="<%=basePath%>purchaseContract/createDetailContract.html?ids="+ids;
-   	}
+   	 
    	/*点击事件*/
     function zTreeOnClick(event,treeId,treeNode){
     	 if (treeNode) {
@@ -163,15 +160,15 @@
 		var tabl = $("#detailtable");
 		html += "<tr><td class='tc w30'><input onclick='check()' type='checkbox' name='chkItem' value='' /></td>";
 		html += "<td class='tc w50'>"+(vstab+1)+"</td>";
-		html += "<td class='tc w30'><input type='text' name='proList["+(vstab+1)+"].planNo' value='"+$('#planNo').val()+"'/></td>";
+		html += "<td class='tc w30'><input type='text' name='proList["+(vstab+1)+"].planNo' value='"+$('#planNo').val()+"' class='w50'/></td>";
 		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].goodsName' value='"+$('#citySel4').val()+"'/></td>";
 		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].brand' value='"+$('#citySel4').val()+"'/></td>"
 		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].stand' value='"+$('#model').val()+"'/></td>"
-		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].item' value='"+$('#unit').val()+"'/></td>"
-		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].purchaseCount' value='"+$('#purNum').val()+"'/></td>"
-		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].price' value='"+$('#univalent').val()+"'/></td>"
-		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].amount' value='"+$('#purBudgetSum').val()+"'/></td>"
-		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].deliverDate' value='"+$('#givetime').val()+"'/></td>"
+		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].item' value='"+$('#unit').val()+"' class='w50'/></td>"
+		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].purchaseCount' value='"+$('#purNum').val()+"' class='w50'/></td>"
+		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].price' value='"+$('#univalent').val()+"' class='w50'/></td>"
+		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].amount' value='"+$('#purBudgetSum').val()+"' class='w50'/></td>"
+		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].deliverDate' value='"+$('#givetime').val()+"' class='w100'/></td>"
 		html += "<td class='tc'><input type='text' name='proList["+(vstab+1)+"].memo' value='"+$('#remarks').val()+"'/></td>"
 		tabl.append(html);
 		layer.close(index);
@@ -206,19 +203,31 @@
 		skin : 'layui-layer-rim', //加上边框
 		area : [ '40%', '550px' ], //宽高
 		content : $('#openDiv'),
-		offset: ['600px', '350px']
+		offset: ['600px', '40%']
 	  });
     }
 	
 	function staging(){
-		$("#status").val("0");
-		$("#contractForm").submit();
-	}
-	
-	function protocol(){
 		$("#status").val("1");
 		$("#contractForm").submit();
 	}
+	
+	function formalContract(){
+		$("#status").val("2");
+		alert(111);
+		layer.open({
+			shift: 1, //0-6的动画形式，-1不开启
+		    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+		    title: ['请输入合同批准文号','border-bottom:1px solid #e5e5e5'],
+		    shade:0.01, //遮罩透明度
+			type : 1,
+			skin : 'layui-layer-rim', //加上边框
+			area : [ '370px', '200px' ], //宽高
+			content : $('#numberWin'),
+			offset: ['600px', '40%']
+		});
+	}
+
     </script>
 <body>
 <!--面包屑导航开始-->
@@ -232,16 +241,15 @@
    </div>
    
 <!-- 新增模板开始-->
-   <div class="container">
-   		<form id="contractForm" action="<%=basePath%>purchaseContract/addPurchaseContract.html?ids=${ids}" method="post">
+   <div class="container bggrey border1 mt20">
+   		<form id="contractForm" action="<%=basePath%>purchaseContract/updateDraftContract.html?ids=${ids}" method="post">
    		<input type="hidden" name="status" value="" id="status"/>
    		<input type="hidden" name="id" value="${draftCon.id}"/>
    		<input type="hidden" name="supplierPurId" value="${draftCon.supplierPurId}"/>
    		<input type="hidden" name="projectName" value="${draftCon.projectName}"/>
-   		<div class="headline-v2">
-   			<h2>基本信息</h2>
-   		</div>
-   		<ul class="list-unstyled list-flow p0_20">
+   		<h2 class="f16 jbxx"><i>01</i>基本信息</h2>
+   		
+   		<ul class="list-unstyled list-flow ul_list">
    			<input type="hidden" class="contract_id" name="contract_id">
 		     <li class="col-md-6 p0 ">
 			   <span class=""><div class="red star_red">*</div>合同名称：</span>
@@ -292,12 +300,18 @@
 		        	<div class="validate">${ERR_budget}</div>
        			</div>
 			 </li>
+			 <li class="col-md-6 p0">
+			   <span class=""><div class="red star_red">*</div>项级预算科目：</span>
+		        <div class="input-append ">
+		        	<input class="span2 contract_name" name="budget" value="${project.budgetSubjectItem}" type="text">
+		        	<div class="validate">${ERR_budgetSubjectItem}</div>
+       			</div>
+			 </li>
 			 <div class="clear"></div>
 		 </ul>
-   		<div class="headline-v2">
-   			<h2>甲方信息</h2>
-   		</div>
-		 <ul class="list-unstyled list-flow p0_20">
+   		<h2 class="f16 jbxx"><i>02</i>甲方信息</h2>
+   		
+		 <ul class="list-unstyled list-flow ul_list">
     		 <li class="col-md-6 p0">
 			   <span class=""><div class="red star_red">*</div>甲方单位：</span>
 		        <div class="input-append ">
@@ -370,10 +384,8 @@
 			 </li>
 			 <div class="clear"></div>
 		 </ul>
-   		<div class="headline-v2">
-   			<h2>乙方信息</h2>
-   		</div>
-		 <ul class="list-unstyled list-flow p0_20">
+   		<h2 class="f16 count_flow mt40"><i>03</i>乙方信息</h2>
+		 <ul class="list-unstyled list-flow ul_list">
 			 <li class="col-md-6 p0">
 			   <span class=""><div class="red star_red">*</div>乙方单位：</span>
 		        <div class="input-append ">
@@ -446,16 +458,12 @@
 			 </li>
 			 <div class="clear"></div>
 		</ul>
-		<div class="headline-v2">
-   			<h2>项目明细</h2>
-   		</div>
-		<div class="clear container">
-		<div class="p10_25">
+        <h2 class="f16 count_flow mt40"><i>04</i>项目明细</h2>
 		<div>
 			<input type="button" class="btn btn-windows add" onclick="openDetail()" value="添加"/>
 			<input type="button" class="btn btn-windows delete" onclick="delDetail()" value="删除"/>
 		</div>
-    	<table id="detailtable" name="" class="table table-bordered table-condensed mb0">
+    	<table id="detailtable" name="proList" class="table table-bordered table-condensed mb0 ml5">
 		 <thead>
 			<tr>
 				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
@@ -476,22 +484,21 @@
 			<tr>
 				<td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
 				<td class="tc w50">${(vs.index+1)}</td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].planNo" value="${reque.planNo}"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].planNo" value="${reque.planNo}" class="w50"/></td>
 				<td class="tc"><input type="text" name="proList[${(vs.index)}].goodsName" value="${reque.goodsName}"/></td>
 				<td class="tc"><input type="text" name="proList[${(vs.index)}].brand" value="${reque.brand}"/></td>
 				<td class="tc"><input type="text" name="proList[${(vs.index)}].stand" value="${reque.stand}"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].item" value="${reque.item}"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].purchaseCount" value="${reque.purchaseCount}"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].price" value="${reque.price}"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].amount" value="${reque.amount}"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].deliverDate" value="${reque.deliverDate}"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].item" value="${reque.item}" class="w50"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].purchaseCount" value="${reque.purchaseCount}" class="w50"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].price" value="${reque.price}" class="w50"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].amount" value="${reque.amount}"  class="w50"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].deliverDate" value="${reque.deliverDate}"   class="w100"/></td>
 				<td class="tc"><input type="text" name="proList[${(vs.index)}].memo" value="${reque.memo}"/></td>
 			</tr>
    		</c:forEach>
 	</table>
-     </div>
-    </div>
-    <div class="headline-v2">
+
+    <div class="headline-v2 bggrey">
    		<h2>合同正文</h2>
    	</div>
    	<div class="container">
@@ -501,10 +508,20 @@
     </div>
   		<div  class="col-md-12 tc mt20">
    			<input type="button" class="btn btn-windows save" onclick="staging()" value="保存"/>
-   			<input type="button" class="btn btn-windows save" onclick="protocol()" value="生成正式合同"/>
-   			<input type="button" class="btn btn-windows save" onclick="print()" value="打印"/>
+   			<input type="button" class="btn" onclick="formalContract()" value="生成正式合同"/>
+   			<input type="button" class="btn" onclick="print()" value="打印"/>
    			<input type="button" class="btn btn-windows cancel" onclick="history.go(-1)" value="取消">
   		</div>
+  		<div id="numberWin" class="dnone mt20">
+  		    <div class="col-md-12">
+			   <span class="span3">合同批准文号：</span>
+			   <input type="text" name="APPROVAL_NUMBER" value="" class="mb0"/>
+            </div>
+			<div class="tc col-md-12 mt20 ml30">
+			 <input type="button" class="btn" onclick="save()" value="生成"/>
+			 <input type="button" class="btn" onclick="cancel()" value="取消"/>
+			</div>
+		</div>
   	</form>
  </div>
  	<div id="openDiv" class="dnone">
@@ -521,7 +538,7 @@
 				  </span>
 	            </li>
 			    <li class="mt10">
-	    	      <label class="fl"><span class="red">*</span>编号:</label>
+	    	      <label class="fl"><span class="red">*</span>编号：</label>
 	    	      <span>
                    <input maxlength="11" id="planNo" name="planNo" type="text" >
 				  </span>

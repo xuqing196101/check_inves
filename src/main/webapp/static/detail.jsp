@@ -55,9 +55,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <div class="container bggrey border1 mt20">
    <form>
    <div>
-   <div class="headline-v2 bggrey">
+   <!--<div class="headline-v2 bggrey">
    <h2>修改订单</h2>
-   </div>
+   </div>-->
+   <h2 class="f16 count_flow mt40"><i>01</i>修改订单</h2>
    <ul class="list-unstyled list-flow ul_list">
      <li class="col-md-6 p0">
 	   <span class="">采购单位：</span>
@@ -171,9 +172,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    
   <!-- 产品明细开始-->
   <div class="padding-top-10 clear">
-   <div class="headline-v2 bggrey">
+   <!--<div class="headline-v2 bggrey">
    <h2>产品明细</h2>
-   </div>
+   </div>-->
+   <h2 class="f16 count_flow mt40"><i>02</i>产品明细</h2>
    <ul class="list-unstyled list-flow ul_list ">
 
      <li class="col-md-6 p0">
@@ -303,9 +305,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 </li> 
    </ul>
    <div class="clear padding-left-20 total f22"><span class="fl block">总计：</span><span>¥10000</span></div>
-   <div class="headline-v2 clear bggrey">
+<!--  <div class="headline-v2 clear bggrey">
    <h2>上传附件</h2>
-   </div>
+   </div>-->
+   <h2 class="f16 count_flow mt40"><i>03</i>修改订单</h2>
   </div>
   <div class="padding-left-40 padding-right-20 clear">
    <ul class="list-unstyled  bg8 padding-20">

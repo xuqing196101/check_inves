@@ -52,17 +52,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- 我的订单页面开始-->
    <div class="container">
    <div class="headline-v2">
-   <h2>我的协议供货订单</h2>
+     <h2>我的协议供货订单</h2>
+   </div>   
+   <div class="headline-v2">
+	 <h2>查询条件</h2>
    </div>
-   </div>
-   
-    <div class="container">
-	   <div class="headline-v2">
-	   		<h2>查询条件</h2>
-	   </div>
-   </div>
-    <div class="container">
-     <div class="p10_25">
+  <div class="container clear">
+  <div class="p10_25">
      <h2 class="padding-10 border1">
        <form action="" method="post" class="mb0">
     	<ul class="demand_list">
@@ -82,10 +78,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        </form>
      </h2>
    </div>
-</div>
+  </div>
 <!-- 表格开始-->
    <div class="container">
-   <div class="col-md-12 pl20">
+    <div class="col-md-12 pl20">
     <button class="btn btn-windows add" type="submit">新增</button>
      <button class="btn btn-windows withdraw" type="submit">撤回</button>
 	<button class="btn btn-windows edit" type="submit">修改</button>
@@ -99,30 +95,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<button class="btn btn-windows output" type="submit">导出</button>
 	<button class="btn btn-windows ht_add" type="submit">新增合同</button>
 	<button class="btn btn-windows cancel" type="submit">取消</button>
-	
 	</div>
-   <!-- <div class="col-md-4 ">
-              <div class="search-block-v2">
-                <div class="">
-                  <form accept-charset="UTF-8" action="" method="get"><div style="display:none"><input name="utf8" value="✓" type="hidden"></div>
-                    <input id="t" name="t" value="search_products" type="hidden">
-                    <div class="col-md-12 pull-right">
-                      <div class="input-group">
-                        <input class="form-control bgnone h37 p0_10" id="k" name="k" placeholder="" type="text">
-                        <span class="input-group-btn">
-                          <input class="btn-u" name="commit" value="搜索" type="submit">
-                        </span>
-                      </div>
-                    </div>
-                  </form>               
-			   </div>
-              </div>
-            </div> -->
-    </div>
+   </div>
    
-   <div class="container margin-top-5">
+   <div class="container">
      <div class="content padding-left-25 padding-right-25 padding-top-5">
-        <table class="table table-striped table-bordered table-hover">
+    	<table class="table table-bordered table-condensed table-hover">
 		<thead>
 		<tr>
 		  <th class="w30 info"><input type="checkbox" alt=""></th>
@@ -317,10 +295,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 
 		  </td>
 		</tr>
-        </table>
+	</table>
      </div>
-   
+
    </div>
- </div>
+      <div id="pagediv" align="right"></div>
+   </div>
 </body>
 </html>

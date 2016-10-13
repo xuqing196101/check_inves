@@ -1779,3 +1779,17 @@ img.img-mouse {
 	min-width:178px;
 	height:auto;
 }
+/*列表序号样式*/
+.count_flow i {
+    width: 24px;
+    height: 30px;
+    background: url(../images/round.png) no-repeat center;
+    color: #ffffff;
+    font-size: 12px;
+    text-align: center;
+    display: block;
+    float: left;
+    line-height: 30px;
+    font-style: normal;
+    margin-right: 10px;
+}

@@ -7,73 +7,104 @@ import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
 
 public class Project {
-    private String id;
+    private String id; //主键
 
-    private String name;
+    private String name; //
 
-    private String projectNumber;
+    private String projectNumber; //
 
-    private Integer status;
+    private Integer status; //
 
-    private String principal;
+    private String principal; //
 
-    private String ipone;
+    private String ipone; // 
 
-    private String linkman;
+    private String linkman; //
 
-    private String linkmanIpone;
+    private String linkmanIpone; //
 
-    private String bidUnit;
+    private String bidUnit; //
 
-    private String address;
+    private String address; //
 
-    private Integer postcode;
+    private Integer postcode; //
 
-    private Integer supplierNumber;
+    private Integer supplierNumber; //
 
-    private Integer offerStandard;
+    private Integer offerStandard; //
 
-    private String prIntroduce;
+    private String prIntroduce; //
 
-    private Integer budgetAmount;
+    private Integer budgetAmount; //
 
-    private String passWord;
+    private String passWord; //
 
-    private String scoringRubric;
+    private String scoringRubric; //
 
-    private String operator;
+    private String operator; //
 
-    private String divisionOfWork;
+    private String divisionOfWork; //
 
-    private String purchaseType;
+    private String purchaseType; //
 
-    private String materialsType;
+    private String materialsType; //
 
-    private String sectorOfDemand;
+    private String sectorOfDemand; //
 
-    private PurchaseDep purchaseDep;
+    private PurchaseDep purchaseDep; //
 
-    private Date deadline;
+    private Date deadline; //
 
-    private Date dateOfEntrustment;
+    private Date dateOfEntrustment; //
 
-    private Date bidDate;
+    private Date bidDate; //
 
-    private String bidAddress;
+    private String bidAddress; //
 
-    private String requieredId;
+    private String requieredId; //
     
-    private String baleNo;
+    private String baleNo; //
     
-    private double amount;
+    private double amount; //
     
-    private String purchaseDepName;
+    private String purchaseDepName; //
     
-    private Integer executeStatus;
+    private Integer executeStatus; //
     
-    private Integer isEntrance;
+    private Integer isEntrance; //
     
-    private Supplier dealSupplier;
+    private Supplier dealSupplier; //
+    
+    private Date approvalTime; //
+    
+    private Date replyTime; //
+    
+    private Date demandFromTime; //
+    
+    private Date taskGiveTime; //
+    
+    private Date createAt; //
+    
+    private Date startTime; //
+    
+    private Date noticeNewsTime; //
+    
+    private Date appTime; //
+    
+    private Date signUpTime; //
+    
+    private Date applyDeanline; //
+    
+    private Date noticeTime;
+    
+    private Date endTime;
+    
+    private Date signingTime;
+    
+    private Date acceptanceTime;
+    
+    private Date maintenanceTime;
+    
     
     private List<Task> list;
     
@@ -368,7 +399,125 @@ public class Project {
 		this.isEntrance = isEntrance;
 	}
 
-	
-	
+	public Date getApprovalTime() {
+		return approvalTime;
+	}
+
+	public void setApprovalTime(Date approvalTime) {
+		this.approvalTime = approvalTime;
+	}
+
+	public Date getReplyTime() {
+		return replyTime;
+	}
+
+	public void setReplyTime(Date replyTime) {
+		this.replyTime = replyTime;
+	}
+
+	public Date getDemandFromTime() {
+		return demandFromTime;
+	}
+
+	public void setDemandFromTime(Date demandFromTime) {
+		this.demandFromTime = demandFromTime;
+	}
+
+	public Date getTaskGiveTime() {
+		return taskGiveTime;
+	}
+
+	public void setTaskGiveTime(Date taskGiveTime) {
+		this.taskGiveTime = taskGiveTime;
+	}
+
+	public Date getCreateAt() {
+		return createAt;
+	}
+
+	public void setCreateAt(Date createAt) {
+		this.createAt = createAt;
+	}
+
+	public Date getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+
+	public Date getNoticeNewsTime() {
+		return noticeNewsTime;
+	}
+
+	public void setNoticeNewsTime(Date noticeNewsTime) {
+		this.noticeNewsTime = noticeNewsTime;
+	}
+
+	public Date getAppTime() {
+		return appTime;
+	}
+
+	public void setAppTime(Date appTime) {
+		this.appTime = appTime;
+	}
+
+	public Date getSignUpTime() {
+		return signUpTime;
+	}
+
+	public void setSignUpTime(Date signUpTime) {
+		this.signUpTime = signUpTime;
+	}
+
+	public Date getApplyDeanline() {
+		return applyDeanline;
+	}
+
+	public void setApplyDeanline(Date applyDeanline) {
+		this.applyDeanline = applyDeanline;
+	}
+
+	public Date getNoticeTime() {
+		return noticeTime;
+	}
+
+	public void setNoticeTime(Date noticeTime) {
+		this.noticeTime = noticeTime;
+	}
+
+	public Date getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
+	}
+
+	public Date getSigningTime() {
+		return signingTime;
+	}
+
+	public void setSigningTime(Date signingTime) {
+		this.signingTime = signingTime;
+	}
+
+	public Date getAcceptanceTime() {
+		return acceptanceTime;
+	}
+
+	public void setAcceptanceTime(Date acceptanceTime) {
+		this.acceptanceTime = acceptanceTime;
+	}
+
+	public Date getMaintenanceTime() {
+		return maintenanceTime;
+	}
+
+	public void setMaintenanceTime(Date maintenanceTime) {
+		this.maintenanceTime = maintenanceTime;
+	}
+
 	
 }

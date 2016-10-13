@@ -305,11 +305,33 @@ public class ProjectController extends BaseController{
 	public String viewDetail(String id,Model model,HttpServletRequest request){
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		String tt = (String) request.getSession().getAttribute("tt");
-		map.put("status", id);
+		map.put("taskId", id);
 		map.put("id", tt);
 		List<ProjectDetail> detailList = detailService.selectById(map);
 		model.addAttribute("lists", detailList);
 		return "bss/ppms/project/viewDetail";
+	}
+	/**
+	 * 
+	* @Title: update
+	* @author FengTian
+	* @date 2016-10-13 下午2:05:14  
+	* @Description: 修改项目 
+	* @param @param id
+	* @param @param name
+	* @param @param projectNumber
+	* @param @param model
+	* @param @param request
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/update")
+	public String update(String id,String name,String projectNumber,Model model,HttpServletRequest request){
+		Project project = projectService.selectById(id);
+		project.setName(name);
+		project.setProjectNumber(projectNumber);
+		projectService.update(project);
+		return "redirect:list.html";
 	}
 	/**
 	 * 
@@ -380,7 +402,7 @@ public class ProjectController extends BaseController{
 			projectDetail.setIsFreeTax(purchaseRequired.getIsFreeTax());
 			projectDetail.setGoodsUse(purchaseRequired.getGoodsUse());
 			projectDetail.setUseUnit(purchaseRequired.getUseUnit());
-			projectDetail.setStatus(ida);
+			projectDetail.setTaskId(ida);
 			detailService.insert(projectDetail);
 			String ide = projectDetail.getId();
 			String idr = (String) request.getSession().getAttribute("idr");
@@ -612,4 +634,37 @@ public class ProjectController extends BaseController{
 			}
 		}
 	}
+	
+	/**
+	 * Description: 根据项目的采购方式进入不同的实施页面
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-10-13
+	 * @param projectId
+	 * @return String
+	 * @exception IOException
+	 */
+	@RequestMapping("/excute")
+	public String execute(String id, Model model){
+		Project project = projectService.selectById(id);
+		if("公开招标".equals(project.getPurchaseType())){
+			model.addAttribute("project", project);
+			return "bss/ppms/open_bidding/main";
+		} else if("邀请招标".equals(project.getPurchaseType())){
+			model.addAttribute("project", project);
+			return "bss/ppms/invite_bidding/main";
+		} else if("询价".equals(project.getPurchaseType())){
+			model.addAttribute("project", project);
+			return "bss/ppms/enquiry/main";
+		} else if("竞争性谈判".equals(project.getPurchaseType())){
+			model.addAttribute("project", project);
+			return "bss/ppms/competitive_negotiation/main";
+		} else if("单一来源".equals(project.getPurchaseType())){
+			model.addAttribute("project", project);
+			return "bss/ppms/single_source/main";
+		} else {
+			return "error";
+		}
+	}
+
 }

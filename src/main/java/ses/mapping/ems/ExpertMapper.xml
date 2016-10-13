@@ -505,4 +505,15 @@
   <select id="findExpertList" parameterType="java.lang.String" resultMap="BaseResultMap">
   select * from T_SES_EMS_EXPERT
   </select>
+  <!-- 查询专家 可条件查询 -->
+    <select id="findExpertAll"   resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_EMS_EXPERT 
+    where 1=1 
+       <if test="relName != null and relName !=''">  
+              AND  REL_NAME like '%${relName}%'   
+       </if>  
+       ORDER BY CREATED_AT DESC 
+  </select>
 </mapper>

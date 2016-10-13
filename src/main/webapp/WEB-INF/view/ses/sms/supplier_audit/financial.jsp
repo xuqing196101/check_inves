@@ -176,6 +176,9 @@ function tijiao(str){
   if(str=="reasonsList"){
     action = "<%=basePath%>supplierAudit/reasonsList.html";
   }
+  if(str=="product"){
+    action = "${pageContext.request.contextPath}/supplierAudit/product.html";
+  }
   $("#form_id").attr("action",action);
   $("#form_id").submit();
 }
@@ -213,7 +216,7 @@ function tijiao(str){
 	            <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('service');">服务-专业信息</a></li>
 	            </c:if>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('items');">品目信息</a></li>
-              <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" >产品信息</a></li>
+              <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('product');" id="product">产品信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('applicationFrom');">申请表</a></li>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('reasonsList');">审核汇总</a></li>
             </ul>
@@ -235,7 +238,7 @@ function tijiao(str){
                        <th class="info">负债总额</th>
                        <th class="info">净资产总额</th>
                        <th class="info">营业收入</th>
-                       <th class="info">操作</th>
+                       <th class="info w80">操作</th>
                      </tr>
                    </thead>
                      <c:forEach items="${financial}" var="f" varStatus="vs">
