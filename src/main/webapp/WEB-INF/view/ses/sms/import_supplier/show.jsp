@@ -1,5 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -67,6 +68,22 @@ function loadCity(regionId){
   }
 }
 </SCRIPT>
+<script type="text/javascript">
+//鼠标移动显示全部内容
+	function out(content){
+	if(content.length >= 10){
+	layer.msg(content, {
+	        offset:'200px',
+		    skin: 'demo-class',
+			shade:false,
+			area: ['600px'],
+			time : 0    //默认消息框不关闭
+		});//去掉msg图标
+	}else{
+		layer.closeAll();//关闭消息框
+	}
+}
+</script>
 </head>
 <body>
  <div class="margin-top-10 breadcrumbs ">
@@ -81,120 +98,62 @@ function loadCity(regionId){
 			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10">
-						<div class="tab-content padding-top-20  h730">
+						<div class="tab-content padding-top-20">
 							<div class="tab-pane fade active in height-450">
-								<div class=" margin-bottom-0">
-									<h2 class="f16 jbxx">
-										<i>01</i>企业基本信息
-									</h2>
-									<ul class="list-unstyled list-flow">
-									<li class="col-md-6 p0">
-										   <span class=""><i class="red">＊</i> 用户名：</span>
-										   <div class="input-append">
-									         <input type="text" id="loginName"  class="span3" placeholder="用户名由字母、数字、－等字符组成" readonly="readonly" name="loginName" value="${is.loginName }"  > 
-									       </div>
-									</li>
-									<li class="col-md-6 p0">
-										   <span class=""><i class="red">＊</i> 登录密码：</span>
-										   <div class="input-append">
-									        <input type="text" id="password" class="span3"  placeholder="密码由6-20位，由字母、数字组成" readonly="readonly" name="password" value="${is.password }"  > 
-									       </div>
-									</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 企业名称：</span>
-											<div class="input-append">
-												<input class="span3" id="name" name="name" value="${is.name }" readonly="readonly" type="text">
-											</div>
-										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 企业类别：</span>
-											<div class="input-append">
-												<input class="span3" id="supplierType" name="supplierType" readonly="readonly" value="${is.supplierType }"  type="text">
-											</div>
-										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 中文译名：</span>
-											<div class="input-append">
-												<input class="span3" id="chinesrName" name="chinesrName" readonly="readonly" value="${is.chinesrName }" type="text">
-											</div>
-										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 法定代表人：</span>
-											<div class="input-append">
-												<input class="span3" id="legalName" name="legalName" readonly="readonly" value="${is.legalName }" type="text">
-											</div>
-										</li>
-										<li class="col-md-6 p0"><span class=""><i class="red">＊</i>企业注册地址：</span>
-											<div class="input-append">
-												<select id="id_provSelect" name="provSelect" disabled="disabled"><option value="">请选择省份</option></select>&nbsp;
+						<table class="table table-bordered">
+							<tbody>
+		                        <tr>
+									<td class="bggrey tr" style="width:17%">企业名称：</td>
+									<td style="width:16%" onmouseover="out('${is.name}')">${is.name}</td>
+									<td class="bggrey tr" style="width:17%"> 企业类别：</td>
+									<td style="width:17%">${is.supplierType }</td>
+									<td style="width:17%" class="bggrey tr">中文译名：</td>
+									<td style="width:17%">${is.chinesrName }</td>
+								</tr>
+								 <tr>
+									<td class="bggrey tr">法定代表人：</td>
+									<td>${is.legalName}</td>
+									<td class="bggrey tr">企业注册地址：</td>
+									<td><select id="id_provSelect" name="provSelect" disabled="disabled"><option value="">请选择省份</option></select>&nbsp;
   												<select id="address" name="address" disabled="disabled"><option value="">请选择城市</option></select>&nbsp;
-  												<SCRIPT LANGUAGE="JavaScript">loadProvince('${is.address}');</SCRIPT>
-											</div>
-										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>邮政编码：</span>
-											<div class="input-append">
-												<input class="span3" id="postCode" name="postCode" readonly="readonly" value="${is.postCode }"  type="text">
-											</div>
-										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>经营产品大类：</span>
-											<div class="input-append">
-												<input class="span3" id="productType" name="productType" readonly="readonly" value="${is.productType }" type="text">
-											</div>
-										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>主营产品：</span>
-											<div class="input-append">
-												<input class="span3" id="majorProduct" name="majorProduct" readonly="readonly" value="${is.majorProduct }" type="text">
-											</div>
-										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>兼营产品：</span>
-											<div class="input-append">
-												<input class="span3" id="byproduct" name="byproduct" readonly="readonly" value="${is.byproduct }" type="text">
-											</div>
-										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>生产商名称：</span>
-											<div class="input-append">
-												<input class="span3" id="producerName" name="producerName" readonly="readonly" value="${is.producerName }"  type="text">
-											</div>
-										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 联系人：</span>
-											<div class="input-append">
-												<input class="span3" id="contactPerson" name="contactPerson" readonly="readonly" value="${is.contactPerson }" type="text">
-											</div>
-										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 电话：</span>
-											<div class="input-append">
-												<input class="span3" id="telephone" name="telephone"  readonly="readonly" value="${is.telephone }" type="text">
-											</div>
-										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 传真：</span>
-											<div class="input-append">
-												<input class="span3" id="fax" name="fax" readonly="readonly" value="${is.fax }" type="text">
-											</div>
-										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 电子邮件：</span>
-											<div class="input-append">
-												<input class="span3" id="email" name="email" readonly="readonly" value="${is.email }" type="text">
-											</div>
-										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 企业网址：</span>
-											<div class="input-append">
-												<input class="span3" id="website" name="website" readonly="readonly" value="${is.website }" type="text">
-											</div>
-										</li>
-										<li class="col-md-12 p0 mt10"><span class="fl"><i class="red">＊</i>国内供货业绩：</span>
-											<div class="col-md-9 mt5">
-												<div class="row">
-													<textarea class="text_area col-md-12" id="civilAchievement" readonly="readonly" name="civilAchievement"  title="不超过800个字" placeholder=""> ${is.civilAchievement }</textarea>
-												</div>
-											</div>
-											<div class="clear"></div>
-										</li>
-										<li class="col-md-12 p0 mt10"><span class="fl"><i class="red">＊</i>企业简介：</span>
-											<div class="col-md-9 mt5">
-												<div class="row">
-													<textarea class="text_area col-md-12" id="remark" readonly="readonly" name="remark" title="不超过800个字" placeholder="">${is.remark }</textarea>
-												</div>
-											</div>
-											<div class="clear"></div>
-										</li>
-									</ul>
-									</div>
+  												<SCRIPT LANGUAGE="JavaScript">loadProvince('${is.address}');</SCRIPT></td>
+									<td class="bggrey tr">邮政编码：</td>
+									<td colspan="3">${is.postCode }</td>
+								</tr>
+								<tr>
+									<td class="bggrey tr">经营产品大类：</td>
+									<td>${is.productType}</td>
+									<td class="bggrey tr"> 主营产品：</td>
+									<td>${is.majorProduct }</td>
+									<td class="bggrey tr">兼营产品：</td>
+									<td>${is.byproduct }</td>
+								</tr>
+								<tr>
+									<td class="bggrey tr">生产商名称：</td>
+									<td onmouseover="out('${is.producerName}')">${is.producerName}</td>
+									<td class="bggrey tr"> 联系人：</td>
+									<td>${is.contactPerson }</td>
+									<td class="bggrey tr">电话：</td>
+									<td>${is.telephone }</td>
+								</tr>
+								<tr>
+									<td class="bggrey tr">传真：</td>
+									<td>${is.fax}</td>
+									<td class="bggrey tr"> 电子邮件：</td>
+									<td>${is.email }</td>
+									<td class="bggrey tr">企业网址：</td>
+									<td>${is.website }</td>
+								</tr>
+								<tr>
+									<td class="bggrey tr">国内供货业绩：</td>
+									<td colspan="5" onmouseover="out('${is.civilAchievement}')">${is.civilAchievement}</td>
+								</tr>
+								<tr>
+									<td class="bggrey tr"> 企业简介：</td>
+									<td  colspan="5"  onmouseover="out('${is.remark}')">${is.remark}</td>
+								</tr>
+							</tbody>
+						</table>
 									<div class="tc mt20 clear col-md-11">
 											<button class="btn btn-windows reset" onclick="history.go(-1)" type="button">返回</button>
 									</div>

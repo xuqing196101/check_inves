@@ -70,7 +70,7 @@ public class ImportSupplierServiceImpl implements ImportSupplierService {
 	}
 
 	@Override
-	public void deleteSoft(String id) {
+	public void delete(String id) {
 		isMapper.deleteByPrimaryKey(id);
 	}
 }

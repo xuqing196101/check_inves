@@ -89,12 +89,12 @@ public interface ImportSupplierService {
 	String selectIdByLoginName(ImportSupplierWithBLOBs is);
 	
 	/**
-	 * @Title: deleteSoft
+	 * @Title: delete
 	 * @author Song Biaowei
 	 * @date 2016-9-27 下午4:34:10  
 	 * @Description: 删除进口供应商按照id
 	 * @param @param id      
 	 * @return void
 	 */
-	void deleteSoft(String id);
+	void delete(String id);
 }

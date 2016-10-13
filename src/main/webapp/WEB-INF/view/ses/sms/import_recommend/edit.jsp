@@ -130,8 +130,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
            <option value="">请选择</option>
            <option value="1">正式代理商</option>
            <option value="2">临时代理商</option>
-           <option value="3">通用代理商</option>
-           <option value="4">专用代理商</option>
          </select>
          </div>
 	 </li>

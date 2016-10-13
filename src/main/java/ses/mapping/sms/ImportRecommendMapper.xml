@@ -31,7 +31,7 @@
     select 
     <include refid="Base_Column_List" />
     from T_SES_SMS_IMPORT_RECOMMEND
-    where 1=1 and STATUS != 2
+    where 1=1 and STATUS != 5
    <if test="name!=null and name!= ''">
    	 and NAME like '%${name}%'   
    </if>

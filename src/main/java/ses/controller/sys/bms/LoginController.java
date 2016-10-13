@@ -101,21 +101,7 @@ public class LoginController {
 			}else if(u != null){
 				req.getSession().setAttribute("loginUser", u);
 				req.getSession().setAttribute("resource", u.getMenus());
-				//等于6说明是进口供应商登录
-				if(u.getTypeName() != null && u.getTypeName() == 6){
-					ImportSupplierWithBLOBs is = new ImportSupplierWithBLOBs();
-					is.setLoginName(user.getLoginName());
-					List<ImportSupplierWithBLOBs> isList = importSupplierService.selectByFsInfo(is,1);
-					if(isList.size() == 1){
-						if(isList.get(0).getStatus() == 0){
-							out.print("scuesslogin");
-						}else{
-							out.print("deleteLogin");
-						}
-					}
-				}else{
-					out.print("scuesslogin");
-				}
+				out.print("scuesslogin");
 			}else{
 				logger.error("验证失败");
 				out.print("errorlogin");

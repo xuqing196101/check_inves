@@ -203,23 +203,8 @@ function loadCity(regionId){
 						<div class="tab-content padding-top-20  h730">
 							<div class="tab-pane fade active in height-450">
 								<div class=" margin-bottom-0">
-									<h2 class="f16 jbxx">
-										<i>01</i>企业基本信息
-									</h2>
 									<ul class="list-unstyled list-flow">
-									 <li class="col-md-6 p0">
-										   <span class=""><i class="red">＊</i> 用户名：</span>
-										   <div class="input-append">
-									         <input type="text" id="loginName"  class="span3" placeholder="用户名由字母、数字、－等字符组成" name="loginName" > 
-									       </div>
-									</li>
-								<li class="col-md-6 p0">
-										   <span class=""><i class="red">＊</i> 登录密码：</span>
-										   <div class="input-append">
-									        <input type="text" id="password" class="span3"  placeholder="密码由6-20位，由字母、数字组成" name="password" > 
-									       </div>
-									</li>
-										 	<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 企业名称：</span>
+										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 企业名称：</span>
 											<div class="input-append">
 												<input class="span3" id="name" name="name"  type="text">
 											</div>

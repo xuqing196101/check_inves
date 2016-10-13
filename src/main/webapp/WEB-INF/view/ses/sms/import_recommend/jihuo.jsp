@@ -62,14 +62,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <h2>进口代理商激活</h2>
    </div>
    <ul class="list-unstyled list-flow p0_20 mt10">
-     <li class="col-md-6 p0 ">
-	   <span class="fl">使用次数：</span>
-	   <div class="input-append  ">
-	   <input  name="id" value="${id }" type="hidden">
-        <input class=" span2 " id="useCount" name="useCount" type="text">
-        <span class="add-on">i</span>
-       </div>
-	 </li>
+    
       <li class="col-md-6 p0 "><span class=""><i class="red"></i>激活证明：</span>
           <div class=""><a href="" class="upload">附件上传</a><input name="attachment" type="file"  /></div>
 	  </li>

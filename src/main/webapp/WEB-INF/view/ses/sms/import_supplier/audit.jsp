@@ -67,125 +67,10 @@ function loadCity(regionId){
 }
 </SCRIPT>
 <script type="text/javascript">
-	   function tijiao(){
-    	if(!validateBusinessSupplierInfo()){
-    		return;
-    	}else{
+	   function tijiao(status){
+	   $("#status").val(status);
     		form1.submit();
     	}
-    }
-	$(function() {
-	    $("#postCode").blur(function(){
-	    	var postCode=$(this).val();
-	    	var patt = new RegExp("^[0-9]{4,8}$");
-	    		if(!patt.test(postCode)){
-	    			$(this).val('');
-	    			layer.tips("请输入正确的邮政编码.", "#postCode");
-	    		}
-	    });
-	        $("#telephone").blur(function(){
-	    	var telephone=$(this).val();
-	    		if(!(/^1(3|4|5|7|8)\d{9}$/.test(telephone))){
-	    			$(this).val('');
-	    			layer.tips("请输入正确的电话号码.", "#telephone");
-	    		}
-	    });
-	/** 校验用户名是否存在 */
-		$("#loginName").blur(function() {
-			var loginName = $(this).val();
-			var id = $("#id").val();
-			if(loginName) {
-				$.ajax({
-					url : "${pageContext.request.contextPath}/importSupplier/checkLoginName.do",
-					type : "post",
-					data : {
-						loginName : loginName,
-						id:id
-					},
-					success : function(result) {
-						 if(result == false) {
-							layer.tips("用户名已存在，请重新填写.", "#loginName");
-							$("#loginName").val("");
-						}
-					},
-				});
-			}
-		});
-		
-			$("#name").blur(function() {
-			var name = $(this).val();
-			var id=$("#id").val();
-			if(name) {
-				$.ajax({
-					url : "${pageContext.request.contextPath}/importSupplier/checkSupName.do",
-					type : "post",
-					data : {
-						name : name,
-						id:id
-					},
-					success : function(result) {
-						 if(result == false) {
-							layer.tips("企业已存在，请重新填写.", "#name");
-							$("#name").val("");
-						}
-					},
-				});
-			}
-		}); 
-		
-		/** 校验手机号是否存在 */
-		$("#mobile").blur(function() {
-			var mobile = $(this).val();
-			if(mobile) {
-				$.ajax({
-					url : "${pageContext.request.contextPath}/importSupplier/checkMobile.do",
-					type : "post",
-					data : {
-						mobile : mobile
-					},
-					success : function(result) {
-						 if(result == false) {
-							layer.tips("手机号已注册，请重新填写.", "#mobile", {
-								tips : 1
-							});
-							$("#mobile").val();
-						}
-					},
-				});
-			}
-		});
-		
-		$("#password").change(function() {
-			var password = $("#password").val();
-			if(!password) {
-				layer.tips("请输入密码", "#password", {
-					tips : 1
-				});
-				return false;
-			} else if(!password.match(/^(?!(?:\d*$))[A-Za-z0-9_]{6,20}$/)) {
-				layer.tips("密码由6-20位字母 数字组成 !", "#password", {
-					tips : 1
-				});
-				return false;
-			}
-		});
-		
-		$("#confirmPassword").change(function() {
-			var confirmPassword = $("#confirmPassword").val();
-			var password = $("#password").val();
-			if (!confirmPassword) {
-				layer.tips("请输入确认密码 !", "#confirmPassword", {
-					tips : 1
-				});
-				return false;
-			} else if (confirmPassword != password) {
-				layer.tips("密码不一致 !", "#confirmPassword", {
-					tips : 1
-				});
-				return false;
-			}
-		});
-	});
 </script>
 
 </head>
@@ -199,7 +84,7 @@ function loadCity(regionId){
 		<div class="clear"></div>
 	  </div>
    </div>
-		<form id="form1" action="${pageContext.request.contextPath}/importSupplier/update.html" method="post">
+		<form id="form1" action="${pageContext.request.contextPath}/importSupplier/audit.html" method="post">
 		<div class="container content height-350">
 			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
@@ -210,7 +95,8 @@ function loadCity(regionId){
 									<ul class="list-unstyled list-flow">
 										 	<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 企业名称：</span>
 											<div class="input-append">
-											    <input  value="${is.id }" name="id"  type="hidden">
+											<input  id="status" name="status"  type="hidden">
+											<input  value="${is.id }" name="id"  type="hidden">
 												<input class="span3" id="name" value="${is.name }" name="name"  type="text">
 											</div>
 										</li>
@@ -305,8 +191,9 @@ function loadCity(regionId){
 									</ul>
 									</div>
 									<div class="tc mt20 clear col-md-11">
-									        <button class="btn btn-windows reset" onclick="history.go(-1)" type="button">返回</button>
-										<button class="btn btn-windows git"   onclick="tijiao()"  >保存</button>
+									       <input class="btn padding-left-20 padding-right-20 btn_back"  type="button" onclick="tijiao(1)" value="审核通过">
+										   <input class="btn padding-left-20 padding-right-20 btn_back"  type="button" onclick="tijiao(2)" value="审核不通过">
+			  							   <input class="btn padding-left-20 padding-right-20 btn_back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 									</div>
 								</div>
 							</div>

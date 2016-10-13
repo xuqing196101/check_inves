@@ -100,6 +100,11 @@ public class ImportRecommendController {
 		User user1=(User) request.getSession().getAttribute("loginUser");
 		ir.setCreatedAt(new Date());
 		ir.setCreator(user1.getRelName());
+		if(ir.getType()==1){
+			ir.setStatus((short)3);
+		}else{
+			ir.setStatus((short)0);
+		}
 		importRecommendService.register(ir);
 		//存到user表里面
 		User user=new User();
@@ -161,7 +166,7 @@ public class ImportRecommendController {
 		String[] id = ids.split(",");
 		for (String str : id) {
 			ImportRecommend ir=importRecommendService.findById(str);
-			ir.setStatus((short)2);
+			ir.setStatus((short)5);
 			importRecommendService.update(ir);
 		}
 		return "redirect:list.html";
@@ -196,7 +201,9 @@ public class ImportRecommendController {
 	@RequestMapping("/zanting")
 	public String zanting(String id,Model model){
 		ImportRecommend ir=importRecommendService.findById(id);
-		ir.setStatus((short)3);
+		if(ir.getType()==1){
+			ir.setStatus((short)2);
+		}
 		importRecommendService.update(ir);
 		model.addAttribute("ir", ir);
 		return "redirect:list.html";
@@ -232,6 +239,7 @@ public class ImportRecommendController {
 	public String jihuoSave(ImportRecommend ir,String id,Model model,HttpServletRequest request) throws IOException{
 		this.setSupplierUpload(request,ir);
 		ImportRecommend ir1=importRecommendService.findById(id);
+		ir1.setUseCount((long)1);
 		ir1.setAttachment(ir.getAttachment());
 		ir1.setUseCount(ir.getUseCount());
 		ir1.setStatus((short)4);

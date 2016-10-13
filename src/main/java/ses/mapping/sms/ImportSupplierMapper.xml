@@ -3,9 +3,6 @@
 <mapper namespace="ses.dao.sms.ImportSupplierMapper">
   <resultMap id="BaseResultMap" type="ses.model.sms.ImportSupplier">
     <id column="ID" jdbcType="VARCHAR" property="id" />
-    <result column="LOGIN_NAME" jdbcType="VARCHAR" property="loginName" />
-    <result column="MOBILE" jdbcType="VARCHAR" property="mobile" />
-    <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
     <result column="NAME" jdbcType="VARCHAR" property="name" />
     <result column="SUPPLIER_TYPE" jdbcType="VARCHAR" property="supplierType" />
     <result column="CHINESR_NAME" jdbcType="VARCHAR" property="chinesrName" />
@@ -23,19 +20,18 @@
     <result column="WEBSITE" jdbcType="VARCHAR" property="website" />
     <result column="STATUS" jdbcType="DECIMAL" property="status" />
     <result column="ORG_ID" jdbcType="VARCHAR" property="orgId" />
-    <result column="PLEDGE" jdbcType="VARCHAR" property="pledge" />
-    <result column="REG_LIST" jdbcType="VARCHAR" property="regList" />
     <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
     <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+    <result column="CREATOR_ID" jdbcType="VARCHAR" property="creatorId" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="ses.model.sms.ImportSupplierWithBLOBs">
     <result column="CIVIL_ACHIEVEMENT" jdbcType="CLOB" property="civilAchievement" />
     <result column="REMARK" jdbcType="CLOB" property="remark" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, LOGIN_NAME, MOBILE, PASSWORD, NAME, SUPPLIER_TYPE, CHINESR_NAME, LEGAL_NAME, 
-    ADDRESS, POST_CODE, PRODUCT_TYPE, MAJOR_PRODUCT, BYPRODUCT, PRODUCER_NAME, CONTACT_PERSON, 
-    TELEPHONE, FAX, EMAIL, WEBSITE, STATUS, ORG_ID, PLEDGE, REG_LIST, CREATED_AT, UPDATED_AT
+    ID, NAME, SUPPLIER_TYPE, CHINESR_NAME, LEGAL_NAME,ADDRESS, POST_CODE, PRODUCT_TYPE, MAJOR_PRODUCT, 
+    BYPRODUCT, PRODUCER_NAME, CONTACT_PERSON, 
+    TELEPHONE, FAX, EMAIL, WEBSITE, STATUS, ORG_ID , CREATED_AT, UPDATED_AT,CREATOR_ID
   </sql>
   <sql id="Blob_Column_List">
     CIVIL_ACHIEVEMENT, REMARK
@@ -53,24 +49,23 @@
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="ses.model.sms.ImportSupplierWithBLOBs">
-    insert into T_SES_SMS_IMPORT_SUPPLIER (ID, LOGIN_NAME, MOBILE, 
-      PASSWORD, NAME, SUPPLIER_TYPE, 
+    insert into T_SES_SMS_IMPORT_SUPPLIER (ID
+      , NAME, SUPPLIER_TYPE, 
       CHINESR_NAME, LEGAL_NAME, ADDRESS, 
       POST_CODE, PRODUCT_TYPE, MAJOR_PRODUCT, 
       BYPRODUCT, PRODUCER_NAME, CONTACT_PERSON, 
       TELEPHONE, FAX, EMAIL, 
-      WEBSITE, STATUS, ORG_ID, 
-      PLEDGE, REG_LIST, CREATED_AT, 
-      UPDATED_AT, CIVIL_ACHIEVEMENT, REMARK
+      WEBSITE, STATUS, ORG_ID, CREATED_AT, 
+      UPDATED_AT, CIVIL_ACHIEVEMENT, REMARK,CREATOR_ID
       )
-    values (#{id,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
-      #{password,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{supplierType,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR},
+      #{name,jdbcType=VARCHAR}, #{supplierType,jdbcType=VARCHAR}, 
       #{chinesrName,jdbcType=VARCHAR}, #{legalName,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
       #{postCode,jdbcType=DECIMAL}, #{productType,jdbcType=VARCHAR}, #{majorProduct,jdbcType=VARCHAR}, 
       #{byproduct,jdbcType=VARCHAR}, #{producerName,jdbcType=VARCHAR}, #{contactPerson,jdbcType=VARCHAR}, 
       #{telephone,jdbcType=DECIMAL}, #{fax,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{website,jdbcType=VARCHAR}, #{status,jdbcType=DECIMAL}, #{orgId,jdbcType=VARCHAR}, 
-      #{pledge,jdbcType=VARCHAR}, #{regList,jdbcType=VARCHAR}, #{createdAt,jdbcType=DATE}, 
+      #{createdAt,jdbcType=DATE}, #{createorId,jdbcType=VARCHAR}, 
       #{updatedAt,jdbcType=DATE}, #{civilAchievement,jdbcType=CLOB}, #{remark,jdbcType=CLOB}
       )
   </insert>
@@ -79,15 +74,6 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         ID,
-      </if>
-      <if test="loginName != null">
-        LOGIN_NAME,
-      </if>
-      <if test="mobile != null">
-        MOBILE,
-      </if>
-      <if test="password != null">
-        PASSWORD,
       </if>
       <if test="name != null">
         NAME,
@@ -140,12 +126,6 @@
       <if test="orgId != null">
         ORG_ID,
       </if>
-      <if test="pledge != null">
-        PLEDGE,
-      </if>
-      <if test="regList != null">
-        REG_LIST,
-      </if>
       <if test="createdAt != null">
         CREATED_AT,
       </if>
@@ -158,19 +138,13 @@
       <if test="remark != null">
         REMARK,
       </if>
+       <if test="creatorId != null">
+        CREATOR_ID
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="loginName != null">
-        #{loginName,jdbcType=VARCHAR},
-      </if>
-      <if test="mobile != null">
-        #{mobile,jdbcType=VARCHAR},
-      </if>
-      <if test="password != null">
-        #{password,jdbcType=VARCHAR},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
@@ -223,12 +197,6 @@
       <if test="orgId != null">
         #{orgId,jdbcType=VARCHAR},
       </if>
-      <if test="pledge != null">
-        #{pledge,jdbcType=VARCHAR},
-      </if>
-      <if test="regList != null">
-        #{regList,jdbcType=VARCHAR},
-      </if>
       <if test="createdAt != null">
         #{createdAt,jdbcType=DATE},
       </if>
@@ -241,6 +209,9 @@
       <if test="remark != null">
         #{remark,jdbcType=CLOB},
       </if>
+      <if test="creatorId != null">
+        #{creatorId,jdbcType=VARCHAR}
+      </if>
     </trim>
       <selectKey  keyProperty="id" order="BEFORE" resultType="java.lang.String">
 			select sys_guid() from dual
@@ -249,15 +220,6 @@
   <update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.ImportSupplierWithBLOBs">
     update T_SES_SMS_IMPORT_SUPPLIER
     <set>
-      <if test="loginName != null">
-        LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
-      </if>
-      <if test="mobile != null">
-        MOBILE = #{mobile,jdbcType=VARCHAR},
-      </if>
-      <if test="password != null">
-        PASSWORD = #{password,jdbcType=VARCHAR},
-      </if>
       <if test="name != null">
         NAME = #{name,jdbcType=VARCHAR},
       </if>
@@ -309,12 +271,6 @@
       <if test="orgId != null">
         ORG_ID = #{orgId,jdbcType=VARCHAR},
       </if>
-      <if test="pledge != null">
-        PLEDGE = #{pledge,jdbcType=VARCHAR},
-      </if>
-      <if test="regList != null">
-        REG_LIST = #{regList,jdbcType=VARCHAR},
-      </if>
       <if test="createdAt != null">
         CREATED_AT = #{createdAt,jdbcType=DATE},
       </if>
@@ -327,14 +283,15 @@
       <if test="remark != null">
         REMARK = #{remark,jdbcType=CLOB},
       </if>
+       <if test="creatorId != null">
+        CREATOR_ID = #{creatorId,jdbcType=VARCHAR},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="ses.model.sms.ImportSupplierWithBLOBs">
     update T_SES_SMS_IMPORT_SUPPLIER
-    set LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
-      MOBILE = #{mobile,jdbcType=VARCHAR},
-      PASSWORD = #{password,jdbcType=VARCHAR},
+    set 
       NAME = #{name,jdbcType=VARCHAR},
       SUPPLIER_TYPE = #{supplierType,jdbcType=VARCHAR},
       CHINESR_NAME = #{chinesrName,jdbcType=VARCHAR},
@@ -352,19 +309,16 @@
       WEBSITE = #{website,jdbcType=VARCHAR},
       STATUS = #{status,jdbcType=DECIMAL},
       ORG_ID = #{orgId,jdbcType=VARCHAR},
-      PLEDGE = #{pledge,jdbcType=VARCHAR},
-      REG_LIST = #{regList,jdbcType=VARCHAR},
       CREATED_AT = #{createdAt,jdbcType=DATE},
       UPDATED_AT = #{updatedAt,jdbcType=DATE},
       CIVIL_ACHIEVEMENT = #{civilAchievement,jdbcType=CLOB},
-      REMARK = #{remark,jdbcType=CLOB}
+      REMARK = #{remark,jdbcType=CLOB},
+      CREATOR_ID = #{creatorId,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="ses.model.sms.ImportSupplier">
     update T_SES_SMS_IMPORT_SUPPLIER
-    set LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
-      MOBILE = #{mobile,jdbcType=VARCHAR},
-      PASSWORD = #{password,jdbcType=VARCHAR},
+    set
       NAME = #{name,jdbcType=VARCHAR},
       SUPPLIER_TYPE = #{supplierType,jdbcType=VARCHAR},
       CHINESR_NAME = #{chinesrName,jdbcType=VARCHAR},
@@ -382,10 +336,9 @@
       WEBSITE = #{website,jdbcType=VARCHAR},
       STATUS = #{status,jdbcType=DECIMAL},
       ORG_ID = #{orgId,jdbcType=VARCHAR},
-      PLEDGE = #{pledge,jdbcType=VARCHAR},
-      REG_LIST = #{regList,jdbcType=VARCHAR},
       CREATED_AT = #{createdAt,jdbcType=DATE},
-      UPDATED_AT = #{updatedAt,jdbcType=DATE}
+      UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      CREATOR_ID = #{creatorId,jdbcType=VARCHAR},
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   
@@ -401,12 +354,6 @@
     where 1=1
     <if test="name!=null">
     	and NAME like '%${name}%'
-    </if>
-     <if test="loginName!=null">
-    	and LOGIN_NAME= #{loginName,jdbcType=VARCHAR}
-    </if>
-    <if test="mobile!=null">
-    	and MOBILE= #{mobile,jdbcType=VARCHAR}
     </if>
     <if test="supplierType!=null">
     	and SUPPLIER_TYPE= #{supplierType,jdbcType=VARCHAR}

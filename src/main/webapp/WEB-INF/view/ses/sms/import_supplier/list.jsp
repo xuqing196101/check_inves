@@ -192,7 +192,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		if(ids.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>importSupplier/delete_soft.html?ids="+ids;
+				window.location.href="<%=basePath%>importSupplier/delete.html?ids="+ids;
 			});
 		}else{
 			layer.alert("请选择要删除的用户",{offset: ['222px', '390px'], shade:0.01});
@@ -253,6 +253,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<th class="info">进口供应商名称</th>
 					<th class="info">企业类别</th>
 					<th class="info">法定代表人</th>
+					<th class="info">状态</th>
 				</tr>
 			  </thead>
 			  <tbody>
@@ -263,6 +264,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td><a onclick="show('${list.id}')" class="pointer">${list.name }</a></td>
 						<td>${list.supplierType }</td>
 						<td>${list.legalName }</td>
+						<td>
+							<c:if test="${list.status==0 }"><span class="label rounded-2x label-u">未审核</span></c:if>
+							<c:if test="${list.status==1 }"><span class="label rounded-2x label-u">审核通过</span></c:if>
+							<c:if test="${list.status==2 }"><span class="label rounded-2x label-dark">审核退回</span></c:if>
+						</td>
 					</tr>
 				</c:forEach> 
 			  </tbody>

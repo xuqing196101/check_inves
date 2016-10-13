@@ -14,9 +14,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.sms.ImportSupplierWithBLOBs;
-import ses.service.bms.UserServiceI;
+import ses.service.bms.TodosService;
 import ses.service.sms.ImportSupplierService;
 
 import com.github.pagehelper.PageInfo;
@@ -34,7 +35,7 @@ public class ImportSupplierController {
 	@Autowired
 	private ImportSupplierService importSupplierService;
 	@Autowired
-	private UserServiceI userService;
+	private TodosService todosService;
 
 	/**
 	* @Title: beforeRegister
@@ -52,7 +53,6 @@ public class ImportSupplierController {
 		if(supType!=null&&!supType.equals("")){
 			is.setSupplierType(supType);
 		}
-		is.setStatus((short)0);
 		List<ImportSupplierWithBLOBs> isList=importSupplierService.selectByFsInfo(is,page==null?1:page);
 		request.setAttribute("isList", new PageInfo<>(isList));
 		model.addAttribute("name", is.getName());
@@ -76,6 +76,24 @@ public class ImportSupplierController {
 		ImportSupplierWithBLOBs importSupplierWithBLOBs = importSupplierService.selectByPrimaryKey(is);
 		model.addAttribute("is", importSupplierWithBLOBs);	
 		return "ses/sms/import_supplier/edit";
+	}
+	
+	@RequestMapping(value="auditShow")
+	public String auditShow(ImportSupplierWithBLOBs is,Model model,HttpServletRequest request){
+		ImportSupplierWithBLOBs importSupplierWithBLOBs = importSupplierService.selectByPrimaryKey(is);
+		model.addAttribute("is", importSupplierWithBLOBs);
+		return "ses/sms/import_supplier/audit";
+	}
+	
+	@RequestMapping(value="audit")
+	public String audit(ImportSupplierWithBLOBs is,Model model,HttpServletRequest request){
+		ImportSupplierWithBLOBs importSupplierWithBLOBs = importSupplierService.selectByPrimaryKey(is);
+		model.addAttribute("is", importSupplierWithBLOBs);
+		importSupplierService.updateRegisterInfo(is);
+		if(is.getStatus()!=0){
+			todosService.updateIsFinish("importSupplier/auditShow.html?id="+is.getId());
+		}
+		return "redirect:list.html";
 	}
 	
 	/**
@@ -105,13 +123,11 @@ public class ImportSupplierController {
 	 * @param @return      
 	 * @return String
 	 */
-	@RequestMapping("delete_soft")
+	@RequestMapping("delete")
 	public String delete_soft(String ids) {
 		String[] id = ids.split(",");
 		for (String str : id) {
-			ImportSupplierWithBLOBs is=importSupplierService.findById(str);
-			is.setStatus((short)1);
-			importSupplierService.updateRegisterInfo(is);
+			importSupplierService.delete(str);
 		}
 		return "redirect:list.html";
 	}
@@ -131,7 +147,6 @@ public class ImportSupplierController {
 	 */
 	@RequestMapping("update")
 	public String update(ImportSupplierWithBLOBs is,Model model,HttpServletRequest request) throws IOException{
-		is.setStatus((short)0);
 		is.setUpdatedAt(new Timestamp(new Date().getTime()));
 		importSupplierService.updateRegisterInfo(is);
 		return "redirect:list.html";
@@ -156,7 +171,7 @@ public class ImportSupplierController {
 	 * @Title: registerEnd
 	 * @author Song Biaowei
 	 * @date 2016-9-8 上午10:25:06  
-	 * @Description: 注册
+	 * @Description: 注册 0代表登记成功，1代表审核通过，2代表审核退回
 	 * @param @param is
 	 * @param @return      
 	 * @return String
@@ -167,15 +182,23 @@ public class ImportSupplierController {
 		is.setStatus((short)0);
 		is.setCreatedAt(new Timestamp(new Date().getTime()));
 		User user1=(User) request.getSession().getAttribute("loginUser");
+		is.setCreatorId(user1.getId());
 		is.setOrgId(user1.getOrg().getId());
 		importSupplierService.register(is);
-		User user=new User();
-		user.setLoginName(is.getLoginName());
-		user.setPassword(is.getPassword());
-		user.setMobile(is.getMobile());
-		user.setTypeId(is.getId());
-		user.setTypeName(6);
-		userService.save(user, null);
+		Todos todo=new Todos();
+		//自己的id
+		todo.setSenderId(user1.getId());
+		//代办人id
+		todo.setReceiverId(user1.getOrg().getId());
+		//待办类型 供应商
+		todo.setUndoType((short)1);
+		//标题
+		todo.setName("进口供应商审核");
+		//逻辑删除 0未删除 1已删除
+		todo.setIsDeleted((short)0);
+		todo.setCreatedAt(new Date());
+		todo.setUrl("importSupplier/auditShow.html?id="+is.getId());
+		todosService.insert(todo);
 		return "redirect:list.html";
 	}
 	

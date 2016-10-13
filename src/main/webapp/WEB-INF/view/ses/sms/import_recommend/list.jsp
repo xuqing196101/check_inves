@@ -81,6 +81,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	/** 单选 */
 	function check(){
+		  var id=[];
+		    $('input[name="chkItem"]:checked').each(function(){ 
+				id.push($(this).val());
+		 	 }); 
+		    if(id.length==1){
+		   var record=$('input[name="chkItem"]:checked').parent().parent().children("td").eq(6).text();
+		   var jihuo=$('input[name="chkItem"]:checked').parent().parent().children("td").eq(8).text();
+		     if(record.trim()=="正式进口代理商"){
+		    	$("#jihuo").attr("disabled",true);
+		    	$("#zanting").attr("disabled",false);
+		    }else{
+		    	$("#jihuo").attr("disabled",false);
+		    	$("#zanting").attr("disabled",true);
+		    	if(jihuo.trim()=="已激活"){
+		    		$("#jihuo").attr("disabled",true);
+		    	}
+		    }
+		   }
+	
 		 var count=0;
 		 var checklist = document.getElementsByName ("chkItem");
 		 var checkAll = document.getElementById("checkAll");
@@ -203,8 +222,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <button class="btn btn-windows add" type="submit" onclick="add()">新增</button>
      <button class="btn btn-windows edit" type="submit" onclick="edit()">修改</button>
 	<button class="btn btn-windows delete" type="submit" onclick="del();">删除</button>
-	<button class="btn btn-windows git" type="submit" onclick="jihuo();">激活</button>
-	<button class="btn btn-windows git" type="submit" onclick="zanting();">暂停</button>	
+	<button id="jihuo" class="btn btn-windows git" type="submit" onclick="jihuo();">激活</button>
+	<button id="zanting" class="btn btn-windows git" type="submit" onclick="zanting();">暂停</button>	
 	</div>
     </div>
    
@@ -235,14 +254,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<td>
 				    <c:if test="${list.type==1 }">正式进口代理商</c:if>
 					<c:if test="${list.type==2 }">临时进口代理商</c:if>
-					<c:if test="${list.type==3 }">通用进口代理商</c:if>
-					<c:if test="${list.type==4 }">专用进口代理商</c:if>
 				</td>
 				<td>${list.useCount }</td>
 				<td>
-					<c:if test="${list.status==1 }"><span class="label rounded-2x label-u">正常</span></c:if>
-					<c:if test="${list.status==3 }"><span class="label rounded-2x label-dark">暂停</span></c:if>
-					<c:if test="${list.status==4 }"><span class="label rounded-2x label-u">已激活</span></c:if>
+					<c:if test="${list.status==0 }"><span class="label rounded-2x label-dark">未激活</span></c:if>
+					<c:if test="${list.status==1 }"><span class="label rounded-2x label-u">已激活</span></c:if>
+					<c:if test="${list.status==2 }"><span class="label rounded-2x label-dark">暂停</span></c:if>
+					<c:if test="${list.status==3 }"><span class="label rounded-2x label-u">启用</span></c:if>
 				</td>
 			</tr>
 		</c:forEach> 

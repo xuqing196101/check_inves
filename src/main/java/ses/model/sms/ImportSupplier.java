@@ -12,12 +12,6 @@ public class ImportSupplier implements Serializable {
 
 	private String id;
 
-    private String loginName;
-
-    private String mobile;
-
-    private String password;
-
     private String name;
 
     private String supplierType;
@@ -52,13 +46,11 @@ public class ImportSupplier implements Serializable {
 
     private String orgId;
 
-    private String pledge;
-
-    private String regList;
-
     private Timestamp createdAt;
 
     private Timestamp updatedAt;
+    
+    private String creatorId;
 
     public String getId() {
         return id;
@@ -67,32 +59,17 @@ public class ImportSupplier implements Serializable {
     public void setId(String id) {
         this.id = id == null ? null : id.trim();
     }
+    
+  
+    public String getCreatorId() {
+		return creatorId;
+	}
 
-    public String getLoginName() {
-        return loginName;
-    }
+	public void setCreatorId(String creatorId) {
+		this.creatorId = creatorId;
+	}
 
-    public void setLoginName(String loginName) {
-        this.loginName = loginName == null ? null : loginName.trim();
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile == null ? null : mobile.trim();
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
-    }
-
-    public String getName() {
+	public String getName() {
         return name;
     }
 
@@ -226,22 +203,6 @@ public class ImportSupplier implements Serializable {
 
     public void setOrgId(String orgId) {
         this.orgId = orgId == null ? null : orgId.trim();
-    }
-
-    public String getPledge() {
-        return pledge;
-    }
-
-    public void setPledge(String pledge) {
-        this.pledge = pledge == null ? null : pledge.trim();
-    }
-
-    public String getRegList() {
-        return regList;
-    }
-
-    public void setRegList(String regList) {
-        this.regList = regList == null ? null : regList.trim();
     }
 
     public Date getCreatedAt() {
