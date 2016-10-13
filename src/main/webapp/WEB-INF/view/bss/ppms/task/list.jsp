@@ -210,8 +210,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      <h2 class="padding-10 border1">
      <form id="add_form" action="<%=basePath%>task/list.html" method="post" >
      <ul class="demand_list">
-     <li class="fl">
-       <label class="fl">需求部门：<input type="text" name="purchaseRequiredId" /></label>
+       <li class="fl">
+         <label class="fl">需求部门：<input type="text" name="purchaseRequiredId" /></label>
        </li>
      <%--  <label class="fl">年度：<select name="giveTime" style="width:70px" id="select">
     <option selected="selected" value="">请选择</option>
@@ -221,24 +221,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                          
        </c:forEach>  
   </select> </label>--%>
-  <li class="fl">
-      <label class="fl">采购方式：<select name="procurementMethod" style="width:100px" id="select">
-       <option selected="selected" value="">请选择</option>
-                            <option value="1" <c:if test="${'1'==task.procurementMethod}">selected="selected"</c:if>>公开招标</option>
-                            <option value="2" <c:if test="${'2'==task.procurementMethod}">selected="selected"</c:if>>邀请招标</option>
-  </select> </label> 
+        <li class="fl">
+         <label class="fl">采购方式：
+           <select name="procurementMethod" style="width:100px" id="select">
+             <option selected="selected" value="">请选择</option>
+             <option value="1" <c:if test="${'1'==task.procurementMethod}">selected="selected"</c:if>>公开招标</option>
+             <option value="2" <c:if test="${'2'==task.procurementMethod}">selected="selected"</c:if>>邀请招标</option>
+           </select>
+          </label> 
   </li>
   <li class="fl">
        <label class="fl">采购机构：<input type="text" name="purchaseId"/></label>
        </li>
        <li class="fl">
-       <label class="fl">状态：<select name="status" style="width:70px" id="select">
+      <label class="fl">状态：<select name="status" style="width:70px" id="select">
         <option selected="selected" value="">请选择</option>
-                            <option value="1" <c:if test="${'1'==task.status}">selected="selected"</c:if>>审核</option>
-                            <option value="0" <c:if test="${'0'==task.status}">selected="selected"</c:if>>受领</option>
-  </select></label>
-  </li>
-  <br/> <br/>
+        <option value="1" <c:if test="${'1'==task.status}">selected="selected"</c:if>>审核</option>
+        <option value="0" <c:if test="${'0'==task.status}">selected="selected"</c:if>>受领</option>
+        </select>
+       </label>
+     </li>
    <li class="fl">
        <label class="fl">文件编号：<input type="text" name="documentNumber"/></label>
        </li>
