@@ -645,8 +645,8 @@ public class ProjectController extends BaseController{
 	 * @exception IOException
 	 */
 	@RequestMapping("/excute")
-	public String execute(String projectId, Model model){
-		Project project = projectService.selectById(projectId);
+	public String execute(String id, Model model){
+		Project project = projectService.selectById(id);
 		if("公开招标".equals(project.getPurchaseType())){
 			model.addAttribute("project", project);
 			return "bss/ppms/open_bidding/main";

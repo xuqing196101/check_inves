@@ -281,7 +281,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <button class="btn padding-left-10 padding-right-10 btn_back" onclick="firstAudit()">初审项定义</button>
         <button class="btn padding-left-10 padding-right-10 btn_back" onclick="subPackage()">分包</button>
         <button class="btn padding-left-10 padding-right-10 btn_back" >打印报批文件</button>
-        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="start();">进入</button>
+        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="start();">实施</button>
         <button class="btn padding-left-10 padding-right-10 btn_back" onclick="view();">查看</button>
          <button class="btn btn-windows edit" onclick="edit();">修改</button>
       </span>
@@ -294,6 +294,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <th class="info w50">序号</th>
           <th class="info">项目名称</th>
           <th class="info">项目编号</th>
+          <th class="info">采购方式</th>
           <th class="info">项目状态</th>
         </tr>
         </thead>
@@ -303,6 +304,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
               <td class="tc" onclick="see(${obj.id});">${obj.name}</td>
               <td class="tc" onclick="see(${obj.id});">${obj.projectNumber }</td>
+              <td class="tc" onclick="see(${obj.id});">${obj.purchaseType }</td>
               <td class="tc" onclick="see(${obj.id});">
               <c:if test="${'1'==obj.status}">实施中</c:if>
               <c:if test="${'2'==obj.status}">已成交</c:if>
