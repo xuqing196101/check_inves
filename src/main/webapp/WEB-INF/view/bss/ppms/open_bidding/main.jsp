@@ -41,7 +41,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		<ul class="breadcrumb margin-left-0">
-		   <li><a href="#">首页</a></li><li><a href="">保障作业</a></li><li><a href="">采购项目管理</a></li> 
+		   <li><a href="#">首页</a></li><li><a href="">保障作业</a></li><li><a href="">采购项目管理</a></li><li><a href="">公开招标项目实施</a></li> 
 		</ul>
 	  </div>
    </div>
@@ -49,37 +49,111 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
    <!--=== Content Part ===-->
    <div class="container content height-350">
-      <div class="row">
-          <!-- Begin Content -->
-          <div class="col-md-12" style="min-height:400px;">
-             <div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
-			  <div class="tag-box tag-box-v3">
-				<ul id="ztree_show" class="ztree">
-				  <li id="ztree_show_1" class="level0" tabindex="0" hidefocus="true" treenode="">
-				    <span id="ztree_show_1_switch" title="" class="button level0 switch root_close" treenode_switch=""></span>
-					<a id="ztree_show_1_a" class="level0" treenode_a="" onClick="" target="_blank" style="" title="xxxx有限公司">
-					<span id="ztree_show_1_ico" title="" treenode_ico="" class="button ico_close" style=""></span>
-					<span id="ztree_show_1_span">xxxx有限公司</span></a>
-				  </li>
-				</ul>
-			  </div>
-			 </div>
-			 <div class="tag-box tag-box-v4 col-md-9" id="show_content_div">
-				<div class="tab-content">
-		  			<div class="tab-pane fade active in" id="show_ztree_content">
-						<div class="panel-heading overflow-h margin-bottom-20 no-padding" id="ztree_title">
-				          <div class="pull-right">
-					        <a class="btn btn-sm btn-default" href="javascript:void(0)" onClick=""><i class="fa fa-search-plus"></i> 详细</a> 
-							<a class="btn btn-sm btn-default" href="javascript:void(0)" onClick=""><i class="fa fa-wrench"></i> 修改</a> 
-							<a class="btn btn-sm btn-default" href="javascript:void(0)" onClick=""><i class="fa fa-plus"></i> 增加下属单位</a> 
-							<a class="btn btn-sm btn-default" data-toggle="modal" href=""><i class="fa fa-plus"></i> 增加人员</a>
-				          </div>
+            <div class="row">
+                <!-- Begin Content -->
+                  <div class="col-md-12" style="min-height:400px;">
+                      <div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
+	                     <ul class="btn_list">
+						   <li class="active">项目信息</li>
+						   <li>拟制招标文件</li>
+						   <li>确认招标文件</li>
+						   <li>拟制招标公告</li>
+						   <li>发售标书</li>
+						   <li>抽取评审专家</li>
+						   <li>投标开标</li>
+						   <li>唱标</li>
+						   <li>组织专家评审</li>
+						   <li>拟制中标公告</li>
+						   <li>确认中标供应商</li>
+						 </ul>
+					  </div>
+                      <div class="tag-box tag-box-v4 col-md-9">
+	                     <div class="col-md-12 p0">
+						   <ul class="flow_step">
+						     <li class="active">
+							   <a aria-expanded="true" href="#tab-1" data-toggle="tab">符合性</a>
+							   <i></i>
+							 </li>
+							 
+							 <li>
+							   <a aria-expanded="false" href="#tab-2" data-toggle="tab">符合性关联</a>
+							   <i></i>							  
+							 </li>
+						     <li>
+							   <a aria-expanded="false" href="#tab-3" data-toggle="tab"> 评标细则</a>
+							   <i></i>
+							 </li>
+							 <li>
+							   <a aria-expanded="false" href="#tab-4" data-toggle="tab"> 招标文件</a>
+							 </li>
+						   </ul>
 						 </div>
-					 </div>
-				</div>
-			 </div>
-		  </div>
-	  </div>
-   </div><!--/container-->
+						 <div class="tab-content clear step_cont">
+						 <div class="col-md-12 tab-pane active"  id="tab-1">
+						  <h2 class="f16 count_flow fl"><i>01</i>符合性条款</h2>
+						  <div class="fr pr15 mt10">
+						    <button class="btn btn-windows delete">删除</button>
+							<button class="btn btn-windows edit">修改</button>
+							<button class="btn btn-windows add">新增</button>
+							
+						  </div>
+						  <div class="col-md-12">
+						    <table class="table table-striped table-bordered table-hover ">
+							  <thead>
+							    <tr>
+								  <th class="w30"><input type="checkbox"/></th>
+								  <th>符合性名称</th>
+								</tr>
+							 </thead>
+							 <tbody>
+							    <tr>
+								  <td class="w30"><input type="checkbox"/></td>
+								  <td>赶快写赶快写赶快写赶快写赶快写赶快写赶快写赶快写</td>
+								</tr>
+							    <tr>
+								  <td class="w30"><input type="checkbox"/></td>
+								  <td>赶快写赶快写赶快写赶快写赶快写赶快写赶快写赶快写赶快写</td>
+								</tr>
+							  </tbody>
+							</table>
+						  
+						  </div>
+						  <h2 class="f16 count_flow fl clear"><i>02</i>资格性条款</h2>
+						  <div class="fr pr15 mt10">
+						    <button class="btn btn-windows add">新增</button>
+							<button class="btn btn-windows edit">修改</button>
+							<button class="btn btn-windows delete">删除</button>
+						  </div>
+						  <div class="col-md-12">
+						    <table class="table table-striped table-bordered table-hover ">
+							  <thead>
+							    <tr>
+								  <th class="w30"><input type="checkbox"/></th>
+								  <th>符合性名称</th>
+								</tr>
+							 </thead>
+							 <tbody>
+							    <tr>
+								  <td class="w30"><input type="checkbox"/></td>
+								  <td>赶快写赶快写赶快写赶快写赶快写赶快写</td>
+								</tr>
+							    <tr>
+								  <td class="w30"><input type="checkbox"/></td>
+								  <td>赶快写赶快写赶快写赶快写赶快写赶快写</td>
+								</tr>
+							  </tbody>
+							</table>
+						  </div>
+						 </div>
+						 <div class="col-md-12 tab-pane" id="tab-2">222</div>				 
+						 <div class="col-md-12 tab-pane" id="tab-3">333</div>	
+						 <div class="col-md-12 tab-pane" id="tab-4">444</div>
+                      </div>
+                   </div>
+				  </div>
+                </div>
+                <!-- End Content -->
+            </div>
+        </div><!--/container-->
 </body>
 </html>
