@@ -74,5 +74,15 @@ public interface ExpertBlackListService {
 	 * @return List<Expert>
 	 */
 	List<Expert> findExpertList();
+	
+	/**
+     * @Title: findExpertAll
+     * @author Xu Qing
+     * @date 2016-10-12 下午7:42:52  
+     * @Description: 查询专家 ,可条件查询
+     * @param @return      
+     * @return List<Expert>
+     */
+    List<Expert> findExpertAll(Expert expert,Integer page);
 
 }

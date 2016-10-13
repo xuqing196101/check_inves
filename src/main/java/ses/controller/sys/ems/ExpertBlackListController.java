@@ -50,8 +50,12 @@ public class ExpertBlackListController {
 	@RequestMapping("/addBlacklist")
 	public String add(ExpertBlackList expertBlackList,Model model){
 		//所有专家
-		List<Expert> expertList = service.findExpertList();
-		model.addAttribute("expertList", expertList);
+		/*List<Expert> expertList = service.findExpertList();
+		model.addAttribute("expertList", expertList);*/
+		
+		//选择的专家
+		String relName = expertBlackList.getRelName();
+		model.addAttribute("relName", relName);
 		return "ses/ems/expertBlackList/add";
 	}
 	/**
@@ -102,9 +106,12 @@ public class ExpertBlackListController {
 	public String edit(HttpServletRequest request, Model model){
 		String id = request.getParameter("id");
 		ExpertBlackList expertBlackList = service.findById(id);
-		//所有专家
+		/*//所有专家
 		List<Expert> expertList = service.findExpertList();
-		model.addAttribute("expertList", expertList);
+		model.addAttribute("expertList", expertList);*/
+		//选择的专家
+		String relName = expertBlackList.getRelName();
+		model.addAttribute("relName", relName);
 		model.addAttribute("expert", expertBlackList);
 		return "ses/ems/expertBlackList/edit";
 	}
@@ -175,6 +182,29 @@ public class ExpertBlackListController {
 				}
 			}
 		}
+	}
+	
+	/**
+	 * @Title: findExpertAll
+	 * @author Xu Qing
+	 * @date 2016-10-12 下午7:51:17  
+	 * @Description: 查询专家 ,可条件查询
+	 * @param @param expert
+	 * @param @param page
+	 * @param @param model
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping(value = "expert_list")
+	public String findExpertAll(HttpServletRequest request,Expert expert,Integer page,Model model) {
+		List<Expert> expertList = service.findExpertAll(expert,page==null?1:page);
+		request.setAttribute("result", new PageInfo<>(expertList));
+		model.addAttribute("expertAll", expertList);
+		
+		//回显
+		String relName = expert.getRelName();
+		model.addAttribute("relName", relName);
+		return "ses/ems/expertBlackList/dialog_expert";
 	}
 	
 	

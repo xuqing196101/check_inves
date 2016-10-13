@@ -183,9 +183,9 @@
 	<!-- 表格开始-->
 	<div class="container">
 	  <div class="col-md-8">
-	 	  <button class="btn btn-windows add" type="button" onclick="add();">新增</button>
+	 	  <button class="btn btn-windows add" type="button" onclick="add();">新增专家</button>
 	    <button class="btn btn-windows edit" type="button" onclick="update();">修改</button>
-	    <button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
+	    <!-- <button class="btn btn-windows delete" type="button" onclick="del();">删除</button> -->
 	  </div>
 	</div>
   <div class="container margin-top-5">

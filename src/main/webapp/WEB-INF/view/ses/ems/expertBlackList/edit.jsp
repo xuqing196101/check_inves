@@ -39,6 +39,7 @@
       }
     }
   });
+  
 </script>
 </head>
 <body>
@@ -58,27 +59,23 @@
          <i>01</i>基本信息
       </h2>
       <ul class="list-unstyled list-flow p0_20">
+
         <li class="col-md-6 p0">
-          <span>专家姓名：</span>
-            <select name="relName" class="span2">
-              <option value="">请选择</option>
-              <c:forEach var="expert"  items="${expertList}">
-              <option value="${expert.relName}">${expert.relName}</option>
-              </c:forEach>
-            </select> 
+          <span><i class="red">＊</i>专家姓名：</span>
+          <input class="span2"  name="relName"  type="text" id="expert_name" readonly="readonly" value="${relName }">
         </li>
         <li class="col-md-6  p0 ">
-          <span class="">入库时间：</span>
+          <span class=""><i class="red">＊</i>入库时间：</span>
           <input class="span2 Wdate w220"  readonly="readonly" name="storageTime"  type="text" value="<fmt:formatDate value="${expert.storageTime}" pattern='yyyy-MM-dd'/>" onclick='WdatePicker()'>
           <font id="nameFont2"></font>
 	      </li> 
         <li class="col-md-6  p0 ">
-	        <span class="">处罚日期：</span>
+	        <span class=""><i class="red">＊</i>处罚日期：</span>
           <input class="span2 Wdate w220"  readonly="readonly" name="dateOfPunishment"  type="text" value="<fmt:formatDate value="${expert.dateOfPunishment}" pattern='yyyy-MM-dd'/>" onclick='WdatePicker()'>
           <font id="nameFont2"></font>
 	      </li> 
         <li class="col-md-6  p0 ">
-	        <span class="">处罚时限：</span>
+	        <span class=""><i class="red">＊</i>处罚时限：</span>
 	        <select class="span2" name="punishDate">
 			  		<option value="">请选择</option>
 			  		<option value="3个月" <c:if test="${'3个月' eq expert.punishDate}">selected</c:if>>三个月</option>
@@ -89,7 +86,7 @@
 		      </select>
 	      </li> 
         <li class="col-md-6  p0 ">
-	        <span class="">处罚方式：</span>
+	        <span class=""><i class="red">＊</i>处罚方式：</span>
 	  	    <select class="span2" name="punishType">
 			  	  <option value="">请选择</option>
 			  		<option value="1" <c:if test="${'1' eq expert.punishType}">selected</c:if>>警告</option>
@@ -97,7 +94,7 @@
 			  		<option value="3" <c:if test="${'3' eq expert.punishType}">selected</c:if>>取消资格</option>
 		      </select>
 				</li> 
-				<li class="col-md-12 p0 mt10"><span class="fl">处罚理由：</span>
+				<li class="col-md-12 p0 mt10"><span class="fl"><i class="red">＊</i>处罚理由：</span>
           <div class="col-md-9 mt5">
             <div class="row">
               <textarea class="text_area col-md-12" name="reason" title="不超过800个字" style="width:770px;">${expert.reason }</textarea>
