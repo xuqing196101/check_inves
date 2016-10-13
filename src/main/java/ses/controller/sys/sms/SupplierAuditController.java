@@ -30,6 +30,7 @@ import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSe;
 import ses.model.sms.SupplierMatSell;
+import ses.model.sms.SupplierProducts;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierType;
 import ses.service.bms.CategoryService;
@@ -470,8 +471,13 @@ public class SupplierAuditController extends BaseSupplierController{
 	@RequestMapping("product")
 	public String productInformation(HttpServletRequest request, SupplierAudit supplierAudit, Supplier supplier){
 		String supplierId = supplierAudit.getSupplierId();
-
 		request.setAttribute("supplierId", supplierId);
+		//产品
+		List<SupplierProducts> productsList= supplierService.get(supplierId).getListSupplierProducts();
+		request.setAttribute("productsList", productsList);
+		//勾选的供应商类型
+		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
+		request.setAttribute("supplierTypeNames", supplierTypeName);
 		return "ses/sms/supplier_audit/product";
 	}
 	
