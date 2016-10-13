@@ -81,22 +81,15 @@ function back(){
 	  <input type="hidden" name="user.id" id="user.id" value="${article.user.id }" readonly>
 	 
 	   <ul class="list-unstyled list-flow p0_20">
-     <li class="col-md-6 p0 mb0">
+     <li class="col-md-12 p0 mb0">
 	   <span class="">信息标题：</span>
-	   <div class="input-append">
-        <input class="span2" type="text" name="name" value="${article.name }" readonly>
+	   <div class="w70p fl">
+        <input class="col-md-12" type="text" name="name" value="${article.name }" readonly>
        </div>
 	 </li>
      <li class="col-md-6  p0 ">
-	   <span class="">发布范围：</span>
-	   <div class="input-append">
-        <label class="fl margin-bottom-0"><input type="checkbox" name="ranges" value="0" disabled>内网</label>
-        <label class="ml10 fl"><input type="checkbox" name="ranges" value="1" disabled>外网</label>
-       </div>
-	 </li> 
-     <li class="col-md-6  p0 ">
 	   <span class="">信息类型：</span>
-      <select id="articleTypeId" name="articleType.id" class="w220" readonly>
+      <select id="articleTypeId" name="articleType.id" class="w220" disabled>
    		 	<option></option>
           	<c:forEach items="${list}" var="list" varStatus="vs">
           		<option value="${list.id }" >${list.name }</option>
@@ -104,11 +97,24 @@ function back(){
          </select>
 	 </li> 
 	 <li class="col-md-6  p0 ">
-	   <span class="">文章来源：</span>
-       <div class="input-append">
-        <input class="span2" id="source" name="source" value="${article.source }"  type="text" disabled>
+	   <span class="">发布范围：</span>
+	   <div class="input-append">
+        <label class="fl margin-bottom-0"><input type="checkbox" name="ranges" value="0" disabled>内网</label>
+        <label class="ml10 fl"><input type="checkbox" name="ranges" value="1" disabled>外网</label>
        </div>
 	 </li> 
+	 <li class="col-md-6  p0 ">
+	   <span class="">文章来源：</span>
+       <div class="input-append">
+        <input class="span2" id="source" name="source" value="${article.source }"  type="text" readonly>
+       </div>
+	 </li> 
+	 <li class="col-md-6  p0 ">
+	   <span class=""><i class="red">＊</i>链接来源：</span>
+       <div class="input-append">
+        <input class="span2" id="sourceLink" name="sourceLink" type="text" value="${article.sourceLink }" readonly>
+       </div>
+	 </li>
      <li class="col-md-12 p0">
 	   <span class="fl">信息正文：</span>
 	   <div class="col-md-9 fl p0">
