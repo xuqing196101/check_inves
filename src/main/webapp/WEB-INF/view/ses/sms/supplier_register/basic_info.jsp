@@ -54,11 +54,65 @@
 				}
 			});
 		}
+		
+		loadRootArea();
+		autoSelected("business_select_id", "${currSupplier.businessType}");
+		autoSelected("overseas_branch_select_id", "${currSupplier.overseasBranch}");
 	});
-
-	/** 下拉框的内容写到 inpput 中 */
-	function checkText(ele, id) {
-		$("#" + id).val($(ele).text());
+	
+	/** 加载地区根节点 */
+	function loadRootArea() {
+		$.ajax({
+			url : "${pageContext.request.contextPath}/area/find_root_area.do",
+			type : "post",
+			dataType : "json",
+			success : function(result) {
+				var html = "";
+				html += "<option value=''>请选择</option>";
+				for(var i = 0; i < result.length; i++) {
+					html += "<option id='" + result[i].id + "' value='" + result[i].name + "'>" +  result[i].name + "</option>";
+				}
+				$("#root_area_select_id").append(html);
+				
+				// 自动选中
+				var rootArea = "${currSupplier.address}";
+				rootArea = rootArea.split(",")[0];
+				if (rootArea) {
+					autoSelected("root_area_select_id", rootArea);
+					loadChildren();
+				}
+				
+			},
+		});
+	}
+	
+	function loadChildren() {
+		var id = $("#root_area_select_id").find("option:selected").attr("id");
+		if (id) {
+			$.ajax({
+				url : "${pageContext.request.contextPath}/area/find_area_by_parent_id.do",
+				type : "post",
+				dataType : "json",
+				data : {
+					id : id
+				},
+				success : function(result) {
+					var html = "";
+					for(var i = 0; i < result.length; i++) {
+						html += "<option value='" + result[i].name + "'>" +  result[i].name + "</option>";
+					}
+					$("#children_area_select_id").empty();
+					$("#children_area_select_id").append(html);
+					
+					// 自动选中
+					var childrenArea = "${currSupplier.address}";
+					childrenArea = childrenArea.split(",")[1];
+					if (childrenArea) {
+						autoSelected("children_area_select_id", childrenArea);
+					}
+				},
+			});
+		}
 	}
 
 	/** 全选 */
@@ -205,8 +259,20 @@
 		$("input[name='fileName']").val(fileName);
 		$("#download_form_id").submit();
 	}
+	
+	function autoSelected(id, v) {
+		if (v) {
+			$("#" + id).find("option").each(function() {
+				var value = $(this).val();
+				if(value == v) {
+					$(this).prop("selected", true);
+				} else {
+					$(this).prop("selected", false);
+				}
+			});
+		}
+	}
 </script>
-
 </head>
 
 <body>
@@ -271,46 +337,28 @@
 													</span>
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i>营业执照登记类型：</span>
+											
+											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 营业执照类型：</span>
 												<div class="input-append">
-													<input class="span2" id="businessType_input_id" name="businessType" type="text" readonly="readonly" value="${currSupplier.businessType}" />
-													<div class="btn-group">
-														<button class="btn dropdown-toggle add-on" data-toggle="dropdown">
-															<img src="${pageContext.request.contextPath}/public/ZHQ/images/down.png" class="margin-bottom-5" />
-														</button>
-														<ul class="dropdown-menu list-unstyled">
-															<li class="hand tc" onclick="checkText(this, 'businessType_input_id')">国有企业</li>
-															<li class="hand tc" onclick="checkText(this, 'businessType_input_id')">外资企业</li>
-															<li class="hand tc" onclick="checkText(this, 'businessType_input_id')">民营企业</li>
-															<li class="hand tc" onclick="checkText(this, 'businessType_input_id')">股份制企业</li>
-															<li class="hand tc" onclick="checkText(this, 'businessType_input_id')">私营企业</li>
-														</ul>
-													</div>
-												</div></li>
+													<select class="span3" name="businessType" id="business_select_id">
+														<option>国有企业</option>
+														<option>外资企业</option>
+														<option>民营企业</option>
+														<option>股份制企业</option>
+														<option>私营企业</option>
+													</select>
+												</div>
+											</li>
 
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i>公司地址：</span>
 												<div class="fl">
 													<div class="input-append mr18">
-														<input class="span4" id="address_input_id1" type="text" readonly="readonly" name="address" value="${currSupplier.address}" />
-														<div class="btn-group">
-															<button class="btn dropdown-toggle add-on" data-toggle="dropdown">
-																<img src="${pageContext.request.contextPath}/public/ZHQ/images/down.png" class="margin-bottom-5" />
-															</button>
-															<ul class="dropdown-menu list-unstyled">
-																<li class="hand tc" onclick="checkText(this, 'address_input_id1')">河北</li>
-															</ul>
-														</div>
+														<select class="w123" id="root_area_select_id" onchange="loadChildren()" name="address"></select>
 													</div>
 													<div class="input-append">
-														<input class="span4" id="address_input_id2" type="text" readonly="readonly" value="${currSupplier.address}" />
-														<div class="btn-group">
-															<button class="btn dropdown-toggle add-on" data-toggle="dropdown">
-																<img src="${pageContext.request.contextPath}/public/ZHQ/images/down.png" class="margin-bottom-5" />
-															</button>
-															<ul class="dropdown-menu list-unstyled">
-																<li class="hand tc" onclick="checkText(this, 'address_input_id2')">保定</li>
-															</ul>
-														</div>
+														<select class="w123 ml10" id="children_area_select_id" name="address">
+															<option value="">请选择省份</option>
+														</select>
 													</div>
 												</div>
 											</li>
@@ -514,6 +562,23 @@
 													<input class="span3" type="text" name="businessPostCode" value="${currSupplier.businessPostCode}" />
 												</div>
 											</li>
+											<li id="business_li_id" class="col-md-6 p0"><span class=""><i class="red">＊</i> 营业执照：</span>
+												<c:if test="${currSupplier.businessCert != null}">
+													<div>
+														<a class="color7171C6" href="javascript:void(0)" onclick="downloadFile('${currSupplier.businessCert}')">下载附件</a>
+														<a title="重新上传" class="ml10 red fz17" href="javascript:void(0)" onclick="uploadNew('business_li_id')">☓</a>
+													</div>
+												</c:if>
+												<c:if test="${currSupplier.businessCert == null}">
+													<div class="input-append">
+														<div class="uploader orange h32 m0">
+															<input type="text" class="filename fz11 h32" readonly="readonly"/>
+															<input type="button" name="file" class="button" value="选择..."/>
+															<input name="businessCertFile" type="file" size="30"/>
+														</div>
+													</div>
+												</c:if>
+											</li>
 											<li class="col-md-12 p0 mt10"><span class="fl"><i class="red">＊</i>经营范围：</span>
 												<div class="col-md-9 mt5">
 													<div class="row _mr20">
@@ -529,16 +594,10 @@
 										<ul class="list-unstyled list-flow">
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 境外分支结构：</span>
 												<div class="input-append">
-													<input class="span2" id="overseasBranch_input_id" name="overseasBranch" type="text" readonly="readonly" value="${currSupplier.overseasBranch}" />
-													<div class="btn-group">
-														<button class="btn dropdown-toggle add-on" data-toggle="dropdown">
-															<img src="${pageContext.request.contextPath}/public/ZHQ/images/down.png" class="margin-bottom-5" />
-														</button>
-														<ul class="dropdown-menu list-unstyled">
-															<li class="hand tc" onclick="checkText(this, 'overseasBranch_input_id')">是</li>
-															<li class="hand tc" onclick="checkText(this, 'overseasBranch_input_id')">否</li>
-														</ul>
-													</div>
+													<select class="span3" name="overseasBranch" id="overseas_branch_select_id">
+														<option value="1">有</option>
+														<option value="0">无</option>
+													</select>
 												</div>
 											</li>
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 境外分支所在国家：</span>
@@ -683,8 +742,8 @@
 										<h2 class="f16 jbxx mt40">
 											<i>01</i>股东信息表
 										</h2>
-										<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteStockholder()">删除</button>
-										<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="openStockholder()">新增</button>
+										<input type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deleteStockholder()" value="删除">
+										<input type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="openStockholder()" value="新增">
 										<table id="share_table_id" class="table table-bordered table-condensed">
 											<thead>
 												<tr>

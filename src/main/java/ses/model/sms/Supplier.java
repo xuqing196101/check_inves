@@ -78,6 +78,15 @@ public class Supplier implements Serializable {
 	 * </pre>
 	 */
 	private String businessType;
+	
+	
+	/**
+	 * <pre>
+	 * 营业执照类型
+	 * 表字段 : T_SES_SMS_SUPPLIER.BUSINESS_TYPE
+	 * </pre>
+	 */
+	private String businessCert;
 
 	/**
 	 * <pre>
@@ -1066,4 +1075,13 @@ public class Supplier implements Serializable {
 	public void setListSupplierProducts(List<SupplierProducts> listSupplierProducts) {
 		this.listSupplierProducts = listSupplierProducts;
 	}
+
+	public String getBusinessCert() {
+		return businessCert;
+	}
+
+	public void setBusinessCert(String businessCert) {
+		this.businessCert = businessCert;
+	}
+	
 }

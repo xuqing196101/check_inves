@@ -161,4 +161,12 @@
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+	
+	<select id="findRootArea" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select ID, NAME from T_SES_BMS_AREA where AREA_TYPE = #{areaType}
+	</select>
+	
+	<select id="findAreaByParentId" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select ID, NAME from T_SES_BMS_AREA where AREA_TYPE = #{id}
+	</select>
 </mapper>

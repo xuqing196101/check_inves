@@ -10,6 +10,7 @@
 		<result column="WEBSITE" property="website" />
 		<result column="FOUND_DATE" property="foundDate" />
 		<result column="BUSINESS_TYPE" property="businessType" />
+		<result column="BUSINESS_CERT" property="businessCert" />
 		<result column="ADDRESS" property="address" />
 		<result column="COUNT" property="count" />
 		<result column="BANK_NAME" property="bankName" />
@@ -66,7 +67,7 @@
 		BUSINESS_ADDRESS, BUSINESS_POST_CODE, OVERSEAS_BRANCH, BRANCH_COUNTRY, BRANCH_ADDRESS,
 		BRANCH_NAME, BRANCH_BUSINESS_SCOPE, SUPPLIER_TYPE_ID, STATUS, PROCUREMENT_DEP_ID, SUPPLIER_LEVEL,
 		SUPPLIER_PLEDGE, SUPPLIER_REG_LIST, SUPPLIER_EXTRACTS_LIST, SUPPLIER_INSPECT_LIST,
-		SUPPLIER_REVIEW_LIST, SUPPLIER_CHANGE_LIST, SUPPLIER_EXIT_LIST, CREATED_AT, UPDATED_AT
+		SUPPLIER_REVIEW_LIST, SUPPLIER_CHANGE_LIST, SUPPLIER_EXIT_LIST, CREATED_AT, UPDATED_AT, BUSINESS_CERT
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
 		select
@@ -96,7 +97,7 @@
 		SUPPLIER_LEVEL, SUPPLIER_PLEDGE, SUPPLIER_REG_LIST,
 		SUPPLIER_EXTRACTS_LIST, SUPPLIER_INSPECT_LIST,
 		SUPPLIER_REVIEW_LIST, SUPPLIER_CHANGE_LIST,
-		SUPPLIER_EXIT_LIST, CREATED_AT, UPDATED_AT, SCORE
+		SUPPLIER_EXIT_LIST, CREATED_AT, UPDATED_AT, SCORE, BUSINESS_CERT
 		)
 		values (#{id}, #{loginName}, #{mobile},
 		#{password}, #{supplierName}, #{website},
@@ -116,7 +117,7 @@
 		#{supplierLevel}, #{supplierPledge}, #{supplierRegList},
 		#{supplierExtractsList}, #{supplierInspectList},
 		#{supplierReviewList}, #{supplierChangeList},
-		#{supplierExitList}, #{createdAt}, #{updatedAt}, #{score}
+		#{supplierExitList}, #{createdAt}, #{updatedAt}, #{score}, #{businessCert}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="ses.model.sms.Supplier">
@@ -281,6 +282,9 @@
 			<if test="score != null">
 				SCORE,
 			</if>
+			<if test="businessCert != null">
+				BUSINESS_CERT,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -442,6 +446,9 @@
 			<if test="score != null">
 				#{score},
 			</if>
+			<if test="businessCert != null">
+				#{businessCert},
+			</if>
 		</trim>
 		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
 			select sys_guid() from dual
@@ -600,6 +607,9 @@
 			<if test="updatedAt != null">
 				UPDATED_AT = #{updatedAt},
 			</if>
+			<if test="businessCert != null">
+				BUSINESS_CERT = #{businessCert},
+			</if>
 		</set>
 		where ID = #{id}
 	</update>
@@ -656,7 +666,8 @@
 		SUPPLIER_CHANGE_LIST = #{supplierChangeList},
 		SUPPLIER_EXIT_LIST = #{supplierExitList},
 		CREATED_AT = #{createdAt},
-		UPDATED_AT = #{updatedAt}
+		UPDATED_AT = #{updatedAt},
+		BUSINESS_CERT = #{businessCert}
 		where ID = #{id}
 	</update>
 

@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
 import ses.service.oms.PurchaseOrgnizationServiceI;
@@ -35,7 +35,9 @@ import ses.service.sms.SupplierMatSellService;
 import ses.service.sms.SupplierProductsService;
 import ses.service.sms.SupplierService;
 import ses.service.sms.SupplierTypeRelateService;
+import ses.util.FtpUtil;
 import ses.util.IdentityCode;
+import ses.util.PropUtil;
 
 /**
  * @Title: supplierController
@@ -488,11 +490,15 @@ public class SupplierController extends BaseSupplierController {
 	 */
 	@RequestMapping(value = "download")
 	public void download(HttpServletRequest request, HttpServletResponse response, String fileName) {
+		String stashPath = super.getStashPath(request);
+		FtpUtil.startDownFile(stashPath, PropUtil.getProperty("file.upload.path.supplier"), fileName);
+		FtpUtil.closeFtp();
 		if (fileName != null && !"".equals(fileName)) {
 			super.download(request, response, fileName);
 		} else {
 			super.alert(request, response, "无附件下载 !");
 		}
+		super.removeStash(request, fileName);
 	}
 	
 	/**
@@ -569,44 +575,49 @@ public class SupplierController extends BaseSupplierController {
 	 */
 	public void setSupplierUpload(HttpServletRequest request, Supplier supplier) throws IOException {
 		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
-		// 检查form中是否有enctype="multipart/form-data"
-		if (multipartResolver.isMultipart(request)) {
-			// 将request变成多部分request
-			MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
-			// 获取multiRequest 中所有的文件名
-			Iterator<String> its = multiRequest.getFileNames();
-			while (its.hasNext()) {
+		if (multipartResolver.isMultipart(request)) {// 检查form中是否有enctype="multipart/form-data"
+			MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;// 将request变成多部分request
+			Iterator<String> its = multiRequest.getFileNames();// 获取multiRequest 中所有的文件名
+			while (its.hasNext()) {// 循环遍历
 				String str = its.next();
 				MultipartFile file = multiRequest.getFile(str);
 				String fileName = file.getOriginalFilename();
 				if (file != null && file.getSize() > 0) {
-					String path = super.getStashPath(request) + fileName;
-					file.transferTo(new File(path));
+					String path = super.getStashPath(request) + fileName;// 获取暂存路径
+					file.transferTo(new File(path));// 暂存
+					FtpUtil.connectFtp(PropUtil.getProperty("file.upload.path.supplier"));// 连接 ftp 服务器
+					String newfileName = FtpUtil.upload(new File(path));// 上传到 ftp 服务器, 获取新的文件名
+					FtpUtil.closeFtp();// 关闭 ftp
+					super.removeStash(request, fileName);// 移除暂存
+					
+					// 上面代码固定, 下面封装名字到对象
 					if (str.equals("taxCertFile")) {
-						supplier.setTaxCert(fileName);
+						supplier.setTaxCert(newfileName);
 					} else if (str.equals("billCertFile")) {
-						supplier.setBillCert(fileName);
+						supplier.setBillCert(newfileName);
 					} else if (str.equals("securityCertFile")) {
-						supplier.setSecurityCert(fileName);
+						supplier.setSecurityCert(newfileName);
 					} else if (str.equals("breachCertFile")) {
-						supplier.setBreachCert(fileName);
+						supplier.setBreachCert(newfileName);
 					} else if (str.equals("supplierLevelFile")) {
-						supplier.setSupplierLevel(fileName);
+						supplier.setSupplierLevel(newfileName);
 					} else if (str.equals("supplierPledgeFile")) {
-						supplier.setSupplierPledge(fileName);
+						supplier.setSupplierPledge(newfileName);
 					} else if (str.equals("supplierRegListFile")) {
-						supplier.setSupplierRegList(fileName);
+						supplier.setSupplierRegList(newfileName);
 					} else if (str.equals("supplierExtractsListFile")) {
-						supplier.setSupplierExtractsList(fileName);
+						supplier.setSupplierExtractsList(newfileName);
 					} else if (str.equals("supplierInspectListFile")) {
-						supplier.setSupplierInspectList(fileName);
+						supplier.setSupplierInspectList(newfileName);
 					} else if (str.equals("supplierReviewListFile")) {
-						supplier.setSupplierReviewList(fileName);
+						supplier.setSupplierReviewList(newfileName);
 					} else if (str.equals("supplierChangeListFile")) {
-						supplier.setSupplierChangeList(fileName);
+						supplier.setSupplierChangeList(newfileName);
 					} else if (str.equals("supplierExitListFile")) {
-						supplier.setSupplierExitList(fileName);
-					}
+						supplier.setSupplierExitList(newfileName);
+					} else if (str.equals("businessCertFile")) {
+						supplier.setBusinessCert(newfileName);
+					} 
 				}
 			}
 		}

@@ -129,7 +129,7 @@
 														<td class="tc"><input type="radio" value="${purchaseDep.id}" name="procurementDepId" /></td>
 														<td class="tc">${vs.index + 1}</td>
 														<td class="tc">${purchaseDep.depName}</td>
-														<td class="tc"></td>
+														<td class="tc">${purchaseDep.shortName}</td>
 														<td class="tc"></td>
 														<td class="tc">${purchaseDep.areaName}</td>
 													</tr>

@@ -124,5 +124,32 @@ public class AreaServiceImpl implements AreaServiceI {
 	public void update(Area area) {
 		areaMapper.update(area);
 	}
+	
+	/**
+	 * @Title: findRootArea
+	 * @author: Wang Zhaohua
+	 * @date: 2016-10-13 上午11:01:14
+	 * @Description: 查询所有根节点
+	 * @param: @return
+	 * @return: List<Area>
+	 */
+	@Override
+	public List<Area> findRootArea() {
+		return areaMapper.findRootArea("1");
+	}
+	
+	/**
+	 * @Title: findAreaByParentId
+	 * @author: Wang Zhaohua
+	 * @date: 2016-10-13 上午11:01:25
+	 * @Description: 根据父节点 ID 查询子节点
+	 * @param: @param id
+	 * @param: @return
+	 * @return: List<Area>
+	 */
+	@Override
+	public List<Area> findAreaByParentId(String id) {
+		return areaMapper.findAreaByParentId(id);
+	}
 
 }

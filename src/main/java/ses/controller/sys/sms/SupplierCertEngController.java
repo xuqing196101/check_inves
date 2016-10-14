@@ -3,7 +3,6 @@ package ses.controller.sys.sms;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,6 +19,8 @@ import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCertEng;
 import ses.service.sms.SupplierCertEngService;
 import ses.service.sms.SupplierService;
+import ses.util.FtpUtil;
+import ses.util.PropUtil;
 
 @Controller
 @Scope("prototype")
@@ -71,22 +72,24 @@ public class SupplierCertEngController extends BaseSupplierController {
 	
 	public void setCertEngUpload(HttpServletRequest request, SupplierCertEng supplierCertEng) throws IOException {
 		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
-		// 检查form中是否有enctype="multipart/form-data"
-		if (multipartResolver.isMultipart(request)) {
-			// 将request变成多部分request
-			MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
-			// 获取multiRequest 中所有的文件名
-			Iterator<String> its = multiRequest.getFileNames();
-			while (its.hasNext()) {
+		if (multipartResolver.isMultipart(request)) {// 检查form中是否有enctype="multipart/form-data"
+			MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;// 将request变成多部分request
+			Iterator<String> its = multiRequest.getFileNames();// 获取multiRequest 中所有的文件名
+			while (its.hasNext()) {// 循环遍历
 				String str = its.next();
 				MultipartFile file = multiRequest.getFile(str);
 				String fileName = file.getOriginalFilename();
-				fileName = UUID.randomUUID().toString().replace("-", "").toUpperCase().toString() + "_" + fileName;
 				if (file != null && file.getSize() > 0) {
-					String path = super.getFilePath(request) + fileName;
-					file.transferTo(new File(path));
+					String path = super.getStashPath(request) + fileName;// 获取暂存路径
+					file.transferTo(new File(path));// 暂存
+					FtpUtil.connectFtp(PropUtil.getProperty("file.upload.path.supplier"));// 连接 ftp 服务器
+					String newfileName = FtpUtil.upload(new File(path));// 上传到 ftp 服务器, 获取新的文件名
+					FtpUtil.closeFtp();// 关闭 ftp
+					super.removeStash(request, fileName);// 移除暂存
+					
+					// 上面代码固定, 下面封装名字到对象
 					if (str.equals("attachCertFile")) {
-						supplierCertEng.setAttachCert(fileName);
+						supplierCertEng.setAttachCert(newfileName);
 					} 
 				}
 			}

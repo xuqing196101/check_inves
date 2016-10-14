@@ -1,10 +1,12 @@
 package ses.controller.sys.bms;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -17,6 +19,7 @@ import ses.model.bms.Area;
 import ses.model.bms.AreaZtree;
 import ses.service.bms.AreaServiceI;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 
@@ -181,5 +184,25 @@ public class AreaController {
 			areaService.update(area);
 		}
 		return "redirect:list.html";
+	}
+	
+	@RequestMapping(value = "find_root_area")
+	public void findRootArea(HttpServletResponse response) throws IOException {
+		List<Area> list = areaService.findRootArea();
+		String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
+		response.setContentType("text/html;charset=utf-8");
+		response.getWriter().write(json);
+		response.getWriter().flush();
+		response.getWriter().close();
+	}
+	
+	@RequestMapping(value = "find_area_by_parent_id")
+	public void findAreaByParentId(HttpServletResponse response, String id) throws IOException {
+		List<Area> list = areaService.findAreaByParentId(id);
+		String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
+		response.setContentType("text/html;charset=utf-8");
+		response.getWriter().write(json);
+		response.getWriter().flush();
+		response.getWriter().close();
 	}
 }

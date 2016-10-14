@@ -6,8 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletResponse;
@@ -55,8 +53,8 @@ public class FtpUtil {
 			} else {
 				ftp.connect(host, port);
 			}
-			boolean login = ftp.login(username, password);
-			boolean setFileType = ftp.setFileType(FTPClient.BINARY_FILE_TYPE);
+			ftp.login(username, password);
+			ftp.setFileType(FTPClient.BINARY_FILE_TYPE);
 			ftp.enterLocalPassiveMode();
 			reply = ftp.getReplyCode();
 			if (!FTPReply.isPositiveCompletion(reply)) {
@@ -124,10 +122,10 @@ public class FtpUtil {
 				File file2 = new File(file.getPath());
 				FileInputStream input = new FileInputStream(file2);
 				String fileName = UUID.randomUUID().toString().replace("-", "").toUpperCase().toString() + "_" +file2.getName();
-				boolean flag = ftp.storeFile(new String(fileName.getBytes("GBK"), "ISO-8859-1"), input);
+				ftp.storeFile(new String(fileName.getBytes("GBK"), "ISO-8859-1"), input);
 				input.close();
-				String url = PropUtil.getProperty("ftp.root") + ftp.printWorkingDirectory() + "/" + fileName;
-				return url;
+				// String url = PropUtil.getProperty("ftp.root") + ftp.printWorkingDirectory() + "/" + fileName;
+				return fileName;
 			}
 		} catch (Exception e) {
 			throw new RuntimeException(e);

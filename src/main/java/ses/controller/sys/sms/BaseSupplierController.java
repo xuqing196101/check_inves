@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,7 +27,16 @@ import com.alibaba.fastjson.JSON;
 @Scope("prototype")
 public class BaseSupplierController {
 	private static Logger logger = Logger.getLogger(FileUtil.class);
-
+	
+	/**
+	 * @Title: writeJson
+	 * @author: Wang Zhaohua
+	 * @date: 2016-10-13 下午3:55:01
+	 * @Description: writeJson
+	 * @param: @param response
+	 * @param: @param object
+	 * @return: void
+	 */
 	public void writeJson(HttpServletResponse response, Object object) {
 		try {
 			String json = JSON.toJSONStringWithDateFormat(object, "yyyy-MM-dd HH:mm:ss");
@@ -37,23 +48,63 @@ public class BaseSupplierController {
 			e.printStackTrace();
 		}
 	}
-
-	public String getFilePath(HttpServletRequest request) {
-		return request.getSession().getServletContext().getRealPath("/").split("\\\\")[0] + "/" + PropUtil.getProperty("file.upload.path.supplier");
+	
+	
+	/**
+	 * @Title: removeStash
+	 * @author: Wang Zhaohua
+	 * @date: 2016-10-12 下午7:05:22
+	 * @Description: 移除暂存
+	 * @param: @param request
+	 * @param: @param fileName
+	 * @return: void
+	 */
+	public void removeStash(HttpServletRequest request, String fileName) {
+		final String path = this.getStashPath(request) + fileName;
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				// String path = FileUtil.getPath();
+				File file = new File(path);
+				if (file.isFile()) {
+					file.delete();
+				}
+			}
+		}, 10000);
 	}
 	
-	public static String getStashPath(HttpServletRequest request) {
+	/**
+	 * @Title: getStashPath
+	 * @author: Wang Zhaohua
+	 * @date: 2016-10-12 下午6:41:48
+	 * @Description: 获取暂存路径
+	 * @param: @param request
+	 * @param: @return
+	 * @return: String
+	 */
+	public String getStashPath(HttpServletRequest request) {
 		String path = request.getSession().getServletContext().getRealPath("/") + PropUtil.getProperty("file.stashPath") + "/";
 		return path.replace("\\", "/");
 	}
-
+	
+	/**
+	 * @Title: download
+	 * @author: Wang Zhaohua
+	 * @date: 2016-10-12 下午7:03:46
+	 * @Description: 文件下载
+	 * @param: @param request
+	 * @param: @param response
+	 * @param: @param fileName
+	 * @return: void
+	 */
 	@RequestMapping(value = "download")
 	public void download(HttpServletRequest request, HttpServletResponse response, String fileName) {
 		BufferedInputStream input = null;
 		BufferedOutputStream output = null;
 		try {
 			response.reset();
-			String fileUrl = this.getFilePath(request) + fileName;
+			String fileUrl = this.getStashPath(request) + fileName;
 			File file = new File(fileUrl);
 			if (!file.isFile()) {
 				this.alert(request, response, "无附件下载");
@@ -89,7 +140,17 @@ public class BaseSupplierController {
 			}
 		}
 	}
-
+	
+	/**
+	 * @Title: alert
+	 * @author: Wang Zhaohua
+	 * @date: 2016-10-13 下午3:55:25
+	 * @Description: 弹出框消息提示
+	 * @param: @param request
+	 * @param: @param response
+	 * @param: @param msg
+	 * @return: void
+	 */
 	public void alert(HttpServletRequest request, HttpServletResponse response, String msg) {
 		String path = request.getSession().getServletContext().getContextPath();
 		StringBuffer sbff = new StringBuffer();

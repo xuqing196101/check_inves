@@ -82,4 +82,8 @@ public interface AreaMapper {
 	 */
 	void update(Area record);
 	
+	List<Area> findRootArea(String areaType);
+	
+	List<Area> findAreaByParentId(String id);
+	
 }
