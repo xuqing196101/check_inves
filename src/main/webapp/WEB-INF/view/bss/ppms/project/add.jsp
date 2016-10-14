@@ -139,7 +139,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
 <!-- 录入采购计划开始-->
  <div class="container">
-   <div class="headline-v2">
+   <%-- <div class="headline-v2">
       <h2>查询条件</h2>
    </div>
 <!-- 项目戳开始 -->
@@ -151,14 +151,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      <li class="fl">
        <label class="fl">需求部门：<input type="text" name="purchaseRequiredId" /></label>
        </li>
-     <%--  <label class="fl">年度：<select name="giveTime" style="width:70px" id="select">
+      <label class="fl">年度：<select name="giveTime" style="width:70px" id="select">
     <option selected="selected" value="">请选择</option>
        <c:forEach items="${task}" var="task">
                             
                             <option value="${task.giveTime}">${task.giveTime}</option>
                          
        </c:forEach>  
-  </select> </label>--%>
+  </select> </label>
   <li class="fl">
       <label class="fl">采购方式：<select name="procurementMethod" style="width:100px" id="select">
        <option selected="selected" value="">请选择</option>
@@ -178,7 +178,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      <div class="clear"></div>
     </form>
     </h2>
-    </div>
+    </div> --%>
      <div class="clear"></div>
 
  <input type="hidden" name="idss" value="${idss }">

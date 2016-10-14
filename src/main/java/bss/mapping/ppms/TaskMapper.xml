@@ -14,7 +14,8 @@
     <result column="MATERIALS_TYPE" property="materialsType" />
     <result column="YEAR" property="year" />
     <result column="COLLECT_ID" property="collectId" />
-    <association property="project" column="PROJECT_ID" select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey"/>
+    <result column="ACCEPT_TIME" property="acceptTime" />
+    <result column="PASS_WORD" property="passWord" />
   </resultMap>
   
   <resultMap type="bss.model.ppms.Task" id="ProjectResultMap" extends="BaseResultMap">  
@@ -27,7 +28,7 @@
   
   <sql id="Base_Column_List">
     ID, NAME, PURCHASE_ID, DOCUMENT_NUMBER, GIVE_TIME,STATUS,PROCUREMENT_METHOD,PURCHASE_REQUIRED_ID,IS_DELETED,
-    MATERIALS_TYPE,YEAR,PROJECT_ID,COLLECT_ID
+    MATERIALS_TYPE,YEAR,ACCEPT_TIME,COLLECT_ID,PASS_WORD
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -149,11 +150,14 @@
       <if test="year != null">
         YEAR,
       </if>
-      <if test="project != null">
-        PROJECT_ID,
+      <if test="acceptTime != null">
+        ACCEPT_TIME,
       </if>
       <if test="collectId != null">
         COLLECT_ID,
+      </if>
+      <if test="passWord != null">
+        PASS_WORD,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -187,11 +191,14 @@
        <if test="purchaseRequiredId != null">
         #{purchaseRequiredId},
       </if>
-      <if test="project != null">
-        #{project.id},
+      <if test="acceptTime != null">
+        #{ACCEPT_TIME},
       </if>
       <if test="collectId != null">
         #{collectId},
+      </if>
+      <if test="passWord != null">
+        #{passWord},
       </if>
     </trim>
   </insert>
@@ -225,11 +232,14 @@
       <if test="year != null">
         YEAR = #{year},
       </if>
-      <if test="project != null">
-        PROJECT_ID = #{project.id},
+      <if test="acceptTime != null">
+        ACCEPT_TIME = #{acceptTime},
       </if>
       <if test="collectId != null">
         COLLECT_ID = #{collectId},
+      </if>
+      <if test="passWord != null">
+        PASS_WORD = #{passWord},
       </if>
     </set>
     where ID = #{id}

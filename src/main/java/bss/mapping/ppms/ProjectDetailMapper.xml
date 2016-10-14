@@ -18,7 +18,7 @@
     <result column="IS_FREE_TAX"  property="isFreeTax" />
     <result column="GOODS_USE"  property="goodsUse" />
     <result column="USE_UNIT"  property="useUnit" />
-    <result column="STATUS"  property="status" />
+    <result column="TASK_ID"  property="taskId" />
     <result column="PACKAGE_ID"  property="packageId" />
     <association property="project" column="PROJECT_ID" select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey"/>
     <association property="purchaseDep" column="PURCHASE_ID" select="ses.dao.oms.PurchaseDepMapper.selectPurchaseById"/>
@@ -26,7 +26,7 @@
   <sql id="Base_Column_List">
     ID, SERIAL_NUMBER, DEPARTMENT, GOODS_NAME, STAND, QUALIT_STAND, ITEM, PURCHASE_COUNT, 
     PRICE, BUDGET, DELIVER_DATE, PURCHASE_TYPE, SUPPLIER, IS_FREE_TAX, GOODS_USE, USE_UNIT, 
-    PROJECT_ID, STATUS, PURCHASE_ID,PACKAGE_ID
+    PROJECT_ID, TASK_ID, PURCHASE_ID,PACKAGE_ID
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -49,8 +49,8 @@
     <if test="packageId != null and packageId !=''">
         AND PACKAGE_ID = #{packageId}
      </if> 
-     <if test="status != null and status !=''">
-        AND STATUS = #{status}
+     <if test="taskId != null and taskId !=''">
+        AND TASK_ID = #{taskId}
      </if>
   </select>
   
@@ -71,14 +71,14 @@
       ITEM, PURCHASE_COUNT, PRICE, 
       BUDGET, DELIVER_DATE, PURCHASE_TYPE, 
       SUPPLIER, IS_FREE_TAX, GOODS_USE, 
-      USE_UNIT, PROJECT_ID, STATUS, 
+      USE_UNIT, PROJECT_ID, TASK_ID, 
       PURCHASE_ID)
     values (#{id,jdbcType=VARCHAR}, #{serialNumber,jdbcType=VARCHAR}, #{department,jdbcType=VARCHAR}, 
       #{goodsName,jdbcType=VARCHAR}, #{stand,jdbcType=VARCHAR}, #{qualitStand,jdbcType=VARCHAR}, 
       #{item,jdbcType=VARCHAR}, #{purchaseCount,jdbcType=DECIMAL}, #{price,jdbcType=DECIMAL}, 
       #{budget,jdbcType=DECIMAL}, #{deliverDate,jdbcType=DATE}, #{purchaseType,jdbcType=VARCHAR}, 
       #{supplier,jdbcType=VARCHAR}, #{isFreeTax,jdbcType=VARCHAR}, #{goodsUse,jdbcType=VARCHAR}, 
-      #{useUnit,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{useUnit,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, #{taskId,jdbcType=VARCHAR}, 
       #{purchaseId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="bss.model.ppms.ProjectDetail">
@@ -138,8 +138,8 @@
       <if test="project != null">
         PROJECT_ID,
       </if>
-      <if test="status != null">
-        STATUS,
+      <if test="taskId != null">
+        TASK_ID,
       </if>
       <if test="purchaseDep != null">
         PURCHASE_ID,
@@ -200,8 +200,8 @@
       <if test="project != null">
         #{project.id},
       </if>
-      <if test="status != null">
-        #{status},
+      <if test="taskId != null">
+        #{taskId},
       </if>
       <if test="purchaseDep != null">
         #{purchaseDep.id},
@@ -262,8 +262,8 @@
       <if test="project != null">
         PROJECT_ID = #{project.id},
       </if>
-      <if test="status != null">
-        STATUS = #{status},
+      <if test="taskId != null">
+        TASK_ID = #{taskId},
       </if>
       <if test="purchaseDep != null">
         PURCHASE_ID = #{purchaseDep.id},
@@ -292,7 +292,7 @@
       GOODS_USE = #{goodsUse,jdbcType=VARCHAR},
       USE_UNIT = #{useUnit,jdbcType=VARCHAR},
       PROJECT_ID = #{projectId,jdbcType=VARCHAR},
-      STATUS = #{status,jdbcType=VARCHAR},
+      TASK_ID = #{taskId,jdbcType=VARCHAR},
       PURCHASE_ID = #{purchaseId,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>

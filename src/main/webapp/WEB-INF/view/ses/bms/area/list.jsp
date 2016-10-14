@@ -143,8 +143,8 @@
                 <!-- Begin Content -->
                 <div class="col-md-12" style="min-height:400px;">
                     <div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
-                        <div class="tag-box tag-box-v3">
-                            <ul id="ztree_show" class="ztree">
+                        <div class="tag-box tag-box-v3" style="overflow:auto;">
+                            <ul id="ztree_show" class="ztree" >
                                 <!-- 菜单树-->
                                 <div id="tree" class="ztree"></div>
                             </ul>

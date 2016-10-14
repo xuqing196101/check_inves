@@ -39,7 +39,7 @@ public class ProjectDetail {
 
 	private Project project;
 
-	private String status;
+	private String taskId;
 
 	private PurchaseDep purchaseDep;
 	
@@ -181,12 +181,12 @@ public class ProjectDetail {
 		this.project = project;
 	}
 
-	public String getStatus() {
-		return status;
+	public String getTaskId() {
+		return taskId;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setTaskId(String taskId) {
+		this.taskId = taskId;
 	}
 
 	public PurchaseDep getPurchaseDep() {

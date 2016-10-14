@@ -9,104 +9,104 @@ import ses.model.sms.Supplier;
 public class Project {
     private String id; //主键
 
-    private String name; //
+    private String name; //项目名称
 
-    private String projectNumber; //
+    private String projectNumber; //项目编号
 
-    private Integer status; //
+    private Integer status; //状态
 
-    private String principal; //
+    private String principal; //项目负责人
 
-    private String ipone; // 
+    private String ipone; // 项目负责人联系电话
 
-    private String linkman; //
+    private String linkman; //项目联系人
 
-    private String linkmanIpone; //
+    private String linkmanIpone; //联系人电话
 
     private String bidUnit; //
 
-    private String address; //
+    private String address; //联系地址
 
-    private Integer postcode; //
+    private Integer postcode; //邮编
 
-    private Integer supplierNumber; //
+    private Integer supplierNumber; //最少供应商人数
 
-    private Integer offerStandard; //
+    private Integer offerStandard; //报价标准分值
 
-    private String prIntroduce; //
+    private String prIntroduce; //项目介绍
 
-    private Integer budgetAmount; //
+    private Integer budgetAmount; //预算金额（万元）
 
-    private String passWord; //
+    private String passWord; //密码
 
-    private String scoringRubric; //
+    private String scoringRubric; //评分规则
 
-    private String operator; //
+    private String operator; //经办人
 
-    private String divisionOfWork; //
+    private String divisionOfWork; //工作分工
 
-    private String purchaseType; //
+    private String purchaseType; //采购方式：公开招标，邀请招标，询价，竞争性谈判，单一来源
 
-    private String materialsType; //
+    private String materialsType; //物资类别 
 
-    private String sectorOfDemand; //
+    private String sectorOfDemand; //需求部门
 
-    private PurchaseDep purchaseDep; //
+    private PurchaseDep purchaseDep; //采购机构
 
-    private Date deadline; //
+    private Date deadline; //投标截止时间
 
-    private Date dateOfEntrustment; //
+    private Date dateOfEntrustment; //委托日期
 
-    private Date bidDate; //
+    private Date bidDate; //开标时间
 
-    private String bidAddress; //
+    private String bidAddress; //开标地点
 
     private String requieredId; //
     
-    private String baleNo; //
+    private String baleNo; //包号
     
-    private double amount; //
+    private double amount; //成交金额
     
-    private String purchaseDepName; //
+    private String purchaseDepName; //采购机构名称
     
-    private Integer executeStatus; //
+    private Integer executeStatus; //执行状态
     
     private Integer isEntrance; //
     
-    private Supplier dealSupplier; //
+    private Supplier dealSupplier; //成交供应商
     
-    private Date approvalTime; //
+    private Date approvalTime; //招标文件报批时间
     
-    private Date replyTime; //
+    private Date replyTime; //招标文件批复时间
     
-    private Date demandFromTime; //
+    private Date demandFromTime; //需求计划提报时间
     
-    private Date taskGiveTime; //
+    private Date taskGiveTime; //采购任务受理时间
     
-    private Date createAt; //
+    private Date createAt; //创建时间
     
-    private Date startTime; //
+    private Date startTime; //启动时间
     
-    private Date noticeNewsTime; //
+    private Date noticeNewsTime; //招标公告发布时间
     
-    private Date appTime; //
+    private Date appTime; //招标公告审批时间
     
-    private Date signUpTime; //
+    private Date signUpTime; //供应商报名时间
     
-    private Date applyDeanline; //
+    private Date applyDeanline; //报名截止时间
     
-    private Date noticeTime;
+    private Date noticeTime; //发送中标通知书时间
     
-    private Date endTime;
+    private Date endTime; //项目结束时间
     
-    private Date signingTime;
+    private Date signingTime; //合同签订时间
     
-    private Date acceptanceTime;
+    private Date acceptanceTime; //验收时间
     
-    private Date maintenanceTime;
+    private Date maintenanceTime; //售后维护时间
     
     
-    private List<Task> list;
+    private List<Task> list; 
     
 
 	public Project(String id) {
