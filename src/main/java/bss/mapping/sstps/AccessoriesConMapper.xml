@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.sstps.AccessoriesConMapper">
+  <resultMap id="AccessoriesConMap" type="bss.model.sstps.AccessoriesCon">
+    <id column="ID" property="id" />
+    <result column="STUFF_NAME" property="stuffName" />
+    <result column="NORM " property="norm" />
+    <result column="PAPER_CODE" property="paperCode" />
+    <result column="WORK_AMOUT" property="workAmout" />
+    <result column="WORK_WEIGHT" property="workWeight" />
+    <result column="WORK_WEIGHT_TOTAL" property="workWeightTotal" />
+    <result column="WORK_PRICE" property="workPrice" />
+    <result column="WORK_MONEY" property="workMoney" />
+    <result column="CONSUME_AMOUT" property="consumeAmout" />
+    <result column="CONSUME_WEIGHT" property="consumeWeight" />
+    <result column="CONSUME_WEIGHT_TOTAL" property="consumeWeightTotal" />
+    <result column="CONSUME_PRICE" property="consumePrice" />
+    <result column="CONSUME_MONEY" property="consumeMoney" />
+    <result column="SUBTRACT_MONEY" property="subtractMoney" />
+    <result column="CHECK_MONEY" property="checkMoney" />
+    <result column="SUPPLY_UNIT" property="supplyUnit" />
+    <result column="REMARK" property="remark" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="PRODUCT_NATURE" property="productNature" />
+    
+    <association property="contractProduct" column="PRODUCT_ID" select="bss.dao.sstps.AppraisalContractMapper.selectById"/>
+    
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    ID, PRODUCT_ID, STUFF_NAME, NORM, PAPER_CODE, WORK_AMOUT, WORK_WEIGHT, WORK_WEIGHT_TOTAL, 
+    WORK_PRICE, WORK_MONEY, CONSUME_AMOUT, CONSUME_WEIGHT, CONSUME_WEIGHT_TOTAL, CONSUME_PRICE, 
+    CONSUME_MONEY, SUBTRACT_MONEY, CHECK_MONEY, SUPPLY_UNIT, REMARK, CREATED_AT, UPDATED_AT, 
+    PRODUCT_NATURE
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="Object" resultMap="AccessoriesConMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_SSTPS_ACCESSORIES_CON
+    where ID = #{id}
+  </select>
+  
+  <!-- 查询产品对应的列表信息 -->
+  <select id="selectProduct" parameterType="Object" resultMap="AccessoriesConMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_SSTPS_ACCESSORIES_CON
+    where PRODUCT_ID = #{contractProduct.id}
+  </select>
+  
+  <delete id="delete" parameterType="java.lang.String">
+    delete from T_BSS_SSTPS_ACCESSORIES_CON
+    where ID = #{id}
+  </delete>
+  
+  <insert id="insert" parameterType="bss.model.sstps.AccessoriesCon">
+  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_BSS_SSTPS_ACCESSORIES_CON
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="contractProduct != null">
+        PRODUCT_ID,
+      </if>
+      <if test="stuffName != null">
+        STUFF_NAME,
+      </if>
+      <if test="norm != null">
+        NORM,
+      </if>
+      <if test="paperCode != null">
+        PAPER_CODE,
+      </if>
+      <if test="workAmout != null">
+        WORK_AMOUT,
+      </if>
+      <if test="workWeight != null">
+        WORK_WEIGHT,
+      </if>
+      <if test="workWeightTotal != null">
+        WORK_WEIGHT_TOTAL,
+      </if>
+      <if test="workPrice != null">
+        WORK_PRICE,
+      </if>
+      <if test="workMoney != null">
+        WORK_MONEY,
+      </if>
+      <if test="consumeAmout != null">
+        CONSUME_AMOUT,
+      </if>
+      <if test="consumeWeight != null">
+        CONSUME_WEIGHT,
+      </if>
+      <if test="consumeWeightTotal != null">
+        CONSUME_WEIGHT_TOTAL,
+      </if>
+      <if test="consumePrice != null">
+        CONSUME_PRICE,
+      </if>
+      <if test="consumeMoney != null">
+        CONSUME_MONEY,
+      </if>
+      <if test="subtractMoney != null">
+        SUBTRACT_MONEY,
+      </if>
+      <if test="checkMoney != null">
+        CHECK_MONEY,
+      </if>
+      <if test="supplyUnit != null">
+        SUPPLY_UNIT,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="productNature != null">
+        PRODUCT_NATURE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="contractProduct != null">
+        #{contractProduct.id},
+      </if>
+      <if test="stuffName != null">
+        #{stuffName},
+      </if>
+      <if test="norm != null">
+        #{norm},
+      </if>
+      <if test="paperCode != null">
+        #{paperCode},
+      </if>
+      <if test="workAmout != null">
+        #{workAmout},
+      </if>
+      <if test="workWeight != null">
+        #{workWeight},
+      </if>
+      <if test="workWeightTotal != null">
+        #{workWeightTotal},
+      </if>
+      <if test="workPrice != null">
+        #{workPrice},
+      </if>
+      <if test="workMoney != null">
+        #{workMoney},
+      </if>
+      <if test="consumeAmout != null">
+        #{consumeAmout},
+      </if>
+      <if test="consumeWeight != null">
+        #{consumeWeight},
+      </if>
+      <if test="consumeWeightTotal != null">
+        #{consumeWeightTotal},
+      </if>
+      <if test="consumePrice != null">
+        #{consumePrice},
+      </if>
+      <if test="consumeMoney != null">
+        #{consumeMoney},
+      </if>
+      <if test="subtractMoney != null">
+        #{subtractMoney},
+      </if>
+      <if test="checkMoney != null">
+        #{checkMoney},
+      </if>
+      <if test="supplyUnit != null">
+        #{supplyUnit},
+      </if>
+      <if test="remark != null">
+        #{remark},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt},
+      </if>
+      <if test="productNature != null">
+        #{productNature},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="bss.model.sstps.AccessoriesCon">
+    update T_BSS_SSTPS_ACCESSORIES_CON
+    <set>
+      <if test="contractProduct != null">
+        PRODUCT_ID = #{contractProduct.id},
+      </if>
+      <if test="stuffName != null">
+        STUFF_NAME = #{stuffName},
+      </if>
+      <if test="norm != null">
+        NORM = #{norm},
+      </if>
+      <if test="paperCode != null">
+        PAPER_CODE = #{paperCode},
+      </if>
+      <if test="workAmout != null">
+        WORK_AMOUT = #{workAmout},
+      </if>
+      <if test="workWeight != null">
+        WORK_WEIGHT = #{workWeight},
+      </if>
+      <if test="workWeightTotal != null">
+        WORK_WEIGHT_TOTAL = #{workWeightTotal},
+      </if>
+      <if test="workPrice != null">
+        WORK_PRICE = #{workPrice},
+      </if>
+      <if test="workMoney != null">
+        WORK_MONEY = #{workMoney},
+      </if>
+      <if test="consumeAmout != null">
+        CONSUME_AMOUT = #{consumeAmout},
+      </if>
+      <if test="consumeWeight != null">
+        CONSUME_WEIGHT = #{consumeWeight},
+      </if>
+      <if test="consumeWeightTotal != null">
+        CONSUME_WEIGHT_TOTAL = #{consumeWeightTotal},
+      </if>
+      <if test="consumePrice != null">
+        CONSUME_PRICE = #{consumePrice},
+      </if>
+      <if test="consumeMoney != null">
+        CONSUME_MONEY = #{consumeMoney},
+      </if>
+      <if test="subtractMoney != null">
+        SUBTRACT_MONEY = #{subtractMoney},
+      </if>
+      <if test="checkMoney != null">
+        CHECK_MONEY = #{checkMoney},
+      </if>
+      <if test="supplyUnit != null">
+        SUPPLY_UNIT = #{supplyUnit},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt},
+      </if>
+      <if test="productNature != null">
+        PRODUCT_NATURE = #{productNature},
+      </if>
+    </set>
+    where ID = #{id}
+  </update>
+  
+</mapper>

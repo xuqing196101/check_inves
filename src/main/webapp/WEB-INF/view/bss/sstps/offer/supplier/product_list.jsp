@@ -35,6 +35,56 @@ $(function(){
 		});
 });
 
+/** 全选全不选 */
+function selectAll(){
+	 var checklist = document.getElementsByName ("chkItem");
+	 var checkAll = document.getElementById("checkAll");
+	   if(checkAll.checked){
+		   for(var i=0;i<checklist.length;i++)
+		   {
+		      checklist[i].checked = true;
+		   } 
+		 }else{
+		  for(var j=0;j<checklist.length;j++)
+		  {
+		     checklist[j].checked = false;
+		  }
+	 	}
+	}
+
+/** 单选 */
+function check(){
+	 var count=0;
+	 var checklist = document.getElementsByName ("chkItem");
+	 var checkAll = document.getElementById("checkAll");
+	 for(var i=0;i<checklist.length;i++){
+		   if(checklist[i].checked == false){
+			   checkAll.checked = false;
+			   break;
+		   }
+		   for(var j=0;j<checklist.length;j++){
+				 if(checklist[j].checked == true){
+					   checkAll.checked = true;
+					   count++;
+				   }
+			 }
+	   }
+}
+
+function offer(){
+	var id=[]; 
+	$('input[name="chkItem"]:checked').each(function(){ 
+		id.push($(this).val());
+	}); 
+	if(id.length==1){
+		window.location.href="<%=basePath%>offer/selectProductInfo.do?productId="+id;
+	}else if(id.length>1){
+		layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+	}else{
+		layer.alert("请选择需要报价的产品",{offset: ['222px', '390px'], shade:0.01});
+	}
+}
+
 </script>    
     
   </head>
@@ -73,7 +123,7 @@ $(function(){
 </div>
 	<div class="container">	
 		<div class="col-md-8 mt10 ml5">
-	   		<button class="btn btn-windows ht_add" type="button" onclick="add()">产品报价</button>
+	   		<button class="btn btn-windows ht_add" type="button" onclick="offer()">产品报价</button>
 		</div>
 	</div>
 	

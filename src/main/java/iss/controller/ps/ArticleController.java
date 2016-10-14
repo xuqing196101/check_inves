@@ -495,16 +495,19 @@ public class ArticleController {
 				article.setStatus(status);
 				List<Article> list = articleService.selectArticleByName(article, page==null?1:page);
 				model.addAttribute("list", new PageInfo<Article>(list));
+				model.addAttribute("name", kname);
 				return "iss/ps/article/sub/list";
 			}else if(status==1){
 				article.setStatus(status);
 				List<Article> list = articleService.selectArticleByName(article, page==null?1:page);
 				model.addAttribute("list", new PageInfo<Article>(list));
+				model.addAttribute("name", kname);
 				return "iss/ps/article/audit/list";
 			}
 		}else{
 			List<Article> list = articleService.selectArticleByName(article, page==null?1:page);
 			model.addAttribute("list", new PageInfo<Article>(list));
+			model.addAttribute("name", kname);
 			return "iss/ps/article/list";
 		}
 		return kname;

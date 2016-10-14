@@ -138,7 +138,7 @@
                     <input name="status" value="1" type="hidden">
                     <div class="col-md-12 pull-right">
                       <div class="input-group">
-                        <input class="form-control bgnone h37 p0_10" id="kname" name="kname" placeholder="" type="text">
+                        <input class="form-control bgnone h37 p0_10" id="kname" name="kname" value="${name }" placeholder="" type="text">
                         <span class="input-group-btn">
                           <input class="btn-u" name="commit" value="搜索" type="submit">
                         </span>

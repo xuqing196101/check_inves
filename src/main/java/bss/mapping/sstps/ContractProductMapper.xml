@@ -10,7 +10,7 @@
     <result column="OFFER" property="offer" />
     <result column="AUDIT_OFFER" property="auditOffer" />
     
-    <association property="appraisalContract" column="CONTRACT_ID" select="bss.dao.sstps.AppraisalContractMapper.selectById"/>
+    <association property="appraisalContract" column="CONTRACT_ID" select="bss.dao.sstps.ContractProductMapper.selectByPrimaryKey"/>
     
   </resultMap>
   
