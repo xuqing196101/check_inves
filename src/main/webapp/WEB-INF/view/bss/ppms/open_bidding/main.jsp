@@ -28,13 +28,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet">
     <link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet">
     <link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
-
+	
     <script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
     <!--导航js-->
     <script src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
     <script src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
 </head>
-
+<script type="text/javascript">
+	$(function(){
+	    $("#menu a").click(function() {
+		    $('#menu li').each(function(index) {
+			    $(this).removeClass('active');  // 删除其他兄弟元素的样式
+			  });
+	        $(this).parent().addClass('active');                            // 添加当前元素的样式
+	    });
+	}); 
+</script>
 <body>
   
    <!--面包屑导航开始-->
@@ -53,9 +62,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <!-- Begin Content -->
                   <div class="col-md-12" style="min-height:400px;">
                       <div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
-	                     <ul class="btn_list">
-						   <li class="active">项目信息</li>
-						   <li>拟制招标文件</li>
+	                     <ul class="btn_list" id="menu">
+						   <li class="active"><a href="<%=basePath%>project/mplement.html?id=${project.id}" target="open_bidding_main" class="son-menu">项目信息</a></li>
+						   <li><a href="<%=basePath%>open_bidding/bidFile.html" target="open_bidding_main" class="son-menu">拟制招标文件</a></li>
 						   <li>确认招标文件</li>
 						   <li>拟制招标公告</li>
 						   <li>发售标书</li>
@@ -67,89 +76,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						   <li>确认中标供应商</li>
 						 </ul>
 					  </div>
-                      <div class="tag-box tag-box-v4 col-md-9">
-	                     <div class="col-md-12 p0">
-						   <ul class="flow_step">
-						     <li class="active">
-							   <a aria-expanded="true" href="#tab-1" data-toggle="tab">符合性</a>
-							   <i></i>
-							 </li>
-							 
-							 <li>
-							   <a aria-expanded="false" href="#tab-2" data-toggle="tab">符合性关联</a>
-							   <i></i>							  
-							 </li>
-						     <li>
-							   <a aria-expanded="false" href="#tab-3" data-toggle="tab"> 评标细则</a>
-							   <i></i>
-							 </li>
-							 <li>
-							   <a aria-expanded="false" href="#tab-4" data-toggle="tab"> 招标文件</a>
-							 </li>
-						   </ul>
-						 </div>
-						 <div class="tab-content clear step_cont">
-						 <div class="col-md-12 tab-pane active"  id="tab-1">
-						  <h2 class="f16 count_flow fl"><i>01</i>符合性条款</h2>
-						  <div class="fr pr15 mt10">
-						    <button class="btn btn-windows delete">删除</button>
-							<button class="btn btn-windows edit">修改</button>
-							<button class="btn btn-windows add">新增</button>
-							
-						  </div>
-						  <div class="col-md-12">
-						    <table class="table table-striped table-bordered table-hover ">
-							  <thead>
-							    <tr>
-								  <th class="w30"><input type="checkbox"/></th>
-								  <th>符合性名称</th>
-								</tr>
-							 </thead>
-							 <tbody>
-							    <tr>
-								  <td class="w30"><input type="checkbox"/></td>
-								  <td>赶快写赶快写赶快写赶快写赶快写赶快写赶快写赶快写</td>
-								</tr>
-							    <tr>
-								  <td class="w30"><input type="checkbox"/></td>
-								  <td>赶快写赶快写赶快写赶快写赶快写赶快写赶快写赶快写赶快写</td>
-								</tr>
-							  </tbody>
-							</table>
-						  
-						  </div>
-						  <h2 class="f16 count_flow fl clear"><i>02</i>资格性条款</h2>
-						  <div class="fr pr15 mt10">
-						    <button class="btn btn-windows add">新增</button>
-							<button class="btn btn-windows edit">修改</button>
-							<button class="btn btn-windows delete">删除</button>
-						  </div>
-						  <div class="col-md-12">
-						    <table class="table table-striped table-bordered table-hover ">
-							  <thead>
-							    <tr>
-								  <th class="w30"><input type="checkbox"/></th>
-								  <th>符合性名称</th>
-								</tr>
-							 </thead>
-							 <tbody>
-							    <tr>
-								  <td class="w30"><input type="checkbox"/></td>
-								  <td>赶快写赶快写赶快写赶快写赶快写赶快写</td>
-								</tr>
-							    <tr>
-								  <td class="w30"><input type="checkbox"/></td>
-								  <td>赶快写赶快写赶快写赶快写赶快写赶快写</td>
-								</tr>
-							  </tbody>
-							</table>
-						  </div>
-						 </div>
-						 <div class="col-md-12 tab-pane" id="tab-2">222</div>				 
-						 <div class="col-md-12 tab-pane" id="tab-3">333</div>	
-						 <div class="col-md-12 tab-pane" id="tab-4">444</div>
-                      </div>
-                   </div>
+					  <script type="text/javascript" language="javascript">   
+						function iFrameHeight() {   
+						var ifm= document.getElementById("open_bidding_iframe");   
+						var subWeb = document.frames ? document.frames["open_bidding_iframe"].document : ifm.contentDocument;   
+						if(ifm != null && subWeb != null) {
+						   ifm.height = subWeb.body.scrollHeight;
+						   /*ifm.width = subWeb.body.scrollWidth;*/
+						}   
+						}   
+						</script>
+					  <!-- 右侧内容开始-->
+					  <div class="tag-box tag-box-v4 col-md-9">
+						 <iframe  frameborder="0" name="open_bidding_main" id="open_bidding_iframe" scrolling="no" marginheight="0"  width="100%" onLoad="iFrameHeight()"  src="<%=basePath%>project/mplement.html?id=${project.id}"></iframe>
+					  </div>
 				  </div>
                 </div>
                 <!-- End Content -->

@@ -25,16 +25,22 @@ import bss.service.ppms.ProjectService;
 @Scope("prototype")
 @RequestMapping("/open_bidding")
 public class OpenBiddingController {
+	
 	@Autowired
 	private ProjectService projectService;
 	
-	@RequestMapping("/list")
-	public String list(Integer page,Model model,Project project){
-		List<Project> list = projectService.list(page==null?1:page, project);
-		PageInfo<Project> info = new PageInfo<>(list);
-		model.addAttribute("info", info);
-		model.addAttribute("projects", project);
-		return "bss/ppms/open_bidding/list";
+	/**
+	 * Description: 进入招标文件页面
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-10-14
+	 * @return String
+	 * @exception IOException
+	 */
+	@RequestMapping("/bidFile")
+	public String bidFile(){
+		
+		return "bss/ppms/open_bidding/bid_file";
 	}
 	
 }
