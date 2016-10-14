@@ -44,6 +44,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    });
 	}); 
 </script>
+<script type="text/javascript">
+	document.body.onbeforeunload = function (event)
+        {
+            var c = event || window.event;
+            if (/webkit/.test(navigator.userAgent.toLowerCase())) {
+                return "离开页面将导致数据丢失！";
+            }
+            else
+            {
+                c.returnValue = "离开页面将导致数据丢失！";
+            }
+        }
+</script>
 <body>
   
    <!--面包屑导航开始-->
@@ -64,16 +77,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                       <div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
 	                     <ul class="btn_list" id="menu">
 						   <li class="active"><a href="<%=basePath%>project/mplement.html?id=${project.id}" target="open_bidding_main" class="son-menu">项目信息</a></li>
-						   <li><a href="<%=basePath%>open_bidding/bidFile.html" target="open_bidding_main" class="son-menu">拟制招标文件</a></li>
-						   <li>确认招标文件</li>
-						   <li>拟制招标公告</li>
-						   <li>发售标书</li>
-						   <li>抽取评审专家</li>
-						   <li>投标开标</li>
-						   <li>唱标</li>
-						   <li>组织专家评审</li>
-						   <li>拟制中标公告</li>
-						   <li>确认中标供应商</li>
+						   <li><a href="<%=basePath%>open_bidding/bidFile.html?id=${project.id}" target="open_bidding_main" class="son-menu">拟制招标文件</a></li>
+						   <li><a href="<%=basePath%>open_bidding/" target="open_bidding_main" class="son-menu">确认招标文件</a></li>
+						   <li><a href="<%=basePath%>open_bidding/bidNotice.html" target="open_bidding_main" class="son-menu">拟制招标公告</a></li>
+						   <li><a href="<%=basePath%>open_bidding/" target="open_bidding_main" class="son-menu">发售标书</a></li>
+						   <li><a href="<%=basePath%>open_bidding/" target="open_bidding_main" class="son-menu">抽取评审专家</a></li>
+						   <li><a href="<%=basePath%>open_bidding/" target="open_bidding_main" class="son-menu">投标开标</a></li>
+						   <li><a href="<%=basePath%>open_bidding/" target="open_bidding_main" class="son-menu">唱标</a></li>
+						   <li><a href="<%=basePath%>open_bidding/" target="open_bidding_main" class="son-menu">组织专家评审</a></li>
+						   <li><a href="<%=basePath%>open_bidding/" target="open_bidding_main" class="son-menu">拟制中标公告</a></li>
+						   <li><a href="<%=basePath%>open_bidding/" target="open_bidding_main" class="son-menu">确认中标供应商</a></li>
 						 </ul>
 					  </div>
 					  <script type="text/javascript" language="javascript">   

@@ -38,9 +38,24 @@ public class OpenBiddingController {
 	 * @exception IOException
 	 */
 	@RequestMapping("/bidFile")
-	public String bidFile(){
-		
+	public String bidFile(String id, Model model){
+		Project project = projectService.selectById(id);
+		model.addAttribute("project", project);
 		return "bss/ppms/open_bidding/bid_file";
+	}
+	
+	/**
+	 * Description: 招标公告
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-10-14
+	 * @return String
+	 * @exception IOException
+	 */
+	@RequestMapping("/bidNotice")
+	public String bidNotice(){
+		
+		return "bss/ppms/open_bidding/bid_notice";
 	}
 	
 }
