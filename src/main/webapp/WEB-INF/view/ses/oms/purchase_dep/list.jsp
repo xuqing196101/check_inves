@@ -79,7 +79,7 @@
 		   }
 	}
   	function view(id){
-  		window.location.href="${pageContext.request.contextPath}/purchaseManage/showStationMessage.do?id="+id+"&&type='view'";
+  		window.location.href="${pageContext.request.contextPath}/purchaseManage/showStationMessage.do?id="+id[0]+"&&type='view'";
   	}
     function edit(){
     	var id=[]; 
@@ -87,7 +87,7 @@
 			id.push($(this).val());
 		}); 
 		if(id.length==1){
-			window.location.href="${pageContext.request.contextPath}/purchaseManage/editPurchaseDep.do?id="+id+"&&type='edit'";
+			window.location.href="${pageContext.request.contextPath}/purchaseManage/editPurchaseDep.do?id="+id[0]+"&&type='edit'";
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{

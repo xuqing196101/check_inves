@@ -1,0 +1,18 @@
+.f13 {
+  font-size: 13px !important; }
+  
+.btn {
+display: inline;
+padding: 5px 12px !important;
+margin-bottom: 0;
+font-size: 14px;
+font-weight: 400;
+line-height: 19px;
+text-align: center;
+white-space: nowrap;
+vertical-align: middle;
+-ms-touch-action: manipulation;
+touch-action: manipulation;
+cursor: pointer;
+border: 1px solid transparent;
+}

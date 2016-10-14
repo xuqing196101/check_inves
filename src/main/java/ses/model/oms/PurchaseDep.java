@@ -14,7 +14,7 @@ public class PurchaseDep extends Orgnization{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private String id;
+	//private String id;
 
     private String levelDep;//采购机构级别
 
@@ -108,19 +108,12 @@ public class PurchaseDep extends Orgnization{
 
     public PurchaseDep(String id) {
     	super();
-		this.id = id;
+    	super.setId(id);
 	}
     public PurchaseDep() {
     	super();
 	}
 
-	public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
-    }
 
    
 

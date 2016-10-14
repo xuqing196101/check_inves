@@ -16,7 +16,7 @@ public class PurchaseRoom implements Serializable{
 
     private Integer typeName;
 
-    private BigDecimal area;
+    private String area;
 
     private Integer isNetConnect;
 
@@ -58,11 +58,11 @@ public class PurchaseRoom implements Serializable{
         this.typeName = typeName;
     }
 
-    public BigDecimal getArea() {
+    public String getArea() {
         return area;
     }
 
-    public void setArea(BigDecimal area) {
+    public void setArea(String area) {
         this.area = area;
     }
 

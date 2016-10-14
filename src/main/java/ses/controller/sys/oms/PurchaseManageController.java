@@ -1,9 +1,12 @@
 package ses.controller.sys.oms;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +24,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -33,6 +39,8 @@ import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.oms.PurchaseInfo;
 import ses.model.oms.PurchaseOrg;
+import ses.model.oms.PurchaseRoom;
+import ses.model.oms.PurchaseUnit;
 import ses.model.oms.util.AjaxJsonData;
 import ses.model.oms.util.CommUtils;
 import ses.model.oms.util.CommonConstant;
@@ -45,6 +53,7 @@ import ses.service.oms.PurChaseDepOrgService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.oms.PurchaseServiceI;
 import ses.service.sms.SupplierAuditService;
+import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 
 
@@ -683,6 +692,7 @@ public class PurchaseManageController {
 		//每页显示十条
 		PageHelper.startPage(page.getPageNum(),CommonConstant.PAGE_SIZE);
 		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("typeName", 0);
 		List<PurchaseDep> purchaseDepList = purchaseOrgnizationServiceI.findPurchaseDepList(map);
 		page = new PageInfo(purchaseDepList);
 		model.addAttribute("purchaseDepList",purchaseDepList);
@@ -720,9 +730,20 @@ public class PurchaseManageController {
 		model.addAttribute("purchaseDep", purchaseDep);
 		return "ses/oms/purchase_dep/edit";
 	}
-	@RequestMapping(value="updatePurchaseDep",method= RequestMethod.POST)
+	@RequestMapping("updatePurchaseDep")
+	public String updatePurchaseDep(@ModelAttribute PurchaseDep purchaseDep,HttpServletRequest request,Model model) throws IOException {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		List<PurchaseRoom> roomlist= this.parsePurchaseRooms(request);
+		List<PurchaseUnit> unitlist= this.parsePurchaseUnits(request);
+		this.setUploadFile(request, purchaseDep);
+		
+		purchaseOrgnizationServiceI.update(purchaseDep);
+		model.addAttribute("purchaseDep", purchaseDep);
+		return "redirect:purchaseUnitList.do";
+	}
+	@RequestMapping(value="updatePurchaseDepAjxa",method= RequestMethod.POST)
 	@ResponseBody
-	public AjaxJsonData updatePurchaseDep(@ModelAttribute PurchaseDep purchaseDep,HttpServletRequest request){
+	public AjaxJsonData updatePurchaseDepAjxa(@ModelAttribute PurchaseDep purchaseDep,HttpServletRequest request){
 		@SuppressWarnings("unused")
 		User currUser = (User) request.getSession().getAttribute("loginUser");
 		
@@ -982,6 +1003,99 @@ public class PurchaseManageController {
 		map.put("天津", 0);
 		map.put("吉林", 0);
 		return map;
+	}
+	public void setUploadFile(HttpServletRequest request, PurchaseDep purchaseDep) throws IOException {
+		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
+		// 检查form中是否有enctype="multipart/form-data"
+		if (multipartResolver.isMultipart(request)) {
+			// 将request变成多部分request
+			MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+			// 获取multiRequest 中所有的文件名
+			Iterator<String> its = multiRequest.getFileNames();
+			String getRootPath= request.getSession().getServletContext().getRealPath("/").split("\\\\")[0] + "/" + PropUtil.getProperty("file.upload.path.purchase");
+			while (its.hasNext()) {
+				String str = its.next();
+				MultipartFile file = multiRequest.getFile(str);
+				if (file != null && file.getSize() > 0) {
+					String path = getRootPath + file.getOriginalFilename();
+					file.transferTo(new File(path));
+					if (str.equals("quaCertFile")) {
+						purchaseDep.setQuaCert(path);
+					} 
+				}
+			}
+		}
+	}
+	public List<PurchaseRoom> parsePurchaseRooms(HttpServletRequest request){
+		List<PurchaseRoom> list = new ArrayList<>();
+		String[] purchaseRoomTypeName = request.getParameterValues("purchaseRoomTypeName");
+		String[] purchaseRoomCode = request.getParameterValues("purchaseRoomCode");
+		String[] purchaseRoomLocation = request.getParameterValues("purchaseRoomLocation");
+		String[] purchaseRoomArea = request.getParameterValues("purchaseRoomArea");
+		String[] purchaseRoomNetConnectStyle = request.getParameterValues("purchaseRoomNetConnectStyle");
+		String[] purchaseRoomCapacity = request.getParameterValues("purchaseRoomCapacity");
+		String[] purchaseRoomIsNetConnect = request.getParameterValues("purchaseRoomIsNetConnect");
+		String[] purchaseRoomHasVideoSys = request.getParameterValues("purchaseRoomHasVideoSys");
+		int length = purchaseRoomCode.length; 
+		for(int i=0;i<length;i++){
+			PurchaseRoom room = new PurchaseRoom();
+			room.setTypeName(Integer.parseInt(purchaseRoomTypeName[i]));
+			room.setCode(purchaseRoomCode[i]);
+			room.setLocation(purchaseRoomLocation[i]);
+			room.setArea(purchaseRoomArea[i]);
+			room.setNetConnectStyle(purchaseRoomNetConnectStyle[i]);
+			room.setCapacity(Integer.parseInt(purchaseRoomCapacity[i]));
+			room.setIsNetConnect(Integer.parseInt(purchaseRoomIsNetConnect[i]));
+			room.setHasVideoSys(Integer.parseInt(purchaseRoomHasVideoSys[i]));
+			list.add(room);
+		}
+		return list;
+	}
+	public List<PurchaseUnit> parsePurchaseUnits(HttpServletRequest request){
+		List<PurchaseUnit> list = new ArrayList<>();
+		String[] purchaseUnitName = request.getParameterValues("purchaseUnitName");
+		String[] purchaseUnitDuty = request.getParameterValues("purchaseUnitDuty");
+		int length = purchaseUnitName.length; 
+		for(int i=0;i<length;i++){
+			PurchaseUnit unit = new PurchaseUnit();
+			unit.setName(purchaseUnitName[i]);
+			unit.setDuty(purchaseUnitDuty[i]);
+			list.add(unit);
+		}
+		return list;
+	}
+	@RequestMapping("addOffice")
+	@ResponseBody
+	public AjaxJsonData addOffice(Integer num){
+		String html ="<tr id="+num+" class='tc'>";
+		html += "<td class='tc'>"+num+"</td>";
+		html += "<td class='tc'><select class='purchaseRoomTypeName' id=purchaseRoomTypeName"+num+" name='purchaseRoomTypeName'> <option value=''>请选择</option><option value='0'>办公室</option><option value='1'>会议室</option><option value='2'>招标室</option><option value='3'>评标室</option></select></td>";
+		html += "<td><input id=purchaseRoomCode"+num+" name='purchaseRoomCode' style='width:100px;'/></td>";
+		html += "<td><input name='purchaseRoomLocation' style='width:100px;'/></td>";
+		html += "<td><input name='purchaseRoomArea' style='width:100px;'/></td>";
+		html += "<td><input name='purchaseRoomNetConnectStyle' style='width:100px;'/></td>";
+		html += "<td><input name='purchaseRoomCapacity' style='width:100px;'/></td>";
+		html += "<td><select name='purchaseRoomIsNetConnect'> <option value='-1'>请选择</option><option value='0'>是</option><option value='1'>否</option></select></td>";
+		html += "<td><select name='purchaseRoomHasVideoSys'> <option value='-1'>请选择</option><option value='0'>是</option><option value='1'>否</option></select></td>";
+		html += "<td><a href=\'javascript:void(0)\' onclick=\'delPositionTr(this)\'>删除</a></td>";
+		html += "</tr>";
+		jsonData.setMessage(html);
+		return jsonData;
+	}
+	@RequestMapping("addUnit")
+	@ResponseBody
+	public AjaxJsonData addUnit(HttpServletRequest request){
+		String num = request.getParameter("num");
+		String html ="<tr id="+num+" class='tc'> <td>1<td></tr>";
+		//jsonData.setMessage(html);
+		return jsonData;
+	}
+	@RequestMapping("addUnit1")
+	@ResponseBody
+	public AjaxJsonData addUnit1(HttpServletRequest request){
+		AjaxJsonData data = new AjaxJsonData();
+		data.setMessage("222");
+		return data;
 	}
 	//-----------------------------------------------------基本get()/set()--------------------------------------------------
 	public AjaxJsonData getJsonData() {

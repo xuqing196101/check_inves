@@ -3,7 +3,7 @@
 <mapper namespace="ses.dao.oms.PurchaseDepMapper">
 	 <!-- 根据条件查部 采购机构-->
 	<select id="findPurchaseDepList" parameterType="java.util.Map" resultType="ses.model.oms.PurchaseDep">
-			   select d.id  as id,
+			   select o.id  as id,
 		       d.LEVEL_DEP       as levelDep,
 		       d.SUBORDINATE_ORG_ID       as subordinateOrgId,
 		       d.SUBORDINATE_ORG__NAME     as subordinateOrgName,
@@ -65,7 +65,7 @@
 		  LEFT JOIN T_SES_BMS_AREA b on o.city_id=b.id
 		 where nvl(d.is_deleted,0)=0
 		 <if test="id != null and id != ''">
-			and d.id= #{id}
+			and o.id= #{id}
 		</if>
 		 <if test="orgId != null">
 			and o.id= #{orgId}

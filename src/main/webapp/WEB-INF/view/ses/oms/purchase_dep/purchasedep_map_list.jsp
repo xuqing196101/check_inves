@@ -191,7 +191,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             text:""
         },
         title : {
-            text : '供应商数量统计'
+            text : '采购机构数量统计'
         },
 
         subtitle: {
