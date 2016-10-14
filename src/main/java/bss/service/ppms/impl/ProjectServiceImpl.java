@@ -51,10 +51,10 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public List<Project> list(Integer page, Project project) {
-		
-		List<Project> lists = projectMapper.selectProjectByAll(project);
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		List<Project> lists = projectMapper.selectProjectByAll(project);
+		
 		return lists;
 	}
 

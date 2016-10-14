@@ -276,7 +276,7 @@ public class ProjectController extends BaseController{
 	* @Title: start
 	* @author FengTian
 	* @date 2016-10-12 下午2:08:10  
-	* @Description: 进入实施页面 
+	* @Description: 上传项目批文
 	* @param @param attach
 	* @param @param project
 	* @param @param principal
@@ -290,7 +290,7 @@ public class ProjectController extends BaseController{
 		project.setStatus(1);
 		projectService.update(project);
 		upfile(attach, request, project);
-		return "redirect:mplement.html";
+		return "redirect:excute.html?id="+project.getId();
 	}
 	@RequestMapping("/mplement")
 	public String starts(String id,Model model,Integer page){

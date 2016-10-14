@@ -217,7 +217,7 @@
       <if test="status != null">
        and STATUS like '%${status}%'
       </if>
-      ORDER BY DATE_OF_ENTRUSTMENT DESC
+      ORDER BY CREATED_AT ASC
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from T_BSS_PPMS_PROJECTS
@@ -366,7 +366,7 @@
         TASK_GIVE_TIME,
       </if>
       <if test="createAt != null">
-        CREATE_AT,
+        CREATED_AT,
       </if>
       <if test="startTime != null">
         START_TIME,
