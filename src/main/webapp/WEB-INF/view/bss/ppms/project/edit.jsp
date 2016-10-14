@@ -96,29 +96,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         }
     }
     
-     function view(){
-         var id =[]; 
-        $('input[name="chkItem"]:checked').each(function(){ 
-            id.push($(this).val()); 
-        }); 
-        if(id.length==1){
-           layer.open({
-          type: 2, //page层
-          area: ['700px', '700px'],
-          title: '修改采购任务',
-          shade:0.01, //遮罩透明度
-          moveType: 1, //拖拽风格，0是默认，1是传统拖动
-          shift: 1, //0-6的动画形式，-1不开启
-          offset: ['220px', '630px'],
-          shadeClose: true,
-          content: '<%=basePath%>project/viewDetail.html?id='+id
-        });
+     function edit(){
+        var id = $("#ide").val();
+        var name = $("#jname").val();
+        var projectNumber = $("#projectNumber").val();
+          window.location.href= '<%=basePath%>project/update.html?id='+id+'&name='+name+'&projectNumber='+projectNumber;
             
-        }else if(id.length>1){
-            layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
-        }else{
-            layer.alert("请选择需要修改的任务",{offset: ['222px', '390px'], shade:0.01});
-        }
     }
   </script>
   </head>
@@ -148,12 +131,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      
   
       <span class="fr option_btn margin-top-10">
-        <button class="btn btn-windows save" onclick="view();">确定</button>
+        <button class="btn btn-windows save" onclick="edit();">确定</button>
         <button class="btn btn-windows back" onclick="location.href='javascript:history.go(-1);'">返回</button>
       </span>
    <div class="container clear margin-top-30">
-   <span>项目名称：${ject.name}</span>
-     <span>项目编号：${ject.projectNumber}</span>  
+   <input type="hidden" id="ide"  value="${ject.id}"/>
+    <label class="fl">
+                           项目名称：<input type="text" id="jname" name="name" value="${ject.name}"/>
+     </label>
+      <label class="fl">
+                           项目编号：<input type="text" id="projectNumber" name="projectNumber" value="${ject.projectNumber}"/>
+     </label>
      <div class="container margin-top-5">
     <table class="table table-striped table-bordered table-hover">
         <thead>

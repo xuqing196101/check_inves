@@ -107,12 +107,15 @@ public class TackController extends BaseController{
 	* @return String
 	 */
 	@RequestMapping("/addFile")
-	public String addFile(String qualitStand,String purchaseCount,String item,String price,HttpServletRequest request,String id,Model model){
+	public String addFile(String ide,String planNo,String fileName,String qualitStand,String purchaseCount,String item,String price,HttpServletRequest request,String id,Model model){
 		request.getSession().setAttribute("qualitStand", qualitStand);
 		request.getSession().setAttribute("purchaseCount", purchaseCount);
 		request.getSession().setAttribute("item", item);
 		request.getSession().setAttribute("price", price);
 		request.getSession().setAttribute("id", id);
+		request.getSession().setAttribute("planNo", planNo);
+		request.getSession().setAttribute("fileName", fileName);
+		request.getSession().setAttribute("ide", ide);
 		String ids = (String) request.getSession().getAttribute("ids");
 		request.getSession().removeAttribute("ids");
 		Task task = taskservice.selectById(ids);
@@ -195,11 +198,21 @@ public class TackController extends BaseController{
 		String purchaseCount = (String) request.getSession().getAttribute("purchaseCount");
 		String price = (String) request.getSession().getAttribute("price");
 		String id = (String) request.getSession().getAttribute("id");
+		String collectId= (String) request.getSession().getAttribute("ide");
+		String fileName = (String) request.getSession().getAttribute("fileName");
+		String planNo = (String) request.getSession().getAttribute("planNo");
 		request.getSession().removeAttribute("qualitStand");
+		request.getSession().removeAttribute("ide");
 		request.getSession().removeAttribute("item");
 		request.getSession().removeAttribute("purchaseCount");
 		request.getSession().removeAttribute("price");
 		request.getSession().removeAttribute("id");
+		request.getSession().removeAttribute("fileName");
+		request.getSession().removeAttribute("planNo");
+		CollectPlan collectPlan = collectPlanService.queryById(collectId);
+		collectPlan.setFileName(fileName);
+		collectPlan.setPlanNo(planNo);
+		collectPlanService.update(collectPlan);
 		upfile(attach, request, task);
 		String[] idc = id.split(",");
 		String[] ids = qualitStand.split(",");
@@ -232,6 +245,9 @@ public class TackController extends BaseController{
 		String[] ide = ids.split(",");
 		for (int i = 0; i < ide.length; i++) {
 			 taskservice.startTask(ide[i]);
+			 Task task = taskservice.selectById(ide[i]);
+			 task.setAcceptTime(new Date());
+			 taskservice.update(task);
 		}
 		
 	}

@@ -26,9 +26,11 @@ public class Task {
     
     private Date year;
     
-    private Project project;
+    private Date acceptTime;
     
     private String collectId;
+    
+    private String passWord;
 
 	public Task(String id) {
 		super();
@@ -103,12 +105,12 @@ public class Task {
 		this.purchaseRequiredId = purchaseRequiredId;
 	}
 
-	public Project getProject() {
-		return project;
+	public Date getAcceptTime() {
+		return acceptTime;
 	}
 
-	public void setProject(Project project) {
-		this.project = project;
+	public void setAcceptTime(Date acceptTime) {
+		this.acceptTime = acceptTime;
 	}
 
 	public Integer getIsDeleted() {
@@ -143,7 +145,13 @@ public class Task {
 		this.collectId = collectId;
 	}
 
-	
+	public String getPassWord() {
+		return passWord;
+	}
+
+	public void setPassWord(String passWord) {
+		this.passWord = passWord;
+	}
 
    
 }

@@ -168,6 +168,8 @@ public class ProjectController extends BaseController{
 			project.setProjectNumber(projectNumber);
 			project.setPurchaseDep(new PurchaseDep(purchaseId));
 			project.setPurchaseDepName(purchaseDep.getName());
+			project.setIpone(purchaseDep.getMobile());
+			project.setCreateAt(new Date());
 			project.setStatus(3);
 			projectService.add(project);
 			}
@@ -288,7 +290,23 @@ public class ProjectController extends BaseController{
 		project.setStatus(1);
 		projectService.update(project);
 		upfile(attach, request, project);
-		return "bss/ppms/project/project_implement";
+		return "redirect:mplement.html";
+	}
+	@RequestMapping("/mplement")
+	public String starts(String id,Model model,Integer page){
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("projectId", id);
+		Project project = projectService.selectById(id);
+		List<Task> lists = taskservice.listBy(null, page==null?1:page);
+		List<ProjectTask> list = projectTaskService.queryByNo(map);
+		for (ProjectTask projectTask : list) {
+			Task task = taskservice.selectById(projectTask.getTaskId());
+			lists.add(task);
+		}
+		PageInfo<Task> info = new PageInfo<Task>(lists);
+		model.addAttribute("info", info);
+		model.addAttribute("project", project);
+		return "bss/ppms/project/essential_information";
 	}
 	/**
 	 * 

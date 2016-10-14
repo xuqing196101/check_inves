@@ -119,6 +119,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         $('input[name="id"]').each(function(){ 
             id.push($(this).val()); 
         });
+        var fileName = $("#fileName").val();
+        var planNo = $("#planNo").val();
+        var ide = $("#ide").val();
            layer.open({
           type: 2, //page层
           area: ['500px', '300px'],
@@ -128,7 +131,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           shift: 1, //0-6的动画形式，-1不开启
           offset: ['220px', '630px'],
           shadeClose: true,
-          content: '<%=basePath%>task/addFile.html?qualitStand='+qualitStand+'&item='+item+'&purchaseCount='+purchaseCount+'&price='+price+'&id='+id
+          content: '<%=basePath%>task/addFile.html?qualitStand='+qualitStand+'&item='+item+'&purchaseCount='+purchaseCount+'&price='+price+'&id='+id+'&fileName='+fileName+'&planNo='+planNo+'&ide='+ide
         });
             
     }
@@ -155,13 +158,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  
    <ul class="demand_list">
     <li class="fl">
+    <input type="hidden" id="ide" value="${queryById.id}"/>
     <label class="fl">
-                         计划名称：${queryById.fileName}
+                           计划名称：<input type="text" id="fileName" name="fileName" value="${queryById.fileName}"/>
      </label>
      </li>
      <li class="fl">
      <label class="fl">
-                                计划编号： ${queryById.planNo}
+                                计划编号：<input type="text" id="planNo" name="planNo" value="${queryById.planNo}"/> 
      </label>
       </li>
        <%-- <label class="fl">计划类型：${collectPlan.fileName} </label>  --%>

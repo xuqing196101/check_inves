@@ -135,10 +135,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         $('input[name="chkItem"]:checked').each(function(){ 
             id.push($(this).val()); 
         }); 
-        
-            
+        var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(5).text();
+        status = $.trim(status);
           if(id.length==1){
-           <%-- layer.open({
+           if(status == "实施中"){
+            window.location.href="<%=basePath%>project/excute.html?id="+id;
+           }else if(status == "已立项"){
+            layer.open({
             type: 2, //page层
             area: ['500px', '300px'],
             title: '您是要启动项目吗？',
@@ -148,8 +151,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             offset: ['220px', '630px'],
             shadeClose: true,
             content: '<%=basePath%>project/startProject.html?id='+id
-           }); --%>
-           window.location.href="<%=basePath%>project/excute.html?id="+id;
+           }); 
+           }
+           
             
         }else if(id.length>1){
             layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
@@ -253,6 +257,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      <h2 class="padding-10 border1">
      <form id="add_form" action="<%=basePath%>project/list.html" method="post" class="mb0">
      <ul class="demand_list">
+    
      <li class="fl">
        <label class="fl">项目名称：<span><input type="text" name="name" /></span></label>
        </li>
@@ -298,7 +303,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <th class="info">项目状态</th>
         </tr>
         </thead>
-         <c:forEach items="${info.list}" var="obj" varStatus="vs">
+        <tbody id="tbody_id">
+        
+        <c:forEach items="${info.list}" var="obj" varStatus="vs">
             <tr style="cursor: pointer;">
               <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
               <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
@@ -313,6 +320,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </tr>
      
          </c:forEach> 
+        </tbody>
+         
          
 
       </table>
