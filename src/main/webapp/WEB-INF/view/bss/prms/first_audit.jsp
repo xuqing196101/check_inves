@@ -191,13 +191,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div class="container clear margin-top-30" id="package">
  <h1>02、初审项定义</h1>
   <form action="">
-  <input type="button" value="选择初审项模板" onclick="openTemplat();" class="btn btn-windows"/>
-  <input type="button" value="手动添加初审项" onclick="openWindow();" class="btn btn-windows"/>
+  <input type="button" value="选择初审项模板" onclick="openTemplat();" class="btn btn-windows add"/>
+  <input type="button" value="手动添加初审项" onclick="openWindow();" class="btn btn-windows ht_add"/>
     <table class="table table-bordered table-condensed mt5">
     <thead>
       <tr>
         <th>初审项名称</th>
         <th>要求类型</th>
+        <th>创建人</th>
         <th>操作</th>
       </tr>
      </thead>
@@ -206,6 +207,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        <tr>
         <td align="center">${l.name }</td>
         <td align="center">${l.kind }</td>
+        <td align="center">${l.creater }</td>
         <td align="center" width="200px;">
           <input type="button" value="修改" class="btn btn-windows edit" onclick="edit('${l.id}');">
           <input type="button" value="删除" class="btn btn-windows delete" onclick="remove('${l.id}');">
@@ -230,14 +232,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      <thead>
       <tr>
         <th>初审项名称:</th><td><input type="text" required="true" maxlength="30" name="name" id="name"></td>
-        <th>要求类型:</th><td><input type="checkbox"  name="kind" value="商务" >商务&nbsp;<input type="checkbox" name="kind" id="kind" value="技术" >技术</td>
+        <th>要求类型:</th><td><input type="radio"  name="kind" value="商务" >商务&nbsp;<input type="radio" name="kind" id="kind" value="技术" >技术</td>
         <th>创建人:</th><td><input name="creater" required="true" maxlength="10" id="creater" type="text" value="${sessionScope.loginUser.relName}"></td>
       </tr>
       <input type="hidden" name="projectId" id="projectId" value="${projectId }">
      </thead>
     </table>
     <input type="button"  value="添加" onclick="submit1();" class="btn btn-windows add"/>
-    <input type="button"  value="取消" onclick="cancel();"  class="btn btn-windows"/>
+    <input type="button"  value="取消" onclick="cancel();"  class="btn btn-windows cancel"/>
   </form>
 </div>
 </body>

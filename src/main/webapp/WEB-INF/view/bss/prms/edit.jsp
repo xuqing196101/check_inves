@@ -83,7 +83,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      <thead>
       <tr>
         <th>初审项名称:</th><td><input type="text" name="name" id="name" value="${firstAudit.name }"></td>
-        <th>要求类型:</th><td><input type="checkbox" name="kind"  <c:if test="${fn:contains(firstAudit.kind,'商务')}">checked="true"</c:if> value="商务" >商务&nbsp;<input type="checkbox" id="kind" name="kind"<c:if test="${fn:contains(firstAudit.kind,'技术')}">checked="true"</c:if> value="技术" >技术</td>
+        <th>要求类型:</th><td><input type="radio" name="kind"  <c:if test="${fn:contains(firstAudit.kind,'商务')}">checked="true"</c:if> value="商务" >商务&nbsp;<input type="radio" id="kind" name="kind"<c:if test="${fn:contains(firstAudit.kind,'技术')}">checked="true"</c:if> value="技术" >技术</td>
         <th>创建人:</th><td><input name="creater" type="text" id="creater" value="${firstAudit.creater }"></td>
       </tr>
       <tr>
@@ -92,8 +92,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       </tr>
      <thead>
     </table>
-      <input type="button"  value="修改" onclick="submit1();"  class="btn btn-windows add"/>
-      <input type="button"  value="取消"  class="btn btn-windows add" onclick="cancel();"/>
+      <input type="button"  value="修改" onclick="submit1();"  class="btn btn-windows edit"/>
+      <input type="button"  value="取消"  class="btn btn-windows cancel" onclick="cancel();"/>
   </form>
 </div>
 </body>

@@ -1,6 +1,5 @@
 package bss.controller.prms;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,9 +15,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.pagehelper.PageInfo;
 
-import bss.model.ppms.Packages;
-import bss.model.ppms.Project;
-import bss.model.ppms.ProjectDetail;
 import bss.model.prms.FirstAudit;
 import bss.model.prms.FirstAuditTemplat;
 import bss.service.ppms.PackageService;
@@ -90,7 +86,7 @@ public class FirstAuditController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "bss/prms/first_audit";
+		return "bss/ppms/open_bidding/bid_file";
 	}
 	/**
 	 * 
@@ -154,7 +150,7 @@ public class FirstAuditController {
 	 */
 	@RequestMapping("edit")
 	public String edit(FirstAudit firstAudit,RedirectAttributes attr){
-		service.updateAll(firstAudit);
+		service.update(firstAudit);
 		attr.addAttribute("projectId", firstAudit.getProjectId());
 		return "redirect:toAdd.html";
 	}

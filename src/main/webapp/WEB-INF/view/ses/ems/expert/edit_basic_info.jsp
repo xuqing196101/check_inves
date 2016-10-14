@@ -675,7 +675,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div  class="col-md-12">
    <div class="fl padding-10">
     <input class="btn btn-windows edit" type="button" onclick="getChildren();" value="修改">
-	<a class="btn btn-windows reset"  onclick="location.href='javascript:history.go(-1);'">返回</a>
+	<a class="btn btn-windows back"  onclick="location.href='javascript:history.go(-1);'">返回</a>
 	</div>
   </div>
   </form>

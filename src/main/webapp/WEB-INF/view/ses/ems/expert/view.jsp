@@ -638,7 +638,7 @@ function zTreeOnClick(event,treeId,treeNode){
   </div> 
   <div  class="col-md-12">
    <div class="fl padding-10">
-	<a class="btn btn-windows reset"  onclick="location.href='javascript:history.go(-1);'">返回</a>
+	<a class="btn btn-windows back"  onclick="location.href='javascript:history.go(-1);'">返回</a>
 	</div>
   </div>
   </form>

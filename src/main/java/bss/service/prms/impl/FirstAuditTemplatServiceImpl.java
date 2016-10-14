@@ -104,6 +104,7 @@ public class FirstAuditTemplatServiceImpl implements FirstAuditTemplatService {
 	@Override
 	public int update(FirstAuditTemplat record) {
 		// TODO Auto-generated method stub
+		record.setUpdatedAt(new Date());
 		return mapper.updateByPrimaryKeySelective(record);
 	}
 	/**

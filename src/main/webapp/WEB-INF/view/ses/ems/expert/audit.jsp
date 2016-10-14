@@ -689,12 +689,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </div>
   <div  class="col-md-12">
    <div class="fl padding-10">
-   <input class="btn btn-windows add" type="button" onclick="pass('1');" value="通过">
+   <input class="btn btn-windows git" type="button" onclick="pass('1');" value="通过">
     <!-- <button class="btn btn-windows add" type="submit">下一步</button> -->
 	<!-- <button class="btn btn-windows delete" type="submit">删除</button> -->
-	<input class="btn btn-windows delete" type="button" onclick="pass('2');" value="不通过">
-	<input class="btn btn-windows back" type="button" onclick="pass('3');" value="退回修改">
-	<a class="btn btn-windows reset"  onclick="location.href='javascript:history.go(-1);'">返回</a>
+	<input class="btn btn-windows cancel" type="button" onclick="pass('2');" value="不通过">
+	<input class="btn btn-windows withdraw" type="button" onclick="pass('3');" value="退回修改">
+	<a class="btn btn-windows back"  onclick="location.href='javascript:history.go(-1);'">返回</a>
 	</div>
   </div>
   </form>

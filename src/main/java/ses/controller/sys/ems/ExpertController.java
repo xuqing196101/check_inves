@@ -386,7 +386,7 @@ public class ExpertController {
 	 * @throws IOException 
 	 */
 	@RequestMapping("/add")
-	public String add(@RequestParam("categoryId")String categoryId,@RequestParam("files")MultipartFile[] files,@RequestParam("zancun")String zancun,Expert expert,@RequestParam("userId")String userId,Model model,HttpSession session,@RequestParam String token2 ,HttpServletRequest request,HttpServletResponse response){
+	public String add(@RequestParam("categoryId")String categoryId,@RequestParam("files")MultipartFile[] files,@RequestParam("zancun")String zancun,Expert expert,@RequestParam("userId")String userId,Model model,HttpSession session,@RequestParam("token2") String token2 ,HttpServletRequest request,HttpServletResponse response){
 		try {
 			Object tokenValue = session.getAttribute("tokenSession");
 			String expertId = UUID.randomUUID().toString();

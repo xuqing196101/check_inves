@@ -85,7 +85,7 @@ public class FirstAuditTemplatController {
 	 */
 	@RequestMapping("edit")
 	public String edit(FirstAuditTemplat templat){
-		service.updateAll(templat);
+		service.update(templat);
 		return "redirect:list.html";
 	}
 	/**
@@ -167,7 +167,7 @@ public class FirstAuditTemplatController {
 	 */
 	@RequestMapping("editFirstAudit")
 	public String editFirstAudit(FirstAuditTemitem temitem,RedirectAttributes attr){
-		temService.updateAll(temitem);
+		temService.update(temitem);
 		attr.addAttribute("id", temitem.getTemplatId());
 		return "redirect:toAddFirstAudit.html";
 	}
