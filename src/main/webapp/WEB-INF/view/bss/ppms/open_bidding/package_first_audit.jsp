@@ -92,21 +92,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	          content:$('#openWindow') //数组第二项即吸附元素选择器或者DOM $('#openWindow')
 		 });
 	}
-	function remove(){
-		var count = 0;
-	  	  var ids = document.getElementsByName("chkItem");
-	  	 var id2="";
-	 	 var num =0;
-	      for(i=0;i<ids.length;i++) {
-	    		 if(document.getElementsByName("chkItem")[i].checked){
-		    		  id2 += document.getElementsByName("chkItem")[i].value+",";
-		    		  num++;
-	    		  }
-	    		 //id.push(document.getElementsByName("check")[i].value);
-	       		 count++;
-	     }
-	   	var id = id2.substring(0,id2.length-1);
-	   	if(num>0){
+	function remove(id){
 		layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 	 			layer.close(index);
 	 			$.ajax({
@@ -124,26 +110,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 				}
 	 	       	});
 	 		});
-   		}else{
-   			layer.alert("请选择一条记录",{offset: ['222px', '390px'],shade:0.01});
-		}
+		
 	}
-	function edit(){
-		var count = 0;
-	  	  var ids = document.getElementsByName("chkItem");
-	   
-	       for(i=0;i<ids.length;i++) {
-	     		 if(document.getElementsByName("chkItem")[i].checked){
-	     		 var id = document.getElementsByName("chkItem")[i].value;
-	     		//var value = id.split(",");
-	     		 count++;
-	      }
-	    }   
-	    		if(count>1){
-	    			layer.alert("只能选择一条记录",{offset: ['222px', '390px'],shade:0.01});
-	    		}else if(count<1){
-	    			layer.alert("请选择一条记录",{offset: ['222px', '390px'],shade:0.01});
-	    		}else if(count==1){
+	function edit(id){
 		  layer.open({
 	          type: 2, //page层
 	          area: ['700px', '200px'],
@@ -156,7 +125,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	          content:'<%=basePath %>firstAudit/toEdit.html?id='+id
 	        		  //数组第二项即吸附元素选择器或者DOM $('#openWindow')
 		 });
-	   }
 	}
 	//打开模板窗口列表
 	function openTemplat(){
@@ -196,12 +164,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
 	                     <div class="col-md-12 p0">
 						   <ul class="flow_step">
-						     <li class="active">
+						     <li >
 							   <a  href="<%=basePath%>firstAudit/toAdd.html?projectId=${projectId}" >01、符合性</a>
 							   <i></i>
 							 </li>
 							 
-							 <li>
+							 <li class="active">
 							   <a  href="<%=basePath%>firstAudit/toPackageFirstAudit.html?projectId=${projectId}" >02、符合性关联</a>
 							   <i></i>							  
 							 </li>
@@ -214,62 +182,84 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							 </li>
 						   </ul>
 						 </div>
-<div class="tab-content clear step_cont">
-	<!--第一个  -->
-	<div class="col-md-12 tab-pane active"  id="tab-1">
-	 <h1 class="f16 count_flow"><i>01</i>初审项定义</h1>
-	  <form action="">
-	  <input type="button" value="选择初审项模板" onclick="openTemplat();" class="btn btn-windows add"/>
-	  <input type="button" value="手动添加初审项" onclick="openWindow();" class="btn btn-windows ht_add"/>
-	  <input type="button" value="修改" class="btn btn-windows edit" onclick="edit();">
-	  <input type="button" value="删除" class="btn btn-windows delete" onclick="remove();">
-	    <table class="table table-bordered table-condensed mt5">
-	    <thead>
-	      <tr>
-	      	<th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
-	        <th>初审项名称</th>
-	        <th>要求类型</th>
-	        <th>创建人</th>
-	      </tr>
-	     </thead>
-	      <c:forEach items="${list }" var="l" varStatus="vs">
-	      <thead>
-	       <tr>
-	       	<td class="tc w30"><input type="checkbox" value="${l.id }" name="chkItem"   alt=""></td>
-	        <td align="center">${l.name }</td>
-	        <td align="center">${l.kind }</td>
-	        <td align="center">${l.creater }</td>
-	      </tr>
-	      </thead>
-	      </c:forEach>
-	    </table>
-	  </form>
-	<!-- 按钮 -->
-	  	<div class="padding-top-10 clear">
-			<div class="col-md-12 pl200 ">
-				<div class="mt40 tc mb50">
-		    		<!-- <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'"> -->
-				</div>
-		  	</div>
-		 </div>	
-		 <!--打开的窗口  -->
-			<div id="openWindow"  style="display: none;">
-				<form action="<%=basePath %>firstAudit/add.html" method="post" id="form1">
-			     <table class="table table-bordered table-condensed">
-			     <thead>
-			      <tr>
-			        <th>初审项名称:</th><td><input type="text" required="true" maxlength="30" name="name" id="name"></td>
-			        <th>要求类型:</th><td><input type="radio"  name="kind" value="商务" >商务&nbsp;<input type="radio" name="kind" id="kind" value="技术" >技术</td>
-			        <th>创建人:</th><td><input name="creater" required="true" maxlength="10" id="creater" type="text" value="${sessionScope.loginUser.relName}"></td>
-			      </tr>
-			      <input type="hidden" name="projectId" id="projectId" value="${projectId }">
-			     </thead>
-			    </table>
-			    <input type="button"  value="添加" onclick="submit1();" class="btn btn-windows add"/>
-			    <input type="button"  value="取消" onclick="cancel();"  class="btn btn-windows cancel"/>
-			  </form>
-			</div>
-	  </div>
-    </div>
+						 <div class="tab-content clear step_cont">
+						 <!--第一个  -->
+						 <!--第二个 -->
+						 <div class=class="col-md-12 tab-pane active"  id="tab-1">
+						 	<h1 class="f16 count_flow"><i>02</i>关联初审项</h1>
+						 	   <div class="container clear margin-top-30" id="package">
+							   <h5>01、项目分包信息</h5>
+								   <c:forEach items="${packageList }" var="pack" varStatus="p">
+								   		<span>包名:<span>${pack.name }</span>
+								   		<input type="hidden" value="${pack.id }"/>
+								   		</span>
+								   		
+								   		<table class="table table-bordered table-condensed mt5">
+							        	<thead>
+							        		<tr class="info">
+							          			<th class="w50">序号</th>
+							         			<th>需求部门</th>
+										        <th>物资名称</th>
+										        <th>规格型号</th>
+										        <th>质量技术标准</th>
+										        <th>计量单位</th>
+										        <th>采购数量</th>
+										        <th>单价（元）</th>
+										        <th>预算金额（万元）</th>
+										        <th>交货期限</th>
+										        <th>采购方式建议</th>
+										        <th>供应商名称</th>
+										        <th>是否申请办理免税</th>
+											    <th>物资用途（进口）</th>
+											    <th>使用单位（进口）</th>
+							        		</tr>
+							        	</thead>
+							          <c:forEach items="${pack.projectDetails}" var="obj">
+							            <tr class="tc">
+								            <td class="w50">${obj.serialNumber }</td>
+								            <td>${obj.department}</td>
+								            <td>${obj.goodsName}</td>
+								            <td>${obj.stand}</td>
+								            <td>${obj.qualitStand}</td>
+								            <td>${obj.item}</td>
+								            <td>${obj.purchaseCount}</td>
+								            <td>${obj.price}</td>
+								            <td>${obj.budget}</td>
+								            <td>${obj.deliverDate}</td>
+								            <td>${obj.purchaseType}</td>
+								            <td>${obj.supplier}</td>
+								            <td>${obj.isFreeTax}</td>
+									        <td>${obj.goodsUse}</td>
+									        <td>${obj.useUnit}</td>
+							            </tr>
+							         </c:forEach> 
+							      </table>
+								   </c:forEach>
+							   </div> 
+							<div class="container clear margin-top-30" id="package">
+						 	 <table class="table table-bordered table-condensed mt5">
+						 	  <h5>02、项目初审项信息</h5>
+							    <thead>
+							      <tr>
+							      	<th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
+							        <th>初审项名称</th>
+							        <th>要求类型</th>
+							        <th>创建人</th>
+							      </tr>
+							     </thead>
+							      <c:forEach items="${list }" var="l" varStatus="vs">
+								      <thead>
+								       <tr>
+								        <td class="tc w30"><input type="checkbox" value="${l.id }" name="chkItem" onclick="check()"  alt=""></td>
+								        <td align="center">${l.name }</td>
+								        <td align="center">${l.kind }</td>
+								        <td align="center">${l.creater }</td>
+								      </tr>
+								      </thead>
+						      	  </c:forEach>
+						    </table>
+						 </div>	
+						</div>
+                      </div>
   </body>
 </html>

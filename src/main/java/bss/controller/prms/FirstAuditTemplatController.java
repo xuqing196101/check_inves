@@ -183,7 +183,10 @@ public class FirstAuditTemplatController {
 	@RequestMapping("deleteFirstAudit")
 	@ResponseBody
 	public void deleteFirstAudit(String ids){
-			temService.deleteById(ids);
+		String[] id = ids.split(",");
+		for (int i = 0; i < id.length; i++) {
+			temService.deleteById(id[i]);
+		}
 	}
 	/**
 	 * 

@@ -48,38 +48,69 @@ function openWindow(){
 	 });
 }
 function edit(id){
-	  layer.open({
-        type: 2, //page层
-        area: ['700px', '300px'],
-        title: '修改初审项',
-        shade:0.01, //遮罩透明度
-        moveType: 1, //拖拽风格，0是默认，1是传统拖动
-        shift: 1, //0-6的动画形式，-1不开启
-        offset: ['220px', '250px'],
-        closeBtn: 1,
-        content:'<%=basePath %>auditTemplat/toEditFirstAudit.html?id='+id
-      		  //数组第二项即吸附元素选择器或者DOM $('#openWindow')
-	 });
+	var count = 0;
+	  var ids = document.getElementsByName("chkItem");
+ 
+	     for(i=0;i<ids.length;i++) {
+	   		 if(document.getElementsByName("chkItem")[i].checked){
+	   		 var id = document.getElementsByName("chkItem")[i].value;
+	   		//var value = id.split(",");
+	   		 count++;
+	         }
+	     }   
+  		if(count>1){
+  			layer.alert("只能选择一条记录",{offset: ['222px', '390px'],shade:0.01});
+  		}else if(count<1){
+  			layer.alert("请选择一条记录",{offset: ['222px', '390px'],shade:0.01});
+  		}else if(count==1){
+		  layer.open({
+	        type: 2, //page层
+	        area: ['700px', '300px'],
+	        title: '修改初审项',
+	        shade:0.01, //遮罩透明度
+	        moveType: 1, //拖拽风格，0是默认，1是传统拖动
+	        shift: 1, //0-6的动画形式，-1不开启
+	        offset: ['220px', '250px'],
+	        closeBtn: 1,
+	        content:'<%=basePath %>auditTemplat/toEditFirstAudit.html?id='+id
+	      		  //数组第二项即吸附元素选择器或者DOM $('#openWindow')
+		 });
+  		}
 }
-function remove(id){
-	layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
- 			layer.close(index);
- 			$.ajax({
- 				url:"<%=basePath%>auditTemplat/deleteFirstAudit.html?ids="+id,
- 				//data:{"id":id},
- 				//type:"post",
- 	       		success:function(){
- 	       			layer.msg('删除成功',{offset: ['222px', '390px']});
- 		       		window.setTimeout(function(){
- 		       			window.location.reload();
- 		       		}, 1000);
- 	       		},
- 	       		error: function(){
- 					layer.msg("删除失败",{offset: ['222px', '390px']});
- 				}
- 	       	});
- 		});
-	
+function remove(){
+	var count = 0;
+	  var ids = document.getElementsByName("chkItem");
+	 var id2="";
+	 var num =0;
+	    for(i=0;i<ids.length;i++) {
+	  		 if(document.getElementsByName("chkItem")[i].checked){
+		    		  id2 += document.getElementsByName("chkItem")[i].value+",";
+		    		  num++;
+	  		  }
+	     		 count++;
+	    }
+ 	var id = id2.substring(0,id2.length-1);
+ 	if(num>0){
+		layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+	 			layer.close(index);
+	 			$.ajax({
+	 				url:"<%=basePath%>auditTemplat/deleteFirstAudit.html?ids="+id,
+	 				//data:{"id":id},
+	 				//type:"post",
+	 	       		success:function(){
+	 	       			layer.msg('删除成功',{offset: ['222px', '390px']});
+	 		       		window.setTimeout(function(){
+	 		       			window.location.reload();
+	 		       		}, 1000);
+	 	       		},
+	 	       		error: function(){
+	 					layer.msg("删除失败",{offset: ['222px', '390px']});
+	 				}
+	 	       	});
+	 		});
+ 	}else{
+			layer.alert("请选择一条记录",{offset: ['222px', '390px'],shade:0.01});
+	}
 }
 function submit1(){
 	
@@ -104,6 +135,22 @@ function submit1(){
 	}
 	$("#form1").submit();
 }
+/** 全选全不选 */
+function selectAll(){
+     var checklist = document.getElementsByName ("chkItem");
+     var checkAll = document.getElementById("checkAll");
+     if(checkAll.checked){
+           for(var i=0;i<checklist.length;i++)
+           {
+              checklist[i].checked = true;
+           } 
+         }else{
+          for(var j=0;j<checklist.length;j++)
+          {
+             checklist[j].checked = false;
+          }
+        }
+    }
 </script>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -137,25 +184,24 @@ function submit1(){
    <div class="container clear margin-top-30" id="package">
   <form action="">
   <input type="button" value="添加初审项" onclick="openWindow();" class="btn btn-windows ht_add"/>
+  <input type="button" value="修改" class="btn btn-windows edit" onclick="edit();">
+  <input type="button" value="删除" class="btn btn-windows delete" onclick="remove();">
     <table class="table table-bordered table-condensed">
     <thead>
       <tr>
+        <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
         <th class="info">初审项名称</th>
         <th class="info">初审项类型</th>
         <th class="info">创建人</th>
-        <th class="info">操作</th>
       </tr>
      </thead>
       <c:forEach items="${list }" var="l" varStatus="vs">
       <thead>
        <tr>
+        <td class="tc w30"><input type="checkbox" value="${l.id }" name="chkItem"   alt=""></td>
         <td align="center">${l.name }</td>
         <td align="center">${l.kind }</td>
         <td align="center">${l.creater }</td>
-        <td align="center" width="200px;">
-          <input type="button" value="修改" class="btn btn-windows edit" onclick="edit('${l.id}');">
-          <input type="button" value="删除" class="btn btn-windows delete" onclick="remove('${l.id}');">
-        </td>
       </tr>
       </thead>
       </c:forEach>

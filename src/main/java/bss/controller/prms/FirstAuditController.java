@@ -90,6 +90,59 @@ public class FirstAuditController {
 	}
 	/**
 	 * 
+	  * @Title: toPackageFirstAudit
+	  * @author ShaoYangYang
+	  * @date 2016年10月14日 下午6:13:08  
+	  * @Description: TODO 去往分包选择页面
+	  * @param @param projectId
+	  * @param @param model
+	  * @param @return      
+	  * @return String
+	 */
+	@RequestMapping("/toPackageFirstAudit")
+	public String toPackageFirstAudit(String projectId,Model model ){
+		try {
+			//项目分包信息
+			/*HashMap<String,Object> pack = new HashMap<String,Object>();
+			pack.put("projectId", projectId);
+			List<Packages> packList = packageService.findPackageById(pack);
+			if(packList.size()==0){
+				Packages pg = new Packages();
+				pg.setName("第一包");
+				pg.setProjectId(projectId);
+				packageService.insertSelective(pg);
+				List<ProjectDetail> list = new ArrayList<ProjectDetail>();
+				List<Packages> pk = packageService.findPackageById(pack);
+				for(int i=0;i<list.size();i++){
+					ProjectDetail pd = new ProjectDetail();
+					pd.setId(list.get(i).getId());
+					pd.setPackageId(pk.get(0).getId());
+					detailService.update(pd);
+				}
+			}
+			List<Packages> packages = packageService.findPackageById(pack);
+			Map<String,Object> list = new HashMap<String,Object>();
+			for(Packages ps:packages){
+				list.put("pack"+ps.getId(),ps);
+				HashMap<String,Object> map = new HashMap<String,Object>();
+				map.put("packageId", ps.getId());
+				List<ProjectDetail> detailList = detailService.selectById(map);
+				ps.setProjectDetails(detailList);
+			}
+			model.addAttribute("packageList", packages);
+			Project project = projectService.selectById(projectId);
+			model.addAttribute("project", project);*/
+			//初审项信息
+			List<FirstAudit> list2 = service.getListByProjectId(projectId);
+			model.addAttribute("list", list2);
+			model.addAttribute("projectId", projectId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "bss/ppms/open_bidding/package_first_audit";
+	}
+	/**
+	 * 
 	  * @Title: add
 	  * @author ShaoYangYang
 	  * @date 2016年10月9日 下午1:49:47  
@@ -116,7 +169,10 @@ public class FirstAuditController {
 	 */
 	@RequestMapping("remove")
 	public String remove(String id,RedirectAttributes attr){
-		service.delete(id);
+		String[] ids = id.split(",");
+		for (int i = 0; i < ids.length; i++) {
+			service.delete(ids[i]);
+		}
 		attr.addAttribute("projectId", id);
 		return "redirect:toAdd.html";
 	}
