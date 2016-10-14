@@ -75,7 +75,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 			<td class="bggrey tr">职务：</td><td>${user.duties }</td>
 		 		</tr>
 		 		<tr>
-		 			<td class="bggrey tr">类型：</td><td>${user.typeName}</td>
+		 			<td class="bggrey tr">类型：</td>
+		 			<td>
+		 				<c:if test="${user.typeName == 0}">采购管理人员</c:if>
+		 				<c:if test="${user.typeName == 1}">采购人员</c:if>
+		 				<c:if test="${user.typeName == 2}">需求人员</c:if>
+		 				<c:if test="${user.typeName == 3}">其他人员</c:if>
+		 				<c:if test="${user.typeName == 4}">供应商</c:if>
+		 				<c:if test="${user.typeName == 5}">专家</c:if>
+		 				<c:if test="${user.typeName == 6}">进口供应商</c:if>
+		 				<c:if test="${user.typeName == 7}">进口代理商</c:if>
+		 				<c:if test="${user.typeName == 8}">监督人员</c:if>
+		 			</td>
 		 			<td class="bggrey tr">所属机构：</td><td>${user.org.name }</td>
 		 		</tr>
 		 		<tr>

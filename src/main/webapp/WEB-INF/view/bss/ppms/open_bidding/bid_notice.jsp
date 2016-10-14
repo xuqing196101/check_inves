@@ -106,56 +106,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </head>
 
 <body>
-  
-<!--面包屑导航开始-->
-   <div class="margin-top-10 breadcrumbs ">
-      <div class="container">
-        <ul class="breadcrumb margin-left-0">
-           <li><a >首页</a></li><li><a >采购项目管理</a></li><li><a>拟制招标公告</a></li> 
-        </ul>
-      </div>
-   </div>
-
-    <div class="container content height-350">
-        <div class="row">
-            <div class="col-md-12" style="min-height:400px;">
-                  <div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
-                  <div class="tag-box tag-box-v3">
-                    <ul id="ztree_show" class="ztree">
-                      <li id="ztree_show_1" class="level0" tabindex="0" hidefocus="true" treenode="">
-                      </li>
-                    </ul>
-                 </div>     
-                 </div>
-                 
-                 <div class="tag-box tag-box-v4 col-md-9" id="show_content_div">
-				       <form  method="post" id="form"> 
-				      <div class="row">				        
-				        <!-- 按钮 -->
-				          <div class="col-md-12">		
-				           		          
-				          <input type="button" class="btn btn-windows input" onclick="inputTemplete()" value="模板导入"></input>
-				          <input type="button" class="btn btn-windows output" onclick="outputAnnouncement()" value="导出"></input>
-				          <input type="button" class="btn btn-windows git" onclick="preview()" value="预览"></input>  
-				          <input type="button" class="btn btn-windows apply" onclick="publish()" value="发布"></input>  
-				          </div>
-				        <!-- 文本编辑器 -->
-				        <div class="col-md-12">
-		                     <script id="editor" name="content" type="text/plain" class="ml125 mt20 w900"></script>
-		                </div>
-		                
-                        <div class="tc mt20 clear col-md-12">     
-                                                                                                                                       
-                          <input type="button" class="btn btn-windows save" onclick="save()" value="保存"></input>                                              
-                          <input type="button" class="btn btn-windows back" onclick="history.go(-1)" value = "返回"></input>
-                        </div>
-				      </div>
-				      </form>
+	 <form  method="post" id="form"> 
+        <!-- 按钮 -->
+          <div class="fr pr15 mt10">
+          	<button class="btn btn-windows back" type="button">返回项目列表</button>
+		    <button class="btn btn-windows add" type="button">新增</button>
+			<button class="btn btn-windows edit" type="button">修改</button>
+			<button class="btn btn-windows delete" type="button">删除</button>
+		  </div>
+		<div class="col-md-12 clear">
+        	 <!-- 文本编辑器 -->
+             <script id="editor" name="content" type="text/plain" class="ml125 mt20 w900"></script>
+         </div>
+      </form>
 				     
-                </div>               
-            </div>
-        </div>
-    </div>
     <script type="text/javascript">
     var ue = UE.getEditor('editor'); 
     ue.ready(function(){

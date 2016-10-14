@@ -167,6 +167,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<a href="<%=basePath%>static/order.jsp" target="home" class="son-menu"><span class="mr5">◇</span>列表页面</a>
 							<a href="<%=basePath%>static/show_order.jsp" target="home" class="son-menu"><span class="mr5">◇</span>详情页面</a>
 							<a href="<%=basePath%>static/manage.jsp" target="home" class="son-menu"><span class="mr5">◇</span>左右布局页面</a>
+							<a href="<%=basePath%>static/evaluation.jsp" target="home" class="son-menu"><span class="mr5">◇</span>实施页面</a>
 						</li>
 					</ul>
 				</li>

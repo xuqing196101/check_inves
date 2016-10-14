@@ -96,6 +96,8 @@ public class User implements Serializable{
      * 4：供应商
      * 5：专家
      * 6：进口供应商
+     * 7：进口代理商
+     * 8：监督人员
      */
     @NotNull(message = "用户类型不能为空")  
     private Integer typeName;
