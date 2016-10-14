@@ -20,13 +20,15 @@
     <result column="USE_UNIT"  property="useUnit" />
     <result column="TASK_ID"  property="taskId" />
     <result column="PACKAGE_ID"  property="packageId" />
+    <result column="BRAND"  property="brand" />
+    <result column="MEMO"  property="memo" />
     <association property="project" column="PROJECT_ID" select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey"/>
     <association property="purchaseDep" column="PURCHASE_ID" select="ses.dao.oms.PurchaseDepMapper.selectPurchaseById"/>
   </resultMap>
   <sql id="Base_Column_List">
     ID, SERIAL_NUMBER, DEPARTMENT, GOODS_NAME, STAND, QUALIT_STAND, ITEM, PURCHASE_COUNT, 
     PRICE, BUDGET, DELIVER_DATE, PURCHASE_TYPE, SUPPLIER, IS_FREE_TAX, GOODS_USE, USE_UNIT, 
-    PROJECT_ID, TASK_ID, PURCHASE_ID,PACKAGE_ID
+    PROJECT_ID, TASK_ID, PURCHASE_ID,PACKAGE_ID,BRAND,MEMO
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -147,6 +149,12 @@
       <if test="packageId != null">
         PACKAGE_ID,
       </if>
+      <if test="brand != null">
+        BRAND,
+      </if>
+      <if test="memo != null">
+        MEMO,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -209,6 +217,12 @@
       <if test="packageId != null">
         #{packageId},
       </if>
+      <if test="brand != null">
+        #{brand},
+      </if>
+      <if test="memo != null">
+        #{memo},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="bss.model.ppms.ProjectDetail">
@@ -270,6 +284,12 @@
       </if>
       <if test="packageId != null">
         PACKAGE_ID = #{packageId},
+      </if>
+      <if test="brand != null">
+        BRAND = #{brand},
+      </if>
+      <if test="memo != null">
+        MEMO = #{memo},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}

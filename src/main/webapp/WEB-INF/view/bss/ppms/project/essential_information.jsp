@@ -90,7 +90,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <td class="bggrey tr">预算报价（万元）:</td><td>${project.budgetAmount}</td>
         </tr>
         <tr>
-          <td class="bggrey tr">密码:</td><td>${project.passWord}</td>
+        <c:forEach items="${info.list}" var="obj" varStatus="vs">
+          <td class="bggrey tr">${obj.name}密码:</td><td>${obj.passWord}</td>
+          </c:forEach>
           <td class="bggrey tr">评分细则:</td><td>${project.scoringRubric}</td>
         </tr>
         <tr>

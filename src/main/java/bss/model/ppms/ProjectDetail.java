@@ -44,6 +44,10 @@ public class ProjectDetail {
 	private PurchaseDep purchaseDep;
 	
 	private String packageId;
+	
+	private String memo;
+	
+	private String brand;
 
 	public String getId() {
 		return id;
@@ -203,6 +207,22 @@ public class ProjectDetail {
 
 	public void setPackageId(String packageId) {
 		this.packageId = packageId;
+	}
+
+	public String getMemo() {
+		return memo;
+	}
+
+	public void setMemo(String memo) {
+		this.memo = memo;
+	}
+
+	public String getBrand() {
+		return brand;
+	}
+
+	public void setBrand(String brand) {
+		this.brand = brand;
 	}
 
 	
