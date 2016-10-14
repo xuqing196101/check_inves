@@ -45,6 +45,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
  
   <script type="text/javascript">
+    function print(id){
+        window.location.href = "<%=basePath%>project/print.html?id="+id;
+    }
   </script>
   </head>
   
@@ -70,7 +73,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <td class="bggrey tr">项目名称:</td><td>${project.name}</td>
         </tr>
         <tr>
-          <td class="bggrey tr">负责人姓名:</td><td>${project.purchaseDepName}</td>
+          <td class="bggrey tr">负责人姓名:</td><td>${project.principal}</td>
           <td class="bggrey tr">负责人联系电话:</td><td>${project.ipone}</td>
         </tr>
         <tr>
@@ -89,12 +92,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <td class="bggrey tr">报价标准分值:</td><td>${project.offerStandard}</td>
           <td class="bggrey tr">预算报价（万元）:</td><td>${project.budgetAmount}</td>
         </tr>
-        <tr>
+       <%--  <tr>
         <c:forEach items="${info.list}" var="obj" varStatus="vs">
           <td class="bggrey tr">${obj.name}密码:</td><td>${obj.passWord}</td>
           </c:forEach>
           <td class="bggrey tr">评分细则:</td><td>${project.scoringRubric}</td>
-        </tr>
+        </tr> --%>
         <tr>
           <td class="bggrey tr">采购方式:</td><td>${project.purchaseType}</td>
           <td class="bggrey tr">投标截止时间:</td><td>${project.deadline}</td>
@@ -107,20 +110,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <td class="bggrey tr">招标文件报批时间:</td><td>${project.approvalTime}</td>
           <td class="bggrey tr">招标文件批复时间:</td><td>${project.replyTime}</td>
         </tr>
-        <tr>
+        <%-- <tr>
           <td class="bggrey tr">需求计划提报时间:</td><td>${project.demandFromTime}</td>
           <c:forEach items="${info.list}" var="obj" varStatus="vs">
           <td class="bggrey tr">${obj.name}采购任务下达时间:</td><td><fmt:formatDate value='${obj.giveTime}' pattern='yyyy年MM月dd日  HH:mm:ss'/></td>
           </c:forEach>
-        </tr>
-        <tr>
+        </tr> --%>
+       <%--  <tr>
         <c:forEach items="${info.list}" var="obj" varStatus="vs">
           <td class="bggrey tr">${obj.name}采购任务受理时间:</td><td><fmt:formatDate value='${o.taskGiveTime}' pattern='yyyy年MM月dd日  HH:mm:ss'/></td>
           </c:forEach>
-          <td class="bggrey tr">采购项目立项时间:</td><td>${project.createAt}</td>
-        </tr>
+          <td class="bggrey tr">采购项目立项时间:</td><td><fmt:formatDate value='${project.createAt}' pattern='yyyy年MM月dd日  HH:mm:ss'/></td>
+        </tr> --%>
         <tr>
-          <td class="bggrey tr">采购项目实施时间:</td><td>${project.startTime}</td>
+          <td class="bggrey tr">采购项目实施时间:</td><td><fmt:formatDate value='${project.startTime}' pattern='yyyy年MM月dd日  HH:mm:ss'/></td>
           <td class="bggrey tr">招标公告发布时间:</td><td>${project.noticeNewsTime}</td>
         </tr>
         <tr>
@@ -140,16 +143,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <td class="bggrey tr">验收时间:</td><td>${project.acceptanceTime}</td>
         </tr>
       </table>
+       <div id="pagediv" align="right"></div>
+      <div class="headline-v2 bggrey">
+           <h2>项目明细</h2>
       </div>
-      
+      <div class="headline-v2 bggrey">
+           <h2>打印报批文件 &nbsp;&nbsp;<button class="btn padding-left-10 padding-right-10 btn_back" onclick="print('${project.id}')" type="button">打印报批文件</button></h2>
+      </div>
+      </div>
+     
       </div>
       <div class="col-md-12 tc mt20" >
         <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
        </div>
       </form>
-      <div id="pagediv" align="right"></div>
    </div>
  </div>
+    
 
      </body>
 </html>

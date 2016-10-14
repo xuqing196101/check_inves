@@ -110,7 +110,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
            }
     }
     
-     function view(){
+     <%-- function view(){
        var id =[]; 
         $('input[name="chkItem"]:checked').each(function(){ 
             id.push($(this).val()); 
@@ -123,7 +123,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             layer.alert("请选择需要查看的项目",{offset: ['222px', '390px'], shade:0.01});
         }
     
-  }
+  } --%>
+        function view(id){
+           window.location.href="<%=basePath%>project/view.html?id="+id;
+    }
     
        function start(){
        var id =[]; 
@@ -257,7 +260,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <div class="container clear margin-top-30">
    <span class="fr option_btn margin-top-10">
         <button class="btn padding-left-10 padding-right-10 btn_back" onclick="subPackage()">分包</button>
-        <button class="btn padding-left-10 padding-right-10 btn_back" >打印报批文件</button>
         <button class="btn padding-left-10 padding-right-10 btn_back" onclick="start();">实施</button>
         <button class="btn padding-left-10 padding-right-10 btn_back" onclick="view();">查看</button>
          <button class="btn btn-windows edit" onclick="edit();">修改</button>
@@ -281,10 +283,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <tr style="cursor: pointer;">
               <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
               <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-              <td class="tc" onclick="see(${obj.id});">${obj.name}</td>
-              <td class="tc" onclick="see(${obj.id});">${obj.projectNumber }</td>
-              <td class="tc" onclick="see(${obj.id});">${obj.purchaseType }</td>
-              <td class="tc" onclick="see(${obj.id});">
+              <td class="tc"><a href="#" onclick="view('${obj.id}');">${obj.name}</a></td>
+              <td class="tc"><a href="#" onclick="view('${obj.id}');">${obj.projectNumber }</a></td>
+              <td class="tc"><a href="#" onclick="view('${obj.id}');">${obj.purchaseType }</a></td>
+              <td class="tc">
               <c:if test="${'1'==obj.status}">实施中</c:if>
               <c:if test="${'2'==obj.status}">已成交</c:if>
               <c:if test="${'3'==obj.status}">已立项</c:if>

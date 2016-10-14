@@ -172,18 +172,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         }
     }
     
-    function view(){
-     var id =[]; 
-        $('input[name="chkItem"]:checked').each(function(){ 
-            id.push($(this).val()); 
-        }); 
-         if(id.length==1){
+    function view(id){
            window.location.href="<%=basePath%>task/view.html?id="+id;
-        }else if(id.length>1){
-            layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
-        }else{
-            layer.alert("请选择需要查看的任务",{offset: ['222px', '390px'], shade:0.01});
-        }
     }
     
   </script>
@@ -259,7 +249,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <span class="fr option_btn margin-top-10">
         <button class="btn btn-windows edit" onclick="edit()">任务调整</button>
         <button class="btn btn-windows delete"  onclick="see()">任务取消</button>
-        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="view()">查看</button>
         <button class="btn btn-windows git" onclick="start()">受领</button>
       </span>
    <div class="container margin-top-5">
@@ -280,9 +269,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <tr style="cursor: pointer;">
               <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
               <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-              <td class="tc" >${obj.name}</td>
-              <td class="tc">${obj.purchaseId }</td>
-              <td class="tc" >${obj.documentNumber }</td>
+              <td class="tc"><a href="#" onclick="view('${obj.id}');">${obj.name}</a></td>
+              <td class="tc"><a href="#" onclick="view('${obj.id}');">${obj.purchaseId }</a></td>
+              <td class="tc"><a href="#" onclick="view('${obj.id}');">${obj.documentNumber }</a></td>
               <td class="tc">
               <c:if test="${'1'==obj.status}"><span class="label rounded-2x label-dark">审核</span></c:if>
                <c:if test="${'0'==obj.status}"><span class="label rounded-2x label-u">受领</span></c:if>

@@ -288,6 +288,7 @@ public class ProjectController extends BaseController{
 	public String start(@RequestParam("attach") MultipartFile[] attach,Project project,String principal,HttpServletRequest request){
 		project.setPrincipal(principal);
 		project.setStatus(1);
+		project.setStartTime(new Date());
 		projectService.update(project);
 		upfile(attach, request, project);
 		return "redirect:excute.html?id="+project.getId();
@@ -489,6 +490,13 @@ public class ProjectController extends BaseController{
 			detailService.update(qq);
 		}
 		
+	}
+	
+	@RequestMapping("/print")
+	public String print(String id,Model model){
+		Project project = projectService.selectById(id);
+		model.addAttribute("project", project);
+		return "bss/ppms/project/print";
 	}
 	
 	/**
