@@ -22,6 +22,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertBlackList;
+import ses.model.ems.ExpertBlackListLog;
 import ses.service.ems.ExpertBlackListService;
 import ses.util.PropUtil;
 
@@ -69,11 +70,17 @@ public class ExpertBlackListController {
 	 * @throws IOException 
 	 */
 	@RequestMapping("/saveBlacklist")
-	public String save(HttpServletRequest request,ExpertBlackList expertBlackList) throws IOException{
+	public String save(HttpServletRequest request,ExpertBlackList expertBlackList,ExpertBlackListLog expertBlackListHistory) throws IOException{
 		expertBlackList.setCreatedAt(new Date());
 		//保存文件
 		this.setExpertBlackListUpload(request, expertBlackList);
-		service.insert(expertBlackList);
+		service.insert(expertBlackList);	
+		//记录操作
+		String expert=expertBlackList.getRelName();
+		expertBlackListHistory.setOperationDate(new Date());
+		expertBlackListHistory.setExpertId(expert);
+		expertBlackListHistory.setOperator("我");
+		service.insertHistory(expertBlackListHistory);
 		return "redirect:blacklist.html";
 	}
 	/**
@@ -126,11 +133,17 @@ public class ExpertBlackListController {
 	 * @throws IOException 
 	 */
 	@RequestMapping("/updateBlacklist")
-	public String update(HttpServletRequest request,ExpertBlackList expertBlackList) throws IOException{
+	public String update(HttpServletRequest request,ExpertBlackList expertBlackList,ExpertBlackListLog expertBlackListHistory) throws IOException{
 		expertBlackList.setCreatedAt(new Date());
 		//保存文件
 		this.setExpertBlackListUpload(request, expertBlackList);
 		service.update(expertBlackList);
+		//记录操作
+		String expert=expertBlackList.getRelName();
+		expertBlackListHistory.setOperationDate(new Date());
+		expertBlackListHistory.setExpertId(expert);
+		expertBlackListHistory.setOperator("我");
+		service.insertHistory(expertBlackListHistory);
 		return "redirect:blacklist.html";
 	}
 	/**
@@ -207,6 +220,22 @@ public class ExpertBlackListController {
 		return "ses/ems/expertBlackList/dialog_expert";
 	}
 	
+	/**
+	 * @Title: saveHistory
+	 * @author Xu Qing
+	 * @date 2016-10-13 下午6:44:33  
+	 * @Description: 历史记录 
+	 * @param @param request
+	 * @param @param expertBlackListHistory
+	 * @param @param model      
+	 * @return void
+	 */
+	@RequestMapping(value = "expertBlackListLog")
+	public String saveHistory(ExpertBlackListLog expertBlackListLog,Model model) {
+		List<ExpertBlackListLog> log= service.findBlackListLog();
+		model.addAttribute("log", log);
+		return "ses/ems/expertBlackList/log";
+	}
 	
 	@InitBinder
 	public void initBinder(ServletRequestDataBinder binder) {

@@ -7,14 +7,16 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.github.pagehelper.PageHelper;
-
+import ses.dao.ems.ExpertBlackListLogMapper;
 import ses.dao.ems.ExpertBlackListMapper;
 import ses.dao.ems.ExpertMapper;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertBlackList;
+import ses.model.ems.ExpertBlackListLog;
 import ses.service.ems.ExpertBlackListService;
 import ses.util.PropertiesUtil;
+
+import com.github.pagehelper.PageHelper;
 
 /**
  * <p>Title:ExpertBlackListServiceImpl </p>
@@ -32,6 +34,12 @@ public class ExpertBlackListServiceImpl implements ExpertBlackListService{
 	 */
 	@Autowired
 	private ExpertMapper expertMapper;
+	
+	/**
+	 * 操作记录
+	 */
+	@Autowired
+	private ExpertBlackListLogMapper expertBlackListHistoryMapper;
 	
 	/**
 	 * @Title: insert
@@ -143,6 +151,34 @@ public class ExpertBlackListServiceImpl implements ExpertBlackListService{
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 		
 		return expertMapper.findExpertAll(expert);
+	}
+	
+	/**
+     * @Title: insertHistory
+     * @author Xu Qing
+     * @date 2016-10-13 下午6:28:32  
+     * @Description: 操作记录 
+     * @param @param expertBlackListHistory      
+     * @return void
+     */
+	@Override
+	public void insertHistory(ExpertBlackListLog expertBlackListHistory) {
+		expertBlackListHistoryMapper.insertHistory(expertBlackListHistory);
+		
+	}
+
+	/**
+	 * @Title: findBlackListLog
+	 * @author Xu Qing
+	 * @date 2016-10-14 下午2:54:03  
+	 * @Description: 查询历史记录 
+	 * @param @return      
+	 * @return List<ExpertBlackListLog>
+	 */
+	@Override
+	public List<ExpertBlackListLog> findBlackListLog() {
+		
+		return expertBlackListHistoryMapper.findBlackListLog();
 	}
 
 }

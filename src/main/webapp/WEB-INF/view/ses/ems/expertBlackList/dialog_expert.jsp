@@ -54,6 +54,7 @@
       jump : function(e, first) { //触发分页后的回调
         if (!first) { //一定要加此判断，否则初始时会无限刷新
           $("input[name='page']").val(e.curr);
+          searchExpert(0);
         }
       }
     });
@@ -93,7 +94,7 @@
 </head>
 <body>
   <div class="wrapper">
-    <form action="${pageContext.request.contextPath}/expert/expert_list.html"  id="search_form_id" method="post" class="registerform"> 
+    <form action="${pageContext.request.contextPath}/expert/expert_list.html"  id="search_form_id" method="get" class="registerform"> 
     <input type="hidden" name="page" id="page">
     <ul class="demand_list">
       <li class="fl">

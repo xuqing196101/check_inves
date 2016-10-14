@@ -4,6 +4,7 @@ import java.util.List;
 
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertBlackList;
+import ses.model.ems.ExpertBlackListLog;
 
 
 /**
@@ -84,5 +85,24 @@ public interface ExpertBlackListService {
      * @return List<Expert>
      */
     List<Expert> findExpertAll(Expert expert,Integer page);
-
+    
+    /**
+     * @Title: insertHistory
+     * @author Xu Qing
+     * @date 2016-10-13 下午6:28:32  
+     * @Description: 操作记录 
+     * @param @param expertBlackListHistory      
+     * @return void
+     */
+    void insertHistory (ExpertBlackListLog expertBlackListHistory);
+    
+    /**
+	 * @Title: findBlackListLog
+	 * @author Xu Qing
+	 * @date 2016-10-14 下午2:54:03  
+	 * @Description: 查询历史记录 
+	 * @param @return      
+	 * @return List<ExpertBlackListLog>
+	 */
+	List<ExpertBlackListLog> findBlackListLog();
 }

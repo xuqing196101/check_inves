@@ -123,6 +123,10 @@
 			layer.alert("请选择需要删除的信息",{offset:'200px'});
 		}
     }
+    
+   function log(){
+   window.location.href="${pageContext.request.contextPath}/expert/expertBlackListLog.html";
+   }
 </script>
 </head>
 <body>
@@ -150,31 +154,31 @@
 			              <option value="${expert.relName}">${expert.relName}</option>
 			              </c:forEach>
                   </select> 
-	           </li>
-	           <li>
-               <label class="fl mt10">处罚方式：</label>
-	               <select name="punishDate" class="mb0 mt5" >
-			            <option value="">请选择</option>
-										<option value="3个月">3月</option>
-										<option value="6个月">6个月</option>
-										<option value="一年">一年</option>
-										<option value="两年">两年</option>
-										<option value="三年">三年</option>
+	            </li>
+		          <li>
+	               <label class="fl mt10">处罚方式：</label>
+		               <select name="punishDate" class="mb0 mt5" >
+				            <option value="">请选择</option>
+											<option value="3个月">3月</option>
+											<option value="6个月">6个月</option>
+											<option value="一年">一年</option>
+											<option value="两年">两年</option>
+											<option value="三年">三年</option>
+									</select>
+		          </li>
+		          <li>
+	              <label class="fl mt10" >处罚时限：</label>
+							    <select name="punishType" class="mb0 mt5" >
+			            <option value=''>-请选择-</option>
+								  <option value="1">警告</option>
+								  <option value="2">严重警告</option>
+								  <option value="3">取消资格</option>
 								</select>
-	          </li>
-	          <li>
-              <label class="fl mt10" >处罚时限：</label>
-						    <select name="punishType" class="mb0 mt5" >
-		            <option value=''>-请选择-</option>
-							  <option value="1">警告</option>
-							  <option value="2">严重警告</option>
-							  <option value="3">取消资格</option>
-							</select>
-				   </li>
-           <li>
-             <input type="submit" class="btn btn_back fl ml10 mt6" value="查询" />
-             <!-- <input type="button" class="btn btn_back fl ml10 mt6" value="重置" onclick="resetForm()"> -->
-          </li>
+					   </li>
+	           <li>
+	             <input type="submit" class="btn btn_back fl ml10 mt6" value="查询" />
+	             <!-- <input type="button" class="btn btn_back fl ml10 mt6" value="重置" onclick="resetForm()"> -->
+	           </li>
 	    </ul>
 	  </div>
 	</form>
@@ -183,9 +187,10 @@
 	<!-- 表格开始-->
 	<div class="container">
 	  <div class="col-md-8">
-	 	  <button class="btn btn-windows add" type="button" onclick="add();">新增专家</button>
+	 	  <button class="btn btn-windows add" type="button" onclick="add();">新增</button>
 	    <button class="btn btn-windows edit" type="button" onclick="update();">修改</button>
 	    <!-- <button class="btn btn-windows delete" type="button" onclick="del();">删除</button> -->
+	    <button class="btn btn-windows" type="button" onclick="log();">历史记录</button>
 	  </div>
 	</div>
   <div class="container margin-top-5">
@@ -203,10 +208,10 @@
 					  <th class="info">处罚理由</th>
           </tr>
         </thead>
-         <c:forEach items="${expertList }" var="e" varStatus="s">
+         <c:forEach items="${expertList }" var="e" varStatus="vs">
 	        <tr>
 	          <td class="tc w30"><input type="checkbox" value="${e.id }" name="chkItem" onclick="check()"></td>
-							<td class="tc w50">${s.count}</td>
+							<td class="tc w50">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</td>
 							<td class="tc">${e.relName }</td>
 							<td class="tc"><fmt:formatDate type='date' value='${e.storageTime }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
 							<td class="tc"><fmt:formatDate type='date' value='${e.dateOfPunishment }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
