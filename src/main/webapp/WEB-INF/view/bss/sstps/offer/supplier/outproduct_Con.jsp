@@ -7,7 +7,7 @@
 <html>
   <head>
     
-    <title>原、辅材料工艺定额消耗明细表</title>
+    <title>外购成品件消耗定额明细</title>
 	
 	<script type="text/javascript" src="<%=request.getContextPath()%>/public/layer/layer.js"></script>
     <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
@@ -104,14 +104,14 @@ function nextPage(){
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">供应商报价</a></li><li><a href="#">产品报价</a></li></ul>
+		   <li><a href="#"> 首页</a></li><li><a href="#">供应商报价</a></li><li><a href="#">外购成品件消耗定额明细</a></li></ul>
 		<div class="clear"></div>
 	  </div>
    </div>
   
   <div class="container">
 	 	<div class="headline-v2">
-	  		 <h2>装备（产品）技术资料概述</h2>
+	  		 <h2>外购成品件消耗定额明细</h2>
 	 	</div>
 	 	
 	 	<div class="col-md-8 mt10">
@@ -122,7 +122,7 @@ function nextPage(){
 		
    </div>
 	
-	<input type="hidden" id="proId" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly>
+	<input type="text" id="proId" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly>
 	
 	<div class="container margin-top-5">
 	 	<div class="container padding-left-25 padding-right-25">

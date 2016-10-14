@@ -52,6 +52,9 @@
   </delete>
  
   <insert id="insert" parameterType="bss.model.sstps.OutproductCon">
+  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
     insert into T_BSS_SSTPS_OUTPRODUCT_CON
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -117,7 +120,7 @@
         #{id},
       </if>
       <if test="contractProduct != null">
-        #{productId.id},
+        #{contractProduct.id},
       </if>
       <if test="finishedName != null">
         #{finishedName},

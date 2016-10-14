@@ -29,10 +29,10 @@
 	  </div>
    </div>
    
-   <form action="<%=basePath %>accessoriesCon/update.html" method="post" enctype="multipart/form-data">
+   <form action="<%=basePath %>outproductCon/update.html" method="post" enctype="multipart/form-data">
    
-   <input type="hidden" id="proId" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly>
-   <input type="hidden" id="id" name="id" class="w230 mb0" value="${acc.id }" readonly>
+   <input type="text" id="proId" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly>
+   <input type="text" id="id" name="id" class="w230 mb0" value="${out.id }" readonly>
 	<div class="container">
 	 	<div class="headline-v2">
 	  		 <h2>添加原、辅材料工艺定额消耗明细</h2>
@@ -42,26 +42,19 @@
 			<table class="table table-bordered">
 				 <tobody>
 				  	<tr>
-				 		<td width="25%" class="bggrey tr">材料性质：</td>
+				 		<td width="25%" class="bggrey tr">成品件名称：</td>
 				 		<td width="25%">
-				 			<select class="w230" id="productNature" name="productNature" value="${acc.productNature }">
-				 				<option value="0">主要材料</option>
-				 				<option value="1">辅助材料</option>
-				 			</select>
+				 			<input type="text" id="finishedName" name="finishedName" value="${out.finishedName }">
 				 		</td>
-				 		<td width="25%" class="bggrey tr">材料名称：</td>
+				 		<td width="25%" class="bggrey tr">规格型号：</td>
 				 		<td width="25%">
-				 			<input type="text" id="stuffName" name="stuffName" value="${acc.stuffName }">
+				 			<input id="norm" name="norm" type="text" class="w230 mb0"  value="${out.norm }">
 				 		</td>
 				 	</tr>
 				 	<tr>
-				 		<td width="25%" class="bggrey tr">规格型号：</td>
-				 		<td width="25%">
-				 			<input id="norm" name="norm" type="text" class="w230 mb0"  value="${acc.norm }">
-				 		</td>
 				 		<td width="25%" class="bggrey tr">图纸位置号(代号)：</td>
 				 		<td width="25%" >
-				 			<input id="paperCode" name="paperCode" type="text" class="w230 mb0"  value="${acc.paperCode }">
+				 			<input id="paperCode" name="paperCode" type="text" class="w230 mb0"  value="${out.paperCode }">
 				 		</td>
 				 	</tr>
 				 </tobody>
@@ -75,27 +68,27 @@
 				  	<tr>
 				 		<td width="25%" class="bggrey tr">数量：</td>
 				 		<td width="25%">
-				 			<input type="text" id="workAmout" name="workAmout" value="${acc.workAmout }">
+				 			<input type="text" id="workAmout" name="workAmout" value="${out.workAmout }">
 				 		</td>
 				 		<td width="25%" class="bggrey tr">单件重：</td>
 				 		<td width="25%">
-				 			<input type="text" id="workWeight" name="workWeight" value="${acc.workWeight }">
+				 			<input type="text" id="workWeight" name="workWeight" value="${out.workWeight }">
 				 		</td>
 				 	</tr>
 				 	<tr>
 				 		<td width="25%" class="bggrey tr">重量小计：</td>
 				 		<td width="25%">
-				 			<input type="text" id="workWeightTotal" name="workWeightTotal" value="${acc.workWeightTotal }">
+				 			<input type="text" id="workWeightTotal" name="workWeightTotal" value="${out.workWeightTotal }">
 				 		</td>
 				 		<td width="25%" class="bggrey tr">单价(元)：</td>
 				 		<td width="25%">
-				 			<input type="text" id="workPrice" name="workPrice" value="${acc.workPrice }">
+				 			<input type="text" id="workPrice" name="workPrice" value="${out.workPrice }">
 				 		</td>
 				 	</tr>
 				 	<tr>
 				 		<td width="25%" class="bggrey tr">金额：</td>
 				 		<td width="25%">
-				 			<input type="text" id="workMoney" name="workMoney" value="${acc.workMoney }">
+				 			<input type="text" id="workMoney" name="workMoney" value="${out.workMoney }">
 				 		</td>
 				 	</tr>
 				 </tobody>
@@ -109,27 +102,17 @@
 				  	<tr>
 				 		<td width="25%" class="bggrey tr">数量：</td>
 				 		<td width="25%">
-				 			<input type="text" id="consumeAmout" name="consumeAmout" value="${acc.consumeAmout }">
-				 		</td>
-				 		<td width="25%" class="bggrey tr">单件重：</td>
-				 		<td width="25%">
-				 			<input type="text" id="consumeWeight" name="consumeWeight" value="${acc.consumeWeight }">
-				 		</td>
-				 	</tr>
-				 	<tr>
-				 		<td width="25%" class="bggrey tr">重量小计：</td>
-				 		<td width="25%">
-				 			<input type="text" id="consumeWeightTotal" name="consumeWeightTotal" value="${acc.consumeWeightTotal }">
+				 			<input type="text" id="consumeAmout" name="consumeAmout" value="${out.consumeAmout }">
 				 		</td>
 				 		<td width="25%" class="bggrey tr">单价(元)：</td>
 				 		<td width="25%">
-				 			<input type="text" id="consumePrice" name="consumePrice" value="${acc.consumePrice }">
+				 			<input type="text" id="consumePrice" name="consumePrice" value="${out.consumePrice }">
 				 		</td>
 				 	</tr>
 				 	<tr>
 				 		<td width="25%" class="bggrey tr">金额：</td>
 				 		<td width="25%">
-				 			<input type="text" id="consumeMoney" name="consumeMoney" value="${acc.consumeMoney }">
+				 			<input type="text" id="consumeMoney" name="consumeMoney" value="${out.consumeMoney }">
 				 		</td>
 				 	</tr>
 				 </tobody>
@@ -141,11 +124,11 @@
 				 <tobody>
 				 	<tr>
 				 		<td width="10%" class="bggrey tr">供货单位：</td>
-				 		<td width="25%" ><input name="supplyUnit" type="text" class="w230 mb0" value="${acc.supplyUnit }" ></td>
+				 		<td width="25%" ><input name="supplyUnit" type="text" class="w230 mb0" value="${out.supplyUnit }" ></td>
 				 	</tr>
 				 	<tr>
 				 		<td width="10%" class="bggrey tr">备注：</td>
-				 		<td width="25%" ><input id="remark" name="remark" type="text" class="w230 mb0" value="${acc.remark }" ></td>
+				 		<td width="25%" ><input id="remark" name="remark" type="text" class="w230 mb0" value="${out.remark }" ></td>
 				 	</tr>
 				 </tobody>
 			</table>

@@ -1,5 +1,6 @@
 package bss.controller.sstps;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import bss.model.sstps.AccessoriesCon;
 import bss.model.sstps.ContractProduct;
 import bss.model.sstps.OutproductCon;
 import bss.service.sstps.OutproductConService;
@@ -39,6 +41,7 @@ public class OutproductConController {
 		outproductCon.setContractProduct(contractProduct);
 		List<OutproductCon> list = outproductConService.selectProduct(outproductCon);
 		model.addAttribute("list", list);
+		model.addAttribute("proId", proId);
 		
 		return "bss/sstps/offer/supplier/outproduct_Con";
 	}
@@ -49,28 +52,80 @@ public class OutproductConController {
 		return "bss/sstps/offer/supplier/outproduct/add";
 	}
 	
-	/**
-	* @Title: edit
-	* @author Shen Zhenfei 
-	* @date 2016-10-13 下午3:47:21  
-	* @Description: 修改页面
-	* @param @param model
-	* @param @param proId
-	* @param @return      
-	* @return String
-	 */
 	@RequestMapping("/edit")
 	public String edit(Model model,String proId,String id){
-		
 		OutproductCon outproductCon = outproductConService.selectById(id);
-		
-		model.addAttribute("acc", outproductCon);
+		model.addAttribute("out", outproductCon);
 		model.addAttribute("proId", proId);
 		return "bss/sstps/offer/supplier/outproduct/edit";
 	}
 	
 	
+	@RequestMapping("/save")
+	public String save(Model model,OutproductCon outproductCon){
+		String proId = outproductCon.getContractProduct().getId();
+		outproductCon.setCreatedAt(new Date());
+		outproductCon.setUpdatedAt(new Date());
+		outproductConService.insert(outproductCon);
+		
+		List<OutproductCon> list = outproductConService.selectProduct(outproductCon);
+		model.addAttribute("list", list);
+		
+		model.addAttribute("proId",proId);
+		
+		return "bss/sstps/offer/supplier/outproduct_Con";
+	}
 	
+	
+	/**
+	* @Title: update
+	* @author Shen Zhenfei 
+	* @date 2016-10-13 下午5:36:08  
+	* @Description: TODO 
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/update")
+	public String update(Model model,OutproductCon outproductCon ){
+		String proId = outproductCon.getContractProduct().getId();
+		
+		outproductCon.setUpdatedAt(new Date());
+		outproductConService.update(outproductCon);
+		
+		List<OutproductCon> list = outproductConService.selectProduct(outproductCon);
+		model.addAttribute("list", list);
+		model.addAttribute("proId",proId);
+		return "bss/sstps/offer/supplier/accessories_Con";
+	}
+	
+	/**
+	* @Title: delete
+	* @author Shen Zhenfei 
+	* @date 2016-10-14 上午8:35:27  
+	* @Description: 删除
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/delete")
+	public String delete(Model model,String proId,String ids){
+		
+		String[] id=ids.split(",");
+		
+		for(String str : id){
+			outproductConService.delete(str);
+		}
+		
+		OutproductCon outproductCon = new OutproductCon();
+		
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(proId);
+		outproductCon.setContractProduct(contractProduct);
+		
+		List<OutproductCon> list = outproductConService.selectProduct(outproductCon);
+		model.addAttribute("list", list);
+		model.addAttribute("proId",proId);
+		return "bss/sstps/offer/supplier/accessories_Con";
+	}
 	
 
 }

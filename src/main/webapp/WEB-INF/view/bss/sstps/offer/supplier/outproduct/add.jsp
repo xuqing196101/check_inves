@@ -29,7 +29,7 @@
 	  </div>
    </div>
    
-   <form action="<%=basePath %>accessoriesCon/save.html" method="post" enctype="multipart/form-data">
+   <form action="<%=basePath %>outproductCon/save.html" method="post" enctype="multipart/form-data">
    
    <input type="text" id="proId" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly>
    
@@ -44,7 +44,7 @@
 				  	<tr>
 				 		<td width="25%" class="bggrey tr">成品件名称：</td>
 				 		<td width="25%">
-				 			<input type="text" id="stuffName" name="stuffName">
+				 			<input type="text" id="finishedName" name="finishedName">
 				 		</td>
 				 		<td width="25%" class="bggrey tr">规格型号：</td>
 				 		<td width="25%">
