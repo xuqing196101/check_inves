@@ -157,18 +157,19 @@
     	  <div class="clear"></div>
      </h2>
    </div>
-   </h2>
   </div>
-   <div class="headline-v2 fl">
+   <div class="headline-v2">
       <h2>成交项目列表
 	  </h2>
    </div> 
-   	  <span class="fr option_btn margin-top-20 mr10">
-	    <button class="btn padding-left-10 padding-right-10 btn_back" onclick="createContract()">生成合同</button>
-	  </span>
+   <div class="container">
+    <div class="col-md-12 pl20">
+<button class="btn padding-left-10 padding-right-10 btn_back ml5" onclick="createContract()">生成合同</button>
+	</div>
+   </div>
    <div class="container clear">
     <div class="p10_25">
-   	<table class="table table-bordered table-condensed mt5">
+   	<table class="table table-bordered table-condensed table-hover">
 		<thead>
 			<tr>
 				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>

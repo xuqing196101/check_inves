@@ -126,18 +126,16 @@
 	   <div class="headline-v2">
 	   		<h2>栏目管理</h2>
 	   </div>
-   </div>
 <!-- 表格开始-->
    <div class="container">
-   <div class="col-md-8">
-	<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
+    <div class="col-md-12 pl20">
+	 <button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 	</div>
-    </div>
+   </div>
    
-   <div class="container margin-top-5">
+   <div class="container">
      <div class="content padding-left-25 padding-right-25 padding-top-5">
-   	<table class="table table-bordered table-condensed">
-    
+    	<table class="table table-bordered table-condensed table-hover">
 		<thead>
 			<tr>
 				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
@@ -173,7 +171,9 @@
 		</c:forEach>
 	</table>
      </div>
-   <div id="pagediv" align="right"></div>
+
+   </div>
+      <div id="pagediv" align="right"></div>
    </div>
 	 </body>
 </html>

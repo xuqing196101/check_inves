@@ -42,12 +42,15 @@
    </div>
    
 <!-- 新增模板开始-->
-   <div class="container">
+   <div class="container bggrey border1 mt20">
    		<%--<form action="<%=basePath %>pqinfo/save.html" method="post">
-   		--%><div class="headline-v2">
+   		--%><%--
+   		<div class="headline-v2">
    			<h2>基本信息</h2>
    		</div>
-   		<ul class="list-unstyled list-flow p0_20">
+   		--%>
+   		<h2 class="f16 count_flow mt40"><i>01</i>基本信息</h2>
+   		<ul class="list-unstyled list-flow ul_list">
    			<input type="hidden" class="contract_id" name="contract_id">
 		     <li class="col-md-6  p0 ">
 			   <span class="">项目名称：</span>
@@ -69,10 +72,11 @@
 			 </li>
 			 <div class="clear"></div>
 		 </ul>
-   		<div class="headline-v2">
+   		<%--<div class="headline-v2">
    			<h2>甲方信息</h2>
    		</div>
-		 <ul class="list-unstyled list-flow p0_20">
+   		--%><h2 class="f16 count_flow mt40"><i>02</i>甲方信息</h2>
+		 <ul class="list-unstyled list-flow ul_list">
     		 <li class="col-md-6 p0">
 			   <span class="">甲方单位：</span>
 		        <div class="input-append ">
@@ -135,10 +139,11 @@
 			 </li>
 			 <div class="clear"></div>
 		 </ul>
-   		<div class="headline-v2">
+   		<%--<div class="headline-v2">
    			<h2>乙方信息</h2>
    		</div>
-		 <ul class="list-unstyled list-flow p0_20">
+   		--%><h2 class="f16 count_flow mt40"><i>03</i>乙方信息</h2>
+		 <ul class="list-unstyled list-flow ul_list">
 			 <li class="col-md-6 p0">
 			   <span class="">乙方单位：</span>
 		        <div class="input-append ">
@@ -202,8 +207,8 @@
 			 <div class="clear"></div>
 		</ul>
   		<div  class="col-md-12 tc mt20">
-   			<button class="btn btn-windows save" onclick="next()">下一步</button>
-   			<button class="btn btn-windows git" onclick="history.go(-1)" type="button">取消</button>
+   			<button class="btn" onclick="next()">下一步</button>
+   			<button class="btn btn-windows cancel" onclick="history.go(-1)" type="button">取消</button>
   		</div>
   		
   	<%--</form>

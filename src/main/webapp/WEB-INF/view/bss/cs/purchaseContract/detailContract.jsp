@@ -49,7 +49,7 @@
    		</div>
    		<div class="container clear">
    		<div class="p10_25">
-      	<table class="table table-bordered table-condensed mt5">
+      	<table class="table table-bordered table-condensed mt5 table-hover">
 	      <thead>
 			<tr>
 				<th class="info w50">序号</th>
@@ -84,8 +84,8 @@
      </div>
     </div>
   		<div  class="col-md-12 tc mt20">
-   			<button class="btn btn-windows save" onclick="next()">下一步</button>
-   			<button class="btn btn-windows git" onclick="history.go(-1)" type="button">取消</button>
+   			<button class="btn" onclick="next()">下一步</button>
+   			<button class="btn btn-windows cancel" onclick="history.go(-1)" type="button">取消</button>
   		</div>
   	<%--</form>
  --%></div>

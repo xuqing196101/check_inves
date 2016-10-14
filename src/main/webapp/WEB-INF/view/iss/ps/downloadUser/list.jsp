@@ -120,30 +120,35 @@
 		<div class="clear"></div>
 	  </div>
    </div>
-  <div class="container">
-   <div class="headline-v2">
-      <h2>查询条件</h2>
-   </div>
+   <div class="container">
+	<div class="headline-v2">
+       <h2>查询条件</h2>
+    </div>
 <!-- 项目戳开始 -->
-  <div class="container clear margin-top-30">
-   <h2 class="padding-10 border1">
-	 <ul class="demand_list list-unstyled">
-	   <li class="fl"><label class="fl mt10">下载人姓名：</label><span><input type="text" value="${userName}" id="condition" class="mb0 mt5"/></span></li>
+  <div class="container clear">
+  <div class="p10_25">
+     <h2 class="padding-10 border1">
+    	<ul class="demand_list">
+	     <li class="fl"><label class="fl mt10">下载人姓名：</label><span><input type="text" value="${userName}" id="condition" class="mb0 mt5"/></span></li>
 	   	 <button class="btn btn_back fl ml10 mt8" onclick="search()">查询</button>
 	   	 <button class="btn btn_back fl ml10 mt8" onclick="reset()">重置</button>
-	 </ul>
-	 <div class="clear"></div>
-   </h2>
+	   </ul>
+    	  <div class="clear"></div>
+     </h2>
+   </div>
   </div>
-   <div class="headline-v2 fl">
+   <div class="headline-v2">
       <h2>下载人列表
 	  </h2>
    </div> 
-   	  <span class="fr option_btn margin-top-20">
-	    <button onclick="del()" class="btn padding-left-10 padding-right-10 btn_back">删除</button>
-	  </span>
-   <div class="container clear margin-top-30">
-   	<table class="table table-bordered table-condensed mt5">
+   <div class="container">
+    <div class="col-md-12 pl20">
+	  <button onclick="del()" class="btn btn-windows delete">删除</button>
+	</div>
+   </div>  
+   <div class="container">
+     <div class="content padding-left-25 padding-right-25 padding-top-5">
+    	<table class="table table-bordered table-condensed table-hover">
 		<thead>
 			<tr>
 				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
@@ -166,7 +171,9 @@
 		</c:forEach>
 	</table>
      </div>
-   <div id="pagediv" align="right"></div>
+
+   </div>
+      <div id="pagediv" align="right"></div>
    </div>
 </body>
 </html>

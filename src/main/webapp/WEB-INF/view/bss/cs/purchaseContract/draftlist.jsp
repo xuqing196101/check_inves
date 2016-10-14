@@ -35,9 +35,8 @@
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		        	var articleId = "${articleId}";
-		        	var condition = "${userName}";
-		            location.href = "<%=basePath%>downloadUser/selectDownloadUserByArticleId.html?page="+e.curr+"&articleId="+articleId+"&userName="+condition;
+		        	$("#page").val(e.curr);
+					$("#form").submit();
 		        }
 		    }
 		});
@@ -77,10 +76,6 @@
 				 }
 		   }
 	}
-	
-  	function view(id){
-  		window.location.href="<%=basePath%>articletype/view.html?id="+id;
-  	}
     
   	function del(){
     	var ids =[]; 
@@ -104,10 +99,15 @@
   		window.location.href="<%=basePath%>purchaseContract/selectAllPuCon.html?projectName="+projectName+"&projectCode="+projectCode+"&purchaseDep="+purchaseDep;
   	}
   	
-  	function reset(){
+  	function resetForm(){
   		$("#projectName").val("");
-  		$("#projectCode").val("");
-  		$("#purchaseDep").val("");
+  		$("#code").val("");
+  		$("#demandSector").val("");
+  		$("#documentNumber").val("");
+  		$("#supplierDepName").val("");
+  		$("#purchaseDepName").val("");
+  		$("#year").val("");
+  		$("#budgetSubjectItem").val("");
   	}
   	
   	function updateDraft(){
@@ -124,6 +124,10 @@
 		}else{
 			layer.alert("请选择要修改的草稿",{offset: ['222px', '390px'], shade:0.01});
 		}
+  	}
+  	
+  	function showDraftContract(id){
+  		window.location.href="<%=basePath%>purchaseContract/showDraftContract.html?ids="+id;
   	}
   </script>
   </head>
@@ -146,39 +150,43 @@
 <!-- 项目戳开始 -->
   <div class="container clear">
   <div class="p10_25">
+    <form id="form1" action="<%=basePath%>purchaseContract/selectDraftContract.html" method="post">
+    <input type="hidden" value="" id="page"/>
      <h2 class="padding-10 border1">
     	<ul class="demand_list">
-          <li class="fl ml8"><label class="fl mt10">采购项目：</label><span><input type="text" value="" id="projectName" class="mb0 mt5"/></span></li>
-	      <li class="fl ml8"><label class="fl mt10">合同编号：</label><span><input type="text" value="" id="projectCode" class="mb0 mt5"/></span></li>
-	      <li class="fl ml8"><label class="fl mt10">供应商：</label><span><input type="text" value="" id="purchaseDep" class="mb0 mt5"/></span></li>
-	      <li class="fl ml8"><label class="fl mt10">采购机构：</label><span><input type="text" value="" id="purchaseDep" class="mb0 mt5"/></span></li>
-	      <li class="fl ml8"><label class="fl mt10">需求部门：</label><span><input type="text" value="" id="purchaseDep" class="mb0 mt5"/></span></li>
-	      <li class="fl ml8"><label class="fl mt10">计划文件号：</label><span><input type="text" value="" id="purchaseDep" class="mb0 mt5"/></span></li>
-	      <li class="fl ml8"><label class="fl mt10">年度：</label><span><input type="text" value="" id="purchaseDep" class="mb0 mt5"/></span></li>
-	      <li class="fl ml8"><label class="fl mt10">项级预算科目：</label><span><input type="text" value="" id="purchaseDep" class="mb0 mt5"/></span></li>
-    	  <div class="fl col-md-4 tc">
-    	    <button type="button" onclick="query()" class="btn">查询</button>
-    	    <button type="reset" onclick="reset()" class="btn">重置</button>
+          <li class="fl"><label class="fl mt10">采购项目：</label><span><input type="text" value="${purCon.projectName }" id="projectName" name="projectName" class="mb0 mt5"/></span></li>
+	      <li class="fl"><label class="fl mt10">合同编号：</label><span><input type="text" value="${purCon.code }" id="code" name="code" class="mb0 mt5"/></span></li>
+	      <li class="fl"><label class="fl mt10">需求部门：</label><span><input type="text" value="${purCon.demandSector }" id="demandSector" name="demandSector" class="mb0 mt5 w100"/></span></li>
+	      <li class="fl"><label class="fl mt10">计划文件号：</label><span><input type="text" value="${purCon.documentNumber }" id="documentNumber" name="documentNumber" class="mb0 mt5 w100"/></span></li>
+	      <li class="fl"><label class="fl mt10">供应商：</label><span><input type="text" value="${purCon.supplierDepName }" id="supplierDepName" name="supplierDepName" class="mb0 mt5"/></span></li>
+	      <li class="fl"><label class="fl mt10">采购机构：</label><span><input type="text" value="${purCon.purchaseDepName }" id="purchaseDepName" name="purchaseDepName" class="mb0 mt5"/></span></li>
+	      <li class="fl"><label class="fl mt10">年度：</label><span><input type="text" value="${purCon.year }" id="year" name="year" class="mb0 mt5 w100"/></span></li>
+	      <li class="fl"><label class="fl mt10">项级预算科目：</label><span><input type="text" value="${purCon.budgetSubjectItem }" id="budgetSubjectItem" name="budgetSubjectItem" class="mb0 mt5 w100"/></span></li>
+    	  <div class="fl col-md-12 tc">
+    	    <input type="submit" class="btn" value="查询"/>
+    	    <input type="button" onclick="resetForm()" class="btn" value="重置"/>
     	  </div>
     	</ul>
-
     	  <div class="clear"></div>
+      </form>
      </h2>
    </div>
    </h2>
   </div>
-   <div class="headline-v2 fl">
-      <h2>合同草稿列表
-	  </h2>
-   </div> 
-   	  <span class="fr option_btn margin-top-20 mr10">
-   	  	<button class="btn padding-left-10 padding-right-10 btn_back" onclick="updateDraft()">修改</button>
-   	  	<button class="btn padding-left-10 padding-right-10 btn_back" onclick="delDraft()">删除</button>
-	    <button class="btn padding-left-10 padding-right-10 btn_back" onclick="createContract()">生成正式合同</button>
-	  </span>
+      <div class="headline-v2 fl">
+        <h2>合同草稿列表
+	    </h2>
+      </div> 
+   	   <div class="container clear">
+         <div class="col-md-12 pl20">
+   	  	  <button class="btn btn-windows edit" onclick="updateDraft()">修改</button>
+   	  	  <button class="btn btn-windows delete" onclick="delDraft()">删除</button>
+	      <button class="btn" onclick="createContract()">生成正式合同</button>
+	     </div>
+	   </div>
    <div class="container clear">
-    <div class="p10_25">
-   	<table class="table table-bordered table-condensed mt5">
+    <div class="content padding-left-25 padding-right-25 padding-top-5">
+   	<table class="table table-striped table-bordered table-hover">
 		<thead>
 			<tr>
 				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
@@ -199,18 +207,18 @@
 		<c:forEach items="${draftConList}" var="draftCon" varStatus="vs">
 			<tr>
 				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${draftCon.id}" /></td>
-				<td class="tc pointer">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-				<td class="tc pointer">${draftCon.name}</td>
-				<td class="tc pointer">${draftCon.code}</td>
-				<td class="tc pointer">${draftCon.money}</td>
-				<td class="tc pointer">${draftCon.projectName}</td>
-				<td class="tc pointer">${draftCon.purchaseDepName}</td>
-				<td class="tc pointer">${draftCon.supplierDepName}</td>
-				<td class="tc pointer">${draftCon.demandSector}</td>
-				<td class="tc pointer">${draftCon.documentNumber}</td>
-				<td class="tc pointer">${draftCon.budget}</td>
-				<td class="tc pointer">${draftCon.year}</td>
-				<td class="tc pointer">${draftCon.budgetSubjectItem}</td>
+				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.name}</td>
+				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.code}</td>
+				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.money}</td>
+				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.projectName}</td>
+				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.purchaseDepName}</td>
+				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.supplierDepName}</td>
+				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.demandSector}</td>
+				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.documentNumber}</td>
+				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.budget}</td>
+				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.year}</td>
+				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.budgetSubjectItem}</td>
 			</tr>
 		</c:forEach>
 	</table>
