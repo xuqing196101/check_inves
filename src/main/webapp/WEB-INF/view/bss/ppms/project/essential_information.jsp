@@ -45,9 +45,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
  
   <script type="text/javascript">
+   $(function(){
+        var idr = $("#ids").val();
+        if(idr==null || idr == ''){
+            $("#qwe").hide();
+        }
+        
+  });
+  
+  
     function print(id){
         window.location.href = "<%=basePath%>project/print.html?id="+id;
     }
+    function view(id){
+        window.location.href = "<%=basePath%>project/viewDetail.html?ids="+id;
+    }
+    
   </script>
   </head>
   
@@ -143,13 +156,66 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <td class="bggrey tr">验收时间:</td><td>${project.acceptanceTime}</td>
         </tr>
       </table>
+      <input type="hidden" value="${ids}" id="ids"/>
        <div id="pagediv" align="right"></div>
       <div class="headline-v2 bggrey">
-           <h2>项目明细</h2>
+           <h2>项目明细&nbsp;&nbsp;<button class="btn padding-left-10 padding-right-10 btn_back" onclick="view('${project.id}')" type="button">查看明细</button></h2>
       </div>
+      <div id= "qwe">
+        <table class="table table-bordered table-condensed mt5">
+        
+        <thead>
+        <tr>
+          <th class="info w50">序号</th>
+          <th class="info">需求部门</th>
+          <th class="info">物资名称</th>
+          <th class="info">规格型号</th>
+          <th class="info">质量技术标准</th>
+          <th class="info">计量单位</th>
+          <th class="info">采购数量</th>
+          <th class="info">单价（元）</th>
+          <th class="info">预算金额（万元）</th>
+          <th class="info">交货期限</th>
+          <th class="info">采购方式建议</th>
+          <th class="info">供应商名称</th>
+          <th class="info">是否申请办理免税</th>
+          <th class="info">物资用途（进口）</th>
+          <th class="info">使用单位（进口）</th>
+        </tr>
+        </thead>
+          <c:forEach items="${lists}" var="obj" varStatus="vs">
+            <tr style="cursor: pointer;">
+              <td class="tc w50">${obj.serialNumber}</td>
+              <td class="tc">${obj.department}</td>
+              <td class="tc">${obj.goodsName}</td>
+              <td class="tc">${obj.stand}</td>
+              <td class="tc">${obj.qualitStand}</td>
+              <td class="tc">${obj.item}</td>
+              <td class="tc">${obj.purchaseCount}</td>
+              <td class="tc">${obj.price}</td>
+              <td class="tc">${obj.budget}</td>
+              <td class="tc">${obj.deliverDate}</td>
+              <td class="tc"> ${obj.purchaseType}</td>
+              <td class="tc">${obj.supplier}</td>
+              <td class="tc">${obj.isFreeTax}</td>
+              <td class="tc">${obj.goodsUse}</td>
+              <td class="tc">${obj.useUnit}</td>
+            </tr>
+     
+         </c:forEach>  
+         
+
+      </table>
+    </div>
       <div class="headline-v2 bggrey">
            <h2>打印报批文件 &nbsp;&nbsp;<button class="btn padding-left-10 padding-right-10 btn_back" onclick="print('${project.id}')" type="button">打印报批文件</button></h2>
       </div>
+      <div class="headline-v2 bggrey">
+           <h2>项目相关表单</h2>
+      </div>
+      
+      
+      
       </div>
      
       </div>

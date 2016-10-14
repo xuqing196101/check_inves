@@ -321,14 +321,24 @@ public class ProjectController extends BaseController{
 	* @return String
 	 */
 	@RequestMapping("/viewDetail")
-	public String viewDetail(String id,Model model,HttpServletRequest request){
-		HashMap<String,Object> map = new HashMap<String,Object>();
-		String tt = (String) request.getSession().getAttribute("tt");
-		map.put("taskId", id);
-		map.put("id", tt);
-		List<ProjectDetail> detailList = detailService.selectById(map);
-		model.addAttribute("lists", detailList);
-		return "bss/ppms/project/viewDetail";
+	public String viewDetail(String id,String ids,Model model,HttpServletRequest request){
+		if(ids == null){
+			HashMap<String,Object> map = new HashMap<String,Object>();
+			String tt = (String) request.getSession().getAttribute("tt");
+			map.put("taskId", id);
+			map.put("id", tt);
+			List<ProjectDetail> detailList = detailService.selectById(map);
+			model.addAttribute("lists", detailList);
+			return "bss/ppms/project/viewDetail";
+		}else{
+			HashMap<String,Object> map = new HashMap<String,Object>();
+			map.put("id", ids);
+			List<ProjectDetail> detailList = detailService.selectById(map);
+				model.addAttribute("lists", detailList);
+				model.addAttribute("ids", ids);
+			return "bss/ppms/project/essential_information";
+		}
+		
 	}
 	/**
 	 * 
@@ -671,22 +681,27 @@ public class ProjectController extends BaseController{
 	 * @exception IOException
 	 */
 	@RequestMapping("/excute")
-	public String execute(String id, Model model){
+	public String execute(String id, Model model, Integer page){
 		Project project = projectService.selectById(id);
 		if("公开招标".equals(project.getPurchaseType())){
 			model.addAttribute("project", project);
+			model.addAttribute("page", page);
 			return "bss/ppms/open_bidding/main";
 		} else if("邀请招标".equals(project.getPurchaseType())){
 			model.addAttribute("project", project);
+			model.addAttribute("page", page);
 			return "bss/ppms/invite_bidding/main";
 		} else if("询价".equals(project.getPurchaseType())){
 			model.addAttribute("project", project);
+			model.addAttribute("page", page);
 			return "bss/ppms/enquiry/main";
 		} else if("竞争性谈判".equals(project.getPurchaseType())){
 			model.addAttribute("project", project);
+			model.addAttribute("page", page);
 			return "bss/ppms/competitive_negotiation/main";
 		} else if("单一来源".equals(project.getPurchaseType())){
 			model.addAttribute("project", project);
+			model.addAttribute("page", page);
 			return "bss/ppms/single_source/main";
 		} else {
 			return "error";

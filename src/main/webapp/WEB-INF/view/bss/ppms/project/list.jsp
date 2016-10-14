@@ -140,9 +140,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         }); 
         var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(5).text();
         status = $.trim(status);
+        var currPage = ${info.pageNum};
           if(id.length==1){
            if(status == "实施中"){
-            window.location.href="<%=basePath%>project/excute.html?id="+id;
+            window.location.href="<%=basePath%>project/excute.html?id="+id+"&page="+currPage;
            }else if(status == "已立项"){
             layer.open({
             type: 2, //page层
@@ -261,7 +262,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <span class="fr option_btn margin-top-10">
         <button class="btn padding-left-10 padding-right-10 btn_back" onclick="subPackage()">分包</button>
         <button class="btn padding-left-10 padding-right-10 btn_back" onclick="start();">实施</button>
-        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="view();">查看</button>
          <button class="btn btn-windows edit" onclick="edit();">修改</button>
       </span>
     <a class="btn btn-windows add" href="<%=basePath%>project/add.html">新建采购项目</a>
