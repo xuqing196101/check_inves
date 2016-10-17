@@ -196,7 +196,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
 <!-- 项目戳开始 -->
  
-   <div class="p10_25">
+  <div class="container clear">
+  <div class="p10_25">
      <h2 class="padding-10 border1">
      <form id="add_form" action="<%=basePath%>task/list.html" method="post" >
      <ul class="demand_list">
@@ -239,21 +240,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      </ul>
      <div class="clear"></div>
     </form>
-    </h2>
-    </div>
+   </h2>
+   </div>
+  </div>
+  
    <div class="headline-v2 fl">
-   
       <h2>任务受领列表
       </h2>
    </div> 
-      <span class="fr option_btn margin-top-10">
+      <span class="fr option_btn margin-top-10 mr5">
         <button class="btn btn-windows edit" onclick="edit()">任务调整</button>
         <button class="btn btn-windows delete"  onclick="see()">任务取消</button>
         <button class="btn btn-windows git" onclick="start()">受领</button>
       </span>
-   <div class="container margin-top-5">
-          <div class="content padding-left-25 padding-right-25 padding-top-5">
-               <table class="table table-striped table-bordered table-hover">
+    <div class="container">
+     <div class="content padding-left-25 padding-right-25 padding-top-5">
+    	<table class="table table-bordered table-condensed table-hover">
         <thead>
         <tr>
           <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
@@ -282,13 +284,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
          </c:forEach> 
          
 
-      </table>
-      </div>
+	</table>
+     </div>
+
+   </div>
       <div id="pagediv" align="right"></div>
    </div>
- </div>
-
-
  
      </body>
 </html>

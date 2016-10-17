@@ -720,7 +720,7 @@
 .back{
    background-image:url(../images/back.png);
    background-repeat:no-repeat;
-   background-position:10px 6px;
+   background-position:8px 6px;
 }
 .edit{
    background-image:url(../images/edit.png);
@@ -765,5 +765,5 @@
 .cancel{
    background-image:url(../images/cancel.png);
    background-repeat:no-repeat;
-   background-position:10px 6px;
+   background-position:8px 6px;
 }

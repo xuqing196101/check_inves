@@ -58,6 +58,7 @@
 			 </li>
 			 <li class="col-md-6  p0">
                <span class="fl">上级栏目：</span>
+               <div class="select_common mb10">
                  <select id="parent" name ="parent.id" class="w230" >
                     <option></option>
                     <c:forEach items="${list}" var="articletype">
@@ -75,11 +76,9 @@
 	  	 </ul>
 	</div>  	
 	<!-- 底部按钮 -->			          
-  <div  class="col-md-12 ml185">
-   <div class="fl padding-10">
-    <button class="btn btn-windows save" type="submit">更新</button>
-    <button class="btn btn-windows reset" onclick="history.go(-1)" type="button">返回</button>
-	</div>
+  <div  class="col-md-12 tc mt20">
+    <button class="btn btn-windows update" type="submit">更新</button>
+    <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
   </div>
      </form>
      </div>

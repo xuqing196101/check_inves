@@ -155,25 +155,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <h2>采购计划调整</h2>
    </div>
 <!-- 项目戳开始 -->
- 
-   <ul class="demand_list">
-    <li class="fl">
-    <input type="hidden" id="ide" value="${queryById.id}"/>
-    <label class="fl">
+   <div class="container clear">
+    <div class="p10_25">
+     <h2 class="padding-10">
+    <ul class="demand_list">
+      <li class="fl">
+        <input type="hidden" id="ide" value="${queryById.id}"/>
+        <label class="fl">
                            计划名称：<input type="text" id="fileName" name="fileName" value="${queryById.fileName}"/>
-     </label>
-     </li>
-     <li class="fl">
-     <label class="fl">
+        </label>
+      </li>
+      <li class="fl">
+        <label class="fl">
                                 计划编号：<input type="text" id="planNo" name="planNo" value="${queryById.planNo}"/> 
-     </label>
+        </label>
       </li>
        <%-- <label class="fl">计划类型：${collectPlan.fileName} </label>  --%>
      </ul>
    
      <div class="clear"></div>
-
- 
+     </h2>
+   </div>
+  </div>
    <div class="headline-v2 fl">
       <h2>需求明细调整
       </h2>
@@ -215,10 +218,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <td class="tc">${obj.department}</td>
               <td class="tc">${obj.goodsName}</td>
               <td class="tc">${obj.stand}</td>
-              <td class="tc"><input name="qualitStand" style="width:50%;"  value="${obj.qualitStand}"/></td>
-              <td class="tc"><input name="item" style="width:50%;"  value="${obj.item}"/></td>
-              <td class="tc"><input name="purchaseCount" style="width:50%;"  value="${obj.purchaseCount}"/></td>
-              <td class="tc"><input name="price" style="width:50%;"  value="${obj.price}"/></td>
+              <td class="tc"><input name="qualitStand" style="width:50%;"  value="${obj.qualitStand}" type="text"/></td>
+              <td class="tc"><input name="item" style="width:50%;"  value="${obj.item}" type="text"/></td>
+              <td class="tc"><input name="purchaseCount" style="width:50%;"  value="${obj.purchaseCount}" type="text"/></td>
+              <td class="tc"><input name="price" style="width:50%;"  value="${obj.price}" type="text"/></td>
               <td class="tc">${obj.budget}</td>
               <td class="tc">${obj.deliverDate}</td>
               <td class="tc">${obj.purchaseType}</td>

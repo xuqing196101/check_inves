@@ -85,7 +85,7 @@
   width: 220px; }
 
 .w230 {
-  width: 230px; }
+  width: 230px!important; }
 
 .w258 {
   width: 258px; }
@@ -692,7 +692,8 @@ border:1px solid #eeeeee;
 
 .lh28 {
   line-height: 28px; }
-
+.lh30 {
+  line-height: 30px!important; }
 .lh80 {
   line-height: 80px; }
 
@@ -781,7 +782,7 @@ ul.ul_list{
 	overflow:hidden;
 	background:#ffffff!important;
 	border:1px dashed #d6cccc!important;
-	padding:20px 0px 10px 0px!important;
+	padding:20px 0px 10px 20px!important;
 }
 .tip span{
 	min-width:100px!important;

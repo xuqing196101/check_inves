@@ -39,78 +39,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
 </head>
 <body>
-  <div class="wrapper">
-	<div class="header-v4 header-v5">
-    <!-- Navbar -->
-    <div class="navbar navbar-default mega-menu" role="navigation">
-      <div class="container">
-        <!-- logo和搜索 -->
-        <div class="navbar-header">
-          <div class="row container">
-            <div class="col-md-4 padding-bottom-30">
-              <a href="">
-                 <img alt="Logo" src="images/logo_2.png" id="logo-header">
-              </a>
-            </div>
-			<!--搜索开始-->
-            <div class="col-md-8 topbar-v1 col-md-12 ">
-              <ul class="top-v1-data padiing-0">
-			    <li>
-				<a href="#">
-				  <div><img src="images/top_01.png"/></div>
-				  <span>决策支持</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="images/top_02.png"/></div>
-				  <span>业务监管</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="images/top_03.png"/></div>
-				  <span>障碍作业</span>
-				 </a>
-				</li>	
-			    <li>
-				<a href="#">
-				  <div><img src="images/top_04.png"/></div>
-				  <span>信息服务</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="images/top_05.png"/></div>
-				  <span>支撑环境</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="images/top_06.png"/></div>
-				  <span>配置配置</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="images/top_07.png"/></div>
-				  <span>后台首页</span>
-				 </a>
-				</li>
-			    <li>
-				<a href="#">
-				  <div><img src="images/top_08.png"/></div>
-				  <span>安全退出</span>
-				 </a>
-				</li>
-				
-			  </ul>
-			</div>
-    </div>
-	</div>
-	</div>
-   </div>
-</div>
 
 <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
@@ -123,13 +51,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
    
 <!-- 修改订列表开始-->
-   <div class="container">
+   <div class="container bggrey border1 mt20">
    <form>
    <div>
-   <div class="headline-v2">
-   <h2>修改订单</h2>
-   </div>
-   <ul class="list-unstyled padding-left-40">
+    <h2 class="f16 count_flow mt40"><i>01</i>修改订单</h2>
+   <ul class="list-unstyled ul_list">
      <li class="col-md-3 margin-0 padding-0 ">
 	   <span class="col-md-12 padding-left-5">采购单位</span>
 	   <div class="input-append">
@@ -210,8 +136,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      <li class="col-md-3 margin-0 padding-0 ">
 	   <span class="col-md-12 padding-left-5">交付日期</span>
 	   <div class="input-append">
-        <input class="span5" id="appendedInput" type="text">
-        <span class="add-on"><img src="images/time_icon.png"/></span>
+        <input class="Wdate w230" id="appendedInput" type="text">
        </div>
 	 </li> 
      <li class="col-md-3 margin-0 padding-0 ">
@@ -240,17 +165,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    
   <!-- 产品明细开始-->
   <div class="padding-top-10 clear">
-   <div class="headline-v2">
-   <h2>产品明细</h2>
-   </div>
-   <ul class="list-unstyled padding-left-40">
+    <h2 class="f16 count_flow mt40"><i>02</i>产品明细</h2>
+   <ul class="list-unstyled ul_list">
      <li class="col-md-3 margin-0 padding-0 ">
 	   <span class="col-md-12 padding-left-5">品目</span>
 	   <div class="input-append">
         <input class="span5" id="appendedInput" type="text">
 		<div class="btn-group  margin-bottom-10">
           <button class="btn dropdown-toggle add-on" data-toggle="dropdown">
-		  <img src="images/down.png"/>
+		    <img src="<%=basePath%>public/ZHH/images/down.png" class="margin-bottom-5"/>
           </button>
           <ul class="dropdown-menu list-unstyled">
           </ul>
@@ -320,11 +243,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        </div>
 	 </li> 
 	 </ul>
-	 <div class="tab-v1 clear col-md-11 margin-20">
-      <h2 class="nav nav-tabs">
-	  </h2>
-    </div>
-	 <ul class="list-unstyled padding-left-40">
+	 <ul class="list-unstyled ul_list padding-left-20">
      <li class="col-md-4 margin-0 padding-0 ">
 	   <span class="col-md-12 padding-left-5">运费（元）</span>
 	   <div class="input-append col-md-12 padding-0 ">
@@ -347,66 +266,65 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        </div>
 	 </li> 
    </ul>
-   <div class="clear padding-left-40"><span>总计：</span><span>¥10000</span></div>
-   <div class="headline-v2">
-   <h2>上传附件</h2>
-   </div>
+     <div class="clear total f22"><span class="fl block">总计：</span><span>¥10000</span></div>
+    <h2 class="f16 count_flow mt40"><i>03</i>修改订单</h2>
   </div>
-  <div class="padding-left-40 padding-right-40 clear">
+  <div class="padding-left-40 padding-right-20 clear">
    <ul class="list-unstyled  bg8 padding-20">
     <li>1 . 仅支持jpg、jpeg、png、pdf等格式的文件;</li>
 	<li>2 . 单个文件大小不能超过1M;</li>
-	<li>3 . 上传文件的数量不超过10个;/li>
+	<li>3 . 上传文件的数量不超过10个;</li>
    </ul>
   </div>
   
-  <div  class="col-md-11">
-   <div class="fl padding-10">
+  <div  class="col-md-12">
+   <div class="fl padding-left-20">
     <button class="btn btn-windows add" type="submit">新增</button>
 	<button class="btn btn-windows delete" type="submit">删除</button>
 	<button class="btn btn-windows save" type="submit">保存</button>
 	<button class="btn btn-windows reset" type="submit">重置</button>
 	</div>
-	<div class="fr padding-top-15"><input type="checkbox"  class="margin-top-0 fl"/><span class="margin-left-5 fl">选中全部文件</span></div>
+	<div class="fr padding-top-15"><input type="checkbox"  class="margin-top-0 fl"/><span class="margin-left-5 fl padding-right-25">选中全部文件</span></div>
   </div>
   </form>
-  <div class="padding-left-40 padding-right-40 clear  ">
-   <ul class="list-unstyled bgdd padding-10">
-	<li class="padding-10"> 
-    <div class="col-md-6 padding-10">
-	 <div class="col-md-1 tc"><input type="checkbox"/></div>
-	 <div class="col-md-11 padding-0 tl">
-	 <div class="col-md-3 padding-0"> 
-        <a href="#" class="thumbnail margin-0">
-         <img src="images/yzm.jpg"/>
+  <div class="padding-left-40 padding-right-20 clear  ">
+   <ul class="list-unstyled bgdd">
+	<li> 
+    <div class="col-md-4 padding-10 fl">
+	 <div class="col-md-3 tc h60 fl"><input type="checkbox"/></div>
+	 <div class="col-md-9 padding-0 fl">
+	   <div class="fl suolue"> 
+        <a href="#" class="thumbnail mb0 suolue">
+         <img src="<%=basePath%>public/ZHH/images/suolue.jpg" class="suolue"/>
         </a>
-	  </div>
+	   </div>
 	 </div>
 	</div>
-	<div class="col-md-6 padding-10">
-	 <div class="col-md-9">1oa－1000乘370.jpg</div>
-	 <div class="col-md-3">614.82KB</div>
+	<div class="col-md-8 padding-10 h60 fl">
+	 <div class="col-md-9 fl">1oa－1000乘370.jpg</div>
+	 <div class="col-md-3 fl">614.82KB</div>
 	</div>
 	<div class="clear"></div>
-   </div>
   </li>
+<li> 
+    <div class="col-md-4 padding-10 fl">
+	 <div class="col-md-3 tc h60 fl"><input type="checkbox"/></div>
+	 <div class="col-md-9 padding-0 fl">
+	   <div class="fl suolue"> 
+        <a href="#" class="thumbnail mb0 suolue">
+         <img src="<%=basePath%>public/ZHH/images/suolue.jpg" class="suolue"/>
+        </a>
+	   </div>
+	 </div>
+	</div>
+	<div class="col-md-8 padding-10 h60 fl">
+	 <div class="col-md-9 fl">1oa－1000乘370.jpg</div>
+	 <div class="col-md-3 fl">614.82KB</div>
+	</div>
+	<div class="clear"></div>
+  </li>
+  </ul>
+  </div>
  </div>
- <!--底部代码开始-->
-<div class="footer-v2" id="footer-v2">
-
-      <div class="footer">
-
-            <!-- Address -->
-              <address class="">
-			  Copyright © 2016 版权所有：中央军委后勤保障部 京ICP备09055519号
-              </address>
-              <div class="">
-		       浏览本网主页，建议将电脑显示屏的分辨率调为1024*768
-              </div> 
-            <!-- End Address -->
-
-<!--/footer--> 
-      </div>
-</div>
 </body>
 </html>

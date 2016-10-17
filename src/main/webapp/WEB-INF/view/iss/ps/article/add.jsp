@@ -81,6 +81,7 @@
           </ul>
        </div>
        </div> --%>
+       <div class="select_common mb10">
        <select name="articleType.id" class="w220">
           	<option></option>
           	<c:forEach items="${list}" var="list" varStatus="vs">
@@ -88,6 +89,7 @@
 		    </c:forEach>
           </select>
           <div class="validate">${ERR_typeId}</div>
+       </div>
 	 </li> 
      <li class="col-md-6  p0 ">
 	   <span class=""><i class="red">＊</i>发布范围：</span>
@@ -122,7 +124,7 @@
 	    <span class="fl">上传附件：</span>
 	    <div class="fl" id="uploadAttach" >
 	      <input id="pic" type="file" class="toinline" name="attaattach"/>
-	      <input class="toinline" type="button" value="添加" onclick="addAttach()"/><br/>
+	      <input class="toinline btn" type="button" value="添加" onclick="addAttach()"/><br/>
 	    </div>
 	 </li>
   	 </ul> 

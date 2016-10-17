@@ -194,7 +194,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="tab-pane fade in" id="dep_tab-1">
     <div class="content-boxes-v2 space-lg-hor content-sm ">
      <h2 class="heading-sm">
-       <i class="icon-custom icon-sm icon-bg-red fa fa-lightbulb-o"></i>
        <span>抱歉，没有找到相关信息。</span>
      </h2>
     </div>
@@ -208,7 +207,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <div class="margin-bottom-10">
             <div class="headline">
               <h3 class="heading-sm">修改详细信息</h3>
-              <div class="f14 fr"><span>14:27:16</span> <span>2016-08-01</span></div>
+              <div class="f14 fr"><span>2016-08-01</span><span>14:27:16</span></div>
             </div>
             <table class="table table-bordered mb0">
             <thead>
@@ -227,7 +226,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
              </tbody>
             </table>
            </div>
-          <div class="cbp_detail"><div class="mr15 fl">状态:<span class="label rounded-2x label-u">正常</span></div><span>姓名:李四</span><span>ID:154234</span><span>单位:xxxxx有限公司</span><span>IP地址:61.136.254.125|北京市</span></div>
+          <div class="cbp_detail"><div class="mr15 fl">状态：<span class="label rounded-2x label-u">正常</span></div><span>姓名：李四</span><span>ID：154234</span><span>单位：xxxxx有限公司</span><span>IP地址：61.136.254.125|北京市</span></div>
         </div>
       </li>
       <li>
@@ -235,10 +234,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
          <h4 class="f14 b">修改数据 </h4>
           <div class="margin-bottom-10"><div class="headline">
             <h3 class="heading-sm">修改详细信息</h3>
-            <div class="f14 fr"><span>14:27:16</span> <span>2016-08-01</span></div>
+            <div class="f14 fr"> <span>2016-08-01</span><span>14:27:16</span></div>
           </div>
           <table class="table table-bordered mb0"><thead><tr><th>参数名称</th><th>修改前</th><th>修改后</th></tr></thead><tbody><tr><td>详细地址</td><td>北京市西四环中路156号院845号楼（金沟河桥东南角）</td><td>北京市西四环中路123号院34号楼</td></tr></tbody></table></div>
-          <div class="cbp_detail"><div class="mr15 fl">状态:<span class="label rounded-2x label-u">正常</span></div><span>姓名:张三</span><span>ID:151234</span><span>单位:xxxxx有限公司</span><span>IP地址:61.135.234.125|北京市</span></div>
+          <div class="cbp_detail"><div class="mr15 fl">状态：<span class="label rounded-2x label-u">正常</span></div><span>姓名：张三</span><span>ID：151234</span><span>单位：xxxxx有限公司</span><span>IP地址：61.135.234.125|北京市</span></div>
         </div>
       </li>
 
