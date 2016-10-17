@@ -353,8 +353,8 @@ function zTreeOnClick(event,treeId,treeNode){
    <input type="hidden" name="isPass" id="isPass"/>
   <div class="tab-content padding-top-20" style="height: 850px;">
 	<div class="tab-pane fade active in height-450" id="tab-1">
-	<div class=" margin-bottom-0">
-	<!-- <i>01</i>评标专家基本信息 -->
+	<div class=" f16 count_flow fl">
+	<i>01</i>评标专家基本信息
    </div>
    <ul class="list-unstyled list-flow p0_20">
      <li class="col-md-6 p0">
@@ -610,6 +610,9 @@ function zTreeOnClick(event,treeId,treeNode){
   </div>
   </div> 
    <div class="tab-pane fade height-450" id="tab-2">
+   <div class=" f16 count_flow fl">
+	<i>02</i>评标专家类型
+   </div>
 		<div class="margin-bottom-0  categories">
 		 <ul class="list-unstyled list-flow" style="margin-left: 250px;">
      		<li class="p0">

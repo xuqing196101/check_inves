@@ -84,7 +84,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <tr>
         <th>初审项名称:</th><td><input type="text" name="name" id="name" value="${firstAudit.name }"></td>
         <th>要求类型:</th><td><input type="radio" name="kind"  <c:if test="${fn:contains(firstAudit.kind,'商务')}">checked="true"</c:if> value="商务" >商务&nbsp;<input type="radio" id="kind" name="kind"<c:if test="${fn:contains(firstAudit.kind,'技术')}">checked="true"</c:if> value="技术" >技术</td>
-        <th>创建人:</th><td><input name="creater" type="text" id="creater" value="${firstAudit.creater }"></td>
+        <th>创建人:</th><td><input name="creater" readonly="readonly" type="text" id="creater" value="${firstAudit.creater }"></td>
       </tr>
       <tr>
       <input type="hidden" name="projectId" value="${firstAudit.projectId }">

@@ -105,7 +105,7 @@ function submit1(){
       <tr>
         <th>初审项模板名称:</th><td><input type="text" id="name" maxlength="30" name="name" ></td>
         <th>初审项模板类型:</th><td><input type="radio" name="kind"  value="商务" >商务&nbsp;<input type="radio" name="kind" id="kind" value="技术" >技术</td>
-        <th>创建人:</th><td><input name="creater" id="creater"  maxlength="10" type="text" value="${sessionScope.loginUser.relName}" ></td>
+        <th>创建人:</th><td><input name="creater" readonly="readonly" id="creater"  maxlength="10" type="text" value="${sessionScope.loginUser.relName}" ></td>
         <th>是否公开:</th><td><input name="isOpen"  maxlength="10" type="radio" value="0" >公开&nbsp;<input name="isOpen" id="isOpen" maxlength="10" type="radio" value="1" >私有</td>
         <th>是否可用:</th><td><input name="isUse"  maxlength="10" type="radio" value="0" >可用&nbsp;<input name="isUse" id="isUse"  maxlength="10" type="radio" value="1" >不可用</td>
       </tr>

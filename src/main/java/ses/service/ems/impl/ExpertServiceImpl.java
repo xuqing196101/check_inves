@@ -278,7 +278,7 @@ public class ExpertServiceImpl implements ExpertService {
 			//查出当前登录的用户个人信息
 			Expert expert = mapper.selectByPrimaryKey(typeId);
 			if(expert!=null){
-				if(expert.getIsSubmit().equals("0") || expert.getStatus().equals("3")){
+				if((expert.getIsSubmit().equals("0") || expert.getStatus().equals("3"))&&!expert.getIsBlack().equals("1")){
 						//如果专家信息不为null 并且状态为暂存  或者为退回修改 就证明该专家填写过个人信息 需要重新填写 并注册提交审核
 						//放入专家信息   用于前台回显数据
 						map.put("expert", expert);

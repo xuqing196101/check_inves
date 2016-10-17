@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.prms.PackageFirstAuditMapper">
+  <resultMap id="BaseResultMap" type="bss.model.prms.PackageFirstAudit">
+    <result column="PACKAGE_ID" jdbcType="VARCHAR" property="packageId" />
+    <result column="FIRST_AUDIT_ID" jdbcType="VARCHAR" property="firstAuditId" />
+    <result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+  PACKAGE_ID,FIRST_AUDIT_ID,PROJECT_ID
+  </sql>
+  <!-- 根据包id删除 -->
+   <delete id="deleteByPackageId" parameterType="java.lang.String">
+    delete from T_BSS_PRMS_PACKAGE_FIRST_AUDIT
+    where PACKAGE_ID = #{packageId,jdbcType=VARCHAR}
+  </delete>
+  <!-- 根据项目id和包id查询关联表集合 -->
+  <select id="selectList"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PRMS_PACKAGE_FIRST_AUDIT
+    where PACKAGE_ID = #{packageId,jdbcType=VARCHAR} AND PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" parameterType="bss.model.prms.PackageFirstAudit">
+    insert into T_BSS_PRMS_PACKAGE_FIRST_AUDIT (PACKAGE_ID, FIRST_AUDIT_ID, PROJECT_ID
+      )
+    values (#{packageId,jdbcType=VARCHAR}, #{firstAuditId,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="bss.model.prms.PackageFirstAudit">
+    insert into T_BSS_PRMS_PACKAGE_FIRST_AUDIT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="packageId != null">
+        PACKAGE_ID,
+      </if>
+      <if test="firstAuditId != null">
+        FIRST_AUDIT_ID,
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="packageId != null">
+        #{packageId,jdbcType=VARCHAR},
+      </if>
+      <if test="firstAuditId != null">
+        #{firstAuditId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

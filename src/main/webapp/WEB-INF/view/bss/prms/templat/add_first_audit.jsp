@@ -217,7 +217,7 @@ function selectAll(){
       <tr>
         <th>初审项名称:</th><td><input type="text" id="name" maxlength="30" name="name" ></td>
         <th>要求类型:</th><td><input type="radio" name="kind" value="商务" >商务&nbsp;<input type="radio" name="kind" id="kind" value="技术" >技术</td>
-        <th>创建人:</th><td><input name="creater" id="creater" maxlength="10" type="text" value="${sessionScope.loginUser.relName}"></td>
+        <th>创建人:</th><td><input name="creater" readonly="readonly" id="creater" maxlength="10" type="text" value="${sessionScope.loginUser.relName}"></td>
       </tr>
       <input type="hidden" name="templatId" value="${templat.id }">
      </thead>

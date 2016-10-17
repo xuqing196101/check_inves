@@ -40,108 +40,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
 <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
     <script type="text/javascript">
-	function submit1(){
-		
-		<%-- $.ajax({
-			url:"<%=basePath %>firstAudit/add.html",
-			data:$("#form1").serialize(),
-			type:"post",
-			success:function(){
-				window.location.reload();
-			},
-			error:function(){
-				layer.msg("添加失败",{offset: ['222px', '390px']});
-			}
-		}); --%>
-		var name = $("#name").val();
-		if(!name){
-			layer.tips("请填写名称", "#name");
-			return ;
-		}
-		var id=[]; 
-		$('input[name="kind"]:checked').each(function(){ 
-			id.push($(this).val());
-		}); 
-		if(id.length==0){
-			layer.tips("请选择类型", "#kind");
-			return ;
-		}
-		
-		var creater = $("#creater").val();
-		if(!creater){
-			layer.tips("请填写名称", "#creater");
-			return ;
-		}
-		$("#form1").submit();
-		//$("#form1").reset();
-	}
-	 var index;
-	function cancel(){
-	   layer.close(index);
-	}
-	function openWindow(){
-		index = layer.open({
-	          type: 1, //page层
-	          area: ['700px', '200px'],
-	          title: '手动添加初审项',
-	          shade:0.01, //遮罩透明度
-	          moveType: 1, //拖拽风格，0是默认，1是传统拖动
-	          shift: 1, //0-6的动画形式，-1不开启
-	          offset: ['100px', '100px'],
-	          shadeClose: true,
-	          content:$('#openWindow') //数组第二项即吸附元素选择器或者DOM $('#openWindow')
-		 });
-	}
-	function remove(id){
-		layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
-	 			layer.close(index);
-	 			$.ajax({
-	 				url:"<%=basePath%>firstAudit/remove.html?id="+id,
-	 				//data:{"id":id},
-	 				//type:"post",
-	 	       		success:function(){
-	 	       			layer.msg('删除成功',{offset: ['222px', '390px']});
-	 		       		window.setTimeout(function(){
-	 		       			window.location.reload();
-	 		       		}, 500);
-	 	       		},
-	 	       		error: function(){
-	 					layer.msg("删除失败",{offset: ['222px', '390px']});
-	 				}
-	 	       	});
-	 		});
-		
-	}
-	function edit(id){
-		  layer.open({
-	          type: 2, //page层
-	          area: ['700px', '200px'],
-	          title: '修改初审项',
-	          shade:0.01, //遮罩透明度
-	          moveType: 1, //拖拽风格，0是默认，1是传统拖动
-	          shift: 1, //0-6的动画形式，-1不开启
-	          offset: ['100px', '100px'],
-	          closeBtn: 1,
-	          content:'<%=basePath %>firstAudit/toEdit.html?id='+id
-	        		  //数组第二项即吸附元素选择器或者DOM $('#openWindow')
-		 });
-	}
-	//打开模板窗口列表
-	function openTemplat(){
-		layer.open({
-	          type: 2, //page层
-	          area: ['700px', '400px'],
-	          title: '选择模板',
-	          shade:0.01, //遮罩透明度
-	          moveType: 1, //拖拽风格，0是默认，1是传统拖动
-	          shift: 1, //0-6的动画形式，-1不开启
-	          offset: ['100px', '90px'],
-	          closeBtn: 1,
-	          content:'<%=basePath %>firstAudit/toTemplatList.html'
-	        		  //数组第二项即吸附元素选择器或者DOM $('#openWindow')
-		 });
-		
-	}
+    var result;
+    $(function(){
+    	var packageId=	$("input[name='packageId']").val();
+    	var flag="${flag}";
+    	if(flag=="success"){
+    		layer.msg("关联成功",{offset: ['222px', '390px']});
+    	}
+    })
+    
 	 /** 全选全不选 */
     function selectAll(){
          var checklist = document.getElementsByName ("chkItem");
@@ -150,7 +57,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                for(var i=0;i<checklist.length;i++)
                {
                   checklist[i].checked = true;
-               } 
+               }
              }else{
               for(var j=0;j<checklist.length;j++)
               {
@@ -158,6 +65,34 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               }
             }
         }
+	 function submit1(obj){
+		 
+		 var count = 0;
+	  	  var ids = document.getElementsByName("chkItem");
+	   
+	       for(i=0;i<ids.length;i++) {
+	     		 if(document.getElementsByName("chkItem")[i].checked){
+	     		 var id = document.getElementsByName("chkItem")[i].value;
+	     		//var value = id.split(",");
+	     		 count++;
+	      }
+	    }
+	       var parent = obj.parentNode; 
+	       while(parent .tagName == "form")
+	       {
+	           parent = parent .parentNode;
+	           break;
+	       }
+	       if(count>0){
+	    	   var packageId=	$("input[name='packageId']").val();
+	    	   $("#packageIds").val(packageId);
+	    	   parent.submit();
+	    	   
+	       }else{
+	    	   layer.alert("请选择一条初审项",{offset: ['222px', '390px'],shade:0.01});
+	    	   return;
+	       }
+	 }
 </script>
   </head>
   
@@ -190,8 +125,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						 	   <div class="container clear margin-top-30" id="package">
 							   <h5>01、项目分包信息</h5>
 								   <c:forEach items="${packageList }" var="pack" varStatus="p">
+								   		<form action="<%=basePath%>packageFirstAudit/relate.html" method="post" id="form1">
+								   		<input type="hidden" name="packageIds" id="packageIds">
+								   		<input type="button" onclick="submit1(this);" value="关联" class="btn btn-windows add"><br/>
+								   		<input type="hidden" id="packageId" name="packageId" value="${pack.id }"/>
+								   		<input type="hidden" name="projectId" value="${projectId}">
 								   		<span>包名:<span>${pack.name }</span>
-								   		<input type="hidden" value="${pack.id }"/>
 								   		</span>
 								   		
 								   		<table class="table table-bordered table-condensed mt5">
@@ -234,30 +173,35 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							            </tr>
 							         </c:forEach> 
 							      </table>
+									       <table class="table table-bordered table-condensed mt5">
+								 	            <h5>02、项目初审项信息</h5>
+											    <thead>
+											      <tr>
+											      	<th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
+											        <th>初审项名称</th>
+											        <th>要求类型</th>
+											        <th>创建人</th>
+											      </tr>
+											     </thead>
+											      <c:forEach items="${list }" var="l" varStatus="vs">
+												      <thead>
+												      
+												       <tr>
+												        <td class="tc w30"><input <c:if test="${id.firstAuditId==l.id && id.packageId==pack.id }"> checked</c:if> type="checkbox" value="${l.id }" name="chkItem" alt=""></td>
+												        <td align="center">${l.name } </td>
+												        <td align="center">${l.kind }</td>
+												        <td align="center">${l.creater }</td>
+												      </tr>
+												     
+												      </thead>
+										      	  </c:forEach>
+								   		  </table>
+						   		      </form>
 								   </c:forEach>
+								   
 							   </div> 
 							<div class="container clear margin-top-30" id="package">
-						 	 <table class="table table-bordered table-condensed mt5">
-						 	  <h5>02、项目初审项信息</h5>
-							    <thead>
-							      <tr>
-							      	<th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
-							        <th>初审项名称</th>
-							        <th>要求类型</th>
-							        <th>创建人</th>
-							      </tr>
-							     </thead>
-							      <c:forEach items="${list }" var="l" varStatus="vs">
-								      <thead>
-								       <tr>
-								        <td class="tc w30"><input type="checkbox" value="${l.id }" name="chkItem" onclick="check()"  alt=""></td>
-								        <td align="center">${l.name }</td>
-								        <td align="center">${l.kind }</td>
-								        <td align="center">${l.creater }</td>
-								      </tr>
-								      </thead>
-						      	  </c:forEach>
-						    </table>
+						 	
 						 </div>	
 						</div>
                       </div>
