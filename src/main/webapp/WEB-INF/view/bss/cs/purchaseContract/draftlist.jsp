@@ -156,7 +156,6 @@
 			layer.alert("请选择要生成的合同草稿",{offset: ['222px', '390px'], shade:0.01});
 		}
   	}
-  	c
   	function save(){
   		var ids =[];
   		$('input[name="chkItem"]:checked').each(function(){ 
@@ -173,7 +172,6 @@
 	function cancel(){
 		layer.close(ind);
 	}
->>>>>>> Stashed changes
   </script>
   </head>
   

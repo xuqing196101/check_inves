@@ -261,7 +261,7 @@
    		<input type="hidden" name="id" value="${draftCon.id}"/>
    		<input type="hidden" name="supplierPurId" value="${draftCon.supplierPurId}"/>
    		<input type="hidden" name="projectName" value="${draftCon.projectName}"/>
-   		<h2 class="f16 jbxx"><i>01</i>基本信息</h2>
+   		<h2 class="f16 count_flow mt40"><i>01</i>基本信息</h2>
    		<input type="hidden" name="approvalNumber" id="appN" value=""/>
    		<ul class="list-unstyled list-flow ul_list">
    			<input type="hidden" class="contract_id" name="contract_id">
@@ -323,7 +323,7 @@
 			 </li>
 			 <div class="clear"></div>
 		 </ul>
-   		<h2 class="f16 jbxx"><i>02</i>甲方信息</h2>
+   		<h2 class="f16 count_flow mt40"><i>02</i>甲方信息</h2>
 		 <ul class="list-unstyled list-flow ul_list">
     		 <li class="col-md-6 p0">
 			   <span class=""><div class="red star_red">*</div>甲方单位：</span>
