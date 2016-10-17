@@ -1867,3 +1867,9 @@ img.img-mouse {
 .flow_step li i{
   background-color:#F6BC24;
  }
+ 
+ 
+ .span5{
+   width:200px;
+   float:left;
+ }

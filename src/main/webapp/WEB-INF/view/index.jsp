@@ -144,7 +144,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			                   				<ul class="dropdown-menuson dropdown-menu">
 				                   				<c:forEach items="${sessionScope.resource}" var="r" varStatus="vs">
 				                   					<c:if test="${res.id == r.parentId.id}">
-							                   			<li><a href="<%=basePath%>${r.url}" target="home" class="son-menu"><span class="mr5">◇</span>${r.name }</a></li>
+							                   			<li><a href="<%=basePath%>${r.url}" target="home" class="son-menu son-three"><span class="mr5">◇</span>${r.name }</a></li>
 				                   					</c:if>
 				                   				</c:forEach>
 			                   				</ul>
@@ -164,6 +164,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					    	<a href="<%=basePath%>static/backbottom.jsp" target="home" class="son-menu"><span class="mr5">◇</span>后台主页</a>
 							<a href="<%=basePath%>static/backhead.jsp" target="home" class="son-menu"><span class="mr5">◇</span>后台头部</a>
 							<a href="<%=basePath%>static/detail.jsp" target="home" class="son-menu"><span class="mr5">◇</span>表单页面</a>
+							<a href="<%=basePath%>static/details.jsp" target="home" class="son-menu"><span class="mr5">◇</span>上下结构表单页面</a>
 							<a href="<%=basePath%>static/order.jsp" target="home" class="son-menu"><span class="mr5">◇</span>列表页面</a>
 							<a href="<%=basePath%>static/show_order.jsp" target="home" class="son-menu"><span class="mr5">◇</span>详情页面</a>
 							<a href="<%=basePath%>static/manage.jsp" target="home" class="son-menu"><span class="mr5">◇</span>左右布局页面</a>
@@ -190,7 +191,7 @@ if(ifm != null && subWeb != null) {
 </script>
 <!-- 后台管理内容开始-->
 <div >
-	<iframe  frameborder="0" name="home" id="iframepage" scrolling="no" marginheight="0"  width="100%" onLoad="iFrameHeight()" src="<%=basePath%>login/home.do"></iframe>
+	<iframe  frameborder="0" name="home" id="iframepage" scrolling="auto" marginheight="0"  width="100%" onLoad="iFrameHeight()" src="<%=basePath%>login/home.do"></iframe>
 </div>
 
 <!--底部代码开始-->
