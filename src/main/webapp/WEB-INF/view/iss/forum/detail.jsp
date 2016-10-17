@@ -77,9 +77,11 @@
   }
   function writeHtml(id){
 	  var pu = $("#"+id);
-	  var html = $("#publish").html();	  
-	  alert(pu.next().has('div').length);
-	  if(pu.next().has('div').length != 0 ){
+	  var html = "<div class='sign_answer'>";
+	  html += $("#publish").html();
+	  html += "</div>";
+	  if(pu.next(".sign_answer").size() == 0 ){
+		  $("div").remove(".sign_answer");
 		  pu.after(html);  
 	      $("#publishButton").attr("onclick","publishForReply('"+id+"')");
 	 }
