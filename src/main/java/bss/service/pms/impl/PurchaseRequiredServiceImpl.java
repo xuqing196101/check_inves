@@ -87,6 +87,17 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 		 
 		return purchaseRequiredMapper.statisticDepartment(map);
 	}
+
+	@Override
+	public List<PurchaseRequired> selectByParentId(Map<String, Object> map) {
+		return purchaseRequiredMapper.selectByParentId(map);
+	}
+
+	@Override
+	public List<PurchaseRequired> selectByParent(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return purchaseRequiredMapper.selectByParent(map);
+	}
 	
 	 
 

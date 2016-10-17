@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -25,6 +26,8 @@ import ses.model.oms.PurchaseInfo;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.oms.PurchaseServiceI;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 
 import bss.controller.base.BaseController;
@@ -101,11 +104,11 @@ public class ProjectController extends BaseController{
 	* @return String
 	 */
 	@RequestMapping("/add")
-	public String add(Integer page,Model model,Task task,HttpServletRequest request){
-		List<Task> list = taskservice.listAll(page==null?1:page, task);
-		PageInfo<Task> info = new PageInfo<Task>(list);
+	public String add(Integer page,Model model,PurchaseRequired purchaseRequired,HttpServletRequest request){
+		List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired, page==null?1:page);
+		PageInfo<PurchaseRequired> info = new PageInfo<PurchaseRequired>(list);
 		model.addAttribute("info", info);
-		model.addAttribute("task", task);
+		model.addAttribute("purchaseRequired", purchaseRequired);
 		//显示项目明细
 		String idr = (String) request.getSession().getAttribute("idr");
 		List<ProjectDetail> list2 = new ArrayList<>();
@@ -123,6 +126,29 @@ public class ProjectController extends BaseController{
 		
 		return "bss/ppms/project/add";
 	}
+	@RequestMapping("/checkDeail")
+	public void checkDeail(HttpServletResponse response, String id, Model model) throws IOException{
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(id);
+		if("1".equals(purchaseRequired.getParentId())){
+			map.put("id", purchaseRequired.getId());
+			List<PurchaseRequired> list = purchaseRequiredService.selectByParentId(map);
+			String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
+			response.setContentType("text/html;charset=utf-8");
+			response.getWriter().write(json);
+			response.getWriter().flush();
+			response.getWriter().close();
+		}
+		map.put("id", purchaseRequired.getId());
+		List<PurchaseRequired> list = purchaseRequiredService.selectByParent(map);
+		String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
+		response.setContentType("text/html;charset=utf-8");
+		response.getWriter().write(json);
+		response.getWriter().flush();
+		response.getWriter().close();
+		
+		
+	}
 	/**
 	 * 
 	* @Title: create
@@ -138,8 +164,9 @@ public class ProjectController extends BaseController{
 	public String create(String id,Model model){
 		String[] ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
-			Task task = taskservice.selectById(ids[i]);
-			model.addAttribute("task", task);
+			PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(ids[i]);
+			
+			model.addAttribute("purchaseRequired", purchaseRequired);
 		}
 		return "bss/ppms/project/addProject";
 	}
@@ -321,7 +348,7 @@ public class ProjectController extends BaseController{
 	* @return String
 	 */
 	@RequestMapping("/viewDetail")
-	public String viewDetail(String id,String ids,Model model,HttpServletRequest request){
+	public String viewDetail(String id,String ids,Integer page,Model model,HttpServletRequest request){
 		if(ids == null){
 			HashMap<String,Object> map = new HashMap<String,Object>();
 			String tt = (String) request.getSession().getAttribute("tt");
@@ -334,6 +361,16 @@ public class ProjectController extends BaseController{
 			HashMap<String,Object> map = new HashMap<String,Object>();
 			map.put("id", ids);
 			List<ProjectDetail> detailList = detailService.selectById(map);
+			Project project = projectService.selectById(ids);
+			List<Task> lists = taskservice.listBy(null, page==null?1:page);
+			List<ProjectTask> list = projectTaskService.queryByNo(map);
+			for (ProjectTask projectTask : list) {
+				Task task = taskservice.selectById(projectTask.getTaskId());
+				lists.add(task);
+			}
+			PageInfo<Task> info = new PageInfo<Task>(lists);
+			model.addAttribute("info", info);
+			model.addAttribute("project", project);
 				model.addAttribute("lists", detailList);
 				model.addAttribute("ids", ids);
 			return "bss/ppms/project/essential_information";

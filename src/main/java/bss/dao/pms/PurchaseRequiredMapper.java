@@ -149,6 +149,17 @@ public interface PurchaseRequiredMapper {
     * @throws
      */
     List<Map<String,Object>> statisticDepartment(Map<String,Object> map);
+    /**
+     * 
+    * @Title: selectByParentId
+    * @author FengTian
+    * @date 2016-10-17 上午9:43:33  
+    * @Description: 根据父节点查询子节点 
+    * @param @param map
+    * @param @return      
+    * @return List<PurchaseRequired>
+     */
+    List<PurchaseRequired> selectByParentId(Map<String, Object> map);
     
-    
+    List<PurchaseRequired> selectByParent(Map<String, Object> map);
 }

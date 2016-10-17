@@ -61,6 +61,16 @@
 		from T_BSS_PMS_PURCHASE_REQUIRED
 		where ID = #{id,jdbcType=VARCHAR}
 	</select>
+	<select id="selectByParentId"  resultMap="PurchaseRequired_Map">
+        select * from T_BSS_PMS_PURCHASE_REQUIRED 
+        start with ID = #{id} 
+        connect by prior ID = PARENT_ID
+    </select>
+    <select id="selectByParent"  resultMap="PurchaseRequired_Map">
+        select * from T_BSS_PMS_PURCHASE_REQUIRED 
+        start with ID = #{id} 
+        connect by prior PARENT_ID = ID
+    </select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
 		delete from T_BSS_PMS_PURCHASE_REQUIRED
 		where ID = #{id,jdbcType=VARCHAR}

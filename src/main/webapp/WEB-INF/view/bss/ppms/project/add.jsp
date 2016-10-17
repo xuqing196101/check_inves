@@ -76,31 +76,33 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   });
   
     
-    /** 单选 */
-    function check(){
-        var id =[]; 
-        $('input[name="chkItem"]:checked').each(function(){ 
-            id.push($(this).val()); 
-        }); 
-        if(id.length==1){
-           layer.open({
-          type: 2, //page层
-          area: ['900px', '700px'],
-         // title: '您是要取消任务吗？',
-          shade:0.01, //遮罩透明度
-          moveType: 1, //拖拽风格，0是默认，1是传统拖动
-          shift: 1, //0-6的动画形式，-1不开启
-          offset: ['220px', '630px'],
-          shadeClose: true,
-          content: '<%=basePath%>project/viewDet.html?id='+id
-        });
-        }else if(id.length>1){
-            layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
-        }
-        
+    /** 勾选父子节点 */
+    function check(ele){
+        var flag = $(ele).prop("checked");
+        var id = $(ele).val();
+        $.ajax({
+                    url:"<%=basePath%>project/checkDeail.html",
+                    data:"id="+id,
+                    type:"post",
+                    dataType:"json",
+                    success:function(result){
+                       for (var i = 0; i < result.length; i++) {
+                           $("input[name='chkItem']").each(function() {
+                                var v1 = result[i].id;
+                                var v2 = $(this).val();
+                                if (v1 == v2) {
+                                    $(this).prop("checked", flag);
+                                }
+                           });
+                       }
+                    },
+                    error: function(){
+                        layer.msg("受领失败",{offset: ['222px', '390px']});
+                    }
+                });
     }
     
-        function add(){
+        <%-- function add(){
         var idss = $("input[name='idss']").val();
         if(!idss){
            layer.alert("请选择",{offset: ['222px', '390px'], shade:0.01});
@@ -117,6 +119,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           offset: ['220px', '630px'],
           shadeClose: true,
           content: '<%=basePath%>project/create.html?id='+idss
+        });
+        }
+    } --%>
+    
+    function add(){
+        var id =[]; 
+        $('input[name="chkItem"]:checked').each(function(){ 
+            id.push($(this).val()); 
+        }); 
+        if(id.length>0){
+           layer.open({
+          type: 2, //page层
+          area: ['1000px', '500px'],
+         // title: '您是要取消任务吗？',
+          shade:0.01, //遮罩透明度
+          moveType: 1, //拖拽风格，0是默认，1是传统拖动
+          shift: 1, //0-6的动画形式，-1不开启
+          offset: ['100px', '250px'],
+          shadeClose: true,
+          content: '<%=basePath%>project/create.html?id='+id
         });
         }
     }
@@ -184,7 +206,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  <input type="hidden" name="idss" value="${idss }">
  <input type="hidden" name="idr" id="idr" value="${sessionScope.idr }">
    <div class="headline-v2 fl">
-      <h2>选择采购任务
+      <h2>选择需求明细
       </h2>
    </div> 
    <span class="fr option_btn margin-top-10">
@@ -195,35 +217,52 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <table class="table table-striped table-bordered table-hover">
         <thead>
         <tr>
-          <th class="info w50">序号</th>
-          <th class="info">采购任务名称</th>
-          <th class="info">采购管理部门</th>
-          <th class="info">下达文件编号</th>
-          <th class="info">状态</th>
-          <th class="info">下达时间</th>
-          <th class="info">操作</th>
+           <th class="info w50">序号</th>
+          <th class="info">需求部门</th>
+          <th class="info">物资名称</th>
+          <th class="info">规格型号</th>
+          <th class="info">质量技术标准</th>
+          <th class="info">计量单位</th>
+          <th class="info">采购数量</th>
+          <th class="info">单价（元）</th>
+          <th class="info">预算金额（万元）</th>
+          <th class="info">交货期限</th>
+          <th class="info">采购方式建议</th>
+          <th class="info">供应商名称</th>
+          <th class="info">是否申请办理免税</th>
+          <th class="info">物资用途（进口）</th>
+          <th class="info">使用单位（进口）</th>
+          <th class="info w50">选择</th>
         </tr>
         </thead>
-         <c:forEach items="${info.list}" var="obj" varStatus="vs">
-          <c:if test="${'0'==obj.status}">
+            <tbody id="tbody_id">
+                 <c:forEach items="${info.list}" var="obj" varStatus="vs">
+          <%-- <c:if test="${'0'==obj.status}"> --%>
             <tr style="cursor: pointer;">
-              <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-              <td class="tc" >${obj.name}</td>
-              <td class="tc">${obj.purchaseId }</td>
-              <td class="tc" >${obj.documentNumber }</td>
-              <td class="tc">
-                  <c:if test="${'0'==obj.status}"><span class="label rounded-2x label-u">受领</span></c:if>
-              </td>
-              <td class="tc" ><fmt:formatDate value="${obj.giveTime }"/></td>
-              <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
+              <td class="tc w50">${obj.seq}</td>
+              <td class="tc">${obj.department}</td>
+              <td class="tc">${obj.goodsName}</td>
+              <td class="tc">${obj.stand}</td>
+              <td class="tc">${obj.qualitStand}</td>
+              <td class="tc">${obj.item}</td>
+              <td class="tc">${obj.purchaseCount}</td>
+              <td class="tc">${obj.price}</td>
+              <td class="tc">${obj.budget}</td>
+              <td class="tc">${obj.deliverDate}</td>
+              <td class="tc"> ${obj.purchaseType}</td>
+              <td class="tc">${obj.supplier}</td>
+              <td class="tc">${obj.isFreeTax}</td>
+              <td class="tc">${obj.goodsUse}</td>
+              <td class="tc">${obj.useUnit}</td>
+              <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onchange="check(this)"  alt=""></td>
             </tr>
-          </c:if>
-         </c:forEach> 
+          <%-- </c:if> --%>
+         </c:forEach>
+            </tbody> 
          
 
       </table>
       
-      <div id="pagediv" align="right"></div>
    </div>
  </div>
     
@@ -246,7 +285,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <th class="info">是否申请办理免税</th>
           <th class="info">物资用途（进口）</th>
           <th class="info">使用单位（进口）</th>
-          <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
         </tr>
         </thead>
           <c:forEach items="${lists}" var="obj" varStatus="vs">
@@ -266,7 +304,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <td class="tc">${obj.isFreeTax}</td>
               <td class="tc">${obj.goodsUse}</td>
               <td class="tc">${obj.useUnit}</td>
-              <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
             </tr>
      
          </c:forEach>  
