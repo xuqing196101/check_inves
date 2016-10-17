@@ -18,4 +18,6 @@ public interface ContractRequiredMapper {
     int updateByPrimaryKey(ContractRequired record);
     
     List<ContractRequired> selectConRequeByContractId(String conId);
+    
+    void deleteByContractId(String id);
 }

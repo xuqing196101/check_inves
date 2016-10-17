@@ -57,7 +57,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      <h3 class="tc f30">
 	   <div class="title bbgrey ">${articleDetail.name}</div>
 	 </h3>
-	 <div class="p15_0" ><div class="fr"><span>文章来源：${articleDetail.user.loginName }</span><span class="ml15"><i class="mr5"><img src="<%=basePath%>public/ZHQ/images/block.png"/></i><fmt:formatDate value='${articleDetail.createdAt}' pattern="yyyy.MM.dd" /></span></div></div>
+	 <div class="p15_0" ><div class="fr"><span>文章来源：${articleDetail.source}</span><span class="ml15"><i class="mr5"><img src="<%=basePath%>public/ZHQ/images/block.png"/></i><fmt:formatDate value='${articleDetail.createdAt}' pattern="yyyy.MM.dd" /></span></div></div>
 	 <div class="clear margin-top-20 new_content">
 	    ${articleDetail.content }
 	 </div>

@@ -127,7 +127,7 @@
   	}
   	
   	function showDraftContract(id){
-  		window.location.href="<%=basePath%>purchaseContract/showDraftContract.html?ids="+id;
+  		window.location.href="<%=basePath%>purchaseContract/showFormalContract.html?ids="+id;
   	}
   	
   	var ind;
@@ -173,7 +173,6 @@
 	function cancel(){
 		layer.close(ind);
 	}
->>>>>>> Stashed changes
   </script>
   </head>
   
@@ -183,7 +182,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">采购合同管理</a></li><li><a href="#">合同草稿管理</a></li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">采购合同管理</a></li><li><a href="#">正式合同管理</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -195,7 +194,7 @@
 <!-- 项目戳开始 -->
   <div class="container clear">
   <div class="p10_25">
-    <form id="form1" action="<%=basePath%>purchaseContract/selectDraftContract.html" method="post">
+    <form id="form1" action="<%=basePath%>purchaseContract/selectFormalContract.html" method="post">
     <input type="hidden" value="" id="page"/>
      <h2 class="padding-10 border1">
     	<ul class="demand_list">
@@ -224,9 +223,7 @@
       </div> 
    	   <div class="container clear">
          <div class="col-md-12 pl20">
-   	  	  <button class="btn btn-windows edit" onclick="updateDraft()">修改</button>
-   	  	  <button class="btn btn-windows delete" onclick="delDraft()">删除</button>
-	      <button class="btn" onclick="createContract()">生成正式合同</button>
+   	  	  <button class="btn btn-windows edit" onclick="updateDraft()">打印</button>
 	     </div>
 	   </div>
    <div class="container clear">
@@ -249,21 +246,21 @@
 				<th class="info">项级预算科目</th>
 			</tr>
 		</thead>
-		<c:forEach items="${draftConList}" var="draftCon" varStatus="vs">
+		<c:forEach items="${formalConList}" var="formalCon" varStatus="vs">
 			<tr>
-				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${draftCon.id}" /></td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.name}</td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.code}</td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.money}</td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.projectName}</td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.purchaseDepName}</td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.supplierDepName}</td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.demandSector}</td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.documentNumber}</td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.budget}</td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.year}</td>
-				<td class="tc pointer" onclick="showDraftContract('${draftCon.id}')">${draftCon.budgetSubjectItem}</td>
+				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${formalCon.id}" /></td>
+				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.name}</td>
+				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.code}</td>
+				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.money}</td>
+				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.projectName}</td>
+				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.purchaseDepName}</td>
+				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.supplierDepName}</td>
+				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.demandSector}</td>
+				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.documentNumber}</td>
+				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.budget}</td>
+				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.year}</td>
+				<td class="tc pointer" onclick="showDraftContract('${formalCon.id}')">${formalCon.budgetSubjectItem}</td>
 			</tr>
 		</c:forEach>
 	</table>
@@ -280,7 +277,6 @@
 		 <input type="button" class="btn" onclick="cancel()" value="取消"/>
 		</div>
 	</div>
-	<div id="pagediv" align="right"></div>
    </div>
 </body>
 </html>

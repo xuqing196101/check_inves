@@ -175,7 +175,7 @@
 	}
 	
 	function quxiao(){
-	     layer.close(index);
+	    window.location.href="<%=basePath%>purchaseContract/selectDraftContract.html"
 	}
 	
 	function sum2(){
@@ -211,11 +211,10 @@
 		$("#status").val("1");
 		$("#contractForm").submit();
 	}
-	
+
+	var ind;
 	function formalContract(){
-		$("#status").val("2");
-		alert(111);
-		layer.open({
+		ind = layer.open({
 			shift: 1, //0-6的动画形式，-1不开启
 		    moveType: 1, //拖拽风格，0是默认，1是传统拖动
 		    title: ['请输入合同批准文号','border-bottom:1px solid #e5e5e5'],
@@ -224,8 +223,23 @@
 			skin : 'layui-layer-rim', //加上边框
 			area : [ '370px', '200px' ], //宽高
 			content : $('#numberWin'),
-			offset: ['600px', '40%']
+			offset: ['70%', '40%']
 		});
+	}
+	
+	function save(){
+		$("#status").val("2");
+		var apN = $("#apN").val();
+		if(apN!=null && apN!=''){
+			$("#appN").val(apN);
+			$("#contractForm").submit();
+		}else{
+			layer.alert("请先填写合同批准文号",{offset: ['70%', '40%'], shade:0.01});
+		}
+	}
+	
+	function cancel(){
+		layer.close(ind);
 	}
 
     </script>
@@ -248,7 +262,7 @@
    		<input type="hidden" name="supplierPurId" value="${draftCon.supplierPurId}"/>
    		<input type="hidden" name="projectName" value="${draftCon.projectName}"/>
    		<h2 class="f16 jbxx"><i>01</i>基本信息</h2>
-   		
+   		<input type="hidden" name="approvalNumber" id="appN" value=""/>
    		<ul class="list-unstyled list-flow ul_list">
    			<input type="hidden" class="contract_id" name="contract_id">
 		     <li class="col-md-6 p0 ">
@@ -310,7 +324,6 @@
 			 <div class="clear"></div>
 		 </ul>
    		<h2 class="f16 jbxx"><i>02</i>甲方信息</h2>
-   		
 		 <ul class="list-unstyled list-flow ul_list">
     		 <li class="col-md-6 p0">
 			   <span class=""><div class="red star_red">*</div>甲方单位：</span>
@@ -497,25 +510,23 @@
 			</tr>
    		</c:forEach>
 	</table>
-
-    <div class="headline-v2 bggrey">
-   		<h2>合同正文</h2>
-   	</div>
-   	<div class="container">
-   	  <div class="p10_25 col-md-11">
+	<h2 class="f16 count_flow mt40"><i>05</i>合同正文</h2>
+   	<div>
+		<input type="button" class="btn" onclick="imTemplet()" value="导入模板"/>
+	</div>
+   	<div class="mt10">
        <script id="editor" name="content" type="text/plain" class= ""></script>
-      </div>
     </div>
   		<div  class="col-md-12 tc mt20">
    			<input type="button" class="btn btn-windows save" onclick="staging()" value="保存"/>
    			<input type="button" class="btn" onclick="formalContract()" value="生成正式合同"/>
    			<input type="button" class="btn" onclick="print()" value="打印"/>
-   			<input type="button" class="btn btn-windows cancel" onclick="history.go(-1)" value="取消">
+   			<input type="button" class="btn btn-windows cancel" onclick="quxiao()" value="取消">
   		</div>
   		<div id="numberWin" class="dnone mt20">
   		    <div class="col-md-12">
 			   <span class="span3">合同批准文号：</span>
-			   <input type="text" name="APPROVAL_NUMBER" value="" class="mb0"/>
+			   <input type="text" id="apN" value="" class="mb0"/>
             </div>
 			<div class="tc col-md-12 mt20 ml30">
 			 <input type="button" class="btn" onclick="save()" value="生成"/>

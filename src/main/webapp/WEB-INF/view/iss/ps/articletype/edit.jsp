@@ -20,6 +20,7 @@
 	<script type="text/javascript">    
     $(function(){ 
         $("#parent").val("${articletype.parent.id}");
+        $("#oldName").val($("#typeName").val());
     }); 
 	</script>
   </head>
@@ -39,6 +40,7 @@
      <div class="container margin-top-5">
      <div class="content padding-left-25 padding-right-25 padding-top-5">
     <form action="<%=basePath %>articletype/update.html" method="post">  
+    <input type="hidden" id="oldName" name="oldName" value=""/>
     <div>
 	    <div class="headline-v2">
 	   		<h2>修改栏目</h2>
@@ -49,7 +51,7 @@
 	   		   <li class="col-md-6  p0 ">
 			   <span class="fl"><div class="red star_red">*</div>栏目名称：</span>
 			   <div class="input-append">
-		        <input class="span2"  type="text" name="name" value = '${articletype.name}'>
+		        <input class="span2" id="typeName" type="text" name="name" value = '${articletype.name}'>
 		        <div class="validate">${ERR_name}</div>
 		        <%--<span class="add-on">i</span>--%>
 		       </div>

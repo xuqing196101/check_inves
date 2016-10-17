@@ -98,13 +98,13 @@ public class ArticleTypeController {
 	 * @return String
 	 */
 	@RequestMapping("/update")
-	public String update(@Valid ArticleType articleType,BindingResult result,HttpServletRequest request,Model model) {
+	public String update(@Valid ArticleType articleType,BindingResult result,HttpServletRequest request,Model model,String oldName) {
 		List<ArticleType> articletypes = articleTypeService.getAll();
 		String id = request.getParameter("articletypeId");
 		Boolean flag = true;
 		String url = "";
 		for(ArticleType ar:articletypes){
-			if(ar.getName().equals(articleType.getName())){
+			if(ar.getName().equals(articleType.getName()) && !ar.getName().equals(oldName)){
 				flag = false;
 				model.addAttribute("ERR_name", "栏目名称不能重复");
 			}

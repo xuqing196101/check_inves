@@ -27,8 +27,18 @@ public class ContractRequired {
     private String memo;
 
     private String contractId;
+    
+    private Integer isDeleted;
 
-    public String getId() {
+    public Integer getIsDeleted() {
+		return isDeleted;
+	}
+
+	public void setIsDeleted(Integer isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+	public String getId() {
         return id;
     }
 

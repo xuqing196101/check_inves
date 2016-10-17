@@ -68,7 +68,7 @@
 		<c:forEach items="${requList}" var="reque" varStatus="vs">
 			<tr>
 				<td class="tc">${(vs.index+1)}</td>
-				<td class="tc">${reque.planNo}</td>
+				<td class="tc">${reque.serialNumber}</td>
 				<td class="tc">${reque.goodsName}</td>
 				<td class="tc">${reque.brand}</td>
 				<td class="tc">${reque.stand}</td>

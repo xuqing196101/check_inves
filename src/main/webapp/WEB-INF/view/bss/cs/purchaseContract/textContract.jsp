@@ -219,7 +219,25 @@
 		$("#status").val("1");
 		$("#contractForm").submit();
 	}
-    </script>
+	
+	function imTemplet(){
+		var iframeWin;
+        layer.open({
+          type: 2, //page层
+          area: ['800px', '500px'],
+          title: '配置权限',
+          closeBtn: 1,
+          shade:0.01, //遮罩透明度
+          shift: 1, //0-6的动画形式，-1不开启
+          offset: ['70%', '20%'],
+          shadeClose: false,
+          content: '<%=basePath%>resultAnnouncement/getAll.html',
+          success: function(layero, index){
+            iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+          }
+        });
+    }
+</script>
 <body>
 <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
@@ -238,7 +256,8 @@
    		<input type="hidden" name="supplierPurId" value="${project.dealSupplier.procurementDepId}"/>
    		<input type="hidden" name="projectName" value="${project.name}"/>
  
-   		<h2 class="f16 count_flow mt40"><i>01</i>修改订单</h2>
+   		<h2 class="f16 count_flow mt40"><i>01</i>基本信息</h2>
+
    		<ul class="list-unstyled list-flow ul_list">
    			<input type="hidden" class="contract_id" name="contract_id">
 		     <li class="col-md-6 p0 ">
@@ -475,7 +494,7 @@
 			<tr>
 				<td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
 				<td class="tc w50">${(vs.index+1)}</td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].planNo" value="${reque.planNo}" class="w50"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].planNo" value="${reque.serialNumber}" class="w50"/></td>
 				<td class="tc"><input type="text" name="proList[${(vs.index)}].goodsName" value="${reque.goodsName}"/></td>
 				<td class="tc"><input type="text" name="proList[${(vs.index)}].brand" value="${reque.brand}"/></td>
 				<td class="tc"><input type="text" name="proList[${(vs.index)}].stand" value="${reque.stand}"/></td>
@@ -490,10 +509,13 @@
 	</table>
 
        <h2 class="f16 count_flow mt40"><i>05</i>合同正文</h2>
-   	<div class="container">
-   	  <div class="p10_25 col-md-11">
+   	<div class="ml5">
+		<input type="button" class="btn" onclick="imTemplet()" value="导入模板"/>
+	</div>
+   	<div class="mt10">
+ 
        <script id="editor" name="content" type="text/plain" class= ""></script>
-      </div>
+
     </div>
   		<div  class="col-md-12 tc mt20">
    			<input type="button" class="btn btn-windows save" onclick="staging()" value="暂存"/>

@@ -14,10 +14,11 @@
     <result column="DELIVER_DATE" jdbcType="VARCHAR" property="deliverDate" />
     <result column="MEMO" jdbcType="VARCHAR" property="memo" />
     <result column="CONTRACT_ID" jdbcType="VARCHAR" property="contractId" />
+    <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
   </resultMap>
   <sql id="Base_Column_List">
     ID, PLAN_NO, GOODS_NAME, BRAND, STAND, ITEM, PURCHASE_COUNT, PRICE, AMOUNT, DELIVER_DATE, 
-    MEMO, CONTRACT_ID
+    MEMO, CONTRACT_ID,IS_DELETED
   </sql>
   <select id="selectConRequByPrimaryKey" parameterType="java.lang.String" resultMap="ConRequ">
     select 
@@ -37,16 +38,23 @@
     delete from T_BSS_CS_CONTRACT_REQUIRED
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
+  
+  <update id="deleteByContractId" parameterType="java.lang.String">
+    update T_BSS_CS_CONTRACT_REQUIRED set IS_DELETED = '1' 
+    where CONTRACT_ID = #{contractId,jdbcType=VARCHAR}
+  </update>
+  
   <insert id="insert" parameterType="bss.model.cs.ContractRequired">
     insert into T_BSS_CS_CONTRACT_REQUIRED (ID, PLAN_NO, GOODS_NAME, 
       BRAND, STAND, ITEM, 
       PURCHASE_COUNT, PRICE, AMOUNT, 
-      DELIVER_DATE, MEMO, CONTRACT_ID
+      DELIVER_DATE, MEMO, CONTRACT_ID,IS_DELETED
       )
     values (#{id,jdbcType=VARCHAR}, #{planNo,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, 
       #{brand,jdbcType=VARCHAR}, #{stand,jdbcType=VARCHAR}, #{item,jdbcType=VARCHAR}, 
       #{purchaseCount,jdbcType=DECIMAL}, #{price,jdbcType=DECIMAL}, #{amount,jdbcType=DECIMAL}, 
-      #{deliverDate,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR}, #{purchaseContract.id,jdbcType=VARCHAR}
+      #{deliverDate,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR}, #{purchaseContract.id,jdbcType=VARCHAR},
+      #{isDeleted}
       )
   </insert>
   <insert id="insertSelective" parameterType="bss.model.cs.ContractRequired">
@@ -91,6 +99,9 @@
       <if test="contractId != null">
         CONTRACT_ID,
       </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -128,6 +139,9 @@
       </if>
       <if test="contractId != null">
         #{contractId,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted},
       </if>
     </trim>
   </insert>
@@ -167,6 +181,9 @@
       <if test="contractId != null">
         CONTRACT_ID = #{contractId,jdbcType=VARCHAR},
       </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -182,7 +199,8 @@
       AMOUNT = #{amount,jdbcType=DECIMAL},
       DELIVER_DATE = #{deliverDate,jdbcType=VARCHAR},
       MEMO = #{memo,jdbcType=VARCHAR},
-      CONTRACT_ID = #{contractId,jdbcType=VARCHAR}
+      CONTRACT_ID = #{contractId,jdbcType=VARCHAR},
+      IS_DELETED = #{isDeleted}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

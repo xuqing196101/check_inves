@@ -1,6 +1,7 @@
 package bss.model.cs;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.Pattern;
@@ -24,7 +25,8 @@ public class PurchaseContract {
     private BigDecimal budget;
     
     private BigDecimal year;
-
+    
+    @NotBlank(message = "项级预算科目不能为空")
     private String budgetSubjectItem;
     
     private String approvalNumber;
@@ -108,7 +110,57 @@ public class PurchaseContract {
     
     private String projectName;
     
-    public String getProjectName() {
+    private Integer isAppeal;
+    
+    private String approvePic;
+    
+    private Date createdAt;
+    
+    private Date updatedAt;
+    
+    private Integer isDeleted;
+    
+    public Integer getIsDeleted() {
+		return isDeleted;
+	}
+
+	public void setIsDeleted(Integer isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public String getApprovePic() {
+		return approvePic;
+	}
+
+	public void setApprovePic(String approvePic) {
+		this.approvePic = approvePic;
+	}
+
+	public Integer getIsAppeal() {
+		return isAppeal;
+	}
+
+	public void setIsAppeal(Integer isAppeal) {
+		this.isAppeal = isAppeal;
+	}
+
+	public String getProjectName() {
 		return projectName;
 	}
 

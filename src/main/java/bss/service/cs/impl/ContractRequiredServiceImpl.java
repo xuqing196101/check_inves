@@ -55,4 +55,9 @@ public class ContractRequiredServiceImpl implements ContractRequiredService {
 	public List<ContractRequired> selectConRequeByContractId(String conId) {
 		return contractRequiredMapper.selectConRequeByContractId(conId);
 	}
+
+	@Override
+	public void deleteByContractId(String id) {
+		contractRequiredMapper.deleteByContractId(id);
+	}
 }

@@ -30,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ses.controller.sys.bms.LoginController;
 import ses.model.bms.User;
+import ses.util.FtpUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
@@ -172,30 +173,31 @@ public class ArticleController {
 		if(attaattach!=null){
 			for(int i=0;i<attaattach.length;i++){
 				if(attaattach[i].getOriginalFilename()!=null && attaattach[i].getOriginalFilename()!=""){
-			        String rootpath = (request.getSession().getServletContext().getRealPath("/")+"upload/").replace("\\", "/");
-			        /** 创建文件夹 */
-					File rootfile = new File(rootpath);
-					if (!rootfile.exists()) {
-						rootfile.mkdirs();
-					}
-			        String fileName = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase() + "_" + attaattach[i].getOriginalFilename();
-			        String filePath = rootpath+fileName;
-			        File file = new File(filePath);
-			        try {
-						attaattach[i].transferTo(file);
-					} catch (IllegalStateException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+					FtpUtil.upload2("news",attaattach[i]);
+//			        String rootpath = (request.getSession().getServletContext().getRealPath("/")+"upload/").replace("\\", "/");
+//			        /** 创建文件夹 */
+//					File rootfile = new File(rootpath);
+//					if (!rootfile.exists()) {
+//						rootfile.mkdirs();
+//					}
+//			        String fileName = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase() + "_" + attaattach[i].getOriginalFilename();
+//			        String filePath = rootpath+fileName;
+//			        File file = new File(filePath);
+//			        try {
+//						attaattach[i].transferTo(file);
+//					} catch (IllegalStateException e) {
+//						e.printStackTrace();
+//					} catch (IOException e) {
+//						e.printStackTrace();
+//					}
 					ArticleAttachments attachment=new ArticleAttachments();
 					attachment.setArticle(new Article(article.getId()));
-					attachment.setFileName(fileName);
+//					attachment.setFileName(fileName);
 					attachment.setCreatedAt(new Date());
 					attachment.setUpdatedAt(new Date());
 					attachment.setContentType(attaattach[i].getContentType());
 					attachment.setFileSize((float)attaattach[i].getSize());
-					attachment.setAttachmentPath(filePath);
+//					attachment.setAttachmentPath(filePath);
 					articleAttachmentsService.insert(attachment);
 				}
 			}

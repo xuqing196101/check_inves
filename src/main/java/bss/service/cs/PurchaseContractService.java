@@ -1,6 +1,7 @@
 package bss.service.cs;
 
 import java.util.List;
+import java.util.Map;
 
 import bss.model.cs.PurchaseContract;
 
@@ -79,7 +80,7 @@ public interface PurchaseContractService {
     * @param @return      
     * @return PurchaseContract
      */
-    List<PurchaseContract>  selectDraftContract();
+    List<PurchaseContract>  selectDraftContract(Map<String,Object> map);
     
     /**
      * 
@@ -92,4 +93,50 @@ public interface PurchaseContractService {
     * @return List<PurchaseContract>
      */
     PurchaseContract selectDraftById(String id);
+    
+    /**
+     * 
+    * @Title: updateByPrimaryKeySelective
+    * @author QuJie 
+    * @date 2016-10-11 下午1:37:04  
+    * @Description: 根据条件修改 
+    * @param @param record      
+    * @return void
+     */
+    void updateByPrimaryKeySelective(PurchaseContract record);
+    
+    /**
+	 * 
+	* @Title: deleteByPrimaryKey
+	* @author QuJie 
+	* @date 2016-10-13 上午11:17:43  
+	* @Description: 根据id删除草稿
+	* @param @param id
+	* @param @return      
+	* @return int
+	 */
+    void deleteDraftByPrimaryKey(String id);
+    
+    /**
+     * 
+    * @Title: selectFormalContract
+    * @author QuJie 
+    * @date 2016-10-9 下午1:10:54  
+    * @Description: 查询所有合同草稿 
+    * @param @return      
+    * @return PurchaseContract
+     */
+    List<PurchaseContract> selectFormalContract(Map<String,Object> map);
+    
+    /**
+     * 
+    * @Title: selectFormalById
+    * @author QuJie 
+    * @date 2016-10-10 上午10:13:58  
+    * @Description: 根据id查询合同草稿
+    * @param @param id
+    * @param @return      
+    * @return List<PurchaseContract>
+     */
+    PurchaseContract selectFormalById(String id);
 }
