@@ -265,7 +265,10 @@ function tijiao(str){
 							             <c:if test="${m.mot==0 }">否</c:if>
 							             <c:if test="${m.mot==1 }">是</c:if>
 							            </td>
-							            <td class="tc" style="cursor: pointer;" onclick="downloadFile('${m.attach}')">${m.attach }</td>
+							            <td class="tc" style="cursor: pointer;" onclick="downloadFile('${m.attach}')">
+								            <c:if test="${m.attach !=null}"><a class="green">附件下载</a></c:if>
+								            <c:if test="${m.attach ==null}"><a class="red">无附件下载</a></c:if>
+							            </td>
 							            <td class="tc">
 	                          <a id="${m.id }_hide" class="b f18 fl ml10 red hand">√</a>
 	                          <a onclick="reason('${m.id}','供应商资质证书');" class="b f18 fl ml10 hand">×</a>

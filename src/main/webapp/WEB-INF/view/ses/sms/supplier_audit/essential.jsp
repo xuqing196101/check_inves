@@ -309,7 +309,7 @@ function tijiao(str){
                     <li class="col-md-6 p0 "><span class="">近三个月完税凭证：</span>
 	                    <div class="input-append">
 	                      <c:if test="${suppliers.taxCert !=null}">
-	                        <a class="span3 red" href="javascript:void(0)" onclick="downloadFile('${suppliers.taxCert}')" >下载附件</a>
+	                        <a class="span3 green" href="javascript:void(0)" onclick="downloadFile('${suppliers.taxCert}')" >下载附件</a>
 	                      </c:if>
 	                      <c:if test="${suppliers.taxCert == null}">
                           <a class="span3 red">无附件下载</a>
@@ -321,7 +321,7 @@ function tijiao(str){
                     <li class="col-md-6 p0 "><span class="">近三年银行基本账户年末对账单：</span>
                       <div class="input-append">
                         <c:if test="${suppliers.billCert !=null}">
-                          <a class="span3 red" href="javascript:void(0)" onclick="downloadFile('${suppliers.billCert}')">下载附件</a>
+                          <a class="span3 green" href="javascript:void(0)" onclick="downloadFile('${suppliers.billCert}')">下载附件</a>
                         </c:if>
                         <c:if test="${suppliers.billCert == null}">
                           <a class="span3 red">无附件下载</a>
@@ -332,8 +332,8 @@ function tijiao(str){
                     </li>
                     <li class="col-md-6 p0 "><span class="">近三个月缴纳社会保险金凭证：</span>
                       <div class="input-append">
-                        <c:if test="${suppliers.securityCert !=null}">
-                          <a class="span3 red" href="javascript:void(0)" onclick="downloadFile('${suppliers.securityCert}')">下载附件</a>
+                        <c:if test="${suppliers.securityCert != null}">
+                          <a class="span3 green" href="javascript:void(0)" onclick="downloadFile('${suppliers.securityCert}')">下载附件</a>
                         </c:if>
                         <c:if test="${suppliers.securityCert == null}">
                           <a class="span3 red">无附件下载</a>
@@ -344,8 +344,8 @@ function tijiao(str){
                     </li>
                     <li class="col-md-6 p0 "><span class="">近三年内无重大违法记录声明：</span>
                       <div class="input-append">
-                        <c:if test="${suppliers.breachCert  !=null}">
-                          <a class="span3 red" href="javascript:void(0)" onclick="downloadFile('${suppliers.breachCert}')">下载附件</a>
+                        <c:if test="${suppliers.breachCert != null }">
+                          <a class="span3 green" href="javascript:void(0)" onclick="downloadFile('${suppliers.breachCert}')">下载附件</a>
                         </c:if>
                         <c:if test="${suppliers.breachCert == null}">
                           <a class="span3 red">无附件下载</a>

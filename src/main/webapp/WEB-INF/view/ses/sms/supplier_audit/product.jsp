@@ -167,6 +167,12 @@ function tijiao(str){
   $("#form_id").attr("action",action);
   $("#form_id").submit();
 }
+
+//文件下載
+  function downloadFile(fileName) {
+    $("input[name='fileName']").val(fileName);
+    $("#download_form_id").submit();
+  }
 </script>
 </head>
   
@@ -235,21 +241,13 @@ function tijiao(str){
                             <td class="tc"><fmt:formatDate value="${products.expirationDate }" pattern="yyyy-MM-dd"/></td>
                             <td class="tc">${products.producer}</td>
                             <td class="tc">${products.referencePrice}</td>
-                            <td class="tc">
-                              <c:if test="${products.productPic != null}">
-                                <a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${products.productPic}')">下载附件</a>
-                              </c:if>
-                              <c:if test="${products.productPic == null}">
-                                <span class="fz11">无附件下载</span>
-                              </c:if>
+                            <td class="tc" style="cursor: pointer;" onclick="downloadFile('${products.productPic}')">
+                              <c:if test="${products.productPic != null}"><a class="green">下载附件</a></c:if>
+                              <c:if test="${products.productPic == null}"><a class="red">无附件下载</a></c:if>
                             </td>
-                            <td class="tc">
-                              <c:if test="${products.qrCode != null}">
-                                <a class="color7171C6 fz11" href="javascript:void(0)"  onclick="downloadFile('${products.qrCode}')">下载附件</a>
-                              </c:if>
-                              <c:if test="${products.qrCode == null}">
-                                <span class="fz11">无附件下载</span>
-                              </c:if>
+                            <td class="tc" style="cursor: pointer;" onclick="downloadFile('${products.qrCode}')">
+                              <c:if test="${products.qrCode != null}"><a class="green">下载附件</a></c:if>
+                              <c:if test="${products.qrCode == null}"><a class="red">无附件下载</a></c:if>
                             </td>
                             <td class="tc">
                               <a id="${products.id }_hide" class="b f18 fl ml10 red hand">√</a>
@@ -266,5 +264,8 @@ function tijiao(str){
       </div>
     </div>
   </div>
+  <form target="_blank" id="download_form_id" action="${pageContext.request.contextPath}/supplierAudit/download.html" method="post">
+   <input type="hidden" name="fileName" />
+  </form>
 </body>
 </html>

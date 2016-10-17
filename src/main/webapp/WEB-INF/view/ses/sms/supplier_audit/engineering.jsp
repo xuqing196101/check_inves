@@ -225,7 +225,7 @@ function tijiao(str){
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('applicationFrom');">申请表</a></li>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('reasonsList');">审核汇总</a></li>
             </ul>
-              <div class="tab-content padding-top-20" style="height:1400px;">
+              <div class="tab-content padding-top-20" style="height:800px;">
                 <div class="tab-pane fade active in height-450" id="tab-1">
                   <form id="form_id" action="" method="post"  enctype="multipart/form-data">
                     <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">

@@ -127,6 +127,13 @@
    function log(){
    window.location.href="${pageContext.request.contextPath}/expert/expertBlackListLog.html";
    }
+   
+   function resetForm(){
+      $("#relName").attr("value","");
+        //还原select下拉列表只需要这一句
+      $("#punishDate option:selected").removeAttr("selected");
+      $("#punishType option:selected").removeAttr("selected");
+    }
 </script>
 </head>
 <body>
@@ -135,64 +142,71 @@
 	<div class="margin-top-10 breadcrumbs ">
 	  <div class="container">
 	    <ul class="breadcrumb margin-left-0">
-	      <li><a href="#"> 首页</a></li><li><a href="#">评审专家管理</a></li><li><a href="#">不良专家名单管理</a></li><li class="active"><a href="#">不良专家名单</a></li>
+	      <li><a href="#"> 首页</a></li><li><a href="#">评审专家管理</a></li><li><a href="#">专家黑名单</a></li>
 	    </ul>
 	  </div>
 	</div>
+	
+  <div class="container">
+    <div class="headline-v2">
+      <h2>专家黑名单列表</h2>
+    </div>
+  </div>
+    
+  <div class="container">
+    <div class="col-md-8">
+      <button class="btn btn-windows add" type="button" onclick="add();">新增</button>
+      <button class="btn btn-windows edit" type="button" onclick="update();">修改</button>
+      <!-- <button class="btn btn-windows delete" type="button" onclick="del();">删除</button> -->
+      <button class="btn btn-windows" type="button" onclick="log();">历史记录</button>
+    </div>
+  </div>
 	<!-- 搜索 -->
 	<div class="container">
-    <div style="padding-left: 20px;">
-	    <form action="<%=basePath %>expert/blacklist.html"  method="post" id="form1" enctype="multipart/form-data" class="registerform"> 
+    <div class="p10_25">
+	    <form action="<%=basePath %>expert/blacklist.html"  method="post" id="form1" enctype="multipart/form-data" class="padding-10 border1 mb0"> 
 	      <input type="hidden" name="page" id="page">
-	        <div align="center">
-	          <ul class="demand_list list-unstyled">
-	            <li>
-                <label class="fl mt10">专家姓名：</label>
-                  <select name="relName" class="mb0 mt5" >
+	          <ul class="demand_list">
+	            <li class="fl">
+                <label class="fl mt5">专家姓名：</label>
+                <input type="text" id="relName" name="relName" value="${relName }">
+                  <%-- <select name="relName" class="mb0 mt5" >
 			              <option value="">请选择</option>
 			              <c:forEach var="expert"  items="${expertName}">
 			              <option value="${expert.relName}">${expert.relName}</option>
 			              </c:forEach>
-                  </select> 
+                  </select>  --%>
 	            </li>
-		          <li>
-	               <label class="fl mt10">处罚方式：</label>
-		               <select name="punishDate" class="mb0 mt5" >
-				            <option value="">请选择</option>
-											<option value="3个月">3月</option>
-											<option value="6个月">6个月</option>
-											<option value="一年">一年</option>
-											<option value="两年">两年</option>
-											<option value="三年">三年</option>
+		          <li class="fl">
+	               <label class="fl mt5">处罚方式：</label>
+		               <select name="punishDate"  id="punishDate" >
+				            <option value="">-请选择-</option>
+											<option <c:if test="${punishDate =='3个月' }">selected</c:if> value="3个月">3个月</option>
+											<option <c:if test="${punishDate =='6个月' }">selected</c:if> value="6个月">6个月</option>
+											<option <c:if test="${punishDate =='一年' }">selected</c:if> value="一年">一年</option>
+											<option <c:if test="${punishDate =='两年' }">selected</c:if> value="两年">两年</option>
+											<option <c:if test="${punishDate =='三年' }">selected</c:if> value="三年">三年</option>
 									</select>
 		          </li>
-		          <li>
-	              <label class="fl mt10" >处罚时限：</label>
-							    <select name="punishType" class="mb0 mt5" >
+		          <li class="fl">
+	              <label class="fl mt5">处罚时限：</label>
+							    <select name="punishType" id="punishType">
 			            <option value=''>-请选择-</option>
-								  <option value="1">警告</option>
-								  <option value="2">严重警告</option>
-								  <option value="3">取消资格</option>
+								  <option <c:if test="${punisType =='1' }">selected</c:if> value="1">警告</option>
+								  <option <c:if test="${punisType =='2' }">selected</c:if> value="2">严重警告</option>
+								  <option <c:if test="${punisType =='3' }">selected</c:if> value="3">取消资格</option>
 								</select>
 					   </li>
 	           <li>
 	             <input type="submit" class="btn btn_back fl ml10 mt6" value="查询" />
-	             <!-- <input type="button" class="btn btn_back fl ml10 mt6" value="重置" onclick="resetForm()"> -->
+	             <button onclick="resetForm();" class="btn btn_back fl ml10 mt6" type="button">重置</button>
 	           </li>
-	    </ul>
-	  </div>
+	      </ul>
+	    <div class="clear"></div>
 	</form>
 	</div>
 	</div>
 	<!-- 表格开始-->
-	<div class="container">
-	  <div class="col-md-8">
-	 	  <button class="btn btn-windows add" type="button" onclick="add();">新增</button>
-	    <button class="btn btn-windows edit" type="button" onclick="update();">修改</button>
-	    <!-- <button class="btn btn-windows delete" type="button" onclick="del();">删除</button> -->
-	    <button class="btn btn-windows" type="button" onclick="log();">历史记录</button>
-	  </div>
-	</div>
   <div class="container margin-top-5">
     <div class="content padding-left-25 padding-right-25 padding-top-5">
       <table class="table table-bordered table-condensed">

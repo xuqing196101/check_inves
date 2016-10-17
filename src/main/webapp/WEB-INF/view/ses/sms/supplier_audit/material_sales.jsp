@@ -229,7 +229,7 @@ function tijiao(str){
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('applicationFrom');">申请表</a></li>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('reasonsList');">审核汇总</a></li>
             </ul>
-              <div class="tab-content padding-top-20" style="height:1400px;">
+              <div class="tab-content padding-top-20" style="height:800px;">
                 <div class="tab-pane fade active in height-450" id="tab-1">
                   <form id="form_id" action="" method="post"  enctype="multipart/form-data">
                     <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
@@ -263,7 +263,9 @@ function tijiao(str){
 	                           <c:if test="${s.mot==0 }">否</c:if>
 	                           <c:if test="${s.mot==1 }">是</c:if>
 	                          </td>
-	                          <td class="tc" style="cursor: pointer;" onclick="downloadFile('${s.attach}')">${s.attach }</td>
+	                          <td class="tc" style="cursor: pointer;" onclick="downloadFile('${s.attach}')">
+		                          <c:if test="${s.attach !=null}"><a class="green">附件下载</a></c:if>
+	                            <c:if test="${s.attach ==null}"><a class="red">无附件下载</a></c:if>
 	                          <td class="tc">
 	                            <a id="${s.id }_hide" class="b f18 fl ml10 red hand">√</a>
 	                            <a onclick="reason('${s.id}','供应商资质证书');" class="b f18 fl ml10 hand">×</a>

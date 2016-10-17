@@ -120,12 +120,10 @@ public class SupplierAuditController extends BaseSupplierController{
 		
 		//所有供应商类型
 		List<SupplierType> supplierType= supplierAuditService.findSupplierType();
-		
+		request.setAttribute("supplierType", supplierType);
 		//回显名字
 		String supplierName = supplier.getSupplierName();
 		request.setAttribute("supplierName", supplierName);
-		
-		request.setAttribute("supplierType", supplierType);
 		return "ses/sms/supplier_audit/supplier_list";
 	}
 	
@@ -300,11 +298,23 @@ public class SupplierAuditController extends BaseSupplierController{
 	 * @throws IOException 
 	 */
 	@RequestMapping("auditReasons")
-	public void auditReasons(SupplierAudit supplierAudit,HttpServletRequest request) throws IOException{
+	public void auditReasons(SupplierAudit supplierAudit,HttpServletRequest request,Supplier supplier) throws IOException{
 		int status = (int) request.getSession().getAttribute("status");
 		supplierAudit.setStatus((short) status);
 		supplierAudit.setCreatedAt(new Date());
 		supplierAudit.setUserId("EDED66BAC3304F34B75EBCDB88AE427F");
+		
+		//审核时只要填写理由，就不通过
+		String id=supplierAudit.getSupplierId();
+		supplier.setId(id);
+		if(status==0){
+			supplier.setStatus(2); //初审不通过
+			supplierAuditService.updateStatus(supplier);
+		}
+		if(status==1){
+			supplier.setStatus(4); //复审不通过
+			supplierAuditService.updateStatus(supplier);
+		}
 		supplierAuditService.auditReasons(supplierAudit);
 	}
 	
@@ -324,6 +334,8 @@ public class SupplierAuditController extends BaseSupplierController{
 		}*/
 		List<SupplierAudit> reasonsList = supplierAuditService.selectByPrimaryKey(supplierId);
 		request.setAttribute("reasonsList", reasonsList);
+		int num=reasonsList.size();
+		request.setAttribute("num", num);
 		//勾选的供应商类型
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
 		request.setAttribute("supplierTypeNames", supplierTypeName);

@@ -108,10 +108,14 @@
         <i>02</i>附件上传
        </h2>
        <ul class="list-unstyled list-flow p0_20">
-        <li >
-          <span class="" ><i class="red">＊</i>批准文件:</span>
-            <input class="span3" type="file" name="attachmentCertFile"/>
+        <li class="">
+          <span class="" >批准文件:</span>
+          <input class="span2" type="file" name="attachmentCertFile"/>
          </li>
+<!--          <li class="col-md-6 p0">
+          <span class="" >已上传的批准文件:</span>
+           <a class="span2" name="attachmentCertFile">查看</a>
+         </li> -->
        </ul>
      </div>
       <div class="margin-bottom-0  categories">

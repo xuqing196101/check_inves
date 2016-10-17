@@ -269,35 +269,35 @@ function tijiao(str){
                     <ul class="list-unstyled list-flow">
                       <li class="col-md-6 p0 "><span class="">财务审计报告意见表：</span>
                         <div class="input-append">
-                          <a class="span3 red" href="javascript:void(0)" onclick="downloadFile('${f.auditOpinion}')">附件下载</a>
+                          <a class="span3 green" href="javascript:void(0)" onclick="downloadFile('${f.auditOpinion}')">附件下载</a>
                           <div  class="b f18 fl ml10 red hand">√</div>
                           <div onclick="reason1('${f.year }', this);" class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0 "><span class="">资产负债表：</span>
                         <div class="input-append">
-                          <a class="span3 red" href="javascript:void(0)" onclick="downloadFile('${f.liabilitiesList}')">附件下载</a>
+                          <a class="span3 green" href="javascript:void(0)" onclick="downloadFile('${f.liabilitiesList}')">附件下载</a>
                           <div class="b f18 fl ml10 red hand">√</div>
                           <div onclick="reason1('${f.year }', this);" class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0 "><span class="">利润表：</span>
                         <div class="input-append">
-                          <a class="span3 red" href="javascript:void(0)" onclick="downloadFile('${f.profitList}')">附件下载</a>
+                          <a class="span3 green" href="javascript:void(0)" onclick="downloadFile('${f.profitList}')">附件下载</a>
                           <div class="b f18 fl ml10 red hand">√</div>
                           <div onclick="reason1('${f.year }', this);" class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0 "><span class="" >现金流量表：</span>
                         <div class="input-append">
-                          <a class="span3 red" href="javascript:void(0)" onclick="downloadFile('${f.cashFlowStatement}')">附件下载</a>
+                          <a class="span3 green" href="javascript:void(0)" onclick="downloadFile('${f.cashFlowStatement}')">附件下载</a>
                           <div class="b f18 fl ml10 red hand">√</div>
                           <div onclick="reason1('${f.year }', this);" class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0 "><span class="" >所有者权益变动表：</span>
                         <div class="input-append">
-                          <a class="span3 red" href="javascript:void(0)" onclick="downloadFile('${f.changeList}')">附件下载</a>
+                          <a class="span3 green" href="javascript:void(0)" onclick="downloadFile('${f.changeList}')">附件下载</a>
                           <div class="b f18 fl ml10 red hand">√</div>
                           <div onclick="reason1('${f.year }', this);" class="b f18 fl ml10 hand">×</div>
                         </div>

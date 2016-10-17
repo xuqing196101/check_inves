@@ -122,18 +122,23 @@
       </ul>
     </div>
   </div>
+  <div class="container">
+    <div class="headline-v2">
+      <h2>供应商列表</h2>
+    </div>
+  </div>  
 <!-- 搜索 -->
   <div class="container">
-      <div style="padding-left: 20px;">
-        <form action="${pageContext.request.contextPath}/supplierAudit/supplierList.html"  method="post" id="form1" enctype="multipart/form-data" class="registerform"> 
+      <div class="p10_25">
+        <form action="${pageContext.request.contextPath}/supplierAudit/supplierList.html"  method="post" id="form1" enctype="multipart/form-data" class="padding-10 border1 mb0"> 
         <input type="hidden" name="page" id="page">
-          <ul class="demand_list list-unstyled">
-            <li>
-              <label class="fl mt10">供应商名称：</label> 
+          <ul class="demand_list">
+            <li class="fl">
+              <label class="fl mt5">供应商名称：</label> 
                 <input class="mb0 mt5" name="supplierName" type="text" value="${supplierName }">
             </li>
-            <li>
-              <label class="fl mt10">企业类型：</label> 
+            <li class="fl">
+              <label class="fl mt5">企业类型：</label> 
 	              <select name="supplierType" class="mb0 mt5">
 	                <option value="">全部</option>
 	                <c:forEach var="type" varStatus="vs" items="${supplierType}">
@@ -146,6 +151,7 @@
             <button onclick="resetForm();" class="btn btn_back fl ml10 mt6" type="button">重置</button>
            </li>
       </ul>
+      <div class="clear"></div>
     </form>
   </div>
   </div>

@@ -51,6 +51,7 @@
   
   <select id="findBlackListLog" resultMap="BaseResultMap">
     select * from T_SES_EMS_EXPERT_BLACKLIST_LOG
+    order by OPERATION_DATE DESC
   </select>
 
 </mapper>

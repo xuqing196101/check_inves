@@ -94,11 +94,18 @@ public class ExpertBlackListController {
 	@RequestMapping("/blacklist")
 	public String fnidAll(HttpServletRequest request,Model model,Integer page,ExpertBlackList expert){
 		List<ExpertBlackList> expertList = service.findAll(expert,page==null?1:page);
+		request.setAttribute("result", new PageInfo<>(expertList));
+		model.addAttribute("expertList", expertList);
 		//所有专家
 		List<Expert> expertName = service.findExpertList();
 		model.addAttribute("expertName", expertName);
-		request.setAttribute("result", new PageInfo<>(expertList));
-		model.addAttribute("expertList", expertList);
+		//回显
+		String relName = expert.getRelName();
+		String punishDate = expert.getPunishDate();
+		Integer punisType = expert.getPunishType();
+		request.setAttribute("relName", relName);
+		request.setAttribute("punishDate", punishDate);
+		request.setAttribute("punisType", punisType);
 		return "ses/ems/expertBlackList/list";
 	}
 	/**
