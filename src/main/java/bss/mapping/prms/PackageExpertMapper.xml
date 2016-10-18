@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.prms.PackageExpertMapper">
+  <resultMap id="BaseResultMap" type="bss.model.prms.PackageExpert">
+    <result column="PACKAGE_ID" jdbcType="VARCHAR" property="packageId" />
+    <result column="EXPERT_ID" jdbcType="VARCHAR" property="expertId" />
+    <result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
+    <result column="IS_GROUP_LEADER" jdbcType="DECIMAL" property="isGroupLeader" />
+  </resultMap>
+  <sql id="Base_Column_List">
+  PACKAGE_ID,EXPERT_ID,PROJECT_ID,IS_GROUP_LEADER
+  </sql>
+   <!-- 根据项目id和包id 以及查询关联表集合 -->
+  <select id="selectList"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PRMS_PACKAGE_EXPERT
+    where 1=1
+    <if test="packageId != null and packageId !=''">
+    AND PACKAGE_ID = '${packageId}'
+    </if>
+    <if test="projectId != null and projectId !=''">
+    AND PROJECT_ID = '${projectId}'
+    </if>
+    <if test="isGroupLeader != null and isGroupLeader !=''">
+    AND IS_GROUP_LEADER = '${isGroupLeader}'
+    </if>
+  </select>
+   <!-- 根据包id删除 -->
+   <delete id="deleteByPackageId" parameterType="java.lang.String">
+    delete from T_BSS_PRMS_PACKAGE_EXPERT
+    where PACKAGE_ID = #{packageId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="bss.model.prms.PackageExpert">
+    insert into T_BSS_PRMS_PACKAGE_EXPERT (PACKAGE_ID, EXPERT_ID, PROJECT_ID, 
+      IS_GROUP_LEADER)
+    values (#{packageId,jdbcType=VARCHAR}, #{expertId,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, 
+      #{isGroupLeader,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="bss.model.prms.PackageExpert">
+    insert into T_BSS_PRMS_PACKAGE_EXPERT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="packageId != null">
+        PACKAGE_ID,
+      </if>
+      <if test="expertId != null">
+        EXPERT_ID,
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID,
+      </if>
+      <if test="isGroupLeader != null">
+        IS_GROUP_LEADER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="packageId != null">
+        #{packageId,jdbcType=VARCHAR},
+      </if>
+      <if test="expertId != null">
+        #{expertId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="isGroupLeader != null">
+        #{isGroupLeader,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+</mapper>

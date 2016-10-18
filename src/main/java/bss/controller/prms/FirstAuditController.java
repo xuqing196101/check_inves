@@ -27,6 +27,7 @@ import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.prms.FirstAuditService;
 import bss.service.prms.FirstAuditTemplatService;
+import bss.service.prms.PackageFirstAuditService;
 import ses.model.bms.User;
 
 @Controller
@@ -42,6 +43,8 @@ public class FirstAuditController {
 	private ProjectService projectService;
 	@Autowired
 	private FirstAuditTemplatService templatService;
+	@Autowired
+	private PackageFirstAuditService packageFirstAuditService;
 	/**
 	 * 
 	  * @Title: toAdd
@@ -87,24 +90,33 @@ public class FirstAuditController {
 				pg.setName("第一包");
 				pg.setProjectId(projectId);
 				packageService.insertSelective(pg);
-				List<ProjectDetail> list = new ArrayList<ProjectDetail>();
+				/*List<ProjectDetail> list = new ArrayList<ProjectDetail>();
 				List<Packages> pk = packageService.findPackageById(pack);
 				for(int i=0;i<list.size();i++){
 					ProjectDetail pd = new ProjectDetail();
 					pd.setId(list.get(i).getId());
 					pd.setPackageId(pk.get(0).getId());
 					detailService.update(pd);
-				}
+				}*/
 			}
 			List<Packages> packages = packageService.findPackageById(pack);
 			Map<String,Object> list = new HashMap<String,Object>();
+			//关联表集合
+			List<PackageFirstAudit> idList = new ArrayList<>();
+			Map<String,Object> mapSearch = new HashMap<String,Object>(); 
 			for(Packages ps:packages){
 				list.put("pack"+ps.getId(),ps);
 				HashMap<String,Object> map = new HashMap<String,Object>();
 				map.put("packageId", ps.getId());
 				List<ProjectDetail> detailList = detailService.selectById(map);
 				ps.setProjectDetails(detailList);
+				//设置查询条件
+				mapSearch.put("projectId", projectId);
+				mapSearch.put("packageId", ps.getId());
+				List<PackageFirstAudit> selectList = packageFirstAuditService.selectList(mapSearch);
+				idList.addAll(selectList);
 			}
+			model.addAttribute("idList",idList);
 			model.addAttribute("packageList", packages);
 			Project project = projectService.selectById(projectId);
 			model.addAttribute("project", project);

@@ -12,7 +12,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>包关联初审项</title>
+    <title>各包分配专家</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -89,7 +89,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    	   parent.submit();
 	    	   
 	       }else{
-	    	   layer.alert("请选择一条初审项",{offset: ['222px', '390px'],shade:0.01});
+	    	   layer.alert("请选择一名专家",{offset: ['222px', '390px'],shade:0.01});
 	    	   return;
 	       }
 	 }
@@ -121,16 +121,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						 <!--第一个  -->
 						 <!--第二个 -->
 						 <div class=class="col-md-12 tab-pane active"  id="tab-1">
-						 	<h1 class="f16 count_flow"><i>02</i>关联初审项</h1>
+						 	<h1 class="f16 count_flow"><i>01</i>各包分配专家</h1>
 						 	   <div class="container clear margin-top-30" id="package">
 						 	   
 							   <h5>01、项目分包信息</h5>
 								   <c:forEach items="${packageList }" var="pack" varStatus="p">
-								   		<form action="<%=basePath%>packageFirstAudit/relate.html" method="post" id="form1">
-								   		<input type="hidden" name="packageIds" id="packageIds">
-								   		<input type="button" onclick="submit1(this);" value="关联" class="btn btn-windows add"><br/>
-								   		<input type="hidden" id="packageId" name="packageId" value="${pack.id }"/>
-								   		<input type="hidden" name="projectId" value="${projectId}">
 								   		<span>包名:<span>${pack.name }</span>
 								   		</span>
 								   		
@@ -175,33 +170,46 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							         </c:forEach> 
 							      </table>
 									       <table class="table table-bordered table-condensed mt5">
-								 	            <h5>02、项目初审项信息</h5>
+								 	            <h5>02、唱标信息</h5>
 											    <thead>
 											      <tr>
-											      	<th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
-											        <th>初审项名称</th>
-											        <th>要求类型</th>
-											        <th>创建人</th>
+											      	<th class="info w50">序号</th>
+											        <th>供应商名称</th>
+											        <th>联系人</th>
+											        <th>联系电话</th>
+											        <th>报价</th>
 											      </tr>
 											     </thead>
 											      <c:forEach items="${list }" var="l" varStatus="vs">
 												      <thead>
 												       <tr>
-												        <td class="tc w30">
-													      <input  type="checkbox" value="${l.id }" name="chkItem"
-													         <c:forEach items="${idList }" var="id" varStatus="p">
-														 	      <c:if test="${id.firstAuditId==l.id && id.packageId==pack.id }"> checked</c:if>
-														 	 </c:forEach>
-													      >
-												        </td>
+												        <td class="tc w30"> </td>
 												        <td align="center">${l.name } </td>
 												        <td align="center">${l.kind }</td>
+												        <td align="center">${l.creater }</td>
+												        <td align="center">${l.creater }</td>
 												        <td align="center">${l.creater }</td>
 												      </tr>
 												      </thead>
 										      	  </c:forEach>
 								   		  </table>
-						   		      </form>
+								   </c:forEach>
+								   <c:forEach items="${packageList }" var="pack" varStatus="p">
+									   <form action="<%=basePath%>packageExpert/toPackageExpert.html">
+									   <!--包id  -->
+									   
+									   <input type="text" id="packageId" name="packageId" value="${pack.id }"/>
+								   	   <input type="text" name="projectId" value="${project.id}">
+								   	   <input type="text" name="packageIds" id="packageIds">
+										   <table class="table table-bordered table-condensed mt5">
+										 	            <h5>03、各包分配评委</h5>
+													      <c:forEach items="${packageList }" var="pack" varStatus="p">
+													      	<span>包名:<span>${pack.name }</span>
+													      	
+													      	<input type="button" onclick="submit1(this);" value="关联" class="btn btn-windows add"><br/>
+													      </c:forEach>
+										   </table>
+									   </form>
 								   </c:forEach>
 							   </div> 
 							<div class="container clear margin-top-30" id="package">
