@@ -885,7 +885,12 @@
 		STATUS = #{status}
 		where ID = #{id}
 	</update>
-
+  <update id="updateSupplierInspectListById" parameterType="ses.model.sms.Supplier">
+    update T_SES_SMS_SUPPLIER
+    set
+    SUPPLIER_INSPECT_LIST = #{supplierInspectList}
+    where ID = #{id}
+  </update> 
 
 	<resultMap type="ses.model.sms.Supplier" id="supplierMap" extends="BaseResultMap">
 		<association property="supplierMatEng" select="ses.dao.sms.SupplierMatEngMapper.getMatEngBySupplierId" column="ID" />

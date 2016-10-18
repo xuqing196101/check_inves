@@ -251,7 +251,7 @@ public interface SupplierAuditService {
      * @param @param supplierId      
      * @return void
      */
-    void updateBySupplierId (SupplierAudit supplierAudit);
+    void updateSupplierInspectListById (Supplier supplier);
     
     
     String findSupplierTypeNameBySupplierId(String supplierId);

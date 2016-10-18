@@ -36,6 +36,7 @@ import ses.model.sms.SupplierType;
 import ses.service.bms.CategoryService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierService;
+import ses.util.FtpUtil;
 import ses.util.PropUtil;
 
 import com.github.pagehelper.PageInfo;
@@ -329,9 +330,9 @@ public class SupplierAuditController extends BaseSupplierController{
 	@RequestMapping("reasonsList")
 	public String reasonsList(HttpServletRequest request,SupplierAudit supplierAudit){
 		String supplierId = supplierAudit.getSupplierId();
-		/*if(supplierId==null){
+		if(supplierId==null){
 			supplierId = (String) request.getSession().getAttribute("supplierId");
-		}*/
+		}
 		List<SupplierAudit> reasonsList = supplierAuditService.selectByPrimaryKey(supplierId);
 		request.setAttribute("reasonsList", reasonsList);
 		int num=reasonsList.size();
@@ -375,25 +376,30 @@ public class SupplierAuditController extends BaseSupplierController{
 	 * @return void
 	 */
 	public void setSuppliertUpload(HttpServletRequest request, SupplierAudit supplierAudit) throws IOException {
+		Supplier supplier = new Supplier();
 		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
-		// 检查form中是否有enctype="multipart/form-data"
-		if (multipartResolver.isMultipart(request)) {
-			// 将request变成多部分request
-			MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
-			// 获取multiRequest 中所有的文件名
-			Iterator<String> its = multiRequest.getFileNames();
-			String getRootPath= request.getSession().getServletContext().getRealPath("/").split("\\\\")[0] + "/" + PropUtil.getProperty("file.upload.path.supplier");
-			while (its.hasNext()) {
+		if (multipartResolver.isMultipart(request)) {// 检查form中是否有enctype="multipart/form-data"
+			MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;// 将request变成多部分request
+			Iterator<String> its = multiRequest.getFileNames();// 获取multiRequest 中所有的文件名
+			while (its.hasNext()) {// 循环遍历
 				String str = its.next();
 				MultipartFile file = multiRequest.getFile(str);
+				String fileName = file.getOriginalFilename();
 				if (file != null && file.getSize() > 0) {
-					String path = getRootPath + file.getOriginalFilename();
-					file.transferTo(new File(path));
+					String path = super.getStashPath(request) + fileName;// 获取暂存路径
+					file.transferTo(new File(path));// 暂存
+					FtpUtil.connectFtp(PropUtil.getProperty("file.upload.path.supplier"));// 连接 ftp 服务器
+					String newfileName = FtpUtil.upload(new File(path));// 上传到 ftp 服务器, 获取新的文件名
+					FtpUtil.closeFtp();// 关闭 ftp
+					super.removeStash(request, fileName);// 移除暂存
+					
+					// 上面代码固定, 下面封装名字到对象
 					if (str.equals("supplierInspectListFile")) {
-						supplierAudit.setSupplierInspectList(path);
-						supplierAuditService.updateBySupplierId(supplierAudit);
-						/*supplierAudit.setSupplierInspectList(path);*/
-					} 
+						String id = supplierAudit.getSupplierId();
+						supplier.setSupplierInspectList(newfileName);
+						supplier.setId(id);
+						supplierAuditService.updateSupplierInspectListById(supplier);
+					}
 				}
 			}
 		}
@@ -502,10 +508,14 @@ public class SupplierAuditController extends BaseSupplierController{
 	 */
 	@RequestMapping(value = "download")
 	public void download(HttpServletRequest request, HttpServletResponse response, String fileName) {
+		String stashPath = super.getStashPath(request);
+		FtpUtil.startDownFile(stashPath, PropUtil.getProperty("file.upload.path.supplier"), fileName);
+		FtpUtil.closeFtp();
 		if (fileName != null && !"".equals(fileName)) {
 			super.download(request, response, fileName);
 		} else {
 			super.alert(request, response, "无附件下载 !");
 		}
+		super.removeStash(request, fileName);
 	}
 }

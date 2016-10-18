@@ -169,10 +169,11 @@
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   
+  
   <update id="updateBySupplierId" parameterType="ses.model.sms.SupplierAudit">
     update T_SES_SMS_SUPPLIER_AUDIT
      set
-      SUPPLIER_INSPECT_LIST = #{supplierInspectList,jdbcType=VARCHAR}
-    where SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR}
+      SUPPLIER_INSPECT_LIST = #{supplierInspectList}
+    where SUPPLIER_ID = #{supplierId}
   </update>
 </mapper>

@@ -169,7 +169,7 @@
 	          <ul class="demand_list">
 	            <li class="fl">
                 <label class="fl mt5">专家姓名：</label>
-                <input type="text" id="relName" name="relName" value="${relName }">
+                <input type="text" id="relName" name="relName" value="${relName }" class="mb0 mt5">
                   <%-- <select name="relName" class="mb0 mt5" >
 			              <option value="">请选择</option>
 			              <c:forEach var="expert"  items="${expertName}">
@@ -179,7 +179,7 @@
 	            </li>
 		          <li class="fl">
 	               <label class="fl mt5">处罚方式：</label>
-		               <select name="punishDate"  id="punishDate" >
+		               <select name="punishDate"  id="punishDate" class="mb0 mt5">
 				            <option value="">-请选择-</option>
 											<option <c:if test="${punishDate =='3个月' }">selected</c:if> value="3个月">3个月</option>
 											<option <c:if test="${punishDate =='6个月' }">selected</c:if> value="6个月">6个月</option>
@@ -190,7 +190,7 @@
 		          </li>
 		          <li class="fl">
 	              <label class="fl mt5">处罚时限：</label>
-							    <select name="punishType" id="punishType">
+							    <select name="punishType" id="punishType" class="mb0 mt5">
 			            <option value=''>-请选择-</option>
 								  <option <c:if test="${punisType =='1' }">selected</c:if> value="1">警告</option>
 								  <option <c:if test="${punisType =='2' }">selected</c:if> value="2">严重警告</option>

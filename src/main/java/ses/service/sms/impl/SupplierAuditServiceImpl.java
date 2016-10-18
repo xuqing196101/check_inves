@@ -440,8 +440,8 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	}
 
 	@Override
-	public void updateBySupplierId(SupplierAudit supplierAudit) {
-		supplierAuditMapper.updateBySupplierId(supplierAudit);
+	public void updateSupplierInspectListById(Supplier supplier) {
+		supplierMapper.updateSupplierInspectListById(supplier);
 		
 	}
 

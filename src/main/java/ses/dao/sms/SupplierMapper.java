@@ -159,4 +159,6 @@ public interface SupplierMapper {
 	int updateSupplierProcurementDep(Supplier supplier);
 	
 	int updateScore(Supplier supplier);
+	
+	void updateSupplierInspectListById(Supplier record);
 }
