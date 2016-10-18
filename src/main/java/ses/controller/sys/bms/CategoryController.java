@@ -324,7 +324,7 @@ public class CategoryController extends BaseSupplierController {
 		response.getWriter().flush();
 		response.getWriter().close();
 	}
-<<<<<<< Updated upstream
+
 	
 	/**
 	 * @Title: findCategoryAndDisabled
@@ -348,8 +348,7 @@ public class CategoryController extends BaseSupplierController {
 	}
 
 	
-=======
->>>>>>> Stashed changes
+
 	/**
 	 * @Title: queryCategory
 	 * @author Song Biaowei

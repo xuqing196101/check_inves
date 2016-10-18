@@ -43,7 +43,7 @@
 			    select 
 			    <include refid="Base_Column_List" />
 			    from T_SES_PPMS_CATEGORY_PARAM
-			    where ID = #{category.id}
+			    where CATEGORY_ID = #{category.id}
 		  </select>
     <!-- 新增参数 -->
     <insert id="insertSelective" parameterType="ses.model.ppms.CategoryParam">

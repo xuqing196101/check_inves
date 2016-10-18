@@ -1,4 +1,4 @@
-<%@ page language="java" import="java.util.*" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ include file="../../../common.jsp"%>
@@ -18,10 +18,126 @@
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-
-  </head>
+	<link rel="stylesheet" type="text/css" href="<%=basePath%>/public/ztree/css/zTreeStyle.css"> 
+<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.exedit.js"></script>
+<script type="text/javascript">
+var datas;
+	var treeid=null;
+ $(document).ready(function(){
+	 var setting={
+		   async:{
+					autoParam:["id"],
+					enable:true,
+					url:"<%=basePath%>category/createtree.do",
+					dataType:"json",
+					type:"post",
+				},
+				callback:{
+			    	onClick:zTreeOnClick,//点击节点触发的事件
+			    	beforeRemove: zTreeBeforeRemove,
+			    	beforeRename: zTreeBeforeRename, 
+					onRemove: zTreeOnRemove,
+       			    onRename: zTreeOnRename,
+			    }, 
+				data:{
+					keep:{
+						parent:true
+					},
+					key:{
+						title:"title"
+					},
+					simpleData:{
+						enable:true,
+						idKey:"id",
+						pIdKey:"pId",
+						rootPId:"0",
+					}
+			    },
+			    edit:{
+			    	enable:true,
+					editNameSelectAll:true,
+					showRemoveBtn: true,
+					showRenameBtn: true,
+					removeTitle: "删除",
+					renameTitle:"重命名",
+				},
+			   check:{
+					enable: true
+			   },
+         };
+	 
+    $.fn.zTree.init($("#ztree"),setting,datas);
+    
+      }); 
+    
   
-  <body>
+   /**删除图片*/
+   function deletepic(treeid,obj){
+		$(obj).prev().remove();
+		$(obj).next().remove();
+		$(obj).remove();
+	}
+
+    /**点击事件*/
+    function zTreeOnClick(event,treeId,treeNode){
+		treeid=treeNode.id;
+		treename=treeNode.name;
+	    parentKind=treeNode.kind;
+	    isEnd=treeNode.isEnd;
+	    parentname=treeNode.getParentNode().name;
+    }
+    
+		
+	
    
+ 	/**重命名和删除的回调函数*/	
+    function zTreeOnRemove(event, treeId, treeNode,isCancel) {
+		}
+    function zTreeOnRename(event, treeId, treeNode, isCancel) {
+				 alert(treeNode.tId + ", " + treeNode.name); 
+ 		}  
+ 		
+	/**删除目录信息*/
+    function zTreeBeforeRemove(treeId, treeNode){
+	 		$.ajax({
+	 			type:"post",
+	 			url:"<%=basePath%>category/del.do?id="+treeNode.id,
+	 		});
+		}
+	 	
+	/**节点重命名*/
+    function zTreeBeforeRename(treeId,treeNode,newName,isCancel){
+			$.ajax({
+	 			type:"post",
+	 			url:"<%=basePath%>category/rename.do?id="+treeNode.id+"&name="+newName,
+	 		});
+		} 
+	
+	
+
+</script>
+  </head>
+  <body>
+  <div>
+   <span>事业单位：</span><input type="text" name="" value=""/>
+        <span>所属领导：</span><input type="text" name="" value=""/>
+        <input type="button" value="查询"/>
+        <input type="button" value="分配"/>
+        <input type="button" value="取消分配"/> 
+        <table>
+            <thead>    
+                <tr>
+                <th class="info"><input id="selectAll" type="checkbox" onclick="selectAll()"  /></th>
+                <th class="info">序号</th>
+                <th class="info">事业部门</th>
+                <th class="info">领导</th>
+                <th class="info">电话</th>
+                <th class="info">状态</th>
+                </tr>
+            </thead>
+       </table>
+ </div>
   </body>
 </html>
