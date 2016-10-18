@@ -6,10 +6,12 @@
     <result column="NAME" property="name"/>
    	<result column="PROJECT_ID" property="projectId"/>
    	<result column="IS_DELETED" property="isDeleted"/>
+   	<result column="CREATED_AT" property="createdAt"/>
+   	<result column="UPDATED_AT" property="updatedAt"/>
   </resultMap>
   
   <sql id="Base_Column_List">
-    ID, NAME, PROJECT_ID,IS_DELETED
+    ID, NAME, PROJECT_ID,IS_DELETED,CREATED_AT,UPDATED_AT
   </sql>
      
   <insert id="insertSelective" parameterType="bss.model.ppms.Packages">
@@ -30,6 +32,12 @@
       <if test="isDeleted != null">
         IS_DELETED,
       </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -43,6 +51,12 @@
       </if>
       <if test="isDeleted != null">
         #{isDeleted},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt},
       </if>
     </trim>
   </insert>
@@ -58,6 +72,12 @@
       <if test="isDeleted != null">
         IS_DELETED = #{isDeleted},
       </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        updatedAt = #{updatedAt},
+      </if>
     </set>
     where ID = #{id}
   </update>
@@ -72,6 +92,13 @@
    		WHERE 
    		<if test="projectId != null">
         	PROJECT_ID = #{projectId}
-      	</if>	
+      	</if>
+      	ORDER BY
+      		CREATED_AT DESC	
    </select>   
+   
+   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+	    delete from T_BSS_PPMS_PACKAGE
+	    where ID = #{id}
+  	</delete>
 </mapper>

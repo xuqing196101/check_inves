@@ -48,6 +48,10 @@ public class ProjectDetail {
 	private String memo;
 	
 	private String brand;
+	
+	private String parentId;
+	
+	private Date createdAt;
 
 	public String getId() {
 		return id;
@@ -225,6 +229,23 @@ public class ProjectDetail {
 		this.brand = brand;
 	}
 
+	public String getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+	
+	
 	
 
 	

@@ -3,9 +3,9 @@
  */
 package bss.model.ppms;
 
+import java.util.Date;
 import java.util.List;
 
-import bss.model.pms.PurchaseRequired;
 
 /**
  * @Title:Package
@@ -21,6 +21,10 @@ public class Packages {
 	private String projectId;
 	
 	private Integer isDeleted;
+	
+	private Date createdAt;
+	
+	private Date updatedAt;
 	
 	private List<ProjectDetail> projectDetails;
 
@@ -54,6 +58,22 @@ public class Packages {
 
 	public void setIsDeleted(Integer isDeleted) {
 		this.isDeleted = isDeleted;
+	}
+	
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 
 	public List<ProjectDetail> getProjectDetails() {

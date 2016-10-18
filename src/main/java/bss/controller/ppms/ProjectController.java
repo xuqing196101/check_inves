@@ -111,7 +111,7 @@ public class ProjectController extends BaseController{
 		model.addAttribute("purchaseRequired", purchaseRequired);
 		//显示项目明细
 		String idr = (String) request.getSession().getAttribute("idr");
-		List<ProjectDetail> list2 = new ArrayList<>();
+		List<ProjectDetail> list2 = new ArrayList<ProjectDetail>();
 		if(idr != null){
 			String[] ids = idr.split(",");
 			for (int i = 0; i < ids.length; i++) {
@@ -631,31 +631,20 @@ public class ProjectController extends BaseController{
 	@RequestMapping("/subPackage")
 	public String subPackage(HttpServletRequest request,Model model){
 		String id = request.getParameter("id");
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("id", id);
+		List<ProjectDetail> detail = detailService.selectById(map);
+		model.addAttribute("lists", detail);
 		HashMap<String,Object> pack = new HashMap<String,Object>();
 		pack.put("projectId", id);
-		List<Packages> packList = packageService.findPackageById(pack);
-		if(packList.size()==0){
-			Packages pg = new Packages();
-			pg.setName("第一包");
-			pg.setProjectId(id);
-			packageService.insertSelective(pg);
-			List<ProjectDetail> list = new ArrayList<ProjectDetail>();
-			List<Packages> pk = packageService.findPackageById(pack);
-			for(int i=0;i<list.size();i++){
-				ProjectDetail pd = new ProjectDetail();
-				pd.setId(list.get(i).getId());
-				pd.setPackageId(pk.get(0).getId());
-				detailService.update(pd);
-			}
-		}
 		List<Packages> packages = packageService.findPackageById(pack);
-		Map<String,Object> list = new HashMap<String,Object>();
-		for(Packages ps:packages){
-			list.put("pack"+ps.getId(),ps);
-			HashMap<String,Object> map = new HashMap<String,Object>();
-			map.put("packageId", ps.getId());
-			List<ProjectDetail> detailList = detailService.selectById(map);
-			ps.setProjectDetails(detailList);
+		if(packages.size()!=0){
+			for(Packages ps:packages){
+				HashMap<String,Object> packageId = new HashMap<String,Object>();
+				packageId.put("packageId", ps.getId());
+				List<ProjectDetail> detailList = detailService.selectById(packageId);
+				ps.setProjectDetails(detailList);
+			}
 		}
 		model.addAttribute("packageList", packages);
 		Project project = projectService.selectById(id);
@@ -663,75 +652,155 @@ public class ProjectController extends BaseController{
 		return "bss/ppms/project/sub_package";
 	}
 	
-	public List<PurchaseRequired> purList; 
-	public String pId;
-	
 	/**
 	 * 
-	* @Title: select
+	* @Title: checkProjectDeail
 	* @author ZhaoBo
-	* @date 2016-10-9 下午6:42:25  
-	* @Description: 选中效果 
-	* @param @param request
-	* @param @return      
-	* @return String
-	 */
-	@RequestMapping("/select")
-	@ResponseBody
-	public List<PurchaseRequired> select(HttpServletRequest request){
-		String id = request.getParameter("id");
-		recursion(id);
-		List<PurchaseRequired> list = new ArrayList<PurchaseRequired>();
-		list.addAll(purList);
-		return list;
-	}
-	
-	
-	
-	/**
-	 * 
-	* @Title: recursion
-	* @author ZhaoBo
-	* @date 2016-10-9 下午8:03:24  
+	* @date 2016-10-18 上午10:01:35  
 	* @Description: 递归选中 
-	* @param       
+	* @param @param response
+	* @param @param id
+	* @param @param model
+	* @param @throws IOException      
 	* @return void
 	 */
-	public void recursion(String id){
-		System.out.println(id);
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("parentId", id);
-		List<PurchaseRequired> purchaseRequired = purchaseRequiredService.getByMap(map);
-		purList.addAll(purchaseRequired);
-		if(purchaseRequired.size()!=0){
-			for(int i=0;i<purchaseRequired.size();i++){
-				pId = purchaseRequired.get(i).getId();
-				recursion(pId);
-			}
+	@RequestMapping("/checkProjectDeail")
+	public void checkProjectDeail(HttpServletResponse response,HttpServletRequest request) throws IOException{
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		ProjectDetail projectDetail = detailService.selectByPrimaryKey(request.getParameter("id"));
+		if("1".equals(projectDetail.getParentId())){
+			map.put("id", projectDetail.getId());
+			List<ProjectDetail> list = detailService.selectByParentId(map);
+			String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
+			response.setContentType("text/html;charset=utf-8");
+			response.getWriter().write(json);
+			response.getWriter().flush();
+			response.getWriter().close();
 		}
+		map.put("id", projectDetail.getId());
+		List<ProjectDetail> list = detailService.selectByParent(map);
+		String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
+		response.setContentType("text/html;charset=utf-8");
+		response.getWriter().write(json);
+		response.getWriter().flush();
+		response.getWriter().close();
 	}
 	
 	/**
 	 * 
-	* @Title: addPackage
+	* @Title: addPack
 	* @author ZhaoBo
-	* @date 2016-10-10 上午9:05:18  
+	* @date 2016-10-18 下午2:42:15  
 	* @Description: 添加分包 
 	* @param @param request
 	* @param @return      
 	* @return String
 	 */
-	@RequestMapping("/addPackage")
+	@RequestMapping("/addPack")
 	@ResponseBody
-	public List<PurchaseRequired> addPackage(HttpServletRequest request){
-		List<PurchaseRequired> purchaseRequired = new ArrayList<PurchaseRequired>();
+	public String addPack(HttpServletRequest request){
 		String[] id = request.getParameter("id").split(",");
+		String projectId = request.getParameter("projectId");
+		HashMap<String,Object> pack = new HashMap<String,Object>();
+		pack.put("projectId",projectId);
+		List<Packages> packList = packageService.findPackageById(pack);
+		Packages pg = new Packages();
+		pg.setName("第"+(packList.size()+1)+"包");
+		pg.setProjectId(projectId);
+		pg.setCreatedAt(new Date());
+		packageService.insertSelective(pg);
+		List<Packages> wantPackId = packageService.findPackageById(pack);
 		for(int i=0;i<id.length;i++){
-			PurchaseRequired pr = purchaseRequiredService.queryById(id[i]);
-			purchaseRequired.add(pr);
+			ProjectDetail projectDetail = new ProjectDetail();
+			projectDetail.setId(id[i]);
+			projectDetail.setPackageId(wantPackId.get(0).getId());
+			detailService.update(projectDetail);
 		}
-		return purchaseRequired;
+		return "1";
 	}
+	
+	/**
+	 * 
+	* @Title: editPackName
+	* @author ZhaoBo
+	* @date 2016-10-18 下午2:41:47  
+	* @Description: 修改包名 
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/editPackName")
+	@ResponseBody
+	public String editPackName(HttpServletRequest request){
+		String name = request.getParameter("name");
+		String id = request.getParameter("id");
+		Packages pk = new Packages();
+		pk.setId(id);
+		pk.setName(name);
+		packageService.updateByPrimaryKeySelective(pk);
+		return "1";
+	}
+	
+	/**
+	 * 
+	* @Title: deletePackageById
+	* @author ZhaoBo
+	* @date 2016-10-18 下午3:15:18  
+	* @Description: 删除分包 
+	* @param @param request
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/deletePackageById")
+	@ResponseBody
+	public String deletePackageById(HttpServletRequest request){
+		String id = request.getParameter("id");
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("packageId", id);
+		List<ProjectDetail> detail = detailService.selectById(map);
+		for(int i=0;i<detail.size();i++){
+			ProjectDetail projectDetail = new ProjectDetail();
+			projectDetail.setId(detail.get(i).getId());
+			projectDetail.setPackageId(" ");
+			detailService.update(projectDetail);
+		}
+		packageService.deleteByPrimaryKey(id);
+		return "1";
+	}
+	
+//	@RequestMapping("/subPackage")
+//	public String subPackage(HttpServletRequest request,Model model){
+//		String id = request.getParameter("id");
+//		HashMap<String,Object> pack = new HashMap<String,Object>();
+//		pack.put("projectId", id);
+//		List<Packages> packList = packageService.findPackageById(pack);
+//		if(packList.size()==0){
+//			Packages pg = new Packages();
+//			pg.setName("第一包");
+//			pg.setProjectId(id);
+//			packageService.insertSelective(pg);
+//			List<ProjectDetail> list = new ArrayList<ProjectDetail>();
+//			List<Packages> pk = packageService.findPackageById(pack);
+//			for(int i=0;i<list.size();i++){
+//				ProjectDetail pd = new ProjectDetail();
+//				pd.setId(list.get(i).getId());
+//				pd.setPackageId(pk.get(0).getId());
+//				detailService.update(pd);
+//			}
+//		}
+//		List<Packages> packages = packageService.findPackageById(pack);
+//		Map<String,Object> list = new HashMap<String,Object>();
+//		for(Packages ps:packages){
+//			list.put("pack"+ps.getId(),ps);
+//			HashMap<String,Object> map = new HashMap<String,Object>();
+//			map.put("packageId", ps.getId());
+//			List<ProjectDetail> detailList = detailService.selectById(map);
+//			ps.setProjectDetails(detailList);
+//		}
+//		model.addAttribute("packageList", packages);
+//		Project project = projectService.selectById(id);
+//		model.addAttribute("project", project);
+//		return "bss/ppms/project/sub_package";
+//	}
 	
 	/**
 	 * 

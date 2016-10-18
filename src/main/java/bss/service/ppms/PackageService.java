@@ -50,4 +50,16 @@ public interface PackageService {
 	* @return List<Package>
 	 */
 	List<Packages> findPackageById(HashMap<String,Object> map);
+	
+	/**
+	 * 
+	* @Title: deleteByPrimaryKey
+	* @author ZhaoBo
+	* @date 2016-10-18 下午3:04:26  
+	* @Description: 根据Id删除 
+	* @param @param id
+	* @param @return      
+	* @return int
+	 */
+	int deleteByPrimaryKey(String id);
 }

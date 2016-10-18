@@ -2,6 +2,7 @@ package bss.service.ppms.impl;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,6 +44,18 @@ public class ProjectDetailServiceImpl implements ProjectDetailService {
 	@Override
 	public List<ProjectDetail> selectById(HashMap<String,Object> map) {
 		return projectDetailMapper.selectById(map);
+	}
+
+	
+	@Override
+	public List<ProjectDetail> selectByParentId(Map<String, Object> map) {
+		return projectDetailMapper.selectByParentId(map);
+	}
+
+	
+	@Override
+	public List<ProjectDetail> selectByParent(Map<String, Object> map) {
+		return projectDetailMapper.selectByParent(map);
 	}
 
 }

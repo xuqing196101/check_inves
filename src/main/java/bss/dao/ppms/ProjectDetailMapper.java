@@ -2,6 +2,7 @@ package bss.dao.ppms;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import bss.model.ppms.ProjectDetail;
 
@@ -18,5 +19,9 @@ public interface ProjectDetailMapper {
 	void updateByPrimaryKeySelective(ProjectDetail projectDetail);
 	
 	List<ProjectDetail> listByAll(ProjectDetail projectDetail);
-
+	
+	
+	 List<ProjectDetail> selectByParentId(Map<String, Object> map);
+	    
+	 List<ProjectDetail> selectByParent(Map<String, Object> map);
 }

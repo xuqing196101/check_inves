@@ -40,4 +40,10 @@ public class PackageServiceImpl implements PackageService{
 		return packageMapper.findPackageById(map);
 	}
 
+	
+	@Override
+	public int deleteByPrimaryKey(String id) {
+		return packageMapper.deleteByPrimaryKey(id);
+	}
+
 }
