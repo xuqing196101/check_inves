@@ -37,7 +37,7 @@
         area : [ '800px', '500px' ], //宽高
         offset : '80px',
         scrollbar : false,
-        content : '${pageContext.request.contextPath}/expert/expert_list.html', //url
+        content : '${pageContext.request.contextPath}/expertBlacklist/expert_list.html', //url
         closeBtn : 1, //不显示关闭按钮
       });
     });
@@ -56,7 +56,7 @@
 	</div>
 	<!-- 表格开始-->
   <div class="container">
-    <form action="<%=basePath %>expert/saveBlacklist.do" method="post" id="form1" enctype="multipart/form-data" class="registerform">
+    <form action="<%=basePath %>expertBlacklist/saveBlacklist.do" method="post" id="form1" enctype="multipart/form-data" class="registerform">
     <input type="hidden" name="operationType" value="0">
       <h2 class="f16 jbxx1">
          <i>01</i>基本信息
@@ -118,7 +118,7 @@
 	   <div class="margin-bottom-0  categories">
       <div class="col-md-12 add_regist tc">
 		    <button class="btn btn-windows save" type="submit">保存</button>
-		    <a class="btn btn-windows reset"  onclick="location.href='${pageContext.request.contextPath}/expert/blacklist.html'">返回</a>
+		    <a class="btn btn-windows reset"  onclick="location.href='${pageContext.request.contextPath}/expertBlacklist/blacklist.html'">返回</a>
 		   </div>
 	  </div>
 	 </form>

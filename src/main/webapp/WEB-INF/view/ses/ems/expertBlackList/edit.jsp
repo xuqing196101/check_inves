@@ -40,6 +40,11 @@
     }
   });
   
+  //文件下載
+  function downloadFile(fileName) {
+    $("input[name='fileName']").val(fileName);
+    $("#download_form_id").submit();
+  }
 </script>
 </head>
 <body>
@@ -53,7 +58,7 @@
   </div>
 <!-- 表格开始-->
   <div class="container">
-    <form action="<%=basePath %>expert/updateBlacklist.html" method="post" id="form1" enctype="multipart/form-data" class="registerform">
+    <form action="<%=basePath %>expertBlacklist/updateBlacklist.html" method="post" id="form1" enctype="multipart/form-data" class="registerform">
       <input type="hidden" name="id" value="${expert.id}">
       <input type="hidden" name="operationType" value="1">
       <h2 class="f16 jbxx1">
@@ -111,11 +116,8 @@
         <li class="">
           <span class="" >批准文件:</span>
           <input class="span2" type="file" name="attachmentCertFile"/>
-         </li>
-<!--          <li class="col-md-6 p0">
-          <span class="" >已上传的批准文件:</span>
-           <a class="span2" name="attachmentCertFile">查看</a>
-         </li> -->
+          <a onclick="downloadFile('${expert.attachmentCert}')" class="btn btn_back">查看</a>
+        </li>
        </ul>
      </div>
       <div class="margin-bottom-0  categories">
@@ -126,5 +128,8 @@
       </div>
     </form>
   </div>
+  <form target="_blank" id="download_form_id" action="${pageContext.request.contextPath}/expertBlacklist/download.html" method="post">
+   <input type="hidden" name="fileName" />
+  </form>
 </body>
 </html>

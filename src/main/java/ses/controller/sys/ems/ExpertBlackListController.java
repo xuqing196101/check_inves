@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -20,10 +21,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertBlackList;
 import ses.model.ems.ExpertBlackListLog;
 import ses.service.ems.ExpertBlackListService;
+import ses.util.FtpUtil;
 import ses.util.PropUtil;
 
 import com.github.pagehelper.PageInfo;
@@ -35,8 +38,8 @@ import com.github.pagehelper.PageInfo;
  * @date 2016-9-8下午2:51:05
  */
 @Controller
-@RequestMapping("/expert")
-public class ExpertBlackListController {
+@RequestMapping("/expertBlacklist")
+public class ExpertBlackListController extends BaseSupplierController{
 	@Autowired
 	private ExpertBlackListService service;
 	/**
@@ -183,22 +186,25 @@ public class ExpertBlackListController {
 	 */
 	public void setExpertBlackListUpload(HttpServletRequest request, ExpertBlackList expertBlackList) throws IOException {
 		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
-		// 检查form中是否有enctype="multipart/form-data"
-		if (multipartResolver.isMultipart(request)) {
-			// 将request变成多部分request
-			MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
-			// 获取multiRequest 中所有的文件名
-			Iterator<String> its = multiRequest.getFileNames();
-			String getRootPath= request.getSession().getServletContext().getRealPath("/").split("\\\\")[0] + "/" + PropUtil.getProperty("file.upload.path.expertBlackList");
-			while (its.hasNext()) {
+		if (multipartResolver.isMultipart(request)) {// 检查form中是否有enctype="multipart/form-data"
+			MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;// 将request变成多部分request
+			Iterator<String> its = multiRequest.getFileNames();// 获取multiRequest 中所有的文件名
+			while (its.hasNext()) {// 循环遍历
 				String str = its.next();
 				MultipartFile file = multiRequest.getFile(str);
+				String fileName = file.getOriginalFilename();
 				if (file != null && file.getSize() > 0) {
-					String path = getRootPath + file.getOriginalFilename();
-					file.transferTo(new File(path));
+					String path = super.getStashPath(request) + fileName;// 获取暂存路径
+					file.transferTo(new File(path));// 暂存
+					FtpUtil.connectFtp(PropUtil.getProperty("file.upload.path.supplier"));// 连接 ftp 服务器
+					String newfileName = FtpUtil.upload(new File(path));// 上传到 ftp 服务器, 获取新的文件名
+					FtpUtil.closeFtp();// 关闭 ftp
+					super.removeStash(request, fileName);// 移除暂存
+					
+					// 上面代码固定, 下面封装名字到对象
 					if (str.equals("attachmentCertFile")) {
-						expertBlackList.setAttachmentCert(path);
-					} 
+						expertBlackList.setAttachmentCert(newfileName);
+					}
 				}
 			}
 		}
@@ -242,6 +248,26 @@ public class ExpertBlackListController {
 		List<ExpertBlackListLog> log= service.findBlackListLog();
 		model.addAttribute("log", log);
 		return "ses/ems/expertBlackList/log";
+	}
+	
+	/**
+	 * @Title: download
+	 * @author Xu Qing
+	 * @date 2016-10-8 下午14:57:27  
+	 * @Description:文件下載  
+	 * @return String
+	 */
+	@RequestMapping(value = "download")
+	public void download(HttpServletRequest request, HttpServletResponse response, String fileName) {
+		String stashPath = super.getStashPath(request);
+		FtpUtil.startDownFile(stashPath, PropUtil.getProperty("file.upload.path.supplier"), fileName);
+		FtpUtil.closeFtp();
+		if (fileName != null && !"".equals(fileName)) {
+			super.download(request, response, fileName);
+		} else {
+			super.alert(request, response, "无附件下载 !");
+		}
+		super.removeStash(request, fileName);
 	}
 	
 	@InitBinder

@@ -94,7 +94,7 @@
 </head>
 <body>
   <div class="wrapper">
-    <form action="${pageContext.request.contextPath}/expert/expert_list.html"  id="search_form_id" method="get" class="registerform"> 
+    <form action="${pageContext.request.contextPath}/expertBlacklist/expert_list.html"  id="search_form_id" method="get" class="registerform"> 
     <input type="hidden" name="page" id="page">
     <ul class="demand_list">
       <li class="fl">
@@ -134,10 +134,10 @@
           </div>
           <div class="tc mb10">
             <a class="btn btn-windows save" onclick="checkExpert()">选择</a>
-            <a target="_parent" class="btn btn-windows reset" href="${pageContext.request.contextPath}/expert/addBlacklist.html">返回</a>
+            <a target="_parent" class="btn btn-windows reset" href="${pageContext.request.contextPath}/expertBlacklist/addBlacklist.html">返回</a>
           </div>
         </div>
-      <form target="_parent" id="check_form_id" action="${pageContext.request.contextPath}/expert/addBlacklist.html" method="post">
+      <form target="_parent" id="check_form_id" action="${pageContext.request.contextPath}/expertBlacklist/addBlacklist.html" method="post">
         <!-- <input id="relName_id_input_id" type="hidden" name="id" /> -->
         <input id="relName_name_input_id" type="hidden" name="relName" />
       </form>

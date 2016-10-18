@@ -78,7 +78,7 @@
 
 	/**添加页面*/
 	function add(){
-		window.location.href="<%=basePath%>expert/addBlacklist.html";
+		window.location.href="<%=basePath%>expertBlacklist/addBlacklist.html";
 	}
 	
 	//更新
@@ -88,7 +88,7 @@
 			id.push($(this).val());
 		}); 
 		if(id.length==1){
-			window.location.href="<%=basePath%>expert/editBlacklist.html?id="+id;
+			window.location.href="<%=basePath%>expertBlacklist/editBlacklist.html?id="+id;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset:'200px'});
 		}else{
@@ -111,7 +111,7 @@
 		       		success:function(){
 		       			layer.msg("删除成功",{offset:'200px'});
 			       		window.setTimeout(function(){
-			       			location.href = "<%=basePath%>expert/blacklist.html";
+			       			location.href = "<%=basePath%>expertBlacklist/blacklist.html";
 			       		}, 1000);
 		       		},
 		       		error: function(message){
@@ -125,7 +125,7 @@
     }
     
    function log(){
-   window.location.href="${pageContext.request.contextPath}/expert/expertBlackListLog.html";
+   window.location.href="${pageContext.request.contextPath}/expertBlacklist/expertBlackListLog.html";
    }
    
    function resetForm(){
@@ -164,7 +164,7 @@
 	<!-- 搜索 -->
 	<div class="container">
     <div class="p10_25">
-	    <form action="<%=basePath %>expert/blacklist.html"  method="post" id="form1" enctype="multipart/form-data" class="padding-10 border1 mb0"> 
+	    <form action="<%=basePath %>expertBlacklist/blacklist.html"  method="post" id="form1" enctype="multipart/form-data" class="padding-10 border1 mb0"> 
 	      <input type="hidden" name="page" id="page">
 	          <ul class="demand_list">
 	            <li class="fl">
