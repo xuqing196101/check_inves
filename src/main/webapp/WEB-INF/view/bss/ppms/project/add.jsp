@@ -68,17 +68,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 }  
             }
         });
-        var idr = $("#idr").val();
+       /*  var idr = $("#idr").val();
         if(idr==null || idr == ''){
             $("#qwe").hide();
         }
-        
+         */
   });
   
     
     /** 勾选父子节点 */
     function check(ele){
         var flag = $(ele).prop("checked");
+         var purchaseType = $("input[name='chkItem']:checked").parents("tr").find("td").eq(10).text();
+             purchaseType = $.trim(purchaseType);
         var id = $(ele).val();
         $.ajax({
                     url:"<%=basePath%>project/checkDeail.html",
@@ -89,9 +91,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                        for (var i = 0; i < result.length; i++) {
                            $("input[name='chkItem']").each(function() {
                                 var v1 = result[i].id;
+                                var v3 = result[i].purchaseType;
+                                if(v3 == purchaseType){
                                 var v2 = $(this).val();
                                 if (v1 == v2) {
                                     $(this).prop("checked", flag);
+                                }
+                               }else{
+                                    layer.alert("采购方式不相同",{offset: ['222px', '390px'], shade:0.01});
                                 }
                            });
                        }
@@ -154,7 +161,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  <div class="margin-top-10 breadcrumbs ">
       <div class="container">
            <ul class="breadcrumb margin-left-0">
-           <li><a href="#"> 首页</a></li><li><a href="#">保障作业系统</a></li><li><a href="#">采购任务管理</a></li><li class="active"><a href="#">采购任务受领管理</a></li>
+           <li><a href="#"> 首页</a></li><li><a href="#">保障作业系统</a></li><li><a href="#">立项管理</a></li><li class="active"><a href="#">新增需求明显</a></li>
            </ul>
         <div class="clear"></div>
       </div>
@@ -236,7 +243,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </tr>
         </thead>
             <tbody id="tbody_id">
-                 <c:forEach items="${info.list}" var="obj" varStatus="vs">
+                 <c:forEach items="${list}" var="obj" varStatus="vs">
           <%-- <c:if test="${'0'==obj.status}"> --%>
             <tr style="cursor: pointer;">
               <td class="tc w50">${obj.seq}</td>
@@ -266,51 +273,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
  </div>
     
-    <div id= "qwe">
-        <table class="table table-bordered table-condensed mt5">
-        <thead>
-        <tr>
-          <th class="info w50">序号</th>
-          <th class="info">需求部门</th>
-          <th class="info">物资名称</th>
-          <th class="info">规格型号</th>
-          <th class="info">质量技术标准</th>
-          <th class="info">计量单位</th>
-          <th class="info">采购数量</th>
-          <th class="info">单价（元）</th>
-          <th class="info">预算金额（万元）</th>
-          <th class="info">交货期限</th>
-          <th class="info">采购方式建议</th>
-          <th class="info">供应商名称</th>
-          <th class="info">是否申请办理免税</th>
-          <th class="info">物资用途（进口）</th>
-          <th class="info">使用单位（进口）</th>
-        </tr>
-        </thead>
-          <c:forEach items="${lists}" var="obj" varStatus="vs">
-            <tr style="cursor: pointer;">
-              <td class="tc w50">${obj.serialNumber}</td>
-              <td class="tc">${obj.department}</td>
-              <td class="tc">${obj.goodsName}</td>
-              <td class="tc">${obj.stand}</td>
-              <td class="tc">${obj.qualitStand}</td>
-              <td class="tc">${obj.item}</td>
-              <td class="tc">${obj.purchaseCount}</td>
-              <td class="tc">${obj.price}</td>
-              <td class="tc">${obj.budget}</td>
-              <td class="tc">${obj.deliverDate}</td>
-              <td class="tc"> ${obj.purchaseType}</td>
-              <td class="tc">${obj.supplier}</td>
-              <td class="tc">${obj.isFreeTax}</td>
-              <td class="tc">${obj.goodsUse}</td>
-              <td class="tc">${obj.useUnit}</td>
-            </tr>
-     
-         </c:forEach>  
-         
-
-      </table>
-    </div>
+    
  
      </body>
 </html>

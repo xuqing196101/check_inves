@@ -105,9 +105,9 @@ public class ProjectController extends BaseController{
 	 */
 	@RequestMapping("/add")
 	public String add(Integer page,Model model,PurchaseRequired purchaseRequired,HttpServletRequest request){
-		List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired, page==null?1:page);
-		PageInfo<PurchaseRequired> info = new PageInfo<PurchaseRequired>(list);
-		model.addAttribute("info", info);
+		PurchaseRequired p=new PurchaseRequired();
+		List<PurchaseRequired> list = purchaseRequiredService.query(p,0);
+		model.addAttribute("list", list);
 		model.addAttribute("purchaseRequired", purchaseRequired);
 		//显示项目明细
 		String idr = (String) request.getSession().getAttribute("idr");
@@ -161,11 +161,56 @@ public class ProjectController extends BaseController{
 	* @return String
 	 */
 	@RequestMapping("/create")
-	public String create(String id,Model model){
+	public String create(String id, Model model, HttpServletRequest request){
+		ProjectDetail projectDetail = new ProjectDetail();
 		String[] ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(ids[i]);
+			projectDetail.setSerialNumber(purchaseRequired.getSeq());
+			projectDetail.setDepartment(purchaseRequired.getDepartment());
+			projectDetail.setGoodsName(purchaseRequired.getGoodsName());
+			projectDetail.setStand(purchaseRequired.getStand());
+			projectDetail.setQualitStand(purchaseRequired.getQualitStand());
+			projectDetail.setItem(purchaseRequired.getItem());
+			if(purchaseRequired.getPurchaseCount() != null){
+				String purchaseCount = purchaseRequired.getPurchaseCount().toString();
+				projectDetail.setPurchaseCount(Integer.valueOf(purchaseCount));
+			}
+			if(purchaseRequired.getPrice() != null){
+				projectDetail.setPrice(purchaseRequired.getPrice().doubleValue());
+			}
+			if(purchaseRequired.getBudget() != null){
+				projectDetail.setBudget(purchaseRequired.getBudget().doubleValue());
+			}
+			if(purchaseRequired.getDeliverDate() != null){
+				projectDetail.setDeliverDate(purchaseRequired.getDeliverDate());
+			}
+			if(purchaseRequired.getPurchaseType() != null){
+				projectDetail.setPurchaseType(purchaseRequired.getPurchaseType());
+			}
 			
+			if(purchaseRequired.getSupplier() != null){
+				projectDetail.setSupplier(purchaseRequired.getSupplier());
+			}
+			if(purchaseRequired.getIsFreeTax() != null){
+				projectDetail.setIsFreeTax(purchaseRequired.getIsFreeTax());
+			}
+			if(purchaseRequired.getGoodsUse() != null){
+				projectDetail.setGoodsUse(purchaseRequired.getGoodsUse());
+			}
+			if(purchaseRequired.getUseUnit() != null){
+				projectDetail.setUseUnit(purchaseRequired.getUseUnit());
+			}
+			detailService.insert(projectDetail);
+			String ide = projectDetail.getId();
+			String idr = (String) request.getSession().getAttribute("idr");
+			if (idr != null) {
+				idr = idr + "," + ide;
+				request.getSession().setAttribute("idr", idr);
+			} else {
+				request.getSession().setAttribute("idr",
+						ide);
+			}
 			model.addAttribute("purchaseRequired", purchaseRequired);
 		}
 		return "bss/ppms/project/addProject";
@@ -182,7 +227,29 @@ public class ProjectController extends BaseController{
 	* @param @return      
 	* @return String
 	 */
+		
 	@RequestMapping("/createProject")
+	public String createProject(String name,String projectNumber,String purchaseType,HttpServletRequest request){
+	    Project project = new Project();
+		if(name != null && projectNumber != null){
+			project.setName(name);
+			project.setProjectNumber(projectNumber);
+			project.setPurchaseType(purchaseType);
+			project.setCreateAt(new Date());
+			project.setStatus(3);
+			projectService.add(project);
+		}
+		String ide = (String) request.getSession().getAttribute("idr");
+		request.getSession().removeAttribute("idr");
+		String[] projectId = ide.split(",");
+		for (int i = 0; i < projectId.length; i++) {
+			ProjectDetail detail = detailService.selectByPrimaryKey(projectId[i]);
+			detail.setProject(new Project(project.getId()));
+			detailService.update(detail);
+	}
+		return "redirect:list.html";
+	}
+	/*@RequestMapping("/createProject")
 	public String createProject(String name,String projectNumber,String purchaseId,HttpServletRequest request){
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		map.put("orgId", purchaseId);
@@ -218,7 +285,7 @@ public class ProjectController extends BaseController{
 		}
 		}
 		return "redirect:list.html";
-	}
+	}*/
 	/**
 	 * 
 	* @Title: view
@@ -232,7 +299,7 @@ public class ProjectController extends BaseController{
 	 */
 	@RequestMapping("/view")
 	public String view(String id,Model model,Integer page,HttpServletRequest request){
-		request.getSession().setAttribute("tt", id);
+		/*request.getSession().setAttribute("tt", id);
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		map.put("projectId", id);
 		List<Task> lists = taskservice.listBy(null, page==null?1:page);
@@ -244,8 +311,12 @@ public class ProjectController extends BaseController{
 		PageInfo<Task> info = new PageInfo<Task>(lists);
 		Project project = projectService.selectById(id);
 		model.addAttribute("info", info);
-		model.addAttribute("ject", project);
-		return "bss/ppms/project/view";
+		model.addAttribute("ject", project);*/
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("projectId", id);
+		List<ProjectDetail> detail = detailService.selectById(map);
+		model.addAttribute("lists", detail);
+		return "bss/ppms/project/viewDetail";
 	}
 	/**
 	 * 
@@ -411,7 +482,7 @@ public class ProjectController extends BaseController{
 	* @param @return      
 	* @return String
 	 */
-	@RequestMapping("/viewDet")
+	/*@RequestMapping("/viewDet")
 	public String viewDet(String id,Model model,HttpServletRequest request){
 		request.getSession().setAttribute("qq",id);
 		String idss = (String) request.getSession().getAttribute("idss");
@@ -432,7 +503,7 @@ public class ProjectController extends BaseController{
 		model.addAttribute("lists", list);
 		}
 		return "bss/ppms/project/saveDetail";
-	}
+	}*/
 	/**
 	 * 
 	* @Title: saveDetail
@@ -445,7 +516,7 @@ public class ProjectController extends BaseController{
 	* @param @return      
 	* @return String
 	 */
-	@RequestMapping("/saveDetail")
+	/*@RequestMapping("/saveDetail")
 	public String saveDetail(String id,Model model,HttpServletRequest request){
 		String[] ids = id.split(",");
 		String ida = (String) request.getSession().getAttribute("qq");
@@ -482,7 +553,7 @@ public class ProjectController extends BaseController{
 		}
 		return "redirect:add.html";
 		 
-	}
+	}*/
 	/**
 	 * 
 	* @Title: editDet
