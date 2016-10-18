@@ -1,5 +1,6 @@
 package ses.service.bms.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -157,6 +158,12 @@ public class CategoryServiceImpl implements CategoryService {
 			listSupplierTypeTrees.add(supplierTypeTree);
 		}
 		return listSupplierTypeTrees;
+	}
+
+	@Override
+	public BigDecimal checkName(String name) {
+		// TODO Auto-generated method stub
+		return categoryMapper.checkName(name);
 	}
 	
 	

@@ -50,7 +50,8 @@
 						parent:true
 					},
 					key:{
-						title:"title"
+						title:"title",
+						name:"name",
 					},
 					simpleData:{
 						enable:true,
@@ -74,7 +75,7 @@
  $.fn.zTree.init($("#ztree"),setting,datas); 
  
     
-}) 
+}); 
    
    /**点击事件*/
    function zTreeOnClick(event,treeId,treeNode){
@@ -90,7 +91,7 @@
 				var html = "";
 					html = html+"<tr><td><laber>参数名称：</label><input name='name'/></td>"
 					+"<td><span>参数类型：</span><select name='valueType' calss='w200'>"
-					+"<option>请选择</option>"
+					+"<option>--请选择--</option>"
 					+"<option value='字符型'>字符型</option>"
 					+"<option value='数字型'>数字型</option>"
 				    +"<option  value='日期'>日期</option>"
@@ -162,17 +163,16 @@
     	var type="";
     	/**根据name获取各项数据的值*/
         obj = document.getElementsByName("name");
-        alert(obj);
-        console.info(obj);
-        abj = document.getElementsByName("valueType");
-        alert(abj);
+      
+        
+       abj = document.getElementsByName("valueType");
+        
 		cbj=document.getElementsByName("productName");
-		alert(cbj);
-		dbj=document.getElementsByName("saleName");
-		alert(dbj);
-		ebj=document.getElementsByName("type");
 		
-		alert(ebj);
+		dbj=document.getElementsByName("saleName");
+		
+		ebj=document.getElementsByName("type");
+	
         for ( var i = 0; i < obj.length; i++) {
 			name+=$(obj[i]).val()+",";
 		}
@@ -199,13 +199,13 @@
 </script>
      </head>
  <body>
- <div class="wrapper">
+
   
 	<!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a><li><a href="#">产品参数管理</a><li>
+		   <li><a href="#"> 首页</a><li><a href="#">产品参数管理</a><li><a href="#">审核</a><li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -218,10 +218,10 @@
 	 </div>
 	</div >
 		<div class=" tag-box tag-box-v4 mt10 col-md-9">
-			<span id="add"><a href="javascript:void(0);" onclick="news()" class="btn btn-window ">添加参数 </a></span>
-			<span><a href="javascript:void(0);" onclick="update()" class="btn btn-window ">修改参数 </a></span>
-			<span><a href="javascript:void(0);" onclick="imports()" class="btn btn-window ">导入Excel</a></span>
-			<span><a href="javascript:void(0);" onclick="exports()" class="btn btn-window ">导出Excel</a></span>
+			<span id="add"><a href="javascript:void(0);" onclick="news()" class="btn btn-windows add ">添加参数 </a></span>
+			<span><a href="javascript:void(0);" onclick="update()" class="btn btn-windows edit">修改参数 </a></span>
+			<span><a href="javascript:void(0);" onclick="imports()" class="btn btn-windows input">导入Excel</a></span>
+			<span><a href="javascript:void(0);" onclick="exports()" class="btn btn-windows output">导出Excel</a></span>
 			
                  <form id="form" action="<%=basePath%>categoryparam/save.do" method="post">
                      <input id="cateid" type="hidden" name="categoryId" value=""/>
@@ -256,29 +256,15 @@
 					 <input  type="button" value="添加" onclick="addAtt()" class="mb10"/><br/></div>
 					 </td></tr>
 				     <tr><td colspan="2"  >
-					<input  type="button" class="btn mr30" onclick="fun()" value="提交"/>
-					<input type="button"class="btn" value="返回" onclick="location.href='javascript:history.go(-1);'"/>
+					<input  type="button" class="btn mr30 btn-windows git" onclick="fun()" value="提交"/>
+					 <input type="button"class="btn btn-windows back" value="返回" onclick="javascript:history.go(-1);"/>
 					 </td></tr> 
                 </table>
             </form>
-       
+       </div>
         </div>
-    </div>
+
 	
-	<!--底部代码开始-->
-    <div class="footer-v2 clear" id="footer-v2">
-      <div class="footer">
-            <!-- Address -->
-              <address class="">
-			  Copyright © 2016 版权所有：中央军委后勤保障部 京ICP备09055519号
-              </address>
-              <div class="">
-		       浏览本网主页，建议将电脑显示屏的分辨率调为1024*768
-              </div> 
-            <!-- End Address -->
-<!--/footer--> 
-    </div>
-    </div>
   
   </body>
 </html>

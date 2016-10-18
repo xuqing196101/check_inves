@@ -1,6 +1,7 @@
 package ses.dao.bms;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -145,9 +146,17 @@ public interface CategoryMapper {
 	* @Title: findCategoryByType
 	* @author zhangxuefeng 
 	* @Description:根据类型查询品目名称
-	* @param @param id
-	* @return int
+	* @param @param category
+	* @return     List
 	 */
-	public List<Category> findCategoryByType(Category category);
-
+    List<Category> findCategoryByType(Category category);
+    /**
+	 * 
+	* @Title: checkName
+	* @author zhangxuefeng 
+	* @Description:根据类型查询品目名称
+	* @param @param Category
+	* @return Integer
+	 */
+    BigDecimal checkName(String name); 
 }

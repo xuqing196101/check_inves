@@ -1,11 +1,14 @@
 package ses.controller.sys.bms;
 
+
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -16,24 +19,20 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import javax.xml.ws.Response;
 
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.JavaScriptUtils;
 
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.Category;
@@ -64,15 +63,10 @@ public class CategoryController extends BaseSupplierController {
 	@Autowired
 	private CategoryService categoryService;
 
-
-
-
 	private Map<String, Object> listCategory = new HashMap<String, Object>();
 
     @Autowired
 	private CategoryAttachmentService categoryAttachmentService;
-	
-
 	
 
 	public Map<String, Object> getListCategory() {
@@ -82,32 +76,6 @@ public class CategoryController extends BaseSupplierController {
 	public void setListCategory(Map<String, Object> listCategory) {
 		this.listCategory = listCategory;
 	}
-
-	/**
-	 * 
-	 * @Title: selectAll
-	 * @author zhangxuefeng
-	 * @date 2016-7-18 下午4:27:01
-	 * @Description:根据父 id生成列表
-	 * @param @return
-	 * @param @throws Exception
-	 * @return String
-	 */
-	/*
-	 * @ResponseBody
-	 * 
-	 * @RequestMapping("/findListByParent") 
-	 * public String selectAll(HttpServletRequest request,Category category){
-	 *  if (category.getId()==null) {
-	 *   category.setId("a"); 
-	 *   }
-	 *    List<Category> cateList=categoryService.listByParent(category.getId());
-	 *     listCategory.put("cateList", cateList); 
-	 *     listCategory.put("id", category.getId()); 
-	 *     return JSON.toJSONString(listCategory); 
-	 *     }
-	 */
-
 	/**
 	 * 
 	 * @Title: createtree
@@ -133,25 +101,22 @@ public class CategoryController extends BaseSupplierController {
 				ct.setIsParent("true");
 				cate.setIsEnd(1);
 			}else{
-
 				ct.setIsParent("false");
-				
 			}
 			ct.setId(cate.getId());
 			ct.setName(cate.getName());
 			ct.setpId(cate.getParentId());
+			ct.setKind(cate.getKind());
+			ct.setIsEnd(cate.getIsEnd());
 			jList.add(ct);
 			list = gson.toJson(jList);
 		}
 		return list;
 	}
-
-
-
 	/**
 	 * @Title: get
 	 * @author zhangxuefeng
-	 * @Description:创建新增页面
+	 * @Description:进入采购页面
 	 * @param @return
 	 * @return String
 	 */
@@ -159,40 +124,24 @@ public class CategoryController extends BaseSupplierController {
 	public String get(HttpServletRequest request) {
 		return "ses/bms/category/list";
 	}
-
+	
 	/**
-	 * 
-	 * @Title: add
-	 * @author zhangxuefeng
-	 * @Description:创建新增页面
-	 * @param @return
-	 * @return String
-	 */
-	/*
-	 * @RequestMapping("/add") 
-	 * public String addCategory(HttpServletRequest request,Model model,Category category){ 
-	 * model.addAttribute("id",category.getId()); 
-	 * return "ses/bms/category/add";
-	 * 
-	 * 
-	 * }
-	 */
-
-	/**
-	 * 
 	 * @Title: search
 	 * @author zhangxuefeng
-	 * @Description:根据关键字展开树
+	 * @Description:根据关键字查找内容
 	 * @param @return
 	 * @return String
 	 */
+	@ResponseBody
 	@RequestMapping("/search")
-	public void search(HttpServletRequest request, HttpServletResponse response) {
+	public void search(HttpServletRequest request, HttpServletResponse response,String name) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		String name = request.getParameter("name");
 		map.put("name", name);
 		List<Category> nodeList = categoryService.listByKeyword(map);
+		/*String list ="";
+		return list = JSON.toJSONString(nodeList);*/
 		super.writeJson(response, nodeList);
+		
 	}
 
 	/**
@@ -202,13 +151,14 @@ public class CategoryController extends BaseSupplierController {
 	 * @date
 	 * @Description:保存新增目录信息
 	 * @param @return
-	 * @return String @
+	 * @return String 
 	 */
 	@RequestMapping("/save")
-	public String save(@RequestParam("attaattach") MultipartFile attaattach, HttpServletRequest request, HttpServletResponse response, Category category) {
+	public String save(@RequestParam("attaattach") MultipartFile attaattach,
+			HttpServletRequest request, Category category,Model model) {
 		category.setName(request.getParameter("name"));
 		category.setPosition(Integer.parseInt(request.getParameter("position")));
-		category.setParentId(request.getParameter("parentId"));
+		category.setKind(request.getParameter("kind"));
 		category.setStatus(1);
 		category.setCode(request.getParameter("code"));
 		category.setDescription(request.getParameter("description"));
@@ -217,18 +167,17 @@ public class CategoryController extends BaseSupplierController {
 		upload(request, attaattach, category);
 		return "redirect:get.html";
 	}
-
+	
+	
 	/**
 	 * @Title: 上传附件
-	 * @author Shen Zhenfei
+	 * @author Zhang Xuefeng
 	 * @date 2016-9-1 下午2:00:40
 	 * @Description: 保存
 	 * @param @return
 	 * @return String
 	 */
-
 	public String upload(HttpServletRequest request, MultipartFile attaattach, Category category) {
-
 		if (attaattach.getOriginalFilename() != null && !attaattach.getOriginalFilename().equals("")) {
 		
 				String rootpath = (PathUtil.getWebRoot() + "picupload/").replace("\\", "/");
@@ -253,27 +202,23 @@ public class CategoryController extends BaseSupplierController {
 				attachment.setAttchmentPath("picupload/"+fileName);
 				categoryAttachmentService.insertSelective(attachment);
 			}
-	
 		return "redirect:get.html";
 	}
 	/**
 	 * 
-
 	 * @Title: update
-	 * @author zhangxuefeng
+	 * @author Zhang XueFeng
 	 * @Description:获取需要修改的节点数据
 	 * @param @return
 	 * @return String
 	 */
-
 	@RequestMapping("/update")
-	public void update(HttpServletResponse response, String id) {
+	public void update(HttpServletResponse response, String id,Model model) {
 		Category cate = categoryService.selectByPrimaryKey(id);
 		CategoryAttachment attchment = categoryAttachmentService.selectByCategoryId(cate.getId());
 		cate.setCategoryAttchment(attchment);
 		super.writeJson(response, cate);
 	}
-
 
 	/**
 	 * 
@@ -288,8 +233,6 @@ public class CategoryController extends BaseSupplierController {
 		categoryService.updateByPrimaryKeySelective(category);
 		return "ses/bms/category/list";
 	}
-
-	
    /**
   	 * 
   	* @Title: edit
@@ -298,19 +241,21 @@ public class CategoryController extends BaseSupplierController {
   	* @param @return 
   	* @return String
        */  
-   @ResponseBody
    @RequestMapping("/edit")
-   public String  edit(@RequestParam("attaattach") MultipartFile attaattach,
-	          HttpServletRequest request, HttpServletResponse response,Category category){
-  	    category.setName(request.getParameter("name"));
-		  category.setParentId(request.getParameter("parentId"));
-		  category.setPosition(Integer.parseInt(request.getParameter("position")));
+   public String  edit( Category category, @RequestParam("attaattach") MultipartFile attaattach,
+	          HttpServletRequest request, HttpServletResponse response,Model model){
+	      /*String name = request.getParameter("name");
+	      String position = request.getParameter("position");
+	      Integer Position = Integer.parseInt(position);
+	      String code = request.getParameter("code");*/
+  	      category.setName(request.getParameter("name"));
+  	      category.setPosition(Integer.parseInt(request.getParameter("position")));
 		  category.setCode(request.getParameter("code"));
 		  category.setDescription(request.getParameter("description"));
 		  category.setUpdatedAt(new Date());
-	  categoryService.updateByPrimaryKeySelective(category);
-	  upload(request,attaattach,category);
-	return "redirect:get.html";
+	      categoryService.updateByPrimaryKeySelective(category);
+	      upload(request,attaattach,category);
+		return "redirect:get.html";
    }
  
    /**
@@ -336,7 +281,6 @@ public class CategoryController extends BaseSupplierController {
    @RequestMapping("/deleted")
    public void delete(Category category){
 	   categoryAttachmentService.deleteByPrimaryKey(category.getId());
-	   
    }
    /**
   	* 
@@ -356,11 +300,7 @@ public class CategoryController extends BaseSupplierController {
 			cate.setStatus(1);
 		}else{
 			cate.setStatus(0);
-
 		}
-
-		
-
 	}
 	   return "ses/bms/category/list";
    }
@@ -384,6 +324,7 @@ public class CategoryController extends BaseSupplierController {
 		response.getWriter().flush();
 		response.getWriter().close();
 	}
+<<<<<<< Updated upstream
 	
 	/**
 	 * @Title: findCategoryAndDisabled
@@ -407,6 +348,8 @@ public class CategoryController extends BaseSupplierController {
 	}
 
 	
+=======
+>>>>>>> Stashed changes
 	/**
 	 * @Title: queryCategory
 	 * @author Song Biaowei
@@ -428,14 +371,4 @@ public class CategoryController extends BaseSupplierController {
 		response.getWriter().flush();
 		response.getWriter().close();
 	}
-
-
-  
-  
-
-
-
-	
-    	
-    	
 }

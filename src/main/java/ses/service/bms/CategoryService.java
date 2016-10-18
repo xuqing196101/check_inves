@@ -1,5 +1,6 @@
 package ses.service.bms;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -155,5 +156,14 @@ import ses.model.sms.SupplierTypeTree;
 	 * @return List<SupplierTypeTree>
 	 */
 	public List<SupplierTypeTree> queryCategory(Category category, List<String> listCategoryIds);
-
+    
+	  /**
+		* 
+		* @Title: findCategoryByType
+		* @author zhangxuefeng 
+		* @Description:根据类型查询品目名称
+		* @param @param Category
+		* @return Integer
+		*/
+    public BigDecimal checkName(String name); 
 }

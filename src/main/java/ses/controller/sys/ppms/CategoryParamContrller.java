@@ -12,6 +12,11 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+<<<<<<< Updated upstream
+=======
+
+import org.apache.http.protocol.HTTP;
+>>>>>>> Stashed changes
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -119,16 +124,10 @@ public class CategoryParamContrller extends BaseSupplierController{
 		category.setAcceptRange(request.getParameter("acceptRange"));
 	    category.setParamStatus(0);
 	    categoryService.updateByPrimaryKeySelective(category);
-	    String[] names= request.getParameterValues("name");
-		String[] values=request.getParameterValues("valueType");
-		for (int i = 0; i < names.length; i++) {
-			categoryParam.setName(names[i]);
-			for (int j = 0; j < values.length; j++) {
-				categoryParam.setValueType(values[j]);
-			}
-			categoryParam.setCreatedAt(new Date());
-			categoryParamService.insertSelective(categoryParam);
-		}
+	    categoryParam.setName(request.getParameter("names"));
+	    categoryParam.setValueType(request.getParameter("values"));
+	    categoryParam.setCreatedAt(new Date());
+		categoryParamService.insertSelective(categoryParam);
 		String productNames= request.getParameter("products");
 	/*	String productName="";
 		for (int i = 0; i < productNames.length; i++) {
@@ -182,10 +181,10 @@ public class CategoryParamContrller extends BaseSupplierController{
      */ 
     @RequestMapping("/findOne")
     public String findOne(HttpServletResponse response,String id,Model model){
-   List<CategoryParam> caList=categoryParamService.findListByCategoryId(id);
+   CategoryParam cateParam=categoryParamService.selectByPrimaryKey(id);
    Category category=categoryService.selectByPrimaryKey(id);
   CategoryAptitude caAptitude=categoryAptitudeService.queryByCategoryId(id);
-    model.addAttribute("caList",caList);
+    model.addAttribute("cateParam",cateParam);
     model.addAttribute("category",category);
     model.addAttribute("caAptitude",caAptitude);
     return "ses/ppms/categoryparam/edit";
@@ -218,16 +217,11 @@ public class CategoryParamContrller extends BaseSupplierController{
 		category.setKind(kinds);
 		category.setAcceptRange(request.getParameter("acceptRange"));
 	    categoryService.updateByPrimaryKeySelective(category);
-	    String[] names= request.getParameterValues("name");
-		String[] values=request.getParameterValues("valueType");
-		for (int i = 0; i < names.length; i++) {
-			cateparam.setName(names[i]);
-			for (int j = 0; j < values.length; j++) {
-				cateparam.setValueType(values[j]);
-			}
-			cateparam.setUpdatedAt(new Date());
-			categoryParamService.updateByPrimaryKeySelective(cateparam);
-		}
+	    cateparam.setName(request.getParameter("names"));
+	    cateparam.setValueType(request.getParameter("values"));
+		cateparam.setUpdatedAt(new Date());
+		categoryParamService.updateByPrimaryKeySelective(cateparam);
+	
 		String productNames= request.getParameter("products");
 		/*String productName="";
 		for (int i = 0; i < productNames.length; i++) {
@@ -244,16 +238,78 @@ public class CategoryParamContrller extends BaseSupplierController{
 	   	categoryAptitudeService.updateByPrimaryKeySelective(cateAptitude);
 		return "redirect:getAll.html";
     }
-     /**
+    
+    /**
+  	* 
+  	* @Title: 进入审核菜单页面
+  	* @author Zhang XueFeng
+  	* @Description:
+  	* @param get1 
+  	* @return String
+    */
+    @RequestMapping("/audit")
+    public String get1(HttpServletRequest request,Model model){
+    	List<Category> cate=categoryService.selectAll();
+    	model.addAttribute("cate",cate);
+    	return "ses/ppms/categoryparam/audit";
+    	
+    }
+    /**
+  	* 
+  	* @Title: 进入查询页面
+  	* @author Zhang XueFeng
+  	* @Description:
+  	* @param getAll 
+  	* @return String
+    */
+    @RequestMapping("/look")
+    public String getAll(HttpServletRequest request,Model model){
+    	return "ses/ppms/categoryparam/search";
+    	
+    }
+    /**
+   	 * 
+   	 * @Title: select
+   	 * @author Zhang XueFeng/	
+     * @Description:根据品目id查询参数信息进入审核页面
+   	 * @param @return 	
+   	 * @return void
+     */ 
+    @RequestMapping("/selectOne")
+    public String select(HttpServletResponse response,String id,Model model){
+   CategoryParam cateParam=categoryParamService.selectByPrimaryKey(id);
+   Category category=categoryService.selectByPrimaryKey(id);
+  CategoryAptitude caAptitude=categoryAptitudeService.queryByCategoryId(id);
+    model.addAttribute("cateParam",cateParam);
+    model.addAttribute("category",category);
+    model.addAttribute("caAptitude",caAptitude);
+    return "ses/ppms/categoryparam/auditinfo";
+     }
+    /**
+   	 * 
+   	 * @Title: select
+   	 * @author Zhang XueFeng/	
+     * @Description:根据品目id查询参数信息进入审核页面
+   	 * @param @return 	
+   	 * @return void
+     */ 
+    @RequestMapping("/change")
+    public String change(HttpServletResponse response,String id,Category category){
+         category.setParamStatus(1);
+         categoryService.updateByPrimaryKey(category);
+  
+    return "ses/ppms/categoryparam/auditinfo";
+     }
+   /**
   	* 
   	* @Title: 导入excel中的内容
   	* @author Zhang XueFeng
   	* @Description:
   	* @param @return 
   	* @return String
-     * @throws IOException 
-     * @throws FileNotFoundException 
-     */
+    * @throws IOException 
+    * @throws FileNotFoundException 
+    */
      /*  @RequestMapping("/read")
  	public void read(Integer length) throws IOException {
  		   Workbook workbook;

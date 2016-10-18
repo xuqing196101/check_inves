@@ -11,6 +11,7 @@ public class CategoryTree {
 	 */
 	private String name;
 	
+	private String kind;
 	/*
 	 * 节点的父节点id
 	 */
@@ -21,6 +22,20 @@ public class CategoryTree {
 	 */
 	private String isParent;
 	
+	private Integer isEnd;
+	
+	public Integer getIsEnd() {
+		return isEnd;
+	}
+	public void setIsEnd(Integer isEnd) {
+		this.isEnd = isEnd;
+	}
+	public String getKind() {
+		return kind;
+	}
+	public void setKind(String kind) {
+		this.kind = kind;
+	}
 	public String getIsParent() {
 		return isParent;
 	}
