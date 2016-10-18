@@ -38,11 +38,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="<%=basePath%>public/lodop/LodopFuncs.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript">
-	function onCheck(){  
-		   window.location.href="<%=basePath%>importRecommend/jihuo_save.html"; 
-		}  
-</script>
 </head>
 <body>
 <!--面包屑导航开始-->
@@ -56,7 +51,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
 <!-- 修改订列表开始-->
    <div class="container">
-   <form action="<%= basePath%>importRecommend/jihuo_save.html" method="post">
+   <form action="<%=basePath%>importRecommend/jihuo_save.html?id=${id }" method="post"  enctype="multipart/form-data" >
    <div>
      <div class="headline-v2">
    <h2>进口代理商激活</h2>
@@ -64,7 +59,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <ul class="list-unstyled list-flow p0_20 mt10">
     
       <li class="col-md-6 p0 "><span class=""><i class="red"></i>激活证明：</span>
-          <div class=""><a href="" class="upload">附件上传</a><input name="attachment" type="file"  /></div>
+          <div class=""><a href="" class="upload">附件上传</a><input name="attachments" type="file"  /></div>
 	  </li>
    </ul>
    </div>

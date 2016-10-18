@@ -89,11 +89,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		   var record=$('input[name="chkItem"]:checked').parent().parent().children("td").eq(6).text();
 		   var jihuo=$('input[name="chkItem"]:checked').parent().parent().children("td").eq(8).text();
 		     if(record.trim()=="正式进口代理商"){
+		        if(jihuo.trim()=="启用"){
+		    		$("#qiyong").attr("disabled",true);
+		    		$("#zanting").attr("disabled",false);
+		    	}
+		    	if(jihuo.trim()=="暂停"){
+		    		$("#zanting").attr("disabled",true);
+		    		$("#qiyong").attr("disabled",false);
+		    	}
 		    	$("#jihuo").attr("disabled",true);
-		    	$("#zanting").attr("disabled",false);
 		    }else{
 		    	$("#jihuo").attr("disabled",false);
 		    	$("#zanting").attr("disabled",true);
+		    	$("#qiyong").attr("disabled",true);
 		    	if(jihuo.trim()=="已激活"){
 		    		$("#jihuo").attr("disabled",true);
 		    	}
@@ -173,16 +181,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			id.push($(this).val());
 		}); 
 		if(id.length==1){
-			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['122px','360px'],shade:0.01}, function(index){
-				layer.close(index);
 				window.location.href="<%=basePath%>importRecommend/zanting.html?id="+id;
-			});
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
 			layer.alert("请选择需要修改的代理商",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
+    
+     function qiyong(id){
+		var id=[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			id.push($(this).val());
+		}); 
+		if(id.length==1){
+				window.location.href="<%=basePath%>importRecommend/qiyong.html?id="+id;
+		}else if(id.length>1){
+			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+		}else{
+			layer.alert("请选择需要修改的代理商",{offset: ['222px', '390px'], shade:0.01});
+		}
+    }
+    
     function query(){
     	form1.submit();
     }
@@ -224,6 +244,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<button class="btn btn-windows delete" type="submit" onclick="del();">删除</button>
 	<button id="jihuo" class="btn btn-windows git" type="submit" onclick="jihuo();">激活</button>
 	<button id="zanting" class="btn btn-windows git" type="submit" onclick="zanting();">暂停</button>	
+	<button id="qiyong" class="btn btn-windows git" type="submit" onclick="qiyong();">启用</button>	
 	</div>
     </div>
    

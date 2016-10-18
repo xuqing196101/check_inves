@@ -189,6 +189,8 @@ public class SupplierEditController extends BaseSupplierController{
 		if(auditStatus==1){
 			this.copyToSupplier(se.getId());
 			supplierEditService.updateByPrimaryKey(se);
+		}else{
+			supplierEditService.updateByPrimaryKey(se);
 		}
 		todosService.updateIsFinish("supplier_edit/audit.html?id="+id);
 		return "redirect:/login/home.html";

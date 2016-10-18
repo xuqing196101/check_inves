@@ -21,8 +21,10 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import ses.model.bms.User;
 import ses.model.sms.ImportRecommend;
+import ses.model.sms.SupplierEdit;
 import ses.service.bms.UserServiceI;
 import ses.service.sms.ImportRecommendService;
+import ses.util.FtpUtil;
 import ses.util.PropUtil;
 
 import com.github.pagehelper.PageInfo;
@@ -37,7 +39,7 @@ import com.github.pagehelper.PageInfo;
 @Controller
 @Scope("prototype")
 @RequestMapping("/importRecommend")
-public class ImportRecommendController {
+public class ImportRecommendController extends BaseSupplierController{
 	@Autowired
 	private ImportRecommendService importRecommendService;
 	@Autowired
@@ -210,6 +212,28 @@ public class ImportRecommendController {
 	}
 	
 	/**
+	 * @Title: qiyong
+	 * @author Song Biaowei
+	 * @date 2016-10-18 下午3:20:03  
+	 * @Description: 启用正式
+	 * @param @param id
+	 * @param @param model
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping("/qiyong")
+	public String qiyong(String id,Model model){
+		ImportRecommend ir=importRecommendService.findById(id);
+		if(ir.getType()==1){
+			ir.setStatus((short)3);
+		}
+		importRecommendService.update(ir);
+		model.addAttribute("ir", ir);
+		return "redirect:list.html";
+	}
+	
+	
+	/**
 	 * @Title: jihuo
 	 * @author Song Biaowei
 	 * @date 2016-10-4 下午4:09:49  
@@ -242,29 +266,31 @@ public class ImportRecommendController {
 		ir1.setUseCount((long)1);
 		ir1.setAttachment(ir.getAttachment());
 		ir1.setUseCount(ir.getUseCount());
-		ir1.setStatus((short)4);
+		ir1.setStatus((short)1);
 		importRecommendService.update(ir1);
 		model.addAttribute("ir", ir);
 		return "redirect:list.html";
 	}
 	
-	
 	public void setSupplierUpload(HttpServletRequest request, ImportRecommend ir) throws IOException {
 		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
-		// 检查form中是否有enctype="multipart/form-data"
-		if (multipartResolver.isMultipart(request)) {
-			// 将request变成多部分request
-			MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
-			// 获取multiRequest 中所有的文件名
-			Iterator<String> its = multiRequest.getFileNames();
-			while (its.hasNext()) {
+		if (multipartResolver.isMultipart(request)) {// 检查form中是否有enctype="multipart/form-data"
+			MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;// 将request变成多部分request
+			Iterator<String> its = multiRequest.getFileNames();// 获取multiRequest 中所有的文件名
+			while (its.hasNext()) {// 循环遍历
 				String str = its.next();
 				MultipartFile file = multiRequest.getFile(str);
+				String fileName = file.getOriginalFilename();
 				if (file != null && file.getSize() > 0) {
-					String path = getRootPath(request) + file.getOriginalFilename();
-					file.transferTo(new File(path));
-					if (str.equals("attachment")) {
-						ir.setAttachment(path);
+					String path = super.getStashPath(request) + fileName;// 获取暂存路径
+					file.transferTo(new File(path));// 暂存
+					FtpUtil.connectFtp(PropUtil.getProperty("file.upload.path.supplier"));// 连接 ftp 服务器
+					String newfileName = FtpUtil.upload(new File(path));// 上传到 ftp 服务器, 获取新的文件名
+					FtpUtil.closeFtp();// 关闭 ftp
+					super.removeStash(request, fileName);// 移除暂存
+					// 上面代码固定, 下面封装名字到对象
+					if (str.equals("attachments")) {
+						ir.setAttachment(newfileName);
 					}
 				}
 			}
