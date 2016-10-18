@@ -191,7 +191,7 @@ function reason(id){
   var id2=id+"2";
   var auditType=$("#items").text();//审核类型 
   var auditField = $("#"+id2+"").text().replaceAll("：","");//审批的字段名字
-    layer.prompt({title: '请填写不通过理由', formType: 2,offset:'200px'}, function(text){
+    layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
       $.ajax({
           url:"<%=basePath%>supplierAudit/auditReasons.html",
           type:"post",

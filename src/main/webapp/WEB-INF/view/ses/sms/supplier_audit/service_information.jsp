@@ -116,7 +116,7 @@ function reason(id,auditField){
   var supplierId=$("#supplierId").val();
   var auditContent="服务资质证书为："+$("#"+id).text()+"的信息"; //审批的字段内容
   var auditType=$("#service").text();//审核类型
-   layer.prompt({title: '请填写不通过理由', formType: 2,offset:'200px'}, function(text){
+   layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
     $.ajax({
         url:"<%=basePath%>supplierAudit/auditReasons.html",
         type:"post",
@@ -135,7 +135,7 @@ function reason1(id){
   var auditField=$("#"+id2+"").text().replaceAll("：",""); //审批的字段名字
   var auditContent= document.getElementById(""+id3+"").value; //审批的字段内容
   var auditType=$("#service").text();//审核类型
-  layer.prompt({title: '请填写不通过理由', formType: 2,offset:'200px'}, function(text){
+  layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
     $.ajax({
         url:"<%=basePath%>supplierAudit/auditReasons.html",
         type:"post",
@@ -263,9 +263,13 @@ function tijiao(str){
                              <c:if test="${s.mot==0 }">否</c:if>
                              <c:if test="${s.mot==1 }">是</c:if>
                             </td>
-                            <td class="tc" style="cursor: pointer;" onclick="downloadFile('${s.attach}')">
-	                            <c:if test="${s.attach !=null}"><a class="green">附件下载</a></c:if>
-	                            <c:if test="${s.attach ==null}"><a class="red">无附件下载</a></c:if>
+                            <td class="tc">
+	                            <c:if test="${s.attach !=null}">
+	                             <a class="green" onclick="downloadFile('${s.attach}')">附件下载</a>
+	                            </c:if>
+	                            <c:if test="${s.attach ==null}">
+	                             <a class="red">无附件下载</a>
+	                            </c:if>
                             <td class="tc">
                               <a id="${s.id}_hide" class="b f18 fl ml10 red hand">√</a>
                               <a onclick="reason('${s.id}','供应商资质证书');" class="b f18 fl ml10 hand">×</a>

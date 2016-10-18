@@ -121,7 +121,7 @@ function reason(id){
   var auditField=$("#"+id2+"").text().replaceAll("：",""); //审批的字段名字
   var  auditContent= document.getElementById(""+id3+"").value; //审批的字段内容
   var auditType=$("#essential").text(); //审核类型
-  layer.prompt({title: '请填写不通过理由', formType: 2,offset:'200px'}, function(text){
+  layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
     $.ajax({
         url:"<%=basePath%>supplierAudit/auditReasons.html",
         type:"post",
@@ -142,7 +142,7 @@ function reason1(ele){
   var supplierId=$("#id").val();
   var auditType=$("#essential").text(); //审核类型
   var auditField = $(ele).parents("li").find("span").text().replaceAll("：","");//审批的字段名字
-    layer.prompt({title: '请填写不通过理由', formType: 2,offset:'200px'}, function(text){
+    layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
       $.ajax({
           url:"<%=basePath%>supplierAudit/auditReasons.html",
           type:"post",
@@ -309,7 +309,7 @@ function tijiao(str){
                     <li class="col-md-6 p0 "><span class="">近三个月完税凭证：</span>
 	                    <div class="input-append">
 	                      <c:if test="${suppliers.taxCert !=null}">
-	                        <a class="span3 green" href="javascript:void(0)" onclick="downloadFile('${suppliers.taxCert}')" >下载附件</a>
+	                        <a class="span3 green" onclick="downloadFile('${suppliers.taxCert}')" >下载附件</a>
 	                      </c:if>
 	                      <c:if test="${suppliers.taxCert == null}">
                           <a class="span3 red">无附件下载</a>
@@ -321,7 +321,7 @@ function tijiao(str){
                     <li class="col-md-6 p0 "><span class="">近三年银行基本账户年末对账单：</span>
                       <div class="input-append">
                         <c:if test="${suppliers.billCert !=null}">
-                          <a class="span3 green" href="javascript:void(0)" onclick="downloadFile('${suppliers.billCert}')">下载附件</a>
+                          <a class="span3 green" onclick="downloadFile('${suppliers.billCert}')">下载附件</a>
                         </c:if>
                         <c:if test="${suppliers.billCert == null}">
                           <a class="span3 red">无附件下载</a>
@@ -333,7 +333,7 @@ function tijiao(str){
                     <li class="col-md-6 p0 "><span class="">近三个月缴纳社会保险金凭证：</span>
                       <div class="input-append">
                         <c:if test="${suppliers.securityCert != null}">
-                          <a class="span3 green" href="javascript:void(0)" onclick="downloadFile('${suppliers.securityCert}')">下载附件</a>
+                          <a class="span3 green" onclick="downloadFile('${suppliers.securityCert}')">下载附件</a>
                         </c:if>
                         <c:if test="${suppliers.securityCert == null}">
                           <a class="span3 red">无附件下载</a>
@@ -345,7 +345,7 @@ function tijiao(str){
                     <li class="col-md-6 p0 "><span class="">近三年内无重大违法记录声明：</span>
                       <div class="input-append">
                         <c:if test="${suppliers.breachCert != null }">
-                          <a class="span3 green" href="javascript:void(0)" onclick="downloadFile('${suppliers.breachCert}')">下载附件</a>
+                          <a class="span3 green" onclick="downloadFile('${suppliers.breachCert}')">下载附件</a>
                         </c:if>
                         <c:if test="${suppliers.breachCert == null}">
                           <a class="span3 red">无附件下载</a>

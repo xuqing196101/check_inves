@@ -116,7 +116,7 @@ function reason(id){
   var auditField=$("#"+id).text()+"年财务"; //审批的字段名字
   var auditType=$("#financial").text();//审核类型
   var auditContent=$("#"+id).text()+"年财务信息";//审批的字段内容
-   layer.prompt({title: '请填写不通过理由', formType: 2,offset:'200px'}, function(text){
+   layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
     $.ajax({
         url:"<%=basePath%>supplierAudit/auditReasons.html",
         type:"post",
@@ -132,7 +132,7 @@ function reason1(year, ele){
   var value = $(ele).parents("li").find("span").text().replaceAll("：","");//审批的字段名字
   var auditField=year+"年"+value;//审批的字段名字
   var auditType=$("#financial").text();//审核类型
-	  layer.prompt({title: '请填写不通过理由', formType: 2,offset:'200px'}, function(text){
+	  layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
 	    $.ajax({
 	        url:"<%=basePath%>supplierAudit/auditReasons.html",
 	        type:"post",
@@ -269,35 +269,60 @@ function tijiao(str){
                     <ul class="list-unstyled list-flow">
                       <li class="col-md-6 p0 "><span class="">财务审计报告意见表：</span>
                         <div class="input-append">
-                          <a class="span3 green" href="javascript:void(0)" onclick="downloadFile('${f.auditOpinion}')">附件下载</a>
+                          <c:if test="${f.auditOpinion != null}">
+                            <a class="span3 green" onclick="downloadFile('${f.auditOpinion}')">附件下载</a>
+                          </c:if>
+                          <c:if test="${f.auditOpinion == null}">
+                            <a class="span3 red">无附件下载</a>
+                          </c:if>
                           <div  class="b f18 fl ml10 red hand">√</div>
                           <div onclick="reason1('${f.year }', this);" class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0 "><span class="">资产负债表：</span>
                         <div class="input-append">
-                          <a class="span3 green" href="javascript:void(0)" onclick="downloadFile('${f.liabilitiesList}')">附件下载</a>
+                          <c:if test="${f.liabilitiesList !=null}">
+                            <a class="span3 green" onclick="downloadFile('${f.liabilitiesList}')">附件下载</a>
+                          </c:if>
+                          <c:if test="${f.liabilitiesList == null}">
+                            <a class="span3 red">无附件下载</a>
+                          </c:if>
                           <div class="b f18 fl ml10 red hand">√</div>
                           <div onclick="reason1('${f.year }', this);" class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0 "><span class="">利润表：</span>
                         <div class="input-append">
-                          <a class="span3 green" href="javascript:void(0)" onclick="downloadFile('${f.profitList}')">附件下载</a>
+                          <c:if test="${f.profitList !=null}">
+                            <a class="span3 green" onclick="downloadFile('${f.profitList}')">附件下载</a>
+                          </c:if>
+                          <c:if test="${f.profitList == null}">
+                            <a class="span3 red">无附件下载</a>
+                          </c:if>
                           <div class="b f18 fl ml10 red hand">√</div>
                           <div onclick="reason1('${f.year }', this);" class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0 "><span class="" >现金流量表：</span>
                         <div class="input-append">
-                          <a class="span3 green" href="javascript:void(0)" onclick="downloadFile('${f.cashFlowStatement}')">附件下载</a>
+                          <c:if test="${f.cashFlowStatement !=null}">
+                            <a class="span3 green" onclick="downloadFile('${f.cashFlowStatement}')">附件下载</a>
+                          </c:if>
+                          <c:if test="${f.cashFlowStatement == null}">
+                            <a class="span3 red">无附件下载</a>
+                          </c:if>
                           <div class="b f18 fl ml10 red hand">√</div>
                           <div onclick="reason1('${f.year }', this);" class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0 "><span class="" >所有者权益变动表：</span>
                         <div class="input-append">
-                          <a class="span3 green" href="javascript:void(0)" onclick="downloadFile('${f.changeList}')">附件下载</a>
+                          <c:if test="${f.changeList !=null}">
+                            <a class="span3 green" onclick="downloadFile('${f.changeList}')">附件下载</a>
+                          </c:if>
+                          <c:if test="${f.changeList == null}">
+                            <a class="span3 red">无附件下载</a>
+                          </c:if>
                           <div class="b f18 fl ml10 red hand">√</div>
                           <div onclick="reason1('${f.year }', this);" class="b f18 fl ml10 hand">×</div>
                         </div>

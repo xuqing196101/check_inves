@@ -116,7 +116,7 @@ function reason(id,auditField){
   var supplierId=$("#supplierId").val();
   var auditContent="销售资质证书为："+$("#"+id).text()+"的信息"; //审批的字段内容
   var auditType=$("#materialSales").text();//审核类型
-   layer.prompt({title: '请填写不通过理由', formType: 2,offset:'200px'}, function(text){
+   layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
     $.ajax({
         url:"<%=basePath%>supplierAudit/auditReasons.html",
         type:"post",
@@ -135,7 +135,7 @@ function reason1(id){
   var auditField=$("#"+id2+"").text().replaceAll("：",""); //审批的字段名字
   var auditContent= document.getElementById(""+id3+"").value; //审批的字段内容
   var auditType=$("#materialSales").text();//审核类型
-  layer.prompt({title: '请填写不通过理由', formType: 2,offset:'200px'}, function(text){
+  layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
     $.ajax({
         url:"<%=basePath%>supplierAudit/auditReasons.html",
         type:"post",
@@ -241,6 +241,7 @@ function tijiao(str){
 	                  <table class="table table-bordered table-condensed">
 	                    <thead>
 	                      <tr>
+	                        <th class="info w50">序号</th>
 	                        <th class="info">资质证书名称</th>
 	                        <th class="info">资质等级</th>
 	                        <th class="info">发证机关</th>
@@ -250,26 +251,31 @@ function tijiao(str){
 	                        <th class="info w80">操作</th>
 	                      </tr>
 	                    </thead>
-	                    <c:forEach items="${supplierCertSell}" var="s" >
+	                    <c:forEach items="${supplierCertSell}" var="s" varStatus="vs">
 	                      <tr>
+	                        <td class="tc">${vs.index + 1}</td>
 	                        <td class="tc" id="${s.id}">${s.name }</td>
-	                          <td class="tc">${s.levelCert}</td>
-	                          <td class="tc">${s.licenceAuthorith }</td>
-	                          <td class="tc">
-	                            <fmt:formatDate value="${s.expStartDate }" pattern='yyyy-MM-dd'/>  至  
-	                            <fmt:formatDate value="${s.expEndDate }" pattern='yyyy-MM-dd'/>
-	                          </td>
-	                          <td class="tc">
-	                           <c:if test="${s.mot==0 }">否</c:if>
-	                           <c:if test="${s.mot==1 }">是</c:if>
-	                          </td>
-	                          <td class="tc" style="cursor: pointer;" onclick="downloadFile('${s.attach}')">
-		                          <c:if test="${s.attach !=null}"><a class="green">附件下载</a></c:if>
-	                            <c:if test="${s.attach ==null}"><a class="red">无附件下载</a></c:if>
-	                          <td class="tc">
-	                            <a id="${s.id }_hide" class="b f18 fl ml10 red hand">√</a>
-	                            <a onclick="reason('${s.id}','供应商资质证书');" class="b f18 fl ml10 hand">×</a>
-	                          </td>
+                          <td class="tc">${s.levelCert}</td>
+                          <td class="tc">${s.licenceAuthorith }</td>
+                          <td class="tc">
+                            <fmt:formatDate value="${s.expStartDate }" pattern='yyyy-MM-dd'/>  至  
+                            <fmt:formatDate value="${s.expEndDate }" pattern='yyyy-MM-dd'/>
+                          </td>
+                          <td class="tc">
+                           <c:if test="${s.mot==0 }">否</c:if>
+                           <c:if test="${s.mot==1 }">是</c:if>
+                          </td>
+                          <td class="tc">
+	                          <c:if test="${s.attach !=null}">
+	                            <a class="green" onclick="downloadFile('${s.attach}')">附件下载</a>
+	                          </c:if>
+                            <c:if test="${s.attach ==null}">
+                             <a class="red">无附件下载</a>
+                            </c:if>
+                          <td class="tc">
+                            <a id="${s.id }_hide" class="b f18 fl ml10 red hand">√</a>
+                            <a onclick="reason('${s.id}','供应商资质证书');" class="b f18 fl ml10 hand">×</a>
+                          </td>
 	                      </tr>
 	                    </c:forEach>
 	                  </table>

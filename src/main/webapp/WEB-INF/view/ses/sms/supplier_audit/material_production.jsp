@@ -116,7 +116,7 @@ function reason(id,auditField){
   var supplierId=$("#supplierId").val();
   var auditContent="生产资质证书为："+$("#"+id).text()+"的信息"; //审批的字段内容
   var auditType=$("#materialProduction").text();//审核类型
-   layer.prompt({title: '请填写不通过理由', formType: 2,offset:'200px'}, function(text){
+   layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
     $.ajax({
         url:"<%=basePath%>supplierAudit/auditReasons.html",
         type:"post",
@@ -136,7 +136,7 @@ function reason1(id){
   var auditField=$("#"+id2+"").text().replaceAll("：",""); //审批的字段名字
   var auditContent= document.getElementById(""+id3+"").value; //审批的字段内容
   var auditType=$("#materialProduction").text();//审核类型
-  layer.prompt({title: '请填写不通过理由', formType: 2,offset:'200px'}, function(text){
+  layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
     $.ajax({
         url:"<%=basePath%>supplierAudit/auditReasons.html",
         type:"post",
@@ -243,6 +243,7 @@ function tijiao(str){
                   <table class="table table-bordered table-condensed">
 							      <thead>
 							        <tr>
+							          <th class="info w50">序号</th>
 							          <th class="info">资质证书名称</th>
 							          <th class="info">资质等级</th>
 							          <th class="info">发证机关</th>
@@ -252,8 +253,9 @@ function tijiao(str){
 							          <th class="info w80">操作</th>
 							        </tr>
 							        </thead>
-							        <c:forEach items="${materialProduction}" var="m" >
+							        <c:forEach items="${materialProduction}" var="m" varStatus="vs">
 							          <tr>
+							            <td class="tc">${vs.index + 1}</td>
 							            <td class="tc" id="${m.id}">${m.name }</td>
 							            <td class="tc">${m.levelCert}</td>
 							            <td class="tc">${m.licenceAuthorith }</td>
@@ -265,9 +267,13 @@ function tijiao(str){
 							             <c:if test="${m.mot==0 }">否</c:if>
 							             <c:if test="${m.mot==1 }">是</c:if>
 							            </td>
-							            <td class="tc" style="cursor: pointer;" onclick="downloadFile('${m.attach}')">
-								            <c:if test="${m.attach !=null}"><a class="green">附件下载</a></c:if>
-								            <c:if test="${m.attach ==null}"><a class="red">无附件下载</a></c:if>
+							            <td class="tc">
+								            <c:if test="${m.attach !=null}">
+								              <a class="green" onclick="downloadFile('${m.attach}')">附件下载</a>
+								            </c:if>
+								            <c:if test="${m.attach ==null}">
+								              <a class="red">无附件下载</a>
+								            </c:if>
 							            </td>
 							            <td class="tc">
 	                          <a id="${m.id }_hide" class="b f18 fl ml10 red hand">√</a>

@@ -134,7 +134,7 @@ function reason1(ele){
   var supplierId=$("#supplierId").val();
   var auditField = $(ele).parents("li").find("span").text().replaceAll("：","");//审批的字段名字
   var auditType=$("#applicationFrom").text();//审核类型 
-    layer.prompt({title: '请填写不通过理由', formType: 2,offset:'200px'},function(text){
+    layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'},function(text){
       $.ajax({
           url:"<%=basePath%>supplierAudit/auditReasons.html",
           type:"post",
@@ -258,7 +258,7 @@ function tijiao(str){
                   <li class="col-md-6 p0 "><span class="">军队供应商承诺书：</span>
                     <div class="input-append">
                       <c:if test="${applicationForm.supplierPledge !=null}">
-                        <a class="span3 green" href="javascript:void(0)" onclick="downloadFile('${applicationForm.supplierPledge}')">下载附件</a>
+                        <a class="span3 green" onclick="downloadFile('${applicationForm.supplierPledge}')">下载附件</a>
                       </c:if>
                       <c:if test="${applicationForm.supplierPledge == null}">
                         <a class="span3 red">无附件下载</a>
@@ -270,7 +270,7 @@ function tijiao(str){
                   <li class="col-md-6 p0 "><span class="">军队供应商入库申请表：</span>
                     <div class="input-append">
                       <c:if test="${applicationForm.supplierRegList !=null}">
-                        <a class="span3 green" href="javascript:void(0)" onclick="downloadFile('${applicationForm.supplierRegList}')">下载附件</a>
+                        <a class="span3 green" onclick="downloadFile('${applicationForm.supplierRegList}')">下载附件</a>
                       </c:if>
                       <c:if test="${applicationForm.supplierRegList == null}">
                         <a class="span3 red">无附件下载</a>
@@ -282,7 +282,7 @@ function tijiao(str){
                   <li class="col-md-6 p0 "><span class="">军队供应商实地考察记录表：</span>
                     <div class="input-append">
                       <c:if test="${applicationForm.supplierReviewList !=null}">
-                        <a class="span3 green" href="javascript:void(0)" onclick="downloadFile('${applicationForm.supplierReviewList}')">下载附件</a>
+                        <a class="span3 green" onclick="downloadFile('${applicationForm.supplierReviewList}')">下载附件</a>
                       </c:if>
                       <c:if test="${applicationForm.supplierReviewList == null}">
                         <a class="span3 red">无附件下载</a>
@@ -294,7 +294,7 @@ function tijiao(str){
                   <li class="col-md-6 p0 "><span class="">军队供应商实地考察廉政意见函：</span>
                     <div class="input-append">
                       <c:if test="${applicationForm.supplierInspectList !=null}">
-                        <a class="span3 green" href="javascript:void(0)" onclick="downloadFile('${applicationForm.supplierInspectList}')">下载附件</a>
+                        <a class="span3 green" onclick="downloadFile('${applicationForm.supplierInspectList}')">下载附件</a>
                       </c:if>
                       <c:if test="${applicationForm.supplierInspectList == null}">
                         <a class="span3 red">无附件下载</a>
@@ -306,7 +306,7 @@ function tijiao(str){
                   <li class="col-md-6 p0 "><span class="">军队供应商注册变更申请表：</span>
                     <div class="input-append">
                       <c:if test="${applicationForm.supplierChangeList != null}">
-                        <a class="span3 green" href="javascript:void(0)" onclick="downloadFile('${applicationForm.supplierChangeList}')">下载附件</a>
+                        <a class="span3 green" onclick="downloadFile('${applicationForm.supplierChangeList}')">下载附件</a>
                       </c:if>
                       <c:if test="${applicationForm.supplierChangeList == null}">
                         <a class="span3 red">无附件下载</a>
@@ -318,7 +318,7 @@ function tijiao(str){
                   <li class="col-md-6 p0 "><span class="">军队供应商退库申请表：</span>
                     <div class="input-append">
                       <c:if test="${applicationForm.supplierExitList != null}">
-                        <a class="span3 green" href="javascript:void(0)" onclick="downloadFile('${applicationForm.supplierExitList}')">下载附件</a>
+                        <a class="span3 green" onclick="downloadFile('${applicationForm.supplierExitList}')">下载附件</a>
                       </c:if>
                       <c:if test="${applicationForm.supplierExitList == null}">
                         <a class="span3 red">无附件下载</a>

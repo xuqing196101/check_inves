@@ -116,7 +116,7 @@ function reason(id){
   var auditField=$("#"+id).text()+"股东"; //审批的字段名字
   var auditContent=$("#"+id).text()+"股东信息"; //审批的字段内容
   var auditType=$("#shareholder").text();//审核类型
-   layer.prompt({title: '请填写不通过理由', formType: 2,offset:'200px'}, function(text){
+   layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
     $.ajax({
         url:"<%=basePath%>supplierAudit/auditReasons.html",
         type:"post",

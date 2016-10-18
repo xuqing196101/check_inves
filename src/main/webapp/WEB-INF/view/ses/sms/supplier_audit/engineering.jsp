@@ -116,7 +116,7 @@ function reason(id,auditField){
    var supplierId=$("#supplierId").val();
    var auditContent="工程证书编号为:"+$("#"+id).text()+"的信息"; //审批的字段内容 
    var auditType=$("#engineering").text();//审核类型
-   layer.prompt({title: '请填写不通过理由', formType: 2,offset:'200px'}, function(text){
+   layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
     $.ajax({
         url:"<%=basePath%>supplierAudit/auditReasons.html",
         type:"post",
@@ -136,7 +136,7 @@ function reason1(id){
   var auditField=$("#"+id2+"").text().replaceAll("：",""); //审批的字段名字
   var auditContent= document.getElementById(""+id3+"").value; //审批的字段内容
   var auditType=$("#engineering").text();//审核类型
-  layer.prompt({title: '请填写不通过理由', formType: 2,offset:'200px'}, function(text){
+  layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
     $.ajax({
         url:"<%=basePath%>supplierAudit/auditReasons.html",
         type:"post",
@@ -193,6 +193,12 @@ function tijiao(str){
   $("#form_id").attr("action",action);
   $("#form_id").submit();
 }
+
+//文件下載
+  function downloadFile(fileName) {
+    $("input[name='fileName']").val(fileName);
+    $("#download_form_id").submit();
+  }
 </script>
 </head>
   
@@ -250,7 +256,7 @@ function tijiao(str){
 	                        <th class="info">发证日期</th>
 	                        <th class="info">证书有效期截止日期</th>
 	                        <th class="info">证书状态</th>
-	                       <!--  <th class="info">附件上传</th> -->
+	                        <th class="info">附件</th>
 	                       <th class="info w80">操作</th>
 	                      </tr>
 	                    </thead>
@@ -277,7 +283,14 @@ function tijiao(str){
 	                          <c:if test="${s.certStatus==0 }">无效</c:if>
 	                          <c:if test="${s.certStatus==1 }">有效</c:if>
 	                        </td>
-	                        <%-- <td class="tc">${s.attachCert }</td> --%>
+	                        <td class="tc">
+	                         <c:if test="${s.attachCert !=null}">
+                            <a class="green" onclick="downloadFile('${s.attachCert}')">附件下载</a>
+                          </c:if>
+                          <c:if test="${s.attachCert ==null}">
+                           <a class="red">无附件下载</a>
+                          </c:if>
+	                        </td>
 	                        <td class="tc">
 	                              <a id="${s.id }_hide" class="b f18 fl ml10 red hand">√</a>
 	                              <a onclick="reason('${s.id}','供应商资质证书信息');" class="b f18 fl ml10 hand">×</a>
@@ -307,7 +320,7 @@ function tijiao(str){
                         <th class="info">资质资格状态</th>
                         <th class="info">资质资格状态变更时间</th>
                         <th class="info">资质资格状态变更原因</th>
-                       <!--  <th class="info">附件上传</th> -->
+                        <th class="info">附件</th>
                        <th class="info w80">操作</th>
                       </tr>
                     </thead>
@@ -335,7 +348,14 @@ function tijiao(str){
                           <fmt:formatDate value="${s.aptituteChangeAt }" pattern='yyyy-MM-dd'/>
                         </td>
                         <td class="tc">${s.aptituteChangeReason }</td>
-                        <%-- <td class="tc">${s.attachCert }</td> --%>
+                        <td class="tc">
+                          <c:if test="${s.attachCert !=null}">
+                            <a class="green" onclick="downloadFile('${s.attachCert}')">附件下载</a>
+                          </c:if>
+                          <c:if test="${s.attachCert ==null}">
+                           <a class="red">无附件下载</a>
+                          </c:if>
+                        </td>
                         <td class="tc">
                           <a id="${s.id }_hide1" class="b f18 fl ml10 red hand">√</a>
                           <a onclick="reason('${s.id}','供应商资质资格信息');" class="b f18 fl ml10 hand">×</a>
@@ -396,5 +416,8 @@ function tijiao(str){
       </div>
     </div>
   </div>
+  <form target="_blank" id="download_form_id" action="${pageContext.request.contextPath}/supplierAudit/download.html" method="post">
+   <input type="hidden" name="fileName" />
+  </form>
 </body>
 </html>

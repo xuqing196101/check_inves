@@ -117,7 +117,7 @@ function reason(id){
   var auditField="序号为："+$("#"+id+"_index").text(); //审批的字段名字
   var auditContent="产品名称为："+$("#"+id+"_name").text()+"的信息"; //审批的字段内容
   var auditType=$("#product").text();//审核类型
-   layer.prompt({title: '请填写不通过理由', formType: 2,offset:'200px'}, function(text){
+   layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
     $.ajax({
         url:"<%=basePath%>supplierAudit/auditReasons.html",
         type:"post",
@@ -241,12 +241,16 @@ function tijiao(str){
                             <td class="tc"><fmt:formatDate value="${products.expirationDate }" pattern="yyyy-MM-dd"/></td>
                             <td class="tc">${products.producer}</td>
                             <td class="tc">${products.referencePrice}</td>
-                            <td class="tc" style="cursor: pointer;" onclick="downloadFile('${products.productPic}')">
-                              <c:if test="${products.productPic != null}"><a class="green">下载附件</a></c:if>
+                            <td class="tc">
+                              <c:if test="${products.productPic != null}">
+                                <a class="green" onclick="downloadFile('${products.productPic}')">下载附件</a>
+                              </c:if>
                               <c:if test="${products.productPic == null}"><a class="red">无附件下载</a></c:if>
                             </td>
-                            <td class="tc" style="cursor: pointer;" onclick="downloadFile('${products.qrCode}')">
-                              <c:if test="${products.qrCode != null}"><a class="green">下载附件</a></c:if>
+                            <td class="tc">
+                              <c:if test="${products.qrCode != null}">
+                                <a class="green" onclick="downloadFile('${products.qrCode}')">下载附件</a>
+                              </c:if>
                               <c:if test="${products.qrCode == null}"><a class="red">无附件下载</a></c:if>
                             </td>
                             <td class="tc">
