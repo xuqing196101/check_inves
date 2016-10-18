@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.sms.SupplierEditMapper">
+  <resultMap id="BaseResultMap" type="ses.model.sms.SupplierEdit">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="RECORD_ID" jdbcType="VARCHAR" property="recordId" />
+    <result column="SUPPLIER_NAME" jdbcType="VARCHAR" property="supplierName" />
+    <result column="WEBSITE" jdbcType="VARCHAR" property="website" />
+    <result column="FOUND_DATE" jdbcType="DATE" property="foundDate" />
+    <result column="BUSINESS_TYPE" jdbcType="VARCHAR" property="businessType" />
+    <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+    <result column="BANK_NAME" jdbcType="VARCHAR" property="bankName" />
+    <result column="BANK_ ACCOUNT" jdbcType="VARCHAR" property="bankAccount" />
+    <result column="POST_CODE" jdbcType="VARCHAR" property="postCode" />
+    <result column="TAX_CERT" jdbcType="VARCHAR" property="taxCert" />
+    <result column="BILL_CERT" jdbcType="VARCHAR" property="billCert" />
+    <result column="SECURITY_CERT" jdbcType="VARCHAR" property="securityCert" />
+    <result column="BREACH_CERT" jdbcType="VARCHAR" property="breachCert" />
+    <result column="LEGAL_NAME" jdbcType="VARCHAR" property="legalName" />
+    <result column="LEGAL_ID_CARD" jdbcType="VARCHAR" property="legalIdCard" />
+    <result column="LEGAL_TELEPHONE" jdbcType="VARCHAR" property="legalTelephone" />
+    <result column="LEGAL_MOBILE" jdbcType="VARCHAR" property="legalMobile" />
+    <result column="CONTACT_NAME" jdbcType="VARCHAR" property="contactName" />
+    <result column="CONTACT_TELEPHONE" jdbcType="VARCHAR" property="contactTelephone" />
+    <result column="CONTACT_FAX" jdbcType="VARCHAR" property="contactFax" />
+    <result column="CONTACT_MOBILE" jdbcType="VARCHAR" property="contactMobile" />
+    <result column="CONTACT_EMAIL" jdbcType="VARCHAR" property="contactEmail" />
+    <result column="CONTACT_ADDRESS" jdbcType="VARCHAR" property="contactAddress" />
+    <result column="CREDIT_CODE" jdbcType="VARCHAR" property="creditCode" />
+    <result column="REGIST_AUTHORITY" jdbcType="VARCHAR" property="registAuthority" />
+    <result column="REGIST_FUND" jdbcType="DECIMAL" property="registFund" />
+    <result column="BUSINESS_START_DATE" jdbcType="DATE" property="businessStartDate" />
+    <result column="BUSINESS_END_DATE" jdbcType="DATE" property="businessEndDate" />
+    <result column="BUSINESS_SCOPE" jdbcType="VARCHAR" property="businessScope" />
+    <result column="BUSINESS_ADDRESS" jdbcType="VARCHAR" property="businessAddress" />
+    <result column="BUSINESS_POST_CODE" jdbcType="DECIMAL" property="businessPostCode" />
+    <result column="OVERSEAS_BRANCH" jdbcType="DECIMAL" property="overseasBranch" />
+    <result column="BRANCH_COUNTRY" jdbcType="VARCHAR" property="branchCountry" />
+    <result column="BRANCH_ADDRESS" jdbcType="VARCHAR" property="branchAddress" />
+    <result column="BRANCH_NAME" jdbcType="VARCHAR" property="branchName" />
+    <result column="BUSINESS_CERT" jdbcType="VARCHAR" property="businessCert" />
+    <result column="BRANCH_BUSINESS_SCOPE" jdbcType="VARCHAR" property="branchBusinessScope" />
+    <result column="CREATE_DATE" jdbcType="DATE" property="createDate" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, RECORD_ID, SUPPLIER_NAME, WEBSITE, FOUND_DATE, BUSINESS_TYPE, ADDRESS, BANK_NAME, 
+    "BANK_ ACCOUNT", POST_CODE, TAX_CERT, BILL_CERT, SECURITY_CERT, BREACH_CERT, LEGAL_NAME, 
+    LEGAL_ID_CARD, LEGAL_TELEPHONE, LEGAL_MOBILE, CONTACT_NAME, CONTACT_TELEPHONE, CONTACT_FAX, 
+    CONTACT_MOBILE, CONTACT_EMAIL, CONTACT_ADDRESS, CREDIT_CODE, REGIST_AUTHORITY, REGIST_FUND, 
+    BUSINESS_START_DATE, BUSINESS_END_DATE, BUSINESS_SCOPE, BUSINESS_ADDRESS, BUSINESS_POST_CODE, 
+    OVERSEAS_BRANCH, BRANCH_COUNTRY, BRANCH_ADDRESS, BRANCH_NAME, BUSINESS_CERT, BRANCH_BUSINESS_SCOPE, 
+    CREATE_DATE,STATUS
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_SUPPLIER_EDIT
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="getAll" parameterType="ses.model.sms.SupplierEdit" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_SUPPLIER_EDIT
+    where 1=1  ORDER BY CREATE_DATE DESC
+    </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_SES_SMS_SUPPLIER_EDIT
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="ses.model.sms.SupplierEdit">
+    insert into T_SES_SMS_SUPPLIER_EDIT (ID, RECORD_ID, SUPPLIER_NAME, 
+      WEBSITE, FOUND_DATE, BUSINESS_TYPE, 
+      ADDRESS, BANK_NAME, "BANK_ ACCOUNT", 
+      POST_CODE, TAX_CERT, BILL_CERT, 
+      SECURITY_CERT, BREACH_CERT, LEGAL_NAME, 
+      LEGAL_ID_CARD, LEGAL_TELEPHONE, LEGAL_MOBILE, 
+      CONTACT_NAME, CONTACT_TELEPHONE, CONTACT_FAX, 
+      CONTACT_MOBILE, CONTACT_EMAIL, CONTACT_ADDRESS, 
+      CREDIT_CODE, REGIST_AUTHORITY, REGIST_FUND, 
+      BUSINESS_START_DATE, BUSINESS_END_DATE, BUSINESS_SCOPE, 
+      BUSINESS_ADDRESS, BUSINESS_POST_CODE, OVERSEAS_BRANCH, 
+      BRANCH_COUNTRY, BRANCH_ADDRESS, BRANCH_NAME, 
+      BUSINESS_CERT, BRANCH_BUSINESS_SCOPE, CREATE_DATE,STATUS
+      )
+    values (#{id,jdbcType=VARCHAR}, #{recordId,jdbcType=VARCHAR}, #{supplierName,jdbcType=VARCHAR}, 
+      #{website,jdbcType=VARCHAR}, #{foundDate,jdbcType=DATE}, #{businessType,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR}, #{bankAccount,jdbcType=VARCHAR}, 
+      #{postCode,jdbcType=VARCHAR}, #{taxCert,jdbcType=VARCHAR}, #{billCert,jdbcType=VARCHAR}, 
+      #{securityCert,jdbcType=VARCHAR}, #{breachCert,jdbcType=VARCHAR}, #{legalName,jdbcType=VARCHAR}, 
+      #{legalIdCard,jdbcType=VARCHAR}, #{legalTelephone,jdbcType=VARCHAR}, #{legalMobile,jdbcType=VARCHAR}, 
+      #{contactName,jdbcType=VARCHAR}, #{contactTelephone,jdbcType=VARCHAR}, #{contactFax,jdbcType=VARCHAR}, 
+      #{contactMobile,jdbcType=VARCHAR}, #{contactEmail,jdbcType=VARCHAR}, #{contactAddress,jdbcType=VARCHAR}, 
+      #{creditCode,jdbcType=VARCHAR}, #{registAuthority,jdbcType=VARCHAR}, #{registFund,jdbcType=DECIMAL}, 
+      #{businessStartDate,jdbcType=DATE}, #{businessEndDate,jdbcType=DATE}, #{businessScope,jdbcType=VARCHAR}, 
+      #{businessAddress,jdbcType=VARCHAR}, #{businessPostCode,jdbcType=DECIMAL}, #{overseasBranch,jdbcType=DECIMAL}, 
+      #{branchCountry,jdbcType=VARCHAR}, #{branchAddress,jdbcType=VARCHAR}, #{branchName,jdbcType=VARCHAR}, 
+      #{businessCert,jdbcType=VARCHAR}, #{branchBusinessScope,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE},#{status,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="ses.model.sms.SupplierEdit">
+    insert into T_SES_SMS_SUPPLIER_EDIT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="recordId != null">
+        RECORD_ID,
+      </if>
+      <if test="supplierName != null">
+        SUPPLIER_NAME,
+      </if>
+      <if test="website != null">
+        WEBSITE,
+      </if>
+      <if test="foundDate != null">
+        FOUND_DATE,
+      </if>
+      <if test="businessType != null">
+        BUSINESS_TYPE,
+      </if>
+      <if test="address != null">
+        ADDRESS,
+      </if>
+      <if test="bankName != null">
+        BANK_NAME,
+      </if>
+      <if test="bankAccount != null">
+        "BANK_ ACCOUNT",
+      </if>
+      <if test="postCode != null">
+        POST_CODE,
+      </if>
+      <if test="taxCert != null">
+        TAX_CERT,
+      </if>
+      <if test="billCert != null">
+        BILL_CERT,
+      </if>
+      <if test="securityCert != null">
+        SECURITY_CERT,
+      </if>
+      <if test="breachCert != null">
+        BREACH_CERT,
+      </if>
+      <if test="legalName != null">
+        LEGAL_NAME,
+      </if>
+      <if test="legalIdCard != null">
+        LEGAL_ID_CARD,
+      </if>
+      <if test="legalTelephone != null">
+        LEGAL_TELEPHONE,
+      </if>
+      <if test="legalMobile != null">
+        LEGAL_MOBILE,
+      </if>
+      <if test="contactName != null">
+        CONTACT_NAME,
+      </if>
+      <if test="contactTelephone != null">
+        CONTACT_TELEPHONE,
+      </if>
+      <if test="contactFax != null">
+        CONTACT_FAX,
+      </if>
+      <if test="contactMobile != null">
+        CONTACT_MOBILE,
+      </if>
+      <if test="contactEmail != null">
+        CONTACT_EMAIL,
+      </if>
+      <if test="contactAddress != null">
+        CONTACT_ADDRESS,
+      </if>
+      <if test="creditCode != null">
+        CREDIT_CODE,
+      </if>
+      <if test="registAuthority != null">
+        REGIST_AUTHORITY,
+      </if>
+      <if test="registFund != null">
+        REGIST_FUND,
+      </if>
+      <if test="businessStartDate != null">
+        BUSINESS_START_DATE,
+      </if>
+      <if test="businessEndDate != null">
+        BUSINESS_END_DATE,
+      </if>
+      <if test="businessScope != null">
+        BUSINESS_SCOPE,
+      </if>
+      <if test="businessAddress != null">
+        BUSINESS_ADDRESS,
+      </if>
+      <if test="businessPostCode != null">
+        BUSINESS_POST_CODE,
+      </if>
+      <if test="overseasBranch != null">
+        OVERSEAS_BRANCH,
+      </if>
+      <if test="branchCountry != null">
+        BRANCH_COUNTRY,
+      </if>
+      <if test="branchAddress != null">
+        BRANCH_ADDRESS,
+      </if>
+      <if test="branchName != null">
+        BRANCH_NAME,
+      </if>
+      <if test="businessCert != null">
+        BUSINESS_CERT,
+      </if>
+      <if test="branchBusinessScope != null">
+        BRANCH_BUSINESS_SCOPE,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="recordId != null">
+        #{recordId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null">
+        #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="website != null">
+        #{website,jdbcType=VARCHAR},
+      </if>
+      <if test="foundDate != null">
+        #{foundDate,jdbcType=DATE},
+      </if>
+      <if test="businessType != null">
+        #{businessType,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null">
+        #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccount != null">
+        #{bankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="postCode != null">
+        #{postCode,jdbcType=VARCHAR},
+      </if>
+      <if test="taxCert != null">
+        #{taxCert,jdbcType=VARCHAR},
+      </if>
+      <if test="billCert != null">
+        #{billCert,jdbcType=VARCHAR},
+      </if>
+      <if test="securityCert != null">
+        #{securityCert,jdbcType=VARCHAR},
+      </if>
+      <if test="breachCert != null">
+        #{breachCert,jdbcType=VARCHAR},
+      </if>
+      <if test="legalName != null">
+        #{legalName,jdbcType=VARCHAR},
+      </if>
+      <if test="legalIdCard != null">
+        #{legalIdCard,jdbcType=VARCHAR},
+      </if>
+      <if test="legalTelephone != null">
+        #{legalTelephone,jdbcType=VARCHAR},
+      </if>
+      <if test="legalMobile != null">
+        #{legalMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="contactName != null">
+        #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactTelephone != null">
+        #{contactTelephone,jdbcType=VARCHAR},
+      </if>
+      <if test="contactFax != null">
+        #{contactFax,jdbcType=VARCHAR},
+      </if>
+      <if test="contactMobile != null">
+        #{contactMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="contactEmail != null">
+        #{contactEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="contactAddress != null">
+        #{contactAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="creditCode != null">
+        #{creditCode,jdbcType=VARCHAR},
+      </if>
+      <if test="registAuthority != null">
+        #{registAuthority,jdbcType=VARCHAR},
+      </if>
+      <if test="registFund != null">
+        #{registFund,jdbcType=DECIMAL},
+      </if>
+      <if test="businessStartDate != null">
+        #{businessStartDate,jdbcType=DATE},
+      </if>
+      <if test="businessEndDate != null">
+        #{businessEndDate,jdbcType=DATE},
+      </if>
+      <if test="businessScope != null">
+        #{businessScope,jdbcType=VARCHAR},
+      </if>
+      <if test="businessAddress != null">
+        #{businessAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="businessPostCode != null">
+        #{businessPostCode,jdbcType=DECIMAL},
+      </if>
+      <if test="overseasBranch != null">
+        #{overseasBranch,jdbcType=DECIMAL},
+      </if>
+      <if test="branchCountry != null">
+        #{branchCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="branchAddress != null">
+        #{branchAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="branchName != null">
+        #{branchName,jdbcType=VARCHAR},
+      </if>
+      <if test="businessCert != null">
+        #{businessCert,jdbcType=VARCHAR},
+      </if>
+      <if test="branchBusinessScope != null">
+        #{branchBusinessScope,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=DATE},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+    </trim>
+    	<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			select sys_guid() from dual
+		</selectKey>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierEdit">
+    update T_SES_SMS_SUPPLIER_EDIT
+    <set>
+      <if test="recordId != null">
+        RECORD_ID = #{recordId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null">
+        SUPPLIER_NAME = #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="website != null">
+        WEBSITE = #{website,jdbcType=VARCHAR},
+      </if>
+      <if test="foundDate != null">
+        FOUND_DATE = #{foundDate,jdbcType=DATE},
+      </if>
+      <if test="businessType != null">
+        BUSINESS_TYPE = #{businessType,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null">
+        BANK_NAME = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccount != null">
+        "BANK_ ACCOUNT" = #{bankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="postCode != null">
+        POST_CODE = #{postCode,jdbcType=VARCHAR},
+      </if>
+      <if test="taxCert != null">
+        TAX_CERT = #{taxCert,jdbcType=VARCHAR},
+      </if>
+      <if test="billCert != null">
+        BILL_CERT = #{billCert,jdbcType=VARCHAR},
+      </if>
+      <if test="securityCert != null">
+        SECURITY_CERT = #{securityCert,jdbcType=VARCHAR},
+      </if>
+      <if test="breachCert != null">
+        BREACH_CERT = #{breachCert,jdbcType=VARCHAR},
+      </if>
+      <if test="legalName != null">
+        LEGAL_NAME = #{legalName,jdbcType=VARCHAR},
+      </if>
+      <if test="legalIdCard != null">
+        LEGAL_ID_CARD = #{legalIdCard,jdbcType=VARCHAR},
+      </if>
+      <if test="legalTelephone != null">
+        LEGAL_TELEPHONE = #{legalTelephone,jdbcType=VARCHAR},
+      </if>
+      <if test="legalMobile != null">
+        LEGAL_MOBILE = #{legalMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="contactName != null">
+        CONTACT_NAME = #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactTelephone != null">
+        CONTACT_TELEPHONE = #{contactTelephone,jdbcType=VARCHAR},
+      </if>
+      <if test="contactFax != null">
+        CONTACT_FAX = #{contactFax,jdbcType=VARCHAR},
+      </if>
+      <if test="contactMobile != null">
+        CONTACT_MOBILE = #{contactMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="contactEmail != null">
+        CONTACT_EMAIL = #{contactEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="contactAddress != null">
+        CONTACT_ADDRESS = #{contactAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="creditCode != null">
+        CREDIT_CODE = #{creditCode,jdbcType=VARCHAR},
+      </if>
+      <if test="registAuthority != null">
+        REGIST_AUTHORITY = #{registAuthority,jdbcType=VARCHAR},
+      </if>
+      <if test="registFund != null">
+        REGIST_FUND = #{registFund,jdbcType=DECIMAL},
+      </if>
+      <if test="businessStartDate != null">
+        BUSINESS_START_DATE = #{businessStartDate,jdbcType=DATE},
+      </if>
+      <if test="businessEndDate != null">
+        BUSINESS_END_DATE = #{businessEndDate,jdbcType=DATE},
+      </if>
+      <if test="businessScope != null">
+        BUSINESS_SCOPE = #{businessScope,jdbcType=VARCHAR},
+      </if>
+      <if test="businessAddress != null">
+        BUSINESS_ADDRESS = #{businessAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="businessPostCode != null">
+        BUSINESS_POST_CODE = #{businessPostCode,jdbcType=DECIMAL},
+      </if>
+      <if test="overseasBranch != null">
+        OVERSEAS_BRANCH = #{overseasBranch,jdbcType=DECIMAL},
+      </if>
+      <if test="branchCountry != null">
+        BRANCH_COUNTRY = #{branchCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="branchAddress != null">
+        BRANCH_ADDRESS = #{branchAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="branchName != null">
+        BRANCH_NAME = #{branchName,jdbcType=VARCHAR},
+      </if>
+      <if test="businessCert != null">
+        BUSINESS_CERT = #{businessCert,jdbcType=VARCHAR},
+      </if>
+      <if test="branchBusinessScope != null">
+        BRANCH_BUSINESS_SCOPE = #{branchBusinessScope,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=DATE},
+      </if>
+     <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="ses.model.sms.SupplierEdit">
+    update T_SES_SMS_SUPPLIER_EDIT
+    set RECORD_ID = #{recordId,jdbcType=VARCHAR},
+      SUPPLIER_NAME = #{supplierName,jdbcType=VARCHAR},
+      WEBSITE = #{website,jdbcType=VARCHAR},
+      FOUND_DATE = #{foundDate,jdbcType=DATE},
+      BUSINESS_TYPE = #{businessType,jdbcType=VARCHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      BANK_NAME = #{bankName,jdbcType=VARCHAR},
+      "BANK_ ACCOUNT" = #{bankAccount,jdbcType=VARCHAR},
+      POST_CODE = #{postCode,jdbcType=VARCHAR},
+      TAX_CERT = #{taxCert,jdbcType=VARCHAR},
+      BILL_CERT = #{billCert,jdbcType=VARCHAR},
+      SECURITY_CERT = #{securityCert,jdbcType=VARCHAR},
+      BREACH_CERT = #{breachCert,jdbcType=VARCHAR},
+      LEGAL_NAME = #{legalName,jdbcType=VARCHAR},
+      LEGAL_ID_CARD = #{legalIdCard,jdbcType=VARCHAR},
+      LEGAL_TELEPHONE = #{legalTelephone,jdbcType=VARCHAR},
+      LEGAL_MOBILE = #{legalMobile,jdbcType=VARCHAR},
+      CONTACT_NAME = #{contactName,jdbcType=VARCHAR},
+      CONTACT_TELEPHONE = #{contactTelephone,jdbcType=VARCHAR},
+      CONTACT_FAX = #{contactFax,jdbcType=VARCHAR},
+      CONTACT_MOBILE = #{contactMobile,jdbcType=VARCHAR},
+      CONTACT_EMAIL = #{contactEmail,jdbcType=VARCHAR},
+      CONTACT_ADDRESS = #{contactAddress,jdbcType=VARCHAR},
+      CREDIT_CODE = #{creditCode,jdbcType=VARCHAR},
+      REGIST_AUTHORITY = #{registAuthority,jdbcType=VARCHAR},
+      REGIST_FUND = #{registFund,jdbcType=DECIMAL},
+      BUSINESS_START_DATE = #{businessStartDate,jdbcType=DATE},
+      BUSINESS_END_DATE = #{businessEndDate,jdbcType=DATE},
+      BUSINESS_SCOPE = #{businessScope,jdbcType=VARCHAR},
+      BUSINESS_ADDRESS = #{businessAddress,jdbcType=VARCHAR},
+      BUSINESS_POST_CODE = #{businessPostCode,jdbcType=DECIMAL},
+      OVERSEAS_BRANCH = #{overseasBranch,jdbcType=DECIMAL},
+      BRANCH_COUNTRY = #{branchCountry,jdbcType=VARCHAR},
+      BRANCH_ADDRESS = #{branchAddress,jdbcType=VARCHAR},
+      BRANCH_NAME = #{branchName,jdbcType=VARCHAR},
+      BUSINESS_CERT = #{businessCert,jdbcType=VARCHAR},
+      BRANCH_BUSINESS_SCOPE = #{branchBusinessScope,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=DATE},
+      STATUS = #{status,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

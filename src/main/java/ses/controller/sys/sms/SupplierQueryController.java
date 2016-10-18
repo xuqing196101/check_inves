@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -36,6 +37,8 @@ import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierLevelService;
 import ses.service.sms.SupplierService;
+import ses.util.FtpUtil;
+import ses.util.PropUtil;
 
 import com.github.pagehelper.PageInfo;
 
@@ -67,7 +70,12 @@ public class SupplierQueryController extends BaseSupplierController{
 		if(status!=null){
 			sup.setStatus(status);
 		}
-		List<Supplier> listSupplier=supplierAuditService.querySupplier(sup, null);
+		List<Supplier> listSupplier=null;
+		if(sup.getSupplierType()==null||sup.getSupplierType().equals("")){
+			listSupplier=supplierAuditService.supplierList(sup,null);
+		}else{
+			listSupplier=supplierAuditService.querySupplier(sup, null);
+		}
 		//开始循环 判断地址是否
 		Map<String,Integer> map= new HashMap<String,Integer>(40);
 		map=getMap();
@@ -92,6 +100,7 @@ public class SupplierQueryController extends BaseSupplierController{
 			highMapStr=sb.toString();
 		}
 		model.addAttribute("data", highMapStr);
+		System.out.println(highMapStr);
 		model.addAttribute("sup",sup);
 		if(status!=null){
 			return "ses/sms/supplier_query/all_ruku_supplier";
@@ -393,11 +402,17 @@ public class SupplierQueryController extends BaseSupplierController{
 	 * @return ResponseEntity<byte[]>
 	 */
 	 @RequestMapping("/downLoadFile")
-	  public ResponseEntity<byte[]> downLoadFile(String fileName,HttpServletRequest request) throws UnsupportedEncodingException{
-		  fileName=URLDecoder.decode(fileName,"UTF-8");
-		 String filePath=getFilePath(request);
-		 return  supplierAuditService.downloadFile(filePath,fileName);
-	  }
+		public void download(HttpServletRequest request, HttpServletResponse response, String fileName) {
+			String stashPath = super.getStashPath(request);
+			FtpUtil.startDownFile(stashPath, PropUtil.getProperty("file.upload.path.supplier"), fileName);
+			FtpUtil.closeFtp();
+			if (fileName != null && !"".equals(fileName)) {
+				super.download(request, response, fileName);
+			} else {
+				super.alert(request, response, "无附件下载 !");
+			}
+			super.removeStash(request, fileName);
+		}
 	  
 	public static List<String> getAllProvince(){
 		List<String> list=new ArrayList<String>();
