@@ -24,6 +24,9 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
 <link href="${pageContext.request.contextPath}/public/oms/css/purchase.css"  rel="stylesheet">
+<style type="text/css">
+	form div.invalid{width: 200px;margin-left: 10px; color: Red;}
+</style>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
@@ -32,11 +35,13 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHH/js/jquery.validate.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/oms/js/validate-extend.js"></script>
 <script type="text/javascript">
-
+	var tab =1;
 	$(function() {
 		$("#page_ul_id").find("li").click(function() {
 			var id = $(this).attr("id");
+			tab =id;
 			var page = "tab-" + id.charAt(id.length - 1);
+			
 			$("input[name='defaultPage']").val(page);
 		});
 		var defaultPage = "${defaultPage}";
@@ -181,27 +186,37 @@
 		
 	}
 	function stashBasic(){
-		var s = validteBasic().form();
-		console.dir(s);
+		//var s = validteBasic().form();
+		validateAll();
 		return;
 		$("#formID").submit();
 	}
 	function stashOffice(){
-		var s2 = validateOffice().form();
-		console.dir(s2);
-		console.dir(s2=true);
+		//var s2 = validateOffice().form();
+		validateAll();
 		return;
 		$("#formID").submit();
 	}
 	function stashPosition(){
-		var s2 = validatePosition().form();
+		//var s2 = validatePosition().form();
+		validateAll();
 		return;
 		$("#formID").submit();
 	}
 	function stash(){
-	var s2 = validateOffice().form();
-	
-		return;
+		if(tab=1){
+			validteBasic();
+		}else if(tab=2){
+			validatePosition();
+		}else{
+			validateOffice();
+		}
+	    /* if(validateAll().form()){
+	    	console.dir("ok");
+	    }else{
+	    	console.dir("no");
+	    } */
+		return false;
 		$("#formID").submit();
 	}
 	function truealert(text,iconindex){
@@ -353,6 +368,7 @@
 	//validate
 	function validteBasic(){
 		return $("#formID").validate({
+			ignore: [],
 			focusInvalid : false, //当为false时，验证无效时，没有焦点响应  
 			onkeyup : false,
 			rules : {
@@ -373,7 +389,7 @@
              		var _popover;
              		_popover = $(value.element).popover({
                     trigger: "manual",
-                    placement: "top",
+                    placement: "right",
                     content: value.message,
                     template: "<div class=\"popover\"><div class=\"arrow\"></div> <div class=\"popover-inner\"><div class=\"popover-content\"><p></p></div></div></div>"
                });
@@ -386,6 +402,7 @@
 	//
 	function validatePosition(){
 		return $("#formID").validate({
+			ignore: [],
 			focusInvalid : false, //当为false时，验证无效时，没有焦点响应  
 			onkeyup : false,
 			rules : {
@@ -398,12 +415,10 @@
 			},
 			messages : {
 				purchaseRoomTypeName : {
-					required : "必填项 !",
-					valiEnglish : "邮编6位数字组成!"
+					required : "必填项 !"
 				},
 				purchaseRoomCode : {
-					required : "必填项 !",
-					valiEnglish : "邮编6位数字组成!"
+					required : "必填项 !"
 				}
 			},
 			showErrors: function(errorMap, errorList) {
@@ -414,7 +429,7 @@
              		var _popover;
              		_popover = $(value.element).popover({
                     trigger: "manual",
-                    placement: "top",
+                    placement: "right",
                     content: value.message,
                     template: "<div class=\"popover\"><div class=\"arrow\"></div> <div class=\"popover-inner\"><div class=\"popover-content\"><p></p></div></div></div>"
                });
@@ -432,12 +447,6 @@
 			rules : {
 				purchaseUnitName : {
 					required : true
-				},
-				levelDep : {
-					required : true
-				},
-				purchaseRoomTypeName : {
-					required : true
 				}
 			},
 			messages : {
@@ -454,9 +463,10 @@
              		var _popover;
              		_popover = $(value.element).popover({
                     trigger: "manual",
-                    placement: "bottom",
+                    placement: "right",
                     content: value.message,
                     delay:{ show: 5000, hide: 100 },
+                    container:value.element,
                     template: "<div class=\"popover\"><div class=\"arrow\"></div> <div class=\"popover-inner\"><div class=\"popover-content\"><p></p></div></div></div>"
                });
              _popover.data("bs.popover").options.content = value.message;
@@ -465,9 +475,87 @@
          }
 		}); 
 	}
+	function validateAll(){
+		return $("#formID").validate({
+			ignore: ":hidden",
+			ignore: "",
+			focusInvalid : false, //当为false时，验证无效时，没有焦点响应  
+			onkeyup : false,
+			wrapper: "div",
+			rules : {
+				levelDep : {
+					required : true
+				},
+				purchaseUnitName : {
+					required : true
+				},
+				purchaseRoomTypeName:{
+					required : true
+				},
+				purchaseRoomCode:{
+					required : true
+				}
+			},
+			messages : {
+				levelDep : {
+					required : "必填项 !"
+				},
+				purchaseUnitName : {
+					required : "必填项 !"
+				},
+				purchaseRoomTypeName : {
+					required : "必填项 !"
+				},
+				purchaseRoomCode : {
+					required : "必填项 !"
+				}
+			},
+			errorPlacement: function(error, element) {
+     error.appendTo( element.parent("div").next("td") );
+   },
+		 showErrors: function(errorMap,errorList) {
+		 	for(var a=0;a<errorList.length;a++){
+		 		//layer.tips("请选择要上传的附件 !", errorList[a].element);
+		 		//errorList[a].element.addClass("w");
+		 	}
+		 
+　　　　　　　　　　//此方法处理所有不满足校验的元素
+　　　　　　　　　/*  var i = 0;
+　　　　　　　　　　 for(var key in errorMap){
+　　　　　　　　　　　　console.dir("属性：" + key + ",值："+ errorMap[key]); 
+　　　　　　　　　　　　if(true){
+　　　　　　　　　　　　　　　 // 所有tab页的内容域
+　　　　　　　　　　　　　　var conents = $("div.tab_tontent > div");
+　　　　　　　　　　　　　　　 // 所有tab页头
+　　　　　　　　　　　　　   var tabs = $("div.tab_menu ul li"); 
+　　　　　　　　　　　 　　        var index = conents.index(conents.has("[name='"+key+"']"));
+				    console.dir("index:"+index);
+　　　　　　　　　　　　　       tabs.eq(index).click();
+　　　　　　　　　　　　}
+　　　　　　　　　　　　i++;
+　　　　　　　　　　} */
+　　　　　　　　　　this.defaultShowErrors();
+　　　　　　}
+	  }); 
+	}
+	function a(errorList){
+           	  return  $.each(errorList, function(index, value) {
+             		var _popover;
+             		_popover = $(value.element).popover({
+                    trigger: "manual",
+                    placement: "right",
+                    content: value.message,
+                    delay:{ show: 5000, hide: 100 },
+                    container:value.element,
+                    template: "<div class=\"popover\"><div class=\"arrow\"></div> <div class=\"popover-inner\"><div class=\"popover-content\"><p></p></div></div></div>"
+               });
+             _popover.data("bs.popover").options.content = value.message;
+            return   _popover.popover("show");
+           });
+	}
 </script>
 <script type="text/javascript">
-	/* $(document).ready(function() {
+	 /* $(document).ready(function() {
 		 $("#formID").validate({
 			focusInvalid : false, //当为false时，验证无效时，没有焦点响应  
 			onkeyup : false,
@@ -514,7 +602,9 @@
            });
          }
 		}); 
-	 }); */
+	 });  */
+	 
+	
 </script>
 </head>
 
@@ -524,7 +614,7 @@
 		<div class="container content height-350">
 			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
-					<div class="padding-top-10">
+					<div class="padding-top-10 tab_menu" id="tabs">
 						<ul id="page_ul_id" class="nav nav-tabs bgdd">
 							<li id="li_id_1" class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="s_news f18">详细信息</a></li>
 							<li id="li_id_2" class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="fujian f18">部门信息</a></li>
@@ -697,7 +787,7 @@
 									<div class="clear"></div>
 									<div class="margin-bottom-0">
 										<h2 class="f16 jbxx mt40">
-											<i>04</i>个人信息
+											<i>03</i>个人信息
 										</h2>
 									</div>
 									<ul class="list-unstyled list-flow p0_20">
@@ -755,7 +845,7 @@
 									<div class="clear"></div>
 									<div class="margin-bottom-0">
 										<h2 class="f16 jbxx mt40">
-											<i>05</i>甲方信息
+											<i>04</i>甲方信息
 										</h2>
 									</div>
 									<ul class="list-unstyled list-flow p0_20">
@@ -811,7 +901,7 @@
 											</div></li>
 									</ul>
 									<div class="clear"></div>
-									<div class="mt40 tc mb50">
+									<!-- <div class="mt40 tc mb50">
 										<input type="button"
 											class="btn  padding-right-20 btn_back margin-5"
 											onclick="updateBasic();" value="确认" /> <input type="button"
@@ -819,14 +909,14 @@
 											onclick="stashBasic();" value="暂存" /> <input type="button"
 											class="btn  padding-right-20 btn_back margin-5"
 											onclick="history.go(-1)" value="取消" />
-									</div>
+									</div> -->
 								</div>
 								
 								<!-- 财务信息 -->
 								<div class="tab-pane fade height-450" id="tab-2">
 									<div class="margin-bottom-0">
 										<h2 class="f16 jbxx mt40">
-											<i>03</i>部门信息
+											<i>01</i>部门信息
 										</h2>
 									</div>
 									<div class="mt40 mb50">
@@ -851,18 +941,18 @@
 										</table>
 									</div>
 									<div class="clear"></div>
-									<div class="mt40 tc mb50">
+									<!-- <div class="mt40 tc mb50">
 										<input type="button" class="btn  padding-right-20 btn_back margin-5" onclick="updateOffice();" value="确认"/>
 										<input type="button" class="btn  padding-right-20 btn_back margin-5" onclick="stashOffice();" value="暂存"/> 
 										<input type="button" class="btn  padding-right-20 btn_back margin-5" onclick="history.go(-1)" value="取消"/>
-									</div>
+									</div> -->
 								</div>
 
 								<!-- 股东信息 -->
 								<div class="tab-pane fade height-200" id="tab-3">
 									<div class="margin-bottom-0">
 										<h2 class="f16 jbxx mt40">
-											<i>06</i>场所信息
+											<i>01</i>场所信息
 										</h2>
 									</div>
 									<ul class="list-unstyled list-flow p0_20">
@@ -921,17 +1011,17 @@
 										</table>
 									</div>
 									<div class="clear"></div>
-									<div class="mt40 tc mb50">
+									<!-- <div class="mt40 tc mb50">
 										<input type="button" class="btn  padding-right-20 btn_back margin-5" onclick="updatePosition();" value="确认"/>
 										<input type="button" class="btn  padding-right-20 btn_back margin-5" onclick="stashPosition();" value="暂存"/> 
 										<input type="button" class="btn  padding-right-20 btn_back margin-5" onclick="history.go(-1)" value="取消"/>
-									</div>
+									</div> -->
 								</div>
 								<!--  -->
 								<div class="tab-pane fade height-200" id="tab-4">
 									<div class="margin-bottom-0">
 										<h2 class="f16 jbxx mt40">
-											<i>07</i>选择采购管理部门
+											<i>01</i>选择采购管理部门
 										</h2>
 									</div>
 									<div class="mt40 mb50">
@@ -958,15 +1048,15 @@
 										</table>
 									</div>
 									
-									<div class="mt40 tc mb50">
-										<input type="button" class="btn  padding-right-20 btn_back margin-5" onclick="update();" value="确认"/>
-										<input type="button" class="btn  padding-right-20 btn_back margin-5" onclick="stash();" value="暂存"/> 
-										<input type="button" class="btn  padding-right-20 btn_back margin-5" onclick="history.go(-1)" value="取消"/>
-									</div>
+									
 								</div>
 							</div>
 								
-							
+							<div class="mt40 tc mb50">
+										<input type="button" class="btn  padding-right-20 btn_back margin-5" onclick="update();" value="确认"/>
+										<input type="button" class="btn  padding-right-20 btn_back margin-5" onclick="stash();"  value="暂存" /> 
+										<input type="button" class="btn  padding-right-20 btn_back margin-5" onclick="history.go(-1)" value="取消"/>
+									</div>
 						</form>
 					</div>
 				</div>

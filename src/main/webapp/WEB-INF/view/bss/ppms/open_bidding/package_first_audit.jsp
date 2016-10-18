@@ -109,7 +109,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							   <i></i>							  
 							 </li>
 						     <li>
-							   <a  href="#tab-3" data-toggle="tab">03、评标细则</a>
+							   <a  href="<%=basePath%>intelligentScore/packageList.html?projectId=${projectId}">03、评标细则</a>
 							   <i></i>
 							 </li>
 							 <li>

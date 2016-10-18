@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.ppms.ScoreModelMapper">
+  <resultMap id="BaseResultMap" type="bss.model.ppms.ScoreModel">
+    <id column="ID"  property="id" />
+    <result column="project_id" property="projectId"/>
+   	<result column="package_id" property="packageId"/>
+   	<result column="mark_term_id" property="markTermId"/>
+   	<result column="mark_term_name"  property="markTermName" />
+   	<result column="name"  property="name" />
+   	<result column="type_name"  property="typeName" />
+   	<result column="review_content"  property="reviewContent" />
+   	<result column="remark"  property="remark" />
+   	<result column="easy_understand_content"  property="easyUnderstandContent" />
+   	<result column="standard_explain"  property="standExplain" />
+   	<result column="standard_score"  property="standardScore" />
+   	<result column="judge_content"  property="judgeContent" />
+   	<result column="review_param"  property="reviewParam" />
+   	<result column="add_subtract_type_name"  property="AddSubtractTypeName" />
+   	<result column="unit_score"  property="unitScore" />
+   	<result column="unit"  property="unit" />
+   	<result column="review_stand_score"  property="reviewStandScore" />
+   	<result column="max_score"  property="maxScore" />
+   	<result column="min_score"  property="minScore" />
+   	<result column="score"  property="score" />
+   	<result column="interval_type_name"  property="intervalTypeName" />
+   	<result column="deadline_number"  property="deadlineNumber" />
+   	<result column="interval_number"  property="intervalNumber" />
+   	<result column="is_deleted"  property="isDeleted" />
+   	<result column="created_at"  property="createdAt" />
+   	<result column="updated_at"  property="updatedAt" />
+   	<collection property="paramIntervalList" ofType="bss.model.ppms.ParamInterval">
+		<id column="piId"  property="id" />
+	    <result column="piScoreModelId" jdbcType="VARCHAR" property="scoreModelId" />
+	    <result column="piStartParam" jdbcType="VARCHAR" property="startParam" />
+	    <result column="piEndParam" jdbcType="VARCHAR" property="endParam" />
+	    <result column="piStartRelation" property="startRelation" />
+	    <result column="piEndRelation"  property="endRelation" />
+	    <result column="piScore" property="score" />
+	    <result column="piExplain" property="explain" />
+	    <result column="piIsDeleted" property="isDeleted" />
+	    <result column="piCreatedAt" jdbcType="TIMESTAMP" property="createdAt" />
+	    <result column="piUpdatedAt" jdbcType="TIMESTAMP" property="updatedAt" />
+	</collection> 
+  </resultMap>
+  <select id="findListByScoreModel" parameterType="bss.model.ppms.ScoreModel" resultMap="BaseResultMap">
+   		SELECT
+   			sm.*,
+   			pi.id	as piId,
+   			pi.score_model_id	as piScoreModelId,
+   			pi.start_param	as piStartParam,
+   			pi.end_param as piEndParam,
+   			pi.start_relation	as piStartRelation,
+   			pi.end_relation	as piEndRelation,
+   			pi.score	as piScore,
+   			pi.explain	as piExplain,
+   			pi.is_deleted	as piIsDeleted,
+   			pi.created_at	as piCreatedAt,
+   			pi.updated_at	as piUpdatedAt
+   		FROM
+   			T_BSS_PPMS_SCORE_MODEL SM
+   		LEFT JOIN
+   			T_BSS_PPMS_PARAM_INTERVAL PI
+   		on sm.id = pi.score_model_id
+   		WHERE nvl(SM.is_deleted,0)=0
+   		<if test="projectId != null">
+        	SM.project_id = #{projectId}
+      	</if>
+      	<if test="packageId != null">
+        	SM.package_id = #{packageId}
+      	</if>
+      	<if test="markTermId != null">
+        	SM.mark_term_id = #{markTermId}
+      	</if>	
+   </select> 
+  <insert id="saveScoreModel" parameterType="bss.model.ppms.ScoreModel">
+     <selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_BSS_PPMS_SCORE_MODEL
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      created_at,
+      <if test="id != null">
+        ID,
+      </if>
+     <if test="projectId != null">
+        project_id,
+      </if>
+      <if test="packageId != null">
+        package_id,
+      </if>
+      <if test="markTermId != null">
+        mark_term_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="typeName != null">
+        type_name ,
+      </if>
+      <if test="reviewContent != null">
+        review_content,
+      </if>
+      <if test="remark != null">
+        remark ,
+      </if>
+      <if test="easyUnderstandContent != null">
+        easy_understand_content ,
+      </if>
+      <if test="standExplain != null">
+        standard_explain ,
+      </if>
+      <if test="standardScore != null">
+        standard_score ,
+      </if>
+      <if test="judgeContent != null">
+        judge_content ,
+      </if>
+      <if test="reviewParam != null">
+        review_param = ,
+      </if>
+      <if test="AddSubtractTypeName != null">
+        add_subtract_type_name ,
+      </if>
+      <if test="unitScore != null">
+        unit_score,
+      </if>
+      <if test="unit != null">
+        unit ,
+      </if>
+      <if test="reviewStandScore != null">
+        review_stand_score ,
+      </if>
+      <if test="maxScore != null">
+        max_score ,
+      </if>
+      <if test="minScore != null">
+        min_score ,
+      </if>
+      <if test="score != null">
+        score ,
+      </if>
+      <if test="intervalTypeName != null">
+        interval_type_name,
+      </if>
+      <if test="deadlineNumber != null">
+        deadline_number ,
+      </if>
+      <if test="intervalNumber != null">
+        interval_number ,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = ,
+      </if>
+      <if test="markTermName != null">
+        mark_term_name ,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      sysdate,
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="projectId != null">
+         #{projectId},
+      </if>
+      <if test="packageId != null">
+        #{packageId},
+      </if>
+      <if test="markTermId != null">
+         #{markTermId},
+      </if>
+      <if test="name != null">
+       #{name},
+      </if>
+      <if test="typeName != null">
+        #{typeName},
+      </if>
+      <if test="reviewContent != null">
+         #{reviewContent},
+      </if>
+      <if test="remark != null">
+        #{remark},
+      </if>
+      <if test="easyUnderstandContent != null">
+         #{easyUnderstandContent},
+      </if>
+      <if test="standExplain != null">
+         #{standExplain},
+      </if>
+      <if test="standardScore != null">
+        #{standardScore},
+      </if>
+      <if test="judgeContent != null">
+       #{judgeContent},
+      </if>
+      <if test="reviewParam != null">
+        #{reviewParam},
+      </if>
+      <if test="AddSubtractTypeName != null">
+        #{AddSubtractTypeName},
+      </if>
+      <if test="unitScore != null">
+         #{unitScore},
+      </if>
+      <if test="unit != null">
+        #{unit},
+      </if>
+      <if test="reviewStandScore != null">
+        #{reviewStandScore},
+      </if>
+      <if test="maxScore != null">
+       #{maxScore},
+      </if>
+      <if test="minScore != null">
+       #{minScore},
+      </if>
+      <if test="score != null">
+        #{score},
+      </if>
+      <if test="intervalTypeName != null">
+        #{intervalTypeName},
+      </if>
+      <if test="deadlineNumber != null">
+        #{deadlineNumber},
+      </if>
+      <if test="intervalNumber != null">
+        #{intervalNumber},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted},
+      </if>
+      <if test="markTermName != null">
+         #{markTermName},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateScoreModel" parameterType="bss.model.ppms.ScoreModel">
+    update T_BSS_PPMS_SCORE_MODEL
+    set
+      updated_at = sysdate
+      <if test="projectId != null">
+        ,project_id = #{projectId}
+      </if>
+      <if test="packageId != null">
+        ,package_id = #{packageId}
+      </if>
+      <if test="markTermId != null">
+        ,mark_term_id = #{markTermId}
+      </if>
+      <if test="name != null">
+        ,name = #{name}
+      </if>
+      <if test="typeName != null">
+        ,type_name = #{typeName}
+      </if>
+      <if test="reviewContent != null">
+        ,review_content = #{reviewContent}
+      </if>
+      <if test="remark != null">
+        ,remark = #{remark}
+      </if>
+      <if test="easyUnderstandContent != null">
+        ,easy_understand_content = #{easyUnderstandContent}
+      </if>
+      <if test="standExplain != null">
+        ,standard_explain = #{standExplain}
+      </if>
+      <if test="standardScore != null">
+        ,standard_score = #{standardScore}
+      </if>
+      <if test="judgeContent != null">
+        ,judge_content = #{judgeContent}
+      </if>
+      <if test="reviewParam != null">
+        ,review_param = #{reviewParam}
+      </if>
+      <if test="AddSubtractTypeName != null">
+        ,add_subtract_type_name = #{AddSubtractTypeName}
+      </if>
+      <if test="unitScore != null">
+        ,unit_score = #{unitScore}
+      </if>
+      <if test="unit != null">
+        ,unit = #{unit}
+      </if>
+      <if test="reviewStandScore != null">
+        ,review_stand_score = #{reviewStandScore}
+      </if>
+      <if test="maxScore != null">
+        ,max_score = #{maxScore}
+      </if>
+      <if test="minScore != null">
+        ,min_score = #{minScore}
+      </if>
+      <if test="score != null">
+        ,score = #{score}
+      </if>
+      <if test="intervalTypeName != null">
+        ,interval_type_name = #{intervalTypeName}
+      </if>
+      <if test="deadlineNumber != null">
+        ,deadline_number = #{deadlineNumber}
+      </if>
+      <if test="intervalNumber != null">
+        ,interval_number = #{intervalNumber}
+      </if>
+      <if test="isDeleted != null">
+        ,is_deleted = #{isDeleted}
+      </if>
+      <if test="markTermName != null">
+        ,mark_term_name = #{markTermName}
+      </if>
+    where ID = #{id}
+  </update>
+  <!-- 删除需求部门-->
+	<delete id="delScoreModelByid" parameterType="java.util.Map">
+		delete from T_BSS_PPMS_SCORE_MODEL s where s.id in
+		<foreach collection="list" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+	<!-- 逻辑删除需求部门-->
+	<update id="delSoftScoreModelByid" parameterType="java.util.Map">
+		update  T_BSS_PPMS_SCORE_MODEL   t
+		set t.IS_DELETED=1
+		where t.id in
+		<foreach collection="list" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+</mapper>
