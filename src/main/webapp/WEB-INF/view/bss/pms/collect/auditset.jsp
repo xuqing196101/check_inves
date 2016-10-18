@@ -281,8 +281,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="selectbox" style="float: left;">
 		<div class="select-bar">
 		    <select multiple="multiple" id="select1">
-		    <c:if test="${list!=null}">
-		      <c:forEach items="${list }" var="obj">
+		    <c:if test="${listf!=null}">
+		      <c:forEach items="${listf }" var="obj">
 		      		 <option value="${obj.code},${obj.desc}"> ${obj.desc }</option>
 		       </c:forEach>
 		      </c:if>
@@ -319,7 +319,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </div>
 	<div style="margin-top: 50px; margin-bottom: 30px; text-align: center;">
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="save()">保存</button>
-		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="reback()">返回</button>
+		<input class="btn padding-left-20 padding-right-20 btn_back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 	</div>
 
  <div id="content" class="div_show">

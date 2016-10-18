@@ -5,13 +5,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.service.oms.OrgnizationServiceI;
+import bss.controller.base.BaseController;
 import bss.model.pms.CollectPlan;
 import bss.model.ppms.Task;
 import bss.service.pms.CollectPlanService;
@@ -29,7 +33,7 @@ import com.github.pagehelper.PageInfo;
  */
 @Controller
 @RequestMapping("/taskassgin")
-public class TaskAssignController {
+public class TaskAssignController extends BaseController{
 
 	@Autowired
 	private CollectPlanService collectPlanService;
@@ -76,26 +80,35 @@ public class TaskAssignController {
 	* @throws
 	 */
 	@RequestMapping("/add")
-	public String assgin(Task task,String cid){
-		CollectPlan plan = collectPlanService.queryById(cid);
-		String id = UUID.randomUUID().toString().replaceAll("-", "");
-		task.setId(id);
-		if(plan.getPurchaseType()!=null){
-			task.setProcurementMethod(plan.getPurchaseType());
-		}
-		if(plan.getDepartment()!=null){
-			task.setPurchaseRequiredId(plan.getDepartment());
+	public String assgin(Task task,String cid,HttpServletRequest request){
+		User user = (User) request.getSession().getAttribute("loginUser");
+		String[] ids = cid.split(",");
+		for(int i=0;i<ids.length;i++){
+			CollectPlan plan = collectPlanService.queryById(ids[i]);
+			String id = UUID.randomUUID().toString().replaceAll("-", "");
+			task.setId(id);
+			if(plan.getPurchaseType()!=null){
+				task.setProcurementMethod(plan.getPurchaseType());
+			}
+			if(plan.getDepartment()!=null){
+				task.setPurchaseRequiredId(plan.getDepartment());
+			}
+			if(user.getOrg()!=null){
+				task.setPurchaseId(user.getOrg().getName());
+			}
+//			task.setYear(plan.getCreatedAt());
+			task.setStatus(1);
+			task.setIsDeleted(0);
+			task.setGiveTime(new Date());
+			if(plan.getGoodsType()!=null){
+				task.setMaterialsType(plan.getGoodsType());
+			}
+			plan.setTaskId(id);
+			plan.setStatus(2);
+			 collectPlanService.update(plan);
+			taskservice.add(task);
 		}
 		
-//		task.setYear(plan.getCreatedAt());
-		task.setStatus(1);
-		task.setIsDeleted(0);
-		task.setGiveTime(new Date());
-		if(plan.getGoodsType()!=null){
-			task.setMaterialsType(plan.getGoodsType());
-		}
-		task.setCollectId(cid);
-		taskservice.add(task);
 		return "redirect:list.html";
 	}
 }

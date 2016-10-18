@@ -12,9 +12,10 @@
     <result column="MEMO" jdbcType="VARCHAR" property="memo" />
     <result column="LEV" jdbcType="VARCHAR" property="level" />
     <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+     <result column="DETAIL" jdbcType="VARCHAR" property="detail" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, CONTENT, START_DATE, END_DATE, STATUS, CREATED_AT, UPDATED_AT, MEMO, LEV, USER_ID
+    ID, CONTENT, START_DATE, END_DATE, STATUS, CREATED_AT, UPDATED_AT, MEMO, LEV, USER_ID,DETAIL
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="UserTask_Map">
     select 
@@ -29,11 +30,11 @@
   <insert id="insert" parameterType="ses.model.bms.UserTask">
     insert into T_SES_BMS_USER_TASK (ID, CONTENT, START_DATE, 
       END_DATE, STATUS, CREATED_AT, 
-      UPDATED_AT, MEMO, LEV, USER_ID
+      UPDATED_AT, MEMO, LEV, USER_ID,DETAIL
       )
     values (#{id}, #{content}, #{startDate}, 
       #{endDate}, #{status}, #{createdAt}, 
-      #{updatedAt}, #{memo}, #{level}, #{userId}
+      #{updatedAt}, #{memo}, #{level}, #{userId}, #{detail}
       )
   </insert>
   <insert id="insertSelective" parameterType="ses.model.bms.UserTask">
@@ -69,7 +70,9 @@
       <if test="userId != null">
         USER_ID,
       </if>
-      
+      <if test="detail != null">
+        DETAIL,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -102,7 +105,9 @@
       <if test="userId != null">
         #{userId,jdbcType=VARCHAR},
       </if>
-      
+      <if test="detail != null">
+        #{detail,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="ses.model.bms.UserTask">
@@ -135,7 +140,9 @@
       <if test="userId != null">
         USER_ID = #{userId,jdbcType=VARCHAR},
       </if>
-      
+      <if test="detail != null">
+        DETAIL = #{detail,jdbcType=VARCHAR},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -150,6 +157,7 @@
       MEMO = #{memo,jdbcType=VARCHAR},
       LEV = #{level,jdbcType=VARCHAR},
       USER_ID = #{userId,jdbcType=VARCHAR},
+      DETAIL = #{detail,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   

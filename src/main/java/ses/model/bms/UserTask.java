@@ -50,6 +50,8 @@ public class UserTask {
      */
     private String userId;
     
+    private String detail;
+    
     public String getId() {
         return id;
     }
@@ -129,6 +131,15 @@ public class UserTask {
 	public void setUserId(String userId) {
         this.userId = userId == null ? null : userId.trim();
 	}
+
+	public String getDetail() {
+		return detail;
+	}
+
+	public void setDetail(String detail) {
+	    this.detail = detail == null ? null : detail.trim();
+	}
     
+	
     
 }

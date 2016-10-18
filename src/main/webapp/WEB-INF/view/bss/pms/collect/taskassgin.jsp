@@ -116,7 +116,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
 		}); 
-		if(id.length==1){  
+		if(id.length>=1){  
 			
 			index=layer.open({
 				  type: 1, //page层
@@ -131,9 +131,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				});
 			
 			
-	  	}else if(id.length>1){
-			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
-		}else{
+	  	}else{
 			layer.alert("请选中一条",{offset: ['222px', '390px'], shade:0.01});
 		}  
 	}
@@ -164,18 +162,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
 <!-- 录入采购计划开始-->
  <div class="container">
-   <div class="headline-v2">
+  <!--  <div class="headline-v2">
       <h2>查询条件</h2>
-   </div>
+   </div> -->
 <!-- 项目戳开始 -->
   <div class="border1 col-md-12 ml30">
     <form id="add_form" action="<%=basePath%>taskassgin/list.html" method="post" >
   
 
 		 
-		  计划名称： <input type="text" class="mt10" name="fileName" value=""/> 
-		   计划编号： <input type="text" class="mt10"name="" value=""/>
-		   计划类型： <input type="text" class="mt10" name="planNo" value=""/> 
+		  计划名称： <input type="text" class="mt10" name="fileName" value="${inf.fileName }"/> 
+		   计划编号： <input type="text" class="mt10"name="" value="${inf.planNo }"/>
+		   计划类型： <input type="text" class="mt10" name="planNo" value="${inf.goodsType }"/> 
 	   	 <input class="btn padding-left-10 padding-right-10 btn_back"   type="submit" name="" value="查询" />
 	 
    </form>
@@ -203,7 +201,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</thead>
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
 			<tr style="cursor: pointer;">
-			  <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
+			  <td class="tc w30">
+			  <c:if test="${obj.status=='2' }">
+			  <input type="hidden" value="${obj.id }" disabled="disabled" name="chkItem" onclick="check()"  alt="">
+			  </c:if>
+			  <c:if test="${obj.status=='1' }">
+			   <input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt="">
+			  </c:if>
+			  </td>
 			  <td class="tc w50"   >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 			  
 			  <td class="tc"  >${obj.fileName }</td>
@@ -213,7 +218,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    <td class="tc"  ><fmt:formatDate value="${obj.createdAt }"/></td>
 			  <td class="tc"  >
 			  <c:if test="${obj.status=='1' }">
-			   未下达
+			   初始化
 			  </c:if>
 			    <c:if test="${obj.status=='2' }">
 			   已下达

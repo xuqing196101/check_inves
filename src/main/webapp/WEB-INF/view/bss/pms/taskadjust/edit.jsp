@@ -264,11 +264,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</tr>
 
 					</c:forEach>
-					
+					<%-- 
 					<tr>
 
 					<td class="tc" colspan="16"> <input type="hidden" name="type" value="${fn:length(list)}"> <input class="btn btn-windows add" name="dyadds" type="button" onclick="aadd()" value="添加"></td>
-				</tr>
+				</tr> --%>
 				
 				</table>
 				<div class=""><a class="upload">上传附件</a><input type="file" name="file"> </div>

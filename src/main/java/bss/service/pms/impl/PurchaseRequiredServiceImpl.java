@@ -98,6 +98,21 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 		// TODO Auto-generated method stub
 		return purchaseRequiredMapper.selectByParent(map);
 	}
+	public List<Map<String, Object>> statisticPurchaseMethod( Map<String, Object> map) {
+		return purchaseRequiredMapper.statisticPurchaseMethod(map);
+	}
+
+	@Override
+	public List<Map<String, Object>> statisticByMonth(Map<String, Object> map) {
+		 
+		return purchaseRequiredMapper.statisticByMonth(map);
+	}
+
+	@Override
+	public List<Map<String, Object>> statisticOrg(Map<String, Object> map) {
+		// 
+		return purchaseRequiredMapper.statisticOrg(map);
+	}
 	
 	 
 

@@ -140,42 +140,81 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  
 	  
 	  function adds(){
-		  $("#add_div").show();
+		  var name=$("#jhmc").val();
+	 		var no=$("#jhbh").val();
+	 	  var type=$("#wtype").val();
+	 		 if(name==""){
+	 			layer.tips("计划名称不允许为空","#jhmc");
+	 		 } else if(no==""){
+	 			layer.tips("计划编号不允许为空","#jhbh");
+	 		 }else if(type==""){
+	 			layer.tips("物资类别不允许为空","#wtype");
+	 		 } 
+	 		 
+	 		 else{
+	 			$("#fjhmc").val(name);
+	 	 		$("#fjhbh").val(no);
+	 	 		$("#ptype").val(type);
+	 	 		
+	 	 	  $("#add_form").submit();   
+	 		 }
 	  }
 	  function hide(){
 		  $("#add_div").hide();
 	  }
 	  
  	 //动态添加
-  	  function aadd(){
-		  var  s=$("#count").val();
-	      	s++;
-	      	$("#count").val(s);
-	        var tr = $("input[name=dyadds]").parent().parent();
-	        $(tr).before("<tr><td class='tc'><input style='border: 0px;' type='text' name='list["+s+"].seq' /></td>"+
-		       "<td class='tc'> <input  style='border: 0px;'  type='text' name='list["+s+"].department' /> </td>"+
-		       "<td class='tc'> <input  style='border: 0px;' type='text' name='list["+s+"].goodsName' /> </td>"+ 
-		       "<td class='tc'> <input  style='border: 0px;' type='text' name='list["+s+"].stand' /> </td>"+ 
-		       "<td class='tc'> <input  style='border: 0px;' type='text' name='list["+s+"].qualitStand' /> </td>"+ 
-		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].item' /> </td>"+  
-		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].purchaseCount' /> </td>"+  
-		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].price' /> </td>"+  
-		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].budget' /> </td>"+  
-		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].deliverDate' /> </td>"+  
-		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].purchaseType' /> </td>"+  
-		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].supplier' /> </td>"+  
-		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].isFreeTax' /> </td>"+  
-		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].goodsUse' /> </td>"+  
-		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].useUnit' /> </td>"+
-		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].memo' /> </td>"+  
-	        +"<tr/>");
+  	  function aadd(obj){
+ 		 var id=null;
+  		 $.ajax({
+ 			 url:"<%=basePath%>purchaser/getId.html",
+ 			 type:"post",
+ 			 
+ 			 success:function(data){
+ 		 			id=data;
+ 		 			var tr=$(obj).parent().parent();
+ 		 			$(tr).children(":first").children(":first").val(data);
+ 		 			
+ 		 			var  s=$("#count").val();
+ 			      	s++;
+ 			      	$("#count").val(s);
+ 			        var trs = $(obj).parent().parent();
+ 			        $(trs).after("<tr><td class='tc'><input style='border: 0px;' type='hidden' name='list["+s+"].id' />"+
+ 			        "<input style='border: 0px;' type='text' name='list["+s+"].seq' /><input style='border: 0px;' value='"+id+"' type='hidden' name='list["+s+"].parentId' /></td>"+
+ 				       "<td class='tc'> <input  style='border: 0px;'  type='text' name='list["+s+"].department' /> </td>"+
+ 				       "<td class='tc'> <input  style='border: 0px;' type='text' name='list["+s+"].goodsName' /> </td>"+ 
+ 				       "<td class='tc'> <input  style='border: 0px;' type='text' name='list["+s+"].stand' /> </td>"+ 
+ 				       "<td class='tc'> <input  style='border: 0px;' type='text' name='list["+s+"].qualitStand' /> </td>"+ 
+ 				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].item' /> </td>"+  
+ 				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].purchaseCount' /> </td>"+  
+ 				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].price' /> </td>"+  
+ 				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].budget' /> </td>"+  
+ 				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].deliverDate' /> </td>"+  
+ 				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].purchaseType' /> </td>"+  
+ 				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].supplier' /> </td>"+  
+ 				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].isFreeTax' /> </td>"+  
+ 				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].goodsUse' /> </td>"+  
+ 				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].useUnit' /> </td>"+
+ 				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].memo' /> </td>"+ 
+ 				     	"<td class='tc'><input class='add' name='dyadds' type='button' onclick='aadd(this)' value='添加子节点'>"+
+ 						 "<input class='btn btn-windows add' name='delt' type='button' onclick='same(this)' value='添加同级节点'>"+
+ 					 	" <input class='btn btn-windows add' name='delt' type='button' onclick='news(this)' value='新加任务'></td>"+  
+ 			        +"<tr/>");
+ 			        
+ 			 },error:function(){
+ 				 
+ 			 }
+ 		 });
+  		 
+  		  
+		  
 	  }
  	 function incr(){
  		 
  		
  	  var name=$("#jhmc").val();
- 		 var no=$("#jhbh").val();
- 		 
+ 		var no=$("#jhbh").val();
+ 	  var type=$("#wtype").val();
  		 if(name==""){
  			layer.tips("计划名称不允许为空","#jhmc");
  		 } else if(no==""){
@@ -183,10 +222,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  		 } 
  		 
  		 else{
- 			 $("#fjhmc").val(name);
+ 			  $("#fjhmc").val(name);
  	 		$("#fjhbh").val(no);
- 	 		
- 			 $("#add_form").find("*").each(function(){ 
+ 	 		$("#ptype").val(type);
+ 	 		<%-- $("#add_form").find("*").each(function(){ 
  	  			var elem = $(this); 
  	  			if (elem.prop("name") != null&&elem.prop("name") != "") { 
  	  			if(elem.val()==""){ 
@@ -206,8 +245,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  			 },error:function(){
  				 
  			 }
- 		 });
- 		//  $("#add_form").submit();   
+ 		 }); --%>
+ 		 
+ 	  $("#add_form").submit();   
  		 
  		 }   
  		
@@ -288,6 +328,70 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	 $("#ztree").hide();
     	 $("#bt").hide();
     }
+    
+    function same(obj){
+    	
+    	var tr=$(obj).parent().parent(":first");
+			var id=$(tr).children(":first").children(":last").val();
+			
+			
+    	var  s=$("#count").val();
+	      	s++;
+	      	$("#count").val(s);
+	        var trs = $(obj).parent().parent();
+	        $(trs).after("<tr><td class='tc'><input style='border: 0px;' type='text' name='list["+s+"].id' />"+
+	        "<input style='border: 0px;' type='text' name='list["+s+"].seq' /><input style='border: 0px;' value='"+id+"' type='hidden' name='list["+s+"].parentId' /></td>"+
+		       "<td class='tc'> <input  style='border: 0px;'  type='text' name='list["+s+"].department' /> </td>"+
+		       "<td class='tc'> <input  style='border: 0px;' type='text' name='list["+s+"].goodsName' /> </td>"+ 
+		       "<td class='tc'> <input  style='border: 0px;' type='text' name='list["+s+"].stand' /> </td>"+ 
+		       "<td class='tc'> <input  style='border: 0px;' type='text' name='list["+s+"].qualitStand' /> </td>"+ 
+		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].item' /> </td>"+  
+		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].purchaseCount' /> </td>"+  
+		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].price' /> </td>"+  
+		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].budget' /> </td>"+  
+		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].deliverDate' /> </td>"+  
+		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].purchaseType' /> </td>"+  
+		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].supplier' /> </td>"+  
+		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].isFreeTax' /> </td>"+  
+		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].goodsUse' /> </td>"+  
+		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].useUnit' /> </td>"+
+		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].memo' /> </td>"+ 
+		     	"<td class='tc'><input class='btn btn-windows add' name='dyadds' type='button' onclick='aadd(this)' value='添加子节点'>"+
+				 "<input class='btn btn-windows add' name='delt' type='button' onclick='same(this)' value='添加同级节点'>"+
+			 	" <input class='btn btn-windows add' name='delt' type='button' onclick='news(this)' value='新加任务'></td>"+  
+	        +"<tr/>");
+	        
+    }
+    
+    function news(obj){
+    	var  s=$("#count").val();
+	      	s++;
+	      	$("#count").val(s);
+	        var trs = $(obj).parent().parent();
+	        $(trs).after("<tr><td class='tc'><input style='border: 0px;' type='text' name='list["+s+"].id' />"+
+	        "<input style='border: 0px;' type='text' name='list["+s+"].seq' /><input style='border: 0px;' value='"+id+"' type='hidden' name='list["+s+"].parentId' /></td>"+
+		       "<td class='tc'> <input  style='border: 0px;'  type='text' name='list["+s+"].department' /> </td>"+
+		       "<td class='tc'> <input  style='border: 0px;' type='text' name='list["+s+"].goodsName' /> </td>"+ 
+		       "<td class='tc'> <input  style='border: 0px;' type='text' name='list["+s+"].stand' /> </td>"+ 
+		       "<td class='tc'> <input  style='border: 0px;' type='text' name='list["+s+"].qualitStand' /> </td>"+ 
+		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].item' /> </td>"+  
+		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].purchaseCount' /> </td>"+  
+		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].price' /> </td>"+  
+		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].budget' /> </td>"+  
+		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].deliverDate' /> </td>"+  
+		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].purchaseType' /> </td>"+  
+		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].supplier' /> </td>"+  
+		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].isFreeTax' /> </td>"+  
+		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].goodsUse' /> </td>"+  
+		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].useUnit' /> </td>"+
+		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].memo' /> </td>"+ 
+		     	"<td class='tc'><input class='add' name='dyadds' type='button' onclick='aadd(this)' value='添加子节点'>"+
+				 "<input class='btn btn-windows add' name='delt' type='button' onclick='same(this)' value='添加同级节点'>"+
+			 	" <input class='btn btn-windows add' name='delt' type='button' onclick='news(this)' value='新加任务'></td>"+  
+	        +"<tr/>");
+    	
+    	
+    }
 </script>
 </head>
 
@@ -309,9 +413,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="container clear margin-top-30">
 	<span><span style="color: red;">*</span> 计划名称<input type="text" name="name" id="jhmc" ></span>
 		<span><span style="color: red;">*</span> 计划编号<input type="text" name="no" id="jhbh" ></span>
-		<span>物资类别<c:if test="${type=='1' }"> <input  type="text" name="" id="hw" value="货物" readonly="readonly" > </c:if> 
+		<span>物资类别
+		<select name="planType" id="wtype">
+		<option value="1">货物</option>
+		<option value="2">工程</option>
+		<option value="3">服务</option>
+		</select>
+		
+	<%-- 	<c:if test="${type=='1' }"> <input  type="text" name="" id="hw" value="货物" readonly="readonly" > </c:if> 
 		<c:if test="${type=='2' }"><input type="text" name="" id="fw" value="工程" readonly="readonly"  ></c:if>
-		 <c:if test="${type=='3' }"><input type="text" name="" id="gc" value="服务" readonly="readonly" ></c:if>
+		 <c:if test="${type=='3' }"><input type="text" name="" id="gc" value="服务" readonly="readonly" ></c:if> --%>
 		 </span>
 		
 		<div class="padding-10 border1">
@@ -339,9 +450,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	
 
-		<form id="add_form" action="<%=basePath%>purchaser/adddetail.html" method="post">
-			<input type="hidden" name="planName" id="fjhmc">
+		<form id="" action="" method="post">
+		<!-- 	<input type="hidden" name="planName" id="fjhmc">
 			<input type="hidden" name="planNo" id="fjhbh">
+			<input type="hidden" name="planType" value="" id="ptype"> -->
 			<table class="table table-bordered table-condensed mt5" >
 				<thead>
 					<tr>
@@ -361,11 +473,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<th class="info">物资用途（仅进口）</th>
 						<th class="info">使用单位（仅进口）</th>
 						<th class="info">备注</th>
+						<th class="info">操作</th>
 					</tr>
 				</thead>
 
 				<tr>
-					<td class="tc w50"><input style="border: 0px;" type="text" name="list[0].seq" value=""></td>
+					<td class="tc w50">
+					<input style="border: 0px;" type="hidden" name="list[0].id" id="purid" value="">
+					<input style="border: 0px;" type="text" name="list[0].seq" value="">
+					</td>
 					<td><input style="border: 0px;" type="text" name="list[0].department" value=""></td>
 					<td><input style="border: 0px;"  type="text" name="list[0].goodsName" value=""></td>
 					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].stand" value=""></td>
@@ -381,8 +497,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].goodsUse" value=""></td>
 					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].useUnit" value=""></td>
 					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].memo" value=""></td>
+						<td class="tc">
+							 <input class="btn btn-windows add" name="dyadds" type="button" onclick="aadd(this)" value="添加子节点">
+							 <input class="btn btn-windows add" name="delt" type="button" onclick="same(this)" value="添加同级节点">
+						 	 <input class="btn btn-windows add" name="delt" type="button" onclick="news(this)" value="新加任务">
+					 
+						</td>
 				</tr>
-				<tr>
+				<!-- <tr>
 					<td class="tc w50"><input style="border: 0px;" type="text" name="list[1].seq" value=""></td>
 					<td><input style="border: 0px;" type="text" name="list[1].department" value=""></td>
 					<td><input style="border: 0px;"  type="text" name="list[1].goodsName" value=""></td>
@@ -471,13 +593,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<td class="tc"><input style="border: 0px;"  type="text" name="list[5].goodsUse" value=""></td>
 					<td class="tc"><input style="border: 0px;"  type="text" name="list[5].useUnit" value=""></td>
 					<td class="tc"><input style="border: 0px;"  type="text" name="list[5].memo" value=""></td>
-				</tr>
-				<tr>
+				</tr> -->
+				<!-- <tr>
 
-					<td class="tc" colspan="16"> <input type="hidden" name="type" value="${type }">
+					<td class="tc" colspan="16"> <input type="hidden" name="planType" value="" id="ptype">
 					 <input class="btn btn-windows add" name="dyadds" type="button" onclick="aadd()" value="添加">
 					 <input class="btn btn-windows delete" name="delt" type="button" onclick="delets()" value="删除"></td>
-				</tr>
+				</tr> -->
 			</table>
 			<input class="btn btn-windows save" type="button" onclick="incr()"
 				value="提交"> <input class="btn btn-windows reset" value="取消"
@@ -519,5 +641,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	   <div id="ztree" class="ztree"></div>
 	   <button id="bt" style="display: none;" class="btn padding-left-10 padding-right-10 btn_back" onclick="typehide()">取消</button>
 	  </div> 
+	  
+	  <form id="add_form" action="<%=basePath%>purchaser/ztree.html" method="post">
+			<input type="hidden" name="planName" id="fjhmc">
+			<input type="hidden" name="planNo" id="fjhbh">
+			<input type="hidden" name="type" value="" id="ptype">
+			
+			</form>
 </body>
 </html>

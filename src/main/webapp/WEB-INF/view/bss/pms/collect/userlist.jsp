@@ -132,20 +132,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <h2>查询条件</h2>
    </div> -->
 <!-- 项目戳开始 -->
-  <div class="container clear margin-top-30">
-    <form id="add_form" action="<%=basePath%>accept/list.html" method="post" >
-   <h2 class="padding-10 border1">
+  <div class="border1 col-md-12 ml30">
+   <form id="add_form" action="<%=basePath%>set/user.html" method="post" >
+   
 
-	 <ul class="demand_list" >
-	   <li class="fl"><label class="fl">需求计划名称：</label><span><input type="text" name="planName" value=""/></span></li>
-	   	 <input class="btn padding-left-10 padding-right-10 btn_back"   type="submit" name="" value="查询" /> 
-	 </ul>
-
-	
-   </h2>
-   </form>
+	 用户名称 <input class="mt10"  type="text" name="relName" value="${user.relName}"/> 
+	   		 <input class="btn-u"   type="submit" name="" value="查询" />
+ 
+   <input type="button" class="btn-u"  onclick="closeds()" value="确定 "/>
+      		<input type="button" class="btn-u"  onclick="cancel()" value="取消 "/>
+   
+   </form>  
+   
+      		
   </div>
- <span style="margin-left: 30px;">专家列表</span>	
+ <span style="margin-left: 30px;">用户列表</span>	
   <!--   <span class="fr option_btn margin-top-10">
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="sub()">受理</button>
 	  </span> -->
@@ -192,8 +193,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!--  </div> -->
 
 
- <button class="btn padding-left-10 padding-right-10 btn_back goods" style="margin-bottom: 30px" onclick="closeds()" >确定</button>
-      		<button class="btn padding-left-10 padding-right-10 btn_back goods" style="margin-bottom: 30px" onclick="cancel()" >取消</button>
+ 			
  
 	 </body>
 	<form id="collected_form" action="" method="post" style="margin-top: 20px;display: none;">

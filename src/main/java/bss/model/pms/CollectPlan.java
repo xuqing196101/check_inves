@@ -44,6 +44,8 @@ public class CollectPlan {
     
     private String purchaseType;
      
+    private String taskId;
+    
     public String getId() {
         return id;
     }
@@ -155,6 +157,15 @@ public class CollectPlan {
 	public void setPurchaseType(String purchaseType) {
 		this.purchaseType = purchaseType == null ? null : purchaseType.trim();
 	}
+
+	public String getTaskId() {
+		return taskId;
+	}
+
+	public void setTaskId(String taskId) {
+		this.taskId = taskId == null ? null : taskId.trim();
+	}
    
+	
 	
 }

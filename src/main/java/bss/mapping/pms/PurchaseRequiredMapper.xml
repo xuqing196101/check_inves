@@ -45,6 +45,7 @@
 		<result column="THREE_ADVICE" jdbcType="VARCHAR"  property="threeAdvice"/>
 		<result column="BRAND" jdbcType="VARCHAR"  property="brand"/>
 		<result column="USER_UNIT" jdbcType="VARCHAR"  property="userUnit"/>
+		<result column="DETAIL_STATUS" jdbcType="VARCHAR"  property="detailStatus"/>
 	</resultMap>
 	<sql id="Base_Column_List">
 		ID, PLAN_NAME, PLAN_NO, PLAN_TYPE, DEPARTMENT, GOODS_NAME, STAND,
@@ -52,7 +53,7 @@
 		PURCHASE_COUNT, PRICE, BUDGET, DELIVER_DATE, PURCHASE_TYPE, SUPPLIER, IS_FREE_TAX,
 		GOODS_USE, USE_UNIT, CREATED_AT, USER_ID, PARENT_ID, REQ_LEVEL,
 		STARUS, MEMO,SEQ,HISTORY_STATUS,GOODS_TYPE,AUDIT_DATE,ORGANIZATION,IS_MASTER,IS_DELETE,IS_COLLECT,CODE,ONE_PURCHASETYPE,
-		ONE_ORGANIZA,ONE_ADVICE,TWO_TECHADVICE,TWO_ADVICE,THREE_PURCHASETYPE,THREE_ORGANIZA,THREE_ADVICE,BRAND,USER_UNIT
+		ONE_ORGANIZA,ONE_ADVICE,TWO_TECHADVICE,TWO_ADVICE,THREE_PURCHASETYPE,THREE_ORGANIZA,THREE_ADVICE,BRAND,USER_UNIT,DETAIL_STATUS
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="PurchaseRequired_Map">
@@ -84,7 +85,7 @@
 		IS_FREE_TAX, GOODS_USE, USE_UNIT,
 		CREATED_AT, USER_ID, PARENT_ID,
 		REQ_LEVEL, STARUS, MEMO,SEQ,HISTORY_STATUS,GOODS_TYPE,AUDIT_DATE,ORGANIZATION,IS_MASTER,IS_DELETE,IS_COLLECT,CODE,ONE_PURCHASETYPE,
-		ONE_ORGANIZA,ONE_ADVICE,TWO_TECHADVICE,TWO_ADVICE,THREE_PURCHASETYPE,THREE_ORGANIZA,THREE_ADVICE,BRAND,USER_UNIT
+		ONE_ORGANIZA,ONE_ADVICE,TWO_TECHADVICE,TWO_ADVICE,THREE_PURCHASETYPE,THREE_ORGANIZA,THREE_ADVICE,BRAND,USER_UNIT,DETAIL_STATUS
 		)
 		values (#{id,jdbcType=VARCHAR}, #{planName,jdbcType=VARCHAR},
 		#{planNo,jdbcType=VARCHAR},
@@ -102,7 +103,8 @@
 		#{auditDate,jdbcType=DATE},#{organization,jdbcType=VARCHAR},#{isMaster,jdbcType=VARCHAR},#{isDelete,jdbcType=INTEGER},
 		#{isCollect,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{onePurchaseType,jdbcType=VARCHAR}, #{oneOrganiza,jdbcType=VARCHAR}, #{oneAdvice,jdbcType=VARCHAR},
 		#{twoTechAdvice,jdbcType=VARCHAR}, #{twoAdvice,jdbcType=VARCHAR},  
-		#{threePurchaseType,jdbcType=VARCHAR}, #{threeOrganiza,jdbcType=VARCHAR}, #{threeAdvice,jdbcType=VARCHAR}, #{brand,jdbcType=VARCHAR},#{userUnit,jdbcType=VARCHAR}
+		#{threePurchaseType,jdbcType=VARCHAR}, #{threeOrganiza,jdbcType=VARCHAR}, #{threeAdvice,jdbcType=VARCHAR}, #{brand,jdbcType=VARCHAR},
+		#{userUnit,jdbcType=VARCHAR},#{detailStatus,jdbcType=VARCHAR}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="bss.model.pms.PurchaseRequired">
@@ -237,6 +239,10 @@
 			<if test="userUnit != null">
 				USER_UNIT,
 			</if>
+			<if test="detailStatus != null">
+				DETAIL_STATUS,
+			</if>
+			
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -368,6 +374,10 @@
 			<if test="userUnit != null">
 				#{userUnit,jdbcType=VARCHAR},
 			</if>
+			<if test="detailStatus != null">
+				#{detailStatus,jdbcType=VARCHAR},
+			</if>
+			
 		</trim>
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="bss.model.pms.PurchaseRequired">
@@ -499,6 +509,10 @@
 			<if test="userUnit != null">
 				USER_UNIT=#{userUnit,jdbcType=VARCHAR},
 			</if>
+			<if test="detailStatus != null">
+				DETAIL_STATUS=#{detailStatus,jdbcType=VARCHAR},
+			</if>
+			
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
@@ -545,7 +559,8 @@
 		THREE_ORGANIZA=#{threeOrganiza,jdbcType=VARCHAR},
 		THREE_ADVICE=#{threeAdvice,jdbcType=VARCHAR},
 		BRAND=#{brand,jdbcType=VARCHAR},
-		USER_UNIT=#{userUnit,jdbcType=VARCHAR}
+		USER_UNIT=#{userUnit,jdbcType=VARCHAR},
+		DETAIL_STATUS=#{detailStatus,jdbcType=VARCHAR}
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
 	<select id="query" parameterType="bss.model.pms.PurchaseRequired"
@@ -643,6 +658,31 @@
 		 group by DEPARTMENT
 	 
 	</select>
+	
+	<select id="statisticPurchaseMethod" parameterType="Map" resultType="Map" >
+		select
+		 sum(BUDGET) as amount,PURCHASE_TYPE as purchaseType
+		 from T_BSS_PMS_PURCHASE_REQUIRED
+	 	<include refid="param"/>
+		 group by PURCHASE_TYPE
+	</select>
+	
+	<select id="statisticByMonth" parameterType="Map" resultType="Map" >
+		select
+		 sum(BUDGET) as amount,to_char(CREATED_AT,'yyyy-mm') as month
+		 from T_BSS_PMS_PURCHASE_REQUIRED
+	 	<include refid="param"/>
+		 group by to_char(CREATED_AT,'yyyy-mm')
+	</select>
+	
+	<select id="statisticOrg" parameterType="Map" resultType="Map" >
+		select
+		 count(*) as count
+		 from T_BSS_PMS_PURCHASE_REQUIRED
+	 	<include refid="param"/>
+		 group by ORGANIZATION
+	</select>
+	
 	
 	
 	<sql id="param">

@@ -123,6 +123,35 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	 
   	 
 	
+   	var flag=true;
+	function checks(obj){
+		  var name=$(obj).attr("name");
+		  var planNo=$("#pNo").val();
+		  var val=$(obj).val();
+		  var defVal=obj.defaultValue;
+			if(val!=defVal){
+				$.ajax({
+					url:"<%=basePath%>adjust/filed.html",
+					type:"post",
+					data:{
+						planNo:planNo,
+						name:name
+					},
+					success: function(data){
+						 if(data=='exit'){
+							 flag=false;
+							 layer.tips("该字段不允许修改",obj);
+						 }
+					 },
+					error:function(data){
+						 
+					 }
+					 
+				});
+			} 
+	}
+	
+	
 </script>
 </head>
 
@@ -172,21 +201,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<tr>
 							<td class="tc w50"><input style="border: 0px;" type="text" name="list[${vs.count }].seq" value="${obj.seq }"><input style="border: 0px;" type="hidden" name="list[${vs.count }].id" value="${obj.id }">
 							</td>
-							<td><input style="border: 0px;" type="text" name="list[${vs.count }].department" value="${obj.department }"></td>
-							<td><input style="border: 0px;" type="text" name="list[${vs.count }].goodsName" value="${obj.goodsName }"></td>
-							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.count }].stand" value="${obj.stand }"></td>
-							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.count }].qualitStand" value="${obj.qualitStand }"></td>
-							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.count }].item" value="${obj.item }"></td>
-							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.count }].purchaseCount" value="${obj.purchaseCount }"></td>
-							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.count }].price" value="${obj.price }"></td>
-							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.count }].budget" value="${obj.budget }"></td>
-							<td><input style="border: 0px;" type="text" name="list[${vs.count }].deliverDate" value="${obj.deliverDate }"></td>
-							<td><input style="border: 0px;" type="text" name="list[${vs.count }].purchaseType" value="${obj.purchaseType }"></td>
-							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.count }].supplier" value="${obj.supplier }"></td>
-							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.count }].isFreeTax" value="${obj.isFreeTax }"></td>
-							<td class="tc"><input style="border: 0px;"type="text" name="list[${vs.count }].goodsUse" value="${obj.goodsUse }"></td>
-							<td class="tc"><input  style="border: 0px;" type="text" name="list[${vs.count }].useUnit" value="${obj.useUnit }"></td>
-							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.count }].memo" value="${obj.memo }">
+							<td><input style="border: 0px;" type="text" onblur="checks(this)" name="list[${vs.count }].department" value="${obj.department }"></td>
+							<td><input style="border: 0px;" type="text" onblur="checks(this)" name="list[${vs.count }].goodsName" value="${obj.goodsName }"></td>
+							<td class="tc"><input style="border: 0px;" type="text" onblur="checks(this)" name="list[${vs.count }].stand" value="${obj.stand }"></td>
+							<td class="tc"><input style="border: 0px;" type="text" onblur="checks(this)" name="list[${vs.count }].qualitStand" value="${obj.qualitStand }"></td>
+							<td class="tc"><input style="border: 0px;" type="text" onblur="checks(this)" name="list[${vs.count }].item" value="${obj.item }"></td>
+							<td class="tc"><input style="border: 0px;" type="text" onblur="checks(this)" name="list[${vs.count }].purchaseCount" value="${obj.purchaseCount }"></td>
+							<td class="tc"><input style="border: 0px;" type="text" onblur="checks(this)" name="list[${vs.count }].price" value="${obj.price }"></td>
+							<td class="tc"><input style="border: 0px;" type="text" onblur="checks(this)" name="list[${vs.count }].budget" value="${obj.budget }"></td>
+							<td><input style="border: 0px;" type="text" onblur="checks(this)" name="list[${vs.count }].deliverDate" value="${obj.deliverDate }"></td>
+							<td><input style="border: 0px;" type="text" onblur="checks(this)" name="list[${vs.count }].purchaseType" value="${obj.purchaseType }"></td>
+							<td class="tc"><input style="border: 0px;" type="text" onblur="checks(this)" name="list[${vs.count }].supplier" value="${obj.supplier }"></td>
+							<td class="tc"><input style="border: 0px;" type="text" onblur="checks(this)" onblur="checks(this)" name="list[${vs.count }].isFreeTax" value="${obj.isFreeTax }"></td>
+							<td class="tc"><input style="border: 0px;"type="text" onblur="checks(this)" name="list[${vs.count }].goodsUse" value="${obj.goodsUse }"></td>
+							<td class="tc"><input  style="border: 0px;" type="text" onblur="checks(this)"  name="list[${vs.count }].useUnit" value="${obj.useUnit }"></td>
+							<td class="tc"><input style="border: 0px;" type="text" onblur="checks(this)" name="list[${vs.count }].memo" value="${obj.memo }">
 							<input type="hidden" name="list[${vs.count }].planName" value="${obj.planName }">
 							<input type="hidden" name="list[${vs.count }].planNo" value="${obj.planNo }">
 							<input type="hidden" name="list[${vs.count }].planType" value="${obj.planType }">
@@ -204,10 +233,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 					</c:forEach>
 					
-					<tr>
+					<%-- <tr>
 
 					<td class="tc" colspan="16"> <input type="hidden" name="type" value="${fn:length(list)}"> <input class="btn btn-windows add" name="dyadds" type="button" onclick="aadd()" value="添加"></td>
-				</tr>
+				</tr> --%>
 				
 				</table>
 				<input class="btn btn-windows save" type="submit" value="提交">

@@ -80,7 +80,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 
 		<div class="container clear margin-top-30">
 
-			<c:forEach items="${lists}" var="ma" varStatus="vs">
+		 
 				<table class="table table-bordered table-condensed mt5">
 					<thead>
 						<tr>
@@ -103,7 +103,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</tr>
 					</thead>
 
-				 <c:forEach items="${ma}" var="obj">
+				 <c:forEach items="${list}" var="obj">
 						<tr>
 							<td class="tc w50">${obj.seq } 
 							</td>
@@ -128,7 +128,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 					</c:forEach>  
 					</table>
-   		</c:forEach>
+ 
 		 <input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 		</div>
 	</div>

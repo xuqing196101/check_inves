@@ -43,7 +43,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
 <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/functionchar/fusionCharts_evaluation/js/FusionCharts.js"></script>
-
+<script src="${pageContext.request.contextPath}/public/highmap/js/highcharts.js"></script>
+<script src="${pageContext.request.contextPath}/public/highmap/js/modules/map.js"></script>
+<script src="${pageContext.request.contextPath}/public/highmap/js/modules/data.js"></script>
+<script src="${pageContext.request.contextPath}/public/highmap/js/modules/drilldown.js"></script>
+<script src="${pageContext.request.contextPath}/public/highmap/js/modules/exporting.js"></script>
+<script src="${pageContext.request.contextPath}/public/highmap/js/cn-china-by-peng8.js"></script>
+<link href="<%=basePath%>public/highmap/js/font-awesome.css" media="screen" rel="stylesheet">
  
   <script type="text/javascript">
   
@@ -75,12 +81,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   });
   
    
-  function funsionCharts(sign) {
+  function bar(sign) {
 		var swf="Column3D.swf";
 	  
 	  $("#div_table").hide();
 	  $.ajax({
-			 	url : '${pageContext.request.contextPath}/statistic/chart.html',
+			 	url : '${pageContext.request.contextPath}/statistic/bar.html',
 				type : "post",
 				data :$("#add_form").serialize(),
 				contentType: "application/x-www-form-urlencoded; charset=utf-8",
@@ -97,8 +103,203 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  
 }
  
+  function pipe(sign){
+		var  swf = "Pie3D.swf";
+		  $("#div_table").hide();
+		  $.ajax({
+				 	url : '${pageContext.request.contextPath}/statistic/pipe.html',
+					type : "post",
+					data :$("#add_form").serialize(),
+					contentType: "application/x-www-form-urlencoded; charset=utf-8",
+					dataType : "json",
+					success : function(data) {
+						 var chart = new FusionCharts('${pageContext.request.contextPath}/public/functionchar/fusionCharts_evaluation/swf/' + swf, "funsionCharts_id", "100%", "100%", "0", "1");
+						chart.setJSONData(data);  
+						$("#funsionCharts_div_id").show();
+						$("#divTable").hide();
+			 			chart.render("funsionCharts_div_id");   
+					},
+					 
+				});
+		  
+  }
   
+  function line(sign){
+		var  swf = "Line.swf";
+		  $("#div_table").hide();
+		  $.ajax({
+				 	url : '${pageContext.request.contextPath}/statistic/line.html',
+					type : "post",
+					data :$("#add_form").serialize(),
+					contentType: "application/x-www-form-urlencoded; charset=utf-8",
+					dataType : "json",
+					success : function(data) {
+						 var chart = new FusionCharts('${pageContext.request.contextPath}/public/functionchar/fusionCharts_evaluation/swf/' + swf, "funsionCharts_id", "100%", "100%", "0", "1");
+						chart.setJSONData(data);  
+						$("#funsionCharts_div_id").show();
+						$("#divTable").hide();
+			 			chart.render("funsionCharts_div_id");   
+					},
+					 
+				});
+		  
+}
+ 
   
+	$(function () {
+		var address;
+	    Highcharts.setOptions({
+	        lang:{
+	            drillUpText:"返回 > {series.name}"
+	        }
+	    });
+
+	    var data = Highcharts.geojson(Highcharts.maps['countries/cn/custom/cn-all-china']),small = $('#container').width() < 400;
+	    // 给城市设置随机数据
+	    $.each(data, function (i) {
+	        this.drilldown = this.properties['drill-key'];
+			 
+	        this.value = i;
+	    });
+			function getPoint(e){
+				console.log(e.point.name);
+			}
+		function getShow(e){
+			alert(1);
+		}
+	    //初始化地图
+	    $('#container').highcharts('Map', {
+
+	        chart : {
+						spacingBottom:30,
+					 
+	            events: {
+	               
+	            }
+	        },
+				tooltip: { 
+					formatter:function(){
+						var htm="";
+						if(this.point.drilldown){
+						    htm+=this.point.properties["cn-name"];
+						}else{
+							 htm+=this.point.name;
+						}
+						address=htm;
+						 var data='${data}';
+					    if(data==''){
+					     	htm+=":"+0; 
+					    }else{
+						   var index=data.indexOf(htm);
+						   var indexStart=index+htm.length;
+						   var indexEnd=indexStart+2;
+						   var supplierNum=data.substring(indexStart,indexEnd );
+						   if("0123456789".indexOf(supplierNum.substring(supplierNum.length-1, supplierNum.length))==-1){
+						   		supplierNum=supplierNum.substring(0,1);
+						   }
+						   htm+=":"+supplierNum; 
+						 }
+						return htm;
+					}
+						},
+	        credits:{
+						href:"javascript:goHome()",
+	            text:""
+	        },
+	        title : {
+	            text : '供应商数量统计'
+	        },
+
+	        subtitle: {
+	            text: '中国',
+	            floating: true,
+	            align: 'right',
+	            y: 50,
+	            style: {
+	                fontSize: '16px'
+	            }
+	        },
+
+	        legend: small ? {} : {
+						 // enabled: false,
+	            layout: 'vertical',
+	            align: 'right',
+	            verticalAlign: 'middle'
+	        },
+	        //tooltip:{
+	        //pointFormat:"{point.properties.cn-name}:{point.value}"
+	        //},
+	        colorAxis: {
+	            min: 0,
+	            minColor: '#E6E7E8',
+	            maxColor: '#005645',
+						labels:{
+							style:{
+									"color":"red","fontWeight":"bold"
+							}
+						}
+	        },
+
+	        mapNavigation: {
+	            enabled: true,
+	            buttonOptions: {
+	                verticalAlign: 'bottom'
+	            }
+	        },
+
+	        plotOptions: {
+	            map: {
+	                states: {
+	                    hover: {
+	                        color: '#EEDD66'
+	                    }
+	                }
+	            }
+	        },
+
+	        series : [{
+	            data : data,
+	            name: '中国',
+	            dataLabels: {
+	                enabled: true,
+	                format: '{point.properties.cn-name}'
+	            },
+	            point: {
+	               events: {
+	                   click: function () { 
+	                   address=encodeURI(address);
+	                   address=encodeURI(address);
+	                       window.location.href="<%=basePath%>supplierQuery/findSupplierByPriovince.html?address="+address+"&status=3";
+	                    }
+	                  }
+	           }
+	        }],
+
+	        drilldown: {
+						
+	            activeDataLabelStyle: {
+	                color: '#FFFFFF',
+	                textDecoration: 'none',
+	                textShadow: '0 0 3px #000000'
+	            },
+	            drillUpButton: {
+	                relativeTo: 'spacingBox',
+	                position: {
+	                    x: 0,
+	                    y: 60
+	                }
+	            }
+	        }
+	    });
+	});
+	
+	
+	
+	function maps(){
+		$("#funsionCharts_div_id").hide();
+		$("#container").show();
+		
+	}
   </script>
   </head>
   
@@ -114,9 +315,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
 <!-- 录入采购计划开始-->
  <div class="container">
-   <div class="headline-v2">
+<!--    <div class="headline-v2">
       <h2>查询条件</h2>
-   </div>
+   </div> -->
 <!-- 项目戳开始 -->
   <div class="border1 col-md-12 ml30">
     <form id="add_form" action="<%=basePath%>statistic/list.html" method="post" >
@@ -131,7 +332,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  采购方式： <input class="mt10" type="text" name="purchaseType" value="${inf.purchaseType }" /> 
 	   采购机构：  <input class="mt10"  value='${inf.organization }' name="organization" type="text" > 
 	   预算：  <input class="mt10"  value='${inf.budget }' name="budget" type="text" > 
-	   	 <input class="btn-u"   type="submit" name="" value="查询" />  <input class="btn-u"   type="button" name="" value="柱形图" onclick="funsionCharts(1)" /> 
+	   	 <input class="btn-u"   type="submit" name="" value="查询" /> 
+	   	 <input class="btn-u"   type="button" name="" value="按需求部门统计" onclick="bar(1)" /> 
+	   	 <input class="btn-u"   type="button" name="" value="按采购方式统计" onclick="pipe(1)" /> 
+	   	 <input class="btn-u"   type="button" name="" value="按月统计" onclick="line(1)" /> 
+	   	 <input class="btn-u"   type="button" name="" value="按采购省市统计" onclick="maps()" /> 
    </form>
   </div>
    <div class="headline-v2 fl">
@@ -186,8 +391,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
  </div>
 
- 	<div id="funsionCharts_div_id" style="width:91%;height:90%;overflow:atuo; display: none;">ss</div>
+ 	<div id="funsionCharts_div_id" style="width:91%;height:90%;overflow:atuo; display: none;"></div>
  
- 
+   <div id="container" style="display: none;height: 700px;min-width: 310px;margin: 0 auto;min-width: 310px;"></div>
+   
+   
 	 </body>
 </html>

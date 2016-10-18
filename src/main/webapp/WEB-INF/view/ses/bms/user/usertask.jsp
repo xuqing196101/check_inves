@@ -18,6 +18,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<title>Coloring events</title>
 	<script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
 	<script src="<%=basePath%>public/codebase/dhtmlxscheduler.js" type="text/javascript" charset="utf-8"></script>
+		 <script src="<%=basePath%>public/codebase/locale/recurring/locale_recurring_cn.js" type="text/javascript" charset="utf-8"></script>
+	
+	 <script src="<%=basePath%>public/codebase/locale/locale_cn.js" type="text/javascript" charset="utf-8"></script>
+	 
 	<link rel="stylesheet" href="<%=basePath%>public/codebase/dhtmlxscheduler.css" type="text/css" media="screen" title="no title" charset="utf-8">
 	<link href="<%=basePath%>public/usertask/css/usertask.css" media="screen" rel="stylesheet">
 	<link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet">
@@ -25,6 +29,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet">
+ <script src="<%=basePath%>public/layer/layer.js"></script>
+	 <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 
 	<style type="text/css" media="screen">
 	
@@ -35,7 +41,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	scheduler.locale = {  
     date:{  
         month_full:["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"],  
-        month_short:["1","2","3","4","5","6","7","8","9","10","11","12"],  
+        month_short:["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"],  
         day_full:["星期日","星期一","星期二","星期三","星期四","星期五","星期六"],  
         day_short:["日","一","二","三","四","五","六"]  
     },  
@@ -54,7 +60,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         confirm_deleting:"确定要删除该工作计划?",  
         section_description:"工作计划",
 		section_content:"内容",
-		section_time:"时间"		
+		section_time:"时间",
+		message_ok:"确定",
+		message_cancel:"取消"		
     }  
 }; 
 	
@@ -118,8 +126,9 @@ scheduler.config.icons_select = ["icon_details","icon_delete"];
 			];
 
 			scheduler.config.lightbox.sections=[
-				{name:"description", height:43, map_to:"text", type:"textarea" , focus:true},
-				{name:"级别", height:20, type:"select", options: subject, map_to:"subject" },
+				{name:"description", height:33, map_to:"text", type:"textarea" , focus:true},
+				 {name:"详细安排", height:80, type:"textarea", map_to:"details"  },
+				{name:"级别", height:40,type:"select", options: subject, map_to:"subject" },
 				{name:"time", height:72, type:"time", map_to:"auto" }
 			];
 	 
@@ -141,7 +150,8 @@ scheduler.attachEvent("onEventChanged", function(event_id, event_object){
     var start_date = event_object.start_date;
     var end_date = event_object.end_date;
     var sub = event_object.subject;
- 
+    var details = event_object.details;
+    $("#udetail").val(details);
     $("#uid").val(id);
     $("#ucontent").val(text);
     $("#ustartDate").val(start_date);
@@ -168,11 +178,12 @@ scheduler.attachEvent("onEventAdded", function(event_id, event_object){
 	  
     var id = event_object.id;
     var text = event_object.text;
-    
+   
     var start_date = event_object.start_date;
     var end_date = event_object.end_date;
     var sub = event_object.subject;
- 
+    var details = event_object.details;
+    $("#udetail").val(details);
     $("#uid").val(id);
     $("#ucontent").val(text);
     $("#ustartDate").val(start_date);
@@ -236,7 +247,33 @@ scheduler.attachEvent("onBeforeViewChange", function(old_mode,old_date,mode,date
 });
 
 
-
+scheduler.attachEvent("onMouseMove", function (event_id, event_object){
+	 var ev = scheduler.getEvent(event_id);  
+	 
+	if(ev!=null){
+		var id = event_id;
+		 $.ajax({
+		    	url:"<%=basePath%>usertask/detail.html",
+		    	type:"post",
+		    	data:{
+		    		id:id
+		    	},
+		    	success:function(data){
+		    		layer.msg(data, {
+		    		    skin: 'demo-class',
+		    			shade:false,
+		    			area: ['300px'],
+		    			time : 3000    //默认消息框不关闭
+		    		});//去掉msg图标
+		    		
+		    	},
+		    	error:function(data){
+		    	} 
+		    }); 
+	}
+	
+	return true;
+});
 
 
 	</script>
@@ -265,9 +302,10 @@ scheduler.attachEvent("onBeforeViewChange", function(old_mode,old_date,mode,date
 		</div>		
 	</div>
 	<div class="jzp">
-	紧急: <input type="text"  id="jinji" /><br/> 
-	重要: <input type="text"  id="zhongyao" /> <br/>
-	普通: <input type="text"  id="putong" /> <br/>
+	紧急: <input type="text" disabled="true" id="jinji" /><br/> 
+	重要: <input type="text" disabled="true"  id="zhongyao" /> <br/>
+	普通: <input type="text" disabled="true" id="putong" /> <br/>
+	今天: <input type="text" disabled="true" id="dangqian" /> <br/>
 	</div>
 
 
@@ -278,6 +316,7 @@ scheduler.attachEvent("onBeforeViewChange", function(old_mode,old_date,mode,date
 	<input type="hidden" name="startDate" id="ustartDate">
 	<input type="hidden" name="endDate" id="uendDate">
 	<input type="hidden" name="level" id="ulevel">
+	<input type="hidden" name="detail" id="udetail">
 	</form>
 	
 	<input type="hidden" id="hdate" value="${date }"> 

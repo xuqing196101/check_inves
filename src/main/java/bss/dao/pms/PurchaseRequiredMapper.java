@@ -161,5 +161,42 @@ public interface PurchaseRequiredMapper {
      */
     List<PurchaseRequired> selectByParentId(Map<String, Object> map);
     
+ 
     List<PurchaseRequired> selectByParent(Map<String, Object> map);
+ 
+    /**
+     * 
+    * @Title: statisticPurchaseMethod
+    * @Description: 按采购方式统计
+    * author: Li Xiaoxiao 
+    * @param @param map
+    * @param @return     
+    * @return List<Map<String,Object>>     
+    * @throws
+     */
+    List<Map<String,Object>> statisticPurchaseMethod(Map<String,Object> map);
+    
+    /**
+     * 
+    * @Title: statisticByMonth
+    * @Description: 按月统计 
+    * author: Li Xiaoxiao 
+    * @param @param map
+    * @param @return     
+    * @return List<Map<String,Object>>     
+    * @throws
+     */
+    List<Map<String,Object>> statisticByMonth(Map<String,Object> map);
+    
+    /**
+     * 
+    * @Title: statisticOrg
+    * @Description: 统计采购分布 
+    * author: Li Xiaoxiao 
+    * @param @param map
+    * @param @return     
+    * @return List<Map<String,Object>>     
+    * @throws
+     */
+    List<Map<String,Object>> statisticOrg(Map<String,Object> map);
 }

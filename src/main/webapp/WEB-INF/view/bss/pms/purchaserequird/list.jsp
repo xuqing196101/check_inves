@@ -159,7 +159,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     var index;
     function add(){
     	
-    	index=layer.open({
+    	/* index=layer.open({
 			  type: 1, //page层
 			  area: ['300px', '200px'],
 			  title: '',
@@ -169,7 +169,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  shift: 1, //0-6的动画形式，-1不开启
 			  offset: ['80px', '600px'],
 			  content: $('#content'),
-			});
+			}); */
+			
+    	window.location.href="<%=basePath%>purchaser/add.html";
     	
    
     }
@@ -241,9 +243,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
 <!-- 录入采购计划开始-->
  <div class="container">
-   <div class="headline-v2">
+<!--    <div class="headline-v2">
       <h2>查询条件</h2>
-   </div>
+   </div> -->
 <!-- 项目戳开始 -->
   <div class="border1 col-md-12 ml30">
     <form id="add_form" action="<%=basePath%>purchaser/list.html" method="post" >

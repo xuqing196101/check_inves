@@ -42,9 +42,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
 <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
-
- 
-  <script type="text/javascript">
+<script type="text/javascript">
   
   /*分页  */
   $(function(){
@@ -131,20 +129,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 }
 	}
 	
-	function det(){
+ function viewdetail(){
 		var id=[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
 		}); 
-		if(id.length>=1){ 
+		if(id.length==1){
+			
 			window.location.href="<%=basePath%>view/detail.html?id="+id;
 		}else{
-			layer.alert("至少选中一条",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择一个查看",{offset: ['222px', '390px'], shade:0.01});
 		}
-	}
-	function qb(){
-		 
-	}
+		
+ }
   </script>
   </head>
   
@@ -162,8 +159,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  <div class="container">
   
  
-		<button style="margin-top: 30px;margin-left: 30px;" class="btn padding-left-10 padding-right-10 btn_back" onclick="qb()">需求单位</button>
-		<button style="margin-top: 30px;" class="btn padding-left-10 padding-right-10 btn_back" onclick="det()">全部明细</button>
+		<input type="button" style="margin-top: 30px;margin-left: 30px;" class="btn padding-left-10 padding-right-10 btn_back" onclick="viewdetail()" value="查看">
+	<!-- 	<button style="margin-top: 30px;" class="btn padding-left-10 padding-right-10 btn_back" onclick="det()">全部明细</button> -->
 		<button style="margin-top: 30px;" class="btn padding-left-10 padding-right-10 btn_back" >历史记录</button>
 	 
    <div class="container clear margin-top-30">
@@ -181,7 +178,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</thead>
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
 			<tr style="cursor: pointer;">
-			  <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
+			  <td class="tc w30"><input type="checkbox" value="${obj.planNo }" name="chkItem" onclick="check()"  alt=""></td>
 			  <td class="tc w50"   >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 			  
 			  <td class="tc"  >${obj.department }</td>
@@ -198,7 +195,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  </c:if>
 			  </td>
 			  
-			  <td>
+			  <td class="tc">
 			  <input type="hidden" value="${obj.id}"/>
 			  <a onclick="up(this,'${obj.id}','${obj.position}')">  上移</a><a onclick="down(this,'${obj.id}')">下移</a> 
 			  

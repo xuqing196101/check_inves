@@ -2,8 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%> 
-<%@ taglib prefix="st" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
 <%
 String path = request.getContextPath();
@@ -130,7 +128,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body>
 
 <sf:form action="${pageContext.request.contextPath}/test/add.html"  method="post" modelAttribute="test" >
- 用户名:<input type="text" name="name" /><sf:errors path="name"/><br/>
+ 用户名:<input type="text" name="name" value="${test.name }"/><sf:errors path="name"/><br/>
  密码:<input type="text" name="password"/><sf:errors path="password"/><br/>
  
 邮箱:<input type="text" name="email"/><sf:errors path="email"/><br/>

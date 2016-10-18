@@ -257,10 +257,13 @@ public class PurchaseRequiredController extends BaseController{
 					if(i==0){
 						PurchaseRequired p = list.getList().get(0);
 							String id = UUID.randomUUID().toString().replaceAll("-", "");
-							p.setGoodsType(type);
+//							p.setGoodsType(type);
 							p.setPlanNo(planNo);
 							p.setPlanName(planName);
-							p.setId(id);
+							if(p.getId()!=null){
+								p.setId(id);
+							}
+							
 							p.setPlanType(type);
 							p.setHistoryStatus("0");
 							p.setIsDelete(0);
@@ -273,10 +276,12 @@ public class PurchaseRequiredController extends BaseController{
 					}else{
 							PurchaseRequired p = list.getList().get(i);
 							String id = UUID.randomUUID().toString().replaceAll("-", "");
-							p.setGoodsType(type);
+//							p.setGoodsType(type);
 							p.setPlanNo(planNo);
 							p.setPlanName(planName);
-							p.setId(id);
+							if(p.getId()!=null){
+								p.setId(id);
+							}
 							p.setPlanType(type);
 							p.setHistoryStatus("0");
 							p.setIsDelete(0);
@@ -411,4 +416,27 @@ public class PurchaseRequiredController extends BaseController{
 	    	return "redirect:list.html";
 	    }
 	
+	    @RequestMapping("/ztree")
+	    public String ztree(String type,String planNo,String planName,Model model){
+	    	model.addAttribute("type", type);
+	    	model.addAttribute("planNo", planNo);
+	    	model.addAttribute("planName", planName);
+	    	return "bss/pms/purchaserequird/ztreeadd";
+	    }
+	    /**
+	     * 
+	    * @Title: id
+	    * @Description: 生成id
+	    * author: Li Xiaoxiao 
+	    * @param @return     
+	    * @return String     
+	    * @throws
+	     */
+	    @RequestMapping("/getId")
+	    @ResponseBody
+	    public String id(){
+	    	String id = UUID.randomUUID().toString().replaceAll("-", "");
+	    	
+	    	return id;
+	    }
 }

@@ -101,7 +101,7 @@ public class AuditSetController {
 				}
 			}
 		}else{
-			model.addAttribute("list", list);
+			model.addAttribute("listf", list);
 		}
 		List<AuditPerson> listAudit = auditPersonService.query(new AuditPerson(), page==null?1:page);
 		PageInfo<AuditPerson> info = new PageInfo<>(listAudit);
@@ -187,7 +187,7 @@ public class AuditSetController {
 		}
 		
 		
-		return "redirect:list.html?id="+collectId;
+		return "redirect:/look/list.html?";
 	}
 	
 	/**
@@ -207,6 +207,7 @@ public class AuditSetController {
 		List<Expert> list = expertService.selectAllExpert(page==null?1:page, expert);
 		PageInfo<Expert> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
+		model.addAttribute("expert", expert);
 		return "bss/pms/collect/expertlist";
 	}
 	/**
@@ -226,6 +227,7 @@ public class AuditSetController {
 		List<User> list = userServiceI.selectUser(user, page==null?1:page);
 		PageInfo<User> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
+		model.addAttribute("user", user);
 		return "bss/pms/collect/userlist";
 	}
 	/**

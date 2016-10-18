@@ -125,4 +125,38 @@ public interface PurchaseRequiredService {
 	List<PurchaseRequired> selectByParentId(Map<String, Object> map);
 	
 	List<PurchaseRequired> selectByParent(Map<String, Object> map);
+	/**
+	* @Title: statisticPurchaseMethod
+	* @Description: 按采购方式统计
+	* author: Li Xiaoxiao 
+	* @param @param map
+	* @param @return     
+	* @return List<Map<String,Object>>     
+	* @throws
+	 */
+	List<Map<String,Object>> statisticPurchaseMethod(Map<String,Object> map);
+	
+	/**
+	 * 
+	* @Title: statisticByMonth
+	* @Description: 按月份统计 
+	* author: Li Xiaoxiao 
+	* @param @param map
+	* @param @return     
+	* @return List<Map<String,Object>>     
+	* @throws
+	 */
+	List<Map<String,Object>> statisticByMonth(Map<String,Object> map);
+	
+	/**
+	 * 
+	* @Title: statisticOrg
+	* @Description: 查看采购分布图 
+	* author: Li Xiaoxiao 
+	* @param @param map
+	* @param @return     
+	* @return List<Map<String,Object>>     
+	* @throws
+	 */
+	List<Map<String,Object>> statisticOrg(Map<String,Object> map);
 }

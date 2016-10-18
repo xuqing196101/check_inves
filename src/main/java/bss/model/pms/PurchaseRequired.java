@@ -98,6 +98,8 @@ public class PurchaseRequired {
     
     private String userUnit;
     
+    private Integer detailStatus;
+    
     public String getId() {
         return id;
     }
@@ -442,6 +444,15 @@ public class PurchaseRequired {
 		this.userUnit = userUnit;
 	}
 
+	public Integer getDetailStatus() {
+		return detailStatus;
+	}
+
+	public void setDetailStatus(Integer detailStatus) {
+		this.detailStatus = detailStatus;
+	}
+
+	
 	
 
 	

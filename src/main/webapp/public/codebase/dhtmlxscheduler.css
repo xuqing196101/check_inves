@@ -392,7 +392,7 @@ div.icon_delete {
 
 .dhx_cal_light select {
 	font-family: Tahoma;
-	font-size: 8pt;
+	font-size: 10pt;
 	padding: 2px;
 	margin: 0
 }
@@ -1832,7 +1832,7 @@ div.dhx_menu_head,div.dhx_menu_icon {
 }
 
 .dhx_now .dhx_month_body,.dhx_now .dhx_month_head {
-	background-color: #FFF3A1;
+	background-color: #47B2B8;
 	font-weight: 400
 }
 
@@ -1875,7 +1875,10 @@ div.dhx_menu_head,div.dhx_menu_icon {
 	color: #2E2E2E;
 	top:200px !important;/* ÐÞ¸Ä¹ýµÄ */
 }
-
+.dhx_cal_ltext select{
+	width: 60px !important;
+	height: 40px !important;
+}
 .dhx_cal_light {
 	border: 1px solid #CECECE
 }

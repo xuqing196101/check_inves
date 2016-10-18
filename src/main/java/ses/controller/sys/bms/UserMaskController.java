@@ -175,5 +175,12 @@ public class UserMaskController {
 	     Date d = sf.parse(ss);
 	     return d;
 	}
+	@RequestMapping(value="/detail" ,produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String getDetail(String id){
+		
+		UserTask task = userTaksService.getById(id);
+		return task.getDetail();
+	}
 	
 }

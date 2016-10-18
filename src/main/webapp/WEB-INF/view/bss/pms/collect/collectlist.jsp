@@ -158,11 +158,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     }
     var index;
     function collect(){
+    	var flag=true;
+    	var ceck=$('input[name="chkItem"]:checked:first').prev().val();
+    
     	var id=[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
+			var type=$(this).prev().val();
+			if(ceck!=type){
+				flag=false;
+			}
 			id.push($(this).val());
 		}); 
-		 if(id.length>=1){
+		if(flag==false){
+			layer.alert("采购方式需要一样",{offset: ['222px', '390px'], shade:0.01});
+		}
+		
+		else if(id.length>=1){
 			 
 	 
     	index=layer.open({
@@ -252,16 +263,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">障碍作业系统</a></li><li><a href="#">采购计划管理</a></li><li class="active"><a href="#">采购需求管理</a></li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">障碍作业系统</a></li><li><a href="#">采购计划管理</a></li><li class="active"><a href="#">采购需求汇总</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
    </div>
 <!-- 录入采购计划开始-->
  <div class="container">
-   <div class="headline-v2">
+ <!--   <div class="headline-v2">
       <h2>查询条件</h2>
-   </div>
+   </div> -->
 <!-- 项目戳开始 -->
   <div class="border1 col-md-12 ml30">
     <form id="add_form" action="<%=basePath%>collect/list.html" method="post" >
@@ -272,11 +283,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 需求计划编号：<input class="mt10"  type="text" name="planNo" value="${inf.planNo }"/>
 	   
 	   状态 :
-	   	   <select name="status" class="mt10" class="form-control input-lg">
-			<option value="" selected="selected"> 请选项状态</option>
-	   	   <option value="1"> 	 已编制为采购计划</option>
-	   	   <option value="2"> 	提交未受理</option>
-	   	   <option value="3"> 	 受理</option>
+	   	   <select name="status"  >
+			<option value=""> 请选项状态</option>
+	   	   <option value="1" <c:if test="${inf.status=='1'}"> selected</c:if> > 	 已编制为采购计划</option>
+	   	   <option value="2" <c:if test="${inf.status=='2'}"> selected</c:if> > 	提交未受理</option>
+	   	   <option value="3" <c:if test="${inf.status=='3'}"> selected</c:if> > 	 受理</option>
  	   	   </select>
 	   	  
 	   
@@ -311,7 +322,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</thead>
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
 			<tr style="cursor: pointer;">
-			  <td class="tc w30"><input type="checkbox" value="${obj.planNo }" name="chkItem" onclick="check()"  alt=""> <input type="hidden" name="department" value="${obj.department }"> </td>
+			  <td class="tc w30"><input type="hidden" name="department" value="${obj.purchaseType }"> <input type="checkbox" value="${obj.planNo }" name="chkItem" onclick="check()"  alt=""> <input type="hidden" name="department" value="${obj.department }"> </td>
 			  <td class="tc w50"   >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 			  
 			    <td class="tc"  >${obj.department }</td>
@@ -342,9 +353,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  <div id="content" class="div_show">
 	 
 	<form id="collect_form" action="<%=basePath%>collect/add.html" method="post" style="margin-top: 20px;">
-	
+	<div style="text-align: center;"><span>计划编号:</span><input  type="text" name="planNo" value=""></div>
 	  <div style="text-align: center;"><span>文件名称:</span><input  type="text" name="fileName" value=""></div>
-	       <div  style="text-align: center;margin-top: 20px;"><span>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码:</span><input  type="password" name="password" value=""></div>
+	       <div  style="text-align: center;"><span>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码:</span><input  type="password" name="password" value=""></div>
 	       
 	       
 		<!--  文件名称：<input type="text" name="fileName" value=""><br>

@@ -68,29 +68,28 @@ public class PlanViewController extends BaseController{
 	* @throws
 	 */
 	@RequestMapping("/detail")
-
 	public String detail(String id,Model model){
-		List<String> list=new ArrayList<String>();
+//		List<String> list=new ArrayList<String>();
 //		List<PurchaseRequired> pr=new LinkedList<PurchaseRequired>();
-		Map<String,Object> map=new HashMap<String,Object>();
-		if(id.trim().length()!=0){
-			String[] ids = id.split(",");
-	
-			for(String i:ids){
-				List<String> no = collectPurchaseService.getNo(i);
-				list.addAll(no);
-			}
-		}
-		List<List<PurchaseRequired>> lists=new ArrayList<List<PurchaseRequired>> ();
-		if(list!=null&&list.size()>0){
-			for(String no:list){
-				List<PurchaseRequired> queryByNo = purchaseRequiredMapper.queryByNo(no);
-				map.put("list", queryByNo);
-				map.put("dep",queryByNo.get(0).getDepartment());
-			}
-		}
-		model.addAttribute("lists", lists);
-		model.addAttribute("map", map);
+//		Map<String,Object> map=new HashMap<String,Object>();
+//		if(id.trim().length()!=0){
+//			String[] ids = id.split(",");
+//	
+//			for(String i:ids){
+//				List<String> no = collectPurchaseService.getNo(i);
+//				list.addAll(no);
+//			}
+//		}
+//		List<List<PurchaseRequired>> lists=new ArrayList<List<PurchaseRequired>> ();
+//		if(list!=null&&list.size()>0){
+//			for(String no:list){
+				List<PurchaseRequired> list = purchaseRequiredMapper.queryByNo(id);
+//				map.put("list", queryByNo);
+//				map.put("dep",queryByNo.get(0).getDepartment());
+//			}
+//		}
+//		model.addAttribute("list", lists);
+		model.addAttribute("list", list);
 		return "bss/pms/collect/included";
 	}
 	

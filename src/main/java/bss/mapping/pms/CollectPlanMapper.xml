@@ -16,10 +16,11 @@
     <result column="PLAN_NO" jdbcType="VARCHAR" property="planNo" />
     <result column="GOODS_TYPE" jdbcType="VARCHAR" property="goodsType" />
     <result column="PURCHASE_TYPE" jdbcType="VARCHAR" property="purchaseType" />
+     <result column="TASK_ID" jdbcType="VARCHAR" property="taskId" />
   </resultMap>
   <sql id="Base_Column_List">
     ID, FILE_NAME, PASSWORD, DEPARTMENT, BUDGET, STATUS, PURCHASE_ID, CREATED_AT, ORDER_AT, 
-    UPDATED_AT, POSITION,PLAN_NO,GOODS_TYPE,PURCHASE_TYPE
+    UPDATED_AT, POSITION,PLAN_NO,GOODS_TYPE,PURCHASE_TYPE,TASK_ID
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="CollectPlan_Map">
     select 
@@ -39,7 +40,8 @@
     values (#{id,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{department,jdbcType=VARCHAR}, #{budget,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}, 
       #{purchaseId,jdbcType=VARCHAR}, #{createdAt,jdbcType=DATE}, #{orderAt,jdbcType=DATE}, 
-      #{updatedAt,jdbcType=DATE}, #{position,jdbcType=DECIMAL}, #{PLAN_NO,jdbcType=VARCHAR}, #{goodsType,jdbcType=VARCHAR}, #{purchaseType,jdbcType=VARCHAR})
+      #{updatedAt,jdbcType=DATE}, #{position,jdbcType=DECIMAL}, #{PLAN_NO,jdbcType=VARCHAR}, #{goodsType,jdbcType=VARCHAR}, 
+      #{purchaseType,jdbcType=VARCHAR},#{TASK_ID,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="bss.model.pms.CollectPlan">
     insert into T_BSS_PMS_COLLECT_PLAN
@@ -86,7 +88,9 @@
        <if test="purchaseType != null">
         PURCHASE_TYPE,
       </if>
-      
+       <if test="taskId != null">
+        TASK_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -130,6 +134,9 @@
       </if>
        <if test="purchaseType != null">
         #{purchaseType,jdbcType=VARCHAR},
+      </if>
+      <if test="taskId != null">
+        #{taskId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -175,6 +182,10 @@
        <if test="purchaseType != null">
         PURCHASE_TYPE = #{purchaseType,jdbcType=VARCHAR},
       </if>
+      <if test="taskId != null">
+        TASK_ID = #{taskId,jdbcType=VARCHAR},
+      </if>
+      
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -192,7 +203,8 @@
       POSITION = #{position,jdbcType=DECIMAL},
       PLAN_NO = #{planNo,jdbcType=VARCHAR},
       GOODS_TYPE = #{goodsType,jdbcType=VARCHAR},
-      PURCHASE_TYPE = #{purchaseType,jdbcType=VARCHAR}
+      PURCHASE_TYPE = #{purchaseType,jdbcType=VARCHAR},
+	  TASK_ID = #{taskId,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   

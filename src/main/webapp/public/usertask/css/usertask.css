@@ -55,7 +55,7 @@ html,body {
 }
 
 option {
-	min-height: 2.2em;
+	font-size: 14px;
 }
 #jinji{
 	width:100px;height:18px;
@@ -88,4 +88,10 @@ option {
 	border: 1px solid #ccc;
 	border-bottom: 0px;float: left;
 	margin-left:230px;
+}
+#dangqian{
+	width:100px;height:18px;
+	background-color:#47B2B8;
+	border:1px solid #ccc;
+	margin-top: 10px;
 }

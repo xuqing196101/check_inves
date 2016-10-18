@@ -238,21 +238,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
 <!-- 录入采购计划开始-->
  <div class="container">
-   <div class="headline-v2">
+<!--    <div class="headline-v2">
       <h2>查询条件</h2>
-   </div>
+   </div> -->
 <!-- 项目戳开始 -->
-  <div class="container clear margin-top-30">
+  <div class="border1 col-md-12 ml30">
     <form id="add_form" action="<%=basePath%>accept/list.html" method="post" >
-   <h2 class="padding-10 border1">
+ 
 
-	 <ul class="demand_list" >
-	   <li class="fl"><label class="fl">需求计划名称：</label><span><input type="text" name="planName" value="${inf.planName }"/></span></li>
+	 需求计划名称： <input class="mt10" type="text" name="planName" value="${inf.planName }"/>
 	   	 <input class="btn padding-left-10 padding-right-10 btn_back"   type="submit" name="" value="查询" /> 
-	 </ul>
+ 
 
 	
-   </h2>
+ 
    </form>
   </div>
    <div class="headline-v2 fl">

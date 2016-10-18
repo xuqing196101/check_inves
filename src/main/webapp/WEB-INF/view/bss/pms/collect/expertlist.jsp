@@ -138,20 +138,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <h2>查询条件</h2>
    </div> -->
 <!-- 项目戳开始 -->
-  <div>
-<!--     <form id="add_form" action="" method="post" > -->
-   <h2 class="padding-10 border1">
-
-	 <ul class="demand_list" >
-	   <li class="fl"><label class="fl">姓名：</label><span><input type="text" name="planName" value=""/></span></li>
-<!-- 	   	 <input class="btn padding-left-10 padding-right-10 btn_back"   type="submit" name="" value="查询" /> 
- -->	   	  <button class="btn padding-left-10 padding-right-10 btn_back goods" style="margin-bottom: 30px" onclick="closede()" >确定添加</button>
-      		<button class="btn padding-left-10 padding-right-10 btn_back goods" style="margin-bottom: 30px" onclick="cancels()" >取消</button> 
-	 </ul>
+  <div class="border1 col-md-12 ml30">
+    <form id="add_form" action="" method="post" >
+ 
+ 
+	   姓名： <input class="mt10" type="text" name="relName" value="${expert.relName }"/> 
+	   	 <input class="btn-u"   type="submit" name="" value="查询" /> 
+	   	  <input type="button" class="btn-u"  onclick="closede()" value="确定" />
+      		<input type="button" class="btn-u"   onclick="cancels()" value="取消">
+	 
 
 	
-   </h2>
- <!--   </form> -->
+  
+  </form> 
   </div>
  
       	<span style="margin-left: 30px;">专家列表</span>	

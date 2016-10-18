@@ -140,13 +140,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 
 	}
 		
+    var index;
 	function sets(){
 		var id=[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
 		}); 
 		if(id.length==1){   
-			window.location.href="<%=basePath%>set/list.html?id="+id;
+			
+	    	 index=layer.open({
+			  type: 1, //page层
+			  area: ['300px', '200px'],
+			  title: '审核设置',
+			  closeBtn: 1,
+			  shade:0.01, //遮罩透明度
+			  moveType: 1, //拖拽风格，0是默认，1是传统拖动
+			  shift: 1, //0-6的动画形式，-1不开启
+			  offset: ['80px', '600px'],
+			  content: $('#content'),
+			}); 
 	  	}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -167,6 +179,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			}  
 			
 	 }
+	 
+	 function closeLayer(){
+		 var type=$("#wtype").val();
+		 var id=[]; 
+			$('input[name="chkItem"]:checked').each(function(){ 
+				id.push($(this).val());
+			});
+			
+		 if(type==4){
+			 window.location.href="<%=basePath%>taskassgin/list.html?cid="+id;
+		 }else{
+			 window.location.href="<%=basePath%>set/list.html?id="+id; 
+		 }
+		 
+	 }
+	 
+	 function cant(){
+			layer.close(index);	
+	 }
   </script>
   </head>
   
@@ -182,18 +213,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
 <!-- 录入采购计划开始-->
  <div class="container">
-   <div class="headline-v2">
+<!--    <div class="headline-v2">
       <h2>查询条件</h2>
-   </div>
+   </div> -->
 <!-- 项目戳开始 -->
   <div class="border1 col-md-12 ml30">
-    <form id="add_form" action="<%=basePath%>accept/list.html" method="post" >
+    <form id="add_form" action="<%=basePath%>look/list.html" method="post" >
   
 
 	 
-	    采购计划名称： <input type="text" class="mt10" name="fileName" value=""/> 
+	    采购计划名称： <input type="text" class="mt10" name="fileName" value="${inf.fileName }"/> 
 	   采购方式： <input type="text" class="mt10"name="" value=""/>
-	   采购金额： <input type="text" class="mt10" name="budget" value=""/> 
+	   采购金额： <input type="text" class="mt10" name="budget" value="${inf.budget }"/> 
 	   	 <input class="btn padding-left-10 padding-right-10 btn_back"   type="submit" name="" value="查询" /> 
 	 
    </form>
@@ -204,7 +235,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div> 
     <span class="fr option_btn margin-top-10">
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="sets()">审核设置</button>
-		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="audit()">审核</button>
+	<!-- 	<button class="btn padding-left-10 padding-right-10 btn_back" onclick="audit()">审核</button> -->
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="down()">下载</button>
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="print()">打印</button>
 	  </span>
@@ -250,7 +281,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  </div>
 
 
- 
+  <div id="content" class="div_show" style="text-align: center;">
+  <br>
+	 <span style="padding-top:50px;">直接下达采购任务或者设置审核轮次</span>
+	 
+		<select style="margin-top: 15px;" name="planType" id="wtype">
+		<option value="4">直接下达任务</option>
+		<option value="1">第一轮</option>
+		<option value="2">第二轮</option>
+		<option value="3">第三轮</option>
+		</select>
+		<br>
+	     <button style="margin-top: 15px;" class="btn padding-left-10 padding-right-10 btn_back"  onclick="closeLayer()" >确定</button>
+	     <button  style="margin-top: 15px;" class="btn padding-left-10 padding-right-10 btn_back"  onclick="cant()" >取消</button>
+ </div>
  
 	 </body>
 </html>
