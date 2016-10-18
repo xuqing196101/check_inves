@@ -147,5 +147,15 @@ public interface ArticleMapper {
 	* @return List<Article>
 	 */
 	List<Article> selectArticleByName(Article article);
-    
+  
+	/**
+	 * Description: 根据项目查找
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-10-18
+	 * @param article
+	 * @return List<Article>
+	 * @exception IOException
+	 */
+	List<Article> selectArticleByProjectId(Article article);
 }

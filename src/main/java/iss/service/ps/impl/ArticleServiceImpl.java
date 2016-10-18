@@ -108,4 +108,10 @@ public class ArticleServiceImpl implements ArticleService {
 		List<Article> list = articleMapper.selectArticleByName(article);
 		return list;
 	}
+
+	@Override
+	public List<Article> selectArticleByProjectId(Article article) {
+		List<Article> list = articleMapper.selectArticleByProjectId(article);
+		return list;
+	}
 }

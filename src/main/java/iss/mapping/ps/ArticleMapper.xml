@@ -371,4 +371,21 @@
     </set>
     where ID = #{id}
   </update>
+  
+  <!-- 根据项目id查询 -->
+  <select id="selectArticleByProjectId" resultMap="ArticleBlob">
+  	select
+  	<include refid="Article_Column_List"/>
+  	,
+    <include refid="Article_BlOB_Column_List" />
+    from T_ISS_PS_ARTICLE
+    where IS_DELETED = 0
+    	AND PROJECT_ID = #{projectId}
+	  	<if test="status != null">
+	  	  AND STATUS = #{status}
+	  	</if>
+	  	<if test="articleType != null">
+	  	  AND ARTICLE_TYPE_ID = #{articleType.id}
+	  	</if>
+  </select>
 </mapper>

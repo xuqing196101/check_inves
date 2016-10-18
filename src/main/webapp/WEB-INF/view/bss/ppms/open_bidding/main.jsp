@@ -28,6 +28,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet">
     <link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet">
     <link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
+	<link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
 	
     <script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
     <!--导航js-->
@@ -43,19 +44,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        $(this).parent().addClass('active');                            // 添加当前元素的样式
 	    });
 	}); 
-</script>
-<script type="text/javascript">
-	document.body.onbeforeunload = function (event)
-        {
-            var c = event || window.event;
-            if (/webkit/.test(navigator.userAgent.toLowerCase())) {
-                return "离开页面将导致数据丢失！";
-            }
-            else
-            {
-                c.returnValue = "离开页面将导致数据丢失！";
-            }
-        }
+	
+	function back(page){
+		location.href = '<%=basePath%>project/list.html?page='+page;
+	}
 </script>
 <body>
   
@@ -79,7 +71,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						   <li class="active"><a href="<%=basePath%>project/mplement.html?id=${project.id}" target="open_bidding_main" class="son-menu">项目信息</a></li>
 						   <li><a href="<%=basePath%>firstAudit/toAdd.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">拟制招标文件</a></li>
 						   <li><a href="<%=basePath%>open_bidding/" target="open_bidding_main" class="son-menu">确认招标文件</a></li>
-						   <li><a href="<%=basePath%>open_bidding/bidNotice.html" target="open_bidding_main" class="son-menu">拟制招标公告</a></li>
+						   <li><a href="<%=basePath%>open_bidding/bidNotice.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">拟制招标公告</a></li>
 						   <li><a href="<%=basePath%>open_bidding/" target="open_bidding_main" class="son-menu">发售标书</a></li>
 						   <li><a href="<%=basePath%>open_bidding/" target="open_bidding_main" class="son-menu">抽取评审专家</a></li>
 						   <li><a href="<%=basePath%>open_bidding/" target="open_bidding_main" class="son-menu">投标开标</a></li>
@@ -100,9 +92,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						}   
 						</script>
 					  <!-- 右侧内容开始-->
-					  <div class="tag-box tag-box-v4 col-md-9">
-						 <iframe  frameborder="0" name="open_bidding_main" id="open_bidding_iframe" scrolling="no" marginheight="0"  width="100%" onLoad="iFrameHeight()"  src="<%=basePath%>project/mplement.html?id=${project.id}"></iframe>
+					  <div class="tag-box tag-box-v4 col-md-9" >
+						 <iframe  frameborder="0" name="open_bidding_main" id="open_bidding_iframe" scrolling="no" marginheight="0"  width="100%" onLoad="iFrameHeight();"  src="<%=basePath%>project/mplement.html?id=${project.id}"></iframe>
 					  </div>
+					  <div class="col-md-12 tc mt20" >
+					  		<button class="btn btn-windows back" onclick="back(${page});" type="button">返回项目列表</button>
+       	   			  </div>
 				  </div>
                 </div>
                 <!-- End Content -->

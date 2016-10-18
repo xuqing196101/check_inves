@@ -30,8 +30,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet">
     <link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet">
     <link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
-
+   <link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
     <script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
 
     <!--导航js-->
@@ -49,12 +48,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         var iframeWin;
         layer.open({
           type: 2, //page层
-          area: ['800px', '500px'],
+          area: ['700px', '500px'],
           title: '导入模板',
           closeBtn: 1,
           shade:0.01, //遮罩透明度
           shift: 1, //0-6的动画形式，-1不开启
-          offset: ['180px', '550px'],
+          offset: '100px',
           shadeClose: false,
           content: '<%=basePath%>resultAnnouncement/getAll.html',
           success: function(layero, index){
@@ -63,13 +62,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         });
     }
         //导出
-        function outputAnnouncement(){
-            $("#form").attr("action",'<%=basePath%>bidAnnouncement/outputBidAnnouncement.do');   
+        function exportWord(){
+            $("#form").attr("action",'<%=basePath%>open_bidding/export.html');   
             $("#form").submit();
         }
         //预览
         function preview(){
-             $("#form").attr("action",'<%=basePath%>bidAnnouncement/preViewBidAnnouncement.do');   
+             $("#form").attr("action",'<%=basePath%>open_bidding/printView.html');   
              $("#form").submit();
         }
         //发布
@@ -80,14 +79,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         	var iframeWin;
             layer.open({
               type: 2, //page层
-              area: ['800px', '500px'],
+              area: ['700px', '500px'],
               title: '发布招标公告',
               closeBtn: 1,
               shade:0.01, //遮罩透明度
               shift: 1, //0-6的动画形式，-1不开启
-              offset: ['180px', '550px'],
+              offset: '100px',
               shadeClose: false,
-              content: '<%=basePath%>bidAnnouncement/publish.do?content='+content,
+              content: '<%=basePath%>open_bidding/publish.html?content='+content,
               success: function(layero, index){
             
                 iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
@@ -95,36 +94,56 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             });
         }
         //保存
-        function save(){                  
-            layer.prompt({title: '请输入招标公告名称', formType: 2}, function(text){
-            	$("#form").attr("action",'<%=basePath%>bidAnnouncement/saveBidAnnouncement.do?name='+text);   
-                $("#form").submit();               
-             });
-        }
+        //function save(){         
+        //    layer.prompt({title: '请输入招标公告名称', formType: 3}, function(text){
+        //    	$("#form").attr("action",'<%=basePath%>open_bidding/saveBidNotice.do?name='+text);   
+        //        $("#form").submit();               
+        //     });
+       // }
+       
+       function save(){
+       		$.ajax({
+			    type: 'post',
+			    url: "<%=basePath%>open_bidding/saveBidNotice.do",
+			    dataType:'json',
+			    data : $('#form').serialize(),
+			    success: function(data) {
+			        layer.msg(data.message,{offset: '222px'});
+			    }
+			});
+       }
         
     </script>
 </head>
 
 <body>
-	 <form  method="post" id="form"> 
+	 <form  method="post" id="form" > 
         <!-- 按钮 -->
-          <div class="fr pr15 mt10">
-          	<button class="btn btn-windows back" type="button">返回项目列表</button>
-		    <button class="btn btn-windows add" type="button">新增</button>
-			<button class="btn btn-windows edit" type="button">修改</button>
-			<button class="btn btn-windows delete" type="button">删除</button>
-		  </div>
+        <div class="fr pr15 mt10">
+		     <input type="button" class="btn btn-windows input" onclick="inputTemplete()" value="模板导入"></input>
+	         <input type="button" class="btn btn-windows output" onclick="exportWord()" value="导出"></input>
+	         <input type="button" class="btn btn-windows git" onclick="preview()" value="预览"></input>  
+	         <input type="button" class="btn btn-windows save" onclick="save()" value="保存"></input>
+	         <input type="button" class="btn btn-windows apply" onclick="publish()" value="发布"></input>  
+	    </div>
+	    <input type="hidden" name="projectId" value="${projectId }">
 		<div class="col-md-12 clear">
-        	 <!-- 文本编辑器 -->
-             <script id="editor" name="content" type="text/plain" class="ml125 mt20 w900"></script>
-         </div>
+			 <i class="red">*</i>公告标题：<br>
+			  <input class="col-md-12 w100p" id="name" name="name" type="text"><br>
+        	 <i class="red">*</i>公告内容：
+             <script id="editor" name="content" type="text/plain" class="ml125 w900"></script>
+        </div>
       </form>
 				     
     <script type="text/javascript">
     var ue = UE.getEditor('editor'); 
+    var content=${article};
+    alert(content);
     ue.ready(function(){
         //需要ready后执行，否则可能报错
-        ue.setContent("<h1>欢迎使用UEditor！</h1>");
+       // ue.setContent("<h1>欢迎使用UEditor！</h1>");
+        ue.setContent(content); 
+        ue.setDisabled(true);
         ue.setHeight(500);
     })
     </script>
