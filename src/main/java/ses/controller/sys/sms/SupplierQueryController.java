@@ -100,9 +100,8 @@ public class SupplierQueryController extends BaseSupplierController{
 			highMapStr=sb.toString();
 		}
 		model.addAttribute("data", highMapStr);
-		System.out.println(highMapStr);
 		model.addAttribute("sup",sup);
-		if(status!=null){
+		if(status!=null&&status==3){
 			return "ses/sms/supplier_query/all_ruku_supplier";
 		}else{
 			return "ses/sms/supplier_query/all_supplier";

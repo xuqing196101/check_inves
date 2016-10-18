@@ -363,6 +363,9 @@ $(function() {
 			if ("${sup.supplierType}" == $(optionNodes[i]).val()) {
 				optionNodes[i].selected = true;
 			}
+			if ("${sup.status}" == $(optionNodes[i]).val()) {
+				optionNodes[i].selected = true;
+			}
 		}
 	});
 </script>
@@ -391,16 +394,24 @@ $(function() {
 		       		<tr>
 		       			<td style="text-align:right">联系人：</td>
 		       			<td><input class="span2" id="contactName" name="contactName" value="${sup.contactName }" type="text"></td>
-		       			<td style="text-align:right">供应商类型：</td>
+		       			<td style="text-align:right">供应商类型-状态：</td>
 		       			<td>
 		       			      <select name="supplierType" class="fl" >
 							   		<option selected="selected" value=''>-请选择-</option>
 							   		<option  value="生产型">生产型</option>
 							   		<option  value="销售型">销售型</option>
 							   </select>
+							   <select name="status" class="fl" >
+							   		<option selected="selected" value=''>-请选择-</option>
+									<option  value="-1">暂存、未提交</option>
+							   		<option  value="0">待初审</option>
+							   		<option  value="1">待复审</option>
+							   		<option  value="2">初审不通过</option>
+							   		<option  value="3">复审通过</option>
+							   		<option  value="4">复审不通过</option>
+							   </select>
 		       				 <input class="btn padding-left-20 padding-right-20 btn_back" onclick="submit()" type="button" value="查询">
 		     				 <input class="btn padding-left-20 padding-right-20 btn_back" onclick="chongzhi()" type="button" value="重置"> 
-		     				 <input class="btn padding-left-20 padding-right-20 btn_back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 		       			</td>
 		       		</tr>
 		       	</tbody>
