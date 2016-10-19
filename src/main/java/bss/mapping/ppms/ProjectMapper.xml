@@ -217,7 +217,7 @@
       <if test="status != null">
        and STATUS like '%${status}%'
       </if>
-      ORDER BY CREATED_AT ASC
+      ORDER BY CREATED_AT DESC
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from T_BSS_PPMS_PROJECTS

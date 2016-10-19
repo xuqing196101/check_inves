@@ -1,7 +1,6 @@
 package bss.model.ppms;
 
 import java.util.Date;
-import java.util.List;
 
 public class Task {
 	private String id;

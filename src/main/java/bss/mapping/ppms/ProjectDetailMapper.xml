@@ -24,13 +24,15 @@
     <result column="MEMO"  property="memo" />
     <result column="PARENT_ID"  property="parentId" />
     <result column="CREATED_AT"  property="createdAt" />
+    <result column="STATUS"  property="status" />
+    <result column="UPDATED_AT"  property="updateAt" />
     <association property="project" column="PROJECT_ID" select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey"/>
     <association property="purchaseDep" column="PURCHASE_ID" select="ses.dao.oms.PurchaseDepMapper.selectPurchaseById"/>
   </resultMap>
   <sql id="Base_Column_List">
     ID, SERIAL_NUMBER, DEPARTMENT, GOODS_NAME, STAND, QUALIT_STAND, ITEM, PURCHASE_COUNT, 
     PRICE, BUDGET, DELIVER_DATE, PURCHASE_TYPE, SUPPLIER, IS_FREE_TAX, GOODS_USE, USE_UNIT, 
-    PROJECT_ID, TASK_ID, PURCHASE_ID,PACKAGE_ID,BRAND,MEMO,PARENT_ID,CREATED_AT
+    PROJECT_ID, TASK_ID, PURCHASE_ID,PACKAGE_ID,BRAND,MEMO,PARENT_ID,CREATED_AT,UPDATED_AT,STATUS
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -163,6 +165,12 @@
       <if test="createdAt != null">
         CREATED_AT,
       </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="updateAt != null">
+        UPDATED_AT,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -233,6 +241,15 @@
       </if>
       <if test="parentId != null">
         #{parentId},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+      <if test="updateAt != null">
+        #{updateAt},
+      </if>
+      <if test="status != null">
+        #{status},
       </if>
     </trim>
   </insert>
@@ -307,6 +324,12 @@
       </if>
       <if test="createdAt != null">
         CREATED_AT = #{createdAt},
+      </if>
+      <if test="updateAt != null">
+        UPDATED_AT = #{updateAt},
+      </if>
+      <if test="status != null">
+        STATUS = #{status},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}

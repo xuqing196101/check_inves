@@ -95,8 +95,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     }
     
     function cancel(){
-     var index=parent.layer.getFrameIndex(window.name);
-     parent.layer.close(index);
+     /* var index=parent.layer.getFrameIndex(window.name);
+     parent.layer.close(index); */
+     window.location.href="<%=basePath%>project/list.html";
      
 }
     

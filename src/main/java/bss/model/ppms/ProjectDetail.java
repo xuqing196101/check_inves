@@ -52,6 +52,10 @@ public class ProjectDetail {
 	private String parentId;
 	
 	private Date createdAt;
+	
+	private Date updateAt;
+	
+	private String status;
 
 	public String getId() {
 		return id;
@@ -243,6 +247,22 @@ public class ProjectDetail {
 
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
+	}
+
+	public Date getUpdateAt() {
+		return updateAt;
+	}
+
+	public void setUpdateAt(Date updateAt) {
+		this.updateAt = updateAt;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	
 	

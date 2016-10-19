@@ -21,17 +21,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import ses.model.oms.PurchaseDep;
 import ses.model.oms.PurchaseInfo;
-import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.oms.PurchaseServiceI;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 
 import bss.controller.base.BaseController;
-import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
@@ -39,7 +35,6 @@ import bss.model.ppms.ProjectAttachments;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.ProjectTask;
 import bss.model.ppms.Task;
-import bss.service.pms.CollectPlanService;
 import bss.service.pms.PurchaseRequiredService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectAttachmentsService;
@@ -60,8 +55,6 @@ public class ProjectController extends BaseController{
 	@Autowired
 	private ProjectAttachmentsService attachmentsService;
 	@Autowired
-	private CollectPlanService collectPlanService; 
-	@Autowired
 	private PurchaseRequiredService purchaseRequiredService;
 	@Autowired
 	private ProjectDetailService detailService;
@@ -71,8 +64,6 @@ public class ProjectController extends BaseController{
 	private ProjectTaskService projectTaskService;
 	@Autowired
 	private PurchaseServiceI purchaseService;
-	@Autowired
-	private PurchaseOrgnizationServiceI orgnizationService;
 	
 	/**
 	 * 
@@ -111,7 +102,7 @@ public class ProjectController extends BaseController{
 		model.addAttribute("purchaseRequired", purchaseRequired);
 		//显示项目明细
 		String idr = (String) request.getSession().getAttribute("idr");
-		List<ProjectDetail> list2 = new ArrayList<ProjectDetail>();
+		List<ProjectDetail> list2 = new ArrayList<>();
 		if(idr != null){
 			String[] ids = idr.split(",");
 			for (int i = 0; i < ids.length; i++) {
@@ -166,6 +157,7 @@ public class ProjectController extends BaseController{
 		String[] ids = id.split(",");
 		for (int i = 0; i < ids.length; i++) {
 			PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(ids[i]);
+			projectDetail.setId(purchaseRequired.getId());
 			projectDetail.setSerialNumber(purchaseRequired.getSeq());
 			projectDetail.setDepartment(purchaseRequired.getDepartment());
 			projectDetail.setGoodsName(purchaseRequired.getGoodsName());
@@ -200,6 +192,9 @@ public class ProjectController extends BaseController{
 			}
 			if(purchaseRequired.getUseUnit() != null){
 				projectDetail.setUseUnit(purchaseRequired.getUseUnit());
+			}
+			if(purchaseRequired.getParentId() != null){
+				projectDetail.setParentId(purchaseRequired.getParentId());
 			}
 			detailService.insert(projectDetail);
 			String ide = projectDetail.getId();
@@ -249,43 +244,6 @@ public class ProjectController extends BaseController{
 	}
 		return "redirect:list.html";
 	}
-	/*@RequestMapping("/createProject")
-	public String createProject(String name,String projectNumber,String purchaseId,HttpServletRequest request){
-		HashMap<String,Object> map = new HashMap<String,Object>();
-		map.put("orgId", purchaseId);
-		ProjectTask projectTask = new ProjectTask();
-		if(name != null && projectNumber != null){
-			Project project = new Project();
-			List<PurchaseDep> purchaseDeps = orgnizationService.findPurchaseDepList(map);
-			for (PurchaseDep purchaseDep : purchaseDeps) {
-			project.setName(name);
-			project.setProjectNumber(projectNumber);
-			project.setPurchaseDep(new PurchaseDep(purchaseId));
-			project.setPurchaseDepName(purchaseDep.getName());
-			project.setIpone(purchaseDep.getMobile());
-			project.setCreateAt(new Date());
-			project.setStatus(3);
-			projectService.add(project);
-			}
-			String id = (String) request.getSession().getAttribute("idss");
-			String ide = (String) request.getSession().getAttribute("idr");
-			request.getSession().removeAttribute("idss");
-			request.getSession().removeAttribute("idr");
-			String[] ids = id.split(",");
-			for (int i = 0; i < ids.length; i++) {
-				projectTask.setTaskId(ids[i]);
-				projectTask.setProjectId(project.getId());
-				projectTaskService.insertSelective(projectTask);
-			}
-			String[] projectId = ide.split(",");
-			for (int i = 0; i < projectId.length; i++) {
-				ProjectDetail detail = detailService.selectByPrimaryKey(projectId[i]);
-				detail.setProject(new Project(project.getId()));
-				detailService.update(detail);
-		}
-		}
-		return "redirect:list.html";
-	}*/
 	/**
 	 * 
 	* @Title: view
@@ -299,21 +257,8 @@ public class ProjectController extends BaseController{
 	 */
 	@RequestMapping("/view")
 	public String view(String id,Model model,Integer page,HttpServletRequest request){
-		/*request.getSession().setAttribute("tt", id);
 		HashMap<String,Object> map = new HashMap<String,Object>();
-		map.put("projectId", id);
-		List<Task> lists = taskservice.listBy(null, page==null?1:page);
-		List<ProjectTask> list = projectTaskService.queryByNo(map);
-		for (ProjectTask projectTask : list) {
-			Task task = taskservice.selectById(projectTask.getTaskId());
-			lists.add(task);
-		}
-		PageInfo<Task> info = new PageInfo<Task>(lists);
-		Project project = projectService.selectById(id);
-		model.addAttribute("info", info);
-		model.addAttribute("ject", project);*/
-		HashMap<String,Object> map = new HashMap<String,Object>();
-		map.put("projectId", id);
+		map.put("id", id);
 		List<ProjectDetail> detail = detailService.selectById(map);
 		model.addAttribute("lists", detail);
 		return "bss/ppms/project/viewDetail";
@@ -323,7 +268,7 @@ public class ProjectController extends BaseController{
 	* @Title: edit
 	* @author FengTian
 	* @date 2016-10-12 上午9:12:00  
-	* @Description: 根据项目id查询任务跳转修改页面 
+	* @Description: 根据项目id查询项目明细
 	* @param @param id
 	* @param @param model
 	* @param @param page
@@ -332,21 +277,21 @@ public class ProjectController extends BaseController{
 	* @return String
 	 */
 	@RequestMapping("/edit")
-	public String edit(String id,Model model,Integer page,HttpServletRequest request){
-		request.getSession().setAttribute("rre", id);
+	public String edit(String id, Model model, Integer page, HttpServletRequest request){
 		HashMap<String,Object> map = new HashMap<String,Object>();
-		map.put("projectId", id);
-		List<Task> lists = taskservice.listBy(null, page==null?1:page);
-		List<ProjectTask> list = projectTaskService.queryByNo(map);
-		for (ProjectTask projectTask : list) {
-			Task task = taskservice.selectById(projectTask.getTaskId());
-			lists.add(task);
-		}
-		PageInfo<Task> info = new PageInfo<Task>(lists);
 		Project project = projectService.selectById(id);
-		model.addAttribute("info", info);
-		model.addAttribute("ject", project);
-		return "bss/ppms/project/edit";
+		map.put("id", id);
+		List<ProjectDetail> detail = detailService.selectById(map);
+		for (ProjectDetail projectDetail : detail) {
+			if("1".equals(projectDetail.getParentId())){
+				map.put("id", projectDetail.getId());
+				List<ProjectDetail> detail1 = detailService.selectByParentId(map);
+				model.addAttribute("lists", detail1);
+			}
+			
+		}
+		model.addAttribute("project", project);
+		return "bss/ppms/project/editDetail";
 	}
 	/**
 	 * 
@@ -407,47 +352,7 @@ public class ProjectController extends BaseController{
 		model.addAttribute("project", project);
 		return "bss/ppms/project/essential_information";
 	}
-	/**
-	 * 
-	* @Title: viewDetail
-	* @author FengTian
-	* @date 2016-10-8 下午2:16:44  
-	* @Description: 查看明细 
-	* @param @param id
-	* @param @param model
-	* @param @return      
-	* @return String
-	 */
-	@RequestMapping("/viewDetail")
-	public String viewDetail(String id,String ids,Integer page,Model model,HttpServletRequest request){
-		if(ids == null){
-			HashMap<String,Object> map = new HashMap<String,Object>();
-			String tt = (String) request.getSession().getAttribute("tt");
-			map.put("taskId", id);
-			map.put("id", tt);
-			List<ProjectDetail> detailList = detailService.selectById(map);
-			model.addAttribute("lists", detailList);
-			return "bss/ppms/project/viewDetail";
-		}else{
-			HashMap<String,Object> map = new HashMap<String,Object>();
-			map.put("id", ids);
-			List<ProjectDetail> detailList = detailService.selectById(map);
-			Project project = projectService.selectById(ids);
-			List<Task> lists = taskservice.listBy(null, page==null?1:page);
-			List<ProjectTask> list = projectTaskService.queryByNo(map);
-			for (ProjectTask projectTask : list) {
-				Task task = taskservice.selectById(projectTask.getTaskId());
-				lists.add(task);
-			}
-			PageInfo<Task> info = new PageInfo<Task>(lists);
-			model.addAttribute("info", info);
-			model.addAttribute("project", project);
-				model.addAttribute("lists", detailList);
-				model.addAttribute("ids", ids);
-			return "bss/ppms/project/essential_information";
-		}
-		
-	}
+	
 	/**
 	 * 
 	* @Title: update
@@ -470,115 +375,9 @@ public class ProjectController extends BaseController{
 		projectService.update(project);
 		return "redirect:list.html";
 	}
-	/**
-	 * 
-	* @Title: viewDet
-	* @author FengTian
-	* @date 2016-10-12 上午9:13:15  
-	* @Description: 新增查询采购明细 
-	* @param @param id
-	* @param @param model
-	* @param @param request
-	* @param @return      
-	* @return String
-	 */
-	/*@RequestMapping("/viewDet")
-	public String viewDet(String id,Model model,HttpServletRequest request){
-		request.getSession().setAttribute("qq",id);
-		String idss = (String) request.getSession().getAttribute("idss");
-		if (idss != null) {
-			idss = idss + "," + id;
-			request.getSession().setAttribute("idss", idss);
-		} else {
-			request.getSession().setAttribute("idss",
-					id);
-		}
-		Task task = taskservice.selectById(id);
-		CollectPlan queryById = collectPlanService.queryById(task.getCollectId());
-		if(queryById != null){
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.get(queryById);
-		List<PurchaseRequired> list = purchaseRequiredService.getByMap(map);
-		model.addAttribute("queryById", queryById);
-		model.addAttribute("lists", list);
-		}
-		return "bss/ppms/project/saveDetail";
-	}*/
-	/**
-	 * 
-	* @Title: saveDetail
-	* @author FengTian
-	* @date 2016-10-12 上午9:13:40  
-	* @Description: 新增项目明细 
-	* @param @param id
-	* @param @param model
-	* @param @param request
-	* @param @return      
-	* @return String
-	 */
-	/*@RequestMapping("/saveDetail")
-	public String saveDetail(String id,Model model,HttpServletRequest request){
-		String[] ids = id.split(",");
-		String ida = (String) request.getSession().getAttribute("qq");
-		for (int i = 0; i < ids.length; i++) {
-			PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(ids[i]);
-			ProjectDetail projectDetail = new ProjectDetail();
-			projectDetail.setSerialNumber(purchaseRequired.getSeq());
-			projectDetail.setDepartment(purchaseRequired.getDepartment());
-			projectDetail.setGoodsName(purchaseRequired.getGoodsName());
-			projectDetail.setStand(purchaseRequired.getStand());
-			projectDetail.setQualitStand(purchaseRequired.getQualitStand());
-			projectDetail.setItem(purchaseRequired.getItem());
-			String purchaseCount = purchaseRequired.getPurchaseCount().toString();
-			projectDetail.setPurchaseCount(Integer.valueOf(purchaseCount));
-			projectDetail.setPrice(purchaseRequired.getPrice().doubleValue());
-			projectDetail.setBudget(purchaseRequired.getBudget().doubleValue());
-			projectDetail.setDeliverDate(purchaseRequired.getDeliverDate());
-			projectDetail.setPurchaseType(purchaseRequired.getPurchaseType());
-			projectDetail.setSupplier(purchaseRequired.getSupplier());
-			projectDetail.setIsFreeTax(purchaseRequired.getIsFreeTax());
-			projectDetail.setGoodsUse(purchaseRequired.getGoodsUse());
-			projectDetail.setUseUnit(purchaseRequired.getUseUnit());
-			projectDetail.setTaskId(ida);
-			detailService.insert(projectDetail);
-			String ide = projectDetail.getId();
-			String idr = (String) request.getSession().getAttribute("idr");
-			if (idr != null) {
-				idr = idr + "," + ide;
-				request.getSession().setAttribute("idr", idr);
-			} else {
-				request.getSession().setAttribute("idr",
-						ide);
-			}
-		}
-		return "redirect:add.html";
-		 
-	}*/
-	/**
-	 * 
-	* @Title: editDet
-	* @author FengTian
-	* @date 2016-10-12 上午9:14:01  
-	* @Description: 根据项目id查询任务跳转修改明细页面 
-	* @param @param id
-	* @param @param model
-	* @param @param request
-	* @param @return      
-	* @return String
-	 */
-	@RequestMapping("/editDet")
-	public String editDet(String id,Model model,HttpServletRequest request){
-		HashMap<String,Object> map = new HashMap<String,Object>();
-		String tt = (String) request.getSession().getAttribute("rre");
-		request.getSession().removeAttribute("tt");
-		map.put("status", id);
-		map.put("id", tt);
-		List<ProjectDetail> detailList = detailService.selectById(map);
-		Project project = projectService.selectById(tt);
-		model.addAttribute("lists", detailList);
-		model.addAttribute("ject", project);
-		return "bss/ppms/project/eidtDetail";
-	}
+	
+	
+	
 	/**
 	 * 
 	* @Title: editDetail
@@ -594,17 +393,24 @@ public class ProjectController extends BaseController{
 	 */
 	@RequestMapping("/editDetail")
 	@ResponseBody
-	public void editDetail(String id,String purchaseCount,String price,String purchaseType,Model model){
+	public void editDetail(String id,String purchaseCount,String price,String purchaseType,String budget,Model model){
 		String[] idc = id.split(",");
 		String[] ida = purchaseCount.split(",");
 		String[] idb = price.split(",");
 		String[] ide = purchaseType.split(",");
+		String[] idf = budget.split(",");
 		for (int i = 0; i < idc.length; i++) {
 			ProjectDetail qq = detailService.selectByPrimaryKey(idc[i]);
-			qq.setPurchaseCount(Integer.valueOf(ida[i]));
-			qq.setPrice(Double.valueOf(idb[i]));
+			if(ida[i] != null && ida[i].trim().length() != 0){
+				qq.setPurchaseCount(Integer.valueOf(ida[i]));
+			}
+			if(idb[i] != null && idb[i].trim().length() != 0){
+				qq.setPrice(Double.valueOf(idb[i]));
+			}
 			qq.setPurchaseType(ide[i]);
-			qq.setBudget(Double.valueOf(idb[i])+Double.valueOf(ida[i]));
+			if(idf[i] != null && idf[i].trim().length() != 0){
+				qq.setBudget(Double.valueOf(idf[i]));
+			}
 			detailService.update(qq);
 		}
 		
@@ -615,6 +421,78 @@ public class ProjectController extends BaseController{
 		Project project = projectService.selectById(id);
 		model.addAttribute("project", project);
 		return "bss/ppms/project/print";
+	}
+	
+	
+	
+	public List<PurchaseRequired> purList; 
+	public String pId;
+	
+	/**
+	 * 
+	* @Title: select
+	* @author ZhaoBo
+	* @date 2016-10-9 下午6:42:25  
+	* @Description: 选中效果 
+	* @param @param request
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/select")
+	@ResponseBody
+	public List<PurchaseRequired> select(HttpServletRequest request){
+		String id = request.getParameter("id");
+		recursion(id);
+		List<PurchaseRequired> list = new ArrayList<PurchaseRequired>();
+		list.addAll(purList);
+		return list;
+	}
+	
+	
+	
+	/**
+	 * 
+	* @Title: recursion
+	* @author ZhaoBo
+	* @date 2016-10-9 下午8:03:24  
+	* @Description: 递归选中 
+	* @param       
+	* @return void
+	 */
+	public void recursion(String id){
+		System.out.println(id);
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("parentId", id);
+		List<PurchaseRequired> purchaseRequired = purchaseRequiredService.getByMap(map);
+		purList.addAll(purchaseRequired);
+		if(purchaseRequired.size()!=0){
+			for(int i=0;i<purchaseRequired.size();i++){
+				pId = purchaseRequired.get(i).getId();
+				recursion(pId);
+			}
+		}
+	}
+	
+	/**
+	 * 
+	* @Title: addPackage
+	* @author ZhaoBo
+	* @date 2016-10-10 上午9:05:18  
+	* @Description: 添加分包 
+	* @param @param request
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/addPackage")
+	@ResponseBody
+	public List<PurchaseRequired> addPackage(HttpServletRequest request){
+		List<PurchaseRequired> purchaseRequired = new ArrayList<PurchaseRequired>();
+		String[] id = request.getParameter("id").split(",");
+		for(int i=0;i<id.length;i++){
+			PurchaseRequired pr = purchaseRequiredService.queryById(id[i]);
+			purchaseRequired.add(pr);
+		}
+		return purchaseRequired;
 	}
 	
 	/**
@@ -649,10 +527,9 @@ public class ProjectController extends BaseController{
 		model.addAttribute("packageList", packages);
 		Project project = projectService.selectById(id);
 		model.addAttribute("project", project);
-		return "bss/ppms/project/sub_package";
+		return "bssms/project/sub_package";
 	}
-	
-	/**
+/**
 	 * 
 	* @Title: checkProjectDeail
 	* @author ZhaoBo
@@ -664,7 +541,7 @@ public class ProjectController extends BaseController{
 	* @param @throws IOException      
 	* @return void
 	 */
-	@RequestMapping("/checkProjectDeail")
+	@RequestMapping("eckProjectDeail")
 	public void checkProjectDeail(HttpServletResponse response,HttpServletRequest request) throws IOException{
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		ProjectDetail projectDetail = detailService.selectByPrimaryKey(request.getParameter("id"));
@@ -672,7 +549,7 @@ public class ProjectController extends BaseController{
 			map.put("id", projectDetail.getId());
 			List<ProjectDetail> list = detailService.selectByParentId(map);
 			String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
-			response.setContentType("text/html;charset=utf-8");
+			response.setContentType("textml;charset=utf-8");
 			response.getWriter().write(json);
 			response.getWriter().flush();
 			response.getWriter().close();
@@ -680,13 +557,12 @@ public class ProjectController extends BaseController{
 		map.put("id", projectDetail.getId());
 		List<ProjectDetail> list = detailService.selectByParent(map);
 		String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
-		response.setContentType("text/html;charset=utf-8");
+		response.setContentType("textml;charset=utf-8");
 		response.getWriter().write(json);
 		response.getWriter().flush();
 		response.getWriter().close();
 	}
-	
-	/**
+/**
 	 * 
 	* @Title: addPack
 	* @author ZhaoBo
@@ -718,8 +594,7 @@ public class ProjectController extends BaseController{
 		}
 		return "1";
 	}
-	
-	/**
+/**
 	 * 
 	* @Title: editPackName
 	* @author ZhaoBo
@@ -739,8 +614,7 @@ public class ProjectController extends BaseController{
 		packageService.updateByPrimaryKeySelective(pk);
 		return "1";
 	}
-	
-	/**
+/**
 	 * 
 	* @Title: deletePackageById
 	* @author ZhaoBo
@@ -766,41 +640,6 @@ public class ProjectController extends BaseController{
 		packageService.deleteByPrimaryKey(id);
 		return "1";
 	}
-	
-//	@RequestMapping("/subPackage")
-//	public String subPackage(HttpServletRequest request,Model model){
-//		String id = request.getParameter("id");
-//		HashMap<String,Object> pack = new HashMap<String,Object>();
-//		pack.put("projectId", id);
-//		List<Packages> packList = packageService.findPackageById(pack);
-//		if(packList.size()==0){
-//			Packages pg = new Packages();
-//			pg.setName("第一包");
-//			pg.setProjectId(id);
-//			packageService.insertSelective(pg);
-//			List<ProjectDetail> list = new ArrayList<ProjectDetail>();
-//			List<Packages> pk = packageService.findPackageById(pack);
-//			for(int i=0;i<list.size();i++){
-//				ProjectDetail pd = new ProjectDetail();
-//				pd.setId(list.get(i).getId());
-//				pd.setPackageId(pk.get(0).getId());
-//				detailService.update(pd);
-//			}
-//		}
-//		List<Packages> packages = packageService.findPackageById(pack);
-//		Map<String,Object> list = new HashMap<String,Object>();
-//		for(Packages ps:packages){
-//			list.put("pack"+ps.getId(),ps);
-//			HashMap<String,Object> map = new HashMap<String,Object>();
-//			map.put("packageId", ps.getId());
-//			List<ProjectDetail> detailList = detailService.selectById(map);
-//			ps.setProjectDetails(detailList);
-//		}
-//		model.addAttribute("packageList", packages);
-//		Project project = projectService.selectById(id);
-//		model.addAttribute("project", project);
-//		return "bss/ppms/project/sub_package";
-//	}
 	
 	/**
 	 * 
