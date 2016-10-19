@@ -1,4 +1,4 @@
-﻿package iss.controller.ps;
+package iss.controller.ps;
 import iss.model.ps.Article;
 import iss.model.ps.ArticleAttachments;
 import iss.model.ps.ArticleType;
