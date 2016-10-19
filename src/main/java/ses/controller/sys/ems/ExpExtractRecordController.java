@@ -7,9 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.crypto.dsig.keyinfo.RetrievalMethod;
 
-import net.sf.jsqlparser.statement.insert.Insert;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -22,21 +21,16 @@ import ses.model.bms.Area;
 import ses.model.bms.User;
 import ses.model.ems.ExpExtCondition;
 import ses.model.ems.ExpExtractRecord;
-import ses.model.ems.Expert;
+import ses.model.ems.ExtConType;
+import ses.model.ems.ProExtSupervise;
 import ses.model.ems.ProjectExtract;
-import ses.model.sms.SupplierCondition;
-import ses.model.sms.SupplierExtRelate;
-import ses.model.sms.SupplierExtracts;
-import ses.model.sms.SupplierType;
 import ses.service.bms.AreaServiceI;
 import ses.service.ems.ExpExtConditionService;
+import ses.service.ems.ExpExtractRecordService;
 import ses.service.ems.ExpertService;
 import ses.service.ems.ProjectExtractService;
-import ses.service.sms.ExpExtractRecordService;
+import ses.service.ems.ProjectSupervisorServicel;
 
-import com.alibaba.druid.stat.TableStat.Mode;
-import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import bss.controller.base.BaseController;
@@ -55,17 +49,19 @@ import bss.service.ppms.ProjectService;
 @RequestMapping("/ExpExtract")
 public class ExpExtractRecordController extends BaseController {
 	@Autowired
-	private ProjectService projectService;
+	ProjectService projectService;
 	@Autowired
-	private AreaServiceI areaService;
+	AreaServiceI areaService;
 	@Autowired
-	private ExpExtConditionService conditionService;
+	ExpExtConditionService conditionService;
 	@Autowired
-	private ExpertService ExpertService;//专家管理
+	ExpertService ExpertService;//专家管理
 	@Autowired
-	private ProjectExtractService extractService; //关联表
+	ProjectExtractService extractService; //关联表
 	@Autowired
-	private ExpExtractRecordService expExtractRecordService;
+	ExpExtractRecordService expExtractRecordService;
+	@Autowired
+	ProjectSupervisorServicel projectSupervisorServicel;
 	/**
 	 * @Description:	获取项目集合
 	 *
@@ -84,7 +80,6 @@ public class ExpExtractRecordController extends BaseController {
 		model.addAttribute("info", info);
 		return "ses/ems/exam/expert/extract/project_list";
 	}
-
 	/**
 	 * @Description:条件查询集合
 	 *
@@ -94,14 +89,15 @@ public class ExpExtractRecordController extends BaseController {
 	 * @param @return      
 	 * @return String
 	 */
-	@RequestMapping("/Extraction")
+	@RequestMapping("/Extraction")	
 	public String listExtraction(Model model,String id){
 		List<ExpExtCondition> list= conditionService.list(new ExpExtCondition(id));
 		model.addAttribute("list", list);
-		model.addAttribute("projectId", id);
+		//		String str[]=id.split("\\^");
+		model.addAttribute("projectId",id);
+		//		model.addAttribute("projectName", str[1]);
 		return "ses/ems/exam/expert/extract/condition_list";
 	}
-
 	/**
 	 * @Description:添加查询条件
 	 *
@@ -116,9 +112,19 @@ public class ExpExtractRecordController extends BaseController {
 		List<Area> listArea = areaService.findTreeByPid("1",null);
 		model.addAttribute("listArea", listArea);
 		model.addAttribute("projectId",projectId);
+		//获取监督人员
+		List<User>  listUser=projectSupervisorServicel.list(new ProExtSupervise(projectId));
+		model.addAttribute("listUser", listUser);
+		String userName="";
+		String userId="";
+		for (User user : listUser) {
+			userName+=user.getLoginName()+",";
+			userId+=user.getId()+",";
+		}
+		model.addAttribute("userName", userName);
+		model.addAttribute("userId", userId);
 		return "ses/ems/exam/expert/extract/add_condition";
 	}
-
 	/**
 	 * @Description:选择品目
 	 *
@@ -128,13 +134,20 @@ public class ExpExtractRecordController extends BaseController {
 	 * @return String
 	 */
 	@RequestMapping("/addHeading")
-	public String addHeading(){
-
+	public String addHeading(Model model, String[] id){
+		ExtConType extConType=null;
+		if(id!=null&&id.length!=0){
+			extConType=new ExtConType();
+			extConType.setCategoryId(id[0]);
+			extConType.setExpertsTypeId(new Short(id[1]));
+			extConType.setExpertsCount(Integer.parseInt(id[2]));
+			extConType.setExpertsQualification(id[3]);
+		}
+		model.addAttribute("extConType", extConType);
 		return "ses/ems/exam/expert/extract/product";
 	}
-
 	/**
-	 * @Description: 条件抽取供应商
+	 * @Description: 条件抽取专家
 	 *
 	 * @author Wang Wenshuai
 	 * @version 2016年9月28日 下午3:12:34  
@@ -144,10 +157,12 @@ public class ExpExtractRecordController extends BaseController {
 	@RequestMapping("/extractCondition")
 	public String extractCondition(HttpServletRequest sq, Model model,String cId){
 		User user=(User) sq.getSession().getAttribute("loginUser");
-		String id=extractService.insert(cId,user!=null&&!"".equals(user.getId())?user.getId():"");
-		conditionService.update(new ExpExtCondition(cId,(short)2));
-		PageHelper.startPage(1, 10);
-		List<ProjectExtract> list = extractService.list(new ProjectExtract(id));
+		List<ProjectExtract> list = extractService.list(new ProjectExtract(cId));
+		if(list==null||list.size()==0){
+			extractService.insert(cId,user!=null&&!"".equals(user.getId())?user.getId():"");
+			conditionService.update(new ExpExtCondition(cId,(short)2));
+			list = extractService.list(new ProjectExtract(cId));
+		}
 		//已操作的
 		List<ProjectExtract> projectExtractListYes=new ArrayList<ProjectExtract>();
 		//未操作的
@@ -179,12 +194,15 @@ public class ExpExtractRecordController extends BaseController {
 	 */
 	@ResponseBody
 	@RequestMapping("/resultextract")
-	public Object resultextract(Model model,String id){
+	public Object resultextract(Model model,String id,String reason){
 		//		修改状态
 		String ids[]=id.split(",");
-		extractService.update(new ProjectExtract(ids[0],new Short(ids[2])));
+		if(reason!=null&&!"".equals(reason)){
+			extractService.update(new ProjectExtract(ids[0],new Short(ids[2]),reason));
+		}else{
+			extractService.update(new ProjectExtract(ids[0],new Short(ids[2])));
+		}
 		//查询数据
-		PageHelper.startPage(1, 10);
 		List<ProjectExtract> list = extractService.list(new ProjectExtract(ids[1]));
 		//存放已操作
 		List<ProjectExtract> projectExtractListYes=new ArrayList<ProjectExtract>();
@@ -220,16 +238,40 @@ public class ExpExtractRecordController extends BaseController {
 		model.addAttribute("expExtractRecord", expExtractRecord);
 		return "ses/ems/exam/expert/extract/recordlist";
 	}
-	
+
+	/**
+	 * @Description:抽取记录
+	 *
+	 * @author Wang Wenshuai
+	 * @version 2016年10月14日 下午7:29:36  
+	 * @param @param model
+	 * @param @param id
+	 * @param @return      
+	 * @return String
+	 */
 	@RequestMapping("/showRecord")
 	public String showRecord(Model model,String id){
 		//获取抽取记录
 		ExpExtractRecord showExpExtractRecord = expExtractRecordService.listExtractRecord(new ExpExtractRecord(id),0).get(0);
-		//获取专家人数
-		List<ProjectExtract> ProjectExtract = extractService.list(new ProjectExtract(showExpExtractRecord.getId())); 
 		model.addAttribute("ExpExtractRecord", showExpExtractRecord);
-		model.addAttribute("ProjectExtract", ProjectExtract);
+		//抽取条件
+		List<ExpExtCondition> conditionList=conditionService.list(new ExpExtCondition(showExpExtractRecord.getProjectId()));
+		model.addAttribute("conditionList", conditionList);
+		List<List<ProjectExtract>> listEp=new ArrayList<List<ProjectExtract>>();
+		//获取专家人数
+		for (ExpExtCondition expExtCondition : conditionList) {
+			ProjectExtract pExtract= new ProjectExtract();
+			pExtract.setProjectId(showExpExtractRecord.getProjectId());
+			pExtract.setExpertConditionId(expExtCondition.getId());
+			//占用字段保存状态类型
+			pExtract.setReason("1,2,3");
+			List<ProjectExtract> ProjectExtract = extractService.list(pExtract); 
+			listEp.add(ProjectExtract);
+		}
+		model.addAttribute("ProjectExtract", listEp);
+		//获取监督人员
+		List<User>  listUser=projectSupervisorServicel.list(new ProExtSupervise(conditionList.get(0).getProjectId()));
+		model.addAttribute("listUser", listUser);
 		return "ses/ems/exam/expert/extract/show_info";
 	}
-
 }

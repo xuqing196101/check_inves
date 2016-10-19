@@ -1,9 +1,11 @@
 package ses.model.ems;
 
 import java.util.Date;
-import java.util.List;
+
+import ses.model.bms.User;
 
 public class ProjectExtract {
+	
     /**
      * <pre>
      * 主键
@@ -22,11 +24,11 @@ public class ProjectExtract {
 
     /**
      * <pre>
-     * 专家抽取记录ID
-     * 表字段 : T_SES_EMS_PROJECT_EXTRACT.EXPERT_EXTRACT_RECORD_ID
+     * 修改为关联抽取条件表
+     * 表字段 : T_SES_EMS_PROJECT_EXTRACT.EXPERT__CONDITION_ID
      * </pre>
      */
-    private String expertExtractRecordId;
+    private String expertConditionId;
 
     /**
      * <pre>
@@ -35,14 +37,6 @@ public class ProjectExtract {
      * </pre>
      */
     private String expertId;
-    
-    /**
-     * <pre>
-     * 专家集合
-     * 表字段 : T_SES_EMS_PROJECT_EXTRACT.EXPERT_ID
-     * </pre>
-     */
-    private Expert expert;
 
     /**
      * <pre>
@@ -81,6 +75,8 @@ public class ProjectExtract {
      * </pre>
      */
     private Short isDeleted;
+    
+    private Expert expert;
 
     /**
      * <pre>
@@ -134,27 +130,27 @@ public class ProjectExtract {
 
     /**
      * <pre>
-     * 获取：专家抽取记录ID
-     * 表字段：T_SES_EMS_PROJECT_EXTRACT.EXPERT_EXTRACT_RECORD_ID
+     * 获取：修改为关联抽取条件表
+     * 表字段：T_SES_EMS_PROJECT_EXTRACT.EXPERT__CONDITION_ID
      * </pre>
      *
-     * @return T_SES_EMS_PROJECT_EXTRACT.EXPERT_EXTRACT_RECORD_ID：专家抽取记录ID
+     * @return T_SES_EMS_PROJECT_EXTRACT.EXPERT__CONDITION_ID：修改为关联抽取条件表
      */
-    public String getExpertExtractRecordId() {
-        return expertExtractRecordId;
+    public String getExpertConditionId() {
+        return expertConditionId;
     }
 
     /**
      * <pre>
-     * 设置：专家抽取记录ID
-     * 表字段：T_SES_EMS_PROJECT_EXTRACT.EXPERT_EXTRACT_RECORD_ID
+     * 设置：修改为关联抽取条件表
+     * 表字段：T_SES_EMS_PROJECT_EXTRACT.EXPERT__CONDITION_ID
      * </pre>
      *
-     * @param expertExtractRecordId
-     *            T_SES_EMS_PROJECT_EXTRACT.EXPERT_EXTRACT_RECORD_ID：专家抽取记录ID
+     * @param expertConditionId
+     *            T_SES_EMS_PROJECT_EXTRACT.EXPERT__CONDITION_ID：修改为关联抽取条件表
      */
-    public void setExpertExtractRecordId(String expertExtractRecordId) {
-        this.expertExtractRecordId = expertExtractRecordId == null ? null : expertExtractRecordId.trim();
+    public void setExpertConditionId(String expertConditionId) {
+        this.expertConditionId = expertConditionId == null ? null : expertConditionId.trim();
     }
 
     /**
@@ -307,20 +303,29 @@ public class ProjectExtract {
         this.isDeleted = isDeleted;
     }
 
+//
 
-	public ProjectExtract(String expertExtractRecordId) {
-		super();
-		this.expertExtractRecordId = expertExtractRecordId;
-	}
-
+    
 	public ProjectExtract() {
 		super();
 	}
 
+	public ProjectExtract(String expertConditionId) {
+		super();
+		this.expertConditionId = expertConditionId;
+	}
+
+	public ProjectExtract(String id, Short operatingType,String reason) {
+		super();
+		this.id = id;
+		this.operatingType = operatingType;
+		this.reason=reason;
+	}
 	public ProjectExtract(String id, Short operatingType) {
 		super();
 		this.id = id;
 		this.operatingType = operatingType;
+	
 	}
 
 	public Expert getExpert() {

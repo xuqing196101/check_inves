@@ -5,8 +5,6 @@ package ses.service.sms;
 
 import java.util.List;
 
-import ses.model.sms.Supplier;
-import ses.model.sms.SupplierCondition;
 import ses.model.sms.SupplierExtracts;
 
 /**
@@ -19,33 +17,33 @@ import ses.model.sms.SupplierExtracts;
 public interface SupplierExtractsService {
  
 	/**
-	 * @Description:插入
+	 * @Description:插入记录
 	 *
 	 * @author Wang Wenshuai
-	 * @date 2016年9月18日 下午2:24:39  
-	 * @param       
+	 * @version 2016年9月27日 下午4:32:28  
+	 * @param @param record      
 	 * @return void
 	 */
-	String insert(Supplier supplier,SupplierCondition condition,String id,String sids);
-	
+	void insert(SupplierExtracts record);
+
 	/**
-	 * @Description: 获取记录集合
+	 * @Description:获取集合
 	 *
 	 * @author Wang Wenshuai
-	 * @date 2016年9月18日 下午2:25:09  
+	 * @version 2016年9月27日 下午4:33:36  
 	 * @param @return      
-	 * @return List<SupplierExtracts>
+	 * @return List<ExpExtractRecord>
 	 */
-	List<SupplierExtracts> listExtracts(SupplierExtracts supplierExtracts);
+	List<SupplierExtracts> listExtractRecord(SupplierExtracts expExtractRecord,Integer pageNum);
 	
 	/**
-	 * @Description: 分页获取记录集合
+	 * @Description:单个记录
 	 *
 	 * @author Wang Wenshuai
-	 * @date 2016年9月18日 下午2:25:09  
+	 * @version 2016年9月29日 下午2:19:50  
+	 * @param @param expExtractRecordService
 	 * @param @return      
-	 * @return List<SupplierExtracts>
+	 * @return ExpExtractRecord
 	 */
-	List<SupplierExtracts> pageExtracts(SupplierExtracts supplierExtracts,Integer pageNum);
-	
+	SupplierExtracts showExpExtractRecord(SupplierExtracts expExtractRecordService);
 }

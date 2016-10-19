@@ -62,4 +62,5 @@ public interface SupplierAgentsMapper {
 	 * @return List<SupplierAgents>
 	 */
 	List<SupplierAgents>  selectAgents(SupplierAgents supplierAgents);
+	
 }

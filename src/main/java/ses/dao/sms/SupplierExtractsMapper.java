@@ -46,24 +46,13 @@ public interface SupplierExtractsMapper {
     int updateByPrimaryKey(SupplierExtracts record);
     
     /**
-     * @Description:查询抽取集合
+     * @Description:获取集合信息
      *
      * @author Wang Wenshuai
-     * @version 2016年9月21日 上午10:18:05  
-     * @param @return      
-     * @return List<SupplierExtracts>
-     */
-    List<SupplierExtracts> listExtracts(SupplierExtracts record);
-    
-    /**
-     * @Description: 分页获取记录
-     *
-     * @author Wang Wenshuai
-     * @version 2016年10月9日 下午3:23:32  
+     * @version 2016年10月9日 下午4:59:51  
      * @param @param record
      * @param @return      
      * @return List<SupplierExtracts>
      */
-    List<SupplierExtracts> pageExtracts(SupplierExtracts record);
-    
+    List<SupplierExtracts> list(SupplierExtracts record);
 }

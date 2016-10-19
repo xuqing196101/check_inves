@@ -1,5 +1,9 @@
 package ses.dao.sms;
 
+import java.util.List;
+
+import ses.model.bms.User;
+import ses.model.ems.ProExtSupervise;
 import ses.model.sms.SupplierExtUser;
 
 public interface SupplierExtUserMapper {
@@ -42,4 +46,25 @@ public interface SupplierExtUserMapper {
      * @param record
      */
     int updateByPrimaryKey(SupplierExtUser record);
+    
+    /**
+     * @Description:集合
+     *
+     * @author Wang Wenshuai
+     * @version 2016年10月14日 下午7:39:19  
+     * @param @param record
+     * @param @return      
+     * @return List<ProExtSupervise>
+     */
+    List<User> list(SupplierExtUser record);
+    
+    /**
+     * @Description:根据项目id删除监督信息
+     *
+     * @author Wang Wenshuai
+     * @version 2016年10月15日 下午7:05:15  
+     * @param       
+     * @return void
+     */
+    void deleteProjectId(String prjectId);
 }

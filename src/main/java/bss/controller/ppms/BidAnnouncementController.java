@@ -43,18 +43,16 @@ import ses.model.bms.User;
  * @author Peng Zhongjun
  * @date 2016-9-29下午4:16:59
  */
-@Controller
+@Controller 
 @Scope("prototype")
 @RequestMapping("/bidAnnouncement")
 public class BidAnnouncementController extends BaseSupplierController{
-	
 	@Autowired
 	private ArticleService articelService;
 	@Autowired
 	private ArticleTypeService articelTypeService;
 	@Autowired
 	private ArticleAttachmentsService attachmentsService;
-
 	/**
 	 * 
 	* @Title: addBidAnnouncement
@@ -125,14 +123,12 @@ public class BidAnnouncementController extends BaseSupplierController{
 		articelService.addArticle(article);
 		return "redirect:bidAnnouncementAdd.do";
 	}
-	
 	@RequestMapping("/publish")
 	public String publish(HttpServletRequest request){
 		String content = request.getParameter("content");
 		request.getSession().setAttribute("BidAnnouncement", content);
 		return "bss/ppms/bid/publish_announcement";
 	}
-	
 	/**	 
 	* @Title: save
 	* @author Peng Zhongjun

@@ -20,3 +20,11 @@
 	border: 0px;
 	text-align: center;
 }
+
+.margin-left-100 {
+	margin-left: 100px;
+}
+
+.none {
+	display: none;
+}

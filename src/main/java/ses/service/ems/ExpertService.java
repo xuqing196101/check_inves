@@ -7,7 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import ses.model.bms.User;
+import ses.model.ems.ExpExtCondition;
 import ses.model.ems.Expert;
+import ses.model.ems.ExtConType;
 
 
 /**
@@ -183,4 +185,14 @@ public interface ExpertService {
 		  * @return void
 		 */
 		void userManager(User user,String userId,Expert expert,String expertId) throws Exception;
+		
+		/**
+		 * @Description:抽取专家
+		 *
+		 * @author Wang Wenshuai
+		 * @version 2016年10月14日 下午2:57:12  
+		 * @param @param conType      
+		 * @return void
+		 */
+		List<Expert> listExtractionExpert(ExpExtCondition conType);
 }

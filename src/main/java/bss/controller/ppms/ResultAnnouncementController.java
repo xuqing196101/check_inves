@@ -3,16 +3,26 @@
  */
 package bss.controller.ppms;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import iss.model.ps.Article;
+import iss.model.ps.ArticleAttachments;
+import iss.model.ps.ArticleType;
+import iss.service.ps.ArticleAttachmentsService;
+import iss.service.ps.ArticleService;
+import iss.service.ps.ArticleTypeService;
+
+import java.io.File;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -23,18 +33,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.PageInfo;
 
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.Templet;
+import ses.model.bms.User;
 import ses.service.bms.TempletService;
 import bss.model.ppms.Project;
 
 /**
  * @Title:PreBiddingDocController 
- * @Description:拟制招标文件控制器
+ * @Description:拟制中标文件控制器
  * @author Peng Zhongjun
  * @date 2016-9-29下午4:16:59
  */
@@ -42,12 +55,14 @@ import bss.model.ppms.Project;
 @Scope("prototype")
 @RequestMapping("/resultAnnouncement")
 public class ResultAnnouncementController extends BaseSupplierController{
-
-//	@Autowired
-//	private BidAnnouncementService bidAnnouncementService;
-
+	@Autowired
+	private ArticleService articelService;
+	@Autowired
+	private ArticleTypeService articelTypeService;
 	@Autowired
 	private TempletService templetService;
+	@Autowired
+	private ArticleAttachmentsService attachmentsService;
 	/**
 	 * 
 	 * @Title: addBidAnnouncement
@@ -167,25 +182,197 @@ public class ResultAnnouncementController extends BaseSupplierController{
 	@ResponseBody
 	@RequestMapping("/view")
 	public Object view(Model model,String[] id){
+		List<User> list=new ArrayList<User>();
+		User user=new User();
+		user.setAddress("asdf");
+		User user1=new User();
+		user1.setAddress("asdf1");
+		list.add(user);
+		list.add(user1);
 		Templet templet = templetService.get(id[0]);
-		templet.setContent(templet.getContent()
-		.replace("${projectCode}", "g20-501")
-		.replace("${projectName}", "大型服务器")
-		.replace("${package}", "1")
-		.replace("${goodName}", "服务器")
-		.replace("${count}", "12")
-		.replace("${bidPrice}","2000")
-		.replace("${bidAmount}", "3000"));
+		StringBuffer sb=new StringBuffer();
+		if(templet.getContent().contains("<table")){
+			String content=templet.getContent();
+			//开始地址
+			int action=content.indexOf("<tbody>");
+			//结束地址
+			int end =content.indexOf("</tbody>");
+			
+			String  c=content.substring(action, end);
+			sb.append("<tr style='height:48px;page-break-inside:avoid' class='firstRow'><td style='padding: 0px 7px; border-width: 1px; border-style: solid; border-color: windowtext;' width='54' valign='center'><p style='text-align:center'><strong><span style=';font-family:宋体;font-weight:bold;font-size:14px'>包号</span></strong></p></td><td style='padding: 0px 7px; border-left: medium none;' width='81' valign='center'><p style='text-align:center'><strong><span style=';font-family:宋体;font-weight:bold;font-size:14px'>货物名称</span></strong></p></td><td style='padding: 0px 7px; border-left: medium none;' width='78' valign='center'><p style='text-align:center'><strong><span style=';font-family:宋体;font-weight:bold;font-size:14px'>规格型号</span></strong></p></td><td style='padding: 0px 7px; border-left: medium none;' width='60' valign='center'><p style='text-align:center'><strong><span style=';font-family:宋体;font-weight:bold;font-size:14px'>计量</span></strong></p><p style='text-align:center'><strong><span style=';font-family:宋体;font-weight:bold;font-size:14px'>单位</span></strong></p></td><td style='padding: 0px 7px; border-left: medium none;' width='60' valign='center'><p style='text-align:center'><strong><span style=';font-family:宋体;font-weight:bold;font-size:14px'>数量</span></strong></p></td><td style='padding: 0px 7px; border-left: medium none;' width='73' valign='center'><p style='text-align:center'><strong><span style=';font-family:宋体;font-weight:bold;font-size:14px'>交货时间</span></strong></p></td><td style='padding: 0px 7px; border-left: medium none;' width='86' valign='center'><p style='text-align:center'><strong><span style=';font-family:宋体;font-weight:bold;font-size:14px'>交货地点</span></strong></p></td><td style='padding: 0px 7px; border-left: medium none;' width='78' valign='center'><p style='text-align:center'><strong><span style=';font-family:宋体;font-weight:bold;font-size:14px'>交货方式</span></strong></p></td><td style='padding: 0px 7px; border-left: medium none;' width='53' valign='center'><p style='text-align:center'><strong><span style=';font-family:宋体;font-weight:bold;font-size:14px'>备注</span></strong></p></td></tr>");
+			for (User user2 : list) {
+				sb.append("<tr style='height:30px;page-break-inside:avoid'>"+
+						"<td style='padding: 0px 7px; border-left: medium none;' width='54' valign='center'>"+
+						"<p><span style='font-family:宋体;font-size:14px'>一</span></p>"+
+						"</td>"+
+						"<td style='padding: 0px 7px; border-left: medium none;' width='81' valign='center'><br/>"+
+						"<p><span style='font-family:宋体;font-size:14px'>"+user2.getAddress()+"</span></p>"+
+						"</td>"+		
+						"<td style='padding: 0px 7px; border-left: medium none;' width='78' valign='top'><br/>"+
+						"<p><span style='font-family:宋体;font-size:14px'>"+user2.getAddress()+"</span></p>"+
+						"</td>"+
+						"<td style='padding: 0px 7px; border-left: medium none;' width='60' valign='center'><br/>"+
+						"<p><span style='font-family:宋体;font-size:14px'>"+user2.getAddress()+"</span></p>"+
+						"</td>"+
+						"<td style='padding: 0px 7px; border-left: medium none;' width='60' valign='center'><br/>"+
+						"<p><span style='font-family:宋体;font-size:14px'>"+user2.getAddress()+"</span></p>"+
+						"</td>"+
+						"<td style='padding: 0px 7px; border-left: medium none;' width='73' valign='center'><br/>"+
+						"<p><span style='font-family:宋体;font-size:14px'>"+user2.getAddress()+"</span></p>"+
+						"</td>"+
+						"<td style='padding: 0px 7px; border-left: medium none;' width='86' valign='center'><br/>"+
+						"<p><span style='font-family:宋体;font-size:14px'>"+user2.getAddress()+"</span></p>"+
+						"</td>"+
+						"<td style='padding: 0px 7px; border-left: medium none;' width='78' valign='center'><br/>"+
+						"<p><span style='font-family:宋体;font-size:14px'>"+user2.getAddress()+"</span></p>"+
+						"</td>"+
+						"<td style='padding: 0px 7px; border-left: medium none;' width='53' valign='center'><br/>"+
+						"<p><span style='font-family:宋体;font-size:14px'>"+user2.getAddress()+"</span></p>"+
+						"</td>"+
+						"</tr>");
+			}
+			templet.setContent(templet.getContent().replace(c, sb.toString()));
+		}else{
+			templet.setContent(templet.getContent()
+					.replace("${projectCode}", "g20-501")
+					.replace("${projectName}", "大型服务器")
+					.replace("${package}", "1")
+					.replace("${goodName}", "服务器")
+					.replace("${count}", "12")
+					.replace("${bidPrice}","2000")
+					.replace("${bidAmount}", "3000"));
+		}
 		return templet;
 	}
 
-//	@RequestMapping("/saveResultAnnouncement")
-//	public String save(BidAnnouncement bidAnnouncement){
-//		Timestamp ts = new Timestamp(new Date().getTime());
-//		bidAnnouncement.setCreatedAt(ts);
-//		Timestamp ts1 = new Timestamp(new Date().getTime());
-//		bidAnnouncement.setUpdatedAt(ts1);
-//		bidAnnouncementService.insertSelective(bidAnnouncement);
-//		return "redirect:bidAnnouncementAdd.do";
-//	}
+
+	/**	 
+	* @Title: save
+	* @author Peng Zhongjun
+	* @date 2016-10-10 下午4:30:05  
+	* @Description: 发布消息
+	* @param @param request
+	* @param @param article
+	* @param @return      
+	* @return String
+	 * @throws IOException 
+	 */
+	@RequestMapping("/publishBidAnnouncement")
+	public String publishBidAnnouncement(@RequestParam("attaattach") MultipartFile[] attaattach,HttpServletRequest request, HttpServletResponse response,Article article) throws IOException{
+		Timestamp ts = new Timestamp(new Date().getTime());
+		article.setCreatedAt(ts);
+		Timestamp ts1 = new Timestamp(new Date().getTime());
+		article.setUpdatedAt(ts1);
+		Timestamp ts2 = new Timestamp(new Date().getTime());
+		article.setPublishedAt(ts2);
+		ArticleType at = articelTypeService.selectTypeByPrimaryKey("8");//中标公告
+		article.setArticleType(at);
+		String content = (String)request.getSession().getAttribute("BidAnnouncement");
+		article.setContent(content);
+		String[] ranges = request.getParameter("ranges").split(",");
+		if(ranges!=null&&!ranges.equals("")){
+			if(ranges.length>1){
+				article.setRange(2);
+			}else{
+				for(int i=0;i<ranges.length;i++){
+					article.setRange(Integer.valueOf(ranges[i]));
+				}
+			}
+		}
+		User user = (User) request.getSession().getAttribute("loginUser");
+		article.setUser(user);
+		article.setIsDeleted(0);
+		article.setShowCount(0);
+		article.setDownloadCount(0);	
+		article.setStatus(2);//发布
+		articelService.addArticle(article); 
+		uploadFile(article,request,attaattach);
+		return "redirect:resultAnnouncementAdd.do";
+	}
+	
+	/**
+	 * @Description:跳转
+	 *
+	 * @author Wang Wenshuai
+	 * @version 2016年10月11日 下午5:54:07  
+	 * @param @param request
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping("/publish")
+	public String publish(HttpServletRequest request){
+		String content = request.getParameter("content");
+		request.getSession().setAttribute("BidAnnouncement", content);
+		return "bss/ppms/result/publish_announcement";
+	}
+	
+	/**
+	 * @Description:保存到数据库
+	 *
+	 * @author Wang Wenshuai
+	 * @version 2016年10月12日 上午10:20:49  
+	 * @param @param request
+	 * @param @param article
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping("/saveResultAnnouncement")
+	public String save(HttpServletRequest request,Article article){
+		Timestamp ts = new Timestamp(new Date().getTime());
+		article.setCreatedAt(ts);
+		Timestamp ts1 = new Timestamp(new Date().getTime());
+		article.setUpdatedAt(ts1);
+		ArticleType at = articelTypeService.selectTypeByPrimaryKey("8");//中标公告
+		article.setArticleType(at);
+		String name = request.getParameter("name");
+		article.setName(name);
+		article.setStatus(0);//保存
+		articelService.addArticle(article);
+		return "redirect:resultAnnouncementAdd.do";
+	}
+	
+	/**
+	 * 
+	* @Title: uploadFile
+	* @author QuJie 
+	* @date 2016-9-9 下午1:36:34  
+	* @Description: 上传的公共方法 
+	* @param @param article
+	* @param @param request
+	* @param @param attaattach      
+	* @return void
+	 */
+	public void uploadFile(Article article,HttpServletRequest request,MultipartFile[] attaattach){
+		if(attaattach!=null){
+			for(int i=0;i<attaattach.length;i++){
+				if(attaattach[i].getOriginalFilename()!=null && attaattach[i].getOriginalFilename()!=""){
+			        String rootpath = (request.getSession().getServletContext().getRealPath("/")+"upload/").replace("\\", "/");
+			        /** 创建文件夹 */
+					File rootfile = new File(rootpath);
+					if (!rootfile.exists()) {
+						rootfile.mkdirs();
+					}
+			        String fileName = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase() + "_" + attaattach[i].getOriginalFilename();
+			        String filePath = rootpath+fileName;
+			        File file = new File(filePath);
+			        try {
+						attaattach[i].transferTo(file);
+					} catch (IllegalStateException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					ArticleAttachments attachment=new ArticleAttachments();
+					attachment.setArticle(new Article(article.getId()));
+					attachment.setFileName(fileName);
+					attachment.setCreatedAt(new Date());
+					attachment.setUpdatedAt(new Date());
+					attachment.setContentType(attaattach[i].getContentType());
+					attachment.setFileSize((float)attaattach[i].getSize());
+					attachment.setAttachmentPath(filePath);
+					attachmentsService.insert(attachment);
+				}
+			}
+		}
+	}
 }

@@ -1,7 +1,7 @@
 package ses.model.ems;
 
-import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 public class ExtConType {
     /**
@@ -72,6 +72,15 @@ public class ExtConType {
      */
     private Short isDelete;
 
+    /**
+     * <pre>
+     * 是否满足多个条件1满足 2不满足
+     * 表字段 : T_SES_EMS_EXP_EXT_CON_TYPE.IS_MULTICONDITION
+     * </pre>
+     */
+    private Short isMulticondition;
+  
+    private String[] categorySplit;
     /**
      * <pre>
      * 获取：null
@@ -194,9 +203,10 @@ public class ExtConType {
      *            T_SES_EMS_EXP_EXT_CON_TYPE.CATEGORY_ID：品目id
      */
     public void setCategoryId(String categoryId) {
+		String[] split = categoryId.split("\\^");
+		this.categorySplit =split ;
         this.categoryId = categoryId == null ? null : categoryId.trim();
     }
-
     /**
      * <pre>
      * 获取：品目name
@@ -296,4 +306,37 @@ public class ExtConType {
     public void setIsDelete(Short isDelete) {
         this.isDelete = isDelete;
     }
+
+    /**
+     * <pre>
+     * 获取：是否满足多个条件1满足 2不满足
+     * 表字段：T_SES_EMS_EXP_EXT_CON_TYPE.IS_MULTICONDITION
+     * </pre>
+     *
+     * @return T_SES_EMS_EXP_EXT_CON_TYPE.IS_MULTICONDITION：是否满足多个条件1满足 2不满足
+     */
+    public Short getIsMulticondition() {
+        return isMulticondition;
+    }
+    /**
+     * <pre>
+     * 设置：是否满足多个条件1满足 2不满足
+     * 表字段：T_SES_EMS_EXP_EXT_CON_TYPE.IS_MULTICONDITION
+     * </pre>
+     *
+     * @param isMulticondition
+     *            T_SES_EMS_EXP_EXT_CON_TYPE.IS_MULTICONDITION：是否满足多个条件1满足 2不满足
+     */
+    public void setIsMulticondition(Short isMulticondition) {
+        this.isMulticondition = isMulticondition;
+    }
+
+	public String[] getCategorySplit() {
+		return categorySplit;
+	}
+
+	public void setCategorySplit(String[] categorySplit) {
+		this.categorySplit = categorySplit;
+	}
+
 }

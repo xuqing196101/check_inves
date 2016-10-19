@@ -1,9 +1,20 @@
 package ses.model.sms;
 
-import ses.model.bms.User;
+import java.util.Date;
 
 public class SupplierExtUser {
-    /**
+	
+	
+    public SupplierExtUser() {
+		super();
+	}
+
+	public SupplierExtUser(String projectId) {
+		super();
+		this.projectId = projectId;
+	}
+
+	/**
      * <pre>
      * 表字段 : T_SES_SMS_SUPPLIER_EXT_USER.ID
      * </pre>
@@ -12,6 +23,7 @@ public class SupplierExtUser {
 
     /**
      * <pre>
+     * 供应商抽取记录id
      * 表字段 : T_SES_SMS_SUPPLIER_EXT_USER.EXTRACTS_ID
      * </pre>
      */
@@ -19,25 +31,26 @@ public class SupplierExtUser {
 
     /**
      * <pre>
+     * 监督人id
      * 表字段 : T_SES_SMS_SUPPLIER_EXT_USER.USER_ID
      * </pre>
      */
     private String userId;
-    
-    /**
-     * <pre>
-     * 表字段 : T_SES_SMS_SUPPLIER_EXT_USER.USER_ID
-     * </pre>
-     */
-    private User user;
 
     /**
      * <pre>
-     * sysdate
      * 表字段 : T_SES_SMS_SUPPLIER_EXT_USER.CREATED_AT
      * </pre>
      */
-    private String createdAt;
+    private Date createdAt;
+
+    /**
+     * <pre>
+     * 项目id
+     * 表字段 : T_SES_SMS_SUPPLIER_EXT_USER.PROJECT_ID
+     * </pre>
+     */
+    private String projectId;
 
     /**
      * <pre>
@@ -66,11 +79,11 @@ public class SupplierExtUser {
 
     /**
      * <pre>
-     * 获取：null
+     * 获取：供应商抽取记录id
      * 表字段：T_SES_SMS_SUPPLIER_EXT_USER.EXTRACTS_ID
      * </pre>
      *
-     * @return T_SES_SMS_SUPPLIER_EXT_USER.EXTRACTS_ID：null
+     * @return T_SES_SMS_SUPPLIER_EXT_USER.EXTRACTS_ID：供应商抽取记录id
      */
     public String getExtractsId() {
         return extractsId;
@@ -78,12 +91,12 @@ public class SupplierExtUser {
 
     /**
      * <pre>
-     * 设置：null
+     * 设置：供应商抽取记录id
      * 表字段：T_SES_SMS_SUPPLIER_EXT_USER.EXTRACTS_ID
      * </pre>
      *
      * @param extractsId
-     *            T_SES_SMS_SUPPLIER_EXT_USER.EXTRACTS_ID：null
+     *            T_SES_SMS_SUPPLIER_EXT_USER.EXTRACTS_ID：供应商抽取记录id
      */
     public void setExtractsId(String extractsId) {
         this.extractsId = extractsId == null ? null : extractsId.trim();
@@ -91,11 +104,11 @@ public class SupplierExtUser {
 
     /**
      * <pre>
-     * 获取：null
+     * 获取：监督人id
      * 表字段：T_SES_SMS_SUPPLIER_EXT_USER.USER_ID
      * </pre>
      *
-     * @return T_SES_SMS_SUPPLIER_EXT_USER.USER_ID：null
+     * @return T_SES_SMS_SUPPLIER_EXT_USER.USER_ID：监督人id
      */
     public String getUserId() {
         return userId;
@@ -103,12 +116,12 @@ public class SupplierExtUser {
 
     /**
      * <pre>
-     * 设置：null
+     * 设置：监督人id
      * 表字段：T_SES_SMS_SUPPLIER_EXT_USER.USER_ID
      * </pre>
      *
      * @param userId
-     *            T_SES_SMS_SUPPLIER_EXT_USER.USER_ID：null
+     *            T_SES_SMS_SUPPLIER_EXT_USER.USER_ID：监督人id
      */
     public void setUserId(String userId) {
         this.userId = userId == null ? null : userId.trim();
@@ -116,36 +129,51 @@ public class SupplierExtUser {
 
     /**
      * <pre>
-     * 获取：sysdate
+     * 获取：null
      * 表字段：T_SES_SMS_SUPPLIER_EXT_USER.CREATED_AT
      * </pre>
      *
-     * @return T_SES_SMS_SUPPLIER_EXT_USER.CREATED_AT：sysdate
+     * @return T_SES_SMS_SUPPLIER_EXT_USER.CREATED_AT：null
      */
-    public String getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
     /**
      * <pre>
-     * 设置：sysdate
+     * 设置：null
      * 表字段：T_SES_SMS_SUPPLIER_EXT_USER.CREATED_AT
      * </pre>
      *
      * @param createdAt
-     *            T_SES_SMS_SUPPLIER_EXT_USER.CREATED_AT：sysdate
+     *            T_SES_SMS_SUPPLIER_EXT_USER.CREATED_AT：null
      */
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt == null ? null : createdAt.trim();
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
-	public User getUser() {
-		return user;
-	}
+    /**
+     * <pre>
+     * 获取：项目id
+     * 表字段：T_SES_SMS_SUPPLIER_EXT_USER.PROJECT_ID
+     * </pre>
+     *
+     * @return T_SES_SMS_SUPPLIER_EXT_USER.PROJECT_ID：项目id
+     */
+    public String getProjectId() {
+        return projectId;
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
-    
-    
+    /**
+     * <pre>
+     * 设置：项目id
+     * 表字段：T_SES_SMS_SUPPLIER_EXT_USER.PROJECT_ID
+     * </pre>
+     *
+     * @param projectId
+     *            T_SES_SMS_SUPPLIER_EXT_USER.PROJECT_ID：项目id
+     */
+    public void setProjectId(String projectId) {
+        this.projectId = projectId == null ? null : projectId.trim();
+    }
 }

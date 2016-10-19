@@ -2,6 +2,8 @@ package ses.model.ems;
 
 import java.util.Date;
 
+import ses.model.bms.User;
+
 public class ExpExtractRecord {
 	
 	
@@ -15,8 +17,9 @@ public class ExpExtractRecord {
 		this.id = id;
 	}
 
-
-	/**
+	private User perpleUser;
+	
+	 /**
      * <pre>
      * 表字段 : T_SES_EMS_EXP_EXTRACT_RECORD.ID
      * </pre>
@@ -110,6 +113,14 @@ public class ExpExtractRecord {
      * </pre>
      */
     private String extractsPeople;
+
+    /**
+     * <pre>
+     * 项目ID
+     * 表字段 : T_SES_EMS_EXP_EXTRACT_RECORD.PROJECT_ID
+     * </pre>
+     */
+    private String projectId;
 
     /**
      * <pre>
@@ -410,4 +421,40 @@ public class ExpExtractRecord {
     public void setExtractsPeople(String extractsPeople) {
         this.extractsPeople = extractsPeople == null ? null : extractsPeople.trim();
     }
+
+    /**
+     * <pre>
+     * 获取：项目ID
+     * 表字段：T_SES_EMS_EXP_EXTRACT_RECORD.PROJECT_ID
+     * </pre>
+     *
+     * @return T_SES_EMS_EXP_EXTRACT_RECORD.PROJECT_ID：项目ID
+     */
+    public String getProjectId() {
+        return projectId;
+    }
+
+    /**
+     * <pre>
+     * 设置：项目ID
+     * 表字段：T_SES_EMS_EXP_EXTRACT_RECORD.PROJECT_ID
+     * </pre>
+     *
+     * @param projectId
+     *            T_SES_EMS_EXP_EXTRACT_RECORD.PROJECT_ID：项目ID
+     */
+    public void setProjectId(String projectId) {
+        this.projectId = projectId == null ? null : projectId.trim();
+    }
+	
+	
+	
+    public User getPerpleUser() {
+  		return perpleUser;
+  	}
+
+
+  	public void setPerpleUser(User perpleUser) {
+  		this.perpleUser = perpleUser;
+  	}
 }

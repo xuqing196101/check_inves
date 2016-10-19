@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.sms.SupplieConTypeMapper">
+  <resultMap id="BaseResultMap" type="ses.model.sms.SupplieConType">
+    <!--
+    @mbggenerated
+    -->
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="SUPPLIE_TYPE_ID" jdbcType="DECIMAL" property="supplieTypeId" />
+    <result column="SUPPLIE_COUNT" jdbcType="DECIMAL" property="supplieCount" />
+    <result column="SUPPLIE_QUALIFICATION" jdbcType="VARCHAR" property="supplieQualification" />
+    <result column="CATEGORY_ID" jdbcType="VARCHAR" property="categoryId" />
+    <result column="CATEGORY_NAME" jdbcType="VARCHAR" property="categoryName" />
+    <result column="CONDITION_ID" jdbcType="VARCHAR" property="conditionId" />
+    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="IS_DELETE" jdbcType="DECIMAL" property="isDelete" />
+    <result column="IS_MULTICONDITION" jdbcType="DECIMAL" property="isMulticondition" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+    @mbggenerated
+    -->
+    ID, SUPPLIE_TYPE_ID, SUPPLIE_COUNT, SUPPLIE_QUALIFICATION, CATEGORY_ID, CATEGORY_NAME, 
+    CONDITION_ID, CREATED_AT, IS_DELETE, IS_MULTICONDITION
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--
+    @mbggenerated
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_SUPPLIE_CON_TYPE
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <!--
+    @mbggenerated
+    -->
+    delete from T_SES_SMS_SUPPLIE_CON_TYPE
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="ses.model.sms.SupplieConType">
+    <!--
+    @mbggenerated
+    -->
+    insert into T_SES_SMS_SUPPLIE_CON_TYPE (ID, SUPPLIE_TYPE_ID, SUPPLIE_COUNT, 
+      SUPPLIE_QUALIFICATION, CATEGORY_ID, CATEGORY_NAME, 
+      CONDITION_ID, CREATED_AT, IS_DELETE, 
+      IS_MULTICONDITION)
+    values (#{id,jdbcType=VARCHAR}, #{supplieTypeId,jdbcType=DECIMAL}, #{supplieCount,jdbcType=DECIMAL}, 
+      #{supplieQualification,jdbcType=VARCHAR}, #{categoryId,jdbcType=VARCHAR}, #{categoryName,jdbcType=VARCHAR}, 
+      #{conditionId,jdbcType=VARCHAR}, #{createdAt,jdbcType=DATE}, #{isDelete,jdbcType=DECIMAL}, 
+      #{isMulticondition,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="ses.model.sms.SupplieConType">
+    <!--
+    @mbggenerated
+    -->
+    insert into T_SES_SMS_SUPPLIE_CON_TYPE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="supplieTypeId != null">
+        SUPPLIE_TYPE_ID,
+      </if>
+      <if test="supplieCount != null">
+        SUPPLIE_COUNT,
+      </if>
+      <if test="supplieQualification != null">
+        SUPPLIE_QUALIFICATION,
+      </if>
+      <if test="categoryId != null">
+        CATEGORY_ID,
+      </if>
+      <if test="categoryName != null">
+        CATEGORY_NAME,
+      </if>
+      <if test="conditionId != null">
+        CONDITION_ID,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="isDelete != null">
+        IS_DELETE,
+      </if>
+      <if test="isMulticondition != null">
+        IS_MULTICONDITION,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="supplieTypeId != null">
+        #{supplieTypeId,jdbcType=DECIMAL},
+      </if>
+      <if test="supplieCount != null">
+        #{supplieCount,jdbcType=DECIMAL},
+      </if>
+      <if test="supplieQualification != null">
+        #{supplieQualification,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null">
+        #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryName != null">
+        #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="conditionId != null">
+        #{conditionId,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=DECIMAL},
+      </if>
+      <if test="isMulticondition != null">
+        #{isMulticondition,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplieConType">
+    <!--
+    @mbggenerated
+    -->
+    update T_SES_SMS_SUPPLIE_CON_TYPE
+    <set>
+      <if test="supplieTypeId != null">
+        SUPPLIE_TYPE_ID = #{supplieTypeId,jdbcType=DECIMAL},
+      </if>
+      <if test="supplieCount != null">
+        SUPPLIE_COUNT = #{supplieCount,jdbcType=DECIMAL},
+      </if>
+      <if test="supplieQualification != null">
+        SUPPLIE_QUALIFICATION = #{supplieQualification,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null">
+        CATEGORY_ID = #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryName != null">
+        CATEGORY_NAME = #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="conditionId != null">
+        CONDITION_ID = #{conditionId,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="isDelete != null">
+        IS_DELETE = #{isDelete,jdbcType=DECIMAL},
+      </if>
+      <if test="isMulticondition != null">
+        IS_MULTICONDITION = #{isMulticondition,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="ses.model.sms.SupplieConType">
+    <!--
+    @mbggenerated
+    -->
+    update T_SES_SMS_SUPPLIE_CON_TYPE
+    set SUPPLIE_TYPE_ID = #{supplieTypeId,jdbcType=DECIMAL},
+      SUPPLIE_COUNT = #{supplieCount,jdbcType=DECIMAL},
+      SUPPLIE_QUALIFICATION = #{supplieQualification,jdbcType=VARCHAR},
+      CATEGORY_ID = #{categoryId,jdbcType=VARCHAR},
+      CATEGORY_NAME = #{categoryName,jdbcType=VARCHAR},
+      CONDITION_ID = #{conditionId,jdbcType=VARCHAR},
+      CREATED_AT = #{createdAt,jdbcType=DATE},
+      IS_DELETE = #{isDelete,jdbcType=DECIMAL},
+      IS_MULTICONDITION = #{isMulticondition,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

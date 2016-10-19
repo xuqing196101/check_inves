@@ -3,6 +3,7 @@ package ses.dao.ems;
 import java.util.List;
 import java.util.Map;
 
+import ses.model.ems.ExpExtCondition;
 import ses.model.ems.Expert;
 
 
@@ -53,4 +54,15 @@ public interface ExpertMapper {
      * @return List<Expert>
      */
     List<Expert> findExpertAll(Expert expert);
+    
+    /**
+     * @Description: 抽取供应商
+     *
+     * @author Wang Wenshuai
+     * @version 2016年10月14日 下午2:55:31  
+     * @param @return      
+     * @return List<Expert>
+     */
+    List<Expert> listExtractionExpert(ExpExtCondition con);
+
 }

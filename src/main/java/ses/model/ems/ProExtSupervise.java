@@ -3,7 +3,18 @@ package ses.model.ems;
 import java.util.Date;
 
 public class ProExtSupervise {
-    /**
+	
+	
+    public ProExtSupervise() {
+		super();
+	}
+
+	public ProExtSupervise(String projectId) {
+		super();
+		this.projectId = projectId;
+	}
+
+	/**
      * <pre>
      * 表字段 : T_SES_EMS_PRO_EXT_SUPERVISE.ID
      * </pre>

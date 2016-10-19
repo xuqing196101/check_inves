@@ -23,6 +23,7 @@
 </head>
 <script src="<%=basePath%>public/layer/layer.js"></script>
 <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+<script src="<%=basePath%>public/layer/extend/layer.ext.js"></script>
 <script type="text/javascript">
   $(function(){
 	  laypage({
@@ -117,62 +118,77 @@
     	layer.confirm('确定本次操作吗？', {
     	  btn: ['确定','取消'],offset: ['222px', '390px'], shade:0.01
     	}, function(index){
-    		
-    		select.disabled=true;
+    		var strs= new Array();
+    		var v=select.value;
+    		 strs=v.split(",");
     		 layer.close(index);
-    		    $.ajax({
-    	             type: "POST",
-    	             url: "<%=basePath%>ExpExtract/resultextract.do",
-    	             data: {id:select.value},
-    	             dataType: "json",
-    	             success: function(data){
-    	                         list=data;
-    	                         if('sccuess'==list){
-    	                        	 alert("ss");
-    	                         }else{
-    	                         var tex='';
-    	                         for(var i=0;i<list.length;i++){
-    	                        	 if(list[i]!=null){
-    	                        	 tex+="<tr class='cursor'>"+
-                                     "<td onclick='null' class='tc'><input onclick='check()'"+
-                                         "type='checkbox' name='chkItem' value='"+list[i].id+"' /></td>"+
-                                         "<td class='tc' onclick='show();'>"+(i+1)+"</td>"+
-                                         "<td class='tc' onclick='show();'>"+list[i].expert.relName+"</td>"+
-                                         "<td class='tc' onclick='show();'>"+list[i].expert.relName+"</td>"+
-                                         "<td class='tc' onclick='show();'>"+list[i].expert.relName+"</td>"+
-                                         "<td class='tc' onclick='show();'>"+list[i].expert.relName+"</td>"+
-                                         "<td class='tc' onclick='show();'>"+list[i].expert.relName+"</td>"+
-                                     " <td class='tc' >"+
-                                       "<select id='select' onchange='operation(this);'>";
-                                       
-                                        if(list[i].operatingType==1){
-                                        	tex+="<option value='"+list[i].id+","+list[i].expertExtractRecordId+",1' selected='selected' disabled='disabled'>能参加</option>";
-                                        }else if(list[i].operatingType==2){
-                                        	tex+="<option value='"+list[i].expert.id+","+list[i].expertExtractRecordId+",1'>能参加</option>"+
-                                            "<option value='"+list[i].expert.id+","+list[i].expertExtractRecordId+",3'>不能参加</option>"+
-                                            "<option selected='selected' value='"+list[i].id+","+list[i].expertExtractRecordId+",2'>待定</option>";
-                                        }else if(list[i].operatingType==3){
-                                        	tex+="<option value='"+list[i].id+","+list[i].expertExtractRecordId+",1' selected='selected' disabled='disabled'>不能参加</option>";
-                                        }else{
-                                        	tex+= "<option >请选择</option>"+
-                                        		"<option value='"+list[i].id+","+list[i].expertExtractRecordId+",1'>能参加</option>"+
-                                            "<option value='"+list[i].id+","+list[i].expertExtractRecordId+",3'>不能参加</option>"+
-                                            "<option  value='"+list[i].id+","+list[i].expertExtractRecordId+",2'>待定</option>";
-                                        }
-                                        tex+="</select>"+
-                                      "</td>"+
-                                 "</tr>";
-    	                         }
-    	                         }
-                                 $('#tbody tr:lt('+list.length+')').remove();
-                                $("#tbody").prepend(tex);
-    	                       }
-    	             }
-    	         });
+    		if(strs[2]=="3"){
+    			layer.prompt({
+    				  formType: 2,
+    				  shade:0.01,
+    				  title: '不参加理由'
+    				}, function(value, index, elem){
+    				     ajaxs(select.value,value);
+    				     layer.close(index);
+    				});
+    		}else{
+    		select.disabled=true;
+    		   ajaxs(select.value,'');
+    		}
     	}, function(index){
     		layer.close(index);
     	});
     }
+    
+   function ajaxs(id,v){
+	   $.ajax({
+           type: "POST",
+           url: "<%=basePath%>ExpExtract/resultextract.do",
+           data: {id:id,reason:v},
+           dataType: "json",
+           success: function(data){
+                       list=data;
+                       if('sccuess'==list){
+                           alert("ss");
+                       }else{
+                       var tex='';
+                       for(var i=0;i<list.length;i++){
+                           if(list[i]!=null){
+                           tex+="<tr class='cursor'>"+
+                               "<td class='tc' onclick='show();'>"+(i+1)+"</td>"+
+                               "<td class='tc' onclick='show();'>"+list[i].expert.relName+"</td>"+
+                               "<td class='tc' onclick='show();'>"+list[i].expert.relName+"</td>"+
+                               "<td class='tc' onclick='show();'>"+list[i].expert.relName+"</td>"+
+                               "<td class='tc' onclick='show();'>"+list[i].expert.relName+"</td>"+
+                               "<td class='tc' onclick='show();'>"+list[i].expert.relName+"</td>"+
+                           " <td class='tc' >"+
+                             "<select id='select' onchange='operation(this);'>";
+                             
+                              if(list[i].operatingType==1){
+                                  tex+="<option value='"+list[i].id+","+list[i].expertConditionId+",1' selected='selected' disabled='disabled'>能参加</option>";
+                              }else if(list[i].operatingType==2){
+                                  tex+="<option value='"+list[i].id+","+list[i].expertConditionId+",1'>能参加</option>"+
+                                  "<option value='"+list[i].id+","+list[i].expertConditionId+",3'>不能参加</option>"+
+                                  "<option selected='selected' value='"+list[i].id+","+list[i].expertConditionId+",2'>待定</option>";
+                              }else if(list[i].operatingType==3){
+                                  tex+="<option value='"+list[i].id+","+list[i].expertConditionId+",1' selected='selected' disabled='disabled'>不能参加</option>";
+                              }else{
+                                  tex+= "<option >请选择</option>"+
+                                      "<option value='"+list[i].id+","+list[i].expertConditionId+",1'>能参加</option>"+
+                                  "<option value='"+list[i].id+","+list[i].expertConditionId+",3'>不能参加</option>"+
+                                  "<option  value='"+list[i].id+","+list[i].expertConditionId+",2'>待定</option>";
+                              }
+                              tex+="</select>"+
+                            "</td>"+
+                       "</tr>";
+                       }
+                       }
+                       $('#tbody tr:lt('+list.length+')').remove();
+                      $("#tbody").prepend(tex);
+                     }
+           }
+       });
+   }
   </script>
 <body>
 
@@ -190,10 +206,8 @@
 					<table id="table" class="table table-bordered table-condensed">
 						<thead>
 							<tr>
-								<th class="info w30"><input id="checkAll" type="checkbox"
-									onclick="selectAll()" /></th>
 								<th class="info w50">序号</th>
-								<th class="info">供应商名称</th>
+								<th class="info">专家姓名</th>
 								<th class="info">类型，级别</th>
 								<th class="info">联系人</th>
 								<th class="info">座机</th>
@@ -205,8 +219,6 @@
 							<c:forEach items="${extRelateListYes}" var="listyes"
 								varStatus="vs">
 								<tr class='cursor '>
-									<td class='tc'><input onclick='check()' type='checkbox'
-										name='chkItem' value='${listyes.id}' /></td>
 									<td class='tc' onclick='show();'>${vs.index+1}</td>
 									<td class='tc' onclick='show();'>${listyes.expert.relName}</td>
 									<td class='tc' onclick='show();'>${listyes.expert.relName}</td>
@@ -217,19 +229,21 @@
 										onchange='operation(this);'>
 										<c:choose>
 										  <c:when test="${listyes.operatingType==1}">
-										       <option selected="selected" disabled="disabled" value='${listyes.id},${listyes.expertExtractRecordId},1'>能参加</option>
-										  </c:when>
-										  <c:when test="${listyes.operatingType==3}">
-									       <option selected="selected" disabled="disabled"  value='${listyes.id},${listyes.expertExtractRecordId},2'>待定</option>
+										       <option selected="selected" disabled="disabled" value='${listyes.id},${listyes.expertConditionId},1'>能参加</option>
 										  </c:when>
 										  <c:when test="${listyes.operatingType==2}">
-										         <option selected="selected" disabled="disabled"  value='${listyes.id},${listyes.expertExtractRecordId},3'>不能参加</option>
+										      <option value='${listyes.id},${listyes.expertConditionId},1'>能参加</option>
+                                             <option value='${listyes.id},${listyes.expertConditionId},3'>不能参加</option>
+									             <option selected="selected" disabled="disabled"  value='${listyes.id},${listyes.expertConditionId},2'>待定</option>
+										  </c:when>
+										  <c:when test="${listyes.operatingType==3}">
+										         <option selected="selected" disabled="disabled"  value='${listyes.id},${listyes.expertConditionId},3'>不能参加</option>
 										  </c:when>
 										  <c:otherwise>
 										     <option>请选择</option>
-										     <option value='${listyes.id},${listyes.expertExtractRecordId},1'>能参加</option>
-                                             <option value='${listyes.id},${listyes.expertExtractRecordId},3'>不能参加</option>
-                                             <option value='${listyes.id},${listyes.expertExtractRecordId},2'>待定</option>
+										     <option value='${listyes.id},${listyes.expertConditionId},1'>能参加</option>
+                                             <option value='${listyes.id},${listyes.expertConditionId},3'>不能参加</option>
+                                             <option value='${listyes.id},${listyes.expertConditionId},2'>待定</option>
 										  </c:otherwise>
 										</c:choose>
 									</select></td>
@@ -238,8 +252,6 @@
 							<c:forEach items="${extRelateListNo }" var="listno"
 								varStatus="vs">
 								<tr class='cursor'>
-									<td class='tc'><input onclick='check()' type='checkbox'
-										name='chkItem' value='${listno.id}' /></td>
 									<td class='tc' onclick='show();'>${(vs.index+1)+1}</td>
 									<td class='tc' onclick='show();'>*****</td>
 									<td class='tc' onclick='show();'>*****</td>

@@ -11,12 +11,23 @@ package ses.model.ems;
  * @since  JDK 1.7
  */
 public class ExtConTypeArray {
+	
+	String[] typeId;//id
 	String[] expertsTypeId;//专家类型
 	String[] extCount;//专家数量
 	String[] extQualifications;//执业资格
-	String[] categoryName;//品目name
-	String[] categoryId;//品目id
+	String[] extCategoryName;//品目name
+	String[] extCategoryId;//品目id
 	String[] isSatisfy;//是否满足
+	
+	
+	
+	public String[] getTypeId() {
+		return typeId;
+	}
+	public void setTypeId(String[] typeId) {
+		this.typeId = typeId;
+	}
 	public String[] getExpertsTypeId() {
 		return expertsTypeId;
 	}
@@ -35,17 +46,17 @@ public class ExtConTypeArray {
 	public void setExtQualifications(String[] extQualifications) {
 		this.extQualifications = extQualifications;
 	}
-	public String[] getCategoryName() {
-		return categoryName;
+	public String[] getExtCategoryName() {
+		return extCategoryName;
 	}
-	public void setCategoryName(String[] categoryName) {
-		this.categoryName = categoryName;
+	public void setExtCategoryName(String[] extCategoryName) {
+		this.extCategoryName = extCategoryName;
 	}
-	public String[] getCategoryId() {
-		return categoryId;
+	public String[] getExtCategoryId() {
+		return extCategoryId;
 	}
-	public void setCategoryId(String[] categoryId) {
-		this.categoryId = categoryId;
+	public void setExtCategoryId(String[] extCategoryId) {
+		this.extCategoryId = extCategoryId;
 	}
 	public String[] getIsSatisfy() {
 		return isSatisfy;

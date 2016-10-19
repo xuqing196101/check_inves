@@ -3,6 +3,8 @@
  */
 package ses.service.sms;
 
+import java.util.List;
+
 import ses.model.sms.SupplierExtRelate;
 
 /**
@@ -13,25 +15,34 @@ import ses.model.sms.SupplierExtRelate;
  * @since  JDK 1.7
  */
 public interface SupplierExtRelateService {
-	
 	/**
-	 * @Description:插入一条信息
+	 * @Description:insert
 	 *
 	 * @author Wang Wenshuai
-	 * @version 2016年9月20日 下午4:23:37  
-	 * @param @param extRelate      
+	 * @version 2016年9月28日 下午4:12:09  
+	 * @param       
 	 * @return void
 	 */
-	void insert(SupplierExtRelate extRelate);
+	String insert(String  cId,String userId);
 	
 	/**
-	 * @Description:
+	 * @Description:集合展示
 	 *
 	 * @author Wang Wenshuai
-	 * @version 2016年9月21日 上午10:44:37  
-	 * @param @param extRelate   
+	 * @version 2016年9月28日 下午6:07:39  
+	 * @param @param projectExtract      
 	 * @return void
 	 */
-	void updateOperating(SupplierExtRelate extRelate);
+	List<SupplierExtRelate> list(SupplierExtRelate supplierExtRelate);
+	
+	/**
+	 * @Description:修改操作状态
+	 *
+	 * @author Wang Wenshuai
+	 * @version 2016年9月28日 下午8:02:39  
+	 * @param @param projectExtract      
+	 * @return void
+	 */
+	void update(SupplierExtRelate supplierExtRelate);
 
 }

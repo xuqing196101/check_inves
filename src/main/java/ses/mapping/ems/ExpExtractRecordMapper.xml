@@ -17,14 +17,16 @@
 			property="extractingConditions" />
 		<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
 		<result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
-		<result column="EXTRACTS_PEOPLE" jdbcType="VARCHAR" property="extractsPeople" />
+		<result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
+		<association property="perpleUser" column="EXTRACTS_PEOPLE"
+			select="ses.dao.bms.UserMapper.selectByPrimaryKey" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		<!-- @mbggenerated -->
 		ID, PROJECT_NAME, PROJECT_CODE, PROCUREMENT_DEP_ID, EXTRACTION_TIME,
 		EXTRACTION_SITES,
 		EXTRACT_THE_WAY, EXTRACTS_THE_NUMBER, EXTRACTING_CONDITIONS, CREATED_AT, UPDATED_AT,
-		EXTRACTS_PEOPLE
+		EXTRACTS_PEOPLE, PROJECT_ID
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
@@ -45,16 +47,16 @@
 		PROJECT_CODE,
 		PROCUREMENT_DEP_ID, EXTRACTION_TIME, EXTRACTION_SITES,
 		EXTRACT_THE_WAY, EXTRACTS_THE_NUMBER, EXTRACTING_CONDITIONS,
-		CREATED_AT, UPDATED_AT, EXTRACTS_PEOPLE
-		)
+		CREATED_AT, UPDATED_AT, EXTRACTS_PEOPLE,
+		PROJECT_ID)
 		values (#{id,jdbcType=VARCHAR}, #{projectName,jdbcType=VARCHAR},
 		#{projectCode,jdbcType=VARCHAR},
 		#{procurementDepId,jdbcType=VARCHAR}, #{extractionTime,jdbcType=DATE}, #{extractionSites,jdbcType=VARCHAR},
 		#{extractTheWay,jdbcType=DECIMAL},
 		#{extractsTheNumber,jdbcType=VARCHAR},
 		#{extractingConditions,jdbcType=VARCHAR},
-		#{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE}, #{extractsPeople,jdbcType=VARCHAR}
-		)
+		#{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE}, #{extractsPeople,jdbcType=VARCHAR},
+		#{projectId,jdbcType=VARCHAR})
 	</insert>
 	<insert id="insertSelective" parameterType="ses.model.ems.ExpExtractRecord">
 		<!-- @mbggenerated -->
@@ -96,6 +98,9 @@
 			<if test="extractsPeople != null">
 				EXTRACTS_PEOPLE,
 			</if>
+			<if test="projectId != null">
+				PROJECT_ID,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -134,10 +139,10 @@
 			<if test="extractsPeople != null">
 				#{extractsPeople,jdbcType=VARCHAR},
 			</if>
+			<if test="projectId != null">
+				#{projectId,jdbcType=VARCHAR},
+			</if>
 		</trim>
-		  <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
-            select sys_guid() from dual
-        </selectKey>
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="ses.model.ems.ExpExtractRecord">
 		<!-- @mbggenerated -->
@@ -176,6 +181,9 @@
 			<if test="extractsPeople != null">
 				EXTRACTS_PEOPLE = #{extractsPeople,jdbcType=VARCHAR},
 			</if>
+			<if test="projectId != null">
+				PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+			</if>
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
@@ -192,20 +200,28 @@
 		EXTRACTING_CONDITIONS = #{extractingConditions,jdbcType=VARCHAR},
 		CREATED_AT = #{createdAt,jdbcType=DATE},
 		UPDATED_AT = #{updatedAt,jdbcType=DATE},
-		EXTRACTS_PEOPLE = #{extractsPeople,jdbcType=VARCHAR}
+		EXTRACTS_PEOPLE = #{extractsPeople,jdbcType=VARCHAR},
+		PROJECT_ID = #{projectId,jdbcType=VARCHAR}
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
+
 	<select id="list" parameterType="ses.model.ems.ExpExtractRecord"
 		resultMap="BaseResultMap">
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM T_SES_EMS_EXP_EXTRACT_RECORD
-		 WHERE 1=1
-		 <if test="projectName!=null and projectName!='' ">
-		  AND PROJECT_NAME = #{projectName,jdbcType=VARCHAR}
-		 </if>
-		 <if test="extractionTime!=null and extractionTime!='' ">
-		 AND  EXTRACTION_TIME = #{extractionTime,jdbcType=DATE}
-		 </if>
+		WHERE 1=1
+		<if test="projectName!=null and projectName!='' ">
+			AND PROJECT_NAME = #{projectName,jdbcType=VARCHAR}
+		</if>
+		<if test="extractionTime!=null and extractionTime!='' ">
+			AND EXTRACTION_TIME = #{extractionTime,jdbcType=DATE}
+		</if>
+		<if test="projectId != null and projectId !='' ">
+			AND PROJECT_ID=#{projectId,jdbcType=VARCHAR}
+		</if>
+		<if test="id != null and id !='' ">
+	        AND	ID = #{id,jdbcType=VARCHAR}
+		</if>
 	</select>
 </mapper>

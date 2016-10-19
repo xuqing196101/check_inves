@@ -1,4 +1,4 @@
-package ses.service.sms;
+package ses.service.ems;
 
 import java.util.List;
 

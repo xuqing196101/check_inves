@@ -18,8 +18,16 @@ public class ExpExtCondition {
     public ExpExtCondition() {
 		super();
 	}
-
+ 
     
+    
+	public ExpExtCondition(String id,String s) {
+		super();
+		this.id = id;
+	}
+
+
+
 	public ExpExtCondition(String id, Short status) {
 		super();
 		this.id = id;
@@ -472,7 +480,5 @@ public class ExpExtCondition {
 		this.conTypes = conTypes;
 	}
 
-
-    
     
 }

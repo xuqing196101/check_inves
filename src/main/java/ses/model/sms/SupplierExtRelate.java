@@ -3,7 +3,31 @@ package ses.model.sms;
 import java.util.Date;
 
 public class SupplierExtRelate {
-    /**
+	
+	
+    public SupplierExtRelate() {
+		super();
+	}
+
+	public SupplierExtRelate(String id, Short operatingType, String reason) {
+		super();
+		this.id = id;
+		this.operatingType = operatingType;
+		this.reason = reason;
+	}
+
+	public SupplierExtRelate(String id, Short operatingType) {
+		super();
+		this.id = id;
+		this.operatingType = operatingType;
+	}
+
+	public SupplierExtRelate(String supplierConditionId) {
+		super();
+		this.supplierConditionId = supplierConditionId;
+	}
+
+	/**
      * <pre>
      * 表字段 : T_SES_SMS_SUPPLIER_EXT_RELATE.ID
      * </pre>
@@ -17,18 +41,14 @@ public class SupplierExtRelate {
      * </pre>
      */
     private String supplierId;
-    
-    /**
-     * 供应商集合
-     */
-    private Supplier suppliers; 
+
     /**
      * <pre>
-     * 抽取id
-     * 表字段 : T_SES_SMS_SUPPLIER_EXT_RELATE.EXTRACTS_ID
+     * 抽取条件id
+     * 表字段 : T_SES_SMS_SUPPLIER_EXT_RELATE.SUPPLIER_CONDITION_ID
      * </pre>
      */
-    private String extractsId;
+    private String supplierConditionId;
 
     /**
      * <pre>
@@ -60,6 +80,24 @@ public class SupplierExtRelate {
      */
     private String reason;
 
+    /**
+     * <pre>
+     * 项目id
+     * 表字段 : T_SES_SMS_SUPPLIER_EXT_RELATE.PROJECT_ID
+     * </pre>
+     */
+    private String projectId;
+
+    /**
+     * <pre>
+     * 更新
+     * 表字段 : T_SES_SMS_SUPPLIER_EXT_RELATE.UPDATED_AT
+     * </pre>
+     */
+    private String updatedAt;
+
+    
+    private Supplier supplier;
     /**
      * <pre>
      * 获取：null
@@ -110,40 +148,29 @@ public class SupplierExtRelate {
         this.supplierId = supplierId == null ? null : supplierId.trim();
     }
 
-    
-    
- 
-	public Supplier getSuppliers() {
-		return suppliers;
-	}
-
-	public void setSuppliers(Supplier suppliers) {
-		this.suppliers = suppliers;
-	}
-
-	/**
+    /**
      * <pre>
-     * 获取：抽取id
-     * 表字段：T_SES_SMS_SUPPLIER_EXT_RELATE.EXTRACTS_ID
+     * 获取：抽取条件id
+     * 表字段：T_SES_SMS_SUPPLIER_EXT_RELATE.SUPPLIER_CONDITION_ID
      * </pre>
      *
-     * @return T_SES_SMS_SUPPLIER_EXT_RELATE.EXTRACTS_ID：抽取id
+     * @return T_SES_SMS_SUPPLIER_EXT_RELATE.SUPPLIER_CONDITION_ID：抽取条件id
      */
-    public String getExtractsId() {
-        return extractsId;
+    public String getSupplierConditionId() {
+        return supplierConditionId;
     }
 
     /**
      * <pre>
-     * 设置：抽取id
-     * 表字段：T_SES_SMS_SUPPLIER_EXT_RELATE.EXTRACTS_ID
+     * 设置：抽取条件id
+     * 表字段：T_SES_SMS_SUPPLIER_EXT_RELATE.SUPPLIER_CONDITION_ID
      * </pre>
      *
-     * @param extractsId
-     *            T_SES_SMS_SUPPLIER_EXT_RELATE.EXTRACTS_ID：抽取id
+     * @param supplierConditionId
+     *            T_SES_SMS_SUPPLIER_EXT_RELATE.SUPPLIER_CONDITION_ID：抽取条件id
      */
-    public void setExtractsId(String extractsId) {
-        this.extractsId = extractsId == null ? null : extractsId.trim();
+    public void setSupplierConditionId(String supplierConditionId) {
+        this.supplierConditionId = supplierConditionId == null ? null : supplierConditionId.trim();
     }
 
     /**
@@ -205,7 +232,7 @@ public class SupplierExtRelate {
      * @return T_SES_SMS_SUPPLIER_EXT_RELATE.IS_DELETED：null
      */
     public Short getIsDeleted() {
-        return isDeleted==null?new Short("0"):isDeleted;
+        return isDeleted;
     }
 
     /**
@@ -246,26 +273,63 @@ public class SupplierExtRelate {
         this.reason = reason == null ? null : reason.trim();
     }
 
-	public SupplierExtRelate() {
-		super();
+    /**
+     * <pre>
+     * 获取：项目id
+     * 表字段：T_SES_SMS_SUPPLIER_EXT_RELATE.PROJECT_ID
+     * </pre>
+     *
+     * @return T_SES_SMS_SUPPLIER_EXT_RELATE.PROJECT_ID：项目id
+     */
+    public String getProjectId() {
+        return projectId;
+    }
+
+    /**
+     * <pre>
+     * 设置：项目id
+     * 表字段：T_SES_SMS_SUPPLIER_EXT_RELATE.PROJECT_ID
+     * </pre>
+     *
+     * @param projectId
+     *            T_SES_SMS_SUPPLIER_EXT_RELATE.PROJECT_ID：项目id
+     */
+    public void setProjectId(String projectId) {
+        this.projectId = projectId == null ? null : projectId.trim();
+    }
+
+    /**
+     * <pre>
+     * 获取：更新
+     * 表字段：T_SES_SMS_SUPPLIER_EXT_RELATE.UPDATED_AT
+     * </pre>
+     *
+     * @return T_SES_SMS_SUPPLIER_EXT_RELATE.UPDATED_AT：更新
+     */
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    /**
+     * <pre>
+     * 设置：更新
+     * 表字段：T_SES_SMS_SUPPLIER_EXT_RELATE.UPDATED_AT
+     * </pre>
+     *
+     * @param updatedAt
+     *            T_SES_SMS_SUPPLIER_EXT_RELATE.UPDATED_AT：更新
+     */
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt == null ? null : updatedAt.trim();
+    }
+
+	public Supplier getSupplier() {
+		return supplier;
 	}
 
-	/**
-	 * 修改操作状态
-	 * @param id
-	 * @param operatingType
-	 */
-	public SupplierExtRelate(String id, Short operatingType) {
-		super();
-		this.id = id;
-		this.operatingType = operatingType;
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
 	}
-
-	public SupplierExtRelate(String supplierId, String extractsId) {
-		super();
-		this.supplierId = supplierId;
-		this.extractsId = extractsId;
-	}
-	
-
+    
+    
 }

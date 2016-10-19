@@ -1,152 +1,177 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ses.dao.sms.SupplierExtRelateMapper">
-  <resultMap id="BaseResultMap" type="ses.model.sms.SupplierExtRelate">
-    <!--
-    @mbggenerated
-    -->
-    <id column="ID" jdbcType="VARCHAR" property="id" />
-    <result column="EXTRACTS_ID" jdbcType="VARCHAR" property="extractsId" />
-    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
-    <result column="OPERATING_TYPE" jdbcType="DECIMAL" property="operatingType" />
-    <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
-    <result column="REASON" jdbcType="VARCHAR" property="reason" />
-   <!-- 供应商 -->  
-    <association column="SUPPLIER_ID"  property="suppliers" select="ses.dao.sms.SupplierMapper.selectByPrimaryKey" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    <!--
-    @mbggenerated
-    -->
-    ID, SUPPLIER_ID, EXTRACTS_ID, CREATED_AT, OPERATING_TYPE, IS_DELETED, REASON
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    <!--
-    @mbggenerated
-    -->
-    select 
-    <include refid="Base_Column_List" />
-    from T_SES_SMS_SUPPLIER_EXT_RELATE
-    where ID = #{id,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    <!--
-    @mbggenerated
-    -->
-    delete from T_SES_SMS_SUPPLIER_EXT_RELATE
-    where ID = #{id,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="ses.model.sms.SupplierExtRelate">
-    <!--
-    @mbggenerated
-    -->
-    insert into T_SES_SMS_SUPPLIER_EXT_RELATE ( SUPPLIER_ID, EXTRACTS_ID, 
-      OPERATING_TYPE, IS_DELETED, 
-      REASON)
-    values ( #{supplierId,jdbcType=VARCHAR}, #{extractsId,jdbcType=VARCHAR}, 
-      #{operatingType,jdbcType=DECIMAL}, #{isDeleted,jdbcType=DECIMAL}, 
-      #{reason,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="ses.model.sms.SupplierExtRelate">
-    <!--
-    @mbggenerated
-    -->
-    insert into T_SES_SMS_SUPPLIER_EXT_RELATE
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        ID,
-      </if>
-      <if test="supplierId != null">
-        SUPPLIER_ID,
-      </if>
-      <if test="extractsId != null">
-        EXTRACTS_ID,
-      </if>
-      <if test="createdAt != null">
-        CREATED_AT,
-      </if>
-      <if test="operatingType != null">
-        OPERATING_TYPE,
-      </if>
-      <if test="isDeleted != null">
-        IS_DELETED,
-      </if>
-      <if test="reason != null">
-        REASON,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="supplierId != null">
-        #{supplierId,jdbcType=VARCHAR},
-      </if>
-      <if test="extractsId != null">
-        #{extractsId,jdbcType=VARCHAR},
-      </if>
-      <if test="createdAt != null">
-        #{createdAt,jdbcType=DATE},
-      </if>
-      <if test="operatingType != null">
-        #{operatingType,jdbcType=DECIMAL},
-      </if>
-      <if test="isDeleted != null">
-        #{isDeleted,jdbcType=DECIMAL},
-      </if>
-      <if test="reason != null">
-        #{reason,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierExtRelate">
-    <!--
-    @mbggenerated
-    -->
-    update T_SES_SMS_SUPPLIER_EXT_RELATE
-    <set>
-      <if test="supplierId != null">
-        SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
-      </if>
-      <if test="extractsId != null">
-        EXTRACTS_ID = #{extractsId,jdbcType=VARCHAR},
-      </if>
-      <if test="createdAt != null">
-        CREATED_AT = #{createdAt,jdbcType=DATE},
-      </if>
-      <if test="operatingType != null">
-        OPERATING_TYPE = #{operatingType,jdbcType=DECIMAL},
-      </if>
-      <if test="isDeleted != null">
-        IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
-      </if>
-      <if test="reason != null">
-        REASON = #{reason,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where ID = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="ses.model.sms.SupplierExtRelate">
-    <!--
-    @mbggenerated
-    -->
-    update T_SES_SMS_SUPPLIER_EXT_RELATE
-    set SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
-      EXTRACTS_ID = #{extractsId,jdbcType=VARCHAR},
-      CREATED_AT = #{createdAt,jdbcType=DATE},
-      OPERATING_TYPE = #{operatingType,jdbcType=DECIMAL},
-      IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
-      REASON = #{reason,jdbcType=VARCHAR}
-    where ID = #{id,jdbcType=VARCHAR}
-  </update>
-  <select id="listRelate">
-    SELECT
-    ER."ID" AS erid,
-    ER.REASON,
-    ER.OPERATING_TYPE,
-    SS.*
-	FROM
-	T_SES_SMS_SUPPLIER_EXT_RELATE er 
-	INNER JOIN T_SES_SMS_SUPPLIER ss ON ss."ID" = er.SUPPLIER_ID
-  </select>
+	<resultMap id="BaseResultMap" type="ses.model.sms.SupplierExtRelate">
+		<!-- @mbggenerated -->
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="SUPPLIER_CONDITION_ID" jdbcType="VARCHAR"
+			property="supplierConditionId" />
+		<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+		<result column="OPERATING_TYPE" jdbcType="DECIMAL" property="operatingType" />
+		<result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
+		<result column="REASON" jdbcType="VARCHAR" property="reason" />
+		<result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
+		<result column="UPDATED_AT" jdbcType="VARCHAR" property="updatedAt" />
+		<!-- 供应商 -->
+		<association column="SUPPLIER_ID" property="supplier"
+			select="ses.dao.sms.SupplierMapper.selectByPrimaryKey" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		<!-- @mbggenerated -->
+		ID, SUPPLIER_ID, SUPPLIER_CONDITION_ID, CREATED_AT, OPERATING_TYPE,
+		IS_DELETED, REASON,
+		PROJECT_ID, UPDATED_AT
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		<!-- @mbggenerated -->
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_SMS_SUPPLIER_EXT_RELATE
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		<!-- @mbggenerated -->
+		delete from T_SES_SMS_SUPPLIER_EXT_RELATE
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="ses.model.sms.SupplierExtRelate">
+		<!-- @mbggenerated -->
+		insert into T_SES_SMS_SUPPLIER_EXT_RELATE (ID, SUPPLIER_ID,
+		SUPPLIER_CONDITION_ID,
+		CREATED_AT, OPERATING_TYPE, IS_DELETED,
+		REASON, PROJECT_ID, UPDATED_AT
+		)
+		values (#{id,jdbcType=VARCHAR}, #{supplierId,jdbcType=VARCHAR},
+		#{supplierConditionId,jdbcType=VARCHAR},
+		#{createdAt,jdbcType=DATE}, #{operatingType,jdbcType=DECIMAL}, #{isDeleted,jdbcType=DECIMAL},
+		#{reason,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR},
+		#{updatedAt,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="ses.model.sms.SupplierExtRelate">
+		<!-- @mbggenerated -->
+		insert into T_SES_SMS_SUPPLIER_EXT_RELATE
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="supplierId != null">
+				SUPPLIER_ID,
+			</if>
+			<if test="supplierConditionId != null">
+				SUPPLIER_CONDITION_ID,
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT,
+			</if>
+			<if test="operatingType != null">
+				OPERATING_TYPE,
+			</if>
+			<if test="isDeleted != null">
+				IS_DELETED,
+			</if>
+			<if test="reason != null">
+				REASON,
+			</if>
+			<if test="projectId != null">
+				PROJECT_ID,
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="supplierId != null">
+				#{supplierId,jdbcType=VARCHAR},
+			</if>
+			<if test="supplierConditionId != null">
+				#{supplierConditionId,jdbcType=VARCHAR},
+			</if>
+			<if test="createdAt != null">
+				#{createdAt,jdbcType=DATE},
+			</if>
+			<if test="operatingType != null">
+				#{operatingType,jdbcType=DECIMAL},
+			</if>
+			<if test="isDeleted != null">
+				#{isDeleted,jdbcType=DECIMAL},
+			</if>
+			<if test="reason != null">
+				#{reason,jdbcType=VARCHAR},
+			</if>
+			<if test="projectId != null">
+				#{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="updatedAt != null">
+				#{updatedAt,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierExtRelate">
+		<!-- @mbggenerated -->
+		update T_SES_SMS_SUPPLIER_EXT_RELATE
+		<set>
+			<if test="supplierId != null">
+				SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
+			</if>
+			<if test="supplierConditionId != null">
+				SUPPLIER_CONDITION_ID = #{supplierConditionId,jdbcType=VARCHAR},
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT = #{createdAt,jdbcType=DATE},
+			</if>
+			<if test="operatingType != null">
+				OPERATING_TYPE = #{operatingType,jdbcType=DECIMAL},
+			</if>
+			<if test="isDeleted != null">
+				IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+			</if>
+			<if test="reason != null">
+				REASON = #{reason,jdbcType=VARCHAR},
+			</if>
+			<if test="projectId != null">
+				PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT = #{updatedAt,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="ses.model.sms.SupplierExtRelate">
+		<!-- @mbggenerated -->
+		update T_SES_SMS_SUPPLIER_EXT_RELATE
+		set SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
+		SUPPLIER_CONDITION_ID = #{supplierConditionId,jdbcType=VARCHAR},
+		CREATED_AT = #{createdAt,jdbcType=DATE},
+		OPERATING_TYPE = #{operatingType,jdbcType=DECIMAL},
+		IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+		REASON = #{reason,jdbcType=VARCHAR},
+		PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+		UPDATED_AT = #{updatedAt,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<select id="list" parameterType="ses.model.sms.SupplierExtRelate"
+        resultMap="BaseResultMap">
+        SELECT
+        pe.*
+        FROM
+        T_SES_SMS_SUPPLIER_EXT_RELATE pe
+        Where 1=1
+        <if test="supplierConditionId != null and supplierConditionId != ''">
+            AND pe.SUPPLIER_CONDITION_ID =#{supplierConditionId}
+        </if>
+        <if test="reason != null and reason != ''">
+            AND pe.OPERATING_TYPE in (${reason})
+        </if>
+        <if test="projectId != null and projectId != ''">
+            AND pe.PROJECT_ID =#{projectId}
+           ORDER BY SUPPLIER_CONDITION_ID
+        </if>
+        
+    </select>
 </mapper>

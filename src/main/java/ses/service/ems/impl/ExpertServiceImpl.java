@@ -26,6 +26,7 @@ import ses.dao.ems.ExpertCategoryMapper;
 import ses.dao.ems.ExpertMapper;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
+import ses.model.ems.ExpExtCondition;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAttachment;
 import ses.model.ems.ExpertAudit;
@@ -496,5 +497,14 @@ public class ExpertServiceImpl implements ExpertService {
 			}
 		}
 		
+	}
+
+	/* (non-Javadoc)
+	 * @see ses.service.ems.ExpertService#listExtractionExpert(ses.model.ems.ExpExtCondition)
+	 */
+	@Override
+	public List<Expert> listExtractionExpert(ExpExtCondition conType) {
+		// TODO Auto-generated method stub
+		return mapper.listExtractionExpert(conType);
 	}
 }

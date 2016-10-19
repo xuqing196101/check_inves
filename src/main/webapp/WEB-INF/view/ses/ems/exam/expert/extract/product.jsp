@@ -53,15 +53,20 @@
                           enable: true
                      }
         };
-    treeObj=$.fn.zTree.init($("#ztree"),setting,datas);
-            
+	     treeObj=$.fn.zTree.init($("#ztree"),setting,datas);
+	     
+	     var Obj=$.fn.zTree.getZTreeObj("ztree");  
+	     var nodes = Obj.getCheckedNodes(false);
+	     var ch=obj.getNodes()[0].children;
+	     while(ch!=null){
+	    	 Obj.checkNode(ch[0], true, true);
+	         ch=ch[0].children;
+	     }
     });
     var treeid=null;
   /*树点击事件*/
   function zTreeOnClick(event,treeId,treeNode){
       treeid=treeNode.id
-      
-      
   }
   //获取选中子节点id
   function getChildren(){
@@ -76,7 +81,6 @@
            names+=nodes[i].name+"^";
            }
        } 
-
        //专家数量
 //         parent.$("#extcount").val($("#extcount").val());
 //        //专家类型
@@ -92,28 +96,25 @@
           //是否满足
           var issatisfy=$('input[name="radio"]:checked ').val();
           
-    
-          
-          
           var html='';
           html+="<tr>"+
-             "<input class='hide' name='categoryId'  type='hidden' value='"+ids+"'>"+
+             "<input class='hide' name='extCategoryId'  type='hidden' value='"+ids+"'>"+
              "<input class='hide' name='isSatisfy'  type='hidden' value='"+issatisfy+"'>"+
              "<input class='hide' name='expertsTypeId' readonly='readonly' type='hidden' value='"+expertstypeid+"'>"+
 	              "<td class='tc w30'><input type='checkbox' value=''"+
 	                  "name='chkItem' onclick='check()'></td>"+
 	              "<td class='tc'>";
 	              if(expertstypeid==1){
-	            	   html+="<input class='hide' name='expertsTypeId' readonly='readonly' type='text' value='技术'>";
+	            	   html+="<input class='hide' readonly='readonly' type='text' value='技术'>";
 	              }else if(expertstypeid==2){
-	            	    html+="<input class='hide' name='expertsTypeId' readonly='readonly' type='text' value='法律'>";
+	            	    html+="<input class='hide' readonly='readonly' type='text' value='法律'>";
 	              }else if(expertstypeid==3){
-	            	    html+="<input class='hide' name='expertsTypeId' readonly='readonly' type='text' value='商务'>";
+	            	    html+="<input class='hide' readonly='readonly' type='text' value='商务'>";
 	              }
                   html+="</td>"+
 	              "<td class='tc'><input class='hide' name='extCount' readonly='readonly' type='text' value='"+$('#extcount').val()+"'></td>"+
 	              "<td class='tc'><input class='hide' name='extQualifications' readonly='readonly' type='text' value='"+$('#extqualifications').val()+"'></td>"+
-	              "<td class='tc'><input class='hide' name='categoryName' readonly='readonly' type='text' value='"+names+"'></td>"+
+	              "<td class='tc'><input class='hide' name='extCategoryName' readonly='readonly' type='text' value='"+names+"'></td>"+
 	             "</tr>";
 	             parent.$("#tbody").append(html);
 	             var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
@@ -124,7 +125,7 @@
 </head>
 <body>
 	<!-- 修改订列表开始-->
-	<div class="container">
+	<div class="container padding-top-20   ">
 		<form action="<%=basePath%>SupplierExtracts/listSupplier.do"
 			method="post">
 			<div>
@@ -132,14 +133,14 @@
 					<input class="span2" name="id" type="hidden">
 					<li class="col-md-6 p0 ">专家类型
  					
-							<input name="expertstypeid" type="radio" value="1">技术<input
+							<input name="expertstypeid" checked="checked" type="radio" value="1">技术<input
 								name="expertstypeid" type="radio" value="2">商务<input
 								name="expertstypeid" type="radio" value="3">法律
  					
 					</li>
 					<li class="col-md-6 p0 ">专家数量：
 						<div class="input-append">
-							<input class="span2 w200" id="extcount" name="title" type="text">
+							<input class="span2 w200" value="10" id="extcount" name="title" type="text">
 						</div>
 					</li>
 					<li class="col-md-6 p0 ">执业资格：
@@ -148,14 +149,14 @@
 								type="text">
 						</div>
 					</li>
-					<li class="col-md-6 p0 ">产品目录名称：
-						<div class="input-append">
-							<input class="span2 w200" name="title" type="text">
-						</div>
-					</li>
+<!-- 					<li class="col-md-6 p0 ">产品目录名称： -->
+<!-- 						<div class="input-append"> -->
+<!-- 							<input class="span2 w200" name="title" type="text"> -->
+<!-- 						</div> -->
+<!-- 					</li> -->
 					<li class="col-md-6  p0 ">
 						<div class="fl mr10">
-							<input type="radio" name="radio" id="radio" value="1" class="fl" />
+							<input type="radio" name="radio" id="radio" checked="checked" value="1" class="fl" />
 							<div class="ml5 fl">满足某一产品条件即可</div>
 						</div>
 						<div class="fl mr10">

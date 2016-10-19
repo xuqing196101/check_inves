@@ -199,8 +199,6 @@ $(function(){
 			<table class="table table-bordered table-condensed">
 				<thead>
 					<tr>
-						<th class="info w30"><input id="checkAll" type="checkbox"
-							onclick="selectAll()" /></th>
 						<th class="info w50">序号</th>
 						<th class="info">采购项目名称</th>
 						<th class="info">抽取时间</th>
@@ -209,9 +207,7 @@ $(function(){
 					</tr>
 				</thead>
 				<c:forEach items="${listExtractRecord.list}" var="extract" varStatus="vs">
-					<tr onclick="show('${extract.id}');">
-						<td class="tc"><input onclick="check()" type="checkbox"
-							name="chkItem" value="${user.id}" /></td>
+					<tr  onclick="show('${extract.id}');">
 						<td class="tc">${(vs.index+1)+(listExtractRecord.pageNum-1)*(listExtractRecord.pageSize)}</td>
 						<td class="tc">${extract.projectName}sdds</td>
  						<td class="tc"><fmt:formatDate 
@@ -219,12 +215,12 @@ $(function(){
  								pattern="yyyy年MM月dd日   " /></td> 
 						<td class="tc">${extract.extractionSites }</td> 
 						<td class="tc">
-							<c:if test="${extract.extractTheWay==0}">
+							<c:if test="${extract.extractTheWay==1}">
 				             	             人工抽取
 					        </c:if> 
-					        <c:if test="${extract.extractTheWay==1}">
+					        <c:if test="${extract.extractTheWay==2}">
 	                                  		    语音抽取                                          			   
-	           		             </c:if>
+	           		             </c:if>  
                          </td>
 					</tr>
 				</c:forEach>

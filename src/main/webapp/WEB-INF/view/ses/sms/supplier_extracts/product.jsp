@@ -12,12 +12,15 @@
 <title></title>
 <link rel="stylesheet" type="text/css"
 	href="<%=basePath%>/public/ztree/css/zTreeStyle.css">
-<%-- <link rel="stylesheet" type="text/css" href="<%=basePath%>/public/ztree/css/demo.css"> --%>
-
+<link rel="stylesheet"
+    href="<%=basePath%>public/supplier/css/supplieragents.css"
+    type="text/css">
 <script type="text/javascript"
 	src="<%=basePath%>/public/ztree/jquery.ztree.core.js"></script>
 <script type="text/javascript"
 	src="<%=basePath%>/public/ztree/jquery.ztree.excheck.js"></script>
+<script type="text/javascript"
+	src="<%=basePath%>/public/ztree/jquery.ztree.exedit.js"></script>
 <!-- Meta -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,197 +28,184 @@
 <meta name="author" content="">
 <script type="text/javascript">
     var datas;
+    var treeObj;
   $(function(){
-     var setting={
-        async:{
-                    autoParam:["id"],
-                    enable:true,
-                    url:"<%=basePath%>category/createtree.do",
-                    dataType:"json",
-                    type:"post",
-                },
-                callback:{
-                    onClick:zTreeOnClick,//点击节点触发的事件
-                     beforeRemove: zTreeBeforeRemove,
-                    beforeRename: zTreeBeforeRename, 
-                    onRemove: zTreeOnRemove,
-                    onRename: zTreeOnRename,
-                }, 
-                data:{
-                    keep:{
-                        parent:true,
-                    },                  
-                    simpleData:{
-                        enable:true,
-                        idKey:"id",
-                        pIdKey:"pId",
-                        rootPId:0,
-                    }
-                },
-                edit:{
-                    enable:true,
-                     editNameSelectAll:true,
-                    showRemoveBtn: true,
-                    showRenameBtn: true,
-                    removeTitle: "删除",
-                    renameTitle:"重命名",
-                },
-               check:{
-                    enable: true
-               }
-  };
-    var treeObj=$.fn.zTree.init($("#ztree"),setting,datas);
-            
-    })
+	  var setting={
+              async:{
+                          autoParam:["id"],
+                          enable:true,
+                          url:"<%=basePath%>category/createtree.do",
+                          dataType:"json",
+                          type:"post",
+                      },
+                      callback:{
+                          onClick:zTreeOnClick,//点击节点触发的事件
+                          onCheck:zTreeOnCheck
+                          
+                      }, 
+                      data:{
+                          simpleData:{
+                              enable:true,
+                              idKey:"id",
+                              pIdKey:"pId",
+                              rootPId:0,
+                          }
+                      },
+                     check:{
+                          chkboxType:{"Y" : "ps", "N" : "ps"},//勾选checkbox对于父子节点的关联关系  
+                          chkStyle:"checkbox", 
+                          enable: true
+                     }
+        };
+	     treeObj=$.fn.zTree.init($("#ztree"),setting,datas);
+	     
+// 	     $("input[name='expertstypeid']").eq("${extConType.expertsTypeId}").attr("checked","checked"); 
+    });
     var treeid=null;
-    /*点击事件*/
-    function zTreeOnClick(event,treeId,treeNode){
-        treeid=treeNode.id
-    }
-    
-    
-
-         /*添加采购目录*/
-    function news(){
-            if (treeid==null) {
-            alert("请选择一个节点");
-                    return;     
-            }else{
-                $.ajax({
-                    success:function(){
-                        var html = "";
-                        html = html+"<tr><td>目录名称</td>"+"<td><input name='name'/></td></tr>" ;
-                /*      html = html+"<tr><td>父节点</td>"+"<td><input name='parentId'/></td></tr>"; */
-                        html = html+"<tr><td>排序</td>"+"<td><input name='position'/></td></tr>";
-                        html = html+"<tr><td>编码</td>"+"<td><input name='code'/></td></tr>";
-                        html = html+"<tr><td>附件</td>"+"<td id='uploadAttach'><input id='pic'type='file' class='toinline' name='attaattach' /><input class='toinline' type='button' value='添加' onclick='addAttach()'/></td></tr>";
-                        html = html+"<tr><td>描述</td>"+"<td><input name='descrption'/></td></tr>";
-                        html = html+"<tr><td colspan='2'><input type='submit' value='提交' class='btn btn-window'/></td></tr>"
-                        $("#result").append(html);
-                    }
-                
-                })
-            }
-            
-        }
-    function addAttach(){
-        html="<input id='pic' type='file' class='toinline' name='attaattach'/><a href='#' onclick='deleteattach(this)' class='toinline'>x</a><br/>";
-        $("#uploadAttach").append(html);
-    }
-        /*修改节点信息*/
-    function update(){
-            if (treeid==null) {
-                alert("请选择一个节点");
-            }else{
-                $.ajax({
-                    dataType:"json",
-                    type:"post",
-                    success:function(){
-                        var html = "";
-                        html = html+"<tr><td>目录名称</td>"+"<td></td></tr>";
-                        /* html = html+"<tr><td>父节点</td>"+"<td></td></tr>"; */
-                        html = html+"<tr><td>父节点</td>"+"<td></td></tr>";
-                        html = html+"<tr><td>排序</td>"+"<td></td></tr>";
-                        html = html+"<tr><td>编码</td>"+"<td></td></tr>";
-                        html = html+"<tr><td>附件</td>"+"<td></td></tr>";
-                        html = html+"<tr><td>描述</td>"+"<td></td></tr>";
-                        html = html+"<tr><td colspan='2'><input type='submit' value='更新'/></td></tr>"
-                        $("#result").append(html);
-                    }
-                })
-            }
-        }
-        /*休眠-激活*/
-    function ros(){
-            var str="";
-            var treeObj = $.fn.zTree.getZTreeObj("ztree");
-            var nodes = treeObj.getCheckedNodes(true);
-            for ( var i = 0; i < nodes.length; i++) {
-                str+=nodes[i].id+",";
-                alert(str);
-            }
-            alert(str);
-            $.ajax({
-                type:"POST",
-                url:"<%=basePath%>category/ros.do?ids="+str,
-            })
-        }
-        
-        
-    function zTreeOnRemove(event, treeId, treeNode,isCancel) {
-        }
-    function zTreeOnRename(event, treeId, treeNode, isCancel) {
-                 alert(treeNode.tId + ", " + treeNode.name); 
-                
-        }
-        /*删除目录信息*/
-    function zTreeBeforeRemove(treeId, treeNode){
-            $.ajax({
-                type:"post",
-                url:"<%=basePath%>category/del.do?id="+treeNode.id,
-            });
-        }
-        
-        /*节点重命名*/
-    function zTreeBeforeRename(treeId,treeNode,newName,isCancel){
-            $.ajax({
-                type:"post",
-                url:"<%=basePath%>category/rename.do?id="+treeNode.id+"&name="+newName,
-            });
-        } 
-    //获取选中子节点id
-    function getChildren(){
-        var Obj=$.fn.zTree.getZTreeObj("ztree");  
-         var nodes=Obj.getCheckedNodes(true);  
-         var ids = new Array();
-         var names=new Array();
-         for(var i=0;i<nodes.length;i++){ 
-             if(!nodes[i].isParent){
-            //获取选中节点的值  
-             ids+=nodes[i].id+"^"; 
-             names+=nodes[i].name+"^";
-             }
-         } 
-         parent.$("#items").val(names);
-         parent.$("#itemsId").val(ids);
-         var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
-         parent.layer.close(index);
-         return true;
-    }
+  /*树点击事件*/
+  function zTreeOnClick(event,treeId,treeNode){
+      treeid=treeNode.id;
+      alert("s");
+  }
+  /*树点击事件*/
+  var check;
+  function zTreeOnCheck(event,treeId,treeNode){
+      treeid=treeNode.id;
+      var pNode = treeNode.getParentNode();
+      if(pNode!=null){
+      var name=treeNode.getParentNode();
+      while(pNode!=null) {
+    	  if(pNode.getParentNode()!=null){
+    		  name = pNode.getParentNode();
+    		  pNode = pNode.getParentNode();
+    	  }else{
+    		  pNode=null;
+    	  }
+    	}
+      }else{
+    	  name=treeNode;
+      }
+      if(name.name=="货物"){
+    	  if(check!=null){
+    		  $("#ultype").css("display","none");
+    		  check=null;
+    	  }else{
+    		  $("#ultype").css("display","block");
+              check="物资";
+    	  }
+      }
+      
+  }
+  //获取选中子节点id
+  function getChildren(){
+      var Obj=$.fn.zTree.getZTreeObj("ztree");  
+       var nodes=Obj.getCheckedNodes(true);  
+       var ids = new Array();
+       var names=new Array();
+       for(var i=0;i<nodes.length;i++){ 
+           if(!nodes[i].isParent){
+          //获取选中节点的值  
+           ids+=nodes[i].id+"^"; 
+           names+=nodes[i].name+"^";
+           }
+       } 
+       //专家数量
+//         parent.$("#extcount").val($("#extcount").val());
+//        //专家类型
+//          parent.$("#exttypeid").val($("#exttypeid").val());
+//          // 执业资格 
+//          parent.$("#extqualifications").val($("#extqualifications").val());
+//        //品目name
+//          parent.$("#extheadingname").val(names);
+//        //品目id
+//          parent.$("#extheading").val(ids);
+         //类型
+          var expertstypeid=$('input[name="expertstypeid"]:checked ').val();
+          //是否满足
+          var issatisfy=$('input[name="radio"]:checked ').val();
+          
+          var html='';
+          html+="<tr>"+
+             "<input class='hide' name='extCategoryId'  type='hidden' value='"+ids+"'>"+
+             "<input class='hide' name='isSatisfy'  type='hidden' value='"+issatisfy+"'>"+
+             "<input class='hide' name='expertsTypeId' readonly='readonly' type='hidden' value='"+expertstypeid+"'>"+
+	              "<td class='tc w30'><input type='checkbox' value=''"+
+	                  "name='chkItem' onclick='check()'></td>"+
+	              "<td class='tc'>";
+	              if(expertstypeid==1){
+	            	   html+="<input class='hide' readonly='readonly' type='text' value='技术'>";
+	              }else if(expertstypeid==2){
+	            	    html+="<input class='hide' readonly='readonly' type='text' value='法律'>";
+	              }else if(expertstypeid==3){
+	            	    html+="<input class='hide' readonly='readonly' type='text' value='商务'>";
+	              }
+                  html+="</td>"+
+	              "<td class='tc'><input class='hide' name='extCount' readonly='readonly' type='text' value='"+$('#extcount').val()+"'></td>"+
+	              "<td class='tc'><input class='hide' name='extQualifications' readonly='readonly' type='text' value='"+$('#extqualifications').val()+"'></td>"+
+	              "<td class='tc'><input class='hide' name='extCategoryName' readonly='readonly' type='text' value='"+names+"'></td>"+
+	             "</tr>";
+	             parent.$("#tbody").append(html);
+	             var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+	             parent.layer.close(index);
+  }     
 </script>
 </head>
 <body>
-<!-- 修改订列表开始-->
-   <div class="container">
-   <form action="<%=basePath %>SupplierExtracts/listSupplier.do" method="post">
-   <div>
-   <div class="headline-v2">
-   </div>
-   <ul class="list-unstyled list-flow p0_20">
-            <input class="span2" name="id" type="hidden" >
-             <li class="col-md-6 p0 " >
-                            产品目录名称：
-               <div class="input-append">
-                <input class="span2 w200" name="title" type="text" >
-               </div>
-             </li>
-             <li class="col-md-6  p0 " >
-                <div class="fl mr10"><input type="radio" name="radio" value="${type.id}^${type.name}"  class="fl"/><div class="ml5 fl">满足某一产品条件即可</div></div>
-                   <div class="fl mr10"><input type="radio" name="radio" value="${type.id}^${type.name}"  class="fl"/><div class="ml5 fl">同时满足多个产品条件</div></div>
-             </li> 
-   </ul>
-   <br/>
-    <br/>
-  </div>   
-      <div id="ztree" class="ztree"></div>
-  <div  class="col-md-12">
-    <div class="fl padding-10">
-        <button class="btn btn-windows reset" onclick="return getChildren();" type="submit">确定</button>
-        <button class="btn btn-windows git"  type="reset">清空</button>
-    </div>
-  </div>
-  </form>
- </div>			
-		
+	<!-- 修改订列表开始-->
+	<div class="container margin-top-30">
+		<form action="<%=basePath%>SupplierExtracts/listSupplier.do"
+			method="post">
+			<div>
+				<ul class="list-unstyled list-flow p0_20">
+					<input class="span2" name="id" type="hidden">
+					<li class="col-md-6 p0 ">供应商数量：
+						<div class="input-append">
+							<input class="span2 w200" id="extcount" name="title" type="text">
+						</div>
+					</li>
+					<!-- 					<li class="col-md-6 p0 ">产品目录名称： -->
+					<!-- 						<div class="input-append"> -->
+					<!-- 							<input class="span2 w200" name="title" type="text"> -->
+					<!-- 						</div> -->
+					<!-- 					</li> -->
+					<li class="col-md-6  p0 ">
+						<div class="fl mr10">
+							<input type="radio" name="radio" id="radio" checked="checked"
+								value="1" class="fl" />
+							<div class="ml5 fl">满足某一产品条件即可</div>
+						</div>
+						<div class="fl mr10">
+							<input type="radio" name="radio" id="radio" value="2" class="fl" />
+							<div class="ml5 fl">同时满足多个产品条件</div>
+						</div>
+					</li>
+				</ul>
+				<br />
+			</div>
+			<div id="ztree" class="ztree"></div>
+			<br />
+			<ul id="ultype" class="list-unstyled list-flow p0_20 none">
+				<li class="col-md-6 p0 ">
+				<div  class="ml5 fl">供应商类型:</div>
+					<div class="fl mr10">
+					  <input name="expertstypeid" class="fl" checked="checked" type="radio"
+                            value="1">
+						<div class="ml5 fl">销售型</div>
+					</div>
+					<div class="fl mr10">
+						<input name="expertstypeid" class="fl" type="radio" value="2">
+						<div class="ml5 fl">生产型</div>
+					</div>
+				</li>
+			</ul>
+			<div class="col-md-12">
+				<div class="fl padding-10">
+					<button class="btn btn-windows reset" type="button"
+						onclick="getChildren();">确定</button>
+					<button class="btn btn-windows git" type="reset">清空</button>
+				</div>
+			</div>
+		</form>
+	</div>
 </body>
 </html>

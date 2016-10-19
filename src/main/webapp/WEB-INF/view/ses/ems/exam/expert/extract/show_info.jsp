@@ -72,16 +72,33 @@
 					<tr>
 						<td align="center" height="300px;">抽取条件<br>抽取数量
 						</td>
-						<td colspan="7" align="center" height="300px;">
-							第1次抽取，抽取数量：${condition.count}抽取条件如下：<br />
-							<ol>
-								<li>物资类别：幻灯</li>
-								<li>地区：${condition.locality}</li>
-								<li>类型：${condition.salesType}</li>
-								<li>级别：三级以上</li>
-								<li>产品目录关系：满足某一产品条件即可</li>
-							</ol>
+						<td colspan="7" height="300px;">
+							<div class="margin-left-100">
+								<c:forEach items="${conditionList}" var="con" varStatus="vs">
+									<span style="font-size: 16px;">第${(vs.index+1)}次抽取，抽取条件如下：</span>
+									<br />
+                                                                                                          专家来源【${con.expertsFrom}】 专家所在地区【${con.address}】 <br />
+									<ol>
+										<c:forEach items="${con.conTypes }" var="contypes">
+											<li>{专家类型 <c:choose>
+													<c:when test="${contypes.expertsTypeId==1}">
+                                                                                                                                   【技术】
+                                          </c:when>
+													<c:when test="${contypes.expertsTypeId==2}">
+                                                                                                                                           【商务】
+                                              </c:when>
+													<c:when test="${contypes.expertsTypeId==3}">
+                                                                                                                                   【法律】
+                                         </c:when>
+												</c:choose> ， 采购类别【 ${contypes.categoryName}
+												】，专家数量【${contypes.expertsCount}】 }
+											</li>
+										</c:forEach>
+									</ol>
 
+								</c:forEach>
+
+							</div>
 						</td>
 					</tr>
 					<tr>
@@ -89,27 +106,35 @@
 					</tr>
 					<tr>
 						<td align="center">序号</td>
-						<td align="center">供应商名称</td>
+						<td align="center">专家名称</td>
 						<td align="center">联系人</td>
 						<td align="center">手机号</td>
 						<td align="center">传真</td>
+						<td align="center">抽取次数</td>
 						<td align="center">能否参加</td>
 						<td align="center">不参加理由</td>
 					</tr>
-					<c:forEach items="${ProjectExtract}" var="ext" varStatus="vs">
-						<tr>
-							<td align="center">${vs.index+1 }</td>
-							<td align="center">${ext.expert.relName}</td>
-							<td align="center">${ext.expert.relName}</td>
-							<td align="center">${ext.expert.relName}</td>
-							<td align="center">${ext.expert.relName}</td>
-							<td align="center"><c:if test="${ext.operatingType==1 }">
+					<c:forEach items="${ProjectExtract}" var="pe" varStatus="vse">
+						<c:forEach items="${pe}" var="ext" varStatus="vs">
+							<tr>
+								<td align="center">${vs.index+1 }</td>
+								<td align="center">${ext.expert.relName}</td>
+								<td align="center">${ext.expert.relName}</td>
+								<td align="center">${ext.expert.relName}</td>
+								<td align="center">${ext.expert.relName}</td>
+								<td align="center">${vse.index+1}</td>
+								<td align="center"><c:if test="${ext.operatingType==1 }">
                                                                                          参加
-                            </c:if> <c:if test="${ext.operatingType==3 }">
+                            </c:if>
+                            <c:if test="${ext.operatingType==2 }">
+                                                                                         待定
+                            </c:if>
+                             <c:if test="${ext.operatingType==3 }">
                                                                                      不参加                                                           
                             </c:if></td>
-							<td align="center">${ext.reason}</td>
-						</tr>
+								<td align="center">${ext.reason}</td>
+							</tr>
+						</c:forEach>
 					</c:forEach>
 					<tr>
 						<td colspan="7" align="center">抽取人员</td>
@@ -122,14 +147,14 @@
 						<td align="center">军衔</td>
 						<td colspan="2" align="center">签证</td>
 					</tr>
-						<tr>
-							<td align="center">1</td>
-							<td align="center">${peopleusers.loginName}</td>
-							<td align="center">123</td>
-							<td align="center">${peopleusers.duties}</td>
-							<td align="center">军23衔</td>
-							<td colspan="2" align="center">签232证</td>
-						</tr>
+					<tr>
+						<td align="center">1</td>
+						<td align="center">${ExpExtractRecord.perpleUser.loginName}</td>
+						<td align="center">123</td>
+						<td align="center">${ExpExtractRecord.perpleUser.duties}</td>
+						<td align="center">军23衔</td>
+						<td colspan="2" align="center">签232证</td>
+					</tr>
 					<tr>
 						<td colspan="7" align="center">监督人员</td>
 					</tr>
@@ -141,12 +166,12 @@
 						<td align="center">军衔</td>
 						<td colspan="2" align="center">签证</td>
 					</tr>
-					<c:forEach items="${Superintendentuser}" var="tuser" varStatus="vs">
+					<c:forEach items="${listUser}" var="tuser" varStatus="vs">
 						<tr>
 							<td align="center">${vs.index+1 }</td>
-							<td align="center">${tuser.user.loginName}</td>
+							<td align="center">${tuser.loginName}</td>
 							<td align="center">123</td>
-							<td align="center">${tuser.user.duties}</td>
+							<td align="center">${tuser.duties}</td>
 							<td align="center">军23衔</td>
 							<td colspan="2" align="center">签232证</td>
 						</tr>

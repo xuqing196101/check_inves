@@ -1,14 +1,24 @@
 package ses.model.sms;
 
 import java.util.Date;
-import java.util.List;
-
-import javax.print.DocFlavor.STRING;
 
 import ses.model.bms.User;
 
+import com.sun.jmx.snmp.UserAcl;
+
 public class SupplierExtracts {
-    /**
+	
+	
+    public SupplierExtracts() {
+		super();
+	}
+
+	public SupplierExtracts(String id) {
+		super();
+		this.id = id;
+	}
+
+	/**
      * <pre>
      * 主键
      * 表字段 : T_SES_SMS_SUPPLIER_EXTRACTS.ID
@@ -58,55 +68,11 @@ public class SupplierExtracts {
 
     /**
      * <pre>
-     * 抽取条件
-     * 表字段 : T_SES_SMS_SUPPLIER_EXTRACTS.EXTRACTING_CONDITIONS
-     * </pre>
-     */
-    private String extractingConditions;
-
-    /**
-     * <pre>
-     * 供应商 T_SES_SMS_SUPPLIER_INFO
-     * </pre>
-     */
-    private List<SupplierExtRelate> SupplierExtRelate;
-    /**
-     * <pre>
-     * 供应商 T_SES_SMS_SUPPLIER_INFO
-     * 表字段 : T_SES_SMS_SUPPLIER_EXTRACTS.SUPPLIERS_ID
-     * </pre>
-     */
-    private String suppliersId;
-
-    /**
-     * <pre>
-     * 抽取人员 T_SES_OMS_PROCUREMENT_USER
-     * 表字段 : T_SES_SMS_SUPPLIER_EXTRACTS.EXTRACTS_PEOPLE
-     * </pre>
-     */
-    private User extractsPeopleUser;
-    /**
-     * <pre>
      * 抽取人员 T_SES_OMS_PROCUREMENT_USER
      * 表字段 : T_SES_SMS_SUPPLIER_EXTRACTS.EXTRACTS_PEOPLE
      * </pre>
      */
     private String extractsPeople;
-
-    /**
-     * <pre>
-     * 监督人T_SES_OMS_PROCUREMENT_USER
-     * 表字段 : T_SES_SMS_SUPPLIER_EXTRACTS.SUPERINTENDENT
-     * </pre>
-     */
-    private List<SupplierExtUser> superintendentuser;
-    /**
-     * <pre>
-     * 监督人T_SES_OMS_PROCUREMENT_USER
-     * 表字段 : T_SES_SMS_SUPPLIER_EXTRACTS.SUPERINTENDENT
-     * </pre>
-     */
-    private String superintendent;
 
     /**
      * <pre>
@@ -125,6 +91,32 @@ public class SupplierExtracts {
     private Date updatedAt;
 
     /**
+     * <pre>
+     * 项目代码
+     * 表字段 : T_SES_SMS_SUPPLIER_EXTRACTS.PROJECT_CODE
+     * </pre>
+     */
+    private String projectCode;
+
+    /**
+     * <pre>
+     * 项目id
+     * 表字段 : T_SES_SMS_SUPPLIER_EXTRACTS.PROJECT_ID
+     * </pre>
+     */
+    private String projectId;
+
+    private User perpleUser;
+    
+    public User getPerpleUser() {
+		return perpleUser;
+	}
+
+	public void setPerpleUser(User perpleUser) {
+		this.perpleUser = perpleUser;
+	}
+
+	/**
      * <pre>
      * 获取：主键
      * 表字段：T_SES_SMS_SUPPLIER_EXTRACTS.ID
@@ -276,56 +268,6 @@ public class SupplierExtracts {
 
     /**
      * <pre>
-     * 获取：抽取条件
-     * 表字段：T_SES_SMS_SUPPLIER_EXTRACTS.EXTRACTING_CONDITIONS
-     * </pre>
-     *
-     * @return T_SES_SMS_SUPPLIER_EXTRACTS.EXTRACTING_CONDITIONS：抽取条件
-     */
-    public String getExtractingConditions() {
-        return extractingConditions;
-    }
-
-    /**
-     * <pre>
-     * 设置：抽取条件
-     * 表字段：T_SES_SMS_SUPPLIER_EXTRACTS.EXTRACTING_CONDITIONS
-     * </pre>
-     *
-     * @param extractingConditions
-     *            T_SES_SMS_SUPPLIER_EXTRACTS.EXTRACTING_CONDITIONS：抽取条件
-     */
-    public void setExtractingConditions(String extractingConditions) {
-        this.extractingConditions = extractingConditions == null ? null : extractingConditions.trim();
-    }
-
-    /**
-     * <pre>
-     * 获取：供应商 T_SES_SMS_SUPPLIER_INFO
-     * 表字段：T_SES_SMS_SUPPLIER_EXTRACTS.SUPPLIERS_ID
-     * </pre>
-     *
-     * @return T_SES_SMS_SUPPLIER_EXTRACTS.SUPPLIERS_ID：供应商 T_SES_SMS_SUPPLIER_INFO
-     */
-    public String getSuppliersId() {
-        return suppliersId;
-    }
-
-    /**
-     * <pre>
-     * 设置：供应商 T_SES_SMS_SUPPLIER_INFO
-     * 表字段：T_SES_SMS_SUPPLIER_EXTRACTS.SUPPLIERS_ID
-     * </pre>
-     *
-     * @param suppliersId
-     *            T_SES_SMS_SUPPLIER_EXTRACTS.SUPPLIERS_ID：供应商 T_SES_SMS_SUPPLIER_INFO
-     */
-    public void setSuppliersId(String suppliersId) {
-        this.suppliersId = suppliersId == null ? null : suppliersId.trim();
-    }
-
-    /**
-     * <pre>
      * 获取：抽取人员 T_SES_OMS_PROCUREMENT_USER
      * 表字段：T_SES_SMS_SUPPLIER_EXTRACTS.EXTRACTS_PEOPLE
      * </pre>
@@ -347,31 +289,6 @@ public class SupplierExtracts {
      */
     public void setExtractsPeople(String extractsPeople) {
         this.extractsPeople = extractsPeople == null ? null : extractsPeople.trim();
-    }
-
-    /**
-     * <pre>
-     * 获取：监督人T_SES_OMS_PROCUREMENT_USER
-     * 表字段：T_SES_SMS_SUPPLIER_EXTRACTS.SUPERINTENDENT
-     * </pre>
-     *
-     * @return T_SES_SMS_SUPPLIER_EXTRACTS.SUPERINTENDENT：监督人T_SES_OMS_PROCUREMENT_USER
-     */
-    public String getSuperintendent() {
-        return superintendent;
-    }
-
-    /**
-     * <pre>
-     * 设置：监督人T_SES_OMS_PROCUREMENT_USER
-     * 表字段：T_SES_SMS_SUPPLIER_EXTRACTS.SUPERINTENDENT
-     * </pre>
-     *
-     * @param superintendent
-     *            T_SES_SMS_SUPPLIER_EXTRACTS.SUPERINTENDENT：监督人T_SES_OMS_PROCUREMENT_USER
-     */
-    public void setSuperintendent(String superintendent) {
-        this.superintendent = superintendent == null ? null : superintendent.trim();
     }
 
     /**
@@ -424,61 +341,53 @@ public class SupplierExtracts {
         this.updatedAt = updatedAt;
     }
 
-	public List<SupplierExtRelate> getSupplierExtRelate() {
-		return SupplierExtRelate;
-	}
+    /**
+     * <pre>
+     * 获取：项目代码
+     * 表字段：T_SES_SMS_SUPPLIER_EXTRACTS.PROJECT_CODE
+     * </pre>
+     *
+     * @return T_SES_SMS_SUPPLIER_EXTRACTS.PROJECT_CODE：项目代码
+     */
+    public String getProjectCode() {
+        return projectCode;
+    }
 
-	public void setSupplierExtRelate(List<SupplierExtRelate> supplierExtRelate) {
-		SupplierExtRelate = supplierExtRelate;
-	}
-	
-	
-	public SupplierExtracts() {
-		super();
-	}
+    /**
+     * <pre>
+     * 设置：项目代码
+     * 表字段：T_SES_SMS_SUPPLIER_EXTRACTS.PROJECT_CODE
+     * </pre>
+     *
+     * @param projectCode
+     *            T_SES_SMS_SUPPLIER_EXTRACTS.PROJECT_CODE：项目代码
+     */
+    public void setProjectCode(String projectCode) {
+        this.projectCode = projectCode == null ? null : projectCode.trim();
+    }
 
-	/**
-	 * id
-	 * @param id
-	 */
-	public SupplierExtracts(String id) {
-		super();
-		this.id = id;
-	}
+    /**
+     * <pre>
+     * 获取：项目id
+     * 表字段：T_SES_SMS_SUPPLIER_EXTRACTS.PROJECT_ID
+     * </pre>
+     *
+     * @return T_SES_SMS_SUPPLIER_EXTRACTS.PROJECT_ID：项目id
+     */
+    public String getProjectId() {
+        return projectId;
+    }
 
-	public User getExtractsPeopleUser() {
-		return extractsPeopleUser;
-	}
-
-	public void setExtractsPeopleUser(User extractsPeopleUser) {
-		this.extractsPeopleUser = extractsPeopleUser;
-	}
-
-	public List<SupplierExtUser> getSuperintendentuser() {
-		return superintendentuser;
-	}
-
-	public void setSuperintendentuser(List<SupplierExtUser> superintendentuser) {
-		this.superintendentuser = superintendentuser;
-	}
-
-	public SupplierExtracts(String projectName, String procurementDepId,
-			Date extractionTime, String extractionSites, Short extractTheWay,
-			String extractingConditions,
-			List<ses.model.sms.SupplierExtRelate> supplierExtRelate,
-			String suppliersId, String extractsPeople, String superintendent) {
-		super();
-		this.projectName = projectName;
-		this.procurementDepId = procurementDepId;
-		this.extractionTime = extractionTime;
-		this.extractionSites = extractionSites;
-		this.extractTheWay = extractTheWay;
-		this.extractingConditions = extractingConditions;
-		SupplierExtRelate = supplierExtRelate;
-		this.suppliersId = suppliersId;
-		this.extractsPeople = extractsPeople;
-		this.superintendent = superintendent;
-	}
-    
-    
+    /**
+     * <pre>
+     * 设置：项目id
+     * 表字段：T_SES_SMS_SUPPLIER_EXTRACTS.PROJECT_ID
+     * </pre>
+     *
+     * @param projectId
+     *            T_SES_SMS_SUPPLIER_EXTRACTS.PROJECT_ID：项目id
+     */
+    public void setProjectId(String projectId) {
+        this.projectId = projectId == null ? null : projectId.trim();
+    }
 }

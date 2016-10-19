@@ -124,53 +124,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     }
     
     function add(){
-        layer.open({
-          type: 2, //page层
-          area: ['1000px', '500px'],
-          title: '添加抽取条件',
-          closeBtn: 1,
-          shade:0.01, //遮罩透明度
-          moveType: 1, //拖拽风格，0是默认，1是传统拖动
-          shift: 1, //0-6的动画形式，-1不开启
-          offset: ['120px', '550px'],
-          shadeClose: false,
-          content: '<%=basePath%>ExpExtract/addExtraction.html?projectId=${projectId}'
-        });
+    	 location.href = '<%=basePath%>ExpExtract/addExtraction.html?projectId=${projectId}';
     }
     
-    function extract(id){
+    function extract(id,btn){
     	  layer.open({
               type: 2, //page层
               area: ['1000px', '500px'],
-              title: '添加抽取条件',
+              title: '抽取专家 项目名称： ${projectName}',
               closeBtn: 1,
               shade:0.01, //遮罩透明度
-              moveType: 1, //拖拽风格，0是默认，1是传统拖动
-              shift: 1, //0-6的动画形式，-1不开启
-              offset: ['120px', '550px'],
-              shadeClose: false,
+              shadeClose: true,
+              offset: '30px',
+              move:false,
               content: '<%=basePath%>ExpExtract/extractCondition.html?cId='+id
             });
-    	
+    	  $(btn).next().remove();
+    	  $(btn).parent("#status").text("as");
+    	  
     }
-    
     function update(id){
-    	  layer.open({
-              type: 2, //page层
-              area: ['1000px', '500px'],
-              title: '修改抽取条件',
-              closeBtn: 1,
-              shade:0.01, //遮罩透明度
-              moveType: 1, //拖拽风格，0是默认，1是传统拖动
-              shift: 1, //0-6的动画形式，-1不开启
-              offset: ['120px', '550px'],
-              shadeClose: false,
-              content: '<%=basePath%>ExtCondition/showExtCondition.html?Id='+id
-            });
+    	  location.href = '<%=basePath%>ExtCondition/showExtCondition.html?Id='+id;
   }
-    
-
-    
   </script>
 </head>
 
@@ -192,19 +167,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<!-- 项目戳开始 -->
 		<form id="add_form" action="<%=basePath%>project/list.html"
 			method="post">
-	
-
 
 		</form>
-		<div class="clear"></div>
-
-
-		<span class="fr option_btn margin-top-10">
-
-			<button class="btn padding-left-10 padding-right-10 btn_back"
-				onclick="add();">添加抽取条件</button>
-		</span>
 		<div class="container clear margin-top-30">
+		  <div class="clear"></div>
+          <span class="fl mt5  margin-top-10">
+                        项目名称  <input type="text" value="${projectName}" />
+        </span>
+        <span class="fr option_btn margin-top-10">
+            <button class="btn padding-left-10 padding-right-10 btn_back"
+                onclick="add();">添加抽取条件</button>
+        </span>
 			<table class="table table-bordered table-condensed mt5">
 				<thead>
 					<tr>
@@ -217,25 +190,39 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<c:forEach items="${list}" var="obj" varStatus="vs">
 					<tr >
 						<td class="tc w50">${vs.index+1}</td>
-						<td class="tc">需抽取人员
+						<td class="w800">第【${vs.index+1}】次抽取，专家来源【${obj.expertsFrom}】， 专家所在地区【${ obj.address}】
 						<c:forEach items="${obj.conTypes }" var="contypes">
-						        ${contypes.expertsCount}
+						 ，  专家类型
+						  <c:choose>
+						      <c:when test="${contypes.expertsTypeId==1}">
+						                        【技术】
+						      </c:when>
+						      <c:when test="${contypes.expertsTypeId==2}">
+						                        【商务】
+						      </c:when>
+						      <c:when test="${contypes.expertsTypeId==3}">
+						                       【法律】
+						      </c:when>
+						  </c:choose>
+					                ， 采购类别【 ${contypes.categoryName} 】，专家数量【${contypes.expertsCount }】
 						</c:forEach>
+					
 						</td>
-						<td class="tc"><c:if test="${obj.status==1}">
-                                                    待抽取
+						<td class="tc" id="status"><c:if test="${obj.status==1}">
+                                                                           待抽取
                       </c:if> <c:if test="${obj.status==2}">
 		                                                     已抽取
 		                </c:if>
-		                
                 </td>
-						<td class="tc w150" >
+						<td class="tc w150" align="center" >
 							<button
-								class="btn padding-left-10 padding-right-10 btn_back fl margin-top-5 margin-right-10"
-								id="save" type="button" onclick="extract('${obj.id }');">抽取</button>
+								class="btn"
+								id="save" type="button" onclick="extract('${obj.id }',this);">抽取</button>
+								<c:if test="${obj.status==1 }">
 								        <button
-                                class="btn padding-left-10 padding-right-10 btn_back fl margin-top-5"
+                                class="btn"
                                 id="save" type="button" onclick="update('${obj.id }');">修改</button>
+								</c:if>
 						</td>
 					</tr>
 				</c:forEach>

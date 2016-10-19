@@ -84,7 +84,7 @@
 	}
 	
   	function show(id){
-  		window.location.href="<%=basePath%>SupplierExtracts/showSupplierExtracts.do?id="+id;
+  		window.location.href="<%=basePath%>SupplierExtracts/showRecord.do?id="+id;
   	}
     function edit(){
     	var id=[]; 

@@ -42,4 +42,15 @@ public interface ExtConTypeMapper {
      * @param record
      */
     int updateByPrimaryKey(ExtConType record);
+    
+    /**
+     * @Description:删除数据
+     *
+     * @author Wang Wenshuai
+     * @version 2016年10月12日 下午3:40:50  
+     * @param @param id
+     * @param @return      
+     * @return int
+     */
+    int deleteConditionId(String id);
 }

@@ -18,9 +18,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
 
-
-
-
 <link href="<%=basePath%>public/ZHH/css/common.css" media="screen"
 	rel="stylesheet" type="text/css">
 <link href="<%=basePath%>public/ZHH/css/bootstrap.min.css"

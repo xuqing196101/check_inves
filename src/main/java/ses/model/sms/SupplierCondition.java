@@ -1,122 +1,357 @@
-/**
- * 
- */
 package ses.model.sms;
 
-import com.alibaba.fastjson.JSON;
+import java.util.Date;
+import java.util.List;
 
-/**
- * @Description:供应商查询条件
- *	 
- * @author Wang Wenshuai
- * @version 2016年9月22日上午10:32:53
- * @since  JDK 1.7
- */
 public class SupplierCondition {
 	
+	
+    public SupplierCondition() {
+		super();
+	}
+
+	public SupplierCondition(String id,String s) {
+		super();
+		this.id = id;
+	}
+
+
+
+	public SupplierCondition(String id, Short status) {
+		super();
+		this.id = id;
+		this.status = status;
+	}
+
+	
+	public SupplierCondition(String projectId) {
+		super();
+		this.projectId = projectId;
+	}
+
+    
 	/**
-	 * 抽取人id
-	 */
-	private String peopleId; 
-	/**
-	 * 次数
-	 */
-	private String number;
-	/**
-	 * 抽取数量
-	 */
-	private int  count;
-	/**
-	 * 地址
-	 */
-	private String locality;
-	/**
-	 * 类型
-	 */
-	private String salesType;
-	/**
-	 * 目录关系
-	 */
-	private String nexus;
-	/**
-	 * 抽取项目
-	 */
-	private String projectName;
+     * <pre>
+     * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.ID
+     * </pre>
+     */
+    private String id;
+
+    /**
+     * <pre>
+     * 项目id
+     * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.PROJECT_ID
+     * </pre>
+     */
+    private String projectId;
+
+    /**
+     * <pre>
+     * 状态1待抽取 2.已抽取
+     * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.STATUS
+     * </pre>
+     */
+    private Short status;
+
+    /**
+     * <pre>
+     * 供应商所在地区
+     * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.ADDRESS
+     * </pre>
+     */
+    private String address;
+
+    /**
+     * <pre>
+     * 专家类型
+     * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.EXPERTS_TYPE_ID
+     * </pre>
+     */
+    private String expertsTypeId;
+
+    /**
+     * <pre>
+     * 开标时间
+     * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.TENDER_TIME
+     * </pre>
+     */
+    private Date tenderTime;
+
+    /**
+     * <pre>
+     * 响应时间
+     * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.RESPONSE TIME
+     * </pre>
+     */
+    private String responseTime;
+    
+    /**
+     * 类型
+     */
+    private List<SupplierConType> conTypes;
+    
+    /**
+     * <pre>
+     * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.SUPPLIET_FROM
+     * </pre>
+     */
+    private String supplietFrom;
+
+    /**
+     * <pre>
+     * 抽取地点
+     * 表字段 : T_SES_SMS_SUPPLIE_CONDITION.ADDRESS_ID
+     * </pre>
+     */
+    private String extractAddress;
+
+    /**
+     * <pre>
+     * 获取：null
+     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.ID
+     * </pre>
+     *
+     * @return T_SES_SMS_SUPPLIE_CONDITION.ID：null
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * <pre>
+     * 设置：null
+     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.ID
+     * </pre>
+     *
+     * @param id
+     *            T_SES_SMS_SUPPLIE_CONDITION.ID：null
+     */
+    public void setId(String id) {
+        this.id = id == null ? null : id.trim();
+    }
+
+    /**
+     * <pre>
+     * 获取：项目id
+     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.PROJECT_ID
+     * </pre>
+     *
+     * @return T_SES_SMS_SUPPLIE_CONDITION.PROJECT_ID：项目id
+     */
+    public String getProjectId() {
+        return projectId;
+    }
+
+    /**
+     * <pre>
+     * 设置：项目id
+     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.PROJECT_ID
+     * </pre>
+     *
+     * @param projectId
+     *            T_SES_SMS_SUPPLIE_CONDITION.PROJECT_ID：项目id
+     */
+    public void setProjectId(String projectId) {
+        this.projectId = projectId == null ? null : projectId.trim();
+    }
+
+    /**
+     * <pre>
+     * 获取：状态1待抽取 2.已抽取
+     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.STATUS
+     * </pre>
+     *
+     * @return T_SES_SMS_SUPPLIE_CONDITION.STATUS：状态1待抽取 2.已抽取
+     */
+    public Short getStatus() {
+        return status;
+    }
+
+    /**
+     * <pre>
+     * 设置：状态1待抽取 2.已抽取
+     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.STATUS
+     * </pre>
+     *
+     * @param status
+     *            T_SES_SMS_SUPPLIE_CONDITION.STATUS：状态1待抽取 2.已抽取
+     */
+    public void setStatus(Short status) {
+        this.status = status;
+    }
+
+    /**
+     * <pre>
+     * 获取：供应商所在地区
+     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.ADDRESS
+     * </pre>
+     *
+     * @return T_SES_SMS_SUPPLIE_CONDITION.ADDRESS：供应商所在地区
+     */
+    public String getAddress() {
+        return address;
+    }
+
+    /**
+     * <pre>
+     * 设置：供应商所在地区
+     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.ADDRESS
+     * </pre>
+     *
+     * @param address
+     *            T_SES_SMS_SUPPLIE_CONDITION.ADDRESS：供应商所在地区
+     */
+    public void setAddress(String address) {
+        this.address = address == null ? null : address.trim();
+    }
+
+    /**
+     * <pre>
+     * 获取：专家类型
+     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.EXPERTS_TYPE_ID
+     * </pre>
+     *
+     * @return T_SES_SMS_SUPPLIE_CONDITION.EXPERTS_TYPE_ID：专家类型
+     */
+    public String getExpertsTypeId() {
+        return expertsTypeId;
+    }
+
+    /**
+     * <pre>
+     * 设置：专家类型
+     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.EXPERTS_TYPE_ID
+     * </pre>
+     *
+     * @param expertsTypeId
+     *            T_SES_SMS_SUPPLIE_CONDITION.EXPERTS_TYPE_ID：专家类型
+     */
+    public void setExpertsTypeId(String expertsTypeId) {
+        this.expertsTypeId = expertsTypeId == null ? null : expertsTypeId.trim();
+    }
+
+    /**
+     * <pre>
+     * 获取：开标时间
+     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.TENDER_TIME
+     * </pre>
+     *
+     * @return T_SES_SMS_SUPPLIE_CONDITION.TENDER_TIME：开标时间
+     */
+    public Date getTenderTime() {
+        return tenderTime;
+    }
+
+    /**
+     * <pre>
+     * 设置：开标时间
+     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.TENDER_TIME
+     * </pre>
+     *
+     * @param tenderTime
+     *            T_SES_SMS_SUPPLIE_CONDITION.TENDER_TIME：开标时间
+     */
+    public void setTenderTime(Date tenderTime) {
+        this.tenderTime = tenderTime;
+    }
+
+    /**
+     * <pre>
+     * 获取：响应时间
+     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.RESPONSE TIME
+     * </pre>
+     *
+     * @return T_SES_SMS_SUPPLIE_CONDITION.RESPONSE TIME：响应时间
+     */
+    public String getResponseTime() {
+        return responseTime;
+    }
+
+    /**
+     * <pre>
+     * 设置：响应时间
+     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.RESPONSE TIME
+     * </pre>
+     *
+     * @param responseTime
+     *            T_SES_SMS_SUPPLIE_CONDITION.RESPONSE TIME：响应时间
+     */
+    public void setResponseTime(String responseTime) {
+        this.responseTime = responseTime == null ? null : responseTime.trim();
+    }
+
+   
+
+    /**
+     * <pre>
+     * 获取：null
+     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.SUPPLIET_FROM
+     * </pre>
+     *
+     * @return T_SES_SMS_SUPPLIE_CONDITION.SUPPLIET_FROM：null
+     */
+    public String getSupplietFrom() {
+        return supplietFrom;
+    }
+
+    /**
+     * <pre>
+     * 设置：null
+     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.SUPPLIET_FROM
+     * </pre>
+     *
+     * @param supplietFrom
+     *            T_SES_SMS_SUPPLIE_CONDITION.SUPPLIET_FROM：null
+     */
+    public void setSupplietFrom(String supplietFrom) {
+        this.supplietFrom = supplietFrom == null ? null : supplietFrom.trim();
+    }
+
+    /**
+     * <pre>
+     * 获取：抽取地点
+     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.ADDRESS_ID
+     * </pre>
+     *
+     * @return T_SES_SMS_SUPPLIE_CONDITION.ADDRESS_ID：抽取地点
+     */
+    public String getExtractAddress() {
+        return extractAddress;
+    }
+
+    /**
+     * <pre>
+     * 设置：抽取地点
+     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.ADDRESS_ID
+     * </pre>
+     *
+     * @param addressId
+     *            T_SES_SMS_SUPPLIE_CONDITION.ADDRESS_ID：抽取地点
+     */
+    public void setAddressId(String extractAddress) {
+        this.extractAddress = extractAddress == null ? null :extractAddress.trim();
+    }
+
+	public List<SupplierConType> getConTypes() {
+		return conTypes;
+	}
+
+	public void setConTypes(List<SupplierConType> conTypes) {
+		this.conTypes = conTypes;
+	}
+	private String expertsFrom;
+
+	public String getExpertsFrom() {
+		return expertsFrom;
+	}
+
+	public void setExpertsFrom(String expertsFrom) {
+		this.expertsFrom = expertsFrom;
+	}
+
+	public void setExtractAddress(String extractAddress) {
+		this.extractAddress = extractAddress;
+	}
 	
-	/**
-	 * 目录名称
-	 */
-	private  String  categoryName;
-	
-	/**
-	 * 品目id
-	 */
-	private String  categoryId;
-	
-	
-	
-	
-	
-	public String getPeopleId() {
-		return peopleId;
-	}
-	public void setPeopleId(String peopleId) {
-		this.peopleId = peopleId;
-	}
-	public String getNumber() {
-		return number;
-	}
-	public void setNumber(String number) {
-		this.number = number;
-	}
-	public int getCount() {
-		return count;
-	}
-	public void setCount(int count) {
-		this.count = count;
-	}
-	public String getLocality() {
-		return locality;
-	}
-	public void setLocality(String locality) {
-		this.locality = locality;
-	}
-	public String getSalesType() {
-		return salesType;
-	}
-	public void setSalesType(String salesType) {
-		this.salesType = salesType;
-	}
-	public String getNexus() {
-		return nexus;
-	}
-	public void setNexus(String nexus) {
-		this.nexus = nexus;
-	}
-	public String getProjectName() {
-		return projectName;
-	}
-	public void setProjectName(String projectName) {
-		this.projectName = projectName;
-	}
-	
-	
-	public String getCategoryName() {
-		return categoryName;
-	}
-	public void setCategoryName(String categoryName) {
-		this.categoryName = categoryName;
-	}
-	public String getCategoryId() {
-		return categoryId;
-	}
-	public void setCategoryId(String categoryId) {
-		this.categoryId = categoryId;
-	}
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return JSON.toJSONString(this);
-	}
-	
+    
 }

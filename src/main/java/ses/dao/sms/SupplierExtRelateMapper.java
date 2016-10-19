@@ -1,5 +1,7 @@
 package ses.dao.sms;
 
+import java.util.List;
+
 import ses.model.sms.SupplierExtRelate;
 
 public interface SupplierExtRelateMapper {
@@ -42,4 +44,15 @@ public interface SupplierExtRelateMapper {
      * @param record
      */
     int updateByPrimaryKey(SupplierExtRelate record);
+    
+    /**
+     * @Description:集合获取中间表
+     *
+     * @author Wang Wenshuai
+     * @version 2016年9月28日 下午6:09:52  
+     * @param @param extract
+     * @param @return      
+     * @return List<SupplierExtRelate>
+     */
+    List<SupplierExtRelate> list(SupplierExtRelate extract);
 }
