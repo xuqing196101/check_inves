@@ -87,7 +87,7 @@ public class FirstAuditController {
 			List<Packages> packList = packageService.findPackageById(pack);
 			if(packList.size()==0){
 				Packages pg = new Packages();
-				pg.setName("第一包");
+				pg.setName("第一包"); 
 				pg.setProjectId(projectId);
 				packageService.insertSelective(pg);
 				/*List<ProjectDetail> list = new ArrayList<ProjectDetail>();
