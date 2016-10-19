@@ -3,8 +3,6 @@ package ses.dao.bms;
 import java.util.List;
 
 import ses.model.bms.PreMenu;
-import ses.model.bms.RolePreMenu;
-
 
 public interface PreMenuMapper {
 	

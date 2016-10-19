@@ -3,7 +3,6 @@ package ses.service.bms;
 import java.util.List;
 
 import ses.model.bms.PreMenu;
-import ses.model.bms.RolePreMenu;
 
 
 

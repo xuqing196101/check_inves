@@ -7,12 +7,10 @@ import iss.service.ps.ArticleAttachmentsService;
 import iss.service.ps.ArticleService;
 import iss.service.ps.ArticleTypeService;
 
-import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

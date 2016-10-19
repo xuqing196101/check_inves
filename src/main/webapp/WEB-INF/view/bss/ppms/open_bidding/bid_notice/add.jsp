@@ -137,13 +137,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				     
     <script type="text/javascript">
     var ue = UE.getEditor('editor'); 
-    var content=${article};
-    alert(content);
     ue.ready(function(){
         //需要ready后执行，否则可能报错
        // ue.setContent("<h1>欢迎使用UEditor！</h1>");
-        ue.setContent(content); 
-        ue.setDisabled(true);
         ue.setHeight(500);
     })
     </script>

@@ -5,7 +5,6 @@ import java.util.List;
 import ses.model.bms.User;
 import ses.model.bms.UserPreMenu;
 import ses.model.bms.Userrole;
-import ses.model.oms.Orgnization;
 
 /**
  * Description: 用户业务接口
