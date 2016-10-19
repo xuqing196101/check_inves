@@ -10,11 +10,9 @@ import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import ses.dao.bms.UserMapper;
-import ses.dao.oms.OrgnizationMapper;
 import ses.model.bms.User;
 import ses.model.bms.UserPreMenu;
 import ses.model.bms.Userrole;
-import ses.model.oms.Orgnization;
 import ses.service.bms.UserServiceI;
 import ses.util.PropertiesUtil;
 
@@ -33,8 +31,6 @@ public class UserServiceImpl implements UserServiceI {
 
 	@Autowired
 	private UserMapper userMapper;
-	
-	private OrgnizationMapper orgnizationMapper;
 	
 	public static final String ALLCHAR = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	
