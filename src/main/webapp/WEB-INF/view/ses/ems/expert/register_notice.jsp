@@ -40,6 +40,7 @@
 
 <body>
 	<div class="wrapper">
+	<jsp:include page="/index_head.jsp"></jsp:include>
 		<div class="container content height-350 job-content ">
 			<div class="col-md-12 p20 border1 margin-top-20 mb40">
 				<div class="tab-v1">
@@ -68,5 +69,6 @@
 				</div>
 			</div>
 		</div>
+		<jsp:include page="/index_bottom.jsp"></jsp:include>
 </body>
 </html>

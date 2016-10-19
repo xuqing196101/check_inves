@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,8 @@ import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.prms.PackageExpertService;
+import ses.model.ems.ProjectExtract;
+import ses.service.ems.ProjectExtractService;
 
 @Controller
 @RequestMapping("packageExpert")
@@ -32,6 +35,8 @@ public class PackageExpertController {
 	private PackageService packageService;
 	@Autowired
 	private ProjectService projectService;
+	@Autowired
+	private ProjectExtractService projectExtractService;
 	/**
 	 * 
 	  * @Title: toPackageExpert
@@ -43,7 +48,7 @@ public class PackageExpertController {
 	  * @return String
 	 */
 	@RequestMapping("toPackageExpert")
-	public String toPackageExpert(String projectId,Model model){
+	public String toPackageExpert(String projectId,String flag,Model model){
 		//项目分包信息
 		HashMap<String,Object> pack = new HashMap<String,Object>();
 		pack.put("projectId", projectId);
@@ -72,6 +77,13 @@ public class PackageExpertController {
 			List<PackageExpert> selectList = service.selectList(mapSearch);
 			expertIdList.addAll(selectList);
 		}
+		//查询条件
+		ProjectExtract projectExtract = new ProjectExtract();
+		projectExtract.setProjectId(projectId);
+		projectExtract.setReason("1");
+		//项目抽取的专家信息
+		List<ProjectExtract> expertList = projectExtractService.list(projectExtract );
+		model.addAttribute("expertList", expertList);
 		//包信息
 		model.addAttribute("packageList", packages);
 		Project project = projectService.selectById(projectId);
@@ -79,6 +91,8 @@ public class PackageExpertController {
 		model.addAttribute("project", project);
 		//关联信息集合
 		model.addAttribute("expertIdList", expertIdList);
+		//成功表示
+		model.addAttribute("flag", flag);
 		return "bss/prms/package_expert";
 	}
 	/**
@@ -96,6 +110,9 @@ public class PackageExpertController {
 	@RequestMapping("relate")
 	public String relate(String chkItem,PackageExpert packageExpert,String groupId,RedirectAttributes attr){
 		service.deleteByPackageId(packageExpert.getPackageId());
+		//设置变量判断是否操作错误
+		int count = 0 ;
+		if(StringUtils.isNotEmpty(chkItem) && StringUtils.isNotEmpty(groupId)){
 		String[] expertIds = chkItem.split(",");
 		for (int i = 0; i < expertIds.length; i++) {
 			//设置专家id
@@ -103,10 +120,22 @@ public class PackageExpertController {
 			//判断组长id是否和选择的专家id一致，如果一致就设定为组长
 			if(groupId.equals(expertIds[i])){
 				packageExpert.setIsGroupLeader((short) 1);
+				count++;
 			}else{
 				packageExpert.setIsGroupLeader((short) 0);
 			}
 			service.save(packageExpert);
+		}
+		    //判断如果count等于0 说明选择的组长不在选择的专家中不对 ，为错误操作
+		    if(count==0){
+			  attr.addAttribute("flag", "error");
+			  service.deleteByPackageId(packageExpert.getPackageId());
+		    }else{
+		      attr.addAttribute("flag", "success");
+		    }
+		    
+		}else {
+			attr.addAttribute("flag", "error");
 		}
 		attr.addAttribute("projectId", packageExpert.getProjectId());
 		return "redirect:toPackageExpert.html";

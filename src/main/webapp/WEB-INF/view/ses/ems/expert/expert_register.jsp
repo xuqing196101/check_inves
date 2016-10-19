@@ -101,6 +101,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
 <!-- 修改订列表开始-->
    <div class="container">
+   <jsp:include page="/index_head.jsp"></jsp:include>
    <form action="<%=basePath %>expert/register.html" method="post"  id="form1">
    		<%
 			session.setAttribute("tokenSession", tokenValue);
@@ -169,5 +170,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </form>
  </div>
  <br/>
+ <jsp:include page="/index_bottom.jsp"></jsp:include>
 </body>
 </html>

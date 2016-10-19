@@ -45,7 +45,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	var packageId=	$("input[name='packageId']").val();
     	var flag="${flag}";
     	if(flag=="success"){
-    		layer.msg("关联成功",{offset: ['222px', '390px']});
+    		layer.msg("关联成功",{offset: ['322px', '390px']});
+    	}else if(flag=="error"){
+    		layer.msg("请选择一条初审项！",{offset: ['322px', '490px']});
     	}
     })
     
@@ -77,12 +79,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	     		 count++;
 	      }
 	    }
+	       //获取当前的form表单对象
 	       var parent = obj.parentNode; 
-	       while(parent .tagName == "form")
+	      /*  alert(parent.tagName);
+	        while(parent .tagName == "form")
 	       {
 	           parent = parent .parentNode;
 	           break;
-	       }
+	       }  */
 	       if(count>0){
 	    	   var packageId=	$("input[name='packageId']").val();
 	    	   $("#packageIds").val(packageId);
@@ -128,7 +132,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								   <c:forEach items="${packageList }" var="pack" varStatus="p">
 								   		<form action="<%=basePath%>packageFirstAudit/relate.html" method="post" id="form1">
 								   		<input type="hidden" name="packageIds" id="packageIds">
-								   		<input type="button" onclick="submit1(this);" value="关联" class="btn btn-windows add"><br/>
+								   		
 								   		<input type="hidden" id="packageId" name="packageId" value="${pack.id }"/>
 								   		<input type="hidden" name="projectId" value="${projectId}">
 								   		<span>包名:<span>${pack.name }</span>
@@ -200,6 +204,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												      </tr>
 												      </thead>
 										      	  </c:forEach>
+										      	  <input type="button" onclick="submit1(this);" value="关联" class="btn btn-windows add"><br/>
 								   		  </table>
 						   		      </form>
 								   </c:forEach>

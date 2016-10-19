@@ -415,6 +415,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </head>
 
 <body>
+<jsp:include page="/index_head.jsp"></jsp:include>
 	<div class="wrapper">
 		</div>
 		<form id="form1" action="${pageContext.request.contextPath}/expert/add.html" method="post"  enctype="multipart/form-data" >
@@ -1028,5 +1029,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		   </div>
 		 </div>
 		</form>
+		<jsp:include page="/index_bottom.jsp"></jsp:include>
 </body>
 </html>

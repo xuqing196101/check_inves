@@ -45,7 +45,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	var packageId=	$("input[name='packageId']").val();
     	var flag="${flag}";
     	if(flag=="success"){
-    		layer.msg("关联成功",{offset: ['222px', '390px']});
+    		layer.msg("分配成功。",{offset: ['285px', '550px']});
+    	}else if(flag=="error"){
+    		layer.alert("错误操作！请重新选择！",{offset: ['222px', '390px'],shade:0.01});
     	}
     })
     
@@ -66,60 +68,75 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             }
         }
 	 function submit1(obj){
-		 
-		 var count = 0;
-	  	  var ids = document.getElementsByName("chkItem");
-	   
+		    //获取复选框
+			var checkbox = $(obj).prev().prev();
+			//获取复选框的name
+			var checkboxName = $(checkbox).prop("name");
+		    var count = 0;
+	  	  var ids = document.getElementsByName(""+checkboxName+"");
 	       for(i=0;i<ids.length;i++) {
-	     		 if(document.getElementsByName("chkItem")[i].checked){
-	     		 var id = document.getElementsByName("chkItem")[i].value;
-	     		//var value = id.split(",");
+	     		 if(document.getElementsByName(""+checkboxName+"")[i].checked){
+	     		 var id = document.getElementsByName(""+checkboxName+"")[i].value;
 	     		 count++;
 	      }
 	    }
-	       var parent = obj.parentNode; 
-	       while(parent .tagName == "form")
+	       
+	       //获取当前的form对象
+	       var parent = obj.parentNode.parentNode.parentNode.parentNode.parentNode; 
+	      /*  alert(parent .tagName);
+	       while(parent.tagName == "TABLE")
 	       {
 	           parent = parent .parentNode;
+	           alert("aaa");
 	           break;
+	       } */
+	       //获取按钮上面的下拉框对象
+	       var select = $(obj).prev();
+	       if($(select).val()=="0"){
+	    	   layer.alert("请指定一名组长",{offset: ['222px', '390px'],shade:0.01});
+	    	   return ;
 	       }
 	       if(count>0){
-	    	   var packageId=	$("input[name='packageId']").val();
-	    	   $("#packageIds").val(packageId);
 	    	   parent.submit();
-	    	   
+	    	 // return true;
 	       }else{
 	    	   layer.alert("请选择一名专家",{offset: ['222px', '390px'],shade:0.01});
-	    	   return;
+	    	   return ;
 	       }
+	      
 	 }
+	 //下拉框校验
+	 function selectClick(obj){
+		 //下拉框选中的值
+		var selectValue = $(obj).val();
+		 //获取复选框
+		var checkbox = $(obj).prev();
+		 //获取复选框的name
+		var checkboxName = $(checkbox).prop("name");
+		 //定义变量
+		 var flag;
+		 //根据复选框的name 获取选中复选框的value值
+		 $('input[name="'+checkboxName+'"]:checked').each(function(){ 
+			 //判断下拉框的选的值是否复选框也选中
+			 if(selectValue==$(this).val()){
+				 flag=1;
+			 }
+		}); 
+		 if(flag!=1){
+			 layer.alert("请选择勾选的专家为组长！",{offset: ['222px', '390px'],shade:0.01});
+			 $(obj).val("0");
+		 }
+	 }
+	 //点击复选框还原下拉框
+	 /* function clearSelect(obj){
+		var select =  $(obj).next();
+		$(select).val("0");
+	 } */
 </script>
   </head>
   
   <body>
-	                     <div class="col-md-12 p0">
-						   <ul class="flow_step">
-						     <li >
-							   <a  href="<%=basePath%>firstAudit/toAdd.html?projectId=${projectId}" >01、符合性</a>
-							   <i></i>
-							 </li>
-							 
-							 <li class="active">
-							   <a  href="<%=basePath%>firstAudit/toPackageFirstAudit.html?projectId=${projectId}" >02、符合性关联</a>
-							   <i></i>							  
-							 </li>
-						     <li>
-							   <a  href="#tab-3" data-toggle="tab">03、评标细则</a>
-							   <i></i>
-							 </li>
-							 <li>
-							   <a  href="#tab-4" data-toggle="tab">04、招标文件</a>
-							 </li>
-						   </ul>
-						 </div>
 						 <div class="tab-content clear step_cont">
-						 <!--第一个  -->
-						 <!--第二个 -->
 						 <div class=class="col-md-12 tab-pane active"  id="tab-1">
 						 	<h1 class="f16 count_flow"><i>01</i>各包分配专家</h1>
 						 	   <div class="container clear margin-top-30" id="package">
@@ -128,7 +145,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								   <c:forEach items="${packageList }" var="pack" varStatus="p">
 								   		<span>包名:<span>${pack.name }</span>
 								   		</span>
-								   		
 								   		<table class="table table-bordered table-condensed mt5">
 							        	<thead>
 							        		<tr class="info">
@@ -169,7 +185,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							            </tr>
 							         </c:forEach> 
 							      </table>
-									       <table class="table table-bordered table-condensed mt5">
+								   </c:forEach>
+								   <table class="table table-bordered table-condensed mt5">
 								 	            <h5>02、唱标信息</h5>
 											    <thead>
 											      <tr>
@@ -193,27 +210,50 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												      </thead>
 										      	  </c:forEach>
 								   		  </table>
-								   </c:forEach>
 								   <c:forEach items="${packageList }" var="pack" varStatus="p">
-									   <form action="<%=basePath%>packageExpert/toPackageExpert.html">
+									   <form action="<%=basePath%>packageExpert/relate.html" method="post" >
 									   <!--包id  -->
-									   
-									   <input type="text" id="packageId" name="packageId" value="${pack.id }"/>
-								   	   <input type="text" name="projectId" value="${project.id}">
-								   	   <input type="text" name="packageIds" id="packageIds">
+									   <input type="hidden" id="packageId" name="packageId" value="${pack.id }"/>
+								   	   <input type="hidden" name="projectId" value="${project.id}">
+								   	   <input type="hidden" name="packageIds" id="packageIds">
 										   <table class="table table-bordered table-condensed mt5">
 										 	            <h5>03、各包分配评委</h5>
-													      <c:forEach items="${packageList }" var="pack" varStatus="p">
-													      	<span>包名:<span>${pack.name }</span>
-													      	
-													      	<input type="button" onclick="submit1(this);" value="关联" class="btn btn-windows add"><br/>
-													      </c:forEach>
+													      	<tr>
+													      	  <td>
+													      	<span style=" font-size: 18;">包名:${pack.name }</span>&nbsp;&nbsp;
+													      	<c:forEach items="${expertList }" var="expert" varStatus="vs">
+													      	<input type="checkbox" name="chkItem" value="${expert.expert.id }" 
+													      		        <c:forEach items="${expertIdList }" var="e" varStatus="p">
+														      	    	  <c:if test="${e.expertId==expert.expert.id && e.projectId==project.id && e.packageId==pack.id }">
+														      	    	  checked
+														      	    	  </c:if>
+														      	    	</c:forEach>
+													      	>${expert.expert.relName } &nbsp;
+													      	</c:forEach>
+													      	<!-- <input type="checkbox" name="chkItem" value="222">专家2
+													      	<input type="checkbox" name="chkItem" value="333" onchange="clearSelect(this);">专家3 -->
+													      	  &nbsp;&nbsp;  组长：<select name="groupId" onchange="selectClick(this);">
+													      	    	<option value="0">-请选择-</option>
+													      	    	<c:forEach items="${expertList }" var="expert" varStatus="vs">
+													      	    	<option value="${expert.expert.id }"
+														      	    	<c:forEach items="${expertIdList }" var="e" varStatus="p">
+														      	    	  <c:if test="${e.isGroupLeader==1 && e.expertId==expert.expert.id && e.projectId==project.id && e.packageId==pack.id }">
+														      	    	  selected
+														      	    	  </c:if>
+														      	    	</c:forEach>
+													      	    	>${expert.expert.relName }</option>
+													      	    	</c:forEach>
+													      	    	<!-- <option value="222">专家2</option>
+													      	    	<option value="333">专家3</option> -->
+													      	      </select>&nbsp;&nbsp;
+													      	<input type="button" onclick="submit1(this);"  value="分配" class="btn btn-windows add"><br/>
+													      	  </td>
+													      	</tr>
 										   </table>
 									   </form>
 								   </c:forEach>
 							   </div> 
 							<div class="container clear margin-top-30" id="package">
-						 	
 						 </div>	
 						</div>
                       </div>

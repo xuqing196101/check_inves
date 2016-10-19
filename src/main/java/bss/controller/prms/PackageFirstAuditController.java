@@ -1,5 +1,6 @@
 package bss.controller.prms;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +36,7 @@ public class PackageFirstAuditController {
 	public String relate(String chkItem,PackageFirstAudit packageFirstAudit,RedirectAttributes attr){
 		
 		service.delete(packageFirstAudit.getPackageId());
+		if(StringUtils.isNotEmpty(chkItem)){
 		//获取选中的初审项id
 		String[] firstAuditIds = chkItem.split(",");
 		//循环插入
@@ -42,9 +44,12 @@ public class PackageFirstAuditController {
 			packageFirstAudit.setFirstAuditId(firstAuditIds[i]);
 			service.save(packageFirstAudit);
 		}
-	
-		attr.addAttribute("projectId", packageFirstAudit.getProjectId());
 		attr.addAttribute("flag", "success");
+		}else{
+			attr.addAttribute("flag", "error");
+		}
+		attr.addAttribute("projectId", packageFirstAudit.getProjectId());
+		
 		return "redirect:/firstAudit/toPackageFirstAudit.html";
 		
 	}
