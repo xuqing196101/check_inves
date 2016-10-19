@@ -13,12 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import ses.dao.sms.SupplierStarsMapper;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierCertEng;
@@ -30,11 +28,8 @@ import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSe;
 import ses.model.sms.SupplierMatSell;
-import ses.model.sms.SupplierStars;
 import ses.model.sms.SupplierStockholder;
-import ses.service.bms.CategoryService;
 import ses.service.sms.SupplierAuditService;
-import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierLevelService;
 import ses.service.sms.SupplierService;
 import ses.util.FtpUtil;

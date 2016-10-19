@@ -21,7 +21,6 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import ses.model.bms.User;
 import ses.model.sms.ImportRecommend;
-import ses.model.sms.SupplierEdit;
 import ses.service.bms.UserServiceI;
 import ses.service.sms.ImportRecommendService;
 import ses.util.FtpUtil;
