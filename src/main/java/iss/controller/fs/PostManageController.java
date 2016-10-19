@@ -2,23 +2,31 @@ package iss.controller.fs;
 
 import iss.model.fs.Park;
 import iss.model.fs.Post;
+import iss.model.fs.PostAttachments;
 import iss.model.fs.Reply;
 import iss.model.fs.Topic;
 import iss.service.fs.ParkService;
+import iss.service.fs.PostAttachmentsService;
 import iss.service.fs.PostService;
 import iss.service.fs.ReplyService;
 import iss.service.fs.TopicService;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -26,6 +34,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import ses.model.bms.User;
 import ses.util.PropertiesUtil;
@@ -51,7 +61,10 @@ public class PostManageController {
 	@Autowired
 	private ParkService parkService;	
 	@Autowired
-	private TopicService topicService;	
+	private TopicService topicService;
+	@Autowired
+	private PostAttachmentsService postAttachmentsService;
+	
 	
 	/**   
 	* @Title: getList
@@ -123,7 +136,10 @@ public class PostManageController {
 		reply.setPost(p);
 		BigDecimal replycount = replyService.queryByCount(reply);
 		p.setReplycount(replycount);
+		List<PostAttachments> postAttachments = postAttachmentsService.selectAllPostAttachments(id);
+		p.setPostAttachments(postAttachments);
 		model.addAttribute("post", p);		
+		System.out.println(p.getContent());
 		return "iss/forum/post/view";
 	}
 	
@@ -152,7 +168,7 @@ public class PostManageController {
 	* @return String     
 	*/
 	@RequestMapping("/save")
-	public String save(@Valid Post post,BindingResult result,HttpServletRequest request, Model model){
+	public String save(@RequestParam("attaattach") MultipartFile[] attaattach, @Valid Post post,BindingResult result,HttpServletRequest request, Model model)throws IOException{
 		Boolean flag = true;
 		String url = "";
 		String parkId = request.getParameter("parkId");
@@ -186,7 +202,17 @@ public class PostManageController {
 			post.setTopic(topic);
 			User user = (User)request.getSession().getAttribute("loginUser");
 			post.setUser(user);
-			postService.insertSelective(post);
+			//帖子置顶
+			if(post.getIsTop() == 1){
+				//该版块下面的帖子状态更新
+				List<Post> posts = postService.selectByParkID(parkId);
+				for (Post post2 : posts) {
+					post2.setIsTop(0);
+					postService.updateByPrimaryKeySelective(post2);
+				}
+			}
+			postService.insertSelective(post);		
+			uploadFile(post, request, attaattach);
 			url = "redirect:getlist.html";
 		}
 				
@@ -206,11 +232,13 @@ public class PostManageController {
 	@RequestMapping("/edit")
 	public String edit(String id,Model model){
 		Post p = postService.selectByPrimaryKey(id);
+		List<PostAttachments> postAttachments = postAttachmentsService.selectAllPostAttachments(id);
+		p.setPostAttachments(postAttachments);
 		model.addAttribute("post", p);
 		List<Park> parks = parkService.getAll(null);
 		model.addAttribute("parks", parks);
 		List<Topic> topics = topicService.selectByParkID(p.getPark().getId());
-		model.addAttribute("topics", topics);
+		model.addAttribute("topics", topics);		
 		return "iss/forum/post/edit";
 	}
 	
@@ -224,7 +252,7 @@ public class PostManageController {
 	* @return String     
 	*/
 	@RequestMapping("/update")
-	public String update(@Valid Post post,BindingResult result,HttpServletRequest request, Model model){
+	public String update(@RequestParam("attaattach") MultipartFile[] attaattach,@Valid Post post,BindingResult result,HttpServletRequest request, Model model){
 		Boolean flag = true;
 		String url = "";
 		String parkId = request.getParameter("parkId");
@@ -258,8 +286,30 @@ public class PostManageController {
 			Topic topic = topicService.selectByPrimaryKey(topicId);
 			post.setPark(park);		
 			post.setTopic(topic);
+			
 			String postId= request.getParameter("postId");
-			post.setId(postId);
+			post.setId(postId);			
+			String ids = request.getParameter("ids");
+			if(ids!=null && ids!=""){
+				String[] attaids = ids.split(",");
+				for(String id : attaids){
+					postAttachmentsService.softDeleteAtta(id);
+				}
+			}
+			uploadFile(post, request, attaattach);
+			//每个版块置顶帖更新
+			if(post.getIsTop() == 1){
+				//该版块下面的帖子状态更新
+				Map<String,Object> map = new HashMap<String, Object>();
+				map.put("parkId", parkId);
+				List<Post> posts = postService.queryByList(map);
+				posts.remove(post);
+				for (Post post2 : posts) {
+					post2.setIsTop(0);
+					postService.updateByPrimaryKeySelective(post2);
+				}
+			}
+			
 			postService.updateByPrimaryKeySelective(post);
 			url="redirect:getlist.html";
 		}
@@ -328,12 +378,19 @@ public class PostManageController {
 		List<Post> list = postService.queryByList(map);
 		Park park = parkService.selectByPrimaryKey(parkId);
 		List<Topic> topics = topicService.selectByParkID(parkId);
+		
+		//置顶帖子
+		Post topPost = postService.selectParkTopPost(parkId);
+		model.addAttribute("topPost", topPost);
+		list.remove(topPost);
+		
 		model.addAttribute("topics", topics);
 		model.addAttribute("park", park);
 		model.addAttribute("list", new PageInfo<Post>(list));
 		model.addAttribute("parkId", parkId);
 		model.addAttribute("topicId", topicId);
 		model.addAttribute("searchType", searchType);
+		
 		return "iss/forum/list";
 	}
 	
@@ -392,6 +449,8 @@ public class PostManageController {
 			reply.setReplies(replies);
 		}
 		Post post = postService.selectByPrimaryKey(postId);	
+		List<PostAttachments> postAttachments = postAttachmentsService.selectAllPostAttachments(postId);
+		post.setPostAttachments(postAttachments);
 		model.addAttribute("post", post);
 		model.addAttribute("list",  new PageInfo<Reply>(list));
 		return "iss/forum/detail";
@@ -421,7 +480,7 @@ public class PostManageController {
 	* @return String     
 	*/
 	@RequestMapping("/indexsave")
-	public String indexsave(@Valid Post post,BindingResult result,HttpServletRequest request, Model model){
+	public String indexsave(@RequestParam("attaattach") MultipartFile[] attaattach,@Valid Post post,BindingResult result,HttpServletRequest request, Model model){
 		Boolean flag = true;
 		String url = "";
 		String parkId = request.getParameter("parkId");
@@ -456,11 +515,83 @@ public class PostManageController {
 			post.setPark(park);
 			post.setTopic(topic);
 			postService.insertSelective(post);	
+			uploadFile(post, request, attaattach);
 			
 			url ="redirect:/park/getIndex.html";
 		}
 		return url;
 	}
-	
-	
+	/**
+	 * 
+	* @Title: uploadFile
+	* @author QuJie 
+	* @date 2016-9-9 下午1:36:34  
+	* @Description: 上传的公共方法 
+	* @param @param article
+	* @param @param request
+	* @param @param attaattach      
+	* @return void
+	 */
+	public void uploadFile(Post post,HttpServletRequest request,MultipartFile[] attaattach){
+		if(attaattach!=null){
+			for(int i=0;i<attaattach.length;i++){
+				if(attaattach[i].getOriginalFilename()!=null && attaattach[i].getOriginalFilename()!=""){
+			        String rootpath = (request.getSession().getServletContext().getRealPath("/")+"upload/").replace("\\", "/");
+			        /** 创建文件夹 */
+					File rootfile = new File(rootpath);
+					if (!rootfile.exists()) {
+						rootfile.mkdirs();
+					}
+			        String fileName = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase() + "_" + attaattach[i].getOriginalFilename();
+			        String filePath = rootpath+fileName;
+			        File file = new File(filePath);
+			        try {
+						attaattach[i].transferTo(file);
+					} catch (IllegalStateException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					PostAttachments attachment=new PostAttachments();
+					attachment.setPost(new Post(post.getId()));
+					attachment.setName(fileName);
+					attachment.setCreatedAt(new Date());
+					attachment.setUpdatedAt(new Date());
+					attachment.setType(attaattach[i].getContentType());
+					attachment.setFileSize((float)attaattach[i].getSize());
+					attachment.setPath(filePath);
+					postAttachmentsService.insertSelective(attachment);
+				}
+			}
+		}
+	}
+	/**
+	 * 
+	* @Title: downloadArticleAtta
+	* @author QuJie 
+	* @date 2016-9-8 上午9:05:53  
+	* @Description: 详情页下载附件 
+	* @param @throws Exception      
+	* @return void
+	 */
+	@RequestMapping("/downloadPostAtta")
+	public void downloadPostAtta(PostAttachments postAttachments,HttpServletResponse response) throws Exception{
+		PostAttachments postAtta = postAttachmentsService.selectPostAttaByPrimaryKey(postAttachments.getId());
+		String filePath = postAtta.getPath();
+		File file = new File(filePath);
+		if(file == null || !file.exists()){
+			return;
+		}
+		String fileName = (postAtta.getName().split("_"))[1];
+		response.reset();
+		response.setContentType(postAtta.getType()+"; charset=utf-8");
+		response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+		OutputStream out = response.getOutputStream();
+		out.write(FileUtils.readFileToByteArray(file));
+		out.flush();
+
+		if(out !=  null){
+			out.close();
+		}
+	}
 }

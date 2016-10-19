@@ -204,10 +204,10 @@
 				<c:set value="${reply.content}" var="content"></c:set>
 				<c:set value="${fn:length(content)}" var="length"></c:set>
 				<c:if test="${length>10}">
-					<td onclick="view('${reply.id}')" onmouseover="out('${reply.content}')" class="tc pointer ">${fn:substring(content,0,10)}...</td>
+					<td onclick="view('${reply.id}')" class="tc pointer " onmouseover="out('${reply.content}')" >${fn:substring(content,0,10)}...</td>
 				</c:if>
 				<c:if test="${length<=10}">
-					<td onclick="view('${reply.id}')" onmouseover="out('${reply.content}')" class="tc pointer ">${content } </td>
+					<td onclick="view('${reply.id}')" class="tc pointer " onmouseover="out('${reply.content}')" >${content } </td>
 				</c:if>	
 				
 				<td class="tc pointer" onclick="view('${reply.id}')"><fmt:formatDate value='${reply.publishedAt}' pattern="yyyy-MM-dd  HH:mm:ss" /></td>

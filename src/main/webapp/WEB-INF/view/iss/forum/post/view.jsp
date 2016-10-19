@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ include file="../../../common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -23,7 +24,10 @@
 	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/lang/zh-cn/zh-cn.js"></script>
 	<script type="text/javascript">
 	$(function(){ 
-    
+		var file = "${post.postAttachments}";
+		if(file.length == 2){
+			$("#file").hide();
+		}
 		});
 	</script>
   </head>
@@ -138,9 +142,18 @@
 			<li class="col-md-12 p0">
 	   			<span class="fl">帖子内容：</span>
 	  			<div class="col-md-12 pl200 fn mt5 pwr9">
-	  				 <script id="editor" name="content" type="text/plain" class="ml125 mt20 w900"></script>
-       			</div>
+	  				 <%--<script id="editor" name="content" type="text/plain" class="ml125 mt20 w900"></script>--%>
+	  				${post.content}
+	  				 </div>
 			 </li> 
+			 <li class="col-md-12 p0" id="file">
+		     <span class="fl">已上传的附件：</span>
+		     <div class="fl mt5">
+		       <c:forEach items="${post.postAttachments}" var="a">
+		        ${fn:split(a.name, '_')[1]},
+		       </c:forEach>
+		     </div>
+		     </li>
 	  	 </ul>
 	  	 
 	</div>  	
@@ -159,6 +172,7 @@
     //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
     var ue = UE.getEditor('editor');
     var content="${post.content}";
+    //alert(content);
 	ue.ready(function(){
   		ue.setContent(content);    
   		ue.setDisabled([]);

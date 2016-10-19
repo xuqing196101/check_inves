@@ -40,7 +40,21 @@
 		        }
 			});
 	  }
-
+	  function addAttach(){
+	      html="<input id='atta' type='file' class='toinline' name='attaattach'/><a onclick='deleteattach(this)' class='toinline red redhover pointer'>x</a><br/>";
+	      $("#uploadAttach").append(html);
+	   }
+	  
+	   function addPic(){
+	          html="<input id='pic' type='file' class='toinline' name='picattach'/><a onclick='deleteattach(this)' class='toinline red redhover pointer'>x</a><br/>";
+	          $("#uploadPic").append(html);
+	       }
+	    
+	  function deleteattach(obj){
+	      $(obj).prev().remove();
+	      $(obj).next().remove();
+	      $(obj).remove();
+	   }
 	</script>
   </head>
   
@@ -58,7 +72,7 @@
    <!-- 新增页面开始 -->
      <div class="container margin-top-5">
      <div class="content padding-left-25 padding-right-25 padding-top-5">
-    <form action="<%=basePath %>post/save.html" method="post">  
+    <form action="<%=basePath %>post/save.html" method="post" enctype="multipart/form-data">  
     <div>
 	    <div class="headline-v2">
 	   		<h2>新增帖子</h2>
@@ -116,7 +130,23 @@
        			</div>
        			<div class="validate">${ERR_content}</div>
 			 </li>  
-	   		   
+	   		  <li class="col-md-12 p0">
+		        <span class="fl">上传附件：</span>
+		        <div class="fl" id="uploadAttach" >
+		          <input id="atta" type="file" class="toinline" name="attaattach"/>
+		          <input class="toinline" type="button" value="添加" onclick="addAttach()"/><br/>
+		        </div>
+		     </li>
+		     <%--  
+		       <li class="col-md-12 p0">
+                <span class="fl">上传图片：</span>
+                <div class="fl" id="uploadPic" >
+                  <input id="pic" type="file" class="toinline" name="picattach"/>
+                  <input class="toinline" type="button" value="添加" onclick="addPic()"/><br/>
+                  <div class="validate">${ERR_pic}</div>
+                </div>
+             </li> 
+	  	    --%>
 	  	 </ul>
 	</div>  	
 	<!-- 底部按钮 -->			          
@@ -134,7 +164,23 @@
  <script type="text/javascript">
     //实例化编辑器
     //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
-    var ue = UE.getEditor('editor');    
+    var option ={
+        toolbars: [[
+                'fullscreen', 'source', '|', 'undo', 'redo', '|',
+                'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
+                'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
+                'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
+                'directionalityltr', 'directionalityrtl', 'indent', '|',
+                'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
+                'link', 'unlink', 'anchor', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
+                'simpleupload', 'insertimage', 'emotion', /*'scrawl',*/ /*'insertvideo', 'music',*/ 'attachment', /* 'map', 'gmap',*/ 'insertframe', /*'insertcode', 'webapp',*/ 'pagebreak', 'template', 'background', '|',
+                'horizontal', 'date', 'time', 'spechars', 'snapscreen', 'wordimage', '|',
+                'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts', '|',
+                'print', 'preview', 'searchreplace', 'help', 'drafts'
+            ]]
+
+    }
+    var ue = UE.getEditor('editor',option);   
 </script>
   </body>
 </html>

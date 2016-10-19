@@ -49,6 +49,16 @@
 		        }
 			});
 	  }
+	   function addAttach(){
+	          html="<input id='pic' type='file' class='toinline' name='attaattach'/><a href='#' onclick='deleteattach(this)' class='toinline red redhover'>x</a><br/>";
+	          $("#uploadAttach").append(html);
+	       }
+	        
+	   function deleteattach(obj){
+	      $(obj).prev().remove();
+	      $(obj).next().remove();
+	      $(obj).remove();
+	   }
  </script>
   </head>
   
@@ -60,7 +70,7 @@
                 <div class="tab-v1">
                     <h2 class="ml50 bbgrey f30">发布帖子</h2>
                 </div>
-        <form  id="form" action="${pageContext.request.contextPath}/post/indexsave.html" method="post" >
+        <form  id="form" action="${pageContext.request.contextPath}/post/indexsave.html" method="post" enctype="multipart/form-data">
        <div>
        <ul class="list-unstyled list-flow p0_20 f18">   
         
@@ -98,14 +108,21 @@
                      <script id="editor" name="content" type="text/plain" class= ""></script>
                 </div>
                 <div class="validate">${ERR_content}</div>
-             </li>                
+             </li>   
+             <li class="col-md-12 p0 mt10">
+                <span class="fl">上传附件：</span>
+                <div class="fl" id="uploadAttach" >
+                  <input id="pic" type="file" class="toinline fl" name="attaattach"/>
+                  <input class="toinline btn" type="button" value="添加" onclick="addAttach()"/><br/>
+                </div>
+             </li>             
          </ul>
          <div class="clear"></div>
     </div>      
 	    <!-- 底部按钮 -->                     
 	  <div  class="mt20 tc">   
-	    <button class="btn btn-windows save" type="submit">发布</button>
-	    <button class="btn btn-windows reset" onclick="history.go(-1)" type="button">返回</button>
+	    <button class="btn" type="submit">发布</button>
+	    <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
 	  </div>
 	  
      	</form>

@@ -113,10 +113,16 @@ public class ReplyManageController {
 		String content = request.getParameter("content");
 		String replyId =request.getParameter("replyId");
 		Post post = postService.selectByPrimaryKey(postId);
+		Timestamp tsp = new Timestamp(new Date().getTime());
+		Timestamp tsu = new Timestamp(new Date().getTime());
+		User user = (User) request.getSession().getAttribute("loginUser");
+		reply.setUser(user);
 		if(replyId ==null || replyId == ""){			
 			BigDecimal replyCount =post.getReplycount();
 			BigDecimal haha = new BigDecimal(1);
 			post.setReplycount(replyCount.add(haha));
+			post.setLastReplyer(user);
+			post.setLastReplyedAt(tsp);
 			postService.updateByPrimaryKeySelective(post);			
 		}else{
 			Reply supReply = replyService.selectByPrimaryKey(replyId);
@@ -124,12 +130,8 @@ public class ReplyManageController {
 		}		
 		reply.setPost(post);
 		reply.setContent(content);
-		User user = (User) request.getSession().getAttribute("loginUser");
-		reply.setUser(user);
-		Timestamp tsp = new Timestamp(new Date().getTime());
-		Timestamp tsu = new Timestamp(new Date().getTime());
 		reply.setPublishedAt(tsp);
-		reply.setUpdatedAt(tsu);
+		reply.setUpdatedAt(tsu);		
 		replyService.insertSelective(reply);
 	}
 	
@@ -191,7 +193,7 @@ public class ReplyManageController {
 	* @Title: delete
 	* @author Peng Zhongjun
 	* @date 2016-8-10 下午20:03:41 
-	* @Description: 删除版块信息
+	* @Description: 删除回复信息
 	* @param @param id
 	* @return String     
 	*/
@@ -199,7 +201,14 @@ public class ReplyManageController {
 	public String delete(String id){
 		String[] ids=id.split(",");
 		for (String str : ids) {
+			//回复量减1
+			Post post = postService.selectByPrimaryKey(replyService.selectByPrimaryKey(str).getPost().getId());
+			BigDecimal j = new BigDecimal(1);
+			BigDecimal replycount = post.getReplycount().subtract(j);
+			post.setReplycount(replycount);
+			postService.updateByPrimaryKeySelective(post);
 			replyService.deleteByPrimaryKey(str);
+			
 		}
 		return "redirect:getlist.html";
 	}

@@ -67,7 +67,7 @@
 			<li class="col-md-12  p0 ">	  	 			
 				<span class="fl"> 回复内容：</span>
 				<div class="col-md-12 mt5 fn pl200 pwr9">
-				<textarea  class="text_area col-md-12" readonly="readonly">${reply.content}</textarea>		
+				${reply.content}
 				</div>			
 	  	 	</li>
 	  	 </ul>

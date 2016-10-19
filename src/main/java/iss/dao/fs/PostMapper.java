@@ -109,4 +109,16 @@ public interface PostMapper {
     * @return List<Post>
      */
     List<Post> queryAllHotPost();
+    
+    /**
+     * 
+    * @Title: selectParkTopPost
+    * @author Peng Zhongjun
+    * @date 2016-10-18 下午5:09:50  
+    * @Description: 查询该版块下的置顶帖子 
+    * @param @param parkId
+    * @param @return      
+    * @return Post
+     */
+    Post selectParkTopPost(String parkId);
 }

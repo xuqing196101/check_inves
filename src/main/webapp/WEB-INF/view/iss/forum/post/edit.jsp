@@ -28,6 +28,12 @@
 		$("#topics").val("${post.topic.id}");
 		$("#isTop").val("${post.isTop}");
 		$("#isLocking").val("${post.isLocking}");
+		
+	      var file = "${post.postAttachments}";
+	        if(file.length == 2){
+	            $("#file").hide();
+	        }	
+		
 		});
 	//2级联动
 	  function change(id){
@@ -46,6 +52,24 @@
 		        }
 			});
 	  }
+	  function addAttach(){
+		    html="<input id='pic' type='file' class='toinline' name='attaattach'/><a href='#' onclick='deleteattach(this)' class='toinline red redhover'>x</a><br/>";
+		    $("#uploadAttach").append(html);
+		}
+
+		function deleteattach(obj){
+		    $(obj).prev().remove();
+		    $(obj).next().remove();
+		    $(obj).remove();
+		}
+
+		var ids="";
+		function deleteAtta(id,obj){
+		    ids+=id+",";
+		    $("#ids").val(ids);
+		    $(obj).prev().remove();
+		    $(obj).remove();
+		}
 	</script>
   </head>
   <body>
@@ -62,7 +86,8 @@
    <!-- 新增页面开始 -->
      <div class="container margin-top-5">
      <div class="content padding-left-25 padding-right-25 padding-top-5">
-    <form action="<%=basePath %>post/update.html" method="post">  
+    <form action="<%=basePath %>post/update.html" method="post" enctype="multipart/form-data">  
+      <input type="hidden" id="ids" name="ids"/>
     <div>
 	    <div class="headline-v2">
 	   		<h2>修改帖子</h2>
@@ -103,21 +128,17 @@
 			 <li class="col-md-6  p0 ">
 			   <span class="fl">置顶：</span>
 			   	<select id="isTop" name="isTop" class="w220 ">
-			   	<option></option>
-	        	<option value="0">不置顶</option>
+	        	<option value="0" selected="selected">不置顶</option>
 	        	<option value="1">置顶</option>
 	  			</select>				 	
 			 </li>
 			 <li class="col-md-6  p0 ">
 			   <span class="fl">锁定：</span>
 			   	<select id="isLocking" name="isLocking" class="w220 ">
-			   	<option></option>
-	        	<option value="0">不锁定</option>
+	        	<option value="0" selected="selected">不锁定</option>
 	        	<option value="1">锁定 </option>
 	  			</select>	 	
-			 </li>
-
-			 
+			 </li>			 
 			<li class="col-md-12 p0">
 	   			<span class="fl"><div class="red star_red">*</div>帖子内容：</span>
 	  			<div class="col-md-12 pl200 fn mt5 pwr9">
@@ -126,7 +147,22 @@
        			<div class="validate">${ERR_content}</div>
 			 </li>
 			 
-
+			 <li class="col-md-12 p0" id="file">
+		     <span class="fl">已上传的附件：</span>
+		     <div class="fl mt5">
+		       <c:forEach items="${post.postAttachments}" var="a">
+		        <a class="pointer">${fn:split(a.name, '_')[1]}</a><a onclick="deleteAtta('${a.id}',this)" class="red redhover ml10 pointer">x</a>
+		       </c:forEach>
+		     </div>
+		     </li>
+		     <li class="col-md-12 p0">
+		        <span class="f14 fl">上传附件：</span>
+		        <div class="fl" id="uploadAttach" >
+		          <input id="pic" type="file" class="toinline" name="attaattach"/>
+		          <input class="toinline" type="button" value="添加" onclick="addAttach()"/><br/>
+		        </div>
+		     </li>
+		     </ul>   
 	  	 </ul>
 	</div>  	
 	<!-- 底部按钮 -->			          
@@ -144,13 +180,29 @@
  <script type="text/javascript">
     //实例化编辑器
     //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
-    var ue = UE.getEditor('editor');
+
+    var option ={
+            toolbars: [[
+                    'fullscreen', 'source', '|', 'undo', 'redo', '|',
+                    'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
+                    'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
+                    'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
+                    'directionalityltr', 'directionalityrtl', 'indent', '|',
+                    'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
+                    'link', 'unlink', 'anchor', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
+                    'simpleupload', 'insertimage', 'emotion', /*'scrawl',*/ /*'insertvideo', 'music',*/ 'attachment', /* 'map', 'gmap',*/ 'insertframe', /*'insertcode', 'webapp',*/ 'pagebreak', 'template', 'background', '|',
+                    'horizontal', 'date', 'time', 'spechars', 'snapscreen', 'wordimage', '|',
+                    'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts', '|',
+                    'print', 'preview', 'searchreplace', 'help', 'drafts'
+                ]]
+
+        }
+    var ue = UE.getEditor('editor',option);
     var content="${post.content}";
-	ue.ready(function(){
-  		ue.setContent(content);    
-  		//ue.setDisabled([]);
-	});
-    
+    ue.ready(function(){
+        ue.setContent(content);    
+        //ue.setDisabled([]);
+    });
 </script>
   </body>
 </html>

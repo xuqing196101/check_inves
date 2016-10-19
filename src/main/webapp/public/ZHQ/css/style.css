@@ -2052,12 +2052,11 @@ span.zyxx{
     padding-left: 10px;
 }
 .comment_pic{
-	width:100px;
-	height:100px;
-	border:1px solid #eeeeee;
+	width:112px;
+	height:112px;
+	border:3px solid #eeeeee;
 	float:left;
-	padding:5px;
-	border-radius:200px!important;
+	border-radius:4px!important;
 	padding:15px;
 	overflow:hidden;
 }
@@ -2070,6 +2069,8 @@ span.zyxx{
 	padding:10px!important;
 	border:1px dashed #eeeeee;
 	margin-bottom:15px;
+	position:relative;
+	min-height:130px;
 }
 /*详情页附件样式*/
 .extra_file{

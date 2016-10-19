@@ -20,6 +20,10 @@
 			  <resultMap id="PostReplyMap" type="iss.model.fs.Post" extends="PostResultMap">
 			  <collection property="replies" ofType="iss.model.fs.Reply" resultMap="iss.dao.fs.ReplyMapper.ReplyResultMap"/>
 			  </resultMap>
+			  
+			   <resultMap extends="PostResultMap" type="iss.model.fs.Post" id="PostReplyMapWhitAtta">
+			    <collection property="postAttachments" ofType="iss.model.fs.PostAttachments"/>
+			  </resultMap>
 	  	  
 			  <!-- 表名 -->
 			  	<sql id="Tabel_Name">
@@ -242,5 +246,12 @@
 			    ORDER BY PUBLISHED_At DESC
 		  </select>
 		  
+		  <!-- 查询置顶帖子 -->
+		  <select id="selectParkTopPost" parameterType="Object" resultMap="PostResultMap">
+                select 
+                <include refid="Base_Column_List" />
+                from T_ISS_FS_POST
+                where PARK_ID = #{parkID} AND IS_TOP = 1
+          </select>
 
 </mapper>

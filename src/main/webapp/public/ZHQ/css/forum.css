@@ -97,3 +97,14 @@
     margin-right: 5px;
     display: inline-block;
 }
+.comment_desc{
+	padding:0 10px 0 140px!important;
+}
+.comment_flow{
+	position:absolute;
+	top:10px;
+	left:10px;
+}
+.comment_report{
+	min-height:115px;
+}

@@ -26,12 +26,15 @@
 	<link href="<%=basePath%>public/ZHQ/css/img-hover.css" media="screen" rel="stylesheet">
 	<link href="<%=basePath%>public/ZHQ/css/page_job.css" media="screen" rel="stylesheet">
 	<link href="<%=basePath%>public/ZHQ/css/shop.style.css" media="screen" rel="stylesheet">
+	<link rel="stylesheet" href="<%=basePath%>public/ZHQ/css/forum.css" media="screen" >
 	<script src="<%=basePath%>public/ZHQ/js/hm.js"></script>
 	<script src="<%=basePath%>public/ZHQ/js/jquery.min.js"></script>
 	<!--导航js-->
 	<script src="<%=basePath%>public/ZHQ/js/jquery_ujs.js"></script>
 	<script src="<%=basePath%>public/ZHQ/js/bootstrap.min.js"></script>
     <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+    <script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/layer.js"></script>
+    <script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
         <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/ueditor.config.js"></script>
     <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/ueditor.all.min.js"> </script>
     <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
@@ -60,47 +63,59 @@
                 }
             }
         });
-
+      
+      var file = "${post.postAttachments}";
+      if(file.length == 2){
+          $("#file").hide();
+      }
+      
   });
   function publishForPost(postId){
-	  
-	  var ue = UE.getEditor('editor');
-	  var text = ue.getContentTxt();
-      $.ajax({
-          url:"<%=basePath%>reply/save.html?postId="+postId+"&content="+text,   
-          contentType: "application/json;charset=UTF-8", 
-          type:"POST",   //请求方式           
-          success : function() {     
-        	  location.href = "<%=basePath%>post/getIndexDetail.do?postId="+postId;
-          }
-      });
+	  var isLocking = "${post.isLocking}";
+	  if(isLocking == 1){
+		  layer.alert("该帖子已被锁定，暂不提供回复功能。",{offset: ['222px', '390px'], shade:0.01});
+	  }else{
+		  var ue = UE.getEditor('editor');
+		  var text = ue.getContent();
+	      $.ajax({
+	          url:"<%=basePath%>reply/save.html?postId="+postId+"&content="+text,   
+	          contentType: "application/json;charset=UTF-8", 
+	          type:"POST",   //请求方式           
+	          success : function() {     
+	              location.href = "<%=basePath%>post/getIndexDetail.do?postId="+postId;
+	          }
+	      });
+	  }	  
   }
   function writeHtml(id){
-	  var pu = $("#"+id);
-	  var html = "<div class='sign_answer'>";
-	  html += $("#publish").html();
-	  html += "</div>";
-	  if(pu.next(".sign_answer").size() == 0 ){
-		  $("div").remove(".sign_answer");
-		  pu.after(html);  
-	      $("#publishButton").attr("onclick","publishForReply('"+id+"')");
-	 }
-	   
-	  	   
+	   var isLocking = "${post.isLocking}";
+	      if(isLocking == 1){
+	          layer.alert("该帖子已被锁定，暂不提供回复功能。",{offset: ['222px', '390px'], shade:0.01});
+	      }else{
+			  var pu = $("#"+id);
+			  var html = "<div class='sign_answer'>";
+			  html += $("#publish").html();
+			  html += "</div>";
+			  if(pu.next(".sign_answer").size() == 0 ){
+				  $("div").remove(".sign_answer");
+				  pu.after(html);  
+			      $("#publishButton").attr("onclick","publishForReply('"+id+"')");
+			 }	
+	     }
   }
   function publishForReply(replyId){
-	 var ue = UE.getEditor('editor');
-	 var text = ue.getContentTxt();
-	 var postId = "${post.id}";
-	   $.ajax({
-       url:"<%=basePath%>reply/save.html?postId="+postId+"&content="+text+"&replyId="+replyId,   
-       contentType: "application/json;charset=UTF-8", 
-       type:"POST",   //请求方式           
-       success : function() {   
-           var postId = "${post.id}";
-           location.href = "<%=basePath%>post/getIndexDetail.do?postId="+postId;
-           }
-     });
+		 var ue = UE.getEditor('editor');
+		 var text = ue.getContent();
+		 var postId = "${post.id}";
+		   $.ajax({
+	       url:"<%=basePath%>reply/save.html?postId="+postId+"&content="+text+"&replyId="+replyId,   
+	       contentType: "application/json;charset=UTF-8", 
+	       type:"POST",   //请求方式           
+	       success : function() {   
+	           var postId = "${post.id}";
+	           location.href = "<%=basePath%>post/getIndexDetail.do?postId="+postId;
+	           }
+	     });      
   }
  </script>
   </head>
@@ -118,8 +133,10 @@
       </div>
    </div>
    
+
+   
 <div class="container content job-content ">
-    <div class="col-md-12 p30_40 border1 margin-top-20">
+    <div class="col-md-12 p30_40 border1">
      <h3 class="tc f30">
        <div class="title bbgrey ">${post.name }</div>
      </h3>
@@ -129,29 +146,45 @@
 	     <img src="<%=basePath%>public/ZHQ/images/block.png"/></i>
 	     <fmt:formatDate value='${post.publishedAt}' pattern="yyyy.MM.dd" />
 	     </span>
-	     <span class="ml15">评论数：<span class="red">${post.replycount }</span></span>
+	     <span class="ml15">回复数：<span class="red">${post.replycount }</span></span>
 	     </div>
      </div>
      
      <div class="clear margin-top-20 new_content f18">
         ${post.content }
-     </div>   
+     </div> 
+        <div class="extra_file" id="file">
+        <span class="f14 fl">附件：</span>
+        <div class="">
+            <c:forEach items="${post.postAttachments}" var="a">
+                <a href="<%=basePath%>post/downloadPostAtta.html?id=${a.id}">${fn:split(a.name, '_')[1]}</a><br/>
+            </c:forEach>
+        </div>
+     </div>  
      </div>
-     
+
      <!-- 回复列表 -->
      <div class="col-md-12 p30_40 border1 margin-top-20">
      
         <c:forEach items="${list.list}" var="reply" varStatus="vs">         
             <div id="${reply.id}" class="col-md-12 comment_main">
-            <div class="fl comment_pic mr10"><img src="<%=basePath%>public/ZHQ/images/logo.png"/></div>
-            <div class="comment_desc col-md-10 p0">
+            <div class="comment_flow">
+            <div class="comment_pic"><img src="<%=basePath%>public/ZHQ/images/logo.png"/></div>
+            <div class="clear">
+              <p class="b f18 mb0 tc">${reply.user.relName }</p>
+              <p class="clear mb0 gary">[<fmt:formatDate value='${reply.publishedAt}' pattern="yyyy年MM月dd日" />]</p>
+            </div>
+            </div>
+            <div class="comment_desc col-md-12">
               <div class="col-md-12 p0">
                           
-                <span class="comment_name">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}楼  </span>
-                <span>@ ${reply.user.relName }</span>
-                <span class="grey">[<fmt:formatDate value='${reply.publishedAt}' pattern="yyyy年MM月dd日" />]：${reply.content }</span>
+
+                <span class="comment_name fr">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}楼  </span>
+                <div class="clear comment_report">${reply.content }</div>
+                
                 <c:forEach items="${reply.replies }" var="replytoreply">
-                    <span>@ ${replytoreply.user.relName } [<fmt:formatDate value='${replytoreply.publishedAt}' pattern="yyyy年MM月dd日" />]：${replytoreply.content }</span>:                 
+                    <p class="b blue mb0">@ ${replytoreply.user.relName }</p>
+                    <p class="clear mb0 gary">[<fmt:formatDate value='${replytoreply.publishedAt}' pattern="yyyy年MM月dd日" />]：${replytoreply.content }</p>                
                 </c:forEach>
                 
                 <span class="fr blue pointer" onclick="writeHtml('${reply.id}')">回复</span>
@@ -164,11 +197,10 @@
             
         </c:forEach>
      </div>
-     <div></div>
      <!-- 分页Div -->
      <div id="pagediv" align="right"></div>  
       <!-- 我要评论Div -->
-     <div class="col-md-12 p30_40 border1 margin-top-20" id="publish">
+     <div class="col-md-12 p30_40 border1" id="publish">
          <div class="clear col-md-12 p0">
           <span class="f18 b">我要回复</span> 
          </div>
@@ -178,7 +210,7 @@
             <div class="validate">${ERR_content}</div>
          </div>
          <div class="clear col-md-12 p0">
-           <button class="btn btn-windows fr " id ="publishButton" onclick="publishForPost('${post.id}')">发布</button>
+           <button class="btn btn-windows fr " id ="publishButton" onclick="publishForPost('${post.id}','${post.isLocking }')">发布</button>
          </div>    
      </div>
    </div>
@@ -199,7 +231,7 @@
                 'bold', 'italic', 'underline',  'formatmatch', 'autotypeset', '|', 'forecolor', 'backcolor',                
                  'fontfamily', 'fontsize', '|',
                  'indent', '|',
-                'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'simpleupload','emotion',
+                'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|','emotion',
             ]]
 
     };

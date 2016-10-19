@@ -24,8 +24,23 @@
   <script type="text/javascript">
   $(function(){
 	  $("#parkId").val("${parkId}");
-	  $("#topicId").val("${topicId}"); 
-	  //$("#topicId").append("<option value = '"+${topicId}+"'>"+${topicName}+"</option>");
+	  var parkId ="${parkId}";
+      $.ajax({
+          url:"<%=basePath %>topic/getListForSelect.do?parkId="+parkId,   
+          contentType: "application/json;charset=UTF-8", 
+          dataType:"json",   //返回格式为json
+          type:"POST",   //请求方式           
+          success : function(topics) {     
+              if (topics) {           
+                $("#topicId").html("<option></option>");                
+                $.each(topics, function(i, topic) {  
+                    $("#topicId").append("<option  value="+topic.id+">"+topic.name+"</option>");                     
+                });  
+                $("#topicId").val("${topicId}"); 
+              }
+          }
+      });
+ 
 	  laypage({
           cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
           pages: "${list.pages}", //总页数
@@ -126,7 +141,7 @@
 	//鼠标移动显示全部内容
 	function out(name){
 		if(name.length >= 10){
-		    layer.msg(content, {
+		    layer.msg(name, {
 	            skin: 'demo-class',
 	            shade:false,
 	            area: ['600px'],
@@ -135,7 +150,6 @@
 		}else{
 			layer.closeAll();//关闭消息框
 		}
-
     }
     //2级联动
     function change(id){
@@ -154,11 +168,13 @@
               }
           });
     }
+    
     function search(){
         var postName = $("#postName").val();
         var parkId = $("#parkId  option:selected").val();
         var topicId = $("#topicId  option:selected").val();
         location.href = "<%=basePath%>post/getlist.do?postName="+postName+"&parkId="+parkId+"&topicId="+topicId;
+
 
      }
      function reset(){
@@ -199,7 +215,7 @@
        <li class="fl">
          <label class="fl mt10 ml10">所属版块：</label>
             <span>
-            <select id ="parkId" class="w200 mt5" onchange="change(this.options[this.selectedIndex].value)">
+            <select id ="parkId" class="w200 mt5" onchange="change(this.options[this.selectedIndex].value)" >
              <option></option>
              <c:forEach items="${parks}" var="park">
                   <option  value="${park.id}">${park.name}</option>
@@ -275,8 +291,7 @@
 					<td onclick="view('${post.id}')" onmouseover="out('${post.name}')" class="tc pointer ">${name } </td>
 				</c:if>		
 				<td class="tc pointer" onclick="view('${post.id}')">${post.isTop}</td>
-				<td class="tc pointer" onclick="view('${post.id}')">${post.isLocking}</td>	
-	
+				<td class="tc pointer" onclick="view('${post.id}')">${post.isLocking}</td>		
 				<td class="tc pointer" onclick="view('${post.id}')"><fmt:formatDate value='${post.publishedAt}' pattern="yyyy-MM-dd HH:mm:ss" /></td>
 				<td class="tc pointer" onclick="view('${post.id}')"><fmt:formatDate value='${post.lastReplyedAt}' pattern="yyyy-MM-dd HH:mm:ss" /></td>
 				<td class="tc pointer" onclick="view('${post.id}')">${post.lastReplyer.relName}</td>

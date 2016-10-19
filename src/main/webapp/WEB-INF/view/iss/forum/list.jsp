@@ -106,7 +106,52 @@
  </div>
 
   <div class="panel-body topics row">
-  
+  <!--置顶帖子  -->
+  <c:choose>
+  <c:when test="${topPost != null }">
+    <div class="col-md-12 topics-group">
+      <div class="topic media topic-31080">
+        <!-- 左边头像 -->
+        <div class="avatar media-left">
+          <img class="media-object avatar-48" src="https://ruby-china-files.b0.upaiyun.com/user/avatar/196.jpg!md" alt="196"></a>
+        </div>
+        <!-- 右边内容 -->
+        <div class="infos media-body">
+        <!-- 帖子名称 -->
+         <div class="title media-heading">         
+          <c:set value="${topPost.name}" var="content"></c:set>
+          <c:set value="${fn:length(content)}" var="length"></c:set>
+          <c:if test="${length>15}">
+             <a  href='<%=basePath %>post/getIndexDetail.html?postId=${topPost.id}' value='${fn:substring(content,0,15)}...'>${fn:substring(content,0,15)}...</a>
+          </c:if>
+          <c:if test="${length<15}">
+             <a href='<%=basePath %>post/getIndexDetail.html?postId=${topPost.id}' value='${topPost.name}'>${topPost.name}</a>
+          </c:if>
+         </div>
+         <!-- 帖子关联关系以及其他消息 -->
+         <div class="info">
+            <span>${topPost.topic.name }</span>
+                   •
+               <span>${topPost.user.relName }</span>
+               <span >
+                   •                           
+                <fmt:formatDate value='${topPost.publishedAt}' pattern="yyyy年MM月dd日 " />           
+               </span>
+                            
+         </div>        
+        </div>
+        
+         <div class="count media-right">     
+         <span>置顶</span>  
+         <span class="state-false" >${topPost.replycount }</span>
+        </div>
+       </div>
+      </div>
+  </c:when>
+  </c:choose>
+
+
+
   <!-- 帖子div -->
   <c:forEach items="${list.list}" var="post">
     <div class="col-md-12 topics-group">

@@ -74,9 +74,24 @@ public class Post {
      * @Fields isDeleted : 是否删除标识
      */
     private Integer isDeleted;
+    /**
+     * @Fields postAttachments : 帖子附件表
+     */
+    private List<PostAttachments> postAttachments;
 
 
-    public String getId() {
+	/**
+	 * @param id
+	 */
+	public Post(String id) {
+		super();
+		this.id = id;
+	}
+	public Post() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public String getId() {
         return id;
     }
 
@@ -186,5 +201,107 @@ public class Post {
 	public void setIsDeleted(Integer isDeleted) {
 		this.isDeleted = isDeleted;
 	}
+
+	public List<PostAttachments> getPostAttachments() {
+		return postAttachments;
+	}
+
+	public void setPostAttachments(List<PostAttachments> postAttachments) {
+		this.postAttachments = postAttachments;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((content == null) ? 0 : content.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result
+				+ ((isDeleted == null) ? 0 : isDeleted.hashCode());
+		result = prime * result
+				+ ((isLocking == null) ? 0 : isLocking.hashCode());
+		result = prime * result + ((isTop == null) ? 0 : isTop.hashCode());
+		result = prime * result
+				+ ((lastReplyedAt == null) ? 0 : lastReplyedAt.hashCode());
+		result = prime * result
+				+ ((lastReplyer == null) ? 0 : lastReplyer.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((park == null) ? 0 : park.hashCode());
+		result = prime * result
+				+ ((postAttachments == null) ? 0 : postAttachments.hashCode());
+		result = prime * result
+				+ ((publishedAt == null) ? 0 : publishedAt.hashCode());
+		result = prime * result + ((replies == null) ? 0 : replies.hashCode());
+		result = prime * result
+				+ ((replycount == null) ? 0 : replycount.hashCode());
+		result = prime * result + ((topic == null) ? 0 : topic.hashCode());
+		result = prime * result + ((user == null) ? 0 : user.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Post other = (Post) obj;
+		if (content == null) {
+			if (other.content != null)
+				return false;
+		} else if (!content.equals(other.content))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (isDeleted == null) {
+			if (other.isDeleted != null)
+				return false;
+		} else if (!isDeleted.equals(other.isDeleted))
+			return false;
+		if (isLocking == null) {
+			if (other.isLocking != null)
+				return false;
+		} else if (!isLocking.equals(other.isLocking))
+			return false;
+		if (isTop == null) {
+			if (other.isTop != null)
+				return false;
+		} else if (!isTop.equals(other.isTop))
+			return false;
+		if (lastReplyedAt == null) {
+			if (other.lastReplyedAt != null)
+				return false;
+		} else if (!lastReplyedAt.equals(other.lastReplyedAt))
+			return false;
+
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+
+		if (postAttachments == null) {
+			if (other.postAttachments != null)
+				return false;
+		} else if (!postAttachments.equals(other.postAttachments))
+			return false;
+		if (publishedAt == null) {
+			if (other.publishedAt != null)
+				return false;
+		} else if (!publishedAt.equals(other.publishedAt))
+			return false;
+		if (replycount == null) {
+			if (other.replycount != null)
+				return false;
+		} else if (!replycount.equals(other.replycount))
+			return false;
+
+		return true;
+	}
+
 	   
 }

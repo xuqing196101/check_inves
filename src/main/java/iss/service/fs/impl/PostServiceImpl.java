@@ -87,8 +87,15 @@ public class PostServiceImpl implements PostService{
 		// TODO Auto-generated method stub
 		return postMapper.queryHotPost();
 	}
-
+	@Override
      public List<Post> queryAllHotPost(){
     	 return postMapper.queryAllHotPost();
      }
+
+
+	@Override
+	public Post selectParkTopPost(String parkId) {
+		// TODO Auto-generated method stub
+		return postMapper.selectParkTopPost(parkId);
+	}
 }
