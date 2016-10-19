@@ -10,6 +10,8 @@
 	<properties>
 		<springsecurity.version>4.1.2.RELEASE</springsecurity.version>
 		<spring.version>3.2.0.RELEASE</spring.version>
+		<jdk.version>1.7</jdk.version>
+		<build.encoding>UTF-8</build.encoding>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -302,12 +304,13 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
-					<encoding>UTF-8</encoding>
+					<source>${jdk.version}</source>
+					<target>${jdk.version}</target>
+					<encoding>${build.encoding}</encoding>
+					<skip>true</skip> 
 				</configuration>
 			</plugin>
-			<plugin>
+			<!-- <plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<version>2.2</version>
@@ -318,7 +321,7 @@
 					<finalName>zhbj</finalName>
 					<server>tomcat7</server>
 				</configuration>
-			</plugin>
+			</plugin> -->
 		</plugins>
 
 		<finalName>zhbj</finalName>
