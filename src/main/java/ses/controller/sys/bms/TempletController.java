@@ -4,12 +4,17 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+
+import bss.model.pqims.PqInfo;
 
 import com.github.pagehelper.PageInfo;
 
@@ -72,9 +77,28 @@ public class TempletController {
 	 * @return:String
 	 */
 	@RequestMapping("/save")
-	public String save(HttpServletRequest request,Templet templet){
-		templetService.save(templet);
-		return "redirect:getAll.do";
+	public String save(HttpServletRequest request,@Valid Templet templet,BindingResult result,Model model){
+		Boolean flag = true;
+		String url = "";
+		if(templet.getTemType().equals("-请选择-")){
+			flag = false;
+			model.addAttribute("ERR_temType", "请选择模板类型");
+		}
+		if(result.hasErrors()){
+			List<FieldError> errors = result.getFieldErrors();
+			for(FieldError fieldError:errors){
+				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
+			}
+			flag = false;
+		}
+		if(flag == false){
+			model.addAttribute("templet", templet);
+			url="ses/bms/templet/add";
+		}else{	
+			templetService.save(templet);
+			url="redirect:getAll.do";
+		}
+		return url;
 	}
 	
 	/**
@@ -103,9 +127,28 @@ public class TempletController {
 	 * @return: String
 	 */
 	@RequestMapping("/update")
-	public String update(HttpServletRequest request,Templet templet){
-		templetService.update(templet);
-		return "redirect:getAll.do";
+	public String update(HttpServletRequest request,@Valid Templet templet,BindingResult result,Model model){
+		Boolean flag = true;
+		String url = "";
+		if(templet.getTemType().equals("-请选择-")){
+			flag = false;
+			model.addAttribute("ERR_temType", "请选择模板类型");
+		}
+		if(result.hasErrors()){
+			List<FieldError> errors = result.getFieldErrors();
+			for(FieldError fieldError:errors){
+				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
+			}
+			flag = false;
+		}
+		if(flag == false){
+			model.addAttribute("templet", templet);
+			url="ses/bms/templet/edit";
+		}else{
+			templetService.update(templet);
+			url="redirect:getAll.do";
+		}
+		return url;
 	}
 	
 	/**

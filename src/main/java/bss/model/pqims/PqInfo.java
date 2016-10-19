@@ -4,6 +4,13 @@ package bss.model.pqims;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import bss.model.cs.PurchaseContract;
 
 /**
@@ -29,16 +36,19 @@ public class PqInfo {
     /*
      * 质检单位
      */
+    @NotBlank(message = "质检单位不能为空")
     private String unit;
 
     /*
      * 质检类型、验收类型
      */
+    @NotBlank(message = "质检类型不能为空")
     private String type;
 
     /*
      * 质检地点
      */
+    @NotBlank(message = "质检地点不能为空")
     private String place;
 
     /*
@@ -49,21 +59,25 @@ public class PqInfo {
     /*
      * 质检人员
      */
+    @NotBlank(message = "质检人员不能为空")
     private String inspectors;
 
     /*
      * 质检情况
      */
+    @NotBlank(message = "质检情况不能为空")
     private String condition;
 
     /*
      * 质检结果
      */
+    @NotBlank(message = "质检单位不能为空")
     private String conclusion;
 
     /*
      * 详细情况
      */
+    @NotBlank(message = "详细情况不能为空")
     private String detail;
 
     /*

@@ -3,11 +3,15 @@ package ses.model.bms;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 public class Templet {
     private String id;
-
+    
+    @NotBlank(message = "模板名称不能为空")
     private String temType;
-
+    
+    @NotBlank(message = "模板名称不能为空")
     private String name;
 
     private Timestamp createdAt;
@@ -15,7 +19,8 @@ public class Templet {
     private Timestamp updatedAt;
 
     private int isDeleted;
-
+    
+    @NotBlank(message = "模板名称不能为空")
     private String content;
 
     public String getId() {

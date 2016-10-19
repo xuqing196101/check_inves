@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.bms.NoticeDocumentMapper">
+  <resultMap id="NoticeDocumentResultMap" type="ses.model.bms.NoticeDocument">
+    <id column="ID" property="id" />
+    <result column="NAME" property="name" />
+    <result column="DOC_TYPE" property="docType" />
+    <result column="CONTENT" property="content" />
+    <result column="CREATED_AT" property="createdAt" />
+    <result column="UPDATED_AT" property="updatedAt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, NAME, DOC_TYPE, CONTENT, CREATED_AT, UPDATED_AT
+  </sql>
+  
+  <!-- 1.新增记录 -->
+  <insert id="insertSelective" parameterType="ses.model.bms.NoticeDocument">
+    <selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_SES_BMS_NOTICE_DOCUMENT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="docType != null">
+        DOC_TYPE,
+      </if>
+      <if test="content != null">
+        CONTENT,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="name != null">
+        #{name},
+      </if>
+      <if test="docType != null">
+        #{docType},
+      </if>
+      <if test="content != null">
+        #{content},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt},
+      </if>
+    </trim>
+  </insert>
+
+    <!-- 2.只修改不为空的字段 -->
+  <update id="updateByPrimaryKeySelective" parameterType="ses.model.bms.NoticeDocument">
+    update T_SES_BMS_NOTICE_DOCUMENT
+    <set>
+      <if test="name != null">
+        NAME = #{name},
+      </if>
+      <if test="docType != null">
+        DOC_TYPE = #{docType},
+      </if>
+      <if test="content != null">
+        CONTENT = #{content},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt},
+      </if>
+    </set>
+    where ID = #{id}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="ses.model.bms.NoticeDocument">
+    update T_SES_BMS_NOTICE_DOCUMENT
+    set NAME = #{name,jdbcType=VARCHAR},
+      DOC_TYPE = #{docType,jdbcType=VARCHAR},
+      CONTENT = #{content,jdbcType=VARCHAR},
+      CREATED_AT = #{createdAt,jdbcType=DATE},
+      UPDATED_AT = #{updatedAt,jdbcType=DATE}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 4.根据id进行删除 -->
+  <delete id="deleteByPrimaryKey" parameterType="Object">
+    delete from T_SES_BMS_NOTICE_DOCUMENT
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  
+  <!-- 5.根据id查询 -->
+  <select id="selectByPrimaryKey" parameterType="Object" resultMap="NoticeDocumentResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_BMS_TEMPLET
+    where ID = #{id}
+  </select>
+  
+  <!-- 8.查询列表 -->
+  <select id="queryByList" resultMap="NoticeDocumentResultMap" parameterType="Object">
+    select
+    *
+    from T_SES_BMS_NOTICE_DOCUMENT
+    ORDER BY CREATED_AT DESC
+  </select>
+  
+  <!-- 9.根据模板类型查询 -->
+   <select id="selectByType" parameterType="Object" resultMap="NoticeDocumentResultMap">
+    select 
+    *
+    from T_SES_BMS_NOTICE_DOCUMENT where
+    <if test="docType != null and docType !='-请选择-'">
+        DOC_TYPE=#{docType} AND 
+    </if>
+    <if test="name != null and name != ''">
+        NAME LIKE '%'||#{name}||'%' AND
+     </if> 
+    NAME IS NOT NULL 
+    ORDER BY CREATED_AT DESC
+     
+  </select>
+</mapper>

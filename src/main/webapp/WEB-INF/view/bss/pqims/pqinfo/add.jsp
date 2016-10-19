@@ -34,10 +34,19 @@
 				dataType:"json",
 				url:"<%=basePath%>purchaseContract/selectByCode.do?code="+code,
 				success:function(json){
+					if(json.code==("ErrCode")){
+						$(".contract_id").val(json.id);
+	  					 $(".contract_name").val(json.name);
+	  					 $(".supplier_id").val(json.supplierPurId);	
+	  					 $(".supplier_name").val(json.supplierDepName);
+						 $("#contractCodeErr").text("合同编号不存在");
+					}else{
   					 $(".contract_id").val(json.id);
   					 $(".contract_name").val(json.name);
   					 $(".supplier_id").val(json.supplierPurId);	
-  					 $(".supplier_name").val(json.supplierDepName);			
+  					 $(".supplier_name").val(json.supplierDepName);
+  					 $("#contractCodeErr").text("");
+					}
 	       		}
 	       	});
 	}
@@ -51,6 +60,23 @@
 		$(obj).next().remove();
 		$(obj).remove();
 	}
+    $(function(){
+    	if(${pqinfo.projectType}!=null&&${pqinfo.projectType}!=""){
+			$("#projectType").val('${pqinfo.projectType}');
+		}else{
+			$("#projectType").val('-请选择-');
+		}
+    	if(${pqinfo.type}!=null&&${pqinfo.type}!=""){
+			$("#type").val('${pqinfo.type}');
+		}else{
+			$("#type").val('-请选择-');
+		}
+    	if(${pqinfo.conclusion}!=null&&${pqinfo.conclusion}!=""){
+			$("#conclusion").val('${pqinfo.conclusion}');
+		}else{
+			$("#conclusion").val('-请选择-');
+		}
+	});
     </script>
 <body>
 <!--面包屑导航开始-->
@@ -74,91 +100,109 @@
 		     <li class="col-md-6  p0 ">
 			   <span class="">合同编号：</span>
 			   <div class="input-append">
-		        <input class="span2 contract_code" name="contract_code" id="contract_code" type="text" onblur="selectByCode()">
+		        <input class="span2 contract_code" name="contract.code" id="contract_code" type="text" onblur="selectByCode()" value="${pqinfo.contract.code }">
+		        <div id="contractCodeErr" class="validate">${ERR_contract_code}</div>
 		       </div>
 			 </li>
     		 <li class="col-md-6 p0">
 			   <span class="">合同名称：</span>
 		        <div class="input-append ">
-		        	<input class="span2 contract_name"type="text"  readonly="readonly" >
+		        	<input class="span2 contract_name" value = '${pqinfo.contract.name}' type="text"  readonly="readonly" >
+		        	<div class="validate"></div>
        			</div>
 			 </li>
     		 <li class="col-md-6 p0">
 			   <span class="">供应商组织机构代码：</span>
 		        <div class="input-append ">
-		        	<input class="span2 supplier_id" type="text"  readonly="readonly">
+		        	<input class="span2 supplier_id" type="text"  readonly="readonly" value = '${pqinfo.contract.supplierPurId}'>
+		        	<div class="validate"></div>
        			</div>
 			 </li>
 		     <li class="col-md-6  p0 ">
 			   <span class="">供应商名称：</span>
 			   <div class="input-append">
-		        <input class="span2 supplier_name" type="text"  readonly="readonly">
+		        <input class="span2 supplier_name" type="text"  value = '${pqinfo.contract.supplierDepName}' readonly="readonly">
+		        <div class="validate"></div>
 		       </div>
 			 </li>
 			 <li class="col-md-6  p0 ">
 			   <span class="fl">项目类别：</span>
-			   <div class="btn-group ">
-		        	<select id="temType" name ="projectType" class="w220" >
-						<option value="0">请选择</option>
+			   <div class="select_common mb10">
+		        	<select id="projectType" name ="projectType" class="w220" >
+						<option value="-请选择-">请选择</option>
+						<option value="询价">询价</option>
+						<option value="单一来源">单一来源</option>
+						<option value="邀请招标">邀请招标</option>
+						<option value="公开招标">公开招标</option>
+						<option value="竞争性谈判">竞争性谈判</option>
 	  				</select> 
+	  				<div class="validate">${ERR_projectType}</div>
 		       </div>
 			 </li>
     		 <li class="col-md-6 p0">
 			   <span class="">质检单位：</span>
 		        <div class="input-append ">
-		        	<input class="span2" name="unit" type="text">
+		        	<input class="span2" name="unit" value = '${pqinfo.unit}' type="text">
+		        	<div class="validate">${ERR_unit}</div>
        			</div>
 			 </li>
 		     <li class="col-md-6  p0 ">
 			   <span class="fl">质检类型：</span>
-			   <div class="btn-group ">
-		        	<select id="temType" name =type class="w220" >
-						<option>请选择</option>
+			   <div class="select_common mb10">
+		        	<select id="type" name =type class="w220" >
+						<option value="-请选择-">请选择</option>
 						<option value="首件检验">首件检验</option>
 						<option value="生产验收">生产验收</option>
 						<option value="出厂验收">出厂验收</option>
 						<option value="到货验收">到货验收</option>
 	  				</select> 
+	  				<div class="validate">${ERR_type}</div>
 		       </div>
 			 </li>
     		 <li class="col-md-6 p0">
 			   <span class="">质检地点：</span>
 		        <div class="input-append ">
-		        	<input class="span2" name="place" type="text">
+		        	<input class="span2" name="place" value = '${pqinfo.place}' type="text">
+		        	<div class="validate">${ERR_place}</div>
        			</div>
 			 </li>
 			<li class="col-md-6  p0 ">
 			   <span class="">质检日期：</span>
 			   <div class="input-append">
-		        <input class="span2 Wdate" name="dateString" type="text"  onfocus="WdatePicker({isShowWeek:true})">
+		        <input class="span2 Wdate" name="dateString" type="text" value="<fmt:formatDate value='${pqinfo.date}' pattern='yyyy-MM-dd'/>" onfocus="WdatePicker({isShowWeek:true})">
+		        <div class="validate">${ERR_pqdate}</div>
 		       </div>
 			 </li>
     		 <li class="col-md-6 p0">
 			   <span class="">质检人员：</span>
 		        <div class="input-append ">
-		        	<input class="span2" name="inspectors" type="text">
+		        	<input class="span2" name="inspectors"  value = '${pqinfo.inspectors}'  type="text">
+		        	<div class="validate">${ERR_inspectors}</div>
        			</div>
 			 </li>
 			 <li class="col-md-6  p0 ">
 			   <span class="">质检情况：</span>
 			   <div class="input-append">
-		        <input class="span2" name="condition" type="text">
+		        <input class="span2" name="condition" type="text" value = '${pqinfo.condition}'  >
+		        <div class="validate">${ERR_condition}</div>
 		       </div>
 			 </li>
     		 <li class="col-md-6 p0">
 			   <span class="fl">质检结论：</span>
-		        <div class="btn-group ">
-		        	<select id="temType" name ="conclusion" class="w220" >
-						<option value="" >请选择</option>
+		        <div class="select_common mb10">
+		        	<select id="conclusion" name ="conclusion" class="w220" >
+						<option value="-请选择-" >请选择</option>
 						<option value="合格">合格</option>
 						<option value="不合格">不合格</option>
 	  				</select> 
+	  				<div class="validate">${ERR_conclusion}</div>
        			</div>
 			 </li>
 			 <li class="col-md-12  p0 ">
 			   <span class="fl">详细情况：</span>
 			   <div class="col-md-12 pl200 fn mt5 pwr9">
-		        <textarea class="text_area col-md-12 " name="detail" title="不超过800个字" placeholder="不超过800个字"></textarea>
+		        <textarea class="text_area col-md-12 " name="detail" title="不超过800个字" placeholder="不超过800个字">${pqinfo.detail}</textarea>
+		        <div class="red">${ERR_detail}</div>
 		       </div>
 			 </li>
    		</ul>
@@ -170,20 +214,13 @@
 		       </div>
 			 </li>
 		</ul>
-  		<div  class="col-md-12 ml185">
-   			<div class="fl padding-10">
-    			<button class="btn btn-windows save" type="submit">新增</button>
-    			<button class="btn btn-windows git" onclick="history.go(-1)" type="button">返回</button>
-			</div>
+  		<div  class="col-md-12 tc mt20">
+    			<button class="btn btn-windows save" type="submit">保存</button>
+    			<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
   		</div>
   		
   	</form>
  </div>
  
-<script type="text/javascript">
-    //实例化编辑器
-    //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
-    var ue = UE.getEditor('editor');
-</script>
 </body>
 </html>

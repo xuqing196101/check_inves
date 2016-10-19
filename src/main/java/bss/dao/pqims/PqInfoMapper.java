@@ -146,4 +146,15 @@ public interface PqInfoMapper {
      * @return:
      */
     List<String> queryDepName();
+    
+    /**
+     * 
+     * @Title: selectByDepName
+     * @author Liyi 
+     * @date 2016-10-17 上午10:15:35  
+     * @Description:根据供应商名称查询
+     * @param:     
+     * @return:
+     */
+    List<String> selectByDepName(PqInfo pqInfo);
 }

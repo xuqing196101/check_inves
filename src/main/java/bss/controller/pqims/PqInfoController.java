@@ -15,10 +15,13 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,8 +31,10 @@ import ses.util.PathUtil;
 
 import com.github.pagehelper.PageInfo;
 
+import bss.model.cs.PurchaseContract;
 import bss.model.pqims.PqInfo;
 import bss.model.pqims.Supplier_pqinfo;
+import bss.service.cs.PurchaseContractService;
 import bss.service.pqims.PqInfoService;
 
 /**
@@ -46,7 +51,8 @@ public class PqInfoController {
 	@Resource
 	private PqInfoService pqInfoService;
 	
-	
+	@Resource
+	private PurchaseContractService purchaseContractService;
 	/**
 	 * 
 	 * @Title: getAll
@@ -87,7 +93,53 @@ public class PqInfoController {
 	 * @return:
 	 */
 	@RequestMapping("/save")
-	public String save(HttpServletRequest request,@RequestParam("contract_code") String contract_code,@RequestParam("dateString") String dateString,@RequestParam("attaattach") MultipartFile attaattach,PqInfo pqInfo){
+	public String save(HttpServletRequest request,@RequestParam("dateString") String dateString,
+			@RequestParam("attaattach") MultipartFile attaattach,@Valid PqInfo pqInfo,BindingResult result,Model model){
+		
+		Boolean flag = true;
+		String url = "";
+		//设置质检日期
+		if(dateString!=null && !dateString.equals("")){			
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			ParsePosition pos = new ParsePosition(0);
+			Date date = formatter.parse(dateString, pos);
+			pqInfo.setDate(date);
+		}else{
+			flag = false;
+			model.addAttribute("ERR_pqdate", "请选择质检日期");
+		}
+		if(pqInfo.getContract().getCode()==null || pqInfo.getContract().getCode().equals("")){
+			flag = false;
+			model.addAttribute("ERR_contract_code","请输入合同编号");
+		}else{
+			PurchaseContract pc=purchaseContractService.selectByCode(pqInfo.getContract().getCode());
+			if (pc==null) {
+				flag = false;
+				model.addAttribute("ERR_contract_code","合同编号不存在");
+			}else{
+				pqInfo.setContract(pc);
+			}
+		}
+		if(pqInfo.getType().equals("-请选择-")){
+			flag = false;
+			model.addAttribute("ERR_type", "请选择质检类型");
+		}
+		if(pqInfo.getConclusion().equals("-请选择-")){
+			flag = false;
+			model.addAttribute("ERR_conclusion", "请选择质检结论");
+		}
+		if(result.hasErrors()){
+			List<FieldError> errors = result.getFieldErrors();
+			for(FieldError fieldError:errors){
+				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
+			}
+			flag = false;
+		}
+		if(flag == false){
+			model.addAttribute("pqinfo", pqInfo);
+			url="bss/pqims/pqinfo/add";
+		}else{
+		//设置上传图片
 		 if (attaattach.getOriginalFilename() != null && !attaattach.getOriginalFilename().equals("")) {
 		 String rootpath = (PathUtil.getWebRoot() +"picUplode/").replace("\\", "/");
 	        /** 创建文件夹 */
@@ -107,13 +159,12 @@ public class PqInfoController {
 			}
 	        pqInfo.setReport("picUplode/"+fileName);
 		 }
-	        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-	        ParsePosition pos = new ParsePosition(0);
-	        Date date = formatter.parse(dateString, pos);
-	        pqInfo.setDate(date);
-	        
-	        pqInfoService.add(pqInfo);
-		return "redirect:getAll.html";
+		 
+	     //封装质检信息实体类
+	     pqInfoService.add(pqInfo);
+	     url = "redirect:getAll.html";
+		}
+		return url;
 	}
 	
 	/**
@@ -141,9 +192,53 @@ public class PqInfoController {
 	 * @return:
 	 */
 	@RequestMapping("/update")
-	public String update(HttpServletRequest request,@RequestParam("contract_code") String contract_code,@RequestParam("date") String dateString,@RequestParam("attaattach") MultipartFile attaattach,PqInfo pqInfo){
+	public String update(HttpServletRequest request,@RequestParam("date") String dateString,
+			@RequestParam("attaattach") MultipartFile attaattach,@Valid PqInfo pqInfo,BindingResult result,Model model){
+		Boolean flag = true;
+		String url = "";
+		//设置质检日期
+		if(dateString!=null && !dateString.equals("")){			
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			ParsePosition pos = new ParsePosition(0);
+			Date date = formatter.parse(dateString, pos);
+			pqInfo.setDate(date);
+		}else{
+			flag = false;
+			model.addAttribute("ERR_pqdate", "请选择质检日期");
+		}
+		if(pqInfo.getContract().getCode()==null || pqInfo.getContract().getCode().equals("")){
+			flag = false;
+			model.addAttribute("ERR_contract_code","请输入合同编号");
+		}else{
+			PurchaseContract pc=purchaseContractService.selectByCode(pqInfo.getContract().getCode());
+			if (pc==null) {
+				flag = false;
+				model.addAttribute("ERR_contract_code","合同编号不存在");
+			}else{
+				pqInfo.setContract(pc);
+			}
+		}
+		if(pqInfo.getType().equals("-请选择-")){
+			flag = false;
+			model.addAttribute("ERR_type", "请选择质检类型");
+		}
+		if(pqInfo.getConclusion().equals("-请选择-")){
+			flag = false;
+			model.addAttribute("ERR_conclusion", "请选择质检结论");
+		}
+		if(result.hasErrors()){
+			List<FieldError> errors = result.getFieldErrors();
+			for(FieldError fieldError:errors){
+				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
+			}
+			flag = false;
+		}
+		if(flag == false){
+			model.addAttribute("pqinfo", pqInfo);
+			url="bss/pqims/pqinfo/edit";
+		}else{
+		//设置上传图片
 		 if (attaattach.getOriginalFilename() != null && !attaattach.getOriginalFilename().equals("")) {
-			System.out.println(1111111);
 			 String rootpath = (PathUtil.getWebRoot() +"picUplode/").replace("\\", "/");
 			 /** 创建文件夹 */
 			 File rootfile = new File(rootpath);
@@ -168,7 +263,9 @@ public class PqInfoController {
 	        pqInfo.setDate(date);
 	        
 	        pqInfoService.update(pqInfo);
-		return "redirect:getAll.html";
+	        url="redirect:getAll.html";
+		}
+		return url;
 	}
 	
 	
@@ -301,6 +398,41 @@ public class PqInfoController {
 		model.addAttribute("list",new PageInfo<Supplier_pqinfo>(supplier_pqinfos));
 		model.addAttribute("page",new PageInfo<String>(supplierNames));
 		return "bss/pqims/pqinfo/supplier_pqinfo_list";
+	}
+	
+	@RequestMapping("/searchSupplier")
+	public String searchSupplier(Model model,HttpServletRequest request,PqInfo pqInfo,Integer page){
+		List<String> supplierNames = new ArrayList<String>();
+		if(pqInfo!=null){
+			supplierNames =  pqInfoService.selectByDepName(page==null?1:page,pqInfo);
+			model.addAttribute("pqinfo",pqInfo);
+		}else{
+			supplierNames = pqInfoService.queryDepName(page==null?1:page);
+		}
+		List<Supplier_pqinfo> supplier_pqinfos= new ArrayList<Supplier_pqinfo>();
+		for (int i = 0; i < supplierNames.size(); i++) {
+			Supplier_pqinfo sPqinfo =new Supplier_pqinfo();
+			String supplierName = supplierNames.get(i);
+			
+			BigDecimal countSuccess = pqInfoService.queryByCountSuccess(supplierName);
+			if (countSuccess==null) {
+				countSuccess=new BigDecimal(0);
+			}
+			BigDecimal countFail =pqInfoService.queryByCountFail(supplierName);
+			if (countFail==null) {
+				countFail=new BigDecimal(0);
+			}
+			
+			sPqinfo.setSupplierName(supplierName);
+			sPqinfo.setSuccessCount(countSuccess);
+			sPqinfo.setFailCount(countFail);
+			sPqinfo.setAvg(myPercent(countSuccess.doubleValue(),(countSuccess.doubleValue()+countFail.doubleValue())));
+			supplier_pqinfos.add(sPqinfo);
+		}
+		model.addAttribute("list",new PageInfo<Supplier_pqinfo>(supplier_pqinfos));
+		model.addAttribute("page",new PageInfo<String>(supplierNames));
+		return "bss/pqims/pqinfo/supplier_pqinfo_list";
+		
 	}
 	
 	  public static String myPercent(double y, double z) {  

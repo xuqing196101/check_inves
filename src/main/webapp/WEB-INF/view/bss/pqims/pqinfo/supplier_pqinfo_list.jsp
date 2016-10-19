@@ -46,7 +46,9 @@
 		    }
 		});
   })
- 
+ 	$(function(){
+		$("#supplierDepName").val('${pqinfo.contract.supplierDepName}');
+	});
   </script>
   <body>
 	<!--面包屑导航开始-->
@@ -58,17 +60,38 @@
 		<div class="clear"></div>
 	  </div>
    </div>
+    <div class="container">
+ <div class="headline-v2">
+	   		<h2>质量结果查询</h2>
+	   </div>
 
-   
+    <!-- 查询 -->
+  <div class="container clear">
+  <div class="p10_25">
+     <h2 class="padding-10 border1">
+   	<form action="<%=basePath %>pqinfo/searchSupplier.html" method="post" enctype="multipart/form-data" class="mb0" >
+	 <ul class="demand_list">
+	   <li class="fl mr15"><label class="fl mt5">供应商名称：</label><span><input type="text" name="contract.supplierDepName" id="supplierDepName" class="mb0" /></span></li>
+	   
+	   	 <button class="btn fl ml5 mt1" type="submit">查询</button>
+	   	 <button type="reset" class="btn ml5 mt1 ">重置</button> 
+	 </ul>
+
+	 <div class="clear"></div>
+	 </form>
+     </h2>
+   </div>
+  </div>
+</div>
+     
 <!-- 表格开始-->
    <div class="container">
    		<div class="headline-v2 fl">
       		<h2>供应商质检情况列表</h2>
   		</div> 
-    </div>
-   <div class="container margin-top-5">
+   <div class="container">
      <div class="content padding-left-25 padding-right-25 padding-top-5">
-        <table class="table table-bordered table-condensed">
+    	<table class="table table-bordered table-condensed table-hover">
 		<thead>
 		<tr>
 		  <th class="info w50">序号</th>
@@ -93,8 +116,10 @@
 			</tr>
 		</c:forEach>
         </table>
-     </div>
-   	<div id="pagediv" align="right"></div>
+    </div>
+   	
    </div>
+   <div id="pagediv" align="right"></div>
+  </div>
   </body>
 </html>

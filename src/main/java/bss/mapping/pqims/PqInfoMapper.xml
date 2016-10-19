@@ -291,34 +291,21 @@
     select 
     *
     from T_BSS_PQIMS_PQINFO p LEFT JOIN T_BSS_CS_PURCHASE_CONTRACT c on p.CONTRACT_ID = c.id
-    <if test="(conclusion != null and conclusion !='-请选择-' and conclusion !='') 
-      or (type != null and type !='-请选择-' and type !='')
-     or (contract.code != null and contract.code != '' ) 
-     or ( contract.name != null and contract.name != '' )">
         where 
-     </if>
     
 	 <if test="conclusion != null and conclusion !='-请选择-'">
-        p.CONCLUSION=#{conclusion}
-     </if>
-     <if test="conclusion != null and type != null and conclusion !='-请选择-' and type !='-请选择-'">
-        AND
+        p.CONCLUSION=#{conclusion} AND
      </if>
      <if test="type != null and type !='-请选择-'">
-        p.TYPE=#{type}
-     </if>
-     <if test="type != null and type !='-请选择-' and contract.code != null and contract.code != ''">
-        AND
+        p.TYPE=#{type} AND
      </if>
      <if test="contract.code != null and contract.code != ''">
-        c.CODE LIKE '%'||#{contract.code}||'%'
-     </if>
-     <if test="contract.code != null and contract.name != null and  contract.code != '' and contract.name != ''">
-        AND
+        c.CODE LIKE '%'||#{contract.code}||'%' AND
      </if>
      <if test="contract.name != null and contract.name != ''">
-        c.NAME LIKE '%'||#{contract.name}||'%'
+        c.NAME LIKE '%'||#{contract.name}||'%' AND
      </if>
+     p.ID IS NOT NULL
      ORDER BY p.CREATED_AT DESC
   </select>
   
@@ -344,6 +331,16 @@
   <select id="queryDepName" resultType="Object" parameterType="Object">
     select c.SUPPLIER_DEP_NAME
     from T_BSS_PQIMS_PQINFO p inner JOIN T_BSS_CS_PURCHASE_CONTRACT c on p.CONTRACT_ID = c.id
+    GROUP BY c.SUPPLIER_DEP_NAME ORDER BY c.SUPPLIER_DEP_NAME 
+  </select>
+  
+   <!-- 11.根据供应商名称查询列表supplierDepName -->
+  <select id="selectByDepName" resultType="Object" parameterType="Object">
+    select c.SUPPLIER_DEP_NAME
+    from T_BSS_PQIMS_PQINFO p inner JOIN T_BSS_CS_PURCHASE_CONTRACT c on p.CONTRACT_ID = c.id
+    <if test="contract.supplierDepName != null and contract.supplierDepName != ''">
+    where c.SUPPLIER_DEP_NAME LIKE '%'||#{contract.supplierDepName}||'%'
+    </if>
     GROUP BY c.SUPPLIER_DEP_NAME ORDER BY c.SUPPLIER_DEP_NAME 
   </select>
 </mapper>

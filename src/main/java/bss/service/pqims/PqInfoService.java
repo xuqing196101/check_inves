@@ -67,4 +67,8 @@ public interface PqInfoService {
 	 */
 	List<String> queryDepName(Integer pageNum);
 	
+	/**
+	 * 11.根据供应商名称查询
+	 */
+	List<String> selectByDepName(Integer pageNum,PqInfo pqInfo);
 }

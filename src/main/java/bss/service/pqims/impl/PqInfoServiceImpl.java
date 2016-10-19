@@ -119,4 +119,12 @@ public class PqInfoServiceImpl implements PqInfoService {
 		return pqInfoMapper.queryDepName();
 	}
 
+	
+	@Override
+	public List<String> selectByDepName(Integer pageNum, PqInfo pqInfo) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
+		return pqInfoMapper.selectByDepName(pqInfo);
+	}
+
 }

@@ -163,12 +163,12 @@
 	   <div class="headline-v2">
 	   		<h2>质量结果查询</h2>
 	   </div>
-   </div>
+
    
    <!-- 查询 -->
-   
-   <div class="container clear margin-top-0">
-   <div class="padding-10 border1 m0_30 tc">
+  <div class="container clear">
+  <div class="p10_25">
+     <h2 class="padding-10 border1">
    	<form action="<%=basePath %>pqinfo/search.html" method="post" enctype="multipart/form-data" class="mb0" >
 	 <ul class="demand_list">
 	   <li class="fl mr15"><label class="fl mt5">合同名称：</label><span><input type="text" name="contract.name" id="contractName" class="mb0" /></span></li>
@@ -193,31 +193,33 @@
 	  			</select>
 	   		</span>
 	   </li>
-	   	 <button class="btn fl ml5 mt1" type="submit">查询</button>
-	   	 <button type="reset" class="btn ml5 mt1">重置</button> 
+	   	 <button class="btn fl ml5" type="submit">查询</button>
+	   	 <button type="reset" class="btn ml5">重置</button> 
 	 </ul>
 
 	 <div class="clear"></div>
 	 </form>
+     </h2>
    </div>
   </div>
+</div>
    
 <!-- 表格开始-->
    <div class="container">
    		<div class="headline-v2 fl">
       		<h2>质检情况列表</h2>
   		</div> 
-    </div>
-    <div class="container">
-   		<div class="col-md-8">
+
+   <div class="container">
+    <div class="col-md-12 pl20">
     		<button class="btn btn-windows add" type="button" onclick="add()">登记质检报告</button>
 			<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 			<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
 		</div>        
    </div>
-   <div class="container margin-top-5">
+   <div class="container">
      <div class="content padding-left-25 padding-right-25 padding-top-5">
-        <table class="table table-bordered table-condensed">
+    	<table class="table table-bordered table-condensed table-hover">
 		<thead>
 		<tr>
 		  <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
@@ -247,13 +249,15 @@
 				
 				<td class="tc opinter" onclick="view('${PqInfo.id}')">${PqInfo.conclusion}</td>
 			
-				<td class="tc opinter"><button type="button" onclick="showPic('${PqInfo.id}')">质检报告</button><img class="hide" id="${PqInfo.id}" src="${PqInfo.report}"/></td>
+				<td class="tc opinter"><button type="button" onclick="showPic('${PqInfo.id}')" class="btn">质检报告</button><img class="hide" id="${PqInfo.id}" src="${PqInfo.report}"/></td>
    				
 			</tr>
 		</c:forEach>
         </table>
      </div>
-   	<div id="pagediv" align="right"></div>
+   	
    </div>
+   <div id="pagediv" align="right"></div>
+  </div>
   </body>
 </html>
