@@ -1,10 +1,17 @@
 package ses.model.sms;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class ImportRecommend {
-    private String id;
-    /*@NotBlank(message="jdfaskjaldas")*/
+import javax.validation.constraints.NotNull;
+
+public class ImportRecommend implements Serializable{
+    /**
+	 * @Fields serialVersionUID : 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String id;
+    @NotNull(message = "用户名不能为空") 
     private String name;
 
     private String address;

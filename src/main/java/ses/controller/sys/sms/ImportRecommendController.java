@@ -90,14 +90,10 @@ public class ImportRecommendController extends BaseSupplierController{
 	 * @return String
 	 */
 	@RequestMapping("/save")
-	public String save(@Valid ImportRecommend ir,Model model,BindingResult result,HttpServletRequest request) throws IOException{
-		/*if(result.hasErrors()){
-			List<FieldError> errors = result.getFieldErrors();
-			for(FieldError fieldError:errors){
-				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
-			}
+	public String save(@Valid ImportRecommend ir, BindingResult result,HttpServletRequest request,Model model) throws IOException{
+		if(result.hasErrors()){
 			return "ses/sms/import_recommend/add";
-		}*/
+		}
 		User user1=(User) request.getSession().getAttribute("loginUser");
 		ir.setCreatedAt(new Date());
 		ir.setCreator(user1.getRelName());

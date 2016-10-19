@@ -1,4 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -53,7 +55,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    
 <!-- 修改订列表开始-->
    <div class="container">
-   <form action="<%=basePath %>importRecommend/save.html" method="post">
+   <sf:form action="${pageContext.request.contextPath}/importRecommend/save.html" method="post" modelAttribute="ir" >
    <div>
    <div class="headline-v2">
    <h2>进口代理商新增</h2>
@@ -76,7 +78,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      <li class="col-md-6  p0 ">
 	   <span class="">企业名称：</span>
 	   <div class="input-append">
-        <input class="span2" id="name" name="name" type="text"><%-- <div class="validate">${ERR_name}</div> --%>
+        <input class="span2" id="name" name="name" type="text"> <div class="b f14 red tip pa l260"><sf:errors path="name"/></div>
         <span class="add-on">i</span>
        </div>
 	 </li> 
@@ -117,7 +119,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			   <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
 			   <button class="btn btn-windows save"  type="submit">保存</button>
        	   </div>
-   </form>
+   </sf:form>
   </div> 
 </body>
 </html>
