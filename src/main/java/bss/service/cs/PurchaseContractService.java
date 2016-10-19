@@ -3,6 +3,7 @@ package bss.service.cs;
 import java.util.List;
 import java.util.Map;
 
+import bss.model.cs.ContractRequired;
 import bss.model.cs.PurchaseContract;
 
 /*
@@ -139,4 +140,6 @@ public interface PurchaseContractService {
     * @return List<PurchaseContract>
      */
     PurchaseContract selectFormalById(String id);
+    
+    int createWord(PurchaseContract pur,List<ContractRequired> requList);
 }

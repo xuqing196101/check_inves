@@ -1,4 +1,5 @@
 package iss.controller.ps;
+
 import iss.model.ps.Article;
 import iss.model.ps.ArticleAttachments;
 import iss.model.ps.ArticleType;
@@ -9,9 +10,9 @@ import iss.service.ps.SolrNewsService;
 
 import java.util.List;
 import java.util.Date;
+import java.util.Map;
 import java.io.File;
 import java.io.IOException;
-import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -24,13 +25,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import ses.controller.sys.bms.LoginController;
 import ses.model.bms.User;
 import ses.util.FtpUtil;
+import ses.util.PropUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
@@ -173,7 +174,22 @@ public class ArticleController {
 		if(attaattach!=null){
 			for(int i=0;i<attaattach.length;i++){
 				if(attaattach[i].getOriginalFilename()!=null && attaattach[i].getOriginalFilename()!=""){
-					FtpUtil.upload2("news",attaattach[i]);
+					String fileName = attaattach[i].getOriginalFilename();
+					String path = (request.getSession().getServletContext().getRealPath("/") + PropUtil.getProperty("file.stashPath") + "/").replace("\\", "/")+fileName;
+					try {
+						attaattach[i].transferTo(new File(path));
+					} catch (IllegalStateException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					FtpUtil.connectFtp(PropUtil.getProperty("file.upload.path.articlenews"));
+					Map<String, Object> map = FtpUtil.uploadReturnUrl(new File(path));
+					FtpUtil.closeFtp();
+					File file = new File(path);
+					if(file.isFile()){
+						file.delete();
+					}
 //			        String rootpath = (request.getSession().getServletContext().getRealPath("/")+"upload/").replace("\\", "/");
 //			        /** 创建文件夹 */
 //					File rootfile = new File(rootpath);
@@ -192,12 +208,12 @@ public class ArticleController {
 //					}
 					ArticleAttachments attachment=new ArticleAttachments();
 					attachment.setArticle(new Article(article.getId()));
-//					attachment.setFileName(fileName);
+					attachment.setFileName((String)map.get("fileName"));
 					attachment.setCreatedAt(new Date());
 					attachment.setUpdatedAt(new Date());
 					attachment.setContentType(attaattach[i].getContentType());
 					attachment.setFileSize((float)attaattach[i].getSize());
-//					attachment.setAttachmentPath(filePath);
+					attachment.setAttachmentPath((String)map.get("url"));
 					articleAttachmentsService.insert(attachment);
 				}
 			}
@@ -465,7 +481,7 @@ public class ArticleController {
 			User user = (User) request.getSession().getAttribute("loginUser");
 			article.setPublishedName(user.getRelName());
 			article.setPublishedAt(new Date());
-		//	solrNewsService.addIndex(article);
+			solrNewsService.addIndex(article);
 			articleService.update(article);
 		}else if(article.getStatus()==3){
 			String reason = new String((article.getReason()).getBytes("ISO-8859-1") , "UTF-8");

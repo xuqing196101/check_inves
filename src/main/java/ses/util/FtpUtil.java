@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletResponse;
@@ -126,6 +128,51 @@ public class FtpUtil {
 				input.close();
 				// String url = PropUtil.getProperty("ftp.root") + ftp.printWorkingDirectory() + "/" + fileName;
 				return fileName;
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	/**
+	 * @Title: upload
+	 * @author: Poppet_Brook
+	 * @date: 2016-6-8 下午4:31:51
+	 * @Description: 文件上传
+	 * @param: @param file
+	 * @param: @return
+	 * @return: String
+	 */
+	public static Map<String, Object> uploadReturnUrl(File file) {
+		try {
+			if (file.isDirectory()) {
+				ftp.makeDirectory(file.getName());
+				ftp.changeWorkingDirectory(file.getName());
+				String[] files = file.list();
+				for (String fstr : files) {
+					File file1 = new File(file.getPath() + "/" + fstr);
+					if (file1.isDirectory()) {
+						upload(file1);
+						ftp.changeToParentDirectory();
+					} else {
+						File file2 = new File(file.getPath() + "/" + fstr);
+						FileInputStream input = new FileInputStream(file2);
+						ftp.storeFile(file2.getName(), input);
+						input.close();
+					}
+				}
+				return null;
+			} else {
+				File file2 = new File(file.getPath());
+				FileInputStream input = new FileInputStream(file2);
+				String fileName = UUID.randomUUID().toString().replace("-", "").toUpperCase().toString() + "_" +file2.getName();
+				ftp.storeFile(new String(fileName.getBytes("GBK"), "ISO-8859-1"), input);
+				input.close();
+				String url = PropUtil.getProperty("ftp.root") + ftp.printWorkingDirectory() + "/" + fileName;
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("url", url);
+				map.put("fileName", fileName);
+				return map;
 			}
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -320,7 +367,7 @@ public class FtpUtil {
 	public static String upload2(String path, MultipartFile uploadFile){
 		if (FtpUtil.connectFtp(path)){
 			try{
-				String fileName = new String((UUID.randomUUID().toString().replace("-", "").toUpperCase().toString() + "_" + uploadFile.getOriginalFilename()).getBytes("utf-8"),"iso-8859-1");
+				String fileName = new String((UUID.randomUUID().toString().replace("-", "").toUpperCase().toString() + "_" + uploadFile.getOriginalFilename()));
 				//判断是否存在该文件
 				FTPFile[] fs = ftp.listFiles();  
 				if (fs!=null && fs.length>0) {
@@ -344,7 +391,7 @@ public class FtpUtil {
 				is.close();
 				os.close();
 				ftp.logout();
-				String url = new String((PropUtil.getProperty("ftp.root")+ "/" + path + "/" + fileName).getBytes("ISO-8859-1"),"utf-8");
+				String url = new String((PropUtil.getProperty("ftp.root")+ "/" + path + "/" + fileName));
 				return url;
 			} catch (IOException e) { 
 				e.printStackTrace(); 

@@ -3,13 +3,7 @@ package iss.model.ps;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
-
-import javax.validation.constraints.NotNull;
-
-import org.apache.poi.util.NotImplemented;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
-
 import ses.model.bms.User;
 
 /*

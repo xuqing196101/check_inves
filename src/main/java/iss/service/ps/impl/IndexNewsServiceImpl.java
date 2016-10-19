@@ -3,7 +3,6 @@ package iss.service.ps.impl;
 import iss.dao.ps.ArticleAttachmentsMapper;
 import iss.dao.ps.IndexNewsMapper;
 import iss.model.ps.Article;
-import iss.model.ps.ArticleAttachments;
 import iss.service.ps.IndexNewsService;
 
 import java.util.List;

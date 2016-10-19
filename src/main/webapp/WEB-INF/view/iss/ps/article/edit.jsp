@@ -123,7 +123,7 @@ function deleteAtta(id,obj){
 	 <span class="fl">已上传的附件：</span>
 	 <div class="fl mt5">
   	   <c:forEach items="${article.articleAttachments}" var="a">
-  	   	<a href="#">${fn:split(a.fileName, '_')[1]}</a><a href="#" onclick="deleteAtta('${a.id}',this)" class="red redhover ml10">x</a>
+  	   	<a href="<%=basePath %>index/downloadArticleAtta.html?id=${a.id}">${fn:split(a.fileName, '_')[1]}</a><a href="#" onclick="deleteAtta('${a.id}',this)" class="red redhover ml10">x</a>
   	   </c:forEach>
 	 </div>
 	 </li>

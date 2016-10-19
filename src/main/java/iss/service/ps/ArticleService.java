@@ -1,7 +1,6 @@
 package iss.service.ps;
 
 import iss.model.ps.Article;
-import iss.model.ps.ArticleAttachments;
 
 import java.util.List;
 

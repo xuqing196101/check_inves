@@ -1,11 +1,15 @@
 package bss.controller.cs;
 
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,19 +19,21 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import ses.util.PathUtil;
 import ses.util.ValidateUtils;
 import com.github.pagehelper.PageInfo;
 import bss.model.cs.ContractRequired;
 import bss.model.cs.PurchaseContract;
-import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.ProjectTask;
 import bss.model.ppms.Task;
 import bss.service.cs.ContractRequiredService;
 import bss.service.cs.PurchaseContractService;
-import bss.service.pms.PurchaseRequiredService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.ProjectTaskService;
@@ -285,7 +291,7 @@ public class PurchaseContractController {
 	}
 	
 	@RequestMapping("/updateDraftContract")
-	public String updateDraftContract(@Valid PurchaseContract purCon,BindingResult result,ProList proList,HttpServletRequest request,Model model) throws Exception{
+	public String updateDraftContract(@RequestParam("agrfile") MultipartFile agrfile,HttpServletRequest request,@Valid PurchaseContract purCon,BindingResult result,ProList proList,Model model) throws Exception{
 		String ids = request.getParameter("ids");
 		Boolean flag = true;
 		String url = "";
@@ -332,9 +338,22 @@ public class PurchaseContractController {
 			model.addAttribute("ids", ids);
 			url = "bss/cs/purchaseContract/draftContract";
 		}else{
+			String rootpath = (PathUtil.getWebRoot() + "picupload/").replace("\\", "/");
+			/** 创建文件夹 */
+	        String fileName = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase() + "_" + agrfile.getOriginalFilename();		        
+	        String filePath = rootpath+fileName;
+	        File file = new File(filePath);
+	        try {
+	        	agrfile.transferTo(file);
+			} catch (IllegalStateException e) {
+				e.printStackTrace();				
+				} catch (IOException e) {
+			e.printStackTrace();
+			}
 			SimpleDateFormat sdf = new SimpleDateFormat("YYYY");
 			purCon.setYear(new BigDecimal(sdf.format(new Date())));
 			purCon.setUpdatedAt(new Date());
+			purCon.setApprovePic(filePath);
 			purchaseContractService.updateByPrimaryKeySelective(purCon);
 			String id = purCon.getId();
 			contractRequiredService.deleteByContractId(id);
@@ -343,22 +362,36 @@ public class PurchaseContractController {
 				conRequ.setContractId(id);
 				contractRequiredService.insertSelective(conRequ);
 			}
+			purchaseContractService.createWord(purCon, requList);
 			url = "redirect:selectDraftContract.html";
 		}
 		return url;
 	}
 	
 	@RequestMapping("/updateDraftById")
-	public String updateDraftById(HttpServletRequest request) throws Exception{
-		String id = request.getParameter("id");
-		String apN = request.getParameter("apN");
-		String status = request.getParameter("status");
+	public String updateDraftById(@RequestParam("agrfile") MultipartFile agrfile,String ids,String apN,String status,HttpServletRequest request) throws Exception{
+		String rootpath = (PathUtil.getWebRoot() + "picupload/").replace("\\", "/");
+		/** 创建文件夹 */
+        String fileName = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase() + "_" + agrfile.getOriginalFilename();		        
+        String filePath = rootpath+fileName;
+        File file = new File(filePath);
+        try {
+        	agrfile.transferTo(file);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();				
+			} catch (IOException e) {
+		e.printStackTrace();
+		}
 		PurchaseContract purCon = new PurchaseContract();
-		purCon.setId(id);
+		purCon.setId(ids);
 		purCon.setApprovalNumber(apN);
+		purCon.setApprovePic("picupload/"+fileName);
 		purCon.setStatus(Integer.parseInt(status));
 		purCon.setUpdatedAt(new Date());
+		List<ContractRequired> requList = contractRequiredService.selectConRequeByContractId(purCon.getId());
+		PurchaseContract pur = purchaseContractService.selectById(purCon.getId());
 		purchaseContractService.updateByPrimaryKeySelective(purCon);
+		purchaseContractService.createWord(pur, requList);
 		return "redirect:selectDraftContract.html";
 	}
 	

@@ -1,7 +1,6 @@
 package iss.service.ps.impl;
 
 import iss.dao.ps.DownloadUserMapper;
-import iss.model.ps.Article;
 import iss.model.ps.DownloadUser;
 import iss.service.ps.DownloadUserService;
 
@@ -10,11 +9,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import ses.util.PropertiesUtil;
-
-import com.github.pagehelper.PageHelper;
-
 
 /*
  *@Title:DownloadUserServiceImpl

@@ -147,9 +147,9 @@
 				    shade:0.01, //遮罩透明度
 					type : 1,
 					skin : 'layui-layer-rim', //加上边框
-					area : [ '370px', '200px' ], //宽高
+					area : [ '40%', '300px' ], //宽高
 					content : $('#numberWin'),
-					offset: ['55%', '40%']
+					offset: ['10%', '25%']
 				});
 			}
 		}else{
@@ -161,9 +161,10 @@
   		$('input[name="chkItem"]:checked').each(function(){ 
 			ids.push($(this).val()); 
 		}); 
+  		$("#ids").val(ids);
 		var apN = $("#apN").val();
 		if(apN!=null && apN!=''){
-			window.location.href="<%=basePath%>purchaseContract/updateDraftById.html?id="+ids+"&apN="+apN+"&status=2";
+			$("#contractForm").submit();
 		}else{
 			layer.alert("请先填写合同批准文号",{offset: ['55%', '40%'], shade:0.01});
 		}
@@ -268,16 +269,24 @@
      </div>
     </div>
    <div id="pagediv" align="right"></div>
+   <form id="contractForm" action="<%=basePath%>purchaseContract/updateDraftById.html" method="post" enctype="multipart/form-data">
+   <input type="hidden" value="" id="ids" name="ids"/>
+   <input type="hidden" value="2" name="status"/>
    	<div id="numberWin" class="dnone mt20">
-	    <div class="col-md-12">
-   		 <span class="span3">合同批准文号：</span>
-   		 <input type="text" id="apN" value="" class="mb0"/>
-        </div>
-		<div class="tc col-md-12 mt20 ml30">
-		 <input type="button" class="btn" onclick="save()" value="生成"/>
-		 <input type="button" class="btn" onclick="cancel()" value="取消"/>
-		</div>
-	</div>
+  		    <div class="col-md-12">
+			   <span class="span3 fl mt5">合同批准文号：</span>
+			   <input type="text" id="apN" value="" class="mb0"/>
+			</div>
+			<div class="col-md-12 mt10">
+			   <span class="span3 fl">上传批准文件：</span>
+			   <input type="file" id="fi" name="agrfile" class="fl"/>
+            </div>
+			<div class="tc col-md-12 mt20">
+			 <input type="button" class="btn" onclick="save()" value="生成"/>
+			 <input type="button" class="btn" onclick="cancel()" value="取消"/>
+			</div>
+	 </div>
+	</form>
 	<div id="pagediv" align="right"></div>
    </div>
 </body>

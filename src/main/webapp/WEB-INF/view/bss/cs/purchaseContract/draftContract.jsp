@@ -221,9 +221,9 @@
 		    shade:0.01, //遮罩透明度
 			type : 1,
 			skin : 'layui-layer-rim', //加上边框
-			area : [ '370px', '200px' ], //宽高
+			area : [ '40%', '300px' ], //宽高
 			content : $('#numberWin'),
-			offset: ['70%', '40%']
+			offset: ['70%', '25%']
 		});
 	}
 	
@@ -256,7 +256,7 @@
    
 <!-- 新增模板开始-->
    <div class="container bggrey border1 mt20">
-   		<form id="contractForm" action="<%=basePath%>purchaseContract/updateDraftContract.html?ids=${ids}" method="post">
+   		<form id="contractForm" action="<%=basePath%>purchaseContract/updateDraftContract.html?ids=${ids}" method="post" enctype="multipart/form-data">
    		<input type="hidden" name="status" value="" id="status"/>
    		<input type="hidden" name="id" value="${draftCon.id}"/>
    		<input type="hidden" name="supplierPurId" value="${draftCon.supplierPurId}"/>
@@ -525,10 +525,14 @@
   		</div>
   		<div id="numberWin" class="dnone mt20">
   		    <div class="col-md-12">
-			   <span class="span3">合同批准文号：</span>
+			   <span class="span3 fl mt5">合同批准文号：</span>
 			   <input type="text" id="apN" value="" class="mb0"/>
+			</div>
+			<div class="col-md-12 mt10">
+			   <span class="span3 fl">上传批准文件：</span>
+			   <input type="file" id="fi" name="agrfile" class="fl"/>
             </div>
-			<div class="tc col-md-12 mt20 ml30">
+			<div class="tc col-md-12 mt20">
 			 <input type="button" class="btn" onclick="save()" value="生成"/>
 			 <input type="button" class="btn" onclick="cancel()" value="取消"/>
 			</div>

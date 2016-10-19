@@ -12,8 +12,6 @@ import iss.service.ps.DownloadUserService;
 import iss.service.ps.IndexNewsService;
 import iss.service.ps.SolrNewsService;
 
-import java.io.File;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -23,18 +21,15 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import ses.model.bms.User;
+import ses.controller.sys.sms.BaseSupplierController;
+import ses.util.FtpUtil;
+import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 
 
@@ -47,7 +42,7 @@ import ses.util.PropertiesUtil;
 @Controller
 @Scope("prototype")
 @RequestMapping("/index")
-public class IndexNewsController {
+public class IndexNewsController extends BaseSupplierController{
 	
 	@Autowired
 	private IndexNewsService indexNewsService;
@@ -204,21 +199,32 @@ public class IndexNewsController {
 	* @return void
 	 */
 	@RequestMapping("/downloadArticleAtta")
-	public void downloadArticleAtta(ArticleAttachments articleAttachments,HttpServletResponse response) throws Exception{
+	public void downloadArticleAtta(HttpServletRequest request,ArticleAttachments articleAttachments,HttpServletResponse response) throws Exception{
 		ArticleAttachments articleAtta = articleAttachmentsService.selectArticleAttaById(articleAttachments.getId());
-		String filePath = articleAtta.getAttachmentPath();
-		File file = new File(filePath);
-		if(file == null || !file.exists()){
-			return;
-		}
+//		String filePath = articleAtta.getAttachmentPath();
+//		File file = new File(filePath);
+//		if(file == null || !file.exists()){
+//			return;
+//		}
 		Article article = articleService.selectArticleById(articleAtta.getArticle().getId());
-		String fileName = (articleAtta.getFileName().split("_"))[1];
-		response.reset();
-		response.setContentType(articleAtta.getContentType()+"; charset=utf-8");
-		response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
-		OutputStream out = response.getOutputStream();
-		out.write(FileUtils.readFileToByteArray(file));
-		out.flush();
+		String floadername = PropUtil.getProperty("file.upload.path.articlenews");
+		String path = (request.getSession().getServletContext().getRealPath("/") + PropUtil.getProperty("file.stashPath") + "/").replace("\\", "/");
+		String fileName = articleAtta.getFileName();
+		FtpUtil.startDownFile(path, floadername, fileName);
+		FtpUtil.closeFtp();
+		if (fileName != null && !"".equals(fileName)) {
+			super.download(request, response, fileName);
+		} else {
+			super.alert(request, response, "无附件下载 !");
+		}
+		super.removeStash(request, fileName);
+//		String fileName = (articleAtta.getFileName().split("_"))[1];
+//		response.reset();
+//		response.setContentType(articleAtta.getContentType()+"; charset=utf-8");
+//		response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+//		OutputStream out = response.getOutputStream();
+//		out.write(FileUtils.readFileToByteArray(file));
+//		out.flush();
 		DownloadUser downloadUser = new DownloadUser();
 		downloadUser.setCreatedAt(new Date());
 		downloadUser.setArticle(article);
@@ -229,8 +235,8 @@ public class IndexNewsController {
 		downloadUserService.addDownloadUser(downloadUser);
 		article.setDownloadCount(article.getDownloadCount()+1);
 		articleService.update(article);
-		if(out !=  null){
-			out.close();
-		}
+//		if(out !=  null){
+//			out.close();
+//		}
 	}
 }

@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ include file="../../../common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -32,6 +33,19 @@
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
   </head>
+  <script type="text/javascript">
+  function showPic(){
+		layer.open({
+			  type: 1,
+			  title: false,
+			  closeBtn: 1,
+			  area: 'auto',
+			  skin: 'layui-layer-nobg', //没有背景色
+			  shadeClose: true,
+			  content: $("#photo")
+			});
+	};
+  </script>
 <body>
 <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
@@ -97,6 +111,12 @@
 			   <span class="">项级预算科目：</span>
 		        <div class="input-append ">
 		        	<input class="span2 contract_name" readonly="readonly" name="budget" value="${project.budgetSubjectItem}" type="text">
+       			</div>
+			 </li>
+			 <li class="col-md-6 p0">
+			   <span class="">合同批准文号：</span>
+		        <div class="input-append ">
+		        	<input class="span2 contract_name" readonly="readonly" name="budget" value="${project.approvalNumber}" type="text">
        			</div>
 			 </li>
 			 <div class="clear"></div>
@@ -278,6 +298,15 @@
    	<div class="container">
    	  <div class="p10_25 col-md-11">
        <script id="editor" name="content" type="text/plain" class= ""></script>
+      </div>
+    </div>
+    <div class="headline-v2 bggrey">
+   		<h2>批准文件电子扫描件</h2>
+   	</div>
+   	<div class="container">
+   	  <div class="p10_25 col-md-11">
+   	  	<button type="button" onclick="showPic()">${fn:split(draftCon.approvePic, '_')[1]}</button>
+       	<img type="hidden" id="photo" src="${draftCon.approvePic}"/>
       </div>
     </div>
   	</form>
