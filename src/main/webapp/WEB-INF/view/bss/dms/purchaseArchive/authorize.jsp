@@ -1,11 +1,10 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ include file="/WEB-INF/view/common.jsp"%>
-<!DOCTYPE html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <title>采购档案列表</title>
+    <title>采购档案授权</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -18,35 +17,77 @@
 	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript">
 		$(function(){
-			/**laypage({
+			$("#name").val("${name}");
+			$("#depName").val("${depName}");
+			laypage({
 			    cont: $("#pageDiv"), //容器。值支持id名、原生dom对象，jquery对象,
-			    pages: "${archiveList.pages}", //总页数
+			    pages: "${purchaseList.pages}", //总页数
 			    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
 			    skip: true, //是否开启跳页
-			    total: "${archiveList.total}",
-			    startRow: "${archiveList.startRow}",
-			    endRow: "${archiveList.endRow}",
-			    groups: "${archiveList.pages}">=5?5:"${archiveList.pages}", //连续显示分页数
+			    total: "${purchaseList.total}",
+			    startRow: "${purchaseList.startRow}",
+			    endRow: "${purchaseList.endRow}",
+			    groups: "${purchaseList.pages}">=5?5:"${purchaseList.pages}", //连续显示分页数
 			    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
 			        var page = location.search.match(/page=(\d+)/);
 			        return page ? page[1] : 1;
 			    }(), 
 			    jump: function(e, first){ //触发分页后的回调
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
-			            
+			        	var name = "${name}";
+			        	var depName = "${depName}";
+			        	location.href = "<%=path%>/purchaseArchive/archiveAuthorize.do?name="+name+"&depName="+depName+"&page="+e.curr;
 			        }
 			    }
-			});*/
+			});
 		})
-	
+		
+		//按条件查询
+		function queryResult(){
+			var name = $("#name").val();
+			var depName = $("#depName").val();
+			if((name==null||name=="")&&(depName==null||depName=="")){
+				window.location.href = "<%=path%>/purchaseArchive/archiveAuthorize.html";
+				return;
+			}else{
+				window.location.href = "<%=path%>/purchaseArchive/archiveAuthorize.do?name="+name+"&depName="+depName;
+			}
+		}
+		
+		//重置
+		function resetResult(){
+			$("#name").val("");
+			$("#depName").val("");
+		}
+		
+		//临时授权
+		function auth(){
+			
+		}
+		
+		//全选方法
+		function selectAll(){
+			var info = document.getElementsByName("info");
+			var selectAll = document.getElementById("selectAll");
+			if(selectAll.checked){
+				for(var i=0;i<info.length;i++){
+					info[i].checked = true;
+				}
+			}else{
+				for(var i=0;i<info.length;i++){
+					info[i].checked = false;
+				}
+			}
+		}
 	</script>
+
   </head>
   
   <body>
     <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#">首页</a></li><li><a href="#">保障作业</a></li><li><a href="#">采购档案管理</a></li>
+		   <li><a href="#">首页</a></li><li><a href="#">保障作业</a></li><li><a href="#">采购档案授权</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -57,32 +98,19 @@
 	   </div>
    </div>
    
-   
-   	<div class="container">
+   <div class="container">
   		<div class="border1 col-md-12 ml30">
-	  		档案名称:<input type="text" id="name" class="mt10"/>
-	  		档案编号:<input type="text" id="archiveCode" class="mt10"/>
-	  		合同编号:<input type="text" id="contractCode" class="mt10"/>
-	  		计划文号:<input type="text" id="planCode" class="mt10"/>
+	  		姓名:<input type="text" id="name" name="name" class="mt10"/>
+	  		采购机构:<input type="text" id="depName" name="depName" class="mt10"/>
 	  		<button class="btn" type="button" onclick="queryResult()">查询</button>
 	  		<button class="btn" type="button" onclick="resetResult()">重置</button>
   		</div>
   	</div>
   	
-  	<div class="container">
-	   <div class="headline-v2">
-	   		<h2>档案列表</h2>
-	   </div>
-   	</div>
-  	
-	  	<!-- 按钮开始-->
+  		<!-- 按钮开始-->
 	   <div class="container">
 	   		<div class="col-md-12">
-			    <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
-			    <button class="btn btn-windows pl13" type="button" onclick="enter()">录入</button>
-				<button class="btn btn-windows pl13" type="button" onclick="audit()">审核</button>
-			    <button class="btn btn-windows pl13" type="button" onclick="placeFile()">归档</button>
-			    <button class="btn btn-windows pl13" type="button" onclick="borrow()">借阅</button>
+			    <button class="btn btn-windows pl13" type="button" onclick="auth()">临时授权</button>
 			</div>
 	    </div>
   	
@@ -91,27 +119,26 @@
 	  		<table class="table table-bordered table-condensed table-hover">
 				<thead>
 					<tr class="info">
+						<th class="w50"><input type="checkbox" id="selectAll" onclick="selectAll()"/></th>
 						<th>序号</th>
-						<th>档案名称</th>
-						<th>档案编号</th>
-						<th>合同编号</th>
-						<th>计划文号</th>
-						<th>计划下达时间</th>
-						<th>预算年度</th>
+						<th>姓名</th>
 						<th>采购机构</th>
-						<th>采购方式</th>
-						<th>产品名称</th>
-						<th>供应商名称</th>
+						<th>联系电话</th>
+						<th>联系地址</th>
 					</tr>
 				</thead>
 				<tbody>
-					<%--<c:forEach items="${archiveList.list }" var="result" varStatus="vs">
-						<tr>
-							<td class="tc">${(vs.index+1)+(archiveList.pageNum-1)*(archiveList.pageSize)}</td>
-							
+					<c:forEach items="${purchaseList.list }" var="purchase" varStatus="vs">
+						<tr class="tc">
+							<td class="tc"><input type="checkbox" name="info" value="${purchase.id }"/></td>
+							<td>${(vs.index+1)+(purchaseList.pageNum-1)*(purchaseList.pageSize)}</td>
+							<td>${purchase.relName }</td>
+							<td>${purchase.purchaseDepName }</td>
+							<td>${purchase.telephone }</td>
+							<td>${purchase.address }</td>
 						</tr>
 					</c:forEach>
-				--%></tbody>
+				</tbody>
 			</table>
 		</div>
 		<div id="pageDiv" align="right"></div>

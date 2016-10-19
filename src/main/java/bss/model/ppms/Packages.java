@@ -28,6 +28,8 @@ public class Packages {
 	
 	private Integer status;
 	
+	private String markTermTree;
+	
 	private List<ProjectDetail> projectDetails;
 
 	public String getId() {
@@ -84,6 +86,14 @@ public class Packages {
 
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+	
+	public String getMarkTermTree() {
+		return markTermTree;
+	}
+
+	public void setMarkTermTree(String markTermTree) {
+		this.markTermTree = markTermTree;
 	}
 
 	public List<ProjectDetail> getProjectDetails() {

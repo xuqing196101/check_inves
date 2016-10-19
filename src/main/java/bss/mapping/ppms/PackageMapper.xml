@@ -9,10 +9,12 @@
    	<result column="CREATED_AT" property="createdAt"/>
    	<result column="UPDATED_AT" property="updatedAt"/>
    	<result column="STATUS" property="status"/>
+   	<result column="MARK_TERM_TREE" property="markTermTree"/>
+   	
   </resultMap>
   
   <sql id="Base_Column_List">
-    ID, NAME, PROJECT_ID,IS_DELETED,CREATED_AT,UPDATED_AT,STATUS
+    ID, NAME, PROJECT_ID,IS_DELETED,CREATED_AT,UPDATED_AT,STATUS,MARK_TERM_TREE
   </sql>
      
   <insert id="insertSelective" parameterType="bss.model.ppms.Packages">
@@ -39,8 +41,11 @@
       <if test="updatedAt != null">
         UPDATED_AT,
       </if>
-       <if test="status != null">
+      <if test="status != null">
         STATUS,
+      </if>
+      <if test="markTermTree != null">
+        MARK_TERM_TREE,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -62,8 +67,11 @@
       <if test="updatedAt != null">
         #{updatedAt},
       </if>
-       <if test="status != null">
+      <if test="status != null">
         #{status},
+      </if>
+      <if test="markTermTree != null">
+        #{markTermTree},
       </if>
     </trim>
   </insert>
@@ -83,10 +91,13 @@
         CREATED_AT = #{createdAt},
       </if>
       <if test="updatedAt != null">
-        updatedAt = #{updatedAt},
+        UPDATED_AT = #{updatedAt},
       </if>
       <if test="status != null">
-        status = #{status},
+        STATUS = #{status},
+      </if>
+      <if test="markTermTree != null">
+        MARK_TERM_TREE = #{markTermTree},
       </if>
     </set>
     where ID = #{id}
@@ -96,13 +107,18 @@
    		SELECT
    			ID AS id,
    			NAME AS name,
-   			PROJECT_ID AS projectId
+   			PROJECT_ID AS projectId,
+   			STATUS AS status,
+   			MARK_TERM_TREE AS markTermTree
    		FROM
    			T_BSS_PPMS_PACKAGE
    		WHERE
-   		IS_DELETED=0
-   		<if test="projectId != null">
+   		nvl(IS_DELETED,0)=0
+   		<if test="projectId != null and projectId !=''">
         	AND	PROJECT_ID = #{projectId}
+      	</if>
+      	<if test="id != null and id !=''">
+        	AND	ID = #{id}
       	</if>
       	ORDER BY
       		CREATED_AT DESC	
