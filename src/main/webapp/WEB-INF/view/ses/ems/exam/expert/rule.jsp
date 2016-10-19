@@ -11,7 +11,20 @@
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	<script type="text/javascript">
-		
+		//自动计算总分
+		function countScore(){
+			document.getElementById("singleNum").value=document.getElementById("singleNum").value.replace(/\D+/g,'');
+			document.getElementById("multipleNum").value=document.getElementById("multipleNum").value.replace(/\D+/g,'');
+			var sn = $("#singleNum").val();
+			var sp =$("#singlePoint").val();
+			var mn = $("#multipleNum").val();
+			var mp = $("#multiplePoint").val();
+			$("#paperScore").val(sn*sp+mn*mp);
+			var paperScore = document.getElementById("paperScore").value;
+			if(paperScore=="NaN"){
+				$("#paperScore").val("0");
+			}
+		}
 	</script>
 
   </head>
@@ -28,59 +41,42 @@
    </div>
    <div class="container">
 	   <div class="headline-v2">
-	   		<h2>考试规则设置</h2>
+	   		<h2>专家考试规则设置</h2>
 	   </div>
    </div>
   	
   	<form action="<%=path %>/expertExam/saveExamRule.html" method="post">
   	  <div class="container mt20">
 	  	<ul class="list-unstyled list-flow p0_20">
-		     <li class="col-md-6 p0_15">
-	  			<span class="fl">及格标准：</span>
-	  			<c:choose>
-	  				<c:when test="${rule.passStandard!=null }">
-	  					<input type="text" name="passStandard" value="${rule.passStandard }"/>分
-	  				</c:when>
-	  				<c:otherwise>
-	  					<input type="text" name="passStandard"/>分
-	  				</c:otherwise>
-	  			</c:choose>
+	  		<li class="col-md-12 p0">
+	  			<span class="fl mt5"><div class="red star_red">*</div>考试开始时间：</span>
+		  		<input type="text" name="startTime" id="startTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" class="Wdate mt5"/>
+	  			<div class="validate">${ERR_time }</div>
+	  		</li>
+	    	
+	    	<li class="col-md-12 p0">
+	  			<span class="fl"><div class="red star_red">*</div>题型分布：</span>
+	  			<div class="fl">
+	  			   	<label class="fl mt5">单选题：</label><input type="text" name="singleNum" id="singleNum" class="ml10 w50" onkeyup="countScore()"/>条<input type="text" name="singlePoint" id="singlePoint" class="ml10 w50" onkeyup="countScore()"/>分/条${ERR_singlePoint }<br/>
+		    	   	<label class="fl mt5">多选题：</label><input type="text" name="multipleNum" id="multipleNum" class="ml10 w50" onkeyup="countScore()"/>条<input type="text" name="multiplePoint" id="multiplePoint" class="ml10 w50" onkeyup="countScore()"/>分/条${ERR_multiplePoint }<br/>
+	  		        <div class="validate">${ERR_type }</div>
+	  		    </div>
+	  		</li>
+	  		
+	    	<li class="col-md-12 p0">
+	  			<span class="fl"><div class="red star_red">*</div>试卷分值：</span>
+	  			<input type="text" name="paperScore" id="paperScore" readonly="readonly"/>分
+	    	</li>
+	    	
+	    	<li class="col-md-12 p0">
+	  			<span class="fl"><div class="red star_red">*</div>及格标准：</span>
+	  			<input type="text" name="passStandard" id="passStandard"/>分
 	  			<div class="validate">${ERR_passStandard }</div>
 	    	</li>
-	    	<li class="col-md-6">
-	  			<span class="fl">考试题目数量：</span>
-	  			<c:choose>
-	  				<c:when test="${rule.questionCount!=null }">
-	  					<input type="text" name="questionCount" value="${rule.questionCount}"/>条
-	  				</c:when>
-	  				<c:otherwise>
-	  					<input type="text" name="questionCount" value="50"/>条
-	  				</c:otherwise>
-	  			</c:choose>
-	  			<div class="validate">${ERR_questionCount }</div>
-	    	</li>
-	    	<li class="col-md-6">
-	  			<span class="fl">试卷分值：</span>
-	  			<c:choose>
-	  				<c:when test="${rule.paperScore!=null }">
-	  					<input type="text" name="paperScore" value="${rule.paperScore}"/>分
-	  				</c:when>
-	  				<c:otherwise>
-	  					<input type="text" name="paperScore" value="100"/>分
-	  				</c:otherwise>
-	  			</c:choose>
-	  			<div class="validate">${ERR_paperScore }</div>
-	    	</li>
-	    	<li class="col-md-6">
-	  			<span class="fl">考试周期：</span>
-	  			<c:choose>
-	  				<c:when test="${rule.testCycle!=null }">
-	  					<input type="text" name="testCycle" value="${rule.testCycle}"/>月
-	  				</c:when>
-	  				<c:otherwise>
-	  					<input type="text" name="testCycle"/>月
-	  				</c:otherwise>
-	  			</c:choose>
+	    	
+	    	<li class="col-md-12 p0">
+	  			<span class="fl"><div class="red star_red">*</div>考试有效时间：</span>
+	  			<input type="text" name="testCycle" id="testCycle"/>月
 	  			<div class="validate">${ERR_testCycle }</div>
 	    	</li>
 	    </ul>

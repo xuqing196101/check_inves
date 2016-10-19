@@ -11,43 +11,37 @@
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	<script type="text/javascript">
+		var opt = "";
+		var obj = "";
 		$(function(){
-			var answer = document.getElementsByName("answer");
+			opt = ${opt};
+			obj = eval(opt);
+			var options = $("#options").val();
+			var array = obj[options].split(",");
+			var content = "${optContent}";
 			var queType = $("#queType").val();
-			if(queType){
+			var ct = content.split(";");
+			var queAnswer = "${lawAnswer}";
+			var ohtml="";
+			var ahtml="";
+			for(var i=0;i<array.length;i++){
+				ohtml = ohtml+"<div class='clear mt10'><div class='fl mt5'>"+array[i]+"</div><textarea name='option' class='ml5 col-md-8'>"+ct[i].substring(2)+"</textarea></div>";
 				if(queType==1){
-					for(var i=0;i<answer.length;i++){
-						$(answer[i]).attr("type","radio");
-						$(answer[i]).attr("disabled",false);
+					if(queAnswer.indexOf(array[i])>-1){
+						ahtml = ahtml+"<input type='radio' name='answer' value='"+array[i]+"' class='mt0' checked='checked'/>"+array[i];
+					}else{
+						ahtml = ahtml+"<input type='radio' name='answer' value='"+array[i]+"' class='mt0'/>"+array[i];
 					}
 				}else if(queType==2){
-					for(var i=0;i<answer.length;i++){
-						$(answer[i]).attr("type","checkbox");
-						$(answer[i]).attr("disabled",false);
+					if(queAnswer.indexOf(array[i])>-1){
+						ahtml = ahtml+"<input type='checkbox' name='answer' value='"+array[i]+"' class='mt0' checked='checked'/>"+array[i];
+					}else{
+						ahtml = ahtml+"<input type='checkbox' name='answer' value='"+array[i]+"' class='mt0'/>"+array[i];
 					}
 				}
-			}else{
-				for(var i=0;i<answer.length;i++){
-					answer[i].setAttribute("disabled",true);
-				}
 			}
-			var queAnswer = "${lawAnswer}";
-			if(queAnswer.indexOf('A')>-1){
-				var qa= document.getElementById("A");
-				qa.setAttribute("checked",true);
-			}
-			if(queAnswer.indexOf('B')>-1){
-				var qb= document.getElementById("B");
-				qb.setAttribute("checked",true);
-			}
-			if(queAnswer.indexOf('C')>-1){
-				var qc= document.getElementById("C");
-				qc.setAttribute("checked",true);
-			}
-			if(queAnswer.indexOf('D')>-1){
-				var qd= document.getElementById("D");
-				qd.setAttribute("checked",true);
-			}
+			$("#items").html(ohtml);
+			$("#answers").html(ahtml);
 		})
 		
 		//保存到法律题库
@@ -58,64 +52,55 @@
 		//切换题型
 		function changeType(){
 			var queType = $("#queType").val();
-			var que = document.getElementsByName("answer");
-			var all_options = document.getElementById("quePoint").options;
-			for(var i=0;i<que.length;i++){
-				$(que[i]).removeAttr("checked");
-			}
+			var all_options = document.getElementById("options");
 			if(queType){
 				if(queType==1){
-					for(var i=0;i<que.length;i++){
-						$(que[i]).attr("type","radio");
-						$(que[i]).attr("disabled",false);
-					}
 					$("#queTopic").attr("disabled",false);
-					$("#quePoint").attr("disabled",false);
-					$("#optionA").attr("disabled",false);
-					$("#optionB").attr("disabled",false);
-					$("#optionC").attr("disabled",false);
-					$("#optionD").attr("disabled",false);
 					$("#queTopic").val(" ");
-					$("#optionA").val(" ");
-					$("#optionB").val(" ");
-					$("#optionC").val(" ");
-					$("#optionD").val(" ");
+					$("#options").attr("disabled",false);
 					all_options[0].selected = true;
+					$("#items").html(" ");
+					$("#answers").html(" ");
 				}else if(queType==2){
-					for(var i=0;i<que.length;i++){
-						$(que[i]).attr("type","checkbox");
-						$(que[i]).attr("disabled",false);
-					}
 					$("#queTopic").attr("disabled",false);
-					$("#quePoint").attr("disabled",false);
-					$("#optionA").attr("disabled",false);
-					$("#optionB").attr("disabled",false);
-					$("#optionC").attr("disabled",false);
-					$("#optionD").attr("disabled",false);
 					$("#queTopic").val(" ");
-					$("#optionA").val(" ");
-					$("#optionB").val(" ");
-					$("#optionC").val(" ");
-					$("#optionD").val(" ");
+					$("#options").attr("disabled",false);
 					all_options[0].selected = true;
+					$("#items").html(" ");
+					$("#answers").html(" ");
 				}
 			}else{
-				for(var i=0;i<que.length;i++){
-					$(que[i]).attr("disabled",true);
-				}
 				document.getElementById("queTopic").setAttribute("disabled",true);
-				document.getElementById("quePoint").setAttribute("disabled",true);
-				document.getElementById("optionA").setAttribute("disabled",true);
-				document.getElementById("optionB").setAttribute("disabled",true);
-				document.getElementById("optionC").setAttribute("disabled",true);
-				document.getElementById("optionD").setAttribute("disabled",true);
+				document.getElementById("options").setAttribute("disabled",true);
 				$("#queTopic").val(" ");
-				$("#optionA").val(" ");
-				$("#optionB").val(" ");
-				$("#optionC").val(" ");
-				$("#optionD").val(" ");
 				all_options[0].selected = true;
+				$("#items").html(" ");
+				$("#answers").html(" ");
 			}
+		}
+		
+		//切换选项数量
+		function changeOpt(){
+			var queType = $("#queType").val();
+			var options = $("#options").val();
+			if(options==" "||options==null){
+				$("#items").html(" ");
+				$("#answers").html(" ");
+				return;
+			}
+			var array = obj[options].split(",");
+			var ohtml="";
+			var ahtml="";
+			for(var i=0;i<array.length;i++){
+			   	ohtml = ohtml+"<div class='clear mt10'><div class='fl mt5'>"+array[i]+"</div><textarea name='option' class='ml5 col-md-8'></textarea></div>";
+				if(queType==1){
+					ahtml = ahtml+"<input type='radio' name='answer' value='"+array[i]+"' class='mt0'/>"+array[i];
+				}else if(queType==2){
+					ahtml = ahtml+"<input type='checkbox' name='answer' value='"+array[i]+"' class='mt0'/>"+array[i];
+				}
+			}
+			$("#items").html(ohtml);
+			$("#answers").html(ahtml);
 		}
 	</script>
   </head>
@@ -167,69 +152,69 @@
 			 </li> 
 		   
 	  	
-	  		<li class="col-md-12 p0">
-				<span class="fl"><div class="red star_red">*</div>选项：</span>
-				<div class="col-md-9">
-				<div>
-			  		<div class="fl mt5">A</div><textarea name="optionA" id="optionA" class="ml5 col-md-8">${optionA}</textarea>
-			  		<div class="clear red">${ERR_optionA }</div>
-			  	</div>
-			  	<div class="clear mt10">
-					<div class="fl mt5">B</div><textarea name="optionB" id="optionB" class="ml5 col-md-8">${optionB}</textarea>
-				    <div class="clear red">${ERR_optionB }</div>
-				</div>
-				<div class="clear mt10">
-					<div class="fl mt5">C</div><textarea name="optionC" id="optionC" class="ml5 col-md-8">${optionC}</textarea>
-				    <div class="clear red">${ERR_optionC }</div>
-				</div>
-				<div class="clear mt10">
-					<div class="fl mt5">D</div><textarea name="optionD" id="optionD" class="ml5 col-md-8">${optionD}</textarea>
-				    <div class="clear red">${ERR_optionD }</div>
-				</div>
-		       </div>
-			 </li> 
+	  			<li class="col-md-12 p0">
+					<span class="fl"><div class="red star_red">*</div>请选择选项数量：</span>
+					<select id="options" name="options" onchange="changeOpt()">
+			  			<option value=" ">请选择</option>
+			  			<c:if test="${optNum==3 }">
+			  				<option value="three" selected>3</option>
+			  			</c:if>
+			  			<c:if test="${optNum!=3 }">
+			  				<option value="three">3</option>
+			  			</c:if>
+			  			<c:if test="${optNum==4 }">
+			  				<option value="four" selected>4</option>
+			  			</c:if>
+			  			<c:if test="${optNum!=4 }">
+			  				<option value="four">4</option>
+			  			</c:if>
+			  			<c:if test="${optNum==5 }">
+			  				<option value="five" selected>5</option>
+			  			</c:if>
+			  			<c:if test="${optNum!=5 }">
+			  				<option value="five">5</option>
+			  			</c:if>
+			  			<c:if test="${optNum==6 }">
+			  				<option value="six" selected>6</option>
+			  			</c:if>
+			  			<c:if test="${optNum!=6 }">
+			  				<option value="six">6</option>
+			  			</c:if>
+			  			<c:if test="${optNum==7 }">
+			  				<option value="seven" selected>7</option>
+			  			</c:if>
+			  			<c:if test="${optNum!=7 }">
+			  				<option value="seven">7</option>
+			  			</c:if>
+			  			<c:if test="${optNum==8 }">
+			  				<option value="eight" selected>8</option>
+			  			</c:if>
+			  			<c:if test="${optNum!=8 }">
+			  				<option value="eight">8</option>
+			  			</c:if>
+			  			<c:if test="${optNum==9 }">
+			  				<option value="nine" selected>9</option>
+			  			</c:if>
+			  			<c:if test="${optNum!=9 }">
+			  				<option value="nine">9</option>
+			  			</c:if>
+			  			<c:if test="${optNum==10 }">
+			  				<option value="ten" selected>10</option>
+			  			</c:if>
+			  			<c:if test="${optNum!=10 }">
+			  				<option value="ten">10</option>
+			  			</c:if>
+		  			</select>
+					<div class="col-md-9" id="items"></div>
+			       	<div class="clear red">${ERR_option }</div>
+			 	</li> 
 		   
 		  		<li class="col-md-12 p0">
 					<span class="fl"><div class="red star_red">*</div>答案：</span>	
-					<div class="fl ml5 mt5">
-				        <input type="radio" id="A" name="answer" value="A" class="mt0"/>A 
-			  			<input type="radio" id="B" name="answer" value="B" class="mt0"/>B 
-			  			<input type="radio" id="C" name="answer" value="C" class="mt0"/>C 
-			  			<input type="radio" id="D" name="answer" value="D" class="mt0"/>D
-			  			<div class="clear red">${ERR_answer }</div>
-			       </div>
+					<div class="fl ml5 mt5" id="answers"></div>
+			       	<div class="clear red">${ERR_answer }</div>
 				</li>
 				
-			  <li class="col-md-12 p0">
-			  		<span class="fl"><div class="red star_red">*</div>分值：</span>
-		  			<select name="quePoint" id="quePoint">
-		  				<option value="1" 
-		  					<c:if test="${lawQue.point==1 }">
-		  						selected
-		  					</c:if>
-		  				>1</option>
-		  				<option value="2" 
-		  					<c:if test="${lawQue.point==2 }">
-		  						selected
-		  					</c:if>
-		  				>2</option>
-		  				<option value="3" 
-		  					<c:if test="${lawQue.point==3 }">
-		  						selected
-		  					</c:if>
-		  				>3</option>
-		  				<option value="4" 
-		  					<c:if test="${lawQue.point==4 }">
-		  						selected
-		  					</c:if>
-		  				>4</option>
-		  				<option value="5" 
-		  					<c:if test="${lawQue.point==5 }">
-		  						selected
-		  					</c:if>
-		  				>5</option>
-		  			</select>
-		  		</li>
   			</ul>
   		
   		<!-- 底部按钮 -->

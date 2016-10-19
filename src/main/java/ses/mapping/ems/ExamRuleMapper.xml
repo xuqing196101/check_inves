@@ -4,16 +4,16 @@
   <resultMap id="BaseResultMap" type="ses.model.ems.ExamRule">
     <id column="ID" property="id" />
     <result column="PASS_STANDARD" property="passStandard" />
-    <result column="QUESTION_COUNT" property="questionCount" />
+    <result column="START_TIME" property="startTime" />
     <result column="PAPER_SCORE" property="paperScore" />
     <result column="TEST_CYCLE" property="testCycle" />
-    <result column="TEST_TIME" property="testTime" />
+    <result column="TYPE_DISTRIBUTION" property="typeDistribution" />
     <result column="CREATED_AT" property="createdAt" />
     <result column="UPDATED_AT" property="updatedAt" />
     <result column="TEST_LONG" property="testLong" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, PASS_STANDARD, QUESTION_COUNT,PAPER_SCORE,TEST_CYCLE,TEST_TIME,CREATED_AT, UPDATED_AT,TEST_LONG
+    ID, PASS_STANDARD,START_TIME,PAPER_SCORE,TEST_CYCLE,TYPE_DISTRIBUTION,CREATED_AT,UPDATED_AT,TEST_LONG
   </sql>
   
   <!-- 根据主键ID查询考试规则 -->
@@ -21,6 +21,8 @@
     select 
     <include refid="Base_Column_List" />
     from T_SES_EMS_EXAM_RULE
+    ORDER BY
+    CREATED_AT DESC
   </select>
   
  <!-- 设置考试规则,可插入null -->
@@ -36,8 +38,8 @@
       <if test="passStandard != null">
         PASS_STANDARD,
       </if>
-      <if test="questionCount != null">
-        QUESTION_COUNT,
+      <if test="startTime != null">
+        START_TIME,
       </if>
       <if test="paperScore != null">
         PAPER_SCORE,
@@ -45,8 +47,8 @@
       <if test="testCycle != null">
         TEST_CYCLE,
       </if>
-      <if test="testTime != null">
-        TEST_TIME,
+      <if test="typeDistribution != null">
+        TYPE_DISTRIBUTION,
       </if>
       <if test="createdAt != null">
         CREATED_AT,
@@ -65,8 +67,8 @@
       <if test="passStandard != null">
         #{passStandard},
       </if>
-      <if test="questionCount != null">
-        #{questionCount},
+      <if test="startTime != null">
+        #{startTime},
       </if>
       <if test="paperScore != null">
         #{paperScore},
@@ -74,8 +76,8 @@
       <if test="testCycle != null">
         #{testCycle},
       </if>
-      <if test="testTime != null">
-        #{testTime},
+      <if test="typeDistribution != null">
+        #{typeDistribution},
       </if>
       <if test="createdAt != null">
         #{createdAt},
@@ -96,8 +98,8 @@
       <if test="passStandard != null">
         PASS_STANDARD = #{passStandard},
       </if>
-      <if test="questionCount != null">
-        QUESTION_COUNT = #{questionCount},
+      <if test="startTime != null">
+        START_TIME = #{startTime},
       </if>
       <if test="paperScore != null">
         PAPER_SCORE = #{paperScore},
@@ -105,8 +107,8 @@
       <if test="testCycle != null">
         TEST_CYCLE = #{testCycle},
       </if>
-      <if test="testTime != null">
-        TEST_TIME = #{testTime},
+      <if test="typeDistribution != null">
+        TYPE_DISTRIBUTION = #{typeDistribution},
       </if>
       <if test="createdAt != null">
         CREATED_AT = #{createdAt},

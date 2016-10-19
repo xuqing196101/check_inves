@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,12 +15,15 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
+
+import net.sf.json.JSONObject;
+import net.sf.json.JSONSerializer;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -36,8 +40,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,6 +49,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
+import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.User;
 import ses.model.ems.ExamQuestion;
 import ses.model.ems.ExamQuestionType;
@@ -63,7 +66,6 @@ import ses.service.ems.ExamUserScoreServiceI;
 import ses.service.ems.ExpertService;
 import ses.util.PathUtil;
 import ses.util.PropertiesUtil;
-import ses.util.ValidateUtils;
 
 
 /**
@@ -74,7 +76,7 @@ import ses.util.ValidateUtils;
  */
 @Controller
 @RequestMapping("/expertExam")
-public class ExpertExamController {
+public class ExpertExamController extends BaseSupplierController{
 	@Autowired
 	private ExamQuestionServiceI examQuestionService;
 	@Autowired
@@ -165,8 +167,31 @@ public class ExpertExamController {
 	* @return String
 	 */
 	@RequestMapping("/addLaw")
-	public String addLaw(){
+	public String addLaw(Model model){
+		optionNum(model);
 		return "ses/ems/exam/expert/law/add";
+	}
+	
+	/**
+	 * 
+	* @Title: optionNum
+	* @author ZhaoBo
+	* @date 2016-10-13 上午10:17:07  
+	* @Description: 选项数量 
+	* @param @param model      
+	* @return void
+	 */
+	public void optionNum(Model model){
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("three", "A,B,C");
+		map.put("four", "A,B,C,D");
+		map.put("five", "A,B,C,D,E");
+		map.put("six", "A,B,C,D,E,F");
+		map.put("seven", "A,B,C,D,E,F,G");
+		map.put("eight", "A,B,C,D,E,F,G,H");
+		map.put("nine", "A,B,C,D,E,F,G,H,I");
+		map.put("ten", "A,B,C,D,E,F,G,H,I,J");
+		model.addAttribute("opt", JSONSerializer.toJSON(map).toString());
 	}
 	
 	/**
@@ -179,7 +204,8 @@ public class ExpertExamController {
 	* @return String
 	 */
 	@RequestMapping("/addTechnical")
-	public String addTechnical(){
+	public String addTechnical(Model model){
+		optionNum(model);
 		return "ses/ems/exam/expert/technical/add";
 	}
 	
@@ -193,18 +219,30 @@ public class ExpertExamController {
 	* @return String
 	 */
 	@RequestMapping("/addCommerce")
-	public String addCommerce(){
+	public String addCommerce(Model model){
+		optionNum(model);
 		return "ses/ems/exam/expert/commerce/add";
+	}
+	
+	public String[] saveOption(){
+		String items[] = new String[11];
+		items[3] = "A,B,C";
+		items[4] = "A,B,C,D";
+		items[5] = "A,B,C,D,E";
+		items[6] = "A,B,C,D,E,F";
+		items[7] = "A,B,C,D,E,F,G";
+		items[8] = "A,B,C,D,E,F,G,H";
+		items[9] = "A,B,C,D,E,F,G,H,I";
+		items[10] = "A,B,C,D,E,F,G,H,I,J";
+		return items;
 	}
 	
 	/**
 	 * 
 	* @Title: saveToLaw
 	* @author ZhaoBo
-	* @date 2016-10-12 上午9:08:30  
-	* @Description: 增加法律类的题库  
-	* @param @param question
-	* @param @param result
+	* @date 2016-10-13 下午1:33:10  
+	* @Description: 增加法律类的题库 
 	* @param @param model
 	* @param @param request
 	* @param @param examQuestion
@@ -212,80 +250,88 @@ public class ExpertExamController {
 	* @return String
 	 */
 	@RequestMapping("/saveToLaw")
-	public String saveToLaw(@Valid ExamQuestion question,BindingResult result,Model model,HttpServletRequest request,ExamQuestion examQuestion){
-		if(request.getParameter("queType").isEmpty()){
+	public String saveToLaw(Model model,HttpServletRequest request,ExamQuestion examQuestion){
+		String[] items = saveOption();
+		StringBuffer sb = new StringBuffer();
+		String queType = request.getParameter("queType");
+		if(queType==null||queType.equals(" ")){
 			model.addAttribute("ERR_type","请选择题型");
-			return "ses/ems/exam/expert/law/add";
-		}
-		if(result.hasErrors()){
-			List<FieldError> errors = result.getFieldErrors();
-			for(FieldError fieldError:errors){
-				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
-			}
+			optionNum(model);
 			return "ses/ems/exam/expert/law/add";
 		}
 		String error = "无";
-		examQuestion.setQuestionTypeId(Integer.parseInt(request.getParameter("queType")));
-		HashMap<String,Object> tmap = new HashMap<String,Object>();
-		tmap.put("topic", request.getParameter("topic").trim());
-		tmap.put("kind",2);
-		List<ExamQuestion> topicOnly = examQuestionService.selectByTopic(tmap);
-		if(topicOnly.size()!=0){
-			model.addAttribute("ERR_topic", "该题干已存在");
+		String topic = request.getParameter("topic");
+		if(topic==null||topic.equals(" ")){
 			error = "topic";
+			model.addAttribute("ERR_topic", "题干不能为空");
+		}else{
+			HashMap<String,Object> tmap = new HashMap<String,Object>();
+			tmap.put("topic", request.getParameter("topic").trim());
+			tmap.put("kind",2);
+			List<ExamQuestion> topicOnly = examQuestionService.selectByTopic(tmap);
+			if(topicOnly.size()!=0){
+				model.addAttribute("ERR_topic", "该题干已存在");
+				error = "topic";
+			}
 		}
-		examQuestion.setTopic(request.getParameter("topic"));
-		String optionA = request.getParameter("optionA");
-		String optionB = request.getParameter("optionB");
-		String optionC = request.getParameter("optionC");
-		String optionD = request.getParameter("optionD");
-		if(optionA.indexOf(";")>-1||optionA.indexOf("；")>-1){
-			model.addAttribute("ERR_optionA", "选项内容不能输入分号");
-			error = "optionA";
+		if(request.getParameter("options").isEmpty()){
+			error = "option";
+			model.addAttribute("ERR_option","请选择选项数量");
+		}else{
+			String[] option = request.getParameterValues("option");
+			String item = items[option.length];
+			String[] opt = item.split(",");
+			outer:for(int i=0;i<option.length;i++){
+				if(option[i].isEmpty()){
+					model.addAttribute("ERR_option", "选项内容不能为空");
+					error = "option";
+					break outer;
+				}else if(i==option.length-1){
+					for(int j=0;j<option.length;j++){
+						if(option[j].indexOf(";")>-1||option[j].indexOf("；")>-1){
+							model.addAttribute("ERR_option", "选项内容不能输入分号");
+							error = "option";
+							break outer;
+						}
+					}
+					StringBuffer sb_option = new StringBuffer();
+					for(int j=0;j<opt.length;j++){
+						sb_option.append(opt[j]+"."+option[j]+";");
+					}
+					examQuestion.setItems(sb_option.toString());
+				}
+			}
+			String[] answer = request.getParameterValues("answer");
+			if(answer==null){
+				model.addAttribute("ERR_answer", "请选择答案");
+				error = "answer";
+			}else{
+				for(int i = 0;i<answer.length;i++){
+					sb.append(answer[i]);
+				}
+			}
 		}
-		if(optionB.indexOf(";")>-1||optionB.indexOf("；")>-1){
-			model.addAttribute("ERR_optionB", "选项内容不能输入分号");
-			error = "optionB";
-		}
-		if(optionC.indexOf(";")>-1||optionC.indexOf("；")>-1){
-			model.addAttribute("ERR_optionC", "选项内容不能输入分号");
-			error = "optionC";
-		}
-		if(optionD.indexOf(";")>-1||optionD.indexOf("；")>-1){
-			model.addAttribute("ERR_optionD", "选项内容不能输入分号");
-			error = "optionD";
-		}
-		if(error.equals("topic")||error.equals("optionA")||error.equals("optionB")||error.equals("optionC")||error.equals("optionD")){
+		if(error.equals("topic")||error.equals("option")||error.equals("answer")){
+			optionNum(model);
 			return "ses/ems/exam/expert/law/add";
 		}
-		StringBuffer sb_option = new StringBuffer();
-		sb_option.append("A."+optionA.trim()+";");
-		sb_option.append("B."+optionB.trim()+";");
-		sb_option.append("C."+optionC.trim()+";");
-		sb_option.append("D."+optionD.trim()+";");
-		examQuestion.setItems(sb_option.toString());
+		examQuestion.setQuestionTypeId(Integer.parseInt(request.getParameter("queType")));
+		examQuestion.setTopic(request.getParameter("topic"));
 		examQuestion.setPersonType(1);
 		examQuestion.setKind(2);
 		examQuestion.setCreatedAt(new Date());
-		StringBuffer sb = new StringBuffer();
-		String[] answer = request.getParameterValues("answer");
-		for(int i = 0;i<answer.length;i++){
-			sb.append(answer[i]);
-		}
 		examQuestion.setAnswer(sb.toString());
-		examQuestion.setPoint(Integer.parseInt(request.getParameter("quePoint")));
 		examQuestionService.insertSelective(examQuestion);
 		return "redirect:searchLawExpPool.html";
 	}
+	
 	
 	/**
 	 * 
 	* @Title: saveToTec
 	* @author ZhaoBo
-	* @date 2016-10-12 上午9:00:36  
-	* @Description: 增加技术类的题库 
-	* @param @param question
-	* @param @param result
+	* @date 2016-10-13 下午4:04:49  
+	* @Description: 增加技术类的题库  
 	* @param @param request
 	* @param @param model
 	* @param @param examQuestion
@@ -293,68 +339,77 @@ public class ExpertExamController {
 	* @return String
 	 */
 	@RequestMapping("/saveToTec")
-	public String saveToTec(@Valid ExamQuestion question,BindingResult result,HttpServletRequest request,Model model,ExamQuestion examQuestion){
-		if(request.getParameter("queType").isEmpty()){
+	public String saveToTec(HttpServletRequest request,Model model,ExamQuestion examQuestion){
+		String[] items = saveOption();
+		StringBuffer sb = new StringBuffer();
+		String queType = request.getParameter("queType");
+		if(queType==null||queType.equals(" ")){
 			model.addAttribute("ERR_type","请选择题型");
+			optionNum(model);
 			return "ses/ems/exam/expert/technical/add";
 		}
-		if(result.hasErrors()){
-			List<FieldError> errors = result.getFieldErrors();
-			for(FieldError fieldError:errors){
-				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
-			}
-			return "ses/ems/exam/expert/technical/add";
-		}	
 		String error = "无";
-		examQuestion.setQuestionTypeId(Integer.parseInt(request.getParameter("queType")));
-		HashMap<String,Object> tmap = new HashMap<String,Object>();
-		tmap.put("topic", request.getParameter("topic").trim());
-		tmap.put("kind",0);
-		List<ExamQuestion> topicOnly = examQuestionService.selectByTopic(tmap);
-		if(topicOnly.size()!=0){
-			model.addAttribute("ERR_topic", "该题干已存在");
+		String topic = request.getParameter("topic");
+		if(topic==null||topic.equals(" ")){
 			error = "topic";
+			model.addAttribute("ERR_topic", "题干不能为空");
+		}else{
+			HashMap<String,Object> tmap = new HashMap<String,Object>();
+			tmap.put("topic", request.getParameter("topic").trim());
+			tmap.put("kind",0);
+			List<ExamQuestion> topicOnly = examQuestionService.selectByTopic(tmap);
+			if(topicOnly.size()!=0){
+				model.addAttribute("ERR_topic", "该题干已存在");
+				error = "topic";
+			}
 		}
-		String optionA = request.getParameter("optionA");
-		String optionB = request.getParameter("optionB");
-		String optionC = request.getParameter("optionC");
-		String optionD = request.getParameter("optionD");
-		if(optionA.indexOf(";")>-1||optionA.indexOf("；")>-1){
-			model.addAttribute("ERR_optionA", "选项内容不能输入分号");
-			error = "optionA";
+		if(request.getParameter("options").isEmpty()){
+			error = "option";
+			model.addAttribute("ERR_option","请选择选项数量");
+		}else{
+			String[] option = request.getParameterValues("option");
+			String item = items[option.length];
+			String[] opt = item.split(",");
+			outer:for(int i=0;i<option.length;i++){
+				if(option[i].isEmpty()){
+					model.addAttribute("ERR_option", "选项内容不能为空");
+					error = "option";
+					break outer;
+				}else if(i==option.length-1){
+					for(int j=0;j<option.length;j++){
+						if(option[j].indexOf(";")>-1||option[j].indexOf("；")>-1){
+							model.addAttribute("ERR_option", "选项内容不能输入分号");
+							error = "option";
+							break outer;
+						}
+					}
+					StringBuffer sb_option = new StringBuffer();
+					for(int j=0;j<opt.length;j++){
+						sb_option.append(opt[j]+"."+option[j]+";");
+					}
+					examQuestion.setItems(sb_option.toString());
+				}
+			}
+			String[] answer = request.getParameterValues("answer");
+			if(answer==null){
+				model.addAttribute("ERR_answer", "请选择答案");
+				error = "answer";
+			}else{
+				for(int i = 0;i<answer.length;i++){
+					sb.append(answer[i]);
+				}
+			}
 		}
-		if(optionB.indexOf(";")>-1||optionB.indexOf("；")>-1){
-			model.addAttribute("ERR_optionB", "选项内容不能输入分号");
-			error = "optionB";
-		}
-		if(optionC.indexOf(";")>-1||optionC.indexOf("；")>-1){
-			model.addAttribute("ERR_optionC", "选项内容不能输入分号");
-			error = "optionC";
-		}
-		if(optionD.indexOf(";")>-1||optionD.indexOf("；")>-1){
-			model.addAttribute("ERR_optionD", "选项内容不能输入分号");
-			error = "optionD";
-		}
-		if(error.equals("topic")||error.equals("optionA")||error.equals("optionB")||error.equals("optionC")||error.equals("optionD")){
+		if(error.equals("topic")||error.equals("option")||error.equals("answer")){
+			optionNum(model);
 			return "ses/ems/exam/expert/technical/add";
 		}
-		StringBuffer sb_option = new StringBuffer();
-		sb_option.append("A."+optionA.trim()+";");
-		sb_option.append("B."+optionB.trim()+";");
-		sb_option.append("C."+optionC.trim()+";");
-		sb_option.append("D."+optionD.trim()+";");
+		examQuestion.setQuestionTypeId(Integer.parseInt(request.getParameter("queType")));
 		examQuestion.setTopic(request.getParameter("topic"));
-		examQuestion.setItems(sb_option.toString());
 		examQuestion.setPersonType(1);
 		examQuestion.setKind(0);
 		examQuestion.setCreatedAt(new Date());
-		StringBuffer sb_answer = new StringBuffer();
-		String[] answer = request.getParameterValues("answer");
-		for(int i=0;i<answer.length;i++){
-			sb_answer.append(answer[i]);
-		}
-		examQuestion.setAnswer(sb_answer.toString());
-		examQuestion.setPoint(Integer.parseInt(request.getParameter("quePoint")));
+		examQuestion.setAnswer(sb.toString());
 		examQuestionService.insertSelective(examQuestion);
 		return "redirect:searchTecExpPool.html";
 	}
@@ -363,10 +418,8 @@ public class ExpertExamController {
 	 * 
 	* @Title: saveToCom
 	* @author ZhaoBo
-	* @date 2016-10-12 上午9:08:58  
+	* @date 2016-10-13 下午4:05:24  
 	* @Description: 增加商务类的题库 
-	* @param @param question
-	* @param @param result
 	* @param @param request
 	* @param @param examQuestion
 	* @param @param model
@@ -374,68 +427,77 @@ public class ExpertExamController {
 	* @return String
 	 */
 	@RequestMapping("/saveToCom")
-	public String saveToCom(@Valid ExamQuestion question,BindingResult result,HttpServletRequest request,ExamQuestion examQuestion,Model model){
-		if(request.getParameter("queType").isEmpty()){
+	public String saveToCom(HttpServletRequest request,ExamQuestion examQuestion,Model model){
+		String[] items = saveOption();
+		StringBuffer sb = new StringBuffer();
+		String queType = request.getParameter("queType");
+		if(queType==null||queType.equals(" ")){
 			model.addAttribute("ERR_type","请选择题型");
-			return "ses/ems/exam/expert/commerce/add";
-		}
-		if(result.hasErrors()){
-			List<FieldError> errors = result.getFieldErrors();
-			for(FieldError fieldError:errors){
-				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
-			}
+			optionNum(model);
 			return "ses/ems/exam/expert/commerce/add";
 		}
 		String error = "无";
-		examQuestion.setQuestionTypeId(Integer.parseInt(request.getParameter("queType")));
-		HashMap<String,Object> tmap = new HashMap<String,Object>();
-		tmap.put("topic", request.getParameter("topic").trim());
-		tmap.put("kind",1);
-		List<ExamQuestion> topicOnly = examQuestionService.selectByTopic(tmap);
-		if(topicOnly.size()!=0){
-			model.addAttribute("ERR_topic", "该题干已存在");
+		String topic = request.getParameter("topic");
+		if(topic==null||topic.equals(" ")){
 			error = "topic";
+			model.addAttribute("ERR_topic", "题干不能为空");
+		}else{
+			HashMap<String,Object> tmap = new HashMap<String,Object>();
+			tmap.put("topic", request.getParameter("topic").trim());
+			tmap.put("kind",1);
+			List<ExamQuestion> topicOnly = examQuestionService.selectByTopic(tmap);
+			if(topicOnly.size()!=0){
+				model.addAttribute("ERR_topic", "该题干已存在");
+				error = "topic";
+			}
 		}
-		String optionA = request.getParameter("optionA");
-		String optionB = request.getParameter("optionB");
-		String optionC = request.getParameter("optionC");
-		String optionD = request.getParameter("optionD");
-		if(optionA.indexOf(";")>-1||optionA.indexOf("；")>-1){
-			model.addAttribute("ERR_optionA", "选项内容不能输入分号");
-			error = "optionA";
+		if(request.getParameter("options").isEmpty()){
+			error = "option";
+			model.addAttribute("ERR_option","请选择选项数量");
+		}else{
+			String[] option = request.getParameterValues("option");
+			String item = items[option.length];
+			String[] opt = item.split(",");
+			outer:for(int i=0;i<option.length;i++){
+				if(option[i].isEmpty()){
+					model.addAttribute("ERR_option", "选项内容不能为空");
+					error = "option";
+					break outer;
+				}else if(i==option.length-1){
+					for(int j=0;j<option.length;j++){
+						if(option[j].indexOf(";")>-1||option[j].indexOf("；")>-1){
+							model.addAttribute("ERR_option", "选项内容不能输入分号");
+							error = "option";
+							break outer;
+						}
+					}
+					StringBuffer sb_option = new StringBuffer();
+					for(int j=0;j<opt.length;j++){
+						sb_option.append(opt[j]+"."+option[j]+";");
+					}
+					examQuestion.setItems(sb_option.toString());
+				}
+			}
+			String[] answer = request.getParameterValues("answer");
+			if(answer==null){
+				model.addAttribute("ERR_answer", "请选择答案");
+				error = "answer";
+			}else{
+				for(int i = 0;i<answer.length;i++){
+					sb.append(answer[i]);
+				}
+			}
 		}
-		if(optionB.indexOf(";")>-1||optionB.indexOf("；")>-1){
-			model.addAttribute("ERR_optionB", "选项内容不能输入分号");
-			error = "optionB";
-		}
-		if(optionC.indexOf(";")>-1||optionC.indexOf("；")>-1){
-			model.addAttribute("ERR_optionC", "选项内容不能输入分号");
-			error = "optionC";
-		}
-		if(optionD.indexOf(";")>-1||optionD.indexOf("；")>-1){
-			model.addAttribute("ERR_optionD", "选项内容不能输入分号");
-			error = "optionD";
-		}
-		if(error.equals("topic")||error.equals("optionA")||error.equals("optionB")||error.equals("optionC")||error.equals("optionD")){
+		if(error.equals("topic")||error.equals("option")||error.equals("answer")){
+			optionNum(model);
 			return "ses/ems/exam/expert/commerce/add";
 		}
-		StringBuffer sb_option = new StringBuffer();
-		sb_option.append("A."+optionA.trim()+";");
-		sb_option.append("B."+optionB.trim()+";");
-		sb_option.append("C."+optionC.trim()+";");
-		sb_option.append("D."+optionD.trim()+";");
+		examQuestion.setQuestionTypeId(Integer.parseInt(request.getParameter("queType")));
 		examQuestion.setTopic(request.getParameter("topic"));
-		examQuestion.setItems(sb_option.toString());
 		examQuestion.setPersonType(1);
 		examQuestion.setKind(1);
 		examQuestion.setCreatedAt(new Date());
-		StringBuffer sb = new StringBuffer();
-		String[] answer = request.getParameterValues("answer");
-		for(int i = 0;i<answer.length;i++){
-			sb.append(answer[i]);
-		}
 		examQuestion.setAnswer(sb.toString());
-		examQuestion.setPoint(Integer.parseInt(request.getParameter("quePoint")));
 		examQuestionService.insertSelective(examQuestion);
 		return "redirect:searchComExpPool.html";
 	}
@@ -453,17 +515,7 @@ public class ExpertExamController {
 	 */
 	@RequestMapping("/editLaw")
 	public String editLaw(Model model,HttpServletRequest request){
-		ExamQuestion examQuestion = examQuestionService.selectByPrimaryKey(request.getParameter("id"));
-		model.addAttribute("lawQue",examQuestion);
-		String queAnswer = examQuestion.getAnswer();
-		model.addAttribute("lawAnswer",queAnswer);
-		List<ExamQuestionType> examPoolType = examQuestionTypeService.selectExpertAll();
-		model.addAttribute("examPoolType",examPoolType);
-		String[] queOption = examQuestion.getItems().split(";");
-		model.addAttribute("optionA", queOption[0].substring(2));
-		model.addAttribute("optionB", queOption[1].substring(2));
-		model.addAttribute("optionC", queOption[2].substring(2));
-		model.addAttribute("optionD", queOption[3].substring(2));
+		lawQuestion(model, request.getParameter("id"));
 		return "ses/ems/exam/expert/law/edit";
 	}
 	
@@ -480,17 +532,7 @@ public class ExpertExamController {
 	 */
 	@RequestMapping("/editTechnical")
 	public String editTechnical(Model model,HttpServletRequest request){
-		ExamQuestion examQuestion = examQuestionService.selectByPrimaryKey(request.getParameter("id"));
-		model.addAttribute("tecQue",examQuestion);
-		String queAnswer = examQuestion.getAnswer();
-		model.addAttribute("tecAnswer",queAnswer);
-		List<ExamQuestionType> examPoolType = examQuestionTypeService.selectExpertAll();
-		model.addAttribute("examPoolType",examPoolType);
-		String[] queOption = examQuestion.getItems().split(";");
-		model.addAttribute("optionA", queOption[0].substring(2));
-		model.addAttribute("optionB", queOption[1].substring(2));
-		model.addAttribute("optionC", queOption[2].substring(2));
-		model.addAttribute("optionD", queOption[3].substring(2));
+		tecQuestion(model, request.getParameter("id"));
 		return "ses/ems/exam/expert/technical/edit";
 	}
 	
@@ -507,17 +549,7 @@ public class ExpertExamController {
 	 */
 	@RequestMapping("/editCommerce")
 	public String editCommerce(Model model,HttpServletRequest request){
-		ExamQuestion examQuestion = examQuestionService.selectByPrimaryKey(request.getParameter("id"));
-		model.addAttribute("comQue",examQuestion);
-		String queAnswer = examQuestion.getAnswer();
-		model.addAttribute("comAnswer",queAnswer);
-		List<ExamQuestionType> examPoolType = examQuestionTypeService.selectExpertAll();
-		model.addAttribute("examPoolType",examPoolType);
-		String[] queOption = examQuestion.getItems().split(";");
-		model.addAttribute("optionA", queOption[0].substring(2));
-		model.addAttribute("optionB", queOption[1].substring(2));
-		model.addAttribute("optionC", queOption[2].substring(2));
-		model.addAttribute("optionD", queOption[3].substring(2));
+		comQuestion(model, request.getParameter("id"));
 		return "ses/ems/exam/expert/commerce/edit";
 	}
 	
@@ -534,7 +566,9 @@ public class ExpertExamController {
 	* @return String
 	 */
 	@RequestMapping("/editToLaw")
-	public String editToLaw(@Valid ExamQuestion question,BindingResult result,Model model,HttpServletRequest request,ExamQuestion examQuestion){
+	public String editToLaw(Model model,HttpServletRequest request,ExamQuestion examQuestion){
+		String[] items = saveOption();
+		StringBuffer sb = new StringBuffer();
 		String id = request.getParameter("id");
 		String content = request.getParameter("content");
 		if(request.getParameter("queType").isEmpty()){
@@ -542,90 +576,138 @@ public class ExpertExamController {
 			lawQuestion(model, id);
 			return "ses/ems/exam/expert/law/edit";
 		}
-		if(result.hasErrors()){
-			List<FieldError> errors = result.getFieldErrors();
-			for(FieldError fieldError:errors){
-				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
-			}
-			lawQuestion(model, id);
-			return "ses/ems/exam/expert/law/edit";
-		}
 		String error = "无";
-		if(!content.equals(request.getParameter("topic"))){
-			HashMap<String,Object> tmap = new HashMap<String,Object>();
-			tmap.put("topic", request.getParameter("topic").trim());
-			tmap.put("kind",2);
-			List<ExamQuestion> topicOnly = examQuestionService.selectByTopic(tmap);
-			if(topicOnly.size()!=0){
-				model.addAttribute("ERR_topic", "该题干已存在");
-				error = "topic";
+		String topic = request.getParameter("topic");
+		if(topic==null||topic.equals(" ")){
+			error = "topic";
+			model.addAttribute("ERR_topic", "题干不能为空");
+		}else{
+			if(!content.equals(request.getParameter("topic"))){
+				HashMap<String,Object> tmap = new HashMap<String,Object>();
+				tmap.put("topic", request.getParameter("topic").trim());
+				tmap.put("kind",2);
+				List<ExamQuestion> topicOnly = examQuestionService.selectByTopic(tmap);
+				if(topicOnly.size()!=0){
+					model.addAttribute("ERR_topic", "该题干已存在");
+					error = "topic";
+				}
 			}
 		}
-		String optionA = request.getParameter("optionA");
-		String optionB = request.getParameter("optionB");
-		String optionC = request.getParameter("optionC");
-		String optionD = request.getParameter("optionD");
-		if(optionA.indexOf(";")>-1||optionA.indexOf("；")>-1){
-			model.addAttribute("ERR_optionA", "选项内容不能输入分号");
-			error = "optionA";
+		if(request.getParameter("options").isEmpty()){
+			error = "option";
+			model.addAttribute("ERR_option","请选择选项数量");
+		}else{
+			String[] option = request.getParameterValues("option");
+			String item = items[option.length];
+			String[] opt = item.split(",");
+			outer:for(int i=0;i<option.length;i++){
+				if(option[i].isEmpty()){
+					model.addAttribute("ERR_option", "选项内容不能为空");
+					error = "option";
+					break outer;
+				}else if(i==option.length-1){
+					for(int j=0;j<option.length;j++){
+						if(option[j].indexOf(";")>-1||option[j].indexOf("；")>-1){
+							model.addAttribute("ERR_option", "选项内容不能输入分号");
+							error = "option";
+							break outer;
+						}
+					}
+					StringBuffer sb_option = new StringBuffer();
+					for(int j=0;j<opt.length;j++){
+						sb_option.append(opt[j]+"."+option[j]+";");
+					}
+					examQuestion.setItems(sb_option.toString());
+				}
+			}
+			String[] answer = request.getParameterValues("answer");
+			if(answer==null){
+				model.addAttribute("ERR_answer", "请选择答案");
+				error = "answer";
+			}else{
+				for(int i = 0;i<answer.length;i++){
+					sb.append(answer[i]);
+				}
+			}
 		}
-		if(optionB.indexOf(";")>-1||optionB.indexOf("；")>-1){
-			model.addAttribute("ERR_optionB", "选项内容不能输入分号");
-			error = "optionB";
-		}
-		if(optionC.indexOf(";")>-1||optionC.indexOf("；")>-1){
-			model.addAttribute("ERR_optionC", "选项内容不能输入分号");
-			error = "optionC";
-		}
-		if(optionD.indexOf(";")>-1||optionD.indexOf("；")>-1){
-			model.addAttribute("ERR_optionD", "选项内容不能输入分号");
-			error = "optionD";
-		}
-		if(error.equals("topic")||error.equals("optionA")||error.equals("optionB")||error.equals("optionC")||error.equals("optionD")){
+		if(error.equals("topic")||error.equals("option")||error.equals("answer")){
 			lawQuestion(model, id);
 			return "ses/ems/exam/expert/law/edit";
 		}
-		examQuestion.setId(id);
+		examQuestion.setQuestionTypeId(Integer.parseInt(request.getParameter("queType")));
 		examQuestion.setTopic(request.getParameter("topic"));
-		StringBuffer sb_option = new StringBuffer();
-		sb_option.append("A."+optionA.trim()+";");
-		sb_option.append("B."+optionB.trim()+";");
-		sb_option.append("C."+optionC.trim()+";");
-		sb_option.append("D."+optionD.trim()+";");
-		examQuestion.setItems(sb_option.toString());
-		StringBuffer sb = new StringBuffer();
-		String[] answer = request.getParameterValues("answer");
-		for(int i = 0;i<answer.length;i++){
-			sb.append(answer[i]);
-		}
 		examQuestion.setAnswer(sb.toString());
-		examQuestion.setPoint(Integer.parseInt(request.getParameter("quePoint")));
 		examQuestionService.updateByPrimaryKeySelective(examQuestion);
 		return "redirect:searchLawExpPool.html";
 	}
 	
 	/**
 	 * 
-	* @Title: currentQuestion
+	* @Title: lawQuestion
 	* @author ZhaoBo
-	* @date 2016-10-12 上午10:03:30  
+	* @date 2016-10-13 下午4:06:57  
 	* @Description: 拿到要修改的法律题目 
 	* @param @param model
 	* @param @param id      
 	* @return void
 	 */
 	public void lawQuestion(Model model,String id){
-		ExamQuestion lQuestion = examQuestionService.selectByPrimaryKey(id);
-		model.addAttribute("lawQue",lQuestion);
-		String answer = lQuestion.getAnswer();
+		ExamQuestion examQuestion = examQuestionService.selectByPrimaryKey(id);
+		model.addAttribute("lawQue",examQuestion);
+		String answer = examQuestion.getAnswer();
 		model.addAttribute("lawAnswer",answer);
-		List<ExamQuestionType> examPoolType = examQuestionTypeService.selectExpertAll();
-		model.addAttribute("examPoolType",examPoolType);
-		String[] queOption = lQuestion.getItems().split(";");
-		model.addAttribute("optionA", queOption[0].substring(2));
-		model.addAttribute("optionB", queOption[1].substring(2));
-		model.addAttribute("optionC", queOption[2].substring(2));
-		model.addAttribute("optionD", queOption[3].substring(2));
+		List<ExamQuestionType> examQuestionType = examQuestionTypeService.selectExpertAll();
+		model.addAttribute("examPoolType",examQuestionType);
+		String[] option = examQuestion.getItems().split(";");
+		model.addAttribute("optContent", examQuestion.getItems());
+		model.addAttribute("optNum", option.length);
+		optionNum(model);
+	}
+	
+	/**
+	 * 
+	* @Title: tecQuestion
+	* @author ZhaoBo
+	* @date 2016-10-13 下午4:07:17  
+	* @Description: 拿到要修改的技术题目  
+	* @param @param model
+	* @param @param id      
+	* @return void
+	 */
+	public void tecQuestion(Model model,String id){
+		ExamQuestion examQuestion = examQuestionService.selectByPrimaryKey(id);
+		model.addAttribute("tecQue",examQuestion);
+		String queAnswer = examQuestion.getAnswer();
+		model.addAttribute("tecAnswer",queAnswer);
+		List<ExamQuestionType> examQuestionType = examQuestionTypeService.selectExpertAll();
+		model.addAttribute("examPoolType",examQuestionType);
+		String[] option = examQuestion.getItems().split(";");
+		model.addAttribute("optContent", examQuestion.getItems());
+		model.addAttribute("optNum", option.length);
+		optionNum(model);
+	}
+	
+	/**
+	 * 
+	* @Title: comQuestion
+	* @author ZhaoBo
+	* @date 2016-10-13 下午4:12:48  
+	* @Description: 拿到要修改的商务题目 
+	* @param @param model
+	* @param @param id      
+	* @return void
+	 */
+	public void comQuestion(Model model,String id){
+		ExamQuestion examQuestion = examQuestionService.selectByPrimaryKey(id);
+		model.addAttribute("comQue",examQuestion);
+		String queAnswer = examQuestion.getAnswer();
+		model.addAttribute("comAnswer",queAnswer);
+		List<ExamQuestionType> examQuestionType = examQuestionTypeService.selectExpertAll();
+		model.addAttribute("examPoolType",examQuestionType);
+		String[] option = examQuestion.getItems().split(";");
+		model.addAttribute("optContent", examQuestion.getItems());
+		model.addAttribute("optNum", option.length);
+		optionNum(model);
 	}
 	
 	/**
@@ -642,40 +724,78 @@ public class ExpertExamController {
 	 */
 	@RequestMapping("/editToTec")
 	public String editToTec(Model model,HttpServletRequest request,ExamQuestion examQuestion){
-		examQuestion.setId(request.getParameter("id"));
-		examQuestion.setTopic(request.getParameter("queTopic"));
-		String[] queOption = request.getParameterValues("option");
-		StringBuffer sb_option = new StringBuffer();
-		sb_option.append("A."+queOption[0].trim()+";");
-		sb_option.append("B."+queOption[1].trim()+";");
-		sb_option.append("C."+queOption[2].trim()+";");
-		sb_option.append("D."+queOption[3].trim()+";");
-		examQuestion.setItems(sb_option.toString());
+		String[] items = saveOption();
 		StringBuffer sb = new StringBuffer();
-		if(request.getParameter("que")!=null){
-			String[] queSelect = request.getParameterValues("que");
-			for(int i = 0;i<queSelect.length;i++){
-				sb.append(queSelect[i]);
+		String id = request.getParameter("id");
+		String content = request.getParameter("content");
+		if(request.getParameter("queType").isEmpty()){
+			model.addAttribute("ERR_type","请选择题型");
+			tecQuestion(model, id);
+			return "ses/ems/exam/expert/technical/edit";
+		}
+		String error = "无";
+		String topic = request.getParameter("topic");
+		if(topic==null||topic.equals(" ")){
+			error = "topic";
+			model.addAttribute("ERR_topic", "题干不能为空");
+		}else{
+			if(!content.equals(request.getParameter("topic"))){
+				HashMap<String,Object> tmap = new HashMap<String,Object>();
+				tmap.put("topic", request.getParameter("topic").trim());
+				tmap.put("kind",0);
+				List<ExamQuestion> topicOnly = examQuestionService.selectByTopic(tmap);
+				if(topicOnly.size()!=0){
+					model.addAttribute("ERR_topic", "该题干已存在");
+					error = "topic";
+				}
 			}
 		}
+		if(request.getParameter("options").isEmpty()){
+			error = "option";
+			model.addAttribute("ERR_option","请选择选项数量");
+		}else{
+			String[] option = request.getParameterValues("option");
+			String item = items[option.length];
+			String[] opt = item.split(",");
+			outer:for(int i=0;i<option.length;i++){
+				if(option[i].isEmpty()){
+					model.addAttribute("ERR_option", "选项内容不能为空");
+					error = "option";
+					break outer;
+				}else if(i==option.length-1){
+					for(int j=0;j<option.length;j++){
+						if(option[j].indexOf(";")>-1||option[j].indexOf("；")>-1){
+							model.addAttribute("ERR_option", "选项内容不能输入分号");
+							error = "option";
+							break outer;
+						}
+					}
+					StringBuffer sb_option = new StringBuffer();
+					for(int j=0;j<opt.length;j++){
+						sb_option.append(opt[j]+"."+option[j]+";");
+					}
+					examQuestion.setItems(sb_option.toString());
+				}
+			}
+			String[] answer = request.getParameterValues("answer");
+			if(answer==null){
+				model.addAttribute("ERR_answer", "请选择答案");
+				error = "answer";
+			}else{
+				for(int i = 0;i<answer.length;i++){
+					sb.append(answer[i]);
+				}
+			}
+		}
+		if(error.equals("topic")||error.equals("option")||error.equals("answer")){
+			tecQuestion(model, id);
+			return "ses/ems/exam/expert/technical/edit";
+		}
+		examQuestion.setQuestionTypeId(Integer.parseInt(request.getParameter("queType")));
+		examQuestion.setTopic(request.getParameter("topic"));
 		examQuestion.setAnswer(sb.toString());
-		examQuestion.setPoint(Integer.parseInt(request.getParameter("quePoint")));
 		examQuestionService.updateByPrimaryKeySelective(examQuestion);
 		return "redirect:searchTecExpPool.html";
-	}
-	
-	/**
-	 * 
-	* @Title: technicalQuestion
-	* @author ZhaoBo
-	* @date 2016-10-12 上午10:09:24  
-	* @Description: 拿到要修改的技术题目 
-	* @param @param model
-	* @param @param id      
-	* @return void
-	 */
-	public void technicalQuestion(Model model,String id){
-		
 	}
 	
 	/**
@@ -683,7 +803,7 @@ public class ExpertExamController {
 	* @Title: editToCom
 	* @author ZhaoBo
 	* @date 2016-9-8 上午9:19:24  
-	* @Description: 修改并保存法律类的题库 
+	* @Description: 修改并保存商务类的题库 
 	* @param @param model
 	* @param @param request
 	* @param @param examPool
@@ -692,24 +812,76 @@ public class ExpertExamController {
 	 */
 	@RequestMapping("/editToCom")
 	public String editToCom(Model model,HttpServletRequest request,ExamQuestion examQuestion){
-		examQuestion.setId(request.getParameter("id"));
-		examQuestion.setTopic(request.getParameter("queTopic"));
-		String[] queOption = request.getParameterValues("option");
-		StringBuffer sb_option = new StringBuffer();
-		sb_option.append("A."+queOption[0].trim()+";");
-		sb_option.append("B."+queOption[1].trim()+";");
-		sb_option.append("C."+queOption[2].trim()+";");
-		sb_option.append("D."+queOption[3].trim()+";");
-		examQuestion.setItems(sb_option.toString());
+		String[] items = saveOption();
 		StringBuffer sb = new StringBuffer();
-		if(request.getParameter("que")!=null){
-			String[] queSelect = request.getParameterValues("que");
-			for(int i = 0;i<queSelect.length;i++){
-				sb.append(queSelect[i]);
+		String id = request.getParameter("id");
+		String content = request.getParameter("content");
+		if(request.getParameter("queType").isEmpty()){
+			model.addAttribute("ERR_type","请选择题型");
+			comQuestion(model, id);
+			return "ses/ems/exam/expert/technical/edit";
+		}
+		String error = "无";
+		String topic = request.getParameter("topic");
+		if(topic==null||topic.equals(" ")){
+			error = "topic";
+			model.addAttribute("ERR_topic", "题干不能为空");
+		}else{
+			if(!content.equals(request.getParameter("topic"))){
+				HashMap<String,Object> tmap = new HashMap<String,Object>();
+				tmap.put("topic", request.getParameter("topic").trim());
+				tmap.put("kind",1);
+				List<ExamQuestion> topicOnly = examQuestionService.selectByTopic(tmap);
+				if(topicOnly.size()!=0){
+					model.addAttribute("ERR_topic", "该题干已存在");
+					error = "topic";
+				}
 			}
 		}
+		if(request.getParameter("options").isEmpty()){
+			error = "option";
+			model.addAttribute("ERR_option","请选择选项数量");
+		}else{
+			String[] option = request.getParameterValues("option");
+			String item = items[option.length];
+			String[] opt = item.split(",");
+			outer:for(int i=0;i<option.length;i++){
+				if(option[i].isEmpty()){
+					model.addAttribute("ERR_option", "选项内容不能为空");
+					error = "option";
+					break outer;
+				}else if(i==option.length-1){
+					for(int j=0;j<option.length;j++){
+						if(option[j].indexOf(";")>-1||option[j].indexOf("；")>-1){
+							model.addAttribute("ERR_option", "选项内容不能输入分号");
+							error = "option";
+							break outer;
+						}
+					}
+					StringBuffer sb_option = new StringBuffer();
+					for(int j=0;j<opt.length;j++){
+						sb_option.append(opt[j]+"."+option[j]+";");
+					}
+					examQuestion.setItems(sb_option.toString());
+				}
+			}
+			String[] answer = request.getParameterValues("answer");
+			if(answer==null){
+				model.addAttribute("ERR_answer", "请选择答案");
+				error = "answer";
+			}else{
+				for(int i = 0;i<answer.length;i++){
+					sb.append(answer[i]);
+				}
+			}
+		}
+		if(error.equals("topic")||error.equals("option")||error.equals("answer")){
+			comQuestion(model, id);
+			return "ses/ems/exam/expert/technical/edit";
+		}
+		examQuestion.setQuestionTypeId(Integer.parseInt(request.getParameter("queType")));
+		examQuestion.setTopic(request.getParameter("topic"));
 		examQuestion.setAnswer(sb.toString());
-		examQuestion.setPoint(Integer.parseInt(request.getParameter("quePoint")));
 		examQuestionService.updateByPrimaryKeySelective(examQuestion);
 		return "redirect:searchComExpPool.html";
 	}
@@ -729,10 +901,17 @@ public class ExpertExamController {
 	public String saveScore(Model model,HttpServletRequest request){
 		User user = (User) request.getSession().getAttribute("loginUser");
 		Expert expert = expertService.selectByPrimaryKey(user.getTypeId());
-		String[] queAnswer = request.getParameter("lawAnswer").split(",");
-		String[] quePoint = request.getParameter("lawPoint").split(",");
-		String[] queId = request.getParameter("lawId").split(",");
+		String[] queAnswer = request.getParameter("queAnswer").split(",");
+		String[] queId = request.getParameter("queId").split(",");
+		String[] queType = request.getParameter("queType").split(",");
 		Integer score = 0;
+		List<ExamRule> examRule = examRuleService.select();
+		String typeDistribution = examRule.get(0).getTypeDistribution();
+		JSONObject obj = JSONObject.fromObject(typeDistribution);
+		String singleP = (String) obj.get("singlePoint");
+		Integer singlePoint = Integer.parseInt(singleP);
+		String multipleP = (String) obj.get("multiplePoint");
+		Integer multiplePoint = Integer.parseInt(multipleP);
 		for(int i=0;i<queAnswer.length;i++){
 			StringBuffer sb = new StringBuffer();
 			if(request.getParameterValues("que"+(i+1))==null){
@@ -757,11 +936,14 @@ public class ExpertExamController {
 				examUserAnswer.setUserId(user.getId());
 				examUserAnswerService.insertSelective(examUserAnswer);
 				if(queAnswer[i].equals(sb.toString())){
-					score = Integer.parseInt(quePoint[i])+score;
+					if(queType[i].equals("单选题")){
+						score = score + singlePoint;
+					}else if(queType[i].equals("多选题")){
+						score = score + multiplePoint;
+					}
 				}
 			}
 		}
-		List<ExamRule> examRule = examRuleService.select();
 		String passStandard = examRule.get(0).getPassStandard();
 		HashMap<String,Object> userId = new HashMap<String,Object>();
 		userId.put("userId", user.getId());
@@ -911,16 +1093,48 @@ public class ExpertExamController {
 		User user=(User) request.getSession().getAttribute("loginUser");
 		String typeId = user.getTypeId();
 		Expert expert = expertService.selectByPrimaryKey(typeId);
-		List<ExamQuestion> questionList = new ArrayList<ExamQuestion>();
 		List<ExamRule> examRule = examRuleService.select();
-		examQuestion.setQueNum(Integer.parseInt(examRule.get(0).getQuestionCount()));
+		List<ExamQuestion> questionList = new ArrayList<ExamQuestion>();
+		String typeDistribution = examRule.get(0).getTypeDistribution();
+		JSONObject obj = JSONObject.fromObject(typeDistribution);
+		String singleN =  (String) obj.get("singleNum");
+		Integer singleNum = Integer.parseInt(singleN);
+		String multipleN = (String) obj.get("multipleNum");
+		Integer multipleNum = Integer.parseInt(multipleN);
+		HashMap<String,Object> single = new HashMap<String,Object>();
+		HashMap<String,Object> multiple = new HashMap<String,Object>();
+		List<ExamQuestion> singleQuestion = new ArrayList<ExamQuestion>();
+		List<ExamQuestion> multipleQuestion = new ArrayList<ExamQuestion>();
 		if(expert.getExpertsTypeId().equals("1")){
-			questionList = examQuestionService.selectTecRandom(examQuestion);
+			single.put("questionTypeId", 1);
+			single.put("kind", 0);
+			single.put("queNum", singleNum);
+			singleQuestion = examQuestionService.selectQuestionRandom(single);
+			multiple.put("questionTypeId", 2);
+			multiple.put("kind", 0);
+			multiple.put("queNum", multipleNum);
+			multipleQuestion = examQuestionService.selectQuestionRandom(multiple);
 		}else if(expert.getExpertsTypeId().equals("2")){
-			questionList = examQuestionService.selectLawRandom(examQuestion);
+			single.put("questionTypeId", 1);
+			single.put("kind", 2);
+			single.put("queNum", singleNum);
+			singleQuestion = examQuestionService.selectQuestionRandom(single);
+			multiple.put("questionTypeId", 2);
+			multiple.put("kind", 2);
+			multiple.put("queNum", multipleNum);
+			multipleQuestion = examQuestionService.selectQuestionRandom(multiple);
 		}else if(expert.getExpertsTypeId().equals("3")){
-			questionList = examQuestionService.selectComRandom(examQuestion);
+			single.put("questionTypeId", 1);
+			single.put("kind", 1);
+			single.put("queNum", singleNum);
+			singleQuestion = examQuestionService.selectQuestionRandom(single);
+			multiple.put("questionTypeId", 2);
+			multiple.put("kind", 1);
+			multiple.put("queNum", multipleNum);
+			multipleQuestion = examQuestionService.selectQuestionRandom(multiple);
 		}
+		questionList.addAll(singleQuestion);
+		questionList.addAll(multipleQuestion);
 		Integer queNum = questionList.size();
 		List<Integer> pageNum = new ArrayList<Integer>();
 		if(queNum%5==0){
@@ -944,15 +1158,15 @@ public class ExpertExamController {
 			}
 		}
 		StringBuffer sb_answer = new StringBuffer();
-		StringBuffer sb_point = new StringBuffer();
+		StringBuffer sb_type = new StringBuffer();
 		StringBuffer sb_id = new StringBuffer();
 		for(int i=0;i<nQuestionList.size();i++){
 			sb_answer.append(nQuestionList.get(i).getAnswer()+",");
-			sb_point.append(nQuestionList.get(i).getPoint()+",");
+			sb_type.append(nQuestionList.get(i).getExamQuestionType().getName());
 			sb_id.append(nQuestionList.get(i).getId()+",");
 		}
 		model.addAttribute("queAnswer", sb_answer.toString());
-		model.addAttribute("quePoint", sb_point.toString());
+		model.addAttribute("queType", sb_type.toString());
 		model.addAttribute("queId", sb_id.toString());
 		model.addAttribute("queRandom",nQuestionList);
 		model.addAttribute("examRule", examRule.get(0));
@@ -976,18 +1190,7 @@ public class ExpertExamController {
 	 */
 	@RequestMapping("/viewLaw")
 	public String viewLaw(HttpServletRequest request,Model model){
-		String id = request.getParameter("id");
-		ExamQuestion examQuestion = examQuestionService.selectByPrimaryKey(id);
-		model.addAttribute("lawQue",examQuestion);
-		String queAnswer = examQuestion.getAnswer();
-		model.addAttribute("lawAnswer",queAnswer);
-		List<ExamQuestionType> examPoolType = examQuestionTypeService.selectExpertAll();
-		model.addAttribute("examPoolType",examPoolType);
-		String[] queOption = examQuestion.getItems().split(";");
-		model.addAttribute("optionA", queOption[0].substring(2));
-		model.addAttribute("optionB", queOption[1].substring(2));
-		model.addAttribute("optionC", queOption[2].substring(2));
-		model.addAttribute("optionD", queOption[3].substring(2));
+		lawQuestion(model, request.getParameter("id"));
 		return "ses/ems/exam/expert/law/view";
 	}
 	
@@ -1004,18 +1207,7 @@ public class ExpertExamController {
 	 */
 	@RequestMapping("/viewTec")
 	public String viewTec(HttpServletRequest request,Model model){
-		String id = request.getParameter("id");
-		ExamQuestion examQuestion = examQuestionService.selectByPrimaryKey(id);
-		model.addAttribute("tecQue",examQuestion);
-		String queAnswer = examQuestion.getAnswer();
-		model.addAttribute("tecAnswer",queAnswer);
-		List<ExamQuestionType> examPoolType = examQuestionTypeService.selectExpertAll();
-		model.addAttribute("examPoolType",examPoolType);
-		String[] queOption = examQuestion.getItems().split(";");
-		model.addAttribute("optionA", queOption[0].substring(2));
-		model.addAttribute("optionB", queOption[1].substring(2));
-		model.addAttribute("optionC", queOption[2].substring(2));
-		model.addAttribute("optionD", queOption[3].substring(2));
+		tecQuestion(model, request.getParameter("id"));
 		return "ses/ems/exam/expert/technical/view";
 	}
 	
@@ -1032,18 +1224,7 @@ public class ExpertExamController {
 	 */
 	@RequestMapping("/viewCom")
 	public String viewCom(HttpServletRequest request,Model model){
-		String id = request.getParameter("id");
-		ExamQuestion examQuestion = examQuestionService.selectByPrimaryKey(id);
-		model.addAttribute("comQue",examQuestion);
-		String queAnswer = examQuestion.getAnswer();
-		model.addAttribute("comAnswer",queAnswer);
-		List<ExamQuestionType> examPoolType = examQuestionTypeService.selectExpertAll();
-		model.addAttribute("examPoolType",examPoolType);
-		String[] queOption = examQuestion.getItems().split(";");
-		model.addAttribute("optionA", queOption[0].substring(2));
-		model.addAttribute("optionB", queOption[1].substring(2));
-		model.addAttribute("optionC", queOption[2].substring(2));
-		model.addAttribute("optionD", queOption[3].substring(2));
+		comQuestion(model, request.getParameter("id"));
 		return "ses/ems/exam/expert/commerce/view";
 	}
 	
@@ -1072,82 +1253,74 @@ public class ExpertExamController {
 	* @param @param request
 	* @param @return      
 	* @return String
+	 * @throws ParseException 
 	 */
 	@RequestMapping("/saveExamRule") 
-	public String saveExamRule(@Valid ExamRule rule,BindingResult result,Model model,HttpServletRequest request,ExamRule examRule){
-		if(result.hasErrors()){
-			List<FieldError> errors = result.getFieldErrors();
-			for(FieldError fieldError:errors){
-				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
-			}
-			rule(model);
-			return "ses/ems/exam/expert/rule";
-		}
+	public String saveExamRule(Model model,HttpServletRequest request,ExamRule examRule) throws ParseException{
 		String error = "无";
-		String questionCount = request.getParameter("questionCount");
-		String passStandard = request.getParameter("passStandard");
-		String paperScore = request.getParameter("paperScore");
-		String testCycle = request.getParameter("testCycle");
-		if(Integer.parseInt(passStandard)>=Integer.parseInt(paperScore)){
-			error = "pass";
-			model.addAttribute("ERR_passStandard", "及格标准分要小于试卷分值");
+		String singleNum = request.getParameter("singleNum");
+		String singlePoint = request.getParameter("singlePoint");
+		String multipleNum = request.getParameter("multipleNum");
+		String multiplePoint = request.getParameter("multiplePoint");
+		if(singleNum.isEmpty()||singlePoint.isEmpty()
+				||multipleNum.isEmpty()||multiplePoint.isEmpty()){
+			error = "type";
+			model.addAttribute("ERR_type", "请把题型分布补充完整");
+		}else if(singleNum.equals("0")&&multipleNum.equals("0")){
+			error = "type";
+			model.addAttribute("ERR_type", "单选题数量和多选题数量不能同时为0");
 		}
-		int count = Integer.parseInt(questionCount);
-		HashMap<String,Object> lmap = new HashMap<String,Object>();
-		lmap.put("kind", 0);
-		int lNum = examQuestionService.queryQuestionCount(lmap);
-		HashMap<String,Object> tmap = new HashMap<String,Object>();
-		tmap.put("kind", 1);
-		int tNum = examQuestionService.queryQuestionCount(tmap);
-		HashMap<String,Object> cmap = new HashMap<String,Object>();
-		cmap.put("kind", 2);
-		int cNum = examQuestionService.queryQuestionCount(cmap);
-		List<ExamQuestion> questions = examQuestionService.searchExpertPool();
-		if(questions.size()!=0){
-			int totalScore = questions.get(0).getPoint()*count;
-			if(totalScore!=Integer.parseInt(paperScore)){
-				error = "score";
-				model.addAttribute("ERR_paperScore", "总分值不对");
+		String paperScore = request.getParameter("paperScore");
+		String passStandard = request.getParameter("passStandard");
+		if(passStandard.isEmpty()){
+			error = "passStandard";
+			model.addAttribute("ERR_passStandard", "及格标准不能为空");
+		}else{
+			if(Integer.parseInt(passStandard)>=Integer.parseInt(paperScore)){
+				error = "passStandard";
+				model.addAttribute("ERR_passStandard", "及格标准分要小于试卷分值");
 			}
 		}
-		if(count>lNum||count>tNum||count>cNum){
-			error = "count";
-			model.addAttribute("ERR_questionCount", "专家题库中题目数量不足");
-			
+		String testCycle = request.getParameter("testCycle");
+		if(testCycle.isEmpty()){
+			error = "testCycle";
+			model.addAttribute("ERR_testCycle", "考试有效期不能为空");
 		}
-		if(error.equals("pass")||error.equals("score")||error.equals("count")){
-			rule(model);
+		String time = request.getParameter("startTime");
+		if(time.isEmpty()){
+			error = "time";
+			model.addAttribute("ERR_time", "考试开始时间不能为空");
+		}else{
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Date cTime = sdf.parse(time+":00");
+			if(cTime.getTime()<=new Date().getTime()){
+				error = "time";
+				model.addAttribute("ERR_time", "考试开始时间必须比当前时间晚");
+			}else{
+				examRule.setStartTime(cTime);
+			}
+		}
+		if(error.equals("time")||error.equals("testCycle")||error.equals("passStandard")||error.equals("type")){
 			return "ses/ems/exam/expert/rule";
 		}
-		List<ExamRule> ruleList = examRuleService.select();
-		if(ruleList.size()==0){
-			Date now = new Date();
-			Date dNow = new Date();
-			Calendar calendar = Calendar.getInstance(); //得到日历
-			calendar.setTime(now);
-			calendar.add(calendar.MONTH, Integer.parseInt(testCycle));  
-			dNow = calendar.getTime();
-			examRule.setPassStandard(passStandard);
-			examRule.setQuestionCount(questionCount);
-			examRule.setTestCycle(testCycle);
-			examRule.setPaperScore(paperScore);
-			examRule.setCreatedAt(new Date());
-			examRule.setTestLong(dNow);
-			examRuleService.insertSelective(examRule);
-		}else{
-			Date now = ruleList.get(0).getCreatedAt();
-			Date dNow = new Date();
-			Calendar calendar = Calendar.getInstance(); //得到日历
-			calendar.setTime(now);
-			calendar.add(calendar.MONTH, Integer.parseInt(testCycle));  
-			dNow = calendar.getTime();   
-			examRule.setPassStandard(passStandard);
-			examRule.setQuestionCount(questionCount);
-			examRule.setTestCycle(testCycle);
-			examRule.setPaperScore(paperScore);
-			examRule.setTestLong(dNow);
-			examRuleService.updateByPrimaryKeySelective(examRule);
-		}
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("singleNum", singleNum);
+		map.put("singlePoint", singlePoint);
+		map.put("multipleNum", multipleNum);
+		map.put("multiplePoint", multiplePoint);
+		examRule.setTypeDistribution(JSONSerializer.toJSON(map).toString());
+		Date now = new Date();
+		Date dNow = new Date();
+		Calendar calendar = Calendar.getInstance(); //得到日历
+		calendar.setTime(now);
+		calendar.add(calendar.MONTH, Integer.parseInt(testCycle));  
+		dNow = calendar.getTime();
+		examRule.setPassStandard(passStandard);
+		examRule.setTestCycle(testCycle);
+		examRule.setPaperScore(paperScore);
+		examRule.setCreatedAt(new Date());
+		examRule.setTestLong(dNow);
+		examRuleService.insertSelective(examRule);
 		return "redirect:/login/home.html";
 	}
 	
@@ -1161,14 +1334,43 @@ public class ExpertExamController {
 	* @return void
 	 */
 	public void rule(Model model){
-		List<ExamRule> ruleList = examRuleService.select();
-		if(ruleList.size()>0){
-			model.addAttribute("rule", ruleList.get(0));
-		}
-		List<ExamQuestion> examQuestion = examQuestionService.searchExpertPool();
-		if(examQuestion.size()!=0){
-			model.addAttribute("point", examQuestion.get(0).getPoint());
-		}
+//		List<ExamRule> ruleList = examRuleService.select();
+//		if(ruleList.size()>0){
+//			model.addAttribute("rule", ruleList.get(0));
+//		}
+//		List<ExamQuestion> examQuestion = examQuestionService.searchExpertPool();
+//		if(examQuestion.size()!=0){
+//			model.addAttribute("point", examQuestion.get(0).getPoint());
+//		}
+//		List<ExamRule> ruleList = examRuleService.select();
+//		if(ruleList.size()==0){
+//			Date now = new Date();
+//			Date dNow = new Date();
+//			Calendar calendar = Calendar.getInstance(); //得到日历
+//			calendar.setTime(now);
+//			calendar.add(calendar.MONTH, Integer.parseInt(testCycle));  
+//			dNow = calendar.getTime();
+//			examRule.setPassStandard(passStandard);
+//			//examRule.setQuestionCount(questionCount);
+//			examRule.setTestCycle(testCycle);
+//			examRule.setPaperScore(paperScore);
+//			examRule.setCreatedAt(new Date());
+//			examRule.setTestLong(dNow);
+//			examRuleService.insertSelective(examRule);
+//		}else{
+//			Date now = ruleList.get(0).getCreatedAt();
+//			Date dNow = new Date();
+//			Calendar calendar = Calendar.getInstance(); //得到日历
+//			calendar.setTime(now);
+//			calendar.add(calendar.MONTH, Integer.parseInt(testCycle));  
+//			dNow = calendar.getTime();   
+//			examRule.setPassStandard(passStandard);
+//			//examRule.setQuestionCount(questionCount);
+//			examRule.setTestCycle(testCycle);
+//			examRule.setPaperScore(paperScore);
+//			examRule.setTestLong(dNow);
+//			examRuleService.updateByPrimaryKeySelective(examRule);
+//		}
 	}
 	
 	/**
@@ -1331,14 +1533,17 @@ public class ExpertExamController {
 		String str = null;
 		if(type==5){
 			List<ExamRule> examRule = examRuleService.select();
-			Date ruleDate = examRule.get(0).getTestLong();
-			if(ruleDate.getTime()>=new Date().getTime()){
-				str = "1";
+			Date endDate = examRule.get(0).getTestLong();
+			Date startDate = examRule.get(0).getStartTime();
+			if(endDate.getTime()>=new Date().getTime()&&new Date().getTime()>=startDate.getTime()){
+				str = "1";//可以开始考试
+			}else if(startDate.getTime()>new Date().getTime()){
+				str = "3";//考试开始时间未到
 			}else{
-				str = "0";
+				str = "0";//考试时间已截止
 			}
 		}else{
-			str = "2";
+			str = "2";//不是专家
 		}
 		return str;
 	}
@@ -1452,11 +1657,9 @@ public class ExpertExamController {
 	* @param @return
 	* @param @throws FileNotFoundException
 	* @param @throws IOException      
-	* @return String
 	 */
 	@RequestMapping(value="/importLaw",method = RequestMethod.POST)
-	@ResponseBody
-	public String importLaw(@RequestParam("file") CommonsMultipartFile file,
+	public void importLaw(@RequestParam("file") CommonsMultipartFile file,
 			 HttpSession session,HttpServletRequest request,HttpServletResponse response) throws FileNotFoundException, IOException{
 		String curProjectPath = session.getServletContext().getRealPath("/");  
         String saveDirectoryPath = curProjectPath + "/" + uploadFolderName;  
@@ -1481,9 +1684,13 @@ public class ExpertExamController {
 		}catch (Exception ex) {
 			workbook = new HSSFWorkbook(new FileInputStream(excelFile));
 		}
+		String str = "无";
 		Sheet sheet = workbook.getSheetAt(0);
-		for (int j = 1; j <= sheet.getPhysicalNumberOfRows(); j++) {
-			Row row = sheet.getRow(j);
+		String[] items = saveOption();
+		StringBuffer same = new StringBuffer();
+		List<ExamQuestion> question = new ArrayList<ExamQuestion>();
+		for (int i=1;i<= sheet.getPhysicalNumberOfRows();i++) {
+			Row row = sheet.getRow(i);
 			if (row == null) {
 				continue;
 			}
@@ -1491,26 +1698,49 @@ public class ExpertExamController {
 			if (queType.toString().equals("单选题")
 					|| queType.toString().equals("多选题")) {
 				Cell queTopic = row.getCell(1);
-				Cell queOption = row.getCell(2);
-				Cell queAnswer = row.getCell(3);
-				Cell quePoint = row.getCell(4);
+				Cell queAnswer = row.getCell(2);
 				ExamQuestion examQuestion = new ExamQuestion();
 				examQuestion.setPersonType(1);
 				examQuestion.setKind(2);
+				StringBuffer sb_items = new StringBuffer();
+				String item = items[row.getPhysicalNumberOfCells()-3];
+				String[] opt = item.split(",");
+				for(int j=3;j<row.getPhysicalNumberOfCells();j++){
+					sb_items.append(opt[j-3]+"."+row.getCell(j).toString()+";");
+				}
+				examQuestion.setItems(sb_items.toString());
 				examQuestion.setTopic(queTopic.toString());
-				examQuestion.setItems(queOption.toString());
 				examQuestion.setAnswer(queAnswer.toString());
-				examQuestion.setPoint((int) quePoint.getNumericCellValue());
 				if (queType.toString().equals("单选题")) {
 					examQuestion.setQuestionTypeId(1);
 				} else {
 					examQuestion.setQuestionTypeId(2);
 				}
 				examQuestion.setCreatedAt(new Date());
-				examQuestionService.insertSelective(examQuestion);
+				HashMap<String,Object> map = new HashMap<String,Object>();
+				map.put("kind", 2);
+				map.put("topic", queTopic.toString());
+				List<ExamQuestion> sameTopic = examQuestionService.selectByTopic(map);
+				if(sameTopic.size()!=0){
+					str="1";
+					same.append(queTopic.toString()+",");
+					continue;
+				}else{
+					examQuestion.setTopic(queTopic.toString());
+					question.add(examQuestion);
+				}
 			}
 		}
-		return "1";
+		if(str.equals("1")){
+			super.writeJson(response,same.toString());
+		}else{
+			for(int i=0;i<question.size();i++){
+				examQuestionService.insertSelective(question.get(i));
+			}
+			super.writeJson(response,"0");
+		}
+		
+		
 	}
 	
 	/**

@@ -5,6 +5,7 @@ package ses.model.ems;
 
 import java.util.Date;
 
+import javax.validation.constraints.Future;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -24,35 +25,27 @@ public class ExamRule {
 	/**
 	 * @Fields passStandard : 及格标准
 	 */
-	@NotBlank(message="请输入及格标准分")
-	@Pattern(regexp="^-?[1-9]\\d*$",message="请输入数字")
 	private String passStandard;
-	
-	/**
-	 * @Fields questionCount : 题目数量
-	 */
-	@NotBlank(message="请输入题目数量")
-	@Pattern(regexp="^-?[1-9]\\d*$",message="请输入数字")
-	private String questionCount;
 	
 	/**
 	 * @Fields paperScore : 试卷分值
 	 */
-	@NotBlank(message="请输入试卷分值")
-	@Pattern(regexp="^-?[1-9]\\d*$",message="请输入数字")
 	private String paperScore;
+	
+	/**
+	 * @Fields startTime : 考试开始时间
+	 */
+	private Date startTime;
+	
+	/**
+	 * @Fields typeDistribution : 题型分布
+	 */
+	private String typeDistribution;
 	
 	/**
 	 * @Fields testCycle : 考试周期
 	 */
-	@NotBlank(message="请输入考试周期")
-	@Pattern(regexp="^-?[1-9]\\d*$",message="请输入数字")
 	private String testCycle;
-	
-	/**
-	 * @Fields testTime : 考试时间
-	 */
-	private String testTime;
 	
 	/**
 	 * @Fields createdAt : 创建时间
@@ -73,7 +66,22 @@ public class ExamRule {
 	 * @Fields formatDate : 时间备用字段
 	 */
 	private String formatDate;
-
+	
+	/**
+	 * @Fields time : 验证考试开始时间字段
+	 */
+	private String time;
+	
+	/**
+	 * @Fields singlePoint : 验证单选题数量字段
+	 */
+	private String singlePoint;
+	
+	/**
+	 * @Fields multiplePoint : 验证多选题数量字段
+	 */
+	private String multiplePoint;
+	
 	public String getId() {
 		return id;
 	}
@@ -90,14 +98,6 @@ public class ExamRule {
 		this.passStandard = passStandard;
 	}
 
-	public String getQuestionCount() {
-		return questionCount;
-	}
-
-	public void setQuestionCount(String questionCount) {
-		this.questionCount = questionCount;
-	}
-
 	public String getPaperScore() {
 		return paperScore;
 	}
@@ -112,14 +112,6 @@ public class ExamRule {
 
 	public void setTestCycle(String testCycle) {
 		this.testCycle = testCycle;
-	}
-
-	public String getTestTime() {
-		return testTime;
-	}
-
-	public void setTestTime(String testTime) {
-		this.testTime = testTime;
 	}
 
 	public Date getCreatedAt() {
@@ -153,6 +145,48 @@ public class ExamRule {
 	public void setFormatDate(String formatDate) {
 		this.formatDate = formatDate;
 	}
+
+	public Date getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+
+	public String getTypeDistribution() {
+		return typeDistribution;
+	}
+
+	public void setTypeDistribution(String typeDistribution) {
+		this.typeDistribution = typeDistribution;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
+
+	public String getSinglePoint() {
+		return singlePoint;
+	}
+
+	public void setSinglePoint(String singlePoint) {
+		this.singlePoint = singlePoint;
+	}
+
+	public String getMultiplePoint() {
+		return multiplePoint;
+	}
+
+	public void setMultiplePoint(String multiplePoint) {
+		this.multiplePoint = multiplePoint;
+	}
+
+	
 	
 	
 }

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.dms.PurchaseArchiveMapper">
+  <resultMap id="BaseResultMap" type="bss.model.dms.PurchaseArchive">
+    <id column="ID" property="id" />
+    <result column="NAME" property="name" />
+    <result column="CODE" property="code" />
+    <result column="PURCHASE_CONTRACT_MODE" property="purchaseContractMode" />
+  	<result column="PURCHASE_CONTRACT_ID" property="purchaseContractId" />
+	<result column="RANGE" property="range" />
+	<result column="STATUS" property="status" />
+    <result column="CREATED_AT" property="createdAt" />
+    <result column="UPDATED_AT" property="updatedAt" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    ID, NAME,CODE,PURCHASE_CONTRACT_MODE,PURCHASE_CONTRACT_ID,RANGE,STATUS,CREATED_AT,UPDATED_AT
+  </sql>
+  
+  <select id="selectArchiveById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_DMS_PURCHASE_ARCHIVE
+    where ID = #{id}
+  </select>
+  
+  <insert id="insertSelective" parameterType="bss.model.dms.PurchaseArchive">
+  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_BSS_DMS_PURCHASE_ARCHIVE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="code != null">
+        CODE,
+      </if>
+      <if test="purchaseContractMode != null">
+        PURCHASE_CONTRACT_MODE,
+      </if>
+      <if test="purchaseContractId != null">
+        PURCHASE_CONTRACT_ID,
+      </if>
+      <if test="range != null">
+        RANGE,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="name != null">
+        #{name},
+      </if>
+      <if test="code != null">
+        #{code},
+      </if>
+      <if test="purchaseContractMode != null">
+        #{purchaseContractMode},
+      </if>
+      <if test="purchaseContractId != null">
+        #{purchaseContractId},
+      </if>
+      <if test="range != null">
+        #{range},
+      </if>
+      <if test="status != null">
+        #{status},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="bss.model.dms.PurchaseArchive">
+    update T_BSS_DMS_PURCHASE_ARCHIVE
+    <set>
+      <if test="name != null">
+        NAME = #{name},
+      </if>
+      <if test="code != null">
+        CODE = #{code},
+      </if>
+      <if test="purchaseContractMode != null">
+        PURCHASE_CONTRACT_MODE = #{purchaseContractMode},
+      </if>
+      <if test="purchaseContractId != null">
+        PURCHASE_CONTRACT_ID = #{purchaseContractId},
+      </if>
+      <if test="range != null">
+        RANGE = #{range},
+      </if>
+      <if test="status != null">
+        STATUS = #{status},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt},
+      </if>
+    </set>
+    where ID = #{id}
+  </update>
+  
+</mapper>

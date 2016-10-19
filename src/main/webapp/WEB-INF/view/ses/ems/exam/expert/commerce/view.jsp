@@ -4,58 +4,45 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <title>查看题库</title>
+    <title>查看商务类题目</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	<script type="text/javascript">
+		var opt = "";
+		var obj = "";
 		$(function(){
-			var que = document.getElementsByName("que");
+			opt = ${opt};
+			obj = eval(opt);
+			var options = $("#options").val();
+			var array = obj[options].split(",");
+			var content = "${optContent}";
 			var queType = $("#queType").val();
-			if(queType){
+			var ct = content.split(";");
+			var queAnswer = "${comAnswer}";
+			var ohtml="";
+			var ahtml="";
+			for(var i=0;i<array.length;i++){
+				ohtml = ohtml+"<div class='clear mt10 col-md-12 p0'><div class='fl mt5'>"+array[i]+"</div><textarea name='option' class='ml5 col-md-9 p0' disabled>"+ct[i].substring(2)+"</textarea></div>";
 				if(queType==1){
-					for(var i=0;i<que.length;i++){
-						$(que[i]).attr("type","radio");
-						$(que[i]).attr("disabled",true);
+					if(queAnswer.indexOf(array[i])>-1){
+						ahtml = ahtml+"<input type='radio' name='answer' value='"+array[i]+"' class='mt0' checked='checked' disabled/>"+array[i]+"&nbsp;";
+					}else{
+						ahtml = ahtml+"<input type='radio' name='answer' value='"+array[i]+"' class='mt0' disabled/>"+array[i]+"&nbsp;";
 					}
 				}else if(queType==2){
-					for(var i=0;i<que.length;i++){
-						$(que[i]).attr("type","checkbox");
-						$(que[i]).attr("disabled",true);
+					if(queAnswer.indexOf(array[i])>-1){
+						ahtml = ahtml+"<input type='checkbox' name='answer' value='"+array[i]+"' class='mt0' checked='checked' disabled/>"+array[i]+"&nbsp;";
+					}else{
+						ahtml = ahtml+"<input type='checkbox' name='answer' value='"+array[i]+"' class='mt0' disabled/>"+array[i]+"&nbsp;";
 					}
 				}
-				for(var i=0;i<que.length;i++){
-					$(que[i]).click(function(){
-						$("#queSelect").html(" ");
-					})
-				}
-			}else{
-				for(var i=0;i<que.length;i++){
-					que[i].setAttribute("disabled",true);
-				}
 			}
-			var queAnswer = "${comAnswer}";
-			if(queAnswer.indexOf('A')>-1){
-				var qa= document.getElementById("A");
-				qa.setAttribute("checked",true);
-			}
-			if(queAnswer.indexOf('B')>-1){
-				var qb= document.getElementById("B");
-				qb.setAttribute("checked",true);
-			}
-			if(queAnswer.indexOf('C')>-1){
-				var qc= document.getElementById("C");
-				qc.setAttribute("checked",true);
-			}
-			if(queAnswer.indexOf('D')>-1){
-				var qd= document.getElementById("D");
-				qd.setAttribute("checked",true);
-			}
+			$("#items").html(ohtml);
+			$("#answers").html(ahtml);
 		})
-		
-		
 	</script>
   </head>
   
@@ -69,17 +56,16 @@
 		<div class="clear"></div>
 	  </div>
    </div>
-   	<div class="container margin-top-5">
+   <div class="container margin-top-5">
     <div class="content padding-left-25 padding-right-25 padding-top-5">
     <div>
 		<div class="headline-v2">
 		   	<h2>查看商务类题目</h2>
 		</div>
-  	
 		<ul class="list-unstyled list-flow p0_20">
 		     <li class="col-md-12 p0">
-	  			<span class="fl">请选择题型：</span>
-		  		<select id="queType" name="queType" onchange="changeType()" disabled="disabled">
+	  			<span class="fl"><div class="red star_red">*</div>请选择题型：</span>
+		  		<select id="queType" name="queType" disabled="disabled">
 		  			<option value="">请选择</option>
 		  			<c:forEach items="${examPoolType }" var="e">
 		  				<c:choose>
@@ -95,88 +81,88 @@
 	  		</li>
 		
 			<li class="col-md-12 p0">
-			   <span class="fl">题干：</span>
+			   <span class="fl"><div class="red star_red">*</div>题干：</span>
 			   <div class="">
-		        	<textarea disabled="disabled" class="text_area col-md-8" name="queTopic" id="queTopic">${comQue.topic }</textarea>
+		        	<textarea class="text_area col-md-8" name="topic" id="queTopic" disabled="disabled">${comQue.topic }</textarea>
 		       </div>
 			 </li> 
 		   
 	  	
-	  		<li class="col-md-12 p0">
-				<span class="fl">选项：</span>
-				<div class="col-md-9">
-				<div>
-			  		<div class="fl mt5">A</div><textarea name="option" id="optionA" class="ml5 col-md-8" disabled="disabled">${optionA}</textarea>
-			  		<div class="clear"></div>
-			  	</div>
-			  	<div class="clear mt10">
-					<div class="fl mt5">B</div><textarea name="option" id="optionB" class="ml5 col-md-8" disabled="disabled">${optionB}</textarea>
-				    <div class="clear"></div>
-				</div>
-				<div class="clear mt10">
-					<div class="fl mt5">C</div><textarea name="option" id="optionC" class="ml5 col-md-8" disabled="disabled">${optionC}</textarea>
-				    <div class="clear"></div>
-				</div>
-				<div class="clear mt10">
-					<div class="fl mt5">D</div><textarea name="option" id="optionD" class="ml5 col-md-8" disabled="disabled">${optionD}</textarea>
-				    <div class="clear"></div>
-				</div>
-		       </div>
-			 </li> 
-	  	
-		 		<li class="col-md-12 p0">
-					<span class="fl">答案：</span>	
-					<div class="fl ml5 mt5">
-			        A <input type="radio" id="A" name="que" value="A" class="mt0" disabled="disabled"/> 
-		  			B <input type="radio" id="B" name="que" value="B" class="mt0" disabled="disabled"/> 
-		  			C <input type="radio" id="C" name="que" value="C" class="mt0" disabled="disabled"/> 
-		  			D <input type="radio" id="D" name="que" value="D" class="mt0" disabled="disabled"/>
-			       </div>
-					<span id="queSelect"></span>
+	  			<li class="col-md-12 p0">
+					<span class="fl"><div class="red star_red">*</div>请选择选项数量：</span>
+					<select id="options" name="options" disabled="disabled">
+			  			<option value="">请选择</option>
+			  			<c:if test="${optNum==3 }">
+			  				<option value="three" selected>3</option>
+			  			</c:if>
+			  			<c:if test="${optNum!=3 }">
+			  				<option value="three">3</option>
+			  			</c:if>
+			  			<c:if test="${optNum==4 }">
+			  				<option value="four" selected>4</option>
+			  			</c:if>
+			  			<c:if test="${optNum!=4 }">
+			  				<option value="four">4</option>
+			  			</c:if>
+			  			<c:if test="${optNum==5 }">
+			  				<option value="five" selected>5</option>
+			  			</c:if>
+			  			<c:if test="${optNum!=5 }">
+			  				<option value="five">5</option>
+			  			</c:if>
+			  			<c:if test="${optNum==6 }">
+			  				<option value="six" selected>6</option>
+			  			</c:if>
+			  			<c:if test="${optNum!=6 }">
+			  				<option value="six">6</option>
+			  			</c:if>
+			  			<c:if test="${optNum==7 }">
+			  				<option value="seven" selected>7</option>
+			  			</c:if>
+			  			<c:if test="${optNum!=7 }">
+			  				<option value="seven">7</option>
+			  			</c:if>
+			  			<c:if test="${optNum==8 }">
+			  				<option value="eight" selected>8</option>
+			  			</c:if>
+			  			<c:if test="${optNum!=8 }">
+			  				<option value="eight">8</option>
+			  			</c:if>
+			  			<c:if test="${optNum==9 }">
+			  				<option value="nine" selected>9</option>
+			  			</c:if>
+			  			<c:if test="${optNum!=9 }">
+			  				<option value="nine">9</option>
+			  			</c:if>
+			  			<c:if test="${optNum==10 }">
+			  				<option value="ten" selected>10</option>
+			  			</c:if>
+			  			<c:if test="${optNum!=10 }">
+			  				<option value="ten">10</option>
+			  			</c:if>
+		  			</select>
+					<div class="col-md-9 clear p0" id="items"></div>
+			 	</li> 
+		   
+		  		<li class="col-md-12 p0">
+					<span class="fl"><div class="red star_red">*</div>答案：</span>	
+					<div class="fl ml5 mt5" id="answers"></div>
 				</li>
-		  
-	  	<li class="col-md-12 p0">
-	  		<span class="fl">分值：</span>
-  			<select name="quePoint" id="quePoint" disabled="disabled">
-  				<option value="1" 
-  					<c:if test="${comQue.point==1 }">
-  						selected
-  					</c:if>
-  				>1</option>
-  				<option value="2" 
-  					<c:if test="${comQue.point==2 }">
-  						selected
-  					</c:if>
-  				>2</option>
-  				<option value="3" 
-  					<c:if test="${comQue.point==3 }">
-  						selected
-  					</c:if>
-  				>3</option>
-  				<option value="4" 
-  					<c:if test="${comQue.point==4 }">
-  						selected
-  					</c:if>
-  				>4</option>
-  				<option value="5" 
-  					<c:if test="${comQue.point==5 }">
-  						selected
-  					</c:if>
-  				>5</option>
-  			</select>
-  			</li>
-  		</ul>
-  		</div>
+				
+  			</ul>
+  		
   		<!-- 底部按钮 -->
 	  	<div class="padding-top-10 clear">
 			<div class="col-md-12 pl200 ">
 				<div class="mt40 tc mb50">
-		    		<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
-				</div>
-			</div>
- 		</div>
-		
-  	</div>
-  	</div>
+		  			<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
+	  			</div>
+	  		</div>
+	  	</div>
+	  	
+  		
+	  		</div>
+		</div>
+	</div>
   </body>
 </html>

@@ -3,12 +3,14 @@
  */
 package ses.service.ems.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
+
 
 import ses.dao.ems.ExamPaperMapper;
 import ses.model.ems.ExamPaper;
@@ -60,8 +62,8 @@ public class ExamPaperServiceImpl implements ExamPaperServiceI {
 
 
 	@Override
-	public ExamPaper selectByPaperNo(String paperNo) {
-		return examPaperMapper.selectByPaperNo(paperNo);
+	public ExamPaper selectByPaperNo(HashMap<String,Object> map) {
+		return examPaperMapper.selectByPaperNo(map);
 	}
 
 

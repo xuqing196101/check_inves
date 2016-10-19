@@ -22,12 +22,15 @@
 				url:"<%=basePath%>expertExam/judgeQualy.html",
 				success:function(data){
 	       			if(data==0){
-	       				layer.alert("很抱歉,考试周期已过",{offset: ['222px', '390px']});
+	       				layer.alert("很抱歉,考试日期已截止",{offset: ['222px', '390px']});
 						$(".layui-layer-shade").remove();
 	       			}else if(data==1){
 	       				window.location.href = "<%=path %>/expertExam/test.html";
 	       			}else if(data==2){
 	       				layer.alert("对不起,您不是专家,无权参加考试",{offset: ['222px', '390px']});
+						$(".layui-layer-shade").remove();
+	       			}else if(data==3){
+	       				layer.alert("考试时间尚未开始",{offset: ['222px', '390px']});
 						$(".layui-layer-shade").remove();
 	       			}
 	       		}

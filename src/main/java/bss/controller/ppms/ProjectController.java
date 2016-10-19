@@ -102,7 +102,7 @@ public class ProjectController extends BaseController{
 		model.addAttribute("purchaseRequired", purchaseRequired);
 		//显示项目明细
 		String idr = (String) request.getSession().getAttribute("idr");
-		List<ProjectDetail> list2 = new ArrayList<>();
+		List<ProjectDetail> list2 = new ArrayList<ProjectDetail>();
 		if(idr != null){
 			String[] ids = idr.split(",");
 			for (int i = 0; i < ids.length; i++) {
@@ -423,78 +423,6 @@ public class ProjectController extends BaseController{
 		return "bss/ppms/project/print";
 	}
 	
-	
-	
-	public List<PurchaseRequired> purList; 
-	public String pId;
-	
-	/**
-	 * 
-	* @Title: select
-	* @author ZhaoBo
-	* @date 2016-10-9 下午6:42:25  
-	* @Description: 选中效果 
-	* @param @param request
-	* @param @return      
-	* @return String
-	 */
-	@RequestMapping("/select")
-	@ResponseBody
-	public List<PurchaseRequired> select(HttpServletRequest request){
-		String id = request.getParameter("id");
-		recursion(id);
-		List<PurchaseRequired> list = new ArrayList<PurchaseRequired>();
-		list.addAll(purList);
-		return list;
-	}
-	
-	
-	
-	/**
-	 * 
-	* @Title: recursion
-	* @author ZhaoBo
-	* @date 2016-10-9 下午8:03:24  
-	* @Description: 递归选中 
-	* @param       
-	* @return void
-	 */
-	public void recursion(String id){
-		System.out.println(id);
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("parentId", id);
-		List<PurchaseRequired> purchaseRequired = purchaseRequiredService.getByMap(map);
-		purList.addAll(purchaseRequired);
-		if(purchaseRequired.size()!=0){
-			for(int i=0;i<purchaseRequired.size();i++){
-				pId = purchaseRequired.get(i).getId();
-				recursion(pId);
-			}
-		}
-	}
-	
-	/**
-	 * 
-	* @Title: addPackage
-	* @author ZhaoBo
-	* @date 2016-10-10 上午9:05:18  
-	* @Description: 添加分包 
-	* @param @param request
-	* @param @return      
-	* @return String
-	 */
-	@RequestMapping("/addPackage")
-	@ResponseBody
-	public List<PurchaseRequired> addPackage(HttpServletRequest request){
-		List<PurchaseRequired> purchaseRequired = new ArrayList<PurchaseRequired>();
-		String[] id = request.getParameter("id").split(",");
-		for(int i=0;i<id.length;i++){
-			PurchaseRequired pr = purchaseRequiredService.queryById(id[i]);
-			purchaseRequired.add(pr);
-		}
-		return purchaseRequired;
-	}
-	
 	/**
 	 * 
 	* @Title: subPackage
@@ -527,9 +455,9 @@ public class ProjectController extends BaseController{
 		model.addAttribute("packageList", packages);
 		Project project = projectService.selectById(id);
 		model.addAttribute("project", project);
-		return "bssms/project/sub_package";
+		return "bss/ppms/project/sub_package";
 	}
-/**
+	/**
 	 * 
 	* @Title: checkProjectDeail
 	* @author ZhaoBo
@@ -541,7 +469,7 @@ public class ProjectController extends BaseController{
 	* @param @throws IOException      
 	* @return void
 	 */
-	@RequestMapping("checkProjectDeail")
+	@RequestMapping("/checkProjectDeail")
 	public void checkProjectDeail(HttpServletResponse response,HttpServletRequest request) throws IOException{
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		ProjectDetail projectDetail = detailService.selectByPrimaryKey(request.getParameter("id"));
@@ -549,7 +477,7 @@ public class ProjectController extends BaseController{
 			map.put("id", projectDetail.getId());
 			List<ProjectDetail> list = detailService.selectByParentId(map);
 			String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
-			response.setContentType("textml;charset=utf-8");
+			response.setContentType("text/html;charset=utf-8");
 			response.getWriter().write(json);
 			response.getWriter().flush();
 			response.getWriter().close();
@@ -557,12 +485,12 @@ public class ProjectController extends BaseController{
 		map.put("id", projectDetail.getId());
 		List<ProjectDetail> list = detailService.selectByParent(map);
 		String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
-		response.setContentType("textml;charset=utf-8");
+		response.setContentType("text/html;charset=utf-8");
 		response.getWriter().write(json);
 		response.getWriter().flush();
 		response.getWriter().close();
 	}
-/**
+	/**
 	 * 
 	* @Title: addPack
 	* @author ZhaoBo
@@ -594,7 +522,7 @@ public class ProjectController extends BaseController{
 		}
 		return "1";
 	}
-/**
+	/**
 	 * 
 	* @Title: editPackName
 	* @author ZhaoBo
@@ -614,7 +542,7 @@ public class ProjectController extends BaseController{
 		packageService.updateByPrimaryKeySelective(pk);
 		return "1";
 	}
-/**
+	/**
 	 * 
 	* @Title: deletePackageById
 	* @author ZhaoBo

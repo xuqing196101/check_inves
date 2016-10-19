@@ -77,7 +77,7 @@
 			    	if(data==1){
 			    		layer.msg('当前考卷正在考试期间,请勿编辑',{offset: ['222px', '390px']});
 			    	}else if(data==2){
-			    		window.location.href="<%=path%>/purchaserExam/editNoTestPaper.html?id="+ids;
+			    		window.location.href="<%=path%>/purchaserExam/editPaper.html?id="+ids;
 			    	}else if(data==3){
 			    		layer.msg('当前考卷已经过了考试有效期,不好编辑',{offset: ['222px', '390px']});
 			    	}

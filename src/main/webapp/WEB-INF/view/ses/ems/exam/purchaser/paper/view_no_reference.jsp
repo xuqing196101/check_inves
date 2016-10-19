@@ -167,6 +167,26 @@
 		function download(){
 			window.location.href = "<%=path%>/purchaserExam/loadReferenceTemplet.html";
 		}
+		
+		//查询
+		function query(){
+			var userName = $("#userName").val();
+			var card = $("#card").val();
+			if((userName==null||userName=="")&&(card==null||card=="")){
+				layer.alert("请输入用户名或者身份证号",{offset: ['222px', '390px']});
+				$(".layui-layer-shade").remove();
+				return;
+			}else{
+				$.ajax({
+					type:"POST",
+					dataType:"json",
+					url:"<%=path%>/purchaserExam/queryReferenceByCondition.do?userName="+userName+"&card="+card,
+			       	success:function(data){
+			       		
+			       	}
+		       	});
+			}
+		}
 	</script>
 
   </head>
@@ -181,7 +201,9 @@
 			<div class="clear"></div>
 		  </div>
 	   </div>
-	   
+	<div class="container">
+		当前考卷编号:${examPaper.code }
+	</div>   
   
   	<div class="container">
 	   <div class="headline-v2">
@@ -193,6 +215,7 @@
     	<div class="col-md-12 padding-left-25">
 	    	姓名:<input type="text" id="userName" name="userName" class="mt10 w80"/>
 	    	身份证号:<input type="text" id="card" name="card" class="mt10 w230"/>
+	    	<button class="btn btn-windows add" type="button" onclick="query()">查询</button>
 	    	<button class="btn btn-windows add" type="button" onclick="add()">添加</button>
 	    	<button class="btn btn-windows delete" type="button" onclick="deleteByPaperUserId()">删除</button>
     	</div>
@@ -222,7 +245,6 @@
 						<th class="info w50">序号</th>
 						<th class="info">姓名</th>
 						<th class="info">身份证号</th>
-					    <th class="info">试卷编号</th>
 						<th class="info">所属单位</th>
 					</tr>
 				</thead>
@@ -233,7 +255,6 @@
 							<td class="tc">${(vs.index+1)+(paperUserList.pageNum-1)*(paperUserList.pageSize)}</td>
 							<td class="tc">${paper.userName }</td>
 							<td class="tc">${paper.card }</td>
-							<td class="tc">${paper.code }</td>
 							<td class="tc">${paper.unitName }</td>
 						</tr>
 					</c:forEach>

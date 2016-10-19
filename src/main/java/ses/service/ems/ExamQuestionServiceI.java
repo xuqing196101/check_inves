@@ -5,8 +5,6 @@ package ses.service.ems;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import ses.model.ems.ExamQuestion;
 
 
@@ -102,36 +100,15 @@ public interface ExamQuestionServiceI {
     
     /**
      * 
-    * @Title: selectTecRandom
-    * @author zb
-    * @date 2016-8-26 上午9:49:39  
-    * @Description: 从技术类题库中随机抽题 
+    * @Title: selectQuestionRandom
+    * @author ZhaoBo
+    * @date 2016-10-17 上午9:22:18  
+    * @Description: 专家类题库中根据当前登录专家的类型随机抽题 
+    * @param @param map
     * @param @return      
-    * @return List<examQuestion>
+    * @return List<ExamQuestion>
      */
-    List<ExamQuestion> selectTecRandom(ExamQuestion examQuestion);
-    
-    /**
-     * 
-    * @Title: selectComRandom
-    * @author zb
-    * @date 2016-8-26 上午9:49:39  
-    * @Description: 从商务类题库中随机抽题 
-    * @param @return      
-    * @return List<examQuestion>
-     */
-    List<ExamQuestion> selectComRandom(ExamQuestion examQuestion);
-    
-    /**
-     * 
-    * @Title: selectLawRandom
-    * @author zb
-    * @date 2016-8-26 上午9:49:39  
-    * @Description: 从法律类题库中随机抽题 
-    * @param @return      
-    * @return List<examQuestion>
-     */
-    List<ExamQuestion> selectLawRandom(ExamQuestion examQuestion);
+    List<ExamQuestion> selectQuestionRandom(HashMap<String,Object> map);
     
     /**
      * 

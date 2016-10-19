@@ -38,9 +38,6 @@
 			    	}else if(data==3){
 			    		layer.alert("该考卷考试时间已结束",{offset: ['222px', '390px']});
 						$(".layui-layer-shade").remove();
-			    	}else if(data==4){
-			    		layer.alert("该考卷登录有效期已过",{offset: ['222px', '390px']});
-						$(".layui-layer-shade").remove();
 			    	}else if(data==5){
 			    		layer.alert("对不起,您不是该考卷的参考人员",{offset: ['222px', '390px']});
 						$(".layui-layer-shade").remove();
