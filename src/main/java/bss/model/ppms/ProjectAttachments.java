@@ -50,6 +50,11 @@ public class ProjectAttachments implements Serializable{
      * @Fields isDeleted : 文件是否删除
      */
     private Integer isDeleted;
+    
+    /**
+     * 0：立项；1：招标文件；2：招标公告；3：招标公告审批文件；
+     */
+    private Integer kind;
 
 	public String getId() {
 		return id;
@@ -122,6 +127,14 @@ public class ProjectAttachments implements Serializable{
 	public void setIsDeleted(Integer isDeleted) {
 		this.isDeleted = isDeleted;
 	}
+
+    public Integer getKind() {
+        return kind;
+    }
+
+    public void setKind(Integer kind) {
+        this.kind = kind;
+    }
     
     
 }

@@ -10,12 +10,13 @@
     <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="IS_DELETED" property="isDeleted"/>
+    <result column="KIND" property="kind"/>
     <association property="project" column="PROJECT_ID" select="bss.dao.ppms.ProjectMapper.selectByPrimaryKey"/>
   </resultMap>
   
   <sql id="ProjectAttach_Column_List">
     ID, FILE_NAME, CONTENT_TYPE, FILE_SIZE, PROJECT_ID, ATTACHMENT_PATH, CREATED_AT, 
-    UPDATED_AT,IS_DELETED
+    UPDATED_AT,IS_DELETED,KIND
   </sql>
   
   <!-- 根据id查询 -->
@@ -89,6 +90,9 @@
       <if test="isDeleted != null">
         IS_DELETED,
       </if>
+      <if test="kind != null">
+        KIND,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -117,6 +121,9 @@
       </if>
       <if test="isDeleted != null">
         #{isDeleted},
+      </if>
+      <if test="kind != null">
+        #{kind},
       </if>
     </trim>
   </insert>
@@ -148,6 +155,9 @@
       </if>
       <if test="isDeleted != null">
         IS_DELETED = #{isDeleted},
+      </if>
+      <if test="kind != null">
+        KIND = #{kind},
       </if>
     </set>
     where ID = #{id}
