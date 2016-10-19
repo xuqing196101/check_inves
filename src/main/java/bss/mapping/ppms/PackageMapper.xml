@@ -8,10 +8,11 @@
    	<result column="IS_DELETED" property="isDeleted"/>
    	<result column="CREATED_AT" property="createdAt"/>
    	<result column="UPDATED_AT" property="updatedAt"/>
+   	<result column="STATUS" property="status"/>
   </resultMap>
   
   <sql id="Base_Column_List">
-    ID, NAME, PROJECT_ID,IS_DELETED,CREATED_AT,UPDATED_AT
+    ID, NAME, PROJECT_ID,IS_DELETED,CREATED_AT,UPDATED_AT,STATUS
   </sql>
      
   <insert id="insertSelective" parameterType="bss.model.ppms.Packages">
@@ -38,6 +39,9 @@
       <if test="updatedAt != null">
         UPDATED_AT,
       </if>
+       <if test="status != null">
+        STATUS,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -57,6 +61,9 @@
       </if>
       <if test="updatedAt != null">
         #{updatedAt},
+      </if>
+       <if test="status != null">
+        #{status},
       </if>
     </trim>
   </insert>
@@ -78,6 +85,9 @@
       <if test="updatedAt != null">
         updatedAt = #{updatedAt},
       </if>
+      <if test="status != null">
+        status = #{status},
+      </if>
     </set>
     where ID = #{id}
   </update>
@@ -89,9 +99,10 @@
    			PROJECT_ID AS projectId
    		FROM
    			T_BSS_PPMS_PACKAGE
-   		WHERE 
+   		WHERE
+   		IS_DELETED=0
    		<if test="projectId != null">
-        	PROJECT_ID = #{projectId}
+        	AND	PROJECT_ID = #{projectId}
       	</if>
       	ORDER BY
       		CREATED_AT DESC	

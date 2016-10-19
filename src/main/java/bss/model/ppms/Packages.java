@@ -26,6 +26,8 @@ public class Packages {
 	
 	private Date updatedAt;
 	
+	private Integer status;
+	
 	private List<ProjectDetail> projectDetails;
 
 	public String getId() {
@@ -74,6 +76,14 @@ public class Packages {
 
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+	
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 
 	public List<ProjectDetail> getProjectDetails() {

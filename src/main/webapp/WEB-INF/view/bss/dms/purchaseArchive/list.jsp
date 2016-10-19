@@ -46,7 +46,7 @@
     <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#">首页</a></li><li><a href="#">支撑环境</a></li><li><a href="#">成绩管理</a></li>
+		   <li><a href="#">首页</a></li><li><a href="#">支撑环境</a></li><li><a href="#">采购档案管理</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -58,7 +58,7 @@
    </div>
    
    
-   <div class="container">
+   	<div class="container">
   		<div class="border1 col-md-12 ml30">
 	  		档案名称:<input type="text" id="name" class="mt10"/>
 	  		档案编号:<input type="text" id="archiveCode" class="mt10"/>

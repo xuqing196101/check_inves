@@ -161,10 +161,10 @@
     }
     
     //删除包
-    function deletePackage(obj){
+    function deletePackage(obj,e){
     	var projectId = $("#projectId").val();
     	var packageId = $(obj).next().val();
-    	layer.confirm('您确定要删除这个包吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+    	layer.confirm('您确定要删除这个包吗?', {title:'提示',offset: [e.pageX+'px',e.pageY+'px'],shade:0.01}, function(index){
 			layer.close(index);
 			$.ajax({
 				type:"POST",
@@ -308,7 +308,7 @@
 	   		<span>包名:<span>${pack.name }</span>
 	   		<input class="btn btn-windows pl13" type="button" onclick="edit(this)" value="修改包名"/>
 	   		<input class="btn btn-windows pl13" name="sure" type="button" onclick="sure(this)" value="确定"/>
-	   		<input class="btn btn-windows pl13" type="button" onclick="deletePackage(this)" value="删除分包"/>
+	   		<input class="btn btn-windows pl13" type="button" onclick="deletePackage(this,event)" value="删除分包"/>
 	   		<input type="hidden" value="${pack.id }"/>
 	   		</span>
 	   		

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -85,6 +84,7 @@ public class ProjectController extends BaseController{
 		model.addAttribute("projects", project);
 		return "bss/ppms/project/list";
 	}
+	
 	/**
 	 * 
 	* @Title: add
@@ -111,10 +111,7 @@ public class ProjectController extends BaseController{
 			}
 			model.addAttribute("lists", list2);
 			model.addAttribute("idr", idr);
-			
 		}
-		
-		
 		return "bss/ppms/project/add";
 	}
 	@RequestMapping("/checkDeail")
@@ -511,6 +508,7 @@ public class ProjectController extends BaseController{
 		Packages pg = new Packages();
 		pg.setName("第"+(packList.size()+1)+"包");
 		pg.setProjectId(projectId);
+		pg.setIsDeleted(0);
 		pg.setCreatedAt(new Date());
 		packageService.insertSelective(pg);
 		List<Packages> wantPackId = packageService.findPackageById(pack);
@@ -519,6 +517,23 @@ public class ProjectController extends BaseController{
 			projectDetail.setId(id[i]);
 			projectDetail.setPackageId(wantPackId.get(0).getId());
 			detailService.update(projectDetail);
+		}
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("packageId", wantPackId.get(0).getId());
+		List<ProjectDetail> details = detailService.selectById(map);
+		for(int i=0;i<details.size();i++){
+			if(details.get(i).getStatus().equals("1")){
+				Packages p = new Packages();
+				p.setId(wantPackId.get(0).getId());
+				p.setStatus(0);
+				packageService.updateByPrimaryKeySelective(p);
+				break;
+			}else if(i==details.size()-1){
+				Packages p = new Packages();
+				p.setId(wantPackId.get(0).getId());
+				p.setStatus(1);
+				packageService.updateByPrimaryKeySelective(p);
+			}
 		}
 		return "1";
 	}
@@ -565,7 +580,10 @@ public class ProjectController extends BaseController{
 			projectDetail.setPackageId(" ");
 			detailService.update(projectDetail);
 		}
-		packageService.deleteByPrimaryKey(id);
+		Packages pk = new Packages();
+		pk.setId(id);
+		pk.setIsDeleted(1);
+		packageService.updateByPrimaryKeySelective(pk);
 		return "1";
 	}
 	
