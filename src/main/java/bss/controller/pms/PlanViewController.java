@@ -1,16 +1,11 @@
 package bss.controller.pms;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import bss.controller.base.BaseController;
 import bss.dao.pms.PurchaseRequiredMapper;
@@ -18,7 +13,6 @@ import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseRequired;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.CollectPurchaseService;
-import bss.service.pms.PurchaseRequiredService;
 
 import com.github.pagehelper.PageInfo;
 
