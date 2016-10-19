@@ -268,8 +268,8 @@
 		E.CREATED_AT DESC
   </select>
   
-  <!-- 技术类专家随机抽题 -->
-  <select id="selectTecRandom" resultMap="BaseColumn">
+  <!-- 专家随机抽题 -->
+  <select id="selectQuestionRandom" parameterType="java.util.Map" resultMap="BaseColumn">
   		SELECT
 			*
 		FROM
@@ -286,64 +286,9 @@
 				T_SES_EMS_EXAM_QUESTION_TYPE T
 			WHERE
 				E.QUESTION_TYPE_ID = T.ID
+			AND E.QUESTION_TYPE_ID = #{questionTypeId}
 			AND E.PERSON_TYPE = 1
-			AND E.KIND = 0
-			ORDER BY
-				dbms_random.
-			VALUE
-		)
-		WHERE
-			ROWNUM &lt;= #{queNum}
-  </select>
-  
-  <!-- 商务类专家随机抽题 -->
-  <select id="selectComRandom" resultMap="BaseColumn">
-  		SELECT
-			*
-		FROM
-			(
-			SELECT
-				E.ID,
-				E.TOPIC,
-				E.ITEMS,
-				E.ANSWER,
-				E.POINT,
-				T.NAME
-			FROM
-				T_SES_EMS_EXAM_QUESTION E,
-				T_SES_EMS_EXAM_QUESTION_TYPE T
-			WHERE
-				E.QUESTION_TYPE_ID = T.ID
-			AND E.PERSON_TYPE = 1
-			AND E.KIND = 1
-			ORDER BY
-				dbms_random.
-			VALUE
-		)
-		WHERE
-			ROWNUM &lt;= #{queNum}
-  </select>
-  
-  <!-- 法律类专家随机抽题 -->
-  <select id="selectLawRandom" resultMap="BaseColumn">
-  		SELECT
-			*
-		FROM
-			(
-			SELECT
-				E.ID,
-				E.TOPIC,
-				E.ITEMS,
-				E.ANSWER,
-				E.POINT,
-				T.NAME
-			FROM
-				T_SES_EMS_EXAM_QUESTION E,
-				T_SES_EMS_EXAM_QUESTION_TYPE T
-			WHERE
-				E.QUESTION_TYPE_ID = T.ID
-			AND E.PERSON_TYPE = 1
-			AND E.KIND = 2
+			AND E.KIND = #{kind}
 			ORDER BY
 				dbms_random.
 			VALUE

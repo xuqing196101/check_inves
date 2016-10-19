@@ -40,11 +40,6 @@ public class ExamPaper {
     private Date startTime;
     
     /**
-     * @Fields time :考试开始日期
-     */
-    private String time;
-    
-    /**
      * @Fields startTrueDate :备用日期
      */
     private String startTrueDate;
@@ -60,7 +55,7 @@ public class ExamPaper {
     private String typeDistribution;
     
     /**
-     * @Fields testTime :考试用时
+     * @Fields testTime :考试答题时间(只有设置重考的考卷才会有)
      */
     private String testTime;
     
@@ -80,9 +75,14 @@ public class ExamPaper {
     private Integer isAllowRetake;
     
     /**
-     * @Fields expiryDate :考试有效期
+     * @Fields passStandard :及格标准
      */
-    private String expiryDate;
+    private String passStandard;
+    
+    /**
+     * @Fields offTime :考试截止时间
+     */
+    private Date offTime;
     
     /**
      * @Fields status :考卷状态
@@ -185,12 +185,20 @@ public class ExamPaper {
 		this.isAllowRetake = isAllowRetake;
 	}
 
-	public String getExpiryDate() {
-		return expiryDate;
+	public String getPassStandard() {
+		return passStandard;
 	}
 
-	public void setExpiryDate(String expiryDate) {
-		this.expiryDate = expiryDate;
+	public void setPassStandard(String passStandard) {
+		this.passStandard = passStandard;
+	}
+	
+	public Date getOffTime() {
+		return offTime;
+	}
+
+	public void setOffTime(Date offTime) {
+		this.offTime = offTime;
 	}
 
 	public String getStatus() {
@@ -200,15 +208,4 @@ public class ExamPaper {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
-	public String getTime() {
-		return time;
-	}
-
-	public void setTime(String time) {
-		this.time = time;
-	}
-
-	
-    
 }

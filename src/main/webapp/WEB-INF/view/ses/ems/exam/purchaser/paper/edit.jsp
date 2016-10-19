@@ -79,48 +79,27 @@
 	  		</li>
     		
     		<li class="col-md-12 p0">
+	  			<span class="fl">及格标准：</span>
+		  		<input class="w50" type="text" name="passStandard" id="passStandard" value="${examPaper.passStandard }"/>分
+	  		</li>
+    		
+    		<li class="col-md-12 p0">
 	  			<span class="fl mt5">考试开始时间：</span>
-		  		<input type="text" value="${startTime }" name="startTime" id="startTime" class="Wdate mt5" onfocus="WdatePicker({isShowWeek:true})"/>
-	  			<select id="hour" name="hour" class="mb8 mt5">
-	  				<option value="">请选择</option>
-	  				<c:forEach items="${hours }" varStatus="h">
-	  					<c:choose>
-		  					<c:when test="${hour==h.index }">
-		  						<option value="${h.index }" selected="selected">${h.index }</option>
-		  					</c:when>
-		  					<c:otherwise>
-		  						<option value="${h.index }">${h.index }</option>
-		  					</c:otherwise>
-	  					</c:choose>
-	  				</c:forEach>
-	  			</select>时
-	  			<select id="second" name="second" class="mb8 mt5">
-	  				<option value="">请选择</option>
-	  				<c:forEach items="${seconds }" varStatus="s">
-	  					<c:choose>
-		  					<c:when test="${second==s.index }">
-		  						<option value="${s.index }" selected="selected">${s.index }</option>
-		  					</c:when>
-		  					<c:otherwise>
-		  						<option value="${s.index }">${s.index+1 }</option>
-		  					</c:otherwise>
-	  					</c:choose>
-	  				</c:forEach>
-	  			</select>分
+		  		<input type="text" value="${startTime }" name="startTime" id="startTime" class="Wdate mt5" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})"/>
+	  			
 	  		</li>
 	  		
 	  		<li class="col-md-12 p0">
-	  			<span class="fl mt5">考试用时：</span>
+	  			<span class="fl mt5">考试截止时间：</span>
+		  		<input type="text" value="${offTime }" name="offTime" id="offTime" class="Wdate mt5" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})"/>
+	  			
+	  		</li>
+	  		
+	  		<li class="col-md-12 p0">
+	  			<span class="fl mt5">考试答题时间：</span>
 		  		<input class="w50 mt5" type="text" name="useTime" id="useTime" value="${examPaper.testTime }"/>分钟
 	  		</li>
 	  		
-	  		<%--<li class="col-md-12 p0">
-	  			<span class="fl mt5">考试有效期：</span>
-		  		<input class="w50 mt5" type="text" name="expiryHour" id="expiryHour" value="${fn:split(examPaper.expiryDate,',')[0]}"/>小时
-		  		<input class="w50 mt5" type="text" name="expirySecond" id="expirySecond" value="${fn:split(examPaper.expiryDate,',')[1]}"/>分钟
-	  		</li>
-	  		
-	  		--%>
 	  		<li class="col-md-12 p0">
 	  			<span class="fl mb5">允许30分钟内重考：</span>
 		  		<input class="mt0" type="checkbox" name="isAllow" id="isAllowTrue" value="是">是

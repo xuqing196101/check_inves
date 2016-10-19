@@ -41,7 +41,7 @@
 			}
 		}
     
-    //添加分包
+    
     function addPackage(){
     	var count = 0;
 		var ids = "";
@@ -162,11 +162,8 @@
     
     //删除包
     function deletePackage(obj){
-    	
     	var projectId = $("#projectId").val();
     	var packageId = $(obj).next().val();
-    	alert(projectId);
-    	alert(packageId);
     	layer.confirm('您确定要删除这个包吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 			layer.close(index);
 			$.ajax({

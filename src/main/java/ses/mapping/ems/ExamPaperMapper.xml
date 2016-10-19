@@ -13,12 +13,13 @@
     <result column="CREATED_AT" property="createdAt" />
     <result column="UPDATED_AT" property="updatedAt" />
     <result column="IS_ALLOW_RETAKE" property="isAllowRetake" />
-    <result column="EXPIRY_DATE" property="expiryDate" />
+    <result column="PASS_STANDARD" property="passStandard" />
+    <result column="OFF_TIME" property="offTime" />
   </resultMap>
   
   <sql id="Base_Column_List">
     ID, NAME, CODE, SCORE, START_TIME, YEAR, 
-    TYPE_DISTRIBUTION, TEST_TIME, CREATED_AT, UPDATED_AT, IS_ALLOW_RETAKE,EXPIRY_DATE
+    TYPE_DISTRIBUTION, TEST_TIME, CREATED_AT, UPDATED_AT, IS_ALLOW_RETAKE,PASS_STANDARD,OFF_TIME
   </sql>
   
   <!-- 根据主键ID查找考卷 -->
@@ -75,8 +76,11 @@
       <if test="isAllowRetake != null">
         IS_ALLOW_RETAKE,
       </if>
-      <if test="expiryDate != null">
-        EXPIRY_DATE,
+      <if test="passStandard != null">
+        PASS_STANDARD,
+      </if>
+      <if test="offTime != null">
+        OFF_TIME,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -113,8 +117,11 @@
       <if test="isAllowRetake != null">
         #{isAllowRetake},
       </if>
-      <if test="expiryDate != null">
-        #{expiryDate},
+      <if test="passStandard != null">
+        #{passStandard},
+      </if>
+      <if test="offTime != null">
+        #{offTime},
       </if>
     </trim>
   </insert>
@@ -153,8 +160,11 @@
       <if test="isAllowRetake != null">
         IS_ALLOW_RETAKE = #{isAllowRetake},
       </if>
-      <if test="expiryDate != null">
-        EXPIRY_DATE = #{expiryDate},
+      <if test="passStandard != null">
+        PASS_STANDARD = #{passStandard},
+      </if>
+      <if test="offTime != null">
+        OFF_TIME = #{offTime},
       </if>
     </set>
     where ID = #{id}
@@ -171,7 +181,7 @@
   </select>
   
   <!-- 根据考试编号查找考卷 -->
-  <select id="selectByPaperNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByPaperNo" parameterType="java.util.Map" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from T_SES_EMS_EXAM_PAPER

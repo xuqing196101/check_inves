@@ -77,69 +77,46 @@
 	  		</li>
     		
     		<li class="col-md-12 p0">
+	  			<span class="fl">及格标准：</span>
+		  		<input class="w50" type="text" name="passStandard" id="passStandard" value="${examPaper.passStandard }" disabled="disabled"/>分
+	  		</li>
+    		
+    		<li class="col-md-12 p0">
 	  			<span class="fl mt5">考试开始时间：</span>
-		  		<input type="text" disabled="disabled" value="${startTime }" name="startTime" id="startTime" class="Wdate mt5" onfocus="WdatePicker({isShowWeek:true})"/>
-	  			<select id="hour" name="hour" class="mb8 mt5" disabled="disabled">
-	  				<option value="">请选择</option>
-	  				<c:forEach items="${hours }" varStatus="h">
-	  					<c:choose>
-		  					<c:when test="${hour==h.index }">
-		  						<option value="${h.index }" selected="selected">${h.index }</option>
-		  					</c:when>
-		  					<c:otherwise>
-		  						<option value="${h.index }">${h.index }</option>
-		  					</c:otherwise>
-	  					</c:choose>
-	  				</c:forEach>
-	  			</select>时
-	  			<select id="second" name="second" class="mb8 mt5" disabled="disabled">
-	  				<option value="">请选择</option>
-	  				<c:forEach items="${seconds }" varStatus="s">
-	  					<c:choose>
-		  					<c:when test="${second==s.index }">
-		  						<option value="${s.index }" selected="selected">${s.index }</option>
-		  					</c:when>
-		  					<c:otherwise>
-		  						<option value="${s.index }">${s.index }</option>
-		  					</c:otherwise>
-	  					</c:choose>
-	  				</c:forEach>
-	  			</select>分
+		  		<input type="text" disabled="disabled" value="${startTime }" name="startTime" id="startTime" class="Wdate mt5" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})"/>
 	  		</li>
 	  		
 	  		<li class="col-md-12 p0">
-	  			<span class="fl mt5">考试用时：</span>
+	  			<span class="fl mt5">考试截止时间：</span>
+		  		<input type="text" disabled="disabled" value="${offTime }" name="offTime" id="offTime" class="Wdate mt5" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})"/>
+	  		</li>
+	  		
+	  		<li class="col-md-12 p0">
+	  			<span class="fl mt5">考试答题时间：</span>
 		  		<input class="w50 mt5" type="text" name="useTime" id="useTime" value="${examPaper.testTime }" disabled="disabled"/>分钟
 	  		</li>
 	  		
-	  		<%--<li class="col-md-12 p0">
-		  		<span class="fl mt5">考试有效期：</span>
-		  		<input class="w50 mt5" type="text" name="expiryHour" id="expiryHour" value="${fn:split(examPaper.expiryDate,',')[0]}" disabled="disabled"/>小时
-		  		<input class="w50 mt5" type="text" name="expirySecond" id="expirySecond" value="${fn:split(examPaper.expiryDate,',')[1]}" disabled="disabled"/>分钟
-	  		</li>
 	  		
-	  		
-	  		--%>
 	  		<li class="col-md-12 p0">
 	  			<span class="fl mb5">允许30分钟内重考：</span>
-		  		<input class="mt0" type="checkbox" id="isAllowTrue" value="是">是
-    			<input class="mt0" type="checkbox" id="isAllowFalse" value="否"/>否
+		  		<input class="mt0" type="checkbox" id="isAllowTrue" value="是" disabled="disabled"/>是
+    			<input class="mt0" type="checkbox" id="isAllowFalse" value="否" disabled="disabled"/>否
 	  		</li>
 	  		
-	  		<li class="col-md-12 p0 mt10 red">
+	  		<%--<li class="col-md-12 p0 mt10 red">
 	  			*注意:每份考卷的登录有效期为15分钟,如:考卷开始时间上午9点,请相关参考人员于上午9点至上午9点15分内登录考试系统考试,否则视为弃考,计0分。
 	  		</li>
-    	</ul>
+    	--%></ul>
    
    
-  		<!-- 按钮 -->
-  		<div class="padding-top-10 clear">
-			<div class="col-md-12 pl200 ">
-				<div class="mt40 tc mb50">
-	    			<input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
-				</div>
-	  		</div>
-	  	</div>
+	  		<!-- 按钮 -->
+	  		<div class="padding-top-10 clear">
+				<div class="col-md-12 pl200 ">
+					<div class="mt40 tc mb50">
+		    			<input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+					</div>
+		  		</div>
+		  	</div>
     
     			
     		</div>

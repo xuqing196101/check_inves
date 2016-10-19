@@ -138,16 +138,21 @@
 		//导入法律类题目
 		function poiExcel(){
 			$.ajaxFileUpload({
-			    url: "<%=path %>/expertExam/importLaw.html",  
+			    url: "<%=path %>/expertExam/importLaw.do",  
 			    secureuri: false,
 			    fileElementId: "excelFile",
-			    dataType: "json",
-			    success: function(data) {  
-			    	layer.msg('导入成功',{offset: ['222px', '390px']});
-			    	window.setTimeout(function(){
-			       		window.location.href="<%=path%>/expertExam/searchLawExpPool.html";
-			       	}, 1000);
-			    }  
+			    type: "POST",
+			    dataType: "text",
+			    success: function(data) {
+			    	if(data==0){
+			    		layer.msg('导入成功',{offset: ['222px', '390px']});
+				    	window.setTimeout(function(){
+				       		window.location.href="<%=path%>/expertExam/searchLawExpPool.html";
+				       	}, 1000);
+			    	}else{
+			    		alert(data);
+			    	}
+			    }
 			}); 
 		}
 	</script>
@@ -196,7 +201,6 @@
 				<th>题干</th>
 				<th>选项</th>
 			    <th>答案</th>
-				<th>分值</th>
 				<th>创建时间</th>
 			</tr>
 		</thead>
@@ -219,7 +223,6 @@
 						<td onclick="view('${l.id }')">${l.items }</td>
 					</c:if>
 					<td class="tc" onclick="view('${l.id }')">${l.answer}</td>
-					<td class="tc" onclick="view('${l.id }')">${l.point }</td>
 					<td class="tc" onclick="view('${l.id }')"><fmt:formatDate value="${l.createdAt}" pattern="yyyy/MM/dd"/> </td
 				</tr>
 			</c:forEach>

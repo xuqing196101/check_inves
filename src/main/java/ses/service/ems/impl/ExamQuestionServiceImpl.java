@@ -69,11 +69,6 @@ public class ExamQuestionServiceImpl implements ExamQuestionServiceI {
 	}
 	
 	@Override
-	public List<ExamQuestion> selectLawRandom(ExamQuestion examQuestion) {
-		return examQuestionMapper.selectLawRandom(examQuestion);
-	}
-	
-	@Override
 	public List<ExamQuestion> selectSingleRandom(ExamQuestion examQuestion) {
 		return examQuestionMapper.selectSingleRandom(examQuestion);
 	}
@@ -87,17 +82,6 @@ public class ExamQuestionServiceImpl implements ExamQuestionServiceI {
 	public List<ExamQuestion> selectJudgeRandom(ExamQuestion examQuestion) {
 		return examQuestionMapper.selectJudgeRandom(examQuestion);
 	}
-	
-	@Override
-	public List<ExamQuestion> selectTecRandom(ExamQuestion examQuestion) {
-		return examQuestionMapper.selectTecRandom(examQuestion);
-	}
-	
-	@Override
-	public List<ExamQuestion> selectComRandom(ExamQuestion examQuestion) {
-		return examQuestionMapper.selectComRandom(examQuestion);
-	}
-	
 	
 	@Override
 	public List<ExamQuestion> queryPurchaserByTerm(HashMap<String, Object> map) {
@@ -120,6 +104,12 @@ public class ExamQuestionServiceImpl implements ExamQuestionServiceI {
 	@Override
 	public int queryQuestionCount(HashMap<String, Object> map) {
 		return examQuestionMapper.queryQuestionCount(map);
+	}
+
+	
+	@Override
+	public List<ExamQuestion> selectQuestionRandom(HashMap<String, Object> map) {
+		return examQuestionMapper.selectQuestionRandom(map);
 	}
 
 	

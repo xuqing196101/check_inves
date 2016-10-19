@@ -11,114 +11,78 @@
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	<script type="text/javascript">
-	$(function(){
-		var que = document.getElementsByName("que");
-		var judge = document.getElementsByName("judge");
-		var option = document.getElementsByName("option");
-		document.getElementById("queTopic").setAttribute("disabled",true);
-		for(var i=0;i<option.length;i++){
-			option[i].setAttribute("disabled",true);
+		var opt = "";
+		var obj = "";
+		$(function(){
+			opt = ${opt};
+			obj = eval(opt);
+			document.getElementById("options").setAttribute("disabled",true);
+			document.getElementById("queTopic").setAttribute("disabled",true);
+		})
+		
+		//保存到采购人题库
+		function save(){
+			$("#form").submit();
 		}
-		for(var i=0;i<que.length;i++){
-			que[i].setAttribute("disabled",true);
-		}
-		for(var i=0;i<judge.length;i++){
-			judge[i].setAttribute("disabled",true);
-		}
-	})
-	
-	//保存到法律题库
-	function save(){
-		$("#form").submit();
-	}
 	
 	//切换题型
 	function changeType(){
 		var queType = $("#queType").val();
-		var que = document.getElementsByName("que");
-		var judge = document.getElementsByName("judge");
-		var option = document.getElementsByName("option");
-		for(var i=0;i<que.length;i++){
-			$(que[i]).removeAttr("checked");
-		}
-		for(var i=0;i<judge.length;i++){
-			$(judge[i]).removeAttr("checked");
-		}
-		if(queType){
+		var all_options = document.getElementById("options");
 			if(queType==1){
 				$("#queTopic").attr("disabled",false);
-				for(var i=0;i<option.length;i++){
-					$(option[i]).attr("disabled",false);
-				}
-				for(var i=0;i<que.length;i++){
-					$(que[i]).attr("type","radio");
-					$(que[i]).attr("disabled",false);
-				}
-				$("#optionA").attr("disabled",false);
-				$("#optionB").attr("disabled",false);
-				$("#optionC").attr("disabled",false);
-				$("#optionD").attr("disabled",false);
-				$("#optionA").val(" ");
-				$("#optionB").val(" ");
-				$("#optionC").val(" ");
-				$("#optionD").val(" ");
 				$("#queTopic").val(" ");
+				$("#options").attr("disabled",false);
+				all_options[0].selected = true;
+				$("#item").html(" ");
+				$("#answers").html(" ");
 				$("#items").show();
-				$("#selects").show();
-				$("#judge").hide();
 			}else if(queType==2){
 				$("#queTopic").attr("disabled",false);
-				for(var i=0;i<option.length;i++){
-					$(option[i]).attr("disabled",false);
-				}
-				for(var i=0;i<que.length;i++){
-					$(que[i]).attr("type","checkbox");
-					$(que[i]).attr("disabled",false);
-				}
-				$("#optionA").attr("disabled",false);
-				$("#optionB").attr("disabled",false);
-				$("#optionC").attr("disabled",false);
-				$("#optionD").attr("disabled",false);
-				$("#optionA").val(" ");
-				$("#optionB").val(" ");
-				$("#optionC").val(" ");
-				$("#optionD").val(" ");
 				$("#queTopic").val(" ");
+				$("#options").attr("disabled",false);
+				all_options[0].selected = true;
+				$("#item").html(" ");
+				$("#answers").html(" ");
 				$("#items").show();
-				$("#judge").hide();
-				$("#selects").show();
 			}else if(queType==3){
 				$("#queTopic").attr("disabled",false);
-				for(var i=0;i<judge.length;i++){
-					$(judge[i]).attr("disabled",false);
-				}
-				$("#optionA").val(" ");
-				$("#optionB").val(" ");
-				$("#optionC").val(" ");
-				$("#optionD").val(" ");
 				$("#queTopic").val(" ");
 				$("#items").hide();
-				$("#judge").show();
-				$("#selects").hide();
+				$("#answers").html("<input type='radio' name='judge' value='对' class='mt0'/>对<input type='radio' name='judge' value='错' class='mt0'/>错 ");
+			}else{
+				document.getElementById("queTopic").setAttribute("disabled",true);
+				document.getElementById("options").setAttribute("disabled",true);
+				$("#queTopic").val(" ");
+				all_options[0].selected = true;
+				$("#item").html(" ");
+				$("#answers").html(" ");
 			}
-		}else{
-			document.getElementById("queTopic").setAttribute("disabled",true);
-			for(var i=0;i<option.length;i++){
-				option[i].setAttribute("disabled",true);
-			}
-			for(var i=0;i<que.length;i++){
-				que[i].setAttribute("disabled",true);
-			}
-			for(var i=0;i<judge.length;i++){
-				judge[i].setAttribute("disabled",true);
-			}
-			$("#queTopic").val(" ");
-			$("#optionA").val(" ");
-			$("#optionB").val(" ");
-			$("#optionC").val(" ");
-			$("#optionD").val(" ");
-		}
 	}
+	
+		//切换选项数量
+		function changeOpt(){
+			var queType = $("#queType").val();
+			var options = $("#options").val();
+			if(options==" "||options==null){
+				$("#item").html(" ");
+				$("#answers").html(" ");
+				return;
+			}
+			var array = obj[options].split(",");
+			var ohtml="";
+			var ahtml="";
+			for(var i=0;i<array.length;i++){
+			   	ohtml = ohtml+"<div class='clear mt10 col-md-12 p0'><div class='fl mt5'>"+array[i]+"</div><textarea name='option' class='ml5 col-md-9 p0'></textarea></div>";
+				if(queType==1){
+					ahtml = ahtml+"<input type='radio' name='answer' value='"+array[i]+"' class='mt0'/>"+array[i]+"&nbsp";
+				}else if(queType==2){
+					ahtml = ahtml+"<input type='checkbox' name='answer' value='"+array[i]+"' class='mt0'/>"+array[i]+"&nbsp";
+				}
+			}
+			$("#item").html(ohtml);
+			$("#answers").html(ahtml);
+		}
 	</script>
 
   </head>
@@ -143,9 +107,9 @@
   	<form action="<%=path %>/purchaserExam/saveToPurPool.html" method="post" id="form">
   		<ul class="list-unstyled list-flow p0_20">
 		     <li class="col-md-12 p0">
-	  			<span class="fl">请选择题型：</span>
+	  			<span class="fl"><div class="red star_red">*</div>请选择题型：</span>
 		  		<select id="queType" name="queType" onchange="changeType()">
-		  			<option value="">请选择</option>
+		  			<option value=" ">请选择</option>
 		  			<option value="1">单选题</option>
 		  			<option value="2">多选题</option>
 		  			<option value="3">判断题</option>
@@ -155,39 +119,37 @@
 	  		
 	  		
   			<li class="col-md-12 p0">
-			   <span class="fl">题干：</span>
+			   <span class="fl"><div class="red star_red">*</div>题干：</span>
 			   <div class="">
 		        	<textarea class="text_area col-md-8" name="queTopic" id="queTopic"></textarea>
 		       </div>
 			</li> 
 			
 			
-  		<li class="col-md-12 p0" id="items">
-				<span class="fl">选项：</span>
-				<div class="col-md-9 p0">
-				<div>
-			  		<div class="fl mt5">A</div><textarea name="option" id="optionA" class="ml5 col-md-8"></textarea>
-			  		<div class="clear"></div>
-			  	</div>
-			  	<div class="clear mt10">
-					<div class="fl mt5">B</div><textarea name="option" id="optionB" class="ml5 col-md-8"></textarea>
-				    <div class="clear"></div>
-				</div>
-				<div class="clear mt10">
-					<div class="fl mt5">C</div><textarea name="option" id="optionC" class="ml5 col-md-8"></textarea>
-				    <div class="clear"></div>
-				</div>
-				<div class="clear mt10">
-					<div class="fl mt5">D</div><textarea name="option" id="optionD" class="ml5 col-md-8"></textarea>
-				    <div class="clear"></div>
-				</div>
-		       </div>
+  			<li class="col-md-12 p0" id="items">
+				<span class="fl"><div class="red star_red">*</div>请选择选项数量：</span>
+				<div class="fl col-md-9 p0">
+					<select id="options" name="options" onchange="changeOpt()" class="fl">
+			  			<option value=" ">请选择</option>
+			  			<option value="three">3</option>
+			  			<option value="four">4</option>
+			  			<option value="five">5</option>
+			  			<option value="six">6</option>
+			  			<option value="seven">7</option>
+			  			<option value="eight">8</option>
+			  			<option value="nine">9</option>
+			  			<option value="ten">10</option>
+		  			</select>
+					<div class="col-md-9 clear p0" id="item"></div>
+			       	<div class="clear red">${ERR_option }</div>
+			    </div>
 			 </li> 
   		
   				`<li class="col-md-12 p0">
-					<span class="fl">答案：</span>
-					<div class="fl">	
-						<div class="fl mt5" id="selects">
+					<span class="fl"><div class="red star_red">*</div>答案：</span>
+					<div class="fl ml5 mt5" id="answers"></div>
+			       	<div class="clear red">${ERR_answer }</div>
+						<%--<div class="fl mt5" id="selects">
 					         <input type="radio" id="A" name="que" value="A" class="mt0"/>A 
 				  			 <input type="radio" id="B" name="que" value="B" class="mt0"/>B
 				  			 <input type="radio" id="C" name="que" value="C" class="mt0"/>C
@@ -197,26 +159,10 @@
 							 <input type="radio" name="judge" value="对" class="mt0"/>对
 							 <input type="radio" name="judge" value="错" class="mt0"/>错
 				       	</div>
-			     	</div>
+			     	--%>
 				</li>
   		
-  		<%--<div>
-  			答案:A <input type="radio" name="que" value="A" onclick="queDis()"/> B <input type="radio" name="que" value="B" onclick="queDis()"/> C <input type="radio" name="que" value="C" onclick="queDis()"/> D <input type="radio" name="que" value="D" onclick="queDis()"/><span id="queSelect"></span><br/>
-  			对:<input type="radio" name="judge" value="对" onclick="judgeDis()"/>错:<input type="radio" name="judge" value="错" onclick="judgeDis()"/><span id="queJudge"></span>
-  		</div>
-  		--%>
-  		
-  			<%--<li class="col-md-12 p0">
-	  			<span class="fl">分值:</span>
-	  			<select name="quePoint" id="quePoint">
-	  				<option value="1">1</option>
-	  				<option value="2">2</option>
-	  				<option value="3">3</option>
-	  				<option value="4">4</option>
-	  				<option value="5">5</option>
-	  			</select>
-  			</li>
-  			--%></ul>
+  			</ul>
   			
   		
   		<!-- 按钮 -->

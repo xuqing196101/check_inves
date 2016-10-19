@@ -1,24 +1,16 @@
 package ses.model.ems;
 
-import java.io.Serializable;
+
 import java.util.Date;
 
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
-
-import com.sun.istack.internal.NotNull;
 /**
 * @Title:ExamQuestion 
 * @Description:题目表
 * @author ZhaoBo
 * @date 2016-9-7上午9:30:55
  */
-public class ExamQuestion implements Serializable{
-	private static final long serialVersionUID = 1L;
+public class ExamQuestion{
+	
 
 	/**
 	 * @Fields id : 主键ID
@@ -28,7 +20,6 @@ public class ExamQuestion implements Serializable{
     /**
      * @Fields answer : 答案
      */
-    @NotBlank(message="请选择答案")
     private String answer;
     
     /**
@@ -64,7 +55,6 @@ public class ExamQuestion implements Serializable{
     /**
      * @Fields topic :题干
      */
-    @NotBlank(message="题干不能为空")
     private String topic;
     
     /**
@@ -97,31 +87,10 @@ public class ExamQuestion implements Serializable{
      */
     private Integer queNum;
     
-    private String type;
-    
     /**
-     * @Fields optionA :选项A
+     * @Fields option :选项数量
      */
-    @NotBlank(message="选项A不能为空")
-    private String optionA;
-    
-    /**
-     * @Fields optionB :选项B
-     */
-    @NotBlank(message="选项B不能为空")
-    private String optionB;
-    
-    /**
-     * @Fields optionC :选项C
-     */
-    @NotBlank(message="选项C不能为空")
-    private String optionC;
-    
-    /**
-     * @Fields optionD :选项D
-     */
-    @NotBlank(message="选项D不能为空")
-    private String optionD;
+    private String option;
 
 	public String getId() {
 		return id;
@@ -243,45 +212,15 @@ public class ExamQuestion implements Serializable{
 		this.queNum = queNum;
 	}
 
-	public String getType() {
-		return type;
+	public String getOption() {
+		return option;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setOption(String option) {
+		this.option = option;
 	}
 
-	public String getOptionA() {
-		return optionA;
-	}
-
-	public void setOptionA(String optionA) {
-		this.optionA = optionA;
-	}
-
-	public String getOptionB() {
-		return optionB;
-	}
-
-	public void setOptionB(String optionB) {
-		this.optionB = optionB;
-	}
-
-	public String getOptionC() {
-		return optionC;
-	}
-
-	public void setOptionC(String optionC) {
-		this.optionC = optionC;
-	}
-
-	public String getOptionD() {
-		return optionD;
-	}
-
-	public void setOptionD(String optionD) {
-		this.optionD = optionD;
-	}
+	
     
     
 	

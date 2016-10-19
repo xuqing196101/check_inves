@@ -181,7 +181,6 @@
 				<th>题干</th>
 				<th>选项</th>
 			    <th>答案</th>
-				<th>分值</th>
 				<th>创建时间</th>
 			</tr>
 		</thead>
@@ -204,7 +203,6 @@
 						<td onclick="view('${c.id }')">${c.items }</td>
 					</c:if>
 					<td class="tc" onclick="view('${c.id }')">${c.answer}</td>
-					<td class="tc" onclick="view('${c.id }')">${c.point }</td>
 					<td class="tc" onclick="view('${c.id }')"><fmt:formatDate value="${c.createdAt}" pattern="yyyy/MM/dd"/> </td
 				</tr>
 			</c:forEach>

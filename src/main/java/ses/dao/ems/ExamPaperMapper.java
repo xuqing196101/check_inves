@@ -1,5 +1,6 @@
 package ses.dao.ems;
 
+import java.util.HashMap;
 import java.util.List;
 
 import ses.model.ems.ExamPaper;
@@ -82,5 +83,5 @@ public interface ExamPaperMapper {
     * @param @return      
     * @return ExamPaper
      */
-    ExamPaper selectByPaperNo(String paperNo);
+    ExamPaper selectByPaperNo(HashMap<String,Object> map);
 }
