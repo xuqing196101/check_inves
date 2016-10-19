@@ -541,7 +541,7 @@ public class ProjectController extends BaseController{
 	* @param @throws IOException      
 	* @return void
 	 */
-	@RequestMapping("eckProjectDeail")
+	@RequestMapping("checkProjectDeail")
 	public void checkProjectDeail(HttpServletResponse response,HttpServletRequest request) throws IOException{
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		ProjectDetail projectDetail = detailService.selectByPrimaryKey(request.getParameter("id"));
