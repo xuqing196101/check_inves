@@ -1,5 +1,6 @@
 package ses.service.ems.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -110,17 +111,27 @@ public class ExpertBlackListServiceImpl implements ExpertBlackListService{
 	}
 	
 	/**
-	 * @Title: delete
+	 * @Title: updateStatus
 	 * @author Xu Qing
 	 * @date 2016-9-9 下午4:51:25  
-	 * @Description: 根据id删除信息 
+	 * @Description: 根据id更新状态信息  
 	 * @param @param id      
 	 * @return void
 	 */
 	@Override
-	public void delete(String id) {
-		mapper.deleteByPrimaryKey(id);
-		
+	public void updateStatus(ExpertBlackList expertBlackList,ExpertBlackListLog expertBlackListLog,String[] ids) {
+		for(int i = 0;i<ids.length;i++){
+			expertBlackList.setId(ids[i]);
+			mapper.updateStatus(expertBlackList);
+			//记录操作
+			expertBlackList=this.findById(ids[i]);
+			String expert=expertBlackList.getRelName();
+			expertBlackListLog.setOperationDate(new Date());
+			expertBlackListLog.setExpertId(expert);
+			expertBlackListLog.setOperator("我");
+			expertBlackListLog.setOperationType("2");
+			this.insertHistory(expertBlackListLog);
+		}
 	}
 	
 	/**

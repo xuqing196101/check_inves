@@ -49,12 +49,12 @@ public interface ExpertBlackListMapper {
 	 */
 	ExpertBlackList selectByPrimaryKey(String id);
 	/**
-	 * @Title: deleteByPrimaryKey
+	 * @Title: updateStatus
 	 * @author Xu Qing
 	 * @date 2016-9-9 下午4:49:59  
-	 * @Description: 根据id删除信息 
+	 * @Description: 根据id更新状态信息 
 	 * @param @param id      
 	 * @return void
 	 */
-	void deleteByPrimaryKey(String id);
+	void updateStatus(ExpertBlackList expertBlackList);
 }

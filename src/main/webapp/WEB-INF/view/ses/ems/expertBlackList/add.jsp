@@ -80,7 +80,7 @@
 	       <span class=""><i class="red">＊</i>处罚时限：</span>
 			    <select class="span2" name="punishDate">
 			  		<option value="">请选择</option>
-			  		<option value="3个月">3月</option>
+			  		<option value="3个月">3个月</option>
             <option value="6个月">6个月</option>
 			  		<option value="一年">一年</option>
 			  		<option value="两年">两年</option>

@@ -73,17 +73,18 @@ public class ExpertBlackListController extends BaseSupplierController{
 	 * @throws IOException 
 	 */
 	@RequestMapping("/saveBlacklist")
-	public String save(HttpServletRequest request,ExpertBlackList expertBlackList,ExpertBlackListLog expertBlackListHistory) throws IOException{
+	public String save(HttpServletRequest request,ExpertBlackList expertBlackList,ExpertBlackListLog expertBlackListLog) throws IOException{
 		expertBlackList.setCreatedAt(new Date());
+		expertBlackList.setStatus(0);
 		//保存文件
 		this.setExpertBlackListUpload(request, expertBlackList);
 		service.insert(expertBlackList);	
 		//记录操作
 		String expert=expertBlackList.getRelName();
-		expertBlackListHistory.setOperationDate(new Date());
-		expertBlackListHistory.setExpertId(expert);
-		expertBlackListHistory.setOperator("我");
-		service.insertHistory(expertBlackListHistory);
+		expertBlackListLog.setOperationDate(new Date());
+		expertBlackListLog.setExpertId(expert);
+		expertBlackListLog.setOperator("我");
+		service.insertHistory(expertBlackListLog);
 		return "redirect:blacklist.html";
 	}
 	/**
@@ -123,6 +124,7 @@ public class ExpertBlackListController extends BaseSupplierController{
 	public String edit(HttpServletRequest request, Model model){
 		String id = request.getParameter("id");
 		ExpertBlackList expertBlackList = service.findById(id);
+
 		/*//所有专家
 		List<Expert> expertList = service.findExpertList();
 		model.addAttribute("expertList", expertList);*/
@@ -143,34 +145,31 @@ public class ExpertBlackListController extends BaseSupplierController{
 	 * @throws IOException 
 	 */
 	@RequestMapping("/updateBlacklist")
-	public String update(HttpServletRequest request,ExpertBlackList expertBlackList,ExpertBlackListLog expertBlackListHistory) throws IOException{
-		expertBlackList.setCreatedAt(new Date());
+	public String update(HttpServletRequest request,ExpertBlackList expertBlackList,ExpertBlackListLog expertBlackListLog) throws IOException{
+		expertBlackList.setUpdatedAt(new Date());
 		//保存文件
 		this.setExpertBlackListUpload(request, expertBlackList);
 		service.update(expertBlackList);
 		//记录操作
 		String expert=expertBlackList.getRelName();
-		expertBlackListHistory.setOperationDate(new Date());
-		expertBlackListHistory.setExpertId(expert);
-		expertBlackListHistory.setOperator("我");
-		service.insertHistory(expertBlackListHistory);
+		expertBlackListLog.setOperationDate(new Date());
+		expertBlackListLog.setExpertId(expert);
+		expertBlackListLog.setOperator("我");
+		service.insertHistory(expertBlackListLog);
 		return "redirect:blacklist.html";
 	}
 	/**
-	 * @Title: delete
+	 * @Title: updateStatus
 	 * @author Xu Qing
 	 * @date 2016-9-9 下午4:54:50  
-	 * @Description: 根据id批量删除信息 
+	 * @Description: 根据id批量移除 
 	 * @param @param id
 	 * @param @return      
 	 * @return String
 	 */
-	@RequestMapping("/deleteBlacklist")
-	public String delete(HttpServletRequest request){
-		String[] ids = request.getParameter("ids").split(",");
-		for(int i = 0;i<ids.length;i++){
-			service.delete(ids[i]);
-		}
+	@RequestMapping("/updateStatus")
+	public String updateStatus(HttpServletRequest request,ExpertBlackList expertBlackList,ExpertBlackListLog expertBlackListLog,String[] ids){
+		service.updateStatus(expertBlackList, expertBlackListLog,ids);
 		return "redirect:blacklist.html";
 	}
 	

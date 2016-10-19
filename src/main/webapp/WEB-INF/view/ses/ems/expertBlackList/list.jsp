@@ -97,30 +97,30 @@
     }
     
     //删除
-  function del(){
+  function updateStatus(){
 		var ids =[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			ids.push($(this).val()); 
 		}); 
 		if(ids.length>0){
-			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+			layer.confirm('您确定要移除吗?', {title:'提示',offset: ['200px']}, function(index){
 				layer.close(index);
 				$.ajax({
-		       		url:"<%=basePath%>expert/deleteBlacklist.html",
-		       		data:"ids="+ids,
+		       		url:"<%=basePath%>expertBlacklist/updateStatus.html",
+		       		data:"ids="+ids+"&status=2",
 		       		success:function(){
-		       			layer.msg("删除成功",{offset:'200px'});
+		       			layer.msg("移除成功",{offset:'200px'});
 			       		window.setTimeout(function(){
 			       			location.href = "<%=basePath%>expertBlacklist/blacklist.html";
 			       		}, 1000);
 		       		},
 		       		error: function(message){
-						layer.msg("删除失败",{offset:'200px'});
+						layer.msg("移除失败",{offset:'200px'});
 					}
 		       	});
 			});
 		}else{
-			layer.alert("请选择需要删除的信息",{offset:'200px'});
+			layer.alert("请选择需要移除的信息",{offset:'200px'});
 		}
     }
     
@@ -157,7 +157,7 @@
     <div class="col-md-8">
       <button class="btn btn-windows add" type="button" onclick="add();">新增</button>
       <button class="btn btn-windows edit" type="button" onclick="update();">修改</button>
-      <!-- <button class="btn btn-windows delete" type="button" onclick="del();">删除</button> -->
+      <button class="btn btn-windows delete" type="button" onclick="updateStatus();">移除</button>
       <button class="btn btn-windows" type="button" onclick="log();">历史记录</button>
     </div>
   </div>
@@ -219,6 +219,7 @@
 					  <th class="info">处罚日期</th>
 					  <th class="info">处罚时限</th>
 					  <th class="info">处罚方式</th>
+					  <th class="info">状态</th>
 					  <th class="info">处罚理由</th>
           </tr>
         </thead>
@@ -235,6 +236,11 @@
 								<c:if test="${e.punishType == 2}">严重警告</c:if>
 								<c:if test="${e.punishType == 3}">取消资格</c:if>
 							</td>
+							<td class="tc">
+                <c:if test="${e.status == 0}">处罚中</c:if>
+                <c:if test="${e.status == 1}">过期</c:if>
+                <c:if test="${e.status == 2}">手动移除</c:if>
+              </td>
 	          <td class="tc">${e.reason }</td>
 	        </tr>
         </c:forEach>

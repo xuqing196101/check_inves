@@ -14,10 +14,11 @@
     <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
     <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
     <result column="ATTACHMENT_CERT" jdbcType="VARCHAR" property="attachmentCert" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
   </resultMap>
   <sql id="Base_Column_List">
     ID, LOGIN_NAME, REL_NAME, IS_SYS_BUILD, STORAGE_TIME, DATE_OF_PUNISHMENT, PUNISH_TYPE, 
-    PUNISH_DATE, REASON, CREATED_AT, UPDATED_AT, ATTACHMENT_CERT
+    PUNISH_DATE, REASON, CREATED_AT, UPDATED_AT, ATTACHMENT_CERT,STATUS
   </sql>
   
   <!-- 查询所有专家黑名单及条件查询 -->
@@ -45,20 +46,25 @@
     from T_SES_EMS_EXPERT_BLACKLIST
     where ID = #{id,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from T_SES_EMS_EXPERT_BLACKLIST
-    where ID = #{id,jdbcType=VARCHAR}
-  </delete>
+  
+  <!-- 更新状态-->
+  <update id="updateStatus" parameterType="java.lang.String">
+    update T_SES_EMS_EXPERT_BLACKLIST
+    set STATUS = #{status}
+    where ID = #{id}
+  </update>
+  
   <insert id="insert" parameterType="ses.model.ems.ExpertBlackList">
     insert into T_SES_EMS_EXPERT_BLACKLIST (ID, LOGIN_NAME, REL_NAME, 
       IS_SYS_BUILD, STORAGE_TIME, DATE_OF_PUNISHMENT, 
       PUNISH_TYPE, PUNISH_DATE, REASON, 
-      CREATED_AT, UPDATED_AT, ATTACHMENT_CERT
+      CREATED_AT, UPDATED_AT, ATTACHMENT_CERT, STATUS
       )
     values (#{id,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, #{relName,jdbcType=VARCHAR}, 
       #{isSysBuild,jdbcType=DECIMAL}, #{storageTime,jdbcType=DATE}, #{dateOfPunishment,jdbcType=DATE}, 
       #{punishType,jdbcType=DECIMAL}, #{punishDate,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, 
-      #{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE}, #{attachmentCert,jdbcType=VARCHAR}
+      #{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE}, #{attachmentCert,jdbcType=VARCHAR},
+      #{status,jdbcType=DECIMAL}
       )
   </insert>
   
@@ -102,6 +108,9 @@
       <if test="attachmentCert != null">
         ATTACHMENT_CERT,
       </if>
+      <if test="status != null">
+        STATUS,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -139,6 +148,9 @@
       </if>
       <if test="attachmentCert != null">
         #{attachmentCert,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -180,6 +192,9 @@
       <if test="attachmentCert != null">
         ATTACHMENT_CERT = #{attachmentCert,jdbcType=VARCHAR},
       </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -196,6 +211,7 @@
       CREATED_AT = #{createdAt,jdbcType=DATE},
       UPDATED_AT = #{updatedAt,jdbcType=DATE},
       ATTACHMENT_CERT = #{attachmentCert,jdbcType=VARCHAR}
+      STATUS = #{status,jdbcType=DECIMAL}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

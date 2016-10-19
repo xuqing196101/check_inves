@@ -84,8 +84,8 @@
 	        <span class=""><i class="red">＊</i>处罚时限：</span>
 	        <select class="span2" name="punishDate">
 			  		<option value="">请选择</option>
-			  		<option value="3个月" <c:if test="${'3个月' eq expert.punishDate}">selected</c:if>>三个月</option>
-			  		<option value="6个月" <c:if test="${'6个月' eq expert.punishDate}">selected</c:if>>半年</option>
+			  		<option value="3个月" <c:if test="${'3个月' eq expert.punishDate}">selected</c:if>>3个月</option>
+			  		<option value="6个月" <c:if test="${'6个月' eq expert.punishDate}">selected</c:if>>6个月</option>
 			  		<option value="一年" <c:if test="${'一年' eq expert.punishDate}">selected</c:if>>一年</option>
 			  		<option value="两年" <c:if test="${'两年' eq expert.punishDate}">selected</c:if>>两年</option>
 			  		<option value="三年" <c:if test="${'三年' eq expert.punishDate}">selected</c:if>>三年</option>

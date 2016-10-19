@@ -57,14 +57,14 @@ public interface ExpertBlackListService {
 	ExpertBlackList findById(String id);
 	
 	/**
-	 * @Title: delete
+	 * @Title: updateStatus
 	 * @author Xu Qing
 	 * @date 2016-9-9 下午4:51:25  
-	 * @Description: 根据id删除信息 
+	 * @Description: 根据id更新状态信息  
 	 * @param @param id      
 	 * @return void
 	 */
-	void delete(String id);
+	void updateStatus(ExpertBlackList expertBlackList,ExpertBlackListLog expertBlackListLog,String[] ids);
 	
 	/**
 	 * @Title: findExpertList

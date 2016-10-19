@@ -26,6 +26,8 @@ public class ExpertBlackList {
     private Date updatedAt; //更新时间
 
     private String attachmentCert; //附件
+    
+    private Integer status; //状态（0是处罚中，1过期，2手动移除）
 
     public String getId() {
         return id;
@@ -122,4 +124,15 @@ public class ExpertBlackList {
     public void setAttachmentCert(String attachmentCert) {
         this.attachmentCert = attachmentCert == null ? null : attachmentCert.trim();
     }
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+
+    
 }
