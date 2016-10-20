@@ -273,7 +273,7 @@ public class ExpertBlackListController extends BaseSupplierController{
 		if (fileName != null && !"".equals(fileName)) {
 			super.download(request, response, fileName);
 		} else {
-			super.alert(request, response, "无附件下载 !");
+			super.alert(request, response, "无附件下载 !",true);
 		}
 		super.removeStash(request, fileName);
 	}
