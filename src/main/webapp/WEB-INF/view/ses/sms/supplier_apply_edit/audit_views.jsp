@@ -125,33 +125,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       fileName=encodeURI(fileName);
 	  window.location.href="<%=basePath %>supplierQuery/downLoadFile.html?fileName="+fileName;
 	}
-		//鼠标移动显示全部内容
-	function out(content){
-		layer.msg(content, {
-		        offset:'100px',
-			    skin: 'demo-class',
-				shade:false,
-				area: ['600px'],
-				time : 0    //默认消息框不关闭
-			});//去掉msg图标
-	}
 	$(function(){
 		 $(":input").each(function() {
       		$(this).attr("readonly", "readonly");
     	});
 	});
-function reason(ele){
-  var auditField = $(ele).parents("li").find("span").text().replaceAll("：","");//审批的字段名字
-  var content=$("#"+ele.id+"3").val();
-    layer.prompt({title: '请填写不通过理由', formType: 2,offset:'200px'}, function(text){
-      $.ajax({
-          url:"<%=basePath%>supplier_edit/saveReason.html",
-          type:"post",
-          data:"&name="+auditField+"&auditReason="+text+"&content="+content,
-        });
-        layer.msg("审核不通过的理由是："+text,{offset:'200px'});
-      });
-}
 </script>
 <style type="text/css">
 .jbxx1{

@@ -566,16 +566,16 @@ function reason(ele){
 										<ul class="list-unstyled list-flow">
 											<li class="col-md-6 p0"><span class=""> 境外分支结构：</span>
 												<div class="input-append">
-													<input class="span2" id="overseasBranch_input_id" name="overseasBranch" type="text" readonly="readonly" value="${se.overseasBranch}" />
-													<div class="btn-group">
-														<button class="btn dropdown-toggle add-on" data-toggle="dropdown">
-															<img src="${pageContext.request.contextPath}/public/ZHQ/images/down.png" class="margin-bottom-5" />
-														</button>
-														<ul class="dropdown-menu list-unstyled">
-															<li class="hand tc" onclick="checkText(this, 'overseasBranch_input_id')">是</li>
-															<li class="hand tc" onclick="checkText(this, 'overseasBranch_input_id')">否</li>
-														</ul>
-													</div>
+													<div class="input-append">
+													<c:if test="${supplier.overseasBranch ==1}">
+													    <input class="span3" id="overseasBranch_input_id" name="overseasBranch" type="hidden" readonly="readonly" value="1" />
+														<input class="span3"   type="text" readonly="readonly" value="是" />
+													</c:if>
+													<c:if test="${supplier.overseasBranch ==0}">
+													    <input class="span3" id="overseasBranch_input_id" name="overseasBranch" type="hidden" readonly="readonly" value="0" />
+														<input class="span3"  type="text" readonly="readonly" value="否" />
+													</c:if>
+												</div>
 												</div>
 											</li>
 											<li class="col-md-6 p0"><span class=""> 境外分支所在国家：</span>

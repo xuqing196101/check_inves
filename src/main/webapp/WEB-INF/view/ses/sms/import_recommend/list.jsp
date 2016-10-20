@@ -202,7 +202,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			layer.alert("请选择需要修改的代理商",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
-    
+    function resetQuery(){
+    	$("#name").val("");
+	}
     function query(){
     	form1.submit();
     }
@@ -229,7 +231,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    	<label class="fl">代理商名称：</label><span><input type="text" id="name" name="name" value="${ir.name }" class=""/></span>
 	      </li>
 	    	<button type="button" onclick="query()" class="btn">查询</button>
-	    	<button type="reset" class="btn">重置</button>  	
+	    	<button type="button" class="btn" onclick="resetQuery()">重置</button>  	
     	</ul>
     	  <div class="clear"></div>
        </form>
