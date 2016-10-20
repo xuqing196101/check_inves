@@ -13,7 +13,7 @@ public class SupplierAudit {
 
     private String supplierId;
 
-    private Short status;
+    private Integer status;
 
     private Date createdAt;
 
@@ -65,15 +65,17 @@ public class SupplierAudit {
         this.supplierId = supplierId == null ? null : supplierId.trim();
     }
 
-    public Short getStatus() {
-        return status;
-    }
 
-    public void setStatus(Short status) {
-        this.status = status;
-    }
 
-    public Date getCreatedAt() {
+    public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public Date getCreatedAt() {
         return createdAt;
     }
 

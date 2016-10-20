@@ -759,7 +759,7 @@
        </if>
 		ORDER BY FOUND_DATE DESC, t1.SCORE DESC
 	</select>
-
+  
 	<select id="querySupplierbyCategory" parameterType="ses.model.sms.Supplier" resultMap="findSupplierMap">
 	SELECT
 	*

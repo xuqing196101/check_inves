@@ -325,15 +325,15 @@ alert(supplierInspectListFile);
                    <input type="hidden" name="status" id="status"/>
                   <div class="margin-bottom-0  categories">
                     <div class="col-md-12 add_regist tc">
-                    <c:if test="${status==0 && num==0}">
+                    <c:if test="${status==0}">
                       <input class="btn btn-windows git"  type="button" onclick="shenhe(1)" value="初审通过 ">
                       <!-- <input class="btn btn-windows reset"  type="button" onclick="shenhe(2)" value="初审不通过"> -->
                     </c:if>
-                    <c:if test="${status==1 && num==0}">
+                    <c:if test="${status==1 || status==2}">
                       <input class="btn btn-windows git"  type="button" onclick="shenhe(3)" value="复审通过 ">
                       <!-- <input class="btn btn-windows edit"  type="button" onclick="shenhe(4)" value="复审不通过"> --> 
                     </c:if>
-                    <input class="btn btn-windows git" onclick="location='<%=basePath%>supplierAudit/daiban.html'" type="button"  value="返回">
+                    <input class="btn btn-windows git" onclick="location='<%=basePath%>supplierAudit/supplierAll.html'" type="button"  value="返回">
                     </div>
                   </div>
                 </form>

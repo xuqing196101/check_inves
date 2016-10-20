@@ -96,12 +96,28 @@
 		}
     }
     
-    //删除
+    //移除
   function updateStatus(){
-		var ids =[]; 
+		var ids =[];
+		var type; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			ids.push($(this).val()); 
-		}); 
+			type = $(this).parents("tr").find("td").eq(7).text();
+      type = $.trim(type);
+         
+		});
+		if (type == "过期") {
+        layer.msg("过期的不能手动移除 !", {
+          offset : '300px',
+        });
+        return;
+      } else if (type == "手动移除") {
+        layer.msg("不能重复手动移除 !", {
+          offset : '300px',
+        });
+        return;
+      } 
+		 
 		if(ids.length>0){
 			layer.confirm('您确定要移除黑名单吗?', {title:'提示！',offset: ['200px']}, function(index){
 				layer.close(index);
@@ -122,6 +138,7 @@
 		}else{
 			layer.alert("请选择需要移除黑名单的信息！",{offset:'200px'});
 		}
+
     }
     
    function log(){
@@ -225,7 +242,7 @@
         </thead>
          <c:forEach items="${expertList }" var="e" varStatus="vs">
 	        <tr>
-	          <td class="tc w30"><input type="checkbox" value="${e.id }" name="chkItem" onclick="check()"></td>
+	          <td class="tc w30"><input type="checkbox" value="${e.id }" name="chkItem" onclick="check()" id="${e.id}"></td>
 							<td class="tc w50">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</td>
 							<td class="tc">${e.relName }</td>
 							<td class="tc"><fmt:formatDate type='date' value='${e.storageTime }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
