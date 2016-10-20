@@ -358,7 +358,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- 修改订列表开始-->
    <div class="container">
    	<div style="margin-left: 1000px;">
-   		<img style="width: 80px; height: 100px;" alt="个人照片" src="ftp://jdcg:jdcg$810@192.168.1.200:21/expertFile/${filename }">
+   		<img style="width: 80px; height: 100px;" alt="个人照片" src="ftp://${username }:${password }@${host }:${port }/expertFile/${filename }">
     </div>
    <form action="<%=basePath %>expert/shenhe.html"  method="post" id="form1" enctype="multipart/form-data" class="registerform"> 
    		<%

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.prms.ReviewFirstAuditMapper">
+  <resultMap id="BaseResultMap" type="bss.model.prms.ReviewFirstAudit">
+    <result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
+    <result column="FIRST_AUDIT_ID" jdbcType="VARCHAR" property="firstAuditId" />
+    <result column="SUPPLIER_ID" jdbcType="VARCHAR" property="supplierId" />
+    <result column="IS_PASS" jdbcType="DECIMAL" property="isPass" />
+    <result column="PACKAGE_ID" jdbcType="VARCHAR" property="packageId" />
+  </resultMap>
+   <sql id="Base_Column_List">
+  PROJECT_ID, FIRST_AUDIT_ID, SUPPLIER_ID, IS_PASS, PACKAGE_ID
+  </sql>
+   <!-- 根据项目id和包id查询关联表集合 -->
+  <select id="selectList"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PRMS_REVIEW_FIRST_AUDIT
+    where PACKAGE_ID = #{packageId,jdbcType=VARCHAR} AND PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+  </select>
+  <!-- 根据包id和项目id删除 -->
+   <delete id="delete">
+    delete from T_BSS_PRMS_PACKAGE_FIRST_AUDIT
+    where PACKAGE_ID = #{packageId,jdbcType=VARCHAR} AND PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="bss.model.prms.ReviewFirstAudit">
+    insert into T_BSS_PRMS_REVIEW_FIRST_AUDIT (PROJECT_ID, FIRST_AUDIT_ID, SUPPLIER_ID, 
+      IS_PASS, PACKAGE_ID)
+    values (#{projectId,jdbcType=VARCHAR}, #{firstAuditId,jdbcType=VARCHAR}, #{supplierId,jdbcType=VARCHAR}, 
+      #{isPass,jdbcType=DECIMAL}, #{packageId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="bss.model.prms.ReviewFirstAudit">
+    insert into T_BSS_PRMS_REVIEW_FIRST_AUDIT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="projectId != null">
+        PROJECT_ID,
+      </if>
+      <if test="firstAuditId != null">
+        FIRST_AUDIT_ID,
+      </if>
+      <if test="supplierId != null">
+        SUPPLIER_ID,
+      </if>
+      <if test="isPass != null">
+        IS_PASS,
+      </if>
+      <if test="packageId != null">
+        PACKAGE_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="projectId != null">
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="firstAuditId != null">
+        #{firstAuditId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierId != null">
+        #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="isPass != null">
+        #{isPass,jdbcType=DECIMAL},
+      </if>
+      <if test="packageId != null">
+        #{packageId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

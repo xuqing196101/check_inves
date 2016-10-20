@@ -38,6 +38,7 @@ import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertCategoryService;
 import ses.service.ems.ExpertService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
+import ses.util.PropUtil;
 import ses.util.WordUtil;
 
 
@@ -101,6 +102,14 @@ public class ExpertController {
 				model.addAttribute("filename", expertAttachment.getFileName());
 			}
 		}
+		String host = PropUtil.getProperty("ftp.host");
+		Integer port = Integer.parseInt(PropUtil.getProperty("ftp.port"));
+		String username = PropUtil.getProperty("ftp.username");
+		String password = PropUtil.getProperty("ftp.password");
+		model.addAttribute("host", host);
+		model.addAttribute("port", port);
+		model.addAttribute("username", username);
+		model.addAttribute("password", password);
 		model.addAttribute("attachmentList", attachmentList);
 		model.addAttribute("expert", expert);
 		
@@ -217,6 +226,14 @@ public class ExpertController {
 				model.addAttribute("filename", expertAttachment.getFileName());
 			}
 		}
+		String host = PropUtil.getProperty("ftp.host");
+		Integer port = Integer.parseInt(PropUtil.getProperty("ftp.port"));
+		String username = PropUtil.getProperty("ftp.username");
+		String password = PropUtil.getProperty("ftp.password");
+		model.addAttribute("host", host);
+		model.addAttribute("port", port);
+		model.addAttribute("username", username);
+		model.addAttribute("password", password);
 		model.addAttribute("attachmentList", attachmentList);
 		model.addAttribute("expert", expert);
 		return "ses/ems/expert/edit_basic_info";
@@ -251,6 +268,14 @@ public class ExpertController {
 				model.addAttribute("filename", expertAttachment.getFileName());
 			}
 		}
+		String host = PropUtil.getProperty("ftp.host");
+		Integer port = Integer.parseInt(PropUtil.getProperty("ftp.port"));
+		String username = PropUtil.getProperty("ftp.username");
+		String password = PropUtil.getProperty("ftp.password");
+		model.addAttribute("host", host);
+		model.addAttribute("port", port);
+		model.addAttribute("username", username);
+		model.addAttribute("password", password);
 		model.addAttribute("attachmentList", attachmentList);
 		request.setAttribute("expert", expert);
 		return "ses/ems/expert/audit";
@@ -307,6 +332,14 @@ public class ExpertController {
 					   model.addAttribute("purchase", purchaseDep);
 				      }
 				    }
+				 	String host = PropUtil.getProperty("ftp.host");
+					Integer port = Integer.parseInt(PropUtil.getProperty("ftp.port"));
+					String username = PropUtil.getProperty("ftp.username");
+					String password = PropUtil.getProperty("ftp.password");
+					model.addAttribute("host", host);
+					model.addAttribute("port", port);
+					model.addAttribute("username", username);
+					model.addAttribute("password", password);
 				model.addAttribute("expert", expert);
 			    }
 				 //附件信息

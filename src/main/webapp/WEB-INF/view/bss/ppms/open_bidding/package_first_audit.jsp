@@ -52,18 +52,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     })
     
 	 /** 全选全不选 */
-    function selectAll(){
+    function selectAll(obj){
+    	var form = obj.parentNode.parentNode.parentNode.parentNode.parentNode;
+    	var checkbox = $(form).find("input[type='checkbox']");
          var checklist = document.getElementsByName ("chkItem");
-         var checkAll = document.getElementById("checkAll");
-         if(checkAll.checked){
-               for(var i=0;i<checklist.length;i++)
+         if(obj.checked){
+               for(var i=0;i<checkbox.length;i++)
                {
-                  checklist[i].checked = true;
+            	   checkbox[i].checked = true;
                }
              }else{
-              for(var j=0;j<checklist.length;j++)
+              for(var j=0;j<checkbox.length;j++)
               {
-                 checklist[j].checked = false;
+            	  checkbox[j].checked = false;
               }
             }
         }
@@ -128,8 +129,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						 	<h1 class="f16 count_flow"><i>02</i>关联初审项</h1>
 						 	   <div class="container clear margin-top-30" id="package">
 						 	   
-							   <h5>01、项目分包信息</h5>
 								   <c:forEach items="${packageList }" var="pack" varStatus="p">
+							           <h5>01、项目分包信息</h5>
 								   		<form action="<%=basePath%>packageFirstAudit/relate.html" method="post" id="form1">
 								   		<input type="hidden" name="packageIds" id="packageIds">
 								   		
@@ -182,7 +183,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								 	            <h5>02、项目初审项信息</h5>
 											    <thead>
 											      <tr>
-											      	<th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
+											      	<th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll(this)"  alt=""></th>
 											        <th>初审项名称</th>
 											        <th>要求类型</th>
 											        <th>创建人</th>
