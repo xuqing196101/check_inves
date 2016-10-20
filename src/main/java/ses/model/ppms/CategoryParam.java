@@ -44,6 +44,8 @@ public class CategoryParam {
 	private Category category;
 	
 	private String paramValue;
+	
+	private String paramValueId;
 
 	
 	public String getValueType() {
@@ -97,6 +99,12 @@ public class CategoryParam {
 	}
 	public void setParamValue(String paramValue) {
 		this.paramValue = paramValue;
+	}
+	public String getParamValueId() {
+		return paramValueId;
+	}
+	public void setParamValueId(String paramValueId) {
+		this.paramValueId = paramValueId;
 	}
 	
 	

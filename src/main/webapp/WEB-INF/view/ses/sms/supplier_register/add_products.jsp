@@ -79,6 +79,7 @@
 					<div class="padding-top-10">
 						<form id="products_form_id" method="post" target="_parent"  enctype="multipart/form-data">
 							<input name="id" value="${supplierProducts.id}" type="hidden" />
+							<input name="categoryId" value="${supplierProducts.categoryId}" type="hidden" />
 							<input name="supplierId" value="${supplierProducts.supplierId}" type="hidden" />
 							<div class="tab-content padding-top-20">
 								<!-- 详细信息 -->

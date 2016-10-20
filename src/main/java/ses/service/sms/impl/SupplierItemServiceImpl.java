@@ -13,24 +13,31 @@ import ses.service.sms.SupplierItemService;
 
 @Service(value = "supplierItemService")
 public class SupplierItemServiceImpl implements SupplierItemService {
-	
+
 	@Autowired
 	private SupplierItemMapper supplierItemMapper;
-	
+
 	@Override
 	public void saveSupplierItem(Supplier supplier) {
 		String id = supplier.getId();
 		supplierItemMapper.deleteBySupplierId(id);
 		String supplierItemIds = supplier.getSupplierItemIds();
-		for (String str : supplierItemIds.split(",")) {
-			SupplierItem supplierItem = new SupplierItem();
-			supplierItem.setSupplierId(id);
-			supplierItem.setCategoryId(str);
-			supplierItem.setCreatedAt(new Date());
-			supplierItemMapper.insertSelective(supplierItem);
+		String supplierTypeIds = supplier.getSupplierTypeIds();
+		String[] itemIds = supplierItemIds.split(";");
+		for (int i = 0; i < itemIds.length; i++) {
+			for (String str : itemIds[i].split(",")) {
+				SupplierItem supplierItem = new SupplierItem();
+				supplierItem.setSupplierId(id);
+				supplierItem.setCategoryId(str);
+				supplierItem.setCreatedAt(new Date());
+				supplierItem.setSupplierTypeRelateId(supplierTypeIds.split(",")[i]);
+				supplierItemMapper.insertSelective(supplierItem);
+
+			}
 		}
+
 	}
-	
+
 	@Override
 	public List<String> getSupplierId() {
 		return supplierItemMapper.getSupplierId();

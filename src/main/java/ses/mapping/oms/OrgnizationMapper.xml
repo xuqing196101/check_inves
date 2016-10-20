@@ -49,6 +49,15 @@
 		<if test="requireDepId != null and requireDepId != ''">
 			and d.REQUIRE_DEP_ID= #{requireDepId}
 		</if> 
+		<if test="name != null and name != ''">
+			and a.name like #{name}
+		</if>
+		<if test="notName != null and notName != ''">
+			and a.name not like #{notName}
+		</if>
+		<if test="isName != null and isName != ''">
+			and a.name like #{isName}
+		</if>
 		ORDER BY d.CREATED_AT DESC
 	</select>
 	<!-- 多对多关联查询    org_id 1的一方   purchase_dep_id 关联多的一方 -->

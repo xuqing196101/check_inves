@@ -107,7 +107,7 @@ public class BaseSupplierController {
 			String fileUrl = this.getStashPath(request) + fileName;
 			File file = new File(fileUrl);
 			if (!file.isFile()) {
-				this.alert(request, response, "无附件下载");
+				this.alert(request, response, "无附件下载", true);
 				return;
 			}
 			input = new BufferedInputStream(new FileInputStream(file));
@@ -151,7 +151,7 @@ public class BaseSupplierController {
 	 * @param: @param msg
 	 * @return: void
 	 */
-	public void alert(HttpServletRequest request, HttpServletResponse response, String msg) {
+	public void alert(HttpServletRequest request, HttpServletResponse response, String msg, boolean isClosed) {
 		String path = request.getSession().getServletContext().getContextPath();
 		StringBuffer sbff = new StringBuffer();
 		sbff.append("<html>")//
@@ -163,10 +163,13 @@ public class BaseSupplierController {
 				.append("<script type='text/javascript'>")//
 				.append("$(function() {")//
 				.append("layer.msg('")//
-				.append(msg).append("');")//
-				.append("setTimeout(function(){window.close();}, 1000);")//
-				//.append("window.close();")//
-				.append("});")//
+				.append(msg).append("');");
+		if (isClosed) {
+			sbff.append("setTimeout(function(){window.close();}, 1000);");
+		} else {
+			sbff.append("setTimeout(function(){window.history.go(-1);}, 1000);");
+		}
+		sbff.append("});")//
 				.append("</script>")//
 				.append("</head>")//
 				.append("</html>");

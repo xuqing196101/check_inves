@@ -55,6 +55,7 @@ public class SupplierLevelServiceImpl implements SupplierLevelService {
 				supplier.setStartScore(listSupplierStars.get(0).getFiveStars());
 			}
 		}
+		supplier.setStatus(3);
 		List<Supplier> listSuppliers = supplierMapper.findSupplier(supplier);
 		
 		for (SupplierStars ss : listSupplierStars) {

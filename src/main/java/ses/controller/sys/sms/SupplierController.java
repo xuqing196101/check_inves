@@ -23,10 +23,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
-
-import ses.model.oms.PurchaseDep;
+import ses.model.oms.Orgnization;
 import ses.model.sms.Supplier;
-import ses.service.oms.PurchaseOrgnizationServiceI;
+import ses.service.oms.OrgnizationServiceI;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierMatEngService;
 import ses.service.sms.SupplierMatProService;
@@ -69,13 +68,13 @@ public class SupplierController extends BaseSupplierController {
 	private SupplierMatEngService supplierMatEngService;// 供应商工程专业信息
 
 	@Autowired
-	private PurchaseOrgnizationServiceI poService;// 采购机构
-	
-	@Autowired
 	private SupplierItemService supplierItemService;// 供应商品目
 	
 	@Autowired
 	private SupplierProductsService supplierProductsService;// 供应商产品
+	
+	@Autowired
+	private OrgnizationServiceI orgnizationServiceI;
 	
 	/**
 	 * @Title: getIdentity
@@ -241,11 +240,16 @@ public class SupplierController extends BaseSupplierController {
 			// 查询供应商信息
 			supplier = supplierService.get(supplier.getId());
 			HashMap<String, Object> map = new HashMap<String, Object>();
-			List<PurchaseDep> listPurchaseDeps = poService.findPurchaseDepList(map);
+			map.put("name", "%" + supplier.getAddress().split(",")[0] + "%");
+			List<Orgnization> listOrgnizations1 = orgnizationServiceI.findOrgnizationList(map);
+			map.clear();
+			map.put("notName", "%" + supplier.getAddress().split(",")[0] + "%");
+			List<Orgnization> listOrgnizations2 = orgnizationServiceI.findOrgnizationList(map);
 
 			// 页面跳转
 			request.getSession().setAttribute("currSupplier", supplier);
-			request.getSession().setAttribute("listPurchaseDeps", listPurchaseDeps);
+			request.getSession().setAttribute("listOrgnizations1", listOrgnizations1);
+			request.getSession().setAttribute("listOrgnizations2", listOrgnizations2);
 			request.getSession().setAttribute("jump.page", "procurement_dep");
 			return "redirect:page_jump.html";
 		} else if (sign == 9) {
@@ -345,11 +349,16 @@ public class SupplierController extends BaseSupplierController {
 			// 查询机构信息
 			supplier = supplierService.get(supplier.getId());
 			HashMap<String, Object> map = new HashMap<String, Object>();
-			List<PurchaseDep> listPurchaseDeps = poService.findPurchaseDepList(map);
+			map.put("name", "%" + supplier.getAddress().split(",")[0] + "%");
+			List<Orgnization> listOrgnizations1 = orgnizationServiceI.findOrgnizationList(map);
+			map.clear();
+			map.put("notName", "%" + supplier.getAddress().split(",")[0] + "%");
+			List<Orgnization> listOrgnizations2 = orgnizationServiceI.findOrgnizationList(map);
 
 			// 页面跳转
 			request.getSession().setAttribute("currSupplier", supplier);
-			request.getSession().setAttribute("listPurchaseDeps", listPurchaseDeps);
+			request.getSession().setAttribute("listOrgnizations1", listOrgnizations1);
+			request.getSession().setAttribute("listOrgnizations2", listOrgnizations2);
 			request.getSession().setAttribute("jump.page", "procurement_dep");
 			return "redirect:page_jump.html";
 		} else if (sign == 9) {
@@ -443,11 +452,16 @@ public class SupplierController extends BaseSupplierController {
 			// 查询机构信息
 			supplier = supplierService.get(supplier.getId());
 			HashMap<String, Object> map = new HashMap<String, Object>();
-			List<PurchaseDep> listPurchaseDeps = poService.findPurchaseDepList(map);
+			map.put("name", "%" + supplier.getAddress().split(",")[0] + "%");
+			List<Orgnization> listOrgnizations1 = orgnizationServiceI.findOrgnizationList(map);
+			map.clear();
+			map.put("notName", "%" + supplier.getAddress().split(",")[0] + "%");
+			List<Orgnization> listOrgnizations2 = orgnizationServiceI.findOrgnizationList(map);
 
 			// 页面跳转
 			request.getSession().setAttribute("currSupplier", supplier);
-			request.getSession().setAttribute("listPurchaseDeps", listPurchaseDeps);
+			request.getSession().setAttribute("listOrgnizations1", listOrgnizations1);
+			request.getSession().setAttribute("listOrgnizations2", listOrgnizations2);
 			request.getSession().setAttribute("jump.page", "procurement_dep");
 			return "redirect:page_jump.html";
 		} else if (sign == 7) {
@@ -477,6 +491,31 @@ public class SupplierController extends BaseSupplierController {
 		return null;
 	}
 	
+	/**
+	 * @Title: searchOrg
+	 * @author: Wang Zhaohua
+	 * @date: 2016-10-19 下午2:28:42
+	 * @Description: 查询采购机构
+	 * @param: @param request
+	 * @param: @param isName
+	 * @param: @return
+	 * @return: String
+	 */
+	@RequestMapping(value = "search_org")
+	public String searchOrg(HttpServletRequest request, String isName) {
+		Supplier supplier = (Supplier) request.getSession().getAttribute("currSupplier");
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("name", "%" + supplier.getAddress().split(",")[0] + "%");
+		List<Orgnization> listOrgnizations1 = orgnizationServiceI.findOrgnizationList(map);
+		map.clear();
+		map.put("notName", "%" + supplier.getAddress().split(",")[0] + "%");
+		map.put("isName", "%" + isName + "%");
+		List<Orgnization> listOrgnizations2 = orgnizationServiceI.findOrgnizationList(map);
+		request.getSession().setAttribute("listOrgnizations1", listOrgnizations1);
+		request.getSession().setAttribute("listOrgnizations2", listOrgnizations2);
+		request.getSession().setAttribute("jump.page", "procurement_dep");
+		return "redirect:page_jump.html";
+	}
 	
 	/**
 	 * @Title: download
@@ -496,7 +535,7 @@ public class SupplierController extends BaseSupplierController {
 		if (fileName != null && !"".equals(fileName)) {
 			super.download(request, response, fileName);
 		} else {
-			super.alert(request, response, "无附件下载 !");
+			super.alert(request, response, "无附件下载 !", true);
 		}
 		super.removeStash(request, fileName);
 	}

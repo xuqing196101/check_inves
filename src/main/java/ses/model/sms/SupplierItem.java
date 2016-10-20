@@ -1,7 +1,9 @@
 package ses.model.sms;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class SupplierItem implements Serializable {
 	private static final long serialVersionUID = -6757464247201483546L;
@@ -63,6 +65,8 @@ public class SupplierItem implements Serializable {
 	private Date updatedAt;
 
 	private String categoryName;
+
+	private List<SupplierProducts> listSupplierProducts = new ArrayList<SupplierProducts>();
 
 	public String getId() {
 		return id;
@@ -126,5 +130,13 @@ public class SupplierItem implements Serializable {
 
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
+	}
+
+	public List<SupplierProducts> getListSupplierProducts() {
+		return listSupplierProducts;
+	}
+
+	public void setListSupplierProducts(List<SupplierProducts> listSupplierProducts) {
+		this.listSupplierProducts = listSupplierProducts;
 	}
 }

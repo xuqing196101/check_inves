@@ -1,5 +1,8 @@
 package ses.service.sms.impl;
 
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,12 +18,38 @@ public class ProductParamServiceImpl implements ProductParamService {
 	
 	@Override
 	public void saveOrUpdateParam(ProductParam productParam) {
-		String id = productParam.getId();
-		if (id != null && !"".equals(id)) {
+		String[] categoryParamIds = productParam.getCategoryParamId().split(",");
+		String[] paramValues = productParam.getParamValue().split(",");
+		if (categoryParamIds.length != paramValues.length) return;
+		String ids = productParam.getId();
+		String[] split = ids.split(",");
+		if (split != null && split.length > 0) {
+			if (categoryParamIds.length != split.length) return;
+			for (int i = 0; i < split.length; i++) {
+				ProductParam pp = new ProductParam();
+				pp.setId(split[i]);
+				pp.setCategoryParamId(categoryParamIds[i]);
+				pp.setParamValue(paramValues[i]);
+				pp.setSupplierProductsId(productParam.getSupplierProductsId());
+				pp.setCreatedAt(new Date());
+				productParamMapper.updateByPrimaryKeySelective(pp);
+			}
 			productParamMapper.updateByPrimaryKeySelective(productParam);
 		} else {
-			productParamMapper.insertSelective(productParam);
+			for (int i = 0; i < categoryParamIds.length; i++) {
+				ProductParam pp = new ProductParam();
+				pp.setCategoryParamId(categoryParamIds[i]);
+				pp.setParamValue(paramValues[i]);
+				pp.setSupplierProductsId(productParam.getSupplierProductsId());
+				pp.setCreatedAt(new Date());
+				productParamMapper.insertSelective(pp);
+			}
 		}
+	}
+
+	@Override
+	public List<ProductParam> findProductParam(String productsId) {
+		return productParamMapper.findProductParamByProductId(productsId);
 	}
 
 }

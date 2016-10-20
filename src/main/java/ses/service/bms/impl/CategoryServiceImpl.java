@@ -98,7 +98,10 @@ public class CategoryServiceImpl implements CategoryService {
 		List<Category> listCategorys = categoryMapper.findCategoryByType(category);
 		
 		// 查询供应商勾选品目类型
-		List<SupplierItem> listSupplierItems = supplierItemMapper.findSupplierItemBySupplierId(supplierId);
+		SupplierItem st = new SupplierItem();
+		st.setSupplierId(supplierId);
+		st.setSupplierTypeRelateId(kind);
+		List<SupplierItem> listSupplierItems = supplierItemMapper.findSupplierItemBySupplierIdAndType(st);
 		List<String> listCategoryIds = new ArrayList<String>();
 		for(SupplierItem supplierItem : listSupplierItems) {
 			listCategoryIds.add(supplierItem.getCategoryId());

@@ -1,6 +1,7 @@
 package ses.service.ppms.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,8 +62,15 @@ public class CategoryParamServiceImpl implements CategoryParamService{
 
 
 	@Override
-	public List<CategoryParam> findParamByCategoryId(String categoryId) {
-		return categoryParamMapper.findParamByCategoryId(categoryId);
+	public List<CategoryParam> findParamByCategoryIdAndProductsId(Map<String, String> param, Integer sign) {
+		List<CategoryParam> list = categoryParamMapper.findParamByCategoryIdAndProductsId(param);
+		if (sign != 1) {
+			for (CategoryParam categoryParam : list) {
+				categoryParam.setParamValueId(null);
+				categoryParam.setParamValue(null);
+			}
+		}
+		return list;
 	}
 
 }

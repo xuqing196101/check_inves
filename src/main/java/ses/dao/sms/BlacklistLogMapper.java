@@ -2,9 +2,9 @@ package ses.dao.sms;
 
 import java.util.List;
 
-import ses.model.sms.SupplierBlacklist;
+import ses.model.sms.BlacklistLog;
 
-public interface SupplierBlacklistMapper {
+public interface BlacklistLogMapper {
     /**
      * 根据主键删除数据库的记录
      *
@@ -17,35 +17,33 @@ public interface SupplierBlacklistMapper {
      *
      * @param record
      */
-    int insert(SupplierBlacklist record);
+    int insert(BlacklistLog record);
 
     /**
      *
      * @param record
      */
-    int insertSelective(SupplierBlacklist record);
+    int insertSelective(BlacklistLog record);
 
     /**
      * 根据主键获取一条数据库记录
      *
      * @param id
      */
-    SupplierBlacklist selectByPrimaryKey(String id);
+    BlacklistLog selectByPrimaryKey(String id);
 
     /**
      *
      * @param record
      */
-    int updateByPrimaryKeySelective(SupplierBlacklist record);
+    int updateByPrimaryKeySelective(BlacklistLog record);
 
     /**
      * 根据主键来更新数据库记录
      *
      * @param record
      */
-    int updateByPrimaryKey(SupplierBlacklist record);
+    int updateByPrimaryKey(BlacklistLog record);
     
-    List<SupplierBlacklist> findSupplierBlacklist(SupplierBlacklist supplierBlacklist);
-    
-    int updateStatusById(SupplierBlacklist supplierBlacklist);
+    List<BlacklistLog> findBlacklistLogBySupplierId(String supplierId);
 }

@@ -167,4 +167,8 @@
 		 order by START_TIME desc
 	</select>
 	
+	<update id="updateStatusById" parameterType="ses.model.sms.SupplierBlacklist">
+		update T_SES_SMS_SUPPLIER_BLACKLIST set STATUS = #{status} where ID = #{id}
+	</update>
+	
 </mapper>

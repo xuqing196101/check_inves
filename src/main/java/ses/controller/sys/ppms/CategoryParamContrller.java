@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -376,8 +378,13 @@ public class CategoryParamContrller extends BaseSupplierController{
       * @return: String
       */
      @RequestMapping(value = "list_by_category_id")
-     public String listByCategoryId(Model model, String categoryId, String productsId) {
-    	 List<CategoryParam> list = categoryParamService.findParamByCategoryId(categoryId);
+     public String listByCategoryId(Model model, String categoryId, String productsId, Integer sign) {
+    	 Map<String, String> param = new HashMap<String, String>();
+    	 param.put("categoryId", categoryId);
+    	 if (sign == 1) {
+    		 param.put("productsId", productsId);
+    	 }
+    	 List<CategoryParam> list = categoryParamService.findParamByCategoryIdAndProductsId(param, sign);
     	 model.addAttribute("list", list);
     	 model.addAttribute("categoryId", categoryId);
     	 model.addAttribute("productsId", productsId);

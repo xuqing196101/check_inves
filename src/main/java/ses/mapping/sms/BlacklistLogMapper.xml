@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.sms.BlacklistLogMapper">
+	<resultMap id="BaseResultMap" type="ses.model.sms.BlacklistLog">
+		<id column="ID" property="id" />
+		<result column="SUPPLIER_ID" property="supplierId" />
+		<result column="START_TIME" property="startTime" />
+		<result column="TERM" property="term" />
+		<result column="PUNISH_TYPE" property="punishType" />
+		<result column="RELEASE_TYPE" property="releaseType" />
+		<result column="REASON" property="reason" />
+		<result column="OPERATION_ID" property="operationId" />
+		<result column="OPERATION_TYPE" property="operationType" />
+		<result column="OPERATION_NAME" property="operationName" />
+		<result column="OPERATION_DATE" property="operationDate" />
+		<result column="SUPPLIER_NAME" property="supplierName" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, SUPPLIER_ID, START_TIME, TERM, PUNISH_TYPE, RELEASE_TYPE, REASON, OPERATION_ID,
+		OPERATION_TYPE, OPERATION_NAME, OPERATION_DATE
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_SMS_BLACKLIST_LOG
+		where ID = #{id}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from T_SES_SMS_BLACKLIST_LOG
+		where ID = #{id}
+	</delete>
+	<insert id="insert" parameterType="ses.model.sms.BlacklistLog">
+		insert into T_SES_SMS_BLACKLIST_LOG (ID, SUPPLIER_ID, START_TIME,
+		TERM, PUNISH_TYPE, RELEASE_TYPE,
+		REASON, OPERATION_ID, OPERATION_TYPE,
+		OPERATION_NAME, OPERATION_DATE)
+		values (#{id}, #{supplierId}, #{startTime},
+		#{term}, #{punishType}, #{releaseType},
+		#{reason}, #{operationId}, #{operationType},
+		#{operationName}, #{operationDate})
+	</insert>
+	<insert id="insertSelective" parameterType="ses.model.sms.BlacklistLog">
+		insert into T_SES_SMS_BLACKLIST_LOG
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="supplierId != null">
+				SUPPLIER_ID,
+			</if>
+			<if test="startTime != null">
+				START_TIME,
+			</if>
+			<if test="term != null">
+				TERM,
+			</if>
+			<if test="punishType != null">
+				PUNISH_TYPE,
+			</if>
+			<if test="releaseType != null">
+				RELEASE_TYPE,
+			</if>
+			<if test="reason != null">
+				REASON,
+			</if>
+			<if test="operationId != null">
+				OPERATION_ID,
+			</if>
+			<if test="operationType != null">
+				OPERATION_TYPE,
+			</if>
+			<if test="operationName != null">
+				OPERATION_NAME,
+			</if>
+			<if test="operationDate != null">
+				OPERATION_DATE,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="supplierId != null">
+				#{supplierId},
+			</if>
+			<if test="startTime != null">
+				#{startTime},
+			</if>
+			<if test="term != null">
+				#{term},
+			</if>
+			<if test="punishType != null">
+				#{punishType},
+			</if>
+			<if test="releaseType != null">
+				#{releaseType},
+			</if>
+			<if test="reason != null">
+				#{reason},
+			</if>
+			<if test="operationId != null">
+				#{operationId},
+			</if>
+			<if test="operationType != null">
+				#{operationType},
+			</if>
+			<if test="operationName != null">
+				#{operationName},
+			</if>
+			<if test="operationDate != null">
+				#{operationDate},
+			</if>
+		</trim>
+		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			select sys_guid() from dual
+		</selectKey>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.BlacklistLog">
+		update T_SES_SMS_BLACKLIST_LOG
+		<set>
+			<if test="supplierId != null">
+				SUPPLIER_ID = #{supplierId},
+			</if>
+			<if test="startTime != null">
+				START_TIME = #{startTime},
+			</if>
+			<if test="term != null">
+				TERM = #{term},
+			</if>
+			<if test="punishType != null">
+				PUNISH_TYPE = #{punishType},
+			</if>
+			<if test="releaseType != null">
+				RELEASE_TYPE = #{releaseType},
+			</if>
+			<if test="reason != null">
+				REASON = #{reason},
+			</if>
+			<if test="operationId != null">
+				OPERATION_ID = #{operationId},
+			</if>
+			<if test="operationType != null">
+				OPERATION_TYPE = #{operationType},
+			</if>
+			<if test="operationName != null">
+				OPERATION_NAME = #{operationName},
+			</if>
+			<if test="operationDate != null">
+				OPERATION_DATE = #{operationDate},
+			</if>
+		</set>
+		where ID = #{id}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="ses.model.sms.BlacklistLog">
+		update T_SES_SMS_BLACKLIST_LOG
+		set SUPPLIER_ID = #{supplierId},
+		START_TIME = #{startTime},
+		TERM = #{term},
+		PUNISH_TYPE = #{punishType},
+		RELEASE_TYPE = #{releaseType},
+		REASON = #{reason},
+		OPERATION_ID = #{operationId},
+		OPERATION_TYPE = #{operationType},
+		OPERATION_NAME = #{operationName},
+		OPERATION_DATE = #{operationDate}
+		where ID = #{id}
+	</update>
+	
+	<select id="findBlacklistLogBySupplierId" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select 
+			t1.*,
+			t2.SUPPLIER_NAME as SUPPLIER_NAME
+		from T_SES_SMS_BLACKLIST_LOG t1
+		join T_SES_SMS_SUPPLIER t2
+		on t1.SUPPLIER_ID = t2.id
+		order by t1.OPERATION_DATE asc
+	</select>
+</mapper>

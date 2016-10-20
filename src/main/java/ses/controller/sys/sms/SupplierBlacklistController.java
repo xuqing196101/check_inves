@@ -3,12 +3,15 @@ package ses.controller.sys.sms;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierBlacklist;
 import ses.service.sms.SupplierBlacklistService;
@@ -51,8 +54,9 @@ public class SupplierBlacklistController {
 	}
 
 	@RequestMapping(value = "save_or_update_supplier_black")
-	public String saveSupplierBlack(SupplierBlacklist supplierBlacklist) {
-		supplierBlacklistService.saveOrUpdateSupplierBlack(supplierBlacklist);
+	public String saveSupplierBlack(HttpServletRequest request, SupplierBlacklist supplierBlacklist) {
+		User user = (User) request.getSession().getAttribute("loginUser");
+		supplierBlacklistService.saveOrUpdateSupplierBlack(supplierBlacklist, user);
 		return "redirect:list_blacklist.html";
 	}
 
@@ -62,5 +66,12 @@ public class SupplierBlacklistController {
 		model.addAttribute("listSuppliers", new PageInfo<Supplier>(listSuppliers));
 		model.addAttribute("supplierName", supplier.getSupplierName());
 		return "ses/sms/supplier_blacklist/dialog_supplier";
+	}
+	
+	@RequestMapping(value = "operator_remove")
+	public String operatorRemove(HttpServletRequest request, String ids) {
+		User user = (User) request.getSession().getAttribute("loginUser");
+		supplierBlacklistService.operatorRemove(ids, user);
+		return "redirect:list_blacklist.html";
 	}
 }

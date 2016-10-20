@@ -186,8 +186,6 @@ public class SupplierMatPro implements Serializable {
 
 	private List<SupplierCertPro> listSupplierCertPros = new ArrayList<SupplierCertPro>();
 
-	private List<SupplierItemsPro> listSupplierItemsPros = new ArrayList<SupplierItemsPro>();
-
 	public String getId() {
 		return id;
 	}
@@ -372,11 +370,4 @@ public class SupplierMatPro implements Serializable {
 		this.listSupplierCertPros = listSupplierCertPros;
 	}
 
-	public List<SupplierItemsPro> getListSupplierItemsPros() {
-		return listSupplierItemsPros;
-	}
-
-	public void setListSupplierItemsPros(List<SupplierItemsPro> listSupplierItemsPros) {
-		this.listSupplierItemsPros = listSupplierItemsPros;
-	}
 }

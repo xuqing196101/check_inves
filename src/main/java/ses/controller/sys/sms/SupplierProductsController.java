@@ -26,20 +26,20 @@ import ses.util.PropUtil;
 @Scope("prototype")
 @RequestMapping(value = "/supplier_products")
 public class SupplierProductsController extends BaseSupplierController {
-	
+
 	@Autowired
 	private SupplierService supplierService;// 供应商基本信息
-	
+
 	@Autowired
 	private SupplierProductsService supplierProductsService;
-	
+
 	@RequestMapping(value = "add_products")
 	public String addCertEng(Model model, SupplierProducts supplierProducts) {
-		supplierProducts = supplierProductsService.get(supplierProducts.getId());
+		// supplierProducts = supplierProductsService.get(supplierProducts.getId());
 		model.addAttribute("supplierProducts", supplierProducts);
 		return "ses/sms/supplier_register/add_products";
 	}
-	
+
 	@RequestMapping(value = "save_or_update_products")
 	public String saveOrUpdateCertEng(HttpServletRequest request, SupplierProducts supplierProducts) throws IOException {
 		this.setUpload(request, supplierProducts);
@@ -49,7 +49,7 @@ public class SupplierProductsController extends BaseSupplierController {
 		request.getSession().setAttribute("jump.page", "products");
 		return "redirect:../supplier/page_jump.html";
 	}
-	
+
 	@RequestMapping(value = "back_to_products")
 	public String backToEngfessional(HttpServletRequest request, String supplierId) {
 		Supplier supplier = supplierService.get(supplierId);
@@ -58,6 +58,15 @@ public class SupplierProductsController extends BaseSupplierController {
 		return "redirect:../supplier/page_jump.html";
 	}
 	
+	@RequestMapping(value = "delete")
+	public String delete(HttpServletRequest request, String supplierId, String proIds) {
+		supplierProductsService.deleteProducts(proIds);
+		Supplier supplier = supplierService.get(supplierId);
+		request.getSession().setAttribute("currSupplier", supplier);
+		request.getSession().setAttribute("jump.page", "products");
+		return "redirect:../supplier/page_jump.html";
+	}
+
 	public void setUpload(HttpServletRequest request, SupplierProducts supplierProducts) throws IOException {
 		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
 		if (multipartResolver.isMultipart(request)) {// 检查form中是否有enctype="multipart/form-data"
@@ -74,7 +83,7 @@ public class SupplierProductsController extends BaseSupplierController {
 					String newfileName = FtpUtil.upload(new File(path));// 上传到 ftp 服务器, 获取新的文件名
 					FtpUtil.closeFtp();// 关闭 ftp
 					super.removeStash(request, fileName);// 移除暂存
-					
+
 					// 上面代码固定, 下面封装名字到对象
 					if (str.equals("productPicFile")) {
 						supplierProducts.setProductPic(newfileName);

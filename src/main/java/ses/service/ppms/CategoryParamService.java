@@ -1,6 +1,7 @@
 package ses.service.ppms;
 
 import java.util.List;
+import java.util.Map;
 
 import ses.model.bms.Category;
 import ses.model.ppms.CategoryParam;
@@ -73,5 +74,5 @@ public interface CategoryParamService {
 	*/
 	 void insertSelective(CategoryParam categoryParam);
 	 
-	 List<CategoryParam> findParamByCategoryId(String categoryId);
+	 List<CategoryParam> findParamByCategoryIdAndProductsId(Map<String, String> param, Integer sign);
 }

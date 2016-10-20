@@ -46,4 +46,6 @@ public interface ProductParamMapper {
     int updateByPrimaryKey(ProductParam record);
     
     List<ProductParam> findProductParamByProductId(String supplierProductsId);
+    
+    int deleteByProductId(String productsId);
 }

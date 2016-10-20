@@ -52,16 +52,85 @@
 	}
 	
 	function editSupplierBlacklist() {
-		var size = $(":radio:checked").size();
-		if (!size) {
-			layer.msg("请选择一条记录 !", {
+		var checkbox = $("input[name='checkbox']:checked");
+		if (checkbox.size() != 1) {
+			layer.msg("请勾选一条记录 !", {
 				offset : '300px',
 			});
 			return;
 		}
-		var id = $(":radio:checked").val();
+		var id = checkbox.val();
 		$("input[name='supplierBlacklistId']").val(id);
 		$("#edit_form_id").submit();
+	}
+	
+	function operatorRemove() {
+		var checkbox = $("input[name='checkbox']:checked");
+		if (!checkbox.size()) {
+			layer.msg("请至少勾选一条记录 !", {
+				offset : '300px',
+			});
+			return;
+		}
+		var ids = "";
+		var count = 0;
+		checkbox.each(function() {
+			var v = $(this).parents("tr").find("td").eq(7).text();
+			v = $.trim(v);
+			if (v == "过期") {
+				count ++;
+				layer.msg("已过期的不能手动移除 !", {
+					offset : '300px',
+				});
+				return;
+			} else if (v == "手动移除") {
+				count ++;
+				layer.msg("不能重复手动移除 !", {
+					offset : '300px',
+				});
+				return;
+			}
+			if (ids) {
+				ids += ",";
+			}
+			ids += $(this).val();
+		});
+		if (count) {
+			return;
+		}
+		window.location.href = "${pageContext.request.contextPath}/supplier_blacklist/operator_remove.html?ids=" + ids;
+	}
+	
+	function checkAll(ele) {
+		var flag = $(ele).prop("checked");
+		$("input[name='checkbox']").each(function() {
+			$(this).prop("checked", flag);
+		});
+	}
+	
+	function findLog(supplierId) {
+		layer.open({
+			type : 2,
+			title : '供应商黑名单记录表',
+			// skin : 'layui-layer-rim', //加上边框
+			area : [ '1000px', '420px' ], //宽高
+			offset : '100px',
+			scrollbar : false,
+			content : '${pageContext.request.contextPath}/blacklist_log/list.html?supplierId=' + supplierId, //url
+			closeBtn : 1, //不显示关闭按钮
+		});
+	}
+	
+	function searchBlacklist() {
+		var checkbox = $("input[name='checkbox']:checked");
+		if (checkbox.size() != 1) {
+			layer.msg("请勾选一条记录 !", {
+				offset : '300px',
+			});
+			return;
+		}
+		var supplierId = checkbox.val();
+		findLog(supplierId);
 	}
 </script>
 
@@ -94,6 +163,8 @@
 			<div class="col-md-8">
 				<button class="btn btn-windows add" type="button" onclick="location='${pageContext.request.contextPath}/supplier_blacklist/add_supplier.html'">新增</button>
 				<button class="btn btn-windows edit" type="button" onclick="editSupplierBlacklist()">修改</button>
+				<button class="btn btn-windows delete" type="button" onclick="operatorRemove()">手动移除</button>
+				<button class="btn btn-windows git" type="button" onclick="searchBlacklist()">查看黑名单历史记录</button>
 			</div>
 		</div>
 		<div class="container">
@@ -129,30 +200,37 @@
 				<table class="table table-striped table-bordered table-hover">
 					<thead>
 						<tr>
-							<th class="info w50">选择</th>
+							<th class="info w50"><input type="checkbox" onchange="checkAll(this)"></th>
 							<th class="info w50">序号</th>
 							<th class="info">供应商名称</th>
 							<th class="info">起始时间</th>
-							<th class="info">结束时间</th>
+							<th class="info">期限</th>
 							<th class="info">处罚类型</th>
 							<th class="info">发布类型</th>
 							<th class="info">状态</th>
 							<th class="info">列入黑名单原因</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="black_tbody_id">
 						<c:forEach items="${listSupplierBlacklists.list}" var="supplierBlacklist" varStatus="vs">
-							<tr>
-								<td class="tc"><input id="${supplierBlacklist.supplierId}" name="id" value="${supplierBlacklist.id}" type="radio"></td>
-								<td class="tc">${vs.index + 1}</td>
-								<td class="tc">${supplierBlacklist.supplierName}</td>
-								<td class="tc"><fmt:formatDate value="${supplierBlacklist.startTime}" pattern="yyyy-MM-dd"/></td>
-								<td class="tc"><fmt:formatDate value="${supplierBlacklist.endTime}" pattern="yyyy-MM-dd"/></td>
-								<td class="tc">
+							<tr class="hand">
+								<td class="tc"><input id="${supplierBlacklist.supplierId}" name="checkbox" value="${supplierBlacklist.id}" type="checkbox"></td>
+								<td class="tc" onclick="findLog('${supplierBlacklist.supplierId}')">${vs.index + 1}</td>
+								<td class="tc" onclick="findLog('${supplierBlacklist.supplierId}')">${supplierBlacklist.supplierName}</td>
+								<td class="tc" onclick="findLog('${supplierBlacklist.supplierId}')"><fmt:formatDate value="${supplierBlacklist.startTime}" pattern="yyyy-MM-dd"/></td>
+								<td class="tc" onclick="findLog('${supplierBlacklist.supplierId}')">
+									<c:if test="${supplierBlacklist.term == 3}">3个月</c:if>
+									<c:if test="${supplierBlacklist.term == 6}">6个月</c:if>
+									<c:if test="${supplierBlacklist.term == 12}">1年</c:if>
+									<c:if test="${supplierBlacklist.term == 24}">2年</c:if>
+									<c:if test="${supplierBlacklist.term == 36}">3年</c:if>
+									<c:if test="${supplierBlacklist.term == 0}">永久</c:if>
+								</td>
+								<td class="tc" onclick="findLog('${supplierBlacklist.supplierId}')">
 									<c:if test="${supplierBlacklist.punishType == 0}">警告</c:if>
 									<c:if test="${supplierBlacklist.punishType == 1}">不得参与采购活动</c:if>
 								</td>
-								<td class="tc">
+								<td class="tc" onclick="findLog('${supplierBlacklist.supplierId}')">
 									<c:if test="${supplierBlacklist.releaseType == 0}">
 										内外网发布
 									</c:if>
@@ -163,15 +241,18 @@
 										外网发布
 									</c:if>
 								</td>
-								<td class="tc">
+								<td class="tc" onclick="findLog('${supplierBlacklist.supplierId}')">
 									<c:if test="${supplierBlacklist.status == 0}">
 										处罚中
 									</c:if>
 									<c:if test="${supplierBlacklist.status == 1}">
 										过期
 									</c:if>
+									<c:if test="${supplierBlacklist.status == 2}">
+										手动移除
+									</c:if>
 								</td>
-								<td class="tc">${supplierBlacklist.reason}</td>
+								<td class="tc" onclick="findLog('${supplierBlacklist.supplierId}')">${supplierBlacklist.reason}</td>
 							</tr>
 						</c:forEach>
 					</tbody>

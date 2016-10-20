@@ -130,58 +130,104 @@
 			action += "stash_step.html";
 		}
 		
-		var ids = "";
+		var typeIds = "";
 		var treeObj1 = $.fn.zTree.getZTreeObj("tree_ul_id_1");
 		var treeObj2 = $.fn.zTree.getZTreeObj("tree_ul_id_2");
 		var treeObj3 = $.fn.zTree.getZTreeObj("tree_ul_id_3");
 		var treeObj4 = $.fn.zTree.getZTreeObj("tree_ul_id_4");
+		debugger;
+		var ids1 = "";
 		if (treeObj1) {
 			var nodes1 = treeObj1.getCheckedNodes(true);
 			for ( var i = 0; i < nodes1.length; i++) {
 				if (!nodes1[i].isParent) {
-					if (ids) {
-						ids += ",";
+					if (ids1) {
+						ids1 += ",";
 					}
-					ids += $(nodes1[i]).attr("id");
+					ids1 += $(nodes1[i]).attr("id");
 				}
 			}
 		}
+		
+		var ids2 = "";
 		if (treeObj2) {
 			var nodes2 = treeObj2.getCheckedNodes(true);
 			for ( var i = 0; i < nodes2.length; i++) {
 				if (!nodes2[i].isParent) {
-					if (ids) {
-						ids += ",";
+					if (ids2) {
+						ids2 += ",";
 					}
-					ids += $(nodes2[i]).attr("id");
+					ids2 += $(nodes2[i]).attr("id");
 				}
 			}
 		}
+		
+		var ids3 = "";
 		if (treeObj3) {
 			var nodes3 = treeObj3.getCheckedNodes(true);
 			for ( var i = 0; i < nodes3.length; i++) {
 				if (!nodes3[i].isParent) {
-					if (ids) {
-						ids += ",";
+					if (ids3) {
+						ids3 += ",";
 					}
-					ids += $(nodes3[i]).attr("id");
+					ids3 += $(nodes3[i]).attr("id");
 				}
 				
 			}
 		}
+		
+		var ids4 = "";
 		if (treeObj4) {
 			var nodes4 = treeObj4.getCheckedNodes(true);
 			for ( var i = 0; i < nodes4.length; i++) {
 				if (!nodes4[i].isParent) {
-					if (ids) {
-						ids += ",";
+					if (ids4) {
+						ids4 += ",";
 					}
-					ids += $(nodes4[i]).attr("id");
+					ids4 += $(nodes4[i]).attr("id");
 				}
 				
 			}
 		}
+		if (ids1) {
+			typeIds += "E73923CC68A44E2981D5EA6077580372";
+			if (ids2 || ids3 || ids4) {
+				ids1 += ";";
+			}
+		} else {
+			ids1 = "";
+		}
+		if (ids2) {
+			if (typeIds) {
+				typeIds += ",";
+			}
+			typeIds += "18A966C6FF17462AA0C015549F9EAD79";
+			if (ids3 || ids4) {
+				ids2 += ";";
+			}
+		} else {
+			ids2 = "";
+		}
+		if (ids3) {
+			if (typeIds) {
+				typeIds += ",";
+			}
+			typeIds += "80E7B015FDF543F6A4A053A57C3C6908";
+			if (ids4) {
+				ids3 += ";";
+			}
+		} else {
+			ids3 = "";
+		}
+		if (ids4) {
+			if (typeIds) {
+				typeIds += ",";
+			}
+			typeIds += "3801E8F39B4C485CA59C3C531E86541E";
+		}
+		var ids = ids1 + ids2 + ids3 +ids4;
 		$("input[name='supplierItemIds']").val(ids);
+		$("input[name='supplierTypeIds']").val(typeIds);
 		$("#items_info_form_id").attr("action", action);
 		$("#items_info_form_id").submit();
 
@@ -291,6 +337,7 @@
 		<input name="sign" value="5" type="hidden" />
 		<input type="hidden" name="defaultPage" value="${defaultPage}" />
 		<input type="hidden" name="supplierItemIds" />
+		<input type="hidden" name="supplierTypeIds" />
 	</form>
 	<!-- footer -->
 	<jsp:include page="../../../../../index_bottom.jsp"></jsp:include>

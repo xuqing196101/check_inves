@@ -28,6 +28,5 @@ public class SupplierCertSellServiceImpl implements ses.service.sms.SupplierCert
 		for (String id : certSellIds.split(",")) {
 			supplierCertSellMapper.deleteByPrimaryKey(id);
 		}
-
 	}
 }

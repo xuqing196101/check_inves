@@ -36,8 +36,28 @@
 				$(this).prop("checked", true);
 			}
 		});
+		
+		loadRootArea();
 	});
-
+	
+	
+	/** 加载地区根节点 */
+	function loadRootArea() {
+		$.ajax({
+			url : "${pageContext.request.contextPath}/area/find_root_area.do",
+			type : "post",
+			dataType : "json",
+			success : function(result) {
+				var html = "";
+				html += "<option value=''>请选择</option>";
+				for(var i = 0; i < result.length; i++) {
+					html += "<option id='" + result[i].id + "' value='" + result[i].name + "'>" +  result[i].name + "</option>";
+				}
+				$("#root_area_select_id").append(html);
+			},
+		});
+	}
+	
 	/** 保存基本信息 */
 	function saveProcurementDep(sign) {
 		var size = $(":radio:checked").size();
@@ -55,6 +75,8 @@
 		} else {
 			action += "stash_step.html";
 		}
+		var procurementDepId = $("input[name='radio']:checked").val();
+		$("input[name='procurementDepId']").val(procurementDepId);
 		$("#procurement_dep_form_id").attr("action", action);
 		$("#procurement_dep_form_id").submit();
 
@@ -91,77 +113,81 @@
 					<div class="padding-top-10">
 						<form id="procurement_dep_form_id" method="post" enctype="multipart/form-data">
 							<input name="id" value="${currSupplier.id}" type="hidden" />
+							<input name="procurementDepId" type="hidden" />
 							<input name="sign" value="7" type="hidden" />
-							<div class="tab-content padding-top-20">
-								<!-- 物资生产型 -->
-								<div class="tab-pane fade active in height-300" id="tab-1">
-									<div class="margin-bottom-0  categories">
-										<ul class="list-unstyled list-flow">
-											<li class="col-md-6 p0"><span class=""> 选择您所在的城市：</span>
+						</form>
+						<div class="tab-content padding-top-20">
+							<!-- 物资生产型 -->
+							<div class="tab-pane fade active in height-300" id="tab-1">
+								<div class="margin-bottom-0  categories">
+									<ul class="list-unstyled list-flow">
+										<li class="col-md-6 p0"><span class=""> 选择您所在的城市：</span>
+											<form action="${pageContext.request.contextPath}/supplier/search_org.html" method="post">
 												<div class="input-append">
-													<select class="w200">
-														<option value="">请选择</option>
-														<option>保定</option>
-														<option>北京</option>
-														<option>杭州</option>
-													</select>
-													<button type="button" class="btn padding-left-20 padding-right-20 btn_back mt1">查询</button>
+													<select class="w200" id="root_area_select_id" name="isName"></select>
+													<input type="submit" class="btn padding-left-20 padding-right-20 btn_back mt1" value="查询" />
 												</div>
-											</li>
-										</ul><br />
-										<h2 class="f16 jbxx mt40">
-											<i>01</i>可选择采购机构
-										</h2>
-										<table class="table table-bordered table-condensed">
-											<thead>
+											</form>
+										</li>
+									</ul><br />
+									<h2 class="f16 jbxx mt40">
+										<i>01</i>可选择采购机构
+									</h2>
+									<table class="table table-bordered table-condensed">
+										<thead>
+											<tr>
+												<th class="info">选择</th>
+												<th class="info">序号</th>
+												<th class="info">采购机构名称</th>
+												<th class="info">机构代称</th>
+												<th class="info">所在城市</th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:forEach items="${listOrgnizations1}" var="org1" varStatus="vs">
 												<tr>
-													<th class="info">选择</th>
-													<th class="info">序号</th>
-													<th class="info">采购机构名称</th>
-													<th class="info">机构代称</th>
-													<th class="info">是否可审核</th>
-													<th class="info">所在城市</th>
+													<td class="tc"><input type="radio" value="${org1.id}" name="radio" /></td>
+													<td class="tc">${vs.index + 1}</td>
+													<td class="tc">${org1.name}</td>
+													<td class="tc">${org1.shortName}</td>
+													<td class="tc">${org1.provinceName}</td>
 												</tr>
-											</thead>
-											<tbody id="stockholder_list_tbody_id">
-												<c:forEach items="${listPurchaseDeps}" var="purchaseDep" varStatus="vs">
-													<tr>
-														<td class="tc"><input type="radio" value="${purchaseDep.id}" name="procurementDepId" /></td>
-														<td class="tc">${vs.index + 1}</td>
-														<td class="tc">${purchaseDep.depName}</td>
-														<td class="tc">${purchaseDep.shortName}</td>
-														<td class="tc"></td>
-														<td class="tc">${purchaseDep.areaName}</td>
-													</tr>
-												</c:forEach>
-											</tbody>
-										</table>
-										<h2 class="f16 jbxx mt40">
-											<i>02</i>其他采购机构
-										</h2>
-										<table class="table table-bordered table-condensed">
-											<thead>
+											</c:forEach>
+										</tbody>
+									</table>
+									<h2 class="f16 jbxx mt40">
+										<i>02</i>其他采购机构
+									</h2>
+									<table class="table table-bordered table-condensed">
+										<thead>
+											<tr>
+												<th class="info">选择</th>
+												<th class="info">序号</th>
+												<th class="info">采购机构名称</th>
+												<th class="info">机构代称</th>
+												<th class="info">所在城市</th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:forEach items="${listOrgnizations2}" var="org2" varStatus="vs">
 												<tr>
-													<th class="info">选择</th>
-													<th class="info">序号</th>
-													<th class="info">采购机构名称</th>
-													<th class="info">机构代称</th>
-													<th class="info">是否可审核</th>
-													<th class="info">所在城市</th>
+													<td class="tc"><input type="radio" value="${org2.id}" name="radio" /></td>
+													<td class="tc">${vs.index + 1}</td>
+													<td class="tc">${org2.name}</td>
+													<td class="tc">${org2.shortName}</td>
+													<td class="tc">${org2.provinceName}</td>
 												</tr>
-											</thead>
-											<tbody id="stockholder_list_tbody_id">
-											</tbody>
-										</table>
-									</div>
+											</c:forEach>
+										</tbody>
+									</table>
 								</div>
 							</div>
-							<div class="mt40 tc mb50">
-								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep(-1)">上一步</button>
-								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep(0)">暂存</button>
-								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep(1)">下一步</button>
-							</div>
-						</form>
+						</div>
+						<div class="mt40 tc mb50">
+							<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep(-1)">上一步</button>
+							<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep(0)">暂存</button>
+							<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep(1)">下一步</button>
+						</div>
 					</div>
 				</div>
 			</div>

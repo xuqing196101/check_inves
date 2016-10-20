@@ -5,7 +5,7 @@
 <html>
 <head>
 
-<title>添加产品信息</title>
+<title>添加工程证书信息</title>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -31,15 +31,15 @@
 
 <script type="text/javascript">
 	
-	function saveOrBack(sign) {
-		var action = "${pageContext.request.contextPath}/product_param/";
-		if (sign) {
-			action += "save_or_update_param.html";
-			$("#products_form_id").attr("action", action);
-			$("#products_form_id").submit();
-		} else {
-			window.location.href = "${pageContext.request.contextPath}/product_param/list.html?productsId=${productsId}&categoryId=${categoryId}";
+	function addParam() {
+		var categoryId = "${categoryId}";
+		var productsId = "${productsId}";
+		var tr = $("#param_list_tbody_id").find("tr");
+		var sign = 0;
+		if (tr.size() > 0) {
+			sign = 1;
 		}
+		window.location.href = "${pageContext.request.contextPath}/categoryparam/list_by_category_id.html?categoryId=" + categoryId + "&productsId=" + productsId + "&sign=" + sign;
 	}
 </script>
 
@@ -53,40 +53,37 @@
 			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10">
-						<form id="products_form_id" method="post" enctype="multipart/form-data">
-							<input name="productsId" value="${productsId}" type="hidden" />
-							<input name="categoryId" value="${categoryId}" type="hidden" />
-							<div class="tab-content padding-top-20">
-								<!-- 详细信息 -->
-								<div class="tab-pane fade active in height-200" id="tab-1">
-									<div class=" margin-bottom-0">
-										<ul class="list-unstyled list-flow">
-											<c:forEach items="${list}" var="categoryParam">
-												<li class="col-md-6 p0"><span class=""><i class="red">＊</i> ${categoryParam.name}：</span>
-													<div class="input-append">
-														<input name="id" value="${categoryParam.paramValueId}" type="hidden" />
-														<input name="categoryParamId" value="${categoryParam.id}" type="hidden" />
-														<input class="span3" type="text" name="paramValue" value="${categoryParam.paramValue}" />
-													</div>
-												</li>
+						<div class="tab-content padding-top-20">
+							<div class="tab-pane fade active in height-200" id="tab-1">
+								<div class=" margin-bottom-0">
+									<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="addParam()">设置技术参数</button>
+									<table id="finance_table_id" class="table table-bordered table-condensed">
+										<thead>
+											<tr>
+												<th class="info">序号</th>
+												<th class="info">参数名</th>
+												<th class="info">参数值</th>
+												<th class="info">创建时间</th>
+											</tr>
+										</thead>
+										<tbody id="param_list_tbody_id">
+											<c:forEach items="${list}" var="proParam" varStatus="vs">
+												<tr>
+													<td class="tc">${vs.index + 1}</td>
+													<td class="tc">${proParam.paramName}</td>
+													<td class="tc">${proParam.paramValue}</td>
+													<td class="tc"><fmt:formatDate value="${proParam.createdAt}" pattern="yyyy-MM-dd"/></td>
+												</tr>
 											</c:forEach>
-											<div class="clear"></div>
-										</ul>
-									</div>
+										</tbody>
+									</table>
 								</div>
 							</div>
-							<div class="mt40 tc mb50">
-								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveOrBack(1)">保存</button>
-								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveOrBack(0)">返回</button>
-							</div>
-						</form>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<form target="_blank" id="download_form_id" action="${pageContext.request.contextPath}/supplier/download.html" method="post">
-		<input type="hidden" name="fileName" />
-	</form>
 </body>
 </html>

@@ -87,7 +87,10 @@
 		</if> 
 		<if test="name != null">
 			and o.name like '%'||#{name}||'%'
-		</if> 
+		</if>
+		<if test="areaName != null">
+			and o.areaName like '%'||#{areaName}||'%'
+		</if>  
 		<!-- <if test="quaEdndate != null">
 			and o.QUA_EDNDATE <= #{quaEdndate}
 		</if> 

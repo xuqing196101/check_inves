@@ -127,7 +127,53 @@
 		where ID = #{id}
 	</update>
 	
-	<select id="findSupplierItemBySupplierId" parameterType="java.lang.String" resultMap="BaseResultMap">
+	<select id="findSupplierItemBySupplierId" parameterType="java.lang.String" resultMap="findSupplierItemBySupplierIdMap">
+		select
+			t1.*,
+			t2.NAME as CATEGORY_NAME,
+			t3.ID as ID_,
+			t3.CATEGORY_ID as CATEGORY_ID_,
+			t3.SUPPLIER_ID as SUPPLIER_ID_,
+			t3.NAME,
+			t3.BRAND,
+			t3.MODELS,
+			t3.PRO_SIZE,
+			t3.ORGIN,
+			t3.EXPIRATION_DATE,
+			t3.PRODUCER,
+			t3.REFERENCE_PRICE,
+			t3.PRODUCT_PIC,
+			t3.QR_CODE,
+			t3.CREATED_AT as CREATED_AT_,
+			t3.UPDATED_AT as UPDATED_AT_
+		from
+			T_SES_SMS_SUPPLIER_ITEM t1
+			left join T_SES_BMS_CATEGORY t2
+			on t1.CATEGORY_ID = t2.ID
+			left join T_SES_SMS_SUPPLIER_PRODUCTS t3
+			on t1.CATEGORY_ID = t3.CATEGORY_ID
+		where t1.SUPPLIER_ID = #{supplierId}
+	</select>
+	<resultMap type="ses.model.sms.SupplierItem" id="findSupplierItemBySupplierIdMap" extends="BaseResultMap">
+		<collection property="listSupplierProducts" ofType="ses.model.sms.SupplierProducts">
+			<id column="ID_" property="id"/>
+			<result column="CATEGORY_ID_" property="categoryId"/>
+			<result column="SUPPLIER_ID_" property="supplierId"/>
+			<result column="NAME" property="name"/>
+			<result column="BRAND" property="brand"/>
+			<result column="MODELS" property="models"/>
+			<result column="PRO_SIZE" property="proSize"/>
+			<result column="ORGIN" property="orgin"/>
+			<result column="EXPIRATION_DATE" property="expirationDate"/>
+			<result column="PRODUCER" property="producer"/>
+			<result column="REFERENCE_PRICE" property="referencePrice"/>
+			<result column="PRODUCT_PIC" property="productPic"/>
+			<result column="QR_CODE" property="qrCode"/>
+			<result column="CREATED_AT_" property="createdAt"/>
+			<result column="UPDATED_AT_" property="updatedAt"/>
+		</collection>
+	</resultMap>
+	<select id="findSupplierItemBySupplierIdAndType" parameterType="ses.model.sms.SupplierItem" resultMap="BaseResultMap">
 		select
 			t1.*,
 			t2.NAME as CATEGORY_NAME
@@ -136,6 +182,7 @@
 			join T_SES_BMS_CATEGORY t2
 			on t1.CATEGORY_ID = t2.ID
 		where t1.SUPPLIER_ID = #{supplierId}
+		and t1.SUPPLIER_TYPE_RELATE_ID = #{supplierTypeRelateId}
 	</select>
 	
 	<delete id="deleteBySupplierId" parameterType="java.lang.String">

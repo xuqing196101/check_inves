@@ -44,15 +44,8 @@
 	}
 	
 	
-	function addProductsMsg() {
-		var checkbox = $("input[name='checkbox']:checked");
-		if (checkbox.size() != 1) {
-			layer.msg("请勾选一条记录 !", {
-				offset : '300px',
-			});
-			return;
-		}
-		var id = checkbox.val();
+	function addProductsMsg(categoryId) {
+		var supplierId = $("input[name='id']").val();
 		layer.open({
 			type : 2,
 			title : '添加产品信息',
@@ -60,7 +53,7 @@
 			area : [ '600px', '500px' ], //宽高
 			offset : '100px',
 			scrollbar : false,
-			content : '${pageContext.request.contextPath}/supplier_products/add_products.html?id=' + id, //url
+			content : '${pageContext.request.contextPath}/supplier_products/add_products.html?categoryId=' + categoryId + '&supplierId=' + supplierId, //url
 			closeBtn : 1, //不显示关闭按钮
 		});
 	}
@@ -78,8 +71,8 @@
 		$("#download_form_id").submit();
 	}
 	
-	function addParam() {
-		var checkbox = $("input[name='checkbox']:checked");
+	function addParam(id) {
+		var checkbox = $("#" + id).find("input:checkbox:checked");
 		if (checkbox.size() != 1) {
 			layer.msg("请勾选一条记录 !", {
 				offset : '300px',
@@ -88,16 +81,37 @@
 		}
 		var productsId = checkbox.val();
 		var categoryId = checkbox.parents("tr").find("td").eq(1).attr("id");
+		
 		layer.open({
 			type : 2,
 			title : '添加技术参数',
 			// skin : 'layui-layer-rim', //加上边框
-			area : [ '600px', '450px' ], //宽高
+			area : [ '600px', '350px' ], //宽高
 			offset : '100px',
 			scrollbar : false,
-			content : '${pageContext.request.contextPath}/categoryparam/list_by_category_id.html?categoryId=' + categoryId + '&productsId=' + productsId, //url
+			content : '${pageContext.request.contextPath}/product_param/list.html?productsId=' + productsId + '&categoryId=' + categoryId, //url
 			closeBtn : 1, //不显示关闭按钮
 		});
+	}
+	
+	function deletePro(id) {
+		var checkbox = $("#" + id).find("input:checkbox:checked");
+		var size = checkbox.size();
+		if (size == 0) {
+			layer.msg("请至少勾选一条记录 !", {
+				offset : '300px',
+			});
+			return;
+		}
+		var ids = "";
+		checkbox.each(function() {
+			if (ids) {
+				ids += ",";
+			}
+			ids += $(this).val();
+		});
+		var supplierId = $("input[name='id']").val();
+		window.location.href = "${pageContext.request.contextPath}/supplier_products/delete.html?supplierId=" + supplierId + "&proIds=" + ids;
 	}
 </script>
 
@@ -135,61 +149,64 @@
 							<div class="tab-content padding-top-20">
 								<div class="tab-pane fade active in height-300" id="tab-1">
 									<div class="margin-bottom-0  categories">
-										<h2 class="f16 jbxx mt40">
-											<i>01</i>产品信息表
-										</h2>
-										<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="addParam()">添加技术参数</button>
-										<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="addProductsMsg()">添加产品信息</button>
-										<table id="share_table_id" class="table table-bordered table-condensed">
-											<thead>
-												<tr>
-													<th class="info"><input type="checkbox" onchange="checkAll(this, 'products_tbody_id')" /></th>
-													<th class="info">所属类别</th>
-													<th class="info">产品名称</th>
-													<th class="info">品牌</th>
-													<th class="info">规格型号</th>
-													<th class="info">尺寸</th>
-													<th class="info">生产产地</th>
-													<th class="info">保质期</th>
-													<th class="info">生产商</th>
-													<th class="info">参考价格</th>
-													<th class="info">产品图片</th>
-													<th class="info">商品二维码</th>
-												</tr>
-											</thead>
-											<tbody id="products_tbody_id">
-												<c:forEach items="${currSupplier.listSupplierProducts}" var="products" varStatus="vs">
+										<c:forEach items="${currSupplier.listSupplierItems}" var="item" varStatus="vs">
+											<h2 class="f16 jbxx mt40">
+												<i>${vs.index + 1}</i>${item.categoryName}产品信息表
+											</h2>
+											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deletePro('products_tbody_id_${vs.index + 1}')">删除</button>
+											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="addParam('products_tbody_id_${vs.index + 1}')">设置技术参数</button>
+											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="addProductsMsg('${item.categoryId}')">添加产品信息</button>
+											<table id="share_table_id" class="table table-bordered table-condensed">
+												<thead>
 													<tr>
-														<td class="tc"><input name="checkbox" type="checkbox" value="${products.id}" /></td>
-														<td id="${products.categoryId}" class="tc">${products.categoryName}</td>
-														<td class="tc">${products.name}</td>
-														<td class="tc">${products.brand}</td>
-														<td class="tc">${products.models}</td>
-														<td class="tc">${products.proSize}</td>
-														<td class="tc">${products.orgin}</td>
-														<td class="tc"><fmt:formatDate value="${products.expirationDate }" pattern="yyyy-MM-dd"/></td>
-														<td class="tc">${products.producer}</td>
-														<td class="tc">${products.referencePrice}</td>
-														<td class="tc">
-															<c:if test="${products.productPic != null}">
-																<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${products.productPic}')">下载附件</a>
-															</c:if>
-															<c:if test="${products.productPic == null}">
-																<span class="fz11">无附件下载</span>
-															</c:if>
-														</td>
-														<td class="tc">
-															<c:if test="${products.qrCode != null}">
-																<a class="color7171C6 fz11" href="javascript:void(0)"  onclick="downloadFile('${products.qrCode}')">下载附件</a>
-															</c:if>
-															<c:if test="${products.qrCode == null}">
-																<span class="fz11">无附件下载</span>
-															</c:if>
-														</td>
+														<th class="info"><input type="checkbox" onchange="checkAll(this, 'products_tbody_id_${vs.index + 1}')" /></th>
+														<th class="info">所属类别</th>
+														<th class="info">产品名称</th>
+														<th class="info">品牌</th>
+														<th class="info">规格型号</th>
+														<th class="info">尺寸</th>
+														<th class="info">生产产地</th>
+														<th class="info">保质期</th>
+														<th class="info">生产商</th>
+														<th class="info">参考价格</th>
+														<th class="info">产品图片</th>
+														<th class="info">商品二维码</th>
 													</tr>
-												</c:forEach>
-											</tbody>
-										</table>
+												</thead>
+												<tbody id="products_tbody_id_${vs.index + 1}">
+													<c:forEach items="${item.listSupplierProducts}" var="products" varStatus="vs">
+														<tr>
+															<td class="tc"><input name="checkbox" type="checkbox" value="${products.id}" /></td>
+															<td id="${products.categoryId}" class="tc">${item.categoryName}</td>
+															<td class="tc">${products.name}</td>
+															<td class="tc">${products.brand}</td>
+															<td class="tc">${products.models}</td>
+															<td class="tc">${products.proSize}</td>
+															<td class="tc">${products.orgin}</td>
+															<td class="tc"><fmt:formatDate value="${products.expirationDate }" pattern="yyyy-MM-dd"/></td>
+															<td class="tc">${products.producer}</td>
+															<td class="tc">${products.referencePrice}</td>
+															<td class="tc">
+																<c:if test="${products.productPic != null}">
+																	<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${products.productPic}')">下载附件</a>
+																</c:if>
+																<c:if test="${products.productPic == null}">
+																	<span class="fz11">无附件下载</span>
+																</c:if>
+															</td>
+															<td class="tc">
+																<c:if test="${products.qrCode != null}">
+																	<a class="color7171C6 fz11" href="javascript:void(0)"  onclick="downloadFile('${products.qrCode}')">下载附件</a>
+																</c:if>
+																<c:if test="${products.qrCode == null}">
+																	<span class="fz11">无附件下载</span>
+																</c:if>
+															</td>
+														</tr>
+													</c:forEach>
+												</tbody>
+											</table>
+										</c:forEach>
 									</div>
 								</div>
 							</div>

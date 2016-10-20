@@ -131,4 +131,8 @@
 		where t1.SUPPLIER_PRODUCTS_ID = #{supplierProductsId}
 	</select>
 	
+	<delete id="deleteByProductId" parameterType="java.lang.String">
+		delete from T_SES_SMS_PRODUCT_PARAM where SUPPLIER_PRODUCTS_ID = #{productId}
+	</delete>
+	
 </mapper>

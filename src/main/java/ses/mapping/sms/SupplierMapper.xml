@@ -14,7 +14,7 @@
 		<result column="ADDRESS" property="address" />
 		<result column="COUNT" property="count" />
 		<result column="BANK_NAME" property="bankName" />
-		<result column="BANK_ ACCOUNT" property="bankAccount" />
+		<result column="BANK_ACCOUNT" property="bankAccount" />
 		<result column="POST_CODE" property="postCode" />
 		<result column="TAX_CERT" property="taxCert" />
 		<result column="BILL_CERT" property="billCert" />
@@ -60,7 +60,7 @@
 	</resultMap>
 	<sql id="Base_Column_List">
 		ID, LOGIN_NAME, MOBILE, PASSWORD, SUPPLIER_NAME, WEBSITE, FOUND_DATE, BUSINESS_TYPE,
-		ADDRESS, BANK_NAME, "BANK_ ACCOUNT", POST_CODE, TAX_CERT, BILL_CERT, SECURITY_CERT,
+		ADDRESS, BANK_NAME, BANK_ACCOUNT, POST_CODE, TAX_CERT, BILL_CERT, SECURITY_CERT,
 		BREACH_CERT, LEGAL_NAME, LEGAL_ID_CARD, LEGAL_TELEPHONE, LEGAL_MOBILE, CONTACT_NAME,
 		CONTACT_TELEPHONE, CONTACT_FAX, CONTACT_MOBILE, CONTACT_EMAIL, CONTACT_ADDRESS, CREDIT_CODE,
 		REGIST_AUTHORITY, REGIST_FUND, BUSINESS_START_DATE, BUSINESS_END_DATE, BUSINESS_SCOPE,
@@ -83,7 +83,7 @@
 		insert into T_SES_SMS_SUPPLIER (ID, LOGIN_NAME, MOBILE,
 		PASSWORD, SUPPLIER_NAME, WEBSITE,
 		FOUND_DATE, BUSINESS_TYPE, ADDRESS,
-		BANK_NAME, "BANK_ ACCOUNT", POST_CODE,
+		BANK_NAME, BANK_ACCOUNT, POST_CODE,
 		TAX_CERT, BILL_CERT, SECURITY_CERT,
 		BREACH_CERT, LEGAL_NAME, LEGAL_ID_CARD,
 		LEGAL_TELEPHONE, LEGAL_MOBILE, CONTACT_NAME,
@@ -154,7 +154,7 @@
 				BANK_NAME,
 			</if>
 			<if test="bankAccount != null">
-				"BANK_ ACCOUNT",
+				BANK_ACCOUNT,
 			</if>
 			<if test="postCode != null">
 				POST_CODE,
@@ -485,7 +485,7 @@
 				BANK_NAME = #{bankName},
 			</if>
 			<if test="bankAccount != null">
-				"BANK_ ACCOUNT" = #{bankAccount},
+				BANK_ACCOUNT = #{bankAccount},
 			</if>
 			<if test="postCode != null">
 				POST_CODE = #{postCode},
@@ -624,7 +624,7 @@
 		BUSINESS_TYPE = #{businessType},
 		ADDRESS = #{address},
 		BANK_NAME = #{bankName},
-		"BANK_ ACCOUNT" = #{bankAccount},
+		BANK_ACCOUNT = #{bankAccount},
 		POST_CODE = #{postCode},
 		TAX_CERT = #{taxCert},
 		BILL_CERT = #{billCert},
@@ -747,10 +747,15 @@
        		and ADDRESS like '%${address}%'   
        </if>
        <if test="startScore != null and startScore !=''">
-       		and SCORE &gt; #{startScore}
+       		and t1.SCORE &gt; #{startScore}
        </if>
        <if test="endScore != null and endScore !=''">
-       		and SCORE &lt; #{endScore}
+       		and t1.SCORE &lt; #{endScore}
+       </if>
+       <if test="item != null">
+       		<foreach collection="item" item="id" open="and t1.id not in (" close=")" separator=",">
+				#{id}
+			</foreach>
        </if>
 		ORDER BY FOUND_DATE DESC, t1.SCORE DESC
 	</select>
