@@ -55,9 +55,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         }
         //发布
         function publish(){
-        	var content = UE.getEditor('editor').getContent();
-            //alert(content);
-            //${pageContext.request.contextPath}.getSession.setAttribute("BidAnnouncement", content);
+        	var articleId = $("#articleId").val();
         	var iframeWin;
             layer.open({
               type: 2, //page层
@@ -68,7 +66,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               shift: 1, //0-6的动画形式，-1不开启
               offset: '100px',
               shadeClose: false,
-              content: '<%=basePath%>bidAnnouncement/publish.do?content='+content,
+              content: '<%=basePath%>open_bidding/publishEdit.html?id='+articleId,
               success: function(layero, index){
             
                 iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
@@ -85,8 +83,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <div class="fr pr15 mt10">
 	         <input type="button" class="btn btn-windows output" onclick="exportWord()" value="导出"></input>
 	         <input type="button" class="btn btn-windows git" onclick="preview()" value="预览"></input>  
-	         <input type="button" class="btn btn-windows apply" onclick="publish()" value="发布"></input>  
+	        <!--  <input type="button" class="btn btn-windows apply" onclick="publish()" value="发布"></input> -->  
 	    </div>
+	    <input type="hidden" name="article" id="articleId" value="${article.id }">
 	    <input type="hidden" name="projectId" value="${projectId }">
 		<div class="col-md-12 clear">
 			 <i class="red">*</i>公告标题：<br>
