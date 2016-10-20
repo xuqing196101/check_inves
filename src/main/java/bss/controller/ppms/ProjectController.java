@@ -537,6 +537,7 @@ public class ProjectController extends BaseController{
 		}
 		return "1";
 	}
+	
 	/**
 	 * 
 	* @Title: editPackName

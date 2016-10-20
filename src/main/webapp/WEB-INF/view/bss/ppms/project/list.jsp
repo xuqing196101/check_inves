@@ -169,6 +169,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        
        //项目分包
        function subPackage(){
+    	   var status = "";
     	   var count = 0;
 			var chkItem = document.getElementsByName("chkItem");
 			var str = "";
@@ -189,9 +190,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				for(var i = 0;i<chkItem.length;i++){
 					if(chkItem[i].checked == true){
 						str = chkItem[i].value;
+						status = $(chkItem[i]).prev().val();
 					}
 				}
-				window.location.href = "<%=path%>/project/subPackage.html?id="+str;
+				if(status==3){
+					window.location.href = "<%=path%>/project/subPackage.html?id="+str;
+				}else{
+					layer.alert("该项目不好分包,请重新选择",{offset: ['222px', '390px']});
+					$(".layui-layer-shade").remove();
+					return;
+				}
+				
 			}
        }
       
@@ -281,7 +290,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         
         <c:forEach items="${info.list}" var="obj" varStatus="vs">
             <tr style="cursor: pointer;">
-              <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
+              <td class="tc w30"><input type="hidden" value="${obj.status }"/><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
               <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
               <td class="tc"><a href="#" onclick="view('${obj.id}');">${obj.name}</a></td>
               <td class="tc"><a href="#" onclick="view('${obj.id}');">${obj.projectNumber }</a></td>

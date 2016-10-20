@@ -107,6 +107,23 @@
 	        var purchaseType = $("input[name='info']:checked").parents("tr").find("td").eq(11).text();
             purchaseType = $.trim(purchaseType);
 		    var id = $(ele).val();
+		    var count = 0;
+			var info = document.getElementsByName("info");
+			var selectAll = document.getElementById("selectAll");
+			for(var i = 0;i<info.length;i++){
+				if(info[i].checked == false){
+					selectAll.checked = false;
+					break;
+				}
+			}
+			for(var i = 0;i<info.length;i++){
+				if(info[i].checked == true){
+					count++;
+				}
+			}
+			if(count == info.length){
+				selectAll.checked = true;
+			}
 		    $.ajax({
                    url:"<%=basePath%>project/checkProjectDeail.html",
                    data:"id="+id,
@@ -118,10 +135,10 @@
                                var v1 = result[i].id;
                                var v3 = result[i].purchaseType;
                                if(v3 == purchaseType){
-                               var v2 = $(this).val();
-                               if (v1 == v2) {
-                                   $(this).prop("checked", flag);
-                               }
+	                               var v2 = $(this).val();
+	                               if (v1 == v2) {
+	                                   $(this).prop("checked", flag);
+	                               }
                               }else{
                                    layer.alert("采购方式不相同",{offset: ['222px', '390px'], shade:0.01});
                                }
