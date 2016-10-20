@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.sstps.BurningPowerMapper">
+  <resultMap id="BurningPowertMap" type="bss.model.sstps.BurningPower">
+    <id column="ID" property="id" />
+    <result column="FIRSET_PRODUCT" property="firsetProduct" />
+    <result column="SECOND_PRODUCT" property="secondProduct" />
+    <result column="THIRD_PRODUCT" property="thirdProduct" />
+    <result column="UNIT" property="unit" />
+    <result column="TYA_ACOUNT" property="tyaAcount" />
+    <result column="TYA_AVG_PRICE" property="tyaAvgPrice" />
+    <result column="TYA_MONEY" property="tyaMoney" />
+    <result column="OYA_ACOUNT" property="oyaAcount" />
+    <result column="OYA_AVG_PRICE" property="oyaAvgPrice" />
+    <result column="OYA_MONEY" property="oyaMoney" />
+    <result column="NEW_ACOUNT" property="newAcount" />
+    <result column="NEW_AVG_PRICE" property="newAvgPrice" />
+    <result column="NEW_MONEY" property="newMoney" />
+    <result column="APPROVED_MONEY" property="approvedMoney" />
+    <result column="CHECK_MONEY" property="checkMoney" />
+    <result column="REMARK" property="remark" />
+    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+    
+    <association property="contractProduct" column="PRODUCT_ID" select="bss.dao.sstps.AppraisalContractMapper.selectById"/>
+    
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    ID, PRODUCT_ID, FIRSET_PRODUCT, SECOND_PRODUCT, THIRD_PRODUCT, UNIT, TYA_ACOUNT, 
+    TYA_AVG_PRICE, TYA_MONEY, OYA_ACOUNT, OYA_AVG_PRICE, OYA_MONEY, NEW_ACOUNT, NEW_AVG_PRICE, 
+    NEW_MONEY, APPROVED_MONEY, CHECK_MONEY, REMARK, CREATED_AT, UPDATED_AT
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BurningPowertMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_SSTPS_BURNING_POWER
+    where ID = #{id}
+  </select>
+  
+  <!-- 查询产品对应的列表信息 -->
+  <select id="selectProduct" parameterType="Object" resultMap="BurningPowertMap">
+    select 
+    <include refid="Base_Column_List" />
+  	 from T_BSS_SSTPS_BURNING_POWER
+    where PRODUCT_ID = #{contractProduct.id}
+  </select>
+  
+  <delete id="delete" parameterType="java.lang.String">
+    delete from T_BSS_SSTPS_BURNING_POWER
+    where ID = #{id}
+  </delete>
+  
+  <insert id="insert" parameterType="bss.model.sstps.BurningPower">
+  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_BSS_SSTPS_BURNING_POWER
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="contractProduct != null">
+        PRODUCT_ID,
+      </if>
+      <if test="firsetProduct != null">
+        FIRSET_PRODUCT,
+      </if>
+      <if test="secondProduct != null">
+        SECOND_PRODUCT,
+      </if>
+      <if test="thirdProduct != null">
+        THIRD_PRODUCT,
+      </if>
+      <if test="unit != null">
+        UNIT,
+      </if>
+      <if test="tyaAcount != null">
+        TYA_ACOUNT,
+      </if>
+      <if test="tyaAvgPrice != null">
+        TYA_AVG_PRICE,
+      </if>
+      <if test="tyaMoney != null">
+        TYA_MONEY,
+      </if>
+      <if test="oyaAcount != null">
+        OYA_ACOUNT,
+      </if>
+      <if test="oyaAvgPrice != null">
+        OYA_AVG_PRICE,
+      </if>
+      <if test="oyaMoney != null">
+        OYA_MONEY,
+      </if>
+      <if test="newAcount != null">
+        NEW_ACOUNT,
+      </if>
+      <if test="newAvgPrice != null">
+        NEW_AVG_PRICE,
+      </if>
+      <if test="newMoney != null">
+        NEW_MONEY,
+      </if>
+      <if test="approvedMoney != null">
+        APPROVED_MONEY,
+      </if>
+      <if test="checkMoney != null">
+        CHECK_MONEY,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="contractProduct != null">
+        #{contractProduct.id},
+      </if>
+      <if test="firsetProduct != null">
+        #{firsetProduct},
+      </if>
+      <if test="secondProduct != null">
+        #{secondProduct},
+      </if>
+      <if test="thirdProduct != null">
+        #{thirdProduct},
+      </if>
+      <if test="unit != null">
+        #{unit},
+      </if>
+      <if test="tyaAcount != null">
+        #{tyaAcount},
+      </if>
+      <if test="tyaAvgPrice != null">
+        #{tyaAvgPrice},
+      </if>
+      <if test="tyaMoney != null">
+        #{tyaMoney},
+      </if>
+      <if test="oyaAcount != null">
+        #{oyaAcount},
+      </if>
+      <if test="oyaAvgPrice != null">
+        #{oyaAvgPrice},
+      </if>
+      <if test="oyaMoney != null">
+        #{oyaMoney},
+      </if>
+      <if test="newAcount != null">
+        #{newAcount},
+      </if>
+      <if test="newAvgPrice != null">
+        #{newAvgPrice},
+      </if>
+      <if test="newMoney != null">
+        #{newMoney},
+      </if>
+      <if test="approvedMoney != null">
+        #{approvedMoney},
+      </if>
+      <if test="checkMoney != null">
+        #{checkMoney},
+      </if>
+      <if test="remark != null">
+        #{remark},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="bss.model.sstps.BurningPower">
+    update T_BSS_SSTPS_BURNING_POWER
+    <set>
+      <if test="contractProduct != null">
+        PRODUCT_ID = #{contractProduct.id},
+      </if>
+      <if test="firsetProduct != null">
+        FIRSET_PRODUCT = #{firsetProduct},
+      </if>
+      <if test="secondProduct != null">
+        SECOND_PRODUCT = #{secondProduct},
+      </if>
+      <if test="thirdProduct != null">
+        THIRD_PRODUCT = #{thirdProduct},
+      </if>
+      <if test="unit != null">
+        UNIT = #{unit},
+      </if>
+      <if test="tyaAcount != null">
+        TYA_ACOUNT = #{tyaAcount},
+      </if>
+      <if test="tyaAvgPrice != null">
+        TYA_AVG_PRICE = #{tyaAvgPrice},
+      </if>
+      <if test="tyaMoney != null">
+        TYA_MONEY = #{tyaMoney},
+      </if>
+      <if test="oyaAcount != null">
+        OYA_ACOUNT = #{oyaAcount},
+      </if>
+      <if test="oyaAvgPrice != null">
+        OYA_AVG_PRICE = #{oyaAvgPrice},
+      </if>
+      <if test="oyaMoney != null">
+        OYA_MONEY = #{oyaMoney},
+      </if>
+      <if test="newAcount != null">
+        NEW_ACOUNT = #{newAcount},
+      </if>
+      <if test="newAvgPrice != null">
+        NEW_AVG_PRICE = #{newAvgPrice},
+      </if>
+      <if test="newMoney != null">
+        NEW_MONEY = #{newMoney},
+      </if>
+      <if test="approvedMoney != null">
+        APPROVED_MONEY = #{approvedMoney},
+      </if>
+      <if test="checkMoney != null">
+        CHECK_MONEY = #{checkMoney},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt},
+      </if>
+    </set>
+    where ID = #{id}
+  </update>
+  
+</mapper>

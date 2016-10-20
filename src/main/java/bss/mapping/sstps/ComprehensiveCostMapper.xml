@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.sstps.ComprehensiveCostMapper">
+  <resultMap id="ComprehensiveCostMap" type="bss.model.sstps.ComprehensiveCost">
+    <id column="ID" property="id" />
+    <result column="PROJECT_NAME" property="projectName" />
+    <result column="SECOND_PROJECT" property="secondProject" />
+    <result column="SINGLE_OFFER"  property="singleOffer" />
+    <result column="ADDIT_RESULT" property="additResult" />
+    <result column="DIFFERENCE"  property="difference" />
+    <result column="REDUCE"  property="reduce" />
+    <result column="CHECK_RESULT"  property="checkResult" />
+    <result column="CHECK_DIFFERENCE"  property="checkDifference" />
+    <result column="CHECK_REDUCE"  property="checkReduce" />
+    <result column="REMARK" property="remark" />
+    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+    <result column="STATUS" property="status" />
+    
+    <association property="contractProduct" column="PRODUCT_ID" select="bss.dao.sstps.AppraisalContractMapper.selectById"/>
+    
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    ID, PRODUCT_ID, PROJECT_NAME, SECOND_PROJECT, SINGLE_OFFER, ADDIT_RESULT, DIFFERENCE, 
+    REDUCE, CHECK_RESULT, CHECK_DIFFERENCE, CHECK_REDUCE, REMARK, CREATED_AT, UPDATED_AT,STATUS
+  </sql>
+  
+  <select id="select" parameterType="java.lang.String" resultMap="ComprehensiveCostMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_SSTPS_COMPREHENSIVE_COST
+    where ID = #{id}
+  </select>
+  
+  <select id="selectProduct" parameterType="Object" resultMap="ComprehensiveCostMap">
+    select 
+    <include refid="Base_Column_List" />
+   from T_BSS_SSTPS_COMPREHENSIVE_COST
+   where PRODUCT_ID = #{contractProduct.id}
+  </select>
+  
+  <delete id="delete" parameterType="java.lang.String">
+    delete from T_BSS_SSTPS_COMPREHENSIVE_COST
+    where ID = #{id}
+  </delete>
+  
+  <insert id="insert" parameterType="bss.model.sstps.ComprehensiveCost">
+  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_BSS_SSTPS_COMPREHENSIVE_COST
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="contractProduct != null">
+        PRODUCT_ID,
+      </if>
+      <if test="projectName != null">
+        PROJECT_NAME,
+      </if>
+      <if test="secondProject != null">
+        SECOND_PROJECT,
+      </if>
+      <if test="singleOffer != null">
+        SINGLE_OFFER,
+      </if>
+      <if test="additResult != null">
+        ADDIT_RESULT,
+      </if>
+      <if test="difference != null">
+        DIFFERENCE,
+      </if>
+      <if test="reduce != null">
+        REDUCE,
+      </if>
+      <if test="checkResult != null">
+        CHECK_RESULT,
+      </if>
+      <if test="checkDifference != null">
+        CHECK_DIFFERENCE,
+      </if>
+      <if test="checkReduce != null">
+        CHECK_REDUCE,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="contractProduct != null">
+        #{contractProduct.id},
+      </if>
+      <if test="projectName != null">
+        #{projectName},
+      </if>
+      <if test="secondProject != null">
+        #{secondProject},
+      </if>
+      <if test="singleOffer != null">
+        #{singleOffer},
+      </if>
+      <if test="additResult != null">
+        #{additResult},
+      </if>
+      <if test="difference != null">
+        #{difference},
+      </if>
+      <if test="reduce != null">
+        #{reduce},
+      </if>
+      <if test="checkResult != null">
+        #{checkResult},
+      </if>
+      <if test="checkDifference != null">
+        #{checkDifference},
+      </if>
+      <if test="checkReduce != null">
+        #{checkReduce},
+      </if>
+      <if test="remark != null">
+        #{remark},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt},
+      </if>
+      <if test="status != null">
+        #{status},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="bss.model.sstps.ComprehensiveCost">
+    update T_BSS_SSTPS_COMPREHENSIVE_COST
+    <set>
+      <if test="contractProduct != null">
+        PRODUCT_ID = #{contractProduct.id},
+      </if>
+      <if test="projectName != null">
+        PROJECT_NAME = #{projectName},
+      </if>
+      <if test="secondProject != null">
+        SECOND_PROJECT = #{secondProject},
+      </if>
+      <if test="singleOffer != null">
+        SINGLE_OFFER = #{singleOffer},
+      </if>
+      <if test="additResult != null">
+        ADDIT_RESULT = #{additResult},
+      </if>
+      <if test="difference != null">
+        DIFFERENCE = #{difference},
+      </if>
+      <if test="reduce != null">
+        REDUCE = #{reduce},
+      </if>
+      <if test="checkResult != null">
+        CHECK_RESULT = #{checkResult},
+      </if>
+      <if test="checkDifference != null">
+        CHECK_DIFFERENCE = #{checkDifference},
+      </if>
+      <if test="checkReduce != null">
+        CHECK_REDUCE = #{checkReduce},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt},
+      </if>
+      <if test="status != null">
+        STATUS = #{status},
+      </if>
+    </set>
+    where ID = #{id}
+  </update>
+  
+</mapper>

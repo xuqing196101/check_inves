@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.sstps.WagesPayableMapper">
+  <resultMap id="WagesPayableMap" type="bss.model.sstps.WagesPayable">
+    <id column="ID"  property="id" />
+    <result column="DEPARTMENT"  property="department" />
+    <result column="FIRSET_PRODUCT"  property="firsetProduct" />
+    <result column="SECOND_PRODUCT"  property="secondProduct" />
+    <result column="TYA_PRODUCE_USER" property="tyaProduceUser" />
+    <result column="TYA_WORKSHOP_USER" property="tyaWorkshopUser" />
+    <result column="TYA_MANAGE_USER" property="tyaManageUser" />
+    <result column="TYA_OTHER_USER" property="tyaOtherUser" />
+    <result column="TYA_TOTAL" property="tyaTotal" />
+    <result column="OYA_PRODUCE_USER" property="oyaProduceUser" />
+    <result column="OYA_WORKSHOP_USER" property="oyaWorkshopUser" />
+    <result column="OYA_MANAGE_USER" property="oyaManageUser" />
+    <result column="OYA_OTHER_USER" property="oyaOtherUser" />
+    <result column="OYA_TOTAL" property="oyaTotal" />
+    <result column="NEW_PRODUCE_USER" property="newProduceUser" />
+    <result column="NEW_WORKSHOP_USER" property="newWorkshopUser" />
+    <result column="NEW_MANAGE_USER" property="newManageUser" />
+    <result column="NEW_OTHER_USER" property="newOtherUser" />
+    <result column="NEW_TOTAL" property="newTotal" />
+    <result column="APPROVED_PRODUCE_USER" property="approvedProduceUser" />
+    <result column="APPROVED_WORKSHOP_USER" property="approvedWorkshopUser" />
+    <result column="APPROVED_MANAGE_USER" property="approvedManageUser" />
+    <result column="APPROVED_OTHER_USER" property="approvedOtherUser" />
+    <result column="APPROVED_TOTAL" property="approvedTotal" />
+    <result column="CHECK_PRODUCE_USER" property="checkProduceUser" />
+    <result column="CHECK_WORKSHOP_USER" property="checkWorkshopUser" />
+    <result column="CHECK_MANAGE_USER" property="checkManageUser" />
+    <result column="CHECK_OTHER_USER" property="checkOtherUser" />
+    <result column="CHECK_TOTAL" property="checkTotal" />
+    <result column="REMARK"  property="remark" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+    
+    <association property="contractProduct" column="PRODUCT_ID" select="bss.dao.sstps.AppraisalContractMapper.selectById"/>
+    
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, PRODUCT_ID, DEPARTMENT, FIRSET_PRODUCT, SECOND_PRODUCT, TYA_PRODUCE_USER, TYA_WORKSHOP_USER, 
+    TYA_MANAGE_USER, TYA_OTHER_USER, TYA_TOTAL, OYA_PRODUCE_USER, OYA_WORKSHOP_USER, 
+    OYA_MANAGE_USER, OYA_OTHER_USER, OYA_TOTAL, NEW_PRODUCE_USER, NEW_WORKSHOP_USER, 
+    NEW_MANAGE_USER, NEW_OTHER_USER, NEW_TOTAL, APPROVED_PRODUCE_USER, APPROVED_WORKSHOP_USER, 
+    APPROVED_MANAGE_USER, APPROVED_OTHER_USER, APPROVED_TOTAL, CHECK_PRODUCE_USER, CHECK_WORKSHOP_USER, 
+    CHECK_MANAGE_USER, CHECK_OTHER_USER, CHECK_TOTAL, REMARK, CREATED_AT, UPDATED_AT
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="WagesPayableMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_SSTPS_WAGES_PAYABLE
+    where ID = #{id}
+  </select>
+  
+    <!-- 查询产品对应的列表信息 -->
+  <select id="selectProduct" parameterType="Object" resultMap="WagesPayableMap">
+    select 
+    <include refid="Base_Column_List" />
+  	 from T_BSS_SSTPS_WAGES_PAYABLE
+    where PRODUCT_ID = #{contractProduct.id}
+  </select>
+  
+  <delete id="delete" parameterType="java.lang.String">
+    delete from T_BSS_SSTPS_WAGES_PAYABLE
+    where ID = #{id}
+  </delete>
+  
+  <insert id="insert" parameterType="bss.model.sstps.WagesPayable">
+  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_BSS_SSTPS_WAGES_PAYABLE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="contractProduct != null">
+        PRODUCT_ID,
+      </if>
+      <if test="department != null">
+        DEPARTMENT,
+      </if>
+      <if test="firsetProduct != null">
+        FIRSET_PRODUCT,
+      </if>
+      <if test="secondProduct != null">
+        SECOND_PRODUCT,
+      </if>
+      <if test="tyaProduceUser != null">
+        TYA_PRODUCE_USER,
+      </if>
+      <if test="tyaWorkshopUser != null">
+        TYA_WORKSHOP_USER,
+      </if>
+      <if test="tyaManageUser != null">
+        TYA_MANAGE_USER,
+      </if>
+      <if test="tyaOtherUser != null">
+        TYA_OTHER_USER,
+      </if>
+      <if test="tyaTotal != null">
+        TYA_TOTAL,
+      </if>
+      <if test="oyaProduceUser != null">
+        OYA_PRODUCE_USER,
+      </if>
+      <if test="oyaWorkshopUser != null">
+        OYA_WORKSHOP_USER,
+      </if>
+      <if test="oyaManageUser != null">
+        OYA_MANAGE_USER,
+      </if>
+      <if test="oyaOtherUser != null">
+        OYA_OTHER_USER,
+      </if>
+      <if test="oyaTotal != null">
+        OYA_TOTAL,
+      </if>
+      <if test="newProduceUser != null">
+        NEW_PRODUCE_USER,
+      </if>
+      <if test="newWorkshopUser != null">
+        NEW_WORKSHOP_USER,
+      </if>
+      <if test="newManageUser != null">
+        NEW_MANAGE_USER,
+      </if>
+      <if test="newOtherUser != null">
+        NEW_OTHER_USER,
+      </if>
+      <if test="newTotal != null">
+        NEW_TOTAL,
+      </if>
+      <if test="approvedProduceUser != null">
+        APPROVED_PRODUCE_USER,
+      </if>
+      <if test="approvedWorkshopUser != null">
+        APPROVED_WORKSHOP_USER,
+      </if>
+      <if test="approvedManageUser != null">
+        APPROVED_MANAGE_USER,
+      </if>
+      <if test="approvedOtherUser != null">
+        APPROVED_OTHER_USER,
+      </if>
+      <if test="approvedTotal != null">
+        APPROVED_TOTAL,
+      </if>
+      <if test="checkProduceUser != null">
+        CHECK_PRODUCE_USER,
+      </if>
+      <if test="checkWorkshopUser != null">
+        CHECK_WORKSHOP_USER,
+      </if>
+      <if test="checkManageUser != null">
+        CHECK_MANAGE_USER,
+      </if>
+      <if test="checkOtherUser != null">
+        CHECK_OTHER_USER,
+      </if>
+      <if test="checkTotal != null">
+        CHECK_TOTAL,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="contractProduct != null">
+        #{contractProduct.id},
+      </if>
+      <if test="department != null">
+        #{department},
+      </if>
+      <if test="firsetProduct != null">
+        #{firsetProduct},
+      </if>
+      <if test="secondProduct != null">
+        #{secondProduct},
+      </if>
+      <if test="tyaProduceUser != null">
+        #{tyaProduceUser},
+      </if>
+      <if test="tyaWorkshopUser != null">
+        #{tyaWorkshopUser},
+      </if>
+      <if test="tyaManageUser != null">
+        #{tyaManageUser},
+      </if>
+      <if test="tyaOtherUser != null">
+        #{tyaOtherUser},
+      </if>
+      <if test="tyaTotal != null">
+        #{tyaTotal},
+      </if>
+      <if test="oyaProduceUser != null">
+        #{oyaProduceUser},
+      </if>
+      <if test="oyaWorkshopUser != null">
+        #{oyaWorkshopUser},
+      </if>
+      <if test="oyaManageUser != null">
+        #{oyaManageUser},
+      </if>
+      <if test="oyaOtherUser != null">
+        #{oyaOtherUser},
+      </if>
+      <if test="oyaTotal != null">
+        #{oyaTotal},
+      </if>
+      <if test="newProduceUser != null">
+        #{newProduceUser},
+      </if>
+      <if test="newWorkshopUser != null">
+        #{newWorkshopUser},
+      </if>
+      <if test="newManageUser != null">
+        #{newManageUser},
+      </if>
+      <if test="newOtherUser != null">
+        #{newOtherUser},
+      </if>
+      <if test="newTotal != null">
+        #{newTotal},
+      </if>
+      <if test="approvedProduceUser != null">
+        #{approvedProduceUser},
+      </if>
+      <if test="approvedWorkshopUser != null">
+        #{approvedWorkshopUser},
+      </if>
+      <if test="approvedManageUser != null">
+        #{approvedManageUser},
+      </if>
+      <if test="approvedOtherUser != null">
+        #{approvedOtherUser},
+      </if>
+      <if test="approvedTotal != null">
+        #{approvedTotal},
+      </if>
+      <if test="checkProduceUser != null">
+        #{checkProduceUser},
+      </if>
+      <if test="checkWorkshopUser != null">
+        #{checkWorkshopUser},
+      </if>
+      <if test="checkManageUser != null">
+        #{checkManageUser},
+      </if>
+      <if test="checkOtherUser != null">
+        #{checkOtherUser},
+      </if>
+      <if test="checkTotal != null">
+        #{checkTotal},
+      </if>
+      <if test="remark != null">
+        #{remark},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="bss.model.sstps.WagesPayable">
+    update T_BSS_SSTPS_WAGES_PAYABLE
+    <set>
+      <if test="contractProduct != null">
+        PRODUCT_ID = #{contractProduct.id},
+      </if>
+      <if test="department != null">
+        DEPARTMENT = #{department},
+      </if>
+      <if test="firsetProduct != null">
+        FIRSET_PRODUCT = #{firsetProduct},
+      </if>
+      <if test="secondProduct != null">
+        SECOND_PRODUCT = #{secondProduct},
+      </if>
+      <if test="tyaProduceUser != null">
+        TYA_PRODUCE_USER = #{tyaProduceUser},
+      </if>
+      <if test="tyaWorkshopUser != null">
+        TYA_WORKSHOP_USER = #{tyaWorkshopUser},
+      </if>
+      <if test="tyaManageUser != null">
+        TYA_MANAGE_USER = #{tyaManageUser},
+      </if>
+      <if test="tyaOtherUser != null">
+        TYA_OTHER_USER = #{tyaOtherUser},
+      </if>
+      <if test="tyaTotal != null">
+        TYA_TOTAL = #{tyaTotal},
+      </if>
+      <if test="oyaProduceUser != null">
+        OYA_PRODUCE_USER = #{oyaProduceUser},
+      </if>
+      <if test="oyaWorkshopUser != null">
+        OYA_WORKSHOP_USER = #{oyaWorkshopUser},
+      </if>
+      <if test="oyaManageUser != null">
+        OYA_MANAGE_USER = #{oyaManageUser},
+      </if>
+      <if test="oyaOtherUser != null">
+        OYA_OTHER_USER = #{oyaOtherUser},
+      </if>
+      <if test="oyaTotal != null">
+        OYA_TOTAL = #{oyaTotal},
+      </if>
+      <if test="newProduceUser != null">
+        NEW_PRODUCE_USER = #{newProduceUser},
+      </if>
+      <if test="newWorkshopUser != null">
+        NEW_WORKSHOP_USER = #{newWorkshopUser},
+      </if>
+      <if test="newManageUser != null">
+        NEW_MANAGE_USER = #{newManageUser},
+      </if>
+      <if test="newOtherUser != null">
+        NEW_OTHER_USER = #{newOtherUser},
+      </if>
+      <if test="newTotal != null">
+        NEW_TOTAL = #{newTotal},
+      </if>
+      <if test="approvedProduceUser != null">
+        APPROVED_PRODUCE_USER = #{approvedProduceUser},
+      </if>
+      <if test="approvedWorkshopUser != null">
+        APPROVED_WORKSHOP_USER = #{approvedWorkshopUser},
+      </if>
+      <if test="approvedManageUser != null">
+        APPROVED_MANAGE_USER = #{approvedManageUser},
+      </if>
+      <if test="approvedOtherUser != null">
+        APPROVED_OTHER_USER = #{approvedOtherUser},
+      </if>
+      <if test="approvedTotal != null">
+        APPROVED_TOTAL = #{approvedTotal},
+      </if>
+      <if test="checkProduceUser != null">
+        CHECK_PRODUCE_USER = #{checkProduceUser},
+      </if>
+      <if test="checkWorkshopUser != null">
+        CHECK_WORKSHOP_USER = #{checkWorkshopUser},
+      </if>
+      <if test="checkManageUser != null">
+        CHECK_MANAGE_USER = #{checkManageUser},
+      </if>
+      <if test="checkOtherUser != null">
+        CHECK_OTHER_USER = #{checkOtherUser},
+      </if>
+      <if test="checkTotal != null">
+        CHECK_TOTAL = #{checkTotal},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt},
+      </if>
+    </set>
+    where ID = #{id}
+  </update>
+  
+</mapper>

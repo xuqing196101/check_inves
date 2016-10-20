@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.http.HttpRequest;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.controller.sys.bms.LoginController;
 import ses.util.PropertiesUtil;
-
 import bss.model.sstps.AppraisalContract;
 import bss.model.sstps.ContractProduct;
 import bss.model.sstps.ProductInfo;

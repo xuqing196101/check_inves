@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.sstps.PeriodCostMapper">
+  <resultMap id="PeriodCostMap" type="bss.model.sstps.PeriodCost">
+    <id column="ID"  property="id" />
+    <result column="PROJECT_NAME"  property="projectName" />
+    <result column="TYA_QUOTEPRICE" property="tyaQuoteprice" />
+    <result column="OYA_QUOTEPRICE" property="oyaQuoteprice" />
+    <result column="NEW_QUOTEPRICE" property="newQuoteprice" />
+    <result column="AUDIT_APPROVAL" property="auditApproval" />
+    <result column="CHECK_APPROVAL" property="checkApproval" />
+    <result column="REMARK"  property="remark" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+    <association property="contractProduct" column="PRODUCT_ID" select="bss.dao.sstps.AppraisalContractMapper.selectById"/>
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    ID, PRODUCT_ID, PROJECT_NAME, TYA_QUOTEPRICE, OYA_QUOTEPRICE, NEW_QUOTEPRICE, AUDIT_APPROVAL, 
+    CHECK_APPROVAL, REMARK, CREATED_AT, UPDATED_AT
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="PeriodCostMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_SSTPS_PERIOD_COST
+    where ID = #{id}
+  </select>
+  
+  <select id="selectProduct" parameterType="Object" resultMap="PeriodCostMap">
+    select 
+    <include refid="Base_Column_List" />
+  	from T_BSS_SSTPS_PERIOD_COST
+    where PRODUCT_ID = #{contractProduct.id}
+  </select>
+  
+  <delete id="delete" parameterType="java.lang.String">
+    delete from T_BSS_SSTPS_PERIOD_COST
+    where ID = #{id}
+  </delete>
+  
+  <insert id="insert" parameterType="bss.model.sstps.PeriodCost">
+  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_BSS_SSTPS_PERIOD_COST
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="contractProduct != null">
+        PRODUCT_ID,
+      </if>
+      <if test="projectName != null">
+        PROJECT_NAME,
+      </if>
+      <if test="tyaQuoteprice != null">
+        TYA_QUOTEPRICE,
+      </if>
+      <if test="oyaQuoteprice != null">
+        OYA_QUOTEPRICE,
+      </if>
+      <if test="newQuoteprice != null">
+        NEW_QUOTEPRICE,
+      </if>
+      <if test="auditApproval != null">
+        AUDIT_APPROVAL,
+      </if>
+      <if test="checkApproval != null">
+        CHECK_APPROVAL,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="contractProduct != null">
+        #{contractProduct.id},
+      </if>
+      <if test="projectName != null">
+        #{projectName},
+      </if>
+      <if test="tyaQuoteprice != null">
+        #{tyaQuoteprice},
+      </if>
+      <if test="oyaQuoteprice != null">
+        #{oyaQuoteprice},
+      </if>
+      <if test="newQuoteprice != null">
+        #{newQuoteprice},
+      </if>
+      <if test="auditApproval != null">
+        #{auditApproval},
+      </if>
+      <if test="checkApproval != null">
+        #{checkApproval},
+      </if>
+      <if test="remark != null">
+        #{remark},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="bss.model.sstps.PeriodCost">
+    update T_BSS_SSTPS_PERIOD_COST
+    <set>
+      <if test="contractProduct != null">
+        PRODUCT_ID = #{contractProduct.id},
+      </if>
+      <if test="projectName != null">
+        PROJECT_NAME = #{projectName},
+      </if>
+      <if test="tyaQuoteprice != null">
+        TYA_QUOTEPRICE = #{tyaQuoteprice},
+      </if>
+      <if test="oyaQuoteprice != null">
+        OYA_QUOTEPRICE = #{oyaQuoteprice},
+      </if>
+      <if test="newQuoteprice != null">
+        NEW_QUOTEPRICE = #{newQuoteprice},
+      </if>
+      <if test="auditApproval != null">
+        AUDIT_APPROVAL = #{auditApproval},
+      </if>
+      <if test="checkApproval != null">
+        CHECK_APPROVAL = #{checkApproval},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt},
+      </if>
+    </set>
+    where ID = #{id}
+  </update>
+  
+</mapper>

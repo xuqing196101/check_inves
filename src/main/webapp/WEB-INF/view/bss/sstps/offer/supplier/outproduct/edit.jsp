@@ -31,8 +31,8 @@
    
    <form action="<%=basePath %>outproductCon/update.html" method="post" enctype="multipart/form-data">
    
-   <input type="text" id="proId" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly>
-   <input type="text" id="id" name="id" class="w230 mb0" value="${out.id }" readonly>
+   <input type="hidden" id="proId" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly>
+   <input type="hidden" id="id" name="id" class="w230 mb0" value="${out.id }" readonly>
 	<div class="container">
 	 	<div class="headline-v2">
 	  		 <h2>添加原、辅材料工艺定额消耗明细</h2>

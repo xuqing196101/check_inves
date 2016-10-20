@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import bss.model.sstps.AccessoriesCon;
 import bss.model.sstps.ContractProduct;
 import bss.model.sstps.OutproductCon;
 import bss.service.sstps.OutproductConService;
@@ -43,7 +42,7 @@ public class OutproductConController {
 		model.addAttribute("list", list);
 		model.addAttribute("proId", proId);
 		
-		return "bss/sstps/offer/supplier/outproduct_Con";
+		return "bss/sstps/offer/supplier/outproduct/list";
 	}
 	
 	@RequestMapping("/add")
@@ -73,7 +72,7 @@ public class OutproductConController {
 		
 		model.addAttribute("proId",proId);
 		
-		return "bss/sstps/offer/supplier/outproduct_Con";
+		return "bss/sstps/offer/supplier/outproduct/list";
 	}
 	
 	
@@ -95,7 +94,7 @@ public class OutproductConController {
 		List<OutproductCon> list = outproductConService.selectProduct(outproductCon);
 		model.addAttribute("list", list);
 		model.addAttribute("proId",proId);
-		return "bss/sstps/offer/supplier/accessories_Con";
+		return "bss/sstps/offer/supplier/outproduct/list";
 	}
 	
 	/**
@@ -124,7 +123,7 @@ public class OutproductConController {
 		List<OutproductCon> list = outproductConService.selectProduct(outproductCon);
 		model.addAttribute("list", list);
 		model.addAttribute("proId",proId);
-		return "bss/sstps/offer/supplier/accessories_Con";
+		return "bss/sstps/offer/supplier/outproduct/list";
 	}
 	
 

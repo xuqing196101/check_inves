@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.sstps.AuditOpinionMapper">
+  <resultMap id="AuditOpinionMap" type="bss.model.sstps.AuditOpinion">
+    <id column="ID"  property="id" />
+    <result column="PRODUCE_UNIT"  property="produceUnit" />
+    <result column="ORDER_ACOUNT" property="orderAcount" />
+    <result column="MEASURING_UNIT"  property="measuringUnit" />
+    <result column="AUDIT_USER"  property="auditUser" />
+    <result column="COMPANY_PRICE" property="companyPrice" />
+    <result column="AUDIT_OPINION"  property="auditOpinion" />
+    <result column="UNIT_SUBTRACT"  property="unitSubtract" />
+    <result column="ACOUNT_SUBTRACT"  property="acountSubtract" />
+    <result column="CHECK_COMPANY_PRICE" property="checkCompanyPrice" />
+    <result column="CHECK_AUDIT_OPINION"  property="checkAuditOpinion" />
+    <result column="CHECK_UNIT_SUBTRACT"  property="checkUnitSubtract" />
+    <result column="CHECK_ACOUNT_SUBTRACT"  property="checkAcountSubtract" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+    <association property="contractProduct" column="PRODUCT_ID" select="bss.dao.sstps.ContractProductMapper.selectByPrimaryKey"/>
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    ID, PRODUCT_ID, PRODUCE_UNIT, ORDER_ACOUNT, MEASURING_UNIT, AUDIT_USER, COMPANY_PRICE, 
+    AUDIT_OPINION, UNIT_SUBTRACT, ACOUNT_SUBTRACT, CHECK_COMPANY_PRICE, CHECK_AUDIT_OPINION, 
+    CHECK_UNIT_SUBTRACT, CHECK_ACOUNT_SUBTRACT, CREATED_AT, UPDATED_AT
+  </sql>
+  
+  <select id="select" parameterType="java.lang.String" resultMap="AuditOpinionMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_SSTPS_AUDIT_OPINION
+    where ID = #{id}
+  </select>
+  
+  <select id="selectProduct" parameterType="Object" resultMap="AuditOpinionMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_SSTPS_AUDIT_OPINION
+    where PRODUCT_ID = #{contractProduct.id}
+  </select>
+  
+  <delete id="delete" parameterType="java.lang.String">
+    delete from T_BSS_SSTPS_AUDIT_OPINION
+    where ID = #{id}
+  </delete>
+  
+  <insert id="insert" parameterType="bss.model.sstps.AuditOpinion">
+  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_BSS_SSTPS_AUDIT_OPINION
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="contractProduct != null">
+        PRODUCT_ID,
+      </if>
+      <if test="produceUnit != null">
+        PRODUCE_UNIT,
+      </if>
+      <if test="orderAcount != null">
+        ORDER_ACOUNT,
+      </if>
+      <if test="measuringUnit != null">
+        MEASURING_UNIT,
+      </if>
+      <if test="auditUser != null">
+        AUDIT_USER,
+      </if>
+      <if test="companyPrice != null">
+        COMPANY_PRICE,
+      </if>
+      <if test="auditOpinion != null">
+        AUDIT_OPINION,
+      </if>
+      <if test="unitSubtract != null">
+        UNIT_SUBTRACT,
+      </if>
+      <if test="acountSubtract != null">
+        ACOUNT_SUBTRACT,
+      </if>
+      <if test="checkCompanyPrice != null">
+        CHECK_COMPANY_PRICE,
+      </if>
+      <if test="checkAuditOpinion != null">
+        CHECK_AUDIT_OPINION,
+      </if>
+      <if test="checkUnitSubtract != null">
+        CHECK_UNIT_SUBTRACT,
+      </if>
+      <if test="checkAcountSubtract != null">
+        CHECK_ACOUNT_SUBTRACT,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="contractProduct != null">
+        #{contractProduct.id},
+      </if>
+      <if test="produceUnit != null">
+        #{produceUnit},
+      </if>
+      <if test="orderAcount != null">
+        #{orderAcount},
+      </if>
+      <if test="measuringUnit != null">
+        #{measuringUnit},
+      </if>
+      <if test="auditUser != null">
+        #{auditUser},
+      </if>
+      <if test="companyPrice != null">
+        #{companyPrice},
+      </if>
+      <if test="auditOpinion != null">
+        #{auditOpinion},
+      </if>
+      <if test="unitSubtract != null">
+        #{unitSubtract},
+      </if>
+      <if test="acountSubtract != null">
+        #{acountSubtract},
+      </if>
+      <if test="checkCompanyPrice != null">
+        #{checkCompanyPrice},
+      </if>
+      <if test="checkAuditOpinion != null">
+        #{checkAuditOpinion},
+      </if>
+      <if test="checkUnitSubtract != null">
+        #{checkUnitSubtract},
+      </if>
+      <if test="checkAcountSubtract != null">
+        #{checkAcountSubtract},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="bss.model.sstps.AuditOpinion">
+    update T_BSS_SSTPS_AUDIT_OPINION
+    <set>
+      <if test="contractProduct != null">
+        PRODUCT_ID = #{contractProduct.id},
+      </if>
+      <if test="produceUnit != null">
+        PRODUCE_UNIT = #{produceUnit},
+      </if>
+      <if test="orderAcount != null">
+        ORDER_ACOUNT = #{orderAcount},
+      </if>
+      <if test="measuringUnit != null">
+        MEASURING_UNIT = #{measuringUnit},
+      </if>
+      <if test="auditUser != null">
+        AUDIT_USER = #{auditUser},
+      </if>
+      <if test="companyPrice != null">
+        COMPANY_PRICE = #{companyPrice},
+      </if>
+      <if test="auditOpinion != null">
+        AUDIT_OPINION = #{auditOpinion},
+      </if>
+      <if test="unitSubtract != null">
+        UNIT_SUBTRACT = #{unitSubtract},
+      </if>
+      <if test="acountSubtract != null">
+        ACOUNT_SUBTRACT = #{acountSubtract},
+      </if>
+      <if test="checkCompanyPrice != null">
+        CHECK_COMPANY_PRICE = #{checkCompanyPrice},
+      </if>
+      <if test="checkAuditOpinion != null">
+        CHECK_AUDIT_OPINION = #{checkAuditOpinion},
+      </if>
+      <if test="checkUnitSubtract != null">
+        CHECK_UNIT_SUBTRACT = #{checkUnitSubtract},
+      </if>
+      <if test="checkAcountSubtract != null">
+        CHECK_ACOUNT_SUBTRACT = #{checkAcountSubtract},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt},
+      </if>
+    </set>
+    where ID = #{id}
+  </update>
+  
+</mapper>

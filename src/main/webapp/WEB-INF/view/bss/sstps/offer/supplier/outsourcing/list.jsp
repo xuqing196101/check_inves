@@ -1,13 +1,13 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ include file="../../../../common.jsp"%>
+<%@ include file="../../../../../common.jsp"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
     
-    <title>原、辅材料工艺定额消耗明细表</title>
+    <title>外协加工件消耗定额明细</title>
 	
 	<script type="text/javascript" src="<%=request.getContextPath()%>/public/layer/layer.js"></script>
     <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
@@ -56,7 +56,7 @@ function edit(){
 		id.push($(this).val());
 	}); 
 	if(id.length==1){
-		window.location.href="<%=basePath%>accessoriesCon/edit.do?id="+id+"&proId="+proId;
+		window.location.href="<%=basePath%>outsourcingCon/edit.do?id="+id+"&proId="+proId;
 	}else if(id.length>1){
 		layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 	}else{
@@ -66,7 +66,7 @@ function edit(){
 
 function add(){
 	var proId = $("#proId").val();
-	window.location.href="<%=basePath%>accessoriesCon/add.html?proId="+proId;
+	window.location.href="<%=basePath%>outsourcingCon/add.html?proId="+proId;
 }
 
 function del(){
@@ -78,21 +78,21 @@ function del(){
 	if(ids.length>0){
 		layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 			layer.close(index);
-			window.location.href="<%=basePath%>accessoriesCon/delete.html?proId="+proId+"&ids="+ids;
+			window.location.href="<%=basePath%>outsourcingCon/delete.html?proId="+proId+"&ids="+ids;
 		});
 	}else{
 		layer.alert("请选择要删除的信息",{offset: ['222px', '390px'], shade:0.01});
 	}
 }
 
-function onPage(){
-	var productId = $("#proId").val();
-	window.location.href="<%=basePath%>offer/selectProductInfo.do?productId="+productId;
-}
-
-function nextPage(){
+function onStep(){
 	var proId = $("#proId").val();
 	window.location.href="<%=basePath%>outproductCon/select.do?proId="+proId;
+}
+
+function nextStep(){
+	var proId = $("#proId").val();
+	window.location.href="<%=basePath%>specialCost/select.do?proId="+proId;
 }
 
 </script>
@@ -105,14 +105,14 @@ function nextPage(){
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">供应商报价</a></li><li><a href="#">产品报价</a></li></ul>
+		   <li><a href="#"> 首页</a></li><li><a href="#">供应商报价</a></li><li><a href="#">外协加工件消耗定额明细</a></li></ul>
 		<div class="clear"></div>
 	  </div>
    </div>
   
   <div class="container">
 	 	<div class="headline-v2">
-	  		 <h2>装备（产品）技术资料概述</h2>
+	  		 <h2>外协加工件消耗定额明细</h2>
 	 	</div>
 	 	
 	 	<div class="col-md-8 mt10">
@@ -132,55 +132,42 @@ function nextPage(){
 					<tr>
 						<th rowspan="2" class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 						<th rowspan="2" class="info">序号</th>
-						<th rowspan="2" class="info">材料性质</th>
-						<th rowspan="2" class="info">材料名称</th>
+						<th rowspan="2" class="info">外协加工工件名称</th>
 						<th rowspan="2" class="info">规格型号</th>
 						<th rowspan="2" class="info">图纸位置号(代号)</th>
 						<th colspan="5" class="info">所属加工生产装配工艺消耗定额（数量、质量、含税金额）</th>
-						<th colspan="5" class="info">消耗定额审核核准数（含税金额）</th>
+						<th colspan="3" class="info">消耗定额审核核准数（含税金额）</th>
 						<th rowspan="2" class="info">供货单位</th>
 						<th rowspan="2" class="info">备   注</th>
 					</tr>
 					<tr>
-						<th>单位</th>
-						<th>单件重</th>
-						<th>重量小计</th>
-						<th>单价</th>
-						<th>金额</th>
-						<th>单位</th>
-						<th>单件重</th>
-						<th>重量小计</th>
-						<th>单价</th>
-						<th>金额</th>
+						<th class="info">单位</th>
+						<th class="info">单件重</th>
+						<th class="info">重量小计</th>
+						<th class="info">单价</th>
+						<th class="info">金额</th>
+						<th class="info">单位</th>
+						<th class="info">单价</th>
+						<th class="info">金额</th>
 					</tr>
 				</tobdy>
-				<c:forEach items="${list}" var="acc" varStatus="vs">
+				<c:forEach items="${list}" var="out" varStatus="vs">
 					<tr>
-						<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${acc.id }" /></td>
+						<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${out.id }" /></td>
 						<td>${vs.index+1 }</td>
-						<td class="tc">
-							<c:if test="${acc.productNature=='0' }">
-								主要材料
-							</c:if>
-							<c:if test="${acc.productNature=='1' }">
-								辅助材料
-							</c:if>
-						</td>
-						<td class="tc">${acc.stuffName }</td>
-						<td class="tc">${acc.norm }</td>
-						<td class="tc">${acc.paperCode }</td>
-						<td class="tc">${acc.workAmout }</td>
-						<td class="tc">${acc.workWeight }</td>
-						<td class="tc">${acc.workWeightTotal }</td>
-						<td class="tc">${acc.workPrice }</td>
-						<td class="tc">${acc.workMoney }</td>
-						<td class="tc">${acc.consumeAmout }</td>
-						<td class="tc">${acc.consumeWeight }</td>
-						<td class="tc">${acc.consumeWeightTotal }</td>
-						<td class="tc">${acc.consumePrice }</td>
-						<td class="tc">${acc.consumeMoney }</td>
-						<td class="tc">${acc.supplyUnit }</td>
-						<td class="tc">${acc.remark }</td>
+						<td class="tc">${out.outsourcingName }</td>
+						<td class="tc">${out.norm }</td>
+						<td class="tc">${out.paperCode }</td>
+						<td class="tc">${out.workAmout }</td>
+						<td class="tc">${out.workWeight }</td>
+						<td class="tc">${out.workWeightTotal }</td>
+						<td class="tc">${out.workPrice }</td>
+						<td class="tc">${out.workMoney }</td>
+						<td class="tc">${out.consumeAmout }</td>
+						<td class="tc">${out.consumePrice }</td>
+						<td class="tc">${out.consumeMoney }</td>
+						<td class="tc">${out.supplyUnit }</td>
+						<td class="tc">${out.remark }</td>
 					</tr>
 				</c:forEach>
 			</table>
@@ -188,8 +175,8 @@ function nextPage(){
 		
 		<div  class="col-md-12">
 		   <div class="mt40 tc mb50">
-		    <button class="btn btn-windows " type="button" onclick="onPage()">上一页</button>
-		    <button class="btn btn-windows " type="button" onclick="nextPage()">下一页</button>
+		    <button class="btn btn-windows " type="button" onclick="onStep()">上一步</button>
+		    <button class="btn btn-windows " type="button" onclick="nextStep()">下一步</button>
 		   </div>
 	 	 </div>
 	 	 

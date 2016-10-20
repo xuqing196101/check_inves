@@ -128,7 +128,7 @@ function add(){
 </div>
 	<div class="container">	
 		<div class="col-md-8 mt10 ml5">
-	   		<button class="btn btn-windows ht_add" type="button" onclick="add()">报价</button>
+	   		<button class="btn" type="button" onclick="add()">报价</button>
 		</div>
 	</div>
 	

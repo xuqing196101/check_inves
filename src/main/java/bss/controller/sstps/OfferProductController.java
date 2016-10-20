@@ -11,10 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.github.pagehelper.PageInfo;
-
 import bss.model.sstps.AccessoriesCon;
-import bss.model.sstps.AppraisalContract;
 import bss.model.sstps.ContractProduct;
 import bss.model.sstps.ProductInfo;
 import bss.service.sstps.AccessoriesConService;
@@ -58,7 +55,7 @@ public class OfferProductController {
 		accessoriesCon.setContractProduct(contractProduct);
 		List<AccessoriesCon> list = accessoriesConService.selectProduct(accessoriesCon);
 		model.addAttribute("list", list);
-		return "bss/sstps/offer/supplier/accessories_Con";
+		return "bss/sstps/offer/supplier/accessories/list";
 	}
 	
 	
