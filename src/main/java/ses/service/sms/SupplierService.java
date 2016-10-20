@@ -1,5 +1,6 @@
 package ses.service.sms;
 
+import ses.model.bms.User;
 import ses.model.sms.Supplier;
 /**
  * @Title: SupplierInfoService
@@ -33,7 +34,26 @@ public interface SupplierService {
 	 */
 	public void perfectBasic(Supplier supplier);
 	
+	/**
+	 * @Title: updateSupplierProcurementDep
+	 * @author: Wang Zhaohua
+	 * @date: 2016-10-20 下午6:55:52
+	 * @Description: 供应商更新审核单位
+	 * @param: @param supplier
+	 * @return: void
+	 */
 	public void updateSupplierProcurementDep(Supplier supplier);
+	
+	/**
+	 * @Title: commit
+	 * @author: Wang Zhaohua
+	 * @date: 2016-10-20 下午6:56:27
+	 * @Description: 供应商提交审核
+	 * @param: @param supplier
+	 * @param: @param user
+	 * @return: void
+	 */
+	public void commit(Supplier supplier, User user);
 	
 	/**
 	 * @Title: selectLastInsertId

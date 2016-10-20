@@ -3,11 +3,13 @@ package ses.service.sms.impl;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.dao.bms.TodosMapper;
 import ses.dao.sms.SupplierMapper;
+import ses.model.bms.Todos;
+import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierTypeRelate;
 import ses.service.sms.SupplierService;
@@ -25,6 +27,9 @@ public class SupplierServiceImpl implements SupplierService {
 
 	@Autowired
 	private SupplierMapper supplierMapper;
+	
+	@Autowired
+	private TodosMapper todosMapper;
 	
 	
 	@Override
@@ -72,10 +77,10 @@ public class SupplierServiceImpl implements SupplierService {
 	 */
 	@Override
 	public void perfectBasic(Supplier supplier) {
-		Supplier oldSupplier = supplierMapper.selectByPrimaryKey(supplier.getId());
-		BeanUtils.copyProperties(supplier, oldSupplier, new String[] {"serialVersionUID", "id", "loginName", "mobile", "password", "createdAt"});
-		oldSupplier.setUpdatedAt(new Date());
-		supplierMapper.updateByPrimaryKeySelective(oldSupplier);
+		//Supplier oldSupplier = supplierMapper.selectByPrimaryKey(supplier.getId());
+		//BeanUtils.copyProperties(supplier, oldSupplier, new String[] {"serialVersionUID", "id", "loginName", "mobile", "password", "createdAt"});
+		supplier.setUpdatedAt(new Date());
+		supplierMapper.updateByPrimaryKeySelective(supplier);
 	}
 	
 	/**
@@ -91,8 +96,43 @@ public class SupplierServiceImpl implements SupplierService {
 		return supplierMapper.selectLastInsertId();
 	}
 
+	/**
+	 * @Title: updateSupplierProcurementDep
+	 * @author: Wang Zhaohua
+	 * @date: 2016-10-20 下午6:55:52
+	 * @Description: 供应商更新审核单位
+	 * @param: @param supplier
+	 * @return: void
+	 */
 	@Override
 	public void updateSupplierProcurementDep(Supplier supplier) {
 		supplierMapper.updateSupplierProcurementDep(supplier);
+	}
+	
+	/**
+	 * @Title: commit
+	 * @author: Wang Zhaohua
+	 * @date: 2016-10-20 下午6:56:27
+	 * @Description: 供应商提交审核
+	 * @param: @param supplier
+	 * @param: @param user
+	 * @return: void
+	 */
+	@Override
+	public void commit(Supplier supplier, User user) {
+		supplier.setStatus(0);
+		supplierMapper.updateStatus(supplier);
+		supplier = supplierMapper.getSupplier(supplier.getId());
+		// 推送代办
+		Todos todos = new Todos();
+		todos.setCreatedAt(new Date());
+		todos.setIsDeleted((short) 0);
+		todos.setIsFinish((short) 0);
+		todos.setName("供应商初审");
+		todos.setReceiverId(supplier.getProcurementDepId());
+		todos.setSenderId(user.getId());
+		todos.setUndoType((short) 1);
+		todos.setUrl("supplierAudit/essential.html?supplierId=" + supplier.getId());
+		todosMapper.insert(todos);
 	}
 }

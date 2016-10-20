@@ -42,6 +42,7 @@ public class SupplierProductsServiceImpl implements SupplierProductsService {
 					}
 					if (flag && i == split.length - 1) {
 						supplierProductsMapper.deleteByPrimaryKey(id);
+						productParamMapper.deleteByProductId(id);
 					}
 				}
 			}

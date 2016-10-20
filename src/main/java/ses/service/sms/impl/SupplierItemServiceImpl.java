@@ -24,18 +24,19 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 		String supplierItemIds = supplier.getSupplierItemIds();
 		String supplierTypeIds = supplier.getSupplierTypeIds();
 		String[] itemIds = supplierItemIds.split(";");
-		for (int i = 0; i < itemIds.length; i++) {
-			for (String str : itemIds[i].split(",")) {
-				SupplierItem supplierItem = new SupplierItem();
-				supplierItem.setSupplierId(id);
-				supplierItem.setCategoryId(str);
-				supplierItem.setCreatedAt(new Date());
-				supplierItem.setSupplierTypeRelateId(supplierTypeIds.split(",")[i]);
-				supplierItemMapper.insertSelective(supplierItem);
+		if (supplierItemIds != null && !"".equals(supplierItemIds)) {
+			for (int i = 0; i < itemIds.length; i++) {
+				for (String str : itemIds[i].split(",")) {
+					SupplierItem supplierItem = new SupplierItem();
+					supplierItem.setSupplierId(id);
+					supplierItem.setCategoryId(str);
+					supplierItem.setCreatedAt(new Date());
+					supplierItem.setSupplierTypeRelateId(supplierTypeIds.split(",")[i]);
+					supplierItemMapper.insertSelective(supplierItem);
 
+				}
 			}
 		}
-
 	}
 
 	@Override

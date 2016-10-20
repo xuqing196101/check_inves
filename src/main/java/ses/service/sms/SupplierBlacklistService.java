@@ -17,4 +17,6 @@ public interface SupplierBlacklistService {
 	public SupplierBlacklist getSupplierBlacklist(String supplierBlacklistId);
 	
 	public void operatorRemove(String ids, User user);
+	
+	public void updateStatusTask();
 }

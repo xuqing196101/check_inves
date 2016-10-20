@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.sms.Supplier;
 import ses.service.oms.OrgnizationServiceI;
@@ -486,7 +487,15 @@ public class SupplierController extends BaseSupplierController {
 			return "redirect:page_jump.html";
 		} else if (sign == 9) {
 			this.setSupplierUpload(request, supplier);
-
+			User user = (User) request.getSession().getAttribute("loginUser");
+			supplierService.commit(supplier, user);
+			
+			request.getSession().removeAttribute("currSupplier");
+			request.getSession().removeAttribute("jump.page");
+			request.getSession().removeAttribute("listOrgnizations1");
+			request.getSession().removeAttribute("listOrgnizations2");
+			
+			return "redirect:../index/selectIndexNews.html";
 		}
 		return null;
 	}
