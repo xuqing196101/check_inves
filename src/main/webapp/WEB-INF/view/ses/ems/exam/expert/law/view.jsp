@@ -64,7 +64,7 @@
 		</div>
 		<ul class="list-unstyled list-flow p0_20">
 		     <li class="col-md-12 p0">
-	  			<span class="fl"><div class="red star_red">*</div>请选择题型：</span>
+	  			<span class="fl">请选择题型：</span>
 		  		<select id="queType" name="queType" disabled="disabled">
 		  			<option value="">请选择</option>
 		  			<c:forEach items="${examPoolType }" var="e">
@@ -81,16 +81,17 @@
 	  		</li>
 		
 			<li class="col-md-12 p0">
-			   <span class="fl"><div class="red star_red">*</div>题干：</span>
+			   <span class="fl">题干：</span>
 			   <div class="">
 		        	<textarea class="text_area col-md-8" name="topic" id="queTopic" disabled="disabled">${lawQue.topic }</textarea>
 		       </div>
 			 </li> 
 		   
 	  	
-	  			<li class="col-md-12 p0">
-					<span class="fl"><div class="red star_red">*</div>请选择选项数量：</span>
-					<select id="options" name="options" disabled="disabled">
+	  		<li class="col-md-12 p0">
+				<span class="fl">请选择选项数量：</span>
+				<div class="fl col-md-9 p0">
+					<select id="options" name="options" disabled="disabled" class="fl">
 			  			<option value="">请选择</option>
 			  			<c:if test="${optNum==3 }">
 			  				<option value="three" selected>3</option>
@@ -142,10 +143,11 @@
 			  			</c:if>
 		  			</select>
 					<div class="col-md-9 clear p0" id="items"></div>
-			 	</li> 
+				</div>
+			 </li> 
 		   
 		  		<li class="col-md-12 p0">
-					<span class="fl"><div class="red star_red">*</div>答案：</span>	
+					<span class="fl">答案：</span>	
 					<div class="fl ml5 mt5" id="answers"></div>
 				</li>
 				

@@ -22,10 +22,6 @@ public class ExamQuestion{
      */
     private String answer;
     
-    /**
-     * @Fields point :分值
-     */
-    private Integer point;
     
     /**
      * @Fields questionTypeId :题目类型
@@ -106,14 +102,6 @@ public class ExamQuestion{
 
 	public void setAnswer(String answer) {
 		this.answer = answer;
-	}
-
-	public Integer getPoint() {
-		return point;
-	}
-
-	public void setPoint(Integer point) {
-		this.point = point;
 	}
 
 	public Integer getQuestionTypeId() {

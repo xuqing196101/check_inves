@@ -141,7 +141,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<li><a href="#"> 首页</a></li>
 				<li><a href="#">障碍作业系统</a></li>
 				<li><a href="#">采购计划管理</a></li>
-				<li class="active"><a href="#">采购需求管理</a></li>
+				<li class="active"><a href="#">采购计划审核</a></li>
 			</ul>
 			<div class="clear"></div>
 		</div>
@@ -158,7 +158,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<table class="table table-bordered table-condensed mt5">
 					<thead>
 						<tr>
-							<th class="info" colspan="16">事业部门需求</th>
+							<th class="info" colspan="17">事业部门需求</th>
 						 
 							<th class="info" colspan="3">一轮评审意见</th>
 							<th class="info" colspan="2">二轮评审意见</th>
@@ -176,6 +176,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<th class="info">预算金额（万元）</th>
 							<th class="info">交货期限</th>
 							<th class="info">采购方式建议</th>
+							
+							<th class="info">采购机构</th>
 							<th class="info">供应商名称</th>
 							<th class="info">是否申请办理免税</th>
 							<th class="info">物资用途（仅进口）</th>
@@ -193,82 +195,78 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 					<c:forEach items="${list }" var="obj" varStatus="vs">
 						<tr>
-							<td class="tc w50"><input style="border: 0px;" type="text" name="list[${vs.count }].seq" value="${obj.seq }"><input style="border: 0px;" type="hidden" name="list[${vs.count }].id" value="${obj.id }">
+							<td class="tc w50"><input style="border: 0px;" type="text" name="list[${vs.index }].seq" value="${obj.seq }"><input style="border: 0px;" type="hidden" name="list[${vs.index }].id" value="${obj.id }">
 							</td>
-							<td><input style="border: 0px;" type="text" name="list[${vs.count }].department" value="${obj.department }"></td>
-							<td><input style="border: 0px;" type="text" name="list[${vs.count }].goodsName" value="${obj.goodsName }"></td>
-							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.count }].stand" value="${obj.stand }"></td>
-							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.count }].qualitStand" value="${obj.qualitStand }"></td>
-							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.count }].item" value="${obj.item }"></td>
-							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.count }].purchaseCount" value="${obj.purchaseCount }"></td>
-							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.count }].price" value="${obj.price }"></td>
-							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.count }].budget" value="${obj.budget }"></td>
-							<td><input style="border: 0px;" type="text" name="list[${vs.count }].deliverDate" value="${obj.deliverDate }"></td>
+							<td><input style="border: 0px;" type="text" name="list[${vs.index }].department" value="${obj.department }"></td>
+							<td><input style="border: 0px;" type="text" name="list[${vs.index }].goodsName" value="${obj.goodsName }"></td>
+							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.index }].stand" value="${obj.stand }"></td>
+							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.index }].qualitStand" value="${obj.qualitStand }"></td>
+							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.index }].item" value="${obj.item }"></td>
+							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.index }].purchaseCount" value="${obj.purchaseCount }"></td>
+							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.index }].price" value="${obj.price }"></td>
+							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.index }].budget" value="${obj.budget }"></td>
+							<td><input style="border: 0px;" type="text" name="list[${vs.index }].deliverDate" value="${obj.deliverDate }"></td>
 							<td>
 							
-							<select name="list[${vs.count }].purchaseType">
+							<select name="list[${vs.index }].purchaseType">
 							<option value="公开招标">公开招标</option>
 							<option value="邀请招标">邀请招标</option>
 							<option value="电子反拍">电子反拍</option>
-							<option value="网上竞价">网上竞价</option>
-							<option value="单一来源">单一来源</option>
 							<option value="竞争性谈判">竞争性谈判</option>
 							<option value="单一来源">询价</option>
 							</select>
+							</td>
+							<td class="tc">
+							<select name="list[${vs.index }].organization">
+								<c:forEach items="${org }" var="ss">
+								  <option value="${obj.organization==ss.id }" selected="selected">${ss.name}</option>
+								</c:forEach>
+								
 							</td>
 							
-							<td class="tc">
-							<select name="list[${vs.count }].oneOrganiza">
-							<c:forEach items="${org }" var="ss">
-							<option value="${ss.id }">${ss.name}</option>
-							</c:forEach>
-							</select>
+							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.index }].supplier" value="${obj.supplier }"></td>
+							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.index }].isFreeTax" value="${obj.isFreeTax }"></td>
+							<td class="tc"><input style="border: 0px;"type="text" name="list[${vs.index }].goodsUse" value="${obj.goodsUse }"></td>
+							<td class="tc"><input  style="border: 0px;" type="text" name="list[${vs.index }].useUnit" value="${obj.useUnit }"></td>
+							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.index }].memo" value="${obj.memo }">
+							<input type="hidden" name="list[${vs.index }].planName" value="${obj.planName }">
+							<input type="hidden" name="list[${vs.index }].planNo" value="${obj.planNo }">
+							<input type="hidden" name="list[${vs.index }].planType" value="${obj.planType }">
+							<input type="hidden" name="list[${vs.index }].parentId" value="${obj.parentId }">
+							<input type="hidden" name="list[${vs.index }].historyStatus" value="${obj.historyStatus }">
+							<input type="hidden" name="list[${vs.index }].goodsType" value="${obj.goodsType }">
+							<input type="hidden" name="list[${vs.index }].organization" value="${obj.organization }">
+							<input type="hidden" name="list[${vs.index }].auditDate" value="${obj.auditDate }">
+							<input type="hidden" name="list[${vs.index }].isMaster" value="${obj.isMaster }">
+							<input type="hidden" name="list[${vs.index }].isDelete" value="${obj.isDelete }">
+							<input type="hidden" name="list[${vs.index }].status" value="${obj.status }">
 							</td>
 							<td class="tc">
-							<select name="list[${vs.count }].organization">
-							<c:forEach items="${org }" var="ss">
-							<option value="${ss.id }">${ss.name}</option>
-							</c:forEach>
-							</select>
-							</td>
-							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.count }].supplier" value="${obj.supplier }"></td>
-							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.count }].isFreeTax" value="${obj.isFreeTax }"></td>
-							<td class="tc"><input style="border: 0px;"type="text" name="list[${vs.count }].goodsUse" value="${obj.goodsUse }"></td>
-							<td class="tc"><input  style="border: 0px;" type="text" name="list[${vs.count }].useUnit" value="${obj.useUnit }"></td>
-							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.count }].memo" value="${obj.memo }">
-							<input type="hidden" name="list[${vs.count }].planName" value="${obj.planName }">
-							<input type="hidden" name="list[${vs.count }].planNo" value="${obj.planNo }">
-							<input type="hidden" name="list[${vs.count }].planType" value="${obj.planType }">
-							<input type="hidden" name="list[${vs.count }].parentId" value="${obj.parentId }">
-							<input type="hidden" name="list[${vs.count }].historyStatus" value="${obj.historyStatus }">
-							<input type="hidden" name="list[${vs.count }].goodsType" value="${obj.goodsType }">
-							<input type="hidden" name="list[${vs.count }].organization" value="${obj.organization }">
-							<input type="hidden" name="list[${vs.count }].auditDate" value="${obj.auditDate }">
-							<input type="hidden" name="list[${vs.count }].isMaster" value="${obj.isMaster }">
-							<input type="hidden" name="list[${vs.count }].isDelete" value="${obj.isDelete }">
-							<input type="hidden" name="list[${vs.count }].status" value="${obj.status }">
-							</td>
-							<td class="tc">
-							<select name="list[${vs.count }].onePurchaseType">
+							<select name="list[${vs.index }].onePurchaseType">
 							<option value="公开招标">公开招标</option>
 							<option value="邀请招标">邀请招标</option>
-							<option value="电子反拍">电子反拍</option>
-							<option value="网上竞价">网上竞价</option>
 							<option value="单一来源">单一来源</option>
 							<option value="竞争性谈判">竞争性谈判</option>
 							<option value="单一来源">询价</option>
 							</select>
 							</td>
 							<td class="tc">
-							<select name="list[${vs.count }].oneOrganiza">
+							<select name="list[${vs.index }].oneOrganiza">
+							<option value="">请选择</option>
 							<c:forEach items="${org }" var="ss">
+							<c:if test="${obj.organization==ss.id }">
+							<option value="${ss.id }" selected="selected">${ss.name}</option>
+							</c:if>
+							<c:if test="${obj.organization!=ss.id }">
 							<option value="${ss.id }">${ss.name}</option>
+							</c:if>
+							
 							</c:forEach>
 							</select>
 							</td>
-							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.count }].oneAdvice" value="${obj.oneAdvice }"></td>
-							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.count }].twoTechAdvice" value="${obj.twoTechAdvice }"></td>
-							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.count }].twoAdvice" value="${obj.twoAdvice }"></td>
+							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.index }].oneAdvice" value="${obj.oneAdvice }"></td>
+							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.index }].twoTechAdvice" value="${obj.twoTechAdvice }"></td>
+							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.index }].twoAdvice" value="${obj.twoAdvice }"></td>
 						</tr>
 
 					</c:forEach>
@@ -279,6 +277,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				
 				</table>
 				<input type="hidden" id="cid" value="${id}">
+				<div class=""><a class="upload">上传附件</a><input rquired="true" type="file" name="file"> </div>
 				<input class="btn btn-windows save" type="submit" value="提交">
 				<input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 			</form>

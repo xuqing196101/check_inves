@@ -50,8 +50,8 @@
 	  	<ul class="list-unstyled list-flow p0_20">
 	  		<li class="col-md-12 p0">
 	  			<span class="fl mt5"><div class="red star_red">*</div>考试开始时间：</span>
-		  		<input type="text" name="startTime" id="startTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" class="Wdate mt5"/>
-	  			<div class="validate">${ERR_time }</div>
+		  		<input type="text" name="startTime" id="startTime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})" class="Wdate mt5 fl"/>
+	  			<div class="fl mt10 ml5 red">${ERR_time }</div>
 	  		</li>
 	    	
 	    	<li class="col-md-12 p0">
@@ -70,14 +70,14 @@
 	    	
 	    	<li class="col-md-12 p0">
 	  			<span class="fl"><div class="red star_red">*</div>及格标准：</span>
-	  			<input type="text" name="passStandard" id="passStandard"/>分
-	  			<div class="validate">${ERR_passStandard }</div>
+	  			<div class="fl"><input type="text" name="passStandard" id="passStandard"/>分</div>
+	  			<div class="fl mt10 ml5 red">${ERR_passStandard }</div>
 	    	</li>
 	    	
 	    	<li class="col-md-12 p0">
 	  			<span class="fl"><div class="red star_red">*</div>考试有效时间：</span>
-	  			<input type="text" name="testCycle" id="testCycle"/>月
-	  			<div class="validate">${ERR_testCycle }</div>
+	  			<div class="fl"><input type="text" name="testCycle" id="testCycle"/>月</div>
+	  			<div class="fl mt10 ml5 red">${ERR_testCycle }</div>
 	    	</li>
 	    </ul>
 	    

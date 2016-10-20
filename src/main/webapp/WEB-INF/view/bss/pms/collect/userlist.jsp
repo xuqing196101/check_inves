@@ -79,7 +79,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	function closeds(){
 		var id  = $('input[name="chkItem"]:checked').val(); 
 		var index = parent.layer.getFrameIndex(window.name); 
-
+		var cid=parent.id;
+	 
+		$("#cid").val(cid);
 		if(id==""||id==null){
 			layer.alert("请选择要汇总的计划",{offset: ['100px', '100px'], shade:0.01});
 		}else{
@@ -199,6 +201,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<form id="collected_form" action="" method="post" style="margin-top: 20px;display: none;">
 	 <input type="hidden" value="" name="id" id="aid">
 	  <input type="hidden" name="type" value="2">
+	  <input type="hidden" name="collectId" value="" id="cid">
 	 </form>
 	 
 </html>

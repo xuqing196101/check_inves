@@ -277,12 +277,14 @@ public class AuditSetController {
 	 */
 	@RequestMapping("/excel")
 	public void excel(HttpServletRequest request,HttpServletResponse response,CollectPlan collectPlan) throws UnsupportedEncodingException{
-		CollectPlan plan = collectPlanService.queryById(collectPlan.getId());
+//		CollectPlan plan = collectPlanService.queryById(collectPlan.getId());
 //		collectPlan.setPlanNo("001");
+		
+		List<String> no = collectPurchaseService.getNo(collectPlan.getId());
 		List<PurchaseRequired> list=new LinkedList<PurchaseRequired>();
-		if(plan.getPlanNo()!=null){
-			String[] str = plan.getPlanNo().split(",");
-			for(String s:str){
+		if(no!=null&&no.size()>0){
+//			String[] str = plan.getPlanNo().split(",");
+			for(String s:no){
 				List<PurchaseRequired> pur = purchaseRequiredMapper.queryByNo(s);
 				list.addAll(pur);
 			}

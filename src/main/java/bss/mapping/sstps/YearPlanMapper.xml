@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.sstps.YearPlanMapper">
+  <resultMap id="YearPlanMap" type="bss.model.sstps.YearPlan">
+    <id column="ID" property="id" />
+    <result column="PROJECT_NAME" property="projectName" />
+    <result column="PRODUCT_NAME" property="productName" />
+    <result column="MEASURING_UNIT" property="measuringUnit" />
+    <result column="TYA_HOUR_UNIT"  property="tyaHourUnit" />
+    <result column="TYA_INVEST_ACOUNT"  property="tyaInvestAcount" />
+    <result column="TYA_HOUR_TOTAL"  property="tyaHourTotal" />
+    <result column="OYA_HOUR_UNIT"  property="oyaHourUnit" />
+    <result column="OYA_INVEST_ACOUNT"  property="oyaInvestAcount" />
+    <result column="OYA_HOUR_TOTAL"  property="oyaHourTotal" />
+    <result column="NEW_HOUR_UNIT"  property="newHourUnit" />
+    <result column="NEW_INVEST_ACOUNT"  property="newInvestAcount" />
+    <result column="NEW_HOUR_TOTAL"  property="newHourTotal" />
+    <result column="APPROVED_HOUR_UNIT"  property="approvedHourUnit" />
+    <result column="APPROVED_INVEST_ACOUNT"  property="approvedInvestAcount" />
+    <result column="APPROVED_HOUR_TOTAL"  property="approvedHourTotal" />
+    <result column="CHECK_HOUR_UNIT"  property="checkHourUnit" />
+    <result column="CHECK_INVEST_ACOUNT"  property="checkInvestAcount" />
+    <result column="CHECK_HOUR_TOTAL"  property="checkHourTotal" />
+    <result column="REMARK" property="remark" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+    
+    <association property="contractProduct" column="PRODUCT_ID" select="bss.dao.sstps.AppraisalContractMapper.selectById"/>
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    ID, PRODUCT_ID, PROJECT_NAME, PRODUCT_NAME, MEASURING_UNIT, TYA_HOUR_UNIT, TYA_INVEST_ACOUNT, 
+    TYA_HOUR_TOTAL, OYA_HOUR_UNIT, OYA_INVEST_ACOUNT, OYA_HOUR_TOTAL, NEW_HOUR_UNIT, 
+    NEW_INVEST_ACOUNT, NEW_HOUR_TOTAL, APPROVED_HOUR_UNIT, APPROVED_INVEST_ACOUNT, APPROVED_HOUR_TOTAL, 
+    CHECK_HOUR_UNIT, CHECK_INVEST_ACOUNT, CHECK_HOUR_TOTAL, REMARK, CREATED_AT, UPDATED_AT
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="YearPlanMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_SSTPS_YEAR_PLAN
+    where ID = #{id}
+  </select>
+  
+  <select id="selectProduct" parameterType="Object" resultMap="YearPlanMap">
+    select 
+    <include refid="Base_Column_List" />
+  	 from T_BSS_SSTPS_YEAR_PLAN
+    where PRODUCT_ID = #{contractProduct.id}
+  </select>
+  
+  <delete id="delete" parameterType="java.lang.String">
+    delete from T_BSS_SSTPS_YEAR_PLAN
+    where ID = #{id}
+  </delete>
+  
+  <insert id="insert" parameterType="bss.model.sstps.YearPlan">
+  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_BSS_SSTPS_YEAR_PLAN
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="contractProduct != null">
+        PRODUCT_ID,
+      </if>
+      <if test="projectName != null">
+        PROJECT_NAME,
+      </if>
+      <if test="productName != null">
+        PRODUCT_NAME,
+      </if>
+      <if test="measuringUnit != null">
+        MEASURING_UNIT,
+      </if>
+      <if test="tyaHourUnit != null">
+        TYA_HOUR_UNIT,
+      </if>
+      <if test="tyaInvestAcount != null">
+        TYA_INVEST_ACOUNT,
+      </if>
+      <if test="tyaHourTotal != null">
+        TYA_HOUR_TOTAL,
+      </if>
+      <if test="oyaHourUnit != null">
+        OYA_HOUR_UNIT,
+      </if>
+      <if test="oyaInvestAcount != null">
+        OYA_INVEST_ACOUNT,
+      </if>
+      <if test="oyaHourTotal != null">
+        OYA_HOUR_TOTAL,
+      </if>
+      <if test="newHourUnit != null">
+        NEW_HOUR_UNIT,
+      </if>
+      <if test="newInvestAcount != null">
+        NEW_INVEST_ACOUNT,
+      </if>
+      <if test="newHourTotal != null">
+        NEW_HOUR_TOTAL,
+      </if>
+      <if test="approvedHourUnit != null">
+        APPROVED_HOUR_UNIT,
+      </if>
+      <if test="approvedInvestAcount != null">
+        APPROVED_INVEST_ACOUNT,
+      </if>
+      <if test="approvedHourTotal != null">
+        APPROVED_HOUR_TOTAL,
+      </if>
+      <if test="checkHourUnit != null">
+        CHECK_HOUR_UNIT,
+      </if>
+      <if test="checkInvestAcount != null">
+        CHECK_INVEST_ACOUNT,
+      </if>
+      <if test="checkHourTotal != null">
+        CHECK_HOUR_TOTAL,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="contractProduct != null">
+        #{contractProduct.id},
+      </if>
+      <if test="projectName != null">
+        #{projectName},
+      </if>
+      <if test="productName != null">
+        #{productName},
+      </if>
+      <if test="measuringUnit != null">
+        #{measuringUnit},
+      </if>
+      <if test="tyaHourUnit != null">
+        #{tyaHourUnit},
+      </if>
+      <if test="tyaInvestAcount != null">
+        #{tyaInvestAcount},
+      </if>
+      <if test="tyaHourTotal != null">
+        #{tyaHourTotal},
+      </if>
+      <if test="oyaHourUnit != null">
+        #{oyaHourUnit},
+      </if>
+      <if test="oyaInvestAcount != null">
+        #{oyaInvestAcount},
+      </if>
+      <if test="oyaHourTotal != null">
+        #{oyaHourTotal},
+      </if>
+      <if test="newHourUnit != null">
+        #{newHourUnit},
+      </if>
+      <if test="newInvestAcount != null">
+        #{newInvestAcount},
+      </if>
+      <if test="newHourTotal != null">
+        #{newHourTotal},
+      </if>
+      <if test="approvedHourUnit != null">
+        #{approvedHourUnit},
+      </if>
+      <if test="approvedInvestAcount != null">
+        #{approvedInvestAcount},
+      </if>
+      <if test="approvedHourTotal != null">
+        #{approvedHourTotal},
+      </if>
+      <if test="checkHourUnit != null">
+        #{checkHourUnit},
+      </if>
+      <if test="checkInvestAcount != null">
+        #{checkInvestAcount},
+      </if>
+      <if test="checkHourTotal != null">
+        #{checkHourTotal},
+      </if>
+      <if test="remark != null">
+        #{remark},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="bss.model.sstps.YearPlan">
+    update T_BSS_SSTPS_YEAR_PLAN
+    <set>
+      <if test="contractProduct != null">
+        PRODUCT_ID = #{contractProduct.id},
+      </if>
+      <if test="projectName != null">
+        PROJECT_NAME = #{projectName},
+      </if>
+      <if test="productName != null">
+        PRODUCT_NAME = #{productName},
+      </if>
+      <if test="measuringUnit != null">
+        MEASURING_UNIT = #{measuringUnit},
+      </if>
+      <if test="tyaHourUnit != null">
+        TYA_HOUR_UNIT = #{tyaHourUnit},
+      </if>
+      <if test="tyaInvestAcount != null">
+        TYA_INVEST_ACOUNT = #{tyaInvestAcount},
+      </if>
+      <if test="tyaHourTotal != null">
+        TYA_HOUR_TOTAL = #{tyaHourTotal},
+      </if>
+      <if test="oyaHourUnit != null">
+        OYA_HOUR_UNIT = #{oyaHourUnit},
+      </if>
+      <if test="oyaInvestAcount != null">
+        OYA_INVEST_ACOUNT = #{oyaInvestAcount},
+      </if>
+      <if test="oyaHourTotal != null">
+        OYA_HOUR_TOTAL = #{oyaHourTotal},
+      </if>
+      <if test="newHourUnit != null">
+        NEW_HOUR_UNIT = #{newHourUnit},
+      </if>
+      <if test="newInvestAcount != null">
+        NEW_INVEST_ACOUNT = #{newInvestAcount},
+      </if>
+      <if test="newHourTotal != null">
+        NEW_HOUR_TOTAL = #{newHourTotal},
+      </if>
+      <if test="approvedHourUnit != null">
+        APPROVED_HOUR_UNIT = #{approvedHourUnit},
+      </if>
+      <if test="approvedInvestAcount != null">
+        APPROVED_INVEST_ACOUNT = #{approvedInvestAcount},
+      </if>
+      <if test="approvedHourTotal != null">
+        APPROVED_HOUR_TOTAL = #{approvedHourTotal},
+      </if>
+      <if test="checkHourUnit != null">
+        CHECK_HOUR_UNIT = #{checkHourUnit},
+      </if>
+      <if test="checkInvestAcount != null">
+        CHECK_INVEST_ACOUNT = #{checkInvestAcount},
+      </if>
+      <if test="checkHourTotal != null">
+        CHECK_HOUR_TOTAL = #{checkHourTotal},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt},
+      </if>
+    </set>
+    where ID = #{id}
+  </update>
+  
+</mapper>

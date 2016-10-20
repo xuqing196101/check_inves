@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.sstps.ProductQuotaMapper">
+  <resultMap id="ProductQuotaMap" type="bss.model.sstps.ProductQuota">
+    <id column="ID"  property="id" />
+    <result column="PARTS_NAME"  property="partsName" />
+    <result column="PARTS_DRAWING_CODE"  property="partsDrawingCode" />
+    <result column="PROCESS_NAME"  property="processName" />
+    <result column="ON_OFFER"  property="offer" />
+    <result column="ON_RATIFY"  property="ratify" />
+    <result column="ON_CHECK"  property="check" />
+    <result column="PROCESSING_OFFER"  property="processingOffer" />
+    <result column="PROCESSING_RATIFY"  property="processingRatify" />
+    <result column="PROCESSING_CHECK"  property="processingCheck" />
+    <result column="ASSEMBLY_OFFER"  property="assemblyOffer" />
+    <result column="ASSEMBLY_RATIFY"  property="assemblyRatify" />
+    <result column="ASSEMBLY_CHECK"  property="assemblyCheck" />
+    <result column="DEBUGGING_OFFER"  property="debuggingOffer" />
+    <result column="DEBUGGING_RATIFY"  property="debuggingRatify" />
+    <result column="DEBUGGING_CHECK"  property="debuggingCheck" />
+    <result column="TEST_OFFER"  property="testOffer" />
+    <result column="TEST_RATIFY"  property="testRatify" />
+    <result column="TEST_CHECK"  property="testCheck" />
+    <result column="OTHER_OFFER"  property="otherOffer" />
+    <result column="OTHER_RATIFY"  property="otherRatify" />
+    <result column="OTHER_CHECK"  property="otherCheck" />
+    <result column="SUBTOTAL_OFFER"  property="subtotalOffer" />
+    <result column="SUBTOTAL_RATIFY"  property="subtotalRatify" />
+    <result column="SUBTOTAL_CHECK"  property="subtotalCheck" />
+    <result column="MEASURING_UNIT"  property="measuringUnit" />
+    <result column="ASSORT_OFFER"  property="assortOffer" />
+    <result column="ASSORT_RATIFY"  property="assortRatify" />
+    <result column="ASSORT_CHECK"  property="assortCheck" />
+    <result column="APPROVED_OFFER"  property="approvedOffer" />
+    <result column="APPROVED_RATIFY"  property="approvedRatify" />
+    <result column="APPROVED_SUBTRACT"  property="approvedSubtract" />
+    <result column="APPROVED_CHECK"  property="approvedCheck" />
+    <result column="REMARK"  property="remark" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+    <association property="contractProduct" column="PRODUCT_ID" select="bss.dao.sstps.AppraisalContractMapper.selectById"/>
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    ID, PRODUCT_ID, PARTS_NAME, PARTS_DRAWING_CODE, PROCESS_NAME, ON_OFFER, ON_RATIFY, ON_CHECK, 
+    PROCESSING_OFFER, PROCESSING_RATIFY, PROCESSING_CHECK, ASSEMBLY_OFFER, ASSEMBLY_RATIFY, 
+    ASSEMBLY_CHECK, DEBUGGING_OFFER, DEBUGGING_RATIFY, DEBUGGING_CHECK, TEST_OFFER, TEST_RATIFY, 
+    TEST_CHECK, OTHER_OFFER, OTHER_RATIFY, OTHER_CHECK, SUBTOTAL_OFFER, SUBTOTAL_RATIFY, 
+    SUBTOTAL_CHECK, MEASURING_UNIT, ASSORT_OFFER, ASSORT_RATIFY, ASSORT_CHECK, APPROVED_OFFER, 
+    APPROVED_RATIFY, APPROVED_SUBTRACT, APPROVED_CHECK, REMARK, CREATED_AT, UPDATED_AT
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ProductQuotaMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_SSTPS_PRODUCT_QUOTA
+    where ID = #{id}
+  </select>
+  
+  <select id="selectProduct" parameterType="Object" resultMap="ProductQuotaMap">
+    select 
+    <include refid="Base_Column_List" />
+  	 from T_BSS_SSTPS_PRODUCT_QUOTA
+    WHERE PRODUCT_ID = #{contractProduct.id}
+  </select>
+  
+  <delete id="delete" parameterType="java.lang.String">
+    delete from T_BSS_SSTPS_PRODUCT_QUOTA
+    where ID = #{id}
+  </delete>
+  
+ 
+  <insert id="insert" parameterType="bss.model.sstps.ProductQuota">
+  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_BSS_SSTPS_PRODUCT_QUOTA
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="contractProduct != null">
+        PRODUCT_ID,
+      </if>
+      <if test="partsName != null">
+        PARTS_NAME,
+      </if>
+      <if test="partsDrawingCode != null">
+        PARTS_DRAWING_CODE,
+      </if>
+      <if test="processName != null">
+        PROCESS_NAME,
+      </if>
+      <if test="offer != null">
+        ON_OFFER,
+      </if>
+      <if test="ratify != null">
+        ON_RATIFY,
+      </if>
+      <if test="check != null">
+        ON_CHECK,
+      </if>
+      <if test="processingOffer != null">
+        PROCESSING_OFFER,
+      </if>
+      <if test="processingRatify != null">
+        PROCESSING_RATIFY,
+      </if>
+      <if test="processingCheck != null">
+        PROCESSING_CHECK,
+      </if>
+      <if test="assemblyOffer != null">
+        ASSEMBLY_OFFER,
+      </if>
+      <if test="assemblyRatify != null">
+        ASSEMBLY_RATIFY,
+      </if>
+      <if test="assemblyCheck != null">
+        ASSEMBLY_CHECK,
+      </if>
+      <if test="debuggingOffer != null">
+        DEBUGGING_OFFER,
+      </if>
+      <if test="debuggingRatify != null">
+        DEBUGGING_RATIFY,
+      </if>
+      <if test="debuggingCheck != null">
+        DEBUGGING_CHECK,
+      </if>
+      <if test="testOffer != null">
+        TEST_OFFER,
+      </if>
+      <if test="testRatify != null">
+        TEST_RATIFY,
+      </if>
+      <if test="testCheck != null">
+        TEST_CHECK,
+      </if>
+      <if test="otherOffer != null">
+        OTHER_OFFER,
+      </if>
+      <if test="otherRatify != null">
+        OTHER_RATIFY,
+      </if>
+      <if test="otherCheck != null">
+        OTHER_CHECK,
+      </if>
+      <if test="subtotalOffer != null">
+        SUBTOTAL_OFFER,
+      </if>
+      <if test="subtotalRatify != null">
+        SUBTOTAL_RATIFY,
+      </if>
+      <if test="subtotalCheck != null">
+        SUBTOTAL_CHECK,
+      </if>
+      <if test="measuringUnit != null">
+        MEASURING_UNIT,
+      </if>
+      <if test="assortOffer != null">
+        ASSORT_OFFER,
+      </if>
+      <if test="assortRatify != null">
+        ASSORT_RATIFY,
+      </if>
+      <if test="assortCheck != null">
+        ASSORT_CHECK,
+      </if>
+      <if test="approvedOffer != null">
+        APPROVED_OFFER,
+      </if>
+      <if test="approvedRatify != null">
+        APPROVED_RATIFY,
+      </if>
+      <if test="approvedSubtract != null">
+        APPROVED_SUBTRACT,
+      </if>
+      <if test="approvedCheck != null">
+        APPROVED_CHECK,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="contractProduct != null">
+        #{contractProduct.id},
+      </if>
+      <if test="partsName != null">
+        #{partsName},
+      </if>
+      <if test="partsDrawingCode != null">
+        #{partsDrawingCode},
+      </if>
+      <if test="processName != null">
+        #{processName},
+      </if>
+      <if test="offer != null">
+        #{offer},
+      </if>
+      <if test="ratify != null">
+        #{ratify},
+      </if>
+      <if test="check != null">
+        #{check},
+      </if>
+      <if test="processingOffer != null">
+        #{processingOffer},
+      </if>
+      <if test="processingRatify != null">
+        #{processingRatify},
+      </if>
+      <if test="processingCheck != null">
+        #{processingCheck},
+      </if>
+      <if test="assemblyOffer != null">
+        #{assemblyOffer},
+      </if>
+      <if test="assemblyRatify != null">
+        #{assemblyRatify},
+      </if>
+      <if test="assemblyCheck != null">
+        #{assemblyCheck},
+      </if>
+      <if test="debuggingOffer != null">
+        #{debuggingOffer},
+      </if>
+      <if test="debuggingRatify != null">
+        #{debuggingRatify},
+      </if>
+      <if test="debuggingCheck != null">
+        #{debuggingCheck},
+      </if>
+      <if test="testOffer != null">
+        #{testOffer},
+      </if>
+      <if test="testRatify != null">
+        #{testRatify},
+      </if>
+      <if test="testCheck != null">
+        #{testCheck},
+      </if>
+      <if test="otherOffer != null">
+        #{otherOffer},
+      </if>
+      <if test="otherRatify != null">
+        #{otherRatify},
+      </if>
+      <if test="otherCheck != null">
+        #{otherCheck},
+      </if>
+      <if test="subtotalOffer != null">
+        #{subtotalOffer},
+      </if>
+      <if test="subtotalRatify != null">
+        #{subtotalRatify},
+      </if>
+      <if test="subtotalCheck != null">
+        #{subtotalCheck},
+      </if>
+      <if test="measuringUnit != null">
+        #{measuringUnit},
+      </if>
+      <if test="assortOffer != null">
+        #{assortOffer},
+      </if>
+      <if test="assortRatify != null">
+        #{assortRatify},
+      </if>
+      <if test="assortCheck != null">
+        #{assortCheck},
+      </if>
+      <if test="approvedOffer != null">
+        #{approvedOffer},
+      </if>
+      <if test="approvedRatify != null">
+        #{approvedRatify},
+      </if>
+      <if test="approvedSubtract != null">
+        #{approvedSubtract},
+      </if>
+      <if test="approvedCheck != null">
+        #{approvedCheck},
+      </if>
+      <if test="remark != null">
+        #{remark},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="bss.model.sstps.ProductQuota">
+    update T_BSS_SSTPS_PRODUCT_QUOTA
+    <set>
+      <if test="contractProduct != null">
+        PRODUCT_ID = #{contractProduct.id},
+      </if>
+      <if test="partsName != null">
+        PARTS_NAME = #{partsName},
+      </if>
+      <if test="partsDrawingCode != null">
+        PARTS_DRAWING_CODE = #{partsDrawingCode},
+      </if>
+      <if test="processName != null">
+        PROCESS_NAME = #{processName},
+      </if>
+      <if test="offer != null">
+        ON_OFFER = #{offer},
+      </if>
+      <if test="ratify != null">
+        ON_RATIFY = #{ratify},
+      </if>
+      <if test="check != null">
+        ON_CHECK = #{check},
+      </if>
+      <if test="processingOffer != null">
+        PROCESSING_OFFER = #{processingOffer},
+      </if>
+      <if test="processingRatify != null">
+        PROCESSING_RATIFY = #{processingRatify},
+      </if>
+      <if test="processingCheck != null">
+        PROCESSING_CHECK = #{processingCheck},
+      </if>
+      <if test="assemblyOffer != null">
+        ASSEMBLY_OFFER = #{assemblyOffer},
+      </if>
+      <if test="assemblyRatify != null">
+        ASSEMBLY_RATIFY = #{assemblyRatify},
+      </if>
+      <if test="assemblyCheck != null">
+        ASSEMBLY_CHECK = #{assemblyCheck},
+      </if>
+      <if test="debuggingOffer != null">
+        DEBUGGING_OFFER = #{debuggingOffer},
+      </if>
+      <if test="debuggingRatify != null">
+        DEBUGGING_RATIFY = #{debuggingRatify},
+      </if>
+      <if test="debuggingCheck != null">
+        DEBUGGING_CHECK = #{debuggingCheck},
+      </if>
+      <if test="testOffer != null">
+        TEST_OFFER = #{testOffer},
+      </if>
+      <if test="testRatify != null">
+        TEST_RATIFY = #{testRatify},
+      </if>
+      <if test="testCheck != null">
+        TEST_CHECK = #{testCheck},
+      </if>
+      <if test="otherOffer != null">
+        OTHER_OFFER = #{otherOffer},
+      </if>
+      <if test="otherRatify != null">
+        OTHER_RATIFY = #{otherRatify},
+      </if>
+      <if test="otherCheck != null">
+        OTHER_CHECK = #{otherCheck},
+      </if>
+      <if test="subtotalOffer != null">
+        SUBTOTAL_OFFER = #{subtotalOffer},
+      </if>
+      <if test="subtotalRatify != null">
+        SUBTOTAL_RATIFY = #{subtotalRatify},
+      </if>
+      <if test="subtotalCheck != null">
+        SUBTOTAL_CHECK = #{subtotalCheck},
+      </if>
+      <if test="measuringUnit != null">
+        MEASURING_UNIT = #{measuringUnit},
+      </if>
+      <if test="assortOffer != null">
+        ASSORT_OFFER = #{assortOffer},
+      </if>
+      <if test="assortRatify != null">
+        ASSORT_RATIFY = #{assortRatify},
+      </if>
+      <if test="assortCheck != null">
+        ASSORT_CHECK = #{assortCheck},
+      </if>
+      <if test="approvedOffer != null">
+        APPROVED_OFFER = #{approvedOffer},
+      </if>
+      <if test="approvedRatify != null">
+        APPROVED_RATIFY = #{approvedRatify},
+      </if>
+      <if test="approvedSubtract != null">
+        APPROVED_SUBTRACT = #{approvedSubtract},
+      </if>
+      <if test="approvedCheck != null">
+        APPROVED_CHECK = #{approvedCheck},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt},
+      </if>
+    </set>
+    where ID = #{id}
+  </update>
+  
+</mapper>

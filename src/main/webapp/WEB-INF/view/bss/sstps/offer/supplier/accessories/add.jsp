@@ -20,137 +20,147 @@
   
   <body>
   
-  <!--面包屑导航开始-->
+ <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">添加原、辅材料工艺定额消耗明细</a></li></ul>
+		   <li><a href="#"> 首页</a></li><li><a href="#">供应商报价</a></li><li><a href="#">产品报价</a></li><li><a href="#">装备（产品）技术资料概述</a></li></ul>
 		<div class="clear"></div>
 	  </div>
    </div>
    
-   <form action="<%=basePath %>accessoriesCon/save.html" method="post" enctype="multipart/form-data">
    
-   <input type="text" id="proId" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly>
+  <div class="container bggrey border1 mt20""> 
+    <form action="<%=basePath %>accessoriesCon/save.html" method="post" enctype="multipart/form-data">
    
-	<div class="container">
-	 	<div class="headline-v2">
-	  		 <h2>添加原、辅材料工艺定额消耗明细</h2>
-	 	</div>
-	 	
-	 	<div class="container padding-left-25 padding-right-25">
-			<table class="table table-bordered">
-				 <tobody>
-				  	<tr>
-				 		<td width="25%" class="bggrey tr">材料性质：</td>
-				 		<td width="25%">
-				 			<select class="w230" id="productNature" name="productNature">
-				 				<option value="0">主要材料</option>
-				 				<option value="1">辅助材料</option>
-				 			</select>
-				 		</td>
-				 		<td width="25%" class="bggrey tr">材料名称：</td>
-				 		<td width="25%">
-				 			<input type="text" id="stuffName" name="stuffName">
-				 		</td>
-				 	</tr>
-				 	<tr>
-				 		<td width="25%" class="bggrey tr">规格型号：</td>
-				 		<td width="25%">
-				 			<input id="norm" name="norm" type="text" class="w230 mb0" >
-				 		</td>
-				 		<td width="25%" class="bggrey tr">图纸位置号(代号)：</td>
-				 		<td width="25%" >
-				 			<input id="paperCode" name="paperCode" type="text" class="w230 mb0" >
-				 		</td>
-				 	</tr>
-				 </tobody>
-			</table>
-        </div>
-        
-        <div class="container padding-left-25 padding-right-25">
-      			  所属加工生产装配工艺消耗定额（数量、质量、含税金额）
-			<table class="table table-bordered">
-				 <tobody>
-				  	<tr>
-				 		<td width="25%" class="bggrey tr">数量：</td>
-				 		<td width="25%">
-				 			<input type="text" id="workAmout" name="workAmout">
-				 		</td>
-				 		<td width="25%" class="bggrey tr">单件重：</td>
-				 		<td width="25%">
-				 			<input type="text" id="workWeight" name="workWeight">
-				 		</td>
-				 	</tr>
-				 	<tr>
-				 		<td width="25%" class="bggrey tr">重量小计：</td>
-				 		<td width="25%">
-				 			<input type="text" id="workWeightTotal" name="workWeightTotal">
-				 		</td>
-				 		<td width="25%" class="bggrey tr">单价(元)：</td>
-				 		<td width="25%">
-				 			<input type="text" id="workPrice" name="workPrice">
-				 		</td>
-				 	</tr>
-				 	<tr>
-				 		<td width="25%" class="bggrey tr">金额：</td>
-				 		<td width="25%">
-				 			<input type="text" id="workMoney" name="workMoney">
-				 		</td>
-				 	</tr>
-				 </tobody>
-			</table>
-        </div>
-        
-        <div class="container padding-left-25 padding-right-25">
-      		消耗定额审核核准数（含税金额）
-			<table class="table table-bordered">
-				 <tobody>
-				  	<tr>
-				 		<td width="25%" class="bggrey tr">数量：</td>
-				 		<td width="25%">
-				 			<input type="text" id="consumeAmout" name="consumeAmout">
-				 		</td>
-				 		<td width="25%" class="bggrey tr">单件重：</td>
-				 		<td width="25%">
-				 			<input type="text" id="consumeWeight" name="consumeWeight">
-				 		</td>
-				 	</tr>
-				 	<tr>
-				 		<td width="25%" class="bggrey tr">重量小计：</td>
-				 		<td width="25%">
-				 			<input type="text" id="consumeWeightTotal" name="consumeWeightTotal">
-				 		</td>
-				 		<td width="25%" class="bggrey tr">单价(元)：</td>
-				 		<td width="25%">
-				 			<input type="text" id="consumePrice" name="consumePrice">
-				 		</td>
-				 	</tr>
-				 	<tr>
-				 		<td width="25%" class="bggrey tr">金额：</td>
-				 		<td width="25%">
-				 			<input type="text" id="consumeMoney" name="consumeMoney">
-				 		</td>
-				 	</tr>
-				 </tobody>
-			</table>
-        </div>
-        
-        <div class="container padding-left-25 padding-right-25">
-			<table class="table table-bordered">
-				 <tobody>
-				 	<tr>
-				 		<td width="10%" class="bggrey tr">供货单位：</td>
-				 		<td width="25%" ><input name="supplyUnit" type="text" class="w230 mb0" ></td>
-				 	</tr>
-				 	<tr>
-				 		<td width="10%" class="bggrey tr">备注：</td>
-				 		<td width="25%" ><input id="remark" name="remark" type="text" class="w230 mb0" ></td>
-				 	</tr>
-				 </tobody>
-			</table>
-        </div>
-	 	
+   <input type="hidden" id="proId" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly>
+   
+   <div>
+   <h2 class="f16 count_flow mt40"><i>01</i>材料信息</h2>
+   <ul class="list-unstyled list-flow ul_list">
+   <li class="col-md-6 p0">
+	   <span class="">材料性质：</span>
+	   <div class="select_common">
+        <select class="w220" id="productNature" name="productNature">
+			<option value="0">主要材料</option>
+			<option value="1">辅助材料</option>
+		 </select>
+       </div>
+	 </li>
+	 <li class="col-md-6  p0 ">
+	   <span class="">材料名称：</span>
+	   <div class="input-append">
+        <input type="text" id="stuffName" name="stuffName" class="w220">
+       </div>
+	 </li>
+	 <li class="col-md-6  p0 ">
+	   <span class="">规格型号：</span>
+	   <div class="input-append">
+        <input id="norm" name="norm" type="text" class="w220">
+       </div>
+	 </li>
+	 <li class="col-md-6  p0 ">
+	   <span class="">图纸位置号(代号)：</span>
+	   <div class="input-append">
+        <input id="paperCode" name="paperCode" type="text" class="w220">
+       </div>
+	 </li>
+   </ul>
+   </div>
+   
+   <div class="padding-top-10 clear">
+   <h2 class="f16 count_flow mt40"><i>02</i>所属加工生产装配工艺消耗定额（数量、质量、含税金额）</h2>
+   <ul class="list-unstyled list-flow ul_list">
+   <li class="col-md-6 p0">
+	   <span class="">数量：</span>
+	   <div class="input-append">
+        <input type="text" id="workAmout" name="workAmout" class="w220">
+       </div>
+	 </li>
+	 <li class="col-md-6  p0 ">
+	   <span class="">单件重：</span>
+	   <div class="input-append">
+        <input type="text" id="workWeight" name="workWeight" class="w220">
+       </div>
+	 </li>
+	 
+	 <li class="col-md-6  p0 ">
+	   <span class="">重量小计：</span>
+	   <div class="input-append">
+        <input type="text" id="workWeightTotal" name="workWeightTotal" class="w220">
+       </div>
+	 </li>
+	 <li class="col-md-6  p0 ">
+	   <span class="">单价(元)：</span>
+	   <div class="input-append">
+        <input type="text" id="workPrice" name="workPrice" class="w220">
+       </div>
+	 </li>
+	 <li class="col-md-6  p0 ">
+	   <span class="">金额：</span>
+	   <div class="input-append">
+        <input type="text" id="workMoney" name="workMoney" class="w220">
+       </div>
+	 </li>
+   </ul>
+   </div>
+   
+   
+   <div class="padding-top-10 clear">
+   <h2 class="f16 count_flow mt40"><i>03</i>消耗定额审核核准数（含税金额）</h2>
+   <ul class="list-unstyled list-flow ul_list">
+   <li class="col-md-6 p0">
+	   <span class="">数量：</span>
+	   <div class="input-append">
+        <input type="text" id="consumeAmout" name="consumeAmout" class="w220">
+       </div>
+	 </li>
+	 <li class="col-md-6  p0 ">
+	   <span class="">单件重：</span>
+	   <div class="input-append">
+        <input type="text" id="consumeWeight" name="consumeWeight" class="w220">
+       </div>
+	 </li>
+	 
+	 <li class="col-md-6  p0 ">
+	   <span class="">重量小计：</span>
+	   <div class="input-append">
+        <input type="text" id="consumeWeightTotal" name="consumeWeightTotal" class="w220">
+       </div>
+	 </li>
+	 <li class="col-md-6  p0 ">
+	   <span class="">单价(元)：</span>
+	   <div class="input-append">
+        <input type="text" id="consumePrice" name="consumePrice" class="w220">
+       </div>
+	 </li>
+	 <li class="col-md-6  p0 ">
+	   <span class="">金额：</span>
+	   <div class="input-append">
+        <input type="text" id="consumeMoney" name="consumeMoney" class="w220">
+       </div>
+	 </li>
+   </ul>
+   </div>
+   
+    <div class="padding-top-10 clear">
+   <h2 class="f16 count_flow mt40"><i>04</i>其他</h2>
+   <ul class="list-unstyled list-flow ul_list">
+   <li class="col-md-12 p0">
+	   <span class="">供货单位：</span>
+	   <div class="input-append">
+        <input type="text" id="supplyUnit" name="supplyUnit" class="w220">
+       </div>
+	 </li>
+	 <li class="col-md-12  p0 ">
+	   <span class="fl">备注：</span>
+	   <div class="col-md-12 pl200 fn mt5 pwr9">
+        <textarea class="text_area col-md-12 " id="remark" name="remark" title="不超过200个字" placeholder="不超过200个字"></textarea>
+       </div>
+	 </li>
+   </ul>
+   </div>
+   
 	 	<div  class="col-md-12">
 	   		<div class="mt40 tc mb50">
 			    <button class="btn btn-windows add" type="submit">确定</button>
@@ -158,8 +168,8 @@
 			</div>
 		</div>
 	
-	</div>	
 </form>	
+</div>
 		  
   </body>
 </html>

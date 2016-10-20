@@ -31,7 +31,7 @@
    
    <form action="<%=basePath %>outproductCon/save.html" method="post" enctype="multipart/form-data">
    
-   <input type="text" id="proId" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly>
+   <input type="hidden" id="proId" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly>
    
 	<div class="container">
 	 	<div class="headline-v2">

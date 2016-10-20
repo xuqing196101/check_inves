@@ -66,13 +66,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			 
 			 success:function(data){
 		 			id=data;
-		 			var tr=$(obj).parent().parent();
+		 			var tr=$(obj).parent().parent().parent();
 		 			$(tr).children(":first").children(":first").val(data);
 		 			
 		 			var  s=$("#count").val();
 			      	s++;
 			      	$("#count").val(s);
-			        var trs = $(obj).parent().parent();
+			        var trs = $(obj).parent().parent().parent();
 			        $(trs).after("<tr><td class='tc'><input style='border: 0px;' type='hidden' name='list["+s+"].id' />"+
 			        "<input style='border: 0px;' type='text' name='list["+s+"].seq' /><input style='border: 0px;' value='"+id+"' type='hidden' name='list["+s+"].parentId' /></td>"+
 				       "<td class='tc'> <input  style='border: 0px;'  type='text' name='list["+s+"].department' /> </td>"+
@@ -90,9 +90,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].goodsUse' /> </td>"+  
 				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].useUnit' /> </td>"+
 				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].memo' /> </td>"+ 
-				     	"<td class='tc'><input class='btn btn-windows add' name='dyadds' type='button' onclick='aadd(this)' value='添加子节点'>"+
-						 "<input class='btn btn-windows add' name='delt' type='button' onclick='same(this)' value='添加同级节点'>"+
-					 	" <input class='btn btn-windows add' name='delt' type='button' onclick='news(this)' value='新加任务'></td>"+  
+				     	"<td class='tc'><div style='width:160px;'> <input class='btn' name='dyadds' type='button' onclick='aadd(this)' value='+'>"+
+						 "<input class='btn' name='delt' type='button' onclick='same(this)' value='+'>"+
+					 	" <input class='btn' name='delt' type='button' onclick='news(this)' value='+'></div> </td>"+  
 			        +"<tr/>");
 			        
 			 },error:function(){
@@ -105,14 +105,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   }
  
  function same(obj){
-	 var tr=$(obj).parent().parent(":first");
+	 var tr=$(obj).parent().parent().parent();
 		var id=$(tr).children(":first").children(":last").val();
 		
 		
 			var  s=$("#count").val();
 		   	s++;
 		   	$("#count").val(s);
-		     var trs = $(obj).parent().parent();
+		     var trs = $(obj).parent().parent().parent();
 		     $(trs).after("<tr><td class='tc'><input style='border: 0px;' type='hidden' name='list["+s+"].id' />"+
 		     "<input style='border: 0px;' type='text' name='list["+s+"].seq' /><input style='border: 0px;' value='"+id+"' type='hidden' name='list["+s+"].parentId' /></td>"+
 			       "<td class='tc'> <input  style='border: 0px;'  type='text' name='list["+s+"].department' /> </td>"+
@@ -130,9 +130,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].goodsUse' /> </td>"+  
 			       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].useUnit' /> </td>"+
 			       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].memo' /> </td>"+ 
-			     	"<td class='tc'><input class='btn btn-windows add' name='dyadds' type='button' onclick='aadd(this)' value='添加子节点'>"+
-					 "<input class='btn btn-windows add' name='delt' type='button' onclick='same(this)' value='添加同级节点'>"+
-				 	" <input class='btn btn-windows add' name='delt' type='button' onclick='news(this)' value='新加任务'></td>"+  
+			     	"<td class='tc'><div style='width:160px;'> <input class='btn' name='dyadds' type='button' onclick='aadd(this)' value='+'>"+
+					 "<input class='btn' name='delt' type='button' onclick='same(this)' value='+'>"+
+				 	" <input class='btn' name='delt' type='button' onclick='news(this)' value='+'></div> </td>"+  
 		     +"<tr/>");
 	  
   }
@@ -149,7 +149,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 			var  s=$("#count").val();
 			      	s++;
 			      	$("#count").val(s);
-			        var trs = $(obj).parent().parent();
+			        var trs = $(obj).parent().parent().parent();
 			        $(trs).after("<tr><td class='tc'><input style='border: 0px;' type='text' value='"+data+"' name='list["+s+"].id' />"+
 			        "<input style='border: 0px;' type='text' name='list["+s+"].seq' /></td>"+
 				       "<td class='tc'> <input  style='border: 0px;'  type='text' name='list["+s+"].department' /> </td>"+
@@ -167,9 +167,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].goodsUse' /> </td>"+  
 				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].useUnit' /> </td>"+
 				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].memo' /> </td>"+ 
-				     	"<td class='tc'><input class='btn btn-windows add' name='dyadds' type='button' onclick='aadd(this)' value='添加子节点'>"+
-						 "<input class='btn btn-windows add' name='delt' type='button' onclick='same(this)' value='添加同级节点'>"+
-					 	" <input class='btn btn-windows add' name='delt' type='button' onclick='news(this)' value='新加任务'></td>"+  
+				     	"<td class='tc'><div style='width:160px;'> <input class='btn' name='dyadds' type='button' onclick='aadd(this)' value='+'>"+
+						 "<input class='btn' name='delt' type='button' onclick='same(this)' value='+'>"+
+					 	" <input class='btn' name='delt' type='button' onclick='news(this)' value='+'></div> </td>"+  
 			        +"<tr/>");
 			        
 			 },error:function(){
@@ -181,7 +181,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  
   }
  
- 
+ function incr(){
+	  $("#add_form").submit();   
+ }
  </script>
  
  
@@ -208,9 +210,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 
 		<form id="add_form" action="<%=basePath%>purchaser/adddetail.html" method="post">
-			<input type="hidden" name="planName" id="${planName }">
-			<input type="hidden" name="planNo" id="${planNo }">
-			<input type="hidden" name="type" id="${type }">
+			<input type="hidden" name="planName" value="${planName }">
+			<input type="hidden" name="planNo" value="${planNo }">
+			<input type="hidden" name="type" value="${type }">
 			<table class="table table-bordered table-condensed mt5" >
 				<thead>
 					<tr>
@@ -255,10 +257,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].useUnit" value=""></td>
 					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].memo" value=""></td>
 						<td class="tc">
-							 <input class="btn btn-windows add" name="dyadds" type="button" onclick="aadd(this)" value="添加子节点">
-							 <input class="btn btn-windows add" name="delt" type="button" onclick="same(this)" value="添加同级节点">
-						 	 <input class="btn btn-windows add" name="delt" type="button" onclick="news(this)" value="新加任务">
-					 
+						<div style="width: 160px">
+							 <input class="btn" name="dyadds" type="button" onclick="aadd(this)" title="添加子节点" value="+">
+							 <input class="btn" name="delt" type="button" onclick="same(this)" title="添加同级点" value="+">
+						 	 <input class="btn" name="delt" type="button" onclick="news(this)" title="新增一个任务" value="+">
+						 	 
+						 </div>
 						</td>
 				</tr>
 			</table>

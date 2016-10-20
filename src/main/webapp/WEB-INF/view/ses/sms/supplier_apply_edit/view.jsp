@@ -171,7 +171,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <ul class="nav nav-tabs bgdd">
 				    <li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" id="essential" >基本信息</a></li>
 				    <c:if test="${supplier.status ==2 }">
-				   		 <li class=""><a aria-expanded="true" href="#tab-2" data-toggle="tab" onclick="window.location.href='<%=basePath %>supplier_edit/viewReason.html'" >问题汇总</a></li>
+				   		 <li class=""><a aria-expanded="true" href="#tab-2" data-toggle="tab" >问题汇总</a></li><!--onclick="window.location.href='<%=basePath %>supplier_edit/viewReason.html'"   -->
           			</c:if>
           </ul>
             <div class="tab-content padding-top-20" style="height:1280px;">
@@ -366,16 +366,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										<ul class="list-unstyled list-flow">
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 境外分支结构：</span>
 												<div class="input-append">
-													<input class="span2" id="overseasBranch_input_id" name="overseasBranch" type="text" readonly="readonly" value="${supplier.overseasBranch}" />
-													<div class="btn-group">
-														<button class="btn dropdown-toggle add-on" data-toggle="dropdown">
-															<img src="${pageContext.request.contextPath}/public/ZHQ/images/down.png" class="margin-bottom-5" />
-														</button>
-														<ul class="dropdown-menu list-unstyled">
-															<li class="hand tc" onclick="checkText(this, 'overseasBranch_input_id')">是</li>
-															<li class="hand tc" onclick="checkText(this, 'overseasBranch_input_id')">否</li>
-														</ul>
-													</div>
+													<c:if test="${supplier.overseasBranch ==1}">
+														<input class="span3" id="overseasBranch_input_id" name="overseasBranch" type="text" readonly="readonly" value="是" />
+													</c:if>
+													<c:if test="${supplier.overseasBranch ==0}">
+														<input class="span3" id="overseasBranch_input_id" name="overseasBranch" type="text" readonly="readonly" value="否" />
+													</c:if>
 												</div>
 											</li>
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 境外分支所在国家：</span>
@@ -406,6 +402,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			 						</div>
               </div>
             </div>
+         	  <div class="tab-pane fade height-450" id="tab-2">
+         	  	 <table class="table table-bordered table-condensed">
+                   <thead>
+                     <tr>
+                       <th class="info w50">序号</th>
+                       <th class="info">审批字段</th>
+                       <th class="info">审批内容</th>
+                       <th class="info">不通过理由</th>
+                     </tr>
+                   </thead>
+                     <c:forEach items="${srList }" var="list" varStatus="vs">
+                       <tr>
+                         <td class="tc">${vs.index + 1}</td>
+                         <td class="tc">${list.name }</td>
+                         <td class="tc">${list.content }</td>
+                         <td class="tc">${list.auditReason}</td>
+                       </tr>
+                     </c:forEach>
+                  </table>
+                   <div class="col-md-12 tc">
+			  							<input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+			 						</div>
+         	  </div>
           </div>
         </div>
       </div>

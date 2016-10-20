@@ -95,7 +95,7 @@ function offer(){
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">申请合同审价</a></li></ul>
+		   <li><a href="#"> 首页</a></li><li><a href="#">产品报价</a></li></ul>
 		<div class="clear"></div>
 	  </div>
    </div>
@@ -105,7 +105,7 @@ function offer(){
 	   		<h2>查询条件</h2>
 	   </div>
    </div>
-    <div class="container">
+    <div class="container ">
      <div class="p10_25">
      <h2 class="padding-10 border1">
        <form action="" method="post" class="mb0">
@@ -122,8 +122,8 @@ function offer(){
    </div>
 </div>
 	<div class="container">	
-		<div class="col-md-8 mt10 ml5">
-	   		<button class="btn btn-windows ht_add" type="button" onclick="offer()">产品报价</button>
+		<div class="col-md-8 mt10 ml10">
+	   		<button class="btn" type="button" onclick="offer()">产品报价</button>
 		</div>
 	</div>
 	

@@ -144,11 +144,12 @@ public class BaseSupplierController {
 	/**
 	 * @Title: alert
 	 * @author: Wang Zhaohua
-	 * @date: 2016-10-13 下午3:55:25
-	 * @Description: 弹出框消息提示
+	 * @date: 2016-10-20 下午7:49:59
+	 * @Description: 弹出框 isClosed 下载完后是否关闭窗口
 	 * @param: @param request
 	 * @param: @param response
 	 * @param: @param msg
+	 * @param: @param isClosed
 	 * @return: void
 	 */
 	public void alert(HttpServletRequest request, HttpServletResponse response, String msg, boolean isClosed) {

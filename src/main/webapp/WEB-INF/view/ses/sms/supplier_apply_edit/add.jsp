@@ -119,7 +119,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		/** 下拉框的内容写到 inpput 中 */
 	function checkText(ele, id) {
 		$("#" + id).val($(ele).text());
+		if($(ele).text()=="是"){
+			$("#ob_id").val(1);
+		}else{
+		$("#ob_id").val(0);
+		}
 	}
+	$(function(){
+		if('${supplier.overseasBranch}'==1){
+			$("#overseasBranch_input_id").val("是");
+		}else{
+		$("#overseasBranch_input_id").val("否");
+		}
+	});
 	function downloadFile(fileName){
 	  fileName=encodeURI(fileName);
       fileName=encodeURI(fileName);
@@ -381,7 +393,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										<ul class="list-unstyled list-flow">
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 境外分支结构：</span>
 												<div class="input-append">
-													<input class="span2" id="overseasBranch_input_id" name="overseasBranch" type="text" readonly="readonly" value="${supplier.overseasBranch}" />
+													<input class="span2" id="overseasBranch_input_id"  type="text" readonly="readonly" />
+													<input class="span2" id="ob_id" name="overseasBranch" type="hidden" readonly="readonly" value="${supplier.overseasBranch}" />
 													<div class="btn-group">
 														<button class="btn dropdown-toggle add-on" data-toggle="dropdown">
 															<img src="${pageContext.request.contextPath}/public/ZHQ/images/down.png" class="margin-bottom-5" />

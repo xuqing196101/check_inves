@@ -103,6 +103,7 @@ public class TaskAssignController extends BaseController{
 			if(plan.getGoodsType()!=null){
 				task.setMaterialsType(plan.getGoodsType());
 			}
+			task.setCollectId(ids[i]);
 			plan.setTaskId(id);
 			plan.setStatus(2);
 			 collectPlanService.update(plan);

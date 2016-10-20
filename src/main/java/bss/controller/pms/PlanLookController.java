@@ -16,6 +16,7 @@ import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseRequired;
 import bss.service.pms.CollectPlanService;
+import bss.service.pms.CollectPurchaseService;
 import bss.service.pms.PurchaseRequiredService;
 
 import com.github.pagehelper.PageInfo;
@@ -42,6 +43,11 @@ public class PlanLookController {
 	
 	@Autowired
 	private PurchaseRequiredService purchaseRequiredService;
+	
+	
+	@Autowired
+	private CollectPurchaseService collectPurchaseService;
+	
 	
 	/**
 	 * 
@@ -76,11 +82,10 @@ public class PlanLookController {
 	 */
 	@RequestMapping("/print")
 	public String print(String id,Model model){
-		CollectPlan collectPlan = collectPlanService.queryById(id);
+		List<String> no = collectPurchaseService.getNo(id);
 		List<PurchaseRequired> list=new LinkedList<PurchaseRequired>();
-		if(collectPlan.getPlanNo()!=null){
-			String[] str = collectPlan.getPlanNo().split(",");
-			for(String s:str){
+		if(no!=null&&no.size()>0){
+			for(String s:no){
 				List<PurchaseRequired> pur = purchaseRequiredMapper.queryByNo(s);
 				list.addAll(pur);
 			}
@@ -106,12 +111,11 @@ public class PlanLookController {
 		map.put("typeName", 1);
 		List<Orgnization> org = orgnizationServiceI.findOrgnizationList(map);
 		
-		CollectPlan plan = collectPlanService.queryById(id);
-		
+//		CollectPlan plan = collectPlanService.queryById(id);
+		List<String> no = collectPurchaseService.getNo(id);
 		List<PurchaseRequired> list=new LinkedList<PurchaseRequired>();
-		if(plan.getPlanNo()!=null){
-			String[] str = plan.getPlanNo().split(",");
-			for(String s:str){
+		if(no!=null&&no.size()>0){
+			for(String s:no){
 				List<PurchaseRequired> pur = purchaseRequiredMapper.queryByNo(s);
 				list.addAll(pur);
 			}

@@ -170,7 +170,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			id.push($(this).val());
 		}); 
 		if(flag==false){
-			layer.alert("采购方式需要一样",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("物资类别需要一样",{offset: ['222px', '390px'], shade:0.01});
 		}
 		
 		else if(id.length>=1){
@@ -220,7 +220,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 
 	  	$("#plannos").val(id);
 	  	$("#dep").val(de);
-	  	alert(id+"---"+de);
 	    $("#collect_form").submit();
 		
  
@@ -287,7 +286,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<option value=""> 请选项状态</option>
 	   	   <option value="1" <c:if test="${inf.status=='1'}"> selected</c:if> > 	 已编制为采购计划</option>
 	   	   <option value="2" <c:if test="${inf.status=='2'}"> selected</c:if> > 	提交未受理</option>
-	   	   <option value="3" <c:if test="${inf.status=='3'}"> selected</c:if> > 	 受理</option>
+	   	   <option value="3" <c:if test="${inf.status=='3'}"> selected</c:if> > 	 受理退回</option>
+	   	      <option value="3" <c:if test="${inf.status=='4'}"> selected</c:if> > 	 受理成功</option>
+	   	         <option value="3" <c:if test="${inf.status=='5'}"> selected</c:if> > 已经汇总</option>
  	   	   </select>
 	   	  
 	   
@@ -322,7 +323,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</thead>
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
 			<tr style="cursor: pointer;">
-			  <td class="tc w30"><input type="hidden" name="department" value="${obj.purchaseType }"> <input type="checkbox" value="${obj.planNo }" name="chkItem" onclick="check()"  alt=""> <input type="hidden" name="department" value="${obj.department }"> </td>
+			  <td class="tc w30"><input type="hidden" name="department" value="${obj.planType }"> <input type="checkbox" value="${obj.planNo }" name="chkItem" onclick="check()"  alt=""> <input type="hidden" name="department" value="${obj.department }"> </td>
 			  <td class="tc w50"   >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 			  
 			    <td class="tc"  >${obj.department }</td>
@@ -335,6 +336,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  <td class="tc"  >
 			  <c:if test="${obj.status=='1' }">
 			 	 已编制为需求计划
+			  </c:if>
+			  
+			   <c:if test="${obj.status=='2'}">
+			 	 已经提交
+			  </c:if>
+			  <c:if test="${obj.status=='3'}">
+			 	受理退回
+			  </c:if>
+			    <c:if test="${obj.status=='4'}">
+			 	受理成功
+			  </c:if>
+			    <c:if test="${obj.status=='5'}">
+			 已经汇总
 			  </c:if>
 			  
 			  </td>
@@ -353,7 +367,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  <div id="content" class="div_show">
 	 
 	<form id="collect_form" action="<%=basePath%>collect/add.html" method="post" style="margin-top: 20px;">
-	<div style="text-align: center;"><span>计划编号:</span><input  type="text" name="planNo" value=""></div>
+	<div style="text-align: center;"><span>计划编号:</span><input  type="text" name="cno" value=""></div>
 	  <div style="text-align: center;"><span>文件名称:</span><input  type="text" name="fileName" value=""></div>
 	       <div  style="text-align: center;"><span>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码:</span><input  type="password" name="password" value=""></div>
 	       

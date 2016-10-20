@@ -5,10 +5,6 @@ package ses.model.ems;
 
 import java.util.Date;
 
-import javax.validation.constraints.Future;
-import javax.validation.constraints.Pattern;
-
-import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * @Title:ExamRule

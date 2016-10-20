@@ -231,7 +231,12 @@ public class SupplierEditController extends BaseSupplierController{
 	 */
 	@RequestMapping(value="view")
 	public String view(String id,Model model){
-		model.addAttribute("supplier", supplierEditService.selectByPrimaryKey(id));
+		SupplierEdit se=supplierEditService.selectByPrimaryKey(id);
+		model.addAttribute("supplier",se );
+		SupplierReason sr=new SupplierReason();
+		sr.setSupplierId(se.getId());
+		List<SupplierReason> srList=supplierAudReasonService.findAll(sr);
+		model.addAttribute("srList", srList);
 		return "ses/sms/supplier_apply_edit/view";
 	}
 	

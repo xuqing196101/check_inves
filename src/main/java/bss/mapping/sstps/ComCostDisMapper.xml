@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.sstps.ComCostDisMapper">
+  <resultMap id="ComCostDisMap" type="bss.model.sstps.ComCostDis">
+    <id column="ID" property="id" />
+    <result column="PROJECT_NAME" property="projectName" />
+    <result column="TYA_AMOUNT"  property="tyaAmount" />
+    <result column="TYA_FEE"  property="tyaFee" />
+    <result column="OYA_AMOUT"  property="oyaAmout" />
+    <result column="OYA_FEE"  property="oyaFee" />
+    <result column="NEW_AMOUNT"  property="newAmount" />
+    <result column="NEW_FEE"  property="newFee" />
+    <result column="SUBTRACT_WENT_DUTCH"  property="subtractWentDutch" />
+    <result column="SUBTRACT_FEE"  property="subtractFee" />
+    <result column="CHECK_WENT_DUTCH"  property="checkWentDutch" />
+    <result column="CHECK_FEE"  property="checkFee" />
+    <result column="REMARK" property="remark" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+    
+    <result column="TYA_ACTUAL"  property="tyaActual" />
+    <result column="OYA_ACTUAL"  property="oyaActual" />
+    <result column="NEW_ACTUAL"  property="newActual" />
+    <result column="SUBTRACT_ACTUAL"  property="subtractActual" />
+    <result column="CHECK_ACTUAL"  property="checkActual" />
+    <result column="STATUS"  property="status" />
+    
+    <association property="contractProduct" column="PRODUCT_ID" select="bss.dao.sstps.AppraisalContractMapper.selectById"/>
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    ID, PRODUCT_ID, PROJECT_NAME, TYA_AMOUNT, TYA_FEE, OYA_AMOUT, OYA_FEE, NEW_AMOUNT, 
+    NEW_FEE, SUBTRACT_WENT_DUTCH, SUBTRACT_FEE, CHECK_WENT_DUTCH, CHECK_FEE, REMARK, 
+    CREATED_AT, UPDATED_AT,TYA_ACTUAL,OYA_ACTUAL,NEW_ACTUAL,SUBTRACT_ACTUAL,CHECK_ACTUAL,STATUS
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ComCostDisMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_SSTPS_COM_COST_DIS
+    where ID = #{id}
+  </select>
+  
+  <select id="selectProduct" parameterType="Object" resultMap="ComCostDisMap">
+    select 
+    <include refid="Base_Column_List" />
+  	from T_BSS_SSTPS_COM_COST_DIS
+    where PRODUCT_ID = #{contractProduct.id}
+  </select>
+  
+  <delete id="delete" parameterType="java.lang.String">
+    delete from T_BSS_SSTPS_COM_COST_DIS
+    where ID = #{id}
+  </delete>
+  
+  <insert id="insert" parameterType="bss.model.sstps.ComCostDis">
+  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_BSS_SSTPS_COM_COST_DIS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="contractProduct != null">
+        PRODUCT_ID,
+      </if>
+      <if test="projectName != null">
+        PROJECT_NAME,
+      </if>
+      <if test="tyaAmount != null">
+        TYA_AMOUNT,
+      </if>
+      <if test="tyaFee != null">
+        TYA_FEE,
+      </if>
+      <if test="oyaAmout != null">
+        OYA_AMOUT,
+      </if>
+      <if test="oyaFee != null">
+        OYA_FEE,
+      </if>
+      <if test="newAmount != null">
+        NEW_AMOUNT,
+      </if>
+      <if test="newFee != null">
+        NEW_FEE,
+      </if>
+      <if test="subtractWentDutch != null">
+        SUBTRACT_WENT_DUTCH,
+      </if>
+      <if test="subtractFee != null">
+        SUBTRACT_FEE,
+      </if>
+      <if test="checkWentDutch != null">
+        CHECK_WENT_DUTCH,
+      </if>
+      <if test="checkFee != null">
+        CHECK_FEE,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="tyaActual != null">
+        TYA_ACTUAL,
+      </if>
+      <if test="oyaActual != null">
+        OYA_ACTUAL,
+      </if>
+      <if test="newActual != null">
+        NEW_ACTUAL,
+      </if>
+      <if test="subtractActual != null">
+        SUBTRACT_ACTUAL,
+      </if>
+      <if test="checkActual != null">
+        CHECK_ACTUAL,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="contractProduct != null">
+        #{contractProduct.id},
+      </if>
+      <if test="projectName != null">
+        #{projectName},
+      </if>
+      <if test="tyaAmount != null">
+        #{tyaAmount},
+      </if>
+      <if test="tyaFee != null">
+        #{tyaFee},
+      </if>
+      <if test="oyaAmout != null">
+        #{oyaAmout},
+      </if>
+      <if test="oyaFee != null">
+        #{oyaFee},
+      </if>
+      <if test="newAmount != null">
+        #{newAmount},
+      </if>
+      <if test="newFee != null">
+        #{newFee},
+      </if>
+      <if test="subtractWentDutch != null">
+        #{subtractWentDutch},
+      </if>
+      <if test="subtractFee != null">
+        #{subtractFee},
+      </if>
+      <if test="checkWentDutch != null">
+        #{checkWentDutch},
+      </if>
+      <if test="checkFee != null">
+        #{checkFee},
+      </if>
+      <if test="remark != null">
+        #{remark},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt},
+      </if>
+      <if test="tyaActual != null">
+        #{tyaActual},
+      </if>
+      <if test="oyaActual != null">
+        #{oyaActual},
+      </if>
+      <if test="newActual != null">
+        #{newActual},
+      </if>
+      <if test="subtractActual != null">
+        #{subtractActual},
+      </if>
+      <if test="checkActual != null">
+        #{checkActual},
+      </if>
+      <if test="status != null">
+        #{status},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="update" parameterType="bss.model.sstps.ComCostDis">
+    update T_BSS_SSTPS_COM_COST_DIS
+    <set>
+      <if test="contractProduct != null">
+        PRODUCT_ID = #{contractProduct.id},
+      </if>
+      <if test="projectName != null">
+        PROJECT_NAME = #{projectName},
+      </if>
+      <if test="tyaAmount != null">
+        TYA_AMOUNT = #{tyaAmount},
+      </if>
+      <if test="tyaFee != null">
+        TYA_FEE = #{tyaFee},
+      </if>
+      <if test="oyaAmout != null">
+        OYA_AMOUT = #{oyaAmout},
+      </if>
+      <if test="oyaFee != null">
+        OYA_FEE = #{oyaFee},
+      </if>
+      <if test="newAmount != null">
+        NEW_AMOUNT = #{newAmount},
+      </if>
+      <if test="newFee != null">
+        NEW_FEE = #{newFee},
+      </if>
+      <if test="subtractWentDutch != null">
+        SUBTRACT_WENT_DUTCH = #{subtractWentDutch},
+      </if>
+      <if test="subtractFee != null">
+        SUBTRACT_FEE = #{subtractFee},
+      </if>
+      <if test="checkWentDutch != null">
+        CHECK_WENT_DUTCH = #{checkWentDutch},
+      </if>
+      <if test="checkFee != null">
+        CHECK_FEE = #{checkFee},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt},
+      </if>
+      <if test="tyaActual != null">
+        TYA_ACTUAL = #{tyaActual},
+      </if>
+      <if test="oyaActual != null">
+        OYA_ACTUAL = #{oyaActual},
+      </if>
+      <if test="newActual != null">
+        NEW_ACTUAL = #{newActual},
+      </if>
+      <if test="subtractActual != null">
+        SUBTRACT_ACTUAL = #{subtractActual},
+      </if>
+      <if test="checkActual != null">
+        CHECK_ACTUAL = #{checkActual},
+      </if>
+      <if test="status != null">
+        STATUS = #{status},
+      </if>
+    </set>
+    where ID = #{id}
+  </update>
+ 
+</mapper>

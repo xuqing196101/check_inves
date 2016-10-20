@@ -86,16 +86,19 @@ public class AccessoriesConController {
 		
 		model.addAttribute("proId",proId);
 		
-		return "bss/sstps/offer/supplier/accessories_Con";
+		return "bss/sstps/offer/supplier/accessories/list";
 	}
+	
 	
 	@RequestMapping("/select")
 	public String select(Model model,String proId,AccessoriesCon accessoriesCon){
-		
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(proId);
+		accessoriesCon.setContractProduct(contractProduct);
 		List<AccessoriesCon> list = accessoriesConService.selectProduct(accessoriesCon);
 		model.addAttribute("list", list);
-		
-		return "bss/sstps/offer/supplier/accessories_Con";
+		model.addAttribute("proId",proId);
+		return "bss/sstps/offer/supplier/accessories/list";
 	}
 	
 	
@@ -117,7 +120,7 @@ public class AccessoriesConController {
 		List<AccessoriesCon> list = accessoriesConService.selectProduct(accessoriesCon);
 		model.addAttribute("list", list);
 		model.addAttribute("proId",proId);
-		return "bss/sstps/offer/supplier/accessories_Con";
+		return "bss/sstps/offer/supplier/accessories/list";
 	}
 	
 	/**
@@ -146,7 +149,7 @@ public class AccessoriesConController {
 		List<AccessoriesCon> list = accessoriesConService.selectProduct(accessoriesCon);
 		model.addAttribute("list", list);
 		model.addAttribute("proId",proId);
-		return "bss/sstps/offer/supplier/accessories_Con";
+		return "bss/sstps/offer/supplier/accessories/list";
 	}
 	
 	

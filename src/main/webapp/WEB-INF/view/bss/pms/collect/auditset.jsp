@@ -46,6 +46,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  
   <script type="text/javascript">
   
+  var id="${id}";
   /*分页  */
   $(function(){
 	  laypage({
@@ -141,6 +142,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		$("#set_form").submit();
     }
     function experts(){
+     
   	  layer.open({
 		  type: 2, //page层
 		  area: ['600px', '500px'],
@@ -199,6 +201,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			 }
 		 });
     }
+    
+    
   </script>
   </head>
   

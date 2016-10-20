@@ -43,11 +43,6 @@ public class ExamUserScore {
     private String paperId;
     
     /**
-     * @Fields targetDate : 用户完成日期
-     */
-    private Date targetDate;
-    
-    /**
      * @Fields createdAt : 创建日期
      */
     private Date createdAt;
@@ -158,14 +153,6 @@ public class ExamUserScore {
 
 	public void setPaperId(String paperId) {
 		this.paperId = paperId;
-	}
-
-	public Date getTargetDate() {
-		return targetDate;
-	}
-
-	public void setTargetDate(Date targetDate) {
-		this.targetDate = targetDate;
 	}
 
 	public Date getCreatedAt() {

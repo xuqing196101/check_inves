@@ -23,21 +23,21 @@ import com.github.pagehelper.PageHelper;
 
 @Service(value = "supplierBlacklistService")
 public class SupplierBlacklistServiceImpl implements SupplierBlacklistService {
-	
+
 	@Autowired
 	private SupplierMapper supplierMapper;
-	
+
 	@Autowired
 	private SupplierBlacklistMapper supplierBlacklistMapper;
-	
+
 	@Autowired
 	private BlacklistLogMapper blacklistLogMapper;
-	
+
 	@Override
 	public List<Supplier> findSupplier(Supplier supplier, int page) {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-		
+		PageHelper.startPage(page, Integer.parseInt(config.getString("pageSize")));
+
 		// 过滤到已经添加到黑名单的
 		List<SupplierBlacklist> listSupplierBlacklists = supplierBlacklistMapper.findSupplierBlacklist(new SupplierBlacklist());
 		if (listSupplierBlacklists != null && listSupplierBlacklists.size() > 0) {
@@ -47,7 +47,7 @@ public class SupplierBlacklistServiceImpl implements SupplierBlacklistService {
 			}
 			supplier.setItem(list);
 		}
-		
+
 		supplier.setStatus(3);
 		List<Supplier> listSuppliers = supplierMapper.findSupplier(supplier);
 		return listSuppliers;
@@ -63,9 +63,10 @@ public class SupplierBlacklistServiceImpl implements SupplierBlacklistService {
 		} else {
 			calendar.add(Calendar.MONTH, 100 * 12);
 		}
+		supplierBlacklist.setStatus(0);
 		supplierBlacklist.setEndTime(calendar.getTime());
 		BlacklistLog blacklistLog = new BlacklistLog();
-		BeanUtils.copyProperties(supplierBlacklist, blacklistLog, new String[] {"serialVersionUID", "id", "endTime", "status", "supplierName"});
+		BeanUtils.copyProperties(supplierBlacklist, blacklistLog, new String[] { "serialVersionUID", "id", "endTime", "status", "supplierName" });
 		blacklistLog.setOperationDate(new Date());
 		blacklistLog.setOperationId(user.getId());
 		blacklistLog.setOperationName(user.getRelName());
@@ -82,23 +83,12 @@ public class SupplierBlacklistServiceImpl implements SupplierBlacklistService {
 	@Override
 	public List<SupplierBlacklist> findSupplierBlacklist(SupplierBlacklist supplierBlacklist, int page) {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		PageHelper.startPage(page, Integer.parseInt(config.getString("pageSize")));
 		String supplierName = supplierBlacklist.getSupplierName();
 		if (supplierName != null && !"".equals(supplierName)) {
 			supplierBlacklist.setSupplierName("%" + supplierName + "%");
 		}
 		List<SupplierBlacklist> listSupplierBlacklists = supplierBlacklistMapper.findSupplierBlacklist(supplierBlacklist);
-		for(SupplierBlacklist supplierBlack : listSupplierBlacklists) {
-			Date endTime = supplierBlack.getEndTime();
-			Integer status = supplierBlack.getStatus();
-			if (status == null) {
-				if (endTime.before(new Date())) {
-					supplierBlack.setStatus(1);
-				} else {
-					supplierBlack.setStatus(0);
-				}
-			}
-		}
 		return listSupplierBlacklists;
 	}
 
@@ -116,11 +106,11 @@ public class SupplierBlacklistServiceImpl implements SupplierBlacklistService {
 			supplierBlacklist.setId(id);
 			supplierBlacklist.setStatus(2);
 			supplierBlacklistMapper.updateStatusById(supplierBlacklist);
-			
+
 			// 记录表
 			SupplierBlacklist sbl = supplierBlacklistMapper.selectByPrimaryKey(id);
 			BlacklistLog blacklistLog = new BlacklistLog();
-			BeanUtils.copyProperties(sbl, blacklistLog, new String[] {"serialVersionUID", "id", "endTime", "status", "supplierName"});
+			BeanUtils.copyProperties(sbl, blacklistLog, new String[] { "serialVersionUID", "id", "endTime", "status", "supplierName" });
 			blacklistLog.setOperationDate(new Date());
 			blacklistLog.setOperationId(user.getId());
 			blacklistLog.setOperationName(user.getRelName());
@@ -128,5 +118,19 @@ public class SupplierBlacklistServiceImpl implements SupplierBlacklistService {
 			blacklistLogMapper.insertSelective(blacklistLog);
 		}
 	}
-
+	
+	@Override
+	public void updateStatusTask() {
+		SupplierBlacklist supplierBlacklist = new SupplierBlacklist();
+		supplierBlacklist.setStatus(2);
+		List<SupplierBlacklist> list = supplierBlacklistMapper.findSupplierBlacklist(supplierBlacklist);
+		for(SupplierBlacklist sbk : list) {
+			Date endTime = sbk.getEndTime();
+			if (endTime.before(new Date())) {
+				sbk.setStatus(1);
+				supplierBlacklistMapper.updateByPrimaryKeySelective(sbk);
+			}
+		}
+	}
+	
 }
