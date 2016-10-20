@@ -254,7 +254,7 @@ public class ExpertExamController extends BaseSupplierController{
 		String[] items = saveOption();
 		StringBuffer sb = new StringBuffer();
 		String queType = request.getParameter("queType");
-		if(queType==null||queType.equals(" ")){
+		if(queType==null||queType.equals("")){
 			model.addAttribute("ERR_type","请选择题型");
 			optionNum(model);
 			return "ses/ems/exam/expert/law/add";
@@ -431,7 +431,7 @@ public class ExpertExamController extends BaseSupplierController{
 		String[] items = saveOption();
 		StringBuffer sb = new StringBuffer();
 		String queType = request.getParameter("queType");
-		if(queType==null||queType.equals(" ")){
+		if(queType==null||queType.equals("")){
 			model.addAttribute("ERR_type","请选择题型");
 			optionNum(model);
 			return "ses/ems/exam/expert/commerce/add";
@@ -571,7 +571,8 @@ public class ExpertExamController extends BaseSupplierController{
 		StringBuffer sb = new StringBuffer();
 		String id = request.getParameter("id");
 		String content = request.getParameter("content");
-		if(request.getParameter("queType").isEmpty()){
+		String queType = request.getParameter("queType");
+		if(queType==null||queType.equals("")){
 			model.addAttribute("ERR_type","请选择题型");
 			lawQuestion(model, id);
 			return "ses/ems/exam/expert/law/edit";
@@ -728,7 +729,8 @@ public class ExpertExamController extends BaseSupplierController{
 		StringBuffer sb = new StringBuffer();
 		String id = request.getParameter("id");
 		String content = request.getParameter("content");
-		if(request.getParameter("queType").isEmpty()){
+		String queType = request.getParameter("queType");
+		if(queType==null||queType.equals("")){
 			model.addAttribute("ERR_type","请选择题型");
 			tecQuestion(model, id);
 			return "ses/ems/exam/expert/technical/edit";
@@ -952,7 +954,6 @@ public class ExpertExamController extends BaseSupplierController{
 			ExamUserScore examUserScore = new ExamUserScore();
 			if(score>=Integer.parseInt(passStandard)){
 				examUserScore.setStatus("及格");
-				examUserScore.setTargetDate(new Date());
 			}else{
 				examUserScore.setStatus("不及格");
 			}
@@ -977,7 +978,6 @@ public class ExpertExamController extends BaseSupplierController{
 					ExamUserScore examUserScore = new ExamUserScore();
 					if(score>=Integer.parseInt(passStandard)){
 						examUserScore.setStatus("及格");
-						examUserScore.setTargetDate(new Date());
 					}else{
 						examUserScore.setStatus("不及格");
 					}
@@ -1006,7 +1006,6 @@ public class ExpertExamController extends BaseSupplierController{
 					ExamUserScore examUserScore = new ExamUserScore();
 					if(score>=Integer.parseInt(passStandard)){
 						examUserScore.setStatus("及格");
-						examUserScore.setTargetDate(new Date());
 					}else{
 						examUserScore.setStatus("不及格");
 					}
@@ -1631,7 +1630,6 @@ public class ExpertExamController extends BaseSupplierController{
 				examQuestion.setTopic(queTopic.toString());
 				examQuestion.setItems(queOption.toString());
 				examQuestion.setAnswer(queAnswer.toString());
-				examQuestion.setPoint((int) quePoint.getNumericCellValue());
 				if (queType.toString().equals("单选题")) {
 					examQuestion.setQuestionTypeId(1);
 				} else {
@@ -1804,7 +1802,6 @@ public class ExpertExamController extends BaseSupplierController{
 				examQuestion.setTopic(queTopic.toString());
 				examQuestion.setItems(queOption.toString());
 				examQuestion.setAnswer(queAnswer.toString());
-				examQuestion.setPoint((int) quePoint.getNumericCellValue());
 				if (queType.toString().equals("单选题")) {
 					examQuestion.setQuestionTypeId(1);
 				} else {

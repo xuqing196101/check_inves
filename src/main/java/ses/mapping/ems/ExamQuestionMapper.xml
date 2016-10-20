@@ -4,7 +4,6 @@
   <resultMap id="BaseResultMap" type="ses.model.ems.ExamQuestion">
     <id column="ID" property="id" />
     <result column="ANSWER" property="answer" />
-    <result column="POINT" property="point" />
     <result column="QUESTION_TYPE_ID" property="questionTypeId" />
     <result column="PERSON_TYPE" property="personType" />
     <result column="KIND" property="kind" />
@@ -15,7 +14,7 @@
   </resultMap>
   
   <sql id="Base_Column_List">
-    ID, ANSWER, POINT, QUESTION_TYPE_ID, PERSON_TYPE, KIND, to_char(CREATED_AT,'yyyy/mm/dd:hh:mi:ss'),to_char(UPDATED_AT,'yyyy/mm/dd:hh:mi:ss') ,TOPIC, ITEMS
+    ID, ANSWER,QUESTION_TYPE_ID, PERSON_TYPE, KIND, to_char(CREATED_AT,'yyyy/mm/dd:hh:mi:ss'),to_char(UPDATED_AT,'yyyy/mm/dd:hh:mi:ss') ,TOPIC, ITEMS
   </sql>
   
   <!-- 根据主键ID查询题目 -->
@@ -67,9 +66,6 @@
       <if test="answer != null">
         ANSWER,
       </if>
-      <if test="point != null">
-        POINT,
-      </if>
       <if test="questionTypeId != null">
         QUESTION_TYPE_ID,
       </if>
@@ -98,9 +94,6 @@
       </if>
       <if test="answer != null">
         #{answer},
-      </if>
-      <if test="point != null">
-        #{point},
       </if>
       <if test="questionTypeId != null">
         #{questionTypeId},
@@ -133,9 +126,6 @@
       <if test="answer != null">
         ANSWER = #{answer},
       </if>
-      <if test="point != null">
-        POINT = #{point},
-      </if>
       <if test="questionTypeId != null">
         QUESTION_TYPE_ID = #{questionTypeId},
       </if>
@@ -165,7 +155,6 @@
   <resultMap id="BaseColumn" type="ses.model.ems.ExamQuestion">
     <id column="ID" property="id" />
     <result column="ANSWER" property="answer" />
-    <result column="POINT" property="point" />
     <result column="QUESTION_TYPE_ID" property="questionTypeId" />
     <result column="PERSON_TYPE" property="personType" />
     <result column="KIND" property="kind" />
@@ -185,7 +174,6 @@
 		E.TOPIC,
 		E.ITEMS,
 		E.ANSWER,
-		E.POINT,
 		E.CREATED_AT,
 		T.NAME
 	FROM
@@ -208,7 +196,6 @@
 		E.TOPIC,
 		E.ITEMS,
 		E.ANSWER,
-		E.POINT,
 		E.CREATED_AT,
 		T.NAME
 	FROM
@@ -231,7 +218,6 @@
 			E.TOPIC,
 			E.ITEMS,
 			E.ANSWER,
-			E.POINT,
 			E.CREATED_AT,
 			T.NAME
 		FROM
@@ -254,7 +240,6 @@
 		E.TOPIC,
 		E.ITEMS,
 		E.ANSWER,
-		E.POINT,
 		E.CREATED_AT,
 		T.NAME
 	FROM
@@ -279,7 +264,6 @@
 				E.TOPIC,
 				E.ITEMS,
 				E.ANSWER,
-				E.POINT,
 				T.NAME
 			FROM
 				T_SES_EMS_EXAM_QUESTION E,
@@ -305,7 +289,6 @@
 			E.ITEMS,
 			E.ANSWER,
 			E.CREATED_AT,
-			E.POINT,
 			T.NAME
 		FROM
 			T_SES_EMS_EXAM_QUESTION E,
@@ -340,7 +323,6 @@
 				E.TOPIC,
 				E.ITEMS,
 				E.ANSWER,
-				E.POINT,
 				T.NAME
 			FROM
 				T_SES_EMS_EXAM_QUESTION E,
@@ -368,7 +350,6 @@
 				E.TOPIC,
 				E.ITEMS,
 				E.ANSWER,
-				E.POINT,
 				T.NAME
 			FROM
 				T_SES_EMS_EXAM_QUESTION E,
@@ -396,7 +377,6 @@
 				E.TOPIC,
 				E.ITEMS,
 				E.ANSWER,
-				E.POINT,
 				T.NAME
 			FROM
 				T_SES_EMS_EXAM_QUESTION E,
