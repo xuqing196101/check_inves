@@ -75,7 +75,7 @@ function loadCity(regionId){
     	}
     }
 	$(function() {
-	    $("#postCode").blur(function(){
+	   /*  $("#postCode").blur(function(){
 	    	var postCode=$(this).val();
 	    	var patt = new RegExp("^[0-9]{4,8}$");
 	    		if(!patt.test(postCode)){
@@ -89,7 +89,7 @@ function loadCity(regionId){
 	    			$(this).val('');
 	    			layer.tips("请输入正确的电话号码.", "#telephone");
 	    		}
-	    });
+	    }); */
 	/** 校验用户名是否存在 */
 		$("#loginName").blur(function() {
 			var loginName = $(this).val();
@@ -206,93 +206,108 @@ function loadCity(regionId){
 									<ul class="list-unstyled list-flow">
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 企业名称：</span>
 											<div class="input-append">
-												<input class="span3" id="name" name="name"  type="text">
+												<input class="span3" id="name" name="name" value="${is.name }"  type="text">
+												<div class="validate">${ERR_name}</div>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 企业类别：</span>
 											<div class="input-append">
-												<input class="span3" id="supplierType" name="supplierType"   type="text">
+												<input class="span3" id="supplierType" name="supplierType" value="${is.supplierType }"   type="text">
+												<div class="validate">${ERR_supplierType}</div>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 中文译名：</span>
 											<div class="input-append">
-												<input class="span3" id="chinesrName" name="chinesrName"  type="text">
+												<input class="span3" id="chinesrName" name="chinesrName" value="${is.chinesrName }"  type="text">
+												<div class="validate">${ERR_chinesrName}</div>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 法定代表人：</span>
 											<div class="input-append">
-												<input class="span3" id="legalName" name="legalName" type="text">
+												<input class="span3" id="legalName" name="legalName" value="${is.legalName }" type="text">
+												<div class="validate">${ERR_legalName}</div>
 											</div>
 										</li>
 										<li class="col-md-6 p0"><span class=""><i class="red">＊</i>企业注册地址：</span>
 											<div class="input-append">
 												<select id="id_provSelect" name="provSelect" onChange="loadCity(this.value);"><option value="">请选择省份</option></select>&nbsp;
-  												<select id="address" name="address"><option value="">请选择城市</option></select>&nbsp;
-  												<SCRIPT LANGUAGE="JavaScript">loadProvince();</SCRIPT>
+  												<select id="address"  name="address"><option value="">请选择城市</option></select>&nbsp;
+  												<SCRIPT LANGUAGE="JavaScript">loadProvince('${is.address}');</SCRIPT>
+  												<div class="validate">${ERR_address}</div>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>邮政编码：</span>
 											<div class="input-append">
-												<input class="span3" id="postCode" name="postCode"  type="text">
+												<input class="span3" id="postCode" name="postCode" value="${is.postCode }"  type="text">
+												<div class="validate">${ERR_postCode}</div>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>经营产品大类：</span>
 											<div class="input-append">
-												<input class="span3" id="productType" name="productType"  type="text">
+												<input class="span3" id="productType" name="productType" value="${is.productType }"  type="text">
+												<div class="validate">${ERR_productType}</div>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>主营产品：</span>
 											<div class="input-append">
-												<input class="span3" id="majorProduct" name="majorProduct"  type="text">
+												<input class="span3" id="majorProduct" name="majorProduct" value="${is.majorProduct }"  type="text">
+												<div class="validate">${ERR_majorProduct}</div>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>兼营产品：</span>
 											<div class="input-append">
-												<input class="span3" id="byproduct" name="byproduct"  type="text">
+												<input class="span3" id="byproduct" name="byproduct"  value="${is.byproduct }" type="text">
+												<div class="validate">${ERR_byproduct}</div>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>生产商名称：</span>
 											<div class="input-append">
-												<input class="span3" id="producerName" name="producerName"   type="text">
+												<input class="span3" id="producerName" name="producerName" value="${is.producerName }"   type="text">
+												<div class="validate">${ERR_producerName}</div>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 联系人：</span>
 											<div class="input-append">
-												<input class="span3" id="contactPerson" name="contactPerson"  type="text">
+												<input class="span3" id="contactPerson" name="contactPerson"  value="${is.contactPerson }" type="text">
+												<div class="validate">${ERR_contactPerson}</div>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 电话：</span>
 											<div class="input-append">
-												<input class="span3" id="telephone" name="telephone"  type="text">
+												<input class="span3" id="telephone" name="telephone" value="${is.telephone }"  type="text">
+												<div class="validate">${ERR_telephone}</div>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 传真：</span>
 											<div class="input-append">
-												<input class="span3" id="fax" name="fax" type="text">
+												<input class="span3" id="fax" name="fax" value="${is.fax }" type="text">
+												<div class="validate">${ERR_fax}</div>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 电子邮件：</span>
 											<div class="input-append">
-												<input class="span3" id="email" name="email"  type="text">
+												<input class="span3" id="email" name="email" value="${is.email }" type="text">
+												<div class="validate">${ERR_email}</div>
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 企业网址：</span>
 											<div class="input-append">
-												<input class="span3" id="website" name="website"  type="text">
+												<input class="span3" id="website" name="website" value="${is.website }"  type="text">
+												<div class="validate">${ERR_website}</div>
 											</div>
 										</li>
-										<li class="col-md-12 p0 mt10"><span class="fl"><i class="red">＊</i>国内供货业绩：</span>
+										<li class="col-md-12 p0 mt10"><span class="fl">国内供货业绩：</span>
 											<div class="col-md-9 mt5">
 												<div class="row">
-													<textarea class="text_area col-md-12" id="civilAchievement" name="civilAchievement"  title="不超过800个字" placeholder=""></textarea>
+													<textarea class="text_area col-md-12"  id="civilAchievement" name="civilAchievement"  title="不超过800个字" placeholder="">${is.civilAchievement }</textarea>
 												</div>
 											</div>
 											<div class="clear"></div>
 										</li>
-										<li class="col-md-12 p0 mt10"><span class="fl"><i class="red">＊</i>企业简介：</span>
+										<li class="col-md-12 p0 mt10"><span class="fl">企业简介：</span>
 											<div class="col-md-9 mt5">
 												<div class="row">
-													<textarea class="text_area col-md-12" id="remark" name="remark" title="不超过800个字" placeholder=""></textarea>
+													<textarea class="text_area col-md-12" id="remark" name="remark" title="不超过800个字" placeholder="">${is.remark }</textarea>
 												</div>
 											</div>
 											<div class="clear"></div>

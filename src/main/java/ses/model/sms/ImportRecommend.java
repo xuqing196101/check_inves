@@ -3,7 +3,7 @@ package ses.model.sms;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotBlank;
 
 public class ImportRecommend implements Serializable{
     /**
@@ -11,23 +11,22 @@ public class ImportRecommend implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	private String id;
-    @NotNull(message = "用户名不能为空") 
+    @NotBlank(message = "企业名称不能为空") 
     private String name;
-
+    @NotBlank(message = "企业地址不能为空") 
     private String address;
-
+    @NotBlank(message = "法定代表人不能为空") 
     private String legalName;
-
+    @NotBlank(message = "推荐单位不能为空") 
     private String recommendDep;
-
     private Short type;
 
     private Long useCount;
 
     private Short status;
-
+    @NotBlank(message = "登录名不能为空") 
     private String loginName;
-
+    @NotBlank(message = "登录密码不能为空") 
     private String password;
 
     private Date createdAt;

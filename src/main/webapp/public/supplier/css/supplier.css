@@ -133,3 +133,10 @@ background-position: 10px 6px;
     background-repeat: no-repeat;
     background-position: 10px 6px;
 }
+.validate {
+    font-size: 12px;
+    position: absolute;
+    left: 430px;
+    top: 5px;
+    color: #ef0000;
+}

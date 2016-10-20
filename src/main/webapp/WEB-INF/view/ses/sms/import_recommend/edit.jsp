@@ -83,51 +83,50 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      <li class="col-md-6 p0">
 	   <span class="">登录名：</span>
 	   <div class="input-append">
-        <input class="span2" id="loginName" name="loginName" value="${ir.loginName }" type="text">
+        <input class="span2" id="loginName" readonly="readonly" name="loginName" value="${ir.loginName }" type="text">
         <input class="span2" id="id" name="id" value="${ir.id }" type="hidden">
-        <span class="add-on">i</span>
+       <div class="validate">${ERR_loginName}</div>
        </div>
 	 </li>
      <li class="col-md-6  p0 ">
 	   <span class="">登录密码：</span>
 	   <div class="input-append">
         <input class="span2" id="password" name="password" value="${ir.password }" type="text">
-        <span class="add-on">i</span>
+        <div class="validate">${ERR_password}</div>
        </div>
 	 </li>
      <li class="col-md-6  p0 ">
 	   <span class="">企业名称：</span>
 	   <div class="input-append">
         <input class="span2" id="name" name="name" value="${ir.name }" type="text">
-        <span class="add-on">i</span>
+        <div class="validate">${ERR_name}</div>
        </div>
 	 </li> 
 	  <li class="col-md-6  p0 ">
 	   <span class="">企业地址：</span>
 	   <div class="input-append">
         <input class="span2" id="address" name="address" value="${ir.address }" type="text">
-        <span class="add-on">i</span>
+        <div class="validate">${ERR_address}</div>
        </div>
 	 </li> 
 	 <li class="col-md-6  p0 ">
 	   <span class="">法定代表人：</span>
 	   <div class="input-append">
         <input class="span2" id="legalName" name="legalName" value="${ir.legalName }" type="text">
-        <span class="add-on">i</span>
+        <div class="validate">${ERR_legalName}</div>
        </div>
 	 </li> 
 	 <li class="col-md-6  p0 ">
 	   <span class="">推荐单位：</span>
 	   <div class="input-append">
-        <input class="span2" id="recommend" name="recommend" value="${ir.recommendDep }" type="text">
-        <span class="add-on">i</span>
+        <input class="span2" id="recommend" name="recommendDep" value="${ir.recommendDep }" type="text">
+        <div class="validate">${ERR_recommendDep}</div>
        </div>
 	 </li> 
 	 <li class="col-md-6 p0 ">
 	   <span class=" ">进口代理商类型：</span>
          <div class="select_common mb10">
-         <select class="w250" name="type" id="type">
-           <option value="">请选择</option>
+         <select class="w220" name="type" id="type">
            <option value="1">正式代理商</option>
            <option value="2">临时代理商</option>
          </select>

@@ -6,11 +6,14 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -19,6 +22,7 @@ import ses.model.bms.User;
 import ses.model.sms.ImportSupplierWithBLOBs;
 import ses.service.bms.TodosService;
 import ses.service.sms.ImportSupplierService;
+import ses.util.ValidateUtils;
 
 import com.github.pagehelper.PageInfo;
 
@@ -146,7 +150,22 @@ public class ImportSupplierController {
 	 * @return String
 	 */
 	@RequestMapping("update")
-	public String update(ImportSupplierWithBLOBs is,Model model,HttpServletRequest request) throws IOException{
+	public String update(@Valid ImportSupplierWithBLOBs is, BindingResult result, Model model,HttpServletRequest request) throws IOException{
+		if(result.hasErrors()){
+			List<FieldError> errors=result.getFieldErrors();
+			for(FieldError fieldError:errors){
+				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
+			}
+			model.addAttribute("is", is);
+			if(!ValidateUtils.Zipcode(is.getPostCode()+"")){
+				model.addAttribute("ERR_postCode", "请输入正确的邮编");
+			}
+			if(!ValidateUtils.Mobile(is.getTelephone()+"")){
+				model.addAttribute("ERR_telephone", "请输入正确的手机号码");
+			}
+			return "ses/sms/import_supplier/edit";
+		}
+		
 		is.setUpdatedAt(new Timestamp(new Date().getTime()));
 		importSupplierService.updateRegisterInfo(is);
 		return "redirect:list.html";
@@ -178,7 +197,21 @@ public class ImportSupplierController {
 	 * @throws IOException 
 	 */
 	@RequestMapping("registerEnd")
-	public String registerEnd(ImportSupplierWithBLOBs is,HttpServletRequest request) throws IOException{
+	public String registerEnd(@Valid ImportSupplierWithBLOBs is, BindingResult result,HttpServletRequest request,Model model) throws IOException{
+		if(result.hasErrors()){
+			List<FieldError> errors=result.getFieldErrors();
+			for(FieldError fieldError:errors){
+				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
+			}
+			model.addAttribute("is", is);
+			if(!ValidateUtils.Zipcode(is.getPostCode()+"")){
+				model.addAttribute("ERR_postCode", "请输入正确的邮编");
+			}
+			if(!ValidateUtils.Mobile(is.getTelephone()+"")){
+				model.addAttribute("ERR_telephone", "请输入正确的手机号码");
+			}
+			return "ses/sms/import_supplier/register";
+		}
 		is.setStatus((short)0);
 		is.setCreatedAt(new Timestamp(new Date().getTime()));
 		User user1=(User) request.getSession().getAttribute("loginUser");

@@ -120,13 +120,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		if(str=='tongguo'){
 			window.location.href='<%=basePath%>supplier_edit/auditEnd.html?auditStatus=1&id='+'${supplierId}';
 		}else{
-		    var table =document.getElementById("tb");
-   			var rows = table.rows.length;
-			if(rows==1){
-   				layer.alert("请填写审核不通过理由",{offset: ['222px', '390px'], shade:0.01});
-			}else{
-				window.location.href='<%=basePath%>supplier_edit/auditEnd.html?auditStatus=2&id='+'${supplierId}';
-			}
+			window.location.href='<%=basePath%>supplier_edit/auditEnd.html?auditStatus=2&id='+'${supplierId}';
 		}
 	}
 </script>
@@ -150,14 +144,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <div class="col-md-12 tab-v2 job-content">
         <div class="padding-top-10">
           <ul class="nav nav-tabs bgdd">
-			<li class=""><a aria-expanded="true" href="#tab-1" data-toggle="tab" id="essential"  onclick="window.location.href='<%=basePath %>supplier_edit/audit.html?id=${supplierId }'" >基本信息</a></li>
+			<li class=""><a aria-expanded="true" href="#tab-1" data-toggle="tab" id="essential"  onclick="window.location.href='<%=basePath %>supplier_edit/auditView.html?id=${supplierId }'" >基本信息</a></li>
 			<li class="active"><a aria-expanded="true" href="#tab-2" data-toggle="tab" id="essential" onclick="window.location.href='<%=basePath %>supplier_edit/reasonList.html'" >问题汇总</a></li>
           </ul>
             <div class="tab-content padding-top-20">
               <div class="tab-pane fade  height-450" id="tab-1">
             </div>
           	  <div class="tab-pane fade active in height-450" id="tab-2">
-          	   <table id="tb" class="table table-bordered table-condensed">
+          	   <table class="table table-bordered table-condensed">
                    <thead>
                      <tr>
                        <th class="info w50">序号</th>
@@ -177,8 +171,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                   </table>
                    <div class="col-md-12 tc">
 			  							<input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
-			  							<input class="btn btn-windows git" value="审核通过" type="button" onclick="shenhe('tongguo')">
-			  							<input class="btn btn-windows git" value="审核退回" type="button" onclick="shenhe('tuihui')">
 			 						</div>
           	  </div>
           </div>

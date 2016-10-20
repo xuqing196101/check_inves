@@ -39,6 +39,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="<%=basePath%>public/lodop/LodopFuncs.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript">
+ $(document).ready(function(){
+   for(var i=0;i<document.getElementById("type").options.length;i++)
+    {
+        if(document.getElementById("type").options[i].value == '${ir.type}')
+        {
+            document.getElementById("type").options[i].selected=true;
+            break;
+        }
+    }
+    });
+</script>
 </head>
 <body>
 
@@ -55,7 +67,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    
 <!-- 修改订列表开始-->
    <div class="container">
-   <sf:form action="${pageContext.request.contextPath}/importRecommend/save.html" method="post" modelAttribute="ir" >
+   <sf:form action="${pageContext.request.contextPath}/importRecommend/save.html" method="post">
    <div>
    <div class="headline-v2">
    <h2>进口代理商新增</h2>
@@ -64,50 +76,49 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      <li class="col-md-6 p0">
 	   <span class="">登录名：</span>
 	   <div class="input-append">
-        <input class="span2" id="loginName" name="loginName" type="text">
-        <span class="add-on">i</span>
+        <input class="span2" id="loginName" name="loginName" value="${ir.loginName }" type="text">
+        <div class="validate">${ERR_loginName}</div>
        </div>
 	 </li>
      <li class="col-md-6  p0 ">
 	   <span class="">登录密码：</span>
 	   <div class="input-append">
-        <input class="span2" id="password" name="password" type="text">
-        <span class="add-on">i</span>
+        <input class="span2" id="password" name="password" value="${ir.password }" type="text">
+        <div class="validate">${ERR_password}</div>
        </div>
 	 </li>
      <li class="col-md-6  p0 ">
 	   <span class="">企业名称：</span>
 	   <div class="input-append">
-        <input class="span2" id="name" name="name" type="text"> <div class="b f14 red tip pa l260"><sf:errors path="name"/></div>
-        <span class="add-on">i</span>
+        <input class="span2" id="name" name="name"  value="${ir.name }" type="text"> 
+        <div class="validate">${ERR_name}</div>
        </div>
 	 </li> 
 	  <li class="col-md-6  p0 ">
 	   <span class="">企业地址：</span>
 	   <div class="input-append">
-        <input class="span2" id="address" name="address" type="text">
-        <span class="add-on">i</span>
+        <input class="span2" id="address" name="address"  value="${ir.address }"  type="text">
+        <div class="validate">${ERR_address}</div>
        </div>
 	 </li> 
 	 <li class="col-md-6  p0 ">
 	   <span class="">法定代表人：</span>
 	   <div class="input-append">
-        <input class="span2" id="legalName" name="legalName" type="text">
-        <span class="add-on">i</span>
+        <input class="span2" id="legalName" name="legalName"  value="${ir.legalName }"   type="text">
+        <div class="validate">${ERR_legalName}</div>
        </div>
 	 </li> 
 	 <li class="col-md-6  p0 ">
 	   <span class="">推荐单位：</span>
 	   <div class="input-append">
-        <input class="span2" id="recommendDep" name="recommendDep" type="text">
-        <span class="add-on">i</span>
+        <input class="span2" id="recommendDep" name="recommendDep"  value="${ir.recommendDep }"  type="text">
+        <div class="validate">${ERR_recommendDep}</div>
        </div>
 	 </li> 
 	 <li class="col-md-6 p0 ">
 	   <span class=" ">进口代理商类型：</span>
          <div class="select_common mb10">
-         <select id="type" class="w250" name="type">
-           <option value="">请选择</option>
+         <select id="type" class="w220" name="type">
            <option value="1">正式代理商</option>
            <option value="2">临时代理商</option>
          </select>

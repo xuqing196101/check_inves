@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -92,8 +93,18 @@ public class ImportRecommendController extends BaseSupplierController{
 	@RequestMapping("/save")
 	public String save(@Valid ImportRecommend ir, BindingResult result,HttpServletRequest request,Model model) throws IOException{
 		if(result.hasErrors()){
+			List<FieldError> errors=result.getFieldErrors();
+			for(FieldError fieldError:errors){
+				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
+			}
+			List<User> users = userService.findByLoginName(ir.getLoginName());
+			if(users.size() > 0){
+				model.addAttribute("ERR_loginName", "用户名已存在");
+			}
+			model.addAttribute("ir", ir);
 			return "ses/sms/import_recommend/add";
 		}
+		
 		User user1=(User) request.getSession().getAttribute("loginUser");
 		ir.setCreatedAt(new Date());
 		ir.setCreator(user1.getRelName());
@@ -143,7 +154,15 @@ public class ImportRecommendController extends BaseSupplierController{
 	 * @return String
 	 */
 	@RequestMapping("/update")
-	public String update(ImportRecommend ir,Model model,HttpServletRequest request) throws IOException{
+	public String update(@Valid ImportRecommend ir,BindingResult result,Model model,HttpServletRequest request) throws IOException{
+		if(result.hasErrors()){
+			List<FieldError> errors=result.getFieldErrors();
+			for(FieldError fieldError:errors){
+				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
+			}
+			model.addAttribute("ir", ir);
+			return "ses/sms/import_recommend/edit";
+		}
 		ir.setUpdatedAt(new Date());
 		importRecommendService.update(ir);
 		return "redirect:list.html";

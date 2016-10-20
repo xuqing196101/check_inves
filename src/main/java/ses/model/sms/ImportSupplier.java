@@ -4,6 +4,11 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.NotBlank;
+
 public class ImportSupplier implements Serializable {
     /**
 	 * @Fields serialVersionUID : 
@@ -11,35 +16,33 @@ public class ImportSupplier implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String id;
-
+	@NotBlank(message="企业名称不能为空")
     private String name;
-
+	@NotBlank(message="企业类型不能为空")
     private String supplierType;
-
+	@NotBlank(message="中文名称不能为空")
     private String chinesrName;
-
+	@NotBlank(message="法人姓名不能为空")
     private String legalName;
-
+	@NotBlank(message="企业地址不能为空")
     private String address;
-
     private Integer postCode;
-
+	@NotBlank(message="产品大类不能为空")
     private String productType;
-
+	@NotBlank(message="主营不能为空")
     private String majorProduct;
-
+	@NotBlank(message="副营不能为空")
     private String byproduct;
-
+	@NotBlank(message="成产商不能为空")
     private String producerName;
-
+	@NotBlank(message="联系人姓名不能为空")
     private String contactPerson;
-
     private Long telephone;
-
+	@NotBlank(message="传真不能为空")
     private String fax;
-
+	@NotBlank(message="邮件不能为空")
     private String email;
-
+	@NotBlank(message="企业网址不能为空")
     private String website;
 
     private Short status;

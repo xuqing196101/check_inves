@@ -137,7 +137,7 @@ public class SupplierEditController extends BaseSupplierController{
 		//待办类型 供应商
 		todo.setUndoType((short)1);
 		//标题
-		todo.setName("进口供应商审核");
+		todo.setName("进口供应商变更审核");
 		//逻辑删除 0未删除 1已删除
 		todo.setIsDeleted((short)0);
 		todo.setCreatedAt(new Date());
@@ -167,6 +167,29 @@ public class SupplierEditController extends BaseSupplierController{
 		model.addAttribute("se", se);
 		model.addAttribute("supplier", supplier);
 		return "ses/sms/supplier_apply_edit/audit";
+	}
+	
+	/**
+	 * @Title: auditView
+	 * @author Song Biaowei
+	 * @date 2016-10-19 下午8:29:31  
+	 * @Description: 查看
+	 * @param @param id
+	 * @param @param model
+	 * @param @param req
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping(value="auditView")
+	public String auditView(String id,Model model,HttpServletRequest req){
+		//修改后的
+		SupplierEdit se=supplierEditService.selectByPrimaryKey(id);
+		//修改前的
+		Supplier supplier=supplierAuditService.supplierById(se.getRecordId());
+		req.getSession().setAttribute("supplierId_edit", se.getId());
+		model.addAttribute("se", se);
+		model.addAttribute("supplier", supplier);
+		return "ses/sms/supplier_apply_edit/audit_views";
 	}
 	
 	/**
@@ -250,8 +273,10 @@ public class SupplierEditController extends BaseSupplierController{
 		sr.setSupplierId((String)request.getSession().getAttribute("supplierId_edit"));
 		List<SupplierReason> srList=supplierAudReasonService.findAll(sr);
 		model.addAttribute("srList", srList);
-		model.addAttribute("supplierId", sr.getSupplierId());
-		return "ses/sms/supplier_apply_edit/audit1";
+		if(srList.size()!=0){
+			model.addAttribute("supplierId", srList.get(0).getSupplierId());
+		}
+		return "ses/sms/supplier_apply_edit/audit_view";
 	}
 	
 	/**
