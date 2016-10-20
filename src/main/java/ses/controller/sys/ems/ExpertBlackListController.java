@@ -59,7 +59,9 @@ public class ExpertBlackListController extends BaseSupplierController{
 		
 		//选择的专家
 		String relName = expertBlackList.getRelName();
+		String expertId = expertBlackList.getExpertId();
 		model.addAttribute("relName", relName);
+		model.addAttribute("expertId", expertId);
 		return "ses/ems/expertBlackList/add";
 	}
 	/**
@@ -80,10 +82,13 @@ public class ExpertBlackListController extends BaseSupplierController{
 		this.setExpertBlackListUpload(request, expertBlackList);
 		service.insert(expertBlackList);	
 		//记录操作
-		String expert=expertBlackList.getRelName();
-		expertBlackListLog.setOperationDate(new Date());
-		expertBlackListLog.setExpertId(expert);
+		expertBlackListLog.setOperationDate(new Date()); 
+		expertBlackListLog.setExpertId(expertBlackList.getRelName());
 		expertBlackListLog.setOperator("我");
+		expertBlackListLog.setDateOfPunishment(expertBlackList.getDateOfPunishment());
+		expertBlackListLog.setPunishDate(expertBlackList.getPunishDate());
+		expertBlackListLog.setPunishType(expertBlackList.getPunishType());
+		expertBlackListLog.setReason(expertBlackList.getReason());
 		service.insertHistory(expertBlackListLog);
 		return "redirect:blacklist.html";
 	}
@@ -151,10 +156,13 @@ public class ExpertBlackListController extends BaseSupplierController{
 		this.setExpertBlackListUpload(request, expertBlackList);
 		service.update(expertBlackList);
 		//记录操作
-		String expert=expertBlackList.getRelName();
-		expertBlackListLog.setOperationDate(new Date());
-		expertBlackListLog.setExpertId(expert);
+		expertBlackListLog.setOperationDate(new Date()); 
+		expertBlackListLog.setExpertId(expertBlackList.getRelName());
 		expertBlackListLog.setOperator("我");
+		expertBlackListLog.setDateOfPunishment(expertBlackList.getDateOfPunishment());
+		expertBlackListLog.setPunishDate(expertBlackList.getPunishDate());
+		expertBlackListLog.setPunishType(expertBlackList.getPunishType());
+		expertBlackListLog.setReason(expertBlackList.getReason());
 		service.insertHistory(expertBlackListLog);
 		return "redirect:blacklist.html";
 	}
@@ -233,7 +241,7 @@ public class ExpertBlackListController extends BaseSupplierController{
 	}
 	
 	/**
-	 * @Title: saveHistory
+	 * @Title: expertBlackListLog
 	 * @author Xu Qing
 	 * @date 2016-10-13 下午6:44:33  
 	 * @Description: 历史记录 
@@ -243,8 +251,9 @@ public class ExpertBlackListController extends BaseSupplierController{
 	 * @return void
 	 */
 	@RequestMapping(value = "expertBlackListLog")
-	public String saveHistory(ExpertBlackListLog expertBlackListLog,Model model) {
-		List<ExpertBlackListLog> log= service.findBlackListLog();
+	public String expertBlackListLog(HttpServletRequest request,ExpertBlackListLog expertBlackListLog,Model model,Integer page) {
+		List<ExpertBlackListLog> log= service.findBlackListLog(expertBlackListLog,page==null?1:page);
+		request.setAttribute("result", new PageInfo<>(log));
 		model.addAttribute("log", log);
 		return "ses/ems/expertBlackList/log";
 	}

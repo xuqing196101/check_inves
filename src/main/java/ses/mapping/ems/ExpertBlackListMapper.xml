@@ -2,23 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ses.dao.ems.ExpertBlackListMapper">
   <resultMap id="BaseResultMap" type="ses.model.ems.ExpertBlackList">
-    <id column="ID" jdbcType="VARCHAR" property="id" />
-    <result column="LOGIN_NAME" jdbcType="VARCHAR" property="loginName" />
-    <result column="REL_NAME" jdbcType="VARCHAR" property="relName" />
-    <result column="IS_SYS_BUILD" jdbcType="DECIMAL" property="isSysBuild" />
-    <result column="STORAGE_TIME" jdbcType="DATE" property="storageTime" />
-    <result column="DATE_OF_PUNISHMENT" jdbcType="DATE" property="dateOfPunishment" />
-    <result column="PUNISH_TYPE" jdbcType="DECIMAL" property="punishType" />
-    <result column="PUNISH_DATE" jdbcType="VARCHAR" property="punishDate" />
-    <result column="REASON" jdbcType="VARCHAR" property="reason" />
-    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
-    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
-    <result column="ATTACHMENT_CERT" jdbcType="VARCHAR" property="attachmentCert" />
-    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <id column="ID" property="id" />
+    <result column="LOGIN_NAME" property="loginName" />
+    <result column="REL_NAME" property="relName" />
+    <result column="IS_SYS_BUILD" property="isSysBuild" />
+    <result column="STORAGE_TIME" property="storageTime" />
+    <result column="DATE_OF_PUNISHMENT" property="dateOfPunishment" />
+    <result column="PUNISH_TYPE" property="punishType" />
+    <result column="PUNISH_DATE" property="punishDate" />
+    <result column="REASON" property="reason" />
+    <result column="CREATED_AT" property="createdAt" />
+    <result column="UPDATED_AT" property="updatedAt" />
+    <result column="ATTACHMENT_CERT" property="attachmentCert" />
+    <result column="STATUS" property="status" />
+    <result column="EXPERT_ID" property="expertId" />
   </resultMap>
   <sql id="Base_Column_List">
     ID, LOGIN_NAME, REL_NAME, IS_SYS_BUILD, STORAGE_TIME, DATE_OF_PUNISHMENT, PUNISH_TYPE, 
-    PUNISH_DATE, REASON, CREATED_AT, UPDATED_AT, ATTACHMENT_CERT,STATUS
+    PUNISH_DATE, REASON, CREATED_AT, UPDATED_AT, ATTACHMENT_CERT,STATUS,EXPERT_ID
   </sql>
   
   <!-- 查询所有专家黑名单及条件查询 -->
@@ -44,7 +45,7 @@
     select 
     <include refid="Base_Column_List" />
     from T_SES_EMS_EXPERT_BLACKLIST
-    where ID = #{id,jdbcType=VARCHAR}
+    where ID = #{id}
   </select>
   
   <!-- 更新状态-->
@@ -58,13 +59,13 @@
     insert into T_SES_EMS_EXPERT_BLACKLIST (ID, LOGIN_NAME, REL_NAME, 
       IS_SYS_BUILD, STORAGE_TIME, DATE_OF_PUNISHMENT, 
       PUNISH_TYPE, PUNISH_DATE, REASON, 
-      CREATED_AT, UPDATED_AT, ATTACHMENT_CERT, STATUS
+      CREATED_AT, UPDATED_AT, ATTACHMENT_CERT, STATUS,EXPERT_ID
       )
-    values (#{id,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, #{relName,jdbcType=VARCHAR}, 
-      #{isSysBuild,jdbcType=DECIMAL}, #{storageTime,jdbcType=DATE}, #{dateOfPunishment,jdbcType=DATE}, 
-      #{punishType,jdbcType=DECIMAL}, #{punishDate,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, 
-      #{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE}, #{attachmentCert,jdbcType=VARCHAR},
-      #{status,jdbcType=DECIMAL}
+    values (#{id}, #{loginName}, #{relName}, 
+      #{isSysBuild}, #{storageTime}, #{dateOfPunishment}, 
+      #{punishType}, #{punishDate}, #{reason}, 
+      #{createdAt}, #{updatedAt}, #{attachmentCert},
+      #{status},#{expertId}
       )
   </insert>
   
@@ -111,46 +112,52 @@
       <if test="status != null">
         STATUS,
       </if>
+      <if test="expertId != null">
+        EXPERT_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=VARCHAR},
+        #{id},
       </if>
       <if test="loginName != null">
-        #{loginName,jdbcType=VARCHAR},
+        #{loginName},
       </if>
       <if test="relName != null">
-        #{relName,jdbcType=VARCHAR},
+        #{relName},
       </if>
       <if test="isSysBuild != null">
-        #{isSysBuild,jdbcType=DECIMAL},
+        #{isSysBuild},
       </if>
       <if test="storageTime != null">
-        #{storageTime,jdbcType=DATE},
+        #{storageTime},
       </if>
       <if test="dateOfPunishment != null">
-        #{dateOfPunishment,jdbcType=DATE},
+        #{dateOfPunishment},
       </if>
       <if test="punishType != null">
-        #{punishType,jdbcType=DECIMAL},
+        #{punishType},
       </if>
       <if test="punishDate != null">
-        #{punishDate,jdbcType=VARCHAR},
+        #{punishDate},
       </if>
       <if test="reason != null">
-        #{reason,jdbcType=VARCHAR},
+        #{reason},
       </if>
       <if test="createdAt != null">
-        #{createdAt,jdbcType=DATE},
+        #{createdAt},
       </if>
       <if test="updatedAt != null">
-        #{updatedAt,jdbcType=DATE},
+        #{updatedAt},
       </if>
       <if test="attachmentCert != null">
-        #{attachmentCert,jdbcType=VARCHAR},
+        #{attachmentCert},
       </if>
       <if test="status != null">
-        #{status,jdbcType=DECIMAL},
+        #{status},
+      </if>
+      <if test="expertId != null">
+        #{expertId},
       </if>
     </trim>
   </insert>
@@ -160,58 +167,62 @@
     update T_SES_EMS_EXPERT_BLACKLIST
     <set>
       <if test="loginName != null">
-        LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
+        LOGIN_NAME = #{loginName},
       </if>
       <if test="relName != null">
-        REL_NAME = #{relName,jdbcType=VARCHAR},
+        REL_NAME = #{relName},
       </if>
       <if test="isSysBuild != null">
-        IS_SYS_BUILD = #{isSysBuild,jdbcType=DECIMAL},
+        IS_SYS_BUILD = #{isSysBuild},
       </if>
       <if test="storageTime != null">
-        STORAGE_TIME = #{storageTime,jdbcType=DATE},
+        STORAGE_TIME = #{storageTime},
       </if>
       <if test="dateOfPunishment != null">
-        DATE_OF_PUNISHMENT = #{dateOfPunishment,jdbcType=DATE},
+        DATE_OF_PUNISHMENT = #{dateOfPunishment},
       </if>
       <if test="punishType != null">
-        PUNISH_TYPE = #{punishType,jdbcType=DECIMAL},
+        PUNISH_TYPE = #{punishType},
       </if>
       <if test="punishDate != null">
-        PUNISH_DATE = #{punishDate,jdbcType=VARCHAR},
+        PUNISH_DATE = #{punishDate},
       </if>
       <if test="reason != null">
-        REASON = #{reason,jdbcType=VARCHAR},
+        REASON = #{reason},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt,jdbcType=DATE},
+        CREATED_AT = #{createdAt},
       </if>
       <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+        UPDATED_AT = #{updatedAt},
       </if>
       <if test="attachmentCert != null">
-        ATTACHMENT_CERT = #{attachmentCert,jdbcType=VARCHAR},
+        ATTACHMENT_CERT = #{attachmentCert},
       </if>
       <if test="status != null">
-        STATUS = #{status,jdbcType=DECIMAL},
+        STATUS = #{status},
+      </if>
+      <if test="expertId != null">
+        EXPERT_ID = #{expertId},
       </if>
     </set>
-    where ID = #{id,jdbcType=VARCHAR}
+    where ID = #{id}
   </update>
   <update id="updateByPrimaryKey" parameterType="ses.model.ems.ExpertBlackList">
     update T_SES_EMS_EXPERT_BLACKLIST
-    set LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
-      REL_NAME = #{relName,jdbcType=VARCHAR},
-      IS_SYS_BUILD = #{isSysBuild,jdbcType=DECIMAL},
-      STORAGE_TIME = #{storageTime,jdbcType=DATE},
-      DATE_OF_PUNISHMENT = #{dateOfPunishment,jdbcType=DATE},
-      PUNISH_TYPE = #{punishType,jdbcType=DECIMAL},
-      PUNISH_DATE = #{punishDate,jdbcType=VARCHAR},
-      REASON = #{reason,jdbcType=VARCHAR},
-      CREATED_AT = #{createdAt,jdbcType=DATE},
-      UPDATED_AT = #{updatedAt,jdbcType=DATE},
-      ATTACHMENT_CERT = #{attachmentCert,jdbcType=VARCHAR}
-      STATUS = #{status,jdbcType=DECIMAL}
-    where ID = #{id,jdbcType=VARCHAR}
+    set LOGIN_NAME = #{loginName},
+      REL_NAME = #{relName},
+      IS_SYS_BUILD = #{isSysBuild},
+      STORAGE_TIME = #{storageTime},
+      DATE_OF_PUNISHMENT = #{dateOfPunishment},
+      PUNISH_TYPE = #{punishType},
+      PUNISH_DATE = #{punishDate},
+      REASON = #{reason},
+      CREATED_AT = #{createdAt},
+      UPDATED_AT = #{updatedAt},
+      ATTACHMENT_CERT = #{attachmentCert}
+      STATUS = #{status},
+      EXPERT_ID = #{expertId},
+    where ID = #{id}
   </update>
 </mapper>

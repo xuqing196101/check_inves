@@ -2,11 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ses.dao.ems.ExpertBlackListLogMapper">
   <resultMap id="BaseResultMap" type="ses.model.ems.ExpertBlackListLog">
-    <id column="ID" jdbcType="VARCHAR" property="id" />
-    <result column="OPERATOR" jdbcType="VARCHAR" property="operator" />
-    <result column="OPERATION_TYPE" jdbcType="DECIMAL" property="operationType" />
-    <result column="OPERATION_DATE" jdbcType="DATE" property="operationDate" />
-    <result column="EXPERT_ID" jdbcType="VARCHAR" property="expertId" />
+    <id column="ID" property="id" />
+    <result column="OPERATOR" property="operator" />
+    <result column="OPERATION_TYPE" property="operationType" />
+    <result column="OPERATION_DATE" property="operationDate" />
+    <result column="EXPERT_ID" property="expertId" />
+    
+    <result column="DATE_OF_PUNISHMENT" property="dateOfPunishment" />
+    <result column="PUNISH_DATE" property="punishDate" />
+    <result column="PUNISH_TYPE" property="punishType" />
+    <result column="REASON" property="reason" />
   </resultMap>
   <insert id="insertHistory" parameterType="ses.model.ems.ExpertBlackListLog">
     insert into T_SES_EMS_EXPERT_BLACKLIST_LOG
@@ -26,22 +31,48 @@
       <if test="expertId != null">
         EXPERT_ID,
       </if>
+      
+      <if test="dateOfPunishment != null">
+        DATE_OF_PUNISHMENT,
+      </if>
+      <if test="punishDate != null">
+        PUNISH_DATE,
+      </if>
+      <if test="punishType != null">
+        PUNISH_TYPE,
+      </if>
+      <if test="reason != null">
+        REASON,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=VARCHAR},
+        #{id},
       </if>
       <if test="operator != null">
-        #{operator,jdbcType=VARCHAR},
+        #{operator},
       </if>
       <if test="operationType != null">
-        #{operationType,jdbcType=DECIMAL},
+        #{operationType},
       </if>
       <if test="operationDate != null">
-        #{operationDate,jdbcType=DATE},
+        #{operationDate},
       </if>
       <if test="expertId != null">
-        #{expertId,jdbcType=VARCHAR},
+        #{expertId},
+      </if>
+      
+      <if test="dateOfPunishment != null">
+        #{dateOfPunishment},
+      </if>
+      <if test="punishDate != null">
+        #{punishDate},
+      </if>
+      <if test="punishType != null">
+        #{punishType},
+      </if>
+      <if test="reason != null">
+        #{reason},
       </if>
     </trim>
     <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
@@ -51,6 +82,14 @@
   
   <select id="findBlackListLog" resultMap="BaseResultMap">
     select * from T_SES_EMS_EXPERT_BLACKLIST_LOG
+     where 
+       1=1
+       <if test="expertId != null and expertId !=''">  
+              AND  EXPERT_ID like '%${expertId}%'   
+       </if>  
+       <if test="operationType != null and operationType !=''">  
+              AND OPERATION_TYPE = '${operationType}' 
+       </if>
     order by OPERATION_DATE DESC
   </select>
 

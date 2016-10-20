@@ -13,7 +13,10 @@ public class ExpertBlackListLog{
 	private String expertId; //专家id
 	private String operationType;  //操作类型
 	private Date operationDate; //操作时间
-	
+	private Date dateOfPunishment; //处罚日期
+	private Integer punishType; //处罚类型
+    private String punishDate; //处罚时限
+    private String reason; //理由
 	public String getId() {
 		return id;
 	}
@@ -45,5 +48,30 @@ public class ExpertBlackListLog{
 	public void setOperationDate(Date operationDate) {
 		this.operationDate = operationDate;
 	}
+	public Date getDateOfPunishment() {
+		return dateOfPunishment;
+	}
+	public void setDateOfPunishment(Date dateOfPunishment) {
+		this.dateOfPunishment = dateOfPunishment;
+	}
+	public Integer getPunishType() {
+		return punishType;
+	}
+	public void setPunishType(Integer punishType) {
+		this.punishType = punishType;
+	}
+	public String getPunishDate() {
+		return punishDate;
+	}
+	public void setPunishDate(String punishDate) {
+		this.punishDate = punishDate;
+	}
+	public String getReason() {
+		return reason;
+	}
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+	
 	
 }

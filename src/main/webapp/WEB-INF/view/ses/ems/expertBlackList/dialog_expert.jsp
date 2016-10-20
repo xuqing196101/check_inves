@@ -37,7 +37,7 @@
       });
     }); */
     
-      $(function() {
+  $(function() {
     laypage({
       cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
       pages: "${result.pages}", //总页数
@@ -62,7 +62,7 @@
      $("input[name='id']").click(function(index) {
       var id = $(this).val();
       var relName = $(this).parents("tr").find("td").eq(2).text();
-      /* $("#relName_id_input_id").val(id); */
+       $("input[name='expertId']").val(id);
       $("#relName_name_input_id").val(relName);
     });
   });
@@ -76,6 +76,8 @@
       });
       return;
     }
+  /*   var i= $("input[name='expertId']").val(expertId);
+    alert(i); */
     $("#check_form_id").submit();   
   }
   //查询
@@ -125,8 +127,8 @@
                 <c:forEach items="${expertAll }" var="e" varStatus="vs">
 	                <tr>
 							      <td class="tc w30"><input name="id" type="radio" value="${e.id}"></td>
-							      <td onclick="view('${e.id}');" class="tc w50">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</td>
-							      <td onclick="view('${e.id}');" class="tc">${e.relName}</td>
+							      <td  class="tc w50">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</td>
+							      <td  class="tc">${e.relName}</td>
 	                </tr>
                 </c:forEach>
               </table>
@@ -138,7 +140,7 @@
           </div>
         </div>
       <form target="_parent" id="check_form_id" action="${pageContext.request.contextPath}/expertBlacklist/addBlacklist.html" method="post">
-        <!-- <input id="relName_id_input_id" type="hidden" name="id" /> -->
+        <input type="hidden" name="expertId" />
         <input id="relName_name_input_id" type="hidden" name="relName" />
       </form>
     </div>

@@ -103,7 +103,7 @@
 			ids.push($(this).val()); 
 		}); 
 		if(ids.length>0){
-			layer.confirm('您确定要移除吗?', {title:'提示',offset: ['200px']}, function(index){
+			layer.confirm('您确定要移除黑名单吗?', {title:'提示！',offset: ['200px']}, function(index){
 				layer.close(index);
 				$.ajax({
 		       		url:"<%=basePath%>expertBlacklist/updateStatus.html",
@@ -120,7 +120,7 @@
 		       	});
 			});
 		}else{
-			layer.alert("请选择需要移除的信息",{offset:'200px'});
+			layer.alert("请选择需要移除黑名单的信息！",{offset:'200px'});
 		}
     }
     

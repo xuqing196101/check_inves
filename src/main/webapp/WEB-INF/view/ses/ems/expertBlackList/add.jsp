@@ -43,6 +43,7 @@
     });
 
   });
+  
 </script>
 </head>
 <body>
@@ -58,6 +59,7 @@
   <div class="container">
     <form action="<%=basePath %>expertBlacklist/saveBlacklist.do" method="post" id="form1" enctype="multipart/form-data" class="registerform">
     <input type="hidden" name="operationType" value="0">
+    <input type="hidden" name="expertId" value="${expertId }">
       <h2 class="f16 jbxx1">
          <i>01</i>基本信息
       </h2>
@@ -68,7 +70,7 @@
         </li>
 	      <li class="col-md-6  p0 ">
 		      <span class=""><i class="red">＊</i>入库时间：</span>
-	        <input class="span2 Wdate w220"  readonly="readonly" name="storageTime"  type="text" onclick='WdatePicker()'>
+	        <input class="span2 Wdate w220"  readonly="readonly" name="storageTime"  type="text" onclick='WdatePicker()' id="txtBirthday">
 	        <font id="nameFont2"></font>
 		    </li> 
 	      <li class="col-md-6  p0 ">

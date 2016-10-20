@@ -104,5 +104,5 @@ public interface ExpertBlackListService {
 	 * @param @return      
 	 * @return List<ExpertBlackListLog>
 	 */
-	List<ExpertBlackListLog> findBlackListLog();
+	List<ExpertBlackListLog> findBlackListLog(ExpertBlackListLog expertBlackListHistory,Integer page);
 }

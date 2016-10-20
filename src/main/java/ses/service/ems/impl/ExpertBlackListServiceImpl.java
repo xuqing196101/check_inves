@@ -125,11 +125,15 @@ public class ExpertBlackListServiceImpl implements ExpertBlackListService{
 			mapper.updateStatus(expertBlackList);
 			//记录操作
 			expertBlackList=this.findById(ids[i]);
-			String expert=expertBlackList.getRelName();
-			expertBlackListLog.setOperationDate(new Date());
-			expertBlackListLog.setExpertId(expert);
+			expertBlackListLog.setOperationDate(new Date()); 
+			expertBlackListLog.setExpertId(expertBlackList.getRelName());
 			expertBlackListLog.setOperator("我");
 			expertBlackListLog.setOperationType("2");
+			expertBlackListLog.setDateOfPunishment(expertBlackList.getDateOfPunishment());
+			expertBlackListLog.setPunishDate(expertBlackList.getPunishDate());
+			expertBlackListLog.setPunishType(expertBlackList.getPunishType());
+			expertBlackListLog.setReason(expertBlackList.getReason());
+			
 			this.insertHistory(expertBlackListLog);
 		}
 	}
@@ -187,9 +191,10 @@ public class ExpertBlackListServiceImpl implements ExpertBlackListService{
 	 * @return List<ExpertBlackListLog>
 	 */
 	@Override
-	public List<ExpertBlackListLog> findBlackListLog() {
-		
-		return expertBlackListHistoryMapper.findBlackListLog();
+	public List<ExpertBlackListLog> findBlackListLog(ExpertBlackListLog expertBlackListHistory,Integer page) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		return expertBlackListHistoryMapper.findBlackListLog(expertBlackListHistory);
 	}
 
 }

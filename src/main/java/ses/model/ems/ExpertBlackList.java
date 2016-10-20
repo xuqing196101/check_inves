@@ -28,6 +28,8 @@ public class ExpertBlackList {
     private String attachmentCert; //附件
     
     private Integer status; //状态（0是处罚中，1过期，2手动移除）
+    
+    private String expertId;
 
     public String getId() {
         return id;
@@ -131,6 +133,14 @@ public class ExpertBlackList {
 
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+
+	public String getExpertId() {
+		return expertId;
+	}
+
+	public void setExpertId(String expertId) {
+		this.expertId = expertId;
 	}
 
 

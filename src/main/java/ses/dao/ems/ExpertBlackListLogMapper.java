@@ -23,5 +23,5 @@ public interface ExpertBlackListLogMapper{
 	 * @param @return      
 	 * @return List<ExpertBlackListLog>
 	 */
-	List<ExpertBlackListLog> findBlackListLog();
+	List<ExpertBlackListLog> findBlackListLog(ExpertBlackListLog expertBlackListHistory);
 }
