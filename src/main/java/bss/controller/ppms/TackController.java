@@ -6,11 +6,13 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -21,17 +23,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.github.pagehelper.PageInfo;
-
 import bss.controller.base.BaseController;
 import bss.model.pms.CollectPlan;
+import bss.model.pms.CollectPurchase;
 import bss.model.pms.PurchaseRequired;
+import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.Task;
 import bss.model.ppms.TaskAttachments;
 import bss.service.pms.CollectPlanService;
+import bss.service.pms.CollectPurchaseService;
 import bss.service.pms.PurchaseRequiredService;
+import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.TaskAttachmentsService;
 import bss.service.ppms.TaskService;
+
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
 
 /**
  * 
@@ -52,7 +59,10 @@ public class TackController extends BaseController{
 	private CollectPlanService collectPlanService; 
 	@Autowired
 	private PurchaseRequiredService purchaseRequiredService;
-	
+	@Autowired
+	private CollectPurchaseService conllectPurchaseService;
+	 @Autowired
+	private ProjectDetailService detailService;
 	
 	/**
 	 * 
@@ -246,6 +256,24 @@ public class TackController extends BaseController{
 		for (int i = 0; i < ide.length; i++) {
 			 taskservice.startTask(ide[i]);
 			 Task task = taskservice.selectById(ide[i]);
+			 List<String> list = conllectPurchaseService.getNo(task.getCollectId());
+			 for (String s : list) {
+			     Map<String,Object> map=new HashMap<String,Object>();
+		            map.put("planNo", s);
+		            List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map);
+		            for (PurchaseRequired purchaseRequired : list2) {
+		                purchaseRequired.setDetailStatus(1);
+		                purchaseRequiredService.update(purchaseRequired);
+		                HashMap<String, Object> map1 = new HashMap<String, Object>();
+                        map1.put("requiredId", purchaseRequired.getId());
+                        List<ProjectDetail> detail = detailService.selectById(map1);
+                        for (ProjectDetail projectDetail : detail) {
+                            projectDetail.setStatus(String.valueOf(purchaseRequired.getDetailStatus()));
+                            projectDetail.setTaskId(ide[i]);
+                            detailService.update(projectDetail);
+                        }
+                    }
+            }
 			 task.setAcceptTime(new Date());
 			 taskservice.update(task);
 		}
@@ -255,30 +283,47 @@ public class TackController extends BaseController{
 	@RequestMapping("/edit")
 	public String edit(String id,Model model,HttpServletRequest request){
 		request.getSession().setAttribute("ids", id);
-		Task task = taskservice.selectById(id);
-		CollectPlan queryById = collectPlanService.queryById(task.getCollectId());
-		if(queryById != null){
-			Map<String,Object> map = new HashMap<String,Object>();
-			map.get(queryById);
-			List<PurchaseRequired> list = purchaseRequiredService.getByMap(map);
-			model.addAttribute("queryById", queryById);
-			model.addAttribute("lists", list);
-		}
-	
+	    Task task = taskservice.selectById(id);
+	    CollectPlan queryById = collectPlanService.queryById(task.getCollectId());
+	    List<PurchaseRequired> listp=new LinkedList<PurchaseRequired>();
+	    List<String> list = conllectPurchaseService.getNo(task.getCollectId());
+	    for(String s:list){
+	        Map<String,Object> map=new HashMap<String,Object>();
+	        map.put("planNo", s);
+	        List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map);
+	        listp.addAll(list2);
+	    }
+	    model.addAttribute("lists", listp);
+	    model.addAttribute("queryById", queryById);
 		return "bss/ppms/task/edit";
 	}
-
+	
+	@RequestMapping("/viewIds")
+    public void viewIds(HttpServletResponse response,String id) throws IOException {
+            HashMap<String, Object> map = new HashMap<String, Object>();
+            map.put("id", id);
+            List<PurchaseRequired> list = purchaseRequiredService.selectByParent(map);
+            String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
+            response.setContentType("text/html;charset=utf-8");
+            response.getWriter().write(json);
+            response.getWriter().flush();
+            response.getWriter().close();
+    }
+	
 	@RequestMapping("/view")
 	public String view(String id,Model model){
 		Task task = taskservice.selectById(id);
-		CollectPlan queryById = collectPlanService.queryById(task.getCollectId());
-		if(queryById != null){
-			Map<String,Object> map = new HashMap<String,Object>();
-			map.get(queryById);
-			List<PurchaseRequired> list = purchaseRequiredService.getByMap(map);
-			model.addAttribute("queryById", queryById);
-			model.addAttribute("lists", list);
-		}
+        CollectPlan queryById = collectPlanService.queryById(task.getCollectId());
+        List<PurchaseRequired> listp=new LinkedList<PurchaseRequired>();
+        List<String> list = conllectPurchaseService.getNo(task.getCollectId());
+        for(String s:list){
+            Map<String,Object> map=new HashMap<String,Object>();
+            map.put("planNo", s);
+            List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map);
+            listp.addAll(list2);
+        }
+        model.addAttribute("lists", listp);
+        model.addAttribute("queryById", queryById);
 		return "bss/ppms/task/view";
 	}
 }

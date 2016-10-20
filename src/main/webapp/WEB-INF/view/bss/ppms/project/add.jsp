@@ -104,7 +104,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                        }
                     },
                     error: function(){
-                        layer.msg("受领失败",{offset: ['222px', '390px']});
+                        layer.msg("失败",{offset: ['222px', '390px']});
                     }
                 });
     }
@@ -132,22 +132,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
     function add(){
         var id =[]; 
+        var name = $("input[name='name']").val();
+        var projectNumber = $("input[name='projectNumber']").val();
         $('input[name="chkItem"]:checked').each(function(){ 
             id.push($(this).val()); 
         }); 
-        if(id.length>0){
-           layer.open({
-          type: 2, //page层
-          area: ['1000px', '500px'],
-         // title: '您是要取消任务吗？',
-          shade:0.01, //遮罩透明度
-          moveType: 1, //拖拽风格，0是默认，1是传统拖动
-          shift: 1, //0-6的动画形式，-1不开启
-          offset: ['100px', '250px'],
-          shadeClose: true,
-          content: '<%=basePath%>project/create.html?id='+id
-        });
-        }
+         window.location.href="<%=basePath%>project/create.html?id="+id+"&name="+name+"&projectNumber="+projectNumber;
     }
     
     function bask(){
@@ -161,16 +151,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  <div class="margin-top-10 breadcrumbs ">
       <div class="container">
            <ul class="breadcrumb margin-left-0">
-           <li><a href="#"> 首页</a></li><li><a href="#">保障作业系统</a></li><li><a href="#">立项管理</a></li><li class="active"><a href="#">新增需求明显</a></li>
+           <li><a href="#"> 首页</a></li><li><a href="#">保障作业系统</a></li><li><a href="#">立项管理</a></li><li class="active"><a href="#">新增需求明细</a></li>
            </ul>
         <div class="clear"></div>
       </div>
    </div>
 <!-- 录入采购计划开始-->
  <div class="container">
-   <%-- <div class="headline-v2">
-      <h2>查询条件</h2>
+    <div class="headline-v2">
+      <h2>新增信息</h2>
    </div>
+   <span class="f14 fl">项目名称：</span>
+        <div class="fl" >
+          <input id="pic" type="text" class="toinline" name="name"/>
+          &nbsp;&nbsp;
+        </div>
+        
+         <span class="f14 fl">项目编号：</span>
+        <div class="fl" >
+          <input id="pic" type="text" class="toinline" name="projectNumber"/>
+        </div>
+        <%--
 <!-- 项目戳开始 -->
  
    <div class="p10_25">

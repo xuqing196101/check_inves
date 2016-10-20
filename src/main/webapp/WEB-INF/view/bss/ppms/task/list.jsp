@@ -50,18 +50,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             pages: "${info.pages}", //总页数
             skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
             skip: true, //是否开启跳页
+            total:"${info.total}",
+            startRow:"${info.startRow}",
+            endRow:"${info.endRow}",
             groups: "${info.pages}">=3?3:"${info.pages}", //连续显示分页数
             curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
-//                  var page = location.search.match(/page=(\d+)/);
-//                  return page ? page[1] : 1;
+               /* var page = location.search.match(/page=(\d+)/);
+                  return page ? page[1] : 1; */
                 return "${info.pageNum}";
             }(), 
             jump: function(e, first){ //触发分页后的回调
                     if(!first){ //一定要加此判断，否则初始时会无限刷新
-                //  $("#page").val(e.curr);
-                    // $("#form1").submit();
+                        $("#page").val(e.curr);
+                        $("#form1").submit();
                     
-                 location.href = '<%=basePath%>task/list.do?page='+e.curr;
                 }  
             }
         });
@@ -134,7 +136,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         $('input[name="chkItem"]:checked').each(function(){ 
             ids.push($(this).val()); 
         }); 
+        var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(5).text();
+        status = $.trim(status);
+        
         if(ids.length>0){
+        if(status == "审核"){
             layer.confirm('您确定要受领吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
                 layer.close(index);
                 $.ajax({
@@ -153,9 +159,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     }
                 });
             });
+            }else{
+            layer.alert("任务已经受领",{offset: ['222px', '800px'], shade:0.01});
+            } 
         }else{
-            layer.alert("请选择要受领的任务",{offset: ['222px', '390px'], shade:0.01});
+            layer.alert("请选择要受领的任务",{offset: ['222px', '800px'], shade:0.01});
         }
+       
     }
     
     function edit(){
@@ -176,6 +186,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
            window.location.href="<%=basePath%>task/view.html?id="+id;
     }
     
+    function clearSearch(){
+        $("#purchaseRequiredId").attr("value","");
+        $("#documentNumber").attr("value","");
+        $("#purchaseId").attr("value","");
+        //还原select下拉列表只需要这一句
+        $("#status option:selected").removeAttr("selected");
+    }
   </script>
   </head>
   
@@ -199,10 +216,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="container clear">
   <div class="p10_25">
      <h2 class="padding-10 border1">
-     <form id="add_form" action="<%=basePath%>task/list.html" method="post" >
+     <form id="form1" action="<%=basePath%>task/list.html" method="post" >
+     <input type="hidden" name="page" id="page">
      <ul class="demand_list">
        <li class="fl">
-         <label class="fl">需求部门：<input type="text" name="purchaseRequiredId" /></label>
+         <label class="fl">需求部门：<input type="text" name="purchaseRequiredId" id="purchaseRequiredId" value="${task.purchaseRequiredId }"/></label>
        </li>
      <%--  <label class="fl">年度：<select name="giveTime" style="width:70px" id="select">
     <option selected="selected" value="">请选择</option>
@@ -212,7 +230,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                          
        </c:forEach>  
   </select> </label>--%>
-        <li class="fl">
+       <%--  <li class="fl">
          <label class="fl">采购方式：
            <select name="procurementMethod" style="width:100px" id="select">
              <option selected="selected" value="">请选择</option>
@@ -220,12 +238,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
              <option value="2" <c:if test="${'2'==task.procurementMethod}">selected="selected"</c:if>>邀请招标</option>
            </select>
           </label> 
-  </li>
+  </li> --%>
   <li class="fl">
-       <label class="fl">采购机构：<input type="text" name="purchaseId"/></label>
+       <label class="fl">采购机构：<input type="text" name="purchaseId" id="purchaseId" value="${task.purchaseId }"/></label>
        </li>
        <li class="fl">
-      <label class="fl">状态：<select name="status" style="width:70px" id="select">
+      <label class="fl">状态：<select name="status" style="width:70px" id="status">
         <option selected="selected" value="">请选择</option>
         <option value="1" <c:if test="${'1'==task.status}">selected="selected"</c:if>>审核</option>
         <option value="0" <c:if test="${'0'==task.status}">selected="selected"</c:if>>受领</option>
@@ -233,10 +251,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        </label>
      </li>
    <li class="fl">
-       <label class="fl">文件编号：<input type="text" name="documentNumber"/></label>
+       <label class="fl">文件编号：<input type="text" name="documentNumber" id="documentNumber" value="${task.documentNumber }"/></label>
        </li>
          <button class="btn" type="submit">查询</button>
-         <button type="reset" class="btn">重置</button> 
+         <button type="reset" class="btn" onclick="clearSearch();">重置</button> 
      </ul>
      <div class="clear"></div>
     </form>

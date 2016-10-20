@@ -99,14 +99,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   }
     
        function edit(){
-       var qualitStand =[]; 
-        $('input[name="qualitStand"]').each(function(){ 
-            qualitStand.push($(this).val()); 
-        }); 
-        var item =[]; 
-        $('input[name="item"]').each(function(){ 
-            item.push($(this).val()); 
-        }); 
         var purchaseCount =[]; 
         $('input[name="purchaseCount"]').each(function(){ 
             purchaseCount.push($(this).val()); 
@@ -115,6 +107,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         $('input[name="price"]').each(function(){ 
             price.push($(this).val()); 
         }); 
+         var budget =[]; 
+        $('input[name="budget"]').each(function(){ 
+            budget.push($(this).val()); 
+        });
         var id =[]; 
         $('input[name="id"]').each(function(){ 
             id.push($(this).val()); 
@@ -131,10 +127,100 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           shift: 1, //0-6的动画形式，-1不开启
           offset: ['220px', '630px'],
           shadeClose: true,
-          content: '<%=basePath%>task/addFile.html?qualitStand='+qualitStand+'&item='+item+'&purchaseCount='+purchaseCount+'&price='+price+'&id='+id+'&fileName='+fileName+'&planNo='+planNo+'&ide='+ide
+          content: '<%=basePath%>task/addFile.html?purchaseCount='+purchaseCount+'&price='+price+'&id='+id+'&fileName='+fileName+'&planNo='+planNo+'&ide='+ide+'&budget='+budget
         });
             
     }
+    
+    
+    
+    
+     function sum2(obj){  //数量
+         var id=$(obj).next().val();
+             $.ajax({
+                url:"<%=basePath%>task/viewIds.html",
+                type:"post",
+                data:"id="+id,
+                dataType:"json",
+                success:function(data){
+                        
+                          var purchaseCount = $(obj).val()-0;//数量
+                          var price2 = $(obj).parent().next().children(":last").prev();//价钱
+                           var price = $(price2).val()-0;
+                            var sum = purchaseCount*price;
+                            var budgets = $(obj).parent().next().next().children(":last").prev();
+                            $(budgets).val(sum);
+            
+            
+            
+                        var budget=0;
+                       $("#table tr").each(function(){
+                        var cid= $(this).find("td:eq(8)").children(":last").val();
+                        var same= $(this).find("td:eq(8)").children(":last").prev().val()-0;
+                       if(id==cid){
+                           
+                          budget=budget+same; //查出所有的子节点的值
+                       }
+                    });
+                   for (var i = 0; i < data.length; i++) {
+                          var v1 = data[i].id;
+                             $("#table tr").each(function(){
+                                var pid= $(this).find("td:eq(8)").children(":first").val();//上级id
+                                if(data[i].id==pid){
+                                    $(this).find("td:eq(8)").children(":first").next().val(budget);
+                                }
+           
+                           }); 
+                       }
+                    
+                    },
+                    error: function(data){
+                    }
+                });
+        }  
+        
+        
+        function sum1(obj){
+            var id=$(obj).next().val();
+             $.ajax({
+                url:"<%=basePath%>task/viewIds.html",
+                type:"post",
+                data:"id="+id,
+                dataType:"json",
+                success:function(data){
+                        
+                            var purchaseCount = $(obj).val()-0; //价钱
+                            var price2 = $(obj).parent().prev().children(":last").prev().val()-0;//数量
+                            var sum = purchaseCount*price2;
+                            $(obj).parent().next().children(":last").prev().val(sum);
+            
+            
+            
+                        var budget=0;
+                       $("#table tr").each(function(){
+                        var cid= $(this).find("td:eq(8)").children(":last").val();
+                        var same= $(this).find("td:eq(8)").children(":last").prev().val()-0;
+                       if(id==cid){
+                           
+                          budget=budget+same; //查出所有的子节点的值
+                       }
+                    });
+                   for (var i = 0; i < data.length; i++) {
+                          var v1 = data[i].id;
+                             $("#table tr").each(function(){
+                                var pid= $(this).find("td:eq(8)").children(":first").val();//上级id
+                                if(data[i].id==pid){
+                                    $(this).find("td:eq(8)").children(":first").next().val(budget);
+                                }
+           
+                           }); 
+                       }
+                    
+                    },
+                    error: function(data){
+                    }
+                });
+        }
   </script>
   </head>
   
@@ -213,16 +299,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <c:forEach items="${lists}" var="obj" varStatus="vs">
             <tr style="cursor: pointer;">
               <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
-              <input type="hidden" value="${obj.id }" name="id"/>
               <td class="tc w50">${obj.seq}</td>
               <td class="tc">${obj.department}</td>
               <td class="tc">${obj.goodsName}</td>
               <td class="tc">${obj.stand}</td>
-              <td class="tc"><input name="qualitStand" style="width:50%;"  value="${obj.qualitStand}" type="text"/></td>
-              <td class="tc"><input name="item" style="width:50%;"  value="${obj.item}" type="text"/></td>
-              <td class="tc"><input name="purchaseCount" style="width:50%;"  value="${obj.purchaseCount}" type="text"/></td>
-              <td class="tc"><input name="price" style="width:50%;"  value="${obj.price}" type="text"/></td>
-              <td class="tc">${obj.budget}</td>
+              <td class="tc">${obj.qualitStand}</td>
+              <td class="tc">${obj.item}</td>
+              <td class="tc">
+              <input   type="hidden" name="ss"   value="${obj.id }">
+              <input maxlength="11" id="purchaseCount" onblur="sum2(this);"  onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" name="purchaseCount" style="width:50%;"  value="${obj.purchaseCount}"/>
+              <input type="hidden" name="ss"   value="${obj.parentId }">
+              </td>
+              <td class="tc">
+              <input   type="hidden" name="ss"   value="${obj.id }">
+              <input maxlength="11" id="price"  name="price" style="width:50%;" onblur="sum1(this);"  value="${obj.price}"/>
+              <input type="hidden" name="ss"   value="${obj.parentId }">
+              </td>
+              <td class="tc">
+              <input   type="hidden" name="ss"   value="${obj.id }">
+              <input maxlength="11" id="budget" name="budget" style="width:50%;border-style:none" readonly="readonly"  value="${obj.budget}"/>
+              <input type="hidden" name="ss"   value="${obj.parentId }">
+              </td>
+             
               <td class="tc">${obj.deliverDate}</td>
               <td class="tc">${obj.purchaseType}</td>
               <td class="tc">${obj.supplier}</td>

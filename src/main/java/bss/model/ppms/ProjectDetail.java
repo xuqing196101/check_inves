@@ -56,6 +56,10 @@ public class ProjectDetail {
 	private Date updateAt;
 	
 	private String status;
+	
+	private String position;
+	
+	private String requiredId;
 
 	public String getId() {
 		return id;
@@ -264,9 +268,22 @@ public class ProjectDetail {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
-	
-	
 
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public String getRequiredId() {
+        return requiredId;
+    }
+
+    public void setRequiredId(String requiredId) {
+        this.requiredId = requiredId;
+    }
+	
 	
 }

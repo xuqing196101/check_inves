@@ -58,16 +58,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             endRow:"${info.endRow}",
             groups: "${info.pages}">=3?3:"${info.pages}", //连续显示分页数
             curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
-               var page = location.search.match(/page=(\d+)/);
-                  return page ? page[1] : 1;
-               // return "${info.pageNum}";
+               /* var page = location.search.match(/page=(\d+)/);
+                  return page ? page[1] : 1; */
+                return "${info.pageNum}";
             }(), 
             jump: function(e, first){ //触发分页后的回调
                     if(!first){ //一定要加此判断，否则初始时会无限刷新
-                //  $("#page").val(e.curr);
-                    // $("#form1").submit();
+                        $("#page").val(e.curr);
+                        $("#form1").submit();
                     
-                 location.href = '<%=basePath%>project/list.do?page='+e.curr;
                 }  
             }
         });
@@ -110,20 +109,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
            }
     }
     
-     <%-- function view(){
-       var id =[]; 
-        $('input[name="chkItem"]:checked').each(function(){ 
-            id.push($(this).val()); 
-        }); 
-        if(id.length==1){
-        window.location.href="<%=basePath%>project/view.html?id="+id;
-        }else if(id.length>1){
-            layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
-        }else{
-            layer.alert("请选择需要查看的项目",{offset: ['222px', '390px'], shade:0.01});
-        }
-    
-  } --%>
+     
         function view(id){
            window.location.href="<%=basePath%>project/view.html?id="+id;
     }
@@ -154,7 +140,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             shift: 1, //0-6的动画形式，-1不开启
             offset: ['220px', '630px'],
             shadeClose: true,
-            content: '<%=basePath%>project/startProject.html?id='+id
+            content: '<%=basePath%>project/startProject.html?id='+id,
            }); 
            }
            
@@ -169,43 +155,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        
        //项目分包
        function subPackage(){
-    	   var status = "";
-    	   var count = 0;
-			var chkItem = document.getElementsByName("chkItem");
-			var str = "";
-			for(var i = 0;i<chkItem.length;i++){
-				if(chkItem[i].checked == true){
-					count++;
-				}
-			}
-			if(count > 1){
-				layer.alert("只能选择一项",{offset: ['222px', '390px']});
-				$(".layui-layer-shade").remove();
-				return;
-			}else if(count == 0){
-				layer.alert("请先选择一项",{offset: ['222px', '390px']});
-				$(".layui-layer-shade").remove();
-				return;
-			}else{
-				for(var i = 0;i<chkItem.length;i++){
-					if(chkItem[i].checked == true){
-						str = chkItem[i].value;
-						status = $(chkItem[i]).prev().val();
-					}
-				}
-				if(status==3){
-					window.location.href = "<%=path%>/project/subPackage.html?id="+str;
-				}else if(status==1){
-					layer.alert("项目在实施中，不可进行分包操作，请重新选择",{offset: ['222px', '390px']});
-					$(".layui-layer-shade").remove();
-					return;
-				}else if(status==2){
-					layer.alert("项目已完成，不可进行分包操作，请重新选择",{offset: ['222px', '390px']});
-					$(".layui-layer-shade").remove();
-					return;
-				}
-				
-			}
+           var count = 0;
+            var chkItem = document.getElementsByName("chkItem");
+            var str = "";
+            for(var i = 0;i<chkItem.length;i++){
+                if(chkItem[i].checked == true){
+                    count++;
+                }
+            }
+            if(count > 1){
+                layer.alert("只能选择一项",{offset: ['222px', '390px']});
+                $(".layui-layer-shade").remove();
+                return;
+            }else if(count == 0){
+                layer.alert("请先选择一项",{offset: ['222px', '390px']});
+                $(".layui-layer-shade").remove();
+                return;
+            }else{
+                for(var i = 0;i<chkItem.length;i++){
+                    if(chkItem[i].checked == true){
+                        str = chkItem[i].value;
+                    }
+                }
+                window.location.href = "<%=path%>/project/subPackage.html?id="+str;
+            }
        }
       
        function edit(){
@@ -224,6 +197,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         }
        
        }
+       
+       function clearSearch(){
+        $("#proName").attr("value","");
+        $("#projectNumber").attr("value","");
+    }
   </script>
   </head>
   
@@ -245,17 +223,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- 项目戳开始 -->
     <div class="p10_25">
      <h2 class="padding-10 border1">
-     <form id="add_form" action="<%=basePath%>project/list.html" method="post" class="mb0">
+     <form  action="<%=basePath%>project/list.html" id="form1" method="post" class="mb0">
      <ul class="demand_list">
-    
+    <input type="hidden" name="page" id="page">
      <li class="fl">
-       <label class="fl">项目名称：<span><input type="text" name="name" /></span></label>
+       <label class="fl">项目名称：<span><input type="text" name="name" id="proName" value="${projects.name }"/></span></label>
        </li>
        <li class="fl">
-      <label class="fl">项目编号：<input type="text" name="projectNumber" /> </label> 
+      <label class="fl">项目编号：<input type="text" name="projectNumber" id="projectNumber" value="${projects.projectNumber }"/> </label> 
        </li>
          <button class="btn" type="submit">查询</button>
-         <button type="reset" class="btn">重置</button> 
+         <button type="reset" class="btn" onclick="clearSearch();">重置</button> 
      </ul>
      <div class="clear"></div>
     </form>
@@ -294,7 +272,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         
         <c:forEach items="${info.list}" var="obj" varStatus="vs">
             <tr style="cursor: pointer;">
-              <td class="tc w30"><input type="hidden" value="${obj.status }"/><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
+              <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
               <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
               <td class="tc"><a href="#" onclick="view('${obj.id}');">${obj.name}</a></td>
               <td class="tc"><a href="#" onclick="view('${obj.id}');">${obj.projectNumber }</a></td>
@@ -319,17 +297,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  </div>
 
 
- <div id="content" class="div_show">
-     <p align="center" class="type">
-             请选择类别
-    <br>
-    
-     <input type="radio" name="goods" value="1">:物资<br>
-     <input type="radio" name="goods" value="2">:工程<br>
-     <input type="radio" name="goods" value="3">:服务<br>
-        </p>
-        
- </div>
  
      </body>
 </html>

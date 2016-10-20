@@ -46,40 +46,33 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  
   <script type="text/javascript">
    $(function(){
-        var idr = $("#ids").val();
-        if(idr==null || idr == ''){
-            $("#qwe").hide();
-        }
-        
+       $("#qwe").hide();
   });
   
   
     function print(id){
         window.location.href = "<%=basePath%>project/print.html?id="+id;
     }
-    function view(id){
-        window.location.href = "<%=basePath%>project/viewDetail.html?ids="+id;
+    function view(sign){
+       if (sign) {
+        $("#qwe").show();
+       } else {
+         $("#qwe").hide();
+       }
     }
-    
   </script>
   </head>
   
   <body>
 <!--面包屑导航开始-->
  <div class="margin-top-10 breadcrumbs ">
-      <div class="container">
-           <ul class="breadcrumb margin-left-0">
-           <li><a href="#"> 首页</a></li><li><a href="#">保障作业系统</a></li><li><a href="#">采购项目管理</a></li><li class="active"><a href="#">立项管理</a></li>
-           </ul>
-        <div class="clear"></div>
-      </div>
 <div class="container bggrey border1 mt20">
    <form action="" method="post">
    <div>
    <div class="headline-v2 bggrey">
    <h2>项目基本信息</h2>
    </div>
-   <div class="tag-box tag-box-v4 col-md-9">
+   <div class="tag-box tag-box-v4 col-md-9" style="min-height: 1300px;">
         <table class="table table-bordered">
         <tr>
           <td class="bggrey tr">项目编号:</td><td>${project.projectNumber}</td>
@@ -123,18 +116,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <td class="bggrey tr">招标文件报批时间:</td><td>${project.approvalTime}</td>
           <td class="bggrey tr">招标文件批复时间:</td><td>${project.replyTime}</td>
         </tr>
-        <%-- <tr>
+         <tr>
           <td class="bggrey tr">需求计划提报时间:</td><td>${project.demandFromTime}</td>
-          <c:forEach items="${info.list}" var="obj" varStatus="vs">
-          <td class="bggrey tr">${obj.name}采购任务下达时间:</td><td><fmt:formatDate value='${obj.giveTime}' pattern='yyyy年MM月dd日  HH:mm:ss'/></td>
-          </c:forEach>
-        </tr> --%>
-       <%--  <tr>
-        <c:forEach items="${info.list}" var="obj" varStatus="vs">
-          <td class="bggrey tr">${obj.name}采购任务受理时间:</td><td><fmt:formatDate value='${o.taskGiveTime}' pattern='yyyy年MM月dd日  HH:mm:ss'/></td>
-          </c:forEach>
+          <td class="bggrey tr">${task.name}采购任务下达时间:</td><td><fmt:formatDate value='${task.giveTime}' pattern='yyyy年MM月dd日  HH:mm:ss'/></td>
+        </tr> 
+         <tr>
+          <td class="bggrey tr">${task.name}采购任务受理时间:</td><td><fmt:formatDate value='${task.acceptTime}' pattern='yyyy年MM月dd日  HH:mm:ss'/></td>
           <td class="bggrey tr">采购项目立项时间:</td><td><fmt:formatDate value='${project.createAt}' pattern='yyyy年MM月dd日  HH:mm:ss'/></td>
-        </tr> --%>
+        </tr> 
         <tr>
           <td class="bggrey tr">采购项目实施时间:</td><td><fmt:formatDate value='${project.startTime}' pattern='yyyy年MM月dd日  HH:mm:ss'/></td>
           <td class="bggrey tr">招标公告发布时间:</td><td>${project.noticeNewsTime}</td>
@@ -156,12 +145,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <td class="bggrey tr">验收时间:</td><td>${project.acceptanceTime}</td>
         </tr>
       </table>
-      <input type="hidden" value="${ids}" id="ids"/>
+      <input type="hidden" value="${project.id}" id="ids"/>
        <div id="pagediv" align="right"></div>
       <div class="headline-v2 bggrey">
-           <h2>项目明细&nbsp;&nbsp;<button class="btn padding-left-10 padding-right-10 btn_back" onclick="view('${project.id}')" type="button">查看明细</button></h2>
+           <h2>项目明细&nbsp;&nbsp;<button class="btn padding-left-10 padding-right-10 btn_back" onclick="view(1)" type="button">查看明细</button>
+            <button class="btn padding-left-10 padding-right-10 btn_back" onclick="view(0)" type="button">收起</button>
+           </h2>
       </div>
-      <div id= "qwe">
+      <div id="qwe">
         <table class="table table-bordered table-condensed mt5">
         
         <thead>

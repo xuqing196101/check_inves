@@ -26,13 +26,16 @@
     <result column="CREATED_AT"  property="createdAt" />
     <result column="STATUS"  property="status" />
     <result column="UPDATED_AT"  property="updateAt" />
+    <result column="POSITION"  property="position" />
+    <result column="REQUIRED_ID"  property="requiredId" />
     <association property="project" column="PROJECT_ID" select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey"/>
     <association property="purchaseDep" column="PURCHASE_ID" select="ses.dao.oms.PurchaseDepMapper.selectPurchaseById"/>
   </resultMap>
   <sql id="Base_Column_List">
     ID, SERIAL_NUMBER, DEPARTMENT, GOODS_NAME, STAND, QUALIT_STAND, ITEM, PURCHASE_COUNT, 
     PRICE, BUDGET, DELIVER_DATE, PURCHASE_TYPE, SUPPLIER, IS_FREE_TAX, GOODS_USE, USE_UNIT, 
-    PROJECT_ID, TASK_ID, PURCHASE_ID,PACKAGE_ID,BRAND,MEMO,PARENT_ID,CREATED_AT,UPDATED_AT,STATUS
+    PROJECT_ID, TASK_ID, PURCHASE_ID,PACKAGE_ID,BRAND,MEMO,PARENT_ID,CREATED_AT,UPDATED_AT,
+    STATUS,POSITION,REQUIRED_ID
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -58,6 +61,10 @@
      <if test="taskId != null and taskId !=''">
         AND TASK_ID = #{taskId}
      </if>
+     <if test="requiredId != null and requiredId !=''">
+        AND REQUIRED_ID = #{requiredId}
+     </if>
+     ORDER BY POSITION ASC
   </select>
   
   <select id="listByAll" parameterType="bss.model.ppms.ProjectDetail" resultMap="BaseResultMap">
@@ -88,9 +95,9 @@
       #{purchaseId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="bss.model.ppms.ProjectDetail">
-  <selectKey keyProperty="id" resultType="String" order="BEFORE">
+   <selectKey keyProperty="id" resultType="String" order="BEFORE">
         select sys_guid() from dual
-    </selectKey>
+    </selectKey> 
     insert into T_BSS_PPMS_PROJECTS_DETAIL
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -170,6 +177,12 @@
       </if>
       <if test="updateAt != null">
         UPDATED_AT,
+      </if>
+      <if test="requiredId != null">
+        REQUIRED_ID,
+      </if>
+      <if test="position != null">
+        POSITION,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -251,6 +264,12 @@
       <if test="status != null">
         #{status},
       </if>
+      <if test="position != null">
+        #{position},
+      </if>
+      <if test="requiredId != null">
+        #{requiredId},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="bss.model.ppms.ProjectDetail">
@@ -331,6 +350,12 @@
       <if test="status != null">
         STATUS = #{status},
       </if>
+      <if test="requiredId != null">
+        REQUIRED_ID = #{requiredId},
+      </if>
+      <if test="position != null">
+        POSITION = #{position},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -358,13 +383,13 @@
   </update>
   <select id="selectByParentId"  resultMap="BaseResultMap">
         select * from T_BSS_PPMS_PROJECTS_DETAIL 
-        start with ID = #{id} 
-        connect by prior ID = PARENT_ID ORDER BY CREATED_AT 
+        start with REQUIRED_ID = #{id} 
+        connect by prior REQUIRED_ID = PARENT_ID ORDER BY CREATED_AT 
     </select>
     
     <select id="selectByParent"  resultMap="BaseResultMap">
         select * from T_BSS_PPMS_PROJECTS_DETAIL 
-        start with ID = #{id} 
-        connect by prior PARENT_ID = ID ORDER BY CREATED_AT 
+        start with REQUIRED_ID = #{id} 
+        connect by prior PARENT_ID = REQUIRED_ID ORDER BY CREATED_AT 
     </select>
 </mapper>
