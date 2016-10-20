@@ -195,8 +195,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				}
 				if(status==3){
 					window.location.href = "<%=path%>/project/subPackage.html?id="+str;
-				}else{
-					layer.alert("该项目不好分包,请重新选择",{offset: ['222px', '390px']});
+				}else if(status==1){
+					layer.alert("项目在实施中，不可进行分包操作，请重新选择",{offset: ['222px', '390px']});
+					$(".layui-layer-shade").remove();
+					return;
+				}else if(status==2){
+					layer.alert("项目已完成，不可进行分包操作，请重新选择",{offset: ['222px', '390px']});
 					$(".layui-layer-shade").remove();
 					return;
 				}
