@@ -567,14 +567,29 @@ function reason(ele){
 											<li class="col-md-6 p0"><span class=""> 境外分支结构：</span>
 												<div class="input-append">
 													<div class="input-append">
-													<c:if test="${supplier.overseasBranch ==1}">
-													    <input class="span3" id="overseasBranch_input_id" name="overseasBranch" type="hidden" readonly="readonly" value="1" />
-														<input class="span3"   type="text" readonly="readonly" value="是" />
+													<c:if test="${supplier.overseasBranch ne se.overseasBranch }">
+														<c:if test="${supplier.overseasBranch ==1}">
+														    <input class="span3" id="overseasBranch_input_id" name="overseasBranch" type="hidden" readonly="readonly" value="1" />
+															<input class="span3" id="overseasBranch3"   onmouseover="out('否')"  type="text" readonly="readonly" value="是" />
+														</c:if>
+														<c:if test="${supplier.overseasBranch ==0}">
+														    <input class="span3" id="overseasBranch_input_id" name="overseasBranch" type="hidden" readonly="readonly" value="0" />
+															<input class="span3" id="overseasBranch3"  onmouseover="out('是')"  type="text" readonly="readonly" value="否" />
+														</c:if>
+														<div id="overseasBranch" onclick="reason(this)" class="b f18 fl ml10 hand">×</div>
 													</c:if>
-													<c:if test="${supplier.overseasBranch ==0}">
-													    <input class="span3" id="overseasBranch_input_id" name="overseasBranch" type="hidden" readonly="readonly" value="0" />
-														<input class="span3"  type="text" readonly="readonly" value="否" />
+													<c:if test="${supplier.overseasBranch eq se.overseasBranch }">
+														<c:if test="${supplier.overseasBranch ==1}">
+														    <input class="span3" id="overseasBranch_input_id" name="overseasBranch" type="hidden" readonly="readonly" value="1" />
+															<input class="span3"   type="text" readonly="readonly" value="是" />
+														</c:if>
+														<c:if test="${supplier.overseasBranch ==0}">
+														    <input class="span3" id="overseasBranch_input_id" name="overseasBranch" type="hidden" readonly="readonly" value="0" />
+															<input class="span3"  type="text" readonly="readonly" value="否" />
+															<div id="overseasBranch" onclick="reason(this)" class="b f18 fl ml10 hand">×</div>
+														</c:if>
 													</c:if>
+													
 												</div>
 												</div>
 											</li>
