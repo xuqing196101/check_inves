@@ -1,29 +1,39 @@
 package bss.controller.pms;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.github.pagehelper.PageInfo;
-
+import ses.model.oms.Orgnization;
+import ses.service.oms.OrgnizationServiceI;
+import ses.util.FtpUtil;
+import ses.util.PropUtil;
 import bss.controller.base.BaseController;
 import bss.dao.pms.PurchaseRequiredMapper;
 import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseRequired;
 import bss.model.pms.UpdateFiled;
+import bss.model.ppms.ProjectAttachments;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.CollectPurchaseService;
 import bss.service.pms.PurchaseRequiredService;
 import bss.service.pms.UpdateFiledService;
+import bss.service.ppms.ProjectAttachmentsService;
+
+import com.github.pagehelper.PageInfo;
 /**
  * 
  * @Title: TaskAdjustController
@@ -51,6 +61,13 @@ public class TaskAdjustController extends BaseController{
 	
 	@Autowired
 	private UpdateFiledService updateFiledService;
+	
+	@Autowired
+	private OrgnizationServiceI orgnizationServiceI;
+	
+	@Autowired
+	private ProjectAttachmentsService projectAttachmentsService;
+	
 	
 	/**
 	 * 
@@ -114,9 +131,16 @@ public class TaskAdjustController extends BaseController{
 	@RequestMapping("/detail")
 	public String detail(String planNo,Model model){
 		
+		HashMap<String,Object> map=new HashMap<String,Object>();
+		map.put("typeName", 1);
+		List<Orgnization> org = orgnizationServiceI.findOrgnizationList(map);
+		
 		List<PurchaseRequired> list = purchaseRequiredMapper.queryByNo(planNo);
 		model.addAttribute("list", list);
 		model.addAttribute("planNo", planNo);
+		
+		model.addAttribute("org",org);
+		
 		return "bss/pms/taskadjust/edit";
 	}
 	
@@ -130,7 +154,9 @@ public class TaskAdjustController extends BaseController{
 	* @throws
 	 */
 	@RequestMapping("/update")
-	public String updateById(PurchaseRequiredFormBean list){
+	public String updateById(PurchaseRequiredFormBean list,MultipartFile file,HttpServletRequest request){
+		
+		
 		
 		if(list!=null){
 			if(list.getList()!=null&&list.getList().size()>0){
@@ -140,13 +166,15 @@ public class TaskAdjustController extends BaseController{
 						Integer s=Integer.valueOf(purchaseRequiredService.queryByNo(p.getPlanNo()))+1;
 						queryById.setHistoryStatus(String.valueOf(s));
 						purchaseRequiredService.update(queryById);
-						if(p.getParentId()!=null){
-							p.setParentId(p.getParentId());
-						}
+						
+//						
+//						if(p.getParentId()!=null){
+//							p.setParentId(p.getParentId());
+//						}
 						String id = UUID.randomUUID().toString().replaceAll("-", "");
-						p.setId(id);
-						p.setHistoryStatus("0");
-						purchaseRequiredService.add(p);	
+						queryById.setId(id);
+						queryById.setHistoryStatus("0");
+						purchaseRequiredService.add(queryById);	
 					}else{
 						String id = UUID.randomUUID().toString().replaceAll("-", "");
 						p.setId(id);
@@ -155,6 +183,19 @@ public class TaskAdjustController extends BaseController{
 				}
 			}
 		}
+		
+		ProjectAttachments project=new ProjectAttachments();
+		String id = UUID.randomUUID().toString().replaceAll("-", "");
+		project.setId(id);
+		project.setContentType(file.getContentType());
+		project.setCreatedAt(new Date());
+		project.setFileName(file.getOriginalFilename());
+		project.setIsDeleted(0);
+		
+		projectAttachmentsService.save(project);
+		FtpUtil.connectFtp(PropUtil.getProperty("file.upload.path.supplier"));
+		 FtpUtil.upload2("plan", file);
+		FtpUtil.closeFtp();
 		return "redirect:list.html";
 	}
 	/**

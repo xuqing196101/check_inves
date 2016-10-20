@@ -591,7 +591,7 @@
 			</if>
 		</where>
 		
-		ORDER BY CREATED_AT ASC
+		ORDER BY IS_MASTER ASC
 	</select>
 
 	<select id="queryByNo" parameterType="String"  resultMap="PurchaseRequired_Map">
@@ -602,7 +602,7 @@
 		HISTORY_STATUS='0'  and IS_DELETE='0'
 		
 			<if test="planNo !=null and planNo!='' ">
-			and PLAN_NO = #{planNo} ORDER BY CREATED_AT  
+			and PLAN_NO = #{planNo} ORDER BY IS_MASTER  
 			</if>
 		</where>
 	</select>

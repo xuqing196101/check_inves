@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -60,7 +58,7 @@ public class CollectPlanController extends BaseController {
 		@RequestMapping("/list")
 		public String queryPlan(PurchaseRequired purchaseRequired,Integer page,Model model){
 			purchaseRequired.setIsMaster("1");
-			purchaseRequired.setIsCollect(1);
+//			purchaseRequired.setIsCollect(1);
 			List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired,page==null?1:page);
 			PageInfo<PurchaseRequired> info = new PageInfo<>(list);
 			model.addAttribute("info", info);
@@ -97,7 +95,7 @@ public class CollectPlanController extends BaseController {
 		 * @throws
 		  */
 		@RequestMapping("/add")
-		public String queryCollect(@Valid CollectPlan collectPlan){
+		public String queryCollect(CollectPlan collectPlan,String cno){
 			PurchaseRequired p=new PurchaseRequired();
 			List<PurchaseRequired> list=new LinkedList<PurchaseRequired>();
 			Set<String> set=new HashSet<String>();
@@ -107,7 +105,7 @@ public class CollectPlanController extends BaseController {
 					p.setPlanNo(no);
 					p.setIsMaster("1");
 					List<PurchaseRequired> one = purchaseRequiredService.query(p, 1);
-					p.setIsCollect(2);//修改
+//					p.setIsCollect(2);//修改
 					p.setStatus("5");//修改
 					p.setIsMaster(null);
 					purchaseRequiredService.updateStatus(p);
@@ -147,6 +145,7 @@ public class CollectPlanController extends BaseController {
 						c.setPlanNo(no);
 						collectPurchaseService.add(c);
 					}
+					collectPlan.setPlanNo(cno);
 					collectPlanService.add(collectPlan);
 				}
 			}
@@ -170,15 +169,40 @@ public class CollectPlanController extends BaseController {
 		@ResponseBody
 		public String update(CollectPlan collectPlan){
 			CollectPlan plan = collectPlanService.queryById(collectPlan.getId());
-			String planNo = collectPlan.getPlanNo();
-			plan.getPlanNo().concat(planNo);
-			collectPlanService.update(collectPlan);
-			
+			String [] planNo = collectPlan.getPlanNo().split(",");
+			List<PurchaseRequired> list=new LinkedList<PurchaseRequired>();
+			CollectPurchase c=new CollectPurchase();
 			PurchaseRequired p=new PurchaseRequired();
-			p.setPlanNo(planNo);
-			p.setIsCollect(2);//修改
-			p.setStatus("5");//修改
-			purchaseRequiredService.updateStatus(p);
+			for(String no:planNo){
+				c.setCollectPlanId(collectPlan.getId());
+				c.setPlanNo(no);
+				collectPurchaseService.add(c);
+				
+				p.setPlanNo(no);
+				p.setIsMaster("1");
+				List<PurchaseRequired> one = purchaseRequiredService.query(p, 1);
+//				p.setIsCollect(2);//修改
+				p.setStatus("5");//修改
+				p.setIsMaster(null);
+				purchaseRequiredService.updateStatus(p);
+				list.addAll(one);
+			}
+			BigDecimal budget=BigDecimal.ZERO;
+			for(PurchaseRequired pr:list){
+				budget=budget.add(pr.getBudget());
+			}
+			
+			BigDecimal decimal = plan.getBudget();
+			BigDecimal budget2=	decimal.add(budget);
+			
+			plan.setBudget(budget2);
+			collectPlanService.update(plan);
+			
+//			PurchaseRequired p=new PurchaseRequired();
+//			p.setPlanNo(planNo);
+//			p.setIsCollect(2);//修改
+//			p.setStatus("5");//修改
+//			purchaseRequiredService.updateStatus(p);
 			
 			
 			return "";

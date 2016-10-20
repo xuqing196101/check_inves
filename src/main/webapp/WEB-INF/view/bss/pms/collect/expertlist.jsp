@@ -88,7 +88,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		if(id==""||id==null){
 			layer.alert("请选择要汇总的计划",{offset: ['100px', '100px'], shade:0.01});
 		}else{
-		 
+			var cid=parent.id;
+			$("#cid").val(cid);
 		$("#aid").val(id);
 			$.ajax({
 			url: "${pageContext.request.contextPath}/set/add.html",
@@ -203,6 +204,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<form id="collected_form" action="" method="post" style="margin-top: 20px;display: none;">
 	 <input type="hidden" value="" name="id" id="aid">
 	 <input type="hidden" value="1"  name="type" >
+	  <input type="hidden" name="collectId" value="" id="cid">
 	 </form>
 	 
 </html>

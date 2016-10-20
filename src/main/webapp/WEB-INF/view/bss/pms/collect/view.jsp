@@ -91,7 +91,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		   }
 	}
 	 function returns(){
-		 $("#status").val(4);
+		 $("#status").val(3);
 		 $("#acc_form").submit();
 	 }
   	
@@ -171,7 +171,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</c:forEach>
 				</table>
 				 <input type="hidden" name="planNo" value="${planNo }">
-				  <input type="hidden" id="status" name="status" value="3">
+				  <input type="hidden" id="status" name="status" value="4">
 				 <input class="btn btn-windows save" type="submit" value="受理"> 
 				 <input class="btn btn-windows save" type="button" onclick="returns();" value="退回">   
 				<input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">

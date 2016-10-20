@@ -150,10 +150,77 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	}
 	
 	function sub(){
-		if(flag==true){
+		var file=$("#required").val();
+		if(file==""||file==null){
+			 layer.tips("文件不允许为空","#required");
+		}
+		else if(flag==true){
 			$("#adjust").submit();
 		}
 	}
+	
+	
+	 function sum2(obj){  //数量
+	        var purchaseCount = $(obj).val()-0;//数量
+	        var price2 = $(obj).parent().next().children(":last").prev();//价钱
+	        var price = $(price2).val()-0;
+	        var sum = purchaseCount*price;
+	        var budget = $(obj).parent().next().next().children(":last").prev();
+	        $(budget).val(sum);
+	      	var id=$(obj).next().val();
+	      	aa(id);
+	    } 
+	    
+	       function sum1(obj){
+	        var purchaseCount = $(obj).val()-0; //价钱
+	         var price2 = $(obj).parent().prev().children(":last").prev().val()-0;//数量
+	      	 var sum = purchaseCount*price2;
+	         $(obj).parent().next().children(":last").prev().val(sum);
+		     	var id=$(obj).next().val();
+		     	aa(id);
+	    }
+	
+	       function aa(id){// id是指当前的父级parentid
+	    	
+	    	   var budget=0;
+	    	   $("#table tr").each(function(){
+	 	    		var cid= $(this).find("td:eq(8)").children(":last").val();
+	 	    		var same= $(this).find("td:eq(8)").children(":last").prev().val()-0;
+		 	       if(id==cid){
+		 	    	   
+		 	    	  budget=budget+same; //查出所有的子节点的值
+		 	       }
+	    	   });
+	    	    $("#table tr").each(function(){
+	    		var pid= $(this).find("td:eq(8)").children(":first").val();//上级id
+	    		
+	    		if(id==pid){
+	    			$(this).find("td:eq(8)").children(":first").next().val(budget);
+	    		}
+	    	  	 $("#table tr").each(function(){
+	 	    		var cid= $(this).find("td:eq(8)").children(":last").val();
+	 	    		  if(pid==cid&&id!=pid){
+	 	    		
+	 	    			 $(this).find("td:eq(8)").children(":first").next().val(budget);
+	 	    		  }
+	 	    		});  
+	    		});  
+	    	 //  var did=$("#table tr:eq(1) td:eq(8)").children(":first").val();
+	    	  // var did=$("table:eq(1) tr:eq(1) td:eq(1) input:eq(0)").val();
+	    	  var did=$("table tr:eq(2)").find("td:eq(8)").children(":first").val();
+	    	    var total=0;
+	    	    $("#table tr").each(function(){
+	    	    	
+	 	    		var cid= $(this).find("td:eq(8)").children(":last").val();
+	 	    		var same= $(this).find("td:eq(8)").children(":last").prev().val()-0;
+	 	    		 if(did==cid){
+	 	    			
+	 	    			total=total+same;
+	 	    		 }
+	    	   }); 
+	    	
+	    	    $("table tr:eq(2)").find("td:eq(8)").children(":first").next().val(total);
+	       }
 </script>
 </head>
 
@@ -177,7 +244,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="container clear margin-top-30">
 
 			<form id="adjust" action="<%=basePath%>adjust/update.html" method="post" enctype="multipart/form-data">
-				<table class="table table-bordered table-condensed mt5">
+				<table id="table" class="table table-bordered table-condensed mt5">
 					<thead>
 						<tr>
 						<th class="info" colspan="16">事业部门需求</th>
@@ -196,6 +263,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<th class="info">预算金额（万元）</th>
 							<th class="info">交货期限</th>
 							<th class="info">采购方式建议</th>
+							<th class="info">采购机构</th>
 							<th class="info">供应商名称</th>
 							<th class="info">是否申请办理免税</th>
 							<th class="info">物资用途（仅进口）</th>
@@ -211,30 +279,71 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 					<c:forEach items="${list }" var="obj" varStatus="vs">
 						<tr>
-							<td class="tc w50"><input style="border: 0px;" type="text" name="list[${vs.index }].seq" value="${obj.seq }"><input style="border: 0px;" type="hidden" name="list[${vs.index }].id" value="${obj.id }">
+							<td class="tc w50"><input style="border: 0px;" disabled="disabled" type="text" name="list[${vs.index }].seq" value="${obj.seq }"><input style="border: 0px;" type="hidden" name="list[${vs.index }].id" value="${obj.id }">
 							</td>
-							<td><input style="border: 0px;" type="text" name="list[${vs.index }].department" onblur="checks(this)" value="${obj.department }"></td>
-							<td><input style="border: 0px;" type="text" name="list[${vs.index }].goodsName"  value="${obj.goodsName }"></td>
-							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.index }].stand" value="${obj.stand }"></td>
-							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.index }].qualitStand" value="${obj.qualitStand }"></td>
-							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.index }].item" value="${obj.item }"></td>
-							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.index }].purchaseCount" onblur="checks(this)"  value="${obj.purchaseCount }"></td>
-							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.index }].price" value="${obj.price }"></td>
-							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.index }].budget" onblur="checks(this)"  value="${obj.budget }"></td>
-							<td><input style="border: 0px;" type="text" name="list[${vs.index }].deliverDate" onblur="checks(this)" value="${obj.deliverDate }"></td>
-							<td><input style="border: 0px;" type="text" name="list[${vs.index }].purchaseType" value="${obj.purchaseType }"></td>
-							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.index }].supplier" value="${obj.supplier }"></td>
-							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.index }].isFreeTax" value="${obj.isFreeTax }"></td>
-							<td class="tc"><input style="border: 0px;"type="text" name="list[${vs.index }].goodsUse" value="${obj.goodsUse }"></td>
-							<td class="tc"><input  style="border: 0px;" type="text" name="list[${vs.index }].useUnit" value="${obj.useUnit }"></td>
-							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.index }].memo" value="${obj.memo }">
+							<td><input style="border: 0px;" disabled="disabled" type="text" name="list[${vs.index }].department" onblur="checks(this)" value="${obj.department }"></td>
+							<td><input type="text" name="list[${vs.index }].goodsName"  value="${obj.goodsName }"></td>
+							<td class="tc"><input style="border: 0px;" disabled="disabled" type="text" name="list[${vs.index }].stand" value="${obj.stand }"></td>
+							<td class="tc"><input  type="text" name="list[${vs.index }].qualitStand" value="${obj.qualitStand }"></td>
+							<td class="tc"><input  type="text" name="list[${vs.index }].item" value="${obj.item }"></td>
+							<td class="tc">
+							<input   type="hidden" name="ss"   value="${obj.id }">
+							<input  onblur="sum2(this)"  type="text" name="list[${vs.index }].purchaseCount" onblur="checks(this)"  value="${obj.purchaseCount }">
+							<input type="hidden" name="ss"   value="${obj.parentId }">
+							</td>
+							<td class="tc">
+							<input   type="hidden" name="ss"   value="${obj.id }">
+							<input onblur="sum1(this)"  type="text" name="list[${vs.index }].price" value="${obj.price }">
+							<input type="hidden" name="ss"   value="${obj.parentId }">
+							</td>
+							<td class="tc">
+							<input type="hidden" name="ss"    value="${obj.id}">
+							<input   type="text" name="list[${vs.index }].budget" onblur="checks(this)"  value="${obj.budget }">
+							<input type="hidden" name="ss"  value="${obj.parentId }">
+							</td>
+							
+							<td><input  0px;" type="text" name="list[${vs.index }].deliverDate" onblur="checks(this)" value="${obj.deliverDate }"></td>
+							<td>
+							
+						<%-- 	<input  type="text" name="list[${vs.index }].purchaseType" value="${obj.purchaseType }"> --%>
+							
+							 <select name="list[${vs.index }].purchaseType" style="width:100px" id="select">
+              				    <option value="" >请选择</option>
+	                            <option value="公开招标" <c:if test="${'公开招标'==obj.purchaseType}">selected="selected"</c:if>>公开招标</option>
+	                            <option value="邀请招标" <c:if test="${'邀请招标'==obj.purchaseType}">selected="selected"</c:if>>邀请招标</option>
+	                            <option value="竞争性谈判" <c:if test="${'竞争性谈判'==obj.purchaseType}">selected="selected"</c:if>>竞争性谈判</option>
+	                            <option value="询价采购" <c:if test="${'询价采购'==obj.purchaseType}">selected="selected"</c:if>>询价采购</option>
+	                            <option value="单一来源" <c:if test="${'单一来源'==obj.purchaseType}">selected="selected"</c:if>>单一来源</option>
+			                </select>
+							
+							</td>
+							<td class="tc">
+<%-- 							<input type="hidden" name="list[${vs.index }].organization" value="${obj.organization }">
+ --%>							<select name="list[${vs.index }].organization">
+	 								<option value="">请选择</option>
+									<c:forEach items="${org }" var="ss">
+									<c:if test="${obj.organization==ss.id }">
+									<option value="${ss.id }" selected="selected">${ss.name}</option>
+									</c:if>
+									<c:if test="${obj.organization!=ss.id }">
+									<option value="${ss.id }">${ss.name}</option>
+									</c:if>
+								</c:forEach>
+							</select>
+							
+							</td>
+							
+							<td class="tc"><input style="border: 0px;" disabled="disabled" type="text" name="list[${vs.index }].supplier" value="${obj.supplier }"></td>
+							<td class="tc"><input style="border: 0px;" disabled="disabled" type="text" name="list[${vs.index }].isFreeTax" value="${obj.isFreeTax }"></td>
+							<td class="tc"><input style="border: 0px;" disabled="disabled" type="text" name="list[${vs.index }].goodsUse" value="${obj.goodsUse }"></td>
+							<td class="tc"><input  style="border: 0px;" disabled="disabled" type="text" name="list[${vs.index }].useUnit" value="${obj.useUnit }"></td>
+							<td class="tc"><input style="border: 0px;" disabled="disabled" type="text" name="list[${vs.index }].memo" value="${obj.memo }">
 							<input type="hidden" name="list[${vs.index }].planName" value="${obj.planName }">
 							<input type="hidden" name="list[${vs.index }].planNo" value="${obj.planNo }">
 							<input type="hidden" name="list[${vs.index }].planType" value="${obj.planType }">
 							<input type="hidden" name="list[${vs.index }].parentId" value="${obj.parentId }">
 							<input type="hidden" name="list[${vs.index }].historyStatus" value="${obj.historyStatus }">
 							<input type="hidden" name="list[${vs.index }].goodsType" value="${obj.goodsType }">
-							<input type="hidden" name="list[${vs.index }].organization" value="${obj.organization }">
 							<input type="hidden" name="list[${vs.index }].auditDate" value="${obj.auditDate }">
 							<input type="hidden" name="list[${vs.index }].isMaster" value="${obj.isMaster }">
 							<input type="hidden" name="list[${vs.index }].isDelete" value="${obj.isDelete }">
@@ -246,19 +355,38 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<input type="hidden" name="list[${vs.index }].isCollect" value="${obj.isCollect }">
 							</td>
 							<td class="tc">
-							<input type="text"  style="border: 0px;" name="list[${vs.index }].onePurchaseType" value="${obj.onePurchaseType }">
+							
+							 <select name="list[${vs.index }].onePurchaseType" style="width:100px" id="select">
+              				    <option value="" >请选择</option>
+	                            <option value="公开招标" <c:if test="${'公开招标'==obj.onePurchaseType}">selected="selected"</c:if>>公开招标</option>
+	                            <option value="邀请招标" <c:if test="${'邀请招标'==obj.onePurchaseType}">selected="selected"</c:if>>邀请招标</option>
+	                            <option value="竞争性谈判" <c:if test="${'竞争性谈判'==obj.onePurchaseType}">selected="selected"</c:if>>竞争性谈判</option>
+	                            <option value="询价采购" <c:if test="${'询价采购'==obj.onePurchaseType}">selected="selected"</c:if>>询价采购</option>
+	                            <option value="单一来源" <c:if test="${'单一来源'==obj.onePurchaseType}">selected="selected"</c:if>>单一来源</option>
+			                </select>
+			                
+			                
+<%-- 							<input type="text"  style="border: 0px;" name="list[${vs.index }].onePurchaseType" value="${obj.onePurchaseType }">
+ --%>							</td>
+							<td class="tc">
+<%-- 							<input type="text"   name="list[${vs.index }].oneOrganiza" value="${obj.oneOrganiza }">
+ --%>							
+							<select name="list[${vs.index }].oneOrganiza">
+								<c:forEach items="${org }" var="ss">
+								  <option value="${obj.oneOrganiza==ss.id }" selected="selected">${ss.name}</option>
+								</c:forEach>
+							</select>
+							
+							
 							</td>
 							<td class="tc">
-							<input type="text"  style="border: 0px;" name="list[${vs.index }].oneOrganiza" value="${obj.oneOrganiza }">
+							<input type="text"   name="list[${vs.index }].oneAdvice" value="${obj.oneAdvice }">
 							</td>
 							<td class="tc">
-							<input type="text"  style="border: 0px;" name="list[${vs.index }].oneAdvice" value="${obj.oneAdvice }">
+							<input type="text"   name="list[${vs.index }].twoTechAdvice" value="${obj.twoTechAdvice }">
 							</td>
 							<td class="tc">
-							<input type="text"  style="border: 0px;" name="list[${vs.index }].twoTechAdvice" value="${obj.twoTechAdvice }">
-							</td>
-							<td class="tc">
-							<input type="text"  style="border: 0px;" name="list[${vs.index }].twoAdvice" value="${obj.twoAdvice }">
+							<input type="text"  name="list[${vs.index }].twoAdvice" value="${obj.twoAdvice }">
 							</td>
 							
 						</tr>
@@ -271,7 +399,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</tr> --%>
 				
 				</table>
-				<div class=""><a class="upload">上传附件</a><input type="file" name="file"> </div>
+				<div class=""><a class="upload">上传附件</a><input id="required" type="file" name="file"> </div>
 				<input class="btn btn-windows save" type="button" value="提交" onclick="sub()">
 				<input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 			</form>

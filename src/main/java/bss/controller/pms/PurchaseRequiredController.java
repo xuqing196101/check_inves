@@ -34,6 +34,7 @@ import bss.controller.base.BaseController;
 import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.pms.PurchaseRequired;
 import bss.service.pms.PurchaseRequiredService;
+import bss.service.ppms.ProjectAttachmentsService;
 import bss.util.Excel;
 import bss.util.ExcelUtil;
 
@@ -53,7 +54,9 @@ public class PurchaseRequiredController extends BaseController{
 
 	@Autowired
 	private PurchaseRequiredService purchaseRequiredService;
-	 
+	
+
+	
 	/**
 	 * 
 	* @Title: queryPlan
@@ -121,8 +124,8 @@ public class PurchaseRequiredController extends BaseController{
 							p.setParentId(p.getParentId());
 						}
 						String id = UUID.randomUUID().toString().replaceAll("-", "");
-						p.setId(id);
-						p.setHistoryStatus("0");
+						queryById.setId(id);
+						queryById.setHistoryStatus("0");
 						purchaseRequiredService.add(p);	
 					}else{
 						String id = UUID.randomUUID().toString().replaceAll("-", "");
@@ -163,12 +166,14 @@ public class PurchaseRequiredController extends BaseController{
 	 * @throws UnsupportedEncodingException 
 	* @throws Exception
 	 */
-	@RequestMapping("/upload")
+	@RequestMapping(value="/upload")
 	@ResponseBody
 	public String uploadFile(@RequestParam(value = "file", required = false) MultipartFile file,HttpServletRequest request,HttpServletResponse response,String type,String planName,String planNo) throws UnsupportedEncodingException{
 		response.setContentType("text/xml;charset=UTF-8");  
 		User user = (User) request.getSession().getAttribute("loginUser");
-		planName = new String(planName.getBytes("iso8859-1"),"UTF-8");
+	//	planName = new String(planName.getBytes("iso8859-1"),"UTF-8");
+		planName=	java.net.URLDecoder.decode(planName, "UTF-8");
+		
 		
 		String path = request.getSession().getServletContext().getRealPath("upload");  
         String fileName = file.getOriginalFilename();  
@@ -199,38 +204,100 @@ public class PurchaseRequiredController extends BaseController{
 			}
 			
 		}
+		String did = UUID.randomUUID().toString().replaceAll("-", "");
+		String pid = UUID.randomUUID().toString().replaceAll("-", "");
+		String cid = UUID.randomUUID().toString().replaceAll("-", "");
+		String ccid = UUID.randomUUID().toString().replaceAll("-", "");
+		String cccid = UUID.randomUUID().toString().replaceAll("-", "");
+		String ccccid = UUID.randomUUID().toString().replaceAll("-", "");
+		String id = UUID.randomUUID().toString().replaceAll("-", "");
+		
+		int count=1;
 		for(int i=0;i<list.size();i++){
 			if(i==0){
 				PurchaseRequired p = list.get(0);
-					String id = UUID.randomUUID().toString().replaceAll("-", "");
+//					String id = UUID.randomUUID().toString().replaceAll("-", "");
 					p.setGoodsType(type);
 					p.setPlanNo(planNo);
 					p.setPlanName(planName);
-					p.setId(id);
+					p.setId(did);
 					p.setPlanType(type);
 					p.setHistoryStatus("0");
 					p.setIsDelete(0);
-					p.setIsMaster("1");
+					p.setIsMaster(String.valueOf(count));
+					p.setParentId("1");
 					p.setCreatedAt(new Date());
 					p.setUserId(user.getId());
-//					p.setOrganization(user.getOrg().getName());
+					p.setOrganization(user.getOrg().getName());
 					purchaseRequiredService.add(p);	
 			}else{
-					PurchaseRequired p = list.get(i);
-					String id = UUID.randomUUID().toString().replaceAll("-", "");
-					p.setGoodsType(type);
-					p.setPlanNo(planNo);
-					p.setPlanName(planName);
-					p.setId(id);
-					p.setPlanType(type);
-					p.setHistoryStatus("0");
-					p.setIsDelete(0);
-					p.setIsMaster("2");
-					p.setCreatedAt(new Date());
-					p.setUserId(user.getId());
-//					p.setOrganization(user.getOrg().getName());
+				PurchaseRequired p = list.get(i);
+				p.setGoodsType(type);
+				p.setPlanNo(planNo);
+				p.setPlanName(planName);
+				p.setPlanType(type);
+				p.setHistoryStatus("0");
+				p.setIsDelete(0);
+				p.setIsMaster(String.valueOf(count));
+				p.setCreatedAt(new Date());
+				p.setUserId(user.getId());
+				p.setOrganization(user.getOrg().getName());
+				
+			 if(p.getSeq().equals("一")||p.getSeq().equals("二")||p.getSeq().equals("三")){
+					 p.setId(pid);
+					 p.setParentId(did);
 					purchaseRequiredService.add(p);	
+					
+					PurchaseRequired required5 = purchaseRequiredService.queryById(ccccid);
+					if(required5!=null){
+						ccccid = UUID.randomUUID().toString().replaceAll("-", "");
+					}
+					
+			 	}else if(p.getSeq().equals("（一）")||p.getSeq().equals("(一)")){
+					p.setId(cid);
+					p.setParentId(pid);
+					purchaseRequiredService.add(p);	
+				}else if(p.getSeq().equals("1")){
+					p.setId(ccid);
+					p.setParentId(cid);
+					purchaseRequiredService.add(p);	
+				}else if(p.getSeq().equals("（1）")||p.getSeq().equals("(1)")){
+					p.setId(cccid);
+					p.setParentId(ccid);
+					purchaseRequiredService.add(p);	
+				}else if(p.getSeq().equals("a")){
+					p.setId(ccccid);
+					p.setParentId(cccid);
+					purchaseRequiredService.add(p);	
+				}else{
+					p.setId(id);
+					p.setParentId(ccccid);
+					purchaseRequiredService.add(p);	
+					
+					PurchaseRequired required = purchaseRequiredService.queryById(pid);
+					if(required!=null){
+						 pid = UUID.randomUUID().toString().replaceAll("-", "");
+					}
+					PurchaseRequired required2 = purchaseRequiredService.queryById(cid);
+					if(required2!=null){
+						cid = UUID.randomUUID().toString().replaceAll("-", "");
+					}
+					PurchaseRequired required3 = purchaseRequiredService.queryById(ccid);
+					if(required3!=null){
+						ccid = UUID.randomUUID().toString().replaceAll("-", "");
+					}
+					PurchaseRequired required4 = purchaseRequiredService.queryById(cccid);
+					if(required4!=null){
+						cccid = UUID.randomUUID().toString().replaceAll("-", "");
+					}
+					
+					
+					
+				}
+			 
+				
 			}
+			count++;
 		}
 		targetFile.delete();
 		
@@ -247,10 +314,10 @@ public class PurchaseRequiredController extends BaseController{
 	* @throws
 	 */
 	@RequestMapping("/adddetail")
-	@ResponseBody
 	public String addReq(PurchaseRequiredFormBean list,String type,String planNo,String planName,HttpServletRequest request){
 		User user = (User) request.getSession().getAttribute("loginUser");
 //		user.get
+		int count=1;
 		if(list!=null){
 			if(list.getList()!=null&&list.getList().size()>0){
 				for(int i=0;i<list.getList().size();i++){
@@ -260,14 +327,14 @@ public class PurchaseRequiredController extends BaseController{
 //							p.setGoodsType(type);
 							p.setPlanNo(planNo);
 							p.setPlanName(planName);
-							if(p.getId()!=null){
+							if(p.getId()==null){
 								p.setId(id);
 							}
 							
 							p.setPlanType(type);
 							p.setHistoryStatus("0");
 							p.setIsDelete(0);
-							p.setIsMaster("1");
+							p.setIsMaster(String.valueOf(count));
 							p.setStatus("1");
 							p.setCreatedAt(new Date());
 							p.setUserId(user.getId());
@@ -279,19 +346,20 @@ public class PurchaseRequiredController extends BaseController{
 //							p.setGoodsType(type);
 							p.setPlanNo(planNo);
 							p.setPlanName(planName);
-							if(p.getId()!=null){
+							if(p.getId()==null){
 								p.setId(id);
 							}
 							p.setPlanType(type);
 							p.setHistoryStatus("0");
 							p.setIsDelete(0);
-							p.setIsMaster("2");
+							p.setIsMaster(String.valueOf(count));
 							p.setStatus("1");
 							p.setCreatedAt(new Date());
 							p.setUserId(user.getId());
 //							p.setOrganization(user.getOrg().getName());
 							purchaseRequiredService.add(p);	
 					}
+					count++;
 				}
 			}
 	}

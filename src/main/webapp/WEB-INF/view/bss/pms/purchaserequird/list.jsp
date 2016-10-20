@@ -305,11 +305,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			 	已提交
 			  </c:if>
 			  <c:if test="${obj.status=='3' }">
-			 	提交受理
+			 	受理退回
 			  </c:if>
 			    <c:if test="${obj.status=='4' }">
 			 	已受理
 			  </c:if>
+			   <c:if test="${obj.status=='4' }">
+			 	已经汇总
+			  </c:if>
+			  
 			  </td>
 			</tr>
 	 

@@ -151,18 +151,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    <c:if test="${obj.status ==1}">
 			    	未下达
 			    </c:if>
-			      <c:if test="${obj.status ==1}">
-			    	下达
+			      <c:if test="${obj.status ==2}">
+			    	已下达
 			    </c:if>
 			    
 			    </td>
 			    <td class="tc"  >${obj.fileName }</td>
 			    
-			
-			
-		 
-			  
-			 
 			</tr>
 	 
 		 </c:forEach>

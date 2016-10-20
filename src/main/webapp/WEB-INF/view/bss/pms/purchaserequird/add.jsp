@@ -97,8 +97,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 		 var no=$("#jhbh").val();
 	 		 
 	 		 
- 		var type=$("#goodsType").val();
- 		
+ 		var type=$("#wtype").val();
+ 		name=encodeURI(name);
  		if(name==""){
  			layer.tips("计划名称不允许为空","#jhmc");
  		 } else if(no==""){
@@ -115,7 +115,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		                 	 dataType: "text", //返回值类型 一般设置为json
 		                    success: function (data)  //服务器成功响应处理函数
 		                    { 
-		                    	alert(data);
 		                    	if(data=="ERROR"){
 		                    		 alert("文件名错误");
 		                    	}else if(data=="exception"){
@@ -437,7 +436,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					onclick="chakan()">查看编制说明</button> <!-- 	 <button class="btn padding-left-10 padding-right-10 btn_back">导入</button>
  -->
 				<button class="btn padding-left-10 padding-right-10 btn_back"
-					onclick="adds()">录入</button>
+					onclick="adds()">录入明细</button>
 			 
 			
 		</div>
@@ -635,7 +634,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 	</div>
 
-	<input type="hidden" id="goodsType" value="${type }">
+<%-- 	<input type="hidden" id="goodsType" value="${type }"> --%>
 	<input type="hidden" id="count" value="5">
 	<div  style="margin-left: 600px;">
 	   <div id="ztree" class="ztree"></div>
