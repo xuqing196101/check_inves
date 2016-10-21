@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
@@ -95,7 +96,7 @@ public class ReviewFirstAuditController {
 		s.setId("111");
 		s.setSupplierName("第一个");
 		Supplier s2 = new Supplier();
-		s2.setId("111");
+		s2.setId("222");
 		s2.setSupplierName("第二个");
 		supplierList.add(s);
 		supplierList.add(s2);
@@ -119,8 +120,54 @@ public class ReviewFirstAuditController {
 	  * @return String
 	 */
 	@RequestMapping("add")
-	public String add(ReviewFirstAudit reviewFirstAudit,Model model){
-		
-		return "";
+	@ResponseBody
+	public void add(ReviewFirstAudit reviewFirstAudit,Model model){
+		Map<String, Object> map = new HashMap<>();
+		map.put("projectId", reviewFirstAudit.getProjectId());
+		map.put("packageId", reviewFirstAudit.getPackageId());
+		map.put("firstAuditId", reviewFirstAudit.getFirstAuditId());
+		map.put("supplierId", reviewFirstAudit.getSupplierId());
+		service.delete(map);
+		service.save(reviewFirstAudit);
+	}
+	/**
+	 * 
+	  * @Title: addAll
+	  * @author ShaoYangYang
+	  * @date 2016年10月21日 下午2:43:58  
+	  * @Description: TODO 全部合格或不合格
+	  * @param @param projectId 项目id
+	  * @param @param packageId 包id
+	  * @param @param supplierId 供应商id
+	  * @return void
+	 */
+	@RequestMapping("addAll")
+	public void addAll(String projectId,String packageId,String supplierId,Short flag,String rejectReason){
+		//查询改包下的初审项信息
+		Map<String,Object> map2 = new HashMap<>();
+		map2.put("projectId", projectId);
+		map2.put("packageId", packageId);
+		//查询出该包下的初审项id集合
+		List<PackageFirstAudit> firstAuditIdsList = packageFirstAuditService.selectList(map2);
+		//创建保存对象
+		ReviewFirstAudit reviewFirstAudit;
+		    if(firstAuditIdsList!=null && firstAuditIdsList.size()>0){
+		    	Map<String, Object> map = new HashMap<>();
+		    	map.put("projectId", projectId);
+		    	map.put("packageId", packageId);
+		    	map.put("supplierId", supplierId);
+				service.delete(map );
+		      for (PackageFirstAudit packageFirstAudit : firstAuditIdsList) {
+			    reviewFirstAudit = new ReviewFirstAudit();
+			    reviewFirstAudit.setFirstAuditId(packageFirstAudit.getFirstAuditId());
+			    reviewFirstAudit.setPackageId(packageId);
+			    reviewFirstAudit.setProjectId(projectId);
+			    reviewFirstAudit.setSupplierId(supplierId);
+			    reviewFirstAudit.setIsPass((short) 0);
+			    reviewFirstAudit.setIsPass(flag);
+			    reviewFirstAudit.setRejectReason(rejectReason);
+			    service.save(reviewFirstAudit);
+		      }
+		    }
 	}
 }
