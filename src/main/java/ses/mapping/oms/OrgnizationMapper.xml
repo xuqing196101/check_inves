@@ -157,7 +157,7 @@
 		       d.NAME         as name,
 		       d.DEP_ID       as depId,
 		       d.TYPE_NAME       as typeName,
-		       d.IS_ROOT         as isRoot
+		       d.IS_ROOT         as isRoot,
 		       d.STATUS          as status
 		  from T_SES_OMS_ORG     d
 		  where d.id= #{id,jdbcType=VARCHAR}
