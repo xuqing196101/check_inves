@@ -77,9 +77,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                       <div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
 	                     <ul class="btn_list" id="menu">
 						   <li class="active"><a href="<%=basePath%>project/mplement.html?id=${project.id}" target="open_bidding_main" class="son-menu">项目信息</a></li>
-						   <li><a href="<%=basePath%>firstAudit/toAdd.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">拟制竞谈文件</a></li>
+						   <li><a href="<%=basePath%>firstAudit/toAdd_cn.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">拟制竞谈文件</a></li>
 						   <li><a href="<%=basePath%>open_bidding/" target="open_bidding_main" class="son-menu">确认竞谈文件</a></li>
-						   <li><a href="<%=basePath%>open_bidding/bidNotice.html" target="open_bidding_main" class="son-menu">发布竞谈公告</a></li>
+						   <li><a href="<%=basePath%>open_bidding/bidNotice.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">发布竞谈公告</a></li>
 						   <li><a href="<%=basePath%>SupplierExtracts/Extraction.html?id=${project.id}" target="open_bidding_main" class="son-menu">抽取供应商</a></li>
 						   <li><a href="<%=basePath%>open_bidding/" target="open_bidding_main" class="son-menu">发售标书</a></li>
 						   <li><a href="<%=basePath%>ExpExtract/Extraction.html?id=${project.id}"" target="open_bidding_main" class="son-menu">抽取评审专家</a></li>

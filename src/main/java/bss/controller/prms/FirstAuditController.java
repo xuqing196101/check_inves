@@ -67,6 +67,31 @@ public class FirstAuditController {
 		}
 		return "bss/ppms/open_bidding/bid_file";
 	}
+	
+	/**
+	 * @Title: toAddCn
+	 * @author Song Biaowei
+	 * @date 2016-10-20 下午7:52:12  
+	 * @Description: 竞争性谈判的方法 cn是竞争者谈判单词的缩写
+	 * @param @param projectId
+	 * @param @param model
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping("/toAdd_cn")
+	public String toAddCn(String projectId,Model model ){
+		try {
+			//初审项信息
+			List<FirstAudit> list2 = service.getListByProjectId(projectId);
+			model.addAttribute("list", list2);
+			model.addAttribute("projectId", projectId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "bss/ppms/competitive_negotiation/bid_file";
+	}
+	
+	
 	/**
 	 * 
 	  * @Title: toPackageFirstAudit
