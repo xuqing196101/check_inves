@@ -103,7 +103,7 @@
   <select id="selectByPrimaryKey" parameterType="Object" resultMap="NoticeDocumentResultMap">
     select 
     <include refid="Base_Column_List" />
-    from T_SES_BMS_TEMPLET
+    from T_SES_BMS_NOTICE_DOCUMENT
     where ID = #{id}
   </select>
   

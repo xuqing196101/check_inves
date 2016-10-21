@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.github.pagehelper.PageInfo;
 
 import ses.model.bms.NoticeDocument;
-import ses.model.bms.Templet;
 import ses.service.bms.NoticeDocumentService;
 
 /**
@@ -130,7 +129,7 @@ public class NoticeDocumentController {
 		String url = "";
 		if(noticeDocument.getDocType().equals("-请选择-")){
 			flag = false;
-			model.addAttribute("ERR_docType", "请选择模板类型");
+			model.addAttribute("ERR_docType", "请选择须知文档类型");
 		}
 		if(result.hasErrors()){
 			List<FieldError> errors = result.getFieldErrors();
@@ -196,6 +195,6 @@ public class NoticeDocumentController {
 		List<NoticeDocument> noticeDocuments = noticeDocumentService.search(page==null?1:page,noticeDocument);
 		model.addAttribute("list",new PageInfo<NoticeDocument>(noticeDocuments));
 		model.addAttribute("noticeDocument",noticeDocument);
-		return "ses/bms/templet/list";
+		return "ses/bms/noticeDocument/list";
 	}
 }

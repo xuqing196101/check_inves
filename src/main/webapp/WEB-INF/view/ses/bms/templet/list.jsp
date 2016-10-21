@@ -159,6 +159,7 @@
 			  	 	<option value="中标公告">中标公告</option>
 			  	 	<option value="合同公告">合同公告</option>
 			  	 	<option value="招标公告">招标公告</option>
+			  	 	<option value="合同模板">合同模板</option>
 	  			</select>
 	  		</span>
 	  </li>

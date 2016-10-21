@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.NotBlank;
 public class Templet {
     private String id;
     
-    @NotBlank(message = "模板名称不能为空")
+    @NotBlank(message = "模板类型不能为空")
     private String temType;
     
     @NotBlank(message = "模板名称不能为空")
@@ -20,7 +20,7 @@ public class Templet {
 
     private int isDeleted;
     
-    @NotBlank(message = "模板名称不能为空")
+    @NotBlank(message = "模板内容不能为空")
     private String content;
 
     public String getId() {
