@@ -646,6 +646,8 @@
 				and STARUS = #{status}
 			</if>
 		</where>
+		ORDER BY IS_MASTER
+		
 	</select>
 	
 	

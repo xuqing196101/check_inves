@@ -280,18 +280,33 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<td class="tc"><input style="border: 0px;" type="text" onblur="checks(this)" name="list[${vs.index }].item" value="${obj.item }"></td>
 							
 							<td class="tc">
+							<c:if test="${obj.purchaseCount!=null }">
 							<input   type="hidden" name="ss"   value="${obj.id }">
 							<input  onblur="sum2(this)"  type="text" name="list[${vs.index }].purchaseCount" onblur="checks(this)"  value="${obj.purchaseCount }">
 							<input type="hidden" name="ss"   value="${obj.parentId }">
+							</c:if>
+							<c:if test="${obj.purchaseCount==null }">
+							<input style="border: 0px;"  disabled="disabled"  type="text" name="list[${vs.index }].purchaseCount" onblur="checks(this)"  value="${obj.purchaseCount }">
+							
+							</c:if>
 							</td>
+							
+							
 							<td class="tc">
+							<c:if test="${obj.price!=null}">
 							<input   type="hidden" name="ss"   value="${obj.id }">
 							<input onblur="sum1(this)"  type="text" name="list[${vs.index }].price" value="${obj.price }">
 							<input type="hidden" name="ss"   value="${obj.parentId }">
+							</c:if>
+							<c:if test="${obj.price==null}">
+							<input style="border: 0px;"  disabled="disabled" onblur="sum1(this)"  type="text" name="list[${vs.index }].price" value="${obj.price }">
+						 
+							</c:if>
+							
 							</td>
 							<td class="tc">
 							<input type="hidden" name="ss"    value="${obj.id}">
-							<input   type="text" name="list[${vs.index }].budget" onblur="checks(this)"  value="${obj.budget }">
+							<input  style="border: 0px;"  disabled="disabled" type="text" name="list[${vs.index }].budget" onblur="checks(this)"  value="${obj.budget }">
 							<input type="hidden" name="ss"  value="${obj.parentId }">
 							</td>
 							

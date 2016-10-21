@@ -310,7 +310,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    <c:if test="${obj.status=='4' }">
 			 	已受理
 			  </c:if>
-			   <c:if test="${obj.status=='4' }">
+			   <c:if test="${obj.status=='5' }">
 			 	已经汇总
 			  </c:if>
 			  

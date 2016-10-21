@@ -90,9 +90,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].goodsUse' /> </td>"+  
 				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].useUnit' /> </td>"+
 				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].memo' /> </td>"+ 
-				     	"<td class='tc'><div style='width:160px;'> <input class='btn' name='dyadds' type='button' onclick='aadd(this)' value='+'>"+
-						 "<input class='btn' name='delt' type='button' onclick='same(this)' value='+'>"+
-					 	" <input class='btn' name='delt' type='button' onclick='news(this)' value='+'></div> </td>"+  
+				     	"<td class='tc'><div style='width:160px;'> <input class='btn' name='dyadds' type='button' onclick='aadd(this)' title='添加子节点'  value='+'>"+
+						 "<input class='btn' name='delt' type='button' onclick='same(this)'title='添加同级点'  value='+'>"+
+					 	" <input class='btn' name='delt' type='button' onclick='news(this)' title='新明细'  value='+'></div> </td>"+  
 			        +"<tr/>");
 			        
 			 },error:function(){
@@ -130,9 +130,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].goodsUse' /> </td>"+  
 			       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].useUnit' /> </td>"+
 			       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].memo' /> </td>"+ 
-			     	"<td class='tc'><div style='width:160px;'> <input class='btn' name='dyadds' type='button' onclick='aadd(this)' value='+'>"+
-					 "<input class='btn' name='delt' type='button' onclick='same(this)' value='+'>"+
-				 	" <input class='btn' name='delt' type='button' onclick='news(this)' value='+'></div> </td>"+  
+			     	"<td class='tc'><div style='width:160px;'> <input class='btn' name='dyadds' type='button' onclick='aadd(this)' title='添加子节点'  value='+'>"+
+					 "<input class='btn' name='delt' type='button' onclick='same(this)' title='添加同级点'  value='+'>"+
+				 	" <input class='btn' name='delt' type='button' onclick='news(this)' title='新明细' value='+'></div> </td>"+  
 		     +"<tr/>");
 	  
   }
@@ -167,9 +167,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].goodsUse' /> </td>"+  
 				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].useUnit' /> </td>"+
 				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].memo' /> </td>"+ 
-				     	"<td class='tc'><div style='width:160px;'> <input class='btn' name='dyadds' type='button' onclick='aadd(this)' value='+'>"+
-						 "<input class='btn' name='delt' type='button' onclick='same(this)' value='+'>"+
-					 	" <input class='btn' name='delt' type='button' onclick='news(this)' value='+'></div> </td>"+  
+				     	"<td class='tc'><div style='width:160px;'> <input class='btn' name='dyadds' type='button' onclick='aadd(this)' title='添加子节点' value='+'>"+
+						 "<input class='btn' name='delt' type='button' title='添加同级节点' onclick='same(this)' value='+'>"+
+					 	" <input class='btn' name='delt' type='button' title='新明细' onclick='news(this)' value='+'></div> </td>"+  
 			        +"<tr/>");
 			        
 			 },error:function(){
