@@ -23,7 +23,7 @@
     select 
     <include refid="Base_Column_List" />
     from T_SES_SMS_SUPPLIER_AUDIT
-    where SUPPLIER_ID = #{SUPPLIER_ID}
+    where SUPPLIER_ID = #{supplierId}
     ORDER BY CREATED_AT DESC
   </select>
   

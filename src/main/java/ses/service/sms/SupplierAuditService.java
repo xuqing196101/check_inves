@@ -123,7 +123,7 @@ public interface SupplierAuditService {
      * @param @return      
      * @return List<SupplierAudit>
      */
-    List<SupplierAudit> selectByPrimaryKey(String supplierId);
+    List<SupplierAudit> selectByPrimaryKey(SupplierAudit supplierAudit);
     
     /**
      * @Title: updateStatus

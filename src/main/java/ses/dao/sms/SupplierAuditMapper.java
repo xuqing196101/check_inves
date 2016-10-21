@@ -32,7 +32,7 @@ public interface SupplierAuditMapper {
      * @param @return      
      * @return List<SupplierAudit>
      */
-    List<SupplierAudit> selectByPrimaryKey(String supplierId);
+    List<SupplierAudit> selectByPrimaryKey(SupplierAudit record);
     
     /**
      * @Title: updateBySupplierId

@@ -369,11 +369,12 @@ public class SupplierAuditController extends BaseSupplierController{
 		String supplierId = supplierAudit.getSupplierId();
 		if(supplierId==null){
 			supplierId = (String) request.getSession().getAttribute("supplierId");
+			supplierAudit.setSupplierId(supplierId);
 		}
-		List<SupplierAudit> reasonsList = supplierAuditService.selectByPrimaryKey(supplierId);
+		List<SupplierAudit> reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
 		request.setAttribute("reasonsList", reasonsList);
-		int num=reasonsList.size();
-		request.setAttribute("num", num);
+		/*int num=reasonsList.size();
+		request.setAttribute("num", num);*/
 		//勾选的供应商类型
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
 		request.setAttribute("supplierTypeNames", supplierTypeName);
@@ -389,8 +390,8 @@ public class SupplierAuditController extends BaseSupplierController{
 	}
 	
 	@RequestMapping("showReasonsList")
-	public void showReasonsList(HttpServletResponse reponse,String supplierId){
-		List<SupplierAudit> reasonsList = supplierAuditService.selectByPrimaryKey(supplierId);
+	public void showReasonsList(HttpServletResponse reponse,SupplierAudit supplierAudit){
+		List<SupplierAudit> reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
 		super.writeJson(reponse, reasonsList);
 	}
 	

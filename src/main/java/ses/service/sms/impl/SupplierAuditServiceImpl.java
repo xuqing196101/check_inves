@@ -272,9 +272,9 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
      * @return List<SupplierAudit>
      */
 	@Override
-	public List<SupplierAudit> selectByPrimaryKey(String supplierId) {
+	public List<SupplierAudit> selectByPrimaryKey(SupplierAudit supplierAudit) {
 		
-		return supplierAuditMapper.selectByPrimaryKey(supplierId);
+		return supplierAuditMapper.selectByPrimaryKey(supplierAudit);
 	}
 	
 	/**
