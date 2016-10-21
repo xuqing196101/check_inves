@@ -25,7 +25,7 @@ function delTask(id){
             if(!attach){
                 layer.alert("请上传变更依据",{offset: ['50px','90px'], shade:0.01});
             }else{
-             layer.confirm('此操作后果严重，您确认要取消任务吗?',{
+             layer.confirm('您确定要修改采购明细吗?',{
                 offset: ['50px','90px'],
                 shade:0.01,
                 btn:['是','否'],
@@ -49,7 +49,7 @@ function cancel(){
 </head>
 
 <body>
-    <form id="att" action="<%=basePath%>task/editDetail.html" id="myForm"
+    <form id="att" action="<%=basePath%>task/update.html" id="myForm"
         method="post" name="form1" class="simple" target="_parent" enctype="multipart/form-data">
         <input type="hidden" name="id" value="${task.id}"/>
         <span class="f14 fl">上传附件：</span>

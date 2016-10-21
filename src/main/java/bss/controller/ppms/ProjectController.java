@@ -212,7 +212,7 @@ public class ProjectController extends BaseController {
         String[] ids = id.split(",");
         for (int i = 0; i < ids.length; i++) {
             purchaseRequired = purchaseRequiredService.queryById(ids[i]);
-            projectDetail.setTaskId(purchaseRequired.getId());
+            projectDetail.setRequiredId(purchaseRequired.getId());
             projectDetail.setSerialNumber(purchaseRequired.getSeq());
             projectDetail.setDepartment(purchaseRequired.getDepartment());
             projectDetail.setGoodsName(purchaseRequired.getGoodsName());
@@ -255,6 +255,9 @@ public class ProjectController extends BaseController {
             if (purchaseRequired.getDetailStatus() != null) {
                 projectDetail.setStatus(String.valueOf(purchaseRequired.getDetailStatus()));
             }
+            if (purchaseRequired.getIsMaster() != null) {
+                projectDetail.setPosition(purchaseRequired.getIsMaster());
+            }
             detailService.insert(projectDetail);
             String ide = projectDetail.getId();
             String idr = (String) request.getSession().getAttribute("idr");
@@ -271,6 +274,9 @@ public class ProjectController extends BaseController {
             project.setName(name);
             project.setProjectNumber(projectNumber);
             project.setPurchaseType(purchaseRequired.getPurchaseType());
+            if(projectDetail.getDepartment() != null) {
+                project.setSectorOfDemand(projectDetail.getDepartment());
+            }
             project.setCreateAt(new Date());
             project.setStatus(3);
             projectService.add(project);
@@ -284,6 +290,7 @@ public class ProjectController extends BaseController {
             detailService.update(detail);
         }
         return "redirect:list.html";
+        
     }
 
     /**
@@ -436,8 +443,14 @@ public class ProjectController extends BaseController {
      */
     @RequestMapping("/editDetail")
     @ResponseBody
-    public void editDetail(String id, String purchaseCount, String price, String purchaseType,
-                           String budget, Model model) {
+    public void editDetail(String id, String ids, String purchaseCount, String price, String purchaseType,
+                           String budget, String name, String projectNumber, Model model) {
+        //修改项目名称和项目编号
+        Project project = projectService.selectById(ids);
+        project.setName(name);
+        project.setProjectNumber(projectNumber);
+        projectService.update(project);
+        //修改项目明细
         String[] idc = id.split(",");
         String[] ida = purchaseCount.split(",");
         String[] idb = price.split(",");
@@ -518,7 +531,7 @@ public class ProjectController extends BaseController {
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		ProjectDetail projectDetail = detailService.selectByPrimaryKey(request.getParameter("id"));
 		if("1".equals(projectDetail.getParentId())){
-			map.put("id", projectDetail.getId());
+			map.put("id", projectDetail.getRequiredId());
 			List<ProjectDetail> list = detailService.selectByParentId(map);
 			String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
 			response.setContentType("text/html;charset=utf-8");
@@ -526,7 +539,7 @@ public class ProjectController extends BaseController {
 			response.getWriter().flush();
 			response.getWriter().close();
 		}
-		map.put("id", projectDetail.getId());
+		map.put("id", projectDetail.getRequiredId());
 		List<ProjectDetail> list = detailService.selectByParent(map);
 		String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
 		response.setContentType("text/html;charset=utf-8");

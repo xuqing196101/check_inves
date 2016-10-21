@@ -92,12 +92,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                            $("input[name='chkItem']").each(function() {
                                 var v1 = result[i].id;
                                 var v3 = result[i].purchaseType;
-                                if(v3 == purchaseType){
+                          if(v3 == purchaseType){
                                 var v2 = $(this).val();
                                 if (v1 == v2) {
                                     $(this).prop("checked", flag);
                                 }
-                               }else{
+                             }else{
                                     layer.alert("采购方式不相同",{offset: ['222px', '390px'], shade:0.01});
                                 }
                            });

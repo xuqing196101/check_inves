@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import bss.controller.base.BaseController;
+import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.pms.CollectPlan;
 import bss.model.pms.CollectPurchase;
 import bss.model.pms.PurchaseRequired;
@@ -116,11 +117,10 @@ public class TackController extends BaseController{
 	* @param @return      
 	* @return String
 	 */
-	@RequestMapping("/addFile")
-	public String addFile(String ide,String planNo,String fileName,String qualitStand,String purchaseCount,String item,String price,HttpServletRequest request,String id,Model model){
-		request.getSession().setAttribute("qualitStand", qualitStand);
+	/*@RequestMapping("/addFile")
+	public String addFile(String ide,String planNo,String fileName,String purchaseCount,String budget,String price,HttpServletRequest request,String id,Model model){
 		request.getSession().setAttribute("purchaseCount", purchaseCount);
-		request.getSession().setAttribute("item", item);
+		request.getSession().setAttribute("budget", budget);
 		request.getSession().setAttribute("price", price);
 		request.getSession().setAttribute("id", id);
 		request.getSession().setAttribute("planNo", planNo);
@@ -131,7 +131,7 @@ public class TackController extends BaseController{
 		Task task = taskservice.selectById(ids);
 		model.addAttribute("task", task);
 		return "bss/ppms/task/addFile";
-	}
+	}*/
 	
 	public void upfile( MultipartFile[] attach,
             HttpServletRequest request,Task task){
@@ -203,17 +203,15 @@ public class TackController extends BaseController{
 	 */
 	@RequestMapping("/editDetail")
 	public String editDetail(@RequestParam("attach") MultipartFile[] attach,Task task,PurchaseRequired purchaseRequired,HttpServletRequest request){
-		String qualitStand = (String) request.getSession().getAttribute("qualitStand");
-		String item = (String) request.getSession().getAttribute("item");
+		String budget = (String) request.getSession().getAttribute("budget");
 		String purchaseCount = (String) request.getSession().getAttribute("purchaseCount");
 		String price = (String) request.getSession().getAttribute("price");
 		String id = (String) request.getSession().getAttribute("id");
 		String collectId= (String) request.getSession().getAttribute("ide");
 		String fileName = (String) request.getSession().getAttribute("fileName");
 		String planNo = (String) request.getSession().getAttribute("planNo");
-		request.getSession().removeAttribute("qualitStand");
 		request.getSession().removeAttribute("ide");
-		request.getSession().removeAttribute("item");
+		request.getSession().removeAttribute("budget");
 		request.getSession().removeAttribute("purchaseCount");
 		request.getSession().removeAttribute("price");
 		request.getSession().removeAttribute("id");
@@ -225,17 +223,20 @@ public class TackController extends BaseController{
 		collectPlanService.update(collectPlan);
 		upfile(attach, request, task);
 		String[] idc = id.split(",");
-		String[] ids = qualitStand.split(",");
-		String[] ide = item.split(",");
+		String[] ide = budget.split(",");
 		String[] ida = purchaseCount.split(",");
 		String[] idb = price.split(",");
 		for (int i = 0; i < idc.length; i++) {
 			PurchaseRequired qq = purchaseRequiredService.queryById(idc[i]);
-			qq.setQualitStand(ids[i]);
-			qq.setItem(ide[i]);
-			qq.setPurchaseCount(Long.valueOf(ida[i]));
-			qq.setPrice(new BigDecimal(idb[i]));
-			qq.setBudget(new BigDecimal(Long.valueOf(ida[i])).multiply(new BigDecimal(idb[i])));
+			if (ida[i] != null && ida[i].trim().length() != 0) {
+			    qq.setPurchaseCount(Long.valueOf(ida[i]));
+			}
+			if (idb[i] != null && idb[i].trim().length() != 0) {
+			    qq.setPrice(new BigDecimal(idb[i]));
+			}
+			if (ide[i] != null && ide[i].trim().length() != 0) {
+			    qq.setBudget(new BigDecimal(String.valueOf(ide[i])));
+			}
 			purchaseRequiredService.update(qq);
 		}
 		return "redirect:list.html";
@@ -282,7 +283,6 @@ public class TackController extends BaseController{
 	
 	@RequestMapping("/edit")
 	public String edit(String id,Model model,HttpServletRequest request){
-		request.getSession().setAttribute("ids", id);
 	    Task task = taskservice.selectById(id);
 	    CollectPlan queryById = collectPlanService.queryById(task.getCollectId());
 	    List<PurchaseRequired> listp=new LinkedList<PurchaseRequired>();
@@ -293,6 +293,7 @@ public class TackController extends BaseController{
 	        List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map);
 	        listp.addAll(list2);
 	    }
+	    model.addAttribute("task", task);
 	    model.addAttribute("lists", listp);
 	    model.addAttribute("queryById", queryById);
 		return "bss/ppms/task/edit";
@@ -326,4 +327,36 @@ public class TackController extends BaseController{
         model.addAttribute("queryById", queryById);
 		return "bss/ppms/task/view";
 	}
+	
+	
+	@RequestMapping("/update")
+    public String updateById(@RequestParam("attach") MultipartFile[] attach,Task task,PurchaseRequiredFormBean list, HttpServletRequest request){
+	    upfile(attach, request, task);
+        if(list!=null){
+            if(list.getList()!=null&&list.getList().size()>0){
+                for( PurchaseRequired p:list.getList()){
+                    if( p.getId()!=null){
+                        PurchaseRequired queryById = purchaseRequiredService.queryById(p.getId());
+                        Integer s=Integer.valueOf(purchaseRequiredService.queryByNo(p.getPlanNo()))+1;
+                        queryById.setHistoryStatus(String.valueOf(s));
+                        purchaseRequiredService.update(queryById);
+                        if(p.getParentId()!=null){
+                            p.setParentId(p.getParentId());
+                        }
+                        String id = UUID.randomUUID().toString().replaceAll("-", "");
+                        queryById.setId(id);
+                        queryById.setHistoryStatus("0");
+                        purchaseRequiredService.add(p); 
+                    }else{
+                        String id = UUID.randomUUID().toString().replaceAll("-", "");
+                        p.setId(id);
+                        purchaseRequiredService.add(p); 
+                    }
+                
+                    
+                }
+            }
+        }
+        return "redirect:list.html";
+    }
 }

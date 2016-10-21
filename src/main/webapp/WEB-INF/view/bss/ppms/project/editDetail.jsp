@@ -89,7 +89,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 });
         }  
         
-        
         function sum1(obj){
             var id=$(obj).next().val();
              $.ajax({
@@ -153,9 +152,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         $('input[name="budget"]').each(function(){ 
             budget.push($(this).val()); 
         });
-        var purchaseType =[]; 
-        //var purchaseType = $("input[name='chkItem']:checked").parents("tr").find("td").eq(10).text();
         
+        var purchaseType =[]; 
+       /*  var purchase = $("input[name='chkItem']:checked").parents("tr").find("td").eq(10).text(); */
+        var ids = $("#ide").val();
+        var name = $("#jname").val();
+        var projectNumber = $("#projectNumber").val();
         var v = "";
         $(".advice").each(function() {
             var select = $(this).find("select[name='purchaseType']");
@@ -166,17 +168,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             }
              purchaseType.push(v); 
         });  
-        alert(purchaseType);
             layer.confirm('您确定要修改吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
                 $.ajax({
                     url:"<%=basePath%>project/editDetail.html",
-                    data:"purchaseCount="+purchaseCount+"&price="+price+"&id="+id+"&purchaseType="+purchaseType+"&budget="+budget,
+                    data:"purchaseCount="+purchaseCount+"&price="+price+"&id="+id+"&purchaseType="+purchaseType+"&budget="+budget+"&name="+name+"&projectNumber="+projectNumber+"&ids="+ids,
                     type:"post",
                     dateType:"json",
                     success:function(){
-                       layer.msg("受领成功",{offset: ['222px', '390px']});
+                       layer.msg("修改成功",{offset: ['222px', '390px']});
                         window.setTimeout(function(){
-                            location.reload();
+                            window.location.href="<%=basePath%>project/list.html";
                         }, 1000);
                     },
                     error: function(){
@@ -184,6 +185,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     }
                 });
             });
+    }
+    
+    function sel(obj) {
+     var val=$(obj).val();
+     $("select option").each(function(){
+        var opt = $(this).val();
+        if(val==opt){
+        $(this).attr("selected","selected");
+        }
+     });
     }
   </script>
   </head>
@@ -244,6 +255,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </thead>
           <c:forEach items="${lists}"  var="obj" varStatus="vs">
             <tr class="${obj.parentId}" style="cursor: pointer;">
+            <input   type="hidden" name="id"   value="${obj.id }">
               <td class="tc w50">${obj.serialNumber}</td>
               <td class="tc">${obj.department}</td>
               <td class="tc">${obj.goodsName}</td>
@@ -251,14 +263,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <td class="tc">${obj.qualitStand}</td>
               <td class="tc">${obj.item}</td>
               <td class="tc">
+              <c:if test="${obj.purchaseCount!=null }">
               <input   type="hidden" name="ss"   value="${obj.id }">
               <input maxlength="11" id="purchaseCount" onblur="sum2(this);"  onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" name="purchaseCount" style="width:50%;"  value="${obj.purchaseCount}"/>
               <input type="hidden" name="ss"   value="${obj.parentId }">
+              </c:if>
               </td>
               <td class="tc">
+              <c:if test="${obj.price!=null }">
               <input   type="hidden" name="ss"   value="${obj.id }">
               <input maxlength="11" id="price"  name="price" style="width:50%;" onblur="sum1(this);"  value="${obj.price}"/>
               <input type="hidden" name="ss"   value="${obj.parentId }">
+              </c:if>
               </td>
               <td class="tc">
               <input   type="hidden" name="ss"   value="${obj.id }">
@@ -269,7 +285,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <td class="tc">${obj.deliverDate}</td>
               <td class="tc advice">
               <c:if test="${null!=obj.purchaseType && obj.purchaseType != ''}">
-              <select name="purchaseType" style="width:100px" id="select">
+              <select name="purchaseType" onchange="sel(this);" style="width:100px" id="select">
               
                             <option value="公开招标" <c:if test="${'公开招标'==obj.purchaseType}">selected="selected"</c:if>>公开招标</option>
                             <option value="邀请招标" <c:if test="${'邀请招标'==obj.purchaseType}">selected="selected"</c:if>>邀请招标</option>
