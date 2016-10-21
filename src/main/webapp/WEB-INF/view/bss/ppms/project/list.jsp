@@ -153,32 +153,45 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         
     }
        
-       //项目分包
+     //项目分包
        function subPackage(){
-           var count = 0;
-            var chkItem = document.getElementsByName("chkItem");
-            var str = "";
-            for(var i = 0;i<chkItem.length;i++){
-                if(chkItem[i].checked == true){
-                    count++;
-                }
-            }
-            if(count > 1){
-                layer.alert("只能选择一项",{offset: ['222px', '390px']});
-                $(".layui-layer-shade").remove();
-                return;
-            }else if(count == 0){
-                layer.alert("请先选择一项",{offset: ['222px', '390px']});
-                $(".layui-layer-shade").remove();
-                return;
-            }else{
-                for(var i = 0;i<chkItem.length;i++){
-                    if(chkItem[i].checked == true){
-                        str = chkItem[i].value;
-                    }
-                }
-                window.location.href = "<%=path%>/project/subPackage.html?id="+str;
-            }
+    	   var status = "";
+    	   var count = 0;
+			var chkItem = document.getElementsByName("chkItem");
+			var str = "";
+			for(var i = 0;i<chkItem.length;i++){
+				if(chkItem[i].checked == true){
+					count++;
+				}
+			}
+			if(count > 1){
+				layer.alert("只能选择一项",{offset: ['222px', '390px']});
+				$(".layui-layer-shade").remove();
+				return;
+			}else if(count == 0){
+				layer.alert("请先选择一项",{offset: ['222px', '390px']});
+				$(".layui-layer-shade").remove();
+				return;
+			}else{
+				for(var i = 0;i<chkItem.length;i++){
+					if(chkItem[i].checked == true){
+						str = chkItem[i].value;
+						status = $(chkItem[i]).prev().val();
+					}
+				}
+				if(status==3){
+					window.location.href = "<%=path%>/project/subPackage.html?id="+str;
+				}else if(status==1){
+					layer.alert("项目在实施中，不可进行分包操作，请重新选择",{offset: ['222px', '390px']});
+					$(".layui-layer-shade").remove();
+					return;
+				}else if(status==2){
+					layer.alert("项目已完成，不可进行分包操作，请重新选择",{offset: ['222px', '390px']});
+					$(".layui-layer-shade").remove();
+					return;
+				}
+				
+			}
        }
       
        function edit(){
@@ -272,7 +285,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         
         <c:forEach items="${info.list}" var="obj" varStatus="vs">
             <tr style="cursor: pointer;">
-              <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
+              <td class="tc w30"><input type="hidden" value="${obj.status }"/><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
               <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
               <td class="tc"><a href="#" onclick="view('${obj.id}');">${obj.name}</a></td>
               <td class="tc"><a href="#" onclick="view('${obj.id}');">${obj.projectNumber }</a></td>

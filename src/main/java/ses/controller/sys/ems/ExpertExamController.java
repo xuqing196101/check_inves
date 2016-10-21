@@ -268,6 +268,7 @@ public class ExpertExamController extends BaseSupplierController{
 			HashMap<String,Object> tmap = new HashMap<String,Object>();
 			tmap.put("topic", request.getParameter("topic").trim());
 			tmap.put("kind",2);
+			tmap.put("personType", 1);
 			List<ExamQuestion> topicOnly = examQuestionService.selectByTopic(tmap);
 			if(topicOnly.size()!=0){
 				model.addAttribute("ERR_topic", "该题干已存在");
@@ -357,6 +358,7 @@ public class ExpertExamController extends BaseSupplierController{
 			HashMap<String,Object> tmap = new HashMap<String,Object>();
 			tmap.put("topic", request.getParameter("topic").trim());
 			tmap.put("kind",0);
+			tmap.put("personType", 1);
 			List<ExamQuestion> topicOnly = examQuestionService.selectByTopic(tmap);
 			if(topicOnly.size()!=0){
 				model.addAttribute("ERR_topic", "该题干已存在");
@@ -445,6 +447,7 @@ public class ExpertExamController extends BaseSupplierController{
 			HashMap<String,Object> tmap = new HashMap<String,Object>();
 			tmap.put("topic", request.getParameter("topic").trim());
 			tmap.put("kind",1);
+			tmap.put("personType", 1);
 			List<ExamQuestion> topicOnly = examQuestionService.selectByTopic(tmap);
 			if(topicOnly.size()!=0){
 				model.addAttribute("ERR_topic", "该题干已存在");
@@ -567,9 +570,10 @@ public class ExpertExamController extends BaseSupplierController{
 	 */
 	@RequestMapping("/editToLaw")
 	public String editToLaw(Model model,HttpServletRequest request,ExamQuestion examQuestion){
+		String id = request.getParameter("id");
+		examQuestion.setId(id);
 		String[] items = saveOption();
 		StringBuffer sb = new StringBuffer();
-		String id = request.getParameter("id");
 		String content = request.getParameter("content");
 		String queType = request.getParameter("queType");
 		if(queType==null||queType.equals("")){
@@ -587,6 +591,7 @@ public class ExpertExamController extends BaseSupplierController{
 				HashMap<String,Object> tmap = new HashMap<String,Object>();
 				tmap.put("topic", request.getParameter("topic").trim());
 				tmap.put("kind",2);
+				tmap.put("personType", 1);
 				List<ExamQuestion> topicOnly = examQuestionService.selectByTopic(tmap);
 				if(topicOnly.size()!=0){
 					model.addAttribute("ERR_topic", "该题干已存在");
@@ -725,9 +730,10 @@ public class ExpertExamController extends BaseSupplierController{
 	 */
 	@RequestMapping("/editToTec")
 	public String editToTec(Model model,HttpServletRequest request,ExamQuestion examQuestion){
+		String id = request.getParameter("id");
+		examQuestion.setId(id);
 		String[] items = saveOption();
 		StringBuffer sb = new StringBuffer();
-		String id = request.getParameter("id");
 		String content = request.getParameter("content");
 		String queType = request.getParameter("queType");
 		if(queType==null||queType.equals("")){
@@ -745,6 +751,7 @@ public class ExpertExamController extends BaseSupplierController{
 				HashMap<String,Object> tmap = new HashMap<String,Object>();
 				tmap.put("topic", request.getParameter("topic").trim());
 				tmap.put("kind",0);
+				tmap.put("personType",1);
 				List<ExamQuestion> topicOnly = examQuestionService.selectByTopic(tmap);
 				if(topicOnly.size()!=0){
 					model.addAttribute("ERR_topic", "该题干已存在");
@@ -814,14 +821,15 @@ public class ExpertExamController extends BaseSupplierController{
 	 */
 	@RequestMapping("/editToCom")
 	public String editToCom(Model model,HttpServletRequest request,ExamQuestion examQuestion){
+		String id = request.getParameter("id");
+		examQuestion.setId(id);
 		String[] items = saveOption();
 		StringBuffer sb = new StringBuffer();
-		String id = request.getParameter("id");
 		String content = request.getParameter("content");
 		if(request.getParameter("queType").isEmpty()){
 			model.addAttribute("ERR_type","请选择题型");
 			comQuestion(model, id);
-			return "ses/ems/exam/expert/technical/edit";
+			return "ses/ems/exam/expert/commerce/edit";
 		}
 		String error = "无";
 		String topic = request.getParameter("topic");
@@ -833,6 +841,7 @@ public class ExpertExamController extends BaseSupplierController{
 				HashMap<String,Object> tmap = new HashMap<String,Object>();
 				tmap.put("topic", request.getParameter("topic").trim());
 				tmap.put("kind",1);
+				tmap.put("personType", 1);
 				List<ExamQuestion> topicOnly = examQuestionService.selectByTopic(tmap);
 				if(topicOnly.size()!=0){
 					model.addAttribute("ERR_topic", "该题干已存在");
@@ -879,7 +888,7 @@ public class ExpertExamController extends BaseSupplierController{
 		}
 		if(error.equals("topic")||error.equals("option")||error.equals("answer")){
 			comQuestion(model, id);
-			return "ses/ems/exam/expert/technical/edit";
+			return "ses/ems/exam/expert/commerce/edit";
 		}
 		examQuestion.setQuestionTypeId(Integer.parseInt(request.getParameter("queType")));
 		examQuestion.setTopic(request.getParameter("topic"));
@@ -1718,6 +1727,7 @@ public class ExpertExamController extends BaseSupplierController{
 				HashMap<String,Object> map = new HashMap<String,Object>();
 				map.put("kind", 2);
 				map.put("topic", queTopic.toString());
+				map.put("personType", 1);
 				List<ExamQuestion> sameTopic = examQuestionService.selectByTopic(map);
 				if(sameTopic.size()!=0){
 					str="1";

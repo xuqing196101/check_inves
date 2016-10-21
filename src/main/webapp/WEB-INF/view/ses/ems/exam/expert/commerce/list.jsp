@@ -188,7 +188,7 @@
 			<c:forEach items="${commerceList.list }" var="c" varStatus="vs">
 				<tr class="pointer">
 					<td class="tc"><input type="checkbox" name="info" value="${c.id }"/></td>
-					<td class="tc" onclick="view('${c.id }')">${(vs.index+1)+(technicalList.pageNum-1)*(technicalList.pageSize)}</td>
+					<td class="tc" onclick="view('${c.id }')">${(vs.index+1)+(commerceList.pageNum-1)*(commerceList.pageSize)}</td>
 					<td class="tc" onclick="view('${c.id }')">${c.examQuestionType.name }</td>
 					<c:if test="${fn:length(c.topic)>20}">
 						<td onclick="view('${c.id }')">${fn:substring(c.topic,0,20)}...</td>

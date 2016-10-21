@@ -31,9 +31,10 @@
     <include refid="Base_Column_List" />
     from T_SES_EMS_EXAM_QUESTION
     WHERE
-    	PERSON_TYPE = 1
-    AND	
-    	KIND = #{kind}
+    	PERSON_TYPE = #{personType}
+    <if test="kind != null and kind != ''">
+       AND KIND = #{kind} 
+    </if>
     AND dbms_lob.instr(TOPIC,#{topic})>0 
   </select>
   

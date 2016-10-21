@@ -230,12 +230,14 @@
      	<div class="content padding-left-25 padding-right-25 padding-top-5">
    		<table class="table table-bordered table-condensed table-hover">
 	    	<thead>
-		    	<th class="info"><input type="checkbox" id="selectAll" onclick="selectAll()"/></th>
-		    	<th class="info w50">序号</th>
-		    	<th class="info w60 tc">题型</th>
-		    	<th class="info">题干</th>
-		    	<th class="info">选项</th>
-		    	<th class="info w50">答案</th>
+	    		<tr class="info">
+			    	<th class="w50"><input type="checkbox" id="selectAll" onclick="selectAll()"/></th>
+			    	<th class="w50">序号</th>
+			    	<th class="w60">题型</th>
+			    	<th>题干</th>
+			    	<th>选项</th>
+			    	<th class="w50">答案</th>
+		    	</tr>
 	    	</thead>
 	    	<tbody>
 	    		<c:forEach items="${purchaserQuestionList.list }" var="purchaser" varStatus="vs">

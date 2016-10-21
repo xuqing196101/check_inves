@@ -49,7 +49,7 @@
 				$("#queTopic").attr("disabled",false);
 				$("#queTopic").val(" ");
 				$("#items").hide();
-				$("#answers").html("<input type='radio' name='judge' value='对' class='mt0'/>对<input type='radio' name='judge' value='错' class='mt0'/>错 ");
+				$("#answers").html("<input type='radio' name='answer' value='对' class='mt0'/>对<input type='radio' name='answer' value='错' class='mt0'/>错 ");
 			}else{
 				document.getElementById("queTopic").setAttribute("disabled",true);
 				document.getElementById("options").setAttribute("disabled",true);
@@ -64,7 +64,7 @@
 		function changeOpt(){
 			var queType = $("#queType").val();
 			var options = $("#options").val();
-			if(options==" "||options==null){
+			if(options==""||options==null){
 				$("#item").html(" ");
 				$("#answers").html(" ");
 				return;
@@ -73,7 +73,7 @@
 			var ohtml="";
 			var ahtml="";
 			for(var i=0;i<array.length;i++){
-			   	ohtml = ohtml+"<div class='clear mt10 col-md-12 p0'><div class='fl mt5'>"+array[i]+"</div><textarea name='option' class='ml5 col-md-9 p0'></textarea></div>";
+			   	ohtml = ohtml+"<div class='clear mt10 col-md-12 p0'><div class='fl mt5'><div class='red star_red'>*</div>"+array[i]+"</div><textarea name='option' class='ml5 col-md-9 p0'></textarea></div>";
 				if(queType==1){
 					ahtml = ahtml+"<input type='radio' name='answer' value='"+array[i]+"' class='mt0'/>"+array[i]+"&nbsp";
 				}else if(queType==2){
@@ -108,20 +108,22 @@
   		<ul class="list-unstyled list-flow p0_20">
 		     <li class="col-md-12 p0">
 	  			<span class="fl"><div class="red star_red">*</div>请选择题型：</span>
-		  		<select id="queType" name="queType" onchange="changeType()">
-		  			<option value=" ">请选择</option>
+		  		<select id="queType" name="queType" onchange="changeType()" class="fl">
+		  			<option value="">请选择</option>
 		  			<option value="1">单选题</option>
 		  			<option value="2">多选题</option>
 		  			<option value="3">判断题</option>
 		  		</select>
+		  		<div class="fl red mt5 ml5">${ERR_type}</div>
 	  		</li>
 	  		
 	  		
 	  		
   			<li class="col-md-12 p0">
 			   <span class="fl"><div class="red star_red">*</div>题干：</span>
-			   <div class="">
-		        	<textarea class="text_area col-md-8" name="queTopic" id="queTopic"></textarea>
+			    <div class="fl mt5 col-md-9 p0">
+		        	<textarea class="text_area col-md-8" name="topic" id="queTopic"></textarea>
+		       		<div class="clear red">${ERR_topic}</div>
 		       </div>
 			</li> 
 			
@@ -130,7 +132,7 @@
 				<span class="fl"><div class="red star_red">*</div>请选择选项数量：</span>
 				<div class="fl col-md-9 p0">
 					<select id="options" name="options" onchange="changeOpt()" class="fl">
-			  			<option value=" ">请选择</option>
+			  			<option value="">请选择</option>
 			  			<option value="three">3</option>
 			  			<option value="four">4</option>
 			  			<option value="five">5</option>
@@ -140,26 +142,15 @@
 			  			<option value="nine">9</option>
 			  			<option value="ten">10</option>
 		  			</select>
+					<div class="red fl ml5 mt5">${ERR_option }</div> 
 					<div class="col-md-9 clear p0" id="item"></div>
-			       	<div class="clear red">${ERR_option }</div>
 			    </div>
 			 </li> 
   		
   				`<li class="col-md-12 p0">
 					<span class="fl"><div class="red star_red">*</div>答案：</span>
 					<div class="fl ml5 mt5" id="answers"></div>
-			       	<div class="clear red">${ERR_answer }</div>
-						<%--<div class="fl mt5" id="selects">
-					         <input type="radio" id="A" name="que" value="A" class="mt0"/>A 
-				  			 <input type="radio" id="B" name="que" value="B" class="mt0"/>B
-				  			 <input type="radio" id="C" name="que" value="C" class="mt0"/>C
-				  			 <input type="radio" id="D" name="que" value="D" class="mt0"/>D
-				       	</div>
-					   	<div class="clear fl mt5" id="judge">
-							 <input type="radio" name="judge" value="对" class="mt0"/>对
-							 <input type="radio" name="judge" value="错" class="mt0"/>错
-				       	</div>
-			     	--%>
+			       	<div class="mt5 ml5 red fl">${ERR_answer }</div>
 				</li>
   		
   			</ul>

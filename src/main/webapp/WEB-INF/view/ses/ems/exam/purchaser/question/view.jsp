@@ -29,15 +29,15 @@
 				ohtml = ohtml+"<div class='clear mt10'><div class='fl mt5'>"+array[i]+"</div><textarea name='option' class='ml5 col-md-8' disabled>"+ct[i].substring(2)+"</textarea></div>";
 				if(queType==1){
 					if(queAnswer.indexOf(array[i])>-1){
-						ahtml = ahtml+"<input type='radio' name='answer' value='"+array[i]+"' class='mt0' checked='checked' disabled/>"+array[i];
+						ahtml = ahtml+"<input type='radio' name='answer' value='"+array[i]+"' class='mt0' checked='checked' disabled/>"+array[i]+"&nbsp";
 					}else{
-						ahtml = ahtml+"<input type='radio' name='answer' value='"+array[i]+"' class='mt0' disabled/>"+array[i];
+						ahtml = ahtml+"<input type='radio' name='answer' value='"+array[i]+"' class='mt0' disabled/>"+array[i]+"&nbsp";
 					}
 				}else if(queType==2){
 					if(queAnswer.indexOf(array[i])>-1){
-						ahtml = ahtml+"<input type='checkbox' name='answer' value='"+array[i]+"' class='mt0' checked='checked' disabled/>"+array[i];
+						ahtml = ahtml+"<input type='checkbox' name='answer' value='"+array[i]+"' class='mt0' checked='checked' disabled/>"+array[i]+"&nbsp";
 					}else{
-						ahtml = ahtml+"<input type='checkbox' name='answer' value='"+array[i]+"' class='mt0' disabled/>"+array[i];
+						ahtml = ahtml+"<input type='checkbox' name='answer' value='"+array[i]+"' class='mt0' disabled/>"+array[i]+"&nbsp";
 					}
 				}
 			}
@@ -76,9 +76,9 @@
   	
   			<ul class="list-unstyled list-flow p0_20">
 		     	<li class="col-md-12 p0">
-	  				<span class="fl"><div class="red star_red">*</div>请选择题型：</span>
+	  				<span class="fl">请选择题型：</span>
 			  		<select id="queType" name="queType" disabled="disabled">
-			  			<option value=" ">请选择</option>
+			  			<option value="">请选择</option>
 			  			<c:forEach items="${examPoolType }" var="e">
 			  				<c:choose>
 			  					<c:when test="${e.id==purchaserQue.questionTypeId }">
@@ -93,7 +93,7 @@
   				</li>
   		
 		  		<li class="col-md-12 p0">
-					<span class="fl"><div class="red star_red">*</div>题干：</span>
+					<span class="fl">题干：</span>
 					<div class="">
 			  			<textarea disabled="disabled" class="text_area col-md-8" name="queTopic" id="queTopic">${purchaserQue.topic }</textarea>
 		  			</div>
@@ -101,7 +101,7 @@
   		
   		
   			<li class="col-md-12 p0" id="items">
-				<span class="fl"><div class="red star_red">*</div>请选择选项数量：</span>
+				<span class="fl">请选择选项数量：</span>
 				<div class="fl col-md-9 p0">
 					<select id="options" name="options" class="fl" disabled="disabled">
 			  			<option value=" ">请选择</option>
@@ -161,7 +161,7 @@
   		
   		
 	  		<li class="col-md-12 p0">
-				<span class="fl"><div class="red star_red">*</div>答案：</span>
+				<span class="fl">答案：</span>
 				<div class="fl ml5 mt5" id="answers"></div>
 	  		</li>
   		

@@ -197,35 +197,86 @@ public class PurchaserExamController extends BaseSupplierController{
 	@RequestMapping("/saveToPurPool")
 	public String saveToPurPool(Model model,HttpServletRequest request,ExamQuestion examQuestion){
 		String[] items = saveOption();
-		examQuestion.setQuestionTypeId(Integer.parseInt(request.getParameter("queType")));
-		examQuestion.setTopic(request.getParameter("queTopic"));
-		if(request.getParameter("option")!=null){
-			String[] option = request.getParameterValues("option");
-			String item = items[option.length];
-			String[] opt = item.split(",");
-			StringBuffer sb_option = new StringBuffer();
-			for(int i=0;i<opt.length;i++){
-				sb_option.append(opt[i]+"."+option[i]+";");
+		String queType = request.getParameter("queType");
+		StringBuffer sb_answer = new StringBuffer();
+		if(queType==null||queType.equals("")){
+			model.addAttribute("ERR_type","请选择题型");
+			optionNum(model);
+			return "ses/ems/exam/purchaser/question/add";
+		}
+		String error = "无";
+		String topic = request.getParameter("topic");
+		if(topic==null||topic.equals(" ")){
+			error = "topic";
+			model.addAttribute("ERR_topic", "题干不能为空");
+		}else{
+			HashMap<String,Object> tmap = new HashMap<String,Object>();
+			tmap.put("topic", request.getParameter("topic").trim());
+			tmap.put("personType", 2);
+			List<ExamQuestion> topicOnly = examQuestionService.selectByTopic(tmap);
+			if(topicOnly.size()!=0){
+				model.addAttribute("ERR_topic", "该题干已存在");
+				error = "topic";
 			}
-			examQuestion.setItems(sb_option.toString());
+		}
+		if(queType.equals("1")||queType.equals("2")){
+			if(request.getParameter("options").isEmpty()){
+				error = "option";
+				model.addAttribute("ERR_option","请选择选项数量");
+			}else{
+				String[] option = request.getParameterValues("option");
+				String item = items[option.length];
+				String[] opt = item.split(",");
+				outer:for(int i=0;i<option.length;i++){
+					if(option[i].isEmpty()){
+						model.addAttribute("ERR_option", "选项内容不能为空");
+						error = "option";
+						break outer;
+					}else if(i==option.length-1){
+						for(int j=0;j<option.length;j++){
+							if(option[j].indexOf(";")>-1||option[j].indexOf("；")>-1){
+								model.addAttribute("ERR_option", "选项内容不能输入分号");
+								error = "option";
+								break outer;
+							}
+						}
+						StringBuffer sb_option = new StringBuffer();
+						for(int j=0;j<opt.length;j++){
+							sb_option.append(opt[j]+"."+option[j]+";");
+						}
+						examQuestion.setItems(sb_option.toString());
+					}
+				}
+				String[] answer = request.getParameterValues("answer");
+				if(answer==null){
+					model.addAttribute("ERR_answer", "请选择答案");
+					error = "answer";
+				}else{
+					for(int i = 0;i<answer.length;i++){
+						sb_answer.append(answer[i]);
+					}
+				}
+			}
 		}else{
 			examQuestion.setItems(" ");
+			String[] answer = request.getParameterValues("answer");
+			if(answer==null){
+				model.addAttribute("ERR_answer", "请选择答案");
+				error = "answer";
+			}else{
+				for(int i = 0;i<answer.length;i++){
+					sb_answer.append(answer[i]);
+				}
+			}
 		}
+		if(error.equals("topic")||error.equals("option")||error.equals("answer")){
+			optionNum(model);
+			return "ses/ems/exam/purchaser/question/add";
+		}
+		examQuestion.setQuestionTypeId(Integer.parseInt(request.getParameter("queType")));
+		examQuestion.setTopic(request.getParameter("topic"));
 		examQuestion.setPersonType(2);
 		examQuestion.setCreatedAt(new Date());
-		StringBuffer sb_answer = new StringBuffer();
-		if(request.getParameter("answer")!=null){
-			String[] answer = request.getParameterValues("answer");
-			for(int i = 0;i<answer.length;i++){
-				sb_answer.append(answer[i]);
-			}
-		}
-		if(request.getParameter("judge")!=null){
-			String[] judge = request.getParameterValues("judge");
-			for(int i = 0;i<judge.length;i++){
-				sb_answer.append(judge[i]);
-			}
-		}
 		examQuestion.setAnswer(sb_answer.toString());
 		examQuestionService.insertSelective(examQuestion);
 		return "redirect:purchaserList.html";
@@ -285,30 +336,93 @@ public class PurchaserExamController extends BaseSupplierController{
 	* @return String
 	 */
 	@RequestMapping("/editToPurchaser")
-	public String editToPurchaser(HttpServletRequest request,ExamQuestion examQuestion){
+	public String editToPurchaser(HttpServletRequest request,ExamQuestion examQuestion,Model model){
 		examQuestion.setId(request.getParameter("id"));
-		examQuestion.setTopic(request.getParameter("queTopic"));
-		String[] queOption = request.getParameterValues("option");
-		StringBuffer sb_option = new StringBuffer();
-		sb_option.append("A."+queOption[0].trim()+";");
-		sb_option.append("B."+queOption[1].trim()+";");
-		sb_option.append("C."+queOption[2].trim()+";");
-		sb_option.append("D."+queOption[3].trim()+";");
-		examQuestion.setItems(sb_option.toString());
-		StringBuffer sb = new StringBuffer();
-		if(request.getParameter("que")!=null){
-			String[] queSelect = request.getParameterValues("que");
-			for(int i = 0;i<queSelect.length;i++){
-				sb.append(queSelect[i]);
+		String[] items = saveOption();
+		String content = request.getParameter("content");
+		String queType = request.getParameter("queType");
+		StringBuffer sb_answer = new StringBuffer();
+		if(queType==null||queType.equals("")){
+			model.addAttribute("ERR_type","请选择题型");
+			purchaserQuestion(request.getParameter("id"), model);
+			optionNum(model);
+			return "ses/ems/exam/purchaser/question/add";
+		}
+		String error = "无";
+		String topic = request.getParameter("topic");
+		if(topic==null||topic.equals(" ")){
+			error = "topic";
+			model.addAttribute("ERR_topic", "题干不能为空");
+		}else{
+			if(!content.equals(request.getParameter("topic"))){
+				HashMap<String,Object> tmap = new HashMap<String,Object>();
+				tmap.put("topic", request.getParameter("topic").trim());
+				tmap.put("personType",2);
+				List<ExamQuestion> topicOnly = examQuestionService.selectByTopic(tmap);
+				if(topicOnly.size()!=0){
+					model.addAttribute("ERR_topic", "该题干已存在");
+					error = "topic";
+				}
 			}
 		}
-		if(request.getParameter("judge")!=null){
-			String[] queJudge = request.getParameterValues("judge");
-			for(int i = 0;i<queJudge.length;i++){
-				sb.append(queJudge[i]);
+		if(queType.equals("1")||queType.equals("2")){
+			if(request.getParameter("options").isEmpty()){
+				error = "option";
+				model.addAttribute("ERR_option","请选择选项数量");
+			}else{
+				String[] option = request.getParameterValues("option");
+				String item = items[option.length];
+				String[] opt = item.split(",");
+				outer:for(int i=0;i<option.length;i++){
+					if(option[i].isEmpty()){
+						model.addAttribute("ERR_option", "选项内容不能为空");
+						error = "option";
+						break outer;
+					}else if(i==option.length-1){
+						for(int j=0;j<option.length;j++){
+							if(option[j].indexOf(";")>-1||option[j].indexOf("；")>-1){
+								model.addAttribute("ERR_option", "选项内容不能输入分号");
+								error = "option";
+								break outer;
+							}
+						}
+						StringBuffer sb_option = new StringBuffer();
+						for(int j=0;j<opt.length;j++){
+							sb_option.append(opt[j]+"."+option[j]+";");
+						}
+						examQuestion.setItems(sb_option.toString());
+					}
+				}
+				String[] answer = request.getParameterValues("answer");
+				if(answer==null){
+					model.addAttribute("ERR_answer", "请选择答案");
+					error = "answer";
+				}else{
+					for(int i = 0;i<answer.length;i++){
+						sb_answer.append(answer[i]);
+					}
+				}
+			}
+		}else{
+			examQuestion.setItems(" ");
+			String[] answer = request.getParameterValues("answer");
+			if(answer==null){
+				model.addAttribute("ERR_answer", "请选择答案");
+				error = "answer";
+			}else{
+				for(int i = 0;i<answer.length;i++){
+					sb_answer.append(answer[i]);
+				}
 			}
 		}
-		examQuestion.setAnswer(sb.toString());
+		if(error.equals("topic")||error.equals("option")||error.equals("answer")){
+			optionNum(model);
+			purchaserQuestion(request.getParameter("id"), model);
+			return "ses/ems/exam/purchaser/question/add";
+		}
+		examQuestion.setQuestionTypeId(Integer.parseInt(request.getParameter("queType")));
+		examQuestion.setTopic(request.getParameter("topic"));
+		examQuestion.setAnswer(sb_answer.toString());
 		examQuestionService.updateByPrimaryKeySelective(examQuestion);
 		return "redirect:purchaserList.html";
 	}

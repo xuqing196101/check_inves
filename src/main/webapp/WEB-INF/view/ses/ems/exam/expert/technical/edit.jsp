@@ -149,7 +149,7 @@
 		        	<textarea class="text_area col-md-8" name="topic" id="queTopic">${tecQue.topic }</textarea>
 		       		<div class="clear red">${ERR_topic}</div>
 		       </div>
-			 </li> 
+			</li> 
 		   
 	  	
 	  		<li class="col-md-12 p0">

@@ -26,18 +26,18 @@
 			var content = "${optContent}";
 			var ct = content.split(";");
 			for(var i=0;i<array.length;i++){
-				ohtml = ohtml+"<div class='clear mt10'><div class='fl mt5'>"+array[i]+"</div><textarea name='option' class='ml5 col-md-8'>"+ct[i].substring(2)+"</textarea></div>";
+				ohtml = ohtml+"<div class='clear mt10 col-md-12 p0'><div class='fl mt5'><div class='red star_red'>*</div>"+array[i]+"</div><textarea name='option' class='ml5 col-md-8'>"+ct[i].substring(2)+"</textarea></div>";
 				if(queType==1){
 					if(queAnswer.indexOf(array[i])>-1){
-						ahtml = ahtml+"<input type='radio' name='answer' value='"+array[i]+"' class='mt0' checked='checked'/>"+array[i];
+						ahtml = ahtml+"<input type='radio' name='answer' value='"+array[i]+"' class='mt0' checked='checked'/>"+array[i]+"&nbsp";
 					}else{
-						ahtml = ahtml+"<input type='radio' name='answer' value='"+array[i]+"' class='mt0'/>"+array[i];
+						ahtml = ahtml+"<input type='radio' name='answer' value='"+array[i]+"' class='mt0'/>"+array[i]+"&nbsp";
 					}
 				}else if(queType==2){
 					if(queAnswer.indexOf(array[i])>-1){
-						ahtml = ahtml+"<input type='checkbox' name='answer' value='"+array[i]+"' class='mt0' checked='checked'/>"+array[i];
+						ahtml = ahtml+"<input type='checkbox' name='answer' value='"+array[i]+"' class='mt0' checked='checked'/>"+array[i]+"&nbsp";
 					}else{
-						ahtml = ahtml+"<input type='checkbox' name='answer' value='"+array[i]+"' class='mt0'/>"+array[i];
+						ahtml = ahtml+"<input type='checkbox' name='answer' value='"+array[i]+"' class='mt0'/>"+array[i]+"&nbsp";
 					}
 				}
 			}
@@ -46,9 +46,9 @@
 		}else if(queType==3){
 			$("#items").hide();
 			if(queAnswer=="对"){
-				$("#answers").html("<input type='radio' name='judge' value='对' class='mt0' checked='checked'/>对<input type='radio' name='judge' value='错' class='mt0'/>错 ");
+				$("#answers").html("<input type='radio' name='answer' value='对' class='mt0' checked='checked'/>对<input type='radio' name='answer' value='错' class='mt0'/>错 ");
 			}else if(queAnswer=="错"){
-				$("#answers").html("<input type='radio' name='judge' value='对' class='mt0'/>对<input type='radio' name='judge' value='错' class='mt0' checked='checked'/>错 ");
+				$("#answers").html("<input type='radio' name='answer' value='对' class='mt0'/>对<input type='radio' name='answer' value='错' class='mt0' checked='checked'/>错 ");
 			}
 		}
 	})
@@ -82,7 +82,7 @@
 				$("#queTopic").attr("disabled",false);
 				$("#queTopic").val(" ");
 				$("#items").hide();
-				$("#answers").html("<input type='radio' name='judge' value='对' class='mt0'/>对<input type='radio' name='judge' value='错' class='mt0'/>错 ");
+				$("#answers").html("<input type='radio' name='answer' value='对' class='mt0'/>对<input type='radio' name='answer' value='错' class='mt0'/>错 ");
 			}else{
 				document.getElementById("queTopic").setAttribute("disabled",true);
 				document.getElementById("options").setAttribute("disabled",true);
@@ -97,7 +97,7 @@
 		function changeOpt(){
 			var queType = $("#queType").val();
 			var options = $("#options").val();
-			if(options==" "||options==null){
+			if(options==""||options==null){
 				$("#item").html(" ");
 				$("#answers").html(" ");
 				return;
@@ -106,7 +106,7 @@
 			var ohtml="";
 			var ahtml="";
 			for(var i=0;i<array.length;i++){
-			   	ohtml = ohtml+"<div class='clear mt10 col-md-12 p0'><div class='fl mt5'>"+array[i]+"</div><textarea name='option' class='ml5 col-md-9 p0'></textarea></div>";
+			   	ohtml = ohtml+"<div class='clear mt10 col-md-12 p0'><div class='fl mt5'><div class='red star_red'>*</div>"+array[i]+"</div><textarea name='option' class='ml5 col-md-9 p0'></textarea></div>";
 				if(queType==1){
 					ahtml = ahtml+"<input type='radio' name='answer' value='"+array[i]+"' class='mt0'/>"+array[i]+"&nbsp";
 				}else if(queType==2){
@@ -138,11 +138,12 @@
 		</div>
 		
   	<form action="<%=path %>/purchaserExam/editToPurchaser.html?id=${purchaserQue.id }" method="post" id="form">
+  			<input type="hidden" name="content" value="${purchaserQue.topic }"/>
   			<ul class="list-unstyled list-flow p0_20">
 		     	<li class="col-md-12 p0">
 	  				<span class="fl"><div class="red star_red">*</div>请选择题型：</span>
-			  		<select id="queType" name="queType" onchange="changeType()">
-			  			<option value=" ">请选择</option>
+			  		<select id="queType" name="queType" onchange="changeType()" class="fl">
+			  			<option value="">请选择</option>
 			  			<c:forEach items="${examPoolType }" var="e">
 			  				<c:choose>
 			  					<c:when test="${e.id==purchaserQue.questionTypeId }">
@@ -154,12 +155,14 @@
 			  				</c:choose>
 			  			</c:forEach>
 			  		</select>
+			  		<div class="fl red mt5 ml5">${ERR_type}</div>
   				</li>
   		
 		  		<li class="col-md-12 p0">
 					<span class="fl"><div class="red star_red">*</div>题干：</span>
-					<div class="">
-			  			<textarea class="text_area col-md-8" name="queTopic" id="queTopic">${purchaserQue.topic }</textarea>
+					<div class="fl mt5 col-md-9 p0">
+			  			<textarea class="text_area col-md-8" name="topic" id="queTopic">${purchaserQue.topic }</textarea>
+		  				<div class="clear red">${ERR_topic}</div>
 		  			</div>
 		  		</li>
   		
@@ -168,7 +171,7 @@
 				<span class="fl"><div class="red star_red">*</div>请选择选项数量：</span>
 				<div class="fl col-md-9 p0">
 					<select id="options" name="options" onchange="changeOpt()" class="fl">
-			  			<option value=" ">请选择</option>
+			  			<option value="">请选择</option>
 			  			<c:if test="${optNum==3 }">
 			  				<option value="three" selected>3</option>
 			  			</c:if>
@@ -218,8 +221,8 @@
 			  				<option value="ten">10</option>
 			  			</c:if>
 		  			</select>
+					<div class="red fl ml5 mt5">${ERR_option }</div> 
 					<div class="col-md-9 clear p0" id="item"></div>
-			       	<div class="clear red">${ERR_option }</div>
 			    </div>
 			 </li> 
   		
@@ -229,17 +232,6 @@
 				<span class="fl"><div class="red star_red">*</div>答案：</span>
 				<div class="fl ml5 mt5" id="answers"></div>
 			    <div class="clear red">${ERR_answer }</div>
-					<%--<div class="fl ml5 mt5" id="selects">
-					  	<input type="radio" id="A" name="que" value="A"/>A 
-					  	<input type="radio" id="B" name="que" value="B"/>B 
-					  	<input type="radio" id="C" name="que" value="C"/>C 
-					  	<input type="radio" id="D" name="que" value="D"/>D
-		  			</div>
-		  			<div class="clear ml5 mt5" id="judge">
-			  			<input type="radio" value="对" name="judge" id="judgeTrue"/>对
-			  			<input type="radio" value="错" name="judge" id="judgeFalse"/>错
-		  			</div>
-	  			--%>
 	  		</li>
   		
   		</ul>
