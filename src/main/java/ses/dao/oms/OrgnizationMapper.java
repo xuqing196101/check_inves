@@ -12,7 +12,7 @@ public interface OrgnizationMapper {
 	List<Orgnization> findPurchaseOrgList(HashMap<String, Object> map);
 	int delOrgnizationByid(HashMap<String, Object> map);
 	int updateOrgnizationById(Orgnization orgnization);
-	list
+
 	List<Orgnization> findByName(Map<String, Object> map);
 	
 }
