@@ -49,60 +49,8 @@
 	$("#addnews").append(html1);
    }); 
  
-    /**新增/删除资质输入框*/
-  function addAttach(){
-		html="<input class='mt10' type='text'  name='productName'/><br/>";
-		$("#addinput").append(html);
-	}
-	function addAtt(){
-		html="<input class='mt10' type='text'  name='saleName'/><br/>";
-		$("#addnews").append(html);
-	}
-	function deleteattach(obj){
-		$(obj).prev().remove();
-		$(obj).next().remove();
-		$(obj).remove();
-	} 
-	/**更新参数内容*/
-	function renew(){
-	    var name="";
-    	var value="";
-    	var str="";
-    	var sts="";
-    	var type="";
-    	/**根据name获取各项数据的值*/
-        obj = document.getElementsByName("name");
-        
-        abj = document.getElementsByName("valueType");
-      
-		cbj=document.getElementsByName("productName");
-		
-		dbj=document.getElementsByName("saleName");
+    
 	
-		ebj=document.getElementsByName("type");
-		
-        for ( var i = 0; i < obj.length; i++) {
-			name+=$(obj[i]).val()+",";
-		}
-        for ( var j = 0; j < abj.length; j++) {
-			value+=$(abj[j]).val()+",";
-		}
-		for ( var k= 0; k < cbj.length; k++) {
-			str+=$(cbj[k]).val()+",";
-		}
-        for ( var n = 0; n < dbj.length; n++) {
-			sts+=$(dbj[n]).val()+",";
-		}
-		for ( var m = 0; m < ebj.length; m++) {
-			type+=$(ebj[m]).val()+",";
-		}
-		$("#sss").val(name);
-		$("#bbb").val(value);
-		$("#ddd").val(str);
-		$("#ccc").val(sts);
-		$("#eee").val(type);
-		$("#form").submit();
-	} 
 	$(function(){
 	    var name  = "${cateParam.name}";
 	  
@@ -122,7 +70,50 @@
 	  
 	      $("#result").prepend(html);
 	});
-	function storage(id){
+	$(function(){
+       var name = "${caAptitude.productName}";
+       var saleName = "${caAptitude.saleName}";
+       var names = name.split(",");
+       var saleNames=saleName.split(",");
+       var html = "";
+       var html1="";
+       for ( var i = 0; i < names.length-1; i++) {
+    
+       html = html+"<input class='mt10' type='text' value='"+names[i]+"' name='productName'/><a class='ml10 btn' onclick='deleteattach(this)'>X</a><br/>";
+	}
+		$("#addinput").append(html);
+       for ( var i = 0; i < saleNames[i].length-1; i++) {
+		html1 = html1+"<input class='mt10' type='text' value='"+saleNames[i]+"' name='saleName'/><a class='ml10 btn' onclick='deleteattach(this)'>X</a><br/>";
+	}
+	$("#addnews").append(html1);
+   }); 
+ 
+    /**新增/删除资质输入框*/
+  function addAttach(){
+		html="<input class='mt10' type='text'  name='productName'/><br/>";
+		$("#addinput").append(html);
+	}
+	function addAtt(){
+		html="<input class='mt10' type='text'  name='saleName'/><br/>";
+		$("#addnews").append(html);
+	}
+	function deleteattach(obj){
+		$(obj).prev().remove();
+		$(obj).next().remove();
+		$(obj).remove();
+	} 
+	
+	function sto(val){
+	    $("#storage").val(1);
+	   $("#form").submit();
+	}
+	function publish(obj){
+	   $("#storage").val(2);
+	   $("#form").submit();
+	}
+	function validite(obj){
+	   $("#srorage").val(3);
+	   $("#form").submit();
 	}
 </script>
   </head>
@@ -132,20 +123,19 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a><li><a href="#">产品参数管理</a><li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">产品参数管理</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
    </div>
- <!--   <div class="container"> -->
-   <!-- <div class="col-md-3">
-	</div> -->
+   <div class="container">
 	<div class="headline-v2 clear">
 	   <h2>审核</h2>
 	  </div>
-	<div class="  tag-box ml100 col-md-9">
-                     <form id="form" action="<%=basePath%>categoryparam/change.do" method="post" >
+	          <div class="tag-box ml100 col-md-6">
+                     <form id="form" action="<%=basePath%>categoryparam/audit_param.html" method="post" >
                       <input type="hidden" name="categoryId" value="${category.id}"/>
+                     <input type="hidden" id="storage" name="paramstatus" value=""/>
                      <input type="hidden" id="sss" name="names" value="" />
                      <input type="hidden" id="bbb" name="values" value=" "/>
                      <input type="hidden" id="ddd" name="products" value=""/>
@@ -163,13 +153,22 @@
 					 <span class="ml60"><input type="checkbox" value="1" name="range"/>外网</span>
 					 </td>
 					 </tr>
-				     <tr><td colspan="2" class="" >
-					<input type="button" class="btn mr30" onclick="storage(${'category.id'})" name="valueStatus"  value="暂存"/>
-					<input type="button" class="btn mr30" onclick="publish(${'category.id'})" name="valueStatus"  value="公示"/>
-					<input type="button" class="btn mr30" onclick="validite(${'category.id'})" name="valueStatus"  value="生效"/>
+					 <tr><td>验证规范</td><td>
+					 <textarea name="acceptRange">${category.acceptRange }</textarea></td></tr>
+					 <tr><td>生产型资质</td>
+					 <td><div id="addinput"></div>
+					 </td></tr>
+					 <tr><td>销售型资质</td>
+					 <td><div id="addnews"></div>
+					 </td></tr>
+				     <!-- <tr><td colspan="2" class="" >
 					</td>
-					 </tr> 
+					 </tr>  -->
+					
     </table>
+    				<input type="button" class="btn mr30" onclick="sto('${category.id}')"  value="暂存"/>
+					<input type="button" class="btn mr30" onclick="publish('${category.id}')" value="公示"/>
+					<input type="button" class="btn mr30" onclick="validite('${category.id}')"  value="生效"/>
     </form>
     </div>
   </body>

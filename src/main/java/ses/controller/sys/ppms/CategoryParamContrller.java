@@ -16,9 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 
 
 
-import org.apache.http.protocol.HTTP;
 
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.solr.common.util.Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -29,12 +29,19 @@ import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryAptitude;
 import ses.model.bms.CategoryTree;
+import ses.model.oms.Orgnization;
 import ses.model.ppms.CategoryParam;
 import ses.service.bms.CategoryAptitudeService;
 import ses.service.bms.CategoryService;
+import ses.service.oms.OrgnizationServiceI;
 import ses.service.ppms.CategoryParamService;
 
+
+
+import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
+
+
 
 @Controller
 @Scope("prototype")
@@ -47,7 +54,8 @@ public class CategoryParamContrller extends BaseSupplierController{
 	@Autowired
 	private CategoryAptitudeService categoryAptitudeService;//品目资质
 	
-	
+	@Autowired
+	private OrgnizationServiceI orgnizationServiceI;
 	
 	/**
 	 * 
@@ -117,10 +125,7 @@ public class CategoryParamContrller extends BaseSupplierController{
 		category.setIsPublish(1);
 	    }
 		String kinds=request.getParameter("kinds");
-		/*String kind = "";
-		for (int i = 0; i < kinds.length; i++) {
-			kind+= kinds[i]+",";
-		}*/
+		
 		category.setKind(kinds);
 		category.setAcceptRange(request.getParameter("acceptRange"));
 	    category.setParamStatus(0);
@@ -130,16 +135,10 @@ public class CategoryParamContrller extends BaseSupplierController{
 	    categoryParam.setCreatedAt(new Date());
 		categoryParamService.insertSelective(categoryParam);
 		String productNames= request.getParameter("products");
-	/*	String productName="";
-		for (int i = 0; i < productNames.length; i++) {
-			productName+=productNames[i]+",";
-		}*/
+	
 		categoryAptitude.setProductName(productNames);
 		String saleNames = request.getParameter("sales");
-		/*String saleName="";
-	   	for (int i = 0; i < saleNames.length; i++) {
-	   		saleName+=saleNames[i]+"";
-		}*/
+		
 	   	categoryAptitude.setCreatedAt(new Date());
 	   	categoryAptitude.setSaleName(saleNames);
 	   	categoryAptitudeService.insertSelective(categoryAptitude);
@@ -211,10 +210,7 @@ public class CategoryParamContrller extends BaseSupplierController{
 		category.setIsPublish(1);
 	    }
 		String kinds=request.getParameter("kinds");
-		/*String kind = "";
-		for (int i = 0; i < kinds.length; i++) {
-			kind+= kinds[i]+",";
-		}*/
+		
 		category.setKind(kinds);
 		category.setAcceptRange(request.getParameter("acceptRange"));
 	    categoryService.updateByPrimaryKeySelective(category);
@@ -224,149 +220,211 @@ public class CategoryParamContrller extends BaseSupplierController{
 		categoryParamService.updateByPrimaryKeySelective(cateparam);
 	
 		String productNames= request.getParameter("products");
-		/*String productName="";
-		for (int i = 0; i < productNames.length; i++) {
-			productName+=productNames[i]+",";
-		}*/
+		
 		cateAptitude.setProductName(productNames);
 		String saleNames = request.getParameter("sales");
-	/*	String saleName="";
-	   	for (int i = 0; i < saleNames.length; i++) {
-	   		saleName+=saleNames[i]+"";
-		}*/
+
 		cateAptitude.setUpdatedAt(new Date());
 		cateAptitude.setSaleName(saleNames);
 	   	categoryAptitudeService.updateByPrimaryKeySelective(cateAptitude);
 		return "redirect:getAll.html";
     }
     
-    /**
-  	* 
-  	* @Title: 进入审核菜单页面
-  	* @author Zhang XueFeng
-  	* @Description:
-  	* @param get1 
-  	* @return String
-    */
-    @RequestMapping("/audit")
-    public String get1(HttpServletRequest request,Model model){
-    	List<Category> cate=categoryService.selectAll();
-    	model.addAttribute("cate",cate);
-    	return "ses/ppms/categoryparam/audit";
-    	
+    @RequestMapping("/import")
+    public void imports() throws FileNotFoundException{
+   	/* Workbook workbook;
+   	 InputStream is = new FileInputStream(new File("D:\\"));*/
     }
+    /**********************************参数审核*************************************************************************/
     /**
-  	* 
-  	* @Title: 进入查询页面
-  	* @author Zhang XueFeng
-  	* @Description:
-  	* @param getAll 
-  	* @return String
-    */
-    @RequestMapping("/look")
-    public String getAll(HttpServletRequest request,Model model){
-    	return "ses/ppms/categoryparam/search";
-    	
-    }
-    /**
-   	 * 
-   	 * @Title: select
-   	 * @author Zhang XueFeng/	
-     * @Description:根据品目id查询参数信息进入审核页面
-   	 * @param @return 	
-   	 * @return void
-     */ 
-    @RequestMapping("/selectOne")
-    public String select(HttpServletResponse response,String id,Model model){
-   CategoryParam cateParam=categoryParamService.selectByPrimaryKey(id);
-   Category category=categoryService.selectByPrimaryKey(id);
-  CategoryAptitude caAptitude=categoryAptitudeService.queryByCategoryId(id);
-    model.addAttribute("cateParam",cateParam);
-    model.addAttribute("category",category);
-    model.addAttribute("caAptitude",caAptitude);
-    return "ses/ppms/categoryparam/auditinfo";
-     }
-    /**
-   	 * 
-   	 * @Title: select
-   	 * @author Zhang XueFeng/	
-     * @Description:根据品目id查询参数信息进入审核页面
-   	 * @param @return 	
-   	 * @return void
+     * 
+     * @Title: change
+     * @author Zhang XueFeng/	
+     * @Description:进入审核列表页面
+     * @param @return 	
+     * @return void
      */ 
     @RequestMapping("/change")
     public String change(HttpServletResponse response,String id,Category category){
-         category.setParamStatus(1);
-         categoryService.updateByPrimaryKey(category);
-  
-    return "ses/ppms/categoryparam/auditinfo";
+    	return "ses/ppms/categoryparam/audit";
+    }
+    
+    /**
+   	 * 
+   	 * @Title: searchCategory
+   	 * @author Zhang XueFeng/	
+     * @Description:根据品目状态查询列表
+   	 * @param 
+   	 * @return String
+     */ 
+    @RequestMapping("/search_category")
+    public String searchCategory(HttpServletResponse response,HttpServletRequest request,Model model,Integer page){
+    	String status = request.getParameter("paramstatus");
+    	Integer paramstatus = Integer.parseInt(status);
+    	if(page==null){
+			page=1;
+		}
+    	Map<String, Integer> map = new HashMap<String, Integer>();
+    	map.put("paramStatus", paramstatus);
+    	map.put("page", page);
+    	List<Category> cate = categoryService.listByParamstatus(map);
+    	model.addAttribute("list",new PageInfo<Category>(cate));
+    	model.addAttribute("cate",cate);
+    return "ses/ppms/categoryparam/audit";
      }
-   /**
-  	* 
-  	* @Title: 导入excel中的内容
-  	* @author Zhang XueFeng
-  	* @Description:
-  	* @param @return 
-  	* @return String
-    * @throws IOException 
-    * @throws FileNotFoundException 
-    */
-     /*  @RequestMapping("/read")
- 	public void read(Integer length) throws IOException {
- 		   Workbook workbook;
- 		   InputStream is = new FileInputStream(new File("D:\\add\\基础数据字典.xlsx"));
- 			try {
- 				workbook = new XSSFWorkbook(is);
- 			} catch (FileNotFoundException e) {
- 				workbook = new HSSFWorkbook(is);
- 			}
- 			Sheet sheet = workbook.getSheetAt(4);
- 			for(int i=0;i<sheet.getPhysicalNumberOfRows();i++){
- 				Row row = sheet.getRow(i);
- 				if(row==null){
- 					continue;
- 				}
- 				
- 				Cell queType = row.getCell(0);
- 				Cell name = row.getCell(1);
- 				if(length==null){
- 					length=1;
- 				}
- 				if(queType.toString().length()==length){
- 					if(length!=1){
- 						Category category = new Category();
- 					List<Category> list=categoryService.selectAll();  
- 					for(int k=0;k<list.size();k++){
- 						//这个数据库的数据和queType的length-2的截取字符串对比 //查询语句lenngth-2;select  from category by
- 						if((list.get(k).getCode()).equals(queType.toString().substring(0, length-2))){
- 								category.setParentId(list.get(k).getId());
- 								category.setName(name.toString());
- 								category.setCode(queType.toString());
- 								categoryService.insertSelective(category);
- 						}
- 					}
- 			}else{
- 				    Category category = new Category();
- 				    category.setCode(queType.toString());
- 				    category.setName(name.toString());
- 				    category.setParentId("a");
- 					categoryService.insertSelective(category);//插入语句
- 					}
- 				}
- 			}
-      read(length+=2);
-     
-     	
- 	   }*/
-     @RequestMapping("/import")
-     public void imports() throws FileNotFoundException{
-    	 Workbook workbook;
-    	 InputStream is = new FileInputStream(new File("D:\\"));
-	
-    	 
-    	 
-     }
-     
+    /**
+   	 * 
+   	 * @Title: queryCategory
+   	 * @author Zhang XueFeng/	
+     * @Description:创建审核详情页面
+   	 * @param 
+   	 * @return String
+     */
+    @RequestMapping("/query_category")
+    public String queryCategory(Model model,String id){
+    	CategoryParam cateParam = categoryParamService.selectByPrimaryKey(id);
+    	Category category = categoryService.selectByPrimaryKey(id);
+    	CategoryAptitude caAptitude = categoryAptitudeService.queryByCategoryId(id);
+    	model.addAttribute("cate",cateParam);
+    	model.addAttribute("category",category);
+    	model.addAttribute("caAptitude",caAptitude);
+		return "ses/ppms/categoryparam/auditinfo";
+    }
+   
+    /**
+   	 * @Title: queryCategory
+   	 * @author Zhang XueFeng/	
+     * @Description:审核页面添加公示范围，改变参数状态
+   	 * @param id
+   	 * @return void
+     */
+    @RequestMapping("/audit_param")
+    public void auditParam(HttpServletRequest request,Model model,String id,Category category){
+    	category.setParamPublishRange(Integer.parseInt(request.getParameter("range")));
+    	category.setParamStatus(Integer.parseInt(request.getParameter("storage")));
+    	categoryService.updateByPrimaryKeySelective(category);
+    }
+    /**
+     * @Title: publish
+     * @author Zhang XueFeng/	
+     * @Description:进入待发布列表页面
+     * @param id
+     * @return string
+     */
+    @RequestMapping("/publish")
+    public String publish(HttpServletRequest request,Model model,Integer page){
+    	if(page==null){
+			page=1;
+		}
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	map.put("page", page);
+    	List<Category> cate = categoryService.findByStatus(map);
+    	model.addAttribute("list",new PageInfo<Category>(cate));
+    	model.addAttribute("page",page);
+    	model.addAttribute("cate",cate);
+    	return "ses/ppms/categoryparam/unrelease";
+    	
+    }
+    /**
+     * @Title: queryCategory
+     * @author Zhang XueFeng/	
+     * @Description:进入发布页面
+     * @param id
+     * @return string
+     */
+    @RequestMapping("/publish_category")
+    public String publishCategory(HttpServletRequest request,Model model,String id){
+    	CategoryParam cateParam = categoryParamService.selectByPrimaryKey(id);
+    	Category category = categoryService.selectByPrimaryKey(id);
+    	CategoryAptitude caAptitude = categoryAptitudeService.queryByCategoryId(id);
+    	model.addAttribute("cate",cateParam);
+    	model.addAttribute("category",category);
+    	model.addAttribute("caAptitude",caAptitude);
+    	return "ses/ppms/categoryparam/publish";
+    	
+    } 
+    /***********************************************参数分配*******************************************************************/ 
+    
+    
+    /**
+     * @Title: query_orgnization
+     * @author Zhang XueFeng/	
+     * @Description:按照事业部门  负责人查询
+     * @param id
+     * @return string
+     */
+    @RequestMapping("/get_allocate")
+    public String getAllocate(HttpServletRequest request){
+        return "ses/ppms/categoryparam/allocate";    	
+    }
+    /**
+     * @Title: query_orgnization
+     * @author Zhang XueFeng/	
+     * @Description:按照事业部门  负责人查询
+     * @param id
+     * @return string
+     */
+    @RequestMapping("/query_orgnization")
+    public String queryOrgnization(HttpServletRequest request,Model model,Integer page){
+    	/*String name = request.getParameter("name");
+    	String princinpal = request.getParameter("princinpal");
+    	if(page==null){
+			page=1;
+		}
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	map.put("name", name);
+    	map.put("princinpal", princinpal);
+    	map.put("page", page);
+    	List<Orgnization>  cate = orgnizationServiceI.findByName(map);
+    	model.addAttribute("list",new PageInfo<Orgnization>(cate));
+    	model.addAttribute("cate",cate);*/
+    	return "ses/ppms/categoryparam/allocate";
+    }
+    
+   /**************************************************按产品查询和按目录查询************************************************************************/
+    /**
+     * @Title: getCategoryparam
+     * @author Zhang XueFeng/	
+     * @Description:进入查询页面
+     * @param id
+     * @return string
+     */
+    @RequestMapping("/get_categoryparam")
+    public String getCategoryparam(){
+    	return "ses/ppms/categoryparam/search";
+    }
+    /**
+     * @Title: checkCategoryparam
+     * @author Zhang XueFeng/	
+     * @Description:进入按目录查询页面
+     * @param id
+     * @return string
+     */ 
+    @RequestMapping("/check_categoryparam")
+    public String checkCategoryparam(){
+	    return "ses/ppms/categoryparam/searchinfo";
+ }  
+    /**
+     * @Title: searchOrgnization
+     * @author Zhang XueFeng/	
+     * @Description:根据产品名称进行模糊查
+     * @param id
+     * @return string
+     */ 
+    @RequestMapping("/search_orgnization")
+    public String searchOrgnization(HttpServletRequest request,Model model,Integer page,Orgnization orgnization){
+    	String name = request.getParameter("name");
+    	if(page==null){
+			page=1;
+		}
+    	/*Map<String, Object> map = new HashMap<String, Object>();
+    	map.put("name", name);
+    	map.put("page", page);
+    	List<Category> cate = categoryService.listByKeyword(map);
+    	model.addAttribute("list",new PageInfo<Category>(cate));
+    	model.addAttribute("cate",cate);*/
+		return "ses/ppms/categoryparam/search";
+    }
      /**
       * @Title: listByCategoryId
       * @author: Wang Zhaohua
@@ -377,6 +435,18 @@ public class CategoryParamContrller extends BaseSupplierController{
       * @param: @return
       * @return: String
       */
+    @RequestMapping("/search_info")
+    public void searchInfo(String id,HttpServletResponse response){
+    	List<CategoryAptitude> categoryAptitudes = categoryAptitudeService.findProductByCategoryId(id);
+    	List<CategoryParam>  categoryParams = categoryParamService.findListByCategoryId(id);
+    	Category cate = categoryService.selectByPrimaryKey(id);	
+    	cate.setCategoryParams(categoryParams);
+    	cate.setCategoryAptitudes(categoryAptitudes);
+    	/*CategoryAptitude caAptitude=categoryAptitudeService.queryByCategoryId(id);*/
+    	 super.writeJson(response, cate);
+    } 
+ 
+ /***********************************************************************************************************************************/
      @RequestMapping(value = "list_by_category_id")
      public String listByCategoryId(Model model, String categoryId, String productsId, Integer sign) {
     	 Map<String, String> param = new HashMap<String, String>();

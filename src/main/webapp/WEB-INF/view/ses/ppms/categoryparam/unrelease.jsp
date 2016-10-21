@@ -8,7 +8,7 @@
   <head>
     <base href="<%=basePath%>">
     
-    <title>My JSP 'audit.jsp' starting page</title>
+    <title>My JSP 'unrelease.jsp' starting page</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -18,15 +18,8 @@
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-
-
-  
-<link rel="stylesheet" type="text/css" href="<%=basePath%>/public/ztree/css/zTreeStyle.css"> 
-<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.core.js"></script>
-<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.excheck.js"></script>
-<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.exedit.js"></script>
 <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
-<script src="<%=basePath%>public/layer/layer.js"></script>
+ <script src="<%=basePath%>public/layer/layer.js"></script>
 <script type="text/javascript">
 $(function(){
 	  laypage({
@@ -44,16 +37,12 @@ $(function(){
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		            location.href = "<%=basePath%>categoryparam/search_category.html?page="+e.curr;
+		            location.href = "<%=basePath%>categoryparam/publish.html?page="+e.curr;
 		        }
 		    }
 		});
-  });
-  function query(){
-      var paramstatus =$("#paramstatus").val();
-      window.location.href="<%=basePath%>categoryparam/search_category.html?paramstatus="+paramstatus;
-  }
-  /** 单选 */
+});
+/** 单选 */
 function check(){
 		 var count=0;
 		 var checklist = document.getElementsByName ("chkItem");
@@ -71,32 +60,29 @@ function check(){
 				 }
 		   }
 	}
-	function audit(){
+function publish(){
 	
-    	var id=[]; 
-		$('input[name="chkItem"]:checked').each(function(){ 
-			id.push($(this).val());
-		}); 
-		if(id.length==1){
-			
-			window.location.href="<%=basePath%>categoryparam/query_category.html?id="+id;
-		}else if(id.length>1){
-			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
-		}else{
-			layer.alert("请选择需要审核的品目",{offset: ['222px', '390px'], shade:0.01});
-		}
-    }
-	
+	var id=[]; 
+	$('input[name="chkItem"]:checked').each(function(){ 
+		id.push($(this).val());
+	}); 
+	if(id.length==1){
+		
+		window.location.href="<%=basePath%>categoryparam/publish_category.html?id="+id;
+	}else if(id.length>1){
+		layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+	}else{
+		layer.alert("请选择需要发布的产品参数",{offset: ['222px', '390px'], shade:0.01});
+	}
+}
 </script>
-</head>
-
-<body>
-
+  </head>
+  <body>
 	  <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">产品参数管理</a></li><li><a href="#">审核列表</a></li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">产品参数管理</a></li><li><a href="#">发布列表</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -104,25 +90,16 @@ function check(){
 
    <div class="container">
    <div class="headline-v2">
-     <h2>审核</h2>
+     <h2>待发布</h2>
    </div>
  <div class="container clear">
   <div class="p10_25">
      <h2 class="padding-10 border1">
     	<ul class="demand_list">
-    	  <li class="fl">
-	    	<label class="fl">产品状态：</label>
-	    	<select id="paramstatus">
-	    	<option selected="selected" value="">---请选择---</option>
-	    	<option value="0">已提交</option>
-	    	<option value="1">暂存</option>
-	    	</select>
-	      </li> 
-	    	<button type="button" onclick="query()" class="btn">查询</button>
-	    	<button type="button" onclick="audit()" class="btn">审核</button>  	
+	    	<button type="button" onclick="publish()" class="btn">发布</button>
     	</ul>
     	  <div class="clear"></div>
-     
+       </form>
      </h2>
    </div>
   </div>
@@ -134,20 +111,23 @@ function check(){
 	                <th class="info w80">序号</th>
 	                <th class="info">产品名称</th>
 	                <th class="info">产品状态</th>
+	                <th class="info">是否公开</th>
 	                <th class="info">创建时间</th>
 	            </tr>
 	        </thead>	
 	        <c:forEach var="cate" items="${cate}" varStatus="vs">
 	            <tr>
-	            <td class="tc pointer"><input  onclick="check('${cate.id}')" type="checkbox" name="chkItem" value="${cate.id}"/></td>
+	            <td class="tc pointer"><input  onclick="check()" type="checkbox" name="chkItem" value="${cate.id}"/></td>
 	            <td class="w50 tc pointer" >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 	            <td class="tc pointer" >${cate.name }</td>
 	            <td class="tc pointer" ><c:choose>
-						<c:when test="${cate.paramStatus=='0'}">
-							已提交
+						<c:when test="${cate.paramStatus=='3'}">
+							生效
 						</c:when>
-						<c:when test="${cate.paramStatus=='1'}">
-							暂存
+					</c:choose></td>
+			    <td class="tc pinter"><c:choose>
+						<c:when test="${cate.isPublish=='1'}">
+							是
 						</c:when>
 					</c:choose></td>
 	            <td class="tc pointer">${cate.createdAt }</td>

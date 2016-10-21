@@ -20,7 +20,7 @@
 	-->
 	<link rel="stylesheet" type="text/css" href="<%=basePath%>/public/ztree/css/zTreeStyle.css"> 
 <script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.core.js"></script>
-<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.excheck.js"></script>
+
 <script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.exedit.js"></script>
 	<script type="text/javascript">
 	var datas;
@@ -115,11 +115,53 @@
 	 		});
 		} 
 	
-	
+	$(function(){
+	    var name  = "${cateParam.name}";
+	  
+	    var value = "${cateParam.valueType}";
+	    var names = name.split(",");
+	  
+	    var values = value.split(",");
+	     var html = "";
+	     for ( var i = 0 ; i< names.length-1; i++){
+				html = html +"<tr><td>参数名称：<input type='text' value='"+names[i]+"'/></td><td>"
+				+"<select  name='valueType'>"
+				+"<option value='' selected='selected'>"+values[i]+"</option>"
+				+"<option value='字符型'>字符型</option>"
+				+"<option value='数字型'>数字型</option>"
+				+"<option value='日期'>日期</option><select/></td></tr>";
+	     }
+	  
+	      $("#result").prepend(html);
+	});
 	</script>
   </head>
   
   <body>
- 
+ 	<!--面包屑导航开始-->
+   <div class="margin-top-10 breadcrumbs ">
+      <div class="container">
+		   <ul class="breadcrumb margin-left-0">
+		   <li><a href="#"> 首页</a></li><li><a href="#">产品参数管理</a></li><li><a href="#">参数发布</a></li>
+		   </ul>
+		<div class="clear"></div>
+	  </div>
+   </div>
+   <div class="container">
+  
+	<div class=" tag-box tag-box-v3 mt10 col-md-9">
+	
+	 <span><a href="javascript:void(0);" onclick="publish()" class="btn">发布</a></span>
+	 <span><a href="javascript:void(0);" onclick="location.href='javascript:history.go(-1);'" class="btn btn-windows back">返回</a></span>
+	      <form action="<%=basePath%>categoryparam/publish_param.html" method="post">
+	          <table id="result">
+	          <tr><td>
+	          
+	          
+	          </td></tr>
+	          </table>
+	      </form>
+	</div>
+	</div>
   </body>
 </html>

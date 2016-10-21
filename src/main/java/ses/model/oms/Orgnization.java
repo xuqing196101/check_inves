@@ -2,6 +2,9 @@ package ses.model.oms;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
+import ses.model.bms.Category;
 
 public class Orgnization implements Serializable {
     /**
@@ -69,7 +72,29 @@ public class Orgnization implements Serializable {
     private String cityName;
     private String townName;
     private String requireDepId;
-    public String getId() {
+    
+    private Integer status;
+   /* private Category category;
+    
+    
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}*/
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public String getId() {
         return id;
     }
 

@@ -8,12 +8,15 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+
 import ses.dao.bms.CategoryMapper;
 import ses.dao.sms.SupplierItemMapper;
 import ses.model.bms.Category;
 import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierTypeTree;
 import ses.service.bms.CategoryService;
+import ses.util.PropertiesUtil;
 
    /**
     * 
@@ -70,7 +73,9 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public List<Category> listByKeyword(Map map) {
+	public List<Category> listByKeyword(Map<String, Object> map) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
 		return categoryMapper.listByKeyword(map);
 	}
 
@@ -167,6 +172,22 @@ public class CategoryServiceImpl implements CategoryService {
 	public BigDecimal checkName(String name) {
 		// TODO Auto-generated method stub
 		return categoryMapper.checkName(name);
+	}
+
+	@Override
+	public List<Category> listByParamstatus(Map<String, Integer> map) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
+		return categoryMapper.listByParamstatus(map);
+	}
+
+	
+
+	@Override
+	public List<Category> findByStatus(Map<String, Object> map) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
+		return categoryMapper.findByStatus();
 	}
 	
 	
