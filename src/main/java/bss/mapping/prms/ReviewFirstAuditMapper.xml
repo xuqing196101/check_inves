@@ -12,12 +12,23 @@
    <sql id="Base_Column_List">
   PROJECT_ID, FIRST_AUDIT_ID, SUPPLIER_ID, IS_PASS, PACKAGE_ID,REJECT_REASON
   </sql>
-   <!-- 根据项目id和包id查询关联表集合 -->
+   <!-- 根据传递的条件查询关联表集合 -->
   <select id="selectList"  resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from T_BSS_PRMS_REVIEW_FIRST_AUDIT
-    where PACKAGE_ID = #{packageId} AND PROJECT_ID = #{projectId}
+   <if test="projectId != null and projectId != ''">
+       where PROJECT_ID = #{projectId}
+      </if>
+      <if test="firstAuditId != null and firstAuditId != ''">
+       AND FIRST_AUDIT_ID = #{firstAuditId} 
+      </if>
+      <if test="supplierId != null and supplierId != ''">
+       AND SUPPLIER_ID = #{supplierId} 
+      </if>
+      <if test="packageId != null and packageId != ''">
+       AND PACKAGE_ID = #{packageId} 
+      </if>
   </select>
   <!-- 根据条件删除 -->
    <delete id="delete">
@@ -32,7 +43,7 @@
        AND SUPPLIER_ID = #{supplierId} 
       </if>
       <if test="packageId != null and packageId != ''">
-       AND PACKAGE_ID = #{projectId} 
+       AND PACKAGE_ID = #{packageId} 
       </if>
   </delete>
   <insert id="insert" parameterType="bss.model.prms.ReviewFirstAudit">

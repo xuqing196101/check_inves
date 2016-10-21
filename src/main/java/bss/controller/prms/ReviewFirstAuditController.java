@@ -91,6 +91,8 @@ public class ReviewFirstAuditController {
 		}
 	    //放入初审项集合
 		extension.setFirstAuditList(firstAuditList);
+		
+		/*假数据*/
 		List<Supplier> supplierList = new ArrayList<>();
 		Supplier s = new Supplier();
 		s.setId("111");
@@ -101,9 +103,17 @@ public class ReviewFirstAuditController {
 		supplierList.add(s);
 		supplierList.add(s2);
 		extension.setSupplierList(supplierList);
+		
 		/**
 		 * 还差供应商集合
 		 * */
+		//查询审核过的信息用于回显
+		Map<String, Object> reviewFirstAuditMap = new HashMap<>();
+		reviewFirstAuditMap.put("projectId", projectId);
+		reviewFirstAuditMap.put("packageId", packageId);
+		List<ReviewFirstAudit> reviewFirstAuditList = service.selectList(reviewFirstAuditMap);
+		//回显信息放进去
+		model.addAttribute("reviewFirstAuditList", reviewFirstAuditList);
 		//把封装的实体放入域中
 		model.addAttribute("extension", extension);
 		return "bss/prms/review_first_audit";
@@ -142,6 +152,7 @@ public class ReviewFirstAuditController {
 	  * @return void
 	 */
 	@RequestMapping("addAll")
+	@ResponseBody
 	public void addAll(String projectId,String packageId,String supplierId,Short flag,String rejectReason){
 		//查询改包下的初审项信息
 		Map<String,Object> map2 = new HashMap<>();
@@ -169,5 +180,30 @@ public class ReviewFirstAuditController {
 			    service.save(reviewFirstAudit);
 		      }
 		    }
+	}
+	/**
+	 * 
+	  * @Title: getReason
+	  * @author ShaoYangYang
+	  * @date 2016年10月21日 下午4:50:24  
+	  * @Description: TODO 查询审核理由
+	  * @param @return      
+	  * @return String
+	 */
+	@RequestMapping("getReason")
+	@ResponseBody
+	public ReviewFirstAudit getReason(String projectId,String packageId,String supplierId,String firstAuditId){
+		Map<String, Object> map = new HashMap<>();
+		map.put("projectId", projectId);
+    	map.put("packageId", packageId);
+    	map.put("supplierId", supplierId);
+    	map.put("firstAuditId", firstAuditId);
+		List<ReviewFirstAudit> list = service.selectList(map );
+		if(list!=null && list.size()>0){
+			ReviewFirstAudit reviewFirstAudit = list.get(0);
+			return reviewFirstAudit;
+		}else{
+			return null;
+		}
 	}
 }
