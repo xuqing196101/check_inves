@@ -47,4 +47,13 @@ public class ContractProductServiceImpl implements ContractProductService {
 		return contractProductMapper.select(contractProduct);
 	}
 
+
+	/**
+	 * 更改状态
+	 */
+	@Override
+	public void update(ContractProduct contractProduct) {
+		contractProductMapper.update(contractProduct);
+	}
+
 }

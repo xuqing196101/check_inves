@@ -1,5 +1,6 @@
 package bss.model.sstps;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -24,7 +25,7 @@ public class ComprehensiveCost {
 
     private Integer difference;
 
-    private double reduce;
+    private BigDecimal reduce;
 
     private Integer checkResult;
 
@@ -96,11 +97,11 @@ public class ComprehensiveCost {
 		this.difference = difference;
 	}
 
-	public double getReduce() {
+	public BigDecimal getReduce() {
 		return reduce;
 	}
 
-	public void setReduce(double reduce) {
+	public void setReduce(BigDecimal reduce) {
 		this.reduce = reduce;
 	}
 

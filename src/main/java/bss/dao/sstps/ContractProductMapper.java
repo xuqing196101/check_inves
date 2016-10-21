@@ -11,5 +11,7 @@ public interface ContractProductMapper {
     ContractProduct selectByPrimaryKey(String id);
     
     List<ContractProduct> select(ContractProduct record);
+    
+    int update(ContractProduct record);
 
 }

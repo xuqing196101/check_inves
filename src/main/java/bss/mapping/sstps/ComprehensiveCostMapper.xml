@@ -13,8 +13,8 @@
     <result column="CHECK_DIFFERENCE"  property="checkDifference" />
     <result column="CHECK_REDUCE"  property="checkReduce" />
     <result column="REMARK" property="remark" />
-    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
-    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     <result column="STATUS" property="status" />
     
     <association property="contractProduct" column="PRODUCT_ID" select="bss.dao.sstps.AppraisalContractMapper.selectById"/>

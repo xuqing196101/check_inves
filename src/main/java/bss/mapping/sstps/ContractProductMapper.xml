@@ -91,4 +91,14 @@
     </trim>
   </insert>
   
+  
+  <update id="update" parameterType="bss.model.sstps.ContractProduct">
+ 	 update T_BSS_SSTPS_CONTRACT_PRODUCT
+  	<set>
+  		OFFER = #{offer}
+  	</set>
+  	where ID = #{id}
+  </update>
+  
+  
 </mapper>

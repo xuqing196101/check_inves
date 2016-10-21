@@ -8,7 +8,7 @@
   <head>
     <script type="text/javascript" src="<%=request.getContextPath()%>/public/layer/layer.js"></script>
     <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
-    <title>申请合同分配</title>
+    <title>产品报价</title>
     
 <script type="text/javascript">
 
@@ -135,6 +135,7 @@ function offer(){
 	  				<th class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 	  				<th class="info">序号</th>
 	  				<th class="info">产品名称</th>
+	  				<th class="info">状态</th>
 	  			</tr>
 	  		</thead>
 	  		<c:forEach items="${list.list}" var="product" varStatus="vs">
@@ -142,6 +143,12 @@ function offer(){
 	  				<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${product.id }" /></td>
 	  				<td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 	  				<td class="tc">${product.name }</td>
+	  				<c:if test="${product.offer==0 }">
+	  					<td class="tc">未报价</td>
+	  				</c:if>
+	  				<c:if test="${product.offer==1 }">
+	  					<td class="tc">已报价</td>
+	  				</c:if>
 	  			</tr>
 	  		</c:forEach>
 		  </table>
