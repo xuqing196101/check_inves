@@ -64,6 +64,10 @@
 			   check:{
 					enable: true
 			   },
+			   view:{
+			        selectedMulti: false,
+			        showTitle: false,
+			   },
          };
 	 
     $.fn.zTree.init($("#ztree"),setting,datas);
@@ -228,8 +232,6 @@
 </head>
 
 <body>
-
-<div class="wrapper">
 	<!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
@@ -267,6 +269,6 @@
     </form>
         </div>
 	</div>
-	</div>
+>
 </body>
 </html>

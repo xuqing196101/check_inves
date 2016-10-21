@@ -22,7 +22,30 @@
 <script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.core.js"></script>
 <script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.excheck.js"></script>
 <script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.exedit.js"></script>
+<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+<script src="<%=basePath%>public/layer/layer.js"></script>
 <script type="text/javascript">
+$(function(){
+	  laypage({
+		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+		    pages: "${list.pages}", //总页数
+		    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+		    skip: true, //是否开启跳页
+		    total: "${list.total}",
+		    startRow: "${list.startRow}",
+		    endRow: "${list.endRow}",
+		    groups: "${list.pages}">=3?3:"${list.pages}", //连续显示分页数
+		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+		        var page = location.search.match(/page=(\d+)/);
+		        return page ? page[1] : 1;
+		    }(), 
+		    jump: function(e, first){ //触发分页后的回调
+		        if(!first){ //一定要加此判断，否则初始时会无限刷新
+		            location.href = "<%=basePath%>categoryparam/search_category.html?page="+e.curr;
+		        }
+		    }
+		});
+  });
 var datas;
 	var treeid=null;
  $(document).ready(function(){
@@ -46,7 +69,8 @@ var datas;
 						parent:true
 					},
 					key:{
-						title:"title"
+						title:"title",
+						
 					},
 					simpleData:{
 						enable:true,
@@ -65,6 +89,10 @@ var datas;
 				},
 			   check:{
 					enable: true
+			   },
+			   view:{
+			        selectedMulti: false,
+			        showTitle: false,
 			   },
          };
 	 
@@ -114,30 +142,96 @@ var datas;
 	 			url:"<%=basePath%>category/rename.do?id="+treeNode.id+"&name="+newName,
 	 		});
 		} 
+    function query(){
+         window.location.href="<%=basePath%>catgoryparam/query_orgnization.html"
+    }
+     /** 单选 */
+    function check(){
+		 var count=0;
+		 var checklist = document.getElementsByName ("chkItem");
+		 var checkAll = document.getElementById("checkAll");
+		 for(var i=0;i<checklist.length;i++){
+			   if(checklist[i].checked == false){
+				   checkAll.checked = false;
+				   break;
+			   }
+			   for(var j=0;j<checklist.length;j++){
+					 if(checklist[j].checked == true){
+						   checkAll.checked = true;
+						   count++;
+					   }
+				 }
+		   }
+	}
+	function query(){
+        window.location.href="<%=basePath%>categoryparam/query_orgnization.html"; 	
+	}
+	function allocate(){
+		var id=[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			id.push($(this).val());
+		}); 
+		if(id.length==1){
+			
+			window.location.href="<%=basePath%>categoryparam/edit_allocate.html?id="+id;
+		}else if(id.length>1){
+			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+		}else{
+			layer.alert("请选择需要分配的部门",{offset: ['222px', '390px'], shade:0.01});
+		}
+		
+	}
+	function unallocate(){
+		
+	}
 	
-	
-
 </script>
   </head>
   <body>
-  <div>
-   <span>事业单位：</span><input type="text" name="" value=""/>
-        <span>所属领导：</span><input type="text" name="" value=""/>
-        <input type="button" value="查询"/>
-        <input type="button" value="分配"/>
-        <input type="button" value="取消分配"/> 
-        <table>
+  <!--面包屑导航开始-->
+   <div class="margin-top-10 breadcrumbs ">
+      <div class="container">
+		   <ul class="breadcrumb margin-left-0">
+		   <li><a href="#"> 首页</a></li><li><a href="#">产品参数管理</a></li><li><a href="#">分配</a></li>
+		   </ul>
+		<div class="clear"></div>
+	  </div>
+   </div>
+   <div class="container">
+   <div class="col-md-3">
+     
+	 <div class="tag-box tag-box-v3 mt10">
+	 <div><ul id="ztree" class="ztree "></ul></div>
+	 </div>
+	</div >
+   <div class=" tag-box tag-box-v3 mt10 col-md-9">
+   <span>事业单位：</span><input type="text" name="name" value="" class="mt10"/>
+        <span>所属领导：</span><input type="text" name="princinpal" value="" class="mt10"/>
+        <input type="hidden" value="" name="status" id="status"/>
+        <input type="button"  value="查询" onclick="query()" class="btn"/>
+        <input type="button" value="分配" onclick="allocate('${cate.id}')"class="btn"/>
+        <input type="button" value="取消分配" onclick="unallocate('${cate.id}')" class="btn"/> 
+        <table class="table table-bordered table-condensedb mt15" >
             <thead>    
                 <tr>
-                <th class="info"><input id="selectAll" type="checkbox" onclick="selectAll()"  /></th>
-                <th class="info">序号</th>
+                <th class="info w50"><input id="selectAll" type="checkbox" onclick="selectAll()"  /></th>
+                <th class="info w80">序号</th>
                 <th class="info">事业部门</th>
                 <th class="info">领导</th>
                 <th class="info">电话</th>
                 <th class="info">状态</th>
                 </tr>
             </thead>
+            <c:forEach var="cate" items="${cate}"  varStatus="vs">
+                <td class="tc pointer"><input  onclick="check('${cate.id}')" type="checkbox" name="chkItem" value="${cate.id}"/></td>
+                <td class="tc pointer">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+                <td class="tc pointer">${cate.name}</td>
+                <td class="tc pointer">${cate.princinpal}</td>
+                <td class="tc pointer">${cate.telephone}</td>
+                <td class="tc pointer">${cate.status}</td>
+            </c:forEach>
        </table>
+        <div id="pagediv" align="right"></div>
  </div>
   </body>
 </html>

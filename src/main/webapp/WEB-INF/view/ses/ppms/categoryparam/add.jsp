@@ -71,6 +71,10 @@
 			   check:{
 					enable: true
 			   },
+			   view:{
+			        selectedMulti: false,
+			        showTitle: false,
+			   },
  };
  $.fn.zTree.init($("#ztree"),setting,datas); 
  
@@ -199,8 +203,6 @@
 </script>
      </head>
  <body>
-
-  
 	<!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
@@ -216,7 +218,7 @@
 	 <div class="tag-box tag-box-v3 mt10">
 	 <div><ul id="ztree" class="ztree "></ul></div>
 	 </div>
-	</div >
+
 		<div class=" tag-box tag-box-v4 mt10 col-md-9">
 			<span id="add"><a href="javascript:void(0);" onclick="news()" class="btn btn-windows add ">添加参数 </a></span>
 			<span><a href="javascript:void(0);" onclick="update()" class="btn btn-windows edit">修改参数 </a></span>

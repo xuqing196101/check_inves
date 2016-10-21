@@ -9,6 +9,7 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import ses.model.oms.Orgnization;
 import ses.model.ppms.CategoryParam;
 import ses.model.sms.SupplierType;
 /**
@@ -91,7 +92,7 @@ public class Category {
    private Integer paramPublishRange;
 
    private CategoryAttachment categoryAttchment;
-   
+
    private List<CategoryAptitude> categoryAptitudes;
 	
    private List<CategoryParam> categoryParams;
@@ -102,7 +103,7 @@ public class Category {
 	return supplierTypes;
 }
 
-public void setSupplierTypes(List<SupplierType> supplierTypes) {
+    public void setSupplierTypes(List<SupplierType> supplierTypes) {
 	this.supplierTypes = supplierTypes;
 }
 
@@ -249,15 +250,6 @@ public void setSupplierTypes(List<SupplierType> supplierTypes) {
 	public void setIsPublish(Integer isPublish) {
 		this.isPublish = isPublish;
 	}
-
-	/*public Integer getKind() {
-		return kind;
-	}
-
-	public void setKind(Integer kind) {
-		this.kind = kind;
-	}*/
-	
 
 	public String getAcceptRange() {
 		return acceptRange;

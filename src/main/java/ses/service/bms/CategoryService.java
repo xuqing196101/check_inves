@@ -119,7 +119,7 @@ import ses.model.sms.SupplierTypeTree;
 	* @param @param id
 	* @return int
 	 */
-	public List<Category> listByKeyword(Map map);
+	public List<Category> listByKeyword(Map<String, Object> map);
 	
 
 	/**
@@ -166,4 +166,15 @@ import ses.model.sms.SupplierTypeTree;
 		* @return Integer
 		*/
     public BigDecimal checkName(String name); 
+    /**
+	 * 
+	* @Title: listByParamstatus
+	* @author zhangxuefeng 
+	* @Description:根据参数状态查询品目
+	* @param @param category
+	* @return     List
+	 */
+   public List<Category> listByParamstatus(Map<String, Integer> map);
+   
+    public List<Category> findByStatus(Map<String, Object> map);
 }
