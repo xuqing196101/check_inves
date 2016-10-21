@@ -6,7 +6,7 @@
 <html class=" js cssanimations csstransitions" lang="en">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<title></title>
+<title>供应商列表</title>
 <!-- Meta -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -107,10 +107,12 @@
     
     
     //重置搜索栏
-  function resetForm() {
-   var a = $("input[name='supplierName']").val("");
 
-  }
+  function resetForm(){
+      $("#supplierName").attr("value","");
+        //还原select下拉列表只需要这一句
+      $("#status option:selected").removeAttr("selected");
+    }
 </script>
 </head>
 <body>
@@ -141,11 +143,11 @@
               <label class="fl mt5">审核状态：</label> 
                 <select name="status" class="mb0 mt5">
                   <option value="">全部</option>
-                  <option value="0">待初审</option>
-                  <option value="1">待复审</option>
-                  <option value="3">已审核</option>
-                  <option value="2">初审核未通过</option>
-                  <option value="4">复审不通过</option>
+                  <option <c:if test="${state == 0 }">selected</c:if> value="0">待初审</option>
+                  <option <c:if test="${state == 1 }">selected</c:if> value="1">待复审</option>
+                  <option <c:if test="${state == 3 }">selected</c:if> value="3">已审核</option>
+                  <option <c:if test="${state == 2 }">selected</c:if> value="2">初审核未通过</option>
+                  <option <c:if test="${state == 4 }">selected</c:if> value="4">复审不通过</option>
                   
                </select> 
            </li>
@@ -194,8 +196,8 @@
             <td class="tc" id="${list.id}">
                <c:if test="${list.status==0 }">待初审</c:if>
                <c:if test="${list.status==1 }">待复审</c:if>
-               <c:if test="${list.status==2 }">初审核未通过</c:if>
                <c:if test="${list.status==3 }">已审核</c:if>
+               <c:if test="${list.status==2 }">初审核未通过</c:if> 
                <c:if test="${list.status==4 }">复审未通过</c:if>
             </td>
           </tr>

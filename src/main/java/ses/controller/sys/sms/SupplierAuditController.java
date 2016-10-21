@@ -34,7 +34,6 @@ import ses.model.sms.SupplierMatSe;
 import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierProducts;
 import ses.model.sms.SupplierStockholder;
-import ses.model.sms.SupplierType;
 import ses.service.bms.CategoryService;
 import ses.service.bms.TodosService;
 import ses.service.sms.SupplierAuditService;
@@ -117,10 +116,10 @@ public class SupplierAuditController extends BaseSupplierController{
 		todo.setIsFinish((short)0);
 		//标题
 		todo.setName("供应商复审");
-		/*User user1=(User) request.getSession().getAttribute("loginUser");
-		//自己的id
-		todo.setSenderId(user1.getId());*/
-		//代办人id
+		User user=(User) request.getSession().getAttribute("loginUser");
+		//发送人id
+		todo.setSenderId(user.getId());
+		//接收人id
 		Supplier supplier = supplierAuditService.supplierById(supplierId);
 		todo.setReceiverId(supplier.getProcurementDepId());
 
@@ -389,6 +388,13 @@ public class SupplierAuditController extends BaseSupplierController{
 		return "ses/sms/supplier_audit/audit_reasons";
 	}
 	
+	@RequestMapping("showReasonsList")
+	public void showReasonsList(HttpServletResponse reponse,String supplierId){
+		List<SupplierAudit> reasonsList = supplierAuditService.selectByPrimaryKey(supplierId);
+		super.writeJson(reponse, reasonsList);
+	}
+	
+	
 	/**
 	 * @Title: updateStatus
 	 * @author Xu Qing
@@ -564,11 +570,28 @@ public class SupplierAuditController extends BaseSupplierController{
 		super.removeStash(request, fileName);
 	}
 	
+	/**
+	 * @Title: supplierAll
+	 * @author Xu Qing
+	 * @date 2016-10-21 上午9:45:39  
+	 * @Description: 全部供应商
+	 * @param @param request
+	 * @param @param supplier
+	 * @param @param page
+	 * @param @return      
+	 * @return String
+	 */
 	@RequestMapping(value = "supplierAll")
 	public String supplierAll(HttpServletRequest request,Supplier supplier,Integer page) {
 		List<Supplier> supplierAll =supplierAuditService.supplierList(supplier,page==null?1:page);
 		request.setAttribute("result", new PageInfo<>(supplierAll));
 		request.setAttribute("supplierAll", supplierAll);
+		
+		//回显名字
+		String supplierName = supplier.getSupplierName();
+		Integer status = supplier.getStatus();
+		request.setAttribute("supplierName", supplierName);
+		request.setAttribute("state", status);
 		return "ses/sms/supplier_audit/supplier_all";
 	}	
 }

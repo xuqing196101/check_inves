@@ -111,18 +111,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/jquery.easing.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/james.js"></script>
 <script type="text/javascript">
+  //默认不显示叉
+   $(function() {
+    $("td").each(function() {
+    $(this).find("a").eq(0).hide();
+    });
+  });
+  $(function() {
+    $("a").each(function() {
+      $(this).parent("div").find("div").eq(0).hide();
+    });
+  });
+
 function reason(id){
   var supplierId=$("#supplierId").val();
   var auditField=$("#"+id).text()+"年财务"; //审批的字段名字
   var auditType=$("#financial").text();//审核类型
   var auditContent=$("#"+id).text()+"年财务信息";//审批的字段内容
-   layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
+  layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
     $.ajax({
         url:"<%=basePath%>supplierAudit/auditReasons.html",
         type:"post",
         data:"auditType="+auditType+"&auditField="+auditField+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId,
       });
-      $("#"+id+"_hide").hide();
+     $("#"+id+"_show").show();
       layer.msg("审核不通过的理由是："+text,{offset:'200px'});
     });
 }
@@ -132,16 +144,16 @@ function reason1(year, ele){
   var value = $(ele).parents("li").find("span").text().replaceAll("：","");//审批的字段名字
   var auditField=year+"年"+value;//审批的字段名字
   var auditType=$("#financial").text();//审核类型
-	  layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
-	    $.ajax({
-	        url:"<%=basePath%>supplierAudit/auditReasons.html",
-	        type:"post",
-	        /* data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId, */
-	        data:"auditType="+auditType+"&auditField="+auditField+"&auditContent=附件"+"&suggest="+text+"&supplierId="+supplierId,
-	      });
-	      $(ele).parent("div").find("div").eq(0).hide(); //隐藏勾
-	      layer.msg("审核不通过的理由是："+text,{offset:'200px'});
-	    });
+    layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
+      $.ajax({
+          url:"<%=basePath%>supplierAudit/auditReasons.html",
+          type:"post",
+          /* data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId, */
+          data:"auditType="+auditType+"&auditField="+auditField+"&auditContent=附件"+"&suggest="+text+"&supplierId="+supplierId,
+        });
+        $(ele).parent("li").find("div").eq(1).show(); //隐藏勾
+        layer.msg("审核不通过的理由是："+text,{offset:'200px'});
+      });
 }
 
 function tijiao(str){
@@ -204,17 +216,17 @@ function tijiao(str){
               <li class="active"><a aria-expanded="true" href="#tab-2" data-toggle="tab" onclick="tijiao('financial');" id="financial">财务信息</a></li>
               <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('shareholder');">股东信息</a></li>
               <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
-	            <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" onclick="tijiao('materialProduction');">物资-生产型专业信息</a></li>
-	            </c:if>
-	            <c:if test="${fn:contains(supplierTypeNames, '销售型')}">
-	            <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('materialSales');">物资-销售型专业信息</a></li>
-	            </c:if>
-	            <c:if test="${fn:contains(supplierTypeNames, '工程')}">
-	            <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('engineering');">工程-专业信息</a></li>
-	            </c:if>
-	            <c:if test="${fn:contains(supplierTypeNames, '服务')}">
-	            <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('service');">服务-专业信息</a></li>
-	            </c:if>
+              <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" onclick="tijiao('materialProduction');">物资-生产型专业信息</a></li>
+              </c:if>
+              <c:if test="${fn:contains(supplierTypeNames, '销售型')}">
+              <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('materialSales');">物资-销售型专业信息</a></li>
+              </c:if>
+              <c:if test="${fn:contains(supplierTypeNames, '工程')}">
+              <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('engineering');">工程-专业信息</a></li>
+              </c:if>
+              <c:if test="${fn:contains(supplierTypeNames, '服务')}">
+              <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('service');">服务-专业信息</a></li>
+              </c:if>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('items');">品目信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('product');" id="product">产品信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('applicationFrom');">申请表</a></li>
@@ -238,24 +250,23 @@ function tijiao(str){
                        <th class="info">负债总额</th>
                        <th class="info">净资产总额</th>
                        <th class="info">营业收入</th>
-                       <th class="info w80">操作</th>
+                       <th class="info w50"></th>
                      </tr>
                    </thead>
                      <c:forEach items="${financial}" var="f" varStatus="vs">
                        <tr>
                          <td class="tc">${vs.index + 1}</td>
                          <td class="tc" id="${f.id }">${f.year }</td>
-                         <td class="tc">${f.name }</td>
-                         <td class="tc">${f.telephone }</td>
-                         <td class="tc">${f.auditors }</td>
-                         <td class="tc">${f.quota }</td>
-                         <td class="tc">${f.totalAssets }</td>
-                         <td class="tc">${f.totalLiabilities }</td>
-                         <td class="tc">${f.totalNetAssets}</td>
-                         <td class="tc">${f.taking}</td>
-                         <td class="tc">
-                          <a id="${f.id }_hide" class="b f18 fl ml10 red hand">√</a>
-                          <a onclick="reason('${f.id}');" class="b f18 fl ml10 hand">×</a>
+                         <td class="tc" onclick="reason('${f.id}');" >${f.name }</td>
+                         <td class="tc" onclick="reason('${f.id}');">${f.telephone }</td>
+                         <td class="tc" onclick="reason('${f.id}');">${f.auditors }</td>
+                         <td class="tc" onclick="reason('${f.id}');">${f.quota }</td>
+                         <td class="tc" onclick="reason('${f.id}');">${f.totalAssets }</td>
+                         <td class="tc" onclick="reason('${f.id}');">${f.totalLiabilities }</td>
+                         <td class="tc" onclick="reason('${f.id}');">${f.totalNetAssets}</td>
+                         <td class="tc" onclick="reason('${f.id}');">${f.taking}</td>
+                         <td class="tc" >
+                         <a id="${f.id}_show" class="b f18 fl ml10 hand" >×</a>
                          </td>
                        </tr>
                      </c:forEach>
@@ -263,11 +274,11 @@ function tijiao(str){
                   
                   <c:forEach items="${financial}" var="f" varStatus="vs">
                   <div class=" margin-bottom-0 fl">
-	                  <h2 class="f16 jbxx">
-	                  <i>01</i>${f.year }年
-	                  </h2>
+                    <h2 class="f16 jbxx">
+                    <i>01</i>${f.year }年
+                    </h2>
                     <ul class="list-unstyled list-flow">
-                      <li class="col-md-6 p0 "><span class="">财务审计报告意见表：</span>
+                      <li class="col-md-6 p0 "><span class="" onclick="reason1('${f.year }', this);">财务审计报告意见表：</span>
                         <div class="input-append">
                           <c:if test="${f.auditOpinion != null}">
                             <a class="span3 green" onclick="downloadFile('${f.auditOpinion}')">附件下载</a>
@@ -275,11 +286,10 @@ function tijiao(str){
                           <c:if test="${f.auditOpinion == null}">
                             <a class="span3 red">无附件下载</a>
                           </c:if>
-                          <div  class="b f18 fl ml10 red hand">√</div>
-                          <div onclick="reason1('${f.year }', this);" class="b f18 fl ml10 hand">×</div>
+                          <div  class="b f18 ml10 hand">×</div>
                         </div>
                       </li>
-                      <li class="col-md-6 p0 "><span class="">资产负债表：</span>
+                      <li class="col-md-6 p0 "><span class="" onclick="reason1('${f.year }', this);">资产负债表：</span>
                         <div class="input-append">
                           <c:if test="${f.liabilitiesList !=null}">
                             <a class="span3 green" onclick="downloadFile('${f.liabilitiesList}')">附件下载</a>
@@ -287,11 +297,10 @@ function tijiao(str){
                           <c:if test="${f.liabilitiesList == null}">
                             <a class="span3 red">无附件下载</a>
                           </c:if>
-                          <div class="b f18 fl ml10 red hand">√</div>
-                          <div onclick="reason1('${f.year }', this);" class="b f18 fl ml10 hand">×</div>
+                          <div  class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
-                      <li class="col-md-6 p0 "><span class="">利润表：</span>
+                      <li class="col-md-6 p0 "><span class="" onclick="reason1('${f.year }', this);">利润表：</span>
                         <div class="input-append">
                           <c:if test="${f.profitList !=null}">
                             <a class="span3 green" onclick="downloadFile('${f.profitList}')">附件下载</a>
@@ -299,11 +308,10 @@ function tijiao(str){
                           <c:if test="${f.profitList == null}">
                             <a class="span3 red">无附件下载</a>
                           </c:if>
-                          <div class="b f18 fl ml10 red hand">√</div>
-                          <div onclick="reason1('${f.year }', this);" class="b f18 fl ml10 hand">×</div>
+                          <div  class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
-                      <li class="col-md-6 p0 "><span class="" >现金流量表：</span>
+                      <li class="col-md-6 p0 "><span class="" onclick="reason1('${f.year }', this);">现金流量表：</span>
                         <div class="input-append">
                           <c:if test="${f.cashFlowStatement !=null}">
                             <a class="span3 green" onclick="downloadFile('${f.cashFlowStatement}')">附件下载</a>
@@ -311,11 +319,10 @@ function tijiao(str){
                           <c:if test="${f.cashFlowStatement == null}">
                             <a class="span3 red">无附件下载</a>
                           </c:if>
-                          <div class="b f18 fl ml10 red hand">√</div>
-                          <div onclick="reason1('${f.year }', this);" class="b f18 fl ml10 hand">×</div>
+                          <div class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
-                      <li class="col-md-6 p0 "><span class="" >所有者权益变动表：</span>
+                      <li class="col-md-6 p0 "><span class="" onclick="reason1('${f.year }', this);">所有者权益变动表：</span>
                         <div class="input-append">
                           <c:if test="${f.changeList !=null}">
                             <a class="span3 green" onclick="downloadFile('${f.changeList}')">附件下载</a>
@@ -323,8 +330,7 @@ function tijiao(str){
                           <c:if test="${f.changeList == null}">
                             <a class="span3 red">无附件下载</a>
                           </c:if>
-                          <div class="b f18 fl ml10 red hand">√</div>
-                          <div onclick="reason1('${f.year }', this);" class="b f18 fl ml10 hand">×</div>
+                          <div class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
                     </ul>

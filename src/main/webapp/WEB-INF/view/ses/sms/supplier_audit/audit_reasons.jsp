@@ -329,11 +329,11 @@ alert(supplierInspectListFile);
                       <input class="btn btn-windows git"  type="button" onclick="shenhe(1)" value="初审通过 ">
                       <!-- <input class="btn btn-windows reset"  type="button" onclick="shenhe(2)" value="初审不通过"> -->
                     </c:if>
-                    <c:if test="${status==1 || status==2}">
+                    <c:if test="${status==1}">
                       <input class="btn btn-windows git"  type="button" onclick="shenhe(3)" value="复审通过 ">
                       <!-- <input class="btn btn-windows edit"  type="button" onclick="shenhe(4)" value="复审不通过"> --> 
                     </c:if>
-                    <input class="btn btn-windows git" onclick="location='<%=basePath%>supplierAudit/supplierAll.html'" type="button"  value="返回">
+                    <input class="btn btn-windows reset" onclick="location='<%=basePath%>supplierAudit/supplierAll.html'" type="button"  value="返回">
                     </div>
                   </div>
                 </form>

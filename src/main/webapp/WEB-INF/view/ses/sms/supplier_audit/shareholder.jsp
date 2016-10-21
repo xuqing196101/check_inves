@@ -111,6 +111,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/jquery.easing.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/james.js"></script>
 <script type="text/javascript">
+  //默认不显示叉
+   $(function() {
+    $("td").each(function() {
+    $(this).find("a").eq(0).hide();
+    });
+  });
+
 function reason(id){
   var supplierId=$("#supplierId").val();
   var auditField=$("#"+id).text()+"股东"; //审批的字段名字
@@ -123,7 +130,7 @@ function reason(id){
         /* data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId, */
         data:"auditType="+auditType+"&auditField="+auditField+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId,
       });
-      $("#"+id+"_hide").hide();
+      $("#"+id+"_show").show();
       layer.msg("审核不通过的理由是："+text,{offset:'200px'});
     });
 }
@@ -212,20 +219,19 @@ function tijiao(str){
                         <th class="info">统一社会信用代码或身份证</th>
                         <th class="info">出资金额或股份(万元/份)</th>
                         <th class="info">比例(%)</th>
-                        <th class="info w80">操作</th>
+                        <th class="info w50"></th>
                       </tr>
                     </thead>
                     <c:forEach items="${shareholder}" var="s" varStatus="vs">
                       <tr>
                         <td class="tc">${vs.index + 1}</td>
-                        <td class="tc" id="${s.id }">${s.name}</td>
-                        <td class="tc">${s.nature}</td>
-                        <td class="tc">${s.identity}</td>
-                        <td class="tc">${s.shares}</td>
-                        <td class="tc">${s.proportion}%</td>
-                        <td class="tc">
-                          <a id="${s.id }_hide" class="b f18 fl ml10 red hand">√</a>
-                          <a onclick="reason('${s.id}');" class="b f18 fl ml10 hand">×</a>
+                        <td class="tc" id="${s.id }" onclick="reason('${s.id}');">${s.name}</td>
+                        <td class="tc" onclick="reason('${s.id}');">${s.nature}</td>
+                        <td class="tc" onclick="reason('${s.id}');">${s.identity}</td>
+                        <td class="tc" onclick="reason('${s.id}');">${s.shares}</td>
+                        <td class="tc" onclick="reason('${s.id}');">${s.proportion}%</td>
+                        <td class="tc" onclick="reason('${s.id}');">
+                          <a  class="b f18 fl ml10 hand" id="${s.id}_show">×</a>
                         </td>
                       </tr>
                     </c:forEach>
