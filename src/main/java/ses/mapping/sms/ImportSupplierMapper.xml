@@ -361,6 +361,7 @@
     <if test="status!=null">
     	and status= #{status,jdbcType=DECIMAL}
     </if>
+    ORDER BY CREATED_AT DESC
     </select>
   
     <select id="getCount" parameterType="ses.model.sms.ImportSupplierWithBLOBs" resultType="java.lang.Integer">
