@@ -3,6 +3,7 @@ package bss.controller.pms;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -139,16 +140,19 @@ public class PlanLookController {
 	 */
 	@RequestMapping("/audit")
 	public String audit(PurchaseRequiredFormBean list,CollectPlan collectPlan){
+		Map<String,Object> map=new HashMap<String,Object>();
 		if(list!=null){
 			if(list.getList()!=null){
 				for(PurchaseRequired p:list.getList()){
 					p.setStatus("6");
-					purchaseRequiredService.update(p);
+//					purchaseRequiredService.update(p);
+					map.put("id", p.getId());	
+					purchaseRequiredService.update(map);	
 				}
 			}
 		}
-//		collectPlan.setStatus(2);
-//		collectPlanService.update(collectPlan);
+		collectPlan.setStatus(3);
+		collectPlanService.update(collectPlan);
 		return "redirect:list.html";
 	}
 	

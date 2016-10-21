@@ -6,7 +6,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.ServletOutputStream;
@@ -34,7 +36,6 @@ import bss.controller.base.BaseController;
 import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.pms.PurchaseRequired;
 import bss.service.pms.PurchaseRequiredService;
-import bss.service.ppms.ProjectAttachmentsService;
 import bss.util.Excel;
 import bss.util.ExcelUtil;
 
@@ -111,26 +112,28 @@ public class PurchaseRequiredController extends BaseController{
 	 */
 	@RequestMapping("/update")
 	public String updateById(PurchaseRequiredFormBean list){
-		
+		Map<String,Object> map=new HashMap<String,Object>();
 		if(list!=null){
 			if(list.getList()!=null&&list.getList().size()>0){
 				for( PurchaseRequired p:list.getList()){
 					if( p.getId()!=null){
+						String id = UUID.randomUUID().toString().replaceAll("-", "");
+						map.put("oid", id);
 						PurchaseRequired queryById = purchaseRequiredService.queryById(p.getId());
 						Integer s=Integer.valueOf(purchaseRequiredService.queryByNo(p.getPlanNo()))+1;
-						queryById.setHistoryStatus(String.valueOf(s));
-						purchaseRequiredService.update(queryById);
+						map.put("historyStatus", s);
+						map.put("id", p.getId());
+						purchaseRequiredService.update(map);
 						if(p.getParentId()!=null){
 							p.setParentId(p.getParentId());
 						}
-						String id = UUID.randomUUID().toString().replaceAll("-", "");
-						queryById.setId(id);
+						queryById.setId(p.getId());
 						queryById.setHistoryStatus("0");
 						purchaseRequiredService.add(p);	
 					}else{
-						String id = UUID.randomUUID().toString().replaceAll("-", "");
-						p.setId(id);
-						purchaseRequiredService.add(p);	
+//						String id = UUID.randomUUID().toString().replaceAll("-", "");
+//						p.setId(id);
+//						purchaseRequiredService.add(p);	
 					}
 				
 					

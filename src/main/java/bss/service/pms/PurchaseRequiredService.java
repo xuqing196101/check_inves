@@ -33,7 +33,7 @@ public interface PurchaseRequiredService {
 	* @return void     
 	* @throws
 	 */
-	public void update(PurchaseRequired purchaseRequired);
+	public void update(Map<String,Object> map);
 	/**
 	 * 
 	* @Title: queryById
@@ -159,4 +159,6 @@ public interface PurchaseRequiredService {
 	* @throws
 	 */
 	List<Map<String,Object>> statisticOrg(Map<String,Object> map);
+//	
+//	void updates();
 }

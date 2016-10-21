@@ -219,7 +219,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<td class="tc">
 							<select name="list[${vs.index }].organization">
 								<c:forEach items="${org }" var="ss">
-								  <option value="${obj.organization==ss.id }" selected="selected">${ss.name}</option>
+								  <option value="${ss.id }" >${ss.name}</option>
 								</c:forEach>
 								
 							</td>
@@ -254,12 +254,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<select name="list[${vs.index }].oneOrganiza">
 							<option value="">请选择</option>
 							<c:forEach items="${org }" var="ss">
-							<c:if test="${obj.organization==ss.id }">
-							<option value="${ss.id }" selected="selected">${ss.name}</option>
-							</c:if>
-							<c:if test="${obj.organization!=ss.id }">
-							<option value="${ss.id }">${ss.name}</option>
-							</c:if>
+							 
+							<option value="${ss.id }"  >${ss.name}</option>
+							 
 							
 							</c:forEach>
 							</select>

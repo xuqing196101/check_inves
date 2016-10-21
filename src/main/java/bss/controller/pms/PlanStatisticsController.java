@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -52,18 +53,15 @@ public class PlanStatisticsController extends BaseController {
 	 */
 	@RequestMapping("/list")
 	public String queryPlan(PurchaseRequired purchaseRequired,Integer page,Model model,String year){
-		purchaseRequired.setIsMaster("1");
+		purchaseRequired.setGoodsType("1");
 		List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired,page==null?1:page);
 		PageInfo<PurchaseRequired> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
 		model.addAttribute("inf", purchaseRequired);
 		model.addAttribute("year", year);
 		
-		 Maps maps=new Maps();
-		 maps.setProvince("河南");
-		 maps.setCount(100);
-		 String json = JSON.toJSONString(maps);
-		 
+		 String json = map(purchaseRequired,year);
+//		String json= JSON.toJSONString(getMap());
 		 model.addAttribute("data", json);
 		return "bss/pms/statistic/list";
 	}
@@ -216,106 +214,113 @@ public class PlanStatisticsController extends BaseController {
 		return s;
 	}
 	
-	@RequestMapping("/map")
+	
 	public String map(PurchaseRequired purchaseRequired,String year){
 		Map<String,Object> map=new HashMap<String,Object>();
 		map.put("year",year);
-		Map<String,Object> maps=new HashMap<String,Object>();
-		List<Map<String,Object>> list = purchaseRequiredService.statisticByMonth(map);
-	 for(Map<String,Object> m:list ){
-		 String str = (String) m.get("ORGANIZATION");
-		  for(String s:getAllProvince()){
-			  if(str.contains(str)){
-				  maps.put("s", m.get("count"));
-			  }
-		  }
+		Map<String,Object> maps=getMap();
+		Map<String, Object> province = getAllProvince();
+		Set<String> key = province.keySet();
+		List<Map<String,Object>> list = purchaseRequiredService.statisticOrg(map);
+		
+		 for(Map<String,Object> m:list ){
+			 String str = (String) m.get("ORGANIZATION");
+			 if(str!=null){
+				 for(String s:key){
+					  if(str.contains(s)){
+						String pri=  (String) province.get(s);
+						  maps.put(pri, m.get("COUNT"));
+					  }
+				  } 
+			 }
+		 }
 		 
-	 }
 		 String json = JSON.toJSONString(maps);
 		return json;
 	}
 	
-	
-	public  List<String> getAllProvince(){
-		List<String> list=new ArrayList<String>();
-		list.add("吉林");
-		list.add("天津");
-		list.add("山东");
-		list.add("山西");
-		list.add("新疆");
-		list.add("河北");
-		list.add("河南");
-		list.add("甘肃");
+	 
+	public Map<String ,Object> getAllProvince(){
+//		List<String> list=new ArrayList<String>();
+		Map<String,Object> map=new HashMap<String,Object>();
+		map.put("安徽","an_hui");
+		map.put("湖南","hu_nan");
+		map.put("湖北","hu_bei");
+		map.put("江西","jiang_xi" );
+		map.put("青海","qing_hai" );
+		map.put("宁夏","ning_xia" );
+		map.put("台湾","tai_wan" );
+		map.put("海南","hai_nan" );
+		map.put("四川","si_chuan" );
+		map.put("陕西","shan_xi_1" );//陕西
 		
-		list.add("福建");
-		list.add("贵州");
-		list.add("重庆");
-		list.add("江苏");
+		map.put("西藏","xi_zang" );
+		map.put("澳门","ao_men" );
+		map.put("广东","guang_dong" );
+		map.put("北京","bei_jing" );
+		map.put("上海","shang_hai" );
+		map.put("浙江","zhe_jiang" );
+		map.put("香港","xiang_gang" );
+		map.put("辽宁","liao_ning" );
+		map.put("云南","yun_nan" );
+		map.put("黑龙江","hei_long_jiang" );
 		
-		list.add("内蒙古");
-		list.add("广西");
-		list.add("黑龙江");
-		list.add("云南");
-		list.add("辽宁");
+		map.put("广西","guang_xi" );
+		map.put("内蒙古","nei_meng_gu" );
+		map.put("江苏","jiang_su" );
+		map.put("重庆","chong_qing" );
+		map.put("贵州","gui_zhou" );
+		map.put("福建","fu_jian" );
+		map.put("甘肃","gan_su" );
+		map.put("河南","he_nan" );
+		map.put("河北","he_bei");
+		map.put("新疆","xin_jiang" );
 		
-		list.add("香港");
-		list.add("浙江");
-		list.add("上海");
-		list.add("北京");
-		list.add("广东");
-		list.add("澳门");
-		list.add("西藏");
-		list.add("陕西");
-		list.add("四川");
-		list.add("海南");
-		list.add("台湾");
-		list.add("宁夏");
-		list.add("青海");
-		list.add("江西");
-		list.add("湖北");
-		list.add("湖南");
-		list.add("安徽");
-		return list;
+		map.put("山西","shan_xi_2" );//山西
+		map.put("山东","shan_dong");
+		map.put("天津","tian_jin" );
+		map.put("吉林","ji_lin" );
+		return map;
 	}
-	public  Map<String ,Integer> getMap(){
-		Map<String,Integer> map= new HashMap<String,Integer>(40);
-		map.put("安徽", 0);
-		map.put("湖南", 0);
-		map.put("湖北", 0);
-		map.put("江西", 0);
-		map.put("青海", 0);
-		map.put("宁夏", 0);
-		map.put("台湾", 0);
-		map.put("海南", 0);
-		map.put("四川", 0);
-		map.put("陕西", 0);
+	public  Map<String ,Object> getMap(){
+		Map<String,Object> map= new HashMap<String,Object>(40);
+		map.put("an_hui", 0);
+		map.put("hu_nan", 0);
+		map.put("hu_bei", 0);
+		map.put("jiang_xi", 0);
+		map.put("qing_hai", 0);
+		map.put("ning_xia", 0);
+		map.put("tai_wan", 0);
+		map.put("hai_nan", 0);
+		map.put("si_chuan", 0);
+		map.put("shan_xi_1", 0);//陕西
 		
-		map.put("西藏", 0);
-		map.put("澳门", 0);
-		map.put("广东", 0);
-		map.put("北京", 0);
-		map.put("上海", 0);
-		map.put("浙江", 0);
-		map.put("香港", 0);
-		map.put("辽宁", 0);
-		map.put("云南", 0);
-		map.put("黑龙江", 0);
+		map.put("xi_zang", 0);
+		map.put("ao_men", 0);
+		map.put("guang_dong", 0);
+		map.put("bei_jing", 0);
+		map.put("shang_hai", 0);
+		map.put("zhe_jiang", 0);
+		map.put("xiang_gang", 0);
+		map.put("liao_ning", 0);
+		map.put("yun_nan", 0);
+		map.put("hei_long_jiang", 0);
 		
-		map.put("广西", 0);
-		map.put("内蒙古", 0);
-		map.put("江苏", 0);
-		map.put("重庆", 0);
-		map.put("贵州", 0);
-		map.put("福建", 0);
-		map.put("甘肃", 0);
-		map.put("河南", 0);
-		map.put("河北", 0);
-		map.put("新疆", 0);
+		map.put("guang_xi", 0);
+		map.put("nei_meng_gu", 0);
+		map.put("jiang_su", 0);
+		map.put("chong_qing", 0);
+		map.put("gui_zhou", 0);
+		map.put("fu_jian", 0);
+		map.put("gan_su", 0);
+		map.put("he_nan", 0);
+		map.put("he_bei",0);
+		map.put("xin_jiang", 0);
 		
-		map.put("山西", 0);
-		map.put("山东", 0);
-		map.put("天津", 0);
-		map.put("吉林", 0);
+		map.put("shan_xi_2", 0);//山西
+		map.put("shan_dong",0);
+		map.put("tian_jin", 0);
+		map.put("ji_lin", 0);
 		return map;
 	}
 	

@@ -287,8 +287,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	   	   <option value="1" <c:if test="${inf.status=='1'}"> selected</c:if> > 	 已编制为采购计划</option>
 	   	   <option value="2" <c:if test="${inf.status=='2'}"> selected</c:if> > 	提交未受理</option>
 	   	   <option value="3" <c:if test="${inf.status=='3'}"> selected</c:if> > 	 受理退回</option>
-	   	      <option value="3" <c:if test="${inf.status=='4'}"> selected</c:if> > 	 受理成功</option>
-	   	         <option value="3" <c:if test="${inf.status=='5'}"> selected</c:if> > 已经汇总</option>
+	   	      <option value="4" <c:if test="${inf.status=='4'}"> selected</c:if> > 	 受理成功</option>
+	   	         <option value="5" <c:if test="${inf.status=='5'}"> selected</c:if> > 已经汇总</option>
  	   	   </select>
 	   	  
 	   

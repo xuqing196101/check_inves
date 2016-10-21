@@ -154,12 +154,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        }
 	    });
 
-	    var data = Highcharts.geojson(Highcharts.maps['countries/cn/custom/cn-all-china']),small = $('#container').width() < 400;
+ 		  var data = Highcharts.geojson(Highcharts.maps['countries/cn/custom/cn-all-china']),small = $('#container').width() < 400;
 	    // 给城市设置随机数据
+	  	var serverData=${data};
 	    $.each(data, function (i) {
 	        this.drilldown = this.properties['drill-key'];
-			 
-	        this.value = i;
+	        this.value = serverData[this.properties['drill-key']];
 	    });
 			function getPoint(e){
 				console.log(e.point.name);
@@ -177,7 +177,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	               
 	            }
 	        },
-				tooltip: { 
+				/* tooltip: { 
 					formatter:function(){
 						var htm="";
 						if(this.point.drilldown){
@@ -187,6 +187,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						}
 						address=htm;
 						 var data='${data}';
+						
 					    if(data==''){
 					     	htm+=":"+0; 
 					    }else{
@@ -201,13 +202,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						 }
 						return htm;
 					}
-						},
+						}, */
 	        credits:{
 						href:"javascript:goHome()",
 	            text:""
 	        },
 	        title : {
-	            text : '供应商数量统计'
+	            text : '采购机构数量统计'
 	        },
 
 	        subtitle: {
@@ -226,9 +227,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	            align: 'right',
 	            verticalAlign: 'middle'
 	        },
-	        //tooltip:{
-	        //pointFormat:"{point.properties.cn-name}:{point.value}"
-	        //},
+	        tooltip:{
+	        pointFormat:"{point.properties.cn-name}:{point.value}"
+	       },
 	        colorAxis: {
 	            min: 0,
 	            minColor: '#E6E7E8',
@@ -239,9 +240,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							}
 						}
 	        },
-
+			// 控制放大缩小的
 	        mapNavigation: {
-	            enabled: true,
+	            enabled: false,
 	            buttonOptions: {
 	                verticalAlign: 'bottom'
 	            }
@@ -265,13 +266,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                format: '{point.properties.cn-name}'
 	            },
 	            point: {
-	               events: {
+	             <%--   events: {
 	                   click: function () { 
-	                   address=encodeURI(address);
-	                   address=encodeURI(address);
-	                       window.location.href="<%=basePath%>supplierQuery/findSupplierByPriovince.html?address="+address+"&status=3";
+	              
+	                       window.location.href="<%=basePath%>statistic/map.html?address="+address+"&status=3";
 	                    }
-	                  }
+	                  } --%>
 	           }
 	        }],
 
@@ -292,6 +292,73 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        }
 	    });
 	});
+	
+	
+
+	var base64EncodeChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";  
+	var base64DecodeChars = new Array(  
+	    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  
+	    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  
+	    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 62, -1, -1, -1, 63,  
+	    52, 53, 54, 55, 56, 57, 58, 59, 60, 61, -1, -1, -1, -1, -1, -1,  
+	    -1,  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14,  
+	    15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, -1, -1, -1, -1, -1,  
+	    -1, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,  
+	    41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, -1, -1, -1, -1, -1);  
+
+
+	function base64decode(str) {  
+	    var c1, c2, c3, c4;  
+	    var i, len, out;  
+	  
+	    len = str.length;  
+	    i = 0;  
+	    out = "";  
+	    while(i < len) {  
+	    /* c1 */  
+	    do {  
+	        c1 = base64DecodeChars[str.charCodeAt(i++) & 0xff];  
+	    } while(i < len && c1 == -1);  
+	    if(c1 == -1)  
+	        break;  
+	  
+	    /* c2 */  
+	    do {  
+	        c2 = base64DecodeChars[str.charCodeAt(i++) & 0xff];  
+	    } while(i < len && c2 == -1);  
+	    if(c2 == -1)  
+	        break;  
+	  
+	    out += String.fromCharCode((c1 << 2) | ((c2 & 0x30) >> 4));  
+	  
+	    /* c3 */  
+	    do {  
+	        c3 = str.charCodeAt(i++) & 0xff;  
+	        if(c3 == 61)  
+	        return out;  
+	        c3 = base64DecodeChars[c3];  
+	    } while(i < len && c3 == -1);  
+	    if(c3 == -1)  
+	        break;  
+	  
+	    out += String.fromCharCode(((c2 & 0XF) << 4) | ((c3 & 0x3C) >> 2));  
+	  
+	    /* c4 */  
+	    do {  
+	        c4 = str.charCodeAt(i++) & 0xff;  
+	        if(c4 == 61)  
+	        return out;  
+	        c4 = base64DecodeChars[c4];  
+	    } while(i < len && c4 == -1);  
+	    if(c4 == -1)  
+	        break;  
+	    out += String.fromCharCode(((c3 & 0x03) << 6) | c4);  
+	    }  
+	    return out;  
+	}  
+	function goHome(){
+		window.open("http://www.peng8.net/");
+	}
 	
 	
 	
@@ -323,8 +390,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <form id="add_form" action="<%=basePath%>statistic/list.html" method="post" >
    
 
-	  物资类别：<select name="">
-	  <option></option>
+	  物资类别：<select name="planType" >
+	  	<option value="1" <c:if test="${inf.planType=='1'}"> selected</c:if> >货物</option>
+		<option value="2" <c:if test="${inf.planType=='2'}"> selected</c:if> >工程</option>
+		<option value="3" <c:if test="${inf.planType=='3'}"> selected</c:if> >服务</option>
 	  </select>
 	    年度： <input class="mt10" type="text" name="year" value="${year}" /> 
 	   需求部门： <input class="mt10" type="text" name="department" value="${inf.department }" /> 
@@ -349,36 +418,35 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<tr>
 <!-- 		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
  -->		  <th class="info w50">序号</th>
-		  <th class="info">计划名称</th>
-		  <th class="info">编制单位名称</th>
-		  <th class="info">金额</th>
-		  <th class="info">编制时间</th>
-		  <th class="info">完成时间</th>
-		  <th class="info">状态</th>
+		  <th class="info">物资类别</th>
+		  <th class="info">年度</th>
+		  <th class="info">需求部门</th>
+		  <th class="info">采购方式</th>
+		  <th class="info">采购机构</th>
+		  <th class="info">预算</th>
 		</tr>
 		</thead>
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
 			<tr style="cursor: pointer;">
 <%-- 			  <td class="tc w30"><input type="checkbox" value="${obj.planNo }" name="chkItem" onclick="check()"  alt=""></td>
  --%>			  <td class="tc w50" onclick="view('${obj.planNo }')" >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-			  <td class="tc" onclick="view('${obj.planNo }')">${obj.planName }</td>
-			  <td class="tc" onclick="view('${obj.planNo }')">${obj.department }</td>
-			  <td class="tc" onclick="view('${obj.planNo }')">${obj.budget }</td>
-			  <td class="tc" onclick="view('${obj.planNo }')"><fmt:formatDate value="${obj.createdAt }"/></td>
-			  <td class="tc" onclick="view('${obj.planNo }')"><fmt:formatDate value="${obj.auditDate }"/> </td>
 			  <td class="tc" onclick="view('${obj.planNo }')">
-			  <c:if test="${obj.status=='1' }">
-			 	 已编制为采购计划
+			  <c:if test="${obj.planType=='1'}">
+					  货物
 			  </c:if>
-			   <c:if test="${obj.status=='2' }">
-			 	已提交
+			  <c:if test="${obj.planType=='2'}">
+					工程
 			  </c:if>
-			  <c:if test="${obj.status=='3' }">
-			 	提交受理
+			  <c:if test="${obj.planType=='3'}">
+					服务
 			  </c:if>
-			    <c:if test="${obj.status=='4' }">
-			 	已受理
-			  </c:if>
+			  </td>
+			  <td class="tc" onclick="view('${obj.planNo }')"><fmt:formatDate value="${obj.createdAt }" pattern="yyyy" /></td>
+			  <td class="tc" onclick="view('${obj.planNo }')">${obj.purchaseType }</td>
+			  <td class="tc" onclick="view('${obj.planNo }')">${obj.department }</td>
+			  <td class="tc" onclick="view('${obj.planNo }')"> ${obj.organization } </td>
+			  <td class="tc" onclick="view('${obj.planNo }')">
+		 	<fmt:formatNumber>${obj.budget }</fmt:formatNumber>
 			  </td>
 			</tr>
 	 
@@ -393,7 +461,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
  	<div id="funsionCharts_div_id" style="width:91%;height:90%;overflow:atuo; display: none;"></div>
  
-   <div id="container" style="display: none;height: 700px;min-width: 310px;margin: 0 auto;min-width: 310px;"></div>
+   <div id="container" style="display: none;height: 700px;min-width: 310px;margin: 0 auto;width: 800px;"></div>
    
    
 	 </body>

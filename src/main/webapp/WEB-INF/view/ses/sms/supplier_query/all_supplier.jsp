@@ -171,6 +171,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					}
 					address=htm;
 					 var data='${data}';
+					 alert(data);
 				    if(data==''){
 				     	htm+=":"+0; 
 				    }else{

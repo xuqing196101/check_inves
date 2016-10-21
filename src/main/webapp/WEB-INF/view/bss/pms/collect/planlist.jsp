@@ -206,7 +206,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">障碍作业系统</a></li><li><a href="#">采购计划管理</a></li><li class="active"><a href="#">采购需求管理</a></li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">障碍作业系统</a></li><li><a href="#">采购计划管理</a></li><li class="active"><a href="#">采购计划管理</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -268,6 +268,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    <c:if test="${obj.status=='2' }">
 			   已下达
 			  </c:if>
+			   <c:if test="${obj.status=='3' }">
+			   已审核
+			  </c:if>
+			  
 			  </td>
 			</tr>
 	 
