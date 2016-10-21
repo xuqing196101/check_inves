@@ -279,7 +279,6 @@ public class ImportRecommendController extends BaseSupplierController{
 		ImportRecommend ir1=importRecommendService.findById(id);
 		ir1.setUseCount((long)1);
 		ir1.setAttachment(ir.getAttachment());
-		ir1.setUseCount(ir.getUseCount());
 		ir1.setStatus((short)1);
 		importRecommendService.update(ir1);
 		model.addAttribute("ir", ir);
