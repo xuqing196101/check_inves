@@ -93,7 +93,7 @@
           offset : '300px',
         });
         return;
-      } else if (state == "复审不通过") {
+      } else if (state == "复审未通过") {
         layer.msg("请选择待审核项 !", {
           offset : '300px',
         });

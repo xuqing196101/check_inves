@@ -336,15 +336,14 @@ public class SupplierAuditController extends BaseSupplierController{
 	public void auditReasons(SupplierAudit supplierAudit,HttpServletRequest request,Supplier supplier) throws IOException{
 		String id=supplierAudit.getSupplierId();
 		supplier = supplierAuditService.supplierById(id);
-		Integer status = supplier.getStatus();
 		
-		supplierAudit.setStatus(status);
+		supplier = supplierAuditService.supplierById(id);
+		supplierAudit.setStatus(supplier.getStatus());
 		supplierAudit.setCreatedAt(new Date());
 		supplierAudit.setUserId("EDED66BAC3304F34B75EBCDB88AE427F");
 		
 		//审核时只要填写理由，就不通过
-		
-		supplier.setId(id);
+/*		supplier.setId(id);
 		if(status==0){
 			supplier.setStatus(2); //初审不通过
 			supplierAuditService.updateStatus(supplier);
@@ -352,7 +351,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		if(status==1){
 			supplier.setStatus(4); //复审不通过
 			supplierAuditService.updateStatus(supplier);
-		}
+		}*/
 		supplierAuditService.auditReasons(supplierAudit);
 	}
 	
@@ -373,8 +372,8 @@ public class SupplierAuditController extends BaseSupplierController{
 		}
 		List<SupplierAudit> reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
 		request.setAttribute("reasonsList", reasonsList);
-		/*int num=reasonsList.size();
-		request.setAttribute("num", num);*/
+		//有信息就不让通过
+		request.setAttribute("num",reasonsList.size());
 		//勾选的供应商类型
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
 		request.setAttribute("supplierTypeNames", supplierTypeName);
@@ -389,7 +388,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		return "ses/sms/supplier_audit/audit_reasons";
 	}
 	
-	@RequestMapping("showReasonsList")
+	@RequestMapping("showReasonsList") 
 	public void showReasonsList(HttpServletResponse reponse,SupplierAudit supplierAudit){
 		List<SupplierAudit> reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
 		super.writeJson(reponse, reasonsList);
@@ -414,6 +413,11 @@ public class SupplierAuditController extends BaseSupplierController{
 		//更新状态
 		supplier.setId(supplierId);
 		supplierAuditService.updateStatus(supplier);
+		//审核完更新状态
+		supplier = supplierAuditService.supplierById(supplierId);
+		supplierAudit.setStatus(supplier.getStatus());
+		supplierAudit.setId(supplierAudit.getId());
+		supplierAuditService.updateStatusById(supplierAudit);
 		return "redirect:supplierAll.html";
 	}
 	

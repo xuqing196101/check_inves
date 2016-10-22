@@ -185,6 +185,9 @@ function tijiao(str){
 
 //审核
 function shenhe(status){
+  var auditId = $("#auditId").val();
+  $("input[name='id']").val(auditId);
+
   $("#status").val(status);
   $("#form_shen").submit();
 }
@@ -265,6 +268,7 @@ alert(supplierInspectListFile);
                      </tr>
                    </thead>
                      <c:forEach items="${reasonsList }" var="list" varStatus="vs">
+                      <input id="auditId" value="${list.id}" type="hidden">
                        <tr>
                          <td class="tc">${vs.index + 1}</td>
                          <td class="tc">${list.auditType }</td>
@@ -324,18 +328,27 @@ alert(supplierInspectListFile);
                 <div class="col-md-12 add_regist tc">
                 <form id="form_shen" action="${pageContext.request.contextPath}/supplierAudit/updateStatus.html"  enctype="multipart/form-data">
                   <input name="supplierId" value="${supplierId}" type="hidden">
+                  <input name="id" type="hidden">
                    <input type="hidden" name="status" id="status"/>
                   <div class="margin-bottom-0  categories">
                     <div class="col-md-12 add_regist tc">
                     <c:if test="${status==0}">
-                      <input class="btn btn-windows git"  type="button" onclick="shenhe(1)" value="初审通过 ">
-                      <!-- <input class="btn btn-windows reset"  type="button" onclick="shenhe(2)" value="初审不通过"> -->
+                      <c:if test="${num==0}">
+                        <input class="btn btn-windows git"  type="button" onclick="shenhe(1)" value="初审通过 ">
+                      </c:if>
+                      <c:if test="${num!=0}">
+                        <input class="btn btn-windows reset"  type="button" onclick="shenhe(2)" value="初审不通过">
+                      </c:if>
                     </c:if>
                     <c:if test="${status==1}">
-                      <input class="btn btn-windows git"  type="button" onclick="shenhe(3)" value="复审通过 ">
-                      <!-- <input class="btn btn-windows edit"  type="button" onclick="shenhe(4)" value="复审不通过"> --> 
+                      <c:if test="${num==0}">
+                        <input class="btn btn-windows git"  type="button" onclick="shenhe(3)" value="复审通过 ">
+                      </c:if>
+                      <c:if test="${num!=0}">
+                        <input class="btn btn-windows edit"  type="button" onclick="shenhe(4)" value="复审不通过">
+                      </c:if>
                     </c:if>
-                    <input class="btn btn-windows reset" onclick="location='<%=basePath%>supplierAudit/supplierAll.html'" type="button"  value="完成">
+                    <%-- <input class="btn btn-windows reset" onclick="location='<%=basePath%>supplierAudit/supplierAll.html'" type="button"  value="完成"> --%>
                     </div>
                   </div>
                 </form>
