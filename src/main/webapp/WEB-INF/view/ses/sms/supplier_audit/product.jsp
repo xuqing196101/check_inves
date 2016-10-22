@@ -115,7 +115,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   //默认不显示叉
    $(function() {
     $("td").each(function() {
-    $(this).find("a").eq(0).hide();
+    $(this).parent("tr").find("td").eq(12).find("a").hide();
     });
   });
 
@@ -248,13 +248,13 @@ function tijiao(str){
                             <td class="tc" onclick="reason('${products.id}');"><fmt:formatDate value="${products.expirationDate }" pattern="yyyy-MM-dd"/></td>
                             <td class="tc" onclick="reason('${products.id}');">${products.producer}</td>
                             <td class="tc" onclick="reason('${products.id}');">${products.referencePrice}</td>
-                            <td class="tc" onclick="reason('${products.id}');">
+                            <td class="tc">
                               <c:if test="${products.productPic != null}">
                                 <a class="green" onclick="downloadFile('${products.productPic}')">下载附件</a>
                               </c:if>
                               <c:if test="${products.productPic == null}"><a class="red">无附件下载</a></c:if>
                             </td>
-                            <td class="tc" onclick="reason('${products.id}');">
+                            <td class="tc" >
                               <c:if test="${products.qrCode != null}">
                                 <a class="green" onclick="downloadFile('${products.qrCode}')">下载附件</a>
                               </c:if>

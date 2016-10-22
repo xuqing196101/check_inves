@@ -333,7 +333,7 @@ alert(supplierInspectListFile);
                       <input class="btn btn-windows git"  type="button" onclick="shenhe(3)" value="复审通过 ">
                       <!-- <input class="btn btn-windows edit"  type="button" onclick="shenhe(4)" value="复审不通过"> --> 
                     </c:if>
-                    <input class="btn btn-windows reset" onclick="location='<%=basePath%>supplierAudit/supplierAll.html'" type="button"  value="返回">
+                    <input class="btn btn-windows reset" onclick="location='<%=basePath%>supplierAudit/supplierAll.html'" type="button"  value="完成">
                     </div>
                   </div>
                 </form>

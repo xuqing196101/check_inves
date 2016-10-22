@@ -115,7 +115,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   //默认不显示叉
    $(function() {
     $("td").each(function() {
-    $(this).find("a").eq(0).hide();
+    $(this).parent("tr").find("td").eq(7).find("a").hide();
     });
   });
    $(function() {
@@ -274,11 +274,11 @@ function tijiao(str){
                             <fmt:formatDate value="${s.expStartDate }" pattern='yyyy-MM-dd'/>  至  
                             <fmt:formatDate value="${s.expEndDate }" pattern='yyyy-MM-dd'/>
                           </td>
-                          <td class="tc"  onclick="reason('${s.id}','供应商资质证书');" >
+                          <td class="tc" onclick="reason('${s.id}','供应商资质证书');">
                            <c:if test="${s.mot==0 }">否</c:if>
                            <c:if test="${s.mot==1 }">是</c:if>
                           </td>
-                          <td class="tc"  onclick="reason('${s.id}','供应商资质证书');" >
+                          <td class="tc" >
 	                          <c:if test="${s.attach !=null}">
 	                            <a class="green" onclick="downloadFile('${s.attach}')">附件下载</a>
 	                          </c:if>

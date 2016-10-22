@@ -115,7 +115,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   //默认不显示叉
    $(function() {
     $("td").each(function() {
-    $(this).find("a").eq(0).hide();
+    $(this).parent("tr").find("td").eq(14).find("a").hide();
     });
   });
    $(function() {
@@ -298,7 +298,7 @@ function tijiao(str){
 	                          <c:if test="${s.certStatus==0 }">无效</c:if>
 	                          <c:if test="${s.certStatus==1 }">有效</c:if>
 	                        </td>
-	                        <td class="tc" onclick="reason('${s.id}','供应商资质证书信息');" >
+	                        <td class="tc" >
 	                         <c:if test="${s.attachCert !=null}">
                             <a class="green" onclick="downloadFile('${s.attachCert}')">附件下载</a>
                           </c:if>
@@ -362,7 +362,7 @@ function tijiao(str){
                           <fmt:formatDate value="${s.aptituteChangeAt }" pattern='yyyy-MM-dd'/>
                         </td>
                         <td class="tc" onclick="reason('${s.id}','供应商资质资格信息');" >${s.aptituteChangeReason }</td>
-                        <td class="tc" onclick="reason('${s.id}','供应商资质资格信息');" >
+                        <td class="tc" >
                           <c:if test="${s.attachCert !=null}">
                             <a class="green" onclick="downloadFile('${s.attachCert}')">附件下载</a>
                           </c:if>
