@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
+import bss.model.ppms.SaleTender;
 import bss.model.prms.FirstAudit;
 import bss.model.prms.PackageFirstAudit;
 import bss.model.prms.ReviewFirstAudit;
 import bss.model.prms.ext.Extension;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectService;
+import bss.service.ppms.SaleTenderService;
 import bss.service.prms.FirstAuditService;
 import bss.service.prms.PackageFirstAuditService;
 import bss.service.prms.ReviewFirstAuditService;
@@ -38,6 +40,9 @@ public class ReviewFirstAuditController {
 	private PackageFirstAuditService packageFirstAuditService;//包关联初审项
 	@Autowired
 	private FirstAuditService firstAuditService;//初审项
+	@Autowired
+	private SaleTenderService saleTenderService;
+
 	/**
 	 * 
 	  * @Title: toAudit
@@ -93,7 +98,7 @@ public class ReviewFirstAuditController {
 		extension.setFirstAuditList(firstAuditList);
 		
 		/*假数据*/
-		List<Supplier> supplierList = new ArrayList<>();
+		/*List<Supplier> supplierList = new ArrayList<>();
 		Supplier s = new Supplier();
 		s.setId("111");
 		s.setSupplierName("第一个");
@@ -101,7 +106,8 @@ public class ReviewFirstAuditController {
 		s2.setId("222");
 		s2.setSupplierName("第二个");
 		supplierList.add(s);
-		supplierList.add(s2);
+		supplierList.add(s2);*/
+		List<SaleTender> supplierList = saleTenderService.list(new SaleTender(projectId), 0);
 		extension.setSupplierList(supplierList);
 		
 		/**
@@ -116,7 +122,7 @@ public class ReviewFirstAuditController {
 		model.addAttribute("reviewFirstAuditList", reviewFirstAuditList);
 		//把封装的实体放入域中
 		model.addAttribute("extension", extension);
-		return "bss/prms/review_first_audit";
+		return "bss/prms/audit/review_first_audit";
 	}
 	/**
 	 * 

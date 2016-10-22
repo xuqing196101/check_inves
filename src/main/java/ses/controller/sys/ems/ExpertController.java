@@ -1,9 +1,13 @@
 package ses.controller.sys.ems;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -14,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +33,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.pagehelper.PageInfo;
 
+import bss.model.ppms.Packages;
+import bss.model.ppms.Project;
+import bss.model.ppms.ext.ProjectExt;
+import bss.model.prms.PackageExpert;
+import bss.service.ppms.PackageService;
+import bss.service.ppms.ProjectService;
+import bss.service.prms.PackageExpertService;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAttachment;
@@ -57,6 +70,12 @@ public class ExpertController {
 	private ExpertCategoryService expertCategoryService;//专家类别中间表
 	@Autowired
 	private ExpertAttachmentService attachmentService;//附件管理
+	@Autowired
+	private PackageExpertService packageExpertService;//专家项目包 关联表
+	@Autowired
+	private PackageService packageService;//包 service
+	@Autowired
+	private ProjectService projectService;//项目service
 	/**
 	 * 
 	  * @Title: toExpert
@@ -648,6 +667,78 @@ public class ExpertController {
 		  attachmentService.ftpDownLoadFile(attachmentId,response);
 		  return null;
 	  }
+	  /**
+	   * 
+	    * @Title: toProjectList
+	    * @author ShaoYangYang
+	    * @date 2016年10月22日 上午10:28:43  
+	    * @Description: TODO 去项目评审列表页面
+	    * @param @return      
+	    * @return String
+	   */
+	  @RequestMapping("toProjectList")
+	  public String toProjectList(Model model,HttpSession session){
+		  try {
+			User user = (User)session.getAttribute("loginUser");
+				//判断用户的类型为专家类型
+				if(user!=null && user.getTypeName()==5){
+					//获取专家id
+					String typeId = user.getTypeId();
+					Map<String, Object> map = new HashMap<>();
+					map.put("expertId", typeId);
+					//查询出关联表中的项目id和包id
+					List<PackageExpert> packageExpertList = packageExpertService.selectList(map );
+						HashMap<String,Object> hashMap ;
+						//该专家的所有包集合
+						List<Packages> packageList = new ArrayList<>();
+						for (PackageExpert packageExpert :packageExpertList) {
+							//包id
+							String string = packageExpert.getPackageId();
+							hashMap = new HashMap<>();
+							hashMap.put("id", string);
+							List<Packages> packages = packageService.findPackageById(hashMap);
+							if(packages!=null && packages.size()>0){
+								packageList.add(packages.get(0));
+							}
+						}
+						//循环包集合 根据包中的项目id 查询出项目集合
+						if(packageList!=null && packageList.size()>0){
+							List<ProjectExt> projectExtList = new ArrayList<>();
+							ProjectExt projectExt ;
+							for (Packages packages : packageList) {
+								projectExt = new ProjectExt();
+								Project project = projectService.selectById(packages.getProjectId());
+								PropertyUtils.copyProperties(projectExt, project);
+								projectExt.setPackageId(packages.getId());
+								projectExt.setPackageName(packages.getName());
+								projectExtList.add(projectExt);
+							}
+						model.addAttribute("projectExtList", projectExtList);
+						}
+					}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		  
+		  return "bss/prms/audit/list";
+	  }
+	  /**
+	   * 
+	    * @Title: toFirstAudit
+	    * @author ShaoYangYang
+	    * @date 2016年10月22日 下午3:50:09  
+	    * @Description: TODO 去往项目初审 供应商详情页
+	    * @param @return      
+	    * @return String
+	   */
+	  @RequestMapping("toFirstAudit")
+	  public String toFirstAudit(String projectId,String packageId,Model model){
+		  
+		  model.addAttribute("projectId", projectId);
+		  model.addAttribute("packageId", packageId);
+		  return"bss/prms/audit/suppplier_list";
+	  }
+	  
 	 /**
 	  * 
 	   * @Title: download

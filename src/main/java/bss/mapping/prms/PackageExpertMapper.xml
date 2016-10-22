@@ -25,6 +25,9 @@
     <if test="isGroupLeader != null and isGroupLeader !=''">
     AND IS_GROUP_LEADER = '${isGroupLeader}'
     </if>
+    <if test="expertId != null and expertId !=''">
+    AND EXPERT_ID = '${expertId}'
+    </if>
   </select>
    <!-- 根据包id删除 -->
    <delete id="deleteByPackageId" parameterType="java.lang.String">

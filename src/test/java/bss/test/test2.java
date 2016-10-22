@@ -2,11 +2,13 @@ package bss.test;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -149,9 +151,15 @@ public class test2 {
 	}
 	
 	@Test
-	public void test3(){
-		String str = UUID.randomUUID().toString().replaceAll("-", "");
+	public void test3() throws IllegalAccessException, InvocationTargetException{
+		Aaa aaa = new Aaa();
+		Bbb bbb = new Bbb();
+		aaa.setAaa("aaa");
+		aaa.setBbb("bbb");
+		aaa.setCcc("ccc");
+		bbb.setDdd("ddd");
+		BeanUtils.copyProperties(bbb, aaa);
+		System.out.println(bbb);
 		
-		System.out.println(str);
 	}
 }
