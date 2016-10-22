@@ -71,7 +71,6 @@
 			ids.push($(this).val()); 
 		});
 		if(ids.length>0){
-			layer.confirm('您确定添加吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(indexs){
 				for(var i=0;i<ids.length;i++){
 					var name=ids[i].split("^");
 					id+=name[0]+",";
@@ -81,9 +80,9 @@
 				  parent.$('#supervises').val(nams);
 			         var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
 				  parent.layer.close(index);
-			});
+		
 		}else{
-			layer.alert("请选择要添加的用户",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择要添加的监督人员",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
   </script>
@@ -127,8 +126,5 @@
         </table>
      </div>
    </div>
-      <div class="container margin-top-5 padding-left-30">
-         <button class="btn btn-windows add" type="button" onclick="add();">添加</button>
-      </div>
   </body>
 </html>

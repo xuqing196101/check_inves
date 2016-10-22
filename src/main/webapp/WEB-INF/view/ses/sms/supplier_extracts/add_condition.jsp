@@ -160,6 +160,7 @@ return true;
     
     function supervise(){
     //  iframe层
+    var iframeWin;
         layer.open({
           type: 2,
           title:"选择监督人员",
@@ -168,7 +169,18 @@ return true;
           offset: '20px',
           move: false,
           area: ['90%', '50%'],
-          content: '<%=basePath%>SupplierExtracts/showSupervise.do' //iframe的url
+          content: '<%=basePath%>SupplierExtracts/showSupervise.do',
+          success: function(layero, index){
+              iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+            },
+          btn: ['保存', '关闭'] 
+              ,yes: function(){
+                  iframeWin.add();
+              
+              }
+              ,btn2: function(){
+                layer.closeAll();
+              }
         }); 
     }
         function opens(){

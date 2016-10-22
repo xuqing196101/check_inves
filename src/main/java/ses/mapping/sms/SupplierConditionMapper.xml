@@ -193,6 +193,7 @@
 				AND SC."ID"=#{id}
 			</if>
 		</trim>
+		ORDER BY SC.CREATED_AT 
 	</sql>
 	<select id="list" parameterType="ses.model.sms.SupplierCondition"
 		resultMap="BaseResultListMap">

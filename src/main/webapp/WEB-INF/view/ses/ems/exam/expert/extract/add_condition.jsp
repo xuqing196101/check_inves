@@ -182,7 +182,18 @@ return true;
           offset: '20px',
           move: false,
           area: ['90%', '50%'],
-          content: '<%=basePath%>SupplierExtracts/showSupervise.do' //iframe的url
+          content: '<%=basePath%>SupplierExtracts/showSupervise.do',
+          success: function(layero, index){
+              iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+            },
+          btn: ['保存', '关闭'] 
+              ,yes: function(){
+                  iframeWin.add();
+              
+              }
+              ,btn2: function(){
+                layer.closeAll();
+              }//iframe的url
         }); 
     }
 	    function opens(){
@@ -358,7 +369,7 @@ return true;
 						</div></li>
 					<li class="col-md-6 p0 "><span class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;开标时间：</span>
 						<div class="input-append">
-							<input class="span2  Wdate w250" name="tenderTime"
+							<input class="span2  Wdate w250" readonly="readonly" name="tenderTime"
 								value="<fmt:formatDate value='${ExpExtCondition.tenderTime}'
                                 pattern='yyyy-MM-dd' />"
 								maxlength="30" onclick="WdatePicker();" type="text">
@@ -380,10 +391,10 @@ return true;
 					<li class="col-md-6 p0 "><span class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;年龄：</span>
 						<div class="input-append">
 							<input class="w100" 
-								maxlength="30"  value="${actionage}" name="actionage" type="text">
-								<input class="w50" name=""  maxlength="30" value=" — " type="text" >
+								maxlength="2"  value="${actionage}" name="actionage" type="text">
+								<input class="w50" name=""  maxlength="2" value=" — " type="text" >
 								    <input class="w100" name="endage"  value="${endage}"
-                                maxlength="30"   type="text">
+                                maxlength="2"   type="text">
 						</div></li>
 					<li class="col-md-6 p0 "><span class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;监督人员:</span>
 						<div class="input-append">

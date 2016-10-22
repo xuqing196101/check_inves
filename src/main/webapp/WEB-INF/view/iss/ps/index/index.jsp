@@ -246,7 +246,7 @@ function kaptcha(){
         <div class="control-group  margin-top-20 ">
         <label class="control-label" for="inputPassword">验证码：</label>
         <div class="controls">
-         <input type="text" placeholder="" id="inputCode" class="input-mini fl ">
+         <input type="text" placeholder="" id="inputCode" class="input-mini fl mr10">
           	<img src="Kaptcha.jpg" onclick="kaptcha();" id="kaptchaImage" /> 
         </div>
        </div>

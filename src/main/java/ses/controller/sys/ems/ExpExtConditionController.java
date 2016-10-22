@@ -69,7 +69,8 @@ public class ExpExtConditionController {
 	 */
 	@RequestMapping("/saveExtCondition")
 	public String saveExtCondition(String actionage,String endage, String hour,String minute,ExpExtCondition condition,ExtConTypeArray extConTypeArray,String[] sids,HttpServletRequest sq){
-		condition.setAge(actionage+"9605"+endage);
+		condition.setAgeMin(actionage);
+		condition.setAgeMax(endage);
 		condition.setResponseTime(hour+","+minute);
 		if(condition.getId()!=null&&!"".equals(condition.getId())){
 			conditionService.update(condition);	
@@ -144,11 +145,8 @@ public class ExpExtConditionController {
 
 		List<ExpExtCondition> list = conditionService.list(condition);
 		if(list!=null&&list.size()!=0){
-			String[] age=list.get(0).getAge()!=null?list.get(0).getAge().split("9605"):null;
-			if(age!=null&&age.length>=2){
-				model.addAttribute("actionage", age[0]);
-				model.addAttribute("endage", age[1]);
-			}
+				model.addAttribute("actionage", list.get(0).getAgeMin());
+				model.addAttribute("endage", list.get(0).getAgeMax());
 			String[] atime=list.get(0).getResponseTime()!=null?list.get(0).getResponseTime().split(","):null;
 			if(atime!=null&&atime.length>=2){
 				model.addAttribute("minute", atime[0]);
