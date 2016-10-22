@@ -33,7 +33,7 @@ public interface SupplierExtRelateService {
 	 * @param @param projectExtract      
 	 * @return void
 	 */
-	List<SupplierExtRelate> list(SupplierExtRelate supplierExtRelate);
+	List<SupplierExtRelate> list(SupplierExtRelate supplierExtRelate,String page);
 	
 	/**
 	 * @Description:修改操作状态

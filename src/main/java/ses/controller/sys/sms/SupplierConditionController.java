@@ -14,6 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import bss.model.ppms.Project;
+import bss.service.ppms.ProjectService;
+
 import com.github.pagehelper.PageHelper;
 
 import ses.dao.sms.SupplierExtRelateMapper;
@@ -29,6 +32,7 @@ import ses.model.sms.SupplierExtracts;
 import ses.service.bms.AreaServiceI;
 import ses.service.sms.SupplierConTypeService;
 import ses.service.sms.SupplierConditionService;
+import ses.service.sms.SupplierExtUserServicel;
 
 /**
  * @Description:查询条件控制
@@ -53,6 +57,10 @@ public class SupplierConditionController {
 	private SupplierExtractsMapper supplierExtractsMapper;//记录
 	@Autowired
 	private SupplierExtUserMapper userServicl;
+	@Autowired
+	private SupplierExtUserServicel extUserServicl;
+	@Autowired
+	private ProjectService projectService;//项目
 	/**
 	 * @Description:保存查询条件
 	 *
@@ -77,7 +85,11 @@ public class SupplierConditionController {
 			List<SupplierExtracts> list = supplierExtractsMapper.list(record);
 			if(list==null||list.size()==0){
 				SupplierExtracts expExtractRecord=new SupplierExtracts();
-				expExtractRecord.setProjectId(condition.getProjectId());
+				Project selectById = projectService.selectById(condition.getProjectId());
+				if(selectById!=null){
+					expExtractRecord.setProjectId(selectById.getId());
+					expExtractRecord.setProjectName(selectById.getName());
+				}
 				User user=(User) sq.getSession().getAttribute("loginUser");
 				expExtractRecord.setExtractsPeople(user.getId());
 				expExtractRecord.setExtractTheWay((short)1);
@@ -91,8 +103,7 @@ public class SupplierConditionController {
 				conType=new SupplierConType();
 				conType.setCategoryId(extConTypeArray.getExtCategoryId()[i]);
 				conType.setSupplieCount(Integer.parseInt(extConTypeArray.getExtCount()[i]));
-				conType.setSupplieQualification(extConTypeArray.getExtQualifications()[i]);
-				conType.setSupplieTypeId(new Short(extConTypeArray.getExpertsTypeId()[i]));
+				conType.setSupplieTypeId(extConTypeArray.getExpertsTypeId()[i]);
 				conType.setCategoryName(extConTypeArray.getExtCategoryName()[i]);
 				conType.setConditionId(condition.getId());
 				conType.setIsMulticondition(new Short(extConTypeArray.getIsSatisfy()[i]));
@@ -135,6 +146,18 @@ public class SupplierConditionController {
 			model.addAttribute("ExpExtCondition", list.get(0));
 			model.addAttribute("projectId", list.get(0).getProjectId());
 		}
+		
+		//获取监督人员
+		List<User>  listUser=extUserServicl.list(new SupplierExtUser(list.get(0).getProjectId()));
+		model.addAttribute("listUser", listUser);
+		String userName="";
+		String userId="";
+		for (User user : listUser) {
+			userName+=user.getLoginName()+",";
+			userId+=user.getId()+",";
+		}
+		model.addAttribute("userName", userName);
+		model.addAttribute("userId", userId);
 		return "ses/sms/supplier_extracts/add_condition";
 	}
 

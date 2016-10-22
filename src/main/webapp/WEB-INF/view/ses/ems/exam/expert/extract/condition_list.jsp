@@ -47,6 +47,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	rel="stylesheet" type="text/css">
 <link href="<%=basePath%>public/purchase/css/purchase.css"
 	media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet"
+    href="<%=basePath%>public/supplier/css/supplieragents.css"
+    type="text/css">
 
 <script type="text/javascript"
 	src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
@@ -126,11 +129,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     function add(){
     	 location.href = '<%=basePath%>ExpExtract/addExtraction.html?projectId=${projectId}';
     }
-    
     function extract(id,btn){
     	  layer.open({
               type: 2, //page层
-              area: ['1000px', '500px'],
+              area: ['90%', '50%'],
               title: '抽取专家 项目名称： ${projectName}',
               closeBtn: 1,
               shade:0.01, //遮罩透明度
@@ -155,9 +157,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="container">
 			<ul class="breadcrumb margin-left-0">
 				<li><a href="#"> 首页</a></li>
-				<li><a href="#">保障作业系统</a></li>
-				<li><a href="#">采购项目管理</a></li>
-				<li class="active"><a href="#">立项管理</a></li>
+				<li><a href="#">支撑环境系统</a></li>
+				<li><a href="#">专家管理</a></li>
+				<li><a href="#">专家抽取</a></li>
+				<li class="active"><a href="#">专家抽取列表</a></li>
 			</ul>
 			<div class="clear"></div>
 		</div>
@@ -190,7 +193,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<c:forEach items="${list}" var="obj" varStatus="vs">
 					<tr >
 						<td class="tc w50">${vs.index+1}</td>
-						<td class="w800">第【${vs.index+1}】次抽取，专家来源【${obj.expertsFrom}】， 专家所在地区【${ obj.address}】
+						<td class="ww50">第【${vs.index+1}】次抽取，专家来源【${obj.expertsFrom}】， 专家所在地区【${ obj.address}】
 						<c:forEach items="${obj.conTypes }" var="contypes">
 						 ，  专家类型
 						  <c:choose>
@@ -208,19 +211,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</c:forEach>
 					
 						</td>
-						<td class="tc" id="status"><c:if test="${obj.status==1}">
+						<td class="tc w50" id="status"><c:if test="${obj.status==1}">
                                                                            待抽取
                       </c:if> <c:if test="${obj.status==2}">
 		                                                     已抽取
 		                </c:if>
                 </td>
-						<td class="tc w150" align="center" >
-							<button
-								class="btn"
+						<td class="tc w100" align="center" >
+							<button 
+								class="btn" 
 								id="save" type="button" onclick="extract('${obj.id }',this);">抽取</button>
+								
+								
 								<c:if test="${obj.status==1 }">
 								        <button
-                                class="btn"
+                                class="btn margin-top-10"
                                 id="save" type="button" onclick="update('${obj.id }');">修改</button>
 								</c:if>
 						</td>
@@ -231,7 +236,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div id="pagediv" align="right"></div>
 		</div>
 	</div>
-
 
 	<div id="content" class="div_show">
 		<p align="center" class="type">

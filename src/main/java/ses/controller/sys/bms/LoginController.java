@@ -16,6 +16,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
+
+import com.github.pagehelper.PageInfo;
+
 import ses.model.bms.StationMessage;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
@@ -124,8 +127,9 @@ public class LoginController {
 		if(user!=null&&user.getOrg()!=null&&user.getOrg().getId()!=null&&!"".equals(user.getOrg().getId())){
 			//代办事项
 			req.setAttribute("listTodos",todosService.listTodos(new Todos(new Short("0")),user.getOrg().getId()));
-			//已办事项
-			req.setAttribute("listTodosf",todosService.listTodos(new Todos(new Short("1")),user.getOrg().getId()));
+//			//已办事项
+			List<Todos> listHaveTodo = todosService.listHaveTodo(new Todos(new Short("1")), user.getOrg().getId(),page==null||page==""?1:Integer.valueOf(page));
+			req.setAttribute("listTodosf",new PageInfo<Todos>(listHaveTodo));
 		}
 		//站内消息
 		req.setAttribute("stationMessage",stationMessageService.listStationMessage(new StationMessage(0,19)));
@@ -144,11 +148,10 @@ public class LoginController {
 		User user=(User) req.getSession().getAttribute("loginUser");
 		if(user!=null&&user.getOrg()!=null&&user.getOrg().getId()!=null&&!"".equals(user.getOrg().getId())){
 			//代办事项
-			List<List<Todos>> listTodos = todosService.listTodos(new Todos(new Short("0")),user.getOrg().getId());
-			req.setAttribute("listTodos",listTodos);
-			//已办事项
-			List<List<Todos>> listTodos2 = todosService.listTodos(new Todos(new Short("1")),user.getOrg().getId());
-			req.setAttribute("listTodosf",listTodos2);
+			req.setAttribute("listTodos",todosService.listTodos(new Todos(new Short("0")),user.getOrg().getId()));
+//			//已办事项
+			List<Todos> listHaveTodo = todosService.listHaveTodo(new Todos(new Short("1")), user.getOrg().getId(),page==null||page==""?1:Integer.valueOf(page));
+			req.setAttribute("listTodosf",new PageInfo<Todos>(listHaveTodo));
 		}
 		//站内消息
 		req.setAttribute("stationMessage",stationMessageService.listStationMessage(new StationMessage(0,19)));

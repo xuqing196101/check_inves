@@ -28,7 +28,7 @@
 		       d.DEP_ID       as depId,
 		       d.IS_ROOT         as isRoot,
 		       d.EMAIL      as email,
-		       d.STATUS     as status,
+		       d.STATUS     as status
 		     
 		  from T_SES_OMS_ORG     d
 		 where NAME like '%'||#{name}||'%' AND PRINCINPAL like '%'||#{princinpal}||'%'
@@ -115,7 +115,7 @@
 		       d.fax       as fax,
 		       d.WEBSITE  as website,
 		       d.PRINCINPAL  as princinpal,
-		       d.STATUS     as status
+		       d.STATUS     as status,
 		       d.PRINCINPAL_ID_CARD  as princinpalIdCard,
 		       d.NATURE  as nature
 		  from T_SES_OMS_ORG d  RIGHT JOIN (select * from T_SES_OMS_PURDEP_ORG po where po.org_id= #{orgId}) m  on d.id = m.purchase_dep_id

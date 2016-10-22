@@ -91,9 +91,11 @@ public class SupplierExtractsController extends BaseController {
 	public String listExtraction(Model model,String id){
 		List<SupplierCondition> list= conditionService.list(new SupplierCondition(id));
 		model.addAttribute("list", list);
-//		String str[]=id.split("\\^");
-		model.addAttribute("projectId",id);
-//		model.addAttribute("projectName", str[1]);
+		Project selectById = projectService.selectById(id);
+		if(selectById!=null){
+			model.addAttribute("projectId",selectById.getId());
+			model.addAttribute("projectName",selectById.getName());
+		}
 		return "ses/sms/supplier_extracts/condition_list";
 	}
 	/**
@@ -155,11 +157,11 @@ public class SupplierExtractsController extends BaseController {
 	@RequestMapping("/extractCondition")
 	public String extractCondition(HttpServletRequest sq, Model model,String cId){
 		User user=(User) sq.getSession().getAttribute("loginUser");
-		List<SupplierExtRelate> list = extRelateService.list(new SupplierExtRelate(cId));
+		List<SupplierExtRelate> list = extRelateService.list(new SupplierExtRelate(cId),"");
 		if(list==null||list.size()==0){
 			extRelateService.insert(cId,user!=null&&!"".equals(user.getId())?user.getId():"");
 			conditionService.update(new SupplierCondition(cId,(short)2));
-			list = extRelateService.list(new SupplierExtRelate(cId));
+			list = extRelateService.list(new SupplierExtRelate(cId),"");
 		}
 		//已操作的
 		List<SupplierExtRelate> projectExtractListYes=new ArrayList<SupplierExtRelate>();
@@ -201,7 +203,7 @@ public class SupplierExtractsController extends BaseController {
 			extRelateService.update(new SupplierExtRelate(ids[0],new Short(ids[2])));
 		}
 		//查询数据
-		List<SupplierExtRelate> list = extRelateService.list(new SupplierExtRelate(ids[1]));
+		List<SupplierExtRelate> list = extRelateService.list(new SupplierExtRelate(ids[1]),"");
 		//存放已操作
 		List<SupplierExtRelate> projectExtractListYes=new ArrayList<SupplierExtRelate>();
 		//未操作
@@ -263,7 +265,7 @@ public class SupplierExtractsController extends BaseController {
 			pExtract.setSupplierConditionId(expExtCondition.getId());
 			//占用字段保存状态类型
 			pExtract.setReason("1,2,3");
-			List<SupplierExtRelate> ProjectExtract = extRelateService.list(pExtract); 
+			List<SupplierExtRelate> ProjectExtract = extRelateService.list(pExtract,""); 
 			listEp.add(ProjectExtract);
 		}
 		model.addAttribute("ProjectExtract", listEp);

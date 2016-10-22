@@ -1,9 +1,38 @@
 package bss.model.ppms;
 
 import java.util.Date;
+import java.util.List;
+
+import ses.model.bms.User;
+import ses.model.sms.Supplier;
 
 public class SaleTender {
-    /**
+	
+	
+	
+    public SaleTender() {
+		super();
+	}
+
+    
+	public SaleTender(String projectId) {
+		super();
+		this.projectId = projectId;
+	}
+
+
+	public SaleTender(String projectId, Short statusBid, String supplierId,
+			Short statusBond, String userId) {
+		super();
+		this.projectId = projectId;
+		this.statusBid = statusBid;
+		this.supplierId = supplierId;
+		this.statusBond = statusBond;
+		this.userId = userId;
+	}
+
+
+	/**
      * <pre>
      * 表字段 : T_BSS_PPMS_SALE_TENDER.ID
      * </pre>
@@ -57,6 +86,19 @@ public class SaleTender {
      */
     private Date updatedAt;
 
+    /**
+     * <pre>
+     * 发售人id
+     * 表字段 : T_BSS_PPMS_SALE_TENDER.USER_ID
+     * </pre>
+     */
+    private String userId;
+    
+    
+    private Supplier suppliers;
+    
+    
+    private User user;
     /**
      * <pre>
      * 获取：null
@@ -231,4 +273,66 @@ public class SaleTender {
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    /**
+     * <pre>
+     * 获取：发售人id
+     * 表字段：T_BSS_PPMS_SALE_TENDER.USER_ID
+     * </pre>
+     *
+     * @return T_BSS_PPMS_SALE_TENDER.USER_ID：发售人id
+     */
+    public String getUserId() {
+        return userId;
+    }
+
+    /**
+     * <pre>
+     * 设置：发售人id
+     * 表字段：T_BSS_PPMS_SALE_TENDER.USER_ID
+     * </pre>
+     *
+     * @param userId
+     *            T_BSS_PPMS_SALE_TENDER.USER_ID：发售人id
+     */
+    public void setUserId(String userId) {
+        this.userId = userId == null ? null : userId.trim();
+    }
+
+
+	/**
+	 * @return the suppliers
+	 */
+	public Supplier getSuppliers() {
+		return suppliers;
+	}
+
+
+	/**
+	 * @param suppliers the suppliers to set
+	 */
+	public void setSuppliers(Supplier suppliers) {
+		this.suppliers = suppliers;
+	}
+
+
+	/**
+	 * @return the user
+	 */
+	public User getUser() {
+		return user;
+	}
+
+
+	/**
+	 * @param user the user to set
+	 */
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+
+
+    
+    
 }

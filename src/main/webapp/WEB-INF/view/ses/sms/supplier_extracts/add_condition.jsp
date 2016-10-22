@@ -167,7 +167,7 @@ return true;
           shade: 0.01,
           offset: '20px',
           move: false,
-          area: ['1000px', '500px'],
+          area: ['90%', '50%'],
           content: '<%=basePath%>SupplierExtracts/showSupervise.do' //iframe的url
         }); 
     }
@@ -312,12 +312,12 @@ return true;
                                 <c:forEach items="${listArea }" var="area" varStatus="index">
                                     <option value="${area.id }">${area.name }</option>
                                 </c:forEach>
-                            </select> <select name="extractionSites" class="form-control input-lg w150"
+                            </select> <select name="extractionSites" class="form-control input-lg w100"
                                 id="city"></select>
                         </div></li>
-                    <li class="col-md-6 p0 "><span class="">监督人员</span>
+                    <li class="col-md-6 p0  "><span class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;监督人员：</span>
                         <div class="input-append">
-                        <input class="span2 " readonly id="supervises" value="${userName}"  onclick="supervise();" type="text"> 
+                        <input class="span2 w250" readonly id="supervises" value="${userName}"  onclick="supervise();" type="text"> 
                         </div></li>
                            <li class="col-md-6 p0 "><span class=""></span>
                         <div class="input-append">
@@ -327,8 +327,8 @@ return true;
             <div align="right" class="col-md-12">
                 <button class="btn padding-left-10 padding-right-10 btn_back"
                     id="save" onclick="opens();" type="button">添加</button>
-                <button class="btn padding-left-10 padding-right-10 btn_back"
-                    id="update" onclick="updates();" type="button">修改</button>
+<!--                 <button class="btn padding-left-10 padding-right-10 btn_back" -->
+<!--                     id="update" onclick="updates();" type="button">修改</button> -->
                 <button class="btn padding-left-10 padding-right-10 btn_back"
                     id="backups" onclick="del();" type="button">删除</button>
                 <table class="table table-bordered table-condensed mt5">
@@ -336,8 +336,8 @@ return true;
                         <tr>
                             <th class="info w30"><input type="checkbox" id="checkAll"
                                 onclick="selectAll()" alt=""></th>
-                            <th class="info">专家类型</th>
-                            <th class="info">专家数量</th>
+                            <th class="info">供应商类型</th>
+                            <th class="info">供应商抽取数量</th>
                             <th class="info">产品类别</th>
                         </tr>
                     </thead>
@@ -355,13 +355,13 @@ return true;
                                 <td class='tc w30'><input type="checkbox"
                                     value="${conTypes.categoryId}"
                                     name="chkItem" onclick="check()"></td>
-                                <td class="tc"><c:if test="${conTypes.supplieTypeId==1 }">
-                                        <input readonly="readonly" class="hide" type="text" value="技术">
-                                    </c:if> <c:if test="${conTypes.supplieTypeId==2}">
-                                        <input readonly="readonly" class="hide" type="text" value="法律">
-                                    </c:if> <c:if test="${conTypes.supplieTypeId==3 }">
+                                <td class="tc"><c:if test="${conTypes.supplieTypeId=='18A966C6FF17462AA0C015549F9EAD79^E73923CC68A44E2981D5EA6077580372^' }">
+                                        <input readonly="readonly" class="hide" type="text" value="生产型,销售型">
+                                    </c:if> <c:if test="${conTypes.supplieTypeId=='E73923CC68A44E2981D5EA6077580372^'}">
+                                        <input readonly="readonly" class="hide" type="text" value="生产型">
+                                    </c:if> <c:if test="${conTypes.supplieTypeId=='18A966C6FF17462AA0C015549F9EAD79^' }">
                                         <input readonly="readonly" class="hide" type="text"
-                                            value="商务 ">
+                                            value="销售型">
                                     </c:if></td>
                                 <td class="tc"><input class="hide" readonly="readonly"
                                     name="extCount" type="text" value="${conTypes.supplieCount }"></td>

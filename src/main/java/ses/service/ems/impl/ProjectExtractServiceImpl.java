@@ -13,7 +13,6 @@ import ses.dao.ems.ExpExtractRecordMapper;
 import ses.dao.ems.ExpertMapper;
 import ses.dao.ems.ProjectExtractMapper;
 import ses.model.ems.ExpExtCondition;
-import ses.model.ems.ExpExtractRecord;
 import ses.model.ems.Expert;
 import ses.model.ems.ProjectExtract;
 import ses.service.ems.ProjectExtractService;

@@ -196,8 +196,9 @@
 		AND BT.IS_DELETED = 0
 		AND BT.IS_FINISH
 		=#{todos.isFinish,jdbcType=DECIMAL}
-		AND BT.UNDO_TYPE =
-		#{todos.undoType,jdbcType=DECIMAL}
+		<if test="todos.undoType!=null and todos.undoType != ''">
+		AND BT.UNDO_TYPE = #{todos.undoType,jdbcType=DECIMAL}
+		</if>
 		ORDER BY UNDO_TYPE
 	</select>
 	<!-- 查询出任务类型 -->

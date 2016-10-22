@@ -49,6 +49,19 @@
                    }
               }
           });
+         $('#minute').bind('input propertychange', function() {
+        	 var count=$(this).val();
+        	
+        		 if(count>60){
+                     $("#minute").val("59");
+        		 }
+        		 if(count==0){
+        			 $("#minute").val("");
+        		 }
+        	    
+        	   
+        	});
+         
     });
     function areas(){
       var areas=$("#area").find("option:selected").val();
@@ -168,7 +181,7 @@ return true;
           shade: 0.01,
           offset: '20px',
           move: false,
-          area: ['1000px', '500px'],
+          area: ['90%', '50%'],
           content: '<%=basePath%>SupplierExtracts/showSupervise.do' //iframe的url
         }); 
     }
@@ -274,9 +287,10 @@ return true;
 		<div class="container">
 			<ul class="breadcrumb margin-left-0">
 				<li><a href="#"> 首页</a></li>
-				<li><a href="#">业务管理</a></li>
-				<li><a href="#">协议采购</a></li>
-				<li class="active"><a href="#">我的订单</a></li>
+                <li><a href="#">支撑环境系统</a></li>
+                <li><a href="#">专家管理</a></li>
+                <li><a href="#">专家抽取</a></li>
+                <li class="active"><a href="#">添加专家抽取</a></li>
 			</ul>
 			<div class="clear"></div>
 		</div>
@@ -351,25 +365,25 @@ return true;
 						</div></li>
 					<li class="col-md-6 p0 "><span class="">专家响应时限:</span>
 						<div class="input-append">
-							<input class="span2 " style="width:75px;" name="responseTime"
-								value="" maxlength="30"
+							<input class="span2 w75"  name="hour"
+								value="${hour}" maxlength="3"
 								type="text">
-								<input class="span2 " style="width:50px;" value="${hour}" readonly="readonly" name="hour"
-                                value="时" maxlength="30"
-                                type="text"> 
-                                <input class="span2 " value="${minute}" style="width:75px;" name="minute"
-                                value="" maxlength="30"
-                                type="text">  
-								    <input class="span2 " readonly="readonly" style="width:50px;" name="responseTime"
-                                value="分" maxlength="30" onblur="blur(this);"   type="text"> 
+								
+								<input class="span2 w50" readonly="readonly" 
+                                value="时" maxlength="5"  type="text"> 
+                                
+                                <input class="span2 w75" value="${minute}" id="minute" name="minute"
+                                maxlength="3"  type="text"  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">  
+								    <input class="span2 w50" readonly="readonly" 
+                                value="分" maxlength="30"    type="text"> 
 						</div></li>
 					<li class="col-md-6 p0 "><span class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;年龄：</span>
 						<div class="input-append">
-							<input class="" 
-								maxlength="30" style="width: 100px;" name="actionage" type="text">
-								<input class="hide" name="" style="width: 50px;" maxlength="30" value=" — " type="text" >
-								    <input class="" name="endage" 
-                                maxlength="30" style="width: 100px;"  type="text">
+							<input class="w100" 
+								maxlength="30"  value="${actionage}" name="actionage" type="text">
+								<input class="w50" name=""  maxlength="30" value=" — " type="text" >
+								    <input class="w100" name="endage"  value="${endage}"
+                                maxlength="30"   type="text">
 						</div></li>
 					<li class="col-md-6 p0 "><span class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;监督人员:</span>
 						<div class="input-append">

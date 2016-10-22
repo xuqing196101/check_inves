@@ -47,6 +47,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	rel="stylesheet" type="text/css">
 <link href="<%=basePath%>public/purchase/css/purchase.css"
 	media="screen" rel="stylesheet" type="text/css">
+<link rel="stylesheet"
+    href="<%=basePath%>public/supplier/css/supplieragents.css"
+    type="text/css">
 
 <script type="text/javascript"
 	src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
@@ -130,7 +133,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     function extract(id,btn){
     	  layer.open({
               type: 2, //page层
-              area: ['1000px', '500px'],
+              area: ['90%', '50%'],
               title: '抽取专家 项目名称： ${projectName}',
               closeBtn: 1,
               shade:0.01, //遮罩透明度
@@ -193,35 +196,36 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td class="tc w50">${vs.index+1}</td>
 						<td class="w800">第【${vs.index+1}】次抽取，， 供应商所在地区【${ obj.address}】
 						<c:forEach items="${obj.conTypes }" var="contypes">
-						 ，  供应商类别
-						  <c:choose>
-						      <c:when test="${contypes.supplieTypeId==1}">
-						                        【技术】
-						      </c:when>
-						      <c:when test="${contypes.supplieTypeId==2}">
-						                        【商务】
-						      </c:when>
-						      <c:when test="${contypes.supplieTypeId==3}">
-						                       【法律】
-						      </c:when>
-						  </c:choose>
+					
+						 <c:choose>
+						  <c:when test="${'18A966C6FF17462AA0C015549F9EAD79^E73923CC68A44E2981D5EA6077580372^' == contypes.supplieTypeId  }">
+						                   ，  供应商类型【 生产型,销售型 】
+						  </c:when>
+						  <c:when test='${contypes.supplieTypeId == "E73923CC68A44E2981D5EA6077580372^"}'>
+						                                 ，  供应商类型【生产型】
+						  </c:when>
+						  <c:when test='${contypes.supplieTypeId == "18A966C6FF17462AA0C015549F9EAD79^" }'>
+						    ， 供应商类型【销售型】
+						  </c:when>
+						 </c:choose>
+                                                                          
 					                ， 采购类别【 ${contypes.categoryName} 】，供应商数量【${contypes.supplieCount }】
 						</c:forEach>
 					
 						</td>
-						<td class="tc" id="status"><c:if test="${obj.status==1}">
+						<td class="tc w75" id="status"><c:if test="${obj.status==1}">
                                                                            待抽取
                       </c:if> <c:if test="${obj.status==2}">
 		                                                     已抽取
 		                </c:if>
                 </td>
-						<td class="tc w150" align="center" >
+						<td class="tc w100" align="center" >
 							<button
 								class="btn"
 								id="save" type="button" onclick="extract('${obj.id }',this);">抽取</button>
 								<c:if test="${obj.status==1 }">
 								        <button
-                                class="btn"
+                                class="btn margin-top-10"
                                 id="save" type="button" onclick="update('${obj.id }');">修改</button>
 								</c:if>
 						</td>

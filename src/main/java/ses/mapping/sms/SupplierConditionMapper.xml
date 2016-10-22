@@ -67,9 +67,13 @@
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="ses.model.sms.SupplierCondition">
+
 		<!-- @mbggenerated -->
 		insert into T_SES_SMS_SUPPLIE_CONDITION
 		<trim prefix="(" suffix=")" suffixOverrides=",">
+		  <if test="id != null">
+                ID,
+            </if>
 			<if test="projectId != null">
 				PROJECT_ID,
 			</if>
@@ -96,6 +100,9 @@
 			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
+		<if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
 			<if test="projectId != null">
 				#{projectId,jdbcType=VARCHAR},
 			</if>
@@ -121,7 +128,7 @@
 				#{extractAddress,jdbcType=VARCHAR},
 			</if>
 		</trim>
-		  <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+		       <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
             select sys_guid() from dual
         </selectKey>
 	</insert>

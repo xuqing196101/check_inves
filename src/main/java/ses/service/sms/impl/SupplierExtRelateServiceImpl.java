@@ -9,6 +9,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+
 import ses.dao.sms.SupplierAgentsMapper;
 import ses.dao.sms.SupplierConditionMapper;
 import ses.dao.sms.SupplierExtRelateMapper;
@@ -85,8 +87,9 @@ public class SupplierExtRelateServiceImpl implements SupplierExtRelateService {
 	 * @return void
 	 */
 	@Override
-	public List<SupplierExtRelate> list(SupplierExtRelate projectExtract) {
-
+	public List<SupplierExtRelate> list(SupplierExtRelate projectExtract,String page) {
+		if(page!=null&&!"".equals(page))
+		PageHelper.startPage(Integer.valueOf(page), 10);
 		return supplierExtRelateMapper.list(projectExtract);
 
 	}

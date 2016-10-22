@@ -89,29 +89,7 @@
   </script>
   <body>
 <!-- 表格开始-->
-   <div class="container">
-      <div class="col-md-8">
-    <button class="btn btn-windows add" type="button" onclick="add();">添加</button>
-	</div>
-            <div class="col-md-4 ">
-              <div class="search-block-v2">
-                <div class="">
-                  <form accept-charset="UTF-8" action="" method="get"><div style="display:none"><input name="utf8" value="✓" type="hidden"></div>
-                    <input id="t" name="t" value="search_products" type="hidden">
-                    <div class="col-md-12 pull-right">
-                      <div class="input-group">
-                        <input class="form-control bgnone h37 p0_10" id="k" name="k" placeholder="" type="text">
-                        <span class="input-group-btn">
-                          <input class="btn-u" name="commit" value="搜索" type="submit">
-                        </span>
-                      </div>
-                    </div>
-                  </form>               
-			   </div>
-              </div>
-            </div>	
-    </div>
-   
+
    <div class="container margin-top-5">
      <div class="content padding-left-25 padding-right-25 padding-top-5">
         <table class="table table-bordered table-condensed">
@@ -149,5 +127,8 @@
         </table>
      </div>
    </div>
+      <div class="container margin-top-5 padding-left-30">
+         <button class="btn btn-windows add" type="button" onclick="add();">添加</button>
+      </div>
   </body>
 </html>

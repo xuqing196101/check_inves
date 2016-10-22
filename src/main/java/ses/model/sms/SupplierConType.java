@@ -17,7 +17,7 @@ public class SupplierConType {
      * 表字段 : T_SES_SMS_SUPPLIE_CON_TYPE.SUPPLIE_TYPE_ID
      * </pre>
      */
-    private Short supplieTypeId;
+    private String supplieTypeId;
 
     /**
      * <pre>
@@ -116,7 +116,7 @@ public class SupplierConType {
      *
      * @return T_SES_SMS_SUPPLIE_CON_TYPE.SUPPLIE_TYPE_ID：供应商类型
      */
-    public Short getSupplieTypeId() {
+    public String getSupplieTypeId() {
         return supplieTypeId;
     }
 
@@ -129,7 +129,7 @@ public class SupplierConType {
      * @param supplieTypeId
      *            T_SES_SMS_SUPPLIE_CON_TYPE.SUPPLIE_TYPE_ID：供应商类型
      */
-    public void setSupplieTypeId(Short supplieTypeId) {
+    public void setSupplieTypeId(String supplieTypeId) {
         this.supplieTypeId = supplieTypeId;
     }
 

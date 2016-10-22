@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import bss.model.ppms.Project;
+import bss.service.ppms.ProjectService;
+
 import com.github.pagehelper.PageHelper;
 
 import ses.dao.ems.ExpExtractRecordMapper;
@@ -29,6 +32,7 @@ import ses.model.ems.ProExtSupervise;
 import ses.service.bms.AreaServiceI;
 import ses.service.ems.ExpExtConditionService;
 import ses.service.ems.ExtConTypeService;
+import ses.service.ems.ProjectSupervisorServicel;
 
 /**
  * @Description:查询条件控制
@@ -51,7 +55,10 @@ public class ExpExtConditionController {
 	private ProExtSuperviseMapper extSuperviseMapper;
 	@Autowired
 	private ExpExtractRecordMapper expExtractRecordMapper;
-	
+	@Autowired
+	ProjectSupervisorServicel projectSupervisorServicel;
+	@Autowired
+	ProjectService projectService;
 	/**
 	 * @Description:保存查询条件
 	 *
@@ -62,6 +69,8 @@ public class ExpExtConditionController {
 	 */
 	@RequestMapping("/saveExtCondition")
 	public String saveExtCondition(String actionage,String endage, String hour,String minute,ExpExtCondition condition,ExtConTypeArray extConTypeArray,String[] sids,HttpServletRequest sq){
+		condition.setAge(actionage+"9605"+endage);
+		condition.setResponseTime(hour+","+minute);
 		if(condition.getId()!=null&&!"".equals(condition.getId())){
 			conditionService.update(condition);	
 			//删除关联数据重新添加
@@ -76,7 +85,11 @@ public class ExpExtConditionController {
 			List<ExpExtractRecord> list = expExtractRecordMapper.list(record);
 			if(list==null||list.size()==0){
 				ExpExtractRecord expExtractRecord=new ExpExtractRecord();
-				expExtractRecord.setProjectId(condition.getProjectId());
+				Project selectById = projectService.selectById(condition.getProjectId());
+				if(selectById!=null){
+					expExtractRecord.setProjectId(selectById.getId());
+					expExtractRecord.setProjectName(selectById.getName());
+				}
 				User user=(User) sq.getSession().getAttribute("loginUser");
 				expExtractRecord.setExtractsPeople(user.getId());
 				expExtractRecord.setExtractTheWay((short)1);
@@ -99,7 +112,7 @@ public class ExpExtConditionController {
 				conTypeService.insert(conType);	
 			}
 		}
-		
+
 		//监督人员
 		if(sids!=null&&sids.length!=0){
 			ProExtSupervise record=null;
@@ -131,10 +144,31 @@ public class ExpExtConditionController {
 
 		List<ExpExtCondition> list = conditionService.list(condition);
 		if(list!=null&&list.size()!=0){
-			list.get(0).getConTypes().get(0).getCategorySplit();
+			String[] age=list.get(0).getAge()!=null?list.get(0).getAge().split("9605"):null;
+			if(age!=null&&age.length>=2){
+				model.addAttribute("actionage", age[0]);
+				model.addAttribute("endage", age[1]);
+			}
+			String[] atime=list.get(0).getResponseTime()!=null?list.get(0).getResponseTime().split(","):null;
+			if(atime!=null&&atime.length>=2){
+				model.addAttribute("minute", atime[0]);
+				model.addAttribute("hour", atime[1]);
+			}
 			model.addAttribute("ExpExtCondition", list.get(0));
 			model.addAttribute("projectId", list.get(0).getProjectId());
+			//获取监督人员
+			List<User>  listUser=projectSupervisorServicel.list(new ProExtSupervise(list.get(0).getProjectId()));
+			model.addAttribute("listUser", listUser);
+			String userName="";
+			String userId="";
+			for (User user : listUser) {
+				userName+=user.getLoginName()+",";
+				userId+=user.getId()+",";
+			}
+			model.addAttribute("userName", userName);
+			model.addAttribute("userId", userId);
 		}
+
 		return "ses/ems/exam/expert/extract/add_condition";
 	}
 
