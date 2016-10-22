@@ -109,7 +109,7 @@
     //重置搜索栏
 
   function resetForm(){
-      $("#supplierName").attr("value","");
+      $("input[name='supplierName']").val("");
         //还原select下拉列表只需要这一句
       $("#status option:selected").removeAttr("selected");
     }
@@ -141,7 +141,7 @@
             </li>
             <li class="fl">
               <label class="fl mt5">审核状态：</label> 
-                <select name="status" class="mb0 mt5">
+                <select name="status" class="mb0 mt5" id="status">
                   <option value="">全部</option>
                   <option <c:if test="${state == 0 }">selected</c:if> value="0">待初审</option>
                   <option <c:if test="${state == 1 }">selected</c:if> value="1">待复审</option>

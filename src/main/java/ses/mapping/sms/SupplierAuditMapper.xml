@@ -13,10 +13,11 @@
     <result column="AUDIT_FIELD" property="auditField" />
     <result column="AUDIT_CONTENT" property="auditContent" />
     <result column="SUPPLIER_INSPECT_LIST" property="supplierInspectList" />
+    <result column="AUDIT_FIELD_NAME" property="auditFieldName" />
   </resultMap>
   <sql id="Base_Column_List">
     ID, SUGGEST, AUDIT_TYPE, USER_ID, SUPPLIER_ID, STATUS, CREATED_AT, UPDATED_AT, AUDIT_FIELD, 
-    AUDIT_CONTENT
+    AUDIT_CONTENT, AUDIT_FIELD_NAME
   </sql>
   
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -34,11 +35,11 @@
   <insert id="insert" parameterType="ses.model.sms.SupplierAudit">
     insert into T_SES_SMS_SUPPLIER_AUDIT (ID, SUGGEST, AUDIT_TYPE, 
       USER_ID, SUPPLIER_ID, STATUS, 
-      CREATED_AT, UPDATED_AT, AUDIT_FIELD, 
+      CREATED_AT, UPDATED_AT, AUDIT_FIELD, AUDIT_FIELD_NAME
       AUDIT_CONTENT)
     values (#{id}, #{suggest}, #{auditType}, 
       #{userId}, #{supplierId}, #{status}, 
-      #{createdAt}, #{updatedAt}, #{auditField}, 
+      #{createdAt}, #{updatedAt}, #{auditField}, #{auditFieldName}
       #{auditContent})
   </insert>
   
@@ -79,6 +80,9 @@
       <if test="supplierInspectList != null">
         SUPPLIER_INSPECT_LIST,
       </if>
+      <if test="auditFieldName != null">
+        AUDIT_FIELD_NAME,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -113,6 +117,9 @@
       </if>
       <if test="supplierInspectList != null">
         #{supplierInspectList},
+      </if>
+      <if test="auditFieldName != null">
+        #{auditFieldName},
       </if>
     </trim>
     <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
@@ -152,6 +159,9 @@
        <if test="auditContent != null">
         SUPPLIER_INSPECT_LIST = #{supplierInspectList},
       </if>
+      <if test="auditContent != null">
+        AUDIT_FIELD_NAME = #{auditFieldName},
+      </if>
     </set>
     where ID = #{id}
   </update>
@@ -165,7 +175,8 @@
       CREATED_AT = #{createdAt},
       UPDATED_AT = #{updatedAt},
       AUDIT_FIELD = #{auditField},
-      AUDIT_CONTENT = #{auditContent}
+      AUDIT_CONTENT = #{auditContent},
+      AUDIT_FIELD_NAME = #{auditFieldName},
     where ID = #{id}
   </update>
   

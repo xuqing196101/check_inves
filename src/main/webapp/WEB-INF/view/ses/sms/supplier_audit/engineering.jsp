@@ -126,7 +126,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   });
 
 
-function reason(id,auditField){
+function reason(id,auditFieldName){
 
    var supplierId=$("#supplierId").val();
    var auditContent="工程证书编号为:"+$("#"+id).text()+"的信息"; //审批的字段内容 
@@ -135,7 +135,7 @@ function reason(id,auditField){
     $.ajax({
         url:"<%=basePath%>supplierAudit/auditReasons.html",
         type:"post",
-        data:"auditType="+auditType+"&auditField="+auditField+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId,
+        data:"auditType="+auditType+"&auditFieldName="+auditFieldName+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId,
       });
         $("#"+id+"_show").show();
         $("#"+id+"_show1").show();
@@ -143,19 +143,19 @@ function reason(id,auditField){
     });
 }
 
-function reason1(id){
+function reason1(id,auditField){
   var supplierId=$("#supplierId").val();
   var id2=id+"2";
   var id1=id+"1";
   var id3=id+"3";
-  var auditField=$("#"+id2+"").text().replaceAll("：",""); //审批的字段名字
+  var auditFieldName=$("#"+id2+"").text().replaceAll("：",""); //审批的字段名字
   var auditContent= document.getElementById(""+id+"").value; //审批的字段内容
   var auditType=$("#engineering").text();//审核类型
   layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
     $.ajax({
         url:"<%=basePath%>supplierAudit/auditReasons.html",
         type:"post",
-        data:"auditType="+auditType+"&auditField="+auditField+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId,
+        data:"auditType="+auditType+"&auditFieldName="+auditFieldName+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+auditField,
       });
      layer.msg("审核不通过的理由是："+text,{offset:'200px'});
      $("#"+id3+"").show();
@@ -226,7 +226,7 @@ function tijiao(str){
         <div class="col-md-12 tab-v2 job-content">
           <div class="padding-top-10">
             <ul class="nav nav-tabs bgdd">
-              <li class=""><a aria-expanded="fale" href="#tab-1" data-toggle="tab" onclick="tijiao('essential');">基本信息</a></li>
+              <li class=""><a aria-expanded="fale" href="#tab-1" data-toggle="tab" onclick="tijiao('essential');">详细信息</a></li>
               <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" onclick="tijiao('financial');">财务信息</a></li>
               <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('shareholder');">股东信息</a></li>
               <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
@@ -385,35 +385,35 @@ function tijiao(str){
                       <ul class="list-unstyled list-flow">
                         <li class="col-md-6 p0"><span class="" id="orgName2">组织机构：</span>
                           <div class="input-append">
-                            <input id="orgName" class="span3" type="text" value="${supplierMatEngs.orgName }" onclick="reason1(this.id)"/>
+                            <input id="orgName" class="span3" type="text" value="${supplierMatEngs.orgName }" onclick="reason1(this.id,orgName)"/>
                             <div id="orgName1"  class="b f18 fl ml10 red hand">√</div>
                             <div id="orgName3"  class="b f18 fl ml10 hand">×</div>
                           </div>
                         </li>
                         <li class="col-md-6 p0"><span class="" id="totalTech2">技术负责人：</span>
                           <div class="input-append">
-                            <input id="totalTech" class="span3" type="text" value="${supplierMatEngs.totalTech }" onclick="reason1(this.id)"/>
+                            <input id="totalTech" class="span3" type="text" value="${supplierMatEngs.totalTech }" onclick="reason1(this.id,'totalTech')"/>
                             <div id="totalTech1" class="b f18 fl ml10 red hand">√</div>
                           <div id="totalTech3" class="b f18 fl ml10 hand">×</div>
                           </div>
                         </li>
                         <li class="col-md-6 p0"><span class="" id="totalGlNormal2">中级及以上职称人员：</span>
                           <div class="input-append">
-                            <input id="totalGlNormal" class="span3" type="text"  value="${supplierMatEngs.totalGlNormal }" onclick="reason1(this.id)"/>
+                            <input id="totalGlNormal" class="span3" type="text"  value="${supplierMatEngs.totalGlNormal }" onclick="reason1(this.id,'totalGlNormal')"/>
                             <div id="totalGlNormal1" class="b f18 fl ml10 red hand">√</div>
                           <div id="totalGlNormal3"  class="b f18 fl ml10 hand">×</div>
                           </div>
                         </li>
                         <li class="col-md-6 p0"><span class="" id="totalMange2">管理人员：</span>
                           <div class="input-append">
-                            <input id="totalMange" class="span3" type="text"  value="${supplierMatEngs.totalMange }" onclick="reason1(this.id)"/>
+                            <input id="totalMange" class="span3" type="text"  value="${supplierMatEngs.totalMange }" onclick="reason1(this.id,'totalMange')"/>
                             <div id="totalMange1" class="b f18 fl ml10 red hand">√</div>
                           <div id="totalMange3"  class="b f18 fl ml10 hand">×</div>
                           </div>
                         </li>
                         <li class="col-md-6 p0"><span class="" id="totalTechWorker2">技术工人：</span>
                           <div class="input-append">
-                            <input id="totalMange" class="span3" type="text" value="${supplierMatEngs.totalTechWorker }" onclick="reason1(this.id)"/>
+                            <input id="totalMange" class="span3" type="text" value="${supplierMatEngs.totalTechWorker }" onclick="reason1(this.id,'totalTechWorker')"/>
                             <div id="totalTechWorker1" class="b f18 fl ml10 red hand">√</div>
                           <div id="totalTechWorker3"  class="b f18 fl ml10 hand">×</div>
                           </div>

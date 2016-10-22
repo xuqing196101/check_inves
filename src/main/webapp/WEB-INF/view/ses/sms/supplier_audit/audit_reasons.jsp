@@ -225,7 +225,7 @@ alert(supplierInspectListFile);
         <div class="col-md-12 tab-v2 job-content">
           <div class="padding-top-10">
             <ul class="nav nav-tabs bgdd">
-              <li class=""><a aria-expanded="fale" href="#tab-1" data-toggle="tab" onclick="tijiao('essential');">基本信息</a></li>
+              <li class=""><a aria-expanded="fale" href="#tab-1" data-toggle="tab" onclick="tijiao('essential');">详细信息</a></li>
               <li class=""><a aria-expanded="" href="#tab-2" data-toggle="tab" onclick="tijiao('financial');">财务信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('shareholder');">股东信息</a></li>
               <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
@@ -259,6 +259,7 @@ alert(supplierInspectListFile);
                        <th class="info w50">序号</th>
                        <th class="info">审批类型</th>
                        <th class="info">审批字段</th>
+                       <th class="info">审批字段名字</th>
                        <th class="info">审批内容</th>
                        <th class="info">不通过理由</th>
                      </tr>
@@ -268,6 +269,7 @@ alert(supplierInspectListFile);
                          <td class="tc">${vs.index + 1}</td>
                          <td class="tc">${list.auditType }</td>
                          <td class="tc">${list.auditField }</td>
+                         <td class="tc">${list.auditFieldName }</td>
                          <td class="tc">${list.auditContent}</td>
                          <td class="tc">${list.suggest}</td>
                        </tr>

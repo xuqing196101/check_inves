@@ -10,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]-->
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<title>基本信息</title>
+<title>详细信息</title>
 <!-- Meta -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -126,18 +126,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       $(this).parent("div").find("div").eq(1).hide();
     });
   });
-function reason(id){
+function reason(id,auditField){
   var supplierId=$("#id").val();
   var id2=id+"2";
   var id3=id+"3";
-  var auditField=$("#"+id2+"").text().replaceAll("：",""); //审批的字段名字
+  var auditFieldName=$("#"+id2+"").text().replaceAll("：",""); //审批的字段名字
   var  auditContent= document.getElementById(""+id+"").value; //审批的字段内容
   var auditType=$("#essential").text(); //审核类型
   layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
     $.ajax({
         url:"<%=basePath%>supplierAudit/auditReasons.html",
         type:"post",
-        data:"auditType="+auditType+"&auditField="+auditField+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId,
+        data:"auditType="+auditType+"&auditFieldName="+auditFieldName+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+auditField,
       });
   $("#"+id3+"").show();
   layer.msg("审核不通过的理由是："+text,{offset:'200px'});    
@@ -150,15 +150,15 @@ function reason(id){
     });
 }
 
-function reason1(ele){
+function reason1(ele,auditField){
   var supplierId=$("#id").val();
   var auditType=$("#essential").text(); //审核类型
-  var auditField = $(ele).parents("li").find("span").text().replaceAll("：","");//审批的字段名字
+  var auditFieldName = $(ele).parents("li").find("span").text().replaceAll("：","");//审批的字段名字
     layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
       $.ajax({
           url:"<%=basePath%>supplierAudit/auditReasons.html",
           type:"post",
-          data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId+"&auditType="+auditType+"&auditContent=附件",
+          data:"&auditFieldName="+auditFieldName+"&suggest="+text+"&supplierId="+supplierId+"&auditType="+auditType+"&auditContent=附件"+"&auditField="+auditField,
         });
        $(ele).parents("li").find("div").eq(2).show(); //显示叉
         layer.msg("审核不通过的理由是："+text,{offset:'200px'});
@@ -230,7 +230,7 @@ function tijiao(str){
       <div class="col-md-12 tab-v2 job-content">
         <div class="padding-top-10">
           <ul class="nav nav-tabs bgdd">
-            <li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" onclick="tijiao('essential');" id="essential">基本信息</a></li>
+            <li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" onclick="tijiao('essential');" id="essential">详细信息</a></li>
             <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('financial');">财务信息</a></li>
             <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('shareholder');">股东信息</a></li>
             <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
@@ -262,35 +262,35 @@ function tijiao(str){
                   <ul class="list-unstyled list-flow">
                     <li class="col-md-6 p0 "><span class="" id="supplierName2">供应商名称：</span>
                       <div class="input-append">
-                        <input class="span3" id="supplierName" onclick="reason(this.id)" value="${suppliers.supplierName } " type="text">
+                        <input class="span3" id="supplierName" onclick="reason(this.id,'supplierName')" value="${suppliers.supplierName } " type="text">
                         <div id="supplierName1" class="b f18 fl ml10 red hand">√</div>
                         <div id="supplierName3" class="b f18 fl ml10 hand">×</div>
                       </div>
                     </li>
                     <li class="col-md-6 p0 "><span class="" id="website2">公司网址：</span>
                       <div class="input-append">
-                        <input class="span3" id="website" value="${suppliers.website } " onclick="reason(this.id)" type="text">
+                        <input class="span3" id="website" value="${suppliers.website } " onclick="reason(this.id,'website')" type="text">
                         <div id="website1"  class="b f18 fl ml10 red hand">√</div>
                         <div  id="website3" class="b f18 fl ml10 hand">×</div>
                       </div>
                     </li>
                     <li class="col-md-6 p0 "><span class="" id="foundDate2">成立日期：</span>
                       <div class="input-append">
-                        <input class="span3" id="foundDate" value="<fmt:formatDate value='${suppliers.foundDate}' pattern='yyyy-MM-dd'/>"  onclick="reason(this.id)" type="text">
+                        <input class="span3" id="foundDate" value="<fmt:formatDate value='${suppliers.foundDate}' pattern='yyyy-MM-dd'/>"  onclick="reason(this.id,'foundDate')" type="text">
                         <div id="foundDate1" class="b f18 fl ml10 red hand">√</div>
                         <div id="foundDate3" class="b f18 fl ml10 hand">×</div>
                       </div>
                     </li>
                     <li class="col-md-6 p0 "><span class="" id="businessType2">营业执照登记类型：</span>
                       <div class="input-append">
-                        <input class="span3" id="businessType" value="${suppliers.businessType } " type="text" onclick="reason(this.id)">
+                        <input class="span3" id="businessType" value="${suppliers.businessType } " type="text" onclick="reason(this.id,'businessType')">
                         <div id="businessType1" class="b f18 fl ml10 red hand">√</div>
                         <div id="businessType3"  class="b f18 fl ml10 hand">×</div>
                       </div>
                     </li>
                     <li class="col-md-6 p0"><span class="" id="address2">地址：</span>
                       <div class="input-append">
-                        <input class="span3" id="address" value="${suppliers.address } " type="text" onclick="reason(this.id)" >
+                        <input class="span3" id="address" value="${suppliers.address } " type="text" onclick="reason(this.id,'address')" >
                         <div id="address1" class="b f18 fl ml10 red hand">√</div>
                         <div id="address3" class="b f18 fl ml10 hand">×</div>
                       </div>
@@ -298,27 +298,27 @@ function tijiao(str){
 
                     <li class="col-md-6 p0 "><span class="" id="bankName2">开户行名称：</span>
                       <div class="input-append">
-                        <input class="span3" id="bankName" value="${suppliers.bankName } "  type="text" onclick="reason(this.id)" >
+                        <input class="span3" id="bankName" value="${suppliers.bankName } "  type="text" onclick="reason(this.id,'bankName')" >
                         <div id="bankName1" class="b f18 fl ml10 red hand">√</div>
                         <div id="bankName3" class="b f18 fl ml10 hand">×</div>
                       </div>
                     </li>
                     <li class="col-md-6 p0 "><span class="" id="bankAccount2">开户行账户：</span>
                       <div class="input-append">
-                        <input class="span3" id="bankAccount" value="${suppliers.bankAccount } " type="text" onclick="reason(this.id)" >
+                        <input class="span3" id="bankAccount" value="${suppliers.bankAccount } " type="text" onclick="reason(this.id,'bankAccount')" >
                         <div id="bankAccount1" class="b f18 fl ml10 red hand">√</div>
                         <div id="bankAccount3" class="b f18 fl ml10 hand">×</div>
                       </div>
                     </li>
                     <li class="col-md-6 p0 "><span class="" id="postCode2">邮编：</span>
                       <div class="input-append">
-                        <input class="span3" id="postCode" value="${suppliers.postCode }" type="text" onclick="reason(this.id)" >
+                        <input class="span3" id="postCode" value="${suppliers.postCode }" type="text" onclick="reason(this.id,'postCode')" >
                         <div id="postCode1" class="b f18 fl ml10 red hand">√</div>
                         <div id="postCode3" class="b f18 fl ml10 hand">×</div>
                       </div>
                     </li>
 
-                    <li class="col-md-6 p0 "><span class="" onclick="reason1(this);">近三个月完税凭证：</span>
+                    <li class="col-md-6 p0 "><span class="" onclick="reason1(this,'taxCert');">近三个月完税凭证：</span>
                       <div class="input-append">
                         <c:if test="${suppliers.taxCert !=null}">
                           <a class="span3 green" onclick="downloadFile('${suppliers.taxCert}')" >下载附件</a>
@@ -330,7 +330,7 @@ function tijiao(str){
                         <div  class="b f18 ml10 fl hand">×</div>
                       </div>
                     </li>
-                    <li class="col-md-6 p0 "><span class="" onclick="reason1(this);">近三年银行基本账户年末对账单：</span>
+                    <li class="col-md-6 p0 "><span class="" onclick="reason1(this,'billCert');">近三年银行基本账户年末对账单：</span>
                       <div class="input-append">
                         <c:if test="${suppliers.billCert !=null}">
                           <a class="span3 green" onclick="downloadFile('${suppliers.billCert}')">下载附件</a>
@@ -342,7 +342,7 @@ function tijiao(str){
                         <div  class="b f18 ml10 fl hand">×</div>
                       </div>
                     </li>
-                    <li class="col-md-6 p0 "><span class="" onclick="reason1(this);">近三个月缴纳社会保险金凭证：</span>
+                    <li class="col-md-6 p0 "><span class="" onclick="reason1(this,'securityCert');">近三个月缴纳社会保险金凭证：</span>
                       <div class="input-append">
                         <c:if test="${suppliers.securityCert != null}">
                           <a class="span3 green" onclick="downloadFile('${suppliers.securityCert}')">下载附件</a>
@@ -354,7 +354,7 @@ function tijiao(str){
                         <div class="b f18 ml10 fl hand">×</div>
                       </div>
                     </li>
-                    <li class="col-md-6 p0 "><span class="" onclick="reason1(this);">近三年内无重大违法记录声明：</span>
+                    <li class="col-md-6 p0 "><span class="" onclick="reason1(this,'breachCert');">近三年内无重大违法记录声明：</span>
                       <div class="input-append">
                         <c:if test="${suppliers.breachCert != null }">
                           <a class="span3 green" onclick="downloadFile('${suppliers.breachCert}')">下载附件</a>
@@ -376,28 +376,28 @@ function tijiao(str){
                   <ul class="list-unstyled list-flow">
                     <li class="col-md-6 p0 "><span class="" id="legalName2">姓名：</span>
                       <div class="input-append">
-                        <input class="span3" id="legalName" value="${suppliers.legalName } " type="text" onclick="reason(this.id)">
+                        <input class="span3" id="legalName" value="${suppliers.legalName } " type="text" onclick="reason(this.id,'legalName')">
                         <div id="legalName1" class="b f18 fl ml10 red hand">√</div>
                         <div id="legalName3" class="b f18 fl ml10 hand">×</div>
                       </div>
                     </li>
                     <li class="col-md-6 p0 "><span class="" id="legaIdCard2">身份证号：</span>
                       <div class="input-append">
-                        <input class="span3" id="legaIdCard" value="${suppliers.legalIdCard } "  type="text" onclick="reason(this.id)">
+                        <input class="span3" id="legaIdCard" value="${suppliers.legalIdCard } "  type="text" onclick="reason(this.id,'legalIdCard')">
                         <div id="legaIdCard1" class="b f18 fl ml10 red hand">√</div>
                         <div id="legaIdCard3"  class="b f18 fl ml10 hand">×</div>
                       </div>
                     </li>
                     <li class="col-md-6 p0 "><span class="" id="legalTelephone2">固定电话：</span>
                       <div class="input-append">
-                        <input class="span3" id="legalTelephone" value="${suppliers.legalTelephone } " type="text" onclick="reason(this.id)">
+                        <input class="span3" id="legalTelephone" value="${suppliers.legalTelephone } " type="text" onclick="reason(this.id,'legalTelephone')">
                         <div id="legalTelephone1" class="b f18 fl ml10 red hand">√</div>
                         <div id="legalTelephone3" class="b f18 fl ml10 hand">×</div>
                       </div>
                     </li>
                     <li class="col-md-6 p0 "><span class="" id="legalMobile2">手机：</span>
                       <div class="input-append">
-                        <input class="span3" id="legalMobile" value="${suppliers.legalMobile } " type="text" onclick="reason(this.id)">
+                        <input class="span3" id="legalMobile" value="${suppliers.legalMobile } " type="text" onclick="reason(this.id,'legalMobile')">
                         <div id="legalMobile1" class="b f18 fl ml10 red hand">√</div>
                         <div id="legalMobile3" class="b f18 fl ml10 hand">×</div>
                       </div>
@@ -412,42 +412,42 @@ function tijiao(str){
                   <ul class="list-unstyled list-flow">
                     <li class="col-md-6 p0 "><span class="" id="contactName2">姓名：</span>
                       <div class="input-append">
-                        <input class="span3" id="contactName" value="${suppliers.contactName } " type="text" onclick="reason(this.id)" >
+                        <input class="span3" id="contactName" value="${suppliers.contactName } " type="text" onclick="reason(this.id,'contactName')" >
                         <div id="contactName1" class="b f18 fl ml10 red hand">√</div>
                         <div id="contactName3" class="b f18 fl ml10 hand">×</div>
                       </div>
                     </li>
                     <li class="col-md-6 p0 "><span class="" id="contactFax2">传真：</span>
                       <div class="input-append">
-                        <input class="span3" id="contactFax" value="${suppliers.contactFax } "  type="text" onclick="reason(this.id)" >
+                        <input class="span3" id="contactFax" value="${suppliers.contactFax } "  type="text" onclick="reason(this.id,'contactFax')" >
                         <div id="contactFax1" class="b f18 fl ml10 red hand">√</div>
                         <div id="contactFax3" class="b f18 fl ml10 hand">×</div>
                       </div>
                     </li>
                     <li class="col-md-6 p0 "><span class="" id="contactTelephone1">固定电话：</span>
                       <div class="input-append">
-                        <input class="span3" id="contactTelephone" value="${suppliers.contactTelephone } " type="text" onclick="reason(this.id)" >
+                        <input class="span3" id="contactTelephone" value="${suppliers.contactTelephone } " type="text" onclick="reason(this.id,'contactTelephone')" >
                         <div id="contactTelephone1" class="b f18 fl ml10 red hand">√</div>
                         <div id="contactTelephone3" class="b f18 fl ml10 hand">×</div>
                       </div>
                     </li>
                     <li class="col-md-6 p0 "><span class="" id="contactMobile2">手机：</span>
                       <div class="input-append">
-                        <input class="span3" id="contactMobile" value="${suppliers.contactMobile } " type="text" onclick="reason(this.id)" >
+                        <input class="span3" id="contactMobile" value="${suppliers.contactMobile } " type="text" onclick="reason(this.id,'contactMobile')" >
                         <div id="contactMobile1" class="b f18 fl ml10 red hand">√</div>
                         <div id="contactMobile3" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
                       </div>
                     </li>
                     <li class="col-md-6 p0 "><span class="" id="contactEmail2">邮箱：</span>
                       <div class="input-append">
-                        <input class="span3" id="contactEmail" value="${suppliers.contactEmail } " type="text" onclick="reason(this.id)" >
+                        <input class="span3" id="contactEmail" value="${suppliers.contactEmail } " type="text" onclick="reason(this.id,'contactEmail')" >
                         <div id="contactEmail1" class="b f18 fl ml10 red hand">√</div>
                         <div id="contactEmail3" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
                       </div>
                     </li>
                     <li class="col-md-6 p0 "><span class="" id="contactAddress2">地址：</span>
                       <div class="input-append">
-                        <input class="span3" id="contactAddress" value="${suppliers.contactAddress } " type="text" onclick="reason(this.id)" >
+                        <input class="span3" id="contactAddress" value="${suppliers.contactAddress } " type="text" onclick="reason(this.id,'contactAddress')" >
                         <div id="contactAddress1"class="b f18 fl ml10 red hand">√</div>
                         <div id="contactAddress3" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
                       </div>
@@ -462,29 +462,29 @@ function tijiao(str){
                   <ul class="list-unstyled list-flow">
                     <li class="col-md-6 p0 "><span class="" id="creditCode2">统一社会信用代码：</span>
                       <div class="input-append">
-                        <input class="span3" id="creditCode" value="${suppliers.creditCode } " type="text" onclick="reason(this.id)" >
+                        <input class="span3" id="creditCode" value="${suppliers.creditCode } " type="text" onclick="reason(this.id,'creditCode')" >
                         <div id="creditCode1" class="b f18 fl ml10 red hand">√</div>
                         <div id="creditCode3" class="b f18 fl ml10 hand">×</div>
                       </div>
                     </li>
                     <li class="col-md-6 p0 "><span class="" id="registAuthority2">登记机关：</span>
                       <div class="input-append">
-                        <input class="span3" id="registAuthority" value="${suppliers.registAuthority } "  type="text" onclick="reason(this.id)" >
+                        <input class="span3" id="registAuthority" value="${suppliers.registAuthority } "  type="text" onclick="reason(this.id,'registAuthority')" >
                         <div id="registAuthority1" class="b f18 fl ml10 red hand">√</div>
                         <div id="registAuthority3" class="b f18 fl ml10 hand">×</div>
                       </div>
                     </li>
                     <li class="col-md-6 p0 "><span class="" id="registFund2">注册资本：</span>
                       <div class="input-append">
-                        <input class="span3" id="registFund" value="${suppliers.registFund } " type="text" onclick="reason(this.id)" >
+                        <input class="span3" id="registFund" value="${suppliers.registFund } " type="text" onclick="reason(this.id,'registFund')" >
                         <div id="registFund1" class="b f18 fl ml10 red hand">√</div>
                         <div id="registFund3" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
                       </div>
                     </li>
                     <li class="col-md-6 p0 "><span class="" id="businessEndDate2">营业期限：</span>
                       <div class="input-append">
-                        <input class="span3" id="businessEndDate" onclick="reason(this.id)"  style="width:140px;" value="<fmt:formatDate value='${suppliers.businessStartDate}' pattern='yyyy-MM-dd'/>"type="text"/>
-                        <input class="span3" id="businessEndDate" onclick="reason(this.id)"  style="width:140px;" value="<fmt:formatDate value='${suppliers.businessEndDate}' pattern='yyyy-MM-dd'/>"type="text"/>
+                        <input class="span3" id="businessEndDate" onclick="reason(this.id,'businessStartDate')"  style="width:140px;" value="<fmt:formatDate value='${suppliers.businessStartDate}' pattern='yyyy-MM-dd'/>"type="text"/>
+                        <input class="span3" id="businessEndDate" onclick="reason(this.id,'businessStartDate')"  style="width:140px;" value="<fmt:formatDate value='${suppliers.businessEndDate}' pattern='yyyy-MM-dd'/>"type="text"/>
                         <div id="businessEndDate1" class="b f18 fl ml10 red hand">√</div>
                         <div id="businessEndDate3" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
                       </div>
@@ -492,7 +492,7 @@ function tijiao(str){
                     <li class="col-md-12 p0 mt10"><span class="fl" id="businessScope2">经营范围：</span>
                       <div class="col-md-9 mt5">
                         <div class="row">
-                          <textarea class="text_area col-md-12" id="businessScope" onclick="reason(this.id)" >${suppliers.businessScope }</textarea>
+                          <textarea class="text_area col-md-12" id="businessScope" onclick="reason(this.id,'businessScope')" >${suppliers.businessScope }</textarea>
                           <div id="businessScope1" class="b f18 fl ml10 red hand">√</div>
                           <div id="businessScope3" class="b f18 fl ml10 hand">×</div>
                         </div>
@@ -500,42 +500,42 @@ function tijiao(str){
                     </li>
                     <li class="col-md-6 p0 "><span class="fl" id="businessAddress2">生产或经营地址：</span>
                       <div class="input-append">
-                        <input class="span3" id="businessAddress" value="${suppliers.businessAddress } " type="text" onclick="reason(this.id)" >
+                        <input class="span3" id="businessAddress" value="${suppliers.businessAddress } " type="text" onclick="reason(this.id,'businessAddress')" >
                         <div id="businessAddress1" class="b f18 fl ml10 red hand">√</div>
                         <div id="businessAddress3" class="b f18 fl ml10 hand">×</div>
                       </div>
                     </li>
                     <li class="col-md-6 p0 "><span class="" id="businessPostCode2">邮编：</span>
                       <div class="input-append">
-                        <input class="span3" id="businessPostCode" value="${suppliers.businessPostCode } " type="text" onclick="reason(this.id)" >
+                        <input class="span3" id="businessPostCode" value="${suppliers.businessPostCode } " type="text" onclick="reason(this.id,'businessPostCode')" >
                         <div id="businessPostCode1" class="b f18 fl ml10 red hand">√</div>
                         <div id="businessPostCode3" class="b f18 fl ml10 hand">×</div>
                       </div>
                     </li>
                     <li class="col-md-6 p0 "><span class="" id="overseasBranch2">境外分支机构：</span>
                       <div class="input-append">
-                        <input class="span3" id="overseasBranch" value="${suppliers.overseasBranch } " type="text" onclick="reason(this.id)" >
+                        <input class="span3" id="overseasBranch" value="${suppliers.overseasBranch } " type="text" onclick="reason(this.id,'overseasBranch')" >
                         <div id="overseasBranch1" class="b f18 fl ml10 red hand">√</div>
                         <div id="overseasBranch3" class="b f18 fl ml10 hand">×</div>
                       </div>
                     </li>
                     <li class="col-md-6 p0 "><span class="" id="branchCountry2">国家：</span>
                       <div class="input-append">
-                        <input class="span3" id="branchCountry" value="${suppliers.branchCountry } " type="text" onclick="reason(this.id)" >
+                        <input class="span3" id="branchCountry" value="${suppliers.branchCountry } " type="text" onclick="reason(this.id,'branchCountry')" >
                         <div id="branchCountry1" class="b f18 fl ml10 red hand">√</div>
                         <div id="branchCountry3" class="b f18 fl ml10 hand">×</div>
                       </div>
                     </li>
                     <li class="col-md-6 p0 "><span class="" id="branchAddress2">详细地址：</span>
                       <div class="input-append">
-                        <input class="span3" id="branchAddress" value="${suppliers.branchAddress } " type="text" onclick="reason(this.id)" >
+                        <input class="span3" id="branchAddress" value="${suppliers.branchAddress } " type="text" onclick="reason(this.id,'branchAddress')" >
                         <div id="branchAddress1" class="b f18 fl ml10 red hand">√</div>
                         <div id="branchAddress3" class="b f18 fl ml10 hand">×</div>
                       </div>
                     </li>
                     <li class="col-md-6 p0 "><span class="" id="branchName2">机构名称：</span>
                       <div class="input-append">
-                        <input class="span3" id="branchName" value="${suppliers.branchName } " type="text" onclick="reason(this.id)" >
+                        <input class="span3" id="branchName" value="${suppliers.branchName } " type="text" onclick="reason(this.id,'branchName')" >
                         <div id="branchName1" class="b f18 fl ml10 red hand">√</div>
                         <div id="branchName3" class="b f18 fl ml10 hand">×</div>
                       </div>
@@ -543,7 +543,7 @@ function tijiao(str){
                     <li class="col-md-12 p0 mt10"><span class="fl" id="branchBusinessScope2">生产经营范围：</span>
                       <div class="col-md-9 mt5">
                         <div class="row">
-                          <textarea class="text_area col-md-12" id="branchBusinessScope" onclick="reason(this.id)" >${suppliers.branchBusinessScope }</textarea>
+                          <textarea class="text_area col-md-12" id="branchBusinessScope" onclick="reason(this.id,'branchBusinessScope')" >${suppliers.branchBusinessScope }</textarea>
                           <div id="branchBusinessScope1" class="b f18 fl ml10 red hand">√</div>
                           <div id="branchBusinessScope3" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
                         </div>

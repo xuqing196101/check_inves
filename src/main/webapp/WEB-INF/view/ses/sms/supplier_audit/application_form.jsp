@@ -137,15 +137,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   });
 
 
-function reason1(ele){
+function reason1(ele,auditField){
   var supplierId=$("#supplierId").val();
-  var auditField = $(ele).parents("li").find("span").text().replaceAll("：","");//审批的字段名字
+  var auditFieldName = $(ele).parents("li").find("span").text().replaceAll("：","");//审批的字段名字
   var auditType=$("#applicationFrom").text();//审核类型 
     layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'},function(text){
       $.ajax({
           url:"<%=basePath%>supplierAudit/auditReasons.html",
           type:"post",
-          data:"auditType="+auditType+"&auditField="+auditField+"&auditContent=附件"+"&suggest="+text+"&supplierId="+supplierId,
+          data:"auditType="+auditType+"&auditFieldName="+auditFieldName+"&auditContent=附件"+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+auditField,
         });
         $(ele).parent("li").find("div").eq(1).show(); //显示叉
           layer.msg("审核不通过的理由是："+text,{offset:'200px'}
@@ -207,7 +207,7 @@ function tijiao(str){
         <div class="col-md-12 tab-v2 job-content">
           <div class="padding-top-10">
             <ul class="nav nav-tabs bgdd">
-              <li class=""><a aria-expanded="fale" href="#tab-1" data-toggle="tab" onclick="tijiao('essential');">基本信息</a></li>
+              <li class=""><a aria-expanded="fale" href="#tab-1" data-toggle="tab" onclick="tijiao('essential');">详细信息</a></li>
               <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" onclick="tijiao('financial');">财务信息</a></li>
               <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('shareholder');">股东信息</a></li>
               <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
@@ -250,7 +250,7 @@ function tijiao(str){
 	                  </h2>  
                 </div> --%>
                 <ul class="list-unstyled list-flow">
-                  <li class="col-md-6 p0 "><span class="" onclick="reason1(this);" >军队供应商分级方法：</span>
+                  <li class="col-md-6 p0 "><span class="" onclick="reason1(this,'supplierLevel');" >军队供应商分级方法：</span>
                     <div class="input-append">
                       <c:if test="${applicationForm.supplierLevel != null}">
                       <a class="span3 green" href="javascript:void(0)" onclick="downloadFile('${applicationForm.supplierLevel}')" >下载附件</a>
@@ -261,7 +261,7 @@ function tijiao(str){
                       <div class="b f18 ml10 fl hand">×</div>
                     </div>
                   </li>
-                  <li class="col-md-6 p0 "><span class="" onclick="reason1(this);" >军队供应商承诺书：</span>
+                  <li class="col-md-6 p0 "><span class="" onclick="reason1(this,'supplierPledge');" >军队供应商承诺书：</span>
                     <div class="input-append">
                       <c:if test="${applicationForm.supplierPledge !=null}">
                         <a class="span3 green" onclick="downloadFile('${applicationForm.supplierPledge}')">下载附件</a>
@@ -272,7 +272,7 @@ function tijiao(str){
                       <div class="b f18 ml10 fl hand">×</div>
                     </div>
                   </li>
-                  <li class="col-md-6 p0 "><span class="" onclick="reason1(this);" >军队供应商入库申请表：</span>
+                  <li class="col-md-6 p0 "><span class="" onclick="reason1(this,'supplierRegList');" >军队供应商入库申请表：</span>
                     <div class="input-append">
                       <c:if test="${applicationForm.supplierRegList !=null}">
                         <a class="span3 green" onclick="downloadFile('${applicationForm.supplierRegList}')">下载附件</a>
@@ -283,7 +283,7 @@ function tijiao(str){
                       <div class="b f18 ml10 fl hand">×</div>
                     </div>
                   </li>
-                  <li class="col-md-6 p0 "><span class="" onclick="reason1(this);" >军队供应商实地考察记录表：</span>
+                  <li class="col-md-6 p0 "><span class="" onclick="reason1(this,'supplierReviewList');" >军队供应商实地考察记录表：</span>
                     <div class="input-append">
                       <c:if test="${applicationForm.supplierReviewList !=null}">
                         <a class="span3 green" onclick="downloadFile('${applicationForm.supplierReviewList}')">下载附件</a>
@@ -294,7 +294,7 @@ function tijiao(str){
                       <div class="b f18 ml10 fl hand">×</div>
                     </div>
                   </li>
-                  <li class="col-md-6 p0 "><span class="" onclick="reason1(this);" >军队供应商实地考察廉政意见函：</span>
+                  <li class="col-md-6 p0 "><span class="" onclick="reason1(this,'supplierInspectList');" >军队供应商实地考察廉政意见函：</span>
                     <div class="input-append">
                       <c:if test="${applicationForm.supplierInspectList !=null}">
                         <a class="span3 green" onclick="downloadFile('${applicationForm.supplierInspectList}')">下载附件</a>
@@ -305,7 +305,7 @@ function tijiao(str){
                       <div class="b f18 ml10 fl hand">×</div>
                     </div>
                   </li>
-                  <li class="col-md-6 p0 "><span class="" onclick="reason1(this);" >军队供应商注册变更申请表：</span>
+                  <li class="col-md-6 p0 "><span class="" onclick="reason1(this,'supplierChangeList');" >军队供应商注册变更申请表：</span>
                     <div class="input-append">
                       <c:if test="${applicationForm.supplierChangeList != null}">
                         <a class="span3 green" onclick="downloadFile('${applicationForm.supplierChangeList}')">下载附件</a>
@@ -316,7 +316,7 @@ function tijiao(str){
                       <div  class="b f18 ml10 fl hand">×</div>
                     </div>
                   </li>
-                  <li class="col-md-6 p0 "><span class="" onclick="reason1(this);" >军队供应商退库申请表：</span>
+                  <li class="col-md-6 p0 "><span class="" onclick="reason1(this,'supplierExitList');" >军队供应商退库申请表：</span>
                     <div class="input-append">
                       <c:if test="${applicationForm.supplierExitList != null}">
                         <a class="span3 green" onclick="downloadFile('${applicationForm.supplierExitList}')">下载附件</a>

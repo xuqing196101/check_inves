@@ -121,7 +121,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 function reason(id){
   var supplierId=$("#supplierId").val();
-  var auditField="序号为："+$("#"+id+"_index").text(); //审批的字段名字
+  var auditFieldName="序号为："+$("#"+id+"_index").text(); //审批的字段名字
   var auditContent="产品名称为："+$("#"+id+"_name").text()+"的信息"; //审批的字段内容
   var auditType=$("#product").text();//审核类型
    layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
@@ -129,7 +129,7 @@ function reason(id){
         url:"<%=basePath%>supplierAudit/auditReasons.html",
         type:"post",
         /* data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId, */
-        data:"auditType="+auditType+"&auditField="+auditField+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId,
+        data:"auditType="+auditType+"&auditFieldName="+auditFieldName+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId,
       });
       $("#"+id+"_show").show();
       layer.msg("审核不通过的理由是："+text,{offset:'200px'});
@@ -192,7 +192,7 @@ function tijiao(str){
         <div class="col-md-12 tab-v2 job-content">
           <div class="padding-top-10">
             <ul class="nav nav-tabs bgdd">
-              <li class=""><a aria-expanded="fale" href="#tab-1" data-toggle="tab" onclick="tijiao('essential');">基本信息</a></li>
+              <li class=""><a aria-expanded="fale" href="#tab-1" data-toggle="tab" onclick="tijiao('essential');">详细信息</a></li>
               <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" onclick="tijiao('financial');">财务信息</a></li>
               <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('shareholder');" id="shareholder">股东信息</a></li>
               <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
