@@ -11,7 +11,40 @@
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	<script type="text/javascript">
+		$(function(){
+			$("#time").hide();
+		})
 		
+		function countScore(){
+			document.getElementById("singleNum").value=document.getElementById("singleNum").value.replace(/\D+/g,'');
+			document.getElementById("multipleNum").value=document.getElementById("multipleNum").value.replace(/\D+/g,'');
+			document.getElementById("judgeNum").value=document.getElementById("judgeNum").value.replace(/\D+/g,'');
+			var sn = $("#singleNum").val();
+			var sp =$("#singlePoint").val();
+			var mn = $("#multipleNum").val();
+			var mp = $("#multiplePoint").val();
+			var jn = $("#judgeNum").val();
+			var jp = $("#judgePoint").val();
+			$("#paperScore").val(sn*sp+mn*mp+jn*jp);
+			var paperScore = document.getElementById("paperScore").value;
+			if(paperScore=="NaN"){
+				$("#paperScore").val("0");
+			}
+		}
+		
+		//勾选重考
+		function checkTrue(obj){
+			if($(obj).prop("checked")){
+				$("#time").show();
+			}
+		}
+		
+		//勾选不重考
+		function checkFalse(obj){
+			if($(obj).prop("checked")){
+				$("#time").hide();
+			}
+		}
 	</script>
 
   </head>
@@ -50,43 +83,48 @@
     		<li class="col-md-12 p0">
 	  			<span class="fl"><div class="red star_red">*</div>题型分布：</span>
 	  			<div class="fl">
-	  			   <label class="fl mt5">单选题：</label><input type="text" name="singleNum" id="singleNum" class="ml10 w50"/>条<input type="text" name="singlePoint" id="singlePoint" class="ml10 w50"/>分/条<br/>
-		    	   <label class="fl mt5">多选题：</label><input type="text" name="multipleNum" id="multipleNum" class="ml10 w50"/>条<input type="text" name="multiplePoint" id="multiplePoint" class="ml10 w50"/>分/条<br/>
-		    	   <label class="fl mt5">判断题：</label> <input type="text" name="judgeNum" id="judgeNum" class="ml10 w50"/>条<input type="text" name="judgePoint" id="judgePoint" class="ml10 w50"/>分/条<br/>
+	  			   <label class="fl mt5">单选题：</label><input type="text" name="singleNum" id="singleNum" class="ml10 w50" onkeyup="countScore()"/>条<input type="text" name="singlePoint" id="singlePoint" class="ml10 w50" onkeyup="countScore()"/>分/条<br/>
+		    	   <label class="fl mt5">多选题：</label><input type="text" name="multipleNum" id="multipleNum" class="ml10 w50" onkeyup="countScore()"/>条<input type="text" name="multiplePoint" id="multiplePoint" class="ml10 w50" onkeyup="countScore()"/>分/条<br/>
+		    	   <label class="fl mt5">判断题：</label> <input type="text" name="judgeNum" id="judgeNum" class="ml10 w50" onkeyup="countScore()"/>条<input type="text" name="judgePoint" id="judgePoint" class="ml10 w50" onkeyup="countScore()"/>分/条<br/>
 	  		    </div>
-	  		    <div class="clear red"></div>
+	  		    <div class="clear red">${ERR_typeDistribution }</div>
 	  		</li>
     		
     		<li class="col-md-12 p0">
 	  			<span class="fl mt5"><div class="red star_red">*</div>总分值：</span>
-		  		<input class="w50 mt5" type="text" name="totalPoint" id="totalPoint"/>分
+		  		<input class="w50 mt5" type="text" name="paperScore" id="paperScore" readonly="readonly"/>分
 		  		<div class="validate"></div>
 	  		</li>
     		
     		<li class="col-md-12 p0">
 	  			<span class="fl mt5"><div class="red star_red">*</div>及格标准：</span>
 		  		<input class="w50 mt5" type="text" name="passStandard" id="passStandard"/>分
+		  		<div class="clear red">${ERR_passStandard }</div>
 	  		</li>
     		
     		<li class="col-md-12 p0">
 	  			<span class="fl mt5"><div class="red star_red">*</div>考试开始时间：</span>
 		  		<input type="text" name="startTime" id="startTime" class="Wdate mt5" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})"/>
+	  			<div class="clear red">${ERR_startTime }</div>
 	  		</li>
 	  		
 	  		<li class="col-md-12 p0">
 	  			<span class="fl mt5"><div class="red star_red">*</div>考试截止时间：</span>
 		  		<input type="text" name="offTime" id="offTime" class="Wdate mt5" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm'})"/>
-	  		</li>
-	  		
-	  		<li class="col-md-12 p0">
-	  			<span class="fl mt5"><div class="red star_red">*</div>考试用时：</span>
-		  		<input class="w50 mt5" type="text" name="useTime" id="useTime"/>分钟
+	  			<div class="clear red">${ERR_offTime }</div>
 	  		</li>
 	  		
 	  		<li class="col-md-12 p0">
 	  			<span class="fl mb5"><div class="red star_red">*</div>允许30分钟内重考：</span>
-		  		<input class="mt0" type="checkbox" name="isAllow" id="isAllowTrue" value="是">是
-    			<input class="mt0" type="checkbox" name="isAllow" id="isAllowFalse" value="否"/>否
+		  		<input class="mt0" type="radio" name="isAllow" id="isAllowTrue" value="是" onclick="checkTrue(this)">是
+    			<input class="mt0" type="radio" name="isAllow" id="isAllowFalse" value="否" onclick="checkFalse(this)"/>否
+	  			<div class="clear red">${ERR_isAllow }</div>
+	  			<div class="clear red">${ERR_testTime }</div>
+	  		</li>
+	  		
+	  		<li class="col-md-12 p0" id="time">
+	  			<span class="fl mt5"><div class="red star_red">*</div>考试用时：</span>
+		  		<input class="w50 mt5" type="text" name="testTime" id="testTime"/>分钟
 	  		</li>
 	  		
 	  		<%--<li class="col-md-12 p0 mt10 red">

@@ -23,8 +23,10 @@
 			$("#judgeNum").val(obj.judgeNum);
 			$("#judgePoint").val(obj.judgePoint);
 			if(isAllow==0){
+				$("#time").hide();
 				document.getElementById("isAllowFalse").setAttribute("checked",true);
 			}else{
+				$("#time").show();
 				document.getElementById("isAllowTrue").setAttribute("checked",true);
 			}
 			
@@ -92,15 +94,14 @@
 	  		</li>
 	  		
 	  		<li class="col-md-12 p0">
-	  			<span class="fl mt5">考试答题时间：</span>
-		  		<input class="w50 mt5" type="text" name="useTime" id="useTime" value="${examPaper.testTime }" disabled="disabled"/>分钟
-	  		</li>
-	  		
-	  		
-	  		<li class="col-md-12 p0">
 	  			<span class="fl mb5">允许30分钟内重考：</span>
 		  		<input class="mt0" type="checkbox" id="isAllowTrue" value="是" disabled="disabled"/>是
     			<input class="mt0" type="checkbox" id="isAllowFalse" value="否" disabled="disabled"/>否
+	  		</li>
+	  		
+	  		<li class="col-md-12 p0" id="time">
+	  			<span class="fl mt5">考试答题时间：</span>
+		  		<input class="w50 mt5" type="text" name="useTime" id="useTime" value="${examPaper.testTime }" disabled="disabled"/>分钟
 	  		</li>
 	  		
 	  		<%--<li class="col-md-12 p0 mt10 red">

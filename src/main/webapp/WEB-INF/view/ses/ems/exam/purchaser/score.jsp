@@ -18,15 +18,36 @@
 		var count = parseInt("${count}");
 		var score = "${score}";
 		var isAllowRetake = "${isAllowRetake}";
-		
-		if("${time}"){
-			var timeLeft = "${time}";
-		}else{
-			var timeLeft = 30*60*1000-1000;//这里设定的时间是30分钟 
+		var thirty = "";
+		if("${thirty}"){
+			thirty = "${thirty}";
+		}
+		var pass = "${pass}";
+		if(isAllowRetake==1){
+			var offTime = "${examPaper.offTime}";
+			var off = new Date(Date.parse(offTime.replace(/-/g, "/"))); 
+			var test = "${examPaper.testTime}";
+			var date3 = off.getTime()-new Date().getTime();
+			var days = Math.floor(date3/(24*3600*1000));
+			var leave1 = date3%(24*3600*1000);
+			var hours = Math.floor(leave1/(3600*1000));
+			var leave2 = leave1%(3600*1000);
+			var minutes = Math.floor(leave2/(60*1000));
+			var leave3 = leave2%(60*1000);
+			var seconds = Math.round(leave3/1000);
+			if("${thirty}"){
+				if("${time}"){
+					var timeLeft = "${time}";
+				}else{
+					var timeLeft = 30*60*1000-1000;//这里设定的时间是30分钟 
+				}
+			}else{
+				var timeLeft = minutes*60*1000-1000 + seconds*1000;
+			}
 		}
 		
+		
 		function countTime(){
-			
 		    if(timeLeft<=0){
 		    	$("#reTake").hide();
 		    	$("#div_time").hide();
@@ -41,11 +62,11 @@
 		
 		$(function(){
 			$("#reTake").hide();
-			if(score < 60&&isAllowRetake == 1){
+			if(score < pass&&isAllowRetake == 1){
 				$("#isPass").html("很遗憾,您未通过本场考试");
 				$("#reTake").show();
 				$("#div_time").show();
-			}else if(score >= 60){
+			}else if(score >= pass){
 				$("#isPass").html("恭喜您通过了本场考试");
 				$("#reTake").hide();
 				$("#div_time").hide();
@@ -60,7 +81,7 @@
 			layer.confirm('您确定现在重考吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
 				var paperId = "${paperId}";
-				window.location.href = "<%=path%>/purchaserExam/reTake.html?paperId="+paperId+"&time="+timeLeft;
+				window.location.href = "<%=path%>/purchaserExam/reTake.html?paperId="+paperId+"&time="+timeLeft+"&thirty="+thirty;
 			});
 		}
 		

@@ -10,6 +10,8 @@ package ses.model.ems;
  * @date 2016-9-22下午4:38:18
  */
 public class ExamPaperReference {
+	private String relName;
+	
 	private String userId;
 	
 	private String paperId;
@@ -19,6 +21,14 @@ public class ExamPaperReference {
 	private String card;
 	
 	private String code;
+	
+	public String getRelName() {
+		return relName;
+	}
+
+	public void setRelName(String relName) {
+		this.relName = relName;
+	}
 
 	public String getUserId() {
 		return userId;

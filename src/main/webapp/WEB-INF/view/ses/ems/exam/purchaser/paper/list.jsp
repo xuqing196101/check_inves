@@ -210,22 +210,24 @@
      	<div class="content padding-left-25 padding-right-25 padding-top-5">
 	   		<table class="table table-bordered table-condensed table-hover">
 		    	<thead>
-		    		<th class="info">选择</th>
-		    		<th class="info">序号</th>
-		    		<th class="info">考卷名称</th>
-		    		<th class="info">考卷年度</th>
-		    		<th class="info">考试日期</th>
-		    		<th class="info">考卷状态</th>
+		    		<tr class="info">
+		    			<th class="w50">选择</th>
+			    		<th class="w50">序号</th>
+			    		<th>考卷名称</th>
+			    		<th>考卷年度</th>
+			    		<th>考试日期</th>
+			    		<th>考卷状态</th>
+		    		</tr>
 		    	</thead>
 		    	<tbody>
 		    		<c:forEach items="${paperList.list }" var="paper" varStatus="vs">
-		    			<tr>
-		    				<td class="tc"><input type="checkbox" name="info" value="${paper.id }"/></td>
-		    				<td class="tc pointer" onclick="view('${paper.id }')">${(vs.index+1)+(paperList.pageNum-1)*(paperList.pageSize)}</td>
-		    				<td class="tc pointer" onclick="view('${paper.id }')">${paper.name }</td>
-		    				<td class="tc pointer" onclick="view('${paper.id }')">${paper.year }</td>
-		    				<td class="tc pointer" onclick="view('${paper.id }')">${paper.startTrueDate }</td>
-		    				<td class="tc pointer" onclick="view('${paper.id }')">${paper.status }</td>
+		    			<tr class="tc">
+		    				<td><input type="checkbox" name="info" value="${paper.id }"/></td>
+		    				<td class="pointer" onclick="view('${paper.id }')">${(vs.index+1)+(paperList.pageNum-1)*(paperList.pageSize)}</td>
+		    				<td class="pointer" onclick="view('${paper.id }')">${paper.name }</td>
+		    				<td class="pointer" onclick="view('${paper.id }')">${paper.year }</td>
+		    				<td class="pointer" onclick="view('${paper.id }')">${paper.startTrueDate }</td>
+		    				<td class="pointer" onclick="view('${paper.id }')">${paper.status }</td>
 		    			</tr>
 		    		</c:forEach>
 		    	</tbody>
