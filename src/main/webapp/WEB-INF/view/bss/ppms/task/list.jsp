@@ -37,7 +37,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script type="text/javascript" src="<%=basePath%>public/lodop/LodopFuncs.js"></script>
     <script type="text/javascript" src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
-    <script src="<%=basePath%>public/layer/layer.js"></script>
+    <script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
     <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 
  
@@ -105,15 +105,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                  }
            }
     }
-    
-        function see(){
+        /** 取消任务 */
+        function deleted(){
         var id =[]; 
         $('input[name="chkItem"]:checked').each(function(){ 
             id.push($(this).val()); 
         }); 
+        $("#ids").val(id);
         if(id.length==1){
            layer.open({
-          type: 2, //page层
+          type: 1, //page层
           area: ['500px', '300px'],
           title: '您是要取消任务吗？',
           shade:0.01, //遮罩透明度
@@ -121,7 +122,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           shift: 1, //0-6的动画形式，-1不开启
           offset: ['220px', '630px'],
           shadeClose: true,
-          content: '<%=basePath%>task/deleteTask.html?id='+id
+          content: $("#delTask")
         });
             
         }else if(id.length>1){
@@ -130,7 +131,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             layer.alert("请选择需要取消的任务",{offset: ['222px', '390px'], shade:0.01});
         }
     }
-    
+    /** 受领任务 */
     function start(){
         var ids =[]; 
         $('input[name="chkItem"]:checked').each(function(){ 
@@ -167,7 +168,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         }
        
     }
-    
+    /** 修改任务 */
     function edit(){
      var id =[]; 
         $('input[name="chkItem"]:checked').each(function(){ 
@@ -181,11 +182,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             layer.alert("请选择需要调整的任务",{offset: ['222px', '390px'], shade:0.01});
         }
     }
-    
+    /** 查看任务 */
     function view(id){
            window.location.href="<%=basePath%>task/view.html?id="+id;
     }
-    
+    /** 重置任务 */
     function clearSearch(){
         $("#purchaseRequiredId").attr("value","");
         $("#documentNumber").attr("value","");
@@ -193,6 +194,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         //还原select下拉列表只需要这一句
         $("#status option:selected").removeAttr("selected");
     }
+    /** 上传附件 */
+    function delTask(){
+            var attach = $("input[name='attach']").val();
+            if(!attach){
+                layer.alert("请上传凭证",{offset: ['50px','90px'], shade:0.01});
+            }else{
+             layer.confirm('此操作后果严重，您确认要取消任务吗?',{
+                offset: ['300px','600px'],
+                shade:0.01,
+                btn:['是','否'],
+                },function(){
+                    $("#att").submit();
+                },function(){
+                     parent.layer.close();
+                }
+                    
+            ); 
+            }
+               
+}
+	/** 关闭页面 */
+	function cancel(){
+	               layer.closeAll();
+	        }
   </script>
   </head>
   
@@ -268,7 +293,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div> 
       <span class="fr option_btn margin-top-10 mr5">
         <button class="btn btn-windows edit" onclick="edit()">任务调整</button>
-        <button class="btn btn-windows delete"  onclick="see()">任务取消</button>
+        <button class="btn btn-windows delete"  onclick="deleted()">任务取消</button>
         <button class="btn btn-windows git" onclick="start()">受领</button>
       </span>
     <div class="container">
@@ -304,7 +329,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 	</table>
      </div>
-
+        <div id="delTask" style="display: none;">
+             <form id="att" action="<%=basePath%>task/delTask.html" 
+        method="post" name="form1" class="simple" target="_parent" enctype="multipart/form-data">
+        <input type="hidden" id="ids" name="id"/>
+        <span class="f14 fl">上传附件：</span>
+        <div class="fl" id="uploadAttach" >
+          <input id="pic" type="file" class="toinline" name="attach"/>
+        
+        </div>
+        <br/><br/><br/>
+     <a class="btn btn-windows save" onclick="delTask();">确认</a>
+         <input class="btn btn-windows reset" value="取消" type="button" onclick="cancel();">
+    </form>
+        </div>
    </div>
       <div id="pagediv" align="right"></div>
    </div>

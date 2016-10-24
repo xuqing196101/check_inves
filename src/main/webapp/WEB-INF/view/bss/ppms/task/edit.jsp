@@ -215,7 +215,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
 		function cancel(){
 		
-		     parent.layer.close(index);
+		     layer.closeAll();
 		     
 		}
   </script>

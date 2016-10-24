@@ -101,37 +101,7 @@ public class TackController extends BaseController{
 		model.addAttribute("task", task);
 		return "bss/ppms/task/delTask";
 	}
-	/**
-	 * 
-	* @Title: addFile
-	* @author FengTian
-	* @date 2016-10-9 上午11:15:23  
-	* @Description: 获取修改的内容 
-	* @param @param qualitStand
-	* @param @param purchaseCount
-	* @param @param item
-	* @param @param price
-	* @param @param request
-	* @param @param id
-	* @param @param model
-	* @param @return      
-	* @return String
-	 */
-	/*@RequestMapping("/addFile")
-	public String addFile(String ide,String planNo,String fileName,String purchaseCount,String budget,String price,HttpServletRequest request,String id,Model model){
-		request.getSession().setAttribute("purchaseCount", purchaseCount);
-		request.getSession().setAttribute("budget", budget);
-		request.getSession().setAttribute("price", price);
-		request.getSession().setAttribute("id", id);
-		request.getSession().setAttribute("planNo", planNo);
-		request.getSession().setAttribute("fileName", fileName);
-		request.getSession().setAttribute("ide", ide);
-		String ids = (String) request.getSession().getAttribute("ids");
-		request.getSession().removeAttribute("ids");
-		Task task = taskservice.selectById(ids);
-		model.addAttribute("task", task);
-		return "bss/ppms/task/addFile";
-	}*/
+	
 	
 	public void upfile( MultipartFile[] attach,
             HttpServletRequest request,Task task){
@@ -188,59 +158,7 @@ public class TackController extends BaseController{
 		upfile(attach, request, task);
 		return "redirect:list.html";
 	}
-	/**
-	 * 
-	* @Title: editDetail
-	* @author FengTian
-	* @date 2016-10-9 上午11:14:54  
-	* @Description: 需求明细调整 
-	* @param @param attach
-	* @param @param task
-	* @param @param purchaseRequired
-	* @param @param request
-	* @param @return      
-	* @return String
-	 */
-	@RequestMapping("/editDetail")
-	public String editDetail(@RequestParam("attach") MultipartFile[] attach,Task task,PurchaseRequired purchaseRequired,HttpServletRequest request){
-		String budget = (String) request.getSession().getAttribute("budget");
-		String purchaseCount = (String) request.getSession().getAttribute("purchaseCount");
-		String price = (String) request.getSession().getAttribute("price");
-		String id = (String) request.getSession().getAttribute("id");
-		String collectId= (String) request.getSession().getAttribute("ide");
-		String fileName = (String) request.getSession().getAttribute("fileName");
-		String planNo = (String) request.getSession().getAttribute("planNo");
-		request.getSession().removeAttribute("ide");
-		request.getSession().removeAttribute("budget");
-		request.getSession().removeAttribute("purchaseCount");
-		request.getSession().removeAttribute("price");
-		request.getSession().removeAttribute("id");
-		request.getSession().removeAttribute("fileName");
-		request.getSession().removeAttribute("planNo");
-		CollectPlan collectPlan = collectPlanService.queryById(collectId);
-		collectPlan.setFileName(fileName);
-		collectPlan.setPlanNo(planNo);
-		collectPlanService.update(collectPlan);
-		upfile(attach, request, task);
-		String[] idc = id.split(",");
-		String[] ide = budget.split(",");
-		String[] ida = purchaseCount.split(",");
-		String[] idb = price.split(",");
-		for (int i = 0; i < idc.length; i++) {
-			PurchaseRequired qq = purchaseRequiredService.queryById(idc[i]);
-			if (ida[i] != null && ida[i].trim().length() != 0) {
-			    qq.setPurchaseCount(Long.valueOf(ida[i]));
-			}
-			if (idb[i] != null && idb[i].trim().length() != 0) {
-			    qq.setPrice(new BigDecimal(idb[i]));
-			}
-			if (ide[i] != null && ide[i].trim().length() != 0) {
-			    qq.setBudget(new BigDecimal(String.valueOf(ide[i])));
-			}
-			purchaseRequiredService.update(qq);
-		}
-		return "redirect:list.html";
-	}
+	
 	/**
 	 * 
 	* @Title: startTask
@@ -336,21 +254,11 @@ public class TackController extends BaseController{
             if(list.getList()!=null&&list.getList().size()>0){
                 for( PurchaseRequired p:list.getList()){
                     if( p.getId()!=null){
-                        PurchaseRequired queryById = purchaseRequiredService.queryById(p.getId());
-                        Integer s=Integer.valueOf(purchaseRequiredService.queryByNo(p.getPlanNo()))+1;
-                        queryById.setHistoryStatus(String.valueOf(s));
-                        purchaseRequiredService.update(queryById);
-                        if(p.getParentId()!=null){
-                            p.setParentId(p.getParentId());
-                        }
-                        String id = UUID.randomUUID().toString().replaceAll("-", "");
-                        queryById.setId(id);
-                        queryById.setHistoryStatus("0");
-                        purchaseRequiredService.add(p); 
+                        purchaseRequiredService.update(p);
                     }else{
                         String id = UUID.randomUUID().toString().replaceAll("-", "");
                         p.setId(id);
-                        purchaseRequiredService.add(p); 
+                        purchaseRequiredService.add(p);
                     }
                 
                     
