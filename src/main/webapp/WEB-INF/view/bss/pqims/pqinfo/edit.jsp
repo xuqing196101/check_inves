@@ -209,7 +209,7 @@
 		</ul>
   		<div  class="col-md-12 tc">
     			<button class="btn btn-windows update" type="submit">更新</button>
-    			<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button
+    			<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
   		</div>
   		</form>
  	</div>
