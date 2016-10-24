@@ -34,6 +34,8 @@ public interface PurchaseRequiredService {
 	* @throws
 	 */
 	public void update(Map<String,Object> map);
+	
+	public void updateByPrimaryKeySelective(PurchaseRequired purchaseRequired);
 	/**
 	 * 
 	* @Title: queryById

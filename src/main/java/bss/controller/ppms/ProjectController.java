@@ -449,7 +449,7 @@ public class ProjectController extends BaseController {
         Project project = projectService.selectById(ids);
         project.setName(name);
         project.setProjectNumber(projectNumber);
-        projectService.update(project);
+        
         //修改项目明细
         String[] idc = id.split(",");
         String[] ida = purchaseCount.split(",");
@@ -464,13 +464,17 @@ public class ProjectController extends BaseController {
             if (idb[i] != null && idb[i].trim().length() != 0) {
                 qq.setPrice(Double.valueOf(idb[i]));
             }
-            qq.setPurchaseType(ide[i]);
+            if (ide[i] != null && ide[i].trim().length() != 0) {
+                qq.setPurchaseType(ide[i]);
+            }
             if (idf[i] != null && idf[i].trim().length() != 0) {
                 qq.setBudget(Double.valueOf(idf[i]));
             }
             detailService.update(qq);
+            project.setPurchaseType(qq.getPurchaseType());
+            projectService.update(project);
         }
-
+        
     }
 
     @RequestMapping("/print")

@@ -182,7 +182,7 @@ public class TackController extends BaseController{
 		            List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map);
 		            for (PurchaseRequired purchaseRequired : list2) {
 		                purchaseRequired.setDetailStatus(1);
-		                purchaseRequiredService.update(purchaseRequired);
+		                purchaseRequiredService.updateByPrimaryKeySelective(purchaseRequired);
 		                HashMap<String, Object> map1 = new HashMap<String, Object>();
                         map1.put("requiredId", purchaseRequired.getId());
                         List<ProjectDetail> detail = detailService.selectById(map1);
@@ -254,7 +254,7 @@ public class TackController extends BaseController{
             if(list.getList()!=null&&list.getList().size()>0){
                 for( PurchaseRequired p:list.getList()){
                     if( p.getId()!=null){
-                        purchaseRequiredService.update(p);
+                        purchaseRequiredService.updateByPrimaryKeySelective(p);
                     }else{
                         String id = UUID.randomUUID().toString().replaceAll("-", "");
                         p.setId(id);

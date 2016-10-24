@@ -268,12 +268,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <input maxlength="11" id="purchaseCount" onblur="sum2(this);"  onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" name="purchaseCount" style="width:50%;"  value="${obj.purchaseCount}"/>
               <input type="hidden" name="ss"   value="${obj.parentId }">
               </c:if>
+              <c:if test="${obj.purchaseCount==null }">
+              <input style="border: 0px;"  disabled="disabled"  type="text" name="purchaseCount"  value="${obj.purchaseCount }">
+              </c:if>
               </td>
               <td class="tc">
               <c:if test="${obj.price!=null }">
               <input   type="hidden" name="ss"   value="${obj.id }">
               <input maxlength="11" id="price"  name="price" style="width:50%;" onblur="sum1(this);"  value="${obj.price}"/>
               <input type="hidden" name="ss"   value="${obj.parentId }">
+              </c:if>
+              <c:if test="${obj.price==null}">
+              <input style="border: 0px;"  readonly="readonly" onblur="sum1(this)"  type="text" name="price" value="${obj.price }">
               </c:if>
               </td>
               <td class="tc">

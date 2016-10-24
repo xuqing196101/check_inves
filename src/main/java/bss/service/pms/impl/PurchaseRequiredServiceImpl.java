@@ -113,6 +113,11 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 		// 
 		return purchaseRequiredMapper.statisticOrg(map);
 	}
+
+    @Override
+    public void updateByPrimaryKeySelective(PurchaseRequired purchaseRequired) {
+        purchaseRequiredMapper.updateByPrimaryKeySelective(purchaseRequired);
+    }
 	
 	 
 
