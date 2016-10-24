@@ -181,10 +181,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  });
 	  
 	  });
+	  var projectId = "${extension.projectId }";
+	  var packageId = "${extension.packageId }";
 	 if(flag==1){
 		 layer.msg('还有未审核的数据，请完善！');
 		 return ;
 	 }else{
+		 <%-- window.location.href="<%=basePath%>expert/toFirstAudit.html?projectId="+projectId+"&packageId="+packageId; --%>
 		 window.location.href="<%=basePath%>expert/toProjectList.html";
 	 }
   }
@@ -230,7 +233,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										   		                    <c:forEach items="${reviewFirstAuditList }" var="r" >
 										   		                      <c:if test="${r.supplierId eq supplier.id && r.firstAuditId eq first.id && r.isPass==0 }">checked</c:if>
 										   		                    </c:forEach>
-										   		                  >合格
+										   		                  >合格&nbsp;
 										   		                  <input type="radio" onclick="isPass(this);" name="${supplier.id }${vs.index}" value="${first.id },${supplier.id  },1"
 										   		                     <c:forEach items="${reviewFirstAuditList }" var="r" >
 										   		                       <c:if test="${r.supplierId eq supplier.id && r.firstAuditId eq first.id && r.isPass==1 }">checked</c:if>
@@ -253,7 +256,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										   		                    <c:forEach items="${reviewFirstAuditList }" var="r" >
 										   		                      <c:if test="${r.supplierId eq supplier.id && r.firstAuditId eq first.id && r.isPass==0 }">checked</c:if>
 										   		                    </c:forEach>
-										   		                  >合格
+										   		                  >合格&nbsp;
 										   		                  <input type="radio" onclick="isPass(this);" name="${supplier.id }${vs.index}" value="${first.id },${supplier.id  },1"
 										   		                    <c:forEach items="${reviewFirstAuditList }" var="r" >
 										   		                      <c:if test="${r.supplierId eq supplier.id && r.firstAuditId eq first.id && r.isPass==1 }">checked</c:if>
@@ -265,10 +268,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													      	</tr>
 													      	 </c:if>
 										 	            </c:forEach>
-										 	            <tr align="center">
+										 	            <tr>
 										 	              <td></td>
 										 	              <c:forEach items="${extension.supplierList }" var="supplier" varStatus="vs">
-										 	            <td><input type="radio"  onclick="addAll(this);" name="${vs.index}" value="${supplier.id  },0">全部合格<input type="radio" onclick="addNotAll(this);" name="${vs.index}" value="${supplier.id  },1">全部不合格
+										 	            <td style="padding-left: 40; "><input type="radio"  onclick="addAll(this);" name="${vs.index}" value="${supplier.id  },0">全部合格&nbsp;<input type="radio" onclick="addNotAll(this);" name="${vs.index}" value="${supplier.id  },1">全部不合格
 										 	            </td>
 										 	            </c:forEach>
 										 	            </tr>

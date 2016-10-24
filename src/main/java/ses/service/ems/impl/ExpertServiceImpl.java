@@ -283,15 +283,18 @@ public class ExpertServiceImpl implements ExpertService {
 						map.put("expert", expert);
 				} else if(expert.getStatus().equals("2") || expert.getIsBlack().equals("1")){
 					//如果审核未通过 或者已拉黑 则根据此状态阻止登录
-					map.put("flag", false);
-				} 
+					map.put("expert", "1");
+				}else if(expert.getStatus().equals("0") && expert.getIsSubmit().equals("1") ){
+					//未审核
+					map.put("expert", "3");
+				}
 			}else{
 				//如果专家信息为空 证明还没有填写过个人信息
-				map.put("flag", false);
+				map.put("expert", "2");
 			}
 		}else{
 			//如果用户关联的专家id为空 证明还没有填写过个人信息
-			map.put("flag", false);
+			map.put("expert", "2");
 		}
 		return map;
 	}

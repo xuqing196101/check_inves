@@ -129,15 +129,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </thead>
         <tbody id="tbody_id">
         
-        <c:forEach items="${projectExtList}" var="obj" varStatus="vs">
+        <c:forEach items="${supplierList}" var="obj" varStatus="vs">
             <tr style="cursor: pointer;">
-              <td class="tc w30"><input type="checkbox" value="${obj.id },${obj.packageId}" name="chkItem" onclick="check()"  alt=""></td>
+              <td class="tc w30"><input type="checkbox" value="${obj.suppliers.id }" name="chkItem" onclick="check()"  alt=""></td>
               <td class="tc w50">${vs.count}</td>
-              <td class="tc">${obj.name }</td>
-              <td class="tc">${obj.projectNumber }</td>
-              <td class="tc">${obj.packageName }</td>
-              <td class="tc">${obj.purchaseType }</td>
-              <td class="tc"><fmt:formatDate type='date' value='${obj.endTime }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
+              <td class="tc">${obj.suppliers.supplierName }</td>
+              <td class="tc">${obj.suppliers.contactName }</td>
+              <td class="tc">${obj.suppliers.contactTelephone }</td>
+              <td class="tc">${obj.suppliers.contactAddress }</td>
+              <td class="tc"></td>
             </tr>
      
          </c:forEach> 

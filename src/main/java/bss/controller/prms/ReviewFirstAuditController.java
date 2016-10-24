@@ -41,7 +41,7 @@ public class ReviewFirstAuditController {
 	@Autowired
 	private FirstAuditService firstAuditService;//初审项
 	@Autowired
-	private SaleTenderService saleTenderService;
+	private SaleTenderService saleTenderService;//供应商查询
 
 	/**
 	 * 
@@ -107,12 +107,10 @@ public class ReviewFirstAuditController {
 		s2.setSupplierName("第二个");
 		supplierList.add(s);
 		supplierList.add(s2);*/
+		//查询供应商信息
 		List<SaleTender> supplierList = saleTenderService.list(new SaleTender(projectId), 0);
 		extension.setSupplierList(supplierList);
 		
-		/**
-		 * 还差供应商集合
-		 * */
 		//查询审核过的信息用于回显
 		Map<String, Object> reviewFirstAuditMap = new HashMap<>();
 		reviewFirstAuditMap.put("projectId", projectId);

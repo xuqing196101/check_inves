@@ -35,10 +35,12 @@ import com.github.pagehelper.PageInfo;
 
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
+import bss.model.ppms.SaleTender;
 import bss.model.ppms.ext.ProjectExt;
 import bss.model.prms.PackageExpert;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectService;
+import bss.service.ppms.SaleTenderService;
 import bss.service.prms.PackageExpertService;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
@@ -76,6 +78,8 @@ public class ExpertController {
 	private PackageService packageService;//包 service
 	@Autowired
 	private ProjectService projectService;//项目service
+	@Autowired
+	private SaleTenderService saleTenderService;//供应商查询
 	/**
 	 * 
 	  * @Title: toExpert
@@ -210,6 +214,12 @@ public class ExpertController {
 	@RequestMapping("/toAddBasicInfo")
 	public String toAddBasicInfo(@RequestParam("userId")String userId,HttpServletRequest request,HttpServletResponse response,  Model model){
 		User user  = userService.getUserById(userId);
+		String typeId = user.getTypeId();
+		if(StringUtils.isNotEmpty(typeId)){
+			//暂存 或退回后重新填写
+			Expert expert = service.selectByPrimaryKey(typeId);
+			model.addAttribute("expert", expert);
+		}
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		map.put("typeName", "0");
 		List<PurchaseDep> purchaseDepList = purchaseOrgnizationService.findPurchaseDepList(map);
@@ -733,7 +743,9 @@ public class ExpertController {
 	   */
 	  @RequestMapping("toFirstAudit")
 	  public String toFirstAudit(String projectId,String packageId,Model model){
-		  
+		  //供应商信息
+		  List<SaleTender> supplierList = saleTenderService.list(new SaleTender(projectId), 0);
+		  model.addAttribute("supplierList", supplierList);
 		  model.addAttribute("projectId", projectId);
 		  model.addAttribute("packageId", packageId);
 		  return"bss/prms/audit/suppplier_list";
