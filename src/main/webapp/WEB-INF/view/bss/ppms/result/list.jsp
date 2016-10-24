@@ -110,6 +110,10 @@
 		}
     }
 
+	function cancle(){
+		var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+            parent.layer.close(index); 
+	}
    
 </script>
 <body>
@@ -167,7 +171,7 @@
 				class="btn padding-left-10 padding-right-10 btn_back"
 				onclick="save()" value="引用"></input> <input type="button"
 				class="btn padding-left-10 padding-right-10 btn_back"
-				onclick="history.go(-1)" value="取消"></input>
+				onclick="cancle();" value="取消"></input>
 		</div>
 </body>
 </html>

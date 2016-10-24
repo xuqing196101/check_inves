@@ -147,11 +147,17 @@ function webExecute2(type, code, html) {
 	document.getElementById("TANGER_OCX").ShowTipMessage("提示", "OnDoWebExecute2成功回调");
 }
 function FileCommand(TANGER_OCX_str, TANGER_OCX_obj) {
+	alert("ok");
 	document.getElementById("TANGER_OCX").ShowTipMessage("提示", "OnFileCommand事件！");
 	if (TANGER_OCX_str == 3) {
+		
 		document.getElementById("TANGER_OCX").ShowTipMessage("提示", "不能保存！");
 		/*
-		 * var FileName=document.getElementById("SaveFileName").value; if(FileName == "") { document.getElementById("TANGER_OCX").ShowTipMessage("提示","请输入保存的文件名"); return; } //document.getElementById("TANGER_OCX").ShowTipMessage("提示","执行FileCommand"); sleep(); document.getElementById("TANGER_OCX").SaveToURL("Save","NTKOFILE","ppp=0",FileName,"MyFile");
+		 * var FileName=document.getElementById("SaveFileName").value; 
+		 * if(FileName == "")
+		 *  { document.getElementById("TANGER_OCX").ShowTipMessage("提示","请输入保存的文件名"); return; }
+		 *   //document.getElementById("TANGER_OCX").ShowTipMessage("提示","执行FileCommand"); 
+		 *   sleep(); document.getElementById("TANGER_OCX").SaveToURL("Save","NTKOFILE","ppp=0",FileName,"MyFile");
 		 */
 		document.getElementById("TANGER_OCX").CancelLastCommand = true;
 	}
@@ -172,10 +178,10 @@ if (browser == "IE") {
 	document.write('<!-- 因为微软的ActiveX新机制，需要一个外部引入的js-->   ');
 	if (window.navigator.platform == "Win32") {
 		document.write('<object id="TANGER_OCX" classid="clsid:A64E3073-2016-4baf-A89D-FFE1FAA10EC0"');
-		document.write('codebase="OfficeControl.cab#version=5,0,2,5" width="100%" height="70%">   ');
+		document.write('codebase="OfficeControl.cab#version=5,0,2,5" width="100%" height="100%">   ');
 	} else {
 		document.write('<object id="TANGER_OCX" classid="clsid:A64E3073-2016-4baf-A89D-FFE1FAA10EE0"');
-		document.write('codebase="OfficeControl_x64.cab#version=5,0,2,6" width="100%" height="70%">   ');
+		document.write('codebase="OfficeControl_x64.cab#version=5,0,2,6" width="100%" height="100%">   ');
 	}
 	document.write('<param name="IsUseUTF8URL" value="-1">   ');
 	document.write('<param name="IsUseUTF8Data" value="-1">   ');
