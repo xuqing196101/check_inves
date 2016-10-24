@@ -6,12 +6,15 @@ import iss.service.ps.ArticleAttachmentsService;
 import iss.service.ps.ArticleService;
 import iss.service.ps.ArticleTypeService;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -216,7 +219,7 @@ public class OpenBiddingController {
      * @throws IOException
      */
     @RequestMapping("/export")
-    public ResponseEntity<byte[]> export(HttpServletRequest request, HttpServletResponse resp) throws IOException{
+    public void export(HttpServletRequest request, HttpServletResponse resp) throws IOException{
     	String articleName = "招标公告";
     	String name = request.getParameter("name");
     	if(name != null && !"".equals(name)){
@@ -237,7 +240,6 @@ public class OpenBiddingController {
     //		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);  
     //		headers.setContentDispositionFormData("content", new String(articleName.getBytes("UTF-8"), "iso-8859-1"));  
     //		return (new ResponseEntity<byte[]>(bs, headers, HttpStatus.CREATED));  
-        return null;
     }
     
     @RequestMapping("/publishEdit")
@@ -308,6 +310,44 @@ public class OpenBiddingController {
             	}
             }
     	}
+    }
+    
+    @RequestMapping("/saveBidFile")
+    public void saveBidFile(HttpServletResponse resp, @RequestParam("bidFile") MultipartFile bidFile) throws IOException{
+        System.out.println(bidFile.getName()+"=="+bidFile.getOriginalFilename());
+        String articleName = "招标文件.doc";
+        articleName = bidFile.getOriginalFilename();
+        InputStream inputStream = bidFile.getInputStream();
+//        resp.reset();  
+//        resp.setContentType("application/vnd.ms-word;charset=UTF-8"); 
+        String guessCharset = "gb2312";  
+        String strFileName = new String(articleName.getBytes(guessCharset), "ISO8859-1"); 
+//        resp.setHeader("Content-Disposition", "attachment;filename=" + strFileName);
+        resp.setCharacterEncoding("utf-8");
+        resp.setContentType("multipart/form-data");
+        resp.setHeader("Content-Disposition", "attachment;fileName="
+                + strFileName);
+        OutputStream out = resp.getOutputStream();
+        byte[] b = new byte[2048];
+        int length;
+        while ((length = inputStream.read(b)) > 0) {
+            out.write(b, 0, length);
+        }
+
+         // 这里主要关闭。
+        out.close();
+
+        inputStream.close();
+//        int b = 0;  
+//        byte[] buffer = new byte[1024];  
+//        while (b != -1){  
+//            b = inputStream.read(buffer);  
+//            //4.写到输出流(out)中  
+//            out.write(buffer,0,b);  
+//        }  
+//        inputStream.close();  
+//        out.close();  
+//        out.flush();
     }
 	
 }

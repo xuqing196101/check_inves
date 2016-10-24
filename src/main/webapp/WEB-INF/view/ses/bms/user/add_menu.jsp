@@ -69,9 +69,11 @@
              url: "<%=basePath%>user/saveUserMenu.do?userId="+uid+"&ids="+idstr,
              dataType: "text",
              success: function(str){
-		        	 var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-				     
-				     parent.layer.close(index);
+		        	 //var index = layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+				    
+				     parent.layer.msg(str,{offset: '222px'});
+				    //parent.layer.close(index);
+				    // parent.layer.closeAll();
                }
          	}); 
 		} 

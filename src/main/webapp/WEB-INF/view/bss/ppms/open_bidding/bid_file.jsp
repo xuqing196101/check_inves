@@ -210,7 +210,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							   <i></i>
 							 </li>
 							 <li>
-							   <a  href="#tab-4" data-toggle="tab">04、招标文件</a>
+							   <a  href="<%=basePath%>open_bidding/bidFile.html?id=${projectId}" >04、招标文件</a>
 							 </li>
 						   </ul>
 						 </div>
