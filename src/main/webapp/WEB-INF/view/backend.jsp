@@ -298,7 +298,7 @@ $(function(){
                                                         <ul class="demand_list">
                                                             <li class="fl"><label class="fl">标题：</label><span><input
                                                                     type="text" id="topic" class="w200" name="name" /></span></li>
-                                                            <li class="fl"><label class="fl">代办类型：</label><span>
+                                                            <li class="fl"><label class="fl">待办类型：</label><span>
                                                                     <select class="w200 " name="undoType">
                                                                        <option value="">请选择</option>
                                                                         <option value="1">供应商代办</option>

@@ -147,7 +147,7 @@ public class LoginController {
 	public String home(HttpServletRequest req,Model model,String type,String page,String id){
 		User user=(User) req.getSession().getAttribute("loginUser");
 		if(user!=null&&user.getOrg()!=null&&user.getOrg().getId()!=null&&!"".equals(user.getOrg().getId())){
-			//代办事项
+			//待办事项
 			req.setAttribute("listTodos",todosService.listTodos(new Todos(new Short("0")),user.getOrg().getId()));
 //			//已办事项
 			List<Todos> listHaveTodo = todosService.listHaveTodo(new Todos(new Short("1")), user.getOrg().getId(),page==null||page==""?1:Integer.valueOf(page));
