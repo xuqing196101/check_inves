@@ -82,6 +82,32 @@ public class ComCostDisController {
 	}
 	
 	/**
+	* @Title: select
+	* @author Shen Zhenfei 
+	* @date 2016-10-24 上午9:08:05  
+	* @Description: 查看
+	* @param @param model
+	* @param @param proId
+	* @param @param comCostDis
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/view")
+	public String view(Model model,String proId,ComCostDis comCostDis){
+		
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(proId);
+		comCostDis.setContractProduct(contractProduct);
+		List<ComCostDis> list = comCostDisService.selectProduct(comCostDis);
+		
+		model.addAttribute("list", list);
+		
+		model.addAttribute("proId", proId);
+		
+		return "bss/sstps/offer/supplier/list/comCostDis_list";
+	}
+	
+	/**
 	* @Title: insert
 	* @author Shen Zhenfei 
 	* @date 2016-10-18 下午3:15:57  

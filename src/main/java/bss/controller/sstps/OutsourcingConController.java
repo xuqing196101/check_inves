@@ -46,6 +46,25 @@ public class OutsourcingConController {
 	}
 	
 	/**
+	* @Title: view
+	* @author Shen Zhenfei 
+	* @date 2016-10-22 上午10:45:16  
+	* @Description: 查看
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/view")
+	public String view(Model model,String proId,OutsourcingCon outsourcingCon){
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(proId);
+		outsourcingCon.setContractProduct(contractProduct);
+		List<OutsourcingCon> list = outsourcingConService.selectProduct(outsourcingCon);
+		model.addAttribute("list", list);
+		model.addAttribute("proId", proId);
+		return "bss/sstps/offer/supplier/list/outsourcing_list";
+	}
+	
+	/**
 	* @Title: add
 	* @author Shen Zhenfei 
 	* @date 2016-10-14 下午2:23:48  

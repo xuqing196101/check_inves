@@ -46,6 +46,20 @@ public class BurningPowerController {
 		return "bss/sstps/offer/supplier/burningPower/list";
 	}
 	
+	
+	@RequestMapping("/view")
+	public String view(Model model,String proId,BurningPower burningPower){
+		
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(proId);
+		burningPower.setContractProduct(contractProduct);
+		List<BurningPower> list = burningPowerService.selectProduct(burningPower);
+		model.addAttribute("list", list);
+		model.addAttribute("proId", proId);
+		
+		return "bss/sstps/offer/supplier/list/burningPower_list";
+	}
+	
 	/**
 	* @Title: add
 	* @author Shen Zhenfei 

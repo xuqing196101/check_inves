@@ -46,6 +46,30 @@ public class YearPlanController {
 	}
 	
 	/**
+	* @Title: select
+	* @author Shen Zhenfei 
+	* @date 2016-10-24 上午9:03:26  
+	* @Description: 查看
+	* @param @param model
+	* @param @param proId
+	* @param @param yearPlan
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/view")
+	public String view(Model model,String proId,YearPlan yearPlan){
+		
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(proId);
+		yearPlan.setContractProduct(contractProduct);
+		List<YearPlan> list = yearPlanService.selectProduct(yearPlan);
+		model.addAttribute("list", list);
+		model.addAttribute("proId", proId);
+		
+		return "bss/sstps/offer/supplier/list/yearPlan_list";
+	}
+	
+	/**
 	* @Title: add
 	* @author Shen Zhenfei 
 	* @date 2016-10-17 下午4:19:39  

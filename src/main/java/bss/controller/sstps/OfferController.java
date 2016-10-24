@@ -146,11 +146,20 @@ public class OfferController {
 	public String selectProductInfo(Model model,String productId,HttpServletRequest request){
 		ContractProduct contractProduct = contractProductService.selectById(productId);
 		model.addAttribute("contractProduct", contractProduct);
+		
+		String url;
+		if(contractProduct.getOffer()==0){
+			url="bss/sstps/offer/supplier/product_Info";
+		}else{
+			url="bss/sstps/offer/supplier/list/list";
+		}
+		
 		ProductInfo ProductI = new ProductInfo();
 		ProductI.setContractProduct(contractProduct);
 		ProductInfo productInfo = productInfoService.selectInfo(ProductI);
 		model.addAttribute("productInfo", productInfo);
-		return "bss/sstps/offer/supplier/product_Info";
+		
+		return url;
 	}
 	
 

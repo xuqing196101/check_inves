@@ -46,6 +46,30 @@ public class ProductQuotaController {
 	}
 	
 	/**
+	* @Title: view
+	* @author Shen Zhenfei 
+	* @date 2016-10-24 上午9:05:26  
+	* @Description: 查看
+	* @param @param model
+	* @param @param proId
+	* @param @param productQuota
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/view")
+	public String view(Model model,String proId,ProductQuota productQuota){
+		
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(proId);
+		productQuota.setContractProduct(contractProduct);
+		List<ProductQuota> list = productQuotaService.selectProduct(productQuota);
+		model.addAttribute("list", list);
+		model.addAttribute("proId", proId);
+		
+		return "bss/sstps/offer/supplier/list/productQuota_list";
+	}
+	
+	/**
 	* @Title: add
 	* @author Shen Zhenfei 
 	* @date 2016-10-18 上午9:43:04  
