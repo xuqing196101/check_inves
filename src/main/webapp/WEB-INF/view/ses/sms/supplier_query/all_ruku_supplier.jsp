@@ -142,9 +142,127 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     // 给城市设置随机数据
     $.each(data, function (i) {
         this.drilldown = this.properties['drill-key'];
-		 
-        this.value = i;
+		if(i==0){
+        //上海
+	        if(getNum("上海")==0){
+	        	this.value=0;
+	        }else{
+	        	this.value=getNum("上海");
+	        }
+        } else if(i==1){
+        //浙江
+        this.value=getNum("浙江");
+        }else if(i==2){
+        this.value=0;
+        }else if(i==3){
+        //澳门
+        this.value=getNum("澳门");
+        }else if(i==4){
+        //台湾
+        this.value=getNum("台湾");
+        } else if(i==5){
+        //甘肃
+        this.value=getNum("甘肃");
+        }else if(i==6){
+        this.value=getNum("香港");
+        //香港
+        }else if(i==7){
+        this.value=getNum("宁夏");
+        //宁夏
+        }else if(i==8){
+        this.value=getNum("陕西");
+        //陕西
+        }else if(i==9){
+        this.value=getNum("安徽");
+        //安徽
+        }else if(i==10){
+        this.value=getNum("湖北");
+        //湖北
+        }else if(i==11){
+        this.value=getNum("广东");
+        //广东
+        }else if(i==12){
+        this.value=getNum("福建");
+        //福建
+        }else if(i==13){
+        this.value=getNum("北京");
+        //北京
+        }else if(i==14){
+        this.value=getNum("河北");
+        //河北
+        }else if(i==15){
+        this.value=getNum("山东");
+        //山东
+        }else if(i==16){
+        this.value=getNum("天津");
+        //天津
+        }else if(i==17){
+        this.value=getNum("江苏");
+        //江苏
+        }else if(i==18){
+        this.value=getNum("海南");
+        //海南
+        }else if(i==19){
+        this.value=getNum("青海");
+        //青海
+        }else if(i==20){
+        this.value=getNum("吉林");
+        //吉林
+        }else if(i==21){
+        this.value=getNum("西藏");
+        //西藏
+        }else if(i==22){
+        this.value=getNum("新疆");
+        //新疆
+        }else if(i==23){
+        this.value=getNum("河南");
+        //河南
+        }else if(i==24){
+        this.value=getNum("内蒙古");
+        //内蒙古
+        }else if(i==25){
+        this.value=getNum("黑龙江");
+        //黑龙江
+        }else if(i==26){
+        this.value=getNum("云南");
+        //云南
+        }else if(i==27){
+        this.value=getNum("广西");
+        //广西
+        }else if(i==28){
+        this.value=getNum("辽宁");
+        //辽宁
+        }else if(i==29){
+        this.value=getNum("四川");
+        //四川
+        }else if(i==30){
+        this.value=getNum("重庆");
+        //重庆
+        }else if(i==31){
+        this.value=getNum("贵州");
+        //贵州
+        }else if(i==32){
+        this.value=getNum("湖南");
+        //湖南
+        }else if(i==33){
+        this.value=getNum("山西");
+        //山西
+        }else if(i==34){
+        this.value=getNum("江西");
+        //江西
+        }
     });
+    function getNum(addName){
+   		 var data='${data}';
+    	 var index=data.indexOf(addName);
+					   var indexStart=index+addName.length;
+					   var indexEnd=indexStart+2;
+					   var supplierNum=data.substring(indexStart,indexEnd );
+					   if("0123456789".indexOf(supplierNum.substring(supplierNum.length-1, supplierNum.length))==-1){
+					   		supplierNum=supplierNum.substring(0,1);
+					   }
+					  return supplierNum;
+    }
 		function getPoint(e){
 			console.log(e.point.name);
 		}

@@ -97,7 +97,7 @@ public class ImportSupplierController {
 		if(is.getStatus()!=0){
 			todosService.updateIsFinish("importSupplier/auditShow.html?id="+is.getId());
 		}
-		return "redirect:list.html";
+		return "redirect:/login/home.html";
 	}
 	
 	/**
