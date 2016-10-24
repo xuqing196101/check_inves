@@ -67,4 +67,14 @@ public interface TodosService {
 	 * @return List<String>
 	 */
 	List<String> listUndoType();
+	
+	/**
+	 * @Title: updateByUrl
+	 * @author Xu Qing
+	 * @date 2016-10-24 上午11:06:25  
+	 * @Description: 更新待办
+	 * @param @param todos      
+	 * @return void
+	 */
+	void updateByUrl(Todos todos);
 }

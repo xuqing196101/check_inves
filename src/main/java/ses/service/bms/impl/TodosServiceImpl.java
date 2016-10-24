@@ -107,4 +107,13 @@ public class TodosServiceImpl implements TodosService {
 	public List<String> listUndoType() {
 		return mapper.listUndoType();
 	}
+
+	/**
+	 * 更新待办
+	 */
+	@Override
+	public void updateByUrl(Todos todos) {
+		mapper.updateByUrl(todos);
+		
+	}
 }

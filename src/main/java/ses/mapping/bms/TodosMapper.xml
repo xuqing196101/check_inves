@@ -125,6 +125,8 @@
 			</if>
 		</trim>
 	</insert>
+	
+
 	<update id="updateByPrimaryKeySelective" parameterType="ses.model.bms.Todos">
 		<!-- @mbggenerated -->
 		update T_SES_BMS_TODOS
@@ -211,4 +213,12 @@
 		set IS_FINISH = 1
 		where URL = #{url,jdbcType=VARCHAR}
 	</update>
+	
+	 <!-- 更新待办名字-->
+	 <update id="updateByUrl" parameterType="ses.model.bms.Todos">
+    update T_SES_BMS_TODOS
+    set 
+    NAME = #{name}
+    where URL = #{url}
+  </update>
 </mapper>

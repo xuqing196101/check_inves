@@ -102,7 +102,7 @@ public class SupplierAuditController extends BaseSupplierController{
 	}*/
 	
 	
-	@RequestMapping("saveDaiBan")
+/*	@RequestMapping("saveDaiBan")
 	public void saveDaiBan(String supplierId,HttpServletRequest request) {
 		Todos todo=new Todos();
 		todo.setCreatedAt(new Date());
@@ -124,7 +124,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		todo.setReceiverId(supplier.getProcurementDepId());
 
 		todosService.insert(todo);
-	}
+	}*/
 	
 	
 	/**
@@ -408,13 +408,21 @@ public class SupplierAuditController extends BaseSupplierController{
 	@RequestMapping("updateStatus")
 	public String updateStatus(HttpServletRequest request,Supplier supplier,SupplierAudit supplierAudit) throws IOException{
 		String supplierId= supplierAudit.getSupplierId();
-		//推送待办
-		this.saveDaiBan(supplierId, request);
 		//更新状态
 		supplier.setId(supplierId);
 		supplierAuditService.updateStatus(supplier);
-		//审核完更新状态
+		//更新待办
 		supplier = supplierAuditService.supplierById(supplierId);
+		if(supplier.getStatus() == 1){
+			Todos todos = new Todos();
+			todos.setUrl("supplierAudit/essential.html?supplierId="+supplierId);
+			todos.setName("供应商复审");
+			todosService.updateByUrl(todos);
+		}
+		if(supplier.getStatus() == 2 || supplier.getStatus() == 4 || supplier.getStatus() == 3){
+			todosService.updateIsFinish("supplierAudit/essential.html?supplierId="+supplierId);
+		}
+		//审核完更新状态
 		supplierAudit.setStatus(supplier.getStatus());
 		supplierAudit.setId(supplierAudit.getId());
 		supplierAuditService.updateStatusById(supplierAudit);
