@@ -52,6 +52,30 @@ public class PeriodCostController {
 	}
 	
 	/**
+	* @Title: view
+	* @author Shen Zhenfei 
+	* @date 2016-10-24 上午9:01:30  
+	* @Description: 查看 
+	* @param @param model
+	* @param @param proId
+	* @param @param periodCost
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/view")
+	public String view(Model model,String proId,PeriodCost periodCost){
+		
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(proId);
+		periodCost.setContractProduct(contractProduct);
+		List<PeriodCost> list = periodCostService.selectProduct(periodCost);
+		model.addAttribute("list", list);
+		model.addAttribute("proId", proId);
+		
+		return "bss/sstps/offer/supplier/list/periodCost_list";
+	}
+	
+	/**
 	* @Title: add
 	* @author Shen Zhenfei 
 	* @date 2016-10-18 上午9:43:04  

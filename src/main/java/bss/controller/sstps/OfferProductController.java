@@ -36,6 +36,17 @@ public class OfferProductController {
 	private AccessoriesConService accessoriesConService;
 	
 	
+	/**
+	* @Title: save
+	* @author Shen Zhenfei 
+	* @date 2016-10-22 上午9:38:49  
+	* @Description: 保存
+	* @param @param model
+	* @param @param productInfo
+	* @param @param request
+	* @param @return      
+	* @return String
+	 */
 	@RequestMapping("/save")
 	public String save(Model model,ProductInfo productInfo,HttpServletRequest request){
 		String id = request.getParameter("id");
@@ -56,6 +67,29 @@ public class OfferProductController {
 		List<AccessoriesCon> list = accessoriesConService.selectProduct(accessoriesCon);
 		model.addAttribute("list", list);
 		return "bss/sstps/offer/supplier/accessories/list";
+	}
+	
+	/**
+	* @Title: view
+	* @author Shen Zhenfei 
+	* @date 2016-10-22 上午9:38:57  
+	* @Description: 查看
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("view")
+	public String view(Model model,HttpServletRequest request){
+		String proId = request.getParameter("proId");
+		model.addAttribute("proId", proId);
+		
+		AccessoriesCon accessoriesCon = new AccessoriesCon();
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(proId);
+		accessoriesCon.setContractProduct(contractProduct);
+		List<AccessoriesCon> list = accessoriesConService.selectProduct(accessoriesCon);
+		model.addAttribute("list", list);
+		
+		return "bss/sstps/offer/supplier/list/accessories_list";
 	}
 	
 	

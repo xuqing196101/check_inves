@@ -52,6 +52,30 @@ public class WagesPayableController {
 	}
 	
 	/**
+	* @Title: view
+	* @author Shen Zhenfei 
+	* @date 2016-10-24 上午8:56:07  
+	* @Description: 查看
+	* @param @param model
+	* @param @param proId
+	* @param @param wagesPayable
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/view")
+	public String view(Model model,String proId,WagesPayable wagesPayable){
+		
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(proId);
+		wagesPayable.setContractProduct(contractProduct);
+		List<WagesPayable> list = wagesPayableService.selectProduct(wagesPayable);
+		model.addAttribute("list", list);
+		model.addAttribute("proId", proId);
+		
+		return "bss/sstps/offer/supplier/list/wagesPayable_list";
+	}
+	
+	/**
 	* @Title: add
 	* @author Shen Zhenfei 
 	* @date 2016-10-17 上午10:59:14  
