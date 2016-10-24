@@ -76,6 +76,7 @@ function offer(){
 	$('input[name="chkItem"]:checked').each(function(){ 
 		id.push($(this).val());
 	}); 
+	
 	if(id.length==1){
 		window.location.href="<%=basePath%>offer/selectProductInfo.do?productId="+id;
 	}else if(id.length>1){
@@ -140,14 +141,14 @@ function offer(){
 	  		</thead>
 	  		<c:forEach items="${list.list}" var="product" varStatus="vs">
 	  			<tr class="pointer">
-	  				<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${product.id }" /></td>
+	  				<td class="tc" id="tds"><input onclick="check()" type="checkbox" name="chkItem" value="${product.id }" /></td>
 	  				<td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 	  				<td class="tc">${product.name }</td>
 	  				<c:if test="${product.offer==0 }">
-	  					<td class="tc">未报价</td>
+	  					<td class="tc" name="offer">未报价</td>
 	  				</c:if>
 	  				<c:if test="${product.offer==1 }">
-	  					<td class="tc">已报价</td>
+	  					<td class="tc" name="offer">已报价</td>
 	  				</c:if>
 	  			</tr>
 	  		</c:forEach>
