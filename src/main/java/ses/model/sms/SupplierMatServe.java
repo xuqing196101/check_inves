@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class SupplierMatSe implements Serializable {
+public class SupplierMatServe implements Serializable {
 	private static final long serialVersionUID = -9180711450539395236L;
 
 	/**
@@ -80,7 +80,7 @@ public class SupplierMatSe implements Serializable {
 	 */
 	private Date updatedAt;
 
-	private List<SupplierCertSe> listSupplierCertSes = new ArrayList<SupplierCertSe>();
+	private List<SupplierCertServe> listSupplierCertSes = new ArrayList<SupplierCertServe>();
 
 	public String getId() {
 		return id;
@@ -154,11 +154,11 @@ public class SupplierMatSe implements Serializable {
 		this.updatedAt = updatedAt;
 	}
 
-	public List<SupplierCertSe> getListSupplierCertSes() {
+	public List<SupplierCertServe> getListSupplierCertSes() {
 		return listSupplierCertSes;
 	}
 
-	public void setListSupplierCertSes(List<SupplierCertSe> listSupplierCertSes) {
+	public void setListSupplierCertSes(List<SupplierCertServe> listSupplierCertSes) {
 		this.listSupplierCertSes = listSupplierCertSes;
 	}
 }

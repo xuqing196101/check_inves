@@ -2,9 +2,9 @@ package ses.dao.sms;
 
 import java.util.List;
 
-import ses.model.sms.SupplierCertSe;
+import ses.model.sms.SupplierCertServe;
 
-public interface SupplierCertSeMapper {
+public interface SupplierCertServeMapper {
     /**
      * 根据主键删除数据库的记录
      *
@@ -17,35 +17,35 @@ public interface SupplierCertSeMapper {
      *
      * @param record
      */
-    int insert(SupplierCertSe record);
+    int insert(SupplierCertServe record);
 
     /**
      *
      * @param record
      */
-    int insertSelective(SupplierCertSe record);
+    int insertSelective(SupplierCertServe record);
 
     /**
      * 根据主键获取一条数据库记录
      *
      * @param id
      */
-    SupplierCertSe selectByPrimaryKey(String id);
+    SupplierCertServe selectByPrimaryKey(String id);
 
     /**
      *
      * @param record
      */
-    int updateByPrimaryKeySelective(SupplierCertSe record);
+    int updateByPrimaryKeySelective(SupplierCertServe record);
 
     /**
      * 根据主键来更新数据库记录
      *
      * @param record
      */
-    int updateByPrimaryKey(SupplierCertSe record);
+    int updateByPrimaryKey(SupplierCertServe record);
     
-    List<SupplierCertSe> findCertSeBySupplierMatSeId(String supplierMatSeId);
+    List<SupplierCertServe> findCertSeBySupplierMatSeId(String supplierMatSeId);
     
     /**
      * @Title: findCertSeBySupplierSupplierId
@@ -56,5 +56,5 @@ public interface SupplierCertSeMapper {
      * @param @return      
      * @return List<SupplierCertSe>
      */
-    List<SupplierCertSe> findCertSeBySupplierId(String supplierId);
+    List<SupplierCertServe> findCertSeBySupplierId(String supplierId);
 }

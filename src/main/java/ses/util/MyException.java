@@ -16,7 +16,7 @@ public class MyException implements HandlerExceptionResolver{
 	@Override
 	public ModelAndView resolveException(HttpServletRequest request,
 			HttpServletResponse response, Object handler, Exception ex) {
-				// 添加自己的异常处理逻辑，如日志记录等
+				/*// 添加自己的异常处理逻辑，如日志记录等
 				Map<String, Object> model = new HashMap<String, Object>();
 				model.put("ex", ex);
 				// 根据不同错误转向不同页面
@@ -26,7 +26,8 @@ public class MyException implements HandlerExceptionResolver{
 					return new ModelAndView("error", model);
 				} else {
 					return new ModelAndView("error", model);
-				}
+				}*/
+		return null;
 	}
 
 

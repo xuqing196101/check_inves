@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="ses.dao.sms.SupplierCertSeMapper">
-	<resultMap id="BaseResultMap" type="ses.model.sms.SupplierCertSe">
+<mapper namespace="ses.dao.sms.SupplierCertServeMapper">
+	<resultMap id="BaseResultMap" type="ses.model.sms.SupplierCertServe">
 		<id column="ID" property="id" />
-		<result column="MAT_SE_ID" property="matSeId" />
+		<result column="MAT_SERVE_ID" property="matServeId" />
 		<result column="NAME" property="name" />
 		<result column="LEVEL_CERT" property="levelCert" />
 		<result column="LICENCE_AUTHORITH" property="licenceAuthorith" />
@@ -13,37 +13,37 @@
 		<result column="ATTACH" property="attach" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		ID, MAT_SE_ID, NAME, LEVEL_CERT, LICENCE_AUTHORITH, EXP_START_DATE, EXP_END_DATE,
+		ID, MAT_SERVE_ID, NAME, LEVEL_CERT, LICENCE_AUTHORITH, EXP_START_DATE, EXP_END_DATE,
 		MOT, ATTACH
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-		from T_SES_SMS_SUPPLIER_CERT_SE
+		from T_SES_SMS_SUPPLIER_CERT_SERVE
 		where ID = #{id}
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-		delete from T_SES_SMS_SUPPLIER_CERT_SE
+		delete from T_SES_SMS_SUPPLIER_CERT_SERVE
 		where ID = #{id}
 	</delete>
-	<insert id="insert" parameterType="ses.model.sms.SupplierCertSe">
-		insert into T_SES_SMS_SUPPLIER_CERT_SE (ID, MAT_SE_ID, NAME,
+	<insert id="insert" parameterType="ses.model.sms.SupplierCertServe">
+		insert into T_SES_SMS_SUPPLIER_CERT_SERVE (ID, MAT_SERVE_ID, NAME,
 		LEVEL_CERT, LICENCE_AUTHORITH, EXP_START_DATE,
 		EXP_END_DATE, MOT, ATTACH
 		)
-		values (#{id}, #{matSeId}, #{name},
+		values (#{id}, #{matServeId}, #{name},
 		#{levelCert}, #{licenceAuthorith}, #{expStartDate},
 		#{expEndDate}, #{mot}, #{attach}
 		)
 	</insert>
-	<insert id="insertSelective" parameterType="ses.model.sms.SupplierCertSe">
-		insert into T_SES_SMS_SUPPLIER_CERT_SE
+	<insert id="insertSelective" parameterType="ses.model.sms.SupplierCertServe">
+		insert into T_SES_SMS_SUPPLIER_CERT_SERVE
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				ID,
 			</if>
-			<if test="matSeId != null">
-				MAT_SE_ID,
+			<if test="matServeId != null">
+				MAT_SERVE_ID,
 			</if>
 			<if test="name != null">
 				NAME,
@@ -71,8 +71,8 @@
 			<if test="id != null">
 				#{id},
 			</if>
-			<if test="matSeId != null">
-				#{matSeId},
+			<if test="matServeId != null">
+				#{matServeId},
 			</if>
 			<if test="name != null">
 				#{name},
@@ -100,11 +100,11 @@
 			select sys_guid() from dual
 		</selectKey>
 	</insert>
-	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierCertSe">
-		update T_SES_SMS_SUPPLIER_CERT_SE
+	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierCertServe">
+		update T_SES_SMS_SUPPLIER_CERT_SERVE
 		<set>
-			<if test="matSeId != null">
-				MAT_SE_ID = #{matSeId},
+			<if test="matServeId != null">
+				MAT_SERVE_ID = #{matServeId},
 			</if>
 			<if test="name != null">
 				NAME = #{name},
@@ -130,9 +130,9 @@
 		</set>
 		where ID = #{id}
 	</update>
-	<update id="updateByPrimaryKey" parameterType="ses.model.sms.SupplierCertSe">
-		update T_SES_SMS_SUPPLIER_CERT_SE
-		set MAT_SE_ID = #{matSeId},
+	<update id="updateByPrimaryKey" parameterType="ses.model.sms.SupplierCertServe">
+		update T_SES_SMS_SUPPLIER_CERT_SERVE
+		set MAT_SERVE_ID = #{matServeId},
 		NAME = #{name},
 		LEVEL_CERT = #{levelCert},
 		LICENCE_AUTHORITH = #{licenceAuthorith},
@@ -144,7 +144,7 @@
 	</update>
 	
 	<select id="findCertSeBySupplierMatSeId" parameterType="java.lang.String" resultMap="BaseResultMap">
-		select * from T_SES_SMS_SUPPLIER_CERT_SE where MAT_SE_ID = #{supplierMatSeId}
+		select * from T_SES_SMS_SUPPLIER_CERT_SERVE where MAT_SERVE_ID = #{supplierMatServeId}
 	</select>
 	
 	<!-- 服务资质证书信息 -->
@@ -152,8 +152,8 @@
 	  SELECT
 		  c.*
 		FROM
-		  T_SES_SMS_SUPPLIER_CERT_SE c
-		JOIN T_SES_SMS_SUPPLIER_MAT_SE m ON m.ID = c.MAT_SE_ID
+		  T_SES_SMS_SUPPLIER_CERT_SERVE c
+		JOIN T_SES_SMS_SUPPLIER_MAT_SERVE m ON m.ID = c.MAT_SERVE_ID
 		WHERE
 		  m.SUPPLIER_ID =#{supplierId}
 	   

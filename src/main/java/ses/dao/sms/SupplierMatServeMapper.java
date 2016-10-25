@@ -1,10 +1,8 @@
 package ses.dao.sms;
 
-import java.util.List;
+import ses.model.sms.SupplierMatServe;
 
-import ses.model.sms.SupplierItemsPro;
-
-public interface SupplierItemsProMapper {
+public interface SupplierMatServeMapper {
     /**
      * 根据主键删除数据库的记录
      *
@@ -17,33 +15,33 @@ public interface SupplierItemsProMapper {
      *
      * @param record
      */
-    int insert(SupplierItemsPro record);
+    int insert(SupplierMatServe record);
 
     /**
      *
      * @param record
      */
-    int insertSelective(SupplierItemsPro record);
+    int insertSelective(SupplierMatServe record);
 
     /**
      * 根据主键获取一条数据库记录
      *
      * @param id
      */
-    SupplierItemsPro selectByPrimaryKey(String id);
+    SupplierMatServe selectByPrimaryKey(String id);
 
     /**
      *
      * @param record
      */
-    int updateByPrimaryKeySelective(SupplierItemsPro record);
+    int updateByPrimaryKeySelective(SupplierMatServe record);
 
     /**
      * 根据主键来更新数据库记录
      *
      * @param record
      */
-    int updateByPrimaryKey(SupplierItemsPro record);
+    int updateByPrimaryKey(SupplierMatServe record);
     
-    List<SupplierItemsPro> findItemsProBySupplierMatProId(String matProId);
+    SupplierMatServe getMatSeBySupplierId(String supplierId);
 }

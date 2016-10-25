@@ -3,7 +3,7 @@ package ses.model.sms;
 import java.io.Serializable;
 import java.util.Date;
 
-public class SupplierCertSe implements Serializable {
+public class SupplierCertServe implements Serializable {
 	private static final long serialVersionUID = -6858452147934345834L;
 
 	/**
@@ -20,7 +20,7 @@ public class SupplierCertSe implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER_CERT_SE.MAT_SERVE_ID
 	 * </pre>
 	 */
-	private String matSeId;
+	private String matServeId;
 
 	/**
 	 * <pre>
@@ -86,12 +86,12 @@ public class SupplierCertSe implements Serializable {
 		this.id = id;
 	}
 
-	public String getMatSeId() {
-		return matSeId;
+	public String getMatServeId() {
+		return matServeId;
 	}
 
-	public void setMatSeId(String matSeId) {
-		this.matSeId = matSeId;
+	public void setMatServeId(String matServeId) {
+		this.matServeId = matServeId;
 	}
 
 	public String getName() {

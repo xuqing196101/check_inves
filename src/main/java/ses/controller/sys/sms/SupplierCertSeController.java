@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import ses.model.sms.Supplier;
-import ses.model.sms.SupplierCertSe;
+import ses.model.sms.SupplierCertServe;
 import ses.service.sms.SupplierCertSeService;
 import ses.service.sms.SupplierService;
 import ses.util.FtpUtil;
@@ -41,7 +41,7 @@ public class SupplierCertSeController extends BaseSupplierController {
 	}
 	
 	@RequestMapping(value = "save_or_update_cert_se")
-	public String saveOrUpdateCertSell(HttpServletRequest request, SupplierCertSe supplierCertSe, String supplierId) throws IOException {
+	public String saveOrUpdateCertSell(HttpServletRequest request, SupplierCertServe supplierCertSe, String supplierId) throws IOException {
 		this.setCertSeUpload(request, supplierCertSe);
 		supplierCertSeService.saveOrUpdateCertSe(supplierCertSe);
 		Supplier supplier = supplierService.get(supplierId);
@@ -70,7 +70,7 @@ public class SupplierCertSeController extends BaseSupplierController {
 		return "redirect:../supplier/page_jump.html";
 	}
 	
-	public void setCertSeUpload(HttpServletRequest request, SupplierCertSe supplierCertSe) throws IOException {
+	public void setCertSeUpload(HttpServletRequest request, SupplierCertServe supplierCertSe) throws IOException {
 		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
 		if (multipartResolver.isMultipart(request)) {// 检查form中是否有enctype="multipart/form-data"
 			MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;// 将request变成多部分request

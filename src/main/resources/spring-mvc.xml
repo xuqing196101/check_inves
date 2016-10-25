@@ -23,13 +23,13 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 		</property>
 	</bean>
 	<!-- springMVC拦截器 -->
- 	<mvc:interceptors>
+ 	<!-- <mvc:interceptors>
 		<mvc:interceptor>
-<!-- 			需要拦截的地址 -->
+			需要拦截的地址
 			<mvc:mapping path="/*/*.do" />
 			<mvc:mapping path="/*/*.ajax" />
 			<mvc:mapping path="/*/*.html" />
-<!-- 			需要排除拦截的地址 -->
+			需要排除拦截的地址
 			<mvc:exclude-mapping path="/index/selectIndexNews.*" />
 			<mvc:exclude-mapping path="/index/selectArticleNewsById.*" />
 			<mvc:exclude-mapping path="/index/selectIndexNewsByTypeId.*" />
@@ -39,7 +39,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 			<mvc:exclude-mapping path="/login/login.*" />
 			<bean class="ses.interceptor.MyInterceptor"></bean>
 		</mvc:interceptor>
-	</mvc:interceptors>
+	</mvc:interceptors> -->
 	<!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->
 	<bean
 		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
