@@ -354,17 +354,18 @@ public class ExpertExamController extends BaseSupplierController{
 		if(topic==null||topic.equals(" ")){
 			error = "topic";
 			model.addAttribute("ERR_topic", "题干不能为空");
-		}else{
-			HashMap<String,Object> tmap = new HashMap<String,Object>();
-			tmap.put("topic", request.getParameter("topic").trim());
-			tmap.put("kind",0);
-			tmap.put("personType", 1);
-			List<ExamQuestion> topicOnly = examQuestionService.selectByTopic(tmap);
-			if(topicOnly.size()!=0){
-				model.addAttribute("ERR_topic", "该题干已存在");
-				error = "topic";
-			}
 		}
+//		}else{
+//			HashMap<String,Object> tmap = new HashMap<String,Object>();
+//			tmap.put("topic", request.getParameter("topic").trim());
+//			tmap.put("kind",0);
+//			tmap.put("personType", 1);
+//			List<ExamQuestion> topicOnly = examQuestionService.selectByTopic(tmap);
+//			if(topicOnly.size()!=0){
+//				model.addAttribute("ERR_topic", "该题干已存在");
+//				error = "topic";
+//			}
+//		}
 		if(request.getParameter("options").isEmpty()){
 			error = "option";
 			model.addAttribute("ERR_option","请选择选项数量");
@@ -1595,12 +1596,102 @@ public class ExpertExamController extends BaseSupplierController{
 	* @return String
 	 */
 	@RequestMapping(value="/importTec",method = RequestMethod.POST)
-	@ResponseBody
-	public String importTec(@RequestParam("file") CommonsMultipartFile file,
+	public void importTec(@RequestParam("file") CommonsMultipartFile file,
 			 HttpSession session,HttpServletRequest request,HttpServletResponse response) throws FileNotFoundException, IOException{
 		String curProjectPath = session.getServletContext().getRealPath("/");  
-        String saveDirectoryPath = curProjectPath + "/" + uploadFolderName;  
-        // File newFileName = new File(saveDirectoryPath); 
+        String saveDirectoryPath = curProjectPath + "/" + uploadFolderName; 
+        // 判断文件是否存在  
+        String fileName = null;
+        File excelFile = null;
+        if (!file.isEmpty()) {
+            fileName = file.getOriginalFilename();  
+            String fileExtension = FilenameUtils.getExtension(fileName);   
+            if(!Arrays.asList(extensionPermit).contains(fileExtension)){
+               
+            } 
+            excelFile = new File(saveDirectoryPath,System.currentTimeMillis()+file.getOriginalFilename());
+            FileUtils.copyInputStreamToFile(file.getInputStream(), excelFile);
+        }
+		Workbook workbook = null;
+		//判断Excel是2007以下还是2007以上版本
+		try {
+			workbook = new XSSFWorkbook(excelFile);
+		}catch (Exception ex) {
+			workbook = new HSSFWorkbook(new FileInputStream(excelFile));
+		}
+		String str = "无";
+		Sheet sheet = workbook.getSheetAt(0);
+		String[] items = saveOption();
+		StringBuffer same = new StringBuffer();
+		List<ExamQuestion> question = new ArrayList<ExamQuestion>();
+		for (int i=1;i<= sheet.getPhysicalNumberOfRows();i++) {
+			Row row = sheet.getRow(i);
+			if (row == null) {
+				continue;
+			}
+			Cell queType = row.getCell(0);
+			if (queType.toString().equals("单选题")
+					|| queType.toString().equals("多选题")) {
+				Cell queTopic = row.getCell(1);
+				Cell queAnswer = row.getCell(2);
+				ExamQuestion examQuestion = new ExamQuestion();
+				examQuestion.setPersonType(1);
+				examQuestion.setKind(0);
+				StringBuffer sb_items = new StringBuffer();
+				String item = items[row.getPhysicalNumberOfCells()-3];
+				String[] opt = item.split(",");
+				for(int j=3;j<row.getPhysicalNumberOfCells();j++){
+					sb_items.append(opt[j-3]+"."+row.getCell(j).toString()+";");
+				}
+				examQuestion.setItems(sb_items.toString());
+				examQuestion.setAnswer(queAnswer.toString());
+				if (queType.toString().equals("单选题")) {
+					examQuestion.setQuestionTypeId(1);
+				} else {
+					examQuestion.setQuestionTypeId(2);
+				}
+				examQuestion.setCreatedAt(new Date());
+				HashMap<String,Object> map = new HashMap<String,Object>();
+				map.put("topic", queTopic.toString());
+				List<ExamQuestion> sameTopic = examQuestionService.selectByTecTopic(map);
+				if(sameTopic.size()!=0){
+					str="1";
+					same.append(queType.toString()+","+queTopic.toString()+";");
+				}else{
+					examQuestion.setTopic(queTopic.toString());
+					question.add(examQuestion);
+				}
+			}
+		}
+		if(str.equals("1")){
+			super.writeJson(response,same.toString());
+		}else{
+			for(int i=0;i<question.size();i++){
+				examQuestionService.insertSelective(question.get(i));
+			}
+			super.writeJson(response,"0");
+		}
+	}
+	
+	/**
+	 * 
+	* @Title: importLaw
+	* @author ZhaoBo
+	* @date 2016-9-7 上午11:31:37  
+	* @Description: 导入法律类专家题库 
+	* @param @param file
+	* @param @param session
+	* @param @param request
+	* @param @param response
+	* @param @return
+	* @param @throws FileNotFoundException
+	* @param @throws IOException      
+	 */
+	@RequestMapping(value="/importLaw",method = RequestMethod.POST)
+	public void importLaw(@RequestParam("file") CommonsMultipartFile file,
+			 HttpSession session,HttpServletRequest request,HttpServletResponse response) throws FileNotFoundException, IOException{
+		String curProjectPath = session.getServletContext().getRealPath("/");  
+        String saveDirectoryPath = curProjectPath + "/" + uploadFolderName; 
         // 判断文件是否存在  
         String fileName = null;
         File excelFile = null;
@@ -1613,7 +1704,6 @@ public class ExpertExamController extends BaseSupplierController{
             excelFile = new File(saveDirectoryPath,System.currentTimeMillis()+file.getOriginalFilename());
             FileUtils.copyInputStreamToFile(file.getInputStream(), excelFile);
         }
-        //File excelFile = new File(newFileName, fileName);
 		Workbook workbook = null;
 		//判断Excel是2007以下还是2007以上版本
 		try {
@@ -1621,9 +1711,13 @@ public class ExpertExamController extends BaseSupplierController{
 		}catch (Exception ex) {
 			workbook = new HSSFWorkbook(new FileInputStream(excelFile));
 		}
+		String str = "无";
 		Sheet sheet = workbook.getSheetAt(0);
-		for (int j = 1; j <= sheet.getPhysicalNumberOfRows(); j++) {
-			Row row = sheet.getRow(j);
+		String[] items = saveOption();
+		StringBuffer same = new StringBuffer();
+		List<ExamQuestion> question = new ArrayList<ExamQuestion>();
+		for (int i=1;i<=sheet.getPhysicalNumberOfRows();i++) {
+			Row row = sheet.getRow(i);
 			if (row == null) {
 				continue;
 			}
@@ -1631,14 +1725,17 @@ public class ExpertExamController extends BaseSupplierController{
 			if (queType.toString().equals("单选题")
 					|| queType.toString().equals("多选题")) {
 				Cell queTopic = row.getCell(1);
-				Cell queOption = row.getCell(2);
-				Cell queAnswer = row.getCell(3);
-				Cell quePoint = row.getCell(4);
+				Cell queAnswer = row.getCell(2);
 				ExamQuestion examQuestion = new ExamQuestion();
 				examQuestion.setPersonType(1);
-				examQuestion.setKind(0);
-				examQuestion.setTopic(queTopic.toString());
-				examQuestion.setItems(queOption.toString());
+				examQuestion.setKind(2);
+				StringBuffer sb_items = new StringBuffer();
+				String item = items[row.getPhysicalNumberOfCells()-3];
+				String[] opt = item.split(",");
+				for(int j=3;j<row.getPhysicalNumberOfCells();j++){
+					sb_items.append(opt[j-3]+"."+row.getCell(j).toString()+";");
+				}
+				examQuestion.setItems(sb_items.toString());
 				examQuestion.setAnswer(queAnswer.toString());
 				if (queType.toString().equals("单选题")) {
 					examQuestion.setQuestionTypeId(1);
@@ -1646,15 +1743,36 @@ public class ExpertExamController extends BaseSupplierController{
 					examQuestion.setQuestionTypeId(2);
 				}
 				examQuestion.setCreatedAt(new Date());
-				examQuestionService.insertSelective(examQuestion);
+				HashMap<String,Object> map = new HashMap<String,Object>();
+				map.put("kind", 2);
+				map.put("topic", queTopic.toString());
+				map.put("personType", 1);
+				List<ExamQuestion> sameTopic = examQuestionService.selectByTopic(map);
+				if(sameTopic.size()!=0){
+					str="1";
+					same.append(queType.toString()+","+queTopic.toString()+";");
+					continue;
+				}else{
+					examQuestion.setTopic(queTopic.toString());
+					question.add(examQuestion);
+				}
 			}
 		}
-		return "1";
+		if(str.equals("1")){
+			super.writeJson(response,same.toString());
+		}else{
+			for(int i=0;i<question.size();i++){
+				examQuestionService.insertSelective(question.get(i));
+			}
+			super.writeJson(response,"0");
+		}
+		
+		
 	}
 	
 	/**
 	 * 
-	* @Title: importLaw
+	* @Title: importCom
 	* @author ZhaoBo
 	* @date 2016-9-7 上午11:31:37  
 	* @Description: 导入技术类专家题库 
@@ -1665,9 +1783,10 @@ public class ExpertExamController extends BaseSupplierController{
 	* @param @return
 	* @param @throws FileNotFoundException
 	* @param @throws IOException      
+	* @return String
 	 */
-	@RequestMapping(value="/importLaw",method = RequestMethod.POST)
-	public void importLaw(@RequestParam("file") CommonsMultipartFile file,
+	@RequestMapping(value="/importCom",method = RequestMethod.POST)
+	public void importCom(@RequestParam("file") CommonsMultipartFile file,
 			 HttpSession session,HttpServletRequest request,HttpServletResponse response) throws FileNotFoundException, IOException{
 		String curProjectPath = session.getServletContext().getRealPath("/");  
         String saveDirectoryPath = curProjectPath + "/" + uploadFolderName; 
@@ -1707,7 +1826,7 @@ public class ExpertExamController extends BaseSupplierController{
 				Cell queAnswer = row.getCell(2);
 				ExamQuestion examQuestion = new ExamQuestion();
 				examQuestion.setPersonType(1);
-				examQuestion.setKind(2);
+				examQuestion.setKind(1);
 				StringBuffer sb_items = new StringBuffer();
 				String item = items[row.getPhysicalNumberOfCells()-3];
 				String[] opt = item.split(",");
@@ -1715,7 +1834,6 @@ public class ExpertExamController extends BaseSupplierController{
 					sb_items.append(opt[j-3]+"."+row.getCell(j).toString()+";");
 				}
 				examQuestion.setItems(sb_items.toString());
-				examQuestion.setTopic(queTopic.toString());
 				examQuestion.setAnswer(queAnswer.toString());
 				if (queType.toString().equals("单选题")) {
 					examQuestion.setQuestionTypeId(1);
@@ -1724,13 +1842,13 @@ public class ExpertExamController extends BaseSupplierController{
 				}
 				examQuestion.setCreatedAt(new Date());
 				HashMap<String,Object> map = new HashMap<String,Object>();
-				map.put("kind", 2);
+				map.put("kind", 1);
 				map.put("topic", queTopic.toString());
 				map.put("personType", 1);
 				List<ExamQuestion> sameTopic = examQuestionService.selectByTopic(map);
 				if(sameTopic.size()!=0){
 					str="1";
-					same.append(queTopic.toString()+",");
+					same.append(queType.toString()+","+queTopic.toString()+";");
 					continue;
 				}else{
 					examQuestion.setTopic(queTopic.toString());
@@ -1746,81 +1864,6 @@ public class ExpertExamController extends BaseSupplierController{
 			}
 			super.writeJson(response,"0");
 		}
-		
-		
-	}
-	
-	/**
-	 * 
-	* @Title: importCom
-	* @author ZhaoBo
-	* @date 2016-9-7 上午11:31:37  
-	* @Description: 导入技术类专家题库 
-	* @param @param file
-	* @param @param session
-	* @param @param request
-	* @param @param response
-	* @param @return
-	* @param @throws FileNotFoundException
-	* @param @throws IOException      
-	* @return String
-	 */
-	@RequestMapping(value="/importCom",method = RequestMethod.POST)
-	@ResponseBody
-	public String importCom(@RequestParam("file") CommonsMultipartFile file,
-			 HttpSession session,HttpServletRequest request,HttpServletResponse response) throws FileNotFoundException, IOException{
-		String curProjectPath = session.getServletContext().getRealPath("/");  
-        String saveDirectoryPath = curProjectPath + "/" + uploadFolderName;  
-        // File newFileName = new File(saveDirectoryPath); 
-        // 判断文件是否存在  
-        String fileName = null;
-        File excelFile = null;
-        if (!file.isEmpty()) {  
-            fileName = file.getOriginalFilename();  
-            String fileExtension = FilenameUtils.getExtension(fileName);   
-            if(!Arrays.asList(extensionPermit).contains(fileExtension)){
-               
-            } 
-            excelFile = new File(saveDirectoryPath,System.currentTimeMillis()+file.getOriginalFilename());
-            FileUtils.copyInputStreamToFile(file.getInputStream(), excelFile);
-        }
-        //File excelFile = new File(newFileName, fileName);
-		Workbook workbook = null;
-		//判断Excel是2007以下还是2007以上版本
-		try {
-			workbook = new XSSFWorkbook(excelFile);
-		}catch (Exception ex) {
-			workbook = new HSSFWorkbook(new FileInputStream(excelFile));
-		}
-		Sheet sheet = workbook.getSheetAt(0);
-		for (int j = 1; j <= sheet.getPhysicalNumberOfRows(); j++) {
-			Row row = sheet.getRow(j);
-			if (row == null) {
-				continue;
-			}
-			Cell queType = row.getCell(0);
-			if (queType.toString().equals("单选题")
-					|| queType.toString().equals("多选题")) {
-				Cell queTopic = row.getCell(1);
-				Cell queOption = row.getCell(2);
-				Cell queAnswer = row.getCell(3);
-				Cell quePoint = row.getCell(4);
-				ExamQuestion examQuestion = new ExamQuestion();
-				examQuestion.setPersonType(1);
-				examQuestion.setKind(1);
-				examQuestion.setTopic(queTopic.toString());
-				examQuestion.setItems(queOption.toString());
-				examQuestion.setAnswer(queAnswer.toString());
-				if (queType.toString().equals("单选题")) {
-					examQuestion.setQuestionTypeId(1);
-				} else {
-					examQuestion.setQuestionTypeId(2);
-				}
-				examQuestion.setCreatedAt(new Date());
-				examQuestionService.insertSelective(examQuestion);
-			}
-		}
-		return "1";
 	}
 	
 	/**

@@ -464,8 +464,7 @@ public class PurchaserExamController extends BaseSupplierController{
 	* @return String
 	 */
 	@RequestMapping(value="/importExcel",method = RequestMethod.POST)
-	@ResponseBody
-	public String importExcel(@RequestParam("file") CommonsMultipartFile file,
+	public void importExcel(@RequestParam("file") CommonsMultipartFile file,
 			 HttpSession session,HttpServletRequest request,HttpServletResponse response) throws FileNotFoundException, IOException{
 		File excelFile = poiExcel(session,file);
 		Workbook workbook = null;
@@ -475,7 +474,11 @@ public class PurchaserExamController extends BaseSupplierController{
 		}catch (Exception ex) {
 			workbook = new HSSFWorkbook(new FileInputStream(excelFile));
 		}
+		String str = "无";
 		Sheet sheet = workbook.getSheetAt(0);
+		String[] items = saveOption();
+		StringBuffer same = new StringBuffer();
+		List<ExamQuestion> question = new ArrayList<ExamQuestion>();
 		for (int j=1;j<=sheet.getPhysicalNumberOfRows();j++) {
 			Row row = sheet.getRow(j);
 			if (row==null) {
@@ -485,12 +488,16 @@ public class PurchaserExamController extends BaseSupplierController{
 			if (queType.toString().equals("单选题")
 					|| queType.toString().equals("多选题")) {
 				Cell queTopic = row.getCell(1);
-				Cell queOption = row.getCell(2);
-				Cell queAnswer = row.getCell(3);
+				Cell queAnswer = row.getCell(2);
 				ExamQuestion examQuestion = new ExamQuestion();
 				examQuestion.setPersonType(2);
-				examQuestion.setTopic(queTopic.toString());
-				examQuestion.setItems(queOption.toString());
+				StringBuffer sb_items = new StringBuffer();
+				String item = items[row.getPhysicalNumberOfCells()-3];
+				String[] opt = item.split(",");
+				for(int i=3;i<row.getPhysicalNumberOfCells();i++){
+					sb_items.append(opt[i-3]+"."+row.getCell(i).toString()+";");
+				}
+				examQuestion.setItems(sb_items.toString());
 				examQuestion.setAnswer(queAnswer.toString());
 				if(queType.toString().equals("单选题")) {
 					examQuestion.setQuestionTypeId(1);
@@ -498,22 +505,48 @@ public class PurchaserExamController extends BaseSupplierController{
 					examQuestion.setQuestionTypeId(2);
 				}
 				examQuestion.setCreatedAt(new Date());
-				examQuestionService.insertSelective(examQuestion);
+				HashMap<String,Object> map = new HashMap<String,Object>();
+				map.put("topic", queTopic.toString());
+				map.put("personType", 2);
+				List<ExamQuestion> sameTopic = examQuestionService.selectByTopic(map);
+				if(sameTopic.size()!=0){
+					str="1";
+					same.append(queType.toString()+","+queTopic.toString()+";");
+				}else{
+					examQuestion.setTopic(queTopic.toString());
+					question.add(examQuestion);
+				}
 			}
 			if(queType.toString().equals("判断题")){
 				ExamQuestion examQuestion = new ExamQuestion();
 				Cell queTopic = row.getCell(1);
-				Cell queAnswer = row.getCell(3);
+				Cell queAnswer = row.getCell(2);
 				examQuestion.setPersonType(2);
 				examQuestion.setItems(" ");
-				examQuestion.setTopic(queTopic.toString());
+				HashMap<String,Object> map = new HashMap<String,Object>();
+				map.put("topic", queTopic.toString());
+				map.put("personType", 2);
+				List<ExamQuestion> sameTopic = examQuestionService.selectByTopic(map);
+				if(sameTopic.size()!=0){
+					str="1";
+					same.append(queType.toString()+","+queTopic.toString()+";");
+				}else{
+					examQuestion.setTopic(queTopic.toString());
+					question.add(examQuestion);
+				}
 				examQuestion.setAnswer(queAnswer.toString());
 				examQuestion.setQuestionTypeId(3);
 				examQuestion.setCreatedAt(new Date());
-				examQuestionService.insertSelective(examQuestion);
 			}
 		}
-		return "1";
+		if(str.equals("1")){
+			super.writeJson(response,same.toString());
+		}else{
+			for(int i=0;i<question.size();i++){
+				examQuestionService.insertSelective(question.get(i));
+			}
+			super.writeJson(response,"0");
+		}
 	}
 	
 	/**

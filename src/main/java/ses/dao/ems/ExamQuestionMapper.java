@@ -187,4 +187,6 @@ public interface ExamQuestionMapper {
     * @return int
      */
     int queryQuestionCount(HashMap<String,Object> map); 
+    
+    List<ExamQuestion> selectByTecTopic(HashMap<String,Object> map);
 }
