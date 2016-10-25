@@ -34,14 +34,14 @@ function nextStep(){
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">供应商报价</a></li><li><a href="#">产品报价</a></li><li><a href="#">装备（产品）技术资料概述</a></li></ul>
+		   <li><a href="#"> 首页</a></li><li><a href="#">供应商报价</a></li><li><a href="#">产品报价</a></li><li><a href="#">原、辅材料工艺定额消耗明细表</a></li></ul>
 		<div class="clear"></div>
 	  </div>
    </div>
   
   <div class="container">
 	 	<div class="headline-v2">
-	  		 <h2>装备（产品）技术资料概述</h2>
+	  		 <h2>原、辅材料工艺定额消耗明细表</h2>
 	 	</div>
 		
    </div>

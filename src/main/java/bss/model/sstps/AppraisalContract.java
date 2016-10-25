@@ -1,5 +1,6 @@
 package bss.model.sstps;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import bss.model.cs.PurchaseContract;
@@ -56,7 +57,7 @@ public class AppraisalContract {
     /**
      * @Fields money: 合同金额(万元)
      */
-    private String money;
+    private BigDecimal money;
     
     /**
      * @Fields supplierName: 供应商名称
@@ -87,6 +88,10 @@ public class AppraisalContract {
      * @Fields appraisalTask : 审价任务
      */
     private String appraisalTask;
+    
+    private BigDecimal auditMoney;
+    
+    private BigDecimal subtract;
     
     
     public String getId() {
@@ -154,13 +159,6 @@ public class AppraisalContract {
 		this.code = code;
 	}
 
-	public String getMoney() {
-		return money;
-	}
-
-	public void setMoney(String money) {
-		this.money = money;
-	}
 
 	public String getSupplierName() {
 		return supplierName;
@@ -209,5 +207,30 @@ public class AppraisalContract {
 	public void setAppraisalTask(String appraisalTask) {
 		this.appraisalTask = appraisalTask;
 	}
+
+	public BigDecimal getMoney() {
+		return money;
+	}
+
+	public void setMoney(BigDecimal money) {
+		this.money = money;
+	}
+
+	public BigDecimal getAuditMoney() {
+		return auditMoney;
+	}
+
+	public void setAuditMoney(BigDecimal auditMoney) {
+		this.auditMoney = auditMoney;
+	}
+
+	public BigDecimal getSubtract() {
+		return subtract;
+	}
+
+	public void setSubtract(BigDecimal subtract) {
+		this.subtract = subtract;
+	}
+	
 	
 }

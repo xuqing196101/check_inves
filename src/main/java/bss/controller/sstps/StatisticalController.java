@@ -1,0 +1,185 @@
+package bss.controller.sstps;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import ses.util.PropertiesUtil;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
+import bss.echarts.AxisLabel;
+import bss.echarts.DataView;
+import bss.echarts.Feature;
+import bss.echarts.Legend;
+import bss.echarts.MagicType;
+import bss.echarts.Option;
+import bss.echarts.Restore;
+import bss.echarts.SaveAsImage;
+import bss.echarts.Series;
+import bss.echarts.Title;
+import bss.echarts.Toolbox;
+import bss.echarts.Tooltip;
+import bss.echarts.XAxis;
+import bss.echarts.YAxis;
+import bss.model.sstps.AppraisalContract;
+import bss.service.sstps.AppraisalContractService;
+
+@Controller
+@Scope
+@RequestMapping("/statistical")
+public class StatisticalController {
+	
+	@Autowired
+	private AppraisalContractService appraisalContractService;
+	
+	@ResponseBody
+	@RequestMapping("/echarts")
+	public Option echarts(HttpServletRequest request, HttpServletResponse response,AppraisalContract appraisalContract){
+		Option option = new Option();
+		Title title = new Title();
+		title.setText("审价结果统计图");
+		Toolbox toolbox = new Toolbox();
+        Feature feature = new Feature();
+        toolbox.setOrient("vertical");
+        toolbox.setX("right");
+        toolbox.setY("top");
+        DataView dataView = new DataView();
+        dataView.setShow(true);
+        dataView.setReadOnly(false);
+        MagicType magicType = new MagicType();
+        magicType.setShow(true);
+        List<String> type = new ArrayList<String>();
+        type.add("line");
+        type.add("bar");
+        magicType.setType(type);
+        Restore restore = new Restore();
+        restore.setShow(true);
+        SaveAsImage saveAsImage = new SaveAsImage();
+        saveAsImage.setShow(true);
+        feature.setDataView(dataView);
+        feature.setMagicType(magicType);
+        feature.setRestore(restore);
+        feature.setSaveAsImage(saveAsImage);
+        toolbox.setShow(true);
+        toolbox.setFeature(feature);
+        Tooltip tooltip = new Tooltip();
+        tooltip.setTrigger("axis");
+        Legend legend = new Legend();
+        List<String> data = new ArrayList<String>();
+        data.add("合同金额");
+        data.add("审价金额");
+        data.add("审减百分比");
+        legend.setData(data);
+        legend.setX("center");
+        legend.setY("top");
+        legend.setOrient("horizontal");
+        List<XAxis> xs = new ArrayList<XAxis>();
+        XAxis xAxis = new XAxis();
+        xAxis.setType("category");
+        List<String> datax = new ArrayList<String>();
+        List<AppraisalContract> list = appraisalContractService.selectStatisical(appraisalContract);
+        for(int i=0;i<list.size();i++){
+        	datax.add(list.get(i).getPurchaseDepName());
+        }
+        xAxis.setData(datax);
+        xAxis.setBoundaryGap(true);
+        xs.add(xAxis);
+        List<YAxis> ys = new ArrayList<YAxis>();
+        YAxis yAxis1 = new YAxis();
+        yAxis1.setType("value");
+        yAxis1.setName("万");
+        yAxis1.setMin(0);
+        yAxis1.setMax(9000);
+        yAxis1.setInterval(1000);
+        AxisLabel axisLabel = new AxisLabel();
+        axisLabel.setFormatter("{value}");
+        yAxis1.setAxisLabel(axisLabel);
+        YAxis yAxis2 = new YAxis();
+        yAxis2.setType("value");
+        yAxis2.setName("%");
+        yAxis2.setMin(0);
+        yAxis2.setMax(100);
+        yAxis2.setInterval(10);
+        AxisLabel axisLabel2 = new AxisLabel();
+        axisLabel2.setFormatter("{value}%");
+        yAxis2.setAxisLabel(axisLabel2);
+        ys.add(yAxis1);
+        ys.add(yAxis2);
+        List<Series> seriesArr = new ArrayList<Series>();
+        Series series1 = new Series();
+        series1.setName("合同金额");
+        series1.setType("bar");
+        List<BigDecimal> value1 = new ArrayList<BigDecimal>();
+        for(int j=0;j<list.size();j++){
+        	value1.add(list.get(j).getMoney());
+        }
+        series1.setData(value1);
+        series1.setBarWidth(30);
+        Series series2 = new Series();
+        series2.setName("审价金额");
+        series2.setType("bar");
+        List<BigDecimal> value2 = new ArrayList<BigDecimal>();
+        for(int k=0;k<list.size();k++){
+        	value2.add(list.get(k).getAuditMoney());
+        }
+        series2.setData(value2);
+        series2.setBarWidth(30);
+        Series series3 = new Series();
+        series3.setName("审减百分比");
+        series3.setType("line");
+        List<BigDecimal> value3 = new ArrayList<BigDecimal>();
+        for(int m=0;m<list.size();m++){
+        	value3.add(list.get(m).getSubtract());
+        }
+        series3.setyAxisIndex(1);
+        series3.setData(value3);
+        seriesArr.add(series1);
+        seriesArr.add(series2);
+        seriesArr.add(series3);
+        option.setTitle(title);
+        option.setToolbox(toolbox);
+        option.setTooltip(tooltip);
+        option.setxAxis(xs);
+        option.setyAxis(ys);
+        option.setSeries(seriesArr);
+        option.setLegend(legend);
+		return option;
+		
+	}
+	
+	@RequestMapping("/view")
+	public String view(Model model,Integer page,AppraisalContract appraisalContract){
+		
+		String name = appraisalContract.getName();
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		if(name!=null && !name.equals("")){
+			map.put("name", "%"+name+"%");
+		}
+		if(page==null){
+			page = 1;
+		}
+		map.put("page", page.toString());
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		List<AppraisalContract> list = appraisalContractService.selectAppraisal(appraisalContract);
+		model.addAttribute("list", new PageInfo<AppraisalContract>(list));
+		model.addAttribute("name", name);
+		
+		return "bss/sstps/statistical/list";
+	}
+	
+
+}

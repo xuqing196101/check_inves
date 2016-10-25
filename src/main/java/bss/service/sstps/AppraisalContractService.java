@@ -103,5 +103,28 @@ public interface AppraisalContractService {
 	* @return AppraisalContract
 	 */
 	AppraisalContract selectContractId(AppraisalContract singleBond);
-
+	
+	
+	/**
+	* @Title: selectAppraisal
+	* @author Shen Zhenfei 
+	* @date 2016-10-25 上午11:02:45  
+	* @Description: 已审价后合同
+	* @param @param record
+	* @param @return      
+	* @return List<AppraisalContract>
+	 */
+	List<AppraisalContract> selectAppraisal(AppraisalContract record);
+	
+	/**
+	* @Title: selectStatisical
+	* @author Shen Zhenfei 
+	* @date 2016-10-25 下午1:28:13  
+	* @Description: 统计图
+	* @param @param record
+	* @param @return      
+	* @return List<AppraisalContract>
+	 */
+	List<AppraisalContract> selectStatisical(AppraisalContract record);
+  
 }
