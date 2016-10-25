@@ -126,15 +126,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     });
   });
   
-function reason(id,auditFieldName){
+function reason(id){
   var supplierId=$("#supplierId").val();
-  var auditContent="生产资质证书为："+$("#"+id).text()+"的信息"; //审批的字段内容
+  /* var auditContent="生产资质证书为："+$("#"+id).text()+"的信息"; */ //审批的字段内容
   var auditType=$("#materialProduction").text();//审核类型
+  var auditContent = "供应商资质证书";
    layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
     $.ajax({
         url:"<%=basePath%>supplierAudit/auditReasons.html",
         type:"post",
-        data:"auditType="+auditType+"&auditFieldName="+auditFieldName+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId,
+        data:"auditType="+auditType+"&auditFieldName="+id+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId,
       });
         $("#"+id+"_show").show();
         layer.msg("审核不通过的理由是："+text,{offset:'200px'});
@@ -270,14 +271,14 @@ function tijiao(str){
 							        <c:forEach items="${materialProduction}" var="m" varStatus="vs">
 							          <tr>
 							            <td class="tc">${vs.index + 1}</td>
-							            <td class="tc" id="${m.id}" onclick="reason('${m.id}','供应商资质证书');">${m.name }</td>
-							            <td class="tc" onclick="reason('${m.id}','供应商资质证书');">${m.levelCert}</td>
-							            <td class="tc" onclick="reason('${m.id}','供应商资质证书');">${m.licenceAuthorith }</td>
-							            <td class="tc" onclick="reason('${m.id}','供应商资质证书');">
+							            <td class="tc" id="${m.id}" onclick="reason('${m.id}');">${m.name }</td>
+							            <td class="tc" onclick="reason('${m.id}');">${m.levelCert}</td>
+							            <td class="tc" onclick="reason('${m.id}');">${m.licenceAuthorith }</td>
+							            <td class="tc" onclick="reason('${m.id}');">
 								            <fmt:formatDate value="${m.expStartDate }" pattern='yyyy-MM-dd'/>  至  
 								            <fmt:formatDate value="${m.expEndDate }" pattern='yyyy-MM-dd'/>
 								          </td>
-							            <td class="tc" onclick="reason('${m.id}','供应商资质证书');">
+							            <td class="tc" onclick="reason('${m.id}');">
 							             <c:if test="${m.mot==0 }">否</c:if>
 							             <c:if test="${m.mot==1 }">是</c:if>
 							            </td>

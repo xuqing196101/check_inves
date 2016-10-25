@@ -126,16 +126,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   });
 
 
-function reason(id,auditFieldName){
-
+function reason(id,auditContent){
    var supplierId=$("#supplierId").val();
-   var auditContent="工程证书编号为:"+$("#"+id).text()+"的信息"; //审批的字段内容 
+   /* var auditContent="工程证书编号为:"+$("#"+id).text()+"的信息"; */ //审批的字段内容 
    var auditType=$("#engineering").text();//审核类型
    layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
     $.ajax({
         url:"<%=basePath%>supplierAudit/auditReasons.html",
         type:"post",
-        data:"auditType="+auditType+"&auditFieldName="+auditFieldName+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId,
+        data:"auditType="+auditType+"&auditFieldName="+id+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId,
       });
         $("#"+id+"_show").show();
         $("#"+id+"_show1").show();

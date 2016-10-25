@@ -120,7 +120,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 function reason(id){
   var supplierId=$("#supplierId").val();
-  var auditFieldName=$("#"+id).text()+"股东"; //审批的字段名字
+  /* var auditFieldName=$("#"+id).text()+"股东"; */ //审批的字段名字
   var auditContent=$("#"+id).text()+"股东信息"; //审批的字段内容
   var auditType=$("#shareholder").text();//审核类型
    layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
@@ -128,7 +128,7 @@ function reason(id){
         url:"<%=basePath%>supplierAudit/auditReasons.html",
         type:"post",
         /* data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId, */
-        data:"auditType="+auditType+"&auditFieldName="+auditFieldName+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId,
+        data:"auditType="+auditType+"&auditFieldName="+id+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId,
       });
       $("#"+id+"_show").show();
       layer.msg("审核不通过的理由是："+text,{offset:'200px'});

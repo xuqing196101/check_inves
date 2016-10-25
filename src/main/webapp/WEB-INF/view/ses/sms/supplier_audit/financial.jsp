@@ -144,14 +144,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 function reason(id,auditField){
   var supplierId=$("#supplierId").val();
-  var auditFieldName=$("#"+id).text()+"年财务"; //审批的字段名字
+  /* var auditFieldName=$("#"+id).text()+"年财务";  *///审批的字段名字
   var auditType=$("#financial").text();//审核类型
   var auditContent=$("#"+id).text()+"年财务信息";//审批的字段内容
   layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
     $.ajax({
         url:"<%=basePath%>supplierAudit/auditReasons.html",
         type:"post",
-        data:"auditType="+auditType+"&auditFieldName="+auditFieldName+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+auditField,
+        data:"auditType="+auditType+"&auditFieldName="+id+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+auditField,
       });
      $("#"+id+"_show").show();
       layer.msg("审核不通过的理由是："+text,{offset:'200px'});
@@ -161,7 +161,8 @@ function reason(id,auditField){
 function reason1(year, ele,auditField){
   var supplierId=$("#supplierId").val();
   var value = $(ele).parents("li").find("span").text().replaceAll("：","");//审批的字段名字
-  var auditFieldName=year+"年"+value;//审批的字段名字
+ /*  var auditFieldName=year+"年"+value;//审批的字段名字 */
+  var auditFieldName=year+"年";//审批的字段名字
   var auditType=$("#financial").text();//审核类型
     layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
       $.ajax({
@@ -294,7 +295,7 @@ function tijiao(str){
                   <c:forEach items="${financial}" var="f" varStatus="vs">
                   <div class=" margin-bottom-0 fl">
                     <h2 class="f16 jbxx1">
-                    <i>01</i>${f.year }年
+                    <i>${vs.index + 1}</i>${f.year }年
                     </h2>
                     <ul class="list-unstyled list-flow">
                       <li class="col-md-6 p0 "><span class="" onclick="reason1('${f.year }', this,'auditOpinion');">财务审计报告意见表：</span>

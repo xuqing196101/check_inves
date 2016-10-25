@@ -248,115 +248,112 @@ alert(supplierInspectListFile);
               <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('applicationFrom');">申请表</a></li>
               <li class="active"><a aria-expanded="true" href="#tab-2" data-toggle="tab" onclick="tijiao('reasonsList');">审核汇总</a></li>
             </ul>
-                  <form id="form_id" action="" method="post"  enctype="multipart/form-data">
-                      <input name="supplierId" value="${supplierId}" type="hidden">
-                  </form>
-                  <c:if test="${status==1 }">
-                  <h2 class="f16 jbxx1">
-                    <i>01</i>问题汇总
-                  </h2>
-                  </c:if>
-                  <table class="table table-bordered table-condensed">
-                   <thead>
-                     <tr>
-                       <th class="info w50">序号</th>
-                       <th class="info">审批类型</th>
-                       <th class="info">审批字段</th>
-                       <th class="info">审批字段名字</th>
-                       <th class="info">审批内容</th>
-                       <th class="info">不通过理由</th>
-                     </tr>
-                   </thead>
-                     <c:forEach items="${reasonsList }" var="list" varStatus="vs">
-                      <input id="auditId" value="${list.id}" type="hidden">
-                       <tr>
-                         <td class="tc">${vs.index + 1}</td>
-                         <td class="tc">${list.auditType }</td>
-                         <td class="tc">${list.auditField }</td>
-                         <td class="tc">${list.auditFieldName }</td>
-                         <td class="tc">${list.auditContent}</td>
-                         <td class="tc">${list.suggest}</td>
-                       </tr>
-                     </c:forEach>
-                  </table>
-                  <%-- <h2 class="f16 jbxx1">
-                    <i>01</i>问题汇总
-                  </h2>
-                <div class=" margin-bottom-0">
-	                  <c:forEach items="${reasonsList }" var="list" >
-	                    <ul class="list-unstyled list-flow">
-		                    <li class="col-md-6 p0 "><span class="" id="bankAccount2">${list.auditField}：</span>
-		                      <div class="input-append">
-		                        <input class="span3" id="bankAccount3"  type="text" value="${list.suggest}"/>
-		                      </div>
-		                    </li>
-	                    </ul>
-	                  </c:forEach>
-                </div> --%>
-                </div>
-                <c:if test="${status==1 }">
-                <div class=" margin-bottom-0 fl">
-						       <h2 class="f16 jbxx1">
-						        <i>02</i>供应商考察表
-						       </h2>
-						      <form id="form_id" action="${pageContext.request.contextPath}/supplierAudit/supplierFile.html" method="post"  enctype="multipart/form-data">
-                    <ul class="list-unstyled list-flow p0_20">
-                      <li >
-                      <span class="" ><i class="red">＊</i>上传考察表:</span>
-                      <input name="supplierId" value="${supplierId}" type="hidden">
-                      <input class="span3" type="file" name="supplierInspectListFile"/>
-                      <button type="submit" class="btn padding-left-20 padding-right-20 btn_back">上传</button>
-                      <!-- <a onclick="file();" class="btn padding-left-20 padding-right-20 btn_back">上传</a> -->
-                    </li>
-                   </ul>
-                 </form>
-						    </div>
-                </c:if>
-                <!-- <div class="col-md-12 add_regist tc">
-                <ul class="list-unstyled list-flow">
-                  <li class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i>供应商考察表：</span>
-                    <div class="input-append">
-                      <div class="uploader orange m0">
-                        <input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..." /> 
-                        <input type="button" class="button" value="选择文件..." /> 
-                        <input name="taxCertFile" type="file" size="30" accept="image/*" />
-                      </div>
-                    </div>
-                   </li>
-                 </ul>
-                </div> -->
-                <div class="col-md-12 add_regist tc">
-                <form id="form_shen" action="${pageContext.request.contextPath}/supplierAudit/updateStatus.html"  enctype="multipart/form-data">
-                  <input name="supplierId" value="${supplierId}" type="hidden">
-                  <input name="id" type="hidden">
-                   <input type="hidden" name="status" id="status"/>
-                  <div class="margin-bottom-0  categories">
-                    <div class="col-md-12 add_regist tc">
-                    <c:if test="${status==0}">
-                      <c:if test="${num==0}">
-                        <input class="btn btn-windows git"  type="button" onclick="shenhe(1)" value="初审通过 ">
-                      </c:if>
-                      <c:if test="${num!=0}">
-                        <input class="btn btn-windows reset"  type="button" onclick="shenhe(2)" value="初审不通过">
-                      </c:if>
-                    </c:if>
-                    <c:if test="${status==1}">
-                      <c:if test="${num==0}">
-                        <input class="btn btn-windows git"  type="button" onclick="shenhe(3)" value="复审通过 ">
-                      </c:if>
-                      <c:if test="${num!=0}">
-                        <input class="btn btn-windows edit"  type="button" onclick="shenhe(4)" value="复审不通过">
-                      </c:if>
-                    </c:if>
-                    <%-- <input class="btn btn-windows reset" onclick="location='<%=basePath%>supplierAudit/supplierAll.html'" type="button"  value="完成"> --%>
-                    </div>
-                  </div>
-                </form>
+	            <form id="form_id" action="" method="post"  enctype="multipart/form-data">
+	                <input name="supplierId" value="${supplierId}" type="hidden">
+	            </form>
+	            <c:if test="${status==1 }">
+	            <h2 class="f16 jbxx1">
+	              <i>01</i>问题汇总
+	            </h2>
+	            </c:if>
+	            <table class="table table-bordered table-condensed">
+	             <thead>
+	               <tr>
+	                 <th class="info w50">序号</th>
+	                 <th class="info">审批类型</th>
+	                 <th class="info">审批字段名字</th>
+	                 <th class="info">审批内容</th>
+	                 <th class="info">不通过理由</th>
+	               </tr>
+	             </thead>
+	               <c:forEach items="${reasonsList }" var="list" varStatus="vs">
+	                <input id="auditId" value="${list.id}" type="hidden">
+	                 <tr>
+	                   <td class="tc">${vs.index + 1}</td>
+	                   <td class="tc">${list.auditType }</td>
+	                   <td class="tc">${list.auditFieldName }</td>
+	                   <td class="tc">${list.auditContent}</td>
+	                   <td class="tc">${list.suggest}</td>
+	                 </tr>
+	               </c:forEach>
+	            </table>
+	            <%-- <h2 class="f16 jbxx1">
+	              <i>01</i>问题汇总
+	            </h2>
+	          <div class=" margin-bottom-0">
+	              <c:forEach items="${reasonsList }" var="list" >
+	                <ul class="list-unstyled list-flow">
+	                  <li class="col-md-6 p0 "><span class="" id="bankAccount2">${list.auditField}：</span>
+	                    <div class="input-append">
+	                      <input class="span3" id="bankAccount3"  type="text" value="${list.suggest}"/>
+	                    </div>
+	                  </li>
+	                </ul>
+	              </c:forEach>
+	          </div> --%>
+	          </div>
+	          <c:if test="${status==1 }">
+	          <div class=" margin-bottom-0 fl">
+				       <h2 class="f16 jbxx1">
+				        <i>02</i>供应商考察表
+				       </h2>
+				      <form id="form_id" action="${pageContext.request.contextPath}/supplierAudit/supplierFile.html" method="post"  enctype="multipart/form-data">
+	              <ul class="list-unstyled list-flow p0_20">
+	                <li >
+	                <span class="" ><i class="red">＊</i>上传考察表:</span>
+	                <input name="supplierId" value="${supplierId}" type="hidden">
+	                <input class="span3" type="file" name="supplierInspectListFile"/>
+	                <button type="submit" class="btn padding-left-20 padding-right-20 btn_back">上传</button>
+	                <!-- <a onclick="file();" class="btn padding-left-20 padding-right-20 btn_back">上传</a> -->
+	              </li>
+	             </ul>
+	           </form>
+				    </div>
+	          </c:if>
+	          <!-- <div class="col-md-12 add_regist tc">
+	          <ul class="list-unstyled list-flow">
+	            <li class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i>供应商考察表：</span>
+	              <div class="input-append">
+	                <div class="uploader orange m0">
+	                  <input type="text" class="filename h32 m0 fz11" readonly="readonly" value="未选择任何文件..." /> 
+	                  <input type="button" class="button" value="选择文件..." /> 
+	                  <input name="taxCertFile" type="file" size="30" accept="image/*" />
+	                </div>
+	              </div>
+	             </li>
+	           </ul>
+	          </div> -->
+	          <div class="col-md-12 add_regist tc">
+	          <form id="form_shen" action="${pageContext.request.contextPath}/supplierAudit/updateStatus.html"  enctype="multipart/form-data">
+	            <input name="supplierId" value="${supplierId}" type="hidden">
+	            <input name="id" type="hidden">
+	             <input type="hidden" name="status" id="status"/>
+	            <div class="margin-bottom-0  categories">
+	              <div class="col-md-12 add_regist tc">
+	              <c:if test="${status==0}">
+	                <c:if test="${num==0}">
+	                  <input class="btn btn-windows git"  type="button" onclick="shenhe(1)" value="初审通过 ">
+	                </c:if>
+	                <c:if test="${num!=0}">
+	                  <input class="btn btn-windows reset"  type="button" onclick="shenhe(2)" value="初审不通过">
+	                </c:if>
+	              </c:if>
+	              <c:if test="${status==1}">
+	                <c:if test="${num==0}">
+	                  <input class="btn btn-windows git"  type="button" onclick="shenhe(3)" value="复审通过 ">
+	                </c:if>
+	                <c:if test="${num!=0}">
+	                  <input class="btn btn-windows edit"  type="button" onclick="shenhe(4)" value="复审不通过">
+	                </c:if>
+	              </c:if>
+	              <%-- <input class="btn btn-windows reset" onclick="location='<%=basePath%>supplierAudit/supplierAll.html'" type="button"  value="完成"> --%>
+	              </div>
+	            </div>
+            </form>
           </div>     
         </div>
       </div>
     </div>
   </div>
-  <jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
 </body>
 </html>

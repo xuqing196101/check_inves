@@ -125,15 +125,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     });
   });
 
-function reason(id,auditFieldName){
+function reason(id){
   var supplierId=$("#supplierId").val();
-  var auditContent="服务资质证书为："+$("#"+id).text()+"的信息"; //审批的字段内容
+  /* var auditContent="服务资质证书为："+$("#"+id).text()+"的信息"; */ //审批的字段内容
+  var auditContent="供应商资质证书";
   var auditType=$("#service").text();//审核类型
    layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
     $.ajax({
         url:"<%=basePath%>supplierAudit/auditReasons.html",
         type:"post",
-       data:"auditType="+auditType+"&auditFieldName="+auditFieldName+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId,
+       data:"auditType="+auditType+"&auditFieldName="+id+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId,
       });
         $("#"+id+"_show").show();
         layer.msg("审核不通过的理由是："+text,{offset:'200px'});
@@ -265,14 +266,14 @@ function tijiao(str){
                       </thead>
                       <c:forEach items="${supplierCertSes}" var="s" >
                         <tr>
-                          <td class="tc" id="${s.id}" onclick="reason('${s.id}','供应商资质证书');">${s.name }</td>
-                            <td class="tc" onclick="reason('${s.id}','供应商资质证书');">${s.levelCert}</td>
-                            <td class="tc" onclick="reason('${s.id}','供应商资质证书');">${s.licenceAuthorith }</td>
-                            <td class="tc" onclick="reason('${s.id}','供应商资质证书');">
+                          <td class="tc" id="${s.id}" onclick="reason('${s.id}');">${s.name }</td>
+                            <td class="tc" onclick="reason('${s.id}');">${s.levelCert}</td>
+                            <td class="tc" onclick="reason('${s.id}');">${s.licenceAuthorith }</td>
+                            <td class="tc" onclick="reason('${s.id}');">
                               <fmt:formatDate value="${s.expStartDate }" pattern='yyyy-MM-dd'/>  至  
                               <fmt:formatDate value="${s.expEndDate }" pattern='yyyy-MM-dd'/>
                             </td>
-                            <td class="tc" onclick="reason('${s.id}','供应商资质证书');">
+                            <td class="tc" onclick="reason('${s.id}');">
                              <c:if test="${s.mot==0 }">否</c:if>
                              <c:if test="${s.mot==1 }">是</c:if>
                             </td>
@@ -328,18 +329,17 @@ function tijiao(str){
                           <div class="input-append">
                             <input id="totalWorker" class="span3" type="text" value="${supplierMatSes.totalWorker }" onclick="reason1(this.id,'totalWorker')" />
                             <div id="totalWorker1" class="b f18 fl ml10 red hand">√</div>
-                          <div id="totalWorker3" class="b f18 fl ml10 hand">×</div>
+                            <div id="totalWorker3" class="b f18 fl ml10 hand">×</div>
                           </div>
                         </li>
                       </ul>
                     </div>
-                  
+                  </div>
+                </div>   
               </div>
-            </div>   
+            </div>
           </div>
-        </div>
       </div>
-    </div>
   </div>
   <form target="_blank" id="download_form_id" action="${pageContext.request.contextPath}/supplierAudit/download.html" method="post">
    <input type="hidden" name="fileName" />
