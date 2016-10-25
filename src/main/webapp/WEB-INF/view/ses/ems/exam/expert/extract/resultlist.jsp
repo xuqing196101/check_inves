@@ -116,7 +116,7 @@
     }
     function operation(select){
     	layer.confirm('确定本次操作吗？', {
-    	  btn: ['确定','取消'],offset: ['222px', '390px'], shade:0.01
+    	  btn: ['确定','取消'],offset: ['100px', '200px'], shade:0.01
     	}, function(index){
     		var strs= new Array();
     		var v=select.value;
@@ -197,11 +197,7 @@
 		<div class="row">
 			<!-- Begin Content -->
 			<div class="col-md-12" style="min-height: 400px;">
-					<ul class="demand_list">
-						<li class="fl mr8"><label class="fl mt0">项目名称：</label>${sextractslist.projectName }</li>
-						<li class="fl mr8"><label class="fl mt0">采购编号：</label>123-002</li>
-						<li class="fl mr8"><label class="fl mt0">采购方式：</label><span>邀请招标</span></li>
-					</ul>
+					
 					<div class="clear"></div>
 					<table id="table" class="table table-bordered table-condensed">
 						<thead>

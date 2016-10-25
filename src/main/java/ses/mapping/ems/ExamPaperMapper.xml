@@ -185,6 +185,12 @@
     select 
     <include refid="Base_Column_List" />
     from T_SES_EMS_EXAM_PAPER
-    where CODE = #{code}
+    WHERE 1=1
+    <if test="code != null and code !=''">
+        AND CODE = #{code}
+    </if>
+    <if test="name != null and name !=''">
+        AND NAME = #{name}
+    </if>
   </select>
 </mapper>

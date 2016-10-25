@@ -83,5 +83,5 @@ public interface ExamPaperMapper {
     * @param @return      
     * @return ExamPaper
      */
-    ExamPaper selectByPaperNo(HashMap<String,Object> map);
+    List<ExamPaper> selectByPaperNo(HashMap<String,Object> map);
 }

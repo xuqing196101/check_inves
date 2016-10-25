@@ -299,14 +299,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<input type="hidden" name="ss"   value="${obj.parentId }">
 							</c:if>
 							<c:if test="${obj.price==null}">
-							<input style="border: 0px;"  disabled="disabled" onblur="sum1(this)"  type="text" name="list[${vs.index }].price" value="${obj.price }">
+							<input style="border: 0px;"  readonly="readonly" onblur="sum1(this)"  type="text" name="list[${vs.index }].price" value="${obj.price }">
 						 
 							</c:if>
 							
 							</td>
 							<td class="tc">
 							<input type="hidden" name="ss"    value="${obj.id}">
-							<input  style="border: 0px;"  disabled="disabled" type="text" name="list[${vs.index }].budget" onblur="checks(this)"  value="${obj.budget }">
+							<input  style="border: 0px;" readonly="readonly" type="text" name="list[${vs.index }].budget" onblur="checks(this)"  value="${obj.budget }">
 							<input type="hidden" name="ss"  value="${obj.parentId }">
 							</td>
 							

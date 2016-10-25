@@ -190,14 +190,14 @@ function reason(id){
   var id1=id+"1";
   var id2=id+"2";
   var auditType=$("#items").text();//审核类型 
-  var auditField = $("#"+id2+"").text().replaceAll("：","");//审批的字段名字
+  var auditFieldName = $("#"+id2+"").text().replaceAll("：","");//审批的字段名字
     layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
       $.ajax({
           url:"<%=basePath%>supplierAudit/auditReasons.html",
           type:"post",
-          data:"auditType="+auditType+"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId,
+          data:"auditType="+auditType+"&auditFieldName="+auditFieldName+"&suggest="+text+"&supplierId="+supplierId,
         });
-        $("#"+id1+"").hide();
+        $("#"+id1).show();
         layer.msg("审核不通过的理由是："+text,{offset:'200px'});
       });
 }
@@ -311,7 +311,7 @@ function reason(id){
         <div class="col-md-12 tab-v2 job-content">
           <div class="padding-top-10">
             <ul class="nav nav-tabs bgdd">
-              <li class=""><a aria-expanded="fale"  data-toggle="tab" onclick="tijiao('essential');">基本信息</a></li>
+              <li class=""><a aria-expanded="fale"  data-toggle="tab" onclick="tijiao('essential');">详细信息</a></li>
               <li class=""><a aria-expanded=""  data-toggle="tab" onclick="tijiao('financial');">财务信息</a></li>
               <li class=""><a aria-expanded="false"  data-toggle="tab" onclick="tijiao('shareholder');">股东信息</a></li>
               <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
@@ -332,67 +332,63 @@ function reason(id){
               <li class=""><a aria-expanded="false"  data-toggle="tab" onclick="tijiao('reasonsList');">审核汇总</a></li>
             </ul>
             <div class="padding-top-10">
-	            <ul id="page_ul_id" class="nav nav-tabs bgdd">
-	              <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
-	                <li id="li_id_1" class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" id="production2">物资-生产型品目信息</a></li>
-	              </c:if>
-	              <c:if test="${fn:contains(supplierTypeNames, '销售型')}">
-	                <li id="li_id_2" class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" id="sale2">物资-销售型品目信息</a></li>
-	              </c:if>
-	              <c:if test="${fn:contains(supplierTypeNames, '工程')}">
-	                <li id="li_id_3" class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" id="engineering2">工程品目信息</a></li>
-	              </c:if>
-	              <c:if test="${fn:contains(supplierTypeNames, '服务')}">
-	                <li id="li_id_4" class=""><a aria-expanded="false" href="#tab-4" data-toggle="tab" id="service2">服务品目信息</a></li>
-	              </c:if>
-	             </ul>
+              <ul id="page_ul_id" class="nav nav-tabs bgdd">
+                <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
+                  <li id="li_id_1" class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" id="production2">物资-生产型品目信息</a></li>
+                </c:if>
+                <c:if test="${fn:contains(supplierTypeNames, '销售型')}">
+                  <li id="li_id_2" class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" id="sale2">物资-销售型品目信息</a></li>
+                </c:if>
+                <c:if test="${fn:contains(supplierTypeNames, '工程')}">
+                  <li id="li_id_3" class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" id="engineering2">工程品目信息</a></li>
+                </c:if>
+                <c:if test="${fn:contains(supplierTypeNames, '服务')}">
+                  <li id="li_id_4" class=""><a aria-expanded="false" href="#tab-4" data-toggle="tab" id="service2">服务品目信息</a></li>
+                </c:if>
+               </ul>
             </div>
                   <form id="form_id" action="" method="post"  enctype="multipart/form-data">
                       <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
                   </form>
                   
                   <div class="tab-content padding-top-20">
-		              <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
-		                <!-- 物资生产型 -->
-		                <div class="tab-pane fade active in height-300" id="tab-1">
-		                  <div class="lr0_tbauto w200">
-		                    <ul id="tree_ul_id_1" class="ztree mt30"></ul>
-		                    <div id="production1" class="b f18 fl ml10 red hand">√</div>
-                        <div id="production" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
-		                  </div>
-		                </div>
-		              </c:if>
-		              <c:if test="${fn:contains(supplierTypeNames, '销售型')}">
-		                <!-- 物资销售型 -->
-		                <div class="tab-pane fade height-300" id="tab-2">
-		                  <div class="lr0_tbauto w200">
-		                    <ul id="tree_ul_id_2" class="ztree mt30"></ul>
-		                    <div id="sale1" class="b f18 fl ml10 red hand">√</div>
-                        <div id="sale" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
-		                  </div>
-		                </div>
-		              </c:if>
-		              <c:if test="${fn:contains(supplierTypeNames, '工程')}">
-		              <!-- 服务 -->
-		                <div class="tab-pane fade height-200" id="tab-3">
-		                  <div class="lr0_tbauto w200">
-		                    <ul id="tree_ul_id_3" class="ztree mt30"></ul>
-		                    <div id="engineering1" class="b f18 fl ml10 red hand">√</div>
-                        <div id="engineering" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
-		                  </div>
-		                </div>
-		              </c:if>
-		              <c:if test="${fn:contains(supplierTypeNames, '服务')}">
-		                <!-- 生产 -->
-		                <div class="tab-pane fade height-200" id="tab-4">
-		                  <div class="lr0_tbauto w200">
-		                    <ul id="tree_ul_id_4" class="ztree mt30"></ul>
-		                    <div id="service1" class="b f18 fl ml10 red hand">√</div>
-                        <div id="service" onclick="reason(this.id)" class="b f18 fl ml10 hand">×</div>
-		                  </div>
-		                </div>
-		              </c:if>
-		        </div> 
+                  <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
+                    <!-- 物资生产型 -->
+                    <div class="tab-pane fade active in height-300" id="tab-1">
+                      <div class="lr0_tbauto w200" onclick="reason(this.id)" id="production">
+                        <ul id="tree_ul_id_1" class="ztree mt30" ></ul>
+                        <div id="production1"  class="b f18 fl ml10 hand"style="display: none">×</div>
+                      </div>
+                    </div>
+                  </c:if>
+                  <c:if test="${fn:contains(supplierTypeNames, '销售型')}">
+                    <!-- 物资销售型 -->
+                    <div class="tab-pane fade height-300" id="tab-2">
+                      <div class="lr0_tbauto w200" onclick="reason(this.id)" id="sale">
+                        <ul id="tree_ul_id_2" class="ztree mt30"></ul>
+                        <div id="sale1"  class="b f18 fl ml10 hand" style="display: none">×</div>
+                      </div>
+                    </div>
+                  </c:if>
+                  <c:if test="${fn:contains(supplierTypeNames, '工程')}">
+                  <!-- 服务 -->
+                    <div class="tab-pane fade height-200" id="tab-3">
+                      <div class="lr0_tbauto w200" onclick="reason(this.id)" id="engineering">
+                        <ul id="tree_ul_id_3" class="ztree mt30" ></ul>
+                        <div id="engineering1"  class="b f18 fl ml10 hand" style="display: none">×</div>
+                      </div>
+                    </div>
+                  </c:if>
+                  <c:if test="${fn:contains(supplierTypeNames, '服务')}">
+                    <!-- 生产 -->
+                    <div class="tab-pane fade height-200" id="tab-4">
+                      <div class="lr0_tbauto w200" onclick="reason(this.id)" id="service">
+                        <ul id="tree_ul_id_4" class="ztree mt30"></ul>
+                        <div id="service1" class="b f18 fl ml10 hand" style="display: none">×</div>
+                      </div>
+                    </div>
+                  </c:if>
+            </div> 
           </div>     
         </div>
       </div>

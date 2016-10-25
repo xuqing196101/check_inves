@@ -67,7 +67,7 @@
 								value="${ExpExtractRecord.extractionTime}"
 								pattern="yyyy年MM月dd日   " /></td>
 						<td align="center">抽取地点</td>
-						<td colspan="3" align="center">${extracts.extractionSites}</td>
+						<td colspan="3" align="center">${ExpExtractRecord.extractionSites}</td>
 					</tr>
 					<tr>
 						<td align="center" height="300px;">抽取条件<br>抽取数量

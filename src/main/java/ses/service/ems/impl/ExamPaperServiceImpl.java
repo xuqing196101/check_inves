@@ -62,7 +62,7 @@ public class ExamPaperServiceImpl implements ExamPaperServiceI {
 
 
 	@Override
-	public ExamPaper selectByPaperNo(HashMap<String,Object> map) {
+	public List<ExamPaper> selectByPaperNo(HashMap<String,Object> map) {
 		return examPaperMapper.selectByPaperNo(map);
 	}
 

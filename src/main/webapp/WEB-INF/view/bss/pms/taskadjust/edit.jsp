@@ -247,7 +247,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<table id="table" class="table table-bordered table-condensed mt5">
 					<thead>
 						<tr>
-						<th class="info" colspan="16">事业部门需求</th>
+						<th class="info" colspan="17">事业部门需求</th>
 						<th class="info" colspan="3">一轮评审意见</th>
 						<th class="info" colspan="2">二轮评审意见</th>
 						</tr>

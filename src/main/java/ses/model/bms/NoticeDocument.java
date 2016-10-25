@@ -1,19 +1,25 @@
 package ses.model.bms;
 
+import java.sql.Timestamp;
 import java.util.Date;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 public class NoticeDocument {
     private String id;
 
+    @NotBlank(message = "须知模板名称不能为空")
     private String name;
 
+    @NotBlank(message = "须知模板类型不能为空")
     private String docType;
 
+    @NotBlank(message = "须知模板内容不能为空")
     private String content;
 
-    private Date createdAt;
+    private Timestamp createdAt;
 
-    private Date updatedAt;
+    private Timestamp updatedAt;
 
     public String getId() {
         return id;
@@ -47,19 +53,19 @@ public class NoticeDocument {
         this.content = content == null ? null : content.trim();
     }
 
-    public Date getCreatedAt() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Date getUpdatedAt() {
+    public Timestamp getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
 }

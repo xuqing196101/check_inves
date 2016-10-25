@@ -199,4 +199,16 @@ public interface PurchaseRequiredMapper {
     * @throws
      */
     List<Map<String,Object>> statisticOrg(Map<String,Object> map);
+    
+    /**
+     * 
+    * @Title: history
+    * @Description: 历史修改记录
+    * author: Li Xiaoxiao 
+    * @param @param record     
+    * @return void     
+    * @throws
+     */
+    void history(Map<String,Object> map);
+    
 }

@@ -15,6 +15,9 @@
 .w350 {
 	width: 350px !important;
 }
+.w150 {
+    width: 150px !important;
+}
 
 .hide {
 	border: 0px;
@@ -27,4 +30,22 @@
 
 .none {
 	display: none;
+}
+
+.margin-left-13 {
+	margin-left: 13;
+}
+
+.w75 {
+	width: 75px;
+}
+
+.w50 {
+	width: 50px;
+}
+.ww50{
+	widows: 50%!important;
+}
+.w75{
+	width: 75px!important;
 }

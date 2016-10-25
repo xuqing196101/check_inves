@@ -36,8 +36,18 @@ public interface TodosService {
 	 * @param @return      
 	 * @return List<Todos>
 	 */
-	List<List<Todos>>  listTodos(Todos todos,String id);
+	List<List<Todos>>  listTodos(Todos todos,String orgId);
 
+	/**
+	 * @Description:获取已办list集合
+	 *
+	 * @author Wang Wenshuai
+	 * @date 2016年9月12日 下午5:15:53  
+	 * @param @param todos
+	 * @param @return      
+	 * @return List<Todos>
+	 */
+	List<Todos>  listHaveTodo(Todos todos,String orgId,Integer pageNum);
 	/**
 	 * @Description:是否完成
 	 *
@@ -57,4 +67,14 @@ public interface TodosService {
 	 * @return List<String>
 	 */
 	List<String> listUndoType();
+	
+	/**
+	 * @Title: updateByUrl
+	 * @author Xu Qing
+	 * @date 2016-10-24 上午11:06:25  
+	 * @Description: 更新待办
+	 * @param @param todos      
+	 * @return void
+	 */
+	void updateByUrl(Todos todos);
 }

@@ -3,6 +3,7 @@ package ses.controller.sys.bms;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,12 +17,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
+
+import com.github.pagehelper.PageInfo;
+
 import ses.model.bms.StationMessage;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
+import ses.model.ems.Expert;
 import ses.service.bms.StationMessageService;
 import ses.service.bms.TodosService;
 import ses.service.bms.UserServiceI;
+import ses.service.ems.ExpertService;
 import ses.service.sms.ImportSupplierService;
 
 
@@ -47,6 +53,9 @@ public class LoginController {
 
 	@Autowired
 	private ImportSupplierService importSupplierService;
+	
+	@Autowired
+	private ExpertService expertService;//专家
 	/**
 	 * 站内消息
 	 */
@@ -98,9 +107,39 @@ public class LoginController {
 				logger.info("验证码输入有误");
 				out.print("errorcode");
 			}else if(u != null){
-				req.getSession().setAttribute("loginUser", u);
-				req.getSession().setAttribute("resource", u.getMenus());
-				out.print("scuesslogin");
+				if(u.getTypeName()==5){
+					try {
+						Map<String, Object> map = expertService.loginRedirect(u);
+						Object object = map.get("expert");
+						if(object!=null){
+							//拉黑 阻止登录
+							if(object.equals("1")){
+								out.print("black");
+							}else if(object.equals("2")){
+								//信息为空 重新填写
+								out.print("empty,"+u.getId());
+							}else if(object.equals("3")){
+								//未审核
+								out.print("audit");
+							}else if(object instanceof Expert){
+								//暂存  或者 退回
+								//Expert expert = (Expert)object;
+								out.print("reset,"+u.getId());
+							}
+						}else{
+							req.getSession().setAttribute("loginUser", u);
+							req.getSession().setAttribute("resource", u.getMenus());
+							out.print("scuesslogin");
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}else{
+					req.getSession().setAttribute("loginUser", u);
+					req.getSession().setAttribute("resource", u.getMenus());
+					out.print("scuesslogin");
+				}
+				
 			}else{
 				logger.error("验证失败");
 				out.print("errorlogin");
@@ -124,8 +163,9 @@ public class LoginController {
 		if(user!=null&&user.getOrg()!=null&&user.getOrg().getId()!=null&&!"".equals(user.getOrg().getId())){
 			//代办事项
 			req.setAttribute("listTodos",todosService.listTodos(new Todos(new Short("0")),user.getOrg().getId()));
-			//已办事项
-			req.setAttribute("listTodosf",todosService.listTodos(new Todos(new Short("1")),user.getOrg().getId()));
+//			//已办事项
+			List<Todos> listHaveTodo = todosService.listHaveTodo(new Todos(new Short("1")), user.getOrg().getId(),page==null||page==""?1:Integer.valueOf(page));
+			req.setAttribute("listTodosf",new PageInfo<Todos>(listHaveTodo));
 		}
 		//站内消息
 		req.setAttribute("stationMessage",stationMessageService.listStationMessage(new StationMessage(0,19)));
@@ -143,12 +183,11 @@ public class LoginController {
 	public String home(HttpServletRequest req,Model model,String type,String page,String id){
 		User user=(User) req.getSession().getAttribute("loginUser");
 		if(user!=null&&user.getOrg()!=null&&user.getOrg().getId()!=null&&!"".equals(user.getOrg().getId())){
-			//代办事项
-			List<List<Todos>> listTodos = todosService.listTodos(new Todos(new Short("0")),user.getOrg().getId());
-			req.setAttribute("listTodos",listTodos);
-			//已办事项
-			List<List<Todos>> listTodos2 = todosService.listTodos(new Todos(new Short("1")),user.getOrg().getId());
-			req.setAttribute("listTodosf",listTodos2);
+			//待办事项
+			req.setAttribute("listTodos",todosService.listTodos(new Todos(new Short("0")),user.getOrg().getId()));
+//			//已办事项
+			List<Todos> listHaveTodo = todosService.listHaveTodo(new Todos(new Short("1")), user.getOrg().getId(),page==null||page==""?1:Integer.valueOf(page));
+			req.setAttribute("listTodosf",new PageInfo<Todos>(listHaveTodo));
 		}
 		//站内消息
 		req.setAttribute("stationMessage",stationMessageService.listStationMessage(new StationMessage(0,19)));

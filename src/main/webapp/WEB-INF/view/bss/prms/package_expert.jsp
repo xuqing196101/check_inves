@@ -82,7 +82,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    }
 	       
 	       //获取当前的form对象
-	       var parent = obj.parentNode.parentNode.parentNode.parentNode.parentNode; 
+	       var parent = obj.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode; 
 	      /*  alert(parent .tagName);
 	       while(parent.tagName == "TABLE")
 	       {
@@ -136,8 +136,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-						 <div class="tab-content clear step_cont">
-						 <div class=class="col-md-12 tab-pane active"  id="tab-1">
+						 <div class="tab-content clear step_cont" >
+						 <div class=class="col-md-12 tab-pane active"  id="tab-1" style="display: block;">
 						 	<h1 class="f16 count_flow"><i>01</i>各包分配专家</h1>
 						 	   <div class="container clear margin-top-30" id="package">
 						 	   
@@ -210,16 +210,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												      </thead>
 										      	  </c:forEach>
 								   		  </table>
+										 	            <h5>03、各包分配评委</h5>
 								   <c:forEach items="${packageList }" var="pack" varStatus="p">
 									   <form action="<%=basePath%>packageExpert/relate.html" method="post" >
 									   <!--包id  -->
 									   <input type="hidden" id="packageId" name="packageId" value="${pack.id }"/>
 								   	   <input type="hidden" name="projectId" value="${project.id}">
 								   	   <input type="hidden" name="packageIds" id="packageIds">
-										   <table class="table table-bordered table-condensed mt5">
-										 	            <h5>03、各包分配评委</h5>
-													      	<tr>
-													      	  <td>
+								   	   <div style="height:110px; overflow:auto;">
+										   <table >
+										 	            
+													      	<tr >
+													      	  <td style="white-space: nowrap;overflow: hidden;word-spacing: keep-all;">
 													      	<span style=" font-size: 18;">包名:${pack.name }</span>&nbsp;&nbsp;
 													      	<c:forEach items="${expertList }" var="expert" varStatus="vs">
 													      	<input type="checkbox" name="chkItem" value="${expert.expert.id }" 
@@ -228,7 +230,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 														      	    	  checked
 														      	    	  </c:if>
 														      	    	</c:forEach>
-													      	>${expert.expert.relName } &nbsp;
+													      	>${expert.expert.relName }&nbsp;
 													      	</c:forEach>
 													      	<!-- <input type="checkbox" name="chkItem" value="222">专家2
 													      	<input type="checkbox" name="chkItem" value="333" onchange="clearSelect(this);">专家3 -->
@@ -243,13 +245,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 														      	    	</c:forEach>
 													      	    	>${expert.expert.relName }</option>
 													      	    	</c:forEach>
-													      	    	<!-- <option value="222">专家2</option>
-													      	    	<option value="333">专家3</option> -->
 													      	      </select>&nbsp;&nbsp;
 													      	<input type="button" onclick="submit1(this);"  value="分配" class="btn btn-windows add"><br/>
 													      	  </td>
 													      	</tr>
 										   </table>
+									     </div>
 									   </form>
 								   </c:forEach>
 							   </div> 

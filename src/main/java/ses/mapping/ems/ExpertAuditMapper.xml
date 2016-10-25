@@ -21,26 +21,26 @@
     select 
     <include refid="Base_Column_List" />
     from T_SES_EMS_EXPERT_AUDIT
-    where EXPERT_ID = #{expertId,jdbcType=VARCHAR}
+    where EXPERT_ID = #{expertId}
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from T_SES_EMS_EXPERT_AUDIT
-    where ID = #{id,jdbcType=VARCHAR}
+    where ID = #{id}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from T_SES_EMS_EXPERT_AUDIT
-    where ID = #{id,jdbcType=VARCHAR}
+    where ID = #{id}
   </delete>
   <insert id="insert" parameterType="ses.model.ems.ExpertAudit">
     insert into T_SES_EMS_EXPERT_AUDIT (ID, EXPERT_ID, AUDIT_USER_ID, 
       AUDIT_USER_NAME, AUDIT_REASON, AUDIT_RESULT, 
       AUDIT_AT, IS_HISTORY, IS_DELETE
       )
-    values (#{id,jdbcType=VARCHAR}, #{expertId,jdbcType=VARCHAR}, #{auditUserId,jdbcType=VARCHAR}, 
-      #{auditUserName,jdbcType=VARCHAR}, #{auditReason,jdbcType=VARCHAR}, #{auditResult,jdbcType=VARCHAR}, 
-      #{auditAt,jdbcType=DATE}, #{isHistory,jdbcType=VARCHAR}, #{isDelete,jdbcType=DECIMAL}
+    values (#{id}, #{expertId}, #{auditUserId}, 
+      #{auditUserName}, #{auditReason}, #{auditResult}, 
+      #{auditAt}, #{isHistory}, #{isDelete}
       )
   </insert>
   <insert id="insertSelective" parameterType="ses.model.ems.ExpertAudit">
@@ -76,31 +76,31 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=VARCHAR},
+        #{id},
       </if>
       <if test="expertId != null">
-        #{expertId,jdbcType=VARCHAR},
+        #{expertId},
       </if>
       <if test="auditUserId != null">
-        #{auditUserId,jdbcType=VARCHAR},
+        #{auditUserId},
       </if>
       <if test="auditUserName != null">
-        #{auditUserName,jdbcType=VARCHAR},
+        #{auditUserName},
       </if>
       <if test="auditReason != null">
-        #{auditReason,jdbcType=VARCHAR},
+        #{auditReason},
       </if>
       <if test="auditResult != null">
-        #{auditResult,jdbcType=VARCHAR},
+        #{auditResult},
       </if>
       <if test="auditAt != null">
-        #{auditAt,jdbcType=DATE},
+        #{auditAt},
       </if>
       <if test="isHistory != null">
-        #{isHistory,jdbcType=VARCHAR},
+        #{isHistory},
       </if>
       <if test="isDelete != null">
-        #{isDelete,jdbcType=DECIMAL},
+        #{isDelete},
       </if>
     </trim>
   </insert>
@@ -108,42 +108,42 @@
     update T_SES_EMS_EXPERT_AUDIT
     <set>
       <if test="expertId != null">
-        EXPERT_ID = #{expertId,jdbcType=VARCHAR},
+        EXPERT_ID = #{expertId},
       </if>
       <if test="auditUserId != null">
-        AUDIT_USER_ID = #{auditUserId,jdbcType=VARCHAR},
+        AUDIT_USER_ID = #{auditUserId},
       </if>
       <if test="auditUserName != null">
-        AUDIT_USER_NAME = #{auditUserName,jdbcType=VARCHAR},
+        AUDIT_USER_NAME = #{auditUserName},
       </if>
       <if test="auditReason != null">
-        AUDIT_REASON = #{auditReason,jdbcType=VARCHAR},
+        AUDIT_REASON = #{auditReason},
       </if>
       <if test="auditResult != null">
-        AUDIT_RESULT = #{auditResult,jdbcType=VARCHAR},
+        AUDIT_RESULT = #{auditResult},
       </if>
       <if test="auditAt != null">
-        AUDIT_AT = #{auditAt,jdbcType=DATE},
+        AUDIT_AT = #{auditAt},
       </if>
       <if test="isHistory != null">
-        IS_HISTORY = #{isHistory,jdbcType=VARCHAR},
+        IS_HISTORY = #{isHistory},
       </if>
       <if test="isDelete != null">
-        IS_DELETE = #{isDelete,jdbcType=DECIMAL},
+        IS_DELETE = #{isDelete},
       </if>
     </set>
-    where ID = #{id,jdbcType=VARCHAR}
+    where ID = #{id}
   </update>
   <update id="updateByPrimaryKey" parameterType="ses.model.ems.ExpertAudit">
     update T_SES_EMS_EXPERT_AUDIT
-    set EXPERT_ID = #{expertId,jdbcType=VARCHAR},
-      AUDIT_USER_ID = #{auditUserId,jdbcType=VARCHAR},
-      AUDIT_USER_NAME = #{auditUserName,jdbcType=VARCHAR},
-      AUDIT_REASON = #{auditReason,jdbcType=VARCHAR},
-      AUDIT_RESULT = #{auditResult,jdbcType=VARCHAR},
-      AUDIT_AT = #{auditAt,jdbcType=DATE},
-      IS_HISTORY = #{isHistory,jdbcType=VARCHAR},
-      IS_DELETE = #{isDelete,jdbcType=DECIMAL}
-    where ID = #{id,jdbcType=VARCHAR}
+    set EXPERT_ID = #{expertId},
+      AUDIT_USER_ID = #{auditUserId},
+      AUDIT_USER_NAME = #{auditUserName},
+      AUDIT_REASON = #{auditReason},
+      AUDIT_RESULT = #{auditResult},
+      AUDIT_AT = #{auditAt},
+      IS_HISTORY = #{isHistory},
+      IS_DELETE = #{isDelete}
+    where ID = #{id}
   </update>
 </mapper>

@@ -93,9 +93,9 @@ public class ExpExtractRecordController extends BaseController {
 	public String listExtraction(Model model,String id){
 		List<ExpExtCondition> list= conditionService.list(new ExpExtCondition(id));
 		model.addAttribute("list", list);
-		//		String str[]=id.split("\\^");
+		Project selectById = projectService.selectById(id);
 		model.addAttribute("projectId",id);
-		//		model.addAttribute("projectName", str[1]);
+		model.addAttribute("projectName",selectById.getName());
 		return "ses/ems/exam/expert/extract/condition_list";
 	}
 	/**

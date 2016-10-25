@@ -127,7 +127,7 @@
 		<ul class="list-unstyled list-flow p0_20">
 		     <li class="col-md-12 p0">
 	  			<span class="fl">请选择题型：</span>
-		  		<select id="queType" name="queType" onchange="changeType()">
+		  		<select id="queType" name="queType" onchange="changeType()" class="fl">
 		  			<option value="">请选择</option>
 		  			<c:forEach items="${examPoolType }" var="e">
 		  				<c:choose>

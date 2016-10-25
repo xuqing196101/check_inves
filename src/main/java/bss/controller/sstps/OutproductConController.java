@@ -45,6 +45,17 @@ public class OutproductConController {
 		return "bss/sstps/offer/supplier/outproduct/list";
 	}
 	
+	@RequestMapping("/view")
+	public String view(Model model,String proId,OutproductCon outproductCon){
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(proId);
+		outproductCon.setContractProduct(contractProduct);
+		List<OutproductCon> list = outproductConService.selectProduct(outproductCon);
+		model.addAttribute("list", list);
+		model.addAttribute("proId", proId);
+		return "bss/sstps/offer/supplier/list/outproduct_list";
+	}
+	
 	@RequestMapping("/add")
 	public String add(Model model,String proId){
 		model.addAttribute("proId", proId);

@@ -7,7 +7,7 @@
   <head>
     <base href="<%=basePath%>">
     
-    <title>查看模板</title>
+    <title>查看须知文档</title>
     
 	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/ueditor.config.js"></script>
 	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/ueditor.all.min.js"> </script>
@@ -38,41 +38,41 @@
      <div class="content padding-left-25 padding-right-25 padding-top-5">
     	<div>
 	    	<div class="headline-v2">
-	   			<h2>模板详情</h2>
+	   			<h2>须知文档详情</h2>
 	   		</div>
 	   		<ul class="list-unstyled list-flow p0_20">
 	   		   <li class="col-md-6  p0 ">
-			   <span class="fl">模板名称：</span>
+			   <span class="fl">须知文档名称：</span>
 			   <div class="input-append">
-		        <input class="span2"  type="text" value = '${templet.name}' readonly="readonly">
+		        <input class="span2"  type="text" value = '${noticeDocument.name}' readonly="readonly">
 		        <%--<span class="add-on">i</span>--%>
 		       </div>
 			 </li>
 			 
 			 <li class="col-md-6  p0 ">
-			   <span class="fl">模板类型：</span>				 	
+			   <span class="fl">须知文档类型：</span>				 	
 	  			<div class="input-append">
-		        <input class="span2"  type="text" value = '${templet.temType}' readonly="readonly">
+		        <input class="span2"  type="text" value = '${noticeDocument.docType}' readonly="readonly">
 		        <%--<span class="add-on">i</span>--%>
 		       </div>
 			 </li>
 			 <li class="col-md-6  p0 ">
 			   <span class="fl">创建时间：</span>				 	
 	  			<div class="input-append">
-		        <input class="span2"  type="text" value = '${templet.createdAt}' readonly="readonly">
+		        <input class="span2"  type="text"  value="<fmt:formatDate value='${noticeDocument.createdAt}' pattern='yyyy-MM-dd'/>" readonly="readonly">
 		        <%--<span class="add-on">i</span>--%>
 		       </div>
 			 </li>
 			 <li class="col-md-6  p0 ">
 			   <span class="fl">修改时间：</span>				 	
 	  			<div class="input-append">
-		        <input class="span2"  type="text" value = '${templet.updatedAt}' readonly="readonly">
+		        <input class="span2"  type="text" value="<fmt:formatDate value='${noticeDocument.updatedAt}' pattern='yyyy-MM-dd'/>" readonly="readonly">
 		        <%--<span class="add-on">i</span>--%>
 		       </div>
 			 </li>
 			 
 			<li class="col-md-12 p0">
-	   			<span class="fl">模板内容：</span>
+	   			<span class="fl">须知文档内容：</span>
 	  			<div class="col-md-12 pl200 fn mt5 pwr9">
 	  				 <script id="editor" name="content" type="text/plain" class="ml125 mt20 w900"></script>
         			<!-- <textarea class="text_area col-md-12 " title="不超过800个字" placeholder="不超过800个字"></textarea> -->
@@ -94,7 +94,7 @@
     //实例化编辑器
     //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
     var ue = UE.getEditor('editor');
-    var content="${templet.content}";
+    var content="${noticeDocument.content}";
 	ue.ready(function(){
   		ue.setContent(content);    
   		ue.setDisabled([]);

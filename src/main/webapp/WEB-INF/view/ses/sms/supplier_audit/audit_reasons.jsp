@@ -185,6 +185,9 @@ function tijiao(str){
 
 //审核
 function shenhe(status){
+  var auditId = $("#auditId").val();
+  $("input[name='id']").val(auditId);
+
   $("#status").val(status);
   $("#form_shen").submit();
 }
@@ -225,7 +228,7 @@ alert(supplierInspectListFile);
         <div class="col-md-12 tab-v2 job-content">
           <div class="padding-top-10">
             <ul class="nav nav-tabs bgdd">
-              <li class=""><a aria-expanded="fale" href="#tab-1" data-toggle="tab" onclick="tijiao('essential');">基本信息</a></li>
+              <li class=""><a aria-expanded="fale" href="#tab-1" data-toggle="tab" onclick="tijiao('essential');">详细信息</a></li>
               <li class=""><a aria-expanded="" href="#tab-2" data-toggle="tab" onclick="tijiao('financial');">财务信息</a></li>
               <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('shareholder');">股东信息</a></li>
               <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
@@ -259,15 +262,18 @@ alert(supplierInspectListFile);
                        <th class="info w50">序号</th>
                        <th class="info">审批类型</th>
                        <th class="info">审批字段</th>
+                       <th class="info">审批字段名字</th>
                        <th class="info">审批内容</th>
                        <th class="info">不通过理由</th>
                      </tr>
                    </thead>
                      <c:forEach items="${reasonsList }" var="list" varStatus="vs">
+                      <input id="auditId" value="${list.id}" type="hidden">
                        <tr>
                          <td class="tc">${vs.index + 1}</td>
                          <td class="tc">${list.auditType }</td>
                          <td class="tc">${list.auditField }</td>
+                         <td class="tc">${list.auditFieldName }</td>
                          <td class="tc">${list.auditContent}</td>
                          <td class="tc">${list.suggest}</td>
                        </tr>
@@ -322,18 +328,27 @@ alert(supplierInspectListFile);
                 <div class="col-md-12 add_regist tc">
                 <form id="form_shen" action="${pageContext.request.contextPath}/supplierAudit/updateStatus.html"  enctype="multipart/form-data">
                   <input name="supplierId" value="${supplierId}" type="hidden">
+                  <input name="id" type="hidden">
                    <input type="hidden" name="status" id="status"/>
                   <div class="margin-bottom-0  categories">
                     <div class="col-md-12 add_regist tc">
                     <c:if test="${status==0}">
-                      <input class="btn btn-windows git"  type="button" onclick="shenhe(1)" value="初审通过 ">
-                      <!-- <input class="btn btn-windows reset"  type="button" onclick="shenhe(2)" value="初审不通过"> -->
+                      <c:if test="${num==0}">
+                        <input class="btn btn-windows git"  type="button" onclick="shenhe(1)" value="初审通过 ">
+                      </c:if>
+                      <c:if test="${num!=0}">
+                        <input class="btn btn-windows reset"  type="button" onclick="shenhe(2)" value="初审不通过">
+                      </c:if>
                     </c:if>
-                    <c:if test="${status==1 || status==2}">
-                      <input class="btn btn-windows git"  type="button" onclick="shenhe(3)" value="复审通过 ">
-                      <!-- <input class="btn btn-windows edit"  type="button" onclick="shenhe(4)" value="复审不通过"> --> 
+                    <c:if test="${status==1}">
+                      <c:if test="${num==0}">
+                        <input class="btn btn-windows git"  type="button" onclick="shenhe(3)" value="复审通过 ">
+                      </c:if>
+                      <c:if test="${num!=0}">
+                        <input class="btn btn-windows edit"  type="button" onclick="shenhe(4)" value="复审不通过">
+                      </c:if>
                     </c:if>
-                    <input class="btn btn-windows git" onclick="location='<%=basePath%>supplierAudit/supplierAll.html'" type="button"  value="返回">
+                    <%-- <input class="btn btn-windows reset" onclick="location='<%=basePath%>supplierAudit/supplierAll.html'" type="button"  value="完成"> --%>
                     </div>
                   </div>
                 </form>

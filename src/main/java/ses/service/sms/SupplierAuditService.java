@@ -123,7 +123,7 @@ public interface SupplierAuditService {
      * @param @return      
      * @return List<SupplierAudit>
      */
-    List<SupplierAudit> selectByPrimaryKey(String supplierId);
+    List<SupplierAudit> selectByPrimaryKey(SupplierAudit supplierAudit);
     
     /**
      * @Title: updateStatus
@@ -266,4 +266,14 @@ public interface SupplierAuditService {
      * @return ResponseEntity<byte[]>
      */
     ResponseEntity<byte[]> downloadFile(String filePath,String fileName);
+    
+    /**
+     * @Title: updateStatusByid
+     * @author Xu Qing
+     * @date 2016-10-22 下午4:49:44  
+     * @Description: 根据id更新状态 
+     * @param @param supplierAudit      
+     * @return void
+     */
+    void updateStatusById(SupplierAudit supplierAudit);
 } 

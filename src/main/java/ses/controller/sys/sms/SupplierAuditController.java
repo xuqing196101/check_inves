@@ -34,7 +34,6 @@ import ses.model.sms.SupplierMatSe;
 import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierProducts;
 import ses.model.sms.SupplierStockholder;
-import ses.model.sms.SupplierType;
 import ses.service.bms.CategoryService;
 import ses.service.bms.TodosService;
 import ses.service.sms.SupplierAuditService;
@@ -103,7 +102,7 @@ public class SupplierAuditController extends BaseSupplierController{
 	}*/
 	
 	
-	@RequestMapping("saveDaiBan")
+/*	@RequestMapping("saveDaiBan")
 	public void saveDaiBan(String supplierId,HttpServletRequest request) {
 		Todos todo=new Todos();
 		todo.setCreatedAt(new Date());
@@ -117,15 +116,15 @@ public class SupplierAuditController extends BaseSupplierController{
 		todo.setIsFinish((short)0);
 		//标题
 		todo.setName("供应商复审");
-		/*User user1=(User) request.getSession().getAttribute("loginUser");
-		//自己的id
-		todo.setSenderId(user1.getId());*/
-		//代办人id
+		User user=(User) request.getSession().getAttribute("loginUser");
+		//发送人id
+		todo.setSenderId(user.getId());
+		//接收人id
 		Supplier supplier = supplierAuditService.supplierById(supplierId);
 		todo.setReceiverId(supplier.getProcurementDepId());
 
 		todosService.insert(todo);
-	}
+	}*/
 	
 	
 	/**
@@ -337,15 +336,14 @@ public class SupplierAuditController extends BaseSupplierController{
 	public void auditReasons(SupplierAudit supplierAudit,HttpServletRequest request,Supplier supplier) throws IOException{
 		String id=supplierAudit.getSupplierId();
 		supplier = supplierAuditService.supplierById(id);
-		Integer status = supplier.getStatus();
 		
-		supplierAudit.setStatus(status);
+		supplier = supplierAuditService.supplierById(id);
+		supplierAudit.setStatus(supplier.getStatus());
 		supplierAudit.setCreatedAt(new Date());
 		supplierAudit.setUserId("EDED66BAC3304F34B75EBCDB88AE427F");
 		
 		//审核时只要填写理由，就不通过
-		
-		supplier.setId(id);
+/*		supplier.setId(id);
 		if(status==0){
 			supplier.setStatus(2); //初审不通过
 			supplierAuditService.updateStatus(supplier);
@@ -353,7 +351,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		if(status==1){
 			supplier.setStatus(4); //复审不通过
 			supplierAuditService.updateStatus(supplier);
-		}
+		}*/
 		supplierAuditService.auditReasons(supplierAudit);
 	}
 	
@@ -370,11 +368,12 @@ public class SupplierAuditController extends BaseSupplierController{
 		String supplierId = supplierAudit.getSupplierId();
 		if(supplierId==null){
 			supplierId = (String) request.getSession().getAttribute("supplierId");
+			supplierAudit.setSupplierId(supplierId);
 		}
-		List<SupplierAudit> reasonsList = supplierAuditService.selectByPrimaryKey(supplierId);
+		List<SupplierAudit> reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
 		request.setAttribute("reasonsList", reasonsList);
-		int num=reasonsList.size();
-		request.setAttribute("num", num);
+		//有信息就不让通过
+		request.setAttribute("num",reasonsList.size());
 		//勾选的供应商类型
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
 		request.setAttribute("supplierTypeNames", supplierTypeName);
@@ -389,6 +388,13 @@ public class SupplierAuditController extends BaseSupplierController{
 		return "ses/sms/supplier_audit/audit_reasons";
 	}
 	
+	@RequestMapping("showReasonsList") 
+	public void showReasonsList(HttpServletResponse reponse,SupplierAudit supplierAudit){
+		List<SupplierAudit> reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+		super.writeJson(reponse, reasonsList);
+	}
+	
+	
 	/**
 	 * @Title: updateStatus
 	 * @author Xu Qing
@@ -402,11 +408,24 @@ public class SupplierAuditController extends BaseSupplierController{
 	@RequestMapping("updateStatus")
 	public String updateStatus(HttpServletRequest request,Supplier supplier,SupplierAudit supplierAudit) throws IOException{
 		String supplierId= supplierAudit.getSupplierId();
-		//推送待办
-		this.saveDaiBan(supplierId, request);
 		//更新状态
 		supplier.setId(supplierId);
 		supplierAuditService.updateStatus(supplier);
+		//更新待办
+		supplier = supplierAuditService.supplierById(supplierId);
+		if(supplier.getStatus() == 1){
+			Todos todos = new Todos();
+			todos.setUrl("supplierAudit/essential.html?supplierId="+supplierId);
+			todos.setName("供应商复审");
+			todosService.updateByUrl(todos);
+		}
+		if(supplier.getStatus() == 2 || supplier.getStatus() == 4 || supplier.getStatus() == 3){
+			todosService.updateIsFinish("supplierAudit/essential.html?supplierId="+supplierId);
+		}
+		//审核完更新状态
+		supplierAudit.setStatus(supplier.getStatus());
+		supplierAudit.setId(supplierAudit.getId());
+		supplierAuditService.updateStatusById(supplierAudit);
 		return "redirect:supplierAll.html";
 	}
 	
@@ -564,11 +583,28 @@ public class SupplierAuditController extends BaseSupplierController{
 		super.removeStash(request, fileName);
 	}
 	
+	/**
+	 * @Title: supplierAll
+	 * @author Xu Qing
+	 * @date 2016-10-21 上午9:45:39  
+	 * @Description: 全部供应商
+	 * @param @param request
+	 * @param @param supplier
+	 * @param @param page
+	 * @param @return      
+	 * @return String
+	 */
 	@RequestMapping(value = "supplierAll")
 	public String supplierAll(HttpServletRequest request,Supplier supplier,Integer page) {
 		List<Supplier> supplierAll =supplierAuditService.supplierList(supplier,page==null?1:page);
 		request.setAttribute("result", new PageInfo<>(supplierAll));
 		request.setAttribute("supplierAll", supplierAll);
+		
+		//回显名字
+		String supplierName = supplier.getSupplierName();
+		Integer status = supplier.getStatus();
+		request.setAttribute("supplierName", supplierName);
+		request.setAttribute("state", status);
 		return "ses/sms/supplier_audit/supplier_all";
 	}	
 }

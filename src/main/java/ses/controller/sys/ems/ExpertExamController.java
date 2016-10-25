@@ -344,7 +344,7 @@ public class ExpertExamController extends BaseSupplierController{
 		String[] items = saveOption();
 		StringBuffer sb = new StringBuffer();
 		String queType = request.getParameter("queType");
-		if(queType==null||queType.equals(" ")){
+		if(queType==null||queType.equals("")){
 			model.addAttribute("ERR_type","请选择题型");
 			optionNum(model);
 			return "ses/ems/exam/expert/technical/add";
@@ -826,7 +826,8 @@ public class ExpertExamController extends BaseSupplierController{
 		String[] items = saveOption();
 		StringBuffer sb = new StringBuffer();
 		String content = request.getParameter("content");
-		if(request.getParameter("queType").isEmpty()){
+		String queType = request.getParameter("queType");
+		if(queType==null||queType.equals("")){
 			model.addAttribute("ERR_type","请选择题型");
 			comQuestion(model, id);
 			return "ses/ems/exam/expert/commerce/edit";
@@ -1669,8 +1670,7 @@ public class ExpertExamController extends BaseSupplierController{
 	public void importLaw(@RequestParam("file") CommonsMultipartFile file,
 			 HttpSession session,HttpServletRequest request,HttpServletResponse response) throws FileNotFoundException, IOException{
 		String curProjectPath = session.getServletContext().getRealPath("/");  
-        String saveDirectoryPath = curProjectPath + "/" + uploadFolderName;  
-        // File newFileName = new File(saveDirectoryPath); 
+        String saveDirectoryPath = curProjectPath + "/" + uploadFolderName; 
         // 判断文件是否存在  
         String fileName = null;
         File excelFile = null;
@@ -1683,7 +1683,6 @@ public class ExpertExamController extends BaseSupplierController{
             excelFile = new File(saveDirectoryPath,System.currentTimeMillis()+file.getOriginalFilename());
             FileUtils.copyInputStreamToFile(file.getInputStream(), excelFile);
         }
-        //File excelFile = new File(newFileName, fileName);
 		Workbook workbook = null;
 		//判断Excel是2007以下还是2007以上版本
 		try {

@@ -3,6 +3,7 @@ package bss.model.prms.ext;
 import java.util.ArrayList;
 import java.util.List;
 
+import bss.model.ppms.SaleTender;
 import bss.model.prms.FirstAudit;
 import ses.model.sms.Supplier;
 
@@ -28,7 +29,7 @@ public class Extension {
 	//初审项集合
 	private List<FirstAudit> firstAuditList = new ArrayList<>();
 	//供应商集合
-	private List<Supplier> supplierList = new ArrayList<>();
+	private List<SaleTender> supplierList = new ArrayList<>();
 	
 	
 	public String getProjectId() {
@@ -67,11 +68,12 @@ public class Extension {
 	public void setFirstAuditList(List<FirstAudit> firstAuditList) {
 		this.firstAuditList = firstAuditList;
 	}
-	public List<Supplier> getSupplierList() {
+	public List<SaleTender> getSupplierList() {
 		return supplierList;
 	}
-	public void setSupplierList(List<Supplier> supplierList) {
+	public void setSupplierList(List<SaleTender> supplierList) {
 		this.supplierList = supplierList;
 	}
+	
 	
 }

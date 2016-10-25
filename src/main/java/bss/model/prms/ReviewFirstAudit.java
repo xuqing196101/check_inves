@@ -10,8 +10,18 @@ public class ReviewFirstAudit {
     private Short isPass;
 
     private String packageId;
+    
+    private String rejectReason;
 
-    public String getProjectId() {
+    public String getRejectReason() {
+		return rejectReason;
+	}
+
+	public void setRejectReason(String rejectReason) {
+		this.rejectReason = rejectReason;
+	}
+
+	public String getProjectId() {
         return projectId;
     }
 

@@ -213,7 +213,7 @@
 			$(".layui-layer-shade").remove();
 			return;
 		}
-		for(var i=0;i < info.length;i++){    
+		for(var i=0;i<info.length;i++){    
 	        if(info[i].checked){  
 	        	if($(info[i]).attr("disabled")){
 	        		
@@ -221,6 +221,15 @@
 	        		ids += info[i].value+',';
 	        	}
 	        }
+		}
+		for(var i=0;i<info.length;i++){ 
+			if($(info[i]).prop("disabled")==false){
+				break;
+			}else if(i==info.length-1){
+				layer.alert("该项目中已经没有明细可以用于分包",{offset: ['222px', '390px']});
+				$(".layui-layer-shade").remove();
+				return;
+			}
 		}
 		$.ajax({
 			type:"POST",

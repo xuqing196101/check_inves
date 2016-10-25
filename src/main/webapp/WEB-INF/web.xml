@@ -64,12 +64,12 @@
 		<!-- 字体颜色 -->
 		<init-param>
 			<param-name>kaptcha.textproducer.font.color</param-name>
-			<param-value>red</param-value>
+			<param-value>44,159,166</param-value>
 		</init-param>
 		<!-- 图片宽度 -->
 		<init-param>
 			<param-name>kaptcha.image.width</param-name>
-			<param-value>100</param-value>
+			<param-value>90</param-value>
 		</init-param>
 		<!-- 使用哪些字符生成验证码 -->
 		<init-param>
@@ -84,12 +84,7 @@
 		<!-- 字体大小 -->
 		<init-param>
 			<param-name>kaptcha.textproducer.font.size</param-name>
-			<param-value>27</param-value>
-		</init-param>
-		<!-- 干扰线的颜色 -->
-		<init-param>
-			<param-name>kaptcha.noise.color</param-name>
-			<param-value>black</param-value>
+			<param-value>28</param-value>
 		</init-param>
 		<!-- 字符个数 -->
 		<init-param>
@@ -104,8 +99,14 @@
 		<!-- 图片样式-->
 		<init-param>
 			<param-name>kaptcha.obscurificator.impl</param-name>
-			<param-value>com.google.code.kaptcha.impl.FishEyeGimpy</param-value>
+			<param-value>com.google.code.kaptcha.impl.ShadowGimpy</param-value>
 		</init-param>
+          <!-- 干扰线实现-->
+        <init-param>
+            <param-name>kaptcha.noise.impl</param-name>
+            <param-value>com.google.code.kaptcha.impl.NoNoise</param-value>
+        </init-param>
+        
 	</servlet>
   <servlet>
     <servlet-name>InitIndexServlet</servlet-name>

@@ -81,7 +81,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                            <li><a href="<%=basePath%>open_bidding/" target="open_bidding_main" class="son-menu">确认招标文件</a></li>
                            <li><a href="<%=basePath%>open_bidding/bidNotice.html" target="open_bidding_main" class="son-menu">发布招标公告</a></li>
                            <li><a href="<%=basePath%>SupplierExtracts/Extraction.html?id=${project.id}" target="open_bidding_main" class="son-menu">抽取供应商</a></li>
-                           <li><a href="<%=basePath%>open_bidding/" target="open_bidding_main" class="son-menu">发售标书</a></li>
+                           <li><a href="<%=basePath%>saleTender/list.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">发售标书</a></li>
                            <li><a href="<%=basePath%>ExpExtract/Extraction.html?id=${project.id}" target="open_bidding_main" class="son-menu">抽取评审专家</a></li>
                            <li><a href="<%=basePath%>open_bidding/" target="open_bidding_main" class="son-menu">组织专家评审</a></li>
                            <li><a href="<%=basePath%>resultAnnouncement/resultAnnouncementAdd.html" target="open_bidding_main" class="son-menu">拟制中标公示</a></li>

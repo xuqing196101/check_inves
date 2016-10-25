@@ -112,9 +112,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/jquery.easing.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/james.js"></script>
 <script type="text/javascript">
+  //默认不显示叉
+   $(function() {
+    $("td").each(function() {
+    $(this).parent("tr").find("td").eq(12).find("a").hide();
+    });
+  });
+
 function reason(id){
   var supplierId=$("#supplierId").val();
-  var auditField="序号为："+$("#"+id+"_index").text(); //审批的字段名字
+  var auditFieldName="序号为："+$("#"+id+"_index").text(); //审批的字段名字
   var auditContent="产品名称为："+$("#"+id+"_name").text()+"的信息"; //审批的字段内容
   var auditType=$("#product").text();//审核类型
    layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
@@ -122,9 +129,9 @@ function reason(id){
         url:"<%=basePath%>supplierAudit/auditReasons.html",
         type:"post",
         /* data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId, */
-        data:"auditType="+auditType+"&auditField="+auditField+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId,
+        data:"auditType="+auditType+"&auditFieldName="+auditFieldName+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId,
       });
-      $("#"+id+"_hide").hide();
+      $("#"+id+"_show").show();
       layer.msg("审核不通过的理由是："+text,{offset:'200px'});
     });
 }
@@ -185,7 +192,7 @@ function tijiao(str){
         <div class="col-md-12 tab-v2 job-content">
           <div class="padding-top-10">
             <ul class="nav nav-tabs bgdd">
-              <li class=""><a aria-expanded="fale" href="#tab-1" data-toggle="tab" onclick="tijiao('essential');">基本信息</a></li>
+              <li class=""><a aria-expanded="fale" href="#tab-1" data-toggle="tab" onclick="tijiao('essential');">详细信息</a></li>
               <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" onclick="tijiao('financial');">财务信息</a></li>
               <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('shareholder');" id="shareholder">股东信息</a></li>
               <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
@@ -225,7 +232,7 @@ function tijiao(str){
                           <th class="info">参考价格</th>
                           <th class="info">产品图片</th>
                           <th class="info">商品二维码</th>
-                          <th class="info w80">操作</th>
+                          <th class="info w50"></th>
                         </tr>
                       </thead>
                       <tbody id="products_tbody_id">
@@ -233,29 +240,28 @@ function tijiao(str){
                           <tr>
                             <td class="tc" id="${products.id}_index">${vs.index+1 }</td>
                             <td id="${products.categoryId}" class="tc">${products.categoryName}</td>
-                            <td class="tc" id="${products.id}_name">${products.name}</td>
-                            <td class="tc">${products.brand}</td>
-                            <td class="tc">${products.models}</td>
-                            <td class="tc">${products.proSize}</td>
-                            <td class="tc">${products.orgin}</td>
-                            <td class="tc"><fmt:formatDate value="${products.expirationDate }" pattern="yyyy-MM-dd"/></td>
-                            <td class="tc">${products.producer}</td>
-                            <td class="tc">${products.referencePrice}</td>
+                            <td class="tc" id="${products.id}_name" onclick="reason('${products.id}');">${products.name}</td>
+                            <td class="tc" onclick="reason('${products.id}');">${products.brand}</td>
+                            <td class="tc" onclick="reason('${products.id}');">${products.models}</td>
+                            <td class="tc" onclick="reason('${products.id}');">${products.proSize}</td>
+                            <td class="tc" onclick="reason('${products.id}');">${products.orgin}</td>
+                            <td class="tc" onclick="reason('${products.id}');"><fmt:formatDate value="${products.expirationDate }" pattern="yyyy-MM-dd"/></td>
+                            <td class="tc" onclick="reason('${products.id}');">${products.producer}</td>
+                            <td class="tc" onclick="reason('${products.id}');">${products.referencePrice}</td>
                             <td class="tc">
                               <c:if test="${products.productPic != null}">
                                 <a class="green" onclick="downloadFile('${products.productPic}')">下载附件</a>
                               </c:if>
                               <c:if test="${products.productPic == null}"><a class="red">无附件下载</a></c:if>
                             </td>
-                            <td class="tc">
+                            <td class="tc" >
                               <c:if test="${products.qrCode != null}">
                                 <a class="green" onclick="downloadFile('${products.qrCode}')">下载附件</a>
                               </c:if>
                               <c:if test="${products.qrCode == null}"><a class="red">无附件下载</a></c:if>
                             </td>
                             <td class="tc">
-                              <a id="${products.id }_hide" class="b f18 fl ml10 red hand">√</a>
-                              <a onclick="reason('${products.id}');" class="b f18 fl ml10 hand">×</a>
+                              <a  id="${products.id }_show" class="b f18 fl ml10 hand">×</a>
                             </td>
                           </tr>
                         </c:forEach>

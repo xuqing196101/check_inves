@@ -65,6 +65,7 @@ function login(){
 			type:"post",
 			data:{loginName:$("#inputEmail").val(),password:$("#inputPassword").val(),rqcode:$("#inputCode").val()},
 			success:function(data){
+				var flag = data.split(",");
 				if(data=="errorcode"){
 					layer.tips("验证码不正确","#inputCode",{
 						tips : 1
@@ -78,6 +79,32 @@ function login(){
 				}else if(data=="scuesslogin"){				
 					layer.close(index);
 					window.location.href="<%=basePath%>login/index.html";
+				}else if(data=="black"){
+					layer.msg("你已经被拉黑，不能登录!");
+					layer.close(index);
+				}else if(data=="audit"){
+					layer.msg("你的信息还未审核，请耐心等待!");
+					layer.close(index);
+				}else if(flag[0]=="empty"){
+					//询问框
+					layer.confirm('你还未注册个人信息，是否前去完善？', {
+					  btn: ['是','否'] //按钮
+					}, function(){
+						 window.location.href="<%=basePath%>expert/toAddBasicInfo.html?userId="+flag[1];
+					}, function(){
+						layer.close(index);
+						window.location.href="<%=basePath%>";
+					});
+				}else if(flag[0]=="reset"){
+					//询问框
+					layer.confirm('你还未完善个人信息，或信息被退回，请重新完善信息？', {
+					  btn: ['是','否'] //按钮
+					}, function(){
+						 window.location.href="<%=basePath%>expert/toAddBasicInfo.html?userId="+flag[1];
+					}, function(){
+						layer.close(index);
+						window.location.href="<%=basePath%>";
+					});
 				}else if(data="deleteLogin"){
 					layer.msg("账号不存在!");
 					layer.close(index);
@@ -246,7 +273,7 @@ function kaptcha(){
         <div class="control-group  margin-top-20 ">
         <label class="control-label" for="inputPassword">验证码：</label>
         <div class="controls">
-         <input type="text" placeholder="" id="inputCode" class="input-mini fl ">
+         <input type="text" placeholder="" id="inputCode" class="input-mini fl mr10">
           	<img src="Kaptcha.jpg" onclick="kaptcha();" id="kaptchaImage" /> 
         </div>
        </div>

@@ -8,7 +8,7 @@
   <head>
     <base href="<%=basePath%>">
     
-    <title>模版管理</title>
+    <title>须知文档管理</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -40,10 +40,10 @@
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		        	if("${templet.name}"!=null && "${templet.name}"!="" || ("${templet.temType}"!="-请选择-" && "${templet.temType}"!="")){
-		        		location.href = '<%=basePath%>templet/search.html?page='+e.curr+'&name='+"${templet.name}"+'&temType='+ "${templet.temType}";
+		        	if("${noticeDocument.name}"!=null && "${noticeDocument.name}"!="" || ("${noticeDocument.docType}"!="-请选择-" && "${noticeDocument.docType}"!="")){
+		        		location.href = '<%=basePath%>noticeDocument/search.html?page='+e.curr+'&name='+"${noticeDocument.name}"+'&docType='+ "${noticeDocument.docType}";
 		        	}else{
-		            	location.href = '<%=basePath%>templet/getAll.do?page='+e.curr;
+		            	location.href = '<%=basePath%>noticeDocument/getAll.do?page='+e.curr;
 		        	}
 		        }
 		    }
@@ -85,7 +85,7 @@
 		   }
 	}
   	function view(id){
-  		window.location.href="<%=basePath%>templet/view.do?id="+id;
+  		window.location.href="<%=basePath%>noticeDocument/view.do?id="+id;
   	}
     function edit(){
     	var id=[]; 
@@ -94,7 +94,7 @@
 		}); 
 		if(id.length==1){
 			
-			window.location.href="<%=basePath%>templet/edit.do?id="+id;
+			window.location.href="<%=basePath%>noticeDocument/edit.do?id="+id;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -109,22 +109,22 @@
 		if(ids.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>templet/delete.do?ids="+ids;
+				window.location.href="<%=basePath%>noticeDocument/delete.do?ids="+ids;
 			});
 		}else{
 			layer.alert("请选择要删除的用户",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
     function add(){
-    	window.location.href="<%=basePath%>templet/add.do";
+    	window.location.href="<%=basePath%>noticeDocument/add.do";
     }
     $(function(){
-		if("${templet.temType}"!=null&&"${templet.temType}"!=""){
-			$("#searchType").val('${templet.temType}');			
+		if("${noticeDocument.docType}"!=null&&"${noticeDocument.docType}"!=""){
+			$("#searchType").val('${noticeDocument.docType}');			
 		}else{
 			$("#searchType").val('-请选择-');	
 		}
-		$("#tname").val('${templet.name}');
+		$("#tname").val('${noticeDocument.name}');
 	});
   </script>
   <body>
@@ -132,7 +132,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">后台管理</a></li><li class="active"><a href="#">模版管理</a></li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">后台管理</a></li><li class="active"><a href="#">须知文档管理</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -140,25 +140,23 @@
    
    <div class="container">
 	   <div class="headline-v2">
-	   		<h2>模板查询</h2>
+	   		<h2>须知文档查询</h2>
 	   </div>
 
     <!-- 查询 -->
   <div class="container clear">
   <div class="p10_25">
      <h2 class="padding-10 border1">
-   	<form action="<%=basePath %>templet/search.html" method="post" enctype="multipart/form-data" class="mb0" >
+   	<form action="<%=basePath %>noticeDocument/search.html" method="post" enctype="multipart/form-data" class="mb0" >
 	 <ul class="demand_list">
 	  
-	   <li class="fl mr15"><label class="fl mt5">模板名称：</label><span><input type="text" name="name" id="tname" class="mb0"/></span></li>
-	   <li class="fl mr15"><label class="fl mt5">模板类型：</label>
+	   <li class="fl mr15"><label class="fl mt5">须知文档名称：</label><span><input type="text" name="name" id="tname" class="mb0"/></span></li>
+	   <li class="fl mr15"><label class="fl mt5">须知文档类型：</label>
 	   		<span>
-	   			<select id="searchType" name =temType class="w150" >
+	   			<select id="searchType" name =docType class="w150" >
 					<option value="-请选择-">-请选择-</option>
-			  	 	<option value="采购公告">采购公告</option>
-			  	 	<option value="中标公告">中标公告</option>
-			  	 	<option value="合同公告">合同公告</option>
-			  	 	<option value="招标公告">招标公告</option>
+			  	 	<option value="供应商须知文档">供应商须知文档</option>
+			  	 	<option value="专家须知文档">专家须知文档</option>
 	  			</select>
 	  		</span>
 	  </li>
@@ -175,7 +173,7 @@
  </div> 
    <div class="container">
 	   <div class="headline-v2">
-	   		<h2>模版管理</h2>
+	   		<h2>须知文档管理</h2>
 	   </div>
    </div>
 <!-- 表格开始-->
@@ -197,26 +195,26 @@
 		<tr>
 		  <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 		  <th class="info w50">序号</th>
-		  <th class="info">模板类型</th>
-		  <th class="info">模板名称</th>
+		  <th class="info">须知文档类型</th>
+		  <th class="info">须知文档名称</th>
 		  <th class="info">创建日期</th>
 		  <th class="info">修改日期</th>
 		</tr>
 		</thead>
-		<c:forEach items="${list.list}" var="templet" varStatus="vs">
+		<c:forEach items="${list.list}" var="noticeDocument" varStatus="vs">
 			<tr>
 				
-				<td class="tc opinter"><input onclick="check()" type="checkbox" name="chkItem" value="${templet.id}" /></td>
+				<td class="tc opinter"><input onclick="check()" type="checkbox" name="chkItem" value="${noticeDocument.id}" /></td>
 				
-				<td class="tc opinter" onclick="view('${templet.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+				<td class="tc opinter" onclick="view('${noticeDocument.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 				
-				<td class="tc opinter" onclick="view('${templet.id}')">${templet.temType}</td>
+				<td class="tc opinter" onclick="view('${noticeDocument.id}')">${noticeDocument.docType}</td>
 				
-				<td class="tc opinter" onclick="view('${templet.id}')">${templet.name}</td>
+				<td class="tc opinter" onclick="view('${noticeDocument.id}')">${noticeDocument.name}</td>
 			
-				<td class="tc opinter" onclick="view('${templet.id}')"><fmt:formatDate value='${templet.createdAt}' pattern="yyyy-MM-dd" /></td>
+				<td class="tc opinter" onclick="view('${noticeDocument.id}')"><fmt:formatDate value='${noticeDocument.createdAt}' pattern="yyyy-MM-dd" /></td>
 			
-				<td class="tc opinter" onclick="view('${templet.id}')"><fmt:formatDate value='${templet.updatedAt}' pattern="yyyy-MM-dd " /></td>
+				<td class="tc opinter" onclick="view('${noticeDocument.id}')"><fmt:formatDate value='${noticeDocument.updatedAt}' pattern="yyyy-MM-dd " /></td>
 			</tr>
 		</c:forEach>
         </table>

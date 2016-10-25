@@ -46,6 +46,31 @@ public class ManufacturingCostController {
 	}
 	
 	/**
+	* @Title: view
+	* @author Shen Zhenfei 
+	* @date 2016-10-24 上午8:59:25  
+	* @Description: 查看
+	* @param @param model
+	* @param @param proId
+	* @param @param manufacturingCost
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/view")
+	public String view(Model model,String proId,ManufacturingCost manufacturingCost){
+		
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(proId);
+		manufacturingCost.setContractProduct(contractProduct);
+		List<ManufacturingCost> list = manufacturingCostService.selectProduct(manufacturingCost);
+		model.addAttribute("list", list);
+		model.addAttribute("proId", proId);
+		
+		return "bss/sstps/offer/supplier/list/manufacturingCost_list";
+	}
+	
+	
+	/**
 	* @Title: add
 	* @author Shen Zhenfei 
 	* @date 2016-10-17 下午2:52:25  

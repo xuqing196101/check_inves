@@ -17,16 +17,38 @@
 	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript">
 		var retake;
-		
+		var isAllow = "${examPaper.isAllowRetake}";
 		$(function(){
 			$("#submitNoResult").hide();
 			$("#submitYesResult").hide();
 			if("${time}"){
 				retake = $("#retake").val();
 			}
-			document.getElementById("second").innerHTML = "${examPaper.testTime}" + "分钟" + 0 + "秒"; 
-			document.getElementById("surplusNo").innerHTML = "${examPaper.testTime}" + "分钟" + 0 + "秒"; 
-			document.getElementById("surplusYes").innerHTML = "${examPaper.testTime}" + "分钟" + 0 + "秒"; 
+			if(isAllow==0){
+				document.getElementById("second").innerHTML = "${second}"+"分钟"+"${minute}"+"秒"; 
+				document.getElementById("surplusNo").innerHTML = "${second}"+"分钟"+"${minute}"+"秒";  
+				document.getElementById("surplusYes").innerHTML = "${second}"+"分钟"+"${minute}"+"秒"; 
+			}else{
+				var offTime = "${examPaper.offTime}";
+				var off = new Date(Date.parse(offTime.replace(/-/g, "/"))); 
+				var test = "${examPaper.testTime}";
+				var date3 = off.getTime()-new Date().getTime();
+				var days = Math.floor(date3/(24*3600*1000));
+				var leave1 = date3%(24*3600*1000);
+				var hours = Math.floor(leave1/(3600*1000));
+				var leave2 = leave1%(3600*1000);
+				var minutes = Math.floor(leave2/(60*1000));
+				if(minutes<test){
+					document.getElementById("second").innerHTML = "${second}"+"分钟"+"${minute}"+"秒"; 
+					document.getElementById("surplusNo").innerHTML = "${second}"+"分钟"+"${minute}"+"秒";  
+					document.getElementById("surplusYes").innerHTML = "${second}"+"分钟"+"${minute}"+"秒"; 
+				}else{
+					document.getElementById("second").innerHTML = test+"分钟"+0+"秒"; 
+					document.getElementById("surplusNo").innerHTML = test+"分钟"+0+"秒";  
+					document.getElementById("surplusYes").innerHTML = test+"分钟"+0+"秒"; 
+				}
+			}
+			
 			var exam = document.getElementsByName("exam");
        		for(var i=1;i<=exam.length;i++){
        			if(i==1){
@@ -56,9 +78,31 @@
         }
 		
 		//考试倒计时
-        var timeLeft = "${examPaper.testTime}"*60*1000-1000;//这里设定考试用时
-        var timeYes = "${examPaper.testTime}"*60*1000;
-        var timeNo = "${examPaper.testTime}"*60*1000;
+		if(isAllow==0){
+			var timeLeft = "${second}"*60*1000-1000+"${minute}"*1000;
+	        var timeYes = "${second}"*60*1000-1000+"${minute}"*1000;
+	        var timeNo = "${second}"*60*1000-1000+"${minute}"*1000;
+		}else{
+			var offTime = "${examPaper.offTime}";
+			var off = new Date(Date.parse(offTime.replace(/-/g, "/"))); 
+			var test = "${examPaper.testTime}";
+			var date3 = off.getTime()-new Date().getTime();
+			var days = Math.floor(date3/(24*3600*1000));
+			var leave1 = date3%(24*3600*1000);
+			var hours = Math.floor(leave1/(3600*1000));
+			var leave2 = leave1%(3600*1000);
+			var minutes = Math.floor(leave2/(60*1000));
+			if(minutes<test){
+				var timeLeft = "${second}"*60*1000-1000+"${minute}"*1000;
+		        var timeYes = "${second}"*60*1000-1000+"${minute}"*1000;
+		        var timeNo = "${second}"*60*1000-1000+"${minute}"*1000;
+			}else{
+				var timeLeft = test*60*1000-1000;
+		        var timeYes = test*60*1000-1000;
+		        var timeNo = test*60*1000-1000;
+			}
+		}
+        
 		function countTime(){ 
 		     if(timeLeft == 0){//时间到了,系统自动提交
 		    	if("${time}"){
@@ -189,25 +233,26 @@
 		      <tr>
 		        <td class="col-md-1 tc">${l.index+1 }</td>
 		        <td class="col-md-11">
-			        <div>${pur.topic }</div>
-			        <div class="mt10">
+			        <div><span>[${pur.examQuestionType.name}]</span><span>${pur.topic }</span></div>
+			       
 		          	<c:if test="${pur.examQuestionType.name=='单选题' }">
-				    	<div class="fl mr10"><input type="radio" name="que${l.index+1 }" value="A" class="mt0"/>${fn:split(pur.items,';')[0]}</div>
-				    	<div class="fl mr10"><input type="radio" name="que${l.index+1 }" value="B" class="mt0"/>${fn:split(pur.items,';')[1]}</div>
-				    	<div class="fl mr10"><input type="radio" name="que${l.index+1 }" value="C" class="mt0"/>${fn:split(pur.items,';')[2]}</div>
-				    	<div class="fl"><input type="radio" name="que${l.index+1 }" value="D" class="mt0"/>${fn:split(pur.items,';')[3]}</div>
-				  	</c:if>
-				 	<c:if test="${pur.examQuestionType.name=='多选题' }">
-				    	<div class="fl mr10"><input type="checkbox" name="que${l.index+1 }" value="A" class="mt0"/>${fn:split(pur.items,';')[0]}</div>
-				    	<div class="fl mr10"><input type="checkbox" name="que${l.index+1 }" value="B" class="mt0"/>${fn:split(pur.items,';')[1]}</div>
-				    	<div class="fl mr10"><input type="checkbox" name="que${l.index+1 }" value="C" class="mt0"/>${fn:split(pur.items,';')[2]}</div>
-				    	<div class="fl"><input type="checkbox" name="que${l.index+1 }" value="D" class="mt0"/>${fn:split(pur.items,';')[3]}</div>
-				   	</c:if>
+						<c:forEach items="${fn:split(pur.items,';')}" var="it">
+						<div class="mt10 clear fl">
+							<input type="radio" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0"/>${it }
+						</div>
+						</c:forEach>
+					</c:if>
+					<c:if test="${pur.examQuestionType.name=='多选题' }">
+						<c:forEach items="${fn:split(pur.items,';')}" var="it">
+						<div class="mt10 clear fl">
+							<input type="checkbox" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0"/>${it }
+						</div>
+						</c:forEach>
+					 </c:if>
 				   	<c:if test="${pur.examQuestionType.name=='判断题' }">
-		    			<div class="fl mr10"><input type="radio" name="que${l.index+1 }" value="对" class="mt0"/>对</div>
-		    			<div class="fl"><input type="radio" name="que${l.index+1 }" value="错" class="mt0"/>错</div>
+		    			<div class="mt10 clear fl"><input type="radio" name="que${l.index+1 }" value="对" class="mt0"/>对</div>
+		    			<div class="mt10 clear fl"><input type="radio" name="que${l.index+1 }" value="错" class="mt0"/>错</div>
 		    		</c:if>
-		          </div>
 		        </td>
 		      </tr>
 		    </c:forEach>
@@ -223,34 +268,34 @@
   		<c:when test="${p.first}">
   		<div id="pageNum${p.index+1 }" name="exam">
   			<table class="clear table table-bordered table-condensed">
-		  	
 			    <c:forEach items="${purchaserQue }" var="pur" varStatus="l" begin="${p.index*5 }" end="${p.index*5+4 }">
 				    <tr>
-		       			 <td class="col-md-1 tc">${l.index+1 }</td>
+		       			<td class="col-md-1 tc">${l.index+1 }</td>
 				    	<td class="col-md-11">
-				          <div>${pur.topic }</div>
-				          <div class="mt10">
-				    			<c:if test="${pur.examQuestionType.name=='单选题' }">
-				    				<div class="fl mr10"><input type="radio" name="que${l.index+1 }" value="A" class="mt0"/>${fn:split(pur.items,';')[0]}</div>
-				    				<div class="fl mr10"><input type="radio" name="que${l.index+1 }" value="B" class="mt0"/>${fn:split(pur.items,';')[1]}</div>
-				    				<div class="fl mr10"><input type="radio" name="que${l.index+1 }" value="C" class="mt0"/>${fn:split(pur.items,';')[2]}</div>
-				    				<div class="fl"><input type="radio" name="que${l.index+1 }" value="D" class="mt0"/>${fn:split(pur.items,';')[3]}</div>
-				    			</c:if>
-				    			<c:if test="${pur.examQuestionType.name=='多选题' }">
-				    				<div class="fl mr10"><input type="checkbox" name="que${l.index+1 }" value="A" class="mt0"/>${fn:split(pur.items,';')[0]}</div>
-				    				<div class="fl mr10"><input type="checkbox" name="que${l.index+1 }" value="B" class="mt0"/>${fn:split(pur.items,';')[1]}</div>
-				    				<div class="fl mr10"><input type="checkbox" name="que${l.index+1 }" value="C" class="mt0"/>${fn:split(pur.items,';')[2]}</div>
-				    				<div class="fl"><input type="checkbox" name="que${l.index+1 }" value="D" class="mt0"/>${fn:split(pur.items,';')[3]}</div>
-				    			</c:if>
-				    			<c:if test="${pur.examQuestionType.name=='判断题' }">
-					    			<div class="fl mr10"><input type="radio" name="que${l.index+1 }" value="对" class="mt0"/>对</div>
-					    			<div class="fl"><input type="radio" name="que${l.index+1 }" value="错" class="mt0"/>错</div>
-		    					</c:if>
-				    		 </div>
+					         <div><span>[${pur.examQuestionType.name}]</span><span>${pur.topic }</span></div>
+					        
+					    		<c:if test="${pur.examQuestionType.name=='单选题' }">
+								    <c:forEach items="${fn:split(pur.items,';')}" var="it">
+								    <div class="mt10 clear fl">
+								    	<input type="radio" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0"/>${it }
+								  	 </div>
+								    </c:forEach>
+								 </c:if>
+								 <c:if test="${pur.examQuestionType.name=='多选题' }">
+								    <c:forEach items="${fn:split(pur.items,';')}" var="it">
+								    <div class="mt10 clear fl">
+								    	<input type="checkbox" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0"/>${it }
+								    </div>
+								    </c:forEach>
+								 </c:if>
+								 <c:if test="${pur.examQuestionType.name=='判断题' }">
+						    		<div class="mt10 clear fl"><input type="radio" name="que${l.index+1 }" value="对" class="mt0"/>对</div>
+						    		<div class="mt10 clear fl"><input type="radio" name="que${l.index+1 }" value="错" class="mt0"/>错</div>
+						    	</c:if>
+					    	 
 		        		</td>
 		     		 </tr>
 			    </c:forEach>
-			    
 		    </table>
 		    <div class="col-md-12 tc">
     			<button class="btn" onclick="setTab(${p.index+2})" type="button">下一页</button>
@@ -266,25 +311,25 @@
 				     <tr>
 		       			 <td class="col-md-1 tc">${l.index+1 }</td>
 				    	<td class="col-md-11">
-				          <div>${pur.topic }</div>
-				          <div class="mt10">
-				    			<c:if test="${pur.examQuestionType.name=='单选题' }">
-				    				<div class="fl mr10"><input type="radio" name="que${l.index+1 }" value="A" class="mt0"/>${fn:split(pur.items,';')[0]}</div>
-				    				<div class="fl mr10"><input type="radio" name="que${l.index+1 }" value="B" class="mt0"/>${fn:split(pur.items,';')[1]}</div>
-				    				<div class="fl mr10"><input type="radio" name="que${l.index+1 }" value="C" class="mt0"/>${fn:split(pur.items,';')[2]}</div>
-				    				<div class="fl"><input type="radio" name="que${l.index+1 }" value="D" class="mt0"/>${fn:split(pur.items,';')[3]}</div>
-				    			</c:if>
-				    			<c:if test="${pur.examQuestionType.name=='多选题' }">
-				    				<div class="fl mr10"><input type="checkbox" name="que${l.index+1 }" value="A" class="mt0"/>${fn:split(pur.items,';')[0]}</div>
-				    				<div class="fl mr10"><input type="checkbox" name="que${l.index+1 }" value="B" class="mt0"/>${fn:split(pur.items,';')[1]}</div>
-				    				<div class="fl mr10"><input type="checkbox" name="que${l.index+1 }" value="C" class="mt0"/>${fn:split(pur.items,';')[2]}</div>
-				    				<div class="fl"><input type="checkbox" name="que${l.index+1 }" value="D" class="mt0"/>${fn:split(pur.items,';')[3]}</div>
-				    			</c:if>
-				    			<c:if test="${pur.examQuestionType.name=='判断题' }">
-					    			<div class="fl mr10"><input type="radio" name="que${l.index+1 }" value="对" class="mt0"/>对</div>
-					    			<div class="fl"><input type="radio" name="que${l.index+1 }" value="错" class="mt0"/>错</div>
-		    					</c:if>
-				    		</div>
+				          <div><span>[${pur.examQuestionType.name}]</span><span>${pur.topic }</span></div>
+				         		<c:if test="${pur.examQuestionType.name=='单选题' }">
+								    <c:forEach items="${fn:split(pur.items,';')}" var="it">
+								    <div class="mt10 clear fl">
+								    	<input type="radio" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0"/>${it }
+								  	 </div>
+								    </c:forEach>
+								 </c:if>
+								 <c:if test="${pur.examQuestionType.name=='多选题' }">
+								    <c:forEach items="${fn:split(pur.items,';')}" var="it">
+								    <div class="mt10 clear fl">
+								    	<input type="checkbox" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0"/>${it }
+								    </div>
+								    </c:forEach>
+								 </c:if>
+							   	<c:if test="${pur.examQuestionType.name=='判断题' }">
+					    			<div class="mt10 clear fl"><input type="radio" name="que${l.index+1 }" value="对" class="mt0"/>对</div>
+					    			<div class="mt10 clear fl"><input type="radio" name="que${l.index+1 }" value="错" class="mt0"/>错</div>
+					    		</c:if>
 		        		</td>
 		     		 </tr>
 			    </c:forEach>
@@ -303,29 +348,31 @@
 		    	
 			    <c:forEach items="${purchaserQue }" var="pur" varStatus="l" begin="${p.index*5 }" end="${p.index*5+4 }">
 				    <tr>
-		       			 <td class="col-md-1 tc">${l.index+1 }</td>
+		       			<td class="col-md-1 tc">${l.index+1 }</td>
 				    	<td class="col-md-11">
-				          <div>${pur.topic }</div>
-				          <div class="mt10">
+				        <div><span>[${pur.examQuestionType.name}]</span><span>${pur.topic }</span></div>
+				        
 				    			<c:if test="${pur.examQuestionType.name=='单选题' }">
-				    				<div class="fl mr10"><input type="radio" name="que${l.index+1 }" value="A" class="mt0"/>${fn:split(pur.items,';')[0]}</div>
-				    				<div class="fl mr10"><input type="radio" name="que${l.index+1 }" value="B" class="mt0"/>${fn:split(pur.items,';')[1]}</div>
-				    				<div class="fl mr10"><input type="radio" name="que${l.index+1 }" value="C" class="mt0"/>${fn:split(pur.items,';')[2]}</div>
-				    				<div class="fl"><input type="radio" name="que${l.index+1 }" value="D" class="mt0"/>${fn:split(pur.items,';')[3]}</div>
-				    			</c:if>
-				    			<c:if test="${pur.examQuestionType.name=='多选题' }">
-				    				<div class="fl mr10"><input type="checkbox" name="que${l.index+1 }" value="A" class="mt0"/>${fn:split(pur.items,';')[0]}</div>
-				    				<div class="fl mr10"><input type="checkbox" name="que${l.index+1 }" value="B" class="mt0"/>${fn:split(pur.items,';')[1]}</div>
-				    				<div class="fl mr10"><input type="checkbox" name="que${l.index+1 }" value="C" class="mt0"/>${fn:split(pur.items,';')[2]}</div>
-				    				<div class="fl"><input type="checkbox" name="que${l.index+1 }" value="D" class="mt0"/>${fn:split(pur.items,';')[3]}</div>
-				    			</c:if>
-				    			<c:if test="${pur.examQuestionType.name=='判断题' }">
-					    			<div class="fl mr10"><input type="radio" name="que${l.index+1 }" value="对" class="mt0"/>对</div>
-					    			<div class="fl"><input type="radio" name="que${l.index+1 }" value="错" class="mt0"/>错</div>
-		    					</c:if>
-				    		</div>
+								    <c:forEach items="${fn:split(pur.items,';')}" var="it">
+								    <div class="mt10 clear fl">
+								    	<input type="radio" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0"/>${it }
+								  	 </div>
+								    </c:forEach>
+								 </c:if>
+								 <c:if test="${pur.examQuestionType.name=='多选题' }">
+								    <c:forEach items="${fn:split(pur.items,';')}" var="it">
+								    <div class="mt10 clear fl">
+								    	<input type="checkbox" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0"/>${it }
+								    </div>
+								    </c:forEach>
+								 </c:if>
+								<c:if test="${pur.examQuestionType.name=='判断题' }">
+						    		<div class="mt10 clear fl"><input type="radio" name="que${l.index+1 }" value="对" class="mt0"/>对</div>
+						    		<div class="mt10 clear fl"><input type="radio" name="que${l.index+1 }" value="错" class="mt0"/>错</div>
+						    	</c:if>
+				    	
 		        		</td>
-		     		 </tr>
+		     		</tr>
 			    </c:forEach>
 		    </table>
 		    <div class="col-md-12 tc">
@@ -343,7 +390,9 @@
 	<c:if test="${time!=null&&time!='' }">
 		<input type="hidden" value="${time }" name="time" id="retake"/>
 	</c:if>
-  			
+  	<c:if test="${thirty!=null&&thirty!='' }">	
+  		<input type="hidden" value="${thirty }" name="thirty"/>
+  	</c:if>	
   	<input type="hidden" value="${purQueAnswer }" name="purQueAnswer"/>
   	<input type="hidden" value="${paperId }" name="paperId"/>
   	<input type="hidden" value="${purQueType }" name="purQueType"/>

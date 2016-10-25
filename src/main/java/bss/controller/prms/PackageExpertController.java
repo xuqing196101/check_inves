@@ -2,8 +2,11 @@ package bss.controller.prms;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,11 +117,18 @@ public class PackageExpertController {
 		int count = 0 ;
 		if(StringUtils.isNotEmpty(chkItem) && StringUtils.isNotEmpty(groupId)){
 		String[] expertIds = chkItem.split(",");
+		Set<String> set = new HashSet<>();
+		//去除重复 的专家id
 		for (int i = 0; i < expertIds.length; i++) {
+			set.add(expertIds[i]);
+		}
+		//迭代set集合
+		for (Iterator<String> iterator = set.iterator(); iterator.hasNext();) {
+			String expertId = (String) iterator.next();
 			//设置专家id
-			packageExpert.setExpertId(expertIds[i]);
+			packageExpert.setExpertId(expertId);
 			//判断组长id是否和选择的专家id一致，如果一致就设定为组长
-			if(groupId.equals(expertIds[i])){
+			if(groupId.equals(expertId)){
 				packageExpert.setIsGroupLeader((short) 1);
 				count++;
 			}else{

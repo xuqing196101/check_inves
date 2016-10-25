@@ -569,7 +569,7 @@
 		<include refid="Base_Column_List" />
 		from T_BSS_PMS_PURCHASE_REQUIRED
 		<where>
-			HISTORY_STATUS='0'  and IS_DELETE='0'
+			HISTORY_STATUS='0'  and IS_DELETE='0' 
 			<if test="createdAt!=null">
 				and CREATED_AT=#{createdAt}
 			</if>
@@ -589,6 +589,10 @@
 			<if test="isCollect != null">
 				and IS_COLLECT = #{isCollect}
 			</if>
+			<if test="goodsType != null">
+				and PURCHASE_COUNT is not null
+			</if>
+			
 		</where>
 		
 		ORDER BY IS_MASTER ASC
@@ -679,7 +683,7 @@
 	
 	<select id="statisticOrg" parameterType="Map" resultType="Map" >
 		select
-		 count(*) as count
+		 count(*) as count, ORGANIZATION as organization
 		 from T_BSS_PMS_PURCHASE_REQUIRED
 	 	<include refid="param"/>
 		 group by ORGANIZATION
@@ -689,11 +693,11 @@
 	
 	<sql id="param">
 	 <where>
-	 IS_DELETE!='1' and ORGANIZATION is not null
+	 IS_DELETE!='1' and PURCHASE_COUNT is not null
 	 and IS_MASTER!='1'
-	 	<!-- <if test="status != null">
-	 		and STARUS=#{status}
-	 	</if> -->
+	 	<if test="planType != null">
+				PLAN_TYPE = #{planType}
+		</if>
 	 	<if test="year!=null">
 	 	and to_char(CREATED_AT,'yyyy')=#{year}
 	 	</if>
@@ -704,4 +708,21 @@
 	
 	</sql>
 	
+	
+	<update id="history" parameterType="Map">
+	update T_BSS_PMS_PURCHASE_REQUIRED
+			<set>
+				<if test="oid!=null">
+					id=#{oid},
+				</if>
+				<if test="status != null">
+					STARUS = #{status},
+				</if>
+				<if test="historyStatus !=null">
+					HISTORY_STATUS = #{historyStatus}
+				</if>
+			</set>
+		where id=#{id}
+		
+	</update>
 </mapper>

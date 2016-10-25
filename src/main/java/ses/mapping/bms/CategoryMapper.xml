@@ -20,6 +20,7 @@
  	<result column="PARAM_PUBLISH_RANG"  property="paramPublishRange" />
  <!-- 	<association property="categoryAptitude" column="APTITUDE_ID" select="ses.dao.bms.CategoryAptitudeMapper.selectByPrimaryKey"/> -->
  	<association property="categoryAttchment" column="ATTCHMENT_ID" select="ses.dao.bms.CategoryAttachmentMapper.selectByPrimaryKey"/>
+  
   </resultMap>
     <resultMap type="ses.model.bms.Category" id="totalMap" extends="CateMap">
 	    <collection property="categoryParams" ofType="ses.model.ppms.CategoryParam" resultMap="ses.dao.ppms.CategoryParamMapper.CategoryParamMap" />
@@ -38,12 +39,18 @@
     from T_SES_BMS_CATEGORY
     where ID = #{id}
   </select>
+  <!--根据品目名称查询 关联的机构部门信息 -->
+  <select id="">
+ <include refid="Base_Column_List" />
+  from T_SES_BMS_CATEGORY
+  where NAME like '%'||#{name}||'%'
+  
+  
+  </select>
   
   <!-- 根据pid生成列表 -->
    <!-- <select id="listByParent" parameterType="Object" resultMap="CateMap">
   	select
-  	<include refid="Base_Column_List" />
-  	from T_SES_BMS_CATEGORY
     where  PARENT_ID=#{pid}
   </select> -->
   
@@ -54,7 +61,15 @@
   from T_SES_BMS_CATEGORY
   where PARENT_ID=#{id}
   </select>
+  <!-- 根据参数状态和是否公开查询参数列表 -->
+  <select id="findByStatus" parameterType="Map" resultMap="totalMap">
+  select
+   <include refid="Base_Column_List"/>
+   from T_SES_BMS_CATEGORY
+   where PARAM_STATUS ='3'  AND
+   IS_PUBLISH ='1'
   
+  </select>
   <select id="selectAll" parameterType="Object" resultMap="totalMap">
   select 
   <include refid="Base_Column_List"/>
@@ -68,10 +83,18 @@
   from T_SES_BMS_CATEGORY
   where CODE=#{code}
   </select>
-  
+  <!-- 根据参数状态查询 -->
+  <select id="listByParamstatus" parameterType="Map" resultMap="totalMap">
+  select 
+  <include refid="Base_Column_List" />
+  from  T_SES_BMS_CATEGORY 
+  where PARAM_STATUS=#{paramStatus}
+  order by CREATED_AT DESC
+  </select>
   <!-- 根据关键字查出品目名称 -->
   <select id="listByKeyword" parameterType="Map" resultMap="totalMap" >
-  select ID,NAME,PARENT_ID
+  select 
+  <include refid="Base_Column_List" />
   from T_SES_BMS_CATEGORY 
   where NAME like '%'||#{name}||'%'
   </select>
@@ -86,7 +109,7 @@
   <insert id="insert" parameterType="ses.model.bms.Category">
     insert into T_SES_BMS_CATEGORY (ID, NAME, STATUS, 
       PARENT_ID, CREATED_AT, UPDATED_AT, 
-      ATTCHMENT, DESCRIPTION, IS_END, 
+      ATTCHMENT_ID, DESCRIPTION, IS_END, 
       CODE, POSITION,IS_DELETED,IS_PUBLISH,KIND,PARAM_STATUS,ACCEPT_RANGE,PARAM_PUBLISH_RANGE)
     values (#{id}, #{name}, #{status}, 
       #{parentId}, #{createdAt}, #{updatedAt}, 
@@ -265,7 +288,6 @@
     where ID = #{id}
   </update>
   
-  
   <!-- 根据id修改 名称 -->
  	<update id="updateNameById" parameterType="Object">
  	update T_SES_BMS_CATEGORY
@@ -273,15 +295,17 @@
  	where ID=#{id}
  	</update>
 
- 	
  	<select id="findCategoryByType" parameterType="ses.model.bms.Category" resultMap="CateMap">
  		select * from T_SES_BMS_CATEGORY where 1=1
  		<if test="kind!=null and kind != ''">
  			and KIND like #{kind}
  		</if>
  	</select>
+ 	<!-- 查询品目名称 -->
+ 	<select id="checkName" parameterType="Object" resultType="Object">
+ 	    select count(1) from 
+ 	    T_SES_BMS_CATEGORY 
+ 	    where name = #{Name}
  	
-
- 
-
+ 	</select>
 </mapper>

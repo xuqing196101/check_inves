@@ -36,7 +36,7 @@ public interface TodosMapper {
 
     /**
      *
-     * @param record
+     * @param 更新待办
      */
     int updateByPrimaryKeySelective(Todos record);
 
@@ -73,5 +73,14 @@ public interface TodosMapper {
      * @return int
      */
     int updateIsFinish(Todos record);
+    /**
+	 * @Title: updateByUrl
+	 * @author Xu Qing
+	 * @date 2016-10-24 上午11:06:25  
+	 * @Description: 更新待办
+	 * @param @param todos      
+	 * @return void
+	 */
+	void updateByUrl(Todos todos);
     
 }

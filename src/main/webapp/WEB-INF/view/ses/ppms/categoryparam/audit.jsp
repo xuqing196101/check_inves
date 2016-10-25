@@ -25,142 +25,139 @@
 <script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.core.js"></script>
 <script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.excheck.js"></script>
 <script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.exedit.js"></script>
-
+<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+<script src="<%=basePath%>public/layer/layer.js"></script>
 <script type="text/javascript">
-	<%-- var datas;
-	var treeid=null;
- $(document).ready(function(){
-	 var setting={
-		async:{
-					autoParam:["id"],
-					enable:true,
-					url:"<%=basePath%>category/createtree.do",
-					dataType:"json",
-					type:"post",
-				},
-				callback:{
-			    	onClick:zTreeOnClick,//点击节点触发的事件
-			    	beforeRemove: zTreeBeforeRemove,
-			    	beforeRename: zTreeBeforeRename, 
-					onRemove: zTreeOnRemove,
-       			    onRename: zTreeOnRename,
-       			  /*    onNodeCreated: zTreeOnNodeCreated, */
-       			   
-			    }, 
-				data:{
-					keep:{
-						parent:true
-					},
-					key:{
-						title:"title"
-					},
-					simpleData:{
-						enable:true,
-						idKey:"id",
-						pIdKey:"pId",
-						rootPId:"0",
-					}
-			    },
-			    edit:{
-			    	enable:true,
-					editNameSelectAll:true,
-					showRemoveBtn: true,
-					showRenameBtn: true,
-					removeTitle: "删除",
-					renameTitle:"重命名",
-				},
-			   check:{
-					enable: true
-			   },
-			
-  };
-	 
-    $.fn.zTree.init($("#ztree"),setting,datas);
-    
-});
+$(function(){
+	  laypage({
+		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+		    pages: "${list.pages}", //总页数
+		    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+		    skip: true, //是否开启跳页
+		    total: "${list.total}",
+		    startRow: "${list.startRow}",
+		    endRow: "${list.endRow}",
+		    groups: "${list.pages}">=3?3:"${list.pages}", //连续显示分页数
+		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+		        var page = location.search.match(/page=(\d+)/);
+		        return page ? page[1] : 1;
+		    }(), 
+		    jump: function(e, first){ //触发分页后的回调
+		        if(!first){ //一定要加此判断，否则初始时会无限刷新
+		            location.href = "<%=basePath%>categoryparam/search_category.html?page="+e.curr;
+		        }
+		    }
+		});
+  });
+  function query(){
+      var paramstatus =$("#paramstatus").val();
+      window.location.href="<%=basePath%>categoryparam/search_category.html?paramstatus="+paramstatus;
+  }
+  /** 单选 */
+function check(){
+		 var count=0;
+		 var checklist = document.getElementsByName ("chkItem");
+		 var checkAll = document.getElementById("checkAll");
+		 for(var i=0;i<checklist.length;i++){
+			   if(checklist[i].checked == false){
+				   checkAll.checked = false;
+				   break;
+			   }
+			   for(var j=0;j<checklist.length;j++){
+					 if(checklist[j].checked == true){
+						   checkAll.checked = true;
+						   count++;
+					   }
+				 }
+		   }
+	}
+	function audit(){
 	
-   /**点击事件*/
-    function zTreeOnClick(event,treeId,treeNode){
-		treeid=treeNode.id
+    	var id=[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			id.push($(this).val());
+		}); 
+		if(id.length==1){
+			
+			window.location.href="<%=basePath%>categoryparam/query_category.html?id="+id;
+		}else if(id.length>1){
+			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+		}else{
+			layer.alert("请选择需要审核的品目",{offset: ['222px', '390px'], shade:0.01});
+		}
     }
-  
-	/**修改节点信息*/
-    function update(){
-	 		if (treeid==null) {
-				alert("请选择一个节点");
-			}else{
-				
-			}
- 		}
-  
- 	/**重命名和删除的回调函数*/	
-    function zTreeOnRemove(event, treeId, treeNode,isCancel) {
-		}
-    function zTreeOnRename(event, treeId, treeNode, isCancel) {
-				 alert(treeNode.tId + ", " + treeNode.name); 
-				
-		}
-	/**删除目录信息*/
-    function zTreeBeforeRemove(treeId, treeNode){
-	 		$.ajax({
-	 			type:"post",
-	 			url:"<%=basePath%>category/del.do?id="+treeNode.id,
-	 		});
-		}
-	 	
-	/**节点重命名*/
-    function zTreeBeforeRename(treeId,treeNode,newName,isCancel){
-			$.ajax({
-	 			type:"post",
-	 			url:"<%=basePath%>category/rename.do?id="+treeNode.id+"&name="+newName,
-	 		});
-		}   --%>
-     function view(id){
-         window.location.href="<%=basePath%>categoryparam/selectOne.html?id="+id;
-     }
-    
+	
 </script>
 </head>
 
 <body>
 
-	<!--面包屑导航开始-->
+	  <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a><li><a href="#">产品参数管理</a><li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">产品参数管理</a></li><li><a href="#">审核列表</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
    </div>
+
    <div class="container">
-   <div class="col-md-9 ">
-   <div class="headline-v2 clear">
-	   <h2>审核列表</h2>
-	  </div>
-	  <!-- <div class="tag-box tag-box-v3 mt10">
-	 <div><ul id="ztree" class="ztree "></ul></div>
-	 </div> -->
-	</div>
-	<div class=" tag-box mt10 col-md-9">
-		<table class="table table-striped table-bordered table-hover">
-	        <thead>
-	            <tr>
-	                <th>序号</th>
-	                <th>品目</th>
-	                <th>状态</th>
+   <div class="headline-v2">
+     <h2>审核</h2>
+   </div>
+ <div class="container clear">
+  <div class="p10_25">
+     <h2 class="padding-10 border1">
+    	<ul class="demand_list">
+    	  <li class="fl">
+	    	<label class="fl">产品状态：</label>
+	    	<select id="paramstatus">
+	    	<option selected="selected" value="">---请选择---</option>
+	    	<option value="0">已提交</option>
+	    	<option value="1">暂存</option>
+	    	</select>
+	      </li> 
+	    	<button type="button" onclick="query()" class="btn">查询</button>
+	    	<button type="button" onclick="audit()" class="btn">审核</button>  	
+    	</ul>
+    	  <div class="clear"></div>
+     
+     </h2>
+   </div>
+  </div>
+   <div class="container">
+     <div class="content padding-left-25 padding-right-25 padding-top-5">
+    	<table class="table table-bordered table-condensed table-hover">
+		<thead>
+	            <tr><th class="w50 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
+	                <th class="info w80">序号</th>
+	                <th class="info">产品名称</th>
+	                <th class="info">产品状态</th>
+	                <th class="info">创建时间</th>
 	            </tr>
 	        </thead>	
 	        <c:forEach var="cate" items="${cate}" varStatus="vs">
 	            <tr>
-	            <td class="w50 tc pointer" onclick="view('${cate.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-	            <td class="tc pointer" onclick="view('${cate.id}')">${cate.name }</td>
-	            <td class="tc pointer" onclick="view('${cate.id}')"><c:choose><c:when test="${cate.paramStatus=='0'}">待审</c:when></c:choose></td>
-	            
+	            <td class="tc pointer"><input  onclick="check('${cate.id}')" type="checkbox" name="chkItem" value="${cate.id}"/></td>
+	            <td class="w50 tc pointer" >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+	            <td class="tc pointer" >${cate.name }</td>
+	            <td class="tc pointer" ><c:choose>
+						<c:when test="${cate.paramStatus=='0'}">
+							已提交
+						</c:when>
+						<c:when test="${cate.paramStatus=='1'}">
+							暂存
+						</c:when>
+					</c:choose></td>
+	            <td class="tc pointer">${cate.createdAt }</td>
 	            </tr>
 	        </c:forEach>
-		</table>
-		</div>
-	</div>
+	</table>
+   </div>
+
+   </div>
+      <div id="pagediv" align="right"></div>
+   </div>
   </body>
 </html>

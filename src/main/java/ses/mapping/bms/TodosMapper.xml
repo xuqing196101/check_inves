@@ -125,6 +125,8 @@
 			</if>
 		</trim>
 	</insert>
+	
+
 	<update id="updateByPrimaryKeySelective" parameterType="ses.model.bms.Todos">
 		<!-- @mbggenerated -->
 		update T_SES_BMS_TODOS
@@ -196,8 +198,9 @@
 		AND BT.IS_DELETED = 0
 		AND BT.IS_FINISH
 		=#{todos.isFinish,jdbcType=DECIMAL}
-		AND BT.UNDO_TYPE =
-		#{todos.undoType,jdbcType=DECIMAL}
+		<if test="todos.undoType!=null and todos.undoType != ''">
+		AND BT.UNDO_TYPE = #{todos.undoType,jdbcType=DECIMAL}
+		</if>
 		ORDER BY UNDO_TYPE
 	</select>
 	<!-- 查询出任务类型 -->
@@ -210,4 +213,12 @@
 		set IS_FINISH = 1
 		where URL = #{url,jdbcType=VARCHAR}
 	</update>
+	
+	 <!-- 更新待办名字-->
+	 <update id="updateByUrl" parameterType="ses.model.bms.Todos">
+    update T_SES_BMS_TODOS
+    set 
+    NAME = #{name}
+    where URL = #{url}
+  </update>
 </mapper>

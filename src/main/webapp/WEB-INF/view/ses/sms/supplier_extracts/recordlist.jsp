@@ -15,12 +15,13 @@
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
-<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
+
+	<link href="<%=basePath%>public/supplier/css/supplieragents.css"
+    media="screen" rel="stylesheet">
 </head>
 <script src="<%=basePath%>public/layer/layer.js"></script>
 <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+
 <script type="text/javascript">
 			   $(function(){
 			          laypage({
@@ -202,8 +203,6 @@
 			<table class="table table-bordered table-condensed">
 				<thead>
 					<tr>
-						<th class="info w30"><input id="checkAll" type="checkbox"
-							onclick="selectAll()" /></th>
 						<th class="info w50">序号</th>
 						<th class="info">采购项目名称</th>
 						<th class="info">采购机构</th>
@@ -213,9 +212,7 @@
 					</tr>
 				</thead>
 				<c:forEach items="${extractslist.list}" var="extract" varStatus="vs">
-					<tr onclick="show('${extract.id}');">
-						<td class="tc"><input onclick="check()" type="checkbox"
-							name="chkItem" value="${user.id}" /></td>
+					<tr class="cursor" onclick="show('${extract.id}');">
 						<td class="tc">${(vs.index+1)+(extractslist.pageNum-1)*(extractslist.pageSize)}</td>
 						<td class="tc">${extract.projectName}sdds</td>
 						<td class="tc">${extract.procurementDepId}</td>
@@ -225,9 +222,9 @@
 								pattern="yyyy年MM月dd日  " />
 								</td>
 						<td class="tc">${extract.extractionSites }</td>
-						<td class="tc"><c:if test="${extract.extractTheWay==0}">
+						<td class="tc"><c:if test="${extract.extractTheWay==1}">
 				             	             人工抽取
-					        </c:if> <c:if test="${extract.extractTheWay==1}">
+					        </c:if> <c:if test="${extract.extractTheWay==2}">
 	                                  		    语音抽取                                          			   
 	           		             </c:if></td>
 					</tr>

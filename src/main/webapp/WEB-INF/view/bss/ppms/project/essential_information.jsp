@@ -46,7 +46,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  
   <script type="text/javascript">
    $(function(){
-       $("#qwe").hide();
+       $("#hide_detail").hide();
   });
   
   
@@ -55,9 +55,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     }
     function view(sign){
        if (sign) {
-        $("#qwe").show();
+        $("#hide_detail").show();
        } else {
-         $("#qwe").hide();
+         $("#hide_detail").hide();
        }
     }
   </script>
@@ -152,7 +152,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <button class="btn padding-left-10 padding-right-10 btn_back" onclick="view(0)" type="button">收起</button>
            </h2>
       </div>
-      <div id="qwe">
+      <div id="hide_detail">
         <table class="table table-bordered table-condensed mt5">
         
         <thead>

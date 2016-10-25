@@ -71,7 +71,6 @@
 			ids.push($(this).val()); 
 		});
 		if(ids.length>0){
-			layer.confirm('您确定添加吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(indexs){
 				for(var i=0;i<ids.length;i++){
 					var name=ids[i].split("^");
 					id+=name[0]+",";
@@ -81,37 +80,15 @@
 				  parent.$('#supervises').val(nams);
 			         var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
 				  parent.layer.close(index);
-			});
+		
 		}else{
-			layer.alert("请选择要添加的用户",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择要添加的监督人员",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
   </script>
   <body>
 <!-- 表格开始-->
-   <div class="container">
-      <div class="col-md-8">
-    <button class="btn btn-windows add" type="button" onclick="add();">添加</button>
-	</div>
-            <div class="col-md-4 ">
-              <div class="search-block-v2">
-                <div class="">
-                  <form accept-charset="UTF-8" action="" method="get"><div style="display:none"><input name="utf8" value="✓" type="hidden"></div>
-                    <input id="t" name="t" value="search_products" type="hidden">
-                    <div class="col-md-12 pull-right">
-                      <div class="input-group">
-                        <input class="form-control bgnone h37 p0_10" id="k" name="k" placeholder="" type="text">
-                        <span class="input-group-btn">
-                          <input class="btn-u" name="commit" value="搜索" type="submit">
-                        </span>
-                      </div>
-                    </div>
-                  </form>               
-			   </div>
-              </div>
-            </div>	
-    </div>
-   
+
    <div class="container margin-top-5">
      <div class="content padding-left-25 padding-right-25 padding-top-5">
         <table class="table table-bordered table-condensed">

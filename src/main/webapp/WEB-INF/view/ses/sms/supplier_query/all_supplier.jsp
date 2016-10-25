@@ -142,9 +142,128 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     // 给城市设置随机数据
     $.each(data, function (i) {
         this.drilldown = this.properties['drill-key'];
-		 
-        this.value = i;
+        if(i==0){
+        //上海
+         if(getNum("上海")==0){
+	        	this.value=0;
+	        }else{
+	        	this.value=getNum("上海");
+	        }
+        } else if(i==1){
+        //浙江
+        this.value=getNum("浙江");
+        }else if(i==2){
+        }else if(i==3){
+        //澳门
+        this.value=getNum("澳门");
+        }else if(i==4){
+        //台湾
+        this.value=getNum("台湾");
+        } else if(i==5){
+        //甘肃
+        this.value=getNum("甘肃");
+        }else if(i==6){
+        this.value=getNum("香港");
+        //香港
+        }else if(i==7){
+        this.value=getNum("宁夏");
+        //宁夏
+        }else if(i==8){
+        this.value=getNum("陕西");
+        //陕西
+        }else if(i==9){
+        this.value=getNum("安徽");
+        //安徽
+        }else if(i==10){
+        this.value=getNum("湖北");
+        //湖北
+        }else if(i==11){
+        this.value=getNum("广东");
+        //广东
+        }else if(i==12){
+        this.value=getNum("福建");
+        //福建
+        }else if(i==13){
+        this.value=getNum("北京");
+        //北京
+        }else if(i==14){
+        this.value=getNum("河北");
+        //河北
+        }else if(i==15){
+        this.value=getNum("山东");
+        //山东
+        }else if(i==16){
+        this.value=getNum("天津");
+        //天津
+        }else if(i==17){
+        this.value=getNum("江苏");
+        //江苏
+        }else if(i==18){
+        this.value=getNum("海南");
+        //海南
+        }else if(i==19){
+        this.value=getNum("青海");
+        //青海
+        }else if(i==20){
+        this.value=getNum("吉林");
+        //吉林
+        }else if(i==21){
+        this.value=getNum("西藏");
+        //西藏
+        }else if(i==22){
+        this.value=getNum("新疆");
+        //新疆
+        }else if(i==23){
+        this.value=getNum("河南");
+        //河南
+        }else if(i==24){
+        this.value=getNum("内蒙古");
+        //内蒙古
+        }else if(i==25){
+        this.value=getNum("黑龙江");
+        //黑龙江
+        }else if(i==26){
+        this.value=getNum("云南");
+        //云南
+        }else if(i==27){
+        this.value=getNum("广西");
+        //广西
+        }else if(i==28){
+        this.value=getNum("辽宁");
+        //辽宁
+        }else if(i==29){
+        this.value=getNum("四川");
+        //四川
+        }else if(i==30){
+        this.value=getNum("重庆");
+        //重庆
+        }else if(i==31){
+        this.value=getNum("贵州");
+        //贵州
+        }else if(i==32){
+        this.value=getNum("湖南");
+        //湖南
+        }else if(i==33){
+        this.value=getNum("山西");
+        //山西
+        }else if(i==34){
+        this.value=getNum("江西");
+        //江西
+        } 
+        
     });
+    
+    function getNum(addName){
+    var data='${data}';
+    	 var index=data.indexOf(addName);
+					   var indexStart=index+addName.length;
+					   var indexEnd=indexStart+2;
+					   var supplierNum=data.substring(indexStart,indexEnd );
+					   if("0123456789".indexOf(supplierNum.substring(supplierNum.length-1, supplierNum.length))==-1){
+					   		supplierNum=supplierNum.substring(0,1);
+					   }
+					  return supplierNum;
+    }
 		function getPoint(e){
 			console.log(e.point.name);
 		}
@@ -156,7 +275,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
         chart : {
 					spacingBottom:30,
-				 
             events: {
                
             }
@@ -276,68 +394,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         }
     });
 });
-
-var base64EncodeChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";  
-var base64DecodeChars = new Array(  
-    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  
-    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  
-    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 62, -1, -1, -1, 63,  
-    52, 53, 54, 55, 56, 57, 58, 59, 60, 61, -1, -1, -1, -1, -1, -1,  
-    -1,  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14,  
-    15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, -1, -1, -1, -1, -1,  
-    -1, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,  
-    41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, -1, -1, -1, -1, -1);  
-
-
-function base64decode(str) {  
-    var c1, c2, c3, c4;  
-    var i, len, out;  
-  
-    len = str.length;  
-    i = 0;  
-    out = "";  
-    while(i < len) {  
-    /* c1 */  
-    do {  
-        c1 = base64DecodeChars[str.charCodeAt(i++) & 0xff];  
-    } while(i < len && c1 == -1);  
-    if(c1 == -1)  
-        break;  
-  
-    /* c2 */  
-    do {  
-        c2 = base64DecodeChars[str.charCodeAt(i++) & 0xff];  
-    } while(i < len && c2 == -1);  
-    if(c2 == -1)  
-        break;  
-  
-    out += String.fromCharCode((c1 << 2) | ((c2 & 0x30) >> 4));  
-  
-    /* c3 */  
-    do {  
-        c3 = str.charCodeAt(i++) & 0xff;  
-        if(c3 == 61)  
-        return out;  
-        c3 = base64DecodeChars[c3];  
-    } while(i < len && c3 == -1);  
-    if(c3 == -1)  
-        break;  
-  
-    out += String.fromCharCode(((c2 & 0XF) << 4) | ((c3 & 0x3C) >> 2));  
-  
-    /* c4 */  
-    do {  
-        c4 = str.charCodeAt(i++) & 0xff;  
-        if(c4 == 61)  
-        return out;  
-        c4 = base64DecodeChars[c4];  
-    } while(i < len && c4 == -1);  
-    if(c4 == -1)  
-        break;  
-    out += String.fromCharCode(((c3 & 0x03) << 6) | c4);  
-    }  
-    return out;  
-}  
 function goHome(){
 	window.open("http://www.peng8.net/");
 }
@@ -356,6 +412,7 @@ function chongzhi(){
 	$("#endDate").val('');
 	$("#contactName").val('');
 	$("option")[0].selected = true;
+	$("option")[3].selected = true;
 }
 $(function() {
 		var optionNodes = $("option");
@@ -402,7 +459,7 @@ $(function() {
 							   		<option  value="销售型">销售型</option>
 							   </select>
 							   <select name="status" class="fl" >
-							   		<option selected="selected" value=''>-请选择-</option>
+							   		<option  selected="selected" value=''>-请选择-</option>
 									<option  value="-1">暂存、未提交</option>
 							   		<option  value="0">待初审</option>
 							   		<option  value="1">待复审</option>

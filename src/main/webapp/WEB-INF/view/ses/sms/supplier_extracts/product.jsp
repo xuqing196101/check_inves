@@ -59,13 +59,11 @@
         };
 	     treeObj=$.fn.zTree.init($("#ztree"),setting,datas);
 	     
-// 	     $("input[name='expertstypeid']").eq("${extConType.expertsTypeId}").attr("checked","checked"); 
     });
     var treeid=null;
   /*树点击事件*/
   function zTreeOnClick(event,treeId,treeNode){
       treeid=treeNode.id;
-      alert("s");
   }
   /*树点击事件*/
   var check;
@@ -86,13 +84,16 @@
     	  name=treeNode;
       }
       if(name.name=="货物"){
-    	  if(check!=null){
+    	 var boo= name.checked;
+    	 if(boo==false){
     		  $("#ultype").css("display","none");
-    		  check=null;
-    	  }else{
+    		  document.getElementById("xschecked").checked=false;
+    	 }else{
     		  $("#ultype").css("display","block");
-              check="物资";
-    	  }
+    		  document.getElementById("xschecked").checked=true;
+    	 }
+      }else{
+    	   document.getElementById("xschecked").checked=false;
       }
       
   }
@@ -120,7 +121,11 @@
 //        //品目id
 //          parent.$("#extheading").val(ids);
          //类型
-          var expertstypeid=$('input[name="expertstypeid"]:checked ').val();
+       
+          var expertstypeid=""; 
+          $('input[name="expertstypeid"]:checked').each(function(){ 
+        	  expertstypeid+=$(this).val()+"^";
+          }); 
           //是否满足
           var issatisfy=$('input[name="radio"]:checked ').val();
           
@@ -132,16 +137,16 @@
 	              "<td class='tc w30'><input type='checkbox' value=''"+
 	                  "name='chkItem' onclick='check()'></td>"+
 	              "<td class='tc'>";
-	              if(expertstypeid==1){
-	            	   html+="<input class='hide' readonly='readonly' type='text' value='技术'>";
-	              }else if(expertstypeid==2){
-	            	    html+="<input class='hide' readonly='readonly' type='text' value='法律'>";
-	              }else if(expertstypeid==3){
-	            	    html+="<input class='hide' readonly='readonly' type='text' value='商务'>";
+	              if(expertstypeid=='18A966C6FF17462AA0C015549F9EAD79^E73923CC68A44E2981D5EA6077580372^'){
+	            	   html+="<input class='hide' readonly='readonly' type='text' value='生产型,销售型'>";
+	              }else if(expertstypeid=='E73923CC68A44E2981D5EA6077580372^'){
+	            	    html+="<input class='hide' readonly='readonly' type='text' value='生产型'>";
+	              }else if(expertstypeid=='18A966C6FF17462AA0C015549F9EAD79^'){
+	            	    html+="<input class='hide' readonly='readonly' type='text' value='销售型'>";
 	              }
                   html+="</td>"+
 	              "<td class='tc'><input class='hide' name='extCount' readonly='readonly' type='text' value='"+$('#extcount').val()+"'></td>"+
-	              "<td class='tc'><input class='hide' name='extQualifications' readonly='readonly' type='text' value='"+$('#extqualifications').val()+"'></td>"+
+	             
 	              "<td class='tc'><input class='hide' name='extCategoryName' readonly='readonly' type='text' value='"+names+"'></td>"+
 	             "</tr>";
 	             parent.$("#tbody").append(html);
@@ -160,7 +165,7 @@
 					<input class="span2" name="id" type="hidden">
 					<li class="col-md-6 p0 ">供应商数量：
 						<div class="input-append">
-							<input class="span2 w200" id="extcount" name="title" type="text">
+							<input class="span2 w200" id="extcount" value="10" name="title" type="text">
 						</div>
 					</li>
 					<!-- 					<li class="col-md-6 p0 ">产品目录名称： -->
@@ -182,27 +187,27 @@
 				</ul>
 				<br />
 			</div>
-			<div id="ztree" class="ztree"></div>
+			<div id="ztree" class="ztree margin-left-13"></div>
 			<br />
 			<ul id="ultype" class="list-unstyled list-flow p0_20 none">
 				<li class="col-md-6 p0 ">
 				<div  class="ml5 fl">供应商类型:</div>
 					<div class="fl mr10">
-					  <input name="expertstypeid" class="fl" checked="checked" type="radio"
-                            value="1">
+					  <input name="expertstypeid" class="fl"  id="xschecked"  type="checkbox"
+                            value="18A966C6FF17462AA0C015549F9EAD79">
 						<div class="ml5 fl">销售型</div>
 					</div>
 					<div class="fl mr10">
-						<input name="expertstypeid" class="fl" type="radio" value="2">
+						<input name="expertstypeid" class="fl" type="checkbox" value="E73923CC68A44E2981D5EA6077580372">
 						<div class="ml5 fl">生产型</div>
 					</div>
 				</li>
 			</ul>
 			<div class="col-md-12">
 				<div class="fl padding-10">
-					<button class="btn btn-windows reset" type="button"
+					<button class="btn btn-windows git" type="button"
 						onclick="getChildren();">确定</button>
-					<button class="btn btn-windows git" type="reset">清空</button>
+					<button class="btn btn-windows reset" type="reset">清空</button>
 				</div>
 			</div>
 		</form>

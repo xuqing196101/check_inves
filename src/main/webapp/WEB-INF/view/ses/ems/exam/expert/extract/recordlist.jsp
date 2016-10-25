@@ -209,7 +209,7 @@ $(function(){
 				<c:forEach items="${listExtractRecord.list}" var="extract" varStatus="vs">
 					<tr  onclick="show('${extract.id}');">
 						<td class="tc">${(vs.index+1)+(listExtractRecord.pageNum-1)*(listExtractRecord.pageSize)}</td>
-						<td class="tc">${extract.projectName}sdds</td>
+						<td class="tc">${extract.projectName}</td>
  						<td class="tc"><fmt:formatDate 
  								value="${extract.extractionTime}" 
  								pattern="yyyy年MM月dd日   " /></td> 

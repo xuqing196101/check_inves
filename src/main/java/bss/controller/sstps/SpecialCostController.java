@@ -47,6 +47,30 @@ public class SpecialCostController {
 	}
 	
 	/**
+	* @Title: view
+	* @author Shen Zhenfei 
+	* @date 2016-10-22 下午2:50:47  
+	* @Description: 查看
+	* @param @param model
+	* @param @param proId
+	* @param @param specialCost
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/view")
+	public String view(Model model,String proId,SpecialCost specialCost){
+		
+		ContractProduct contractProduct = new ContractProduct();
+		contractProduct.setId(proId);
+		specialCost.setContractProduct(contractProduct);
+		List<SpecialCost> list = specialCostService.selectProduct(specialCost);
+		model.addAttribute("list", list);
+		model.addAttribute("proId", proId);
+		
+		return "bss/sstps/offer/supplier/list/specialCost_list";
+	}
+	
+	/**
 	* @Title: add
 	* @author Shen Zhenfei 
 	* @date 2016-10-14 下午3:35:09  

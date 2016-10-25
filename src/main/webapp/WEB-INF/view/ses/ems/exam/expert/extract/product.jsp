@@ -12,6 +12,9 @@
 <title></title>
 <link rel="stylesheet" type="text/css"
 	href="<%=basePath%>/public/ztree/css/zTreeStyle.css">
+	<link rel="stylesheet"
+    href="<%=basePath%>public/supplier/css/supplieragents.css"
+    type="text/css">
 <script type="text/javascript"
 	src="<%=basePath%>/public/ztree/jquery.ztree.core.js"></script>
 <script type="text/javascript"
@@ -53,11 +56,10 @@
                           enable: true
                      }
         };
-	     treeObj=$.fn.zTree.init($("#ztree"),setting,datas);
-	     
+	     treeObj=$.fn.zTree.init($("#ztree"),setting,datas);	     
 	     var Obj=$.fn.zTree.getZTreeObj("ztree");  
-	     var nodes = Obj.getCheckedNodes(false);
-	     var ch=obj.getNodes()[0].children;
+// 	     var nodes = Obj.getCheckedNodes(false);
+	     var ch=Obj.getNodes()[0].children;
 	     while(ch!=null){
 	    	 Obj.checkNode(ch[0], true, true);
 	         ch=ch[0].children;
@@ -120,7 +122,16 @@
 	             var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
 	             parent.layer.close(index);
   }
-      
+  function exptype(){
+	   $("#ztree").css("display","none");
+	   $("#liradio").css("display","none");
+	
+  }
+  function exptype1(){
+      $("#ztree").css("display","block");
+      $("#liradio").css("display","block");
+   
+ }
 </script>
 </head>
 <body>
@@ -131,32 +142,45 @@
 			<div>
 				<ul class="list-unstyled list-flow p0_20">
 					<input class="span2" name="id" type="hidden">
-					<li class="col-md-6 p0 ">专家类型
- 					
-							<input name="expertstypeid" checked="checked" type="radio" value="1">技术<input
-								name="expertstypeid" type="radio" value="2">商务<input
-								name="expertstypeid" type="radio" value="3">法律
- 					
-					</li>
-					<li class="col-md-6 p0 ">专家数量：
-						<div class="input-append">
-							<input class="span2 w200" value="10" id="extcount" name="title" type="text">
+					<li class="col-md-6 p0 fl">
+						<div class="fl mr10">专家类型：</div>
+						<div class="fl mr10">
+							<input name="expertstypeid" checked="checked" type="radio"
+								onclick="exptype1();" class="fl" value="1">
+							<div class="ml5 fl">技术</div>
+						</div>
+						<div class="fl mr10">
+							<input name="expertstypeid" type="radio" onclick="exptype();"
+								class="fl" value="2">
+							<div class="ml5 fl">商务</div>
+						</div>
+						<div class="fl mr10">
+							<input name="expertstypeid" type="radio" onclick="exptype();"
+								class="fl" value="3">
+							<div class="ml5 fl">法律</div>
 						</div>
 					</li>
-					<li class="col-md-6 p0 ">执业资格：
+					<li class="col-md-6 p0 fl">专家数量：
+						<div class="input-append">
+							<input class="span2 w200" value="10" id="extcount" name="title"
+								type="text">
+						</div>
+					</li>
+					<li class="col-md-6 p0 fl">执业资格：
 						<div class="input-append">
 							<input class="span2 w200" id="extqualifications" name="title"
 								type="text">
 						</div>
 					</li>
-<!-- 					<li class="col-md-6 p0 ">产品目录名称： -->
-<!-- 						<div class="input-append"> -->
-<!-- 							<input class="span2 w200" name="title" type="text"> -->
-<!-- 						</div> -->
-<!-- 					</li> -->
-					<li class="col-md-6  p0 ">
+					<!-- 					<li class="col-md-6 p0 ">产品目录名称： -->
+					<!-- 						<div class="input-append"> -->
+					<!-- 							<input class="span2 w200" name="title" type="text"> -->
+					<!-- 						</div> -->
+					<!-- 					</li> -->
+					<li class="col-md-6  p0 " id="liradio">
 						<div class="fl mr10">
-							<input type="radio" name="radio" id="radio" checked="checked" value="1" class="fl" />
+							<input type="radio" name="radio" id="radio" checked="checked"
+								value="1" class="fl" />
 							<div class="ml5 fl">满足某一产品条件即可</div>
 						</div>
 						<div class="fl mr10">
@@ -165,18 +189,16 @@
 						</div>
 					</li>
 				</ul>
-				<br /> <br />
 			</div>
-			<div id="ztree" class="ztree"></div>
-			<div class="col-md-12">
-				<div class="fl padding-10">
-					<button class="btn btn-windows reset" type="button"
+			<div id="ztree" class="ztree margin-left-13" ></div>
+			<div class="col-md-12" align="center">
+				<div class="fl padding-10" align="center">
+					<button class="btn btn-windows git" type="button"
 						onclick="getChildren();">确定</button>
-					<button class="btn btn-windows git" type="reset">清空</button>
+					<button class="btn btn-windows reset" type="reset">清空</button>
 				</div>
 			</div>
 		</form>
 	</div>
-
 </body>
 </html>

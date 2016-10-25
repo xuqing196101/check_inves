@@ -128,7 +128,7 @@ function nextStep(){
 	<div class="container margin-top-5">
 	 	<div class="container padding-left-25 padding-right-25">
 			<table class="table table-bordered table-condensed">
-				<tobdy>
+				<thead>
 					<tr>
 						<th class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 						<th class="info">序号</th>
@@ -144,7 +144,8 @@ function nextStep(){
 						<th class="info">单位产品分摊额</th>
 						<th class="info">备   注</th>
 					</tr>
-				</tobdy>
+				</thead>
+				<tbody>
 				<c:forEach items="${list}" var="sc" varStatus="vs">
 					<tr>
 						<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${sc.id }" /></td>
@@ -162,13 +163,14 @@ function nextStep(){
 						<td class="tc">${sc.remark }</td>
 					</tr>
 				</c:forEach>
+				</tbody>
 			</table>
 		</div>
 		
 		<div  class="col-md-12">
 		   <div class="mt40 tc mb50">
-		    <button class="btn btn-windows " type="button" onclick="onStep()">上一步</button>
-		    <button class="btn btn-windows " type="button" onclick="nextStep()">下一步</button>
+		    <button class="btn" type="button" onclick="onStep()">上一步</button>
+		    <button class="btn" type="button" onclick="nextStep()">下一步</button>
 		   </div>
 	 	 </div>
 	 	 

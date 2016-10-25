@@ -39,16 +39,16 @@ public class ExpExtCondition {
 		super();
 		this.projectId = projectId;
 	}
-
-
-	/**
+    
+    private List<ExtConType> conTypes;
+  
+    /**
      * <pre>
      * 表字段 : T_SES_EMS_EXP_EXT_CONDITION.ID
      * </pre>
      */
     private String id;
-    
-    private List<ExtConType> conTypes;
+
     /**
      * <pre>
      * 项目id
@@ -99,11 +99,11 @@ public class ExpExtCondition {
 
     /**
      * <pre>
-     * 年龄
-     * 表字段 : T_SES_EMS_EXP_EXT_CONDITION.AGE
+     * 最大年龄
+     * 表字段 : T_SES_EMS_EXP_EXT_CONDITION.AGE_MAX
      * </pre>
      */
-    private String age;
+    private String ageMax;
 
     /**
      * <pre>
@@ -144,6 +144,30 @@ public class ExpExtCondition {
      * </pre>
      */
     private String expertsFrom;
+
+    /**
+     * <pre>
+     * 专家所在地区id
+     * 表字段 : T_SES_EMS_EXP_EXT_CONDITION.ADDRESS_ID
+     * </pre>
+     */
+    private String addressId;
+
+    /**
+     * <pre>
+     * 最小年龄
+     * 表字段 : T_SES_EMS_EXP_EXT_CONDITION.AGE_MIN
+     * </pre>
+     */
+    private String ageMin;
+
+    /**
+     * <pre>
+     * 抽取地址
+     * 表字段 : T_SES_EMS_EXP_EXT_CONDITION.EXTRACT_ADDRESS
+     * </pre>
+     */
+    private String extractAddress;
 
     /**
      * <pre>
@@ -322,27 +346,27 @@ public class ExpExtCondition {
 
     /**
      * <pre>
-     * 获取：年龄
-     * 表字段：T_SES_EMS_EXP_EXT_CONDITION.AGE
+     * 获取：最大年龄
+     * 表字段：T_SES_EMS_EXP_EXT_CONDITION.AGE_MAX
      * </pre>
      *
-     * @return T_SES_EMS_EXP_EXT_CONDITION.AGE：年龄
+     * @return T_SES_EMS_EXP_EXT_CONDITION.AGE_MAX：最大年龄
      */
-    public String getAge() {
-        return age;
+    public String getAgeMax() {
+        return ageMax;
     }
 
     /**
      * <pre>
-     * 设置：年龄
-     * 表字段：T_SES_EMS_EXP_EXT_CONDITION.AGE
+     * 设置：最大年龄
+     * 表字段：T_SES_EMS_EXP_EXT_CONDITION.AGE_MAX
      * </pre>
      *
-     * @param age
-     *            T_SES_EMS_EXP_EXT_CONDITION.AGE：年龄
+     * @param ageMax
+     *            T_SES_EMS_EXP_EXT_CONDITION.AGE_MAX：最大年龄
      */
-    public void setAge(String age) {
-        this.age = age == null ? null : age.trim();
+    public void setAgeMax(String ageMax) {
+        this.ageMax = ageMax == null ? null : ageMax.trim();
     }
 
     /**
@@ -470,15 +494,98 @@ public class ExpExtCondition {
         this.expertsFrom = expertsFrom == null ? null : expertsFrom.trim();
     }
 
+    /**
+     * <pre>
+     * 获取：专家所在地区id
+     * 表字段：T_SES_EMS_EXP_EXT_CONDITION.ADDRESS_ID
+     * </pre>
+     *
+     * @return T_SES_EMS_EXP_EXT_CONDITION.ADDRESS_ID：专家所在地区id
+     */
+    public String getAddressId() {
+        return addressId;
+    }
 
+    /**
+     * <pre>
+     * 设置：专家所在地区id
+     * 表字段：T_SES_EMS_EXP_EXT_CONDITION.ADDRESS_ID
+     * </pre>
+     *
+     * @param addressId
+     *            T_SES_EMS_EXP_EXT_CONDITION.ADDRESS_ID：专家所在地区id
+     */
+    public void setAddressId(String addressId) {
+        this.addressId = addressId == null ? null : addressId.trim();
+    }
+
+    /**
+     * <pre>
+     * 获取：最小年龄
+     * 表字段：T_SES_EMS_EXP_EXT_CONDITION.AGE_MIN
+     * </pre>
+     *
+     * @return T_SES_EMS_EXP_EXT_CONDITION.AGE_MIN：最小年龄
+     */
+    public String getAgeMin() {
+        return ageMin;
+    }
+
+    /**
+     * <pre>
+     * 设置：最小年龄
+     * 表字段：T_SES_EMS_EXP_EXT_CONDITION.AGE_MIN
+     * </pre>
+     *
+     * @param ageMin
+     *            T_SES_EMS_EXP_EXT_CONDITION.AGE_MIN：最小年龄
+     */
+    public void setAgeMin(String ageMin) {
+        this.ageMin = ageMin == null ? null : ageMin.trim();
+    }
+
+    /**
+     * <pre>
+     * 获取：抽取地址
+     * 表字段：T_SES_EMS_EXP_EXT_CONDITION.EXTRACT_ADDRESS
+     * </pre>
+     *
+     * @return T_SES_EMS_EXP_EXT_CONDITION.EXTRACT_ADDRESS：抽取地址
+     */
+    public String getExtractAddress() {
+        return extractAddress;
+    }
+
+    /**
+     * <pre>
+     * 设置：抽取地址
+     * 表字段：T_SES_EMS_EXP_EXT_CONDITION.EXTRACT_ADDRESS
+     * </pre>
+     *
+     * @param extractAddress
+     *            T_SES_EMS_EXP_EXT_CONDITION.EXTRACT_ADDRESS：抽取地址
+     */
+    public void setExtractAddress(String extractAddress) {
+        this.extractAddress = extractAddress == null ? null : extractAddress.trim();
+    }
+
+
+
+	/**
+	 * @return the conTypes
+	 */
 	public List<ExtConType> getConTypes() {
 		return conTypes;
 	}
 
 
+
+	/**
+	 * @param conTypes the conTypes to set
+	 */
 	public void setConTypes(List<ExtConType> conTypes) {
 		this.conTypes = conTypes;
 	}
-
+    
     
 }

@@ -155,30 +155,28 @@ public class TaskAdjustController extends BaseController{
 	 */
 	@RequestMapping("/update")
 	public String updateById(PurchaseRequiredFormBean list,MultipartFile file,HttpServletRequest request){
-		
-		
-		
+		Map<String,Object> map=new HashMap<String,Object>();
 		if(list!=null){
 			if(list.getList()!=null&&list.getList().size()>0){
 				for( PurchaseRequired p:list.getList()){
 					if( p.getId()!=null){
+						String id = UUID.randomUUID().toString().replaceAll("-", "");
+						map.put("oid", id);
 						PurchaseRequired queryById = purchaseRequiredService.queryById(p.getId());
 						Integer s=Integer.valueOf(purchaseRequiredService.queryByNo(p.getPlanNo()))+1;
-						queryById.setHistoryStatus(String.valueOf(s));
-						purchaseRequiredService.update(queryById);
-						
-//						
-//						if(p.getParentId()!=null){
-//							p.setParentId(p.getParentId());
-//						}
-						String id = UUID.randomUUID().toString().replaceAll("-", "");
-						queryById.setId(id);
+						map.put("historyStatus", s);
+						map.put("id", p.getId());
+						purchaseRequiredService.update(map);
+						if(p.getParentId()!=null){
+							p.setParentId(p.getParentId());
+						}
+						queryById.setId(p.getId());
 						queryById.setHistoryStatus("0");
-						purchaseRequiredService.add(queryById);	
-					}else{
-						String id = UUID.randomUUID().toString().replaceAll("-", "");
-						p.setId(id);
 						purchaseRequiredService.add(p);	
+					}else{
+//						String id = UUID.randomUUID().toString().replaceAll("-", "");
+//						p.setId(id);
+//						purchaseRequiredService.add(p);	
 					}
 				}
 			}

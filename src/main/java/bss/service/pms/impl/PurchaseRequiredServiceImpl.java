@@ -34,8 +34,8 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 	}
 
 	@Override
-	public void update(PurchaseRequired purchaseRequired) {
-		purchaseRequiredMapper.updateByPrimaryKeySelective(purchaseRequired);
+	public void update(Map<String,Object> map) {
+		purchaseRequiredMapper.history(map);
 		
 	}
 
@@ -113,6 +113,11 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 		// 
 		return purchaseRequiredMapper.statisticOrg(map);
 	}
+
+    @Override
+    public void updateByPrimaryKeySelective(PurchaseRequired purchaseRequired) {
+        purchaseRequiredMapper.updateByPrimaryKeySelective(purchaseRequired);
+    }
 	
 	 
 

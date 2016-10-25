@@ -272,9 +272,9 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
      * @return List<SupplierAudit>
      */
 	@Override
-	public List<SupplierAudit> selectByPrimaryKey(String supplierId) {
+	public List<SupplierAudit> selectByPrimaryKey(SupplierAudit supplierAudit) {
 		
-		return supplierAuditMapper.selectByPrimaryKey(supplierId);
+		return supplierAuditMapper.selectByPrimaryKey(supplierAudit);
 	}
 	
 	/**
@@ -438,7 +438,22 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		
 		return supplierMatSeMapper.getMatSeBySupplierId(supplierId);
 	}
-
+	
+	/**
+     * @Title: updateStatusByid
+     * @author Xu Qing
+     * @date 2016-10-22 下午4:49:44  
+     * @Description: 根据id更新状态 
+     * @param @param supplierAudit      
+     * @return void
+     */
+	@Override
+	public void updateStatusById(SupplierAudit supplierAudit) {
+		supplierAuditMapper.updateByPrimaryKeySelective(supplierAudit);
+		
+	}
+	
+	
 	@Override
 	public void updateSupplierInspectListById(Supplier supplier) {
 		supplierMapper.updateSupplierInspectListById(supplier);
@@ -512,4 +527,5 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		}
 		return listSupplier;
 	}
+
 }

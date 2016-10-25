@@ -127,7 +127,7 @@ public interface CategoryMapper {
 	* @param @param id
 	* @return int
 	 */
-	public List<Category> listByKeyword(Map map);
+	public List<Category> listByKeyword(Map<String, Object> map);
 
 	
 
@@ -159,4 +159,15 @@ public interface CategoryMapper {
 	* @return Integer
 	 */
     BigDecimal checkName(String name); 
+    /**
+	 * 
+	* @Title: listByParamstatus
+	* @author zhangxuefeng 
+	* @Description:根据参数状态查询品目
+	* @param @param category
+	* @return     List
+	 */
+    List<Category> listByParamstatus(Map<String, Integer> map);
+    
+    List<Category> findByStatus();
 }
