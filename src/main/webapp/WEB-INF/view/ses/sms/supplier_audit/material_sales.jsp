@@ -173,42 +173,8 @@ function reason1(id,auditField){
     });
   });
 
-function tijiao(str){
-  var action;
-  if(str=="essential"){
-     action ="<%=basePath%>supplierAudit/essential.html";
-  }
-  if(str=="financial"){
-    action = "<%=basePath%>supplierAudit/financial.html";
-  }
-  if(str=="shareholder"){
-    action = "<%=basePath%>supplierAudit/shareholder.html";
-  }
-  if(str=="materialProduction"){
-    action = "<%=basePath%>supplierAudit/materialProduction.html";
-  }
-  if(str=="materialSales"){
-    action = "<%=basePath%>supplierAudit/materialSales.html";
-  }
-  if(str=="engineering"){
-    action = "<%=basePath%>supplierAudit/engineering.html";
-  }
-  if(str=="service"){
-    action = "${pageContext.request.contextPath}/supplierAudit/serviceInformation.html";
-  }
-  if(str=="items"){
-  action = "${pageContext.request.contextPath}/supplierAudit/items.html";
-  }
-  if(str=="applicationFrom"){
-    action = "${pageContext.request.contextPath}/supplierAudit/applicationForm.html";
-  }
-  if(str=="reasonsList"){
-    action = "<%=basePath%>supplierAudit/reasonsList.html";
-  }
-  if(str=="product"){
-    action = "${pageContext.request.contextPath}/supplierAudit/product.html";
-  }
-  $("#form_id").attr("action",action);
+function tijiao(url){
+  $("#form_id").attr("action",url);
   $("#form_id").submit();
 }
 </script>
@@ -336,7 +302,9 @@ function tijiao(str){
 	                      </li>
 	                    </ul>
 	                  </div>
-                  
+                  <div class="col-md-12 add_regist tc">
+                    <a class="btn btn-windows save" onclick="tijiao('${url}');">下一步</a>
+                  </div>
               </div>
             </div>   
           </div>

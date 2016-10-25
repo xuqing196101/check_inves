@@ -14,6 +14,7 @@ import org.mybatis.generator.api.ShellRunner;
 public class MybatisConf {
 
 	public static void main(String[] args) {
+		//File file1 = new File("D:/WORKproject/jdcg/jdcg/src/main/java/yggc/main/generator.xml"); 
 		//File file1 = new File("D:/WORKproject/jdcg/jdcg/src/main/java/ses/main/generator.xml"); 
 		File file1 = new File("E:/workspace_zh/zhbj/src/main/java/ses/main/generator.xml"); 
 		String mysql_config = file1.getPath();

@@ -5,14 +5,16 @@
     <id column="ID" jdbcType="VARCHAR" property="id" />
     <result column="NAME" jdbcType="VARCHAR" property="name" />
     <result column="KIND" jdbcType="VARCHAR" property="kind" />
-    <result column="CREATED_AT" jdbcType="VARCHAR" property="createdAt" />
+    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
     <result column="CREATER" jdbcType="VARCHAR" property="creater" />
     <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
     <result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
+    <result column="IS_CONFIRM" jdbcType="DECIMAL" property="isConfirm" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, NAME, KIND, CREATED_AT, CREATER, UPDATED_AT, PROJECT_ID
+    ID, NAME, KIND, CREATED_AT, CREATER, UPDATED_AT, PROJECT_ID, IS_CONFIRM
   </sql>
+  
   <!-- 根据项目id 查询初审项集合 -->
    <select id="selectListByProjectId" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -20,6 +22,7 @@
     from T_BSS_PRMS_FIRST_AUDIT
     where PROJECT_ID = #{projectId,jdbcType=VARCHAR}
   </select>
+  
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -33,10 +36,10 @@
   <insert id="insert" parameterType="bss.model.prms.FirstAudit">
     insert into T_BSS_PRMS_FIRST_AUDIT (ID, NAME, KIND, 
       CREATED_AT, CREATER, UPDATED_AT, 
-      PROJECT_ID)
+      PROJECT_ID, IS_CONFIRM)
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{kind,jdbcType=VARCHAR}, 
-      #{createdAt,jdbcType=VARCHAR}, #{creater,jdbcType=VARCHAR}, #{updatedAt,jdbcType=DATE}, 
-      #{projectId,jdbcType=VARCHAR})
+      #{createdAt,jdbcType=DATE}, #{creater,jdbcType=VARCHAR}, #{updatedAt,jdbcType=DATE}, 
+      #{projectId,jdbcType=VARCHAR}, #{isConfirm,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="bss.model.prms.FirstAudit">
     insert into T_BSS_PRMS_FIRST_AUDIT
@@ -62,6 +65,9 @@
       <if test="projectId != null">
         PROJECT_ID,
       </if>
+      <if test="isConfirm != null">
+        IS_CONFIRM,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -74,7 +80,7 @@
         #{kind,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
-        #{createdAt,jdbcType=VARCHAR},
+        #{createdAt,jdbcType=DATE},
       </if>
       <if test="creater != null">
         #{creater,jdbcType=VARCHAR},
@@ -84,6 +90,9 @@
       </if>
       <if test="projectId != null">
         #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="isConfirm != null">
+        #{isConfirm,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -97,7 +106,7 @@
         KIND = #{kind,jdbcType=VARCHAR},
       </if>
       <if test="createdAt != null">
-        CREATED_AT = #{createdAt,jdbcType=VARCHAR},
+        CREATED_AT = #{createdAt,jdbcType=DATE},
       </if>
       <if test="creater != null">
         CREATER = #{creater,jdbcType=VARCHAR},
@@ -108,6 +117,9 @@
       <if test="projectId != null">
         PROJECT_ID = #{projectId,jdbcType=VARCHAR},
       </if>
+      <if test="isConfirm != null">
+        IS_CONFIRM = #{isConfirm,jdbcType=DECIMAL},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -115,10 +127,11 @@
     update T_BSS_PRMS_FIRST_AUDIT
     set NAME = #{name,jdbcType=VARCHAR},
       KIND = #{kind,jdbcType=VARCHAR},
-      CREATED_AT = #{createdAt,jdbcType=VARCHAR},
+      CREATED_AT = #{createdAt,jdbcType=DATE},
       CREATER = #{creater,jdbcType=VARCHAR},
       UPDATED_AT = #{updatedAt,jdbcType=DATE},
-      PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+      PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+      IS_CONFIRM = #{isConfirm,jdbcType=DECIMAL}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

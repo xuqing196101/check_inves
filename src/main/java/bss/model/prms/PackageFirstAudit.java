@@ -1,12 +1,13 @@
 package bss.model.prms;
 
 public class PackageFirstAudit {
-	/*包id*/
     private String packageId;
-    /*初审项id*/
+
     private String firstAuditId;
-    /*项目id*/
+
     private String projectId;
+
+    private Short isConfirm;
 
     public String getPackageId() {
         return packageId;
@@ -30,5 +31,13 @@ public class PackageFirstAudit {
 
     public void setProjectId(String projectId) {
         this.projectId = projectId == null ? null : projectId.trim();
+    }
+
+    public Short getIsConfirm() {
+        return isConfirm;
+    }
+
+    public void setIsConfirm(Short isConfirm) {
+        this.isConfirm = isConfirm;
     }
 }

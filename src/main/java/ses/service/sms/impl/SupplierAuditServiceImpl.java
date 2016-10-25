@@ -15,13 +15,13 @@ import ses.dao.sms.SupplierAptituteMapper;
 import ses.dao.sms.SupplierAuditMapper;
 import ses.dao.sms.SupplierCertEngMapper;
 import ses.dao.sms.SupplierCertProMapper;
-import ses.dao.sms.SupplierCertSeMapper;
+import ses.dao.sms.SupplierCertServeMapper;
 import ses.dao.sms.SupplierCertSellMapper;
 import ses.dao.sms.SupplierFinanceMapper;
 import ses.dao.sms.SupplierMapper;
 import ses.dao.sms.SupplierMatEngMapper;
 import ses.dao.sms.SupplierMatProMapper;
-import ses.dao.sms.SupplierMatSeMapper;
+import ses.dao.sms.SupplierMatServeMapper;
 import ses.dao.sms.SupplierStarsMapper;
 import ses.dao.sms.SupplierStockholderMapper;
 import ses.dao.sms.SupplierTypeMapper;
@@ -31,12 +31,12 @@ import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
-import ses.model.sms.SupplierCertSe;
+import ses.model.sms.SupplierCertServe;
 import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
-import ses.model.sms.SupplierMatSe;
+import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierStars;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierType;
@@ -128,13 +128,13 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	 * 服务-资质证书信息
 	 */
 	@Autowired
-	private SupplierCertSeMapper supplierCertSeMapper;
+	private SupplierCertServeMapper supplierCertSeMapper;
 	
 	/**
 	 * 服务-组织结构和人员
 	 */
 	@Autowired
-	private SupplierMatSeMapper supplierMatSeMapper;
+	private SupplierMatServeMapper supplierMatSeMapper;
 	
 	/**
 	 * 勾选的供应商类型
@@ -419,7 +419,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
      * @return List<SupplierCertSe>
      */
 	@Override
-	public List<SupplierCertSe> findCertSeBySupplierId(String supplierId) {
+	public List<SupplierCertServe> findCertSeBySupplierId(String supplierId) {
 		
 		return supplierCertSeMapper.findCertSeBySupplierId(supplierId);
 	}
@@ -434,7 +434,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
      * @return SupplierMatSell
      */
 	@Override
-	public SupplierMatSe findMatSeBySupplierId(String supplierId) {
+	public SupplierMatServe findMatSeBySupplierId(String supplierId) {
 		
 		return supplierMatSeMapper.getMatSeBySupplierId(supplierId);
 	}

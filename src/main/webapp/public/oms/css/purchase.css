@@ -16,3 +16,11 @@ touch-action: manipulation;
 cursor: pointer;
 border: 1px solid transparent;
 }
+
+textarea.wh212-67 {
+	width: 212px !important;
+	height: 77px !important;
+}
+div.popover-content{
+	color: yellow;
+}

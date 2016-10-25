@@ -5,7 +5,7 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ses.dao.sms.SupplierMatSeMapper;
+import ses.dao.sms.SupplierMatServeMapper;
 import ses.model.sms.Supplier;
 import ses.service.sms.SupplierMatSeService;
 
@@ -13,7 +13,7 @@ import ses.service.sms.SupplierMatSeService;
 public class SupplierMatSeServiceImpl implements SupplierMatSeService {
 
 	@Autowired
-	private SupplierMatSeMapper supplierMatSeMapper;
+	private SupplierMatServeMapper supplierMatSeMapper;
 
 	@Override
 	public void saveOrUpdateSupplierMatSe(Supplier supplier) {

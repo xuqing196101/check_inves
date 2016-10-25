@@ -9,12 +9,12 @@ import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
-import ses.model.sms.SupplierCertSe;
+import ses.model.sms.SupplierCertServe;
 import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
-import ses.model.sms.SupplierMatSe;
+import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierType;
 /**
@@ -230,7 +230,7 @@ public interface SupplierAuditService {
      * @param @return      
      * @return List<SupplierCertSe>
      */
-    List<SupplierCertSe> findCertSeBySupplierId(String supplierId);
+    List<SupplierCertServe> findCertSeBySupplierId(String supplierId);
     
     /**
      * @Title: findMatSellBySupplierId
@@ -241,7 +241,7 @@ public interface SupplierAuditService {
      * @param @return      
      * @return SupplierMatSell
      */
-    SupplierMatSe findMatSeBySupplierId(String supplierId);
+    SupplierMatServe findMatSeBySupplierId(String supplierId);
     
     /**
      * @Title: updateBySupplierId

@@ -17,6 +17,9 @@
     <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     
+    <result column="AUDIT_MONEY" property="auditMoney" />
+    <result column="SUBTRACT" property="subtract" />
+    
     <association property="contract" column="CONTRACT_ID" select="bss.dao.sstps.ContractsMapper.selectById"/>
     <association property="purchaseContract" column="PURCHASE_ID" select="bss.dao.cs.PurchaseContractMapper.selectContractByid"/>
     <association property="user" column="USER_ID" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>
@@ -24,7 +27,7 @@
   
   <sql id="Base_Column_List">
     ID, CONTRACT_ID, APPRAISAL,DISTRIBUTION,USER_ID,PURCHASE_ID,NAME,CODE,MONEY,
-    SUPPLIER_NAME,CREATED_AT,UPDATED_AT,TYPE,PURCHASE_DEP_NAME,APPRAISAL_TASK
+    SUPPLIER_NAME,CREATED_AT,UPDATED_AT,TYPE,PURCHASE_DEP_NAME,APPRAISAL_TASK,AUDIT_MONEY,SUBTRACT
   </sql>
   
   <!--1 查询全部数据 -->
@@ -137,6 +140,12 @@
       <if test="purchaseDepName != null">
         PURCHASE_DEP_NAME,
       </if>
+      <if test="auditMoney != null">
+        AUDIT_MONEY,
+      </if>
+      <if test="subtract != null">
+        SUBTRACT,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -177,6 +186,12 @@
       </if>
       <if test="purchaseDepName != null">
         #{purchaseDepName},
+      </if>
+      <if test="auditMoney != null">
+        #{auditMoney},
+      </if>
+      <if test="subtract != null">
+        #{subtract},
       </if>
     </trim>
   </insert>
@@ -221,8 +236,51 @@
       <if test="appraisalTask != null">
         APPRAISAL_TASK = #{appraisalTask},
       </if>
+      <if test="auditMoney != null">
+      AUDIT_MONEY = #{auditMoney},
+      </if>
+      <if test="subtract != null">
+      SUBTRACT = #{subtract},
+      </if>
     </set>
     where ID = #{id}
   </update>
+  
+  
+  <!-- 已审价合同 -->
+  <select id="selectAppraisal" parameterType="Object" resultMap="AppraisalContractResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_SSTPS_APPRAISAL_CONTRACT
+    where APPRAISAL=2
+    <if test="name != null and name != ''">
+        AND NAME LIKE #{name} 
+      </if>
+      <if test="code != null and code != ''">
+        AND CODE LIKE #{code} 
+      </if>
+      <if test="purchaseDepName != null and purchaseDepName != ''">
+        AND PURCHASE_DEP_NAME LIKE #{purchaseDepName} 
+      </if>
+  </select>
+  
+  <!-- 统计采购机构 -->
+  <select id="selectStatisical" parameterType="Object" resultMap="AppraisalContractResultMap">
+    SELECT
+		PURCHASE_DEP_NAME,
+		SUM(MONEY) as MONEY,
+		sum(AUDIT_MONEY) as AUDIT_MONEY,
+	  ((SUM(MONEY)-SUM(AUDIT_MONEY))/SUM(MONEY)*100) as SUBTRACT
+	FROM
+		T_BSS_SSTPS_APPRAISAL_CONTRACT
+	WHERE
+		APPRAISAL = 2
+	<if test="purchaseDepName != null and purchaseDepName != ''">
+		AND PURCHASE_DEP_NAME = #{purchaseDepName}
+	</if>
+	GROUP BY
+		PURCHASE_DEP_NAME
+  </select>
+  
   
 </mapper>

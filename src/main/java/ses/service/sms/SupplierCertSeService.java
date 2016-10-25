@@ -1,9 +1,9 @@
 package ses.service.sms;
 
-import ses.model.sms.SupplierCertSe;
+import ses.model.sms.SupplierCertServe;
 
 public interface SupplierCertSeService {
-	public void saveOrUpdateCertSe(SupplierCertSe supplierCertSe);
+	public void saveOrUpdateCertSe(SupplierCertServe supplierCertSe);
 
 	public void deleteCertSe(String certSeIds);
 }

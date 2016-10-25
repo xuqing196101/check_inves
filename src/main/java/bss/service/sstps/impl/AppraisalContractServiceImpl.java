@@ -104,5 +104,23 @@ public class AppraisalContractServiceImpl implements AppraisalContractService {
 		return appraisalContractMapper.selectContractId(record);
 	}
 
+	/**
+	 * 统计列表
+	 */
+	@Override
+	public List<AppraisalContract> selectAppraisal(AppraisalContract record) {
+		return appraisalContractMapper.selectAppraisal(record);
+	}
+
+	/**
+	 * 统计图
+	 */
+	@Override
+	public List<AppraisalContract> selectStatisical(AppraisalContract record) {
+		return appraisalContractMapper.selectStatisical(record);
+	}
+	
+	
+
 	
 }

@@ -19,19 +19,18 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import ses.model.bms.Category;
 import ses.model.bms.Todos;
-import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
-import ses.model.sms.SupplierCertSe;
 import ses.model.sms.SupplierCertSell;
+import ses.model.sms.SupplierCertServe;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
-import ses.model.sms.SupplierMatSe;
 import ses.model.sms.SupplierMatSell;
+import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierProducts;
 import ses.model.sms.SupplierStockholder;
 import ses.service.bms.CategoryService;
@@ -218,6 +217,19 @@ public class SupplierAuditController extends BaseSupplierController{
 		request.setAttribute("supplierTypeNames", supplierTypeName);
 		request.setAttribute("supplierId", supplierId);
 		request.setAttribute("shareholder", list);
+		
+		//下一步的跳转页面
+		String url = null;
+		if(supplierTypeName.contains("生产型")){
+			url=request.getContextPath()+"/supplierAudit/materialProduction.html";
+		}else if(supplierTypeName.contains("销售型") && url == null){
+			url=request.getContextPath()+"${pageContext.request.contextPath}/supplierAudit/materialSales.html";
+		}else if(supplierTypeName.contains("工程") && url == null){
+			url=request.getContextPath()+"${pageContext.request.contextPath}/supplierAudit/engineering.html";
+		}else if(supplierTypeName.contains("服务") && url == null){
+			url=request.getContextPath()+"${pageContext.request.contextPath}/supplierAudit/serviceInformation.html";
+		}
+		request.setAttribute("url", url);
 		return "ses/sms/supplier_audit/shareholder";
 	}
 	
@@ -244,6 +256,17 @@ public class SupplierAuditController extends BaseSupplierController{
 		request.setAttribute("supplierId", supplierId);	
 		request.setAttribute("materialProduction",materialProduction);
 		request.setAttribute("supplierMatPros", supplierMatPro);
+		
+		//下一步的跳转页面
+		String url = null;
+		if(supplierTypeName.contains("销售型")){
+			url=request.getContextPath()+"${pageContext.request.contextPath}/supplierAudit/materialSales.html";
+		}else if(supplierTypeName.contains("工程") && url == null){
+			url=request.getContextPath()+"${pageContext.request.contextPath}/supplierAudit/engineering.html";
+		}else if(supplierTypeName.contains("服务") && url == null){
+			url=request.getContextPath()+"${pageContext.request.contextPath}/supplierAudit/serviceInformation.html";
+		}
+		request.setAttribute("url", url);
 		return "ses/sms/supplier_audit/material_production";
 	}
 	
@@ -268,6 +291,15 @@ public class SupplierAuditController extends BaseSupplierController{
 		request.setAttribute("supplierCertSell", supplierCertSell);
 		request.setAttribute("supplierMatSells", supplierMatSell);
 		request.setAttribute("supplierId", supplierId);
+		
+		//下一步的跳转页面
+		String url = null;
+		if(supplierTypeName.contains("工程")){
+			url=request.getContextPath()+"${pageContext.request.contextPath}/supplierAudit/engineering.html";
+		}else if(supplierTypeName.contains("服务") && url == null){
+			url=request.getContextPath()+"${pageContext.request.contextPath}/supplierAudit/serviceInformation.html";
+		}
+		request.setAttribute("url", url);
 		return "ses/sms/supplier_audit/material_sales";
 	}
 	
@@ -295,6 +327,13 @@ public class SupplierAuditController extends BaseSupplierController{
 		request.setAttribute("supplierAptitutes", supplierAptitute);
 		request.setAttribute("supplierMatEngs",supplierMatEng);
 		request.setAttribute("supplierId", supplierId);
+		
+		//下一步的跳转页面
+		String url = null;
+		if(supplierTypeName.contains("服务")){
+			url=request.getContextPath()+"${pageContext.request.contextPath}/supplierAudit/serviceInformation.html";
+		}
+		request.setAttribute("url", url);
 		return "ses/sms/supplier_audit/engineering";
 	}
 	
@@ -309,10 +348,10 @@ public class SupplierAuditController extends BaseSupplierController{
 	 * @return String
 	 */
 	@RequestMapping("serviceInformation")
-	public String serviceInformation(HttpServletRequest request,SupplierMatSe supplierMatSe){
+	public String serviceInformation(HttpServletRequest request,SupplierMatServe supplierMatSe){
 		String supplierId = supplierMatSe.getSupplierId();
 		//资质证书信息
-		List<SupplierCertSe> supplierCertSe = supplierAuditService.findCertSeBySupplierId(supplierId);
+		List<SupplierCertServe> supplierCertSe = supplierAuditService.findCertSeBySupplierId(supplierId);
 		//组织结构和人员
 		supplierMatSe = supplierAuditService.findMatSeBySupplierId(supplierId);
 		//勾选的供应商类型

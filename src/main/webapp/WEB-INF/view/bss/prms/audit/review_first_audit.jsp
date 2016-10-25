@@ -268,10 +268,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													      	</tr>
 													      	 </c:if>
 										 	            </c:forEach>
-										 	            <tr>
-										 	              <td></td>
+										 	            <tr align="center">
+										 	              <td align="center"></td>
 										 	              <c:forEach items="${extension.supplierList }" var="supplier" varStatus="vs">
-										 	            <td style="padding-left: 40; "><input type="radio"  onclick="addAll(this);" name="${vs.index}" value="${supplier.id  },0">全部合格&nbsp;<input type="radio" onclick="addNotAll(this);" name="${vs.index}" value="${supplier.id  },1">全部不合格
+										 	            <td align="center"><input type="radio"  onclick="addAll(this);" name="${vs.index}" value="${supplier.id  },0">全部合格&nbsp;<input type="radio" onclick="addNotAll(this);" name="${vs.index}" value="${supplier.id  },1">全部不合格
 										 	            </td>
 										 	            </c:forEach>
 										 	            </tr>

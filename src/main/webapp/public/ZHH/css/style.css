@@ -1873,3 +1873,12 @@ img.img-mouse {
    width:200px;
    float:left;
  }
+ 
+ 
+ 
+ /*统计图表样式*/
+ .icharts{
+  margin:0 auto;
+  margin-top:10px;
+}
+ 

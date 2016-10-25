@@ -448,7 +448,7 @@ public class Supplier implements Serializable {
 
 	private SupplierMatSell supplierMatSell;
 
-	private SupplierMatSe supplierMatSe;
+	private SupplierMatServe supplierMatSe;
 
 	private SupplierMatEng supplierMatEng;
 
@@ -948,11 +948,11 @@ public class Supplier implements Serializable {
 		this.supplierMatSell = supplierMatSell;
 	}
 
-	public SupplierMatSe getSupplierMatSe() {
+	public SupplierMatServe getSupplierMatSe() {
 		return supplierMatSe;
 	}
 
-	public void setSupplierMatSe(SupplierMatSe supplierMatSe) {
+	public void setSupplierMatSe(SupplierMatServe supplierMatSe) {
 		this.supplierMatSe = supplierMatSe;
 	}
 

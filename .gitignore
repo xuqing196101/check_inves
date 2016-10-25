@@ -75,4 +75,5 @@ local.properties
 # Code Recommenders
 .recommenders/
 
-
+.DS_Store
+src/.DS_Store

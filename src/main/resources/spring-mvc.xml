@@ -23,7 +23,8 @@ http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 		</property>
 	</bean>
 	<!-- springMVC拦截器 -->
- <!-- 	<mvc:interceptors>
+  
+  <!-- <mvc:interceptors>
 		<mvc:interceptor>
 			需要拦截的地址
 			<mvc:mapping path="/*/*.do" />

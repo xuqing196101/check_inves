@@ -277,13 +277,11 @@
 							<input class="span2" name="postCode" type="text"> <span
 								class="add-on">i</span>
 						</div></li>
-					</li>
 					<li class="col-md-6  p0 "><span class="">传真：</span>
 						<div class="input-append">
 							<input class="span2" name="fax" type="text"> <span
 								class="add-on">i</span>
 						</div></li>
-					</li>
 					<li class="col-md-6 p0 hide"><span class="">类型1：</span>
 							<select class="span2" name="provinceId" type="text"> 
 								<option value="2">需求部门</option>
@@ -303,37 +301,31 @@
 							<input class="span2" name="orgCode" type="text"> <span
 								class="add-on">i</span>
 						</div></li>
-					</li>
 					<li class="col-md-6  p0 hide monitor"><span class="">详细地址：</span>
 						<div class="input-append">
 							<input class="span2" name="detailAddr" type="text"> <span
 								class="add-on">i</span>
 						</div></li>
-					</li>
 					<li class="col-md-6  p0 hide monitor"><span class="">网站地址：</span>
 						<div class="input-append">
 							<input class="span2" name="website" type="text"> <span
 								class="add-on">i</span>
 						</div></li>
-					</li>
 					<li class="col-md-6  p0 hide monitor"><span class="">负责人：</span>
 						<div class="input-append">
 							<input class="span2" name="princinpal" type="text"> <span
 								class="add-on">i</span>
 						</div></li>
-					</li>
 					<li class="col-md-6  p0 hide monitor"><span class="">负责人身份证号：</span>
 						<div class="input-append">
 							<input class="span2" name="princinpalIdCard" type="text"> <span
 								class="add-on">i</span>
 						</div></li>
-					</li>
 					<li class="col-md-6  p0 hide monitor"><span class="">监管机构性质：</span>
 						<div class="input-append">
 							<input class="span2" name="nature" type="text"> <span
 								class="add-on">i</span>
 						</div></li>
-					</li>
 				</ul>
 				<div class="mt40 mb50">
 					<button type="button" class="btn  padding-right-20 btn_back margin-5" id="dynamicAdd" onclick="dynamicadd();">添加</button>

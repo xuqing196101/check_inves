@@ -147,6 +147,7 @@ public class AppraisalContractController extends BaseSupplierController{
 	public String save(AppraisalContract appraisalContract,String contractId){
 		Integer type = appraisalContract.getType();
 		
+		appraisalContract.setCreatedAt(new Date());
 		appraisalContract.setUpdatedAt(new Date());
 		appraisalContract.setAppraisal(0);
 		appraisalContract.setDistribution(0);

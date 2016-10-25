@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.iacs.ProductCategoryMapper">
+  <resultMap id="ProductCategory_Map" type="bss.model.iacs.ProductCategory">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="PRODUCT_CATEGORY" jdbcType="VARCHAR" property="productCategory" />
+    <result column="CATEGORY_INSTRUCTION" jdbcType="VARCHAR" property="categoryInstruction" />
+    <result column="PARENT_ID" jdbcType="VARCHAR" property="parentId" />
+    <result column="IS_DETELE" jdbcType="DECIMAL" property="isDetele" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, PRODUCT_CATEGORY, CATEGORY_INSTRUCTION, PARENT_ID, IS_DETELE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ProductCategory_Map">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_IACS_PRODUCT_CATEGORY
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BSS_IACS_PRODUCT_CATEGORY
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="bss.model.iacs.ProductCategory">
+    insert into T_BSS_IACS_PRODUCT_CATEGORY (ID, PRODUCT_CATEGORY, CATEGORY_INSTRUCTION, 
+      PARENT_ID, IS_DETELE)
+    values (#{id,jdbcType=VARCHAR}, #{productCategory,jdbcType=VARCHAR}, #{categoryInstruction,jdbcType=VARCHAR}, 
+      #{parentId,jdbcType=VARCHAR}, #{isDetele,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="bss.model.iacs.ProductCategory">
+    insert into T_BSS_IACS_PRODUCT_CATEGORY
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="productCategory != null">
+        PRODUCT_CATEGORY,
+      </if>
+      <if test="categoryInstruction != null">
+        CATEGORY_INSTRUCTION,
+      </if>
+      <if test="parentId != null">
+        PARENT_ID,
+      </if>
+      <if test="isDetele != null">
+        IS_DETELE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="productCategory != null">
+        #{productCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryInstruction != null">
+        #{categoryInstruction,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="isDetele != null">
+        #{isDetele,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="bss.model.iacs.ProductCategory">
+    update T_BSS_IACS_PRODUCT_CATEGORY
+    <set>
+      <if test="productCategory != null">
+        PRODUCT_CATEGORY = #{productCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryInstruction != null">
+        CATEGORY_INSTRUCTION = #{categoryInstruction,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        PARENT_ID = #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="isDetele != null">
+        IS_DETELE = #{isDetele,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="bss.model.iacs.ProductCategory">
+    update T_BSS_IACS_PRODUCT_CATEGORY
+    set PRODUCT_CATEGORY = #{productCategory,jdbcType=VARCHAR},
+      CATEGORY_INSTRUCTION = #{categoryInstruction,jdbcType=VARCHAR},
+      PARENT_ID = #{parentId,jdbcType=VARCHAR},
+      IS_DETELE = #{isDetele,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="queryAll" resultMap="ProductCategory_Map">
+  
+  select 
+  <include refid="Base_Column_List"/>
+  from T_BSS_IACS_PRODUCT_CATEGORY
+  </select>
+  
+</mapper>

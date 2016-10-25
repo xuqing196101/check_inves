@@ -2,6 +2,7 @@ package ses.model.oms.util;
 
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 /**
  * 
@@ -45,7 +46,7 @@ public class Ztree implements Serializable {
 	private boolean checked = false;
 	
 	private boolean open;
-	
+	private Date createdAt;
 	
 	public String getLevel() {
 		return level;
@@ -113,6 +114,12 @@ public class Ztree implements Serializable {
 	}
 	public void setChecked(boolean checked) {
 		this.checked = checked;
+	}
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 	
 }

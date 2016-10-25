@@ -1,26 +1,23 @@
 package bss.model.prms;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class FirstAudit implements Serializable{
-    /**
-	 * @Fields serialVersionUID : 
-	 */
-	private static final long serialVersionUID = 1L;
-	private String id;
-    /**初审项名称*/
+public class FirstAudit {
+    private String id;
+
     private String name;
-    /**初审项类型*/
+
     private String kind;
-    /**初审项创建时间*/
-    private String createdAt;
-    /**初审项创建人*/
+
+    private Date createdAt;
+
     private String creater;
-    /**初审项修改时间*/
+
     private Date updatedAt;
-    /**关联项目id*/
+
     private String projectId;
+
+    private Short isConfirm;
 
     public String getId() {
         return id;
@@ -46,15 +43,15 @@ public class FirstAudit implements Serializable{
         this.kind = kind == null ? null : kind.trim();
     }
 
-    public String getCreatedAt() {
-        return createdAt;
-    }
+    public Date getCreatedAt() {
+		return createdAt;
+	}
 
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt == null ? null : createdAt.trim();
-    }
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
 
-    public String getCreater() {
+	public String getCreater() {
         return creater;
     }
 
@@ -76,5 +73,13 @@ public class FirstAudit implements Serializable{
 
     public void setProjectId(String projectId) {
         this.projectId = projectId == null ? null : projectId.trim();
+    }
+
+    public Short getIsConfirm() {
+        return isConfirm;
+    }
+
+    public void setIsConfirm(Short isConfirm) {
+        this.isConfirm = isConfirm;
     }
 }

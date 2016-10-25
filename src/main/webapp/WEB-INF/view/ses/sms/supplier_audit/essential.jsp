@@ -219,6 +219,37 @@ function tijiao(str){
     });
   });
 </script>
+<script type="text/javascript">
+  $(function() {
+    var supplierId = $("input[name='id']").val();
+    $.ajax({
+      url : "${pageContext.request.contextPath}/supplierAudit/showReasonsList.do",
+      type : "post",
+      dataType : "json",
+      data : {
+        supplierId : supplierId
+      },
+      success : function(result) {
+        $(".input-append").each(function(index) {
+          var v = $(this).parents("li").find("span").text();
+          v = v.replace("＊", "");
+          v = v.replace("：", "");
+          v = $.trim(v);
+          for (var i = 0; i < result.length; i++) {
+            if(v == result[i].auditField) {
+              var html = "<a id='a_msg_" + index + "' class='ml10 red fz17' href='javascript:void(0)' onclick='showMsg(this)'><span style='display: none;'>";
+              html += result[i].suggest;
+              html += "</span>×</a>";
+              $(this).append(html);
+              html = "";
+            }
+          }
+        });
+      },
+    });
+  });
+
+</script>
 </head>
   
 <body>

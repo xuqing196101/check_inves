@@ -27,5 +27,9 @@ public interface AppraisalContractMapper {
     List<AppraisalContract> selectByObjectLike(AppraisalContract record);
     
     AppraisalContract selectContractId(AppraisalContract record);
+    
+    List<AppraisalContract> selectAppraisal(AppraisalContract record);
+    
+    List<AppraisalContract> selectStatisical(AppraisalContract record);
 
 }

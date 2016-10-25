@@ -18,12 +18,23 @@ public class MarkTerm implements Serializable{
 	private String id;//
 	private String pid;//父id
 	private String name;//名称
-	private String pName;//父节点名称
+	private String pname;//父节点名称
 	private String url;//
 	private boolean checked;//
-	private Integer isDeleted;//解释
-	private Date createdAt;//解释
-	private Date updatedAt;//解释
+	private Integer isDeleted;//
+	private Date createdAt;//
+	private Date updatedAt;//
+	private String isRoot ;
+	public MarkTerm() {
+		super();
+	}
+	public MarkTerm(String id, String pid, String name, String pname) {
+		super();
+		this.id = id;
+		this.pid = pid;
+		this.name = name;
+		this.pname = pname;
+	}
 	public String getId() {
 		return id;
 	}
@@ -42,11 +53,12 @@ public class MarkTerm implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getpName() {
-		return pName;
+	
+	public String getPname() {
+		return pname;
 	}
-	public void setpName(String pName) {
-		this.pName = pName;
+	public void setPname(String pname) {
+		this.pname = pname;
 	}
 	public String getUrl() {
 		return url;
@@ -77,6 +89,12 @@ public class MarkTerm implements Serializable{
 	}
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+	public String getIsRoot() {
+		return isRoot;
+	}
+	public void setIsRoot(String isRoot) {
+		this.isRoot = isRoot;
 	}
 	
 }
