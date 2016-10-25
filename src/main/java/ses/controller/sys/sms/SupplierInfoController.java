@@ -1,5 +1,6 @@
 package ses.controller.sys.sms;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
@@ -19,13 +20,13 @@ import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
-import ses.model.sms.SupplierCertSe;
 import ses.model.sms.SupplierCertSell;
+import ses.model.sms.SupplierCertServe;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
-import ses.model.sms.SupplierMatSe;
 import ses.model.sms.SupplierMatSell;
+import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierStockholder;
 import ses.service.bms.UserServiceI;
 import ses.service.sms.SupplierAuditService;
@@ -261,10 +262,10 @@ public class SupplierInfoController extends BaseSupplierController{
 	 * @return String
 	 */
 	@RequestMapping("/serviceInformation")
-	public String serviceInformation(HttpServletRequest request,SupplierMatSe supplierMatSe){
+	public String serviceInformation(HttpServletRequest request,SupplierMatServe supplierMatSe){
 		String supplierId = supplierMatSe.getSupplierId();
 		//资质证书信息
-		List<SupplierCertSe> supplierCertSe = supplierAuditService.findCertSeBySupplierId(supplierId);
+		List<SupplierCertServe> supplierCertSe = supplierAuditService.findCertSeBySupplierId(supplierId);
 		//组织结构和人员
 		supplierMatSe = supplierAuditService.findMatSeBySupplierId(supplierId);
 		request.setAttribute("supplierCertSes", supplierCertSe);

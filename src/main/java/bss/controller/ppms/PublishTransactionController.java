@@ -79,6 +79,13 @@ public class PublishTransactionController {
      */
     private AjaxJsonData jsonData = new AjaxJsonData();
 
+    @RequestMapping("/bidFile")
+    public String bidFile(String id, Model model){
+    	Project project = projectService.selectById(id);
+    	model.addAttribute("project", project);
+    	return "bss/ppms/competitive_negotiation/add";
+    }
+    
     /**
      * @Title: bidNotice
      * @author Song Biaowei
