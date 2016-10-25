@@ -1,10 +1,13 @@
 package bss.model.iacs;
 
 public class Product {
+	
     private String id;
-
+    /**
+     * 编码
+     */
     private String productNo;
-
+    
     private String productName;
 
     private String productInstruction;

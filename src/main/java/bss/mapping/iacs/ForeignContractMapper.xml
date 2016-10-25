@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.iacs.ForeignContractMapper">
+  <resultMap id="BaseResultMap" type="bss.model.iacs.ForeignContract">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="IMPORT_USER" jdbcType="VARCHAR" property="importUser" />
+    <result column="CONTRACT_NO" jdbcType="VARCHAR" property="contractNo" />
+    <result column="CURRENCY" jdbcType="VARCHAR" property="currency" />
+    <result column="TRADE_COUNTRY" jdbcType="VARCHAR" property="tradeCountry" />
+    <result column="CONTRACT_AMOUNT" jdbcType="DECIMAL" property="contractAmount" />
+    <result column="ORIGIN_COUNTRY" jdbcType="VARCHAR" property="originCountry" />
+    <result column="AGENCY_COMPANY" jdbcType="VARCHAR" property="agencyCompany" />
+    <result column="SUPPLIER" jdbcType="VARCHAR" property="supplier" />
+    <result column="GOODS_PORT" jdbcType="VARCHAR" property="goodsPort" />
+    <result column="TRANSACTION_MODE" jdbcType="VARCHAR" property="transactionMode" />
+    <result column="TRANSPORT_PREMIUM" jdbcType="DECIMAL" property="transportPremium" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, IMPORT_USER, CONTRACT_NO, CURRENCY, TRADE_COUNTRY, CONTRACT_AMOUNT, ORIGIN_COUNTRY, 
+    AGENCY_COMPANY, SUPPLIER, GOODS_PORT, TRANSACTION_MODE, TRANSPORT_PREMIUM
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_IACS_FOREIGN_CONTRACT
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BSS_IACS_FOREIGN_CONTRACT
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="bss.model.iacs.ForeignContract">
+    insert into T_BSS_IACS_FOREIGN_CONTRACT (ID, IMPORT_USER, CONTRACT_NO, 
+      CURRENCY, TRADE_COUNTRY, CONTRACT_AMOUNT, 
+      ORIGIN_COUNTRY, AGENCY_COMPANY, SUPPLIER, 
+      GOODS_PORT, TRANSACTION_MODE, TRANSPORT_PREMIUM
+      )
+    values (#{id,jdbcType=VARCHAR}, #{importUser,jdbcType=VARCHAR}, #{contractNo,jdbcType=VARCHAR}, 
+      #{currency,jdbcType=VARCHAR}, #{tradeCountry,jdbcType=VARCHAR}, #{contractAmount,jdbcType=DECIMAL}, 
+      #{originCountry,jdbcType=VARCHAR}, #{agencyCompany,jdbcType=VARCHAR}, #{supplier,jdbcType=VARCHAR}, 
+      #{goodsPort,jdbcType=VARCHAR}, #{transactionMode,jdbcType=VARCHAR}, #{transportPremium,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="bss.model.iacs.ForeignContract">
+    insert into T_BSS_IACS_FOREIGN_CONTRACT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="importUser != null">
+        IMPORT_USER,
+      </if>
+      <if test="contractNo != null">
+        CONTRACT_NO,
+      </if>
+      <if test="currency != null">
+        CURRENCY,
+      </if>
+      <if test="tradeCountry != null">
+        TRADE_COUNTRY,
+      </if>
+      <if test="contractAmount != null">
+        CONTRACT_AMOUNT,
+      </if>
+      <if test="originCountry != null">
+        ORIGIN_COUNTRY,
+      </if>
+      <if test="agencyCompany != null">
+        AGENCY_COMPANY,
+      </if>
+      <if test="supplier != null">
+        SUPPLIER,
+      </if>
+      <if test="goodsPort != null">
+        GOODS_PORT,
+      </if>
+      <if test="transactionMode != null">
+        TRANSACTION_MODE,
+      </if>
+      <if test="transportPremium != null">
+        TRANSPORT_PREMIUM,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="importUser != null">
+        #{importUser,jdbcType=VARCHAR},
+      </if>
+      <if test="contractNo != null">
+        #{contractNo,jdbcType=VARCHAR},
+      </if>
+      <if test="currency != null">
+        #{currency,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeCountry != null">
+        #{tradeCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="contractAmount != null">
+        #{contractAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="originCountry != null">
+        #{originCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="agencyCompany != null">
+        #{agencyCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="supplier != null">
+        #{supplier,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPort != null">
+        #{goodsPort,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionMode != null">
+        #{transactionMode,jdbcType=VARCHAR},
+      </if>
+      <if test="transportPremium != null">
+        #{transportPremium,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="bss.model.iacs.ForeignContract">
+    update T_BSS_IACS_FOREIGN_CONTRACT
+    <set>
+      <if test="importUser != null">
+        IMPORT_USER = #{importUser,jdbcType=VARCHAR},
+      </if>
+      <if test="contractNo != null">
+        CONTRACT_NO = #{contractNo,jdbcType=VARCHAR},
+      </if>
+      <if test="currency != null">
+        CURRENCY = #{currency,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeCountry != null">
+        TRADE_COUNTRY = #{tradeCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="contractAmount != null">
+        CONTRACT_AMOUNT = #{contractAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="originCountry != null">
+        ORIGIN_COUNTRY = #{originCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="agencyCompany != null">
+        AGENCY_COMPANY = #{agencyCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="supplier != null">
+        SUPPLIER = #{supplier,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPort != null">
+        GOODS_PORT = #{goodsPort,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionMode != null">
+        TRANSACTION_MODE = #{transactionMode,jdbcType=VARCHAR},
+      </if>
+      <if test="transportPremium != null">
+        TRANSPORT_PREMIUM = #{transportPremium,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="bss.model.iacs.ForeignContract">
+    update T_BSS_IACS_FOREIGN_CONTRACT
+    set IMPORT_USER = #{importUser,jdbcType=VARCHAR},
+      CONTRACT_NO = #{contractNo,jdbcType=VARCHAR},
+      CURRENCY = #{currency,jdbcType=VARCHAR},
+      TRADE_COUNTRY = #{tradeCountry,jdbcType=VARCHAR},
+      CONTRACT_AMOUNT = #{contractAmount,jdbcType=DECIMAL},
+      ORIGIN_COUNTRY = #{originCountry,jdbcType=VARCHAR},
+      AGENCY_COMPANY = #{agencyCompany,jdbcType=VARCHAR},
+      SUPPLIER = #{supplier,jdbcType=VARCHAR},
+      GOODS_PORT = #{goodsPort,jdbcType=VARCHAR},
+      TRANSACTION_MODE = #{transactionMode,jdbcType=VARCHAR},
+      TRANSPORT_PREMIUM = #{transportPremium,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
