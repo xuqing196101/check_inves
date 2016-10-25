@@ -17,6 +17,8 @@
 	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript">
 		$(function(){
+			$("#purchaser").hide();
+			$("#errorPurchaser").hide();
 			laypage({
 			    cont: $("#pageDiv"), //容器。值支持id名、原生dom对象，jquery对象,
 			    pages: "${paperUserList.pages}", //总页数
@@ -39,48 +41,7 @@
 			});
 		})
 		
-		//添加参考人员
-		function add(){
-			var userName = $("#userName").val();
-			var card = $("#card").val();
-			var paperId = $("#paperId").val();
-			if(userName==""||userName==null){
-				layer.alert("请输入采购人姓名",{offset: ['222px', '390px']});
-				$(".layui-layer-shade").remove();
-				return;
-			}
-			if(card==""||card==null){
-				layer.alert("请输入身份证号",{offset: ['222px', '390px']});
-				$(".layui-layer-shade").remove();
-				return;
-			}
-			$.ajax({
-				type:"POST",
-				dataType:"json",
-				url:"<%=path%>/purchaserExam/addReferenceById.do?userName="+userName+"&paperId="+paperId+"&card="+card,
-		       	success:function(data){
-			       	if(data==0){
-			       		layer.alert("没有该采购人",{offset: ['222px', '390px']});
-						$(".layui-layer-shade").remove();
-			       	}else if(data==2){
-			       		layer.alert("已经添加该采购人,请重新添加",{offset: ['222px', '390px']});
-						$(".layui-layer-shade").remove();
-			       	}else if(data==1){
-			       		layer.msg('添加成功',{offset: ['222px', '390px']});
-				       	window.setTimeout(function(){
-				       		//window.location.href="<%=path%>/purchaserExam/viewReference.html?id="+paperId;
-				       		window.location.reload();
-				       	}, 1000);
-			       	}else if(data==3){
-			       		layer.alert("该考生考试时间有冲突,请重新添加",{offset: ['222px', '390px']});
-						$(".layui-layer-shade").remove();
-			       	}else if(data==4){
-			       		layer.alert("请输入正确的身份证号",{offset: ['222px', '390px']});
-						$(".layui-layer-shade").remove();
-			       	}
-		       	}
-	       	});
-		}
+		
 		
 		//Excel导入
 		function poiExcel(){
@@ -89,22 +50,97 @@
 			    url: "<%=path %>/purchaserExam/importReference.do?paperId="+paperId,  
 			    secureuri: false,
 			    fileElementId: "excelFile",
-			    dataType: "json",
+			    dataType: "text",
 			    success: function(data) {  
-			    	if(data==0){
-			    		layer.alert("Excel表中有人员不是采购人,请仔细检查",{offset: ['222px', '390px']});
-						$(".layui-layer-shade").remove();
-			    	}else if(data==1){
-			    		layer.msg('导入成功',{offset: ['222px', '390px']});
-				       	window.setTimeout(function(){
+			    	if(data.length<=5){
+			    		layer.msg('添加成功',{offset: ['222px', '390px']});
+			    		window.setTimeout(function(){
 				       		window.location.reload();
 				       	}, 1000);
-			    	}else if(data==2){
-			    		layer.alert("Excel表中有人员已经在该考卷中,请仔细检查",{offset: ['222px', '390px']});
-						$(".layui-layer-shade").remove();
-			    	}else if(data==3){
-			    		layer.alert("Excel表中有人员考试时间冲突,请仔细检查",{offset: ['222px', '390px']});
-						$(".layui-layer-shade").remove();
+			    	}else{
+			    		var array = data.split(";");
+			    		if(array[array.length-1].indexOf("1")>-1){
+			    			$("#errorNews").html("Excel表中有以下人员不是采购人");
+			    			var html = "";
+				    		for(var i=0;i<array.length-1;i++){
+				            	  html = html + "<tr class='tc'>";
+				            	  if(i==0){
+				            		  html = html + "<td>"+array[i].split(",")[0].substring(1)+"</td>";
+				            	  }else{
+				            		  html = html + "<td>"+array[i].split(",")[0]+"</td>";
+				            	  }
+				            	  html = html + "<td>"+array[i].split(",")[2]+"</td>";
+				            	  html = html + "<td>"+array[i].split(",")[1]+"</td>";
+				            	  html = html + "</tr>";
+				            }
+				    		$("#errResult").html(html);
+				    		layer.open({
+							 	type: 1, //page层
+								area: ['430px', '200px'],
+								closeBtn: 1,
+								shade:0.01, //遮罩透明度
+								moveType: 1, //拖拽风格，0是默认，1是传统拖动
+								shift: 1, //0-6的动画形式，-1不开启
+								offset: ['120px', '550px'],
+								shadeClose: false,
+								content : $('#errorPurchaser')
+							});
+							$(".layui-layer-shade").remove();
+			    		}else if(array[array.length-1].indexOf("2")>-1){
+			    			$("#errorNews").html("Excel表中以下人员已被添加到本场考试中");
+			    			var html = "";
+				    		for(var i=0;i<array.length-1;i++){
+				            	  html = html + "<tr class='tc'>";
+				            	  if(i==0){
+				            		  html = html + "<td>"+array[i].split(",")[0].substring(1)+"</td>";
+				            	  }else{
+				            		  html = html + "<td>"+array[i].split(",")[0]+"</td>";
+				            	  }
+				            	  html = html + "<td>"+array[i].split(",")[2]+"</td>";
+				            	  html = html + "<td>"+array[i].split(",")[1]+"</td>";
+				            	  html = html + "</tr>";
+				            }
+				    		$("#errResult").html(html);
+				    		layer.open({
+							 	type: 1, //page层
+								area: ['430px', '200px'],
+								closeBtn: 1,
+								shade:0.01, //遮罩透明度
+								moveType: 1, //拖拽风格，0是默认，1是传统拖动
+								shift: 1, //0-6的动画形式，-1不开启
+								offset: ['120px', '550px'],
+								shadeClose: false,
+								content : $('#errorPurchaser')
+							});
+							$(".layui-layer-shade").remove();
+			    		}else if(array[array.length-1].indexOf("3")>-1){
+			    			$("#errorNews").html("Excel表中以下人员考试时间有冲突");
+			    			var html = "";
+				    		for(var i=0;i<array.length-1;i++){
+				            	  html = html + "<tr class='tc'>";
+				            	  if(i==0){
+				            		  html = html + "<td>"+array[i].split(",")[0].substring(1)+"</td>";
+				            	  }else{
+				            		  html = html + "<td>"+array[i].split(",")[0]+"</td>";
+				            	  }
+				            	  html = html + "<td>"+array[i].split(",")[2]+"</td>";
+				            	  html = html + "<td>"+array[i].split(",")[1]+"</td>";
+				            	  html = html + "</tr>";
+				            }
+				    		$("#errResult").html(html);
+				    		layer.open({
+							 	type: 1, //page层
+								area: ['430px', '200px'],
+								closeBtn: 1,
+								shade:0.01, //遮罩透明度
+								moveType: 1, //拖拽风格，0是默认，1是传统拖动
+								shift: 1, //0-6的动画形式，-1不开启
+								offset: ['120px', '550px'],
+								shadeClose: false,
+								content : $('#errorPurchaser')
+							});
+							$(".layui-layer-shade").remove();
+			    		}
 			    	}
 			    }  
 			}); 
@@ -172,20 +208,110 @@
 		function query(){
 			var userName = $("#userName").val();
 			var card = $("#card").val();
-			if((userName==null||userName=="")&&(card==null||card=="")){
-				layer.alert("请输入用户名或者身份证号",{offset: ['222px', '390px']});
+			if(userName==""||userName==null){
+				layer.alert("请输入采购人姓名",{offset: ['222px', '390px']});
 				$(".layui-layer-shade").remove();
 				return;
-			}else{
-				$.ajax({
-					type:"POST",
-					dataType:"json",
-					url:"<%=path%>/purchaserExam/queryReferenceByCondition.do?userName="+userName+"&card="+card,
-			       	success:function(data){
-			       		
-			       	}
-		       	});
 			}
+			if(card==""||card==null){
+				layer.alert("请输入身份证号",{offset: ['222px', '390px']});
+				$(".layui-layer-shade").remove();
+				return;
+			}
+			$.ajax({
+				type:"POST",
+				dataType:"json",
+				url:"<%=path%>/purchaserExam/queryReferenceByCondition.do?userName="+userName+"&card="+card,
+			    success:function(data){
+			       	if(data==0){
+			       		layer.alert("没有查到符合条件的采购人",{offset: ['222px', '390px']});
+						$(".layui-layer-shade").remove();
+						return;
+			       	}else if(data==1){
+			       		$.ajax({
+							type:"POST",
+							dataType:"json",
+							url:"<%=path%>/purchaserExam/getReference.do?userName="+userName+"&card="+card,
+						    success:function(data){
+						    	if(data){
+						    		var html = "";
+						    		for(var i=0;i<data.length;i++){
+						            	  html = html + "<tr class='tc'>";
+						            	  html = html + "<td><input type='checkbox' name='purchaserInfo' value='\""+data[i].userId+"\"'/></td>";
+						            	  html = html + "<td>"+data[i].relName+"</td>";
+						            	  html = html + "<td>"+data[i].idCard+"</td>";
+						            	  html = html + "<td>"+data[i].purchaseDepName+"</td>";
+						            	  html = html + "</tr>";
+						            }
+						    		$("#refResult").html(html);
+						    		layer.open({
+									 	type: 1, //page层
+										area: ['430px', '200px'],
+										closeBtn: 1,
+										shade:0.01, //遮罩透明度
+										moveType: 1, //拖拽风格，0是默认，1是传统拖动
+										shift: 1, //0-6的动画形式，-1不开启
+										offset: ['120px', '550px'],
+										shadeClose: false,
+										content : $('#purchaser')
+									});
+									$(".layui-layer-shade").remove();
+						    	}
+						    }
+					     })
+			       	}	
+			    }
+		     });
+			
+		}
+		
+		//添加参考人员
+		function add(){
+			var userName = $("#userName").val();
+			var card = $("#card").val();
+			var paperId = $("#paperId").val();
+			var count = 0;
+			var ids = "";
+			var info = document.getElementsByName("purchaserInfo");
+			for(var i = 0;i<info.length;i++){
+				if(info[i].checked == true){
+					count++;
+				}
+			}
+			if(count == 0){
+				layer.alert("请选择一项",{offset: ['222px', '390px']});
+				$(".layui-layer-shade").remove();
+				return;
+			}
+			$.ajax({
+				type:"POST",
+				dataType:"json",
+				url:"<%=path%>/purchaserExam/addReferenceById.do?paperId="+paperId+"&relName="+userName+"&card="+card,
+		       	success:function(data){
+			       if(data==2){
+			       		layer.alert("已经添加该采购人,请重新添加",{offset: ['222px', '390px']});
+						$(".layui-layer-shade").remove();
+			       	}else if(data==1){
+			       		layer.msg('添加成功',{offset: ['222px', '390px']});
+				       	window.setTimeout(function(){
+				       		window.location.reload();
+				       	}, 1000);
+			       	}else if(data==3){
+			       		layer.alert("该考生考试时间有冲突,请重新添加",{offset: ['222px', '390px']});
+						$(".layui-layer-shade").remove();
+			       	}
+		       	}
+	       	});
+		}
+		
+		//取消方法
+        function cancel(){
+        	layer.closeAll();
+        }
+		
+		function resetResult(){
+			$("#userName").val("");
+			$("#card").val("");
 		}
 	</script>
 
@@ -215,8 +341,8 @@
     	<div class="col-md-12 padding-left-25">
 	    	姓名:<input type="text" id="userName" name="userName" class="mt10 w80"/>
 	    	身份证号:<input type="text" id="card" name="card" class="mt10 w230"/>
-	    	<button class="btn btn-windows add" type="button" onclick="query()">查询</button>
-	    	<button class="btn btn-windows add" type="button" onclick="add()">添加</button>
+	    	<button class="btn btn-windows pl13" type="button" onclick="query()">查询</button>
+	    	<button class="btn btn-windows pl13" type="button" onclick="resetResult()">重置</button>
 	    	<button class="btn btn-windows delete" type="button" onclick="deleteByPaperUserId()">删除</button>
     	</div>
     </div>
@@ -268,6 +394,40 @@
   		<div class="mt20 clear tc">
 	      <input class="btn btn-windows back" value="返回考卷列表" type="button" onclick="location.href='<%=path%>/purchaserExam/paperManage.html'">
 	  	</div>
+	  	
+	  	
+	  	<div class="content padding-left-25 padding-right-25" id="purchaser">
+	  		<table class="table table-bordered table-condensed table-hover">
+				<thead>
+					<tr class="info">
+						<th>选择</th>
+						<th>姓名</th>
+						<th>身份证号</th>
+						<th>所属单位</th>
+					</tr>
+				</thead>
+				<tbody id="refResult">
+				</tbody>
+			</table>
+			
+			<button class="btn btn-windows" type="button" onclick="add()">添加</button>
+			<button class="btn btn-windows" type="button" onclick="cancel()">取消</button>
+		</div>
+	  	
+	  	<div class="content padding-left-25 padding-right-25" id="errorPurchaser">
+	  		<div id="errorNews"></div>
+	  		<table class="table table-bordered table-condensed table-hover">
+				<thead>
+					<tr class="info">
+						<th>姓名</th>
+						<th>身份证号</th>
+						<th>所属单位</th>
+					</tr>
+				</thead>
+				<tbody id="errResult">
+				</tbody>
+			</table>
+		</div>
 	  	
 	  	<input type="hidden" value="${examPaper.id }" name="paperId" id="paperId"/>
   </body>

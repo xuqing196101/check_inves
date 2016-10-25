@@ -113,4 +113,10 @@ public class ExamQuestionServiceImpl implements ExamQuestionServiceI {
 	}
 
 	
+	@Override
+	public List<ExamQuestion> selectByTecTopic(HashMap<String, Object> map) {
+		return examQuestionMapper.selectByTecTopic(map);
+	}
+
+	
 }

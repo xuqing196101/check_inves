@@ -95,18 +95,21 @@
 		        <td class="col-md-1 tc">${l.index+1 }</td>
 		        <td class="col-md-11">
 		          <div><span>[${que.examQuestionType.name}]</span><span>${que.topic }</span></div>
-		          <div class="mt10">
+		          
 		          		<c:if test="${que.examQuestionType.name=='单选题' }">
 				    		<c:forEach items="${fn:split(que.items,';')}" var="it">
+				    		<div class="mt10 clear fl">
 				    			<input type="radio" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0"/>${it }
+				    		</div>
 				    		</c:forEach>
 				    	</c:if>
 				    	<c:if test="${que.examQuestionType.name=='多选题' }">
 				    		<c:forEach items="${fn:split(que.items,';')}" var="it">
+				    		<div class="mt10 clear fl">
 				    			<input type="checkbox" name="que${l.index+1 }" value="${fn:substring(it,0,1)}" class="mt0"/>${it}
+				    		</div>
 				    		</c:forEach>
 				    	</c:if>
-		          </div>
 		        </td>
 		      </tr>
 		    </c:forEach>

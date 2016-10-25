@@ -420,8 +420,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<form id="form1" action="${pageContext.request.contextPath}/expert/add.html" method="post"  enctype="multipart/form-data" >
 		<input type="hidden" name="userId" value="${user.id }">
-		<input type="hidden" id="purchaseDepId" value="">
-		<input type="hidden" name="id" value="">
+		<input type="hidden" id="purchaseDepId" value="${expert.purchaseDepId }">
+		<input type="hidden" name="id" value="${expert.id }">
 		<input type="hidden" name="zancun" id="zancun">
 		<%
 			session.setAttribute("tokenSession", tokenValue);
@@ -681,9 +681,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			   <input type="hidden" id="expertsTypeIds" value="" >
 			   <select name="expertsTypeId" id="expertsTypeId" onchange="typeShow();">
 			   		<option value="">-请选择-</option>
-			   		<option value="1">技术</option>
-			   		<option value="2">法律</option>
-			   		<option value="3">商务</option>
+			   		<option <c:if test="${expert.expertsTypeId == '1' }">selected="true"</c:if> value="1">技术</option>
+			   		<option <c:if test="${expert.expertsTypeId == '2' }">selected="true"</c:if> value="2">法律</option>
+			   		<option <c:if test="${expert.expertsTypeId == '3' }">selected="true"</c:if> value="3">商务</option>
 			   </select>
 			 </li>
    			 </ul>
@@ -713,13 +713,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    <i>03</i>选择采购机构
 			  </h2>
 			    <h2 class="f16 jbxx">
-				  推荐采购机构
+				  采购机构
 			    </h2>
 			<table id="tb1"  class="table table-bordered table-condensed">
 			
 				<thead>
 					<tr>
-					  <th class="info w30"><input type="radio"  disabled="disabled"  id="purchaseDepId2" ></th>
+					  <th class="info w30"><input type="radio"   disabled="disabled"  id="purchaseDepId2" ></th>
 					  <th class="info w50">序号</th>
 					  <th class="info">采购机构</th>
 					  <th class="info">联系人</th>
@@ -729,7 +729,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</thead>
 				<c:forEach items="${ purchase}" var="p" varStatus="vs">
 					<tr align="center">
-						<td><input type="radio" name="purchaseDepId"  value="${p.id }" /></td>
+						<td><input type="radio" name="purchaseDepId" <c:if test="${expert.purchaseDepId eq p.id }">checked</c:if>  value="${p.id }" /></td>
 						<td>${vs.count}</td>
 						<td><input border="0" disabled="disabled" value="${p.name }"></td>
 						<td><input border="0" disabled="disabled" value="${p.princinpal }"></td>
@@ -738,7 +738,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</tr>
 				</c:forEach> 
 			</table>
-			 <h2 class="f16 jbxx">
+			 <!-- <h2 class="f16 jbxx">
 				其他采购机构
 			</h2>
 			<table id="tb2" class="table table-bordered table-condensed">
@@ -751,7 +751,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					  <th class="info">联系地址</th>
 					  <th class="info">联系电话</th>
 					</tr>
-				</thead>
+				</thead> -->
 				<%-- <c:forEach items="" var="" varStatus="vs">
 					<tr>
 						<td><input type="checkbox"  name="cbox" onclick="box(this)" /></td>
@@ -762,7 +762,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<td></td>
 					</tr>
 				</c:forEach> --%>
-				<tr>
+				<!-- <tr>
 				  <td class="tc w30"><input type="radio" name="purchaseDepId" id="checked" alt="" value="3"></td>
 				  <td class="tc w50">1</td>
 				  <td class="tc"><input border="0" disabled="disabled" value="哈哈"></td>
@@ -770,7 +770,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				  <td class="tc"><input border="0" disabled="disabled" value="北京"></td>
 				 <td class="tc"><input border="0" disabled="disabled" value="13333333333"></td>
 				</tr>
-			</table>
+			</table> -->
 			<h6>
 		               友情提示：请专家记录好初审采购机构的相关信息，以便进行及时沟通
 		    </h6>

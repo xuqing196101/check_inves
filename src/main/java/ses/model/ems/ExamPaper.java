@@ -1,9 +1,6 @@
 package ses.model.ems;
 
 import java.util.Date;
-
-
-import org.hibernate.validator.constraints.NotBlank;
 /**
 * @Title:ExamPaper 
 * @Description:考卷表
@@ -19,13 +16,11 @@ public class ExamPaper {
     /**
      * @Fields name : 考卷名称
      */
-    @NotBlank(message="考卷名称不能为空")
     private String name;
     
     /**
      * @Fields code : 考卷编号
      */
-    @NotBlank(message="考卷编号不能为空")
     private String code;
     
     /**

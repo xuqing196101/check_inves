@@ -20,6 +20,7 @@
 	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript">
 		$(function(){
+			$("#error").hide();
 			laypage({
 			    cont: $("#pageDiv"), //容器。值支持id名、原生dom对象，jquery对象,
 			    pages: "${list.pages}", //总页数
@@ -144,13 +145,39 @@
 			    type: "POST",
 			    dataType: "text",
 			    success: function(data) {
-			    	if(data==0){
+			    	if(data.length<=5){
 			    		layer.msg('导入成功',{offset: ['222px', '390px']});
 				    	window.setTimeout(function(){
 				       		window.location.href="<%=path%>/expertExam/searchLawExpPool.html";
 				       	}, 1000);
 			    	}else{
-			    		alert(data);
+			    		var array = data.split(";");
+			    		var html = "";
+			    		for(var i=0;i<array.length-1;i++){
+			    			html = html + "<tr class='tc'>";
+			            	html = html + "<td>"+(i+1)+"</td>";
+			            	if(i==0){
+			            		html = html + "<td>"+array[i].split(",")[0].substring(1)+"</td>";
+			            	}else{
+			            		html = html + "<td>"+array[i].split(",")[0]+"</td>";
+			            	}
+			            	html = html + "<td>"+array[i].split(",")[1]+"</td>";
+			            	html = html + "</tr>";
+			    		}
+			    		$("#errorResult").html(html);
+			    		$("#errorNews").html("Excel表中以下题目的题干已存在");
+			    		layer.open({
+						 	type: 1, //page层
+							area: ['430px', '200px'],
+							closeBtn: 1,
+							shade:0.01, //遮罩透明度
+							moveType: 1, //拖拽风格，0是默认，1是传统拖动
+							shift: 1, //0-6的动画形式，-1不开启
+							offset: ['120px', '550px'],
+							shadeClose: false,
+							content : $('#error')
+						});
+						$(".layui-layer-shade").remove();
 			    	}
 			    }
 			}); 
@@ -232,5 +259,19 @@
      <div id="pageDiv" align="right"></div>
    </div>
    
+   		<div class="content padding-left-25 padding-right-25" id="error">
+	  		<div id="errorNews"></div>
+	  		<table class="table table-bordered table-condensed table-hover">
+				<thead>
+					<tr class="info">
+						<th>序号</th>
+						<th>题型</th>
+						<th>题干</th>
+					</tr>
+				</thead>
+				<tbody id="errorResult">
+				</tbody>
+			</table>
+		</div>
   </body>
 </html>

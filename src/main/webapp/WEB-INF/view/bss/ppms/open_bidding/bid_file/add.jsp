@@ -32,9 +32,9 @@
 <script type="text/javascript">
 	function OpenFile() {
 		var obj = document.getElementById("TANGER_OCX");
-		obj.Menubar = false;
+		obj.Menubar = true;
 		obj.Caption = "( 双击可放大 ! )";
-		obj.BeginOpenFromURL("<%=basePath%>stash/1.doc");// 异步加载, 服务器文件路径
+		obj.BeginOpenFromURL("<%=basePath%>stash/bidFileTemp.doc");// 异步加载, 服务器文件路径
 		// obj.OpenFromURL("http://localhost:8080/${pageContext.request.contextPath}/stash/1.doc");
 	}
 	
@@ -44,20 +44,17 @@
 		// 参数说明
 		// 1.url	2.后台接收的文件的变量	3.可选参数(为空)		4.文件名		5.form表单的ID
 		//obj.SaveToURL("${pageContext.request.contextPath}/open_bidding/saveBidFile.html", "bidFile", "", "bid.doc", "MyFile");
-		obj.SaveToLocal("",false,true);
 	}
 	
 </script>
 </head>
 
 <body onload="OpenFile()">
-<!-- <button onclick="saveFile()">保存到服务器</button> -->
 	<form id="MyFile" method="post"  enctype="multipart/form-data">
 		 <!-- 按钮 -->
         <div class="fr pr15 mt10">
 		     <input type="button" class="btn btn-windows input" onclick="inputTemplete()" value="模板导入"></input>
-	         <input type="button" class="btn btn-windows output" onclick="exportWord()" value="导出"></input>
-	         <input type="button" class="btn btn-windows save" onclick="saveFile()" value="保存"></input>
+	         <input type="button" class="btn btn-windows save" onclick="saveFile()" value="保存到服务器"></input>
 	    </div>
 		<script type="text/javascript" src="${pageContext.request.contextPath}/public/ntko/ntkoofficecontrol.js"></script>
 	</form>

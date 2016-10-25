@@ -38,6 +38,16 @@
     AND dbms_lob.instr(TOPIC,#{topic})>0 
   </select>
   
+  <select id="selectByTecTopic" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	 select 
+    <include refid="Base_Column_List" />
+    from T_SES_EMS_EXAM_QUESTION
+    WHERE
+    	PERSON_TYPE = 1
+      	AND KIND = 0
+   		AND dbms_lob.instr(TOPIC,#{topic})>0 
+  </select>
+  
   <!-- 查询各专家题库题目的数量 -->
   <select id="queryQuestionCount" parameterType="java.util.Map" resultType="java.lang.Integer">
   	select count(1)
