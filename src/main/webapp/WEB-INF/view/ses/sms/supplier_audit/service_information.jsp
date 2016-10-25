@@ -167,44 +167,12 @@ $(function() {
     });
   });
 
-function tijiao(str){
-  var action;
-  if(str=="essential"){
-     action ="<%=basePath%>supplierAudit/essential.html";
-  }
-  if(str=="financial"){
-    action = "<%=basePath%>supplierAudit/financial.html";
-  }
-  if(str=="shareholder"){
-    action = "<%=basePath%>supplierAudit/shareholder.html";
-  }
-  if(str=="materialProduction"){
-    action = "<%=basePath%>supplierAudit/materialProduction.html";
-  }
-  if(str=="materialSales"){
-    action = "<%=basePath%>supplierAudit/materialSales.html";
-  }
-  if(str=="engineering"){
-    action = "<%=basePath%>supplierAudit/engineering.html";
-  }
-  if(str=="service"){
-    action = "<%=basePath%>supplierAudit/serviceInformation.html";
-  }
-  if(str=="items"){
-  action = "${pageContext.request.contextPath}/supplierAudit/items.html";
-  }
-  if(str=="applicationFrom"){
-    action = "${pageContext.request.contextPath}/supplierAudit/applicationForm.html";
-  }
-  if(str=="reasonsList"){
-    action = "<%=basePath%>supplierAudit/reasonsList.html";
-  }
-  if(str=="product"){
-    action = "${pageContext.request.contextPath}/supplierAudit/product.html";
-  }
+function tijiao(){
+  var action = "${pageContext.request.contextPath}/supplierAudit/items.html";
   $("#form_id").attr("action",action);
   $("#form_id").submit();
 }
+
 
 //文件下載
   function downloadFile(fileName) {
@@ -223,25 +191,25 @@ function tijiao(str){
         <div class="col-md-12 tab-v2 job-content">
           <div class="padding-top-10">
             <ul class="nav nav-tabs bgdd">
-              <li class=""><a aria-expanded="fale" href="#tab-1" data-toggle="tab" onclick="tijiao('essential');">详细信息</a></li>
-              <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" onclick="tijiao('financial');">财务信息</a></li>
-              <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('shareholder');">股东信息</a></li>
+              <li class=""><a >详细信息</a></li>
+              <li class=""><a >财务信息</a></li>
+              <li class=""><a >股东信息</a></li>
               <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
-	            <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" onclick="tijiao('materialProduction');">物资-生产型专业信息</a></li>
+	            <li class=""><a >物资-生产型专业信息</a></li>
 	            </c:if>
 	            <c:if test="${fn:contains(supplierTypeNames, '销售型')}">
-	            <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('materialSales');">物资-销售型专业信息</a></li>
+	            <li class=""><a >物资-销售型专业信息</a></li>
 	            </c:if>
 	            <c:if test="${fn:contains(supplierTypeNames, '工程')}">
-	            <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('engineering');">工程-专业信息</a></li>
+	            <li class=""><a >工程-专业信息</a></li>
 	            </c:if>
 	            <c:if test="${fn:contains(supplierTypeNames, '服务')}">
-	            <li class="active"><a aria-expanded="ture" href="#tab-3" data-toggle="tab" onclick="tijiao('service');" id="service">服务-专业信息</a></li>
+	            <li class="active"><a d="service">服务-专业信息</a></li>
 	            </c:if>
-              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('items');">品目信息</a></li>
-              <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('product');" id="product">产品信息</a></li>
-              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('applicationFrom');">申请表</a></li>
-              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('reasonsList');">审核汇总</a></li>
+              <li class=""><a >品目信息</a></li>
+              <li class=""><a >产品信息</a></li>
+              <li class=""><a >申请表</a></li>
+              <li class=""><a >审核汇总</a></li>
             </ul>
               <div class="tab-content padding-top-20" style="height:800px;">
                 <div class="tab-pane fade active in height-450" id="tab-1">
@@ -334,12 +302,15 @@ function tijiao(str){
                         </li>
                       </ul>
                     </div>
-                  </div>
-                </div>   
+                <div class="col-md-12 add_regist tc">
+                   <a class="btn btn-windows save" onclick="tijiao();">下一步</a>
+                </div>
               </div>
-            </div>
+            </div>   
           </div>
+        </div>
       </div>
+    </div>
   </div>
   <form target="_blank" id="download_form_id" action="${pageContext.request.contextPath}/supplierAudit/download.html" method="post">
    <input type="hidden" name="fileName" />

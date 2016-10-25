@@ -142,7 +142,7 @@ function tijiao(status){
   form1.submit();
 }
 
-//导航
+/* //导航
 function tijiao(str){
   var action;
   if(str=="essential"){
@@ -182,7 +182,7 @@ function tijiao(str){
   $("#form_id").submit();
 }
 
-
+ */
 //审核
 function shenhe(status){
   var auditId = $("#auditId").val();
@@ -228,25 +228,25 @@ alert(supplierInspectListFile);
         <div class="col-md-12 tab-v2 job-content">
           <div class="padding-top-10">
             <ul class="nav nav-tabs bgdd">
-              <li class=""><a aria-expanded="fale" href="#tab-1" data-toggle="tab" onclick="tijiao('essential');">详细信息</a></li>
-              <li class=""><a aria-expanded="" href="#tab-2" data-toggle="tab" onclick="tijiao('financial');">财务信息</a></li>
-              <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('shareholder');">股东信息</a></li>
+              <li class=""><a >详细信息</a></li>
+              <li class=""><a >财务信息</a></li>
+              <li class=""><a >股东信息</a></li>
               <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
-	            <li class=""><a aria-expanded="fale" href="#tab-2" data-toggle="tab" onclick="tijiao('materialProduction');">物资-生产型专业信息</a></li>
+	            <li class=""><a >物资-生产型专业信息</a></li>
 	            </c:if>
 	            <c:if test="${fn:contains(supplierTypeNames, '销售型')}">
-	            <li class=""><a aria-expanded="fale" href="#tab-3" data-toggle="tab" onclick="tijiao('materialSales');">物资-销售型专业信息</a></li>
+	            <li class=""><a >物资-销售型专业信息</a></li>
 	            </c:if>
 	            <c:if test="${fn:contains(supplierTypeNames, '工程')}">
-	            <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('engineering');">工程-专业信息</a></li>
+	            <li class=""><a >工程-专业信息</a></li>
 	            </c:if>
 	            <c:if test="${fn:contains(supplierTypeNames, '服务')}">
-	            <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('service');">服务-专业信息</a></li>
+	            <li class=""><a >服务-专业信息</a></li>
 	            </c:if>
-              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('items');">品目信息</a></li>
-              <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('product');">产品信息</a></li>
-              <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('applicationFrom');">申请表</a></li>
-              <li class="active"><a aria-expanded="true" href="#tab-2" data-toggle="tab" onclick="tijiao('reasonsList');">审核汇总</a></li>
+              <li class=""><a >品目信息</a></li>
+              <li class=""><a >产品信息</a></li>
+              <li class=""><a >申请表</a></li>
+              <li class="active"><a >审核汇总</a></li>
             </ul>
 	            <form id="form_id" action="" method="post"  enctype="multipart/form-data">
 	                <input name="supplierId" value="${supplierId}" type="hidden">

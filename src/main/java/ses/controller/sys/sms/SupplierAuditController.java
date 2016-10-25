@@ -223,11 +223,13 @@ public class SupplierAuditController extends BaseSupplierController{
 		if(supplierTypeName.contains("生产型")){
 			url=request.getContextPath()+"/supplierAudit/materialProduction.html";
 		}else if(supplierTypeName.contains("销售型") && url == null){
-			url=request.getContextPath()+"${pageContext.request.contextPath}/supplierAudit/materialSales.html";
+			url=request.getContextPath()+"/supplierAudit/materialSales.html";
 		}else if(supplierTypeName.contains("工程") && url == null){
-			url=request.getContextPath()+"${pageContext.request.contextPath}/supplierAudit/engineering.html";
+			url=request.getContextPath()+"/supplierAudit/engineering.html";
 		}else if(supplierTypeName.contains("服务") && url == null){
-			url=request.getContextPath()+"${pageContext.request.contextPath}/supplierAudit/serviceInformation.html";
+			url=request.getContextPath()+"/supplierAudit/serviceInformation.html";
+		}else{
+			url=request.getContextPath()+"/supplierAudit/items.html";
 		}
 		request.setAttribute("url", url);
 		return "ses/sms/supplier_audit/shareholder";
@@ -260,11 +262,13 @@ public class SupplierAuditController extends BaseSupplierController{
 		//下一步的跳转页面
 		String url = null;
 		if(supplierTypeName.contains("销售型")){
-			url=request.getContextPath()+"${pageContext.request.contextPath}/supplierAudit/materialSales.html";
+			url=request.getContextPath()+"/supplierAudit/materialSales.html";
 		}else if(supplierTypeName.contains("工程") && url == null){
-			url=request.getContextPath()+"${pageContext.request.contextPath}/supplierAudit/engineering.html";
+			url=request.getContextPath()+"/supplierAudit/engineering.html";
 		}else if(supplierTypeName.contains("服务") && url == null){
-			url=request.getContextPath()+"${pageContext.request.contextPath}/supplierAudit/serviceInformation.html";
+			url=request.getContextPath()+"/supplierAudit/serviceInformation.html";
+		}else{
+			url=request.getContextPath()+"/supplierAudit/items.html";
 		}
 		request.setAttribute("url", url);
 		return "ses/sms/supplier_audit/material_production";
@@ -295,9 +299,11 @@ public class SupplierAuditController extends BaseSupplierController{
 		//下一步的跳转页面
 		String url = null;
 		if(supplierTypeName.contains("工程")){
-			url=request.getContextPath()+"${pageContext.request.contextPath}/supplierAudit/engineering.html";
+			url=request.getContextPath()+"/supplierAudit/engineering.html";
 		}else if(supplierTypeName.contains("服务") && url == null){
-			url=request.getContextPath()+"${pageContext.request.contextPath}/supplierAudit/serviceInformation.html";
+			url=request.getContextPath()+"/supplierAudit/serviceInformation.html";
+		}else{
+			url=request.getContextPath()+"/supplierAudit/items.html";
 		}
 		request.setAttribute("url", url);
 		return "ses/sms/supplier_audit/material_sales";
@@ -331,7 +337,9 @@ public class SupplierAuditController extends BaseSupplierController{
 		//下一步的跳转页面
 		String url = null;
 		if(supplierTypeName.contains("服务")){
-			url=request.getContextPath()+"${pageContext.request.contextPath}/supplierAudit/serviceInformation.html";
+			url=request.getContextPath()+"/supplierAudit/serviceInformation.html";
+		}else{
+			url=request.getContextPath()+"/supplierAudit/items.html";
 		}
 		request.setAttribute("url", url);
 		return "ses/sms/supplier_audit/engineering";
