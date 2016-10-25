@@ -38,7 +38,7 @@ public class ScoreModel implements Serializable{
 	
 	//模型二相关属性   按项加减分
 	private String reviewParam;//评审参数
-	private String AddSubtractTypeName;//加减分类型   如果为加分，那么高于评审基准数为0分，低于评审基准数按照规则加分；如果是减分类型，那么高于评审基准数为满分，低于评审基准数，按照规则减分
+	private String addSubtractTypeName;//加减分类型   如果为加分，那么高于评审基准数为0分，低于评审基准数按照规则加分；如果是减分类型，那么高于评审基准数为满分，低于评审基准数，按照规则减分
 	private String unitScore;//每单位分值
 	private String unit;//单位
 	private String reviewStandScore;//评审基准数     起始分值  逐次增加按照每单位分值(模型1) 基准分值逐次递减(模型2)评审基准数(模型7、模型8)
@@ -167,12 +167,13 @@ public class ScoreModel implements Serializable{
 		this.reviewParam = reviewParam;
 	}
 
+
 	public String getAddSubtractTypeName() {
-		return AddSubtractTypeName;
+		return addSubtractTypeName;
 	}
 
 	public void setAddSubtractTypeName(String addSubtractTypeName) {
-		AddSubtractTypeName = addSubtractTypeName;
+		this.addSubtractTypeName = addSubtractTypeName;
 	}
 
 	public String getUnitScore() {
