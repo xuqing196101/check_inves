@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.iacs.ProductMapper">
+  <resultMap id="Product_Map" type="bss.model.iacs.Product">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="PRODUCT_NO" jdbcType="VARCHAR" property="productNo" />
+    <result column="PRODUCT_NAME" jdbcType="VARCHAR" property="productName" />
+    <result column="PRODUCT_INSTRUCTION" jdbcType="VARCHAR" property="productInstruction" />
+    <result column="PRODUCT_CATEGORY_ID" jdbcType="VARCHAR" property="productCategoryId" />
+    <result column="IS_DETELE" jdbcType="DECIMAL" property="isDetele" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, PRODUCT_NO, PRODUCT_NAME, PRODUCT_INSTRUCTION, PRODUCT_CATEGORY_ID, IS_DETELE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="Product_Map">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_IACS_PRODUCT
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BSS_IACS_PRODUCT
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="bss.model.iacs.Product">
+    insert into T_BSS_IACS_PRODUCT (ID, PRODUCT_NO, PRODUCT_NAME, 
+      PRODUCT_INSTRUCTION, PRODUCT_CATEGORY_ID, 
+      IS_DETELE)
+    values (#{id,jdbcType=VARCHAR}, #{productNo,jdbcType=VARCHAR}, #{productName,jdbcType=VARCHAR}, 
+      #{productInstruction,jdbcType=VARCHAR}, #{productCategoryId,jdbcType=VARCHAR}, 
+      #{isDetele,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="bss.model.iacs.Product">
+    insert into T_BSS_IACS_PRODUCT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="productNo != null">
+        PRODUCT_NO,
+      </if>
+      <if test="productName != null">
+        PRODUCT_NAME,
+      </if>
+      <if test="productInstruction != null">
+        PRODUCT_INSTRUCTION,
+      </if>
+      <if test="productCategoryId != null">
+        PRODUCT_CATEGORY_ID,
+      </if>
+      <if test="isDetele != null">
+        IS_DETELE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="productNo != null">
+        #{productNo,jdbcType=VARCHAR},
+      </if>
+      <if test="productName != null">
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productInstruction != null">
+        #{productInstruction,jdbcType=VARCHAR},
+      </if>
+      <if test="productCategoryId != null">
+        #{productCategoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="isDetele != null">
+        #{isDetele,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="bss.model.iacs.Product">
+    update T_BSS_IACS_PRODUCT
+    <set>
+      <if test="productNo != null">
+        PRODUCT_NO = #{productNo,jdbcType=VARCHAR},
+      </if>
+      <if test="productName != null">
+        PRODUCT_NAME = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productInstruction != null">
+        PRODUCT_INSTRUCTION = #{productInstruction,jdbcType=VARCHAR},
+      </if>
+      <if test="productCategoryId != null">
+        PRODUCT_CATEGORY_ID = #{productCategoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="isDetele != null">
+        IS_DETELE = #{isDetele,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="bss.model.iacs.Product">
+    update T_BSS_IACS_PRODUCT
+    set PRODUCT_NO = #{productNo,jdbcType=VARCHAR},
+      PRODUCT_NAME = #{productName,jdbcType=VARCHAR},
+      PRODUCT_INSTRUCTION = #{productInstruction,jdbcType=VARCHAR},
+      PRODUCT_CATEGORY_ID = #{productCategoryId,jdbcType=VARCHAR},
+      IS_DETELE = #{isDetele,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="queryByCid" parameterType="String" resultMap="Product_Map">
+  select 
+	  <include refid="Base_Column_List"/>
+	  from T_BSS_IACS_PRODUCT
+	  <where>
+		  1=1
+		  <if test="productCategoryId !=null">
+		   and PRODUCT_CATEGORY_ID = #{productCategoryId}
+		  </if>
+		   <if test="productName !=null">
+		   and PRODUCT_NAME = #{productName}
+		  </if>
+		   <if test="productNo !=null">
+		   and PRODUCT_NO = #{productNo}
+		  </if>
+	  </where>
+  
+  </select>
+  
+  
+</mapper>
