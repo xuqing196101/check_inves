@@ -5,9 +5,11 @@
     <result column="PACKAGE_ID" jdbcType="VARCHAR" property="packageId" />
     <result column="FIRST_AUDIT_ID" jdbcType="VARCHAR" property="firstAuditId" />
     <result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
+    <result column="IS_CONFIRM" jdbcType="DECIMAL" property="isConfirm" />
   </resultMap>
+  
   <sql id="Base_Column_List">
-  PACKAGE_ID,FIRST_AUDIT_ID,PROJECT_ID
+  PACKAGE_ID,FIRST_AUDIT_ID,PROJECT_ID,IS_CONFIRM
   </sql>
   <!-- 根据包id删除 -->
    <delete id="deleteByPackageId" parameterType="java.lang.String">
@@ -21,11 +23,40 @@
     from T_BSS_PRMS_PACKAGE_FIRST_AUDIT
     where PACKAGE_ID = #{packageId,jdbcType=VARCHAR} AND PROJECT_ID = #{projectId,jdbcType=VARCHAR}
   </select>
+  <!--根据项目id 包id 初审项id  修改数据  -->
+  <update id="update" parameterType="bss.model.prms.PackageFirstAudit">
+    update T_BSS_PRMS_PACKAGE_FIRST_AUDIT
+    <set>
+      <if test="packageId != null">
+        PACKAGE_ID = #{packageId,jdbcType=VARCHAR},
+      </if>
+      <if test="firstAuditId != null">
+        FIRST_AUDIT_ID = #{firstAuditId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+      </if>
+       <if test="isConfirm != null">
+        IS_CONFIRM = #{isConfirm},
+      </if>
+    </set>
+    where 1=1
+     <if test="packageId != null and packageId != ''">
+        AND PACKAGE_ID = #{packageId} 
+      </if>
+      <if test="firstAuditId != null and firstAuditId != ''">
+        AND FIRST_AUDIT_ID = #{firstAuditId}
+      </if>
+      <if test="projectId != null and projectId != ''">
+        AND PROJECT_ID = #{projectId}
+      </if>
+  </update>
+  
   <insert id="insert" parameterType="bss.model.prms.PackageFirstAudit">
-    insert into T_BSS_PRMS_PACKAGE_FIRST_AUDIT (PACKAGE_ID, FIRST_AUDIT_ID, PROJECT_ID
-      )
-    values (#{packageId,jdbcType=VARCHAR}, #{firstAuditId,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}
-      )
+    insert into T_BSS_PRMS_PACKAGE_FIRST_AUDIT (PACKAGE_ID, FIRST_AUDIT_ID, PROJECT_ID, 
+      IS_CONFIRM)
+    values (#{packageId,jdbcType=VARCHAR}, #{firstAuditId,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, 
+      #{isConfirm,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="bss.model.prms.PackageFirstAudit">
     insert into T_BSS_PRMS_PACKAGE_FIRST_AUDIT
@@ -39,6 +70,9 @@
       <if test="projectId != null">
         PROJECT_ID,
       </if>
+      <if test="isConfirm != null">
+        IS_CONFIRM,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="packageId != null">
@@ -49,6 +83,9 @@
       </if>
       <if test="projectId != null">
         #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="isConfirm != null">
+        #{isConfirm,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>

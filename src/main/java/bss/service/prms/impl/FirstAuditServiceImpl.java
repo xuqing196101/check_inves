@@ -44,6 +44,7 @@ public class FirstAuditServiceImpl implements FirstAuditService {
 	@Override
 	public int addAll(FirstAudit record) {
 		record.setId(WfUtil.createUUID());
+		record.setCreatedAt(new Date());
 		return mapper.insert(record);
 	}
 
@@ -61,6 +62,7 @@ public class FirstAuditServiceImpl implements FirstAuditService {
 	@Override
 	public int add(FirstAudit record) {
 		record.setId(WfUtil.createUUID());
+		record.setCreatedAt(new Date());
 		return mapper.insertSelective(record);
 	}
 

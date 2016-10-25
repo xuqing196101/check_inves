@@ -177,6 +177,7 @@ public class FirstAuditTemplatServiceImpl implements FirstAuditTemplatService {
 		   audit.setCreater(firstAuditTemitem.getCreater());
 		   audit.setName(firstAuditTemitem.getName());
 		   audit.setKind(firstAuditTemitem.getKind());
+		   audit.setCreatedAt(firstAuditTemitem.getCreatedAt());
 		   audit.setProjectId(projectId);
 		   
 		   auditMapper.insertSelective(audit);

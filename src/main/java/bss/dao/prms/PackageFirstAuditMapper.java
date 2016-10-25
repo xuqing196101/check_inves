@@ -31,4 +31,14 @@ public interface PackageFirstAuditMapper {
       * @return List<PackageFirstAudit>
      */
     List<PackageFirstAudit>selectList(Map<String,Object> map);
+    /**
+     * 
+      * @Title: update
+      * @author ShaoYangYang
+      * @date 2016年10月25日 上午10:43:16  
+      * @Description: TODO 根据项目id 包id 和初审项id 三个id 确定一条数据进行修改
+      * @param @param record      
+      * @return void
+     */
+    void update(PackageFirstAudit record);
 }

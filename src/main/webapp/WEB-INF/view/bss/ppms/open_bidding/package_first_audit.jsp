@@ -187,6 +187,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											        <th>初审项名称</th>
 											        <th>要求类型</th>
 											        <th>创建人</th>
+											        <th>创建时间</th>
 											      </tr>
 											     </thead>
 											      <c:forEach items="${list }" var="l" varStatus="vs">
@@ -202,6 +203,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												        <td align="center">${l.name } </td>
 												        <td align="center">${l.kind }</td>
 												        <td align="center">${l.creater }</td>
+												        <td align="center"><fmt:formatDate type='date' value='${l.createdAt }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
 												      </tr>
 												      </thead>
 										      	  </c:forEach>
