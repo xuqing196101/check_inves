@@ -265,6 +265,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <td class="tc">${obj.isFreeTax}</td>
               <td class="tc">${obj.goodsUse}</td>
               <td class="tc">${obj.useUnit}</td>
+              <td class="tc">${obj.memo}</td>
             </tr>
      
          </c:forEach>  

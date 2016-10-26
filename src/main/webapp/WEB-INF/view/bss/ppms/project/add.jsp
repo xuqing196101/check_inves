@@ -258,6 +258,7 @@ String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+"";
           <th class="info">是否申请办理免税</th>
           <th class="info">物资用途（进口）</th>
           <th class="info">使用单位（进口）</th>
+          <th class="info">备注</th>
           <th class="info w50">选择</th>
         </tr>
         </thead>
@@ -280,6 +281,7 @@ String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+"";
               <td class="tc">${obj.isFreeTax}</td>
               <td class="tc">${obj.goodsUse}</td>
               <td class="tc">${obj.useUnit}</td>
+              <td class="tc">${obj.memo}</td>
               <td class="tc w30"><input type="checkbox" id="check" value="${obj.id }" name="chkItem" onchange="check(this)"  alt=""></td>
             </tr>
           <%-- </c:if> --%>
