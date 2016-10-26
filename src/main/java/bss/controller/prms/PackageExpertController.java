@@ -18,10 +18,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
+import bss.model.ppms.SaleTender;
 import bss.model.prms.PackageExpert;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
+import bss.service.ppms.SaleTenderService;
 import bss.service.prms.PackageExpertService;
 import ses.model.ems.ProjectExtract;
 import ses.service.ems.ProjectExtractService;
@@ -40,6 +42,8 @@ public class PackageExpertController {
 	private ProjectService projectService;
 	@Autowired
 	private ProjectExtractService projectExtractService;
+	@Autowired
+	private SaleTenderService saleTenderService;//供应商查询
 	/**
 	 * 
 	  * @Title: toPackageExpert
@@ -80,6 +84,9 @@ public class PackageExpertController {
 			List<PackageExpert> selectList = service.selectList(mapSearch);
 			expertIdList.addAll(selectList);
 		}
+		//供应商信息
+		  List<SaleTender> supplierList = saleTenderService.list(new SaleTender(projectId), 0);
+		  model.addAttribute("supplierList", supplierList);
 		//查询条件
 		ProjectExtract projectExtract = new ProjectExtract();
 		projectExtract.setProjectId(projectId);

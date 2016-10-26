@@ -138,79 +138,45 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
 						 <div class="tab-content clear step_cont" >
 						 <div class=class="col-md-12 tab-pane active"  id="tab-1" style="display: block;">
-						 	<h1 class="f16 count_flow"><i>01</i>各包分配专家</h1>
+						 
 						 	   <div class="container clear margin-top-30" id="package">
-						 	   
-							   <h5>01、项目分包信息</h5>
-								   <c:forEach items="${packageList }" var="pack" varStatus="p">
-								   		<span>包名:<span>${pack.name }</span>
-								   		</span>
-								   		<table class="table table-bordered table-condensed mt5">
-							        	<thead>
-							        		<tr class="info">
-							          			<th class="w50">序号</th>
-							         			<th>需求部门</th>
-										        <th>物资名称</th>
-										        <th>规格型号</th>
-										        <th>质量技术标准</th>
-										        <th>计量单位</th>
-										        <th>采购数量</th>
-										        <th>单价（元）</th>
-										        <th>预算金额（万元）</th>
-										        <th>交货期限</th>
-										        <th>采购方式建议</th>
-										        <th>供应商名称</th>
-										        <th>是否申请办理免税</th>
-											    <th>物资用途（进口）</th>
-											    <th>使用单位（进口）</th>
-							        		</tr>
-							        	</thead>
-							          <c:forEach items="${pack.projectDetails}" var="obj">
-							            <tr class="tc">
-								            <td class="w50">${obj.serialNumber }</td>
-								            <td>${obj.department}</td>
-								            <td>${obj.goodsName}</td>
-								            <td>${obj.stand}</td>
-								            <td>${obj.qualitStand}</td>
-								            <td>${obj.item}</td>
-								            <td>${obj.purchaseCount}</td>
-								            <td>${obj.price}</td>
-								            <td>${obj.budget}</td>
-								            <td>${obj.deliverDate}</td>
-								            <td>${obj.purchaseType}</td>
-								            <td>${obj.supplier}</td>
-								            <td>${obj.isFreeTax}</td>
-									        <td>${obj.goodsUse}</td>
-									        <td>${obj.useUnit}</td>
-							            </tr>
-							         </c:forEach> 
-							      </table>
-								   </c:forEach>
-								   <table class="table table-bordered table-condensed mt5">
-								 	            <h5>02、唱标信息</h5>
+						 	   <table class="table table-bordered table-condensed mt5">
+								 	            <h3>01、专家名单</h3>
 											    <thead>
 											      <tr>
 											      	<th class="info w50">序号</th>
-											        <th>供应商名称</th>
-											        <th>联系人</th>
+											        <th>专家姓名</th>
+											        <th>专家类型</th>
+											        <th>证件号</th>
+											        <th>现任职务</th>
+											        <th>联系地址</th>
 											        <th>联系电话</th>
-											        <th>报价</th>
 											      </tr>
 											     </thead>
-											      <c:forEach items="${list }" var="l" varStatus="vs">
+											      <c:forEach items="${expertList }" var="expert" varStatus="vs">
 												      <thead>
 												       <tr>
-												        <td class="tc w30"> </td>
-												        <td align="center">${l.name } </td>
-												        <td align="center">${l.kind }</td>
-												        <td align="center">${l.creater }</td>
-												        <td align="center">${l.creater }</td>
-												        <td align="center">${l.creater }</td>
+												        <td class="tc w30">${vs.count }</td>
+												        <td align="center">${expert.expert.relName } </td>
+												        <c:if test="${expert.expert.expertsTypeId eq '1' }">
+												           <td align="center">技术</td>
+												        </c:if>
+												        <c:if test="${expert.expert.expertsTypeId eq '2' }">
+												           <td align="center">法律</td>
+												        </c:if>
+												        <c:if test="${expert.expert.expertsTypeId eq '3' }">
+												           <td align="center">商务</td>
+												        </c:if>
+												       
+												        <td align="center">${expert.expert.idNumber } </td>
+												        <td align="center">${expert.expert.atDuty } </td>
+												        <td align="center">${expert.expert.unitAddress } </td>
+												        <td align="center">${expert.expert.mobile } </td>
 												      </tr>
 												      </thead>
 										      	  </c:forEach>
 								   		  </table>
-										 	            <h5>03、各包分配评委</h5>
+										 	            <h3>02、各包分配评委</h3>
 								   <c:forEach items="${packageList }" var="pack" varStatus="p">
 									   <form action="<%=basePath%>packageExpert/relate.html" method="post" >
 									   <!--包id  -->
@@ -222,7 +188,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										 	            
 													      	<tr >
 													      	  <td style="white-space: nowrap;overflow: hidden;word-spacing: keep-all;">
-													      	<span style=" font-size: 18;">包名:${pack.name }</span>&nbsp;&nbsp;
+													      	&nbsp;&nbsp;<span style=" font-size: 18;">包名:${pack.name }</span>&nbsp;&nbsp;
 													      	<c:forEach items="${expertList }" var="expert" varStatus="vs">
 													      	<input type="checkbox" name="chkItem" value="${expert.expert.id }" 
 													      		        <c:forEach items="${expertIdList }" var="e" varStatus="p">
@@ -246,13 +212,143 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													      	    	>${expert.expert.relName }</option>
 													      	    	</c:forEach>
 													      	      </select>&nbsp;&nbsp;
-													      	<input type="button" onclick="submit1(this);"  value="分配" class="btn btn-windows add"><br/>
+													      	<input type="button" onclick="submit1(this);"  value="分配" class="btn btn-windows add">
 													      	  </td>
 													      	</tr>
 										   </table>
 									     </div>
 									   </form>
 								   </c:forEach>
+								    <table class="table table-bordered table-condensed mt5">
+								 	            <h3>03、供应商报价表</h3>
+											    <thead>
+											      <tr>
+											      	<th class="info w50">序号</th>
+											        <th>供应商名称</th>
+											        <th>联系人</th>
+											        <th>联系电话</th>
+											        <th>报价</th>
+											      </tr>
+											     </thead>
+											      <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
+												      <thead>
+												       <tr>
+												        <td class="tc w30">${vs.count } </td>
+												        <td align="center">${supplier.suppliers.supplierName } </td>
+												        <td align="center">${supplier.suppliers.contactName }</td>
+												        <td align="center">${supplier.suppliers.contactTelephone }</td>
+												        <td align="center"></td>
+												      </tr>
+												      </thead>
+										      	  </c:forEach>
+								   		  </table>
+								 	            <h3>04、评审进度</h3>
+								   	 <c:forEach items="${packageList }" var="pack" varStatus="vs">
+								   		   <table class="table table-bordered table-condensed mt5">
+											    <thead>
+											      <tr>
+											      	<th rowspan="2">${pack.name }</th>
+											        <th>状态</th>
+											        <th>总进度</th>
+											        <th>符合性审查进度</th>
+											        <th>评分进度</th>
+											      </tr>
+											      <tr>
+											            <td align="center">评审中 </td>
+												        <td align="center">80%</td>
+												        <td align="center">50%</td>
+												        <td align="center">30%</td>
+											      </tr>
+												       <tr>
+												        <td align="center">中标供应商 </td>
+												        <td align="center" colspan="4">aa</td>
+												      </tr>
+												      </thead>
+								   		  </table>
+									</c:forEach>
+									   <h3>05、符合性审查</h3>
+								   	 <c:forEach items="${packageList }" var="pack" varStatus="vs">
+								   	 <div align="right">
+								   	 <button class="btn btn-windows back" type="button">退回重审</button>
+								   	 </div>
+								   		   <table class="table table-bordered table-condensed mt5">
+											    <thead>
+											      <tr>
+											      	<th colspan="${supplierList.size()+2 }">${pack.name }初审情况</th>
+											      </tr>
+											      <tr>
+											        <th>评委</th>
+											        <th>符合性审查完成</th>
+											        <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
+											        <th>${supplier.suppliers.supplierName }</th>
+											        </c:forEach>
+											      </tr>
+											      </thead>
+											      <thead>
+											       <c:forEach items="${expertList }" var="expert" varStatus="vs">
+												       <tr>
+												        <td align="center">${expert.expert.relName } </td>
+												        <td align="center"> </td>
+												        <td align="center"></td>
+												        <td align="center"></td>
+												        <td align="center"></td>
+												      </tr>
+										      	  </c:forEach>
+												       <tr>
+												        <td align="center" colspan="2">初审结果 </td>
+												        <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
+												        <td align="center">aa</td>
+												        </c:forEach>
+												      </tr>
+												      </thead>
+								   		  </table>
+									</c:forEach>
+									
+									
+									  <h3>06、评分汇总</h3>
+								   	 <c:forEach items="${packageList }" var="pack" varStatus="vs">
+								   	 <div align="right">
+								   	 <button class="btn btn-windows back" type="button">评分汇总</button>
+								   	 <button class="btn btn-windows input" onclick="window.print();" type="button">打印评分信息</button>
+								   	 </div>
+								   		   <table class="table table-bordered table-condensed mt5">
+											    <thead>
+											      <tr>
+											      	<th colspan="${supplierList.size()+2 }">${pack.name }评分汇总</th>
+											      </tr>
+											      <tr>
+											        <th>评委</th>
+											        <th>评分完成</th>
+											        <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
+											        <th>${supplier.suppliers.supplierName }</th>
+											        </c:forEach>
+											      </tr>
+											      </thead>
+											      <thead>
+											       <c:forEach items="${expertList }" var="expert" varStatus="vs">
+												       <tr>
+												        <td align="center">${expert.expert.relName } </td>
+												        <td align="center"> </td>
+												        <td align="center"></td>
+												        <td align="center"></td>
+												        <td align="center"></td>
+												      </tr>
+										      	  </c:forEach>
+												       <tr>
+												        <td align="center" colspan="2">评分结果 </td>
+												        <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
+												        <td align="center">aa</td>
+												        </c:forEach>
+												      </tr>
+												       <tr>
+												        <td align="center" colspan="2">该包报价 </td>
+												        <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
+												        <td align="center">aa</td>
+												        </c:forEach>
+												      </tr>
+												      </thead>
+								   		  </table>
+									</c:forEach>
 							   </div> 
 							<div class="container clear margin-top-30" id="package">
 						 </div>	
