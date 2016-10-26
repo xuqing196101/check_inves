@@ -248,8 +248,13 @@ public class TackController extends BaseController{
 	
 	
 	@RequestMapping("/update")
-    public String updateById(@RequestParam("attach") MultipartFile[] attach,Task task,PurchaseRequiredFormBean list, HttpServletRequest request){
+    public String updateById(@RequestParam("attach") MultipartFile[] attach, String ide, String fileName, String planNo,
+                             Task task,PurchaseRequiredFormBean list, HttpServletRequest request){
 	    upfile(attach, request, task);
+	    CollectPlan collectPlan = collectPlanService.queryById(ide);
+	    collectPlan.setFileName(fileName);
+	    collectPlan.setPlanNo(planNo);
+	    collectPlanService.update(collectPlan);
         if(list!=null){
             if(list.getList()!=null&&list.getList().size()>0){
                 for( PurchaseRequired p:list.getList()){

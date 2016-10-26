@@ -68,4 +68,6 @@ public interface ProjectService {
 	   List<Project> list(Integer page,Project project);
 	   
 	   List<Project> selectSuccessProject(Map<String,Object> map);
+	   
+	   boolean SameNameCheck(String name, Project project);
 }

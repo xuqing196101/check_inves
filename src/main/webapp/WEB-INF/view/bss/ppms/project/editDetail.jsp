@@ -42,10 +42,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
 <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.validate.min.js"></script>
 
  
   <script type="text/javascript">
-         function sum2(obj){  //数量
+    function sum2(obj){  //数量
          var id=$(obj).next().val();
              $.ajax({
                 url:"<%=basePath%>project/viewIds.html",
@@ -132,60 +133,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         }
         
         
-        
+        function edit(){
+            if(name==""){
+                layer.tips("项目名称不能为空","#jname");
+	        }else if(projectNumber==""){
+	            layer.tips("项目编号不能为空","#projectNumber");
+	        }else{
+	            $("#form1").submit();
+	        }
+            
+        }
            
     
-    function edit(){
-         var purchaseCount =[]; 
-        $('input[name="purchaseCount"]').each(function(){ 
-            purchaseCount.push($(this).val()); 
-        }); 
-        var price =[]; 
-        $('input[name="price"]').each(function(){ 
-            price.push($(this).val()); 
-        }); 
-        var id =[]; 
-        $('input[name="id"]').each(function(){ 
-            id.push($(this).val()); 
-        });
-        var budget =[]; 
-        $('input[name="budget"]').each(function(){ 
-            budget.push($(this).val()); 
-        });
-        
-        var purchaseType =[]; 
-       /*  var purchase = $("input[name='chkItem']:checked").parents("tr").find("td").eq(10).text(); */
-        var ids = $("#ide").val();
-        var name = $("#jname").val();
-        var projectNumber = $("#projectNumber").val();
-        var v = "";
-        $(".advice").each(function() {
-            var select = $(this).find("select[name='purchaseType']");
-            if (!select.size()) {
-                v = "";
-            } else {
-                v = select.val();
-            }
-             purchaseType.push(v); 
-        });  
-            layer.confirm('您确定要修改吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
-                $.ajax({
-                    url:"<%=basePath%>project/editDetail.html",
-                    data:"purchaseCount="+purchaseCount+"&price="+price+"&id="+id+"&purchaseType="+purchaseType+"&budget="+budget+"&name="+name+"&projectNumber="+projectNumber+"&ids="+ids,
-                    type:"post",
-                    dateType:"json",
-                    success:function(){
-                       layer.msg("修改成功",{offset: ['222px', '390px']});
-                        window.setTimeout(function(){
-                            window.location.href="<%=basePath%>project/list.html";
-                        }, 1000);
-                    },
-                    error: function(){
-                        layer.msg("修改失败",{offset: ['222px', '390px']});
-                    }
-                });
-            });
-    }
+    
     
     function sel(obj) {
      var val=$(obj).val();
@@ -209,7 +169,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <div class="clear"></div>
       </div>
    </div>
-  
+  <form action="<%=basePath%>project/update.html" id="form1" method="post" >
 <!-- 录入采购计划开始-->
  <div class="container">
 <!-- 项目戳开始 -->
@@ -221,7 +181,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       </h2>
        </div> 
      <div class="container clear margin-top-30">
-    <input type="hidden" id="ide"  value="${project.id}"/>
+    <input type="hidden" id="ide" name="ide" value="${project.id}"/>
     <label class="fl">
                            项目名称：<input type="text" id="jname" name="name" value="${project.name}"/>&nbsp;&nbsp;
      </label>
@@ -251,11 +211,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <th class="info">是否申请办理免税</th>
           <th class="info">物资用途（进口）</th>
           <th class="info">使用单位（进口）</th>
+          <th class="info">备注</th>
         </tr>
         </thead>
           <c:forEach items="${lists}"  var="obj" varStatus="vs">
             <tr class="${obj.parentId}" style="cursor: pointer;">
-            <input   type="hidden" name="id"   value="${obj.id }">
               <td class="tc w50">${obj.serialNumber}</td>
               <td class="tc">${obj.department}</td>
               <td class="tc">${obj.goodsName}</td>
@@ -265,33 +225,33 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <td class="tc">
               <c:if test="${obj.purchaseCount!=null }">
               <input   type="hidden" name="ss"   value="${obj.id }">
-              <input maxlength="11" id="purchaseCount" onblur="sum2(this);"  onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" name="purchaseCount" style="width:50%;"  value="${obj.purchaseCount}"/>
+              <input maxlength="11" id="purchaseCount" onblur="sum2(this);"  onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" name="lists[${vs.index }].purchaseCount" style="width:50%;"  value="${obj.purchaseCount}"/>
               <input type="hidden" name="ss"   value="${obj.parentId }">
               </c:if>
               <c:if test="${obj.purchaseCount==null }">
-              <input style="border: 0px;"  disabled="disabled"  type="text" name="purchaseCount"  value="${obj.purchaseCount }">
+              <input style="border: 0px;"  disabled="disabled"  type="text" name="lists[${vs.index }].purchaseCount"  value="${obj.purchaseCount }">
               </c:if>
               </td>
               <td class="tc">
               <c:if test="${obj.price!=null }">
               <input   type="hidden" name="ss"   value="${obj.id }">
-              <input maxlength="11" id="price"  name="price" style="width:50%;" onblur="sum1(this);"  value="${obj.price}"/>
+              <input maxlength="11" id="price"  name="lists[${vs.index }].price" style="width:50%;" onblur="sum1(this);"  value="${obj.price}"/>
               <input type="hidden" name="ss"   value="${obj.parentId }">
               </c:if>
               <c:if test="${obj.price==null}">
-              <input style="border: 0px;"  readonly="readonly" onblur="sum1(this)"  type="text" name="price" value="${obj.price }">
+              <input style="border: 0px;"  readonly="readonly" onblur="sum1(this)"  type="text" name="lists[${vs.index }].price" value="${obj.price }">
               </c:if>
               </td>
               <td class="tc">
               <input   type="hidden" name="ss"   value="${obj.id }">
-              <input maxlength="11" id="budget" name="budget" style="width:50%;border-style:none" readonly="readonly"  value="${obj.budget}"/>
+              <input maxlength="11" id="budget" name="lists[${vs.index }].budget" style="width:50%;border-style:none" readonly="readonly"  value="${obj.budget}"/>
               <input type="hidden" name="ss"   value="${obj.parentId }">
               </td>
              
               <td class="tc">${obj.deliverDate}</td>
               <td class="tc advice">
               <c:if test="${null!=obj.purchaseType && obj.purchaseType != ''}">
-              <select name="purchaseType" onchange="sel(this);" style="width:100px" id="select">
+              <select name="lists[${vs.index }].purchaseType" onchange="sel(this);" style="width:100px" id="select">
               
                             <option value="公开招标" <c:if test="${'公开招标'==obj.purchaseType}">selected="selected"</c:if>>公开招标</option>
                             <option value="邀请招标" <c:if test="${'邀请招标'==obj.purchaseType}">selected="selected"</c:if>>邀请招标</option>
@@ -299,6 +259,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                             <option value="询价采购" <c:if test="${'询价采购'==obj.purchaseType}">selected="selected"</c:if>>询价采购</option>
                             <option value="单一来源" <c:if test="${'单一来源'==obj.purchaseType}">selected="selected"</c:if>>单一来源</option>
                 </select></c:if>
+                <input style="border: 0px;" type="hidden" name="lists[${vs.index }].id" value="${obj.id }">
               </td>
               <td class="tc">${obj.supplier}</td>
               <td class="tc">${obj.isFreeTax}</td>
@@ -313,5 +274,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       </div>
    </div>
  </div>
+ </form>
      </body>
 </html>

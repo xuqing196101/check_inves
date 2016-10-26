@@ -115,11 +115,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     }
     
        function start(){
-       var id =[]; 
-        $('input[name="chkItem"]:checked').each(function(){ 
-            id.push($(this).val()); 
-        }); 
-        
           var id =[]; 
         $('input[name="chkItem"]:checked').each(function(){ 
             id.push($(this).val()); 
@@ -238,9 +233,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      <h2 class="padding-10 border1">
      <form  action="<%=basePath%>project/list.html" id="form1" method="post" class="mb0">
      <ul class="demand_list">
-    <input type="hidden" name="page" id="page">
+    
      <li class="fl">
-       <label class="fl">项目名称：<span><input type="text" name="name" id="proName" value="${projects.name }"/></span></label>
+       <label class="fl">项目名称：<span><input type="hidden" name="page" id="page"><input type="text" name="name" id="proName" value="${projects.name }"/></span></label>
        </li>
        <li class="fl">
       <label class="fl">项目编号：<input type="text" name="projectNumber" id="projectNumber" value="${projects.projectNumber }"/> </label> 

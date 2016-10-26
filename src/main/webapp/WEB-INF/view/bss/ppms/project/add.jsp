@@ -5,6 +5,7 @@
     <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+"";
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -42,6 +43,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
 <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.validate.min.js"></script>
 
  
   <script type="text/javascript">
@@ -68,11 +70,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 }  
             }
         });
-       /*  var idr = $("#idr").val();
-        if(idr==null || idr == ''){
-            $("#qwe").hide();
-        }
-         */
+        
+        $("#form1").validate({
+            errorElement: "span",
+            rules:{
+                name:{
+                    remote:{
+                        type:"post",
+                        url:"<%=basePath%>project/SameNameCheck.html",
+                        dataType: "json",
+                        data:{
+                            name:function(){
+                                return $("#pic").val();
+                            }
+                        }
+                    }
+                },
+                
+            },
+            messages:{
+                name:{
+                    remote:"<span class='spredm'>*该项目名称已存在</span>"
+                    },
+                
+                
+            }
+        });
   });
   
     
@@ -109,26 +132,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 });
     }
     
-        <%-- function add(){
-        var idss = $("input[name='idss']").val();
-        if(!idss){
-           layer.alert("请选择",{offset: ['222px', '390px'], shade:0.01});
-            
-        }else{
-            
-            layer.open({
-          type: 2, //page层
-          area: ['500px', '300px'],
-         // title: '您是要取消任务吗？',
-          shade:0.01, //遮罩透明度
-          moveType: 1, //拖拽风格，0是默认，1是传统拖动
-          shift: 1, //0-6的动画形式，-1不开启
-          offset: ['220px', '630px'],
-          shadeClose: true,
-          content: '<%=basePath%>project/create.html?id='+idss
-        });
-        }
-    } --%>
     
     function add(){
         var id =[]; 
@@ -137,7 +140,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         $('input[name="chkItem"]:checked').each(function(){ 
             id.push($(this).val()); 
         }); 
-         window.location.href="<%=basePath%>project/create.html?id="+id+"&name="+name+"&projectNumber="+projectNumber;
+        $("#ids").val(id);
+         if(id==""){
+                layer.tips("请勾选明细","#check");
+          } else if (name==""){
+                layer.tips("项目名称不允许为空","#pic");
+          } else if (projectNumber==""){
+                layer.tips("项目编号不允许为空","#pc");
+          }else{
+            $("#form1").submit(); 
+          }
+         
     }
     
     function bask(){
@@ -161,6 +174,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <div class="headline-v2">
       <h2>新增信息</h2>
    </div>
+   <form id="form1" action="<%=basePath%>project/create.html" method="post">
+   <%
+            session.setAttribute("tokenSession", tokenValue);
+         %>
+         <input type="hidden"  name="token2" value="<%=tokenValue%>">
+         <input type="hidden"  name="id" id="ids">
    <span class="f14 fl">项目名称：</span>
         <div class="fl" >
           <input id="pic" type="text" class="toinline" name="name"/>
@@ -169,7 +188,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         
          <span class="f14 fl">项目编号：</span>
         <div class="fl" >
-          <input id="pic" type="text" class="toinline" name="projectNumber"/>
+          <input id="pc" type="text" class="toinline" name="projectNumber"/>
         </div>
         <%--
 <!-- 项目戳开始 -->
@@ -211,15 +230,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </div> --%>
      <div class="clear"></div>
 
- <input type="hidden" name="idss" value="${idss }">
- <input type="hidden" name="idr" id="idr" value="${sessionScope.idr }">
+ </form>
    <div class="headline-v2 fl">
       <h2>选择需求明细
       </h2>
    </div> 
    <span class="fr option_btn margin-top-10">
-        <button class="btn btn-windows save" onclick="add()">确认</button>
-        <button class="btn btn-windows back"  onclick="bask();">返回</button>
+        <button class="btn btn-windows save" type="button" onclick="add()">确认</button>
+        <button class="btn btn-windows back" type="button"  onclick="bask();">返回</button>
       </span>
    <div class="container margin-top-5">
     <table class="table table-striped table-bordered table-hover">
@@ -262,7 +280,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <td class="tc">${obj.isFreeTax}</td>
               <td class="tc">${obj.goodsUse}</td>
               <td class="tc">${obj.useUnit}</td>
-              <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onchange="check(this)"  alt=""></td>
+              <td class="tc w30"><input type="checkbox" id="check" value="${obj.id }" name="chkItem" onchange="check(this)"  alt=""></td>
             </tr>
           <%-- </c:if> --%>
          </c:forEach>
@@ -272,6 +290,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       </table>
       
    </div>
+   
  </div>
     
     
