@@ -230,13 +230,13 @@
 </head>  
 <body>
 	<input id="packageId" type="hidden" value="${packageId }">
-	<div class="container content height-350">
+	<div class="container content height-350" style="height: 423px;">
 		<div class="row">
 			<div class="mt40  mb50">
 				<input type="button" class="btn  padding-right-20 btn_back margin-5"
 					onclick="reList('${projectId}');" value="返回">
 			</div>
-			<div class="col-md-12" style="min-height:400px;">
+			<div class="col-md-12" style="min-height:400px;margin-left:-60px;">
 				<div class="col-md-3 md-margin-bottom-40 fl" id="show_tree_div">
 					<div class="tag-box tag-box-v3">
 						<ul id="treeDemo" class="ztree">
@@ -244,7 +244,7 @@
 					</div>
 
 				</div>
-				<div class="tag-box tag-box-v4 col-md-9 fr" id="show_content_div" style="overflow: auto;">
+				<div class="tag-box tag-box-v4 col-md-9 fl" id="show_content_div" style="overflow: auto;margin-right: 140px;">
 				
 					<%-- <div>
 						<form
