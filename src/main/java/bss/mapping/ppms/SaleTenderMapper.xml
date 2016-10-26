@@ -150,6 +150,12 @@
 		SELECT
 		ST.*
 		FROM T_BSS_PPMS_SALE_TENDER st WHERE
+		1=1 
+		<if test="projectId != null and projectId != ''">
 		st.PROJECT_ID=#{projectId,jdbcType=VARCHAR}
+		</if>
+		<if test="supplierId != null  and supplierId != '' ">
+		st.SUPPLIER_ID=#{supplierId,jdbcType=VARCHAR}
+		</if>
 	</select>
 </mapper>

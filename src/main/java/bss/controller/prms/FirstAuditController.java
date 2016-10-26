@@ -155,6 +155,60 @@ public class FirstAuditController {
 		}
 		return "bss/ppms/open_bidding/package_first_audit";
 	}
+	
+	@RequestMapping("/toPackageFirstAudit_cn")
+	public String toPackageFirstAuditCN(String projectId,String flag,Model model){
+		try {
+			//项目分包信息
+			HashMap<String,Object> pack = new HashMap<String,Object>();
+			pack.put("projectId", projectId);
+			List<Packages> packList = packageService.findPackageById(pack);
+			if(packList.size()==0){
+				Packages pg = new Packages();
+				pg.setName("第一包"); 
+				pg.setProjectId(projectId);
+				packageService.insertSelective(pg);
+				/*List<ProjectDetail> list = new ArrayList<ProjectDetail>();
+				List<Packages> pk = packageService.findPackageById(pack);
+				for(int i=0;i<list.size();i++){
+					ProjectDetail pd = new ProjectDetail();
+					pd.setId(list.get(i).getId());
+					pd.setPackageId(pk.get(0).getId());
+					detailService.update(pd);
+				}*/
+			}
+			List<Packages> packages = packageService.findPackageById(pack);
+			Map<String,Object> list = new HashMap<String,Object>();
+			//关联表集合
+			List<PackageFirstAudit> idList = new ArrayList<>();
+			Map<String,Object> mapSearch = new HashMap<String,Object>(); 
+			for(Packages ps:packages){
+				list.put("pack"+ps.getId(),ps);
+				HashMap<String,Object> map = new HashMap<String,Object>();
+				map.put("packageId", ps.getId());
+				List<ProjectDetail> detailList = detailService.selectById(map);
+				ps.setProjectDetails(detailList);
+				//设置查询条件
+				mapSearch.put("projectId", projectId);
+				mapSearch.put("packageId", ps.getId());
+				List<PackageFirstAudit> selectList = packageFirstAuditService.selectList(mapSearch);
+				idList.addAll(selectList);
+			}
+			model.addAttribute("idList",idList);
+			model.addAttribute("packageList", packages);
+			Project project = projectService.selectById(projectId);
+			model.addAttribute("project", project);
+			//初审项信息
+			List<FirstAudit> list2 = service.getListByProjectId(projectId);
+			model.addAttribute("list", list2);
+			model.addAttribute("projectId", projectId);
+			model.addAttribute("flag", flag);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "bss/ppms/competitive_negotiation/package_first_audit";
+	}
+	
 	/**
 	 * 
 	  * @Title: add

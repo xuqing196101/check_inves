@@ -123,7 +123,7 @@ public class SupplierInfoController extends BaseSupplierController{
 	 */
 	@RequestMapping("/essential")
 	public String essentialInformation(HttpServletRequest request,String ruku,Supplier supplier,Model model) {
-		if(ruku.equals("1")){
+		if(ruku!=null&&ruku.equals("1")){
 			User user=(User)request.getSession().getAttribute("loginUser");
 			supplier = supplierAuditService.supplierById(user.getTypeId());
 			model.addAttribute("suppliers", supplier);

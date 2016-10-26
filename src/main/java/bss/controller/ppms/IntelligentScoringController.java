@@ -288,6 +288,28 @@ public class IntelligentScoringController {
 		
 		return "3";
 	}
+	
+	/**
+	 * @Title: packageListCn
+	 * @author Song Biaowei
+	 * @date 2016-10-25 下午7:57:09  
+	 * @Description: TODO 
+	 * @param @param packages
+	 * @param @param model
+	 * @param @param request
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping("packageList_cn")
+	public String packageListCn(@ModelAttribute Packages packages,Model model,HttpServletRequest request){
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("projectId", packages.getProjectId());
+		List<Packages> packagesList = packageService.findPackageById(map);
+		model.addAttribute("packagesList", packagesList);
+		model.addAttribute("projectId", packages.getProjectId());
+		return "bss/ppms/competitive_negotiation/scoring_rubric";
+	}
+	
 	//-----------------------------------方法封装-------------------------------------------------------------------------------
 	public void setPackageMarkTermTree(String packageId,String method,MarkTerm markTerm){
 		HashMap<String, Object> map = new HashMap<String,Object>();

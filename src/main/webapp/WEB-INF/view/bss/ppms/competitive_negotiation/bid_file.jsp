@@ -197,20 +197,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                     <div class="col-md-12 p0">
 						   <ul class="flow_step">
 						     <li class="active">
-							   <a  href="<%=basePath%>firstAudit/toAdd.html?projectId=${projectId}" >01、符合性</a>
+							   <a  href="<%=basePath%>firstAudit/toAdd_cn.html?projectId=${projectId}" >01、符合性</a>
 							   <i></i>
 							 </li>
 							 
 							 <li>
-							   <a  href="<%=basePath%>firstAudit/toPackageFirstAudit.html?projectId=${projectId}" >02、符合性关联</a>
+							   <a  href="<%=basePath%>firstAudit/toPackageFirstAudit_cn.html?projectId=${projectId}" >02、符合性关联</a>
 							   <i></i>							  
 							 </li>
 						     <li>
-							   <a  href="<%=basePath%>intelligentScore/packageList.html?projectId=${projectId}">03、评标细则</a>
+							   <a  href="<%=basePath%>intelligentScore/packageList_cn.html?projectId=${projectId}">03、评标细则</a>
 							   <i></i>
 							 </li>
 							 <li>
-							   <a  href="#tab-4" data-toggle="tab">04、竞谈文件</a>
+							   <a  href="<%=basePath%>pub_tran/bidFile.html?id=${projectId}">04、竞谈文件</a>
 							 </li>
 						   </ul>
 						 </div>
