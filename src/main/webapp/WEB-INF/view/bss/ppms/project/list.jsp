@@ -109,10 +109,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
            }
     }
     
-     
+        //查看明细
         function view(id){
            window.location.href="<%=basePath%>project/view.html?id="+id;
-    }
+    }   
+    
+    
+        //进入实施页面
         var flag=true;
        function start(){
           var id =[]; 
@@ -124,44 +127,41 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         var currPage = ${info.pageNum};
           if(id.length==1){
 	           if(status == "实施中"){
-	                $.ajax({
-	                    url:"<%=basePath%>project/viewPackage.html",
-	                    data:"id="+id,
-	                    type:"post",
-	                    dataType:"json",
-	                    success:function(result){
-	                       for(var i=0; i < result.length; i++){
-	                           var packageId = result[i].packageId;
-	                           if(packageId==null){
-	                               flag=false;
-	                               layer.alert("请先分包",{offset: ['222px', '390px'], shade:0.01});
-	                           }
-	                           
-	                       }
-	                        if(flag==false){
-                                  layer.alert("请先分包",{offset: ['222px', '390px'], shade:0.01});
-                                   <%-- window.location.href="<%=basePath%>project/excute.html?id="+id+"&page="+currPage; --%>
-                               }else if(flag==true){
-                                   window.location.href="<%=basePath%>project/excute.html?id="+id+"&page="+currPage;
-                               }
-	                    },
-	                    error: function(){
-	                        layer.msg("失败",{offset: ['222px', '390px']});
-	                    }
-	                });
-	            
+	                window.location.href="<%=basePath%>project/excute.html?id="+id+"&page="+currPage;
            }else if(status == "已立项"){
-	            layer.open({
-	            type: 2, //page层
-	            area: ['500px', '300px'],
-	            title: '您是要启动项目吗？',
-	            shade:0.01, //遮罩透明度
-	            moveType: 1, //拖拽风格，0是默认，1是传统拖动
-	            shift: 1, //0-6的动画形式，-1不开启
-	            offset: ['220px', '630px'],
-	            shadeClose: true,
-	            content: '<%=basePath%>project/startProject.html?id='+id,
-	           }); 
+                $.ajax({
+                        url:"<%=basePath%>project/viewPackage.html",
+                        data:"id="+id,
+                        type:"post",
+                        dataType:"json",
+                        success:function(result){
+                           for(var i=0; i < result.length; i++){
+                               var packageId = result[i].packageId;
+                               if(packageId==null){
+                                   flag=false;
+                                   layer.alert("请先分包",{offset: ['222px', '690px'], shade:0.01});
+                               }
+                           }
+                            if(flag==false){
+                                  layer.alert("请先分包",{offset: ['222px', '690px'], shade:0.01});
+                               }else if(flag==true){
+	                                    layer.open({
+									                type: 2, //page层
+									                area: ['500px', '300px'],
+									                title: '您是要启动项目吗？',
+									                shade:0.01, //遮罩透明度
+									                moveType: 1, //拖拽风格，0是默认，1是传统拖动
+									                shift: 1, //0-6的动画形式，-1不开启
+									                offset: ['220px', '630px'],
+									                shadeClose: true,
+									                content: '<%=basePath%>project/startProject.html?id='+id,
+									    }); 
+                               }
+                        },
+                        error: function(){
+                            layer.msg("失败",{offset: ['222px', '390px']});
+                        }
+                    });
            }
            
             
@@ -214,6 +214,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			}
        }
       
+      //修改项目信息
        function edit(){
         var id =[]; 
         $('input[name="chkItem"]:checked').each(function(){ 
@@ -231,6 +232,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        
        }
        
+       //重置
        function clearSearch(){
         $("#proName").attr("value","");
         $("#projectNumber").attr("value","");

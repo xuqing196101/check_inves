@@ -470,7 +470,15 @@ public class ProjectController extends BaseController {
         return "bss/ppms/project/print";
     }
     
-    
+    /**
+     * 
+     *〈查看明细是否分包〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param id
+     * @param response
+     * @throws IOException
+     */
     @RequestMapping("/viewPackage")
     public void viewPackage(String id, HttpServletResponse response) throws IOException{
         HashMap<String,Object> map = new HashMap<String,Object>();
