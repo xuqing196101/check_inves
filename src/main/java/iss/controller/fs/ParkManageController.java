@@ -28,7 +28,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import ses.model.bms.PreMenu;
 import ses.model.bms.Role;
 import ses.model.bms.User;
 import ses.model.bms.UserPreMenu;
@@ -62,8 +61,7 @@ public class ParkManageController {
 	private UserServiceI userService;
 	@Autowired
 	private RoleServiceI roleService;
-	@Autowired
-	private PreMenuServiceI preMenuService;
+
 	
 
 	/**
@@ -171,13 +169,13 @@ public class ParkManageController {
 			String userId = request.getParameter("userId");
 			if(userId !=null &&userId != ""){
 				 User user = userService.getUserById(userId);
-				/*//设置权限
+				//设置权限
 				Role role = roleService.get("018375864F3C403CAC7698C2549763F0");
 				List<Role> roles = new ArrayList<Role>();
 				roles.add(role);
 				user.setRoles(roles);
 				
-				UserPreMenu um = new UserPreMenu();
+				/*UserPreMenu um = new UserPreMenu();
 				um.setUser(user);
 				userService.deleteUserMenu(um);
 				String ids ="C58C30A33C4A4AB49B125589267BE64B,0298F628AB6C4018A0B43561993A43DE,DDA573A2CCA54DF29E4B8BCCDFAF80DA,8715A14AB3F74D77AF85C443386023F3,3DFF3C15462047A185B6173348BE7839,4AE68DC483454C298D9330A9976159F3";
@@ -261,19 +259,19 @@ public class ParkManageController {
 			
 		}else{
 			String oldUserId = request.getParameter("oldUserId");
-			
-/*			if( oldUserId != null && oldUserId !=""){
+			//更新权限
+			if( oldUserId != null && oldUserId !=""){
 				User oldUser = userService.getUserById(oldUserId);
 				UserPreMenu um = new UserPreMenu();
 				um.setUser(oldUser);
 				userService.deleteUserMenu(um);
-			}*/
+			}
 			String userId = request.getParameter("userId");
 			
-/*			if(userId != null && userId != ""){
+			if(userId != null && userId != ""){
 				User user = userService.getUserById(userId);
 				//菜单
-				String ids ="C58C30A33C4A4AB49B125589267BE64B,0298F628AB6C4018A0B43561993A43DE,DDA573A2CCA54DF29E4B8BCCDFAF80DA,8715A14AB3F74D77AF85C443386023F3,3DFF3C15462047A185B6173348BE7839,4AE68DC483454C298D9330A9976159F3";
+/*				String ids ="C58C30A33C4A4AB49B125589267BE64B,0298F628AB6C4018A0B43561993A43DE,DDA573A2CCA54DF29E4B8BCCDFAF80DA,8715A14AB3F74D77AF85C443386023F3,3DFF3C15462047A185B6173348BE7839,4AE68DC483454C298D9330A9976159F3";
 				String[] mIds = ids.split(",");
 				for (String str : mIds) {
 					UserPreMenu up = new UserPreMenu();
@@ -281,14 +279,14 @@ public class ParkManageController {
 					up.setPreMenu(preMenu);
 					up.setUser(user);
 					userService.saveUserMenu(up);
-				}			
+				}*/			
 				//角色
 				Role role = roleService.get("018375864F3C403CAC7698C2549763F0");
 				List<Role> roles = new ArrayList<Role>();
 				roles.add(role);
 				user.setRoles(roles);	
 				park.setUser(user);
-			}*/
+			}
 			Timestamp ts = new Timestamp(new Date().getTime());
 			park.setUpdatedAt(ts);		
 			String parkId = request.getParameter("parkId");

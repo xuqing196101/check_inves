@@ -74,9 +74,11 @@
                   <if test="userId != null ">
                     and PARK_ID IN (
                             SELECT ID FROM T_ISS_FS_PARK 
-	                            <if test="userId != '2521F623FA2F4399875433678F622F2D'">
+                            <!-- 不能是管理员 之后要改！！！！！！！！！！！-->
+                                <if test="userId != '2521F623FA2F4399875433678F622F2D'">
 	                            WHERE USER_ID = #{userId} 
-	                            </if>
+	                            </if> 
+	                            
                             )                         
                   </if> 
                  <if test="searchType == 'pubtime' ">
@@ -102,12 +104,13 @@
 		    where ID = #{id}
 		  </select>
 		  <!-- 根据回复量查询10条热门帖子 -->
-          <select id="queryHotPost"  resultMap="PostReplyMap">
+          <select id="queryHotPost"  resultMap="PostReplyMap">               
                 select 
                 <include refid="Base_Column_List" />
-                from T_ISS_FS_POST
-                where ROWNUM &lt;= 10
-                ORDER BY REPLY_COUNT DESC
+                from ( SELECT * FROM T_ISS_FS_POST
+                ORDER BY REPLY_COUNT DESC )
+                WHERE
+                ROWNUM &lt;= 10
           </select>
            <!-- 根据回复量查询所有热门帖子 -->
           <select id="queryAllHotPost"  resultMap="PostReplyMap">
@@ -241,9 +244,11 @@
 		  <select id="selectByParkID" parameterType="Object" resultMap="PostResultMap">
 			    select 
 			    <include refid="Base_Column_List" />
-			    from T_ISS_FS_POST
-			    where PARK_ID = #{parkID} AND ROWNUM &lt;= 4
-			    ORDER BY PUBLISHED_At DESC
+			    from ( SELECT * FROM T_ISS_FS_POST
+			    where PARK_ID = #{parkID}
+			    ORDER BY PUBLISHED_At DESC )
+			    WHERE
+			    ROWNUM &lt;= 4
 		  </select>
 		  
 		  <!-- 查询置顶帖子 -->
