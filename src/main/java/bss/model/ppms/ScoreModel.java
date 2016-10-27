@@ -31,6 +31,7 @@ public class ScoreModel implements Serializable{
 	private Integer isDeleted;//解释
 	private Date createdAt;//解释
 	private Date updatedAt;//解释
+	private String status;
 	
 	//模型一相关属性        是否判断
 	private String standardScore;//标准分值
@@ -286,6 +287,14 @@ public class ScoreModel implements Serializable{
 
 	public void setMarkTermId(String markTermId) {
 		this.markTermId = markTermId;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	
 }
