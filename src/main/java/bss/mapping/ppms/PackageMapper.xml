@@ -122,7 +122,22 @@
       	</if>
       	ORDER BY
       		CREATED_AT DESC	
-   </select>   
+   </select>  
+      <select id="findPackageByCondition" parameterType="java.lang.String" resultType="bss.model.ppms.Packages">
+   		SELECT
+   			ID AS id,
+   			NAME AS name,
+   			PROJECT_ID AS projectId,
+   			STATUS AS status,
+   			MARK_TERM_TREE AS markTermTree
+   		FROM
+   			T_BSS_PPMS_PACKAGE
+   		WHERE
+   		nvl(IS_DELETED,0)=0
+        	AND	ID = #{id}
+      	ORDER BY
+      		CREATED_AT DESC	
+   </select> 
    
    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
 	    delete from T_BSS_PPMS_PACKAGE

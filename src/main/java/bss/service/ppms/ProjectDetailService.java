@@ -11,6 +11,8 @@ public interface ProjectDetailService {
     ProjectDetail selectByPrimaryKey(String id);
     
     List<ProjectDetail> selectById(HashMap<String,Object> map);
+    
+    List<ProjectDetail> selectByCondition(HashMap<String,Object> map);
 	
 	void insert(ProjectDetail projectDetail);
 	

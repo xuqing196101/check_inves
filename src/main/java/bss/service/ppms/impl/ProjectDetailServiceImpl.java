@@ -46,6 +46,10 @@ public class ProjectDetailServiceImpl implements ProjectDetailService {
 		return projectDetailMapper.selectById(map);
 	}
 
+	@Override
+	public List<ProjectDetail> selectByCondition(HashMap<String,Object> map) {
+		return projectDetailMapper.selectByCondition(map);
+	}
 	
 	@Override
 	public List<ProjectDetail> selectByParentId(Map<String, Object> map) {

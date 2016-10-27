@@ -72,9 +72,8 @@ public class SupplierEditController extends BaseSupplierController{
 	public String registerStart(SupplierEdit se,HttpServletRequest request,Integer page,Model model){
 		List<SupplierEdit> seList=supplierEditService.findAll(se,page==null?1:page);
 		request.setAttribute("seList", new PageInfo<>(seList));
-		//User user1=(User) request.getSession().getAttribute("loginUser");
-		//model.addAttribute("id", user1.getTypeId());
-		model.addAttribute("id", "8BE39E5BF23846EC93EED74F57ACF1F4");
+		User user1=(User) request.getSession().getAttribute("loginUser");
+		model.addAttribute("id", user1.getTypeId());
 		return "ses/sms/supplier_apply_edit/list";
 	}
 	

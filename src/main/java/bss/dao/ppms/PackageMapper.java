@@ -52,6 +52,18 @@ public interface PackageMapper {
 	List<Packages> findPackageById(HashMap<String,Object> map);
 	
 	/**
+	 * @Title: findPackageByCondition
+	 * @author Song Biaowei
+	 * @date 2016-10-27 下午1:33:11  
+	 * @Description: 根据项目Id查找包名  
+	 * @param @param str
+	 * @param @return      
+	 * @return List<Packages>
+	 */
+	List<Packages> findPackageByCondition(String str);
+	
+	
+	/**
 	 * 
 	* @Title: deleteByPrimaryKey
 	* @author ZhaoBo

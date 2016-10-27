@@ -4,7 +4,7 @@
 	<resultMap id="BaseResultMap" type="bss.model.ppms.SaleTender">
 		<!-- @mbggenerated -->
 		<id column="ID" jdbcType="VARCHAR" property="id" />
-		<result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
+		<result column="" jdbcType="VARCHAR" property="projectId" />
 		<result column="STATUS_BID" jdbcType="DECIMAL" property="statusBid" />
 		<result column="" jdbcType="VARCHAR" property="supplierId" />
 		<result column="STATUS_BOND" jdbcType="DECIMAL" property="statusBond" />
@@ -12,6 +12,7 @@
 		<result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
 		<association property="user" column="USER_ID" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>
 		<association property="suppliers" column="SUPPLIER_ID" select="ses.dao.sms.SupplierMapper.selectByPrimaryKey"/>
+		<association property="project" column="PROJECT_ID" select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey"/>
 	</resultMap>
 	<sql id="Base_Column_List">
 		<!-- @mbggenerated -->
@@ -156,6 +157,12 @@
 		</if>
 		<if test="supplierId != null  and supplierId != '' ">
 		and st.SUPPLIER_ID=#{supplierId,jdbcType=VARCHAR}
+		</if>
+		<if test="statusBid != null  and statusBid != '' ">
+		and st.STATUS_BID=#{statusBid,jdbcType=DECIMAL}
+		</if>
+		<if test="statusBond != null  and statusBond != '' ">
+		and st.STATUS_BOND=#{statusBond,jdbcType=DECIMAL}
 		</if>
 	</select>
 </mapper>

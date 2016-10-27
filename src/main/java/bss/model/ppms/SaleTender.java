@@ -99,7 +99,21 @@ public class SaleTender {
     
     
     private User user;
-    /**
+    
+    private Project project;
+    
+    
+    public Project getProject() {
+		return project;
+	}
+
+
+	public void setProject(Project project) {
+		this.project = project;
+	}
+
+
+	/**
      * <pre>
      * 获取：null
      * 表字段：T_BSS_PPMS_SALE_TENDER.ID

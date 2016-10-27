@@ -60,6 +60,17 @@ public class ProjectDetail {
 	private String position;
 	
 	private String requiredId;
+	
+	private Packages packages;
+	
+
+	public Packages getPackages() {
+		return packages;
+	}
+
+	public void setPackages(Packages packages) {
+		this.packages = packages;
+	}
 
 	public String getId() {
 		return id;
