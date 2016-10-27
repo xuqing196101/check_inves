@@ -243,6 +243,10 @@
 		    }
 	    });
     }
+    
+    function back(){
+    	window.location.href = "<%=path%>/project/list.html";
+    }
   </script>
   </head>
   
@@ -387,7 +391,7 @@
   	<div class="padding-top-10 clear">
 		<div class="col-md-12 pl200 ">
 			<div class="mt40 tc mb50">
-	    		<input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+	    		<input class="btn btn-windows back" value="返回" type="button" onclick="back()">
 			</div>
 	  	</div>
 	 </div>	
