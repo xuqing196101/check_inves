@@ -215,9 +215,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         
         
         function delTask(id){
-         
-                    $("#form1").submit();
-          
+          layer.msg("修改成功",{offset: ['222px', '690px']});
+             window.setTimeout(function(){
+                  $("#form1").submit();
+            }, 1000);
 		}
 		function cancel(){
 		     layer.closeAll();

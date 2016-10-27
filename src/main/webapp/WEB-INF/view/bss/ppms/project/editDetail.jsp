@@ -134,12 +134,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         
         
         function edit(){
+            var name = $("input[name='name']").val();
+            var projectNumber = $("input[name='projectNumber']").val();
             if(name==""){
                 layer.tips("项目名称不能为空","#jname");
 	        }else if(projectNumber==""){
 	            layer.tips("项目编号不能为空","#projectNumber");
 	        }else{
-	            $("#form1").submit();
+	            layer.confirm('您确定要修改吗?',{
+                offset: ['300px','600px'],
+                shade:0.01,
+                btn:['是','否'],
+                },function(){
+                 layer.msg("修改成功",{offset: ['222px', '690px']});
+                     window.setTimeout(function(){
+                            $("#form1").submit();
+                        }, 1000);
+                },function(){
+                     parent.layer.close();
+                }
+                    
+            );
+	            
 	        }
             
         }
@@ -189,8 +205,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                            项目编号：<input type="text" id="projectNumber" name="projectNumber" value="${project.projectNumber}"/>
      </label>
       <span class="fr option_btn margin-top-10">
-        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="edit();">确定</button>
-        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="location.href='javascript:history.go(-1);'">返回</button>
+        <button class="btn padding-left-10 padding-right-10 btn_back" type="button" onclick="edit();">确定</button>
+        <button class="btn padding-left-10 padding-right-10 btn_back" type="button" onclick="location.href='javascript:history.go(-1);'">返回</button>
       </span>
    <div class="container clear margin-top-30">
         <table id="table"  class="table table-bordered table-condensed mt5">

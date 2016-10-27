@@ -433,16 +433,15 @@ public class ProjectController extends BaseController {
     
 
     /**
-     * @Title: editDetail
-     * @author FengTian
-     * @date 2016-10-12 上午9:15:08
-     * @Description: 修改项目明细
-     * @param @param id
-     * @param @param purchaseCount
-     * @param @param price
-     * @param @param purchaseType
-     * @param @param model
-     * @return void
+     * 
+     *〈修改项目信息〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param ide
+     * @param name
+     * @param projectNumber
+     * @param lists
+     * @return
      */
     @RequestMapping("/update")
     public String update( String ide, String name, String projectNumber, PurchaseRequiredFormBean lists){
@@ -450,18 +449,18 @@ public class ProjectController extends BaseController {
         Project project = projectService.selectById(ide);
         project.setName(name);
         project.setProjectNumber(projectNumber);
+        //修改项目明细
         if(lists!=null){
             if(lists.getLists()!=null&&lists.getLists().size()>0){
-                for( ProjectDetail p:lists.getLists()){
-                    if( p.getId()!=null){
-                        project.setPurchaseType(p.getPurchaseType());
-                        detailService.update(p);
+                for( ProjectDetail detail:lists.getLists()){
+                    if( detail.getId()!=null){
+                        project.setPurchaseType(detail.getPurchaseType());
+                        detailService.update(detail);
                         projectService.update(project);
+                    }
                 }
             }
         }
-        
-     }
         return "redirect:list.html";
     }     
     @RequestMapping("/print")
@@ -470,7 +469,22 @@ public class ProjectController extends BaseController {
         model.addAttribute("project", project);
         return "bss/ppms/project/print";
     }
-
+    
+    
+    @RequestMapping("/viewPackage")
+    public void viewPackage(String id, HttpServletResponse response) throws IOException{
+        HashMap<String,Object> map = new HashMap<String,Object>();
+        map.put("id", id);
+        List<ProjectDetail> detail = detailService.selectById(map);
+        String json = JSON.toJSONStringWithDateFormat(detail, "yyyy-MM-dd HH:mm:ss");
+        response.setContentType("text/html;charset=utf-8");
+        response.getWriter().write(json);
+        response.getWriter().flush();
+        response.getWriter().close();
+    }
+    
+    
+    
     /**
 	 * 
 	* @Title: subPackage

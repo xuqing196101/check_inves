@@ -148,7 +148,10 @@ String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+"";
           } else if (projectNumber==""){
                 layer.tips("项目编号不允许为空","#pc");
           }else{
-            $("#form1").submit(); 
+            layer.msg("添加成功",{offset: ['222px', '690px']});
+            window.setTimeout(function(){
+                $("#form1").submit();
+             }, 1000);
           }
          
     }
