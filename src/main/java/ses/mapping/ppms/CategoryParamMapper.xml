@@ -8,8 +8,8 @@
     <result column="CREATED_AT" property="createdAt" />
     <result column="UPDATED_AT"  property="updatedAt" />
     <result column="IS_DELETED"  property="isDeleted" />
-    <result column="PARAM_VALUE"  property="paramValue" />
-    <result column="PARAM_VALUE_ID"  property="paramValueId" />
+    <!-- <result column="PARAM_VALUE"  property="paramValue" /> -->
+   <!--  <result column="PARAM_VALUE_ID"  property="paramValueId" /> -->
     <association  column="CATEGORY_ID"  property="category"  select="ses.dao.bms.CategoryMapper.selectByPrimaryKey"/>  
  </resultMap>
  
