@@ -55,6 +55,27 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
 		return orgniztionMapper.updateOrgnizationById(orgnization);
 	}
 
+	
+
+	@Override
+	public Orgnization findByCategoryId(String id) {
+		
+		return orgniztionMapper.findByCategoryId(id);
+	}
+
+	@Override
+	public int updateByCategoryId(Orgnization orgnization) {
+		// TODO Auto-generated method stub
+		return orgniztionMapper.updateByCategoryId(orgnization);
+	}
+
+	@Override
+	public List<Orgnization> selectByPrimaryKey(Map<String, Object> map) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
+		return orgniztionMapper.selectByPrimaryKey(map);
+	}
+
 	@Override
 	public List<Orgnization> findByName(Map<String, Object> map) {
 		PropertiesUtil config = new PropertiesUtil("config.properties");

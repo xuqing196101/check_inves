@@ -25,6 +25,66 @@
 <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 <script src="<%=basePath%>public/layer/layer.js"></script>
 <script type="text/javascript">
+var datas;
+var treeid=null;
+$(document).ready(function(){
+     var setting={
+	    async:{
+				autoParam:["id","name"],
+				enable:true,
+				url:"<%=basePath%>category/createtree.do",
+				dataType:"json",
+				type:"post",
+			},
+			callback:{
+		    	onClick:zTreeOnClick,//点击节点触发的事件
+		    
+  			  /*    onNodeCreated: zTreeOnNodeCreated, */
+  			   
+		    }, 
+			data:{
+				keep:{
+					parent:true
+				},
+				key:{
+					title:"title",
+					name:"name",
+				},
+				simpleData:{
+					enable:true,
+					idKey:"id",
+					pIdKey:"pId",
+					rootPId:"0",
+				}
+		    },
+		    edit:{
+		    	enable:true,
+				editNameSelectAll:true,
+				showRemoveBtn: true,
+				showRenameBtn: true,
+				removeTitle: "删除",
+				renameTitle:"重命名",
+			},
+		   check:{
+			    chkboxType:{"Y" : "ps", "N" : "ps"},//勾选checkbox对于父子节点的关联关系  
+       		    chkStyle:"checkbox",  
+				enable: true
+		   },
+		   view:{
+		        selectedMulti: false,
+		        showTitle: false,
+		   },
+};
+$.fn.zTree.init($("#ztree"),setting,datas); 
+
+
+}); 
+
+/**点击事件*/
+function zTreeOnClick(event,treeId,treeNode){
+	treeid=treeNode.id;
+	$("#cateid").val(treeid);
+}
 $(function(){
 	  laypage({
 		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
@@ -37,115 +97,38 @@ $(function(){
 		    groups: "${list.pages}">=3?3:"${list.pages}", //连续显示分页数
 		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
 		        var page = location.search.match(/page=(\d+)/);
+		
 		        return page ? page[1] : 1;
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		            location.href = "<%=basePath%>categoryparam/search_category.html?page="+e.curr;
+		            $("#page").val(e.curr);
+		
+		            $("#form").submit();
 		        }
 		    }
 		});
   });
-var datas;
-	var treeid=null;
- $(document).ready(function(){
-	 var setting={
-		   async:{
-					autoParam:["id"],
-					enable:true,
-					url:"<%=basePath%>category/createtree.do",
-					dataType:"json",
-					type:"post",
-				},
-				callback:{
-			    	onClick:zTreeOnClick,//点击节点触发的事件
-			    	beforeRemove: zTreeBeforeRemove,
-			    	beforeRename: zTreeBeforeRename, 
-					onRemove: zTreeOnRemove,
-       			    onRename: zTreeOnRename,
-			    }, 
-				data:{
-					keep:{
-						parent:true
-					},
-					key:{
-						title:"title",
-						
-					},
-					simpleData:{
-						enable:true,
-						idKey:"id",
-						pIdKey:"pId",
-						rootPId:"0",
-					}
-			    },
-			    edit:{
-			    	enable:true,
-					editNameSelectAll:true,
-					showRemoveBtn: true,
-					showRenameBtn: true,
-					removeTitle: "删除",
-					renameTitle:"重命名",
-				},
-			   check:{
-					enable: true
-			   },
-			   view:{
-			        selectedMulti: false,
-			        showTitle: false,
-			   },
-         };
-	 
-    $.fn.zTree.init($("#ztree"),setting,datas);
-    
-      }); 
-    
-  
-   /**删除图片*/
-   function deletepic(treeid,obj){
-		$(obj).prev().remove();
-		$(obj).next().remove();
-		$(obj).remove();
-	}
 
-    /**点击事件*/
-    function zTreeOnClick(event,treeId,treeNode){
-		treeid=treeNode.id;
-		treename=treeNode.name;
-	    parentKind=treeNode.kind;
-	    isEnd=treeNode.isEnd;
-	    parentname=treeNode.getParentNode().name;
-    }
-    
-		
-	
    
- 	/**重命名和删除的回调函数*/	
-    function zTreeOnRemove(event, treeId, treeNode,isCancel) {
-		}
-    function zTreeOnRename(event, treeId, treeNode, isCancel) {
-				 alert(treeNode.tId + ", " + treeNode.name); 
- 		}  
- 		
-	/**删除目录信息*/
-    function zTreeBeforeRemove(treeId, treeNode){
-	 		$.ajax({
-	 			type:"post",
-	 			url:"<%=basePath%>category/del.do?id="+treeNode.id,
-	 		});
-		}
-	 	
-	/**节点重命名*/
-    function zTreeBeforeRename(treeId,treeNode,newName,isCancel){
-			$.ajax({
-	 			type:"post",
-	 			url:"<%=basePath%>category/rename.do?id="+treeNode.id+"&name="+newName,
-	 		});
-		} 
-    function query(){
-         window.location.href="<%=basePath%>catgoryparam/query_orgnization.html"
-    }
+    /** 全选全不选 */
+	function selectAll(){
+		 var checklist = document.getElementsByName ("chkItem");
+		 var checkAll = document.getElementById("checkAll");
+		 if(checkAll.checked){
+			   for(var i=0;i<checklist.length;i++)
+			   {
+			      checklist[i].checked = true;
+			   } 
+			 }else{
+			  for(var j=0;j<checklist.length;j++)
+			  {
+			     checklist[j].checked = false;
+			  }
+		 }
+	}
      /** 单选 */
+		
     function check(){
 		 var count=0;
 		 var checklist = document.getElementsByName ("chkItem");
@@ -163,27 +146,53 @@ var datas;
 				 }
 		   }
 	}
-	function query(){
-        window.location.href="<%=basePath%>categoryparam/query_orgnization.html"; 	
-	}
+     
+	//获取选中节点 
+	
 	function allocate(){
+		var status =$("#all").val();
+		alert(status)
+		var ids=[];
+		var treeObj=$.fn.zTree.getZTreeObj("ztree");  
+	     var nodes=treeObj.getCheckedNodes(true);  
+	     for(var i=0;i<nodes.length;i++){  
+	        //获取选中节点的值  
+	         ids.push(nodes[i].id); 
+	     } 
+	     alert(ids);
 		var id=[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
 		}); 
-		if(id.length==1){
-			
-			window.location.href="<%=basePath%>categoryparam/edit_allocate.html?id="+id;
+		if(id.length==1&& ids.length!=0){
+			alert(ids);
+			window.location.href="<%=basePath%>categoryparam/edit_allocate.html?id="+id+"&ids="+ids+"&status="+status;
 		}else if(id.length>1){
-			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("只能选择一个部门",{offset: ['222px', '390px'], shade:0.01});
+		}else if(ids.length<1) {
+			layer.alert("请选择需要分配的品目节点",{offset: ['222px', '390px'], shade:0.01});
+		
+		}else{
+			layer.alert("请选择需要分配的部门",{offset: ['222px', '390px'], shade:0.01});
+		}
+	  }
+	function unall(){
+		var id=[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			id.push($(this).val());
+		}); 
+		if(id.length==1&& ids.length!=0){
+			alert(ids);
+			window.location.href="<%=basePath%>categoryparam/abrogate_allocate.html?id="+id+"&status="+status;
+		}else if(id.length>1){
+			layer.alert("只能选择一个部门",{offset: ['222px', '390px'], shade:0.01});
+		
 		}else{
 			layer.alert("请选择需要分配的部门",{offset: ['222px', '390px'], shade:0.01});
 		}
 		
 	}
-	function unallocate(){
-		
-	}
+	
 	
 </script>
   </head>
@@ -197,24 +206,30 @@ var datas;
 		<div class="clear"></div>
 	  </div>
    </div>
-   <div class="container">
+  <div class="container">
    <div class="col-md-3">
      
 	 <div class="tag-box tag-box-v3 mt10">
 	 <div><ul id="ztree" class="ztree "></ul></div>
 	 </div>
-	</div >
-   <div class=" tag-box tag-box-v3 mt10 col-md-9">
-   <span>事业单位：</span><input type="text" name="name" value="" class="mt10"/>
+     </div>
+   <div class=" tag-box tag-box-v4 mt10 col-md-9">
+   <form id="form" action="<%=basePath %>categoryparam/query_orgnization.html" method="post">
+        <input type="hidden"/>
+   		<input type="hidden" name="page" value="" id="page"/>	
+   		<span>事业单位：</span><input type="text" name="name" value="" class="mt10"/>
         <span>所属领导：</span><input type="text" name="princinpal" value="" class="mt10"/>
         <input type="hidden" value="" name="status" id="status"/>
-        <input type="button"  value="查询" onclick="query()" class="btn"/>
-        <input type="button" value="分配" onclick="allocate('${cate.id}')"class="btn"/>
-        <input type="button" value="取消分配" onclick="unallocate('${cate.id}')" class="btn"/> 
+        <input type="submit"  value="查询" class="btn"/>
+        <button id="all" type="button" value="已分配" onclick="allocate()"class="btn">分配</button>
+        <button id="unall" type="button" value="未分配" onclick="unallocate()" class="btn">取消分配</button> 
+        </form>
+      
+        <div class="p10_25">
         <table class="table table-bordered table-condensedb mt15" >
             <thead>    
                 <tr>
-                <th class="info w50"><input id="selectAll" type="checkbox" onclick="selectAll()"  /></th>
+                <th class="info w50"><input id="checkAll" type="checkbox" onclick="selectAll()"  /></th>
                 <th class="info w80">序号</th>
                 <th class="info">事业部门</th>
                 <th class="info">领导</th>
@@ -223,15 +238,18 @@ var datas;
                 </tr>
             </thead>
             <c:forEach var="cate" items="${cate}"  varStatus="vs">
-                <td class="tc pointer"><input  onclick="check('${cate.id}')" type="checkbox" name="chkItem" value="${cate.id}"/></td>
+            <tr>
+                <td class="tc pointer"><input  onclick="check()" type="checkbox" name="chkItem" value="${cate.id}"/></td>
                 <td class="tc pointer">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
                 <td class="tc pointer">${cate.name}</td>
                 <td class="tc pointer">${cate.princinpal}</td>
-                <td class="tc pointer">${cate.telephone}</td>
-                <td class="tc pointer">${cate.status}</td>
+                <td class="tc pointer">${cate.mobile}</td>
+                <td id="status" class="tc pointer">${cate.status}</td></tr>
             </c:forEach>
        </table>
+      
+         </div>
         <div id="pagediv" align="right"></div>
- </div>
+         </div>
   </body>
 </html>

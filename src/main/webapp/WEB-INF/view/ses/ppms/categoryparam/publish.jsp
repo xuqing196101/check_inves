@@ -23,98 +23,6 @@
 
 <script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.exedit.js"></script>
 	<script type="text/javascript">
-	var datas;
-	var treeid=null;
- $(document).ready(function(){
-	 var setting={
-		   async:{
-					autoParam:["id"],
-					enable:true,
-					url:"<%=basePath%>category/createtree.do",
-					dataType:"json",
-					type:"post",
-				},
-				callback:{
-			    	onClick:zTreeOnClick,//点击节点触发的事件
-			    	beforeRemove: zTreeBeforeRemove,
-			    	beforeRename: zTreeBeforeRename, 
-					onRemove: zTreeOnRemove,
-       			    onRename: zTreeOnRename,
-			    }, 
-				data:{
-					keep:{
-						parent:true
-					},
-					key:{
-						title:"title"
-					},
-					simpleData:{
-						enable:true,
-						idKey:"id",
-						pIdKey:"pId",
-						rootPId:"0",
-					}
-			    },
-			    edit:{
-			    	enable:true,
-					editNameSelectAll:true,
-					showRemoveBtn: true,
-					showRenameBtn: true,
-					removeTitle: "删除",
-					renameTitle:"重命名",
-				},
-			   check:{
-					enable: true
-			   },
-         };
-	 
-    $.fn.zTree.init($("#ztree"),setting,datas);
-    
-      }); 
-    
-  
-   /**删除图片*/
-   function deletepic(treeid,obj){
-		$(obj).prev().remove();
-		$(obj).next().remove();
-		$(obj).remove();
-	}
-
-    /**点击事件*/
-    function zTreeOnClick(event,treeId,treeNode){
-		treeid=treeNode.id;
-		treename=treeNode.name;
-	    parentKind=treeNode.kind;
-	    isEnd=treeNode.isEnd;
-	    parentname=treeNode.getParentNode().name;
-    }
-    
-		
-	
-   
- 	/**重命名和删除的回调函数*/	
-    function zTreeOnRemove(event, treeId, treeNode,isCancel) {
-		}
-    function zTreeOnRename(event, treeId, treeNode, isCancel) {
-				 alert(treeNode.tId + ", " + treeNode.name); 
- 		}  
- 		
-	/**删除目录信息*/
-    function zTreeBeforeRemove(treeId, treeNode){
-	 		$.ajax({
-	 			type:"post",
-	 			url:"<%=basePath%>category/del.do?id="+treeNode.id,
-	 		});
-		}
-	 	
-	/**节点重命名*/
-    function zTreeBeforeRename(treeId,treeNode,newName,isCancel){
-			$.ajax({
-	 			type:"post",
-	 			url:"<%=basePath%>category/rename.do?id="+treeNode.id+"&name="+newName,
-	 		});
-		} 
-	
 	$(function(){
 	    var name  = "${cateParam.name}";
 	  
@@ -134,6 +42,17 @@
 	  
 	      $("#result").prepend(html);
 	});
+	 $(function(){
+	       var obj ="${category.paramPublishRange}";
+	       var v2= obj.split(',');
+	       for ( var i = 0; i < v2.length; i++) {
+	       $("input[name='range']").each(function(){
+	       if($(this).val()==v2[i])
+	           $(this).attr("checked",true);
+	       });
+		} 
+	   });
+	
 	</script>
   </head>
   
@@ -151,13 +70,24 @@
   
 	<div class=" tag-box tag-box-v3 mt10 col-md-9">
 	
-	 <span><a href="javascript:void(0);" onclick="publish()" class="btn">发布</a></span>
+	 <span><input type="submit" value="发布" class="btn"  /></span>
 	 <span><a href="javascript:void(0);" onclick="location.href='javascript:history.go(-1);'" class="btn btn-windows back">返回</a></span>
+	       
 	      <form action="<%=basePath%>categoryparam/publish_param.html" method="post">
-	          <table id="result">
-	          <tr><td>
-	          
-	          
+	          <input type="hidden" id="id" name="id" value="${category.id }"/>
+	          <table id="result" class="table table-bordered table-condensedb mt15">
+	          <tr><td>验收规范</td>
+	              <td><textare>${category.acceptRange}</textare></td>          
+	          </tr>
+	          <tr><td >是否公开</td>
+					 <td>
+					 <span class="ml30"><input type="radio" value="0" name="ispublish" <c:if test="${category.isPublish eq 0}">checked</c:if>/>是</span>
+					 <span class="ml60"><input type="radio" value="1" name="ispublish" <c:if test="${category.isPublish eq 1}">checked</c:if> />否</span>
+					 </td></tr>
+	          <tr><td>公示范围</td>
+	                 <td>
+	                 <span class="ml30"><input  type="checkbox" name="range" value="0"/>外网</span>
+	                  <span class="ml60"><input  type="checkbox" name="range" value="1"/>内网</span>
 	          </td></tr>
 	          </table>
 	      </form>

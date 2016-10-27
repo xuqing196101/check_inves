@@ -11,6 +11,8 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import ses.model.oms.Orgnization;
 import ses.model.ppms.CategoryParam;
+import ses.model.sms.ProductParam;
+import ses.model.sms.SupplierProducts;
 import ses.model.sms.SupplierType;
 /**
  *@Title:Category
@@ -88,10 +90,9 @@ public class Category {
    /**
     * @Fields paramPublishRange : 公布范围
     */
+   private String paramPublishRange;
 
-   private Integer paramPublishRange;
-
-   private CategoryAttachment categoryAttchment;
+private CategoryAttachment categoryAttchment;
 
    private List<CategoryAptitude> categoryAptitudes;
 	
@@ -99,6 +100,16 @@ public class Category {
    
    private List<SupplierType> supplierTypes;
    
+   private Orgnization orgnization;
+   
+	public Orgnization getOrgnization() {
+	return orgnization;
+}
+
+public void setOrgnization(Orgnization orgnization) {
+	this.orgnization = orgnization;
+}
+
 	public List<SupplierType> getSupplierTypes() {
 	return supplierTypes;
 }
@@ -267,13 +278,14 @@ public class Category {
 		this.acceptRange = acceptRange;
 	}
 
-	public Integer getParamPublishRange() {
+	public String getParamPublishRange() {
 		return paramPublishRange;
 	}
 
-	public void setParamPublishRange(Integer paramPublishRange) {
+	public void setParamPublishRange(String paramPublishRange) {
 		this.paramPublishRange = paramPublishRange;
 	}
+
 
 	
 

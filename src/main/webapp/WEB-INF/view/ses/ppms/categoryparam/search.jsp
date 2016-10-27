@@ -52,11 +52,13 @@ $(function(){
 function search(name){
 	var name =$("#input_cate").val();
 	alert(name);
-	window.location.href="<%=basePath%>categoryparam/search_orgnization.html?name="+name;
+	window.location.href="<%=basePath%>categoryparam/search_categoryname.html?name="+name;
 }
 function query(){
 	window.location.href="<%=basePath%>categoryparam/check_categoryparam.html";
 }
+
+
 </script>
   </head>
   <body>
@@ -103,13 +105,17 @@ function query(){
             <c:forEach var="cate" items="${cate}" varStatus="vs">
 	            <tr>
 	            <td class="tc pointer"><input  onclick="check('${cate.id}')" type="checkbox" name="chkItem" value="${cate.id}"/></td>
-	            <td class="w50 tc pointer" >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-	            <td class="tc pointer" >${cate.name }</td>
-	            <td class="tc pointer">${cate.orgnization.name }</td>
-	            <td class="tc pointer">${cate.createdAt }</td>
+	            <td class="w50 tc pointer" onclick="view('${cate.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+	            <td class="tc pointer" onclick="view('${cate.id}')">${cate.name }</td>
+	           
+	            <td class="tc pointer" onclick="view('${cate.id}')">${cate.orgnization.name }</td>
+	            <td class="tc pointer" onclick="view('${cate.id}')">${cate.createdAt }</td>
 	            </tr>
 	        </c:forEach>
 	</table>
+	<div id="categoryparam"  class="dnone">
+	<tr><td></td><td></td></tr>
+	</div>
    </div>
   </div>
   <div id="pagediv" align="right"></div>

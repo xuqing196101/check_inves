@@ -12,7 +12,8 @@ public interface OrgnizationMapper {
 	List<Orgnization> findPurchaseOrgList(HashMap<String, Object> map);
 	int delOrgnizationByid(HashMap<String, Object> map);
 	int updateOrgnizationById(Orgnization orgnization);
-
+    Orgnization  findByCategoryId(String id);
 	List<Orgnization> findByName(Map<String, Object> map);
-	
+	int updateByCategoryId(Orgnization orgnization);
+	List<Orgnization> selectByPrimaryKey(Map<String,Object> map);
 }

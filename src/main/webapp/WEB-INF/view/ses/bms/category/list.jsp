@@ -1,4 +1,4 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ include file="/WEB-INF/view/common.jsp"%>
@@ -8,7 +8,7 @@
 <head>
  <base href="<%=basePath%>">
     
-<title>My JSP 'category.jsp' starting page</title>
+<title>采购管理</title>
 
  <link rel="stylesheet" type="text/css" href="<%=basePath%>/public/ztree/css/zTreeStyle.css"> 
 <%-- <link rel="stylesheet" type="text/css" href="<%=basePath%>/public/ztree/css/demo.css"> --%>
@@ -21,8 +21,8 @@
 <script type="text/javascript">
 	var treeid=null;
 	
-	 $(document).ready(function(){
 	var datas;
+	 $(document).ready(function(){
 	 var setting={
 		   async:{
 					autoParam:["id"],
@@ -94,23 +94,23 @@
     function news(){
 			if (treeid==null) {
 			alert("请选择一个节点");
-					return;		
-			}else{
-			             
+			return;		
+			      }else{
+			    	    $("#result").empty();
 						var html = "";
 						html = html+"<tr><td>上级目录</td>"+"<td><input  value='"+treename+"'/></td></tr>";
 						html = html+"<input type='hidden' name='kind' value='"+parentKind+"'/>" ;
-						html = html+"<input type='hidden' name='isEnd' value='"+isEnd+"'/>" ;
-						html = html+"<tr><td>目录名称</td>"+"<td><input name='name'/></td></tr>" ;
+						
+					    html = html+"<tr><td>目录名称</td>"+"<td><input name='name'/></td></tr>" ;
 				        html = html+"<input type='hidden' value='"+treeid+"' name='parentId'/>";
 						html = html+"<tr><td>排序</td>"+"<td><input name='position'/></td></tr>";
 						html = html+"<tr><td>编码</td>"+"<td><input name='code'/></td></tr>";
-						html = html+"<tr><td>图片</td>"+"<td id='uploadAttach'><input type='file' class='toinline' name='attaattach' value='上传图片'/></td></tr>";
+						html = html+"<tr><td>图片</td>"+"<td><input type='file' name='attaattach' value='上传图片'/></td></tr>";
 						html = html+"<tr><td>描述</td>"+"<td><textarea name='description'/></td></tr>";
-						html = html+"<tr><td colspan='2' ><input  type='submit' onclick='add()' value='提交' class='mr30  btn btn-windows git'/>"
+						html = html+"<tr><td colspan='2' ><input  type='button' onclick='add()'  value='提交'  class='mr30  btn btn-windows git'/>"
 						+"<input type='button' class='ml10 btn btn-windows back ' value='返回' onclick=''history.go(-1)''/></td></tr>";
 						$("#result").append(html);
-						}
+					}
 				
 		
 			}
@@ -125,6 +125,7 @@
 					dataType:"json",
 					type:"POST",
 					success:function(cate){
+						$("#result").empty();
 						var attachmentPath = cate.categoryAttchment.attchmentPath;
 						var html = "";
 					 	html = html+"<tr><td>上级目录</td><td><input value='"+parentname+"' readonly='readonly'/></td></tr>"; 
@@ -132,8 +133,10 @@
 						html = html+"<input type='hidden' name='id' value='"+cate.id+"'/>";
 						html = html+"<tr><td>排序</td><td><input value='"+cate.position+"' name='position'/></td></tr>";
 						html = html+"<tr><td>编码</td><td><input value='"+cate.code+"' name='code'/></td></tr>";
-						html = html+"<tr><td>已上传的图片</td><td><button id='button' type='button' onclick='showPic()'>相关图片</button>"
-						+"<img class='hide' id='photo' src='"+attachmentPath+"'/>"
+						if (attachmentPath!=null&&attachmentPath!="") {
+							html = html+"<tr><td>已上传的图片</td><td><button id='button' type='button' onclick='showPic()'>相关图片</button>"
+							+"<img class='hide' id='photo' src='"+attachmentPath+"'/>"
+						}
 						+"<input type='file' name='attaattach' value='重新上传' class='mt10'/></td></tr>";
 						html = html+"<tr><td>描述</td><td><textarea name='description'>"+cate.description+"</textarea></td></tr>";
 						html = html+"<tr><td colspan='2'><input  type='submit' onclick='renew()' value='更新' class=' mr30  btn btn-windows reset '/>"
@@ -149,7 +152,7 @@
 			  type: 1,
 			  title: false,
 			  closeBtn: 0,
-			  area: '800px',
+			  area: '800',
 			  skin: 'layui-layer-nobg', //没有背景色
 			  shadeClose: true,
 			  content: $("#photo")
@@ -192,13 +195,11 @@
 	 			url:"<%=basePath%>category/rename.do?id="+treeNode.id+"&name="+newName,
 	 		});
 		} 
-		
-    /**新增提交*/		
-	function add(id){
-	    document.fm.action="<%=basePath%>category/save.do";
-		document.fm.submit();
-	
-	}
+    function add(id){
+    	document.fm.action="<%=basePath%>category/save.do";
+    	document.fm.submit();
+    }
+   
 	/**更新数据*/
 	function renew(id){
 		document.fm.action="<%=basePath%>category/edit.do";
@@ -236,7 +237,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a><li><a href="#">采购目录管理</a><li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">采购目录管理</a>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -244,31 +245,20 @@
    <div class="container">
    <div class="col-md-3">
      
-	 <div>
-	   <input id="key" type="text" class="mt10"  placeholder="请输入..."  value=""/>
-<button onclick="look()" class="btn  btn-window mr10"  type="button">sou</button>
- 	 </div>
- 	  <div class="tag-box tag-box-v3">
+	<div class="tag-box tag-box-v3 mt15">
 	 <div><ul id="ztree" class="ztree"></ul></div>
 	</div>
 	</div>
-		<div class=" tag-box tag-box-v4 mt50 col-md-9">
-			<span id="add"><a href="javascript:void(0);" onclick="news()" class="btn btn-windows add ">新增 </a></span> 
+		<div class=" tag-box tag-box-v4 mt15 col-md-9">
+			<span><a href="javascript:void(0);" onclick="news()" class="btn btn-windows add ">新增 </a></span> 
 			<span><a href="javascript:void(0);" onclick="update()"  class="btn btn-windows edit ">修改</a></span> 
 			<span><a href="javascript:void(0);" onclick="ros()"  class="btn btn-window ">激活/休眠</a></span>
-  <%--  <form action="<%=basePath%>category/save.do" method="post" name="temp" enctype="multipart/form-data">
-        
-        <table id="result"  class="table table-bordered table-condensedb mt15" ></table>
-    </form>
-    < --%>
-    <form  id="form" action="" name="fm" method="post"  enctype="multipart/form-data">
-    <input type="hidden"  onclick="add()" value="submit"/>
+            <form  id="form" action="" name="fm" method="post"  enctype="multipart/form-data">
+   <input type="hidden"  onclick="add()" value="submit"/>
     <input type="hidden"  onclick="renew()" value="submit"/>
-    <input type="hidden" name="attchmentId" value=""/>
-    <table id="result"  class="table table-bordered table-condensedb mt15" ></table>
-    </form>
+            <table id="result"  class="table table-bordered table-condensedb mt15" ></table>
+            </form>
         </div>
 	</div>
->
 </body>
 </html>

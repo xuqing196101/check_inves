@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import ses.model.bms.Category;
-
 public class Orgnization implements Serializable {
     /**
 	 * @Fields serialVersionUID : 
@@ -72,27 +71,18 @@ public class Orgnization implements Serializable {
     private String cityName;
     private String townName;
     private String requireDepId;
+    private String status;
     
-    private Integer status;
-   /* private Category category;
-    
-    
-
-	public Category getCategory() {
-		return category;
+  
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
-	public void setCategory(Category category) {
-		this.category = category;
-	}*/
-
-	public Integer getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
+	
 
 	public String getId() {
         return id;

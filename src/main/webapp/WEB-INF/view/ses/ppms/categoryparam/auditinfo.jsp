@@ -19,6 +19,8 @@
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
+	<script language="javascript" type="text/javascript" src="<%=basePath%>/public/layer/layer.js"></script>
+	<script type="text/javascript" src="<%=basePath%>/public/layer/extend/layer.ext.js"></script>
 <script type="text/javascript">
 	/**类型默认选中*/
    $(function(){
@@ -53,10 +55,8 @@
 	
 	$(function(){
 	    var name  = "${cateParam.name}";
-	  
 	    var value = "${cateParam.valueType}";
 	    var names = name.split(",");
-	  
 	    var values = value.split(",");
 	     var html = "";
 	     for ( var i = 0 ; i< names.length-1; i++){
@@ -103,15 +103,39 @@
 		$(obj).remove();
 	} 
 	
-	function sto(val){
+	function sto(){
 	    $("#storage").val(1);
 	   $("#form").submit();
 	}
-	function publish(obj){
-	   $("#storage").val(2);
-	   $("#form").submit();
+	function publish(){
+		var index;
+		  index =  layer.open({
+		    shift: 1, //0-6的动画形式，-1不开启
+		    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+		    title: ['新增明细','border-bottom:1px solid #e5e5e5'],
+		    shade:0.01, //遮罩透明度
+			type : 1,
+			skin : 'layui-layer-rim', //加上边框
+			area : [ '40%', '200px' ], //宽高
+			content : $('#tr_range'),
+			offset: ['100px', '350px']
+		  });
+	    
+	
+		
+	   
 	}
-	function validite(obj){
+    function sure(){
+    	var range ="";
+	    obj = document.getElementsByName("range")
+	    for(var i=0; i<obj.length;i++){
+	    	range+=$(obj[i]).val()+",";
+	    }
+	   $("#fff").val(range);
+	   $("#storage").val(2);
+	   $("#form").submit(); 
+    }	
+	function validite(){
 	   $("#srorage").val(3);
 	   $("#form").submit();
 	}
@@ -131,44 +155,31 @@
    <div class="container">
 	<div class="headline-v2 clear">
 	   <h2>审核</h2>
-	  </div>
+	       </div>
 	          <div class="tag-box ml100 col-md-6">
                      <form id="form" action="<%=basePath%>categoryparam/audit_param.html" method="post" >
-                      <input type="hidden" name="categoryId" value="${category.id}"/>
-                     <input type="hidden" id="storage" name="paramstatus" value=""/>
-                     <input type="hidden" id="sss" name="names" value="" />
-                     <input type="hidden" id="bbb" name="values" value=" "/>
-                     <input type="hidden" id="ddd" name="products" value=""/>
-                     <input type="hidden" id="ccc" name="sales" value=""/>
-                     <input type="hidden" id="eee" name="kinds" value=""/>
+                      <input type="hidden" name="id" value="${category.id}"/>
+                     <input type="hidden" id="storage" name="storage" value=""/>
+                     <input type="hidden" id="fff" name="ranges" value=""/>
                      <table id="result" class="table table-bordered table-condensedb mt15">
+                     <tr><td>验证规范</td><td>
+					 <textarea name="acceptRange" readonly="readonly">${category.acceptRange }</textarea></td></tr>
                      <tr><td >是否公开</td>
 					 <td>
 					 <span class="ml30"><input readonly="readonly" type="radio" value="0" name="ispublish" <c:if test="${category.isPublish eq 0}">checked</c:if>/>是</span>
 					 <span class="ml60"><input readonly="readonly" type="radio" value="1" name="ispublish" <c:if test="${category.isPublish eq 1}">checked</c:if> />否</span>
 					 </td></tr>
-					 <tr><td>公示范围</td>
-					 <td>
-					 <span class="ml30"><input type="checkbox" value="0" name="range"/>内网</span>
-					 <span class="ml60"><input type="checkbox" value="1" name="range"/>外网</span>
-					 </td>
-					 </tr>
-					 <tr><td>验证规范</td><td>
-					 <textarea name="acceptRange">${category.acceptRange }</textarea></td></tr>
-					 <tr><td>生产型资质</td>
-					 <td><div id="addinput"></div>
-					 </td></tr>
-					 <tr><td>销售型资质</td>
-					 <td><div id="addnews"></div>
-					 </td></tr>
-				     <!-- <tr><td colspan="2" class="" >
-					</td>
-					 </tr>  -->
-					
-    </table>
-    				<input type="button" class="btn mr30" onclick="sto('${category.id}')"  value="暂存"/>
-					<input type="button" class="btn mr30" onclick="publish('${category.id}')" value="公示"/>
-					<input type="button" class="btn mr30" onclick="validite('${category.id}')"  value="生效"/>
+               </table>
+               <div id="tr_range" class="dnone"><td>公示范围</td>
+					 <span class="ml30"><input type="checkbox" value="内网" name="range"/>内网</span>
+					 <span class="ml60"><input type="checkbox" value="外网" name="range"/>外网</span>
+					 <input type="button" value="确定" onclick="sure()"/>
+					 <input type="button" value="取消" onclick="unsure()"/>
+					 </div>
+    				<input type="button" class="btn mr30" onclick="sto()"  value="暂存"/>
+					<input type="button" class="btn mr30" onclick="publish()" value="公示"/>
+					<input type="button" class="btn mr30" onclick="validite()"  value="生效"/>
+					<input type="button"class="btn btn-windows back" value="返回" onclick="javascript:history.go(-1);"/>
     </form>
     </div>
   </body>

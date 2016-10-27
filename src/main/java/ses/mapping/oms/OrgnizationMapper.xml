@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ses.dao.oms.OrgnizationMapper">
-    <!-- genju部门  负责人查询 -->
-  <select id="findByName" parameterType="Map"  resultType="ses.model.oms.Orgnization">
-     select  select d.id  as id,
+
+   <!-- 根据id查询 -->
+   <select id="selectByPrimaryKey" parameterType="java.util.Map" resultType="ses.model.oms.Orgnization">
+   select d.id  as id,
 		       d.NAME         as name,
 		       d.TYPE_NAME       as typeName,
 		       d.ADDRESS   as address,
@@ -29,11 +30,87 @@
 		       d.IS_ROOT         as isRoot,
 		       d.EMAIL      as email,
 		       d.STATUS     as status
-		     
 		  from T_SES_OMS_ORG     d
-		 where NAME like '%'||#{name}||'%' AND PRINCINPAL like '%'||#{princinpal}||'%'
-		ORDER BY d.CREATED_AT DESC
+		       where d.ID =#{id}
+   </select>
+<!--根据产品id修改状态  -->
+   <update id="updateByCategoryId" parameterType="Object" >
+    	 update T_SES_OMS_ORG s
+	     set 
+	         s.STATUS = #{status}
+	     where s.ID=#{id}    
+    </update>
 
+
+<!-- 根据产品的id -->
+    <select id="findByCategoryId" parameterType="Object" resultType="ses.model.oms.Orgnization">
+    select d.id  as id,
+		       d.NAME         as name,
+		       d.TYPE_NAME       as typeName,
+		       d.ADDRESS   as address,
+		       d.MOBILE    as mobile,
+		       d.POST_CODE  as postCode,
+		       d.ORG_CODE   as orgCode,
+		       d.TELEPHONE  as telephone,
+		       d.AREA_ID    as areaId,
+		       d.DETAIL_ADDR  as detailAddr,
+		       d.fax          as fax,
+		       d.WEBSITE      as website,
+		       d.PRINCINPAL   as princinpal,
+		       d.PRINCINPAL_ID_CARD  as princinpalIdCard,
+		       d.NATURE       as nature,
+		       d.SHORT_NAME as shortName,
+		       d.PARENT_ID     as parentId,
+		       d.PARENT_NAME      as parentName,
+		       d.PROVINCE_ID      as provinceId,
+		       d.CITY_ID          as cityId,
+		       d.ORG_LEVEL       as orgLevel,
+		       d.IS_DELETED       as isDeleted,
+		       d.DEP_ID       as depId,
+		       d.IS_ROOT         as isRoot,
+		       d.EMAIL      as email,
+		       d.STATUS     as status
+		       from T_SES_OMS_ORG d
+		       
+		       where d.ID =#{id}
+    </select>
+  
+<!-- 根据部门  负责人查询 -->
+  <select id="findByName" parameterType="java.util.Map"  resultType="ses.model.oms.Orgnization">
+ 			select d.id  as id,
+		       d.NAME         as name,
+		       d.TYPE_NAME       as typeName,
+		       d.ADDRESS   as address,
+		       d.MOBILE    as mobile,
+		       d.POST_CODE  as postCode,
+		       d.ORG_CODE   as orgCode,
+		       d.TELEPHONE  as telephone,
+		       d.AREA_ID    as areaId,
+		       d.DETAIL_ADDR  as detailAddr,
+		       d.fax          as fax,
+		       d.WEBSITE      as website,
+		       d.PRINCINPAL   as princinpal,
+		       d.PRINCINPAL_ID_CARD  as princinpalIdCard,
+		       d.NATURE       as nature,
+		       d.SHORT_NAME as shortName,
+		       d.PARENT_ID     as parentId,
+		       d.PARENT_NAME      as parentName,
+		       d.PROVINCE_ID      as provinceId,
+		       d.CITY_ID          as cityId,
+		       d.ORG_LEVEL       as orgLevel,
+		       d.IS_DELETED       as isDeleted,
+		       d.DEP_ID       as depId,
+		       d.IS_ROOT         as isRoot,
+		       d.EMAIL      as email,
+		      d.STATUS	    as status
+		  from T_SES_OMS_ORG    d
+		 where 1=1
+		 <if test="name != null and name != ''">
+		   AND d.NAME like '%'||#{name}||'%' 
+		 </if>
+		 <if test="princinpal != null and princinpal != ''">
+		   AND d.PRINCINPAL like '%'||#{princinpal}||'%'
+		  </if>
     </select> 
    <!-- 根据id查部门 -->
 	<select id="findOrgnizationList" parameterType="java.util.Map" resultType="ses.model.oms.Orgnization">
@@ -61,9 +138,7 @@
 		       d.IS_DELETED       as isDeleted,
 		       d.DEP_ID       as depId,
 		       d.IS_ROOT         as isRoot,
-		       d.EMAIL      as email,
-		       d.STATUS     as status,
-		       a.name       as provinceName
+		       d.EMAIL      as email
 		  from T_SES_OMS_ORG     d
 		  left join T_SES_BMS_AREA a
 		  on d.province_id = a.id
@@ -135,7 +210,7 @@
 		  AREA_ID,DETAIL_ADDR,FAX,
 		  WEBSITE,PRINCINPAL,PRINCINPAL_ID_CARD,
 		  NATURE,ORG_LEVEL,POSITION,IS_ROOT,EMAIL,
-		  PROVINCE_ID,CITY_ID,PARENT_NAME,SHORT_NAME,STATUS
+		  PROVINCE_ID,CITY_ID,PARENT_NAME,SHORT_NAME
           )
 		values(
 	      #{id},#{name,jdbcType=VARCHAR},#{type_name,jdbcType=NUMERIC},
@@ -145,7 +220,7 @@
 		  #{areaId,jdbcType=VARCHAR},#{detailAddr,jdbcType=VARCHAR},#{fax,jdbcType=VARCHAR},
 		  #{website,jdbcType=VARCHAR},#{princinpal,jdbcType=VARCHAR},#{princinpalIdCard,jdbcType=VARCHAR},
 		  #{nature,jdbcType=VARCHAR},#{orgLevel,jdbcType=INTEGER},#{position,jdbcType=INTEGER},#{isroot,jdbcType=INTEGER},#{email,jdbcType=VARCHAR},
-		  #{pid,jdbcType=VARCHAR},#{cid,jdbcType=VARCHAR},#{parentName,jdbcType=VARCHAR},#{shortName,jdbcType=VARCHAR},#{status,jdbcType=INTEGER}
+		  #{pid,jdbcType=VARCHAR},#{cid,jdbcType=VARCHAR},#{parentName,jdbcType=VARCHAR},#{shortName,jdbcType=VARCHAR}
 		 )
 	</insert>
 	

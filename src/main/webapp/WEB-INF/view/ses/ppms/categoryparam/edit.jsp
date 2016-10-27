@@ -116,7 +116,7 @@
 				+"<option value='' selected='selected'>"+values[i]+"</option>"
 				+"<option value='字符型'>字符型</option>"
 				+"<option value='数字型'>数字型</option>"
-				+"<option value='日期'>日期</option><select/></td></tr>";
+				+"<option value='日期型'>日期型</option><select/></td></tr>";
 	     }
 	  
 	      $("#result").prepend(html);
@@ -130,7 +130,7 @@
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a><li><a href="#">产品参数管理</a><li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">产品参数管理</a></li><li><a href="#">修改</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -143,7 +143,7 @@
 	  </div>
 	<div class="  tag-box ml100 col-md-9">
                      <form id="form" action="<%=basePath%>categoryparam/edit.do" method="post" >
-                      <input type="hidden" name="categoryId" value="${category.id}"/>
+                      <input type="hidden" name="id" value="${category.id}"/>
                      <input type="hidden" id="sss" name="names" value="" />
                      <input type="hidden" id="bbb" name="values" value=" "/>
                      <input type="hidden" id="ddd" name="products" value=""/>
@@ -164,14 +164,14 @@
                     
                      <tr><td >是否公开</td>
 					 <td>
-					 <span class="ml30"><input type="radio" value="0" name="ispublish" <c:if test="${category.isPublish eq 0}">checked</c:if>/>是</span>
-					 <span class="ml60"><input type="radio" value="1" name="ispublish" <c:if test="${category.isPublish eq 1}">checked</c:if> />否</span>
+					 <span class="ml30"><input type="radio" value="0" name="ispublish" class="mt0" <c:if test="${category.isPublish eq 0}">checked</c:if>/>是</span>
+					 <span class="ml60"><input type="radio" value="1" name="ispublish" class="mt0" <c:if test="${category.isPublish eq 1}">checked</c:if> />否</span>
 					 </td></tr>
 				
 					 <tr><td >产品类型</td>
 					 <td>
-					 <span class="ml30"><input type="checkbox" value="E73923CC68A44E2981D5EA6077580372" name="type" id="box"/>生产型</span>
-					 <span class="ml30"><input type="checkbox" value="18A966C6FF17462AA0C015549F9EAD79" name="type" id="box"/>销售型</span>
+					 <span class="ml30"><input type="checkbox" value="E73923CC68A44E2981D5EA6077580372" name="type" id="box" class="mt0"/>生产型</span>
+					 <span class="ml30"><input type="checkbox" value="18A966C6FF17462AA0C015549F9EAD79" name="type" id="box" class="mt0"/>销售型</span>
 					 </td></tr>
 					 
 					 <tr><td>验证规范</td><td>

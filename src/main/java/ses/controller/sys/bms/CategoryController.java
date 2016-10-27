@@ -126,17 +126,17 @@ public class CategoryController extends BaseSupplierController {
 	 * @param @return
 	 * @return String
 	 */
-	@ResponseBody
+	/*@ResponseBody
 	@RequestMapping("/search")
 	public void search(HttpServletRequest request, HttpServletResponse response,String name) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("name", name);
-		List<Category> nodeList = categoryService.listByKeyword(map);
-		/*String list ="";
-		return list = JSON.toJSONString(nodeList);*/
+		//List<Category> nodeList = categoryService.listByKeyword(name);
+		String list ="";
+		return list = JSON.toJSONString(nodeList);
 		super.writeJson(response, nodeList);
 		
-	}
+	}*/
 
 	/**
 	 * 
@@ -148,8 +148,7 @@ public class CategoryController extends BaseSupplierController {
 	 * @return String 
 	 */
 	@RequestMapping("/save")
-	public String save(@RequestParam("attaattach") MultipartFile attaattach,
-			HttpServletRequest request, Category category,Model model) {
+	public String save(@RequestParam("attaattach") MultipartFile[] attaattach,Category category, HttpServletRequest request) {
 		category.setName(request.getParameter("name"));
 		category.setPosition(Integer.parseInt(request.getParameter("position")));
 		category.setKind(request.getParameter("kind"));
@@ -158,7 +157,7 @@ public class CategoryController extends BaseSupplierController {
 		category.setDescription(request.getParameter("description"));
 		category.setCreatedAt(new Date());
 		categoryService.insertSelective(category);
-		upload(request, attaattach, category);
+		upload(request, attaattach[0], category);
 		return "redirect:get.html";
 	}
 	

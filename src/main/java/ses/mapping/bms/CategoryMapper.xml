@@ -17,10 +17,11 @@
  	<result column="KIND"  property="kind" />
  	<result column="PARAM_STATUS"  property="paramStatus" />
  	<result column="ACCEPT_RANGE"  property="acceptRange" />
- 	<result column="PARAM_PUBLISH_RANG"  property="paramPublishRange" />
+ 	<result column="PARAM_PUBLISH_RANGE"  property="paramPublishRange" />
+ 	
  <!-- 	<association property="categoryAptitude" column="APTITUDE_ID" select="ses.dao.bms.CategoryAptitudeMapper.selectByPrimaryKey"/> -->
  	<association property="categoryAttchment" column="ATTCHMENT_ID" select="ses.dao.bms.CategoryAttachmentMapper.selectByPrimaryKey"/>
-  
+	<association property="orgnization" column="ORGNIZATION_ID" select="ses.dao.oms.OrgnizationMapper.selectByPrimaryKey"/>
   </resultMap>
     <resultMap type="ses.model.bms.Category" id="totalMap" extends="CateMap">
 	    <collection property="categoryParams" ofType="ses.model.ppms.CategoryParam" resultMap="ses.dao.ppms.CategoryParamMapper.CategoryParamMap" />
@@ -29,11 +30,11 @@
     </resultMap>
   <sql id="Base_Column_List">
     ID, NAME, STATUS, PARENT_ID, CREATED_AT, UPDATED_AT, DESCRIPTION, IS_END, 
-    CODE, POSITION,IS_DELETED,IS_PUBLISH,KIND,PARAM_STATUS,ACCEPT_RANGE,PARAM_PUBLISH_RANG,ATTCHMENT_ID
+    CODE, POSITION,IS_DELETED,IS_PUBLISH,KIND,PARAM_STATUS,ACCEPT_RANGE,PARAM_PUBLISH_RANGE,ATTCHMENT_ID,ORGNIZATION_ID
   </sql>
   
   <!-- 根据id查询 -->
-  <select id="selectByPrimaryKey" parameterType="Object" resultMap="totalMap">
+  <select id="selectByPrimaryKey" parameterType="Object" resultMap="CateMap">
     select 
     <include refid="Base_Column_List" />
     from T_SES_BMS_CATEGORY
@@ -55,14 +56,14 @@
   </select> -->
   
   <!-- 根据pid查询生成树 -->
-  <select id="findTreeByPid" parameterType="Object" resultMap="totalMap">
+  <select id="findTreeByPid" parameterType="Object" resultMap="CateMap">
   select
   <include refid="Base_Column_List" />
   from T_SES_BMS_CATEGORY
   where PARENT_ID=#{id}
   </select>
   <!-- 根据参数状态和是否公开查询参数列表 -->
-  <select id="findByStatus" parameterType="Map" resultMap="totalMap">
+  <select id="findByStatus" parameterType="Map" resultMap="CateMap">
   select
    <include refid="Base_Column_List"/>
    from T_SES_BMS_CATEGORY
@@ -70,21 +71,21 @@
    IS_PUBLISH ='1'
   
   </select>
-  <select id="selectAll" parameterType="Object" resultMap="totalMap">
+  <select id="selectAll" parameterType="Object" resultMap="CateMap">
   select 
   <include refid="Base_Column_List"/>
   from T_SES_BMS_CATEGORY
   </select>
   
    <!-- 根据code查出已插入的数据-->
-  <select id="readExcel" parameterType="Object" resultMap="totalMap">
+  <select id="readExcel" parameterType="Object" resultMap="CateMap">
   select
   <include refid="Base_Column_List" />
   from T_SES_BMS_CATEGORY
   where CODE=#{code}
   </select>
   <!-- 根据参数状态查询 -->
-  <select id="listByParamstatus" parameterType="Map" resultMap="totalMap">
+  <select id="listByParamstatus" parameterType="Map" resultMap="CateMap">
   select 
   <include refid="Base_Column_List" />
   from  T_SES_BMS_CATEGORY 
@@ -92,13 +93,20 @@
   order by CREATED_AT DESC
   </select>
   <!-- 根据关键字查出品目名称 -->
-  <select id="listByKeyword" parameterType="Map" resultMap="totalMap" >
+  <select id="listByKeyword" parameterType="Map" resultMap="CateMap" >
   select 
   <include refid="Base_Column_List" />
   from T_SES_BMS_CATEGORY 
   where NAME like '%'||#{name}||'%'
   </select>
   
+  <!-- 根据部门id进行修改 -->
+  <select id="findByOrgId" parameterType="Map" resultMap="CateMap">
+  select 
+  <include refid="Base_Column_List" />
+  from T_SES_BMS_CATEGORY
+  where ORGNIZATION_ID =#{orgnization.id}
+  </select>
   <!-- 根据id删除 -->
   <delete id="deleteByPrimaryKey" parameterType="Object">
     delete from T_SES_BMS_CATEGORY
@@ -174,6 +182,9 @@
       <if test="categoryAttchment != null">
         ATTCHMENT_ID,
       </if>
+      <if test="orgnization != null">
+        ORGNIZATION_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -227,7 +238,9 @@
         <if test="categoryAttchment != null">
         #{categoryAttchment.id},
         </if>
-     
+        <if test="orgnization != null">
+        #{orgnization.id},
+        </if>
     </trim>
   </insert>
   
@@ -283,6 +296,9 @@
         </if>
         <if test="categoryAttchment != null">
          ATTCHMENT_ID = #{categoryAttchment},
+        </if>
+        <if test="orgnization != null">
+         ORGNIZATION_ID = #{orgnization},
         </if>
     </set>
     where ID = #{id}

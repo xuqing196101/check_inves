@@ -170,4 +170,6 @@ public interface CategoryMapper {
     List<Category> listByParamstatus(Map<String, Integer> map);
     
     List<Category> findByStatus();
+    
+     List<Category> findByOrgId(Map<String, Object> map);
 }
