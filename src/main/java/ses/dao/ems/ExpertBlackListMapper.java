@@ -28,7 +28,7 @@ public interface ExpertBlackListMapper {
 	 * @param @return      
 	 * @return List<ExpertBlackList>
 	 */
-	List<ExpertBlackList> findList(Map paramMap);
+	List<ExpertBlackList> findList(ExpertBlackList expertBlackList);
 	/**
 	 * @Title: insert
 	 * @author Xu Qing

@@ -13,6 +13,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,8 @@ import org.springframework.web.multipart.MultipartFile;
 import ses.model.oms.PurchaseInfo;
 import ses.service.oms.PurchaseServiceI;
 import bss.controller.base.BaseController;
+import bss.formbean.PurchaseRequiredFormBean;
+import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
@@ -41,6 +44,7 @@ import bss.service.ppms.ProjectService;
 import bss.service.ppms.TaskService;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 
 
@@ -206,7 +210,18 @@ public class ProjectController extends BaseController {
      */
     @RequestMapping("/create")
     public String create(String id, Model model, String name, String projectNumber,
-                         HttpServletRequest request) {
+                         String token2, HttpServletRequest request) {
+        try {
+            // 判断表单是否重复提交
+            HttpSession session = request.getSession();
+            Object tokenValue = session.getAttribute("tokenSession");
+            if (tokenValue != null && tokenValue.equals(token2)) {
+                // 正常提交
+                session.removeAttribute("tokenSession");
+            } else {
+                // 重复提交
+                return "redirect:list.html";
+            }
         ProjectDetail projectDetail = new ProjectDetail();
         PurchaseRequired purchaseRequired = new PurchaseRequired();
         String[] ids = id.split(",");
@@ -288,6 +303,9 @@ public class ProjectController extends BaseController {
             ProjectDetail detail = detailService.selectByPrimaryKey(projectId[i]);
             detail.setProject(new Project(project.getId()));
             detailService.update(detail);
+        }
+        }catch (Exception e) {
+            e.printStackTrace();
         }
         return "redirect:list.html";
         
@@ -405,85 +423,76 @@ public class ProjectController extends BaseController {
         model.addAttribute("project", project);
         return "bss/ppms/project/essential_information";
     }
+    
+    @RequestMapping("/SameNameCheck")
+    public void SameNameCheck(Project project, HttpServletResponse response) throws IOException {
+        response.reset();
+        response.setContentType("text/html;charset=UTF-8");
+        response.getWriter().print(projectService.SameNameCheck(project.getName(), project));
+    }
+    
 
     /**
-     * @Title: update
-     * @author FengTian
-     * @date 2016-10-13 下午2:05:14
-     * @Description: 修改项目
-     * @param @param id
-     * @param @param name
-     * @param @param projectNumber
-     * @param @param model
-     * @param @param request
-     * @param @return
-     * @return String
+     * 
+     *〈修改项目信息〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param ide
+     * @param name
+     * @param projectNumber
+     * @param lists
+     * @return
      */
     @RequestMapping("/update")
-    public String update(String id, String name, String projectNumber, Model model,
-                         HttpServletRequest request) {
-        Project project = projectService.selectById(id);
-        project.setName(name);
-        project.setProjectNumber(projectNumber);
-        projectService.update(project);
-        return "redirect:list.html";
-    }
-
-    /**
-     * @Title: editDetail
-     * @author FengTian
-     * @date 2016-10-12 上午9:15:08
-     * @Description: 修改项目明细
-     * @param @param id
-     * @param @param purchaseCount
-     * @param @param price
-     * @param @param purchaseType
-     * @param @param model
-     * @return void
-     */
-    @RequestMapping("/editDetail")
-    @ResponseBody
-    public void editDetail(String id, String ids, String purchaseCount, String price, String purchaseType,
-                           String budget, String name, String projectNumber, Model model) {
+    public String update( String ide, String name, String projectNumber, PurchaseRequiredFormBean lists){
         //修改项目名称和项目编号
-        Project project = projectService.selectById(ids);
+        Project project = projectService.selectById(ide);
         project.setName(name);
         project.setProjectNumber(projectNumber);
-        
         //修改项目明细
-        String[] idc = id.split(",");
-        String[] ida = purchaseCount.split(",");
-        String[] idb = price.split(",");
-        String[] ide = purchaseType.split(",");
-        String[] idf = budget.split(",");
-        for (int i = 0; i < idc.length; i++ ) {
-            ProjectDetail qq = detailService.selectByPrimaryKey(idc[i]);
-            if (ida[i] != null && ida[i].trim().length() != 0) {
-                qq.setPurchaseCount(Integer.valueOf(ida[i]));
+        if(lists!=null){
+            if(lists.getLists()!=null&&lists.getLists().size()>0){
+                for( ProjectDetail detail:lists.getLists()){
+                    if( detail.getId()!=null){
+                        project.setPurchaseType(detail.getPurchaseType());
+                        detailService.update(detail);
+                        projectService.update(project);
+                    }
+                }
             }
-            if (idb[i] != null && idb[i].trim().length() != 0) {
-                qq.setPrice(Double.valueOf(idb[i]));
-            }
-            if (ide[i] != null && ide[i].trim().length() != 0) {
-                qq.setPurchaseType(ide[i]);
-            }
-            if (idf[i] != null && idf[i].trim().length() != 0) {
-                qq.setBudget(Double.valueOf(idf[i]));
-            }
-            detailService.update(qq);
-            project.setPurchaseType(qq.getPurchaseType());
-            projectService.update(project);
         }
-        
-    }
-
+        return "redirect:list.html";
+    }     
     @RequestMapping("/print")
     public String print(String id, Model model) {
         Project project = projectService.selectById(id);
         model.addAttribute("project", project);
         return "bss/ppms/project/print";
     }
-
+    
+    /**
+     * 
+     *〈查看明细是否分包〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param id
+     * @param response
+     * @throws IOException
+     */
+    @RequestMapping("/viewPackage")
+    public void viewPackage(String id, HttpServletResponse response) throws IOException{
+        HashMap<String,Object> map = new HashMap<String,Object>();
+        map.put("id", id);
+        List<ProjectDetail> detail = detailService.selectById(map);
+        String json = JSON.toJSONStringWithDateFormat(detail, "yyyy-MM-dd HH:mm:ss");
+        response.setContentType("text/html;charset=utf-8");
+        response.getWriter().write(json);
+        response.getWriter().flush();
+        response.getWriter().close();
+    }
+    
+    
+    
     /**
 	 * 
 	* @Title: subPackage
@@ -651,6 +660,17 @@ public class ProjectController extends BaseController {
 		packageService.updateByPrimaryKeySelective(pk);
 		return "1";
 	}
+	
+	
+	@RequestMapping("/file")
+    @ResponseBody
+    public String file(@RequestParam("attach") MultipartFile[] attach, 
+                        String id, HttpServletRequest request) {
+	      Project project = projectService.selectById(id);
+          upfile(attach, request, project);
+          String msg = "{\"msg\":\"success\"}";
+          return msg;
+    }
 
     /**
      * @Title: upfile

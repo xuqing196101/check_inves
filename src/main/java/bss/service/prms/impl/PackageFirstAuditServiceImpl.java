@@ -50,4 +50,16 @@ public class PackageFirstAuditServiceImpl implements PackageFirstAuditService {
    public List<PackageFirstAudit>selectList(Map<String,Object> map){
     	return mapper.selectList(map);
     }
+   /**
+    * 
+     * @Title: update
+     * @author ShaoYangYang
+     * @date 2016年10月26日 下午8:06:25  
+     * @Description: TODO 根据传递的id 修改符合条件的内容
+     * @param @param record      
+     * @return void
+    */
+   public void update(PackageFirstAudit record){
+	   mapper.update(record);
+   }
 }

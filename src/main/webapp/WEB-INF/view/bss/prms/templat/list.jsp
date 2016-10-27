@@ -147,13 +147,13 @@
    
    <div class="container">
 	   <div class="headline-v2">
-	   		<h2>模板查询</h2>
+	   		<h2>模版管理</h2>
 	   </div>
    </div>
     <!-- 查询 -->
    
-   <div class="container clear margin-top-0">
-   <div class="padding-10 border1 m0_30 tc">
+   <div align="right" class="container clear margin-top-0">
+   <div align="right" class="padding-10 border1 m0_30 tc">
    	<form action="<%=basePath %>auditTemplat/list.html" id="form1" method="post" enctype="multipart/form-data" class="mb0" >
 	 <ul class="demand_list">
 	  
@@ -170,11 +170,7 @@
    </div>
   </div>
    
-   <div class="container">
-	   <div class="headline-v2">
-	   		<h2>模版管理</h2>
-	   </div>
-   </div>
+   
 <!-- 表格开始-->
    <div class="container">
    <div class="padding-left-25 padding-right-25">
@@ -195,8 +191,8 @@
 		<tr>
 		  <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 		  <th class="info w50">序号</th>
-		  <th class="info">模板类型</th>
 		  <th class="info">模板名称</th>
+		  <th class="info">模板类型</th>
 		  <th class="info">是否公开</th>
 		  <th class="info">创建日期</th>
 		  <th class="info">修改日期</th>
@@ -209,9 +205,9 @@
 				
 				<td class="tc opinter" onclick="view('${templet.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 				
-				<td class="tc opinter" onclick="view('${templet.id}')">${templet.kind}</td>
-				
 				<td class="tc opinter" onclick="view('${templet.id}')">${templet.name}</td>
+				
+				<td class="tc opinter" onclick="view('${templet.id}')">${templet.kind}</td>
 				<c:if test="${templet.isOpen eq '0'}">
 					<td class="tc opinter" onclick="view('${templet.id}')">公开</td>
 				</c:if>

@@ -189,34 +189,39 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         
         
         
-        function edit(id){
-           layer.open({
-          type: 1, //page层
-          area: ['500px', '300px'],
-          title: '您是要变更明细吗？',
-          shade:0.01, //遮罩透明度
-          moveType: 1, //拖拽风格，0是默认，1是传统拖动
-          shift: 1, //0-6的动画形式，-1不开启
-          offset: ['220px', '630px'],
-          shadeClose: true,
-          content:$("#file")
-        });
+        function edit(){
+          var fileName = $("input[name='fileName']").val();
+            var planNo = $("input[name='planNo']").val();
+            if(fileName==""){
+                layer.tips("计划名称不能为空","#fileName");
+            }else if(planNo==""){
+                layer.tips("计划编号不能为空","#planNo");
+            }else{
+                layer.open({
+                      type: 1, //page层
+                      area: ['500px', '300px'],
+                      title: '您是要变更明细吗？',
+                      shade:0.01, //遮罩透明度
+                      moveType: 1, //拖拽风格，0是默认，1是传统拖动
+                      shift: 1, //0-6的动画形式，-1不开启
+                      offset: ['220px', '630px'],
+                      shadeClose: true,
+                      content:$("#file")
+                 });
+            }
             
     }
         
         
         
         function delTask(id){
-         
-                    $("#form1").submit();
-          
-         
-               
+          layer.msg("修改成功",{offset: ['222px', '690px']});
+             window.setTimeout(function(){
+                  $("#form1").submit();
+            }, 1000);
 		}
 		function cancel(){
-		
 		     layer.closeAll();
-		     
 		}
   </script>
   </head>
@@ -238,12 +243,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <h2>采购计划调整</h2>
    </div>
 <!-- 项目戳开始 -->
+<form action="<%=basePath%>task/update.html" id="form1" method="post" enctype="multipart/form-data">
    <div class="container clear">
     <div class="p10_25">
      <h2 class="padding-10">
-   <%--  <ul class="demand_list">
+     <ul class="demand_list">
       <li class="fl">
-        <input type="hidden" id="ide" value="${queryById.id}"/>
+        <input type="hidden" id="ide" name="ide" value="${queryById.id}"/>
         <label class="fl">
                            计划名称：<input type="text" id="fileName" name="fileName" value="${queryById.fileName}"/>
         </label>
@@ -253,8 +259,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                 计划编号：<input type="text" id="planNo" name="planNo" value="${queryById.planNo}"/> 
         </label>
       </li>
-       <label class="fl">计划类型：${collectPlan.fileName} </label> 
-     </ul> --%>
+     </ul> 
    
      <div class="clear"></div>
      </h2>
@@ -267,12 +272,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      
   
       <span class="fr option_btn margin-top-10">
-        <button class="btn btn-windows save" onclick="edit('${task.id}');">变更</button>
-        <button class="btn btn-windows back" onclick="location.href='javascript:history.go(-1);'">取消</button>
+        <button class="btn btn-windows save" type="button" onclick="edit();">变更</button>
+        <button class="btn btn-windows back" type="button" onclick="location.href='javascript:history.go(-1);'">取消</button>
         <!-- <button class="btn padding-left-10 padding-right-10 btn_back" onclick="view();">查看变更记录</button> -->
       </span>
    <div class="container clear margin-top-30">
-   <form action="<%=basePath%>task/update.html" id="form1" method="post" enctype="multipart/form-data">
+   
         <table id="table" class="table table-bordered table-condensed mt5">
         <thead>
         <tr>
@@ -309,12 +314,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <input maxlength="11" id="purchaseCount" onblur="sum2(this);"  onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" name="list[${vs.index }].purchaseCount" style="width:50%;"  value="${obj.purchaseCount}"/>
               <input type="hidden" name="ss"   value="${obj.parentId }">
               </c:if>
+              <c:if test="${obj.purchaseCount==null }">
+              <input style="border: 0px;"  disabled="disabled"  type="text" name="list[${vs.index }].purchaseCount" onblur="checks(this)"  value="${obj.purchaseCount }">
+              </c:if>
               </td>
               <td class="tc">
               <c:if test="${obj.price!=null}">
               <input   type="hidden" name="ss"   value="${obj.id }">
               <input maxlength="11" id="price"  name="list[${vs.index }].price" style="width:50%;" onblur="sum1(this);"  value="${obj.price}"/>
               <input type="hidden" name="ss"   value="${obj.parentId }">
+              </c:if>
+              <c:if test="${obj.price==null}">
+              <input style="border: 0px;"  readonly="readonly" onblur="sum1(this)"  type="text" name="list[${vs.index }].price" value="${obj.price }">
               </c:if>
               </td>
               <td class="tc">
@@ -380,10 +391,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </div>
     
     
-      </form>
+      
       <div id="pagediv" align="right"></div>
    </div>
+   </form>
  </div>
-
+   
      </body>
 </html>

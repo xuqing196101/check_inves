@@ -1,9 +1,7 @@
 package ses.service.ems.impl;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -82,17 +80,11 @@ public class ExpertBlackListServiceImpl implements ExpertBlackListService{
 	public List<ExpertBlackList> findAll(ExpertBlackList expertBlackList,Integer page) {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-		Map map = new HashMap();
-		if(expertBlackList!=null){
-			map.put("relName", expertBlackList.getRelName());
-			map.put("punishType", expertBlackList.getPunishType());
-			map.put("punishDate", expertBlackList.getPunishDate());
-		}else{
-			map.put("relName", null);
-			map.put("punishType", null);
-			map.put("punishDate", null);
+		String relName =  expertBlackList.getRelName();
+		if(relName != null && !"".equals(relName)){
+			expertBlackList.setRelName("%" +relName+ "%");
 		}
-		return mapper.findList(map);
+		return mapper.findList(expertBlackList);
 	}
 	
 	/**

@@ -75,7 +75,7 @@
       <if test="fileSize != null">
         FILE_SIZE,
       </if>
-      <if test="project != null">
+      <if test="project.id != null">
         PROJECT_ID,
       </if>
       <if test="attachmentPath != null">
@@ -107,7 +107,7 @@
       <if test="fileSize != null">
         #{fileSize},
       </if>
-      <if test="project != null">
+      <if test="project.id != null">
         #{project.id},
       </if>
       <if test="attachmentPath != null">

@@ -178,11 +178,11 @@
       <if test="updateAt != null">
         UPDATED_AT,
       </if>
-      <if test="requiredId != null">
-        REQUIRED_ID,
-      </if>
       <if test="position != null">
         POSITION,
+      </if>
+       <if test="requiredId != null">
+        REQUIRED_ID,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -384,12 +384,11 @@
   <select id="selectByParentId"  resultMap="BaseResultMap">
         select * from T_BSS_PPMS_PROJECTS_DETAIL 
         start with REQUIRED_ID = #{id} 
-        connect by prior REQUIRED_ID = PARENT_ID ORDER BY CREATED_AT 
+        connect by prior REQUIRED_ID = PARENT_ID 
     </select>
-    
     <select id="selectByParent"  resultMap="BaseResultMap">
         select * from T_BSS_PPMS_PROJECTS_DETAIL 
         start with REQUIRED_ID = #{id} 
-        connect by prior PARENT_ID = REQUIRED_ID ORDER BY CREATED_AT 
+        connect by prior PARENT_ID = REQUIRED_ID 
     </select>
 </mapper>
