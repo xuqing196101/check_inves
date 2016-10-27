@@ -29,9 +29,9 @@ public class ScoreModel implements Serializable{
 	private String easyUnderstandContent;//通俗易懂，白话文内容
 	private String standExplain;//标准解释
 	private Integer isDeleted;//解释
-	private Date createdAt;//解释
-	private Date updatedAt;//解释
-	private String status;
+	private Date createdAt;//
+	private Date updatedAt;//
+	private String status;//状态 0 未审核  1已审核 
 	
 	//模型一相关属性        是否判断
 	private String standardScore;//标准分值
