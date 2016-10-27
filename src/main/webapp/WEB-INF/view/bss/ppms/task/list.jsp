@@ -214,10 +214,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             }
                
 }
-	/** 关闭页面 */
-	function cancel(){
-	               layer.closeAll();
-	        }
+    /** 关闭页面 */
+    function cancel(){
+                   layer.closeAll();
+            }
   </script>
   </head>
   
@@ -241,18 +241,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="container clear">
   <div class="p10_25">
      <h2 class="padding-10 border1">
-<<<<<<< Updated upstream
      <form id="form1" action="<%=basePath%>task/list.html" method="post" >
      <input type="hidden" name="page" id="page">
      <ul class="demand_list">
        <li class="fl">
          <label class="fl">需求部门：<input type="text" name="purchaseRequiredId" id="purchaseRequiredId" value="${task.purchaseRequiredId }"/></label>
-=======
-     <form id="add_form" action="<%=basePath%>task/list.html" method="post" class="mb0">
-     <ul class="demand_list">
-       <li class="fl">
-         <label class="fl">需求部门：<input type="text" name="purchaseRequiredId" class="w120"/></label>
->>>>>>> Stashed changes
        </li>
      <%--  <label class="fl">年度：<select name="giveTime" style="width:70px" id="select">
     <option selected="selected" value="">请选择</option>
@@ -264,7 +257,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </select> </label>--%>
        <%--  <li class="fl">
          <label class="fl">采购方式：
-           <select name="procurementMethod" class="w90" id="select">
+           <select name="procurementMethod" style="width:100px" id="select">
              <option selected="selected" value="">请选择</option>
              <option value="1" <c:if test="${'1'==task.procurementMethod}">selected="selected"</c:if>>公开招标</option>
              <option value="2" <c:if test="${'2'==task.procurementMethod}">selected="selected"</c:if>>邀请招标</option>
@@ -272,11 +265,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           </label> 
   </li> --%>
   <li class="fl">
-<<<<<<< Updated upstream
        <label class="fl">采购机构：<input type="text" name="purchaseId" id="purchaseId" value="${task.purchaseId }"/></label>
-=======
-       <label class="fl">采购机构：<input type="text" name="purchaseId" class="w120"/></label>
->>>>>>> Stashed changes
        </li>
        <li class="fl">
       <label class="fl">状态：<select name="status" style="width:70px" id="status">
@@ -289,13 +278,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <li class="fl">
        <label class="fl">文件编号：<input type="text" name="documentNumber" id="documentNumber" value="${task.documentNumber }"/></label>
        </li>
-<<<<<<< Updated upstream
          <button class="btn" type="submit">查询</button>
          <button type="reset" class="btn" onclick="clearSearch();">重置</button> 
-=======
-         <button class="btn mt5" type="submit">查询</button>
-         <button type="reset" class="btn mt5">重置</button> 
->>>>>>> Stashed changes
      </ul>
      <div class="clear"></div>
     </form>
@@ -314,7 +298,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       </span>
     <div class="container">
      <div class="content padding-left-25 padding-right-25 padding-top-5">
-    	<table class="table table-bordered table-condensed table-hover">
+        <table class="table table-bordered table-condensed table-hover">
         <thead>
         <tr>
           <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
@@ -343,7 +327,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
          </c:forEach> 
          
 
-	</table>
+    </table>
      </div>
         <div id="delTask" style="display: none;">
              <form id="att" action="<%=basePath%>task/delTask.html" 
