@@ -82,7 +82,8 @@
                         </c:forEach> 
                     </ul>
                    </div>
-                 </div></li>
+                 </div>
+                 </li>
 			<li class="col-md-12  p0 ">	  	 			
 				<span class="fl"> 版块介绍：</span>
 				<div class="col-md-12 mt5 fn pl200 pwr9">

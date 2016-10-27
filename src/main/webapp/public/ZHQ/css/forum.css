@@ -67,7 +67,6 @@
 .topics .topic .count {
     width: 100px;
     text-align: right;
-    padding-top: 15px;
     padding-left: 10px;
     display: table-cell;
     vertical-align: top;
@@ -89,6 +88,18 @@
     left:430px;
     top:5px;
     color:#ef0000;
+}
+.to_top{
+	margin-top:15px;
+	background: #6d6afb;
+    line-height: 11px;
+    color: #fff;
+    width: 42px;
+    text-align: center;
+    border-radius: 80px!important;
+    padding: 3px 8px 3px 8px;
+    display: inline-block;
+    text-decoration: none;
 }
 /*非空提示星号*/
 .star_red{

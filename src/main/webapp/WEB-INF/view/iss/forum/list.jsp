@@ -142,8 +142,9 @@
         </div>
         
          <div class="count media-right">     
-         <span>置顶</span>  
-         <span class="state-false" >${topPost.replycount }</span>
+        
+          <span class="state-false" >${topPost.replycount }</span>
+          <span class="to_top">置顶</span>  
         </div>
        </div>
       </div>

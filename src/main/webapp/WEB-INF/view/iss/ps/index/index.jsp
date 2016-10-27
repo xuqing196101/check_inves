@@ -32,6 +32,62 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHQ/js/jquery.min.js"></script>
 <script src="<%=basePath%>public/ZHQ/js/jquery_ujs.js"></script>
 <script src="<%=basePath%>public/ZHQ/js/bootstrap.min.js"></script>
+<script src="<%=basePath%>public/layer/layer.js"></script>
+<script type="text/javascript">
+$(function(){
+	$(document).keyup(function(event){
+	  if(event.keyCode ==13){
+	    login();
+	  }
+	});
+})
+
+function login(){
+	if($("#inputEmail").val()==""){
+		layer.tips("请输入用户名","#inputEmail",{
+			tips : 1
+		});		
+	}else if($("#inputPassword").val()==""){
+		layer.tips("请输入密码","#inputPassword",{
+			tips : 1
+		});		
+	}else if($("#inputCode").val()==""){
+		layer.tips("请输入验证码","#inputCode",{
+			tips : 1
+		});		
+	}else{
+		var index=layer.load();
+		$.ajax({
+			url:"<%=basePath%>login/login.html",
+			type:"post",
+			data:{loginName:$("#inputEmail").val(),password:$("#inputPassword").val(),rqcode:$("#inputCode").val()},
+			success:function(data){
+				if(data=="errorcode"){
+					layer.tips("验证码不正确","#inputCode",{
+						tips : 1
+					});	
+					layer.close(index);
+				}else if(data=="errorlogin"){				
+					layer.msg("用户名或密码错误！");
+					layer.close(index);
+				}else if(data=="nullcontext"){				
+					layer.msg("请输入用户名密码或者验证码!");
+				}else if(data=="scuesslogin"){				
+					layer.close(index);
+					window.location.href="<%=basePath%>login/index.html";
+				}else if(data="deleteLogin"){
+					layer.msg("账号不存在!");
+					layer.close(index);
+				}
+				kaptcha();
+			}
+		});
+	}
+
+}
+function kaptcha(){
+	$("#kaptchaImage").hide().attr('src','Kaptcha.jpg?' + Math.floor(Math.random() * 100)).fadeIn();
+}
 </script>
 </head>
 
@@ -1212,14 +1268,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           </div>
         </div>
         <div class="control-group  margin-top-10 ">
-        <label class="control-label" for="inputPassword">验证码：</label>
+         <label class="control-label" for="inputPassword">验证码：</label>
         <div class="controls">
-          <input type="password" placeholder="" class="input-mini fl">
-		  <span class=" margin-left-10"><img src="<%=path%>/public/ZHQ/images/yzm.jpg"/></span>
+          <input type="text" placeholder="" id="inputCode" class="input-mini fl ">
+          	<img src="Kaptcha.jpg" onclick="kaptcha();" id="kaptchaImage" />
         </div>
        </div>
        <div class="control-group margin-top-22 clear ml30">
-          <button class="btn login_btn" type="submit">登录</button>
+          <button class="btn" type="button" onclick="login();">登录</button>
       </div>
     </form>
   </div>
@@ -1240,8 +1296,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <div class="control-group  margin-top-10 ">
         <label class="control-label" for="inputPassword">验证码：</label>
         <div class="controls">
-          <input type="password" placeholder="" class="input-mini fl">
-		  <span class=" margin-left-10"><img src="<%=path%>/public/ZHQ/images/yzm.jpg"/></span>
+          <input type="text" placeholder="" id="inputCode" class="input-mini fl ">
+          	<img src="Kaptcha.jpg" onclick="kaptcha();" id="kaptchaImage" />
         </div>
        </div>
        <div class="control-group margin-top-22 clear ml30">
