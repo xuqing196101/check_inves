@@ -171,11 +171,12 @@ public class ParkManageController {
 			String userId = request.getParameter("userId");
 			if(userId !=null &&userId != ""){
 				 User user = userService.getUserById(userId);
-				//设置权限
+				/*//设置权限
 				Role role = roleService.get("018375864F3C403CAC7698C2549763F0");
 				List<Role> roles = new ArrayList<Role>();
 				roles.add(role);
 				user.setRoles(roles);
+				
 				UserPreMenu um = new UserPreMenu();
 				um.setUser(user);
 				userService.deleteUserMenu(um);
@@ -187,7 +188,7 @@ public class ParkManageController {
 					up.setPreMenu(preMenu);
 					up.setUser(user);
 					userService.saveUserMenu(up);
-				}
+				}*/
 				park.setUser(user);
 			}
 			User creater = (User) request.getSession().getAttribute("loginUser");
@@ -260,15 +261,16 @@ public class ParkManageController {
 			
 		}else{
 			String oldUserId = request.getParameter("oldUserId");
-			if( oldUserId != null && oldUserId !=""){
+			
+/*			if( oldUserId != null && oldUserId !=""){
 				User oldUser = userService.getUserById(oldUserId);
 				UserPreMenu um = new UserPreMenu();
 				um.setUser(oldUser);
 				userService.deleteUserMenu(um);
-			}
+			}*/
 			String userId = request.getParameter("userId");
 			
-			if(userId != null && userId != ""){
+/*			if(userId != null && userId != ""){
 				User user = userService.getUserById(userId);
 				//菜单
 				String ids ="C58C30A33C4A4AB49B125589267BE64B,0298F628AB6C4018A0B43561993A43DE,DDA573A2CCA54DF29E4B8BCCDFAF80DA,8715A14AB3F74D77AF85C443386023F3,3DFF3C15462047A185B6173348BE7839,4AE68DC483454C298D9330A9976159F3";
@@ -286,7 +288,7 @@ public class ParkManageController {
 				roles.add(role);
 				user.setRoles(roles);	
 				park.setUser(user);
-			}
+			}*/
 			Timestamp ts = new Timestamp(new Date().getTime());
 			park.setUpdatedAt(ts);		
 			String parkId = request.getParameter("parkId");

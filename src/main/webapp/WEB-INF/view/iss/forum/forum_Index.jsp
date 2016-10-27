@@ -47,13 +47,13 @@
     <div class="item item1">
     
       <div class="icon">
-        <a href="<%=basePath%>post/getIndexlist.html?parkId=1">
+        <a href="<%=basePath%>post/getIndexlist.html?parkId=${forumIndexMapper['select1Park'].id}">
         <i class="fa fa-comments-o">
         <img src="<%=basePath%>public/ZHQ/images/icon_02.png"/>
         </i></a>
       </div>
       <div class="text">
-        <a href="<%=basePath%>post/getIndexlist.html?parkId=1">
+        <a href="<%=basePath%>post/getIndexlist.html?parkId=${forumIndexMapper['select1Park'].id}">
            ${forumIndexMapper['select1Park'].name}
        <i class="pull-right fa fa-arrow-right"></i></a>
       </div>
@@ -64,10 +64,10 @@
     <div class="item item2">
     
       <div class="icon">
-        <a href="<%=basePath%>post/getIndexlist.html?parkId=2"><i class="fa fa-support"><img src="<%=basePath%>public/ZHQ/images/icon_04.png"/></i></a>
+        <a href="<%=basePath%>post/getIndexlist.html?parkId=${forumIndexMapper['select2Park'].id}"><i class="fa fa-support"><img src="<%=basePath%>public/ZHQ/images/icon_04.png"/></i></a>
       </div>
       <div class="text">
-        <a href="<%=basePath%>post/getIndexlist.html?parkId=2">      
+        <a href="<%=basePath%>post/getIndexlist.html?parkId=${forumIndexMapper['select2Park'].id}">      
             ${forumIndexMapper['select2Park'].name} 
          <i class="pull-right fa fa-arrow-right"></i></a>
       </div>
@@ -78,10 +78,10 @@
     <div class="item item3">
     
       <div class="icon">
-        <a href="<%=basePath%>post/getIndexlist.html?parkId=3"><i class="fa fa-users"><img src="<%=basePath%>public/ZHQ/images/icon_03.png"/></i></a>
+        <a href="<%=basePath%>post/getIndexlist.html?parkId=${forumIndexMapper['select3Park'].id}"><i class="fa fa-users"><img src="<%=basePath%>public/ZHQ/images/icon_03.png"/></i></a>
       </div>
       <div class="text">
-        <a href="<%=basePath%>post/getIndexlist.html?parkId=3" >          
+        <a href="<%=basePath%>post/getIndexlist.html?parkId=${forumIndexMapper['select3Park'].id}" >          
 		 ${forumIndexMapper['select3Park'].name}
 		 <i class="pull-right fa fa-arrow-right"></i></a>
       </div>
@@ -91,10 +91,10 @@
     <div class="item item4">
    
       <div class="icon">
-        <a href="<%=basePath%>post/getIndexlist.html?parkId=4"><i class="fa fa-diamond"> <img src="<%=basePath%>public/ZHQ/images/icon_08.png"/></i></a>
+        <a href="<%=basePath%>post/getIndexlist.html?parkId=${forumIndexMapper['select4Park'].id}"><i class="fa fa-diamond"> <img src="<%=basePath%>public/ZHQ/images/icon_08.png"/></i></a>
       </div>
       <div class="text">
-        <a href="<%=basePath%>post/getIndexlist.html?parkId=4">
+        <a href="<%=basePath%>post/getIndexlist.html?parkId=${forumIndexMapper['select4Park'].id}">
             ${forumIndexMapper['select4Park'].name}
         <i class="pull-right fa fa-arrow-right"></i></a>
       </div>
