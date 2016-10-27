@@ -651,7 +651,7 @@ public class ProjectController extends BaseController {
 		for(int i=0;i<detail.size();i++){
 			ProjectDetail projectDetail = new ProjectDetail();
 			projectDetail.setId(detail.get(i).getId());
-			projectDetail.setPackageId(" ");
+			projectDetail.setPackageId("");
 			detailService.update(projectDetail);
 		}
 		Packages pk = new Packages();
