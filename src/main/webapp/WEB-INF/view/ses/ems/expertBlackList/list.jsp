@@ -195,7 +195,7 @@
                   </select>  --%>
 	            </li>
 		          <li class="fl">
-	               <label class="fl mt5">处罚方式：</label>
+	               <label class="fl mt5">处罚时限：</label>
 		               <select name="punishDate"  id="punishDate" class="mb0 mt5">
 				            <option value="">-请选择-</option>
 											<option <c:if test="${punishDate =='3个月' }">selected</c:if> value="3个月">3个月</option>
@@ -206,7 +206,7 @@
 									</select>
 		          </li>
 		          <li class="fl">
-	              <label class="fl mt5">处罚时限：</label>
+	              <label class="fl mt5">处罚类型：</label>
 							    <select name="punishType" id="punishType" class="mb0 mt5">
 			            <option value=''>-请选择-</option>
 								  <option <c:if test="${punisType =='1' }">selected</c:if> value="1">警告</option>
