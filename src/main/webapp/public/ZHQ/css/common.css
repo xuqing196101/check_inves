@@ -450,7 +450,8 @@ width: 780px!important; }
 
 .mr10 {
   margin-right: 10px; }
-
+.mr14 {
+  margin-right: 14px; }
 .mr15 {
   margin-right: 15px; }
 
@@ -766,7 +767,18 @@ th.bg_tc {
 a{
  cursor:pointer;
 }
-
 .searchFont{
   color:red;
+}
+.bg12{
+  background:#157c82;}
+.f17 {
+font-size: 17px; }
+.mt60{
+  margin-top:60px;
+}
+.m20_0{
+ margin:20px 0px;}
+.p17-0{
+  padding:17px 0 17px 0;
 }

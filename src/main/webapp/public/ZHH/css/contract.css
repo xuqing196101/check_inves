@@ -1,0 +1,7 @@
+.contract_desc{
+  word-break: break-word;
+}
+table.contract_table,table.contract_table th,table.contract_table td{
+  border:1px solid #000000!important;
+  border-bottom:0px!important;
+}

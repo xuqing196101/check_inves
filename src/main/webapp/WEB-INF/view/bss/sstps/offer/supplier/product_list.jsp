@@ -106,7 +106,7 @@ function offer(){
 	   		<h2>查询条件</h2>
 	   </div>
    </div>
-    <div class="container ">
+    <div class="container">
      <div class="p10_25">
      <h2 class="padding-10 border1">
        <form action="" method="post" class="mb0">
@@ -123,8 +123,10 @@ function offer(){
    </div>
 </div>
 	<div class="container">	
-		<div class="col-md-8 mt10 ml10">
-	   		<button class="btn" type="button" onclick="offer()">产品报价</button>
+
+		<div class="col-md-12 pl20">
+	   		<button class="btn btn-windows ht_add" type="button" onclick="offer()">产品报价</button>
+
 		</div>
 	</div>
 	
@@ -152,10 +154,12 @@ function offer(){
 	  				</c:if>
 	  			</tr>
 	  		</c:forEach>
-		  </table>
-	  	</div>  
-	  	<div id="pagediv" align="right"></div>
-  </div>
+	</table>
+     </div>
+
+   </div>
+      <div id="pagediv" align="right"></div>
+   </div>
 	
   </body>
 </html>

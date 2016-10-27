@@ -67,6 +67,17 @@
      ORDER BY POSITION ASC
   </select>
   
+  <!-- 根据多个项目id查询明细 -->
+  <select id="selectByProjectIds" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PPMS_PROJECTS_DETAIL
+    where PROJECT_ID in
+    <foreach item="item" index="index" collection="idArray" open="(" separator="," close=")">
+    	#{item}
+    </foreach>
+  </select>
+  
   <select id="listByAll" parameterType="bss.model.ppms.ProjectDetail" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />

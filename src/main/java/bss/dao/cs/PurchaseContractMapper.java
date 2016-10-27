@@ -136,4 +136,6 @@ public interface PurchaseContractMapper {
     * @return List<PurchaseContract>
      */
     PurchaseContract selectFormalById(String id);
+    
+    List<PurchaseContract> selectFormalByContractType(Integer contractType);
 }

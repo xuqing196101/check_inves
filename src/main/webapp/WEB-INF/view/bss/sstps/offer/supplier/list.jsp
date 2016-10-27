@@ -103,9 +103,8 @@ function add(){
 	   <div class="headline-v2">
 	   		<h2>查询条件</h2>
 	   </div>
-   </div>
-    <div class="container">
-     <div class="p10_25">
+  <div class="container clear">
+  <div class="p10_25">
      <h2 class="padding-10 border1">
        <form action="" method="post" class="mb0">
     	<ul class="demand_list">
@@ -125,16 +124,16 @@ function add(){
        </form>
      </h2>
    </div>
-</div>
+  </div>
 	<div class="container">	
-		<div class="col-md-8 mt10 ml5">
-	   		<button class="btn" type="button" onclick="add()">报价</button>
+		<div class="col-md-12 pl20">
+	   		<button class="btn btn-windows ht_add" type="button" onclick="add()">报价</button>
 		</div>
 	</div>
 	
-	<div class="container margin-top-5">
-	<div class="content padding-left-25 padding-right-25 padding-top-5">
-		  <table class="table table-bordered table-condensed">
+   <div class="container">
+     <div class="content padding-left-25 padding-right-25 padding-top-5">
+    	<table class="table table-bordered table-condensed table-hover">
 		  	<thead>
 	  			<tr>
 	  				<th class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
@@ -167,10 +166,11 @@ function add(){
 	  				</td>
 	  			</tr>
 	  		</c:forEach>
-		  </table>
-	  	</div>  
-	  	<div id="pagediv" align="right"></div>
-  </div>
-	
+	</table>
+     </div>
+
+   </div>
+      <div id="pagediv" align="right"></div>
+   </div>
   </body>
 </html>

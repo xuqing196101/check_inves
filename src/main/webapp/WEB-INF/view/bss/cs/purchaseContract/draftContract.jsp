@@ -78,6 +78,9 @@
    	  };
    	    $.fn.zTree.init($("#treeDemo"),setting,datas);
    	   // $("#treeDemo").hide();
+   	   
+   	   var conTy = "${draftCon.contractType}";
+   	   $("#contractType").val(conTy);
    	});
    	 
    	/*点击事件*/
@@ -230,18 +233,45 @@
 	function save(){
 		$("#status").val("2");
 		var apN = $("#apN").val();
+		var picFile = $("#fi").val();
+		var picFiles = picFile.split(".");
+		var pic = picFiles[picFiles.length-1];
+		var flag = false;
+		var news = "";
 		if(apN!=null && apN!=''){
+			flag = true;
+		}else{
+			flag = false;
+			news+="请先填写合同批准文号,";
+		}
+		if(pic!=null && pic!=''){
+			if(pic=='.bmp' || pic=='.png' || pic=='.gif' && pic=='.jpg' && pic=='.jpeg'){
+				flag=true;
+			}else{
+				flag=false;
+				news+="上传的附件类型不正确";
+			}
+		}else{
+			flag=false;
+			news+="请上传批准电子扫描件,";
+		}
+		
+		if(flag){
 			$("#appN").val(apN);
 			$("#contractForm").submit();
 		}else{
-			layer.alert("请先填写合同批准文号",{offset: ['70%', '40%'], shade:0.01});
+			layer.alert(news,{offset: ['55%', '40%'], shade:0.01});
 		}
 	}
 	
 	function cancel(){
 		layer.close(ind);
 	}
-
+	
+	function print(){
+		$("#contractForm").attr("action","<%=basePath%>purchaseContract/printContract.html?ids=${ids}");
+		$("#contractForm").submit();
+	}
     </script>
 <body>
 <!--面包屑导航开始-->
@@ -320,6 +350,16 @@
 		        	<input class="span2 contract_name" name="budget" value="${project.budgetSubjectItem}" type="text">
 		        	<div class="validate">${ERR_budgetSubjectItem}</div>
        			</div>
+			 </li>
+			 <li class="col-md-6 p0">
+			   <span class=""><div class="red star_red">*</div>合同类型：</span>
+		        	<select name="contractType" id="contractType" class="w220">
+		        		<option></option>
+		        		<option value="0">正常采购合同</option>
+		        		<option value="1">以厂代储合同</option>
+		        		<option value="2">合同储备合同</option>
+		        	</select>
+		        	<div class="validate">${ERR_contractType}</div>
 			 </li>
 			 <div class="clear"></div>
 		 </ul>

@@ -40,4 +40,12 @@
         AND PROJECT_ID = #{projectId}
     </if>
   </select>
+  
+  <select id="queryByProjectNos" parameterType="Map" resultMap="ProjectTask_Map">
+  select * from T_BSS_PPMS_PROJECT_TASK
+   where PROJECT_ID in
+   <foreach item="item" index="index" collection="idArray" open="(" separator="," close=")">
+    	#{item}
+    </foreach>
+  </select>
 </mapper>

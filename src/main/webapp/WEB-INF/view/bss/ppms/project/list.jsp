@@ -256,9 +256,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <h2>查询条件</h2>
    </div>
 <!-- 项目戳开始 -->
+<<<<<<< Updated upstream
     <div class="p10_25">
      <h2 class="padding-10 border1">
      <form  action="<%=basePath%>project/list.html" id="form1" method="post" class="mb0">
+=======
+  <div class="container clear">
+   <div class="p10_25">
+    <h2 class="padding-10 border1">
+     <form id="add_form" action="<%=basePath%>project/list.html" method="post" class="mb0">
+>>>>>>> Stashed changes
      <ul class="demand_list">
     
      <li class="fl">
@@ -267,32 +274,40 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        <li class="fl">
       <label class="fl">项目编号：<input type="text" name="projectNumber" id="projectNumber" value="${projects.projectNumber }"/> </label> 
        </li>
+<<<<<<< Updated upstream
          <button class="btn" type="submit">查询</button>
          <button type="reset" class="btn" onclick="clearSearch();">重置</button> 
+=======
+         <button class="btn mt5" type="submit">查询</button>
+         <button type="reset" class="btn mt5">重置</button> 
+>>>>>>> Stashed changes
      </ul>
      <div class="clear"></div>
     </form>
+     </h2>
+   </div>
+  </div>
+</div>
+ <div class="container">
+   <div class="headline-v2">
+    <h2>立项列表
     </h2>
-    </div>
-     <div class="clear"></div>
-
- 
-   <div class="headline-v2 fl">
-      <h2>立项列表
-      </h2>
-       </div> 
-     
-  
-      
-   <div class="container clear margin-top-30">
-   <span class="fr option_btn margin-top-10">
-        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="subPackage()">分包</button>
-        <button class="btn padding-left-10 padding-right-10 btn_back" onclick="start();">实施</button>
-         <button class="btn btn-windows edit" onclick="edit();">修改</button>
-      </span>
-    <a class="btn btn-windows add" href="<%=basePath%>project/add.html">新建采购项目</a>
-    <div class="container margin-top-5">
-               <table class="table table-striped table-bordered table-hover">
+   </div> 
+   <div class="container">
+    <div class="col-md-12 pl20">
+    <span class="fr mr10 mt5">
+      <button class="btn padding-left-10 padding-right-10 btn_back" onclick="subPackage()">分包</button>
+      <button class="btn padding-left-10 padding-right-10 btn_back" onclick="start();">实施</button>
+    </span>
+    <span class="fl">
+      <a class="btn btn-windows add" href="<%=basePath%>project/add.html">新建采购项目</a>
+      <button class="btn btn-windows edit" onclick="edit();">修改</button>
+    </span>
+	</div>
+   </div>
+   <div class="container">
+     <div class="content padding-left-25 padding-right-25 padding-top-5">
+    	<table class="table table-bordered table-condensed table-hover">
         <thead>
         <tr>
           <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
@@ -321,15 +336,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      
          </c:forEach> 
         </tbody>
-         
-         
+	</table>
+     </div>
 
-      </table>
-      </div>
-      
+   </div>
       <div id="pagediv" align="right"></div>
    </div>
- </div>
 
 
  

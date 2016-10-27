@@ -61,9 +61,8 @@ function appraisal(id){
 	   <div class="headline-v2">
 	   		<h2>查询条件</h2>
 	   </div>
-   </div>
-    <div class="container">
-     <div class="p10_25">
+  <div class="container clear">
+    <div class="p10_25">
      <h2 class="padding-10 border1">
        <form action="<%=basePath %>appraisalContract/serch.html" method="post" class="mb0">
     	<ul class="demand_list">
@@ -93,7 +92,7 @@ function appraisal(id){
 		</div>
 	</div>
 	
-	<div class="container margin-top-5">
+	<div class="container">
 	<div class="content padding-left-25 padding-right-25 padding-top-5">
 		  <table class="table table-bordered table-condensed">
 		  	<thead>
@@ -126,7 +125,7 @@ function appraisal(id){
 	  				</td>
 	  				<td class="tc">
 	  				<c:if test="${contract.appraisal=='0' }">
-	  					<input type="button" value="申请审价" onclick="appraisal('${contract.id }')">
+	  					<input type="button" value="申请审价" onclick="appraisal('${contract.id }')" class="btn">
 	  				</c:if>
 	  				<c:if test="${contract.appraisal=='1' }">
 	  					审价中
@@ -137,12 +136,11 @@ function appraisal(id){
 	  				</td>
 	  			</tr>
 	  		</c:forEach>
-		  </table>
-	  	</div>  
-	  	<div id="pagediv" align="right"></div>
-  </div>
-	
-    
-    
+	</table>
+     </div>
+
+   </div>
+      <div id="pagediv" align="right"></div>
+   </div>
   </body>
 </html>

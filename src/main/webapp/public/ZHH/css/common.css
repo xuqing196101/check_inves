@@ -45,6 +45,9 @@
 .w86 {
   width: 86px; }
 
+.w90 {
+  width: 90px!important; }
+  
 .w100 {
   width: 100px!important; }
 
@@ -315,6 +318,9 @@
   margin:0px 30px;}
   .m0_25{
   margin:0px 25px;}
+
+.mb5 {
+  margin-bottom: 5px; }
   
 .mb8 {
   margin-bottom: 8px; }
@@ -336,9 +342,15 @@
 
 .mr8 {
   margin-right: 8px; }
+<<<<<<< Updated upstream
 
 .mr5 {
   margin-right: 5px!important; }
+=======
+  
+.mr5 {
+  margin-right: 5px; }
+>>>>>>> Stashed changes
   
 .mr3 {
   margin-right: 3px; }

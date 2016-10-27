@@ -55,6 +55,7 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
     line-height: 30px;
     color: #555;
     vertical-align: middle;
+    border:1px solid #ccc;
 }
 input, textarea, .uneditable-input {
     margin-left: 0;
@@ -174,7 +175,7 @@ button, input, select, textarea {
 }
 .input-append, .input-prepend {
     display: inline-block;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     font-size: 0;
     white-space: nowrap;
     vertical-align: middle;

@@ -10,5 +10,7 @@ public interface ProjectTaskService {
 	void insertSelective(ProjectTask projectTask);
 	
 	List<ProjectTask> queryByNo(HashMap<String,Object> map);
+	
+	List<ProjectTask> queryByProjectNos(HashMap<String,Object> map);
 
 }

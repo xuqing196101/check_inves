@@ -54,9 +54,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <div class="headline-v2">
      <h2>我的协议供货订单</h2>
    </div>   
-   <div class="headline-v2">
-	 <h2>查询条件</h2>
-   </div>
   <div class="container clear">
   <div class="p10_25">
      <h2 class="padding-10 border1">
@@ -134,110 +131,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           </div>
 		  <span class="fl padding-5">10%</span>
 		  </div>
-		 
 		  </td>
 		</tr>
 		<tr>
 		  <td class="tc w30"><input type="checkbox" alt=""></td>
 		  <td class="tc w50">1</td>
-		  <td>BG-XY-IT20131120106054</td>
-		  <td><a href="#">2013-11-20  台式机采购项目</a></td>
-		  <td class="tc">¥40,000.00</td>
-		  <td>
-		  <div class="col-md-12 padding-0">
-		  <span class="fl padding-5">暂存</span>
-		  <div class="progress w55p fl margin-left-0">
-             <div class="progress-bar progress-bar-danger" role="progressbar" 
-                aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" 	
-                 style="width:10%;"> 
-             </div> 
-          </div>
-		  <span class="fl padding-5">10%</span>
-		  </div>
-		  </td>
-		</tr>
-		<tr>
-		  <td class="tc w30"><input type="checkbox" alt=""></td>
-		  <td class="tc w50">1</td>
-		  <td>BG-XY-IT20131120106054</td>
-		  <td><a href="#">2013-11-20  台式机采购项目</a></td>
-		  <td class="tc">¥40,000.00</td>
-		  <td>
-		  <div class="col-md-12 padding-0">
-		  <span class="fl padding-5">暂存</span>
-		  <div class="progress w55p fl margin-left-0">
-             <div class="progress-bar progress-bar-danger" role="progressbar" 
-                aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" 	
-                 style="width:10%;"> 
-             </div> 
-          </div>
-		  <span class="fl padding-5">10%</span>
-		  </div>
-		 
-		  </td>
-		</tr>
-		<tr>
-		  <td class="tc w30"><input type="checkbox" alt=""></td>
-		  <td class="tc w50">1</td>
-		  <td>BG-XY-IT20131120106054</td>
-		  <td><a href="#">2013-11-20  台式机采购项目</a></td>
-		  <td class="tc">¥40,000.00</td>
-		  <td>
-		  <div class="col-md-12 padding-0">
-		  <span class="fl padding-5">暂存</span>
-		  <div class="progress w55p fl margin-left-0">
-             <div class="progress-bar progress-bar-danger" role="progressbar" 
-                aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" 	
-                 style="width:10%;"> 
-             </div> 
-          </div>
-		  <span class="fl padding-5">10%</span>
-		  </div>
-		 
-		  </td>
-		</tr>
-		<tr>
-		  <td class="tc w30"><input type="checkbox" alt=""></td>
-		  <td class="tc w50">1</td>
-		  <td>BG-XY-IT20131120106054</td>
-		  <td><a href="#">2013-11-20  台式机采购项目</a></td>
-		  <td class="tc">¥40,000.00</td>
-		  <td>
-		  <div class="col-md-12 padding-0">
-		  <span class="fl padding-5">暂存</span>
-		  <div class="progress w55p fl margin-left-0">
-             <div class="progress-bar progress-bar-danger" role="progressbar" 
-                aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" 	
-                 style="width:10%;"> 
-             </div> 
-          </div>
-		  <span class="fl padding-5">10%</span>
-		  </div>
-		  </td>
-		</tr>
-		<tr>
-		  <td class="tc w30"><input type="checkbox" alt=""></td>
-		  <td class="tc w50">1</td>
-		  <td>BG-XY-IT20131120106054</td>
-		  <td><a href="#">2013-11-20  台式机采购项目</a></td>
-		  <td class="tc">¥40,000.00</td>
-		  <td>
-		  <div class="col-md-12 padding-0">
-		  <span class="fl padding-5">暂存</span>
-		  <div class="progress w55p fl margin-left-0">
-             <div class="progress-bar progress-bar-danger" role="progressbar" 
-                aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" 	
-                 style="width:10%;"> 
-             </div> 
-          </div>
-		  <span class="fl padding-5">10%</span>
-		  </div>
-		 
-		  </td>
-		</tr>
-		<tr>
-		  <td class="tc"><input type="checkbox" alt=""></td>
-		  <td class="tc">1</td>
 		  <td>BG-XY-IT20131120106054</td>
 		  <td><a href="#">2013-11-20  台式机采购项目</a></td>
 		  <td class="tc">¥40,000.00</td>

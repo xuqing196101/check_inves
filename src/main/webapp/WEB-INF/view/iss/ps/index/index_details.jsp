@@ -22,19 +22,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link href="<%=basePath%>public/ZHQ/css/common.css" media="screen" rel="stylesheet">
     <link href="<%=basePath%>public/ZHQ/css/bootstrap.min.css" media="screen" rel="stylesheet">
     <link href="<%=basePath%>public/ZHQ/css/style.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/line-icons.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/app.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/blocks.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/application.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/header-v4.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/footer-v2.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/img-hover.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/page_job.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/shop.style.css" media="screen" rel="stylesheet">
-<script src="<%=basePath%>public/ZHQ/js/hm.js"></script><script src="<%=basePath%>public/ZHQ/js/jquery.min.js"></script>
-<!--导航js-->
-<script src="<%=basePath%>public/ZHQ/js/jquery_ujs.js"></script>
-<script src="<%=basePath%>public/ZHQ/js/bootstrap.min.js"></script>
+	<link href="<%=basePath%>public/ZHQ/css/line-icons.css" media="screen" rel="stylesheet">
+	<link href="<%=basePath%>public/ZHQ/css/app.css" media="screen" rel="stylesheet">
+	<link href="<%=basePath%>public/ZHH/css/blocks.css" media="screen" rel="stylesheet">
+	<link href="<%=basePath%>public/ZHQ/css/application.css" media="screen" rel="stylesheet">
+	<link href="<%=basePath%>public/ZHQ/css/header-v4.css" media="screen" rel="stylesheet">
+	<link href="<%=basePath%>public/ZHQ/css/footer-v2.css" media="screen" rel="stylesheet">
+	<link href="<%=basePath%>public/ZHQ/css/img-hover.css" media="screen" rel="stylesheet">
+	<link href="<%=basePath%>public/ZHQ/css/page_job.css" media="screen" rel="stylesheet">
+	<link href="<%=basePath%>public/ZHQ/css/shop.style.css" media="screen" rel="stylesheet">
+	<script src="<%=basePath%>public/ZHQ/js/hm.js"></script><script src="<%=basePath%>public/ZHQ/js/jquery.min.js"></script>
+	<!--导航js-->
+	<script src="<%=basePath%>public/ZHQ/js/jquery_ujs.js"></script>
+	<script src="<%=basePath%>public/ZHQ/js/bootstrap.min.js"></script>
 </head>
 
 <body>

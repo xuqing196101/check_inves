@@ -38,7 +38,7 @@
 		layer.open({
 			  type: 1,
 			  title: false,
-			  closeBtn: 1,
+			  closeBtn: 0,
 			  area: 'auto',
 			  skin: 'layui-layer-nobg', //没有背景色
 			  shadeClose: true,
@@ -305,8 +305,8 @@
    	</div>
    	<div class="container">
    	  <div class="p10_25 col-md-11">
-   	  	<button type="button" onclick="showPic()">${fn:split(draftCon.approvePic, '_')[1]}</button>
-       	<img type="hidden" id="photo" src="${draftCon.approvePic}"/>
+   	  	<a class="pointer" onclick="showPic()">${fn:split(draftCon.approvePic, '_')[1]}</a>
+       	<img class="hide" id="photo" src="${draftCon.approvePic}"/>
       </div>
     </div>
   	</form>

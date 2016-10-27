@@ -237,6 +237,11 @@
           }
         });
     }
+	
+	function printContract(){
+		$("#contractForm").attr("action","<%=basePath%>purchaseContract/printContract.html?ids=${ids}");
+		$("#contractForm").submit();
+	}
 </script>
 <body>
 <!--面包屑导航开始-->
@@ -312,9 +317,19 @@
 			 <li class="col-md-6 p0">
 			   <span class=""><div class="red star_red">*</div>项级预算科目：</span>
 		        <div class="input-append ">
-		        	<input class="span2 contract_name" name="budget" value="" type="text">
+		        	<input class="span2 contract_name" name="budgetSubjectItem" value="" type="text">
 		        	<div class="validate">${ERR_budgetSubjectItem}</div>
        			</div>
+			 </li>
+			 <li class="col-md-6 p0">
+			   <span class=""><div class="red star_red">*</div>合同类型：</span>
+		        	<select name="contractType">
+		        		<option></option>
+		        		<option value="0">正常采购合同</option>
+		        		<option value="1">以厂代储合同</option>
+		        		<option value="2">合同储备合同</option>
+		        	</select>
+		        	<div class="validate">${ERR_contractType}</div>
 			 </li>
 			 <div class="clear"></div>
 		 </ul>
@@ -497,7 +512,7 @@
 				<td class="tc"><input type="text" name="proList[${(vs.index)}].planNo" value="${reque.serialNumber}" class="w50"/></td>
 				<td class="tc"><input type="text" name="proList[${(vs.index)}].goodsName" value="${reque.goodsName}"/></td>
 				<td class="tc"><input type="text" name="proList[${(vs.index)}].brand" value="${reque.brand}"/></td>
-				<td class="tc"><input type="text" name="proList[${(vs.index)}].stand" value="${reque.stand}"/></td>
+				<td class="tc"><input type="text" name="proList[${(vs.index)}].stand" value="${reque.stand}" class="w60"/></td>
 				<td class="tc"><input type="text" name="proList[${(vs.index)}].item" value="${reque.item}" class="w50"/></td>
 				<td class="tc"><input type="text" name="proList[${(vs.index)}].purchaseCount" value="${reque.purchaseCount}" class="w50"/></td>
 				<td class="tc"><input type="text" name="proList[${(vs.index)}].price" value="${reque.price}" class="w50"/></td>
@@ -520,7 +535,7 @@
   		<div  class="col-md-12 tc mt20">
    			<input type="button" class="btn btn-windows save" onclick="staging()" value="暂存"/>
    			<input type="button" class="btn btn-windows save" onclick="protocol()" value="生成草案"/>
-   			<input type="button" class="btn btn-windows save" onclick="print()" value="打印"/>
+   			<input type="button" class="btn btn-windows save" onclick="printContract()" value="打印"/>
    			<input type="button" class="btn btn-windows cancel" onclick="history.go(-1)" value="取消">
   		</div>
   	</form>

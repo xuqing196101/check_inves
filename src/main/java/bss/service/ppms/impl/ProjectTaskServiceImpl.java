@@ -25,4 +25,8 @@ public class ProjectTaskServiceImpl implements ProjectTaskService {
 		return projectTaskMapper.queryByNo(map);
 	}
 
+	@Override
+	public List<ProjectTask> queryByProjectNos(HashMap<String, Object> map) {
+		return projectTaskMapper.queryByProjectNos(map);
+	}
 }

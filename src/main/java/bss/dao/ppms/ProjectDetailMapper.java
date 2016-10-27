@@ -24,4 +24,6 @@ public interface ProjectDetailMapper {
 	 List<ProjectDetail> selectByParentId(Map<String, Object> map);
 	    
 	 List<ProjectDetail> selectByParent(Map<String, Object> map);
+	 
+	 List<ProjectDetail> selectByProjectIds(HashMap<String,Object> map);
 }

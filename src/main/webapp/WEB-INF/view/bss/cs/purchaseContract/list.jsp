@@ -125,6 +125,34 @@
 			layer.alert("请选择要生成的项目",{offset: ['222px', '390px'], shade:0.01});
 		}
   	}
+  	
+  	function someCreateContract(){
+  		var ids =[]; 
+  		var chekeds=[];
+  		var flag=false;
+		$('input[name="chkItem"]:checked').each(function(){
+			chekeds.push($(this).parents("tr").find("td").eq(6).text());
+			ids.push($(this).val()); 
+		});
+		if(ids.length>1){
+			for(var i=0;i<chekeds.length-1;i++){
+				for(var j=i+1;j<chekeds.length;j++){
+					if(chekeds[i]==chekeds[j]){
+						flag=true;
+					}else{
+						flag=false;
+					}
+				}
+			}
+			if(flag){
+				window.location.href="<%=basePath%>purchaseContract/createCommonContract.html?ids="+ids;
+			}else{
+				layer.alert("请选择相同的供应商",{offset: ['222px', '390px'], shade:0.01});
+			}
+		}else{
+			layer.alert("请选择要生成的项目",{offset: ['222px', '390px'], shade:0.01});
+		}
+  	}
   </script>
   </head>
   
@@ -164,7 +192,8 @@
    </div> 
    <div class="container">
     <div class="col-md-12 pl20">
-<button class="btn padding-left-10 padding-right-10 btn_back ml5" onclick="createContract()">生成合同</button>
+		<button class="btn padding-left-10 padding-right-10 btn_back ml5" onclick="createContract()">生成合同</button>
+		<button class="btn padding-left-10 padding-right-10 btn_back ml5" onclick="someCreateContract()">合并生成合同</button>
 	</div>
    </div>
    <div class="container clear">

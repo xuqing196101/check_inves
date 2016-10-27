@@ -170,4 +170,10 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 		}
 		return 0;
 	}
+
+	@Override
+	public List<PurchaseContract> selectFormalByContractType(
+			Integer contractType) {
+		return purchaseContractMapper.selectFormalByContractType(contractType);
+	}
 }

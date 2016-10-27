@@ -1733,6 +1733,12 @@ img.img-mouse {
 }
 .cbp_tmlabel h4{
   margin:0!important;
+  padding-left:25px;
+  background: url(../images/edit_detail.png) no-repeat 0px 0;
+}
+.timeline-v2{
+  list-style-type: none;
+  padding:0;
 }
 .timeline-v2 li{
 	margin-bottom:15px;
@@ -1873,6 +1879,7 @@ img.img-mouse {
    width:200px;
    float:left;
  }
+<<<<<<< Updated upstream
  
  
  
@@ -1882,3 +1889,8 @@ img.img-mouse {
   margin-top:10px;
 }
  
+=======
+ .tdu{
+   text-decoration: underline;
+}
+>>>>>>> Stashed changes

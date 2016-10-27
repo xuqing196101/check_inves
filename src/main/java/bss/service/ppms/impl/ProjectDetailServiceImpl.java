@@ -58,4 +58,9 @@ public class ProjectDetailServiceImpl implements ProjectDetailService {
 		return projectDetailMapper.selectByParent(map);
 	}
 
+	@Override
+	public List<ProjectDetail> selectByProjectIds(HashMap<String, Object> map) {
+		return projectDetailMapper.selectByProjectIds(map);
+	}
+
 }

@@ -214,8 +214,6 @@ public class IndexNewsController extends BaseSupplierController{
 		FtpUtil.closeFtp();
 		if (fileName != null && !"".equals(fileName)) {
 			super.download(request, response, fileName);
-		} else {
-			super.alert(request, response, "无附件下载 !");
 		}
 		super.removeStash(request, fileName);
 //		String fileName = (articleAtta.getFileName().split("_"))[1];

@@ -170,8 +170,40 @@
 		}
 	}
 	
+  	function print(){
+  		var ids =[];
+  		$('input[name="chkItem"]:checked').each(function(){ 
+			ids.push($(this).val()); 
+		});
+  		if(ids.length>0){
+			if(ids.length>1){
+				layer.alert("只可选择一条合同打印",{offset: ['222px', '390px'], shade:0.01});
+			}else{
+				window.location.href="<%=basePath%>purchaseContract/printContract.html?ids="+ids;
+			}
+		}else{
+			layer.alert("请选择一条合同打印",{offset: ['222px', '390px'], shade:0.01});
+		}
+  	}
+  	
 	function cancel(){
 		layer.close(ind);
+	}
+	
+	function execution(){
+		var ids =[];
+  		$('input[name="chkItem"]:checked').each(function(){ 
+			ids.push($(this).val()); 
+		}); 
+		if(ids.length>0){
+			if(ids.length>1){
+				layer.alert("只可选择一条合同填写",{offset: ['222px', '390px'], shade:0.01});
+			}else{
+				window.location.href="<%=basePath%>performance/createPerformance.html?contractId="+ids;
+			}
+		}else{
+			layer.alert("请选择一条合同填写",{offset: ['222px', '390px'], shade:0.01});
+		}
 	}
   </script>
   </head>
@@ -188,9 +220,6 @@
 	  </div>
    </div>
   <div class="container">
-   <div class="headline-v2">
-      <h2>查询条件</h2>
-   </div>
 <!-- 项目戳开始 -->
   <div class="container clear">
   <div class="p10_25">
@@ -222,8 +251,9 @@
 	    </h2>
       </div> 
    	   <div class="container clear">
-         <div class="col-md-12 pl20">
-   	  	  <button class="btn btn-windows edit" onclick="updateDraft()">打印</button>
+         <div class="col-md-12 pl20 ml5">
+   	  	  <button class="btn" onclick="print()">打印</button>
+   	  	  <button class="btn" onclick="execution()">合同执行情况登记</button>
 	     </div>
 	   </div>
    <div class="container clear">

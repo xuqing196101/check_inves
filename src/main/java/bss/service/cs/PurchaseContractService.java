@@ -142,4 +142,6 @@ public interface PurchaseContractService {
     PurchaseContract selectFormalById(String id);
     
     int createWord(PurchaseContract pur,List<ContractRequired> requList);
+    
+    List<PurchaseContract> selectFormalByContractType(Integer contractType);
 }

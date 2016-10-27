@@ -453,7 +453,7 @@ h3.title-v3-xs {
   display: block;
   background: #fff;
   padding: 1px 10px;
-  margin: 20px 0 20px 20px;
+  margin: 10px 0 10px 0px;
   border-left: 4px solid #2c9fa6;
 }
 
@@ -672,8 +672,8 @@ h3.heading-xs {
 }
 
 .tab-v1 .nav-tabs a {
-  font-size: 14px;
-  padding: 5px 15px;
+  color:#ffffff;
+  font-size: 17px;
 }
 
 .tab-v1 .nav-tabs > .active > a,
@@ -1675,7 +1675,35 @@ span.badge-dark,
   opacity: 1;
 }
 
-
+.social_amazon {background: url(/plugins/icons/social/amazon.png) no-repeat;}
+.social_behance {background: url(/plugins/icons/social/behance.png) no-repeat;}
+.social_blogger {background: url(/plugins/icons/social/blogger.png) no-repeat;}
+.social_deviantart {background: url(/plugins/icons/social/deviantart.png) no-repeat;}
+.social_dribbble {background: url(/plugins/icons/social/dribbble.png) no-repeat;}
+.social_dropbox {background: url(/plugins/icons/social/dropbox.png) no-repeat;}
+.social_evernote {background: url(/plugins/icons/social/evernote.png) no-repeat;}
+.social_facebook {background: url(/plugins/icons/social/facebook.png) no-repeat;}
+.social_forrst {background: url(/plugins/icons/social/forrst.png) no-repeat;}
+.social_github {background: url(/plugins/icons/social/github.png) no-repeat;}
+.social_googleplus {background: url(/plugins/icons/social/googleplus.png) no-repeat;}
+.social_jolicloud {background: url(/plugins/icons/social/jolicloud.png) no-repeat;}
+.social_last-fm {background: url(/plugins/icons/social/last-fm.png) no-repeat;}
+.social_linkedin {background: url(/plugins/icons/social/linkedin.png) no-repeat;}
+.social_picasa {background: url(/plugins/icons/social/picasa.png) no-repeat;}
+.social_pintrest {background: url(/plugins/icons/social/pintrest.png) no-repeat;}
+.social_rss {background: url(/plugins/icons/social/rss.png) no-repeat;}
+.social_skype {background: url(/plugins/icons/social/skype.png) no-repeat;}
+.social_spotify {background: url(/plugins/icons/social/spotify.png) no-repeat;}
+.social_stumbleupon {background: url(/plugins/icons/social/stumbleupon.png) no-repeat;}
+.social_tumblr {background: url(/plugins/icons/social/tumblr.png) no-repeat;}
+.social_twitter {background: url(/plugins/icons/social/twitter.png) no-repeat;}
+.social_vimeo {background: url(/plugins/icons/social/vimeo.png) no-repeat;}
+.social_wordpress {background: url(/plugins/icons/social/wordpress.png) no-repeat;}
+.social_xing {background: url(/plugins/icons/social/xing.png) no-repeat;}
+.social_yahoo {background: url(/plugins/icons/social/yahoo.png) no-repeat;}
+.social_youtube {background: url(/plugins/icons/social/youtube.png) no-repeat;}
+.social_vk {background: url(/plugins/icons/social/vk.png) no-repeat;}
+.social_instagram {background: url(/plugins/icons/social/instagram.png) no-repeat;}
 
 /*Font Awesome Icon Styles*/
 i.icon-custom {

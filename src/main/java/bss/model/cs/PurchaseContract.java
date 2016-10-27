@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -120,7 +121,17 @@ public class PurchaseContract {
     
     private Integer isDeleted;
     
-    public Integer getIsDeleted() {
+    private Integer contractType;
+    
+    public Integer getContractType() {
+		return contractType;
+	}
+
+	public void setContractType(Integer contractType) {
+		this.contractType = contractType;
+	}
+
+	public Integer getIsDeleted() {
 		return isDeleted;
 	}
 

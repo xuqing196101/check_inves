@@ -21,22 +21,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link href="<%=basePath%>public/ZHQ/css/common.css" media="screen" rel="stylesheet">
     <link href="<%=basePath%>public/ZHQ/css/bootstrap.min.css" media="screen" rel="stylesheet">
     <link href="<%=basePath%>public/ZHQ/css/style.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/line-icons.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/app.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/application.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/header-v4.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/footer-v2.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/img-hover.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/page_job.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/shop.style.css" media="screen" rel="stylesheet">
-<script src="<%=basePath%>public/ZHQ/js/hm.js"></script><script src="<%=basePath%>public/ZHQ/js/jquery.min.js"></script>
-<!--导航js-->
-<script src="<%=basePath%>public/ZHQ/js/jquery_ujs.js"></script>
-<script src="<%=basePath%>public/ZHQ/js/bootstrap.min.js"></script>
-<script src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
-<script type="text/javascript">
-$(function(){
+	<link href="<%=basePath%>public/ZHQ/css/line-icons.css" media="screen" rel="stylesheet">
+	<link href="<%=basePath%>public/ZHQ/css/app.css" media="screen" rel="stylesheet">
+	<link href="<%=basePath%>public/ZHQ/css/application.css" media="screen" rel="stylesheet">
+	<link href="<%=basePath%>public/ZHQ/css/header-v4.css" media="screen" rel="stylesheet">
+	<link href="<%=basePath%>public/ZHQ/css/footer-v2.css" media="screen" rel="stylesheet">
+	<link href="<%=basePath%>public/ZHQ/css/img-hover.css" media="screen" rel="stylesheet">
+	<link href="<%=basePath%>public/ZHQ/css/page_job.css" media="screen" rel="stylesheet">
+	<link href="<%=basePath%>public/ZHQ/css/shop.style.css" media="screen" rel="stylesheet">
+	<script src="<%=basePath%>public/ZHQ/js/hm.js"></script><script src="<%=basePath%>public/ZHQ/js/jquery.min.js"></script>
+	<!--导航js-->
+	<script src="<%=basePath%>public/ZHQ/js/jquery_ujs.js"></script>
+	<script src="<%=basePath%>public/ZHQ/js/bootstrap.min.js"></script>
+	<script src="<%=basePath%>public/layer/layer.js"></script>
+	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+	<script type="text/javascript">
+     $(function(){
 	  laypage({
 		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
 		    pages: "${pages}", //总页数
@@ -64,16 +64,16 @@ $(function(){
 <body>
   <div class="wrapper">
   <jsp:include page="/index_head.jsp"></jsp:include>
-  <div class="container content height-350 job-content ">
   <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">全文搜索信息</a></li>
+		  <li><a href="#"> 首页</a></li><li><a href="#">全文搜索信息</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
    </div>
+  <div class="container content height-350 job-content ">
    <div class="f18">共查到关于<span class="searchFont">${oldCondition}</span>的信息${solrMap['tdsTotal']}条</div>
     <div class="col-md-12 p20 border1 margin-top-20">
         <%--<div class="tab-v1">

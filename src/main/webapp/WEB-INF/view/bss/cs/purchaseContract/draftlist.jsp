@@ -163,10 +163,33 @@
 		}); 
   		$("#ids").val(ids);
 		var apN = $("#apN").val();
+		var picFile = $("#fi").val();
+		var picFiles = picFile.split(".");
+		var pic = picFiles[picFiles.length-1];
+		var flag = false;
+		var news = "";
 		if(apN!=null && apN!=''){
+			flag = true;
+		}else{
+			flag = false;
+			news+="请先填写合同批准文号,";
+		}
+		if(pic!=null && pic!=''){
+			if(pic=='.bmp' || pic=='.png' || pic=='.gif' && pic=='.jpg' && pic=='.jpeg'){
+				flag=true;
+			}else{
+				flag=false;
+				news+="上传的附件类型不正确";
+			}
+		}else{
+			flag=false;
+			news+="请上传批准电子扫描件,";
+		}
+		
+		if(flag){
 			$("#contractForm").submit();
 		}else{
-			layer.alert("请先填写合同批准文号",{offset: ['55%', '40%'], shade:0.01});
+			layer.alert(news,{offset: ['55%', '40%'], shade:0.01});
 		}
 	}
 	
@@ -275,7 +298,7 @@
    	<div id="numberWin" class="dnone mt20">
   		    <div class="col-md-12">
 			   <span class="span3 fl mt5">合同批准文号：</span>
-			   <input type="text" id="apN" value="" class="mb0"/>
+			   <input type="text" id="apN" name="apN" value="" class="mb0"/>
 			</div>
 			<div class="col-md-12 mt10">
 			   <span class="span3 fl">上传批准文件：</span>

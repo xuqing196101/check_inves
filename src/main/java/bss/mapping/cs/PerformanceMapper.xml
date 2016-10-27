@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.cs.PerformanceMapper">
+  <resultMap id="BaseResultMap" type="bss.model.cs.Performance">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="DELIVERY_SCHEDULE" jdbcType="VARCHAR" property="deliverySchedule" />
+    <result column="FUNDS_PAID" jdbcType="VARCHAR" property="fundsPaid" />
+    <result column="DRAFT_SIGNED_AT" property="draftSignedAt" />
+    <result column="FORMAL_SIGNED_AT" property="formalSignedAt" />
+    <result column="DELIVERY" property="delivery" />
+    <result column="COMPLETED_STATUS" jdbcType="DECIMAL" property="completedStatus" />
+    <result column="CONTRACT_ID" jdbcType="VARCHAR" property="contractId" />
+    <result column="CHECK_MASS" jdbcType="VARCHAR" property="checkMass"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, DELIVERY_SCHEDULE, FUNDS_PAID, DRAFT_SIGNED_AT, FORMAL_SIGNED_AT, DELIVERY, COMPLETED_STATUS, 
+    CONTRACT_ID,CHECK_MASS
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_CS_PERFORMANCE
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectAllByidArray" parameterType="Map" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+  	from T_BSS_CS_PERFORMANCE
+  	where CONTRACT_ID in
+  	<foreach item="item" index="index" collection="idArray" open="(" separator="," close=")">
+    	#{item}
+    </foreach>
+  </select>
+  
+  <select id="selectAll" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List"/>
+  	from T_BSS_CS_PERFORMANCE
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BSS_CS_PERFORMANCE
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="bss.model.cs.Performance">
+    insert into T_BSS_CS_PERFORMANCE (ID, DELIVERY_SCHEDULE, FUNDS_PAID, 
+      DRAFT_SIGNED_AT, FORMAL_SIGNED_AT, DELIVERY, 
+      COMPLETED_STATUS, CONTRACT_ID,CHECK_MASS)
+    values (#{id,jdbcType=VARCHAR}, #{deliverySchedule,jdbcType=VARCHAR}, #{fundsPaid,jdbcType=VARCHAR}, 
+      #{draftSignedAt,jdbcType=DATE}, #{formalSignedAt,jdbcType=DATE}, #{delivery,jdbcType=DATE}, 
+      #{completedStatus,jdbcType=DECIMAL}, #{contractId,jdbcType=VARCHAR}, #{checkMass,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="bss.model.cs.Performance">
+  <selectKey keyProperty="id" resultType="String" order="BEFORE">
+    select sys_guid() from dual
+  </selectKey>
+    insert into T_BSS_CS_PERFORMANCE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="deliverySchedule != null">
+        DELIVERY_SCHEDULE,
+      </if>
+      <if test="fundsPaid != null">
+        FUNDS_PAID,
+      </if>
+      <if test="draftSignedAt != null">
+        DRAFT_SIGNED_AT,
+      </if>
+      <if test="formalSignedAt != null">
+        FORMAL_SIGNED_AT,
+      </if>
+      <if test="delivery != null">
+        DELIVERY,
+      </if>
+      <if test="completedStatus != null">
+        COMPLETED_STATUS,
+      </if>
+      <if test="contractId != null">
+        CONTRACT_ID,
+      </if>
+      <if test="checkMass != null">
+        CHECK_MASS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverySchedule != null">
+        #{deliverySchedule,jdbcType=VARCHAR},
+      </if>
+      <if test="fundsPaid != null">
+        #{fundsPaid,jdbcType=VARCHAR},
+      </if>
+      <if test="draftSignedAt != null">
+        #{draftSignedAt},
+      </if>
+      <if test="formalSignedAt != null">
+        #{formalSignedAt},
+      </if>
+      <if test="delivery != null">
+        #{delivery},
+      </if>
+      <if test="completedStatus != null">
+        #{completedStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="contractId != null">
+        #{contractId,jdbcType=VARCHAR},
+      </if>
+      <if test="checkMass != null">
+        #{checkMass,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="bss.model.cs.Performance">
+    update T_BSS_CS_PERFORMANCE
+    <set>
+      <if test="deliverySchedule != null">
+        DELIVERY_SCHEDULE = #{deliverySchedule,jdbcType=VARCHAR},
+      </if>
+      <if test="fundsPaid != null">
+        FUNDS_PAID = #{fundsPaid,jdbcType=VARCHAR},
+      </if>
+      <if test="draftSignedAt != null">
+        DRAFT_SIGNED_AT = #{draftSignedAt,jdbcType=DATE},
+      </if>
+      <if test="formalSignedAt != null">
+        FORMAL_SIGNED_AT = #{formalSignedAt,jdbcType=DATE},
+      </if>
+      <if test="delivery != null">
+        DELIVERY = #{delivery,jdbcType=DATE},
+      </if>
+      <if test="completedStatus != null">
+        COMPLETED_STATUS = #{completedStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="contractId != null">
+        CONTRACT_ID = #{contractId,jdbcType=VARCHAR},
+      </if>
+      <if test="checkMass != null">
+        CHECK_MASS = #{checkMass,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="bss.model.cs.Performance">
+    update T_BSS_CS_PERFORMANCE
+    set DELIVERY_SCHEDULE = #{deliverySchedule,jdbcType=VARCHAR},
+      FUNDS_PAID = #{fundsPaid,jdbcType=VARCHAR},
+      DRAFT_SIGNED_AT = #{draftSignedAt,jdbcType=DATE},
+      FORMAL_SIGNED_AT = #{formalSignedAt,jdbcType=DATE},
+      DELIVERY = #{delivery,jdbcType=DATE},
+      COMPLETED_STATUS = #{completedStatus,jdbcType=DECIMAL},
+      CONTRACT_ID = #{contractId,jdbcType=VARCHAR},
+      CHECK_MASS = #{checkMass,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
