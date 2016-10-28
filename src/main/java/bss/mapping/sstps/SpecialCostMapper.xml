@@ -19,6 +19,9 @@
     <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
     
+    <result column="APPROVED_MONEY" property="approvedMoney" />
+    <result column="CHECK_APPROVED_MONEY" property="checkApprovedMoney" />
+    
     <association property="contractProduct" column="PRODUCT_ID" select="bss.dao.sstps.AppraisalContractMapper.selectById"/>
     
   </resultMap>
@@ -26,7 +29,7 @@
   <sql id="Base_Column_List">
     ID, PRODUCT_ID, PROJECT_NAME, PRODUCT_DETAL, NAME, NORM, MEASURING_UNIT, AMOUNT, 
     PRICE, MONEY, PROPORTION_AMOUT, PROPORTION_PRICE, SUBTRACT_MONEY, CHECK_MONEY, REMARK, 
-    CREATED_AT, UPDATED_AT
+    CREATED_AT, UPDATED_AT,APPROVED_MONEY,CHECK_APPROVED_MONEY
   </sql>
   
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="SpecialCostMap">
@@ -107,6 +110,12 @@
       <if test="updatedAt != null">
         UPDATED_AT,
       </if>
+      <if test="approvedMoney != null">
+        APPROVED_MONEY,
+      </if>
+      <if test="checkApprovedMoney != null">
+        CHECK_APPROVED_MONEY,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -159,6 +168,12 @@
       </if>
       <if test="updatedAt != null">
         #{updatedAt},
+      </if>
+      <if test="approvedMoney != null">
+        #{approvedMoney},
+      </if>
+      <if test="checkApprovedMoney != null">
+        #{checkApprovedMoney},
       </if>
     </trim>
   </insert>
@@ -213,6 +228,12 @@
       </if>
       <if test="updatedAt != null">
         UPDATED_AT = #{updatedAt},
+      </if>
+      <if test="approvedMoney != null">
+        APPROVED_MONEY = #{approvedMoney},
+      </if>
+      <if test="checkApprovedMoney != null">
+        CHECK_APPROVED_MONEY = #{checkApprovedMoney},
       </if>
     </set>
     where ID = #{id}

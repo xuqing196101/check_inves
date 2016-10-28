@@ -43,6 +43,10 @@ public class SpecialCost {
     private Date createdAt;
 
     private Date updatedAt;
+    
+    private Integer approvedMoney;
+    
+    private Integer checkApprovedMoney;
 
     public String getId() {
         return id;
@@ -178,6 +182,22 @@ public class SpecialCost {
 
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+
+	public Integer getApprovedMoney() {
+		return approvedMoney;
+	}
+
+	public void setApprovedMoney(Integer approvedMoney) {
+		this.approvedMoney = approvedMoney;
+	}
+
+	public Integer getCheckApprovedMoney() {
+		return checkApprovedMoney;
+	}
+
+	public void setCheckApprovedMoney(Integer checkApprovedMoney) {
+		this.checkApprovedMoney = checkApprovedMoney;
 	}
 
 }
