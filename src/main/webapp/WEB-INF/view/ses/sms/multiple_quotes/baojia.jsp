@@ -42,11 +42,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
 <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
-
- 
-  <script type="text/javascript">
-  
-  
+<script type="text/javascript">
     /** 全选全不选 */
     function selectAll(){
          var checklist = document.getElementsByName ("chkItem");
@@ -95,14 +91,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     }
     
     function cancel(){
-     
-}
+    	form1.submit();
+	}
+	function select(){
+	    var projectId=$("#projectId").val();
+	    var packageId=$("#packageId").val();
+		window.location.href="<%=basePath%>mulQuo/quoteHistory.html?projectId="+projectId+"&packageId="+packageId;
+	}
      function addTotal(value){
      	var patt1 = new RegExp("^([0]|[1-9][0-9]*)+(.[0-9]*)?$");
-		var price=document.getElementsByName("price")[0].value;
-		var quantity=document.getElementsByName("quantity")[0].value;
+		var price=document.getElementsByName("price"+value)[0].value;
+		var quantity=document.getElementsByName("quantity"+value)[0].value;
 		if(patt1.test(price)&&patt1.test(quantity)){
-			document.getElementsByName("total")[0].value=(price*quantity).toFixed(2);
+			document.getElementsByName("total"+value)[0].value=(price*quantity).toFixed(2);
+			//给合同总金额赋值
+			var totalMoney = 0;
+		    var tableObj = document.getElementById("tb");
+		    for (var i = 1; i < tableObj.rows.length-1; i++) {    //遍历Table的所有Row
+		           	  var total = document.getElementsByName("total"+(i-1))[0].value;   //获取Table中单元格的内容
+					  if(total.length>0){
+					  totalMoney+=parseFloat(total);
+					  }
+		    }
+		    $("#quotePrice").val(totalMoney);
 		}
 	}
   </script>
@@ -113,6 +124,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  <div class="margin-top-10 breadcrumbs ">
       <div class="container">
            <ul class="breadcrumb margin-left-0">
+           <li><a href="#"> 首页</a></li><li><a href="#">供应商管理</a></li><li><a href="#">供应商报价</a></li><li class="active"><a href="#">多次报价</a></li>
            </ul>
         <div class="clear"></div>
       </div>
@@ -132,7 +144,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       </span>
      
    <div class="container clear margin-top-30">
-        <table class="table table-bordered table-condensed mt5">
+        <table id="tb" class="table table-bordered table-condensed mt5">
         <thead>
         <tr>
           <th class="info w50">序号</th>
@@ -144,36 +156,33 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <th class="info">采购数量</th>
           <th class="info">单价（元）</th>
           <th class="info">小计</th>
-      
         </tr>
         </thead>
           <c:forEach items="${list}" var="obj" varStatus="vs">
-            <tr style="cursor: pointer;">
+            <tr class="hand">
               <td class="tc w50">${obj.serialNumber}</td>
               <td class="tc">${obj.department}</td>
               <td class="tc">${obj.goodsName}</td>
               <td class="tc">${obj.stand}</td>
               <td class="tc">${obj.qualitStand}</td>
               <td class="tc">${obj.item}</td>
-              <c:if test="${not empty obj.purchaseCount}">
-               <td class="tc"><input name="quantity" readonly="readonly" value="${obj.purchaseCount}" /></td>
-               <td class="tc"><input name="price" onkeyup="addTotal()" /></td>
-               <td class="tc"><input name="total" /></td>
-              </c:if>
-              <c:if test="${ empty obj.purchaseCount}">
-                   <td class="tc">${obj.purchaseCount}</td>
-	               <td class="tc"></td>
-	               <td class="tc"></td>
-              </c:if>
-              <td class="tc"></td>
+              <td class="tc"><input name="quantity${vs.index }" readonly="readonly" value="${obj.purchaseCount}" /></td>
+              <td class="tc"><input maxlength="15" name="price${vs.index }" onkeyup="addTotal('${vs.index}')" /></td>
+              <td class="tc"><input readonly="readonly" name="total${vs.index }" /></td>
             </tr>
          </c:forEach>  
          <tr>
-         	<th class="tc" colspan="2">总金额</th>
-         	<th class="tl" colspan="6">333.00</th>
+         	<td class="tc" colspan="2"><b>总金额</b>
+         	</td>
+         	<td class="tl" colspan="7">
+         		<form id="form1" action="<%=basePath%>mulQuo/save.html">
+	         		<input readonly="readonly" id="quotePrice" name="quotePrice"  />
+	         		<input type="hidden" id="projectId" name="projectId" value="${id }" />
+	         		<input type="hidden" id="packageId" name="packageId" value="${packageId }" />
+         		</form>
+         	</td>
          </tr>
       </table>
-      
    </div>
  </div>
      </body>

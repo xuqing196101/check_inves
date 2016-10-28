@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.sms.QuoteMapper">
+  <resultMap id="BaseResultMap" type="ses.model.sms.Quote">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="QUOTE_PRICE" jdbcType="DECIMAL" property="quotePrice" />
+    <result column="PACKAGE_ID" jdbcType="VARCHAR" property="packageId" />
+    <result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
+    <result column="SUPPLIER_ID" jdbcType="VARCHAR" property="supplierId" />
+    <association property="project" column="PROJECT_ID" select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey"/>
+    <association property="packages" column="PACKAGE_ID" select="bss.dao.ppms.PackageMapper.findPackageByCondition"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, CREATED_AT, QUOTE_PRICE, PACKAGE_ID, PROJECT_ID, SUPPLIER_ID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="ses.model.sms.Quote" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_SUPPLIER_QUOTE
+    where 1=1
+    <if test="id != null and id != '' ">
+	AND  ID = #{id,jdbcType=VARCHAR}
+    </if>
+    <if test="packageId != null and packageId != '' ">
+	AND  PACKAGE_ID = #{packageId,jdbcType=VARCHAR}
+    </if>
+    <if test="projectId != null and projectId != '' ">
+	AND  PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+    </if>
+    <if test="supplierId != null and supplierId != '' ">
+	AND  SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR}
+    </if>
+    ORDER BY CREATED_AT ASC
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_SES_SMS_SUPPLIER_QUOTE
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="ses.model.sms.Quote">
+    insert into T_SES_SMS_SUPPLIER_QUOTE (ID, CREATED_AT, QUOTE_PRICE, 
+      PACKAGE_ID, PROJECT_ID, SUPPLIER_ID
+      )
+    values (#{id,jdbcType=VARCHAR}, #{createdAt,jdbcType=DATE}, #{quotePrice,jdbcType=DECIMAL}, 
+      #{packageId,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, #{supplierId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="ses.model.sms.Quote">
+    insert into T_SES_SMS_SUPPLIER_QUOTE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="quotePrice != null">
+        QUOTE_PRICE,
+      </if>
+      <if test="packageId != null">
+        PACKAGE_ID,
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID,
+      </if>
+      <if test="supplierId != null">
+        SUPPLIER_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="quotePrice != null">
+        #{quotePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="packageId != null">
+        #{packageId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierId != null">
+        #{supplierId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.Quote">
+    update T_SES_SMS_SUPPLIER_QUOTE
+    <set>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="quotePrice != null">
+        QUOTE_PRICE = #{quotePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="packageId != null">
+        PACKAGE_ID = #{packageId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierId != null">
+        SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="ses.model.sms.Quote">
+    update T_SES_SMS_SUPPLIER_QUOTE
+    set CREATED_AT = #{createdAt,jdbcType=DATE},
+      QUOTE_PRICE = #{quotePrice,jdbcType=DECIMAL},
+      PACKAGE_ID = #{packageId,jdbcType=VARCHAR},
+      PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+      SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
