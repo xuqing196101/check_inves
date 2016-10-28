@@ -51,8 +51,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
    
 <!--查看订单流程开始-->
-  <div class="container clear margin-top-30">
-   <div class="list-unstyled padding-20 breadcrumbs-v3 bbgreen">
+  <div class="container clear mt20">
+   <div class="list-unstyled padding-10 breadcrumbs-v3 bbgreen">
     <span>
 	  <a href="#" class="img-v1 green_link">下单</a>
 	  <span class="green_link">→</span>
@@ -77,8 +77,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   
 <!-- 项目戳开始 -->
-  <div class="container clear margin-top-30">
-   <h2 class="bg8 padding-20 bbyellow xmsj">
+  <div class="container clear">
+   <h2 class="padding-10 xmsj mb0">
 	 <span class="brown">2015-06-20</span><span class="margin-left-10 brown">台式机采购项目</span><div class="btn bround14 margin-left-20">选定成交人</div>
    </h2>
   </div>

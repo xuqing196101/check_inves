@@ -342,16 +342,10 @@
 
 .mr8 {
   margin-right: 8px; }
-<<<<<<< Updated upstream
 
 .mr5 {
   margin-right: 5px!important; }
-=======
-  
-.mr5 {
-  margin-right: 5px; }
->>>>>>> Stashed changes
-  
+
 .mr3 {
   margin-right: 3px; }
 
@@ -378,6 +372,9 @@
 
 .pb10 {
   padding-bottom: 10px; }
+
+.pb20 {
+  padding-bottom: 20px; }
   
 .pl5 {
   padding-left: 5px; }
@@ -547,8 +544,6 @@
 .pd0_4 {
   padding: 0px 4px; }
 
-.pb10 {
-  padding-bottom: 10px; }
 
 .pb5 {
   padding-bottom: 5px; }
@@ -661,7 +656,9 @@
 
 .bg9 {
   background: #daeeff; }
-
+.bg10{
+  background:#e5f6f8;
+}
 .claretred {
   color: #e01800; }
 
@@ -793,11 +790,11 @@ a.redhover:hover{
 	padding:20px 20px;
 	margin-top:20px;
 }
-ul.ul_list{
+.ul_list{
 	overflow:hidden;
 	background:#ffffff!important;
 	border:1px dashed #d6cccc!important;
-	padding:20px 0px 10px 20px!important;
+	padding:20px 20px 10px 20px!important;
 }
 .tip span{
 	min-width:100px!important;

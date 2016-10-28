@@ -1788,14 +1788,14 @@ img.img-mouse {
 /*鍒楄〃搴忓彿鏍峰紡*/
 .count_flow i {
     width: 24px;
-    height: 30px;
+    height: 33px;
     background: url(../images/round.png) no-repeat center;
     color: #ffffff;
     font-size: 12px;
     text-align: center;
     display: block;
     float: left;
-    line-height: 30px;
+    line-height: 33px;
     font-style: normal;
     margin-right: 10px;
 }
@@ -1809,12 +1809,13 @@ img.img-mouse {
    height:40px;
    line-height:30px;
    text-align:center;
-   border-bottom:1px solid #e0e7e7;
+   border-bottom:1px dashed #e0e7e7!important;
    padding:5px 10px;
-   border:1px solid #eeeeee;
+   border:1px solid #dddddd;
    border-top:0;
    cursor:pointer;
    cursor:pointer;
+   background:#f8f8f8;
 }
 .btn_list li:first-child{
    border:1px solid #eeeeee;
@@ -1823,9 +1824,13 @@ img.img-mouse {
    padding:5px 10px;
    
 }
+.btn_list li:last-child{
+	border-bottom:1px solid #e0e7e7!important;
+}
 .btn_list li.active,.btn_list li.focus,.btn_list li:hover{
    background:#2c9fa6;
    color:#ffffff;
+   border:1px solid #2c9fa6;
 }
 .btn_list li.active a,.btn_list li.focus a,.btn_list li:hover a{
    color:#ffffff!important;
@@ -1879,18 +1884,14 @@ img.img-mouse {
    width:200px;
    float:left;
  }
-<<<<<<< Updated upstream
- 
- 
- 
+
  /*统计图表样式*/
  .icharts{
   margin:0 auto;
   margin-top:10px;
 }
- 
-=======
+
  .tdu{
    text-decoration: underline;
 }
->>>>>>> Stashed changes
+

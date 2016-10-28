@@ -54,9 +54,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <div class="headline-v2">
      <h2>我的协议供货订单</h2>
    </div>   
-  <div class="container clear">
-  <div class="p10_25">
-     <h2 class="padding-10 border1">
+     <h2 class="padding-10 bg10 ml20 clear">
        <form action="" method="post" class="mb0">
     	<ul class="demand_list">
     	  <li class="fl">
@@ -74,13 +72,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	  <div class="clear"></div>
        </form>
      </h2>
-   </div>
-  </div>
+
 <!-- 表格开始-->
-   <div class="container">
-    <div class="col-md-12 pl20">
+   <div class="col-md-12 pl20 mt10">
     <button class="btn btn-windows add" type="submit">新增</button>
-     <button class="btn btn-windows withdraw" type="submit">撤回</button>
+    <button class="btn btn-windows withdraw" type="submit">撤回</button>
 	<button class="btn btn-windows edit" type="submit">修改</button>
 	<button class="btn btn-windows git" type="submit">提交</button>
 	<button class="btn btn-windows delete" type="submit">删除</button>
@@ -92,11 +88,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<button class="btn btn-windows output" type="submit">导出</button>
 	<button class="btn btn-windows ht_add" type="submit">新增合同</button>
 	<button class="btn btn-windows cancel" type="submit">取消</button>
-	</div>
    </div>
-   
-   <div class="container">
-     <div class="content padding-left-25 padding-right-25 padding-top-5">
+   <div class="content padding-top-5 clear pl20">
     	<table class="table table-bordered table-condensed table-hover">
 		<thead>
 		<tr>
@@ -190,11 +183,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           </div>
 		  <span class="fl padding-5">10%</span>
 		  </div>
-		 
 		  </td>
 		</tr>
 	</table>
-     </div>
 
    </div>
       <div id="pagediv" align="right"></div>

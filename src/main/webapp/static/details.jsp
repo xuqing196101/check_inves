@@ -51,10 +51,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
    
 <!-- 修改订列表开始-->
-   <div class="container bggrey border1 mt20">
+   <div class="container bggrey border1 mt20 pb20">
    <form>
    <div>
-    <h2 class="f16 count_flow mt40"><i>01</i>修改订单</h2>
+    <h2 class="f16 count_flow"><i>01</i>修改订单</h2>
    <ul class="list-unstyled ul_list">
      <li class="col-md-3 margin-0 padding-0 ">
 	   <span class="col-md-12 padding-left-5">采购单位</span>
@@ -165,13 +165,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    
   <!-- 产品明细开始-->
   <div class="padding-top-10 clear">
-    <h2 class="f16 count_flow mt40"><i>02</i>产品明细</h2>
+    <h2 class="f16 count_flow"><i>02</i>产品明细</h2>
    <ul class="list-unstyled ul_list">
      <li class="col-md-3 margin-0 padding-0 ">
 	   <span class="col-md-12 padding-left-5">品目</span>
 	   <div class="input-append">
-        <input class="span5" id="appendedInput" type="text">
-		<div class="btn-group  margin-bottom-10">
+        <input class="span5" type="text">
+		<div class="input-append">
           <button class="btn dropdown-toggle add-on" data-toggle="dropdown">
 		    <img src="<%=basePath%>public/ZHH/images/down.png" class="margin-bottom-5"/>
           </button>
@@ -266,10 +266,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        </div>
 	 </li> 
    </ul>
-     <div class="clear total f22"><span class="fl block">总计：</span><span>¥10000</span></div>
-    <h2 class="f16 count_flow mt40"><i>03</i>修改订单</h2>
+    <div class="clear total f22"><span class="fl block">总计：</span><span>¥10000</span></div>
+    <h2 class="f16 count_flow mt20"><i>03</i>修改订单</h2>
   </div>
-  <div class="padding-left-40 padding-right-20 clear">
+  <div class="ul_list">
+  <div class="clear" >
    <ul class="list-unstyled  bg8 padding-20">
     <li>1 . 仅支持jpg、jpeg、png、pdf等格式的文件;</li>
 	<li>2 . 单个文件大小不能超过1M;</li>
@@ -277,17 +278,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </ul>
   </div>
   
-  <div  class="col-md-12">
-   <div class="fl padding-left-20">
+  <div  class="col-md-12 p0">
+   <div class="fl">
     <button class="btn btn-windows add" type="submit">新增</button>
 	<button class="btn btn-windows delete" type="submit">删除</button>
 	<button class="btn btn-windows save" type="submit">保存</button>
 	<button class="btn btn-windows reset" type="submit">重置</button>
 	</div>
-	<div class="fr padding-top-15"><input type="checkbox"  class="margin-top-0 fl"/><span class="margin-left-5 fl padding-right-25">选中全部文件</span></div>
+	<div class="fr padding-top-15">
+	  <input type="checkbox"  class="margin-top-0 fl"/>
+	  <span class="margin-left-5 fl padding-right-25">选中全部文件</span>
+	</div>
   </div>
   </form>
-  <div class="padding-left-40 padding-right-20 clear  ">
+  <div class="clear  ">
    <ul class="list-unstyled bgdd">
 	<li> 
     <div class="col-md-4 padding-10 fl">
@@ -306,7 +310,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
 	<div class="clear"></div>
   </li>
-<li> 
+  <li> 
     <div class="col-md-4 padding-10 fl">
 	 <div class="col-md-3 tc h60 fl"><input type="checkbox"/></div>
 	 <div class="col-md-9 padding-0 fl">
