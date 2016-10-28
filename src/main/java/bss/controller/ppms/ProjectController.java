@@ -541,9 +541,11 @@ public class ProjectController extends BaseController {
 	 */
 	@RequestMapping("/checkProjectDeail")
 	public void checkProjectDeail(HttpServletResponse response,HttpServletRequest request) throws IOException{
+		String projectId = request.getParameter("projectId");
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		ProjectDetail projectDetail = detailService.selectByPrimaryKey(request.getParameter("id"));
 		if("1".equals(projectDetail.getParentId())){
+			map.put("projectId", projectId);
 			map.put("id", projectDetail.getRequiredId());
 			List<ProjectDetail> list = detailService.selectByParentId(map);
 			String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
@@ -552,6 +554,7 @@ public class ProjectController extends BaseController {
 			response.getWriter().flush();
 			response.getWriter().close();
 		}
+		map.put("projectId", projectId);
 		map.put("id", projectDetail.getRequiredId());
 		List<ProjectDetail> list = detailService.selectByParent(map);
 		String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
@@ -591,23 +594,23 @@ public class ProjectController extends BaseController {
 			projectDetail.setPackageId(wantPackId.get(0).getId());
 			detailService.update(projectDetail);
 		}
-		HashMap<String,Object> map = new HashMap<String,Object>();
-		map.put("packageId", wantPackId.get(0).getId());
-		List<ProjectDetail> details = detailService.selectById(map);
-		for(int i=0;i<details.size();i++){
-			if(details.get(i).getStatus().equals("1")){
-				Packages p = new Packages();
-				p.setId(wantPackId.get(0).getId());
-				p.setStatus(0);
-				packageService.updateByPrimaryKeySelective(p);
-				break;
-			}else if(i==details.size()-1){
-				Packages p = new Packages();
-				p.setId(wantPackId.get(0).getId());
-				p.setStatus(1);
-				packageService.updateByPrimaryKeySelective(p);
-			}
-		}
+//		HashMap<String,Object> map = new HashMap<String,Object>();
+//		map.put("packageId", wantPackId.get(0).getId());
+//		List<ProjectDetail> details = detailService.selectById(map);
+//		for(int i=0;i<details.size();i++){
+//			if(details.get(i).getStatus().equals("1")){
+//				Packages p = new Packages();
+//				p.setId(wantPackId.get(0).getId());
+//				p.setStatus(0);
+//				packageService.updateByPrimaryKeySelective(p);
+//				break;
+//			}else if(i==details.size()-1){
+//				Packages p = new Packages();
+//				p.setId(wantPackId.get(0).getId());
+//				p.setStatus(1);
+//				packageService.updateByPrimaryKeySelective(p);
+//			}
+//		}
 		return "1";
 	}
 	
