@@ -52,6 +52,15 @@
     <include refid="Base_Column_List" />
     from T_BSS_SSTPS_APPRAISAL_CONTRACT
     where APPRAISAL = 1
+    <if test="name != null and name != ''">
+        AND NAME LIKE #{name} 
+    </if>
+    <if test="code != null and code != ''">
+        AND CODE LIKE #{code} 
+    </if>
+    <if test="supplierName != null and supplierName != ''">
+        AND SUPPLIER_NAME LIKE #{supplierName} 
+    </if>
     ORDER BY UPDATED_AT DESC
   </select>
   
@@ -71,7 +80,7 @@
         AND SUPPLIER_NAME LIKE #{supplierName} 
       </if>
       <if test="appraisal != null and appraisal != ''">
-        AND APPRAISAL LIKE #{appraisal} 
+        AND APPRAISAL = #{appraisal} 
       </if>
   </select>
   
@@ -270,7 +279,7 @@
 		PURCHASE_DEP_NAME,
 		SUM(MONEY) as MONEY,
 		sum(AUDIT_MONEY) as AUDIT_MONEY,
-	  ((SUM(MONEY)-SUM(AUDIT_MONEY))/SUM(MONEY)*100) as SUBTRACT
+	  (TRUNC(((SUM(MONEY)-SUM(AUDIT_MONEY))/SUM(MONEY)*100), 2)) as SUBTRACT
 	FROM
 		T_BSS_SSTPS_APPRAISAL_CONTRACT
 	WHERE

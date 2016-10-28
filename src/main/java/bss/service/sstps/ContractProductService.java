@@ -19,5 +19,7 @@ public interface ContractProductService {
 	public List<ContractProduct> select(ContractProduct contractProduct);
 	
 	public void update(ContractProduct contractProduct);
+	
+	public List<ContractProduct> selectList(ContractProduct contractProduct);
 
 }

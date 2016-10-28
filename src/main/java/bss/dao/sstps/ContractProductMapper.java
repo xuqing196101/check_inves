@@ -13,5 +13,7 @@ public interface ContractProductMapper {
     List<ContractProduct> select(ContractProduct record);
     
     int update(ContractProduct record);
+    
+    List<ContractProduct> selectList(ContractProduct record);
 
 }

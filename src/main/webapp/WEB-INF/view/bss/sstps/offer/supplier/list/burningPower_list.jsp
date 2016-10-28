@@ -61,6 +61,8 @@ function nextStep(){
 						<th colspan="3" class="info">报价前2年</th>
 						<th colspan="3" class="info">报价前1年</th>
 						<th colspan="3" class="info">报价当年</th>
+						<th rowspan="2" class="info">审核核准金额</th>
+						<th rowspan="2" class="info">复核金额</th>
 						<th rowspan="2" class="info">备   注</th>
 					</tr>
 					<tr>
@@ -92,6 +94,8 @@ function nextStep(){
 						<td class="tc">${bp.newAcount }</td>
 						<td class="tc">${bp.newAvgPrice }</td>
 						<td class="tc">${bp.newMoney }</td>
+						<td class="tc">${bp.approvedMoney }</td>
+						<td class="tc">${bp.checkMoney }</td>
 						<td class="tc">${bp.remark }</td>
 					</tr>
 				</c:forEach>

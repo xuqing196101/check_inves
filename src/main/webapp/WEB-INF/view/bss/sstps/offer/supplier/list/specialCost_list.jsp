@@ -63,6 +63,8 @@ function nextStep(){
 						<th class="info">金额</th>
 						<th class="info">分摊数量</th>
 						<th class="info">单位产品分摊额</th>
+						<th class="info">核减金额</th>
+						<th class="info">复核金额</th>
 						<th class="info">备   注</th>
 					</tr>
 				</thead>
@@ -80,6 +82,8 @@ function nextStep(){
 						<td class="tc">${sc.money }</td>
 						<td class="tc">${sc.proportionAmout }</td>
 						<td class="tc">${sc.proportionPrice }</td>
+						<td class="tc">${sc.subtractMoney }</td>
+						<td class="tc">${sc.checkMoney }</td>
 						<td class="tc">${sc.remark }</td>
 					</tr>
 				</c:forEach>

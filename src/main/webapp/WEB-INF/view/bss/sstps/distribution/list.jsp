@@ -75,18 +75,19 @@ function distribution(id){
     <div class="container">
      <div class="p10_25">
      <h2 class="padding-10 border1">
-       <form action="" method="post" class="mb0">
+       <form action="<%=basePath %>appraisalContract/serch.html" method="post" class="mb0">
     	<ul class="demand_list">
     	  <li class="fl">
-	    	<label class="fl">合同名称：</label><span><input type="text" id="topic" class=""/></span>
+	    	<label class="fl">合同名称：</label><span><input type="text" name="name" value="${name }" class=""/></span>
 	      </li>
     	  <li class="fl">
-	    	<label class="fl">合同编号：</label><span><input type="text" id="topic" class=""/></span>
+	    	<label class="fl">合同编号：</label><span><input type="text"  name="code" value="${code }" class=""/></span>
 	      </li>
     	  <li class="fl">
-	    	<label class="fl">供应商名称：</label><span><input type="text" id="topic" class=""/></span>
+	    	<label class="fl">供应商名称：</label><span><input type="text" name="supplierName" value="${supplierName }" class=""/></span>
 	      </li> 
-	    	<button type="button" onclick="query()" class="btn">查询</button>
+	    	<input type="hidden" name="like" value="1">
+	    	<button type="submit" class="btn">查询</button>
 	    	<button type="reset" class="btn">重置</button>  	
     	</ul>
     	  <div class="clear"></div>

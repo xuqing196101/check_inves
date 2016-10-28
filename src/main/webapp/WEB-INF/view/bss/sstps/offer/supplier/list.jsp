@@ -8,7 +8,7 @@
   <head>
     <script type="text/javascript" src="<%=request.getContextPath()%>/public/layer/layer.js"></script>
     <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
-    <title>申请合同分配</title>
+    <title>供应商报价</title>
     
 <script type="text/javascript">
 
@@ -94,7 +94,7 @@ function add(){
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">申请合同审价</a></li></ul>
+		   <li><a href="#"> 首页</a></li><li><a href="#">供应商报价</a></li></ul>
 		<div class="clear"></div>
 	  </div>
    </div>
@@ -106,18 +106,18 @@ function add(){
   <div class="container clear">
   <div class="p10_25">
      <h2 class="padding-10 border1">
-       <form action="" method="post" class="mb0">
+       <form action="<%=basePath %>offer/search.html" method="post" class="mb0">
     	<ul class="demand_list">
     	  <li class="fl">
-	    	<label class="fl">合同名称：</label><span><input type="text" id="topic" class=""/></span>
+	    	<label class="fl">合同名称：</label><span><input type="text" name="name" value="${name }" class=""/></span>
 	      </li>
     	  <li class="fl">
-	    	<label class="fl">合同编号：</label><span><input type="text" id="topic" class=""/></span>
+	    	<label class="fl">合同编号：</label><span><input type="text"  name="code" value="${code }" class=""/></span>
 	      </li>
     	  <li class="fl">
-	    	<label class="fl">供应商名称：</label><span><input type="text" id="topic" class=""/></span>
+	    	<label class="fl">供应商名称：</label><span><input type="text" name="supplierName" value="${supplierName }" class=""/></span>
 	      </li> 
-	    	<button type="button" onclick="query()" class="btn">查询</button>
+	    	<button type="submit" class="btn">查询</button>
 	    	<button type="reset" class="btn">重置</button>  	
     	</ul>
     	  <div class="clear"></div>

@@ -58,6 +58,8 @@ function nextStep(){
 						<th rowspan="2" class="info">图纸位置号(代号)</th>
 						<th colspan="5" class="info">所属加工生产装配工艺消耗定额（数量、质量、含税金额）</th>
 						<th colspan="3" class="info">消耗定额审核核准数（含税金额）</th>
+						<th rowspan="2" class="info">核减金额</th>
+						<th rowspan="2" class="info">复核金额</th>
 						<th rowspan="2" class="info">供货单位</th>
 						<th rowspan="2" class="info">备   注</th>
 					</tr>
@@ -87,6 +89,8 @@ function nextStep(){
 						<td class="tc">${out.consumeAmout }</td>
 						<td class="tc">${out.consumePrice }</td>
 						<td class="tc">${out.consumeMoney }</td>
+						<td class="tc">${out.subtractMoney }</td>
+						<td class="tc">${out.checkMoney }</td>
 						<td class="tc">${out.supplyUnit }</td>
 						<td class="tc">${out.remark }</td>
 					</tr>

@@ -56,4 +56,10 @@ public class ContractProductServiceImpl implements ContractProductService {
 		contractProductMapper.update(contractProduct);
 	}
 
+
+	@Override
+	public List<ContractProduct> selectList(ContractProduct contractProduct) {
+		return contractProductMapper.selectList(contractProduct);
+	}
+
 }
