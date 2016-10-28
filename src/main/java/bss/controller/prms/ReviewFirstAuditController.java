@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +26,7 @@ import bss.service.ppms.SaleTenderService;
 import bss.service.prms.FirstAuditService;
 import bss.service.prms.PackageFirstAuditService;
 import bss.service.prms.ReviewFirstAuditService;
+import ses.model.bms.User;
 import ses.model.sms.Supplier;
 
 @Controller
@@ -56,7 +59,9 @@ public class ReviewFirstAuditController {
 	  * @return String
 	 */
 	@RequestMapping("toAudit")
-	public String toAudit(String projectId,String packageId,Model model){
+	public String toAudit(String projectId,String packageId,Model model,HttpSession session){
+		//当前登录用户
+		User user = (User)session.getAttribute("loginUser");
 		//创建封装的实体
 		Extension extension = new Extension();
 		HashMap<String ,Object> map = new HashMap<>();
@@ -96,17 +101,6 @@ public class ReviewFirstAuditController {
 		}
 	    //放入初审项集合
 		extension.setFirstAuditList(firstAuditList);
-		
-		/*假数据*/
-		/*List<Supplier> supplierList = new ArrayList<>();
-		Supplier s = new Supplier();
-		s.setId("111");
-		s.setSupplierName("第一个");
-		Supplier s2 = new Supplier();
-		s2.setId("222");
-		s2.setSupplierName("第二个");
-		supplierList.add(s);
-		supplierList.add(s2);*/
 		//查询供应商信息
 		List<SaleTender> supplierList = saleTenderService.list(new SaleTender(projectId), 0);
 		extension.setSupplierList(supplierList);
@@ -115,6 +109,7 @@ public class ReviewFirstAuditController {
 		Map<String, Object> reviewFirstAuditMap = new HashMap<>();
 		reviewFirstAuditMap.put("projectId", projectId);
 		reviewFirstAuditMap.put("packageId", packageId);
+		reviewFirstAuditMap.put("expertId", user.getTypeId());
 		List<ReviewFirstAudit> reviewFirstAuditList = service.selectList(reviewFirstAuditMap);
 		//回显信息放进去
 		model.addAttribute("reviewFirstAuditList", reviewFirstAuditList);
@@ -135,13 +130,17 @@ public class ReviewFirstAuditController {
 	 */
 	@RequestMapping("add")
 	@ResponseBody
-	public void add(ReviewFirstAudit reviewFirstAudit,Model model){
+	public void add(ReviewFirstAudit reviewFirstAudit,Model model,HttpSession session){
+		//当前登录用户
+		User user = (User)session.getAttribute("loginUser");
 		Map<String, Object> map = new HashMap<>();
 		map.put("projectId", reviewFirstAudit.getProjectId());
 		map.put("packageId", reviewFirstAudit.getPackageId());
 		map.put("firstAuditId", reviewFirstAudit.getFirstAuditId());
 		map.put("supplierId", reviewFirstAudit.getSupplierId());
+		map.put("expertId", user.getTypeId());
 		service.delete(map);
+		reviewFirstAudit.setExpertId(user.getTypeId());
 		service.save(reviewFirstAudit);
 	}
 	/**
@@ -157,7 +156,9 @@ public class ReviewFirstAuditController {
 	 */
 	@RequestMapping("addAll")
 	@ResponseBody
-	public void addAll(String projectId,String packageId,String supplierId,Short flag,String rejectReason){
+	public void addAll(String projectId,String packageId,String supplierId,Short flag,String rejectReason,HttpSession session){
+		//当前登录用户
+		User user = (User)session.getAttribute("loginUser");
 		//查询改包下的初审项信息
 		Map<String,Object> map2 = new HashMap<>();
 		map2.put("projectId", projectId);
@@ -171,6 +172,7 @@ public class ReviewFirstAuditController {
 		    	map.put("projectId", projectId);
 		    	map.put("packageId", packageId);
 		    	map.put("supplierId", supplierId);
+		    	map.put("expertId", user.getTypeId());
 				service.delete(map );
 		      for (PackageFirstAudit packageFirstAudit : firstAuditIdsList) {
 			    reviewFirstAudit = new ReviewFirstAudit();
@@ -178,8 +180,9 @@ public class ReviewFirstAuditController {
 			    reviewFirstAudit.setPackageId(packageId);
 			    reviewFirstAudit.setProjectId(projectId);
 			    reviewFirstAudit.setSupplierId(supplierId);
-			    reviewFirstAudit.setIsPass((short) 0);
+			    //reviewFirstAudit.setIsPass((short) 0);
 			    reviewFirstAudit.setIsPass(flag);
+			    reviewFirstAudit.setExpertId(user.getTypeId());
 			    reviewFirstAudit.setRejectReason(rejectReason);
 			    service.save(reviewFirstAudit);
 		      }

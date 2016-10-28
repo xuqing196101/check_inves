@@ -152,14 +152,17 @@ public class test2 {
 	
 	@Test
 	public void test3() throws IllegalAccessException, InvocationTargetException{
-		Aaa aaa = new Aaa();
+		/*Aaa aaa = new Aaa();
 		Bbb bbb = new Bbb();
 		aaa.setAaa("aaa");
 		aaa.setBbb("bbb");
 		aaa.setCcc("ccc");
 		bbb.setDdd("ddd");
-		BeanUtils.copyProperties(bbb, aaa);
-		System.out.println(bbb);
+		BeanUtils.copyProperties(bbb, aaa);*/
+		double first = 3000/2999*100;
+		 BigDecimal b = new BigDecimal(first); 
+		  double a   = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+		System.out.println(a);
 		
 	}
 }

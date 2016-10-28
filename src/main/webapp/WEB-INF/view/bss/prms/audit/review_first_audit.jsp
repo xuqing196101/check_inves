@@ -188,7 +188,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 return ;
 	 }else{
 		 <%-- window.location.href="<%=basePath%>expert/toFirstAudit.html?projectId="+projectId+"&packageId="+packageId; --%>
-		 window.location.href="<%=basePath%>expert/toProjectList.html";
+		 window.location.href="<%=basePath%>expert/saveProgress.html?projectId="+projectId+"&packageId="+packageId;
 	 }
   }
   </script>
@@ -228,18 +228,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													      	  <td>${first.name }</td>
 													      	  <c:forEach items="${extension.supplierList }" var="supplier" varStatus="v">
 										   		                <td align="center">
-										   		                  <input type="radio" onclick="pass(this);" name="${supplier.id }${vs.index}" value="${first.id },${supplier.id  },0"
+										   		                  <input type="radio" onclick="pass(this);" name="${supplier.id }${vs.index}" value="${first.id },${supplier.suppliers.id  },0"
 										   		                    
 										   		                    <c:forEach items="${reviewFirstAuditList }" var="r" >
-										   		                      <c:if test="${r.supplierId eq supplier.id && r.firstAuditId eq first.id && r.isPass==0 }">checked</c:if>
+										   		                      <c:if test="${r.supplierId eq supplier.suppliers.id && r.firstAuditId eq first.id && r.expertId eq sessionScope.loginUser.typeId && r.isPass==0 }">checked</c:if>
 										   		                    </c:forEach>
 										   		                  >合格&nbsp;
-										   		                  <input type="radio" onclick="isPass(this);" name="${supplier.id }${vs.index}" value="${first.id },${supplier.id  },1"
+										   		                  <input type="radio" onclick="isPass(this);" name="${supplier.id }${vs.index}" value="${first.id },${supplier.suppliers.id  },1"
 										   		                     <c:forEach items="${reviewFirstAuditList }" var="r" >
-										   		                       <c:if test="${r.supplierId eq supplier.id && r.firstAuditId eq first.id && r.isPass==1 }">checked</c:if>
+										   		                       <c:if test="${r.supplierId eq supplier.suppliers.id && r.firstAuditId eq first.id && r.expertId eq sessionScope.loginUser.typeId && r.isPass==1 }">checked</c:if>
 										   		                     </c:forEach>
 										   		                  >不合格
-										   		                  <a href="javascript:void(0);" onclick="reason('${first.id}','${supplier.id }');">查看理由</a>
+										   		                  <a href="javascript:void(0);" onclick="reason('${first.id}','${supplier.suppliers.id }');">查看理由</a>
 										   		                </td>
 										   		              </c:forEach>
 													      	</tr>
@@ -252,17 +252,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													      	  <td>${first.name }</td>
 													      	  <c:forEach items="${extension.supplierList }" var="supplier" varStatus="v">
 										   		                <td align="center">
-										   		                  <input type="radio" onclick="pass(this);" name="${supplier.id }${vs.index}" value="${first.id },${supplier.id  },0"
+										   		                  <input type="radio" onclick="pass(this);" name="${supplier.id }${vs.index}" value="${first.id },${supplier.suppliers.id  },0"
 										   		                    <c:forEach items="${reviewFirstAuditList }" var="r" >
-										   		                      <c:if test="${r.supplierId eq supplier.id && r.firstAuditId eq first.id && r.isPass==0 }">checked</c:if>
+										   		                      <c:if test="${r.supplierId eq supplier.suppliers.id && r.firstAuditId eq first.id && r.expertId eq sessionScope.loginUser.typeId && r.isPass==0 }">checked</c:if>
 										   		                    </c:forEach>
 										   		                  >合格&nbsp;
-										   		                  <input type="radio" onclick="isPass(this);" name="${supplier.id }${vs.index}" value="${first.id },${supplier.id  },1"
+										   		                  <input type="radio" onclick="isPass(this);" name="${supplier.id }${vs.index}" value="${first.id },${supplier.suppliers.id  },1"
 										   		                    <c:forEach items="${reviewFirstAuditList }" var="r" >
-										   		                      <c:if test="${r.supplierId eq supplier.id && r.firstAuditId eq first.id && r.isPass==1 }">checked</c:if>
+										   		                      <c:if test="${r.supplierId eq supplier.suppliers.id && r.firstAuditId eq first.id && r.expertId eq sessionScope.loginUser.typeId && r.isPass==1 }">checked</c:if>
 										   		                    </c:forEach>
 										   		                  >不合格
-										   		                  <a href="javascript:void(0);" onclick="reason('${first.id}','${supplier.id }');">查看理由</a>
+										   		                  <a href="javascript:void(0);" onclick="reason('${first.id}','${supplier.suppliers.id }');">查看理由</a>
 										   		                </td>
 										   		              </c:forEach>
 													      	</tr>
@@ -271,7 +271,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										 	            <tr align="center">
 										 	              <td align="center"></td>
 										 	              <c:forEach items="${extension.supplierList }" var="supplier" varStatus="vs">
-										 	            <td align="center"><input type="radio"  onclick="addAll(this);" name="${vs.index}" value="${supplier.id  },0">全部合格&nbsp;<input type="radio" onclick="addNotAll(this);" name="${vs.index}" value="${supplier.id  },1">全部不合格
+										 	            <td align="center"><input type="radio"  onclick="addAll(this);" name="${vs.index}" value="${supplier.suppliers.id  },0">全部合格&nbsp;<input type="radio" onclick="addNotAll(this);" name="${vs.index}" value="${supplier.suppliers.id  },1">全部不合格
 										 	            </td>
 										 	            </c:forEach>
 										 	            </tr>

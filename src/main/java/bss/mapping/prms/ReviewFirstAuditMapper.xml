@@ -7,18 +7,19 @@
     <result column="SUPPLIER_ID" jdbcType="VARCHAR" property="supplierId" />
     <result column="IS_PASS" jdbcType="DECIMAL" property="isPass" />
     <result column="PACKAGE_ID" jdbcType="VARCHAR" property="packageId" />
+    <result column="EXPERT_ID" jdbcType="VARCHAR" property="expertId" />
     <result column="REJECT_REASON" jdbcType="VARCHAR" property="rejectReason" />
   </resultMap>
    <sql id="Base_Column_List">
-  PROJECT_ID, FIRST_AUDIT_ID, SUPPLIER_ID, IS_PASS, PACKAGE_ID,REJECT_REASON
+  PROJECT_ID, FIRST_AUDIT_ID, SUPPLIER_ID, IS_PASS, PACKAGE_ID,REJECT_REASON,EXPERT_ID
   </sql>
    <!-- 根据传递的条件查询关联表集合 -->
   <select id="selectList"  resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from T_BSS_PRMS_REVIEW_FIRST_AUDIT
+    from T_BSS_PRMS_REVIEW_FIRST_AUDIT where 1=1
    <if test="projectId != null and projectId != ''">
-       where PROJECT_ID = #{projectId}
+       AND PROJECT_ID = #{projectId}
       </if>
       <if test="firstAuditId != null and firstAuditId != ''">
        AND FIRST_AUDIT_ID = #{firstAuditId} 
@@ -28,6 +29,9 @@
       </if>
       <if test="packageId != null and packageId != ''">
        AND PACKAGE_ID = #{packageId} 
+      </if>
+      <if test="expertId != null and expertId != ''">
+       AND EXPERT_ID = #{expertId} 
       </if>
   </select>
   <!-- 根据条件删除 -->
@@ -45,12 +49,15 @@
       <if test="packageId != null and packageId != ''">
        AND PACKAGE_ID = #{packageId} 
       </if>
+      <if test="expertId != null and expertId != ''">
+       AND EXPERT_ID = #{expertId} 
+      </if>
   </delete>
   <insert id="insert" parameterType="bss.model.prms.ReviewFirstAudit">
     insert into T_BSS_PRMS_REVIEW_FIRST_AUDIT (PROJECT_ID, FIRST_AUDIT_ID, SUPPLIER_ID, 
-      IS_PASS, PACKAGE_ID,REJECT_REASON)
+      IS_PASS, PACKAGE_ID,REJECT_REASON,EXPERT_ID)
     values (#{projectId,jdbcType=VARCHAR}, #{firstAuditId,jdbcType=VARCHAR}, #{supplierId,jdbcType=VARCHAR}, 
-      #{isPass,jdbcType=DECIMAL}, #{packageId,jdbcType=VARCHAR},#{rejectReason,jdbcType=VARCHAR})
+      #{isPass,jdbcType=DECIMAL}, #{packageId,jdbcType=VARCHAR},#{rejectReason,jdbcType=VARCHAR},#{expertId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="bss.model.prms.ReviewFirstAudit">
     insert into T_BSS_PRMS_REVIEW_FIRST_AUDIT
@@ -71,7 +78,10 @@
         PACKAGE_ID,
       </if>
       <if test="rejectReason != null">
-        REJECT_REASON
+        REJECT_REASON,
+      </if>
+      <if test="expertId != null">
+        EXPERT_ID
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -92,6 +102,9 @@
       </if>
       <if test="rejectReason != null">
         #{rejectReason,jdbcType=VARCHAR},
+      </if>
+      <if test="expertId != null">
+        #{expertId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>

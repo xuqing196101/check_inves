@@ -9,7 +9,22 @@ public class PackageExpert {
 
     private Short isGroupLeader;
 
-    public String getPackageId() {
+    private Short isAudit;
+    
+    private Short isGather;
+
+    
+    
+
+	public Short getIsGather() {
+		return isGather;
+	}
+
+	public void setIsGather(Short isGather) {
+		this.isGather = isGather;
+	}
+
+	public String getPackageId() {
         return packageId;
     }
 
@@ -39,5 +54,13 @@ public class PackageExpert {
 
     public void setIsGroupLeader(Short isGroupLeader) {
         this.isGroupLeader = isGroupLeader;
+    }
+
+    public Short getIsAudit() {
+        return isAudit;
+    }
+
+    public void setIsAudit(Short isAudit) {
+        this.isAudit = isAudit;
     }
 }

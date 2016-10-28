@@ -56,5 +56,16 @@ public class PackageExpertServiceImpl implements PackageExpertService {
 	public void deleteByPackageId(String packageId) {
 		mapper.deleteByPackageId(packageId);
 	}
-
+	 /**
+     * 
+      * @Title: updateByBean
+      * @author ShaoYangYang
+      * @date 2016年10月27日 下午5:28:53  
+      * @Description: TODO 根据条件修改信息
+      * @param @param record      
+      * @return void
+     */
+    public void updateByBean(PackageExpert record){
+    	mapper.updateByBean(record);
+    }
 }

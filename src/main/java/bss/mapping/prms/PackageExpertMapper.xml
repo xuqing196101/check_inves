@@ -6,9 +6,12 @@
     <result column="EXPERT_ID" jdbcType="VARCHAR" property="expertId" />
     <result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
     <result column="IS_GROUP_LEADER" jdbcType="DECIMAL" property="isGroupLeader" />
+    <result column="IS_AUDIT" jdbcType="DECIMAL" property="isAudit" />
+    <result column="IS_GATHER" jdbcType="DECIMAL" property="isGather" />
   </resultMap>
-  <sql id="Base_Column_List">
-  PACKAGE_ID,EXPERT_ID,PROJECT_ID,IS_GROUP_LEADER
+  
+   <sql id="Base_Column_List">
+  PACKAGE_ID,EXPERT_ID,PROJECT_ID,IS_GROUP_LEADER,IS_AUDIT,IS_GATHER
   </sql>
    <!-- 根据项目id和包id 以及查询关联表集合 -->
   <select id="selectList"  resultMap="BaseResultMap">
@@ -23,10 +26,16 @@
     AND PROJECT_ID = '${projectId}'
     </if>
     <if test="isGroupLeader != null and isGroupLeader !=''">
-    AND IS_GROUP_LEADER = '${isGroupLeader}'
+    AND IS_GROUP_LEADER = ${isGroupLeader}
     </if>
     <if test="expertId != null and expertId !=''">
     AND EXPERT_ID = '${expertId}'
+    </if>
+    <if test="isAudit != null">
+    AND IS_AUDIT = ${isAudit}
+    </if>
+    <if test="isGather != null">
+    AND IS_GATHER = ${isGather}
     </if>
   </select>
    <!-- 根据包id删除 -->
@@ -34,11 +43,47 @@
     delete from T_BSS_PRMS_PACKAGE_EXPERT
     where PACKAGE_ID = #{packageId,jdbcType=VARCHAR}
   </delete>
+  <!-- 根据条件修改 -->
+   <update id="updateByBean" parameterType="bss.model.prms.PackageExpert">
+    update T_BSS_PRMS_PACKAGE_EXPERT
+    <set>
+      <if test="packageId != null and packageId !=''">
+     PACKAGE_ID = #{packageId},
+    </if>
+    <if test="projectId != null and projectId !=''">
+     PROJECT_ID = #{projectId},
+    </if>
+    <if test="isGroupLeader != null">
+     IS_GROUP_LEADER = #{isGroupLeader,jdbcType=DECIMAL},
+    </if>
+    <if test="expertId != null and expertId !=''">
+     EXPERT_ID = #{expertId},
+    </if>
+    <if test="isAudit != null">
+     IS_AUDIT = #{isAudit,jdbcType=DECIMAL},
+    </if>
+    <if test="isGather != null">
+     IS_GATHER = #{isGather,jdbcType=DECIMAL},
+    </if>
+    </set>
+    where 1=1
+     <if test="packageId != null and packageId !=''">
+    AND PACKAGE_ID = #{packageId}
+    </if>
+    <if test="projectId != null and projectId !=''">
+    AND PROJECT_ID = #{projectId}
+    </if>
+    <if test="expertId != null and expertId !=''">
+    AND EXPERT_ID = #{expertId}
+    </if>
+  </update>
+  
+  
   <insert id="insert" parameterType="bss.model.prms.PackageExpert">
     insert into T_BSS_PRMS_PACKAGE_EXPERT (PACKAGE_ID, EXPERT_ID, PROJECT_ID, 
-      IS_GROUP_LEADER)
+      IS_GROUP_LEADER, IS_AUDIT,IS_GATHER)
     values (#{packageId,jdbcType=VARCHAR}, #{expertId,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, 
-      #{isGroupLeader,jdbcType=DECIMAL})
+      #{isGroupLeader,jdbcType=DECIMAL}, #{isAudit,jdbcType=DECIMAL},#{isGather,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="bss.model.prms.PackageExpert">
     insert into T_BSS_PRMS_PACKAGE_EXPERT
@@ -55,6 +100,12 @@
       <if test="isGroupLeader != null">
         IS_GROUP_LEADER,
       </if>
+      <if test="isAudit != null">
+        IS_AUDIT,
+      </if>
+      <if test="isGather != null">
+        IS_GATHER,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="packageId != null">
@@ -68,6 +119,12 @@
       </if>
       <if test="isGroupLeader != null">
         #{isGroupLeader,jdbcType=DECIMAL},
+      </if>
+      <if test="isAudit != null">
+        #{isAudit,jdbcType=DECIMAL},
+      </if>
+      <if test="isGather != null">
+        #{isGather,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>

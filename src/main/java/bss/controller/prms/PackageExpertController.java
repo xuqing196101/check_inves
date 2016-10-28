@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import bss.model.ppms.Packages;
@@ -20,12 +21,20 @@ import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.SaleTender;
 import bss.model.prms.PackageExpert;
+import bss.model.prms.ReviewFirstAudit;
+import bss.model.prms.ReviewProgress;
+import bss.model.prms.ext.PackExpertExt;
+import bss.model.prms.ext.SupplierExt;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.SaleTenderService;
 import bss.service.prms.PackageExpertService;
+import bss.service.prms.ReviewFirstAuditService;
+import bss.service.prms.ReviewProgressService;
+import ses.model.ems.Expert;
 import ses.model.ems.ProjectExtract;
+import ses.service.ems.ExpertService;
 import ses.service.ems.ProjectExtractService;
 
 @Controller
@@ -44,6 +53,12 @@ public class PackageExpertController {
 	private ProjectExtractService projectExtractService;
 	@Autowired
 	private SaleTenderService saleTenderService;//供应商查询
+	@Autowired
+	private ReviewProgressService reviewProgressService;//进度
+	@Autowired
+	private ExpertService expertService;//专家
+	@Autowired
+	private ReviewFirstAuditService reviewFirstAuditService;//初审表
 	/**
 	 * 
 	  * @Title: toPackageExpert
@@ -70,6 +85,8 @@ public class PackageExpertController {
 		Map<String,Object> list = new HashMap<String,Object>();
 		//关联表集合
 		List<PackageExpert> expertIdList = new ArrayList<>();
+		//进度集合
+		List<ReviewProgress> reviewProgressList = new ArrayList<>();
 		Map<String,Object> mapSearch = new HashMap<String,Object>(); 
 		for(Packages ps:packages){
 			list.put("pack"+ps.getId(),ps);
@@ -82,8 +99,14 @@ public class PackageExpertController {
 			mapSearch.put("packageId", ps.getId());
 			//查询出该项目下的包关联的信息集合
 			List<PackageExpert> selectList = service.selectList(mapSearch);
+			//查询进度
+			List<ReviewProgress> selectByMap = reviewProgressService.selectByMap(map);
 			expertIdList.addAll(selectList);
+			reviewProgressList.addAll(selectByMap);
 		}
+		model.addAttribute("expertIdList", expertIdList);
+		//进度
+		model.addAttribute("reviewProgressList", reviewProgressList);
 		//供应商信息
 		  List<SaleTender> supplierList = saleTenderService.list(new SaleTender(projectId), 0);
 		  model.addAttribute("supplierList", supplierList);
@@ -100,8 +123,76 @@ public class PackageExpertController {
 		//项目实体
 		model.addAttribute("project", project);
 		//关联信息集合
-		model.addAttribute("expertIdList", expertIdList);
-		//成功表示
+		//封装实体
+		List<PackExpertExt> packExpertExtList = new ArrayList<>();
+		//供应商封装实体
+		List<SupplierExt> supplierExtList = new ArrayList<>();
+		PackExpertExt packExpertExt;
+		for(PackageExpert packageExpert:expertIdList){
+			packExpertExt = new PackExpertExt();
+			Expert expert = expertService.selectByPrimaryKey(packageExpert.getExpertId());
+			packExpertExt.setExpert(expert);
+			packExpertExt.setPackageId(packageExpert.getPackageId());
+			packExpertExt.setProjectId(packageExpert.getProjectId());
+			Map<String, Object> map = new HashMap<>();
+			//根据专家id和包id查询改包的这个专家是否评审完成
+			map.put("expertId", packageExpert.getExpertId());
+			map.put("packageId", packageExpert.getPackageId());
+			//根据专家id查询关联表 确定该专家是否都已评审
+			List<PackageExpert> selectList = service.selectList(map );
+				int count = 0;
+				for (PackageExpert packageExpert2 : selectList) {
+					if(packageExpert2.getIsAudit()==1){
+						count++;
+					}
+				}
+				if(count>0){
+					packExpertExt.setIsPass("已评审");
+				}else{
+					packExpertExt.setIsPass("未评审");
+				}
+			//根据供应商id 和包id查询审核表  确定该供应商是否通过评审
+				for(SaleTender saleTender : supplierList){
+					SupplierExt supplierExt = new SupplierExt();
+					Map<String,Object> map2 = new HashMap<>();
+					map2.put("supplierId", saleTender.getSuppliers().getId());
+					map2.put("packageId", packageExpert.getPackageId());
+					map2.put("expertId", packageExpert.getExpertId());
+					List<ReviewFirstAudit> selectList2 = reviewFirstAuditService.selectList(map2);
+					if(selectList2!=null && selectList2.size()>0){
+						int count2 = 0;
+						for (ReviewFirstAudit reviewFirstAudit : selectList2) {
+							if(reviewFirstAudit.getIsPass()==1){
+								count2++;
+								break;
+							}
+						}
+						//如果变量大于0 说明有不合格的数据
+						if(count2>0){
+							supplierExt.setSupplierId(saleTender.getSuppliers().getId());
+							supplierExt.setExpertId(packageExpert.getExpertId());
+							supplierExt.setPackageId(packageExpert.getPackageId());
+							supplierExt.setSuppIsPass("不合格");
+						}else{
+							supplierExt.setSupplierId(saleTender.getSuppliers().getId());
+							supplierExt.setExpertId(packageExpert.getExpertId());
+							supplierExt.setPackageId(packageExpert.getPackageId());
+							supplierExt.setSuppIsPass("合格");
+						}
+					}else{
+						supplierExt.setSupplierId(saleTender.getSuppliers().getId());
+						supplierExt.setPackageId(packageExpert.getPackageId());
+						supplierExt.setExpertId(packageExpert.getExpertId());
+						supplierExt.setSuppIsPass("未评审");
+					}
+				
+					supplierExtList.add(supplierExt);
+				}
+				packExpertExtList.add(packExpertExt);
+		}
+		model.addAttribute("packExpertExtList", packExpertExtList);
+		model.addAttribute("supplierExtList", supplierExtList);
+		//成功标示
 		model.addAttribute("flag", flag);
 		return "bss/prms/package_expert";
 	}
@@ -134,6 +225,10 @@ public class PackageExpertController {
 			String expertId = (String) iterator.next();
 			//设置专家id
 			packageExpert.setExpertId(expertId);
+			//评审状态 未评审
+			packageExpert.setIsAudit((short) 0);
+			//是否汇总 未汇总
+			packageExpert.setIsGather((short) 0);
 			//判断组长id是否和选择的专家id一致，如果一致就设定为组长
 			if(groupId.equals(expertId)){
 				packageExpert.setIsGroupLeader((short) 1);
@@ -156,5 +251,41 @@ public class PackageExpertController {
 		}
 		attr.addAttribute("projectId", packageExpert.getProjectId());
 		return "redirect:toPackageExpert.html";
+	}
+	/**
+	 * 
+	  * @Title: getPace
+	  * @author ShaoYangYang
+	  * @date 2016年10月27日 下午8:13:46  
+	  * @Description: TODO 符合汇总
+	  * @param @param projectId 
+	  * @param @param packageId
+	  * @param @param expertId      
+	  * @return void
+	 */
+	@RequestMapping("gather")
+	@ResponseBody
+	public void getPace(PackageExpert record){
+		record.setIsGather((short) 1);
+		service.updateByBean(record );
+	}
+	/**
+	 * 
+	  * @Title: isBack
+	  * @author ShaoYangYang
+	  * @date 2016年10月27日 下午8:13:46  
+	  * @Description: TODO 退回
+	  * @param @param projectId 
+	  * @param @param packageId
+	  * @param @param expertId      
+	  * @return void
+	 */
+	@RequestMapping("isBack")
+	@ResponseBody
+	public void isBack(PackageExpert record){
+		Short flag = 0;
+		record.setIsGather(flag);
+		record.setIsAudit(flag);
+		service.updateByBean(record );
 	}
 }

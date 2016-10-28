@@ -12,8 +12,19 @@ public class ReviewFirstAudit {
     private String packageId;
     
     private String rejectReason;
+    
+    private String expertId;
+    
 
-    public String getRejectReason() {
+    public String getExpertId() {
+		return expertId;
+	}
+
+	public void setExpertId(String expertId) {
+		this.expertId = expertId;
+	}
+
+	public String getRejectReason() {
 		return rejectReason;
 	}
 

@@ -2,6 +2,7 @@ package ses.controller.sys.ems;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,10 +39,12 @@ import bss.model.ppms.Project;
 import bss.model.ppms.SaleTender;
 import bss.model.ppms.ext.ProjectExt;
 import bss.model.prms.PackageExpert;
+import bss.model.prms.ReviewProgress;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.SaleTenderService;
 import bss.service.prms.PackageExpertService;
+import bss.service.prms.ReviewProgressService;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAttachment;
@@ -80,6 +83,8 @@ public class ExpertController {
 	private ProjectService projectService;//项目service
 	@Autowired
 	private SaleTenderService saleTenderService;//供应商查询
+	@Autowired
+	private ReviewProgressService reviewProgressService;//进度
 	/**
 	 * 
 	  * @Title: toExpert
@@ -328,7 +333,7 @@ public class ExpertController {
 		expertAuditService.auditExpert(expert, remark, user);
 		//执行修改
 		service.updateByPrimaryKeySelective(expert);
-		return "redirect:toBackLog.html";
+		return "redirect:findAllExpert.html";
 	}
 	/**
 	 * 
@@ -696,8 +701,10 @@ public class ExpertController {
 					String typeId = user.getTypeId();
 					Map<String, Object> map = new HashMap<>();
 					map.put("expertId", typeId);
+					map.put("isAudit", 0);
+					map.put("isGather", 0);
 					//查询出关联表中的项目id和包id
-					List<PackageExpert> packageExpertList = packageExpertService.selectList(map );
+					List<PackageExpert> packageExpertList = packageExpertService.selectList(map);
 						HashMap<String,Object> hashMap ;
 						//该专家的所有包集合
 						List<Packages> packageList = new ArrayList<>();
@@ -750,7 +757,110 @@ public class ExpertController {
 		  model.addAttribute("packageId", packageId);
 		  return"bss/prms/audit/suppplier_list";
 	  }
-	  
+	  /**
+	   * 
+	    * @Title: saveProgress
+	    * @author ShaoYangYang
+	    * @date 2016年10月27日 下午2:17:47  
+	    * @Description: TODO 保存审核信息
+	    * @param @return      
+	    * @return String
+	   */
+	  @RequestMapping("saveProgress")
+	  public String saveProgress(String projectId,String packageId,HttpSession session){
+		  User user = (User)session.getAttribute("loginUser");
+		  List<PackageExpert> packageExpertList2 = null;
+			//判断用户的类型为专家类型
+			if(user!=null && user.getTypeName()==5){
+				//获取专家id
+				String expertId = user.getTypeId();
+				Map<String,Object> map1 = new HashMap<String,Object>(); 
+				  map1.put("projectId", projectId);
+				  map1.put("packageId", packageId);
+				  map1.put("expertId", expertId);
+				  List<PackageExpert> selectList = packageExpertService.selectList(map1);
+				
+				  if(selectList!=null && selectList.size()>0){
+					  PackageExpert packageExpert = selectList.get(0);
+					  packageExpert.setIsAudit((short) 1);
+					  packageExpertService.updateByBean(packageExpert);
+				  }
+				  Map<String, Object> map2 = new HashMap<>();
+					map2.put("expertId", expertId);
+					map2.put("projectId", projectId);
+					map2.put("packageId", packageId);
+					map2.put("isAudit", 0);
+					//查询出关联表中已经评审的数据
+					packageExpertList2 = packageExpertService.selectList(map2);
+			}
+		  
+		  Map<String,Object> map = new HashMap<String,Object>(); 
+		  map.put("projectId", projectId);
+		  map.put("packageId", packageId);
+		  List<PackageExpert> packageExpertList = packageExpertService.selectList(map);
+		  //查询改项目的进度信息
+		  List<ReviewProgress> reviewProgressList = reviewProgressService.selectByMap(map);
+		  //初审进度
+		  double firstProgress = 0;
+		  //总进度
+		  double totalProgress = 0;
+		  //评分进度
+		  double scoreProgress = 0;
+		  ReviewProgress reviewProgress = new ReviewProgress();
+		  
+		  
+		  //集合为空证明没有进度信息
+		  if(reviewProgressList==null || reviewProgressList.size()==0){
+			  //判断关联集合不为空 从而确定该项目下有多少专家
+			  if(packageExpertList!=null&& packageExpertList.size()>0){
+				  double first =  1/(double)packageExpertList.size();
+				  BigDecimal b = new BigDecimal(first); 
+				  firstProgress  = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+				  //初审进度
+				  reviewProgress.setFirstAuditProgress(firstProgress);
+				  totalProgress = (firstProgress+scoreProgress)/2;
+				  //总进度
+				  reviewProgress.setTotalProgress(totalProgress);
+				  //评分进度
+				  reviewProgress.setScoreProgress(scoreProgress);
+				  //状态
+				  reviewProgress.setAuditStatus("评审中");
+				  reviewProgress.setPackageId(packageId);
+				  reviewProgress.setProjectId(projectId);
+				  //新增
+				  reviewProgressService.save(reviewProgress);
+			  }
+		  }else{
+			//判断关联集合不为空 从而确定该项目下有多少专家
+			  if(packageExpertList!=null&& packageExpertList.size()>0){
+				  ReviewProgress reviewProgress2 = reviewProgressList.get(0);
+				 // Double firstAuditProgress = reviewProgress2.getFirstAuditProgress();
+				  double first = 0;
+				  if(packageExpertList2!=null && packageExpertList2.size()>0){
+					  first = (double)packageExpertList2.size()/(double)packageExpertList.size()+1/(double)packageExpertList.size();
+				  }else{
+					  first = 1/(double)packageExpertList.size();
+				  }
+				  
+				  BigDecimal b = new BigDecimal(first); 
+				  firstProgress  = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+				  //初审进度更新
+				  reviewProgress2.setFirstAuditProgress(firstProgress);
+				  //总进度更新
+				  Double scoreProgress2 = reviewProgress2.getScoreProgress();
+				 double total2 =  (firstProgress+scoreProgress2)/2;
+				 BigDecimal t = new BigDecimal(total2); 
+				 totalProgress  = t.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+				  //总进度更新
+				 reviewProgress2.setTotalProgress(totalProgress);
+				 //修改进度
+				 reviewProgressService.updateByMap(reviewProgress2);
+			  }
+		  }
+		  
+		  
+		  return "redirect:toProjectList.html";
+	  }
 	 /**
 	  * 
 	   * @Title: download

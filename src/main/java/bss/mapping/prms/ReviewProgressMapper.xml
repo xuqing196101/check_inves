@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.prms.ReviewProgressMapper">
+  <resultMap id="BaseResultMap" type="bss.model.prms.ReviewProgress">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
+    <result column="PACKAGE_NAME" jdbcType="VARCHAR" property="packageName" />
+    <result column="PACKAGE_ID" jdbcType="VARCHAR" property="packageId" />
+    <result column="AUDIT_STATUS" jdbcType="VARCHAR" property="auditStatus" />
+    <result column="TOTAL_PROGRESS" jdbcType="DECIMAL" property="totalProgress" />
+    <result column="FIRST_AUDIT_PROGRESS" jdbcType="DECIMAL" property="firstAuditProgress" />
+    <result column="SCORE_PROGRESS" jdbcType="DECIMAL" property="scoreProgress" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, PROJECT_ID, PACKAGE_NAME, PACKAGE_ID, AUDIT_STATUS, TOTAL_PROGRESS, FIRST_AUDIT_PROGRESS, 
+    SCORE_PROGRESS
+  </sql>
+  
+   <update id="updateByMap" parameterType="bss.model.prms.ReviewProgress">
+    update T_BSS_PRMS_REVIEW_PROGRESS
+    <set>
+      <if test="projectId != null">
+        PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="packageName != null">
+        PACKAGE_NAME = #{packageName,jdbcType=VARCHAR},
+      </if>
+      <if test="packageId != null">
+        PACKAGE_ID = #{packageId,jdbcType=VARCHAR},
+      </if>
+      <if test="auditStatus != null">
+        AUDIT_STATUS = #{auditStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="totalProgress != null">
+        TOTAL_PROGRESS = #{totalProgress,jdbcType=DECIMAL},
+      </if>
+      <if test="firstAuditProgress != null">
+        FIRST_AUDIT_PROGRESS = #{firstAuditProgress,jdbcType=DECIMAL},
+      </if>
+      <if test="scoreProgress != null">
+        SCORE_PROGRESS = #{scoreProgress,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+     <if test="projectId != null and projectId != ''">
+      AND  PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+      </if>
+      <if test="packageId != null and packageId != ''">
+       AND PACKAGE_ID = #{packageId,jdbcType=VARCHAR}
+      </if>
+  </update>
+  <select id="selectByMap" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PRMS_REVIEW_PROGRESS
+    where 1=1
+      <if test="projectId != null and projectId != ''">
+      AND  PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+      </if>
+      <if test="packageId != null and packageId != ''">
+       AND PACKAGE_ID = #{packageId,jdbcType=VARCHAR}
+      </if>
+  </select>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PRMS_REVIEW_PROGRESS
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BSS_PRMS_REVIEW_PROGRESS
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="bss.model.prms.ReviewProgress">
+    insert into T_BSS_PRMS_REVIEW_PROGRESS (ID, PROJECT_ID, PACKAGE_NAME, 
+      PACKAGE_ID, AUDIT_STATUS, TOTAL_PROGRESS, 
+      FIRST_AUDIT_PROGRESS, SCORE_PROGRESS)
+    values (#{id,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, #{packageName,jdbcType=VARCHAR}, 
+      #{packageId,jdbcType=VARCHAR}, #{auditStatus,jdbcType=VARCHAR}, #{totalProgress,jdbcType=DECIMAL}, 
+      #{firstAuditProgress,jdbcType=DECIMAL}, #{scoreProgress,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="bss.model.prms.ReviewProgress">
+    insert into T_BSS_PRMS_REVIEW_PROGRESS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID,
+      </if>
+      <if test="packageName != null">
+        PACKAGE_NAME,
+      </if>
+      <if test="packageId != null">
+        PACKAGE_ID,
+      </if>
+      <if test="auditStatus != null">
+        AUDIT_STATUS,
+      </if>
+      <if test="totalProgress != null">
+        TOTAL_PROGRESS,
+      </if>
+      <if test="firstAuditProgress != null">
+        FIRST_AUDIT_PROGRESS,
+      </if>
+      <if test="scoreProgress != null">
+        SCORE_PROGRESS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="packageName != null">
+        #{packageName,jdbcType=VARCHAR},
+      </if>
+      <if test="packageId != null">
+        #{packageId,jdbcType=VARCHAR},
+      </if>
+      <if test="auditStatus != null">
+        #{auditStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="totalProgress != null">
+        #{totalProgress,jdbcType=DECIMAL},
+      </if>
+      <if test="firstAuditProgress != null">
+        #{firstAuditProgress,jdbcType=DECIMAL},
+      </if>
+      <if test="scoreProgress != null">
+        #{scoreProgress,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="bss.model.prms.ReviewProgress">
+    update T_BSS_PRMS_REVIEW_PROGRESS
+    <set>
+      <if test="projectId != null">
+        PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="packageName != null">
+        PACKAGE_NAME = #{packageName,jdbcType=VARCHAR},
+      </if>
+      <if test="packageId != null">
+        PACKAGE_ID = #{packageId,jdbcType=VARCHAR},
+      </if>
+      <if test="auditStatus != null">
+        AUDIT_STATUS = #{auditStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="totalProgress != null">
+        TOTAL_PROGRESS = #{totalProgress,jdbcType=DECIMAL},
+      </if>
+      <if test="firstAuditProgress != null">
+        FIRST_AUDIT_PROGRESS = #{firstAuditProgress,jdbcType=DECIMAL},
+      </if>
+      <if test="scoreProgress != null">
+        SCORE_PROGRESS = #{scoreProgress,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="bss.model.prms.ReviewProgress">
+    update T_BSS_PRMS_REVIEW_PROGRESS
+    set PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+      PACKAGE_NAME = #{packageName,jdbcType=VARCHAR},
+      PACKAGE_ID = #{packageId,jdbcType=VARCHAR},
+      AUDIT_STATUS = #{auditStatus,jdbcType=VARCHAR},
+      TOTAL_PROGRESS = #{totalProgress,jdbcType=DECIMAL},
+      FIRST_AUDIT_PROGRESS = #{firstAuditProgress,jdbcType=DECIMAL},
+      SCORE_PROGRESS = #{scoreProgress,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
