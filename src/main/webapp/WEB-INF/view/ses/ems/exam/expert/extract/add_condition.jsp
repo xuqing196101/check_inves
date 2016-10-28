@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
 <%@ include file="../../../../../common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -32,7 +33,9 @@
 	src="<%=basePath%>public/ztree/jquery.ztree.excheck.js"></script>
 <script src="<%=basePath%>public/layer/layer.js"></script>
 <script src="<%=basePath%>public/layer/extend/layer.ext.js"></script>
-<link rel="stylesheet" type="text/css" href="css/jquery-ui.css" /> 
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/expert/TestAddress1.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/expert/TestChooseAddress.js"></script>
+<link rel="stylesheet" type="text/css" href="css/jquery-ui.css" />
 <script type="text/javascript">
     $(function (){
         var areas="${listArea[0].id}";
@@ -78,6 +81,58 @@
                }
           }
       });
+    }
+    
+    //地区联动js
+    function loadProvince(regionId){
+          $("#id_provSelect").html("");
+          $("#id_provSelect").append("<option value=''>请选择省份</option>");
+          var jsonStr = getAddress(regionId,0);
+          for(var k in jsonStr) {
+            $("#id_provSelect").append("<option value='"+k+"'>"+jsonStr[k]+"</option>");
+          }
+          if(regionId.length!=6) {
+            $("#id_citySelect").html("");
+            $("#id_citySelect").append("<option value=''>请选择城市</option>");
+            $("#id_areaSelect").html("");
+            $("#id_areaSelect").append("<option value=''>请选择区域</option>");
+          } else {
+             $("#id_provSelect").val(regionId.substring(0,2)+"0000");
+             loadCity(regionId);
+          }
+    }
+
+    function loadCity(regionId){
+      $("#id_citySelect").html("");
+      $("#id_citySelect").append("<option value=''>请选择城市</option>");
+      if(regionId.length!=6) {
+        $("#id_areaSelect").html("");
+        $("#id_areaSelect").append("<option value=''>请选择区域</option>");
+      } else {
+        var jsonStr = getAddress(regionId,1);
+        for(var k in jsonStr) {
+          $("#id_citySelect").append("<option value='"+k+"'>"+jsonStr[k]+"</option>");
+        }
+        if(regionId.substring(2,6)=="0000") {
+          $("#id_areaSelect").html("");
+          $("#id_areaSelect").append("<option value=''>请选择区域</option>");
+        } else {
+           $("#id_citySelect").val(regionId.substring(0,4)+"00");
+           loadArea(regionId);
+        }
+      }
+    }
+
+    function loadArea(regionId){
+      $("#id_areaSelect").html("");
+      $("#id_areaSelect").append("<option value=''>请选择区域</option>");
+      if(regionId.length==6) {
+        var jsonStr = getAddress(regionId,2);
+        for(var k in jsonStr) {
+          $("#id_areaSelect").append("<option value='"+k+"'>"+jsonStr[k]+"</option>");
+        }
+        if(regionId.substring(4,6)!="00") {$("#id_areaSelect").val(regionId);}
+      }
     }
     
     /** 全选全不选 */
@@ -165,7 +220,7 @@
         }
     }
     function cityt(){
-        $("#address").val($("#area option:selected").text()+$("#city option:selected").text());
+        $("#address").val($("#id_provSelect option:selected").text()+$("#id_citySelect option:selected").text());
         $("#expertId").val($("#city option:selected").val());
 
  
@@ -298,10 +353,10 @@ return true;
 		<div class="container">
 			<ul class="breadcrumb margin-left-0">
 				<li><a href="#"> 首页</a></li>
-                <li><a href="#">支撑环境系统</a></li>
-                <li><a href="#">专家管理</a></li>
-                <li><a href="#">专家抽取</a></li>
-                <li class="active"><a href="#">添加专家抽取</a></li>
+				<li><a href="#">支撑环境系统</a></li>
+				<li><a href="#">专家管理</a></li>
+				<li><a href="#">专家抽取</a></li>
+				<li class="active"><a href="#">添加专家抽取</a></li>
 			</ul>
 			<div class="clear"></div>
 		</div>
@@ -328,18 +383,27 @@ return true;
 
 				<input type="hidden" name="projectId" id="pid" value="${projectId}">
 				<!-- 				监督人员 -->
-				<input type="hidden" name="sids" id="sids" value="${userId}"  />
+				<input type="hidden" name="sids" id="sids" value="${userId}" />
 				<ul class="list-unstyled mt10 p0_20">
 					<li class="col-md-6 p0"><span class="fl mt5">专家所在地区：</span>
-						<div class="input-append">
-							<select class="form-control input-lg mr15 w150" id="area"
-								onchange="areas();">
-								<c:forEach items="${listArea }" var="area" varStatus="index">
-									<option value="${area.id }">${area.name }</option>
-								</c:forEach>
-							</select> <select name="extractionSites" class="form-control input-lg w100"
-								id="city"></select>
-						</div></li>
+<!-- 						<div class="input-append"> -->
+<!-- 														<select class="form-control input-lg mr15 w150" id="area" -->
+<!-- 															onchange="areas();"> -->
+<%-- 															<c:forEach items="${listArea }" var="area" varStatus="index"> --%>
+<%-- 																<option value="${area.id }">${area.name }</option> --%>
+<%-- 															</c:forEach> --%>
+<!-- 														</select> <select name="extractionSites" class="form-control input-lg w100" -->
+<!-- 															id="city"></select> -->
+<!-- 						</div> -->
+					                   	<div class="">
+                                                <select id="id_provSelect" name="provSelect" onChange="loadCity(this.value);">
+                                                <option value="">请选择省份</option></select>&nbsp;
+                                                <select id="id_citySelect"  name="addressId"><option value="">请选择城市</option></select>&nbsp;
+                                                <SCRIPT LANGUAGE="JavaScript">loadProvince('${ExpExtCondition.addressId}');</SCRIPT>
+                                                <div class="validate">${ERR_address}</div>
+                                            </div>
+						
+						</li>
 					<li class="col-md-6 p0"><span class="fl mt5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;专家来源：</span>
 						<div class="select_common mb10">
 							<select class="w250" name="expertsFrom">
@@ -369,43 +433,45 @@ return true;
 						</div></li>
 					<li class="col-md-6 p0 "><span class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;开标时间：</span>
 						<div class="input-append">
-							<input class="span2  Wdate w250" readonly="readonly" name="tenderTime"
+							<input class="span2  Wdate w250" readonly="readonly"
+								name="tenderTime"
 								value="<fmt:formatDate value='${ExpExtCondition.tenderTime}'
                                 pattern='yyyy-MM-dd' />"
 								maxlength="30" onclick="WdatePicker();" type="text">
 						</div></li>
 					<li class="col-md-6 p0 "><span class="">专家响应时限:</span>
 						<div class="input-append">
-							<input class="span2 w75"  name="hour"
-								value="${hour}" maxlength="3"
-								type="text">
-								
-								<input class="span2 w50" readonly="readonly" 
-                                value="时" maxlength="5"  type="text"> 
-                                
-                                <input class="span2 w75" value="${minute}" id="minute" name="minute"
-                                maxlength="3"  type="text"  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">  
-								    <input class="span2 w50" readonly="readonly" 
-                                value="分" maxlength="30"    type="text"> 
+							<input class="span2 w75" name="hour" value="${hour}"
+								maxlength="3" type="text"> <input class="span2 w50"
+								readonly="readonly" value="时" maxlength="5" type="text">
+
+							<input class="span2 w75" value="${minute}" id="minute"
+								name="minute" maxlength="3" type="text"
+								onkeyup="this.value=this.value.replace(/\D/g,'')"
+								onafterpaste="this.value=this.value.replace(/\D/g,'')">
+							<input class="span2 w50" readonly="readonly" value="分"
+								maxlength="30" type="text">
 						</div></li>
 					<li class="col-md-6 p0 "><span class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;年龄：</span>
 						<div class="input-append">
-							<input class="w100" 
-								maxlength="2"  value="${actionage}" name="actionage" type="text">
-								<input class="w50" name=""  maxlength="2" value=" — " type="text" >
-								    <input class="w100" name="endage"  value="${endage}"
-                                maxlength="2"   type="text">
+							<input class="w100" maxlength="2" value="${ExpExtCondition.ageMin}"
+								name="ageMin" type="text"> <input class="w50" name=""
+								maxlength="2" value=" — " type="text"> <input
+								class="w100" name="ageMax" value="${ExpExtCondition.ageMax}" maxlength="2"
+								type="text">
+								 <div class="b f14 red tip pa l260"><sf:errors path="loginName"/></div>
 						</div></li>
 					<li class="col-md-6 p0 "><span class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;监督人员:</span>
 						<div class="input-append">
-						<input class="span2 w250" readonly id="supervises" value="${userName}"  onclick="supervise();" type="text"> 
+							<input class="span2 w250" readonly id="supervises"
+								value="${userName}" onclick="supervise();" type="text">
 						</div></li>
 			</div>
 			<div align="right" class="col-md-12">
 				<button class="btn padding-left-10 padding-right-10 btn_back"
 					id="save" onclick="opens();" type="button">添加</button>
-<!-- 				<button class="btn padding-left-10 padding-right-10 btn_back" -->
-<!-- 					id="update" onclick="updates();" type="button">修改</button> -->
+				<!-- 				<button class="btn padding-left-10 padding-right-10 btn_back" -->
+				<!-- 					id="update" onclick="updates();" type="button">修改</button> -->
 				<button class="btn padding-left-10 padding-right-10 btn_back"
 					id="backups" onclick="del();" type="button">删除</button>
 				<table class="table table-bordered table-condensed mt5">

@@ -39,7 +39,7 @@ public interface SaleTenderService   {
 	 * @param @param project      
 	 * @return void     
 	 */
-	void upload(MultipartFile bill, MultipartFile voucher, String projectid,String saleId);
+	void upload(MultipartFile bill, MultipartFile voucher, String projectid,String saleId,String statusBid);
 	
 	/**
 	 * @Description:list
@@ -53,13 +53,13 @@ public interface SaleTenderService   {
 	List<SaleTender> list(SaleTender saleTender,Integer pagenum);
 	
 	/**
-	 * @Description:
+	 * @Description:下载
 	 *
 	 * @author Wang Wenshuai
 	 * @version 2016年10月21日 上午10:01:10  
 	 * @param @param projectId      
 	 * @return void
 	 */
-	void download(String projectId);
+	void download(String projectId,String Id);
 	
 }

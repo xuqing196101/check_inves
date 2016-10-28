@@ -172,16 +172,16 @@
 				<c:forEach items="${list.list}" var="ext" varStatus="vs">
 					<tr>
 						<td class="tc opinter"><input onclick="check()"
-							type="checkbox" name="chkItem" value="${ext.supplier.id}" /></td>
+							type="checkbox" name="chkItem" value="${ext.id}" /></td>
 
-						<td class="tc opinter">${ext.supplier.supplierName }</td>
+						<td class="tc opinter">${ext.supplierName }</td>
 
 
-						<td class="tc opinter">${ext.supplier.contactName}</td>
+						<td class="tc opinter">${ext.contactName}</td>
 
-						<td class="tc opinter">${ext.supplier.contactTelephone}</td>
+						<td class="tc opinter">${ext.contactTelephone}</td>
 
-						<td class="tc opinter">${ext.supplier.address}</td>
+						<td class="tc opinter">${ext.address}</td>
 					</tr>
 				</c:forEach>
 			</table>

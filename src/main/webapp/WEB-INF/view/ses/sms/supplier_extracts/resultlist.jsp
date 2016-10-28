@@ -154,6 +154,25 @@
                        var tex='';
                        for(var i=0;i<list.length;i++){
                            if(list[i]!=null){
+                        	   if(list[0]!=null){
+                                   var html="";
+                                   $("#extcontype").empty();
+                                   for(var l=0;l<list[0].conType.length;l++){
+                                	   
+                                	   if(list[0].conType[l].categoryName!=null){
+                                		   html+="抽取品目:"+list[0].conType[l].categoryName+",";
+                                	   }
+                                	   if(list[0].conType[l].isMulticondition==1){
+                                		  html+="满足一个条件,"; 
+                                	   }else if(list[0].conType[l].isMulticondition==2){
+                                		   html+="满足多个条件,";
+                                	   }
+                                        html+="抽取数量:"+list[0].conType[l].alreadyCount+"/"+list[0].conType[l].supplieCount;
+                                       html+="<br/>";
+                                   }
+                                   $("#extcontype").append(html);
+                               } 
+                        	   
                            tex+="<tr class='cursor'>"+
                                "<td class='tc' onclick='show();'>"+(i+1)+"</td>"+
                                "<td class='tc' onclick='show();'>"+list[i].supplier.supplierName+"</td>"+
@@ -196,12 +215,28 @@
 	<div class="container content height-350">
 		<div class="row">
 			<!-- Begin Content -->
-			<div class="col-md-12" style="min-height: 400px;">
-					<ul class="demand_list">
-						<li class="fl mr8"><label class="fl mt0">项目名称：</label>${sextractslist.projectName }</li>
-						<li class="fl mr8"><label class="fl mt0">采购编号：</label>123-002</li>
-						<li class="fl mr8"><label class="fl mt0">采购方式：</label><span>邀请招标</span></li>
-					</ul>
+			<div class="col-md-12" id="count" style="min-height: 400px;">
+				<div id="extcontype">
+					<c:forEach var="con" items="${extConType}">
+						<c:if test="${con.categoryName != null && con.categoryName != ''}">
+                                                                 抽取品目${con.categoryName},
+                    </c:if>
+						<c:if test="${con.isMulticondition != null && isMulticondition != ''}">
+
+							<c:if test="${con.isMulticondition==1}">
+                            满足一个条件,
+                                                               
+                    </c:if>
+							<c:if test="${con.isMulticondition==2}">
+                          满足多个条件,                             
+                    </c:if>
+                                                                    抽取数量${con.alreadyCount}/${con.supplieCount }
+                        </c:if>
+						<br />
+					</c:forEach>
+				</div>
+				<div class="col-md-12" style="min-height: 400px;">
+
 					<div class="clear"></div>
 					<table id="table" class="table table-bordered table-condensed">
 						<thead>
@@ -227,25 +262,33 @@
 									<td class='tc' onclick='show();'>${listyes.supplier.supplierName}</td>
 									<td class='tc'><select id='select'
 										onchange='operation(this);'>
-										<c:choose>
-										  <c:when test="${listyes.operatingType==1}">
-										       <option selected="selected" disabled="disabled" value='${listyes.id},${listyes.supplierConditionId},1'>能参加</option>
-										  </c:when>
-										  <c:when test="${listyes.operatingType==2}">
-										      <option value='${listyes.id},${listyes.supplierConditionId},1'>能参加</option>
-                                             <option value='${listyes.id},${listyes.supplierConditionId},3'>不能参加</option>
-									             <option selected="selected" disabled="disabled"  value='${listyes.id},${listyes.supplierConditionId},2'>待定</option>
-										  </c:when>
-										  <c:when test="${listyes.operatingType==3}">
-										         <option selected="selected" disabled="disabled"  value='${listyes.id},${listyes.supplierConditionId},3'>不能参加</option>
-										  </c:when>
-										  <c:otherwise>
-										     <option>请选择</option>
-										     <option value='${listyes.id},${listyes.supplierConditionId},1'>能参加</option>
-                                             <option value='${listyes.id},${listyes.supplierConditionId},3'>不能参加</option>
-                                             <option value='${listyes.id},${listyes.supplierConditionId},2'>待定</option>
-										  </c:otherwise>
-										</c:choose>
+											<c:choose>
+												<c:when test="${listyes.operatingType==1}">
+													<option selected="selected" disabled="disabled"
+														value='${listyes.id},${listyes.supplierConditionId},1'>能参加</option>
+												</c:when>
+												<c:when test="${listyes.operatingType==2}">
+													<option
+														value='${listyes.id},${listyes.supplierConditionId},1'>能参加</option>
+													<option
+														value='${listyes.id},${listyes.supplierConditionId},3'>不能参加</option>
+													<option selected="selected" disabled="disabled"
+														value='${listyes.id},${listyes.supplierConditionId},2'>待定</option>
+												</c:when>
+												<c:when test="${listyes.operatingType==3}">
+													<option selected="selected" disabled="disabled"
+														value='${listyes.id},${listyes.supplierConditionId},3'>不能参加</option>
+												</c:when>
+												<c:otherwise>
+													<option>请选择</option>
+													<option
+														value='${listyes.id},${listyes.supplierConditionId},1'>能参加</option>
+													<option
+														value='${listyes.id},${listyes.supplierConditionId},3'>不能参加</option>
+													<option
+														value='${listyes.id},${listyes.supplierConditionId},2'>待定</option>
+												</c:otherwise>
+											</c:choose>
 									</select></td>
 								</tr>
 							</c:forEach>
@@ -263,12 +306,11 @@
 							</c:forEach>
 						</tbody>
 					</table>
+				</div>
 			</div>
+			<!-- End Content -->
 		</div>
-		<!-- End Content -->
-	</div>
-	<!--/container-->
-	<!--=== End Content Part ===-->
-
+		<!--/container-->
+		<!--=== End Content Part ===-->
 </body>
 </html>

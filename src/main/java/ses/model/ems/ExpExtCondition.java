@@ -11,7 +11,7 @@ import java.util.List;
  * @version 2016年9月29日上午10:22:22
  * @since  JDK 1.7
  */
-public class ExpExtCondition {
+public class ExpExtCondition implements Cloneable {
 	
 	
 	
@@ -586,6 +586,23 @@ public class ExpExtCondition {
 	public void setConTypes(List<ExtConType> conTypes) {
 		this.conTypes = conTypes;
 	}
-    
-    
+
+
+
+    /**
+     * @see java.lang.Object#clone()
+     */
+    @Override
+    public Object clone(){
+        ExpExtCondition condition = null;  
+        try{  
+            condition = (ExpExtCondition)super.clone();   //浅复制  
+        }catch(CloneNotSupportedException e) {  
+            e.printStackTrace();  
+        }  
+  
+         return condition;
+    }
+
+
 }

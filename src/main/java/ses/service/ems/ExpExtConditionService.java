@@ -45,7 +45,7 @@ public interface ExpExtConditionService {
 	 * @param @return      
 	 * @return List<ExpExtCondition>
 	 */
-	List<ExpExtCondition> list(ExpExtCondition condition);
+	List<ExpExtCondition> list(ExpExtCondition condition,Integer page);
 	
 	/**
 	 * @Description:获取单个

@@ -154,6 +154,35 @@
                        var tex='';
                        for(var i=0;i<list.length;i++){
                            if(list[i]!=null){
+                        	  if(list[0]!=null){
+                        		  var html="";
+                        		  $("#extcontype").empty();
+                        		  for(var l=0;l<list[0].conType.length;l++){
+                        			html+="类型:";
+                        			   if(list[0].conType[l].expertsTypeId==1){
+                                        html+="技术,";
+                                      }else if(list[0].conType[l].expertsTypeId==2){
+                                       html+="法律,";
+                                      }else if(list[0].conType[l].expertsTypeId==3){
+                                    	   html+="商务,";
+                                      }
+                        			   if(list[0].conType[l].categoryName != null && list[0].conType[l].categoryName != ''){
+                        				   html+="品目:"+list[0].conType[l].categoryName+",";
+                        			   }
+                        			   
+                        			   if(list[0].conType[l].isMulticondition!=null && list[0].conType[l].isMulticondition != ''){
+                        				   if(list[0].conType[l].isMulticondition==1){
+                        					   html+="满足一个条件,";
+                        				   }else if(list[0].conType[l].isMulticondition==2){
+                        					   html+="满足多个条件,";
+                        				   }
+                        			   }
+                        			   
+                        			   html+="抽取数量:"+list[0].conType[l].alreadyCount+"/"+list[0].conType[l].expertsCount;
+                        			  html+="<br/>";
+                        		  }
+                        		  $("#extcontype").append(html);
+                        	  } 
                            tex+="<tr class='cursor'>"+
                                "<td class='tc' onclick='show();'>"+(i+1)+"</td>"+
                                "<td class='tc' onclick='show();'>"+list[i].expert.relName+"</td>"+
@@ -196,69 +225,101 @@
 	<div class="container content height-350">
 		<div class="row">
 			<!-- Begin Content -->
-			<div class="col-md-12" style="min-height: 400px;">
+			<div class="col-md-12" id="count" style="min-height: 400px;">
+				<div id="extcontype">
+					<c:forEach var="con" items="${extConType}">
 					
-					<div class="clear"></div>
-					<table id="table" class="table table-bordered table-condensed">
-						<thead>
-							<tr>
-								<th class="info w50">序号</th>
-								<th class="info">专家姓名</th>
-								<th class="info">类型，级别</th>
-								<th class="info">联系人</th>
-								<th class="info">座机</th>
-								<th class="info">手机</th>
-								<th class="info">操作</th>
-							</tr>
-						</thead>
-						<tbody id="tbody">
-							<c:forEach items="${extRelateListYes}" var="listyes"
-								varStatus="vs">
-								<tr class='cursor '>
-									<td class='tc' onclick='show();'>${vs.index+1}</td>
-									<td class='tc' onclick='show();'>${listyes.expert.relName}</td>
-									<td class='tc' onclick='show();'>${listyes.expert.relName}</td>
-									<td class='tc' onclick='show();'>${listyes.expert.relName}</td>
-									<td class='tc' onclick='show();'>${listyes.expert.relName}</td>
-									<td class='tc' onclick='show();'>${listyes.expert.relName}</td>
-									<td class='tc'><select id='select'
-										onchange='operation(this);'>
+					
+					   类型:<c:if test="${con.expertsTypeId==1 }">
+						技术,
+					</c:if>
+						<c:if test="${con.expertsTypeId==2}">
+					    法律,
+					</c:if>
+						<c:if test="${con.expertsTypeId==3 }">
+						商务,
+					</c:if>
+						<c:if test="${con.categoryName != null && con.categoryName != ''}">
+				        	品目:${con.categoryName},
+					</c:if>
+						<c:if
+							test="${con.isMulticondition!=null && con.isMulticondition!= '' }">
+							<c:if test="${con.isMulticondition==1}">
+                                                                      满足一个条件,
+                    </c:if>
+							<c:if test="${con.isMulticondition==2}">
+                                                                     满足多个条件,
+                    </c:if>
+						</c:if>
+					   抽取数量${con.alreadyCount}/${con.expertsCount }
+					          
+						<br />
+
+					</c:forEach>
+				</div>
+				<div class="clear"></div>
+				<table id="table" class="table table-bordered table-condensed">
+					<thead>
+						<tr>
+							<th class="info w50">序号</th>
+							<th class="info">专家姓名</th>
+							<th class="info">类型，级别</th>
+							<th class="info">联系人</th>
+							<th class="info">座机</th>
+							<th class="info">手机</th>
+							<th class="info">操作</th>
+						</tr>
+					</thead>
+					<tbody id="tbody">
+						<c:forEach items="${extRelateListYes}" var="listyes"
+							varStatus="vs">
+							<tr class='cursor '>
+								<td class='tc' onclick='show();'>${vs.index+1}</td>
+								<td class='tc' onclick='show();'>${listyes.expert.relName}</td>
+								<td class='tc' onclick='show();'>${listyes.expert.relName}</td>
+								<td class='tc' onclick='show();'>${listyes.expert.relName}</td>
+								<td class='tc' onclick='show();'>${listyes.expert.relName}</td>
+								<td class='tc' onclick='show();'>${listyes.expert.relName}</td>
+								<td class='tc'><select id='select'
+									onchange='operation(this);'>
 										<c:choose>
-										  <c:when test="${listyes.operatingType==1}">
-										       <option selected="selected" disabled="disabled" value='${listyes.id},${listyes.expertConditionId},1'>能参加</option>
-										  </c:when>
-										  <c:when test="${listyes.operatingType==2}">
-										      <option value='${listyes.id},${listyes.expertConditionId},1'>能参加</option>
-                                             <option value='${listyes.id},${listyes.expertConditionId},3'>不能参加</option>
-									             <option selected="selected" disabled="disabled"  value='${listyes.id},${listyes.expertConditionId},2'>待定</option>
-										  </c:when>
-										  <c:when test="${listyes.operatingType==3}">
-										         <option selected="selected" disabled="disabled"  value='${listyes.id},${listyes.expertConditionId},3'>不能参加</option>
-										  </c:when>
-										  <c:otherwise>
-										     <option>请选择</option>
-										     <option value='${listyes.id},${listyes.expertConditionId},1'>能参加</option>
-                                             <option value='${listyes.id},${listyes.expertConditionId},3'>不能参加</option>
-                                             <option value='${listyes.id},${listyes.expertConditionId},2'>待定</option>
-										  </c:otherwise>
+											<c:when test="${listyes.operatingType==1}">
+												<option selected="selected" disabled="disabled"
+													value='${listyes.id},${listyes.expertConditionId},1'>能参加</option>
+											</c:when>
+											<c:when test="${listyes.operatingType==2}">
+												<option value='${listyes.id},${listyes.expertConditionId},1'>能参加</option>
+												<option value='${listyes.id},${listyes.expertConditionId},3'>不能参加</option>
+												<option selected="selected" disabled="disabled"
+													value='${listyes.id},${listyes.expertConditionId},2'>待定</option>
+											</c:when>
+											<c:when test="${listyes.operatingType==3}">
+												<option selected="selected" disabled="disabled"
+													value='${listyes.id},${listyes.expertConditionId},3'>不能参加</option>
+											</c:when>
+											<c:otherwise>
+												<option>请选择</option>
+												<option value='${listyes.id},${listyes.expertConditionId},1'>能参加</option>
+												<option value='${listyes.id},${listyes.expertConditionId},3'>不能参加</option>
+												<option value='${listyes.id},${listyes.expertConditionId},2'>待定</option>
+											</c:otherwise>
 										</c:choose>
-									</select></td>
-								</tr>
-							</c:forEach>
-							<c:forEach items="${extRelateListNo }" var="listno"
-								varStatus="vs">
-								<tr class='cursor'>
-									<td class='tc' onclick='show();'>${(vs.index+1)+1}</td>
-									<td class='tc' onclick='show();'>*****</td>
-									<td class='tc' onclick='show();'>*****</td>
-									<td class='tc' onclick='show();'>*****</td>
-									<td class='tc' onclick='show();'>*****</td>
-									<td class='tc' onclick='show();'>*****</td>
-									<td class='tc'>请选择</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
+								</select></td>
+							</tr>
+						</c:forEach>
+						<c:forEach items="${extRelateListNo }" var="listno" varStatus="vs">
+							<tr class='cursor'>
+								<td class='tc' onclick='show();'>${(vs.index+1)+1}</td>
+								<td class='tc' onclick='show();'>*****</td>
+								<td class='tc' onclick='show();'>*****</td>
+								<td class='tc' onclick='show();'>*****</td>
+								<td class='tc' onclick='show();'>*****</td>
+								<td class='tc' onclick='show();'>*****</td>
+								<td class='tc'>请选择</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
 			</div>
 		</div>
 		<!-- End Content -->

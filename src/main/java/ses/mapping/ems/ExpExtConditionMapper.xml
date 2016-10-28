@@ -295,7 +295,6 @@
 		T_SES_EMS_EXP_EXT_CON_TYPE ct
 		ON
 		EC."ID"=CT.CONDITION_ID
-
 		<include refid="condition" />
 	</select>
 </mapper>

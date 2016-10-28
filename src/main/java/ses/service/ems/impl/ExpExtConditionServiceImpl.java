@@ -8,6 +8,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+
 import ses.dao.ems.ExpExtConditionMapper;
 import ses.model.ems.ExpExtCondition;
 import ses.service.ems.ExpExtConditionService;
@@ -58,8 +60,10 @@ public class ExpExtConditionServiceImpl  implements ExpExtConditionService {
 	 * @param @return      
 	 * @return List<ExpExtCondition>
 	 */
-	public List<ExpExtCondition> list(ExpExtCondition condition){
-		
+	public List<ExpExtCondition> list(ExpExtCondition condition,Integer page){
+	    if(page!=null&&page!=0){
+	        PageHelper.startPage(page, 10); 
+	    }
 		return conditionMapper.list(condition);
 	}
 

@@ -12,6 +12,8 @@
 		<result column="REASON" jdbcType="VARCHAR" property="reason" />
 		<result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
 		<result column="UPDATED_AT" jdbcType="VARCHAR" property="updatedAt" />
+		<result column="CON_TYPE_ID" jdbcType="VARCHAR" property="conTypeId" />
+		<result column="STATUS_COUNT" jdbcType="DECIMAL" property="statusCount" />
 		<!-- 供应商 -->
 		<association column="SUPPLIER_ID" property="supplier"
 			select="ses.dao.sms.SupplierMapper.selectByPrimaryKey" />
@@ -20,7 +22,7 @@
 		<!-- @mbggenerated -->
 		ID, SUPPLIER_ID, SUPPLIER_CONDITION_ID, CREATED_AT, OPERATING_TYPE,
 		IS_DELETED, REASON,
-		PROJECT_ID, UPDATED_AT
+		PROJECT_ID, UPDATED_AT, CON_TYPE_ID, STATUS_COUNT
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
@@ -42,16 +44,17 @@
 		SUPPLIER_CONDITION_ID,
 		CREATED_AT, OPERATING_TYPE, IS_DELETED,
 		REASON,
-		PROJECT_ID, UPDATED_AT
-		)
-		values (#{id,jdbcType=VARCHAR},
-		#{supplierId,jdbcType=VARCHAR},
+		PROJECT_ID, UPDATED_AT,
+		CON_TYPE_ID, STATUS_COUNT)
+		values
+		(#{id,jdbcType=VARCHAR}, #{supplierId,jdbcType=VARCHAR},
 		#{supplierConditionId,jdbcType=VARCHAR},
 		#{createdAt,jdbcType=DATE},
 		#{operatingType,jdbcType=DECIMAL}, #{isDeleted,jdbcType=DECIMAL},
 		#{reason,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR},
-		#{updatedAt,jdbcType=VARCHAR}
-		)
+		#{updatedAt,jdbcType=VARCHAR},
+		#{conTypeId,jdbcType=VARCHAR},
+		#{statusCount,jdbcType=DECIMAL})
 	</insert>
 	<insert id="insertSelective" parameterType="ses.model.sms.SupplierExtRelate">
 		<!-- @mbggenerated -->
@@ -84,6 +87,12 @@
 			<if test="updatedAt != null">
 				UPDATED_AT,
 			</if>
+			<if test="conTypeId != null">
+				CON_TYPE_ID,
+			</if>
+			<if test="statusCount != null">
+				STATUS_COUNT,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -112,6 +121,12 @@
 			</if>
 			<if test="updatedAt != null">
 				#{updatedAt,jdbcType=VARCHAR},
+			</if>
+			<if test="conTypeId != null">
+				#{conTypeId,jdbcType=VARCHAR},
+			</if>
+			<if test="statusCount != null">
+				#{statusCount,jdbcType=DECIMAL},
 			</if>
 		</trim>
 	</insert>
@@ -144,6 +159,12 @@
 			<if test="updatedAt != null">
 				UPDATED_AT = #{updatedAt,jdbcType=VARCHAR},
 			</if>
+			<if test="conTypeId != null">
+				CON_TYPE_ID = #{conTypeId,jdbcType=VARCHAR},
+			</if>
+			<if test="statusCount != null">
+				STATUS_COUNT = #{statusCount,jdbcType=DECIMAL},
+			</if>
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
@@ -163,7 +184,11 @@
 		REASON = #{reason,jdbcType=VARCHAR},
 		PROJECT_ID = #{projectId,jdbcType=VARCHAR},
 		UPDATED_AT =
-		#{updatedAt,jdbcType=VARCHAR}
+		#{updatedAt,jdbcType=VARCHAR},
+		CON_TYPE_ID =
+		#{conTypeId,jdbcType=VARCHAR},
+		STATUS_COUNT =
+		#{statusCount,jdbcType=DECIMAL}
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
 	<select id="list" parameterType="ses.model.sms.SupplierExtRelate"
@@ -172,8 +197,12 @@
 		pe.*
 		FROM
 		T_SES_SMS_SUPPLIER_EXT_RELATE pe
-		INNER JOIN T_SES_SMS_SUPPLIER ss ON PE.SUPPLIER_ID = ss."ID"
-		Where 1=1
+		INNER JOIN
+		T_SES_SMS_SUPPLIER ss ON PE.SUPPLIER_ID = ss."ID"
+		Where STATUS_COUNT=0
+		<if test="id != null and id != ''">
+			AND pe.ID =#{id}
+		</if>
 		<if test="supplierConditionId != null and supplierConditionId != ''">
 			AND pe.SUPPLIER_CONDITION_ID =#{supplierConditionId}
 		</if>
@@ -182,14 +211,48 @@
 		</if>
 		<if test="projectId != null and projectId != ''">
 			AND pe.PROJECT_ID =#{projectId}
-			ORDER BY SUPPLIER_CONDITION_ID
+			ORDER BY
+			SUPPLIER_CONDITION_ID
 		</if>
 		<if test="supplier!=null">
 			<if test="supplier.supplierName!=null and supplier.supplierName !='' ">
 				AND SS.SUPPLIER_NAME LIKE '%${supplier.supplierName}%'
 			</if>
 		</if>
-
-
 	</select>
+	<!-- 删除重复数据 -->
+	<delete id="deleteData" parameterType="Map">
+		delete from
+		T_SES_SMS_SUPPLIER_EXT_RELATE
+
+		where SUPPLIER_ID in (select SUPPLIER_ID
+		from
+		T_SES_SMS_SUPPLIER_EXT_RELATE group
+		by SUPPLIER_ID having
+		count(SUPPLIER_ID) >
+		1)
+
+		and rowid not in (select min(rowid) from
+		T_SES_SMS_SUPPLIER_EXT_RELATE
+		group
+		by SUPPLIER_ID having
+		count(SUPPLIER_ID )>1)
+		AND
+		PROJECT_ID=#{projectId}
+		AND
+		SUPPLIER_CONDITION_ID=#{expertConditionId}
+	</delete>
+	<!-- 当抽取数量满足时修改还未抽取的专家状态为1 -->
+	<update id="updateStatusCount" parameterType="map">
+		UPDATE
+		T_SES_SMS_SUPPLIER_EXT_RELATE
+		SET STATUS_COUNT = #{type}
+		WHERE
+		CON_TYPE_ID =
+		#{conTypeId}
+		AND OPERATING_TYPE != 1
+		AND OPERATING_TYPE != 2
+		AND
+		OPERATING_TYPE != 3
+	</update>
 </mapper>

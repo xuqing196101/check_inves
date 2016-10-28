@@ -97,7 +97,9 @@
           var expertstypeid=$('input[name="expertstypeid"]:checked ').val();
           //是否满足
           var issatisfy=$('input[name="radio"]:checked ').val();
-          
+          if(issatisfy==null){
+        	  issatisfy=0;
+          }
           var html='';
           html+="<tr>"+
              "<input class='hide' name='extCategoryId'  type='hidden' value='"+ids+"'>"+
@@ -125,11 +127,20 @@
   function exptype(){
 	   $("#ztree").css("display","none");
 	   $("#liradio").css("display","none");
+	   var x=document.getElementsByName("radio");  
+	    for(var i=0;i<x.length;i++){ //对所有结果进行遍历，如果状态是被选中的，则将其选择取消  
+	        if (x[i].checked==true)  
+	        {  
+	            x[i].checked=false;  
+	        }  
+	    }  
 	
   }
   function exptype1(){
       $("#ztree").css("display","block");
       $("#liradio").css("display","block");
+      var x=document.getElementsByName("radio");  //获取所有name=brand的元素  
+              x[0].checked=true;  
    
  }
 </script>
@@ -152,12 +163,12 @@
 						<div class="fl mr10">
 							<input name="expertstypeid" type="radio" onclick="exptype();"
 								class="fl" value="2">
-							<div class="ml5 fl">商务</div>
+							<div class="ml5 fl">法律</div>
 						</div>
 						<div class="fl mr10">
 							<input name="expertstypeid" type="radio" onclick="exptype();"
 								class="fl" value="3">
-							<div class="ml5 fl">法律</div>
+							<div class="ml5 fl">商务</div>
 						</div>
 					</li>
 					<li class="col-md-6 p0 fl">专家数量：

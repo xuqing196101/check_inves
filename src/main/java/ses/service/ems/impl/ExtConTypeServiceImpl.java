@@ -47,11 +47,27 @@ public class ExtConTypeServiceImpl implements ExtConTypeService {
 		conTypeMapper.deleteConditionId(id);
 	}
 
-	/* (non-Javadoc)
-	 * @see ses.service.ems.ExtConTypeService#update(ses.model.ems.ExtConType)
-	 */
-	@Override
-	public void update(ExtConType conType) {
-		conTypeMapper.updateByPrimaryKeySelective(conType);
-	}
+	/**
+     * @Description:修改
+     *
+     * @author Wang Wenshuai
+     * @version 2016年10月12日 下午3:33:22  
+     * @param @param conType      
+     * @return void
+     */
+    public void update(ExtConType conType){
+        conTypeMapper.updateByPrimaryKeySelective(conType);
+    }
+    
+    /**
+     * @Description:获取一个对象
+     *
+     * @author Wang Wenshuai
+     * @version 2016年10月12日 下午3:33:22  
+     * @param @param conType      
+     * @return void
+     */
+    public ExtConType getExtConType(String id){
+        return conTypeMapper.selectByPrimaryKey(id);
+    }
 }

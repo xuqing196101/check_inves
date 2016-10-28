@@ -1,6 +1,7 @@
 package ses.dao.ems;
 
 import java.util.List;
+import java.util.Map;
 
 import ses.model.ems.ProjectExtract;
 
@@ -55,4 +56,26 @@ public interface ProjectExtractMapper {
      * @return List<ProjectExtract>
      */
     List<ProjectExtract> list(ProjectExtract extract);
+
+    /**
+     * @Description:删除重复记录
+     *
+     * @author Wang Wenshuai
+     * @version 2016年9月28日 下午6:09:52  
+     * @param @param extract
+     * @param @return      
+     * @return List<ProjectExtract>
+     */
+    void deleteData(Map map);
+    
+    /**
+     * @Description:当抽取数量满足时修改还未抽取的专家状态为1
+     *
+     * @author Wang Wenshuai
+     * @version 2016年9月28日 下午6:09:52  
+     * @param @param extract
+     * @param @return      
+     * @return List<ProjectExtract>
+     */
+    void updateStatusCount(Map map);
 }

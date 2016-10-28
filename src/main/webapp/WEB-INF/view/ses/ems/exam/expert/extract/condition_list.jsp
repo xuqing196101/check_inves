@@ -62,33 +62,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
 <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 
-
 <script type="text/javascript">
   
   /*分页  */
   $(function(){
-      laypage({
-            cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
-            pages: "${info.pages}", //总页数
-            skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
-            skip: true, //是否开启跳页
-            groups: "${info.pages}">=3?3:"${info.pages}", //连续显示分页数
-            curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
-//                  var page = location.search.match(/page=(\d+)/);
-//                  return page ? page[1] : 1;
-                return "${info.pageNum}";
-            }(), 
-            jump: function(e, first){ //触发分页后的回调
-                    if(!first){ //一定要加此判断，否则初始时会无限刷新
-                //  $("#page").val(e.curr);
-                    // $("#form1").submit();
-                    
-                 location.href = '<%=basePath%>project/list.do?page='+e.curr;
-                }  
-            }
-        });
+	  laypage({
+          cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+          pages: "${list.pages}", //总页数
+          skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+          skip: true, //是否开启跳页
+          total: "${list.total}",
+          startRow: "${list.startRow}",
+          endRow: "${list.endRow}",
+          groups: "${list.pages}">=5?5:"${list.pages}", //连续显示分页数
+          curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+              var page = location.search.match(/page=(\d+)/);
+              return page ? page[1] : 1;
+          }(), 
+          jump: function(e, first){ //触发分页后的回调
+              if(!first){ //一定要加此判断，否则初始时会无限刷新
+                  location.href = '<%=basePath%>ExpExtract/Extraction.html?id=${projectId}&page='+e.curr;
+              }
+          }
+      });
   });
-  
   
     /** 全选全不选 */
     function selectAll(){
@@ -190,10 +187,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<th class="info">操作</th>
 					</tr>
 				</thead>
-				<c:forEach items="${list}" var="obj" varStatus="vs">
+				<c:forEach items="${list.list}" var="obj" varStatus="vs">
 					<tr >
-						<td class="tc w50">${vs.index+1}</td>
-						<td class="ww50">第【${vs.index+1}】次抽取，专家来源【${obj.expertsFrom}】， 专家所在地区【${ obj.address}】
+						    <td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+						<td class="ww50">第【${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}】次抽取，专家来源【${obj.expertsFrom}】， 专家所在地区【${ obj.address}】
 						<c:forEach items="${obj.conTypes }" var="contypes">
 						 ，  专家类型
 						  <c:choose>

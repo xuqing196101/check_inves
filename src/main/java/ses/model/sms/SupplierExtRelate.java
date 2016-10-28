@@ -1,33 +1,38 @@
 package ses.model.sms;
 
 import java.util.Date;
+import java.util.List;
 
 public class SupplierExtRelate {
-	
-	
+    
+    
     public SupplierExtRelate() {
-		super();
-	}
+        super();
+    }
 
-	public SupplierExtRelate(String id, Short operatingType, String reason) {
-		super();
-		this.id = id;
-		this.operatingType = operatingType;
-		this.reason = reason;
-	}
+    public SupplierExtRelate(String id, Short operatingType, String reason) {
+        super();
+        this.id = id;
+        this.operatingType = operatingType;
+        this.reason = reason;
+    }
 
-	public SupplierExtRelate(String id, Short operatingType) {
-		super();
-		this.id = id;
-		this.operatingType = operatingType;
-	}
+    public SupplierExtRelate(String id, Short operatingType) {
+        super();
+        this.id = id;
+        this.operatingType = operatingType;
+    }
 
-	public SupplierExtRelate(String supplierConditionId) {
-		super();
-		this.supplierConditionId = supplierConditionId;
-	}
+    public SupplierExtRelate(String supplierConditionId) {
+        super();
+        this.supplierConditionId = supplierConditionId;
+    }
 
-	/**
+    private Supplier supplier;
+    
+    private List<SupplierConType> conType;
+
+    /**
      * <pre>
      * 表字段 : T_SES_SMS_SUPPLIER_EXT_RELATE.ID
      * </pre>
@@ -96,8 +101,20 @@ public class SupplierExtRelate {
      */
     private String updatedAt;
 
-    
-    private Supplier supplier;
+    /**
+     * <pre>
+     * 表字段 : T_SES_SMS_SUPPLIER_EXT_RELATE.CON_TYPE_ID
+     * </pre>
+     */
+    private String conTypeId;
+
+    /**
+     * <pre>
+     * 表字段 : T_SES_SMS_SUPPLIER_EXT_RELATE.STATUS_COUNT
+     * </pre>
+     */
+    private Short statusCount;
+
     /**
      * <pre>
      * 获取：null
@@ -323,13 +340,86 @@ public class SupplierExtRelate {
         this.updatedAt = updatedAt == null ? null : updatedAt.trim();
     }
 
-	public Supplier getSupplier() {
-		return supplier;
-	}
+    /**
+     * <pre>
+     * 获取：null
+     * 表字段：T_SES_SMS_SUPPLIER_EXT_RELATE.CON_TYPE_ID
+     * </pre>
+     *
+     * @return T_SES_SMS_SUPPLIER_EXT_RELATE.CON_TYPE_ID：null
+     */
+    public String getConTypeId() {
+        return conTypeId;
+    }
 
-	public void setSupplier(Supplier supplier) {
-		this.supplier = supplier;
-	}
+    /**
+     * <pre>
+     * 设置：null
+     * 表字段：T_SES_SMS_SUPPLIER_EXT_RELATE.CON_TYPE_ID
+     * </pre>
+     *
+     * @param conTypeId
+     *            T_SES_SMS_SUPPLIER_EXT_RELATE.CON_TYPE_ID：null
+     */
+    public void setConTypeId(String conTypeId) {
+        this.conTypeId = conTypeId == null ? null : conTypeId.trim();
+    }
+
+    /**
+     * <pre>
+     * 获取：null
+     * 表字段：T_SES_SMS_SUPPLIER_EXT_RELATE.STATUS_COUNT
+     * </pre>
+     *
+     * @return T_SES_SMS_SUPPLIER_EXT_RELATE.STATUS_COUNT：null
+     */
+    public Short getStatusCount() {
+        return statusCount;
+    }
+
+    /**
+     * <pre>
+     * 设置：null
+     * 表字段：T_SES_SMS_SUPPLIER_EXT_RELATE.STATUS_COUNT
+     * </pre>
+     *
+     * @param statusCount
+     *            T_SES_SMS_SUPPLIER_EXT_RELATE.STATUS_COUNT：null
+     */
+    public void setStatusCount(Short statusCount) {
+        this.statusCount = statusCount;
+    }
+
+    /**
+     * @return Returns the supplier.
+     */
+    public Supplier getSupplier() {
+        return supplier;
+    }
+
+    /**
+     * @param supplier The supplier to set.
+     */
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
+    }
+
+    /**
+     * @return Returns the conType.
+     */
+    public List<SupplierConType> getConType() {
+        return conType;
+    }
+
+    /**
+     * @param conType The conType to set.
+     */
+    public void setConType(List<SupplierConType> conType) {
+        this.conType = conType;
+    }
+
+   
+
     
     
 }

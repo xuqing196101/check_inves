@@ -1,6 +1,7 @@
 package ses.model.ems;
 
 import java.util.Date;
+import java.util.List;
 
 import ses.model.bms.User;
 
@@ -76,7 +77,19 @@ public class ProjectExtract {
      */
     private Short isDeleted;
     
+    /**
+     * <pre>
+     * 条件类型id
+     * 表字段 : T_SES_EMS_PROJECT_EXTRACT.CON_TYPE_ID
+     * </pre>
+     */
+    private String conTypeId;
+    
+    private Integer statusCount;
+    
     private Expert expert;
+    
+    private List<ExtConType> conType;
 
     /**
      * <pre>
@@ -327,7 +340,30 @@ public class ProjectExtract {
 		this.operatingType = operatingType;
 	
 	}
+	   /**
+     * <pre>
+     * 获取：条件类型id
+     * 表字段：T_SES_EMS_PROJECT_EXTRACT.CON_TYPE_ID
+     * </pre>
+     *
+     * @return T_SES_EMS_PROJECT_EXTRACT.CON_TYPE_ID：条件类型id
+     */
+    public String getConTypeId() {
+        return conTypeId;
+    }
 
+    /**
+     * <pre>
+     * 设置：条件类型id
+     * 表字段：T_SES_EMS_PROJECT_EXTRACT.CON_TYPE_ID
+     * </pre>
+     *
+     * @param conTypeId
+     *            T_SES_EMS_PROJECT_EXTRACT.CON_TYPE_ID：条件类型id
+     */
+    public void setConTypeId(String conTypeId) {
+        this.conTypeId = conTypeId == null ? null : conTypeId.trim();
+    }
 	public Expert getExpert() {
 		return expert;
 	}
@@ -335,6 +371,35 @@ public class ProjectExtract {
 	public void setExpert(Expert expert) {
 		this.expert = expert;
 	}
+
+  
+    /**
+     * @return Returns the conType.
+     */
+    public List<ExtConType> getConType() {
+        return conType;
+    }
+
+    /**
+     * @param conType The conType to set.
+     */
+    public void setConType(List<ExtConType> conType) {
+        this.conType = conType;
+    }
+
+    /**
+     * @return Returns the statusCount.
+     */
+    public Integer getStatusCount() {
+        return statusCount;
+    }
+
+    /**
+     * @param statusCount The statusCount to set.
+     */
+    public void setStatusCount(Integer statusCount) {
+        this.statusCount = statusCount;
+    }
 
     
     

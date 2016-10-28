@@ -91,7 +91,7 @@
         }); 
         if(id.length==1){
         	var status=id.toString().split("^");
-        	if(status[1]!=1){
+        	if(status[1]!=2){
         		var iframeWin;
                 layer.open({
                     type: 2,
@@ -151,7 +151,30 @@
     }
    
     function download(){
-    	window.location.href="<%=basePath%>saleTender/view.do?id="+id;
+    	
+    	   var id=[]; 
+           $('input[name="chkItem"]:checked').each(function(){ 
+               id.push($(this).val());
+           }); 
+           if(id.length==1){
+        	   var status=id.toString().split("^");
+        	   if(status[1]==1){
+        		    layer.alert("请先缴纳保证金",{offset: ['222px', '390px'], shade:0.01});
+        	   }else if(status[2]==1){
+        		     layer.confirm('是否已缴纳标书费',{offset: ['222px', '390px'], shade:0.01}, {
+                         btn: ['是','否'] //按钮
+                       }, function(){
+                           window.location.href="<%=basePath%>saleTender/download.do?id="+status[0]+"&&projectId=${projectId}";
+                       }, function(index){
+                           layer.closeAll();
+                       });      
+        	   }
+          
+           }else if(id.length>1){
+               layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+           }else{
+               layer.alert("请选择",{offset: ['222px', '390px'], shade:0.01});
+           }
     }
 </script>
 <body>
@@ -161,7 +184,7 @@
 	<!-- 表格开始-->
 	<div class="container padding-left-50 ">
 		<div class="col-md-12 pl20">
-			<button class="btn btn-windows withdraw" onclick="download();" type="submit">下载标书</button>
+			<button class="btn btn-windows withdraw" onclick="download();" type="button">下载标书</button>
 			<button class="btn btn-windows add" onclick="add();"  type="button">新增</button>
 			<button class="btn btn-windows edit" onclick="upload();" type="button">缴纳保证金</button>
 		</div>
@@ -177,18 +200,16 @@
 <!-- 							<th class="info">组织机构代码</th> -->
 							<th class="info">联系人</th>
 							<th class="info">联系电话</th>
-							<th class="info">发售人</th>
+<!-- 							<th class="info">发售人</th> -->
 							<th class="info">发售日期</th>
-<!-- 							<th class="info">状态</th> -->
+							<th class="info">标书状态</th>
 							<th class="info">保证金状态</th>
 						</tr>
 					</thead>
 					<c:forEach items="${list.list}" var="sale" varStatus="vs">
 						<tr>
 							<td class="tc opinter"><input onclick="check()"
-								type="checkbox" name="chkItem" value="${sale.id}^${sale.statusBond}" /></td>
-
-							
+								type="checkbox" name="chkItem" value="${sale.id}^${sale.statusBond}^${sale.statusBid}" /></td>
 <%-- //${(vs.index+1)+(list.pageNum-1)*(list.pageSize)} --%>
 							<td class="tc opinter" onclick="view('${templet.id}')">${sale.suppliers.supplierName}</td>
 
@@ -196,14 +217,23 @@
 
                             <td class="tc opinter" >${sale.suppliers.contactTelephone} </td>
     
-                              <td class="tc opinter" >${sale.user.relName} </td>
+<%--                               <td class="tc opinter" >${sale.user.relName} </td> --%>
                               <td class="tc opinter" ><fmt:formatDate value='${sale.createdAt}' pattern='yyyy-MM-dd  HH:mm:ss' /></td>
 <%--                               <td class="tc opinter" onclick="view('${templet.id}')"></td> --%>
-                              <td class="tc opinter">
-                                <c:if test="${sale.statusBond==0}">
+                             <td class="tc opinter">
+                                <c:if test="${sale.statusBid==1}">
                                 未缴纳
                                 </c:if>
-                              <c:if test="${sale.statusBond==1}">
+                              <c:if test="${sale.statusBid==2}">
+                                已缴纳
+                                </c:if>
+                              
+                              </td>
+                              <td class="tc opinter">
+                                <c:if test="${sale.statusBond==1}">
+                                未缴纳
+                                </c:if>
+                              <c:if test="${sale.statusBond==2}">
                                 已缴纳
                                 </c:if>
                               

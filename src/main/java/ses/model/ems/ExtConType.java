@@ -81,6 +81,11 @@ public class ExtConType {
     private Short isMulticondition;
   
     private String[] categorySplit;
+    
+    /**
+     * 已抽取数量
+     */
+    private Integer alreadyCount; 
     /**
      * <pre>
      * 获取：null
@@ -203,8 +208,10 @@ public class ExtConType {
      *            T_SES_EMS_EXP_EXT_CON_TYPE.CATEGORY_ID：品目id
      */
     public void setCategoryId(String categoryId) {
-		String[] split = categoryId.split("\\^");
-		this.categorySplit =split ;
+        if(categoryId!=null){
+            String[] split = categoryId.split("\\^");
+            this.categorySplit =split ;
+        }
         this.categoryId = categoryId == null ? null : categoryId.trim();
     }
     /**
@@ -338,5 +345,19 @@ public class ExtConType {
 	public void setCategorySplit(String[] categorySplit) {
 		this.categorySplit = categorySplit;
 	}
+
+    /**
+     * @return Returns the alreadyCount.
+     */
+    public Integer getAlreadyCount() {
+        return alreadyCount;
+    }
+
+    /**
+     * @param alreadyCount The alreadyCount to set.
+     */
+    public void setAlreadyCount(Integer alreadyCount) {
+        this.alreadyCount = alreadyCount;
+    }
 
 }

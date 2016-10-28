@@ -912,4 +912,43 @@
 	<update id="updateScore" parameterType="ses.model.sms.Supplier">
 		update T_SES_SMS_SUPPLIER set SCORE = #{score} where ID = #{id}
 	</update>
+	
+	<!-- 供应商抽取集合 -->
+    <!-- AND ee.ADDRESS = #{address} -->
+    <!-- AND EE.EXPERTS_FROM =#{expertsFrom} -->
+    <!-- AND EE.STATUS = 1 -->
+    <!-- AND IS_BLACK = 0 -->
+    <select id="listExtractionExpert" parameterType="ses.model.ems.ExpExtCondition"
+        resultMap="BaseResultMap">
+        SELECT
+        *
+        FROM
+        T_SES_EMS_EXPERT ee
+        LEFT JOIN T_SES_EMS_EXPERT_CATEGORY ec
+        ON ee."ID" = EC.EXPERT_ID
+        WHERE
+        ee.IS_DELETE = 0
+        <foreach item="item" collection="conTypes">
+            AND (EE.EXPERTS_TYPE_ID = #{item.expertsTypeId}
+            <if test="item.isMulticondition != null and item.isMulticondition != 0 ">
+                <if test="item.isMulticondition==2">
+                    AND
+                    <foreach item="ids" collection="item.categorySplit"
+                        separator="OR" open="(" close=")">
+                        EC.CATEGORY_ID = #{ids}
+                    </foreach>
+
+                </if>
+                <if test="item.isMulticondition==1">
+                    AND
+                    <foreach item="ids" collection="item.categorySplit"
+                        separator="OR">
+                        EC.CATEGORY_ID=#{ids}
+                    </foreach>
+                </if> 
+            </if>
+            )
+        </foreach>
+    </select>
+	
 </mapper>

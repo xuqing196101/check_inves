@@ -37,6 +37,10 @@
 			<input name="saleId" type="hidden" value="${saleId}" />
 			发票上传：<input name="bill" type="file"> 打印凭证： <input
 				name="voucher" type="file">
+				是否缴纳标书费： <input
+                name="statusBid" value="2" type="radio">是
+                <input
+                name="statusBid" value="1" type="radio">否
 <!-- 		<div class="container padding-left-50 "> -->
 <!-- 			<div class="col-md-12 pl20"> -->
 <!-- 				<input class="btn btn-windows withdraw" type="submit" value="提交"/> -->

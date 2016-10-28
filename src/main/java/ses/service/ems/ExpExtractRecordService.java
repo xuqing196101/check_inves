@@ -3,6 +3,8 @@ package ses.service.ems;
 import java.util.List;
 
 import ses.model.ems.ExpExtractRecord;
+import ses.model.ems.Expert;
+import ses.model.ems.ProjectExtract;
 
 /**
  * @Description:获取专家抽取记录
@@ -42,5 +44,15 @@ public interface ExpExtractRecordService {
 	 * @return ExpExtractRecord
 	 */
 	ExpExtractRecord showExpExtractRecord(ExpExtractRecordService expExtractRecordService);
+	
+	/**
+	 * 
+	 *〈简述〉
+	 *〈详细描述〉
+	 * @author Wang Wenshuai
+	 * @param expExtractRecordService
+	 * @return
+	 */
+	List<ProjectExtract>  addTemporaryExpert(Expert expert,String projectId,String loginName,String loginPwd);
 	
 }

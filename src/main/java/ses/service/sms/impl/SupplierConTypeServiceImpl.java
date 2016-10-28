@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ses.dao.sms.SupplierConTypeMapper;
+import ses.model.ems.ExtConType;
 import ses.model.sms.SupplierConType;
 import ses.service.sms.SupplierConTypeService;
 
@@ -54,4 +55,16 @@ public class SupplierConTypeServiceImpl implements SupplierConTypeService {
 	public void update(SupplierConType conType) {
 		conTypeMapper.updateByPrimaryKeySelective(conType);
 	}
+	
+	  /**
+     * @Description:获取一个对象
+     *
+     * @author Wang Wenshuai
+     * @version 2016年10月12日 下午3:33:22  
+     * @param @param conType      
+     * @return void
+     */
+    public SupplierConType getExtConType(String id){
+        return conTypeMapper.selectByPrimaryKey(id);
+    }
 }

@@ -44,5 +44,15 @@ public interface ExtConTypeService {
 	 * @return void
 	 */
 	void update(ExtConType conType);
+	
+	/**
+     * @Description:获取一个对象
+     *
+     * @author Wang Wenshuai
+     * @version 2016年10月12日 下午3:33:22  
+     * @param @param conType      
+     * @return void
+     */
+	ExtConType getExtConType(String id);
   
 }

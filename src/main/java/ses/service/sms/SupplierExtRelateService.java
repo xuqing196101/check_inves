@@ -4,6 +4,7 @@
 package ses.service.sms;
 
 import java.util.List;
+import java.util.Map;
 
 import ses.model.sms.SupplierExtRelate;
 
@@ -44,5 +45,37 @@ public interface SupplierExtRelateService {
 	 * @return void
 	 */
 	void update(SupplierExtRelate supplierExtRelate);
+	
+	/**
+     * @Description:获取单个对象
+     *
+     * @author Wang Wenshuai
+     * @version 2016年9月28日 下午8:02:39  
+     * @param @param projectExtract      
+     * @return void
+     */
+	SupplierExtRelate getSupplierExtRelate(String id);
+	/**
+     * @Description:删除重复记录
+     *
+     * @author Wang Wenshuai
+     * @version 2016年9月28日 下午6:09:52  
+     * @param @param extract
+     * @param @return      
+     * @return List<ProjectExtract>
+     */
+    void deleteData(Map map);
 
+    /**
+     * @Description:当抽取数量满足时修改还未抽取的供应商状态为1
+     *
+     * @author Wang Wenshuai
+     * @version 2016年9月28日 下午6:09:52  
+     * @param @param extract
+     * @param @return      
+     * @return List<ProjectExtract>
+     */
+    void updateStatusCount(String type,String conTypeId);
+    
+    
 }

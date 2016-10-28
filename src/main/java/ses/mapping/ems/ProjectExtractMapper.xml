@@ -12,6 +12,8 @@
 		<result column="OPERATING_TYPE" jdbcType="DECIMAL" property="operatingType" />
 		<result column="REASON" jdbcType="VARCHAR" property="reason" />
 		<result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
+		<result column="CON_TYPE_ID" jdbcType="VARCHAR" property="conTypeId" />
+		<result column="STATUS_COUNT" jdbcType="DECIMAL" property="statusCount" />
 		<!-- 专家 -->
 		<association column="EXPERT_ID" property="expert"
 			select="ses.dao.ems.ExpertMapper.selectByPrimaryKey" />
@@ -20,7 +22,8 @@
 		<!-- @mbggenerated -->
 		ID, PROJECT_ID, EXPERT_CONDITION_ID, EXPERT_ID, CREATED_AT,
 		UPDATED_AT, OPERATING_TYPE,
-		REASON, IS_DELETED
+		REASON, IS_DELETED,
+		CON_TYPE_ID,STATUS_COUNT
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
@@ -41,17 +44,20 @@
 		EXPERT_CONDITION_ID,
 		EXPERT_ID, CREATED_AT, UPDATED_AT,
 		OPERATING_TYPE,
-		REASON, IS_DELETED
-		)
-		values (#{id,jdbcType=VARCHAR},
+		REASON, IS_DELETED,
+		CON_TYPE_ID,STATUS_COUNT)
+		values
+		(#{id,jdbcType=VARCHAR},
 		#{projectId,jdbcType=VARCHAR},
 		#{expertConditionId,jdbcType=VARCHAR},
-		#{expertId,jdbcType=VARCHAR}, #{createdAt,jdbcType=DATE},
+		#{expertId,jdbcType=VARCHAR},
+		#{createdAt,jdbcType=DATE},
 		#{updatedAt,jdbcType=DATE},
 		#{operatingType,jdbcType=DECIMAL},
 		#{reason,jdbcType=VARCHAR},
-		#{isDeleted,jdbcType=DECIMAL}
-		)
+		#{isDeleted,jdbcType=DECIMAL},
+		#{conTypeId,jdbcType=VARCHAR},
+		#{statusCount,jdbcType=DECIMAL})
 	</insert>
 	<insert id="insertSelective" parameterType="ses.model.ems.ProjectExtract">
 		<!-- @mbggenerated -->
@@ -84,6 +90,14 @@
 			<if test="isDeleted != null">
 				IS_DELETED,
 			</if>
+			<if test="conTypeId != null">
+				CON_TYPE_ID,
+			</if>
+			<if test="statusCount != null">
+				STATUS_COUNT,
+			</if>
+
+
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -112,6 +126,12 @@
 			</if>
 			<if test="isDeleted != null">
 				#{isDeleted,jdbcType=DECIMAL},
+			</if>
+			<if test="conTypeId != null">
+				#{conTypeId,jdbcType=VARCHAR},
+			</if>
+			<if test="statusCount != null">
+				#{statusCount,jdbcType=DECIMAL}
 			</if>
 		</trim>
 	</insert>
@@ -144,6 +164,13 @@
 			<if test="isDeleted != null">
 				IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
 			</if>
+			<if test="conTypeId != null">
+				CON_TYPE_ID = #{conTypeId,jdbcType=VARCHAR},
+			</if>
+			<if test="statusCount != null">
+				STATUS_COUNT = #{statusCount,jdbcType=DECIMAL},
+			</if>
+
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
@@ -161,28 +188,66 @@
 		OPERATING_TYPE =
 		#{operatingType,jdbcType=DECIMAL},
 		REASON = #{reason,jdbcType=VARCHAR},
-		IS_DELETED = #{isDeleted,jdbcType=DECIMAL}
-		where ID =
-		#{id,jdbcType=VARCHAR}
+		IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+		CON_TYPE_ID =
+		#{conTypeId,jdbcType=VARCHAR},
+		STATUS_COUNT
+		=#{statusCount,jdbcType=DECIMAL}
+		where ID = #{id,jdbcType=VARCHAR}
 	</update>
-
 	<select id="list" parameterType="ses.model.ems.ProjectExtract"
 		resultMap="BaseResultMap">
 		SELECT
 		pe.*
 		FROM
 		T_SES_EMS_PROJECT_EXTRACT pe
-		Where 1=1
+		Where STATUS_COUNT=0  
+		<if test="id != null and id != ''">
+            AND pe.ID =#{id}
+        </if>
 		<if test="expertConditionId != null and expertConditionId != ''">
 			AND pe.EXPERT_CONDITION_ID =#{expertConditionId}
 		</if>
 		<if test="reason != null and reason != ''">
-            AND pe.OPERATING_TYPE in (${reason})
+			AND pe.OPERATING_TYPE in (${reason})
 		</if>
 		<if test="projectId != null and projectId != ''">
-            AND pe.PROJECT_ID =#{projectId}
-           ORDER BY EXPERT_CONDITION_ID
-        </if>
-		
+			AND pe.PROJECT_ID =#{projectId}
+			ORDER BY
+			EXPERT_CONDITION_ID
+		</if>
 	</select>
+
+	<!-- 删除重复数据 -->
+	<delete id="deleteData" parameterType="Map">
+		delete from
+		T_SES_EMS_PROJECT_EXTRACT
+
+		where EXPERT_ID in (select EXPERT_ID from
+		T_SES_EMS_PROJECT_EXTRACT group
+		by EXPERT_ID having count(EXPERT_ID) >
+		1)
+
+		and rowid not in (select min(rowid) from T_SES_EMS_PROJECT_EXTRACT
+		group
+		by EXPERT_ID having count(EXPERT_ID )>1)
+		AND
+		PROJECT_ID=#{projectId}
+		AND EXPERT_CONDITION_ID=#{expertConditionId}
+	</delete>
+	<!-- 当抽取数量满足时修改还未抽取的专家状态为1-->
+	<update id="updateStatusCount" parameterType="map">
+		UPDATE
+		T_SES_EMS_PROJECT_EXTRACT
+		SET STATUS_COUNT = #{type}
+		WHERE
+		CON_TYPE_ID =
+		#{conTypeId}
+		AND OPERATING_TYPE != 1
+		AND OPERATING_TYPE != 2
+		AND
+		OPERATING_TYPE != 3
+	</update>
+	
+  
 </mapper>

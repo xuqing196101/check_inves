@@ -4,6 +4,11 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class SupplierConType {
+    
+    
+    
+    
+    private Integer alreadyCount;
     /**
      * <pre>
      * 表字段 : T_SES_SMS_SUPPLIE_CON_TYPE.ID
@@ -340,6 +345,20 @@ public class SupplierConType {
 	public void setExpertsTypeId(Integer expertsTypeId) {
 		this.expertsTypeId = expertsTypeId;
 	}
+
+    /**
+     * @return Returns the alreadyCount.
+     */
+    public Integer getAlreadyCount() {
+        return alreadyCount;
+    }
+
+    /**
+     * @param alreadyCount The alreadyCount to set.
+     */
+    public void setAlreadyCount(Integer alreadyCount) {
+        this.alreadyCount = alreadyCount;
+    }
     
     
 }

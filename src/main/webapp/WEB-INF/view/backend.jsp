@@ -331,10 +331,10 @@ $(function(){
 														<td class="tc">${agents.name}</td>
 														<td class="tc">
 														<c:if test="${agents.undoType==1}">
-														  供应商代办
+														  供应商待办
 														</c:if>
 														<c:if test="${agents.undoType==2}">
-														  专家代办
+														  专家待办
                                                         </c:if>
 														</td>
 														<td class="tc">${agents.senderName}</td>
