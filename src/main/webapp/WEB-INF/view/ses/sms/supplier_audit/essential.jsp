@@ -133,14 +133,26 @@ function reason(id,auditField){
   var auditFieldName=$("#"+id2+"").text().replaceAll("：",""); //审批的字段名字
   var  auditContent= document.getElementById(""+id+"").value; //审批的字段内容
   var auditType=$("#essential").text(); //审核类型
+  var fail = false;
   layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
     $.ajax({
         url:"<%=basePath%>supplierAudit/auditReasons.html",
         type:"post",
+        dataType:"json",
         data:"auditType="+auditType+"&auditFieldName="+auditFieldName+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+auditField,
+        success:function(result){
+          result = eval("(" + result + ")");
+          if(result.msg == "fail"){
+          fail = true;
+           layer.msg("该条信息已审核过！",{offset:'200px'});
+          }
+        }
       });
-  $("#"+id3+"").show();
-  layer.msg("审核不通过的理由是："+text,{offset:'200px'});    
+      if(!fail){
+        $("#"+id3+"").show();
+        layer.msg("审核不通过的理由是："+text,{offset:'200px'});
+      }
+        
 /*    $("input[name='auditType']").val(auditType);
    $("input[name='auditField']").val(auditField);
    $("input[name='auditContent']").val(auditContent);
@@ -154,15 +166,26 @@ function reason1(ele,auditField){
   var supplierId=$("#id").val();
   var auditType=$("#essential").text(); //审核类型
   var auditFieldName = $(ele).parents("li").find("span").text().replaceAll("：","");//审批的字段名字
-    layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
-      $.ajax({
-          url:"<%=basePath%>supplierAudit/auditReasons.html",
-          type:"post",
-          data:"&auditFieldName="+auditFieldName+"&suggest="+text+"&supplierId="+supplierId+"&auditType="+auditType+"&auditContent=附件"+"&auditField="+auditField,
-        });
+  layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
+  var fail = false;
+  $.ajax({
+      url:"<%=basePath%>supplierAudit/auditReasons.html",
+      type:"post",
+      data:"&auditFieldName="+auditFieldName+"&suggest="+text+"&supplierId="+supplierId+"&auditType="+auditType+"&auditContent=附件"+"&auditField="+auditField,
+      dataType:"json",
+      success:function(result){
+	      result = eval("(" + result + ")");
+	      if(result.msg == "fail"){
+	        fail = true;
+	        layer.msg("该条信息已审核过！",{offset:'200px'});
+	      }
+    }
+    });
+    if(!fail){
        $(ele).parents("li").find("div").eq(2).show(); //显示叉
-        layer.msg("审核不通过的理由是："+text,{offset:'200px'});
-      });
+       layer.msg("审核不通过的理由是："+text,{offset:'200px'});
+    }
+  });
 }
 
 
@@ -253,7 +276,7 @@ function tijiao(){
                 <div class=" margin-bottom-0">
                   <form id="form_id" action="" method="post"  enctype="multipart/form-data">
                     <input name="supplierId" id="id" value="${suppliers.id }" type="hidden">
-                  </form>                 
+                  </form>
                   <h2 class="f16 jbxx">
                   <i>01</i>企业基本信息
                   </h2>

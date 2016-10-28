@@ -130,14 +130,25 @@ function reason(id){
   /* var auditContent="销售资质证书为："+$("#"+id).text()+"的信息"; */ //审批的字段内容
   var auditContent= "供应商资质证书";
   var auditType=$("#materialSales").text();//审核类型
+    var fail = false;
    layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
     $.ajax({
         url:"<%=basePath%>supplierAudit/auditReasons.html",
         type:"post",
-        data:"auditType="+auditType+"&auditFieldName="+id+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId,
+        data:"auditType="+auditType+"&auditFieldName="+id+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField=表格",
+        dataType:"json",
+        success:function(result){
+        result = eval("(" + result + ")");
+        if(result.msg == "fail"){
+          fail = true;
+          layer.msg("该条信息已审核过！",{offset:'200px'});
+        }
+      }
       });
-       $("#"+id+"_show").show();
-        layer.msg("审核不通过的理由是："+text,{offset:'200px'});
+      if(!fail){
+	       $("#"+id+"_show").show();
+	        layer.msg("审核不通过的理由是："+text,{offset:'200px'});
+        }
     });
 }
 
@@ -149,14 +160,25 @@ function reason1(id,auditField){
   var auditFieldName=$("#"+id2+"").text().replaceAll("：",""); //审批的字段名字
   var auditContent= document.getElementById(""+id+"").value; //审批的字段内容
   var auditType=$("#materialSales").text();//审核类型
+  var fail = false;
   layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
     $.ajax({
         url:"<%=basePath%>supplierAudit/auditReasons.html",
         type:"post",
         data:"auditType="+auditType+"&auditFieldName="+auditFieldName+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+auditField,
+        dataType:"json",
+        success:function(result){
+        result = eval("(" + result + ")");
+        if(result.msg == "fail"){
+          fail = true;
+          layer.msg("该条信息已审核过！",{offset:'200px'});
+        }
+        }
       });
-     layer.msg("审核不通过的理由是："+text,{offset:'200px'});
-     $("#"+id3+"").show();
+      if(!fail){
+	     layer.msg("审核不通过的理由是："+text,{offset:'200px'});
+	     $("#"+id3+"").show();
+     }
     });
 }
 

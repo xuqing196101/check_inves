@@ -12,7 +12,6 @@
     <result column="UPDATED_AT" property="updatedAt" />
     <result column="AUDIT_FIELD" property="auditField" />
     <result column="AUDIT_CONTENT" property="auditContent" />
-    <result column="SUPPLIER_INSPECT_LIST" property="supplierInspectList" />
     <result column="AUDIT_FIELD_NAME" property="auditFieldName" />
   </resultMap>
   <sql id="Base_Column_List">
@@ -77,9 +76,6 @@
       <if test="auditContent != null">
         AUDIT_CONTENT,
       </if>
-      <if test="supplierInspectList != null">
-        SUPPLIER_INSPECT_LIST,
-      </if>
       <if test="auditFieldName != null">
         AUDIT_FIELD_NAME,
       </if>
@@ -114,9 +110,6 @@
       </if>
       <if test="auditContent != null">
         #{auditContent},
-      </if>
-      <if test="supplierInspectList != null">
-        #{supplierInspectList},
       </if>
       <if test="auditFieldName != null">
         #{auditFieldName},
@@ -156,9 +149,6 @@
       <if test="auditContent != null">
         AUDIT_CONTENT = #{auditContent},
       </if>
-       <if test="auditContent != null">
-        SUPPLIER_INSPECT_LIST = #{supplierInspectList},
-      </if>
       <if test="auditContent != null">
         AUDIT_FIELD_NAME = #{auditFieldName},
       </if>
@@ -179,12 +169,5 @@
       AUDIT_FIELD_NAME = #{auditFieldName},
     where ID = #{id}
   </update>
-  
-  
-  <update id="updateBySupplierId" parameterType="ses.model.sms.SupplierAudit">
-    update T_SES_SMS_SUPPLIER_AUDIT
-     set
-      SUPPLIER_INSPECT_LIST = #{supplierInspectList}
-    where SUPPLIER_ID = #{supplierId}
-  </update>
+
 </mapper>

@@ -141,15 +141,26 @@ function reason1(ele,auditField){
   var supplierId=$("#supplierId").val();
   var auditFieldName = $(ele).parents("li").find("span").text().replaceAll("：","");//审批的字段名字
   var auditType=$("#applicationFrom").text();//审核类型 
+  var fail = false;
     layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'},function(text){
       $.ajax({
           url:"<%=basePath%>supplierAudit/auditReasons.html",
           type:"post",
           data:"auditType="+auditType+"&auditFieldName="+auditFieldName+"&auditContent=附件"+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+auditField,
+          dataType:"json",
+	        success:function(result){
+	        result = eval("(" + result + ")");
+	        if(result.msg == "fail"){
+	          fail = true;
+	          layer.msg("该条信息已审核过！",{offset:'200px'});
+        }
+      }
         });
-        $(ele).parent("li").find("div").eq(1).show(); //显示叉
-          layer.msg("审核不通过的理由是："+text,{offset:'200px'}
+        if(!fail){
+	        $(ele).parent("li").find("div").eq(1).show(); //显示叉
+	          layer.msg("审核不通过的理由是："+text,{offset:'200px'}
           );
+          }
       });
 }
 

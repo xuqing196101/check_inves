@@ -22,8 +22,6 @@ public class SupplierAudit {
     private String auditField;
 
     private String auditContent;
-    
-    private String supplierInspectList;
 
     private String auditFieldName;
     public String getId() {
@@ -107,15 +105,6 @@ public class SupplierAudit {
     public void setAuditContent(String auditContent) {
         this.auditContent = auditContent == null ? null : auditContent.trim();
     }
-
-	public String getSupplierInspectList() {
-		return supplierInspectList;
-	}
-
-	public void setSupplierInspectList(String supplierInspectList) {
-		this.supplierInspectList = supplierInspectList;
-	}
-
 	public String getAuditFieldName() {
 		return auditFieldName;
 	}

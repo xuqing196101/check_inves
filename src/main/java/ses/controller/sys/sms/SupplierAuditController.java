@@ -379,8 +379,9 @@ public class SupplierAuditController extends BaseSupplierController{
 	 * @return void
 	 * @throws IOException 
 	 */
+
 	@RequestMapping("auditReasons")
-	public void auditReasons(SupplierAudit supplierAudit,HttpServletRequest request,Supplier supplier) throws IOException{
+	public void auditReasons(SupplierAudit supplierAudit,HttpServletRequest request,HttpServletResponse response,Supplier supplier) throws IOException{
 		String id=supplierAudit.getSupplierId();
 		supplier = supplierAuditService.supplierById(id);
 		
@@ -399,7 +400,27 @@ public class SupplierAuditController extends BaseSupplierController{
 			supplier.setStatus(4); //复审不通过
 			supplierAuditService.updateStatus(supplier);
 		}*/
-		supplierAuditService.auditReasons(supplierAudit);
+		
+		//唯一检验
+		String auditField = supplierAudit.getAuditField();
+		String auditType = supplierAudit.getAuditType();
+		String auditFieldName = supplierAudit.getAuditFieldName();
+		supplierAudit.setSupplierId(id);
+		List<SupplierAudit> reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+		boolean same= true;
+		for(int i=0 ;i<reasonsList.size(); i++){
+			if(reasonsList.get(i).getAuditField().equals(auditField ) && reasonsList.get(i).getAuditType().equals(auditType) && reasonsList.get(i).getAuditFieldName().equals(auditFieldName)){
+				same = false; 
+				break;
+			}
+
+		}
+		if(same){
+			supplierAuditService.auditReasons(supplierAudit);
+		}else{
+			String msg = "{\"msg\":\"fail\"}";
+			super.writeJson(response, msg);
+		}
 	}
 	
 	/**
