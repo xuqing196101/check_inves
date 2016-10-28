@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.bms.AttachmentTypeMapper">
+  <resultMap id="AttachmentTypeMap" type="ses.model.bms.AttachmentType">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="CODE" jdbcType="VARCHAR" property="code" />
+    <result column="DESCRIPTION" jdbcType="VARCHAR" property="description" />
+    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+    <result column="IS_DELETED" property="isDeleted" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    ID, CODE, DESCRIPTION, CREATED_AT, UPDATED_AT, IS_DELETED
+  </sql>
+  
+  <!-- 查询条件 -->
+  <sql id="Example_Where_Clause">
+    where at.IS_DELETED = 0 
+    <trim suffixOverrides=",">
+      <if test="id != null and id != ''">
+        and at.ID = #{id} 
+      </if>
+      <if test="code != null and code != ''">
+        and at.CODE = #{code} 
+      </if>
+      <if test="description != null and description != ''">
+        and at.DESCRIPTION  like CONCAT(CONCAT('%', #{description}), '%') 
+      </if>
+      <if test="createdAt != null">
+        and at.CREATED_AT = #{createdAt} 
+      </if>
+      <if test="updatedAt != null">
+        and at.UPDATED_AT = #{updatedAt} 
+      </if>
+    </trim>
+  </sql>
+  
+  <!-- 1.根据条件查询 -->
+  <select id="findList" parameterType="java.lang.String" resultMap="AttachmentTypeMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_BMS_ATTACHMENT_TYPE at
+    <include refid="Example_Where_Clause"/>
+    ORDER BY at.CREATED_AT DESC
+  </select>
+  
+  <!-- 2.根据id删除 -->
+  <delete id="delete" parameterType="java.lang.String">
+    delete from T_SES_BMS_ATTACHMENT_TYPE at
+    where at.ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  
+  <!-- 3.插入数据 -->
+  <insert id="insert" parameterType="ses.model.bms.AttachmentType">
+  	<selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_SES_BMS_ATTACHMENT_TYPE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="code != null">
+        CODE,
+      </if>
+      <if test="description != null">
+        DESCRIPTION,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null and code != ''">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null and description != ''">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=DATE},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 4.修改数据 -->
+  <update id="update" parameterType="ses.model.bms.AttachmentType">
+    update T_SES_BMS_ATTACHMENT_TYPE
+    <set>
+      <if test="code != null">
+        CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        DESCRIPTION = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+</mapper>
