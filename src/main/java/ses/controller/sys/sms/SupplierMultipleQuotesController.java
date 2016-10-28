@@ -26,7 +26,12 @@ import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.SaleTenderService;
 
 import com.github.pagehelper.PageInfo;
-
+/**
+ * @Title: SupplierMultipleQuotesController
+ * @Description: 供应商报价控制层
+ * @author: Song Biaowei
+ * @date: 2016-10-28上午10:21:33
+ */
 @Controller
 @Scope("prototype")
 @RequestMapping(value = "/mulQuo")
@@ -41,6 +46,19 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
     @Autowired
     private ProjectDetailService detailService;
 	
+    /**
+     * @Title: list
+     * @author Song Biaowei
+     * @date 2016-10-28 上午10:21:46  
+     * @Description: 供应商报价的项目列表
+     * @param @param req
+     * @param @param response
+     * @param @param saleTender
+     * @param @param page
+     * @param @param model
+     * @param @return      
+     * @return String
+     */
 	@RequestMapping(value="/list")
 	public String list(HttpServletRequest req,HttpServletResponse response,SaleTender saleTender,Integer page,Model model){
 		User user=(User)req.getSession().getAttribute("loginUser");
@@ -59,7 +77,20 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
 		}
 	}
 	
-	
+	/**
+	 * @Title: baojia
+	 * @author Song Biaowei
+	 * @date 2016-10-28 上午10:22:00  
+	 * @Description: 点击项目进行报价
+	 * @param @param req
+	 * @param @param id
+	 * @param @param packageName
+	 * @param @param packageId
+	 * @param @param model
+	 * @param @return
+	 * @param @throws UnsupportedEncodingException      
+	 * @return String
+	 */
 	@RequestMapping(value="/baojia")
 	public String baojia(HttpServletRequest req,String id,String packageName,String packageId,Model model) throws UnsupportedEncodingException{
         HashMap<String, Object> map = new HashMap<String, Object>();
@@ -79,6 +110,17 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
 		return "ses/sms/multiple_quotes/baojia";
 	}
 	
+	/**
+	 * @Title: save
+	 * @author Song Biaowei
+	 * @date 2016-10-28 上午10:22:14  
+	 * @Description: 保存报价
+	 * @param @param req
+	 * @param @param quote
+	 * @param @param model
+	 * @param @return      
+	 * @return String
+	 */
 	@RequestMapping(value="/save")
 	public String save(HttpServletRequest req,Quote quote,Model model) {
 		User user=(User)req.getSession().getAttribute("loginUser");
@@ -88,6 +130,19 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
 		return "redirect:list.html";
 	}
 	
+	/**
+	 * @Title: quoteHistory
+	 * @author Song Biaowei
+	 * @date 2016-10-28 上午10:22:25  
+	 * @Description: 查看报价历史
+	 * @param @param req
+	 * @param @param quote
+	 * @param @param page
+	 * @param @param packageName
+	 * @param @param model
+	 * @param @return      
+	 * @return String
+	 */
 	@RequestMapping(value="/quoteHistory")
 	public String quoteHistory(HttpServletRequest req,Quote quote,Integer page,String packageName,Model model) {
 		User user=(User)req.getSession().getAttribute("loginUser");

@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -98,6 +99,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  <th class="info">项目名称</th>
 		  <th class="info">包名</th>
 		  <th class="info">报价金额</th>
+		  <th class="info">报价时间</th>
 		</tr>
 		</thead>
 		<c:forEach items="${quoteList.list }" var="list" varStatus="vs">
@@ -106,6 +108,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    <td>${list.project.name }</td>
 				<td>${list.packages.name }</td>
 				<td>${list.quotePrice }</td>
+				<td><fmt:formatDate value='${list.createdAt}' pattern="yyyy年MM月dd日 HH:mm " /></td>
 			</tr>
 		</c:forEach> 
         </table>

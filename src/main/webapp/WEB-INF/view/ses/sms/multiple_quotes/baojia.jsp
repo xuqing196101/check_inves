@@ -148,7 +148,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <thead>
         <tr>
           <th class="info w50">序号</th>
-          <th class="info">需求部门</th>
           <th class="info">物资名称</th>
           <th class="info">规格型号</th>
           <th class="info">质量技术标准</th>
@@ -161,13 +160,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <c:forEach items="${list}" var="obj" varStatus="vs">
             <tr class="hand">
               <td class="tc w50">${obj.serialNumber}</td>
-              <td class="tc">${obj.department}</td>
               <td class="tc">${obj.goodsName}</td>
               <td class="tc">${obj.stand}</td>
               <td class="tc">${obj.qualitStand}</td>
               <td class="tc">${obj.item}</td>
               <td class="tc"><input name="quantity${vs.index }" readonly="readonly" value="${obj.purchaseCount}" /></td>
-              <td class="tc"><input maxlength="15" name="price${vs.index }" onkeyup="addTotal('${vs.index}')" /></td>
+              <td class="tc"><input maxlength="12" name="price${vs.index }" onkeyup="addTotal('${vs.index}')" /></td>
               <td class="tc"><input readonly="readonly" name="total${vs.index }" /></td>
             </tr>
          </c:forEach>  
