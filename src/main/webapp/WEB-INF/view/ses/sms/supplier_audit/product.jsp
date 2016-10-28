@@ -159,6 +159,25 @@ function tijiao(){
     $("#download_form_id").submit();
   }
 </script>
+<script type="text/javascript">
+  function zhancun(){
+    var supplierId=$("#supplierId").val();
+    $.ajax({
+      url:"<%=basePath%>supplierAudit/temporaryAudit.html",
+      type:"post",
+      data:"id="+supplierId,
+      dataType:"json",
+      success:function(result){
+        result = eval("(" + result + ")");
+        if(result.msg == "success"){
+          layer.msg("暂存成功！",{offset:'200px'});
+        }
+      },error:function(){
+        layer.msg("暂存失败！",{offset:'200px'});
+      }
+    });
+  }
+</script>
 </head>
   
 <body>
@@ -246,6 +265,7 @@ function tijiao(){
                       </tbody>
                     </table>
                     <div class="col-md-12 add_regist tc">
+                      <a class="btn btn-windows save" onclick="zhancun();">暂存</a>
                       <a class="btn btn-windows save" onclick="tijiao();">下一步</a>
                     </div>
                 </div>

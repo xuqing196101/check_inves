@@ -330,7 +330,7 @@ alert(supplierInspectListFile);
 	             <input type="hidden" name="status" id="status"/>
 	            <div class="margin-bottom-0  categories">
 	              <div class="col-md-12 add_regist tc">
-	              <c:if test="${status==0}">
+	              <c:if test="${status==0 || status==5}">
 	                <c:if test="${num==0}">
 	                  <input class="btn btn-windows git"  type="button" onclick="shenhe(1)" value="初审通过 ">
 	                </c:if>
@@ -338,7 +338,7 @@ alert(supplierInspectListFile);
 	                  <input class="btn btn-windows reset"  type="button" onclick="shenhe(2)" value="初审不通过">
 	                </c:if>
 	              </c:if>
-	              <c:if test="${status==1}">
+	              <c:if test="${status==1 || status==6}">
 	                <c:if test="${num==0}">
 	                  <input class="btn btn-windows git"  type="button" onclick="shenhe(3)" value="复审通过 ">
 	                </c:if>

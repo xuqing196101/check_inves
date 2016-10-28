@@ -498,6 +498,36 @@ public class SupplierAuditController extends BaseSupplierController{
 	}
 	
 	/**
+	 * @Title: temporaryAudit
+	 * @author Xu Qing
+	 * @date 2016-10-28 下午3:29:51  
+	 * @Description: 暂存审核
+	 * @param @param request
+	 * @param @param supplier
+	 * @param @param supplierAudit
+	 * @param @throws IOException      
+	 * @return void
+	 */
+	@RequestMapping("temporaryAudit")
+	public void temporaryAudit(HttpServletRequest request,HttpServletResponse response,Supplier supplier) throws IOException{
+		supplier = supplierAuditService.supplierById(supplier.getId());
+		Integer status = supplier.getStatus();
+		//暂存初审（5：初审中）
+		if(status == 0 && status != null){
+			supplier.setStatus(5);
+			supplierAuditService.updateStatus(supplier);
+		}
+		//暂存复审（6：复审中）
+		if(status == 1 && status != null){
+			supplier.setStatus(6);
+			supplierAuditService.updateStatus(supplier);
+		}
+		String msg = "{\"msg\":\"success\"}";
+		super.writeJson(response, msg);
+	}
+	
+	
+	/**
 	 * @Title: setExpertBlackListUpload
 	 * @author Xu Qing
 	 * @date 2016-9-29 下午3:22:13  

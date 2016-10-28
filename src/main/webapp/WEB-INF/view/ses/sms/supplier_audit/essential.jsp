@@ -210,35 +210,23 @@ function tijiao(){
   });
 </script>
 <script type="text/javascript">
-  $(function() {
-    var supplierId = $("input[name='id']").val();
+  function zhancun(){
+    var supplierId=$("#id").val();
     $.ajax({
-      url : "${pageContext.request.contextPath}/supplierAudit/showReasonsList.do",
-      type : "post",
-      dataType : "json",
-      data : {
-        supplierId : supplierId
-      },
-      success : function(result) {
-        $(".input-append").each(function(index) {
-          var v = $(this).parents("li").find("span").text();
-          v = v.replace("＊", "");
-          v = v.replace("：", "");
-          v = $.trim(v);
-          for (var i = 0; i < result.length; i++) {
-            if(v == result[i].auditField) {
-              var html = "<a id='a_msg_" + index + "' class='ml10 red fz17' href='javascript:void(0)' onclick='showMsg(this)'><span style='display: none;'>";
-              html += result[i].suggest;
-              html += "</span>×</a>";
-              $(this).append(html);
-              html = "";
-            }
-          }
-        });
-      },
+      url:"<%=basePath%>supplierAudit/temporaryAudit.html",
+      type:"post",
+      data:"id="+supplierId,
+      dataType:"json",
+      success:function(result){
+        result = eval("(" + result + ")");
+        if(result.msg == "success"){
+          layer.msg("暂存成功！",{offset:'200px'});
+        }
+      },error:function(){
+        layer.msg("暂存失败！",{offset:'200px'});
+      }
     });
-  });
-
+  }
 </script>
 </head>
   
@@ -573,6 +561,7 @@ function tijiao(){
                   </ul>
                 </div>
                 <div class="col-md-12 add_regist tc">
+                    <a class="btn btn-windows save" onclick="zhancun();">暂存</a>
                     <a class="btn btn-windows save" onclick="tijiao();">下一步</a>
                 </div>
               </div>
