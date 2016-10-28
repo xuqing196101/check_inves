@@ -40,69 +40,10 @@
 				}
 			}
 		}
-    
-    
-    function addPackage(){
-    	var count = 0;
-		var ids = "";
-		var info = document.getElementsByName("info");
-		for(var i = 0;i<info.length;i++){
-			if(info[i].checked == true){
-				count++;
-			}
-		}
-		if(count == 0){
-			layer.alert("请选择明细",{offset: ['222px', '390px']});
-			$(".layui-layer-shade").remove();
-			return;
-		}
-		for(var i=0;i < info.length;i++){    
-	        if(info[i].checked){    
-	        	ids += info[i].value+',';
-	        }
-		}
-		$.ajax({
-			type:"POST",
-			dataType:"json",
-			url:"<%=path%>/project/addPackage.do?id="+ids,
-	       	success:function(data){
-	       		if(data){
-	       			var html = "";
-	       			html = html+"<span>包名:<span>分包</span><input class='btn btn-windows pl13' type='button' onclick='edit(this)' value='修改包名'/>"+
-	       			"<input class='btn btn-windows pl13' name='sure' type='button' onclick='sure(this)' value='确定'/>"+
-	       			"<input class='btn btn-windows pl13' type='button' onclick='deletePackage(this)' value='删除分包'>"+
-	    			"</span><table class='table table-bordered table-condensed mt5'><thead><tr class='info'>"+
-	    			"<th class='w50'>序号</th><th>需求部门</th><th>物资名称</th><th>规格型号</th><th>质量技术标准</th>"+
-	    			"<th>计量单位</th><th>采购数量</th><th>单价（元）</th><th>预算金额（万元）</th><th>交货期限</th>"+
-	    			"<th>采购方式建议</th><th>供应商名称</th><th>是否申请办理免税</th><th>物资用途（进口）</th><th>使用单位（进口）</th>"+
-	    	        "</tr></thead>";
-					for(var i=0;i<data.length;i++){
-	       				html = html + "<tr class='tc'>";
-		            	html = html + "<td>"+data[i].seq+"</td>"
-		            	html = html + "<td>"+data[i].department+"</td>";
-		            	html = html + "<td>"+data[i].goodsName+"</td>";
-		            	html = html + "<td>"+data[i].stand+"</td>";
-		            	html = html + "<td>"+data[i].qualitStand+"</td>";
-		            	html = html + "<td>"+data[i].item+"</td>"
-		            	html = html + "<td>"+data[i].purchaseCount+"</td>";
-		            	html = html + "<td>"+data[i].price+"</td>";
-		            	html = html + "<td>"+data[i].budget+"</td>";
-		            	html = html + "<td>"+data[i].deliverDate+"</td>";
-		            	html = html + "<td>"+data[i].purchaseType+"</td>";
-		            	html = html + "<td>"+data[i].supplier+"</td>";
-		            	html = html + "<td>"+data[i].isFreeTax+"</td>";
-		            	html = html + "<td>"+data[i].goodsUse+"</td>";
-		            	html = html + "<td>"+data[i].useUnit+"</td>";
-		            	html = html + "</tr>";
-	       			}
-	          		html = html+"</table>";
-	       			$("#package").append(html);
-	       		}
-	       	}
-       	});
-    }
+   
     
     	function selectedBox(ele){
+    		var projectId = $("#projectId").val();
 	    	var flag = $(ele).prop("checked");
 	        var purchaseType = $("input[name='info']:checked").parents("tr").find("td").eq(11).text();
             purchaseType = $.trim(purchaseType);
@@ -125,8 +66,7 @@
 				selectAll.checked = true;
 			}
 		    $.ajax({
-                   url:"<%=basePath%>project/checkProjectDeail.html",
-                   data:"id="+id,
+                   url:"<%=basePath%>project/checkProjectDeail.do?id="+id+"&projectId="+projectId,
                    type:"post",
                    dataType:"json",
                    success:function(result){
@@ -305,7 +245,7 @@
 	  		<c:forEach items="${lists}" var="obj">
 	            <tr class="tc">
 		            <c:choose>
-		            	<c:when test="${obj.packageId==null||obj.packageId==' ' }">
+		            	<c:when test="${obj.packages.id==null||obj.packages.id=='' }">
 		            		<td class="w30"><input type="checkbox" value="${obj.id }" name="info" onclick="selectedBox(this)"></td>
 		            	</c:when>
 		            	<c:otherwise>
