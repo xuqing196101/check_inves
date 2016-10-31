@@ -77,15 +77,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   
 <!-- 项目戳开始 -->
-  <div class="container clear">
-   <h2 class="padding-10 xmsj mb0">
+  <div class="container clear mt20">
+   <h2 class="padding-10 p0">
 	 <span class="brown">2015-06-20</span><span class="margin-left-10 brown">台式机采购项目</span><div class="btn bround14 margin-left-20">选定成交人</div>
    </h2>
   </div>
   
   
 <!--详情开始-->
-<div class="container content height-350">
+<div class="container content height-350 pt0">
  <div class="row magazine-page">
    <div class="col-md-12 tab-v2 job-content">
         <div class="padding-top-10">
