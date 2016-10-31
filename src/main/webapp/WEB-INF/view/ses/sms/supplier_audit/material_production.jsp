@@ -111,6 +111,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="<%=basePath%>public/ZHH/js/masterslider.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.easing.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/james.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript">
   //默认不显示叉
    $(function() {
@@ -132,25 +133,25 @@ function reason(id){
   var auditType=$("#materialProduction").text();//审核类型
   var auditContent = "供应商资质证书";
   var fail = false;
-	 layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
-	  $.ajax({
-	      url:"<%=basePath%>supplierAudit/auditReasons.html",
-	      type:"post",
-	      data:"auditType="+auditType+"&auditFieldName="+id+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField=表格",
-	      dataType:"json",
-	      success:function(result){
-	      result = eval("(" + result + ")");
-	      if(result.msg == "fail"){
-	        fail = true;
-	        layer.msg("该条信息已审核过！",{offset:'200px'});
-	      }
-	    }
-	    });
-	    if(!fail){
-	      $("#"+id+"_show").show();
-	      layer.msg("审核不通过的理由是："+text,{offset:'200px'});
-	      }
-	  });
+   layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
+    $.ajax({
+        url:"<%=basePath%>supplierAudit/auditReasons.html",
+        type:"post",
+        data:"auditType="+auditType+"&auditFieldName="+id+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField=表格",
+        dataType:"json",
+        success:function(result){
+        result = eval("(" + result + ")");
+        if(result.msg == "fail"){
+          fail = true;
+          layer.msg("该条信息已审核过！",{offset:'200px'});
+        }
+      }
+      });
+      if(!fail){
+        $("#"+id+"_show").show();
+        layer.msg("审核不通过的理由是："+text,{offset:'200px'});
+        }
+    });
 }
 
 
@@ -159,7 +160,7 @@ function reason1(id,auditField){
   var id2=id+"2";
   var id1=id+"1";
   var id3=id+"3";
-  var auditFieldName=$("#"+id2+"").text().replaceAll("：",""); //审批的字段名字
+  var auditFieldName=$("#"+id2+"").text().replace("：",""); //审批的字段名字
   var auditContent= document.getElementById(""+id+"").value; //审批的字段内容
   var auditType=$("#materialProduction").text();//审核类型
   var fail = false;
@@ -178,8 +179,8 @@ function reason1(id,auditField){
       }
       });
       if(!fail){
-	     layer.msg("审核不通过的理由是："+text,{offset:'200px'});
-	     $("#"+id3).show();
+       layer.msg("审核不通过的理由是："+text,{offset:'200px'});
+       $("#"+id3).show();
      }
     });
 }
@@ -224,7 +225,6 @@ function tijiao(url){
   }
 </script>
 </head>
-  
 <body>
   <!-- 项目戳开始 -->
   <div class="container clear margin-top-30">
@@ -238,17 +238,17 @@ function tijiao(url){
               <li class=""><a >财务信息</a></li>
               <li class=""><a >股东信息</a></li>
               <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
-	            <li class="active"><a id="materialProduction">物资-生产型专业信息</a></li>
-	            </c:if>
-	            <c:if test="${fn:contains(supplierTypeNames, '销售型')}">
-	            <li class=""><a >物资-销售型专业信息</a></li>
-	            </c:if>
-	            <c:if test="${fn:contains(supplierTypeNames, '工程')}">
-	            <li class=""><a >工程-专业信息</a></li>
-	            </c:if>
-	            <c:if test="${fn:contains(supplierTypeNames, '服务')}">
-	            <li class=""><a >服务-专业信息</a></li>
-	            </c:if>
+              <li class="active"><a id="materialProduction">物资-生产型专业信息</a></li>
+              </c:if>
+              <c:if test="${fn:contains(supplierTypeNames, '销售型')}">
+              <li class=""><a >物资-销售型专业信息</a></li>
+              </c:if>
+              <c:if test="${fn:contains(supplierTypeNames, '工程')}">
+              <li class=""><a >工程-专业信息</a></li>
+              </c:if>
+              <c:if test="${fn:contains(supplierTypeNames, '服务')}">
+              <li class=""><a >服务-专业信息</a></li>
+              </c:if>
               <li class=""><a >品目信息</a></li>
               <li class=""><a >产品信息</a></li>
               <li class=""><a >申请表</a></li>
@@ -263,51 +263,51 @@ function tijiao(url){
                   <i>01</i>供应商资质证书
                   </h2>
                   <table class="table table-bordered table-condensed">
-							      <thead>
-							        <tr>
-							          <th class="info w50">序号</th>
-							          <th class="info">资质证书名称</th>
-							          <th class="info">资质等级</th>
-							          <th class="info">发证机关</th>
-							          <th class="info">有效期(起止时间)</th>
-							          <th class="info">是否年检</th>
-							          <th class="info">附件</th>
-							          <th class="info w50"></th>
-							        </tr>
-							        </thead>
-							        <c:forEach items="${materialProduction}" var="m" varStatus="vs">
-							          <tr>
-							            <td class="tc">${vs.index + 1}</td>
-							            <td class="tc" id="${m.id}" onclick="reason('${m.id}');">${m.name }</td>
-							            <td class="tc" onclick="reason('${m.id}');">${m.levelCert}</td>
-							            <td class="tc" onclick="reason('${m.id}');">${m.licenceAuthorith }</td>
-							            <td class="tc" onclick="reason('${m.id}');">
-								            <fmt:formatDate value="${m.expStartDate }" pattern='yyyy-MM-dd'/>  至  
-								            <fmt:formatDate value="${m.expEndDate }" pattern='yyyy-MM-dd'/>
-								          </td>
-							            <td class="tc" onclick="reason('${m.id}');">
-							             <c:if test="${m.mot==0 }">否</c:if>
-							             <c:if test="${m.mot==1 }">是</c:if>
-							            </td>
-							            <td class="tc">
-								            <c:if test="${m.attach !=null}">
-								              <a class="green" onclick="downloadFile('${m.attach}')">附件下载</a>
-								            </c:if>
-								            <c:if test="${m.attach ==null}">
-								              <a class="red">无附件下载</a>
-								            </c:if>
-							            </td>
-							            <td class="tc">
-	                          <a  id="${m.id }_show" class="b f18 fl ml10 hand">×</a>
+                    <thead>
+                      <tr>
+                        <th class="info w50">序号</th>
+                        <th class="info">资质证书名称</th>
+                        <th class="info">资质等级</th>
+                        <th class="info">发证机关</th>
+                        <th class="info">有效期(起止时间)</th>
+                        <th class="info">是否年检</th>
+                        <th class="info">附件</th>
+                        <th class="info w50"></th>
+                      </tr>
+                      </thead>
+                      <c:forEach items="${materialProduction}" var="m" varStatus="vs">
+                        <tr>
+                          <td class="tc">${vs.index + 1}</td>
+                          <td class="tc" id="${m.id}" onclick="reason('${m.id}');">${m.name }</td>
+                          <td class="tc" onclick="reason('${m.id}');">${m.levelCert}</td>
+                          <td class="tc" onclick="reason('${m.id}');">${m.licenceAuthorith }</td>
+                          <td class="tc" onclick="reason('${m.id}');">
+                            <fmt:formatDate value="${m.expStartDate }" pattern='yyyy-MM-dd'/>  至  
+                            <fmt:formatDate value="${m.expEndDate }" pattern='yyyy-MM-dd'/>
                           </td>
-							          </tr>
-							        </c:forEach>
-							    </table>
-							    
-							    <div class=" margin-bottom-0">
-							    <h2 class="f16 jbxx">
-                  <i>02</i>组织结构和人员
-                  </h2>
+                          <td class="tc" onclick="reason('${m.id}');">
+                           <c:if test="${m.mot==0 }">否</c:if>
+                           <c:if test="${m.mot==1 }">是</c:if>
+                          </td>
+                          <td class="tc">
+                            <c:if test="${m.attach !=null}">
+                              <a class="green" onclick="downloadFile('${m.attach}')">附件下载</a>
+                            </c:if>
+                            <c:if test="${m.attach ==null}">
+                              <a class="red">无附件下载</a>
+                            </c:if>
+                          </td>
+                          <td class="tc">
+                            <a  id="${m.id }_show" class="b f18 fl ml10 hand">×</a>
+                          </td>
+                        </tr>
+                      </c:forEach>
+                  </table>
+                  
+                  <div class=" margin-bottom-0">
+                    <h2 class="f16 jbxx">
+                      <i>02</i>组织结构和人员
+                    </h2>
                     <ul class="list-unstyled list-flow">
                       <li class="col-md-6 p0"><span class="" id="orgName2">组织机构：</span>
                         <div class="input-append">
@@ -320,28 +320,28 @@ function tijiao(url){
                         <div class="input-append">
                           <input id="totalPerson" class="span3" type="text" value="${supplierMatPros.totalPerson }" onclick="reason1(this.id,'totalPerson')"/>
                           <div id="totalPerson1" class="b f18 fl ml10 red hand">√</div>
-                        <div id="totalPerson3" class="b f18 fl ml10 hand">×</div>
+                          <div id="totalPerson3" class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0"><span class="" id="totalMange2">管理人员：</span>
                         <div class="input-append">
                           <input id="totalMange" class="span3" type="text"  value="${supplierMatPros.totalMange }" onclick="reason1(this.id,'totalMange')"/>
                           <div id="totalMange1" class="b f18 fl ml10 red hand">√</div>
-                        <div id="totalMange3" class="b f18 fl ml10 hand">×</div>
+                          <div id="totalMange3" class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0"><span class="" id="totalTech2">技术人员：</span>
                         <div class="input-append">
                           <input id="totalTech" class="span3" type="text"  value="${supplierMatPros.totalTech }" onclick="reason1(this.id,'totalTech')"/>
                           <div id="totalTech1" class="b f18 fl ml10 red hand">√</div>
-                        <div id="totalTech3" class="b f18 fl ml10 hand">×</div>
+                          <div id="totalTech3" class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0"><span class="" id="totalWorker2">工人(职员)：</span>
                         <div class="input-append">
                           <input id="totalWorker" class="span3" type="text" value="${supplierMatPros.totalWorker }" onclick="reason1(this.id,'totalWorker')"/>
                           <div id="totalWorker1" class="b f18 fl ml10 red hand">√</div>
-                        <div id="totalWorker3" class="b f18 fl ml10 hand">×</div>
+                          <div id="totalWorker3" class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
                     </ul>
@@ -370,7 +370,7 @@ function tijiao(url){
                         <div class="input-append">
                           <input id="researchName" class="span3" type="text"  value="${supplierMatPros.researchName }" onclick="reason1(this.id,'researchName')" />
                           <div id="researchName1" class="b f18 fl ml10 red hand">√</div>
-                        <div id="researchName3" class="b f18 fl ml10 hand">×</div>
+                          <div id="researchName3" class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0"><span class="" id="totalResearch2">研发部门人数：</span>
@@ -384,26 +384,26 @@ function tijiao(url){
                         <div class="input-append">
                           <input id="researchLead" class="span3" type="text" value="${supplierMatPros.researchLead }" onclick="reason1(this.id,'researchLead')"/>
                           <div id="researchLead1" class="b f18 fl ml10 red hand">√</div>
-                        <div id="researchLead3"  class="b f18 fl ml10 hand">×</div>
+                          <div id="researchLead3"  class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
                       <li class="col-md-12 p0 mt10"><span class="fl" id="countryPro2">承担国家军队科研项目：</span>
-	                      <div class="col-md-9 mt5">
-	                        <div class="row">
-	                          <textarea id="countryPro" class="text_area col-md-12" onclick="reason1(this.id,'countryPro')" >${supplierMatPros.countryPro }</textarea>
-	                          <div id="countryPro1" class="b f18 fl ml10 red hand">√</div>
-	                          <div id="countryPro3" class="b f18 fl ml10 hand">×</div>
-	                        </div>
-	                      </div>
+                        <div class="col-md-9 mt5">
+                          <div class="row">
+                            <textarea id="countryPro" class="text_area col-md-12" onclick="reason1(this.id,'countryPro')" >${supplierMatPros.countryPro }</textarea>
+                            <div id="countryPro1" class="b f18 fl ml10 red hand">√</div>
+                            <div id="countryPro3" class="b f18 fl ml10 hand">×</div>
+                          </div>
+                        </div>
                       </li>
                       <li class="col-md-12 p0 mt10"><span class="fl" id="countryReward2">获得国家军队科技项目：</span>
-	                      <div class="col-md-9 mt5">
-	                        <div class="row">
-	                          <textarea id="countryReward" class="text_area col-md-12" onclick="reason1(this.id,'countryReward')" >${supplierMatPros.countryReward }</textarea>
-	                          <div id="countryReward1" class="b f18 fl ml10 red hand">√</div>
-	                          <div id="countryReward3" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
-	                        </div>
-	                      </div>
+                        <div class="col-md-9 mt5">
+                          <div class="row">
+                            <textarea id="countryReward" class="text_area col-md-12" onclick="reason1(this.id,'countryReward')" >${supplierMatPros.countryReward }</textarea>
+                            <div id="countryReward1" class="b f18 fl ml10 red hand">√</div>
+                            <div id="countryReward3" onclick="reason1(this.id)" class="b f18 fl ml10 hand">×</div>
+                          </div>
+                        </div>
                       </li>
                     </ul>
                   </div>
@@ -424,12 +424,12 @@ function tijiao(url){
                         <div class="input-append">
                           <input id="totalDevice" class="span3" type="text" value="${supplierMatPros.totalDevice }"  onclick="reason1(this.id,'totalDevice')"/>
                           <div id="totalDevice1" class="b f18 fl ml10 red hand">√</div>
-                        <div id="totalDevice3" class="b f18 fl ml10 hand">×</div>
+                          <div id="totalDevice3" class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
                     </ul>
-                    
                   </div>
+                  
                   <div class=" margin-bottom-0 fl">
                   <h2 class="f16 jbxx">
                   <i>05</i>物资生产型供应商质量检测登记
@@ -446,7 +446,7 @@ function tijiao(url){
                         <div class="input-append">
                           <input id="totalQc"  class="span3" type="text" value="${supplierMatPros.totalQc }" onclick="reason1(this.id,'totalQc')"/>
                           <div id="totalQc1" class="b f18 fl ml10 red hand">√</div>
-                        <div id="totalQc3"  class="b f18 fl ml10 hand">×</div>
+                          <div id="totalQc3"  class="b f18 fl ml10 hand">×</div>
                         </div>
                       </li>
                       <li class="col-md-6 p0"><span class="" id="qcLead2">质检部门负责人：</span>
@@ -471,16 +471,15 @@ function tijiao(url){
                     <a class="btn btn-windows save" onclick="zhancun();">暂存</a>
                     <a class="btn btn-windows save" onclick="tijiao('${url}');">下一步</a>
                   </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+              </div> 
+            </div>        
+          </div>         
+        </div>                  
+      </div>                  
     </div>
   </div>
   <form target="_blank" id="download_form_id" action="${pageContext.request.contextPath}/supplierAudit/download.html" method="post">
    <input type="hidden" name="fileName" />
-  </form>
-  <jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
+  </form>                  
 </body>
 </html>

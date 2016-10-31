@@ -476,19 +476,30 @@ public class SupplierAuditController extends BaseSupplierController{
 	@RequestMapping("updateStatus")
 	public String updateStatus(HttpServletRequest request,Supplier supplier,SupplierAudit supplierAudit) throws IOException{
 		String supplierId= supplierAudit.getSupplierId();
+		Todos todos = new Todos();
 		//更新状态
 		supplier.setId(supplierId);
 		supplierAuditService.updateStatus(supplier);
 		//更新待办
 		supplier = supplierAuditService.supplierById(supplierId);
 		if(supplier.getStatus() == 1){
-			Todos todos = new Todos();
 			todos.setUrl("supplierAudit/essential.html?supplierId="+supplierId);
 			todos.setName("供应商复审");
 			todosService.updateByUrl(todos);
 		}
-		if(supplier.getStatus() == 2 || supplier.getStatus() == 4 || supplier.getStatus() == 3){
+		if(supplier.getStatus() == 2){
 			todosService.updateIsFinish("supplierAudit/essential.html?supplierId="+supplierId);
+			
+			todos.setUrl("supplierAudit/essential.html?supplierId="+supplierId);
+			todos.setName("供应商初审");
+			todosService.updateByUrl(todos);
+		}
+		if(supplier.getStatus() == 4 || supplier.getStatus() == 3){
+			todosService.updateIsFinish("supplierAudit/essential.html?supplierId="+supplierId);
+			
+			todos.setUrl("supplierAudit/essential.html?supplierId="+supplierId);
+			todos.setName("供应商复审");
+			todosService.updateByUrl(todos);
 		}
 		//审核完更新状态
 		supplierAudit.setStatus(supplier.getStatus());
@@ -510,20 +521,39 @@ public class SupplierAuditController extends BaseSupplierController{
 	 */
 	@RequestMapping("temporaryAudit")
 	public void temporaryAudit(HttpServletRequest request,HttpServletResponse response,Supplier supplier) throws IOException{
+		String supplierId  = supplier.getId();
 		supplier = supplierAuditService.supplierById(supplier.getId());
 		Integer status = supplier.getStatus();
 		//暂存初审（5：初审中）
 		if(status == 0 && status != null){
 			supplier.setStatus(5);
 			supplierAuditService.updateStatus(supplier);
+			
+			//更新待办任务
+			Todos todos = new Todos();
+			todos.setUrl("supplierAudit/essential.html?supplierId="+supplierId);
+			todos.setName("供应商初审中");
+			todosService.updateByUrl(todos);
+			
+			String msg = "{\"msg\":\"success\"}";
+			super.writeJson(response, msg);
 		}
 		//暂存复审（6：复审中）
 		if(status == 1 && status != null){
 			supplier.setStatus(6);
 			supplierAuditService.updateStatus(supplier);
+			
+			//更新待办任务
+			Todos todos = new Todos();
+			todos.setUrl("supplierAudit/essential.html?supplierId="+supplierId);
+			todos.setName("供应商复审中");
+			todosService.updateByUrl(todos);
+			
+			String msg = "{\"msg\":\"success\"}";
+			super.writeJson(response, msg);
 		}
-		String msg = "{\"msg\":\"success\"}";
-		super.writeJson(response, msg);
+		
+		
 	}
 	
 	
