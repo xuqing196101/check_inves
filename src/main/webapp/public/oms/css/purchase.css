@@ -22,5 +22,24 @@ textarea.wh212-67 {
 	height: 77px !important;
 }
 div.popover-content{
-	color: yellow;
+	color: red;
 }
+.w30{
+	width: 30px !important;
+}
+.w40{
+	width: 40px !important;
+}
+.w50{
+	width: 50px !important;
+}
+.w400{
+	width: 400px !important;
+}
+.w499{
+	width: 430px !important;
+}
+.w500{
+	width: 500px !important;
+}
+

@@ -107,4 +107,10 @@ public class ScoreModelServiceImpl implements ScoreModelService{
 		return scoreModelMapper.delScoreModelByMap(map);
 	}
 
+	@Override
+	public int delParamIntervalByMap(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return scoreModelMapper.delParamIntervalByMap(map);
+	}
+
 }

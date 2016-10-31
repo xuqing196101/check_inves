@@ -19,13 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
-import ses.model.bms.User;
-import ses.model.oms.Orgnization;
 import ses.model.oms.util.AjaxJsonData;
 import ses.model.oms.util.Ztree;
 
 import bss.model.ppms.MarkTerm;
 import bss.model.ppms.Packages;
+import bss.model.ppms.ParamInterval;
 import bss.model.ppms.ScoreModel;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ScoreModelService;
@@ -46,6 +45,8 @@ public class IntelligentScoringController {
 	private PackageService packageService;
 	@Autowired
 	private ScoreModelService scoreModelService;
+	
+	
 	
 	@RequestMapping("packageList")
 	public String packageList(@ModelAttribute Packages packages,Model model,HttpServletRequest request){
@@ -76,10 +77,49 @@ public class IntelligentScoringController {
 	
 	public String operatorScoreModel(@ModelAttribute ScoreModel scoreModel,HttpServletRequest request){
 		String packageId = request.getParameter("id");
+		String[] startParam = request.getParameterValues("pi.startParam");
+		String[] endParam = request.getParameterValues("pi.endParam");
+		String[] score = request.getParameterValues("pi.score");
+		String[] explain = request.getParameterValues("pi.explain");
+		
 		if(scoreModel.getId()!=null && !scoreModel.getId().equals("")){
 			scoreModelService.updateScoreModel(scoreModel);
+			HashMap<String, Object> map  = new HashMap<String,Object>();
+			map.put("scoreModelId", scoreModel.getId());
+			scoreModelService.delParamIntervalByMap(map);
+			int len = 0;
+			if(startParam!=null){
+				len = startParam.length;
+			}
+			if(startParam!=null && startParam.length>0 && endParam!=null && endParam.length>0 && score!=null && score.length>0){
+				for(int i=0;i<len;i++){
+					ParamInterval p = new ParamInterval();
+					p.setScoreModelId(scoreModel.getId());
+					p.setStartParam(startParam[i]);
+					p.setEndParam(endParam[i]);
+					p.setScore(score[i]);
+					p.setExplain(explain[i]);
+					scoreModelService.saveParamInterval(p);
+				}
+			}
+			
 		}else {
 			scoreModelService.saveScoreModel(scoreModel);
+			int len = 0;
+			if(startParam!=null){
+				len = startParam.length;
+			}
+			if(startParam!=null && startParam.length>0 && endParam!=null && endParam.length>0 && score!=null && score.length>0){
+				for(int i=0;i<len;i++){
+					ParamInterval p = new ParamInterval();
+					p.setScoreModelId(scoreModel.getId());
+					p.setStartParam(startParam[i]);
+					p.setEndParam(endParam[i]);
+					p.setScore(score[i]);
+					p.setExplain(explain[i]);
+					scoreModelService.saveParamInterval(p);
+				}
+			}
 		}
 		return "redirect:gettreebody.do";
 	}
@@ -425,8 +465,35 @@ public class IntelligentScoringController {
 		
 	}
 	//根据模型计算得分
-	public String getQuantizateScore(ScoreModel scoreModel){
-		return "";
+	public int getQuantizateScore(ScoreModel scoreModel,Integer number){
+		int score = 0 ;
+		if(scoreModel.getTypeName()!=null && !scoreModel.getTypeName().equals("") && scoreModel.getTypeName().equals("0")){
+		    score = getScoreByModelOne(scoreModel,number);
+		}
+		return score;
+	}
+	public int getScoreByModelOne(ScoreModel scoreModel,Integer number){
+		int sc = 0 ;
+		if(scoreModel.getJudgeNumber()!=null && !scoreModel.getJudgeNumber().equals("")){
+			int judegNum = Integer.parseInt(scoreModel.getJudgeNumber());
+			if(number>=judegNum){
+				sc = Integer.parseInt(scoreModel.getStandardScore());
+			}
+		}
+		return sc;
+	}
+	public int getScoreByModelTwo(ScoreModel scoreModel,Integer number){
+		int sc = 0 ;
+		int reviewStandScore = Integer.parseInt(scoreModel.getReviewStandScore());
+		int unitScore = Integer.parseInt(scoreModel.getUnitScore());
+		//int maxScore  0加分      1减分
+		if( scoreModel.getAddSubtractTypeName()!=null && scoreModel.getAddSubtractTypeName().equals("0")){
+			
+			
+		}else if (scoreModel.getAddSubtractTypeName().equals("1")) {
+			
+		}
+		return sc;
 	}
 	//---------------------------------基本get set 方法--------------------------------------------------------------------
 	public AjaxJsonData getAjaxJsonData() {

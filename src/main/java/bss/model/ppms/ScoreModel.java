@@ -36,6 +36,7 @@ public class ScoreModel implements Serializable{
 	//模型一相关属性        是否判断
 	private String standardScore;//标准分值
 	private String judgeContent;//判断内容
+	private String judgeNumber;//判断内容
 	
 	//模型二相关属性   按项加减分
 	private String reviewParam;//评审参数
@@ -295,6 +296,14 @@ public class ScoreModel implements Serializable{
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getJudgeNumber() {
+		return judgeNumber;
+	}
+
+	public void setJudgeNumber(String judgeNumber) {
+		this.judgeNumber = judgeNumber;
 	}
 	
 }

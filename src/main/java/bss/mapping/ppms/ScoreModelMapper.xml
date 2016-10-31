@@ -29,6 +29,8 @@
    	<result column="is_deleted"  property="isDeleted" />
    	<result column="created_at"  property="createdAt" />
    	<result column="updated_at"  property="updatedAt" />
+   	<result column="status"  property="status" />
+   	<result column="judge_number"  property="judgeNumber" />
    	<collection property="paramIntervalList" ofType="bss.model.ppms.ParamInterval">
 		<id column="piId"  property="id" />
 	    <result column="piScoreModelId" jdbcType="VARCHAR" property="scoreModelId" />
@@ -156,6 +158,12 @@
       <if test="markTermName != null">
         mark_term_name ,
       </if>
+       <if test="status != null">
+        status ,
+      </if>
+       <if test="judgeNumber != null">
+        judge_number ,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       sysdate,
@@ -234,6 +242,12 @@
       <if test="markTermName != null">
          #{markTermName},
       </if>
+      <if test="status != null">
+         #{status},
+      </if>
+      <if test="judgeNumber != null">
+         #{judgeNumber},
+      </if>
     </trim>
   </insert>
   <update id="updateScoreModel" parameterType="bss.model.ppms.ScoreModel">
@@ -311,6 +325,12 @@
       </if>
       <if test="markTermName != null">
         ,mark_term_name = #{markTermName}
+      </if>
+      <if test="status != null">
+        ,status = #{status}
+      </if>
+       <if test="judgeNumber != null">
+        ,judge_number = #{judgeNumber}
       </if>
       where 1=1
       <if test="id !=null">
@@ -576,6 +596,15 @@
 		<foreach collection="list" item="id" open="(" separator="," close=")">
 			#{id}
 		</foreach>
+	</delete>
+	<delete id="delParamIntervalByMap" parameterType="java.util.Map">
+		delete from T_BSS_PPMS_PARAM_INTERVAL s where 1=1
+		<if test="scoreModelId != null">
+         	and SCORE_MODEL_ID = #{scoreModelId}
+      	</if>
+      	<if test="id != null">
+         	and id= #{id}
+      	</if>
 	</delete>
 	<!-- 逻辑删除需求部门-->
 	<update id="delSoftParamIntervalByid" parameterType="java.util.Map">

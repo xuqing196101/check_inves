@@ -29,4 +29,5 @@ public interface ScoreModelService {
 	public int updateParamInterval(ParamInterval paramInterval);
 	public int delParamIntervalByid(HashMap<String, Object> map);
 	public int delSoftParamIntervalByid(HashMap<String, Object> map);
+	public int delParamIntervalByMap(HashMap<String, Object> map);
 }

@@ -2,6 +2,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 	<title></title>
@@ -48,6 +49,7 @@ System.out.print(scoreModel);
 		var model = $("#model").val();
 		console.dir(model);
 		$("#showParamButton").hide();
+		$("#model73").hide();//隐藏区间参数table
 		if(model==""){
 			$("#showbutton").hide();
 			$("#show_table tbody tr").remove();
@@ -85,24 +87,135 @@ System.out.print(scoreModel);
 			$("#showbutton").show();
 		}else if(model=="6"){
 			$("#show_table tbody tr").remove();
-			$("#model7 tbody tr").clone().appendTo("#show_table tbody");
-			//$("#showbutton").show();
-			$("#showParamButton").show();
+			//$("#model7 tbody tr").clone().appendTo("#show_table tbody");
+			var intervalTypeName71 = $("#sm7").val();
+			if(intervalTypeName71!=undefined && intervalTypeName71=="1"){
+				$("#showParamButton").show();
+				$("#showbutton").hide();
+				$("#model72 tbody tr").clone().appendTo("#show_table tbody");
+				$("#model73").show();
+			}else if(intervalTypeName71=="0"){
+				$("#showbutton").show();
+				$("#showParamButton").hide();
+				$("#model71 tbody tr").clone().appendTo("#show_table tbody");
+				$("#model73 tr:not(:first)").remove();//删除除了第一行的所有tr 
+				$("#model73").hide();
+			}else{
+				$("#showbutton").show();
+				$("#showParamButton").hide();
+				$("#model71 tbody tr").clone().appendTo("#show_table tbody");
+				$("#model73 tr:not(:first)").remove();//删除除了第一行的所有tr 
+				$("#model73").hide();
+			}
 		}else if(model=="7"){
 			$("#show_table tbody tr").remove();
-			$("#model8 tbody tr").clone().appendTo("#show_table tbody");
-			//$("#showbutton").show();
-			$("#showParamButton").show();
+			var intervalTypeName71 = $("#sm7").val();
+			if(intervalTypeName71!=undefined && intervalTypeName71=="1"){
+				$("#showParamButton").show();
+				$("#showbutton").hide();
+				$("#model82 tbody tr").clone().appendTo("#show_table tbody");
+				$("#model73").show();
+			}else if(intervalTypeName71=="0"){
+				$("#showbutton").show();
+				$("#showParamButton").hide();
+				$("#model81 tbody tr").clone().appendTo("#show_table tbody");
+				$("#model73 tr:not(:first)").remove();//删除除了第一行的所有tr 
+				$("#model73").hide();
+			}else{
+				$("#showbutton").show();
+				$("#showParamButton").hide();
+				$("#model81 tbody tr").clone().appendTo("#show_table tbody");
+				$("#model73 tr:not(:first)").remove();//删除除了第一行的所有tr 
+				$("#model73").hide();
+			}
 		}
 	}
-	function modelTwoAddSubstact(){
-		var model = $("#model").val();
+	function modelTwoAddSubstact21(){
+		var model = $("#addSubtractTypeName21").val();
 		if(model=="0"){
 			$("#show_table tbody tr").remove();
 			$("#model21 tbody tr").clone().appendTo("#show_table tbody");
 		}else{
 			$("#show_table tbody tr").remove();
 			$("#model22 tbody tr").clone().appendTo("#show_table tbody");
+		}
+	}
+	function modelTwoAddSubstact22(){
+		var model = $("#addSubtractTypeName22").val();
+		if(model=="0"){
+			$("#show_table tbody tr").remove();
+			$("#model21 tbody tr").clone().appendTo("#show_table tbody");
+		}else{
+			$("#show_table tbody tr").remove();
+			$("#model22 tbody tr").clone().appendTo("#show_table tbody");
+		}
+	}
+	function modelSevenAddSubstact71(){
+		var model = $("#intervalTypeName71").val();
+		if(model=="0"){
+			$("#show_table tbody tr").remove();
+			$("#model71 tbody tr").clone().appendTo("#show_table tbody");
+			$("#model73 tr:not(:first)").remove();//删除除了第一行的所有tr 
+			$("#model73").hide();
+			$("#showParamButton").hide();
+			$("#showbutton").show();
+		}else{
+			$("#show_table tbody tr").remove();
+			$("#model72 tbody tr").clone().appendTo("#show_table tbody");
+			$("#model73").show();
+			$("#showParamButton").show();
+			$("#showbutton").hide();
+		}
+	}
+	function modelSevenAddSubstact72(){
+		var model = $("#intervalTypeName72").val();
+		if(model=="0"){
+			$("#show_table tbody tr").remove();
+			$("#model71 tbody tr").clone().appendTo("#show_table tbody");
+			$("#model73 tr:not(:first)").remove();//删除除了第一行的所有tr 
+			$("#model73").hide();
+			$("#showParamButton").hide();
+			$("#showbutton").show();
+		}else{
+			$("#show_table tbody tr").remove();
+			$("#model72 tbody tr").clone().appendTo("#show_table tbody");
+			$("#model73").show();
+			$("#showParamButton").show();
+			$("#showbutton").hide();
+		}
+	}
+	function modelSevenAddSubstact81(){
+		var model = $("#intervalTypeName81").val();
+		if(model=="0"){
+			$("#show_table tbody tr").remove();
+			$("#model81 tbody tr").clone().appendTo("#show_table tbody");
+			$("#model73 tr:not(:first)").remove();//删除除了第一行的所有tr 
+			$("#model73").hide();
+			$("#showParamButton").hide();
+			$("#showbutton").show();
+		}else{
+			$("#show_table tbody tr").remove();
+			$("#model82 tbody tr").clone().appendTo("#show_table tbody");
+			$("#model73").show();
+			$("#showParamButton").show();
+			$("#showbutton").hide();
+		}
+	}
+	function modelSevenAddSubstact82(){
+		var model = $("#intervalTypeName82").val();
+		if(model=="0"){
+			$("#show_table tbody tr").remove();
+			$("#model81 tbody tr").clone().appendTo("#show_table tbody");
+			$("#model73 tr:not(:first)").remove();//删除除了第一行的所有tr 
+			$("#model73").hide();
+			$("#showParamButton").hide();
+			$("#showbutton").show();
+		}else{
+			$("#show_table tbody tr").remove();
+			$("#model82 tbody tr").clone().appendTo("#show_table tbody");
+			$("#model73").show();
+			$("#showParamButton").show();
+			$("#showbutton").hide();
 		}
 	}
 	function gernerator(){
@@ -119,18 +232,59 @@ System.out.print(scoreModel);
 			gerneratorFive();
 		}else if(model=="5"){
 			gerneratorSix();
+		}else if(model=="6"){
+			gerneratorSeven();
+		}else if(model=="7"){
+			gerneratorEight();
 		}
+	}
+	//动态添加参数区间
+	var num2 =1;
+	function addParamInterval(){
+		var pinum = $("#num2").val();
+		if(pinum>0){
+			num2 = Number(pinum) + Number(1);
+		}
+		var tr ="";
+		tr += "<tr>";
+		//tr += "<td class='w30'><input type='checkbox'></td>";
+		tr += "<td class='w30'>"+num2+"</td>";
+		tr += "<td ><input class='w40' type='text' id=startParam"+num2+" name='pi.startParam'></td>";
+		//tr += "<td><select name='startRelation'><option value='0'>>=</option></select></td>";
+		//tr += "<td>参数值</td>";
+		//tr += "<td><select name='endRelation'><option value='0'><=</option></select></td>";
+		tr += "<td ><input class='w40' type='text' id=endParam"+num2+" name='pi.endParam'></td>";
+		tr += "<td ><input class='w40' type='text' id=score"+num2+" name='pi.score'></td>";
+		tr += "<td ><textarea class='' id="+num2+" name='pi.explain'></textarea></td>";
+		tr += "<td ><a href=\'javascript:void(0);\' onclick=\'delTr(this)\'>删除</a></td>";
+		tr += "</tr>";
+		$("#model73 tbody").append(tr);
+		num2++;
+	}
+	function delTr(obj){
+		var tr=obj.parentNode.parentNode;
+        tr.parentNode.removeChild(tr);
+		//$(obj).parent.remove();//删除当前行   
+		var num = $("#model73 tbody tr").length;
+		var trs = $("#model73 tbody tr");
+		console.dir(trs.find("td:eq(0)"));
+		for (i = 0; i < num; i++) {
+			trs.find("td:eq(0)").each(function(i) {
+				$(this).text(i + 1);
+			});
+		}  
+		num2--;
 	}
 	function gerneratorOne(){
 		var judgeContent = $("#judgeContent").val();
 		var standardScore = $("#standardScore").val();
-		var str = judgeContent+" "+"是"+standardScore+"分 "+"否0分";
+		var judgeNumber = $("#judgeNumber").val();
+		var str = judgeContent + judgeNumber + " "+"是"+standardScore+"分 "+"否0分";
 		$("#easyUnderstandContent1").val(str);
 	}
 	function gerneratorTwo(){
 		var reviewParam = $("#reviewParam").val();
 		var addSubtractTypeName = $("#addSubtractTypeName").val();
-		
 		var reviewStandScore = $("#reviewStandScore").val();
 		var maxScore = $("#maxScore").val();
 		var minScore = $("#minScore").val();
@@ -182,6 +336,30 @@ System.out.print(scoreModel);
 		var str = "以" + reviewParam +"最低为基准,得分=(基准值/"+reviewParam+")*"+standardScore;
 		$("#easyUnderstandContent6").val(str);
 	}
+	function gerneratorSeven(){
+		var reviewParam  = $("#reviewParam").val();
+		var unit   = $("#unit").val();
+		var reviewStandScore   = $("#reviewStandScore").val();
+		var intervalNumber    = $("#intervalNumber").val();
+		var score   = $("#score").val();
+		var deadlineNumber   = $("#deadlineNumber").val();
+		var maxScore   = $("#maxScore").val();
+		var minScore  = $("#minScore").val();
+		var str =  reviewParam +",低于" +reviewStandScore+"为0分,没增加"+intervalNumber+"加"+score+ " 最高分"+maxScore+" 最低分"+minScore+" 高于"+deadlineNumber+ "得"+maxScore+"分";
+		$("#easyUnderstandContent7").val(str);
+	}
+	function gerneratorEight(){
+		var reviewParam  = $("#reviewParam").val();
+		var unit   = $("#unit").val();
+		var reviewStandScore   = $("#reviewStandScore").val();
+		var intervalNumber    = $("#intervalNumber").val();
+		var score   = $("#score").val();
+		var deadlineNumber   = $("#deadlineNumber").val();
+		var maxScore   = $("#maxScore").val();
+		var minScore  = $("#minScore").val();
+		var str =  reviewParam +",高于" +reviewStandScore+"为"+maxScore+"分,没减少"+intervalNumber+"减"+score+ " 最低分分"+minScore+" 低于"+deadlineNumber+ "得"+minScore+"分";
+		$("#easyUnderstandContent8").val(str);
+	}
 	function associate(){
 		var s = validteModel().form();
 		console.dir(s);
@@ -231,9 +409,26 @@ System.out.print(scoreModel);
 			$("#showbutton").show();
 		}else if(model=="6"){
 			$("#show_table tbody tr").remove();
-			$("#model7 tbody tr").clone().appendTo("#show_table tbody");
-			//$("#showbutton").show();
-			$("#showParamButton").show();
+			//$("#model7 tbody tr").clone().appendTo("#show_table tbody");
+			var intervalTypeName71 = $("#sm7").val();
+			if(intervalTypeName71!=undefined && intervalTypeName71=="1"){
+				$("#showParamButton").show();
+				$("#showbutton").hide();
+				$("#model72 tbody tr").clone().appendTo("#show_table tbody");
+				$("#model73").show();
+			}else if(intervalTypeName71=="0"){
+				$("#showbutton").show();
+				$("#showParamButton").hide();
+				$("#model71 tbody tr").clone().appendTo("#show_table tbody");
+				$("#model73 tr:not(:first)").remove();//删除除了第一行的所有tr 
+				$("#model73").hide();
+			}else{
+				$("#showbutton").show();
+				$("#showParamButton").hide();
+				$("#model71 tbody tr").clone().appendTo("#show_table tbody");
+				$("#model73 tr:not(:first)").remove();//删除除了第一行的所有tr 
+				$("#model73").hide();
+			}
 		}else if(model=="7"){
 			$("#show_table tbody tr").remove();
 			$("#model8 tbody tr").clone().appendTo("#show_table tbody");
@@ -256,6 +451,10 @@ System.out.print(scoreModel);
 				},
 				judgeContent : {
 					required : true
+				},
+				judgeNumber :{
+					required : true,
+					number:true
 				},
 				/* easyUnderstandContent : {
 					required : true
@@ -285,6 +484,18 @@ System.out.print(scoreModel);
 				intervalNumber : {
 					required : true,
 					number:true
+				},
+				"pi.startParam" : {
+					required : true,
+					number:true
+				},
+			    "pi.endParam" : {
+					required : true,
+					number:true
+				}, 
+				"pi.score" : {
+					required : true,
+					number:true
 				}
 			},
 			messages : {
@@ -294,6 +505,10 @@ System.out.print(scoreModel);
 				},
 				judgeContent : {
 					required : "该项内容为必填项"
+				},
+				judgeNumber :{
+					required : "该项内容为必填项",
+					number:"必须为数字"
 				},
 				/* easyUnderstandContent : {
 					required : "请点击生成白话文"
@@ -323,6 +538,18 @@ System.out.print(scoreModel);
 				intervalNumber : {
 					required : "该项内容为必填项",
 					number:"必须为数字"
+				},
+			    "pi.startParam" : {
+					required : "必填",
+					number:"数字项"
+				},
+				"pi.endParam" : {
+					required : "必填",
+					number:"数字项"
+				},  
+				"pi.score" : {
+					required : "必填",
+					number:"数字项"
 				}
 			},
 			showErrors: function(errorMap, errorList) {
@@ -348,6 +575,7 @@ System.out.print(scoreModel);
 <body onload="pageOnLoad();">
 	<input type="hidden" id="sm" value="${scoreModel.typeName }">
 	<input type="hidden" id="sm2" value="${scoreModel.addSubtractTypeName }">
+	<input type="hidden" id="sm7" value="${scoreModel.intervalTypeName }">
 	<div>
 		<form
 			action=""
@@ -370,9 +598,42 @@ System.out.print(scoreModel);
 			<input id="markTermId" name="markTermId" type="hidden" value="${markTermId }">
 			<input id="id" type="hidden" name="id" value="${scoreModel.id }">
 			<input id ="" type="hidden" name="name" value="${markTermName }">
-			<table class="table table-striped table-bordered table-hover mt20"
-				id="show_table" style="width: 305px;">
+			<input type="hidden" id="num2" value="${fn:length(scoreModel.paramIntervalList)}">
+			<table class="table table-striped table-bordered table-hover mt20 "
+				id="show_table">
 				<tbody>
+				</tbody>
+			</table>
+			<table id="model73" style="display: none;" class="table table-striped table-bordered table-hover mt20 w499">
+				<thead>
+					<tr id="paramIntervalTr">
+						<!-- <th class="w30"><input type="checkbox">
+						</th> -->
+						<th class="">序号</th>
+						<th class="">起始值</th>
+						<!-- <th class="w500">与起始参数值关系</th>
+						<th class="w500">评审参数对应数值</th>
+						<th class="w500">与结束参数值关系</th> -->
+						<th class="">结束值</th>
+						<th class="">得分</th>
+						<th class="">解释</th>
+						<th class="">操作</th>
+					</tr>
+				</thead>
+				
+				<tbody>
+					<c:forEach items="${scoreModel.paramIntervalList }" var="pi" varStatus="vs">
+						<thead>
+							<tr>
+								<td align="center">${vs.index+1 }</td>
+								<td align="center"><input class='w40' type='text' value="${pi.startParam }" id="startParam${vs.index+1 }" name='pi.startParam'></td>
+								<td align="center"><input class='w40' type='text' value="${pi.endParam }" id="endParam${vs.index+1 }" name='pi.endParam'></td>
+								<td align="center"><input class='w40' type='text' value="${pi.score }" id="score${vs.index+1 }" name='pi.score'></td>
+								<td align="center"><textarea class='w40' id="explain${vs.index+1 }" name='pi.explain'>${pi.explain }</textarea></td>
+								<td ><a href=\'javascript:void(0);\' onclick=\'delTr(this)\'>删除</a></td>
+							</tr>
+						</thead>
+					</c:forEach>
 				</tbody>
 			</table>
 		</form>
@@ -394,15 +655,19 @@ System.out.print(scoreModel);
 		</div>
 	</div>
 	<!-- 八大模型 -->
-	<table id="model1" style="display: none;width: 305px;">
+	<table id="model1" style="display: none;" class="w499">
 		<tbody>
 			<tr>
-				<td style="width: 300px;">标准分值</td>
+				<td style="">标准分值</td>
 				<td><input name="standardScore" id="standardScore" value="${scoreModel.standardScore }" title="该项的满分值为多少"></td>
 			</tr>
 			<tr>
 				<td>判断内容</td>
 				<td><input name="judgeContent" id="judgeContent" value="${scoreModel.judgeContent }" title="该项内容为判断的唯一依据"></td>
+			</tr>
+			<tr>
+				<td>判断内容</td>
+				<td><input name="judgeNumber" id="judgeNumber" value="${scoreModel.judgeNumber }" title="判断内容依据数据项"></td>
 			</tr>
 			<tr>
 				<td>翻译成白话文内容</td>
@@ -414,7 +679,7 @@ System.out.print(scoreModel);
 			</tr>
 		</tbody>
 	</table>
-	<table id="model21" style="display: none;width: 305px;">
+	<table id="model21" style="display: none;" class="w499">
 		<tbody>
 			<tr>
 				<td style="width: 300px;">评审参数</td>
@@ -422,7 +687,7 @@ System.out.print(scoreModel);
 			</tr>
 			<tr>
 				<td>加减分类型</td>
-				<td><select name="addSubtractTypeName" id="addSubtractTypeName" onchange="modelTwoAddSubstact();"><option value="0" selected="selected">加分</option><option value="1">减分</option></select></td>
+				<td><select name="addSubtractTypeName" id="addSubtractTypeName" onchange="modelTwoAddSubstact21();"><option value="0" selected="selected">加分</option><option value="1">减分</option></select></td>
 			</tr>
 			<tr>
 				<td style="width: 300px;">起始参数</td>
@@ -450,7 +715,7 @@ System.out.print(scoreModel);
 			</tr>
 		</tbody>
 	</table>
-	<table id="model22" style="display: none;width: 305px;">
+	<table id="model22" style="display: none;" class="w499">
 		<tbody>
 			<tr>
 				<td style="width: 300px;">评审参数</td>
@@ -458,7 +723,7 @@ System.out.print(scoreModel);
 			</tr>
 			<tr>
 				<td>加减分类型</td>
-				<td><select name="addSubtractTypeName" id="addSubtractTypeName"><option value="0">加分</option><option value="1" selected="selected">减分</option></select></td>
+				<td><select name="addSubtractTypeName" id="addSubtractTypeName" onchange="modelTwoAddSubstact22();"><option value="0">加分</option><option value="1" selected="selected">减分</option></select></td>
 			</tr>
 			<tr>
 				<td style="width: 300px;">基准分值</td>
@@ -486,7 +751,7 @@ System.out.print(scoreModel);
 			</tr>
 		</tbody>
 	</table>
-	<table id="model3" style="display: none;width: 305px;">
+	<table id="model3" style="display: none;" class="w499">
 		<tbody>
 			<tr>
 				<td style="width: 300px;">评审参数</td>
@@ -518,11 +783,11 @@ System.out.print(scoreModel);
 			</tr>
 			<tr>
 				<td>当前模型标准解释</td>
-				<td><textarea class="wh212-67" name="standExplain" id="standExplain" value="" readonly="readonly">是否判断.采购文件明确满足或不满足项的临界值或有无的项目要求。评审系统自动识别满足不满足，生成通过或否决的结果，如(必要设备，关键技术，员工人数等)</textarea></td>
+				<td><textarea class="wh212-67" name="standExplain" id="standExplain" value="" readonly="readonly">以评审数额最低值位基准排序递增，采购文件明确标准分值，排序分差和最高最低分限制，评审系统按照评审参数值，由高到低按照分差计算得分</textarea></td>
 			</tr>
 		</tbody>
 	</table>
-	<table id="model4" style="display: none;width: 305px;">
+	<table id="model4" style="display: none;" class="w499">
 		<tbody>
 			<tr>
 				<td style="width: 300px;">评审参数</td>
@@ -554,11 +819,11 @@ System.out.print(scoreModel);
 			</tr>
 			<tr>
 				<td>当前模型标准解释</td>
-				<td><textarea class="wh212-67" name="standExplain" id="standExplain" value="" readonly="readonly">是否判断.采购文件明确满足或不满足项的临界值或有无的项目要求。评审系统自动识别满足不满足，生成通过或否决的结果，如(必要设备，关键技术，员工人数等)</textarea></td>
+				<td><textarea class="wh212-67" name="standExplain" id="standExplain" value="" readonly="readonly">以评审数额最高值位基准排序递减，采购文件明确标准分值，排序分差和最高最低分限制，评审系统按照评审参数值，由高到低按照分差计算得分</textarea></td>
 			</tr>
 		</tbody>
 	</table>
-	<table id="model5" style="display: none;width: 305px;">
+	<table id="model5" style="display: none;" class="w499">
 		<tbody>
 			<tr>
 				<td style="width: 300px;">评审参数</td>
@@ -578,11 +843,11 @@ System.out.print(scoreModel);
 			</tr>
 			<tr>
 				<td>当前模型标准解释</td>
-				<td><textarea class="wh212-67" name="standExplain" id="standExplain" value="" readonly="readonly">是否判断.采购文件明确满足或不满足项的临界值或有无的项目要求。评审系统自动识别满足不满足，生成通过或否决的结果，如(必要设备，关键技术，员工人数等)</textarea></td>
+				<td><textarea class="wh212-67" name="standExplain" id="standExplain" value="" readonly="readonly">以评审数额最高值为基准，系统自动按照公式计算得分，得分=(投标人数值/评审参数的最高数额)*满分值</textarea></td>
 			</tr>
 		</tbody>
 	</table>
-	<table id="model6" style="display: none;width: 305px;">
+	<table id="model6" style="display: none;" class="w499">
 		<tbody>
 			<tr>
 				<td style="width: 300px;">评审参数</td>
@@ -606,11 +871,11 @@ System.out.print(scoreModel);
 			</tr>
 			<tr>
 				<td>当前模型标准解释</td>
-				<td><textarea class="wh212-67" name="standExplain" id="standExplain" value="" readonly="readonly">是否判断.采购文件明确满足或不满足项的临界值或有无的项目要求。评审系统自动识别满足不满足，生成通过或否决的结果，如(必要设备，关键技术，员工人数等)</textarea></td>
+				<td><textarea class="wh212-67" name="standExplain" id="standExplain" value="" readonly="readonly">以评审数额最低值为基准，系统自动按照公式计算得分，得分=(基准值/评审参数额)*满分值</textarea></td>
 			</tr>
 		</tbody>
 	</table>
-	<table id="model71" style="display: none;width: 305px;">
+	<table id="model71" style="display: none;" class="w499">
 		<tbody>
 			<tr>
 				<td style="width: 300px;">评审参数</td>
@@ -622,7 +887,7 @@ System.out.print(scoreModel);
 			</tr>
 			<tr>
 				<td style="width: 300px;">区间类型</td>
-				<td><select name="intervalTypeName" id="intervalTypeName71"><option value="0">差额相等</option><option value="1" selected="selected">差额区间</option></select></td>
+				<td><select name="intervalTypeName" id="intervalTypeName71" onchange="modelSevenAddSubstact71();"><option value="0" selected="selected">差额相等</option><option value="1">差额区间</option></select></td>
 			</tr>
 			<tr>
 				<td style="width: 300px;">评审基准数</td>
@@ -638,7 +903,7 @@ System.out.print(scoreModel);
 			</tr>
 			<tr>
 				<td style="width: 300px;">评审参数截止数</td>
-				<td><input name="score" id="score" value="${scoreModel.score }" title="如果加分，高于截止数为满分，如果减分，低于截止数为0分"></td>
+				<td><input name="deadlineNumber" id="deadlineNumber" value="${scoreModel.deadlineNumber }" title="如果加分，高于截止数为满分，如果减分，低于截止数为0分"></td>
 			</tr>
 			<tr>
 				<td style="width: 300px;">最高分</td>
@@ -649,13 +914,17 @@ System.out.print(scoreModel);
 				<td><input name="minScore" id="minScore" value="${scoreModel.minScore }" title="该项的最低分是多少"></td>
 			</tr>
 			<tr>
+				<td>翻译成白话文内容</td>
+				<td><textarea readonly="readonly" class="wh212-67" name="easyUnderstandContent" id="easyUnderstandContent7" >${scoreModel.easyUnderstandContent }</textarea></td>
+			</tr>
+			<tr>
 				<td>当前模型标准解释</td>
-				<td><textarea class="wh212-67" name="standExplain" id="standExplain" value="" readonly="readonly">是否判断.采购文件明确满足或不满足项的临界值或有无的项目要求。评审系统自动识别满足不满足，生成通过或否决的结果，如(必要设备，关键技术，员工人数等)</textarea></td>
+				<td><textarea class="wh212-67" name="standExplain" id="standExplain" value="" readonly="readonly">以评审数额最低区间为基准递增排序，采购文件明确规定标准分值，分差和最低最高分值限制，并按分差计算规则计算得分</textarea></td>
 			</tr>
 			
 		</tbody>
 	</table>
-	<table id="model72" style="display: none;width: 305px;">
+	<table id="model72" style="display: none;" class="w499">
 		<tbody>
 			<tr>
 				<td style="width: 300px;">评审参数</td>
@@ -667,20 +936,72 @@ System.out.print(scoreModel);
 			</tr>
 			<tr>
 				<td style="width: 300px;">区间类型</td>
-				<td><select name="intervalTypeName" id="intervalTypeName71"><option value="0">差额相等</option><option value="1" selected="selected">差额区间</option></select></td>
-			</tr>
-			<tr>
-				<td>当前模型标准解释</td>
-				<td><textarea class="wh212-67" name="standExplain" id="standExplain" value="" readonly="readonly">是否判断.采购文件明确满足或不满足项的临界值或有无的项目要求。评审系统自动识别满足不满足，生成通过或否决的结果，如(必要设备，关键技术，员工人数等)</textarea></td>
+				<td><select name="intervalTypeName" id="intervalTypeName72" onchange="modelSevenAddSubstact72();"><option value="0">差额相等</option><option value="1" selected="selected">差额区间</option></select></td>
 			</tr>
 		</tbody>
 	</table>
-	<table id="model73" style="display: none;width: 305px;">
+	<table id="model81" style="display: none;" class="w499">
 		<tbody>
-			
+			<tr>
+				<td style="width: 300px;">评审参数</td>
+				<td><input name="reviewParam" id="reviewParam" value="${scoreModel.reviewParam }" title="例:百公里油耗,6升以下为满分，每增加一升扣0.5分，其中百公里油耗为评审参数"></td>
+			</tr>
+			<tr>
+				<td style="width: 300px;">单位</td>
+				<td><input name="unit" id="unit" value="${scoreModel.unit }" title="评审参数的单位"></td>
+			</tr>
+			<tr>
+				<td style="width: 300px;">区间类型</td>
+				<td><select name="intervalTypeName" id="intervalTypeName81" onchange="modelSevenAddSubstact81();"><option value="0" selected="selected">差额相等</option><option value="1">差额区间</option></select></td>
+			</tr>
+			<tr>
+				<td style="width: 300px;">评审基准数</td>
+				<td><input name="reviewStandScore" id="reviewStandScore" value="${scoreModel.reviewStandScore }" title="该项内容为评审参数参照值"></td>
+			</tr>
+			<tr>
+				<td style="width: 300px;">每区间等差额</td>
+				<td><input name="intervalNumber" id="intervalNumber" value="${scoreModel.intervalNumber }" title="每个区间之间的差额"></td>
+			</tr>
+			<tr>
+				<td style="width: 300px;">加减分分值</td>
+				<td><input name="score" id="score" value="${scoreModel.score }" title="加减多少分"></td>
+			</tr>
+			<tr>
+				<td style="width: 300px;">评审参数截止数</td>
+				<td><input name="deadlineNumber" id="deadlineNumber" value="${scoreModel.deadlineNumber }" title="如果加分，高于截止数为满分，如果减分，低于截止数为0分"></td>
+			</tr>
+			<tr>
+				<td style="width: 300px;">最高分</td>
+				<td><input name="maxScore" id="maxScore" value="${scoreModel.maxScore }" title="该项的满分值是多少"></td>
+			</tr>
+			<tr>
+				<td style="width: 300px;">最低分</td>
+				<td><input name="minScore" id="minScore" value="${scoreModel.minScore }" title="该项的最低分是多少"></td>
+			</tr>
+			<tr>
+				<td>翻译成白话文内容</td>
+				<td><textarea readonly="readonly" class="wh212-67" name="easyUnderstandContent" id="easyUnderstandContent8" >${scoreModel.easyUnderstandContent }</textarea></td>
+			</tr>
 			<tr>
 				<td>当前模型标准解释</td>
-				<td><textarea class="wh212-67" name="standExplain" id="standExplain" value="" readonly="readonly">是否判断.采购文件明确满足或不满足项的临界值或有无的项目要求。评审系统自动识别满足不满足，生成通过或否决的结果，如(必要设备，关键技术，员工人数等)</textarea></td>
+				<td><textarea class="wh212-67" name="standExplain" id="standExplain" value="" readonly="readonly">以评审数额最低区间为基准递增排序，采购文件明确规定标准分值，分差和最低最高分值限制，并按分差计算规则计算得分</textarea></td>
+			</tr>
+			
+		</tbody>
+	</table>
+	<table id="model82" style="display: none;" class="w499">
+		<tbody>
+			<tr>
+				<td style="width: 300px;">评审参数</td>
+				<td><input name="reviewParam" id="reviewParam" value="${scoreModel.reviewParam }" title="例:百公里油耗,6升以下为满分，每增加一升扣0.5分，其中百公里油耗为评审参数"></td>
+			</tr>
+			<tr>
+				<td style="width: 300px;">单位</td>
+				<td><input name="unit" id="unit" value="${scoreModel.unit }" title="评审参数的单位"></td>
+			</tr>
+			<tr>
+				<td style="width: 300px;">区间类型</td>
+				<td><select name="intervalTypeName" id="intervalTypeName82" onchange="modelSevenAddSubstact82();"><option value="0">差额相等</option><option value="1" selected="selected">差额区间</option></select></td>
 			</tr>
 		</tbody>
 	</table>
