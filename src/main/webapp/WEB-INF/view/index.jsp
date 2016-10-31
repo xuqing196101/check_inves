@@ -136,10 +136,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							  <span>${resource.name }</span>
 							</a>
 					 		
-							<ul class="dropdown-menu">
+							<ul class="dropdown-menu ">
 							 	<c:forEach items="${sessionScope.resource}" var="res" varStatus="vs">
 							 		<c:if test="${resource.id == res.parentId.id}">
-				                   		<li class="line-block">
+				                   		<li class="line-block drop_two">
 				                   			<a href="<c:if test='${res.url == null}'>javascript:void(0);</c:if><c:if test='${res.url != null}'><%=basePath%>${res.url}</c:if>" target="home" class="son-menu"><span class="mr5">◇</span>${res.name }</a>
 			                   				<ul class="dropdown-menuson dropdown-menu">
 				                   				<c:forEach items="${sessionScope.resource}" var="r" varStatus="vs">

@@ -1830,7 +1830,7 @@ img.img-mouse {
 .btn_list li.active,.btn_list li.focus,.btn_list li:hover{
    background:#2c9fa6;
    color:#ffffff;
-   border:1px solid #2c9fa6;
+   border:1px solid #2c9fa6!important;
 }
 .btn_list li.active a,.btn_list li.focus a,.btn_list li:hover a{
    color:#ffffff!important;

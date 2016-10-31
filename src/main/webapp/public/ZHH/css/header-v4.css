@@ -1030,12 +1030,18 @@
     background-clip:border-box;
 }
 
-li.dropdown ul.dropdown-menu > li :hover > .dropdown-menuson
+li.dropdown ul.dropdown-menu > li :hover > a.dropdown-menuson
 li.dropdown ul.dropdown-menu > li :focus > .dropdown-menuson{
 	display: block ;
 }
 .dropdown-menu:hover{
 	color:#16888f;
+}
+.dropdown-menu li.drop_two:hover a.son-three{
+	color:#ffffff!important;
+}
+.dropdown-menu li.drop_two .dropdown-menuson li:hover a.son-three{
+	color:#16888f!important;
 }
 li.dropdown ul.dropdown-menu > li > .dropdown-menuson{
 	position: absolute;
