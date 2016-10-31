@@ -9,7 +9,7 @@
     
     <title>审价结果统计</title>
     
-    <script src="<%=basePath%>public/echarts/echarts.js"></script>
+    <script src="<%=basePath%>public/echarts/echarts.minZ.js"></script>
     <script src="<%=basePath%>public/echarts/theme/vintage.js"></script>
     <script src="<%=basePath%>public/echarts/theme/macarons.js"></script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/public/layer/layer.js"></script>
@@ -43,7 +43,6 @@ function showCharts(){
 		$.getJSON("<%=basePath %>statistical/echarts.do", function(json) {
 			console.log(json);  
 			myChart.setOption(json);
-			window.onresize = myChart.resize;
 			myChart.hideLoading();
 		});
        
@@ -66,27 +65,21 @@ function on(){
 	  </div>
    </div>
    
-    <div class="container mt10">
-	   <div class="headline-v2">
-	   		<h2>查询条件</h2>
-	   </div>
-   </div>
-   
-   <div class="container">
+   <div class="container mt20">
      <div class="p10_25">
      <h2 class="padding-10 border1">
-       <form action="" method="post" class="mb0">
+       <form action="<%=basePath %>statistical/view.html" method="post" enctype="multipart/form-data" class="mb0">
     	<ul class="demand_list">
     	  <li class="fl">
-	    	<label class="fl">采购机构：</label><span><input type="text" id="topic" class=""/></span>
+	    	<label class="fl">采购机构：</label><span><input type="text" value="${purchaseDepName }" name="purchaseDepName" class=""/></span>
 	      </li>
     	  <li class="fl">
-	    	<label class="fl">合同名称：</label><span><input type="text" id="topic" class=""/></span>
+	    	<label class="fl">合同名称：</label><span><input type="text" value="${name }" name="name" class=""/></span>
 	      </li>
     	  <li class="fl">
-	    	<label class="fl">合同编号：</label><span><input type="text" id="topic" class=""/></span>
+	    	<label class="fl">合同编号：</label><span><input type="text" value="${code }" name="code" class=""/></span>
 	      </li> 
-	    	<button type="button" onclick="query()" class="btn">查询</button>
+	    	<button type="submit" class="btn">查询</button>
 	    	<button type="reset" class="btn">重置</button>  	
     	</ul>
     	  <div class="clear"></div>
@@ -139,7 +132,7 @@ function on(){
             
             <div class="tab-pane fade height-450" id="tab-2">
               <div id="dcDataUseStatisticContainer" class="margin-bottom-0 categories">
-					<div id="chart" class="icharts" style="width:800px; height:500px;">
+					<div id="chart" class="icharts" style="width:800px; height:460px;">
 					</div>
               </div>
             </div>

@@ -31,6 +31,8 @@ public class Series {
     
     private Integer barWidth;
     
+    private String symbol;
+    
 
     public String getName() {
         return name;
@@ -120,5 +122,14 @@ public class Series {
 	public void setBarWidth(Integer barWidth) {
 		this.barWidth = barWidth;
 	}
+
+	public String getSymbol() {
+		return symbol;
+	}
+
+	public void setSymbol(String symbol) {
+		this.symbol = symbol;
+	}
+	
     
 }

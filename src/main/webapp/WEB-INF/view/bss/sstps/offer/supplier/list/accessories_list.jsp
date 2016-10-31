@@ -24,6 +24,34 @@ function nextStep(){
 	window.location.href="<%=basePath%>outproductCon/view.do?proId="+proId;
 }
 
+$(document).ready(function() { 
+	 
+	var totalRow = 0 ;
+	var totalRow2 = 0;
+	var totalRow3 = 0;
+	var totalRow4 = 0;
+	$('#table1 tr').each(function() { 
+		$(this).find('td:eq(9)').each(function(){ 
+			totalRow += parseFloat($(this).text()); 
+		}); 
+		$(this).find('td:eq(14)').each(function(){ 
+			totalRow2 += parseFloat($(this).text()); 
+		});
+		$(this).find('td:eq(15)').each(function(){ 
+			totalRow3 += parseFloat($(this).text()); 
+		});
+		$(this).find('td:eq(16)').each(function(){ 
+			totalRow4 += parseFloat($(this).text()); 
+		});
+	}); 
+	$('#total').html(totalRow);
+	$('#total2').html(totalRow2);
+	$('#total3').html(totalRow3);
+	$('#total4').html(totalRow4);
+	
+}); 
+
+
 </script>
 
   </head>
@@ -50,7 +78,7 @@ function nextStep(){
 	
 	<div class="container margin-top-5">
 	 	<div class="container padding-left-25 padding-right-25">
-			<table class="table table-bordered table-condensed">
+			<table id="table1" class="table table-bordered table-condensed">
 				<thead>
 					<tr>
 						<th rowspan="2" class="info">序号</th>
@@ -110,6 +138,18 @@ function nextStep(){
 					</tr>
 				   </c:forEach>
 				 </tbody>
+				 <thead>
+					 <tr id="totalRow">
+					 	<td colspan="5" class="tc">总计金额：</td>
+					 	<td colspan="4" ></td>
+					 	<td class="tc" id="total"></td>
+					 	<td colspan="4" ></td>
+					 	<td class="tc" id="total2"></td>
+					 	<td class="tc" id="total3"></td>
+					 	<td class="tc" id="total4"></td>
+					 	<td colspan="2" ></td>
+					 </tr>
+				 </thead> 
 			</table>
 		</div>
 		

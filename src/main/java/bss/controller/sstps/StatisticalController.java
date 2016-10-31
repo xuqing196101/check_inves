@@ -21,6 +21,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import bss.echarts.AxisLabel;
+import bss.echarts.AxisPointer;
 import bss.echarts.DataView;
 import bss.echarts.Feature;
 import bss.echarts.Legend;
@@ -29,6 +30,7 @@ import bss.echarts.Option;
 import bss.echarts.Restore;
 import bss.echarts.SaveAsImage;
 import bss.echarts.Series;
+import bss.echarts.TextStyle;
 import bss.echarts.Title;
 import bss.echarts.Toolbox;
 import bss.echarts.Tooltip;
@@ -56,9 +58,9 @@ public class StatisticalController {
         toolbox.setOrient("vertical");
         toolbox.setX("right");
         toolbox.setY("top");
-        DataView dataView = new DataView();
-        dataView.setShow(true);
-        dataView.setReadOnly(false);
+//        DataView dataView = new DataView();
+//        dataView.setShow(true);
+//        dataView.setReadOnly(false);
         MagicType magicType = new MagicType();
         magicType.setShow(true);
         List<String> type = new ArrayList<String>();
@@ -69,14 +71,34 @@ public class StatisticalController {
         restore.setShow(true);
         SaveAsImage saveAsImage = new SaveAsImage();
         saveAsImage.setShow(true);
-        feature.setDataView(dataView);
+      //  feature.setDataView(dataView);
         feature.setMagicType(magicType);
         feature.setRestore(restore);
         feature.setSaveAsImage(saveAsImage);
         toolbox.setShow(true);
         toolbox.setFeature(feature);
+        
         Tooltip tooltip = new Tooltip();
         tooltip.setTrigger("axis");
+        tooltip.setShow(true);
+        tooltip.setShowContent(true);
+        tooltip.setTriggerOn("mousemove");
+        tooltip.setFormatter("{b0}<br/>{a0}: {c0}<br />{a1}: {c1}<br />{a2}: {c2}%");
+        AxisPointer axisPointer = new AxisPointer();
+        axisPointer.setType("line");
+        axisPointer.setAnimation(true);
+        tooltip.setAxisPointer(axisPointer);
+        TextStyle textStyle = new TextStyle();
+        textStyle.setColor("#fff");
+        textStyle.setFontStyle("normal");
+        textStyle.setFontWeight("normal");
+        textStyle.setFontFamily("sans-serif");
+        textStyle.setFontSize(14);
+        tooltip.setTextStyle(textStyle);
+        tooltip.setBackgroundColor("rgba(50,50,50,0.7)");
+        tooltip.setBorderColor("#333");
+        tooltip.setExtraCssText("box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);");
+        
         Legend legend = new Legend();
         List<String> data = new ArrayList<String>();
         data.add("合同金额");
@@ -144,6 +166,8 @@ public class StatisticalController {
         for(int m=0;m<list.size();m++){
         	value3.add(list.get(m).getSubtract());
         }
+        series3.setSymbol("circle");
+        series3.setSymbolSize("5");
         series3.setyAxisIndex(1);
         series3.setData(value3);
         seriesArr.add(series1);
@@ -152,6 +176,7 @@ public class StatisticalController {
         option.setTitle(title);
         option.setToolbox(toolbox);
         option.setTooltip(tooltip);
+        option.setCalculable(true);
         option.setxAxis(xs);
         option.setyAxis(ys);
         option.setSeries(seriesArr);
@@ -164,9 +189,17 @@ public class StatisticalController {
 	public String view(Model model,Integer page,AppraisalContract appraisalContract){
 		
 		String name = appraisalContract.getName();
+		String code = appraisalContract.getCode();
+		String purchaseDepName = appraisalContract.getPurchaseDepName();
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		if(name!=null && !name.equals("")){
 			map.put("name", "%"+name+"%");
+		}
+		if(code!=null && !code.equals("")){
+			map.put("code", "%"+code+"%");
+		}
+		if(purchaseDepName!=null && !purchaseDepName.equals("")){
+			map.put("purchaseDepName", "%"+purchaseDepName+"%");
 		}
 		if(page==null){
 			page = 1;
@@ -177,7 +210,8 @@ public class StatisticalController {
 		List<AppraisalContract> list = appraisalContractService.selectAppraisal(appraisalContract);
 		model.addAttribute("list", new PageInfo<AppraisalContract>(list));
 		model.addAttribute("name", name);
-		
+		model.addAttribute("code", code);
+		model.addAttribute("purchaseDepName", purchaseDepName);
 		return "bss/sstps/statistical/list";
 	}
 	

@@ -289,14 +289,28 @@ public class AppraisalContractController extends BaseSupplierController{
 	@RequestMapping("/serch")
 	public String serch(AppraisalContract appraisalContract,Integer like,Model model,Integer page){
 		AppraisalContract sib = new AppraisalContract();
-		sib.setName("%"+appraisalContract.getName()+"%");
-		sib.setCode("%"+appraisalContract.getCode()+"%");
-		sib.setSupplierName("%"+appraisalContract.getSupplierName()+"%");
-		if(like==1){
+		String name = appraisalContract.getName();
+		String code = appraisalContract.getCode();
+		String supplierName = appraisalContract.getSupplierName();
+		sib.setName("%"+name+"%");
+		sib.setCode("%"+code+"%");
+		sib.setSupplierName("%"+supplierName+"%");
+		if(like==0){
 			List<AppraisalContract> list = appraisalContractService.selectByObjectLike(sib, page==null?1:page);
 			model.addAttribute("list", new PageInfo<AppraisalContract>(list));
+			model.addAttribute("name",name);
+			model.addAttribute("code",code);
+			model.addAttribute("supplierName",supplierName);
 			logger.info(JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss"));
 			return "bss/sstps/appraisal/list";
+		}if(like==1){
+			sib.setAppraisal(like);
+			List<AppraisalContract> list = appraisalContractService.selectByObjectLike(sib, page==null?1:page);
+			model.addAttribute("list", new PageInfo<AppraisalContract>(list));
+			model.addAttribute("name",name);
+			model.addAttribute("code",code);
+			model.addAttribute("supplierName",supplierName);
+			return "bss/sstps/distribution/list";
 		}
 		return "";
 	}

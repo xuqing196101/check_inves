@@ -8,6 +8,7 @@ package bss.echarts;
  */
 public class AxisPointer {
     private String type;
+    private boolean animation;
 
     public String getType() {
         return type;
@@ -16,4 +17,13 @@ public class AxisPointer {
     public void setType(String type) {
         this.type = type;
     }
+
+	public boolean isAnimation() {
+		return animation;
+	}
+
+	public void setAnimation(boolean animation) {
+		this.animation = animation;
+	}
+    
 }

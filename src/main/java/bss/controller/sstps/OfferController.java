@@ -58,10 +58,38 @@ public class OfferController {
 	* @return String
 	 */
 	@RequestMapping("/list")
-	public String list(Model model,Integer page){
-		List<AppraisalContract> list = appraisalContractService.selectDistribution(null,page==null?1:page);
+	public String list(Model model,Integer page,AppraisalContract appraisalContract){
+		List<AppraisalContract> list = appraisalContractService.selectDistribution(appraisalContract,page==null?1:page);
 		model.addAttribute("list", new PageInfo<AppraisalContract>(list));
 		logger.info(JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss"));
+		return "bss/sstps/offer/supplier/list";
+	}
+	
+	/**
+	* @Title: search
+	* @author Shen Zhenfei 
+	* @date 2016-10-27 下午1:10:42  
+	* @Description: 条件查询搜索
+	* @param @param model
+	* @param @param page
+	* @param @param appraisalContract
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/search")
+	public String search(Model model,Integer page,AppraisalContract appraisalContract){
+		AppraisalContract sib = new AppraisalContract();
+		String name = appraisalContract.getName();
+		String code = appraisalContract.getCode();
+		String supplierName = appraisalContract.getSupplierName();
+		sib.setName("%"+name+"%");
+		sib.setCode("%"+code+"%");
+		sib.setSupplierName("%"+supplierName+"%");
+		List<AppraisalContract> list = appraisalContractService.selectDistribution(sib,page==null?1:page);
+		model.addAttribute("list", new PageInfo<AppraisalContract>(list));
+		model.addAttribute("name",name);
+		model.addAttribute("code",code);
+		model.addAttribute("supplierName",supplierName);
 		return "bss/sstps/offer/supplier/list";
 	}
 	
@@ -114,10 +142,8 @@ public class OfferController {
 		AppraisalContract appraisalContract = new AppraisalContract();
 		appraisalContract.setId(contractId);
 		contractProduct.setAppraisalContract(appraisalContract);
-		
 		String name = contractProduct.getName();
 		HashMap<String,Object> map = new HashMap<String,Object>();
-		
 		if(name!=null && !name.equals("")){
 			map.put("name", "%"+name+"%");
 		}
@@ -127,12 +153,13 @@ public class OfferController {
 		map.put("page", page.toString());
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-		List<ContractProduct> list = contractProductService.select(contractProduct); 
+		List<ContractProduct> list = contractProductService.select(contractProduct);
 		model.addAttribute("list", new PageInfo<ContractProduct>(list));
 		model.addAttribute("name", name);
 		model.addAttribute("id", contractId);
 		return "bss/sstps/offer/supplier/product_list";
 	}
+	
 	
 	/**
 	* @Title: selectProductInfo
@@ -146,20 +173,23 @@ public class OfferController {
 	public String selectProductInfo(Model model,String productId,HttpServletRequest request){
 		ContractProduct contractProduct = contractProductService.selectById(productId);
 		model.addAttribute("contractProduct", contractProduct);
-		
 		String url;
 		if(contractProduct.getOffer()==0){
 			url="bss/sstps/offer/supplier/product_Info";
 		}else{
 			url="bss/sstps/offer/supplier/list/list";
 		}
-		
 		ProductInfo ProductI = new ProductInfo();
 		ProductI.setContractProduct(contractProduct);
 		ProductInfo productInfo = productInfoService.selectInfo(ProductI);
 		model.addAttribute("productInfo", productInfo);
-		
 		return url;
+	}
+	
+	
+	@RequestMapping("/selectList")
+	public String selectList(){
+		return "";
 	}
 	
 
