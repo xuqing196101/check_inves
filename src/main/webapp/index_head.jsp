@@ -35,7 +35,7 @@
 <script src="<%=basePath%>public/ZHQ/js/jquery.min.js"></script>
 <script src="<%=basePath%>public/ZHQ/js/jquery_ujs.js"></script>
 <script src="<%=basePath%>public/ZHQ/js/bootstrap.min.js"></script>
-<script type="text/javascript">
+<%--<script type="text/javascript">
 $(function(){
 	var url = "http://localhost:8080<%=url%>";
 	var flag = false;
@@ -88,7 +88,7 @@ function setTab(obj,title){
 	var classval = "active "+($(obj).parent().attr("class"));
 	$(obj).parent().attr("class",classval);
 }
-</script>
+</script>--%>
 </head>
 
 <body>
