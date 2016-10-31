@@ -136,7 +136,7 @@ public class SupplierEditController extends BaseSupplierController{
 		//待办类型 供应商
 		todo.setUndoType((short)1);
 		//标题
-		todo.setName("进口供应商变更审核");
+		todo.setName("供应商变更审核");
 		//逻辑删除 0未删除 1已删除
 		todo.setIsDeleted((short)0);
 		todo.setCreatedAt(new Date());

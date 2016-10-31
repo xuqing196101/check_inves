@@ -135,7 +135,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<td style="width:26%" class="bggrey tr">供应商名称：</td>
 							<td style="width:26%">${suppliers.supplierName }</td>
 							<td style="width:24%" class="bggrey tr">企业类型：</td>
-							<td style="width:24%">${suppliers.supplierType }</td>
+							<td style="width:24%">${supplierType }</td>
 						</tr>
 						<tr>
 							<td style="width:26%" class="bggrey tr">企业性质：</td>

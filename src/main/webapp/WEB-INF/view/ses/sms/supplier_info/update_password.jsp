@@ -187,7 +187,7 @@ $("#newPassword2").val('');
 							</td>
 						</tr>
 						<tr>
-							<td class="bggrey tc" style="width:30%">新密码：</td>
+							<td class="bggrey tc" style="width:30%">确认新密码：</td>
 							<td style="width:70%">
 								<input class="span3" id="newPassword2"  name="newPassword2"  type="text">
 							</td>

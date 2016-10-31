@@ -1,6 +1,7 @@
 package ses.controller.sys.sms;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -28,6 +29,7 @@ import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierStockholder;
+import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.UserServiceI;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierLevelService;
@@ -127,6 +129,14 @@ public class SupplierInfoController extends BaseSupplierController{
 			User user=(User)request.getSession().getAttribute("loginUser");
 			supplier = supplierAuditService.supplierById(user.getTypeId());
 			model.addAttribute("suppliers", supplier);
+			List<SupplierTypeRelate> listSupplierTypeRelates = supplier.getListSupplierTypeRelates();
+			String supplierType="";
+			if(listSupplierTypeRelates.size()>0){
+				for(SupplierTypeRelate str:listSupplierTypeRelates){
+					supplierType+=str.getSupplierTypeName()+" ";
+				}
+			}
+			model.addAttribute("supplierType", supplierType);
 			return "ses/sms/supplier_info/ruku";
 		}else{
 			User user=(User)request.getSession().getAttribute("loginUser");

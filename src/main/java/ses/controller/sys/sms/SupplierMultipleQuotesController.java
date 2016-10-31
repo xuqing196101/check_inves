@@ -61,20 +61,15 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
      */
 	@RequestMapping(value="/list")
 	public String list(HttpServletRequest req,HttpServletResponse response,SaleTender saleTender,Integer page,Model model){
-		User user=(User)req.getSession().getAttribute("loginUser");
-		saleTender.setStatusBid((short)2);
-		saleTender.setStatusBond((short)2);
-		saleTender.setSupplierId(user.getTypeId());
-		int size=saleTenderService.list(saleTender, page==null?0:page).size();
-		if(size>0){
+		//if(size>0){
 			HashMap<String, Object> map = new HashMap<String, Object>();
 		    List<ProjectDetail> pdList = detailService.selectByCondition(map);
 			model.addAttribute("pdList", new PageInfo<>(pdList));
 			return "ses/sms/multiple_quotes/list";
-		}else{
+		/*}else{
 			super.alert(req, response, "缴纳保证金和标书费后才可以报价", false);
 			return null;
-		}
+		}*/
 	}
 	
 	/**
@@ -92,22 +87,35 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping(value="/baojia")
-	public String baojia(HttpServletRequest req,String id,String packageName,String packageId,Model model) throws UnsupportedEncodingException{
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("id",id );
-        List<ProjectDetail> detailList = detailService.selectByCondition(map);
-        List<ProjectDetail> list=new ArrayList<ProjectDetail>();
-        if(detailList.size()>0){
-        	for(ProjectDetail pd:detailList){
-        		if(pd.getPackages().getName().equals(URLDecoder.decode(packageName,"UTF-8"))){
-        			list.add(pd);
-        		}
-        	}
-        }
-		model.addAttribute("list", list);
-		model.addAttribute("id", id);
-		model.addAttribute("packageId", packageId);
-		return "ses/sms/multiple_quotes/baojia";
+	public String baojia(HttpServletRequest req,String id,String packageName,HttpServletResponse response,String packageId,Model model) throws UnsupportedEncodingException{
+		//判断有没有缴纳保证金，标书费
+		User user=(User)req.getSession().getAttribute("loginUser");
+		SaleTender saleTender=new SaleTender();
+		saleTender.setStatusBid((short)2);
+		saleTender.setStatusBond((short)2);
+		saleTender.setSupplierId(user.getTypeId());
+		saleTender.setProjectId(id);
+		int size=saleTenderService.list(saleTender, 0).size();
+		if(size>0){
+			HashMap<String, Object> map = new HashMap<String, Object>();
+	        map.put("id",id );
+	        List<ProjectDetail> detailList = detailService.selectByCondition(map);
+	        List<ProjectDetail> list=new ArrayList<ProjectDetail>();
+	        if(detailList.size()>0){
+	        	for(ProjectDetail pd:detailList){
+	        		if(pd.getPackages().getName().equals(URLDecoder.decode(packageName,"UTF-8"))){
+	        			list.add(pd);
+	        		}
+	        	}
+	        }
+			model.addAttribute("list", list);
+			model.addAttribute("id", id);
+			model.addAttribute("packageId", packageId);
+			return "ses/sms/multiple_quotes/baojia";
+		}else{
+			super.alert(req, response, "缴纳保证金和标书费后才可以报价", false);
+			return null;
+		}
 	}
 	
 	/**
