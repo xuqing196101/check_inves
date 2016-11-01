@@ -405,7 +405,6 @@ public class ExpExtractRecordController extends BaseController {
     @ResponseBody
     @RequestMapping("/resetPwd")
     public String resetPwd(Model model, String eid){
-        
         User user = new User();
         user.setTypeId(eid);
         user.setTypeName(5);

@@ -6,6 +6,8 @@ package bss.model.ppms;
 import java.util.Date;
 import java.util.List;
 
+import ses.model.sms.Supplier;
+
 
 /**
  * @Title:Package
@@ -31,6 +33,8 @@ public class Packages {
 	private String markTermTree;
 	
 	private List<ProjectDetail> projectDetails;
+	
+	private List<SupplierCheckPass> supplierList; 
 
 	public String getId() {
 		return id;
@@ -104,8 +108,19 @@ public class Packages {
 		this.projectDetails = projectDetails;
 	}
 
-	
-	
+    /**
+     * @return Returns the supplierList.
+     */
+    public List<SupplierCheckPass> getSupplierList() {
+        return supplierList;
+    }
+
+    /**
+     * @param supplierList The supplierList to set.
+     */
+    public void setSupplierList(List<SupplierCheckPass> supplierList) {
+        this.supplierList = supplierList;
+    }
 	
 	
 }

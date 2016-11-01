@@ -138,7 +138,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								   		<input type="hidden" name="projectId" value="${projectId}">
 								   		<span>包名:<span>${pack.name }</span>
 								   		</span>
-								   		
 								   		<table class="table table-bordered table-condensed mt5">
 							        	<thead>
 							        		<tr class="info">

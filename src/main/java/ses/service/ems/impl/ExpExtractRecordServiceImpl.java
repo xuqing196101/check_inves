@@ -102,7 +102,6 @@ public class ExpExtractRecordServiceImpl implements ExpExtractRecordService {
         extract.setOperatingType((short)1);
         extract.setProjectId(projectId);
         extractService.insertProjectExtract(extract);
-
         //生成15位随机码
         String randomCode = generateString(15);
         //根据随机码+密码加密
@@ -117,7 +116,6 @@ public class ExpExtractRecordServiceImpl implements ExpExtractRecordService {
         user.setTypeName(5);
         user.setTypeId(uuId);
         userServiceI.save(user, null);
-
         //查询条件
         ProjectExtract projectExtract = new ProjectExtract();
         projectExtract.setProjectId(projectId);

@@ -2,10 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%
-    String path = request.getContextPath();
-			String basePath = request.getScheme() + "://"
-					+ request.getServerName() + ":" + request.getServerPort()
-					+ path + "/";
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
@@ -120,55 +118,57 @@
         //保存
         function save(){
             alert("保存");
-            $("#form").attr("action",'<%=basePath%>resultAnnouncement/saveResultAnnouncement.do');
-		$("#form").submit();
-	}
-</script>
+            $("#form").attr("action",'<%=basePath%>resultAnnouncement/saveResultAnnouncement.do');   
+            $("#form").submit();
+        }
+    </script>
+    <script type="text/javascript">
+	$(function(){
+	     var pack="${packageName[0].id}";
+	     change(pack);  
+	})
 
-<script type="text/javascript">
-$(function(){
-	 var pack="${packageName[0].id}";
-     change(pack);	
-})
-
-	function supplierch(){
-		 var pack=$("#package").find("option:selected").val();
-		 change(pack);
-	}
+    function supplierch(){
+         var pack=$("#package").find("option:selected").val();
+         change(pack);
+    }
 
     function change(pack){
-    	      $.ajax({
-    	          type:"POST",
-    	          url:"<%=basePath%>winningSupplier/getSupplierJosn.do",
-    	          data:{packageId:pack,isWonBid:1},
-    	          dataType:"json",
-    	          success: function(data){
-    	               var list = data;
-    	               $("#supplier").empty();
-    	               for(var i=0;i<list.length;i++){
-    	                    $("#supplier").append("<option value="+list[i].id+">"+list[i].supplier.supplierName+"</option>");
-    	               }
-    	          }
-    	      });
+              $.ajax({
+                  type:"POST",
+                  url:"<%=basePath%>winningSupplier/getSupplierJosn.do",
+                  data:{packageId:pack},
+                  dataType:"json",
+                  success: function(data){
+                       var list = data;
+                       $("#supplier").empty();
+                       for(var i=0;i<list.length;i++){
+                            $("#supplier").append("<option value="+list[i].id+">"+list[i].supplier.supplierName+"</option>");
+                       }
+                  }
+              });
     }
 </script>
+    
+    
 </head>
 
 <body>
-	<div class="col-md-12 p0">
-		<ul class="flow_step">
-			<li><a
-				href="<%=basePath%>winningSupplier/selectSupplier.html?projectId=${projectId}">01、确认中标供应商</a>
-				<i></i></li>
-
-			<li class="active"><a
-				href="<%=basePath%>winningSupplier/template.do?projectId=${projectId}">02、中标通知书</a>
-				<i></i></li>
-			<li><a
-				href="<%=basePath%>winningSupplier/notTemplate.do?projectId=${projectId}">03、未中标通知书</a>
-			</li>
-		</ul>
-	</div>
+	      <div class="col-md-12 p0">
+                           <ul class="flow_step">
+                             <li >
+                               <a  href="<%=basePath%>winningSupplier/selectSupplier.html?projectId=${projectId}" >01、确认中标供应商</a>
+                               <i></i>
+                             </li>
+                             <li >
+                               <a  href="<%=basePath%>winningSupplier/template.do?projectId=${projectId}" >02、中标通知书</a>
+                               <i></i>                            
+                             </li>
+                              <li class="active">
+                               <a  href="<%=basePath%>winningSupplier/notTemplate.do?projectId=${projectId}">03、未中标通知书</a>
+                             </li>
+                           </ul>
+                         </div>
 	<div class="container content height-350">
 		<div class="row">
 			<div class="col-md-12" style="min-height: 400px;">
@@ -176,20 +176,20 @@ $(function(){
 					<h2 class="padding-10 border1">
 						<form action="" method="post" class="mb0">
 							<ul class="demand_list">
-								<li class="fl"><label class="fl">包：</label><span> <select
-										id="package" class="w100" onchange="supplierch();">
-											<c:forEach items="${packageName}" var="pack">
-												<option value="${pack.id}">${pack.name}</option>
-											</c:forEach>
-									</select>
-								</span></li>
+                                <li class="fl"><label class="fl">包：</label><span> <select
+                                        id="package" class="w100 " onchange="supplierch();">
+                                            <c:forEach items="${packageName}" var="pack">
+                                                <option value="${pack.id}">${pack.name}</option>
+                                            </c:forEach>
+                                    </select>
+                                </span></li>
 
-								<li class="fl"><label class="fl">供应商名称：</label><span>
-										<select class="w200" id="supplier">
+                                <li class="fl"><label class="fl">供应商名称：</label><span>
+                                        <select class="w200" id="supplier">
 
-									</select>
-								</span></li>
-							</ul>
+                                    </select>
+                                </span></li>
+                            </ul>
 							<div class="clear"></div>
 						</form>
 					</h2>
@@ -215,9 +215,9 @@ $(function(){
 							<div class="tc mt20 clear col-md-12">
 
 								<input type="button" class="btn btn-windows save"
-									onclick="save()" value="保存"></input> <input type="button"
-									class="btn btn-windows back" onclick="history.go(-1)"
-									value="返回"></input>
+									onclick="save()" value="保存"></input>
+								<input type="button" class="btn btn-windows back"
+									onclick="history.go(-1)" value="返回"></input>
 							</div>
 						</div>
 					</form>
@@ -227,12 +227,12 @@ $(function(){
 		</div>
 	</div>
 	<script type="text/javascript">
-		var ue = UE.getEditor('editor');
-		ue.ready(function() {
-			//需要ready后执行，否则可能报错
-			ue.setHeight(500);
-		})
-	</script>
+    var ue = UE.getEditor('editor'); 
+    ue.ready(function(){
+        //需要ready后执行，否则可能报错
+        ue.setHeight(500);
+    })
+    </script>
 </body>
 </html>
 

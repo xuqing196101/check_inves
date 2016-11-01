@@ -43,17 +43,49 @@
 		}
 	
 	/** 单选 */
-	function check(){
+	function check(check){
+	var bo = check.checked;
+	if(bo==true){
+		/**获取选中的值 */
+		$(check).attr("checked","true");
+		var ck=$(check).parent().parent().prev().find("td:eq(0)").html();
+		var Ranking= $(check).parent().parent().find("td:eq(5)").text();
+		if(Ranking!=1){
+	        if($(ck).attr("checked")){
+	            
+	        }else{
+	        	var iframeWin;
+	        	layer.open({
+	                type: 2,
+	                title: '上传',
+	                shadeClose: false,
+	                shade: 0.01,
+	                area: ['367px', '180px'], //宽高
+	                content: '<%=basePath%>winningSupplier/upload.html',
+	                success: function(layero, index){
+	                    iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+	                  },
+	                  cancel: function(){ 
+	                	  $(check).removeAttr("checked"); 
+                          layer.closeAll();
+	                	},    
+	                btn: ['保存', '关闭'] 
+	                    ,yes: function(){
+// 	                        iframeWin.add();
+	                    	   layer.closeAll();
+	                    }
+	                    ,btn2: function(){
+	                    	  $(check).removeAttr("checked"); 
+	                      layer.closeAll();
+	                    }//iframe的url
+	              });
+	        }
+		}
 		
-		layer.open({
-			  type: 2,
-			  title: '上传',
-			  shadeClose: true,
-			  shade: 0.01,
-			  area: ['367px', '180px'], //宽高
-			  content: '<%=basePath%>winningSupplier/upload.html'
-			});
-		
+	}else{
+		$(check).removeAttr("checked"); 
+	}
+	
 // 		 var count=0;
 // 		 var checklist = document.getElementsByName ("chkItem");
 // 		 var checkAll = document.getElementById("checkAll");
@@ -70,104 +102,87 @@
 // 				 }
 // 		   }
 	}
-  	function view(id){
-  		window.location.href="<%=basePath%>winningSupplier/template.do?id="+id;
-  	}
+  
     function save(){
     	var id=[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
 		}); 
-		if(id.length==1){
-			 $.post("<%=basePath%>resultAnnouncement/view.do?id="+id,{email:$('#email').val(),address:$('#address').val()},
-					  function(data){
-					    var tem=data;
-					    var ue = parent.UE.getEditor('editor'); 
-					    ue.ready(function(){
-					        //需要ready后执行，否则可能报错
-					        ue.setContent(tem.content);
-					        ue.setHeight(500);
-					    });
-					    var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
-					    parent.layer.close(index);
-					  },
-					  "json");
-					
-		}else if(id.length>1){
-			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+		 if(id.length>=1){
+			  $.post("<%=basePath%>winningSupplier/updateBid.do?id="+id,{email:$('#email').val(),address:$('#address').val()},
+                      function(data){
+                      window.location.href="<%=basePath%>winningSupplier/template.do?projectId=${projectId}";
+				  
+                      },
+                      "json");
 		}else{
-			layer.alert("请选择模板",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择供应商",{offset: ['200px', '390px'], shade:0.01});
 		}
     }
-
    
 </script>
 <body>
-	<!--面包屑导航开始-->
-	<div class="container">
-		<div class="headline-v2">
-			<h2>确定中标供应商</h2>
-		</div>
-	</div>
+    <div class="col-md-12 p0">
+                           <ul class="flow_step">
+                             <li class="active">
+                               <a  href="<%=basePath%>winningSupplier/selectSupplier.html?projectId=${projectId}" >01、确认中标供应商</a>
+                               <i></i>
+                             </li>
+                             <li >
+                               <a  href="<%=basePath%>winningSupplier/template.do?projectId=${projectId}" >02、中标通知书</a>
+                               <i></i>                            
+                             </li>
+                             <li>
+                               <a  href="<%=basePath%>winningSupplier/notTemplate.do?projectId=${projectId}">03、未中标通知书</a>
+                             </li>
+                           </ul>
+                         </div>
 	<!-- 表格开始-->
-	<div class="container">
-		<div class="padding-left-25 padding-right-25"></div>
-	</div>
-	<div class="container">
-		<div class="p10_25">
-			<h2 class="padding-10 border1">
-				<form action="" method="post" class="mb0">
-					<ul class="demand_list">
-					  <li class="fl">
-                              <label class="fl">合同名称：</label><span><input type="text" id="topic" class=""/></span>
-                         </li>
-					</ul>
-					<div class="clear"></div>
-				</form>
-			</h2>
+	<div class="container padding-top-35">
+		<div class="padding-right-35" align="right">
+			  <button type="button" onclick="save()" class="btn">确定</button>
 		</div>
 	</div>
 	<div class="container">
-
 		<div class="content padding-left-25 padding-right-25 padding-top-0">
 			<div class="col-md-12">
-				<span>第一包</span>    <button type="button" onclick="view()" class="btn">确定</button>
+			 
+			 <c:forEach items="${list}" var="list">
+				<span>${list.name}</span>   
 				<table class="table table-bordered table-condensed">
 					<thead>
 						<tr>
 							<th class="info w30">选择</th>
-							<th class="info w50">序号</th>
 							<th class="info">供应商名称</th>
 							<th class="info">参加时间</th>
-							<th class="info">标书状态</th>
 							<th class="info">总报价（万元）</th>
 							<th class="info">总得分</th>
 							<th class="info">排名</th>
 						</tr>
 					</thead>
-					<c:forEach items="${list}" var="list" varStatus="vs">
+					<c:forEach items="${list.supplierList}" var="checkpass" varStatus="vs">
 						<tr>
-							<td class="tc opinter"><input onclick="check()"
-								type="checkbox" name="chkItem" value="${list.address}" /></td>
+							<td class="tc opinter"><input onclick="check(this)"
+								type="checkbox" name="chkItem" value="${checkpass.id}" /></td>
+                            <td class="tc opinter" onclick="">${checkpass.supplier.supplierName}</td>
+                            
+							<td class="tc opinter" onclick=""><fmt:formatDate value='${checkpass.joinTime}' pattern="yyyy-MM-dd " /></td>
 
-							<td class="tc opinter" onclick="">${(vs.index+1)}</td>
+							<td class="tc opinter" onclick="">${checkpass.totalPrice}</td>
 
-							<td class="tc opinter" onclick="">${list.address}</td>
-
-							<td class="tc opinter" onclick="">${list.address}</td>
-
-							<td class="tc opinter" onclick="">${list.address}</td>
-
-							<td class="tc opinter" onclick="">${list.address}</td>
+							<td class="tc opinter" onclick="">${checkpass.totalScore}</td>
 							
-							<td class="tc opinter" onclick="">${list.address}</td>
-							 <td class="tc opinter" onclick="">${list.address}</td>
-							<%-- 							<td class="tc opinter" onclick="view('${templet.id}')"><fmt:formatDate --%>
-							<%-- 									value='${templet.updatedAt}' pattern="yyyy-MM-dd " /></td> --%>
+							 <td class="tc opinter" onclick="">${(vs.index+1)}</td>
+							
+<%-- 							<td class="tc opinter" onclick="">${list.address}</td> --%>
+<%-- 							 <td class="tc opinter" onclick="">${list.address}</td> --%>
+							<%-- 							<td class="tc opinter" onclick="view('${templet.id}')"></td> --%>
 						</tr>
 					</c:forEach>
 				</table>
+			</c:forEach>
 			</div>
+		</div>
 		</div>
 </body>
 </html>

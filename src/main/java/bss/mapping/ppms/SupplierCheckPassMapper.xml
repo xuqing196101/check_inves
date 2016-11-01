@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.ppms.SupplierCheckPassMapper">
+	<resultMap id="BaseResultMap" type="bss.model.ppms.SupplierCheckPass">
+		<!-- @mbggenerated -->
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
+		<result column="JOIN_TIME" jdbcType="DATE" property="joinTime" />
+		<result column="SUPPLIER_ID" jdbcType="VARCHAR" property="supplierId" />
+		<result column="BID_STATUS" jdbcType="DECIMAL" property="bidStatus" />
+		<result column="TOTAL_PRICE" jdbcType="DECIMAL" property="totalPrice" />
+		<result column="TOTAL_SCORE" jdbcType="DECIMAL" property="totalScore" />
+		<result column="PACKAGE_ID" jdbcType="VARCHAR" property="packageId" />
+		<result column="IS_WON_BID" jdbcType="DECIMAL" property="isWonBid" />
+		<result column="IS_SEND_NOTICE" jdbcType="DECIMAL" property="isSendNotice" />
+		<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+		<result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+		  <association property="supplier" column="SUPPLIER_ID" select="ses.dao.sms.SupplierMapper.selectByPrimaryKey"/>
+	</resultMap>
+
+	<resultMap id="BaseResultMapPackage" type="bss.model.ppms.Packages">
+		<!-- @mbggenerated -->
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="NAME" jdbcType="VARCHAR" property="name" />
+	</resultMap>
+
+	<resultMap id="SelectResultMapPackage" type="bss.model.ppms.Packages">
+		<id column="PPID" jdbcType="VARCHAR" property="id" />
+		<result column="NAME" jdbcType="VARCHAR" property="name" />
+		<collection property="supplierList" ofType="bss.model.ppms.SupplierCheckPass">
+			<!-- @mbggenerated -->
+			<id column="ID" jdbcType="VARCHAR" property="id" />
+			<result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
+			<result column="JOIN_TIME" jdbcType="DATE" property="joinTime" />
+			<result column="BID_STATUS" jdbcType="DECIMAL" property="bidStatus" />
+			<result column="TOTAL_PRICE" jdbcType="DECIMAL" property="totalPrice" />
+			<result column="TOTAL_SCORE" jdbcType="DECIMAL" property="totalScore" />
+			<result column="PACKAGE_ID" jdbcType="VARCHAR" property="packageId" />
+			<result column="IS_WON_BID" jdbcType="DECIMAL" property="isWonBid" />
+			<result column="IS_SEND_NOTICE" jdbcType="DECIMAL" property="isSendNotice" />
+			<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+			<result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+		  <association property="supplier" column="SUPPLIER_ID" select="ses.dao.sms.SupplierMapper.selectByPrimaryKey"/>
+		</collection>
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		<!-- @mbggenerated -->
+		cp.ID, cp.PROJECT_ID, cp.JOIN_TIME, cp.SUPPLIER_ID, cp.BID_STATUS, cp.TOTAL_PRICE,
+		cp.TOTAL_SCORE, cp.PACKAGE_ID,
+		cp.IS_WON_BID, cp.IS_SEND_NOTICE, cp.CREATED_AT,
+		cp.UPDATED_AT
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		<!-- @mbggenerated -->
+		select
+		<include refid="Base_Column_List" />
+		from T_BSS_PPMS_SUPPLIER_CHECK_PASS
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		<!-- @mbggenerated -->
+		delete from T_BSS_PPMS_SUPPLIER_CHECK_PASS
+		where ID =
+		#{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="bss.model.ppms.SupplierCheckPass">
+		<!-- @mbggenerated -->
+		insert into T_BSS_PPMS_SUPPLIER_CHECK_PASS (ID, PROJECT_ID, JOIN_TIME,
+		SUPPLIER_ID, BID_STATUS, TOTAL_PRICE,
+		TOTAL_SCORE, PACKAGE_ID,
+		IS_WON_BID,
+		IS_SEND_NOTICE, CREATED_AT, UPDATED_AT
+		)
+		values
+		(#{id,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR},
+		#{joinTime,jdbcType=DATE},
+		#{supplierId,jdbcType=VARCHAR},
+		#{bidStatus,jdbcType=DECIMAL}, #{totalPrice,jdbcType=DECIMAL},
+		#{totalScore,jdbcType=DECIMAL}, #{packageId,jdbcType=VARCHAR},
+		#{isWonBid,jdbcType=DECIMAL},
+		#{isSendNotice,jdbcType=DECIMAL},
+		#{createdAt,jdbcType=DATE}, #{updatedAt,jdbcType=DATE}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="bss.model.ppms.SupplierCheckPass">
+		<!-- @mbggenerated -->
+		insert into T_BSS_PPMS_SUPPLIER_CHECK_PASS
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="projectId != null">
+				PROJECT_ID,
+			</if>
+			<if test="joinTime != null">
+				JOIN_TIME,
+			</if>
+			<if test="supplierId != null">
+				SUPPLIER_ID,
+			</if>
+			<if test="bidStatus != null">
+				BID_STATUS,
+			</if>
+			<if test="totalPrice != null">
+				TOTAL_PRICE,
+			</if>
+			<if test="totalScore != null">
+				TOTAL_SCORE,
+			</if>
+			<if test="packageId != null">
+				PACKAGE_ID,
+			</if>
+			<if test="isWonBid != null">
+				IS_WON_BID,
+			</if>
+			<if test="isSendNotice != null">
+				IS_SEND_NOTICE,
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT,
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="projectId != null">
+				#{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="joinTime != null">
+				#{joinTime,jdbcType=DATE},
+			</if>
+			<if test="supplierId != null">
+				#{supplierId,jdbcType=VARCHAR},
+			</if>
+			<if test="bidStatus != null">
+				#{bidStatus,jdbcType=DECIMAL},
+			</if>
+			<if test="totalPrice != null">
+				#{totalPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="totalScore != null">
+				#{totalScore,jdbcType=DECIMAL},
+			</if>
+			<if test="packageId != null">
+				#{packageId,jdbcType=VARCHAR},
+			</if>
+			<if test="isWonBid != null">
+				#{isWonBid,jdbcType=DECIMAL},
+			</if>
+			<if test="isSendNotice != null">
+				#{isSendNotice,jdbcType=DECIMAL},
+			</if>
+			<if test="createdAt != null">
+				#{createdAt,jdbcType=DATE},
+			</if>
+			<if test="updatedAt != null">
+				#{updatedAt,jdbcType=DATE},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="bss.model.ppms.SupplierCheckPass">
+		<!-- @mbggenerated -->
+		update T_BSS_PPMS_SUPPLIER_CHECK_PASS
+		<set>
+			<if test="projectId != null">
+				PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="joinTime != null">
+				JOIN_TIME = #{joinTime,jdbcType=DATE},
+			</if>
+			<if test="supplierId != null">
+				SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
+			</if>
+			<if test="bidStatus != null">
+				BID_STATUS = #{bidStatus,jdbcType=DECIMAL},
+			</if>
+			<if test="totalPrice != null">
+				TOTAL_PRICE = #{totalPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="totalScore != null">
+				TOTAL_SCORE = #{totalScore,jdbcType=DECIMAL},
+			</if>
+			<if test="packageId != null">
+				PACKAGE_ID = #{packageId,jdbcType=VARCHAR},
+			</if>
+			<if test="isWonBid != null">
+				IS_WON_BID = #{isWonBid,jdbcType=DECIMAL},
+			</if>
+			<if test="isSendNotice != null">
+				IS_SEND_NOTICE = #{isSendNotice,jdbcType=DECIMAL},
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT = #{createdAt,jdbcType=DATE},
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT = #{updatedAt,jdbcType=DATE},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="bss.model.ppms.SupplierCheckPass">
+		<!-- @mbggenerated -->
+		update T_BSS_PPMS_SUPPLIER_CHECK_PASS
+		set PROJECT_ID =
+		#{projectId,jdbcType=VARCHAR},
+		JOIN_TIME = #{joinTime,jdbcType=DATE},
+		SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
+		BID_STATUS =
+		#{bidStatus,jdbcType=DECIMAL},
+		TOTAL_PRICE =
+		#{totalPrice,jdbcType=DECIMAL},
+		TOTAL_SCORE =
+		#{totalScore,jdbcType=DECIMAL},
+		PACKAGE_ID =
+		#{packageId,jdbcType=VARCHAR},
+		IS_WON_BID =
+		#{isWonBid,jdbcType=DECIMAL},
+		IS_SEND_NOTICE =
+		#{isSendNotice,jdbcType=DECIMAL},
+		CREATED_AT =
+		#{createdAt,jdbcType=DATE},
+		UPDATED_AT = #{updatedAt,jdbcType=DATE}
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<!-- 获取包id和包name -->
+	<select id="getPackageName" parameterType="java.lang.String"
+		resultMap="BaseResultMapPackage">
+		SELECT PP."ID",PP."NAME" FROM T_BSS_PPMS_PACKAGE pp WHERE
+		PP.PROJECT_ID=#{projectId}
+	</select>
+	<!-- 获取项目包下所有信息 -->
+	<select id="listPackage" parameterType="java.lang.String"
+		resultMap="SelectResultMapPackage">
+		SELECT
+		PP."NAME",pp."ID" as PPID,
+		<include refid="Base_Column_List" />
+		FROM
+		T_BSS_PPMS_PACKAGE pp
+		INNER JOIN T_BSS_PPMS_SUPPLIER_CHECK_PASS cp
+		ON PP."ID" = CP.PACKAGE_ID
+		WHERE
+		PP.PROJECT_ID =#{projectId}
+		ORDER BY
+		CP.TOTAL_SCORE DESC
+	</select>
+	<!-- 根据包id获取包下为发送通知的供应商和中标未中标的供应商 -->
+	<select id="listSupplierCheckPass" parameterType="bss.model.ppms.SupplierCheckPass"
+		resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		T_BSS_PPMS_SUPPLIER_CHECK_PASS cp
+		WHERE
+		1=1
+		<if test="packageId != null and packageId != ''">
+			AND CP.PACKAGE_ID =#{packageId}
+		</if>
+		<if test="isSendNotice != null and isSendNotice != '' ">
+			AND IS_SEND_NOTICE=#{isSendNotice}
+		</if>
+		<if test="isWonBid !=null and isWonBid !='' ">
+			AND IS_WON_BID = #{isWonBid}
+		</if>
+	</select>
+</mapper>
