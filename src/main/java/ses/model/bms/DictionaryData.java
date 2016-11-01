@@ -5,7 +5,7 @@ import java.util.Date;
 
 import javax.validation.constraints.NotNull;
 
-public class AttachmentType implements Serializable{
+public class DictionaryData implements Serializable{
     
     private static final long serialVersionUID = 1L;
 
@@ -14,15 +14,23 @@ public class AttachmentType implements Serializable{
     @NotNull(message = "编码不能为空")  
     private String code;
 
-    @NotNull(message = "描述不能为空") 
     private String description;
 
+    @NotNull(message = "名称不能为空")
+    private String Name;
+    
     private Date createdAt;
 
     private Date updatedAt;
 
     private Integer isDeleted;
 
+    private DictionaryData parent;
+    
+    private Boolean isRoot;
+    
+    private Boolean position;
+    
     public String getId() {
         return id;
     }
@@ -70,4 +78,37 @@ public class AttachmentType implements Serializable{
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
     }
+
+    public DictionaryData getParent() {
+        return parent;
+    }
+
+    public void setParent(DictionaryData parent) {
+        this.parent = parent;
+    }
+
+    public Boolean getIsRoot() {
+        return isRoot;
+    }
+
+    public void setIsRoot(Boolean isRoot) {
+        this.isRoot = isRoot;
+    }
+
+    public Boolean getPosition() {
+        return position;
+    }
+
+    public void setPosition(Boolean position) {
+        this.position = position;
+    }
+
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String name) {
+        Name = name;
+    }
+    
 }

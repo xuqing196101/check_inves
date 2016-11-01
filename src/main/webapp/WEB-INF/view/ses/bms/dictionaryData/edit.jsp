@@ -47,9 +47,82 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="<%=basePath%>public/ztree/jquery.ztree.excheck.js"></script>
 </head>
 <script type="text/javascript">
+	/* 所属字典类型选择 */
+		
+		function onClickp(e, treeId, treeNode) {
+			var zTree = $.fn.zTree.getZTreeObj("treep");
+			zTree.checkNode(treeNode, !treeNode.checked, null, true);
+			return false;
+		}
+		function onCheckp(e, treeId, treeNode) {
+			var zTree = $.fn.zTree.getZTreeObj("treep"),
+			nodes = zTree.getCheckedNodes(true),
+			v = "";
+			for (var i=0, l=nodes.length; i<l; i++) {
+				v += nodes[i].name + ",";
+				$("#pId").val(nodes[i].id);
+			}
+			if (v.length > 0 ) v = v.substring(0, v.length-1);
+			var pObj = $("#pSel");
+			pObj.attr("value", v);
+			
+			hidep();
+		}
+		function showParent() {
+			var dId =$("#dId").val();
+			var setting = {
+				check: {
+					enable: true,
+					chkStyle: "radio",
+					radioType: "all"
+				},
+				view: {
+					dblClickExpand: false
+				},
+				data: {
+					simpleData: {
+						enable: true
+					}
+				},
+				callback: {
+					onClick: onClickp,
+					onCheck: onCheckp
+				}
+			};
+			$.ajax({
+             type: "GET",
+             async: false, 
+             url: "<%=basePath%>dictionaryData/getPTree.do?id="+dId,
+             dataType: "json",
+             success: function(zNodes){
+                     for (var i = 0; i < zNodes.length; i++) { 
+			            if (zNodes[i].isParent) {  
+			  
+			            } else {  
+			                //zNodes[i].icon = "${ctxStatic}/images/532.ico";//设置图标  
+			            }  
+			        }  
+			        tree = $.fn.zTree.init($("#treep"), setting, zNodes);  
+			        tree.expandAll(true);//全部展开
+               }
+         	});
+			var pObj = $("#pSel");
+			var cityOffset = $("#pSel").offset();
+			$("#pContent").css({left:cityOffset.left + "px", top:cityOffset.top + pObj.outerHeight() + "px"}).slideDown("fast");
+			$("body").bind("mousedown", onBodyDownRole);
+		}
+		function hidep() {
+			$("#pContent").fadeOut("fast");
+			$("body").unbind("mousedown", onBodyDownRole);
+		}
+		function onBodyDownRole(event) {
+			if (!(event.target.id == "menuBtn" || event.target.id == "pSel" || event.target.id == "pContent" || $(event.target).parents("#pContent").length>0)) {
+				hidep();
+			}
+		}
 	function goback(){
 		var currpage = $("#currpage").val();
-		window.location.href = '<%=basePath%>attachmentType/list.html?page='+currpage;
+		window.location.href = '<%=basePath%>dictionaryData/list.html?page='+currpage;
 	}
 </script>
 <body>
@@ -63,28 +136,48 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	   </div>
    </div>
    <div class="container bggrey border1 mt20">
-   	   <sf:form action="${pageContext.request.contextPath}/attachmentType/update.html" method="post" modelAttribute="at">
+   	   <div id="pContent" class="pContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+			<ul id="treep" class="ztree"  ></ul>
+	   </div>
+   	   <sf:form action="${pageContext.request.contextPath}/dictionaryData/update.html" method="post" modelAttribute="dd">
 		   <div>
 			   <div class="headline-v2 bggrey">
 			   		<h2>修改附件类型</h2>
 			   </div>
-			   <input type="hidden" name="id" value="${at.id }">
+			   <input type="hidden" name="id" id="dId" value="${dd.id }">
 			   <input type="hidden" name="currpage" id="currpage" value="${currpage }">
 			   <ul class="list-unstyled list-flow ul_list">
+			   		<li class="col-md-6  p0 ">
+					   	<span class="">所属字典类型：</span>
+					   	<div class="select_common pr">
+						   	<input id="pId" name="pId" value="${pId }" type="hidden">
+					        <input id="pSel" class="w250" type="text" name="pName" readonly value="${pName}"  onclick="showParent();" />
+					        <i class="input_icon " onclick="showParent();">
+								<img src="<%=basePath%>public/ZHH/images/down.png" class="margin-bottom-5" />
+					        </i>
+				       	</div>
+				 	</li>
 			   	 	<li class="col-md-6 p0">
 					   	<span class="span2"><div class="fr">编码：</div><div class="red">*</div></span>
 					   	<div class="input-append pr">
-					        <input class="span2" name="code" value="${at.code }" maxlength="40" type="text">
+					        <input class="span2" name="code" value="${dd.code }" maxlength="40" type="text">
 					        <span class="add-on">i</span>
 					        <div class="b f14 red tip pa l260"><sf:errors path="code"/></div>
 				       	</div>
 				 	</li>
-				 	<li class="col-md-12 p0">
-					   	<span class="span2"><div class="fr">描述：</div><div class="red">*</div></span>
-					   	<div class="col-md-12 pl200 fn mt5 pwr9">
-				        	<textarea class="text_area col-md-12 " name="description" maxlength="100" title="" placeholder="请输入100字以内中文描述">${at.description }</textarea>
+				 	<li class="col-md-6 p0">
+					   	<span class="span2"><div class="fr">名称：</div><div class="red">*</div></span>
+					   	<div class="input-append pr">
+					        <input class="span2" name="name" value="${dd.name }"  type="text">
+					        <span class="add-on">i</span>
+					        <div class="b f14 red tip pa l260"><sf:errors path="name"/></div>
 				       	</div>
-				       	 <div class="b f16 ml10 red hand"><sf:errors path="description"/></div>
+				 	</li>
+				 	<li class="col-md-12 p0">
+					   	<span class="span2">描述：</span>
+					   	<div class="col-md-12 pl200 fn mt5 pwr9">
+				        	<textarea class="text_area col-md-12 " name="description"  title="" placeholder="请输入100字以内中文描述">${dd.description }</textarea>
+				       	</div>
 				 	</li>
 			   	</ul>
 		   </div> 

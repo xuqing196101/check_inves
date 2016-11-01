@@ -61,7 +61,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    }(), 
 			    jump: function(e, first){ //触发分页后的回调
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
-			            window.location.href = '<%=basePath%>attachmentType/list.html?page='+e.curr;
+			            window.location.href = '<%=basePath%>dictionaryData/list.html?page='+e.curr;
 			        }
 			    }
 			});
@@ -110,7 +110,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}); 
 		if(id.length==1){
 			var currPage = ${list.pageNum};
-			window.location.href="<%=basePath%>attachmentType/edit.html?id="+id+"&page="+currPage;
+			window.location.href="<%=basePath%>dictionaryData/edit.html?id="+id+"&page="+currPage;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: '222px', shade:0.01});
 		}else{
@@ -126,7 +126,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		if(ids.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: '222px',shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>attachmentType/deleteSoft.html?ids="+ids;
+				window.location.href="<%=basePath%>dictionaryData/deleteSoft.html?ids="+ids;
 			});
 		}else{
 			layer.alert("请选择",{offset: '222px', shade:0.01});
@@ -134,7 +134,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     }
     
     function add(){
-    	window.location.href="<%=basePath%>attachmentType/add.html";
+    	window.location.href="<%=basePath%>dictionaryData/add.html";
     }
     
 	function query(){
@@ -150,25 +150,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	   <div class="margin-top-10 breadcrumbs ">
 	      <div class="container">
 			   <ul class="breadcrumb margin-left-0">
-			   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">后台管理</a></li><li class="active"><a href="#">附件类型管理</a></li>
+			   <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">后台管理</a></li><li class="active"><a href="#">数据字典</a></li>
 			   </ul>
 			<div class="clear"></div>
 		  </div>
 	   </div>
       <div class="container">
 		  <div class="headline-v2">
-			  <h2>附件类型管理</h2>
+			  <h2>数据字典</h2>
 		  </div>
 		  <div class="p10_25">
 		     <h2 class="padding-10 border1">
-		       	<form action="<%=basePath %>attachmentType/list.html" id="form1" method="post" class="mb0">
+		       	<form action="<%=basePath %>dictionaryData/list.html" id="form1" method="post" class="mb0">
 			    	<ul class="demand_list">
 			    	  <li class="fl">
-				    	<label class="fl">编码：</label><span><input type="text" id="code" value="${at.code }" name="code" class=""/></span>
+				    	<label class="fl">编码：</label><span><input type="text" id="code" value="${dd.code }" name="code" class=""/></span>
 				      </li>
-			    	  <li class="fl">
-				    	<label class="fl">描述：</label><span><input type="text" id="description" value="${at.description }" name="description" class=""/></span>
+				      <li class="fl">
+				    	<label class="fl">名称：</label><span><input type="text" id="name" value="${dd.name }" name="name" class=""/></span>
 				      </li>
+			    	  <%-- <li class="fl">
+				    	<label class="fl">描述：</label><span><input type="text" id="description" value="${dd.description }" name="description" class=""/></span>
+				      </li> --%>
 				    	<button type="button" onclick="query()" class="btn">查询</button>
 				    	<button type="button" onclick="resetQuery()" class="btn">重置</button>  	
 			    	</ul>
@@ -194,18 +197,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					  <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 					  <th class="info w50">序号</th>
 					  <th class="info">编码</th>
-					  <th class="info">描述</th>
+					  <th class="info">名称</th>
+					  <th class="info">是否字典类型</th>
+					  <th class="info">所属字典类型</th>
+					  <th class="info">所属字典类型编码</th>
 					</tr>
 				</thead>
-				<c:forEach items="${list.list}" var="at" varStatus="vs">
+				<c:forEach items="${list.list}" var="dd" varStatus="vs">
 					<tr>
-					  <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${at.id}" /></td>
+					  <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${dd.id}" /></td>
 					  <td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-					  <td class="tc" >${at.code}</td>
+					  <td class="tc" >${dd.code}</td>
+					  <td class="tc">${dd.name}</td>
 					  <td class="tc">
-					  		<c:if test="${at.description.length() <=20 }">${at.description}</c:if>
-					  		<c:if test="${at.description.length() > 20 }">${fn:substring(at.description, 0, 20)}...</c:if>
+					  	<c:if test="${dd.isRoot == true}">是</c:if>
+					  	<c:if test="${dd.isRoot == false}">否</c:if>
 					  </td>
+					  <td class="tc">${dd.parent.name}</td>
+					  <td class="tc">${dd.parent.code}</td>
 					</tr>
 				</c:forEach>
 		       </table>
