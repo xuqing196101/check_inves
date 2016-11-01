@@ -1827,10 +1827,15 @@ img.img-mouse {
 .btn_list li:last-child{
 	border-bottom:1px solid #e0e7e7!important;
 }
-.btn_list li.active,.btn_list li.focus,.btn_list li:hover{
+.btn_list li.active,.btn_list li.focus{
    background:#2c9fa6;
    color:#ffffff;
    border:1px solid #2c9fa6!important;
+}
+.btn_list li:hover{
+   background:#99cc33;
+   color:#ffffff;
+   border:1px solid #99cc33!important;
 }
 .btn_list li.active a,.btn_list li.focus a,.btn_list li:hover a{
    color:#ffffff!important;
@@ -1845,7 +1850,7 @@ img.img-mouse {
   float:left;
   line-height:20px;
   height:30px;
-  margin-right:40px;
+  margin-right:35px;
   background:#F6BC24;
   color:#ffffff;
   cursor:pointer;
@@ -1864,21 +1869,17 @@ img.img-mouse {
   background:#99CC33;
 }
 .flow_step li i{
-  width:20px;
+  width:11px;
   height:20px;
-  background-image:url(../images/arr-arrow.png);
+  background:url(../images/arr-arrow.png) #F6BC24;
   background-repeat:no-repeat;
   position:absolute;
-  right:-30px;
+  right:-25px;
   top:5px;
 }
 .flow_step li.active i{
   background-color:#99CC33;
  }
-.flow_step li i{
-  background-color:#F6BC24;
- }
- 
  
  .span5{
    width:200px;
@@ -1894,4 +1895,66 @@ img.img-mouse {
  .tdu{
    text-decoration: underline;
 }
-
+/*填写品目信息样式开始*/
+.subNavBoxs ul{
+ list-style:none;
+}
+.subNavBoxs {
+    width: 250px;
+    border: solid 1px #e5e3da;
+    margin:0px auto 20px auto;
+}
+.subnav_title{
+  height:32px;
+  line-height:32px;
+  width:250px;
+  margin:40px auto 0px auto;
+  font-size:16px;
+}
+.subNavBoxs .navContent {
+    display: none;
+    border-bottom: solid 1px #e5e3da;
+    padding-left:0px;
+    margin:0px;
+}
+.subNavBoxs input[type="checkbox"]{
+  margin-top:9px;
+  border:1px solid #2c9fa6;
+  border-radius:4px!important;
+}
+.subNavBoxs .navContent li {
+    display: block;
+    width: 249px;
+    height: 32px;  
+    font-size: 16px;
+    line-height: 32px;
+    border-bottom:1px solid #e5e3da;
+    padding-left:40px;
+}
+.subNavBoxs .subNav_new{
+    border-bottom: solid 1px #e5e3da;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 32px;
+    padding-left: 10px;
+}
+.comment_pic{
+    width:100px;
+    height:100px;
+    border:1px solid #eeeeee;
+    float:left;
+    padding:5px;
+}
+.comment_pic img{
+    width:100%;
+    height:100%;
+}
+.comment_desc .comment_cont{
+    min-height:60px;
+    overflow: hidden;
+}
+.comment_main{
+    padding:10px!important;
+    border:1px dashed #eeeeee;
+    margin-bottom:15px;
+}

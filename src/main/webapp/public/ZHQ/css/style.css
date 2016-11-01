@@ -1953,7 +1953,39 @@ img.img-mouse {
      .new_step.current i{
             background:#ff9000;
         }
+       @media only screen and (min-width: 1366px) and (max-width: 1920px) {
+        .new_step i{
+            width: 40px;
+            height: 40px;
+            line-height:40px;
+        }
+        .new_step.current .line{
+            border:4px solid #ff9000;
+        }
+        .line{
+            border:4px solid #b2b2b2;
+            width:100%;
+            margin-top:17px;
+            margin-left:5px;
+        }
+       span.step_desc_01{
+            font-size:16px;
+            font-weight:500;
+            position:absolute;
+            left: -20px;
+            top: 50px;
+            line-height:22px;
+        }
+      span.step_desc_02{
+            font-size:16px;
+            font-weight:500;
+            position:absolute;
+            left: -20px;
+            top: -35px;
+            line-height:22px;
+        }
 
+    }
 
 /*�¼���ʽ*/
 /*�ֲ�ͼ��ʽ*/

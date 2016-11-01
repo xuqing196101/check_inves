@@ -52,7 +52,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    
 <!--查看订单流程开始-->
   <div class="container clear mt20">
-   <div class="list-unstyled padding-10 breadcrumbs-v3 bbgreen">
+   <div class="list-unstyled padding-10 breadcrumbs-v3">
     <span>
 	  <a href="#" class="img-v1 green_link">下单</a>
 	  <span class="green_link">→</span>
@@ -79,7 +79,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- 项目戳开始 -->
   <div class="container clear mt20">
    <h2 class="padding-10 p0">
-	 <span class="brown">2015-06-20</span><span class="margin-left-10 brown">台式机采购项目</span><div class="btn bround14 margin-left-20">选定成交人</div>
+	 <span class="font_sblck">2015-06-20</span><span class="margin-left-10 font_sblck">台式机采购项目</span><div class="btn bround14 margin-left-20">选定成交人</div>
    </h2>
   </div>
   
@@ -101,47 +101,47 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<table class="table table-bordered">
 				 <tbody>
 				 <tr>
-				  <td class="bggrey tr">采购单位：</td>
+				  <td class="bggrey">采购单位：</td>
 				  <td>****管理总公司</td>
-				  <td class="bggrey tr">发票抬头：</td>
+				  <td class="bggrey ">发票抬头：</td>
 				  <td>****管理总公司</td>
-				  <td class="bggrey tr">采购单位联系人：</td>
+				  <td class="bggrey ">采购单位联系人：</td>
 				  <td>系统管理员</td>
 				 </tr> 
 				 <tr>
-				  <td class="bggrey tr">采购单位联系人座机：</td>
+				  <td class="bggrey ">采购单位联系人座机：</td>
 				  <td> －</td>
-				  <td class="bggrey tr">采购单位联系人手机：</td>
+				  <td class="bggrey ">采购单位联系人手机：</td>
 				  <td>－</td>
-				  <td class="bggrey tr">采购单位地址：</td>
+				  <td class="bggrey ">采购单位地址：</td>
 				  <td>北京市西城区西直门外大街甲</td>
 				 </tr> 
 				 <tr>
-				  <td class="bggrey tr">供应商名称：</td>
+				  <td class="bggrey ">供应商名称：</td>
 				  <td>****有限公司</td>
-				  <td class="bggrey tr">供应商单位联系人：</td>
+				  <td class="bggrey ">供应商单位联系人：</td>
 				  <td>联系人</td>
-				  <td class="bggrey tr">供应商单位联系人座机：</td>
+				  <td class="bggrey ">供应商单位联系人座机：</td>
 				  <td>56229828</td>
 				 </tr> 
 				 <tr>
-				  <td class="bggrey tr">供应商单位联系人手机：</td>
+				  <td class="bggrey ">供应商单位联系人手机：</td>
 				  <td>13011111111</td>
-				  <td class="bggrey tr">供应商单位地址：</td>
+				  <td class="bggrey ">供应商单位地址：</td>
 				  <td>****有限公司</td>
-				  <td class="bggrey tr">交付日期：</td>
+				  <td class="bggrey ">交付日期：</td>
 				  <td>  2016-06-30 </td>
 				 </tr> 
 				 <tr>
-				  <td class="bggrey tr">预算金额：</td>
+				  <td class="bggrey ">预算金额：</td>
 				  <td> 10000.0</td>
-				  <td class="bggrey tr">发票编号：</td>
+				  <td class="bggrey ">发票编号：</td>
 				  <td></td>
-				  <td class="bggrey tr"></td>
+				  <td class="bggrey "></td>
 				  <td></td>
 				 </tr> 
 				 <tr>
-				  <td class="bggrey tr">备注：</td>
+				  <td class="bggrey ">备注：</td>
 				  <td colspan="5"></td>
 				 </tr> 
 				 

@@ -598,7 +598,9 @@
 /*颜色*/
 .pink {
   color: #ff007e !important; }
-
+.font_sblck{
+  color:#777777;
+}
 .gary {
   color: #777777 !important; }
 

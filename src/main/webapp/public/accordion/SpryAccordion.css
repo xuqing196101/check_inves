@@ -17,9 +17,6 @@
  * Accordion container.
  */
 .Accordion {
-	border-left: solid 1px #eeeeee;
-	border-right: solid 1px #eeeeee;
-	border-bottom: solid 1px #eeeeee;
 	overflow: hidden;
 }
 
@@ -61,6 +58,9 @@
 	cursor: pointer;
 	-moz-user-select: none;
 	-khtml-user-select: none;
+	height: 30px;
+	line-height: 25px;
+	padding-left:30px;
 }
 
 /* This is the selector for a Panel's Content area. It's important to note that
