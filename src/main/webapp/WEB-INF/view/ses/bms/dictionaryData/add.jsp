@@ -129,7 +129,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <div class="margin-top-10 breadcrumbs ">
 	   <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   	<li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">后台管理</a></li><li class="active"><a href="#">附件类型管理</a></li><li class="active"><a href="#">增加附件类型</a></li>
+		   	<li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">后台管理</a></li><li class="active"><a href="#">数据字典</a></li><li class="active"><a href="#">增加数据字典</a></li>
 		   </ul>
 		   <div class="clear"></div>
 	   </div>
@@ -141,7 +141,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    	   <sf:form action="${pageContext.request.contextPath}/dictionaryData/save.html" method="post" modelAttribute="dd">
 		   <div>
 			   <div class="headline-v2 bggrey">
-			   		<h2>新增附件类型</h2>
+			   		<h2>新增数据字典</h2>
 			   </div>
 			   <ul class="list-unstyled list-flow ul_list">
 			   		<li class="col-md-6  p0 ">
@@ -160,6 +160,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					        <input class="span2" name="code" value="${dd.code }" maxlength="40" type="text">
 					        <span class="add-on">i</span>
 					        <div class="b f14 red tip pa l260"><sf:errors path="code"/></div>
+					        <div class="b f14 ml10 red hand">${exist}</div>
 				       	</div>
 				 	</li>
 				 	<li class="col-md-6 p0">

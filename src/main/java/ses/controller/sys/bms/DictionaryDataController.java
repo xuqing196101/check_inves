@@ -59,6 +59,18 @@ public class DictionaryDataController extends BaseController{
             model.addAttribute("pId", pId);
             return "ses/bms/dictionaryData/add";
         }
+        
+        DictionaryData temp1 = new DictionaryData();
+        temp1.setCode(dd.getCode());
+        List<DictionaryData> dds = dictionaryDataService.find(temp1);
+        if(dds.size() > 0){
+            model.addAttribute("dd", dd);
+            model.addAttribute("pName", pName);
+            model.addAttribute("pId", pId);
+            model.addAttribute("exist", "编码已存在");
+            return "ses/bms/dictionaryData/add";
+        }
+        
         DictionaryData parent = null; 
         if (!"".equals(pId) && pId != null && !"".equals(pName) && pName != null){
             DictionaryData temp = new DictionaryData();
@@ -105,6 +117,19 @@ public class DictionaryDataController extends BaseController{
             model.addAttribute("pId", pId);
             return "ses/bms/dictionaryData/edit";
         }
+        
+        DictionaryData temp1 = new DictionaryData();
+        temp1.setCode(dd.getCode());
+        List<DictionaryData> dds = dictionaryDataService.find(temp1);
+        if(dds.size() > 0){
+            model.addAttribute("dd", dd);
+            model.addAttribute("currpage",currpage);
+            model.addAttribute("pName", pName);
+            model.addAttribute("pId", pId);
+            model.addAttribute("exist", "编码已存在");
+            return "ses/bms/dictionaryData/edit";
+        }
+        
         DictionaryData parent = null; 
         if (!"".equals(pId) && pId != null && !"".equals(pName) && pName != null){
             DictionaryData temp = new DictionaryData();
