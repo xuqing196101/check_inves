@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -485,6 +486,15 @@ $(function() {
 	});
 </script>
 </head>
+<!--面包屑导航开始-->
+   <div class="margin-top-10 breadcrumbs ">
+      <div class="container">
+		   <ul class="breadcrumb margin-left-0">
+		  <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">供应商管理</a></li><li class="active"><a href="#">入库供应商查询</a></li>
+		   </ul>
+		<div class="clear"></div>
+	  </div>
+   </div>
   <body>
   	<div class="container clear margin-top-30">
   			<form id="form1" action="<%=basePath %>supplierQuery/highmaps.html" method="post">
@@ -513,8 +523,9 @@ $(function() {
 		       			<td>
 		       			      <select name="supplierType" class="fl" >
 							   		<option selected="selected" value=''>-请选择-</option>
-							   		<option  value="生产型">生产型</option>
-							   		<option  value="销售型">销售型</option>
+							   		<c:forEach items="${listType}" var="list" varStatus="vs">
+							   			<option  value='${list.name }'>${list.name }</option>
+							   		</c:forEach>
 							   </select>
 		       				 <input class="btn padding-left-20 padding-right-20 btn_back" onclick="submit()" type="button" value="查询">
 		     				 <input class="btn padding-left-20 padding-right-20 btn_back" onclick="chongzhi()" type="button" value="重置"> 

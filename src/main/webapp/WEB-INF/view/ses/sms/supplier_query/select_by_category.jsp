@@ -86,7 +86,15 @@
 	  }
 </script>
 </head>
-
+<!--面包屑导航开始-->
+   <div class="margin-top-10 breadcrumbs ">
+      <div class="container">
+		   <ul class="breadcrumb margin-left-0">
+		  <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">供应商管理</a></li><li class="active"><a href="#">按照品目查询供应商</a></li>
+		   </ul>
+		<div class="clear"></div>
+	  </div>
+   </div>
 <body>
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
@@ -116,6 +124,8 @@
 				    <th class="info w50">序号</th>
 					<th class="info">供应商名称</th>
 					<th class="info">联系人</th>
+					<th class="info">供应商类别</th>
+					<th class="info">供应商状态</th>
 					<th class="info">电话</th>
 					<th class="info">级别</th>
 				</tr>
@@ -126,6 +136,27 @@
 					    <td>${(vs.index+1)+(listSupplier.pageNum-1)*(listSupplier.pageSize)}</td>
 						<td><a href="<%=basePath%>supplierQuery/essential.html?isRuku=2&supplierId=${list.id}">${list.supplierName }</a></td>
 						<td>${list.contactName}</td>
+						<td>${list.supplierType }</td>
+						<td>
+							<c:if test="${list.status==-1 }">
+							暂存、未提交
+							</c:if>
+							<c:if test="${list.status==0 }">
+							待初审
+							</c:if>
+							<c:if test="${list.status==1 }">
+							待复审
+							</c:if>
+							<c:if test="${list.status==2 }">
+							初审不通过
+							</c:if>
+							<c:if test="${list.status==3 }">
+							复审通过
+							</c:if>
+							<c:if test="${list.status==4 }">
+							复审不通过
+							</c:if>
+						</td>
 						<td>${list.contactTelephone}</td>
 						<td>${list.level}</td>
 					</tr>

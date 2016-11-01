@@ -148,6 +148,15 @@ $(function() {
 	});
 </script>
 </head>
+<!--面包屑导航开始-->
+   <div class="margin-top-10 breadcrumbs ">
+      <div class="container">
+		   <ul class="breadcrumb margin-left-0">
+		  <li><a href="#"> 首页</a></li><li><a href="#">支撑系统</a></li><li><a href="#">供应商管理</a></li><li class="active"><a href="#">供应商列表</a></li>
+		   </ul>
+		<div class="clear"></div>
+	  </div>
+   </div>
   <body>
   	<div class="container clear margin-top-30">
   			<h2>供应商信息查询</h2>
@@ -160,7 +169,7 @@ $(function() {
 		       			<td style="text-align:right">供应商名称：</td>
 		       			<td style="text-align:right"><input id="supplierName" class="span2" name="supplierName" value="${supplier.supplierName }" type="text"></td>
 		       			<td style="text-align:right">注册时间：</td>
-		       			<td>
+		       			<td colspan="3">
 		       			<div class="mt5">
 		       			<input id="startDate" name="startDate" class="span2 fl" type="text" value='<fmt:formatDate value="${supplier.startDate }" pattern="YYYY-MM-dd"/>'
 		       			onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})"/>
@@ -174,14 +183,17 @@ $(function() {
 		       		<tr>
 		       			<td style="text-align:right">联系人：</td>
 		       			<td><input class="span2" id="contactName" name="contactName" value="${supplier.contactName }" type="text"></td>
-		       			<td style="text-align:right">供应商类型-状态：</td>
+		       			<td style="text-align:right">供应商类型：</td>
 		       			<td><select name="supplierType" class="fl" >
 							   		<option selected="selected" value=''>-请选择-</option>
-							   		<option  value="生产型">生产型</option>
-							   		<option  value="销售型">销售型</option>
+							   		<c:forEach items="${listType}" var="list" varStatus="vs">
+							   			<option  value='${list.name }'>${list.name }</option>
+							   		</c:forEach>
 							   </select>
-							   <select name="status" class="fl" >
-							   		<option selected="selected" value=''>-请选择-</option>
+		       			</td>
+		       			<td>供应商状态</td>
+		       			<td> <select name="status" class="fl" >
+							   		<option  selected="selected" value=''>-请选择-</option>
 									<option  value="-1">暂存、未提交</option>
 							   		<option  value="0">待初审</option>
 							   		<option  value="1">待复审</option>
@@ -189,10 +201,10 @@ $(function() {
 							   		<option  value="3">复审通过</option>
 							   		<option  value="4">复审不通过</option>
 							   </select>
-		       				 <input class="btn padding-left-20 padding-right-20 btn_back" onclick="submit()" type="button" value="查询">
+							    <input class="btn padding-left-20 padding-right-20 btn_back" onclick="submit()" type="button" value="查询">
 		     				 <input class="btn padding-left-20 padding-right-20 btn_back" onclick="chongzhi()" type="button" value="重置"> 
 		     				 <input class="btn padding-left-20 padding-right-20 btn_back" value="返回" type="button" onclick="fanhui()">
-		       			</td>
+							   </td>
 		       		</tr>
 		       	</tbody>
 		       </table>
@@ -205,6 +217,10 @@ $(function() {
 					<th class="info">供应商名称</th>
 					<th class="info">联系人</th>
 					<th class="info">创建日期</th>
+					
+					<th class="info">供应商类型</th>
+					<th class="info">供应商状态</th>
+					
 					<th class="info">经济性质</th>
 				</tr>
 			  </thead>
@@ -215,6 +231,25 @@ $(function() {
 						<td><a href="<%=basePath%>supplierQuery/essential.html?supplierId=${list.id}">${list.supplierName }</a></td>
 						<td>${list.contactName }</td>
 						<td><fmt:formatDate value="${list.createdAt }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+						<td>${list.supplierType }</td>
+						<td>		<c:if test="${list.status==-1 }">
+							暂存、未提交
+							</c:if>
+							<c:if test="${list.status==0 }">
+							待初审
+							</c:if>
+							<c:if test="${list.status==1 }">
+							待复审
+							</c:if>
+							<c:if test="${list.status==2 }">
+							初审不通过
+							</c:if>
+							<c:if test="${list.status==3 }">
+							复审通过
+							</c:if>
+							<c:if test="${list.status==4 }">
+							复审不通过
+							</c:if></td>
 						<td>${list.businessType }</td>
 					</tr>
 				</c:forEach> 

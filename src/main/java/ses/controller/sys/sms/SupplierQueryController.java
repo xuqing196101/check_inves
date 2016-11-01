@@ -21,17 +21,20 @@ import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
-import ses.model.sms.SupplierCertServe;
 import ses.model.sms.SupplierCertSell;
+import ses.model.sms.SupplierCertServe;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
-import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierMatSell;
+import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierStockholder;
+import ses.model.sms.SupplierType;
+import ses.model.sms.SupplierTypeRelate;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierLevelService;
 import ses.service.sms.SupplierService;
+import ses.service.sms.SupplierTypeService;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
 
@@ -48,6 +51,8 @@ public class SupplierQueryController extends BaseSupplierController{
 	private SupplierService supplierService;
 	@Autowired
 	private SupplierLevelService supplierLevelService;
+	@Autowired
+	private SupplierTypeService supplierTypeService;
 
 	/**
 	 * @Title: highmaps
@@ -96,6 +101,8 @@ public class SupplierQueryController extends BaseSupplierController{
 		}
 		model.addAttribute("data", highMapStr);
 		model.addAttribute("sup",sup);
+		List<SupplierType> listType=supplierTypeService.findSupplierType();
+		model.addAttribute("listType", listType);
 		if(status!=null&&status==3){
 			return "ses/sms/supplier_query/all_ruku_supplier";
 		}else{
@@ -120,9 +127,11 @@ public class SupplierQueryController extends BaseSupplierController{
 		supplier.setAddress(URLDecoder.decode(supplier.getAddress(),"UTF-8"));
 		if(supplier.getSupplierType()==null||supplier.getSupplierType().equals("")){
 			List<Supplier> listSupplier=supplierAuditService.getAllSupplier(supplier, page==null?1:page);	
+			this.getSupplierType(listSupplier);
 			model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
 		}else{
 			List<Supplier> listSupplier=supplierAuditService.querySupplier(supplier, page==null?1:page);
+			this.getSupplierType(listSupplier);
 			model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
 		}
 		//入库时间
@@ -136,6 +145,8 @@ public class SupplierQueryController extends BaseSupplierController{
 		}*/
 		model.addAttribute("address", supplier.getAddress());
 		model.addAttribute("supplier", supplier);
+		List<SupplierType> listType=supplierTypeService.findSupplierType();
+		model.addAttribute("listType", listType);
 		//等于3说明是入库供应商
 		if(supplier.getStatus()!=null&&supplier.getStatus()==3){
 			return "ses/sms/supplier_query/select_ruku_supplier_by_province";
@@ -162,9 +173,11 @@ public class SupplierQueryController extends BaseSupplierController{
 		}
 		if(categoryIds==null||categoryIds.equals("")){
 			List<Supplier> listSupplier=supplierAuditService.getAllSupplier(supplier, page==null?1:page);
+			this.getSupplierType(listSupplier);
 			model.addAttribute("listSupplier",  new PageInfo<>(listSupplier));
 		}else{
 			List<Supplier> listSupplier=supplierAuditService.querySupplierbyCategory(supplier, page==null?1:page);
+			this.getSupplierType(listSupplier);
 			model.addAttribute("listSupplier",  new PageInfo<>(listSupplier));
 		}
 		model.addAttribute("supplier", supplier);
@@ -489,5 +502,18 @@ public class SupplierQueryController extends BaseSupplierController{
 		map.put("天津", 0);
 		map.put("吉林", 0);
 		return map;
+	}
+	
+	public void getSupplierType(List<Supplier> listSupplier){
+		for(Supplier sup:listSupplier){
+			List<SupplierTypeRelate> listSupplierTypeRelates = sup.getListSupplierTypeRelates();
+			String supplierType="";
+			if(listSupplierTypeRelates.size()>0){
+				for(SupplierTypeRelate str:listSupplierTypeRelates){
+					supplierType+=str.getSupplierTypeName()+" ";
+				}
+				sup.setSupplierType(supplierType);
+			}
+		}
 	}
 }

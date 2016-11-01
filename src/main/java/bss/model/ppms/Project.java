@@ -104,8 +104,17 @@ public class Project {
     
     private Date maintenanceTime; //售后维护时间
     
+    private Integer status2;
     
-    private List<Task> list; 
+    public Integer getStatus2() {
+		return status2;
+	}
+
+	public void setStatus2(Integer status2) {
+		this.status2 = status2;
+	}
+
+	private List<Task> list; 
     
 
 	public Project(String id) {

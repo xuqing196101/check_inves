@@ -20,9 +20,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ses.model.bms.User;
 import ses.model.sms.Quote;
 import ses.service.sms.SupplierQuoteService;
+import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.SaleTender;
 import bss.service.ppms.ProjectDetailService;
+import bss.service.ppms.ProjectService;
 import bss.service.ppms.SaleTenderService;
 
 import com.github.pagehelper.PageInfo;
@@ -45,6 +47,10 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
 	
     @Autowired
     private ProjectDetailService detailService;
+    
+	
+    @Autowired
+    private ProjectService projectService;
 	
     /**
      * @Title: list
@@ -61,15 +67,10 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
      */
 	@RequestMapping(value="/list")
 	public String list(HttpServletRequest req,HttpServletResponse response,SaleTender saleTender,Integer page,Model model){
-		//if(size>0){
 			HashMap<String, Object> map = new HashMap<String, Object>();
-		    List<ProjectDetail> pdList = detailService.selectByCondition(map);
-			model.addAttribute("pdList", new PageInfo<>(pdList));
+		    List<ProjectDetail> pdList = detailService.selectByCondition(map,page==null?0:page);
+		    model.addAttribute("pdList", new PageInfo<>(pdList));
 			return "ses/sms/multiple_quotes/list";
-		/*}else{
-			super.alert(req, response, "缴纳保证金和标书费后才可以报价", false);
-			return null;
-		}*/
 	}
 	
 	/**
@@ -87,7 +88,7 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping(value="/baojia")
-	public String baojia(HttpServletRequest req,String id,String packageName,HttpServletResponse response,String packageId,Model model) throws UnsupportedEncodingException{
+	public String baojia(HttpServletRequest req,String id,String packageName,HttpServletResponse response,String packageId,Integer page,Model model) throws UnsupportedEncodingException{
 		//判断有没有缴纳保证金，标书费
 		User user=(User)req.getSession().getAttribute("loginUser");
 		SaleTender saleTender=new SaleTender();
@@ -99,7 +100,7 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
 		if(size>0){
 			HashMap<String, Object> map = new HashMap<String, Object>();
 	        map.put("id",id );
-	        List<ProjectDetail> detailList = detailService.selectByCondition(map);
+	        List<ProjectDetail> detailList = detailService.selectByCondition(map,page);
 	        List<ProjectDetail> list=new ArrayList<ProjectDetail>();
 	        if(detailList.size()>0){
 	        	for(ProjectDetail pd:detailList){
@@ -157,6 +158,33 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
 		quote.setSupplierId(user.getTypeId());
 		model.addAttribute("quoteList", new PageInfo<>(supplierQuoteService.getAllQuote(quote,page==null?0:page)));
 		return "ses/sms/multiple_quotes/view";
+	}
+	
+	/**
+	 * @Title: listProject
+	 * @author Song Biaowei
+	 * @date 2016-10-31 下午5:20:43  
+	 * @Description: 正参与招标项目页面和参与项目结束页面 
+	 * @param @param req
+	 * @param @param response
+	 * @param @param status2
+	 * @param @param project
+	 * @param @param page
+	 * @param @param model
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping(value="/listProject")
+	public String listProject(HttpServletRequest req,HttpServletResponse response,Integer status2,Project project,Integer page,Model model){
+			//4代表已经确认中标供应商
+			if(status2!=null){
+				project.setStatus(4);
+			}else{
+				project.setStatus2(status2);
+			}
+			List<Project> listProject=projectService.list(page==null?0:page, project);
+		    model.addAttribute("info", new PageInfo<>(listProject));
+			return "ses/sms/multiple_quotes/project_list/list";
 	}
 	
 }

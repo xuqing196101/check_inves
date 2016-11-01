@@ -12,7 +12,7 @@ public interface ProjectDetailService {
     
     List<ProjectDetail> selectById(HashMap<String,Object> map);
     
-    List<ProjectDetail> selectByCondition(HashMap<String,Object> map);
+    List<ProjectDetail> selectByCondition(HashMap<String,Object> map,Integer page);
 	
 	void insert(ProjectDetail projectDetail);
 	
