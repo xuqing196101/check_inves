@@ -22,7 +22,7 @@ public class SupplierProducts implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER_PRODUCTS.CATEGORY_ID
 	 * </pre>
 	 */
-	private String categoryId;
+	private String itemId;
 
 	/**
 	 * <pre>
@@ -129,7 +129,7 @@ public class SupplierProducts implements Serializable {
 	private Date updatedAt;
 
 	private List<ProductParam> listProductParams = new ArrayList<>();
-	
+
 	private String categoryName;
 
 	public String getId() {
@@ -140,12 +140,12 @@ public class SupplierProducts implements Serializable {
 		this.id = id;
 	}
 
-	public String getCategoryId() {
-		return categoryId;
+	public String getItemId() {
+		return itemId;
 	}
 
-	public void setCategoryId(String categoryId) {
-		this.categoryId = categoryId;
+	public void setItemId(String itemId) {
+		this.itemId = itemId;
 	}
 
 	public String getSupplierId() {

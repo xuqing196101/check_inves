@@ -132,7 +132,7 @@
 			t1.*,
 			t2.NAME as CATEGORY_NAME,
 			t3.ID as ID_,
-			t3.CATEGORY_ID as CATEGORY_ID_,
+			t3.ITEM_ID,
 			t3.SUPPLIER_ID as SUPPLIER_ID_,
 			t3.NAME,
 			t3.BRAND,
@@ -151,13 +151,13 @@
 			left join T_SES_BMS_CATEGORY t2
 			on t1.CATEGORY_ID = t2.ID
 			left join T_SES_SMS_SUPPLIER_PRODUCTS t3
-			on t1.CATEGORY_ID = t3.CATEGORY_ID
+			on t1.ID = t3.ITEM_ID
 		where t1.SUPPLIER_ID = #{supplierId}
 	</select>
 	<resultMap type="ses.model.sms.SupplierItem" id="findSupplierItemBySupplierIdMap" extends="BaseResultMap">
 		<collection property="listSupplierProducts" ofType="ses.model.sms.SupplierProducts">
 			<id column="ID_" property="id"/>
-			<result column="CATEGORY_ID_" property="categoryId"/>
+			<result column="ITEM_ID" property="itemId"/>
 			<result column="SUPPLIER_ID_" property="supplierId"/>
 			<result column="NAME" property="name"/>
 			<result column="BRAND" property="brand"/>

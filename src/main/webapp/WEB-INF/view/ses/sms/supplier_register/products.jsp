@@ -44,7 +44,7 @@
 	}
 	
 	
-	function addProductsMsg(categoryId) {
+	function addProductsMsg(itemId) {
 		var supplierId = $("input[name='id']").val();
 		layer.open({
 			type : 2,
@@ -53,7 +53,7 @@
 			area : [ '600px', '500px' ], //宽高
 			offset : '100px',
 			scrollbar : false,
-			content : '${pageContext.request.contextPath}/supplier_products/add_products.html?categoryId=' + categoryId + '&supplierId=' + supplierId, //url
+			content : '${pageContext.request.contextPath}/supplier_products/add_products.html?itemId=' + itemId + '&supplierId=' + supplierId, //url
 			closeBtn : 1, //不显示关闭按钮
 		});
 	}
@@ -155,8 +155,8 @@
 											</h2>
 											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="deletePro('products_tbody_id_${vs.index + 1}')">删除</button>
 											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="addParam('products_tbody_id_${vs.index + 1}')">设置技术参数</button>
-											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="addProductsMsg('${item.categoryId}')">添加产品信息</button>
-											<table id="share_table_id" class="table table-bordered table-condensed">
+											<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5 fr" onclick="addProductsMsg('${item.id}')">添加产品信息</button>
+											<table class="table table-bordered table-condensed">
 												<thead>
 													<tr>
 														<th class="info"><input type="checkbox" onchange="checkAll(this, 'products_tbody_id_${vs.index + 1}')" /></th>
@@ -177,7 +177,7 @@
 													<c:forEach items="${item.listSupplierProducts}" var="products" varStatus="vs">
 														<tr>
 															<td class="tc"><input name="checkbox" type="checkbox" value="${products.id}" /></td>
-															<td id="${products.categoryId}" class="tc">${item.categoryName}</td>
+															<td id="${item.categoryId}" class="tc">${item.categoryName}</td>
 															<td class="tc">${products.name}</td>
 															<td class="tc">${products.brand}</td>
 															<td class="tc">${products.models}</td>

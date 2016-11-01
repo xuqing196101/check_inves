@@ -78,8 +78,7 @@ public class Supplier implements Serializable {
 	 * </pre>
 	 */
 	private String businessType;
-	
-	
+
 	/**
 	 * <pre>
 	 * 营业执照类型
@@ -481,9 +480,15 @@ public class Supplier implements Serializable {
 	private List<SupplierItem> listSupplierItems = new ArrayList<SupplierItem>();
 
 	private String level;
-	
+
 	private List<SupplierProducts> listSupplierProducts = new ArrayList<SupplierProducts>();
-	
+
+	private String confirmPassword;
+
+	private String mobileCode;
+
+	private String identifyCode;
+
 	public Integer getCount() {
 		return count;
 	}
@@ -1083,5 +1088,28 @@ public class Supplier implements Serializable {
 	public void setBusinessCert(String businessCert) {
 		this.businessCert = businessCert;
 	}
-	
+
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
+	}
+
+	public String getMobileCode() {
+		return mobileCode;
+	}
+
+	public void setMobileCode(String mobileCode) {
+		this.mobileCode = mobileCode;
+	}
+
+	public String getIdentifyCode() {
+		return identifyCode;
+	}
+
+	public void setIdentifyCode(String identifyCode) {
+		this.identifyCode = identifyCode;
+	}
 }

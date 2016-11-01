@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ include file="../../../../../index_head.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -23,8 +24,6 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/shop.style.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
@@ -45,7 +44,7 @@
 					$(this).removeAttr("class");
 				}
 			});
-			$(".tab-pane").each(function() {
+			$("#tab_content_div_id").find(".tab-pane").each(function() {
 				var id = $(this).attr("id");
 				if (id == defaultPage) {
 					$(this).attr("class", "tab-pane fade height-200 active in");
@@ -76,7 +75,7 @@
 				
 				// 自动选中
 				var rootArea = "${currSupplier.address}";
-				rootArea = rootArea.split(",")[0];
+				if (rootArea) rootArea = rootArea.split(",")[0];
 				if (rootArea) {
 					autoSelected("root_area_select_id", rootArea);
 					loadChildren();
@@ -106,7 +105,7 @@
 					
 					// 自动选中
 					var childrenArea = "${currSupplier.address}";
-					childrenArea = childrenArea.split(",")[1];
+					if (childrenArea) childrenArea = childrenArea.split(",")[1];
 					if (childrenArea) {
 						autoSelected("children_area_select_id", childrenArea);
 					}
@@ -124,14 +123,8 @@
 	}
 
 	/** 保存基本信息 */
-	function saveBasicInfo(sign) {
-		var action = "${pageContext.request.contextPath}/supplier/";
-		if (sign) {
-			action += "next_step.html";
-		} else {
-			action += "stash_step.html";
-		}
-		$("#basic_info_form_id").attr("action", action);
+	function saveBasicInfo(jsp) {
+		$("input[name='jsp']").val(jsp);
 		$("#basic_info_form_id").submit();
 
 	}
@@ -275,7 +268,7 @@
 </script>
 
 <script type="text/javascript">
-	$(function() {
+	/**$(function() {
 		var supplierId = $("input[name='id']").val();
 		$.ajax({
 			url : "${pageContext.request.contextPath}/supplierAudit/showReasonsList.do",
@@ -316,16 +309,13 @@
 		layer.tips(v, "#" + id, {
 			tips : 1
 		});
-	}
+	}*/
 </script>
 
 </head>
 
 <body>
 	<div class="wrapper">
-		<!-- header -->
-		<jsp:include page="../../../../../index_head.jsp"></jsp:include>
-
 		<!-- 项目戳开始 -->
 		<div class="container clear margin-top-30">
 			<h2 class="padding-20 mt40 ml30">
@@ -352,11 +342,11 @@
 							<li id="li_id_2" class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="fujian f18">财务信息</a></li>
 							<li id="li_id_3" class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="fujian f18">股东信息</a></li>
 						</ul>
-						<form id="basic_info_form_id" method="post" enctype="multipart/form-data">
+						<form id="basic_info_form_id" action="${pageContext.request.contextPath}/supplier/perfect_basic.html" method="post" enctype="multipart/form-data">
 							<input name="id" value="${currSupplier.id}" type="hidden" /> 
 							<input name="defaultPage" value="${defaultPage}" type="hidden" /> 
-							<input name="sign" value="2" type="hidden" />
-							<div class="tab-content padding-top-20">
+							<input name="jsp" type="hidden" />
+							<div class="tab-content padding-top-20" id="tab_content_div_id">
 								<!-- 详细信息 -->
 								<div class="tab-pane fade active in height-450" id="tab-1">
 									<div class=" margin-bottom-0">
@@ -364,17 +354,18 @@
 											<i>01</i>基本信息
 										</h2>
 										<ul class="list-unstyled list-flow">
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i>供应商名称：</span>
+											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 供应商名称：</span>
 												<div class="input-append audit_msg_sign_div_class">
 													<input class="span3" id="supplierName_input_id" type="text" name="supplierName" value="${currSupplier.supplierName}" />
+													<span class="fl span-err-msg mt3 ml5"></span>
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i>公司网址：</span>
+											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 公司网址：</span>
 												<div class="input-append audit_msg_sign_div_class">
 													<input class="span3" type="text" name="website" value="${currSupplier.website}" />
 												</div>
 											</li>
-											<li class="col-md-6  p0 "><span class=""><i class="red">＊</i>成立日期：</span>
+											<li class="col-md-6  p0 "><span class=""><i class="red">＊</i> 成立日期：</span>
 												<div class="input-append audit_msg_sign_div_class">
 													<fmt:formatDate value="${currSupplier.foundDate}" pattern="yyyy-MM-dd" var="foundDate"/>
 													<input class="span2" type="text" readonly="readonly" onClick="WdatePicker()" name="foundDate" value="${foundDate}" /> 
@@ -386,7 +377,7 @@
 											
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 营业执照类型：</span>
 												<div class="input-append audit_msg_sign_div_class">
-													<select class="span3" name="businessType" id="business_select_id">
+													<select class="span3 fz13" name="businessType" id="business_select_id">
 														<option>国有企业</option>
 														<option>外资企业</option>
 														<option>民营企业</option>
@@ -396,22 +387,22 @@
 												</div>
 											</li>
 
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i>公司地址：</span>
+											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 公司地址：</span>
 												<div class="fl">
 													<div class="input-append">
-														<select class="w123" id="root_area_select_id" onchange="loadChildren()" name="address"></select>
-														<select class="w123 ml30" id="children_area_select_id" name="address">
+														<select class="w123 fz13" id="root_area_select_id" onchange="loadChildren()" name="address"></select>
+														<select class="w123 ml30 fz13" id="children_area_select_id" name="address">
 															<option value="">请选择省份</option>
 														</select>
 													</div>
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i>开户行名称：</span>
+											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 开户行名称：</span>
 												<div class="input-append">
 													<input class="span3" type="text" name="bankName" value="${currSupplier.bankName}" />
 												</div></li>
 
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i>开户行账号：</span>
+											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 开户行账号：</span>
 												<div class="input-append">
 													<input class="span3" type="text" name="bankAccount" value="${currSupplier.bankAccount}" />
 												</div>
@@ -446,7 +437,7 @@
 													</div>
 												</c:if>
 											</li>
-											<li id="bill_li_id" class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i>近三年银行基本账户年末对账单：</span>
+											<li id="bill_li_id" class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i> 近三年银行基本账户年末对账单：</span>
 												<c:if test="${currSupplier.billCert != null}">
 													<div class="audit_msg_sign_div_class">
 														<a name="billCert" class="color7171C6" href="javascript:void(0)" onclick="downloadFile('${currSupplier.billCert}')">下载附件</a>
@@ -463,7 +454,7 @@
 													</div>
 												</c:if>
 											</li>
-											<li id="security_li_id" class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i>近三个月缴纳社会保险金凭证：</span>
+											<li id="security_li_id" class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i> 近三个月缴纳社会保险金凭证：</span>
 												<c:if test="${currSupplier.securityCert != null}">
 													<div>
 														<a class="color7171C6" href="javascript:void(0)" onclick="downloadFile('${currSupplier.securityCert}')">下载附件</a>
@@ -480,7 +471,7 @@
 													</div>
 												</c:if>
 											</li>
-											<li id="breach_li_id" class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i>近三年内无重大违法记录声明：</span>
+											<li id="breach_li_id" class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i> 近三年内无重大违法记录声明：</span>
 												<c:if test="${currSupplier.breachCert != null}">
 													<div>
 														<a class="color7171C6" href="javascript:void(0)" onclick="downloadFile('${currSupplier.breachCert}')">下载附件</a>
@@ -581,14 +572,14 @@
 													<input class="span3" type="text" name="registFund" value="${currSupplier.registFund}" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i>营业开始时间：</span>
+											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 营业开始时间：</span>
 												<div class="input-append">
 													<fmt:formatDate value="${currSupplier.businessStartDate}" pattern="yyyy-MM-dd" var="businessStartDate"/>
 													<input class="span2" type="text" readonly="readonly" onClick="WdatePicker()" name="businessStartDate" value="${businessStartDate}" /> 
 													<span class="add-on"><img src="${pageContext.request.contextPath}/public/ZHQ/images/time_icon.png" class="mb10" /> </span>
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i>营业截止时间：</span>
+											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 营业截止时间：</span>
 												<div class="input-append">
 													<fmt:formatDate value="${currSupplier.businessEndDate}" pattern="yyyy-MM-dd" var="businessEndDate"/>
 													<input class="span2" type="text" readonly="readonly" onClick="WdatePicker()" name="businessEndDate" value="${businessEndDate}" /> 
@@ -623,7 +614,7 @@
 													</div>
 												</c:if>
 											</li>
-											<li class="col-md-12 p0 mt10"><span class="fl"><i class="red">＊</i>经营范围：</span>
+											<li class="col-md-12 p0 mt10"><span class="fl">经营范围：</span>
 												<div class="col-md-9 mt5">
 													<div class="row _mr20">
 														<textarea class="text_area col-md-12" title="不超过800个字" name="businessScope">${currSupplier.bankName}</textarea>
@@ -636,30 +627,30 @@
 											<i>05</i>境外分支
 										</h2>
 										<ul class="list-unstyled list-flow">
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 境外分支结构：</span>
+											<li class="col-md-6 p0"><span class="">境外分支结构：</span>
 												<div class="input-append">
-													<select class="span3" name="overseasBranch" id="overseas_branch_select_id">
+													<select class="span3 fz13" name="overseasBranch" id="overseas_branch_select_id">
 														<option value="1">有</option>
 														<option value="0">无</option>
 													</select>
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 境外分支所在国家：</span>
+											<li class="col-md-6 p0"><span class="">境外分支所在国家：</span>
 												<div class="input-append">
 													<input class="span3" name="branchCountry" type="text" value="${currSupplier.branchCountry}" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 分支地址：</span>
+											<li class="col-md-6 p0"><span class="">分支地址：</span>
 												<div class="input-append">
 													<input class="span3" type="text" name="branchAddress" value="${currSupplier.branchAddress}" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 机构名称：</span>
+											<li class="col-md-6 p0"><span class="">机构名称：</span>
 												<div class="input-append">
 													<input class="span3" type="text" name="branchName" value="${currSupplier.branchName}" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 分支生产经营范围：</span>
+											<li class="col-md-6 p0"><span class="">分支生产经营范围：</span>
 												<div class="input-append">
 													<input class="span3" type="text" name="branchBusinessScope" value="${currSupplier.branchBusinessScope}" />
 												</div>
@@ -816,8 +807,8 @@
 								</div>
 							</div>
 							<div class="mt40 tc mb50">
-								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveBasicInfo(0)">暂存</button>
-								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveBasicInfo(1)">下一步</button>
+								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveBasicInfo('basic_info')">暂存</button>
+								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveBasicInfo('supplier_type')">下一步</button>
 							</div>
 						</form>
 					</div>

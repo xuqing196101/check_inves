@@ -11,7 +11,7 @@ import ses.service.sms.SupplierMatProService;
 
 @Service(value = "supplierMatProService")
 public class SupplierMatProServiceImpl implements SupplierMatProService {
-	
+
 	@Autowired
 	private SupplierMatProMapper supplierMatProMapper;
 
@@ -25,6 +25,6 @@ public class SupplierMatProServiceImpl implements SupplierMatProService {
 			supplier.getSupplierMatPro().setCreatedAt(new Date());
 			supplierMatProMapper.insertSelective(supplier.getSupplierMatPro());
 		}
-		
+
 	}
 }

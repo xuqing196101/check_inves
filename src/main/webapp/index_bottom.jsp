@@ -24,10 +24,6 @@
 <link href="<%=basePath%>public/ZHQ/css/footer-v2.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHQ/css/page_job.css" media="screen" rel="stylesheet">
 
-<!--导航js-->
-<script src="<%=basePath%>public/ZHQ/js/jquery.min.js"></script>
-<script src="<%=basePath%>public/ZHQ/js/jquery_ujs.js"></script>
-<script src="<%=basePath%>public/ZHQ/js/bootstrap.min.js"></script>
 </head>
 
 <body>

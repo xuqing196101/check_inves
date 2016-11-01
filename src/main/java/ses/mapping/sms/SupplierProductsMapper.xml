@@ -3,7 +3,7 @@
 <mapper namespace="ses.dao.sms.SupplierProductsMapper">
 	<resultMap id="BaseResultMap" type="ses.model.sms.SupplierProducts">
 		<id column="ID" property="id" />
-		<result column="CATEGORY_ID" property="categoryId" />
+		<result column="ITEM_ID" property="itemId" />
 		<result column="SUPPLIER_ID" property="supplierId" />
 		<result column="NAME" property="name" />
 		<result column="BRAND" property="brand" />
@@ -20,7 +20,7 @@
 		<result column="CATEGORY_NAME" property="categoryName" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		ID, CATEGORY_ID, SUPPLIER_ID, NAME, BRAND, MODELS, PRO_SIZE, ORGIN, EXPIRATION_DATE,
+		ID, ITEM_ID, SUPPLIER_ID, NAME, BRAND, MODELS, PRO_SIZE, ORGIN, EXPIRATION_DATE,
 		PRODUCER, REFERENCE_PRICE, PRODUCT_PIC, QR_CODE, CREATED_AT, UPDATED_AT
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -35,13 +35,13 @@
 		where ID = #{id}
 	</delete>
 	<insert id="insert" parameterType="ses.model.sms.SupplierProducts">
-		insert into T_SES_SMS_SUPPLIER_PRODUCTS (ID, CATEGORY_ID, SUPPLIER_ID,
+		insert into T_SES_SMS_SUPPLIER_PRODUCTS (ID, ITEM_ID, SUPPLIER_ID,
 		NAME, BRAND, MODELS,
 		PRO_SIZE, ORGIN, EXPIRATION_DATE,
 		PRODUCER, REFERENCE_PRICE, PRODUCT_PIC,
 		QR_CODE, CREATED_AT, UPDATED_AT
 		)
-		values (#{id}, #{categoryId}, #{supplierId},
+		values (#{id}, #{itemId}, #{supplierId},
 		#{name}, #{brand}, #{models},
 		#{proSize}, #{orgin}, #{expirationDate},
 		#{producer}, #{referencePrice}, #{productPic},
@@ -54,8 +54,8 @@
 			<if test="id != null">
 				ID,
 			</if>
-			<if test="categoryId != null">
-				CATEGORY_ID,
+			<if test="itemId != null">
+				ITEM_ID,
 			</if>
 			<if test="supplierId != null">
 				SUPPLIER_ID,
@@ -101,8 +101,8 @@
 			<if test="id != null">
 				#{id},
 			</if>
-			<if test="categoryId != null">
-				#{categoryId},
+			<if test="itemId != null">
+				#{itemId},
 			</if>
 			<if test="supplierId != null">
 				#{supplierId},
@@ -151,8 +151,8 @@
 	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierProducts">
 		update T_SES_SMS_SUPPLIER_PRODUCTS
 		<set>
-			<if test="categoryId != null">
-				CATEGORY_ID = #{categoryId},
+			<if test="itemId != null">
+				ITEM_ID = #{itemId},
 			</if>
 			<if test="supplierId != null">
 				SUPPLIER_ID = #{supplierId},
@@ -198,7 +198,7 @@
 	</update>
 	<update id="updateByPrimaryKey" parameterType="ses.model.sms.SupplierProducts">
 		update T_SES_SMS_SUPPLIER_PRODUCTS
-		set CATEGORY_ID = #{categoryId},
+		set ITEM_ID = #{itemId},
 		SUPPLIER_ID = #{supplierId},
 		NAME = #{name},
 		BRAND = #{brand},
@@ -222,7 +222,7 @@
 		from 
 			T_SES_SMS_SUPPLIER_PRODUCTS t1
 			join T_SES_BMS_CATEGORY t2
-			on t1.CATEGORY_ID = t2.id
+			on t1.SUPPLIER_ID = t2.id
 		 where t1.SUPPLIER_ID = #{supplierId}
 	</select>
 	

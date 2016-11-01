@@ -14,7 +14,7 @@ public class MyTask {
 	@Autowired
 	private SupplierBlacklistService supplierBlacklistService;
 	
-	@Scheduled(cron = "0 37 12 * * ?")
+	@Scheduled(cron = "0 59 23 * * ?")
 	public void task() {
 		supplierBlacklistService.updateStatusTask();
 	}

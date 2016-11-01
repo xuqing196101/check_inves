@@ -1,5 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
-
+<%@ include file="../../../../../index_head.jsp" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -22,7 +22,6 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/shop.style.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.excheck.js"></script>
 <script type="text/javascript">
@@ -56,15 +55,7 @@
 		zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
 	});
 
-	function checkedTree(sign) {
-		var action = "${pageContext.request.contextPath}/supplier/";
-		if (sign == 1) {
-			action += "next_step.html";
-		} else if (sign == -1) {
-			action += "prev_step.html";
-		} else {
-			action += "stash_step.html";
-		}
+	function checkedTree(jsp) {
 		var nodes = zTreeObj.getCheckedNodes(true);
 		var ids = "";
 		for ( var i = 0; i < nodes.length; i++) {
@@ -73,8 +64,8 @@
 			}
 			ids += $(nodes[i]).attr("id");
 		}
+		$("input[name='jsp']").val(jsp);
 		$("input[name='supplierTypeIds']").val(ids);
-		$("#supplier_type_form_id").attr("action", action);
 		$("#supplier_type_form_id").submit();
 	}
 </script>
@@ -83,9 +74,6 @@
 
 <body>
 	<div class="wrapper">
-		<!-- header -->
-		<jsp:include page="../../../../../index_head.jsp"></jsp:include>
-
 		<!-- 项目戳开始 -->
 		<div class="container clear margin-top-30">
 			<h2 class="padding-20 mt40 ml30">
@@ -113,9 +101,9 @@
 									<ul id="treeDemo" class="ztree"></ul>
 								</div>
 								<div class="mt40 tc mb50">
-									<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-15" onclick="checkedTree(-1)">上一步</button>
-									<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-15" onclick="checkedTree(0)">暂存</button>
-									<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-15" onclick="checkedTree(1)">下一步</button>
+									<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-15" onclick="checkedTree('basic_info')">上一步</button>
+									<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-15" onclick="checkedTree('supplier_type')">暂存</button>
+									<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-15" onclick="checkedTree('professional_info')">下一步</button>
 								</div>
 							</div>
 						</div>
@@ -125,9 +113,9 @@
 		</div>
 	</div>
 	
-	<form id="supplier_type_form_id" method="post">
+	<form id="supplier_type_form_id" action="${pageContext.request.contextPath}/supplier_type_relate/perfect_type.html" method="post">
 		<input name="id" type="hidden" value="${currSupplier.id}" />
-		<input name="sign" type="hidden" value="3" />
+		<input name="jsp" type="hidden" />
 		<input name="supplierTypeIds" type="hidden" />
 	</form>
 	

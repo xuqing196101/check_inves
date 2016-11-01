@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ include file="../../../../../index_head.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -23,9 +24,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/shop.style.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
 <script type="text/javascript">
@@ -48,7 +47,7 @@
 					$(this).removeAttr("class");
 				}
 			});
-			$(".tab-pane").each(function() {
+			$("#tab_content_div_id").find(".tab-pane").each(function() {
 				var id = $(this).attr("id");
 				if (id == defaultPage) {
 					$(this).attr("class", "tab-pane fade height-300 active in");
@@ -64,7 +63,7 @@
 					$(this).removeAttr("class");
 				}
 			});
-			$(".tab-pane").each(function(index) {
+			$("#tab_content_div_id").find(".tab-pane").each(function(index) {
 				if (index == 0) {
 					$(this).attr("class", "tab-pane fade height-300 active in");
 				} else {
@@ -97,16 +96,8 @@
 	}
 	
 	/** 供应商保存专业生产信息 */	
-	function savePro(sign) {
-		var action = "${pageContext.request.contextPath}/supplier/";
-		if (sign == -1) {
-			action += "prev_step.html";
-		} else if (sign == 1) {
-			action += "next_step.html";
-		} else {
-			action += "stash_step.html";
-		}
-		$("#save_pro_form_id").attr("action", action);
+	function savePro(jsp) {
+		$("input[name='jsp']").val(jsp);
 		$("#save_pro_form_id").submit();
 	}
 	
@@ -401,8 +392,6 @@
 
 <body>
 	<div class="wrapper">
-		<!-- header -->
-		<jsp:include page="../../../../../index_head.jsp"></jsp:include>
 
 		<!-- 项目戳开始 -->
 		<div class="container clear margin-top-30">
@@ -439,11 +428,11 @@
 								<li id="li_id_4" class=""><a aria-expanded="false" href="#tab-4" data-toggle="tab" class="fujian f18">服务专业信息</a></li>
 							</c:if>
 						</ul>
-						<form id="save_pro_form_id" method="post">
+						<form id="save_pro_form_id" action="${pageContext.request.contextPath}/supplier/perfect_professional.html" method="post">
 							<input type="hidden" name="id" value="${currSupplier.id}" />
-							<input type="hidden" name="sign" value="4" />
+							<input type="hidden" name="jsp" />
 							<input type="hidden" name="defaultPage" value="${defaultPage}" />
-							<div class="tab-content padding-top-20">
+							<div class="tab-content padding-top-20" id="tab_content_div_id">
 							
 								<!-- 物资生产型专业信息 -->
 								<c:if test="${fn:contains(currSupplier.supplierTypeNames, '生产型')}">
@@ -949,9 +938,9 @@
 								</c:if>
 							</div>
 							<div class="mt40 tc mb50">
-								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5"  onclick="savePro(-1)">上一步</button>
-								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="savePro(0)">暂存</button>
-								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5"  onclick="savePro(1)">下一步</button>
+								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5"  onclick="savePro('supplier_type')">上一步</button>
+								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="savePro('professional_info')">暂存</button>
+								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5"  onclick="savePro('items')">下一步</button>
 							</div>
 						</form>
 					</div>

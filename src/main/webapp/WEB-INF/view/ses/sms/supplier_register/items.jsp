@@ -1,6 +1,7 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ include file="../../../../../index_head.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -22,8 +23,6 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/shop.style.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css" type="text/css" />
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.excheck.js"></script>
 <script type="text/javascript">
@@ -47,7 +46,7 @@
 					$(this).removeAttr("class");
 				}
 			});
-			$(".tab-pane").each(function() {
+			$("#tab_content_div_id").find(".tab-pane").each(function() {
 				var id = $(this).attr("id");
 				if (id == defaultPage) {
 					$(this).attr("class", "tab-pane fade height-300 active in");
@@ -63,7 +62,7 @@
 					$(this).removeAttr("class");
 				}
 			});
-			$(".tab-pane").each(function(index) {
+			$("#tab_content_div_id").find(".tab-pane").each(function(index) {
 				if (index == 0) {
 					$(this).attr("class", "tab-pane fade height-300 active in");
 				} else {
@@ -72,13 +71,13 @@
 			});
 		}
 		// ztree
-		$(".tab-pane").each(function(index) {
+		$("#tab_content_div_id").find(".tab-pane").each(function(index) {
 			var kind = "";
 			var id = $(this).attr("id");
-			if (id == "tab-1") kind = "E73923CC68A44E2981D5EA6077580372";
-			if (id == "tab-2") kind = "18A966C6FF17462AA0C015549F9EAD79";
-			if (id == "tab-3") kind = "80E7B015FDF543F6A4A053A57C3C6908";
-			if (id == "tab-4") kind = "3801E8F39B4C485CA59C3C531E86541E";
+			if (id == "tab-1") kind = "1";
+			if (id == "tab-2") kind = "2";
+			if (id == "tab-3") kind = "3";
+			if (id == "tab-4") kind = "4";
 			loadZtree(id, kind);
 		});
 		
@@ -86,10 +85,10 @@
 	
 	function loadZtree(id, kind) {
 		var id = "";
-		if (kind == "E73923CC68A44E2981D5EA6077580372") id = "tree_ul_id_1";
-		if (kind == "18A966C6FF17462AA0C015549F9EAD79") id = "tree_ul_id_2";
-		if (kind == "80E7B015FDF543F6A4A053A57C3C6908") id = "tree_ul_id_3";
-		if (kind == "3801E8F39B4C485CA59C3C531E86541E") id = "tree_ul_id_4";
+		if (kind == "1") id = "tree_ul_id_1";
+		if (kind == "2") id = "tree_ul_id_2";
+		if (kind == "3") id = "tree_ul_id_3";
+		if (kind == "4") id = "tree_ul_id_4";
 		var setting = {
 			async : {
 				enable : true,
@@ -190,7 +189,7 @@
 			}
 		}
 		if (ids1) {
-			typeIds += "E73923CC68A44E2981D5EA6077580372";
+			typeIds += "1";
 			if (ids2 || ids3 || ids4) {
 				ids1 += ";";
 			}
@@ -201,7 +200,7 @@
 			if (typeIds) {
 				typeIds += ",";
 			}
-			typeIds += "18A966C6FF17462AA0C015549F9EAD79";
+			typeIds += "2";
 			if (ids3 || ids4) {
 				ids2 += ";";
 			}
@@ -212,7 +211,7 @@
 			if (typeIds) {
 				typeIds += ",";
 			}
-			typeIds += "80E7B015FDF543F6A4A053A57C3C6908";
+			typeIds += "3";
 			if (ids4) {
 				ids3 += ";";
 			}
@@ -223,7 +222,7 @@
 			if (typeIds) {
 				typeIds += ",";
 			}
-			typeIds += "3801E8F39B4C485CA59C3C531E86541E";
+			typeIds += "4";
 		}
 		var ids = ids1 + ids2 + ids3 +ids4;
 		$("input[name='supplierItemIds']").val(ids);
@@ -238,8 +237,6 @@
 
 <body>
 	<div class="wrapper">
-		<!-- header -->
-		<jsp:include page="../../../../../index_head.jsp"></jsp:include>
 
 		<!-- 项目戳开始 -->
 		<div class="container clear margin-top-30">
@@ -276,7 +273,7 @@
 								<li id="li_id_4" class=""><a aria-expanded="false" href="#tab-4" data-toggle="tab" class="fujian f18">服务品目信息</a></li>
 							</c:if>
 						</ul>
-						<div class="tab-content padding-top-20">
+						<div class="tab-content padding-top-20" id="tab_content_div_id">
 							<c:if test="${fn:contains(currSupplier.supplierTypeNames, '生产型')}">
 								<!-- 物资生产型 -->
 								<div class="tab-pane fade active in height-300" id="tab-1">

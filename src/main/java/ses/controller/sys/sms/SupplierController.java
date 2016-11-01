@@ -38,6 +38,7 @@ import ses.service.sms.SupplierTypeRelateService;
 import ses.util.FtpUtil;
 import ses.util.IdentityCode;
 import ses.util.PropUtil;
+import ses.util.ValidateUtils;
 
 /**
  * @Title: supplierController
@@ -70,13 +71,13 @@ public class SupplierController extends BaseSupplierController {
 
 	@Autowired
 	private SupplierItemService supplierItemService;// 供应商品目
-	
+
 	@Autowired
 	private SupplierProductsService supplierProductsService;// 供应商产品
-	
+
 	@Autowired
-	private OrgnizationServiceI orgnizationServiceI;
-	
+	private OrgnizationServiceI orgnizationServiceI;// 机构
+
 	/**
 	 * @Title: getIdentity
 	 * @author: Wang Zhaohua
@@ -92,7 +93,7 @@ public class SupplierController extends BaseSupplierController {
 		IdentityCode identityCode = new IdentityCode(96, 28, 4, 5);
 		identityCode.write(request, response);
 	}
-	
+
 	@RequestMapping("login")
 	public String login(HttpServletRequest request, Model model) {
 		Supplier supplier = supplierService.get("8BE39E5BF23846EC93EED74F57ACF1F4");
@@ -150,11 +151,15 @@ public class SupplierController extends BaseSupplierController {
 	 * @return: String
 	 */
 	@RequestMapping(value = "register")
-	public String register(HttpServletRequest request, Supplier supplier) {
-		supplier = supplierService.register(supplier);
-		request.getSession().setAttribute("jump.page", "basic_info");
-		request.getSession().setAttribute("currSupplier", supplier);
-		return "redirect:page_jump.html";
+	public String register(HttpServletRequest request, Model model, Supplier supplier) {
+		if (this.validateRegister(request, model, supplier)) {
+			supplier = supplierService.register(supplier);
+			request.getSession().setAttribute("jump.page", "basic_info");
+			request.getSession().setAttribute("currSupplier", supplier);
+			return "redirect:page_jump.html";
+		} 
+		model.addAttribute("supplier", supplier);
+		return "ses/sms/supplier_register/register";
 	}
 
 	/**
@@ -166,7 +171,7 @@ public class SupplierController extends BaseSupplierController {
 	 * @param: @param sign
 	 * @param: @return
 	 * @return: String
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	@RequestMapping(value = "prev_step")
 	public String prevStep(HttpServletRequest request, String page, Integer sign, Supplier supplier) throws IOException {
@@ -274,22 +279,23 @@ public class SupplierController extends BaseSupplierController {
 	 * @param: @param sign
 	 * @param: @return
 	 * @return: String
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	@RequestMapping(value = "stash_step")
-	public String stashStep(HttpServletRequest request, Integer sign, String defaultPage, Supplier supplier) throws IOException {
+	public String stashStep(HttpServletRequest request, Model model, Integer sign, String defaultPage, Supplier supplier) throws IOException {
 		request.getSession().setAttribute("defaultPage", defaultPage);
 		if (sign == 2) {
 			// 保存供应商基本信息
 			this.setSupplierUpload(request, supplier);
-			supplierService.perfectBasic(supplier);// 保存供应商详细信息
-
-			// 查询供应商基本信息
-			supplier = supplierService.get(supplier.getId());
+			if (!validateBasicInfo(request, model, supplier)) {
+				supplier.setListSupplierFinances(supplierService.get(supplier.getId()).getListSupplierFinances());
+				supplier.setListSupplierStockholders(supplierService.get(supplier.getId()).getListSupplierStockholders());
+			} else {
+				supplierService.perfectBasic(supplier);// 保存供应商详细信息
+				supplier = supplierService.get(supplier.getId());// 查询供应商基本信息
+			}
 			request.getSession().setAttribute("currSupplier", supplier);
-
-			// 页面跳转
-			request.getSession().setAttribute("jump.page", "basic_info");
+			request.getSession().setAttribute("jump.page", "basic_info");// 页面跳转
 			return "redirect:page_jump.html";
 		} else if (sign == 3) {
 			// 保存供应商类型
@@ -297,7 +303,7 @@ public class SupplierController extends BaseSupplierController {
 
 			// 跳转页面
 			request.getSession().setAttribute("currSupplier", supplier);
-			request.getSession().setAttribute("jump.page", "supplier_type");
+
 			return "redirect:page_jump.html";
 		} else if (sign == 4) {
 			// 保存供应商专业信息
@@ -334,7 +340,6 @@ public class SupplierController extends BaseSupplierController {
 			return "redirect:page_jump.html";
 		} else if (sign == 6) {
 			// 保存供应商产品信息
-			
 
 			// 查询产品信息
 			supplier = supplierService.get(supplier.getId());
@@ -387,12 +392,10 @@ public class SupplierController extends BaseSupplierController {
 	 * @param: @param sign
 	 * @param: @return
 	 * @return: String
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	@RequestMapping(value = "next_step")
 	public String nextStep(HttpServletRequest request, String page, Integer sign, Supplier supplier) throws IOException {
-		String realPath = request.getServletContext().getRealPath("/");
-		System.out.println(realPath);
 		request.getSession().removeAttribute("defaultPage");
 		if (sign == 2) {// 保持供应商基本信息
 			supplierService.perfectBasic(supplier);// 保存供应商详细信息
@@ -427,7 +430,7 @@ public class SupplierController extends BaseSupplierController {
 			if (supplier.getSupplierMatSe() != null) {
 				supplierMatSeService.saveOrUpdateSupplierMatSe(supplier);
 			}
-			
+
 			// Ajax 查询品目树, 这里不用写了
 			supplier = supplierService.get(supplier.getId());
 
@@ -438,8 +441,8 @@ public class SupplierController extends BaseSupplierController {
 		} else if (sign == 5) {
 			// 保存供应商品目信息
 			supplierItemService.saveSupplierItem(supplier);
-			supplierProductsService.checkProducts(supplier);
-			
+			//supplierProductsService.checkProducts(supplier);
+
 			// 查询产品信息
 			supplier = supplierService.get(supplier.getId());
 
@@ -489,17 +492,17 @@ public class SupplierController extends BaseSupplierController {
 			this.setSupplierUpload(request, supplier);
 			User user = (User) request.getSession().getAttribute("loginUser");
 			supplierService.commit(supplier, user);
-			
+
 			request.getSession().removeAttribute("currSupplier");
 			request.getSession().removeAttribute("jump.page");
 			request.getSession().removeAttribute("listOrgnizations1");
 			request.getSession().removeAttribute("listOrgnizations2");
-			
+
 			return "redirect:../index/selectIndexNews.html";
 		}
 		return null;
 	}
-	
+
 	/**
 	 * @Title: searchOrg
 	 * @author: Wang Zhaohua
@@ -525,7 +528,7 @@ public class SupplierController extends BaseSupplierController {
 		request.getSession().setAttribute("jump.page", "procurement_dep");
 		return "redirect:page_jump.html";
 	}
-	
+
 	/**
 	 * @Title: download
 	 * @author: Wang Zhaohua
@@ -548,7 +551,7 @@ public class SupplierController extends BaseSupplierController {
 		}
 		super.removeStash(request, fileName);
 	}
-	
+
 	/**
 	 * @Title: basic
 	 * @author: Wang Zhaohua
@@ -559,19 +562,61 @@ public class SupplierController extends BaseSupplierController {
 	 * @param: @param model
 	 * @param: @return
 	 * @return: String
+	 * @throws IOException 
 	 */
 	@RequestMapping(value = "perfect_basic")
-	public String perfectBasic(HttpServletRequest request, Supplier supplier) {
-
-		String id = supplier.getId();
-		if (id == null || "".equals(id)) {
-			id = (String) request.getSession().getAttribute("supplierId");
-			supplier.setId(id);
-		}
+	public String perfectBasic(HttpServletRequest request, Supplier supplier, String jsp, String defaultPage) throws IOException {
+		request.getSession().removeAttribute("defaultPage");
+		
+		this.setSupplierUpload(request, supplier);
 		supplierService.perfectBasic(supplier);// 保存供应商详细信息
-		request.getSession().setAttribute("supplierId", id);
-		request.getSession().setAttribute("jump.page", "supplier_type");
+		supplier = supplierService.get(supplier.getId());
+		
+		request.getSession().setAttribute("currSupplier", supplier);
+		request.getSession().setAttribute("defaultPage", defaultPage);
+		request.getSession().setAttribute("jump.page", jsp);
 		return "redirect:page_jump.html";
+		
+		
+	}
+	
+	/**
+	 * @Title: perfectProfessional
+	 * @author: Wang Zhaohua
+	 * @date: 2016-10-31 下午3:11:06
+	 * @Description: 完善专业信息
+	 * @param: @param request
+	 * @param: @param supplier
+	 * @param: @param jsp
+	 * @param: @param defaultPage
+	 * @param: @return
+	 * @param: @throws IOException
+	 * @return: String
+	 */
+	@RequestMapping(value = "perfect_professional")
+	public String perfectProfessional(HttpServletRequest request, Supplier supplier, String jsp, String defaultPage) throws IOException {
+		request.getSession().removeAttribute("defaultPage");
+		
+		if (supplier.getSupplierMatPro() != null) {
+			supplierMatProService.saveOrUpdateSupplierMatPro(supplier);
+		}
+		if (supplier.getSupplierMatSell() != null) {
+			supplierMatSellService.saveOrUpdateSupplierMatSell(supplier);
+		}
+		if (supplier.getSupplierMatEng() != null) {
+			supplierMatEngService.saveOrUpdateSupplierMatPro(supplier);
+		}
+		if (supplier.getSupplierMatSe() != null) {
+			supplierMatSeService.saveOrUpdateSupplierMatSe(supplier);
+		}
+		supplier = supplierService.get(supplier.getId());
+		
+		request.getSession().setAttribute("currSupplier", supplier);
+		request.getSession().setAttribute("defaultPage", defaultPage);
+		request.getSession().setAttribute("jump.page", jsp);
+		return "redirect:page_jump.html";
+		
+		
 	}
 
 	/**
@@ -586,6 +631,9 @@ public class SupplierController extends BaseSupplierController {
 	@RequestMapping(value = "page_jump")
 	public String pageJump(HttpServletRequest request) {
 		String page = (String) request.getSession().getAttribute("jump.page");
+		if (page == null || "".equals(page)) {
+			page = "registration";
+		}
 		return "ses/sms/supplier_register/" + page;
 	}
 
@@ -610,7 +658,7 @@ public class SupplierController extends BaseSupplierController {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * @Title: setSupplierUpload
 	 * @author: Wang Zhaohua
@@ -637,7 +685,7 @@ public class SupplierController extends BaseSupplierController {
 					String newfileName = FtpUtil.upload(new File(path));// 上传到 ftp 服务器, 获取新的文件名
 					FtpUtil.closeFtp();// 关闭 ftp
 					super.removeStash(request, fileName);// 移除暂存
-					
+
 					// 上面代码固定, 下面封装名字到对象
 					if (str.equals("taxCertFile")) {
 						supplier.setTaxCert(newfileName);
@@ -665,7 +713,7 @@ public class SupplierController extends BaseSupplierController {
 						supplier.setSupplierExitList(newfileName);
 					} else if (str.equals("businessCertFile")) {
 						supplier.setBusinessCert(newfileName);
-					} 
+					}
 				}
 			}
 		}
@@ -682,6 +730,75 @@ public class SupplierController extends BaseSupplierController {
 	@InitBinder
 	public void initBinder(ServletRequestDataBinder binder) {
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true));
+	}
+
+	public boolean validateRegister(HttpServletRequest request, Model model, Supplier supplier) {
+		String identifyCode = (String) request.getSession().getAttribute("img-identity-code");// 验证码
+		int count = 0;
+		if (supplier.getLoginName() == null || !supplier.getLoginName().matches("^\\w{6,20}$")) {
+			model.addAttribute("err_msg_loginName", "登录名由6-20位字母数字和下划线组成 !");
+			count ++;
+		}
+		if (supplier.getPassword() == null || !supplier.getPassword().matches("^\\w{6,20}$")) {
+			model.addAttribute("err_msg_password", "密码由6-20位字母数字和下划线组成 !");
+			count ++;
+		}
+		if (!supplier.getPassword().equals(supplier.getConfirmPassword())) {
+			model.addAttribute("err_msg_ConfirmPassword", "密码和重复密码不一致 !");
+			count ++;
+		}
+		if (supplier.getMobile() == null || !supplier.getMobile().matches("^1[0-9]{10}$")) {
+			model.addAttribute("err_msg_mobile", "手机格式不正确 !");
+			count ++;
+		}
+		if (supplier.getMobileCode() == null) {
+			model.addAttribute("err_msg_mobileCode", "手机验证码错误 !");
+			count ++;
+		}
+		if(supplier.getIdentifyCode() == null || !supplier.getIdentifyCode().equals(identifyCode)) {
+			model.addAttribute("err_msg_code", "验证码错误 !");
+			count ++;
+		}
+		if (count > 0) {
+			return false;
+		}
+		return true;
+	}
+	
+	public boolean validateBasicInfo(HttpServletRequest request, Model model, Supplier supplier) {
+		int count = 0;
+		if (supplier.getSupplierName() == null || !supplier.getSupplierName().trim().matches("^.{1,80}$")) {
+			model.addAttribute("err_msg_supplierName", "必填项 !");
+			count ++;
+		}
+		if (supplier.getWebsite() == null || !ValidateUtils.Url(supplier.getWebsite())) {
+			model.addAttribute("err_msg_website", "格式错误 !");
+			count ++;
+		}
+		if (supplier.getFoundDate() == null) {
+			model.addAttribute("err_msg_foundDate", "必填项 !");
+			count ++;
+		}
+		if (supplier.getAddress() == null || supplier.getAddress().split(",").length != 2) {
+			model.addAttribute("err_msg_address", "必填项 !");
+			count ++;
+		}
+		if (supplier.getBankName() == null || !supplier.getBankName().trim().matches("^.{1,80}$")) {
+			model.addAttribute("err_msg_bankName", "必填项 !");
+			count ++;
+		}
+		if (supplier.getBankAccount() == null || !supplier.getBankAccount().matches("^\\d{16}||\\d{19}$")) {
+			model.addAttribute("err_msg_bankAccount", "必填项 !");
+			count ++;
+		}
+		if (supplier.getPostCode() == null || !ValidateUtils.Zipcode(supplier.getPostCode())) {
+			model.addAttribute("err_msg_postCode", "格式错误 !");
+			count ++;
+		}
+		if (count > 0) {
+			return false;
+		}
+		return true;
 	}
 
 }
