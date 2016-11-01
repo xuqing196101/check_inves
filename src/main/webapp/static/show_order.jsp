@@ -150,7 +150,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               </div>
              <div class=" margin-bottom-0">
                 <h2 class="f16 jbxx">产品明细</h2>
-				<table class="table table-condensed table-bordered">
+				<table class="table table-bordered">
 				 <tbody>
 				 <tr>
 				  <td class="bggrey">品目：</td>
