@@ -276,16 +276,16 @@
 		 <td onclick="view('${e.id}');" class="tc">${e.workUnit }</td>
 		 <td  onclick="view('${e.id}');" class="tc"><fmt:formatDate type='date' value='${e.createdAt }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
 		 <c:if test="${e.status==null || e.status eq '0' }">
-		 	<td onclick="view('${e.id}');" class="tc">未审核</td>
+		 	<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">未审核</span></td>
 		 </c:if>
 		 <c:if test="${e.status eq '1' }">
-		 	<td onclick="view('${e.id}');" class="tc">审核通过</td>
+		 	<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-u">审核通过</span></td>
 		 </c:if>
 		 <c:if test="${e.status eq '2' }">
-		 	<td onclick="view('${e.id}');" class="tc">审核未通过</td>
+		 	<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">审核未通过</span></td>
 		 </c:if>
 		 <c:if test="${e.status eq '3' }">
-		 	<td onclick="view('${e.id}');" class="tc">退回修改</td>
+		 	<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">退回修改</span></td>
 		 </c:if>
 		</tr>
 		</c:forEach>

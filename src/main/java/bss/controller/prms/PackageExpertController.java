@@ -1,5 +1,6 @@
 package bss.controller.prms;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -7,6 +8,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -282,7 +285,25 @@ public class PackageExpertController {
 	 */
 	@RequestMapping("isBack")
 	@ResponseBody
-	public void isBack(PackageExpert record){
+	public void isBack(PackageExpert record,HttpServletResponse response){
+		//查询是否已评审
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("expertId", record.getExpertId());
+		map.put("packageId", record.getPackageId());
+		map.put("projectId", record.getProjectId());
+		List<PackageExpert> selectList = service.selectList(map);
+		if(selectList!= null && selectList.size()>0){
+			
+			PackageExpert packageExpert = selectList.get(0);
+			if(packageExpert.getIsAudit()!=1){
+				try {
+					response.getWriter().print("error");
+					return ;
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 		Short flag = 0;
 		record.setIsGather(flag);
 		record.setIsAudit(flag);

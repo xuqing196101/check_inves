@@ -158,6 +158,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				}
 			}); 
 			if(count==1){
+				var index = layer.confirm('确定汇总吗?', {icon: 3, title:'提示'}, function(index){
 				var value = id.split(",");
 				var projectId = "${project.id}";
 				$.ajax({
@@ -168,6 +169,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					error:function(){
 						
 					}
+				});
+				  layer.close(index);
 				});
 			}else if(count>1){
 				layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
@@ -190,6 +193,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				}
 			}); 
 			if(count==1){
+				var index = layer.confirm('确定退回吗?', {icon: 3, title:'提示'}, function(index){
 				var value = id.split(",");
 				var projectId = "${project.id}";
 				$.ajax({
@@ -203,6 +207,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					error:function(){
 						
 					}
+				});
+				layer.close(index);
 				});
 			}else if(count>1){
 				layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});

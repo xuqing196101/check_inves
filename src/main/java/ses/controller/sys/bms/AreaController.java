@@ -3,11 +3,14 @@ package ses.controller.sys.bms;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -15,12 +18,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+
 import ses.model.bms.Area;
 import ses.model.bms.AreaZtree;
 import ses.service.bms.AreaServiceI;
-
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 
 
 /**
@@ -64,7 +67,7 @@ public class AreaController {
 	 * @return String
 	 */
 	@ResponseBody
-	@RequestMapping("/listByOne")
+	@RequestMapping(value="/listByOne",produces = "text/html;charset=UTF-8")
 	public String listByOne(Area area,Model model)throws Exception {
 		if (area.getId() == null) {
 			area.setId("1");
@@ -204,5 +207,24 @@ public class AreaController {
 		response.getWriter().write(json);
 		response.getWriter().flush();
 		response.getWriter().close();
+	}
+	@ResponseBody
+	@RequestMapping(value = "find_by_id")
+	public void find_by_id(HttpServletResponse response, String id) throws IOException {
+		if(StringUtils.isNotEmpty(id)){
+		Area area = areaService.listById(id);
+		Area area2 = new Area();
+		area2.setAreaType(area.getAreaType());
+		//根据父id查询出所有子节点
+		List<Area> listByArea = areaService.listByArea(area2);
+		/*Map<String,Object> map =new HashMap<>();
+		map.put("area", area);
+		map.put("listByArea", listByArea);*/
+		String json = JSON.toJSONStringWithDateFormat(listByArea, "yyyy-MM-dd HH:mm:ss");
+		response.setContentType("text/html;charset=utf-8");
+		response.getWriter().write(json);
+		response.getWriter().flush();
+		response.getWriter().close();
+		}
 	}
 }

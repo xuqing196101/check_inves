@@ -179,6 +179,7 @@
 		  <th class="info">模板类型</th>
 		  <th class="info">模板名称</th>
 		  <th class="info">是否公开</th>
+		  <th class="info">创建人</th>
 		  <th class="info">创建日期</th>
 		  <th class="info">修改日期</th>
 		</tr>
@@ -200,7 +201,7 @@
 					<td class="tc opinter" >私有</td>
 				</c:if>
 				
-			
+			    <td class="tc opinter">${templet.creater }</td>
 			
 				<td class="tc opinter" ><fmt:formatDate value='${templet.createdAt}' pattern="yyyy-MM-dd" /></td>
 			

@@ -112,8 +112,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/james.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/layer/extend/layer.ext.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/expert/TestAddress.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/expert/TestChooseAddress.js"></script>
 <script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.core.js"></script>
 <script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.excheck.js"></script>
 <script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.exedit.js"></script>
@@ -122,6 +120,82 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript">
 var treeObj;
 var datas;
+
+var parentId ;
+var addressId="${expert.address}"
+//alert(addressId);
+//地区回显和数据显示
+$.ajax({
+	url : "<%=basePath%>area/find_by_id.do",
+	data:{"id":addressId},
+	success:function(obj){
+		//alert(JSON.stringify(obj));
+		var data = eval('(' + obj+ ')');
+		$.each(data,function(i,result){
+			if(addressId == result.id){
+				parentId = result.areaType;
+			$("#haha").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
+			}else{
+				$("#haha").append("<option value='"+result.id+"'>"+result.name+"</option>");
+			}
+			
+		});
+		//alert(JSON.stringify(data));
+		//alert(parentId);
+		
+	},
+	error:function(obj){
+		
+	}
+	
+});
+
+$(function(){
+	$.ajax({
+		url : "<%=basePath%>area/listByOne.do",
+		success:function(obj){
+			var data = eval('(' + obj + ')');
+			$.each(data,function(i,result){
+				if(parentId == result.id){
+					$("#hehe").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
+				}else{
+				$("#hehe").append("<option value='"+result.id+"'>"+result.name+"</option>");
+				}
+			});
+			
+			//alert(JSON.stringify(obj));
+		},
+		error:function(obj){
+			
+		}
+		
+	});
+	
+	
+});	
+
+function fun(){
+	var parentId = $("#hehe").val();
+	$.ajax({
+		url : "<%=basePath%>area/find_area_by_parent_id.do",
+		data:{"id":parentId},
+		success:function(obj){
+			$("#haha").empty();
+			var data = eval('(' + obj + ')');
+			$("#haha").append("<option value=''>-请选择-</option>");
+			$.each(data,function(i,result){
+				
+				$("#haha").append("<option value='"+result.id+"'>"+result.name+"</option>");
+			});
+			
+			//alert(JSON.stringify(obj));
+		},
+		error:function(obj){
+			
+		}
+		
+	});
+}
 
    var setting={
 			async:{
@@ -429,11 +503,13 @@ function zTreeOnClick(event,treeId,treeNode){
 	   </select>
 	 </li>  
       <li class="col-md-6 p0 " style="width: 800px;"><span>所在地区：</span>
-			  <select id="id_provSelect" name="provSelect" disabled="disabled" onChange="loadCity(this.value);"><option value=""></option></select>
-			  <select id="id_citySelect" name="citySelect" disabled="disabled" onChange="loadArea(this.value);"><option value=""></option></select>
-			  <select id="id_areaSelect" name="address" disabled="disabled" ><option value=""></option></select>
+                <select disabled="disabled" id="hehe" onchange="fun();">
+					<option>-请选择-</option>
+				</select>
+				<select disabled="disabled" name="address" id="haha">
+					<option>-请选择-</option>
+				</select>
 	 </li>  
-	  <SCRIPT LANGUAGE="JavaScript"> loadProvince('${expert.address }');</SCRIPT>
       
 	  <li class="col-md-6  p0 ">
 	   <span class="">民族：</span>

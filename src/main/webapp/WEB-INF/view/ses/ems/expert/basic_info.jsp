@@ -15,38 +15,104 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/common.css" type="text/css"/>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/bootstrap.min.css" type="text/css"/>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" type="text/css"/>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/line-icons.css" type="text/css"/>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/app.css" type="text/css"/>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/application.css" type="text/css"/>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/header-v4.css" type="text/css"/>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/footer-v2.css" type="text/css"/>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/img-hover.css" type="text/css"/>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/page_job.css" type="text/css"/>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/shop.style.css" type="text/css"/>
-<link href="${pageContext.request.contextPath}/public/layer/skin/layer.css" media="screen" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/public/layer/skin/layer.ext.css" media="screen" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
+<link href="<%=basePath%>public/ZHQ/css/common.css" media="screen" rel="stylesheet">
+<link href="<%=basePath%>public/ZHQ/css/bootstrap.min.css" media="screen" rel="stylesheet">
+<link href="<%=basePath%>public/ZHQ/css/style.css" media="screen" rel="stylesheet">
+<link href="<%=basePath%>public/ZHQ/css/line-icons.css" media="screen" rel="stylesheet">
+<link href="<%=basePath%>public/ZHQ/css/app.css" media="screen" rel="stylesheet">
+<link href="<%=basePath%>public/ZHQ/css/application.css" media="screen" rel="stylesheet">
+<link href="<%=basePath%>public/ZHQ/css/header-v4.css" media="screen" rel="stylesheet">
+<link href="<%=basePath%>public/ZHQ/css/footer-v2.css" media="screen" rel="stylesheet">
+<link href="<%=basePath%>public/ZHQ/css/img-hover.css" media="screen" rel="stylesheet">
+<link href="<%=basePath%>public/ZHQ/css/page_job.css" media="screen" rel="stylesheet">
+<link href="<%=basePath%>public/ZHQ/css/shop.style.css" media="screen" rel="stylesheet">
+<script src="<%=basePath%>public/ZHQ/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
 <script src="${pageContext.request.contextPath}/public/ZHQ/js/expert/validate_expert_basic_info.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/expert/TestAddress.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/expert/TestChooseAddress.js"></script>
 <link rel="stylesheet" type="text/css" href="<%=basePath%>/public/ztree/css/zTreeStyle.css">
 <script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.core.js"></script>
 <script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.excheck.js"></script>
 <script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.exedit.js"></script>
 <script type="text/javascript">
-	function kaptcha() {
-		$("#kaptchaImage").hide().attr('src', '${pageContext.request.contextPath}/Kaptcha.jpg').fadeIn();
-	}
 	    var treeObj;
 		var datas;
+		var parentId ;
+		var addressId="${expert.address}"
+		//alert(addressId);
+		//地区回显和数据显示
+		$.ajax({
+			url : "<%=basePath%>area/find_by_id.do",
+			data:{"id":addressId},
+			success:function(obj){
+				//alert(JSON.stringify(obj));
+				var data = eval('(' + obj+ ')');
+				$.each(data,function(i,result){
+					if(addressId == result.id){
+						parentId = result.areaType;
+					$("#haha").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
+					}else{
+						$("#haha").append("<option value='"+result.id+"'>"+result.name+"</option>");
+					}
+					
+				});
+				//alert(JSON.stringify(data));
+				//alert(parentId);
+				
+			},
+			error:function(obj){
+				
+			}
+			
+		});
+
+		$(function(){
+			$.ajax({
+				url : "<%=basePath%>area/listByOne.do",
+				success:function(obj){
+					var data = eval('(' + obj + ')');
+					$.each(data,function(i,result){
+						if(parentId == result.id){
+							$("#hehe").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
+						}else{
+						$("#hehe").append("<option value='"+result.id+"'>"+result.name+"</option>");
+						}
+					});
+					
+					//alert(JSON.stringify(obj));
+				},
+				error:function(obj){
+					
+				}
+				
+			});
+			
+			
+		});	
+		
+		function func(){
+			var parentId = $("#hehe").val();
+			$.ajax({
+				url : "<%=basePath%>area/find_area_by_parent_id.do",
+				data:{"id":parentId},
+				success:function(obj){
+					$("#haha").empty();
+					var data = eval('(' + obj + ')');
+					$("#haha").append("<option  value=''>-请选择-</option>");
+					$.each(data,function(i,result){
+						
+						$("#haha").append("<option value='"+result.id+"'>"+result.name+"</option>");
+					});
+					
+					//alert(JSON.stringify(obj));
+				},
+				error:function(obj){
+					
+				}
+				
+			});
+		}
+		
 		   var setting={
 					async:{
 								enable:true,
@@ -123,7 +189,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         }  
         return childNodes;  
     }  
-
     function beforeAsync() {  
         curAsyncCount++;  
     }  
@@ -135,12 +200,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         } else if (curStatus == "async") {  
             asyncNodes(treeNode.children);  
         }  
-
         if (curAsyncCount <= 0) {  
             curStatus = "";  
         }  
     }  
-
     var curStatus = "init", curAsyncCount = 0, goAsync = false;  
     function expandAll() {  
         if (!check()) {  
@@ -170,21 +233,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             }  
         }  
     }  
-
     function check() {  
         if (curAsyncCount > 0) {  
             return false;  
         }  
         return true;  
     }  
-
 	function zTreeOnAsyncSuccess(event, treeId, treeNode, msg){
      var nodes = treeNode.children;
-
      for(var i=0;i<nodes.length;i++){
          treeObj.expandNode(nodes[i],true,false,true,true);
      }
-
  }
 	var treeid=null;
     /*树点击事件*/
@@ -215,11 +274,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	}
 		/** 专家完善注册信息页面 */
 	function supplierRegist(name, i, position) {
-		 if(i==3){
-			if (!validateForm1()) {
+		  if(i==3){
+			 if (!validateForm1()) {
 				return;
-			}
-		}
+			} 
+		} 
 		if(i==4){
 			if (!validateType()) {
 				return;
@@ -265,57 +324,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		$("#" + t).hide();
 		$("#" + l).show();
 	}
-		//地区联动js
-	function loadProvince(regionId){
-		  $("#id_provSelect").html("");
-		  $("#id_provSelect").append("<option value=''>请选择省份</option>");
-		  var jsonStr = getAddress(regionId,0);
-		  for(var k in jsonStr) {
-			$("#id_provSelect").append("<option value='"+k+"'>"+jsonStr[k]+"</option>");
-		  }
-		  if(regionId.length!=6) {
-			$("#id_citySelect").html("");
-		    $("#id_citySelect").append("<option value=''>请选择城市</option>");
-			$("#id_areaSelect").html("");
-		    $("#id_areaSelect").append("<option value=''>请选择区域</option>");
-		  } else {
-			 $("#id_provSelect").val(regionId.substring(0,2)+"0000");
-			 loadCity(regionId);
-		  }
-	}
 
-	function loadCity(regionId){
-	  $("#id_citySelect").html("");
-	  $("#id_citySelect").append("<option value=''>请选择城市</option>");
-	  if(regionId.length!=6) {
-		$("#id_areaSelect").html("");
-	    $("#id_areaSelect").append("<option value=''>请选择区域</option>");
-	  } else {
-		var jsonStr = getAddress(regionId,1);
-	    for(var k in jsonStr) {
-		  $("#id_citySelect").append("<option value='"+k+"'>"+jsonStr[k]+"</option>");
-	    }
-		if(regionId.substring(2,6)=="0000") {
-		  $("#id_areaSelect").html("");
-	      $("#id_areaSelect").append("<option value=''>请选择区域</option>");
-		} else {
-		   $("#id_citySelect").val(regionId.substring(0,4)+"00");
-		   loadArea(regionId);
-		}
-	  }
-	}
-
-	function loadArea(regionId){
-	  $("#id_areaSelect").html("");
-	  $("#id_areaSelect").append("<option value=''>请选择区域</option>");
-	  if(regionId.length==6) {
-	    var jsonStr = getAddress(regionId,2);
-	    for(var k in jsonStr) {
-		  $("#id_areaSelect").append("<option value='"+k+"'>"+jsonStr[k]+"</option>");
-	    }
-		if(regionId.substring(4,6)!="00") {$("#id_areaSelect").val(regionId);}
-	  }
-	}
 	//回显基本信息到表中
 	function editTable(){
 		var name = $("#relName").val();
@@ -378,10 +387,74 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		$("#form1").attr("action","<%=basePath %>expert/download.html");
 		$("#form1").submit();
 	}
+	
 	//提交
 	function addSubmitForm(){
+				 if (!validateForm1()) {
+					 tab1();
+					return;
+				} 
+				if (!validateType()) {
+					tab2();
+					return;
+				}
+				if(!validateJiGou()){
+					tab3();
+					return;
+				}
+				if(!validateHeTong()){
+					tab5();
+					return;
+				}
 		$("#form1").attr("action","<%=basePath %>expert/add.html");
 		$("#form1").submit();
+	}
+	//页签点击跳转
+	function tab1(){
+		
+		$("#reg_box_id_3").show();
+		$("#reg_box_id_4").hide();
+		$("#reg_box_id_5").hide();
+		$("#reg_box_id_6").hide();
+		$("#reg_box_id_7").hide();
+		$("#reg_box_id_8").hide();
+	}
+	function tab2(){
+		
+		$("#reg_box_id_3").hide();
+		$("#reg_box_id_4").show();
+		$("#reg_box_id_5").hide();
+		$("#reg_box_id_6").hide();
+		$("#reg_box_id_7").hide();
+		$("#reg_box_id_8").hide();
+	}
+	function tab3(){
+		 
+		$("#reg_box_id_3").hide();
+		$("#reg_box_id_4").hide();
+		$("#reg_box_id_5").show();
+		$("#reg_box_id_6").hide();
+		$("#reg_box_id_7").hide();
+		$("#reg_box_id_8").hide();
+	}
+	function tab4(){
+		
+		editTable();
+		$("#reg_box_id_3").hide();
+		$("#reg_box_id_4").hide();
+		$("#reg_box_id_5").hide();
+		$("#reg_box_id_6").show();
+		$("#reg_box_id_7").hide();
+		$("#reg_box_id_8").hide();
+	}
+	function tab5(){
+		
+		$("#reg_box_id_3").hide();
+		$("#reg_box_id_4").hide();
+		$("#reg_box_id_5").hide();
+		$("#reg_box_id_6").hide();
+		$("#reg_box_id_7").show();
+		$("#reg_box_id_8").hide();
 	}
 	//回显采购机构信息
 	function addPurList(){
@@ -410,12 +483,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 }
 		
 	}
+	
+	
+	
+	
 </script>
 
 </head>
 
 <body>
-<jsp:include page="/index_head.jsp"></jsp:include>
 	<div class="wrapper">
 		</div>
 		<form id="form1" action="${pageContext.request.contextPath}/expert/add.html" method="post"  enctype="multipart/form-data" >
@@ -430,12 +506,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 <input type="hidden"  name="token2" value="<%=tokenValue%>">
 		<div id="reg_box_id_3" class="container clear margin-top-30 job-content">
 			<h2 class="padding-20 mt40">
-					<span class="new_step current fl"><i class="">1</i><div class="line"></div> <span class="step_desc_01">用户名密码</span> </span>
-					<span class="new_step current fl"><i class="">2</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
-					<span class="new_step fl"><i class="">3</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span> 
-					<span class="new_step fl"><i class="">4</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
-					<span class="new_step fl"><i class="">5</i><div class="line"></div> <span class="step_desc_01">打印申请表</span> </span> 
-					<span class="new_step fl"><i class="">6</i> <span class="step_desc_02">上传申请表</span> </span> 
+					<!-- <span class="new_step current fl"><i class="">1</i><div class="line"></div> <span class="step_desc_01">用户名密码</span> </span> -->
+					<span class="new_step current fl" onclick="tab1();"><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
+					<span class="new_step fl"><i class="" onclick="tab2();">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span> 
+					<span class="new_step fl" onclick="tab3();"><i class="">3</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
+					<span class="new_step fl" onclick="tab4();"><i class="">4</i><div class="line"></div> <span class="step_desc_01">下载申请表</span> </span> 
+					<span class="new_step fl" onclick="tab5();"><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
 				<div class="clear"></div>
 			</h2>
 		<div class="container content height-350">
@@ -443,7 +519,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10">
 						<div class="tab-content padding-top-20  h900">
-							<div class="tab-pane fade active in height-500" id="tab-1">
+							<div class="tab-pane fade active in height-500"  id="tab-1">
 								<div class=" margin-bottom-0"><br/>
 									<h2 class="f16 jbxx">
 										<i>01</i>专家基本信息
@@ -455,7 +531,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 性别：</span>
-											<div class="input-append">
+											<div class="" style="display: inline-block; margin-bottom: 10px;white-space: nowrap; vertical-align: middle;">
 												 <select class="span3" name="gender" id="gender">
 												    <option selected="selected" value="">-请选择-</option>
 												   	<option <c:if test="${expert.gender eq 'M' }">selected="selected"</c:if> value="M">男</option>
@@ -463,23 +539,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												  </select>
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""> 出生日期：</span>
-											<div class="input-append">
-       											 <input class="span3 Wdate"   readonly="readonly" value="<fmt:formatDate type='date' value='${expert.birthday }' dateStyle="default" pattern="yyyy-MM-dd"/>" name="birthday" id="birthday" type="text" onclick='WdatePicker()'>
-      										</div>
-										</li>
-										<li class="col-md-6 p0"><span class=""><i class="red">＊</i>专家来源：</span>
-											<div class="input-append">
-												<select class="span3" name="expertsFrom" id="expertsFrom">
-												<option selected="selected" value="">-请选择-</option>
-											   	<option <c:if test="${expert.expertsFrom eq '军队' }">selected="selected"</c:if> value="军队">军队</option>
-											   	<option <c:if test="${expert.expertsFrom eq '地方' }">selected="selected"</c:if> value="地方">地方</option>
-											   	<option <c:if test="${expert.expertsFrom eq '其他' }">selected="selected"</c:if> value="其他">其他</option>
-											   </select>
-											</div>
-										</li>
+										
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i> 证件类型：</span>
-											<div class="input-append">
+											<div class="" style="display: inline-block; margin-bottom: 10px;white-space: nowrap; vertical-align: middle;">
 											<select class="span3" name="idType" id="idType">
 										   	<option selected="selected" value="">-请选择-</option>
 										   	<option <c:if test="${expert.idType eq '身份证' }">selected="selected"</c:if> value="身份证">身份证</option>
@@ -492,13 +554,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											</div>
 										</li>
 										
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>证件号码：</span>
-											<div class="input-append">
-												 <input class="span3" maxlength="30" value="${expert.idNumber }"  name="idNumber" id="idNumber" type="text">
-        									</div>
+										<li class="col-md-6 p0"><span class=""><i class="red">＊</i>专家来源：</span>
+											<div class="" style="display: inline-block; margin-bottom: 10px;white-space: nowrap; vertical-align: middle;">
+												<select class="span3" name="expertsFrom" id="expertsFrom">
+												<option selected="selected" value="">-请选择-</option>
+											   	<option <c:if test="${expert.expertsFrom eq '军队' }">selected="selected"</c:if> value="军队">军队</option>
+											   	<option <c:if test="${expert.expertsFrom eq '地方' }">selected="selected"</c:if> value="地方">地方</option>
+											   	<option <c:if test="${expert.expertsFrom eq '其他' }">selected="selected"</c:if> value="其他">其他</option>
+											   </select>
+											</div>
 										</li>
+										
+										
+										
 										<li class="col-md-6 p0 "><span class="">政治面貌：</span>
-											<div class="input-append">
+											<div class="" style="display: inline-block; margin-bottom: 10px;white-space: nowrap; vertical-align: middle;">
 												<select class="span3" name="politicsStatus" id="politicsStatus">
 												<option selected="selected" value="">-请选择-</option>
 											   	<option <c:if test="${expert.politicsStatus eq '党员' }">selected="selected"</c:if> value="党员">党员</option>
@@ -507,19 +577,49 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											   	<option <c:if test="${expert.politicsStatus eq '其他' }">selected="selected"</c:if> value="其他">其他</option>
 											   </select></div>
 										</li>
+										
+										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>最高学历：</span>
+											<div class="" style="display: inline-block; margin-bottom: 10px;white-space: nowrap; vertical-align: middle;">
+											 <select class="span3" name="hightEducation" id="hightEducation" >
+											 	<option selected="selected" value="">-请选择-</option>
+											   	<option <c:if test="${expert.hightEducation eq '博士' }">selected="selected"</c:if> value="博士">博士</option>
+											   	<option <c:if test="${expert.hightEducation eq '硕士' }">selected="selected"</c:if> value="硕士">硕士</option>
+											   	<option <c:if test="${expert.hightEducation eq '本科' }">selected="selected"</c:if> value="研究生">本科</option>
+											  </select>
+											</div>
+										</li>
+										
+										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>所在地区：</span>
+											<div class="" style="display: inline-block; margin-bottom: 10px;white-space: nowrap; vertical-align: middle;">
+											 <select id="hehe" onchange="func();">
+													<option value="">-请选择-</option>
+											 </select>
+											 <select name="address" id="haha">
+													<option value="">-请选择-</option>
+											 </select>
+											</div>
+										</li>
+										
+										<li class="col-md-6 p0 "><span class=""> 出生日期：</span>
+											<div class="input-append">
+       											 <input class="span3 Wdate"   readonly="readonly" value="<fmt:formatDate type='date' value='${expert.birthday }' dateStyle="default" pattern="yyyy-MM-dd"/>" name="birthday" id="birthday" type="text" onclick='WdatePicker()'>
+      										</div>
+										</li>
+										
+										
+										
+										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>证件号码：</span>
+											<div class="input-append">
+												 <input class="span3" maxlength="30" value="${expert.idNumber }"  name="idNumber" id="idNumber" type="text">
+        									</div>
+										</li>
+										
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>民族：</span>
 											<div class="input-append">
 											<input class="span3" maxlength="10" value="${expert.nation }"  name="nation" id="nation" type="text">
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>所在地区：</span>
-											<div class="input-append">
-											  <select id="id_provSelect" name="provSelect" onChange="loadCity(this.value);"><option value="">请选择省份</option></select>
-											  <select id="id_citySelect" name="citySelect" onChange="loadArea(this.value);"><option value="">请选择城市</option></select>
-											  <select id="id_areaSelect" name="address" ><option value="">请选择区域</option></select>
-											 <SCRIPT LANGUAGE="JavaScript"> loadProvince('${expert.address }');</SCRIPT> 
-											</div>
-										</li>
+										
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>毕业院校：</span>
 											<div class="input-append">
 											<input class="span3" maxlength="40" value="${expert.graduateSchool }"  name="graduateSchool" id="graduateSchool" type="text">
@@ -535,16 +635,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<input class="span3 Wdate"   readonly="readonly" value="<fmt:formatDate type='date' value='${expert.timeToWork }' dateStyle="default" pattern="yyyy-MM-dd"/>" name="timeToWork" id="appendedInput" type="text" onclick='WdatePicker()'>
 											</div>
 										</li>
-										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>最高学历：</span>
-											<div class="input-append">
-											 <select class="span3" name="hightEducation" id="hightEducation" >
-											 	<option selected="selected" value="">-请选择-</option>
-											   	<option <c:if test="${expert.hightEducation eq '博士' }">selected="selected"</c:if> value="博士">博士</option>
-											   	<option <c:if test="${expert.hightEducation eq '硕士' }">selected="selected"</c:if> value="硕士">硕士</option>
-											   	<option <c:if test="${expert.hightEducation eq '本科' }">selected="selected"</c:if> value="研究生">本科</option>
-											  </select>
-											</div>
-										</li>
+										
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>专业：</span>
 											<div class="input-append">
 											<input class="span3" maxlength="20" value="${expert.major }"  name="major" id="major" type="text">
@@ -649,7 +740,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										   </ul>
 										   </div>
 									<div class="tc mt20 clear col-md-11">
-									
 									        <button class="btn btn-windows git" onclick="submitForm1();"  type="button">暂存</button>
 											<button class="btn btn-windows git" id="nextBind"  type="button" onclick="fun();" >下一步</button>
 									</div>
@@ -661,14 +751,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 		
-		<div id="reg_box_id_4" class="container clear margin-top-30 yinc">
+		<div id="reg_box_id_4" class="container clear margin-top-30 yinc" style="display: none;">
 		  		<h2 class="padding-20 mt40">
-					<span class="new_step current fl"><i class="">1</i><div class="line"></div> <span class="step_desc_01">用户名密码</span> </span>
-					<span class="new_step current fl"><i class="">2</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
-					<span class="new_step current fl"><i class="">3</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span> 
-					<span class="new_step fl"><i class="">4</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
-					<span class="new_step fl"><i class="">5</i><div class="line"></div> <span class="step_desc_01">打印申请表</span> </span> 
-					<span class="new_step fl"><i class="">6</i> <span class="step_desc_02">上传申请表</span> </span> 
+					<!-- <span class="new_step current fl"><i class="">1</i><div class="line"></div> <span class="step_desc_01">用户名密码</span> </span> -->
+					<span class="new_step current fl" onclick="tab1();"><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
+					<span class="new_step current fl" onclick="tab2();"><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span> 
+					<span class="new_step fl" onclick="tab3();"><i class="">3</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
+					<span class="new_step fl" onclick="tab4();"><i class="">4</i><div class="line"></div> <span class="step_desc_01">下载申请表</span> </span> 
+					<span class="new_step fl" onclick="tab5();"><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
 				<div class="clear"></div>
 			</h2>
 			<br/>
@@ -699,14 +789,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		
 		<!-- 项目戳开始 -->
-		<div id="reg_box_id_5" class="container clear margin-top-30 yinc">
+		<div id="reg_box_id_5" class="container clear margin-top-30 yinc" style="display: none;">
 		  		<h2 class="padding-20 mt40">
-					<span class="new_step current fl"><i class="">1</i><div class="line"></div> <span class="step_desc_01">用户名密码</span> </span>
-					<span class="new_step current fl"><i class="">2</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
-					<span class="new_step current fl"><i class="">3</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span> 
-					<span class="new_step current fl"><i class="">4</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
-					<span class="new_step fl"><i class="">5</i><div class="line"></div> <span class="step_desc_01">打印申请表</span> </span> 
-					<span class="new_step fl"><i class="">6</i> <span class="step_desc_02">上传申请表</span> </span> 
+					<!-- <span class="new_step current fl"><i class="">1</i><div class="line"></div> <span class="step_desc_01">用户名密码</span> </span> -->
+					<span class="new_step current fl" onclick="tab1();"><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
+					<span class="new_step current fl" onclick="tab2();"><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span> 
+					<span class="new_step current fl" onclick="tab3();"><i class="">3</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
+					<span class="new_step fl" onclick="tab4();"><i class="">4</i><div class="line"></div> <span class="step_desc_01">下载申请表</span> </span> 
+					<span class="new_step fl" onclick="tab5();"><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
 				<div class="clear"></div>
 			</h2><br/>
 		      <h2 class="f16 jbxx">
@@ -731,10 +821,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<tr align="center">
 						<td><input type="radio" name="purchaseDepId" <c:if test="${expert.purchaseDepId eq p.id }">checked</c:if>  value="${p.id }" /></td>
 						<td>${vs.count}</td>
-						<td><input border="0" disabled="disabled" value="${p.name }"></td>
-						<td><input border="0" disabled="disabled" value="${p.princinpal }"></td>
-						<td><input border="0" disabled="disabled" value="${p.detailAddr }"></td>
-						<td><input border="0" disabled="disabled" value="${p.mobile }"></td>
+						<td><input border="0" readonly="readonly" value="${p.name }" style='border-left:0px;border-top:0px;border-right:0px;border-bottom:1px;text-align: center; '></td>
+						<td><input border="0" readonly="readonly" value="${p.princinpal }" style='border-left:0px;border-top:0px;border-right:0px;border-bottom:1px;text-align: center; '></td>
+						<td><input border="0" readonly="readonly" value="${p.detailAddr }" style='border-left:0px;border-top:0px;border-right:0px;border-bottom:1px;text-align: center; '></td>
+						<td><input border="0" readonly="readonly" value="${p.mobile }" style='border-left:0px;border-top:0px;border-right:0px;border-bottom:1px;text-align: center; '></td>
 					</tr>
 				</c:forEach> 
 			</table>
@@ -780,14 +870,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<button class="btn btn-windows git"   type="button" onclick="addPurList();">下一步</button>
 			</div>
 		</div>
-	<div id="reg_box_id_6" class="container clear margin-top-30 yinc">
+	<div id="reg_box_id_6" class="container clear margin-top-30 yinc" style="display: none;">
 		  <h2 class="padding-20 mt40">
-					<span class="new_step current fl"><i class="">1</i><div class="line"></div> <span class="step_desc_01">用户名密码</span> </span>
-					<span class="new_step current fl"><i class="">2</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
-					<span class="new_step current fl"><i class="">3</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span> 
-					<span class="new_step current fl"><i class="">4</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
-					<span class="new_step current fl"><i class="">5</i><div class="line"></div> <span class="step_desc_01">打印申请表</span> </span> 
-					<span class="new_step fl"><i class="">6</i> <span class="step_desc_02">上传申请表</span> </span> 
+					<!-- <span class="new_step current fl"><i class="">1</i><div class="line"></div> <span class="step_desc_01">用户名密码</span> </span> -->
+					<span class="new_step current fl" onclick="tab1();"><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
+					<span class="new_step current fl" onclick="tab2();"><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span> 
+					<span class="new_step current fl" onclick="tab3();"><i class="">3</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
+					<span class="new_step current fl" onclick="tab4();"><i class="" >4</i><div class="line"></div> <span class="step_desc_01">下载申请表</span> </span> 
+					<span class="new_step fl" onclick="tab5();"><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
 				<div class="clear"></div>
 			</h2><br/>
 			<h2 class="f16 jbxx">
@@ -963,21 +1053,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 		</div>
-		<div id="reg_box_id_7" class="container clear margin-top-30 yinc">
+		<div id="reg_box_id_7" class="container clear margin-top-30 yinc" style="display: none;">
 		 <h2 class="padding-20 mt40">
-					<span class="new_step current fl"><i class="">1</i><div class="line"></div> <span class="step_desc_01">用户名密码</span> </span>
-					<span class="new_step current fl"><i class="">2</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
-					<span class="new_step current fl"><i class="">3</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span> 
-					<span class="new_step current fl"><i class="">4</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
-					<span class="new_step current fl"><i class="">5</i><div class="line"></div> <span class="step_desc_01">打印申请表</span> </span> 
-					<span class="new_step current fl"><i class="">6</i> <span class="step_desc_02">上传申请表</span> </span> 
+					<!-- <span class="new_step current fl"><i class="">1</i><div class="line"></div> <span class="step_desc_01">用户名密码</span> </span> -->
+					<span class="new_step current fl" onclick="tab1();"><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
+					<span class="new_step current fl" onclick="tab2();"><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span> 
+					<span class="new_step current fl" onclick="tab3();"><i class="">3</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
+					<span class="new_step current fl" onclick="tab4();"><i class="">4</i><div class="line"></div> <span class="step_desc_01">下载申请表</span> </span> 
+					<span class="new_step current fl" onclick="tab5();"><i class="">5</i> <span class="step_desc_02">上传申请表</span> </span> 
 				<div class="clear"></div>
 			</h2><br/>
 			<h2 class="f16 jbxx">
 			<i>05</i>专家申请表、合同书
 			</h2>
-			<!-- 供应商申请书上传：<input type="file" name=""/>
-			供应商承诺书上传：<input type="file" name=""/> -->
+		
 				   	<div class="input-append mt40" style="margin-left:280px;">
 						<li class="col-md-6  p0 ">
 								<i class="red">＊</i><span class="" >专家申请表上传：</span>
@@ -1004,7 +1093,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 		
-		<div id="reg_box_id_8" class="container content height-350 yinc">
+		<div id="reg_box_id_8" class="container content height-350 yinc" style="display: none;">
 		 <div class="row magazine-page pt40 mb40">
 		   <div class="login_cl fl col-md-3">
 		    <img src="${pageContext.request.contextPath}/public/ZHQ/images/success.jpg"/>
@@ -1015,7 +1104,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  <span class="regist_info f18 b">信息填写完成！确认无误后请提交生效，提交后将不能更改！</span>正在等待审核人员审批。
 			 </p>
 		    </div>
-			<div class="col-md-12 add_regist">
+			<div class="col-md-12 add_regist" >
 			 <div class="fl mr20"><label class="regist_name">采购机构名称：</label><span id="depName_2" class="regist_desc"></span></div>
 			 <div class="fl mr20"><label class="regist_name">采购机构联系人：</label><span id="person_2" class="regist_desc"></span></div>
 			 <div class="fl mr20"><label class="regist_name">采购机构地址：</label><span id="address_2" class="regist_desc"></span></div>
@@ -1029,6 +1118,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		   </div>
 		 </div>
 		</form>
-		<jsp:include page="/index_bottom.jsp"></jsp:include>
+		<div class="footer-v2" id="footer-v2">
+
+      <div class="footer">
+
+            <!-- Address -->
+              <address class="">
+              Copyright © 2016 版权所有：中央军委后勤保障部 京ICP备09055519号
+              </address>
+              <div class="">
+               浏览本网主页，建议将电脑显示屏的分辨率调为1024*768
+              </div> 
+            <!-- End Address -->
+       </div>
+     
+<!--/footer--> 
+    </div>
+</div>
 </body>
 </html>

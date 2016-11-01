@@ -130,56 +130,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						 	   <div class="container clear margin-top-30" id="package">
 						 	   
 								   <c:forEach items="${packageList }" var="pack" varStatus="p">
-							           <h5>01、项目分包信息</h5>
 								   		<form action="<%=basePath%>packageFirstAudit/relate.html" method="post" id="form1">
 								   		<input type="hidden" name="packageIds" id="packageIds">
 								   		
 								   		<input type="hidden" id="packageId" name="packageId" value="${pack.id }"/>
 								   		<input type="hidden" name="projectId" value="${projectId}">
-								   		<span>包名:<span>${pack.name }</span>
+								   		<h4><span>包名:<span>${pack.name }</span></h4>
 								   		</span>
-								   		<table class="table table-bordered table-condensed mt5">
-							        	<thead>
-							        		<tr class="info">
-							          			<th class="w50">序号</th>
-							         			<th>需求部门</th>
-										        <th>物资名称</th>
-										        <th>规格型号</th>
-										        <th>质量技术标准</th>
-										        <th>计量单位</th>
-										        <th>采购数量</th>
-										        <th>单价（元）</th>
-										        <th>预算金额（万元）</th>
-										        <th>交货期限</th>
-										        <th>采购方式建议</th>
-										        <th>供应商名称</th>
-										        <th>是否申请办理免税</th>
-											    <th>物资用途（进口）</th>
-											    <th>使用单位（进口）</th>
-							        		</tr>
-							        	</thead>
-							          <c:forEach items="${pack.projectDetails}" var="obj">
-							            <tr class="tc">
-								            <td class="w50">${obj.serialNumber }</td>
-								            <td>${obj.department}</td>
-								            <td>${obj.goodsName}</td>
-								            <td>${obj.stand}</td>
-								            <td>${obj.qualitStand}</td>
-								            <td>${obj.item}</td>
-								            <td>${obj.purchaseCount}</td>
-								            <td>${obj.price}</td>
-								            <td>${obj.budget}</td>
-								            <td>${obj.deliverDate}</td>
-								            <td>${obj.purchaseType}</td>
-								            <td>${obj.supplier}</td>
-								            <td>${obj.isFreeTax}</td>
-									        <td>${obj.goodsUse}</td>
-									        <td>${obj.useUnit}</td>
-							            </tr>
-							         </c:forEach> 
-							      </table>
 									       <table class="table table-bordered table-condensed mt5">
-								 	            <h5>02、项目初审项信息</h5>
+								 	            <h5>项目初审项信息</h5>
 											    <thead>
 											      <tr>
 											      	<th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll(this)"  alt=""></th>

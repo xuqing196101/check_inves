@@ -140,7 +140,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  <li class="p0 ">
 			   <span class=""><i class="red mr5">*</i>确认密码：</span>
 			   <div class="input-append">
-		        <input class="span2" id="password2"  maxlength="20" onchange="validataPwd2();" type="password" value="">
+		        <input class="span2" id="password2"  maxlength="20" onblur="validataPwd2();" type="password" value="">
 		        <span class="add-on">i</span>
 		       </div><font  id="pwd2"></font>
 			 </li> 
