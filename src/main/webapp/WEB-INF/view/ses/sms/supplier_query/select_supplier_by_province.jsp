@@ -142,6 +142,10 @@ function chongzhi(){
 	$("#supplierTypeIds").val('');
 	$("#category").val('');
 	$("#supplierType").val('');
+	  var address='${address}';
+	  address=encodeURI(address);
+      address=encodeURI(address);
+	window.location.href="<%=basePath%>/supplierQuery/findSupplierByPriovince.html?address="+address;
 }
 $(function() {
 		var optionNodes = $("option");

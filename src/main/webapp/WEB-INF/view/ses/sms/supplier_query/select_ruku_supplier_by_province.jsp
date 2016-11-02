@@ -137,11 +137,14 @@ function chongzhi(){
 	$("#startDate").val('');
 	$("#endDate").val('');
 	$("#contactName").val('');
-	$("option")[0].selected = true;
 	$("#category").val('');
 	$("#supplierType").val('');
 	$("#categoryIds").val('');
 	$("#supplierTypeIds").val('');
+	var address='${address}';
+	address=encodeURI(address);
+    address=encodeURI(address);
+     window.location.href="<%=basePath%>supplierQuery/findSupplierByPriovince.html?address="+address+"&status=3";
 }
 $(function() {
 		var optionNodes = $("option");

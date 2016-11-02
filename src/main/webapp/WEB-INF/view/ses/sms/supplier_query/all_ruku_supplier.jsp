@@ -478,11 +478,11 @@ function chongzhi(){
 	$("#startDate").val('');
 	$("#endDate").val('');
 	$("#contactName").val('');
-	$("option")[0].selected = true;
 	$("#category").val('');
 	$("#supplierType").val('');
 	$("#categoryIds").val('');
 	$("#supplierTypeIds").val('');
+	window.location.href="<%=basePath%>/supplierQuery/highmaps.html?status=3";
 }
 $(function() {
 		var optionNodes = $("option");

@@ -421,6 +421,7 @@ function chongzhi(){
 	$("#supplierType").val('');
 	$("#categoryIds").val('');
 	$("#supplierTypeIds").val('');
+	window.location.href="<%=basePath%>/supplierQuery/highmaps.html";
 }
 $(function() {
 		var optionNodes = $("option");
