@@ -50,16 +50,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <div class="headline-v2">
      <h2>我的协议供货订单</h2>
    </div>   
-     <h2 class="padding-10 bg10 ml20 clear">
+     <h2 class="search_detail">
        <form action="" method="post" class="mb0">
     	<ul class="demand_list">
-    	  <li class="fl">
+    	  <li>
 	    	<label class="fl">合同名称：</label><span><input type="text" id="topic" class=""/></span>
 	      </li>
-    	  <li class="fl">
+    	  <li>
 	    	<label class="fl">合同编号：</label><span><input type="text" id="topic" class=""/></span>
 	      </li>
-    	  <li class="fl">
+    	  <li>
 	    	<label class="fl">供应商名称：</label><span><input type="text" id="topic" class=""/></span>
 	      </li> 
 	    	<button type="button" onclick="query()" class="btn">查询</button>
@@ -85,7 +85,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<button class="btn btn-windows ht_add" type="submit">新增合同</button>
 	<button class="btn btn-windows cancel" type="submit">取消</button>
    </div>
-   <div class="content padding-top-5 clear pl20">
+   <div class="content table_box">
     	<table class="table table-bordered table-condensed table-hover">
 		<thead>
 		<tr>

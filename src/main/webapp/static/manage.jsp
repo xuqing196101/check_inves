@@ -85,7 +85,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 	<div class="tab-content">
 	  <div class="tab-pane fade active in" id="show_ztree_content">
-		<div class="panel-heading overflow-h margin-bottom-20 no-padding" id="ztree_title">
+		<div class="overflow-h mb20" id="ztree_title">
 		  <h2 class="panel-title heading-sm pull-left">
 	        <i class="fa fa-bars"></i> xxxx有限公司 <span class="label rounded-2x label-u">正常</span>
           </h2>
@@ -96,7 +96,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<a class="btn btn-sm btn-default" data-toggle="modal" href=""><i class="fa fa-plus"></i> 增加人员</a>
           </div>
 		 </div>
-		 <div id="ztree_content">
+		 <div>
           <div class="tab-v2">
             <ul class="nav nav-tabs bgwhite">
               <li class="active"><a href="#dep_tab-0" data-toggle="tab" class="s_news f18">详细信息</a></li>
