@@ -2,6 +2,7 @@ package ses.model.ems;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 /**
  * 
   * <p>Title:Expert </p>
@@ -94,6 +95,7 @@ public class Expert implements Serializable{
     /**真实姓名*/
     private String relName;
     
+    private List<String> ids;
     
     
     
@@ -409,4 +411,13 @@ public class Expert implements Serializable{
     public void setRelName(String relName) {
         this.relName = relName == null ? null : relName.trim();
     }
+
+	public List<String> getIds() {
+		return ids;
+	}
+
+	public void setIds(List<String> ids) {
+		this.ids = ids;
+	}
+    
 }

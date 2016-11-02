@@ -83,7 +83,7 @@ public class ExpertBlackListController extends BaseSupplierController{
 		service.insert(expertBlackList);	
 		//记录操作
 		expertBlackListLog.setOperationDate(new Date()); 
-		expertBlackListLog.setExpertId(expertBlackList.getRelName());
+		expertBlackListLog.setExpertId(expertBlackList.getExpertId());
 		expertBlackListLog.setOperator("我");
 		expertBlackListLog.setDateOfPunishment(expertBlackList.getDateOfPunishment());
 		expertBlackListLog.setPunishDate(expertBlackList.getPunishDate());
@@ -160,7 +160,7 @@ public class ExpertBlackListController extends BaseSupplierController{
 		service.update(expertBlackList);
 		//记录操作
 		expertBlackListLog.setOperationDate(new Date()); 
-		expertBlackListLog.setExpertId(expertBlackList.getRelName());
+		expertBlackListLog.setExpertId(expertBlackList.getExpertId());
 		expertBlackListLog.setOperator("我");
 		expertBlackListLog.setDateOfPunishment(expertBlackList.getDateOfPunishment());
 		expertBlackListLog.setPunishDate(expertBlackList.getPunishDate());
@@ -234,7 +234,7 @@ public class ExpertBlackListController extends BaseSupplierController{
 	@RequestMapping(value = "expert_list")
 	public String findExpertAll(HttpServletRequest request,Expert expert,Integer page,Model model) {
 		List<Expert> expertList = service.findExpertAll(expert,page==null?1:page);
-		request.setAttribute("result", new PageInfo<>(expertList));
+		request.setAttribute("result", new PageInfo<Expert>(expertList));
 		model.addAttribute("expertAll", expertList);
 		
 		//回显
@@ -256,8 +256,14 @@ public class ExpertBlackListController extends BaseSupplierController{
 	@RequestMapping(value = "expertBlackListLog")
 	public String expertBlackListLog(HttpServletRequest request,ExpertBlackListLog expertBlackListLog,Model model,Integer page) {
 		List<ExpertBlackListLog> log= service.findBlackListLog(expertBlackListLog,page==null?1:page);
-		request.setAttribute("result", new PageInfo<>(log));
+		request.setAttribute("result", new PageInfo<ExpertBlackListLog>(log));
 		model.addAttribute("log", log);
+		
+		//回显
+		String type = expertBlackListLog.getOperationType();
+		String name = expertBlackListLog.getExpertId();
+		request.setAttribute("expertName", name);
+		request.setAttribute("operationType", type);
 		return "ses/ems/expertBlackList/log";
 	}
 	

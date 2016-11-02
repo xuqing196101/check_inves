@@ -59,13 +59,13 @@
   <div class="container">
     <form action="<%=basePath %>expertBlacklist/saveBlacklist.do" method="post" id="form1" enctype="multipart/form-data" class="registerform">
     <input type="hidden" name="operationType" value="0">
-    <input type="hidden" name="expertId" value="${expertId }">
       <h2 class="f16 jbxx1">
          <i>01</i>基本信息
       </h2>
       <ul class="list-unstyled list-flow p0_20">
 		    <li class="col-md-6 p0">
           <span><i class="red">＊</i>专家姓名：</span>
+            <input type="hidden"  name="expertId" readonly="readonly" value="${expertId }">
             <input class="span2"  name="relName"  type="text" id="expert_name" readonly="readonly" value="${relName }">
         </li>
 	      <li class="col-md-6  p0 ">

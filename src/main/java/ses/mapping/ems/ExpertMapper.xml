@@ -593,18 +593,24 @@
 		resultMap="BaseResultMap">
 		select * from T_SES_EMS_EXPERT
 	</select>
-	<!-- 查询专家 可条件查询 -->
-	<select id="findExpertAll" resultMap="BaseResultMap">
-		select
-		<include refid="Base_Column_List" />
-		from T_SES_EMS_EXPERT
-		where 1=1
-		<if test="relName != null and relName !=''">
-			AND REL_NAME like '%${relName}%'
-		</if>
-		ORDER BY CREATED_AT DESC
-	</select>
 
+<!-- 查询专家 可条件查询 -->
+  <select id="findExpertAll" resultMap="BaseResultMap" parameterType="ses.model.ems.Expert">
+    select
+      *
+    from 
+      T_SES_EMS_EXPERT
+    where 1=1
+    <if test="relName != null and relName !=''">
+      AND REL_NAME like '%${relName}%'
+    </if>
+    <if test="ids != null">
+      <foreach collection="ids" item="id" open="and ID not in (" close=")" separator=",">
+        #{id}
+      </foreach>
+    </if>
+    ORDER BY CREATED_AT DESC
+  </select>
 	<!-- 专家抽取集合 -->
 	<!-- AND ee.ADDRESS = #{address} -->
 	<!-- AND EE.EXPERTS_FROM =#{expertsFrom} -->

@@ -37,6 +37,13 @@
       });
     });
 </script>
+<script type="text/javascript">
+   function resetForm(){
+      $("#expertId").attr("value","");
+        //还原select下拉列表只需要这一句
+      $("#operationType option:selected").removeAttr("selected");
+    }
+</script>
 </head>
 <body>
   <!--面包屑导航开始-->
@@ -54,15 +61,15 @@
             <ul class="demand_list">
               <li class="fl">
                 <label class="fl mt5">专家姓名：</label>
-                <input type="text" id="expertId" name="expertId" class="mb0 mt5">
+                <input type="text" id="expertId" name="expertId" class="mb0 mt5" value="${expertName }">
               </li>
               <li class="fl">
                  <label class="fl mt5">操作类型：</label>
                    <select name="operationType"  id="operationType" class="mb0 mt5">
                     <option value="">-请选择-</option>
-                      <option value="0">新增</option>
-                      <option value="1">修改</option>
-                      <option value="2">移除</option>
+                      <option <c:if test="${operationType =='0' }">selected</c:if> value="0">新增</option>
+                      <option <c:if test="${operationType =='1' }">selected</c:if> value="1">修改</option>
+                      <option <c:if test="${operationType =='2' }">selected</c:if> value="2">移除</option>
                   </select>
               </li>
              <li>
@@ -100,7 +107,7 @@
                 <c:if test="${log.operationType == 1}">修改</c:if>
                 <c:if test="${log.operationType == 2}">移除</c:if>
              </td>
-             <td class="tc">${log.expertId }</td>
+             <td class="tc">${log.expertName }</td>
              <td class="tc"><fmt:formatDate type='date' value='${log.operationDate }' dateStyle="default" pattern="yyyy-MM-dd HH:mm"/></td>
              <td class="tc"><fmt:formatDate type='date' value='${log.dateOfPunishment }' dateStyle="default" pattern="yyyy-MM-dd"/></td>
              <td class="tc">${log.punishDate }</td>
