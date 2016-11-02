@@ -21,6 +21,12 @@ public class Expert implements Serializable{
     private String isSubmit;
     /**是否考试，1已考，2过期  其他值或null是未考*/
     private String isDo;
+    /**是否考试通过 0未通过  1已通过*/
+    private Short isPass;
+    /**是否为临时专家  0不是 1是*/
+    private Short isProvisional;
+    /**备注*/
+    private String remarks;
     /**是否删除；0未删除，1已删除*/
     private Short isDelete = 0;
     /**创建时间*/
@@ -87,7 +93,35 @@ public class Expert implements Serializable{
     private Integer honestyScore = 100;
     /**真实姓名*/
     private String relName;
-    public String getId() {
+    
+    
+    
+    
+    public Short getIsProvisional() {
+		return isProvisional;
+	}
+
+	public void setIsProvisional(Short isProvisional) {
+		this.isProvisional = isProvisional;
+	}
+
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
+
+	public Short getIsPass() {
+		return isPass;
+	}
+
+	public void setIsPass(Short isPass) {
+		this.isPass = isPass;
+	}
+
+	public String getId() {
         return id;
     }
 

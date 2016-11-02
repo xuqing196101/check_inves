@@ -39,6 +39,9 @@
 		<result column="IS_BLACK" jdbcType="CHAR" property="isBlack" />
 		<result column="HONESTY_SCORE" jdbcType="DECIMAL" property="honestyScore" />
 		<result column="REL_NAME" jdbcType="VARCHAR" property="relName" />
+		<result column="IS_PASS" jdbcType="DECIMAL" property="isPass" />
+		<result column="IS_PROVISIONAL" jdbcType="DECIMAL" property="isProvisional" />
+		<result column="REMARKS" jdbcType="VARCHAR" property="remarks" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		ID, IS_SUBMIT, IS_DO, IS_DELETE, CREATED_AT, GENDER,
@@ -54,7 +57,7 @@
 		POST_CODE, DEGREE, AT_DUTY,
 		EXPERTS_TYPE_ID,
 		PURCHASE_DEP_ID, STATUS,
-		IS_BLACK, HONESTY_SCORE, REL_NAME
+		IS_BLACK, HONESTY_SCORE, REL_NAME, IS_PASS, IS_PROVISIONAL, REMARKS
 	</sql>
 	<!-- 查询用户名是否存在 -->
 	<!-- <select id="selectisSubmitList" parameterType="java.lang.String" resultMap="BaseResultMap" 
@@ -129,7 +132,7 @@
 		AT_DUTY,
 		EXPERTS_TYPE_ID, PURCHASE_DEP_ID, STATUS,
 		IS_BLACK,
-		HONESTY_SCORE, REL_NAME
+		HONESTY_SCORE, REL_NAME, IS_PASS, IS_PROVISIONAL, REMARKS
 		)
 		values (#{id,jdbcType=VARCHAR},
 		#{isSubmit,jdbcType=VARCHAR},
@@ -157,7 +160,8 @@
 		#{expertsTypeId,jdbcType=VARCHAR},
 		#{purchaseDepId,jdbcType=DECIMAL}, #{status,jdbcType=CHAR},
 		#{isBlack,jdbcType=CHAR}, #{honestyScore,jdbcType=DECIMAL},
-		#{relName,jdbcType=VARCHAR}
+		#{relName,jdbcType=VARCHAR}, #{isPass,jdbcType=DECIMAL},  
+		#{isProvisional,jdbcType=DECIMAL},#{remarks,jdbcType=VARCHAR}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="ses.model.ems.Expert">
@@ -174,6 +178,12 @@
 			</if>
 			<if test="isDelete != null">
 				IS_DELETE,
+			</if>
+			<if test="isPass != null">
+				IS_PASS,
+			</if>
+			<if test="isProvisional != null">
+				IS_PROVISIONAL,
 			</if>
 			<if test="createdAt != null">
 				CREATED_AT,
@@ -271,6 +281,9 @@
 			<if test="relName != null">
 				REL_NAME,
 			</if>
+			<if test="remarks != null">
+				REMARKS,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -284,6 +297,12 @@
 			</if>
 			<if test="isDelete != null">
 				#{isDelete,jdbcType=DECIMAL},
+			</if>
+			<if test="isPass != null">
+				#{isPass,jdbcType=DECIMAL},
+			</if>
+			<if test="isProvisional != null">
+				#{isProvisional,jdbcType=DECIMAL},
 			</if>
 			<if test="createdAt != null">
 				#{createdAt,jdbcType=DATE},
@@ -381,6 +400,9 @@
 			<if test="relName != null">
 				#{relName,jdbcType=VARCHAR},
 			</if>
+			<if test="remarks != null">
+				#{remarks,jdbcType=VARCHAR},
+			</if>
 		</trim>
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="ses.model.ems.Expert">
@@ -394,6 +416,12 @@
 			</if>
 			<if test="isDelete != null">
 				IS_DELETE = #{isDelete,jdbcType=DECIMAL},
+			</if>
+			<if test="isPass != null">
+				IS_PASS = #{isPass,jdbcType=DECIMAL},
+			</if>
+			<if test="isProvisional != null">
+				 IS_PROVISIONAL = #{isProvisional,jdbcType=DECIMAL},
 			</if>
 			<if test="createdAt != null">
 				CREATED_AT = #{createdAt,jdbcType=DATE},
@@ -492,6 +520,9 @@
 			<if test="relName != null">
 				REL_NAME = #{relName,jdbcType=VARCHAR},
 			</if>
+			<if test="remarks != null">
+				REMARKS = #{remarks,jdbcType=VARCHAR},
+			</if>
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
@@ -502,6 +533,8 @@
 		IS_DO =
 		#{isDo,jdbcType=VARCHAR},
 		IS_DELETE = #{isDelete,jdbcType=DECIMAL},
+		IS_PASS = #{isPass,jdbcType=DECIMAL},
+		IS_PROVISIONAL = #{isProvisional,jdbcType=DECIMAL},
 		CREATED_AT = #{createdAt,jdbcType=DATE},
 		GENDER =
 		#{gender,jdbcType=CHAR},
@@ -549,8 +582,11 @@
 		HONESTY_SCORE =
 		#{honestyScore,jdbcType=DECIMAL},
 		REL_NAME =
-		#{relName,jdbcType=VARCHAR}
+		#{relName,jdbcType=VARCHAR},
+		REMARKS =
+		#{remarks,jdbcType=VARCHAR}
 		where ID = #{id,jdbcType=VARCHAR}
+		
 	</update>
 
 	<select id="findExpertList" parameterType="java.lang.String"
