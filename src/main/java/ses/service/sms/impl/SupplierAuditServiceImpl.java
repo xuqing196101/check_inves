@@ -168,6 +168,15 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	}
 	
 	@Override
+	public List<Supplier> querySupplierbytypeAndCategoryIds(Supplier supplier,Integer page) {
+		if(page!=null){
+			PropertiesUtil config = new PropertiesUtil("config.properties");
+			PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		}
+		return supplierMapper.querySupplierbytypeAndCategoryIds(supplier);
+	}
+	
+	@Override
 	public List<Supplier> getAllSupplier(Supplier supplier,Integer page) {
 		if(page!=null){
 			PropertiesUtil config = new PropertiesUtil("config.properties");

@@ -1,5 +1,9 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -74,22 +78,10 @@ function loadCity(regionId){
     		//form1.submit();
     	}
     }
+    var parentId ;
+    var addressId="${is.address}";
 	$(function() {
-	   /*  $("#postCode").blur(function(){
-	    	var postCode=$(this).val();
-	    	var patt = new RegExp("^[0-9]{4,8}$");
-	    		if(!patt.test(postCode)){
-	    			$(this).val('');
-	    			layer.tips("请输入正确的邮政编码.", "#postCode");
-	    		}
-	    });
-	        $("#telephone").blur(function(){
-	    	var telephone=$(this).val();
-	    		if(!(/^1(3|4|5|7|8)\d{9}$/.test(telephone))){
-	    			$(this).val('');
-	    			layer.tips("请输入正确的电话号码.", "#telephone");
-	    		}
-	    }); */
+	
 	/** 校验用户名是否存在 */
 		$("#loginName").blur(function() {
 			var loginName = $(this).val();
@@ -166,6 +158,26 @@ function loadCity(regionId){
 			}
 		});
 		
+		$.ajax({
+			url : "<%=basePath%>area/listByOne.do",
+			success:function(obj){
+				var data = eval('(' + obj + ')');
+				$.each(data,function(i,result){
+					if(parentId == result.id){
+						$("#hehe").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
+					}else{
+					$("#hehe").append("<option value='"+result.id+"'>"+result.name+"</option>");
+					}
+				});
+				
+				//alert(JSON.stringify(obj));
+			},
+			error:function(obj){
+				
+			}
+			
+		});
+		
 		$("#confirmPassword").change(function() {
 			var confirmPassword = $("#confirmPassword").val();
 			var password = $("#password").val();
@@ -182,6 +194,29 @@ function loadCity(regionId){
 			}
 		});
 	});
+	function fun(){
+		var parentId = $("#hehe").val();
+		$.ajax({
+			url : "<%=basePath%>area/find_area_by_parent_id.do",
+			data:{"id":parentId},
+			success:function(obj){
+				$("#haha").empty();
+				var data = eval('(' + obj + ')');
+				$("#haha").append("<option value=''>-请选择-</option>");
+				$.each(data,function(i,result){
+					
+					$("#haha").append("<option value='"+result.id+"'>"+result.name+"</option>");
+				});
+				
+				//alert(JSON.stringify(obj));
+			},
+			error:function(obj){
+				
+			}
+			
+		});
+	}
+	
 </script>
 
 </head>
@@ -229,12 +264,13 @@ function loadCity(regionId){
 											</div>
 										</li>
 										<li class="col-md-6 p0"><span class=""><i class="red">＊</i>企业注册地址：</span>
-											<div class="input-append">
-												<select id="id_provSelect" name="provSelect" onChange="loadCity(this.value);"><option value="">请选择省份</option></select>&nbsp;
-  												<select id="address"  name="address"><option value="">请选择城市</option></select>&nbsp;
-  												<SCRIPT LANGUAGE="JavaScript">loadProvince('${is.address}');</SCRIPT>
+												<select id="hehe" onchange="fun();">
+													<option>-请选择-</option>
+												</select>
+												<select name="address" id="haha">
+													<option>-请选择-</option>
+												</select>
   												<div class="validate">${ERR_address}</div>
-											</div>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>邮政编码：</span>
 											<div class="input-append">
