@@ -71,6 +71,8 @@ String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+"";
             }
         });
         
+       
+        
         $("#form1").validate({
             errorElement: "span",
             rules:{
@@ -96,157 +98,182 @@ String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+"";
                 
             }
         });
+        
+        
+        var id = $("#idss").val();
+        if(!id){
+            $("#hide_detail").hide();
+        }else{
+            $("#hide_detail").show();
+        }
+        
+        var v = "${checkedIds}";
+        console.info(v);
+        if (v) {
+            var vs = v.split(",");
+            for (var i = 0; i < vs.length; i++) {
+                 $("#task_id").find(":checkbox").each(function() {
+                    if(vs[i] == $(this).val()) {
+                        $(this).prop("checked", true);
+                    }
+                });
+            }
+        }
+       
   });
   
     
     /** 勾选父子节点 */
     function check(ele){
-        var flag = $(ele).prop("checked");
-         var purchaseType = $("input[name='chkItem']:checked").parents("tr").find("td").eq(10).text();
-             purchaseType = $.trim(purchaseType);
-        var id = $(ele).val();
-        $.ajax({
-                    url:"<%=basePath%>project/checkDeail.html",
-                    data:"id="+id,
-                    type:"post",
-                    dataType:"json",
-                    success:function(result){
-                       for (var i = 0; i < result.length; i++) {
-                           $("input[name='chkItem']").each(function() {
-                                var v1 = result[i].id;
-                                var v3 = result[i].purchaseType;
-                          if(v3 == purchaseType){
-                                var v2 = $(this).val();
-                                if (v1 == v2) {
-                                    $(this).prop("checked", flag);
-                                }
-                             }else{
-                                    layer.alert("采购方式不相同",{offset: ['222px', '390px'], shade:0.01});
-                                }
-                           });
-                       }
-                    },
-                    error: function(){
-                        layer.msg("失败",{offset: ['222px', '390px']});
-                    }
-                });
+       var id = $(ele).val();
+       var checkedIds = "";
+       $("#task_id").find(":checkbox:checked").each(function() {
+            if (checkedIds) {
+                checkedIds += ",";
+            }
+            checkedIds += $(this).val();
+       });
+       if ($(ele).prop("checked")) {
+            window.location.href = "<%=basePath%>project/addDeatil.html?id=" + id +"&checkedIds=" + checkedIds;
+       }
+      
     }
     
-    
     function add(){
-        var id =[]; 
+       // var id =[]; 
         var name = $("input[name='name']").val();
         var projectNumber = $("input[name='projectNumber']").val();
-        $('input[name="chkItem"]:checked').each(function(){ 
+        /* $('input[name="chkItem"]:checked').each(function(){ 
             id.push($(this).val()); 
-        }); 
-        $("#ids").val(id);
-         if(id==""){
+        });  */
+         /* if(id==""){
                 layer.tips("请勾选明细","#check");
-          } else if (name==""){
+          } else  */
+          if (name==""){
                 layer.tips("项目名称不允许为空","#pic");
           } else if (projectNumber==""){
                 layer.tips("项目编号不允许为空","#pc");
           }else{
-            layer.msg("添加成功",{offset: ['222px', '690px']});
             window.setTimeout(function(){
                 $("#form1").submit();
+                layer.msg("添加成功",{offset: ['222px', '690px']});
              }, 1000);
           }
          
     }
     
-    function bask(){
-       window.location.href="<%=basePath%>project/list.html";
-    }
+     <%-- function bask(){
+        var id = $("#idss").val();
+        if(!id){
+            window.history.go(-1);
+        }else{
+            layer.confirm('您要删除之前的操作吗?',{
+                offset: ['300px','600px'],
+                shade:0.01,
+                btn:['是','否'],
+                },function(){
+                 window.location.href="<%=basePath%>project/list.html";
+                },function(){
+                 window.history.bask();
+                }
+                    
+            );
+        } 
+      }   --%>
+         function bask(){
+                 window.location.href="<%=basePath%>project/list.html";
+    } 
   </script>
   </head>
   
-  <body>
+ <body>
+ <form id="form1" action="<%=basePath%>project/create.html" method="post">
 <!--面包屑导航开始-->
  <div class="margin-top-10 breadcrumbs ">
       <div class="container">
            <ul class="breadcrumb margin-left-0">
-           <li><a href="#"> 首页</a></li><li><a href="#">保障作业系统</a></li><li><a href="#">立项管理</a></li><li class="active"><a href="#">新增需求明细</a></li>
+           <li><a href="#"> 首页</a></li><li><a href="#">保障作业系统</a></li><li><a href="#">采购项目管理</a></li><li class="active"><a href="#">立项管理</a></li>
            </ul>
         <div class="clear"></div>
       </div>
    </div>
-<!-- 录入采购计划开始-->
  <div class="container">
-    <div class="headline-v2">
-      <h2>新增信息</h2>
+    <div class="col-md-12 tab-pane active">
+      <h1 class="f16 count_flow">
+      <i>01</i>
+                        请填写信息
+      </h1>
    </div>
-   <form id="form1" action="<%=basePath%>project/create.html" method="post">
-   <%
+   <%-- 
+        <%
             session.setAttribute("tokenSession", tokenValue);
          %>
-         <input type="hidden"  name="token2" value="<%=tokenValue%>">
-         <input type="hidden"  name="id" id="ids">
-   <span class="f14 fl">项目名称：</span>
+         <input type="hidden"  name="token2" value="<%=tokenValue%>"> --%>
+            <span class="f14 fl"><i class="spredm">*</i>&nbsp;项目名称：</span>
         <div class="fl" >
           <input id="pic" type="text" class="toinline" name="name"/>
           &nbsp;&nbsp;
         </div>
         
-         <span class="f14 fl">项目编号：</span>
+         <span class="f14 fl"><i class="spredm">*</i>&nbsp;项目编号：</span>
         <div class="fl" >
           <input id="pc" type="text" class="toinline" name="projectNumber"/>
         </div>
-        <%--
-<!-- 项目戳开始 -->
- 
-   <div class="p10_25">
-    <h2 class="padding-10 border1">
-     <form id="add_form" action="<%=basePath%>project/add.html" method="post" >
-     <ul class="demand_list">
-     <li class="fl">
-       <label class="fl">需求部门：<input type="text" name="purchaseRequiredId" /></label>
-       </li>
-      <label class="fl">年度：<select name="giveTime" style="width:70px" id="select">
-    <option selected="selected" value="">请选择</option>
-       <c:forEach items="${task}" var="task">
-                            
-                            <option value="${task.giveTime}">${task.giveTime}</option>
-                         
-       </c:forEach>  
-  </select> </label>
-  <li class="fl">
-      <label class="fl">采购方式：<select name="procurementMethod" style="width:100px" id="select">
-       <option selected="selected" value="">请选择</option>
-                            <option value="公开招标" <c:if test="${'公开招标'==obj.purchaseType}">selected="selected"</c:if>>公开招标</option>
-                            <option value="邀请招标" <c:if test="${'邀请招标'==obj.purchaseType}">selected="selected"</c:if>>邀请招标</option>
-                            <option value="竞争性谈判" <c:if test="${'竞争性谈判'==obj.purchaseType}">selected="selected"</c:if>>竞争性谈判</option>
-                            <option value="询价采购" <c:if test="${'询价采购'==obj.purchaseType}">selected="selected"</c:if>>询价采购</option>
-                            <option value="单一来源" <c:if test="${'单一来源'==obj.purchaseType}">selected="selected"</c:if>>单一来源</option>
-  </select> </label> 
-  </li>
-       <li class="fl">
-       <label class="fl">采购机构：<input type="text" name="purchaseId"/></label>
-       </li>
-         <button class="btn" type="submit">查询</button>
-         <button type="reset" class="btn">重置</button> 
-     </ul>
-     <div class="clear"></div>
-    </form>
-    </h2>
-    </div> --%>
-     <div class="clear"></div>
-
- </form>
-   <div class="headline-v2 fl">
-      <h2>选择需求明细
-      </h2>
-   </div> 
+     
+  
+      <div class="col-md-12 tab-pane active">
+      <h1 class="f16 count_flow">
+      <i>02</i>
+                        选择采购明细
+      </h1>
+   </div>
    <span class="fr option_btn margin-top-10">
-        <button class="btn btn-windows save" type="button" onclick="add()">确认</button>
-        <button class="btn btn-windows back" type="button"  onclick="bask();">返回</button>
+        <button class="btn btn-windows save" onclick="add();" type="button">确定</button>
+        <button class="btn btn-windows back" onclick="bask();" type="button">返回</button>
+        <input type="hidden" id="idss" value="${ids}"/>
       </span>
-   <div class="container margin-top-5">
+   <div class="container clear margin-top-30">
+     <div class="container margin-top-5">
     <table class="table table-striped table-bordered table-hover">
         <thead>
         <tr>
-           <th class="info w50">序号</th>
+          <th class="info w50">序号</th>
+          <th class="info">采购任务名称</th>
+          <th class="info">采购管理部门</th>
+          <th class="info">下达文件编号</th>
+          <th class="info">状态</th>
+          <th class="info">下达时间</th>
+          <th class="info"><i class="spredm">*</i>&nbsp;操作</th>
+        </tr>
+        </thead>
+        <tbody id="task_id">
+         <c:forEach items="${info.list}" var="obj" varStatus="vs">
+            <tr style="cursor: pointer;">
+              <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+              <td class="tc">${obj.name}</td>
+              <td class="tc">${obj.purchaseId }</td>
+              <td class="tc">${obj.documentNumber}</td>
+              <td class="tc">
+               <c:if test="${'0'==obj.status}"><span class="label rounded-2x label-u">受领</span></c:if>
+              </td>
+              <td class="tc" ><fmt:formatDate value="${obj.giveTime }"/></td>
+              <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onchange="check(this)"  alt=""></td>
+            </tr>
+     
+         </c:forEach> 
+          </tbody>
+      </table>
+      </div>
+      <div id="pagediv" align="right"></div>
+   </div>
+ </div>
+    <div id="hide_detail">
+         <div class="container clear margin-top-30">
+          <div class="container margin-top-5">
+               <table class="table table-striped table-bordered table-hover">
+        <thead>
+        <tr>
+          <th class="info w50">序号</th>
           <th class="info">需求部门</th>
           <th class="info">物资名称</th>
           <th class="info">规格型号</th>
@@ -262,43 +289,38 @@ String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+"";
           <th class="info">物资用途（进口）</th>
           <th class="info">使用单位（进口）</th>
           <th class="info">备注</th>
-          <th class="info w50">选择</th>
         </tr>
         </thead>
-            <tbody id="tbody_id">
-                 <c:forEach items="${list}" var="obj" varStatus="vs">
-          <%-- <c:if test="${'0'==obj.status}"> --%>
+          <c:forEach items="${lists}" var="obj" varStatus="vs">
             <tr style="cursor: pointer;">
-              <td class="tc w50">${obj.seq}</td>
-              <td class="tc">${obj.department}</td>
-              <td class="tc">${obj.goodsName}</td>
-              <td class="tc">${obj.stand}</td>
-              <td class="tc">${obj.qualitStand}</td>
-              <td class="tc">${obj.item}</td>
-              <td class="tc">${obj.purchaseCount}</td>
-              <td class="tc">${obj.price}</td>
-              <td class="tc">${obj.budget}</td>
-              <td class="tc">${obj.deliverDate}</td>
-              <td class="tc"> ${obj.purchaseType}</td>
-              <td class="tc">${obj.supplier}</td>
-              <td class="tc">${obj.isFreeTax}</td>
-              <td class="tc">${obj.goodsUse}</td>
-              <td class="tc">${obj.useUnit}</td>
-              <td class="tc">${obj.memo}</td>
-              <td class="tc w30"><input type="checkbox" id="check" value="${obj.id }" name="chkItem" onchange="check(this)"  alt=""></td>
+              <td class="tc w50">${obj.seq}<input type="hidden" name="list[${vs.index }].seq" value="${obj.seq }"><input type="hidden" name="list[${vs.index }].id" value="${obj.id }"></td>
+              <td class="tc">${obj.department}<input type="hidden" name="list[${vs.index }].department" value="${obj.department }"></td>
+              <td class="tc">${obj.goodsName}<input type="hidden" name="list[${vs.index }].goodsName" value="${obj.goodsName }"></td>
+              <td class="tc">${obj.stand}<input type="hidden" name="list[${vs.index }].stand" value="${obj.stand }"></td>
+              <td class="tc">${obj.qualitStand}<input type="hidden" name="list[${vs.index }].qualitStand" value="${obj.qualitStand }"></td>
+              <td class="tc">${obj.item}<input type="hidden" name="list[${vs.index }].item" value="${obj.item }"></td>
+              <td class="tc">${obj.purchaseCount}<input type="hidden" name="list[${vs.index }].purchaseCount" value="${obj.purchaseCount }"></td>
+              <td class="tc">${obj.price}<input type="hidden" name="list[${vs.index }].price" value="${obj.price }"></td>
+              <td class="tc">${obj.budget}<input type="hidden" name="list[${vs.index }].budget" value="${obj.budget }"></td>
+              <td class="tc">${obj.deliverDate}<input type="hidden" name="list[${vs.index }].deliverDate" value="${obj.deliverDate }"></td>
+              <td class="tc"> ${obj.purchaseType}<input type="hidden" name="list[${vs.index }].purchaseType" value="${obj.purchaseType }"></td>
+              <td class="tc">${obj.supplier}<input type="hidden" name="list[${vs.index }].supplier" value="${obj.supplier }"></td>
+              <td class="tc">${obj.isFreeTax}<input type="hidden" name="list[${vs.index }].isFreeTax" value="${obj.isFreeTax }"></td>
+              <td class="tc">${obj.goodsUse}<input type="hidden" name="list[${vs.index }].goodsUse" value="${obj.goodsUse }"></td>
+              <td class="tc">${obj.useUnit}<input type="hidden" name="list[${vs.index }].useUnit" value="${obj.useUnit }"></td>
+              <td class="tc">${obj.memo}<input type="hidden" name="list[${vs.index }].memo" value="${obj.memo }">
+                <input type="hidden" name="list[${vs.index }].parentId" value="${obj.parentId }">
+              </td>
             </tr>
-          <%-- </c:if> --%>
-         </c:forEach>
-            </tbody> 
+     
+         </c:forEach>  
          
 
       </table>
-      
-   </div>
-   
- </div>
-    
-    
- 
-     </body>
+      </div>
+      </div>
+    </div>
+
+ </form>
+</body>
 </html>

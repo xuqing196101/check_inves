@@ -19,7 +19,7 @@ public class ProjectDetail {
 
 	private String item;
 
-	private Integer purchaseCount;
+	private Double purchaseCount;
 
 	private Double price;
 
@@ -57,7 +57,7 @@ public class ProjectDetail {
 	
 	private String status;
 	
-	private String position;
+	private Integer position;
 	
 	private String requiredId;
 	
@@ -128,15 +128,15 @@ public class ProjectDetail {
 		this.item = item;
 	}
 
-	public Integer getPurchaseCount() {
-		return purchaseCount;
-	}
+	public Double getPurchaseCount() {
+        return purchaseCount;
+    }
 
-	public void setPurchaseCount(Integer purchaseCount) {
-		this.purchaseCount = purchaseCount;
-	}
+    public void setPurchaseCount(Double purchaseCount) {
+        this.purchaseCount = purchaseCount;
+    }
 
-	public Double getPrice() {
+    public Double getPrice() {
 		return price;
 	}
 
@@ -280,11 +280,11 @@ public class ProjectDetail {
 		this.status = status;
 	}
 
-    public String getPosition() {
+    public Integer getPosition() {
         return position;
     }
 
-    public void setPosition(String position) {
+    public void setPosition(Integer position) {
         this.position = position;
     }
 

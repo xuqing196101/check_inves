@@ -275,7 +275,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                             <option value="询价采购" <c:if test="${'询价采购'==obj.purchaseType}">selected="selected"</c:if>>询价采购</option>
                             <option value="单一来源" <c:if test="${'单一来源'==obj.purchaseType}">selected="selected"</c:if>>单一来源</option>
                 </select></c:if>
-                <input style="border: 0px;" type="hidden" name="lists[${vs.index }].id" value="${obj.id }">
+                <input style="border: 0px;" type="hidden" id="idss" name="lists[${vs.index }].id" value="${obj.id }">
               </td>
               <td class="tc">${obj.supplier}</td>
               <td class="tc">${obj.isFreeTax}</td>

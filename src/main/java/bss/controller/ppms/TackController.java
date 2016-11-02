@@ -28,12 +28,14 @@ import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.pms.CollectPlan;
 import bss.model.pms.CollectPurchase;
 import bss.model.pms.PurchaseRequired;
+import bss.model.ppms.Packages;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.Task;
 import bss.model.ppms.TaskAttachments;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.CollectPurchaseService;
 import bss.service.pms.PurchaseRequiredService;
+import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.TaskAttachmentsService;
 import bss.service.ppms.TaskService;
@@ -64,6 +66,8 @@ public class TackController extends BaseController{
 	private CollectPurchaseService conllectPurchaseService;
 	 @Autowired
 	private ProjectDetailService detailService;
+	 @Autowired
+	private PackageService packageService;
 	
 	/**
 	 * 
@@ -83,23 +87,6 @@ public class TackController extends BaseController{
 		model.addAttribute("info", info);
 		model.addAttribute("task", task);
 		return "bss/ppms/task/list";
-	}
-	/**
-	 * 
-	* @Title: deleteTask
-	* @author FengTian
-	* @date 2016-9-21 下午5:48:42  
-	* @Description: 跳转取消任务页面
-	* @param @param id
-	* @param @param model
-	* @param @return      
-	* @return String
-	 */
-	@RequestMapping("/deleteTask")
-	public String deleteTask(String id,Model model){
-		Task task = taskservice.selectById(id);
-		model.addAttribute("task", task);
-		return "bss/ppms/task/delTask";
 	}
 	
 	
@@ -154,10 +141,13 @@ public class TackController extends BaseController{
 	 */
 	@RequestMapping("/delTask")
 	public String delTask(@RequestParam("attach") MultipartFile[] attach,Task task,HttpServletRequest request,String id){
-    	taskservice.softDelete(id);
+    	task = taskservice.selectById(id);
+    	task.setStatus(2);
+    	taskservice.update(task);
 		upfile(attach, request, task);
 		return "redirect:list.html";
 	}
+	
 	
 	/**
 	 * 
@@ -171,6 +161,7 @@ public class TackController extends BaseController{
 	@RequestMapping("/startTask")
 	@ResponseBody
 	public void startTask(String ids){
+	    boolean bool=false;
 		String[] ide = ids.split(",");
 		for (int i = 0; i < ide.length; i++) {
 			 taskservice.startTask(ide[i]);
@@ -191,6 +182,23 @@ public class TackController extends BaseController{
                             projectDetail.setTaskId(ide[i]);
                             detailService.update(projectDetail);
                         }
+                        /*List<ProjectDetail> detail1 = detailService.selectById(map1);
+                        if(detail1!=null&&detail1.size()>0){
+                            String id = detail1.get(0).getPackageId();
+                            String status = detail1.get(0).getStatus();
+                            for(ProjectDetail projectDetail : detail1){
+                                if(!projectDetail.getStatus().equals(status)){
+                                    bool=true;
+                             }
+                            }
+                            map1.put("id", id);
+                            List<Packages> packages = packageService.findPackageById(map1);
+                            Packages packages2 = packages.get(0);
+                           if(bool==true){
+                               packages2.setStatus(1);
+                               packageService.updateByPrimaryKeySelective(packages2);
+                           }  
+                        }*/
                     }
             }
 			 task.setAcceptTime(new Date());

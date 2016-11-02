@@ -27,6 +27,7 @@
     <result column="UPDATED_AT"  property="updateAt" />
     <result column="POSITION"  property="position" />
     <result column="REQUIRED_ID"  property="requiredId" />
+    <result column="PACKAGE_ID"  property="packageId" />
     <association property="project" column="PROJECT_ID" select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey"/>
     <association property="purchaseDep" column="PURCHASE_ID" select="ses.dao.oms.PurchaseDepMapper.selectPurchaseById"/>
     <association property="packages" column="PACKAGE_ID" select="bss.dao.ppms.PackageMapper.findPackageByCondition"/>

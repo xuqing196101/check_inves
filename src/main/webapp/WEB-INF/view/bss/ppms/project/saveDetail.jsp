@@ -12,36 +12,37 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
     
     <title>任务管理</title>  
-    <meta http-equiv="pragma" content="no-cache">
-    <meta http-equiv="cache-control" content="no-cache">
-    <meta http-equiv="expires" content="0">    
-    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-    <meta http-equiv="description" content="This is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title></title>
+
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
     
-    
-
-
-<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/purchase/css/purchase.css" media="screen" rel="stylesheet" type="text/css" >
-
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+    <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
+    <script type="text/javascript" src="<%=path %>/public/ZHH/js/ajaxfileupload.js"></script>
+    <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
+    <script type="text/javascript" src="<%=basePath%>public/lodop/LodopFuncs.js"></script>
+    <script type="text/javascript" src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
+    <script src="<%=basePath%>public/layer/layer.js"></script>
+    <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 
  
   <script type="text/javascript">
@@ -63,26 +64,39 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             }
         }
     
-    /** 单选 */
-    function check(){
-         var count=0;
-         var checklist = document.getElementsByName ("chkItem");
-         var checkAll = document.getElementById("checkAll");
-         for(var i=0;i<checklist.length;i++){
-               if(checklist[i].checked == false){
-                   checkAll.checked = false;
-                   break;
-               }
-               for(var j=0;j<checklist.length;j++){
-                     if(checklist[j].checked == true){
-                           checkAll.checked = true;
-                           count++;
+    function check(ele){
+        var flag = $(ele).prop("checked");
+         var purchaseType = $("input[name='chkItem']:checked").parents("tr").find("td").eq(10).text();
+             purchaseType = $.trim(purchaseType);
+        var id = $(ele).val();
+        $.ajax({
+                    url:"<%=basePath%>project/checkDeail.html",
+                    data:"id="+id,
+                    type:"post",
+                    dataType:"json",
+                    success:function(result){
+                       for (var i = 0; i < result.length; i++) {
+                           $("input[name='chkItem']").each(function() {
+                                var v1 = result[i].id;
+                                var v3 = result[i].purchaseType;
+                          if(v3 == purchaseType){
+                                var v2 = $(this).val();
+                                if (v1 == v2) {
+                                    $(this).prop("checked", flag);
+                                }
+                             }else{
+                                    layer.alert("采购方式不相同",{offset: ['222px', '390px'], shade:0.01});
+                                }
+                           });
                        }
-                 }
-           }
+                    },
+                    error: function(){
+                        layer.msg("失败",{offset: ['222px', '390px']});
+                    }
+                });
     }
     
-    function save(){
+     function save(){
         var id =[]; 
         $('input[name="chkItem"]:checked').each(function(){ 
             id.push($(this).val()); 
@@ -91,44 +105,42 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               $("#detail_id").val(id);
               $("#save_form_id").submit();
          }
-    }
+    } 
+    
     function cancel(){
      var index=parent.layer.getFrameIndex(window.name);
      parent.layer.close(index);
      
-}
+    }
   </script>
   </head>
   
   <body>
 <!--面包屑导航开始-->
  <div class="margin-top-10 breadcrumbs ">
-      <div class="container">
-           <ul class="breadcrumb margin-left-0">
-           <li><a href="#"> 首页</a></li><li><a href="#">保障作业系统</a></li><li><a href="#">采购任务管理</a></li><li class="active"><a href="#">采购计划调整</a></li>
-           </ul>
-        <div class="clear"></div>
-      </div>
-   </div>
+          <div class="container">
+               <ul class="breadcrumb margin-left-0">
+               <li><a href="#"> 首页</a></li><li><a href="#">保障作业</a></li><li><a href="#">项目管理</a></li><li class="active"><a href="#">选择明细</a></li>
+               </ul>
+            <div class="clear"></div>
+          </div>
+       </div>
   
 <!-- 录入采购计划开始-->
  <div class="container">
 <!-- 项目戳开始 -->
      <div class="clear"></div>
 
- 
-   <div class="headline-v2 fl">
-      <h2>选择采购明细
-      </h2>
-       </div> 
      
-  
-      <span class="fr option_btn margin-top-10">
-        <button class="btn btn-windows save" onclick="save();">确定</button>
-        <button class="btn btn-windows back" onclick="cancel();">返回</button>
-      </span>
-   <div class="container clear margin-top-30">
-        <table class="table table-bordered table-condensed mt5">
+     <div class="container">
+          <div class="col-md-8">
+        <button class="btn btn-windows save" type="button" onclick="save();">确定</button>
+        <button class="btn btn-windows back" type="button" onclick="location.href='javascript:history.go(-1);'">返回</button>
+          </div>
+      </div>
+   <div class="container margin-top-5">
+          <div class="content padding-left-25 padding-right-25 padding-top-5">
+               <table class="table table-striped table-bordered table-hover">
         <thead>
         <tr>
           <th class="info w50">序号</th>
@@ -146,12 +158,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <th class="info">是否申请办理免税</th>
           <th class="info">物资用途（进口）</th>
           <th class="info">使用单位（进口）</th>
-          <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
+          <th class="info">备注</th>
+          <th class="info w30">操作</th>
         </tr>
         </thead>
           <c:forEach items="${lists}" var="obj" varStatus="vs">
             <tr style="cursor: pointer;">
-              <input type="hidden" value="${obj.id }" name="id"/>
               <td class="tc w50">${obj.seq}</td>
               <td class="tc">${obj.department}</td>
               <td class="tc">${obj.goodsName}</td>
@@ -162,12 +174,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <td class="tc">${obj.price}</td>
               <td class="tc">${obj.budget}</td>
               <td class="tc">${obj.deliverDate}</td>
-              <td class="tc"> ${obj.purchaseType}</td>
+              <td class="tc">${obj.purchaseType}</td>
               <td class="tc">${obj.supplier}</td>
               <td class="tc">${obj.isFreeTax}</td>
               <td class="tc">${obj.goodsUse}</td>
               <td class="tc">${obj.useUnit}</td>
-              <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
+              <td class="tc">${obj.memo}</td>
+              <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check(this)"  alt=""></td>
             </tr>
      
          </c:forEach>  
@@ -177,11 +190,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       
       <div id="pagediv" align="right"></div>
    </div>
+   </div>
  </div>
 
 
- <form id="save_form_id" action="<%=basePath%>project/saveDetail.html" method="post" target="_parent">
+ <form id="save_form_id" action="<%=basePath%>project/add.html" method="post" target="_parent">
     <input id="detail_id" name="id" type="hidden" />
- </form>
+    <input  name="checkedIds" value="${checkedIds}" type="hidden" />
+ </form> 
      </body>
 </html>
