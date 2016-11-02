@@ -24,7 +24,17 @@ public class SupplierTypeRelateController {
 	@Autowired
 	private SupplierService supplierService;
 	
-	
+	/**
+	 * @Title: perfectType
+	 * @author: Wang Zhaohua
+	 * @date: 2016-11-2 下午3:04:26
+	 * @Description: 完善供应商类型
+	 * @param: @param request
+	 * @param: @param supplier
+	 * @param: @param jsp
+	 * @param: @return
+	 * @return: String
+	 */
 	@RequestMapping(value = "perfect_type")
 	public String perfectType(HttpServletRequest request, Supplier supplier, String jsp) {
 		supplierTypeRelateService.saveSupplierTypeRelate(supplier);

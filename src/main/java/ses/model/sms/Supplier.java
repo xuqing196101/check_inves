@@ -488,6 +488,16 @@ public class Supplier implements Serializable {
 	private String mobileCode;
 
 	private String identifyCode;
+	
+	private List<String> itemType;
+
+	public List<String> getItemType() {
+		return itemType;
+	}
+
+	public void setItemType(List<String> itemType) {
+		this.itemType = itemType;
+	}
 
 	public Integer getCount() {
 		return count;

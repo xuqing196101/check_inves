@@ -5,8 +5,6 @@ import ses.model.sms.SupplierProducts;
 
 public interface SupplierProductsService {
 	
-	public void checkProducts(Supplier supplier);
-	
 	public void saveOrUpdateProducts(SupplierProducts supplierProducts);
 	
 	public SupplierProducts get(String id);

@@ -1,5 +1,6 @@
 package ses.service.ppms.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -62,12 +63,19 @@ public class CategoryParamServiceImpl implements CategoryParamService{
 
 
 	@Override
-	public List<CategoryParam> findParamByCategoryIdAndProductsId(Map<String, String> param, Integer sign) {
+	public List<CategoryParam> findParamByCategoryIdAndProductsId(String categoryId, String productsId) {
+		Map<String, String> param = new HashMap<String, String>();
+		param.put("categoryId", categoryId);
+		param.put("productsId", productsId);
 		List<CategoryParam> list = categoryParamMapper.findParamByCategoryIdAndProductsId(param);
-		if (sign != 1) {
+		if (list == null || list.size() == 0) {
+			param.clear();
+			param.put("categoryId", categoryId);
+			param.put("productsId", null);
+			list = categoryParamMapper.findParamByCategoryIdAndProductsId(param);
 			for (CategoryParam categoryParam : list) {
-				categoryParam.setParamValueId(null);
 				categoryParam.setParamValue(null);
+				categoryParam.setParamValueId(null);
 			}
 		}
 		return list;

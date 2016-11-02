@@ -60,75 +60,75 @@
 								<div class="tab-pane fade active in height-300" id="tab-1">
 									<div class=" margin-bottom-0">
 										<ul class="list-unstyled list-flow">
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 资质资格类型：</span>
+											<li class="col-md-6 p0"><span class="w150"><i class="red">＊</i> 资质资格类型：</span>
 												<div class="input-append">
 													<input class="span3" type="text" name="certType" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 证书编号：</span>
+											<li class="col-md-6 p0"><span class="w150"><i class="red">＊</i> 证书编号：</span>
 												<div class="input-append">
 													<input class="span3" type="text" name="certCode" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 资质资格最高等级：</span>
+											<li class="col-md-6 p0"><span class="w150"><i class="red">＊</i> 资质资格最高等级：</span>
 												<div class="input-append">
 													<input class="span3" type="text" name="certMaxLevel" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 技术负责人姓名：</span>
+											<li class="col-md-6 p0"><span class="w150"><i class="red">＊</i> 技术负责人姓名：</span>
 												<div class="input-append">
 													<input class="span3" type="text" name="techName" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 技术负责人职称：</span>
+											<li class="col-md-6 p0"><span class="w150"><i class="red">＊</i> 技术负责人职称：</span>
 												<div class="input-append">
 													<input class="span3" type="text" name="techPt" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 技术负责人职务：</span>
+											<li class="col-md-6 p0"><span class="w150"><i class="red">＊</i> 技术负责人职务：</span>
 												<div class="input-append">
 													<input class="span3" type="text" name="techJop" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 单位负责人姓名：</span>
+											<li class="col-md-6 p0"><span class="w150"><i class="red">＊</i> 单位负责人姓名：</span>
 												<div class="input-append">
 													<input class="span3" type="text" name="depName" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 单位负责人职称：</span>
+											<li class="col-md-6 p0"><span class="w150"><i class="red">＊</i> 单位负责人职称：</span>
 												<div class="input-append">
 													<input class="span3" type="text" name="depPt" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 单位负责人职务：</span>
+											<li class="col-md-6 p0"><span class="w150"><i class="red">＊</i> 单位负责人职务：</span>
 												<div class="input-append">
 													<input class="span3" type="text" name="depJop" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 发证机关：</span>
+											<li class="col-md-6 p0"><span class="w150"><i class="red">＊</i> 发证机关：</span>
 												<div class="input-append">
 													<input class="span3" type="text" name="licenceAuthorith" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 发证日期 ：</span>
+											<li class="col-md-6 p0"><span class="w150"><i class="red">＊</i> 发证日期 ：</span>
 												<div class="input-append">
 													<input class="span3" type="text" name="expStartDate" readonly="readonly" onClick="WdatePicker()" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 截止日期 ：</span>
+											<li class="col-md-6 p0"><span class="w150"><i class="red">＊</i> 截止日期 ：</span>
 												<div class="input-append">
 													<input class="span3" type="text" name="expEndDate" readonly="readonly" onClick="WdatePicker()" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 证书状态：</span>
+											<li class="col-md-6 p0"><span class="w150"><i class="red">＊</i> 证书状态：</span>
 												<div class="input-append">
 													<input class="span3" type="text" name="certStatus" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 证书附件：</span>
+											<li class="col-md-6 p0"><span class="w150"><i class="red">＊</i> 证书附件：</span>
 												<div class="input-append">
-													<div class="uploader orange h32 m0">
-														<input type="text" class="filename fz11 h32" readonly="readonly"/>
+													<div class="uploader orange h32 m0 fz8">
+															<input type="text" class="filename h32 fz8" readonly="readonly"/>
 														<input type="button" name="file" class="button" value="选择..."/>
 														<input name="attachCertFile" type="file" size="30"/>
 													</div>

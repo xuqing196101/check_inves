@@ -138,7 +138,8 @@
 		       d.IS_DELETED       as isDeleted,
 		       d.DEP_ID       as depId,
 		       d.IS_ROOT         as isRoot,
-		       d.EMAIL      as email
+		       d.EMAIL      as email,
+		       a.NAME as provinceName
 		  from T_SES_OMS_ORG     d
 		  left join T_SES_BMS_AREA a
 		  on d.province_id = a.id

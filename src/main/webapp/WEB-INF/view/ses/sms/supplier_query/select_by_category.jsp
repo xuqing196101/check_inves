@@ -96,14 +96,6 @@
 	  </div>
    </div>
 <body>
-   <div class="margin-top-10 breadcrumbs ">
-      <div class="container">
-		   <ul class="breadcrumb margin-left-0">
-		    <li><a href="#"> 首页</a></li><li><a href="#">支撑环境</a></li><li><a href="#">供应商管理</a></li><li><a href="#">按照品目查询供应商</a></li>
-		   </ul>
-		<div class="clear"></div>
-	  </div>
-   </div>
    <div class="container">
    <div class="col-md-3">
 	 <div id="ztree" class="ztree"></div>

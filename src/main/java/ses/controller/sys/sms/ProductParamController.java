@@ -30,11 +30,11 @@ public class ProductParamController {
 	public String saveOrUpdateParam(HttpServletRequest request, ProductParam productParam, String productsId, String categoryId) {
 		productParam.setSupplierProductsId(productsId);
 		productParamService.saveOrUpdateParam(productParam);
-		return "redirect:list.html?productsId=" + productsId + "&categoryId=" + categoryId;
+		return "redirect:../categoryparam/list_by_category_id_and_products_id.html?categoryId=" + categoryId + "&productsId=" + productsId;
 	}
 	
-	@RequestMapping(value = "back_to_list")
-	public String backToEngfessional(HttpServletRequest request) {
+	@RequestMapping(value = "back_to_products")
+	public String backToProducts(HttpServletRequest request) {
 		Supplier supplier = (Supplier) request.getSession().getAttribute("currSupplier");
 		supplier = supplierService.get(supplier.getId());
 		request.getSession().setAttribute("currSupplier", supplier);

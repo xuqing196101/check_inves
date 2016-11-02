@@ -58,7 +58,7 @@
 	}
 	
 	/** 保存基本信息 */
-	function saveProcurementDep(sign) {
+	function saveProcurementDep(jsp) {
 		var size = $(":radio:checked").size();
 		if (!size) {
 			layer.msg("请选择一个初审采购机构", {
@@ -66,17 +66,9 @@
 			});
 			return;
 		}
-		var action = "${pageContext.request.contextPath}/supplier/";
-		if (sign == 1) {
-			action += "next_step.html";
-		} else if(sign == -1) {
-			action += "prev_step.html";
-		} else {
-			action += "stash_step.html";
-		}
 		var procurementDepId = $("input[name='radio']:checked").val();
 		$("input[name='procurementDepId']").val(procurementDepId);
-		$("#procurement_dep_form_id").attr("action", action);
+		$("input[name='jsp']").val(jsp);
 		$("#procurement_dep_form_id").submit();
 
 	}
@@ -108,10 +100,10 @@
 			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10">
-						<form id="procurement_dep_form_id" method="post" enctype="multipart/form-data">
+						<form id="procurement_dep_form_id" action="${pageContext.request.contextPath}/supplier/perfect_dep.html" method="post" enctype="multipart/form-data">
 							<input name="id" value="${currSupplier.id}" type="hidden" />
 							<input name="procurementDepId" type="hidden" />
-							<input name="sign" value="7" type="hidden" />
+							<input name="jsp" type="hidden" />
 						</form>
 						<div class="tab-content padding-top-20">
 							<!-- 物资生产型 -->
@@ -121,8 +113,8 @@
 										<li class="col-md-6 p0"><span class=""> 选择您所在的城市：</span>
 											<form action="${pageContext.request.contextPath}/supplier/search_org.html" method="post">
 												<div class="input-append">
-													<select class="w200" id="root_area_select_id" name="isName"></select>
-													<input type="submit" class="btn padding-left-20 padding-right-20 btn_back mt1" value="查询" />
+													<select class="w200 fz13" id="root_area_select_id" name="isName"></select>
+													<input type="submit" class="btn padding-left-20 padding-right-20 btn_back mt1 ml10" value="查询" />
 												</div>
 											</form>
 										</li>
@@ -181,9 +173,9 @@
 							</div>
 						</div>
 						<div class="mt40 tc mb50">
-							<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep(-1)">上一步</button>
-							<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep(0)">暂存</button>
-							<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep(1)">下一步</button>
+							<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep('products')">上一步</button>
+							<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep('procurement_dep')">暂存</button>
+							<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep('template_download')">下一步</button>
 						</div>
 					</div>
 				</div>

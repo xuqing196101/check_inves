@@ -114,123 +114,113 @@
 					pIdKey : "parentId"
 				}
 			},
+			callback: {
+				onCheck: onCheck
+			}
 		};
 		zTreeObj = $.fn.zTree.init($("#" + id), setting, zNodes);
 	}
+	
+	function onCheck(e, treeId, treeNode) {
+		var ids = "";
+		var flag = treeNode.checked;
+		var result = checkType();
+		var tree = $.fn.zTree.getZTreeObj(result.id);
+		var nodes = tree.getChangeCheckedNodes();
+		for (var i = 0; i < nodes.length; i++) {
+			if (!nodes[i].isParent) {
+				if (ids) {
+					ids += ",";
+				}
+				ids += nodes[i].id;
+			}
+		}
+		
+		if (ids) {
+			$.ajax({
+				url : "${pageContext.request.contextPath}/supplier_level/find_credit_ctnt_by_credit_id.do",
+				type : "post",
+				data : {
+					ids : ids,
+					flag : flag,
+					type : result.type
+				},
+				dataType : "json",
+				success : function(result) {
+				},
+			});
+		}
+		
+		/**for (var i = 0; i < nodes.length; i++) {
+			nodes[i].checkedOld = nodes[i].checked;
+		}*/
+	}
+	
 
 	/** 保存品目树信息 */
-	function saveItems(sign) {
-		var action = "${pageContext.request.contextPath}/supplier/";
-		if (sign == 1) {
-			action += "next_step.html";
-		} else if (sign == -1) {
-			action += "prev_step.html";
-		} else {
-			action += "stash_step.html";
-		}
+	function saveItems(jsp) {
+		var result = getIds("tree_ul_id_1");
+		var addProCategoryIds = result.addIds;
+		var deleteProCategoryIds = result.deleteIds;
 		
-		var typeIds = "";
-		var treeObj1 = $.fn.zTree.getZTreeObj("tree_ul_id_1");
-		var treeObj2 = $.fn.zTree.getZTreeObj("tree_ul_id_2");
-		var treeObj3 = $.fn.zTree.getZTreeObj("tree_ul_id_3");
-		var treeObj4 = $.fn.zTree.getZTreeObj("tree_ul_id_4");
-		debugger;
-		var ids1 = "";
-		if (treeObj1) {
-			var nodes1 = treeObj1.getCheckedNodes(true);
-			for ( var i = 0; i < nodes1.length; i++) {
-				if (!nodes1[i].isParent) {
-					if (ids1) {
-						ids1 += ",";
-					}
-					ids1 += $(nodes1[i]).attr("id");
-				}
-			}
-		}
+		result = getIds("tree_ul_id_2");
+		var addSellCategoryIds = result.addIds;
+		var deleteSellCategoryIds = result.deleteIds;
 		
-		var ids2 = "";
-		if (treeObj2) {
-			var nodes2 = treeObj2.getCheckedNodes(true);
-			for ( var i = 0; i < nodes2.length; i++) {
-				if (!nodes2[i].isParent) {
-					if (ids2) {
-						ids2 += ",";
-					}
-					ids2 += $(nodes2[i]).attr("id");
-				}
-			}
-		}
+		result = getIds("tree_ul_id_3");
+		var addEngCategoryIds = result.addIds;
+		var deleteEngCategoryIds = result.deleteIds;
 		
-		var ids3 = "";
-		if (treeObj3) {
-			var nodes3 = treeObj3.getCheckedNodes(true);
-			for ( var i = 0; i < nodes3.length; i++) {
-				if (!nodes3[i].isParent) {
-					if (ids3) {
-						ids3 += ",";
-					}
-					ids3 += $(nodes3[i]).attr("id");
-				}
-				
-			}
-		}
+		result = getIds("tree_ul_id_4");
+		var addServeCategoryIds = result.addIds;
+		var deleteServeCategoryIds = result.deleteIds;
 		
-		var ids4 = "";
-		if (treeObj4) {
-			var nodes4 = treeObj4.getCheckedNodes(true);
-			for ( var i = 0; i < nodes4.length; i++) {
-				if (!nodes4[i].isParent) {
-					if (ids4) {
-						ids4 += ",";
-					}
-					ids4 += $(nodes4[i]).attr("id");
-				}
-				
-			}
-		}
-		if (ids1) {
-			typeIds += "1";
-			if (ids2 || ids3 || ids4) {
-				ids1 += ";";
-			}
-		} else {
-			ids1 = "";
-		}
-		if (ids2) {
-			if (typeIds) {
-				typeIds += ",";
-			}
-			typeIds += "2";
-			if (ids3 || ids4) {
-				ids2 += ";";
-			}
-		} else {
-			ids2 = "";
-		}
-		if (ids3) {
-			if (typeIds) {
-				typeIds += ",";
-			}
-			typeIds += "3";
-			if (ids4) {
-				ids3 += ";";
-			}
-		} else {
-			ids3 = "";
-		}
-		if (ids4) {
-			if (typeIds) {
-				typeIds += ",";
-			}
-			typeIds += "4";
-		}
-		var ids = ids1 + ids2 + ids3 +ids4;
-		$("input[name='supplierItemIds']").val(ids);
-		$("input[name='supplierTypeIds']").val(typeIds);
-		$("#items_info_form_id").attr("action", action);
+		$("input[name='jsp']").val(jsp);
+		
+		$("input[name='addProCategoryIds']").val(addProCategoryIds);
+		$("input[name='deleteProCategoryIds']").val(deleteProCategoryIds);
+		
+		$("input[name='addSellCategoryIds']").val(addSellCategoryIds);
+		$("input[name='deleteSellCategoryIds']").val(deleteSellCategoryIds);
+		
+		$("input[name='addEngCategoryIds']").val(addEngCategoryIds);
+		$("input[name='deleteEngCategoryIds']").val(deleteEngCategoryIds);
+		
+		$("input[name='addServeCategoryIds']").val(addServeCategoryIds);
+		$("input[name='deleteServeCategoryIds']").val(deleteServeCategoryIds);
+		
 		$("#items_info_form_id").submit();
-
 	}
+	
+	function getIds(id) {
+		var treeObj = $.fn.zTree.getZTreeObj(id);
+		var addIds = "";
+		var deleteIds = "";
+		if (treeObj) {
+			var nodes = treeObj.getChangeCheckedNodes();
+			for ( var i = 0; i < nodes.length; i++) {
+				if (!nodes[i].isParent) {
+					if (nodes[i].checked) {
+						if (addIds) {
+							addIds += ",";
+						}
+						addIds += nodes[i].id;
+					} else {
+						if (deleteIds) {
+							deleteIds += ",";
+						}
+						deleteIds += nodes[i].id;
+					}
+				}
+			}
+		}
+		var result = {
+			addIds : addIds,
+			deleteIds : deleteIds
+		};
+		return result;
+	}
+	
 </script>
 
 </head>
@@ -320,21 +310,31 @@
 							</c:if>
 						</div>
 						<div class="mt40 tc mb50">
-							<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveItems(-1)">上一步</button>
-							<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveItems(0)">暂存</button>
-							<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveItems(1)">下一步</button>
+							<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveItems('professional_info')">上一步</button>
+							<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveItems('items')">暂存</button>
+							<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveItems('products')">下一步</button>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<form id="items_info_form_id" method="post" enctype="multipart/form-data">
-		<input name="id" value="${currSupplier.id}" type="hidden" /> 
-		<input name="sign" value="5" type="hidden" />
+	<form id="items_info_form_id" action="${pageContext.request.contextPath}/supplier_item/save_or_update.html" method="post" enctype="multipart/form-data">
+		<input name="supplierId" value="${currSupplier.id}" type="hidden" /> 
+		<input name="jsp" type="hidden" />
 		<input type="hidden" name="defaultPage" value="${defaultPage}" />
-		<input type="hidden" name="supplierItemIds" />
-		<input type="hidden" name="supplierTypeIds" />
+		
+		<input type="hidden" name="addProCategoryIds" />
+		<input type="hidden" name="deleteProCategoryIds" />
+		
+		<input type="hidden" name="addSellCategoryIds" />
+		<input type="hidden" name="deleteSellCategoryIds" />
+		
+		<input type="hidden" name="addEngCategoryIds" />
+		<input type="hidden" name="deleteEngCategoryIds" />
+		
+		<input type="hidden" name="addServeCategoryIds" />
+		<input type="hidden" name="deleteServeCategoryIds" />
 	</form>
 	<!-- footer -->
 	<jsp:include page="../../../../../index_bottom.jsp"></jsp:include>

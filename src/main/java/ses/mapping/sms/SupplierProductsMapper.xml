@@ -230,4 +230,13 @@
 		delete from T_SES_SMS_SUPPLIER_PRODUCTS where SUPPLIER_ID = #{supplierId}
 		
 	</delete>
+	
+	<delete id="deleteByItemId" parameterType="java.lang.String">
+		delete from T_SES_SMS_SUPPLIER_PRODUCTS where ITEM_ID = #{itemId}
+		
+	</delete>
+	
+	<select id="findProductsByItemId" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select * from T_SES_SMS_SUPPLIER_PRODUCTS where ITEM_ID = #{itemId}
+	</select>
 </mapper>
