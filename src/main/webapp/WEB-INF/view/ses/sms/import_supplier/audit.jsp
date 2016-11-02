@@ -1,11 +1,13 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-
 <title>进口供应商注册</title>
-
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
@@ -32,45 +34,59 @@
 <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/expert/TestAddress1.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/expert/TestChooseAddress.js"></script>
-<SCRIPT LANGUAGE="JavaScript">
-function loadProvince(regionId){
-  $("#id_provSelect").html("");
-  $("#id_provSelect").append("<option value=''>请选择省份</option>");
-  var jsonStr = getAddress(regionId,0);
-  for(var k in jsonStr) {
-	$("#id_provSelect").append("<option value='"+k+"'>"+jsonStr[k]+"</option>");
-  }
-  if(regionId.length!=6) {
-	$("#address").html("");
-    $("#address").append("<option value=''>请选择城市</option>");
-  } else {
-	 $("#id_provSelect").val(regionId.substring(0,2)+"0000");
-	 loadCity(regionId);
-  }
-}
 
-function loadCity(regionId){
-  $("#address").html("");
-  $("#address").append("<option value=''>请选择城市</option>");
-  if(regionId.length==6) {
-	var jsonStr = getAddress(regionId,1);
-    for(var k in jsonStr) {
-	  $("#address").append("<option value='"+k+"'>"+jsonStr[k]+"</option>");
-    }
-	var str = regionId.substring(0,2);//四个直辖市
-	if(str=="11" || str=="12" || str=="31" || str=="50") {
-	   $("#address").val(regionId);
-	} else {
-	   $("#address").val(regionId.substring(0,4)+"00");
-	}
-  }
-}
-</SCRIPT>
 <script type="text/javascript">
+		var parentId ;
+var addressId="${is.address}";
+$.ajax({
+		url : "<%=basePath%>area/find_by_id.do",
+		data:{"id":addressId},
+		success:function(obj){
+			//alert(JSON.stringify(obj));
+			var data = eval('(' + obj+ ')');
+			$.each(data,function(i,result){
+				if(addressId == result.id){
+					parentId = result.areaType;
+				$("#haha").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
+				}else{
+					$("#haha").append("<option value='"+result.id+"'>"+result.name+"</option>");
+				}
+				
+			});
+			//alert(JSON.stringify(data));
+			//alert(parentId);
+			
+		},
+		error:function(obj){
+			
+		}
+		
+	});
 	   function tijiao(status){
 	   $("#status").val(status);
     		form1.submit();
     	}
+    	$(function(){
+	$.ajax({
+			url : "<%=basePath%>area/listByOne.do",
+			success:function(obj){
+				var data = eval('(' + obj + ')');
+				$.each(data,function(i,result){
+					if(parentId == result.id){
+						$("#hehe").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
+					}else{
+					$("#hehe").append("<option value='"+result.id+"'>"+result.name+"</option>");
+					}
+				});
+				
+				//alert(JSON.stringify(obj));
+			},
+			error:function(obj){
+				
+			}
+			
+		});
+});
 </script>
 
 </head>
@@ -116,11 +132,12 @@ function loadCity(regionId){
 											</div>
 										</li>
 										<li class="col-md-6 p0"><span class=""><i class="red">＊</i>企业注册地址：</span>
-											<div class="input-append">
-												<select id="id_provSelect" name="provSelect" onChange="loadCity(this.value);"><option value="">请选择省份</option></select>&nbsp;
-  												<select id="address" name="address"><option value="">请选择城市</option></select>&nbsp;
-  												<SCRIPT LANGUAGE="JavaScript">loadProvince('${is.address }');</SCRIPT>
-											</div>
+											<select id="hehe" onchange="fun();">
+													<option>-请选择-</option>
+												</select>
+												<select name="address" id="haha">
+													<option>-请选择-</option>
+												</select>
 										</li>
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>邮政编码：</span>
 											<div class="input-append">

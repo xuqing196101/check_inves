@@ -759,68 +759,48 @@
        </if>
 		ORDER BY decode(STATUS,'0','1','5','6','3','2','4'), t1.SCORE DESC
 	</select>
-  
-	<select id="querySupplierbyCategory" parameterType="ses.model.sms.Supplier" resultMap="findSupplierMap">
-	SELECT
-	*
-	FROM
-		(
-			SELECT
-				t6.*, T5."COUNT" AS COUNT
-			FROM
-				(
-					SELECT
-						T4. ID,
-						t4. COUNT
-					FROM
-						(
-							SELECT
-								T3. ID,
-								COUNT (T3. ID) AS COUNT
-							FROM
-								(
-									SELECT
-										T1. ID,
-										CATEGORY_ID
-									FROM
-										"JDCG"."T_SES_SMS_SUPPLIER" t1
-									RIGHT JOIN T_SES_SMS_SUPPLIER_ITEM t2 ON T1. ID = T2.SUPPLIER_ID
-									AND CATEGORY_ID IN 
-									 <foreach item="item" index="index" collection="item"   
-	                         		open="(" separator="," close=")">  
-	                       			 #{item}  
-	                				</foreach>  
-								) t3
-							GROUP BY
-								T3. ID
-							HAVING
-								t3. ID IS NOT NULL
-						) t4
-					RIGHT JOIN (
-						SELECT
-							T3."ID"
-						FROM
-							(
-								SELECT
-									T1. ID,
-									CATEGORY_ID
-								FROM
-									"JDCG"."T_SES_SMS_SUPPLIER" t1
-								RIGHT JOIN T_SES_SMS_SUPPLIER_ITEM t2 ON T1. ID = T2.SUPPLIER_ID
-							) t3
-						GROUP BY
-							T3. ID
-					) tt1 ON t4. ID = TT1."ID"
-				) t5
-			LEFT JOIN T_SES_SMS_SUPPLIER t6 ON t5. ID = t6. ID
-		) t7
-	WHERE
-	1=1
+
+	
+	<select id="querySupplierbytypeAndCategoryIds" parameterType="ses.model.sms.Supplier" resultMap="findSupplierMap">
+        select * from(
+          select t1.typeId,t1.categoryId,t2.* from(
+							 select id, wm_concat(DISTINCT(categoryId)) as categoryId,wm_concat(DISTINCT(typeId)) as typeId from (
+				SELECT T1.*,t2.CATEGORY_ID as categoryId ,t3.SUPPLIER_TYPE_ID as typeId FROM "JDCG"."T_SES_SMS_SUPPLIER" t1
+        left join T_SES_SMS_SUPPLIER_TYPE_RELATE t3 on t1. ID = t3.SUPPLIER_ID 
+        LEFT JOIN (
+						SELECT T1. ID, CATEGORY_ID FROM "JDCG"."T_SES_SMS_SUPPLIER" t1
+						RIGHT JOIN T_SES_SMS_SUPPLIER_ITEM t2 ON T1. ID = T2.SUPPLIER_ID
+        ) t2 ON t1.id =t2.id
+       ) GROUP BY id )t1
+       left JOIN T_SES_SMS_SUPPLIER  t2 on t1.id=t2.id
+        ) where 1=1
 		<if test="supplierName != null and supplierName !=''">
-			and t7.SUPPLIER_NAME like '%${supplierName}%'
+			and SUPPLIER_NAME like '%${supplierName}%'
 		</if>
-		<if test="count != null and count !=''">
-			and t7.COUNT =  #{count}
+		<if test="startDate != null">
+			AND CREATED_AT &gt;= #{startDate}
+		</if>
+		<if test="endDate != null">
+			AND CREATED_AT &lt;= #{endDate}
+		</if>
+		<if test="contactName != null and contactName != ''">
+			AND CONTACT_NAME = #{contactName}
+		</if>
+		<if test="status != null">
+			and STATUS = #{status}
+		</if>
+		<if test="address != null and address !=''">  
+       		and ADDRESS like '%${address}%'   
+        </if> 
+      	<if test="itemType != null and itemType != ''">
+			  <foreach item="itemType" index="index" collection="itemType"  open="" separator="" close="">  
+	                  and "INSTR"(typeId, #{itemType})>0 
+	          </foreach> 
+		</if>
+		<if test="item != null and item!= ''">
+			  <foreach item="item" index="index" collection="item"  open="" separator="" close="">  
+	                 and "INSTR"(categoryId,  #{item})>0
+	          </foreach>  
 		</if>
 		ORDER BY FOUND_DATE DESC
 	</select>

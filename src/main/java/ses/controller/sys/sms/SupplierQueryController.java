@@ -17,8 +17,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
+import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierCertSell;
@@ -28,13 +30,12 @@ import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierMatServe;
+import ses.model.sms.SupplierProducts;
 import ses.model.sms.SupplierStockholder;
-import ses.model.sms.SupplierType;
 import ses.model.sms.SupplierTypeRelate;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierLevelService;
 import ses.service.sms.SupplierService;
-import ses.service.sms.SupplierTypeService;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
 
@@ -51,8 +52,6 @@ public class SupplierQueryController extends BaseSupplierController{
 	private SupplierService supplierService;
 	@Autowired
 	private SupplierLevelService supplierLevelService;
-	@Autowired
-	private SupplierTypeService supplierTypeService;
 
 	/**
 	 * @Title: highmaps
@@ -64,18 +63,23 @@ public class SupplierQueryController extends BaseSupplierController{
 	 * @return String
 	 */
 	@RequestMapping("/highmaps")
-	public String highmaps(Supplier sup,Model model,Integer status){
+	public String highmaps(Supplier sup,Model model,Integer status,String supplierTypeIds,String supplierType,String categoryNames,String categoryIds,HttpServletRequest req){
+		User user=(User)req.getSession().getAttribute("loginUser");
+		model.addAttribute("supplierId", user.getTypeId());
 		StringBuffer sb = new StringBuffer("");
 		//调用供应商查询方法 List<Supplier>
 		if(status!=null){
 			sup.setStatus(status);
 		}
-		List<Supplier> listSupplier=null;
-		if(sup.getSupplierType()==null||sup.getSupplierType().equals("")){
-			listSupplier=supplierAuditService.supplierList(sup,null);
-		}else{
-			listSupplier=supplierAuditService.querySupplier(sup, null);
+		if(categoryIds!=null&&!"".equals(categoryIds)){
+			List<String> listCategoryIds=Arrays.asList(categoryIds.split(","));
+			sup.setItem(listCategoryIds);
 		}
+		if(supplierTypeIds!=null&&!"".equals(supplierTypeIds)){
+			List<String> listSupplierTypeIds=Arrays.asList(supplierTypeIds.split(","));
+			sup.setItemType(listSupplierTypeIds);
+		}
+		List<Supplier>  listSupplier=supplierAuditService.querySupplierbytypeAndCategoryIds(sup,null);
 		//开始循环 判断地址是否
 		Map<String,Integer> map= new HashMap<String,Integer>(40);
 		map=getMap();
@@ -101,8 +105,10 @@ public class SupplierQueryController extends BaseSupplierController{
 		}
 		model.addAttribute("data", highMapStr);
 		model.addAttribute("sup",sup);
-		List<SupplierType> listType=supplierTypeService.findSupplierType();
-		model.addAttribute("listType", listType);
+		model.addAttribute("categoryNames", categoryNames);
+		model.addAttribute("supplierType", supplierType);
+		model.addAttribute("supplierTypeIds", supplierTypeIds);
+		model.addAttribute("categoryIds", categoryIds);
 		if(status!=null&&status==3){
 			return "ses/sms/supplier_query/all_ruku_supplier";
 		}else{
@@ -123,32 +129,29 @@ public class SupplierQueryController extends BaseSupplierController{
 	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping("/findSupplierByPriovince")
-	public String findSupplierByPriovince(Supplier supplier,Integer page,Model model) throws UnsupportedEncodingException{
-		supplier.setAddress(URLDecoder.decode(supplier.getAddress(),"UTF-8"));
-		if(supplier.getSupplierType()==null||supplier.getSupplierType().equals("")){
-			List<Supplier> listSupplier=supplierAuditService.getAllSupplier(supplier, page==null?1:page);	
-			this.getSupplierType(listSupplier);
-			model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
-		}else{
-			List<Supplier> listSupplier=supplierAuditService.querySupplier(supplier, page==null?1:page);
-			this.getSupplierType(listSupplier);
-			model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
+	public String findSupplierByPriovince(HttpServletRequest req,Supplier sup,Integer page,Model model,String supplierTypeIds,String supplierType,String categoryNames,String categoryIds) throws UnsupportedEncodingException{
+		User user=(User)req.getSession().getAttribute("loginUser");
+		model.addAttribute("supplierId", user.getTypeId());
+		sup.setAddress(URLDecoder.decode(sup.getAddress(),"UTF-8"));
+		if(categoryIds!=null&&!"".equals(categoryIds)){
+			List<String> listCategoryIds=Arrays.asList(categoryIds.split(","));
+			sup.setItem(listCategoryIds);
 		}
-		//入库时间
-		/*for(Supplier sup:listSupplier){
-			List<SupplierAudit> listAudit=supplierAuditService.selectByPrimaryKey(sup.getId());
-			for(SupplierAudit sa:listAudit){
-				if(sa.getStatus()==3){
-					sup.setPassDate(sa.getCreatedAt());
-				}
-			}
-		}*/
-		model.addAttribute("address", supplier.getAddress());
-		model.addAttribute("supplier", supplier);
-		List<SupplierType> listType=supplierTypeService.findSupplierType();
-		model.addAttribute("listType", listType);
+		if(supplierTypeIds!=null&&!"".equals(supplierTypeIds)){
+			List<String> listSupplierTypeIds=Arrays.asList(supplierTypeIds.split(","));
+			sup.setItemType(listSupplierTypeIds);
+		}
+		List<Supplier>  listSupplier=supplierAuditService.querySupplierbytypeAndCategoryIds(sup, page==null?1:page);
+		this.getSupplierType(listSupplier);
+		model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
+		model.addAttribute("address", sup.getAddress());
+		model.addAttribute("supplier", sup);
+		model.addAttribute("categoryNames", categoryNames);
+		model.addAttribute("supplierType", supplierType);
+		model.addAttribute("supplierTypeIds", supplierTypeIds);
+		model.addAttribute("categoryIds", categoryIds);
 		//等于3说明是入库供应商
-		if(supplier.getStatus()!=null&&supplier.getStatus()==3){
+		if(sup.getStatus()!=null&&sup.getStatus()==3){
 			return "ses/sms/supplier_query/select_ruku_supplier_by_province";
 		}else{
 			return "ses/sms/supplier_query/select_supplier_by_province";
@@ -164,23 +167,14 @@ public class SupplierQueryController extends BaseSupplierController{
 	 * @return String
 	 */
 	@RequestMapping("/selectByCategory")
-	public String selectByCategory(Supplier supplier,Integer page,String categoryIds,Model model){
-		List<String> list=null;
-		if(categoryIds!=null&&!categoryIds.equals("")){
-			list=Arrays.asList(categoryIds.split(","));
-			supplier.setItem(list);
-			supplier.setCount(list.size());
+	public String selectByCategory(Supplier sup,Integer page,String categoryIds,Model model ){
+		if(categoryIds!=null&&!"".equals(categoryIds)){
+			List<String> listCategoryIds=Arrays.asList(categoryIds.split(","));
+			sup.setItem(listCategoryIds);
 		}
-		if(categoryIds==null||categoryIds.equals("")){
-			List<Supplier> listSupplier=supplierAuditService.getAllSupplier(supplier, page==null?1:page);
-			this.getSupplierType(listSupplier);
-			model.addAttribute("listSupplier",  new PageInfo<>(listSupplier));
-		}else{
-			List<Supplier> listSupplier=supplierAuditService.querySupplierbyCategory(supplier, page==null?1:page);
-			this.getSupplierType(listSupplier);
-			model.addAttribute("listSupplier",  new PageInfo<>(listSupplier));
-		}
-		model.addAttribute("supplier", supplier);
+		List<Supplier>  listSupplier=supplierAuditService.querySupplierbytypeAndCategoryIds(sup, page==null?1:page);
+		model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
+		model.addAttribute("supplier", sup);
 		model.addAttribute("categoryIds", categoryIds);
 		return "ses/sms/supplier_query/select_by_category";
 	}
@@ -361,6 +355,30 @@ public class SupplierQueryController extends BaseSupplierController{
 	}
 	
 	/**
+	 * @Title: productInformation
+	 * @author Song Biaowei
+	 * @date 2016-10-8 下午1:53:27  
+	 * @Description:产品信息
+	 * @param @param request
+	 * @param @param supplierAudit
+	 * @param @param supplier
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping("product")
+	public String productInformation(HttpServletRequest request, SupplierAudit supplierAudit, Supplier supplier){
+		String supplierId = supplierAudit.getSupplierId();
+		request.setAttribute("supplierId", supplierId);
+		//产品
+		List<SupplierProducts> productsList= supplierService.get(supplierId).getListSupplierProducts();
+		request.setAttribute("productsList", productsList);
+		//勾选的供应商类型
+		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
+		request.setAttribute("supplierTypeNames", supplierTypeName);
+		return "ses/sms/supplier_query/supplierInfo/product";
+	}
+	
+	/**
 	 * @Title: list
 	 * @author Song Biaowei
 	 * @date 2016-10-8 下午5:41:13  
@@ -506,7 +524,7 @@ public class SupplierQueryController extends BaseSupplierController{
 	
 	public void getSupplierType(List<Supplier> listSupplier){
 		for(Supplier sup:listSupplier){
-			List<SupplierTypeRelate> listSupplierTypeRelates = sup.getListSupplierTypeRelates();
+			List<SupplierTypeRelate> listSupplierTypeRelates = supplierService.get(sup.getId()).getListSupplierTypeRelates();
 			String supplierType="";
 			if(listSupplierTypeRelates.size()>0){
 				for(SupplierTypeRelate str:listSupplierTypeRelates){
