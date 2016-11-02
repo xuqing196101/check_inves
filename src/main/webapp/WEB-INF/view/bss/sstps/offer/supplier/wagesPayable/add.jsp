@@ -174,7 +174,7 @@
    
 	 	<div  class="col-md-12">
 	   		<div class="mt40 tc mb50">
-			    <button class="btn btn-windows add" type="submit">确定</button>
+			    <button class="btn btn-windows save" type="submit">确定</button>
 			    <button class="btn btn-windows cancel" type="button" onclick="location.href='javascript:history.go(-1);'">取消</button>
 			</div>
 		</div>

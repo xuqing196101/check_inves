@@ -153,9 +153,7 @@ public class AppraisalContractController extends BaseSupplierController{
 		appraisalContract.setDistribution(0);
 		
 		if(type==0){
-			
 			appraisalContractService.insert(appraisalContract);
-			
 		}else if(type==1){
 			PurchaseContract purchaseContract = new PurchaseContract();
 			purchaseContract.setId(contractId);

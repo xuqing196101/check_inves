@@ -25,7 +25,6 @@ function nextStep(){
 }
 
 $(document).ready(function() { 
-	 
 	var totalRow = 0 ;
 	var totalRow2 = 0;
 	var totalRow3 = 0;

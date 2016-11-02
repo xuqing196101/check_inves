@@ -48,12 +48,21 @@ $(function(){
 			totalRow1 += parseFloat($(this).text()); 
 		});
 	}); 
-	alert(totalRow5);
-	$("#total1").html(totalRow1);
-	$("#total2").html(totalRow2);
-	$("#total3").html(totalRow3);
-	$("#total4").html(totalRow4);
-	$("#total5").html(totalRow5);
+	if(totalRow1!=null){
+		$("#total1").html(totalRow1);
+	}
+	if(totalRow2!=null){
+		$("#total2").html(totalRow2);
+	}
+	if(totalRow3!=null){
+		$("#total3").html(totalRow3);
+	}
+	if(totalRow4!=null){
+		$("#total4").html(totalRow4);
+	}if(totalRow5!=null){
+		$("#total5").html(totalRow5);
+	}
+	
 }); 
 
 </script>
@@ -141,7 +150,8 @@ $(function(){
 					 	<td colspan="2" ></td>
 					 	<td class="tc" id="total3"></td>
 					 	<td class="tc" id="total4"></td>
-					 	<td colspan="2" ></td>
+					 	<td class="tc" id="total5"></td>
+					 	<td class="tc" ></td>
 					 </tr>
 				 </thead> 
 			</table>

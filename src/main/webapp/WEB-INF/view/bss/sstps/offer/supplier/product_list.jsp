@@ -29,7 +29,7 @@ $(function(){
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
 		        	var id = "${id}";
-		            location.href = '<%=basePath%>offer/selectProduct.html?id=+"id"&page='+e.curr;
+		            location.href = "<%=basePath%>offer/selectProduct.html?contractId="+id+"&page="+e.curr;
 		        }
 		    }
 		});

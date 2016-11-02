@@ -24,6 +24,46 @@ function nextStep(){
 	window.location.href="<%=basePath%>comCostDis/view.do?proId="+proId;
 }
 
+
+$(function(){ 
+	var totalRow1 = 0;
+	var totalRow2 = 0;
+	var totalRow3 = 0;
+	var totalRow4 = 0;
+	var totalRow5 = 0;
+	$("#table1 tr").each(function() { 
+		$(this).find("td:eq(11)").each(function(){ 
+			totalRow1 += parseFloat($(this).text()); 
+		});
+		$(this).find("td:eq(13)").each(function(){ 
+			totalRow2 += parseFloat($(this).text()); 
+		});
+		$(this).find("td:eq(14)").each(function(){ 
+			totalRow3 += parseFloat($(this).text()); 
+		});
+		$(this).find("td:eq(15)").each(function(){ 
+			totalRow4 += parseFloat($(this).text()); 
+		});
+		$(this).find("td:eq(16)").each(function(){ 
+			totalRow5 += parseFloat($(this).text()); 
+		});
+	}); 
+	if(totalRow1!=null){
+		$("#total1").html(totalRow1);
+	}
+	if(totalRow2!=null){
+		$("#total2").html(totalRow2);
+	}
+	if(totalRow3!=null){
+		$("#total3").html(totalRow3);
+	}
+	if(totalRow4!=null){
+		$("#total4").html(totalRow4);
+	}
+	if(totalRow5!=null){
+		$("#total5").html(totalRow5);
+	}
+}); 
 </script>
 
   </head>
@@ -50,7 +90,7 @@ function nextStep(){
 	
 	<div class="container margin-top-5">
 	 	<div class="container padding-left-25 padding-right-25">
-			<table class="table table-bordered table-condensed">
+			<table id="table1" class="table table-bordered table-condensed">
 				<thead>
 					<tr>
 						<th rowspan="3" class="info">序号</th>
@@ -60,7 +100,7 @@ function nextStep(){
 						<th colspan="7" class="info">单位产品工时定额</th>
 						<th rowspan="3" class="info">计量单位</th>
 						<th rowspan="2" class="info">配套数量</th>
-						<th rowspan="2" class="info">单位产品工时审核核定数</th>
+						<th colspan="4" rowspan="2" class="info">单位产品工时审核核定数</th>
 						<th rowspan="3" class="info">备   注</th>
 					</tr>
 					<tr>
@@ -71,6 +111,7 @@ function nextStep(){
 						<th class="info">试验工时</th>
 						<th class="info">其他工时</th>
 						<th class="info">小计</th>
+						
 					</tr>
 					<tr>
 						<th class="info">报价</th>
@@ -82,6 +123,9 @@ function nextStep(){
 						<th class="info">报价</th>
 						<th class="info">报价</th>
 						<th class="info">报价</th>
+						<th class="info">核定</th>
+						<th class="info">核减</th>
+						<th class="info">复核</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -103,11 +147,29 @@ function nextStep(){
 						<td class="tc">${yp.measuringUnit }</td>
 						
 						<td class="tc">${yp.assortOffer }</td>
+						
 						<td class="tc">${yp.approvedOffer }</td>
+						<td class="tc">${yp.approvedRatify }</td>
+						<td class="tc">${yp.approvedSubtract }</td>
+						<td class="tc">${yp.approvedCheck }</td>
+						
 						<td class="tc">${yp.remark }</td>
 					</tr>
 				</c:forEach>
 				</tbody>
+				<thead>
+					<tr>
+					 	<td class="tc" colspan="5">总计：</td>
+					 	<td colspan="5" ></td>
+					 	<td class="tc" id="total1"></td>
+					 	<td></td><td></td>
+					 	<td class="tc" id="total2"></td>
+					 	<td class="tc" id="total3"></td>
+					 	<td class="tc" id="total4"></td>
+					 	<td class="tc" id="total5"></td>
+					 	<td></td>
+					 </tr>
+				 </thead>
 			</table>
 		</div>
 		

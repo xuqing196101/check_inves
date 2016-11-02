@@ -24,6 +24,48 @@ function nextStep(){
 	window.location.href="<%=basePath%>manufacturingCost/view.do?proId="+proId;
 }
 
+$(function(){ 
+	var totalRow1 = 0;
+	var totalRow2 = 0;
+	var totalRow3 = 0;
+	var totalRow4 = 0;
+	var totalRow5 = 0;
+	$("#table1 tr").each(function() { 
+		$(this).find("td:eq(8)").each(function(){ 
+			totalRow1 += parseFloat($(this).text()); 
+		});
+		$(this).find("td:eq(13)").each(function(){ 
+			totalRow2 += parseFloat($(this).text()); 
+		});
+		$(this).find("td:eq(18)").each(function(){ 
+			totalRow3 += parseFloat($(this).text()); 
+		});
+		$(this).find("td:eq(22)").each(function(){ 
+			totalRow4 += parseFloat($(this).text()); 
+		});
+		$(this).find("td:eq(27)").each(function(){ 
+			totalRow5 += parseFloat($(this).text()); 
+		});
+		
+	}); 
+	if(totalRow1!=null){
+		$("#total1").html(totalRow1);
+	}
+	if(totalRow2!=null){
+		$("#total2").html(totalRow2);
+	}
+	if(totalRow3!=null){
+		$("#total3").html(totalRow3);
+	}
+	if(totalRow4!=null){
+		$("#total4").html(totalRow4);
+	}
+	if(totalRow5!=null){
+		$("#total5").html(totalRow5);
+	}
+	
+}); 
+
 </script>
 
   </head>
@@ -50,7 +92,7 @@ function nextStep(){
 	
 	<div class="container margin-top-5">
 	 	<div class="container padding-left-25 padding-right-25">
-			<table class="table table-bordered table-condensed">
+			<table id="table1" class="table table-bordered table-condensed">
 				<thead>
 					<tr>
 						<th rowspan="2" class="info">序号</th>
@@ -60,9 +102,21 @@ function nextStep(){
 						<th colspan="5" class="info">报价前2年</th>
 						<th colspan="5" class="info">报价前1年</th>
 						<th colspan="5" class="info">报价当年</th>
+						<th colspan="5" class="info">审核核准数</th>
+						<th colspan="5" class="info">复核核准数</th>
 						<th rowspan="2" class="info">备   注</th>
 					</tr>
 					<tr>
+						<th class="info">基本生产人员</th>
+						<th class="info">车间管理人员</th>
+						<th class="info">管理人员</th>
+						<th class="info">其他人员</th>
+						<th class="info">合计</th>
+						<th class="info">基本生产人员</th>
+						<th class="info">车间管理人员</th>
+						<th class="info">管理人员</th>
+						<th class="info">其他人员</th>
+						<th class="info">合计</th>
 						<th class="info">基本生产人员</th>
 						<th class="info">车间管理人员</th>
 						<th class="info">管理人员</th>
@@ -106,10 +160,38 @@ function nextStep(){
 						<td class="tc">${wp.newOtherUser }</td>
 						<td class="tc">${wp.newTotal }</td>
 						
-						<td class="tc">${wp.remark }</td>
+						<td class="tc">${wp.approvedProduceUser }</td>
+						<td class="tc">${wp.approvedWorkshopUser }</td>
+						<td class="tc">${wp.approvedManageUser }</td>
+						<td class="tc">${wp.approvedOtherUser }</td>
+						<td class="tc">${wp.approvedTotal }</td>
+						
+						<td class="tc">${wp.checkProduceUser }</td>
+						<td class="tc">${wp.checkWorkshopUser }</td>
+						<td class="tc">${wp.checkManageUser }</td>
+						<td class="tc">${wp.checkOtherUser }</td>
+						<td class="tc">${wp.checkTotal }</td>
+						
+						<td>${wp.remark }</td>
 					</tr>
 				</c:forEach>
 				</tbody>
+				<thead>
+					<tr>
+					 	<td class="tc" colspan="4">总计：</td>
+					 	<td colspan="4" ></td>
+					 	<td class="tc" id="total1"></td>
+					 	<td colspan="4" ></td>
+					 	<td class="tc" id="total2"></td>
+					 	<td colspan="4" ></td>
+					 	<td class="tc" id="total3"></td>
+					 	<td colspan="4" ></td>
+					 	<td class="tc" id="total4"></td>
+					 	<td colspan="4" ></td>
+					 	<td class="tc" id="total5"></td>
+					 	<td ></td>
+					 </tr>
+				 </thead> 	
 			</table>
 		</div>
 		

@@ -88,8 +88,8 @@ function appraisal(id){
 	<div class="container">	
 		<div class="col-md-12 mt10 ml5">
 	   		<button class="btn btn-windows add" type="button" onclick="add()">添加合同</button>
-	   		<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
-		</div>
+	   		<%--<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
+		--%></div>
 	</div>
 	
 	<div class="container">

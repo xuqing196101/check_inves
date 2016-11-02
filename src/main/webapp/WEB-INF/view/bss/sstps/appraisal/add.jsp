@@ -42,6 +42,17 @@
 	  });
   }
   
+  function check(){
+	  var name = $("#contractName").val();
+	  alert(name);
+	  if(name==null&&name==""){
+		  return false;
+	  }else{
+		  return true;
+	  }
+		
+  }
+  
 </script>
 	
   </head>
@@ -57,7 +68,7 @@
 	  </div>
    </div>
    
-   <form action="<%=basePath %>appraisalContract/save.html" method="post" enctype="multipart/form-data">
+   <form onsubmit="return check()" action="<%=basePath %>appraisalContract/save.html" method="post" enctype="multipart/form-data">
    
 	<div class="container">
 	 	<div class="headline-v2">
@@ -108,7 +119,7 @@
 	 	
 	 	<div  class="col-md-12">
 	   		<div class="mt40 tc mb50">
-			    <button class="btn btn-windows add" type="submit">确定</button>
+			    <button class="btn btn-windows add" type="submit" id="submit" name="submit">确定</button>
 			    <button class="btn btn-windows cancel" type="button" onclick="location.href='javascript:history.go(-1);'">取消</button>
 			</div>
 		</div>

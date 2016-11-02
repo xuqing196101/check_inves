@@ -95,6 +95,32 @@ function nextStep(){
 	window.location.href="<%=basePath%>manufacturingCost/select.do?proId="+proId;
 }
 
+$(function(){ 
+	var totalRow1 = 0;
+	var totalRow2 = 0;
+	var totalRow3 = 0;
+	$("#table1 tr").each(function() { 
+		$(this).find("td:eq(9)").each(function(){ 
+			totalRow1 += parseFloat($(this).text()); 
+		});
+		$(this).find("td:eq(14)").each(function(){ 
+			totalRow2 += parseFloat($(this).text()); 
+		});
+		$(this).find("td:eq(19)").each(function(){ 
+			totalRow3 += parseFloat($(this).text()); 
+		});
+		
+	}); 
+	if(totalRow1!=null){
+		$("#total1").html(totalRow1);
+	}
+	if(totalRow2!=null){
+		$("#total2").html(totalRow2);
+	}
+	if(totalRow3!=null){
+		$("#total3").html(totalRow3);
+	}
+}); 
 </script>
 
   </head>
@@ -127,7 +153,7 @@ function nextStep(){
 	
 	<div class="container margin-top-5">
 	 	<div class="container padding-left-25 padding-right-25">
-			<table class="table table-bordered table-condensed">
+			<table id="table1" class="table table-bordered table-condensed">
 				<thead>
 					<tr>
 						<th rowspan="2" class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
@@ -189,6 +215,18 @@ function nextStep(){
 					</tr>
 				</c:forEach>
 				</tbody>
+				<thead>
+					<tr>
+					 	<td class="tc" colspan="5">总计：</td>
+					 	<td colspan="4" ></td>
+					 	<td class="tc" id="total1"></td>
+					 	<td colspan="4" ></td>
+					 	<td class="tc" id="total2"></td>
+					 	<td colspan="4" ></td>
+					 	<td class="tc" id="total3"></td>
+					 	<td></td>
+					 </tr>
+				 </thead>
 			</table>
 		</div>
 		
