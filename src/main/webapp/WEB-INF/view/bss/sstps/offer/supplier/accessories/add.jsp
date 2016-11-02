@@ -30,7 +30,7 @@
    </div>
    
    
-  <div class="container bggrey border1 mt20""> 
+  <div class="container bggrey border1 mt20"> 
     <form action="<%=basePath %>accessoriesCon/save.html" method="post" enctype="multipart/form-data">
    
    <input type="hidden" id="proId" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly>
@@ -45,24 +45,28 @@
 			<option value="0">主要材料</option>
 			<option value="1">辅助材料</option>
 		 </select>
+		 <div class="validate">${ERR_productNature}</div>
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
-	   <span class="">材料名称：</span>
+	   <span class=""><i class="red">＊</i>材料名称：</span>
 	   <div class="input-append">
-        <input type="text" id="stuffName" name="stuffName" class="w220">
+        <input type="text" id="stuffName" name="stuffName" value="${stuffName }" class="w220">
+        <div class="validate">${ERR_stuffName}</div>
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
-	   <span class="">规格型号：</span>
+	   <span class=""><i class="red">＊</i>规格型号：</span>
 	   <div class="input-append">
-        <input id="norm" name="norm" type="text" class="w220">
+        <input id="norm" name="norm" type="text" value="${norm }" class="w220">
+        <div class="validate">${ERR_norm}</div>
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
-	   <span class="">图纸位置号(代号)：</span>
+	   <span class=""><i class="red">＊</i>图纸位置号(代号)：</span>
 	   <div class="input-append">
-        <input id="paperCode" name="paperCode" type="text" class="w220">
+        <input id="paperCode" name="paperCode" type="text" value="${paperCode }" class="w220">
+        <div class="validate">${ERR_paperCode}</div>
        </div>
 	 </li>
    </ul>
@@ -147,9 +151,10 @@
    <h2 class="f16 count_flow mt40"><i>04</i>其他</h2>
    <ul class="list-unstyled list-flow ul_list">
    <li class="col-md-12 p0">
-	   <span class="">供货单位：</span>
+	   <span class=""><i class="red">＊</i>供货单位：</span>
 	   <div class="input-append">
-        <input type="text" id="supplyUnit" name="supplyUnit" class="w220">
+        <input type="text" id="supplyUnit" name="supplyUnit" value="${supplyUnit }" class="w220">
+        <div class="validate">${ERR_supplyUnit}</div>
        </div>
 	 </li>
 	 <li class="col-md-12  p0 ">

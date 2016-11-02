@@ -3,11 +3,17 @@ package bss.controller.sstps;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import ses.util.ValidateUtils;
 
 import bss.model.sstps.AccessoriesCon;
 import bss.model.sstps.ContractProduct;
@@ -55,9 +61,7 @@ public class AccessoriesConController {
 	 */
 	@RequestMapping("/edit")
 	public String edit(Model model,String proId,String id){
-		
 		AccessoriesCon accessoriesCon = accessoriesConService.selectById(id);
-		
 		model.addAttribute("acc", accessoriesCon);
 		model.addAttribute("proId", proId);
 		return "bss/sstps/offer/supplier/accessories/edit";
@@ -75,18 +79,47 @@ public class AccessoriesConController {
 	* @return String
 	 */
 	@RequestMapping("/save")
-	public String save(Model model,AccessoriesCon accessoriesCon){
+	public String save(Model model,@Valid AccessoriesCon accessoriesCon,BindingResult result,HttpServletRequest request){
+		Boolean flag = true;
+		String url = "";
 		String proId = accessoriesCon.getContractProduct().getId();
-		accessoriesCon.setCreatedAt(new Date());
-		accessoriesCon.setUpdatedAt(new Date());
-		accessoriesConService.insert(accessoriesCon);
-		
-		List<AccessoriesCon> list = accessoriesConService.selectProduct(accessoriesCon);
-		model.addAttribute("list", list);
-		
 		model.addAttribute("proId",proId);
-		
-		return "bss/sstps/offer/supplier/accessories/list";
+		if(ValidateUtils.isNull(accessoriesCon.getProductNature())){
+			flag = false;
+			model.addAttribute("ERR_productNature", "材料性质不能为空");
+		}
+		if(ValidateUtils.isNull(accessoriesCon.getStuffName())){
+			flag = false;
+			model.addAttribute("ERR_stuffName", "材料名称不能为空");
+		}
+		if(ValidateUtils.isNull(accessoriesCon.getNorm())){
+			flag = false;
+			model.addAttribute("ERR_norm", "规格型号不能为空");
+		}
+		if(ValidateUtils.isNull(accessoriesCon.getPaperCode())){
+			flag = false;
+			model.addAttribute("ERR_paperCode", "图纸位置号不能为空");
+		}
+		if(ValidateUtils.isNull(accessoriesCon.getSupplyUnit())){
+			flag = false;
+			model.addAttribute("ERR_supplyUnit", "供货单位不能为空");
+		}
+		if(flag==false){
+			model.addAttribute("productNature",accessoriesCon.getProductNature());
+			model.addAttribute("stuffName",accessoriesCon.getStuffName());
+			model.addAttribute("norm",accessoriesCon.getNorm());
+			model.addAttribute("paperCode",accessoriesCon.getPaperCode());
+			model.addAttribute("supplyUnit",accessoriesCon.getSupplyUnit());
+			url="bss/sstps/offer/supplier/accessories/add";
+		}else{
+			accessoriesCon.setCreatedAt(new Date());
+			accessoriesCon.setUpdatedAt(new Date());
+			accessoriesConService.insert(accessoriesCon);
+			List<AccessoriesCon> list = accessoriesConService.selectProduct(accessoriesCon);
+			model.addAttribute("list", list);
+			url = "bss/sstps/offer/supplier/accessories/list";
+		}
+		return url;
 	}
 	
 	
@@ -111,16 +144,50 @@ public class AccessoriesConController {
 	* @return String
 	 */
 	@RequestMapping("/update")
-	public String update(Model model,AccessoriesCon accessoriesCon ){
+	public String update(Model model,@Valid AccessoriesCon accessoriesCon,BindingResult result,HttpServletRequest request,String id){
 		String proId = accessoriesCon.getContractProduct().getId();
-		
-		accessoriesCon.setUpdatedAt(new Date());
-		accessoriesConService.update(accessoriesCon);
-		
-		List<AccessoriesCon> list = accessoriesConService.selectProduct(accessoriesCon);
-		model.addAttribute("list", list);
 		model.addAttribute("proId",proId);
-		return "bss/sstps/offer/supplier/accessories/list";
+		Boolean flag = true;
+		String url = "";
+		
+		if(ValidateUtils.isNull(accessoriesCon.getProductNature())){
+			flag = false;
+			model.addAttribute("ERR_productNature", "材料性质不能为空");
+		}
+		if(ValidateUtils.isNull(accessoriesCon.getStuffName())){
+			flag = false;
+			model.addAttribute("ERR_stuffName", "材料名称不能为空");
+		}
+		if(ValidateUtils.isNull(accessoriesCon.getNorm())){
+			flag = false;
+			model.addAttribute("ERR_norm", "规格型号不能为空");
+		}
+		if(ValidateUtils.isNull(accessoriesCon.getPaperCode())){
+			flag = false;
+			model.addAttribute("ERR_paperCode", "图纸位置号不能为空");
+		}
+		if(ValidateUtils.isNull(accessoriesCon.getSupplyUnit())){
+			flag = false;
+			model.addAttribute("ERR_supplyUnit", "供货单位不能为空");
+		}
+		if(flag==false){
+			model.addAttribute("acc.productNature",accessoriesCon.getProductNature());
+			model.addAttribute("acc.stuffName",accessoriesCon.getStuffName());
+			model.addAttribute("acc.norm",accessoriesCon.getNorm());
+			model.addAttribute("acc.paperCode",accessoriesCon.getPaperCode());
+			model.addAttribute("acc.supplyUnit",accessoriesCon.getSupplyUnit());
+			AccessoriesCon accessories = accessoriesConService.selectById(id);
+			model.addAttribute("acc", accessories);
+			model.addAttribute("proId", proId);
+			url="bss/sstps/offer/supplier/accessories/edit";
+		}else{
+			accessoriesCon.setUpdatedAt(new Date());
+			accessoriesConService.update(accessoriesCon);
+			List<AccessoriesCon> list = accessoriesConService.selectProduct(accessoriesCon);
+			model.addAttribute("list", list);
+			url="bss/sstps/offer/supplier/accessories/list";
+		}
+		return url;
 	}
 	
 	/**
