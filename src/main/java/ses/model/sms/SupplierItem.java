@@ -68,6 +68,22 @@ public class SupplierItem implements Serializable {
 
 	private List<SupplierProducts> listSupplierProducts = new ArrayList<SupplierProducts>();
 
+	private String addProCategoryIds;
+
+	private String deleteProCategoryIds;
+
+	private String addSellCategoryIds;
+
+	private String deleteSellCategoryIds;
+
+	private String addEngCategoryIds;
+
+	private String deleteEngCategoryIds;
+
+	private String addServeCategoryIds;
+
+	private String deleteServeCategoryIds;
+
 	public String getId() {
 		return id;
 	}
@@ -138,5 +154,69 @@ public class SupplierItem implements Serializable {
 
 	public void setListSupplierProducts(List<SupplierProducts> listSupplierProducts) {
 		this.listSupplierProducts = listSupplierProducts;
+	}
+
+	public String getAddProCategoryIds() {
+		return addProCategoryIds;
+	}
+
+	public void setAddProCategoryIds(String addProCategoryIds) {
+		this.addProCategoryIds = addProCategoryIds;
+	}
+
+	public String getDeleteProCategoryIds() {
+		return deleteProCategoryIds;
+	}
+
+	public void setDeleteProCategoryIds(String deleteProCategoryIds) {
+		this.deleteProCategoryIds = deleteProCategoryIds;
+	}
+
+	public String getAddSellCategoryIds() {
+		return addSellCategoryIds;
+	}
+
+	public void setAddSellCategoryIds(String addSellCategoryIds) {
+		this.addSellCategoryIds = addSellCategoryIds;
+	}
+
+	public String getDeleteSellCategoryIds() {
+		return deleteSellCategoryIds;
+	}
+
+	public void setDeleteSellCategoryIds(String deleteSellCategoryIds) {
+		this.deleteSellCategoryIds = deleteSellCategoryIds;
+	}
+
+	public String getAddEngCategoryIds() {
+		return addEngCategoryIds;
+	}
+
+	public void setAddEngCategoryIds(String addEngCategoryIds) {
+		this.addEngCategoryIds = addEngCategoryIds;
+	}
+
+	public String getDeleteEngCategoryIds() {
+		return deleteEngCategoryIds;
+	}
+
+	public void setDeleteEngCategoryIds(String deleteEngCategoryIds) {
+		this.deleteEngCategoryIds = deleteEngCategoryIds;
+	}
+
+	public String getAddServeCategoryIds() {
+		return addServeCategoryIds;
+	}
+
+	public void setAddServeCategoryIds(String addServeCategoryIds) {
+		this.addServeCategoryIds = addServeCategoryIds;
+	}
+
+	public String getDeleteServeCategoryIds() {
+		return deleteServeCategoryIds;
+	}
+
+	public void setDeleteServeCategoryIds(String deleteServeCategoryIds) {
+		this.deleteServeCategoryIds = deleteServeCategoryIds;
 	}
 }

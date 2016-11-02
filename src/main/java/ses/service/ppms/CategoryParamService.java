@@ -74,5 +74,15 @@ public interface CategoryParamService {
 	*/
 	 void insertSelective(CategoryParam categoryParam);
 	 
-	 List<CategoryParam> findParamByCategoryIdAndProductsId(Map<String, String> param, Integer sign);
+	 /**
+	  * @Title: findParamByCategoryIdAndProductsId
+	  * @author: Wang Zhaohua
+	  * @date: 2016-11-2 下午2:07:30
+	  * @Description: 根据品目 ID 和产品 ID 查询产品参数
+	  * @param: @param categoryId
+	  * @param: @param productsId
+	  * @param: @return
+	  * @return: List<CategoryParam>
+	  */
+	 List<CategoryParam> findParamByCategoryIdAndProductsId(String categoryId, String productsId);
 }

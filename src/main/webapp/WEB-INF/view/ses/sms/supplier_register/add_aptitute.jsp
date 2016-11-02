@@ -127,8 +127,8 @@
 											</li>
 											<li class="col-md-6 p0"><span class="w175"><i class="red">＊</i> 附件上传：</span>
 												<div class="input-append">
-													<div class="uploader orange h32 m0">
-														<input type="text" class="filename fz11 h32" readonly="readonly"/>
+													<div class="uploader orange h32 m0 fz8">
+														<input type="text" class="filename h32 fz8" readonly="readonly"/>
 														<input type="button" name="file" class="button" value="选择..."/>
 														<input name="attachCertFile" type="file" size="30"/>
 													</div>

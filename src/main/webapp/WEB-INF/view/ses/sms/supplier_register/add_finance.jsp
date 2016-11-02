@@ -106,8 +106,8 @@
 											</li>
 											<li class="col-md-6 p0"><span class="w220"><i class="red">＊</i> 财务审计报告的审计意见：</span>
 												<div class="input-append">
-													<div class="uploader orange h32 m0">
-														<input type="text" class="filename fz11 h32" readonly="readonly"/>
+													<div class="uploader orange h32 m0 fz8">
+														<input type="text" class="filename h32 fz8" readonly="readonly"/>
 														<input type="button" name="file" class="button" value="选择..."/>
 														<input name="auditOpinionFile" type="file" size="30"/>
 													</div>
@@ -115,8 +115,8 @@
 											</li>
 											<li class="col-md-6 p0"><span class="w220"><i class="red">＊</i> 资产负债表：</span>
 												<div class="input-append">
-													<div class="uploader orange h32 m0">
-														<input type="text" class="filename fz11 h32" readonly="readonly"/>
+													<div class="uploader orange h32 m0 fz8">
+														<input type="text" class="filename h32 fz8" readonly="readonly"/>
 														<input type="button" name="file" class="button" value="选择..."/>
 														<input name="liabilitiesListFile" type="file" size="30"/>
 													</div>
@@ -124,8 +124,8 @@
 											</li>
 											<li class="col-md-6 p0"><span class="w220"><i class="red">＊</i> 利润表：</span>
 												<div class="input-append">
-													<div class="uploader orange h32 m0">
-														<input type="text" class="filename fz11 h32" readonly="readonly"/>
+													<div class="uploader orange h32 m0 fz8">
+														<input type="text" class="filename h32 fz8" readonly="readonly"/>
 														<input type="button" name="file" class="button" value="选择..."/>
 														<input name="profitListFile" type="file" size="30"/>
 													</div>
@@ -133,8 +133,8 @@
 											</li>
 											<li class="col-md-6 p0"><span class="w220"><i class="red">＊</i> 现金流量表：</span>
 												<div class="input-append">
-													<div class="uploader orange h32 m0">
-														<input type="text" class="filename fz11 h32" readonly="readonly"/>
+													<div class="uploader orange h32 m0 fz8">
+														<input type="text" class="filename h32 fz8" readonly="readonly"/>
 														<input type="button" name="file" class="button" value="选择..."/>
 														<input name="cashFlowStatementFile" type="file" size="30"/>
 													</div>
@@ -142,8 +142,8 @@
 											</li>
 											<li class="col-md-6 p0"><span class="w220"><i class="red">＊</i> 所有者权益变动表：</span>
 												<div class="input-append">
-													<div class="uploader orange h32 m0">
-														<input type="text" class="filename fz11 h32" readonly="readonly"/>
+													<div class="uploader orange h32 m0 fz8">
+														<input type="text" class="filename h32 fz8" readonly="readonly"/>
 														<input type="button" name="file" class="button" value="选择..."/>
 														<input name="changeListFile" type="file" size="30"/>
 													</div>

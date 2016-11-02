@@ -29,36 +29,22 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
 
-<script type="text/javascript">
-	
-	function saveOrBack(sign) {
-		var action = "${pageContext.request.contextPath}/product_param/";
-		if (sign) {
-			action += "save_or_update_param.html";
-			$("#products_form_id").attr("action", action);
-			$("#products_form_id").submit();
-		} else {
-			window.location.href = "${pageContext.request.contextPath}/product_param/list.html?productsId=${productsId}&categoryId=${categoryId}";
-		}
-	}
-</script>
-
 </head>
 
 <body>
 <div class="wrapper">
 
 		<!--基本信息-->
-		<div class="container content height-300">
+		<div class="container content height-100">
 			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10">
-						<form id="products_form_id" method="post" enctype="multipart/form-data">
+						<form id="products_form_id" action="${pageContext.request.contextPath}/product_param/save_or_update_param.html" method="post" enctype="multipart/form-data">
 							<input name="productsId" value="${productsId}" type="hidden" />
 							<input name="categoryId" value="${categoryId}" type="hidden" />
 							<div class="tab-content padding-top-20">
 								<!-- 详细信息 -->
-								<div class="tab-pane fade active in height-200" id="tab-1">
+								<div class="tab-pane fade active in height-100" id="tab-1">
 									<div class=" margin-bottom-0">
 										<ul class="list-unstyled list-flow">
 											<c:forEach items="${list}" var="categoryParam">
@@ -76,8 +62,7 @@
 								</div>
 							</div>
 							<div class="mt40 tc mb50">
-								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveOrBack(1)">保存</button>
-								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveOrBack(0)">返回</button>
+								<button type="submit" class="btn padding-left-20 padding-right-20 btn_back margin-5">保存</button>
 							</div>
 						</form>
 					</div>

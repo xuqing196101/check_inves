@@ -79,7 +79,9 @@
 .h300 {
 	height: 300px !important;
 }
-
+.ml10 {
+	margin-left: 10px !important;
+}
 .ml5 {
 	margin-left: 5px;
 }
@@ -90,7 +92,9 @@
 .ml30 {
 	margin-left: 30px;
 }
-
+.h28 {
+	height: 28px !important;
+}
 .h30 {
 	height: 30px !important;
 }
@@ -127,19 +131,21 @@
 	float: right;
 }
 
-.fz15 {
-	font-size: 15px !important;
-}
 
 .fz17 {
 	font-size: 17px !important;
 }
-
+.fz15 {
+	font-size: 15px !important;
+}
 .fz13 {
 	font-size: 13px !important;
 }
 .fz11 {
 	font-size: 11px !important;
+}
+.fz8 {
+	font-size: 8px !important;
 }
 
 .color-red {

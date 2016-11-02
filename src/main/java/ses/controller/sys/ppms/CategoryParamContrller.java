@@ -577,14 +577,9 @@ public class CategoryParamContrller extends BaseSupplierController{
     } 
  
  /***********************************************************************************************************************************/
-     @RequestMapping(value = "list_by_category_id")
-     public String listByCategoryId(Model model, String categoryId, String productsId, Integer sign) {
-    	 Map<String, String> param = new HashMap<String, String>();
-    	 param.put("categoryId", categoryId);
-    	 if (sign == 1) {
-    		 param.put("productsId", productsId);
-    	 }
-    	 List<CategoryParam> list = categoryParamService.findParamByCategoryIdAndProductsId(param, sign);
+     @RequestMapping(value = "list_by_category_id_and_products_id")
+     public String listByCategoryIdAndProductsId(Model model, String categoryId, String productsId) {
+    	 List<CategoryParam> list = categoryParamService.findParamByCategoryIdAndProductsId(categoryId, productsId);
     	 model.addAttribute("list", list);
     	 model.addAttribute("categoryId", categoryId);
     	 model.addAttribute("productsId", productsId);

@@ -51,8 +51,8 @@
 			name = "qrCodeFile";
 		}
 		var html = "<div class='input-append'>";
-		html += "<div class='uploader orange h32 m0'>";
-		html += "<input type='text' class='filename fz11 h32' readonly='readonly'/>";
+		html += "<div class='uploader orange h32 m0 fz8'>";
+		html += "<input type='text' class='filename fz8 h32' readonly='readonly'/>";
 		html += "<input type='button' name='file' class='button' value='选择...'/>";
 		html += "<input name='"+ name +"' type='file' size='30'/>";
 		html += "</div>";
@@ -137,8 +137,8 @@
 												</c:if>
 												<c:if test="${supplierProducts.productPic == null}">
 													<div class="input-append">
-														<div class="uploader orange h32 m0">
-															<input type="text" class="filename fz11 h32" readonly="readonly"/>
+														<div class="uploader orange h32 m0 fz8">
+															<input type="text" class="filename h32 fz8" readonly="readonly"/>
 															<input type="button" name="file" class="button" value="选择..."/>
 															<input name="productPicFile" type="file" size="30"/>
 														</div>
@@ -154,8 +154,8 @@
 												</c:if>
 												<c:if test="${supplierProducts.qrCode == null}">
 													<div class="input-append">
-														<div class="uploader orange h32 m0">
-															<input type="text" class="filename fz11 h32" readonly="readonly"/>
+														<div class="uploader orange h32 m0 fz8">
+															<input type="text" class="filename h32 fz8" readonly="readonly"/>
 															<input type="button" name="file" class="button" value="选择..."/>
 															<input name="qrCodeFile" type="file" size="30"/>
 														</div>

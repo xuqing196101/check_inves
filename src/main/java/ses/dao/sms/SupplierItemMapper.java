@@ -1,6 +1,7 @@
 package ses.dao.sms;
 
 import java.util.List;
+import java.util.Map;
 
 import ses.model.sms.SupplierItem;
 
@@ -53,4 +54,8 @@ public interface SupplierItemMapper {
     
     List<String> getSupplierId();
     List<String> getItemBySupplierId();
+    
+    List<SupplierItem> findByMap(Map<String, String> param);
+    
+    int deleteByMap(Map<String, String> param);
 }

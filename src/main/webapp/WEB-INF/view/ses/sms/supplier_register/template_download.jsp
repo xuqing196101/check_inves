@@ -1,5 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ include file="../../../../../index_head.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -21,22 +22,13 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/shop.style.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css" type="text/css" />
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.excheck.js"></script>
 <script type="text/javascript">
 	/** 保存基本信息 */
-	function otherPage(sign) {
-		var action = "${pageContext.request.contextPath}/supplier/";
-		if (sign == 1) {
-			action += "next_step.html";
-		} else if(sign == -1) {
-			action += "prev_step.html";
-		}
-		$("#template_download_form_id").attr("action", action);
+	function otherPage(jsp) {
+		$("input[name='jsp']").val(jsp);
 		$("#template_download_form_id").submit();
-
 	}
 </script>
 
@@ -44,8 +36,6 @@
 
 <body>
 	<div class="wrapper">
-		<!-- header -->
-		<jsp:include page="../../../../../index_head.jsp"></jsp:include>
 
 		<!-- 项目戳开始 -->
 		<div class="container clear margin-top-30">
@@ -68,9 +58,9 @@
 			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10">
-						<form id="template_download_form_id" method="post" enctype="multipart/form-data">
+						<form id="template_download_form_id" action="${pageContext.request.contextPath}/supplier/perfect_download.html" method="post" enctype="multipart/form-data">
 							<input name="id" value="${currSupplier.id}" type="hidden" /> 
-							<input name="sign" value="8" type="hidden" />
+							<input name="jsp" type="hidden" />
 							<div class="tab-content padding-top-20">
 								<!-- 物资生产型 -->
 								<div class="tab-pane fade active in height-300" id="tab-1">
@@ -79,54 +69,54 @@
 											<i>01</i>申请表和承诺书下载
 										</h2>
 										<ul class="list-unstyled list-flow">
-											<li class="col-md-6 p0"><span class="zzzx"> 军队供应商分级方法：</span>
+											<li class="col-md-6 p0"><span class="zzzx w245"> 军队供应商分级方法：</span>
 												<div class="input-append">
 													<a class="mt3 color7171C6" href="javascript:void(0)">下载附件</a>
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class="zzzx">军队供应商承诺书：</span>
+											<li class="col-md-6 p0"><span class="zzzx w245">军队供应商承诺书：</span>
 												<div class="input-append">
 													<div class="input-append">
 														<a class="mt3 color7171C6" href="javascript:void(0)">下载附件</a>
 													</div>
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class="zzzx">军队供应商入库申请表：</span>
+											<li class="col-md-6 p0"><span class="zzzx w245">军队供应商入库申请表：</span>
 												<div class="input-append">
 													<div class="input-append">
 														<a class="mt3 color7171C6" href="javascript:void(0)">下载附件</a>
 													</div>
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class="zzzx">军队供应商抽取记录表：</span>
+											<li class="col-md-6 p0"><span class="zzzx w245">军队供应商抽取记录表：</span>
 												<div class="input-append">
 													<div class="input-append">
 														<a class="mt3 color7171C6" href="javascript:void(0)">下载附件</a>
 													</div>
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class="zzzx">军队供应商实地考察记录表：</span>
+											<li class="col-md-6 p0"><span class="zzzx w245">军队供应商实地考察记录表：</span>
 												<div class="input-append">
 													<div class="input-append">
 														<a class="mt3 color7171C6" href="javascript:void(0)">下载附件</a>
 													</div>
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class="zzzx">军队供应商实地考察廉政意见函：</span>
+											<li class="col-md-6 p0"><span class="zzzx w245">军队供应商实地考察廉政意见函：</span>
 												<div class="input-append">
 													<div class="input-append">
 														<a class="mt3 color7171C6" href="javascript:void(0)">下载附件</a>
 													</div>
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class="zzzx">军队供应商注册信息变更申请表：</span>
+											<li class="col-md-6 p0"><span class="zzzx w245">军队供应商注册信息变更申请表：</span>
 												<div class="input-append">
 													<div class="input-append">
 														<a class="mt3 color7171C6" href="javascript:void(0)">下载附件</a>
 													</div>
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class="zzzx">军队供应商退库申请表：</span>
+											<li class="col-md-6 p0"><span class="zzzx w245">军队供应商退库申请表：</span>
 												<div class="input-append">
 													<div class="input-append">
 														<a class="mt3 color7171C6" href="javascript:void(0)">下载附件</a>
@@ -139,8 +129,8 @@
 								</div>
 							</div>
 							<div class="mt40 tc mb50">
-								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="otherPage(-1)">上一步</button>
-								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="otherPage(1)">下一步</button>
+								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="otherPage('procurement_dep')">上一步</button>
+								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="otherPage('template_upload')">下一步</button>
 							</div>
 						</form>
 					</div>
