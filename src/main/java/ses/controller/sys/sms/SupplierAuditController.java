@@ -33,6 +33,7 @@ import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierProducts;
 import ses.model.sms.SupplierStockholder;
+import ses.model.sms.SupplierType;
 import ses.service.bms.CategoryService;
 import ses.service.bms.TodosService;
 import ses.service.sms.SupplierAuditService;
@@ -525,7 +526,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		supplier = supplierAuditService.supplierById(supplier.getId());
 		Integer status = supplier.getStatus();
 		//暂存初审（5：初审中）
-		if(status == 0 && status != null){
+		if(status == 0 || status == 5 && status != null){
 			supplier.setStatus(5);
 			supplierAuditService.updateStatus(supplier);
 			
@@ -539,7 +540,7 @@ public class SupplierAuditController extends BaseSupplierController{
 			super.writeJson(response, msg);
 		}
 		//暂存复审（6：复审中）
-		if(status == 1 && status != null){
+		if(status == 1 || status == 6 && status != null){
 			supplier.setStatus(6);
 			supplierAuditService.updateStatus(supplier);
 			
@@ -727,6 +728,10 @@ public class SupplierAuditController extends BaseSupplierController{
 		List<Supplier> supplierAll =supplierAuditService.supplierList(supplier,page==null?1:page);
 		request.setAttribute("result", new PageInfo<>(supplierAll));
 		request.setAttribute("supplierAll", supplierAll);
+		
+		//所有供应商类型
+		List<SupplierType> supplierType= supplierAuditService.findSupplierType();
+		request.setAttribute("supplierType", supplierType);
 		
 		//回显名字
 		String supplierName = supplier.getSupplierName();

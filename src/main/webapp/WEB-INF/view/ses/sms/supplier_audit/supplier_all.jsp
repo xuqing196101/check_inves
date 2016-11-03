@@ -76,27 +76,13 @@
     var size = $(":radio:checked").size();
     
     if (!size) {
-      layer.msg("请选择一条记录 !", {
-        offset : '300px',
-      });
+      layer.msg("请选择供应商 !");
       return;
     }
     var id = $(":radio:checked").val();
-    var state = $("#"+id).parents("tr").find("td").eq(6).text().trim();
-    if (state == "已审核") {
-        layer.msg("请选择待审核项 !", {
-          offset : '300px',
-        });
-        return;
-      } else if (state == "初审核未通过") {
-        layer.msg("请选择待审核项 !", {
-          offset : '300px',
-        });
-        return;
-      } else if (state == "复审未通过") {
-        layer.msg("请选择待审核项 !", {
-          offset : '300px',
-        });
+    var state = $("#"+id).parents("tr").find("td").eq(5).text().trim();
+    if (state == "已审核" || state == "初审核未通过" || state == "复审未通过") {
+        layer.msg("请选择待审核项 !");
         return;
       } 
     
@@ -147,11 +133,20 @@
                   <option <c:if test="${state == 1 }">selected</c:if> value="1">待复审</option>
                   <option <c:if test="${state == 5 }">selected</c:if> value="5">初审中</option>
                   <option <c:if test="${state == 6 }">selected</c:if> value="6">复审中</option>
-                  <option <c:if test="${state == 3 }">selected</c:if> value="3">已审核</option>
                   <option <c:if test="${state == 2 }">selected</c:if> value="2">初审核未通过</option>
                   <option <c:if test="${state == 4 }">selected</c:if> value="4">复审不通过</option>
+                  <option <c:if test="${state == 3 }">selected</c:if> value="3">已审核</option>
                </select> 
-           </li>
+	           </li>
+	           <%-- <li class="fl">
+	              <label class="fl mt5">企业类型：</label> 
+	                <select name="supplierType" class="mb0 mt5">
+	                  <option value="">全部</option>
+	                  <c:forEach var="type" varStatus="vs" items="${supplierType}">
+	                    <option value="${type.name}">${type.name}</option>
+	                  </c:forEach>
+	               </select> 
+	            </li> --%>
            <li>
             <input type="submit" class="btn btn_back fl ml10 mt6" value="查询" />
             <button onclick="resetForm();" class="btn btn_back fl ml10 mt6" type="button">重置</button>
@@ -163,7 +158,7 @@
   </div>
   <div class="container">
     <div class="col-md-8">
-        <button class="btn btn-windows git" type="button" onclick="shenhe();">审核</button>
+        <button class="btn btn-windows git" type="button" onclick="shenhe();" style="margin-left: 10px;">审核</button>
     </div>
   </div>
   <div class="container margin-top-5">
@@ -176,7 +171,7 @@
             <th class="info">供应商名称</th>
             <th class="info">企业类型</th>
             <th class="info">企业性质</th>
-            <th class="info">企业状态</th>
+            <!-- <th class="info">企业状态</th> -->
             <th class="info">审核状态</th>
           </tr>
         </thead>
@@ -191,9 +186,7 @@
               </c:forEach>
             </td>
             <td class="tc">${list.businessType }</td>
-            <td class="tc">
-              
-            </td>
+            <!-- <td class="tc"></td> -->
             <td class="tc" id="${list.id}">
                <c:if test="${list.status==0 }">待初审</c:if>
                <c:if test="${list.status==1 }">待复审</c:if>
