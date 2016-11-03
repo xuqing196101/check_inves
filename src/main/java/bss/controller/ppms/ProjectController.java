@@ -600,6 +600,7 @@ public class ProjectController extends BaseController {
 	public String addPack(HttpServletRequest request){
 		String[] id = request.getParameter("id").split(",");
 		String projectId = request.getParameter("projectId");
+		Project project = projectService.selectById(projectId);
 		HashMap<String,Object> pack = new HashMap<String,Object>();
 		pack.put("projectId",projectId);
 		List<Packages> packList = packageService.findPackageById(pack);
@@ -607,6 +608,12 @@ public class ProjectController extends BaseController {
 		pg.setName("第"+(packList.size()+1)+"包");
 		pg.setProjectId(projectId);
 		pg.setIsDeleted(0);
+		if(project.getIsImport()==1){
+			pg.setIsImport(1);
+		}else{
+			pg.setIsImport(0);
+		}
+		pg.setPurchaseType(project.getPurchaseType());
 		pg.setCreatedAt(new Date());
 		packageService.insertSelective(pg);
 		List<Packages> wantPackId = packageService.findPackageById(pack);

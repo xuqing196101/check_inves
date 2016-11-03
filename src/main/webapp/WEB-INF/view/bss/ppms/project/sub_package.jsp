@@ -232,9 +232,11 @@
 			        <th>交货期限</th>
 			        <th>采购方式</th>
 			        <th>供应商名称</th>
-			        <th>是否申请办理免税</th>
-				    <th>物资用途（进口）</th>
-				    <th>使用单位（进口）</th>
+			        <c:if test="${project.isImport==1 }">
+				        <th>是否申请办理免税</th>
+					    <th>物资用途（进口）</th>
+					    <th>使用单位（进口）</th>
+			        </c:if>
 	  			</tr>
 	  		</thead>
 	  		<c:forEach items="${lists}" var="obj">
@@ -259,9 +261,11 @@
 		            <td>${obj.deliverDate}</td>
 		            <td>${obj.purchaseType}</td>
 		            <td>${obj.supplier}</td>
-		            <td>${obj.isFreeTax}</td>
-			        <td>${obj.goodsUse}</td>
-			        <td>${obj.useUnit}</td>
+		            <c:if test="${project.isImport==1 }">
+			            <td>${obj.isFreeTax}</td>
+				        <td>${obj.goodsUse}</td>
+				        <td>${obj.useUnit}</td>
+			        </c:if>
 	            </tr>
          	</c:forEach> 
          	</table>	
@@ -292,9 +296,11 @@
 			        <th>交货期限</th>
 			        <th>采购方式建议</th>
 			        <th>供应商名称</th>
-			        <th>是否申请办理免税</th>
-				    <th>物资用途（进口）</th>
-				    <th>使用单位（进口）</th>
+			        <c:if test="${pack.isImport==1 }">
+			        	<th>是否申请办理免税</th>
+					    <th>物资用途（进口）</th>
+					    <th>使用单位（进口）</th>
+			        </c:if>
         		</tr>
         	</thead>
           <c:forEach items="${pack.projectDetails}" var="obj">
@@ -311,9 +317,11 @@
 	            <td>${obj.deliverDate}</td>
 	            <td>${obj.purchaseType}</td>
 	            <td>${obj.supplier}</td>
-	            <td>${obj.isFreeTax}</td>
-		        <td>${obj.goodsUse}</td>
-		        <td>${obj.useUnit}</td>
+	            <c:if test="${pack.isImport==1 }">
+		            <td>${obj.isFreeTax}</td>
+			        <td>${obj.goodsUse}</td>
+			        <td>${obj.useUnit}</td>
+		        </c:if>
             </tr>
          </c:forEach> 
       </table>
