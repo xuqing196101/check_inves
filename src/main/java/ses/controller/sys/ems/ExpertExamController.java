@@ -1178,11 +1178,16 @@ public class ExpertExamController extends BaseSupplierController{
 		List<ExamUserScore> userScores = examUserScoreService.findByUserId(userId);
 		if(userScores.size()==0){
 			ExamUserScore examUserScore = new ExamUserScore();
+			Expert expertObject = new Expert();
+			expertObject.setId(user.getTypeId());
 			if(score>=Integer.parseInt(passStandard)){
+				expertObject.setIsPass((short) 1);
 				examUserScore.setStatus("及格");
 			}else{
+				expertObject.setIsPass((short) 0);
 				examUserScore.setStatus("不及格");
 			}
+			expertService.updateByPrimaryKeySelective(expertObject);
 			if(expert.getExpertsTypeId().equals("1")){
 				examUserScore.setUserDuty("技术");
 			}else if(expert.getExpertsTypeId().equals("2")){
@@ -1230,11 +1235,16 @@ public class ExpertExamController extends BaseSupplierController{
 						examUserScoreService.updateIsMaxByUserId(examUserScoreTwo);
 					}
 					ExamUserScore examUserScore = new ExamUserScore();
+					Expert expertObject = new Expert();
+					expertObject.setId(user.getTypeId());
 					if(score>=Integer.parseInt(passStandard)){
 						examUserScore.setStatus("及格");
+						expertObject.setIsPass((short) 1);
 					}else{
 						examUserScore.setStatus("不及格");
+						expertObject.setIsPass((short) 0);
 					}
+					expertService.updateByPrimaryKeySelective(expertObject);
 					if(expert.getExpertsTypeId().equals("1")){
 						examUserScore.setUserDuty("技术");
 					}else if(expert.getExpertsTypeId().equals("2")){
@@ -1724,6 +1734,10 @@ public class ExpertExamController extends BaseSupplierController{
 			List<Expert> expertList = examUserScoreService.findAllExpert();
 			for(int i=0;i<expertList.size();i++){
 				if(expertList.get(i).getIsDo()==null){
+					Expert expert = new Expert();
+					expert.setId(expertList.get(i).getId());
+					expert.setIsPass((short) 0);
+					expertService.updateByPrimaryKeySelective(expert);
 					ExamUserScore examUserScore = new ExamUserScore();
 					User user = new User();
 					user.setTypeId(expertList.get(i).getId());
@@ -1804,6 +1818,10 @@ public class ExpertExamController extends BaseSupplierController{
 		if(examRule.size()!=0){
 			if(examRule.get(0).getTestLong().getTime()<new Date().getTime()){
 				if(expert.getIsDo()==null){
+					Expert expertObject = new Expert();
+					expertObject.setId(user.getTypeId());
+					expertObject.setIsPass((short) 0);
+					expertService.updateByPrimaryKeySelective(expertObject);
 					ExamUserScore score = new ExamUserScore();
 					score.setUserId(user.getId());
 					score.setCreatedAt(new Date());
@@ -1843,7 +1861,6 @@ public class ExpertExamController extends BaseSupplierController{
 			}
 			model.addAttribute("list", new PageInfo<ExamUserScore>(scores));
 		}
-		
 		return "ses/ems/exam/expert/personal_result";
 	}
 	
