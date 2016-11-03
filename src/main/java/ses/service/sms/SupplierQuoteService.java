@@ -1,6 +1,9 @@
 package ses.service.sms;
 
+import java.util.HashMap;
 import java.util.List;
+
+import bss.model.ppms.ProjectDetail;
 
 import ses.model.sms.Quote;
 
@@ -33,4 +36,17 @@ public interface SupplierQuoteService {
 	 * @return void
 	 */
 	void insert(Quote quote);
+	
+	/**
+	 * @Title: selectByCondition
+	 * @author Song Biaowei
+	 * @date 2016-11-3 上午10:19:02  
+	 * @Description: 可以报价的项目
+	 * @param @param map
+	 * @param @param page
+	 * @param @return      
+	 * @return List<ProjectDetail>
+	 */
+	List<ProjectDetail> selectByCondition(HashMap<String,Object> map,Integer page);
+
 }

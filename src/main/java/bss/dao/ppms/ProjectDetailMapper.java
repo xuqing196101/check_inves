@@ -14,6 +14,8 @@ public interface ProjectDetailMapper {
 	
 	List<ProjectDetail> selectByCondition(HashMap<String,Object> map);
 	
+	List<ProjectDetail> selectProject(HashMap<String,Object> map);
+	
 	void insertSelective(ProjectDetail projectDetail);
 	
 	void deleteByPrimaryKey(String id);
