@@ -1792,19 +1792,22 @@ img.img-mouse {
 .count_flow{
 	font-size:16px!important;
 	margin-top:10px;
+	line-height: 25px;
+	margin-top:20px;
 }
 .count_flow i {
     width: 24px;
     height: 24px;
     background: url(../images/round.png) no-repeat center;
     color: #ffffff;
-    font-size: 12px;
+    font-size: 14px;
     text-align: center;
     display: block;
     float: left;
     line-height: 24px;
     font-style: normal;
     margin-right: 10px;
+    font-weight: bold;
 }
 
 /*左侧点击切换右侧切换显示样式*/
@@ -1986,6 +1989,7 @@ img.img-mouse {
 	border:1px dashed #d6cccc!important;
 	padding:20px 20px 10px 20px!important;
 	list-style-type: none;
+	font-size:14px;
 }
 /*搜索条件样式*/
 .search_detail{
@@ -2045,7 +2049,6 @@ img.img-mouse {
     background-color: #fafafa;
     border-radius: 4px;
     *zoom: 1;
-    overflow: hidden;
 }
 .timeline_dark .tml_header, .timeline_dark .scrubber_list a, .timeline_dark .period_header {
     color: #a5a5a5;
@@ -2229,11 +2232,24 @@ img.img-mouse {
     display: block;
     margin-left: 5px;
 }
-.input-append i {
-    background: url(../images/upload.png) no-repeat center;
-    width: 24px;
-    height: 24px;
-    float: left;
-    display: block;
-    margin-right: 10px;
+/*单选*/
+.select_check{
+	height:25px;
+	line-height: 25px;
+}
+.select_check input{
+	margin-right:5px;
+	margin-bottom:3px!important;
+}
+/*下拉框*/
+.select_common{
+    display: inline-block;
+    margin-bottom: 5px;
+    font-size: 0;
+    white-space: nowrap;
+    vertical-align: middle;
+    min-width: 249px;
+}
+.select_common select{
+	width:230px;
 }
