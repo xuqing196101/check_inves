@@ -18,10 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 
-import com.github.pagehelper.PageInfo;
 
 import ses.model.bms.StationMessage;
-import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.service.bms.StationMessageService;
@@ -159,16 +157,8 @@ public class LoginController {
 	 */
 	@RequestMapping("/index")
 	public String index(HttpServletRequest req,String type,String page,String id){
-		User user=(User) req.getSession().getAttribute("loginUser");
-		if(user!=null&&user.getOrg()!=null&&user.getOrg().getId()!=null&&!"".equals(user.getOrg().getId())){
-			//代办事项
-			req.setAttribute("listTodos",todosService.listTodos(new Todos(new Short("0")),user.getOrg().getId()));
-//			//已办事项
-			List<Todos> listHaveTodo = todosService.listHaveTodo(new Todos(new Short("1")), user.getOrg().getId(),page==null||page==""?1:Integer.valueOf(page));
-			req.setAttribute("listTodosf",new PageInfo<Todos>(listHaveTodo));
-		}
 		//站内消息
-		req.setAttribute("stationMessage",stationMessageService.listStationMessage(new StationMessage(0,19)));
+//		req.setAttribute("stationMessage",stationMessageService.listStationMessage(new StationMessage(0,19)));
 		return "index";
 	}
 	
@@ -181,16 +171,8 @@ public class LoginController {
 	 */
 	@RequestMapping("/home")
 	public String home(HttpServletRequest req,Model model,String type,String page,String id){
-		User user=(User) req.getSession().getAttribute("loginUser");
-		if(user!=null&&user.getOrg()!=null&&user.getOrg().getId()!=null&&!"".equals(user.getOrg().getId())){
-			//待办事项
-			req.setAttribute("listTodos",todosService.listTodos(new Todos(new Short("0")),user.getOrg().getId()));
-//			//已办事项
-			List<Todos> listHaveTodo = todosService.listHaveTodo(new Todos(new Short("1")), user.getOrg().getId(),page==null||page==""?1:Integer.valueOf(page));
-			req.setAttribute("listTodosf",new PageInfo<Todos>(listHaveTodo));
-		}
 		//站内消息
-		req.setAttribute("stationMessage",stationMessageService.listStationMessage(new StationMessage(0,19)));
+//		req.setAttribute("stationMessage",stationMessageService.listStationMessage(new StationMessage(0,19)));
 		return "backend";
 	}
 	
