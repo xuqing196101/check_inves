@@ -149,7 +149,7 @@ function nextStep(){
 				<c:forEach items="${list}" var="sc" varStatus="vs">
 					<tr>
 						<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${sc.id }" /></td>
-						<td>${vs.index+1 }</td>
+						<td class="tc">${vs.index+1 }</td>
 						<td class="tc">${sc.projectName }</td>
 						<td class="tc">${sc.productDetal }</td>
 						<td class="tc">${sc.name }</td>
@@ -160,7 +160,7 @@ function nextStep(){
 						<td class="tc">${sc.money }</td>
 						<td class="tc">${sc.proportionAmout }</td>
 						<td class="tc">${sc.proportionPrice }</td>
-						<td class="tc">${sc.remark }</td>
+						<td>${sc.remark }</td>
 					</tr>
 				</c:forEach>
 				</tbody>

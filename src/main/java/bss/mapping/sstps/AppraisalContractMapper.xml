@@ -82,6 +82,7 @@
       <if test="appraisal != null and appraisal != ''">
         AND APPRAISAL = #{appraisal} 
       </if>
+      ORDER BY UPDATED_AT DESC
   </select>
   
   <!-- 8根据合同获取审价id -->
@@ -257,7 +258,7 @@
   
   
   <!-- 已审价合同 -->
-  <select id="selectAppraisal" parameterType="Object" resultMap="AppraisalContractResultMap">
+  <select id="selectAppraisal" parameterType="java.util.Map" resultMap="AppraisalContractResultMap">
     select 
     <include refid="Base_Column_List" />
     from T_BSS_SSTPS_APPRAISAL_CONTRACT
@@ -271,6 +272,7 @@
       <if test="purchaseDepName != null and purchaseDepName != ''">
         AND PURCHASE_DEP_NAME LIKE #{purchaseDepName} 
       </if>
+      ORDER BY UPDATED_AT DESC
   </select>
   
   <!-- 统计采购机构 -->

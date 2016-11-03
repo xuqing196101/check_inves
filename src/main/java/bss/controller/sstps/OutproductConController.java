@@ -3,11 +3,17 @@ package bss.controller.sstps;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import ses.util.ValidateUtils;
 
 import bss.model.sstps.ContractProduct;
 import bss.model.sstps.OutproductCon;
@@ -72,18 +78,37 @@ public class OutproductConController {
 	
 	
 	@RequestMapping("/save")
-	public String save(Model model,OutproductCon outproductCon){
+	public String save(Model model,@Valid OutproductCon outproductCon,BindingResult result,HttpServletRequest request){
 		String proId = outproductCon.getContractProduct().getId();
-		outproductCon.setCreatedAt(new Date());
-		outproductCon.setUpdatedAt(new Date());
-		outproductConService.insert(outproductCon);
-		
-		List<OutproductCon> list = outproductConService.selectProduct(outproductCon);
-		model.addAttribute("list", list);
-		
 		model.addAttribute("proId",proId);
-		
-		return "bss/sstps/offer/supplier/outproduct/list";
+		Boolean flag = true;
+		String url = "";
+		if(ValidateUtils.isNull(outproductCon.getFinishedName())){
+			flag = false;
+			model.addAttribute("ERR_finishedName", "成品件名称不能为空");
+		}
+		if(ValidateUtils.isNull(outproductCon.getNorm())){
+			flag = false;
+			model.addAttribute("ERR_norm", "材料名称不能为空");
+		}
+		if(ValidateUtils.isNull(outproductCon.getPaperCode())){
+			flag = false;
+			model.addAttribute("ERR_paperCode", "图纸位置号(代号)不能为空");
+		}
+		if(flag==false){
+			model.addAttribute("finishedName",outproductCon.getFinishedName());
+			model.addAttribute("norm",outproductCon.getNorm());
+			model.addAttribute("paperCode",outproductCon.getPaperCode());
+			url = "bss/sstps/offer/supplier/outproduct/add";
+		}else{
+			outproductCon.setCreatedAt(new Date());
+			outproductCon.setUpdatedAt(new Date());
+			outproductConService.insert(outproductCon);
+			List<OutproductCon> list = outproductConService.selectProduct(outproductCon);
+			model.addAttribute("list", list);
+			url="bss/sstps/offer/supplier/outproduct/list";
+		}
+		return url;
 	}
 	
 	
@@ -91,21 +116,43 @@ public class OutproductConController {
 	* @Title: update
 	* @author Shen Zhenfei 
 	* @date 2016-10-13 下午5:36:08  
-	* @Description: TODO 
+	* @Description:  
 	* @param @return      
 	* @return String
 	 */
 	@RequestMapping("/update")
-	public String update(Model model,OutproductCon outproductCon ){
+	public String update(Model model,@Valid OutproductCon outproductCon,BindingResult result,HttpServletRequest request,String id){
 		String proId = outproductCon.getContractProduct().getId();
-		
-		outproductCon.setUpdatedAt(new Date());
-		outproductConService.update(outproductCon);
-		
-		List<OutproductCon> list = outproductConService.selectProduct(outproductCon);
-		model.addAttribute("list", list);
 		model.addAttribute("proId",proId);
-		return "bss/sstps/offer/supplier/outproduct/list";
+		Boolean flag = true;
+		String url = "";
+		if(ValidateUtils.isNull(outproductCon.getFinishedName())){
+			flag = false;
+			model.addAttribute("ERR_finishedName", "成品件名称不能为空");
+		}
+		if(ValidateUtils.isNull(outproductCon.getNorm())){
+			flag = false;
+			model.addAttribute("ERR_norm", "材料名称不能为空");
+		}
+		if(ValidateUtils.isNull(outproductCon.getPaperCode())){
+			flag = false;
+			model.addAttribute("ERR_paperCode", "图纸位置号(代号)不能为空");
+		}
+		if(flag==false){
+			model.addAttribute("out.finishedName",outproductCon.getFinishedName());
+			model.addAttribute("out.norm",outproductCon.getNorm());
+			model.addAttribute("out.paperCode",outproductCon.getPaperCode());
+			OutproductCon outproduct = outproductConService.selectById(id);
+			model.addAttribute("out", outproduct);
+			url = "bss/sstps/offer/supplier/outproduct/edit";
+		}else{
+			outproductCon.setUpdatedAt(new Date());
+			outproductConService.update(outproductCon);
+			List<OutproductCon> list = outproductConService.selectProduct(outproductCon);
+			model.addAttribute("list", list);
+			url ="bss/sstps/offer/supplier/outproduct/list";
+		}
+		return url;
 	}
 	
 	/**

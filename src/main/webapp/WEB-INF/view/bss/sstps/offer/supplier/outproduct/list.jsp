@@ -169,7 +169,7 @@ $(document).ready(function() {
 				<c:forEach items="${list}" var="out" varStatus="vs">
 					<tr>
 						<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${out.id }" /></td>
-						<td>${vs.index+1 }</td>
+						<td class="tc">${vs.index+1 }</td>
 						<td class="tc">${out.finishedName }</td>
 						<td class="tc">${out.norm }</td>
 						<td class="tc">${out.paperCode }</td>
@@ -182,7 +182,7 @@ $(document).ready(function() {
 						<td class="tc">${out.consumePrice }</td>
 						<td class="tc">${out.consumeMoney }</td>
 						<td class="tc">${out.supplyUnit }</td>
-						<td class="tc">${out.remark }</td>
+						<td>${out.remark }</td>
 					</tr>
 				</c:forEach>
 				</tbody>
@@ -201,8 +201,8 @@ $(document).ready(function() {
 		
 		<div  class="col-md-12">
 		   <div class="mt40 tc mb50">
-		    <button class="btn btn-windows " type="button" onclick="onStep()">上一步</button>
-		    <button class="btn btn-windows " type="button" onclick="nextStep()">下一步</button>
+		    <button class="btn" type="button" onclick="onStep()">上一步</button>
+		    <button class="btn" type="button" onclick="nextStep()">下一步</button>
 		   </div>
 	 	 </div>
 	 	 

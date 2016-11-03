@@ -8,14 +8,13 @@
   <head>
     <base href="<%=basePath%>">
     
-    <title>添加</title>
-    
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
-
+    <title>修改</title>
+<script type="text/javascript">
+function down(){
+	var proId = $("#proId").val();
+	window.location.href="<%=basePath %>accessoriesCon/select.html?proId="+proId;
+}
+</script>
   </head>
   
   <body>
@@ -159,7 +158,7 @@
 	 <li class="col-md-12  p0 ">
 	   <span class="fl">备注：</span>
 	   <div class="col-md-12 pl200 fn mt5 pwr9">
-        <textarea class="text_area col-md-12 " id="remark" name="remark" title="不超过200个字" placeholder="不超过200个字">${acc.remark }</textarea>
+        <textarea class="text_area col-md-12" id="remark" name="remark" title="不超过200个字" placeholder="不超过200个字">${acc.remark }</textarea>
        </div>
 	 </li>
    </ul>
@@ -167,8 +166,8 @@
    
 	 	<div  class="col-md-12">
 	   		<div class="mt40 tc mb50">
-			    <button class="btn btn-windows update" type="submit">修改</button>
-			    <button class="btn btn-windows cancel" type="button" onclick="location.href='javascript:history.go(-1);'">取消</button>
+			    <button class="btn btn-windows edit" type="submit">修改</button>
+			    <button class="btn btn-windows cancel" type="button" onclick="down()">取消</button>
 			</div>
 		</div>
 	

@@ -10,12 +10,12 @@
     
     <title>修改</title>
     
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
-
+<script type="text/javascript">
+function down(){
+	var proId = $("#proId").val();
+	window.location.href="<%=basePath %>specialCost/select.html?proId="+proId;
+}
+</script>
   </head>
   
   <body>
@@ -28,88 +28,104 @@
 		<div class="clear"></div>
 	  </div>
    </div>
-   
-   <form action="<%=basePath %>specialCost/update.html" method="post" enctype="multipart/form-data">
+
+<div class="container bggrey border1 mt20"> 
+    <form action="<%=basePath %>specialCost/update.html" method="post" enctype="multipart/form-data">
    
    <input type="hidden" id="proId" name="contractProduct.id" class="w230 mb0" value="${proId }" readonly>
    <input type="hidden" id="id" name="id" class="w230 mb0" value="${sc.id }" readonly>
-	<div class="container">
-	 	<div class="headline-v2">
-	  		 <h2>修改专项费用明细</h2>
-	 	</div>
-	 	
-	 	<div class="container padding-left-25 padding-right-25">
-			<table class="table table-bordered">
-				 <tobody>
-				  	<tr>
-				 		<td width="25%" class="bggrey tr">项目名称：</td>
-				 		<td width="25%">
-				 			<input type="text" id="projectName" name="projectName" value="${sc.projectName }">
-				 		</td>
-				 		<td width="25%" class="bggrey tr">项目明细：</td>
-				 		<td width="25%">
-				 			<input id="productDetal" name="productDetal" type="text" class="w230 mb0" value="${sc.productDetal }" >
-				 		</td>
-				 	</tr>
-				 	<tr>
-				 		<td width="25%" class="bggrey tr">名称：</td>
-				 		<td width="25%" >
-				 			<input id="name" name="name" type="text" class="w230 mb0" value="${sc.name }" >
-				 		</td>
-				 		<td width="25%" class="bggrey tr">规格型号：</td>
-				 		<td width="25%" >
-				 			<input id="norm" name="norm" type="text" class="w230 mb0" value="${sc.name }" >
-				 		</td>
-				 	</tr>
-				 	<tr>
-				 		<td width="25%" class="bggrey tr">计量单位：</td>
-				 		<td width="25%" >
-				 			<input id="measuringUnit" name="measuringUnit" type="text" class="w230 mb0" value="${sc.measuringUnit }" >
-				 		</td>
-				 		<td width="25%" class="bggrey tr">数量（消耗使用）：</td>
-				 		<td width="25%" >
-				 			<input id="amount" name="amount" type="text" class="w230 mb0" value="${sc.amount }" >
-				 		</td>
-				 	</tr>
-				 	<tr>
-				 		<td width="25%" class="bggrey tr">单价：</td>
-				 		<td width="25%" >
-				 			<input id="price" name="price" type="text" class="w230 mb0" value="${sc.price }" >
-				 		</td>
-				 		<td width="25%" class="bggrey tr">金额：</td>
-				 		<td width="25%" >
-				 			<input id="money" name="money" type="text" class="w230 mb0" value="${sc.money }" >
-				 		</td>
-				 	</tr>
-				 	<tr>
-				 		<td width="25%" class="bggrey tr">分摊数量：</td>
-				 		<td width="25%" >
-				 			<input id="proportionAmout" name="proportionAmout" type="text" class="w230 mb0" value="${sc.proportionAmout }" >
-				 		</td>
-				 		<td width="25%" class="bggrey tr">单位产品分摊额：</td>
-				 		<td width="25%" >
-				 			<input id="proportionPrice" name="proportionPrice" type="text" class="w230 mb0" value="${sc.proportionPrice }" >
-				 		</td>
-				 	</tr>
-				 	<tr>
-				 		<td width="25%" class="bggrey tr">备注：</td>
-				 		<td width="25%" >
-				 			<input id="remark" name="remark" type="text" class="w230 mb0" value="${sc.remark }" >
-				 		</td>
-				 	</tr>
-				 </tobody>
-			</table>
-        </div>
-	 	
+   
+   <div>
+   <h2 class="f16 count_flow mt40"><i>01</i>专项费用信息</h2>
+   <ul class="list-unstyled list-flow ul_list">
+   <li class="col-md-6 p0">
+	   <span class=""><i class="red">＊</i>项目名称：</span>
+	   <div class="input-append">
+        <input type="text" class="w220" id="projectName" name="projectName" value="${sc.projectName }">
+        <div class="validate">${ERR_projectName}</div>
+       </div>
+	 </li>
+	 <li class="col-md-6 p0">
+	   <span class=""><i class="red">＊</i>项目明细：</span>
+	   <div class="input-append">
+        <input id="productDetal" name="productDetal" value="${sc.productDetal }" type="text" class="w220" >
+        <div class="validate">${ERR_productDetal}</div>
+       </div>
+	 </li>
+	 <li class="col-md-6 p0">
+	   <span class=""><i class="red">＊</i>名称：</span>
+	   <div class="input-append">
+        <input id="name" name="name" type="text" value="${sc.name }" class="w220" >
+        <div class="validate">${ERR_name}</div>
+       </div>
+	 </li>
+	 <li class="col-md-6  p0 ">
+	   <span class="">规格型号：</span>
+	   <div class="input-append">
+        <input id="norm" name="norm" type="text" value="${sc.norm }" class="w220">
+        <div class="validate">${ERR_norm}</div>
+       </div>
+	 </li>
+	 <li class="col-md-6  p0 ">
+	   <span class="">计量单位：</span>
+	   <div class="input-append">
+        <input id="measuringUnit" name="measuringUnit" type="text" value="${sc.measuringUnit }" class="w220" >
+        <div class="validate">${ERR_measuringUnit}</div>
+       </div>
+	 </li>
+	 <li class="col-md-6  p0 ">
+	   <span class="">数量(消耗使用)：</span>
+	   <div class="input-append">
+        <input id="amount" name="amount" type="text" value="${sc.amount }" class="w220" >
+        <div class="validate">${ERR_paperCode}</div>
+       </div>
+	 </li>
+	 <li class="col-md-6  p0 ">
+	   <span class="">单价：</span>
+	   <div class="input-append">
+        <input id="price" name="price" type="text" value="${sc.price }" class="w220" >
+        <div class="validate">${ERR_paperCode}</div>
+       </div>
+	 </li>
+	 <li class="col-md-6  p0 ">
+	   <span class="">金额：</span>
+	   <div class="input-append">
+        <input id="money" name="money" type="text" value="${sc.money }" class="w220">
+        <div class="validate">${ERR_money}</div>
+       </div>
+	 </li>
+	 <li class="col-md-6  p0 ">
+	   <span class="">分摊数量：</span>
+	   <div class="input-append">
+        <input id="proportionAmout" name="proportionAmout" type="text" value="${sc.proportionAmout }" class="w220">
+        <div class="validate">${ERR_proportionAmout}</div>
+       </div>
+	 </li>
+	 <li class="col-md-6  p0 ">
+	   <span class="">单位产品分摊额：</span>
+	   <div class="input-append">
+        <input id="proportionPrice" name="proportionPrice" type="text" value="${sc.proportionPrice }" class="w220">
+        <div class="validate">${ERR_proportionPrice}</div>
+       </div>
+	 </li>
+	 <li class="col-md-12  p0 ">
+	   <span class="fl">备注：</span>
+	   <div class="col-md-12 pl200 fn mt5 pwr9">
+        <textarea class="text_area col-md-12 " id="remark" name="remark" title="不超过200个字" placeholder="不超过200个字">${sc.remark }</textarea>
+       </div>
+	 </li>
+   </ul>
+   </div>
+   
 	 	<div  class="col-md-12">
 	   		<div class="mt40 tc mb50">
-			    <button class="btn btn-windows update" type="submit">修改</button>
-			    <button class="btn btn-windows cancel" type="button" onclick="location.href='javascript:history.go(-1);'">取消</button>
+			    <button class="btn btn-windows edit" type="submit">修改</button>
+			    <button class="btn btn-windows cancel" type="button" onclick="down()">取消</button>
 			</div>
 		</div>
 	
-	</div>	
 </form>	
+</div>
 		  
   </body>
 </html>

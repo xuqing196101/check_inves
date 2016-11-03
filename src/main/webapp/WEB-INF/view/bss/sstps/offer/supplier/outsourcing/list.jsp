@@ -172,7 +172,7 @@ $(document).ready(function() {
 				<c:forEach items="${list}" var="out" varStatus="vs">
 					<tr>
 						<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${out.id }" /></td>
-						<td>${vs.index+1 }</td>
+						<td class="tc">${vs.index+1 }</td>
 						<td class="tc">${out.outsourcingName }</td>
 						<td class="tc">${out.norm }</td>
 						<td class="tc">${out.paperCode }</td>
@@ -185,7 +185,7 @@ $(document).ready(function() {
 						<td class="tc">${out.consumePrice }</td>
 						<td class="tc">${out.consumeMoney }</td>
 						<td class="tc">${out.supplyUnit }</td>
-						<td class="tc">${out.remark }</td>
+						<td>${out.remark }</td>
 					</tr>
 				</c:forEach>
 				</tbody>

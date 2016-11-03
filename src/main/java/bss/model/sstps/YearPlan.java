@@ -104,14 +104,6 @@ public class YearPlan {
 		this.tyaHourUnit = tyaHourUnit;
 	}
 
-	public Integer getTyaInvestAcount() {
-		return tyaInvestAcount;
-	}
-
-	public void setTyaInvestAcount(Integer tyaInvestAcount) {
-		this.tyaInvestAcount = tyaInvestAcount;
-	}
-
 	public Integer getTyaHourTotal() {
 		return tyaHourTotal;
 	}
@@ -239,5 +231,14 @@ public class YearPlan {
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+
+	public Integer getTyaInvestAcount() {
+		return tyaInvestAcount;
+	}
+
+	public void setTyaInvestAcount(Integer tyaInvestAcount) {
+		this.tyaInvestAcount = tyaInvestAcount;
+	}
+	
    
 }

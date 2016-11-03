@@ -1,5 +1,6 @@
 package bss.service.sstps.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,8 +109,8 @@ public class AppraisalContractServiceImpl implements AppraisalContractService {
 	 * 统计列表
 	 */
 	@Override
-	public List<AppraisalContract> selectAppraisal(AppraisalContract record) {
-		return appraisalContractMapper.selectAppraisal(record);
+	public List<AppraisalContract> selectAppraisal(HashMap<String, Object> map) {
+		return appraisalContractMapper.selectAppraisal(map);
 	}
 
 	/**

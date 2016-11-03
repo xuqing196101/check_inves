@@ -9,13 +9,13 @@
     <base href="<%=basePath%>">
     
     <title>添加</title>
-    
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
 
+<script type="text/javascript">
+function down(){
+	var proId = $("#proId").val();
+	window.location.href="<%=basePath %>accessoriesCon/select.html?proId="+proId;
+}
+</script>
   </head>
   
   <body>
@@ -169,7 +169,7 @@
 	 	<div  class="col-md-12">
 	   		<div class="mt40 tc mb50">
 			    <button class="btn btn-windows save" type="submit">确定</button>
-			    <button class="btn btn-windows cancel" type="button" onclick="location.href='javascript:history.go(-1);'">取消</button>
+			    <button class="btn btn-windows cancel" type="button" onclick="down()">取消</button>
 			</div>
 		</div>
 	
