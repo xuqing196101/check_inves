@@ -174,82 +174,100 @@ public class ProjectController extends BaseController {
     
     
     @RequestMapping("/create")
-    public String create(String id, String chkItem, PurchaseRequiredFormBean list, String name, String projectNumber, Model model, HttpServletRequest request) {
+    public String create(String id, String chkItem, String token2, PurchaseRequiredFormBean list, String name, String projectNumber, Model model, HttpServletRequest request) {
         request.getSession().removeAttribute("idr");
-        //新增项目信息
-        Project project = new Project();
-        if(name != null && projectNumber != null){
-            project.setName(name);
-            project.setProjectNumber(projectNumber);
-            project.setCreateAt(new Date());
-            project.setStatus(3);
-            project.setPurchaseType(list.getList().get(0).getPurchaseType());
-            projectService.add(project);    
-        }
-        //中间表
-        String[] idss = chkItem.split(",");
-        for (int i = 0; i < idss.length; i++ ) {
-            ProjectTask projectTask = new ProjectTask();
-            projectTask.setTaskId(idss[i]);
-            projectTask.setProjectId(project.getId());
-            projectTaskService.insertSelective(projectTask);
-        }
-        //新增项目明细
-        int i=1;
-        if(list != null){
-            if(list.getList()!=null&&list.getList().size()>0){
-                for (PurchaseRequired purchaseRequired:list.getList()) {
-                    ProjectDetail projectDetail = new ProjectDetail();
-                    projectDetail.setRequiredId(purchaseRequired.getId());
-                    projectDetail.setSerialNumber(purchaseRequired.getSeq());
-                    projectDetail.setDepartment(purchaseRequired.getDepartment());
-                    projectDetail.setGoodsName(purchaseRequired.getGoodsName());
-                    projectDetail.setStand(purchaseRequired.getStand());
-                    projectDetail.setQualitStand(purchaseRequired.getQualitStand());
-                    projectDetail.setItem(purchaseRequired.getItem());
-                    projectDetail.setCreatedAt(new Date());
-                    projectDetail.setProject(new Project(project.getId()));
-                    if (purchaseRequired.getPurchaseCount() != null) {
-                        projectDetail.setPurchaseCount(purchaseRequired.getPurchaseCount().doubleValue());
-                    }
-                    if (purchaseRequired.getPrice() != null) {
-                        projectDetail.setPrice(purchaseRequired.getPrice().doubleValue());
-                    }
-                    if (purchaseRequired.getBudget() != null) {
-                        projectDetail.setBudget(purchaseRequired.getBudget().doubleValue());
-                    }
-                    if (purchaseRequired.getDeliverDate() != null) {
-                        projectDetail.setDeliverDate(purchaseRequired.getDeliverDate());
-                    }
-                    if (purchaseRequired.getPurchaseType() != null) {
-                        projectDetail.setPurchaseType(purchaseRequired.getPurchaseType());
-                    }
-                    if (purchaseRequired.getSupplier() != null) {
-                        projectDetail.setSupplier(purchaseRequired.getSupplier());
-                    }
-                    if (purchaseRequired.getIsFreeTax() != null) {
-                        projectDetail.setIsFreeTax(purchaseRequired.getIsFreeTax());
-                    }
-                    if (purchaseRequired.getGoodsUse() != null) {
-                        projectDetail.setGoodsUse(purchaseRequired.getGoodsUse());
-                    }
-                    if (purchaseRequired.getUseUnit() != null) {
-                        projectDetail.setUseUnit(purchaseRequired.getUseUnit());
-                    }
-                    if (purchaseRequired.getParentId() != null) {
-                        projectDetail.setParentId(purchaseRequired.getParentId());
-                    }
-                    if (purchaseRequired.getDetailStatus() != null) {
-                        projectDetail.setStatus(String.valueOf(purchaseRequired.getDetailStatus()));
-                    }
-                    projectDetail.setPosition(i);
-                    i++;
-                    detailService.insert(projectDetail);
-                }
+        try {
+            // 判断表单是否重复提交
+            HttpSession session = request.getSession();
+            Object tokenValue = session.getAttribute("tokenSession");
+            if (tokenValue != null && tokenValue.equals(token2)) {
+                // 正常提交
+                session.removeAttribute("tokenSession");
+            } else {
+                // 重复提交
+                return "redirect:list.html";
             }
-            
+            //新增项目信息
+            Project project = new Project();
+            if(name != null && projectNumber != null){
+                project.setName(name);
+                project.setProjectNumber(projectNumber);
+                project.setCreateAt(new Date());
+                project.setStatus(3);
+                if(list.getList().get(0).getGoodsUse() != null || list.getList().get(0).getUseUnit() != null){
+                    project.setIsImport(1);
+                }else{
+                    project.setIsImport(0);
+                }
+                project.setPurchaseType(list.getList().get(0).getPurchaseType());
+                projectService.add(project);    
+            }
+            //中间表
+            String[] idss = chkItem.split(",");
+            for (int i = 0; i < idss.length; i++ ) {
+                ProjectTask projectTask = new ProjectTask();
+                projectTask.setTaskId(idss[i]);
+                projectTask.setProjectId(project.getId());
+                projectTaskService.insertSelective(projectTask);
+            }
+            //新增项目明细
+            int i=1;
+            if(list != null){
+                if(list.getList()!=null&&list.getList().size()>0){
+                    for (PurchaseRequired purchaseRequired:list.getList()) {
+                        ProjectDetail projectDetail = new ProjectDetail();
+                        projectDetail.setRequiredId(purchaseRequired.getId());
+                        projectDetail.setSerialNumber(purchaseRequired.getSeq());
+                        projectDetail.setDepartment(purchaseRequired.getDepartment());
+                        projectDetail.setGoodsName(purchaseRequired.getGoodsName());
+                        projectDetail.setStand(purchaseRequired.getStand());
+                        projectDetail.setQualitStand(purchaseRequired.getQualitStand());
+                        projectDetail.setItem(purchaseRequired.getItem());
+                        projectDetail.setCreatedAt(new Date());
+                        projectDetail.setProject(new Project(project.getId()));
+                        if (purchaseRequired.getPurchaseCount() != null) {
+                            projectDetail.setPurchaseCount(purchaseRequired.getPurchaseCount().doubleValue());
+                        }
+                        if (purchaseRequired.getPrice() != null) {
+                            projectDetail.setPrice(purchaseRequired.getPrice().doubleValue());
+                        }
+                        if (purchaseRequired.getBudget() != null) {
+                            projectDetail.setBudget(purchaseRequired.getBudget().doubleValue());
+                        }
+                        if (purchaseRequired.getDeliverDate() != null) {
+                            projectDetail.setDeliverDate(purchaseRequired.getDeliverDate());
+                        }
+                        if (purchaseRequired.getPurchaseType() != null) {
+                            projectDetail.setPurchaseType(purchaseRequired.getPurchaseType());
+                        }
+                        if (purchaseRequired.getSupplier() != null) {
+                            projectDetail.setSupplier(purchaseRequired.getSupplier());
+                        }
+                        if (purchaseRequired.getIsFreeTax() != null) {
+                            projectDetail.setIsFreeTax(purchaseRequired.getIsFreeTax());
+                        }
+                        if (purchaseRequired.getGoodsUse() != null) {
+                            projectDetail.setGoodsUse(purchaseRequired.getGoodsUse());
+                        }
+                        if (purchaseRequired.getUseUnit() != null) {
+                            projectDetail.setUseUnit(purchaseRequired.getUseUnit());
+                        }
+                        if (purchaseRequired.getParentId() != null) {
+                            projectDetail.setParentId(purchaseRequired.getParentId());
+                        }
+                        if (purchaseRequired.getDetailStatus() != null) {
+                            projectDetail.setStatus(String.valueOf(purchaseRequired.getDetailStatus()));
+                        }
+                        projectDetail.setPosition(i);
+                        i++;
+                        detailService.insert(projectDetail);
+                    }
+                }
+                
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
         }
-        
         return "redirect:list.html";
     }
     

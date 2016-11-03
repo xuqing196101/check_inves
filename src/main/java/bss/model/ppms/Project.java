@@ -104,16 +104,8 @@ public class Project {
     
     private Date maintenanceTime; //售后维护时间
     
-    private Integer status2;
+    private Integer isImport;
     
-    public Integer getStatus2() {
-		return status2;
-	}
-
-	public void setStatus2(Integer status2) {
-		this.status2 = status2;
-	}
-
 	private List<Task> list; 
     
 
@@ -526,6 +518,14 @@ public class Project {
 	public void setMaintenanceTime(Date maintenanceTime) {
 		this.maintenanceTime = maintenanceTime;
 	}
+
+    public Integer getIsImport() {
+        return isImport;
+    }
+
+    public void setIsImport(Integer isImport) {
+        this.isImport = isImport;
+    }
 
 	
 }

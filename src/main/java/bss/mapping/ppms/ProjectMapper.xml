@@ -49,6 +49,7 @@
     <result column="SIGNING_TIME" property="signingTime"/>
     <result column="ACCEPTANCE_TIME" property="acceptanceTime"/>
     <result column="MAINTENANCE_TIME" property="maintenanceTime"/>
+    <result column="IS_IMPORT" property="isImport"/>
     <association property="dealSupplier" column="DEAL_SUPPLIER" select="ses.dao.sms.SupplierMapper.selectByPrimaryKey"/>
     <association property="purchaseDep" column="PURCHASE_DEP_ID" select="ses.dao.oms.PurchaseDepMapper.selectPurchaseById"/>
   </resultMap>
@@ -60,7 +61,7 @@
     PURCHASE_DEP_ID, DEADLINE, DATE_OF_ENTRUSTMENT, BID_DATE, BID_ADDRESS, REQUIERED_ID,BALE_NO,
     AMOUNT,DEAL_SUPPLIER,PURCHASE_DEP_NAME,EXECUTE_STATUS,IS_ENTRANCE,APPROVAL_TIME,REPLY_TIME,
     DEMAND_FROM_TIME,TASK_GIVE_TIME,CREATED_AT,START_TIME,NOTICE_NEWS_TIME,APP_TIME,SIGN_UP_TIME,
-    APPLY_DEADLINE,NOTICE_TIME,END_TIME,SIGNING_TIME,ACCEPTANCE_TIME,MAINTENANCE_TIME
+    APPLY_DEADLINE,NOTICE_TIME,END_TIME,SIGNING_TIME,ACCEPTANCE_TIME,MAINTENANCE_TIME,IS_IMPORT
   </sql>
   
   <sql id="Example_Where_Clause">
@@ -216,9 +217,6 @@
       </if>
       <if test="status != null">
        and STATUS like '%${status}%'
-      </if>
-       <if test="status2 != null">
-       and STATUS != ${status2}
       </if>
       ORDER BY CREATED_AT DESC
   </select>
@@ -401,6 +399,9 @@
       <if test="maintenanceTime != null">
         MAINTENANCE_TIME,
       </if>
+      <if test="isImport != null">
+        IS_IMPORT,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -550,6 +551,9 @@
       <if test="maintenanceTime != null">
         #{maintenanceTime},
       </if>
+      <if test="isImport != null">
+        #{isImport},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="bss.model.ppms.Project">
@@ -698,6 +702,9 @@
       </if>
       <if test="maintenanceTime != null">
         MAINTENANCE_TIME = #{maintenanceTime},
+      </if>
+      <if test="isImport != null">
+        IS_IMPORT = #{isImport},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
