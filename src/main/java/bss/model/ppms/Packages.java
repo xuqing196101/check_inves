@@ -32,6 +32,10 @@ public class Packages {
 	
 	private String markTermTree;
 	
+	private String purchaseType;
+	
+	private Integer isImport;
+	
 	private List<ProjectDetail> projectDetails;
 	
 	private List<SupplierCheckPass> supplierList; 
@@ -98,6 +102,22 @@ public class Packages {
 
 	public void setMarkTermTree(String markTermTree) {
 		this.markTermTree = markTermTree;
+	}
+	
+	public String getPurchaseType() {
+		return purchaseType;
+	}
+
+	public void setPurchaseType(String purchaseType) {
+		this.purchaseType = purchaseType;
+	}
+
+	public Integer getIsImport() {
+		return isImport;
+	}
+
+	public void setIsImport(Integer isImport) {
+		this.isImport = isImport;
 	}
 
 	public List<ProjectDetail> getProjectDetails() {
