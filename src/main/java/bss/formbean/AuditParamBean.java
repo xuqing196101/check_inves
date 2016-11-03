@@ -11,7 +11,7 @@ public class AuditParamBean {
 	
 	private String id;
 
-	private List<TestAudit> list=new LinkedList<TestAudit>();
+	
 	
 	public Integer getSize() {
 		return size;
@@ -37,13 +37,7 @@ public class AuditParamBean {
 		this.id = id;
 	}
 
-	public List<TestAudit> getList() {
-		return list;
-	}
 
-	public void setList(List<TestAudit> list) {
-		this.list = list;
-	}
 	
 	
 }
