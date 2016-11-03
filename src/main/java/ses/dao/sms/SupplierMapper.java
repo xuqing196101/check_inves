@@ -125,6 +125,17 @@ public interface SupplierMapper {
      * @return List<Supplier>
      */
     List<Supplier> querySupplier(Supplier record);
+    
+    /**
+     * @Title: querySupplierbytypeAndCategoryIds
+     * @author Song Biaowei
+     * @date 2016-11-1 下午3:28:37  
+     * @Description: 按照品目和类型查询
+     * @param @param record
+     * @param @return      
+     * @return List<Supplier>
+     */
+    List<Supplier> querySupplierbytypeAndCategoryIds(Supplier record);
 
     /**
      * @Title: querySupplierbyCategory

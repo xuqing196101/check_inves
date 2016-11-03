@@ -36,12 +36,39 @@
     from T_BSS_PPMS_TASK
     where ID = #{id,jdbcType=VARCHAR}
   </select>
-  <select id="listByTask" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="listByTask" parameterType="bss.model.ppms.Task" resultMap="BaseResultMap">
     select 
     *
     from T_BSS_PPMS_TASK
-    where  ID = #{id,jdbcType=VARCHAR}
-    ORDER BY GIVE_TIME DESC
+    where  STATUS = 0
+    <if test="id != null">
+       and  ID like #{id}
+     </if>
+      <if test="status != null">
+       and  STATUS like #{status}
+     </if>
+      <if test="procurementMethod != null">
+        and PROCUREMENT_METHOD like #{procurementMethod} 
+      </if>
+      <if test="year != null">
+        and YEAR like '%${year}%'
+      </if>
+      <if test="giveTime != null">
+        and GIVE_TIME like  #{giveTime}
+      </if>
+      <if test="purchaseId != null and purchaseId !=''">
+        and PURCHASE_ID like '%${purchaseId}%'
+      </if> 
+      <if test="documentNumber != null and documentNumber !=''">
+        and DOCUMENT_NUMBER like '%${documentNumber}%'
+      </if>
+       <if test="purchaseRequiredId != null">
+        and PURCHASE_REQUIRED_ID like #{purchaseRequiredId}
+      </if>
+      <if test="materialsType != null">
+        and MATERIALS_TYPE like #{materialsType}
+      </if>
+     ORDER BY GIVE_TIME DESC
   </select>
     <select id="likeByTask" parameterType="bss.model.ppms.Task" resultMap="BaseResultMap">
     select 

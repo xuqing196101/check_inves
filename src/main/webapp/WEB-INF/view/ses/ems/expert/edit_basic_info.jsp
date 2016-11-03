@@ -117,7 +117,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      var treeObj;
 	var datas;
 	var parentId ;
-	var addressId="${expert.address}"
+	var addressId="${expert.address}";
 	//alert(addressId);
 	//地区回显和数据显示
 	$.ajax({

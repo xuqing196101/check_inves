@@ -67,36 +67,14 @@ public interface ExamQuestionServiceI {
     
     /**
      * 
-    * @Title: searchTecExpPool
-    * @author zb
-    * @date 2016-8-24 上午9:18:26  
-    * @Description: 查询技术类专家题库
-    * @param @return      
-    * @return List<examQuestion>
-     */
-    List<ExamQuestion> searchTecExpPool(ExamQuestion examQuestion,Integer pageNum);
-    
-    /**
-     * 
-    * @Title: searchComExpPool
-    * @author zb
-    * @date 2016-8-24 上午9:44:05  
-    * @Description: 查询商务类专家题库 
-    * @param @return      
-    * @return List<examQuestion>
-     */
-    List<ExamQuestion> searchComExpPool(ExamQuestion examQuestion,Integer pageNum);
-    
-    /**
-     * 
-    * @Title: searchLawExpPool
+    * @Title: findExpertQuestionList
     * @author zb
     * @date 2016-8-24 上午10:20:30  
-    * @Description: 查询法律类专家题库 
+    * @Description: 按条件查询各专家题目
     * @param @return      
     * @return List<examQuestion>
      */
-    List<ExamQuestion> searchLawExpPool(ExamQuestion examQuestion,Integer pageNum);
+    List<ExamQuestion> findExpertQuestionList(HashMap<String,Object> map);
     
     /**
      * 
@@ -192,5 +170,27 @@ public interface ExamQuestionServiceI {
      */
     int queryQuestionCount(HashMap<String,Object> map); 
     
+    /**
+     * 
+    * @Title: queryPurchaserQuestionCount
+    * @author ZhaoBo
+    * @date 2016-11-2 下午1:56:14  
+    * @Description: 查询采购人题库中题目的数量 
+    * @param @param map
+    * @param @return      
+    * @return int
+     */
+    int queryPurchaserQuestionCount(HashMap<String,Object> map);
+    
+    /**
+     * 
+    * @Title: selectByTecTopic
+    * @author ZhaoBo
+    * @date 2016-11-2 下午1:57:10  
+    * @Description: TODO 
+    * @param @param map
+    * @param @return      
+    * @return List<ExamQuestion>
+     */
     List<ExamQuestion> selectByTecTopic(HashMap<String,Object> map);
 }

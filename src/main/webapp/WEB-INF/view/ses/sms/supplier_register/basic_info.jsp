@@ -238,8 +238,8 @@
 			name = "breachCertFile";
 		}
 		var html = "<div class='input-append'>";
-		html += "<div class='uploader orange h32 m0'>";
-		html += "<input type='text' class='filename fz11 h32' readonly='readonly'/>";
+		html += "<div class='uploader orange h32 m0 fz8'>";
+		html += "<input type='text' class='filename fz8 h32' readonly='readonly'/>";
 		html += "<input type='button' name='file' class='button' value='选择...'/>";
 		html += "<input name='"+ name +"' type='file' size='30'/>";
 		html += "</div>";
@@ -327,7 +327,9 @@
 					<div class="line"></div> <span class="step_desc_01">品目信息</span> </span> <span class="new_step fl"><i class="">6</i>
 					<div class="line"></div> <span class="step_desc_02">产品信息</span> </span> <span class="new_step fl"><i class="">7</i>
 					<div class="line"></div> <span class="step_desc_01">初审采购机构</span> </span> <span class="new_step fl"><i class="">8</i>
-					<div class="line"></div> <span class="step_desc_02">打印申请表</span> </span> <span class="new_step fl"><i class="">9</i> <span class="step_desc_01">申请表承诺书上传</span> </span>
+					<div class="line"></div> <span class="step_desc_02">打印申请表</span> </span> <span class="new_step fl"><i class="">9</i> 
+					<span class="step_desc_01">申请表承诺书上传</span> 
+				</span>
 				<div class="clear"></div>
 			</h2>
 		</div>
@@ -420,7 +422,7 @@
 											<i>02</i>资质资信
 										</h2>
 										<ul class="list-unstyled list-flow">
-											<li id="tax_li_id" class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i> 近三个月完税凭证：</span>
+											<li id="tax_li_id" class="col-md-6 p0"><span class="zzzx w245"><i class="red">＊</i> 近三个月完税凭证：</span>
 												<c:if test="${currSupplier.taxCert != null}">
 													<div class="audit_msg_sign_div_class">
 														<a name="taxCert" class="color7171C6" href="javascript:void(0)" onclick="downloadFile('${currSupplier.taxCert}')">下载附件</a>
@@ -429,15 +431,15 @@
 												</c:if>
 												<c:if test="${currSupplier.taxCert == null}">
 													<div class="input-append">
-														<div class="uploader orange h32 m0">
-															<input type="text" class="filename fz11 h32" readonly="readonly"/>
+														<div class="uploader orange h32 m0 fz8">
+															<input type="text" class="filename h32 fz8" readonly="readonly"/>
 															<input type="button" name="file" class="button" value="选择..."/>
 															<input name="taxCertFile" type="file" size="30"/>
 														</div>
 													</div>
 												</c:if>
 											</li>
-											<li id="bill_li_id" class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i> 近三年银行基本账户年末对账单：</span>
+											<li id="bill_li_id" class="col-md-6 p0"><span class="zzzx w245"><i class="red">＊</i> 近三年银行基本账户年末对账单：</span>
 												<c:if test="${currSupplier.billCert != null}">
 													<div class="audit_msg_sign_div_class">
 														<a name="billCert" class="color7171C6" href="javascript:void(0)" onclick="downloadFile('${currSupplier.billCert}')">下载附件</a>
@@ -446,15 +448,15 @@
 												</c:if>
 												<c:if test="${currSupplier.billCert == null}">
 													<div class="input-append">
-														<div class="uploader orange h32 m0">
-															<input type="text" class="filename fz11 h32" readonly="readonly"/>
+														<div class="uploader orange h32 m0 fz8">
+															<input type="text" class="filename h32 fz8" readonly="readonly"/>
 															<input type="button" name="file" class="button" value="选择..."/>
 															<input name="billCertFile" type="file" size="30"/>
 														</div>
 													</div>
 												</c:if>
 											</li>
-											<li id="security_li_id" class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i> 近三个月缴纳社会保险金凭证：</span>
+											<li id="security_li_id" class="col-md-6 p0"><span class="zzzx w245"><i class="red">＊</i> 近三个月缴纳社会保险金凭证：</span>
 												<c:if test="${currSupplier.securityCert != null}">
 													<div>
 														<a class="color7171C6" href="javascript:void(0)" onclick="downloadFile('${currSupplier.securityCert}')">下载附件</a>
@@ -463,15 +465,15 @@
 												</c:if>
 												<c:if test="${currSupplier.securityCert == null}">
 													<div class="input-append">
-														<div class="uploader orange h32 m0">
-															<input type="text" class="filename fz11 h32" readonly="readonly"/>
+														<div class="uploader orange h32 m0 fz8">
+															<input type="text" class="filename h32 fz8" readonly="readonly"/>
 															<input type="button" name="file" class="button" value="选择..."/>
 															<input name="securityCertFile" type="file" size="30"/>
 														</div>
 													</div>
 												</c:if>
 											</li>
-											<li id="breach_li_id" class="col-md-6 p0"><span class="zzzx"><i class="red">＊</i> 近三年内无重大违法记录声明：</span>
+											<li id="breach_li_id" class="col-md-6 p0"><span class="zzzx w245"><i class="red">＊</i> 近三年内无重大违法记录声明：</span>
 												<c:if test="${currSupplier.breachCert != null}">
 													<div>
 														<a class="color7171C6" href="javascript:void(0)" onclick="downloadFile('${currSupplier.breachCert}')">下载附件</a>
@@ -480,8 +482,8 @@
 												</c:if>
 												<c:if test="${currSupplier.breachCert == null}">
 													<div class="input-append">
-														<div class="uploader orange h32 m0">
-															<input type="text" class="filename fz11 h32" readonly="readonly"/>
+														<div class="uploader orange h32 m0 fz8">
+															<input type="text" class="filename h32 fz8" readonly="readonly"/>
 															<input type="button" name="file" class="button" value="选择..."/>
 															<input name="breachCertFile" type="file" size="30"/>
 														</div>
@@ -557,7 +559,7 @@
 											<i>05</i>营业执照
 										</h2>
 										<ul class="list-unstyled list-flow">
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 统一社会信用代码：</span>
+											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 统一信用代码：</span>
 												<div class="input-append">
 													<input class="span3" type="text" name="creditCode" value="${currSupplier.creditCode}" />
 												</div>
@@ -606,8 +608,8 @@
 												</c:if>
 												<c:if test="${currSupplier.businessCert == null}">
 													<div class="input-append">
-														<div class="uploader orange h32 m0">
-															<input type="text" class="filename fz11 h32" readonly="readonly"/>
+														<div class="uploader orange h32 m0 fz8">
+															<input type="text" class="filename h32 fz8" readonly="readonly"/>
 															<input type="button" name="file" class="button" value="选择..."/>
 															<input name="businessCertFile" type="file" size="30"/>
 														</div>
@@ -662,7 +664,7 @@
 								</div>
 
 								<!-- 财务信息 -->
-								<div class="tab-pane fade height-450" id="tab-2">
+								<div class="tab-pane fade height-300" id="tab-2">
 									<div class="margin-bottom-0  categories">
 
 										<h2 class="f16 jbxx mt40">

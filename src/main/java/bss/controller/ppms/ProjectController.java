@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -35,12 +37,16 @@ import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectAttachments;
 import bss.model.ppms.ProjectDetail;
+import bss.model.ppms.ProjectTask;
 import bss.model.ppms.Task;
+import bss.service.pms.CollectPlanService;
+import bss.service.pms.CollectPurchaseService;
 import bss.service.pms.PurchaseRequiredService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectAttachmentsService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
+import bss.service.ppms.ProjectTaskService;
 import bss.service.ppms.TaskService;
 
 import com.alibaba.fastjson.JSON;
@@ -102,6 +108,10 @@ public class ProjectController extends BaseController {
      */
     @Autowired
     private PurchaseServiceI purchaseService;
+    @Autowired
+    private CollectPurchaseService conllectPurchaseService;
+    @Autowired
+    private ProjectTaskService projectTaskService;
 
     /**
      * 〈简述〉 〈详细描述〉
@@ -113,7 +123,8 @@ public class ProjectController extends BaseController {
      * @return 跳转list页面
      */
     @RequestMapping("/list")
-    public String list(Integer page, Model model, Project project) {
+    public String list(Integer page, Model model, Project project, HttpServletRequest request) {
+        request.getSession().removeAttribute("idr");
         List<Project> list = projectService.list(page == null ? 1 : page, project);
         PageInfo<Project> info = new PageInfo<Project>(list);
         model.addAttribute("info", info);
@@ -132,25 +143,131 @@ public class ProjectController extends BaseController {
      * @return 添加页面
      */
     @RequestMapping("/add")
-    public String add(Integer page, Model model, PurchaseRequired purchaseRequired,
+    public String add(Integer page, Model model, String id, String checkedIds,
                       HttpServletRequest request) {
-        PurchaseRequired p = new PurchaseRequired();
-        List<PurchaseRequired> list = purchaseRequiredService.query(p, 0);
-        model.addAttribute("list", list);
-        model.addAttribute("purchaseRequired", purchaseRequired);
-        // 显示项目明细
-        String idr = (String) request.getSession().getAttribute("idr");
-        List<ProjectDetail> list2 = new ArrayList<ProjectDetail>();
-        if (idr != null) {
-            String[] ids = idr.split(",");
-            for (int i = 0; i < ids.length; i++) {
-                ProjectDetail detail = detailService.selectByPrimaryKey(ids[i]);
-                list2.add(detail);
+        List<Task> list = taskservice.listByTask(null, page==null?1:page);
+        PageInfo<Task> info = new PageInfo<Task>(list);
+        model.addAttribute("info", info);
+        //显示项目明细
+        if(id != null){
+            String idr = (String) request.getSession().getAttribute("idr");
+            if (idr != null) {
+                idr = idr + "," + id;
+                request.getSession().setAttribute("idr", idr);
+            } else {
+                request.getSession().setAttribute("idr", id);
             }
-            model.addAttribute("lists", list2);
-            model.addAttribute("idr", idr);
+            String ide = (String) request.getSession().getAttribute("idr");
+            List<PurchaseRequired> lists = new ArrayList<>();
+            String[] ids = ide.split(",");
+            for (int i = 0; i < ids.length; i++ ) {
+                PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(ids[i]);
+                lists.add(purchaseRequired);
+            }
+            model.addAttribute("lists", lists);
+            model.addAttribute("ids", ide);
+            model.addAttribute("checkedIds", checkedIds);
         }
+        
         return "bss/ppms/project/add";
+    }
+    
+    
+    @RequestMapping("/create")
+    public String create(String id, String chkItem, PurchaseRequiredFormBean list, String name, String projectNumber, Model model, HttpServletRequest request) {
+        request.getSession().removeAttribute("idr");
+        //新增项目信息
+        Project project = new Project();
+        if(name != null && projectNumber != null){
+            project.setName(name);
+            project.setProjectNumber(projectNumber);
+            project.setCreateAt(new Date());
+            project.setStatus(3);
+            project.setPurchaseType(list.getList().get(0).getPurchaseType());
+            projectService.add(project);    
+        }
+        //中间表
+        String[] idss = chkItem.split(",");
+        for (int i = 0; i < idss.length; i++ ) {
+            ProjectTask projectTask = new ProjectTask();
+            projectTask.setTaskId(idss[i]);
+            projectTask.setProjectId(project.getId());
+            projectTaskService.insertSelective(projectTask);
+        }
+        //新增项目明细
+        int i=1;
+        if(list != null){
+            if(list.getList()!=null&&list.getList().size()>0){
+                for (PurchaseRequired purchaseRequired:list.getList()) {
+                    ProjectDetail projectDetail = new ProjectDetail();
+                    projectDetail.setRequiredId(purchaseRequired.getId());
+                    projectDetail.setSerialNumber(purchaseRequired.getSeq());
+                    projectDetail.setDepartment(purchaseRequired.getDepartment());
+                    projectDetail.setGoodsName(purchaseRequired.getGoodsName());
+                    projectDetail.setStand(purchaseRequired.getStand());
+                    projectDetail.setQualitStand(purchaseRequired.getQualitStand());
+                    projectDetail.setItem(purchaseRequired.getItem());
+                    projectDetail.setCreatedAt(new Date());
+                    projectDetail.setProject(new Project(project.getId()));
+                    if (purchaseRequired.getPurchaseCount() != null) {
+                        projectDetail.setPurchaseCount(purchaseRequired.getPurchaseCount().doubleValue());
+                    }
+                    if (purchaseRequired.getPrice() != null) {
+                        projectDetail.setPrice(purchaseRequired.getPrice().doubleValue());
+                    }
+                    if (purchaseRequired.getBudget() != null) {
+                        projectDetail.setBudget(purchaseRequired.getBudget().doubleValue());
+                    }
+                    if (purchaseRequired.getDeliverDate() != null) {
+                        projectDetail.setDeliverDate(purchaseRequired.getDeliverDate());
+                    }
+                    if (purchaseRequired.getPurchaseType() != null) {
+                        projectDetail.setPurchaseType(purchaseRequired.getPurchaseType());
+                    }
+                    if (purchaseRequired.getSupplier() != null) {
+                        projectDetail.setSupplier(purchaseRequired.getSupplier());
+                    }
+                    if (purchaseRequired.getIsFreeTax() != null) {
+                        projectDetail.setIsFreeTax(purchaseRequired.getIsFreeTax());
+                    }
+                    if (purchaseRequired.getGoodsUse() != null) {
+                        projectDetail.setGoodsUse(purchaseRequired.getGoodsUse());
+                    }
+                    if (purchaseRequired.getUseUnit() != null) {
+                        projectDetail.setUseUnit(purchaseRequired.getUseUnit());
+                    }
+                    if (purchaseRequired.getParentId() != null) {
+                        projectDetail.setParentId(purchaseRequired.getParentId());
+                    }
+                    if (purchaseRequired.getDetailStatus() != null) {
+                        projectDetail.setStatus(String.valueOf(purchaseRequired.getDetailStatus()));
+                    }
+                    projectDetail.setPosition(i);
+                    i++;
+                    detailService.insert(projectDetail);
+                }
+            }
+            
+        }
+        
+        return "redirect:list.html";
+    }
+    
+    
+    @RequestMapping("/addDeatil")
+    public String addDeatil(Model model, String id, String checkedIds) {
+        Task task = taskservice.selectById(id);
+        List<PurchaseRequired> lists=new LinkedList<PurchaseRequired>();
+        List<String> list = conllectPurchaseService.getNo(task.getCollectId());
+        for(String s:list){
+            Map<String,Object> map=new HashMap<String,Object>();
+            map.put("planNo", s);
+            List<PurchaseRequired> list2 = purchaseRequiredService.getByMap(map);
+            lists.addAll(list2);
+        }
+        model.addAttribute("lists", lists);
+        model.addAttribute("checkedIds", checkedIds);
+        return "bss/ppms/project/saveDetail";
     }
     
     @RequestMapping("/viewIds")
@@ -197,119 +314,6 @@ public class ProjectController extends BaseController {
         response.getWriter().close();
     }
 
-    /**
-     * 〈简述〉 〈详细描述〉
-     * 
-     * @author Administrator
-     * @param id 明细id
-     * @param model 内置对象
-     * @param name 项目名称
-     * @param projectNumber 项目编号
-     * @param request 内置对象
-     * @return 重定向到list页面
-     */
-    @RequestMapping("/create")
-    public String create(String id, Model model, String name, String projectNumber,
-                         String token2, HttpServletRequest request) {
-        try {
-            // 判断表单是否重复提交
-            HttpSession session = request.getSession();
-            Object tokenValue = session.getAttribute("tokenSession");
-            if (tokenValue != null && tokenValue.equals(token2)) {
-                // 正常提交
-                session.removeAttribute("tokenSession");
-            } else {
-                // 重复提交
-                return "redirect:list.html";
-            }
-        ProjectDetail projectDetail = new ProjectDetail();
-        PurchaseRequired purchaseRequired = new PurchaseRequired();
-        String[] ids = id.split(",");
-        for (int i = 0; i < ids.length; i++) {
-            purchaseRequired = purchaseRequiredService.queryById(ids[i]);
-            projectDetail.setRequiredId(purchaseRequired.getId());
-            projectDetail.setSerialNumber(purchaseRequired.getSeq());
-            projectDetail.setDepartment(purchaseRequired.getDepartment());
-            projectDetail.setGoodsName(purchaseRequired.getGoodsName());
-            projectDetail.setStand(purchaseRequired.getStand());
-            projectDetail.setQualitStand(purchaseRequired.getQualitStand());
-            projectDetail.setItem(purchaseRequired.getItem());
-            projectDetail.setCreatedAt(new Date());
-            if (purchaseRequired.getPurchaseCount() != null) {
-                String purchaseCount = purchaseRequired.getPurchaseCount().toString();
-                projectDetail.setPurchaseCount(Integer.valueOf(purchaseCount));
-            }
-            if (purchaseRequired.getPrice() != null) {
-                projectDetail.setPrice(purchaseRequired.getPrice().doubleValue());
-            }
-            if (purchaseRequired.getBudget() != null) {
-                projectDetail.setBudget(purchaseRequired.getBudget().doubleValue());
-            }
-            if (purchaseRequired.getDeliverDate() != null) {
-                projectDetail.setDeliverDate(purchaseRequired.getDeliverDate());
-            }
-            if (purchaseRequired.getPurchaseType() != null) {
-                projectDetail.setPurchaseType(purchaseRequired.getPurchaseType());
-            }
-
-            if (purchaseRequired.getSupplier() != null) {
-                projectDetail.setSupplier(purchaseRequired.getSupplier());
-            }
-            if (purchaseRequired.getIsFreeTax() != null) {
-                projectDetail.setIsFreeTax(purchaseRequired.getIsFreeTax());
-            }
-            if (purchaseRequired.getGoodsUse() != null) {
-                projectDetail.setGoodsUse(purchaseRequired.getGoodsUse());
-            }
-            if (purchaseRequired.getUseUnit() != null) {
-                projectDetail.setUseUnit(purchaseRequired.getUseUnit());
-            }
-            if (purchaseRequired.getParentId() != null) {
-                projectDetail.setParentId(purchaseRequired.getParentId());
-            }
-            if (purchaseRequired.getDetailStatus() != null) {
-                projectDetail.setStatus(String.valueOf(purchaseRequired.getDetailStatus()));
-            }
-            if (purchaseRequired.getIsMaster() != null) {
-                projectDetail.setPosition(purchaseRequired.getIsMaster());
-            }
-            detailService.insert(projectDetail);
-            String ide = projectDetail.getId();
-            String idr = (String) request.getSession().getAttribute("idr");
-            if (idr != null) {
-                idr = idr + "," + ide;
-                request.getSession().setAttribute("idr", idr);
-            } else {
-                request.getSession().setAttribute("idr", ide);
-            }
-        }
-        // 新增项目信息
-        Project project = new Project();
-        if (name != null && projectNumber != null) {
-            project.setName(name);
-            project.setProjectNumber(projectNumber);
-            project.setPurchaseType(purchaseRequired.getPurchaseType());
-            if(projectDetail.getDepartment() != null) {
-                project.setSectorOfDemand(projectDetail.getDepartment());
-            }
-            project.setCreateAt(new Date());
-            project.setStatus(3);
-            projectService.add(project);
-        }
-        String ide = (String) request.getSession().getAttribute("idr");
-        request.getSession().removeAttribute("idr");
-        String[] projectId = ide.split(",");
-        for (int i = 0; i < projectId.length; i++) {
-            ProjectDetail detail = detailService.selectByPrimaryKey(projectId[i]);
-            detail.setProject(new Project(project.getId()));
-            detailService.update(detail);
-        }
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "redirect:list.html";
-        
-    }
 
     /**
      * 
@@ -449,14 +453,14 @@ public class ProjectController extends BaseController {
         Project project = projectService.selectById(ide);
         project.setName(name);
         project.setProjectNumber(projectNumber);
+        project.setPurchaseType(lists.getLists().get(0).getPurchaseType());
+        projectService.update(project);
         //修改项目明细
         if(lists!=null){
             if(lists.getLists()!=null&&lists.getLists().size()>0){
                 for( ProjectDetail detail:lists.getLists()){
                     if( detail.getId()!=null){
-                        project.setPurchaseType(detail.getPurchaseType());
                         detailService.update(detail);
-                        projectService.update(project);
                     }
                 }
             }

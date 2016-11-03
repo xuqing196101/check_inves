@@ -18,14 +18,14 @@
 			obj = eval(opt);
 			var options = $("#options").val();
 			var array = obj[options].split(",");
-			var content = "${optContent}";
+			var content = $("#optContent").val();
 			var queType = $("#queType").val();
-			var ct = content.split(";");
-			var queAnswer = "${comAnswer}";
+			var ct = content.split("&@#$");
+			var queAnswer = $("#queAnswer").val();
 			var ohtml="";
 			var ahtml="";
 			for(var i=0;i<array.length;i++){
-				ohtml = ohtml+"<div class='clear mt10 col-md-12 p0'><div class='fl mt5'>"+array[i]+"</div><textarea name='option' class='ml5 col-md-9 p0'>"+ct[i].substring(2)+"</textarea></div>";
+				ohtml = ohtml+"<div class='clear mt10 col-md-12 p0'><div class='fl mt5'>"+array[i]+"</div><textarea name='option' class='ml5 col-md-9 p0'>"+ct[i]+"</textarea></div>";
 				if(queType==1){
 					if(queAnswer.indexOf(array[i])>-1){
 						ahtml = ahtml+"<input type='radio' name='answer' value='"+array[i]+"' class='mt0' checked='checked'/>"+array[i]+"&nbsp";
@@ -92,15 +92,20 @@
 			var ohtml="";
 			var ahtml="";
 			for(var i=0;i<array.length;i++){
-			   	ohtml = ohtml+"<div class='clear mt10'><div class='fl mt5'>"+array[i]+"</div><textarea name='option' class='ml5 col-md-8'></textarea></div>";
+			   	ohtml = ohtml+"<div class='clear mt10 col-md-12 p0'><div class='fl mt5'>"+array[i]+"</div><textarea name='option' class='ml5 col-md-9 p0'></textarea></div>";
 				if(queType==1){
-					ahtml = ahtml+"<input type='radio' name='answer' value='"+array[i]+"' class='mt0'/>"+array[i];
+					ahtml = ahtml+"<input type='radio' name='answer' value='"+array[i]+"' class='mt0'/>"+array[i]+"&nbsp";
 				}else if(queType==2){
-					ahtml = ahtml+"<input type='checkbox' name='answer' value='"+array[i]+"' class='mt0'/>"+array[i];
+					ahtml = ahtml+"<input type='checkbox' name='answer' value='"+array[i]+"' class='mt0'/>"+array[i]+"&nbsp";
 				}
 			}
 			$("#items").html(ohtml);
 			$("#answers").html(ahtml);
+		}
+		
+		//返回
+		function back(){
+			window.location.href = "<%=path%>/expertExam/backCom.html";
 		}
 	</script>
   </head>
@@ -115,6 +120,8 @@
 		<div class="clear"></div>
 	  </div>
    </div>
+   <input type="hidden" value="${optContent }" id="optContent"/>
+   <input type="hidden" value="${comAnswer }" id="queAnswer"/>
    <div class="container margin-top-5">
     <div class="content padding-left-25 padding-right-25 padding-top-5">
     <div>
@@ -126,7 +133,7 @@
 		<input type="hidden" name="content" value="${comQue.topic }"/>
 		<ul class="list-unstyled list-flow p0_20">
 		     <li class="col-md-12 p0">
-	  			<span class="fl">请选择题型：</span>
+	  			<span class="fl"><div class="red star_red">*</div>请选择题型：</span>
 		  		<select id="queType" name="queType" onchange="changeType()" class="fl">
 		  			<option value="">请选择</option>
 		  			<c:forEach items="${examPoolType }" var="e">
@@ -214,7 +221,7 @@
 		  		<li class="col-md-12 p0">
 					<span class="fl"><div class="red star_red">*</div>答案：</span>	
 					<div class="fl ml5 mt5" id="answers"></div>
-			       	<div class="clear red">${ERR_answer }</div>
+			       	<div class="mt5 ml5 red fl">${ERR_answer }</div>
 				</li>
   			</ul>
   		</div>
@@ -223,7 +230,7 @@
 			<div class="col-md-12 pl200 ">
 				<div class="mt40 tc mb50">
 					<button class="btn btn-windows save" onclick="save()">保存</button>
-		  			<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
+		  			<button class="btn btn-windows back" onclick="back()" type="button">返回</button>
 	  			</div>
 	  		</div>
 	  	</div>

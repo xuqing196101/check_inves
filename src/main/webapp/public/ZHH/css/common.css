@@ -789,22 +789,11 @@ a.redhover:hover{
 .fw{
 	font-weight: 700;
 }
-.score_box{
-	width:300px;
-	margin:0 auto;
-	padding:20px 20px;
-	margin-top:20px;
-}
-.ul_list{
-	overflow:hidden;
-	background:#ffffff!important;
-	border:1px dashed #d6cccc!important;
-	padding:20px 20px 10px 20px!important;
+
+.t0{
+	top: 0px;
 }
 .tip span{
 	min-width:100px!important;
 	text-align: left!important;
-}
-.t0{
-	top: 0px;
 }

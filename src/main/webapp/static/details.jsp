@@ -16,15 +16,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="">
-<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
 	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/lang/zh-cn/zh-cn.js"></script>
 	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
     <script language="javascript" type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
@@ -43,11 +43,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div>
    
 <!-- 修改订列表开始-->
-   <div class="container bggrey border1 mt20 pb20">
+   <div class="container container_box">
    <form>
    <div>
-    <h2 class="f16 count_flow"><i>01</i>修改订单</h2>
-   <ul class="list-unstyled ul_list">
+    <h2 class="count_flow"><i>01</i>修改订单</h2>
+   <ul class="ul_list">
      <li class="col-md-3 margin-0 padding-0 ">
 	   <span class="col-md-12 padding-left-5">采购单位</span>
 	   <div class="input-append">
@@ -157,8 +157,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    
   <!-- 产品明细开始-->
   <div class="padding-top-10 clear">
-    <h2 class="f16 count_flow"><i>02</i>产品明细</h2>
-   <ul class="list-unstyled ul_list">
+    <h2 class="count_flow"><i>02</i>产品明细</h2>
+   <ul class="ul_list">
      <li class="col-md-3 margin-0 padding-0 ">
 	   <span class="col-md-12 padding-left-5">品目</span>
 	   <div class="input-append">
@@ -235,7 +235,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        </div>
 	 </li> 
 	 </ul>
-	 <ul class="list-unstyled ul_list padding-left-20">
+	 <ul class="ul_list padding-left-20">
      <li class="col-md-4 margin-0 padding-0 ">
 	   <span class="col-md-12 padding-left-5">运费（元）</span>
 	   <div class="input-append col-md-12 padding-0 ">
@@ -259,7 +259,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 </li> 
    </ul>
     <div class="clear total f22"><span class="fl block">总计：</span><span>¥10000</span></div>
-    <h2 class="f16 count_flow mt20"><i>03</i>修改订单</h2>
+    <h2 class="count_flow"><i>03</i>修改订单</h2>
   </div>
   <div class="ul_list">
   <div class="clear" >

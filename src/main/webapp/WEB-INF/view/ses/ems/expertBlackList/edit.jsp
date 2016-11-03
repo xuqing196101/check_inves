@@ -45,6 +45,7 @@
     $("input[name='fileName']").val(fileName);
     $("#download_form_id").submit();
   }
+
 </script>
 </head>
 <body>
@@ -114,9 +115,9 @@
        </h2>
        <ul class="list-unstyled list-flow p0_20">
         <li class="">
-          <span class="" >批准文件:</span>
+          <span class="" ><i class="red">＊</i>批准文件:</span>
           <input class="span2" type="file" name="attachmentCertFile"/>
-          <a onclick="downloadFile('${expert.attachmentCert}')" class="btn btn_back">查看</a>
+          <a onclick="downloadFile('${expert.attachmentCert}')" style="cursor:pointer" id="attachmentCert">${expert.attachmentCert}</a>
         </li>
        </ul>
      </div>

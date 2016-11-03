@@ -226,7 +226,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  <div class="margin-top-10 breadcrumbs ">
       <div class="container">
            <ul class="breadcrumb margin-left-0">
-           <li><a href="#"> 首页</a></li><li><a href="#">保障作业系统</a></li><li><a href="#">采购任务管理</a></li><li class="active"><a href="#">采购任务受领管理</a></li>
+           <li><a href="#"> 首页</a></li><li><a href="#">保障作业系统</a></li><li><a href="#">采购任务管理</a></li><li class="active"><a href="#">采购任务管理</a></li>
            </ul>
         <div class="clear"></div>
       </div>
@@ -288,7 +288,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </div>
   
    <div class="headline-v2 fl">
-      <h2>任务受领列表
+      <h2>任务列表
       </h2>
    </div> 
       <span class="fr option_btn margin-top-10 mr5">
@@ -318,8 +318,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <td class="tc"><a href="#" onclick="view('${obj.id}');">${obj.purchaseId }</a></td>
               <td class="tc"><a href="#" onclick="view('${obj.id}');">${obj.documentNumber }</a></td>
               <td class="tc">
-              <c:if test="${'1'==obj.status}"><span class="label rounded-2x label-dark">审核</span></c:if>
+               <c:if test="${'1'==obj.status}"><span class="label rounded-2x label-u">已下达</span></c:if>
                <c:if test="${'0'==obj.status}"><span class="label rounded-2x label-u">受领</span></c:if>
+               <c:if test="${'2'==obj.status}"><span class="label rounded-2x label-dark">已取消</span></c:if>
               </td>
               <td class="tc" ><fmt:formatDate value="${obj.giveTime }"/></td>
             </tr>

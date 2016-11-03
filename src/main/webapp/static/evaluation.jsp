@@ -86,7 +86,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						 </div>
 						 <div class="tab-content clear step_cont">
 						 <div class="col-md-12 tab-pane active"  id="tab-1">
-						  <h2 class="f16 count_flow fl lh30"><i>01</i>符合性条款</h2>
+						  <h2 class="count_flow fl"><i>01</i>符合性条款</h2>
 						  <div class="fr pr15 mt10">
 						    <button class="btn btn-windows delete">删除</button>
 							<button class="btn btn-windows edit">修改</button>
@@ -114,7 +114,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</table>
 						  
 						  </div>
-						  <h2 class="f16 count_flow fl clear lh30"><i>02</i>资格性条款</h2>
+						  <h2 class="count_flow fl"><i>02</i>资格性条款</h2>
 						  <div class="fr pr15 mt10">
 						    <button class="btn btn-windows add">新增</button>
 							<button class="btn btn-windows edit">修改</button>

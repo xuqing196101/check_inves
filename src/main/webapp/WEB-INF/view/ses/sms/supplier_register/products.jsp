@@ -1,6 +1,7 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ include file="../../../../../index_head.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -22,23 +23,13 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/shop.style.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css" type="text/css" />
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.excheck.js"></script>
 <script type="text/javascript">
 	/** 保存基本信息 */
-	function saveProducts(sign) {
-		var action = "${pageContext.request.contextPath}/supplier/";
-		if (sign == 1) {
-			action += "next_step.html";
-		} else if(sign == -1) {
-			action += "prev_step.html";
-		} else {
-			action += "stash_step.html";
-		}
-		$("#products_form_id").attr("action", action);
+	function saveProducts(jsp) {
+		$("input[name='jsp']").val(jsp);
 		$("#products_form_id").submit();
 
 	}
@@ -89,7 +80,7 @@
 			area : [ '600px', '350px' ], //宽高
 			offset : '100px',
 			scrollbar : false,
-			content : '${pageContext.request.contextPath}/product_param/list.html?productsId=' + productsId + '&categoryId=' + categoryId, //url
+			content : '${pageContext.request.contextPath}/categoryparam/list_by_category_id_and_products_id.html?productsId=' + productsId + '&categoryId=' + categoryId, //url
 			closeBtn : 1, //不显示关闭按钮
 		});
 	}
@@ -119,8 +110,6 @@
 
 <body>
 	<div class="wrapper">
-		<!-- header -->
-		<jsp:include page="../../../../../index_head.jsp"></jsp:include>
 
 		<!-- 项目戳开始 -->
 		<div class="container clear margin-top-30">
@@ -143,9 +132,9 @@
 			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10">
-						<form id="products_form_id" method="post" enctype="multipart/form-data">
+						<form id="products_form_id" action="${pageContext.request.contextPath}/supplier_products/perfect_products.html" method="post" enctype="multipart/form-data">
 							<input name="id" value="${currSupplier.id}" type="hidden" /> 
-							<input name="sign" value="6" type="hidden" />
+							<input name="jsp" type="hidden" />
 							<div class="tab-content padding-top-20">
 								<div class="tab-pane fade active in height-300" id="tab-1">
 									<div class="margin-bottom-0  categories">
@@ -211,9 +200,9 @@
 								</div>
 							</div>
 							<div class="mt40 tc mb50">
-								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProducts(-1)">上一步</button>
-								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProducts(0)">暂存</button>
-								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProducts(1)">下一步</button>
+								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProducts('items')">上一步</button>
+								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProducts('products')">暂存</button>
+								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProducts('procurement_dep')">下一步</button>
 							</div>
 						</form>
 					</div>

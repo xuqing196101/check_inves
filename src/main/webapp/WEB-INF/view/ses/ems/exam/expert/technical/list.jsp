@@ -21,6 +21,13 @@
 	<script type="text/javascript">
 		$(function(){
 			$("#error").hide();
+			$("#topic").val("${topic}");
+			var type_options = document.getElementById("questionTypeId").options;
+			for(var i=0;i<type_options.length;i++){
+				if($(type_options[i]).attr("value")=="${questionTypeId}"){
+					type_options[i].selected=true;
+				}
+			}
 			laypage({
 			    cont: $("#pageDiv"), //容器。值支持id名、原生dom对象，jquery对象,
 			    pages: "${technicalList.pages}", //总页数
@@ -36,7 +43,9 @@
 			    }(), 
 			    jump: function(e, first){ //触发分页后的回调
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
-			            location.href = '<%=basePath%>expertExam/searchTecExpPool.do?page='+e.curr;
+			        	var topic = "${topic}";
+						var questionTypeId = "${questionTypeId}";
+			            location.href = "<%=basePath%>expertExam/searchTecExpPool.do?topic="+topic+"&questionTypeId="+questionTypeId+"&page="+e.curr;
 			        }
 			    }
 			});
@@ -182,6 +191,24 @@
 			    }
 			}); 
 		}
+		
+		//重置方法
+		function reset(){
+			$("#topic").val("");
+			var questionTypeId = document.getElementById("questionTypeId").options;
+			questionTypeId[0].selected=true;
+		}
+		
+		//按条件查询采购人题库
+		function query(){
+			var topic = $("#topic").val();
+			var questionTypeId = $("#questionTypeId").val();
+			if((topic==""||topic==null)&&(questionTypeId==""||questionTypeId==null)){
+				window.location.href = "<%=basePath%>expertExam/searchTecExpPool.do";
+			}else{
+				window.location.href = "<%=basePath%>expertExam/searchTecExpPool.do?topic="+topic+"&questionTypeId="+questionTypeId;
+			}
+		}	
 	</script>
   </head>
   
@@ -200,8 +227,22 @@
 	   		<h2>技术类专家题库列表</h2>
 	   </div>
    </div>
+   
+   <div class="container mt10">
+    	<div class="border1 col-md-12 ml30">
+	    	名称:<input type="text" id="topic" class="mt10"/>
+	    	题型:<select id="questionTypeId">
+	    		<option value="">请选择</option>
+	    		<option value="1">单选题</option>
+	    		<option value="2">多选题</option>
+	    	</select>
+	    	<button type="button" onclick="query()" class="btn">查询</button>
+	    	<button type="button" onclick="reset()" class="btn">重置</button>
+    	</div>
+    </div>
+    
 	<!-- 表格开始-->
-   <div class="container">
+   <div class="container mt10">
    		<div class="col-md-12 padding-left-25">
 		    <button class="btn btn-windows add" type="button" onclick="addTechnical()">新增</button>
 		    <button class="btn btn-windows edit" type="button" onclick="editTechnical()">修改</button>

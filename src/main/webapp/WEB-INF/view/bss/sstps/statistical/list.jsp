@@ -51,6 +51,10 @@ function showCharts(){
 function on(){
 	showCharts();
 }
+
+function resetQuery(){
+	$("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+}
 </script>    
 
   </head>
@@ -68,7 +72,7 @@ function on(){
    <div class="container mt20">
      <div class="p10_25">
      <h2 class="padding-10 border1">
-       <form action="<%=basePath %>statistical/view.html" method="post" enctype="multipart/form-data" class="mb0">
+       <form id="form1" action="<%=basePath %>statistical/view.html" method="post" enctype="multipart/form-data" class="mb0">
     	<ul class="demand_list">
     	  <li class="fl">
 	    	<label class="fl">采购机构：</label><span><input type="text" value="${purchaseDepName }" name="purchaseDepName" class=""/></span>
@@ -80,7 +84,7 @@ function on(){
 	    	<label class="fl">合同编号：</label><span><input type="text" value="${code }" name="code" class=""/></span>
 	      </li> 
 	    	<button type="submit" class="btn">查询</button>
-	    	<button type="reset" class="btn">重置</button>  	
+	    	<button type="button" class="btn" onclick="resetQuery()">重置</button>  	
     	</ul>
     	  <div class="clear"></div>
        </form>

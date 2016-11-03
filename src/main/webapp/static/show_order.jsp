@@ -48,7 +48,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    
 <!--查看订单流程开始-->
   <div class="container clear mt20">
-   <div class="list-unstyled padding-10 breadcrumbs-v3">
+   <div class="padding-10 breadcrumbs-v3">
     <span>
 	  <a href="#" class="img-v1 green_link">下单</a>
 	  <span class="green_link">→</span>
@@ -81,9 +81,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   
 <!--详情开始-->
-<div class="container content height-350 pt0">
+<div class="container content pt0">
  <div class="row magazine-page">
-   <div class="col-md-12 tab-v2 job-content">
+   <div class="col-md-12 tab-v2">
         <div class="padding-top-10">
           <ul class="nav nav-tabs bgwhite">
             <li class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="s_news f18">详细信息</a></li>
@@ -91,9 +91,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="record f18">历史纪录</a></li>
           </ul>
           <div class="tab-content padding-top-20">
-            <div class="tab-pane fade active in height-450" id="tab-1">
-              <div class=" margin-bottom-0">
-                <h2 class="f16 jbxx">基本信息</h2>
+            <div class="tab-pane fade active in" id="tab-1">
+                <h2 class="count_flow jbxx">基本信息</h2>
 				<table class="table table-bordered">
 				 <tbody>
 				 <tr>
@@ -143,9 +142,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				 
 				</tbody>
 			   </table>
-              </div>
-             <div class=" margin-bottom-0">
-                <h2 class="f16 jbxx">产品明细</h2>
+                <h2 class="count_flow jbxx">产品明细</h2>
 				<table class="table table-bordered">
 				 <tbody>
 				 <tr>
@@ -184,16 +181,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				 </tr> 
 				</tbody>
 			   </table>
-              </div>
-              <h2 class="f16"><span>总计：</span>￥1000.0</h2>
+              <h2 class=""><span>总计：</span>￥1000.0</h2>
             </div>
-            <div class="tab-pane fade height-450" id="tab-2">
+            <div class="tab-pane fade " id="tab-2">
               <div class="margin-bottom-0  categories">
 
               </div>
             </div>
 			
-            <div class="tab-pane fade height-450" id="tab-3" style="position：relative">
+            <div class="tab-pane fade " id="tab-3" style="position：relative">
               <div class=" margin-bottom-0">
                 <div class="tml_container padding-top-0">
 				  <div class="dingwei">
@@ -203,15 +199,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				  </div>
 				  <div class="tml_poster" id="post_area" ><div class="poster" id="poster_1">
                    <div class=" margin-bottom-0">
-                       <h2 class="f16 history_icon">分公司审核</h2>
+                       <h2 class="history_icon">分公司审核</h2>
 				        <div class="padding-left-40">
 				 		  <span>确认并结束审核流程，理由是：同意采购。</span>
-						   <ul class="list-unstyled margin-bottom-0">
-						   <li class="fl margin-left-0">状态：<span>暂存</span></li>
-						   <li class="fl">姓名：<span>张洋</span></li>
-						   <li class="fl">ID：<span>152260</span></li>
-						   <li class="fl">单位：<span>军队采购网</span></li>
-						   <li class="">IP地址：<span>124.65.26.100｜北京市</span></li>
+						   <ul>
+						   <li class="margin-left-0">状态：<span>暂存</span></li>
+						   <li>姓名：<span>张洋</span></li>
+						   <li>ID：<span>152260</span></li>
+						   <li>单位：<span>军队采购网</span></li>
+						   <li>IP地址：<span>124.65.26.100｜北京市</span></li>
 						   </ul>
 					    </div>
                      </div>

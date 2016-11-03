@@ -2,6 +2,8 @@ package bss.model.sstps;
 
 import java.util.Date;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
 * @Title:AccessoriesCon 
 * @Description: 原、辅材料工艺定额消耗明细
@@ -14,10 +16,13 @@ public class AccessoriesCon {
 
     private ContractProduct contractProduct;
 
+    @NotBlank(message = "材料名称不能为空")
     private String stuffName;
 
+    @NotBlank(message = "规格型号不能为空")
     private String norm;
 
+    @NotBlank(message = "图纸位置号不能为空")
     private String paperCode;
 
     private Integer workAmout;
@@ -44,6 +49,7 @@ public class AccessoriesCon {
 
     private Integer checkMoney;
 
+    @NotBlank(message = "供货单位不能为空")
     private String supplyUnit;
 
     private String remark;

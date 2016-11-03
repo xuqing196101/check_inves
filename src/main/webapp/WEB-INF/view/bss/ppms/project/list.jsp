@@ -198,7 +198,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     }
                 }
                 if(status==3){
-                    window.location.href = "<%=path%>/project/subPackage.html?id="+str;
+                    window.location.href = "<%=basePath%>project/subPackage.html?id="+str;
                 }else if(status==1){
                     layer.alert("项目在实施中，不可进行分包操作，请重新选择",{offset: ['222px', '390px']});
                     $(".layui-layer-shade").remove();

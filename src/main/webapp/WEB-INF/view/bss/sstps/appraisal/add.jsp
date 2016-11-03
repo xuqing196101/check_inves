@@ -44,7 +44,6 @@
   
   function check(){
 	  var name = $("#contractName").val();
-	  alert(name);
 	  if(name==null&&name==""){
 		  return false;
 	  }else{

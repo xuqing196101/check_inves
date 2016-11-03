@@ -1,5 +1,6 @@
 package bss.service.sstps;
 
+import java.util.HashMap;
 import java.util.List;
 
 import bss.model.sstps.AppraisalContract;
@@ -114,7 +115,7 @@ public interface AppraisalContractService {
 	* @param @return      
 	* @return List<AppraisalContract>
 	 */
-	List<AppraisalContract> selectAppraisal(AppraisalContract record);
+	List<AppraisalContract> selectAppraisal(HashMap<String, Object> map);
 	
 	/**
 	* @Title: selectStatisical

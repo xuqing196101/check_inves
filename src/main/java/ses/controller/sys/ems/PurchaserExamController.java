@@ -66,6 +66,7 @@ import ses.service.ems.ExamUserScoreServiceI;
 import ses.service.oms.PurchaseServiceI;
 import ses.util.PathUtil;
 import ses.util.PropertiesUtil;
+import ses.util.ValidateUtils;
 
 
 /**
@@ -109,10 +110,10 @@ public class PurchaserExamController extends BaseSupplierController{
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		String questionTypeId = request.getParameter("questionTypeId");
 		String topic = request.getParameter("topic");
-		if(questionTypeId !=null && questionTypeId!=""){
+		if(questionTypeId !=null && !questionTypeId.equals("")){
 			map.put("questionTypeId", Integer.parseInt(questionTypeId));
 		}
-		if(topic != null && topic!=""){
+		if(topic != null && !topic.equals("")){
 			map.put("topic", "%"+topic+"%");
 		}
 		if(page==null){
@@ -193,6 +194,7 @@ public class PurchaserExamController extends BaseSupplierController{
 	 */
 	@RequestMapping("/saveToPurPool")
 	public String saveToPurPool(Model model,HttpServletRequest request,ExamQuestion examQuestion){
+		Map<String,Object> map = new HashMap<String,Object>();
 		String[] items = saveOption();
 		String queType = request.getParameter("queType");
 		StringBuffer sb_answer = new StringBuffer();
@@ -203,17 +205,23 @@ public class PurchaserExamController extends BaseSupplierController{
 		}
 		String error = "无";
 		String topic = request.getParameter("topic");
-		if(topic==null||topic.equals(" ")){
+		if(topic==null||topic.trim().equals("")){
 			error = "topic";
-			model.addAttribute("ERR_topic", "题干不能为空");
+			model.addAttribute("ERR_topic","题干不能为空");
 		}else{
 			HashMap<String,Object> tmap = new HashMap<String,Object>();
-			tmap.put("topic", request.getParameter("topic").trim());
+			tmap.put("questionTypeId", Integer.parseInt(queType));
+			tmap.put("topic", topic.trim());
 			tmap.put("personType", 2);
 			List<ExamQuestion> topicOnly = examQuestionService.selectByTopic(tmap);
 			if(topicOnly.size()!=0){
-				model.addAttribute("ERR_topic", "该题干已存在");
-				error = "topic";
+				for(int i=0;i<topicOnly.size();i++){
+					if(topic.trim().equals(topicOnly.get(i).getTopic().trim())){
+						model.addAttribute("ERR_topic", "该题干已存在");
+						error = "topic";
+						break;
+					}
+				}
 			}
 		}
 		if(queType.equals("1")||queType.equals("2")){
@@ -224,16 +232,25 @@ public class PurchaserExamController extends BaseSupplierController{
 				String[] option = request.getParameterValues("option");
 				String item = items[option.length];
 				String[] opt = item.split(",");
+				StringBuffer sb_opt = new StringBuffer();
+				for(int i=0;i<option.length;i++){
+					if(option[i].trim().isEmpty()){
+						sb_opt.append("&@#$");
+					}else{
+						sb_opt.append(option[i]+"&@#$");
+					}
+				}
+				map.put("option",sb_opt.toString());
 				outer:for(int i=0;i<option.length;i++){
-					if(option[i].isEmpty()){
-						model.addAttribute("ERR_option", "选项内容不能为空");
-						error = "option";
-						break outer;
-					}else if(i==option.length-1){
-						for(int j=0;j<option.length;j++){
-							if(option[j].indexOf(";")>-1||option[j].indexOf("；")>-1){
-								model.addAttribute("ERR_option", "选项内容不能输入分号");
-								error = "option";
+				if(option[i].trim().isEmpty()){
+					model.addAttribute("ERR_option", "选项内容不能为空");
+					error = "option";
+					break outer;
+				}else if(i==option.length-1){
+					for(int j=0;j<option.length;j++){
+						if(option[j].indexOf(";")>-1||option[j].indexOf("；")>-1){
+						model.addAttribute("ERR_option", "选项内容不能输入分号");
+							error = "option";
 								break outer;
 							}
 						}
@@ -252,6 +269,7 @@ public class PurchaserExamController extends BaseSupplierController{
 					for(int i = 0;i<answer.length;i++){
 						sb_answer.append(answer[i]);
 					}
+					map.put("answer",sb_answer.toString());
 				}
 			}
 		}else{
@@ -264,14 +282,19 @@ public class PurchaserExamController extends BaseSupplierController{
 				for(int i = 0;i<answer.length;i++){
 					sb_answer.append(answer[i]);
 				}
+				map.put("answer",sb_answer.toString());
 			}
 		}
 		if(error.equals("topic")||error.equals("option")||error.equals("answer")){
 			optionNum(model);
+			map.put("type",queType);
+			map.put("topic",topic);
+			map.put("options",request.getParameter("options"));
+			model.addAttribute("errData", map);
 			return "ses/ems/exam/purchaser/question/add";
 		}
-		examQuestion.setQuestionTypeId(Integer.parseInt(request.getParameter("queType")));
-		examQuestion.setTopic(request.getParameter("topic"));
+		examQuestion.setQuestionTypeId(Integer.parseInt(queType));
+		examQuestion.setTopic(topic.trim());
 		examQuestion.setPersonType(2);
 		examQuestion.setCreatedAt(new Date());
 		examQuestion.setAnswer(sb_answer.toString());
@@ -315,7 +338,11 @@ public class PurchaserExamController extends BaseSupplierController{
 		model.addAttribute("examPoolType",examPoolType);
 		if(!examQuestion.getItems().equals(" ")){
 			String[] option = examQuestion.getItems().split(";");
-			model.addAttribute("optContent", examQuestion.getItems());
+			StringBuffer sb_opt = new StringBuffer();
+			for(int i=0;i<option.length;i++){
+				sb_opt.append(option[i].substring(2)+"&@#$");
+			}
+			model.addAttribute("optContent", sb_opt.toString());
 			model.addAttribute("optNum", option.length);
 		}
 		optionNum(model);
@@ -326,7 +353,7 @@ public class PurchaserExamController extends BaseSupplierController{
 	* @Title: editToPurchaser
 	* @author ZhaoBo
 	* @date 2016-9-7 上午11:29:36  
-	* @Description: 采购人题库修改保存 
+	* @Description: 修改采购人题库并保存 
 	* @param @param request
 	* @param @param examPool
 	* @param @return      
@@ -341,24 +368,29 @@ public class PurchaserExamController extends BaseSupplierController{
 		StringBuffer sb_answer = new StringBuffer();
 		if(queType==null||queType.equals("")){
 			model.addAttribute("ERR_type","请选择题型");
-			purchaserQuestion(request.getParameter("id"), model);
 			optionNum(model);
-			return "ses/ems/exam/purchaser/question/add";
+			return "ses/ems/exam/purchaser/question/edit";
 		}
 		String error = "无";
 		String topic = request.getParameter("topic");
-		if(topic==null||topic.equals(" ")){
+		if(topic==null||topic.trim().equals("")){
 			error = "topic";
 			model.addAttribute("ERR_topic", "题干不能为空");
 		}else{
-			if(!content.equals(request.getParameter("topic"))){
+			if(!content.trim().equals(topic.trim())){
 				HashMap<String,Object> tmap = new HashMap<String,Object>();
+				tmap.put("questionTypeId", Integer.parseInt(queType));
 				tmap.put("topic", request.getParameter("topic").trim());
 				tmap.put("personType",2);
 				List<ExamQuestion> topicOnly = examQuestionService.selectByTopic(tmap);
 				if(topicOnly.size()!=0){
-					model.addAttribute("ERR_topic", "该题干已存在");
-					error = "topic";
+					for(int i=0;i<topicOnly.size();i++){
+						if(topic.trim().equals(topicOnly.get(i).getTopic().trim())){
+							model.addAttribute("ERR_topic", "该题干已存在");
+							error = "topic";
+							break;
+						}
+					}
 				}
 			}
 		}
@@ -370,6 +402,16 @@ public class PurchaserExamController extends BaseSupplierController{
 				String[] option = request.getParameterValues("option");
 				String item = items[option.length];
 				String[] opt = item.split(",");
+				model.addAttribute("optNum", option.length);
+				StringBuffer sb_opt = new StringBuffer();
+				for(int i=0;i<option.length;i++){
+					if(option[i].trim().isEmpty()){
+						sb_opt.append("&@#$");
+					}else{
+						sb_opt.append(option[i]+"&@#$");
+					}
+				}
+				model.addAttribute("optContent", sb_opt.toString());
 				outer:for(int i=0;i<option.length;i++){
 					if(option[i].isEmpty()){
 						model.addAttribute("ERR_option", "选项内容不能为空");
@@ -412,14 +454,17 @@ public class PurchaserExamController extends BaseSupplierController{
 				}
 			}
 		}
-		if(error.equals("topic")||error.equals("option")||error.equals("answer")){
-			optionNum(model);
-			purchaserQuestion(request.getParameter("id"), model);
-			return "ses/ems/exam/purchaser/question/add";
-		}
-		examQuestion.setQuestionTypeId(Integer.parseInt(request.getParameter("queType")));
-		examQuestion.setTopic(request.getParameter("topic"));
+		examQuestion.setQuestionTypeId(Integer.parseInt(queType));
+		examQuestion.setTopic(topic);
 		examQuestion.setAnswer(sb_answer.toString());
+		if(error.equals("topic")||error.equals("option")||error.equals("answer")){
+			model.addAttribute("purchaserQue",examQuestion);
+			model.addAttribute("purchaserAnswer",sb_answer.toString());
+			List<ExamQuestionType> examQuestionType = examQuestionTypeService.selectPurchaserAll();
+			model.addAttribute("examPoolType",examQuestionType);
+			optionNum(model);
+			return "ses/ems/exam/purchaser/question/edit";
+		}
 		examQuestionService.updateByPrimaryKeySelective(examQuestion);
 		return "redirect:purchaserList.html";
 	}
@@ -499,21 +544,28 @@ public class PurchaserExamController extends BaseSupplierController{
 				}
 				examQuestion.setItems(sb_items.toString());
 				examQuestion.setAnswer(queAnswer.toString());
-				if(queType.toString().equals("单选题")) {
-					examQuestion.setQuestionTypeId(1);
-				}else{
-					examQuestion.setQuestionTypeId(2);
-				}
 				examQuestion.setCreatedAt(new Date());
 				HashMap<String,Object> map = new HashMap<String,Object>();
-				map.put("topic", queTopic.toString());
+				if(queType.toString().equals("单选题")) {
+					map.put("questionTypeId", 1);
+					examQuestion.setQuestionTypeId(1);
+				}else{
+					map.put("questionTypeId", 2);
+					examQuestion.setQuestionTypeId(2);
+				}
+				map.put("topic", queTopic.toString().trim());
 				map.put("personType", 2);
 				List<ExamQuestion> sameTopic = examQuestionService.selectByTopic(map);
 				if(sameTopic.size()!=0){
-					str="1";
-					same.append(queType.toString()+","+queTopic.toString()+";");
+					for(int i=0;i<sameTopic.size();i++){
+						if(queTopic.toString().trim().equals(sameTopic.get(i).getTopic().trim())){
+							str="1";
+							same.append(queType.toString()+","+queTopic.toString()+";");
+							break;
+						}
+					}
 				}else{
-					examQuestion.setTopic(queTopic.toString());
+					examQuestion.setTopic(queTopic.toString().trim());
 					question.add(examQuestion);
 				}
 			}
@@ -524,14 +576,20 @@ public class PurchaserExamController extends BaseSupplierController{
 				examQuestion.setPersonType(2);
 				examQuestion.setItems(" ");
 				HashMap<String,Object> map = new HashMap<String,Object>();
-				map.put("topic", queTopic.toString());
+				map.put("questionTypeId", 3);
+				map.put("topic", queTopic.toString().trim());
 				map.put("personType", 2);
 				List<ExamQuestion> sameTopic = examQuestionService.selectByTopic(map);
 				if(sameTopic.size()!=0){
-					str="1";
-					same.append(queType.toString()+","+queTopic.toString()+";");
+					for(int i=0;i<sameTopic.size();i++){
+						if(queTopic.toString().trim().equals(sameTopic.get(i).getTopic().trim())){
+							str="1";
+							same.append(queType.toString()+","+queTopic.toString()+";");
+							break;
+						}
+					}
 				}else{
-					examQuestion.setTopic(queTopic.toString());
+					examQuestion.setTopic(queTopic.toString().trim());
 					question.add(examQuestion);
 				}
 				examQuestion.setAnswer(queAnswer.toString());
@@ -668,6 +726,7 @@ public class PurchaserExamController extends BaseSupplierController{
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		for(int i=0;i<paperList.size();i++){
 			paperList.get(i).setStartTrueDate(sdf.format(paperList.get(i).getStartTime()));
+			paperList.get(i).setOffTrueDate(sdf.format(paperList.get(i).getOffTime()));
 			Date startTime = paperList.get(i).getStartTime();
 		    Date offTime = paperList.get(i).getOffTime();
 		    if(new Date().getTime()>=startTime.getTime()&&new Date().getTime()<=offTime.getTime()){
@@ -739,9 +798,10 @@ public class PurchaserExamController extends BaseSupplierController{
 	 */
 	@RequestMapping("/saveToExamPaper")
 	public String saveToExamPaper(HttpServletRequest request,Model model,ExamPaper examPaper) throws ParseException{
+		Map<String,Object> errorData = new HashMap<String,Object>();
 		String name = request.getParameter("name");
 		String error = "无";
-		if(name.isEmpty()){
+		if(name.trim().isEmpty()){
 			error="error";
 			model.addAttribute("ERR_name", "试卷名称不能为空");
 		}else{
@@ -754,7 +814,7 @@ public class PurchaserExamController extends BaseSupplierController{
 			}
 		}
 		String code = request.getParameter("code");
-		if(code.isEmpty()){
+		if(code.trim().isEmpty()){
 			error="error";
 			model.addAttribute("ERR_code", "试卷编号不能为空");
 		}else{
@@ -769,17 +829,24 @@ public class PurchaserExamController extends BaseSupplierController{
 		String[] isAllow = request.getParameterValues("isAllow");
 		if(isAllow==null){
 			error="error";
-			model.addAttribute("ERR_isAllow", "请选择该考卷是否可以重考");
+			model.addAttribute("ERR_isAllow", "请选择");
 		}else{
+			errorData.put("isAllow", isAllow[0]);
 			if(isAllow[0].equals("是")){
 				String testTime = request.getParameter("testTime");
-				if(testTime.isEmpty()){
+				if(testTime.trim().isEmpty()){
 					error="error";
-					model.addAttribute("ERR_testTime", "选择考卷可以重考的话,答题时间不能为空");
+					model.addAttribute("ERR_testTime", "答题时间不能为空");
 				}else{
-					examPaper.setTestTime(testTime);
-					examPaper.setIsAllowRetake(1);
+					if(!ValidateUtils.Z_index(testTime)){
+						error="error";
+						model.addAttribute("ERR_testTime", "答题用时必须为正整数");
+					}else{
+						examPaper.setTestTime(testTime);
+						examPaper.setIsAllowRetake(1);
+					}
 				}
+				errorData.put("testTime", testTime);
 			}else{
 				examPaper.setIsAllowRetake(0);
 			}
@@ -787,7 +854,7 @@ public class PurchaserExamController extends BaseSupplierController{
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String startTime = request.getParameter("startTime");
 		Date sTime = null;
-		if(startTime.isEmpty()){
+		if(startTime.trim().isEmpty()){
 			error="error";
 			model.addAttribute("ERR_startTime","考试开始时间不能为空");
 		}else{
@@ -801,7 +868,7 @@ public class PurchaserExamController extends BaseSupplierController{
 			}
 		}
 		String offTime = request.getParameter("offTime");
-		if(offTime.isEmpty()){
+		if(offTime.trim().isEmpty()){
 			error="error";
 			model.addAttribute("ERR_offTime","考试截止时间不能为空");
 		}else{
@@ -816,18 +883,21 @@ public class PurchaserExamController extends BaseSupplierController{
 		}
 		String passStandard = request.getParameter("passStandard");
 		String paperScore = request.getParameter("paperScore");
-		if(passStandard.isEmpty()){
+		if(passStandard.trim().isEmpty()){
 			error = "error";
 			model.addAttribute("ERR_passStandard","及格标准不能为空");
 		}else{
-			if(Integer.parseInt(passStandard)>Integer.parseInt(paperScore)){
+			if(!ValidateUtils.PositiveNumber(passStandard)){
 				error = "error";
-				model.addAttribute("ERR_passStandard","及格标准分不能大于试卷总分值");
+				model.addAttribute("ERR_passStandard", "及格标准分必须为大于0的正数");
+			}else if(Integer.parseInt(passStandard)>=Integer.parseInt(paperScore)){
+				error = "error";
+				model.addAttribute("ERR_passStandard", "及格标准分要小于试卷分值");
 			}
 		}
-		if(error.equals("error")){
-			return "ses/ems/exam/purchaser/paper/add";
-		}
+		String[] single = request.getParameterValues("single");
+		String[] multiple = request.getParameterValues("multiple");
+		String[] judge = request.getParameterValues("judge");
 		String singleNum = request.getParameter("singleNum");
 		String singlePoint = request.getParameter("singlePoint");
 		String multipleNum = request.getParameter("multipleNum");
@@ -835,13 +905,139 @@ public class PurchaserExamController extends BaseSupplierController{
 		String judgeNum = request.getParameter("judgeNum");
 		String judgePoint = request.getParameter("judgePoint");
 		Map<String,String> map = new HashMap<String,String>();
-		map.put("singleNum", singleNum);
-		map.put("singlePoint", singlePoint);
-		map.put("multipleNum", multipleNum);
-		map.put("multiplePoint", multiplePoint);
-		map.put("judgeNum", judgeNum);
-		map.put("judgePoint", judgePoint);
-		JSONSerializer.toJSON(map);
+		if(single==null&&multiple==null&&judge==null){
+			error = "error";
+			model.addAttribute("ERR_single", "请选择");
+			model.addAttribute("ERR_multiple", "请选择");
+			model.addAttribute("ERR_judge", "请选择");
+		}else{
+			if(single!=null){
+				errorData.put("singleNum", singleNum);
+				errorData.put("singlePoint", singlePoint);
+				errorData.put("single", single[0]);
+			}
+			if(multiple!=null){
+				errorData.put("multipleNum", multipleNum);
+				errorData.put("multiplePoint", multiplePoint);
+				errorData.put("multiple", multiple[0]);
+			}
+			if(judge!=null){
+				errorData.put("judgeNum", judgeNum);
+				errorData.put("judgePoint", judgePoint);
+				errorData.put("judge", judge[0]);
+			}
+			if(single==null||multiple==null||judge==null){
+				error = "error";
+				if(single==null){
+					model.addAttribute("ERR_single", "请选择");
+				}
+				if(multiple==null){
+					model.addAttribute("ERR_multiple", "请选择");
+				}
+				if(judge==null){
+					model.addAttribute("ERR_judge", "请选择");
+				}
+			}else if(single[0].equals("无")&&multiple[0].equals("无")&&judge[0].equals("无")){
+				error = "error";
+				model.addAttribute("ERR_single", "请至少选择一种题型");
+			}else{
+				if(single[0].equals("有")){
+					if(singleNum.trim().isEmpty()||singlePoint.trim().isEmpty()){
+						error = "error";
+						model.addAttribute("ERR_single", "请把题型分布补充完整");
+					}else{
+						if(!ValidateUtils.Z_index(singleNum)){
+							error = "error";
+							model.addAttribute("ERR_single", "题目数量必须为正整数");
+						}else if(!ValidateUtils.PositiveNumber(singlePoint)){
+							error = "error";
+							model.addAttribute("ERR_single", "分值必须为大于0的正数");
+						}else{
+							HashMap<String,Object> purSingle = new HashMap<String,Object>();
+							purSingle.put("questionTypeId", 1);
+							int purchaserSingle = examQuestionService.queryPurchaserQuestionCount(purSingle);
+							if(purchaserSingle<Integer.parseInt(singleNum)){
+								error = "error";
+								model.addAttribute("ERR_single", "题库中单选题数量不足");
+							}else{
+								map.put("singleNum", singleNum);
+								map.put("singlePoint", singlePoint);
+							}
+						}
+					}
+				}else{
+					map.put("singleNum", "0");
+					map.put("singlePoint", "0");
+				}
+				if(multiple[0].equals("有")){
+					if(multipleNum.trim().isEmpty()||multiplePoint.trim().isEmpty()){
+						error = "error";
+						model.addAttribute("ERR_multiple", "请把题型分布补充完整");
+					}else{
+						if(!ValidateUtils.Z_index(multipleNum)){
+							error = "error";
+							model.addAttribute("ERR_multiple", "题目数量必须为正整数");
+						}else if(!ValidateUtils.PositiveNumber(multiplePoint)){
+							error = "error";
+							model.addAttribute("ERR_multiple", "分值必须为大于0的正数");
+						}else{
+							HashMap<String,Object> purMultiple = new HashMap<String,Object>();
+							purMultiple.put("questionTypeId", 2);
+							int purchaserMultiple = examQuestionService.queryPurchaserQuestionCount(purMultiple);
+							if(purchaserMultiple<Integer.parseInt(multipleNum)){
+								error = "error";
+								model.addAttribute("ERR_multiple", "题库中多选题数量不足");
+							}else{
+								map.put("multipleNum", multipleNum);
+								map.put("multiplePoint", multiplePoint);
+							}
+						}
+					}
+				}else{
+					map.put("multipleNum", "0");
+					map.put("multiplePoint", "0");
+				}
+				if(judge[0].equals("有")){
+					if(judgeNum.trim().isEmpty()||judgePoint.trim().isEmpty()){
+						error = "error";
+						model.addAttribute("ERR_judge", "请把题型分布补充完整");
+					}else{
+						if(!ValidateUtils.Z_index(judgeNum)){
+							error = "error";
+							model.addAttribute("ERR_judge", "题目数量必须为正整数");
+						}else if(!ValidateUtils.PositiveNumber(judgePoint)){
+							error = "error";
+							model.addAttribute("ERR_judge", "分值必须为大于0的正数");
+						}else{
+							HashMap<String,Object> purJudge = new HashMap<String,Object>();
+							purJudge.put("questionTypeId",3);
+							int purchaserJudge = examQuestionService.queryPurchaserQuestionCount(purJudge);
+							if(purchaserJudge<Integer.parseInt(judgeNum)){
+								error = "error";
+								model.addAttribute("ERR_judge", "题库中判断题数量不足");
+							}else{
+								map.put("judgeNum", judgeNum);
+								map.put("judgePoint", judgePoint);
+							}
+						}
+					}
+				}else{
+					map.put("judgeNum", "0");
+					map.put("judgePoint", "0");
+				}
+			}
+		}
+		if(error.equals("error")){
+			errorData.put("name", name);
+			errorData.put("code", code);
+			errorData.put("passStandard", passStandard);
+			errorData.put("score", paperScore);
+			errorData.put("startTime", startTime);
+			errorData.put("offTime", offTime);
+			model.addAttribute("errorData", errorData);
+			return "ses/ems/exam/purchaser/paper/add";
+		}
+		
 		examPaper.setCreatedAt(new Date());
 		examPaper.setName(name);
 		examPaper.setCode(code);
@@ -904,6 +1100,35 @@ public class PurchaserExamController extends BaseSupplierController{
 		String examOffTime = offTime.substring(0,16);
 		model.addAttribute("offTime", examOffTime);
 		model.addAttribute("examPaper", examPaper);
+		String typeDistribution = examPaper.getTypeDistribution();
+		JSONObject object = JSONObject.fromObject(typeDistribution);
+		model.addAttribute("singleNum", object.get("singleNum"));
+		if(Integer.parseInt(object.get("singleNum").toString())>0){
+			model.addAttribute("errorSingle", "有");
+		}else{
+			model.addAttribute("errorSingle", "无");
+		}
+		model.addAttribute("singlePoint", object.get("singlePoint"));
+		model.addAttribute("multipleNum", object.get("multipleNum"));
+		if(Integer.parseInt(object.get("multipleNum").toString())>0){
+			model.addAttribute("errorMultiple", "有");
+		}else{
+			model.addAttribute("errorMultiple", "无");
+		}
+		model.addAttribute("multiplePoint", object.get("multiplePoint"));
+		model.addAttribute("judgeNum", object.get("judgeNum"));
+		if(Integer.parseInt(object.get("judgeNum").toString())>0){
+			model.addAttribute("errorJudge", "有");
+		}else{
+			model.addAttribute("errorJudge", "无");
+		}
+		int isAllow = examPaper.getIsAllowRetake();
+		if(isAllow==0){
+			model.addAttribute("errorIsAllow", "否");
+		}else{
+			model.addAttribute("errorIsAllow", "是");
+		}
+		model.addAttribute("judgePoint", object.get("judgePoint"));
 		return "ses/ems/exam/purchaser/paper/edit";
 	}
 	
@@ -923,35 +1148,115 @@ public class PurchaserExamController extends BaseSupplierController{
 	@RequestMapping("/editToExamPaper")
 	public String editToExamPaper(HttpServletRequest request,Model model,ExamPaper examPaper) throws ParseException{
 		examPaper.setId(request.getParameter("paperId"));
-		examPaper.setName(request.getParameter("paperName"));
-		examPaper.setCode(request.getParameter("paperNo"));
-		examPaper.setScore(request.getParameter("totalPoint"));
-		examPaper.setTestTime(request.getParameter("useTime"));
-		String startTime = request.getParameter("startTime");
-		String newHour = null;
-		String newSecond = null;
-		String hour = request.getParameter("hour");
-		String second = request.getParameter("second");
-		if(hour.length()==1){
-			newHour = "0"+hour;
+		String paperName = request.getParameter("paperName");
+		String paperCode = request.getParameter("paperCode");
+		String name = request.getParameter("name");
+		String error = "无";
+		if(name.trim().isEmpty()){
+			error="error";
+			model.addAttribute("ERR_name", "试卷名称不能为空");
 		}else{
-			newHour = hour;
+			if(!paperName.equals(name)){
+				HashMap<String,Object> map = new HashMap<String,Object>();
+				map.put("name",name);
+				List<ExamPaper> paper = examPaperService.selectByPaperNo(map);
+				if(paper.size()!=0){
+					error="error";
+					model.addAttribute("ERR_name", "试卷名称已存在");
+				}
+			}
 		}
-		if(second.length()==1){
-			newSecond = "0"+second;
+		String code = request.getParameter("code");
+		if(code.trim().isEmpty()){
+			error="error";
+			model.addAttribute("ERR_code", "试卷编号不能为空");
 		}else{
-			newSecond = second;
+			if(!paperCode.equals(code)){
+				HashMap<String,Object> map = new HashMap<String,Object>();
+				map.put("code",code);
+				List<ExamPaper> paper = examPaperService.selectByPaperNo(map);
+				if(paper.size()!=0){
+					error="error";
+					model.addAttribute("ERR_code", "试卷编号已存在");
+				}
+			}
 		}
-		String examStartTime = startTime+" "+newHour+":"+newSecond+":"+"00";
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		examPaper.setStartTime(sdf.parse(examStartTime));
+		examPaper.setName(name);
+		examPaper.setCode(code);
 		String[] isAllow = request.getParameterValues("isAllow");
-		if(isAllow[0].equals("是")){
-			examPaper.setIsAllowRetake(1);
+		if(isAllow==null){
+			error="error";
+			model.addAttribute("ERR_isAllow","请选择");
 		}else{
-			examPaper.setIsAllowRetake(0);
+			if(isAllow[0].equals("是")){
+				String testTime = request.getParameter("testTime");
+				if(testTime.isEmpty()){
+					error="error";
+					model.addAttribute("ERR_testTime", "答题用时不能为空");
+				}else{
+					if(!ValidateUtils.Z_index(testTime)){
+						error="error";
+						model.addAttribute("ERR_testTime", "答题用时必须为正整数");
+					}else{
+						examPaper.setTestTime(testTime);
+						examPaper.setIsAllowRetake(1);
+					}
+				}
+				model.addAttribute("errorIsAllow", "是");
+			}else{
+				examPaper.setIsAllowRetake(0);
+				model.addAttribute("errorIsAllow", "否");
+			}
 		}
-		examPaper.setYear(startTime.substring(0, 4));
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String startTime = request.getParameter("startTime");
+		Date sTime = null;
+		if(startTime.trim().isEmpty()){
+			error="error";
+			model.addAttribute("ERR_startTime","考试开始时间不能为空");
+		}else{
+			String examStartTime = startTime+":00";
+			sTime = sdf.parse(examStartTime);
+			if(sTime.getTime()<=new Date().getTime()){
+				error="error";
+				model.addAttribute("ERR_startTime","考试开始时间必须大于当前时间");
+			}else{
+				examPaper.setStartTime(sTime);
+			}
+		}
+		String offTime = request.getParameter("offTime");
+		if(offTime.trim().isEmpty()){
+			error="error";
+			model.addAttribute("ERR_offTime","考试截止时间不能为空");
+		}else{
+			String examOffTime = offTime+":00";
+			Date oTime = sdf.parse(examOffTime);
+			if(oTime.getTime()<=sTime.getTime()){
+				error = "error";
+				model.addAttribute("ERR_offTime","考试截止时间必须大于考试开始时间");
+			}else{
+				examPaper.setOffTime(oTime);
+			}
+		}
+		String passStandard = request.getParameter("passStandard");
+		String paperScore = request.getParameter("paperScore");
+		examPaper.setScore(paperScore);
+		examPaper.setPassStandard(passStandard);
+		if(passStandard.trim().isEmpty()){
+			error = "error";
+			model.addAttribute("ERR_passStandard","及格标准不能为空");
+		}else{
+			if(!ValidateUtils.PositiveNumber(passStandard)){
+				error = "passStandard";
+				model.addAttribute("ERR_passStandard", "及格标准分必须为大于0的正数");
+			}else if(Integer.parseInt(passStandard)>=Integer.parseInt(paperScore)){
+				error = "passStandard";
+				model.addAttribute("ERR_passStandard", "及格标准分要小于试卷分值");
+			}
+		}
+		String[] single = request.getParameterValues("single");
+		String[] multiple = request.getParameterValues("multiple");
+		String[] judge = request.getParameterValues("judge");
 		String singleNum = request.getParameter("singleNum");
 		String singlePoint = request.getParameter("singlePoint");
 		String multipleNum = request.getParameter("multipleNum");
@@ -959,14 +1264,143 @@ public class PurchaserExamController extends BaseSupplierController{
 		String judgeNum = request.getParameter("judgeNum");
 		String judgePoint = request.getParameter("judgePoint");
 		Map<String,String> map = new HashMap<String,String>();
-		map.put("singleNum", singleNum);
-		map.put("singlePoint", singlePoint);
-		map.put("multipleNum", multipleNum);
-		map.put("multiplePoint", multiplePoint);
-		map.put("judgeNum", judgeNum);
-		map.put("judgePoint", judgePoint);
-		JSONSerializer.toJSON(map);
+		Map<String,Object> errorData = new HashMap<String,Object>();
+		if(single==null&&multiple==null&&judge==null){
+			error = "error";
+			model.addAttribute("ERR_single", "请选择");
+			model.addAttribute("ERR_multiple", "请选择");
+			model.addAttribute("ERR_judge", "请选择");
+		}else{
+			if(single!=null){
+				model.addAttribute("singleNum", singleNum);
+				model.addAttribute("singlePoint", singlePoint);
+				model.addAttribute("errorSingle", single[0]);
+			}
+			if(multiple!=null){
+				model.addAttribute("multipleNum", multipleNum);
+				model.addAttribute("multiplePoint", multiplePoint);
+				model.addAttribute("errorMultiple", multiple[0]);
+			}
+			if(judge!=null){
+				model.addAttribute("judgeNum", judgeNum);
+				model.addAttribute("judgePoint", judgePoint);
+				model.addAttribute("errorJudge", judge[0]);
+			}
+			if(single==null||multiple==null||judge==null){
+				error = "error";
+				if(single==null){
+					model.addAttribute("ERR_single", "请选择");
+				}
+				if(multiple==null){
+					model.addAttribute("ERR_multiple", "请选择");
+				}
+				if(judge==null){
+					model.addAttribute("ERR_judge", "请选择");
+				}
+			}else if(single[0].equals("无")&&multiple[0].equals("无")&&judge[0].equals("无")){
+				error = "error";
+				model.addAttribute("ERR_single", "请至少选择一种题型");
+			}else{
+				if(single[0].equals("有")){
+					if(singleNum.trim().isEmpty()||singlePoint.trim().isEmpty()){
+						error = "error";
+						model.addAttribute("ERR_single", "请把题型分布补充完整");
+					}else{
+						if(!ValidateUtils.Z_index(singleNum)){
+							error = "error";
+							model.addAttribute("ERR_single", "题目数量必须为正整数");
+						}else if(!ValidateUtils.PositiveNumber(singlePoint)){
+							error = "error";
+							model.addAttribute("ERR_single", "分值必须为大于0的正数");
+						}else{
+							HashMap<String,Object> purSingle = new HashMap<String,Object>();
+							purSingle.put("questionTypeId", 1);
+							int purchaserSingle = examQuestionService.queryPurchaserQuestionCount(purSingle);
+							if(purchaserSingle<Integer.parseInt(singleNum)){
+								error = "error";
+								model.addAttribute("ERR_single", "题库中单选题数量不足");
+							}else{
+								map.put("singleNum", singleNum);
+								map.put("singlePoint", singlePoint);
+							}
+						}
+					}
+				}else{
+					map.put("singleNum", "0");
+					map.put("singlePoint", "0");
+				}
+				if(multiple[0].equals("有")){
+					if(multipleNum.trim().isEmpty()||multiplePoint.trim().isEmpty()){
+						error = "error";
+						model.addAttribute("ERR_multiple", "请把题型分布补充完整");
+					}else{
+						if(!ValidateUtils.Z_index(multipleNum)){
+							error = "error";
+							model.addAttribute("ERR_multiple", "题目数量必须为正整数");
+						}else if(!ValidateUtils.PositiveNumber(multiplePoint)){
+							error = "error";
+							model.addAttribute("ERR_multiple", "分值必须为大于0的正数");
+						}else{
+							HashMap<String,Object> purMultiple = new HashMap<String,Object>();
+							purMultiple.put("questionTypeId", 2);
+							int purchaserMultiple = examQuestionService.queryPurchaserQuestionCount(purMultiple);
+							if(purchaserMultiple<Integer.parseInt(multipleNum)){
+								error = "error";
+								model.addAttribute("ERR_multiple", "题库中多选题数量不足");
+							}else{
+								map.put("multipleNum", multipleNum);
+								map.put("multiplePoint", multiplePoint);
+							}
+						}
+					}
+				}else{
+					map.put("multipleNum", "0");
+					map.put("multiplePoint", "0");
+				}
+				if(judge[0].equals("有")){
+					if(judgeNum.trim().isEmpty()||judgePoint.trim().isEmpty()){
+						error = "error";
+						model.addAttribute("ERR_judge", "请把题型分布补充完整");
+					}else{
+						if(!ValidateUtils.Z_index(judgeNum)){
+							error = "error";
+							model.addAttribute("ERR_judge", "题目数量必须为正整数");
+						}else if(!ValidateUtils.PositiveNumber(judgePoint)){
+							error = "error";
+							model.addAttribute("ERR_judge", "分值必须为大于0的正数");
+						}else{
+							HashMap<String,Object> purJudge = new HashMap<String,Object>();
+							purJudge.put("questionTypeId",3);
+							int purchaserJudge = examQuestionService.queryPurchaserQuestionCount(purJudge);
+							if(purchaserJudge<Integer.parseInt(judgeNum)){
+								error = "error";
+								model.addAttribute("ERR_judge", "题库中判断题数量不足");
+							}else{
+								map.put("judgeNum", judgeNum);
+								map.put("judgePoint", judgePoint);
+							}
+						}
+					}
+				}else{
+					map.put("judgeNum", "0");
+					map.put("judgePoint", "0");
+				}
+			}
+		}
+		if(error.equals("error")){
+			model.addAttribute("examPaper", examPaper);
+			model.addAttribute("startTime", startTime);
+			model.addAttribute("offTime", offTime);
+			model.addAttribute("singleNum", singleNum);
+			model.addAttribute("singlePoint", singlePoint);
+			model.addAttribute("multipleNum", multipleNum);
+			model.addAttribute("multiplePoint", multiplePoint);
+			model.addAttribute("judgeNum", judgeNum);
+			model.addAttribute("judgePoint", judgePoint);
+			return "ses/ems/exam/purchaser/paper/edit";
+		}
 		examPaper.setTypeDistribution(JSONSerializer.toJSON(map).toString());
+		examPaper.setYear(startTime.substring(0, 4));
 		examPaperService.updateByPrimaryKeySelective(examPaper);
 		return "redirect:paperManage.html";
 	}
@@ -2059,9 +2493,38 @@ public class PurchaserExamController extends BaseSupplierController{
 		List<ExamPaperUser> schedule = examPaperUserService.findCurrentUserSchedule(map);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		for(int i=0;i<schedule.size();i++){
-			schedule.get(i).setFormatDate(sdf.format(schedule.get(i).getStartTime()));
+			schedule.get(i).setStartDate(sdf.format(schedule.get(i).getStartTime()));
+			schedule.get(i).setOffDate(sdf.format(schedule.get(i).getOffTime()));
 		}
 		model.addAttribute("testSchedule", new PageInfo<ExamPaperUser>(schedule));
 		return "ses/ems/exam/purchaser/test_schedule";
+	}
+	
+	/**
+	 * 
+	* @Title: backQuestion
+	* @author ZhaoBo
+	* @date 2016-10-31 上午10:03:51  
+	* @Description: 返回到采购人题库列表 
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/backQuestion")
+	public String backQuestion(){
+		return "redirect:purchaserList.html";
+	}
+	
+	/**
+	 * 
+	* @Title: backPaper
+	* @author ZhaoBo
+	* @date 2016-10-31 上午10:09:18  
+	* @Description: 返回到考卷列表 
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/backPaper")
+	public String backPaper(){
+		return "redirect:paperManage.html";
 	}
 }

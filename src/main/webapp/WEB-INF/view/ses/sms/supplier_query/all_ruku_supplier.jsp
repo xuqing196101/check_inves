@@ -46,6 +46,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="<%=basePath%>public/ZHH/css/masterslider.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/james.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/WdatePicker(1).css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="<%=basePath%>public/ztree/css/demo.css" type="text/css">
+<link rel="stylesheet" href="<%=basePath%>public/ztree/css/zTreeStyle.css" type="text/css">
 <script src="<%=basePath%>public/ZHH/js/hm.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery-migrate-1.2.1.min.js"></script>
@@ -109,6 +111,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="${pageContext.request.contextPath}/public/highmap/js/modules/drilldown.js"></script>
 <script src="${pageContext.request.contextPath}/public/highmap/js/modules/exporting.js"></script>
 <script src="${pageContext.request.contextPath}/public/highmap/js/cn-china-by-peng8.js"></script>
+	<script type="text/javascript" src="<%=basePath%>public/ztree/jquery.ztree.core.js"></script>
+	<script type="text/javascript" src="<%=basePath%>public/ztree/jquery.ztree.excheck.js"></script>
 <link href="<%=basePath%>public/highmap/js/font-awesome.css" media="screen" rel="stylesheet">
 <title>My JSP 'index.jsp' starting page</title>
 <meta http-equiv="pragma" content="no-cache">
@@ -474,7 +478,11 @@ function chongzhi(){
 	$("#startDate").val('');
 	$("#endDate").val('');
 	$("#contactName").val('');
-	$("option")[0].selected = true;
+	$("#category").val('');
+	$("#supplierType").val('');
+	$("#categoryIds").val('');
+	$("#supplierTypeIds").val('');
+	window.location.href="<%=basePath%>/supplierQuery/highmaps.html?status=3";
 }
 $(function() {
 		var optionNodes = $("option");
@@ -484,6 +492,153 @@ $(function() {
 			}
 		}
 	});
+				function beforeClickCategory(treeId, treeNode) {
+			var zTree = $.fn.zTree.getZTreeObj("treeRole");
+			zTree.checkNode(treeNode, !treeNode.checked, null, true);
+			return false;
+		    }
+		    function beforeClick(treeId, treeNode) {
+			var zTree = $.fn.zTree.getZTreeObj("treeSupplierType");
+			zTree.checkNode(treeNode, !treeNode.checked, null, true);
+			return false;
+		    }
+		
+		function onCheckCategory(e, treeId, treeNode) {
+			var zTree = $.fn.zTree.getZTreeObj("treeRole"),
+			nodes = zTree.getCheckedNodes(true),
+			v = "";
+			var rid = "";
+			for (var i=0, l=nodes.length; i<l; i++) {
+				v += nodes[i].name + ",";
+				rid += nodes[i].id + ",";
+			}
+			if (v.length > 0 ) v = v.substring(0, v.length-1);
+			if (rid.length > 0 ) rid = rid.substring(0, rid.length-1);
+			var cityObj = $("#category");
+			cityObj.attr("value", v);
+			$("#categoryIds").val(rid); 
+		}
+		function onCheck(e, treeId, treeNode) {
+			var zTree = $.fn.zTree.getZTreeObj("treeSupplierType"),
+			nodes = zTree.getCheckedNodes(true),
+			v = "";
+			var rid = "";
+			for (var i=0, l=nodes.length; i<l; i++) {
+				v += nodes[i].name + ",";
+				rid += nodes[i].id + ",";
+			}
+			if (v.length > 0 ) v = v.substring(0, v.length-1);
+			if (rid.length > 0 ) rid = rid.substring(0, rid.length-1);
+			var cityObj = $("#supplierType");
+			cityObj.attr("value", v);
+			$("#supplierTypeIds").val(rid); 
+		}
+			function showCategory() {
+			var setting = {
+			check: {
+					enable: true,
+					chkboxType: {"Y":"", "N":""}
+				},
+				view: {
+					dblClickExpand: false
+				},
+				data : {
+				simpleData : {
+					enable : true,
+					idKey : "id",
+					pIdKey : "parentId"
+				}
+			},
+				callback: {
+					beforeClick: beforeClickCategory,
+					onCheck: onCheckCategory
+				}
+			};
+	        $.ajax({
+             type: "GET",
+             async: false, 
+             url: "<%=basePath%>/category/query_category.do?categoryIds="+" ",
+             dataType: "json",
+             success: function(zNodes){
+                     for (var i = 0; i < zNodes.length; i++) { 
+			            if (zNodes[i].isParent) {  
+			  
+			            } else {  
+			                //zNodes[i].icon = "${ctxStatic}/images/532.ico";//设置图标  
+			            }  
+			        }  
+			        tree = $.fn.zTree.init($("#treeRole"), setting, zNodes);  
+			        tree.expandAll(true);//全部展开
+               }
+         	});
+			var cityObj = $("#category");
+			var cityOffset = $("#category").offset();
+			$("#roleContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
+			$("body").bind("mousedown", onBodyDownOrg);
+		}
+		function showSupplierType() {
+			var setting = {
+			check: {
+					enable: true,
+					chkboxType: {"Y":"", "N":""}
+				},
+				view: {
+					dblClickExpand: false
+				},
+				data : {
+				simpleData : {
+					enable : true,
+					idKey : "id",
+					pIdKey : "parentId"
+				}
+			},
+				callback: {
+					beforeClick: beforeClick,
+					onCheck: onCheck
+				}
+			};
+	        $.ajax({
+             type: "GET",
+             async: false, 
+             url: "<%=basePath%>/supplier_type/find_supplier_type.do?supplierId='${supplierId}'",
+             dataType: "json",
+             success: function(zNodes){
+                     for (var i = 0; i < zNodes.length; i++) { 
+			            if (zNodes[i].isParent) {  
+			  
+			            } else {  
+			                //zNodes[i].icon = "${ctxStatic}/images/532.ico";//设置图标  
+			            }  
+			        }  
+			        tree = $.fn.zTree.init($("#treeSupplierType"), setting, zNodes);  
+			        tree.expandAll(true);//全部展开
+               }
+         	});
+			var cityObj = $("#supplierType");
+			var cityOffset = $("#supplierType").offset();
+			$("#supplierTypeContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
+			$("body").bind("mousedown", onBodyDownSupplierType);
+		}
+		function hideRole() {
+			$("#roleContent").fadeOut("fast");
+			$("body").unbind("mousedown", onBodyDownOrg);
+			
+		}
+		function hideSupplierType() {
+			$("#supplierTypeContent").fadeOut("fast");
+			$("body").unbind("mousedown", onBodyDownOrg);
+			
+		}
+		function onBodyDownOrg(event) {
+			if (!(event.target.id == "menuBtn" || event.target.id == "roleSel" || event.target.id == "roleContent" || $(event.target).parents("#roleContent").length>0)) {
+				hideRole();
+			}
+		}
+		function onBodyDownSupplierType(event) {
+			if (!(event.target.id == "menuBtn" || $(event.target).parents("#supplierTypeContent").length>0)) {
+				hideSupplierType();
+			}
+		}
 </script>
 </head>
 <!--面包屑导航开始-->
@@ -495,9 +650,15 @@ $(function() {
 		<div class="clear"></div>
 	  </div>
    </div>
+   <div id="roleContent" class="roleContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+			<ul id="treeRole" class="ztree" style="margin-top:0;"></ul>
+	   </div>
+	    <div id="supplierTypeContent" class="supplierTypeContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+			<ul id="treeSupplierType" class="ztree" style="margin-top:0;"></ul>
+	   </div>
   <body>
   	<div class="container clear margin-top-30">
-  			<form id="form1" action="<%=basePath %>supplierQuery/highmaps.html" method="post">
+  			<form id="form1" action="<%=basePath %>supplierQuery/highmaps.html?status=3" method="post">
 		       <input type="hidden" name="page" id="page">
 		       <table class="table table-bordered table-condensed tc">
 		       	<tbody>
@@ -520,16 +681,19 @@ $(function() {
 		       			<td style="text-align:right">联系人：</td>
 		       			<td><input class="span2" id="contactName" name="contactName" value="${contactName }" type="text"></td>
 		       			<td style="text-align:right">供应商类型：</td>
-		       			<td>
-		       			      <select name="supplierType" class="fl" >
-							   		<option selected="selected" value=''>-请选择-</option>
-							   		<c:forEach items="${listType}" var="list" varStatus="vs">
-							   			<option  value='${list.name }'>${list.name }</option>
-							   		</c:forEach>
-							   </select>
-		       				 <input class="btn padding-left-20 padding-right-20 btn_back" onclick="submit()" type="button" value="查询">
-		     				 <input class="btn padding-left-20 padding-right-20 btn_back" onclick="chongzhi()" type="button" value="重置"> 
+		       			<td> 
+		       				 <input id="supplierType" class="span2" type="text" readonly name="supplierType" value="${supplierType }" onclick="showSupplierType();" />
+		       			     <input   type="hidden" name="supplierTypeIds"  id="supplierTypeIds" value="${supplierTypeIds }" />
 		       			</td>
+		       		</tr>
+		       		<tr>
+		       			<td  style="text-align:right">品目：</td>
+		       			<td> 
+		       			   <input id="category" class="span2" type="text" readonly name="categoryNames" value="${categoryNames }" onclick="showCategory();" />
+		       			   <input   type="hidden" name="categoryIds"  id="categoryIds" value="${categoryIds }"   />
+		       			</td>
+		       			<td colspan="2"> <input class="btn padding-left-20 padding-right-20 btn_back" onclick="submit()" type="button" value="查询">
+		     				 <input class="btn padding-left-20 padding-right-20 btn_back" onclick="chongzhi()" type="button" value="重置"> </td>
 		       		</tr>
 		       	</tbody>
 		       </table>

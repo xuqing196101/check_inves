@@ -1,5 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ include file="../../../../../index_head.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -22,23 +23,13 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.excheck.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
 <script type="text/javascript">
 	/** 保存基本信息 */
-	function saveTemplate(sign) {
-		var action = "${pageContext.request.contextPath}/supplier/";
-		if (sign == 1) {
-			action += "next_step.html";
-		} else if(sign == -1) {
-			action += "prev_step.html";
-		} else {
-			action += "stash_step.html";
-		}
-		$("#template_upload_form_id").attr("action", action);
+	function saveTemplate(jsp) {
+		$("input[name='jsp']").val(jsp);
 		$("#template_upload_form_id").submit();
 
 	}
@@ -64,8 +55,8 @@
 			name = "supplierExitListFile";
 		}
 		var html = "<div class='input-append'>";
-		html += "<div class='uploader orange h32 m0'>";
-		html += "<input type='text' class='filename fz11 h32' readonly='readonly'/>";
+		html += "<div class='uploader orange h32 m0 fz8'>";
+		html += "<input type='text' class='filename fz8 h32' readonly='readonly'/>";
 		html += "<input type='button' name='file' class='button' value='选择...'/>";
 		html += "<input name='"+ name +"' type='file' size='30'/>";
 		html += "</div>";
@@ -84,8 +75,6 @@
 
 <body>
 	<div class="wrapper">
-		<!-- header -->
-		<jsp:include page="../../../../../index_head.jsp"></jsp:include>
 
 		<!-- 项目戳开始 -->
 		<div class="container clear margin-top-30">
@@ -108,9 +97,9 @@
 			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10">
-						<form id="template_upload_form_id" method="post" enctype="multipart/form-data">
+						<form id="template_upload_form_id" action="${pageContext.request.contextPath}/supplier/perfect_upload.html" method="post" enctype="multipart/form-data">
 							<input name="id" value="${currSupplier.id}" type="hidden" /> 
-							<input name="sign" value="9" type="hidden" />
+							<input name="jsp" type="hidden" />
 							<div class="tab-content padding-top-20">
 								<!-- 物资生产型 -->
 								<div class="tab-pane fade active in height-300" id="tab-1">
@@ -128,8 +117,8 @@
 												</c:if>
 												<c:if test="${currSupplier.supplierLevel == null}">
 													<div class="input-append">
-														<div class="uploader orange h32 m0">
-															<input type="text" class="filename fz11 h32" readonly="readonly"/>
+														<div class="uploader orange h32 m0 fz8">
+															<input type="text" class="filename h32 fz8" readonly="readonly"/>
 															<input type="button" name="file" class="button" value="选择..."/>
 															<input name="supplierLevelFile" type="file" size="30"/>
 														</div>
@@ -145,8 +134,8 @@
 												</c:if>
 												<c:if test="${currSupplier.supplierPledge == null}">
 													<div class="input-append">
-														<div class="uploader orange h32 m0">
-															<input type="text" class="filename fz11 h32" readonly="readonly"/>
+														<div class="uploader orange h32 m0 fz8">
+															<input type="text" class="filename h32 fz8" readonly="readonly"/>
 															<input type="button" name="file" class="button" value="选择..."/>
 															<input name="supplierPledgeFile" type="file" size="30"/>
 														</div>
@@ -162,8 +151,8 @@
 												</c:if>
 												<c:if test="${currSupplier.supplierRegList == null}">
 													<div class="input-append">
-														<div class="uploader orange h32 m0">
-															<input type="text" class="filename fz11 h32" readonly="readonly"/>
+														<div class="uploader orange h32 m0 fz8">
+															<input type="text" class="filename h32 fz8" readonly="readonly"/>
 															<input type="button" name="file" class="button" value="选择..."/>
 															<input name="supplierRegListFile" type="file" size="30"/>
 														</div>
@@ -179,8 +168,8 @@
 												</c:if>
 												<c:if test="${currSupplier.supplierExtractsList == null}">
 													<div class="input-append">
-														<div class="uploader orange h32 m0">
-															<input type="text" class="filename fz11 h32" readonly="readonly"/>
+														<div class="uploader orange h32 m0 fz8">
+															<input type="text" class="filename h32 fz8" readonly="readonly"/>
 															<input type="button" name="file" class="button" value="选择..."/>
 															<input name="supplierExtractsListFile" type="file" size="30"/>
 														</div>
@@ -196,8 +185,8 @@
 												</c:if>
 												<c:if test="${currSupplier.supplierInspectList == null}">
 													<div class="input-append">
-														<div class="uploader orange h32 m0">
-															<input type="text" class="filename fz11 h32" readonly="readonly"/>
+														<div class="uploader orange h32 m0 fz8">
+															<input type="text" class="filename h32 fz8" readonly="readonly"/>
 															<input type="button" name="file" class="button" value="选择..."/>
 															<input name="supplierInspectListFile" type="file" size="30"/>
 														</div>
@@ -213,8 +202,8 @@
 												</c:if>
 												<c:if test="${currSupplier.supplierReviewList == null}">
 													<div class="input-append">
-														<div class="uploader orange h32 m0">
-															<input type="text" class="filename fz11 h32" readonly="readonly"/>
+														<div class="uploader orange h32 m0 fz8">
+															<input type="text" class="filename h32 fz8" readonly="readonly"/>
 															<input type="button" name="file" class="button" value="选择..."/>
 															<input name="supplierReviewListFile" type="file" size="30"/>
 														</div>
@@ -230,8 +219,8 @@
 												</c:if>
 												<c:if test="${currSupplier.supplierChangeList == null}">
 													<div class="input-append">
-														<div class="uploader orange h32 m0">
-															<input type="text" class="filename fz11 h32" readonly="readonly"/>
+														<div class="uploader orange h32 m0 fz8">
+															<input type="text" class="filename h32 fz8" readonly="readonly"/>
 															<input type="button" name="file" class="button" value="选择..."/>
 															<input name="supplierChangeListFile" type="file" size="30"/>
 														</div>
@@ -247,8 +236,8 @@
 												</c:if>
 												<c:if test="${currSupplier.supplierExitList == null}">
 													<div class="input-append">
-														<div class="uploader orange h32 m0">
-															<input type="text" class="filename fz11 h32" readonly="readonly"/>
+														<div class="uploader orange h32 m0 fz8">
+															<input type="text" class="filename h32 fz8" readonly="readonly"/>
 															<input type="button" name="file" class="button" value="选择..."/>
 															<input name="supplierExitListFile" type="file" size="30"/>
 														</div>
@@ -261,9 +250,9 @@
 								</div>
 							</div>
 							<div class="mt40 tc mb50">
-								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveTemplate(-1)">上一步</button>
-								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveTemplate(0)">暂存</button>
-								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveTemplate(1)">提交审核</button>
+								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveTemplate('template_download')">上一步</button>
+								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveTemplate('template_upload')">暂存</button>
+								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveTemplate('commit')">提交审核</button>
 							</div>
 						</form>
 					</div>

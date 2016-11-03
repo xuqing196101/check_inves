@@ -92,8 +92,8 @@
 											</li>
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 证书附件：</span>
 												<div class="input-append">
-													<div class="uploader orange h32 m0">
-														<input type="text" class="filename fz11 h32" readonly="readonly"/>
+													<div class="uploader orange h32 m0 fz8">
+															<input type="text" class="filename h32 fz8" readonly="readonly"/>
 														<input type="button" name="file" class="button" value="选择..."/>
 														<input name="attachFile" type="file" size="30"/>
 													</div>

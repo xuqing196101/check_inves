@@ -17,6 +17,8 @@ public class ExpertBlackListLog{
 	private Integer punishType; //处罚类型
     private String punishDate; //处罚时限
     private String reason; //理由
+    private String expertName; //专家名字
+    
 	public String getId() {
 		return id;
 	}
@@ -71,6 +73,12 @@ public class ExpertBlackListLog{
 	}
 	public void setReason(String reason) {
 		this.reason = reason;
+	}
+	public String getExpertName() {
+		return expertName;
+	}
+	public void setExpertName(String expertName) {
+		this.expertName = expertName;
 	}
 	
 	

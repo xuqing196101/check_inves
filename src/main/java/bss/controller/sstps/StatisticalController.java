@@ -57,9 +57,6 @@ public class StatisticalController {
         toolbox.setOrient("vertical");
         toolbox.setX("right");
         toolbox.setY("top");
-//        DataView dataView = new DataView();
-//        dataView.setShow(true);
-//        dataView.setReadOnly(false);
         MagicType magicType = new MagicType();
         magicType.setShow(true);
         List<String> type = new ArrayList<String>();
@@ -70,13 +67,11 @@ public class StatisticalController {
         restore.setShow(true);
         SaveAsImage saveAsImage = new SaveAsImage();
         saveAsImage.setShow(true);
-      //  feature.setDataView(dataView);
         feature.setMagicType(magicType);
         feature.setRestore(restore);
         feature.setSaveAsImage(saveAsImage);
         toolbox.setShow(true);
         toolbox.setFeature(feature);
-        
         Tooltip tooltip = new Tooltip();
         tooltip.setTrigger("axis");
         tooltip.setShow(true);
@@ -97,7 +92,6 @@ public class StatisticalController {
         tooltip.setBackgroundColor("rgba(50,50,50,0.7)");
         tooltip.setBorderColor("#333");
         tooltip.setExtraCssText("box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);");
-        
         Legend legend = new Legend();
         List<String> data = new ArrayList<String>();
         data.add("合同金额");
@@ -206,7 +200,7 @@ public class StatisticalController {
 		map.put("page", page.toString());
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-		List<AppraisalContract> list = appraisalContractService.selectAppraisal(appraisalContract);
+		List<AppraisalContract> list = appraisalContractService.selectAppraisal(map);
 		model.addAttribute("list", new PageInfo<AppraisalContract>(list));
 		model.addAttribute("name", name);
 		model.addAttribute("code", code);

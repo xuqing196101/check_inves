@@ -84,6 +84,10 @@ function add(){
 	}
 }
 
+function resetQuery(){
+	$("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+}
+
 </script>    
     
   </head>
@@ -118,7 +122,7 @@ function add(){
 	    	<label class="fl">供应商名称：</label><span><input type="text" name="supplierName" value="${supplierName }" class=""/></span>
 	      </li> 
 	    	<button type="submit" class="btn">查询</button>
-	    	<button type="reset" class="btn">重置</button>  	
+	    	<button type="button" class="btn" onclick="resetQuery()">重置</button> 
     	</ul>
     	  <div class="clear"></div>
        </form>

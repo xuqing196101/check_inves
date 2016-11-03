@@ -17,7 +17,7 @@ public interface TaskMapper {
      
     List<Task> likeByTask(Task task);
     
-    List<Task> listByTask(String id);
+    List<Task> listByTask(Task task);
     
     void updateByPrimaryKeySelective(Task record);
 

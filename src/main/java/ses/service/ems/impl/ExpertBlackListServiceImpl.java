@@ -1,5 +1,6 @@
 package ses.service.ems.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -118,7 +119,7 @@ public class ExpertBlackListServiceImpl implements ExpertBlackListService{
 			//记录操作
 			expertBlackList=this.findById(ids[i]);
 			expertBlackListLog.setOperationDate(new Date()); 
-			expertBlackListLog.setExpertId(expertBlackList.getRelName());
+			expertBlackListLog.setExpertId(expertBlackList.getExpertId());
 			expertBlackListLog.setOperator("我");
 			expertBlackListLog.setOperationType("2");
 			expertBlackListLog.setDateOfPunishment(expertBlackList.getDateOfPunishment());
@@ -154,9 +155,19 @@ public class ExpertBlackListServiceImpl implements ExpertBlackListService{
      */
 	@Override
 	public List<Expert> findExpertAll(Expert expert, Integer page) {
+		//过滤掉黑名单那中的专家
+		List<ExpertBlackList> expertBlackList = mapper.findList(new ExpertBlackList());
+		List<String> list = new ArrayList<String>();
+		if(expertBlackList != null && expertBlackList.size()>0){
+			for(int i=0;i<expertBlackList.size();i++){
+				String id = expertBlackList.get(i).getExpertId();
+				list.add(id);
+			}
+			expert.setIds(list);
+		}
+		
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-		
 		return expertMapper.findExpertAll(expert);
 	}
 	
@@ -186,7 +197,8 @@ public class ExpertBlackListServiceImpl implements ExpertBlackListService{
 	public List<ExpertBlackListLog> findBlackListLog(ExpertBlackListLog expertBlackListHistory,Integer page) {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
-		return expertBlackListHistoryMapper.findBlackListLog(expertBlackListHistory);
+		List<ExpertBlackListLog>  list= expertBlackListHistoryMapper.findBlackListLog(expertBlackListHistory);
+		 return list;
 	}
 
 }

@@ -79,6 +79,11 @@ public class ExamPaper {
     private Date offTime;
     
     /**
+     * @Fields offTrueDate :备用考试截止时间
+     */
+    private String offTrueDate;
+    
+    /**
      * @Fields status :考卷状态
      */
     private String status;
@@ -193,6 +198,14 @@ public class ExamPaper {
 
 	public void setOffTime(Date offTime) {
 		this.offTime = offTime;
+	}
+	
+	public String getOffTrueDate() {
+		return offTrueDate;
+	}
+
+	public void setOffTrueDate(String offTrueDate) {
+		this.offTrueDate = offTrueDate;
 	}
 
 	public String getStatus() {

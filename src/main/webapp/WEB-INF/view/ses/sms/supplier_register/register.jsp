@@ -97,7 +97,7 @@
 								<label class="col-md-3 p0"><i class="red mr5">*</i>验证码：</label> 
 								<input type="text" name="identifyCode" class="fl input-yzm" value="${supplier.identifyCode}">
 								<div class="fl">
-									<div class="yzm fl">
+									<div class="yzm fl h28">
 										<img id="identity_code_img_id" class="hand" src="${pageContext.request.contextPath}/supplier/get_identity.html" onclick="getIdentityCode()"/>
 									</div>
 									<button type="button" class="btn padding-left-10 padding-right-10 btn_back ml10 fl" onclick="getIdentityCode()">换一张</button>
