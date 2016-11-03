@@ -3,11 +3,16 @@ package bss.controller.sstps;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import ses.util.ValidateUtils;
 
 import bss.model.sstps.ContractProduct;
 import bss.model.sstps.ManufacturingCost;
@@ -116,18 +121,27 @@ public class ManufacturingCostController {
 	* @return String
 	 */
 	@RequestMapping("/save")
-	public String save(Model model,ManufacturingCost manufacturingCost){
+	public String save(Model model,@Valid ManufacturingCost manufacturingCost,BindingResult result){
 		String proId = manufacturingCost.getContractProduct().getId();
-		manufacturingCost.setCreatedAt(new Date());
-		manufacturingCost.setUpdatedAt(new Date());
-		manufacturingCostService.insert(manufacturingCost);
-		
-		List<ManufacturingCost> list = manufacturingCostService.selectProduct(manufacturingCost);
-		model.addAttribute("list", list);
-		
 		model.addAttribute("proId",proId);
-		
-		return "bss/sstps/offer/supplier/manufacturingCost/list";
+		String url = "";
+		boolean flag = true;
+		if(ValidateUtils.isNull(manufacturingCost.getProjectName())){
+			flag = false;
+			model.addAttribute("ERR_projectName", "项目名称不能为空");
+		}
+		if(flag==false){
+			model.addAttribute("mc", manufacturingCost);
+			url = "bss/sstps/offer/supplier/manufacturingCost/add";
+		}else{
+			manufacturingCost.setCreatedAt(new Date());
+			manufacturingCost.setUpdatedAt(new Date());
+			manufacturingCostService.insert(manufacturingCost);
+			List<ManufacturingCost> list = manufacturingCostService.selectProduct(manufacturingCost);
+			model.addAttribute("list", list);
+			url = "bss/sstps/offer/supplier/manufacturingCost/list";
+		}
+		return url;
 	}
 	
 	/**
@@ -141,16 +155,26 @@ public class ManufacturingCostController {
 	* @return String
 	 */
 	@RequestMapping("/update")
-	public String update(Model model,ManufacturingCost manufacturingCost){
+	public String update(Model model,@Valid ManufacturingCost manufacturingCost,BindingResult result){
 		String proId = manufacturingCost.getContractProduct().getId();
-		
-		manufacturingCost.setUpdatedAt(new Date());
-		manufacturingCostService.update(manufacturingCost);
-		
-		List<ManufacturingCost> list = manufacturingCostService.selectProduct(manufacturingCost);
-		model.addAttribute("list", list);
 		model.addAttribute("proId",proId);
-		return "bss/sstps/offer/supplier/manufacturingCost/list";
+		String url = "";
+		boolean flag = true;
+		if(ValidateUtils.isNull(manufacturingCost.getProjectName())){
+			flag = false;
+			model.addAttribute("ERR_projectName", "项目名称不能为空");
+		}
+		if(flag==false){
+			model.addAttribute("mc", manufacturingCost);
+			url = "bss/sstps/offer/supplier/manufacturingCost/edit";
+		}else{
+			manufacturingCost.setUpdatedAt(new Date());
+			manufacturingCostService.update(manufacturingCost);
+			List<ManufacturingCost> list = manufacturingCostService.selectProduct(manufacturingCost);
+			model.addAttribute("list", list);
+			url = "bss/sstps/offer/supplier/manufacturingCost/list";
+		}
+		return url;
 	}
 	
 	/**

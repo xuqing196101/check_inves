@@ -37,27 +37,31 @@ function down(){
    <h2 class="f16 count_flow mt40"><i>01</i>基础信息</h2>
    <ul class="list-unstyled list-flow ul_list">
    <li class="col-md-6 p0">
-	   <span class="">零组部件名称：</span>
+	   <span class=""><i class="red">＊</i>零组部件名称：</span>
 	   <div class="input-append">
-        <input type="text" id="partsName" name="partsName" class="w220">
+        <input type="text" id="partsName" name="partsName" value="${pq.partsName }" class="w220">
+      	<div class="validate">${ERR_partsName}</div>
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
-	   <span class="">零组部件图纸：</span>
+	   <span class=""><i class="red">＊</i>零组部件图纸：</span>
 	   <div class="input-append">
-        <input type="text" id="partsDrawingCode" name="partsDrawingCode" class="w220">
+        <input type="text" id="partsDrawingCode" name="partsDrawingCode" value="${pq.partsDrawingCode }" class="w220">
+       	<div class="validate">${ERR_partsDrawingCode}</div>
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
-	   <span class="">工序名称：</span>
+	   <span class=""><i class="red">＊</i>工序名称：</span>
 	   <div class="input-append">
-        <input type="text" id="processName" name="processName" class="w220">
+        <input type="text" id="processName" name="processName" value="${pq.processName }" class="w220">
+      	<div class="validate">${ERR_processName}</div>
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
-	   <span class="">计量单位：</span>
+	   <span class=""><i class="red">＊</i>计量单位：</span>
 	   <div class="input-append">
-        <input id="measuringUnit" name="measuringUnit" type="text" class="w220">
+        <input id="measuringUnit" name="measuringUnit" type="text" value="${pq.measuringUnit }" class="w220">
+       	<div class="validate">${ERR_measuringUnit}</div>
        </div>
 	 </li>
    </ul>
@@ -69,43 +73,43 @@ function down(){
    <li class="col-md-6 p0">
 	   <span class="">准结工时：</span>
 	   <div class="input-append">
-        <input type="text" id="offer" name="offer" class="w220">
+        <input type="text" id="offer" name="offer" value="${pq.offer }" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">加工工时：</span>
 	   <div class="input-append">
-        <input type="text" id="processingOffer" name="processingOffer" class="w220">
+        <input type="text" id="processingOffer" name="processingOffer" value="${pq.processingOffer }" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">装配工时：</span>
 	   <div class="input-append">
-        <input type="text" id="assemblyOffer" name="assemblyOffer" class="w220">
+        <input type="text" id="assemblyOffer" name="assemblyOffer" value="${pq.assemblyOffer }" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">调试工时：</span>
 	   <div class="input-append">
-        <input type="text" id="debuggingOffer" name="debuggingOffer" class="w220">
+        <input type="text" id="debuggingOffer" name="debuggingOffer" value="${pq.debuggingOffer }" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">试验工时：</span>
 	   <div class="input-append">
-        <input type="text" id="testOffer" name="testOffer" class="w220">
+        <input type="text" id="testOffer" name="testOffer" value="${pq.testOffer }" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">其他工时：</span>
 	   <div class="input-append">
-        <input type="text" id="otherOffer" name="otherOffer" class="w220">
+        <input type="text" id="otherOffer" name="otherOffer" value="${pq.otherOffer }" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">小计：</span>
 	   <div class="input-append">
-        <input type="text" id="subtotalOffer" name="subtotalOffer" class="w220">
+        <input type="text" id="subtotalOffer" name="subtotalOffer" value="${pq.subtotalOffer }" class="w220">
        </div>
 	 </li>
    </ul>
@@ -117,19 +121,19 @@ function down(){
    <li class="col-md-6 p0">
 	   <span class="">配套数量：</span>
 	   <div class="input-append">
-        <input type="text" id="assortOffer" name="assortOffer" class="w220">
+        <input type="text" id="assortOffer" name="assortOffer" value="${pq.assortOffer }" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">单位产品工时审核核定数：</span>
 	   <div class="input-append">
-        <input type="text" id="approvedOffer" name="approvedOffer" class="w220">
+        <input type="text" id="approvedOffer" name="approvedOffer" value="${pq.approvedOffer }" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-12  p0 ">
 	   <span class="fl">备注：</span>
 	   <div class="col-md-12 pl200 fn mt5 pwr9">
-        <textarea class="text_area col-md-12 " id="remark" name="remark" title="不超过250个字" placeholder="不超过250个字"></textarea>
+        <textarea class="text_area col-md-12 " id="remark" name="remark" title="不超过250个字" placeholder="不超过250个字">${pq.remark }</textarea>
        </div>
 	 </li>
    </ul>

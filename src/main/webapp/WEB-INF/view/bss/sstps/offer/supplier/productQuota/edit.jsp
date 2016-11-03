@@ -38,25 +38,28 @@ function down(){
    <h2 class="f16 count_flow mt40"><i>01</i>基础信息</h2>
    <ul class="list-unstyled list-flow ul_list">
    <li class="col-md-6 p0">
-	   <span class="">零组部件名称：</span>
+	   <span class=""><i class="red">＊</i>零组部件名称：</span>
 	   <div class="input-append">
         <input type="text" id="partsName" name="partsName" value="${pq.partsName }" class="w220">
+       	<div class="validate">${ERR_partsName}</div>
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
-	   <span class="">零组部件图纸：</span>
+	   <span class=""><i class="red">＊</i>零组部件图纸：</span>
 	   <div class="input-append">
-        <input type="text" id="partsDrawingCode" name="partsDrawingCode" value="${pq.partsName }" class="w220">
+        <input type="text" id="partsDrawingCode" name="partsDrawingCode" value="${pq.partsDrawingCode }" class="w220">
+       	<div class="validate">${ERR_partsDrawingCode}</div>
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
-	   <span class="">工序名称：</span>
+	   <span class=""><i class="red">＊</i>工序名称：</span>
 	   <div class="input-append">
         <input type="text" id="processName" name="processName" value="${pq.processName }" class="w220">
+       	<div class="validate">${ERR_processName}</div>
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
-	   <span class="">计量单位：</span>
+	   <span class=""><i class="red">＊</i>计量单位：</span>
 	   <div class="input-append">
         <input id="measuringUnit" name="measuringUnit" value="${pq.measuringUnit }" type="text" class="w220">
        </div>

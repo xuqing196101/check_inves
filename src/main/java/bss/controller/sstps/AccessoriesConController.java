@@ -105,11 +105,7 @@ public class AccessoriesConController {
 			model.addAttribute("ERR_supplyUnit", "供货单位不能为空");
 		}
 		if(flag==false){
-			model.addAttribute("productNature",accessoriesCon.getProductNature());
-			model.addAttribute("stuffName",accessoriesCon.getStuffName());
-			model.addAttribute("norm",accessoriesCon.getNorm());
-			model.addAttribute("paperCode",accessoriesCon.getPaperCode());
-			model.addAttribute("supplyUnit",accessoriesCon.getSupplyUnit());
+			model.addAttribute("acc", accessoriesCon);
 			url="bss/sstps/offer/supplier/accessories/add";
 		}else{
 			accessoriesCon.setCreatedAt(new Date());
@@ -171,14 +167,7 @@ public class AccessoriesConController {
 			model.addAttribute("ERR_supplyUnit", "供货单位不能为空");
 		}
 		if(flag==false){
-			model.addAttribute("acc.productNature",accessoriesCon.getProductNature());
-			model.addAttribute("acc.stuffName",accessoriesCon.getStuffName());
-			model.addAttribute("acc.norm",accessoriesCon.getNorm());
-			model.addAttribute("acc.paperCode",accessoriesCon.getPaperCode());
-			model.addAttribute("acc.supplyUnit",accessoriesCon.getSupplyUnit());
-			AccessoriesCon accessories = accessoriesConService.selectById(id);
-			model.addAttribute("acc", accessories);
-			model.addAttribute("proId", proId);
+			model.addAttribute("acc", accessoriesCon);
 			url="bss/sstps/offer/supplier/accessories/edit";
 		}else{
 			accessoriesCon.setUpdatedAt(new Date());

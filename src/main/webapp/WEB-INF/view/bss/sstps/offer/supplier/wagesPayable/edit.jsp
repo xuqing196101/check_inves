@@ -38,21 +38,24 @@ function down(){
    <h2 class="f16 count_flow mt40"><i>01</i>材料信息</h2>
    <ul class="list-unstyled list-flow ul_list">
    <li class="col-md-6 p0">
-	   <span class="">部门：</span>
+	   <span class=""><i class="red">＊</i>部门：</span>
 	   <div class="input-append">
         <input type="text" id="department" name="department" value="${wp.department }" class="w220">
+       	<div class="validate">${ERR_department}</div>
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
-	   <span class="">上级项目：</span>
+	   <span class=""><i class="red">＊</i>上级项目：</span>
 	   <div class="input-append">
         <input type="text" id="firsetProduct" name="firsetProduct" value="${wp.firsetProduct }"  class="w220">
+       	<div class="validate">${ERR_firsetProduct}</div>
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
-	   <span class="">项目名称：</span>
+	   <span class=""><i class="red">＊</i>项目名称：</span>
 	   <div class="input-append">
         <input id="secondProduct" name="secondProduct" value="${wp.secondProduct }"  type="text" class="w220">
+       	<div class="validate">${ERR_secondProduct}</div>
        </div>
 	 </li>
    </ul>
