@@ -161,13 +161,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</a>
 					<ul class="dropdown-menu">
 						<li class="line-block">
+						<a href="<%=basePath%>static/detail.jsp" target="home" class="son-menu"><span class="mr5">◇</span>表单页面</a>
 					    	<a href="<%=basePath%>static/backbottom.jsp" target="home" class="son-menu"><span class="mr5">◇</span>后台主页</a>
-							<a href="<%=basePath%>static/backhead.jsp" target="home" class="son-menu"><span class="mr5">◇</span>后台头部</a>
-							<a href="<%=basePath%>static/detail.jsp" target="home" class="son-menu"><span class="mr5">◇</span>表单页面</a>
-							<a href="<%=basePath%>static/details.jsp" target="home" class="son-menu"><span class="mr5">◇</span>上下结构表单页面</a>
-							<a href="<%=basePath%>static/order.jsp" target="home" class="son-menu"><span class="mr5">◇</span>列表页面</a>
+					    	<a href="<%=basePath%>static/order.jsp" target="home" class="son-menu"><span class="mr5">◇</span>列表页面</a>
 							<a href="<%=basePath%>static/show_order.jsp" target="home" class="son-menu"><span class="mr5">◇</span>详情页面</a>
+							<a href="<%=basePath%>static/table_special.jsp" target="home" class="son-menu"><span class="mr5">◇</span>左右结构表格页面</a>
 							<a href="<%=basePath%>static/manage.jsp" target="home" class="son-menu"><span class="mr5">◇</span>左右布局页面</a>
+							<a href="<%=basePath%>static/backhead.jsp" target="home" class="son-menu"><span class="mr5">◇</span>后台头部</a>
+							<a href="<%=basePath%>static/details.jsp" target="home" class="son-menu"><span class="mr5">◇</span>上下结构表单页面</a>
 							<a href="<%=basePath%>static/evaluation.jsp" target="home" class="son-menu"><span class="mr5">◇</span>实施页面</a>
 							<a href="<%=basePath%>static/table_special.jsp" target="home" class="son-menu"><span class="mr5">◇</span>左右结构表格页面</a>
 							<a href="<%=basePath%>static/left.jsp" target="home" class="son-menu"><span class="mr5">◇</span>投标左侧页面</a>

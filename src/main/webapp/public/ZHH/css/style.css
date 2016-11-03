@@ -2216,3 +2216,24 @@ img.img-mouse {
 .shanchu{
   background:url(../images/sc.png) no-repeat 0 0;}
  
+/*上传下载*/
+.download {
+    padding: 5px 12px;
+    background: url(../images/download.png) no-repeat 0px;
+    margin-left: 5px;
+}
+.input-append a {
+    font-size: 13px;
+    height: 25px;
+    line-height: 25px;
+    display: block;
+    margin-left: 5px;
+}
+.input-append i {
+    background: url(../images/upload.png) no-repeat center;
+    width: 24px;
+    height: 24px;
+    float: left;
+    display: block;
+    margin-right: 10px;
+}

@@ -144,7 +144,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <input class="span5" id="appendedInput" type="text">
         <span class="add-on">i</span>
        </div>
-	 </li> 
+	 </li>
+	 <li class="col-md-3 margin-0 padding-0 ">
+	 	<span class="zzzx"><i class="red">＊</i> 营业执照（三证合一）：</span>
+     	<div class="input-append">
+          <a href="#"><i></i>上传附件</a>
+        </div>
+	 </li>
+	 <li class="col-md-3 margin-0 padding-0 ">
+	 	<div class="fl">文件下载：<span class="ml10">供应商注册须知</span><a href="#" class="download"></a></div>
+	 </li>
      <li class="col-md-11 margin-0 padding-0 ">
 	   <span class="col-md-12 padding-left-5">备注</span>
 	   <div class="">
