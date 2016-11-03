@@ -194,7 +194,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
 		
 		function back(){
-			location.href = '<%=basePath%>user/list.html?page=1';
+			window.location.href = '<%=basePath%>user/list.html?page=1';
 		}
 	</script>
 </head>
@@ -343,7 +343,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					   	<div class="col-md-12 pl200 fn mt5 pwr9">
 				        	<textarea class="text_area col-md-12 " name="address" maxlength="400" title="" placeholder=""></textarea>
 				       	</div>
-				       	 <div class="b f16 ml10 red hand"><sf:errors path="typeName"/></div>
 				 	</li>
 			   	</ul>
 		   </div> 

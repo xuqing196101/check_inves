@@ -6,21 +6,21 @@ import iss.service.ps.ArticleAttachmentsService;
 import iss.service.ps.ArticleService;
 import iss.service.ps.ArticleTypeService;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,10 +32,20 @@ import ses.model.bms.User;
 import ses.model.oms.util.AjaxJsonData;
 import ses.util.FtpUtil;
 
+import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectAttachments;
+import bss.model.ppms.ProjectDetail;
+import bss.model.ppms.ScoreModel;
+import bss.model.prms.FirstAudit;
+import bss.model.prms.PackageFirstAudit;
+import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectAttachmentsService;
+import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
+import bss.service.ppms.ScoreModelService;
+import bss.service.prms.FirstAuditService;
+import bss.service.prms.PackageFirstAuditService;
 
 /**
  * 
@@ -77,10 +87,37 @@ public class OpenBiddingController {
     private ArticleAttachmentsService attachmentsService;
     
     /**
+     * @Fields detailService : 引用项目详细业务接口
+     */
+    @Autowired
+    private ProjectDetailService detailService;
+    
+    /**
+     * @Fields packageService : 引用分包业务逻辑接口
+     */
+    @Autowired
+    private PackageService packageService;
+    
+    @Autowired
+    private PackageFirstAuditService packageFirstAuditService;
+    
+    /**
      * @Fields projectAttachmentsService : 引用项目附件业务实现接口
      */
     @Autowired
     private ProjectAttachmentsService projectAttachmentsService;
+    
+    /**
+     * @Fields auditService : 引用初审项业务接口
+     */
+    @Autowired
+    private FirstAuditService auditService;
+    
+    /**
+     * @Fields scoreModelService : 引用模型业务接口
+     */
+    @Autowired
+    private ScoreModelService scoreModelService;
     
     /**
      * @Fields jsonData : ajax返回数据封装类
@@ -99,7 +136,7 @@ public class OpenBiddingController {
     public String bidFile(String id, Model model){
     	Project project = projectService.selectById(id);
     	model.addAttribute("project", project);
-    	return "bss/ppms/open_bidding/bid_file/add";
+    	return "bss/ppms/open_bidding/bid_file/add_file";
     }
     
     /**
@@ -349,5 +386,113 @@ public class OpenBiddingController {
 //        out.close();  
 //        out.flush();
     }
+    
+    /**
+     *〈简述〉
+     *〈详细描述〉
+     * @author yggc
+     * @param projectId
+     * @param model
+     * @return
+     */
+    @RequestMapping("/firstAduitView")
+    public String firstAduitView(String projectId, Model model ){
+        try {
+            //初审项信息
+            List<FirstAudit> list = auditService.getListByProjectId(projectId);
+            model.addAttribute("list", list);
+            model.addAttribute("projectId", projectId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "bss/ppms/open_bidding/bid_file/bid_file_view";
+    }
+    
+    /**
+     *〈简述〉
+     *〈详细描述〉
+     * @author yggc
+     * @param projectId
+     * @param flag
+     * @param model
+     * @return
+     */
+    @RequestMapping("/packageFirstAuditView")
+    public String packageFirstAuditView(String projectId, String flag, Model model){
+        try {
+            //项目分包信息
+            HashMap<String,Object> pack = new HashMap<String,Object>();
+            pack.put("projectId", projectId);
+            List<Packages> packList = packageService.findPackageById(pack);
+            if(packList.size()==0){
+                Packages pg = new Packages();
+                pg.setName("第一包"); 
+                pg.setProjectId(projectId);
+                packageService.insertSelective(pg);
+            }
+            List<Packages> packages = packageService.findPackageById(pack);
+            Map<String,Object> list = new HashMap<String,Object>();
+            //关联表集合
+            List<PackageFirstAudit> idList = new ArrayList<>();
+            Map<String,Object> mapSearch = new HashMap<String,Object>(); 
+            for(Packages ps:packages){
+                list.put("pack"+ps.getId(),ps);
+                HashMap<String,Object> map = new HashMap<String,Object>();
+                map.put("packageId", ps.getId());
+                List<ProjectDetail> detailList = detailService.selectById(map);
+                ps.setProjectDetails(detailList);
+                //设置查询条件
+                mapSearch.put("projectId", projectId);
+                mapSearch.put("packageId", ps.getId());
+                List<PackageFirstAudit> selectList = packageFirstAuditService.selectList(mapSearch);
+                idList.addAll(selectList);
+            }
+            model.addAttribute("idList",idList);
+            model.addAttribute("packageList", packages);
+            Project project = projectService.selectById(projectId);
+            model.addAttribute("project", project);
+            //初审项信息
+            List<FirstAudit> list2 = auditService.getListByProjectId(projectId);
+            model.addAttribute("list", list2);
+            model.addAttribute("projectId", projectId);
+            model.addAttribute("flag", flag);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "bss/ppms/open_bidding/bid_file/package_first_audit_view";
+    }
 	
+    @RequestMapping("/confirmOk")
+    @ResponseBody 
+    public AjaxJsonData confirmOk(String projectId) throws Exception{
+        try {
+            //确认初审项
+            List<FirstAudit> firstAudits = auditService.getListByProjectId(projectId);
+            for (FirstAudit firstAudit : firstAudits) {
+                firstAudit.setIsConfirm((short)1);
+                auditService.update(firstAudit);
+            }
+            //确认初审项关联
+            PackageFirstAudit packageFirstAudit = new PackageFirstAudit();
+            packageFirstAudit.setProjectId(projectId);
+            packageFirstAudit.setIsConfirm((short)1);
+            packageFirstAuditService.update(packageFirstAudit);
+            
+            //确认评分办法
+            ScoreModel scoreModel = new ScoreModel();
+            scoreModel.setProjectId(projectId);
+            List<ScoreModel> scoreModels = scoreModelService.findListByScoreModel(scoreModel);
+            if(scoreModels.size() > 0){
+                for (ScoreModel scoreModel2 : scoreModels) {
+                    scoreModel2.setStatus("1");
+                    scoreModelService.updateScoreModel(scoreModel2);
+                }
+            }
+            jsonData.setMessage("确认成功");
+            return jsonData;
+        } catch (Exception e) {
+            throw new Exception("确认失败");
+        }
+        
+    }
 }

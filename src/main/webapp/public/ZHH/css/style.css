@@ -2181,3 +2181,38 @@ img.img-mouse {
 .cbp_detail span{
 	margin-right:20px;
 }
+
+/*投标制作样式开始*/
+.light_list{
+  height:35px;
+  line-height:35px;
+  padding-left:30px;
+  background:url(../images/light_icon.png) no-repeat 0px;
+  border-bottom:1px dashed #ddd;
+}
+.light_box{
+  padding-left:30px;
+  margin-top:10px;
+  list-style-type:none;
+  overflow: hidden; 	
+}
+.light_icon{
+  float:right;
+  margin-left:5px;
+  padding-left:18px;
+}
+.light_icon a{
+  color:#0000FF;
+}
+.light_desc{
+  width:40%;
+  overflow:hidden;
+  float:left;
+  display:block;
+}
+.dinwei{
+  background:url(../images/dingwei.png) no-repeat 0 0px;
+}
+.shanchu{
+  background:url(../images/sc.png) no-repeat 0 0;}
+ 

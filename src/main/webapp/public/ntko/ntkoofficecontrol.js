@@ -171,6 +171,7 @@ function CustomFileMenuCmd(menuIndex, menuCaption, menuID) {
 function CustomMenuCmd(menuPos, submenuPos, subsubmenuPos, menuCaption, menuID) {
 	document.getElementById("TANGER_OCX").ShowTipMessage("提示", "第" + menuPos + "," + submenuPos + "," + subsubmenuPos + "个菜单项,menuID=" + menuID + ",菜单标题为\"" + menuCaption + "\"的命令被执行.");
 }
+
 var classid = 'C9BC4DFF-4248-4a3c-8A49-63A7D317F404';
 if (browser == "IE") {
 
@@ -178,10 +179,10 @@ if (browser == "IE") {
 	document.write('<!-- 因为微软的ActiveX新机制，需要一个外部引入的js-->   ');
 	if (window.navigator.platform == "Win32") {
 		document.write('<object id="TANGER_OCX" classid="clsid:A64E3073-2016-4baf-A89D-FFE1FAA10EC0"');
-		document.write('codebase="OfficeControl.cab#version=5,0,2,5" width="100%" height="100%">   ');
+		document.write('codebase="OfficeControl.cab#version=5,0,2,5" width="100%" height="70%">   ');
 	} else {
 		document.write('<object id="TANGER_OCX" classid="clsid:A64E3073-2016-4baf-A89D-FFE1FAA10EE0"');
-		document.write('codebase="OfficeControl_x64.cab#version=5,0,2,6" width="100%" height="100%">   ');
+		document.write('codebase="OfficeControl_x64.cab#version=5,0,2,6" width="100%" height="70%">   ');
 	}
 	document.write('<param name="IsUseUTF8URL" value="-1">   ');
 	document.write('<param name="IsUseUTF8Data" value="-1">   ');

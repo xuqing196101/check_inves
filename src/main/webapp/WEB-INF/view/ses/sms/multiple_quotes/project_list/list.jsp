@@ -232,9 +232,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        
        //重置
        function clearSearch(){
-        $("#name").attr("value","");
-        $("#projectNumber").attr("value","");
-    }
+	        $("#name").attr("value","");
+	        $("#projectNumber").attr("value","");
+       }
+    
+       function bidDocumentManage(){
+       		var id =[]; 
+	        $('input[name="chkItem"]:checked').each(function(){ 
+	            id.push($(this).val()); 
+	        }); 
+	        if(id.length==1){
+	           window.location.href = '<%=basePath%>supplierProject/bidDocument.html?projectId='+id;
+	        }else if(id.length>1){
+	            layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+	        }else{
+	            layer.alert("请选择需要修改的任务",{offset: ['222px', '390px'], shade:0.01});
+	        }
+       }
+    
   </script>
   </head>
   
@@ -269,7 +284,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </form>
     </h2>
     </div>
-     <div class="clear"></div>    
+     <div class="clear"></div>  
+    <div class="container">
+   <div class="col-md-12">
+    <button class="btn btn-windows add" onclick="bidDocumentManage()">投标管理</button>
+	</div>
+    </div>  
    <div class="container clear">
     <div class="container margin-top-5">
                <table class="table table-striped table-bordered table-hover">
