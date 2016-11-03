@@ -329,6 +329,8 @@ public class ExpertController {
 		User user = (User)session.getAttribute("loginUser");
 		//专家状态修改
 		expert.setStatus(isPass);
+		//审核时初始化专家诚信积分
+		expert.setHonestyScore(0);
 		//审核信息增加
 		expertAuditService.auditExpert(expert, remark, user);
 		//执行修改

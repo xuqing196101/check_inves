@@ -151,6 +151,43 @@
         
          	}
       }
+   	//诚信登记
+   	function creadible(){
+   	 var count = 0;
+	  var ids = document.getElementsByName("check");
+
+    for(i=0;i<ids.length;i++) {
+  		 if(document.getElementsByName("check")[i].checked){
+  		 var id = document.getElementsByName("check")[i].value;
+  		 var value = id.split(",");
+  		 count++;
+   }
+ }   
+ 		if(count>1){
+ 			layer.alert("只能选择一条记录",{offset: ['222px', '390px'],shade:0.01});
+ 		}else if(count<1){
+ 			layer.alert("请选择一条记录",{offset: ['222px', '390px'],shade:0.01});
+ 		}else if(count==1){
+ 			if(value[1]==1){
+ 				index = layer.open({
+ 			          type: 2, //page层
+ 			          area: ['900px', '600px'],
+ 			          title: '诚信登记',
+ 			          shade:0.01, //遮罩透明度
+ 			          moveType: 1, //拖拽风格，0是默认，1是传统拖动
+ 			          shift: 1, //0-6的动画形式，-1不开启
+ 			          offset: ['100px', '250px'],
+ 			          shadeClose: true,
+ 			          content:"<%=basePath%>credible/findAll.html?id="+value[0]
+ 			          //数组第二项即吸附元素选择器或者DOM $('#openWindow')
+ 				 });
+ 			}else{
+ 				layer.alert("请选择审核通过的",{offset: ['222px', '390px'],shade:0.01});
+ 			}
+   
+    	}
+ }
+   		
 </script>
 </head>
 <body>
@@ -225,6 +262,7 @@
 	<button class="btn btn-windows edit" type="button" onclick="edit();">修改</button>
 	<button class="btn btn-windows delete" type="button" onclick="dell();">删除</button>
 	<button class="btn btn-windows check" type="button" onclick="shenhe();">审核</button>
+	<button class="btn btn-windows git" type="button" onclick="creadible();">诚信登记</button>
 	</div>
     </div>
    
@@ -242,6 +280,7 @@
 		  <th class="info">工作单位</th>
 		  <th class="info">创建时间</th>
 		  <th class="info">审核状态</th>
+		  <th class="info">诚信积分</th>
 		</tr>
 		</thead>
 		<c:forEach items="${result.list }" var="e" varStatus="vs">
@@ -287,6 +326,7 @@
 		 <c:if test="${e.status eq '3' }">
 		 	<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">退回修改</span></td>
 		 </c:if>
+		 <td onclick="view('${e.id}');" class="tc">${e.honestyScore }</td>
 		</tr>
 		</c:forEach>
         </table>

@@ -90,8 +90,8 @@ public class Expert implements Serializable{
     private String status;
     /**是否拉黑；0未拉黑，1已拉黑*/
     private String isBlack = "0";
-    /**诚信积分；默认100，根据不诚信指标扣分*/
-    private Integer honestyScore = 100;
+    /**诚信积分；根据不诚信指标扣分*/
+    private Integer honestyScore;
     /**真实姓名*/
     private String relName;
     

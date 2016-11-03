@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.ems.CredibleRelateMapper">
+  <resultMap id="BaseResultMap" type="ses.model.ems.CredibleRelate">
+    <result column="EXPERT_ID" jdbcType="VARCHAR" property="expertId" />
+    <result column="EXPERT_CREDIBLE_ID" jdbcType="VARCHAR" property="expertCredibleId" />
+    <result column="CAUSE" jdbcType="VARCHAR" property="cause" />
+  </resultMap>
+  <!-- 条件查询 -->
+  <select id="selectAllByMap" resultMap="BaseResultMap">
+		select EXPERT_ID, EXPERT_CREDIBLE_ID, CAUSE
+		from T_SES_EMS_CREDIBLE_RELATE
+		where 1=1
+		<if test="expertId != null and expertId !=''">
+			AND EXPERT_ID = #{expertId}
+		</if>
+		<if test="expertCredibleId != null and expertCredibleId !=''">
+			AND EXPERT_CREDIBLE_ID = #{expertCredibleId}
+		</if>
+		<if test="cause != null and cause !=''">
+			AND CAUSE = #{cause}
+		</if>
+	</select>
+	<!--条件修改  -->
+  <update id="updateByBean" parameterType="ses.model.ems.CredibleRelate">
+    update T_SES_EMS_CREDIBLE_RELATE
+    <set>
+      <if test="expertId != null and expertId !=''">
+			 EXPERT_ID = #{expertId},
+		</if>
+		<if test="expertCredibleId != null and expertCredibleId !=''">
+			 EXPERT_CREDIBLE_ID = #{expertCredibleId},
+		</if>
+		<if test="cause != null and cause !=''">
+			 CAUSE = #{cause},
+		</if>
+    </set>
+    where 1=1
+		<if test="expertId != null and expertId !=''">
+			AND EXPERT_ID = #{expertId}
+		</if>
+		<if test="expertCredibleId != null and expertCredibleId !=''">
+			AND EXPERT_CREDIBLE_ID = #{expertCredibleId}
+		</if>
+		
+  </update>
+  <insert id="insert" parameterType="ses.model.ems.CredibleRelate">
+    insert into T_SES_EMS_CREDIBLE_RELATE (EXPERT_ID, EXPERT_CREDIBLE_ID, CAUSE
+      )
+    values (#{expertId,jdbcType=VARCHAR}, #{expertCredibleId,jdbcType=VARCHAR}, #{cause,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="ses.model.ems.CredibleRelate">
+    insert into T_SES_EMS_CREDIBLE_RELATE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="expertId != null">
+        EXPERT_ID,
+      </if>
+      <if test="expertCredibleId != null">
+        EXPERT_CREDIBLE_ID,
+      </if>
+      <if test="cause != null">
+        CAUSE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="expertId != null">
+        #{expertId,jdbcType=VARCHAR},
+      </if>
+      <if test="expertCredibleId != null">
+        #{expertCredibleId,jdbcType=VARCHAR},
+      </if>
+      <if test="cause != null">
+        #{cause,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

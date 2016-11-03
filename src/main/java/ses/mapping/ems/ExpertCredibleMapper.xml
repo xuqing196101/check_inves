@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.ems.ExpertCredibleMapper">
+  <resultMap id="BaseResultMap" type="ses.model.ems.ExpertCredible">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="BAD_BEHAVIOR" jdbcType="VARCHAR" property="badBehavior" />
+    <result column="IS_DELETE" jdbcType="DECIMAL" property="isDelete" />
+    <result column="IS_STATUS" jdbcType="DECIMAL" property="isStatus" />
+    <result column="CREATE_AT" jdbcType="DATE" property="createAt" />
+    <result column="UPDATE_AT" jdbcType="DATE" property="updateAt" />
+    <result column="SCORE" jdbcType="DECIMAL" property="score" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, BAD_BEHAVIOR, IS_DELETE, IS_STATUS, CREATE_AT, UPDATE_AT, SCORE
+  </sql>
+   <select id="selectAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_EMS_EXPERT_CREDIBLE
+    where 1=1 AND IS_DELETE != 2
+      <if test="badBehavior != null and badBehavior!= ''">
+        AND BAD_BEHAVIOR like '%${badBehavior}%'
+      </if>
+      <if test="isStatus != null and isStatus != ''">
+        AND IS_STATUS = #{isStatus}
+      </if>
+      ORDER BY CREATE_AT DESC
+  </select>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_EMS_EXPERT_CREDIBLE
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_SES_EMS_EXPERT_CREDIBLE
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="ses.model.ems.ExpertCredible">
+    insert into T_SES_EMS_EXPERT_CREDIBLE (ID, BAD_BEHAVIOR, IS_DELETE, 
+      IS_STATUS, CREATE_AT, UPDATE_AT, 
+      SCORE)
+    values (#{id,jdbcType=VARCHAR}, #{badBehavior,jdbcType=VARCHAR}, #{isDelete,jdbcType=DECIMAL}, 
+      #{isStatus,jdbcType=DECIMAL}, #{createAt,jdbcType=DATE}, #{updateAt,jdbcType=DATE}, 
+      #{score,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="ses.model.ems.ExpertCredible">
+    insert into T_SES_EMS_EXPERT_CREDIBLE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="badBehavior != null">
+        BAD_BEHAVIOR,
+      </if>
+      <if test="isDelete != null">
+        IS_DELETE,
+      </if>
+      <if test="isStatus != null">
+        IS_STATUS,
+      </if>
+      <if test="createAt != null">
+        CREATE_AT,
+      </if>
+      <if test="updateAt != null">
+        UPDATE_AT,
+      </if>
+      <if test="score != null">
+        SCORE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="badBehavior != null">
+        #{badBehavior,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=DECIMAL},
+      </if>
+      <if test="isStatus != null">
+        #{isStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="createAt != null">
+        #{createAt,jdbcType=DATE},
+      </if>
+      <if test="updateAt != null">
+        #{updateAt,jdbcType=DATE},
+      </if>
+      <if test="score != null">
+        #{score,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="ses.model.ems.ExpertCredible">
+    update T_SES_EMS_EXPERT_CREDIBLE
+    <set>
+      <if test="badBehavior != null">
+        BAD_BEHAVIOR = #{badBehavior,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        IS_DELETE = #{isDelete,jdbcType=DECIMAL},
+      </if>
+      <if test="isStatus != null">
+        IS_STATUS = #{isStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="createAt != null">
+        CREATE_AT = #{createAt,jdbcType=DATE},
+      </if>
+      <if test="updateAt != null">
+        UPDATE_AT = #{updateAt,jdbcType=DATE},
+      </if>
+      <if test="score != null">
+        SCORE = #{score,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="ses.model.ems.ExpertCredible">
+    update T_SES_EMS_EXPERT_CREDIBLE
+    set BAD_BEHAVIOR = #{badBehavior,jdbcType=VARCHAR},
+      IS_DELETE = #{isDelete,jdbcType=DECIMAL},
+      IS_STATUS = #{isStatus,jdbcType=DECIMAL},
+      CREATE_AT = #{createAt,jdbcType=DATE},
+      UPDATE_AT = #{updateAt,jdbcType=DATE},
+      SCORE = #{score,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

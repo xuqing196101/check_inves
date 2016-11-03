@@ -60,6 +60,8 @@ public class ExpertServiceImpl implements ExpertService {
 
 	@Override
 	public int insertSelective(Expert record) {
+		//诚信分数初始化
+		record.setHonestyScore(0);
 		return mapper.insertSelective(record);
 	}
 

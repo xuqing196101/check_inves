@@ -796,7 +796,7 @@ function kaptcha(){
 	<div class="col-md-12 drop_hover"  id="drop-4">
 	 <div class="drop_main">
 	  <div class="col-md-2 mt20 supp_login">
-	    <a href="#">
+	    <a href="<%=basePath%>expert/toRegisterNotice.html">
 		 专家注册
 		 <i></i>
 		</a>	  
@@ -1839,7 +1839,7 @@ function kaptcha(){
 		 </a>
 	   </div>
 	   <div class="ywbl_01">
-	     <a href="#" class="zjzc">
+	     <a href="<%=basePath%>expert/toRegisterNotice.html" class="zjzc">
           <span>专家注册</span> 
 		 </a>
 	   </div>
