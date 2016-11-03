@@ -32,8 +32,11 @@
     from T_SES_EMS_EXAM_QUESTION
     WHERE
     	PERSON_TYPE = #{personType}
+    <if test="questionTypeId != null and questionTypeId != ''">
+       	AND QUESTION_TYPE_ID = #{questionTypeId} 
+    </if>	
     <if test="kind != null and kind != ''">
-       AND KIND = #{kind} 
+       	AND KIND = #{kind} 
     </if>
     AND dbms_lob.instr(TOPIC,#{topic})>0 
   </select>
@@ -45,6 +48,7 @@
     WHERE
     	PERSON_TYPE = 1
       	AND KIND = 0
+      	AND QUESTION_TYPE_ID = #{questionTypeId} 
    		AND dbms_lob.instr(TOPIC,#{topic})>0 
   </select>
   
@@ -54,8 +58,20 @@
   	from T_SES_EMS_EXAM_QUESTION
   	where
   		PERSON_TYPE = 1
+  	AND
+		QUESTION_TYPE_ID = #{questionTypeId}
   	AND	
     	KIND = #{kind}	
+  </select>
+  
+  <!-- 查询采购人题库题目的数量 -->
+  <select id="queryPurchaserQuestionCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	select count(1)
+  	from T_SES_EMS_EXAM_QUESTION
+  	where
+  		PERSON_TYPE = 2
+  	AND
+		QUESTION_TYPE_ID = #{questionTypeId}
   </select>
   
   <!-- 根据id删除题目 -->
@@ -178,52 +194,8 @@
     </association>
   </resultMap>
   
-  <!-- 查询技术类专家题库 -->
-  <select id="searchTecExpPool" resultMap="BaseColumn">
-  	SELECT
-		E.ID,
-		E.TOPIC,
-		E.ITEMS,
-		E.ANSWER,
-		E.CREATED_AT,
-		T.NAME
-	FROM
-		T_SES_EMS_EXAM_QUESTION E,
-		T_SES_EMS_EXAM_QUESTION_TYPE T
-	WHERE
-		E.PERSON_TYPE = 1
-	AND E.KIND = 0
-	AND E.QUESTION_TYPE_ID = T.ID
-	AND E.QUESTION_TYPE_ID IN (1,2)
-	ORDER BY
-	 	E.QUESTION_TYPE_ID ASC,
-		E.CREATED_AT DESC
-  </select>
-  
-  <!-- 查询商务类专家题库 -->
-  <select id="searchComExpPool" resultMap="BaseColumn">
-  	SELECT
-		E.ID,
-		E.TOPIC,
-		E.ITEMS,
-		E.ANSWER,
-		E.CREATED_AT,
-		T.NAME
-	FROM
-		T_SES_EMS_EXAM_QUESTION E,
-		T_SES_EMS_EXAM_QUESTION_TYPE T
-	WHERE
-		E.PERSON_TYPE = 1
-	AND E.KIND = 1
-	AND E.QUESTION_TYPE_ID = T.ID
-	AND E.QUESTION_TYPE_ID IN (1,2)
-	ORDER BY
-		E.QUESTION_TYPE_ID ASC,
-		E.CREATED_AT DESC
-  </select>
-  
-  <!-- 查询法律类专家题库 -->
-  <select id="searchLawExpPool" resultMap="BaseColumn">
+  <!-- 按条件查询各专家题目 -->
+  <select id="findExpertQuestionList" parameterType="java.util.Map" resultMap="BaseColumn">
 	  	SELECT
 			E.ID,
 			E.TOPIC,
@@ -236,9 +208,14 @@
 			T_SES_EMS_EXAM_QUESTION_TYPE T
 		WHERE
 			E.PERSON_TYPE = 1
-		AND E.KIND = 2
+		AND E.KIND = #{kind}
 		AND E.QUESTION_TYPE_ID = T.ID
-		AND E.QUESTION_TYPE_ID IN (1,2)
+		<if test="topic != null and '' != topic">
+            AND E.TOPIC LIKE #{topic}
+        </if> 
+        <if test="questionTypeId != null and '' != questionTypeId">
+            AND E.QUESTION_TYPE_ID = #{questionTypeId}
+        </if> 
 		ORDER BY
 			E.QUESTION_TYPE_ID ASC,
 			E.CREATED_AT DESC

@@ -11,47 +11,49 @@
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	<script type="text/javascript">
-	var opt = "";
-	var obj = "";
-	$(function(){
-		opt = ${opt};
-		obj = eval(opt);
-		var queType = $("#queType").val();
-		var queAnswer = "${purchaserAnswer}";
-		var ohtml="";
-		var ahtml="";
-		if(queType==1||queType==2){
-			var options = $("#options").val();
-			var array = obj[options].split(",");
-			var content = "${optContent}";
-			var ct = content.split(";");
-			for(var i=0;i<array.length;i++){
-				ohtml = ohtml+"<div class='clear mt10 col-md-12 p0'><div class='fl mt5'><div class='red star_red'>*</div>"+array[i]+"</div><textarea name='option' class='ml5 col-md-8'>"+ct[i].substring(2)+"</textarea></div>";
-				if(queType==1){
-					if(queAnswer.indexOf(array[i])>-1){
-						ahtml = ahtml+"<input type='radio' name='answer' value='"+array[i]+"' class='mt0' checked='checked'/>"+array[i]+"&nbsp";
-					}else{
-						ahtml = ahtml+"<input type='radio' name='answer' value='"+array[i]+"' class='mt0'/>"+array[i]+"&nbsp";
-					}
-				}else if(queType==2){
-					if(queAnswer.indexOf(array[i])>-1){
-						ahtml = ahtml+"<input type='checkbox' name='answer' value='"+array[i]+"' class='mt0' checked='checked'/>"+array[i]+"&nbsp";
-					}else{
-						ahtml = ahtml+"<input type='checkbox' name='answer' value='"+array[i]+"' class='mt0'/>"+array[i]+"&nbsp";
+		var opt = "";
+		var obj = "";
+		$(function(){
+			opt = ${opt};
+			obj = eval(opt);
+			var queType = $("#queType").val();
+			var queAnswer = $("#queAnswer").val();
+			var ohtml="";
+			var ahtml="";
+			if(queType==1||queType==2){
+				var options = $("#options").val();
+				var array = obj[options].split(",");
+				var content = $("#optContent").val();
+				var ct = content.split("&@#$");
+				for(var i=0;i<array.length;i++){
+					ohtml = ohtml+"<div class='clear mt10 col-md-12 p0'><div class='fl mt5'><div class='red star_red'>*</div>"+array[i]+"</div><textarea name='option' class='ml5 col-md-8'>"+ct[i]+"</textarea></div>";
+					if(queType==1){
+						if(queAnswer.indexOf(array[i])>-1){
+							ahtml = ahtml+"<input type='radio' name='answer' value='"+array[i]+"' class='mt0' checked='checked'/>"+array[i]+"&nbsp";
+						}else{
+							ahtml = ahtml+"<input type='radio' name='answer' value='"+array[i]+"' class='mt0'/>"+array[i]+"&nbsp";
+						}
+					}else if(queType==2){
+						if(queAnswer.indexOf(array[i])>-1){
+							ahtml = ahtml+"<input type='checkbox' name='answer' value='"+array[i]+"' class='mt0' checked='checked'/>"+array[i]+"&nbsp";
+						}else{
+							ahtml = ahtml+"<input type='checkbox' name='answer' value='"+array[i]+"' class='mt0'/>"+array[i]+"&nbsp";
+						}
 					}
 				}
+				$("#item").html(ohtml);
+				$("#answers").html(ahtml);
+			}else if(queType==3){
+				$("#items").hide();
+				if(queAnswer=="对"){
+					$("#answers").html("<input type='radio' name='answer' value='对' class='mt0' checked='checked'/>对<input type='radio' name='answer' value='错' class='mt0'/>错 ");
+				}else if(queAnswer=="错"){
+					$("#answers").html("<input type='radio' name='answer' value='对' class='mt0'/>对<input type='radio' name='answer' value='错' class='mt0' checked='checked'/>错 ");
+				}else{
+					$("#answers").html("<input type='radio' name='answer' value='对' class='mt0'/>对<input type='radio' name='answer' value='错' class='mt0'/>错 ");
+				}
 			}
-			$("#item").html(ohtml);
-			$("#answers").html(ahtml);
-		}else if(queType==3){
-			$("#items").hide();
-			if(queAnswer=="对"){
-				$("#answers").html("<input type='radio' name='answer' value='对' class='mt0' checked='checked'/>对<input type='radio' name='answer' value='错' class='mt0'/>错 ");
-			}else if(queAnswer=="错"){
-				$("#answers").html("<input type='radio' name='answer' value='对' class='mt0'/>对<input type='radio' name='answer' value='错' class='mt0' checked='checked'/>错 ");
-			}
-		}
-	})
+		})
 	
 		//保存到采购人题库
 		function save(){
@@ -116,6 +118,11 @@
 			$("#item").html(ohtml);
 			$("#answers").html(ahtml);
 		}
+		
+		//返回
+		function back(){
+			window.location.href = "<%=path%>/purchaserExam/backQuestion.html";
+		}
 	</script>
   </head>
   
@@ -129,7 +136,9 @@
 		<div class="clear"></div>
 	  </div>
    </div>
-   
+   <input type="hidden" value="${optContent }" id="optContent"/>
+   	<input type="hidden" value="${purchaserAnswer}" id="queAnswer"/>
+   	
    	<div class="container margin-top-5">
     <div class="content padding-left-25 padding-right-25 padding-top-5">
     <div>
@@ -231,7 +240,7 @@
 	  		<li class="col-md-12 p0">
 				<span class="fl"><div class="red star_red">*</div>答案：</span>
 				<div class="fl ml5 mt5" id="answers"></div>
-			    <div class="clear red">${ERR_answer }</div>
+			    <div class="mt5 ml5 red fl">${ERR_answer }</div>
 	  		</li>
   		
   		</ul>
@@ -241,7 +250,7 @@
 			<div class="col-md-12 pl200 ">
 				<div class="mt40 tc mb50">
 					<button class="btn btn-windows save" onclick="save()">保存</button>
-		  			<button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
+		  			<button class="btn btn-windows back" onclick="back()" type="button">返回</button>
 	  			</div>
 	  		</div>
 	  	</div>

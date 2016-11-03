@@ -54,6 +54,7 @@
 			    		<th>考卷名称</th>
 			    		<th>考卷编号</th>
 			    		<th>考试开始时间</th>
+			    		<th>考试截止时间</th>
 			    		<th>考试用时</th>
 			    		<th>是否可以重考</th>
 		    		</tr>
@@ -64,8 +65,16 @@
 		    				<td>${(vs.index+1)+(testSchedule.pageNum-1)*(testSchedule.pageSize)}</td>
 		    				<td>${test.name }</td>
 		    				<td>${test.code }</td>
-		    				<td>${test.formatDate }</td>
-		    				<td>${test.testTime }分钟</td>
+		    				<td>${test.startDate }</td>
+		    				<td>${test.offDate }</td>
+		    				<c:choose>
+		    					<c:when test="${test.testTime==null }">
+		    						<td></td>
+		    					</c:when>
+		    					<c:otherwise>
+		    						<td>${test.testTime }分钟</td>
+		    					</c:otherwise>
+		    				</c:choose>
 		    				<c:if test="${test.isAllowRetake==1 }">
 		    					<td>是</td>
 		    				</c:if>
@@ -81,7 +90,10 @@
     </div>
     
     <div class="container red center tc mt20">
-	   *注意:请您在每份考卷开始后15分钟内登录考试系统考试,否则视为弃考,请您准时参加考试。如果该考卷允许重考,重考时间为30分钟。
+	   <div>*注意:1.考卷开始时间到了才能登录考试系统考试</div>
+	   <div>2.设置可以重考的考卷的考卷才有答题用时,不允许重考的考卷的答题用时为当前时间和考试截止时间的时间差</div>
+	   <div>3.如果该考卷允许重考,重考次数不限,重考时间为30分钟</div>
+	   <div>4.过了考试截止时间考生无法登录考试系统考试,在规定时间内考生如果没有登录考试系统考试,计为0分</div>
    </div>
   </body>
 </html>

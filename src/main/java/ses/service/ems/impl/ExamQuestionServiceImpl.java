@@ -48,27 +48,6 @@ public class ExamQuestionServiceImpl implements ExamQuestionServiceI {
 	}
 	
 	@Override
-	public List<ExamQuestion> searchTecExpPool(ExamQuestion examQuestion,Integer pageNum) {
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
-		return examQuestionMapper.searchTecExpPool(examQuestion,pageNum);
-	}
-	
-	@Override
-	public List<ExamQuestion> searchComExpPool(ExamQuestion examQuestion,Integer pageNum) {
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
-		return examQuestionMapper.searchComExpPool(examQuestion,pageNum);
-	}
-	
-	@Override
-	public List<ExamQuestion> searchLawExpPool(ExamQuestion examQuestion,Integer pageNum) {
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
-		return examQuestionMapper.searchLawExpPool(examQuestion, pageNum);
-	}
-	
-	@Override
 	public List<ExamQuestion> selectSingleRandom(ExamQuestion examQuestion) {
 		return examQuestionMapper.selectSingleRandom(examQuestion);
 	}
@@ -116,6 +95,17 @@ public class ExamQuestionServiceImpl implements ExamQuestionServiceI {
 	@Override
 	public List<ExamQuestion> selectByTecTopic(HashMap<String, Object> map) {
 		return examQuestionMapper.selectByTecTopic(map);
+	}
+
+	
+	@Override
+	public int queryPurchaserQuestionCount(HashMap<String, Object> map) {
+		return examQuestionMapper.queryPurchaserQuestionCount(map);
+	}
+	
+	@Override
+	public List<ExamQuestion> findExpertQuestionList(HashMap<String, Object> map) {
+		return examQuestionMapper.findExpertQuestionList(map);
 	}
 
 	

@@ -84,14 +84,24 @@ public class ExamPaperUser {
 	private Date startTime;
 	
 	/**
+	 * @Fields startTime : 考试截止时间
+	 */
+	private Date offTime;
+	
+	/**
 	 * @Fields isAllowRetake : 是否允许重考
 	 */
 	private Integer isAllowRetake;
 	
 	/**
-	 * @Fields formatDate : 备用时间字段
+	 * @Fields formatDate : 备用开始时间字段
 	 */
-	private String formatDate;
+	private String startDate;
+	
+	/**
+	 * @Fields formatDate : 备用结束时间字段
+	 */
+	private String offDate;
 	
 	public String getId() {
 		return id;
@@ -204,6 +214,14 @@ public class ExamPaperUser {
 	public void setStartTime(Date startTime) {
 		this.startTime = startTime;
 	}
+	
+	public Date getOffTime() {
+		return offTime;
+	}
+
+	public void setOffTime(Date offTime) {
+		this.offTime = offTime;
+	}
 
 	public Integer getIsAllowRetake() {
 		return isAllowRetake;
@@ -213,13 +231,22 @@ public class ExamPaperUser {
 		this.isAllowRetake = isAllowRetake;
 	}
 
-	public String getFormatDate() {
-		return formatDate;
+	public String getStartDate() {
+		return startDate;
 	}
 
-	public void setFormatDate(String formatDate) {
-		this.formatDate = formatDate;
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
 	}
+
+	public String getOffDate() {
+		return offDate;
+	}
+
+	public void setOffDate(String offDate) {
+		this.offDate = offDate;
+	}
+	
 
 	
 

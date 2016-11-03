@@ -45,8 +45,8 @@
     	function selectedBox(ele){
     		var projectId = $("#projectId").val();
 	    	var flag = $(ele).prop("checked");
-	        var purchaseType = $("input[name='info']:checked").parents("tr").find("td").eq(11).text();
-            purchaseType = $.trim(purchaseType);
+	        //var purchaseType = $("input[name='info']:checked").parents("tr").find("td").eq(11).text();
+           // purchaseType = $.trim(purchaseType);
 		    var id = $(ele).val();
 		    var count = 0;
 			var info = document.getElementsByName("info");
@@ -73,20 +73,15 @@
                       for (var i=0;i<result.length;i++) {
                           $("input[name='info']").each(function() {
                                var v1 = result[i].id;
-                               var v3 = result[i].purchaseType;
-                               if(v3 == purchaseType){
-	                               var v2 = $(this).val();
-	                               if (v1 == v2) {
-	                                   $(this).prop("checked", flag);
-	                               }
-                              }else{
-                                   layer.alert("采购方式不相同",{offset: ['222px', '390px'], shade:0.01});
-                               }
+	                           var v2 = $(this).val();
+	                           if (v1 == v2) {
+	                              $(this).prop("checked", flag);
+	                           }
                           });
                       }
                    }
                });
-    }
+   		 }
     
     //修改包名
     function edit(obj){
@@ -109,7 +104,7 @@
             type:"post",
             dataType:"json",
             success:function(data){
-            	layer.msg('添加成功',{offset: ['222px', '390px']});
+            	layer.msg('修改成功',{offset: ['222px', '390px']});
 				window.setTimeout(function(){
 				    window.location.href="<%=path%>/project/subPackage.do?id="+projectId;
 				}, 1000);

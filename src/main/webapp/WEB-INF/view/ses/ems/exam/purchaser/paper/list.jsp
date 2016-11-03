@@ -215,7 +215,8 @@
 			    		<th class="w50">序号</th>
 			    		<th>考卷名称</th>
 			    		<th>考卷年度</th>
-			    		<th>考试日期</th>
+			    		<th>考试开始时间</th>
+			    		<th>考试截止时间</th>
 			    		<th>考卷状态</th>
 		    		</tr>
 		    	</thead>
@@ -227,6 +228,7 @@
 		    				<td class="pointer" onclick="view('${paper.id }')">${paper.name }</td>
 		    				<td class="pointer" onclick="view('${paper.id }')">${paper.year }</td>
 		    				<td class="pointer" onclick="view('${paper.id }')">${paper.startTrueDate }</td>
+		    				<td class="pointer" onclick="view('${paper.id }')">${paper.offTrueDate }</td>
 		    				<td class="pointer" onclick="view('${paper.id }')">${paper.status }</td>
 		    			</tr>
 		    		</c:forEach>
