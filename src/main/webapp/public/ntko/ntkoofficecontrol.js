@@ -179,10 +179,10 @@ if (browser == "IE") {
 	document.write('<!-- 因为微软的ActiveX新机制，需要一个外部引入的js-->   ');
 	if (window.navigator.platform == "Win32") {
 		document.write('<object id="TANGER_OCX" classid="clsid:A64E3073-2016-4baf-A89D-FFE1FAA10EC0"');
-		document.write('codebase="OfficeControl.cab#version=5,0,2,5" width="100%" height="70%">   ');
+		document.write('codebase="OfficeControl.cab#version=5,0,2,5" width="100%" height="100%">   ');
 	} else {
 		document.write('<object id="TANGER_OCX" classid="clsid:A64E3073-2016-4baf-A89D-FFE1FAA10EE0"');
-		document.write('codebase="OfficeControl_x64.cab#version=5,0,2,6" width="100%" height="70%">   ');
+		document.write('codebase="OfficeControl_x64.cab#version=5,0,2,6" width="100%" height="100%">   ');
 	}
 	document.write('<param name="IsUseUTF8URL" value="-1">   ');
 	document.write('<param name="IsUseUTF8Data" value="-1">   ');

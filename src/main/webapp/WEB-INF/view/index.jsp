@@ -119,7 +119,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <div class="navbar-header">
           <div class="row container">
             <div class="col-md-4 padding-bottom-30 mt10">
-              <a href="">
+              <a href="<%=basePath%>">
                  <img alt="Logo" src="<%=basePath%>public/ZHH/images/logo_2.png" id="logo-header">
               </a>
             </div>
@@ -163,7 +163,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<li class="line-block">
 					    	<a href="<%=basePath%>static/backbottom.jsp" target="home" class="son-menu"><span class="mr5">◇</span>后台主页</a>
 							<a href="<%=basePath%>static/backhead.jsp" target="home" class="son-menu"><span class="mr5">◇</span>后台头部</a>
-							<a href="<%=basePath%>static/detail.jsp" target="home" class="son-menu"><span class="mr5">◇</span>表单页面</a>
 							<a href="<%=basePath%>static/details.jsp" target="home" class="son-menu"><span class="mr5">◇</span>上下结构表单页面</a>
 							<a href="<%=basePath%>static/order.jsp" target="home" class="son-menu"><span class="mr5">◇</span>列表页面</a>
 							<a href="<%=basePath%>static/show_order.jsp" target="home" class="son-menu"><span class="mr5">◇</span>详情页面</a>

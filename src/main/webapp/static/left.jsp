@@ -36,14 +36,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-    <div class="wrapper">
- 
-        <!--=== Content Part ===-->
-        <div class="container content height-350">
             <div class="row">
                 <!-- Begin Content -->
                      <div class="col-md-3 md-margin-bottom-40">
-	                   <div class="tag-box tag-box-v3">
+	                   <div class="tag-box tag-box-v3">	
 					   <div class="light_main">
 					    <div class="light_list">
 						 投标函      <input type="button" class="btn fr" value="绑定指标"/>

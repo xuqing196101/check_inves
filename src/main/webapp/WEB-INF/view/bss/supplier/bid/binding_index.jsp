@@ -63,14 +63,18 @@
 	function mark(e,target){
 		var obj = document.getElementById("TANGER_OCX");
 		//obj.ShowTipMessage("提示","绑定指标时请把光标停在选中内容的起始处");
+		if(typeof(obj.ActiveDocument) == "undefined"){
+			obj.ShowTipMessage("提示","文档加载失败或者未加载文档",true);
+			return;
+		}
 		//获取当前页码
 		var page = obj.ActiveDocument.Application.Selection.information(1);
 		if(confirm("确定【"+target+"】指标的绑定内容从第"+page+"页开始吗？")){
 			obj.ActiveDocument.BookMarks.Add(target);
-			var html = "<img alt='定位' onclick='searchMark("+'"'+target+'"'+");' src='<%=basePath%>public/ZHH/images/dw.png'>";
-			html+= "<img alt='删除' onclick='delMark(this,"+'"'+target+'"'+");' src='<%=basePath%>public/ZHH/images/sc.png'>";
-			$(e).after(html);
-			$(e).remove();
+			var html = "<div class='shanchu light_icon'><a href='javascript:void(0)' onclick='delMark(this,"+'"'+target+'"'+");'>删除</a></div>";
+			html+= "<div class='dinwei light_icon'><a href='javascript:void(0)' onclick='searchMark("+'"'+target+'"'+");'>定位</a></div>";
+			$(e).parent().after(html);
+			$(e).parent().remove();
 			obj.ShowTipMessage("提示","【"+target+"】"+"指标内容绑定成功，请在 刷新 或者 关闭 页面前保存文件");
 		}
 	}	
@@ -94,10 +98,10 @@
 		if(obj.ActiveDocument.Bookmarks.Exists(target)){
 			obj.ActiveDocument.BookMarks.Item(target).Delete();
 			obj.ShowTipMessage("提示","删除绑定成功！",false);
-			var html = "<img alt='绑定指标' onclick='mark(this,"+'"'+target+'"'+");' src='<%=basePath%>public/ZHH/images/bdzb.png'>";
-			$(e).after(html);
-			$(e).prev().remove();
-			$(e).remove();
+			var html = "<div class='bdzb light_icon'><a href='javascript:void(0)' onclick='mark(this,"+'"'+target+'"'+");'>定位</a></div>";
+			$(e).parent().next().remove();
+			$(e).parent().after(html);
+			$(e).parent().remove();
 		}else{
 			obj.ShowTipMessage("提示","删除失败，该指标未被绑定！",true);
 		}
@@ -142,36 +146,71 @@
     
     <div class="container content height-350">
        <div class="row">
-           <!-- Begin Content -->
-           <div class="col-md-12" style="min-height:400px;">
-                <div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
-					<div class="tag-box tag-box-v3">
-						<ul >
-						  <li >
-							<span >资格等级</span>
-							<img alt="绑定指标" onclick="mark(this,'资格等级');" src="<%=basePath%>public/ZHH/images/bdzb.png">
-							
-						  </li>
-						</ul>
-					</div>
+          <!-- Begin Content -->
+          <div class="col-md-3 md-margin-bottom-40">
+           	<div class="tag-box tag-box-v3">	
+			   <div class="light_main">
+			    <div class="light_list">
+				 初审项      
 				</div>
-				<div class="tag-box tag-box-v4 col-md-9" id="show_content_div">
-					<form id="MyFile" method="post"  enctype="multipart/form-data">
-						 <!-- 按钮 -->
-				        <div class="fr pr15 mt10">
-				        	 <!-- <input type="button" class="btn btn-windows cancel" onclick="delMark()" value="删除标记"></input>
-				        	 <input type="button" class="btn btn-windows cancel" onclick="searchMark()" value="查看标记"></input>
-				        	 <input type="button" class="btn btn-windows cancel" onclick="mark()" value="标记"></input> -->
-				        	 <input type="button" class="btn btn-windows cancel" onclick="closeFile()" value="关闭当前文档"></input>
-				        	 <!-- <input type="button" class="btn btn-windows " onclick="queryVersion()" value="版本查询"></input> -->
-						     <input type="button" class="btn btn-windows input" onclick="inputTemplete()" value="模板导入"></input>
-					         <input type="button" class="btn btn-windows save" onclick="saveFile()" value="保存到服务器"></input>
-					    </div>
-						<script type="text/javascript" src="${pageContext.request.contextPath}/public/ntko/ntkoofficecontrol.js"></script>
-					</form>
+			    <ul class="light_box"> 
+				  <li>
+				    <span class="light_desc">法人代表</span>
+				    <div class='bdzb light_icon'>
+				    	<a href='javascript:void(0)' onclick="mark(this,'法人代表');">定位</a>
+				    </div>
+				  </li>
+				  <li>
+				    <span class="light_desc">营业执照...</span>
+				    <div class='bdzb light_icon'>
+				    	<a href='javascript:void(0)' onclick="mark(this,'营业执照编号');">定位</a>
+				    </div>
+				  </li>
+				  <li>
+				    <span class="light_desc">年利润</span>
+				    <div class='bdzb light_icon'>
+				    	<a href='javascript:void(0)' onclick="mark(this,'年利润');">定位</a>
+				    </div>
+				  </li>
+				</ul>
+		       </div>
+			   <div class="light_main">
+			    <div class="light_list">
+				 评分细则
 				</div>
-			</div>
-		</div>
-  </div>
+			    <ul class="light_box"> 
+				  <li>
+				    <span class="light_desc">企业规模</span>
+					<div class='bdzb light_icon'>
+				    	<a href='javascript:void(0)' onclick="mark(this,'企业规模');">定位</a>
+				    </div>
+				  </li>
+				  <li>
+				    <span class="light_desc">技术人数</span>
+					<div class='bdzb light_icon'>
+				    	<a href='javascript:void(0)' onclick="mark(this,'技术人数');">定位</a>
+				    </div>
+				  </li>
+				</ul>
+		       </div>
+        	</div>   
+		  </div>
+		  <div class="tag-box tag-box-v4 col-md-9" id="show_content_div">
+			<form id="MyFile" method="post"  enctype="multipart/form-data">
+				 <!-- 按钮 -->
+		        <div class="fr pr15 mt10">
+		        	 <!-- <input type="button" class="btn btn-windows cancel" onclick="delMark()" value="删除标记"></input>
+		        	 <input type="button" class="btn btn-windows cancel" onclick="searchMark()" value="查看标记"></input>
+		        	 <input type="button" class="btn btn-windows cancel" onclick="mark()" value="标记"></input> -->
+		        	 <!-- <input type="button" class="btn btn-windows cancel" onclick="closeFile()" value="关闭当前文档"></input> -->
+		        	 <!-- <input type="button" class="btn btn-windows " onclick="queryVersion()" value="版本查询"></input> -->
+				     <input type="button" class="btn btn-windows input" onclick="inputTemplete()" value="模板导入"></input>
+			         <input type="button" class="btn btn-windows save" onclick="saveFile()" value="保存绑定操作"></input>
+			    </div>
+				<script type="text/javascript" src="${pageContext.request.contextPath}/public/ntko/ntkoofficecontrol.js"></script>
+			</form>
+		  </div>
+	   </div>
+	</div>
 </body>
 </html>

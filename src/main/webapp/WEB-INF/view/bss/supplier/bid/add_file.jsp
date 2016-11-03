@@ -128,7 +128,7 @@
         	 <!-- <input type="button" class="btn btn-windows cancel" onclick="delMark()" value="删除标记"></input>
         	 <input type="button" class="btn btn-windows cancel" onclick="searchMark()" value="查看标记"></input>
         	 <input type="button" class="btn btn-windows cancel" onclick="mark()" value="标记"></input> -->
-        	 <input type="button" class="btn btn-windows cancel" onclick="closeFile()" value="关闭当前文档"></input>
+        	 <input type="button" class="btn btn-windows cancel" onclick="closeFile()" value="关闭当前文档"></input><!--  -->
         	 <!-- <input type="button" class="btn btn-windows " onclick="queryVersion()" value="版本查询"></input> -->
 		     <input type="button" class="btn btn-windows input" onclick="inputTemplete()" value="模板导入"></input>
 	         <input type="button" class="btn btn-windows save" onclick="saveFile()" value="保存到服务器"></input>
