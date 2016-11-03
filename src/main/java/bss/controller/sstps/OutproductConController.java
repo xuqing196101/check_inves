@@ -96,9 +96,7 @@ public class OutproductConController {
 			model.addAttribute("ERR_paperCode", "图纸位置号(代号)不能为空");
 		}
 		if(flag==false){
-			model.addAttribute("finishedName",outproductCon.getFinishedName());
-			model.addAttribute("norm",outproductCon.getNorm());
-			model.addAttribute("paperCode",outproductCon.getPaperCode());
+			model.addAttribute("out", outproductCon);
 			url = "bss/sstps/offer/supplier/outproduct/add";
 		}else{
 			outproductCon.setCreatedAt(new Date());
@@ -139,11 +137,7 @@ public class OutproductConController {
 			model.addAttribute("ERR_paperCode", "图纸位置号(代号)不能为空");
 		}
 		if(flag==false){
-			model.addAttribute("out.finishedName",outproductCon.getFinishedName());
-			model.addAttribute("out.norm",outproductCon.getNorm());
-			model.addAttribute("out.paperCode",outproductCon.getPaperCode());
-			OutproductCon outproduct = outproductConService.selectById(id);
-			model.addAttribute("out", outproduct);
+			model.addAttribute("out", outproductCon);
 			url = "bss/sstps/offer/supplier/outproduct/edit";
 		}else{
 			outproductCon.setUpdatedAt(new Date());

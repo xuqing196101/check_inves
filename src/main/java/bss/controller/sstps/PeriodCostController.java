@@ -3,11 +3,16 @@ package bss.controller.sstps;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import ses.util.ValidateUtils;
 
 import bss.model.sstps.ContractProduct;
 import bss.model.sstps.PeriodCost;
@@ -121,18 +126,28 @@ public class PeriodCostController {
 	* @return String
 	 */
 	@RequestMapping("/save")
-	public String save(Model model,PeriodCost periodCost){
+	public String save(Model model,@Valid PeriodCost periodCost,BindingResult result){
 		String proId = periodCost.getContractProduct().getId();
-		periodCost.setCreatedAt(new Date());
-		periodCost.setUpdatedAt(new Date());
-		periodCostService.insert(periodCost);
-		
-		List<PeriodCost> list = periodCostService.selectProduct(periodCost);
-		model.addAttribute("list", list);
-		
 		model.addAttribute("proId",proId);
 		
-		return "bss/sstps/offer/supplier/periodCost/list";
+		String url = "";
+		boolean flag = true;
+		if(ValidateUtils.isNull(periodCost.getProjectName())){
+			flag = false;
+			model.addAttribute("ERR_projectName", "项目名称不能为空");
+		}
+		if(flag==false){
+			model.addAttribute("pc", periodCost);
+			url = "bss/sstps/offer/supplier/periodCost/add";
+		}else{
+			periodCost.setCreatedAt(new Date());
+			periodCost.setUpdatedAt(new Date());
+			periodCostService.insert(periodCost);
+			List<PeriodCost> list = periodCostService.selectProduct(periodCost);
+			model.addAttribute("list", list);
+			url = "bss/sstps/offer/supplier/periodCost/list";
+		}
+		return url;
 	}
 	
 	/**
@@ -146,16 +161,26 @@ public class PeriodCostController {
 	* @return String
 	 */
 	@RequestMapping("/update")
-	public String update(Model model,PeriodCost periodCost){
+	public String update(Model model,@Valid PeriodCost periodCost,BindingResult result){
 		String proId = periodCost.getContractProduct().getId();
-		
-		periodCost.setUpdatedAt(new Date());
-		periodCostService.update(periodCost);
-		
-		List<PeriodCost> list = periodCostService.selectProduct(periodCost);
-		model.addAttribute("list", list);
 		model.addAttribute("proId",proId);
-		return "bss/sstps/offer/supplier/periodCost/list";
+		String url = "";
+		boolean flag = true;
+		if(ValidateUtils.isNull(periodCost.getProjectName())){
+			flag = false;
+			model.addAttribute("ERR_projectName", "项目名称不能为空");
+		}
+		if(flag==false){
+			model.addAttribute("pc", periodCost);
+			url = "bss/sstps/offer/supplier/periodCost/edit";
+		}else{
+			periodCost.setUpdatedAt(new Date());
+			periodCostService.update(periodCost);
+			List<PeriodCost> list = periodCostService.selectProduct(periodCost);
+			model.addAttribute("list", list);
+			url = "bss/sstps/offer/supplier/periodCost/list";
+		}
+		return url;
 	}
 	
 	/**

@@ -37,21 +37,24 @@ function down(){
    <h2 class="f16 count_flow mt40"><i>01</i>材料信息</h2>
    <ul class="list-unstyled list-flow ul_list">
    <li class="col-md-6 p0">
-	   <span class="">部门：</span>
+	   <span class=""><i class="red">＊</i>部门：</span>
 	   <div class="input-append">
-        <input type="text" id="department" name="department" class="w220">
+        <input type="text" id="department" name="department" value="${wp.department }" class="w220">
+        <div class="validate">${ERR_department}</div>
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
-	   <span class="">上级项目：</span>
+	   <span class=""><i class="red">＊</i>上级项目：</span>
 	   <div class="input-append">
-        <input type="text" id="firsetProduct" name="firsetProduct" class="w220">
+        <input type="text" id="firsetProduct" name="firsetProduct" value="${wp.firsetProduct }" class="w220">
+        <div class="validate">${ERR_firsetProduct}</div>
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
-	   <span class="">项目名称：</span>
+	   <span class=""><i class="red">＊</i>项目名称：</span>
 	   <div class="input-append">
-        <input id="secondProduct" name="secondProduct" type="text" class="w220">
+        <input id="secondProduct" name="secondProduct" type="text" value="${wp.secondProduct }" class="w220">
+        <div class="validate">${ERR_secondProduct}</div>
        </div>
 	 </li>
    </ul>
@@ -63,31 +66,31 @@ function down(){
    <li class="col-md-6 p0">
 	   <span class="">基本生产人员：</span>
 	   <div class="input-append">
-        <input type="text" id="tyaProduceUser" name="tyaProduceUser" class="w220">
+        <input type="text" id="tyaProduceUser" name="tyaProduceUser" value="${wp.tyaProduceUser }" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">车间管理人员：</span>
 	   <div class="input-append">
-        <input type="text" id="tyaWorkshopUser" name="tyaWorkshopUser" class="w220">
+        <input type="text" id="tyaWorkshopUser" name="tyaWorkshopUser" value="${wp.tyaWorkshopUser }" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">管理人员：</span>
 	   <div class="input-append">
-        <input type="text" id="tyaManageUser" name="tyaManageUser" class="w220">
+        <input type="text" id="tyaManageUser" name="tyaManageUser" value="${wp.tyaManageUser }" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">其他人员：</span>
 	   <div class="input-append">
-        <input type="text" id="tyaOtherUser" name="tyaOtherUser" class="w220">
+        <input type="text" id="tyaOtherUser" name="tyaOtherUser" value="${wp.tyaOtherUser }" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">合计：</span>
 	   <div class="input-append">
-        <input type="text" id="tyaTotal" name="tyaTotal" class="w220">
+        <input type="text" id="tyaTotal" name="tyaTotal" value="${wp.tyaTotal }" class="w220">
        </div>
 	 </li>
    </ul>
@@ -99,31 +102,31 @@ function down(){
    <li class="col-md-6 p0">
 	   <span class="">基本生产人员：</span>
 	   <div class="input-append">
-        <input type="text" id="oyaProduceUser" name="oyaProduceUser" class="w220">
+        <input type="text" id="oyaProduceUser" name="oyaProduceUser" value="${wp.oyaProduceUser }" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">车间管理人员：</span>
 	   <div class="input-append">
-        <input type="text" id="oyaWorkshopUser" name="oyaWorkshopUser" class="w220">
+        <input type="text" id="oyaWorkshopUser" name="oyaWorkshopUser" value="${wp.oyaWorkshopUser }" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">管理人员：</span>
 	   <div class="input-append">
-        <input type="text" id="oyaManageUser" name="oyaManageUser" class="w220">
+        <input type="text" id="oyaManageUser" name="oyaManageUser" value="${wp.oyaManageUser }" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">其他人员：</span>
 	   <div class="input-append">
-        <input type="text" id="oyaOtherUser" name="oyaOtherUser" class="w220">
+        <input type="text" id="oyaOtherUser" name="oyaOtherUser" value="${wp.oyaOtherUser }" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">合计：</span>
 	   <div class="input-append">
-        <input type="text" id="oyaTotal" name="oyaTotal" class="w220">
+        <input type="text" id="oyaTotal" name="oyaTotal" value="${wp.oyaTotal }" class="w220">
        </div>
 	 </li>
    </ul>
@@ -135,31 +138,31 @@ function down(){
    <li class="col-md-6 p0">
 	   <span class="">基本生产人员：</span>
 	   <div class="input-append">
-        <input type="text" id="newProduceUser" name="newProduceUser" class="w220">
+        <input type="text" id="newProduceUser" name="newProduceUser" value="${wp.newProduceUser }" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">车间管理人员：</span>
 	   <div class="input-append">
-        <input type="text" id="newWorkshopUser" name="newWorkshopUser" class="w220">
+        <input type="text" id="newWorkshopUser" name="newWorkshopUser" value="${wp.newWorkshopUser }" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">管理人员：</span>
 	   <div class="input-append">
-        <input type="text" id="newManageUser" name="newManageUser" class="w220">
+        <input type="text" id="newManageUser" name="newManageUser" value="${wp.newManageUser }" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">其他人员：</span>
 	   <div class="input-append">
-        <input type="text" id="newOtherUser" name="newOtherUser" class="w220">
+        <input type="text" id="newOtherUser" name="newOtherUser" value="${wp.newOtherUser }" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">合计：</span>
 	   <div class="input-append">
-        <input type="text" id="newTotal" name="newTotal" class="w220">
+        <input type="text" id="newTotal" name="newTotal" value="${wp.newTotal }" class="w220">
        </div>
 	 </li>
    </ul>
@@ -171,7 +174,7 @@ function down(){
 	 <li class="col-md-12  p0 ">
 	   <span class="fl">备注：</span>
 	   <div class="col-md-12 pl200 fn mt5 pwr9">
-        <textarea class="text_area col-md-12 " id="remark" name="remark" title="不超过250个字" placeholder="不超过250个字"></textarea>
+        <textarea class="text_area col-md-12 " id="remark" name="remark" title="不超过250个字" placeholder="不超过250个字">${wp.remark }</textarea>
        </div>
 	 </li>
    </ul>

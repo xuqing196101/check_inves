@@ -2,6 +2,8 @@ package bss.model.sstps;
 
 import java.util.Date;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
 * @Title:SpecialCost 
 * @Description: 专项费用明细
@@ -14,12 +16,16 @@ public class SpecialCost {
 
     private ContractProduct contractProduct;
 
+    @NotBlank(message = "项目名称不能为空")
     private String projectName;
 
+    @NotBlank(message = "项目明细不能为空")
     private String productDetal;
 
+    @NotBlank(message = "名称不能为空")
     private String name;
 
+    @NotBlank(message = "规格型号不能为空")
     private String norm;
 
     private String measuringUnit;

@@ -3,11 +3,16 @@ package bss.controller.sstps;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import ses.util.ValidateUtils;
 
 import bss.model.sstps.ContractProduct;
 import bss.model.sstps.WagesPayable;
@@ -121,18 +126,35 @@ public class WagesPayableController {
 	* @return String
 	 */
 	@RequestMapping("/save")
-	public String save(Model model,WagesPayable wagesPayable){
+	public String save(Model model,@Valid WagesPayable wagesPayable,BindingResult result){
 		String proId = wagesPayable.getContractProduct().getId();
-		wagesPayable.setCreatedAt(new Date());
-		wagesPayable.setUpdatedAt(new Date());
-		wagesPayableService.insert(wagesPayable);
-		
-		List<WagesPayable> list = wagesPayableService.selectProduct(wagesPayable);
-		model.addAttribute("list", list);
-		
 		model.addAttribute("proId",proId);
-		
-		return "bss/sstps/offer/supplier/wagesPayable/list";
+		String url = "";
+		boolean flag = true;
+		if(ValidateUtils.isNull(wagesPayable.getDepartment())){
+			flag = false;
+			model.addAttribute("ERR_department", "部门不能为空");
+		}
+		if(ValidateUtils.isNull(wagesPayable.getFirsetProduct())){
+			flag = false;
+			model.addAttribute("ERR_firsetProduct", "上级项目不能为空");
+		}
+		if(ValidateUtils.isNull(wagesPayable.getSecondProduct())){
+			flag = false;
+			model.addAttribute("ERR_secondProduct", "项目名称不能为空");
+		}
+		if(flag==false){
+			model.addAttribute("wp", wagesPayable);
+			url = "bss/sstps/offer/supplier/wagesPayable/add";
+		}else{
+			wagesPayable.setCreatedAt(new Date());
+			wagesPayable.setUpdatedAt(new Date());
+			wagesPayableService.insert(wagesPayable);
+			List<WagesPayable> list = wagesPayableService.selectProduct(wagesPayable);
+			model.addAttribute("list", list);
+			url = "bss/sstps/offer/supplier/wagesPayable/list";
+		}
+		return url;
 	}
 	
 	/**
@@ -146,16 +168,35 @@ public class WagesPayableController {
 	* @return String
 	 */
 	@RequestMapping("/update")
-	public String update(Model model,WagesPayable wagesPayable){
+	public String update(Model model,@Valid WagesPayable wagesPayable,BindingResult result){
 		String proId = wagesPayable.getContractProduct().getId();
-		
-		wagesPayable.setUpdatedAt(new Date());
-		wagesPayableService.update(wagesPayable);
-		
-		List<WagesPayable> list = wagesPayableService.selectProduct(wagesPayable);
-		model.addAttribute("list", list);
 		model.addAttribute("proId",proId);
-		return "bss/sstps/offer/supplier/wagesPayable/list";
+		String url = "";
+		boolean flag = true;
+		if(ValidateUtils.isNull(wagesPayable.getDepartment())){
+			flag = false;
+			model.addAttribute("ERR_department", "部门不能为空");
+		}
+		if(ValidateUtils.isNull(wagesPayable.getFirsetProduct())){
+			flag = false;
+			model.addAttribute("ERR_firsetProduct", "上级项目不能为空");
+		}
+		if(ValidateUtils.isNull(wagesPayable.getSecondProduct())){
+			flag = false;
+			model.addAttribute("ERR_secondProduct", "项目名称不能为空");
+		}
+		if(flag==false){
+			model.addAttribute("wp", wagesPayable);
+			url = "bss/sstps/offer/supplier/wagesPayable/edit";
+		}else{
+			wagesPayable.setUpdatedAt(new Date());
+			wagesPayableService.update(wagesPayable);
+			List<WagesPayable> list = wagesPayableService.selectProduct(wagesPayable);
+			model.addAttribute("list", list);
+			model.addAttribute("proId",proId);
+			url = "bss/sstps/offer/supplier/wagesPayable/list";
+		}
+		return url;
 	}
 	
 	/**

@@ -37,21 +37,24 @@ function down(){
    <h2 class="f16 count_flow mt40"><i>01</i>材料信息</h2>
    <ul class="list-unstyled list-flow ul_list">
    <li class="col-md-6 p0">
-	   <span class="">项目名称：</span>
+	   <span class=""><i class="red">＊</i>项目名称：</span>
 	   <div class="input-append">
-        <input type="text" id="projectName" name="projectName" class="w220">
+        <input type="text" id="projectName" name="projectName" value="${yp.projectName }" class="w220">
+        <div class="validate">${ERR_projectName}</div>
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
-	   <span class="">产品名称：</span>
+	   <span class=""><i class="red">＊</i>产品名称：</span>
 	   <div class="input-append">
-        <input type="text" id="productName" name="productName" class="w220">
+        <input type="text" id="productName" name="productName" value="${yp.productName }" class="w220">
+        <div class="validate">${ERR_productName}</div>
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
-	   <span class="">计量单位：</span>
+	   <span class=""><i class="red">＊</i>计量单位：</span>
 	   <div class="input-append">
-        <input id="measuringUnit" name="measuringUnit" type="text" class="w220">
+        <input id="measuringUnit" name="measuringUnit" type="text" value="${yp.measuringUnit }" class="w220">
+        <div class="validate">${ERR_measuringUnit}</div>
        </div>
 	 </li>
    </ul>
@@ -63,19 +66,19 @@ function down(){
    <li class="col-md-6 p0">
 	   <span class="">单位产品定额工时：</span>
 	   <div class="input-append">
-        <input type="text" id="tyaHourUnit" name="tyaHourUnit" class="w220">
+        <input type="text" id="tyaHourUnit" name="tyaHourUnit" value="${yp.tyaHourUnit }" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">计划产量：</span>
 	   <div class="input-append">
-        <input type="text" id="tyaInvestAcount" name="tyaInvestAcount" class="w220">
+        <input type="text" id="tyaInvestAcount" name="tyaInvestAcount" value="${yp.tyaInvestAcount }" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">工时合计：</span>
 	   <div class="input-append">
-        <input type="text" id="tyaHourTotal" name="tyaHourTotal" class="w220">
+        <input type="text" id="tyaHourTotal" name="tyaHourTotal" value="${yp.tyaHourTotal }" class="w220">
        </div>
 	 </li>
    </ul>
@@ -87,19 +90,19 @@ function down(){
    <li class="col-md-6 p0">
 	   <span class="">单位产品定额工时：</span>
 	   <div class="input-append">
-        <input type="text" id="oyaHourUnit" name="oyaHourUnit" class="w220">
+        <input type="text" id="oyaHourUnit" name="oyaHourUnit" value="${yp.oyaHourUnit }" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">计划产量：</span>
 	   <div class="input-append">
-        <input type="text" id="oyaInvestAcount" name="oyaInvestAcount" class="w220">
+        <input type="text" id="oyaInvestAcount" name="oyaInvestAcount" value="${yp.oyaInvestAcount }" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">工时合计：</span>
 	   <div class="input-append">
-        <input type="text" id="oyaHourTotal" name="oyaHourTotal" class="w220">
+        <input type="text" id="oyaHourTotal" name="oyaHourTotal" value="${yp.oyaHourTotal }" class="w220">
        </div>
 	 </li>
    </ul>
@@ -111,19 +114,19 @@ function down(){
    <li class="col-md-6 p0">
 	   <span class="">单位产品定额工时：</span>
 	   <div class="input-append">
-        <input type="text" id="newHourUnit" name="newHourUnit" class="w220">
+        <input type="text" id="newHourUnit" name="newHourUnit" value="${yp.newHourUnit }" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">计划产量：</span>
 	   <div class="input-append">
-        <input type="text" id="newInvestAcount" name="newInvestAcount" class="w220">
+        <input type="text" id="newInvestAcount" name="newInvestAcount" value="${yp.newInvestAcount }" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">工时合计：</span>
 	   <div class="input-append">
-        <input type="text" id="newHourTotal" name="newHourTotal" class="w220">
+        <input type="text" id="newHourTotal" name="newHourTotal" value="${yp.newHourTotal }" class="w220">
        </div>
 	 </li>
    </ul>
@@ -135,7 +138,7 @@ function down(){
 	 <li class="col-md-12  p0 ">
 	   <span class="fl">备注：</span>
 	   <div class="col-md-12 pl200 fn mt5 pwr9">
-        <textarea class="text_area col-md-12 " id="remark" name="remark" title="不超过250个字" placeholder="不超过250个字"></textarea>
+        <textarea class="text_area col-md-12 " id="remark" name="remark" title="不超过250个字" placeholder="不超过250个字">${yp.remark }</textarea>
        </div>
 	 </li>
    </ul>

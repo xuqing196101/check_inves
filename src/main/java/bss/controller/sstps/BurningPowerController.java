@@ -3,11 +3,16 @@ package bss.controller.sstps;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import ses.util.ValidateUtils;
 
 import bss.model.sstps.BurningPower;
 import bss.model.sstps.ContractProduct;
@@ -106,18 +111,39 @@ public class BurningPowerController {
 	* @return String
 	 */
 	@RequestMapping("/save")
-	public String save(Model model,BurningPower burningPower){
+	public String save(Model model,@Valid BurningPower burningPower,BindingResult result){
 		String proId = burningPower.getContractProduct().getId();
-		burningPower.setCreatedAt(new Date());
-		burningPower.setUpdatedAt(new Date());
-		burningPowerService.insert(burningPower);
-		
-		List<BurningPower> list = burningPowerService.selectProduct(burningPower);
-		model.addAttribute("list", list);
-		
 		model.addAttribute("proId",proId);
-		
-		return "bss/sstps/offer/supplier/burningPower/list";
+		String url = "";
+		boolean flag = true;
+		if(ValidateUtils.isNull(burningPower.getFirsetProduct())){
+			flag = false;
+			model.addAttribute("ERR_firsetProduct", "一级项目不能为空");
+		}
+		if(ValidateUtils.isNull(burningPower.getSecondProduct())){
+			flag = false;
+			model.addAttribute("ERR_secondProduct", "二级项目不能为空");
+		}
+		if(ValidateUtils.isNull(burningPower.getThirdProduct())){
+			flag = false;
+			model.addAttribute("ERR_thirdProduct", "项目名称不能为空");
+		}
+		if(ValidateUtils.isNull(burningPower.getUnit())){
+			flag = false;
+			model.addAttribute("ERR_unit", "计量单位不能为空");
+		}
+		if(flag==false){
+			model.addAttribute("burningPower", burningPower);
+			url = "bss/sstps/offer/supplier/burningPower/add";
+		}else{
+			burningPower.setCreatedAt(new Date());
+			burningPower.setUpdatedAt(new Date());
+			burningPowerService.insert(burningPower);
+			List<BurningPower> list = burningPowerService.selectProduct(burningPower);
+			model.addAttribute("list", list);
+			url = "bss/sstps/offer/supplier/burningPower/list";
+		}
+		return url;
 	}
 	
 	/**
@@ -131,16 +157,38 @@ public class BurningPowerController {
 	* @return String
 	 */
 	@RequestMapping("/update")
-	public String update(Model model,BurningPower burningPower){
+	public String update(Model model,@Valid BurningPower burningPower,BindingResult result){
 		String proId = burningPower.getContractProduct().getId();
-		
-		burningPower.setUpdatedAt(new Date());
-		burningPowerService.update(burningPower);
-		
-		List<BurningPower> list = burningPowerService.selectProduct(burningPower);
-		model.addAttribute("list", list);
 		model.addAttribute("proId",proId);
-		return "bss/sstps/offer/supplier/burningPower/list";
+		String url = "";
+		boolean flag = true;
+		if(ValidateUtils.isNull(burningPower.getFirsetProduct())){
+			flag = false;
+			model.addAttribute("ERR_firsetProduct", "一级项目不能为空");
+		}
+		if(ValidateUtils.isNull(burningPower.getSecondProduct())){
+			flag = false;
+			model.addAttribute("ERR_secondProduct", "二级项目不能为空");
+		}
+		if(ValidateUtils.isNull(burningPower.getThirdProduct())){
+			flag = false;
+			model.addAttribute("ERR_thirdProduct", "项目名称不能为空");
+		}
+		if(ValidateUtils.isNull(burningPower.getUnit())){
+			flag = false;
+			model.addAttribute("ERR_unit", "计量单位不能为空");
+		}
+		if(flag==false){
+			model.addAttribute("burningPower", burningPower);
+			url = "bss/sstps/offer/supplier/burningPower/edit";
+		}else{
+			burningPower.setUpdatedAt(new Date());
+			burningPowerService.update(burningPower);
+			List<BurningPower> list = burningPowerService.selectProduct(burningPower);
+			model.addAttribute("list", list);
+			url = "bss/sstps/offer/supplier/burningPower/list";
+		}
+		return url;
 	}
 	
 	/**
@@ -156,19 +204,14 @@ public class BurningPowerController {
 	 */
 	@RequestMapping("/delete")
 	public String delete(Model model,String proId,String ids){
-		
 		String[] id=ids.split(",");
-		
 		for(String str : id){
 			burningPowerService.delete(str);
 		}
-		
 		BurningPower burningPower = new BurningPower();
-		
 		ContractProduct contractProduct = new ContractProduct();
 		contractProduct.setId(proId);
 		burningPower.setContractProduct(contractProduct);
-		
 		List<BurningPower> list = burningPowerService.selectProduct(burningPower);
 		model.addAttribute("list", list);
 		model.addAttribute("proId",proId);

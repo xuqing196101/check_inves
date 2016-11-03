@@ -95,21 +95,21 @@
 				 	<tr>
 				 		<td width="25%" class="bggrey tr">供应商名称：</td>
 				 		<td width="25%">
-				 			<input id="supplierName" name="supplierName" type="text" class="w230 mb0" readonly>
+				 			<input id="supplierName" name="supplierName" type="text" class="w230 mb0 border0" readonly>
 				 		</td>
 				 		<td width="25%" class="bggrey tr">合同编号：</td>
 				 		<td width="25%" >
-				 			<input id="contractCode" name="code" type="text" class="w230 mb0" readonly>
+				 			<input id="contractCode" name="code" type="text" class="w230 mb0 border0" readonly>
 				 		</td>
 				 	</tr>
 				 	<tr>
 				 		<td width="25%" class="bggrey tr">采购机构：</td>
 				 		<td width="25%">
-				 			<input id="purchaseDepName" name="purchaseDepName" type="text" class="w230 mb0" readonly>
+				 			<input id="purchaseDepName" name="purchaseDepName" type="text" class="w230 mb0 border0" readonly>
 				 		</td>
 				 		<td width="25%" class="bggrey tr">合同金额：</td>
 				 		<td width="25%">
-				 			<input id="money" name="money" type="text" class="w230 mb0" readonly>
+				 			<input id="money" name="money" type="text" class="w230 mb0 border0" readonly>
 				 		</td>
 				 	</tr>
 				 </tobody>

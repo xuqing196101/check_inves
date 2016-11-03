@@ -3,11 +3,16 @@ package bss.controller.sstps;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import ses.util.ValidateUtils;
 
 import bss.model.sstps.ContractProduct;
 import bss.model.sstps.SpecialCost;
@@ -116,18 +121,39 @@ public class SpecialCostController {
 	* @return String
 	 */
 	@RequestMapping("/save")
-	public String save(Model model,SpecialCost specialCost){
+	public String save(Model model,@Valid SpecialCost specialCost,BindingResult result){
 		String proId = specialCost.getContractProduct().getId();
-		specialCost.setCreatedAt(new Date());
-		specialCost.setUpdatedAt(new Date());
-		specialCostService.insert(specialCost);
-		
-		List<SpecialCost> list = specialCostService.selectProduct(specialCost);
-		model.addAttribute("list", list);
-		
 		model.addAttribute("proId",proId);
-		
-		return "bss/sstps/offer/supplier/specialCost/list";
+		String url = "";
+		boolean flag = true;
+		if(ValidateUtils.isNull(specialCost.getProjectName())){
+			flag = false;
+			model.addAttribute("ERR_projectName", "项目名称不能为空");
+		}
+		if(ValidateUtils.isNull(specialCost.getProductDetal())){
+			flag = false;
+			model.addAttribute("ERR_productDetal", "项目明细不能为空");
+		}
+		if(ValidateUtils.isNull(specialCost.getName())){
+			flag = false;
+			model.addAttribute("ERR_name", "名称不能为空");
+		}
+		if(ValidateUtils.isNull(specialCost.getNorm())){
+			flag = false;
+			model.addAttribute("ERR_norm", "规格型号称不能为空");
+		}
+		if(flag==false){
+			model.addAttribute("sc", specialCost);
+			url = "bss/sstps/offer/supplier/specialCost/add";
+		}else{
+			specialCost.setCreatedAt(new Date());
+			specialCost.setUpdatedAt(new Date());
+			specialCostService.insert(specialCost);
+			List<SpecialCost> list = specialCostService.selectProduct(specialCost);
+			model.addAttribute("list", list);
+			url = "bss/sstps/offer/supplier/specialCost/list";
+		}
+		return url;
 	}
 	
 	/**
@@ -142,16 +168,38 @@ public class SpecialCostController {
 	* @return String
 	 */
 	@RequestMapping("/update")
-	public String update(Model model,SpecialCost specialCost){
+	public String update(Model model,@Valid SpecialCost specialCost,BindingResult result){
 		String proId = specialCost.getContractProduct().getId();
-		
-		specialCost.setUpdatedAt(new Date());
-		specialCostService.update(specialCost);
-		
-		List<SpecialCost> list = specialCostService.selectProduct(specialCost);
-		model.addAttribute("list", list);
 		model.addAttribute("proId",proId);
-		return "bss/sstps/offer/supplier/specialCost/list";
+		String url = "";
+		boolean flag = true;
+		if(ValidateUtils.isNull(specialCost.getProjectName())){
+			flag = false;
+			model.addAttribute("ERR_projectName", "项目名称不能为空");
+		}
+		if(ValidateUtils.isNull(specialCost.getProductDetal())){
+			flag = false;
+			model.addAttribute("ERR_productDetal", "项目明细不能为空");
+		}
+		if(ValidateUtils.isNull(specialCost.getName())){
+			flag = false;
+			model.addAttribute("ERR_name", "名称不能为空");
+		}
+		if(ValidateUtils.isNull(specialCost.getNorm())){
+			flag = false;
+			model.addAttribute("ERR_norm", "规格型号称不能为空");
+		}
+		if(flag==false){
+			model.addAttribute("sc", specialCost);
+			url = "bss/sstps/offer/supplier/specialCost/edit";
+		}else{
+			specialCost.setUpdatedAt(new Date());
+			specialCostService.update(specialCost);
+			List<SpecialCost> list = specialCostService.selectProduct(specialCost);
+			model.addAttribute("list", list);
+			url = "bss/sstps/offer/supplier/specialCost/list";
+		}
+		return url;
 	}
 	
 	/**
@@ -167,19 +215,14 @@ public class SpecialCostController {
 	 */
 	@RequestMapping("/delete")
 	public String delete(Model model,String proId,String ids){
-		
 		String[] id=ids.split(",");
-		
 		for(String str : id){
 			specialCostService.delete(str);
 		}
-		
 		SpecialCost specialCost = new SpecialCost();
-		
 		ContractProduct contractProduct = new ContractProduct();
 		contractProduct.setId(proId);
 		specialCost.setContractProduct(contractProduct);
-		
 		List<SpecialCost> list = specialCostService.selectProduct(specialCost);
 		model.addAttribute("list", list);
 		model.addAttribute("proId",proId);
