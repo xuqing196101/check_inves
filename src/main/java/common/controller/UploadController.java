@@ -1,0 +1,121 @@
+package common.controller;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import common.model.UploadFile;
+import common.service.UploadService;
+
+/**
+ * 
+ * 版权：(C) 版权所有 
+ * <简述> 文件上传controller
+ * <详细描述>
+ * @author   myc
+ * @version  
+ * @since
+ * @see
+ */
+@Controller
+@RequestMapping("/file")
+public class UploadController {
+    
+    /** 注入service */
+    @Autowired
+    private UploadService uploadService;
+    
+    /**
+     * 
+     *〈简述〉分片上传
+     *〈详细描述〉
+     * @author myc
+     * @param request {@link HttpServletRequest}
+     */
+    @RequestMapping("/upload")
+    @ResponseBody
+    public void upload(HttpServletRequest request, HttpServletResponse response){
+        try {
+            request.setCharacterEncoding("UTF-8");
+            response.setCharacterEncoding("UTF-8");
+            String result = uploadService.upload(request);
+            if (StringUtils.isNotBlank(result)){
+                response.getWriter().write(result);
+            } 
+            
+            response.getWriter().flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * 
+     *〈简述〉将文件转移到正式目录,并且记录路径
+     *〈详细描述〉
+     * @author myc
+     * @param request {@link HttpServletRequest}
+     * @param response {@link HttpServletResponse}
+     */
+    @RequestMapping("/finished")
+    @ResponseBody
+    public void finishUpload(HttpServletRequest request, HttpServletResponse response){
+        try {
+            request.setCharacterEncoding("UTF-8");
+            response.setCharacterEncoding("UTF-8");
+            String msg = uploadService.saveFile(request);
+            if (StringUtils.isNotBlank(msg)){
+                response.getWriter().write(msg);
+            } 
+            response.getWriter().flush();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * 
+     *〈简述〉删除文件
+     *〈详细描述〉
+     * @author myc
+     * @param request {@link HttpServletRequest}
+     * @return {@link java.lang.String}
+     */
+    @RequestMapping("/deleteFile")
+    @ResponseBody
+    public String deleteFile(HttpServletRequest request){
+        String msg = uploadService.updateFile(request);
+        return msg;
+    }
+    
+    /**
+     * 
+     *〈简述〉上传完显示附件
+     *〈详细描述〉
+     * @author myc
+     * @param request {@link HttpServletRequest}
+     * @return {@link List<UploadFile>}
+     */
+    @RequestMapping("/displayFile")
+    @ResponseBody
+    public List<UploadFile> disPlayFiles(HttpServletRequest request){
+        List<UploadFile> list = uploadService.getFiles(request);
+        return list;
+    }
+    
+    @RequestMapping("/viewFile")
+    public void viewPicture(HttpServletRequest request ,HttpServletResponse response){
+        uploadService.viewPicture(request, response);
+    }
+}
