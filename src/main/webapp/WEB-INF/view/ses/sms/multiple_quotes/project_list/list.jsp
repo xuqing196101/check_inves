@@ -232,7 +232,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
        
        //重置
        function clearSearch(){
-        $("#proName").attr("value","");
+        $("#name").attr("value","");
         $("#projectNumber").attr("value","");
     }
   </script>
@@ -253,14 +253,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- 项目戳开始 -->
     <div class="p10_25">
      <h2 class="padding-10 border1">
-     <form  action="<%=basePath%>project/list.html" id="form1" method="post" class="mb0">
+     <form  action="<%=basePath%>mulQuo/listProject.html" id="form1" method="post" class="mb0">
      <ul class="demand_list">
     
      <li class="fl">
-       <label class="fl">项目名称：<span><input type="hidden" name="page" id="page"><input type="text" name="name" id="proName" value="${projects.name }"/></span></label>
+       <label class="fl">项目名称：<span><input type="hidden" name="page" id="page"><input type="text" name="name" id="name" value="${project.name }"/></span></label>
        </li>
        <li class="fl">
-      <label class="fl">项目编号：<input type="text" name="projectNumber" id="projectNumber" value="${projects.projectNumber }"/> </label> 
+      <label class="fl">项目编号：<input type="text" name="projectNumber" id="projectNumber" value="${project.projectNumber }"/> </label> 
        </li>
          <button class="btn" type="submit">查询</button>
          <button type="reset" class="btn" onclick="clearSearch();">重置</button> 
@@ -280,7 +280,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <th class="info">项目名称</th>
           <th class="info">项目编号</th>
           <th class="info">采购方式</th>
-          <th class="info">项目状态</th>
         </tr>
         </thead>
         <tbody id="tbody_id">
@@ -288,14 +287,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <tr style="cursor: pointer;">
               <td class="tc w30"><input type="hidden" value="${obj.status }"/><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
               <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-              <td class="tc"><a href="#" onclick="view('${obj.id}');">${obj.name}</a></td>
-              <td class="tc"><a href="#" onclick="view('${obj.id}');">${obj.projectNumber }</a></td>
-              <td class="tc"><a href="#" onclick="view('${obj.id}');">${obj.purchaseType }</a></td>
-              <td class="tc">
-              <c:if test="${'1'==obj.status}">实施中</c:if>
-              <c:if test="${'2'==obj.status}">已成交</c:if>
-              <c:if test="${'3'==obj.status}">已立项</c:if>
-              </td>
+              <td class="tc"><a href="#" onclick="view('${obj.id}');">${obj.project.name}</a></td>
+              <td class="tc"><a href="#" onclick="view('${obj.id}');">${obj.project.projectNumber }</a></td>
+              <td class="tc"><a href="#" onclick="view('${obj.id}');">${obj.project.purchaseType }</a></td>
             </tr>
          </c:forEach> 
         </tbody>

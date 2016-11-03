@@ -175,15 +175,11 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping(value="/listProject")
-	public String listProject(HttpServletRequest req,HttpServletResponse response,Integer status2,Project project,Integer page,Model model){
-			//4代表已经确认中标供应商
-			if(status2!=null){
-				project.setStatus(4);
-			}else{
-				project.setStatus2(status2);
-			}
-			List<Project> listProject=projectService.list(page==null?0:page, project);
-		    model.addAttribute("info", new PageInfo<>(listProject));
+	public String listProject(HttpServletRequest req,HttpServletResponse response,Project project,Integer page,Model model){
+		    HashMap<String, Object> map = new HashMap<String, Object>();
+		    List<ProjectDetail> pdList = supplierQuoteService.selectByCondition(map,page==null?0:page);
+		    model.addAttribute("info", new PageInfo<>(pdList));
+		    model.addAttribute("project", project);
 			return "ses/sms/multiple_quotes/project_list/list";
 	}
 	
