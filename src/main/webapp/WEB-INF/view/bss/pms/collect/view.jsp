@@ -91,14 +91,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		   }
 	}
 	 function returns(){
-		 $("#status").val(3);
-		 $("#acc_form").submit();
+		 var value=$("#reson").val();
+		 if(value!=null){
+			 $("#status").val(3);
+			 $("#acc_form").submit();
+		 }
+		 
 	 }
   	
  
   
     
- 
+	  function sel(obj){
+   	   var val=$(obj).val();
+   	   $("select option").each(function(){
+   		   var opt=$(this).val();
+   		   if(val==opt){
+   			   $(this).attr("selected", "selected");  
+   		   }
+   	   });
+      } 
+	  
  
 </script>
 </head>
@@ -137,6 +150,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<th class="info">预算金额（万元）</th>
 							<th class="info">交货期限</th>
 							<th class="info">采购方式建议</th>
+							<th class="info">采购机构</th>
 							<th class="info">供应商名称</th>
 							<th class="info">是否申请办理免税</th>
 							<th class="info">物资用途（仅进口）</th>
@@ -147,7 +161,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 					<c:forEach items="${list }" var="obj" varStatus="vs">
 						<tr>
-							<td class="tc w50">${obj.seq } 
+							<td class="tc w50">${obj.seq } <input type="hidden" value="${obj.id }" name="list[${vs.index }].id">
 							</td>
 							<td> ${obj.department }  </td>
 							<td>${obj.goodsName }</td>
@@ -158,7 +172,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<td class="tc">${obj.price }</td>
 							<td class="tc">${obj.budget }</td>
 							<td>${obj.deliverDate }</td>
-							<td>${obj.purchaseType }</td>
+							<td>
+							<select onchange="sel(this)" name="list[${vs.index }].purchaseType" style="width:100px" id="select">
+              				    <option value="" >请选择</option>
+	                            <option value="公开招标" <c:if test="${'公开招标'==obj.purchaseType}">selected="selected"</c:if>>公开招标</option>
+	                            <option value="邀请招标" <c:if test="${'邀请招标'==obj.purchaseType}">selected="selected"</c:if>>邀请招标</option>
+	                            <option value="竞争性谈判" <c:if test="${'竞争性谈判'==obj.purchaseType}">selected="selected"</c:if>>竞争性谈判</option>
+	                            <option value="询价采购" <c:if test="${'询价采购'==obj.purchaseType}">selected="selected"</c:if>>询价采购</option>
+	                            <option value="单一来源" <c:if test="${'单一来源'==obj.purchaseType}">selected="selected"</c:if>>单一来源</option>
+			                </select>
+			                
+							</td>
+							<td class="tc">
+							<select name="list[${vs.index }].organization">
+	 						<option value="">请选择</option>
+								<c:forEach items="${org }" var="ss">
+									<option value="${ss.id }">${ss.name}</option>
+								</c:forEach>
+							</select>
+							
+							</td>
+							
 							<td class="tc">${obj.supplier }</td>
 							<td class="tc">${obj.isFreeTax }</td>
 							<td class="tc">${obj.goodsUse }</td>
@@ -170,9 +204,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 					</c:forEach>
 				</table>
+				
+				退回理由： <br><textarea  id="reson" name="reason" style="height:100px;width: 600px;margin-bottom: 20px;" title="不超过800个字"></textarea><br>
 				 <input type="hidden" name="planNo" value="${planNo }">
 				  <input type="hidden" id="status" name="status" value="4">
-				 <input class="btn btn-windows save" type="submit" value="受理"> 
+				 <input class="btn btn-windows save" style="margin-left: 100px;" type="submit" value="受理"> 
 				 <input class="btn btn-windows save" type="button" onclick="returns();" value="退回">   
 				<input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 			</form>

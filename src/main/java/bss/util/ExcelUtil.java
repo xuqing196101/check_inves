@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.poi.hssf.util.HSSFCellUtil;
+import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -72,15 +72,26 @@ public class ExcelUtil {
 	        				 rq.setItem(cell.getStringCellValue());
 	        			 }
 	        			 if(cell.getColumnIndex()==6){
-	        				 Double value = cell.getNumericCellValue();
-	        				 
-	        				 rq.setPurchaseCount(value.longValue());
+
+	        				 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
+	        					 Double value = cell.getNumericCellValue();
+	 	        				if(value!=null){ 
+	 		        				 rq.setPurchaseCount(value.longValue()); 
+	 	        				 }
+	        					
+	        				 }
+	        				
 	        			 }
 	        			 if(cell.getColumnIndex()==7){
-	        				 rq.setPrice(new BigDecimal(cell.getNumericCellValue()));
+	        				 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
+	        					 rq.setPrice(new BigDecimal(cell.getNumericCellValue()));
+	        				 }
+	        				 
 	        			 }
 	        			 if(cell.getColumnIndex()==8){
-	        				 rq.setBudget(new BigDecimal(cell.getNumericCellValue()));
+	        				 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
+	        					 rq.setBudget(new BigDecimal(cell.getNumericCellValue()));
+	        				 }
 	        			 }
 	        			 if(cell.getColumnIndex()==9){
 	        				 rq.setDeliverDate(cell.getStringCellValue());

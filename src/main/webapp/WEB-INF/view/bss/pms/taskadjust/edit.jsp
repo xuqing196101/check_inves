@@ -248,8 +248,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<thead>
 						<tr>
 						<th class="info" colspan="17">事业部门需求</th>
-						<th class="info" colspan="3">一轮评审意见</th>
-						<th class="info" colspan="2">二轮评审意见</th>
+						
+						
+							<c:forEach items="${bean }" var="obj">
+								<th class="info" colspan="${obj.size}q">${obj.name }</th>
+							</c:forEach>
 						</tr>
 						<tr>
 							<th class="info w50">序号</th>
@@ -269,21 +272,37 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<th class="info">物资用途（仅进口）</th>
 							<th class="info">使用单位（仅进口）</th>
 							<th class="info">备注</th>
-							<th class="info">采购方式</th>
-							<th class="info">采购机构</th>
-							<th class="info">其他建议</th>
-							<th class="info">技术参数意见</th>
-							<th class="info">其他建议</th>
+							
+					<c:forEach items="${all }" var="p">
+											<th class="info">
+											  <c:if test="${p.param=='1'}">
+												  	采购方式
+												  </c:if>
+												   <c:if test="${p.param=='2'}">
+												  	采购机构
+												  </c:if>
+												
+												   <c:if test="${p.param=='3'}">
+												     	其他建议
+														
+												  </c:if>
+												    <c:if test="${p.param=='4'}">
+													 技术参数意见
+										  </c:if>
+					  
+					  
+											</th>
+							</c:forEach>
 						</tr>
 					</thead>
 
 					<c:forEach items="${list }" var="obj" varStatus="vs">
 						<tr>
-							<td class="tc w50"><input style="border: 0px;" disabled="disabled" type="text" name="list[${vs.index }].seq" value="${obj.seq }"><input style="border: 0px;" type="hidden" name="list[${vs.index }].id" value="${obj.id }">
+							<td class="tc w50"><input style="border: 0px;" readonly="readonly" type="text" name="list[${vs.index }].seq" value="${obj.seq }"><input style="border: 0px;" type="hidden" name="list[${vs.index }].id" value="${obj.id }">
 							</td>
-							<td><input style="border: 0px;" disabled="disabled" type="text" name="list[${vs.index }].department" onblur="checks(this)" value="${obj.department }"></td>
+							<td><input style="border: 0px;" readonly="readonly" type="text" name="list[${vs.index }].department" onblur="checks(this)" value="${obj.department }"></td>
 							<td><input type="text" name="list[${vs.index }].goodsName"  value="${obj.goodsName }"></td>
-							<td class="tc"><input style="border: 0px;" disabled="disabled" type="text" name="list[${vs.index }].stand" value="${obj.stand }"></td>
+							<td class="tc"><input style="border: 0px;" readonly="readonly" type="text" name="list[${vs.index }].stand" value="${obj.stand }"></td>
 							<td class="tc"><input  type="text" name="list[${vs.index }].qualitStand" value="${obj.qualitStand }"></td>
 							<td class="tc"><input  type="text" name="list[${vs.index }].item" value="${obj.item }"></td>
 							<td class="tc">
@@ -333,11 +352,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							
 							</td>
 							
-							<td class="tc"><input style="border: 0px;" disabled="disabled" type="text" name="list[${vs.index }].supplier" value="${obj.supplier }"></td>
-							<td class="tc"><input style="border: 0px;" disabled="disabled" type="text" name="list[${vs.index }].isFreeTax" value="${obj.isFreeTax }"></td>
-							<td class="tc"><input style="border: 0px;" disabled="disabled" type="text" name="list[${vs.index }].goodsUse" value="${obj.goodsUse }"></td>
-							<td class="tc"><input  style="border: 0px;" disabled="disabled" type="text" name="list[${vs.index }].useUnit" value="${obj.useUnit }"></td>
-							<td class="tc"><input style="border: 0px;" disabled="disabled" type="text" name="list[${vs.index }].memo" value="${obj.memo }">
+							<td class="tc"><input style="border: 0px;" readonly="readonly" type="text" name="list[${vs.index }].supplier" value="${obj.supplier }"></td>
+							<td class="tc"><input style="border: 0px;" readonly="readonly" type="text" name="list[${vs.index }].isFreeTax" value="${obj.isFreeTax }"></td>
+							<td class="tc"><input style="border: 0px;" readonly="readonly" type="text" name="list[${vs.index }].goodsUse" value="${obj.goodsUse }"></td>
+							<td class="tc"><input  style="border: 0px;" readonly="readonly" type="text" name="list[${vs.index }].useUnit" value="${obj.useUnit }"></td>
+							<td class="tc"><input style="border: 0px;" readonly="readonly" type="text" name="list[${vs.index }].memo" value="${obj.memo }">
 							<input type="hidden" name="list[${vs.index }].planName" value="${obj.planName }">
 							<input type="hidden" name="list[${vs.index }].planNo" value="${obj.planNo }">
 							<input type="hidden" name="list[${vs.index }].planType" value="${obj.planType }">
@@ -354,40 +373,44 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<input type="hidden" name="list[${vs.index }].createAt" value="${obj.createdAt }">
 							<input type="hidden" name="list[${vs.index }].isCollect" value="${obj.isCollect }">
 							</td>
-							<td class="tc">
-							
-							 <select name="list[${vs.index }].onePurchaseType" style="width:100px" id="select">
-              				    <option value="" >请选择</option>
-	                            <option value="公开招标" <c:if test="${'公开招标'==obj.onePurchaseType}">selected="selected"</c:if>>公开招标</option>
-	                            <option value="邀请招标" <c:if test="${'邀请招标'==obj.onePurchaseType}">selected="selected"</c:if>>邀请招标</option>
-	                            <option value="竞争性谈判" <c:if test="${'竞争性谈判'==obj.onePurchaseType}">selected="selected"</c:if>>竞争性谈判</option>
-	                            <option value="询价采购" <c:if test="${'询价采购'==obj.onePurchaseType}">selected="selected"</c:if>>询价采购</option>
-	                            <option value="单一来源" <c:if test="${'单一来源'==obj.onePurchaseType}">selected="selected"</c:if>>单一来源</option>
-			                </select>
-			                
-			                
-<%-- 							<input type="text"  style="border: 0px;" name="list[${vs.index }].onePurchaseType" value="${obj.onePurchaseType }">
- --%>							</td>
-							<td class="tc">
-<%-- 							<input type="text"   name="list[${vs.index }].oneOrganiza" value="${obj.oneOrganiza }">
- --%>							
-							<select name="list[${vs.index }].oneOrganiza">
-								<c:forEach items="${org }" var="ss">
-								  <option value="${obj.oneOrganiza==ss.id }" selected="selected">${ss.name}</option>
+						<c:forEach items="${all }" var="al" varStatus="avs">
+										<td class="tc">
+											<c:forEach items="${audits }" var="as">
+										<c:if test="${as.purchaseId==obj.id and as.auditParamId==al.id }">
+									 	<c:if test="${al.param=='1' }">
+									 	
+									 		<input type="hidden" name="audit[${vs.index*5+avs.index }].purchaseId" value="${obj.id }">
+									 			<input type="hidden" name="audit[${vs.index*5+avs.index }].auditParamId" value="${al.id }">
+									 			<select name="audit[${vs.index*5+avs.index}].paramValue">
+												<option value="公开招标" <c:if test="${as.paramValue =='公开招标' }">  selected="selected" </c:if> >公开招标</option>
+												<option value="邀请招标" <c:if test="${as.paramValue =='邀请招标' }">  selected="selected" </c:if> >邀请招标</option>
+												<option value="单一来源" <c:if test="${as.paramValue =='单一来源'  }">  selected="selected" </c:if> >单一来源</option>
+												<option value="竞争性谈判" <c:if test="${as.paramValue =='竞争性谈判' }">  selected="selected" </c:if> >竞争性谈判</option>
+												<option value="询价" <c:if test="${as.paramValue =='询价' }">  selected="selected" </c:if> >询价</option>
+											</select>
+									 	</c:if>
+									  
+									  <c:if test="${al.param=='2' }">
+									  	<input type="hidden" name="audit[${vs.index*5+avs.index }].purchaseId" value="${obj.id }">
+									  	<input type="hidden" name="audit[${vs.index*5+avs.index }].auditParamId" value="${al.id }">
+									 		<select name="audit[${vs.index*5+avs.index }].paramValue">
+											<c:forEach items="${org }" var="ss">
+											  <option value="${ss.name }" <c:if test="${as.paramValue ==ss.name }">  selected="selected" </c:if> >${ss.name}</option>
+											</c:forEach>
+											</select>
+									 	</c:if>
+									 	<c:if test="${al.param=='3' or al.param=='4' }">
+									 		<input type="hidden" name="audit[${vs.index*5+avs.index }].purchaseId" value="${obj.id }">
+									  	<input type="hidden" name="audit[${vs.index*5+avs.index }].auditParamId" value="${al.id }">
+									 		 <input type="text" name="audit[${vs.index*5+avs.index }].paramValue" value="${as.paramValue }">
+									 	</c:if>
+									 	
+									 		</c:if>
+								 </c:forEach>
+										</td>
 								</c:forEach>
-							</select>
-							
-							
-							</td>
-							<td class="tc">
-							<input type="text"   name="list[${vs.index }].oneAdvice" value="${obj.oneAdvice }">
-							</td>
-							<td class="tc">
-							<input type="text"   name="list[${vs.index }].twoTechAdvice" value="${obj.twoTechAdvice }">
-							</td>
-							<td class="tc">
-							<input type="text"  name="list[${vs.index }].twoAdvice" value="${obj.twoAdvice }">
-							</td>
+								
+								
 							
 						</tr>
 

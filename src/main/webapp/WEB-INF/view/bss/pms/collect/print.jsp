@@ -124,8 +124,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<tr>
 							<th class="info" colspan="13">事业部门需求</th>
 						 
-							<th class="info" colspan="3">一轮评审意见</th>
-							<th class="info" colspan="2">二轮评审意见</th>
+							<c:forEach items="${bean }" var="obj">
+								<th class="info" colspan="${obj.size}q">${obj.name }</th>
+							</c:forEach>>
 						</tr>
 					
 						<tr>
@@ -141,13 +142,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<th class="info">交货期限</th>
 							<th class="info">采购方式建议</th>
 							<th class="info">供应商名称</th>
-					 
-							<th class="info">备注</th>
-							<th class="info">采购方式</th>
-							<th class="info">采购机构</th>
-							<th class="info">其他建议</th>
-							<th class="info">技术参数意见</th>
-							<th class="info">其他意见</th>
+					 		<th class="info">备注</th>
+							<c:forEach items="${all }" var="p">
+											<th class="info">
+											  <c:if test="${p.param=='1'}">
+												  	采购方式
+												  </c:if>
+												   <c:if test="${p.param=='2'}">
+												  	采购机构
+												  </c:if>
+												
+												   <c:if test="${p.param=='3'}">
+												     	其他建议
+														
+												  </c:if>
+												    <c:if test="${p.param=='4'}">
+													 技术参数意见
+										  </c:if>
+											</th>
+							</c:forEach>
+							
 						</tr>
 					</thead>
 
@@ -167,12 +181,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<td>${obj.purchaseType }</td>
 							<td class="tc">${obj.supplier }</td>
 							<td class="tc">${obj.memo }
-							<td class="tc">${obj.onePurchaseType }
-							<td class="tc">${obj.oneOrganiza }
-							<td class="tc">${obj.oneAdvice }
-							<td class="tc">${obj.twoTechAdvice }
-							<td class="tc">${obj.twoAdvice }
-							</td>
+							
+							<c:forEach items="${all }" var="al">
+							
+								
+								<td class="tc">
+									<c:forEach items="${audits }" var="as">
+									<c:if test="${as.purchaseId==obj.id and as.auditParamId==al.id }">
+										${as.paramValue }
+									</c:if>
+								 </c:forEach>
+								<%-- <td class="tc">${obj.oneOrganiza }
+								<td class="tc">${obj.oneAdvice }
+								<td class="tc">${obj.twoTechAdvice }
+								<td class="tc">${obj.twoAdvice } --%>
+								</td>
+							
+							</c:forEach>
 						</tr>
 
 					</c:forEach>

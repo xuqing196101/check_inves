@@ -2,8 +2,8 @@ package bss.formbean;
 
 import java.util.List;
 
+import bss.model.pms.PurchaseAudit;
 import bss.model.pms.PurchaseRequired;
-import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
 /**
  * 
@@ -18,6 +18,8 @@ public class PurchaseRequiredFormBean {
 	
 	private List<ProjectDetail> lists;
 
+	private List<PurchaseAudit> audit;
+	
 	public List<PurchaseRequired> getList() {
 		return list;
 	}
@@ -33,15 +35,15 @@ public class PurchaseRequiredFormBean {
     public void setLists(List<ProjectDetail> lists) {
         this.lists = lists;
     }
+
+	public List<PurchaseAudit> getAudit() {
+		return audit;
+	}
+
+	public void setAudit(List<PurchaseAudit> audit) {
+		this.audit = audit;
+	}
 	
-	
-//	public PurchaseRequiredFormBean(List<PurchaseRequired> list) {
-//		super();
-//		this.list = list;
-//	}
-//
-//	public PurchaseRequiredFormBean(){
-//		super();
-//	}
+ 
 
 }

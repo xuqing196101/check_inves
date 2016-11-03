@@ -1,7 +1,10 @@
 package bss.test;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.junit.Test;
 
 import bss.model.pms.PurchaseRequired;
 
@@ -84,4 +87,21 @@ public class test {
 		
 	}
 
+		@Test
+		public void ss(){
+		        String path = "d:/0623060253062306025306.torrent";
+		        
+//		        TorrentFile file = new TorrentFile(new File(path));
+//		        
+//		        String[] strs = file.getFilenames();
+//		        long[] longs = file.getLengths();
+//		        System.out.println(strs.length + " " + longs.length);
+//		        
+//		        for(int i = 0; i < strs.length; i ++)
+//		        {
+//		            System.err.println(strs[i] + " --->  " + longs[i]);
+//		        }
+		        
+		        
+		}
 }

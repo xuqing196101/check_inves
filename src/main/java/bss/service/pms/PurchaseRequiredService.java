@@ -1,5 +1,6 @@
 package bss.service.pms;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -161,6 +162,19 @@ public interface PurchaseRequiredService {
 	* @throws
 	 */
 	List<Map<String,Object>> statisticOrg(Map<String,Object> map);
+	
+	
+	/**
+	 * @throws IOException 
+	 * 
+	* @Title: batchAdd
+	* @Description: 批量插入
+	* author: Li Xiaoxiao 
+	* @param @param list     
+	* @return void     
+	* @throws
+	 */
+	void  batchAdd(List<PurchaseRequired> list) throws IOException;
 //	
 //	void updates();
 }

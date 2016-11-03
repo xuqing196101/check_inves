@@ -271,22 +271,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 					<c:forEach items="${list }" var="obj" varStatus="vs">
 						<tr>
-							<td class="tc w50"><input style="border: 0px;" type="text" name="list[${vs.index }].seq" value="${obj.seq }"><input style="border: 0px;" type="hidden" name="list[${vs.index }].id" value="${obj.id }">
+							<td class="tc w50"><input style="border: 0px;width: 50px;" type="text" name="list[${vs.index }].seq" value="${obj.seq }"><input style="border: 0px;" type="hidden" name="list[${vs.index }].id" value="${obj.id }">
 							</td>
 							<td><input style="border: 0px;" type="text" onblur="checks(this)" name="list[${vs.index }].department" value="${obj.department }"></td>
 							<td><input style="border: 0px;" type="text" onblur="checks(this)" name="list[${vs.index }].goodsName" value="${obj.goodsName }"></td>
-							<td class="tc"><input style="border: 0px;" type="text" onblur="checks(this)" name="list[${vs.index }].stand" value="${obj.stand }"></td>
+							<td class="tc"><input style="border: 0px;width: 60px;" type="text" onblur="checks(this)" name="list[${vs.index }].stand" value="${obj.stand }"></td>
 							<td class="tc"><input style="border: 0px;" type="text" onblur="checks(this)" name="list[${vs.index }].qualitStand" value="${obj.qualitStand }"></td>
-							<td class="tc"><input style="border: 0px;" type="text" onblur="checks(this)" name="list[${vs.index }].item" value="${obj.item }"></td>
+							<td class="tc"><input style="border: 0px;width: 60px;" type="text" onblur="checks(this)" name="list[${vs.index }].item" value="${obj.item }"></td>
 							
 							<td class="tc">
 							<c:if test="${obj.purchaseCount!=null }">
 							<input   type="hidden" name="ss"   value="${obj.id }">
-							<input  onblur="sum2(this)"  type="text" name="list[${vs.index }].purchaseCount" onblur="checks(this)"  value="${obj.purchaseCount }">
+							<input  style="border: 0px;width: 60px;" onblur="sum2(this)"  type="text" name="list[${vs.index }].purchaseCount" onblur="checks(this)"  value="${obj.purchaseCount }">
 							<input type="hidden" name="ss"   value="${obj.parentId }">
 							</c:if>
 							<c:if test="${obj.purchaseCount==null }">
-							<input style="border: 0px;"  disabled="disabled"  type="text" name="list[${vs.index }].purchaseCount" onblur="checks(this)"  value="${obj.purchaseCount }">
+							<input style="border: 0px;width: 60px;"  readonly="readonly"  type="text" name="list[${vs.index }].purchaseCount" onblur="checks(this)"  value="${obj.purchaseCount }">
 							
 							</c:if>
 							</td>
@@ -295,11 +295,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<td class="tc">
 							<c:if test="${obj.price!=null}">
 							<input   type="hidden" name="ss"   value="${obj.id }">
-							<input onblur="sum1(this)"  type="text" name="list[${vs.index }].price" value="${obj.price }">
+							<input  style="border: 0px;width: 60px;"  onblur="sum1(this)"  type="text" name="list[${vs.index }].price" value="${obj.price }">
 							<input type="hidden" name="ss"   value="${obj.parentId }">
 							</c:if>
 							<c:if test="${obj.price==null}">
-							<input style="border: 0px;"  readonly="readonly" onblur="sum1(this)"  type="text" name="list[${vs.index }].price" value="${obj.price }">
+							<input style="border: 0px;width: 60px;"  readonly="readonly" onblur="sum1(this)"  type="text" name="list[${vs.index }].price" value="${obj.price }">
 						 
 							</c:if>
 							
@@ -327,10 +327,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			                
 			                		
 							</td>
-							<td class="tc"><input style="border: 0px;" type="text" onblur="checks(this)" name="list[${vs.index }].supplier" value="${obj.supplier }"></td>
-							<td class="tc"><input style="border: 0px;" type="text" onblur="checks(this)" onblur="checks(this)" name="list[${vs.count }].isFreeTax" value="${obj.isFreeTax }"></td>
-							<td class="tc"><input style="border: 0px;"type="text" onblur="checks(this)" name="list[${vs.index }].goodsUse" value="${obj.goodsUse }"></td>
-							<td class="tc"><input  style="border: 0px;" type="text" onblur="checks(this)"  name="list[${vs.index }].useUnit" value="${obj.useUnit }"></td>
+							<td class="tc"><input style="border: 0px;width: 60px;" type="text" onblur="checks(this)" name="list[${vs.index }].supplier" value="${obj.supplier }"></td>
+							<td class="tc"><input style="border: 0px;width: 60px;" type="text" onblur="checks(this)" onblur="checks(this)" name="list[${vs.count }].isFreeTax" value="${obj.isFreeTax }"></td>
+							<td class="tc"><input style="border: 0px;width: 60px;"type="text" onblur="checks(this)" name="list[${vs.index }].goodsUse" value="${obj.goodsUse }"></td>
+							<td class="tc"><input  style="border: 0px;width: 60px;" type="text" onblur="checks(this)"  name="list[${vs.index }].useUnit" value="${obj.useUnit }"></td>
 							<td class="tc"><input style="border: 0px;" type="text" onblur="checks(this)" name="list[${vs.index }].memo" value="${obj.memo }">
 							<input type="hidden" name="list[${vs.index }].planName" value="${obj.planName }">
 							<input type="hidden" name="list[${vs.index }].planNo" value="${obj.planNo }">

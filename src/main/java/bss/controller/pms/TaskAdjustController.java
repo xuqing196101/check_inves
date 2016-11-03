@@ -16,19 +16,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import ses.model.bms.DictionaryData;
 import ses.model.oms.Orgnization;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
 import bss.controller.base.BaseController;
 import bss.dao.pms.PurchaseRequiredMapper;
+import bss.formbean.AuditParamBean;
 import bss.formbean.PurchaseRequiredFormBean;
+import bss.model.pms.AuditParam;
 import bss.model.pms.CollectPlan;
+import bss.model.pms.PurchaseAudit;
 import bss.model.pms.PurchaseRequired;
 import bss.model.pms.UpdateFiled;
 import bss.model.ppms.ProjectAttachments;
+import bss.service.pms.AuditParameService;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.CollectPurchaseService;
+import bss.service.pms.PurchaseAuditService;
 import bss.service.pms.PurchaseRequiredService;
 import bss.service.pms.UpdateFiledService;
 import bss.service.ppms.ProjectAttachmentsService;
@@ -68,6 +75,14 @@ public class TaskAdjustController extends BaseController{
 	@Autowired
 	private ProjectAttachmentsService projectAttachmentsService;
 	
+	@Autowired
+	private DictionaryDataServiceI dictionaryDataServiceI;
+	
+	@Autowired
+	private AuditParameService auditParameService; 
+	
+	@Autowired
+	private PurchaseAuditService purchaseAuditService;
 	
 	/**
 	 * 
@@ -136,6 +151,43 @@ public class TaskAdjustController extends BaseController{
 		List<Orgnization> org = orgnizationServiceI.findOrgnizationList(map);
 		
 		List<PurchaseRequired> list = purchaseRequiredMapper.queryByNo(planNo);
+		
+		
+		List<PurchaseAudit> audits=new LinkedList<PurchaseAudit>();
+		
+		for(PurchaseRequired pr:list){
+			List<PurchaseAudit> audit = purchaseAuditService.queryByPid(pr.getId());
+			audits.addAll(audit);
+			}
+		//查询出所有审核参数
+				DictionaryData	dictionaryData=new DictionaryData();
+				DictionaryData dd=new DictionaryData();
+				dd.setId("C3013C4B9CFA4645A6D5ACC73D04DACF");
+				dictionaryData.setParent(dd);
+				List<DictionaryData> dic = dictionaryDataServiceI.find(dictionaryData);
+				List<AuditParam> all=new LinkedList<AuditParam>();
+				AuditParam auditParam=new AuditParam();
+				
+				List<AuditParamBean> bean=new LinkedList<AuditParamBean>();
+				if(dic!=null&&dic.size()>0){
+					for(DictionaryData d:dic){
+						AuditParamBean s=new AuditParamBean();
+						auditParam.setDictioanryId(d.getId());
+						List<AuditParam> a = auditParameService.query(auditParam, 1);
+						all.addAll(a);
+						s.setId(d.getId());
+						s.setSize(a.size());
+						s.setName(d.getName());
+						bean.add(s);
+					}
+				}
+				
+				model.addAttribute("bean", bean);	
+				model.addAttribute("all", all);	
+				model.addAttribute("audits", audits);
+				
+				
+				
 		model.addAttribute("list", list);
 		model.addAttribute("planNo", planNo);
 		
@@ -162,7 +214,7 @@ public class TaskAdjustController extends BaseController{
 					if( p.getId()!=null){
 						String id = UUID.randomUUID().toString().replaceAll("-", "");
 						map.put("oid", id);
-						PurchaseRequired queryById = purchaseRequiredService.queryById(p.getId());
+//						PurchaseRequired queryById = purchaseRequiredService.queryById(p.getId());
 						Integer s=Integer.valueOf(purchaseRequiredService.queryByNo(p.getPlanNo()))+1;
 						map.put("historyStatus", s);
 						map.put("id", p.getId());
@@ -170,8 +222,8 @@ public class TaskAdjustController extends BaseController{
 						if(p.getParentId()!=null){
 							p.setParentId(p.getParentId());
 						}
-						queryById.setId(p.getId());
-						queryById.setHistoryStatus("0");
+//						queryById.setId(p.getId());
+						p.setHistoryStatus("0");
 						purchaseRequiredService.add(p);	
 					}else{
 //						String id = UUID.randomUUID().toString().replaceAll("-", "");
@@ -179,18 +231,28 @@ public class TaskAdjustController extends BaseController{
 //						purchaseRequiredService.add(p);	
 					}
 				}
+				
+			}
+			
+			if(list.getAudit()!=null&&list.getAudit().size()>0){
+				for(PurchaseAudit pa:list.getAudit()){
+					if(pa.getParamValue()!=null){
+						purchaseAuditService.update(pa);
+					}
+				
+				}
 			}
 		}
 		
 		ProjectAttachments project=new ProjectAttachments();
-		String id = UUID.randomUUID().toString().replaceAll("-", "");
-		project.setId(id);
+//		String id = UUID.randomUUID().toString().replaceAll("-", "");
+//		project.setId(id);
 		project.setContentType(file.getContentType());
 		project.setCreatedAt(new Date());
 		project.setFileName(file.getOriginalFilename());
 		project.setIsDeleted(0);
-		
-		projectAttachmentsService.save(project);
+//		project.setProject(project);
+//		projectAttachmentsService.save(project); //报错
 		FtpUtil.connectFtp(PropUtil.getProperty("file.upload.path.supplier"));
 		 FtpUtil.upload2("plan", file);
 		FtpUtil.closeFtp();

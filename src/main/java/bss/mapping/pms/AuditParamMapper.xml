@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.pms.AuditParamMapper">
+  <resultMap id="AuditParam_Map" type="bss.model.pms.AuditParam">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="DICTIOANRY_ID" jdbcType="VARCHAR" property="dictioanryId" />
+    <result column="PARAM" jdbcType="VARCHAR" property="param" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, DICTIOANRY_ID, PARAM
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="AuditParam_Map">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PMS_AUDIT_PARAM
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BSS_PMS_AUDIT_PARAM
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="bss.model.pms.AuditParam">
+    insert into T_BSS_PMS_AUDIT_PARAM (ID, DICTIOANRY_ID, PARAM
+      )
+    values (#{id,jdbcType=VARCHAR}, #{dictioanryId,jdbcType=VARCHAR}, #{param,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="bss.model.pms.AuditParam">
+    insert into T_BSS_PMS_AUDIT_PARAM
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="dictioanryId != null">
+        DICTIOANRY_ID,
+      </if>
+      <if test="param != null">
+        PARAM,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="dictioanryId != null">
+        #{dictioanryId,jdbcType=VARCHAR},
+      </if>
+      <if test="param != null">
+        #{param,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="bss.model.pms.AuditParam">
+    update T_BSS_PMS_AUDIT_PARAM
+    <set>
+      <if test="dictioanryId != null">
+        DICTIOANRY_ID = #{dictioanryId,jdbcType=VARCHAR},
+      </if>
+      <if test="param != null">
+        PARAM = #{param,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="bss.model.pms.AuditParam">
+    update T_BSS_PMS_AUDIT_PARAM
+    set DICTIOANRY_ID = #{dictioanryId,jdbcType=VARCHAR},
+      PARAM = #{param,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="query" parameterType="bss.model.pms.AuditParam" resultMap="AuditParam_Map">
+  select
+  <include refid="Base_Column_List"/>
+    from T_BSS_PMS_AUDIT_PARAM
+    <where>
+    <if test="dictioanryId!=null">
+  	  DICTIOANRY_ID = #{dictioanryId}
+    </if>
+    </where>
+  
+  
+  </select>
+  
+  
+</mapper>

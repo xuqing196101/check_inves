@@ -100,6 +100,8 @@ public class PurchaseRequired {
     
     private Integer detailStatus;
     
+    private String reason;
+    
     public String getId() {
         return id;
     }
@@ -450,6 +452,14 @@ public class PurchaseRequired {
 
 	public void setDetailStatus(Integer detailStatus) {
 		this.detailStatus = detailStatus;
+	}
+
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		 this.reason = reason == null ? null : reason.trim();
 	}
 
 	

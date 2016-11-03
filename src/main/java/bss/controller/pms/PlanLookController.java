@@ -10,16 +10,25 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ses.model.bms.DictionaryData;
 import ses.model.oms.Orgnization;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.OrgnizationServiceI;
+import bss.controller.base.BaseController;
 import bss.dao.pms.PurchaseRequiredMapper;
+import bss.formbean.AuditParamBean;
 import bss.formbean.PurchaseRequiredFormBean;
+import bss.model.pms.AuditParam;
 import bss.model.pms.CollectPlan;
+import bss.model.pms.PurchaseAudit;
 import bss.model.pms.PurchaseRequired;
+import bss.service.pms.AuditParameService;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.CollectPurchaseService;
+import bss.service.pms.PurchaseAuditService;
 import bss.service.pms.PurchaseRequiredService;
 
+import com.fasterxml.jackson.databind.deser.Deserializers.Base;
 import com.github.pagehelper.PageInfo;
 /**
  * 
@@ -31,7 +40,7 @@ import com.github.pagehelper.PageInfo;
  */
 @Controller
 @RequestMapping("/look")
-public class PlanLookController {
+public class PlanLookController extends BaseController {
 	
 	@Autowired
 	private CollectPlanService collectPlanService;
@@ -49,6 +58,14 @@ public class PlanLookController {
 	@Autowired
 	private CollectPurchaseService collectPurchaseService;
 	
+	@Autowired
+	private DictionaryDataServiceI dictionaryDataServiceI;
+	
+	@Autowired
+	private AuditParameService auditParameService; 
+	
+	@Autowired
+	private PurchaseAuditService purchaseAuditService;
 	
 	/**
 	 * 
@@ -68,6 +85,12 @@ public class PlanLookController {
 		PageInfo<CollectPlan> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
 		model.addAttribute("inf", collectPlan);
+		DictionaryData	dictionaryData=new DictionaryData();
+		DictionaryData p=new DictionaryData();
+		p.setId("C3013C4B9CFA4645A6D5ACC73D04DACF");
+		dictionaryData.setParent(p);
+		List<DictionaryData> dic = dictionaryDataServiceI.find(dictionaryData);
+		model.addAttribute("dic", dic);
 		return "bss/pms/collect/planlist";
 	}
 	/**
@@ -92,6 +115,38 @@ public class PlanLookController {
 			}
 		}
 		model.addAttribute("list", list);
+		List<PurchaseAudit> audits=new LinkedList<PurchaseAudit>();
+		
+		for(PurchaseRequired pr:list){
+			List<PurchaseAudit> audit = purchaseAuditService.queryByPid(pr.getId());
+			audits.addAll(audit);
+			}
+		//查询出所有审核参数
+				DictionaryData	dictionaryData=new DictionaryData();
+				DictionaryData dd=new DictionaryData();
+				dd.setId("C3013C4B9CFA4645A6D5ACC73D04DACF");
+				dictionaryData.setParent(dd);
+				List<DictionaryData> dic = dictionaryDataServiceI.find(dictionaryData);
+				List<AuditParam> all=new LinkedList<AuditParam>();
+				AuditParam auditParam=new AuditParam();
+				
+				List<AuditParamBean> bean=new LinkedList<AuditParamBean>();
+				if(dic!=null&&dic.size()>0){
+					for(DictionaryData d:dic){
+						AuditParamBean s=new AuditParamBean();
+						auditParam.setDictioanryId(d.getId());
+						List<AuditParam> a = auditParameService.query(auditParam, 1);
+						all.addAll(a);
+						s.setId(d.getId());
+						s.setSize(a.size());
+						s.setName(d.getName());
+						bean.add(s);
+					}
+				}
+				model.addAttribute("bean", bean);	
+				model.addAttribute("all", all);	
+				model.addAttribute("audits", audits);
+				
 		return "bss/pms/collect/print";
 	}
 	
@@ -108,6 +163,30 @@ public class PlanLookController {
 	 */
 	@RequestMapping("/auditlook")
 	public String auditlook(String id,Model model){
+		
+		DictionaryData	dictionaryData=new DictionaryData();
+		DictionaryData p=new DictionaryData();
+		p.setId("C3013C4B9CFA4645A6D5ACC73D04DACF");
+		dictionaryData.setParent(p);
+		List<DictionaryData> dic = dictionaryDataServiceI.find(dictionaryData);
+		List<AuditParam> all=new LinkedList<AuditParam>();
+		AuditParam auditParam=new AuditParam();
+		
+		List<AuditParamBean> bean=new LinkedList<AuditParamBean>();
+		if(dic!=null&&dic.size()>0){
+			for(DictionaryData d:dic){
+				AuditParamBean s=new AuditParamBean();
+				auditParam.setDictioanryId(d.getId());
+				List<AuditParam> a = auditParameService.query(auditParam, 1);
+				all.addAll(a);
+				s.setId(d.getId());
+				s.setSize(a.size());
+				s.setName(d.getName());
+				bean.add(s);
+			}
+		}
+		
+		
 		HashMap<String,Object> map=new HashMap<String,Object>();
 		map.put("typeName", 1);
 		List<Orgnization> org = orgnizationServiceI.findOrgnizationList(map);
@@ -124,6 +203,11 @@ public class PlanLookController {
 		model.addAttribute("list", list);
 		model.addAttribute("org",org);
 		model.addAttribute("id", id);
+		
+		model.addAttribute("all", all);
+		
+		model.addAttribute("bean", bean);
+		
 		return "bss/pms/collect/audit";
 	}
 	
@@ -144,10 +228,19 @@ public class PlanLookController {
 		if(list!=null){
 			if(list.getList()!=null){
 				for(PurchaseRequired p:list.getList()){
-					p.setStatus("6");
-//					purchaseRequiredService.update(p);
-					map.put("id", p.getId());	
-					purchaseRequiredService.update(map);	
+					if(p.getId()!=null){
+						map.put("status", "6");
+						map.put("id", p.getId());	
+						purchaseRequiredService.update(map);	
+					}
+					
+				}
+			}
+		}
+		if(list!=null){
+			if(list.getAudit()!=null&&list.getAudit().size()>0){
+				for(PurchaseAudit a:list.getAudit()){
+					purchaseAuditService.add(a);
 				}
 			}
 		}

@@ -160,8 +160,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<tr>
 							<th class="info" colspan="17">事业部门需求</th>
 						 
-							<th class="info" colspan="3">一轮评审意见</th>
-							<th class="info" colspan="2">二轮评审意见</th>
+							<c:forEach items="${bean }" var="obj">
+								<th class="info" colspan="${obj.size}q">${obj.name }</th>
+							</c:forEach>
 						</tr>
 						
 						<tr>
@@ -183,12 +184,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<th class="info">物资用途（仅进口）</th>
 							<th class="info">使用单位（仅进口）</th>
 							<th class="info">备注</th>
-							
-							<th class="info">采购方式</th>
-							<th class="info">采购机构</th>
-							<th class="info">其他建议</th>
-							<th class="info">技术参数意见</th>
-							<th class="info">其他意见</th>
+							<c:forEach items="${all }" var="p">
+											<th class="info">
+											  <c:if test="${p.param=='1'}">
+												  	采购方式
+												  </c:if>
+												   <c:if test="${p.param=='2'}">
+												  	采购机构
+												  </c:if>
+												
+												   <c:if test="${p.param=='3'}">
+												     	其他建议
+														
+												  </c:if>
+												    <c:if test="${p.param=='4'}">
+													 技术参数意见
+										  </c:if>
+					  
+					  
+											</th>
+							</c:forEach>
 							
 						</tr>
 					</thead>
@@ -241,29 +256,40 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<input type="hidden" name="list[${vs.index }].isDelete" value="${obj.isDelete }">
 							<input type="hidden" name="list[${vs.index }].status" value="${obj.status }">
 							</td>
-							<td class="tc">
-							<select name="list[${vs.index }].onePurchaseType">
-							<option value="公开招标">公开招标</option>
-							<option value="邀请招标">邀请招标</option>
-							<option value="单一来源">单一来源</option>
-							<option value="竞争性谈判">竞争性谈判</option>
-							<option value="单一来源">询价</option>
-							</select>
-							</td>
-							<td class="tc">
-							<select name="list[${vs.index }].oneOrganiza">
-							<option value="">请选择</option>
-							<c:forEach items="${org }" var="ss">
-							 
-							<option value="${ss.id }"  >${ss.name}</option>
-							 
-							
-							</c:forEach>
-							</select>
-							</td>
-							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.index }].oneAdvice" value="${obj.oneAdvice }"></td>
-							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.index }].twoTechAdvice" value="${obj.twoTechAdvice }"></td>
-							<td class="tc"><input style="border: 0px;" type="text" name="list[${vs.index }].twoAdvice" value="${obj.twoAdvice }"></td>
+								<c:forEach items="${all }" var="al" varStatus="avs">
+										<td class="tc">
+									 	<c:if test="${al.param=='1' }">
+									 		<input type="hidden" name="audit[${vs.index*5+avs.index }].purchaseId" value="${obj.id }">
+									 	<%-- 	<c:forEach items="${bean }"  var="s">
+									 			<c:if test=""> --%>
+									 			<input type="hidden" name="audit[${vs.index*5+avs.index }].auditParamId" value="${al.id }">
+									 	<%-- 		</c:if>
+									 		</c:forEach> --%>
+									 		<select name="audit[${vs.index*5+avs.index}].paramValue">
+												<option value="公开招标">公开招标</option>
+												<option value="邀请招标">邀请招标</option>
+												<option value="单一来源">单一来源</option>
+												<option value="竞争性谈判">竞争性谈判</option>
+												<option value="单一来源">询价</option>
+											</select>
+									 	</c:if>
+									  
+									  <c:if test="${al.param=='2' }">
+									  	<input type="hidden" name="audit[${vs.index*5+avs.index }].purchaseId" value="${obj.id }">
+									  	<input type="hidden" name="audit[${vs.index*5+avs.index }].auditParamId" value="${al.id }">
+									 		<select name="audit[${vs.index*5+avs.index }].paramValue">
+											<c:forEach items="${org }" var="ss">
+											  <option value="${ss.name }" >${ss.name}</option>
+											</c:forEach>
+											</select>
+									 	</c:if>
+									 	<c:if test="${al.param=='3' or al.param=='4' }">
+									 		<input type="hidden" name="audit[${vs.index*5+avs.index }].purchaseId" value="${obj.id }">
+									  	<input type="hidden" name="audit[${vs.index*5+avs.index }].auditParamId" value="${al.id }">
+									 		 <input type="text" name="audit[${vs.index*5+avs.index }].paramValue" value="">
+									 	</c:if>
+										</td>
+								</c:forEach>
 						</tr>
 
 					</c:forEach>

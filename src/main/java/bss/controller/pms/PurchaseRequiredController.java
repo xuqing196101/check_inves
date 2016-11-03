@@ -119,7 +119,7 @@ public class PurchaseRequiredController extends BaseController{
 					if( p.getId()!=null){
 						String id = UUID.randomUUID().toString().replaceAll("-", "");
 						map.put("oid", id);
-						PurchaseRequired queryById = purchaseRequiredService.queryById(p.getId());
+//						PurchaseRequired queryById = purchaseRequiredService.queryById(p.getId());
 						Integer s=Integer.valueOf(purchaseRequiredService.queryByNo(p.getPlanNo()))+1;
 						map.put("historyStatus", s);
 						map.put("id", p.getId());
@@ -127,8 +127,8 @@ public class PurchaseRequiredController extends BaseController{
 						if(p.getParentId()!=null){
 							p.setParentId(p.getParentId());
 						}
-						queryById.setId(p.getId());
-						queryById.setHistoryStatus("0");
+//						queryById.setId(p.getId());
+						p.setHistoryStatus("0");
 						purchaseRequiredService.add(p);	
 					}else{
 //						String id = UUID.randomUUID().toString().replaceAll("-", "");
@@ -166,12 +166,12 @@ public class PurchaseRequiredController extends BaseController{
 	* author: Li Xiaoxiao 
 	* @param @return     
 	* @return String     
-	 * @throws UnsupportedEncodingException 
-	* @throws Exception
+	 * @throws IOException 
+	 * @throws Exception
 	 */
 	@RequestMapping(value="/upload")
 	@ResponseBody
-	public String uploadFile(@RequestParam(value = "file", required = false) MultipartFile file,HttpServletRequest request,HttpServletResponse response,String type,String planName,String planNo) throws UnsupportedEncodingException{
+	public String uploadFile(@RequestParam(value = "file", required = false) MultipartFile file,HttpServletRequest request,HttpServletResponse response,String type,String planName,String planNo) throws IOException{
 		response.setContentType("text/xml;charset=UTF-8");  
 		User user = (User) request.getSession().getAttribute("loginUser");
 	//	planName = new String(planName.getBytes("iso8859-1"),"UTF-8");
@@ -213,7 +213,7 @@ public class PurchaseRequiredController extends BaseController{
 		String ccid = UUID.randomUUID().toString().replaceAll("-", "");
 		String cccid = UUID.randomUUID().toString().replaceAll("-", "");
 		String ccccid = UUID.randomUUID().toString().replaceAll("-", "");
-		String id = UUID.randomUUID().toString().replaceAll("-", "");
+	//	String id = UUID.randomUUID().toString().replaceAll("-", "");
 		
 		int count=1;
 		for(int i=0;i<list.size();i++){
@@ -232,7 +232,7 @@ public class PurchaseRequiredController extends BaseController{
 					p.setCreatedAt(new Date());
 					p.setUserId(user.getId());
 					p.setOrganization(user.getOrg().getName());
-					purchaseRequiredService.add(p);	
+//					purchaseRequiredService.add(p);	
 			}else{
 				PurchaseRequired p = list.get(i);
 				p.setGoodsType(type);
@@ -246,67 +246,81 @@ public class PurchaseRequiredController extends BaseController{
 				p.setUserId(user.getId());
 				p.setOrganization(user.getOrg().getName());
 				
-			 if(p.getSeq().equals("一")||p.getSeq().equals("二")||p.getSeq().equals("三")){
-					 p.setId(pid);
-					 p.setParentId(did);
-					purchaseRequiredService.add(p);	
+//			 if(p.getSeq().equals("一")||p.getSeq().equals("二")||p.getSeq().equals("三")){
+//					 p.setId(pid);//注释
+//					 p.setParentId(did);//注释
+//					purchaseRequiredService.add(p);	
 					
-					PurchaseRequired required5 = purchaseRequiredService.queryById(ccccid);
-					if(required5!=null){
+//					PurchaseRequired required5 = purchaseRequiredService.queryById(ccccid);
+//					if(required5!=null){
 						ccccid = UUID.randomUUID().toString().replaceAll("-", "");
-					}
+//					}
 					
-			 	}else if(p.getSeq().equals("（一）")||p.getSeq().equals("(一)")){
+//			 	}else 
+			 	if(p.getSeq().equals("（一）")||p.getSeq().equals("(一)")){
+			 		 p.setId(pid);
+					 p.setParentId(did);
+			 		 
+//					p.setId(cid);//注释
+//					p.setParentId(pid);//注释
+//					purchaseRequiredService.add(p);	
+				}else if(p.getSeq().equals("1")){
 					p.setId(cid);
 					p.setParentId(pid);
-					purchaseRequiredService.add(p);	
-				}else if(p.getSeq().equals("1")){
+					
+//					p.setId(ccid);//注释
+//					p.setParentId(cid);//注释
+//					purchaseRequiredService.add(p);	
+				}else if(p.getSeq().equals("（1）")||p.getSeq().equals("(1)")){
 					p.setId(ccid);
 					p.setParentId(cid);
-					purchaseRequiredService.add(p);	
-				}else if(p.getSeq().equals("（1）")||p.getSeq().equals("(1)")){
+					
+//					p.setId(cccid);//注释
+//					p.setParentId(ccid);//注释
+//					purchaseRequiredService.add(p);	
+				}else if(p.getSeq().equals("a")){
 					p.setId(cccid);
 					p.setParentId(ccid);
-					purchaseRequiredService.add(p);	
-				}else if(p.getSeq().equals("a")){
+					
+//					p.setId(ccccid);//注释
+//					p.setParentId(cccid);//注释
+//					purchaseRequiredService.add(p);	
+				}else{
 					p.setId(ccccid);
 					p.setParentId(cccid);
-					purchaseRequiredService.add(p);	
-				}else{
-					p.setId(id);
-					p.setParentId(ccccid);
-					purchaseRequiredService.add(p);	
 					
-					PurchaseRequired required = purchaseRequiredService.queryById(pid);
-					if(required!=null){
+//					p.setId(id);//注释
+//					p.setParentId(ccccid);//注释
+//					purchaseRequiredService.add(p);	
+					
+//					PurchaseRequired required = purchaseRequiredService.queryById(pid);
+//					if(required!=null){
 						 pid = UUID.randomUUID().toString().replaceAll("-", "");
-					}
-					PurchaseRequired required2 = purchaseRequiredService.queryById(cid);
-					if(required2!=null){
+//					}
+//					PurchaseRequired required2 = purchaseRequiredService.queryById(cid);
+//					if(required2!=null){
 						cid = UUID.randomUUID().toString().replaceAll("-", "");
-					}
-					PurchaseRequired required3 = purchaseRequiredService.queryById(ccid);
-					if(required3!=null){
+//					}
+//					PurchaseRequired required3 = purchaseRequiredService.queryById(ccid);
+//					if(required3!=null){
 						ccid = UUID.randomUUID().toString().replaceAll("-", "");
-					}
-					PurchaseRequired required4 = purchaseRequiredService.queryById(cccid);
-					if(required4!=null){
-						cccid = UUID.randomUUID().toString().replaceAll("-", "");
-					}
-					
-					
-					
+//					}
+//					PurchaseRequired required4 = purchaseRequiredService.queryById(cccid);
+//					if(required4!=null){
+//						cccid = UUID.randomUUID().toString().replaceAll("-", "");
+//					}
 				}
-			 
 				
 			}
 			count++;
 		}
+		purchaseRequiredService.batchAdd(list);
 		targetFile.delete();
 		
 		return "success";
 	}
 	/**
+	 * @throws IOException 
 	 * 
 	* @Title: addReq
 	* @Description: 添加数据
@@ -317,13 +331,13 @@ public class PurchaseRequiredController extends BaseController{
 	* @throws
 	 */
 	@RequestMapping("/adddetail")
-	public String addReq(PurchaseRequiredFormBean list,String type,String planNo,String planName,HttpServletRequest request){
+	public String addReq(PurchaseRequiredFormBean list,String type,String planNo,String planName,HttpServletRequest request) throws IOException{
 		User user = (User) request.getSession().getAttribute("loginUser");
-//		user.get
+		List<PurchaseRequired> plist = list.getList();
 		int count=1;
 		if(list!=null){
-			if(list.getList()!=null&&list.getList().size()>0){
-				for(int i=0;i<list.getList().size();i++){
+			if(plist!=null&&plist.size()>0){
+				for(int i=0;i<plist.size();i++){
 					if(i==0){
 						PurchaseRequired p = list.getList().get(0);
 							String id = UUID.randomUUID().toString().replaceAll("-", "");
@@ -342,7 +356,7 @@ public class PurchaseRequiredController extends BaseController{
 							p.setCreatedAt(new Date());
 							p.setUserId(user.getId());
 //							p.setOrganization(user.getOrg().getName());
-							purchaseRequiredService.add(p);	
+//							purchaseRequiredService.add(p);	
 					}else{
 							PurchaseRequired p = list.getList().get(i);
 							String id = UUID.randomUUID().toString().replaceAll("-", "");
@@ -360,13 +374,14 @@ public class PurchaseRequiredController extends BaseController{
 							p.setCreatedAt(new Date());
 							p.setUserId(user.getId());
 //							p.setOrganization(user.getOrg().getName());
-							purchaseRequiredService.add(p);	
+//							purchaseRequiredService.add(p);	
 					}
 					count++;
 				}
 			}
 	}
 
+		purchaseRequiredService.batchAdd(plist);
 		return "redirect:list.html";
 	}
 	
@@ -386,7 +401,7 @@ public class PurchaseRequiredController extends BaseController{
 	public String excel(HttpServletResponse resp,String planNo){
 		
 		String headers[]={"序号","需求部门","物资类别及品种名称","规格型号","质量技术标准（技术参数）", "计量单位","采购数量","单位（元）","预算金额（万元）","交货期限","采购方式建议","供应商名称","是否申请办理免税","物资用途（进口）","使用单位（进口）","备注"};
-		String attrs[]={"seq","department","platformSeq","goodsName","stand","qualitStand","item","purchaseCount","price","budget","deliverDate","purchaseType","supplier","isFreeTax","goodsUse","useUnit","memo"};
+		String attrs[]={"seq","department","goodsName","stand","qualitStand","item","purchaseCount","price","budget","deliverDate","purchaseType","supplier","isFreeTax","goodsUse","useUnit","memo"};
 	
 		String filedisplay = "明细.xls";
 		

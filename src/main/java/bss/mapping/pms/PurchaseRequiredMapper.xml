@@ -46,6 +46,7 @@
 		<result column="BRAND" jdbcType="VARCHAR"  property="brand"/>
 		<result column="USER_UNIT" jdbcType="VARCHAR"  property="userUnit"/>
 		<result column="DETAIL_STATUS" jdbcType="VARCHAR"  property="detailStatus"/>
+		<result column="REASON" jdbcType="VARCHAR"  property="reason"/>
 	</resultMap>
 	<sql id="Base_Column_List">
 		ID, PLAN_NAME, PLAN_NO, PLAN_TYPE, DEPARTMENT, GOODS_NAME, STAND,
@@ -53,7 +54,7 @@
 		PURCHASE_COUNT, PRICE, BUDGET, DELIVER_DATE, PURCHASE_TYPE, SUPPLIER, IS_FREE_TAX,
 		GOODS_USE, USE_UNIT, CREATED_AT, USER_ID, PARENT_ID, REQ_LEVEL,
 		STARUS, MEMO,SEQ,HISTORY_STATUS,GOODS_TYPE,AUDIT_DATE,ORGANIZATION,IS_MASTER,IS_DELETE,IS_COLLECT,CODE,ONE_PURCHASETYPE,
-		ONE_ORGANIZA,ONE_ADVICE,TWO_TECHADVICE,TWO_ADVICE,THREE_PURCHASETYPE,THREE_ORGANIZA,THREE_ADVICE,BRAND,USER_UNIT,DETAIL_STATUS
+		ONE_ORGANIZA,ONE_ADVICE,TWO_TECHADVICE,TWO_ADVICE,THREE_PURCHASETYPE,THREE_ORGANIZA,THREE_ADVICE,BRAND,USER_UNIT,DETAIL_STATUS,REASON
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="PurchaseRequired_Map">
@@ -85,7 +86,7 @@
 		IS_FREE_TAX, GOODS_USE, USE_UNIT,
 		CREATED_AT, USER_ID, PARENT_ID,
 		REQ_LEVEL, STARUS, MEMO,SEQ,HISTORY_STATUS,GOODS_TYPE,AUDIT_DATE,ORGANIZATION,IS_MASTER,IS_DELETE,IS_COLLECT,CODE,ONE_PURCHASETYPE,
-		ONE_ORGANIZA,ONE_ADVICE,TWO_TECHADVICE,TWO_ADVICE,THREE_PURCHASETYPE,THREE_ORGANIZA,THREE_ADVICE,BRAND,USER_UNIT,DETAIL_STATUS
+		ONE_ORGANIZA,ONE_ADVICE,TWO_TECHADVICE,TWO_ADVICE,THREE_PURCHASETYPE,THREE_ORGANIZA,THREE_ADVICE,BRAND,USER_UNIT,DETAIL_STATUS,REASON
 		)
 		values (#{id,jdbcType=VARCHAR}, #{planName,jdbcType=VARCHAR},
 		#{planNo,jdbcType=VARCHAR},
@@ -104,7 +105,7 @@
 		#{isCollect,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{onePurchaseType,jdbcType=VARCHAR}, #{oneOrganiza,jdbcType=VARCHAR}, #{oneAdvice,jdbcType=VARCHAR},
 		#{twoTechAdvice,jdbcType=VARCHAR}, #{twoAdvice,jdbcType=VARCHAR},  
 		#{threePurchaseType,jdbcType=VARCHAR}, #{threeOrganiza,jdbcType=VARCHAR}, #{threeAdvice,jdbcType=VARCHAR}, #{brand,jdbcType=VARCHAR},
-		#{userUnit,jdbcType=VARCHAR},#{detailStatus,jdbcType=VARCHAR}
+		#{userUnit,jdbcType=VARCHAR},#{detailStatus,jdbcType=VARCHAR},#{reason,jdbcType=VARCHAR}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="bss.model.pms.PurchaseRequired">
@@ -242,7 +243,9 @@
 			<if test="detailStatus != null">
 				DETAIL_STATUS,
 			</if>
-			
+			<if test="reason != null">
+				REASON,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -376,6 +379,9 @@
 			</if>
 			<if test="detailStatus != null">
 				#{detailStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="reason != null">
+				#{REASON,jdbcType=VARCHAR},
 			</if>
 			
 		</trim>
@@ -512,7 +518,9 @@
 			<if test="detailStatus != null">
 				DETAIL_STATUS=#{detailStatus,jdbcType=VARCHAR},
 			</if>
-			
+			<if test="reason != null">
+				REASON=#{reason,jdbcType=VARCHAR},
+			</if>
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
@@ -560,7 +568,8 @@
 		THREE_ADVICE=#{threeAdvice,jdbcType=VARCHAR},
 		BRAND=#{brand,jdbcType=VARCHAR},
 		USER_UNIT=#{userUnit,jdbcType=VARCHAR},
-		DETAIL_STATUS=#{detailStatus,jdbcType=VARCHAR}
+		DETAIL_STATUS=#{detailStatus,jdbcType=VARCHAR},
+		REASON=#{reason,jdbcType=VARCHAR}
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
 	<select id="query" parameterType="bss.model.pms.PurchaseRequired"
@@ -694,7 +703,7 @@
 	<sql id="param">
 	 <where>
 	 IS_DELETE!='1' and PURCHASE_COUNT is not null
-	 and IS_MASTER!='1'
+	 and IS_MASTER!='1' and HISTORY_STATUS='0'
 	 	<if test="planType != null">
 				PLAN_TYPE = #{planType}
 		</if>

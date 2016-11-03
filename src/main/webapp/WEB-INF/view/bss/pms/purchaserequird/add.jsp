@@ -163,7 +163,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  }
 	  
  	 //动态添加
-  	  function aadd(obj){
+  	  function aadd(){
  		 var id=null;
   		 $.ajax({
  			 url:"<%=basePath%>purchaser/getId.html",
@@ -171,14 +171,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  			 
  			 success:function(data){
  		 			id=data;
- 		 			var tr=$(obj).parent().parent();
+ 		 			var tr = $("input[name=dyadds]").parent().parent().prev();
+ 		 			// var tr=$(obj).parent().parent();
  		 			$(tr).children(":first").children(":first").val(data);
  		 			
  		 			var  s=$("#count").val();
  			      	s++;
  			      	$("#count").val(s);
- 			        var trs = $(obj).parent().parent();
- 			        $(trs).after("<tr><td class='tc'><input style='border: 0px;' type='hidden' name='list["+s+"].id' />"+
+ 			       // var trs = $(obj).parent().parent();
+ 			        $(tr).after("<tr><td class='tc'><input style='border: 0px;' type='hidden' name='list["+s+"].id' />"+
  			        "<input style='border: 0px;' type='text' name='list["+s+"].seq' /><input style='border: 0px;' value='"+id+"' type='hidden' name='list["+s+"].parentId' /></td>"+
  				       "<td class='tc'> <input  style='border: 0px;'  type='text' name='list["+s+"].department' /> </td>"+
  				       "<td class='tc'> <input  style='border: 0px;' type='text' name='list["+s+"].goodsName' /> </td>"+ 
@@ -189,15 +190,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].price' /> </td>"+  
  				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].budget' /> </td>"+  
  				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].deliverDate' /> </td>"+  
- 				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].purchaseType' /> </td>"+  
+ 				       	"<td class='tc'>  <select name='list["+s+"].purchaseType' style='width:100px'> <option value='' >请选择</option> <option value='公开招标' >公开招标</option> "+  
+ 				       "<option value='邀请招标' >邀请招标</option> <option value='竞争性谈判' >竞争性谈判</option> <option value='询价采购' >询价采购</option> <option value='单一来源'  >单一来源</option> </select></td>"+
  				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].supplier' /> </td>"+  
  				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].isFreeTax' /> </td>"+  
  				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].goodsUse' /> </td>"+  
  				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].useUnit' /> </td>"+
  				       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].memo' /> </td>"+ 
- 				     	"<td class='tc'><input class='add' name='dyadds' type='button' onclick='aadd(this)' value='添加子节点'>"+
- 						 "<input class='btn btn-windows add' name='delt' type='button' onclick='same(this)' value='添加同级节点'>"+
- 					 	" <input class='btn btn-windows add' name='delt' type='button' onclick='news(this)' value='新加任务'></td>"+  
  			        +"<tr/>");
  			        
  			 },error:function(){
@@ -312,6 +311,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 if(expertsTypeId==1 || expertsTypeId=="1"){ */
 			 $("#ztree").show();
 		 	$("#bt").show();
+		 	$("#add_div").hide();
 		/*  }else{
 			 $("#ztree").hide();
 		 } */
@@ -326,19 +326,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     function typehide(){
     	 $("#ztree").hide();
     	 $("#bt").hide();
+    	 $("#add_div").show();
     }
     
-    function same(obj){
-    	
-    	var tr=$(obj).parent().parent(":first");
+    function same(){
+    	 $.ajax({
+ 			 url:"<%=basePath%>purchaser/getId.html",
+ 			 type:"post",
+ 			 
+ 			 success:function(data){
+ 				 
+ 			
+    	 	var tr = $("input[name=dyadds]").parent().parent().prev();;
 			var id=$(tr).children(":first").children(":last").val();
 			
 			
-    	var  s=$("#count").val();
+    		var  s=$("#count").val();
 	      	s++;
 	      	$("#count").val(s);
-	        var trs = $(obj).parent().parent();
-	        $(trs).after("<tr><td class='tc'><input style='border: 0px;' type='text' name='list["+s+"].id' />"+
+	      //  var trs = $(obj).parent().parent();
+	        $(tr).after("<tr><td class='tc'><input style='border: 0px;' type='hidden' name='list["+s+"].id' value='"+data+"' />"+
 	        "<input style='border: 0px;' type='text' name='list["+s+"].seq' /><input style='border: 0px;' value='"+id+"' type='hidden' name='list["+s+"].parentId' /></td>"+
 		       "<td class='tc'> <input  style='border: 0px;'  type='text' name='list["+s+"].department' /> </td>"+
 		       "<td class='tc'> <input  style='border: 0px;' type='text' name='list["+s+"].goodsName' /> </td>"+ 
@@ -349,17 +356,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].price' /> </td>"+  
 		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].budget' /> </td>"+  
 		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].deliverDate' /> </td>"+  
-		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].purchaseType' /> </td>"+  
+			       	"<td class='tc'>  <select name='list["+s+"].purchaseType' style='width:100px'> <option value='' >请选择</option> <option value='公开招标' >公开招标</option> "+  
+				       "<option value='邀请招标' >邀请招标</option> <option value='竞争性谈判' >竞争性谈判</option> <option value='询价采购' >询价采购</option> <option value='单一来源'  >单一来源</option> </select></td>"+
 		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].supplier' /> </td>"+  
 		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].isFreeTax' /> </td>"+  
 		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].goodsUse' /> </td>"+  
 		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].useUnit' /> </td>"+
 		       	"<td class='tc'> <input style='border: 0px;' type='text' name='list["+s+"].memo' /> </td>"+ 
-		     	"<td class='tc'><input class='btn btn-windows add' name='dyadds' type='button' onclick='aadd(this)' value='添加子节点'>"+
-				 "<input class='btn btn-windows add' name='delt' type='button' onclick='same(this)' value='添加同级节点'>"+
-			 	" <input class='btn btn-windows add' name='delt' type='button' onclick='news(this)' value='新加任务'></td>"+  
+		  
 	        +"<tr/>");
-	        
+ 			 },error:function(){
+ 				 
+ 			 }
+ 		 });
     }
     
     function news(obj){
@@ -435,21 +444,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<button class="btn padding-left-10 padding-right-10 btn_back"
 					onclick="chakan()">查看编制说明</button> <!-- 	 <button class="btn padding-left-10 padding-right-10 btn_back">导入</button>
  -->
-				<button class="btn padding-left-10 padding-right-10 btn_back"
-					onclick="adds()">录入明细</button>
+			<!-- 	<button class="btn padding-left-10 padding-right-10 btn_back"
+					onclick="adds()">录入明细</button> -->
 			 
 			
 		</div>
 	</div>
 
+	<button style="margin-left: 106px;margin-top: 20px;"  class="btn padding-right-10 btn_back" onclick="aadd()">添加子节点</button>
+	<button style="margin-top: 20px;" class="btn padding-left-10 padding-right-10 btn_back" onclick="same()">添加同级节点</button>
+<!-- 	<button class="btn padding-left-10 padding-right-10 btn_back" onclick="typeShow()">查看产品分类目录</button> -->
 
 
+	<div class="container clear margin-top-30" id="add_div" >
 
-	<div class="container clear margin-top-30" id="add_div" style="display: none;">
-	
-	
-
-		<form id="" action="" method="post">
+		<form id="add_form" action="<%=basePath%>purchaser/adddetail.html" method="post">
 		<!-- 	<input type="hidden" name="planName" id="fjhmc">
 			<input type="hidden" name="planNo" id="fjhbh">
 			<input type="hidden" name="planType" value="" id="ptype"> -->
@@ -472,7 +481,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<th class="info">物资用途（仅进口）</th>
 						<th class="info">使用单位（仅进口）</th>
 						<th class="info">备注</th>
-						<th class="info">操作</th>
+						<!-- <th class="info">操作</th> -->
 					</tr>
 				</thead>
 
@@ -490,18 +499,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].price" value=""></td>
 					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].budget" value=""></td>
 					<td><input style="border: 0px;"  type="text" name="list[0].deliverDate" value=""></td>
-					<td><input style="border: 0px;"  type="text" name="list[0].purchaseType" value=""></td>
+					<td>
+					 <select name="list[0].purchaseType" style="width:100px" id="select">
+              				    <option value="" >请选择</option>
+	                            <option value="公开招标" >公开招标</option>
+	                            <option value="邀请招标" >邀请招标</option>
+	                            <option value="竞争性谈判" >竞争性谈判</option>
+	                            <option value="询价采购" >询价采购</option>
+	                            <option value="单一来源"  >单一来源</option>
+			           </select>
+			                
+					</td>
 					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].supplier" value=""></td>
 					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].isFreeTax" value=""></td>
 					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].goodsUse" value=""></td>
 					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].useUnit" value=""></td>
 					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].memo" value=""></td>
-						<td class="tc">
+						<!-- <td class="tc">
 							 <input class="btn btn-windows add" name="dyadds" type="button" onclick="aadd(this)" value="添加子节点">
 							 <input class="btn btn-windows add" name="delt" type="button" onclick="same(this)" value="添加同级节点">
 						 	 <input class="btn btn-windows add" name="delt" type="button" onclick="news(this)" value="新加任务">
 					 
-						</td>
+						</td> -->
 				</tr>
 				<!-- <tr>
 					<td class="tc w50"><input style="border: 0px;" type="text" name="list[1].seq" value=""></td>
@@ -592,18 +611,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<td class="tc"><input style="border: 0px;"  type="text" name="list[5].goodsUse" value=""></td>
 					<td class="tc"><input style="border: 0px;"  type="text" name="list[5].useUnit" value=""></td>
 					<td class="tc"><input style="border: 0px;"  type="text" name="list[5].memo" value=""></td>
-				</tr> -->
-				<!-- <tr>
+				</tr>   -->
+			 <tr style="display: none">
 
 					<td class="tc" colspan="16"> <input type="hidden" name="planType" value="" id="ptype">
 					 <input class="btn btn-windows add" name="dyadds" type="button" onclick="aadd()" value="添加">
-					 <input class="btn btn-windows delete" name="delt" type="button" onclick="delets()" value="删除"></td>
-				</tr> -->
+					<!--  <input class="btn btn-windows delete" name="delt" type="button" onclick="delets()" value="删除"> -->
+					 
+					 </td>
+				</tr>  
 			</table>
-			<input class="btn btn-windows save" type="button" onclick="incr()"
-				value="提交"> <input class="btn btn-windows reset" value="取消"
-				type="button" onclick="hide()">
+			<!--  <input class="btn btn-windows reset" value="取消"
+				type="button" onclick="hide()"> -->
 		</form>
+					<input class="btn btn-windows save" style="margin-left: 500px;" type="button" onclick="incr()" value="提交"> <button  class="btn padding-left-20 padding-right-20 btn_back"  onclick="location.href='javascript:history.go(-1);'">返回</button>
+		
 	</div>
 
 
@@ -635,13 +657,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
 
 <%-- 	<input type="hidden" id="goodsType" value="${type }"> --%>
-	<input type="hidden" id="count" value="5">
+	<input type="hidden" id="count" value="0">
 	<div  style="margin-left: 600px;">
 	   <div id="ztree" class="ztree"></div>
 	   <button id="bt" style="display: none;" class="btn padding-left-10 padding-right-10 btn_back" onclick="typehide()">取消</button>
 	  </div> 
 	  
-	  <form id="add_form" action="<%=basePath%>purchaser/ztree.html" method="post">
+	  <form id="" action="<%=basePath%>purchaser/ztree.html" method="post">
 			<input type="hidden" name="planName" id="fjhmc">
 			<input type="hidden" name="planNo" id="fjhbh">
 			<input type="hidden" name="type" value="" id="ptype">

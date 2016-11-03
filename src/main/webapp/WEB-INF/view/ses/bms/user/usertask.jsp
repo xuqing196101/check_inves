@@ -71,7 +71,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 	
 	//	function init() {
-			scheduler.config.xml_date="%Y-%m-%d %H:%i";
+			//scheduler.config.xml_date="%Y-%m-%d %H:%i";
+			 scheduler.config.time_step=30; 
+        scheduler.config.api_date="%Y-%m-%d %H:%i"; 
+        scheduler.config.xml_date="%Y-%m-%d %H:%i"; 
+        scheduler.config.hour_date="%H:%i"; 
+        scheduler.config.default_date="%Y年%m月%d日"; 
+        scheduler.config.month_date="%Y年 %m月"; 
+        scheduler.config.day_date="%D %m月%d日"; 
+        
 			scheduler.config.time_step = 30;
 			scheduler.config.multi_day = true;
 			scheduler.locale.labels.section_subject = "Subject";
@@ -129,7 +137,7 @@ scheduler.config.icons_select = ["icon_details","icon_delete"];
 				{name:"description", height:33, map_to:"text", type:"textarea" , focus:true},
 				 {name:"详细安排", height:80, type:"textarea", map_to:"details"  },
 				{name:"级别", height:40,type:"select", options: subject, map_to:"subject" },
-				{name:"time", height:72, type:"time", map_to:"auto" }
+				{name:"time", height:72, type:"time", map_to:"auto" , time_format:["%Y","%m","%d","%H:%i"]}
 			];
 	 
 			scheduler.init('scheduler_here',new Date(${year},${month},1), "month");

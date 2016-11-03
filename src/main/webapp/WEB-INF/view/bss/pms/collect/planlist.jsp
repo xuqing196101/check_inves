@@ -235,7 +235,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    </div> 
     <span class="fr option_btn margin-top-10">
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="sets()">审核设置</button>
-	<!-- 	<button class="btn padding-left-10 padding-right-10 btn_back" onclick="audit()">审核</button> -->
+		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="audit()">审核</button>
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="down()">下载</button>
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="print()">打印</button>
 	  </span>
@@ -291,9 +291,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 
 		<select style="margin-top: 15px;" name="planType" id="wtype">
 		<option value="4">直接下达任务</option>
-		<option value="1">第一轮</option>
-		<option value="2">第二轮</option>
-		<option value="3">第三轮</option>
+		<c:forEach items="${dic }" var="obj" >
+			<option value="${obj.id }">${obj.name }</option>
+		</c:forEach>
 		</select>
 		<br>
 	     <button style="margin-top: 15px;" class="btn padding-left-10 padding-right-10 btn_back"  onclick="closeLayer()" >确定</button>

@@ -1,18 +1,24 @@
 package bss.service.pms.impl;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.ExecutorType;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ses.util.PropertiesUtil;
-
-import com.github.pagehelper.PageHelper;
-
 import bss.dao.pms.PurchaseRequiredMapper;
 import bss.model.pms.PurchaseRequired;
 import bss.service.pms.PurchaseRequiredService;
+
+import com.github.pagehelper.PageHelper;
 /**
  * 
  * @Title: PurcharseRequiredServiceImpl
@@ -27,6 +33,11 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 	@Autowired
 	private PurchaseRequiredMapper purchaseRequiredMapper;
 
+	
+	@Autowired
+	private SqlSessionFactory sqlSessionFactory; 
+	
+	
 	@Override
 	public void add(PurchaseRequired purcharseRequired) {
 		purchaseRequiredMapper.insertSelective(purcharseRequired);
@@ -118,7 +129,58 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
     public void updateByPrimaryKeySelective(PurchaseRequired purchaseRequired) {
         purchaseRequiredMapper.updateByPrimaryKeySelective(purchaseRequired);
     }
-	
-	 
+
+	@Override
+	public void batchAdd(List<PurchaseRequired> data) throws IOException {
+//		String resource = "spring-mybatis.xml";
+//	        InputStream inputStream = null;
+//	        SqlSession batchSqlSession = null;
+//	        try{
+//	            inputStream = Resources.getResourceAsStream(resource);
+//	            SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+//	            batchSqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH, false);
+//	            int batchCount = 500;//每批commit的个数
+//	            for(int index = 0; index < data.size();index++){
+//	            	PurchaseRequired stu = data.get(index);
+//	                batchSqlSession.getMapper(PurchaseRequiredMapper.class).insertSelective(stu);
+//	                if(index !=0 && index%batchCount == 0){
+//	                    batchSqlSession.commit();
+//	                }
+//	            }
+//	            batchSqlSession.commit();
+//	        }catch (Exception e){
+//	            e.printStackTrace();
+//	        }finally {
+//	            if(batchSqlSession != null){
+//	                batchSqlSession.close();
+//	            }
+//	            if(inputStream != null){
+//	                inputStream.close();
+//	            }
+//	        }
+		
+		
+		//   DefaultSqlSessionFactory sqlSessionFactory = (DefaultSqlSessionFactory) ServiceBeanConstant.CTX.getBean("sqlSessionFactory");
+	        SqlSession batchSqlSession = null;
+	        try{
+	            batchSqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH, false);
+	            int batchCount = 500;//每批commit的个数
+	            for(int index = 0; index < data.size();index++){
+	            	PurchaseRequired stu = data.get(index);
+	                batchSqlSession.getMapper(PurchaseRequiredMapper.class).insert(stu);
+	                if(index !=0 && index%batchCount == 0){
+	                    batchSqlSession.commit();
+	                }
+	            }
+	            batchSqlSession.commit();
+	        }catch (Exception e){
+	            e.printStackTrace();
+	        }finally {
+	            if(batchSqlSession != null){
+	                batchSqlSession.close();
+	            }
+	        }
+	        
+	}
 
 }

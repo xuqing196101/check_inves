@@ -211,4 +211,7 @@ public interface PurchaseRequiredMapper {
      */
     void history(Map<String,Object> map);
     
+    
+    void batchAdd(List<PurchaseRequired> list);
+    
 }

@@ -25,19 +25,26 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertService;
 import bss.dao.pms.PurchaseRequiredMapper;
+import bss.formbean.AuditParamBean;
 import bss.formbean.FiledNameEnum;
+import bss.model.pms.AuditParam;
 import bss.model.pms.AuditPerson;
 import bss.model.pms.CollectPlan;
+import bss.model.pms.PurchaseAudit;
 import bss.model.pms.PurchaseRequired;
 import bss.model.pms.UpdateFiled;
+import bss.service.pms.AuditParameService;
 import bss.service.pms.AuditPersonService;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.CollectPurchaseService;
+import bss.service.pms.PurchaseAuditService;
 import bss.service.pms.UpdateFiledService;
 
 import com.github.pagehelper.PageInfo;
@@ -75,6 +82,17 @@ public class AuditSetController {
 	
 	@Autowired
 	private CollectPurchaseService collectPurchaseService;
+	
+	@Autowired
+	private AuditParameService auditParameService; 
+	
+	@Autowired
+	private PurchaseAuditService purchaseAuditService;
+	
+	@Autowired
+	private DictionaryDataServiceI dictionaryDataServiceI;
+
+	
 	/**
 	 * 
 	* @Title: set
@@ -292,6 +310,30 @@ public class AuditSetController {
 		}
 		
 		
+		//查询出所有审核参数
+		DictionaryData	dictionaryData=new DictionaryData();
+		DictionaryData dd=new DictionaryData();
+		dd.setId("C3013C4B9CFA4645A6D5ACC73D04DACF");
+		dictionaryData.setParent(dd);
+		List<DictionaryData> dic = dictionaryDataServiceI.find(dictionaryData);
+		List<AuditParam> all=new LinkedList<AuditParam>();
+		AuditParam auditParam=new AuditParam();
+		
+		List<AuditParamBean> bean=new LinkedList<AuditParamBean>();
+		if(dic!=null&&dic.size()>0){
+			for(DictionaryData d:dic){
+				AuditParamBean s=new AuditParamBean();
+				auditParam.setDictioanryId(d.getId());
+				List<AuditParam> a = auditParameService.query(auditParam, 1);
+				all.addAll(a);
+				s.setId(d.getId());
+				s.setSize(a.size());
+				s.setName(d.getName());
+				bean.add(s);
+			}
+		}
+		
+		
 		String filedisplay = "明细.xls";
 		response.addHeader("Content-Disposition", "attachment;filename="  + new String(filedisplay.getBytes("gb2312"), "iso8859-1"));
 		HSSFWorkbook workbook = new HSSFWorkbook();
@@ -306,12 +348,21 @@ public class AuditSetController {
 	     cell.setCellValue("测试采购计划-20160926-物资计划草案");
 	     cell.setCellStyle(style);
 	     sheet.addMergedRegion(new CellRangeAddress(0,(short)0,0,(short)12));
-	     cell = row.createCell(13);  
-	     cell.setCellValue("第一轮审核");
-	     sheet.addMergedRegion(new CellRangeAddress(0,(short)0,13,(short)15));
-	     cell = row.createCell(16);  
-	     cell.setCellValue("第二轮审核");
-	     sheet.addMergedRegion(new CellRangeAddress(0,(short)0,16,(short)17));
+	     int n=12;
+	     int hb=0;
+	     for(AuditParamBean ap:bean){
+	    	 hb=n+1;
+	    	 cell = row.createCell(hb);
+		     
+		     cell.setCellValue(ap.getName());
+		     n=ap.getSize()+n;
+		     sheet.addMergedRegion(new CellRangeAddress(0,(short)0,hb,(short)n)); 
+		    
+	     }
+	    
+	     /*	  cell = row.createCell(16);  
+     		cell.setCellValue("第二轮审核");
+	     sheet.addMergedRegion(new CellRangeAddress(0,(short)0,16,(short)17));*/
 	        row = sheet.createRow((int) 1);
 	        cell = row.createCell(0);
 			cell.setCellValue("序号"); 
@@ -361,7 +412,7 @@ public class AuditSetController {
 	        cell.setCellValue("其他建议"); 
 	        
 	        int count=2;
-	     
+	        PurchaseAudit purchaseAudit=new PurchaseAudit();
 			for(PurchaseRequired p:list){
 	        	row = sheet.createRow(count);
 	   	        cell = row.createCell(0);
@@ -410,18 +461,29 @@ public class AuditSetController {
 	   	        
 	   	        cell = row.createCell( 12);  
 	   	        cell.setCellValue(p.getMemo());  
+	   	        int an=13;
+	   	        for(AuditParam ap:all){
+	   	        	
+	   	        	cell = row.createCell(an);  
+	   	        	purchaseAudit.setAuditParamId(ap.getId());
+	   	        	
+	   	        	purchaseAudit.setPurchaseId(p.getId());
+	   	        	PurchaseAudit audit = purchaseAuditService.query(purchaseAudit);
+	   	        	if(audit!=null){
+	   	        		cell.setCellValue(audit.getParamValue()); 
+	   	        	}
+		   	         
+		   	        an++;
+	   	        }
 	   	        
-	   	        
-	   	        cell = row.createCell(13);  
-	   	        cell.setCellValue(p.getOnePurchaseType());  
-	   	        cell = row.createCell(14);  
+	   	     /*   cell = row.createCell(14);  
 	   	        cell.setCellValue(p.getOneOrganiza()); 
 	   	        cell = row.createCell(15);  
 	   	        cell.setCellValue(p.getOneAdvice()); 
 	   	        cell = row.createCell(16);  
 	   	        cell.setCellValue(p.getTwoTechAdvice()); 
 	   	        cell = row.createCell(17);  
-	   	        cell.setCellValue(p.getTwoAdvice()); 
+	   	        cell.setCellValue(p.getTwoAdvice()); */
 	   	        
 	   	     count++;
 	        }

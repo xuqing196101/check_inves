@@ -179,7 +179,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	index=layer.open({
 			  type: 1, //page层
 			  area: ['500px', '300px'],
-			  title: '汇总采购计划',
+			  title: '生成采购计划',
 			  closeBtn: 1,
 			  shade:0.01, //遮罩透明度
 			  moveType: 1, //拖拽风格，0是默认，1是传统拖动

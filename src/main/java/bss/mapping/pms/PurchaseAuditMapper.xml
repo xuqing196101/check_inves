@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.pms.PurchaseAuditMapper">
+  <resultMap id="PurchaseAudit_Map" type="bss.model.pms.PurchaseAudit">
+    <id column="PURCHASE_ID" jdbcType="VARCHAR" property="purchaseId" />
+    <result column="AUDIT_PARAM_ID" jdbcType="VARCHAR" property="auditParamId" />
+    <result column="PARAM_VALUE" jdbcType="VARCHAR" property="paramValue" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PURCHASE_ID, AUDIT_PARAM_ID, PARAM_VALUE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="PurchaseAudit_Map">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PMS_PURCHASE_AUDIT
+    where PURCHASE_ID = #{purchaseId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BSS_PMS_PURCHASE_AUDIT
+    where PURCHASE_ID = #{purchaseId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="bss.model.pms.PurchaseAudit">
+    insert into T_BSS_PMS_PURCHASE_AUDIT (PURCHASE_ID, AUDIT_PARAM_ID, PARAM_VALUE
+      )
+    values (#{purchaseId,jdbcType=VARCHAR}, #{auditParamId,jdbcType=VARCHAR}, #{paramValue,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="bss.model.pms.PurchaseAudit">
+    insert into T_BSS_PMS_PURCHASE_AUDIT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="purchaseId != null">
+        PURCHASE_ID,
+      </if>
+      <if test="auditParamId != null">
+        AUDIT_PARAM_ID,
+      </if>
+      <if test="paramValue != null">
+        PARAM_VALUE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="purchaseId != null">
+        #{purchaseId,jdbcType=VARCHAR},
+      </if>
+      <if test="auditParamId != null">
+        #{auditParamId,jdbcType=VARCHAR},
+      </if>
+      <if test="paramValue != null">
+        #{paramValue,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="bss.model.pms.PurchaseAudit">
+    update T_BSS_PMS_PURCHASE_AUDIT
+    <set>
+   <!--    <if test="auditParamId != null">
+        AUDIT_PARAM_ID = #{auditParamId,jdbcType=VARCHAR},
+      </if> -->
+      <if test="paramValue != null">
+        PARAM_VALUE = #{paramValue,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PURCHASE_ID = #{purchaseId,jdbcType=VARCHAR} and AUDIT_PARAM_ID = #{auditParamId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="bss.model.pms.PurchaseAudit">
+    update T_BSS_PMS_PURCHASE_AUDIT
+    set AUDIT_PARAM_ID = #{auditParamId,jdbcType=VARCHAR},
+      PARAM_VALUE = #{paramValue,jdbcType=VARCHAR}
+    where PURCHASE_ID = #{purchaseId,jdbcType=VARCHAR}
+  </update>
+  <select id="query" parameterType="bss.model.pms.PurchaseAudit" resultMap="PurchaseAudit_Map">
+  select
+  <include refid="Base_Column_List"/>
+  from T_BSS_PMS_PURCHASE_AUDIT
+  <where>
+  1=1
+ 	<if test="auditParamId != null">
+       	and AUDIT_PARAM_ID = #{auditParamId}
+   </if>
+  	<if test="purchaseId !=null">
+  		and PURCHASE_ID = #{purchaseId}
+  	</if>
+  </where>
+  
+  </select>
+  <select id="queryByPid" parameterType="String" resultMap="PurchaseAudit_Map">
+    select
+  <include refid="Base_Column_List"/>
+  from T_BSS_PMS_PURCHASE_AUDIT
+  <where>
+  
+  	<if test="purchaseId !=null">
+  	  PURCHASE_ID = #{purchaseId}
+  	</if>
+  </where>
+  
+  </select>
+  
+  
+</mapper>

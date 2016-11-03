@@ -239,22 +239,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<tr>
 					<td class="tc w50">
 					<input style="border: 0px;" type="hidden" name="list[0].id" id="purid" value="">
-					<input style="border: 0px;" type="text" name="list[0].seq" value="">
+					<input style="border: 0px;width: 50px;" type="text" name="list[0].seq" value="">
 					</td>
 					<td><input style="border: 0px;" type="text" name="list[0].department" value=""></td>
 					<td><input style="border: 0px;"  type="text" name="list[0].goodsName" value=""></td>
 					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].stand" value=""></td>
 					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].qualitStand" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].item" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].purchaseCount" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].price" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].budget" value=""></td>
+					<td class="tc"><input style="border: 0px;width: 60px;"  type="text" name="list[0].item" value=""></td>
+					<td class="tc"><input style="border: 0px;width: 60px;"  type="text" name="list[0].purchaseCount" value=""></td>
+					<td class="tc"><input style="border: 0px;width: 60px;"  type="text" name="list[0].price" value=""></td>
+					<td class="tc"><input style="border: 0px;width: 60px;"  type="text" name="list[0].budget" value=""></td>
 					<td><input style="border: 0px;"  type="text" name="list[0].deliverDate" value=""></td>
-					<td><input style="border: 0px;"  type="text" name="list[0].purchaseType" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].supplier" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].isFreeTax" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].goodsUse" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].useUnit" value=""></td>
+					<td><input style="border: 0px;width: 60px;"  type="text" name="list[0].purchaseType" value=""></td>
+					<td class="tc"><input style="border: 0px;width: 60px;"  type="text" name="list[0].supplier" value=""></td>
+					<td class="tc"><input style="border: 0px;width: 60px;"  type="text" name="list[0].isFreeTax" value=""></td>
+					<td class="tc"><input style="border: 0px;width: 60px;"  type="text" name="list[0].goodsUse" value=""></td>
+					<td class="tc"><input style="border: 0px;width: 60px;"  type="text" name="list[0].useUnit" value=""></td>
 					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].memo" value=""></td>
 						<td class="tc">
 						<div style="width: 160px">

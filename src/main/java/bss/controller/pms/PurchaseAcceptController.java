@@ -1,5 +1,6 @@
 package bss.controller.pms;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ses.model.oms.Orgnization;
+import ses.service.oms.OrgnizationServiceI;
 import bss.controller.base.BaseController;
+import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.pms.PurchaseRequired;
 import bss.service.pms.PurchaseRequiredService;
 
@@ -27,7 +31,9 @@ public class PurchaseAcceptController extends BaseController{
 
 	@Autowired
 	private PurchaseRequiredService purchaseRequiredService;
-
+	
+	@Autowired
+	private OrgnizationServiceI orgnizationServiceI;
 	/**
 	 * 
 	 * @Title: queryPlan
@@ -45,6 +51,8 @@ public class PurchaseAcceptController extends BaseController{
 		PageInfo<PurchaseRequired> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
 		model.addAttribute("inf", purchaseRequired);
+		
+	
 		return "bss/pms/collect/list";
 	}
 	
@@ -64,6 +72,12 @@ public class PurchaseAcceptController extends BaseController{
 		List<PurchaseRequired> list = purchaseRequiredService.query(p,0);
 		model.addAttribute("planNo", list.get(0).getPlanNo());
 		model.addAttribute("list", list);
+		
+		HashMap<String,Object> map=new HashMap<String,Object>();
+		map.put("typeName", 1);
+		List<Orgnization> org = orgnizationServiceI.findOrgnizationList(map);
+		model.addAttribute("org", org);
+		
     	return "bss/pms/collect/view";
     }
 	
@@ -77,14 +91,26 @@ public class PurchaseAcceptController extends BaseController{
     * @throws
      */
     @RequestMapping("/update")
-    public String submit(PurchaseRequired p){
-//    	purchaseRequiredService.update(planNo, "3");
-    	
-//    	PurchaseRequired p=new PurchaseRequired();
-//    	p.setPlanNo(planNo);
-    	 
-    	
-    	purchaseRequiredService.updateStatus(p);
+    public String submit(PurchaseRequiredFormBean list,String reason){
+
+  
+    	if(list!=null){
+    	  	List<PurchaseRequired> plist = list.getList();
+    		if(plist!=null&&plist.size()>0){
+    			if(reason!=null){
+    				for(PurchaseRequired p:plist){
+    					p.setReason(reason);
+        				purchaseRequiredService.updateByPrimaryKeySelective(p);	
+        			}
+    			}else{
+    				for(PurchaseRequired p:plist){
+         				purchaseRequiredService.updateByPrimaryKeySelective(p);	
+        			}
+    			}
+    			
+    		}
+    	}
+//    	purchaseRequiredService.updateStatus(p);
     	return "redirect:list.html";
     }
     
