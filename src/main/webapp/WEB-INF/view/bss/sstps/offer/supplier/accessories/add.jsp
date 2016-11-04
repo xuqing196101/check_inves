@@ -51,21 +51,21 @@ function down(){
 	 <li class="col-md-6  p0 ">
 	   <span class=""><i class="red">＊</i>材料名称：</span>
 	   <div class="input-append">
-        <input type="text" id="stuffName" name="stuffName" value="${stuffName }" class="w220">
+        <input type="text" id="stuffName" name="stuffName" value="${acc.stuffName }" class="w220">
         <div class="validate">${ERR_stuffName}</div>
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class=""><i class="red">＊</i>规格型号：</span>
 	   <div class="input-append">
-        <input id="norm" name="norm" type="text" value="${norm }" class="w220">
+        <input id="norm" name="norm" type="text" value="${acc.norm }" class="w220">
         <div class="validate">${ERR_norm}</div>
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class=""><i class="red">＊</i>图纸位置号(代号)：</span>
 	   <div class="input-append">
-        <input id="paperCode" name="paperCode" type="text" value="${paperCode }" class="w220">
+        <input id="paperCode" name="paperCode" type="text" value="${acc.paperCode }" class="w220">
         <div class="validate">${ERR_paperCode}</div>
        </div>
 	 </li>
@@ -78,32 +78,32 @@ function down(){
    <li class="col-md-6 p0">
 	   <span class="">数量：</span>
 	   <div class="input-append">
-        <input type="text" id="workAmout" name="workAmout" class="w220">
+        <input type="text" id="workAmout" name="workAmout" value="${acc.workAmout }" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">单件重：</span>
 	   <div class="input-append">
-        <input type="text" id="workWeight" name="workWeight" class="w220">
+        <input type="text" id="workWeight" name="workWeight" value="${acc.workWeight }" class="w220">
        </div>
 	 </li>
 	 
 	 <li class="col-md-6  p0 ">
 	   <span class="">重量小计：</span>
 	   <div class="input-append">
-        <input type="text" id="workWeightTotal" name="workWeightTotal" class="w220">
+        <input type="text" id="workWeightTotal" name="workWeightTotal" value="${acc.workWeightTotal }" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">单价(元)：</span>
 	   <div class="input-append">
-        <input type="text" id="workPrice" name="workPrice" class="w220">
+        <input type="text" id="workPrice" name="workPrice" value="${acc.workPrice }" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">金额：</span>
 	   <div class="input-append">
-        <input type="text" id="workMoney" name="workMoney" class="w220">
+        <input type="text" id="workMoney" name="workMoney" value="${acc.workMoney }" class="w220">
        </div>
 	 </li>
    </ul>
@@ -116,32 +116,32 @@ function down(){
    <li class="col-md-6 p0">
 	   <span class="">数量：</span>
 	   <div class="input-append">
-        <input type="text" id="consumeAmout" name="consumeAmout" class="w220">
+        <input type="text" id="consumeAmout" name="consumeAmout" value="${acc.consumeAmout }" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">单件重：</span>
 	   <div class="input-append">
-        <input type="text" id="consumeWeight" name="consumeWeight" class="w220">
+        <input type="text" id="consumeWeight" name="consumeWeight" value="${acc.consumeWeight }" class="w220">
        </div>
 	 </li>
 	 
 	 <li class="col-md-6  p0 ">
 	   <span class="">重量小计：</span>
 	   <div class="input-append">
-        <input type="text" id="consumeWeightTotal" name="consumeWeightTotal" class="w220">
+        <input type="text" id="consumeWeightTotal" name="consumeWeightTotal" value="${acc.consumeWeightTotal }" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">单价(元)：</span>
 	   <div class="input-append">
-        <input type="text" id="consumePrice" name="consumePrice" class="w220">
+        <input type="text" id="consumePrice" name="consumePrice" value="${acc.consumePrice }" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">金额：</span>
 	   <div class="input-append">
-        <input type="text" id="consumeMoney" name="consumeMoney" class="w220">
+        <input type="text" id="consumeMoney" name="consumeMoney" value="${acc.consumeMoney }" class="w220">
        </div>
 	 </li>
    </ul>
@@ -153,14 +153,14 @@ function down(){
    <li class="col-md-12 p0">
 	   <span class=""><i class="red">＊</i>供货单位：</span>
 	   <div class="input-append">
-        <input type="text" id="supplyUnit" name="supplyUnit" value="${supplyUnit }" class="w220">
+        <input type="text" id="supplyUnit" name="supplyUnit" value="${acc.supplyUnit }" class="w220">
         <div class="validate">${ERR_supplyUnit}</div>
        </div>
 	 </li>
 	 <li class="col-md-12  p0 ">
 	   <span class="fl">备注：</span>
 	   <div class="col-md-12 pl200 fn mt5 pwr9">
-        <textarea class="text_area col-md-12 " id="remark" name="remark" title="不超过200个字" placeholder="不超过200个字"></textarea>
+        <textarea class="text_area col-md-12 " id="remark" name="remark" title="不超过200个字" placeholder="不超过200个字">${acc.remark } </textarea>
        </div>
 	 </li>
    </ul>

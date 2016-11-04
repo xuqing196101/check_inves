@@ -30,7 +30,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="<%=path %>/public/ZHH/js/ajaxfileupload.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.validate.min.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/lodop/LodopFuncs.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
 </head>

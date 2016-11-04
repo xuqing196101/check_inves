@@ -82,7 +82,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<button class="btn" type="submit">分配</button>
 	<button class="btn btn-windows input" type="submit">导入</button>
 	<button class="btn btn-windows output" type="submit">导出</button>
-	<button class="btn btn-windows ht_add" type="submit">新增合同</button>
+	<button class="btn btn-windows add" type="submit">新增合同</button>
 	<button class="btn btn-windows cancel" type="submit">取消</button>
    </div>
    <div class="content table_box">

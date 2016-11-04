@@ -126,5 +126,23 @@
   <listener>
   	<listener-class>ses.util.FolderListener</listener-class>
   </listener>
-  
+  <jsp-config>
+  	<taglib>
+  		<taglib-uri>/tld/page</taglib-uri>
+  		<taglib-location>/WEB-INF/tlds/page.tld</taglib-location>
+  	</taglib>
+  	<taglib>
+  		<taglib-uri>/tld/bread</taglib-uri>
+  		<taglib-location>/WEB-INF/tlds/bread.tld</taglib-location>
+  	</taglib>
+  	<taglib>
+  		<taglib-uri>/tld/upload</taglib-uri>
+  		<taglib-location>/WEB-INF/tlds/upload.tld</taglib-location>
+  	</taglib>
+  </jsp-config>
+  <servlet>
+  	<servlet-name>uploadInit</servlet-name> 
+  	<servlet-class>common.servlet.CommonServlet</servlet-class> 
+  	<load-on-startup>1</load-on-startup>
+  </servlet>
 </web-app>

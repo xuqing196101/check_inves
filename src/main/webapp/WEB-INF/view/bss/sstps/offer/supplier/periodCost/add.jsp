@@ -39,33 +39,34 @@ function down(){
    <h2 class="f16 count_flow mt40"><i>01</i>费用明细</h2>
    <ul class="list-unstyled list-flow ul_list">
    <li class="col-md-6 p0">
-	   <span class="">项目名称：</span>
+	   <span class=""><i class="red">＊</i>项目名称：</span>
 	   <div class="input-append">
-        <input type="text" id="projectName" name="projectName" class="w220">
+        <input type="text" id="projectName" name="projectName" value="${pc.projectName }" class="w220">
+        <div class="validate">${ERR_projectName}</div>
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">报价前2年：</span>
 	   <div class="input-append">
-        <input type="text" id="tyaQuoteprice" name="tyaQuoteprice" class="w220">
+        <input type="text" id="tyaQuoteprice" name="tyaQuoteprice" value="${pc.tyaQuoteprice }" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">报价前1年：</span>
 	   <div class="input-append">
-        <input id="oyaQuoteprice" name="oyaQuoteprice" type="text" class="w220">
+        <input id="oyaQuoteprice" name="oyaQuoteprice" type="text" value="${pc.oyaQuoteprice }" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">报价当年：</span>
 	   <div class="input-append">
-        <input id="newQuoteprice" name="newQuoteprice" type="text" class="w220">
+        <input id="newQuoteprice" name="newQuoteprice" type="text" value="${pc.newQuoteprice }" class="w220">
        </div>
 	 </li>
 	 <li class="col-md-12  p0 ">
 	   <span class="fl">备注：</span>
 	   <div class="col-md-12 pl200 fn mt5 pwr9">
-        <textarea class="text_area col-md-12 " id="remark" name="remark" title="不超过250个字" placeholder="不超过250个字"></textarea>
+        <textarea class="text_area col-md-12 " id="remark" name="remark" title="不超过250个字" placeholder="不超过250个字">${pc.remark }</textarea>
        </div>
 	 </li>
    </ul>

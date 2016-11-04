@@ -93,7 +93,20 @@ function kaptcha(){
 
 <body>
   <div class="wrapper">
-	<div class="header-v4">
+  <div class="head_top col-md-12">
+   <div class="container">
+    <div class="row">
+     <div class="col-md-9">你好，欢迎来到中国军队采购网！<a href="" class="red">【请登录】</a></div>
+	   <div class="col-md-3 head_right"> 
+         <a href=" ">我的信息</a> |
+         <a href=" ">意见反馈</a> |
+         <a href=" ">采购系统首页</a>
+	   </div>
+	  </div>
+    </div>
+  </div>
+  </div>
+	<div class="header-v4 clear">
     <!-- Navbar -->
     <div class="navbar navbar-default mega-menu" role="navigation">
 	  <div class="head_main">
@@ -162,100 +175,32 @@ function kaptcha(){
         </div>
 		<div class="border1 margin-bottom-10 login_box job-content">
 		 <h2 class="f17 bgwhite">
-		 <ul class="list-unstyled mt0 login_tab">
+		 <ul class="list-unstyled login_tab">
 		  <li class="active fl"><a aria-expanded="true" href="#tab-21" data-toggle="tab"> 物资</a></li>
 		  <li class="fl"><a aria-expanded="false" href="#tab-22" data-toggle="tab"> 工程</a></li>
 		  <li class="fl"><a aria-expanded="false" href="#tab-23" data-toggle="tab"> 服务</a></li>
 		  <li class="fl"><a aria-expanded="false" href="#tab-24" data-toggle="tab">进口</a></li>
 		 </ul>
 		</h2>
-		<div class="tab-content">
+		<div class="tab-content buyer_list">
 		    <div id="tab-21" class="categories tab-pane fade active in">
              <ul class="p0_10">   
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综库重点实验. . ...</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族识库重点实验. . ....</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-              <a href="#" title="西北民族大学综合性语言知识库重点实验. . .招标公告" target="_blank">西北民族知识库重点实验. . ....</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综识库重点实验. . ..</a>
-              </li>
+              <li></li>
           </ul>
         </div>
 		    <div id="tab-22" class="categories tab-pane fade">
              <ul class="p0_10">   
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综库重点实验. . ...</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族识库重点实验. . ....</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-              <a href="#" title="西北民族大学综合性语言知识库重点实验. . .招标公告" target="_blank">西北民族知识库重点实验. . ....</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综识库重点实验. . ..</a>
-              </li>
+              <li></li>
           </ul>
         </div>
 		    <div id="tab-23" class="categories tab-pane fade">
              <ul class="p0_10">   
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综库重点实验. . ...</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族识库重点实验. . ....</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-              <a href="#" title="西北民族大学综合性语言知识库重点实验. . .招标公告" target="_blank">西北民族知识库重点实验. . ....</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综识库重点实验. . ..</a>
-              </li>
+              <li></li>
           </ul>
         </div>
 		    <div id="tab-24" class="categories tab-pane fade">
              <ul class="p0_10">   
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综库重点实验. . ...</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族识库重点实验. . ....</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-              <a href="#" title="西北民族大学综合性语言知识库重点实验. . .招标公告" target="_blank">西北民族知识库重点实验. . ....</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综识库重点实验. . ..</a>
-              </li>
+              <li></li>
           </ul>
         </div>
 	  </div>
@@ -268,100 +213,32 @@ function kaptcha(){
         </div>
 		<div class="border1 margin-bottom-10 login_box job-content">
 		 <h2 class="f17 bgwhite">
-		 <ul class="list-unstyled mt0 login_tab">
+		 <ul class="list-unstyled login_tab">
 		  <li class="active fl"><a aria-expanded="true" href="#tab-21" data-toggle="tab"> 物资</a></li>
 		  <li class="fl"><a aria-expanded="false" href="#tab-22" data-toggle="tab"> 工程</a></li>
 		  <li class="fl"><a aria-expanded="false" href="#tab-23" data-toggle="tab"> 服务</a></li>
 		  <li class="fl"><a aria-expanded="false" href="#tab-24" data-toggle="tab">进口</a></li>
 		 </ul>
 		</h2>
-		<div class="tab-content">
+		<div class="tab-content  buyer_list">
 		    <div id="tab-21" class="categories tab-pane fade active in">
              <ul class="p0_10">   
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综库重点实验. . ...</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族识库重点实验. . ....</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-              <a href="#" title="西北民族大学综合性语言知识库重点实验. . .招标公告" target="_blank">西北民族知识库重点实验. . ....</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综识库重点实验. . ..</a>
-              </li>
+              <li></li>
           </ul>
         </div>
 		    <div id="tab-22" class="categories tab-pane fade">
              <ul class="p0_10">   
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综库重点实验. . ...</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族识库重点实验. . ....</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-              <a href="#" title="西北民族大学综合性语言知识库重点实验. . .招标公告" target="_blank">西北民族知识库重点实验. . ....</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综识库重点实验. . ..</a>
-              </li>
+              <li></li>
           </ul>
         </div>
 		    <div id="tab-23" class="categories tab-pane fade">
              <ul class="p0_10">   
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综库重点实验. . ...</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族识库重点实验. . ....</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-              <a href="#" title="西北民族大学综合性语言知识库重点实验. . .招标公告" target="_blank">西北民族知识库重点实验. . ....</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综识库重点实验. . ..</a>
-              </li>
+              <li></li>
           </ul>
         </div>
 		    <div id="tab-24" class="categories tab-pane fade">
              <ul class="p0_10">   
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综库重点实验. . ...</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族识库重点实验. . ....</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-              <a href="#" title="西北民族大学综合性语言知识库重点实验. . .招标公告" target="_blank">西北民族知识库重点实验. . ....</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综识库重点实验. . ..</a>
-              </li>
+              <li></li>
           </ul>
         </div>
 	  </div>
@@ -373,100 +250,32 @@ function kaptcha(){
         </div>
 		<div class="border1 margin-bottom-10 login_box job-content">
 		 <h2 class="f17 bgwhite">
-		 <ul class="list-unstyled mt0 login_tab">
+		 <ul class="list-unstyled login_tab">
 		  <li class="active fl"><a aria-expanded="true" href="#tab-21" data-toggle="tab"> 物资</a></li>
 		  <li class="fl"><a aria-expanded="false" href="#tab-22" data-toggle="tab"> 工程</a></li>
 		  <li class="fl"><a aria-expanded="false" href="#tab-23" data-toggle="tab"> 服务</a></li>
 		  <li class="fl"><a aria-expanded="false" href="#tab-24" data-toggle="tab">进口</a></li>
 		 </ul>
 		</h2>
-		<div class="tab-content">
+		<div class="tab-content  buyer_list">
 		    <div id="tab-21" class="categories tab-pane fade active in">
              <ul class="p0_10">   
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综库重点实验. . ...</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族识库重点实验. . ....</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-              <a href="#" title="西北民族大学综合性语言知识库重点实验. . .招标公告" target="_blank">西北民族知识库重点实验. . ....</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综识库重点实验. . ..</a>
-              </li>
+              <li></li>
           </ul>
         </div>
 		    <div id="tab-22" class="categories tab-pane fade">
              <ul class="p0_10">   
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综库重点实验. . ...</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族识库重点实验. . ....</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-              <a href="#" title="西北民族大学综合性语言知识库重点实验. . .招标公告" target="_blank">西北民族知识库重点实验. . ....</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综识库重点实验. . ..</a>
-              </li>
+              <li></li>
           </ul>
         </div>
 		    <div id="tab-23" class="categories tab-pane fade">
              <ul class="p0_10">   
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综库重点实验. . ...</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族识库重点实验. . ....</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-              <a href="#" title="西北民族大学综合性语言知识库重点实验. . .招标公告" target="_blank">西北民族知识库重点实验. . ....</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综识库重点实验. . ..</a>
-              </li>
+              <li></li>
           </ul>
         </div>
 		    <div id="tab-24" class="categories tab-pane fade">
              <ul class="p0_10">   
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综库重点实验. . ...</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族识库重点实验. . ....</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-              <a href="#" title="西北民族大学综合性语言知识库重点实验. . .招标公告" target="_blank">西北民族知识库重点实验. . ....</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综识库重点实验. . ..</a>
-              </li>
+              <li></li>
           </ul>
         </div>
 	  </div>
@@ -512,7 +321,7 @@ function kaptcha(){
 		<div class="col-md-8 mt10">
 		<div class="margin-bottom-10 login_box job-content">
 		 <h2 class="f17 bgwhite">
-		 <ul class="list-unstyled mt0 login_tab">
+		 <ul class="list-unstyled login_tab">
 		  <li class="active fl"><a aria-expanded="true" href="#tab-24" data-toggle="tab"> 需求公告 </a></li>
 		  <li class="fl"><a aria-expanded="false" href="#tab-25" data-toggle="tab"> 成交公告</a></li>
 		  <li class="fl"><a aria-expanded="false" href="#tab-26" data-toggle="tab"> 废标公告</a></li>
@@ -521,98 +330,17 @@ function kaptcha(){
 		<div class="tab-content">
 		    <div id="tab-24" class="categories tab-pane fade active in">
              <ul class="p0_10">   
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综库重点实验. . ...</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大言知识库重点实验. . .</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族识库重点实验. . ....</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西综合性语言知识库重点实验. . .</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-              <a href="#" title="西北民族大学综合性语言知识库重点实验. . .招标公告" target="_blank">西北民族知识库重点实验. . ....</a>
-			   <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综识库重点实验. . ..</a>
-			    <span class="hex pull-right">2015-11-20</span>
-              </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综识库重点实验. . ..</a>
-			    <span class="hex pull-right">2015-11-20</span>
-              </li>
+              <li></li>
           </ul>
         </div>
 		    <div id="tab-25" class="categories tab-pane fade">
              <ul class="p0_10">   
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综库重点实验. . ...</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大言知识库重点实验. . .</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族识库重点实验. . ....</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西综合性语言知识库重点实验. . .</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-              <a href="#" title="西北民族大学综合性语言知识库重点实验. . .招标公告" target="_blank">西北民族知识库重点实验. . ....</a>
-			   <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综识库重点实验. . ..</a>
-			    <span class="hex pull-right">2015-11-20</span>
-              </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综识库重点实验. . ..</a>
-			    <span class="hex pull-right">2015-11-20</span>
-              </li>
+              <li></li>
           </ul>
         </div>
 		    <div id="tab-26" class="categories tab-pane fade">
              <ul class="p0_10">   
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综库重点实验. . ...</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大言知识库重点实验. . .</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族识库重点实验. . ....</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西综合性语言知识库重点实验. . .</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-              <a href="#" title="西北民族大学综合性语言知识库重点实验. . .招标公告" target="_blank">西北民族知识库重点实验. . ....</a>
-			   <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综识库重点实验. . ..</a>
-			    <span class="hex pull-right">2015-11-20</span>
-              </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综识库重点实验. . ..</a>
-			    <span class="hex pull-right">2015-11-20</span>
-              </li>
+              <li></li>
           </ul>
         </div>
 		</div>
@@ -647,27 +375,7 @@ function kaptcha(){
          <div class="job-content col-md-12">
 		    <div class="categories">
              <ul class="p0_10 list-unstyled">   
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综库重点实验. . ...</a>
-              </li>
-			  <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综库重点实验. . ...</a>
-              </li>
-			  <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综库重点实验. . ...</a>
-              </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综库重点实验. . ...</a>
-              </li>
-			  <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综库重点实验. . ...</a>
-              </li>
-			  <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综库重点实验. . ...</a>
-              </li>
-			  <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综库重点实验. . ...</a>
-              </li>
+              <li></li>
 			 </ul>
 			</div>
 		  </div>
@@ -675,7 +383,7 @@ function kaptcha(){
 	  
 		<div class="login_box job-content col-md-5 mt10">
 		 <h2 class="f17 bgwhite">
-		 <ul class="list-unstyled mt0 login_tab">
+		 <ul class="list-unstyled login_tab">
 		  <li class="active fl"><a aria-expanded="true" href="#tab-30" data-toggle="tab">诚信记录</a></li>
 		  <li class="fl"><a aria-expanded="false" href="#tab-31" data-toggle="tab"> 军队处罚公告</a></li>
 		  <li class="fl"><a aria-expanded="false" href="#tab-32" data-toggle="tab"> 地方处罚公告</a></li>
@@ -684,98 +392,17 @@ function kaptcha(){
 		<div class="tab-content">
 		    <div id="tab-30" class="categories tab-pane fade active in">
              <ul class="p0_10">   
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综库重点实验. . ...</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大言知识库重点实验. . .</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族识库重点实验. . ....</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西综合性语言知识库重点实验. . .</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-              <a href="#" title="西北民族大学综合性语言知识库重点实验. . .招标公告" target="_blank">西北民族知识库重点实验. . ....</a>
-			   <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综识库重点实验. . ..</a>
-			    <span class="hex pull-right">2015-11-20</span>
-              </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综识库重点实验. . ..</a>
-			    <span class="hex pull-right">2015-11-20</span>
-              </li>
+              <li></li>
           </ul>
         </div>
 		    <div id="tab-31" class="categories tab-pane fade">
              <ul class="p0_10">   
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综库重点实验. . ...</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大言知识库重点实验. . .</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族识库重点实验. . ....</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西综合性语言知识库重点实验. . .</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-              <a href="#" title="西北民族大学综合性语言知识库重点实验. . .招标公告" target="_blank">西北民族知识库重点实验. . ....</a>
-			   <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综识库重点实验. . ..</a>
-			    <span class="hex pull-right">2015-11-20</span>
-              </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综识库重点实验. . ..</a>
-			    <span class="hex pull-right">2015-11-20</span>
-              </li>
+              <li></li>
           </ul>
         </div>
 		    <div id="tab-32" class="categories tab-pane fade">
              <ul class="p0_10">   
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综库重点实验. . ...</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大言知识库重点实验. . .</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族识库重点实验. . ....</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西综合性语言知识库重点实验. . .</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-              <a href="#" title="西北民族大学综合性语言知识库重点实验. . .招标公告" target="_blank">西北民族知识库重点实验. . ....</a>
-			   <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综识库重点实验. . ..</a>
-			    <span class="hex pull-right">2015-11-20</span>
-              </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综识库重点实验. . ..</a>
-			    <span class="hex pull-right">2015-11-20</span>
-              </li>
+              <li></li>
           </ul>
         </div>
 		</div>
@@ -808,22 +435,13 @@ function kaptcha(){
          <div class="job-content col-md-12">
 		    <div class="categories zhuanjia_list">
                <a href="#" title=" " target="_blank">张三</a>
-               <a href="#" title=" " target="_blank">张三</a>
-               <a href="#" title=" " target="_blank">张三</a>
-               <a href="#" title=" " target="_blank">张三</a>
-               <a href="#" title=" " target="_blank">张三</a>
-               <a href="#" title=" " target="_blank">张三</a>
-               <a href="#" title=" " target="_blank">张三</a>
-               <a href="#" title=" " target="_blank">张三</a>
-               <a href="#" title=" " target="_blank">张三</a>
-               <a href="#" title=" " target="_blank">张三</a>
 			</div>
 		  </div>
 	  </div>
 	  
 		<div class="login_box job-content col-md-5 mt10">
 		 <h2 class="f17 bgwhite">
-		 <ul class="list-unstyled mt0 login_tab">
+		 <ul class="list-unstyled login_tab">
 		  <li class="active fl"><a aria-expanded="true" href="#tab-30" data-toggle="tab">诚信记录</a></li>
 		  <li class="fl"><a aria-expanded="false" href="#tab-31" data-toggle="tab">处罚公告</a></li>
 		 </ul>
@@ -831,66 +449,12 @@ function kaptcha(){
 		<div class="tab-content">
 		    <div id="tab-32" class="categories tab-pane fade active in">
              <ul class="p0_10">   
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综库重点实验. . ...</a>
-			    <span class="hex pull-right">2015-11-20</span> <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大言知识库重点实验. . .</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族识库重点实验. . ....</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西综合性语言知识库重点实验. . .</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-              <a href="#" title="西北民族大学综合性语言知识库重点实验. . .招标公告" target="_blank">西北民族知识库重点实验. . ....</a>
-			   <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综识库重点实验. . ..</a>
-			    <span class="hex pull-right">2015-11-20</span>
-              </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综识库重点实验. . ..</a>
-			    <span class="hex pull-right">2015-11-20</span>
-              </li>
+              <li></li>
           </ul>
           </div>
 		    <div id="tab-33" class="categories tab-pane fade">
              <ul class="p0_10">   
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综库重点实验. . ...</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大言知识库重点实验. . .</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族识库重点实验. . ....</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西综合性语言知识库重点实验. . .</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-              <a href="#" title="西北民族大学综合性语言知识库重点实验. . .招标公告" target="_blank">西北民族知识库重点实验. . ....</a>
-			   <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综识库重点实验. . ..</a>
-			    <span class="hex pull-right">2015-11-20</span>
-              </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综识库重点实验. . ..</a>
-			    <span class="hex pull-right">2015-11-20</span>
-              </li>
+              <li></li>
           </ul>
         </div>
 		</div>
@@ -971,41 +535,14 @@ function kaptcha(){
 	  <div class="col-md-8 mt10">
 	  	<div class="margin-bottom-10 login_box job-content col-md-8">
 		 <h2 class="f17 bgwhite">
-		 <ul class="list-unstyled mt0 login_tab">
+		 <ul class="list-unstyled login_tab">
 		  <li class="active fl"><a>投诉处理公告</a></li>
 		 </ul>
 		</h2>
 		<div class="tab-content">
 		    <div id="tab-27" class="categories tab-pane fade active in">
              <ul class="p0_10">   
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综库重点实验. . ...</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大言知识库重点实验. . .</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族识库重点实验. . ....</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西综合性语言知识库重点实验. . .</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-              <a href="#" title="西北民族大学综合性语言知识库重点实验. . .招标公告" target="_blank">西北民族知识库重点实验. . ....</a>
-			   <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综识库重点实验. . ..</a>
-			    <span class="hex pull-right">2015-11-20</span>
-              </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综识库重点实验. . ..</a>
-			    <span class="hex pull-right">2015-11-20</span>
-              </li>
+              <li></li>
           </ul>
         </div>
 		</div>
@@ -1026,7 +563,7 @@ function kaptcha(){
 	   <div class="drop_main">
 		<div class="margin-bottom-10 login_box job-content col-md-5 mt10">
 		 <h2 class="f17 bgwhite">
-		 <ul class="list-unstyled mt0 login_tab">
+		 <ul class="list-unstyled login_tab">
 		  <li class="active fl"><a aria-expanded="true" href="#tab-27" data-toggle="tab">国家采购法规</a></li>
 		  <li class="fl"><a aria-expanded="false" href="#tab-28" data-toggle="tab"> 军队采购法规</a></li>
 		  <li class="fl"><a aria-expanded="false" href="#tab-29" data-toggle="tab"> 重要业务通知</a></li>
@@ -1035,98 +572,17 @@ function kaptcha(){
 		<div class="tab-content">
 		    <div id="tab-27" class="categories tab-pane fade active in">
              <ul class="p0_10">   
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综库重点实验. . ...</a>
-			    <span class="hex pull-right">2015-11-20</span> <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大言知识库重点实验. . .</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族识库重点实验. . ....</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西综合性语言知识库重点实验. . .</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-              <a href="#" title="西北民族大学综合性语言知识库重点实验. . .招标公告" target="_blank">西北民族知识库重点实验. . ....</a>
-			   <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综识库重点实验. . ..</a>
-			    <span class="hex pull-right">2015-11-20</span>
-              </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综识库重点实验. . ..</a>
-			    <span class="hex pull-right">2015-11-20</span>
-              </li>
+              <li></li>
           </ul>
         </div>
 		    <div id="tab-28" class="categories tab-pane fade">
              <ul class="p0_10">   
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综库重点实验. . ...</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大言知识库重点实验. . .</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族识库重点实验. . ....</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西综合性语言知识库重点实验. . .</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-              <a href="#" title="西北民族大学综合性语言知识库重点实验. . .招标公告" target="_blank">西北民族知识库重点实验. . ....</a>
-			   <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综识库重点实验. . ..</a>
-			    <span class="hex pull-right">2015-11-20</span>
-              </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综识库重点实验. . ..</a>
-			    <span class="hex pull-right">2015-11-20</span>
-              </li>
+              <li></li>
           </ul>
         </div>
 		    <div id="tab-29" class="categories tab-pane fade">
              <ul class="p0_10">   
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综库重点实验. . ...</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大言知识库重点实验. . .</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族识库重点实验. . ....</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西综合性语言知识库重点实验. . .</a>
-			    <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-              <a href="#" title="西北民族大学综合性语言知识库重点实验. . .招标公告" target="_blank">西北民族知识库重点实验. . ....</a>
-			   <span class="hex pull-right">2015-11-20</span>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综识库重点实验. . ..</a>
-			    <span class="hex pull-right">2015-11-20</span>
-              </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综识库重点实验. . ..</a>
-			    <span class="hex pull-right">2015-11-20</span>
-              </li>
+              <li></li>
           </ul>
         </div>
 		</div>
@@ -1146,15 +602,7 @@ function kaptcha(){
          <div class="job-content col-md-12">
 		    <div class="categories">
              <ul class="p0_10 list-unstyled">   
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综库重点实验. . ...</a>
-              </li>
-			  <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综库重点实验. . ...</a>
-              </li>
-			  <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综库重点实验. . ...</a>
-              </li>
+              <li></li>
 			 </ul>
 			</div>
 		  </div>
@@ -1201,10 +649,7 @@ function kaptcha(){
 	      </div>
         </div>
         <script src="<%=basePath%>public/ZHQ/js/script.js"></script>
-        
        </div>
-	  
-	  
        <div class="col-md-4 ">
         <div class="tab-v1">
           <h2 class="nav nav-tabs bb1 mt0">
@@ -1213,33 +658,8 @@ function kaptcha(){
 		  </div>
           <div class="">
                 <ul class="list-unstyled categories list_common">            
-                   <li>
-                     <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">中央储备粮金昌直属库其他办公用品竞价...</a>
-                   </li>
-                   <li>
-                     <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">中央储备粮惠州直属库打印机竞价项目</a>
-                   </li>
-                   <li>
-                     <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">中央储备粮金昌直属库其他办公用品竞价...</a>
-                   </li>
-                   <li>
-                     <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">中央储备粮惠州直属库打印机竞价项目</a>
-                   </li>
-                   <li>
-                     <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">中央储备粮金昌直属库其他办公用品竞价...</a>
-                   </li>
-                   <li>
-                     <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">中央储备粮惠州直属库打印机竞价项目</a> 
-                   </li>
-                   <li>
-                     <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">中央储备粮金昌直属库其他办公用品竞价...</a>
-                   </li>
-                   <li>
-                     <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">中央储备粮惠州直属库打印机竞价项目</a> 
-                   </li>
-                  
+                   <li></li>
                 </ul>
-
           </div>
        </div>
   <!-- Begin 登录 -->
@@ -1247,7 +667,7 @@ function kaptcha(){
 
     <div class="border1 margin-bottom-10 login_box">
         <h2 class="f17">
-		 <ul class="list-unstyled mt0 login_tab">
+		 <ul class="list-unstyled login_tab">
 		  <li class="active fl"><a aria-expanded="true" href="#tab-1" data-toggle="tab"> 用户登录</a></li>
 		  <li class="fl"><a aria-expanded="false" href="#tab-2" data-toggle="tab"> CA登录</a></li>
 		 </ul>
@@ -1328,7 +748,7 @@ function kaptcha(){
         <div class=" border1 job-content floor_kind">
           <h2>
 		  <span class="col-md-5">采购公告</span>
-		  <ul class="list-unstyled mt0 fr col-md-7 p0">
+		  <ul class="list-unstyled col-md-7 buyer_news">
 		    <li class="active fl"><a aria-expanded="true" href="#tab-3" data-toggle="tab"> 物资</a></li>
 		    <li class="fl"><a aria-expanded="false" href="#tab-4" data-toggle="tab" > 工程</a></li>
 		    <li class="fl"><a aria-expanded="false" href="#tab-5" data-toggle="tab" > 服务</a></li>
@@ -1337,68 +757,17 @@ function kaptcha(){
 		  <div class=" tab-content">
 		    <div id="tab-3" class="tab-pane fade active in">
              <ul class="categories">   
-              <li>
-               <span class="red"><span class="list_squre">■</span>【公】</span><a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综合性语言知识库重点实验. . ...</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【邀】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大学综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【竞】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大学综合性语言知识库重点实验. . ....</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【公】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西北民族大学综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【邀】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . .招标公告" target="_blank">西北民族大学综合性语言知识库重点实验. . ....</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【竞】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综合性语言知识库重点实验. . ..</a>
-               </li>
+              <li></li>
           </ul>
         </div>
 		    <div id="tab-4" class="tab-pane fade">
              <ul class="categories">   
-              <li>
-               <span class="red"><span class="list_squre">■</span>【公】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . .告" target="_blank">西北民族大学综c识库重点实验. . ..</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【邀】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . .告" target="_blank">西北民族大学综合性语c</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【竞】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大学综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【公】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . .公告" target="_blank">西北民族大学综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【邀】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西北民族大学综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【竞】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大学综合性语言知识库重点实验. . .</a>
-               </li>
+              <li></li>
           </ul>
         </div>
 		    <div id="tab-5" class="tab-pane fade">
              <ul class="categories">   
-              <li>
-               <span class="red"><span class="list_squre">■</span>【公】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank"> 2015年度气调及智能通...</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【邀】</span><a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">司2015年度气调及智能通...</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【竞】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank"> 总公司2015年度气调及智能通...</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【公】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank"> 公司2015年度气调及智能通...</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【邀】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">中国储备粮管理总公司2015年度气调及智能通...</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【竞】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">中国储备粮管理总公司2015年度气调及智能通...</a>
-               </li>
+              <li></li>
           </ul>
         </div>
 	   </div>
@@ -1409,7 +778,7 @@ function kaptcha(){
         <div class=" border1 job-content floor_kind">
           <h2>
 		  <span class="col-md-5">中标公告</span>
-		  <ul class="list-unstyled mt0 fr col-md-7 p0">
+		  <ul class="list-unstyled buyer_news col-md-7">
 		    <li class="active fl"><a aria-expanded="true" href="#tab-6" data-toggle="tab"> 物资</a></li>
 		    <li class="fl"><a aria-expanded="false" href="#tab-7" data-toggle="tab" > 工程</a></li>
 		    <li class="fl"><a aria-expanded="false" href="#tab-8" data-toggle="tab" > 服务</a></li>
@@ -1418,68 +787,17 @@ function kaptcha(){
 		  <div class=" tab-content">
 		    <div id="tab-6" class="tab-pane fade active in">
              <ul class="categories">   
-              <li>
-               <span class="red"><span class="list_squre">■</span>【公】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大学综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【邀】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大学综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【竞】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大学综合性语言知识库重点实验. . ....</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【公】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西北民族大学综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【邀】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . .招标公告" target="_blank">西北民族大学综合性语言知识库重点实验. . ....</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【竞】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综合性语言知识库重点实验. . ..</a>
-               </li>
+              <li></li>
           </ul>
         </div>
 		    <div id="tab-7" class="tab-pane fade">
              <ul class="categories">   
-              <li>
-               <span class="red"><span class="list_squre">■</span>【公】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . .告" target="_blank">西北民族大学综c识库重点实验. . ..</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【邀】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . .告" target="_blank">西北民族大学综合性语c</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【竞】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大学综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【公】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . .公告" target="_blank">西北民族大学综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【邀】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西北民族大学综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【竞】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大学综合性语言知识库重点实验. . .</a>
-               </li>
+              <li></li>
           </ul>
         </div>
 		    <div id="tab-8" class="tab-pane fade">
              <ul class="categories">   
-              <li>
-               <span class="red"><span class="list_squre">■</span>【公】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank"> 2015年度气调及智能通...</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【邀】</span><a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">司2015年度气调及智能通...</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【竞】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank"> 总公司2015年度气调及智能通...</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【公】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank"> 公司2015年度气调及智能通...</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【邀】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">中国储备粮管理总公司2015年度气调及智能通...</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【竞】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">中国储备粮管理总公司2015年度气调及智能通...</a>
-               </li>
+              <li></li>
           </ul>
         </div>
 	   </div>
@@ -1489,7 +807,7 @@ function kaptcha(){
         <div class=" border1 job-content floor_kind">
           <h2>
 		  <span class="col-md-5">单一来源公告</span>
-		  <ul class="list-unstyled mt0 fr col-md-7 p0">
+		  <ul class="list-unstyled buyer_news col-md-7">
 		    <li  class="active fl"><a aria-expanded="true" href="#tab-9" data-toggle="tab"> 物资</a></li>
 		    <li class="fl"><a aria-expanded="false" href="#tab-10" data-toggle="tab" > 工程</a></li>
 		    <li class="fl"><a aria-expanded="false" href="#tab-11" data-toggle="tab" > 服务</a></li>
@@ -1498,68 +816,17 @@ function kaptcha(){
 		  <div class=" tab-content">
 		    <div id="tab-9" class="tab-pane fade active in">
              <ul class="categories">   
-              <li>
-               <span class="red"><span class="list_squre">■</span>【公】</span><a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综合性语言知识库重点实验. . ...</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【邀】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大学综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【竞】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大学综合性语言知识库重点实验. . ....</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【公】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西北民族大学综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【邀】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . .招标公告" target="_blank">西北民族大学综合性语言知识库重点实验. . ....</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【竞】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综合性语言知识库重点实验. . ..</a>
-               </li>
+              <li></li>
           </ul>
         </div>
 		    <div id="tab-10" class="tab-pane fade">
              <ul class="categories">   
-              <li>
-               <span class="red"><span class="list_squre">■</span>【公】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . .告" target="_blank">西北民族大学综c识库重点实验. . ..</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【邀】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . .告" target="_blank">西北民族大学综合性语c</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【竞】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大学综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【公】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . .公告" target="_blank">西北民族大学综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【邀】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . .公告" target="_blank">西北民族大学综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【竞】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大学综合性语言知识库重点实验. . .</a>
-               </li>
+              <li></li>
           </ul>
         </div>
 		    <div id="tab-11" class="tab-pane fade">
              <ul class="categories">   
-              <li>
-               <span class="red"><span class="list_squre">■</span>【公】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank"> 2015年度气调及智能通...</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【邀】</span><a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">司2015年度气调及智能通...</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【竞】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank"> 总公司2015年度气调及智能通...</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【公】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank"> 公司2015年度气调及智能通...</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【邀】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">中国储备粮管理总公司2015年度气调及智能通...</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【竞】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">中国储备粮管理总公司2015年度气调及智能通...</a>
-               </li>
+              <li></li>
           </ul>
         </div>
 	   </div>
@@ -1591,68 +858,17 @@ function kaptcha(){
 		  <div class=" tab-content">
 		    <div id="tab-12" class="tab-pane fade active in">
              <ul class="categories">   
-              <li>
-               <span class="red"><span class="list_squre">■</span>【公】</span><a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综合性语言知识库重点实验. . ...</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【邀】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大学综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【竞】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大学综合性语言知识库重点实验. . ....</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【公】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西北民族大学综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【邀】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . .招标公告" target="_blank">西北民族大学综合性语言知识库重点实验. . ....</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【竞】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综合性语言知识库重点实验. . ..</a>
-               </li>
+              <li></li>
           </ul>
         </div>
 		    <div id="tab-13" class="tab-pane fade">
              <ul class="categories">   
-              <li>
-               <span class="red"><span class="list_squre">■</span>【公】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . .告" target="_blank">西北民族大学综c识库重点实验. . ..</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【邀】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . .告" target="_blank">西北民族大学综合性语c</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【竞】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大学综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【公】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . .公告" target="_blank">西北民族大学综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【邀】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西北民族大学综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【竞】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大学综合性语言知识库重点实验. . .</a>
-               </li>
+              <li></li>
           </ul>
         </div>
 		    <div id="tab-14" class="tab-pane fade">
              <ul class="categories">   
-              <li>
-               <span class="red"><span class="list_squre">■</span>【公】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank"> 2015年度气调及智能通...</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【邀】</span><a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">司2015年度气调及智能通...</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【竞】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank"> 总公司2015年度气调及智能通...</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【公】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank"> 公司2015年度气调及智能通...</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【邀】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">中国储备粮管理总公司2015年度气调及智能通...</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【竞】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">中国储备粮管理总公司2015年度气调及智能通...</a>
-               </li>
+              <li></li>
           </ul>
         </div>
 	   </div>
@@ -1672,68 +888,17 @@ function kaptcha(){
 		  <div class=" tab-content">
 		    <div id="tab-15" class="tab-pane fade active in">
              <ul class="categories">   
-              <li>
-               <span class="red"><span class="list_squre">■</span>【公】</span><a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综合性语言知识库重点实验. . ...</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【邀】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大学综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【竞】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大学综合性语言知识库重点实验. . ....</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【公】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西北民族大学综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【邀】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . .招标公告" target="_blank">西北民族大学综合性语言知识库重点实验. . ....</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【竞】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综合性语言知识库重点实验. . ..</a>
-               </li>
+              <li></li>
           </ul>
         </div>
 		    <div id="tab-16" class="tab-pane fade">
              <ul class="categories">   
-              <li>
-               <span class="red"><span class="list_squre">■</span>【公】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . .告" target="_blank">西北民族大学综c识库重点实验. . ..</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【邀】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . .告" target="_blank">西北民族大学综合性语c</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【竞】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大学综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【公】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . .公告" target="_blank">西北民族大学综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【邀】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西北民族大学综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【竞】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大学综合性语言知识库重点实验. . .</a>
-               </li>
+              <li></li>
           </ul>
         </div>
 		    <div id="tab-17" class="tab-pane fade">
              <ul class="categories">   
-              <li>
-               <span class="red"><span class="list_squre">■</span>【公】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank"> 2015年度气调及智能通...</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【邀】</span><a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">司2015年度气调及智能通...</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【竞】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank"> 总公司2015年度气调及智能通...</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【公】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank"> 公司2015年度气调及智能通...</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【邀】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">中国储备粮管理总公司2015年度气调及智能通...</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【竞】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">中国储备粮管理总公司2015年度气调及智能通...</a>
-               </li>
+              <li></li>
           </ul>
         </div>
 	   </div>
@@ -1752,68 +917,17 @@ function kaptcha(){
 		  <div class=" tab-content">
 		    <div id="tab-18" class="tab-pane fade active in">
              <ul class="categories">   
-              <li>
-               <span class="red"><span class="list_squre">■</span>【公】</span><a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综合性语言知识库重点实验. . ...</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【邀】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大学综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【竞】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大学综合性语言知识库重点实验. . ....</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【公】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西北民族大学综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【邀】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . .招标公告" target="_blank">西北民族大学综合性语言知识库重点实验. . ....</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【竞】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综合性语言知识库重点实验. . ..</a>
-               </li>
+              <li></li>
           </ul>
         </div>
 		    <div id="tab-19" class="tab-pane fade">
              <ul class="categories">   
-              <li>
-               <span class="red"><span class="list_squre">■</span>【公】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . .告" target="_blank">西北民族大学综c识库重点实验. . ..</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【邀】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大学综合性语c</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【竞】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大学综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【公】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . .公告" target="_blank">西北民族大学综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【邀】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西北民族大学综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【竞】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大学综合性语言知识库重点实验. . .</a>
-               </li>
+              <li></li>
           </ul>
         </div>
 		    <div id="tab-20" class="tab-pane fade">
              <ul class="categories">   
-              <li>
-               <span class="red"><span class="list_squre">■</span>【公】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank"> 2015年度气调及智能通...</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【邀】</span><a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">司2015年度气调及智能通...</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【竞】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank"> 总公司2015年度气调及智能通...</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【公】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank"> 公司2015年度气调及智能通...</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【邀】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">中国储备粮管理总公司2015年度气调及智能通...</a>
-               </li>
-              <li>
-               <span class="red"><span class="list_squre">■</span>【竞】</span><a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">中国储备粮管理总公司2015年度气调及智能通...</a>
-               </li>
+              <li></li>
           </ul>
         </div>
 	   </div>
@@ -1931,117 +1045,49 @@ function kaptcha(){
    </div>
    <div class="row magazine-page clear">
       <div class="col-md-3 mb10 login_box">
-        <div class=" border1 job-content">
+        <div class=" border1 job-content floor_kind">
           <h2 class="p0_10">
-		   重要通知<span class="fr f14">更多>></span>
+		   重要通知<a class="news_more">更多>></a>
           </h2>
 		    <div class="categories">
              <ul class="p0_10">   
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族言知识库重点实验. . ...</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族知识库重点实验. . ....</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西语言知识库重点实验. . .</a>
-               </li>
-              <li>
-              <a href="#" title="西北民族大学综合性语言知识库重点实验. . .招标公告" target="_blank">西北民言知识库重点实验. . ....</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族库重点实验. . ..</a>
-              </li>
+              <li></li>
+          </ul>
+        </div>
+	</div>
+	</div>
+	<div class="col-md-3 mb10 login_box">
+        <div class=" border1 job-content floor_kind">
+          <h2 class="p0_10">
+		   采购法规<a class="news_more">更多>></a>
+          </h2>
+		    <div class="categories">
+             <ul class="p0_10">   
+              <li></li>
           </ul>
         </div>
 	</div>
 	</div>
       <div class="col-md-3 mb10 login_box">
-        <div class=" border1 job-content">
+        <div class=" border1 job-content floor_kind">
           <h2 class="p0_10">
-		   重要通知<span class="fr f14">更多>></span>
+		   投诉处理公告<a class="news_more">更多>></a>
           </h2>
 		    <div class="categories">
              <ul class="p0_10">   
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大知识库重点实验. . ...</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民言知识库重点实验. . ....</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西北民语言知识库重点实验. . .</a>
-               </li>
-              <li>
-              <a href="#" title="西北民族大学综合性语言知识库重点实验. . .招标公告" target="_blank">西北民语言知识库重点实验. . ....</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民性语言知识库重点实验. . ..</a>
-              </li>
+              <li></li>
           </ul>
         </div>
 	</div>
 	</div>
       <div class="col-md-3 mb10 login_box">
-        <div class=" border1 job-content">
+        <div class=" border1 job-content floor_kind">
           <h2 class="p0_10">
-		   重要通知<span class="fr f14">更多>></span>
+		   处罚公告<a class="news_more">更多>></a>
           </h2>
 		    <div class="categories">
              <ul class="p0_10">   
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族识库重点实验. . ...</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族知识库重点实验. . .</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民语言知识库重点实验. . ....</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西北民言知识库重点实验. . .</a>
-               </li>
-              <li>
-              <a href="#" title="西北民族大学综合性语言知识库重点实验. . .招标公告" target="_blank">西北民言知识库重点实验. . ....</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北合性语言知识库重点实验. . ..</a>
-              </li>
-          </ul>
-        </div>
-	</div>
-	</div>
-      <div class="col-md-3 mb10 login_box">
-        <div class=" border1 job-content">
-          <h2 class="p0_10">
-		   重要通知<span class="fr f14">更多>></span>
-          </h2>
-		    <div class="categories">
-             <ul class="p0_10">   
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验" target="_blank">西北民族大学综库重点实验. . ...</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族大言知识库重点实验. . .</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . ." target="_blank">西北民族识库重点实验. . ....</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. . .目招标公告" target="_blank">西综合性语言知识库重点实验. . .</a>
-               </li>
-              <li>
-              <a href="#" title="西北民族大学综合性语言知识库重点实验. . .招标公告" target="_blank">西北民族知识库重点实验. . ....</a>
-               </li>
-              <li>
-               <a href="#" title="西北民族大学综合性语言知识库重点实验. ." target="_blank">西北民族大学综识库重点实验. . ..</a>
-              </li>
+              <li></li>
           </ul>
         </div>
 	</div>

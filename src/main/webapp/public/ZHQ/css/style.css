@@ -2039,6 +2039,7 @@ img.img-mouse {
 }
 .login_tab{
 overflow:hidden;
+margin-top:0px!important;
 }
 
 .floor_title{
@@ -2059,6 +2060,10 @@ overflow:hidden;
 .floor_kind h2{
  border-bottom:2px solid #2C9FA6;
 }
+.floor_kind{
+	height:240px;
+	overflow:hidden;
+}
 .floor_kind h2 span{
   background:#ffffff;
   padding:0 10px;
@@ -2068,6 +2073,20 @@ overflow:hidden;
   line-height:37px;
   color:#2C9FA6;
   font-weight:15px;
+}
+a.news_more{
+  color:#dddddd;
+  float: right;
+  background: none;
+  font-size: 14px;
+  padding: 0px!important;
+}
+.buyer_news{
+	margin-top: 0px!important;
+	padding:0px;
+}
+.buyer_list{
+	height:200px;
 }
 .floor_kind h2 li a{
   padding: 8px 12px;
@@ -2240,4 +2259,15 @@ a.yjfk{
  border-top:2px solid #2c9fa6;
  padding-top:5px;
  overflow:hidden;
+}
+/*头部登录入口*/
+.head_top{
+  background:#f7f7f7;
+  height:34px;
+  line-height:34px;
+  overflow:hidden;
+}
+.head_right{
+  float:right;
+  text-align:right;
 }

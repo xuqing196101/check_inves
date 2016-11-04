@@ -14,7 +14,7 @@ private static Properties prop = new Properties();
 	
 	/** 加载默认配置文件 */
 	private static Properties getProperties(String file) {
-		file = file == null ? "properties.properties" : file;
+		file = file == null ? "config.properties" : file;
 		try {
 			prop.load(PropUtil.class.getClassLoader().getResourceAsStream(file));
 		} catch (IOException e) {

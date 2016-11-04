@@ -2,6 +2,8 @@ package bss.model.sstps;
 
 import java.util.Date;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
 * @Title:YearPlan 
 * @Description: 
@@ -14,10 +16,13 @@ public class YearPlan {
 
     private ContractProduct contractProduct;
 
+    @NotBlank(message = "项目名称不能为空")
     private String projectName;
 
+    @NotBlank(message = "产品单位不能为空")
     private String productName;
 
+    @NotBlank(message = "计量单位不能为空")
     private String measuringUnit;
 
     private Integer tyaHourUnit;

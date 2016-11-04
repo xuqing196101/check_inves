@@ -3,11 +3,16 @@ package bss.controller.sstps;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+
+import ses.util.ValidateUtils;
 
 import bss.model.sstps.ContractProduct;
 import bss.model.sstps.ProductQuota;
@@ -115,18 +120,35 @@ public class ProductQuotaController {
 	* @return String
 	 */
 	@RequestMapping("/save")
-	public String save(Model model,ProductQuota productQuota){
+	public String save(Model model,@Valid ProductQuota productQuota,BindingResult result){
 		String proId = productQuota.getContractProduct().getId();
-		productQuota.setCreatedAt(new Date());
-		productQuota.setUpdatedAt(new Date());
-		productQuotaService.insert(productQuota);
-		
-		List<ProductQuota> list = productQuotaService.selectProduct(productQuota);
-		model.addAttribute("list", list);
-		
 		model.addAttribute("proId",proId);
-		
-		return "bss/sstps/offer/supplier/productQuota/list";
+		String url = "";
+		boolean flag = true;
+		if(ValidateUtils.isNull(productQuota.getPartsName())){
+			flag = false;
+			model.addAttribute("ERR_partsName", "零件部件名称不能为空");
+		}
+		if(ValidateUtils.isNull(productQuota.getPartsDrawingCode())){
+			flag = false;
+			model.addAttribute("ERR_partsDrawingCode", "零件部件图号不能为空");
+		}
+		if(ValidateUtils.isNull(productQuota.getProcessName())){
+			flag = false;
+			model.addAttribute("ERR_processName", "工序名称不能为空");
+		}
+		if(flag==false){
+			model.addAttribute("pq", productQuota);
+			url = "bss/sstps/offer/supplier/productQuota/add";
+		}else{
+			productQuota.setCreatedAt(new Date());
+			productQuota.setUpdatedAt(new Date());
+			productQuotaService.insert(productQuota);
+			List<ProductQuota> list = productQuotaService.selectProduct(productQuota);
+			model.addAttribute("list", list);
+			url = "bss/sstps/offer/supplier/productQuota/list";
+		}
+		return url;
 	}
 	
 	/**
@@ -140,16 +162,34 @@ public class ProductQuotaController {
 	* @return String
 	 */
 	@RequestMapping("/update")
-	public String update(Model model,ProductQuota productQuota){
+	public String update(Model model,@Valid ProductQuota productQuota,BindingResult result){
 		String proId = productQuota.getContractProduct().getId();
-		
-		productQuota.setUpdatedAt(new Date());
-		productQuotaService.update(productQuota);
-		
-		List<ProductQuota> list = productQuotaService.selectProduct(productQuota);
-		model.addAttribute("list", list);
 		model.addAttribute("proId",proId);
-		return "bss/sstps/offer/supplier/productQuota/list";
+		String url = "";
+		boolean flag = true;
+		if(ValidateUtils.isNull(productQuota.getPartsName())){
+			flag = false;
+			model.addAttribute("ERR_partsName", "零件部件名称不能为空");
+		}
+		if(ValidateUtils.isNull(productQuota.getPartsDrawingCode())){
+			flag = false;
+			model.addAttribute("ERR_partsDrawingCode", "零件部件图号不能为空");
+		}
+		if(ValidateUtils.isNull(productQuota.getProcessName())){
+			flag = false;
+			model.addAttribute("ERR_processName", "工序名称不能为空");
+		}
+		if(flag==false){
+			model.addAttribute("pq", productQuota);
+			url = "bss/sstps/offer/supplier/productQuota/edit";
+		}else{
+			productQuota.setUpdatedAt(new Date());
+			productQuotaService.update(productQuota);
+			List<ProductQuota> list = productQuotaService.selectProduct(productQuota);
+			model.addAttribute("list", list);
+			url = "bss/sstps/offer/supplier/productQuota/list";
+		}
+		return url;
 	}
 	
 	/**
@@ -165,19 +205,14 @@ public class ProductQuotaController {
 	 */
 	@RequestMapping("/delete")
 	public String delete(Model model,String proId,String ids){
-		
 		String[] id=ids.split(",");
-		
 		for(String str : id){
 			productQuotaService.delete(str);
 		}
-		
 		ProductQuota productQuota = new ProductQuota();
-		
 		ContractProduct contractProduct = new ContractProduct();
 		contractProduct.setId(proId);
 		productQuota.setContractProduct(contractProduct);
-		
 		List<ProductQuota> list = productQuotaService.selectProduct(productQuota);
 		model.addAttribute("list", list);
 		model.addAttribute("proId",proId);

@@ -2,6 +2,8 @@ package bss.model.sstps;
 
 import java.util.Date;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
 * @Title:OutsourcingCon 
 * @Description: 外协加工件消耗定额明细
@@ -14,10 +16,13 @@ public class OutsourcingCon {
 
     private ContractProduct contractProduct;
 
+    @NotBlank(message = "外协加工件名称不能为空")
     private String outsourcingName;
 
+    @NotBlank(message = "规格型号不能为空")
     private String norm;
 
+    @NotBlank(message = "图纸位置号(代号)不能为空")
     private String paperCode;
 
     private String workAmout;

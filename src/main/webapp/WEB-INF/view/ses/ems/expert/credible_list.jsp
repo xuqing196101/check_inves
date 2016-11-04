@@ -40,7 +40,26 @@
 			});
 		  
 	  });
-  
+   //控制只能输入数字
+   window.onload=function(){
+       var txt = document.getElementById("creater");
+       txt.onkeypress = function(evt){
+           var evt = window.event||evt;
+           var keynum = evt.keyCode||evt.which;
+           var num = String.fromCharCode(keynum);
+           if(keynum==8 || keynum==13)
+           {
+               return true;
+           }
+           if(this.value==="")
+           {
+               return /[-1-9]/.test(num);
+           }
+           else{
+               return /[0-9]/.test(num);
+           }
+       }
+   }
    /** 全选全不选 */
 	function selectAll(){
 		 var checklist = document.getElementsByName ("check");
@@ -81,7 +100,7 @@
     		          shade:0.01, //遮罩透明度
     		          moveType: 1, //拖拽风格，0是默认，1是传统拖动
     		          shift: 1, //0-6的动画形式，-1不开启
-    		          offset: ['220px', '250px'],
+    		          offset: ['120px', '250px'],
     		          shadeClose: true,
     		          content:"<%=basePath%>credible/toUpdate.html?id="+id
     		        		  //数组第二项即吸附元素选择器或者DOM $('#openWindow')
@@ -129,6 +148,7 @@
       	}
    		
    	}
+   	//清空搜索条件
    	function clearSearch(){
    		$("#relName").attr("value","");
    	    //还原select下拉列表只需要这一句
@@ -171,7 +191,20 @@
 			layer.tips("请填写分值", "#creater");
 			return ;
 		}
-		$("#form1").submit();
+		$.ajax({
+			url:"<%=basePath %>credible/save.html",
+			data:$("#form2").serialize(),
+			type:"post",
+			success:function(){
+				layer.msg("新增成功！",{offset: ['222px', '390px']});
+				window.setTimeout(function(){
+		       			window.location.reload();
+		       		}, 1000);
+			},
+			error:function(){
+				layer.msg("参数错误，保存失败",{offset: ['222px', '390px']});
+			}
+		});
    	}
    	/* $(document).ready(function() { 
 		 $("#creater").bind("keypress", function(event) {  
@@ -202,9 +235,11 @@
 	    }  
 	    });  
 	});  */
-	function textre(t) {
+	/*  function textre(t) {
 	    t.value = t.value.replace(/[^(\-)0-9]/g,'').replace(/(^|\D)\.+/g,"$1").replace(/^(\-?\d*\.?\d*).*$/,"$1").replace(/^(\-?(\d\.?){1,4}).*$/,"$1");
-	}
+	}  */
+	
+	
 </script>
 </head>
 <body>
@@ -225,7 +260,7 @@
    </div>
    </div>
   
-   <form action="<%=basePath %>credible/list.html"  method="post"  enctype="multipart/form-data" class="registerform"> 
+   <form action="<%=basePath %>credible/list.html"  id="form1"  method="post"  enctype="multipart/form-data" class="registerform"> 
   <input type="hidden" name="page" id="page">
   <input type="hidden" name="flag" value="0">
    <div align="center">
@@ -257,7 +292,7 @@
     <!-- <button class="btn btn-windows add" type="submit">新增</button>
 	<button class="btn btn-windows edit" type="submit">修改</button>
 	<button class="btn btn-windows delete" type="submit">删除</button> -->
-	<button class="btn btn-windows check" type="button" onclick="openWindow();">新增</button>
+	<button class="btn btn-windows add" type="button" onclick="openWindow();">新增</button>
 	<button class="btn btn-windows edit" type="button" onclick="edit();">修改</button>
 	<button class="btn btn-windows delete" type="button" onclick="dell();">删除</button>
 	</div>
@@ -303,13 +338,13 @@
     
  </div>
  <div id="openWindow"  style="display: none;">
-	<form action="<%=basePath %>credible/save.html" method="post" id="form1">
+	<form action="<%=basePath %>credible/save.html" method="post" id="form2">
      <table class="table table-bordered table-condensed">
      <thead>
       <tr>
         <th>诚信内容:</th><td><input type="text"  maxlength="255" name="badBehavior" id="name"></td>
         <th>状态:</th><td><input type="radio"  name="isStatus" value="1" >启用&nbsp;<input type="radio" name="isStatus" id="kind" value="2" >停用</td>
-        <th>分值:</th><td><input name="score" onkeyup="textre(this);" onblur="textre(this);" onkeypress="textre(this);"  maxlength="10" id="creater" type="text"></td>
+        <th>分值:</th><td><input name="score"  maxlength="10" id="creater" type="text"></td>
       </tr>
      </thead>
     </table>

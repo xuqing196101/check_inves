@@ -46,7 +46,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <div class="container container_box">
    <form>
    <div>
-    <h2 class="count_flow"><i>01</i>修改订单</h2>
+    <h2 class="count_flow"><i>1</i>修改订单</h2>
    <ul class="ul_list">
      <li class="col-md-3 margin-0 padding-0 ">
 	   <span class="col-md-12 padding-left-5">采购单位</span>
@@ -144,20 +144,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <input class="span5" id="appendedInput" type="text">
         <span class="add-on">i</span>
        </div>
-	 </li> 
+	 </li>
+	 <li class="col-md-3 margin-0 padding-0 ">
+	 	<span class="zzzx">营业执照（三证合一）：</span>
+     	<div class="input-append">
+          <a href="#" class="upload"><i></i>上传附件</a>
+        </div>
+	 </li>
+	 <li class="col-md-3 margin-0 padding-0 ">
+	 	<div class="fl">文件下载：<span class="ml10">供应商注册须知</span><a href="#" class="download"></a></div>
+	 </li>
      <li class="col-md-11 margin-0 padding-0 ">
 	   <span class="col-md-12 padding-left-5">备注</span>
 	   <div class="">
         <textarea class="col-md-12" style="height:130px" title="不超过800个字"></textarea>
        </div>
 	 </li> 
-	 
+
    </ul>
   </div> 
    
   <!-- 产品明细开始-->
   <div class="padding-top-10 clear">
-    <h2 class="count_flow"><i>02</i>产品明细</h2>
+    <h2 class="count_flow"><i>2</i>产品明细</h2>
    <ul class="ul_list">
      <li class="col-md-3 margin-0 padding-0 ">
 	   <span class="col-md-12 padding-left-5">品目</span>
@@ -228,6 +237,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <span class="add-on">i</span>
        </div>
 	 </li> 
+     <li class="col-md-3 margin-0 padding-0 ">
+	   <span class="col-md-12 padding-left-5">下拉框</span>
+	   <div class="select_common">
+        <select>
+          <option>选项一</option>
+          <option>选项二</option>
+        </select>
+       </div>
+	 </li> 
+     <li class="col-md-3 margin-0 padding-0 ">
+     <div class="select_check">
+	   <input type="checkbox">多选
+	 </div>
+	 </li> 
+     <li class="col-md-3 margin-0 padding-0 ">
+     <div class="select_check">
+	   <input type="radio">多选
+	 </div>
+	 </li>
      <li class="col-md-11 margin-0 padding-0 ">
 	   <span class="col-md-12 padding-left-5">备注</span>
 	   <div class="">
@@ -259,7 +287,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 </li> 
    </ul>
     <div class="clear total f22"><span class="fl block">总计：</span><span>¥10000</span></div>
-    <h2 class="count_flow"><i>03</i>修改订单</h2>
+    <h2 class="count_flow"><i>3</i>修改订单</h2>
   </div>
   <div class="ul_list">
   <div class="clear" >
@@ -277,13 +305,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<button class="btn btn-windows save" type="submit">保存</button>
 	<button class="btn btn-windows reset" type="submit">重置</button>
 	</div>
-	<div class="fr padding-top-15">
-	  <input type="checkbox"  class="margin-top-0 fl"/>
-	  <span class="margin-left-5 fl padding-right-25">选中全部文件</span>
+	<div class="fr select_check">
+	  <input type="checkbox"/>
+	  <span>选中全部文件</span>
 	</div>
   </div>
   </form>
-  <div class="clear  ">
+  <div class="col-md-12 clear mt5 p0">
    <ul class="list-unstyled bgdd">
 	<li> 
     <div class="col-md-4 padding-10 fl">

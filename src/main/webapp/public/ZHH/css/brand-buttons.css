@@ -696,11 +696,6 @@
     background-color: #ff4005;
     color: white; }
 	
-.add{
-   background-image:url(../images/add.png);
-   background-repeat:no-repeat;
-   background-position:12px 8px;
-}
 .delete{
    background-image:url(../images/delete.png);
    background-repeat:no-repeat;
@@ -746,10 +741,10 @@
    background-repeat:no-repeat;
    background-position:10px 6px;
 }
-.ht_add{
+.add{
    background-image:url(../images/ht_add.png);
    background-repeat:no-repeat;
-   background-position:8px 6px;
+   background-position:6px 6px;
 }
 .input{
    background-image:url(../images/input.png);

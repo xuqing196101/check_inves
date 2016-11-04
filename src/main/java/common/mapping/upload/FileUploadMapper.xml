@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="common.dao.FileUploadMapper">
+  <resultMap id="BaseResultMap_File" type="common.model.UploadFile">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="PATH" jdbcType="VARCHAR" property="path" />
+    <result column="BUSINESS_ID" jdbcType="VARCHAR" property="businessId" />
+    <result column="TYPE_ID" jdbcType="VARCHAR" property="typeId" />
+    <result column="FILE_SIZE" jdbcType="INTEGER"  property="size" />
+    <result column="CREATED_AT" jdbcType="DATE" property="createDate" />
+    <result column="UPDATED_AT" jdbcType="DATE" property="updateDate" />
+    <result column="IS_DELETED"  property="isDelete"/>
+  </resultMap> 
+  <sql id="BASE_FILE_LIST">
+  	ID,NAME,PATH,BUSINESS_ID,TYPE_ID,FILE_SIZE,CREATED_AT,UPDATED_AT,IS_DELETED
+  </sql>
+  <insert id="insertFile"    parameterType="common.model.UploadFile">
+  	 
+  	 <selectKey keyProperty="id" resultType="String" order="BEFORE">
+        SELECT sys_guid() FROM dual
+    </selectKey>
+  	
+    INSERT INTO ${tableName} (ID, NAME, PATH, 
+      BUSINESS_ID, TYPE_ID, FILE_SIZE, 
+      CREATED_AT, UPDATED_AT,IS_DELETED)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, 
+      #{businessId,jdbcType=VARCHAR}, #{typeId,jdbcType=VARCHAR}, #{size,jdbcType=INTEGER}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=INTEGER})
+  </insert>
+  
+  <select id="getFiles" resultMap="BaseResultMap_File" >
+  	 SELECT 
+  	 <include refid="BASE_FILE_LIST" />
+  	 FROM ${tableName}
+  	 WHERE IS_DELETED = 0
+  	 <if test="businessId != null">
+  	 	AND BUSINESS_ID = #{businessId,jdbcType=VARCHAR}
+  	 </if>
+  	 <if test="typeId != null">
+  	 	AND TYPE_ID = #{typeId,jdbcType=VARCHAR}
+  	 </if>
+  </select>
+  
+  <select id="getFileById" resultMap="BaseResultMap_File">
+  	 SELECT 
+  	 <include refid="BASE_FILE_LIST" />
+  	 FROM ${tableName}
+  	 WHERE IS_DELETED = 0 AND ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="getFilesByIds" resultMap="BaseResultMap_File" >
+  	 SELECT 
+  	 <include refid="BASE_FILE_LIST" />
+  	 FROM ${tableName}
+  	 WHERE IS_DELETED = 0 AND ID in (#{id,jdbcType=VARCHAR})
+  </select>
+  
+  <select id="getFileByBusinessId" resultMap="BaseResultMap_File">
+  	  SELECT 
+  	 <include refid="BASE_FILE_LIST" />
+  	 FROM ${tableName}
+  	 WHERE IS_DELETED = 0 AND BUSINESS_ID = #{businessId,jdbcType=VARCHAR}
+  	 <if test="typeId != null">
+  	 	AND TYPE_ID = #{typeId,jdbcType=VARCHAR}
+  	 </if>
+  </select>
+  
+  <update id="updateFile">
+  	 UPDATE ${tableName} SET IS_DELETED = 1
+  	 WHERE ID = #{id, jdbcType=VARCHAR}
+  </update>
+  
+</mapper>

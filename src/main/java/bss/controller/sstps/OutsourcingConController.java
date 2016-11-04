@@ -3,11 +3,17 @@ package bss.controller.sstps;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import ses.util.ValidateUtils;
 
 import bss.model.sstps.ContractProduct;
 import bss.model.sstps.OutsourcingCon;
@@ -110,18 +116,35 @@ public class OutsourcingConController {
 	* @return String
 	 */
 	@RequestMapping("/save")
-	public String save(Model model,OutsourcingCon outsourcingCon){
+	public String save(Model model,@Valid OutsourcingCon outsourcingCon,BindingResult result,HttpServletRequest request){
 		String proId = outsourcingCon.getContractProduct().getId();
-		outsourcingCon.setCreatedAt(new Date());
-		outsourcingCon.setUpdatedAt(new Date());
-		outsourcingConService.insert(outsourcingCon);
-		
-		List<OutsourcingCon> list = outsourcingConService.selectProduct(outsourcingCon);
-		model.addAttribute("list", list);
-		
 		model.addAttribute("proId",proId);
-		
-		return "bss/sstps/offer/supplier/outsourcing/list";
+		String url = "";
+		boolean flag = true;
+		if(ValidateUtils.isNull(outsourcingCon.getOutsourcingName())){
+			flag = false;
+			model.addAttribute("ERR_outsourcingName", "外协加工件名称不能为空");
+		}
+		if(ValidateUtils.isNull(outsourcingCon.getNorm())){
+			flag = false;
+			model.addAttribute("ERR_norm", "材料名称不能为空");
+		}
+		if(ValidateUtils.isNull(outsourcingCon.getPaperCode())){
+			flag = false;
+			model.addAttribute("ERR_paperCode", "图纸位置号(代号)不能为空");
+		}
+		if(flag==false){
+			model.addAttribute("out", outsourcingCon);
+			url = "bss/sstps/offer/supplier/outsourcing/add";
+		}else{
+			outsourcingCon.setCreatedAt(new Date());
+			outsourcingCon.setUpdatedAt(new Date());
+			outsourcingConService.insert(outsourcingCon);
+			List<OutsourcingCon> list = outsourcingConService.selectProduct(outsourcingCon);
+			model.addAttribute("list", list);
+			url = "bss/sstps/offer/supplier/outsourcing/list";
+		}
+		return url;
 	}
 	
 	/**
@@ -135,16 +158,35 @@ public class OutsourcingConController {
 	* @return String
 	 */
 	@RequestMapping("/update")
-	public String update(Model model,OutsourcingCon outsourcingCon){
+	public String update(Model model,@Valid OutsourcingCon outsourcingCon,BindingResult result,HttpServletRequest request,String id){
 		String proId = outsourcingCon.getContractProduct().getId();
-		
-		outsourcingCon.setUpdatedAt(new Date());
-		outsourcingConService.update(outsourcingCon);
-		
-		List<OutsourcingCon> list = outsourcingConService.selectProduct(outsourcingCon);
-		model.addAttribute("list", list);
 		model.addAttribute("proId",proId);
-		return "bss/sstps/offer/supplier/outsourcing/list";
+		String url = "";
+		boolean flag = true;
+		if(ValidateUtils.isNull(outsourcingCon.getOutsourcingName())){
+			flag = false;
+			model.addAttribute("ERR_outsourcingName", "外协加工件名称不能为空");
+		}
+		if(ValidateUtils.isNull(outsourcingCon.getNorm())){
+			flag = false;
+			model.addAttribute("ERR_norm", "材料名称不能为空");
+		}
+		if(ValidateUtils.isNull(outsourcingCon.getPaperCode())){
+			flag = false;
+			model.addAttribute("ERR_paperCode", "图纸位置号(代号)不能为空");
+		}
+		if(flag==false){
+			model.addAttribute("out", outsourcingCon);
+			url = "bss/sstps/offer/supplier/outsourcing/edit";
+			
+		}else{
+			outsourcingCon.setUpdatedAt(new Date());
+			outsourcingConService.update(outsourcingCon);
+			List<OutsourcingCon> list = outsourcingConService.selectProduct(outsourcingCon);
+			model.addAttribute("list", list);
+			url = "bss/sstps/offer/supplier/outsourcing/list";
+		}
+		return url;
 	}
 	
 	/**
@@ -160,19 +202,14 @@ public class OutsourcingConController {
 	 */
 	@RequestMapping("/delete")
 	public String delete(Model model,String proId,String ids){
-		
 		String[] id=ids.split(",");
-		
 		for(String str : id){
 			outsourcingConService.delete(str);
 		}
-		
 		OutsourcingCon outsourcingCon = new OutsourcingCon();
-		
 		ContractProduct contractProduct = new ContractProduct();
 		contractProduct.setId(proId);
 		outsourcingCon.setContractProduct(contractProduct);
-		
 		List<OutsourcingCon> list = outsourcingConService.selectProduct(outsourcingCon);
 		model.addAttribute("list", list);
 		model.addAttribute("proId",proId);

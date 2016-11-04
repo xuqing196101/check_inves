@@ -3,11 +3,16 @@ package bss.controller.sstps;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import ses.util.ValidateUtils;
 
 import bss.model.sstps.ContractProduct;
 import bss.model.sstps.YearPlan;
@@ -115,18 +120,35 @@ public class YearPlanController {
 	* @return String
 	 */
 	@RequestMapping("/save")
-	public String save(Model model,YearPlan yearPlan){
+	public String save(Model model,@Valid YearPlan yearPlan,BindingResult result){
 		String proId = yearPlan.getContractProduct().getId();
-		yearPlan.setCreatedAt(new Date());
-		yearPlan.setUpdatedAt(new Date());
-		yearPlanService.insert(yearPlan);
-		
-		List<YearPlan> list = yearPlanService.selectProduct(yearPlan);
-		model.addAttribute("list", list);
-		
 		model.addAttribute("proId",proId);
-		
-		return "bss/sstps/offer/supplier/yearPlan/list";
+		String url = "";
+		boolean flag = true;
+		if(ValidateUtils.isNull(yearPlan.getProjectName())){
+			flag = false;
+			model.addAttribute("ERR_projectName", "项目名称不能为空");
+		}
+		if(ValidateUtils.isNull(yearPlan.getProductName())){
+			flag = false;
+			model.addAttribute("ERR_productName", "产品单位不能为空");
+		}
+		if(ValidateUtils.isNull(yearPlan.getMeasuringUnit())){
+			flag = false;
+			model.addAttribute("ERR_measuringUnit", "计量单位不能为空");
+		}
+		if(flag==false){
+			model.addAttribute("yp", yearPlan);
+			url = "bss/sstps/offer/supplier/yearPlan/add";
+		}else{
+			yearPlan.setCreatedAt(new Date());
+			yearPlan.setUpdatedAt(new Date());
+			yearPlanService.insert(yearPlan);
+			List<YearPlan> list = yearPlanService.selectProduct(yearPlan);
+			model.addAttribute("list", list);
+			url = "bss/sstps/offer/supplier/yearPlan/list";
+		}
+		return url;
 	}
 	
 	/**
@@ -140,16 +162,35 @@ public class YearPlanController {
 	* @return String
 	 */
 	@RequestMapping("/update")
-	public String update(Model model,YearPlan yearPlan){
+	public String update(Model model,@Valid YearPlan yearPlan,BindingResult result){
 		String proId = yearPlan.getContractProduct().getId();
-		
-		yearPlan.setUpdatedAt(new Date());
-		yearPlanService.update(yearPlan);
-		
-		List<YearPlan> list = yearPlanService.selectProduct(yearPlan);
-		model.addAttribute("list", list);
 		model.addAttribute("proId",proId);
-		return "bss/sstps/offer/supplier/yearPlan/list";
+		
+		String url = "";
+		boolean flag = true;
+		if(ValidateUtils.isNull(yearPlan.getProjectName())){
+			flag = false;
+			model.addAttribute("ERR_projectName", "项目名称不能为空");
+		}
+		if(ValidateUtils.isNull(yearPlan.getProductName())){
+			flag = false;
+			model.addAttribute("ERR_productName", "产品单位不能为空");
+		}
+		if(ValidateUtils.isNull(yearPlan.getMeasuringUnit())){
+			flag = false;
+			model.addAttribute("ERR_measuringUnit", "计量单位不能为空");
+		}
+		if(flag==false){
+			model.addAttribute("yp", yearPlan);
+			url = "bss/sstps/offer/supplier/yearPlan/add";
+		}else{
+			yearPlan.setUpdatedAt(new Date());
+			yearPlanService.update(yearPlan);
+			List<YearPlan> list = yearPlanService.selectProduct(yearPlan);
+			model.addAttribute("list", list);
+			url = "bss/sstps/offer/supplier/yearPlan/list";
+		}
+		return url;
 	}
 	
 	/**

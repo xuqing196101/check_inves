@@ -2,6 +2,8 @@ package bss.model.sstps;
 
 import java.util.Date;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
 * @Title:WagesPayable 
 * @Description: 应付工资明细
@@ -14,10 +16,13 @@ public class WagesPayable {
 
     private ContractProduct contractProduct;
     
+    @NotBlank(message = "部门不能为空")
     private String department;
 
+    @NotBlank(message = "一级项目不能为空")
     private String firsetProduct;
 
+    @NotBlank(message = "二级项目不能为空")
     private String secondProduct;
 
     private Integer tyaProduceUser;

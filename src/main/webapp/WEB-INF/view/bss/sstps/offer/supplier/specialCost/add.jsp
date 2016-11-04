@@ -46,77 +46,77 @@ function down(){
    <li class="col-md-6 p0">
 	   <span class=""><i class="red">＊</i>项目名称：</span>
 	   <div class="input-append">
-        <input type="text" class="w220" id="projectName" name="projectName" value="${projectName }">
+        <input type="text" class="w220" id="projectName" name="projectName" value="${sc.projectName }">
         <div class="validate">${ERR_projectName}</div>
        </div>
 	 </li>
 	 <li class="col-md-6 p0">
 	   <span class=""><i class="red">＊</i>项目明细：</span>
 	   <div class="input-append">
-        <input id="productDetal" name="productDetal" value="${productDetal }" type="text" class="w220" >
+        <input id="productDetal" name="productDetal" value="${sc.productDetal }" type="text" class="w220" >
         <div class="validate">${ERR_productDetal}</div>
        </div>
 	 </li>
 	 <li class="col-md-6 p0">
 	   <span class=""><i class="red">＊</i>名称：</span>
 	   <div class="input-append">
-        <input id="name" name="name" type="text" value="${name }" class="w220" >
+        <input id="name" name="name" type="text" value="${sc.name }" class="w220" >
         <div class="validate">${ERR_name}</div>
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">规格型号：</span>
 	   <div class="input-append">
-        <input id="norm" name="norm" type="text" value="${norm }" class="w220">
+        <input id="norm" name="norm" type="text" value="${sc.norm }" class="w220">
         <div class="validate">${ERR_norm}</div>
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">计量单位：</span>
 	   <div class="input-append">
-        <input id="measuringUnit" name="measuringUnit" type="text" class="w220" >
+        <input id="measuringUnit" name="measuringUnit" type="text" value="${sc.measuringUnit }" class="w220" >
         <div class="validate">${ERR_measuringUnit}</div>
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">数量(消耗使用)：</span>
 	   <div class="input-append">
-        <input id="amount" name="amount" type="text" class="w220" >
+        <input id="amount" name="amount" type="text" value="${sc.amount }" class="w220" >
         <div class="validate">${ERR_paperCode}</div>
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">单价：</span>
 	   <div class="input-append">
-        <input id="price" name="price" type="text" value="${price }" class="w220" >
+        <input id="price" name="price" type="text" value="${sc.price }" class="w220" >
         <div class="validate">${ERR_paperCode}</div>
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">金额：</span>
 	   <div class="input-append">
-        <input id="money" name="money" type="text" value="${money }" class="w220">
+        <input id="money" name="money" type="text" value="${sc.money }" class="w220">
         <div class="validate">${ERR_money}</div>
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">分摊数量：</span>
 	   <div class="input-append">
-        <input id="proportionAmout" name="proportionAmout" type="text" value="${proportionAmout }" class="w220">
+        <input id="proportionAmout" name="proportionAmout" type="text" value="${sc.proportionAmout }" class="w220">
         <div class="validate">${ERR_proportionAmout}</div>
        </div>
 	 </li>
 	 <li class="col-md-6  p0 ">
 	   <span class="">单位产品分摊额：</span>
 	   <div class="input-append">
-        <input id="proportionPrice" name="proportionPrice" type="text" value="${proportionPrice }" class="w220">
+        <input id="proportionPrice" name="proportionPrice" type="text" value="${sc.proportionPrice }" class="w220">
         <div class="validate">${ERR_proportionPrice}</div>
        </div>
 	 </li>
 	 <li class="col-md-12  p0 ">
 	   <span class="fl">备注：</span>
 	   <div class="col-md-12 pl200 fn mt5 pwr9">
-        <textarea class="text_area col-md-12 " id="remark" name="remark" title="不超过200个字" placeholder="不超过200个字"></textarea>
+        <textarea class="text_area col-md-12 " id="remark" name="remark" title="不超过200个字" placeholder="不超过200个字">${sc.remark }</textarea>
        </div>
 	 </li>
    </ul>

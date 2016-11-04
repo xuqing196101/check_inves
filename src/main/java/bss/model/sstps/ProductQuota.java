@@ -2,6 +2,8 @@ package bss.model.sstps;
 
 import java.util.Date;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
 * @Title:ProductQuota 
 * @Description: 产品工时定额明细
@@ -14,10 +16,13 @@ public class ProductQuota {
 
     private ContractProduct contractProduct;
 
+    @NotBlank(message = "零件部件名称不能为空")
     private String partsName;
 
+    @NotBlank(message = "零件部件图号不能为空")
     private String partsDrawingCode;
 
+    @NotBlank(message = "工序名称不能为空")
     private String processName;
 
     private Integer offer;

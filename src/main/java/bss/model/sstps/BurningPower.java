@@ -2,6 +2,8 @@ package bss.model.sstps;
 
 import java.util.Date;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
 * @Title:BurningPower 
 * @Description: 燃烧动力费用明细
@@ -14,12 +16,16 @@ public class BurningPower {
 
     private ContractProduct contractProduct;
 
+    @NotBlank(message = "一级项目不能为空")
     private String firsetProduct;
 
+    @NotBlank(message = "二级项目不能为空")
     private String secondProduct;
 
+    @NotBlank(message = "三级项目不能为空")
     private String thirdProduct;
 
+    @NotBlank(message = "计量单位不能为空")
     private String unit;
 
     private Integer tyaAcount;

@@ -26,7 +26,7 @@ public class PropUtil {
 	 * @return: Properties
 	 */
 	private static Properties getProperties(String file) {
-		file = file == null ? "properties.properties" : file;
+		file = file == null ? "config.properties" : file;
 		try {
 			prop.load(PropUtil.class.getClassLoader().getResourceAsStream(file));
 		} catch (IOException e) {

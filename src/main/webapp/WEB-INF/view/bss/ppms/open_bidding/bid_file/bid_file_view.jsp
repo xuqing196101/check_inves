@@ -84,31 +84,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 </li>
 	   </ul>
 	 </div>
-	 <div class="tab-content clear step_cont">
-		<!--第一个  -->
-		<div class="col-md-12 tab-pane active"  id="tab-1">
-		 <!-- <h1 class="f16 count_flow"><i>01</i>初审项定义</h1> -->
-		  <form action="">
-		    <table class="table table-bordered table-condensed mt5">
-		    	<thead>
-			      <tr>
-			        <th>初审项名称</th>
-			        <th>要求类型</th>
-			        <th>创建人</th>
-			      </tr>
-		     	</thead>
-		        <c:forEach items="${list }" var="l" varStatus="vs">
-		        <thead>
-			       <tr>
-			        <td align="center">${l.name }</td>
-			        <td align="center">${l.kind }</td>
-			        <td align="center">${l.creater }</td>
-			       </tr>
-		       </thead>
-		       </c:forEach>
-		    </table>
-		  </form>
-		</div>
-     </div>
+	 <div class="content">
+    	<table class="table table-bordered table-condensed table-hover">
+			<thead>
+				<tr>
+				  <th class="w50 info">序号</th>
+				  <th class="info">初审项名称</th>
+		          <th class="info">要求类型</th>
+		          <th class="info">创建人</th>
+				</tr>
+			</thead>
+			<c:forEach items="${list }" var="l" varStatus="vs">
+			    <tr>
+			    	<td class="tc w50">${vs.index+1 }</td>
+			        <td >${l.name }</td>
+			        <td class="tc">${l.kind }</td>
+			        <td class="tc">${l.creater }</td>
+			    </tr>
+		    </c:forEach>
+		</table>
+   	</div>
   </body>
 </html>

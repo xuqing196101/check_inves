@@ -47,12 +47,12 @@ import bss.service.ppms.ScoreModelService;
 import bss.service.prms.FirstAuditService;
 import bss.service.prms.PackageFirstAuditService;
 
+
 /**
- * 
  * 版权：(C) 版权所有 
- * 公开招标
- * 公开招标项目实施请求控制类
- * @author   yggc
+ * 公开招标实施
+ * 公开招标实施中的请求控制
+ * @author   Ye MaoLin
  * @version  
  * @since
  * @see

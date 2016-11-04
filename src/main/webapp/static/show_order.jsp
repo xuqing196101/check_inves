@@ -142,6 +142,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				 
 				</tbody>
 			   </table>
+                <h2 class="count_flow jbxx">详情页两栏表格</h2>
+				<table class="table table-bordered">
+				 <tbody>
+				 <tr>
+				  <td class="bggrey ">供应商名称：</td>
+				  <td>****有限公司</td>
+				  <td class="bggrey ">供应商单位联系人：</td>
+				  <td>联系人</td>
+				 </tr> 
+				 <tr>
+				  <td class="bggrey ">供应商单位联系人手机：</td>
+				  <td>13011111111</td>
+				  <td class="bggrey ">供应商单位地址：</td>
+				  <td>****有限公司</td>
+				 </tr>  
+				 <tr>
+				  <td class="bggrey ">供应商单位联系人手机：</td>
+				  <td>13011111111</td>
+				  <td class="bggrey ">供应商单位地址：</td>
+				  <td>****有限公司</td>
+				 </tr> 	 
+				</tbody>
+			   </table>
                 <h2 class="count_flow jbxx">产品明细</h2>
 				<table class="table table-bordered">
 				 <tbody>

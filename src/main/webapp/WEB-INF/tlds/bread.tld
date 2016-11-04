@@ -1,0 +1,19 @@
+<taglib>
+ <tlibversion>1.0</tlibversion>
+ <jspversion>1.1</jspversion>
+ <shortname>page JSPTag Library</shortname>
+ <uri>http://www.bread.com</uri>
+ <info>面包屑标签</info>
+ <tag>
+       <name>bread</name>
+       <tagclass>common.taglib.BreadTld</tagclass>
+       <bodycontent>empty</bodycontent>
+       <info>分页标签</info>
+       <attribute>
+	        <name>url</name>
+	        <required>true</required>
+	        <type>java.lang.String</type>
+	        <rtexprvalue>true</rtexprvalue>
+       </attribute>
+ </tag>
+</taglib>
