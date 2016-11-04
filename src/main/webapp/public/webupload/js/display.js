@@ -2,9 +2,9 @@
  * dom加载...
  */
 $(function(){
-	var businessId = $("businessId").val();
-	var typeId = $("#typeId").val();
-	var key = $("#sysKeyId").val();
+	var businessId = $("#downBsId").val();
+	var typeId = $("#downBstypeId").val();
+	var key = $("#downBsKeyId").val();
 	var params = {businessId: businessId,typeId: typeId,key: key};
 	display(params);
 });

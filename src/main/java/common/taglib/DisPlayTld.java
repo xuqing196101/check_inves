@@ -34,7 +34,13 @@ public class DisPlayTld extends TagSupport {
     
     @Override
     public int doStartTag() throws JspException {
-        
+        JspWriter out = pageContext.getOut();
+        String path = pageContext.getServletConfig().getServletContext().getContextPath();
+        try {
+            out.println("<script src='" + path + "/public/webupload/js/display.js'></script>");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return EVAL_BODY_INCLUDE;
     }
 
@@ -43,9 +49,9 @@ public class DisPlayTld extends TagSupport {
         JspWriter out = pageContext.getOut();
         
         try {
-             out.println("<input id='businessId' type=\"hidden\"  value=" + businessId + " />");
-             out.println("<input id='typeId'  type=\"hidden\"  value=" + typeId + " />");
-             out.println("<input id='sysKeyId' type=\"hidden\"  value=" + sysKey + " />");
+             out.println("<input id='downBsId' type=\"hidden\"  value=" + businessId + " />");
+             out.println("<input id='downBstypeId'  type=\"hidden\"  value=" + typeId + " />");
+             out.println("<input id='downBsKeyId' type=\"hidden\"  value=" + sysKey + " />");
              out.println("<div><ul id='disFileId'></ul></div>");
         } catch (IOException e) {
             e.printStackTrace();

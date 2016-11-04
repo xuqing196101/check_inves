@@ -85,7 +85,6 @@ public class UploadTld extends TagSupport {
             
             out.println("<script src='" + path + "/public/webupload/js/webuploader.js'></script>");
             out.println("<script src='" + path + "/public/webupload/js/upload.js'></script>");
-            out.println("<script src='" + path + "/public/webupload/js/display.js'></script>");
         } catch (IOException e1) {
             e1.printStackTrace();
         }
