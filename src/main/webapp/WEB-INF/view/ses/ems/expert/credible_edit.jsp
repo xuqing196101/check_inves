@@ -70,42 +70,47 @@
 				parent.location.reload();
 			},
 			error:function(){
-				layer.msg("更新失败",{offset: ['222px', '390px']});
+				layer.msg("参数错误，更新失败",{offset: ['102px', '390px']});
 			}
 		});
    	}
-	/* $(document).ready(function() { 
-		 $("#creater").bind("keypress", function(event) {  
-	    var event= event || window.event;  
-	    var getValue = $(this).val();  
-	    //控制第一个不能输入小数点"."  
-	    if (getValue.length == 0 && event.which == 46) {  
-	        event.preventDefault();  
-	        return;  
-	    }  
-	    //控制只能输入一个小数点"."  
-	    if (getValue.indexOf('.') != -1 && event.which == 46) {  
-	        event.preventDefault();  
-	        return;  
-	    }  
-	    //控制只能输入的值  
-	    if (event.which && (event.which < 48 || event.which > 57) && event.which != 8 && event.which != 46) {  
-	        event.preventDefault();  
-	         return;  
-	        }  
-	    });  
-	    //失去焦点是触发  
-	    $("#creater").bind("blur", function(event) {  
-	    var value = $(this).val(), reg = /\.$/;  
-	    if (reg.test(value)) {  
-	    value = value.replace(reg, "");  
-	    $(this).val(value);  
-	    }  
-	    });  
-	});  */
-	function textre(t) {
-	    t.value = t.value.replace(/[^(\-)0-9]/g,'').replace(/(^|\D)\.+/g,"$1").replace(/^(\-?\d*\.?\d*).*$/,"$1").replace(/^(\-?(\d\.?){1,4}).*$/,"$1");
-	}
+	  //控制只能输入数字
+	   window.onload=function(){
+	       var txt = document.getElementById("creater");
+	       txt.onkeypress = function(evt){
+	           var evt = window.event||evt;
+	           var keynum = evt.keyCode||evt.which;
+	           var num = String.fromCharCode(keynum);
+	           if(keynum==8 || keynum==13)
+	           {
+	               return true;
+	           }
+	           if(this.value==="")
+	           {
+	               return /[-1-9]/.test(num);
+	           }
+	           else{
+	               return /[0-9]/.test(num);
+	           }
+	       }
+	       txt.onblur = function(evt){
+	           var evt = window.event||evt;
+	           var keynum = evt.keyCode||evt.which;
+	           var num = String.fromCharCode(keynum);
+	           if(keynum==8 || keynum==13)
+	           {
+	               return true;
+	           }
+	           if(this.value==="")
+	           {
+	               return /[-1-9]/.test(num);
+	           }
+	           else{
+	        	   
+	               return /[0-9]/.test(num);
+	           }
+	       }
+	   }
 </script>
 </head>
 <body>
@@ -117,7 +122,7 @@
       <tr>
         <th>诚信内容:</th><td><input type="text"  maxlength="255" value="${expertCredible.badBehavior }" name="badBehavior" id="name"></td>
         <th>状态:</th><td><input type="radio" <c:if test="${expertCredible.isStatus == 1 }">checked</c:if>  name="isStatus" value="1" >启用&nbsp;<input type="radio" name="isStatus" <c:if test="${expertCredible.isStatus == 2 }">checked</c:if>  id="kind" value="2" >停用</td>
-        <th>分值:</th><td><input name="score" value="${expertCredible.score}" onkeyup="textre(this);" onblur="textre(this);" onkeypress="textre(this);"  maxlength="5" id="creater" type="text"></td>
+        <th>分值:</th><td><input name="score"  style="ime-mode:disabled" onpaste="return false" value="${expertCredible.score}"   maxlength="5" id="creater" type="text"></td>
       </tr>
      </thead>
     </table>
