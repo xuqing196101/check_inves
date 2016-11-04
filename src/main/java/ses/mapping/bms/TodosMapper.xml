@@ -283,9 +283,10 @@
 		WHERE
 		user_id = #{id}
 		<if test="db != null and db != '' ">
+		AND
 		<foreach collection="db" item="item" open="(" close=")"
 			separator="OR">
-			  AND permenu_id = #{item}
+			   permenu_id = #{item}
 		</foreach>
 		  </if>
 	</select>
