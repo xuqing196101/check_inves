@@ -141,7 +141,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    	   <sf:form action="${pageContext.request.contextPath}/param/save.html" method="post" modelAttribute="dd">
 		   <div>
 			   <div class="headline-v2 bggrey">
-			   		<h2>新增附件类型</h2>
+			   		<h2>新增审核参数类型 </h2>
 			   </div>
 			   <ul class="list-unstyled list-flow ul_list">
 			   	 
@@ -160,22 +160,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				 	</li>
 				 	<li class="col-md-6 p0">
 					   	<span class="span2"><div class="fr">审核参数：</div><div class="red">*</div></span>
-					   	<div class="input-append pr">
+					  <!--  	<div class="input-append pr"> -->
 					   	<select name="param" >
 					   	<option value="1">采购方式</option>
 					    <option value="2">采购机构</option>
 					    <option value="3">其他意见</option>
 						<option value="4">技术参数意见</option>
 					      </select>
-					        <span class="add-on">i</span>
+					       <!--  <span class="add-on">i</span> -->
 					      <%--   <div class="b f14 red tip pa l260"><sf:errors path="name"/></div> --%>
-				       	</div>
+				    <!--    	</div> -->
 				 	</li>
 				 	 
 			   	</ul>
 		   </div> 
 	       <div class="col-md-12 tc mt20" >
-			  					<input class="btn btn-windows save" style="margin-left: 500px;" type="button" onclick="incr()" value="提交"> <input type="button"  class="btn padding-left-20 padding-right-20 btn_back" value="返回"  onclick="location.href='javascript:history.go(-1);'"> 
+			  					<input class="btn btn-windows save" style="margin-left: 500px;" type="submit"  value="提交"> <input type="button"  class="btn padding-left-20 padding-right-20 btn_back" value="返回"  onclick="location.href='javascript:history.go(-1);'"> 
 
        	   </div>
   	   </sf:form>

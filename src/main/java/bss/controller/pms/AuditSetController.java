@@ -312,10 +312,10 @@ public class AuditSetController {
 		
 		//查询出所有审核参数
 		DictionaryData	dictionaryData=new DictionaryData();
-		DictionaryData dd=new DictionaryData();
-		dd.setId("C3013C4B9CFA4645A6D5ACC73D04DACF");
-		dictionaryData.setParent(dd);
-		List<DictionaryData> dic = dictionaryDataServiceI.find(dictionaryData);
+//		DictionaryData dd=new DictionaryData();
+//		dd.setId("C3013C4B9CFA4645A6D5ACC73D04DACF");
+//		dictionaryData.setParent(dd);
+		List<DictionaryData> dic = dictionaryDataServiceI.queryAudit(dictionaryData);
 		List<AuditParam> all=new LinkedList<AuditParam>();
 		AuditParam auditParam=new AuditParam();
 		

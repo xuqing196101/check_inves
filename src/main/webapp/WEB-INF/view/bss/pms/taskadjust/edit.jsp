@@ -2,6 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+
+<%@ taglib uri="/tld/upload" prefix="u"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -221,6 +223,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    	
 	    	    $("table tr:eq(2)").find("td:eq(8)").children(":first").next().val(total);
 	       }
+	       
+	       
+	       function sel(obj){
+	    	   var val=$(obj).val();
+	    	   $("select option").each(function(){
+	    		   var opt=$(this).val();
+	    		   if(val==opt){
+	    			   $(this).attr("selected", "selected");  
+	    		   }
+	    	   });
+	       }  
+	       
+	/*        function ss(obj){
+	    	   var val=$(obj).val();
+	    	   $(obj).find().each(function(){
+	    		   var opt=$(this).val();
+	    		   if(val==opt){
+	    			   $(this).attr("selected", "selected");  
+	    		   }
+	    	   });
+	       } */
+	       
 </script>
 </head>
 
@@ -326,7 +350,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							
 						<%-- 	<input  type="text" name="list[${vs.index }].purchaseType" value="${obj.purchaseType }"> --%>
 							
-							 <select name="list[${vs.index }].purchaseType" style="width:100px" id="select">
+							 <select name="list[${vs.index }].purchaseType" onchange="sel(this)" style="width:100px" id="select">
               				    <option value="" >请选择</option>
 	                            <option value="公开招标" <c:if test="${'公开招标'==obj.purchaseType}">selected="selected"</c:if>>公开招标</option>
 	                            <option value="邀请招标" <c:if test="${'邀请招标'==obj.purchaseType}">selected="selected"</c:if>>邀请招标</option>
@@ -338,7 +362,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</td>
 							<td class="tc">
 <%-- 							<input type="hidden" name="list[${vs.index }].organization" value="${obj.organization }">
- --%>							<select name="list[${vs.index }].organization">
+ --%>							<select onchange="sel(this)"  name="list[${vs.index }].organization">
 	 								<option value="">请选择</option>
 									<c:forEach items="${org }" var="ss">
 									<c:if test="${obj.organization==ss.id }">
@@ -381,7 +405,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									 	
 									 		<input type="hidden" name="audit[${vs.index*5+avs.index }].purchaseId" value="${obj.id }">
 									 			<input type="hidden" name="audit[${vs.index*5+avs.index }].auditParamId" value="${al.id }">
-									 			<select name="audit[${vs.index*5+avs.index}].paramValue">
+									 			<select onchange="ss(this)" name="audit[${vs.index*5+avs.index}].paramValue">
 												<option value="公开招标" <c:if test="${as.paramValue =='公开招标' }">  selected="selected" </c:if> >公开招标</option>
 												<option value="邀请招标" <c:if test="${as.paramValue =='邀请招标' }">  selected="selected" </c:if> >邀请招标</option>
 												<option value="单一来源" <c:if test="${as.paramValue =='单一来源'  }">  selected="selected" </c:if> >单一来源</option>
@@ -393,7 +417,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									  <c:if test="${al.param=='2' }">
 									  	<input type="hidden" name="audit[${vs.index*5+avs.index }].purchaseId" value="${obj.id }">
 									  	<input type="hidden" name="audit[${vs.index*5+avs.index }].auditParamId" value="${al.id }">
-									 		<select name="audit[${vs.index*5+avs.index }].paramValue">
+									 		<select onchange="ss(this)"  name="audit[${vs.index*5+avs.index }].paramValue">
 											<c:forEach items="${org }" var="ss">
 											  <option value="${ss.name }" <c:if test="${as.paramValue ==ss.name }">  selected="selected" </c:if> >${ss.name}</option>
 											</c:forEach>
@@ -422,7 +446,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</tr> --%>
 				
 				</table>
-				<div class=""><a class="upload">上传附件</a><input id="required" type="file" name="file"> </div>
+				<u:upload businessId="${id }" sysKey="4" typeId=""/>
+				<!-- <div class=""><a class="upload">上传附件</a><input id="required" type="file" name="file"> </div> -->
 				<input class="btn btn-windows save" type="button" value="提交" onclick="sub()">
 				<input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 			</form>

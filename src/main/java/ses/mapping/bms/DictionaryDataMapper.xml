@@ -166,4 +166,11 @@
     and ID != #{id,jdbcType=VARCHAR}
     and CODE =#{code}
   </select>
+  
+  <select id="queryAudit" parameterType="ses.model.bms.DictionaryData" resultMap="DictionaryDataMap" >
+  select 
+    <include refid="Base_Column_List" />
+    from T_SES_BMS_DICTIONARY_DATA 
+   where  kind='4' order by code
+  </select>
 </mapper>

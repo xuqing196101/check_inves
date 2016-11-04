@@ -17,4 +17,6 @@ public interface DictionaryDataServiceI {
     List<DictionaryData> listByPage(DictionaryData dd, int i);
     
     List<DictionaryData> findRepeat(DictionaryData dd);
+    
+    List<DictionaryData> queryAudit(DictionaryData dd);
 }

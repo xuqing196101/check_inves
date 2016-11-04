@@ -38,10 +38,8 @@ public class AuditParamController {
 	@RequestMapping("/list")
 	public String list(AuditParam auditParam,Model model,Integer page){
 		DictionaryData	dictionaryData=new DictionaryData();
-		DictionaryData p=new DictionaryData();
-		p.setId("C3013C4B9CFA4645A6D5ACC73D04DACF");
-		dictionaryData.setParent(p);
-		List<DictionaryData> dic = dictionaryDataServiceI.find(dictionaryData);
+	
+		List<DictionaryData> dic = dictionaryDataServiceI.queryAudit(dictionaryData);
 		model.addAttribute("dic", dic);
 		
 		List<AuditParam> list = auditParameService.query(auditParam, page==null?1:page);
@@ -54,10 +52,8 @@ public class AuditParamController {
 	@RequestMapping("/add")
 	public String add(Model model){
 		DictionaryData	dictionaryData=new DictionaryData();
-		DictionaryData p=new DictionaryData();
-		p.setId("C3013C4B9CFA4645A6D5ACC73D04DACF");
-		dictionaryData.setParent(p);
-		List<DictionaryData> dic = dictionaryDataServiceI.find(dictionaryData);
+		
+		List<DictionaryData> dic = dictionaryDataServiceI.queryAudit(dictionaryData);
 		model.addAttribute("dic", dic);
 		return "bss/pms/auditparam/add";
 	}
@@ -66,10 +62,8 @@ public class AuditParamController {
 	@RequestMapping("/edit")
 	public String edit(String id,Model model,Integer page){
 		DictionaryData	dictionaryData=new DictionaryData();
-		DictionaryData p=new DictionaryData();
-		p.setId("C3013C4B9CFA4645A6D5ACC73D04DACF");
-		dictionaryData.setParent(p);
-		List<DictionaryData> dic = dictionaryDataServiceI.find(dictionaryData);
+	
+		List<DictionaryData> dic = dictionaryDataServiceI.queryAudit(dictionaryData);
 		model.addAttribute("dic", dic);
 		AuditParam param = auditParameService.queryById(id);
 		model.addAttribute("aparam", param);

@@ -91,10 +91,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		   }
 	}
 	 function returns(){
+		
 		 var value=$("#reson").val();
 		 if(value!=null){
 			 $("#status").val(3);
 			 $("#acc_form").submit();
+		 }else{
+				layer.tips("计划名称不允许为空","#reson");
 		 }
 		 
 	 }
@@ -112,7 +115,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    	   });
       } 
 	  
- 
+ function ss(){
+	 var value=$("#reson").val();
+
+	 if(value!=null&&value!=""){
+		 $("#status").val(3);
+		 $("#acc_form").submit();
+	 }else{
+			layer.tips("退回理由不允许为空","#reson");
+	 }
+ }
 </script>
 </head>
 
@@ -135,7 +147,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div class="container clear margin-top-30">
 
-			<form id="acc_form" action="<%=basePath%>accept/update.html" method="post">
+			<form id="acc_form" action="${pageContext.request.contextPath}/accept/update.html" method="post">
 				<table class="table table-bordered table-condensed mt5">
 					<thead>
 						<tr>
@@ -163,7 +175,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<tr>
 							<td class="tc w50">${obj.seq } <input type="hidden" value="${obj.id }" name="list[${vs.index }].id">
 							</td>
-							<td> ${obj.department }  </td>
+							<td> ${obj.department }	<input type="hidden" name="list[${vs.index }].userId" value="${obj.userId }">  </td>
 							<td>${obj.goodsName }</td>
 							<td class="tc"> ${obj.stand }</td>
 							<td class="tc"> ${obj.qualitStand }</td>
@@ -171,7 +183,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<td class="tc">${obj.purchaseCount }</td>
 							<td class="tc">${obj.price }</td>
 							<td class="tc">${obj.budget }</td>
-							<td>${obj.deliverDate }</td>
+							<td>${obj.deliverDate } </td>
 							<td>
 							<select onchange="sel(this)" name="list[${vs.index }].purchaseType" style="width:100px" id="select">
               				    <option value="" >请选择</option>
@@ -205,11 +217,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</c:forEach>
 				</table>
 				
-				退回理由： <br><textarea  id="reson" name="reason" style="height:100px;width: 600px;margin-bottom: 20px;" title="不超过800个字"></textarea><br>
+				退回理由： <br><textarea   id="reson" name="reason" style="height:100px;width: 600px;margin-bottom: 20px;" title="不超过800个字"></textarea><br>
 				 <input type="hidden" name="planNo" value="${planNo }">
 				  <input type="hidden" id="status" name="status" value="4">
 				 <input class="btn btn-windows save" style="margin-left: 100px;" type="submit" value="受理"> 
-				 <input class="btn btn-windows save" type="button" onclick="returns();" value="退回">   
+				<!--  <input class="btn btn-windows save" type="button" onclick="returns();" value="退回">    -->
+				 <button class="btn btn-windows back" type="button" onclick="ss();">退回</button>
 				<input class="btn btn-windows reset" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
 			</form>
 		</div>

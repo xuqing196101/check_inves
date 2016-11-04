@@ -316,7 +316,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							
 <%-- 							<input style="border: 0px;" type="text" onblur="checks(this)" name="list[${vs.index }].purchaseType" value="${obj.purchaseType }">
  --%>							
-					<select name="list[${vs.index }].purchaseType" style="width:100px" id="select">
+					<select onchange="sel(this)" name="list[${vs.index }].purchaseType" style="width:100px" id="select">
               				    <option value="" >请选择</option>
 	                            <option value="公开招标" <c:if test="${'公开招标'==obj.purchaseType}">selected="selected"</c:if>>公开招标</option>
 	                            <option value="邀请招标" <c:if test="${'邀请招标'==obj.purchaseType}">selected="selected"</c:if>>邀请招标</option>
@@ -343,7 +343,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<input type="hidden" name="list[${vs.index }].isMaster" value="${obj.isMaster }">
 							<input type="hidden" name="list[${vs.index }].isDelete" value="${obj.isDelete }">
 							<input type="hidden" name="list[${vs.index }].status" value="${obj.status }">
-							
+							<input type="hidden" name="list[${vs.index }].userId" value="${obj.userId }">
 							</td>
 						</tr>
 

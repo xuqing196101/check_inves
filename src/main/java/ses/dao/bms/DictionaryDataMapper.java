@@ -24,4 +24,15 @@ public interface DictionaryDataMapper {
      */
     List<DictionaryData> findRepeat(DictionaryData dd);
 
+    /**
+     * 
+    * @Title: queryAudit
+    * @Description: 查询审核轮次
+    * author: Li Xiaoxiao 
+    * @param @param dd
+    * @param @return     
+    * @return List<DictionaryData>     
+    * @throws
+     */
+    List<DictionaryData> queryAudit(DictionaryData dd);
 }

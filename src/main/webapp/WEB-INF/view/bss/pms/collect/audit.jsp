@@ -130,6 +130,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  
 	}
  	
+ 	 function sel(obj){
+  	   var val=$(obj).val();
+  	   $("select option").each(function(){
+  		   var opt=$(this).val();
+  		   if(val==opt){
+  			   $(this).attr("selected", "selected");  
+  		   }
+  	   });
+     } 
+ /* 	function ss(obj){
+   	   var val=$(obj).val();
+   	   $("select option").each(function(){
+   		   var opt=$(this).val();
+   		   if(val==opt){
+   			   $(this).attr("selected", "selected");  
+   		   }
+   	   });
+      } */
 </script>
 </head>
 
@@ -154,7 +172,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<button class="btn padding-left-10 padding-right-10 btn_back" onclick="sets()">调整审核人员</button>
 		<a class="btn padding-left-10 padding-right-10 btn_back" href="<%=basePath%>look/report.html?id=${id}">生成评审报告页面pdf</a>
 		
-			<form action="<%=basePath%>look/audit.html" method="post">
+			<form action="${pageContext.request.contextPath}/look/audit.html" method="post">
 				<table class="table table-bordered table-condensed mt5">
 					<thead>
 						<tr>
@@ -223,7 +241,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<td><input style="border: 0px;" type="text" name="list[${vs.index }].deliverDate" value="${obj.deliverDate }"></td>
 							<td>
 							
-							<select name="list[${vs.index }].purchaseType">
+							<select  onchange="sel(this)" name="list[${vs.index }].purchaseType">
 							<option value="公开招标">公开招标</option>
 							<option value="邀请招标">邀请招标</option>
 							<option value="电子反拍">电子反拍</option>
@@ -232,7 +250,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</select>
 							</td>
 							<td class="tc">
-							<select name="list[${vs.index }].organization">
+							<select onchange="sel(this)" name="list[${vs.index }].organization">
 								<c:forEach items="${org }" var="ss">
 								  <option value="${ss.id }" >${ss.name}</option>
 								</c:forEach>
@@ -265,7 +283,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									 			<input type="hidden" name="audit[${vs.index*5+avs.index }].auditParamId" value="${al.id }">
 									 	<%-- 		</c:if>
 									 		</c:forEach> --%>
-									 		<select name="audit[${vs.index*5+avs.index}].paramValue">
+									 		<select onchange="ss(this)" name="audit[${vs.index*5+avs.index}].paramValue">
 												<option value="公开招标">公开招标</option>
 												<option value="邀请招标">邀请招标</option>
 												<option value="单一来源">单一来源</option>
@@ -277,7 +295,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									  <c:if test="${al.param=='2' }">
 									  	<input type="hidden" name="audit[${vs.index*5+avs.index }].purchaseId" value="${obj.id }">
 									  	<input type="hidden" name="audit[${vs.index*5+avs.index }].auditParamId" value="${al.id }">
-									 		<select name="audit[${vs.index*5+avs.index }].paramValue">
+									 		<select onchange="ss(this)" name="audit[${vs.index*5+avs.index }].paramValue">
 											<c:forEach items="${org }" var="ss">
 											  <option value="${ss.name }" >${ss.name}</option>
 											</c:forEach>
