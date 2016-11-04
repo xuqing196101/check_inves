@@ -3,9 +3,9 @@ package ses.service.sms;
 import java.util.HashMap;
 import java.util.List;
 
-import bss.model.ppms.ProjectDetail;
-
 import ses.model.sms.Quote;
+import bss.model.ppms.Packages;
+import bss.model.ppms.Project;
 
 /**
  * @Title: SupplierQuoteService
@@ -35,7 +35,7 @@ public interface SupplierQuoteService {
 	 * @param @param quote      
 	 * @return void
 	 */
-	void insert(Quote quote);
+	void insert(List<Quote> listQuote);
 	
 	/**
 	 * @Title: selectByCondition
@@ -47,6 +47,18 @@ public interface SupplierQuoteService {
 	 * @param @return      
 	 * @return List<ProjectDetail>
 	 */
-	List<ProjectDetail> selectByCondition(HashMap<String,Object> map,Integer page);
+	List<Project> selectByCondition(HashMap<String,Object> map,Integer page);
+	
+	/**
+	 * @Title: selectByPrimaryKey
+	 * @author Song Biaowei
+	 * @date 2016-11-3 下午3:30:14  
+	 * @Description: 查询项目的所有包
+	 * @param @param map
+	 * @param @param page
+	 * @param @return      
+	 * @return List<Package>
+	 */
+	List<Packages> selectByPrimaryKey(HashMap<String,Object> map,Integer page);
 
 }

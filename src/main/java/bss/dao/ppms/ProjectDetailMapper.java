@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
 
 public interface ProjectDetailMapper {
@@ -14,7 +15,6 @@ public interface ProjectDetailMapper {
 	
 	List<ProjectDetail> selectByCondition(HashMap<String,Object> map);
 	
-	List<ProjectDetail> selectProject(HashMap<String,Object> map);
 	
 	void insertSelective(ProjectDetail projectDetail);
 	

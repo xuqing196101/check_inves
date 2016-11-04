@@ -39,6 +39,16 @@ public class Packages {
 	private List<ProjectDetail> projectDetails;
 	
 	private List<SupplierCheckPass> supplierList; 
+	
+	private Project project;
+
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
+	}
 
 	public String getId() {
 		return id;

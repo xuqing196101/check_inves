@@ -51,6 +51,9 @@ public interface PackageMapper {
 	 */
 	List<Packages> findPackageById(HashMap<String,Object> map);
 	
+	
+	List<Packages> selectByPrimaryKey(HashMap<String,Object> map);
+	
 	/**
 	 * @Title: findPackageByCondition
 	 * @author Song Biaowei

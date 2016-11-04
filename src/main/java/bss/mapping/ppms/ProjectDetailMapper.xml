@@ -52,22 +52,6 @@
      </if> 
      ORDER BY POSITION ASC
   </select>
-   <select id="selectProject" parameterType="java.util.Map" resultMap="BaseResultMap">
-   select t3.name,t3.PROJECT_NUMBER,t1.* from 
- 	(SELECT * FROM "JDCG"."T_BSS_PPMS_SALE_TENDER"  where STATUS_BID =2 and STATUS_BOND=2) t2
- 	 LEFT JOIN
-  	( select * from T_BSS_PPMS_PROJECTS_DETAIL t where 1=1 and PACKAGE_ID is not null and price is not null) t1
-  	on  t1.PROJECT_ID=t2.project_id
-  	 LEFT JOIN  T_BSS_PPMS_PROJECTS t3 on t1.project_id=t3.id
-  	 
-    <if test="name != null and name !=''">
-        AND name = #{name}
-    </if> 
-    <if test="projectNumber != null and projectNumber !=''">
-        AND PROJECT_NUMBER = #{projectNumber}
-     </if> 
-   </select>
-  
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
+import bss.model.ppms.ProjectDetail;
 
 
 
@@ -23,13 +24,42 @@ public class Quote {
 
     private String supplierId;
     
+    private String productId;
+    
+    private BigDecimal total;
+    
     private Project project;
     
     private Packages packages;
     
+    private ProjectDetail projectDetail;
     
+    
+    public ProjectDetail getProjectDetail() {
+		return projectDetail;
+	}
 
-    public Project getProject() {
+	public void setProjectDetail(ProjectDetail projectDetail) {
+		this.projectDetail = projectDetail;
+	}
+
+	public String getProductId() {
+		return productId;
+	}
+
+	public void setProductId(String productId) {
+		this.productId = productId;
+	}
+
+	public BigDecimal getTotal() {
+		return total;
+	}
+
+	public void setTotal(BigDecimal total) {
+		this.total = total;
+	}
+
+	public Project getProject() {
 		return project;
 	}
 

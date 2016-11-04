@@ -12,6 +12,7 @@
    	<result column="MARK_TERM_TREE" property="markTermTree"/>
    	<result column="PURCHASE_TYPE" property="purchaseType"/>
    	<result column="IS_IMPORT" property="isImport"/>
+   	<association property="project" column="PROJECT_ID" select="bss.dao.ppms.ProjectMapper.selectProjectByPrimaryKey"/>
   </resultMap>
   
   <sql id="Base_Column_List">
@@ -143,7 +144,16 @@
       	</if>
       	ORDER BY
       		CREATED_AT DESC	
-   </select>  
+   </select> 
+    <select id="selectByPrimaryKey" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PPMS_PACKAGE 
+    <if test="projectId != null and projectId != '' ">
+    where PROJECT_ID = #{projectId} and IS_DELETED=0
+    </if>
+  </select>
+    
       <select id="findPackageByCondition" parameterType="java.lang.String" resultType="bss.model.ppms.Packages">
    		SELECT
    			ID AS id,
