@@ -82,7 +82,6 @@ h1 i, h2 i, h3 i, h4 i, h5 i, h6 i {
   display: block;
   margin: 0px 0 0px 0;
   border-bottom: 2px solid #2c9fa6;
-  background:#ffffff;
 }
 
 .headline h2 {
@@ -2584,7 +2583,7 @@ blockquote.hero.hero-default small {
 
 .tag-box h2 {
   font-size: 19px;
-  line-height: 25px;
+  line-height: 26px;
 }
 
 .tag-box p {
