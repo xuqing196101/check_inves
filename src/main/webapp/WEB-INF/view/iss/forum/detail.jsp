@@ -169,7 +169,7 @@
         <c:forEach items="${list.list}" var="reply" varStatus="vs">         
             <div id="${reply.id}" class="col-md-12 comment_main">
             <div class="comment_flow">
-            <div class="comment_pic"><img src="<%=basePath%>public/ZHQ/images/logo.png"/></div>
+            <div class="comment_pic"><img src="<%=basePath%>public/ZHQ/images/boy.png"/></div>
             <div class="clear">
               <p class="b f18 mb0 tc">${reply.user.relName }</p>
               <p class="clear mb0 gary">[<fmt:formatDate value='${reply.publishedAt}' pattern="yyyy年MM月dd日" />]</p>

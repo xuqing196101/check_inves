@@ -17,13 +17,35 @@
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
+	
+    <link href="<%=basePath%>public/select2/css/select2.min.css"  rel="stylesheet">
+    <script src="<%=basePath%>public/select2/jquery-2.1.0.js"></script>
+    <script src="<%=basePath%>public/select2/js/select2.min.js"></script>
+ 
 	<script type="text/javascript">
-		function cheClick(){
-			var userId =$('input:radio[name="item"]:checked').val();
-			var userName=$('input:radio[name="item"]:checked').next().html();
-			$("#userId").val(userId);
-			$("#userName").val(userName);
-		}
+	$(function () {
+			 $.ajax({
+	                url:"<%=basePath %>park/getUserForSelect.do",   
+	                contentType: "application/json;charset=UTF-8", 
+	                dataType:"json",   //返回格式为json
+	                type:"POST",   //请求方式           
+	                success : function(users) {     
+	                    if (users) {           
+	                      $("#user").html("<option></option>");                
+	                      $.each(users, function(i, user) {  
+	                          $("#user").append("<option  value="+user.id+">"+user.relName+"</option>");                     
+	                      });  
+	                    }
+	                }
+	            });			 
+		        $("#user").select2(); 
+		        
+
+	});
+	function change(id){
+		$("#userId").val(id);
+	}
+	 		 
 	</script>
 
   </head>
@@ -51,43 +73,25 @@
 	   		   <li class="col-md-6  p0 ">
 			   <span class="fl"><div class="red star_red">*</div> 版块名称：</span>
 			   <div class="input-append">
-		        <input class="span2" name="name" type="text">
+		        <input class="span2" name="name" type="text" value = '${park.name}'>
 		        <div class="validate">${ERR_name}</div>
 		        <%--<span class="add-on">i</span>--%>
 		       </div>
 			 </li>
 			 
+			  
 			 <li class="col-md-6  p0 ">
+			   
 			   <span class="fl"> 版主：</span>
-                 <%--<select name ="userId" class="w220" >
-					<option></option>
-			  	  	<c:forEach items="${users}" var="user">
-			  	  		<option  value="${user.id}">${user.relName}</option>
-			  	  	</c:forEach> 
-	  			</select>
-	  			
-	  			--%>
-	  			<div class="input-append">
-                   <input class="span2" name ="userId" id="userId" type="hidden">
-                   <input class="span2" name ="userName" id="userName" type="text">
-                   <div class="btn-group">
-                    <button aria-expanded="false" class="btn dropdown-toggle add-on" data-toggle="dropdown">
-                      <img src="<%=basePath%>public/ZHH/images/down.png" >
-                    </button>
-                    <ul class="dropdown-menu list-unstyled" >
-                        <c:forEach items="${users}" var="user">
-                            <li class="select_opt">
-                                <input type="radio" name="item" class="fl mt10" value="${user.id }" onclick="cheClick();" ><div  class="ml10 fl">${user.relName}</div>                              
-                            </li>
-                        </c:forEach> 
-                    </ul>
-                   </div>
-                 </div>
+				<select id="user"  class="w230" onchange="change(this.options[this.selectedIndex].value)">
+				</select> 
+				   
                  </li>
+                 <input  type ="hidden" id="userId" name="userId"></input>
 			<li class="col-md-12  p0 ">	  	 			
 				<span class="fl"> 版块介绍：</span>
 				<div class="col-md-12 mt5 fn pl200 pwr9">
-				<textarea  class="text_area col-md-12" name="content"></textarea>		
+				<textarea  class="text_area col-md-12" name="content" >${park.content}</textarea>		
 				</div>			
 	  	 	</li>
 	  	 </ul>

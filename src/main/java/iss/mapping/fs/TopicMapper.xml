@@ -35,7 +35,7 @@
 			    select 
 			    <include refid="Base_Column_List" />
 			    from T_ISS_FS_TOPIC
-			    where ID = #{id}
+			    where ID = #{id} AND IS_DELETED = 0
 		  </select>
 	    
 		    <!-- 2.1查询列表 -->
@@ -60,6 +60,7 @@
 			    select 
 			    <include refid="Base_Column_List" />
 			    from T_ISS_FS_TOPIC
+			    AND IS_DELETED = 0
 			    ORDER BY CREATED_AT DESC
 		  	</select>
 	  	
@@ -160,13 +161,15 @@
 			    select 
 			    <include refid="Base_Column_List" />
 			    from T_ISS_FS_TOPIC
-			    where PARK_ID = #{parkID}
+			    where PARK_ID = #{parkID} 
+			    AND IS_DELETED = 0
 			    ORDER BY CREATED_AT DESC
 		  </select>
            <!-- 校验 -->
            <select id="checkTopicName" parameterType="Map" resultType="Object">
               SELECT count(1) FROM T_ISS_FS_TOPIC
-              WHERE NAME = #{name}
+              WHERE NAME = #{name} 
+              AND IS_DELETED = 0
               AND PARK_ID = #{parkId}
           </select> 
 </mapper>

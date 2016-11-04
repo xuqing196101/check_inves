@@ -14,7 +14,7 @@ import ses.model.bms.User;
 * @author Peng Zhongjun
 * @date 2016-9-7下午6:26:03
  */
-public class Park {
+public class Park{
     /**
      * @Fields id : 主键
      */
@@ -71,6 +71,10 @@ public class Park {
      * @Fields isDeleted : 是否删除标识
      */
     private Integer isDeleted;
+    /**
+     *  @Fields isHot : 是否热门版块
+     */
+    private Integer isHot;
          
 	public String getId() {
         return id;
@@ -176,6 +180,98 @@ public class Park {
 	public void setIsDeleted(Integer isDeleted) {
 		this.isDeleted = isDeleted;
 	}
-	
+
+	public Integer getIsHot() {
+		return isHot;
+	}
+
+	public void setIsHot(Integer isHot) {
+		this.isHot = isHot;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((content == null) ? 0 : content.hashCode());
+		result = prime * result
+				+ ((createdAt == null) ? 0 : createdAt.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result
+				+ ((isDeleted == null) ? 0 : isDeleted.hashCode());
+		result = prime * result + ((isHot == null) ? 0 : isHot.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result
+				+ ((postcount == null) ? 0 : postcount.hashCode());
+		result = prime * result
+				+ ((replycount == null) ? 0 : replycount.hashCode());
+		result = prime * result
+				+ ((topiccount == null) ? 0 : topiccount.hashCode());
+		result = prime * result
+				+ ((updatedAt == null) ? 0 : updatedAt.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Park other = (Park) obj;
+		if (content == null) {
+			if (other.content != null)
+				return false;
+		} else if (!content.equals(other.content))
+			return false;
+		if (createdAt == null) {
+			if (other.createdAt != null)
+				return false;
+		} else if (!createdAt.equals(other.createdAt))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (isDeleted == null) {
+			if (other.isDeleted != null)
+				return false;
+		} else if (!isDeleted.equals(other.isDeleted))
+			return false;
+		if (isHot == null) {
+			if (other.isHot != null)
+				return false;
+		} else if (!isHot.equals(other.isHot))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (postcount == null) {
+			if (other.postcount != null)
+				return false;
+		} else if (!postcount.equals(other.postcount))
+			return false;
+		if (replycount == null) {
+			if (other.replycount != null)
+				return false;
+		} else if (!replycount.equals(other.replycount))
+			return false;
+		if (topiccount == null) {
+			if (other.topiccount != null)
+				return false;
+		} else if (!topiccount.equals(other.topiccount))
+			return false;
+		if (updatedAt == null) {
+			if (other.updatedAt != null)
+				return false;
+		} else if (!updatedAt.equals(other.updatedAt))
+			return false;
+		return true;
+	}
 	
 }

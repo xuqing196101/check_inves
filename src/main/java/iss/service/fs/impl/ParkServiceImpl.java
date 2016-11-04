@@ -93,4 +93,18 @@ public class ParkServiceImpl implements ParkService{
 		return parkMapper.checkParkName(name);
 	}
 
+
+	@Override
+	public List<Park> queryHotParks() {
+		// TODO Auto-generated method stub
+		return parkMapper.queryHotParks();
+	}
+
+
+	@Override
+	public BigDecimal checkHotPark(String id) {
+		// TODO Auto-generated method stub
+		return parkMapper.checkHotPark(id);
+	}
+
 }

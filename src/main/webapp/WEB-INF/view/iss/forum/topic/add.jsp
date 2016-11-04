@@ -16,16 +16,13 @@
 	<meta http-equiv="description" content="This is my page">
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
-	--><%--
+	-->
 	<script type="text/javascript">
-		function cheClick(){
-			var parkId =$('input:radio[name="item"]:checked').val();
-			var parkName=$('input:radio[name="item"]:checked').next().html();
-			$("#parkId").val(parkId);
-			$("#parkName").val(parkName);
-		}
+	$(function(){
+		$("#parkId").val("${topic.park.id}");
+	})
 	</script>
-  --%></head>
+  </head>
   
   <body>
 
@@ -51,7 +48,7 @@
 	   		   <li class="col-md-6  p0 ">
 			   <span class="fl"> <div class="red star_red">*</div>主题名称：</span>
 			   <div class="input-append">
-		        <input class="span2" name="name" type="text">
+		        <input class="span2" name="name" type="text"  value = '${topic.name}'>
 		        <div class="validate">${ERR_name}</div>
 		        <%--<span class="add-on">i</span>--%>
 		       </div>
@@ -59,7 +56,7 @@
 			 
 			 <li class="col-md-6  p0 ">
 			   <span class="fl"><div class="red star_red">*</div>所属版块：</span>
-                <select name ="parkId" class="select w220" >
+                <select  id ="parkId" name ="parkId" class=" w220" >
 					<option></option>
 			  	  	<c:forEach items="${parks}" var="park">
 			  	  		<option  value="${park.id}">${park.name}</option>
@@ -71,7 +68,7 @@
 			<li class="col-md-12  p0 ">	  	 			
 				<span class="fl"> 主题介绍：</span>
 				<div class="col-md-12 mt5 fn pl200 pwr9">
-				<textarea  class="text_area col-md-12" name="content"></textarea>		
+				<textarea  class="text_area col-md-12" name="content">${topic.content}</textarea>		
 				</div>			
 	  	 	</li>
 	  	 </ul>

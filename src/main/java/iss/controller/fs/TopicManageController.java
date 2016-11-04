@@ -69,13 +69,13 @@ public class TopicManageController extends BaseSupplierController {
 		Map<String,Object> map = new HashMap<String, Object>();
 		String describe = request.getParameter("condition");
 		String parkId = request.getParameter("parkId");		
-		if(page==null){
+		if(page == null){
 			page=1;
 		}
-		if(describe !=null && describe!=""){
+		if(describe!=null && describe!=""){
 			map.put("content", describe);
 		}
-		if(parkId != null && parkId!=""){
+		if(parkId !=null && parkId!=""){
 			map.put("parkId", parkId);
 		}
 
@@ -159,8 +159,8 @@ public class TopicManageController extends BaseSupplierController {
 			flag = false;
 			model.addAttribute("ERR_name", "主题名称不能重复");
 		}
-		Park park = parkService.selectByPrimaryKey(request.getParameter("parkId"));
-		if(park==null){
+		
+		if(parkId.equals(null) ||parkId.equals("") ){
 			flag = false;
 			model.addAttribute("ERR_park", "所属版块不能为空");
 		}	
@@ -175,8 +175,14 @@ public class TopicManageController extends BaseSupplierController {
 		if(flag == false){
 			List<Park> parks = parkService.getAll(null);
 			model.addAttribute("parks", parks);
+			if(!(parkId.equals(null)||parkId.equals(""))){
+				Park park = parkService.selectByPrimaryKey(parkId);
+				topic.setPark(park);
+			}
+			model.addAttribute("topic", topic);
 			url="iss/forum/topic/add";
 		}else{
+			Park park = parkService.selectByPrimaryKey(parkId);
 			topic.setPark(park);
 			User user = (User)request.getSession().getAttribute("loginUser");
 			topic.setUser(user);
@@ -237,8 +243,7 @@ public class TopicManageController extends BaseSupplierController {
 			model.addAttribute("ERR_name", "主题名称不能重复");
 		}
 	
-		Park park = parkService.selectByPrimaryKey(parkId);
-		if(park==null){
+		if(parkId.equals(null) ||parkId.equals("") ){
 			flag = false;
 			model.addAttribute("ERR_park", "所属版块不能为空");
 		}
@@ -251,12 +256,20 @@ public class TopicManageController extends BaseSupplierController {
 		}
 		if(flag == false){
 			Topic p = topicService.selectByPrimaryKey(topicId);
+			//校验回显
+			p.setName(topic.getName());
+			p.setContent(topic.getContent());
+			if(!parkId.equals(null) && !parkId.equals("") ){
+				Park park = parkService.selectByPrimaryKey(parkId);
+				p.setPark(park);
+			}
 			model.addAttribute("topic", p);
 			List<Park> parks = parkService.getAll(null);
 			model.addAttribute("parks", parks);
 			url="iss/forum/topic/edit";
 			
 		}else{
+			Park park = parkService.selectByPrimaryKey(parkId);
 			topic.setPark(park);
 			Timestamp ts = new Timestamp(new Date().getTime());
 			topic.setUpdatedAt(ts);			

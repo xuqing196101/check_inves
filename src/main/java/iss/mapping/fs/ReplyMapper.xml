@@ -41,7 +41,7 @@
 			    select 
 			    <include refid="Base_Column_List" />
 			    from T_ISS_FS_REPLY
-			    where ID = #{id}
+			    where ID = #{id} AND IS_DELETED = 0
 			  </select>
 			  
 	  		  <!-- 2.查询列表总数 -->
@@ -55,16 +55,16 @@
 					SELECT COUNT(1) FROM T_ISS_FS_REPLY
 					WHERE POST_ID IN( 
 					SELECT ID FROM T_ISS_FS_POST
-					WHERE PARK_ID = #{parkId}
-					)
+					WHERE PARK_ID = #{parkId} AND IS_DELETED = 0
+					) AND IS_DELETED = 0
 			  </select>
 			  <!-- 2.3根据主题查询列表总数 -->
 			  <select id="queryCountByTopicId" resultType="Object" parameterType="Object">
 					SELECT COUNT(1) FROM T_ISS_FS_REPLY
 					WHERE POST_ID IN( 
 					SELECT ID FROM T_ISS_FS_POST
-					WHERE TOPIC_ID = #{topicId}
-					)
+					WHERE TOPIC_ID = #{topicId} AND IS_DELETED = 0
+					)AND IS_DELETED = 0
 			  </select>
 	  
 			  <!-- 3.根据条件查询列表 -->

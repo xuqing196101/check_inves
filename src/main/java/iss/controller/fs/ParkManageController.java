@@ -12,12 +12,15 @@ import iss.service.fs.TopicService;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +31,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.Role;
 import ses.model.bms.User;
 import ses.model.bms.UserPreMenu;
-import ses.service.bms.PreMenuServiceI;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
 
@@ -47,7 +50,7 @@ import com.github.pagehelper.PageInfo;
 @Controller
 @Scope("prototype")
 @RequestMapping("/park")
-public class ParkManageController {
+public class ParkManageController extends BaseSupplierController {
 
 	@Autowired
 	private ParkService parkService;
@@ -128,8 +131,7 @@ public class ParkManageController {
 	 */
 	@RequestMapping("/add")
 	public String add(Model model, HttpServletRequest request) {
-		List<User> users = userService.find(null);
-		model.addAttribute("users", users);
+
 		return "iss/forum/park/add";
 	}
 
@@ -144,6 +146,7 @@ public class ParkManageController {
 	 */
 	@RequestMapping("/save")
 	public String save(@Valid Park park, BindingResult result,HttpServletRequest request, Model model) {
+		
 		BigDecimal i = parkService.checkParkName(park.getName());
 		Boolean flag = true;
 		String url = "";
@@ -157,17 +160,17 @@ public class ParkManageController {
 			for(FieldError fieldError:errors){
 				model.addAttribute("ERR_"+fieldError.getField(), fieldError.getDefaultMessage());
 			}
+			
 			flag = false;
 		}
 		if(flag == false){
-			List<User> users = userService.find(null);
-			model.addAttribute("users", users);
-			
+
+			model.addAttribute("park", park);
 			url = "iss/forum/park/add";
 			
 		}else{		
 			String userId = request.getParameter("userId");
-			if(userId !=null &&userId != ""){
+			if(!(userId.equals(null) || userId.equals(""))){
 				 User user = userService.getUserById(userId);
 				//设置权限
 				Role role = roleService.get("018375864F3C403CAC7698C2549763F0");
@@ -214,8 +217,7 @@ public class ParkManageController {
 	public String edit(String id, Model model) {
 		Park p = parkService.selectByPrimaryKey(id);
 		model.addAttribute("park", p);
-		List<User> users = userService.find(null);
-		model.addAttribute("users", users);
+
 		return "iss/forum/park/edit";
 	}
 
@@ -230,17 +232,24 @@ public class ParkManageController {
 	 */
 	@RequestMapping("/update")
 	public String update(@Valid Park park, BindingResult result,HttpServletRequest request, Model model) {	
+		String parkId = request.getParameter("parkId");
 		BigDecimal i = parkService.checkParkName(park.getName());
 		Boolean flag = true;
 		String url = "";
 		BigDecimal j = new BigDecimal(0);
-		System.out.println(i==j);
 		String oldParkName =request.getParameter("oldParkName");
 		if(!oldParkName.equals(park.getName())&& i.compareTo(j) != 0){			
 			flag = false;
 			model.addAttribute("ERR_name", "版块名称不能重复");			
 		}
-				
+		
+		int k = parkService.queryHotParks().size();		
+		Park p = parkService.selectByPrimaryKey(parkId);
+		if(p.getIsHot() == 0&& !(k < 4)){
+			flag = false;
+			model.addAttribute("ERR_isHot", "热门版块不能超过4个");	
+		}
+		
 		if(result.hasErrors()){
 			List<FieldError> errors = result.getFieldErrors();
 			for(FieldError fieldError:errors){
@@ -249,37 +258,31 @@ public class ParkManageController {
 			flag = false;
 		}
 		if(flag == false){
-			String parkId = request.getParameter("parkId");
-			Park p = parkService.selectByPrimaryKey(parkId);
+			p.setName(park.getName());
+			String userId = request.getParameter("userId");
+			if(!(userId.equals(null) || userId.equals(""))){
+				User user = userService.getUserById(userId);
+				park.setUser(user);
+			}
+			p.setIsHot(park.getIsHot());
+			p.setContent(park.getContent());
 			model.addAttribute("park", p);
-			List<User> users = userService.find(null);
-			model.addAttribute("users", users);
-			
 			url = "iss/forum/park/edit";
 			
 		}else{
 			String oldUserId = request.getParameter("oldUserId");
 			//更新权限
-			if( oldUserId != null && oldUserId !=""){
+			System.out.println(!(oldUserId.equals(null) || oldUserId.equals("")));
+			if( !(oldUserId.equals(null) || oldUserId.equals(""))){
 				User oldUser = userService.getUserById(oldUserId);
 				UserPreMenu um = new UserPreMenu();
 				um.setUser(oldUser);
 				userService.deleteUserMenu(um);
 			}
 			String userId = request.getParameter("userId");
-			
-			if(userId != null && userId != ""){
-				User user = userService.getUserById(userId);
-				//菜单
-/*				String ids ="C58C30A33C4A4AB49B125589267BE64B,0298F628AB6C4018A0B43561993A43DE,DDA573A2CCA54DF29E4B8BCCDFAF80DA,8715A14AB3F74D77AF85C443386023F3,3DFF3C15462047A185B6173348BE7839,4AE68DC483454C298D9330A9976159F3";
-				String[] mIds = ids.split(",");
-				for (String str : mIds) {
-					UserPreMenu up = new UserPreMenu();
-					PreMenu preMenu = preMenuService.get(str);
-					up.setPreMenu(preMenu);
-					up.setUser(user);
-					userService.saveUserMenu(up);
-				}*/			
+			System.out.println(!(userId.equals(null) && userId.equals("")));
+			if(!(userId.equals(null) || userId.equals(""))){
+				User user = userService.getUserById(userId);		
 				//角色
 				Role role = roleService.get("018375864F3C403CAC7698C2549763F0");
 				List<Role> roles = new ArrayList<Role>();
@@ -289,7 +292,6 @@ public class ParkManageController {
 			}
 			Timestamp ts = new Timestamp(new Date().getTime());
 			park.setUpdatedAt(ts);		
-			String parkId = request.getParameter("parkId");
 			park.setId(parkId);
 			parkService.updateByPrimaryKeySelective(park);
 			url="redirect:getlist.html";
@@ -342,19 +344,71 @@ public class ParkManageController {
 	 */
 	@RequestMapping("/getIndex")
 	public String getPostIndex(Model model) {
-		Map<String, Object> forumIndexMapper = new HashMap<String, Object>();
-		List<Park> parklist = parkService.getAll(null);
+		List<Park> hotParks = new ArrayList<Park>();
+		List<Park> parklist = parkService.getAll(null);		
 		for (Park park : parklist) {			
-			forumIndexMapper.put("select"+park.getId()+"Park", park);	
+			BigDecimal replycount = replyService.queryCountByParkId(park.getId());
+			park.setReplycount(replycount);
+			Post post = new Post();
+			post.setPark(park);
+			BigDecimal postcount = postService.queryByCount(post);
+			park.setPostcount(postcount);
+			//筛选热门版块
+			if(park.getIsHot() == 1){
+				hotParks.add(park);
+			}
+		}
+
+		//去除重复的
+		for (Park park : hotParks) {
+			parklist.remove(park);
+		}
+		//如果热门版块不满4 根据版块下的回复量补充
+		if(hotParks.size() < 4){
+			int i = 4 -hotParks.size();
+			//根据回复量排序
+			Collections.sort(parklist, new Comparator<Park>() {  				  
+	            @Override  
+	            public int compare(Park p1, Park p2) {  
+	            	int i = p2.getReplycount().compareTo(p1.getReplycount());//先按照回复量排序
+	       	      	if(i == 0){  
+	       	            return p2.getPostcount().compareTo(p1.getPostcount());//如果回复量相同按照帖子数  
+	       	        } 
+	       	      	return i; 
+	            }  
+	        });  
+			//添加
+			for(int j=0;j<i;j++){
+				hotParks.add(parklist.get(j));
+			}
+			
+		}
+		model.addAttribute("hotParks", hotParks);
+		List<Park> parklist2 = parkService.getAll(null);
+		for (Park park : parklist2) {
 			List<Post> posts = postService.selectByParkID(park.getId());
 			park.setPosts(posts);
 		}
+		model.addAttribute("list", parklist2);
 		List<Post> hotPostList = postService.queryHotPost();
-		//List<Topic> topicList = topicService.selectByParkID();
-		model.addAttribute("forumIndexMapper", forumIndexMapper);
 		model.addAttribute("hotPostList", hotPostList);
-		model.addAttribute("list", parklist);
+
 		return "iss/forum/forum_Index";
 	}
 	
+	/**
+	 * 
+	* @Title: getUserForSelect
+	* @author Peng Zhongjun
+	* @date 2016-10-29 下午1:36:28  
+	* @Description: 获取版主 
+	* @param @param response
+	* @param @param userName      
+	* @return void
+	 */
+	@RequestMapping( value="/getUserForSelect" )	
+	public void getUserForSelect(HttpServletResponse response) {
+		List<User> users = userService.queryByList(null);
+		super.writeJson(response, users);
+	}
 }

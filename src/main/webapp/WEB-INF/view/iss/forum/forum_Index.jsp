@@ -40,21 +40,22 @@
   <body> 
 <jsp:include page="/index_head.jsp"></jsp:include>
 <div class="container mt10">   
-<!-- 4个常用版块 -->
+<!-- 4个热门版块 -->
+
 <div class="row home-icons hidden-sm hidden-xs mt20">
   
   <div class="col-md-3">
     <div class="item item1">
     
       <div class="icon">
-        <a href="<%=basePath%>post/getIndexlist.html?parkId=${forumIndexMapper['select1Park'].id}">
+        <a href="<%=basePath%>post/getIndexlist.html?parkId=${hotParks[0].id}">
         <i class="fa fa-comments-o">
         <img src="<%=basePath%>public/ZHQ/images/icon_02.png"/>
         </i></a>
       </div>
       <div class="text">
-        <a href="<%=basePath%>post/getIndexlist.html?parkId=${forumIndexMapper['select1Park'].id}">
-           ${forumIndexMapper['select1Park'].name}
+        <a href="<%=basePath%>post/getIndexlist.html?parkId=${hotParks[0].id}">
+           ${hotParks[0].name}
        <i class="pull-right fa fa-arrow-right"></i></a>
       </div>
     </div>
@@ -64,11 +65,11 @@
     <div class="item item2">
     
       <div class="icon">
-        <a href="<%=basePath%>post/getIndexlist.html?parkId=${forumIndexMapper['select2Park'].id}"><i class="fa fa-support"><img src="<%=basePath%>public/ZHQ/images/icon_04.png"/></i></a>
+        <a href="<%=basePath%>post/getIndexlist.html?parkId=${hotParks[1].id}"><i class="fa fa-support"><img src="<%=basePath%>public/ZHQ/images/icon_04.png"/></i></a>
       </div>
       <div class="text">
-        <a href="<%=basePath%>post/getIndexlist.html?parkId=${forumIndexMapper['select2Park'].id}">      
-            ${forumIndexMapper['select2Park'].name} 
+        <a href="<%=basePath%>post/getIndexlist.html?parkId=${hotParks[1].id}">      
+            ${hotParks[1].name} 
          <i class="pull-right fa fa-arrow-right"></i></a>
       </div>
     </div>
@@ -78,11 +79,11 @@
     <div class="item item3">
     
       <div class="icon">
-        <a href="<%=basePath%>post/getIndexlist.html?parkId=${forumIndexMapper['select3Park'].id}"><i class="fa fa-users"><img src="<%=basePath%>public/ZHQ/images/icon_03.png"/></i></a>
+        <a href="<%=basePath%>post/getIndexlist.html?parkId=${hotParks[2].id}"><i class="fa fa-users"><img src="<%=basePath%>public/ZHQ/images/icon_03.png"/></i></a>
       </div>
       <div class="text">
-        <a href="<%=basePath%>post/getIndexlist.html?parkId=${forumIndexMapper['select3Park'].id}" >          
-		 ${forumIndexMapper['select3Park'].name}
+        <a href="<%=basePath%>post/getIndexlist.html?parkId=${hotParks[2].id}" >          
+		 ${hotParks[2].name}
 		 <i class="pull-right fa fa-arrow-right"></i></a>
       </div>
     </div>
@@ -91,11 +92,11 @@
     <div class="item item4">
    
       <div class="icon">
-        <a href="<%=basePath%>post/getIndexlist.html?parkId=${forumIndexMapper['select4Park'].id}"><i class="fa fa-diamond"> <img src="<%=basePath%>public/ZHQ/images/icon_08.png"/></i></a>
+        <a href="<%=basePath%>post/getIndexlist.html?parkId=${hotParks[3].id}"><i class="fa fa-diamond"> <img src="<%=basePath%>public/ZHQ/images/icon_08.png"/></i></a>
       </div>
       <div class="text">
-        <a href="<%=basePath%>post/getIndexlist.html?parkId=${forumIndexMapper['select4Park'].id}">
-            ${forumIndexMapper['select4Park'].name}
+        <a href="<%=basePath%>post/getIndexlist.html?parkId=${hotParks[3].id}">
+            ${hotParks[3].name}
         <i class="pull-right fa fa-arrow-right"></i></a>
       </div>
     </div>
@@ -111,10 +112,12 @@
   <c:forEach items="${hotPostList }" var="post">
     <div class="col-md-6 topics-group">
       <div class="topic media topic-31080">
+      
         <!-- 左边头像 -->
         <div class="avatar media-left">
-          <img class="media-object avatar-48" src="https://ruby-china-files.b0.upaiyun.com/user/avatar/196.jpg!md" alt="196"></a>
+          <img class="media-object avatar-48" src="<%=basePath%>public/ZHQ/images/boy.png" alt="196"></a>
         </div>
+        
         <!-- 右边内容 -->
         <div class="infos media-body">
         <!-- 帖子名称 -->
@@ -161,7 +164,7 @@
       <div class="topic media topic-31080">
         <!-- 左边头像 -->
         <div class="avatar media-left">
-          <img class="media-object avatar-48" src="https://ruby-china-files.b0.upaiyun.com/user/avatar/196.jpg!md" alt="196"></a>
+          <img class="media-object avatar-48" src="<%=basePath%>public/ZHQ/images/boy.png" alt="196"></a>
         </div>
         <!-- 右边内容 -->
         <div class="infos media-body">
@@ -184,10 +187,7 @@
                <span class="">
                    •                           
                 <fmt:formatDate value='${post.publishedAt}' pattern="yyyy年MM月dd日 " />        
-               </span>
-               
-               
-               
+               </span>          
          </div>        
         </div>
         <div class="count media-right">

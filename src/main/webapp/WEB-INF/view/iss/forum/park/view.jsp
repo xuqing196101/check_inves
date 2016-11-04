@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="../../../common.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -59,6 +60,19 @@
 		        <%--<span class="add-on">i</span>--%>
 		       </div>
 			 </li>
+			  <li class="col-md-6  p0 ">
+               <span class="fl">是否热门：</span>                 
+                <div class="input-append">
+                 <c:choose>
+                 <c:when test="${park.isHot == 0}">             
+                    <input class="span2"  type="text" value = '不是热门' readonly="readonly" >
+                 </c:when>
+                 <c:otherwise >             
+                    <input class="span2"  type="text" value = '热门' readonly="readonly"  >
+                 </c:otherwise>
+                 </c:choose>
+               </div>
+             </li>
 			 <li class="col-md-6  p0 ">
 			   <span class="fl">主题数：</span>				 	
 	  			<div class="input-append">

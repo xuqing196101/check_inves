@@ -8,6 +8,7 @@
 		    <result column="CREATED_AT"  property="createdAt" />
 		    <result column="UPDATED_AT"  property="updatedAt" />		
 		    <result column="IS_DELETED"  property="isDeleted" />  	
+		    <result column="IS_HOT"  property="isHot" /> 
 			<!-- 查询版主 -->
 		    <association column="USER_ID"  property="user" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>
 		    <!-- 查询创建人 -->
@@ -26,17 +27,14 @@
  
 		   <!-- 表中所有列 --> 
 		  <sql id="Base_Column_List">
-		    ID, NAME, CONTENT,USER_ID,CREATER_ID,CREATED_AT, UPDATED_AT,IS_DELETED	    
+		    ID, NAME, CONTENT,USER_ID,CREATER_ID,CREATED_AT, UPDATED_AT,IS_DELETED,IS_HOT	    
 		  </sql>
 		  
-		   <!-- 查询条件 -->
-		  <sql id="Example_Where_Clause">
-		  </sql>
+
 		  
 		  <!-- 1.查询数量 -->
 		  <select id="queryByCount" resultType="Object" parameterType="Object">
 		    select count(1) from T_ISS_FS_PARK
-		    <include refid="Example_Where_Clause" />
 		  </select>
 		  
 		   <!-- 2.根据ID查询版块-->
@@ -44,7 +42,7 @@
 		    select 
 		    <include refid="Base_Column_List" />
 		    from T_ISS_FS_PARK
-		    where ID = #{id}
+		    where ID = #{id} AND IS_DELETED = 0
 		  </select>
 		  		
 		  <!-- 3.1查询版块列表分页 -->
@@ -93,6 +91,7 @@
 		        CREATER_ID,
 		      </if>
 		       IS_DELETED,
+		       IS_HOT,
 		    </trim>
 		    <trim prefix="values (" suffix=")" suffixOverrides=",">
 		      <if test="id != null">
@@ -117,6 +116,7 @@
 		        #{creater.id},
 		      </if>
 		       0,
+		       0,
 		    </trim>
 		  </insert>
 		  
@@ -133,6 +133,9 @@
 		      <if test="content != null">
 		        CONTENT = #{content},
 		      </if>
+		      <if test="isHot != null">
+                IS_HOT = #{isHot},
+              </if>
 		      <if test="user != null">
 		        USER_ID = #{user.id},
 		      </if>
@@ -145,7 +148,7 @@
 		    select 
 		    <include refid="Base_Column_List" />
 		    from T_ISS_FS_PARK
-
+            WHERE IS_DELETED = 0
 		   ORDER BY CREATED_AT ASC
 		  </select>	
 		   
@@ -161,9 +164,20 @@
             </trim>
            ORDER BY CREATED_AT ASC
           </select> 
+          
+		  <select id="queryHotParks" parameterType="Object" resultType="Object">
+              select * from T_ISS_FS_PARK
+              where IS_HOT = 1 AND IS_DELETED = 0
+          </select> 
 		  	
 		  <select id="checkParkName" parameterType="Object" resultType="Object">
 		      select count(1) from T_ISS_FS_PARK
-		      where NAME = #{name}
-		  </select>	  
+		      where NAME = #{name} AND IS_DELETED = 0
+		  </select>	
+		  
+		  <select id="checkHotPark" parameterType="Object" resultType="Object">
+              select count(1) from T_ISS_FS_PARK
+              where ID != #{id} AND IS_HOT = 1 AND IS_DELETED = 0
+          </select> 
+		  		   		   
 </mapper>

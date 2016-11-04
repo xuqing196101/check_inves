@@ -173,12 +173,12 @@ public class PostManageController {
 		String url = "";
 		String parkId = request.getParameter("parkId");
 		String topicId = request.getParameter("topicId");
-
-		if(parkId == null ||parkId=="" ){
+		if(parkId.equals(null) || parkId.equals("")){
 			flag = false;
 			model.addAttribute("ERR_park", "版块不能为空");			
-		}
-		if(topicId == null ||topicId=="" ){
+		} 
+		if(topicId.equals(null) || topicId.equals("")){
+			flag = false;
 			model.addAttribute("ERR_topic", "主题不能为空");
 		}
 				
@@ -192,6 +192,16 @@ public class PostManageController {
 		if(flag == false){
 			List<Park> parks = parkService.getAll(null);
 			model.addAttribute("parks", parks);
+			if(!(parkId.equals(null) ||parkId.equals(""))){
+				Park park = parkService.selectByPrimaryKey(parkId);
+				post.setPark(park);
+			}
+			if(!(topicId.equals(null) ||topicId.equals(""))){
+				Topic topic = topicService.selectByPrimaryKey(topicId);				
+				post.setTopic(topic);
+			}
+			
+			model.addAttribute("post", post);
 			url ="iss/forum/post/add";
 		}else{
 			Park park = parkService.selectByPrimaryKey(parkId);
@@ -255,14 +265,16 @@ public class PostManageController {
 	public String update(@RequestParam("attaattach") MultipartFile[] attaattach,@Valid Post post,BindingResult result,HttpServletRequest request, Model model){
 		Boolean flag = true;
 		String url = "";
+		String postId= request.getParameter("postId");
 		String parkId = request.getParameter("parkId");
 		String topicId = request.getParameter("topicId");
 
-		if(parkId == null ||parkId=="" ){
+		if(parkId ==null || parkId.equals("") ){
 			flag = false;
 			model.addAttribute("ERR_park", "版块不能为空");			
 		}
-		if(topicId == null ||topicId=="" ){
+		if(topicId ==null || topicId.equals("") ){
+			flag = false;
 			model.addAttribute("ERR_topic", "主题不能为空");
 		}
 		if(result.hasErrors()){
@@ -273,7 +285,20 @@ public class PostManageController {
 			flag = false;
 		}
 		if(flag == false){
-			Post p = postService.selectByPrimaryKey(parkId);
+			Post p = postService.selectByPrimaryKey(postId);
+			//校验回显
+			p.setName(post.getName());
+			p.setContent(post.getContent());
+			p.setIsLocking(post.getIsLocking());
+			p.setIsTop(post.getIsTop());
+			if(parkId!=null &&!parkId.equals("")){
+				Park park = parkService.selectByPrimaryKey(parkId);		
+				p.setPark(park);
+			}
+			if(topicId!=null &&!topicId.equals("")){
+				Topic topic = topicService.selectByPrimaryKey(topicId);
+				p.setTopic(topic);
+			}
 			model.addAttribute("post", p);
 			List<Park> parks = parkService.getAll(null);
 			model.addAttribute("parks", parks);
@@ -285,9 +310,7 @@ public class PostManageController {
 			Park park = parkService.selectByPrimaryKey(parkId);
 			Topic topic = topicService.selectByPrimaryKey(topicId);
 			post.setPark(park);		
-			post.setTopic(topic);
-			
-			String postId= request.getParameter("postId");
+			post.setTopic(topic);		
 			post.setId(postId);			
 			String ids = request.getParameter("ids");
 			if(ids!=null && ids!=""){

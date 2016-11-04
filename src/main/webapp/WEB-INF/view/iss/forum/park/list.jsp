@@ -165,6 +165,7 @@
 				<th class="info" >版块名</th>
 				<th class="info">版块介绍</th>
 			    <th class="info">版主</th>
+			    <th class="info">热门</th>
 				<th class="info">创建时间</th>
 				<th class="info">更新时间</th>
 				<th class="info">创建人</th>
@@ -189,6 +190,7 @@
 					<td onclick="view('${park.id}')" onmouseover="out('${park.content}')" class="tc pointer ">${content } </td>
 				</c:if>	
 				<td class="tc pointer" onclick="view('${park.id}')">${park.user.relName}</td>
+				<td class="tc pointer" onclick="view('${park.id}')">${park.isHot}</td>
 				<td class="tc pointer" onclick="view('${park.id}')"><fmt:formatDate value='${park.createdAt}' pattern="yyyy-MM-dd  HH:mm:ss" /></td>
 				<td class="tc pointer" onclick="view('${park.id}')"><fmt:formatDate value='${park.updatedAt}' pattern="yyyy-MM-dd  HH:mm:ss" /></td>
 				<td class="tc pointer" onclick="view('${park.id}')">${park.creater.relName}</td>

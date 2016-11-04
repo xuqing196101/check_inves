@@ -22,7 +22,51 @@
 	<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
 	<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
 	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/lang/zh-cn/zh-cn.js"></script>
+	 <script type="text/javascript">
+    //实例化编辑器
+    //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+      var option ={
+        toolbars: [[
+                'undo', 'redo', '|',
+                'bold', 'italic', 'underline',  'formatmatch', 'autotypeset', '|', 'forecolor', 'backcolor',                
+                 'fontfamily', 'fontsize', '|',
+                 'indent', '|',
+                'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|','emotion',
+                 'insertimage', 
+
+            ]]
+
+	    }
+	    var ue = UE.getEditor('editor',option);  
+      var content="${post.content}";
+      ue.ready(function(){
+          ue.setContent(content);    
+      });
+	</script>
 	<script type="text/javascript">
+	$(function(){		  
+		    var parkId = "${post.park.id}";
+	        $("#park").val(parkId);	        
+	        $.ajax({
+	            url:"<%=basePath %>topic/getListForSelect.do?parkId="+parkId,   
+	            contentType: "application/json;charset=UTF-8", 
+	            dataType:"json",   //返回格式为json
+	            type:"POST",   //请求方式           
+	            success : function(topics) {     
+	                if (topics) {           
+	                  $("#topics").html("<option></option>");                
+	                  $.each(topics, function(i, topic) {  
+	                      $("#topics").append("<option  value="+topic.id+">"+topic.name+"</option>");                     
+	                  });  
+	                  $("#topics").val("${post.topic.id}"); 
+	                }
+	            }
+	        });
+	        $("#isTop").val("${post.isTop}");
+	        $("#isLocking").val("${post.isLocking}");
+	        ue.setContent("${post.content}");
+	        
+	});
 	  //2级联动
 	  function change(id){
 			$.ajax({
@@ -82,7 +126,7 @@
 	   		  <li class="col-md-12  p0 ">
 			   <span class="fl"><div class="red star_red">*</div>帖子名称：</span>
 			   <div class="input-append">
-		        <input class="span2"  type="text" name = "name" >
+		        <input class="span2"  type="text" name = "name" value='${post.name }'>
 		        <div class="validate">${ERR_name}</div>
 		        <%--<span class="add-on">i</span>--%>
 		       </div>
@@ -161,27 +205,7 @@
      </form>
      </div>
      </div>
- <script type="text/javascript">
-    //实例化编辑器
-    //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
-    var option ={
-        toolbars: [[
-                'fullscreen', 'source', '|', 'undo', 'redo', '|',
-                'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
-                'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
-                'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
-                'directionalityltr', 'directionalityrtl', 'indent', '|',
-                'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
-                'link', 'unlink', 'anchor', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
-                'simpleupload', 'insertimage', 'emotion', /*'scrawl',*/ /*'insertvideo', 'music',*/ 'attachment', /* 'map', 'gmap',*/ 'insertframe', /*'insertcode', 'webapp',*/ 'pagebreak', 'template', 'background', '|',
-                'horizontal', 'date', 'time', 'spechars', 'snapscreen', 'wordimage', '|',
-                'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts', '|',
-                'print', 'preview', 'searchreplace', 'help', 'drafts'
-            ]]
 
-    }
-    var ue = UE.getEditor('editor',option);   
-</script>
   </body>
 </html>
 

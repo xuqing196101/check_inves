@@ -236,7 +236,7 @@
 			    select 
 			    <include refid="Base_Column_List" />
 			    from T_ISS_FS_POST
-			    where TOPIC_ID = #{topicID}
+			    where TOPIC_ID = #{topicID} AND IS_DELETED = 0
 			    ORDER BY PUBLISHED_At DESC
 		  </select>
 		  
@@ -246,9 +246,10 @@
 			    <include refid="Base_Column_List" />
 			    from ( SELECT * FROM T_ISS_FS_POST
 			    where PARK_ID = #{parkID}
+			    AND IS_DELETED = 0
 			    ORDER BY PUBLISHED_At DESC )
 			    WHERE
-			    ROWNUM &lt;= 4
+			    ROWNUM &lt;= 4 
 		  </select>
 		  
 		  <!-- 查询置顶帖子 -->
@@ -256,7 +257,7 @@
                 select 
                 <include refid="Base_Column_List" />
                 from T_ISS_FS_POST
-                where PARK_ID = #{parkID} AND IS_TOP = 1
+                where PARK_ID = #{parkID} AND IS_TOP = 1 AND IS_DELETED = 0
           </select>
 
 </mapper>

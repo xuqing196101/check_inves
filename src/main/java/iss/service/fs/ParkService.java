@@ -107,4 +107,25 @@ public interface ParkService {
      * @return int
       */
      BigDecimal checkParkName(String name);
+     /**
+      * 
+     * @Title: queryHotParks
+     * @author Peng Zhongjun
+     * @date 2016-11-2 下午1:57:18  
+     * @Description: 查询热门版块 
+     * @param @return      
+     * @return List<Park>
+      */
+     List<Park> queryHotParks();
+     /**
+      * 
+     * @Title: checkHotPark
+     * @author Peng Zhongjun
+     * @date 2016-11-2 下午1:57:43  
+     * @Description: 校验热门版块 
+     * @param @param id
+     * @param @return      
+     * @return BigDecimal
+      */
+     BigDecimal checkHotPark(String id);
 }
