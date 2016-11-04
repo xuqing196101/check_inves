@@ -9,14 +9,11 @@
     <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
     <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
     <result column="IS_DELETED" property="isDeleted" />
-    <result column="IS_ROOT" property="isRoot" />
-    <result column="POSITION" property="position" />
-     <!-- 查询创建人 -->  
-    <association column="PARENT_ID"  property="parent" select="selectByPrimaryKey" /> 
+    <result column="KIND" property="kind" />
   </resultMap>
   
   <sql id="Base_Column_List">
-    ID, CODE, NAME, DESCRIPTION, CREATED_AT, UPDATED_AT, IS_DELETED, IS_ROOT, POSITION, PARENT_ID
+    ID, CODE, NAME, DESCRIPTION, CREATED_AT, UPDATED_AT, IS_DELETED, KIND
   </sql>
   
   <!-- 查询条件 -->
@@ -41,15 +38,9 @@
       <if test="updatedAt != null">
         and dd.UPDATED_AT = #{updatedAt} 
       </if>
-      <if test="isRoot != null">
-        and dd.IS_ROOT = #{isRoot} 
+      <if test="kind != null">
+        and dd.KIND = #{kind} 
       </if>
-      <if test="position != null">
-        and dd.POSITION = #{position} 
-      </if>
-      <if test="parent != null">
-        and dd.PARENT_ID = #{parent.id}
-      </if> 
     </trim>
   </sql>
   
@@ -59,7 +50,7 @@
     <include refid="Base_Column_List" />
     from T_SES_BMS_DICTIONARY_DATA dd
     <include refid="Example_Where_Clause"/>
-    ORDER BY dd.CREATED_AT , dd.POSITION DESC
+    ORDER BY dd.CREATED_AT DESC
   </select>
   
   <!-- 2.根据id删除 -->
@@ -96,15 +87,9 @@
       <if test="isDeleted != null">
         IS_DELETED,
       </if>
-      <if test="isRoot != null">
-       IS_ROOT, 
+      <if test="kind != null">
+       KIND, 
       </if>
-      <if test="position != null">
-      POSITION, 
-      </if>
-      <if test="parent != null">
-      PARENT_ID,
-      </if> 
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -128,15 +113,9 @@
       <if test="isDeleted != null">
         #{isDeleted},
       </if>
-      <if test="isRoot != null">
-        #{isRoot}, 
+      <if test="kind != null">
+        #{kind}, 
       </if>
-      <if test="position != null">
-        #{position},
-      </if>
-      <if test="parent != null">
-        #{parent.id},
-      </if> 
     </trim>
   </insert>
   
@@ -162,15 +141,9 @@
       <if test="isDeleted != null">
         IS_DELETED = #{isDeleted},
       </if>
-      <if test="isRoot != null">
-      	IS_ROOT = #{isRoot},
+      <if test="kind != null">
+      	KIND = #{kind},
       </if>
-      <if test="position != null">
-        POSITION = #{position},
-      </if>
-      <if test="parent != null">
-        PARENT_ID = #{parent.id}
-      </if> 
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -182,5 +155,15 @@
     from T_SES_BMS_DICTIONARY_DATA 
     where IS_DELETED = 0 
     and ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 6.根据code查询去除当前id的数据 -->
+  <select id="findRepeat" parameterType="java.lang.String" resultMap="DictionaryDataMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_BMS_DICTIONARY_DATA 
+    where IS_DELETED = 0 
+    and ID != #{id,jdbcType=VARCHAR}
+    and CODE =#{code}
   </select>
 </mapper>

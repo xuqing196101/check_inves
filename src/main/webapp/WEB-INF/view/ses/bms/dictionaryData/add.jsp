@@ -48,80 +48,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </head>
 
 <script type="text/javascript">
-		/* 所属字典类型选择 */
-		
-		function onClickp(e, treeId, treeNode) {
-			var zTree = $.fn.zTree.getZTreeObj("treep");
-			zTree.checkNode(treeNode, !treeNode.checked, null, true);
-			return false;
-		}
-		function onCheckp(e, treeId, treeNode) {
-			var zTree = $.fn.zTree.getZTreeObj("treep"),
-			nodes = zTree.getCheckedNodes(true),
-			v = "";
-			for (var i=0, l=nodes.length; i<l; i++) {
-				v += nodes[i].name + ",";
-				$("#pId").val(nodes[i].id);
-			}
-			if (v.length > 0 ) v = v.substring(0, v.length-1);
-			var pObj = $("#pSel");
-			pObj.attr("value", v);
-			
-			hidep();
-		}
-		function showParent() {
-			var setting = {
-				check: {
-					enable: true,
-					chkStyle: "radio",
-					radioType: "all"
-				},
-				view: {
-					dblClickExpand: false
-				},
-				data: {
-					simpleData: {
-						enable: true
-					}
-				},
-				callback: {
-					onClick: onClickp,
-					onCheck: onCheckp
-				}
-			};
-			$.ajax({
-             type: "GET",
-             async: false, 
-             url: "<%=basePath%>dictionaryData/getPTree.do",
-             dataType: "json",
-             success: function(zNodes){
-                     for (var i = 0; i < zNodes.length; i++) { 
-			            if (zNodes[i].isParent) {  
-			  
-			            } else {  
-			                //zNodes[i].icon = "${ctxStatic}/images/532.ico";//设置图标  
-			            }  
-			        }  
-			        tree = $.fn.zTree.init($("#treep"), setting, zNodes);  
-			        tree.expandAll(true);//全部展开
-               }
-         	});
-			var pObj = $("#pSel");
-			var cityOffset = $("#pSel").offset();
-			$("#pContent").css({left:cityOffset.left + "px", top:cityOffset.top + pObj.outerHeight() + "px"}).slideDown("fast");
-			$("body").bind("mousedown", onBodyDownRole);
-		}
-		function hidep() {
-			$("#pContent").fadeOut("fast");
-			$("body").unbind("mousedown", onBodyDownRole);
-		}
-		function onBodyDownRole(event) {
-			if (!(event.target.id == "menuBtn" || event.target.id == "pSel" || event.target.id == "pContent" || $(event.target).parents("#pContent").length>0)) {
-				hidep();
-			}
-		}
 	function back(){
-		window.location.href = '<%=basePath%>dictionaryData/list.html?page=1';
+		var kind = $("#k").val();
+		window.location.href = '<%=basePath%>dictionaryData/list.html?page=1&kind='+kind;
 	}
 </script>
 <body>
@@ -135,25 +64,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	   </div>
    </div>
    <div class="container bggrey border1 mt20">
-   	   <div id="pContent" class="pContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
-			<ul id="treep" class="ztree"  ></ul>
-	   </div>
    	   <sf:form action="${pageContext.request.contextPath}/dictionaryData/save.html" method="post" modelAttribute="dd">
 		   <div>
 			   <div class="headline-v2 bggrey">
 			   		<h2>新增数据字典</h2>
 			   </div>
+			   <input type="hidden" name="kind" id="k"  value="${kind }">
 			   <ul class="list-unstyled list-flow ul_list">
-			   		<li class="col-md-6  p0 ">
-					   	<span class="">所属字典类型：</span>
-					   	<div class="select_common pr">
-						   	<input id="pId" name="pId" value="${pId }" type="hidden">
-					        <input id="pSel" class="w250" type="text" name="pName" readonly value="${pName}"  onclick="showParent();" />
-					        <i class="input_icon " onclick="showParent();">
-								<img src="<%=basePath%>public/ZHH/images/down.png" class="margin-bottom-5" />
-					        </i>
-				       	</div>
-				 	</li>
 			   	 	<li class="col-md-6 p0">
 					   	<span class="span2"><div class="fr">编码：</div><div class="red">*</div></span>
 					   	<div class="input-append pr">

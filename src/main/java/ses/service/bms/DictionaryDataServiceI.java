@@ -15,5 +15,6 @@ public interface DictionaryDataServiceI {
     void update(DictionaryData dd);
 
     List<DictionaryData> listByPage(DictionaryData dd, int i);
-
+    
+    List<DictionaryData> findRepeat(DictionaryData dd);
 }

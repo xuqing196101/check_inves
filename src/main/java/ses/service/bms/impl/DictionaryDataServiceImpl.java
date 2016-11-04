@@ -47,4 +47,9 @@ public class DictionaryDataServiceImpl implements DictionaryDataServiceI {
         return dds;
     }
 
+    @Override
+    public List<DictionaryData> findRepeat(DictionaryData dd) {
+        return dictionaryDataMapper.findRepeat(dd);
+    }
+
 }

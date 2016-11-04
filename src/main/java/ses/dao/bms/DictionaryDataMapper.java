@@ -15,5 +15,13 @@ public interface DictionaryDataMapper {
     int update(DictionaryData dd);
     
     DictionaryData selectByPrimaryKey(String id);
+    
+    /**
+     * 查询除了当前id对象外重复的编码
+     * @author Ye MaoLin
+     * @param dd
+     * @return 数据集合
+     */
+    List<DictionaryData> findRepeat(DictionaryData dd);
 
 }

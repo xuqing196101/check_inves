@@ -24,12 +24,9 @@ public class DictionaryData implements Serializable{
     private Date updatedAt;
 
     private Integer isDeleted;
-
-    private DictionaryData parent;
     
-    private Boolean isRoot;
+    private Integer kind;
     
-    private Boolean position;
     
     public String getId() {
         return id;
@@ -79,30 +76,6 @@ public class DictionaryData implements Serializable{
         this.isDeleted = isDeleted;
     }
 
-    public DictionaryData getParent() {
-        return parent;
-    }
-
-    public void setParent(DictionaryData parent) {
-        this.parent = parent;
-    }
-
-    public Boolean getIsRoot() {
-        return isRoot;
-    }
-
-    public void setIsRoot(Boolean isRoot) {
-        this.isRoot = isRoot;
-    }
-
-    public Boolean getPosition() {
-        return position;
-    }
-
-    public void setPosition(Boolean position) {
-        this.position = position;
-    }
-
     public String getName() {
         return Name;
     }
@@ -110,5 +83,12 @@ public class DictionaryData implements Serializable{
     public void setName(String name) {
         Name = name;
     }
-    
+
+    public Integer getKind() {
+        return kind;
+    }
+
+    public void setKind(Integer kind) {
+        this.kind = kind;
+    }
 }

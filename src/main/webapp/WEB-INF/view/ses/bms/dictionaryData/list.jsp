@@ -133,8 +133,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
     }
     
-    function add(){
-    	window.location.href="<%=basePath%>dictionaryData/add.html";
+    function add(kind){
+    	window.location.href="<%=basePath%>dictionaryData/add.html?kind="+kind;
     }
     
 	function query(){
@@ -183,7 +183,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    	  <!-- 表格开始-->
 	  <div class="container">
 		  <div class="col-md-8">
-			    <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
+			    <button class="btn btn-windows add" type="button" onclick="add(${dd.kind})">新增</button>
 				<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 				<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
 			</div>
@@ -198,9 +198,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					  <th class="info w50">序号</th>
 					  <th class="info">编码</th>
 					  <th class="info">名称</th>
-					  <th class="info">是否字典类型</th>
-					  <th class="info">所属字典类型</th>
-					  <th class="info">所属字典类型编码</th>
 					</tr>
 				</thead>
 				<c:forEach items="${list.list}" var="dd" varStatus="vs">
@@ -209,12 +206,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					  <td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 					  <td class="tc" >${dd.code}</td>
 					  <td class="tc">${dd.name}</td>
-					  <td class="tc">
-					  	<c:if test="${dd.isRoot == true}">是</c:if>
-					  	<c:if test="${dd.isRoot == false}">否</c:if>
-					  </td>
-					  <td class="tc">${dd.parent.name}</td>
-					  <td class="tc">${dd.parent.code}</td>
 					</tr>
 				</c:forEach>
 		       </table>
