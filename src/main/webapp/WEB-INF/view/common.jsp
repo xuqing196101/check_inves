@@ -28,4 +28,5 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
 <%-- <script type="text/javascript" src="<%=basePath%>public/lodop/LodopFuncs.js"></script> --%>
 <script type="text/javascript" src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 <script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
