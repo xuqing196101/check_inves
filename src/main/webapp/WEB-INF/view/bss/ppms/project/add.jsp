@@ -22,28 +22,28 @@ String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+"";
     
 
 
-<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/purchase/css/purchase.css" media="screen" rel="stylesheet" type="text/css" >
+<link href="${pageContext.request.contextPath}/public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/header-v4.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/header-v5.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/img-hover.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/purchase/css/purchase.css" media="screen" rel="stylesheet" type="text/css" >
 
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHH/js/jquery_ujs.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHH/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHH/js/jquery.validate.min.js"></script>
 
  
   <script type="text/javascript">
@@ -66,7 +66,7 @@ String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+"";
                 //  $("#page").val(e.curr);
                     // $("#form1").submit();
                     
-                 location.href = '<%=basePath%>project/add.html?page='+e.curr;
+                 location.href = '${pageContext.request.contextPath}/project/add.html?page='+e.curr;
                 }  
             }
         });
@@ -79,7 +79,7 @@ String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+"";
                 name:{
                     remote:{
                         type:"post",
-                        url:"<%=basePath%>project/SameNameCheck.html",
+                        url:"${pageContext.request.contextPath}/project/SameNameCheck.html",
                         dataType: "json",
                         data:{
                             name:function(){
@@ -108,7 +108,6 @@ String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+"";
         }
         
         var v = "${checkedIds}";
-        console.info(v);
         if (v) {
             var vs = v.split(",");
             for (var i = 0; i < vs.length; i++) {
@@ -134,7 +133,7 @@ String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+"";
             checkedIds += $(this).val();
        });
        if ($(ele).prop("checked")) {
-            window.location.href = "<%=basePath%>project/addDeatil.html?id=" + id +"&checkedIds=" + checkedIds;
+            window.location.href = "${pageContext.request.contextPath}/project/addDeatil.html?id=" + id +"&checkedIds=" + checkedIds;
        }
       
     }
@@ -154,10 +153,7 @@ String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+"";
           } else if (projectNumber==""){
                 layer.tips("项目编号不允许为空","#pc");
           }else{
-            window.setTimeout(function(){
                 $("#form1").submit();
-                layer.msg("添加成功",{offset: ['222px', '690px']});
-             }, 1000);
           }
          
     }
@@ -172,7 +168,7 @@ String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+"";
                 shade:0.01,
                 btn:['是','否'],
                 },function(){
-                 window.location.href="<%=basePath%>project/list.html";
+                 window.location.href="${pageContext.request.contextPath}/project/list.html";
                 },function(){
                  window.history.bask();
                 }
@@ -181,13 +177,13 @@ String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+"";
         } 
       }   --%>
          function bask(){
-                 window.location.href="<%=basePath%>project/list.html";
-    } 
+                 window.location.href="${pageContext.request.contextPath}/project/list.html";
+         }
   </script>
   </head>
   
  <body>
- <form id="form1" action="<%=basePath%>project/create.html" method="post">
+ <form id="form1" action="${pageContext.request.contextPath}/project/create.html" method="post">
 <!--面包屑导航开始-->
  <div class="margin-top-10 breadcrumbs ">
       <div class="container">
@@ -204,11 +200,11 @@ String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+"";
                         请填写信息
       </h1>
    </div>
-   <%-- 
+   
         <%
             session.setAttribute("tokenSession", tokenValue);
          %>
-         <input type="hidden"  name="token2" value="<%=tokenValue%>"> --%>
+         <input type="hidden"  name="token2" value="<%=tokenValue%>"> 
             <span class="f14 fl"><i class="spredm">*</i>&nbsp;项目名称：</span>
         <div class="fl" >
           <input id="pic" type="text" class="toinline" name="name"/>

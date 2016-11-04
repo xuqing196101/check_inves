@@ -8,9 +8,9 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<base href="<%=basePath%>">
-<script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+<base href="${pageContext.request.contextPath}/">
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 
 <title>..</title>
 
@@ -49,7 +49,7 @@ function cancel(){
 </head>
 
 <body>
-    <form id="att" action="<%=basePath%>project/start.html" id="myForm"
+    <form id="att" action="${pageContext.request.contextPath}/project/start.html" id="myForm"
         method="post" name="form1" class="simple" target="_parent" enctype="multipart/form-data">
         <input type="hidden" name="id" value="${project.id}"/>
         <span class="f14 fl">上传项目批文：</span>
@@ -66,7 +66,7 @@ function cancel(){
             </c:forEach> 
          </select> 
         </div>
-        <br/><br/><br/>
+        <br/><br/><br/><br/><br/><br/><br/>
      <a class="btn btn-windows save" onclick="start('${project.id}');">确认</a>
          <input class="btn btn-windows reset" value="取消" type="button" onclick="cancel();">
     </form>

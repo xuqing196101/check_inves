@@ -8,46 +8,46 @@
 <head>
 
 <title>地区管理</title>
-<script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css"
-	href="<%=request.getContextPath()%>/public/ztree/css/zTreeStyle.css">
+    href="${pageContext.request.contextPath}//public/ztree/css/zTreeStyle.css">
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/public/ztree/jquery.ztree.core.js"></script>
+    src="${pageContext.request.contextPath}//public/ztree/jquery.ztree.core.js"></script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/public/ztree/jquery.ztree.excheck.js"></script>
+    src="${pageContext.request.contextPath}//public/ztree/jquery.ztree.excheck.js"></script>
 <script type="text/javascript"
-	src="<%=request.getContextPath()%>/public/layer/layer.js"></script>
+    src="${pageContext.request.contextPath}//public/layer/layer.js"></script>
 <script type="text/javascript">
         var datas;
         var setting;
         function loadTree(name) {
             
-            var url = "<%=basePath%>area/listByOne.do";
+            var url = "${pageContext.request.contextPath}/area/listByOne.do";
             if (name) {
-                url = "<%=basePath%>area/listByOne.do?name=" + name; 
+                url = "${pageContext.request.contextPath}/area/listByOne.do?name=" + name; 
             }
-	        /*树的设置*/
-	        setting={
-	            async:{
-	                autoParam:["id"],
-	                enable:true,
-	                url:url,
-	                dataType:"json",
-	                type:"post",
-	            },
-	            data:{
-	                simpleData:{
-	                    enable:true,
-	                    idKey:"id",
-	                    pId:"pId",
-	                    rootPId:-1,
-	                }
-	            },
-	            callback:{
-	               onClick:zTreeOnClick
-	            }
-	        };
-	         var treeObj=$.fn.zTree.init($("#tree"),setting,datas);
+            /*树的设置*/
+            setting={
+                async:{
+                    autoParam:["id"],
+                    enable:true,
+                    url:url,
+                    dataType:"json",
+                    type:"post",
+                },
+                data:{
+                    simpleData:{
+                        enable:true,
+                        idKey:"id",
+                        pId:"pId",
+                        rootPId:-1,
+                    }
+                },
+                callback:{
+                   onClick:zTreeOnClick
+                }
+            };
+             var treeObj=$.fn.zTree.init($("#tree"),setting,datas);
         }
         
         function zTreeOnClick(event,treeId,treeNode){
@@ -79,7 +79,7 @@
           shift: 1, //0-6的动画形式，-1不开启
           offset: ['120px', '550px'],
           shadeClose: false,
-          content: '<%=basePath%>area/add.html?pid='+pid
+          content: '${pageContext.request.contextPath}/area/add.html?pid='+pid
         }); 
         }
         function edit(){
@@ -95,7 +95,7 @@
           shift: 1, //0-6的动画形式，-1不开启
           offset: ['120px', '550px'],
           shadeClose: false,
-          content: '<%=basePath%>area/edit.html?pid='+pid
+          content: '${pageContext.request.contextPath}/area/edit.html?pid='+pid
         }); 
         }else{
             layer.alert("请选择一个节点",{offset: ['222px', '390px'], shade:0.01});
@@ -106,7 +106,7 @@
         if(mid != null && mid != '' ){
             layer.confirm('您确定要删除该地区吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
                 layer.close(index);
-                window.location.href="<%=basePath%>area/delete.html?id="+mid;
+                window.location.href="${pageContext.request.contextPath}/area/delete.html?id="+mid;
             });
         }else{
             layer.alert("请选择要删除的地区",{offset: ['222px', '390px'], shade:0.01});

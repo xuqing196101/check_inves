@@ -21,27 +21,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
 
 
-<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/purchase/css/purchase.css" media="screen" rel="stylesheet" type="text/css" >
+<link href="${pageContext.request.contextPath}/public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/header-v4.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/header-v5.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/img-hover.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/purchase/css/purchase.css" media="screen" rel="stylesheet" type="text/css" >
 
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHH/js/jquery_ujs.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHH/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 
  
   <script type="text/javascript">
@@ -111,7 +111,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
         //查看明细
         function view(id){
-           window.location.href="<%=basePath%>project/view.html?id="+id;
+           window.location.href="${pageContext.request.contextPath}/project/view.html?id="+id;
         }   
     
     
@@ -127,10 +127,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         var currPage = ${info.pageNum};
           if(id.length==1){
                if(status == "实施中"){
-                    window.location.href="<%=basePath%>project/excute.html?id="+id+"&page="+currPage;
+                    window.location.href="${pageContext.request.contextPath}/project/excute.html?id="+id+"&page="+currPage;
                }else if(status == "已立项"){
                     $.ajax({
-                            url:"<%=basePath%>project/viewPackage.html",
+                            url:"${pageContext.request.contextPath}/project/viewPackage.html",
                             data:"id="+id,
                             type:"post",
                             dataType:"json",
@@ -154,7 +154,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                                         shift: 1, //0-6的动画形式，-1不开启
                                                         offset: ['220px', '630px'],
                                                         shadeClose: true,
-                                                        content: '<%=basePath%>project/startProject.html?id='+id,
+                                                        content: '${pageContext.request.contextPath}/project/startProject.html?id='+id,
                                             }); 
                                    }
                             },
@@ -198,7 +198,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     }
                 }
                 if(status==3){
-                    window.location.href = "<%=basePath%>project/subPackage.html?id="+str;
+                    window.location.href = "${pageContext.request.contextPath}/project/subPackage.html?id="+str;
                 }else if(status==1){
                     layer.alert("项目在实施中，不可进行分包操作，请重新选择",{offset: ['222px', '390px']});
                     $(".layui-layer-shade").remove();
@@ -219,7 +219,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             id.push($(this).val()); 
         }); 
         if(id.length==1){
-           window.location.href = '<%=basePath%>project/edit.html?id='+id;
+           window.location.href = '${pageContext.request.contextPath}/project/edit.html?id='+id;
        
             
         }else if(id.length>1){
@@ -256,7 +256,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- 项目戳开始 -->
     <div class="p10_25">
      <h2 class="padding-10 border1">
-     <form  action="<%=basePath%>project/list.html" id="form1" method="post" class="mb0">
+     <form  action="${pageContext.request.contextPath}/project/list.html" id="form1" method="post" class="mb0">
      <ul class="demand_list">
     
      <li class="fl">
@@ -288,7 +288,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <button class="btn padding-left-10 padding-right-10 btn_back" onclick="start();">实施</button>
          <button class="btn btn-windows edit" onclick="edit();">修改</button>
       </span>
-    <a class="btn btn-windows add" href="<%=basePath%>project/add.html">新建采购项目</a>
+    <a class="btn btn-windows add" href="${pageContext.request.contextPath}/project/add.html">新建采购项目</a>
     <div class="container margin-top-5">
                <table class="table table-striped table-bordered table-hover">
         <thead>

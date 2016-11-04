@@ -421,24 +421,23 @@ public class ProjectController extends BaseController {
     
     @RequestMapping("/mplement")
     public String starts(String id, Model model, Integer page) {
-       
         String number = "";
         HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("id", id);
+        map.put("projectId", id);
         Project project = projectService.selectById(id);
-        List<ProjectDetail> details = detailService.selectById(map);
+        List<ProjectTask> tasks = projectTaskService.queryByNo(map);
         Set<String> set =new HashSet<String>();
-        for (ProjectDetail projectDetail : details) {
-            if(StringUtils.isNotEmpty(projectDetail.getTaskId())){
-                set.add( projectDetail.getTaskId());
-                number = projectDetail.getTaskId();
+        for (ProjectTask projectTask : tasks) {
+            if(StringUtils.isNotEmpty(projectTask.getTaskId())){
+                set.add( projectTask.getTaskId());
+                number = projectTask.getTaskId();
             }
         }   
         if(set.size() == 1){
             Task task = taskservice.selectById(number);
             model.addAttribute("task", task);
         }
-        
+        map.put("id", id);
         // 查看明细
         List<ProjectDetail> detail = detailService.selectById(map);
         model.addAttribute("lists", detail);

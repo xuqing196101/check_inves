@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="/tld/upload" prefix="f"%>
     <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -16,29 +17,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/header-v4.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/header-v5.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/img-hover.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
     
-    <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
-    <script type="text/javascript" src="<%=path %>/public/ZHH/js/ajaxfileupload.js"></script>
-    <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.validate.min.js"></script>
-    <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
-    <script type="text/javascript" src="<%=basePath%>public/lodop/LodopFuncs.js"></script>
-    <script type="text/javascript" src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
-    <script type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
-    <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHH/js/ajaxfileupload.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHH/js/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHH/js/jquery_ujs.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/public/lodop/LodopFuncs.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHH/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+    <script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 
  
   <script type="text/javascript">
@@ -145,7 +146,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             layer.confirm('您确定要受领吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
                 layer.close(index);
                 $.ajax({
-                    url:"<%=basePath%>task/startTask.do",
+                    url:"${pageContext.request.contextPath}/task/startTask.do",
                     data:"ids="+ids,
                     type:"post",
                     dateType:"json",
@@ -175,7 +176,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             id.push($(this).val()); 
         }); 
          if(id.length==1){
-           window.location.href="<%=basePath%>task/edit.html?id="+id;
+           window.location.href="${pageContext.request.contextPath}/task/edit.html?id="+id;
         }else if(id.length>1){
             layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
         }else{
@@ -184,7 +185,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     }
     /** 查看任务 */
     function view(id){
-           window.location.href="<%=basePath%>task/view.html?id="+id;
+           window.location.href="${pageContext.request.contextPath}/task/view.html?id="+id;
     }
     /** 重置任务 */
     function clearSearch(){
@@ -209,8 +210,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 },function(){
                      parent.layer.close();
                 }
-                    
-            ); 
+              ); 
             }
                
 }
@@ -241,7 +241,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <div class="container clear">
   <div class="p10_25">
      <h2 class="padding-10 border1">
-     <form id="form1" action="<%=basePath%>task/list.html" method="post" >
+     <form id="form1" action="${pageContext.request.contextPath}/task/list.html" method="post" >
      <input type="hidden" name="page" id="page">
      <ul class="demand_list">
        <li class="fl">
@@ -331,7 +331,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </table>
      </div>
         <div id="delTask" style="display: none;">
-             <form id="att" action="<%=basePath%>task/delTask.html" 
+             <form id="att" action="${pageContext.request.contextPath}/task/delTask.html" 
         method="post" name="form1" class="simple" target="_parent" enctype="multipart/form-data">
         <input type="hidden" id="ids" name="id"/>
         <span class="f14 fl">上传附件：</span>

@@ -5,7 +5,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <base href="<%=basePath%>">
+    <base href="${pageContext.request.contextPath}/">
     
     <title>添加菜单</title>
     
@@ -17,11 +17,11 @@
     <!--
     <link rel="stylesheet" type="text/css" href="styles.css">
     -->
-    <link rel="stylesheet" href="<%=basePath%>public/ztree/css/demo.css" type="text/css">
-    <link rel="stylesheet" href="<%=basePath%>public/ztree/css/zTreeStyle.css" type="text/css">
-    <script type="text/javascript" src="<%=basePath%>public/ztree/jquery.ztree.core.js"></script>
-    <script type="text/javascript" src="<%=basePath%>public/ztree/jquery.ztree.excheck.js"></script>
-    <script src="<%=basePath%>public/layer/layer.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ztree/css/demo.css" type="text/css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css" type="text/css">
+    <script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.excheck.js"></script>
+    <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
     <script type="text/javascript">
        var datas;
         function onClick(e, treeId, treeNode) {
@@ -48,7 +48,7 @@
               async:{
                     autoParam:["id"],
                     enable:true,
-                    url:"<%=basePath%>area/listByOne.do",
+                    url:"${pageContext.request.contextPath}/area/listByOne.do",
                     dataType:"json",
                     type:"post",
                 },
@@ -104,7 +104,7 @@
                    if(result.msg){
                     layer.msg("添加成功",{offset: ['150px', '180px']});
                     parent.window.setTimeout(function(){
-                            parent.window.location.href = "<%=basePath%>area/list.html";
+                            parent.window.location.href = "${pageContext.request.contextPath}/area/list.html";
                         }, 1000);
                    }
                 },

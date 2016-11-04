@@ -161,7 +161,6 @@ public class TackController extends BaseController{
 	@RequestMapping("/startTask")
 	@ResponseBody
 	public void startTask(String ids){
-	    boolean bool=false;
 		String[] ide = ids.split(",");
 		for (int i = 0; i < ide.length; i++) {
 			 taskservice.startTask(ide[i]);
@@ -174,37 +173,11 @@ public class TackController extends BaseController{
 		            for (PurchaseRequired purchaseRequired : list2) {
 		                purchaseRequired.setDetailStatus(1);
 		                purchaseRequiredService.updateByPrimaryKeySelective(purchaseRequired);
-		                HashMap<String, Object> map1 = new HashMap<String, Object>();
-                        map1.put("requiredId", purchaseRequired.getId());
-                        List<ProjectDetail> detail = detailService.selectById(map1);
-                        for (ProjectDetail projectDetail : detail) {
-                            projectDetail.setStatus(String.valueOf(purchaseRequired.getDetailStatus()));
-                            projectDetail.setTaskId(ide[i]);
-                            detailService.update(projectDetail);
-                        }
-                        /*List<ProjectDetail> detail1 = detailService.selectById(map1);
-                        if(detail1!=null&&detail1.size()>0){
-                            String id = detail1.get(0).getPackageId();
-                            String status = detail1.get(0).getStatus();
-                            for(ProjectDetail projectDetail : detail1){
-                                if(!projectDetail.getStatus().equals(status)){
-                                    bool=true;
-                             }
-                            }
-                            map1.put("id", id);
-                            List<Packages> packages = packageService.findPackageById(map1);
-                            Packages packages2 = packages.get(0);
-                           if(bool==true){
-                               packages2.setStatus(1);
-                               packageService.updateByPrimaryKeySelective(packages2);
-                           }  
-                        }*/
-                    }
             }
 			 task.setAcceptTime(new Date());
 			 taskservice.update(task);
 		}
-		
+	}
 	}
 	
 	@RequestMapping("/edit")

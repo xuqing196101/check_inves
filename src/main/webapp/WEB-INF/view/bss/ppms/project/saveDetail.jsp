@@ -20,29 +20,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/header-v4.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/header-v5.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/img-hover.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
     
-    <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
     <script type="text/javascript" src="<%=path %>/public/ZHH/js/ajaxfileupload.js"></script>
-    <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery.validate.min.js"></script>
-    <script type="text/javascript" src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
-    <script type="text/javascript" src="<%=basePath%>public/lodop/LodopFuncs.js"></script>
-    <script type="text/javascript" src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
-    <script src="<%=basePath%>public/layer/layer.js"></script>
-    <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHH/js/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHH/js/jquery_ujs.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/public/lodop/LodopFuncs.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHH/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
+    <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+    <script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 
  
   <script type="text/javascript">
@@ -66,34 +66,50 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
     function check(ele){
         var flag = $(ele).prop("checked");
-         var purchaseType = $("input[name='chkItem']:checked").parents("tr").find("td").eq(10).text();
-             purchaseType = $.trim(purchaseType);
+        var purchaseType = $("input[name='chkItem']:checked").parents("tr").find("td").eq(10).text();
+        purchaseType = $.trim(purchaseType);
+        var goodUse = $("input[name='chkItem']:checked").parents("tr").find("td").eq(13).text();
+        goodUse = $.trim(goodUse);
+        if (!goodUse) {
+            goodUse = null;
+        }
         var id = $(ele).val();
         $.ajax({
-                    url:"<%=basePath%>project/checkDeail.html",
+                    url:"${pageContext.request.contextPath}/project/checkDeail.html",
                     data:"id="+id,
                     type:"post",
                     dataType:"json",
                     success:function(result){
-                       for (var i = 0; i < result.length; i++) {
+                        for (var i = 0; i < result.length; i++) {
                            $("input[name='chkItem']").each(function() {
                                 var v1 = result[i].id;
                                 var v3 = result[i].purchaseType;
-                          if(v3 == purchaseType){
-                                var v2 = $(this).val();
-                                if (v1 == v2) {
-                                    $(this).prop("checked", flag);
-                                }
-                             }else{
-                                    layer.alert("采购方式不相同",{offset: ['222px', '390px'], shade:0.01});
-                                }
+	                          if(v3 == purchaseType){
+	                                var v2 = $(this).val();
+	                                if (v1 == v2) {
+	                                    $(this).prop("checked", flag);
+	                                }
+	                          }else{
+	                               layer.alert("采购方式不相同",{offset: ['222px', '390px'], shade:0.01});
+	                          }
                            });
-                       }
+                        } 
+                      $("input[name='chkItem']:checked").each(function() {
+                            var currGoodUse = $(this).parents("tr").find("td").eq(13).text();
+                            currGoodUse = $.trim(currGoodUse);
+                            if (!currGoodUse) {
+                                currGoodUse = null;
+                            }
+                            if (currGoodUse != goodUse) {
+                                $(this).prop("checked", false);
+                                layer.alert("进口方式不相同",{offset: ['222px', '390px'], shade:0.01});
+                            }
+                       });
                     },
                     error: function(){
                         layer.msg("失败",{offset: ['222px', '390px']});
                     }
-                });
+         });
     }
     
      function save(){
@@ -162,6 +178,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <th class="info w30">操作</th>
         </tr>
         </thead>
+            <tbody id="tbody_id">
           <c:forEach items="${lists}" var="obj" varStatus="vs">
             <tr style="cursor: pointer;">
               <td class="tc w50">${obj.seq}</td>
@@ -184,7 +201,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </tr>
      
          </c:forEach>  
-         
+         </tbody>
 
       </table>
       
@@ -194,7 +211,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  </div>
 
 
- <form id="save_form_id" action="<%=basePath%>project/add.html" method="post" target="_parent">
+ <form id="save_form_id" action="${pageContext.request.contextPath}/project/add.html" method="post" target="_parent">
     <input id="detail_id" name="id" type="hidden" />
     <input  name="checkedIds" value="${checkedIds}" type="hidden" />
  </form> 
