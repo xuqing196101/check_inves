@@ -13,23 +13,53 @@
 	<meta http-equiv="description" content="This is my page">
 	<script type="text/javascript">
 		$(function(){
-			var isAllow = ${examPaper.isAllowRetake};
-			var typeDistribution = ${examPaper.typeDistribution};
-			var obj = eval(typeDistribution);
-			$("#singleNum").val(obj.singleNum);
-			$("#singlePoint").val(obj.singlePoint);
-			$("#multipleNum").val(obj.multipleNum);
-			$("#multiplePoint").val(obj.multiplePoint);
-			$("#judgeNum").val(obj.judgeNum);
-			$("#judgePoint").val(obj.judgePoint);
-			if(isAllow==0){
-				$("#time").hide();
-				document.getElementById("isAllowFalse").setAttribute("checked",true);
-			}else{
-				$("#time").show();
-				document.getElementById("isAllowTrue").setAttribute("checked",true);
+			var errorIsAllow = $("#errorIsAllow").val();
+			var single = document.getElementsByName("single");
+			var multiple = document.getElementsByName("multiple");
+			var judge = document.getElementsByName("judge");
+			var isAllow = document.getElementsByName("isAllow");
+			var singleNum = $("#singleNum").val();
+			var multipleNum = $("#multipleNum").val();
+			var judgeNum = $("#judgeNum").val();
+			var errorSingle = $("#errorSingle").val();
+			var errorMultiple = $("#errorMultiple").val();
+			var errorJudge = $("#errorJudge").val();
+			if(errorSingle==null||errorSingle==""){
+				$("#sin").hide();
+			}else if(errorSingle=="无"){
+				$(single[1]).attr("checked","checked");
+				$("#sin").hide();
+			}else if(errorSingle=="有"){
+				$(single[0]).attr("checked","checked");
+				$("#sin").show();
 			}
-			
+			if(errorMultiple==null||errorMultiple==""){
+				$("#mul").hide();
+			}else if(errorMultiple=="无"){
+				$(multiple[1]).attr("checked","checked");
+				$("#mul").hide();
+			}else if(errorMultiple=="有"){
+				$(multiple[0]).attr("checked","checked");
+				$("#mul").show();
+			}
+			if(errorJudge==null||errorJudge==""){
+				$("#ju").hide();
+			}else if(errorJudge=="无"){
+				$(judge[1]).attr("checked","checked");
+				$("#ju").hide();
+			}else if(errorJudge=="有"){
+				$(judge[0]).attr("checked","checked");
+				$("#ju").show();
+			}
+			if(errorIsAllow==null||errorIsAllow==""){
+				$("#time").hide();
+			}else if(errorIsAllow=="否"){
+				$(isAllow[1]).attr("checked","checked");
+				$("#time").hide();
+			}else if(errorIsAllow=="是"){
+				$(isAllow[0]).attr("checked","checked");
+				$("#time").show();
+			}
 		})
 	</script>
 
@@ -45,6 +75,11 @@
 			<div class="clear"></div>
 		  </div>
 	   </div>
+	   
+	<input type="hidden" value="${errorIsAllow }" id="errorIsAllow"/>
+	<input type="hidden" value="${errorSingle }" id="errorSingle"/>
+  	<input type="hidden" value="${errorMultiple }" id="errorMultiple"/>
+	<input type="hidden" value="${errorJudge }" id="errorJudge"/>
 	   
      <div class="container margin-top-5">
      <div class="content padding-left-25 padding-right-25 padding-top-5">
@@ -64,18 +99,44 @@
 	  		</li>
     		
     		<li class="col-md-12 p0">
-	  			<span class="fl">题型分布：</span>
+	  			<span class="fl"><div class="red star_red">*</div>题型分布：</span>
 	  			<div class="fl">
-	  			   <label class="fl mt5">单选题：</label><input type="text" name="singleNum" id="singleNum" class="ml10 w50" disabled="disabled"/>条<input type="text" name="singlePoint" id="singlePoint" class="ml10 w50" disabled="disabled"/>分/条<br/>
-		    	   <label class="fl mt5">多选题：</label><input type="text" name="multipleNum" id="multipleNum" class="ml10 w50" disabled="disabled"/>条<input type="text" name="multiplePoint" id="multiplePoint" class="ml10 w50" disabled="disabled"/>分/条<br/>
-		    	   <label class="fl mt5">判断题：</label> <input type="text" name="judgeNum" id="judgeNum" class="ml10 w50" disabled="disabled"/>条<input type="text" name="judgePoint" id="judgePoint" class="ml10 w50" disabled="disabled"/>分/条<br/>
+	  			   	<div class="fl">
+		  			   	<label class="fl mt5">单选题：</label>
+		  			   	<div class="fl mt5">
+		  			   	    <input type="radio" name="single" class="mt0" value="有" disabled="disabled"/>有
+		  			   	    <input type="radio" name="single" class="mt0" value="无" disabled="disabled"/>无 
+		  			   	</div>
+		  			   	<div class="fl" id="sin">
+		  			   	  	<input type="text" value="${singleNum }" name="singleNum" id="singleNum" class="ml10 w50" disabled="disabled"/>条<input type="text" value="${singlePoint }" name="singlePoint" id="singlePoint" class="ml10 w50" disabled="disabled"/>分/条
+		  			   	</div>
+	  			   	</div>
+	  			   	<div class="clear">
+		    	   	  	<label class="fl mt5">多选题：</label>
+			    	   	<div class="fl mt5">
+			    	   	    <input type="radio" name="multiple" class="mt0" value="有" disabled="disabled"/>有
+			    	   	    <input type="radio" name="multiple" class="mt0" value="无" disabled="disabled"/>无
+			    	   	</div>
+			    	   	<div class="fl" id="mul">
+			    	   	  	<input type="text" value="${multipleNum }" name="multipleNum" id="multipleNum" class="ml10 w50" disabled="disabled"/>条<input type="text" value="${multiplePoint }" name="multiplePoint" id="multiplePoint" class="ml10 w50" disabled="disabled"/>分/条
+		  		        </div>
+	  		        </div>
+	  		        <div class="clear">
+		    	   	  	<label class="fl mt5">判断题：</label>
+			    	   	<div class="fl mt5">
+			    	   	    <input type="radio" name="judge" class="mt0" value="有" disabled="disabled"/>有
+			    	   	    <input type="radio" name="judge" class="mt0" value="无" disabled="disabled"/>无
+			    	   	</div>
+			    	   	<div class="fl" id="ju">
+			    	   	  	<input type="text" value="${judgeNum }" name="judgeNum" id="judgeNum" class="ml10 w50" disabled="disabled"/>条<input type="text" value="${judgePoint }" name="judgePoint" id="judgePoint" class="ml10 w50" disabled="disabled"/>分/条
+		  		        </div>
+	  		        </div>
 	  		    </div>
-	  		    <div class="clear"></div>
 	  		</li>
     		
     		<li class="col-md-12 p0">
 	  			<span class="fl mt5">总分值：</span>
-		  		<input class="w50 mt5" type="text" name="totalPoint" id="totalPoint" value="${examPaper.score }" disabled="disabled"/>分
+		  		<input class="w50 mt5" type="text"  value="${examPaper.score }" disabled="disabled"/>分
 	  		</li>
     		
     		<li class="col-md-12 p0">
@@ -95,19 +156,16 @@
 	  		
 	  		<li class="col-md-12 p0">
 	  			<span class="fl mb5">允许30分钟内重考：</span>
-		  		<input class="mt0" type="checkbox" id="isAllowTrue" value="是" disabled="disabled"/>是
-    			<input class="mt0" type="checkbox" id="isAllowFalse" value="否" disabled="disabled"/>否
+		  		<input class="mt0" type="checkbox" name="isAllow" id="isAllowTrue" value="是" disabled="disabled"/>是
+    			<input class="mt0" type="checkbox" name="isAllow" id="isAllowFalse" value="否" disabled="disabled"/>否
 	  		</li>
 	  		
 	  		<li class="col-md-12 p0" id="time">
 	  			<span class="fl mt5">考试答题时间：</span>
-		  		<input class="w50 mt5" type="text" name="useTime" id="useTime" value="${examPaper.testTime }" disabled="disabled"/>分钟
+		  		<input class="w50 mt5" type="text" value="${examPaper.testTime }" disabled="disabled"/>分钟
 	  		</li>
 	  		
-	  		<%--<li class="col-md-12 p0 mt10 red">
-	  			*注意:每份考卷的登录有效期为15分钟,如:考卷开始时间上午9点,请相关参考人员于上午9点至上午9点15分内登录考试系统考试,否则视为弃考,计0分。
-	  		</li>
-    	--%></ul>
+	  		</ul>
    
    
 	  		<!-- 按钮 -->

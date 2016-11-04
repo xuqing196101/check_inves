@@ -17,16 +17,16 @@
 		opt = ${opt};
 		obj = eval(opt);
 		var queType = $("#queType").val();
-		var queAnswer = "${purchaserAnswer}";
+		var queAnswer = $("#queAnswer").val();
 		var ohtml="";
 		var ahtml="";
 		if(queType==1||queType==2){
 			var options = $("#options").val();
 			var array = obj[options].split(",");
-			var content = "${optContent}";
-			var ct = content.split(";");
+			var content = $("#optContent").val();
+			var ct = content.split("&@#$");
 			for(var i=0;i<array.length;i++){
-				ohtml = ohtml+"<div class='clear mt10'><div class='fl mt5'>"+array[i]+"</div><textarea name='option' class='ml5 col-md-8' disabled>"+ct[i].substring(2)+"</textarea></div>";
+				ohtml = ohtml+"<div class='clear mt10 col-md-12 p0'><div class='fl mt5'>"+array[i]+"</div><textarea name='option' class='ml5 col-md-8' disabled>"+ct[i]+"</textarea></div>";
 				if(queType==1){
 					if(queAnswer.indexOf(array[i])>-1){
 						ahtml = ahtml+"<input type='radio' name='answer' value='"+array[i]+"' class='mt0' checked='checked' disabled/>"+array[i]+"&nbsp";
@@ -65,7 +65,8 @@
 		<div class="clear"></div>
 	  </div>
    </div>
-   
+   <input type="hidden" value="${optContent }" id="optContent"/>
+   	<input type="hidden" value="${purchaserAnswer}" id="queAnswer"/>
    	<div class="container margin-top-5">
     <div class="content padding-left-25 padding-right-25 padding-top-5">
     <div>

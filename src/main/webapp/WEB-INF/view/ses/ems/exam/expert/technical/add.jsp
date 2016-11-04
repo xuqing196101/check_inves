@@ -22,14 +22,20 @@
 				document.getElementById("options").setAttribute("disabled",true);
 			}
 			var options = $("#options").val();
+			if(options==""){
+				return;
+			}
 			var array = obj[options].split(",");
-			var errorOption = $("#errorOption").val();
-			var ct = errorOption.split("&@#$");
+			var errorOption = document.getElementsByName("errorOption");
 			var queAnswer = $("#errorAnswer").val();
 			var ohtml = "";
 			var ahtml = "";
 			for(var i=0;i<array.length;i++){
-				ohtml = ohtml+"<div class='clear mt10 col-md-12 p0'><div class='fl mt5'>"+array[i]+"</div><textarea name='option' class='ml5 col-md-9 p0'>"+ct[i]+"</textarea></div>";
+				if($(errorOption[i]).val()==""||$(errorOption[i]).val()==null){
+					ohtml = ohtml+"<div class='clear mt10 col-md-12 p0'><div class='fl mt5'><div class='red star_red'>*</div>"+array[i]+"</div><textarea name='option' class='ml5 col-md-9 p0'></textarea></div>";
+				}else{
+					ohtml = ohtml+"<div class='clear mt10 col-md-12 p0'><div class='fl mt5'><div class='red star_red'>*</div>"+array[i]+"</div><textarea name='option' class='ml5 col-md-9 p0'>"+$(errorOption[i]).val()+"</textarea></div>";
+				}
 				if(queType==1){
 					if(queAnswer.indexOf(array[i])>-1){
 						ahtml = ahtml+"<input type='radio' name='answer' value='"+array[i]+"' class='mt0' checked='checked'/>"+array[i]+"&nbsp;";
@@ -76,7 +82,7 @@
 			}else{
 				document.getElementById("queTopic").setAttribute("disabled",true);
 				document.getElementById("options").setAttribute("disabled",true);
-				$("#queTopic").val(" ");
+				$("#queTopic").val("");
 				all_options[0].selected = true;
 				$("#items").html(" ");
 				$("#answers").html(" ");
@@ -88,8 +94,8 @@
 			var queType = $("#queType").val();
 			var options = $("#options").val();
 			if(options==""||options==null){
-				$("#items").html(" ");
-				$("#answers").html(" ");
+				$("#items").html("");
+				$("#answers").html("");
 				return;
 			}
 			var array = obj[options].split(",");
@@ -124,8 +130,12 @@
 			<div class="clear"></div>
 		  </div>
 	   </div>
-	   <input type="hidden" id="errorOption" value="${errData['option'] }"/>
+	   
+	    <c:forEach items="${errData['option'] }" var="opt">
+	   		<input type="hidden" name="errorOption" value="${opt }"/>
+	   </c:forEach>
 	   <input type="hidden" id="errorAnswer" value="${errData['answer'] }"/>
+	   
      <div class="container margin-top-5">
      <div class="content padding-left-25 padding-right-25 padding-top-5">
      <div>

@@ -349,15 +349,15 @@ public class ExpertExamController extends BaseSupplierController{
 //				error = "option";
 //				model.addAttribute("ERR_option","选项内容不能为空");
 //			}else{
-				StringBuffer sb_opt = new StringBuffer();
+				List<String> sb_opt = new ArrayList<String>();
 				for(int i=0;i<option.length;i++){
 					if(option[i].trim().isEmpty()){
-						sb_opt.append("&@#$");
+						sb_opt.add("");
 					}else{
-						sb_opt.append(option[i]+"&@#$");
+						sb_opt.add(option[i].toString());
 					}
 				}
-				map.put("option",sb_opt.toString());
+				map.put("option",sb_opt);
 				outer:for(int i=0;i<option.length;i++){
 					if(option[i].trim().isEmpty()){
 						error = "option";
@@ -463,15 +463,15 @@ public class ExpertExamController extends BaseSupplierController{
 //				error = "option";
 //				model.addAttribute("ERR_option","选项内容不能为空");
 //			}else{
-				StringBuffer sb_opt = new StringBuffer();
+				List<String> sb_opt = new ArrayList<String>();
 				for(int i=0;i<option.length;i++){
 					if(option[i].trim().isEmpty()){
-						sb_opt.append("&@#$");
+						sb_opt.add("");
 					}else{
-						sb_opt.append(option[i]+"&@#$");
+						sb_opt.add(option[i].toString());
 					}
 				}
-				map.put("option",sb_opt.toString());
+				map.put("option",sb_opt);
 				outer:for(int i=0;i<option.length;i++){
 					if(option[i].trim().isEmpty()){
 						error = "option";
@@ -578,15 +578,15 @@ public class ExpertExamController extends BaseSupplierController{
 //				error = "option";
 //				model.addAttribute("ERR_option","选项内容不能为空");
 //			}else{
-				StringBuffer sb_opt = new StringBuffer();
+				List<String> sb_opt = new ArrayList<String>();
 				for(int i=0;i<option.length;i++){
 					if(option[i].trim().isEmpty()){
-						sb_opt.append("&@#$");
+						sb_opt.add("");
 					}else{
-						sb_opt.append(option[i]+"&@#$");
+						sb_opt.add(option[i].toString());
 					}
 				}
-				map.put("option",sb_opt.toString());
+				map.put("option",sb_opt);
 				outer:for(int i=0;i<option.length;i++){
 					if(option[i].trim().isEmpty()){
 						error = "option";
@@ -749,15 +749,15 @@ public class ExpertExamController extends BaseSupplierController{
 //				model.addAttribute("ERR_option","选项内容不能为空");
 //			}else{
 				model.addAttribute("optNum", option.length);
-				StringBuffer sb_opt = new StringBuffer();
+				List<String> sb_opt = new ArrayList<String>();
 				for(int i=0;i<option.length;i++){
 					if(option[i].trim().isEmpty()){
-						sb_opt.append("&@#$");
+						sb_opt.add("");
 					}else{
-						sb_opt.append(option[i]+"&@#$");
+						sb_opt.add(option[i].toString());
 					}
 				}
-				model.addAttribute("optContent", sb_opt.toString());
+				model.addAttribute("optContent", sb_opt);
 				outer:for(int i=0;i<option.length;i++){
 					if(option[i].trim().isEmpty()){
 						model.addAttribute("ERR_option", "选项内容不能为空");
@@ -822,11 +822,11 @@ public class ExpertExamController extends BaseSupplierController{
 		model.addAttribute("examPoolType",examQuestionType);
 		String[] option = examQuestion.getItems().split(";");
 		model.addAttribute("optNum", option.length);
-		StringBuffer sb_opt = new StringBuffer();
+		List<String> sb_opt = new ArrayList<String>();
 		for(int i=0;i<option.length;i++){
-			sb_opt.append(option[i].substring(2)+"&@#$");
+			sb_opt.add(option[i].substring(2));
 		}
-		model.addAttribute("optContent", sb_opt.toString());
+		model.addAttribute("optContent", sb_opt);
 		optionNum(model);
 	}
 	
@@ -849,11 +849,11 @@ public class ExpertExamController extends BaseSupplierController{
 		model.addAttribute("examPoolType",examQuestionType);
 		String[] option = examQuestion.getItems().split(";");
 		model.addAttribute("optNum", option.length);
-		StringBuffer sb_opt = new StringBuffer();
+		List<String> sb_opt = new ArrayList<String>();
 		for(int i=0;i<option.length;i++){
-			sb_opt.append(option[i].substring(2)+"&@#$");
+			sb_opt.add(option[i].substring(2));
 		}
-		model.addAttribute("optContent", sb_opt.toString());
+		model.addAttribute("optContent", sb_opt);
 		optionNum(model);
 	}
 	
@@ -876,11 +876,11 @@ public class ExpertExamController extends BaseSupplierController{
 		model.addAttribute("examPoolType",examQuestionType);
 		String[] option = examQuestion.getItems().split(";");
 		model.addAttribute("optNum", option.length);
-		StringBuffer sb_opt = new StringBuffer();
+		List<String> sb_opt = new ArrayList<String>();
 		for(int i=0;i<option.length;i++){
-			sb_opt.append(option[i].substring(2)+"&@#$");
+			sb_opt.add(option[i].substring(2));
 		}
-		model.addAttribute("optContent", sb_opt.toString());
+		model.addAttribute("optContent", sb_opt);
 		optionNum(model);
 	}
 	
@@ -944,15 +944,15 @@ public class ExpertExamController extends BaseSupplierController{
 //				model.addAttribute("ERR_option","选项内容不能为空");
 //			}else{
 				model.addAttribute("optNum", option.length);
-				StringBuffer sb_opt = new StringBuffer();
+				List<String> sb_opt = new ArrayList<String>();
 				for(int i=0;i<option.length;i++){
 					if(option[i].trim().isEmpty()){
-						sb_opt.append("&@#$");
+						sb_opt.add("");
 					}else{
-						sb_opt.append(option[i]+"&@#$");
+						sb_opt.add(option[i].toString());
 					}
 				}
-				model.addAttribute("optContent", sb_opt.toString());
+				model.addAttribute("optContent", sb_opt);
 				outer:for(int i=0;i<option.length;i++){
 					if(option[i].trim().isEmpty()){
 						model.addAttribute("ERR_option", "选项内容不能为空");
@@ -1060,15 +1060,15 @@ public class ExpertExamController extends BaseSupplierController{
 //				model.addAttribute("ERR_option","选项内容不能为空");
 //			}else{
 				model.addAttribute("optNum", option.length);
-				StringBuffer sb_opt = new StringBuffer();
+				List<String> sb_opt = new ArrayList<String>();
 				for(int i=0;i<option.length;i++){
 					if(option[i].trim().isEmpty()){
-						sb_opt.append("&@#$");
+						sb_opt.add("");
 					}else{
-						sb_opt.append(option[i]+"&@#$");
+						sb_opt.add(option[i].toString());
 					}
 				}
-				model.addAttribute("optContent", sb_opt.toString());
+				model.addAttribute("optContent", sb_opt);
 				outer:for(int i=0;i<option.length;i++){
 					if(option[i].trim().isEmpty()){
 						model.addAttribute("ERR_option", "选项内容不能为空");
