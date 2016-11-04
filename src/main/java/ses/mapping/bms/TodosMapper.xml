@@ -14,14 +14,14 @@
 		<result column="UNDO_TYPE" jdbcType="DECIMAL" property="undoType" />
 		<result column="SENDER_ID" jdbcType="VARCHAR" property="senderId" />
 		<result column="RECEIVER_ID" jdbcType="VARCHAR" property="receiverId" />
-		<result column="RECEIVER_NAME" property="receiverName" />
-		<result column="SENDER_NAME" property="senderName" />
+		<result column="POWER_ID" jdbcType="VARCHAR" property="powerId" />
+		<result column="ORG_ID" jdbcType="VARCHAR" property="orgId" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		<!-- @mbggenerated -->
 		ID, CREATED_AT, NAME, IS_DELETED, URL, IS_FINISH, CLASS_NAME,
-		CLASS_ID, UNDO_TYPE, SENDER_ID,
-		RECEIVER_ID
+		CLASS_ID, UNDO_TYPE,
+		SENDER_ID, RECEIVER_ID, POWER_ID, ORG_ID
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
@@ -38,18 +38,24 @@
 	</delete>
 	<insert id="insert" parameterType="ses.model.bms.Todos">
 		<!-- @mbggenerated -->
-		insert into T_SES_BMS_TODOS (NAME,
-		IS_DELETED, URL, IS_FINISH,
+		insert into T_SES_BMS_TODOS (ID, CREATED_AT, NAME,
+		IS_DELETED, URL,
+		IS_FINISH,
 		CLASS_NAME, CLASS_ID, UNDO_TYPE,
-		SENDER_ID, RECEIVER_ID)
-		values
-		(#{name,jdbcType=VARCHAR},
-		#{isDeleted,jdbcType=DECIMAL},
-		#{url,jdbcType=VARCHAR}, #{isFinish,jdbcType=DECIMAL},
-		#{className,jdbcType=VARCHAR}, #{classId,jdbcType=DECIMAL},
+		SENDER_ID, RECEIVER_ID,
+		POWER_ID,
+		ORG_ID)
+		values (#{id,jdbcType=VARCHAR},
+		#{createdAt,jdbcType=DATE},
+		#{name,jdbcType=VARCHAR},
+		#{isDeleted,jdbcType=DECIMAL}, #{url,jdbcType=VARCHAR},
+		#{isFinish,jdbcType=DECIMAL},
+		#{className,jdbcType=VARCHAR},
+		#{classId,jdbcType=DECIMAL},
 		#{undoType,jdbcType=DECIMAL},
-		#{senderId,jdbcType=VARCHAR},
-		#{receiverId,jdbcType=VARCHAR})
+		#{senderId,jdbcType=VARCHAR}, #{receiverId,jdbcType=VARCHAR},
+		#{powerId,jdbcType=VARCHAR},
+		#{orgId,jdbcType=VARCHAR})
 	</insert>
 	<insert id="insertSelective" parameterType="ses.model.bms.Todos">
 		<!-- @mbggenerated -->
@@ -88,6 +94,12 @@
 			<if test="receiverId != null">
 				RECEIVER_ID,
 			</if>
+			<if test="powerId != null">
+				POWER_ID,
+			</if>
+			<if test="orgId != null">
+				ORG_ID,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -123,10 +135,14 @@
 			<if test="receiverId != null">
 				#{receiverId,jdbcType=VARCHAR},
 			</if>
+			<if test="powerId != null">
+				#{powerId,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+				#{orgId,jdbcType=VARCHAR},
+			</if>
 		</trim>
 	</insert>
-	
-
 	<update id="updateByPrimaryKeySelective" parameterType="ses.model.bms.Todos">
 		<!-- @mbggenerated -->
 		update T_SES_BMS_TODOS
@@ -147,7 +163,7 @@
 				IS_FINISH = #{isFinish,jdbcType=DECIMAL},
 			</if>
 			<if test="className != null">
-				CLASS_NAME = #{class,jdbcType=VARCHAR},
+				CLASS_NAME = #{className,jdbcType=VARCHAR},
 			</if>
 			<if test="classId != null">
 				CLASS_ID = #{classId,jdbcType=DECIMAL},
@@ -160,6 +176,12 @@
 			</if>
 			<if test="receiverId != null">
 				RECEIVER_ID = #{receiverId,jdbcType=VARCHAR},
+			</if>
+			<if test="powerId != null">
+				POWER_ID = #{powerId,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+				ORG_ID = #{orgId,jdbcType=VARCHAR},
 			</if>
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
@@ -181,10 +203,11 @@
 		SENDER_ID =
 		#{senderId,jdbcType=VARCHAR},
 		RECEIVER_ID =
-		#{receiverId,jdbcType=VARCHAR}
+		#{receiverId,jdbcType=VARCHAR},
+		POWER_ID = #{powerId,jdbcType=VARCHAR},
+		ORG_ID = #{orgId,jdbcType=VARCHAR}
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
-
 	<!-- 获取所有的待办已办信息 -->
 	<select id="listTodos" parameterType="Map" resultMap="BaseResultMap">
 		SELECT
@@ -193,13 +216,43 @@
 		T_SES_BMS_USER bu
 		LEFT JOIN
 		T_SES_BMS_TODOS bt ON BT.SENDER_ID = BU."ID"
-		WHERE
-		bt.RECEIVER_ID IN #{ids,jdbcType=DECIMAL}
-		AND BT.IS_DELETED = 0
-		AND BT.IS_FINISH
-		=#{todos.isFinish,jdbcType=DECIMAL}
-		<if test="todos.undoType!=null and todos.undoType != ''">
-		AND BT.UNDO_TYPE = #{todos.undoType,jdbcType=DECIMAL}
+		WHERE BT.IS_DELETED = 0
+		AND BT.IS_FINISH =#{todos.isFinish,jdbcType=DECIMAL}
+		<if test="todos.undoType!=null and todos.undoType != ''  ">
+			AND BT.UNDO_TYPE = #{todos.undoType,jdbcType=DECIMAL}
+		</if>
+		<if test="todos.receiverId != null and todos.receiverId != ''">
+			AND (bt.RECEIVER_ID = #{todos.receiverId,jdbcType=VARCHAR}
+		</if>
+		<choose>
+			<when
+				test="permission != null and permission != '' and todos.orgId != null and todos.orgId != '' ">
+				OR (bt.ORG_ID = #{todos.orgId,jdbcType=VARCHAR}
+				AND BT.POWER_ID in
+				<foreach collection="permission" open="(" close=")"
+					separator="," item="permission">
+					#{permission}
+				</foreach>
+				)
+			</when>
+			<otherwise>
+				<if test="permission != null and permission != ''">
+					OR BT.POWER_ID in
+					<foreach collection="permission" open="(" close=")"
+						separator="," item="permission">
+						#{permission}
+					</foreach>
+				</if>
+				<if test="todos.orgId != null and todos.orgId != ''">
+					OR bt.ORG_ID = #{todos.orgId,jdbcType=VARCHAR}
+				</if>
+			</otherwise>
+		</choose>
+		<if test="todos.receiverId != null and todos.receiverId != ''">
+			)
+		</if>
+		<if test="todos.name != null and todos.name != ''">
+			AND BT.NAME like '%${todos.name}%'
 		</if>
 		ORDER BY UNDO_TYPE
 	</select>
@@ -213,12 +266,27 @@
 		set IS_FINISH = 1
 		where URL = #{url,jdbcType=VARCHAR}
 	</update>
-	
-	 <!-- 更新待办名字-->
-	 <update id="updateByUrl" parameterType="ses.model.bms.Todos">
-    update T_SES_BMS_TODOS
-    set 
-    NAME = #{name}
-    where URL = #{url}
-  </update>
+	<!-- 更新待办名字 -->
+	<update id="updateByUrl" parameterType="ses.model.bms.Todos">
+		update T_SES_BMS_TODOS
+		set
+		NAME = #{name}
+		where URL = #{url}
+	</update>
+	<!-- 查看登录用户是否有权限审核 -->
+	<select id="listUserPermission" resultType="java.lang.String"
+		parameterType="Map">
+		SELECT
+		permenu_id
+		FROM
+		T_SES_BMS_USER_PERMISSION
+		WHERE
+		user_id = #{id}
+		<if test="db != null and db != '' ">
+		<foreach collection="db" item="item" open="(" close=")"
+			separator="OR">
+			  AND permenu_id = #{item}
+		</foreach>
+		  </if>
+	</select>
 </mapper>

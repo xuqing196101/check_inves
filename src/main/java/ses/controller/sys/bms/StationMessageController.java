@@ -12,6 +12,9 @@ import java.util.List;
 
 
 
+
+
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +23,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ctc.wstx.dtd.StarModel;
 import com.github.pagehelper.PageInfo;
 
 import ses.model.bms.StationMessage;
+import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.service.bms.StationMessageService;
+import ses.service.bms.TodosService;
 
 /**
  * @Description: 站内消息
@@ -37,133 +43,78 @@ import ses.service.bms.StationMessageService;
 @Scope("prototype")
 @RequestMapping("/StationMessage")
 public class StationMessageController {
-	
-	@Autowired
-	private StationMessageService stationMessageService;
-	
-	
-	/**
-	 * @Description:插入站内消息
-	 *
-	 * @author Wang Wenshuai
-	 * @date 2016年9月8日 下午5:14:04  
-	 * @param @param stationMessage     
-	 * @return void
-	 */
-	@RequestMapping("/insertStationMessage")
-	public void insertStationMessage(HttpServletRequest request,StationMessage stationMessage) {
-		User user=(User) request.getSession().getAttribute("loginUser");
-		if(user!=null){
-			stationMessage.setUserId(user.getId());
-		}
-		stationMessageService.insertStationMessage(stationMessage);
-		
-	}
 
-	/**
-	 * @Description:修改|插入 站内消息
-	 *
-	 * @author Wang Wenshuai
-	 * @date 2016年9月8日 下午5:17:15  
-	 * @param @param stationMessage      
-	 * @return void
-	 */
-	@RequestMapping("/updateStationMessage")
-	public String updateStationMessage(HttpServletRequest request,StationMessage stationMessage) {
-		User user=(User) request.getSession().getAttribute("loginUser");
-		if(user!=null){
-			stationMessage.setUserId(user.getId());
-		}
-		stationMessageService.updateStationMessage(stationMessage);
-		return "redirect:listStationMessage.html";
-	}
+    @Autowired
+    private StationMessageService stationMessageService;
+    
+    @Autowired
+    private TodosService todosService;
 
-	/**
-	 * @Description:分页获取集合
-	 *
-	 * @author Wang Wenshuai
-	 * @date 2016年9月8日 下午5:17:51  
-	 * @param @param stationMessage
-	 * @param @return      
-	 * @return List<StationMessage>
-	 */
-	@RequestMapping("/listStationMessage")
-	public String listStationMessage(Model model, StationMessage stationMessage,String page) {
-		//第几页
-		stationMessage.setPageNum(page==null||"".equals(page)?1:Integer.parseInt(page));
-		List<StationMessage> listStationMessage = stationMessageService.listStationMessage(stationMessage);
-		model.addAttribute("listStationMessage", new PageInfo<StationMessage>(listStationMessage));
-		model.addAttribute("title", stationMessage.getTitle());
-		return "ses/bms/station/list";
-	}
 
-	/**
-	 * @Description:根据id获取单个消息
-	 *
-	 * @author Wang Wenshuai
-	 * @date 2016年9月8日 下午5:18:00  
-	 * @param @param id      
-	 * @return StationMessage
-	 */
-	@RequestMapping("/showStationMessage")
-	public String showStationMessage(Model model,String id,String type) {
-		StationMessage showStationMessage = stationMessageService.showStationMessage(id);
-		model.addAttribute("StationMessage",showStationMessage);
-		if("view".equals(type)){
-			return "ses/bms/station/view";
-		}else{
-			model.addAttribute("operation", 2);
-			return "ses/bms/station/edit";
-		}
-	}
+    /**
+     * @Description:插入站内消息
+     *
+     * @author Wang Wenshuai
+     * @date 2016年9月8日 下午5:14:04  
+     * @param @param stationMessage     
+     * @return void
+     */
+    @RequestMapping("/insertStationMessage")
+    public void insertStationMessage(HttpServletRequest request,StationMessage stationMessage1) {
+        //发送通知
+        StationMessage stationMessage =new StationMessage();
+        //发送用户id 必填  
+        stationMessage.setSenderId("");
+        //标题 必填
+        stationMessage.setName("");
+        //接收用户id 选填
+        stationMessage.setReceiverId("");
+        //权限id 选填
+        stationMessage.setPowerId("");
+        //机构id 选填
+        stationMessage.setOrgId("");
+        //插入通知表
+        stationMessageService.insertStationMessage(stationMessage);
+        
+        //发送待办
+        Todos todos=new Todos();
+        //发送用户id 必填  
+        todos.setSenderId("");
+        //标题 必填
+        todos.setName("");
+        //接收用户id 选填
+        todos.setReceiverId("");
+        //权限id 选填
+        todos.setPowerId("");
+        //机构id 选填
+        todos.setOrgId("");
+        todosService.insert(todos);
+    }
 
-	/**
-	 * @Description:发布 or 撤回 消息
-	 *
-	 * @author Wang Wenshuai
-	 * @date 2016年9月8日 下午5:20:53  
-	 * @param @param id      
-	 * @return void
-	 */
-	@RequestMapping("/updateSMIsIssuance")
-	public String updateSMIsIssuance(String id,String isIssuance) {
-		
-		stationMessageService.updateSMIsIssuance(id,isIssuance);
-		
-		return "redirect:listStationMessage.html";
-	}
 
-	/**
-	 * @Description: 软删除一条记录
-	 *
-	 * @author Wang Wenshuai
-	 * @date 2016年9月8日 下午5:21:18  
-	 * @param @param id      
-	 * @return void
-	 */
-	@RequestMapping("/deleteSoftSMIsDelete")
-	public String deleteSoftSMIsDelete(String ids) {
-		String[] id=ids.split(",");
-		for (String str : id) {
-			stationMessageService.deleteSoftSMIsDelete(str);
-		}
-		return "redirect:listStationMessage.html";
-	}
-	
-	/**
-	 * @Description:打开添加页面
-	 *
-	 * @author Wang Wenshuai
-	 * @date 2016年9月9日 下午2:41:00  
-	 * @param @return      
-	 * @return String
-	 */
-	@RequestMapping("/showInsertSM")
-	public String showInsertSM(Model model){
-		model.addAttribute("operation", 1);
-		return "ses/bms/station/edit";
-		
-	}
-	
-	
+    /**
+     * @Description:分页获取集合
+     *
+     * @author Wang Wenshuai
+     * @date 2016年9月8日 下午5:17:51  
+     * @param @param stationMessage
+     * @param @return      
+     * @return List<StationMessage>
+     */
+    @RequestMapping("/listStationMessage")
+    public String listStationMessage(HttpServletRequest req,Model model, StationMessage stationMessage,String page) {
+        //第几页
+        User user = (User) req.getSession().getAttribute("loginUser");
+        if (user != null){
+            stationMessage.setReceiverId(user.getId());
+            stationMessage.setOrgId(user.getOrg().getId());
+            List<StationMessage> listStationMessage = stationMessageService.listStationMessage(stationMessage,page==null||"".equals(page)?1:Integer.valueOf(page));
+            model.addAttribute("listStationMessage", new PageInfo<StationMessage>(listStationMessage));
+            model.addAttribute("stationMessage",stationMessage);
+        }
+
+        return "ses/bms/station/list";
+    }
+
+
 }

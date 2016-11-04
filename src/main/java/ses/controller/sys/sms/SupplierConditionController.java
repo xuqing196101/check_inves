@@ -98,7 +98,8 @@ public class SupplierConditionController {
             }
         }
         SupplierConType conType=null;
-        if(extConTypeArray!=null&&extConTypeArray.getExtCount().length!=0){
+       
+        if(extConTypeArray!=null&&extConTypeArray.getExtCount()!=null&&extConTypeArray.getExtCount().length!=0){
             for (int i = 0; i < extConTypeArray.getExtCount().length; i++) {
                 conType=new SupplierConType();
                 conType.setSupplieCount(Integer.parseInt(extConTypeArray.getExtCount()[i]));
@@ -191,7 +192,7 @@ public class SupplierConditionController {
      */
 
     @RequestMapping("/dels")	
-    public String dels(@RequestParam(value="delids",required=false)String delids){
+    public String dels(@RequestParam(value="delids",required = false)String delids){
         String[] id=delids.split(",");
         for (String str : id) {
             conTypeService.delete(str);

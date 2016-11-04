@@ -185,7 +185,7 @@ public class PurchaserExamController extends BaseSupplierController{
 	* @Title: saveToPurPool
 	* @author ZhaoBo
 	* @date 2016-9-7 上午11:28:10  
-	* @Description: 采购人新增题库方法 
+	* @Description: 采购人新增题目方法 
 	* @param @param model
 	* @param @param request
 	* @param @param examQuestion
@@ -232,15 +232,15 @@ public class PurchaserExamController extends BaseSupplierController{
 				String[] option = request.getParameterValues("option");
 				String item = items[option.length];
 				String[] opt = item.split(",");
-				StringBuffer sb_opt = new StringBuffer();
+				List<String> sb_opt = new ArrayList<String>();
 				for(int i=0;i<option.length;i++){
 					if(option[i].trim().isEmpty()){
-						sb_opt.append("&@#$");
+						sb_opt.add("");
 					}else{
-						sb_opt.append(option[i]+"&@#$");
+						sb_opt.add(option[i]);
 					}
 				}
-				map.put("option",sb_opt.toString());
+				map.put("option",sb_opt);
 				outer:for(int i=0;i<option.length;i++){
 				if(option[i].trim().isEmpty()){
 					model.addAttribute("ERR_option", "选项内容不能为空");
@@ -338,11 +338,11 @@ public class PurchaserExamController extends BaseSupplierController{
 		model.addAttribute("examPoolType",examPoolType);
 		if(!examQuestion.getItems().equals(" ")){
 			String[] option = examQuestion.getItems().split(";");
-			StringBuffer sb_opt = new StringBuffer();
+			List<String> sb_opt = new ArrayList<String>();
 			for(int i=0;i<option.length;i++){
-				sb_opt.append(option[i].substring(2)+"&@#$");
+				sb_opt.add(option[i].substring(2));
 			}
-			model.addAttribute("optContent", sb_opt.toString());
+			model.addAttribute("optContent", sb_opt);
 			model.addAttribute("optNum", option.length);
 		}
 		optionNum(model);
@@ -403,15 +403,15 @@ public class PurchaserExamController extends BaseSupplierController{
 				String item = items[option.length];
 				String[] opt = item.split(",");
 				model.addAttribute("optNum", option.length);
-				StringBuffer sb_opt = new StringBuffer();
+				List<String> sb_opt = new ArrayList<String>();
 				for(int i=0;i<option.length;i++){
 					if(option[i].trim().isEmpty()){
-						sb_opt.append("&@#$");
+						sb_opt.add("");
 					}else{
-						sb_opt.append(option[i]+"&@#$");
+						sb_opt.add(option[i]);
 					}
 				}
-				model.addAttribute("optContent", sb_opt.toString());
+				model.addAttribute("optContent", sb_opt);
 				outer:for(int i=0;i<option.length;i++){
 					if(option[i].isEmpty()){
 						model.addAttribute("ERR_option", "选项内容不能为空");
@@ -1842,7 +1842,6 @@ public class PurchaserExamController extends BaseSupplierController{
 	public String viewPaper(HttpServletRequest request,Model model){
 		String id = request.getParameter("id");
 		ExamPaper examPaper = examPaperService.selectByPrimaryKey(id);
-		model.addAttribute("examPaper", examPaper);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String startTime = sdf.format(examPaper.getStartTime());
 		String examStartTime = startTime.substring(0,16);
@@ -1850,6 +1849,36 @@ public class PurchaserExamController extends BaseSupplierController{
 		String offTime = sdf.format(examPaper.getOffTime());
 		String examOffTime = offTime.substring(0,16);
 		model.addAttribute("offTime", examOffTime);
+		model.addAttribute("examPaper", examPaper);
+		String typeDistribution = examPaper.getTypeDistribution();
+		JSONObject object = JSONObject.fromObject(typeDistribution);
+		model.addAttribute("singleNum", object.get("singleNum"));
+		if(Integer.parseInt(object.get("singleNum").toString())>0){
+			model.addAttribute("errorSingle", "有");
+		}else{
+			model.addAttribute("errorSingle", "无");
+		}
+		model.addAttribute("singlePoint", object.get("singlePoint"));
+		model.addAttribute("multipleNum", object.get("multipleNum"));
+		if(Integer.parseInt(object.get("multipleNum").toString())>0){
+			model.addAttribute("errorMultiple", "有");
+		}else{
+			model.addAttribute("errorMultiple", "无");
+		}
+		model.addAttribute("multiplePoint", object.get("multiplePoint"));
+		model.addAttribute("judgeNum", object.get("judgeNum"));
+		if(Integer.parseInt(object.get("judgeNum").toString())>0){
+			model.addAttribute("errorJudge", "有");
+		}else{
+			model.addAttribute("errorJudge", "无");
+		}
+		int isAllow = examPaper.getIsAllowRetake();
+		if(isAllow==0){
+			model.addAttribute("errorIsAllow", "否");
+		}else{
+			model.addAttribute("errorIsAllow", "是");
+		}
+		model.addAttribute("judgePoint", object.get("judgePoint"));
 		return "ses/ems/exam/purchaser/paper/view";
 	}
 	
