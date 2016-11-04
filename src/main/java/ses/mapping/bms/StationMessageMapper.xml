@@ -1,165 +1,242 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ses.dao.bms.StationMessageMapper">
-  <resultMap id="BaseResultMap" type="ses.model.bms.StationMessage">
-    <!--
-    @mbggenerated
-    -->
-    <id column="ID" jdbcType="VARCHAR" property="id" />
-    <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
-    <result column="TITLE" jdbcType="VARCHAR" property="title" />
-    <result column="CONTENT" jdbcType="VARCHAR" property="content" />
-    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
-    <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
-    <result column="IS_PUBLISH" jdbcType="DECIMAL" property="isPublish" />
-    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
-   <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    <!--
-    @mbggenerated
-    -->
-    ID, USER_ID, TITLE, CONTENT, CREATED_AT, IS_DELETED, IS_PUBLISH, UPDATED_AT
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    <!--
-    @mbggenerated
-    -->
-    select 
-    <include refid="Base_Column_List" />
-    from T_SES_BMS_STATION_MESSAGE
-    where ID = #{id,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    <!--
-    @mbggenerated
-    -->
-    delete from T_SES_BMS_STATION_MESSAGE
-    where ID = #{id,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="ses.model.bms.StationMessage">
-    <!--
-    @mbggenerated
-    -->
-    insert into T_SES_BMS_STATION_MESSAGE ( USER_ID, TITLE, 
-      CONTENT,  UPDATED_AT)
-    values (#{userId,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
-      #{content,jdbcType=VARCHAR}, #{updatedAt,jdbcType=DATE})
-  </insert>
-  <insert id="insertSelective" parameterType="ses.model.bms.StationMessage">
-    <!--
-    @mbggenerated
-    -->
-    insert into T_SES_BMS_STATION_MESSAGE
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        ID,
-      </if>
-      <if test="userId != null">
-        USER_ID,
-      </if>
-      <if test="title != null">
-        TITLE,
-      </if>
-      <if test="content != null">
-        CONTENT,
-      </if>
-      <if test="createdAt != null">
-        CREATED_AT,
-      </if>
-      <if test="isDeleted != null">
-        IS_DELETED,
-      </if>
-      <if test="isPublish != null">
-        IS_PUBLISH,
-      </if>
-      <if test="updatedAt != null">
-        UPDATED_AT,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="userId != null">
-        #{userId,jdbcType=VARCHAR},
-      </if>
-      <if test="title != null">
-        #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="content != null">
-        #{content,jdbcType=VARCHAR},
-      </if>
-      <if test="createdAt != null">
-        #{createdAt,jdbcType=DATE},
-      </if>
-      <if test="isDeleted != null">
-        #{isDeleted,jdbcType=DECIMAL},
-      </if>
-      <if test="isPublish != null">
-        #{isPublish,jdbcType=DECIMAL},
-      </if>
-      <if test="updatedAt != null">
-        #{updatedAt,jdbcType=DATE},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="ses.model.bms.StationMessage">
-    <!--
-    @mbggenerated
-    -->
-    update T_SES_BMS_STATION_MESSAGE
-    <set>
-      <if test="userId != null">
-        USER_ID = #{userId,jdbcType=VARCHAR},
-      </if>
-      <if test="title != null">
-        TITLE = #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="content != null">
-        CONTENT = #{content,jdbcType=VARCHAR},
-      </if>
-      <if test="createdAt != null">
-        CREATED_AT = #{createdAt,jdbcType=DATE},
-      </if>
-      <if test="isDeleted != null">
-        IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
-      </if>
-      <if test="isPublish != null">
-        IS_PUBLISH = #{isPublish,jdbcType=DECIMAL},
-      </if>
-      <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt,jdbcType=DATE},
-      </if>
-    </set>
-    where ID = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="ses.model.bms.StationMessage">
-    <!--
-    @mbggenerated
-    -->
-    update T_SES_BMS_STATION_MESSAGE
-    set USER_ID = #{userId,jdbcType=VARCHAR},
-      TITLE = #{title,jdbcType=VARCHAR},
-      CONTENT = #{content,jdbcType=VARCHAR},
-      CREATED_AT = #{createdAt,jdbcType=DATE},
-      IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
-      IS_PUBLISH = #{isPublish,jdbcType=DECIMAL},
-      UPDATED_AT = #{updatedAt,jdbcType=DATE}
-    where ID = #{id,jdbcType=VARCHAR}
-  </update>
-  <!-- 分页获取数据 -->
-  <select id="listStationMessage" resultMap="BaseResultMap">
-	SELECT
-		T_SES_BMS_STATION_MESSAGE.*, T_SES_BMS_USER.REL_NAME AS USER_NAME
-	FROM
+	<resultMap id="BaseResultMap" type="ses.model.bms.StationMessage">
+		<!-- @mbggenerated -->
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+		<result column="NAME" jdbcType="VARCHAR" property="name" />
+		<result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
+		<result column="URL" jdbcType="VARCHAR" property="url" />
+		<result column="IS_FINISH" jdbcType="DECIMAL" property="isFinish" />
+		<result column="UNDO_TYPE" jdbcType="DECIMAL" property="undoType" />
+		<result column="SENDER_ID" jdbcType="VARCHAR" property="senderId" />
+		<result column="RECEIVER_ID" jdbcType="VARCHAR" property="receiverId" />
+		<result column="POWER_ID" jdbcType="VARCHAR" property="powerId" />
+		<result column="ORG_ID" jdbcType="VARCHAR" property="orgId" />
+		<result column="REL_NAME" jdbcType="VARCHAR" property="receiverName" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		<!-- @mbggenerated -->
+		ID, CREATED_AT, NAME, IS_DELETED, URL, IS_FINISH, UNDO_TYPE,
+		SENDER_ID, RECEIVER_ID,
+		POWER_ID, ORG_ID
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		<!-- @mbggenerated -->
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_BMS_STATION_MESSAGE
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		<!-- @mbggenerated -->
+		delete from T_SES_BMS_STATION_MESSAGE
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="ses.model.bms.StationMessage">
+		<!-- @mbggenerated -->
+		insert into T_SES_BMS_STATION_MESSAGE (ID, CREATED_AT, NAME,
+		IS_DELETED, URL, IS_FINISH,
+		UNDO_TYPE, SENDER_ID, RECEIVER_ID,
+		POWER_ID, ORG_ID)
+		values (#{id,jdbcType=VARCHAR},
+		#{createdAt,jdbcType=DATE},
+		#{name,jdbcType=VARCHAR},
+		#{isDeleted,jdbcType=DECIMAL}, #{url,jdbcType=VARCHAR},
+		#{isFinish,jdbcType=DECIMAL},
+		#{undoType,jdbcType=DECIMAL},
+		#{senderId,jdbcType=VARCHAR},
+		#{receiverId,jdbcType=VARCHAR},
+		#{powerId,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="ses.model.bms.StationMessage">
+		<!-- @mbggenerated -->
+		insert into T_SES_BMS_STATION_MESSAGE
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT,
+			</if>
+			<if test="name != null">
+				NAME,
+			</if>
+			<if test="isDeleted != null">
+				IS_DELETED,
+			</if>
+			<if test="url != null">
+				URL,
+			</if>
+			<if test="isFinish != null">
+				IS_FINISH,
+			</if>
+			<if test="undoType != null">
+				UNDO_TYPE,
+			</if>
+			<if test="senderId != null">
+				SENDER_ID,
+			</if>
+			<if test="receiverId != null">
+				RECEIVER_ID,
+			</if>
+			<if test="powerId != null">
+				POWER_ID,
+			</if>
+			<if test="orgId != null">
+				ORG_ID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="createdAt != null">
+				#{createdAt,jdbcType=DATE},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="isDeleted != null">
+				#{isDeleted,jdbcType=DECIMAL},
+			</if>
+			<if test="url != null">
+				#{url,jdbcType=VARCHAR},
+			</if>
+			<if test="isFinish != null">
+				#{isFinish,jdbcType=DECIMAL},
+			</if>
+			<if test="undoType != null">
+				#{undoType,jdbcType=DECIMAL},
+			</if>
+			<if test="senderId != null">
+				#{senderId,jdbcType=VARCHAR},
+			</if>
+			<if test="receiverId != null">
+				#{receiverId,jdbcType=VARCHAR},
+			</if>
+			<if test="powerId != null">
+				#{powerId,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+				#{orgId,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="ses.model.bms.StationMessage">
+		<!-- @mbggenerated -->
+		update T_SES_BMS_STATION_MESSAGE
+		<set>
+			<if test="createdAt != null">
+				CREATED_AT = #{createdAt,jdbcType=DATE},
+			</if>
+			<if test="name != null">
+				NAME = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="isDeleted != null">
+				IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+			</if>
+			<if test="url != null">
+				URL = #{url,jdbcType=VARCHAR},
+			</if>
+			<if test="isFinish != null">
+				IS_FINISH = #{isFinish,jdbcType=DECIMAL},
+			</if>
+			<if test="undoType != null">
+				UNDO_TYPE = #{undoType,jdbcType=DECIMAL},
+			</if>
+			<if test="senderId != null">
+				SENDER_ID = #{senderId,jdbcType=VARCHAR},
+			</if>
+			<if test="receiverId != null">
+				RECEIVER_ID = #{receiverId,jdbcType=VARCHAR},
+			</if>
+			<if test="powerId != null">
+				POWER_ID = #{powerId,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+				ORG_ID = #{orgId,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="ses.model.bms.StationMessage">
+		<!-- @mbggenerated -->
+		update T_SES_BMS_STATION_MESSAGE
+		set CREATED_AT =
+		#{createdAt,jdbcType=DATE},
+		NAME = #{name,jdbcType=VARCHAR},
+		IS_DELETED
+		= #{isDeleted,jdbcType=DECIMAL},
+		URL = #{url,jdbcType=VARCHAR},
+		IS_FINISH = #{isFinish,jdbcType=DECIMAL},
+		UNDO_TYPE =
+		#{undoType,jdbcType=DECIMAL},
+		SENDER_ID = #{senderId,jdbcType=VARCHAR},
+		RECEIVER_ID = #{receiverId,jdbcType=VARCHAR},
+		POWER_ID =
+		#{powerId,jdbcType=VARCHAR},
+		ORG_ID = #{orgId,jdbcType=VARCHAR}
+		where ID
+		= #{id,jdbcType=VARCHAR}
+	</update>
+	<!-- list -->
+	<select id="listStationMessage" parameterType="Map" resultMap="BaseResultMap">
+		SELECT
+		SM.*, BU.REL_NAME
+		FROM
+		T_SES_BMS_STATION_MESSAGE sm
+		LEFT JOIN
+		T_SES_BMS_USER bu ON SM.SENDER_ID = BU."ID"
+		WHERE SM.IS_DELETED = 0
+		<if test="message.isFinish != null and message.isFinish != '' ">
+			AND SM.IS_FINISH =#{message.isFinish,jdbcType=DECIMAL}
+		</if>
+
+		<if test="message.receiverId != null and message.receiverId != ''">
+			AND (SM.RECEIVER_ID =
+			#{message.receiverId,jdbcType=VARCHAR}
+		</if>
+		<choose>
+			<when
+				test="permission != null and permission != '' and message.orgId != null and message.orgId != '' ">
+				OR (SM.ORG_ID = #{message.orgId,jdbcType=VARCHAR}
+				AND SM.POWER_ID in
+				<foreach collection="permission" open="(" close=")"
+					separator="," item="permission">
+					#{permission}
+				</foreach>
+				)
+			</when>
+			<otherwise>
+				<if test="permission != null and permission != ''">
+					OR SM.POWER_ID in
+					<foreach collection="permission" open="(" close=")"
+						separator="," item="permission">
+						#{permission}
+					</foreach>
+				</if>
+				<if test="message.orgId != null and message.orgId != ''">
+					OR SM.ORG_ID = #{message.orgId,jdbcType=VARCHAR}
+				</if>
+			</otherwise>
+		</choose>
+		<if test="message.receiverId != null and message.receiverId != ''">
+			)
+		</if>
+		<if test="message.name != null and message.name != ''">
+			AND SM.NAME like '%${message.name}%'
+		</if>
+		ORDER BY SM.CREATED_AT
+	</select>
+	<!-- 修改为已完成 -->
+	<update id="updateIsFinish" parameterType="ses.model.bms.StationMessage">
+		update
 		T_SES_BMS_STATION_MESSAGE
-	INNER JOIN T_SES_BMS_USER ON T_SES_BMS_USER."ID" = T_SES_BMS_STATION_MESSAGE.USER_ID 
-	
-	WHERE T_SES_BMS_STATION_MESSAGE.IS_DELETED=0 
-	AND T_SES_BMS_STATION_MESSAGE.IS_PUBLISH=0 
-	AND T_SES_BMS_STATION_MESSAGE.TITLE LIKE '%${title}%'
-	ORDER BY T_SES_BMS_STATION_MESSAGE.CREATED_AT DESC
-  </select>
-  
+		set IS_FINISH = 1
+		where URL =
+		#{url,jdbcType=VARCHAR}
+	</update>
 </mapper>

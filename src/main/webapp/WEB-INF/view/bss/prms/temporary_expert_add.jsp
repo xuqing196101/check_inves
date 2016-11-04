@@ -41,52 +41,54 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript">
  
 function sumbits(){
-	$.ajax({
-        cache: true,
-        type: "POST",
-        url:"<%=basePath%>ExpExtract/AddtemporaryExpert.do",
-        data:$('#form').serialize(),// 你的formid
-        async: false,
-        dataType:"json",
-        error: function(request) {
-        	var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
-        	 parent.layer.close(index);
-        },
-        success: function(data) {
-        	var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
-        	var list=data;
-            var html="";
-           for(var i=0;i<list.length;i++){
-            html+="<tr>"+
-               "<td class='tc w30'><input type='checkbox'"+
-                   "value='"+list[i].expert.id+"' name='chkItemExp' onclick='checkExp();'"+
-                   "alt=''></td>"+
-               "<td class='tc w30'>"+(i+1)+"</td>"+
-               "<td align='center'>"+list[i].expert.relName+"</td>";
+	
+	
+// 	$.ajax({
+//         cache: true,
+//         type: "POST",
+<%--         url:"<%=basePath%>ExpExtract/AddtemporaryExpert.do", --%>
+//         data:$('#form').serialize(),// 你的formid
+//         async: false,
+//         dataType:"json",
+//         error: function(request) {
+//         	var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+//         	 parent.layer.close(index);
+//         },
+//         success: function(data) {
+//         	var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+//         	var list=data;
+//             var html="";
+//            for(var i=0;i<list.length;i++){
+//             html+="<tr>"+
+//                "<td class='tc w30'><input type='checkbox'"+
+//                    "value='"+list[i].expert.id+"' name='chkItemExp' onclick='checkExp();'"+
+//                    "alt=''></td>"+
+//                "<td class='tc w30'>"+(i+1)+"</td>"+
+//                "<td align='center'>"+list[i].expert.relName+"</td>";
 
-               if(list[i].expert.expertsTypeId == '1' ){
-                       html+="<td align='center'>技术</td>";
-               }else if(list[i].expert.expertsTypeId == '2' ){
-                       html+="<td align='center'>法律</td>";
-               }else if(list[i].expert.expertsTypeId == '3' ){
-                           html+="<td align='center'>商务</td>";
-               }
+//                if(list[i].expert.expertsTypeId == '1' ){
+//                        html+="<td align='center'>技术</td>";
+//                }else if(list[i].expert.expertsTypeId == '2' ){
+//                        html+="<td align='center'>法律</td>";
+//                }else if(list[i].expert.expertsTypeId == '3' ){
+//                            html+="<td align='center'>商务</td>";
+//                }
            
 
-               html+="<td align='center'>"+list[i].expert.idNumber+"</td>"+
-               "<td align='center'>"+list[i].expert.atDuty+"</td>"+
-               "<td align='center'>"+list[i].expert.unitAddress+"</td>"+
-               "<td align='center'>"+list[i].expert.mobile+"</td>"+
-           "</tr>";
-           }
-                 parent.$('#tbody').empty();
-                 parent.$('#tbody').append(html);
+//                html+="<td align='center'>"+list[i].expert.idNumber+"</td>"+
+//                "<td align='center'>"+list[i].expert.atDuty+"</td>"+
+//                "<td align='center'>"+list[i].expert.unitAddress+"</td>"+
+//                "<td align='center'>"+list[i].expert.mobile+"</td>"+
+//            "</tr>";
+//            }
+//                  parent.$('#tbody').empty();
+//                  parent.$('#tbody').append(html);
 
         	
-        	  parent.layer.close(index);
+//         	  parent.layer.close(index);
            
-        }
-    });
+//         }
+//     });
 	}
 </script>
 <body>
@@ -95,7 +97,7 @@ function sumbits(){
    
 <!-- 修改订列表开始-->
    <div class="  mt20">
-   <form id="form" method="post" >
+   <form action="<%=basePath%>ExpExtract/AddtemporaryExpert.do" id="form" method="post" >
    <input type="hidden" value="${projectId}" name="projectId"/>
    <ul class="list-unstyled list-flow ">
      <li class="col-md-6 p0">

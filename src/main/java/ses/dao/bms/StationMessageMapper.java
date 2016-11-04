@@ -1,6 +1,7 @@
 package ses.dao.bms;
 
 import java.util.List;
+import java.util.Map;
 
 import ses.model.bms.StationMessage;
 
@@ -55,5 +56,14 @@ public interface StationMessageMapper {
 	 * @param @return      
 	 * @return List<StationMessage>
 	 */
-	public List<StationMessage> listStationMessage(StationMessage stationMessage);
+	public List<StationMessage> listStationMessage(Map map);
+	
+	/**
+	 * 
+	 *〈简述〉修改状态为已完成
+	 *〈详细描述〉
+	 * @author Wang Wenshuai
+	 * @param message
+	 */
+	void updateIsFinish(StationMessage message);
 }

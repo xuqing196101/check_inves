@@ -3,10 +3,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%
-	String path = request.getContextPath();
-	String basePath = request.getScheme() + "://"
-			+ request.getServerName() + ":" + request.getServerPort()
-			+ path + "/";
+    String path = request.getContextPath();
+    String basePath = request.getScheme() + "://"
+            + request.getServerName() + ":" + request.getServerPort()
+            + path + "/";
 %>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
@@ -24,81 +24,81 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <link href="<%=basePath%>public/ZHH/css/common.css" media="screen"
-	rel="stylesheet">
+    rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/bootstrap.min.css"
-	media="screen" rel="stylesheet">
+    media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/style.css" media="screen"
-	rel="stylesheet">
+    rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/animate.css" media="screen"
-	rel="stylesheet">
+    rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/ui-dialog.css" media="screen"
-	rel="stylesheet">
+    rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/dialog-select.css"
-	media="screen" rel="stylesheet">
+    media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen"
-	rel="stylesheet">
+    rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/jquery.fileupload-ui.css"
-	media="screen" rel="stylesheet">
+    media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/zTreeStyle.css" media="screen"
-	rel="stylesheet">
+    rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/sky-forms.css" media="screen"
-	rel="stylesheet">
+    rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/custom-sky-forms.css"
-	media="screen" rel="stylesheet">
+    media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/jquery.fancybox.css"
-	media="screen" rel="stylesheet">
+    media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/owl.carousel.css" media="screen"
-	rel="stylesheet">
+    rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/owl.theme.css" media="screen"
-	rel="stylesheet">
+    rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/style-switcher.css"
-	media="screen" rel="stylesheet">
+    media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/shortcode_timeline2.css"
-	media="screen" rel="stylesheet">
+    media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/app.css" media="screen"
-	rel="stylesheet">
+    rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/blocks.css" media="screen"
-	rel="stylesheet">
+    rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/datepicker.css" media="screen"
-	rel="stylesheet">
+    rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/WdatePicker.css" media="screen"
-	rel="stylesheet">
+    rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/select2.css" media="screen"
-	rel="stylesheet">
+    rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/application.css" media="screen"
-	rel="stylesheet">
+    rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen"
-	rel="stylesheet">
+    rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen"
-	rel="stylesheet">
+    rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen"
-	rel="stylesheet">
+    rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/brand-buttons.css"
-	media="screen" rel="stylesheet">
+    media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/brand-buttons-inversed.css"
-	media="screen" rel="stylesheet">
+    media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/blog_magazine.css"
-	media="screen" rel="stylesheet">
+    media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen"
-	rel="stylesheet">
+    rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/page_log_reg_v1.css"
-	media="screen" rel="stylesheet">
+    media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen"
-	rel="stylesheet">
+    rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen"
-	rel="stylesheet">
+    rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/footer-v4.css" media="screen"
-	rel="stylesheet">
+    rel="stylesheet">
 
 
 <link href="<%=basePath%>public/accordion/SpryAccordion.css"
-	media="screen" rel="stylesheet">
+    media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/masterslider.css" media="screen"
-	rel="stylesheet">
+    rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/james.css" media="screen"
-	rel="stylesheet">
+    rel="stylesheet">
 <link href="<%=basePath%>public/supplier/css/supplieragents.css"
-	media="screen" rel="stylesheet">
+    media="screen" rel="stylesheet">
 <script src="<%=basePath%>public/ZHH/js/hm.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery-migrate-1.2.1.min.js"></script>
@@ -120,7 +120,7 @@
 <script src="<%=basePath%>public/ZHH/js/owl-carousel.js"></script>
 <script src="<%=basePath%>public/ZHH/js/owl-recent-works.js"></script>
 <script
-	src="<%=basePath%>public/ZHH/js/jquery.mCustomScrollbar.concat.min.js"></script>
+    src="<%=basePath%>public/ZHH/js/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/WdatePicker.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.form.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery.validate.min.js"></script>
@@ -154,7 +154,7 @@
 <script src="<%=basePath%>public/ZHH/js/jquery.easing.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/james.js"></script>
 <script src="<%=basePath%>public/accordion/SpryAccordion.js"
-	type="text/javascript"></script>
+    type="text/javascript"></script>
 <script src="<%=basePath%>public/layer/layer.js"></script>
     <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
 <script type="text/javascript">
@@ -179,184 +179,86 @@ $(function(){
               }
           }
       });
+    
+    $("#menu a").click(function() {
+        $('#menu li').each(function(index) {
+            $(this).removeClass('active');  // 删除其他兄弟元素的样式
+          });
+        $(this).parent().addClass('active');                            // 添加当前元素的样式
+    });
+    
 });
 </script>
 </head>
 <body>
 
-	<!--面包屑导航开始-->
-	<div class="margin-top-10 breadcrumbs ">
-		<div class="container">
-			<ul class="breadcrumb margin-left-0">
-				<li><a href="#"> 首页</a></li>
-				<li><a href="#" class="active">后台管理</a></li>
-			</ul>
-			<div class="clear"></div>
-		</div>
-	</div>
+    <!--面包屑导航开始-->
+    <div class="margin-top-10 breadcrumbs ">
+        <div class="container">
+            <ul class="breadcrumb margin-left-0">
+                <li><a href="#"> 首页</a></li>
+                <li><a href="#" class="active">后台管理</a></li>
+            </ul>
+            <div class="clear"></div>
+        </div>
+    </div>
 
-	<!-- 后台管理内容开始-->
-	<div class="container content height-350 job-content ">
+    <!-- 后台管理内容开始-->
+    <div class="container content height-350 job-content ">
 
-		<div class="row magazine-page">
-			<div class="col-md-3 col-md-12 padding-0">
-				<div class="col-md-12 p0_10 margin-bottom-20">
-					<div class="tag-box tag-box-v3 margin-0 p0_10">
-						<div class="margin-0">
-							<h2 class="margin-0 news"
-								onclick="window.location.href='<%=basePath%>StationMessage/listStationMessage.do'">站内消息</h2>
-						</div>
-						<ul
-							class="padding-left-20  categories hex padding-bottom-5 padding-top-5">
-							<c:forEach items="${stationMessage }" var="station">
-								<li><a
-									href="<%=basePath%>StationMessage/showStationMessage.do?id=${station.id}&&type=view"
-									title=" ${station.title }"> <c:choose>
-											<c:when test="${fn:length(station.title) > 10}">  
-                                           ${fn:substring(station.title, 0, 14)}......
+        <div class="row magazine-page">
+            <div class="col-md-3 col-md-12 padding-0">
+                <div class="col-md-12 p0_10 margin-bottom-20">
+                    <div class="tag-box tag-box-v3 margin-0 p0_10">
+                        <div class="margin-0">
+                            <h2 class="margin-0 news cursor"
+                                onclick="window.location.href='<%=basePath%>StationMessage/listStationMessage.do'">通知</h2>
+                        </div>
+                        <ul 
+                            class="padding-left-20  categories hex padding-bottom-5 padding-top-5" >
+                            <c:forEach items="${stationMessage }" var="station">
+                                <li><a
+                                    href="<%=basePath%>${station.url}" title="${station.name }"> <c:choose>
+                                            <c:when test="${fn:length(station.name) > 10}">  
+                                           ${fn:substring(station.name, 0, 14)}......
                                         </c:when>
-											<c:otherwise>  
-                                          ${station.title }
+                                            <c:otherwise>  
+                                          ${station.name }
                                         </c:otherwise>
-										</c:choose>
-								</a></li>
-							</c:forEach>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-9 padding-0">
-				<div class="col-md-12 tab-v2 job-content">
-					<div class="">
-						<ul class="nav nav-tabs">
-							<li class="active"><a aria-expanded="true" href="#tab-1"
-								data-toggle="tab" class=" f18">待办事项</a></li>
-							<li class=""><a aria-expanded="true" href="#tab-2"
-								data-toggle="tab" class=" f18">已办事项</a></li>
-						</ul>
-						<div class="tab-content ">
-							<div class="tab-pane fade active in" id="tab-1">
-								<!-- 查看项目-->
-								<div id="con_one_2" class="dnonev">
-									<div id="Accordion2" class="Accordion" tabindex="0">
-										<c:forEach items="${listTodos }" var="agentslist"
-											varStatus="s">
-											<div class="AccordionPanel">
-												<div class="AccordionPanelTab">
-													<c:if test="${agentslist[0].undoType==1}">
-                                                                                                                                                                  供应商待办
-                                                    </c:if>
-													<c:if test="${agentslist[0].undoType==2}">
-                                                                                                                                                               专家待办
-                                                    </c:if>
-													(${agentslist.size()})
+                                        </c:choose>
+                                </a></li>
+                            </c:forEach>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9 padding-0">
+                <div class="col-md-12 tab-v2 job-content">
+                    <div class="">
+                        <ul class="nav nav-tabs" id="menu">
+                            <li class="active"><a  href="<%=basePath%>todo/todos.html" target="open_main" class=" f18">待办事项</a></li>
+                            <li class=""><a  href="<%=basePath%>todo/havetodo.html" target="open_main"  class=" f18">已办事项</a></li>
+                        </ul>
+                         <script type="text/javascript" language="javascript">   
+                        function iFrameHeight() {   
+                        var ifm= document.getElementById("open_main");   
+                        var subWeb = document.frames ? document.frames["open_main"].document : ifm.contentDocument;   
+                        if(ifm != null && subWeb != null) {
+                           ifm.height = subWeb.body.scrollHeight;
+                           /*ifm.width = subWeb.body.scrollWidth;*/
+                        }   
+                        }   
+                        </script>
+                      <!-- 右侧内容开始-->
+                      <div class="">
+                         <iframe  frameborder="0" name="open_main" id="open_main" scrolling="no" marginheight="0"  width="100%" onLoad="iFrameHeight()" src="<%=basePath%>todo/todos.html" ></iframe>
+                      </div>
+                    </div>
+                </div>
+            </div>
 
-												</div>
-												<div class="">
-													<table class=" table table-bordered table-condensed">
-														<thead>
-															<tr>
-																<th class="info">序号</th>
-																<th class="info">标题</th>
-																<th class="info">发送人</th>
-															</tr>
-														</thead>
-														<tbody>
-															<c:forEach items="${agentslist }" var="agents"
-																varStatus="s">
-																<tr class="cursor"
-																	onclick="location.href='<%=basePath%>${ agents.url}'">
-																	<td class="tc">${s.index+1}</td>
-																	<td class="tc">${agents.name}</td>
-																	<td class="tc">${agents.senderName}</td>
-																</tr>
-															</c:forEach>
-														</tbody>
-													</table>
-												</div>
-											</div>
-										</c:forEach>
-									</div>
-								</div>
-							</div>
-							<script type="text/javascript">
-								var Accordion2 = new Spry.Widget.Accordion(
-										"Accordion2");
-							</script>
-							<div class="tab-pane fade active " id="tab-2">
-								<!-- 查看项目-->
-								<div id="con_one_2" class="dnonev">
-									<div id="Accordion1" class="Accordion" tabindex="1">
-										<div class="AccordionPanel">
-										<div class="container clear">
-                                            <div class="p10_25">
-                                                <h2 class="padding-10 border1">
-                                                    <form action="<%=basePath%>login/home.do" method="post" id="form2" class="mb0">
-                                                            <input id="page" type="hidden"> 
-                                                        <ul class="demand_list">
-                                                            <li class="fl"><label class="fl">标题：</label><span><input
-                                                                    type="text" id="topic" class="w200" name="name" /></span></li>
-                                                            <li class="fl"><label class="fl">待办类型：</label><span>
-                                                                    <select class="w200 " name="undoType">
-                                                                       <option value="">请选择</option>
-                                                                        <option value="1">供应商代办</option>
-                                                                        <option value="2">专家代办</option>
-                                                                    </select>
-                                                                    </span>
-                                                                </li>
-                                                            <input type="submit"  value="查询" class="btn" />
-                                                            <input type="reset" class="btn" value="重置"/>
-                                                        </ul>
-                                                        <div class="clear"></div>
-                                                    </form>
-                                                </h2>
-                                            </div>
-                                        </div>
-											<table class="table table-bordered table-condensed">
-												<thead>
-													<tr>
-														<th class="info">序号</th>
-														<th class="info">标题</th>
-														<th class="info">代办类型</th>
-														<th class="info">发送人</th>
-													</tr>
-												</thead>
-												<c:forEach items="${listTodosf.list}" var="agents"
-													varStatus="s">
-													<tr class="cursor"
-														onclick="location.href='<%=basePath%>${agents.url}'">
-														<td class="tc">${s.index+1}</td>
-														<td class="tc">${agents.name}</td>
-														<td class="tc">
-														<c:if test="${agents.undoType==1}">
-														  供应商待办
-														</c:if>
-														<c:if test="${agents.undoType==2}">
-														  专家待办
-                                                        </c:if>
-														</td>
-														<td class="tc">${agents.senderName}</td>
-													</tr>
-												</c:forEach>
-											</table>
-											  <div id="pagediv" align="right"></div>
-										</div>
-
-									</div>
-								</div>
-							</div>
-						</div>
-						<script type="text/javascript">
-							var Accordion1 = new Spry.Widget.Accordion(
-									"Accordion1");
-						</script>
-
-					</div>
-				</div>
-			</div>
-
-		</div>
-	</div>
+        </div>
+    </div>
 
 
 </body>

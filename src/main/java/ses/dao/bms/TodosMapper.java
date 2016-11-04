@@ -73,6 +73,7 @@ public interface TodosMapper {
      * @return int
      */
     int updateIsFinish(Todos record);
+    
     /**
 	 * @Title: updateByUrl
 	 * @author Xu Qing
@@ -83,4 +84,15 @@ public interface TodosMapper {
 	 */
 	void updateByUrl(Todos todos);
     
+	/**
+	 * 
+	 *〈简述〉 查询登录用户是否有权限 
+	 *〈详细描述〉
+	 * @author Wang Wenshuai
+	 * @param map 用户id 权限id 
+	 * @return 返回权限id
+	 */
+	List<String> listUserPermission(Map map);
+	
+	
 }

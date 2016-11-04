@@ -371,7 +371,7 @@ public class ExpExtractRecordController extends BaseController {
         ExpExtractRecord showExpExtractRecord = expExtractRecordService.listExtractRecord(new ExpExtractRecord(id),0).get(0);
         model.addAttribute("ExpExtractRecord", showExpExtractRecord);
         //抽取条件
-        List<ExpExtCondition> conditionList=conditionService.list(new ExpExtCondition(showExpExtractRecord.getProjectId()),null);
+        List<ExpExtCondition> conditionList = conditionService.list(new ExpExtCondition(showExpExtractRecord.getProjectId()),null);
 
         model.addAttribute("conditionList", conditionList);
         List<List<ProjectExtract>> listEp=new ArrayList<List<ProjectExtract>>();
@@ -448,11 +448,9 @@ public class ExpExtractRecordController extends BaseController {
      * @param model  实体
      * @param  id 专家id
      */
-    @ResponseBody
     @RequestMapping("/AddtemporaryExpert")
     public  Object addTemporaryExpert(Model model, Expert expert,String projectId,String loginName,String loginPwd){
-        List<ProjectExtract> expertList = expExtractRecordService.addTemporaryExpert(expert,projectId,loginName,loginPwd);
-       
-        return JSON.toJSONString(expertList);
+        expExtractRecordService.addTemporaryExpert(expert, projectId, loginName, loginPwd);
+        return "redirect:/packageExpert/toPackageExpert.html?projectId=" + projectId;
     }
 }
