@@ -116,9 +116,9 @@
 		          if(price==""||price.trim()==""){
 		          	continue;
 		          } else{
-		          	 $(allTable[i].rows).eq(j).find("td").eq("7").text(price*num);
+		          	 $(allTable[i].rows).eq(j).find("td").eq("7").text(parseFloat(price*num).toFixed(2));
 		          	 totalMoney+=parseFloat(price*num);
-		          	 $(allTable[i].rows).eq(allTable[i].rows.length-1).find("td").eq("1").text(totalMoney);
+		          	 $(allTable[i].rows).eq(allTable[i].rows.length-1).find("td").eq("1").text(parseFloat(totalMoney).toFixed(2));
 		          }
 		    } 
 		}
@@ -244,7 +244,7 @@
 							              <td class="tc">${proDel.qualitStand}</td>
 							              <td class="tc">${proDel.item}</td>
 							              <td class="tc">${proDel.purchaseCount}</td>
-							              <td class="tc"><input maxlength="12" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" onafterpaste="this.value=this.value.replace(/[^0-9]/g,'')" onblur="addTotal()" /></td>
+							              <td class="tc"><input maxlength="16" onkeyup="this.value=this.value.replace(/[^0-9]\.{1}/g,'')" onafterpaste="this.value=this.value.replace(/[^0-9]\.{1}/g,'')" onblur="addTotal()" /></td>
 							              <td class="tc"></td>
 							            </tr>
 							         </c:forEach>  
@@ -278,7 +278,7 @@
 							              <td class="tc">${proDel.qualitStand}</td>
 							              <td class="tc">${proDel.item}</td>
 							              <td class="tc">${proDel.purchaseCount}</td>
-							              <td class="tc"><input maxlength="12"  onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" onafterpaste="this.value=this.value.replace(/[^0-9]/g,'')"  onblur="addTotal()" /></td>
+							              <td class="tc"><input maxlength="16"  onkeyup="this.value=this.value.replace(/[^0-9]+\.{1}/g,'')" onafterpaste="this.value=this.value.replace(/[^0-9]\.{1}/g,'')"  onblur="addTotal()" /></td>
 							              <td class="tc"></td>
 							            </tr>
 							         </c:forEach>  
