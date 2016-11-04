@@ -33,7 +33,7 @@
 		    total: "${list.total}",
 		    startRow: "${list.startRow}",
 		    endRow: "${list.endRow}",
-		    groups: "${list.pages}">=3?3:"${list.pages}",
+		    groups: "${list.pages}">=5?5:"${list.pages}",
 		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
 //	 			        var page = location.search.match(/page=(\d+)/);
 //	 			        return page ? page[1] : 1;
@@ -132,7 +132,7 @@
     <!-- 查询 -->
    <div class="container clear margin-top-0">
    <div class="padding-10 border1 m0_30 tc">
-   	<form action="<%=basePath %>firstAudit/toTemplatList.html" id="form1" method="post" enctype="multipart/form-data" class="mb0" >
+   	<form action="<%=basePath %>firstAudit/toTemplatList.html" id="form1" method="post" class="mb0" >
 	 <ul class="demand_list">
 	  
 	   <li class="fl mr15"><label class="fl mt5">模板名称：</label><span><input type="text" id="name" name="name" value="${name }" class="mb0"/></span></li>

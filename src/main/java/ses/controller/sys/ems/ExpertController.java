@@ -45,11 +45,14 @@ import bss.service.ppms.ProjectService;
 import bss.service.ppms.SaleTenderService;
 import bss.service.prms.PackageExpertService;
 import bss.service.prms.ReviewProgressService;
+import common.constant.Constant;
+import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAttachment;
 import ses.model.ems.ExpertCategory;
 import ses.model.oms.PurchaseDep;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertAttachmentService;
 import ses.service.ems.ExpertAuditService;
@@ -57,6 +60,7 @@ import ses.service.ems.ExpertCategoryService;
 import ses.service.ems.ExpertService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.PropUtil;
+import ses.util.WfUtil;
 import ses.util.WordUtil;
 
 
@@ -85,6 +89,8 @@ public class ExpertController {
 	private SaleTenderService saleTenderService;//供应商查询
 	@Autowired
 	private ReviewProgressService reviewProgressService;//进度
+	@Autowired
+	private DictionaryDataServiceI dictionaryDataServiceI;//TypeId
 	/**
 	 * 
 	  * @Title: toExpert
@@ -123,13 +129,13 @@ public class ExpertController {
 			model.addAttribute("purchase", purchaseDep);
 		}
 		//附件信息
-		List<ExpertAttachment> attachmentList = attachmentService.selectListByExpertId(id);
+		//List<ExpertAttachment> attachmentList = attachmentService.selectListByExpertId(id);
 		//照片名称
-		for (ExpertAttachment expertAttachment : attachmentList) {
+	/*	for (ExpertAttachment expertAttachment : attachmentList) {
 			if(expertAttachment.getFileType()!= null && expertAttachment.getFileType()==4){
 				model.addAttribute("filename", expertAttachment.getFileName());
 			}
-		}
+		}*/
 		String host = PropUtil.getProperty("ftp.host");
 		Integer port = Integer.parseInt(PropUtil.getProperty("ftp.port"));
 		String username = PropUtil.getProperty("ftp.username");
@@ -138,7 +144,7 @@ public class ExpertController {
 		model.addAttribute("port", port);
 		model.addAttribute("username", username);
 		model.addAttribute("password", password);
-		model.addAttribute("attachmentList", attachmentList);
+		//model.addAttribute("attachmentList", attachmentList);
 		model.addAttribute("expert", expert);
 		
 		return "ses/ems/expert/view";
@@ -228,6 +234,62 @@ public class ExpertController {
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		map.put("typeName", "0");
 		List<PurchaseDep> purchaseDepList = purchaseOrgnizationService.findPurchaseDepList(map);
+		//生成专家id
+		String expertId = WfUtil.createUUID();
+		Integer expertKey = Constant.EXPERT_SYS_KEY;
+		DictionaryData dd = new  DictionaryData();
+		Map<String,Object> typeMap = new HashMap<>();
+		for (int i = 0; i < 7; i++) {
+			if(i==0){
+				//身份证
+				dd.setCode("EXPERT_IDNUMBER");
+				List<DictionaryData> find = dictionaryDataServiceI.find(dd);
+				typeMap.put("EXPERT_IDNUMBER_TYPEID", find.get(0).getId());
+			}
+			if(i==1){
+				//职称证书
+				dd.setCode("EXPERT_TITLE");
+				List<DictionaryData> find = dictionaryDataServiceI.find(dd);
+				typeMap.put("EXPERT_TITLE_TYPEID", find.get(0).getId());
+			}
+			if(i==2){
+				//申请表
+				dd.setCode("EXPERT_APPLICATION");
+				List<DictionaryData> find = dictionaryDataServiceI.find(dd);
+				typeMap.put("EXPERT_APPLICATION_TYPEID", find.get(0).getId());
+			}
+			if(i==3){
+				//学历证书
+				dd.setCode("EXPERT_ACADEMIC");
+				List<DictionaryData> find = dictionaryDataServiceI.find(dd);
+				typeMap.put("EXPERT_ACADEMIC_TYPEID", find.get(0).getId());
+			}
+			if(i==4){
+				//学位证书
+				dd.setCode("EXPERT_DEGREE");
+				List<DictionaryData> find = dictionaryDataServiceI.find(dd);
+				typeMap.put("EXPERT_DEGREE_TYPEID", find.get(0).getId());
+			}
+			if(i==5){
+				//个人照片
+				dd.setCode("EXPERT_PHOTO");
+				List<DictionaryData> find = dictionaryDataServiceI.find(dd);
+				typeMap.put("EXPERT_PHOTO_TYPEID", find.get(0).getId());
+			}
+			if(i==6){
+				//合同书
+				dd.setCode("EXPERT_CONTRACT");
+				List<DictionaryData> find = dictionaryDataServiceI.find(dd);
+				typeMap.put("EXPERT_CONTRACT_TYPEID", find.get(0).getId());
+			}
+			
+		}
+		//typrId
+		model.addAttribute("typeMap", typeMap);
+	
+		//Constant.EXPERT_SYS_VALUE;
+		model.addAttribute("sysId", expertId);
+		model.addAttribute("expertKey", expertKey);
 		model.addAttribute("purchase", purchaseDepList);
 		model.addAttribute("user", user);
 		return "ses/ems/expert/basic_info";
@@ -253,13 +315,13 @@ public class ExpertController {
 			model.addAttribute("purchase", purchaseDep);
 		  }
 		//附件信息
-		List<ExpertAttachment> attachmentList = attachmentService.selectListByExpertId(id);
+		//List<ExpertAttachment> attachmentList = attachmentService.selectListByExpertId(id);
 		//照片名称
-		for (ExpertAttachment expertAttachment : attachmentList) {
+		/*for (ExpertAttachment expertAttachment : attachmentList) {
 			if(expertAttachment.getFileType()!= null && expertAttachment.getFileType()==4){
 				model.addAttribute("filename", expertAttachment.getFileName());
 			}
-		}
+		}*/
 		String host = PropUtil.getProperty("ftp.host");
 		Integer port = Integer.parseInt(PropUtil.getProperty("ftp.port"));
 		String username = PropUtil.getProperty("ftp.username");
@@ -268,7 +330,7 @@ public class ExpertController {
 		model.addAttribute("port", port);
 		model.addAttribute("username", username);
 		model.addAttribute("password", password);
-		model.addAttribute("attachmentList", attachmentList);
+		//model.addAttribute("attachmentList", attachmentList);
 		model.addAttribute("expert", expert);
 		return "ses/ems/expert/edit_basic_info";
 	}
@@ -295,13 +357,13 @@ public class ExpertController {
 			model.addAttribute("purchase", purchaseDep);
 		  }
 		//附件信息
-		List<ExpertAttachment> attachmentList = attachmentService.selectListByExpertId(id);
+		//List<ExpertAttachment> attachmentList = attachmentService.selectListByExpertId(id);
 		//照片名称
-		for (ExpertAttachment expertAttachment : attachmentList) {
+		/*for (ExpertAttachment expertAttachment : attachmentList) {
 			if(expertAttachment.getFileType()!= null && expertAttachment.getFileType()==4){
 				model.addAttribute("filename", expertAttachment.getFileName());
 			}
-		}
+		}*/
 		String host = PropUtil.getProperty("ftp.host");
 		Integer port = Integer.parseInt(PropUtil.getProperty("ftp.port"));
 		String username = PropUtil.getProperty("ftp.username");
@@ -310,7 +372,7 @@ public class ExpertController {
 		model.addAttribute("port", port);
 		model.addAttribute("username", username);
 		model.addAttribute("password", password);
-		model.addAttribute("attachmentList", attachmentList);
+		//model.addAttribute("attachmentList", attachmentList);
 		request.setAttribute("expert", expert);
 		return "ses/ems/expert/audit";
 	}
@@ -342,7 +404,7 @@ public class ExpertController {
 	  * @Title: toEditBasicInfo
 	  * @author lkzx 
 	  * @date 2016年9月1日 上午11:14:38  
-	  * @Description: TODO 跳到修改个人信息页面
+	  * @Description: TODO 后台 跳到修改个人信息页面
 	  * @param @return      
 	  * @return String
 	 * @throws IOException 
@@ -379,14 +441,14 @@ public class ExpertController {
 				model.addAttribute("expert", expert);
 			    }
 				 //附件信息
-				 List<ExpertAttachment> attachmentList = attachmentService.selectListByExpertId(typeId);
+				 //List<ExpertAttachment> attachmentList = attachmentService.selectListByExpertId(typeId);
 					//照片名称
-					for (ExpertAttachment expertAttachment : attachmentList) {
+					/*for (ExpertAttachment expertAttachment : attachmentList) {
 						if(expertAttachment.getFileType()!= null && expertAttachment.getFileType()==4){
 							model.addAttribute("filename", expertAttachment.getFileName());
 						}
-					}
-				 model.addAttribute("attachmentList", attachmentList);
+					}*/
+				 //model.addAttribute("attachmentList", attachmentList);
 		    }
 		}
 		return "ses/ems/expert/person_info";
@@ -454,10 +516,10 @@ public class ExpertController {
 	 * @throws IOException 
 	 */
 	@RequestMapping("/add")
-	public String add(@RequestParam("categoryId")String categoryId,@RequestParam("files")MultipartFile[] files,@RequestParam("zancun")String zancun,Expert expert,@RequestParam("userId")String userId,Model model,HttpSession session,@RequestParam("token2") String token2 ,HttpServletRequest request,HttpServletResponse response){
+	public String add(@RequestParam("categoryId")String categoryId,@RequestParam("sysId")String sysId,@RequestParam("files")MultipartFile[] files,@RequestParam("zancun")String zancun,Expert expert,@RequestParam("userId")String userId,Model model,HttpSession session,@RequestParam("token2") String token2 ,HttpServletRequest request,HttpServletResponse response){
 		try {
 			Object tokenValue = session.getAttribute("tokenSession");
-			String expertId = UUID.randomUUID().toString();
+			String expertId = sysId;
 			//获取文件上传路径
 			String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
 			if (tokenValue != null && tokenValue.equals(token2)) {
@@ -467,6 +529,7 @@ public class ExpertController {
 				//用户信息处理
 				service.userManager(user, userId, expert, expertId);
 				if(zancun!=null && zancun.equals("1")){//说明为暂存否则为提交
+					
 					    //调用service逻辑 实现暂存
 						service.zanCunInsert(expert, expertId,files,realPath,categoryId);
 						//保存当前填写的信息 跳转到首页
@@ -531,7 +594,7 @@ public class ExpertController {
 	 */
 	@RequestMapping("/findAllExpert")
 	public String findAllExpert(Expert expert,Integer page,HttpServletRequest request,HttpServletResponse response){
-		List<Expert> allExpert = service.selectAllExpert(page==null?1:page,expert);
+		List<Expert> allExpert = service.selectAllExpert(page==null?0:page,expert);
 		request.setAttribute("result", new PageInfo<>(allExpert));
 		request.setAttribute("expert", expert);
 		return "ses/ems/expert/list";
@@ -627,26 +690,7 @@ public class ExpertController {
 		  model.addAttribute("pass", pass);
 		 return "ses/ems/expert/backlog";
 	 }
-	 /**
-	  * 
-	   * @Title: upLoadExpertTable
-	   * @author ShaoYangYang
-	   * @date 2016年9月6日 下午5:17:45  
-	   * @Description: TODO 上传专家申请表和承诺书
-	   * @param @param id
-	   * @param @param files
-	   * @param @param request
-	   * @param @return
-	   * @param @throws IOException      
-	   * @return String
-	  */
-	/* @RequestMapping("/upLoadExpertTable")
-	 public String upLoadExpertTable(@RequestParam("id") String id,@RequestParam("files") MultipartFile[] files,HttpServletRequest request) throws IOException{
-		 String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file");  
-         service.uploadFile(files, realPath);
-		 return "redirect:/";
-	 }*/
-	 
+	
 	 /**
 	  * 
 	   * @Title: findAllLoginName

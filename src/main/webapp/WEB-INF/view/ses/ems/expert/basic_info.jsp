@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="/tld/upload" prefix="p"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -15,25 +16,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
-<link href="<%=basePath%>public/ZHQ/css/common.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/bootstrap.min.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/style.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/line-icons.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/app.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/application.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/header-v4.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/footer-v2.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/img-hover.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/page_job.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/shop.style.css" media="screen" rel="stylesheet">
-<script src="<%=basePath%>public/ZHQ/js/jquery.min.js"></script>
+<link href="${pageContext.request.contextPath}/public/ZHQ/css/common.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHQ/css/bootstrap.min.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHQ/css/line-icons.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHQ/css/app.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHQ/css/application.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHQ/css/header-v4.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHQ/css/footer-v2.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHQ/css/img-hover.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHQ/css/page_job.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHQ/css/shop.style.css" media="screen" rel="stylesheet">
+
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-<script type="text/javascript" src="<%=basePath%>public/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
 <script src="${pageContext.request.contextPath}/public/ZHQ/js/expert/validate_expert_basic_info.js"></script>
-<link rel="stylesheet" type="text/css" href="<%=basePath%>/public/ztree/css/zTreeStyle.css">
-<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.core.js"></script>
-<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.excheck.js"></script>
-<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.exedit.js"></script>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}//public/ztree/css/zTreeStyle.css">
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.exedit.js"></script>
+<jsp:include page=""></jsp:include>
+<c:set var="contextPath" value="${pageContext.request.contextPath}" scope="application"/> 
+<script>
+	var globalPath = "${contextPath}";
+</script>
+
 <script type="text/javascript">
 	    var treeObj;
 		var datas;
@@ -41,13 +49,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		var addressId="${expert.address}"
 		//alert(addressId);
 		//地区回显和数据显示
-		$.ajax({
-			url : "<%=basePath%>area/find_by_id.do",
+		//window.onload=function(){
+			 $.ajax({
+			url : "${pageContext.request.contextPath}/area/find_by_id.do",
 			data:{"id":addressId},
 			success:function(obj){
 				//alert(JSON.stringify(obj));
 				var data = eval('(' + obj+ ')');
-				$.each(data,function(i,result){
+				$.each( $.parseJSON(data),function(i,result){
 					if(addressId == result.id){
 						parentId = result.areaType;
 					$("#haha").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
@@ -64,43 +73,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				
 			}
 			
-		});
-
-		$(function(){
-			$.ajax({
-				url : "<%=basePath%>area/listByOne.do",
-				success:function(obj){
-					var data = eval('(' + obj + ')');
-					$.each(data,function(i,result){
-						if(parentId == result.id){
-							$("#hehe").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
-						}else{
-						$("#hehe").append("<option value='"+result.id+"'>"+result.name+"</option>");
-						}
-					});
-					
-					//alert(JSON.stringify(obj));
-				},
-				error:function(obj){
-					
-				}
-				
-			});
-			
-			
-		});	
+		}); 
+		//}
 		
 		function func(){
-			var parentId = $("#hehe").val();
+			var parentId = $("#addr").val();
 			$.ajax({
-				url : "<%=basePath%>area/find_area_by_parent_id.do",
+				url : "${pageContext.request.contextPath}/area/find_area_by_parent_id.do",
 				data:{"id":parentId},
 				success:function(obj){
 					$("#haha").empty();
 					var data = eval('(' + obj + ')');
 					$("#haha").append("<option  value=''>-请选择-</option>");
 					$.each(data,function(i,result){
-						
 						$("#haha").append("<option value='"+result.id+"'>"+result.name+"</option>");
 					});
 					
@@ -116,7 +101,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		   var setting={
 					async:{
 								enable:true,
-								url:"<%=basePath%>category/createtree.do",
+								url:"${pageContext.request.contextPath}/category/createtree.do",
 								autoParam:["id", "name=n", "level=lv"],  
 					            otherParam:{"otherParam":"zTreeAsyncTest"},  
 					            dataFilter: filter,  
@@ -147,6 +132,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  };
 		   var listId;
 	$(function() {
+		//地区
+		
+		$.ajax({
+			url : "${pageContext.request.contextPath}/area/listByOne.do",
+			success:function(obj){
+				var data = eval('(' + obj + ')');
+				//alert(data);
+				$.each( $.parseJSON(data),function(i,result){
+					/* if(parentId == result.id){
+						$("#hehe").append("<option selected='true' value='"+result.id+"'>"+result.name+"</option>");
+					}else{ */
+					$("#addr").append("<option value='"+result.id+"'>"+result.name+"</option>");
+					//}
+				});
+				
+				//alert(JSON.stringify(obj));
+			},
+			error:function(obj){
+			}
+			
+		});
+		
 		
 		//采购机构
 		var sup = $("#purchaseDepId").val();
@@ -160,7 +167,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		   //回显已选品目树
 		   var id="${expert.id}";
 			  $.ajax({
-				  url:"<%=basePath%>expert/getCategoryByExpertId.do?expertId="+id,
+				  url:"${pageContext.request.contextPath}/expert/getCategoryByExpertId.do?expertId="+id,
 				  success:function(result){
 					  listId=result;
 				  },
@@ -499,6 +506,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<input type="hidden" id="purchaseDepId" value="${expert.purchaseDepId }">
 		<input type="hidden" name="id" value="${expert.id }">
 		<input type="hidden" name="zancun" id="zancun">
+		<input type="hidden" name="sysId" value="${sysId }">
 		<%
 			session.setAttribute("tokenSession", tokenValue);
 		%>
@@ -591,7 +599,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										
 										<li class="col-md-6 p0 "><span class=""><i class="red">＊</i>所在地区：</span>
 											<div class="" style="display: inline-block; margin-bottom: 10px;white-space: nowrap; vertical-align: middle;">
-											 <select id="hehe" onchange="func();">
+											 <select id="addr" onchange="func();">
 													<option value="">-请选择-</option>
 											 </select>
 											 <select name="address" id="haha">
@@ -705,39 +713,89 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										   </div>
 										  </div>
 										  <div class="padding-left-40 padding-right-20 clear">
-										   <ul class="list-unstyled list-flow p0_20">
+										  <table>
+										  	<tr>
+										  	   <th>身份证:</th>
+										  	   <td>
+										  	      <p:upload businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_IDNUMBER_TYPEID }"  duplicate="true" auto="true"/>
+										          <p:show businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_IDNUMBER_TYPEID }"/>
+										  	   </td>
+										  	</tr>
+										  	<tr>
+										  	   <th>学历证书:</th>
+										  	   <td>
+										  	      <p:upload businessId="${sysId }" sysKey="${expertKey }"  typeId="${typeMap.EXPERT_ACADEMIC_TYPEID }" auto="true"/>
+										          <p:show businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_ACADEMIC_TYPEID }"/>
+										  	   </td>
+										  	</tr>
+										  	<tr>
+										  	   <th>职称证书:</th>
+										  	   <td>
+										  	      <p:upload businessId="${sysId }" sysKey="${expertKey }"  typeId="${typeMap.EXPERT_TITLE_TYPEID }" auto="true"/>
+										          <p:show businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_TITLE_TYPEID }"/>
+										  	   </td>
+										  	</tr>
+										  	<tr>
+							
+										  	   <th>学位证书:</th>
+										  	   <td>
+										  	      <p:upload businessId="${sysId }" sysKey="${expertKey }"   typeId="${typeMap.EXPERT_DEGREE_TYPEID }" auto="true"/>
+										          <p:show businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_DEGREE_TYPEID }"/>
+										  	   </td>
+										  	</tr>
+										  	<tr>
+										  	   <th>个人照片:</th>
+										  	   <td>
+										  	      <p:upload businessId="${sysId }" sysKey="${expertKey }"  typeId="${typeMap.EXPERT_PHOTO_TYPEID }" auto="true"/>
+										          <p:show businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_PHOTO_TYPEID }"/>
+										  	   </td>
+										  	</tr>
+										  </table>
+										  
+										  
+										  <%--  <ul class="list-unstyled list-flow p0_20">
 										   <li class="col-md-6  p0 ">
 											   <span class="" id="files1"><i class="red">＊</i>身份证：</span>
 											   <div class="input-append mt5" >
-													<a href="javascript:void(0)"><i></i><input accept="image/*" type="file" name="files" id ="file1" class="fl"/></a>
+													<i></i>
+													<p:upload businessId="111" sysKey="4" typeId="0" auto="true"/>
+													<p:show businessId="111" sysKey="4" typeId="0"/>
 												</div>
 											 </li>
 											 
 											 <li class="col-md-6  p0 ">
 											   <span class="" id="files2"><i class="red" >＊</i>学历证书：</span>
 											     <div class="input-append mt5">
-													<a href="javascript:void(0)"><i></i><input accept="image/*" type="file" name="files" id ="file2" class="fl"/></a>
+													<i></i>
+													<p:upload businessId="222" sysKey="4" typeId="1" auto="true"/>
+													<p:show businessId="222" sysKey="4" typeId="1"/>
 												</div>
 											 </li>
 											 <li class="col-md-6  p0 ">
 											   <span class="" id="files3"><i class="red">＊</i>职称证书：</span>
 											      <div class="input-append mt5">
-													<a href="javascript:void(0)"><i></i><input accept="image/*" type="file" name="files" id ="file3" class="fl"/></a>
+													<i></i>
+													<p:upload businessId="333" sysKey="4" typeId="2" auto="true"/>
+													<p:show businessId="333" sysKey="4" typeId="2"/>
 												</div>
 											 </li>
 											  <li class="col-md-6  p0 ">
 											   <span class="" id="files4"><i class="red">＊</i>学位证书：</span>
 											      <div class="input-append mt5">
-													<a href="javascript:void(0)"><i></i><input accept="image/*"  type="file" name="files" id ="file4" class="fl"/></a>
+													<i></i>
+													<p:upload businessId="444" sysKey="4" typeId="3" auto="true"/>
+													<p:show businessId="444" sysKey="4" typeId="3"/>
 												</div>
 											  </li>
 											  <li class="col-md-6  p0 ">
 											   <span class="" id="files5"><i class="red">＊</i>本人照片：</span>
 											      <div class="input-append mt5">
-													<a href="javascript:void(0)"><i></i><input accept="image/*" type="file" name="files" id ="file5" class="fl"/></a>
+													<i></i>
+													<p:upload businessId="555" sysKey="4" typeId="4" auto="true"/>
+													<p:show businessId="555" typeId="4" sysKey="4"/>
 												</div>
 											 </li>
-										   </ul>
+										   </ul> --%>
 										   </div>
 									<div class="tc mt20 clear col-md-11">
 									        <button class="btn btn-windows git" onclick="submitForm1();"  type="button">暂存</button>
@@ -777,10 +835,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			   </select>
 			 </li>
    			 </ul>
-   			
    			   <div id="ztree" style="margin-left: 100px;" class="ztree"></div>
-   			
-   			 
 		    <div class="tc mt20 clear col-md-11">
 				<button class="btn btn-windows back"   type="button" onclick="pre('reg_box_id', 4, 'pre')">上一步</button>
 				<button class="btn btn-windows git" onclick="submitForm1();"  type="button">暂存</button>
@@ -891,25 +946,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    		<td align="center" width="100px">姓名</td>
    		<td align="center" width="150px" id="tName"></td>
    		<td align="center">性别</td>
-		  	<td class="tc" id="tSex"></td>
+		  	<td class="tc" id="tSex" colspan="2"></td>
    		
-   		<td align="center" rowspan="4">照片</td>
+   		<!-- <td align="center" rowspan="4">照片</td> -->
    	</tr>
    <tr>
    		<td align="center">出生日期</td>
    		<td align="center" width="150px" id="tBirthday"></td>
    		<td align="center">政治面貌</td>
-   		<td align="center" width="150px" id="tFace"></td>
+   		<td align="center" width="150px" id="tFace" colspan="2"></td>
    </tr>
    <tr>
    		<td align="center">所在地区</td>
    		<td align="center" width="150px"></td>
    		<td align="center">职称</td>
-   		<td align="center" width="150px" id="tHey"></td>
+   		<td align="center" width="150px" id="tHey" colspan="2"></td>
    </tr>
    <tr>
    		<td align="center">身份证号码</td>
-   		<td align="center" id="tNumber" colspan="3"></td>
+   		<td align="center" id="tNumber" colspan="4"></td>
    </tr>
    <tr>
    		<td align="center">从事专业类别</td>
@@ -1071,13 +1126,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<li class="col-md-6  p0 ">
 								<i class="red">＊</i><span class="" >专家申请表上传：</span>
 									<div class="input-append mt5">
-										<a href="javascript:void(0)"><input type="file" accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" name="files" id ="regIdentitys1" class="fl"/></a>
+										 <p:upload businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_APPLICATION_TYPEID }" auto="true"/>
+										  <p:show businessId="${sysId }" sysKey="${expertKey }" typeId="${typeMap.EXPERT_CONTRACT_TYPEID }"/>
 									</div>
 							</li>
 							 <li class="col-md-6  p0 ">
 								<i class="red">＊</i><span>专家合同书上传：</span>
 									<div class="input-append mt5">
-										<a href="javascript:void(0)"><input type="file"  name="files" id ="regIdentitys2" class="fl" accept="application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" /></a>
+										 <p:upload businessId="${sysId }" sysKey="${expertKey }" typeId="0" auto="true"/>
+										 <p:show businessId="${sysId }" sysKey="${expertKey }" typeId="0"/>
 									</div>
 							</li>
 					</div>

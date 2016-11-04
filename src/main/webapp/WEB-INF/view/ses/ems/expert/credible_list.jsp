@@ -25,7 +25,7 @@
 			    total: "${result.total}",
 			    startRow: "${result.startRow}",
 			    endRow: "${result.endRow}",
-			    groups: "${result.pages}">=3?3:"${result.pages}", //连续显示分页数
+			    groups: "${result.pages}">=5?5:"${result.pages}", //连续显示分页数
 			    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
 // 			        var page = location.search.match(/page=(\d+)/);
 // 			        return page ? page[1] : 1;
@@ -260,7 +260,7 @@
    </div>
    </div>
   
-   <form action="<%=basePath %>credible/list.html"  id="form1"  method="post"  enctype="multipart/form-data" class="registerform"> 
+   <form action="<%=basePath %>credible/list.html"  id="form1"  method="post"   class="registerform"> 
   <input type="hidden" name="page" id="page">
   <input type="hidden" name="flag" value="0">
    <div align="center">

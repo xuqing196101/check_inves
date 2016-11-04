@@ -325,7 +325,7 @@ public class ExpertServiceImpl implements ExpertService {
 			//expert.setUpdatedAt(new Date());
 			mapper.insertSelective(expert);
 			//附件上传
-			uploadFile(files, realPath, expertId);
+			//uploadFile(files, realPath, expertId);
 			//保存品目
 			saveCategory(expert,categoryIds);
 		}else{
@@ -338,19 +338,19 @@ public class ExpertServiceImpl implements ExpertService {
 			//修改时间
 			expert.setUpdatedAt(new Date());
 			//获取之前的附件
-			List<ExpertAttachment> attachList = attachmentMapper.selectListByExpertId(expert.getId());
+			//List<ExpertAttachment> attachList = attachmentMapper.selectListByExpertId(expert.getId());
 			//删除之前的附件
-			if(attachList!=null && attachList.size()>0){
+			/*if(attachList!=null && attachList.size()>0){
 				for (ExpertAttachment expertAttachment : attachList) {
 					//修改之前的附件信息为删除状态 和历史状态
 					expertAttachment.setIsDelete((short)1);
 					expertAttachment.setIsHistory((short)1);
 					attachmentMapper.updateByPrimaryKeySelective(expertAttachment);
 				}
-			}
+			}*/
 			mapper.updateByPrimaryKey(expert);
 			//重新上传新的附件
-			uploadFile(files, realPath, expert.getId());
+			//uploadFile(files, realPath, expert.getId());
 			//保存品目
 			saveCategory(expert,categoryIds);
 		}
@@ -383,16 +383,16 @@ public class ExpertServiceImpl implements ExpertService {
 			//执行修改
 			mapper.updateByPrimaryKeySelective(expert);
 			//获取之前的附件
-			List<ExpertAttachment> attachList = attachmentMapper.selectListByExpertId(expert.getId());
+			//List<ExpertAttachment> attachList = attachmentMapper.selectListByExpertId(expert.getId());
 			//删除之前的附件
-			if(attachList!=null && attachList.size()>0){
+			/*if(attachList!=null && attachList.size()>0){
 				for (ExpertAttachment expertAttachment : attachList) {
 					//修改之前的附件信息为删除状态 和历史状态
 					expertAttachment.setIsDelete((short)1);
 					expertAttachment.setIsHistory((short)1);
 					attachmentMapper.updateByPrimaryKeySelective(expertAttachment);
 				}
-			}
+			}*/
 			//获取之前的审核信息
 			List<ExpertAudit> auditList = expertAuditMapper.selectByExpertId(expert.getId());
 			if(auditList!=null && auditList.size()>0){
@@ -404,7 +404,7 @@ public class ExpertServiceImpl implements ExpertService {
 				}
 			}
 			//附件上传
-			uploadFile(files, realPath,expert.getId());
+			//uploadFile(files, realPath,expert.getId());
 			if(expert.getPurchaseDepId()=="1"){
 			//保存品目
 				saveCategory(expert, categoryIds);
@@ -427,7 +427,7 @@ public class ExpertServiceImpl implements ExpertService {
 		//执行保存
 		mapper.insertSelective(expert);
 		//文件上传
-		uploadFile(files, realPath,expertId);
+		//uploadFile(files, realPath,expertId);
 		//保存品目
 		saveCategory(expert, categoryIds);
 		}
