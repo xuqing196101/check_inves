@@ -37,7 +37,7 @@
     <result column="APPROVAL_TIME" property="approvalTime"/>
     <result column="REPLY_TIME" property="replyTime"/>
     <result column="DEMAND_FROM_TIME" property="demandFromTime"/>
-    <result column="TASK_GIVE_TIME" property="taskGiveTime"/>
+    <result column="IS_REHEARSE" property="IsRehearse"/>
     <result column="CREATED_AT" property="createAt"/>
     <result column="START_TIME" property="startTime"/>
     <result column="NOTICE_NEWS_TIME" property="noticeNewsTime"/>
@@ -60,7 +60,7 @@
     SCORING_RUBRIC, OPERATOR, DIVISION_OF_WORK, PURCHASE_TYPE, MATERIALS_TYPE, SECTOR_OF_DEMAND, 
     PURCHASE_DEP_ID, DEADLINE, DATE_OF_ENTRUSTMENT, BID_DATE, BID_ADDRESS, REQUIERED_ID,BALE_NO,
     AMOUNT,DEAL_SUPPLIER,PURCHASE_DEP_NAME,EXECUTE_STATUS,IS_ENTRANCE,APPROVAL_TIME,REPLY_TIME,
-    DEMAND_FROM_TIME,TASK_GIVE_TIME,CREATED_AT,START_TIME,NOTICE_NEWS_TIME,APP_TIME,SIGN_UP_TIME,
+    DEMAND_FROM_TIME,IS_REHEARSE,CREATED_AT,START_TIME,NOTICE_NEWS_TIME,APP_TIME,SIGN_UP_TIME,
     APPLY_DEADLINE,NOTICE_TIME,END_TIME,SIGNING_TIME,ACCEPTANCE_TIME,MAINTENANCE_TIME,IS_IMPORT
   </sql>
   
@@ -363,8 +363,8 @@
       <if test="demandFromTime != null">
         DEMAND_FROM_TIME,
       </if>
-      <if test="taskGiveTime != null">
-        TASK_GIVE_TIME,
+      <if test="IsRehearse != null">
+        IS_REHEARSE,
       </if>
       <if test="createAt != null">
         CREATED_AT,
@@ -515,8 +515,8 @@
       <if test="demandFromTime != null">
         #{demandFromTime},
       </if>
-      <if test="taskGiveTime != null">
-        #{taskGiveTime},
+      <if test="IsRehearse != null">
+        #{IsRehearse},
       </if>
       <if test="createAt != null">
         #{createAt},
@@ -667,8 +667,8 @@
       <if test="demandFromTime != null">
         DEMAND_FROM_TIME = #{demandFromTime},
       </if>
-      <if test="taskGiveTime != null">
-        TASK_GIVE_TIME = #{taskGiveTime},
+      <if test="IsRehearse != null">
+        IS_REHEARSE = #{IsRehearse},
       </if>
       <if test="createAt != null">
         CREATED_AT = #{createAt},

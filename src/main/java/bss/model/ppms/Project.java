@@ -80,7 +80,7 @@ public class Project {
     
     private Date demandFromTime; //需求计划提报时间
     
-    private Date taskGiveTime; //采购任务受理时间
+    private Date IsRehearse; //是否预研
     
     private Date createAt; //创建时间
     
@@ -423,15 +423,15 @@ public class Project {
 		this.demandFromTime = demandFromTime;
 	}
 
-	public Date getTaskGiveTime() {
-		return taskGiveTime;
-	}
+	public Date getIsRehearse() {
+        return IsRehearse;
+    }
 
-	public void setTaskGiveTime(Date taskGiveTime) {
-		this.taskGiveTime = taskGiveTime;
-	}
+    public void setIsRehearse(Date isRehearse) {
+        IsRehearse = isRehearse;
+    }
 
-	public Date getCreateAt() {
+    public Date getCreateAt() {
 		return createAt;
 	}
 

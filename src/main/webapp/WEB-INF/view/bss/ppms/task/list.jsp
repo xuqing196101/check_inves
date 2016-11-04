@@ -331,18 +331,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </table>
      </div>
         <div id="delTask" style="display: none;">
-             <form id="att" action="${pageContext.request.contextPath}/task/delTask.html" 
-        method="post" name="form1" class="simple" target="_parent" enctype="multipart/form-data">
-        <input type="hidden" id="ids" name="id"/>
-        <span class="f14 fl">上传附件：</span>
-        <div class="fl" id="uploadAttach" >
-          <input id="pic" type="file" class="toinline" name="attach"/>
-        
-        </div>
-        <br/><br/><br/>
-     <a class="btn btn-windows save" onclick="delTask();">确认</a>
-         <input class="btn btn-windows reset" value="取消" type="button" onclick="cancel();">
-    </form>
+	        <input type="hidden" id="ids" name="id"/>
+	        <f:upload businessId="" sysKey="2"/>
         </div>
    </div>
       <div id="pagediv" align="right"></div>
