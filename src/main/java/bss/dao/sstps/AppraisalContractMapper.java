@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import bss.model.sstps.AppraisalContract;
+import bss.model.sstps.Select;
 
 /**
 * @Title:SingleBondMapper 
@@ -32,5 +33,7 @@ public interface AppraisalContractMapper {
     List<AppraisalContract> selectAppraisal(HashMap<String, Object> map);
     
     List<AppraisalContract> selectStatisical(AppraisalContract record);
+    
+    List<Select> selectChose();
 
 }

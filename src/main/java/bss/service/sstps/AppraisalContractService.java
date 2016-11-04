@@ -5,6 +5,7 @@ import java.util.List;
 
 import bss.model.sstps.AppraisalContract;
 import bss.model.sstps.Contracts;
+import bss.model.sstps.Select;
 
 /**
 * @Title:AppraisalContractService
@@ -127,5 +128,8 @@ public interface AppraisalContractService {
 	* @return List<AppraisalContract>
 	 */
 	List<AppraisalContract> selectStatisical(AppraisalContract record);
+	
+	
+	List<Select> selectChose();
   
 }

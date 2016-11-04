@@ -21,6 +21,7 @@ import bss.model.cs.ContractRequired;
 import bss.model.cs.PurchaseContract;
 import bss.model.sstps.AppraisalContract;
 import bss.model.sstps.ContractProduct;
+import bss.model.sstps.Select;
 import bss.service.cs.ContractRequiredService;
 import bss.service.cs.PurchaseContractService;
 import bss.service.sstps.AppraisalContractService;
@@ -73,7 +74,8 @@ public class AppraisalContractController extends BaseSupplierController{
 		if(contractType==0){
 			
 		}else if(contractType==1){
-			List<PurchaseContract> list = purchaseContractService.selectAllPurchaseContract();
+			List<Select> list = appraisalContractService.selectChose();
+			System.out.println("list:"+list);
 			super.writeJson(response, list);
 		}
 		

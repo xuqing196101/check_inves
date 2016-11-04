@@ -8,17 +8,27 @@
   <head>
     
     <title>添加采购合同</title>
+
+<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/select2/js/jquery-2.1.0.js"></script>    
+<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/select2/js/select2.min.js"></script>
+<link href="<%=basePath%>/public/select2/css/select2.min.css" rel="stylesheet" />
 	
 <script type="text/javascript">
   function contractType(type){ 
+	  $("#contractName").val("");
+	  $("#supplierName").val("");
+	  $("#contractCode").val("");
+	  $("#money").val("");
+	  $("#purchaseDepName").val("");
 	  $("#contract").empty();
 	  $.ajax({
 		  url:"<%=basePath%>appraisalContract/selectContract.do?contractType="+type,
 	      type:"POST",
+	      dataType: "json",
 	      success:function(contracts){
 	    	  if(contracts){
-	    		  $("#contract").html("<option></option>");
-	    		  $.each(JSON.parse(contracts),function(i,contract){
+	    		  $("#contract").append("<option></option>");
+	    		  $.each(contracts,function(i,contract){
 	    			  $("#contract").append("<option value="+contract.id+">"+contract.name+"</option>");
 	    		  });
 	    	  }
@@ -26,7 +36,17 @@
 	  });	
   }
   
+  $(function(){
+	  $("#contract").select2({
+	 });
+  })
+  
   function contractInfo(){
+	  $("#contractName").val("");
+	  $("#supplierName").val("");
+	  $("#contractCode").val("");
+	  $("#money").val("");
+	  $("#purchaseDepName").val("");
 	  var id = $("#contract").val();
 	  $.ajax({
 		  url:"<%=basePath%>appraisalContract/selectContractId.do?id="+id,
@@ -42,15 +62,8 @@
 	  });
   }
   
-  function check(){
-	  var name = $("#contractName").val();
-	  if(name==null&&name==""){
-		  return false;
-	  }else{
-		  return true;
-	  }
-		
-  }
+  
+	</script>
   
 </script>
 	
@@ -67,13 +80,14 @@
 	  </div>
    </div>
    
-   <form onsubmit="return check()" action="<%=basePath %>appraisalContract/save.html" method="post" enctype="multipart/form-data">
+   <form  action="<%=basePath %>appraisalContract/save.html" method="post" enctype="multipart/form-data">
    
 	<div class="container">
 	 	<div class="headline-v2">
 	  		 <h2>添加合同</h2>
 	 	</div>
 	 	
+	 	<form id="form1">
 	 	<div class="container padding-left-25 padding-right-25">
 			<table class="table table-bordered">
 				 <tobody>
@@ -89,7 +103,6 @@
 				 		<td width="25%">
 				 			<select class="w230" id="contract" name="contractId" onchange="contractInfo()">
 				 			</select>
-				 			<input type="hidden" id="contractName" name="name">
 				 		</td>
 				 	</tr>
 				 	<tr>
@@ -115,7 +128,8 @@
 				 </tobody>
 			</table>
         </div>
-	 	
+        </form>
+        
 	 	<div  class="col-md-12">
 	   		<div class="mt40 tc mb50">
 			    <button class="btn btn-windows add" type="submit" id="submit" name="submit">确定</button>

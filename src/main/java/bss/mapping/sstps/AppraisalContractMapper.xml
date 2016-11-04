@@ -294,4 +294,12 @@
   </select>
   
   
+  <select id="selectChose" parameterType="Object" resultType="bss.model.sstps.Select">
+  	select 
+	  	ID as id,
+	  	NAME AS text,
+	  	NAME AS name
+  	from T_BSS_CS_PURCHASE_CONTRACT
+  </select>
+  
 </mapper>

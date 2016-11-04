@@ -14,6 +14,7 @@ import bss.dao.sstps.AppraisalContractMapper;
 import bss.dao.sstps.ContractsMapper;
 import bss.model.sstps.AppraisalContract;
 import bss.model.sstps.Contracts;
+import bss.model.sstps.Select;
 import bss.service.sstps.AppraisalContractService;
 
 /**
@@ -119,6 +120,12 @@ public class AppraisalContractServiceImpl implements AppraisalContractService {
 	@Override
 	public List<AppraisalContract> selectStatisical(AppraisalContract record) {
 		return appraisalContractMapper.selectStatisical(record);
+	}
+
+	
+	@Override
+	public List<Select> selectChose() {
+		return appraisalContractMapper.selectChose();
 	}
 	
 	
