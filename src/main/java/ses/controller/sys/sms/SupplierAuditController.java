@@ -189,8 +189,7 @@ public class SupplierAuditController extends BaseSupplierController{
 	 * @return String
 	 */
 	@RequestMapping("financial")
-	public String financialInformation(HttpServletRequest request,SupplierFinance supplierFinance,Supplier supplier) {
-		String supplierId = supplierFinance.getSupplierId();
+	public String financialInformation(HttpServletRequest request,String supplierId) {
 		List<SupplierFinance> list = supplierAuditService.supplierFinanceBySupplierId(supplierId);
 		//勾选的供应商类型
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);

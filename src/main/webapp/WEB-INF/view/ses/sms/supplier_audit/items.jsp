@@ -11,6 +11,8 @@
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
+
+
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/common.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/bootstrap.min.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" type="text/css" />
@@ -23,30 +25,18 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/page_job.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ZHQ/css/shop.style.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
-
-<link href="<%=basePath%>public/layer/skin/layer.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/layer/skin/layer.ext.css" media="screen" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
-<script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-<script src="${pageContext.request.contextPath}/public/layer/extend/layer.ext.js"></script>
-
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css" type="text/css" />
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.excheck.js"></script>
-
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
-
+<script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+<script src="${pageContext.request.contextPath}/public/layer/extend/layer.ext.js"></script>
 <script type="text/javascript">
 function tijiao(status){
   $("#status").val(status);
   form1.submit();
 }
 
-function tijiao(){
+function nextStep(){
   var action = "${pageContext.request.contextPath}/supplierAudit/product.html";
   $("#form_id").attr("action",action);
   $("#form_id").submit();
@@ -63,7 +53,7 @@ function reason(id){
   var fail = false;
     layer.prompt({title: '请填写不通过的理由：', formType: 2}, function(text){
       $.ajax({
-          url:"<%=basePath%>supplierAudit/auditReasons.html",
+          url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
           type:"post",
           data:"auditType="+auditType+"&auditFieldName="+auditFieldName+"&suggest="+text+"&supplierId="+supplierId+"&auditField=品目树"+"&auditContent=品目树",
           dataType:"json",
@@ -86,25 +76,6 @@ function reason(id){
 
 </script>
 <script type="text/javascript">
-  function zhancun(){
-    var supplierId=$("#supplierId").val();
-    $.ajax({
-      url:"<%=basePath%>supplierAudit/temporaryAudit.html",
-      type:"post",
-      data:"id="+supplierId,
-      dataType:"json",
-      success:function(result){
-        result = eval("(" + result + ")");
-        if(result.msg == "success"){
-          layer.msg("暂存成功！");
-        }
-      },error:function(){
-        layer.msg("暂存失败！");
-      }
-    });
-  }
-</script>
-<script type="text/javascript">
   var zTreeObj;
   var zNodes;
   $(function() {
@@ -125,7 +96,7 @@ function reason(id){
           $(this).removeAttr("class");
         }
       });
-      $(".tab-pane").each(function() {
+      $("#tab_content_div_id").find(".tab-pane").each(function() {
         var id = $(this).attr("id");
         if (id == defaultPage) {
           $(this).attr("class", "tab-pane fade height-300 active in");
@@ -141,7 +112,7 @@ function reason(id){
           $(this).removeAttr("class");
         }
       });
-      $(".tab-pane").each(function(index) {
+      $("#tab_content_div_id").find(".tab-pane").each(function(index) {
         if (index == 0) {
           $(this).attr("class", "tab-pane fade height-300 active in");
         } else {
@@ -150,13 +121,13 @@ function reason(id){
       });
     }
     // ztree
-    $(".tab-pane").each(function(index) {
+    $("#tab_content_div_id").find(".tab-pane").each(function(index) {
       var kind = "";
       var id = $(this).attr("id");
-      if (id == "tab-1") kind = "E73923CC68A44E2981D5EA6077580372";
-      if (id == "tab-2") kind = "18A966C6FF17462AA0C015549F9EAD79";
-      if (id == "tab-3") kind = "80E7B015FDF543F6A4A053A57C3C6908";
-      if (id == "tab-4") kind = "3801E8F39B4C485CA59C3C531E86541E";
+      if (id == "tab-1") kind = "1";
+      if (id == "tab-2") kind = "2";
+      if (id == "tab-3") kind = "3";
+      if (id == "tab-4") kind = "4";
       loadZtree(id, kind);
     });
     
@@ -164,16 +135,16 @@ function reason(id){
   
   function loadZtree(id, kind) {
     var id = "";
-    if (kind == "E73923CC68A44E2981D5EA6077580372") id = "tree_ul_id_1";
-    if (kind == "18A966C6FF17462AA0C015549F9EAD79") id = "tree_ul_id_2";
-    if (kind == "80E7B015FDF543F6A4A053A57C3C6908") id = "tree_ul_id_3";
-    if (kind == "3801E8F39B4C485CA59C3C531E86541E") id = "tree_ul_id_4";
+    if (kind == "1") id = "tree_ul_id_1";
+    if (kind == "2") id = "tree_ul_id_2";
+    if (kind == "3") id = "tree_ul_id_3";
+    if (kind == "4") id = "tree_ul_id_4";
     var setting = {
       async : {
         enable : true,
         url : "${pageContext.request.contextPath}/category/find_category.do",
         otherParam : {
-          supplierId : "${supplierId}",
+          supplierId : "${currSupplier.id}",
           kind : kind
         },
         dataType : "json",
@@ -193,13 +164,47 @@ function reason(id){
           pIdKey : "parentId"
         }
       },
+      callback: {
+        onCheck: onCheck
+      }
     };
     zTreeObj = $.fn.zTree.init($("#" + id), setting, zNodes);
   }
-
   
-  
-
+  function onCheck(e, treeId, treeNode) {
+    var ids = "";
+    var flag = treeNode.checked;
+    var result = checkType();
+    var tree = $.fn.zTree.getZTreeObj(result.id);
+    var nodes = tree.getChangeCheckedNodes();
+    for (var i = 0; i < nodes.length; i++) {
+      if (!nodes[i].isParent) {
+        if (ids) {
+          ids += ",";
+        }
+        ids += nodes[i].id;
+      }
+    }
+    
+    if (ids) {
+      $.ajax({
+        url : "${pageContext.request.contextPath}/supplier_level/find_credit_ctnt_by_credit_id.do",
+        type : "post",
+        data : {
+          ids : ids,
+          flag : flag,
+          type : result.type
+        },
+        dataType : "json",
+        success : function(result) {
+        },
+      });
+    }
+    
+    /**for (var i = 0; i < nodes.length; i++) {
+      nodes[i].checkedOld = nodes[i].checked;
+    }*/
+  }
 </script>
 </head>
   
@@ -248,11 +253,11 @@ function reason(id){
                 </c:if>
                </ul>
             </div>
-                  <form id="form_id" action="" method="post"  enctype="multipart/form-data">
+                  <form id="form_id" action="" method="post" >
                       <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
                   </form>
                   
-                  <div class="tab-content padding-top-20">
+                  <div class="tab-content padding-top-20" id="tab_content_div_id">
                   <c:if test="${fn:contains(supplierTypeNames, '生产型')}">
                     <!-- 物资生产型 -->
                     <div class="tab-pane fade active in height-300" id="tab-1">
@@ -293,7 +298,7 @@ function reason(id){
           </div>
           <div class="col-md-12 add_regist tc">
             <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
-            <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="tijiao('${url}');">下一步</a>
+            <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="nextStep();">下一步</a>
           </div>     
         </div>
       </div>

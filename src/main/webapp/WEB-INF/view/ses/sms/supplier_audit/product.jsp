@@ -25,8 +25,8 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
 
-<link href="<%=basePath%>public/layer/skin/layer.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/layer/skin/layer.ext.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/layer/skin/layer.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/layer/skin/layer.ext.css" media="screen" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
@@ -51,9 +51,9 @@ function reason(id){
   var auditContent="产品名称为："+$("#"+id+"_name").text()+"的信息"; //审批的字段内容
   var auditType=$("#product").text();//审核类型
   var fail = false;
-   layer.prompt({title: '请填写不通过的理由：', formType: 2,offset:'200px'}, function(text){
+   layer.prompt({title: '请填写不通过的理由：', formType: 2}, function(text){
     $.ajax({
-        url:"<%=basePath%>supplierAudit/auditReasons.html",
+        url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
         type:"post",
         /* data:"&auditField="+auditField+"&suggest="+text+"&supplierId="+supplierId, */
         data:"auditType="+auditType+"&auditFieldName="+auditFieldName+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField=表格",
@@ -62,18 +62,18 @@ function reason(id){
         result = eval("(" + result + ")");
         if(result.msg == "fail"){
           fail = true;
-          layer.msg("该条信息已审核过！",{offset:'200px'});
+          layer.msg("该条信息已审核过！");
         }
       }
       });
       if(!fail){
 		    $("#"+id+"_show").show();
-		    layer.msg("审核不通过的理由是："+text,{offset:'200px'});
+		    layer.msg("审核不通过的理由是："+text);
 		    }
     });
 }
 
-function tijiao(){
+function nextStep(){
   var action = "${pageContext.request.contextPath}/supplierAudit/applicationForm.html";
   $("#form_id").attr("action",action);
   $("#form_id").submit();
@@ -89,7 +89,7 @@ function tijiao(){
   function zhancun(){
     var supplierId=$("#supplierId").val();
     $.ajax({
-      url:"<%=basePath%>supplierAudit/temporaryAudit.html",
+      url:"${pageContext.request.contextPath}/supplierAudit/temporaryAudit.html",
       type:"post",
       data:"id="+supplierId,
       dataType:"json",
@@ -137,7 +137,7 @@ function tijiao(){
             </ul>
               <div class="tab-content padding-top-20">
                 <div class="tab-pane fade active in height-450" id="tab-1">
-                  <form id="form_id" action="" method="post"  enctype="multipart/form-data">
+                  <form id="form_id" action="" method="post">
                       <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
                   </form>
                   <table id="share_table_id" class="table table-bordered table-condensed">
@@ -192,7 +192,7 @@ function tijiao(){
                     </table>
                     <div class="col-md-12 add_regist tc">
                       <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
-                      <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="tijiao('${url}');">下一步</a>
+                      <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="nextStep();">下一步</a>
                     </div>
                 </div>
               </div>

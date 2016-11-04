@@ -25,8 +25,9 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
 
-<link href="<%=basePath%>public/layer/skin/layer.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/layer/skin/layer.ext.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/layer/skin/layer.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/layer/skin/layer.ext.css" media="screen" rel="stylesheet" type="text/css">
+
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
@@ -129,9 +130,7 @@ function reason1(ele,auditField){
 }
 
 
-function tijiao(){
-  var action = "${pageContext.request.contextPath}/supplierAudit/financial.html";
-  $("#form_id").attr("action",action);
+function nextStep(){
   $("#form_id").submit();
 }
 
@@ -202,7 +201,7 @@ function tijiao(){
             <div class="tab-content padding-top-20" style="height:1500px;">
               <div class="tab-pane fade active in height-450" id="tab-1">
                 <div class=" margin-bottom-0">
-                  <form id="form_id" action="" method="post"  enctype="multipart/form-data">
+                  <form id="form_id" action="${pageContext.request.contextPath}/supplierAudit/financial.html" method="post">
                     <input name="supplierId" id="id" value="${suppliers.id }" type="hidden">
                   </form>
                   <h2 class="f16 jbxx mt40">
@@ -500,7 +499,7 @@ function tijiao(){
             </div>
             <div class="col-md-12 add_regist tc">
              <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
-             <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="tijiao('${url}');">下一步</a>
+             <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="nextStep();">下一步</a>
             </div>
           </div>
         </div>

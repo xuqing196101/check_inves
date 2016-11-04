@@ -75,7 +75,7 @@ function reason(id){
     });
 }
 
-function tijiao(url){
+function nextStep(url){
   $("#form_id").attr("action",url);
   $("#form_id").submit();
 }
@@ -132,7 +132,7 @@ function tijiao(url){
             </ul>
               <div class="tab-content padding-top-20">
                 <div class="tab-pane fade active in height-450" id="tab-1">
-                  <form id="form_id" action="" method="post"  enctype="multipart/form-data">
+                  <form id="form_id" action="" method="post" >
                       <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
                      
                   </form>
@@ -164,7 +164,7 @@ function tijiao(url){
                   </table>
                   <div class="col-md-12 add_regist tc">
                     <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a>
-                    <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="tijiao('${url}');">下一步</a>
+                    <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="nextStep('${url}');">下一步</a>
 						      </div>
                 </div>
               </div>

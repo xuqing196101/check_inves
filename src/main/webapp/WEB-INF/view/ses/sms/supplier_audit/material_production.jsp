@@ -25,8 +25,8 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/supplier/css/supplier.css" type="text/css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
 
-<link href="<%=basePath%>public/layer/skin/layer.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/layer/skin/layer.ext.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/layer/skin/layer.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/layer/skin/layer.ext.css" media="screen" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
@@ -61,7 +61,7 @@ function reason(id){
   var fail = false;
    layer.prompt({title: '请填写不通过的理由：', formType: 2}, function(text){
     $.ajax({
-        url:"<%=basePath%>supplierAudit/auditReasons.html",
+        url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
         type:"post",
         data:"auditType="+auditType+"&auditFieldName="+id+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField=表格",
         dataType:"json",
@@ -94,7 +94,7 @@ function reason1(id,auditField){
   var fail = false;
   layer.prompt({title: '请填写不通过的理由：', formType: 2}, function(text){
     $.ajax({
-        url:"<%=basePath%>supplierAudit/auditReasons.html",
+        url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
         type:"post",
         data:"auditType="+auditType+"&auditFieldName="+auditFieldName+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+auditField,
         dataType:"json",
@@ -139,7 +139,7 @@ function tijiao(url){
   function zhancun(){
     var supplierId=$("#supplierId").val();
     $.ajax({
-      url:"<%=basePath%>supplierAudit/temporaryAudit.html",
+      url:"${pageContext.request.contextPath}/supplierAudit/temporaryAudit.html",
       type:"post",
       data:"id="+supplierId,
       dataType:"json",
@@ -186,7 +186,7 @@ function tijiao(url){
             </ul>
               <div class="tab-content padding-top-20" >
                 <div class="tab-pane fade active in height-450" id="tab-1" style="height:1000px;">
-                  <form id="form_id" action="" method="post"  enctype="multipart/form-data">
+                  <form id="form_id" action="" method="post" >
                     <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
                   </form>
                   <h2 class="f16 jbxx">
