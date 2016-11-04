@@ -90,10 +90,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        <i class="fa fa-bars"></i> xxxx有限公司 <span class="label rounded-2x label-u">正常</span>
           </h2>
           <div class="pull-right">
-	        <a class="btn btn-sm btn-default" href="javascript:void(0)" onClick=""><i class="fa fa-search-plus"></i> 详细</a> 
-			<a class="btn btn-sm btn-default" href="javascript:void(0)" onClick=""><i class="fa fa-wrench"></i> 修改</a> 
-			<a class="btn btn-sm btn-default" href="javascript:void(0)" onClick=""><i class="fa fa-plus"></i> 增加下属单位</a> 
-			<a class="btn btn-sm btn-default" data-toggle="modal" href=""><i class="fa fa-plus"></i> 增加人员</a>
+	        <a class="btn" href="javascript:void(0)" onClick=""><i class="fa fa-search-plus"></i> 详细</a> 
+			<a class="btn" href="javascript:void(0)" onClick=""><i class="fa fa-wrench"></i> 修改</a> 
+			<a class="btn" href="javascript:void(0)" onClick=""><i class="fa fa-plus"></i> 增加下属单位</a> 
+			<a class="btn" data-toggle="modal" href=""><i class="fa fa-plus"></i> 增加人员</a>
           </div>
 		 </div>
 		 <div>
@@ -195,58 +195,87 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </div>
     </div>
 	<div class="tab-pane fade in" id="dep_tab-2">
-	 <ul class="timeline-v2">
-      <li>
+ <div class="tml_container">
+				 <div class="dingwei">
+				  <div class="tml_spine">
+					<span class="tml_spine_bg"></span>
+					
+					<span id="timeline_start_point" class="start_point"></span>
+				  </div>
+				  <div class="tml_poster" id="post_area" style=""><div class="poster" id="poster_1">
+                   <div class=" margin-bottom-0">
+                       <h2 class="f16 history_icon">修改数据</h2>
+				        <div class="padding-left-10">
+					       <div class="cbp_tmlabel">
+					          <div class="margin-bottom-10">
+					            <div class="headline">
+					              <h3 class="heading-sm">修改详细信息</h3>
+					              <div class="f14 fr"><span class="mr5">2016-08-01</span><span>14:27:16</span></div>
+					            </div>
+					            <table class="table table-bordered mb0">
+					            <thead>
+					              <tr>
+					                <th>参数名称</th>
+					                <th>修改前</th>
+					                <th>修改后</th>
+					              </tr>
+					            </thead>
+					            <tbody>
+					              <tr>
+					               <td>详细地址</td>
+					               <td>北京市西四环中路16号院8号楼（金沟河桥东南角）</td>
+					               <td>北京市西四环中路16号院8号楼</td>
+					              </tr>
+					             </tbody>
+					            </table>
+					           </div>
+					          <div class="cbp_detail"><div class="mr15 fl">状态：<span class="label rounded-2x label-u">正常</span></div><span>姓名：李四</span><span>ID：154234</span><span>单位：xxxxx有限公司</span><span>IP地址：61.136.254.125|北京市</span></div>
+					        </div>
+					    </div>
+                   </div>
+				  </div>
+				  <div class="period_header"><span>11:17:41 2015-11-18</span></div>
+				  <span class="ui_left_arrow">
+				    <span class="ui_arrow"></span>
+				  </span>
+				 </div>
+                </div>
+			   </div>
+		  
+			  
+              <div class=" margin-bottom-0">
+                <div class="tml_container">
+				  <div class="dingwei">
+				  <div class="tml_spine">
+					<span class="tml_spine_bg"></span>
+					
+					<span id="timeline_start_point" class="start_point"></span>
+				  </div>
+				  <div class="tml_poster" id="post_area" ><div class="poster" id="poster_1">
+                   <div class=" margin-bottom-0">
+                       <h2 class="f16 history_icon">修改数据</h2>
+						  <div class="padding-left-10">
+					        <div class="cbp_tmlabel">
+					          <div class="margin-bottom-10"><div class="headline">
+					            <h3 class="heading-sm">修改详细信息</h3>
+					            <div class="f14 fr"> <span class="mr5">2016-08-01</span><span>14:27:16</span></div>
+					          </div>
+					          <table class="table table-bordered mb0"><thead><tr><th>参数名称</th><th>修改前</th><th>修改后</th></tr></thead><tbody><tr><td>详细地址</td><td>北京市西四环中路156号院845号楼（金沟河桥东南角）</td><td>北京市西四环中路123号院34号楼</td></tr></tbody></table></div>
+					          <div class="cbp_detail"><div class="mr15 fl">状态：<span class="label rounded-2x label-u">正常</span></div><span>姓名：张三</span><span>ID：151234</span><span>单位：xxxxx有限公司</span><span>IP地址：61.135.234.125|北京市</span></div>
+					        </div>
+					    </div>
+                     </div>
+				  </div>
+				  <div class="period_header"><span>11:17:41 2015-11-18</span></div>
+				  <span class="ui_left_arrow">
+				    <span class="ui_arrow"></span>
+				  </span>
+				 </div>
+                </div>
+               </div>
+			  </div>
 
-        <div class="cbp_tmlabel">
-          <h4 class="f14 b">修改数据</h4>
-          <div class="margin-bottom-10">
-            <div class="headline">
-              <h3 class="heading-sm">修改详细信息</h3>
-              <div class="f14 fr"><span class="mr5">2016-08-01</span><span>14:27:16</span></div>
-            </div>
-            <table class="table table-bordered mb0">
-            <thead>
-              <tr>
-                <th>参数名称</th>
-                <th>修改前</th>
-                <th>修改后</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-               <td>详细地址</td>
-               <td>北京市西四环中路16号院8号楼（金沟河桥东南角）</td>
-               <td>北京市西四环中路16号院8号楼</td>
-              </tr>
-             </tbody>
-            </table>
-           </div>
-          <div class="cbp_detail"><div class="mr15 fl">状态：<span class="label rounded-2x label-u">正常</span></div><span>姓名：李四</span><span>ID：154234</span><span>单位：xxxxx有限公司</span><span>IP地址：61.136.254.125|北京市</span></div>
-        </div>
-      </li>
-      <li>
-        <div class="cbp_tmlabel">
-         <h4 class="f14 b">修改数据 </h4>
-          <div class="margin-bottom-10"><div class="headline">
-            <h3 class="heading-sm">修改详细信息</h3>
-            <div class="f14 fr"> <span class="mr5">2016-08-01</span><span>14:27:16</span></div>
-          </div>
-          <table class="table table-bordered mb0"><thead><tr><th>参数名称</th><th>修改前</th><th>修改后</th></tr></thead><tbody><tr><td>详细地址</td><td>北京市西四环中路156号院845号楼（金沟河桥东南角）</td><td>北京市西四环中路123号院34号楼</td></tr></tbody></table></div>
-          <div class="cbp_detail"><div class="mr15 fl">状态：<span class="label rounded-2x label-u">正常</span></div><span>姓名：张三</span><span>ID：151234</span><span>单位：xxxxx有限公司</span><span>IP地址：61.135.234.125|北京市</span></div>
-        </div>
-      </li>
 
-
-      </ul>
-     </div>
-    </div>
-   </div>
-  </div>
- </div>
-</div>
-</div>
-</div>
 </div>
  </div><!--/container-->
 
