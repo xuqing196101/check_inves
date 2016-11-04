@@ -384,11 +384,10 @@ public class SupplierAuditController extends BaseSupplierController{
 	public void auditReasons(SupplierAudit supplierAudit,HttpServletRequest request,HttpServletResponse response,Supplier supplier) throws IOException{
 		String id=supplierAudit.getSupplierId();
 		supplier = supplierAuditService.supplierById(id);
-		
-		supplier = supplierAuditService.supplierById(id);
+
 		supplierAudit.setStatus(supplier.getStatus());
 		supplierAudit.setCreatedAt(new Date());
-		supplierAudit.setUserId("EDED66BAC3304F34B75EBCDB88AE427F");
+		supplierAudit.setUserId(supplier.getProcurementDepId());
 		
 		//审核时只要填写理由，就不通过
 /*		supplier.setId(id);
