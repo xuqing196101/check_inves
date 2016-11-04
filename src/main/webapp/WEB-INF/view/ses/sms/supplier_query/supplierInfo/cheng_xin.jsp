@@ -181,23 +181,6 @@ function downloadFile(fileName){
 }
 </script>
 <style type="text/css">
-.jbxx1{
-  background:url(../images/down_icon.png) no-repeat 5px !important;
-  padding-left:40px !important;
-}
-.jbxx1 i{
-    width: 24px;
-    height: 30px;
-    background: url(../../../../../zhbj/public/ZHQ/images/round.png) no-repeat center;
-    color: #ffffff;
-    font-size: 12px;
-    text-align: center;
-    display: block;
-    float: left;
-    line-height: 30px;
-    font-style: normal;
-    margin-right: 10px;
-}
 </style>
 </head>
   
@@ -231,7 +214,7 @@ function downloadFile(fileName){
             </ul>
               <div class="tab-content padding-top-20">
                 <div class="tab-pane fade active in height-450" id="tab-1">
-                  <form id="form_id" action="" method="post"  enctype="multipart/form-data">
+                  <form id="form_id" action="" method="post">
                       <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
                   </form>
                   <table class="table table-bordered table-condensed">

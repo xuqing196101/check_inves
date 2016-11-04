@@ -201,23 +201,7 @@ function fanhui(){
 }
 </script>
 <style type="text/css">
-.jbxx1{
-  background:url(../images/down_icon.png) no-repeat 5px !important;
-  padding-left:40px !important;
-}
-.jbxx1 i{
-    width: 24px;
-    height: 30px;
-    background: url(../../../../../zhbj/public/ZHQ/images/round.png) no-repeat center;
-    color: #ffffff;
-    font-size: 12px;
-    text-align: center;
-    display: block;
-    float: left;
-    line-height: 30px;
-    font-style: normal;
-    margin-right: 10px;
-}
+
 </style>
 </head>
   
@@ -251,7 +235,7 @@ function fanhui(){
             <li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" onclick="tijiao('product');" >产品信息</a></li>
             <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" onclick="tijiao('chengxin');">诚信记录</a></li>
           </ul>
-                  <form id="form_id" action="" method="post"  enctype="multipart/form-data">
+                  <form id="form_id" action="" method="post">
                     <input name="supplierId" id="id" value="${suppliers.id }" type="hidden">
                   </form>                 
                <table class="table table-bordered">

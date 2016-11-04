@@ -178,7 +178,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </ul>
               <div class="tab-content padding-top-20">
                 <div class="tab-pane fade active in height-450" id="tab-1">
-                  <form id="form_id" action="" method="post"  enctype="multipart/form-data">
+                  <form id="form_id" action="" method="post">
                       <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
                   </form>
                   <table id="share_table_id" class="table table-bordered table-condensed">

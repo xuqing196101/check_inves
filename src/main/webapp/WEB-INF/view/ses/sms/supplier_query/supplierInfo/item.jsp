@@ -215,23 +215,6 @@ function fanhui(){
 </script>
 
 <style type="text/css">
-.jbxx1{
-  background:url(../images/down_icon.png) no-repeat 5px !important;
-  padding-left:40px !important;
-}
-.jbxx1 i{
-    width: 24px;
-    height: 30px;
-    background: url(../../../../../zhbj/public/ZHQ/images/round.png) no-repeat center;
-    color: #ffffff;
-    font-size: 12px;
-    text-align: center;
-    display: block;
-    float: left;
-    line-height: 30px;
-    font-style: normal;
-    margin-right: 10px;
-}
 .line{
 	border: 4px solid #fff0;
 }

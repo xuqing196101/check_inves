@@ -180,23 +180,6 @@ function tijiao(str){
 }
 </script>
 <style type="text/css">
-.jbxx1{
-  background:url(../images/down_icon.png) no-repeat 5px !important;
-  padding-left:40px !important;
-}
-.jbxx1 i{
-    width: 24px;
-    height: 30px;
-    background: url(../../../../../zhbj/public/ZHQ/images/round.png) no-repeat center;
-    color: #ffffff;
-    font-size: 12px;
-    text-align: center;
-    display: block;
-    float: left;
-    line-height: 30px;
-    font-style: normal;
-    margin-right: 10px;
-}
 </style>
 </head>
 <body>
@@ -229,14 +212,14 @@ function tijiao(str){
             </ul>
               <div class="tab-content padding-top-20">
                 <div class="tab-pane fade active in height-450" id="tab-1">
-                  <form id="form_id" action="" method="post"  enctype="multipart/form-data">
+                  <form id="form_id" action="" method="post">
                     <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
                   </form>
                   <h5>
-                  <i>一、</i>供应商资质证书
                   </h5>
                   <table class="table table-bordered table-condensed">
 							      <thead>
+							      <tr><td colspan="6" class="bggrey tl">一、供应商资质证书：</td></tr>
 							        <tr>
 							          <th class="info">资质证书名称</th>
 							          <th class="info">资质等级</th>
@@ -246,6 +229,7 @@ function tijiao(str){
 							          <th class="info">附件上传</th>
 							        </tr>
 							        </thead>
+							        <tbody>
 							        <c:forEach items="${materialProduction}" var="m" >
 							          <tr>
 							            <td class="tc" id="${m.id}">${m.name }</td>
@@ -262,11 +246,7 @@ function tijiao(str){
 							            <td class="tc">${m.attach }</td>
 							          </tr>
 							        </c:forEach>
-							    </table>
 							    
-							    <div class=" margin-bottom-0">
-					<table class="table table-bordered">
-					<tbody>
 					<tr><td colspan="6" class="bggrey tl">二、组织结构和人员：</td></tr>
                         <tr>
 							<td class="bggrey tr" style="width:17%">组织机构：</td>
@@ -333,6 +313,5 @@ function tijiao(str){
         </div>
       </div>
     </div>
-  </div>
 </body>
 </html>

@@ -105,22 +105,24 @@
 	<div class="container clear mt20">
    		<div class="list-unstyled padding-10 breadcrumbs-v3">
 		    <span>
-			  <a href="#" class="img-v2 orange_link">编制标书</a>
+			  <a href="<%=basePath%>mulQuo/bidDocument.html?projectId=${project.id}" class="img-v1">编制标书</a>
 			  <span class="green_link">→</span>
 			</span>
 			<span>
-			  <a href="<%=basePath%>mulQuo/toBindingIndex.html?projectId=${project.id}" class="img-v3">绑定指标</a>
+			  <a href="<%=basePath%>mulQuo/toBindingIndex.html?projectId=${project.id}" class="img-v1">绑定指标</a>
 			  <span class="">→</span>
 			</span>
 			<span>
-			  <a href="<%=basePath%>mulQuo/list.html?projectId=${project.id}" class="img-v3">填写报价</a>
+			  <a href="<%=basePath%>mulQuo/list.html?projectId=${project.id}" class="img-v1">填写报价</a>
 			  <span class="">→</span>
 			</span>
 		    <span>
-			  <a href="#" class="img-v5">完成</a>
+			  <a href="#" class="img-v2 orange_link">完成</a>
 			</span>
    		</div>
   	</div>
-  	<span>投标完成</span>
+  		<div class="container content height-350 pt0">
+  		<span>投标完成</span>
+  	</div>
 </body>
 </html>

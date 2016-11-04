@@ -143,7 +143,6 @@
 		    } 
 		}
 		if(error==0){
-		    alert("ok");
 			$("#priceStr").val(priceStr);
 			form.submit();
 		}
@@ -169,11 +168,11 @@
 	<div class="container clear mt20">
    		<div class="list-unstyled padding-10 breadcrumbs-v3">
 		    <span>
-			  <a href="<%=basePath%>supplierProject/bidDocument.html?projectId=${project.id}" class="img-v1">编制标书</a>
+			  <a href="<%=basePath%>mulQuo/bidDocument.html?projectId=${project.id}" class="img-v1">编制标书</a>
 			  <span class="">→</span>
 			</span>
 			<span>
-			  <a href="<%=basePath%>supplierProject/toBindingIndex.html?projectId=${project.id}" class="img-v1">绑定指标</a>
+			  <a href="<%=basePath%>mulQuo/toBindingIndex.html?projectId=${project.id}" class="img-v1">绑定指标</a>
 			  <span class="">→</span>
 			</span>
 			<span>
@@ -245,7 +244,7 @@
 							              <td class="tc">${proDel.qualitStand}</td>
 							              <td class="tc">${proDel.item}</td>
 							              <td class="tc">${proDel.purchaseCount}</td>
-							              <td class="tc"><input maxlength="12" onblur="addTotal()" /></td>
+							              <td class="tc"><input maxlength="12" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" onafterpaste="this.value=this.value.replace(/[^0-9]/g,'')" onblur="addTotal()" /></td>
 							              <td class="tc"></td>
 							            </tr>
 							         </c:forEach>  
@@ -279,7 +278,7 @@
 							              <td class="tc">${proDel.qualitStand}</td>
 							              <td class="tc">${proDel.item}</td>
 							              <td class="tc">${proDel.purchaseCount}</td>
-							              <td class="tc"><input maxlength="12" onblur="addTotal()" /></td>
+							              <td class="tc"><input maxlength="12"  onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" onafterpaste="this.value=this.value.replace(/[^0-9]/g,'')"  onblur="addTotal()" /></td>
 							              <td class="tc"></td>
 							            </tr>
 							         </c:forEach>  

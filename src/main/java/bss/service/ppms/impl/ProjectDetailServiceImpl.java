@@ -52,8 +52,6 @@ public class ProjectDetailServiceImpl implements ProjectDetailService {
 
 	@Override
 	public List<ProjectDetail> selectByCondition(HashMap<String,Object> map,Integer page) {
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 		return projectDetailMapper.selectByCondition(map);
 	}
 	

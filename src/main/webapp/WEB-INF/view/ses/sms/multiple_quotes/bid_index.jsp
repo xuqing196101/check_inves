@@ -123,11 +123,11 @@
     <div class="container clear mt20">
    		<div class="list-unstyled padding-10 breadcrumbs-v3">
 		    <span>
-			  <a href="<%=basePath%>mulQuo/bidDocument.html?projectId=${projectId}" class="img-v1 green_link">编制标书</a>
+			  <a href="<%=basePath%>mulQuo/bidDocument.html?projectId=${project.id}" class="img-v1 green_link">编制标书</a>
 			  <span class="green_link">→</span>
 			</span>
 			<span>
-			  <a href="#" class="img-v2 orange_link">绑定指标</a>
+			  <a href="<%=basePath%>mulQuo/toBindingIndex.html?projectId=${project.id}" class="img-v2 orange_link">绑定指标</a>
 			  <span class="">→</span>
 			</span>
 			<span>

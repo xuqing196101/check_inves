@@ -79,6 +79,9 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
 		    model.addAttribute("listPd",listPd );
 		    model.addAttribute("listPackage", listPackage);
 		    model.addAttribute("projectId", projectId);
+		    Project project=new Project();
+		    project.setId(projectId);
+		    model.addAttribute("project",project );
 		    return "ses/sms/multiple_quotes/quote_list";
 	}
 	
@@ -207,7 +210,7 @@ public class SupplierMultipleQuotesController extends BaseSupplierController {
     public String toBindingIndex(String projectId, Model model){
         Project project = projectService.selectById(projectId);
         model.addAttribute("project", project);
-        return "ses/sms/multiple_quotes/binding_index";
+        return "ses/sms/multiple_quotes/bid_index";
     }
     
     /**
