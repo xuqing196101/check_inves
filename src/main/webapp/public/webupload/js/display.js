@@ -16,7 +16,7 @@ $(function(){
 function display(params){
 	var key = params.key;
 	$.ajax({
-		url: globalPath + '/file/displayFile.html',
+		url: globalPath + '/file/displayFile.do',
 		data: params,
 		async:true,
 		dataType: 'json',
@@ -73,7 +73,6 @@ function removeFile(id,key){
 		url: globalPath + '/file/deleteFile.html',
 		data: {id: id, key: key},
 		async:true,
-		dataType: 'json',
 		success:function(msg){
 			if (msg == "ok"){
 				$("#" + id).text("删除成功.");
@@ -83,11 +82,18 @@ function removeFile(id,key){
 	});
 }
 
+/**
+ * 预览
+ * */
 function view(path){
 	var url = globalPath + '/file/viewFile.html?path=' + path;
 	packingHtml(url);
 }
 
+/**
+ * 包装为预览html
+ * @param url 请求的url
+ */
 function packingHtml(url){
 	var html = "<div id='uploadView'> "
 		   + " <div class='filelist'> "
@@ -112,6 +118,9 @@ function packingHtml(url){
 	preview();
 }
 
+/**
+ * 旋转
+ */
 function preview(){
 	
 	$btns = $("#btnsid");
