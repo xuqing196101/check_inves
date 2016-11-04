@@ -106,7 +106,7 @@ function resetQuery(){
 	
 	--%><div class="container margin-top-5">
 	<div class="content padding-left-25 padding-right-25 padding-top-5">
-		  <table class="table table-bordered table-condensed">
+		  <table class="table table-bordered table-striped table-hover">
 		  	<thead>
 	  			<tr>
 	  				<th class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
@@ -116,7 +116,7 @@ function resetQuery(){
 	  				<th class="info">合同金额(万元)</th>
 	  				<th class="info">供应商名称</th>
 	  				<th class="info">合同状态</th>
-	  				<th class="info">签订状态</th>
+	  				<th class="info">审价状态</th>
 	  				<th class="info">操作</th>
 	  			</tr>
 	  		</thead>
@@ -136,6 +136,9 @@ function resetQuery(){
 	  				<td class="tc">
 	  				<c:if test="${contract.appraisal=='1' }">
 	  					审价中
+	  				</c:if>
+	  				<c:if test="${contract.appraisal=='2' }">
+	  					已审价
 	  				</c:if>
 	  				</td>
 	  				<td class="tc">

@@ -46,7 +46,7 @@
 				  	<tr>
 				 		<td width="10%" class="bggrey tr">产品名称：</td>
 				 		<td width="25%">
-				 			<input type="text" id="name" name="name" class="col-md-8" value="${contractProduct.name }" readonly>
+				 			<input type="text" id="name" name="name" class="col-md-8 border0" value="${contractProduct.name }" readonly>
 				 		</td>
 				 	</tr>
 				 	<tr>

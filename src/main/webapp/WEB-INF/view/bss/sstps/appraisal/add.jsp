@@ -96,7 +96,10 @@
 				 		<td width="25%">
 				 			<select class="w230" id="type" name="type" onchange="contractType(this.options[this.selectedIndex].value)">
 				 				<option value="0">单一来源</option>
-				 				<option value="1">采购合同</option>
+				 				<option value="1">询价</option>
+				 				<option value="2">邀请招标</option>
+				 				<option value="3">公开招标</option>
+				 				<option value="4">竞价性谈判</option>
 				 			</select>
 				 		</td>
 				 		<td width="25%" class="bggrey tr">合同名称：</td>

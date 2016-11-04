@@ -145,13 +145,11 @@ public class ArticleController {
 		}
 		
 		User user = (User) request.getSession().getAttribute("loginUser");
-		//user.setId("be9bf4e9-6fa3-4fe6-ad4a-cc67272816a2");   //死数据
 		article.setUser(user);
 		article.setCreatedAt(new Date());
 		article.setUpdatedAt(new Date());
 		article.setIsDeleted(0);
 		article.setStatus(0);
-		article.setProjectId("123131231");//死数据
 		article.setShowCount(0);
 		article.setDownloadCount(0);
 		articleService.addArticle(article);
@@ -481,7 +479,7 @@ public class ArticleController {
 			User user = (User) request.getSession().getAttribute("loginUser");
 			article.setPublishedName(user.getRelName());
 			article.setPublishedAt(new Date());
-			solrNewsService.addIndex(article);
+	//		solrNewsService.addIndex(article);
 			articleService.update(article);
 		}else if(article.getStatus()==3){
 			String reason = new String((article.getReason()).getBytes("ISO-8859-1") , "UTF-8");

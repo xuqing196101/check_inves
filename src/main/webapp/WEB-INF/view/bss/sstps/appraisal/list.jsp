@@ -90,7 +90,7 @@ function resetQuery(){
 </div>
 	
 	<div class="container">	
-		<div class="col-md-12 mt10 ml5">
+		<div class="col-md-12 mt10 ml10">
 	   		<button class="btn btn-windows add" type="button" onclick="add()">添加合同</button>
 	   		<%--<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
 		--%></div>
@@ -98,7 +98,7 @@ function resetQuery(){
 	
 	<div class="container">
 	<div class="content padding-left-25 padding-right-25 padding-top-5">
-		  <table class="table table-bordered table-condensed">
+		  <table class="table table-bordered table-striped table-hover">
 		  	<thead>
 	  			<tr>
 	  				<th class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>

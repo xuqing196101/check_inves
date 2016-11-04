@@ -130,14 +130,14 @@ function resetQuery(){
    </div>
   </div>
 	<div class="container">	
-		<div class="col-md-12 pl20">
-	   		<button class="btn btn-windows ht_add" type="button" onclick="add()">报价</button>
+		<div class="col-md-12 pl20 ml5">
+	   		<button class="btn" type="button" onclick="add()">报价</button>
 		</div>
 	</div>
 	
    <div class="container">
      <div class="content padding-left-25 padding-right-25 padding-top-5">
-    	<table class="table table-bordered table-condensed table-hover">
+    	<table class="table table-bordered table-striped table-hover">
 		  	<thead>
 	  			<tr>
 	  				<th class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>

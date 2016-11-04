@@ -103,7 +103,7 @@ function resetQuery(){
           <div class="tab-content padding-top-20">
             <div class="tab-pane fade active in height-450" id="tab-1">
               <div class=" margin-bottom-0 mt10">
-				<table class="table table-bordered table-condensed table-hover">
+				<table class="table table-bordered table-striped table-hover">
 					<thead>
 						<tr>
 							<th class="info">序号</th>

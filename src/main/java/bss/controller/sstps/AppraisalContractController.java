@@ -168,7 +168,7 @@ public class AppraisalContractController extends BaseSupplierController{
 			AppraisalContract app = new AppraisalContract();
 			app.setId(contractId);
 			app.setPurchaseContract(purchaseContract);
-			AppraisalContract appc= appraisalContractService.selectContractId(app);
+			AppraisalContract appc = appraisalContractService.selectContractId(app);
 			
 			//ContractRequired contractRequired = new ContractRequired();
 			List<ContractRequired> list = contractRequiredService.selectConRequeByContractId(contractId);
