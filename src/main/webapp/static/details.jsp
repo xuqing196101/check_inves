@@ -22,8 +22,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
 	<link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
 	<link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet" type="text/css">
-	<link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
 	<link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
 	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/lang/zh-cn/zh-cn.js"></script>
 	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
@@ -253,7 +252,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 </li> 
      <li class="col-md-3 margin-0 padding-0 ">
      <div class="select_check">
-	   <input type="radio">多选
+	   <input type="radio">单选
 	 </div>
 	 </li>
      <li class="col-md-11 margin-0 padding-0 ">

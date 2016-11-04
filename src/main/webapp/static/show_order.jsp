@@ -239,6 +239,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				  <span class="ui_left_arrow">
 				    <span class="ui_arrow"></span>
 				  </span>
+				  <div class="clear"></div>
 				 </div>
                 </div>
                </div>
@@ -272,6 +273,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				  <span class="ui_left_arrow">
 				    <span class="ui_arrow"></span>
 				  </span>
+				  <div class="clear"></div>
 				 </div>
                 </div>
 			   </div>
@@ -305,6 +307,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				  <span class="ui_left_arrow">
 				    <span class="ui_arrow"></span>
 				  </span>
+				  <div class="clear"></div>
 				 </div>
                 </div>
                </div>
