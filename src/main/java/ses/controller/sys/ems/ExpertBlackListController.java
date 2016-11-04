@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import ses.controller.sys.sms.BaseSupplierController;
+import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertBlackList;
 import ses.model.ems.ExpertBlackListLog;
@@ -76,6 +77,7 @@ public class ExpertBlackListController extends BaseSupplierController{
 	 */
 	@RequestMapping("/saveBlacklist")
 	public String save(HttpServletRequest request,ExpertBlackList expertBlackList,ExpertBlackListLog expertBlackListLog) throws IOException{
+		User user=(User) request.getSession().getAttribute("loginUser");
 		expertBlackList.setCreatedAt(new Date());
 		expertBlackList.setStatus(0);
 		//保存文件
@@ -84,7 +86,7 @@ public class ExpertBlackListController extends BaseSupplierController{
 		//记录操作
 		expertBlackListLog.setOperationDate(new Date()); 
 		expertBlackListLog.setExpertId(expertBlackList.getExpertId());
-		expertBlackListLog.setOperator("我");
+		expertBlackListLog.setOperator(user.getLoginName());
 		expertBlackListLog.setDateOfPunishment(expertBlackList.getDateOfPunishment());
 		expertBlackListLog.setPunishDate(expertBlackList.getPunishDate());
 		expertBlackListLog.setPunishType(expertBlackList.getPunishType());
@@ -154,6 +156,7 @@ public class ExpertBlackListController extends BaseSupplierController{
 	 */
 	@RequestMapping("/updateBlacklist")
 	public String update(HttpServletRequest request,ExpertBlackList expertBlackList,ExpertBlackListLog expertBlackListLog) throws IOException{
+		User user=(User) request.getSession().getAttribute("loginUser");
 		expertBlackList.setUpdatedAt(new Date());
 		//保存文件
 		this.setExpertBlackListUpload(request, expertBlackList);
@@ -161,7 +164,7 @@ public class ExpertBlackListController extends BaseSupplierController{
 		//记录操作
 		expertBlackListLog.setOperationDate(new Date()); 
 		expertBlackListLog.setExpertId(expertBlackList.getExpertId());
-		expertBlackListLog.setOperator("我");
+		expertBlackListLog.setOperator(user.getLoginName());
 		expertBlackListLog.setDateOfPunishment(expertBlackList.getDateOfPunishment());
 		expertBlackListLog.setPunishDate(expertBlackList.getPunishDate());
 		expertBlackListLog.setPunishType(expertBlackList.getPunishType());
@@ -180,6 +183,9 @@ public class ExpertBlackListController extends BaseSupplierController{
 	 */
 	@RequestMapping("/updateStatus")
 	public String updateStatus(HttpServletRequest request,ExpertBlackList expertBlackList,ExpertBlackListLog expertBlackListLog,String[] ids){
+		User user=(User) request.getSession().getAttribute("loginUser");
+		
+		expertBlackListLog.setOperator(user.getLoginName());
 		service.updateStatus(expertBlackList, expertBlackListLog,ids);
 		return "redirect:blacklist.html";
 	}

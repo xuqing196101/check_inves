@@ -59,7 +59,7 @@
   </div>
 <!-- 表格开始-->
   <div class="container">
-    <form action="<%=basePath %>expertBlacklist/updateBlacklist.html" method="post" id="form1" enctype="multipart/form-data" class="registerform">
+    <form action="<%=basePath %>expertBlacklist/updateBlacklist.html" method="post" id="form1"  class="registerform">
       <input type="hidden" name="id" value="${expert.id}">
       <input type="hidden" name="operationType" value="1">
       <h2 class="f16 jbxx1">
