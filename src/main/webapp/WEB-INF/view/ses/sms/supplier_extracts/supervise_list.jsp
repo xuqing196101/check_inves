@@ -76,8 +76,11 @@
 					id+=name[0]+",";
 					nams+=name[1]+",";
 				}
-				  parent.$('#sids').val(id);
-				  parent.$('#supervises').val(nams);
+				  
+				  if(nams!=null && "" != nams){
+					  parent.$('#sids').val(id.substring(0,id.length-1));
+	                  parent.$('#supervises').val(nams.substring(0,nams.length-1));
+				  }
 			         var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
 				  parent.layer.close(index);
 		
@@ -85,6 +88,8 @@
 			layer.alert("请选择要添加的监督人员",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
+ 
+    
   </script>
   <body>
 <!-- 表格开始-->

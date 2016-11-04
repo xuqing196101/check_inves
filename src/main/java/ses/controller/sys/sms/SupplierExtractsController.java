@@ -132,12 +132,16 @@ public class SupplierExtractsController extends BaseController {
         model.addAttribute("listUser", listUser);
         String userName="";
         String userId="";
-        for (User user : listUser) {
-            userName+=user.getLoginName()+",";
-            userId+=user.getId()+",";
+        if(listUser!=null&&listUser.size()!=0){
+            for (User user : listUser) {
+                userName+=user.getLoginName()+",";
+                userId+=user.getId()+",";
+            }
+            model.addAttribute("userName", userName.substring(0, userName.length()-1));
+            model.addAttribute("userId", userId.substring(0, userId.length()-1));
         }
-        model.addAttribute("userName", userName);
-        model.addAttribute("userId", userId);
+       
+ 
         return "ses/sms/supplier_extracts/add_condition";
     }
     /**

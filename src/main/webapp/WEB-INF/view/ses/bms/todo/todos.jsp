@@ -9,7 +9,7 @@
 <head>
 <base href="<%=basePath%>"  >
 
-<title>待办</title>
+<title>待办事项</title>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -82,22 +82,12 @@
 				 }
 		   }
 	}
-  	function view(id){
-  		window.location.href="<%=basePath%>StationMessage/showStationMessage.do?id="+id+"&&type='view'";
+  	function view(url){
+  	  $("#a").attr("href",url);
+      var el=document.getElementById('a');
+    el.click();//触发打开事件
   	}
-    function edit(){
-    	var id=[]; 
-		$('input[name="chkItem"]:checked').each(function(){ 
-			id.push($(this).val());
-		}); 
-		if(id.length==1){
-			window.location.href="<%=basePath%>StationMessage/showStationMessage.do?id="+id+"&&type='edit'";
-		}else if(id.length>1){
-			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
-		}else{
-			layer.alert("请选择需要修改的用户",{offset: ['222px', '390px'], shade:0.01});
-		}
-    }
+
     function del(){
     	var ids =[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
@@ -112,12 +102,7 @@
 			layer.alert("请选择要删除的用户",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
-    function add(){
-    	window.location.href="<%=basePath%>StationMessage/showInsertSM.do";
-    }
-    function show(id){
-    	window.location.href="<%=basePath%>StationMessage/showStationMessage.do?id="+id+"&&type=view";
-    }
+ 
   </script>
 <body>
 
@@ -138,6 +123,7 @@
 
                                                 </div>
                                                 <div class="" style="width: 100%;height:300px; overflow:auto; ">
+                                                 <a id="a" href="#" target="_parent"></a>
                                                     <table class=" table table-striped table-bordered table-hover" >
                                                         <thead>
                                                             <tr>
@@ -150,7 +136,7 @@
                                                             <c:forEach items="${agentslist }" var="agents"
                                                                 varStatus="s">
                                                                 <tr class="cursor"
-                                                                    onclick="location.href='<%=basePath%>${ agents.url}'"  >
+                                                                    onclick="view('<%=basePath%>${ agents.url}');"  >
                                                                     <td class="tc">${s.index+1}</td>
                                                                     <td class="tc">${agents.name}</td>
                                                                     <td class="tc">${agents.senderName}</td>

@@ -179,6 +179,9 @@ $(function(){
               }
           }
       });
+    $("#default").parent().addClass('active');
+    var el=document.getElementById('default');
+    el.click();//触发打开事件
     
     $("#menu a").click(function() {
         $('#menu li').each(function(index) {
@@ -236,7 +239,7 @@ $(function(){
                 <div class="col-md-12 tab-v2 job-content">
                     <div class="">
                         <ul class="nav nav-tabs" id="menu">
-                            <li class="active"><a  href="<%=basePath%>todo/todos.html" target="open_main" class=" f18">待办事项</a></li>
+                            <li class=""><a  href="<%=basePath%>todo/todos.html" id="default" target="open_main" class=" f18">待办事项</a></li>
                             <li class=""><a  href="<%=basePath%>todo/havetodo.html" target="open_main"  class=" f18">已办事项</a></li>
                         </ul>
                          <script type="text/javascript" language="javascript">   

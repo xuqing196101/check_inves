@@ -51,7 +51,6 @@
           }
       });
 	  
-	  
       var ut="${stationMessage.isFinish}";
       $("#isFinish").find("option[value='"+ut+"']").attr("selected",true);
 	  
@@ -90,22 +89,12 @@
 				 }
 		   }
 	}
-  	function view(id){
-  		window.location.href="<%=basePath%>StationMessage/showStationMessage.do?id="+id+"&&type='view'";
+  	function view(url){
+  		if(url != null && url != ''){
+  		   window.location.href="<%=basePath%>"+url;
+  		}
   	}
-    function edit(){
-    	var id=[]; 
-		$('input[name="chkItem"]:checked').each(function(){ 
-			id.push($(this).val());
-		}); 
-		if(id.length==1){
-			window.location.href="<%=basePath%>StationMessage/showStationMessage.do?id="+id+"&&type='edit'";
-		}else if(id.length>1){
-			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
-		}else{
-			layer.alert("请选择需要修改的用户",{offset: ['222px', '390px'], shade:0.01});
-		}
-    }
+ 
     function del(){
     	var ids =[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
@@ -120,12 +109,7 @@
 			layer.alert("请选择要删除的用户",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
-    function add(){
-    	window.location.href="<%=basePath%>StationMessage/showInsertSM.do";
-    }
-    function show(id){
-    	window.location.href="<%=basePath%>StationMessage/showStationMessage.do?id="+id+"&&type=view";
-    }
+
     function resetQuery(){
         $("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
     }
@@ -187,7 +171,7 @@
 					</thead>
 					<c:forEach items="${listStationMessage.list}" var="listsm"
 						varStatus="vs">
-						<tr class="cursor"  onclick="location.href='<%=basePath%>${ listsm.url}'"  >
+						<tr class="cursor"  onclick="view('${ listsm.url}');"  >
 							<!-- 序号 -->
 							<td class="tc" >${(vs.index+1)+(listStationMessage.pageNum-1)*(listStationMessage.pageSize)}</td>
 							<!-- 标题 -->

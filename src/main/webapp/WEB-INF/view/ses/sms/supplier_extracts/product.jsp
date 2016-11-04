@@ -83,7 +83,7 @@
       }else{
     	  name=treeNode;
       }
-      if(name.name=="货物"){
+      if(name.name=="货物"){  
     	 var boo= name.checked;
     	 if(boo==false){
     		  $("#ultype").css("display","none");
@@ -128,7 +128,9 @@
           }); 
           //是否满足
           var issatisfy=$('input[name="radio"]:checked ').val();
-          
+          if($('#extcount').val()==""){
+        	  
+          }else{
           var html='';
           html+="<tr>"+
              "<input class='hide' name='extCategoryId'  type='hidden' value='"+ids+"'>"+
@@ -152,20 +154,26 @@
 	             parent.$("#tbody").append(html);
 	             var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
 	             parent.layer.close(index);
+          }
   }     
+  function resetQuery(){
+      $("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("10");
+  }
+  
 </script>
 </head>
 <body>
 	<!-- 修改订列表开始-->
 	<div class="container margin-top-30">
 		<form action="<%=basePath%>SupplierExtracts/listSupplier.do"
-			method="post">
+			method="post" id="form1">
 			<div>
 				<ul class="list-unstyled list-flow p0_20">
 					<input class="span2" name="id" type="hidden">
 					<li class="col-md-6 p0 ">供应商数量：
 						<div class="input-append">
 							<input class="span2 w200" id="extcount" value="10" name="title" type="text">
+							        <div class="b f18 ml10 red hand">sdf</div>
 						</div>
 					</li>
 					<!-- 					<li class="col-md-6 p0 ">产品目录名称： -->
@@ -203,13 +211,6 @@
 					</div>
 				</li>
 			</ul>
-			<div class="col-md-12">
-				<div class="fl padding-10">
-					<button class="btn btn-windows git" type="button"
-						onclick="getChildren();">确定</button>
-					<button class="btn btn-windows reset" type="reset">清空</button>
-				</div>
-			</div>
 		</form>
 	</div>
 </body>

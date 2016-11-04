@@ -9,7 +9,7 @@
 <head>
 <base href="<%=basePath%>" >
 
-<title>站内消息</title>
+<title>已办事项</title>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">

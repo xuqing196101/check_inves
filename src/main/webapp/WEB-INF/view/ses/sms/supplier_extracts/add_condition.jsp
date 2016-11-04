@@ -185,6 +185,7 @@ return true;
     }
         function opens(){
         //  iframe层
+          var iframeWin;
             layer.open({
               type: 2,
               title:"选择条件",
@@ -193,7 +194,17 @@ return true;
               area: ['430px', '400px'],
               offset: '20px',
               content: '<%=basePath%>SupplierExtracts/addHeading.do', //iframe的url
-          
+              success: function(layero, index){
+                  iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                },
+              btn: ['保存', '重置'] 
+                  ,yes: function(){
+                      iframeWin.getChildren();
+                  
+                  }
+                  ,btn2: function(){
+                	  iframeWin.resetQuery();
+                  }
             });
         }
     
@@ -299,32 +310,26 @@ return true;
         </div>
     </div>
     <div class="container">
-        <div id="menuContent" class="menuContent"
-            style="display: none; position: absolute; left: 0px; top: 0px; z-index: 999;">
-            <ul id="treeDemo" class="ztree" style="width: 220px"></ul>
-        </div>
         <form action="<%=basePath%>SupplierCondition/saveSupplierCondition.html"
             id="form1" method="post">
             <div>
-                <!--         专家所在地区 -->
+                <!--         条件id-->
                 <input type="hidden" name="id" id="id" value="${ExpExtCondition.id}">
                 <!--         专家所在地区 -->
                 <input type="hidden" name="address" id="address" value="">
-                <!--         专家所在地区id-->
-                <input type="hidden" name="expertId" id="expertId" value="">
-
+                <!--          项目id -->
                 <input type="hidden" name="projectId" id="pid" value="${projectId}">
-                <!--                监督人员 -->
+                <!--          监督人员 -->
                 <input type="hidden" name="sids" id="sids" value="${userId}"  />
                 <ul class="list-unstyled mt10 p0_20">
-                    <li class="col-md-6 p0"><span class="fl mt5">专家所在地区：</span>
+                    <li class="col-md-6 p0"><span class="fl mt5">供应商所在地区：</span>
                         <div class="input-append">
                             <select class="form-control input-lg mr15 w150" id="area"
                                 onchange="areas();">
                                 <c:forEach items="${listArea }" var="area" varStatus="index">
                                     <option value="${area.id }">${area.name }</option>
                                 </c:forEach>
-                            </select> <select name="extractionSites" class="form-control input-lg w100"
+                            </select> <select name="extractionSites" class="form-control input-lg w100" 
                                 id="city"></select>
                         </div></li>
                     <li class="col-md-6 p0  "><span class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;监督人员：</span>
@@ -385,7 +390,7 @@ return true;
                     </tbody>
                 </table>
             </div>
-            <div align="right" class=" padding-10">
+            <div align="right" class="padding-10">
                 <button class="btn btn-windows save" id="save" onclick="cityt();"
                     type="submit">保存抽取条件</button>
             </div>

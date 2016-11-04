@@ -46,7 +46,7 @@ public class StationMessageController {
 
     @Autowired
     private StationMessageService stationMessageService;
-    
+
     @Autowired
     private TodosService todosService;
 
@@ -62,24 +62,32 @@ public class StationMessageController {
     @RequestMapping("/insertStationMessage")
     public void insertStationMessage(HttpServletRequest request,StationMessage stationMessage1) {
         //发送通知
-        StationMessage stationMessage =new StationMessage();
+        StationMessage stationMessage = new StationMessage();
         //发送用户id 必填  
         stationMessage.setSenderId("");
         //标题 必填
         stationMessage.setName("");
+        //url 必填
+        stationMessage.setUrl("");
         //接收用户id 选填
         stationMessage.setReceiverId("");
         //权限id 选填
         stationMessage.setPowerId("");
         //机构id 选填
         stationMessage.setOrgId("");
+
+
         //插入通知表
         stationMessageService.insertStationMessage(stationMessage);
-        
+
         //发送待办
-        Todos todos=new Todos();
+        Todos todos = new Todos();
         //发送用户id 必填  
         todos.setSenderId("");
+        //url
+        todos.setUrl("");
+        //待办类型 1.供应商待办，2专家待办
+        todos.setUndoType(null);
         //标题 必填
         todos.setName("");
         //接收用户id 选填

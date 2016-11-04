@@ -176,7 +176,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="container clear margin-top-30">
 		  <div class="clear"></div>
           <span class="fl mt5  margin-top-10">
-                        项目名称  <input type="text" value="${projectName}" />
+                        项目名称  <input type="text" disabled="disabled" value="${projectName}" />
         </span>
         <span class="fr option_btn margin-top-10">
             <button class="btn padding-left-10 padding-right-10 btn_back"
