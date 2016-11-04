@@ -37,8 +37,6 @@
 	media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen"
 	rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/font-awesome.min.css"
-	media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/jquery.fileupload-ui.css"
 	media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/zTreeStyle.css" media="screen"

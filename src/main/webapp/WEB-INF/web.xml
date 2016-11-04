@@ -128,11 +128,11 @@
   </listener>
   <jsp-config>
   	<taglib>
-  		<taglib-uri>http://tag.org/page</taglib-uri>
+  		<taglib-uri>/tld/page</taglib-uri>
   		<taglib-location>/WEB-INF/tlds/page.tld</taglib-location>
   	</taglib>
   	<taglib>
-  		<taglib-uri>http://tag.org/bread</taglib-uri>
+  		<taglib-uri>/tld/bread</taglib-uri>
   		<taglib-location>/WEB-INF/tlds/bread.tld</taglib-location>
   	</taglib>
   	<taglib>

@@ -25,7 +25,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link href="<%=basePath%>public/ZHH/css/ui-dialog.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/dialog-select.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/font-awesome.min.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/jquery.fileupload-ui.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/zTreeStyle.css" media="screen" rel="stylesheet">
 <link href="<%=basePath%>public/ZHH/css/sky-forms.css" media="screen" rel="stylesheet">
@@ -161,8 +160,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</a>
 					<ul class="dropdown-menu">
 						<li class="line-block">
-						<a href="<%=basePath%>static/detail.jsp" target="home" class="son-menu"><span class="mr5">◇</span>表单页面</a>
-					    	<a href="<%=basePath%>static/backbottom.jsp" target="home" class="son-menu"><span class="mr5">◇</span>后台主页</a>
+<%-- 						<a href="<%=basePath%>static/detail.jsp" target="home" class="son-menu"><span class="mr5">◇</span>表单页面</a>
+ --%>					    	<a href="<%=basePath%>static/backbottom.jsp" target="home" class="son-menu"><span class="mr5">◇</span>后台主页</a>
 					    	<a href="<%=basePath%>static/order.jsp" target="home" class="son-menu"><span class="mr5">◇</span>列表页面</a>
 							<a href="<%=basePath%>static/show_order.jsp" target="home" class="son-menu"><span class="mr5">◇</span>详情页面</a>
 							<a href="<%=basePath%>static/table_special.jsp" target="home" class="son-menu"><span class="mr5">◇</span>左右结构表格页面</a>

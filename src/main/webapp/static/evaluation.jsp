@@ -24,11 +24,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet">
     <link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet">
     <link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
-	
-   <script src="js/jquery.min.js"></script>
+	<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js"></script>
     <!--导航js-->
-    <script src="js/jquery_ujs.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <!-- <script src="js/jquery_ujs.js"></script>
+    <script src="js/bootstrap.min.js"></script> -->
 </head>
 
 <body>
