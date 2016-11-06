@@ -16,14 +16,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="">
-<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet" type="text/css">
-<link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet" type="text/css">
+	
+	<jsp:include page="backend_common.jsp"></jsp:include>	
 <script src="<%=basePath%>public/ZHQ/js/jquery.min.js"></script>
 <!--导航js-->
 <script src="<%=basePath%>public/ZHQ/js/jquery_ujs.js"></script>
@@ -108,31 +102,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  <div class="show_obj"><table class="table table-bordered">
 			    <tbody>
 				  <tr>
-				    <td width="25%" class="bggrey tr">单位名称：</td>
+				    <td width="25%" class="bggrey tl">单位名称：</td>
 				    <td width="25%">xxxx有限公司</td>
-				    <td width="25%" class="bggrey tr">单位简称：</td>
+				    <td width="25%" class="bggrey tl">单位简称：</td>
 				    <td width="25%">服务公司</td>
 				  </tr>
 				  <tr>
-				    <td width="25%" class="bggrey tr">曾用名：</td>
+				    <td width="25%" class="bggrey tl">曾用名：</td>
 				    <td width="25%">xxxx有限公司</td>
-				    <td width="25%" class="bggrey tr">单位类型：</td>
+				    <td width="25%" class="bggrey tl">单位类型：</td>
 				    <td width="25%">独立核算单位</td>
 				  </tr>
 				  <tr>
-				    <td width="25%" class="bggrey tr">邮政编码：</td>
+				    <td width="25%" class="bggrey tl">邮政编码：</td>
 				    <td width="25%">100044</td>
-				    <td width="25%" class="bggrey tr">所在地区：</td>
+				    <td width="25%" class="bggrey tl">所在地区：</td>
 				    <td width="25%">北京</td></tr><tr>
-				    <td width="25%" class="bggrey tr">详细地址：</td>
+				    <td width="25%" class="bggrey tl">详细地址：</td>
 				    <td width="25%">北京市西四环中路343号院23号楼</td>
-				    <td width="25%" class="bggrey tr">电话（总机）：</td>
+				    <td width="25%" class="bggrey tl">电话（总机）：</td>
 				    <td width="25%">88016942</td>
 				  </tr>
 				  <tr>
-				    <td width="25%" class="bggrey tr">传真：</td>
+				    <td width="25%" class="bggrey tl">传真：</td>
 				    <td width="25%">-</td>
-				    <td  width="25%" class="bggrey tr"></td>
+				    <td  width="25%" class="bggrey tl"></td>
 				    <td width="25%"></td>
 				  </tr>
 				 </tbody>
