@@ -70,7 +70,11 @@ function loadPage(url){
 	}
 }
 
-
+/**
+ * 将参数变为json格式
+ * @param url
+ * @returns 
+ */
 function parseQueryString (url) {
 	 var reg_url = /^[^\?]+\?([\w\W]+)$/,
 	 reg_para = /([^&=]+)=([\w\W]*?)(&|$|#)/g,
