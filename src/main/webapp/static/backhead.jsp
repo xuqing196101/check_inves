@@ -16,42 +16,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/animate.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/ui-dialog.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/dialog-select.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/jquery.fileupload-ui.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/zTreeStyle.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/sky-forms.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/custom-sky-forms.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/jquery.fancybox.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/owl.carousel.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/owl.theme.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/style-switcher.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/shortcode_timeline2.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/blocks.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/datepicker.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/WdatePicker.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/select2.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/brand-buttons.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/brand-buttons-inversed.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/blog_magazine.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/page_log_reg_v1.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/footer-v4.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/masterslider.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHH/css/james.css" media="screen" rel="stylesheet">
-    <script src="<%=basePath%>public/ZHH/js/hm.js"></script><script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
+	<jsp:include page="backend_common.jsp"></jsp:include>	
+	<link href="${pageContext.request.contextPath}/public/ZHH/css/header-v4.css" media="screen" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/public/ZHH/css/header-v5.css" media="screen" rel="stylesheet">
+	
+	    <script src="<%=basePath%>public/ZHH/js/hm.js"></script><script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery-migrate-1.2.1.min.js"></script>
 <script src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
 <script src="<%=basePath%>public/ZHH/js/bootstrap.min.js"></script>
@@ -159,7 +128,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                    		<li class="line-block">
                    			<a href="#" target="_blank" class="son-menu"><span class="mr5">◇</span>后台管理</a>
                    			<ul class="dropdown-menuson dropdown-menu">
-                   				<li><a href="#" target="_blank" class="son-menu"><span class="mr5">◇</span>用户管理</a></li>
+                   				<li><a href="#" target="_blank" class="son-menu son-three"><span class="mr5">◇</span>用户管理</a></li>
                    			</ul>
                    		</li>
                		</ul>

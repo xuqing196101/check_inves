@@ -16,19 +16,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<link href="<%=basePath%>public/ZHH/css/bootstrap.min.css" media="screen" rel="stylesheet">
-	<link href="<%=basePath%>public/ZHH/css/common.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/style.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/line-icons.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/app.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/application.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/header-v4.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/header-v5.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/footer-v2.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/img-hover.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/page_job.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHH/css/shop.style.css" media="screen" rel="stylesheet">
-
+	<jsp:include page="backend_common.jsp"></jsp:include>	
     <script src="<%=basePath%>public/ZHH/js/jquery.min.js"></script>
     <!--导航js-->
     <script src="<%=basePath%>public/ZHH/js/jquery_ujs.js"></script>
