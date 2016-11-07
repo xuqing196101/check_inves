@@ -142,7 +142,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         status = $.trim(status);
         
         if(ids.length>0){
-        if(status == "审核"){
+        if(status == "已下达"){
             layer.confirm('您确定要受领吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
                 layer.close(index);
                 $.ajax({

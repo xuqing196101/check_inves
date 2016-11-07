@@ -306,6 +306,7 @@ String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+"";
               <td class="tc">${obj.useUnit}<input type="hidden" name="list[${vs.index }].useUnit" value="${obj.useUnit }"></td>
               <td class="tc">${obj.memo}<input type="hidden" name="list[${vs.index }].memo" value="${obj.memo }">
                 <input type="hidden" name="list[${vs.index }].parentId" value="${obj.parentId }">
+                <input type="hidden" name="list[${vs.index }].detailStatus" value="${obj.detailStatus}">
               </td>
             </tr>
      
