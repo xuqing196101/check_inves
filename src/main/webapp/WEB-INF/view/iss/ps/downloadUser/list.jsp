@@ -7,17 +7,15 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <base href="<%=basePath%>">
-    
     <title>下载人管理</title>  
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script src="<%=basePath%>public/ZHH/js/jquery.min.js" type="text/javascript"></script>
-	  <script src="<%=basePath%>public/layer/layer.js"></script>
-	  <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+	<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js" type="text/javascript"></script>
+	  <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+	  <script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
   <script type="text/javascript">
   $(function(){
 	  laypage({
@@ -37,7 +35,7 @@
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
 		        	var articleId = "${articleId}";
 		        	var condition = "${userName}";
-		            location.href = "<%=basePath%>downloadUser/selectDownloadUserByArticleId.html?page="+e.curr+"&articleId="+articleId+"&userName="+condition;
+		            location.href = "${pageContext.request.contextPath}/downloadUser/selectDownloadUserByArticleId.html?page="+e.curr+"&articleId="+articleId+"&userName="+condition;
 		        }
 		    }
 		});
@@ -90,7 +88,7 @@
 		if(ids.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>downloadUser/deleteDownloadUser.html?ids="+ids;
+				window.location.href="${pageContext.request.contextPath}/downloadUser/deleteDownloadUser.html?ids="+ids;
 			});
 		}else{
 			layer.alert("请选择要删除的信息",{offset: ['222px', '390px'], shade:0.01});
@@ -100,7 +98,7 @@
   	function search(){
   		var condition = $("#condition").val();
   		var articleId = "${articleId}";
-  		window.location.href="<%=basePath%>downloadUser/selectDownloadUserByArticleId.html?userName="+condition+"&articleId="+articleId;
+  		window.location.href="${pageContext.request.contextPath}/downloadUser/selectDownloadUserByArticleId.html?userName="+condition+"&articleId="+articleId;
   	}
   	
   	function reset(){

@@ -6,18 +6,16 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-    <base href="<%=basePath%>">
-    
     <title>合同草稿修改</title>
-    <link rel="stylesheet" type="text/css" href="<%=basePath%>/public/ztree/css/zTreeStyle.css"> 
-    <script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/ueditor.config.js"></script>
-	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/ueditor.all.min.js"> </script>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/public/ztree/css/zTreeStyle.css"> 
+    <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/ueditor.config.js"></script>
+	<script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/ueditor.all.min.js"> </script>
 	<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
 	<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
-	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/lang/zh-cn/zh-cn.js"></script>
-	<script type="text/javascript" src="<%=basePath%>/public/ztree/jquery.ztree.core.js"></script>
-    <script language="javascript" type="text/javascript" src="<%=basePath%>/public/layer/layer.js"></script>
-	<script type="text/javascript" src="<%=basePath%>/public/layer/extend/layer.ext.js"></script>
+	<script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/lang/zh-cn/zh-cn.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.core.js"></script>
+    <script language="javascript" type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/extend/layer.ext.js"></script>
 	<script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/ueditor.config.js"></script>
 	<script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/ueditor.all.min.js"> </script>
 	<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
@@ -31,7 +29,6 @@
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-	
   </head>
     <script type="text/javascript">
    	 	var datas;
@@ -40,7 +37,7 @@
    			async:{
    						autoParam:["id","name"],
    						enable:true,
-   						url:"<%=basePath%>category/createtree.do",
+   						url:"${pageContext.request.contextPath}/category/createtree.do",
    						dataType:"json",
    						type:"post",
    					},
@@ -81,7 +78,7 @@
    	});
    	function next(){
    		var ids = "${ids}";
-   		window.location.href="<%=basePath%>purchaseContract/createDetailContract.html?ids="+ids;
+   		window.location.href="${pageContext.request.contextPath}/purchaseContract/createDetailContract.html?ids="+ids;
    	}
    	/*点击事件*/
     function zTreeOnClick(event,treeId,treeNode){
@@ -286,7 +283,7 @@
           shift: 1, //0-6的动画形式，-1不开启
           offset: ['70%', '20%'],
           shadeClose: false,
-          content: '<%=basePath%>resultAnnouncement/getAll.html',
+          content: '${pageContext.request.contextPath}/resultAnnouncement/getAll.html',
           success: function(layero, index){
             iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
           }
@@ -294,7 +291,7 @@
     }
 	
 	function printContract(){
-		$("#contractForm").attr("action","<%=basePath%>purchaseContract/printContract.html?ids=${ids}");
+		$("#contractForm").attr("action","${pageContext.request.contextPath}/purchaseContract/printContract.html?ids=${ids}");
 		$("#contractForm").submit();
 	}
 </script>
@@ -311,7 +308,7 @@
    
 <!-- 新增模板开始-->
    <div class="container bggrey border1 mt20">
-   		<form id="contractForm" action="<%=basePath%>purchaseContract/addPurchaseContract.html?ids=${ids}" method="post">
+   		<form id="contractForm" action="${pageContext.request.contextPath}/purchaseContract/addPurchaseContract.html?ids=${ids}" method="post">
    		<input type="hidden" name="status" value="" id="status"/>
    		<input type="hidden" name="supplierPurId" value="${project.dealSupplier.procurementDepId}"/>
    		<input type="hidden" name="projectName" value="${project.name}"/>
@@ -542,7 +539,7 @@
 			<input type="button" class="btn btn-windows add" onclick="openDetail()" value="添加"/>
 			<input type="button" class="btn btn-windows delete" onclick="delDetail()" value="删除"/>
 		</div>
-    	<table id="detailtable" name="proList" class="table table-bordered table-condensed mb0 ml5">
+    	<table id="detailtable" name="proList" class="table table-bordered table-condensed mb0 mt10">
 		 <thead>
 			<tr>
 				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
@@ -576,15 +573,12 @@
 			</tr>
    		</c:forEach>
 	</table>
-
        <h2 class="f16 count_flow mt40"><i>05</i>合同正文</h2>
    	<div class="ml5">
 		<input type="button" class="btn" onclick="imTemplet()" value="导入模板"/>
 	</div>
    	<div class="mt10">
- 
        <script id="editor" name="content" type="text/plain" class= ""></script>
-
     </div>
   		<div  class="col-md-12 tc mt20">
    			<%--<input type="button" class="btn btn-windows save" onclick="staging()" value="暂存"/>

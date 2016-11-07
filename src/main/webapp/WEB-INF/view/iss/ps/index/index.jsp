@@ -1,10 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
@@ -18,21 +14,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<link href="<%=basePath%>public/ZHQ/css/common.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHQ/css/bootstrap.min.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHQ/css/style.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/line-icons.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/app.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/application.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/header-v4.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/footer-v2.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/page_job.css" media="screen" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/public/ZHQ/css/common.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHQ/css/bootstrap.min.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHQ/css/line-icons.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHQ/css/app.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHQ/css/application.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHQ/css/header-v4.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHQ/css/footer-v2.css" media="screen" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/public/ZHQ/css/page_job.css" media="screen" rel="stylesheet">
 
 <!--导航js-->
-<script src="<%=basePath%>public/ZHQ/js/jquery.min.js"></script>
-<script src="<%=basePath%>public/ZHQ/js/jquery_ujs.js"></script>
-<script src="<%=basePath%>public/ZHQ/js/bootstrap.min.js"></script>
-<script src="<%=basePath%>public/layer/layer.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHQ/js/jquery_ujs.js"></script>
+<script src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 <script type="text/javascript">
 $(function(){
 	$(document).keyup(function(event){
@@ -64,7 +60,7 @@ function login(){
 	}else{
 		var index=layer.load();
 		$.ajax({
-			url:"<%=basePath%>login/login.html",
+			url:"${pageContext.request.contextPath}/login/login.html",
 			type:"post",
 			data:{loginName:$("#inputEmail").val(),password:$("#inputPassword").val(),rqcode:$("#inputCode").val()},
 			success:function(data){
@@ -80,7 +76,7 @@ function login(){
 					layer.msg("请输入用户名密码或者验证码!");
 				}else if(data=="scuesslogin"){				
 					layer.close(index);
-					window.location.href="<%=basePath%>login/index.html";
+					window.location.href="${pageContext.request.contextPath}/login/index.html";
 				}else if(data="deleteLogin"){
 					layer.msg("账号不存在!");
 					layer.close(index);
@@ -102,7 +98,7 @@ function kaptcha(){
   <div class="head_top col-md-12">
    <div class="container">
     <div class="row">
-     <div class="col-md-9">你好，欢迎来到中国军队采购网！<a href="" class="red">【请登录】</a></div>
+     <div class="col-md-9">你好，欢迎来到中国军队采购网！<a href="${pageContext.request.contextPath}/static/sign.jsp" class="red">【请登录】</a></div>
 	   <div class="col-md-3 head_right"> 
          <a href=" ">我的信息</a> |
          <a href=" ">意见反馈</a> |
@@ -122,7 +118,7 @@ function kaptcha(){
           <div class="row container margin-bottom-10">
             <div class="col-md-8 m20_0">
               <a href="">
-                 <img alt="Logo" src="<%=path%>/public/ZHQ/images/logo.png" id="logo-header">
+                 <img alt="Logo" src="${pageContext.request.contextPath}/public/ZHQ/images/logo.png" id="logo-header">
               </a>
             </div>
 			<!--搜索开始-->
@@ -429,7 +425,7 @@ function kaptcha(){
 	<div class="col-md-12 drop_hover"  id="drop-4">
 	 <div class="drop_main">
 	  <div class="col-md-2 mt20 supp_login">
-	    <a href="<%=basePath%>expert/toRegisterNotice.html">
+	    <a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html">
 		 专家注册
 		 <i></i>
 		</a>	  
@@ -483,37 +479,37 @@ function kaptcha(){
 	 <div class="drop_main supp_service">
 	 <div class="col-md-2 mt60">
 	  <a href="">
-	    <div class="col-md-12 tc"><img src="<%=path%>/public/ZHQ/images/cpml.jpg" width="80%" height="80%;"/></div>
+	    <div class="col-md-12 tc"><img src="${pageContext.request.contextPath}/public/ZHQ/images/cpml.jpg" width="80%" height="80%;"/></div>
 		<div class="tc f18 mt20 pt10 clear">产品目录</div>
 	  </a>
 	 </div>
 	 <div class="col-md-2 mt60">
 	  <a href="">
-	    <div class="col-md-12 tc"><img src="<%=path%>/public/ZHQ/images/jscsk.jpg" width="80%" height="80%;"/></div>
+	    <div class="col-md-12 tc"><img src="${pageContext.request.contextPath}/public/ZHQ/images/jscsk.jpg" width="80%" height="80%;"/></div>
 		<div class="tc f18 mt20 pt10 clear">技术参数库</div>
 	  </a>
 	 </div>
 	 <div class="col-md-2 mt60">
 	  <a href="">
-	    <div class="col-md-12 tc"><img src="<%=path%>/public/ZHQ/images/cglt.jpg" width="80%" height="80%;"/></div>
+	    <div class="col-md-12 tc"><img src="${pageContext.request.contextPath}/public/ZHQ/images/cglt.jpg" width="80%" height="80%;"/></div>
 		<div class="tc f18 mt20 pt10 clear">采购论坛</div>
 	  </a>
 	 </div>
 	 <div class="col-md-2 mt60">
 	  <a href="">
-	    <div class="col-md-12 tc"><img src="<%=path%>/public/ZHQ/images/zlxz.jpg" width="80%" height="80%;"/></div>
+	    <div class="col-md-12 tc"><img src="${pageContext.request.contextPath}/public/ZHQ/images/zlxz.jpg" width="80%" height="80%;"/></div>
 		<div class="tc f18 mt20 pt10 clear">资料下载</div>
 	  </a>
 	 </div>
 	 <div class="col-md-2 mt60">
 	  <a href="">
-	    <div class="col-md-12 tc"><img src="<%=path%>/public/ZHQ/images/yjfk.jpg" width="80%" height="80%;"/></div>
+	    <div class="col-md-12 tc"><img src="${pageContext.request.contextPath}/public/ZHQ/images/yjfk.jpg" width="80%" height="80%;"/></div>
 		<div class="tc f18 mt20 pt10 clear">意见反馈</div>
 	  </a>
 	 </div>
 	 <div class="col-md-2 mt60">
 	  <a href="">
-	    <div class="col-md-12 tc"><img src="<%=path%>/public/ZHQ/images/shfw.jpg" width="80%" height="80%;"/></div>
+	    <div class="col-md-12 tc"><img src="${pageContext.request.contextPath}/public/ZHQ/images/shfw.jpg" width="80%" height="80%;"/></div>
 		<div class="tc f18 mt20 pt10 clear">售后服务</div>
 	  </a>
 	 </div>
@@ -534,7 +530,7 @@ function kaptcha(){
 	  <div class="drop_main">
 	   <div class="col-md-4 mt20">
 	    <a href="#">
-	     <div class="col-md-12 tc p0"><img src="<%=path%>/public/ZHQ/images/tou_pic.jpg"/></div>
+	     <div class="col-md-12 tc p0"><img src="${pageContext.request.contextPath}/public/ZHQ/images/tou_pic.jpg"/></div>
 		 <div class="col-md-12 f22 tc mt20 p0">在线投诉</div>
 		</a>
 	  </div>
@@ -597,7 +593,7 @@ function kaptcha(){
 	  <div class="col-md-12">
 	  <div class="col-md-5">
 	    <div class="col-md-12 fg_rule">
-		 <img src="<%=path%>/public/ZHQ/images/fg_01.jpg" class="fl" style="width:100%; height:55%;"/>
+		 <img src="${pageContext.request.contextPath}/public/ZHQ/images/fg_01.jpg" class="fl" style="width:100%; height:55%;"/>
 		</div>
 	  </div>
 	  <div class="col-md-5">
@@ -638,13 +634,13 @@ function kaptcha(){
 	      <div class="pages" data-scro="list">
 		   <ul>
 			<li class="item" style="left:0px;">
-				<a href="#" target="_blank"><img src="<%=path%>/public/ZHQ/images/1.jpg" width="100%" height="100%"></a>
+				<a href="#" target="_blank"><img src="${pageContext.request.contextPath}/public/ZHQ/images/1.jpg" width="100%" height="100%"></a>
 			</li>
 			<li class="item">
-				<a href="#" target="_blank"><img src="<%=path%>/public/ZHQ/images/2.jpg" width="100%" height="100%"></a>
+				<a href="#" target="_blank"><img src="${pageContext.request.contextPath}/public/ZHQ/images/2.jpg" width="100%" height="100%"></a>
 			</li>
 			<li class="item">
-				<a href="#" target="_blank"><img src="<%=path%>/public/ZHQ/images/3.jpg" width="100%" height="100%"></a>
+				<a href="#" target="_blank"><img src="${pageContext.request.contextPath}/public/ZHQ/images/3.jpg" width="100%" height="100%"></a>
 			</li>
 		   </ul>
 	      </div>
@@ -654,7 +650,7 @@ function kaptcha(){
 		   <b>3</b>
 	      </div>
         </div>
-        <script src="<%=basePath%>public/ZHQ/js/script.js"></script>
+        <script src="${pageContext.request.contextPath}/public/ZHQ/js/script.js"></script>
        </div>
        <div class="col-md-4 ">
         <div class="tab-v1">
@@ -959,7 +955,7 @@ function kaptcha(){
 		 </a>
 	   </div>
 	   <div class="ywbl_01">
-	     <a href="<%=basePath%>expert/toRegisterNotice.html" class="zjzc">
+	     <a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html" class="zjzc">
           <span>专家注册</span> 
 		 </a>
 	   </div>

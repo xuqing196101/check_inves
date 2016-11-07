@@ -3,21 +3,18 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ include file="../../../common.jsp"%>
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <base href="<%=basePath%>">
-    
     <title>采购合同管理</title>  
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script src="<%=basePath%>public/ZHH/js/jquery.min.js" type="text/javascript"></script>
-	  <script src="<%=basePath%>public/layer/layer.js"></script>
-	  <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+	<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js" type="text/javascript"></script>
+	  <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+	  <script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
   <script type="text/javascript">
   $(function(){
 	  laypage({
@@ -36,7 +33,7 @@
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
 		        	var contractType = $("#contractType").val();
-		            location.href = "<%=basePath%>performance/selectAll.html?page="+e.curr+"&contractType="+contractType;
+		            location.href = "${pageContext.request.contextPath}/performance/selectAll.html?page="+e.curr+"&contractType="+contractType;
 		        }
 		    }
 		});
@@ -83,7 +80,7 @@
 	}
 	
   	function view(id){
-  		window.location.href="<%=basePath%>performance/view.html?id="+id;
+  		window.location.href="${pageContext.request.contextPath}/performance/view.html?id="+id;
   	}
     
   	function del(){
@@ -94,7 +91,7 @@
 		if(ids.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>downloadUser/deleteDownloadUser.html?ids="+ids;
+				window.location.href="${pageContext.request.contextPath}/downloadUser/deleteDownloadUser.html?ids="+ids;
 			});
 		}else{
 			layer.alert("请选择要删除的信息",{offset: ['222px', '390px'], shade:0.01});
@@ -110,7 +107,7 @@
 			if(ids.length>1){
 				layer.alert("只可选择一条履约修改",{offset: ['222px', '390px'], shade:0.01});
 			}else{
-				window.location.href="<%=basePath%>performance/createUpdateEx.html?ids="+ids;
+				window.location.href="${pageContext.request.contextPath}/performance/createUpdateEx.html?ids="+ids;
 			}
 		}else{
 			layer.alert("请选择要修改的履约",{offset: ['222px', '390px'], shade:0.01});
@@ -147,7 +144,7 @@
 <!-- 项目戳开始 -->
   <div class="container clear">
   <div class="p10_25">
-  <form action="<%=basePath %>performance/selectAll.html">
+  <form action="${pageContext.request.contextPath}/performance/selectAll.html">
      <h2 class="padding-10 border1">
     	<ul class="demand_list">
           <li class="fl ml8"><label class="fl mt10">合同类型：</label><span>

@@ -6,14 +6,13 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <base href="<%=basePath%>">  
     <title></title>  
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script src="<%=basePath%>public/ZHQ/js/jquery.min.js"></script>
+	<script src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->	
@@ -39,7 +38,7 @@
    <!-- 新增页面开始 -->
      <div class="container margin-top-5">
      <div class="content padding-left-25 padding-right-25 padding-top-5">
-    <form action="<%=basePath %>articletype/update.html" method="post">  
+    <form action="${pageContext.request.contextPath}/articletype/update.html" method="post">  
     <div>
 	    <div class="headline-v2">
 	   		<h2>修改栏目</h2>

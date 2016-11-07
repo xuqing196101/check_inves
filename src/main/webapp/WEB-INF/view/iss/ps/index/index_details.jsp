@@ -2,10 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
@@ -19,22 +15,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<link href="<%=basePath%>public/ZHQ/css/common.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHQ/css/bootstrap.min.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHQ/css/style.css" media="screen" rel="stylesheet">
-	<link href="<%=basePath%>public/ZHQ/css/line-icons.css" media="screen" rel="stylesheet">
-	<link href="<%=basePath%>public/ZHQ/css/app.css" media="screen" rel="stylesheet">
-	<link href="<%=basePath%>public/ZHH/css/blocks.css" media="screen" rel="stylesheet">
-	<link href="<%=basePath%>public/ZHQ/css/application.css" media="screen" rel="stylesheet">
-	<link href="<%=basePath%>public/ZHQ/css/header-v4.css" media="screen" rel="stylesheet">
-	<link href="<%=basePath%>public/ZHQ/css/footer-v2.css" media="screen" rel="stylesheet">
-	<link href="<%=basePath%>public/ZHQ/css/img-hover.css" media="screen" rel="stylesheet">
-	<link href="<%=basePath%>public/ZHQ/css/page_job.css" media="screen" rel="stylesheet">
-	<link href="<%=basePath%>public/ZHQ/css/shop.style.css" media="screen" rel="stylesheet">
-	<script src="<%=basePath%>public/ZHQ/js/hm.js"></script><script src="<%=basePath%>public/ZHQ/js/jquery.min.js"></script>
+	<link href="${pageContext.request.contextPath}/public/ZHQ/css/common.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHQ/css/bootstrap.min.css" media="screen" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/public/ZHQ/css/style.css" media="screen" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/public/ZHQ/css/line-icons.css" media="screen" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/public/ZHQ/css/app.css" media="screen" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/public/ZHH/css/blocks.css" media="screen" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/public/ZHQ/css/application.css" media="screen" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/public/ZHQ/css/header-v4.css" media="screen" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/public/ZHQ/css/footer-v2.css" media="screen" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/public/ZHQ/css/img-hover.css" media="screen" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/public/ZHQ/css/page_job.css" media="screen" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/public/ZHQ/css/shop.style.css" media="screen" rel="stylesheet">
+	<script src="${pageContext.request.contextPath}/public/ZHQ/js/hm.js"></script><script src="${pageContext.request.contextPath}/public/ZHQ/js/jquery.min.js"></script>
 	<!--导航js-->
-	<script src="<%=basePath%>public/ZHQ/js/jquery_ujs.js"></script>
-	<script src="<%=basePath%>public/ZHQ/js/bootstrap.min.js"></script>
+	<script src="${pageContext.request.contextPath}/public/ZHQ/js/jquery_ujs.js"></script>
+	<script src="${pageContext.request.contextPath}/public/ZHQ/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -57,7 +53,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      <h3 class="tc f30">
 	   <div class="title bbgrey ">${articleDetail.name}</div>
 	 </h3>
-	 <div class="p15_0" ><div class="fr"><span>文章来源：${articleDetail.source}</span><span class="ml15"><i class="mr5"><img src="<%=basePath%>public/ZHQ/images/block.png"/></i><fmt:formatDate value='${articleDetail.createdAt}' pattern="yyyy.MM.dd" /></span></div></div>
+	 <div class="p15_0" ><div class="fr"><span>文章来源：${articleDetail.source}</span><span class="ml15"><i class="mr5"><img src="${pageContext.request.contextPath}/public/ZHQ/images/block.png"/></i><fmt:formatDate value='${articleDetail.createdAt}' pattern="yyyy.MM.dd" /></span></div></div>
 	 <div class="clear margin-top-20 new_content">
 	    ${articleDetail.content }
 	 </div>
@@ -65,7 +61,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 	<span class="f14 fl">附件：</span>
 	 	<div class="">
 		 	<c:forEach items="${articleDetail.articleAttachments}" var="a">
-		 		<a href="<%=basePath%>index/downloadArticleAtta.html?id=${a.id}">${fn:split(a.fileName, '_')[1]}</a><br/>
+		 		<a href="${pageContext.request.contextPath}/index/downloadArticleAtta.html?id=${a.id}">${fn:split(a.fileName, '_')[1]}</a><br/>
 		 	</c:forEach>
 	 	</div>
 	 </div>
