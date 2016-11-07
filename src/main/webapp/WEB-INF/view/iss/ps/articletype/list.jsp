@@ -95,7 +95,7 @@
     
 	//鼠标移动显示全部内容
 	function out(describe){
-	if(describe.length>10){
+	if(describe.length>=10){
 	layer.msg(describe, {
 			icon:6,
 			shade:false,
@@ -125,15 +125,12 @@
 	   		<h2>栏目管理</h2>
 	   </div>
 <!-- 表格开始-->
-   <div class="container">
-    <div class="col-md-12 pl20">
+    <div class="col-md-12 pl20 mt10">
 	 <button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 	</div>
-   </div>
-   
-   <div class="container">
-     <div class="content padding-left-25 padding-right-25 padding-top-5">
-    	<table class="table table-bordered table-condensed table-hover">
+ 
+     <div class="content table_box">
+    <table class=" table table-condensed table-bordered table-hover">
 		<thead>
 			<tr>
 				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
@@ -143,6 +140,7 @@
 				<th class="info">创建时间</th>
 				<th class="info">更新时间</th>
 				<th class="info">创建人</th>
+				<th class="info">栏目编码</th>
 			</tr>
 		</thead>
 		
@@ -157,19 +155,20 @@
 				<c:if test="${length>10}">
 					<td onclick="view('${articletype.id}')" onmouseover="out('${articletype.describe}')" class="tc pointer ">${fn:substring(describe,0,10)}...</td>
 				</c:if>
-				<c:if test="${length<10}">
+				<c:if test="${length<=10}">
 					<td onclick="view('${articletype.id}')" onmouseover="out('${articletype.describe}')" class="tc pointer ">${articletype.describe } </td>
 				</c:if>	
 				<td class="tc pointer" onclick="view('${articletype.id}')"><fmt:formatDate value='${articletype.createdAt}' pattern="yyyy年MM月dd日  HH:mm:ss" /></td>
 				<td class="tc pointer" onclick="view('${articletype.id}')"><fmt:formatDate value='${articletype.updatedAt}' pattern="yyyy年MM月dd日  HH:mm:ss" /></td>
 				<td class="tc pointer" onclick="view('${articletype.id}')">${articletype.creater.relName}</td>
+				<td class="tc pointer" onclick="view('${articletype.id}')">${articletype.code}</td>
 			</tr>
 		</c:forEach>
 	</table>
      </div>
 
-   </div>
+  
       <div id="pagediv" align="right"></div>
-   </div>
+  </div>
 	 </body>
 </html>

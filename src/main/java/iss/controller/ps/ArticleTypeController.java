@@ -79,11 +79,7 @@ public class ArticleTypeController {
 	public String edit(Model model, String id) {
 		ArticleType articletype = articleTypeService.selectTypeByPrimaryKey(id);
 		List<ArticleType> articletypes = articleTypeService.getAll();
-		List<ArticleType> children = articleTypeService.selectArticleTypesByParentId(id);
-		for (ArticleType child : children) {
-			articletypes.remove(child);
-		}
-		Boolean b = articletypes.remove(articletype);
+
 		model.addAttribute("articletype", articletype);
 		model.addAttribute("list", articletypes);
 		return "iss/ps/articletype/edit";

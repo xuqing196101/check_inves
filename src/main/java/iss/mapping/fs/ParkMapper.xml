@@ -151,13 +151,14 @@
             WHERE IS_DELETED = 0
 		   ORDER BY CREATED_AT ASC
 		  </select>	
-		   
+		   <!-- 查询版主的管理的版块 -->
 		   <select id="selectParkListByUser" parameterType="Map" resultMap="ParkTopicPostMap">
             select 
             <include refid="Base_Column_List" />
             from T_ISS_FS_PARK
             where IS_DELETED = 0
              <trim suffixOverrides=",">
+                <!--如果是管理员就不执行 需要改  -->
                 <if test="userId != null and userId != '2521F623FA2F4399875433678F622F2D' ">
                     and USER_ID = #{userId}
                 </if>             

@@ -32,16 +32,7 @@ public interface ArticleTypeService {
     * @return List<ArticleType>
      */
     List<ArticleType> selectAllArticleType(Integer page);
-    /**
-     * 
-    * @Title: selectArticleTypesByParentId
-    * @author QuJie 
-    * @date 2016-8-26 下午4:49:08  
-    * @Description: 根据父栏目ID查询所有栏目类别 
-    * @param @return      
-    * @return List<ArticleType>
-     */
-    List<ArticleType> selectArticleTypesByParentId(String parentId);
+
     /**
      * 
     * @Title: getAll
@@ -75,4 +66,16 @@ public interface ArticleTypeService {
     * @return List<ArticleType>
      */
     List<ArticleType> selectAllArticleTypeForSolr();
+    
+    /**
+     * 
+    * @Title: selectArticleTypeByCode
+    * @author Peng Zhongjun
+    * @date 2016-11-7 下午3:47:57  
+    * @Description: 根据编码获得栏目类型 
+    * @param @param code
+    * @param @return      
+    * @return ArticleType
+     */
+    ArticleType selectArticleTypeByCode(String code);
 }

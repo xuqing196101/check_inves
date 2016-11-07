@@ -216,6 +216,7 @@ public class IndexNewsController extends BaseSupplierController{
 		if (fileName != null && !"".equals(fileName)) {
 			super.download(request, response, fileName);
 		}
+
 		super.removeStash(request, fileName);
 //		String fileName = (articleAtta.getFileName().split("_"))[1];
 //		response.reset();

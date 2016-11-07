@@ -66,9 +66,10 @@ public class ArticleTypeServiceImpl implements ArticleTypeService {
 		return articleTypeMapper.selectAllArticleTypeForSolr();
 	}
 
+
 	@Override
-	public List<ArticleType> selectArticleTypesByParentId(String parentId) {
-		// TODO Auto-generated method stub
-		return articleTypeMapper.selectArticleTypesByParentId(parentId);
+	public ArticleType selectArticleTypeByCode(String code) {
+		
+		return articleTypeMapper.selectArticleTypeByCode(code);
 	}
 }

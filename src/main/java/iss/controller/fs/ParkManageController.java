@@ -32,10 +32,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.controller.sys.sms.BaseSupplierController;
-import ses.model.bms.Role;
 import ses.model.bms.User;
-import ses.model.bms.UserPreMenu;
-import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
 
 import com.github.pagehelper.PageInfo;
@@ -62,10 +59,6 @@ public class ParkManageController extends BaseSupplierController {
 	private ReplyService replyService;
 	@Autowired
 	private UserServiceI userService;
-	@Autowired
-	private RoleServiceI roleService;
-
-	
 
 	/**
 	 * @Title: getParkList

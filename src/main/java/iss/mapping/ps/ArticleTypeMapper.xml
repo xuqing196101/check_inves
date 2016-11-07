@@ -7,12 +7,12 @@
     <result column="DESCRIBE" property="describe" />
     <result column="CREATED_AT"  property="createdAt" />
     <result column="UPDATED_AT"  property="updatedAt" />
+    <result column="CODE"  property="code" />
     <association column="CREATER_ID" property="creater" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>
-    <association column="PARENT_ID" property="parent" select="selectTypeByPrimaryKey"/>
   </resultMap>
   
   <sql id="ArticleType_Column_List">
-    ID, NAME, CREATED_AT,CREATER_ID, UPDATED_AT,DESCRIBE,PARENT_ID
+    ID, NAME, CREATED_AT,CREATER_ID, UPDATED_AT,DESCRIBE,CODE
   </sql>
   
   <!-- 根据id查询栏目类型 -->
@@ -45,14 +45,7 @@
     from T_ISS_PS_ARTICLE_TYPE
   </select>
   
-    <!-- 为首页查询所有文章栏目 -->
-  <select id="selectArticleTypesByParentId" resultMap="ArticleTypeMapper">
-    select
-    <include refid="ArticleType_Column_List" />
-    from T_ISS_PS_ARTICLE_TYPE
-    WHERE PARENT_ID=#{parentId}
-  </select>
-  
+
   <!-- 根据条件修改栏目信息 -->
   <update id="updateByPrimaryKey" parameterType="iss.model.ps.ArticleType">
     update T_ISS_PS_ARTICLE_TYPE
@@ -66,10 +59,16 @@
       <if test="updatedAt != null">
         UPDATED_AT = #{updatedAt},
       </if>
-       <if test="parent != null">
-        PARENT_ID = #{parent.id},
-      </if>
     </set>
     where ID = #{id}
   </update>
+  
+    <!-- 根据id查询栏目类型 -->
+  <select id="selectArticleTypeByCode" parameterType="Object" resultMap="ArticleTypeMapper">
+    select 
+    <include refid="ArticleType_Column_List" />
+    from T_ISS_PS_ARTICLE_TYPE
+    where CODE = #{code}
+  </select>
+    
 </mapper>

@@ -55,7 +55,7 @@
 		    <include refid="Example_Where_Clause" />
 		  </select>
 		  
-		  <!-- 2.根据条件查询列表 -->
+		  <!-- 2.根据条件查询列表  版主管理自己的版块-->
 		  <select id="queryByList" parameterType="Map" resultMap="PostReplyMap">
 		    select 
 		    <include refid="Base_Column_List" />

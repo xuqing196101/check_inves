@@ -41,7 +41,13 @@
 		        <%--<span class="add-on">i</span>--%>
 		       </div>
 			 </li>
-			 
+			 <li class="col-md-6  p0 ">
+               <span class="fl">栏目编码：</span>
+               <div class="input-append">
+                <input class="span2"  type="text" value = '${articletype.code}' readonly="readonly">
+                <%--<span class="add-on">i</span>--%>
+               </div>
+             </li>
 
 			 <li class="col-md-6  p0 ">
 			   <span class="fl">创建人：</span>				 	
@@ -50,13 +56,7 @@
 		        <%--<span class="add-on">i</span>--%>
 		       </div>
 			 </li>
-			  <li class="col-md-6  p0 ">
-               <span class="fl">上级栏目：</span>                 
-                <div class="input-append">
-                <input class="span2"  type="text" value = '${articletype.parent.name}' readonly="readonly">
-                <%--<span class="add-on">i</span>--%>
-               </div>
-             </li>
+			 
 
 			 <li class="col-md-6  p0 ">
 			   <span class="fl">创建时间：</span>				 	
@@ -84,10 +84,8 @@
 	  	 
 	</div>  	
 	<!-- 底部按钮 -->			          
-  <div  class="col-md-12 ml185">
-   <div class="fl padding-10">
-    <button class="btn btn-windows reset" onclick="history.go(-1)" type="button">返回</button>
-	</div>
+  <div  class="col-md-12 tc mt20">
+    <button class="btn btn-windows back" onclick="history.go(-1)" type="button">返回</button>
   </div>
      
      </div>

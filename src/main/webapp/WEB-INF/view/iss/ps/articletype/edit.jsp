@@ -18,7 +18,6 @@
 	-->	
 	<script type="text/javascript">    
     $(function(){ 
-        $("#parent").val("${articletype.parent.id}");
         $("#oldName").val($("#typeName").val());
     }); 
 	</script>
