@@ -18,9 +18,9 @@
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
 	
-    <link href="<%=basePath%>public/select2/css/select2.min.css"  rel="stylesheet">
-    <script src="<%=basePath%>public/select2/jquery-2.1.0.js"></script>
-    <script src="<%=basePath%>public/select2/js/select2.min.js"></script>
+    <link href="${ pageContext.request.contextPath }/public/select2/css/select2.min.css"  rel="stylesheet">
+    <script src="${ pageContext.request.contextPath }/public/select2/jquery-2.1.0.js"></script>
+    <script src="${ pageContext.request.contextPath }/public/select2/js/select2.min.js"></script>
  
 	<script type="text/javascript">
 	$(function () {

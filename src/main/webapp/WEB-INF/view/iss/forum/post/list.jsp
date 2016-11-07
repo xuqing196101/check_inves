@@ -6,9 +6,7 @@
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-  <head>
-    <base href="<%=basePath%>">
-    
+  <head>  
     <title>帖子管理</title>  
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -19,7 +17,7 @@
 	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
 	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
 	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
-	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+	<script src="${ pageContext.request.contextPath }/public/laypage-v1.3/laypage/laypage.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
   <script type="text/javascript">
   $(function(){
@@ -59,7 +57,7 @@
 		        	var postName = "${postName}";
 		        	var parkId = "${parkId}";
 		        	var topicId = "${topicId}";
-		            location.href = "<%=basePath%>post/getlist.do?postName="+postName+"&parkId="+parkId+"&topicId="+topicId+"&page="+e.curr;
+		            location.href = "${ pageContext.request.contextPath }/post/getlist.do?postName="+postName+"&parkId="+parkId+"&topicId="+topicId+"&page="+e.curr;
 		        }
 		    }
 		});
@@ -101,7 +99,7 @@
 	}
 	
   	function view(id){
-  		window.location.href="<%=basePath%>post/view.html?id="+id;
+  		window.location.href="${ pageContext.request.contextPath }/post/view.html?id="+id;
   	}
   	
     function edit(){
@@ -111,7 +109,7 @@
 		}); 
 		if(id.length==1){
 			
-			window.location.href="<%=basePath%>post/edit.html?id="+id;
+			window.location.href="${ pageContext.request.contextPath }/post/edit.html?id="+id;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -127,7 +125,7 @@
 		if(id.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>post/delete.html?id="+id;
+				window.location.href="${ pageContext.request.contextPath }/post/delete.html?id="+id;
 			});
 		}else{
 			layer.alert("请选择要删除的帖子",{offset: ['222px', '390px'], shade:0.01});
@@ -135,7 +133,7 @@
     }
     
     function add(){
-    	window.location.href="<%=basePath%>post/add.html";
+    	window.location.href="${ pageContext.request.contextPath }/post/add.html";
     }
     
 	//鼠标移动显示全部内容
@@ -173,7 +171,7 @@
         var postName = $("#postName").val();
         var parkId = $("#parkId  option:selected").val();
         var topicId = $("#topicId  option:selected").val();
-        location.href = "<%=basePath%>post/getlist.do?postName="+postName+"&parkId="+parkId+"&topicId="+topicId;
+        location.href = "${ pageContext.request.contextPath }/post/getlist.do?postName="+postName+"&parkId="+parkId+"&topicId="+topicId;
 
 
      }
@@ -199,20 +197,22 @@
    </div>
    
    <div class="container">
-
 <!-- 项目戳开始 -->
-  <div class="container clear">
-   <div class="padding-10 border1 m0_25">
-     <ul class="demand_list list-unstyled">
+	   <div class="headline-v2">
+	   		<h2>帖子管理</h2>
+	   </div>
+
+	 <h2 class="search_detail">
+     <ul class="demand_list">
        <li class="fl">
-       <label class="fl mt10">帖子名称：</label>
-       <span><input type="text" id="postName" class="mb0 mt5" value="${postName }"/></span>
+       <label class="fl">帖子名称：</label>
+       <span><input type="text" id="postName" class="" value="${postName }"/></span>
        </li>
         
        <li class="fl">
-         <label class="fl mt10 ml10">所属版块：</label>
+         <label class="fl">所属版块：</label>
             <span>
-            <select id ="parkId" class="w200 mt5" onchange="change(this.options[this.selectedIndex].value)" >
+            <select id ="parkId" class="w178" onchange="change(this.options[this.selectedIndex].value)" >
              <option></option>
              <c:forEach items="${parks}" var="park">
                   <option  value="${park.id}">${park.name}</option>
@@ -221,44 +221,31 @@
             </span>
        </li>
         <li class="fl">
-         <label class="fl mt10 ml10">所属主题：</label>
+         <label class="fl ">所属主题：</label>
             <span>
-            <select id ="topicId" class="w200 mt5" >
+            <select id ="topicId" class="w178 " >
              <option></option>
              </select>
             </span>
-       </li><%--   
-      <li class="fl">
-         <label class="fl mt10 ">发布时间：</label>
-            <span>
-				 <input class="mb0 mt5" type="text"  onClick="WdatePicker()" name="startDate" />
-				 <span class="mt10">-</span>
-				 <input class="mb0 mt5" type="text"  onClick="WdatePicker()" name="endDate" />
-            </span>
-       </li> 
-         --%>
-         <button class="btn btn_back fl ml10 mt8" onclick="search()">查询</button>
-         <button class="btn btn_back fl ml10 mt8" onclick="reset()">重置</button>
+       </li>
+         <button class="btn" onclick="search()">查询</button>
+         <button class="btn" onclick="reset()">重置</button>
      </ul>
      <div class="clear"></div>
-   </div>
-  </div>
-	   <div class="headline-v2">
-	   		<h2>帖子管理</h2>
-	   </div>
-  
-<!-- 表格开始-->
-   <div class="container">
-   <div class="col-md-12 pl20">
+
+  </h2>
+
+
+   <div class="col-md-12 pl20 mt10">
     <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
 	<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 	<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
 	</div>
-    </div>
+
    
-   <div class="container">
-     <div class="content padding-left-25 padding-right-25 padding-top-5">
-   	<table class="table table-striped table-bordered table-hover">
+
+   <div class="content table_box">
+        <table class="table table-bordered table-condensed table-hover">
     
 		<thead>
 			<tr>
@@ -301,7 +288,7 @@
      </div>
    <div id="pagediv" align="right"></div>
    </div>
-    </div>
+
   </body>
 </html>
 

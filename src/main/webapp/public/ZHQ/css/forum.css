@@ -119,3 +119,6 @@
 .comment_report{
 	min-height:115px;
 }
+.fwb{
+	z-index:1;
+}

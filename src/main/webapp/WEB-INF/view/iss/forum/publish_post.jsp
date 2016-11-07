@@ -50,7 +50,7 @@
 			});
 	  }
 	   function addAttach(){
-	          html="<input id='pic' type='file' class='toinline' name='attaattach'/><a href='#' onclick='deleteattach(this)' class='toinline red redhover'>x</a><br/>";
+	          html="<input id='pic' type='file' class='toinline fl' name='attaattach'/><a href='#' onclick='deleteattach(this)' class='toinline red redhover'>x</a><br/>";
 	          $("#uploadAttach").append(html);
 	       }
 	        
@@ -70,7 +70,7 @@
                 <div class="tab-v1">
                     <h2 class="ml50 bbgrey f30">发布帖子</h2>
                 </div>
-        <form  id="form" action="${pageContext.request.contextPath}/post/indexsave.html" method="post" enctype="multipart/form-data">
+        <form  id="form" action="${pageContext.request.contextPath}/post/indexsave.html" method="post" >
        <div>
        <ul class="list-unstyled list-flow p0_20 f18">   
         
@@ -104,7 +104,7 @@
                         
             <li class="col-md-12 p0">
                 <span class="fl"><div class="red star_red">*</div>帖子内容：</span>
-                <div class="fl mt5 col-md-9 p0">
+                <div class="fl mt5 col-md-9 p0 fwb">
                      <script id="editor" name="content" type="text/plain" class= ""></script>
                 </div>
                 <div class="validate">${ERR_content}</div>

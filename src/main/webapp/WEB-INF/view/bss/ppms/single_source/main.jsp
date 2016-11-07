@@ -76,7 +76,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                            <li><a href="<%=basePath%>ExpExtract/Extraction.html?id=${project.id}" target="open_bidding_main" class="son-menu">抽取评审专家</a></li>
                            <li><a href="<%=basePath%>packageExpert/toPackageExpert.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">组织专家谈判</a></li>
                            <li><a href="<%=basePath%>resultAnnouncement/resultAnnouncementAdd.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">拟制成交公示</a></li> 
-                           <li><a href="<%=basePath%>winningSupplier/selectSupplier.html" target="open_bidding_main" class="son-menu">确定成交供应商</a></li>
+                           <li><a href="<%=basePath%>winningSupplier/selectSupplier.html?projectId=${project.id}" target="open_bidding_main" class="son-menu">确定成交供应商</a></li>
                          </ul>
                       </div>
                       <script type="text/javascript" language="javascript">   

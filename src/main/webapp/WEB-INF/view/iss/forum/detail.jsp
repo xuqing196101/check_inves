@@ -7,32 +7,31 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <base href="<%=basePath%>">
-    
+   
     <title>论坛管理</title>  
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<link href="<%=basePath%>public/ZHQ/css/common.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHQ/css/bootstrap.min.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHQ/css/style.css" media="screen" rel="stylesheet">
-	<link href="<%=basePath%>public/ZHQ/css/line-icons.css" media="screen" rel="stylesheet">
-	<link href="<%=basePath%>public/ZHQ/css/app.css" media="screen" rel="stylesheet">
-	<link href="<%=basePath%>public/ZHQ/css/application.css" media="screen" rel="stylesheet">
-	<link href="<%=basePath%>public/ZHQ/css/header-v4.css" media="screen" rel="stylesheet">
-	<link href="<%=basePath%>public/ZHQ/css/footer-v2.css" media="screen" rel="stylesheet">
-	<link href="<%=basePath%>public/ZHQ/css/img-hover.css" media="screen" rel="stylesheet">
-	<link href="<%=basePath%>public/ZHQ/css/page_job.css" media="screen" rel="stylesheet">
-	<link href="<%=basePath%>public/ZHQ/css/shop.style.css" media="screen" rel="stylesheet">
-	<link rel="stylesheet" href="<%=basePath%>public/ZHQ/css/forum.css" media="screen" >
-	<script src="<%=basePath%>public/ZHQ/js/hm.js"></script>
-	<script src="<%=basePath%>public/ZHQ/js/jquery.min.js"></script>
+	<link href="${ pageContext.request.contextPath }/public/ZHQ/css/common.css" media="screen" rel="stylesheet">
+    <link href="${ pageContext.request.contextPath }/public/ZHQ/css/bootstrap.min.css" media="screen" rel="stylesheet">
+    <link href="${ pageContext.request.contextPath }/public/ZHQ/css/style.css" media="screen" rel="stylesheet">
+	<link href="${ pageContext.request.contextPath }/public/ZHQ/css/line-icons.css" media="screen" rel="stylesheet">
+	<link href="${ pageContext.request.contextPath }/public/ZHQ/css/app.css" media="screen" rel="stylesheet">
+	<link href="${ pageContext.request.contextPath }/public/ZHQ/css/application.css" media="screen" rel="stylesheet">
+	<link href="${ pageContext.request.contextPath }/public/ZHQ/css/header-v4.css" media="screen" rel="stylesheet">
+	<link href="${ pageContext.request.contextPath }/public/ZHQ/css/footer-v2.css" media="screen" rel="stylesheet">
+	<link href="${ pageContext.request.contextPath }/public/ZHQ/css/img-hover.css" media="screen" rel="stylesheet">
+	<link href="${ pageContext.request.contextPath }/public/ZHQ/css/page_job.css" media="screen" rel="stylesheet">
+	<link href="${ pageContext.request.contextPath }/public/ZHQ/css/shop.style.css" media="screen" rel="stylesheet">
+	<link rel="stylesheet" href="${ pageContext.request.contextPath }/public/ZHQ/css/forum.css" media="screen" >
+	<script src="${ pageContext.request.contextPath }/public/ZHQ/js/hm.js"></script>
+	<script src="${ pageContext.request.contextPath }/public/ZHQ/js/jquery.min.js"></script>
 	<!--导航js-->
-	<script src="<%=basePath%>public/ZHQ/js/jquery_ujs.js"></script>
-	<script src="<%=basePath%>public/ZHQ/js/bootstrap.min.js"></script>
-    <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+	<script src="${ pageContext.request.contextPath }/public/ZHQ/js/jquery_ujs.js"></script>
+	<script src="${ pageContext.request.contextPath }/public/ZHQ/js/bootstrap.min.js"></script>
+    <script src="${ pageContext.request.contextPath }/public/laypage-v1.3/laypage/laypage.js"></script>
     <script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/layer.js"></script>
     <script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
         <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/ueditor.config.js"></script>
@@ -59,7 +58,7 @@
             jump: function(e, first){ //触发分页后的回调
                 if(!first){ //一定要加此判断，否则初始时会无限刷新
                     var postId = "${post.id}";
-                    location.href = "<%=basePath%>post/getIndexDetail.do?postId="+postId+"&page="+e.curr;
+                    location.href = "${ pageContext.request.contextPath }/post/getIndexDetail.do?postId="+postId+"&page="+e.curr;
                 }
             }
         });
@@ -78,11 +77,11 @@
 		  var ue = UE.getEditor('editor');
 		  var text = ue.getContent();
 	      $.ajax({
-	          url:"<%=basePath%>reply/save.html?postId="+postId+"&content="+text,   
+	          url:"${ pageContext.request.contextPath }/reply/save.html?postId="+postId+"&content="+text,   
 	          contentType: "application/json;charset=UTF-8", 
 	          type:"POST",   //请求方式           
 	          success : function() {     
-	              location.href = "<%=basePath%>post/getIndexDetail.do?postId="+postId;
+	              location.href = "${ pageContext.request.contextPath }/post/getIndexDetail.do?postId="+postId;
 	          }
 	      });
 	  }	  
@@ -108,12 +107,12 @@
 		 var text = ue.getContent();
 		 var postId = "${post.id}";
 		   $.ajax({
-	       url:"<%=basePath%>reply/save.html?postId="+postId+"&content="+text+"&replyId="+replyId,   
+	       url:"${ pageContext.request.contextPath }/reply/save.html?postId="+postId+"&content="+text+"&replyId="+replyId,   
 	       contentType: "application/json;charset=UTF-8", 
 	       type:"POST",   //请求方式           
 	       success : function() {   
 	           var postId = "${post.id}";
-	           location.href = "<%=basePath%>post/getIndexDetail.do?postId="+postId;
+	           location.href = "${ pageContext.request.contextPath }/post/getIndexDetail.do?postId="+postId;
 	           }
 	     });      
   }
@@ -143,7 +142,7 @@
      <div class="p15_0" >
 	     <div class="fr"><span>作者：${post.user.relName }</span>
 	     <span class="ml15"><i class="mr5">
-	     <img src="<%=basePath%>public/ZHQ/images/block.png"/></i>
+	     <img src="${ pageContext.request.contextPath }/public/ZHQ/images/block.png"/></i>
 	     <fmt:formatDate value='${post.publishedAt}' pattern="yyyy.MM.dd" />
 	     </span>
 	     <span class="ml15">回复数：<span class="red">${post.replycount }</span></span>
@@ -157,7 +156,7 @@
         <span class="f14 fl">附件：</span>
         <div class="">
             <c:forEach items="${post.postAttachments}" var="a">
-                <a href="<%=basePath%>post/downloadPostAtta.html?id=${a.id}">${fn:split(a.name, '_')[1]}</a><br/>
+                <a href="${ pageContext.request.contextPath }/post/downloadPostAtta.html?id=${a.id}">${fn:split(a.name, '_')[1]}</a><br/>
             </c:forEach>
         </div>
      </div>  
@@ -169,7 +168,7 @@
         <c:forEach items="${list.list}" var="reply" varStatus="vs">         
             <div id="${reply.id}" class="col-md-12 comment_main">
             <div class="comment_flow">
-            <div class="comment_pic"><img src="<%=basePath%>public/ZHQ/images/boy.png"/></div>
+            <div class="comment_pic"><img src="${ pageContext.request.contextPath }/public/ZHQ/images/boy.png"/></div>
             <div class="clear">
               <p class="b f18 mb0 tc">${reply.user.relName }</p>
               <p class="clear mb0 gary">[<fmt:formatDate value='${reply.publishedAt}' pattern="yyyy年MM月dd日" />]</p>
