@@ -72,6 +72,13 @@ public class MultipartFileUploadUtil {
                     case "file" :
                         bean.setFileItem(item);
                         bean.setSize(item.getSize());
+                        break;
+                    case "ntko" :
+                        bean.setFileName(new String(item.getString().getBytes(
+                                "ISO-8859-1"), "UTF-8"));
+                        bean.setFileItem(item);
+                        bean.setSize(item.getSize());
+                        break;
                     default :
                         bean.getParam().put(item.getFieldName(), item.getString());
                 }   

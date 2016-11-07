@@ -36,7 +36,7 @@ public class DisPlayTld extends TagSupport {
     /** 系统key */
     private Integer sysKey;
     /** 是否删除 */
-    private boolean delete;
+    private boolean delete = true;
 
     
     

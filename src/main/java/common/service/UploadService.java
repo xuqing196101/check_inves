@@ -69,4 +69,17 @@ public interface UploadService {
      * @param response {@link HttpServletResponse}
      */
     public void viewPicture(HttpServletRequest request ,HttpServletResponse response);
+
+    /**
+     * 
+     *〈简述〉保存文件
+     *〈详细描述〉
+     * @author myc
+     * @param request {@link HttpServletRequest}
+     * @param businessId 业务Id
+     * @param typeId 业务类型Id
+     * @param sysKey 系统key
+     * @return
+     */
+    public String saveOnlineFile(HttpServletRequest request ,String businessId, String typeId, String sysKey);
 }

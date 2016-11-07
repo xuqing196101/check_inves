@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ses.util.PropUtil;
+
 import common.bean.MultipartFileBean;
 import common.constant.Constant;
 import common.dao.FileUploadMapper;
@@ -166,6 +167,65 @@ public class UploadServiceImpl implements UploadService {
             e.printStackTrace();
         }
         
+    }
+
+    
+
+    @Override
+    public String saveOnlineFile(HttpServletRequest request, String businessId,
+            String typeId, String sysKey) {
+        if ((!StringUtils.isNotBlank(businessId)) 
+                || (!StringUtils.isNotBlank(typeId))
+                 || (!StringUtils.isNotBlank(sysKey))){
+            return ERROR;
+        }
+        try {
+            Integer systemKey = Integer.parseInt(request.getParameter("key"));
+            String tableName = Constant.fileSystem.get(systemKey);
+            MultipartFileBean param = MultipartFileUploadUtil.parse(request);
+            if (param == null || !StringUtils.isNotBlank(param.getFileName())){
+                return ERROR;
+            }
+            String fileName = param.getFileName();
+            String finalPath = PropUtil.getProperty("file.base.path");
+            int type = Integer.parseInt(typeId);
+            String fileSysPath = getFileDir(type);
+            if (StringUtils.isNotBlank(fileSysPath)){
+                finalPath = finalPath + fileSysPath + File.separator + UploadUtil.getDataFilePath();
+                UploadUtil.createDir(finalPath);
+                String targetFileName = System.currentTimeMillis()+ "." + fileName.substring(fileName.lastIndexOf(".")+1) ;
+                File file = new File(finalPath,targetFileName);
+                RandomAccessFile accessFile = new RandomAccessFile(file, "rw");
+                long length = file.length();
+                accessFile.seek(length);
+                accessFile.write(param.getFileItem().get());
+                accessFile.close();
+                
+                if (file != null){
+                    UploadFile model = new UploadFile();
+                    model.setBusinessId(businessId);
+                    model.setTypeId(typeId);
+                    model.setSize(file.length());
+                    model.setPath(file.getPath());
+                    model.setName(fileName);
+                    model.setCreateDate(new Date());
+                    model.setUpdateDate(new Date());
+                    model.setIsDelete(0);
+                    model.setTableName(tableName);
+                    uploadDao.insertFile(model);
+                    return OK;
+                }
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ERROR;
     }
 
 
