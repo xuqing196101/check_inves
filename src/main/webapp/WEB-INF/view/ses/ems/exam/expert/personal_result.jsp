@@ -10,7 +10,7 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js" type="text/javascript"></script>
+	<script src="${pageContext.request.contextPath }/public/laypage-v1.3/laypage/laypage.js" type="text/javascript"></script>
 	<script type="text/javascript">
 		$(function(){
 			laypage({
@@ -28,7 +28,7 @@
 			    }(), 
 			    jump: function(e, first){ //触发分页后的回调
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
-			            location.href = '<%=basePath%>expertExam/personalResult.do?page='+e.curr;
+			            location.href = "${pageContext.request.contextPath }/expertExam/personalResult.do?page="+e.curr;
 			        }
 			    }
 			});

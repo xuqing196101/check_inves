@@ -154,7 +154,7 @@
 		
 		//返回到考卷列表
 		function back(){
-			window.location.href = "<%=path%>/purchaserExam/backPaper.html";
+			window.location.href = "${pageContext.request.contextPath }/purchaserExam/backPaper.html";
 		}
 	</script>
 
@@ -182,7 +182,7 @@
 		   <div class="headline-v2">
 		   		<h2>编辑考卷</h2>
 		   </div>
-    <form action="<%=path %>/purchaserExam/editToExamPaper.html" method="post">
+    <form action="${pageContext.request.contextPath }/purchaserExam/editToExamPaper.html" method="post">
     	<input type="hidden" name="paperId" value="${examPaper.id }"/>
     	<input type="hidden" name="paperName" value="${examPaper.name }"/>
     	<input type="hidden" name="paperCode" value="${examPaper.code }"/>

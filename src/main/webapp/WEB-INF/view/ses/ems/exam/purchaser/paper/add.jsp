@@ -144,7 +144,7 @@
 		
 		//返回到考卷列表
 		function back(){
-			window.location.href = "<%=path%>/purchaserExam/backPaper.html";
+			window.location.href = "${pageContext.request.contextPath }/purchaserExam/backPaper.html";
 		}
 	</script>
 
@@ -172,7 +172,7 @@
 		   <div class="headline-v2">
 		   		<h2>新增考卷</h2>
 		   </div>
-    <form action="<%=path %>/purchaserExam/saveToExamPaper.html" method="post">
+    <form action="${pageContext.request.contextPath }/purchaserExam/saveToExamPaper.html" method="post">
     	<ul class="list-unstyled list-flow p0_20">
 		     <li class="col-md-12 p0">
 	  			<span class="fl mt5"><div class="red star_red">*</div>试卷名称：</span>

@@ -105,7 +105,7 @@
    </div>
   	<input type="hidden" value="${errorData['single'] }" id="errorSingle"/>
   	<input type="hidden" value="${errorData['multiple'] }" id="errorMultiple"/>
-  	<form action="<%=path %>/expertExam/saveExamRule.html" method="post">
+  	<form action="${pageContext.request.contextPath }/expertExam/saveExamRule.html" method="post">
   	  <div class="container mt20">
 	  	<ul class="list-unstyled list-flow p0_20">
 	    	<li class="col-md-12 p0">

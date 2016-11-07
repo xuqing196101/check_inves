@@ -111,7 +111,7 @@
 		
 		//返回
 		function back(){
-			window.location.href = "<%=path%>/expertExam/backTec.html";
+			window.location.href = "${pageContext.request.contextPath }/expertExam/backTec.html";
 		}
 	</script>
   </head>
@@ -139,7 +139,7 @@
 		   	<h2>修改技术类题目</h2>
 		</div>
 		
-  	<form action="<%=path %>/expertExam/editToTec.html?id=${tecQue.id }" method="post" id="form">
+  	<form action="${pageContext.request.contextPath }/expertExam/editToTec.html?id=${tecQue.id }" method="post" id="form">
 		<input type="hidden" name="content" value="${tecQue.topic }"/>
 		<ul class="list-unstyled list-flow p0_20">
 		     <li class="col-md-12 p0">

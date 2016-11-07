@@ -11,11 +11,11 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/layer.js"></script>
-	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
-	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js" type="text/javascript"></script>
-	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
-	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="${pageContext.request.contextPath }/public/layer/layer.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
+	<script src="${pageContext.request.contextPath }/public/laypage-v1.3/laypage/laypage.js" type="text/javascript"></script>
+	<link href="${pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
+	<link href="${pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript">
 		$(function(){
 			$("#error").hide();
@@ -43,7 +43,7 @@
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
 			        	var topic = "${topic}";
 						var questionTypeId = "${questionTypeId}";
-			            location.href = "<%=path%>/purchaserExam/purchaserList.do?topic="+topic+"&questionTypeId="+questionTypeId+"&page="+e.curr;
+			            location.href = "${pageContext.request.contextPath }/purchaserExam/purchaserList.do?topic="+topic+"&questionTypeId="+questionTypeId+"&page="+e.curr;
 			        }
 			    }
 			});		
@@ -51,7 +51,7 @@
 	
 		//采购人新增题库
 		function add(){
-			window.location.href = "<%=path%>/purchaserExam/addPurQue.html";
+			window.location.href = "${pageContext.request.contextPath }/purchaserExam/addPurQue.html";
 		}
 		
 		//采购人修改题库
@@ -78,7 +78,7 @@
 						str = info[i].value;
 					}
 				}
-				window.location.href = "<%=path%>/purchaserExam/editPurQue.html?id="+str;
+				window.location.href = "${pageContext.request.contextPath }/purchaserExam/editPurQue.html?id="+str;
 			}
 		}
 		
@@ -107,7 +107,7 @@
 				$.ajax({
 					type:"POST",
 					dataType:"json",
-					url:"<%=path%>/purchaserExam/deleteById.do?ids="+ids,
+					url:"${pageContext.request.contextPath }/purchaserExam/deleteById.do?ids="+ids,
 			       	success:function(data){
 			       		layer.msg('删除成功',{offset: ['222px', '390px']});
 				       	window.setTimeout(function(){
@@ -123,9 +123,9 @@
 			var topic = $("#topic").val();
 			var questionTypeId = $("#questionTypeId").val();
 			if((topic==""||topic==null)&&(questionTypeId==""||questionTypeId==null)){
-				window.location.href = "<%=basePath%>purchaserExam/purchaserList.do";
+				window.location.href = "${pageContext.request.contextPath }/purchaserExam/purchaserList.do";
 			}else{
-				window.location.href = "<%=basePath%>purchaserExam/purchaserList.do?topic="+topic+"&questionTypeId="+questionTypeId;
+				window.location.href = "${pageContext.request.contextPath }/purchaserExam/purchaserList.do?topic="+topic+"&questionTypeId="+questionTypeId;
 			}
 		}	
 		
@@ -147,7 +147,7 @@
 		//导入Excel
 		function poiExcel(){
 			$.ajaxFileUpload({
-			    url: "<%=path %>/purchaserExam/importExcel.do",  
+			    url: "${pageContext.request.contextPath }/purchaserExam/importExcel.do",  
 			    secureuri: false,
 			    fileElementId: "excelFile",
 			    type: "POST",
@@ -156,7 +156,7 @@
 			    	if(data.length<=5){
 			    		layer.msg('导入成功',{offset: ['222px', '390px']});
 				    	window.setTimeout(function(){
-				       		window.location.href="<%=path%>/purchaserExam/purchaserList.html";
+				       		window.location.href="${pageContext.request.contextPath }/purchaserExam/purchaserList.html";
 				       	}, 1000);
 			    	}else{
 			    		var array = data.split(";");
@@ -193,7 +193,7 @@
 		
 		//下载模板
 		function download(){
-			window.location.href = "<%=path%>/purchaserExam/loadPurchaserTemplet.html";
+			window.location.href = "${pageContext.request.contextPath }/purchaserExam/loadPurchaserTemplet.html";
 		}
 		
 		//重置方法
@@ -205,7 +205,7 @@
 		
 		//查看采购人题库
 		function view(obj){
-			window.location.href = "<%=path%>/purchaserExam/view.html?id="+obj;
+			window.location.href = "${pageContext.request.contextPath }/purchaserExam/view.html?id="+obj;
 		}
 	</script>
 
@@ -222,29 +222,33 @@
    </div>
    <div class="container">
 	   <div class="headline-v2">
-	   		<h2>查询条件</h2>
-	   </div>
-   </div>
-    <div class="container">
-    	<div class="border1 col-md-12 ml30">
-	    	名称:<input type="text" id="topic" class="mt10"/>
-	    	题型:<select id="questionTypeId">
-	    		<option value="">请选择</option>
-	    		<option value="1">单选题</option>
-	    		<option value="2">多选题</option>
-	    		<option value="3">判断题</option>
-	    	</select>
-	    	<button type="button" onclick="query()" class="btn">查询</button>
-	    	<button type="button" onclick="reset()" class="btn">重置</button>
-    	</div>
-    </div>
-    <div class="container">
-	   <div class="headline-v2">
 	   		<h2>采购人题库列表</h2>
 	   </div>
-   </div>
-    <div class="container">
-    	<div class="col-md-12 mt0">
+   
+   
+    	<h2 class="search_detail">
+			<ul class="demand_list">
+		    	<li>
+			    	<label class="fl">名称：</label><span><input type="text" id="topic" class=""/></span>
+			    </li>
+			    <li>
+			    	<label class="fl">题型：</label>
+			    	<span>
+				    	<select id="questionTypeId">
+						    <option value="">请选择</option>
+						    <option value="1">单选题</option>
+						    <option value="2">多选题</option>
+						    <option value="3">判断题</option>
+				    	</select>
+			   		</span>
+			     </li>
+			    <button type="button" onclick="query()" class="btn">查询</button>
+			    <button type="button" onclick="reset()" class="btn">重置</button>
+		    </ul>
+		    <div class="clear"></div>
+	 	</h2>
+    
+    	<div class="col-md-12 pl20 mt10">
 	    	<input type="button" class="btn btn-windows add" value="新增" onclick="add()"/>
 	    	<input type="button" class="btn btn-windows edit" value="修改" onclick="edit()"/>
 	    	<input type="button" class="btn btn-windows delete" value="删除" onclick="deleteById()"/>
@@ -256,10 +260,9 @@
 	    	  	</span>
 	    	</div>
     	</div>
-    </div>
     
-    <div class="container">
-     	<div class="content padding-left-25 padding-right-25 padding-top-5">
+    
+    	<div class="content table_box">
    		<table class="table table-bordered table-condensed table-hover">
 	    	<thead>
 	    		<tr class="info">

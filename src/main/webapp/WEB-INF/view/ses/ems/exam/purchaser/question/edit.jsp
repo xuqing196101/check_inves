@@ -127,7 +127,7 @@
 		
 		//返回
 		function back(){
-			window.location.href = "<%=path%>/purchaserExam/backQuestion.html";
+			window.location.href = "${pageContext.request.contextPath }/purchaserExam/backQuestion.html";
 		}
 	</script>
   </head>
@@ -154,7 +154,7 @@
 		   	<h2>修改题目</h2>
 		</div>
 		
-  	<form action="<%=path %>/purchaserExam/editToPurchaser.html?id=${purchaserQue.id }" method="post" id="form">
+  	<form action="${pageContext.request.contextPath }/purchaserExam/editToPurchaser.html?id=${purchaserQue.id }" method="post" id="form">
   			<input type="hidden" name="content" value="${purchaserQue.topic }"/>
   			<ul class="list-unstyled list-flow p0_20">
 		     	<li class="col-md-12 p0">

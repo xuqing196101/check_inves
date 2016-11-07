@@ -11,10 +11,10 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/layer.js"></script>
-	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
-	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
-	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="${pageContext.request.contextPath }/public/layer/layer.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
+	<link href="${pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
+	<link href="${pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript">
 		var retake;
 		var isAllow = "${examPaper.isAllowRetake}";
@@ -106,7 +106,7 @@
 		function countTime(){ 
 		     if(timeLeft == 0){//时间到了,系统自动提交
 		    	if("${time}"){
-		        	$("#form").attr("action","<%=path %>/purchaserExam/savePurchaserScore.do?time="+retake);
+		        	$("#form").attr("action","${pageContext.request.contextPath }/purchaserExam/savePurchaserScore.do?time="+retake);
 		        	$("#form").submit();
 		        }else{
 		        	$("#form").submit();
@@ -186,7 +186,7 @@
         //确定方法
         function sure(){
 			if("${time}"){
-	        	$("#form").attr("action","<%=path %>/purchaserExam/savePurchaserScore.do?time="+retake);
+	        	$("#form").attr("action","${pageContext.request.contextPath }/purchaserExam/savePurchaserScore.do?time="+retake);
 	        	$("#form").submit();
 	        }else{
 	        	$("#form").submit();
@@ -222,9 +222,9 @@
    	<div class="container mt10">
   	<div class="col-md-12 mb10 border1 bggrey">
 	  	<div class="fl f18 gary b">${user.relName }考试进行中</div>
-	  	<div class="fr red mt5" id="time">距离考试还有<span id="second"></span></div>
+	  	<div class="fr red mt5" id="time">考试剩余时间：<span id="second"></span></div>
   	</div>
-  <form action="<%=path %>/purchaserExam/savePurchaserScore.html" method="post" id="form">
+  <form action="${pageContext.request.contextPath }/purchaserExam/savePurchaserScore.html" method="post" id="form">
   <c:choose>
   	<c:when test="${pageSize==1 }">
 	  <table class="clear table table-bordered table-condensed" id="pageNum1" name="exam">

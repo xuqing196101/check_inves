@@ -10,10 +10,10 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/layer.js"></script>
-	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
-	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
-	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="${pageContext.request.contextPath }/public/layer/layer.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
+	<link href="${pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
+	<link href="${pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript">
 		var count = parseInt("${count}");
 		var score = "${score}";
@@ -81,7 +81,7 @@
 			layer.confirm('您确定现在重考吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
 				var paperId = "${paperId}";
-				window.location.href = "<%=path%>/purchaserExam/reTake.html?paperId="+paperId+"&time="+timeLeft+"&thirty="+thirty;
+				window.location.href = "${pageContext.request.contextPath }/purchaserExam/reTake.do?paperId="+paperId+"&time="+timeLeft+"&thirty="+thirty;
 			});
 		}
 		
@@ -90,12 +90,12 @@
 			if(score < 60&&isAllowRetake == 1){
 				layer.confirm('您确定要退出吗?若您选择退出,将不得再次参加本次考试!', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 					layer.close(index);
-					window.location.href = "<%=path%>/purchaserExam/exitExam.html";
+					window.location.href = "${pageContext.request.contextPath }/purchaserExam/exitExam.html";
 				});
 			}else if(score >= 60){
-				window.location.href = "<%=path%>/purchaserExam/exitExam.html";
+				window.location.href = "${pageContext.request.contextPath }/purchaserExam/exitExam.html";
 			}else{
-				window.location.href = "<%=path%>/purchaserExam/exitExam.html";
+				window.location.href = "${pageContext.request.contextPath }/purchaserExam/exitExam.html";
 			}
 		}
 	</script>

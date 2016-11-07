@@ -10,7 +10,7 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js" type="text/javascript"></script>
+	<script src="${pageContext.request.contextPath }/public/laypage-v1.3/laypage/laypage.js" type="text/javascript"></script>
 	<script type="text/javascript">
 		$(function(){
 			$("#code").val("${code}");
@@ -31,7 +31,7 @@
 			    jump: function(e, first){ //触发分页后的回调
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
 			        	var code = "${code}";
-			            location.href = "<%=basePath%>purchaserExam/personalResult.do?code="+code+"&page="+e.curr;
+			            location.href = "${pageContext.request.contextPath }/purchaserExam/personalResult.do?code="+code+"&page="+e.curr;
 			        }
 			    }
 			});
@@ -41,16 +41,16 @@
 		function query(){
 			var code = $("#code").val();
 			if(code==""||code==null){
-				window.location.href = "<%=basePath%>purchaserExam/personalResult.do";
+				window.location.href = "${pageContext.request.contextPath }/purchaserExam/personalResult.do";
 			}else{
-				window.location.href = "<%=basePath%>purchaserExam/personalResult.do?code="+code;
+				window.location.href = "${pageContext.request.contextPath }/purchaserExam/personalResult.do?code="+code;
 			}
 			
 		}
 		
 		//重置
 		function reset(){
-			$("#code").val(" ");
+			$("#code").val("");
 		}
 	</script>
 

@@ -10,22 +10,22 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/layer.js"></script>
-	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
-	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
-	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="${pageContext.request.contextPath }/public/layer/layer.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
+	<link href="${pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
+	<link href="${pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript">
 		function test(){
 			$.ajax({
 				type:"POST",
 				dataType:"json",
-				url:"<%=basePath%>expertExam/judgeQualy.html",
+				url:"${pageContext.request.contextPath }/expertExam/judgeQualy.html",
 				success:function(data){
 	       			if(data==0){
 	       				layer.alert("很抱歉,考试日期已截止",{offset: ['222px', '390px']});
 						$(".layui-layer-shade").remove();
 	       			}else if(data==1){
-	       				window.location.href = "<%=path %>/expertExam/test.html";
+	       				window.location.href = "${pageContext.request.contextPath }/expertExam/test.html";
 	       			}else if(data==2){
 	       				layer.alert("对不起,您不是专家,无权参加考试",{offset: ['222px', '390px']});
 						$(".layui-layer-shade").remove();

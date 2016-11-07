@@ -10,11 +10,11 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/layer.js"></script>
-	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
-	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js" type="text/javascript"></script>
-	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
-	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="${pageContext.request.contextPath }/public/layer/layer.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
+	<script src="${pageContext.request.contextPath }/public/laypage-v1.3/laypage/laypage.js" type="text/javascript"></script>
+	<link href="${pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
+	<link href="${pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript">
 		$(function(){
 			$("#relName").val("${relName}");
@@ -43,7 +43,7 @@
 			        	var relName = "${relName}";
 						var status = "${status}";
 						var code = "${code}";
-			            location.href = "<%=path%>/purchaserExam/result.do?relName="+relName+"&status="+status+"&code="+code+"&page="+e.curr;
+			            location.href = "${pageContext.request.contextPath }/purchaserExam/result.do?relName="+relName+"&status="+status+"&code="+code+"&page="+e.curr;
 			        }
 			    }
 			});		
@@ -55,10 +55,10 @@
 			var status = $("#status").val();
 			var code = $("#code").val();
 			if((relName==""||relName==null)&&(status==""||status==null)&&(code==""||code==null)){
-				window.location.href = "<%=path%>/purchaserExam/result.do";
+				window.location.href = "${pageContext.request.contextPath }/purchaserExam/result.do";
 				return;
 			}else{
-				window.location.href = "<%=path%>/purchaserExam/result.do?relName="+relName+"&status="+status+"&code="+code;
+				window.location.href = "${pageContext.request.contextPath }/purchaserExam/result.do?relName="+relName+"&status="+status+"&code="+code;
 			}
 		}
 		
@@ -82,56 +82,62 @@
 		<div class="clear"></div>
 	  </div>
    </div>
-   <div class="container">
-	   <div class="headline-v2">
-	   		<h2>查询条件</h2>
-	   </div>
-   </div>
    
-    <div class="container">
-    	<div class="border1 col-md-12 ml30">
-	    	姓名:<input type="text" id="relName" name="relName" class="mt10"/>
-	    	试卷编号:<input type="text" id="code" name="code" class="mt10"/>
-	    	考试状态:<select name="status" id="status">
-	    		<option value="">请选择</option>
-	    		<option value="及格">及格</option>
-	    		<option value="不及格">不及格</option>
-	    	</select>
-	    	<button class="btn" type="button" onclick="query()">查询</button>
-	  		<button class="btn" type="button" onclick="reset()">重置</button>
-    	</div>
-    </div>
-    
-    <div class="container">
+   	<div class="container">
 	   <div class="headline-v2">
 	   		<h2>采购人成绩列表</h2>
 	   </div>
-   	</div>
+   	
+   		<h2 class="search_detail">
+			<ul class="demand_list">
+		    	<li>
+			    	<label class="fl">姓名：</label><span><input type="text" id="relName" name="relName" class=""/></span>
+			    </li>
+			    <li>
+			    	<label class="fl">试卷编号：</label>
+			    	<span>
+				    	<input type="text" id="code" name="code" class=""/>
+			   		</span>
+			    </li>
+			    <li>
+			    	<label class="fl">考试状态：</label>
+			    	<span>
+				    	<select name="status" id="status">
+				    		<option value="">请选择</option>
+				    		<option value="及格">及格</option>
+				    		<option value="不及格">不及格</option>
+				    	</select>
+			   		</span>
+			    </li>
+			    <button type="button" onclick="query()" class="btn">查询</button>
+			    <button type="button" onclick="reset()" class="btn">重置</button>
+		    </ul>
+		    <div class="clear"></div>
+	 	</h2>
     
-    <div class="container">
-  		<div class="content padding-left-25 padding-right-25 padding-top-5">
+    		<div class="content table_box">
 	  		<table class="table table-bordered table-condensed table-hover">
 				<thead>
-					<tr>
-						<th class="info">序号</th>
-						<th class="info">采购人姓名</th>
-						<th class="info">身份证号</th>
-						<th class="info">试卷编号</th>
-					    <th class="info">考试时间</th>
-						<th class="info">得分</th>
-						<th class="info">考试状态</th>
+					<tr class="info">
+						<th>序号</th>
+						<th>采购人姓名</th>
+						<th>身份证号</th>
+						<th>试卷编号</th>
+					    <th>考试时间</th>
+						<th>得分</th>
+						<th>考试状态</th>
 					</tr>
 				</thead>
 				<tbody>
 					<c:forEach items="${purchaserResultList.list }" varStatus="vs" var="result">
-						<tr>
-							<td class="tc">${(vs.index+1)+(purchaserResultList.pageNum-1)*(purchaserResultList.pageSize)}</td>
-							<td class="tc">${result.relName }</td>
-							<td class="tc">${result.card }</td>
-							<td class="tc">${result.code }</td>
-							<td class="tc">${result.formatDate }</td>
-							<td class="tc">${result.score }</td>
-							<td class="tc">${result.status }</td>
+						<tr class="tc">
+							<td>${(vs.index+1)+(purchaserResultList.pageNum-1)*(purchaserResultList.pageSize)}</td>
+							<td>${result.relName }</td>
+							<td>${result.card }</td>
+							<td>${result.code }</td>
+							<td>${result.formatDate }</td>
+							<td>${result.score }</td>
+							<td>${result.status }</td>
 						</tr>
 					</c:forEach>
 				</tbody>

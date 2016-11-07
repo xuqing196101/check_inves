@@ -6,18 +6,17 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-  	<base href="<%=basePath%>">
     <title>商务类专家题库</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/layer.js"></script>
-	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
-	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js" type="text/javascript"></script>
-	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
-	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="${pageContext.request.contextPath }/public/layer/layer.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
+	<script src="${pageContext.request.contextPath }/public/laypage-v1.3/laypage/laypage.js" type="text/javascript"></script>
+	<link href="${pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
+	<link href="${pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript">
 		$(function(){
 			$("#error").hide();
@@ -45,7 +44,7 @@
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
 			        	var topic = "${topic}";
 						var questionTypeId = "${questionTypeId}";
-			            location.href = "<%=basePath%>expertExam/searchComExpPool.do?topic="+topic+"&questionTypeId="+questionTypeId+"&page="+e.curr;
+			            location.href = "${pageContext.request.contextPath }/expertExam/searchComExpPool.do?topic="+topic+"&questionTypeId="+questionTypeId+"&page="+e.curr;
 			        }
 			    }
 			});
@@ -76,11 +75,11 @@
 				$.ajax({
 					type:"POST",
 					dataType:"json",
-					url:"<%=path%>/expertExam/deleteById.html?ids="+ids,
+					url:"${pageContext.request.contextPath }/expertExam/deleteById.html?ids="+ids,
 			       	success:function(data){
 			       		layer.msg('删除成功',{offset: ['222px', '390px']});
 				       	window.setTimeout(function(){
-				       		window.location.href="<%=path%>/expertExam/searchComExpPool.html";
+				       		window.location.href="${pageContext.request.contextPath }/expertExam/searchComExpPool.html";
 				       	}, 1000);
 			       	}
 		       	});
@@ -89,7 +88,7 @@
 		
 		//增加题库
 		function addCommerce(){
-			window.location.href = "<%=path%>/expertExam/addCommerce.html";
+			window.location.href = "${pageContext.request.contextPath }/expertExam/addCommerce.html";
 		}
 		
 		//修改题库
@@ -116,24 +115,24 @@
 						str = info[i].value;
 					}
 				}
-				window.location.href = "<%=path%>/expertExam/editCommerce.html?id="+str;
+				window.location.href = "${pageContext.request.contextPath }/expertExam/editCommerce.html?id="+str;
 			}
 		}
 		
 		//查看功能
 		function view(obj){
-			window.location.href = "<%=path%>/expertExam/viewCom.html?id="+obj;
+			window.location.href = "${pageContext.request.contextPath }/expertExam/viewCom.html?id="+obj;
 		}
 		
 		//下载模板
 		function download(){
-			window.location.href = "<%=path%>/expertExam/loadExpertTemplet.html";
+			window.location.href = "${pageContext.request.contextPath }/expertExam/loadExpertTemplet.html";
 		}
 		
 		//导入商务类题目
 		function poiExcel(){
 			$.ajaxFileUpload({
-			    url: "<%=path %>/expertExam/importCom.do",  
+			    url: "${pageContext.request.contextPath }/expertExam/importCom.do",  
 			    secureuri: false,
 			    fileElementId: "excelFile",
 			    type: "POST",
@@ -142,7 +141,7 @@
 			    	if(data.length<=5){
 			    		layer.msg('导入成功',{offset: ['222px', '390px']});
 				    	window.setTimeout(function(){
-				       		window.location.href="<%=path%>/expertExam/searchComExpPool.html";
+				       		window.location.href="${pageContext.request.contextPath }/expertExam/searchComExpPool.html";
 				       	}, 1000);
 			    	}else{
 			    		var array = data.split(";");
@@ -184,14 +183,14 @@
 			questionTypeId[0].selected=true;
 		}
 		
-		//按条件查询采购人题库
+		//按条件查询商务类专家题库
 		function query(){
 			var topic = $("#topic").val();
 			var questionTypeId = $("#questionTypeId").val();
 			if((topic==""||topic==null)&&(questionTypeId==""||questionTypeId==null)){
-				window.location.href = "<%=basePath%>expertExam/searchComExpPool.do";
+				window.location.href = "${pageContext.request.contextPath }/expertExam/searchComExpPool.do";
 			}else{
-				window.location.href = "<%=basePath%>expertExam/searchComExpPool.do?topic="+topic+"&questionTypeId="+questionTypeId;
+				window.location.href = "${pageContext.request.contextPath }/expertExam/searchComExpPool.do?topic="+topic+"&questionTypeId="+questionTypeId;
 			}
 		}	
 	</script>
@@ -211,24 +210,30 @@
 	   <div class="headline-v2">
 	   		<h2>商务类专家题库列表</h2>
 	   </div>
-   </div>
    
-   <div class="container mt10">
-    	<div class="border1 col-md-12 ml30">
-	    	名称:<input type="text" id="topic" class="mt10"/>
-	    	题型:<select id="questionTypeId">
-	    		<option value="">请选择</option>
-	    		<option value="1">单选题</option>
-	    		<option value="2">多选题</option>
-	    	</select>
-	    	<button type="button" onclick="query()" class="btn">查询</button>
-	    	<button type="button" onclick="reset()" class="btn">重置</button>
-    	</div>
-    </div>
+   		<h2 class="search_detail">
+			<ul class="demand_list">
+		    	<li>
+			    	<label class="fl">名称：</label><span><input type="text" id="topic" class=""/></span>
+			    </li>
+			    <li>
+			    	<label class="fl">题型：</label>
+			    	<span>
+				    	<select id="questionTypeId">
+						    <option value="">请选择</option>
+						    <option value="1">单选题</option>
+						    <option value="2">多选题</option>
+				    	</select>
+			   		</span>
+			     </li>
+			    <button type="button" onclick="query()" class="btn">查询</button>
+			    <button type="button" onclick="reset()" class="btn">重置</button>
+		    </ul>
+		    <div class="clear"></div>
+	 	</h2>
     
-	<!-- 表格开始-->
-   <div class="container mt10">
-   		<div class="col-md-12">
+		<!-- 表格开始-->
+  		<div class="col-md-12 pl20 mt10">
 		    <button class="btn btn-windows add" type="button" onclick="addCommerce()">新增</button>
 		    <button class="btn btn-windows edit" type="button" onclick="editCommerce()">修改</button>
 			<button class="btn btn-windows delete" type="button" onclick="deleteById()">删除</button>
@@ -240,10 +245,9 @@
 		      </span>
 		    </div> 
 		</div>
-    </div>
+    
                        
-    <div class="container margin-top-5">
-     	<div class="content padding-left-25 padding-right-25 padding-top-5">
+    <div class="content table_box">
    		<table class="table table-bordered table-condensed table-hover">
     
 		<thead>

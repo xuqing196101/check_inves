@@ -12,11 +12,11 @@
     <meta http-equiv="expires" content="0">    
     <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
     <meta http-equiv="description" content="This is my page">
-    <script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/layer.js"></script>
-	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
-	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js" type="text/javascript"></script>
-	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
-	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="${pageContext.request.contextPath }/public/layer/layer.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
+	<script src="${pageContext.request.contextPath }/public/laypage-v1.3/laypage/laypage.js" type="text/javascript"></script>
+	<link href="${pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
+	<link href="${pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
   	<script type="text/javascript">
   		$(function(){
   			var sure = document.getElementsByName("sure");
@@ -41,7 +41,7 @@
 			}
 		}
    
-    
+    	//勾选明细
     	function selectedBox(ele){
     		var projectId = $("#projectId").val();
 	    	var flag = $(ele).prop("checked");
@@ -66,7 +66,7 @@
 				selectAll.checked = true;
 			}
 		    $.ajax({
-                   url:"<%=basePath%>project/checkProjectDeail.do?id="+id+"&projectId="+projectId,
+                   url:"${pageContext.request.contextPath }/project/checkProjectDeail.do?id="+id+"&projectId="+projectId,
                    type:"post",
                    dataType:"json",
                    success:function(result){
@@ -100,13 +100,13 @@
     	var name = $("#pack").val();
     	var packageId = $(obj).next().next().val();
     	$.ajax({
-            url:"<%=basePath%>project/editPackName.do?name="+name+"&id="+packageId,
+            url:"${pageContext.request.contextPath }/project/editPackName.do?name="+name+"&id="+packageId,
             type:"post",
             dataType:"json",
             success:function(data){
             	layer.msg('修改成功',{offset: ['222px', '390px']});
 				window.setTimeout(function(){
-				    window.location.href="<%=path%>/project/subPackage.do?id="+projectId;
+				    window.location.href="${pageContext.request.contextPath }/project/subPackage.do?id="+projectId;
 				}, 1000);
 		   	}
         });
@@ -121,11 +121,11 @@
 			$.ajax({
 				type:"POST",
 				dataType:"json",
-				url:"<%=path%>/project/deletePackageById.do?id="+packageId,
+				url:"${pageContext.request.contextPath }/project/deletePackageById.do?id="+packageId,
 		       	success:function(data){
 		       		layer.msg('删除成功',{offset: ['222px', '390px']});
 			       	window.setTimeout(function(){
-			       	 	window.location.href="<%=path%>/project/subPackage.do?id="+projectId;
+			       	 	window.location.href="${pageContext.request.contextPath }/project/subPackage.do?id="+projectId;
 			       	}, 1000);
 		       	}
 	       	});
@@ -169,18 +169,19 @@
 		$.ajax({
 			type:"POST",
 			dataType:"json",
-			url:"<%=path%>/project/addPack.do?id="+ids+"&projectId="+projectId,
+			url:"${pageContext.request.contextPath }/project/addPack.do?id="+ids+"&projectId="+projectId,
 		    success:function(data){
 		    layer.msg('添加成功',{offset: ['222px', '390px']});
 				window.setTimeout(function(){
-				    window.location.href="<%=path%>/project/subPackage.do?id="+projectId;
+				    window.location.href="${pageContext.request.contextPath }/project/subPackage.do?id="+projectId;
 				}, 1000);
 		    }
 	    });
     }
     
+    //返回
     function back(){
-    	window.location.href = "<%=path%>/project/list.html";
+    	window.location.href = "${pageContext.request.contextPath }/project/list.html";
     }
   </script>
   </head>

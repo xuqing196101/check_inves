@@ -132,7 +132,7 @@
 		
 		//返回
 		function back(){
-			window.location.href = "<%=path%>/purchaserExam/backQuestion.html";
+			window.location.href = "${pageContext.request.contextPath }/purchaserExam/backQuestion.html";
 		}
 	</script>
 
@@ -158,7 +158,7 @@
 		   <div class="headline-v2">
 		   		<h2>新增题目</h2>
 		   </div>
-  	<form action="<%=path %>/purchaserExam/saveToPurPool.html" method="post" id="form">
+  	<form action="${pageContext.request.contextPath }/purchaserExam/saveToPurPool.html" method="post" id="form">
   		<ul class="list-unstyled list-flow p0_20">
 		     <li class="col-md-12 p0">
 	  			<span class="fl"><div class="red star_red">*</div>请选择题型：</span>

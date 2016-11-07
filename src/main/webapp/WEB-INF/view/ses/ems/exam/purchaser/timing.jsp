@@ -21,9 +21,6 @@
 		function countTime(){
 		    if(timeLeft==0){
 		    	$("#form").submit();
-		    	//$("#startExam").show();
-		    	//$("#time").hide();
-		    	//$("#ready").html(" ");
 		        return; 
 		    }
 		    var startMinutes = parseInt(timeLeft / (60 * 1000), 10); 
@@ -43,7 +40,7 @@
 	  			倒计时
 	  		</div>
 	  		<div id="time"></div>
-	  		<form action="<%=path %>/purchaserExam/test.html" method="post" id="form">
+	  		<form action="${pageContext.request.contextPath }/purchaserExam/test.html" method="post" id="form">
 				<%--<div class="tc mt20" id="startExam">
 		  			<input type="submit" class="btn" value="开始考试"/>
 		  		</div>

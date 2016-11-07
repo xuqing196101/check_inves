@@ -6,18 +6,17 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-  	<base href="<%=basePath%>">
     <title>技术类专家题库</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/layer.js"></script>
-	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
-	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js" type="text/javascript"></script>
-	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
-	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="${pageContext.request.contextPath }/public/layer/layer.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
+	<script src="${pageContext.request.contextPath }/public/laypage-v1.3/laypage/laypage.js" type="text/javascript"></script>
+	<link href="${pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
+	<link href="${pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript">
 		$(function(){
 			$("#error").hide();
@@ -45,7 +44,7 @@
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
 			        	var topic = "${topic}";
 						var questionTypeId = "${questionTypeId}";
-			            location.href = "<%=basePath%>expertExam/searchTecExpPool.do?topic="+topic+"&questionTypeId="+questionTypeId+"&page="+e.curr;
+			            location.href = "${pageContext.request.contextPath }/expertExam/searchTecExpPool.do?topic="+topic+"&questionTypeId="+questionTypeId+"&page="+e.curr;
 			        }
 			    }
 			});
@@ -76,11 +75,11 @@
 				$.ajax({
 					type:"POST",
 					dataType:"json",
-					url:"<%=path%>/expertExam/deleteById.do?ids="+ids,
+					url:"${pageContext.request.contextPath }/expertExam/deleteById.do?ids="+ids,
 			       	success:function(data){
 			       		layer.msg('删除成功',{offset: ['222px', '390px']});
 				       	window.setTimeout(function(){
-				       		window.location.href="<%=path%>/expertExam/searchTecExpPool.html";
+				       		window.location.href="${pageContext.request.contextPath }/expertExam/searchTecExpPool.html";
 				       	}, 1000);
 			       	}
 		       	});
@@ -89,7 +88,7 @@
 		
 		//增加题库
 		function addTechnical(){
-			window.location.href = "<%=path%>/expertExam/addTechnical.html";
+			window.location.href = "${pageContext.request.contextPath }/expertExam/addTechnical.html";
 		}
 		
 		//全选方法
@@ -131,24 +130,24 @@
 						str = info[i].value;
 					}
 				}
-				window.location.href = "<%=path%>/expertExam/editTechnical.html?id="+str;
+				window.location.href = "${pageContext.request.contextPath }/expertExam/editTechnical.html?id="+str;
 			}
 		}
 		
 		//查看功能
 		function view(obj){
-			window.location.href = "<%=path%>/expertExam/viewTec.html?id="+obj;
+			window.location.href = "${pageContext.request.contextPath }/expertExam/viewTec.html?id="+obj;
 		}
 		
 		//下载模板
 		function download(){
-			window.location.href = "<%=path%>/expertExam/loadExpertTemplet.html";
+			window.location.href = "${pageContext.request.contextPath }/expertExam/loadExpertTemplet.html";
 		}
 		
 		//导入技术类题目
 		function poiExcel(){
 			$.ajaxFileUpload({
-			    url: "<%=path %>/expertExam/importTec.html",  
+			    url: "${pageContext.request.contextPath }/expertExam/importTec.html",  
 			    secureuri: false,
 			    fileElementId: "excelFile",
 			    type: "POST",
@@ -157,7 +156,7 @@
 			    	if(data.length<=5){
 			    		layer.msg('导入成功',{offset: ['222px', '390px']});
 				    	window.setTimeout(function(){
-				       		window.location.href="<%=path%>/expertExam/searchTecExpPool.html";
+				       		window.location.href="${ pageContext.request.contextPath }/expertExam/searchTecExpPool.html";
 				       	}, 1000);
 			    	}else{
 			    		var array = data.split(";");
@@ -204,9 +203,9 @@
 			var topic = $("#topic").val();
 			var questionTypeId = $("#questionTypeId").val();
 			if((topic==""||topic==null)&&(questionTypeId==""||questionTypeId==null)){
-				window.location.href = "<%=basePath%>expertExam/searchTecExpPool.do";
+				window.location.href = "${pageContext.request.contextPath }/expertExam/searchTecExpPool.do";
 			}else{
-				window.location.href = "<%=basePath%>expertExam/searchTecExpPool.do?topic="+topic+"&questionTypeId="+questionTypeId;
+				window.location.href = "${pageContext.request.contextPath }/expertExam/searchTecExpPool.do?topic="+topic+"&questionTypeId="+questionTypeId;
 			}
 		}	
 	</script>
@@ -219,31 +218,37 @@
 		   <ul class="breadcrumb margin-left-0">
 		   <li><a href="#">首页</a></li><li><a href="#">支撑环境</a></li><li><a href="#">题库管理</a></li>
 		   </ul>
-		<div class="clear"></div>
+		   <div class="clear"></div>
 	  </div>
    </div>
    <div class="container">
-	   <div class="headline-v2">
+	  	<div class="headline-v2">
 	   		<h2>技术类专家题库列表</h2>
-	   </div>
-   </div>
-   
-   <div class="container mt10">
-    	<div class="border1 col-md-12 ml30">
-	    	名称:<input type="text" id="topic" class="mt10"/>
-	    	题型:<select id="questionTypeId">
-	    		<option value="">请选择</option>
-	    		<option value="1">单选题</option>
-	    		<option value="2">多选题</option>
-	    	</select>
-	    	<button type="button" onclick="query()" class="btn">查询</button>
-	    	<button type="button" onclick="reset()" class="btn">重置</button>
-    	</div>
-    </div>
+	   	</div>
+	   	
+		<h2 class="search_detail">
+			<ul class="demand_list">
+		    	<li>
+			    	<label class="fl">名称：</label><span><input type="text" id="topic" class=""/></span>
+			    </li>
+			    <li>
+			    	<label class="fl">题型：</label>
+			    	<span>
+				    	<select id="questionTypeId">
+						    <option value="">请选择</option>
+						    <option value="1">单选题</option>
+						    <option value="2">多选题</option>
+				    	</select>
+			   		</span>
+			     </li>
+			    <button type="button" onclick="query()" class="btn">查询</button>
+			    <button type="button" onclick="reset()" class="btn">重置</button>
+		    </ul>
+		    <div class="clear"></div>
+	 	</h2>
     
-	<!-- 表格开始-->
-   <div class="container mt10">
-   		<div class="col-md-12 padding-left-25">
+		<!-- 表格开始-->
+   		<div class="col-md-12 pl20 mt10">
 		    <button class="btn btn-windows add" type="button" onclick="addTechnical()">新增</button>
 		    <button class="btn btn-windows edit" type="button" onclick="editTechnical()">修改</button>
 			<button class="btn btn-windows delete" type="button" onclick="deleteById()">删除</button>
@@ -254,13 +259,10 @@
 		        <button class="btn btn-windows input" type="button" onclick="poiExcel()">导入</button>
 		      </span>
 		    </div> 
-		</div>
-    </div>
-                       
-    <div class="container">
-     	<div class="content padding-left-25 padding-right-15 padding-top-5">
-   		<table class="table table-bordered table-condensed table-hover">
+		</div>       
     
+     	<div class="content table_box">
+   		<table class="table table-bordered table-condensed table-hover">
 		<thead>
 			<tr class="info">
 				<th class="w50"><input type="checkbox" id="selectAll" onclick="selectAll()"/></th>
@@ -294,13 +296,13 @@
 					<td class="tc" onclick="view('${t.id }')"><fmt:formatDate value="${t.createdAt}" pattern="yyyy/MM/dd"/> </td
 				</tr>
 			</c:forEach>
-		</tbody>
-	</table>
+			</tbody>
+		</table>
      </div>
      <div id="pageDiv" align="right"></div>
    </div>
    
-    <div class="content padding-left-25 padding-right-25" id="error">
+    	<div class="content padding-left-25 padding-right-25" id="error">
 	  		<div id="errorNews"></div>
 	  		<table class="table table-bordered table-condensed table-hover">
 				<thead>

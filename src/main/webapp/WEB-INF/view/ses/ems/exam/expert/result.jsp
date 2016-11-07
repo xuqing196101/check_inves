@@ -11,11 +11,11 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/layer.js"></script>
-	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
-	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js" type="text/javascript"></script>
-	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
-	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="${pageContext.request.contextPath }/public/layer/layer.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
+	<script src="${pageContext.request.contextPath }/public/laypage-v1.3/laypage/laypage.js" type="text/javascript"></script>
+	<link href="${pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
+	<link href="${pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript">
 		$(function(){
 			$("#userName").val("${userName}");
@@ -49,7 +49,7 @@
 			        	var userName = "${userName}";
 						var userType = "${userType}";
 						var status = "${status}";
-			            location.href = "<%=path%>/expertExam/result.do?userName="+userName+"&userType="+userType+"&status="+status+"&page="+e.curr;
+			            location.href = "${pageContext.request.contextPath }/expertExam/result.do?userName="+userName+"&userType="+userType+"&status="+status+"&page="+e.curr;
 			        }
 			    }
 			});		
@@ -61,10 +61,10 @@
 			var userType = $("#userType").val();
 			var status = $("#status").val();
 			if((userName==""||userName==null)&&(userType==""||userType==null)&&(status==""||status==null)){
-				window.location.href = "<%=path%>/expertExam/result.do";
+				window.location.href = "${pageContext.request.contextPath }/expertExam/result.do";
 				return;
 			}else{
-				window.location.href = "<%=path%>/expertExam/result.do?userName="+userName+"&userType="+userType+"&status="+status;
+				window.location.href = "${pageContext.request.contextPath }/expertExam/result.do?userName="+userName+"&userType="+userType+"&status="+status;
 			}
 			
 		}
@@ -91,39 +91,43 @@
    </div>
    <div class="container">
 	   <div class="headline-v2">
-	   		<h2>查询条件</h2>
-	   </div>
-   </div>
-  
-  	<div class="container">
-  		<div class="border1 col-md-12 ml30">
-	  		姓名:<input type="text" id="userName" class="mt10"/>
-	  		专家类型:
-	  		<select id="userType">
-	  			<option value="">请选择</option>
-	  			<option value="1">技术</option>
-	  			<option value="3">商务</option>
-	  			<option value="2">法律</option>
-	  		</select>
-	  		考试状态:
-	  		<select id="status">
-	  			<option value="">请选择</option>
-	  			<option value="及格">及格</option>
-	  			<option value="不及格">不及格</option>
-	  		</select>
-	  		<button class="btn" type="button" onclick="queryResult()">查询</button>
-	  		<button class="btn" type="button" onclick="resetResult()">重置</button>
-  		</div>
-  	</div>
-  	
-  	<div class="container">
-	   <div class="headline-v2">
 	   		<h2>专家成绩列表</h2>
 	   </div>
-   	</div>
+   	
+  
+  	<h2 class="search_detail">
+		<ul class="demand_list">
+			<li>
+			    <label class="fl">姓名：</label><span><input type="text" id="userName" class=""/></span>
+			</li>
+	  		<li>
+			    <label class="fl">专家类型：</label>
+			    <span>
+				   	<select id="userType">
+			  			<option value="">请选择</option>
+			  			<option value="1">技术</option>
+			  			<option value="3">商务</option>
+			  			<option value="2">法律</option>
+			  		</select>
+			   	</span>
+			</li>
+	  		<li>
+			    <label class="fl">考试状态：</label>
+			    <span>
+				   	<select id="status">
+			  			<option value="">请选择</option>
+			  			<option value="及格">及格</option>
+			  			<option value="不及格">不及格</option>
+			  		</select>
+			   	</span>
+			</li>
+	  		<button class="btn" type="button" onclick="queryResult()">查询</button>
+	  		<button class="btn" type="button" onclick="resetResult()">重置</button>
+  		</ul>
+  		<div class="clear"></div>
+  	</h2>
   	
-  	<div class="container">
-  		<div class="content padding-left-25 padding-right-25 padding-top-5">
+  		<div class="content table_box">
 	  		<table class="table table-bordered table-condensed table-hover">
 				<thead>
 					<th class="info">序号</th>

@@ -115,7 +115,7 @@
 		
 		//返回
 		function back(){
-			window.location.href = "<%=path%>/expertExam/backLaw.html";
+			window.location.href = "${pageContext.request.contextPath }/expertExam/backLaw.html";
 		}
 	</script>
   </head>
@@ -143,7 +143,7 @@
 		   		<h2>新增法律类题目</h2>
 		   </div>
 	   
-  	<form action="<%=path %>/expertExam/saveToLaw.html" method="post" id="form">
+  	<form action="${pageContext.request.contextPath }/expertExam/saveToLaw.html" method="post" id="form">
   		<ul class="list-unstyled list-flow p0_20">
 		     <li class="col-md-12 p0">
 	  			<span class="fl"><div class="red star_red">*</div>请选择题型：</span>

@@ -10,11 +10,11 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/layer.js"></script>
-	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
-	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js" type="text/javascript"></script>
-	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
-	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="${pageContext.request.contextPath }/public/layer/layer.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
+	<script src="${pageContext.request.contextPath }/public/laypage-v1.3/laypage/laypage.js" type="text/javascript"></script>
+	<link href="${pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
+	<link href="${pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript">
 		$(function(){
 			$("#purchaser").hide();
@@ -35,7 +35,7 @@
 			    jump: function(e, first){ //触发分页后的回调
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
 			        	var id = "${id}";
-			            location.href = "<%=path%>/purchaserExam/viewReference.do?id="+id+"&page="+e.curr;
+			            location.href = "${pageContext.request.contextPath }/purchaserExam/viewReference.do?id="+id+"&page="+e.curr;
 			        }
 			    }
 			});
@@ -47,7 +47,7 @@
 		function poiExcel(){
 			var paperId = $("#paperId").val();
 			$.ajaxFileUpload({
-			    url: "<%=path %>/purchaserExam/importReference.do?paperId="+paperId,  
+			    url: "${pageContext.request.contextPath }/purchaserExam/importReference.do?paperId="+paperId,  
 			    secureuri: false,
 			    fileElementId: "excelFile",
 			    dataType: "text",
@@ -176,7 +176,6 @@
 			       	success:function(data){
 			       		layer.msg('删除成功',{offset: ['222px', '390px']});
 				       	window.setTimeout(function(){
-				       		//window.location.href="<%=path%>/purchaserExam/viewReference.html?id="+paperId;
 				       		window.location.reload();
 				       	}, 1000);
 			       	}
@@ -201,7 +200,7 @@
 		
 		//下载模板
 		function download(){
-			window.location.href = "<%=path%>/purchaserExam/loadReferenceTemplet.html";
+			window.location.href = "${pageContext.request.contextPath }/purchaserExam/loadReferenceTemplet.html";
 		}
 		
 		//查询
@@ -221,7 +220,7 @@
 			$.ajax({
 				type:"POST",
 				dataType:"json",
-				url:"<%=path%>/purchaserExam/queryReferenceByCondition.do?userName="+userName+"&card="+card,
+				url:"${pageContext.request.contextPath }/purchaserExam/queryReferenceByCondition.do?userName="+userName+"&card="+card,
 			    success:function(data){
 			       	if(data==0){
 			       		layer.alert("没有查到符合条件的采购人",{offset: ['222px', '390px']});
@@ -231,7 +230,7 @@
 			       		$.ajax({
 							type:"POST",
 							dataType:"json",
-							url:"<%=path%>/purchaserExam/getReference.do?userName="+userName+"&card="+card,
+							url:"${pageContext.request.contextPath }/purchaserExam/getReference.do?userName="+userName+"&card="+card,
 						    success:function(data){
 						    	if(data){
 						    		var html = "";
@@ -286,7 +285,7 @@
 			$.ajax({
 				type:"POST",
 				dataType:"json",
-				url:"<%=path%>/purchaserExam/addReferenceById.do?paperId="+paperId+"&relName="+userName+"&card="+card,
+				url:"${pageContext.request.contextPath }/purchaserExam/addReferenceById.do?paperId="+paperId+"&relName="+userName+"&card="+card,
 		       	success:function(data){
 			       if(data==2){
 			       		layer.alert("已经添加该采购人,请重新添加",{offset: ['222px', '390px']});
@@ -392,7 +391,7 @@
   	
   		<!-- 返回按钮 -->
   		<div class="mt20 clear tc">
-	      <input class="btn btn-windows back" value="返回考卷列表" type="button" onclick="location.href='<%=path%>/purchaserExam/paperManage.html'">
+	      <input class="btn btn-windows back" value="返回考卷列表" type="button" onclick="location.href='${pageContext.request.contextPath }/purchaserExam/paperManage.html'">
 	  	</div>
 	  	
 	  	

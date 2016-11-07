@@ -5,7 +5,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <title>编辑考卷</title>
+    <title>查看考卷</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -66,7 +66,7 @@
   </head>
   
   <body>
-   <!--面包屑导航开始-->
+   	   <!--面包屑导航开始-->
 	   <div class="margin-top-10 breadcrumbs ">
 	      <div class="container">
 			   <ul class="breadcrumb margin-left-0">
@@ -99,7 +99,7 @@
 	  		</li>
     		
     		<li class="col-md-12 p0">
-	  			<span class="fl"><div class="red star_red">*</div>题型分布：</span>
+	  			<span class="fl">题型分布：</span>
 	  			<div class="fl">
 	  			   	<div class="fl">
 		  			   	<label class="fl mt5">单选题：</label>
