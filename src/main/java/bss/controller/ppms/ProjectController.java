@@ -173,7 +173,7 @@ public class ProjectController extends BaseController {
                 request.getSession().setAttribute("idr", id);
             }
             String ide = (String) request.getSession().getAttribute("idr");
-            List<PurchaseRequired> lists = new ArrayList<>();
+            List<PurchaseRequired> lists = new ArrayList<PurchaseRequired>();
             String[] ids = ide.split(",");
             for (int i = 0; i < ids.length; i++ ) {
                 PurchaseRequired purchaseRequired = purchaseRequiredService.queryById(ids[i]);
@@ -649,23 +649,18 @@ public class ProjectController extends BaseController {
 			projectDetail.setPackageId(wantPackId.get(0).getId());
 			detailService.update(projectDetail);
 		}
-//		HashMap<String,Object> map = new HashMap<String,Object>();
-//		map.put("packageId", wantPackId.get(0).getId());
-//		List<ProjectDetail> details = detailService.selectById(map);
-//		for(int i=0;i<details.size();i++){
-//			if(details.get(i).getStatus().equals("1")){
-//				Packages p = new Packages();
-//				p.setId(wantPackId.get(0).getId());
-//				p.setStatus(0);
-//				packageService.updateByPrimaryKeySelective(p);
-//				break;
-//			}else if(i==details.size()-1){
-//				Packages p = new Packages();
-//				p.setId(wantPackId.get(0).getId());
-//				p.setStatus(1);
-//				packageService.updateByPrimaryKeySelective(p);
-//			}
-//		}
+		HashMap<String,Object> map = new HashMap<String,Object>();
+		map.put("packageId", wantPackId.get(0).getId());
+		List<ProjectDetail> details = detailService.selectById(map);
+		Packages p = new Packages();
+		p.setId(wantPackId.get(0).getId());
+		if(details.get(0).getStatus().equals("1")){
+			p.setStatus(1);
+			packageService.updateByPrimaryKeySelective(p);
+		}else{
+			p.setStatus(0);
+			packageService.updateByPrimaryKeySelective(p);
+		}
 		return "1";
 	}
 	

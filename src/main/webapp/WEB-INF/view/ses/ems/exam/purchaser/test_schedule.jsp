@@ -39,14 +39,13 @@
   </head>
   
   <body>
-    <div class="container">
-	   <div class="headline-v2">
-	   		<h2>考试安排</h2>
-	   </div>
-   </div>
+    	<div class="container">
+		   <div class="headline-v2">
+		   		<h2>考试安排</h2>
+		   </div>
    
-   <div class="container margin-top-5" id="div_print">
-     	<div class="content padding-left-25 padding-right-25 padding-top-5">
+   
+ 			<div class="content table_box">
 	   		<table class="table table-bordered table-condensed table-hover">
 		    	<thead>
 		    		<tr class="info">
@@ -55,7 +54,7 @@
 			    		<th>考卷编号</th>
 			    		<th>考试开始时间</th>
 			    		<th>考试截止时间</th>
-			    		<th>考试用时</th>
+			    		<th>答题用时</th>
 			    		<th>是否可以重考</th>
 		    		</tr>
 		    	</thead>
@@ -89,11 +88,12 @@
    		<div id="pageDiv" align="right"></div>
     </div>
     
-    <div class="container red center tc mt20">
-	   <div>*注意:1.考卷开始时间到了才能登录考试系统考试</div>
-	   <div>2.设置可以重考的考卷的考卷才有答题用时,不允许重考的考卷的答题用时为当前时间和考试截止时间的时间差</div>
-	   <div>3.如果该考卷允许重考,重考次数不限,重考时间为30分钟</div>
-	   <div>4.过了考试截止时间考生无法登录考试系统考试,在规定时间内考生如果没有登录考试系统考试,计为0分</div>
-   </div>
+    <div class="pl20 mt10 red container">
+    	<div class="ml15">*注意</div>
+		<div class="ml15">1.考卷开始时间到了才能登录考试系统考试</div>
+		<div class="ml15">2.设置可以重考的考卷的考卷才有答题用时,不允许重考的考卷的答题用时为当前时间和考试截止时间的时间差</div>
+		<div class="ml15">3.如果该考卷允许重考,重考次数不限,重考时间为30分钟</div>
+		<div class="ml15">4.过了考试截止时间考生无法登录考试系统考试,在规定时间内考生如果没有登录考试系统考试,计为0分</div>
+    </div>
   </body>
 </html>

@@ -59,25 +59,23 @@
   <body>
   	<div class="container">
 	   <div class="headline-v2">
-	   		<h2>查询条件</h2>
-	   </div>
-   	</div>
-    <div class="container">
-    	<div class="border1 col-md-12 ml30">
-	    	考试编号:<input type="text" id="code" class="mt10"/>
-	    	<button type="button" onclick="query()" class="btn">查询</button>
-	    	<button type="button" onclick="reset()" class="btn">重置</button>
-    	</div>
-    </div>
-  	
-    <div class="container">
-	   <div class="headline-v2">
 	   		<h2>成绩信息</h2>
 	   </div>
-   `</div>
+   	
+    	<h2 class="search_detail">
+			<ul class="demand_list">
+				<li>
+			    	<label class="fl">考试编号：</label><span><input type="text" id="code"/></span>
+			    </li>
+		    	<button type="button" onclick="query()" class="btn">查询</button>
+		    	<button type="button" onclick="reset()" class="btn">重置</button>
+    		</ul>
+    		<div class="clear"></div>
+    	</h2>
+  	
+    
   
-    <div class="container margin-top-5" id="div_print">
-     	<div class="content padding-left-25 padding-right-25 padding-top-5">
+    	<div class="content table_box">
    			<table class="table table-bordered table-condensed table-hover">
 				<thead>
 					<tr class="info">

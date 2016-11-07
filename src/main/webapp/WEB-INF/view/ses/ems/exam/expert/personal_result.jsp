@@ -42,10 +42,8 @@
 	   <div class="headline-v2">
 	   		<h2>成绩信息</h2>
 	   </div>
-   `</div>
   
-    <div class="container margin-top-5" id="div_print">
-     	<div class="content padding-left-25 padding-right-25 padding-top-5">
+    		<div class="content table_box">
    			<table class="table table-bordered table-condensed table-hover">
 				<thead>
 					<tr class="info">

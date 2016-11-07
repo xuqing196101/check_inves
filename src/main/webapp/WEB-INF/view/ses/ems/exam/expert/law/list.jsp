@@ -261,7 +261,6 @@
 		    </div> 
 		</div>
     
-    
      	<div class="content table_box">
    		<table class="table table-bordered table-condensed table-hover">
 		<thead>
