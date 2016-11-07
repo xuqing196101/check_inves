@@ -370,7 +370,7 @@
 	</update>
 	<!-- t_bss_ppms_score_model 八大模型表 -->
 	<!-- t_bss_ppms_mark_term -->
-	<select id="findListByMarkTerm" parameterType="bss.model.ppms.MarkTerm" resultType="bss.model.ppms.MarkTerm">
+	<!-- <select id="findListByMarkTerm" parameterType="bss.model.ppms.MarkTerm" resultType="bss.model.ppms.MarkTerm">
    		SELECT
    			mt.*
    			
@@ -390,7 +390,7 @@
       	<if test="pname != null">
         	and mt.pname = #{pname}
       	</if>	
-      	<!-- 只查根节点 -->	
+      	只查根节点	
       	<if test="isRoot != null">
         	and mt.pid is null
       	</if>
@@ -456,7 +456,7 @@
       </if>
     where ID = #{id}
   </update>
-  <!-- 删除需求部门-->
+  删除需求部门
 	<delete id="delMarkTermByid" parameterType="java.util.Map">
 		delete from T_BSS_PPMS_MARK_TERM s where s.id in
 		<foreach collection="list" item="id" open="(" separator="," close=")">
@@ -473,7 +473,7 @@
       	</if>
 	</delete>
 	
-	<!-- 逻辑删除需求部门-->
+	逻辑删除需求部门
 	<update id="delSoftMarkTermByid" parameterType="java.util.Map">
 		update  T_BSS_PPMS_MARK_TERM   t
 		set t.IS_DELETED=1
@@ -483,8 +483,8 @@
 		</foreach>
 		
 	</update>
-	<!--t_bss_ppms_mark_term 打分项表  -->
-	<!-- t_bss_ppms_param_interval 参数区间表-->
+	t_bss_ppms_mark_term 打分项表 
+	t_bss_ppms_param_interval 参数区间表
 	<select id="findListByParamInterval" parameterType="bss.model.ppms.ParamInterval" resultType="bss.model.ppms.ParamInterval">
    		SELECT
    			sm.*
@@ -590,7 +590,7 @@
       </if>
     where ID = #{id}
   </update>
-  <!-- 删除需求部门-->
+  删除需求部门
 	<delete id="delParamIntervalByid" parameterType="java.util.Map">
 		delete from T_BSS_PPMS_PARAM_INTERVAL s where s.id in
 		<foreach collection="list" item="id" open="(" separator="," close=")">
@@ -606,7 +606,7 @@
          	and id= #{id}
       	</if>
 	</delete>
-	<!-- 逻辑删除需求部门-->
+	逻辑删除需求部门
 	<update id="delSoftParamIntervalByid" parameterType="java.util.Map">
 		update  T_BSS_PPMS_PARAM_INTERVAL   t
 		set t.IS_DELETED=1
@@ -614,6 +614,6 @@
 		<foreach collection="list" item="id" open="(" separator="," close=")">
 			#{id}
 		</foreach>
-	</update>
+	</update> -->
 	<!-- t_bss_ppms_param_interval 参数区间表 -->
 </mapper>

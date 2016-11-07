@@ -30,6 +30,9 @@ div.popover-content{
 .w40{
 	width: 40px !important;
 }
+.w180{
+	width: 180px !important;
+}
 .w50{
 	width: 50px !important;
 }
@@ -43,3 +46,20 @@ div.popover-content{
 	width: 500px !important;
 }
 
+.ml70{
+	margin-left: 70px !important;
+}
+.mt10{
+	margin-top: 10px !important;
+}
+.mr70{
+	margin-right: 170px !important;
+}
+.hide{
+	display: none !important;
+}
+
+.p10_20{
+	padding-top: 10px !important;
+	padding-bottom: 20px !important;
+}

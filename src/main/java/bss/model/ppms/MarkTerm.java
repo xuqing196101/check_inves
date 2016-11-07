@@ -17,6 +17,8 @@ public class MarkTerm implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private String id;//
 	private String pid;//父id
+	private String projectId;//项目id
+	private String packageId;//分包id
 	private String name;//名称
 	private String pname;//父节点名称
 	private String url;//
@@ -24,7 +26,18 @@ public class MarkTerm implements Serializable{
 	private Integer isDeleted;//
 	private Date createdAt;//
 	private Date updatedAt;//
+	private String maxScore;//
+	private String remainScore ;//
+	
 	private String isRoot ;
+	private String bidMethodId;//
+	private String bidMethodName;
+	private String bidMethodTypeName;
+	private String bidMethodMaxScore;
+	private String bidMethodFloatingRatio;
+	private String bidMethodRemark;
+	private String method;//增删改标志位
+	
 	public MarkTerm() {
 		super();
 	}
@@ -95,6 +108,72 @@ public class MarkTerm implements Serializable{
 	}
 	public void setIsRoot(String isRoot) {
 		this.isRoot = isRoot;
+	}
+	public String getBidMethodId() {
+		return bidMethodId;
+	}
+	public void setBidMethodId(String bidMethodId) {
+		this.bidMethodId = bidMethodId;
+	}
+	public String getBidMethodName() {
+		return bidMethodName;
+	}
+	public void setBidMethodName(String bidMethodName) {
+		this.bidMethodName = bidMethodName;
+	}
+	public String getBidMethodTypeName() {
+		return bidMethodTypeName;
+	}
+	public void setBidMethodTypeName(String bidMethodTypeName) {
+		this.bidMethodTypeName = bidMethodTypeName;
+	}
+	public String getBidMethodMaxScore() {
+		return bidMethodMaxScore;
+	}
+	public void setBidMethodMaxScore(String bidMethodMaxScore) {
+		this.bidMethodMaxScore = bidMethodMaxScore;
+	}
+	public String getBidMethodFloatingRatio() {
+		return bidMethodFloatingRatio;
+	}
+	public void setBidMethodFloatingRatio(String bidMethodFloatingRatio) {
+		this.bidMethodFloatingRatio = bidMethodFloatingRatio;
+	}
+	public String getBidMethodRemark() {
+		return bidMethodRemark;
+	}
+	public void setBidMethodRemark(String bidMethodRemark) {
+		this.bidMethodRemark = bidMethodRemark;
+	}
+	public String getMaxScore() {
+		return maxScore;
+	}
+	public void setMaxScore(String maxScore) {
+		this.maxScore = maxScore;
+	}
+	public String getProjectId() {
+		return projectId;
+	}
+	public void setProjectId(String projectId) {
+		this.projectId = projectId;
+	}
+	public String getPackageId() {
+		return packageId;
+	}
+	public void setPackageId(String packageId) {
+		this.packageId = packageId;
+	}
+	public String getMethod() {
+		return method;
+	}
+	public void setMethod(String method) {
+		this.method = method;
+	}
+	public String getRemainScore() {
+		return remainScore;
+	}
+	public void setRemainScore(String remainScore) {
+		this.remainScore = remainScore;
 	}
 	
 }

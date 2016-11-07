@@ -90,4 +90,15 @@ public interface PackageMapper {
 	* @return int
 	 */
 	List<Packages> selectAllByIsWon(Map<String, Object> map);
+	/**
+	 * 
+	 * @Title: findPackageAndBidMethodById
+	 * @author: Tian Kunfeng
+	 * @date: 2016-11-7 上午10:50:39
+	 * @Description: TODO
+	 * @param: @param map
+	 * @param: @return
+	 * @return: List<Packages>
+	 */
+	List<Packages> findPackageAndBidMethodById(HashMap<String,Object> map);
 }

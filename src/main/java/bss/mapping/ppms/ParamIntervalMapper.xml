@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.ppms.ParamIntervalMapper">
+	<!-- t_bss_ppms_param_interval 参数区间表-->
+	<select id="findListByParamInterval" parameterType="bss.model.ppms.ParamInterval" resultType="bss.model.ppms.ParamInterval">
+   		SELECT
+   			sm.*
+   		FROM
+   			T_BSS_PPMS_PARAM_INTERVAL SM
+   		
+   		WHERE nvl(SM.is_deleted,0)=0
+   		<if test="scoreModelId != null">
+        	and SM.score_model_id = #{scoreModelId}
+      	</if>
+      	<if test="id != null">
+        	and SM.id = #{id}
+      	</if>
+      	<if test="score != null">
+        	and SM.score = #{score}
+      	</if>	
+      	ORDER BY SM.CREATED_AT DESC	
+   </select> 
+  <insert id="saveParamInterval" parameterType="bss.model.ppms.ParamInterval">
+     <selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_BSS_PPMS_PARAM_INTERVAL
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      created_at,
+      <if test="id != null">
+        ID,
+      </if>
+     <if test="scoreModelId != null">
+        score_model_id,
+      </if>
+      <if test="startParam != null">
+        start_param,
+      </if>
+      <if test="endParam != null">
+        end_param,
+      </if>
+      <if test="startRelation != null">
+        start_relation,
+      </if>
+      <if test="endRelation != null">
+        end_relation ,
+      </if>
+      <if test="score != null">
+        score,
+      </if>
+      <if test="explain != null">
+        explain ,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      sysdate,
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="scoreModelId != null">
+         #{scoreModelId},
+      </if>
+      <if test="startParam != null">
+        #{startParam},
+      </if>
+      <if test="endParam != null">
+         #{endParam},
+      </if>
+      <if test="startRelation != null">
+       #{startRelation},
+      </if>
+      <if test="endRelation != null">
+        #{endRelation},
+      </if>
+      <if test="score != null">
+         #{score},
+      </if>
+      <if test="explain != null">
+        #{explain},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateParamInterval" parameterType="bss.model.ppms.ParamInterval">
+    update T_BSS_PPMS_PARAM_INTERVAL
+    set
+      updated_at = sysdate
+      <if test="scoreModelId != null">
+        ,score_model_id = #{scoreModelId}
+      </if>
+      <if test="startParam != null">
+        ,start_param = #{startParam}
+      </if>
+      <if test="endParam != null">
+        ,end_param = #{endParam}
+      </if>
+      <if test="startRelation != null">
+        ,start_relation = #{startRelation}
+      </if>
+      <if test="endRelation != null">
+        ,end_relation = #{endRelation}
+      </if>
+      <if test="score != null">
+        ,score = #{score}
+      </if>
+      <if test="explain != null">
+        ,explain = #{explain}
+      </if>
+    where ID = #{id}
+  </update>
+  <!-- 删除需求部门-->
+	<delete id="delParamIntervalByid" parameterType="java.util.Map">
+		delete from T_BSS_PPMS_PARAM_INTERVAL s where s.id in
+		<foreach collection="list" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+	<delete id="delParamIntervalByMap" parameterType="java.util.Map">
+		delete from T_BSS_PPMS_PARAM_INTERVAL s where 1=1
+		<if test="scoreModelId != null">
+         	and SCORE_MODEL_ID = #{scoreModelId}
+      	</if>
+      	<if test="id != null">
+         	and id= #{id}
+      	</if>
+	</delete>
+	<!-- 逻辑删除需求部门-->
+	<update id="delSoftParamIntervalByid" parameterType="java.util.Map">
+		update  T_BSS_PPMS_PARAM_INTERVAL   t
+		set t.IS_DELETED=1
+		where t.id in
+		<foreach collection="list" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+	<!-- t_bss_ppms_param_interval 参数区间表 -->
+</mapper>

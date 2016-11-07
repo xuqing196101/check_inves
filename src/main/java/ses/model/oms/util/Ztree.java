@@ -47,7 +47,7 @@ public class Ztree implements Serializable {
 	
 	private boolean open;
 	private Date createdAt;
-	
+	private String bidMethodId;
 	public String getLevel() {
 		return level;
 	}
@@ -120,6 +120,12 @@ public class Ztree implements Serializable {
 	}
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
+	}
+	public String getBidMethodId() {
+		return bidMethodId;
+	}
+	public void setBidMethodId(String bidMethodId) {
+		this.bidMethodId = bidMethodId;
 	}
 	
 }

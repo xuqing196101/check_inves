@@ -15,7 +15,7 @@ public interface ScoreModelService {
 	public int delScoreModelByMap(HashMap<String, Object> map);//朱巷删除   
 	public int delSoftScoreModelByid(HashMap<String, Object> map);
 	
-	public List<MarkTerm> findListByMarkTerm(MarkTerm markTerm);
+	/*public List<MarkTerm> findListByMarkTerm(MarkTerm markTerm);
 	public int saveMarkTerm(MarkTerm markTerm);
 	public int updateMarkTerm(MarkTerm markTerm);
 	public int delMarkTermByid(HashMap<String, Object> map);
@@ -29,5 +29,5 @@ public interface ScoreModelService {
 	public int updateParamInterval(ParamInterval paramInterval);
 	public int delParamIntervalByid(HashMap<String, Object> map);
 	public int delSoftParamIntervalByid(HashMap<String, Object> map);
-	public int delParamIntervalByMap(HashMap<String, Object> map);
+	public int delParamIntervalByMap(HashMap<String, Object> map);*/
 }

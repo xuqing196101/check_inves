@@ -40,8 +40,11 @@ public class ScoreModelServiceImpl implements ScoreModelService{
 	public int delSoftScoreModelByid(HashMap<String, Object> map) {
 		return scoreModelMapper.delSoftScoreModelByid(map);
 	}
-
 	@Override
+	public int delScoreModelByMap(HashMap<String, Object> map) {
+		return scoreModelMapper.delScoreModelByMap(map);
+	}
+	/*@Override
 	public List<MarkTerm> findListByMarkTerm(MarkTerm markTerm) {
 		return scoreModelMapper.findListByMarkTerm(markTerm);
 	}
@@ -102,15 +105,12 @@ public class ScoreModelServiceImpl implements ScoreModelService{
 		return scoreModelMapper.insert(markTerm);
 	}
 
-	@Override
-	public int delScoreModelByMap(HashMap<String, Object> map) {
-		return scoreModelMapper.delScoreModelByMap(map);
-	}
+	
 
 	@Override
 	public int delParamIntervalByMap(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 		return scoreModelMapper.delParamIntervalByMap(map);
-	}
+	}*/
 
 }

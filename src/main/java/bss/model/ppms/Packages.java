@@ -6,7 +6,6 @@ package bss.model.ppms;
 import java.util.Date;
 import java.util.List;
 
-import ses.model.sms.Supplier;
 
 
 /**
@@ -29,6 +28,10 @@ public class Packages {
 	private Integer status;
 	
 	private String markTermTree;
+	private String bidMethodId;
+	private String bidMethodName;//评分办法名称
+	private String bidMethodTypeName;//评标方法
+	private String bidMethodMaxScore ;//
 	
 	private String purchaseType;
 	
@@ -162,5 +165,36 @@ public class Packages {
         this.supplierList = supplierList;
     }
 	
+	public String getBidMethodId() {
+		return bidMethodId;
+	}
+
+	public void setBidMethodId(String bidMethodId) {
+		this.bidMethodId = bidMethodId;
+	}
+
+	public String getBidMethodName() {
+		return bidMethodName;
+	}
+
+	public void setBidMethodName(String bidMethodName) {
+		this.bidMethodName = bidMethodName;
+	}
+
+	public String getBidMethodTypeName() {
+		return bidMethodTypeName;
+	}
+
+	public void setBidMethodTypeName(String bidMethodTypeName) {
+		this.bidMethodTypeName = bidMethodTypeName;
+	}
+
+	public String getBidMethodMaxScore() {
+		return bidMethodMaxScore;
+	}
+
+	public void setBidMethodMaxScore(String bidMethodMaxScore) {
+		this.bidMethodMaxScore = bidMethodMaxScore;
+	}
 	
 }

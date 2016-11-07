@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.ppms.MarkTermMapper">
+	<!-- t_bss_ppms_mark_term -->
+	<select id="findListByMarkTerm" parameterType="bss.model.ppms.MarkTerm" resultType="bss.model.ppms.MarkTerm">
+   		SELECT
+   			mt.id as id,
+   			mt.PID as pid,
+   			mt.NAME as name,
+   			mt.PNAME as pname,
+   			mt.URL as url,
+   			mt.CHECKED as checked,
+   			mt.IS_DELETED as isDeleted,
+   			mt.CREATED_AT as createdAt,
+   			mt.UPDATED_AT as updatedAt,
+   			mt.MAX_SCORE as maxScore,
+   			mt.PROJECT_ID as projectId,
+   			mt.PACKAGE_ID as packageId,
+   			mt.REMAIN_SCORE as remainScore,
+   			b.id  as bidMethodId,
+   			b.name as bidMethodName,
+   			b.TYPE_NAME as bidMethodTypeName,
+   			b.MAX_SCORE as bidMethodMaxScore,
+   			b.FLOATING_RATIO as bidMethodFloatingRatio,
+   			b.REMARK as bidMethodRemark
+   			
+   		FROM
+   			T_BSS_PPMS_MARK_TERM mt
+   		left join T_BSS_PPMS_BID_METHOD b on MT.BID_METHOD_ID = b.id
+   		WHERE nvl(mt.is_deleted,0)=0
+   		<if test="id != null">
+        	and mt.id = #{id}
+      	</if>
+      	<if test="pid != null">
+        	and mt.pid = #{pid}
+      	</if>
+      	<if test="name != null">
+        	and mt.name = #{name}
+      	</if>
+      	<if test="pname != null">
+        	and mt.pname = #{pname}
+      	</if>	
+      	<!-- 只查根节点 -->	
+      	<if test="isRoot != null">
+        	and mt.pid is null
+      	</if>
+      	<if test="projectId != null">
+        	and mt.PROJECT_ID =#{projectId}
+      	</if>
+      	<if test="packageId != null">
+        	and mt.PACKAGE_ID =#{packageId}
+      	</if>
+      	<if test="bidMethodId != null">
+        	and mt.BID_METHOD_ID =#{bidMethodId}
+      	</if>
+      	ORDER BY mt.CREATED_AT DESC	
+   </select> 
+  <insert id="saveMarkTerm" parameterType="bss.model.ppms.MarkTerm">
+     <selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_BSS_PPMS_MARK_TERM
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      created_at,
+      <if test="id != null">
+        ID,
+      </if>
+     <if test="pid != null">
+        pid,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="pname != null">
+        pname,
+      </if>
+       <if test="bidMethodId != null">
+        BID_METHOD_ID,
+      </if>
+       <if test="maxScore != null">
+        MAX_SCORE,
+      </if>
+       <if test="projectId != null">
+        PROJECT_ID,
+      </if>
+       <if test="packageId != null">
+        PACKAGE_ID,
+      </if>
+       <if test="remainScore != null">
+        REMAIN_SCORE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      sysdate,
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="pid != null">
+         #{pid},
+      </if>
+      <if test="name != null">
+        #{name},
+      </if>
+      <if test="pname != null">
+         #{pname},
+      </if>
+      <if test="bidMethodId != null">
+         #{bidMethodId},
+      </if>
+      <if test="maxScore != null">
+         #{maxScore},
+      </if>
+      <if test="projectId != null">
+         #{projectId},
+      </if>
+      <if test="packageId != null">
+         #{packageId},
+      </if>
+      <if test="remainScore != null">
+         #{remainScore},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insert" parameterType="bss.model.ppms.MarkTerm">
+  	insert into T_BSS_PPMS_MARK_TERM(id,pid,name,pname,CREATED_AT) values(
+  	#{id},#{pid,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},
+		  #{pname,jdbcType=VARCHAR},#{createdAt,jdbcType=TIMESTAMP}
+  	)
+  </insert>
+  <update id="updateMarkTerm" parameterType="bss.model.ppms.MarkTerm">
+    update T_BSS_PPMS_MARK_TERM
+    set
+      updated_at = sysdate
+      <if test="pid != null">
+        ,pid = #{pid}
+      </if>
+      <if test="name != null">
+        ,name = #{name}
+      </if>
+      <if test="pname != null">
+        ,pname = #{pname}
+      </if>
+      <if test="isDeleted != null">
+        ,is_deleted = #{isDeleted}
+      </if>
+      <if test="bidMethodId != null">
+        ,BID_METHOD_ID = #{bidMethodId}
+      </if>
+      <if test="maxScore != null">
+        ,MAX_SCORE = #{maxScore}
+      </if>
+      <if test="projectId != null">
+        ,PROJECT_ID = #{projectId}
+      </if>
+      <if test="packageId != null">
+        ,PACKAGE_ID = #{packageId}
+      </if>
+      <if test="remainScore != null">
+        ,REMAIN_SCORE = #{remainScore}
+      </if>
+    where ID = #{id}
+  </update>
+  <!-- 删除需求部门-->
+	<delete id="delMarkTermByid" parameterType="java.util.Map">
+		delete from T_BSS_PPMS_MARK_TERM s where s.id in
+		(SELECT id from T_BSS_PPMS_MARK_TERM CONNECT BY PRIOR id = pid START WITH id = #{id})
+	</delete>
+	<!-- 递归删除所有子节点 -->
+	<delete id="delMarkTermByParentId" parameterType="java.util.Map">
+		delete from T_BSS_PPMS_MARK_TERM s where s.id in
+		<foreach collection="list" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+	<delete id="delMarkTermByMap" parameterType="java.util.Map">
+		delete from T_BSS_PPMS_MARK_TERM s where 1=1
+		<if test="isRoot != null">
+         	and pid is not null
+      	</if>
+      	<if test="id != null">
+         	and id= #{id}
+      	</if>
+	</delete>
+	
+	<!-- 逻辑删除需求部门-->
+	<update id="delSoftMarkTermByid" parameterType="java.util.Map">
+		update  T_BSS_PPMS_MARK_TERM   t
+		set t.IS_DELETED=1
+		where t.id in
+		<foreach collection="list" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+		
+	</update>
+	<!--t_bss_ppms_mark_term 打分项表  -->
+</mapper>

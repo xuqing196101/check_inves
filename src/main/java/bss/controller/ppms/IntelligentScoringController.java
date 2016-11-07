@@ -22,11 +22,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ses.model.oms.util.AjaxJsonData;
 import ses.model.oms.util.Ztree;
 
+import bss.model.ppms.BidMethod;
 import bss.model.ppms.MarkTerm;
 import bss.model.ppms.Packages;
 import bss.model.ppms.ParamInterval;
+import bss.model.ppms.Project;
 import bss.model.ppms.ScoreModel;
+import bss.service.ppms.BidMethodService;
+import bss.service.ppms.MarkTermService;
 import bss.service.ppms.PackageService;
+import bss.service.ppms.ParamIntervalService;
+import bss.service.ppms.ProjectService;
 import bss.service.ppms.ScoreModelService;
 /**
  * 
@@ -46,13 +52,24 @@ public class IntelligentScoringController {
 	@Autowired
 	private ScoreModelService scoreModelService;
 	
+	@Autowired
+	private MarkTermService markTermService;
 	
+	@Autowired
+	private ParamIntervalService paramIntervalService;
+	
+	@Autowired
+	private BidMethodService bidMethodService;
+	@Autowired
+	private ProjectService projectService;
 	
 	@RequestMapping("packageList")
 	public String packageList(@ModelAttribute Packages packages,Model model,HttpServletRequest request){
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		map.put("projectId", packages.getProjectId());
-		List<Packages> packagesList = packageService.findPackageById(map);
+		Project project = projectService.selectById(packages.getProjectId());
+		model.addAttribute("project", project);
+		List<Packages> packagesList = packageService.findPackageAndBidMethodById(map);
 		model.addAttribute("packagesList", packagesList);
 		model.addAttribute("projectId", packages.getProjectId());
 		return "bss/ppms/open_bidding/scoring_rubric";
@@ -68,9 +85,18 @@ public class IntelligentScoringController {
 	 */
 	@RequestMapping("list")
 	public String list(@ModelAttribute Packages packages,Model model,HttpServletRequest request){
-		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("id", packages.getId());
+		Packages packages2 = (packageService.findPackageAndBidMethodById(map)!=null && packageService.findPackageAndBidMethodById(map).size()>0)?packageService.findPackageAndBidMethodById(map).get(0):new Packages();
 		model.addAttribute("packageId", packages.getId());
+		model.addAttribute("bidMethodId", packages2.getBidMethodId());
+		Project project = projectService.selectById(packages.getProjectId());
 		model.addAttribute("projectId", request.getParameter("projectId"));
+		model.addAttribute("project", project);
+		BidMethod bidMethod = new BidMethod();
+		bidMethod.setId(packages2.getBidMethodId());
+	    bidMethod = (bidMethodService.findListByBidMethod(bidMethod)!=null && bidMethodService.findListByBidMethod(bidMethod).size()>0)?bidMethodService.findListByBidMethod(bidMethod).get(0):bidMethod;
+	    model.addAttribute("bidMethod", bidMethod);
 		return "bss/ppms/open_bidding/scoring_standard";
 	}
 	@RequestMapping("operatorScoreModel")
@@ -86,7 +112,7 @@ public class IntelligentScoringController {
 			scoreModelService.updateScoreModel(scoreModel);
 			HashMap<String, Object> map  = new HashMap<String,Object>();
 			map.put("scoreModelId", scoreModel.getId());
-			scoreModelService.delParamIntervalByMap(map);
+			paramIntervalService.delParamIntervalByMap(map);
 			int len = 0;
 			if(startParam!=null){
 				len = startParam.length;
@@ -99,7 +125,7 @@ public class IntelligentScoringController {
 					p.setEndParam(endParam[i]);
 					p.setScore(score[i]);
 					p.setExplain(explain[i]);
-					scoreModelService.saveParamInterval(p);
+					paramIntervalService.saveParamInterval(p);
 				}
 			}
 			
@@ -117,7 +143,7 @@ public class IntelligentScoringController {
 					p.setEndParam(endParam[i]);
 					p.setScore(score[i]);
 					p.setExplain(explain[i]);
-					scoreModelService.saveParamInterval(p);
+					paramIntervalService.saveParamInterval(p);
 				}
 			}
 		}
@@ -221,29 +247,38 @@ public class IntelligentScoringController {
 	@ResponseBody    
 	public String getMarkTermTree(HttpServletRequest request){
 		String packageId = request.getParameter("packageId");
+		String bidMethodId = request.getParameter("bidMethodId");
+		String projectId = request.getParameter("projectId");
+		String id = request.getParameter("id");
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("id", packageId);
+		/*map.put("id", packageId);
 		List<Packages> pList = packageService.findPackageById(map);
 		Packages packages = new Packages();
 		if(pList!=null && pList.size()>0){
 			 packages = pList.get(0);
+		}*/
+		MarkTerm markTerm = new MarkTerm();
+		//markTerm.setIsRoot("true");
+		markTerm.setPackageId(packageId);
+		if(id!=null && !id.equals("")){
+			markTerm.setPid(id);
+		}else {
+			markTerm.setBidMethodId(bidMethodId);
 		}
-		if(packages.getMarkTermTree()!=null &&! packages.getMarkTermTree().equals("")){
-			return packages.getMarkTermTree();
-		}else{
-			MarkTerm markTerm = new MarkTerm();
-			markTerm.setIsRoot("true");
-			List<MarkTerm> markTermList = scoreModelService.findListByMarkTerm(markTerm);
-			List<Ztree> treeList = new ArrayList<Ztree>();  
+		List<MarkTerm> markTermList = markTermService.findListByMarkTerm(markTerm);
+		List<Ztree> treeList = new ArrayList<Ztree>();  
+		if(markTermList!=null && markTermList.size()>0){
 			for(MarkTerm m : markTermList){
 				Ztree z = new Ztree();
 				z.setId(m.getId());
-				z.setName(m.getName());
+				String span = "<span style='color:blue'>"+"("+m.getMaxScore()+")"+"</span>";
+				z.setName(m.getName()+m.getMaxScore());
 				z.setpId(m.getPid() == null ? "-1":m.getPid());
 				z.setCreatedAt(m.getCreatedAt());
+				z.setBidMethodId(m.getBidMethodId());
 				MarkTerm childMarkTerm = new MarkTerm();
 				childMarkTerm.setPid(m.getId());
-				List<MarkTerm> chiildList = scoreModelService.findListByMarkTerm(childMarkTerm);
+				List<MarkTerm> chiildList = markTermService.findListByMarkTerm(childMarkTerm);
 				if(chiildList != null && chiildList.size() > 0){
 					z.setIsParent("true");
 				} else {
@@ -251,10 +286,18 @@ public class IntelligentScoringController {
 				}
 				treeList.add(z);
 			}
-			JSONArray jObject = JSONArray.fromObject(treeList);
-			return jObject.toString();
+		}else {
+			Project project = projectService.selectById(projectId);
+			Ztree z = new Ztree();
+			z.setName(project.getName()+"_评分细则");
+			z.setpId("-1");
+			z.setIsParent("false");
+			z.setBidMethodId("");
+			treeList.add(z);
 		}
-		
+		JSONArray jObject = JSONArray.fromObject(treeList);
+		return jObject.toString();
+	
 	}
 	/**
 	 * 
@@ -273,21 +316,37 @@ public class IntelligentScoringController {
 		String method = request.getParameter("method");
 		String packageId = request.getParameter("packageId");
 		if(method!=null && !method.equals("") && method.equals("addnode")){
-			scoreModelService.saveMarkTerm(markTerm);
+			markTermService.saveMarkTerm(markTerm);
 			ajaxJsonData.setSuccess(true);
 			ajaxJsonData.setMessage(markTerm.getId());
 		}else if (method.equals("updatenode")) {
-			scoreModelService.updateMarkTerm(markTerm);
+			markTermService.updateMarkTerm(markTerm);
 		}else if(method.equals("delnode")){
 			HashMap<String, Object> map = new HashMap<String,Object>();
+			MarkTerm m = new MarkTerm();
+			m.setId(markTerm.getId());
+			markTerm = markTermService.findListByMarkTerm(m).get(0);
+			if(markTerm.getBidMethodId()!=null && !markTerm.getBidMethodId().equals("")){
+				//说明删除根节点   1级联删除    2删除bidmethod  3清空package
+				map.put("id", markTerm.getId());
+				markTermService.delMarkTermByid(map);
+				map.clear();
+				map.put("id", markTerm.getBidMethodId());
+				bidMethodService.delBidMethodByMap(map);
+				map.clear();
+				Packages pack = new Packages();
+				pack.setId(markTerm.getPackageId());
+				pack.setBidMethodId("");
+				packageService.updateByPrimaryKeySelective(pack);
+			}
 			map.put("id", markTerm.getId());
-			scoreModelService.delMarkTermByMap(map);
+			markTermService.delMarkTermByMap(map);
 		}
-		//增删改操作后  更新项目分包信息里面绑定的评分项树字符串   下次调用直接解析次字符串
+		/*//增删改操作后  更新项目分包信息里面绑定的评分项树字符串   下次调用直接解析次字符串
 		setPackageMarkTermTree(packageId,method,markTerm);
 		
 		//如果已经建立模型  更细打分项  关联更新模型表里面的name 
-		updateScoreModelName(packageId,method,markTerm);
+		updateScoreModelName(packageId,method,markTerm);*/
 		return ajaxJsonData;
 	}
 	/**
@@ -349,7 +408,98 @@ public class IntelligentScoringController {
 		model.addAttribute("projectId", packages.getProjectId());
 		return "bss/ppms/competitive_negotiation/scoring_rubric";
 	}
-	
+	/**
+	 * 
+	 * @Title: operatorBidMethod
+	 * @author: Tian Kunfeng
+	 * @date: 2016-11-1 下午7:11:32
+	 * @Description: 操作评标办法
+	 * @param: @param bidMethod
+	 * @param: @param request
+	 * @param: @return
+	 * @return: AjaxJsonData
+	 */
+	@RequestMapping("operatorBidMethod")
+	@ResponseBody
+	public AjaxJsonData operatorBidMethod(@ModelAttribute BidMethod bidMethod,HttpServletRequest request){
+		String method = request.getParameter("method");
+		if(bidMethod.getId()!=null && !bidMethod.getId().equals("")){
+			bidMethodService.updateBidMethod(bidMethod);
+			ajaxJsonData.setSuccess(true);
+			ajaxJsonData.setMessage(bidMethod.getMaxScore());
+		}else {
+			bidMethodService.saveBidMethod(bidMethod);
+			ajaxJsonData.setSuccess(true);
+			ajaxJsonData.setMessage(bidMethod.getMaxScore());
+		}
+		if (method!=null &&! method.equals("") && method.equals("del")) {
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("id", bidMethod.getId());
+			bidMethodService.delBidMethodByid(map);
+		}
+		return ajaxJsonData;
+	}
+	/**
+	 * 
+	 * @Title: getBidMethodById
+	 * @author: Tian Kunfeng
+	 * @date: 2016-11-2 下午2:45:32
+	 * @Description: 唯一查询评标办法
+	 * @param: @param bidMethod
+	 * @param: @param request
+	 * @param: @return
+	 * @return: AjaxJsonData
+	 */
+	@RequestMapping("getBidMethodById")
+	@ResponseBody
+	public AjaxJsonData getBidMethodById(@ModelAttribute BidMethod bidMethod,HttpServletRequest request){
+		bidMethod = (bidMethodService.findListByBidMethod(bidMethod)!=null && bidMethodService.findListByBidMethod(bidMethod).size()>0)?bidMethodService.findListByBidMethod(bidMethod).get(0):bidMethod;
+		ajaxJsonData.setSuccess(true);
+		ajaxJsonData.setObj(bidMethod);
+		ajaxJsonData.setMessage("");
+		return ajaxJsonData;
+	}
+	/**
+	 * 
+	 * @Title: operatorNode
+	 * @author: Tian Kunfeng
+	 * @date: 2016-11-1 下午7:12:30
+	 * @Description: 操作节点页面
+	 * @param: @param packages
+	 * @param: @param model
+	 * @param: @param request
+	 * @param: @return
+	 * @return: String
+	 */
+	@RequestMapping("addNode")
+	public String addNode(@ModelAttribute MarkTerm markTerm,Model model,HttpServletRequest request){
+		//HashMap<String,Object> map = new HashMap<String,Object>();
+		String method = request.getParameter("method");
+		String pid = request.getParameter("pid");
+		String packageId = request.getParameter("packageId");
+		String projectId = request.getParameter("projectId");
+		//String remainScore = request.getParameter("remainScore");
+		String bidMethodId = request.getParameter("bidMethodId");
+		
+		if(markTerm.getId()!=null && !markTerm.getId().equals("")){
+			markTerm = markTermService.findListByMarkTerm(markTerm).get(0);
+		}
+		if(markTerm.getPid()!=null && !markTerm.getPid().equals("")){
+			MarkTerm m = new MarkTerm();
+			m.setId(markTerm.getPid());
+			m = markTermService.findListByMarkTerm(m).get(0);
+			model.addAttribute("remainScore", m.getRemainScore());
+		}else {
+			model.addAttribute("remainScore", markTerm.getRemainScore());
+		}
+		model.addAttribute("markTerm", markTerm);
+		model.addAttribute("method", method);
+		model.addAttribute("pid", pid);
+		model.addAttribute("packageId", packageId);
+		model.addAttribute("projectId", projectId);
+		model.addAttribute("bidMethodId", bidMethodId);
+		return "bss/ppms/open_bidding/operator_node";
+	}
 	//-----------------------------------方法封装-------------------------------------------------------------------------------
 	public void setPackageMarkTermTree(String packageId,String method,MarkTerm markTerm){
 		HashMap<String, Object> map = new HashMap<String,Object>();
@@ -368,7 +518,7 @@ public class IntelligentScoringController {
 							m.setPid(z.getpId());
 							m.setName(z.getName());
 							m.setCreatedAt(z.getCreatedAt());
-							scoreModelService.insert(m);
+							markTermService.insert(m);
 						}else {
 							continue;
 						}
@@ -388,7 +538,7 @@ public class IntelligentScoringController {
 							m.setName(z.getName());
 						}
 						m.setCreatedAt(z.getCreatedAt());
-						scoreModelService.insert(m);
+						markTermService.insert(m);
 					}else {
 						continue;
 					}
@@ -404,7 +554,7 @@ public class IntelligentScoringController {
 							m.setPid(z.getpId());
 							m.setName(z.getName());
 							m.setCreatedAt(z.getCreatedAt());
-							scoreModelService.insert(m);
+							markTermService.insert(m);
 						}
 					}else {
 						continue;
@@ -414,12 +564,12 @@ public class IntelligentScoringController {
 			
 		}
 		MarkTerm m = new MarkTerm();
-		List<MarkTerm> markTermList = scoreModelService.findListByMarkTerm(m);
+		List<MarkTerm> markTermList = markTermService.findListByMarkTerm(m);
 		p.setMarkTermTree(getMarkTermTreeStr(markTermList));
 		packageService.updateByPrimaryKeySelective(p);
 		map.clear();
 		map.put("isRoot", "true");
-		scoreModelService.delMarkTermByMap(map);
+		markTermService.delMarkTermByMap(map);
 		
 	}
 	public void updateScoreModelName(String packageId,String method,MarkTerm markTerm){
@@ -448,7 +598,7 @@ public class IntelligentScoringController {
 				z.setpId(m.getPid() == null ? "-1":m.getPid());
 				MarkTerm childMarkTerm = new MarkTerm();
 				childMarkTerm.setPid(m.getId());
-				List<MarkTerm> chiildList = scoreModelService.findListByMarkTerm(childMarkTerm);
+				List<MarkTerm> chiildList = markTermService.findListByMarkTerm(childMarkTerm);
 				if(chiildList != null && chiildList.size() > 0){
 					z.setIsParent("true");
 				} else {

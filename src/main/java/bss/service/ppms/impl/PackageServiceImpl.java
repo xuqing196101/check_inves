@@ -57,4 +57,10 @@ public class PackageServiceImpl implements PackageService{
 		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
 		return packageMapper.selectAllByIsWon(map);
 	}
+	public List<Packages> findPackageAndBidMethodById(
+			HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return packageMapper.findPackageAndBidMethodById(map);
+	}
+
 }

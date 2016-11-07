@@ -41,6 +41,8 @@
     <script src="${pageContext.request.contextPath}/public/layer/extend/layer.ext.js"></script>
     <%
     	String packageId = (String)request.getAttribute("packageId");
+    	String bidMethodId = (String)request.getAttribute("bidMethodId");
+    	String projectId = (String)request.getAttribute("projectId");
      %>
 <script type="text/javascript">
 	/* layer.config({
@@ -48,13 +50,14 @@
 		}); */
     //${pageContext.request.contextPath}/intelligentScore/getMarkTermTree.do?packageId=A1CC4A603B6F466C936BBA2BA7BC2317
      var id = $("#packageId").val();
+     
      var setting = {  
         async : {  
             enable : true,//开启异步加载处理  
-            url : "${pageContext.request.contextPath}/intelligentScore/getMarkTermTree.do?packageId=<%=packageId%>",  
-            autoParam : [ "id" ],  
+            url : "${pageContext.request.contextPath}/intelligentScore/getMarkTermTree.do?packageId=<%=packageId%>"+"&bidMethodId=<%=bidMethodId%>"+"&projectId=<%=projectId%>",  
+            autoParam : ["id"],  
             dataFilter : filter,  
-            contentType : "application/json",  
+            //contentType : "application/json",  //提交参数体式格式，这里 JSON 格局，默认form格局  获取参数必须默认form格局
             type : "post"  
         },  
         view : {  
@@ -74,6 +77,7 @@
         callback : {  
             beforeRemove : beforeRemove,  
             beforeRename : beforeRename, 
+            //beforeEditName: beforeEditName,  
             onClick:zTreeOnClick 
         }  
     };  
@@ -96,18 +100,28 @@
     }  
     function beforeRename(treeId, treeNode, newName) {  
     	var packageId = $("#packageId").val();
-    	console.dir(packageId);
+    	var projectId = $("#projectId").val();
+    	var remainScore = $("#remainScore").val();
+    	var id = $("#id").val();
         if (newName.length == 0) {  
-            alert("节点名称不能为空.");  
+            layer.mag("节点名称不能为空.");  
             return false;  
         }  
-        var param = "id=" + treeNode.id + "&name=" + newName;  
-        $.post("${pageContext.request.contextPath}/intelligentScore/operatorNode.do",{id:treeNode.id,name:newName,method:"updatenode",packageId:packageId});  
+        var param = "id=" + treeNode.id + "&name=" + newName;
+        $.post("${pageContext.request.contextPath}/intelligentScore/operatorNode.do",{id:treeNode.id,name:newName,method:"updatenode",packageId:packageId,projectId:projectId,remainScore:remainScore});  
         return true;  
     }  
   
     function addHoverDom(treeId, treeNode) { 
+    	
+    	if(treeId==null || treeId==undefined || treeId==""){
+    		layer.msg("请先完善根节点评标办法");
+    	}
     	var packageId = $("#packageId").val();
+    	var projectId = $("#projectId").val();
+    	var remainScore = $("#remainScore").val();
+    	var id = $("#id").val();
+    	
         var sObj = $("#" + treeNode.tId + "_span");  
         if (treeNode.editNameFlag || $("#addBtn_" + treeNode.tId).length > 0)  
             return;  
@@ -118,7 +132,21 @@
         if (btn)  
             btn.bind("click", function() {  
                 //var Ppname = prompt("请输入新节点名称");  
-                var Ppname="";
+                //alert(treeNode.id=="");
+                if(treeNode.id==null || treeNode.id==undefined || treeNode.id==""){
+    				alert("请先完善根节点评标办法");
+    				return;
+    			}
+                layer.open({
+					  type: 2,
+					  title: '添加评分项',
+					  shadeClose: true,
+					  shade: 0.4,
+					  area: ['500px', '20%'],
+					  offset: '100px',
+					  content: "${pageContext.request.contextPath}/intelligentScore/addNode.do?pid="+treeNode.id+"&method=addnode"+"&packageId="+packageId+"&projectId="+projectId+"&remainScore="+remainScore //iframe的url
+				}); 
+               /*  var Ppname="";
                layer.prompt({
                     title: '输入节点名称',
                     formType: 2,
@@ -135,7 +163,7 @@
                     var zTree = $.fn.zTree.getZTreeObj("treeDemo");  
                     $.post(  
                            "${pageContext.request.contextPath}/intelligentScore/operatorNode.do",
-                           {pid:treeNode.id,name:str,method:"addnode",packageId:packageId}, function(data) {  
+                           {pid:treeNode.id,name:str,method:"addnode",packageId:packageId,projectId:projectId}, function(data) {  
                                 if (data.success) {  
                                     //var treenode = $.trim(data);  
                                     zTree.addNodes(treeNode, { 
@@ -150,7 +178,7 @@
                     }else{
                     	consolr.dir(2);
                     };
-                });
+                }); */
                
 				 //
 				
@@ -168,10 +196,44 @@
     });  
     function zTreeOnClick(event,treeId,treeNode){
     	var id = $("#packageId").val();
+    	
 		console.dir(treeNode);
-		if(!treeNode.isParent){
+		if(treeNode.bidMethodId!=null && treeNode.bidMethodId!=""){
+			setBidMothodForm(treeNode.bidMethodId,id);
+			$("#show_content_div").hide();
+			$("#bid_method_form").show();
+		}else if(!treeNode.isParent && treeNode.id!=""){
 			$("#treebody").attr("src","${pageContext.request.contextPath}/intelligentScore/gettreebody.do?id="+treeNode.id+"&packageId="+id+"&name="+encodeURI(encodeURI(treeNode.name)));
+			$("#show_content_div").show();
+			$("#bid_method_form").hide();
+		}else if (treeNode.id==""){
+			$("#show_content_div").hide();
+			$("#bid_method_form").show();
+		}else{
+			$("#show_content_div").hide();
+			$("#bid_method_form").hide();
 		}
+		/* if(!treeNode.isParent && treeNode.bidMethodId==""){
+			$("#treebody").attr("src","${pageContext.request.contextPath}/intelligentScore/gettreebody.do?id="+treeNode.id+"&packageId="+id+"&name="+encodeURI(encodeURI(treeNode.name)));
+			$("#show_content_div").show();
+			$("#bid_method_form").hide();
+		}else{
+			setBidMothodForm(treeNode.bidMethodId,id);
+			$("#show_content_div").hide();
+			$("#bid_method_form").show();
+		} */
+	}
+	function setBidMothodForm(id,packageId){
+		$.ajax({
+			    type: 'post',
+			    url: "${pageContext.request.contextPath}/intelligentScore/getBidMethodById.do",
+			    dataType:'json',
+			    data : {id:id,packageId:packageId},
+			    success: function(data) {
+			    	console.dir(data.obj.id);
+			        //layer.msg(data.message,{offset: '222px'});
+			    }
+			});
 	}
 	function choseModel(){
 		var model = $("#model").val();
@@ -217,6 +279,43 @@
 	function reList(projectId){
 		window.location.href = "${pageContext.request.contextPath}/intelligentScore/packageList.do?projectId="+projectId;
 	}
+	function show(){
+		 var typeName = $("#typeName").val();
+		 console.dir(typeName);
+		 if(typeName!=null && typeName!="" && typeName=="1"){
+		 	$("#floating_ratio").show();
+		 }else{
+		 	$("#floatingRatio").val("");
+		 	$("#floating_ratio").hide();
+		 }
+	}
+	function pageOnLoad(){
+		var projectName = $("#projectName").val();
+		projectName = projectName + "_评分细则";
+		var name = $("#name").val();
+		$("#typeName").val($("#type").val());
+		if(name==null ||name==undefined || name==""){
+		
+			$("#name").val(projectName);
+		}
+		
+	}
+	function save(){
+		//$("#formID").attr("action","${pageContext.request.contextPath}/intelligentScore/operatorBidMethod");
+		//$("#formID").submit();
+		$.ajax({
+			    type: 'post',
+			    url: "${pageContext.request.contextPath}/intelligentScore/operatorBidMethod.do",
+			    dataType:'json',
+			    data : $('#formID').serialize(),
+			    success: function(data) {
+			    	$("#total_score").text(data.message);
+			    	$("#remain_score").text(data.message);
+			    	window.location.reload();
+			        //layer.msg(data.message,{offset: '222px'});
+			    }
+			});
+	}
 </script>  
 <style type="text/css">  
 .ztree li span.button.add {  
@@ -228,14 +327,26 @@
 }  
 </style>  
 </head>  
-<body>
-	<input id="packageId" type="hidden" value="${packageId }">
+<body onload="pageOnLoad();">
+	
+	<input id="bidMethodId" type="hidden" value="${bidMethodId }">
+	<input id="projectName" type="hidden" value="${project.name }">
+	<input id="remainScore" type="hidden" value="${bidMethod.remainScore }">
+	<c:if test="${bidMethod.typeName!=null && bidMethod.typeName!='' && bidMethod.typeName!='1' }">
+		<div>
+		<h2 class="panel-title heading-sm pull-left">
+			<i class="fa fa-bars"></i> 总分: <span id="total_score" class="label rounded-2x label-u">${bidMethod.maxScore }</span>
+		</h2>
+		<h2 class="panel-title heading-sm pull-left">
+			<i class="fa fa-bars"></i> 还剩: <span id="remain_score" class="label rounded-2x label-u">${bidMethod.remainScore }</span>
+		</h2>
+		<input type="button" class="btn  padding-right-20 btn_back margin-5 ml70"
+					onclick="reList('${projectId}');" value="返回">
+	</div>
+	</c:if>
 	<div class="container content height-350" style="height: 1423px;">
 		<div class="row">
-			<div class="mt40  mb50">
-				<input type="button" class="btn  padding-right-20 btn_back margin-5"
-					onclick="reList('${projectId}');" value="返回">
-			</div>
+			
 			<div class="col-md-12" style="margin-left:-60px;">
 				<div class="col-md-3 md-margin-bottom-40 fl" id="show_tree_div">
 					<div class="tag-box tag-box-v3">
@@ -244,33 +355,57 @@
 					</div>
 
 				</div>
-				<div class="tag-box tag-box-v4 col-md-9 fl " id="show_content_div" style="height: auto;width: 446px;">
-				
-					<%-- <div>
-						<form
-							action="${pageContext.request.contextPath}/purchaseManage/create.do"
-							method="post" onsubmit="return check();" id="formID">
-							<div class="mt20 mr20">
-								<span>选择模型</span> <select id="model" name="" onchange="choseModel();">
+				<div class="tag-box tag-box-v4 col-md-9 fl" style="height: auto;width: 450px;" id="bid_method_form">
+					<form
+						action=""
+						method="post" id="formID">
+						<input  type="hidden" id="id" name="id" value="${bidMethod.id }">
+						<input  type="hidden" id="type" value="${bidMethod.typeName }">
+						<input id="packageId" name="packageId" type="hidden" value="${packageId }">
+						<input id="projectId" name="projectId" type="hidden" value="${projectId }">
+						<ul class="list-unstyled list-flow" style="margin-left: 0px;">
+							<li class="p0"><span class=""><i class="red ">*</i>名称:</span>
+								<div class="">
+									<input class="" name="name" id="name" placeholder=""
+										 type="text" value="${bidMethod.name }">
+								</div></li>
+							<li class="col-md-6 p0"><span class="">评分方法:</span> <select
+								class="w180" name="typeName" id="typeName" type="text" onchange="show();">
 									<option value="">请选择</option>
-									<option value="0">模型1:是否判断</option>
-									<option value="1">模型2:按项加减分</option>
-									<option value="2">模型3:评审数额最高递减</option>
-									<option value="3">模型4:评审数额最低递增</option>
-									<option value="4">模型5:评审数额高计算</option>
-									<option value="5">模型6:评审数额低计算</option>
-									<option value="6">模型7:评审数额地区间递增</option>
-									<option value="7">模型8:评审数额高区间递减</option>
-								</select>
+									<option value="0">综合评标法</option>
+									<option value="1">最低评标法</option>
+									<option value="2">基准价评标法</option>
+									<option value="3">性价比评标法</option>
+							</select></li>
+							<li class="col-md-6 p0" style="display: none;" id="floating_ratio"><span class=""><i
+									class="red ">*</i>下浮比例:</span>
+								<div class="">
+									<input class="" name="floatingRatio" id="floatingRatio" type="text" value="${bidMethod.floatingRatio }">
+								</div>
+							</li>
+							<li class="col-md-6 p0"><span class=""><i
+									class="red ">*</i>最大分值:</span>
+								<div class="">
+									<input class="" name="maxScore" type="text" value="${bidMethod.maxScore }">
+								</div>
+							</li>
+							<li class="col-md-6 p0"><span class=""><i
+									class="red ">*</i>备注:</span>
+								<div class="">
+									<textarea class="w180" name="remark" type="text">${bidMethod.remark}</textarea>
+								</div>
+							</li>
+						</ul>
+						<div class="col-md-12">
+							<div class="mt40 tc mb50">
+								<input type="button"
+									class="btn  padding-right-20 btn_back margin-5" value="保存" onclick="save();"></input>
 							</div>
-							<table class="table table-striped table-bordered table-hover" id="show_table"
-								style="width: 386px;">
-								<tbody>
-								</tbody>
-							</table>
-						</form>
-
-					</div> --%>
+						</div>
+					</form>
+				</div>
+				<div class="tag-box tag-box-v4 col-md-9 fl " id="show_content_div" style="height: auto;width: 446px; display: none">
+				
 					 <iframe id="treebody" name="treeframe"
 				src=""
 				frameborder="0" style="width: 100%;height: 100%;"> </iframe> 
@@ -282,110 +417,7 @@
 		</div>
 	</div>
 	<!-- 八大模型 -->
-	<table id="model1" style="display: none;width: 386px;">
-		<tbody>
-			<tr>
-				<td style="width: 300px;">标准分值</td>
-				<td><input name="standardScore" id="standardScore" title="该项的满分值为多少"></td>
-			</tr>
-			<tr>
-				<td>判断内容</td>
-				<td><input name="judgeContent" id="judgeContent" title="该项内容为判断的唯一依据"></td>
-			</tr>
-			<tr>
-				<td>翻译成白话文内容</td>
-				<td><textarea readonly="readonly" class="wh212-67" name="easyUnderstandContent" id="easyUnderstandContent"></textarea></td>
-			</tr>
-			<tr>
-				<td>当前模型标准解释</td>
-				<td><textarea class="wh212-67" name="standExplain" id="standExplain" value="" readonly="readonly">是否判断.采购文件明确满足或不满足项的临界值或有无的项目要求。评审系统自动识别满足不满足，生成通过或否决的结果，如(必要设备，关键技术，员工人数等)</textarea></td>
-			</tr>
-		</tbody>
-	</table>
-	<table id="model21" style="display: none;width: 386px;">
-		<tbody>
-			<tr>
-				<td style="width: 300px;">评审参数</td>
-				<td><input name="reviewParam" id="reviewParam" title="例如，近五年获得省以上工商部门颁发知名品牌的数量，一个得1分"></td>
-			</tr>
-			<tr>
-				<td>加减分类型</td>
-				<td><select name="AddSubtractTypeName" id="AddSubtractTypeName" onchange="modelTwoAddSubstact();"><option value="0" selected="selected">加分</option><option value="1">减分</option></select></td>
-			</tr>
-			<tr>
-				<td style="width: 300px;">起始参数</td>
-				<td><input name="reviewStandScore" id="reviewStandScore" value="0" title="该项的起始分值为多少，默认是0"></td>
-			</tr>
-			<tr>
-				<td style="width: 300px;">最高分</td>
-				<td><input name="maxScore" id="maxScore" title="该项的满分值是多少"></td>
-			</tr>
-			<tr>
-				<td style="width: 300px;">每单位分值</td>
-				<td><input name="unitScore" id="unitScore" title="每项单位得分值是多少"></td>
-			</tr>
-			<tr>
-				<td style="width: 300px;">单位</td>
-				<td><input name="unit" id="unit" title="评审参数的单位"></td>
-			</tr>
-			<tr>
-				<td>翻译成白话文内容</td>
-				<td><textarea readonly="readonly" class="wh212-67" name="easyUnderstandContent" id="easyUnderstandContent"></textarea></td>
-			</tr>
-			<tr>
-				<td>当前模型标准解释</td>
-				<td><textarea class="wh212-67" name="standExplain" id="standExplain"  readonly="readonly">按项加减分.采购文件明确标准分值，加减分项，加减分值和最高最低分值限制，按照加减分项的项目名称，系统自动计算得分。如(正偏离，负偏离)</textarea></td>
-			</tr>
-		</tbody>
-	</table>
-	<table id="model22" style="display: none;width: 386px;">
-		<tbody>
-			<tr>
-				<td style="width: 300px;">评审参数</td>
-				<td><input name="reviewParam" id="reviewParam" title="例如，近五年获得省以上工商部门颁发知名品牌的数量，一个得1分"></td>
-			</tr>
-			<tr>
-				<td>加减分类型</td>
-				<td><select name="AddSubtractTypeName" id="AddSubtractTypeName"><option value="0">加分</option><option value="1" selected="selected">减分</option></select></td>
-			</tr>
-			<tr>
-				<td style="width: 300px;">基准分值</td>
-				<td><input name="reviewStandScore" id="reviewStandScore" value="0" title="该项的起始分值为多少，默认是0"></td>
-			</tr>
-			<tr>
-				<td style="width: 300px;">最低分</td>
-				<td><input name="minScore" id="minScore" title="该项的满分值是多少"></td>
-			</tr>
-			<tr>
-				<td style="width: 300px;">每单位分值</td>
-				<td><input name="unitScore" id="unitScore" title="每项单位得分值是多少"></td>
-			</tr>
-			<tr>
-				<td style="width: 300px;">单位</td>
-				<td><input name="unit" id="unit" title="评审参数的单位"></td>
-			</tr>
-			<tr>
-				<td>翻译成白话文内容</td>
-				<td><textarea readonly="readonly" class="wh212-67" name="easyUnderstandContent" id="easyUnderstandContent"></textarea></td>
-			</tr>
-			<tr>
-				<td>当前模型标准解释</td>
-				<td><textarea name="standExplain" id="standExplain"  readonly="readonly">按项加减分.采购文件明确标准分值，加减分项，加减分值和最高最低分值限制，按照加减分项的项目名称，系统自动计算得分。如(正偏离，负偏离)</textarea></td>
-			</tr>
-		</tbody>
-	</table>
+	
 	<!-- 八大模型 -->
-	 <%-- <div class="content_wrap">
-		<div class="zTreeDemoBackground fl">
-			<ul id="treeDemo" class="ztree"></ul>
-		</div>
-	</div>
-		<div class=" right">
-			<iframe id="treebody" name="treeframe"
-				src="${pageContext.request.contextPath}/intelligentScore/gettreebody.do"
-				frameborder="0" style="width: 100%;height: 100%;"> </iframe>
-		</div>
- --%>
-
 </body>  
 </html>  

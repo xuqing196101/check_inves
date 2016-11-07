@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.ppms.BidMethodMapper">
+	<!-- T_BSS_PPMS_BID_METHOD -->
+	<select id="findListByBidMethod" parameterType="bss.model.ppms.BidMethod" resultType="bss.model.ppms.BidMethod">
+   		SELECT
+   			mt.id as id,
+   			mt.NAME as name,
+   			mt.TYPE_NAME as typeName,
+   			mt.MAX_SCORE as maxScore,
+   			mt.IS_DELETED as isDeleted,
+   			mt.CREATED_AT as createdAt,
+   			mt.UPDATED_AT as updatedAt,
+   			mt.PROJECT_ID as projectId,
+   			mt.FLOATING_RATIO as floatingRatio,
+   			mt.REMARK as remark,
+   			mt.REMAIN_SCORE as remainScore
+   			
+   		FROM
+   			T_BSS_PPMS_BID_METHOD mt
+   		
+   		WHERE nvl(mt.is_deleted,0)=0
+   		<if test="id != null">
+        	and mt.id = #{id}
+      	</if>
+      	<if test="projectId != null">
+        	and mt.PROJECT_ID = #{projectId}
+      	</if>
+      	<!-- <if test="packageId != null">
+        	and mt.PACKAGE_ID = #{packageId}
+      	</if> -->
+      	<if test="typeName != null">
+        	and mt.TYPE_NAME = #{typeName}
+      	</if>	
+      	<!-- 只查根节点 -->	
+      	<if test="name != null">
+        	and mt.NAME = #{name}
+      	</if>
+      	ORDER BY mt.CREATED_AT DESC	
+   </select> 
+  <insert id="saveBidMethod" parameterType="bss.model.ppms.BidMethod">
+     <selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
+    insert into T_BSS_PPMS_BID_METHOD
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      created_at,
+      <if test="id != null">
+        ID,
+      </if>
+     <if test="name != null">
+        NAME,
+      </if>
+      <if test="typeName != null">
+        TYPE_NAME,
+      </if>
+      <if test="maxScore != null">
+        MAX_SCORE,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+      <if test="projectId != null">
+        PROJECT_ID,
+      </if>
+      <if test="floatingRatio != null">
+        FLOATING_RATIO,
+      </if>
+       <if test="remark != null">
+        REMARK,
+      </if>
+       <if test="remainScore != null">
+        REMAIN_SCORE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      sysdate,
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="name != null">
+         #{name},
+      </if>
+      <if test="typeName != null">
+        #{typeName},
+      </if>
+      <if test="maxScore != null">
+         #{maxScore},
+      </if>
+       <if test="isDeleted != null">
+         #{isDeleted},
+      </if>
+       <if test="projectId != null">
+         #{projectId},
+      </if>
+       <if test="floatingRatio != null">
+         #{floatingRatio},
+      </if>
+      <if test="remark != null">
+         #{remark},
+      </if>
+      <if test="remainScore != null">
+         #{remainScore},
+      </if>
+    </trim>
+  </insert>
+  <!-- <insert id="insert" parameterType="bss.model.ppms.BidMethod">
+  	insert into T_BSS_PPMS_BID_METHOD(id,pid,name,pname,CREATED_AT) values(
+  	#{id},#{pid,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},
+		  #{pname,jdbcType=VARCHAR},#{createdAt,jdbcType=TIMESTAMP}
+  	)
+  </insert> -->
+  <update id="updateBidMethod" parameterType="bss.model.ppms.BidMethod">
+    update T_BSS_PPMS_BID_METHOD
+    set
+      updated_at = sysdate
+      <if test="name != null">
+        ,NAME = #{name}
+      </if>
+      <if test="typeName != null">
+        ,TYPE_NAME = #{typeName}
+      </if>
+      <if test="maxScore != null">
+        ,MAX_SCORE = #{maxScore}
+      </if>
+      <if test="isDeleted != null">
+        ,is_deleted = #{isDeleted}
+      </if>
+      <if test="projectId != null">
+        ,PROJECT_ID = #{projectId}
+      </if>
+      <if test="floatingRatio != null">
+        ,FLOATING_RATIO = #{floatingRatio}
+      </if>
+      <if test="remark != null">
+        ,REMARK = #{remark}
+      </if>
+      <if test="remainScore != null">
+        ,REMAIN_SCORE = #{remainScore}
+      </if>
+    where ID = #{id}
+  </update>
+  <!-- 删除需求部门-->
+	<delete id="delBidMethodByid" parameterType="java.util.Map">
+		delete from T_BSS_PPMS_BID_METHOD s where s.id in
+		<foreach collection="list" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+	<delete id="delBidMethodByMap" parameterType="java.util.Map">
+		delete from T_BSS_PPMS_BID_METHOD s where 1=1
+		<if test="projectId != null">
+         	and PROJECT_ID = #{projectId}
+      	</if>
+      	<if test="packageId != null">
+         	and PACKAGE_ID = #{packageId}
+      	</if>
+      	<if test="id != null">
+         	and id= #{id}
+      	</if>
+	</delete>
+	
+	<!-- 逻辑删除需求部门-->
+	<update id="delSoftBidMethodByid" parameterType="java.util.Map">
+		update  T_BSS_PPMS_BID_METHOD   t
+		set t.IS_DELETED=1
+		where t.id in
+		<foreach collection="list" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+		
+	</update>
+	<!--T_BSS_PPMS_BID_METHOD 打分项表  -->
+</mapper>
