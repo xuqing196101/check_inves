@@ -133,9 +133,9 @@
                   <option <c:if test="${state == 1 }">selected</c:if> value="1">待复审</option>
                   <option <c:if test="${state == 5 }">selected</c:if> value="5">初审中</option>
                   <option <c:if test="${state == 6 }">selected</c:if> value="6">复审中</option>
+                  <option <c:if test="${state == 3 }">selected</c:if> value="3">已审核</option>
                   <option <c:if test="${state == 2 }">selected</c:if> value="2">初审核未通过</option>
                   <option <c:if test="${state == 4 }">selected</c:if> value="4">复审不通过</option>
-                  <option <c:if test="${state == 3 }">selected</c:if> value="3">已审核</option>
                </select> 
 	           </li>
 	           <%-- <li class="fl">
@@ -192,6 +192,8 @@
                <c:if test="${list.status==1 }">待复审</c:if>
                <c:if test="${list.status==5 }">初审中</c:if> 
                <c:if test="${list.status==6 }">复审中</c:if>
+               <c:if test="${list.status==7 }">初审退回</c:if>
+               <c:if test="${list.status==8 }">复审退回</c:if>
                <c:if test="${list.status==3 }">已审核</c:if>
                <c:if test="${list.status==2 }">初审核未通过</c:if> 
                <c:if test="${list.status==4 }">复审未通过</c:if>

@@ -7,8 +7,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <base href="<%=basePath%>">
-    
+   
     <title>回复管理</title>  
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -19,7 +18,7 @@
 	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
 	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
 	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
-	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+	<script src="${ pageContext.request.contextPath }/public/laypage-v1.3/laypage/laypage.js"></script>
   <script type="text/javascript">
   $(function(){  
 	  laypage({
@@ -38,7 +37,7 @@
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
 		        	var replyCon ="${replyCon}";
-		            location.href = "<%=basePath%>reply/getlist.do?replyCon="+replyCon+"&page="+e.curr;
+		            location.href = "${ pageContext.request.contextPath }/reply/getlist.do?replyCon="+replyCon+"&page="+e.curr;
 		        }
 		    }
 		});
@@ -80,7 +79,7 @@
 	}
 	
   	function view(id){
-  		window.location.href="<%=basePath%>reply/view.html?id="+id;
+  		window.location.href="${ pageContext.request.contextPath }/reply/view.html?id="+id;
   	}
   	
     function edit(){
@@ -89,7 +88,7 @@
 			id.push($(this).val());
 		}); 
 		if(id.length==1){			
-			window.location.href="<%=basePath%>reply/edit.html?id="+id;
+			window.location.href="${ pageContext.request.contextPath }/reply/edit.html?id="+id;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -105,7 +104,7 @@
 		if(id.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>reply/delete.html?id="+id;
+				window.location.href="${ pageContext.request.contextPath }/reply/delete.html?id="+id;
 			});
 		}else{
 			layer.alert("请选择要删除的回复",{offset: ['222px', '390px'], shade:0.01});
@@ -113,7 +112,7 @@
     }
     
     function add(){
-    	window.location.href="<%=basePath%>reply/add.html";
+    	window.location.href="${ pageContext.request.contextPath }/reply/add.html";
     }
     
 	//鼠标移动显示全部内容
@@ -131,7 +130,7 @@
 }
     function search(){
         var replyCon = $("#replyCon").val();
-        location.href = "<%=basePath%>reply/getlist.do?replyCon="+replyCon;
+        location.href = "${ pageContext.request.contextPath }/reply/getlist.do?replyCon="+replyCon;
      }
      function reset(){
          $("#replyCon").val("");
@@ -153,35 +152,33 @@
    <div class="container">
 
 <!-- 项目戳开始 -->
-  <div class="container clear">
-   <div class="padding-10 border1 m0_25">
-     <ul class="demand_list list-unstyled">
-       <li class="fl">
-       <label class="fl mt10">内容：</label>
-       <span><input type="text" id="replyCon" class="mb0 mt5" value="${replyCon }"/></span>
-       </li>
-        
-         <button class="btn btn_back fl ml10 mt8" onclick="search()">查询</button>
-         <button class="btn btn_back fl ml10 mt8" onclick="reset()">重置</button>
-     </ul>
-     <div class="clear"></div>
-   </div>
-  </div>
+
 	   <div class="headline-v2">
 	   		<h2>回复管理</h2>
 	   </div>
-
+    <h2 class="search_detail">
+     <ul class="demand_list ">
+       <li class="fl">
+       <label class="fl ">内容：</label>
+       <span><input type="text" id="replyCon" class="mb0 " value="${replyCon }"/></span>
+       </li>
+        
+         <button class="btn  " onclick="search()">查询</button>
+         <button class="btn  " onclick="reset()">重置</button>
+     </ul>
+     <div class="clear"></div>
+  </h2>
 <!-- 表格开始-->
-   <div class="container">
-   <div class="col-md-12 pl20">
+
+   <div class="col-md-12 pl20 mt10">
 	<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 	<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
 	</div>
-    </div>
+
    
-   <div class="container">
-     <div class="content padding-left-25 padding-right-25 padding-top-5">
-   	<table class="table table-striped table-bordered table-hover">
+
+   <div class="content table_box">
+        <table class="table table-bordered table-condensed table-hover">
 		<thead>
 			<tr>
 				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
@@ -233,7 +230,7 @@
      </div>
    <div id="pagediv" align="right"></div>
    </div>
-   </div>
+
   </body>
 </html>
 

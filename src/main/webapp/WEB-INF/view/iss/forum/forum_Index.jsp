@@ -7,31 +7,30 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <base href="<%=basePath%>">
-    
+   
     <title></title>  
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-		<link href="<%=basePath%>public/ZHQ/css/common.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHQ/css/bootstrap.min.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHQ/css/style.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/line-icons.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/app.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/application.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/header-v4.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/footer-v2.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/img-hover.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/page_job.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/forum.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/shop.style.css" media="screen" rel="stylesheet">
-<script src="<%=basePath%>public/ZHQ/js/hm.js"></script>
-<script src="<%=basePath%>public/ZHQ/js/jquery.min.js"></script>
+		<link href="${ pageContext.request.contextPath }/public/ZHQ/css/common.css" media="screen" rel="stylesheet">
+    <link href="${ pageContext.request.contextPath }/public/ZHQ/css/bootstrap.min.css" media="screen" rel="stylesheet">
+    <link href="${ pageContext.request.contextPath }/public/ZHQ/css/style.css" media="screen" rel="stylesheet">
+<link href="${ pageContext.request.contextPath }/public/ZHQ/css/line-icons.css" media="screen" rel="stylesheet">
+<link href="${ pageContext.request.contextPath }/public/ZHQ/css/app.css" media="screen" rel="stylesheet">
+<link href="${ pageContext.request.contextPath }/public/ZHQ/css/application.css" media="screen" rel="stylesheet">
+<link href="${ pageContext.request.contextPath }/public/ZHQ/css/header-v4.css" media="screen" rel="stylesheet">
+<link href="${ pageContext.request.contextPath }/public/ZHQ/css/footer-v2.css" media="screen" rel="stylesheet">
+<link href="${ pageContext.request.contextPath }/public/ZHQ/css/img-hover.css" media="screen" rel="stylesheet">
+<link href="${ pageContext.request.contextPath }/public/ZHQ/css/page_job.css" media="screen" rel="stylesheet">
+<link href="${ pageContext.request.contextPath }/public/ZHQ/css/forum.css" media="screen" rel="stylesheet">
+<link href="${ pageContext.request.contextPath }/public/ZHQ/css/shop.style.css" media="screen" rel="stylesheet">
+<script src="${ pageContext.request.contextPath }/public/ZHQ/js/hm.js"></script>
+<script src="${ pageContext.request.contextPath }/public/ZHQ/js/jquery.min.js"></script>
 <!--导航js-->
-<script src="<%=basePath%>public/ZHQ/js/jquery_ujs.js"></script>
-<script src="<%=basePath%>public/ZHQ/js/bootstrap.min.js"></script>
+<script src="${ pageContext.request.contextPath }/public/ZHQ/js/jquery_ujs.js"></script>
+<script src="${ pageContext.request.contextPath }/public/ZHQ/js/bootstrap.min.js"></script>
   <script type="text/javascript">
 
  </script>
@@ -48,13 +47,13 @@
     <div class="item item1">
     
       <div class="icon">
-        <a href="<%=basePath%>post/getIndexlist.html?parkId=${hotParks[0].id}">
+        <a href="${ pageContext.request.contextPath }/post/getIndexlist.html?parkId=${hotParks[0].id}">
         <i class="fa fa-comments-o">
-        <img src="<%=basePath%>public/ZHQ/images/icon_02.png"/>
+        <img src="${ pageContext.request.contextPath }/public/ZHQ/images/icon_02.png"/>
         </i></a>
       </div>
       <div class="text">
-        <a href="<%=basePath%>post/getIndexlist.html?parkId=${hotParks[0].id}">
+        <a href="${ pageContext.request.contextPath }/post/getIndexlist.html?parkId=${hotParks[0].id}">
            ${hotParks[0].name}
        <i class="pull-right fa fa-arrow-right"></i></a>
       </div>
@@ -65,10 +64,10 @@
     <div class="item item2">
     
       <div class="icon">
-        <a href="<%=basePath%>post/getIndexlist.html?parkId=${hotParks[1].id}"><i class="fa fa-support"><img src="<%=basePath%>public/ZHQ/images/icon_04.png"/></i></a>
+        <a href="${ pageContext.request.contextPath }/post/getIndexlist.html?parkId=${hotParks[1].id}"><i class="fa fa-support"><img src="${ pageContext.request.contextPath }/public/ZHQ/images/icon_04.png"/></i></a>
       </div>
       <div class="text">
-        <a href="<%=basePath%>post/getIndexlist.html?parkId=${hotParks[1].id}">      
+        <a href="${ pageContext.request.contextPath }/post/getIndexlist.html?parkId=${hotParks[1].id}">      
             ${hotParks[1].name} 
          <i class="pull-right fa fa-arrow-right"></i></a>
       </div>
@@ -79,10 +78,10 @@
     <div class="item item3">
     
       <div class="icon">
-        <a href="<%=basePath%>post/getIndexlist.html?parkId=${hotParks[2].id}"><i class="fa fa-users"><img src="<%=basePath%>public/ZHQ/images/icon_03.png"/></i></a>
+        <a href="${ pageContext.request.contextPath }/post/getIndexlist.html?parkId=${hotParks[2].id}"><i class="fa fa-users"><img src="${ pageContext.request.contextPath }/public/ZHQ/images/icon_03.png"/></i></a>
       </div>
       <div class="text">
-        <a href="<%=basePath%>post/getIndexlist.html?parkId=${hotParks[2].id}" >          
+        <a href="${ pageContext.request.contextPath }/post/getIndexlist.html?parkId=${hotParks[2].id}" >          
 		 ${hotParks[2].name}
 		 <i class="pull-right fa fa-arrow-right"></i></a>
       </div>
@@ -92,10 +91,10 @@
     <div class="item item4">
    
       <div class="icon">
-        <a href="<%=basePath%>post/getIndexlist.html?parkId=${hotParks[3].id}"><i class="fa fa-diamond"> <img src="<%=basePath%>public/ZHQ/images/icon_08.png"/></i></a>
+        <a href="${ pageContext.request.contextPath }/post/getIndexlist.html?parkId=${hotParks[3].id}"><i class="fa fa-diamond"> <img src="${ pageContext.request.contextPath }/public/ZHQ/images/icon_08.png"/></i></a>
       </div>
       <div class="text">
-        <a href="<%=basePath%>post/getIndexlist.html?parkId=${hotParks[3].id}">
+        <a href="${ pageContext.request.contextPath }/post/getIndexlist.html?parkId=${hotParks[3].id}">
             ${hotParks[3].name}
         <i class="pull-right fa fa-arrow-right"></i></a>
       </div>
@@ -105,7 +104,7 @@
 
 <!-- 精华帖 -->
 <div class="home_suggest_topics panel panel-default">
-  <div class="panel-heading panel-title">社区精华帖<span class="fr"><a href="<%=basePath%>post/getHotlist.do" class="f14 b">更多>></a></span></div>
+  <div class="panel-heading panel-title">社区精华帖<span class="fr"><a href="${ pageContext.request.contextPath }/post/getHotlist.do" class="f14 b">更多>></a></span></div>
   <div class="panel-body topics row">
   
   <!-- 帖子div -->
@@ -115,7 +114,7 @@
       
         <!-- 左边头像 -->
         <div class="avatar media-left">
-          <img class="media-object avatar-48" src="<%=basePath%>public/ZHQ/images/boy.png" alt="196"></a>
+          <img class="media-object avatar-48" src="${ pageContext.request.contextPath }/public/ZHQ/images/boy.png" alt="196"></a>
         </div>
         
         <!-- 右边内容 -->
@@ -156,7 +155,7 @@
 
    <c:forEach items="${list }" var="park"> 
       <div class="home_suggest_topics panel panel-default">
-    <div class="panel-heading panel-title">${park.name }<span class="fr"><a href="<%=basePath%>post/getIndexlist.html?parkId=${park.id}" class="f14 b">更多>></a></span></div>
+    <div class="panel-heading panel-title">${park.name }<span class="fr"><a href="${ pageContext.request.contextPath }/post/getIndexlist.html?parkId=${park.id}" class="f14 b">更多>></a></span></div>
     <div class="panel-body topics row">
       <!-- 帖子div -->
   <c:forEach items="${park.posts }" var="post">
@@ -164,7 +163,7 @@
       <div class="topic media topic-31080">
         <!-- 左边头像 -->
         <div class="avatar media-left">
-          <img class="media-object avatar-48" src="<%=basePath%>public/ZHQ/images/boy.png" alt="196"></a>
+          <img class="media-object avatar-48" src="${ pageContext.request.contextPath }/public/ZHQ/images/boy.png" alt="196"></a>
         </div>
         <!-- 右边内容 -->
         <div class="infos media-body">

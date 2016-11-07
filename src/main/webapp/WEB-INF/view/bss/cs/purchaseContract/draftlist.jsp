@@ -3,27 +3,24 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ include file="../../../common.jsp"%>
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <base href="<%=basePath%>">
-    
     <title>采购合同管理</title>  
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script src="<%=basePath%>public/ZHH/js/jquery.min.js" type="text/javascript"></script>
-	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/ueditor.config.js"></script>
-	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/ueditor.all.min.js"> </script>
+	<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js" type="text/javascript"></script>
+	<script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/ueditor.config.js"></script>
+	<script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/ueditor.all.min.js"> </script>
 	<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
 	<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
-	<script type="text/javascript" charset="utf-8" src="<%=basePath%>/public/ueditor/lang/zh-cn/zh-cn.js"></script>
-	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
-    <script language="javascript" type="text/javascript" src="<%=basePath%>public/layer/layer.js"></script>
-	<script type="text/javascript" src="<%=basePath%>public/layer/extend/layer.ext.js"></script>
+	<script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath}/public/ueditor/lang/zh-cn/zh-cn.js"></script>
+	<script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
+    <script language="javascript" type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/extend/layer.ext.js"></script>
   <script type="text/javascript">
   $(function(){
 	  laypage({
@@ -91,7 +88,7 @@
 		if(ids.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>purchaseContract/deleteDraft.html?ids="+ids;
+				window.location.href="${pageContext.request.contextPath}/purchaseContract/deleteDraft.html?ids="+ids;
 			});
 		}else{
 			layer.alert("请选择要删除的信息",{offset: ['222px', '390px'], shade:0.01});
@@ -102,7 +99,7 @@
   		var projectName = $("#projectName").val();
   		var projectCode = $("#projectCode").val();
   		var purchaseDep = $("#purchaseDep").val();
-  		window.location.href="<%=basePath%>purchaseContract/selectAllPuCon.html?projectName="+projectName+"&projectCode="+projectCode+"&purchaseDep="+purchaseDep;
+  		window.location.href="${pageContext.request.contextPath}/purchaseContract/selectAllPuCon.html?projectName="+projectName+"&projectCode="+projectCode+"&purchaseDep="+purchaseDep;
   	}
   	
   	function resetForm(){
@@ -125,7 +122,7 @@
 			if(ids.length>1){
 				layer.alert("只可选择一条修改",{offset: ['222px', '390px'], shade:0.01});
 			}else{
-				window.location.href="<%=basePath%>purchaseContract/createDraftContract.html?ids="+ids;
+				window.location.href="${pageContext.request.contextPath}/purchaseContract/createDraftContract.html?ids="+ids;
 			}
 		}else{
 			layer.alert("请选择要修改的草稿",{offset: ['222px', '390px'], shade:0.01});
@@ -133,7 +130,7 @@
   	}
   	
   	function showDraftContract(id){
-  		window.location.href="<%=basePath%>purchaseContract/showDraftContract.html?ids="+id;
+  		window.location.href="${pageContext.request.contextPath}/purchaseContract/showDraftContract.html?ids="+id;
   	}
   	
   	var ind;
@@ -220,7 +217,7 @@
 	var inds = null;
 	function updateModel(){
 		$.ajax({
-			url:"<%=basePath%>templet/searchByTemtype.html",
+			url:"${pageContext.request.contextPath}/templet/searchByTemtype.html",
 			type:"POST",
 			data:{"temType":"合同模板"},
 			dataType:"text",
@@ -273,7 +270,7 @@
 <!-- 项目戳开始 -->
   <div class="container clear">
   <div class="p10_25">
-    <form id="form1" action="<%=basePath%>purchaseContract/selectDraftContract.html" method="post">
+    <form id="form1" action="${pageContext.request.contextPath}/purchaseContract/selectDraftContract.html" method="post">
     <input type="hidden" value="" id="page"/>
      <h2 class="padding-10 border1">
     	<ul class="demand_list">
@@ -363,7 +360,7 @@
      </div>
     </div>
    <div id="pagediv" align="right"></div>
-   <form id="contractForm" action="<%=basePath%>purchaseContract/updateDraftById.html" method="post" enctype="multipart/form-data">
+   <form id="contractForm" action="${pageContext.request.contextPath}/purchaseContract/updateDraftById.html" method="post" enctype="multipart/form-data">
    <input type="hidden" value="" id="ids" name="id"/>
    <input type="hidden" value="2" name="status"/>
    	<ul class="list-unstyled list-flow dnone mt10" id="numberWin">

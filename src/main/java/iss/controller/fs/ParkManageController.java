@@ -171,25 +171,7 @@ public class ParkManageController extends BaseSupplierController {
 		}else{		
 			String userId = request.getParameter("userId");
 			if(!(userId.equals(null) || userId.equals(""))){
-				 User user = userService.getUserById(userId);
-				//设置权限
-				Role role = roleService.get("018375864F3C403CAC7698C2549763F0");
-				List<Role> roles = new ArrayList<Role>();
-				roles.add(role);
-				user.setRoles(roles);
-				
-				/*UserPreMenu um = new UserPreMenu();
-				um.setUser(user);
-				userService.deleteUserMenu(um);
-				String ids ="C58C30A33C4A4AB49B125589267BE64B,0298F628AB6C4018A0B43561993A43DE,DDA573A2CCA54DF29E4B8BCCDFAF80DA,8715A14AB3F74D77AF85C443386023F3,3DFF3C15462047A185B6173348BE7839,4AE68DC483454C298D9330A9976159F3";
-				String[] mIds = ids.split(",");
-				for (String str : mIds) {
-					UserPreMenu up = new UserPreMenu();
-					PreMenu preMenu = preMenuService.get(str);
-					up.setPreMenu(preMenu);
-					up.setUser(user);
-					userService.saveUserMenu(up);
-				}*/
+				 User user = userService.getUserById(userId);			
 				park.setUser(user);
 			}
 			User creater = (User) request.getSession().getAttribute("loginUser");
@@ -270,24 +252,9 @@ public class ParkManageController extends BaseSupplierController {
 			url = "iss/forum/park/edit";
 			
 		}else{
-			String oldUserId = request.getParameter("oldUserId");
-			//更新权限
-			System.out.println(!(oldUserId.equals(null) || oldUserId.equals("")));
-			if( !(oldUserId.equals(null) || oldUserId.equals(""))){
-				User oldUser = userService.getUserById(oldUserId);
-				UserPreMenu um = new UserPreMenu();
-				um.setUser(oldUser);
-				userService.deleteUserMenu(um);
-			}
 			String userId = request.getParameter("userId");
-			System.out.println(!(userId.equals(null) && userId.equals("")));
 			if(!(userId.equals(null) || userId.equals(""))){
 				User user = userService.getUserById(userId);		
-				//角色
-				Role role = roleService.get("018375864F3C403CAC7698C2549763F0");
-				List<Role> roles = new ArrayList<Role>();
-				roles.add(role);
-				user.setRoles(roles);	
 				park.setUser(user);
 			}
 			Timestamp ts = new Timestamp(new Date().getTime());

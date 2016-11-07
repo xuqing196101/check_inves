@@ -7,17 +7,15 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <base href="<%=basePath%>">
-    
     <title>栏目管理</title>  
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script src="<%=basePath%>public/ZHH/js/jquery.min.js" type="text/javascript"></script>
-	  <script src="<%=basePath%>public/layer/layer.js"></script>
-	  <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+	<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js" type="text/javascript"></script>
+	  <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+	  <script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
   <script type="text/javascript">
   $(function(){
 	  laypage({
@@ -35,7 +33,7 @@
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		            location.href = '<%=basePath%>articletype/getAll.do?page='+e.curr;
+		            location.href = '${pageContext.request.contextPath}/articletype/getAll.do?page='+e.curr;
 		        }
 		    }
 		});
@@ -77,7 +75,7 @@
 	}
 	
   	function view(id){
-  		window.location.href="<%=basePath%>articletype/view.html?id="+id;
+  		window.location.href="${pageContext.request.contextPath}/articletype/view.html?id="+id;
   	}
   	
     function edit(){
@@ -87,7 +85,7 @@
 		}); 
 		if(id.length==1){
 			
-			window.location.href="<%=basePath%>articletype/edit.html?id="+id;
+			window.location.href="${pageContext.request.contextPath}/articletype/edit.html?id="+id;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{

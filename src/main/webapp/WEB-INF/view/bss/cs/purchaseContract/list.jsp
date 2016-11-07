@@ -3,21 +3,18 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ include file="../../../common.jsp"%>
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <base href="<%=basePath%>">
-    
     <title>采购合同管理</title>  
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script src="<%=basePath%>public/ZHH/js/jquery.min.js" type="text/javascript"></script>
-	  <script src="<%=basePath%>public/layer/layer.js"></script>
-	  <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+	<script src="${pageContext.request.contextPath}/public/ZHH/js/jquery.min.js" type="text/javascript"></script>
+	  <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
+	  <script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
   <script type="text/javascript">
   $(function(){
 	  laypage({
@@ -37,7 +34,7 @@
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
 		        	var articleId = "${articleId}";
 		        	var condition = "${userName}";
-		            location.href = "<%=basePath%>downloadUser/selectDownloadUserByArticleId.html?page="+e.curr+"&articleId="+articleId+"&userName="+condition;
+		            location.href = "${pageContext.request.contextPath}/downloadUser/selectDownloadUserByArticleId.html?page="+e.curr+"&articleId="+articleId+"&userName="+condition;
 		        }
 		    }
 		});
@@ -79,7 +76,7 @@
 	}
 	
   	function view(id){
-  		window.location.href="<%=basePath%>articletype/view.html?id="+id;
+  		window.location.href="${pageContext.request.contextPath}/articletype/view.html?id="+id;
   	}
     
   	function del(){
@@ -90,7 +87,7 @@
 		if(ids.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>downloadUser/deleteDownloadUser.html?ids="+ids;
+				window.location.href="${pageContext.request.contextPath}/downloadUser/deleteDownloadUser.html?ids="+ids;
 			});
 		}else{
 			layer.alert("请选择要删除的信息",{offset: ['222px', '390px'], shade:0.01});
@@ -101,7 +98,7 @@
   		var projectName = $("#projectName").val();
   		var projectCode = $("#projectCode").val();
   		var purchaseDep = $("#purchaseDep").val();
-  		window.location.href="<%=basePath%>purchaseContract/selectAllPuCon.html?projectName="+projectName+"&projectCode="+projectCode+"&purchaseDep="+purchaseDep;
+  		window.location.href="${pageContext.request.contextPath}/purchaseContract/selectAllPuCon.html?projectName="+projectName+"&projectCode="+projectCode+"&purchaseDep="+purchaseDep;
   	}
   	
   	function reset(){
@@ -120,7 +117,7 @@
 				layer.alert("只可选择一条项目生成",{offset: ['222px', '390px'], shade:0.01});
 			}else{
 				$.ajax({
-		  			url:"<%=basePath%>purchaseContract/selectSuppliers.html?packageId="+ids,
+		  			url:"${pageContext.request.contextPath}/purchaseContract/selectSuppliers.html?packageId="+ids,
 		  			dataType:"text",
 		  			type:"POST",
 		  			success:function(data){
@@ -138,7 +135,7 @@
 						});
 		  			}
 		  		});
-				//window.location.href="<%=basePath%>purchaseContract/createCommonContract.html?ids="+ids;
+				//window.location.href="${pageContext.request.contextPath}/purchaseContract/createCommonContract.html?ids="+ids;
 			}
 		}else{
 			layer.alert("请选择要生成的项目",{offset: ['222px', '390px'], shade:0.01});
@@ -154,7 +151,7 @@
   		if(del==null || del==''){
   			layer.alert("请选择供应商",{offset: ['222px', '390px'], shade:0.01});
   		}else{
-  			window.location.href="<%=basePath%>purchaseContract/createCommonContract.html?supid="+supid+"&id="+ids;
+  			window.location.href="${pageContext.request.contextPath}/purchaseContract/createCommonContract.html?supid="+supid+"&id="+ids;
   		}
   	}
   	
@@ -167,7 +164,7 @@
 		if(ids.length>0){
 			if(ids.length>1){
 				$.ajax({
-					url:"<%=basePath%>purchaseContract/createAllCommonContract.html?ids="+ids,
+					url:"${pageContext.request.contextPath}/purchaseContract/createAllCommonContract.html?ids="+ids,
 					type:"POST",
 					dataType:"text",
 					success:function(data){
@@ -175,11 +172,11 @@
 						var ss = dd.split("=");
 						if(ss[0]=="true"){
 							$.ajax({
-					  			url:"<%=basePath%>purchaseContract/selectSupplierByPId.html?packageId="+ids,
+					  			url:"${pageContext.request.contextPath}/purchaseContract/selectSupplierByPId.html?packageId="+ids,
 					  			dataType:"json",
 					  			type:"POST",
 					  			success:function(data){
-									window.location.href="<%=basePath%>purchaseContract/createCommonContract.html?id="+ids+"&supid="+data;
+									window.location.href="${pageContext.request.contextPath}/purchaseContract/createCommonContract.html?id="+ids+"&supid="+data;
 					  			}
 							});
 						}else if(ss[0]=="false"){

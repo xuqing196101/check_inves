@@ -6,9 +6,7 @@
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-  <head>
-    <base href="<%=basePath%>">
-    
+  <head>    
     <title>主题管理</title>  
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -19,7 +17,7 @@
 	<script type="text/javascript" src="${ pageContext.request.contextPath }/public/layer/extend/layer.ext.js"></script>
 	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.css" rel="stylesheet" type="text/css" />
 	<link href="${ pageContext.request.contextPath }/public/layer/skin/layer.ext.css" rel="stylesheet" type="text/css" />
-	<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+	<script src="${ pageContext.request.contextPath }/public/laypage-v1.3/laypage/laypage.js"></script>
   <script type="text/javascript">
   $(function(){
 
@@ -42,7 +40,7 @@
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
 		            var condition = "${describe}";
 		            var parkId = "${parkId}";
-		            location.href = "<%=basePath%>topic/getlist.do?condition="+condition+"&parkId="+parkId+"&page="+e.curr;
+		            location.href = "${ pageContext.request.contextPath }/topic/getlist.do?condition="+condition+"&parkId="+parkId+"&page="+e.curr;
 		        }
 		    }
 		});
@@ -86,7 +84,7 @@
 	}
 	
   	function view(id){
-  		window.location.href="<%=basePath%>topic/view.html?id="+id;
+  		window.location.href="${ pageContext.request.contextPath }/topic/view.html?id="+id;
   	}
   	
     function edit(){
@@ -96,7 +94,7 @@
 		}); 
 		if(id.length==1){
 			
-			window.location.href="<%=basePath%>topic/edit.html?id="+id;
+			window.location.href="${ pageContext.request.contextPath }/topic/edit.html?id="+id;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -112,7 +110,7 @@
 		if(id.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>topic/delete.html?id="+id;
+				window.location.href="${ pageContext.request.contextPath }/topic/delete.html?id="+id;
 			});
 		}else{
 			layer.alert("请选择要删除的主题",{offset: ['222px', '390px'], shade:0.01});
@@ -120,7 +118,7 @@
     }
     
     function add(){
-    	window.location.href="<%=basePath%>topic/add.html";
+    	window.location.href="${ pageContext.request.contextPath }/topic/add.html";
     }
     
 	//鼠标移动显示全部内容
@@ -139,7 +137,7 @@
 	 function search(){
 	    var condition = $("#condition").val();
 	    var parkId = $("#parkId  option:selected").val();
-	    location.href = "<%=basePath%>topic/getlist.do?condition="+condition+"&parkId="+parkId;
+	    location.href = "${ pageContext.request.contextPath }/topic/getlist.do?condition="+condition+"&parkId="+parkId;
 
 	 }
 	 function reset(){
@@ -164,18 +162,22 @@
    <div class="container">
 
 <!-- 项目戳开始 -->
-  <div class="container clear">
-   <div class="padding-10 border1 m0_25">
-     <ul class="demand_list list-unstyled">
+
+   
+	<div class="headline-v2">
+	   	<h2>主题管理</h2>
+	</div>
+<h2 class="search_detail">
+     <ul class="demand_list ">
        <li class="fl">
-       <label class="fl mt10">主题介绍：</label>
-       <span><input type="text" id="condition" class="mb0 mt5" value="${describe }"/></span>
+       <label class="fl">主题介绍：</label>
+       <span><input type="text" id="condition" class="" value="${describe }"/></span>
        </li>
         
        <li class="fl">
-         <label class="fl mt10 ml10">所属版块：</label>
+         <label class="fl">所属版块：</label>
             <span>
-	        <select id ="parkId" class="w220 mt5" >
+            <select id ="parkId" class="w178" >
              <option></option>
              <c:forEach items="${parks}" var="park">
                   <option  value="${park.id}">${park.name}</option>
@@ -183,29 +185,20 @@
              </select>
             </span>
        </li>
-         <button class="btn btn_back fl ml10 mt8" onclick="search()">查询</button>
-         <button class="btn btn_back fl ml10 mt8" onclick="reset()">重置</button>
+         <button class="btn  " onclick="search()">查询</button>
+         <button class="btn  " onclick="reset()">重置</button>
      </ul>
      <div class="clear"></div>
-   </div>
-  </div>
-   
-	<div class="headline-v2">
-	   	<h2>主题管理</h2>
-	</div>
-
+  </h2>
 <!-- 表格开始-->
-   <div class="container">
-   <div class="col-md-12 pl20">
+   <div class="col-md-12 pl20 mt10">
     <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
 	<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 	<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
 	</div>
-    </div>
-   
-   <div class="container">
-     <div class="content padding-left-25 padding-right-25 padding-top-5">
-   	<table class="table table-striped table-bordered table-hover">
+
+   <div class="content table_box">
+        <table class="table table-bordered table-condensed table-hover">
     
 		<thead>
 			<tr>
@@ -247,8 +240,6 @@
 	</table>
      </div>
    <div id="pagediv" align="right"></div>
-   </div>
-   
    </div>
   </body>
 </html>

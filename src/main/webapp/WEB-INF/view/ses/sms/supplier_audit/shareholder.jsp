@@ -56,7 +56,7 @@ function reason(id){
     $.ajax({
         url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
         type:"post",
-        data:"auditType="+auditType+"&auditFieldName="+id+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField=表格",
+        data:"auditType="+auditType+"&auditFieldName=股东信息"+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+id,
         dataType:"json",
         success:function(result){
         result = eval("(" + result + ")");

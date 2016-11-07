@@ -56,14 +56,14 @@ input {
 function reason(id){
   var supplierId=$("#supplierId").val();
   /* var auditContent="销售资质证书为："+$("#"+id).text()+"的信息"; */ //审批的字段内容
-  var auditContent= "供应商资质证书";
+  var auditContent= "销售-资质证书信息";
   var auditType=$("#materialSales").text();//审核类型
     var fail = false;
    layer.prompt({title: '请填写不通过的理由：', formType: 2}, function(text){
     $.ajax({
         url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
         type:"post",
-        data:"auditType="+auditType+"&auditFieldName="+id+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField=表格",
+        data:"auditType="+auditType+"&auditFieldName=销售-资质证书"+"&auditContent="+auditContent+"&suggest="+text+"&supplierId="+supplierId+"&auditField="+id,
         dataType:"json",
         success:function(result){
         result = eval("(" + result + ")");
@@ -240,31 +240,31 @@ function nextStep(url){
 	                    <ul class="list-unstyled list-flow">
 	                      <li class="col-md-6 p0"><span class="" id="orgName2">组织机构：</span>
 	                        <div class="input-append">
-	                          <input id="orgName" class="span3" type="text" value="${supplierMatSells.orgName }" onclick="reason1(this.id,'orgName')"/>
+	                          <input id="orgName" class="span3" type="text" value="${supplierMatSells.orgName }" onclick="reason1(this.id,'supplierMatSell.orgName')"/>
 	                          <div id="orgName3"  class="b f18 fl ml10 hand red">×</div>
 	                        </div>
 	                      </li>
 	                      <li class="col-md-6 p0"><span class="" id="totalPerson2">人员总数：</span>
 	                        <div class="input-append">
-	                          <input id="totalPerson" class="span3" type="text" value="${supplierMatSells.totalPerson }" onclick="reason1(this.id,'totalPerson')"/>
+	                          <input id="totalPerson" class="span3" type="text" value="${supplierMatSells.totalPerson }" onclick="reason1(this.id,'supplierMatSell.totalPerson')"/>
 	                          <div id="totalPerson3"  class="b f18 fl ml10 hand red">×</div>
 	                        </div>
 	                      </li>
 	                      <li class="col-md-6 p0"><span class="" id="totalMange2">管理人员：</span>
 	                        <div class="input-append">
-	                          <input id="totalMange" class="span3" type="text"  value="${supplierMatSells.totalMange }" onclick="reason1(this.id,'totalMange')"/>
+	                          <input id="totalMange" class="span3" type="text"  value="${supplierMatSells.totalMange }" onclick="reason1(this.id,'supplierMatSell.totalMange')"/>
 	                        <div id="totalMange3" class="b f18 fl ml10 hand red">×</div>
 	                        </div>
 	                      </li>
 	                      <li class="col-md-6 p0"><span class="" id="totalTech2">技术人员：</span>
 	                        <div class="input-append">
-	                          <input id="totalTech" class="span3" type="text"  value="${supplierMatSells.totalTech }" onclick="reason1(this.id,'totalTech')"/>
+	                          <input id="totalTech" class="span3" type="text"  value="${supplierMatSells.totalTech }" onclick="reason1(this.id,'supplierMatSell.totalTech')"/>
 	                        <div id="totalTech3" class="b f18 fl ml10 hand red">×</div>
 	                        </div>
 	                      </li>
 	                      <li class="col-md-6 p0"><span class="" id="totalWorker2">工人(职员)：</span>
 	                        <div class="input-append">
-	                          <input id="totalWorker" class="span3" type="text" value="${supplierMatSells.totalWorker }" onclick="reason1(this.id,'totalWorker')"/>
+	                          <input id="totalWorker" class="span3" type="text" value="${supplierMatSells.totalWorker }" onclick="reason1(this.id,'supplierMatSell.totalWorker')"/>
 	                        <div id="totalWorker3" class="b f18 fl ml10 hand red">×</div>
 	                        </div>
 	                      </li>

@@ -232,6 +232,7 @@ alert(supplierInspectListFile);
 	                </c:if>
 	                <c:if test="${num!=0}">
 	                  <input class="btn btn-windows reset"  type="button" onclick="shenhe(2)" value="初审不通过">
+	                  <input class="btn btn-windows reset"  type="button" onclick="shenhe(7)" value="退回修改">
 	                </c:if>
 	              </c:if>
 	              <c:if test="${status==1 || status==6}">
@@ -240,6 +241,7 @@ alert(supplierInspectListFile);
 	                </c:if>
 	                <c:if test="${num!=0}">
 	                  <input class="btn btn-windows edit"  type="button" onclick="shenhe(4)" value="复审不通过">
+	                  <input class="btn btn-windows reset"  type="button" onclick="shenhe(8)" value="退回修改">
 	                </c:if>
 	              </c:if>
 	              <%-- <input class="btn btn-windows reset" onclick="location='<%=basePath%>supplierAudit/supplierAll.html'" type="button"  value="完成"> --%>

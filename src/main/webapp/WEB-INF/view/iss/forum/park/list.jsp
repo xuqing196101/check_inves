@@ -7,7 +7,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <base href="<%=basePath%>">
     
     <title>版块管理</title>  
 	<meta http-equiv="pragma" content="no-cache">
@@ -15,9 +14,9 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script src="<%=basePath%>public/ZHH/js/jquery.min.js" type="text/javascript"></script>
-	 <script src="<%=basePath%>public/layer/layer.js"></script>
-	 <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+	<script src="${ pageContext.request.contextPath }/public/ZHH/js/jquery.min.js" type="text/javascript"></script>
+	 <script src="${ pageContext.request.contextPath }/public/layer/layer.js"></script>
+	 <script src="${ pageContext.request.contextPath }/public/laypage-v1.3/laypage/laypage.js"></script>
   <script type="text/javascript">
   $(function(){
 	  laypage({
@@ -35,7 +34,7 @@
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		            location.href = '<%=basePath%>park/getlist.do?page='+e.curr;
+		            location.href = '${ pageContext.request.contextPath }/park/getlist.do?page='+e.curr;
 		        }
 		    }
 		});
@@ -77,7 +76,7 @@
 	}
 	
   	function view(id){
-  		window.location.href="<%=basePath%>park/view.html?id="+id;
+  		window.location.href="${ pageContext.request.contextPath }/park/view.html?id="+id;
   	}
   	
     function edit(){
@@ -87,7 +86,7 @@
 		}); 
 		if(id.length==1){
 			
-			window.location.href="<%=basePath%>park/edit.html?id="+id;
+			window.location.href="${ pageContext.request.contextPath }/park/edit.html?id="+id;
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
@@ -103,7 +102,7 @@
 		if(ids.length>0){
 			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				layer.close(index);
-				window.location.href="<%=basePath%>park/delete.html?ids="+ids;
+				window.location.href="${ pageContext.request.contextPath }/park/delete.html?ids="+ids;
 			});
 		}else{
 			layer.alert("请选择要删除的版块",{offset: ['222px', '390px'], shade:0.01});
@@ -111,7 +110,7 @@
     }
     
     function add(){
-    	window.location.href="<%=basePath%>park/add.html";
+    	window.location.href="${ pageContext.request.contextPath }/park/add.html";
     }
     
 	//鼠标移动显示全部内容
@@ -146,8 +145,8 @@
 	</div>
 
 <!-- 表格开始-->
-   <div class="container">
-   <div class="col-md-12 pl20">
+
+   <div class="col-md-12 pl20 mt10">
     <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
 	<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 	<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
@@ -155,8 +154,8 @@
     </div>
    
    <div class="container">
-     <div class="content padding-left-25 padding-right-25 padding-top-5">
-   	<table class=" table table-striped table-bordered table-hover">
+     <div class="content table_box">
+   	<table class=" table table-condensed table-bordered table-hover">
     
 		<thead>
 			<tr>
@@ -203,6 +202,6 @@
      </div>
    	<div id="pagediv" align="right"></div>
    </div>
-</div>
+
 	 </body>
 </html>

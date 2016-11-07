@@ -6,33 +6,31 @@
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-  <head>
-    <base href="<%=basePath%>">
-    
+  <head>  
     <title></title>  
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-		<link href="<%=basePath%>public/ZHQ/css/common.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHQ/css/bootstrap.min.css" media="screen" rel="stylesheet">
-    <link href="<%=basePath%>public/ZHQ/css/style.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/line-icons.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/app.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/application.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/header-v4.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/footer-v2.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/img-hover.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/page_job.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/shop.style.css" media="screen" rel="stylesheet">
-<link href="<%=basePath%>public/ZHQ/css/forum.css" media="screen" rel="stylesheet">
-<script src="<%=basePath%>public/ZHQ/js/hm.js"></script>
-<script src="<%=basePath%>public/ZHQ/js/jquery.min.js"></script>
+		<link href="${ pageContext.request.contextPath }/public/ZHQ/css/common.css" media="screen" rel="stylesheet">
+    <link href="${ pageContext.request.contextPath }/public/ZHQ/css/bootstrap.min.css" media="screen" rel="stylesheet">
+    <link href="${ pageContext.request.contextPath }/public/ZHQ/css/style.css" media="screen" rel="stylesheet">
+<link href="${ pageContext.request.contextPath }/public/ZHQ/css/line-icons.css" media="screen" rel="stylesheet">
+<link href="${ pageContext.request.contextPath }/public/ZHQ/css/app.css" media="screen" rel="stylesheet">
+<link href="${ pageContext.request.contextPath }/public/ZHQ/css/application.css" media="screen" rel="stylesheet">
+<link href="${ pageContext.request.contextPath }/public/ZHQ/css/header-v4.css" media="screen" rel="stylesheet">
+<link href="${ pageContext.request.contextPath }/public/ZHQ/css/footer-v2.css" media="screen" rel="stylesheet">
+<link href="${ pageContext.request.contextPath }/public/ZHQ/css/img-hover.css" media="screen" rel="stylesheet">
+<link href="${ pageContext.request.contextPath }/public/ZHQ/css/page_job.css" media="screen" rel="stylesheet">
+<link href="${ pageContext.request.contextPath }/public/ZHQ/css/shop.style.css" media="screen" rel="stylesheet">
+<link href="${ pageContext.request.contextPath }/public/ZHQ/css/forum.css" media="screen" rel="stylesheet">
+<script src="${ pageContext.request.contextPath }/public/ZHQ/js/hm.js"></script>
+<script src="${ pageContext.request.contextPath }/public/ZHQ/js/jquery.min.js"></script>
 <!--导航js-->
-<script src="<%=basePath%>public/ZHQ/js/jquery_ujs.js"></script>
-<script src="<%=basePath%>public/ZHQ/js/bootstrap.min.js"></script>
-<script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+<script src="${ pageContext.request.contextPath }/public/ZHQ/js/jquery_ujs.js"></script>
+<script src="${ pageContext.request.contextPath }/public/ZHQ/js/bootstrap.min.js"></script>
+<script src="${ pageContext.request.contextPath }/public/laypage-v1.3/laypage/laypage.js"></script>
   <script type="text/javascript">
   $(function(){
       $("#parkId").val("${parkId}");
@@ -58,7 +56,7 @@
                     var parkId = "${parkId}";
                     var topicId = "${topicId}";
                     var searchType ="${searchType}";
-                    location.href = "<%=basePath%>post/getIndexlist.do?parkId="+parkId+"&topicId="+topicId+"&searchType="+searchType+"&page="+e.curr;
+                    location.href = "${ pageContext.request.contextPath }/post/getIndexlist.do?parkId="+parkId+"&topicId="+topicId+"&searchType="+searchType+"&page="+e.curr;
                 }
             }
         });
@@ -66,13 +64,13 @@
   
   function search(topicId){
 	  var parkId = "${parkId}";
-	  location.href = "<%=basePath%>post/getIndexlist.do?parkId="+parkId+"&topicId="+topicId;
+	  location.href = "${ pageContext.request.contextPath }/post/getIndexlist.do?parkId="+parkId+"&topicId="+topicId;
   }
   function searchType(type){
 	  var parkId = "${parkId}";
       var topicId = "${topicId}";
       var searchType = type;
-      location.href = "<%=basePath%>post/getIndexlist.do?parkId="+parkId+"&topicId="+topicId+"&searchType="+searchType;
+      location.href = "${ pageContext.request.contextPath }/post/getIndexlist.do?parkId="+parkId+"&topicId="+topicId+"&searchType="+searchType;
   }
  </script>
   </head>
@@ -113,7 +111,7 @@
       <div class="topic media topic-31080">
         <!-- 左边头像 -->
         <div class="avatar media-left">
-          <img class="media-object avatar-48" src="<%=basePath%>public/ZHQ/images/boy.png" alt="196"></a>
+          <img class="media-object avatar-48" src="${ pageContext.request.contextPath }/public/ZHQ/images/boy.png" alt="196"></a>
         </div>
         <!-- 右边内容 -->
         <div class="infos media-body">
@@ -159,7 +157,7 @@
       <div class="topic media topic-31080">
         <!-- 左边头像 -->
         <div class="avatar media-left">
-          <img class="media-object avatar-48" src="https://ruby-china-files.b0.upaiyun.com/user/avatar/196.jpg!md" alt="196"></a>
+          <img class="media-object avatar-48" src="${ pageContext.request.contextPath }/public/ZHQ/images/boy.png" alt="196"></a>
         </div>
         <!-- 右边内容 -->
         <div class="infos media-body">

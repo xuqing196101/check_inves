@@ -33,6 +33,7 @@ import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierProducts;
+import ses.model.sms.SupplierRegPerson;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierType;
 import ses.service.bms.CategoryService;
@@ -250,7 +251,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		/*List<SupplierCertPro> materialProduction = supplierService.get(supplierId).getSupplierMatPro().getListSupplierCertPros();*/
 		//资质资格证书信息
 		List<SupplierCertPro> materialProduction = supplierAuditService.findBySupplierId(supplierId);
-		//供应商组织机构人员,产品研发能力,产品生产能里,质检测试登记信息
+		//供应商组织机构人员,产品研发能力,产品生产能力,质检测试登记信息
 		/*supplierMatPro = supplierAuditService.findSupplierMatProBysupplierId(supplierId);*/
 		supplierMatPro =supplierService.get(supplierId).getSupplierMatPro();
 		//勾选的供应商类型
@@ -321,18 +322,28 @@ public class SupplierAuditController extends BaseSupplierController{
 	@RequestMapping("engineering")
 	public String engineeringInformation(HttpServletRequest request,SupplierMatEng supplierMatEng){
 		String supplierId = supplierMatEng.getSupplierId();
+		if(supplierId != null){
 		//资质资格证书信息
 		List<SupplierCertEng> supplierCertEng= supplierAuditService.findCertEngBySupplierId(supplierId);
+		request.setAttribute("supplierCertEng", supplierCertEng);
+		
 		//资质资格信息
 		List<SupplierAptitute> supplierAptitute = supplierAuditService.findAptituteBySupplierId(supplierId);
-		//组织结构和注册人人员
+		request.setAttribute("supplierAptitutes", supplierAptitute);
+		
+		//组织结构
 		supplierMatEng = supplierAuditService.findMatEngBySupplierId(supplierId);
+		request.setAttribute("supplierMatEngs",supplierMatEng);
+		
+		//注册人人员
+		 List<SupplierRegPerson> listSupplierRegPersons = supplierService.get(supplierId).getSupplierMatEng().getListSupplierRegPersons();
+		 request.setAttribute("listRegPerson", listSupplierRegPersons);
+		}
+
 		//勾选的供应商类型
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
 		request.setAttribute("supplierTypeNames", supplierTypeName);
-		request.setAttribute("supplierCertEng", supplierCertEng);
-		request.setAttribute("supplierAptitutes", supplierAptitute);
-		request.setAttribute("supplierMatEngs",supplierMatEng);
+		
 		request.setAttribute("supplierId", supplierId);
 		
 		//下一步的跳转页面
@@ -413,7 +424,6 @@ public class SupplierAuditController extends BaseSupplierController{
 				same = false; 
 				break;
 			}
-
 		}
 		if(same){
 			supplierAuditService.auditReasons(supplierAudit);
