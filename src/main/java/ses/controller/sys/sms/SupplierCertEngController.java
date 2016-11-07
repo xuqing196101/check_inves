@@ -42,7 +42,7 @@ public class SupplierCertEngController extends BaseSupplierController {
 	
 	@RequestMapping(value = "save_or_update_cert_eng")
 	public String saveOrUpdateCertEng(HttpServletRequest request, SupplierCertEng supplierCertEng, String supplierId) throws IOException {
-		this.setCertEngUpload(request, supplierCertEng);
+		// this.setCertEngUpload(request, supplierCertEng);
 		supplierCertEngService.saveOrUpdateCertEng(supplierCertEng);
 		Supplier supplier = supplierService.get(supplierId);
 		request.getSession().setAttribute("defaultPage", "tab-3");

@@ -132,7 +132,7 @@
 			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10">
-						<form id="products_form_id" action="${pageContext.request.contextPath}/supplier_products/perfect_products.html" method="post" enctype="multipart/form-data">
+						<form id="products_form_id" action="${pageContext.request.contextPath}/supplier_products/perfect_products.html" method="post">
 							<input name="id" value="${currSupplier.id}" type="hidden" /> 
 							<input name="jsp" type="hidden" />
 							<div class="tab-content padding-top-20">
@@ -158,8 +158,8 @@
 														<th class="info">保质期</th>
 														<th class="info">生产商</th>
 														<th class="info">参考价格</th>
-														<th class="info">产品图片</th>
-														<th class="info">商品二维码</th>
+														<%--<th class="info">产品图片</th>
+														<th class="info">商品二维码</th>--%>
 													</tr>
 												</thead>
 												<tbody id="products_tbody_id_${vs.index + 1}">
@@ -175,7 +175,7 @@
 															<td class="tc"><fmt:formatDate value="${products.expirationDate }" pattern="yyyy-MM-dd"/></td>
 															<td class="tc">${products.producer}</td>
 															<td class="tc">${products.referencePrice}</td>
-															<td class="tc">
+															<%--<td class="tc">
 																<c:if test="${products.productPic != null}">
 																	<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${products.productPic}')">下载附件</a>
 																</c:if>
@@ -190,7 +190,7 @@
 																<c:if test="${products.qrCode == null}">
 																	<span class="fz11">无附件下载</span>
 																</c:if>
-															</td>
+															</td>--%>
 														</tr>
 													</c:forEach>
 												</tbody>

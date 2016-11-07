@@ -1,5 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="up" uri="/tld/upload"%>
 <%@ include file="../../../../../index_head.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -97,7 +98,7 @@
 			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10">
-						<form id="template_upload_form_id" action="${pageContext.request.contextPath}/supplier/perfect_upload.html" method="post" enctype="multipart/form-data">
+						<form id="template_upload_form_id" action="${pageContext.request.contextPath}/supplier/perfect_upload.html" method="post">
 							<input name="id" value="${currSupplier.id}" type="hidden" /> 
 							<input name="jsp" type="hidden" />
 							<div class="tab-content padding-top-20">
@@ -109,7 +110,7 @@
 										</h2>
 										<ul class="list-unstyled list-flow">
 											<li id="level_li_id" class="col-md-6 p0"><span class="w245"><i class="red">＊</i> 军队供应商分级方法：</span>
-												<c:if test="${currSupplier.supplierLevel != null}">
+												<%--<c:if test="${currSupplier.supplierLevel != null}">
 													<div>
 														<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${currSupplier.supplierLevel}')">下载附件</a>
 														<a title="重新上传" class="ml10 red fz17" href="javascript:void(0)" onclick="uploadNew('level_li_id')">☓</a>
@@ -123,9 +124,11 @@
 															<input name="supplierLevelFile" type="file" size="30"/>
 														</div>
 													</div>
-												</c:if>
+												</c:if>--%>
+												<up:upload businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+												<up:show businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}"/>
 											</li>
-											<li id="pledge_li_id" class="col-md-6 p0"><span class="w245"><i class="red">＊</i>军队供应商承诺书：</span>
+											<%--<li id="pledge_li_id" class="col-md-6 p0"><span class="w245"><i class="red">＊</i>军队供应商承诺书：</span>
 												<c:if test="${currSupplier.supplierPledge != null}">
 													<div>
 														<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${currSupplier.supplierPledge}')">下载附件</a>
@@ -243,7 +246,7 @@
 														</div>
 													</div>
 												</c:if>
-											</li>
+											</li>--%>
 											<div class="clear"></div>
 										</ul>
 									</div>
@@ -251,7 +254,6 @@
 							</div>
 							<div class="mt40 tc mb50">
 								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveTemplate('template_download')">上一步</button>
-								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveTemplate('template_upload')">暂存</button>
 								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveTemplate('commit')">提交审核</button>
 							</div>
 						</form>

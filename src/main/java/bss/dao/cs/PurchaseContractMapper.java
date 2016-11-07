@@ -138,4 +138,6 @@ public interface PurchaseContractMapper {
     PurchaseContract selectFormalById(String id);
     
     List<PurchaseContract> selectFormalByContractType(Integer contractType);
+    
+    List<PurchaseContract> findPurchaseContractByMap(Map<String, Object> param);
 }

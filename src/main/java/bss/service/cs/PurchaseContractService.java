@@ -146,4 +146,15 @@ public interface PurchaseContractService {
     int createWord(PurchaseContract pur,List<ContractRequired> requList,HttpServletRequest request);
     
     List<PurchaseContract> selectFormalByContractType(Integer contractType);
+    
+    /**
+     * @Title: findPurchaseContractByMap
+     * @author: Wang Zhaohua
+     * @date: 2016-11-2 下午8:02:07
+     * @Description: 根据条件查询合同
+     * @param: @param param
+     * @param: @return
+     * @return: List<PurchaseContract>
+     */
+    List<PurchaseContract> findPurchaseContractByMap(PurchaseContract purchaseContract, int page);
 }

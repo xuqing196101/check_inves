@@ -1,7 +1,10 @@
 package ses.service.sms.impl;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +18,8 @@ import ses.dao.sms.SupplierAptituteMapper;
 import ses.dao.sms.SupplierAuditMapper;
 import ses.dao.sms.SupplierCertEngMapper;
 import ses.dao.sms.SupplierCertProMapper;
-import ses.dao.sms.SupplierCertServeMapper;
 import ses.dao.sms.SupplierCertSellMapper;
+import ses.dao.sms.SupplierCertServeMapper;
 import ses.dao.sms.SupplierFinanceMapper;
 import ses.dao.sms.SupplierMapper;
 import ses.dao.sms.SupplierMatEngMapper;
@@ -31,8 +34,8 @@ import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
-import ses.model.sms.SupplierCertServe;
 import ses.model.sms.SupplierCertSell;
+import ses.model.sms.SupplierCertServe;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
@@ -536,5 +539,16 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		}
 		return listSupplier;
 	}
-
+	
+	@Override
+	public List<SupplierAudit> findReason(SupplierAudit supplierAudit) {
+		Map<String, Object> param = new HashMap<String, Object>();
+		List<String> list = new ArrayList<String>();
+		for (String str : supplierAudit.getAuditType().split(",")) {
+			list.add(str);
+		}
+		param.put("list", list);
+		param.put("supplierId", supplierAudit.getSupplierId());
+		return supplierAuditMapper.findByMap(param);
+	}
 }

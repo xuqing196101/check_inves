@@ -52,7 +52,7 @@
 			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10">
-						<form id="stockholder_form_id" method="post" target="_parent"  enctype="multipart/form-data">
+						<form id="stockholder_form_id" method="post" target="_parent">
 							<input name="supplierId" value="${supplierId}" type="hidden" />
 							<div class="tab-content padding-top-20">
 								<!-- 详细信息 -->

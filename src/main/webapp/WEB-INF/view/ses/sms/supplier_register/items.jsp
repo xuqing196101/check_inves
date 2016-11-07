@@ -319,7 +319,7 @@
 			</div>
 		</div>
 	</div>
-	<form id="items_info_form_id" action="${pageContext.request.contextPath}/supplier_item/save_or_update.html" method="post" enctype="multipart/form-data">
+	<form id="items_info_form_id" action="${pageContext.request.contextPath}/supplier_item/save_or_update.html" method="post">
 		<input name="supplierId" value="${currSupplier.id}" type="hidden" /> 
 		<input name="jsp" type="hidden" />
 		<input type="hidden" name="defaultPage" value="${defaultPage}" />

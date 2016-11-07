@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,17 +21,16 @@ import org.springframework.stereotype.Service;
 
 import ses.util.PathUtil;
 import ses.util.PropertiesUtil;
+import bss.dao.cs.PurchaseContractMapper;
+import bss.model.cs.ContractRequired;
+import bss.model.cs.PurchaseContract;
+import bss.service.cs.PurchaseContractService;
 
 import com.github.pagehelper.PageHelper;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-
-import bss.dao.cs.PurchaseContractMapper;
-import bss.model.cs.ContractRequired;
-import bss.model.cs.PurchaseContract;
-import bss.service.cs.PurchaseContractService;
 
 @Service("purchaseContractService")
 public class PurchaseContractServiceImpl implements PurchaseContractService {
@@ -194,5 +192,28 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 	public List<PurchaseContract> selectFormalByContractType(
 			Integer contractType) {
 		return purchaseContractMapper.selectFormalByContractType(contractType);
+	}
+	
+	/**
+     * @Title: findPurchaseContractByMap
+     * @author: Wang Zhaohua
+     * @date: 2016-11-2 下午8:02:07
+     * @Description: 根据条件查询合同
+     * @param: @param param
+     * @param: @return
+     * @return: List<PurchaseContract>
+     */
+	@Override
+	public List<PurchaseContract> findPurchaseContractByMap(PurchaseContract purchaseContract, int page) {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("isDeleted", 0);// 未删除
+		param.put("status", 2);// 正常合同
+		param.put("isDeclare", purchaseContract.getIsDeclare());// 待报
+		param.put("projectName", purchaseContract.getProjectName());// 项目名称
+		
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page, Integer.parseInt(config.getString("pageSize")));
+		
+		return purchaseContractMapper.findPurchaseContractByMap(param);
 	}
 }

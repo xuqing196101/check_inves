@@ -71,6 +71,8 @@
 				}
 			});
 		}
+		
+		showReason();
 	});
 
 	/** 打开物资证书 */
@@ -388,6 +390,26 @@
 	}
 </script>
 
+<script type="text/javascript">
+	function showReason() {
+		var supplierId = "${currSupplier.id}";
+		var left = document.body.clientWidth - 500;
+		var top = window.screen.availHeight / 2 - 150;
+		layer.open({
+			type : 2,
+			title : '审核反馈',
+			closeBtn : 0, //不显示关闭按钮
+			skin : 'layui-layer-lan', //加上边框
+			area : [ '500px', '300px' ], //宽高
+			offset : [top, left],
+			shade : 0,
+			maxmin : true,
+			shift : 2,
+			content : '${pageContext.request.contextPath}/supplierAudit/showReasonsList.html?&auditType=物资-生产型专业信息,物资-销售型专业信息,工程-专业信息,服务-专业信息' + '&jsp=dialog_mat_reason' + '&supplierId=' + supplierId, //url
+		});
+	}
+</script>
+
 </head>
 
 <body>
@@ -572,8 +594,8 @@
 														<th class="info">有效期（起止时间）</th>
 														<th class="info">有效期（结束时间）</th>
 														<th class="info">是否年检</th>
-														<th class="info">附件</th>
-													</tr>
+														<%--<th class="info">附件</th>
+													--%></tr>
 												</thead>
 												<tbody id="cert_pro_list_tbody_id">
 													<c:forEach items="${currSupplier.supplierMatPro.listSupplierCertPros}" var="certPro" varStatus="vs">
@@ -585,14 +607,14 @@
 															<td class="tc"><fmt:formatDate value="${certPro.expStartDate}" pattern="yyyy-MM-dd" /></td>
 															<td class="tc"><fmt:formatDate value="${certPro.expEndDate}" pattern="yyyy-MM-dd" /></td>
 															<td class="tc">${certPro.mot}</td>
-															<td class="tc">
+															<%--<td class="tc">
 																<c:if test="${certPro.attach != null}">
 																	<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${certPro.attach}')">下载附件</a>
 																</c:if>
 																<c:if test="${certPro.attach == null}">
 																	<span class="fz11">无附件下载</span>
 																</c:if>
-															</td>
+															</td>--%>
 														</tr>
 													</c:forEach>
 												</tbody>
@@ -653,7 +675,7 @@
 														<th class="info">有效期（起止时间）</th>
 														<th class="info">有效期（结束时间）</th>
 														<th class="info">是否年检</th>
-														<th class="info">附件</th>
+														<%--<th class="info">附件</th>--%>
 													</tr>
 												</thead>
 												<tbody id="cert_sell_list_tbody_id">
@@ -666,14 +688,14 @@
 															<td class="tc"><fmt:formatDate value="${certSell.expStartDate}" pattern="yyyy-MM-dd" /></td>
 															<td class="tc"><fmt:formatDate value="${certSell.expEndDate}" pattern="yyyy-MM-dd" /></td>
 															<td class="tc">${certSell.mot}</td>
-															<td class="tc">
+															<%--<td class="tc">
 																<c:if test="${certSell.attach != null}">
 																	<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${certSell.attach}')">下载附件</a>
 																</c:if>
 																<c:if test="${certSell.attach == null}">
 																	<span class="fz11">无附件下载</span>
 																</c:if>
-															</td>
+															</td>--%>
 														</tr>
 													</c:forEach>
 												</tbody>
@@ -786,14 +808,14 @@
 															<td class="tc"><fmt:formatDate value="${certEng.expStartDate}" pattern="yyyy-MM-dd" /></td>
 															<td class="tc"><fmt:formatDate value="${certEng.expEndDate}" pattern="yyyy-MM-dd" /></td>
 															<td class="tc">${certEng.certStatus}</td>
-															<td class="tc">
+															<%--<td class="tc">
 																<c:if test="${certEng.attachCert != null}">
 																	<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${certEng.attachCert}')">下载附件</a>
 																</c:if>
 																<c:if test="${certEng.attachCert == null}">
 																	<span class="fz11">无附件下载</span>
 																</c:if>
-															</td>
+															</td>--%>
 														</tr>
 													</c:forEach>
 												</tbody>
@@ -820,7 +842,7 @@
 														<th class="info">资质资格状态</th>
 														<th class="info">资质资格状态变更时间</th>
 														<th class="info">资质资格状态变更原因</th>
-														<th class="info">附件</th>
+														<%--<th class="info">附件</th>--%>
 													</tr>
 												</thead>
 												<tbody id="aptitute_list_tbody_id">
@@ -840,14 +862,14 @@
 															<td class="tc">${aptitute.aptituteStatus}</td>
 															<td class="tc"><fmt:formatDate value="${aptitute.aptituteChangeAt}" pattern="yyyy-MM-dd" /></td>
 															<td class="tc">${aptitute.aptituteChangeReason}</td>
-															<td class="tc">
+															<%--<td class="tc">
 																<c:if test="${aptitute.attachCert != null}">
 																	<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${aptitute.attachCert}')">下载附件</a>
 																</c:if>
 																<c:if test="${aptitute.attachCert == null}">
 																	<span class="fz11">无附件下载</span>
 																</c:if>
-															</td>
+															</td>--%>
 														</tr>
 													</c:forEach>
 												</tbody>
@@ -908,7 +930,7 @@
 														<th class="info">有效期（起始时间）</th>
 														<th class="info">有效期（结束时间）</th>
 														<th class="info">是否年检</th>
-														<th class="info">附件</th>
+														<%--<th class="info">附件</th>--%>
 													</tr>
 												</thead>
 												<tbody id="cert_se_list_tbody_id">
@@ -921,14 +943,14 @@
 															<td class="tc"><fmt:formatDate value="${certSe.expStartDate}" pattern="yyyy-MM-dd" /></td>
 															<td class="tc"><fmt:formatDate value="${certSe.expEndDate}" pattern="yyyy-MM-dd" /></td>
 															<td class="tc">${certSe.mot}</td>
-															<td class="tc">
+															<%--<td class="tc">
 																<c:if test="${certSe.attach != null}">
 																	<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${certSe.attach}')">下载附件</a>
 																</c:if>
 																<c:if test="${certSe.attach == null}">
 																	<span class="fz11">无附件下载</span>
 																</c:if>
-															</td>
+															</td>--%>
 														</tr>
 													</c:forEach>
 												</tbody>

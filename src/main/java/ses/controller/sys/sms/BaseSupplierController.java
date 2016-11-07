@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -14,9 +16,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
-import org.aspectj.util.FileUtil;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.util.PropUtil;
@@ -26,8 +30,8 @@ import com.alibaba.fastjson.JSON;
 @Controller
 @Scope("prototype")
 public class BaseSupplierController {
-	private static Logger logger = Logger.getLogger(FileUtil.class);
-	
+	private static Logger logger = Logger.getLogger(BaseSupplierController.class);
+
 	/**
 	 * @Title: writeJson
 	 * @author: Wang Zhaohua
@@ -48,8 +52,7 @@ public class BaseSupplierController {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	/**
 	 * @Title: removeStash
 	 * @author: Wang Zhaohua
@@ -73,7 +76,7 @@ public class BaseSupplierController {
 			}
 		}, 10000);
 	}
-	
+
 	/**
 	 * @Title: getStashPath
 	 * @author: Wang Zhaohua
@@ -87,7 +90,7 @@ public class BaseSupplierController {
 		String path = request.getSession().getServletContext().getRealPath("/") + PropUtil.getProperty("file.stashPath") + "/";
 		return path.replace("\\", "/");
 	}
-	
+
 	/**
 	 * @Title: download
 	 * @author: Wang Zhaohua
@@ -140,7 +143,7 @@ public class BaseSupplierController {
 			}
 		}
 	}
-	
+
 	/**
 	 * @Title: alert
 	 * @author: Wang Zhaohua
@@ -187,5 +190,10 @@ public class BaseSupplierController {
 				writer.close();
 			}
 		}
+	}
+
+	@InitBinder
+	public void initBinder(ServletRequestDataBinder binder) {
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true));
 	}
 }

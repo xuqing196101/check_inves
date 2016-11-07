@@ -369,7 +369,7 @@ function kaptcha(){
 	     <div class="col-md-12 drop_hover" >
 	      <div class="drop_main">
 	       <div class="col-md-2 mt20 supp_login">
-	        <a href="#">
+	        <a href="${pageContext.request.contextPath}/supplier/registration_page.html">
 		     供应商注册
 		     <i></i>
 		    </a>	  
@@ -954,7 +954,7 @@ function kaptcha(){
     <div class="col-md-12">
      <div class="border1 flow_btn fl mr14">
 	   <div class="ywbl_01">
-	     <a href="${pageContext.request.contextPath}/supplier/registration_page.html" class="qyzc">
+	     <a href="#">
           <span>企业注册</span> 
 		 </a>
 	   </div>

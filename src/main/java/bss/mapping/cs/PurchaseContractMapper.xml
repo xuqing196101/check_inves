@@ -46,6 +46,8 @@
     <result column="DRAFT_REVIEWED_AT" property="draftReviewedAt"/>
     <result column="FORMAL_GIT_AT" property="formalGitAt"/>
     <result column="FORMAL_REVIEWED_AT" property="formalReviewedAt"/>
+    <result column="IS_IMPORT" jdbcType="DECIMAL" property="isImport"/>
+    <result column="IS_DECLARE" jdbcType="DECIMAL" property="isDeclare"/>
   </resultMap>
   
   <resultMap extends="purContractMap" id="purContractBlob" type="bss.model.cs.PurchaseContract">
@@ -60,7 +62,8 @@
     SUPPLIER_AGENT, SUPPLIER_CONTACT, SUPPLIER_CONTACT_TELEPHONE, SUPPLIER_CONTACT_ADDRESS, 
     SUPPLIER_UNITPOST_CODE, SUPPLIER_BANK, SUPPLIER_BANK_ACCOUNT, SUPPLIER_BANK_NAME,SUPPLIER_PUR_ID,PROJECT_NAME,
     IS_APPEAL,APPROVE_PIC,CREATED_AT,UPDATED_AT,IS_DELETED,CONTRACT_TYPE,DRAFT_GIT_AT,DRAFT_REVIEWED_AT,
-    FORMAL_GIT_AT,FORMAL_REVIEWED_AT
+    FORMAL_GIT_AT,FORMAL_REVIEWED_AT,
+    IS_APPEAL,APPROVE_PIC,CREATED_AT,UPDATED_AT,IS_DELETED,CONTRACT_TYPE,IS_IMPORT,IS_DECLARE
   </sql>
   <sql id="PurCon_BlOB_Column_List">
   	CONTENT
@@ -198,6 +201,7 @@
       SUPPLIER_BANK, SUPPLIER_BANK_ACCOUNT, SUPPLIER_BANK_NAME,SUPPLIER_PUR_ID,
       CONTENT,PROJECT_NAME,IS_APPEAL,APPROVE_PIC,CREATED_AT,UPDATED_AT,IS_DELETED,CONTRACT_TYPE,
       DRAFT_GIT_AT,DRAFT_REVIEWED_AT,FORMAL_GIT_AT,FORMAL_REVIEWED_AT
+      CONTENT,PROJECT_NAME,IS_APPEAL,APPROVE_PIC,CREATED_AT,UPDATED_AT,IS_DELETED,CONTRACT_TYPE,IS_IMPORT,IS_DECLARE
       )
     values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{money,jdbcType=DECIMAL}, #{demandSector,jdbcType=VARCHAR}, #{budget,jdbcType=DECIMAL}, 
@@ -213,6 +217,7 @@
       #{supplierBank,jdbcType=VARCHAR}, #{supplierBankAccount,jdbcType=DECIMAL}, #{supplierBankName,jdbcType=VARCHAR},
       #{supplierPurId,jdbcType=VARCHAR},#{content},#{projectName},#{appeal},#{approvePic},#{createdAt},#{updatedAt},#{isDeleted},
       #{contractType},#{draftGitAt},#{draftReviewedAt},#{formalGitAt},#{formalReviewedAt}
+      #{contractType},#{isImport},#{isDeclare}
       )
   </insert>
   <insert id="insertSelective" parameterType="bss.model.cs.PurchaseContract">
@@ -356,6 +361,12 @@
       <if test="formalReviewedAt != null">
         FORMAL_REVIEWED_AT,
       </if>
+      <if test="isImport != null">
+        IS_IMPORT,
+      </if>
+      <if test="isDeclare != null">
+        IS_DECLARE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -492,6 +503,12 @@
       </if>
       <if test="formalReviewedAt != null">
         #{formalReviewedAt},
+	  </if>
+      <if test="isImport != null">
+        #{isImport},
+      </if>
+      <if test="isDeclare != null">
+        #{isDeclare},
       </if>
     </trim>
   </insert>
@@ -627,6 +644,12 @@
       <if test="formalReviewedAt != null">
         FORMAL_REVIEWED_AT = #{formalReviewedAt},
       </if>
+      <if test="isImport != null">
+        IS_IMPORT = #{isImport},
+      </if>
+      <if test="isDeclare != null">
+        IS_DECLARE = #{isDeclare},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -676,6 +699,28 @@
       DRAFT_REVIEWED_AT = #{draftReviewedAt},
       FORMAL_GIT_AT = #{formalGitAt},
       FORMAL_REVIEWED_AT = #{formalReviewedAt}
+      IS_IMPORT = #{isImport},
+      IS_DECLARE = ${isDeclare}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  
+	<select id="findPurchaseContractByMap" parameterType="java.util.Map" resultMap="purContractMap">
+		select 
+			<include refid="Base_Column_List"/>
+		from T_BSS_CS_PURCHASE_CONTRACT t1
+		<where>
+			<if test="isDeleted != null">
+				and t1.IS_DELETED = #{isDeleted}
+			</if>
+			<if test="status != null">
+				and t1.STATUS = #{status}
+			</if>
+			<if test="isDeclare != null">
+				and t1.IS_DECLARE = #{isDeclare}
+			</if>
+			<if test="projectName != null and projectName !=''">
+				and t1.PROJECT_NAME like '%' || #{projectName} || '%'
+			</if>
+		</where>
+	</select>
 </mapper>

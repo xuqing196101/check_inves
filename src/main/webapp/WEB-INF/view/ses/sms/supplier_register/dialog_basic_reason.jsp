@@ -4,7 +4,7 @@
 <html>
 <head>
 
-<title>添加工程证书信息</title>
+<title>审核记录反馈</title>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -29,61 +29,89 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
 
 <script type="text/javascript">
-	
-	function saveOrBack(sign) {
-		var action = "${pageContext.request.contextPath}/supplier_reg_person/";
-		if (sign) {
-			action += "save_or_update_reg_person.html";
+	function gotoPosition(tr, auditType, field, fieldName) {
+		var content = $(tr).find("td").eq(2).text();
+		content = $.trim(content);
+		
+		if (auditType == "财务信息") {
+			switchTab(2);
+			showTableReason("finance_list_tbody_id", field, content);
+		}else if (auditType == "股东信息") {
+			switchTab(3);
+			showTableReason("stockholder_list_tbody_id", field, content);
 		} else {
-			action += "back_to_professional.html";
+			switchTab(1);
+			showBasicReason(field, content);
 		}
-		$("#cert_eng_form_id").attr("action", action);
-		$("#cert_eng_form_id").submit();
+	}
+	
+	function switchTab(num) {
+		parent.$("#page_ul_id").find("li").each(function() {
+			var id = $(this).attr("id");
+			var n = id.charAt(id.length - 1);
+			if (num == n) {
+				$(this).attr("class", "active");
+			} else {
+				$(this).removeAttr("class");
+			}
+		});
+		parent.$("#tab_content_div_id").find(".tab-pane").each(function() {
+			var id = $(this).attr("id");
+			var n = id.charAt(id.length - 1);
+			if (num == n) {
+				$(this).attr("class", "tab-pane fade height-200 active in");
+			} else {
+				$(this).attr("class", "tab-pane fade height-200");
+			}
+		});
+	}
+	
+	function showBasicReason(field, content) {
+		var ele = parent.$("input[name='" + field + "']");
+		ele.focus();
+		var id = ele.attr("id");
+		if (id) {
+			parent.layer.tips(content, "#" + id);
+		} else {
+			ele.attr("id", "curr_ele_id");
+			parent.layer.tips(content, "#curr_ele_id");
+			ele.removeAttr("id");
+		}
+	}
+	
+	function showTableReason(id, field, content) {
+		parent.$("#" + id).find(":checkbox").each(function() {
+			if (field == $(this).val()) {
+			 	$(this).parents("tr").attr("id", "curr_ele_id");
+			 	$(this).focus();
+				parent.layer.tips(content, "#curr_ele_id");
+				$(this).parents("tr").removeAttr("id");
+			}
+		});
 	}
 </script>
 
 </head>
 
 <body>
-<div class="wrapper">
-
-		<!--基本信息-->
-		<div class="container content height-200">
-			<div class="row magazine-page">
-				<div class="col-md-12 tab-v2 job-content">
-					<div class="padding-top-10">
-						<form id="cert_eng_form_id" method="post" target="_parent">
-							<input name="supplierId" value="${supplierId}" type="hidden" />
-							<input name="matEngId" value="${matEngId}" type="hidden" />
-							<div class="tab-content padding-top-20">
-								<!-- 详细信息 -->
-								<div class="tab-pane fade active in height-100" id="tab-1">
-									<div class=" margin-bottom-0">
-										<ul class="list-unstyled list-flow">
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 注册类型：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="regType" />
-												</div>
-											</li>
-											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 注册人数：</span>
-												<div class="input-append">
-													<input class="span3" type="text" name="regNumber" />
-												</div>
-											</li>
-											<div class="clear"></div>
-										</ul>
-									</div>
-								</div>
-							</div>
-							<div class="mt20 tc mb50">
-								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveOrBack(1)">保存</button>
-								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveOrBack(0)">返回</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
+	<div class="col-md-12 tab-v2 job-content" style="margin-top: 10px;">
+		<table id="finance_table_id" class="table table-bordered table-condensed">
+			<thead>
+				<tr>
+					<th class="info">序号</th>
+					<th class="info">审核字段</th>
+					<th class="info">审核原因</th>
+				</tr>
+			</thead>
+			<tbody id="finance_list_tbody_id">
+				<c:forEach items="${list}" var="audit" varStatus="vs">
+					<tr onclick="gotoPosition(this, '${audit.auditType}', '${audit.auditField}', '${audit.auditFieldName}')" class="hand">
+						<td class="tc">${vs.index + 1}</td>
+						<td class="tc">${audit.auditFieldName}</td>
+						<td class="tc">${audit.suggest}</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
 	</div>
 </body>
-</html>

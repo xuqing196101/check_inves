@@ -52,7 +52,7 @@
 			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10">
-						<form id="cert_eng_form_id" method="post" target="_parent"  enctype="multipart/form-data">
+						<form id="cert_eng_form_id" method="post" target="_parent">
 							<input name="supplierId" value="${supplierId}" type="hidden" />
 							<input name="matEngId" value="${matEngId}" type="hidden" />
 							<div class="tab-content padding-top-20">
@@ -125,7 +125,7 @@
 													<input class="span3" type="text" name="certStatus" />
 												</div>
 											</li>
-											<li class="col-md-6 p0"><span class="w150"><i class="red">＊</i> 证书附件：</span>
+											<%--<li class="col-md-6 p0"><span class="w150"><i class="red">＊</i> 证书附件：</span>
 												<div class="input-append">
 													<div class="uploader orange h32 m0 fz8">
 															<input type="text" class="filename h32 fz8" readonly="readonly"/>
@@ -133,7 +133,7 @@
 														<input name="attachCertFile" type="file" size="30"/>
 													</div>
 												</div>
-											</li>
+											</li>--%>
 											<div class="clear"></div>
 										</ul>
 									</div>

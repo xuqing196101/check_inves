@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -456,9 +457,11 @@ public class SupplierAuditController extends BaseSupplierController{
 	}
 	
 	@RequestMapping("showReasonsList") 
-	public void showReasonsList(HttpServletResponse reponse,SupplierAudit supplierAudit){
-		List<SupplierAudit> reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
-		super.writeJson(reponse, reasonsList);
+	public String showReasonsList(HttpServletResponse reponse, Model model, SupplierAudit supplierAudit, String jsp){
+		List<SupplierAudit> list = supplierAuditService.findReason(supplierAudit);
+		model.addAttribute("list", list);
+		// super.writeJson(reponse, reasonsList);
+		return "ses/sms/supplier_register/" + jsp;
 	}
 	
 	

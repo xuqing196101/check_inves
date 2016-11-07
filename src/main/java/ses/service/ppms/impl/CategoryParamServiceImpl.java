@@ -69,14 +69,7 @@ public class CategoryParamServiceImpl implements CategoryParamService{
 		param.put("productsId", productsId);
 		List<CategoryParam> list = categoryParamMapper.findParamByCategoryIdAndProductsId(param);
 		if (list == null || list.size() == 0) {
-			param.clear();
-			param.put("categoryId", categoryId);
-			param.put("productsId", null);
-			list = categoryParamMapper.findParamByCategoryIdAndProductsId(param);
-			for (CategoryParam categoryParam : list) {
-				categoryParam.setParamValue(null);
-				categoryParam.setParamValueId(null);
-			}
+			list = categoryParamMapper.findListByCategoryId(categoryId);
 		}
 		return list;
 	}

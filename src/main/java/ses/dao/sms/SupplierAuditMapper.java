@@ -1,6 +1,7 @@
 package ses.dao.sms;
 
 import java.util.List;
+import java.util.Map;
 
 import ses.model.sms.SupplierAudit;
 
@@ -31,7 +32,7 @@ public interface SupplierAuditMapper {
      * @param @param id
      * @param @return      
      * @return List<SupplierAudit>
-     */
+     */ 
     List<SupplierAudit> selectByPrimaryKey(SupplierAudit record);
     
     /**
@@ -43,4 +44,6 @@ public interface SupplierAuditMapper {
      * @return void
      */
     void updateBySupplierId (SupplierAudit record);
+    
+    List<SupplierAudit> findByMap(Map<String, Object> param);
 } 

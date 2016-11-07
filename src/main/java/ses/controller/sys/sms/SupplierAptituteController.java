@@ -64,7 +64,7 @@ public class SupplierAptituteController extends BaseSupplierController {
 	 */
 	@RequestMapping(value = "save_or_update_aptitute")
 	public String saveOrUpdateAptitute(HttpServletRequest request, SupplierAptitute supplierAptitute, String supplierId) throws IOException {
-		this.setAptituteUpload(request, supplierAptitute);
+		// this.setAptituteUpload(request, supplierAptitute);
 		supplierAptituteService.saveOrUpdateAptitute(supplierAptitute);
 		Supplier supplier = supplierService.get(supplierId);
 		request.getSession().setAttribute("defaultPage", "tab-3");

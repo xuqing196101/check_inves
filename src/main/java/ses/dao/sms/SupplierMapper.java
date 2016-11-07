@@ -185,4 +185,14 @@ public interface SupplierMapper {
      * @return List<Expert>
      */
     List<Supplier> listExtractionExpert(SupplierCondition con);
+    
+    /**
+     * @Title: findLoginName
+     * @author: Wang Zhaohua
+     * @date: 2016-11-6 下午5:08:03
+     * @Description: 查询所有的用户名
+     * @param: @return
+     * @return: List<String>
+     */
+    List<String> findLoginName();
 }

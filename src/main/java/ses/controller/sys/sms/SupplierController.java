@@ -23,9 +23,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
-import ses.model.bms.User;
+import ses.model.bms.DictionaryData;
 import ses.model.oms.Orgnization;
 import ses.model.sms.Supplier;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.sms.SupplierMatEngService;
 import ses.service.sms.SupplierMatProService;
@@ -36,6 +37,8 @@ import ses.util.FtpUtil;
 import ses.util.IdentityCode;
 import ses.util.PropUtil;
 import ses.util.ValidateUtils;
+
+import common.constant.Constant;
 
 /**
  * @Title: supplierController
@@ -65,6 +68,9 @@ public class SupplierController extends BaseSupplierController {
 
 	@Autowired
 	private OrgnizationServiceI orgnizationServiceI;// 机构
+	
+	@Autowired
+	private DictionaryDataServiceI dictionaryDataServiceI;
 
 	/**
 	 * @Title: getIdentity
@@ -86,12 +92,17 @@ public class SupplierController extends BaseSupplierController {
 	public String login(HttpServletRequest request, Model model) {
 		Supplier supplier = supplierService.get("8BE39E5BF23846EC93EED74F57ACF1F4");
 		model.addAttribute("currSupplier", supplier);
-		if (supplier.getListSupplierFinances() != null) {
-			model.addAttribute("financeSize", supplier.getListSupplierFinances().size());
+		Integer sysKey = Constant.SUPPLIER_SYS_KEY;
+		String typeId = "";
+		DictionaryData dictionaryData = new DictionaryData();
+		dictionaryData.setCode("SUPPLIER_TAXCERT");
+		List<DictionaryData> list = dictionaryDataServiceI.find(dictionaryData);
+		for (DictionaryData dd : list) {
+			typeId = dd.getId();
 		}
-		if (supplier.getListSupplierStockholders() != null) {
-			model.addAttribute("stockholderSize", supplier.getListSupplierStockholders().size());
-		}
+		
+		request.getSession().setAttribute("sysKey", sysKey);
+		request.getSession().setAttribute("typeId", typeId);
 		request.getSession().setAttribute("supplierId", supplier.getId());
 		return "ses/sms/supplier_register/basic_info";
 	}
@@ -142,6 +153,18 @@ public class SupplierController extends BaseSupplierController {
 	public String register(HttpServletRequest request, Model model, Supplier supplier) {
 		if (this.validateRegister(request, model, supplier)) {
 			supplier = supplierService.register(supplier);
+			
+			Integer sysKey = Constant.SUPPLIER_SYS_KEY;
+			String typeId = "";
+			DictionaryData dictionaryData = new DictionaryData();
+			dictionaryData.setCode("SUPPLIER_TAXCERT");
+			List<DictionaryData> list = dictionaryDataServiceI.find(dictionaryData);
+			for (DictionaryData dd : list) {
+				typeId = dd.getId();
+			}
+			
+			request.getSession().setAttribute("sysKey", sysKey);
+			request.getSession().setAttribute("typeId", typeId);
 			request.getSession().setAttribute("jump.page", "basic_info");
 			request.getSession().setAttribute("currSupplier", supplier);
 			return "redirect:page_jump.html";
@@ -213,7 +236,7 @@ public class SupplierController extends BaseSupplierController {
 	 */
 	@RequestMapping(value = "perfect_basic")
 	public String perfectBasic(HttpServletRequest request, Supplier supplier, String jsp, String defaultPage) throws IOException {
-		this.setSupplierUpload(request, supplier);
+		// this.setSupplierUpload(request, supplier);
 		supplierService.perfectBasic(supplier);// 保存供应商详细信息
 		supplier = supplierService.get(supplier.getId());
 
@@ -310,6 +333,20 @@ public class SupplierController extends BaseSupplierController {
 	@RequestMapping(value = "perfect_download")
 	public String perfectDownload(HttpServletRequest request, Supplier supplier, String jsp) {
 		supplier = supplierService.get(supplier.getId());
+		
+		if ("template_upload".equals(jsp)) {
+			Integer sysKey = Constant.SUPPLIER_SYS_KEY;
+			String typeId = "";
+			DictionaryData dictionaryData = new DictionaryData();
+			dictionaryData.setCode("SUPPLIER_LEVEL");
+			List<DictionaryData> list = dictionaryDataServiceI.find(dictionaryData);
+			for (DictionaryData dd : list) {
+				typeId = dd.getId();
+			}
+			request.getSession().setAttribute("sysKey", sysKey);
+			request.getSession().setAttribute("typeId", typeId);
+		}
+		
 		request.getSession().setAttribute("currSupplier", supplier);
 		request.getSession().setAttribute("jump.page", jsp);
 		return "redirect:page_jump.html";
@@ -337,8 +374,7 @@ public class SupplierController extends BaseSupplierController {
 			request.getSession().setAttribute("jump.page", jsp);
 			return "redirect:page_jump.html";
 		}
-		User user = (User) request.getSession().getAttribute("loginUser");
-		supplierService.commit(supplier, user);
+		supplierService.commit(supplier);
 		request.getSession().removeAttribute("currSupplier");
 		request.getSession().removeAttribute("jump.page");
 		request.getSession().removeAttribute("listOrgnizations1");
@@ -362,6 +398,18 @@ public class SupplierController extends BaseSupplierController {
 			page = "registration";
 		}
 		return "ses/sms/supplier_register/" + page;
+	}
+	
+	@RequestMapping(value = "check_login_name")
+	public void checkLoginName(HttpServletResponse response, String loginName) {
+		boolean flag = supplierService.checkLoginName(loginName);
+		String msg = "";
+		if (flag) {
+			msg = "{\"msg\":\"success\"}";
+		} else {
+			msg = "{\"msg\":\"fail\"}";
+		}
+		super.writeJson(response, msg);
 	}
 
 	/**

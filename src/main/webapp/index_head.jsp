@@ -35,6 +35,10 @@
 <script src="<%=basePath%>public/ZHQ/js/jquery.min.js"></script>
 <script src="<%=basePath%>public/ZHQ/js/jquery_ujs.js"></script>
 <script src="<%=basePath%>public/ZHQ/js/bootstrap.min.js"></script>
+<c:set var="contextPath" value="${pageContext.request.contextPath}" scope="application"/> 
+<script>
+	var globalPath = "${contextPath}";
+</script>
 <%--<script type="text/javascript">
 $(function(){
 	var url = "http://localhost:8080<%=url%>";
@@ -634,7 +638,7 @@ function setTab(obj,title){
          <div class="col-md-12 drop_hover" >
           <div class="drop_main">
            <div class="col-md-2 mt20 supp_login">
-            <a href="#">
+            <a href="${pageContext.request.contextPath}/supplier/registration_page.html">
              供应商注册
              <i></i>
             </a>      

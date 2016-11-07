@@ -169,5 +169,22 @@
       AUDIT_FIELD_NAME = #{auditFieldName},
     where ID = #{id}
   </update>
+  
+  <select id="findByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	select 
+  		<include refid="Base_Column_List" />
+  	from
+  		T_SES_SMS_SUPPLIER_AUDIT t1
+  	<where>
+  		<if test="list != null">
+  			<foreach collection="list" item="auditType" open="and t1.AUDIT_TYPE in (" close=")" separator=",">
+				#{auditType}
+			</foreach>
+  		</if>
+  		<if test="supplierId != null">
+			and t1.SUPPLIER_ID = #{supplierId}
+  		</if>
+  	</where>
+  </select>
 
 </mapper>

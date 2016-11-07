@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="up" uri="/tld/upload"%>
 <%@ include file="../../../../../index_head.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -27,6 +28,9 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
+
+
+
 <script type="text/javascript">
 	$(function() {
 		$("#page_ul_id").find("li").click(function() {
@@ -57,6 +61,8 @@
 		loadRootArea();
 		autoSelected("business_select_id", "${currSupplier.businessType}");
 		autoSelected("overseas_branch_select_id", "${currSupplier.overseasBranch}");
+		
+		showReason();
 	});
 	
 	/** 加载地区根节点 */
@@ -268,48 +274,23 @@
 </script>
 
 <script type="text/javascript">
-	/**$(function() {
-		var supplierId = $("input[name='id']").val();
-		$.ajax({
-			url : "${pageContext.request.contextPath}/supplierAudit/showReasonsList.do",
-			type : "post",
-			dataType : "json",
-			data : {
-				supplierId : supplierId
-			},
-			success : function(result) {
-				$(".audit_msg_sign_div_class").each(function(index) {
-					var ele = $(this).find("input");
-					if (!ele.size()) {
-						ele = $(this).find("a");
-					}
-					if (!ele.size()) {
-						ele = $(this).find("select");
-					}
-					var v = ele.attr("name");
-					for (var i = 0; i < result.length; i++) {
-						// console.info(v + "---" + result[i].auditField);
-						if(v == result[i].auditField) {
-							var html = "<a id='a_msg_" + index + "' class='ml10 red fz17' href='javascript:void(0)' onclick='showMsg(this)'><span style='display: none;'>";
-							html += result[i].suggest;
-							html += "</span><img style='margin-left: 25px; width: 23px; height: 23px;' src='${pageContext.request.contextPath}/public/ZHQ/images/pumpkin.png'></a>";
-							$(this).append(html);
-							html = "";
-						}
-					}
-				});
-			},
+	function showReason() {
+		var supplierId = "${currSupplier.id}";
+		var left = document.body.clientWidth - 500;
+		var top = window.screen.availHeight / 2 - 150;
+		layer.open({
+			type : 2,
+			title : '审核反馈',
+			closeBtn : 0, //不显示关闭按钮
+			skin : 'layui-layer-lan', //加上边框
+			area : [ '500px', '300px' ], //宽高
+			offset : [top, left],
+			shade : 0,
+			maxmin : true,
+			shift : 2,
+			content : '${pageContext.request.contextPath}/supplierAudit/showReasonsList.html?&auditType=详细信息,财务信息,股东信息' + '&jsp=dialog_basic_reason' + '&supplierId=' + supplierId, //url
 		});
-	});
-	
-	function showMsg(ele) {
-		var v = $(ele).find("span").text();
-		v = $.trim(v);
-		var id = $(ele).attr("id");
-		layer.tips(v, "#" + id, {
-			tips : 1
-		});
-	}*/
+	}
 </script>
 
 </head>
@@ -344,7 +325,7 @@
 							<li id="li_id_2" class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="fujian f18">财务信息</a></li>
 							<li id="li_id_3" class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="fujian f18">股东信息</a></li>
 						</ul>
-						<form id="basic_info_form_id" action="${pageContext.request.contextPath}/supplier/perfect_basic.html" method="post" enctype="multipart/form-data">
+						<form id="basic_info_form_id" action="${pageContext.request.contextPath}/supplier/perfect_basic.html" method="post">
 							<input name="id" value="${currSupplier.id}" type="hidden" /> 
 							<input name="defaultPage" value="${defaultPage}" type="hidden" /> 
 							<input name="jsp" type="hidden" />
@@ -357,18 +338,18 @@
 										</h2>
 										<ul class="list-unstyled list-flow">
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 供应商名称：</span>
-												<div class="input-append audit_msg_sign_div_class">
-													<input class="span3" id="supplierName_input_id" type="text" name="supplierName" value="${currSupplier.supplierName}" />
+												<div class="input-append">
+													<input class="span3" id="supplierName_input_id" type="text" name="supplierName" value="${currSupplier.supplierName}"/>
 													<span class="fl span-err-msg mt3 ml5"></span>
 												</div>
 											</li>
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 公司网址：</span>
-												<div class="input-append audit_msg_sign_div_class">
+												<div class="input-append">
 													<input class="span3" type="text" name="website" value="${currSupplier.website}" />
 												</div>
 											</li>
 											<li class="col-md-6  p0 "><span class=""><i class="red">＊</i> 成立日期：</span>
-												<div class="input-append audit_msg_sign_div_class">
+												<div class="input-append">
 													<fmt:formatDate value="${currSupplier.foundDate}" pattern="yyyy-MM-dd" var="foundDate"/>
 													<input class="span2" type="text" readonly="readonly" onClick="WdatePicker()" name="foundDate" value="${foundDate}" /> 
 													<span class="add-on"> 
@@ -378,7 +359,7 @@
 											</li>
 											
 											<li class="col-md-6 p0"><span class=""><i class="red">＊</i> 营业执照类型：</span>
-												<div class="input-append audit_msg_sign_div_class">
+												<div class="input-append">
 													<select class="span3 fz13" name="businessType" id="business_select_id">
 														<option>国有企业</option>
 														<option>外资企业</option>
@@ -423,7 +404,7 @@
 										</h2>
 										<ul class="list-unstyled list-flow">
 											<li id="tax_li_id" class="col-md-6 p0"><span class="zzzx w245"><i class="red">＊</i> 近三个月完税凭证：</span>
-												<c:if test="${currSupplier.taxCert != null}">
+												<%--<c:if test="${currSupplier.taxCert != null}">
 													<div class="audit_msg_sign_div_class">
 														<a name="taxCert" class="color7171C6" href="javascript:void(0)" onclick="downloadFile('${currSupplier.taxCert}')">下载附件</a>
 														<a title="重新上传" class="ml10 red fz17" href="javascript:void(0)" onclick="uploadNew('tax_li_id')">☓</a>
@@ -437,10 +418,12 @@
 															<input name="taxCertFile" type="file" size="30"/>
 														</div>
 													</div>
-												</c:if>
+												</c:if>--%>
+												<up:upload businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+												<up:show businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}"/>
 											</li>
 											<li id="bill_li_id" class="col-md-6 p0"><span class="zzzx w245"><i class="red">＊</i> 近三年银行基本账户年末对账单：</span>
-												<c:if test="${currSupplier.billCert != null}">
+												<%--<c:if test="${currSupplier.billCert != null}">
 													<div class="audit_msg_sign_div_class">
 														<a name="billCert" class="color7171C6" href="javascript:void(0)" onclick="downloadFile('${currSupplier.billCert}')">下载附件</a>
 														<a title="重新上传" class="ml10 red fz17" href="javascript:void(0)" onclick="uploadNew('bill_li_id')">☓</a>
@@ -454,9 +437,9 @@
 															<input name="billCertFile" type="file" size="30"/>
 														</div>
 													</div>
-												</c:if>
+												</c:if>--%>
 											</li>
-											<li id="security_li_id" class="col-md-6 p0"><span class="zzzx w245"><i class="red">＊</i> 近三个月缴纳社会保险金凭证：</span>
+											<%--<li id="security_li_id" class="col-md-6 p0"><span class="zzzx w245"><i class="red">＊</i> 近三个月缴纳社会保险金凭证：</span>
 												<c:if test="${currSupplier.securityCert != null}">
 													<div>
 														<a class="color7171C6" href="javascript:void(0)" onclick="downloadFile('${currSupplier.securityCert}')">下载附件</a>
@@ -489,7 +472,7 @@
 														</div>
 													</div>
 												</c:if>
-											</li>
+											</li>--%>
 											<div class="clear"></div>
 										</ul>
 
@@ -599,7 +582,7 @@
 													<input class="span3" type="text" name="businessPostCode" value="${currSupplier.businessPostCode}" />
 												</div>
 											</li>
-											<li id="business_li_id" class="col-md-6 p0"><span class=""><i class="red">＊</i> 营业执照：</span>
+											<%--<li id="business_li_id" class="col-md-6 p0"><span class=""><i class="red">＊</i> 营业执照：</span>
 												<c:if test="${currSupplier.businessCert != null}">
 													<div>
 														<a class="color7171C6" href="javascript:void(0)" onclick="downloadFile('${currSupplier.businessCert}')">下载附件</a>
@@ -615,7 +598,7 @@
 														</div>
 													</div>
 												</c:if>
-											</li>
+											</li>--%>
 											<li class="col-md-12 p0 mt10"><span class="fl">经营范围：</span>
 												<div class="col-md-9 mt5">
 													<div class="row _mr20">
@@ -704,7 +687,7 @@
 												</c:forEach>
 											</tbody>
 										</table>
-										<div>
+										<%--<div>
 											<c:forEach items="${currSupplier.listSupplierFinances}" var="finance" varStatus="vs">
 												<h5>${finance.year}年</h5>
 												<ul class="list-unstyled list-flow" id="ul_id_${vs.index}">
@@ -769,7 +752,7 @@
 													<div class="clear"></div>
 												</ul>
 											</c:forEach>
-										</div>
+										</div>--%>
 									</div>
 								</div>
 

@@ -27,6 +27,28 @@
 <script type="text/javascript">
 	$(function() {
 		document.getElementById("login_input_id").focus();// 用户名自动获取焦点
+		
+		/** ajax 校验用户名是否存在 */
+		$("#login_input_id").blur(function() {
+			var loginName = $(this).val();
+			$.ajax({
+				url : "${pageContext.request.contextPath}/supplier/check_login_name.do",
+				type : "post",
+				data : {
+					loginName : loginName
+				},
+				dataType : "json",
+				success : function(result) {
+					result = eval("(" + result + ")");
+					if (result.msg == "fail") {
+						$("#login_input_id").next().text("用户名重复 !");
+						$("#submit_button_id").prop("disabled", true);
+					} else {
+						$("#submit_button_id").prop("disabled", false);
+					}
+				},
+			});
+		});
 	});
 	var count = 0;
 	function getIdentityCode() {
@@ -65,7 +87,7 @@
 							<div class="login_item">
 								<label class="col-md-3 p0"><i class="red mr5">*</i>用 户 名：</label> 
 								<input id="login_input_id" type="text" name="loginName" class="fl" placeholder="由6-20位字母、数字和下划线组成" value="${supplier.loginName}"> 
-								<span class="fl mt5 ml10 span-err-msg">${err_msg_loginName}</span>
+								<span id="dsds" class="fl mt5 ml10 span-err-msg">${err_msg_loginName}</span>
 								<div class="clear"></div>
 							</div>
 							<div class="login_item margin-top-10">
@@ -106,7 +128,7 @@
 								<div class="clear"></div>
 							</div>
 							<div class="tc mt20 clear col-md-11">
-								<button type="submit" class="btn padding-left-20 padding-right-20 btn_back margin-5">注册</button>
+								<button id="submit_button_id" type="submit" class="btn padding-left-20 padding-right-20 btn_back margin-5">注册</button>
 								<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="location='${pageContext.request.contextPath}/supplier/registration_page.html'">返回</button>
 							</div>
 						</div>

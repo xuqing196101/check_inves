@@ -1,6 +1,5 @@
 package ses.service.sms;
 
-import ses.model.bms.User;
 import ses.model.sms.Supplier;
 /**
  * @Title: SupplierInfoService
@@ -53,7 +52,7 @@ public interface SupplierService {
 	 * @param: @param user
 	 * @return: void
 	 */
-	public void commit(Supplier supplier, User user);
+	public void commit(Supplier supplier);
 	
 	/**
 	 * @Title: selectLastInsertId
@@ -64,5 +63,16 @@ public interface SupplierService {
 	 * @return: int
 	 */
 	public String selectLastInsertId();
+	
+	/**
+	 * @Title: checkLoginName
+	 * @author: Wang Zhaohua
+	 * @date: 2016-11-6 下午5:09:03
+	 * @Description: 校验 loginName 是否重复
+	 * @param: @param loginName
+	 * @param: @return
+	 * @return: boolean
+	 */
+	public boolean checkLoginName(String loginName);
 	
 }

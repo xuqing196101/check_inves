@@ -29,7 +29,6 @@ import ses.model.sms.Supplier;
 import ses.service.sms.SupplierService;
 import ses.util.PathUtil;
 import ses.util.ValidateUtils;
-import com.github.pagehelper.PageInfo;
 import bss.model.cs.ContractRequired;
 import bss.model.cs.PurchaseContract;
 import bss.model.ppms.Packages;
@@ -46,6 +45,8 @@ import bss.service.ppms.ProjectService;
 import bss.service.ppms.ProjectTaskService;
 import bss.service.ppms.SupplierCheckPassService;
 import bss.service.ppms.TaskService;
+
+import com.github.pagehelper.PageInfo;
 
 /* 
  *@Title:PurchaseContractController
@@ -754,5 +755,22 @@ public class PurchaseContractController {
 		model.addAttribute("formalConList", formalConList);
 		model.addAttribute("purCon", purCon);
 		return "bss/cs/purchaseContract/formallist";
+	}
+	
+	/**
+	 * @Title: list
+	 * @author: Wang Zhaohua
+	 * @date: 2016-11-2 下午8:05:07
+	 * @Description: 合同列表
+	 * @param: @return
+	 * @return: String
+	 */
+	@RequestMapping(value = "list")
+	public String list(Model model, PurchaseContract purchaseContract, Integer page) {
+		List<PurchaseContract> list = purchaseContractService.findPurchaseContractByMap(purchaseContract, page == null ? 1 : page);
+		model.addAttribute("pager", new PageInfo<PurchaseContract>(list));
+		model.addAttribute("projectName", purchaseContract.getProjectName());
+		model.addAttribute("isDeclare", purchaseContract.getIsDeclare());
+		return "bss/iacs/import_project/list";
 	}
 }

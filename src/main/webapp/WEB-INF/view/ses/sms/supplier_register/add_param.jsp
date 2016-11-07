@@ -39,7 +39,7 @@
 			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10">
-						<form id="products_form_id" action="${pageContext.request.contextPath}/product_param/save_or_update_param.html" method="post" enctype="multipart/form-data">
+						<form id="products_form_id" action="${pageContext.request.contextPath}/product_param/save_or_update_param.html" method="post">
 							<input name="productsId" value="${productsId}" type="hidden" />
 							<input name="categoryId" value="${categoryId}" type="hidden" />
 							<div class="tab-content padding-top-20">

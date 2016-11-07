@@ -288,4 +288,6 @@ public interface SupplierAuditService {
      * @return void
      */
     void updateStatusById(SupplierAudit supplierAudit);
+    
+    List<SupplierAudit> findReason(SupplierAudit supplierAudit);
 } 

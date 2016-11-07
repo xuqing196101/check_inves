@@ -58,7 +58,7 @@
 			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10">
-						<form id="template_download_form_id" action="${pageContext.request.contextPath}/supplier/perfect_download.html" method="post" enctype="multipart/form-data">
+						<form id="template_download_form_id" action="${pageContext.request.contextPath}/supplier/perfect_download.html" method="post">
 							<input name="id" value="${currSupplier.id}" type="hidden" /> 
 							<input name="jsp" type="hidden" />
 							<div class="tab-content padding-top-20">

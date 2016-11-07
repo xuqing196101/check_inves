@@ -3,10 +3,13 @@ package ses.service.sms.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import ses.dao.bms.TodosMapper;
+import ses.dao.bms.UserMapper;
 import ses.dao.sms.SupplierMapper;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
@@ -14,6 +17,7 @@ import ses.model.sms.Supplier;
 import ses.model.sms.SupplierTypeRelate;
 import ses.service.sms.SupplierService;
 import ses.util.Encrypt;
+import ses.util.PropUtil;
 
 
 /**
@@ -30,6 +34,9 @@ public class SupplierServiceImpl implements SupplierService {
 	
 	@Autowired
 	private TodosMapper todosMapper;
+	
+	@Autowired
+	private UserMapper userMapper;
 	
 	
 	@Override
@@ -58,12 +65,24 @@ public class SupplierServiceImpl implements SupplierService {
 	 */
 	@Override
 	public Supplier register(Supplier supplier) {
-		supplier.setPassword(Encrypt.e(supplier.getPassword()));// 密码 md5 加密
+		String pwd = supplier.getPassword();
+		
+		supplier.setPassword(Encrypt.e(pwd));// 密码 md5 加密
 		supplier.setCreatedAt(new Date());
 		supplier.setStatus(-1);
 		supplier.setScore(0);
 		supplierMapper.insertSelective(supplier);
-		//System.out.println(1/0);
+		
+		// 插入到用户表一份
+		User user = new User();
+		Md5PasswordEncoder md5 = new Md5PasswordEncoder();
+        md5.setEncodeHashAsBase64(false);
+        pwd = md5.encodePassword(pwd, RandomStringUtils.randomAlphanumeric(15));
+        user.setLoginName(supplier.getLoginName());
+        user.setPassword(pwd);
+        user.setTypeName(5);
+        userMapper.insertSelective(user);
+        
 		return supplier;
 	}
 	
@@ -119,20 +138,36 @@ public class SupplierServiceImpl implements SupplierService {
 	 * @return: void
 	 */
 	@Override
-	public void commit(Supplier supplier, User user) {
+	public void commit(Supplier supplier) {
 		supplier.setStatus(0);
-		supplierMapper.updateStatus(supplier);
+		supplierMapper.updateByPrimaryKeySelective(supplier);
 		supplier = supplierMapper.getSupplier(supplier.getId());
 		// 推送代办
 		Todos todos = new Todos();
-		todos.setCreatedAt(new Date());
-		todos.setIsDeleted((short) 0);
-		todos.setIsFinish((short) 0);
+		todos.setSenderId(supplier.getId());
 		todos.setName("供应商初审");
-		todos.setReceiverId(supplier.getProcurementDepId());
-		todos.setSenderId(user.getId());
-		todos.setUndoType((short) 1);
+		todos.setOrgId(supplier.getProcurementDepId());
+		todos.setPowerId(PropUtil.getProperty("gysdb"));
 		todos.setUrl("supplierAudit/essential.html?supplierId=" + supplier.getId());
-		todosMapper.insert(todos);
+		todos.setUndoType((short) 1);
+		todosMapper.insertSelective(todos);
+	}
+	
+	/**
+	 * @Title: checkLoginName
+	 * @author: Wang Zhaohua
+	 * @date: 2016-11-6 下午5:09:03
+	 * @Description: 校验 loginName 是否重复
+	 * @param: @param loginName
+	 * @param: @return
+	 * @return: boolean
+	 */
+	@Override
+	public boolean checkLoginName(String loginName) {
+		List<String> list = supplierMapper.findLoginName();
+		if (list.contains(loginName)) {
+			return false;
+		}
+		return true;
 	}
 }
