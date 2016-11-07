@@ -1,6 +1,7 @@
 package ses.util;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
@@ -28,7 +29,7 @@ public class PropUtil {
 	private static Properties getProperties(String file) {
 		file = file == null ? "config.properties" : file;
 		try {
-			prop.load(PropUtil.class.getClassLoader().getResourceAsStream(file));
+			prop.load(new InputStreamReader(PropUtil.class.getClassLoader().getResourceAsStream(file),"UTF-8"));
 		} catch (IOException e) {
 			logger.error(e);
 			logger.error("初始化 Properties 失败");
